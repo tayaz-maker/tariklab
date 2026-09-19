@@ -597,6 +597,19 @@ select:focus-visible {
   color: var(--muted);
   line-height: 1.5;
 }
+.start-card > p.tagline {
+  color: var(--text);
+  font-weight: 700;
+  font-size: 1.02rem;
+}
+.start-card .row {
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+}
+.start-card .row .button {
+  flex: 1;
+}
 .slot-row {
   display: flex;
   flex-wrap: wrap;

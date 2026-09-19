@@ -128,17 +128,6 @@ function resumeMatch() {
 
 window.addEventListener("pagehide", persistResume);
 
-function setLang() {
-  lang = lang === "tr" ? "en" : "tr";
-  notice = "";
-  try {
-    localStorage.setItem("tariklab.language", lang);
-  } catch {
-    /* ignore */
-  }
-  render();
-}
-
 window.addEventListener("storage", (event) => {
   if (event.key !== "tariklab.language") return;
   lang = readLang();
@@ -178,18 +167,17 @@ function saveControls() {
 }
 
 function topbar(extra) {
-  return $(
-    "header",
-    { class: "topbar" },
-    $("a", { href: "/" }, t("back")),
-    $("span", { class: "kicker display" }, t("title")),
-    $(
-      "div",
-      { class: "row" },
-      extra || null,
-      $("button", { class: "link", type: "button", onclick: setLang }, t("lang")),
-    ),
-  );
+  // The TarikLab shell above this iframe already shows the back link, the
+  // game title and the single TR/EN control; repeating all three during
+  // actual play made the board feel like a second site header stacked on
+  // the real one. When there is in-game-specific content (a menu button,
+  // save-slot controls), show only that, trusting the outer shell for
+  // navigation and language. At rest (no extra — the opening menu, which
+  // still shows its own portal link so a direct load of this file's own
+  // URL keeps a way out even without the outer shell) keep the plain
+  // back link alone, dropping the redundant title and language button.
+  if (extra) return $("header", { class: "topbar" }, $("div", { class: "row" }, extra));
+  return $("header", { class: "topbar" }, $("a", { href: "/" }, t("back")));
 }
 
 function menu() {

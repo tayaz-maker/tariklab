@@ -113,6 +113,12 @@ let weekStartSnapshot = null;
 // Nasıl Oynanır modalı yalnız görüntü durumudur; save/state'e hiç yazılmaz.
 let helpOpen = false;
 let startLoadResult = null;
+// The opening screen used to open directly on a nine-field character form
+// with no title card or premise in front of it — the most "raw HTML form"
+// first impression in the whole catalog. This just gates that same form,
+// unchanged, behind one editorial step; returning-player slots/continue
+// stay on the front step since resuming a life is not character creation.
+let showCreationForm = false;
 
 const money = (value) =>
   new Intl.NumberFormat("tr-TR", {
@@ -243,12 +249,11 @@ function startScreen(loadResult) {
   startLoadResult = loadResult;
   const slots = listSlots(localStorage);
   const active = getActiveSlot(localStorage);
-  app.innerHTML = `
-    <main class="start-wrap">
-      <a class="start-exit" href="/">← Oyunlar</a>
-      <section class="start-card" aria-labelledby="start-title">
+  const introMarkup = `
+        <p class="eyebrow">TARIKLAB · HAYAT SİMÜLASYONU</p>
         <h1 id="start-title">TC SIM</h1>
-        <p>18 yaşında, İstanbul'da aile evinde başlayan küçük bir hayat. Her hafta yalnız iki önemli karar verebilirsin.</p>
+        <p class="tagline">18 yaşında, İstanbul'da aile evinde başlayan küçük bir hayat.</p>
+        <p>Her hafta yalnız iki önemli karar verebilirsin: kariyer, eğitim, ilişkiler, para — hepsi birbirini besliyor, hepsi yıllarca sürüyor.</p>
         <div class="slot-row" role="group" aria-label="Kayıt yerleri">${slots
           .map(
             (item) =>
@@ -256,6 +261,11 @@ function startScreen(loadResult) {
           )
           .join("")}</div>
         ${loadResult.ok ? `<div class="continue-box"><strong>${escapeText(loadResult.state.player.name)} · ${loadResult.state.time.year}, ${loadResult.state.time.month}. ay</strong><button class="button button-primary" id="continue-game">Slot ${active} devam</button></div>` : `<p class="result">${escapeText(loadResult.message)}</p>`}
+        <button class="button button-primary" type="button" id="show-creation-form">Hayatını Başlat</button>`;
+  const formMarkup = `
+        <p class="eyebrow">TC SIM</p>
+        <h1 id="start-title">Hayatını kur</h1>
+        <p>Bu seçimler başlangıç noktan olur; hayat oynadıkça kendi yolunu bulur.</p>
         <form id="new-game-form" class="form-grid">
           <label>İsim<input name="name" maxlength="40" value="Deniz" required /></label>
           <label>Kimlik<select name="gender"><option value="unspecified">Belirtmek istemiyorum</option><option value="woman">Kadın</option><option value="man">Erkek</option></select></label>
@@ -287,8 +297,16 @@ function startScreen(loadResult) {
             .join("")}</select></label>
           <label>Askerlik durumu<select name="militaryApplicable"><option value="false">Bu yaşamda yükümlülük yok</option><option value="true">Yükümlülük var</option></select></label>
           <label>Başlangıç dönemi<select name="eraId" disabled>${ERAS.map((era) => `<option value="${era.id}" ${era.id === PRESENT_DAY_ERA_ID ? "selected" : ""}>${escapeText(era.title)} · aktif</option>`).join("")}</select><small>Diğer dönemler daha sonra eklenecek.</small></label>
-        <button class="button button-primary" type="submit">Bu slota yeni hayat</button>
-        </form>
+        <div class="row">
+          <button class="button button-quiet" type="button" id="back-to-intro">← Geri</button>
+          <button class="button button-primary" type="submit">Bu slota yeni hayat</button>
+        </div>
+        </form>`;
+  app.innerHTML = `
+    <main class="start-wrap">
+      <a class="start-exit" href="/">← Oyunlar</a>
+      <section class="start-card" aria-labelledby="start-title">
+        ${showCreationForm ? formMarkup : introMarkup}
       </section>
     </main>`;
   document.documentElement?.classList?.toggle("embedded", window.self !== window.top);
@@ -309,7 +327,15 @@ function startScreen(loadResult) {
     weekStartSnapshot = null;
     render();
   });
-  document.querySelector("#new-game-form").addEventListener("submit", (event) => {
+  document.querySelector("#show-creation-form")?.addEventListener("click", () => {
+    showCreationForm = true;
+    startScreen(loadResult);
+  });
+  document.querySelector("#back-to-intro")?.addEventListener("click", () => {
+    showCreationForm = false;
+    startScreen(loadResult);
+  });
+  document.querySelector("#new-game-form")?.addEventListener("submit", (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     state = createNewGame({

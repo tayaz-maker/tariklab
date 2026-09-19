@@ -226,12 +226,28 @@ html,body{margin:0;height:100%;max-height:100%;background:var(--bg);color:var(--
 .lo{color:var(--ink-dim)}
 .unvan{letter-spacing:.12em;text-transform:uppercase;font-size:14px;margin:0 0 4px}
 .side-note{margin:0 0 12px;color:var(--ink-dim)}
-.menu-layer{position:absolute;inset:0;background:var(--bg);z-index:7;display:flex;align-items:center;justify-content:center;padding:16px;overflow:auto}
+.menu-layer{position:absolute;inset:0;
+  background:
+    radial-gradient(900px 500px at 50% -12%, rgba(215,176,122,.10) 0%, transparent 60%),
+    repeating-linear-gradient(135deg, rgba(255,255,255,.015) 0 2px, transparent 2px 5px),
+    var(--bg);
+  z-index:7;display:flex;align-items:center;justify-content:center;padding:16px;overflow:auto}
 .menu-layer.hide{display:none}
-.menu-card{width:min(400px,94vw);max-height:100%;overflow:auto}
-.menu-card .brand{letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:600;font-size:14px;margin-bottom:8px}
-.menu-card .tag{margin:0 0 16px;color:var(--ink-dim)}
+.menu-card{width:min(420px,94vw);max-height:100%;overflow:auto;position:relative;
+  padding:22px 20px 16px;border-top:2px solid var(--accent);
+  box-shadow:0 24px 60px rgba(0,0,0,.45)}
+.menu-card .eyebrow{margin:0 0 6px;color:var(--accent);font-size:11px;font-weight:700;
+  letter-spacing:.2em;text-transform:uppercase;opacity:.85}
+.menu-card .brand{letter-spacing:.02em;text-transform:none;color:var(--ink);font-weight:700;
+  font-size:26px;margin:0 0 6px;line-height:1.15}
+.menu-card .tag{margin:0 0 14px;color:var(--ink-dim);font-size:14px}
+.menu-card .legal{margin:16px 0 0;padding-top:12px;border-top:1px solid var(--line);
+  font-size:11px;color:var(--ink-dim);opacity:.75}
 .menu-card .stack{display:flex;flex-direction:column;gap:8px}
+.menu-card .slots-box{background:var(--surface-2);border:1px solid var(--line);
+  border-radius:var(--r);padding:10px;margin-bottom:14px}
+.menu-card .slots-label{margin:0 0 8px;font-size:11px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink-dim)}
 .menu-card input, .menu-card textarea{
   width:100%;min-height:40px;background:var(--surface-2);color:var(--ink);
   border:1px solid var(--line);border-radius:8px;font:inherit;padding:8px 10px}
@@ -465,23 +481,26 @@ html,body{font-size:14px}
   </div>
   <div id="menu" class="menu-layer">
     <div class="card menu-card">
+      <p class="eyebrow">TARIKLAB · MAHALLE HİKAYESİ</p>
       <div class="brand">Racon Manager</div>
       <p class="tag">Adamlar ölür. İsim kalır.</p>
-      <p class="dim" style="font-size:0.75rem">© 2026 TarikLab. Tüm hakları saklıdır.<br>Oyun tasarımı ve özgün içerik: Tarık Halil Ayaz.</p>
       <p id="menu-feedback" role="status" class="dim" hidden></p>
       <div id="menu-home" class="stack">
         <p id="menu-err" class="dim" hidden></p>
-        <p class="dim" style="font-size:0.75rem">Kayıt yerleri</p>
-        <div class="row" id="racon-slots" style="display:flex;gap:8px;flex-wrap:wrap">
-          <button type="button" class="btn" data-act="slot" data-id="1">Slot 1</button>
-          <button type="button" class="btn" data-act="slot" data-id="2">Slot 2</button>
-          <button type="button" class="btn" data-act="slot" data-id="3">Slot 3</button>
+        <div class="slots-box">
+          <p class="slots-label">Kayıt yerleri</p>
+          <div class="row" id="racon-slots" style="display:flex;gap:8px;flex-wrap:wrap">
+            <button type="button" class="btn" data-act="slot" data-id="1">Slot 1</button>
+            <button type="button" class="btn" data-act="slot" data-id="2">Slot 2</button>
+            <button type="button" class="btn" data-act="slot" data-id="3">Slot 3</button>
+          </div>
         </div>
         <button type="button" class="btn primary" data-act="menu" data-go="nick">Yeni oyun</button>
         <button type="button" class="btn" id="btn-devam" data-act="menu" data-go="play">Devam</button>
         <button type="button" class="btn" data-act="menu" data-go="yedek">Yedek</button>
         <button type="button" class="btn ghost" data-act="yardim-ac">Nasıl oynanır?</button>
         <button type="button" class="btn danger" data-act="menu" data-go="sil">Sil</button>
+        <p class="legal">© 2026 TarikLab. Tüm hakları saklıdır.<br>Oyun tasarımı ve özgün içerik: Tarık Halil Ayaz.</p>
       </div>
       <div id="menu-nick" class="stack" hidden>
         <label class="dim" for="lakap">Lakap · semt Fatih</label>

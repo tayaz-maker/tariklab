@@ -493,25 +493,16 @@ export async function startApp(theme, designs) {
     }, 220);
   }
   function header() {
+    // No TR/EN button here: the outer TarikLab shell above this iframe owns
+    // the single visible language control, and the "storage" listener above
+    // already re-renders this game the moment that outer toggle changes
+    // `tariklab.language` — a second language control here was a duplicate
+    // control, not a second source of truth.
     return $(
       "header",
       { class: "operations" },
       $("img", { src: `/games/${theme}/assets/emblem.svg`, alt: "" }),
       $("div", { class: "brand" }, $("strong", {}, name), $("small", {}, " · TARIKLAB")),
-      button(
-        lang === "tr" ? "EN" : "TR",
-        () => {
-          lang = lang === "tr" ? "en" : "tr";
-          try {
-            localStorage.setItem("tariklab.language", lang);
-          } catch {
-            /* Preference remains active for this visit. */
-          }
-          close();
-          render();
-        },
-        { "aria-label": t("language") },
-      ),
       button("?", () => show(t("help"), rulesBody()), { "aria-label": t("help") }),
       button(t("menu"), () => {
         clearTimeout(timer);
