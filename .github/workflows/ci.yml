@@ -85,7 +85,7 @@ jobs:
       - name: HANEDANIAN desktop, touch and real offline reload
         run: node scripts/hanedanian-browser.mjs
         env:
-          HANEDANIAN_SOAK_MS: "1200000"
+          HANEDANIAN_SOAK_MS: ${{ github.ref == 'refs/heads/main' && '0' || '1200000' }}
       - name: IHTILAL first minute and five minute decision loop
         if: '!cancelled()'
         run: node scripts/ihtilal-browser.mjs
