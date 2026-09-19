@@ -71,7 +71,7 @@ try {
  const context=await browser.newContext({viewport:{width:360,height:800},isMobile:true,hasTouch:true});const page=await context.newPage();activePage=page;page.setDefaultTimeout(15000);page.on('pageerror',e=>errors.push(String(e)));
  await page.goto(`${origin}/games/hanedanian/index.html`);
  const seeded=createGame({seed:'TL-OFFLINE-REAL'});seeded.settings.autoPause=false;seeded.paused=false;advance(seeded,600);seeded.paused=true;
- await importState(page,seeded);await page.waitForFunction(()=>document.body.innerText.includes('Çevrimdışı paket hazır'),null,{timeout:30000});await save(page);
+ await importState(page,seeded);await page.waitForFunction(()=>document.querySelector('#settlement-rail').textContent.includes('Çevrimdışı paket hazır'),null,{timeout:30000});await page.locator('#menu-button').click();assert.match(await page.locator('#dialog').innerText(),/Çevrimdışı paket hazır/);await page.locator('[data-action="resume"]').click();await save(page);
  const exported=await archive(page);await context.setOffline(true);await page.reload();await page.locator('[data-load="auto"]').first().click();await page.locator('#welcome').waitFor({state:'hidden'});assert.equal((await archive(page)).world.seed,exported.world.seed);
  assert.equal(await page.evaluate(async()=>{try{await fetch('/__uncached_offline_probe__?t='+Date.now());return false;}catch{return true;}}),true,'network really disabled');
  await page.locator('#navigation [data-view="settlement"]').click();await page.locator('[data-build="lumber"]').click();await save(page);const changed=await archive(page);assert.ok(changed.settlements[0].queue.length>0);
@@ -80,12 +80,27 @@ try {
  // Leave the game first so its pagehide journal cannot overwrite the corruption.
  await context.setOffline(false);await page.goto(`${origin}/credits.html`);
  // Corrupt ONLY this isolated test context's auto and journal; previous must recover.
- await page.evaluate(async()=>{localStorage.removeItem('tariklab::hanedanian:emergency:v1');await new Promise((resolve,reject)=>{const r=indexedDB.open('tariklab-hanedanian',1);r.onsuccess=()=>{const db=r.result,tx=db.transaction('saves','readwrite'),store=tx.objectStore('saves'),q=store.get('auto');q.onsuccess=()=>{store.put({...q.result,raw:'broken-json'});};tx.oncomplete=()=>{db.close();resolve();};tx.onerror=()=>reject(tx.error);};r.onerror=()=>reject(r.error);});});
- await page.goto(`${origin}/games/hanedanian/index.html`);await page.locator('[data-load="auto"]').first().click();await page.locator('#welcome').waitFor({state:'hidden'});assert.equal((await archive(page)).world.seed,'TL-OFFLINE-REAL');
+ const previousRaw=await page.evaluate(async()=>{let previousRaw;localStorage.removeItem('tariklab::hanedanian:emergency:v1');await new Promise((resolve,reject)=>{const r=indexedDB.open('tariklab-hanedanian',1);r.onsuccess=()=>{const db=r.result,tx=db.transaction('saves','readwrite'),store=tx.objectStore('saves'),q=store.get('auto');q.onsuccess=()=>{store.put({...q.result,raw:'broken-json'});};const prev=store.get('previous');prev.onsuccess=()=>{previousRaw=prev.result.raw;};tx.oncomplete=()=>{db.close();resolve();};tx.onerror=()=>reject(tx.error);};r.onerror=()=>reject(r.error);});return previousRaw;});assert.ok(previousRaw,'a real previous autosave exists');
+ await page.goto(`${origin}/games/hanedanian/index.html`);await page.locator('[data-load="auto"]').first().click();await page.locator('#welcome').waitFor({state:'hidden'});const recovered=await archive(page);assert.equal(recovered.world.seed,'TL-OFFLINE-REAL');assert.equal(recovered.time,JSON.parse(previousRaw).state.time);assert.deepEqual(recovered.settlements[0].queue,JSON.parse(previousRaw).state.settlements[0].queue);
  await context.setOffline(false);await page.reload();await page.locator('[data-load="auto"]').first().click();await page.locator('#welcome').waitFor({state:'hidden'});await checkLayout(page,'offline:reconnect');await page.screenshot({path:`out/offline.png`.replace('out/',out+'/')});
  await importState(page,seeded);assert.equal((await archive(page)).world.seed,'TL-OFFLINE-REAL');
  await page.locator('#menu-button').click();await page.locator('[data-action="import"]').click();await page.locator('#import-text').fill('{"bad":"save"}');await page.locator('#import-form button').click();assert.ok(await page.locator('#dialog-notice').isVisible());await page.locator('#dialog').press('Escape');assert.equal((await archive(page)).world.seed,'TL-OFFLINE-REAL');
  results.push({label:'offline-real-idb-sw',passed:true});await context.close();
+ const soakMs=Number(process.env.HANEDANIAN_SOAK_MS||0);
+ if(soakMs>0){
+  const context=await browser.newContext({viewport:{width:360,height:800},isMobile:true,hasTouch:true});const page=await context.newPage();activePage=page;page.setDefaultTimeout(15000);page.on('pageerror',e=>errors.push(String(e)));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
+  await page.goto(`${origin}/games/hanedanian/index.html`);await importState(page,seeded);
+  const started=Date.now();let rounds=0,lastTime=seeded.time;
+  while(Date.now()-started<soakMs){
+   await page.locator('[data-speed="12"]').click();await page.waitForTimeout(10000);
+   const c=page.locator('#world-map'),b=await c.boundingBox(),x=b.x+b.width/2,y=b.y+b.height*.4;
+   await touch(page,[{x,y}],'touchStart');await touch(page,[{x:x+(rounds%2?45:-45),y:y+10}],'touchMove');await touch(page,[],'touchEnd');
+   if(++rounds%6===0){
+    const current=await archive(page);assert.ok(current.time>lastTime,'soak continues to advance');lastTime=current.time;await save(page);await page.reload();await page.locator('[data-load="auto"]').first().click();await page.locator('#welcome').waitFor({state:'hidden'});assert.equal((await archive(page)).time,lastTime,'soak reload preserves the checkpoint');await checkLayout(page,`mobile:soak:${rounds}`);
+   }
+  }
+  assert.ok(lastTime>seeded.time+soakMs/1000*2,'sustained real browser simulation');await page.screenshot({path:`${out}/mobile-soak.png`});results.push({label:'mobile-soak',elapsedMs:Date.now()-started,rounds,gameMinutes:lastTime-seeded.time});await context.close();
+ }
  assert.deepEqual(errors,[],'uncaught browser/console errors');
 } catch(error){if(activePage&&!activePage.isClosed()){await activePage.screenshot({path:`${out}/failure.png`,fullPage:true}).catch(()=>{});writeFileSync(`${out}/failure.txt`,`${error.stack}\n${await activePage.locator('body').innerText().catch(()=>'')}`);}throw error;} finally {writeFileSync(`${out}/results.json`,JSON.stringify({results,errors},null,2));await browser?.close();server?.kill('SIGTERM');}
 console.log(JSON.stringify({checks:results.length,errors}));

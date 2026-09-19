@@ -5,6 +5,10 @@ on:
     branches: [main]
   pull_request:
 
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -62,7 +66,7 @@ jobs:
           path: ${{ runner.temp }}/screenshots/duel-production
   campaign-browser:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 35
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -80,6 +84,8 @@ jobs:
           fi
       - name: HANEDANIAN desktop, touch and real offline reload
         run: node scripts/hanedanian-browser.mjs
+        env:
+          HANEDANIAN_SOAK_MS: "1200000"
       - name: IHTILAL first minute and five minute decision loop
         if: '!cancelled()'
         run: node scripts/ihtilal-browser.mjs
