@@ -100,7 +100,7 @@ export function runCampaign(seed, path, {limit=100000, policy='network', snapsho
     s.paused=false; advance(s,120);
     const c=getCampaign(s);
     if(c.stage!==lastStage){log.stages.push({stage:c.stage,time:s.time});lastStage=c.stage;}
-    if(c.paths.some(x=>x.ready)&&s.time<10000)log.early=true;
+    if(c.paths.some(x=>x.ready)&&s.time<36000)log.early=true;
     const ai=s.factions.slice(1).map(f=>s.settlements.filter(t=>t.ownerId===f.id).length);
     log.maxAITowns=Math.max(log.maxAITowns,...ai);log.maxAIShare=Math.max(log.maxAIShare,...ai.map(n=>n/s.settlements.length));
     if(c.paths.find(x=>x.id===path).ready){order({type:'victory',path});break;}

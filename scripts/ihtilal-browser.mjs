@@ -23,7 +23,7 @@ try{
   let actions=1,completed=false;const duration=width===360?300000:60000;
   while(Date.now()-start<duration){
    const workspace=page.locator('.action-workspace');
-   if(!await workspace.count()){completed=true;break;}
+   if(!await workspace.count()){assert.ok(await page.locator('.report .report-verdict').isVisible(),'completed match has a clear verdict');completed=true;break;}
    const target=page.locator('.play-target:not([disabled])').first(),suggestion=page.locator('.suggested:not([disabled])'),pass=page.locator('.turn-actions button:not([disabled])').first();
    if(await target.count()){await target.click();actions++;}
    else if(await suggestion.count())await suggestion.click();

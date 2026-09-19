@@ -799,8 +799,11 @@ document.addEventListener("click", async (event) => {
       help();
       break;
     case "manual-save":
-      await persist("manual", true);
-      await menu();
+      b.disabled = true;
+      try {
+        await persist("manual", true);
+        if ($("dialog").open && $("dialog-title").textContent === "Oyun ve kayıtlar") await menu();
+      } finally { b.disabled = false; }
       break;
     case "export":
       showExport();
