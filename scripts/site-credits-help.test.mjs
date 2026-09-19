@@ -35,7 +35,7 @@ test("credits.html güncel yaratıcı bilgisini ve gerekli grupları taşır", (
   assert.match(html, /Satranç/);
   assert.match(html, /TC SIM/);
   assert.match(html, /Bükücü/);
-  assert.match(html, /Hanedan/);
+  assert.match(html, /HANEDANIAN/);
 });
 
 test("resources catalog stays aligned with the canonical game catalog", () => {
@@ -114,7 +114,7 @@ test("Çete Savaşları HUD'una gerçek bir yardım kontrolü bağlanmış", () 
 });
 
 test("Hanedan'da yardım kontrolü hem başlıkta hem oyun içinde erişilebilir", () => {
-  const html = read("public/games/hanedan/index.html");
+  const html = read("public/games/hanedan/legacy.html");
   assert.match(html, /data-act":"help"/);
   assert.match(html, /function openHelp/);
   assert.match(html, /var HELP = \[/);

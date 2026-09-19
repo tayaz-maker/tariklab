@@ -343,7 +343,10 @@
 
   const CATALOG_EN = {
     "cete-savaslari": { title: "Çete Savaşları", subtitle: "Racon, district, cash in TL." },
-    hanedan: { title: "Çete Savaşları: Hanedan", subtitle: "Men die. The house remains." },
+    hanedanian: {
+      title: "HANEDANIAN",
+      subtitle: "From one settlement to a great dynasty. Read the map, build your future.",
+    },
     racon: { title: "Racon Manager", subtitle: "Men die. The name remains." },
     "tc-sim": { title: "TC SIM", subtitle: "One life. Weekly choices, years of fallout." },
     bukucu: {
@@ -386,6 +389,9 @@
     "darbe-h": { title: "DARBE-H!", subtitle: "The telex lands. The desk decides." },
   };
 
+  // The old public route still resolves to HANEDANIAN; keep cached callers aligned.
+  CATALOG_EN.hanedan = CATALOG_EN.hanedanian;
+
   const CREDITS_EN = {
     h1: "Resources",
     kicker: "TarikLab · games and technical structure",
@@ -396,7 +402,7 @@
         lead: "TarikLab has 18 playable games.",
         items: [
           '<a href="/cete-savaslari">Çete Savaşları</a> · LIVE — Build a crew, run missions and hold turf under police and rival pressure.',
-          '<a href="/oyna/hanedan">Çete Savaşları: Hanedan</a> · LIVE — Manage a roster, raids and legacy across generations.',
+          '<a href="/oyna/hanedanian">HANEDANIAN</a> · LIVE — Build settlements, secure resources and lead a dynasty across a seeded strategy map; single-player and offline-first.',
           '<a href="/oyna/racon">Racon Manager</a> · LIVE — Narrative management shaped by relationships, decisions and delayed consequences.',
           '<a href="/oyna/tc-sim">TC SIM</a> · LIVE — A weekly life simulation spanning work, education, family, networks, relationships, housing, finance and the market. Some choices return as Long Shadows years later: a sibling in trouble, an old guarantee, a number you never called.',
           '<a href="/games/bukucu/index.html">Son Mahalle Bükücü</a> · LIVE — A neighborhood board game of dice, deeds, auctions and trades.',
@@ -419,8 +425,8 @@
         h: "How it works",
         lead: "TarikLab is a collection of independent games that run directly in the browser. The portal and Çete Savaşları use React and TypeScript; the other games run as their own HTML, CSS and JavaScript applications.",
         items: [
-          "Long-running games use three local slots, kept separate on the same device. VETO-H! and GETT-OH! each autosave one active duel; reload preserves deck order, action rights and pending responses.",
-          "The portal and games support Turkish and English.",
+          "Most long-running games use three local slots, kept separate on the same device. HANEDANIAN keeps an autosave, its previous version and a separate manual save, with file export/import. Original HANEDAN saves remain accessible through the legacy game. VETO-H!, GETT-OH! and DARBE-H! each autosave one active duel; reload preserves deck order, action rights and pending responses.",
+          "The portal and most games support Turkish and English. HANEDANIAN currently plays in Turkish.",
           "Interfaces adapt to phone, tablet and desktop while preserving each game's own visual and interaction identity.",
         ],
       },

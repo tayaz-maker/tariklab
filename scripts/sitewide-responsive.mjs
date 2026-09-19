@@ -61,7 +61,8 @@ try {
       try {
         const response = await page.goto(`${origin}${route.href}`, { waitUntil: "networkidle" });
         assert.equal(response.status(), 200, route.href);
-        if (route.href.startsWith("/oyna/")) {
+        if (route.href === "/ihtilal") await page.waitForURL(`${origin}/oyna/ihtilal`);
+        if (new URL(page.url()).pathname.startsWith("/oyna/")) {
           const iframe = page.locator("iframe");
           await iframe.waitFor();
           surface = await (await iframe.elementHandle()).contentFrame();

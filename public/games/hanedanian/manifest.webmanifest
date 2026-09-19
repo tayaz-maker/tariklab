@@ -1,0 +1,13 @@
+{
+  "name": "HANEDANIAN — TarikLab",
+  "short_name": "HANEDANIAN",
+  "description": "Tek oyunculu, çevrimdışı hanedan stratejisi.",
+  "id": "/games/hanedanian/",
+  "start_url": "/games/hanedanian/index.html",
+  "scope": "/games/hanedanian/",
+  "display": "standalone",
+  "background_color": "#f1eee3",
+  "theme_color": "#334934",
+  "lang": "tr",
+  "icons": [{ "src": "./icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}

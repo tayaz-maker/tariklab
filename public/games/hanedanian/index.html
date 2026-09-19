@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+    <meta name="theme-color" content="#262d25" />
+    <meta
+      name="description"
+      content="HANEDANIAN: bir yerleşimden büyük bir hanedana. Özgün haritada ekonomi, keşif, sefer ve diplomasi. Tek oyunculu, çevrimdışı strateji."
+    />
+    <title>HANEDANIAN — TarikLab</title>
+    <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div id="game" class="game menu-mode">
+      <header class="topbar">
+        <div class="brandline">
+          <span class="wordmark">HANEDANIAN<span>TOPRAK · YOL · HANEDAN</span></span>
+          <div class="top-actions">
+            <span id="save-status" role="status">Kayıt hazırlanıyor</span
+            ><button id="menu-button" aria-label="Kayıtlar ve oyun menüsü">Menü</button>
+          </div>
+        </div>
+        <div id="resources" class="resources" aria-label="Aktif yerleşimin kaynakları"></div>
+        <div class="timebar">
+          <div>
+            <strong id="game-date">Yeni bir çağ</strong
+            ><span id="clock-state">Zaman senin elinde.</span>
+          </div>
+          <div id="clock-controls" class="clock-controls" aria-label="Zaman kontrolü">
+            <button data-speed="0" aria-label="Zamanı duraklat">Ⅱ</button
+            ><button data-speed="1">1×</button><button data-speed="4">4×</button
+            ><button data-speed="12">12×</button>
+          </div>
+        </div>
+      </header>
+      <div id="campaign-strip" class="campaign-strip"></div>
+      <div class="workspace">
+        <aside
+          id="settlement-rail"
+          class="settlement-rail"
+          aria-label="Yerleşimler ve kampanya"
+        ></aside>
+        <main id="map-workspace" class="map-workspace">
+          <canvas
+            id="world-map"
+            tabindex="0"
+            aria-label="Strateji haritası. Sürükleyerek gezin, tekerlek veya iki parmakla yakınlaşın. Ok tuşlarıyla karo seçin, Escape ile seçimi kaldırın."
+          ></canvas>
+          <div class="map-tools" aria-label="Harita kontrolleri">
+            <button data-map="out" aria-label="Haritadan uzaklaş">−</button
+            ><button data-map="in" aria-label="Haritaya yaklaş">+</button
+            ><button data-map="home" aria-label="Aktif yerleşime dön">Merkez</button
+            ><button data-map="world">Dünya</button
+            ><button
+              data-map="rail"
+              class="rail-toggle"
+              aria-label="Yerleşim panelini daralt veya aç"
+            >
+              Panel
+            </button>
+          </div>
+          <div id="map-caption" class="map-caption">YERYÜZÜ DEFTERİ <span>49 × 49</span></div>
+          <div id="hover-info" class="hover-info" hidden></div>
+          <div id="map-empty" class="map-empty" hidden>Harita hazırlanıyor…</div>
+        </main>
+        <aside id="inspector" class="inspector" aria-label="Seçili bölge"></aside>
+        <main id="section-view" class="section-view" hidden></main>
+      </div>
+      <nav id="navigation" class="navigation" aria-label="Oyun bölümleri">
+        <button data-view="map" aria-current="page">Harita</button
+        ><button data-view="settlement">Yerleşim</button><button data-view="army">Ordu</button
+        ><button data-view="council">Divan</button><button data-view="dynasty">Hanedan</button>
+      </nav>
+    </div>
+    <div id="welcome" class="welcome">
+      <div class="welcome-art" aria-hidden="true">
+        <span>YERYÜZÜ DEFTERİ / 01</span>
+        <div class="seal">H</div>
+        <p>Bir ocak yak.<br />Bir yol aç.<br />Bir iz bırak.</p>
+        <small>ANADOLU'DAN ESİNLENEN ÖZGÜN BİR DÜNYA</small>
+      </div>
+      <main class="welcome-content">
+        <p class="eyebrow">TARIKLAB · TEK OYUNCULU STRATEJİ</p>
+        <h1>HANEDANIAN</h1>
+        <p class="intro">Toprak bir başlangıç.<br />Hanedan, verdiğin kararlar.</p>
+        <p>
+          Yerleşimini geliştir, yolları keşfet ve sınırlarını genişlet. Sekiz rakip hanedanın
+          arasında gücünü toprakla, ticaretle veya diplomasiyle kur.
+        </p>
+        <div class="welcome-facts">
+          <span>49 × 49 dünya</span><span>Çevrimdışı oyun</span><span>Zaman kontrolü sende</span>
+        </div>
+        <div id="welcome-actions"><p>Kayıtlar okunuyor…</p></div>
+        <details class="legacy-note">
+          <summary>Eski HANEDAN kayıtların mı var?</summary>
+          <p>
+            Yeni strateji kampanyası farklı kurallar kullanır. Eski oyunun ve kayıtların korunuyor;
+            oradan devam edebilir veya yedeğini alabilirsin.
+          </p>
+          <a href="/games/hanedan/legacy.html">Eski kayıtları aç →</a>
+        </details>
+        <p class="welcome-footer">
+          Tarık Halil Ayaz · TarikLab <a href="/" target="_top">Oyunlara dön</a>
+        </p>
+      </main>
+    </div>
+    <dialog id="dialog" aria-labelledby="dialog-title">
+      <div class="dialog-head">
+        <h2 id="dialog-title"></h2>
+        <button id="dialog-close" aria-label="Pencereyi kapat">×</button>
+      </div>
+      <div id="dialog-notice" class="note" role="status" aria-live="polite" hidden></div>
+      <div id="dialog-body"></div>
+    </dialog>
+    <div id="toast" role="status" aria-live="polite" hidden></div>
+    <noscript>HANEDANIAN için JavaScript açık olmalıdır. <a href="/">Oyunlara dön</a></noscript>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

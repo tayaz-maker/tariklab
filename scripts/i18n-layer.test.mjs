@@ -41,25 +41,25 @@ test("EN dictionary covers required portal and common keys", () => {
   }
 });
 
-test("catalog EN covers every public game slug", () => {
-  const slugs = [
-    "cete-savaslari",
-    "hanedan",
-    "racon",
-    "tc-sim",
-    "bukucu",
-    "labirent",
-    "peg-solitaire",
-    "satranc",
-    "amiral-batti",
-    "apartman",
-    "kayip-telefon",
-    "son-100-gun",
-    "tc-sim-devlet",
-  ];
+test("catalog EN covers every current public game slug", () => {
+  const slugs = [...read("src/lib/games.ts").matchAll(/slug: "([^"]+)"/g)].map((match) => match[1]);
+  assert.equal(slugs.length, 18);
   for (const slug of slugs) {
     assert.ok(I.CATALOG_EN[slug], slug);
     assert.ok(I.CATALOG_EN[slug].subtitle.length > 8, slug);
+  }
+});
+
+test("legacy Hanedan catalog requests use the canonical HANEDANIAN translation", () => {
+  assert.equal(I.CATALOG_EN.hanedan, I.CATALOG_EN.hanedanian);
+  I.setLang("en");
+  try {
+    const canonical = I.catalogEntry("hanedanian", "HANEDANIAN", "Yeni strateji");
+    const legacy = I.catalogEntry("hanedan", "Çete Savaşları: Hanedan", "Eski açıklama");
+    assert.deepEqual(legacy, canonical);
+    assert.equal(legacy.title, "HANEDANIAN");
+  } finally {
+    I.setLang("tr");
   }
 });
 
@@ -96,7 +96,7 @@ test("Next Wave and classics load the shared i18n script", () => {
     "public/games/satranc/index.html",
     "public/games/tc-sim/index.html",
     "public/games/racon/index.html",
-    "public/games/hanedan/index.html",
+    "public/games/hanedan/legacy.html",
     "public/games/bukucu/index.html",
     "public/credits.html",
   ]) {

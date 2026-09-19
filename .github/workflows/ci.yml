@@ -5,6 +5,10 @@ on:
     branches: [main]
   pull_request:
 
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -60,3 +64,56 @@ jobs:
         with:
           name: duel-production
           path: ${{ runner.temp }}/screenshots/duel-production
+  campaign-browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - name: Install Chromium
+        run: |
+          browser_path="$(command -v google-chrome || command -v chromium || true)"
+          if [ -n "$browser_path" ]; then
+            echo "PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=$browser_path" >> "$GITHUB_ENV"
+          else
+            npx playwright install --with-deps chromium --only-shell
+          fi
+      - name: HANEDANIAN desktop, touch and real offline reload
+        run: node scripts/hanedanian-browser.mjs
+        env:
+          HANEDANIAN_SOAK_MS: ${{ github.ref == 'refs/heads/main' && '0' || '1200000' }}
+      - name: IHTILAL first minute and five minute decision loop
+        if: '!cancelled()'
+        run: node scripts/ihtilal-browser.mjs
+      - name: Verify exact production game code and both games in Chromium
+        if: github.ref == 'refs/heads/main'
+        timeout-minutes: 12
+        run: node scripts/campaign-production.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: campaign-browser
+          path: |
+            ${{ runner.temp }}/screenshots/hanedanian
+            ${{ runner.temp }}/screenshots/ihtilal
+  campaign-balance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Twenty deterministic seeds across all three victory routes
+        run: node scripts/hanedanian-campaign-probe.mjs
+        env:
+          PROBE_OUTPUT: campaign-balance.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: campaign-balance
+          path: campaign-balance*.json

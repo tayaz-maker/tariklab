@@ -1,10 +1,11 @@
 import { ARCHETYPE_IDS, ARCHETYPES, DESKS } from "./decks.js";
 import { applyAction, canPlay, cardOf, createMatch, legalActions, publicView } from "./engine.js";
 import { AI_PROFILES, chooseAction } from "./ai.js";
-import { COPY, HELP, TUTORIAL, fx, labelDesk } from "./copy.js";
-import { clearSlot, loadSlot, saveSlot, slotSummary } from "./save.js";
+import { COPY, HELP, fx, labelDesk } from "./copy.js";
+import { clearSlot, deserialize, loadSlot, saveSlot, serialize, slotSummary } from "./save.js";
 import { endReport } from "./report.js";
 import { mulberry } from "./rng.js";
+import { changes, deskProgress, previewAction, snapshot, suggestedAction } from "./briefing.js";
 
 const root = document.querySelector("#app");
 const storage = {
@@ -50,7 +51,11 @@ let state = null;
 let selected = null;
 let notice = "";
 let helpOn = false;
-let coach = -1;
+let guided = false;
+let feedback = null;
+let replies = [];
+let autosaveFailed = false;
+const RESUME_KEY = "tariklab.ihtilal.v1.resume";
 let setup = {
   you: "kalemci",
   opp: "hesapci",
@@ -77,10 +82,51 @@ function stopAi() {
 }
 
 function goToMenu() {
+  persistResume();
   stopAi();
   screen = "menu";
   render();
 }
+
+function persistResume() {
+  if (!state) return;
+  try {
+    const raw = serialize(state);
+    const previous = storage.getItem(RESUME_KEY);
+    if (previous && deserialize(previous).ok) storage.setItem(`${RESUME_KEY}.backup`, previous);
+    storage.setItem(RESUME_KEY, raw);
+    autosaveFailed = false;
+  }
+  catch { autosaveFailed = true; }
+}
+
+function readResume() {
+  try {
+    const raw = storage.getItem(RESUME_KEY);
+    const loaded = raw ? deserialize(raw) : null;
+    if (loaded?.ok) return loaded;
+    const backup = storage.getItem(`${RESUME_KEY}.backup`);
+    const recovered = backup ? deserialize(backup) : null;
+    return recovered?.ok ? { ...recovered, recovered: true } : loaded;
+  }
+  catch { return null; }
+}
+
+function resumeMatch() {
+  const saved = readResume();
+  if (!state && !saved?.ok) return;
+  stopAi();
+  if (!state) state = saved.state;
+  notice = saved?.recovered ? t("recovered") : "";
+  selected = null;
+  feedback = null;
+  replies = [];
+  screen = state.result ? "report" : "play";
+  render();
+  pumpAi();
+}
+
+window.addEventListener("pagehide", persistResume);
 
 function setLang() {
   lang = lang === "tr" ? "en" : "tr";
@@ -109,7 +155,7 @@ window.addEventListener("keydown", (event) => {
   if (event.key === "Escape") {
     event.preventDefault();
     if (dialog.getAttribute("data-modal") === "help") helpOn = false;
-    else coach = -1;
+    else helpOn = false;
     render();
   } else if (event.key === "Tab") {
     const controls = modalControls(dialog);
@@ -147,6 +193,7 @@ function topbar(extra) {
 }
 
 function menu() {
+  const resume = state || readResume()?.state;
   const slots = [1, 2, 3].map((n) => ({ n, summary: slotSummary(storage, n) }));
   return $(
     "div",
@@ -158,15 +205,17 @@ function menu() {
       $("p", { class: "kicker" }, t("kicker")),
       $("h1", { class: "display" }, t("title")),
       $("p", { class: "tagline display" }, t("tagline")),
-      $("p", { class: "pitch" }, lang === "en"
-        ? "Two pens on a fictional republic's Extraordinary File Board. Files land on desks. Desks lock. A ruling is written — or the board dissolves."
-        : "Kurmaca bir cumhuriyetin Olağanüstü Dosya Kurulu'nda iki kalem. Dosyalar masaya iner. Masalar kilitlenir. Hüküm yazılır — ya da masa dağılır."),
-      $("div", { class: "stamp-mark display" }, lang === "en" ? "seal" : "mühür"),
+      $("p", { class: "pitch" }, t("identity")),
+      $("div", { class: "menu-brief" },
+        $("b", { class: "display" }, t("objective")),
+        $("p", {}, t("lockRule")),
+        $("p", {}, t("turnRule"))),
       $(
         "div",
         { class: "row" },
-        $("button", { class: "btn primary", type: "button", onclick: () => { screen = "setup"; setup.tutorial = false; render(); } }, t("newGame")),
-        $("button", { class: "btn", type: "button", onclick: () => { screen = "setup"; setup.tutorial = true; render(); } }, t("tutorial")),
+        resume ? $("button", { class: "btn primary", type: "button", onclick: resumeMatch }, `${t("continue")} · ${t("turn")} ${resume.turn}`) : null,
+        $("button", { class: `btn${resume ? "" : " primary"}`, type: "button", onclick: () => { setup.tutorial = true; startMatch(); } }, t("tutorial")),
+        $("button", { class: "btn", type: "button", onclick: () => { screen = "setup"; setup.tutorial = false; render(); } }, t("newGame")),
         $("button", { class: "btn ghost", type: "button", "data-focus-key": "help", onclick: () => { helpOn = true; render(); } }, t("how")),
       ),
       $("h2", { class: "display" }, t("slots")),
@@ -225,7 +274,11 @@ function setupScreen() {
       { class: "menu" },
       $("p", { class: "kicker" }, t("kicker")),
       $("h1", { class: "display" }, t("pickYou")),
+      $("p", { class: "pitch" }, t("setupHint")),
+      $("button", { class: "btn primary", type: "button", onclick: startMatch }, t("start")),
       $("div", { class: "arch-grid" }, ARCHETYPE_IDS.map((id) => archButton(id, setup.you, (v) => { setup.you = v; render(); }, "you"))),
+      $("details", { class: "setup-details" },
+      $("summary", {}, t("advanced")),
       $("h2", { class: "display" }, t("pickOpp")),
       $("div", { class: "arch-grid" }, ARCHETYPE_IDS.map((id) => archButton(id, setup.opp, (v) => { setup.opp = v; render(); }, "opp"))),
       $(
@@ -244,7 +297,7 @@ function setupScreen() {
         t("seed"),
         $("input", { type: "number", value: String(setup.seed), min: "1", onchange: (e) => { setup.seed = Number(e.target.value) || 1923; } }),
       ),
-      $("button", { class: "btn primary", type: "button", onclick: startMatch }, t("start")),
+      ),
     ),
   );
 }
@@ -260,8 +313,11 @@ function startMatch() {
   });
   selected = null;
   screen = "play";
-  coach = setup.tutorial ? 0 : -1;
+  guided = setup.tutorial;
+  feedback = null;
+  replies = [];
   notice = "";
+  persistResume();
   render();
   pumpAi();
 }
@@ -275,10 +331,14 @@ function openSlot(n) {
   }
   stopAi();
   state = loaded.state;
+  feedback = null;
+  replies = [];
+  guided = false;
   activeSlot = n;
   selected = null;
-  notice = "";
+  notice = loaded.recovered ? t("recovered") : "";
   screen = state.result ? "report" : "play";
+  persistResume();
   render();
   pumpAi();
 }
@@ -315,18 +375,38 @@ function playFile(cardId, desk) {
   const actor = state.phase === "karsi" ? 1 - state.turnPlayer : state.turnPlayer;
   if (actor !== 0) return;
   const type = state.phase === "karsi" ? "counter" : "play";
-  const result = applyAction(state, type === "counter" ? { type, cardId, desk } : { type, cardId, desk });
+  const before = snapshot(state);
+  const action = { type, cardId, desk };
+  const result = applyAction(state, action);
   if (!result.ok) {
     notice = cardWhy(cardId, desk) || t("whyPhase");
     render();
     return;
   }
+  feedback = makeFeedback(before, action, 0);
+  replies = [];
   selected = null;
   notice = "";
+  guided = false;
   afterHuman();
 }
 
+function humanPass(type) {
+  if (busy || !state || (type === "end-kalem" ? state.turnPlayer !== 0 || state.phase !== "kalem" : state.turnPlayer !== 1 || state.phase !== "karsi")) return;
+  const before = snapshot(state);
+  if (!applyAction(state, { type }).ok) return;
+  feedback = makeFeedback(before, { type }, 0);
+  replies = [];
+  selected = null;
+  afterHuman();
+}
+
+function makeFeedback(before, action, actor) {
+  return { actor, action, changes: changes(before, snapshot(state)), queued: state.archive.filter(row => !before.archive.some(prev => prev.id === row.id)).map(row => ({ cardId: row.cardId, due: row.due, desk: row.desk })) };
+}
+
 function afterHuman() {
+  persistResume();
   if (state.result) {
     screen = "report";
     render();
@@ -361,7 +441,12 @@ function pumpAi() {
     const actions = legalActions(state, actor);
     const rng = mulberry((state.meta.seed + state.turn * 997 + state.log.length * 13 + actor) >>> 0);
     const pick = chooseAction(view, actions, state.aiProfile || setup.profile, rng) || actions[actions.length - 1];
-    applyAction(state, pick);
+    const before = snapshot(state);
+    const result = applyAction(state, pick);
+    if (result.ok) {
+      replies = replies.concat(makeFeedback(before, pick, actor)).slice(-3);
+      persistResume();
+    }
     render();
     if (aiActs() && !state.result) {
       const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -400,22 +485,84 @@ function logLine(row) {
 function fileCard(id, on) {
   const card = cardOf(id);
   if (!card) return null;
-  const stamp = { acik: "A", artci: "R", karsi: "K", heyet: "H", muhurluk: "M" }[card.type] || "A";
-  return $(
-    "button",
-    {
-      class: `file-card${on ? " is-on" : ""}`,
-      type: "button",
-      "aria-label": card.a11y?.[lang] || titleOf(card),
-      "aria-pressed": on,
-      "data-focus-key": `card-${id}`,
-      onclick: () => { selected = id; render(); },
-    },
-    $("span", { class: "stamp display" }, stamp),
+  const playable = legalActions(state, 0).some(action => action.cardId === id);
+  const type = { acik: "typeAcik", artci: "typeArtci", karsi: "typeKarsi", heyet: "typeHeyet", muhurluk: "typeMuhurluk" }[card.type];
+  return $("button", {
+    class: `file-card${on ? " is-on" : ""}${playable ? " is-playable" : " is-unavailable"}`,
+    type: "button", "aria-label": `${titleOf(card)}. ${fx(card, lang)}. ${t("cost")} ${card.cost}. ${playable ? t("available") : t("inspectOnly")}`,
+    "aria-pressed": on, "data-focus-key": `card-${id}`,
+    onclick: () => { selected = id; render(); root.querySelector(".action-workspace")?.scrollIntoView?.({ block: "nearest", behavior: "auto" }); },
+  },
+    $("span", { class: "card-type" }, t(type)),
     $("b", {}, titleOf(card)),
     $("div", { class: "fx" }, fx(card, lang)),
-    $("small", {}, `${t("cost")} ${card.cost} · ${t("muhur")} ${card.seal}`),
-  );
+    $("small", {}, `${t("cost")} ${card.cost}${card.seal ? ` · ${t("muhur")} ${card.seal}` : ""}`),
+    $("span", { class: "card-availability" }, playable ? t("available") : card.type === "karsi" ? t("counterOnly") : t("inspectOnly")));
+}
+
+function deltaText(delta) {
+  if (delta.key === "lock") return `${labelDesk(delta.desk, lang !== "en")} · ${delta.owner == null ? t("unlocked") : `${delta.owner === 0 ? t("you") : t("opp")} ${t("locked")}`}`;
+  const label = delta.key === "presence" ? labelDesk(delta.desk, lang !== "en") : t(delta.key);
+  const owner = delta.owner == null ? "" : `${delta.owner === 0 ? t("you") : t("opp")} `;
+  return `${owner}${label} ${delta.delta > 0 ? "+" : "−"}${Math.abs(delta.delta)}`;
+}
+
+function changeChips(rows) {
+  return $("div", { class: "change-chips" }, rows.map(row => $("span", { class: `change-chip${row.key === "hukum" || row.key === "lock" ? " is-score" : ""}` }, deltaText(row))));
+}
+
+function feedbackBlock(item, compact = false) {
+  const card = item.action.cardId ? cardOf(item.action.cardId) : null;
+  const title = card ? `${titleOf(card)}${item.action.desk ? ` → ${labelDesk(item.action.desk, lang !== "en")}` : ""}` : item.action.type === "end-kalem" ? t("turnEnded") : t("counterPassed");
+  return $("div", { class: compact ? "reply" : "action-result", "data-feedback": item.actor === 0 ? "human" : "ai" },
+    $("b", {}, title),
+    card ? $("p", { class: "effect-plan" }, `${item.queued.length ? t("scheduledEffect") : t("fileEffect")} ${fx(card, lang)}`) : null,
+    changeChips(item.changes),
+    item.queued.map(row => $("p", { class: "queued-note" }, `${t("queued")} ${t("turn")} ${row.due} · ${labelDesk(row.desk, lang !== "en")}. ${t("queuedWhy")}`)),
+    !item.changes.length && !item.queued.length ? $("p", {}, t("noImmediateChange")) : null);
+}
+
+function scorePanel(view) {
+  const locks = DESKS.filter(desk => view.desks[desk].lock === 0).length;
+  return $("section", { class: "mission", "aria-label": t("objective") },
+    $("div", { class: "mission-title" }, $("div", {}, $("span", { class: "kicker" }, t("yourRole")), $("h1", { class: "display" }, t("objective"))), $("span", { class: "round-tag" }, `${t("turn")} ${view.turn}`)),
+    $("div", { class: "score-race" }, [view.me, view.opp].map((player, i) => $("div", { class: `score-player${i ? " is-opponent" : ""}` },
+      $("span", {}, i ? t("opp") : t("you")), $("b", { class: "display" }, `${player.hukum} / 10`),
+      $("progress", { max: "10", value: String(player.hukum), "aria-label": `${i ? t("opp") : t("you")} ${t("hukum")}` })))),
+    $("p", { class: "mission-rule" }, `${t("lockRule")} ${locks >= 2 ? t("tenureActive") : t("tenureGoal")}`));
+}
+
+function actionWorkspace(view, selectedCard, humanKalem, humanKarsi) {
+  const suggestion = suggestedAction(state);
+  const actions = legalActions(state, 0).filter(action => action.cardId === selectedCard?.id);
+  const ready = humanKalem || humanKarsi;
+  const first = !state.log.some(row => row.a === 0 && (row.k === "play" || row.k === "counter"));
+  const next = busy || !ready ? t("waitHint") : humanKarsi ? (suggestion ? t("counterHint") : t("noCounterHint")) : selectedCard ? t("targetHint") : suggestion ? (first ? t("firstHint") : t("chooseHint")) : t("noPlayable");
+  return $("section", { class: "action-workspace", "aria-label": t("nextAction") },
+    $("div", { class: "action-heading" }, $("span", { class: "kicker" }, first && guided ? t("guidedFirst") : t("nextAction")), $("b", {}, humanKarsi ? t("counterWindow") : humanKalem ? `${t("yourTurn")} · ${view.playsLeft}/2 ${t("actionsLeft")}` : t("oppTurn"))),
+    $("p", { class: "next-hint" }, next),
+    feedback ? $("div", { class: "inline-outcome", role: "status", "aria-live": "polite" },
+      $("b", {}, `${t("lastOutcome")}: ${feedback.action.cardId ? titleOf(cardOf(feedback.action.cardId)) : feedback.action.type === "end-kalem" ? t("turnEnded") : t("counterPassed")}`),
+      changeChips(feedback.changes),
+      feedback.queued.map(row => $("small", {}, `${t("queued")} ${t("turn")} ${row.due} · ${labelDesk(row.desk, lang !== "en")}`))) : null,
+    notice ? $("p", { class: "why", role: "status" }, notice) : null,
+    selectedCard ? $("div", { class: "inspector" },
+      $("h2", { class: "display" }, titleOf(selectedCard)),
+      $("p", { class: "fx" }, fx(selectedCard, lang)),
+      $("p", { class: "cost-line" }, `${t("cost")} ${selectedCard.cost}${selectedCard.seal ? ` · ${t("seal")} ${selectedCard.seal}` : ""}${selectedCard.delay ? ` · ${t("resolvesAt")} ${state.turn + selectedCard.delay}` : ""}`),
+      actions.length ? $("div", { class: "target-actions" }, actions.map(action => {
+        const preview = previewAction(state, action);
+        return $("button", { type: "button", class: "btn primary play-target", disabled: busy, "data-play-desk": action.desk, onclick: () => playFile(action.cardId, action.desk) },
+          $("b", {}, `${labelDesk(action.desk, lang !== "en")} · ${t("play")}`),
+          $("small", {}, preview?.queued.length ? `${t("queued")} ${t("turn")} ${preview.queued[0].due}` : (preview?.changes.filter(row => row.key !== "murekkep").map(deltaText).join(" · ") || t("resolveHint"))));
+      })) : $("p", { class: "why" }, cardWhy(selectedCard.id, selectedCard.desk === "any" ? state.lastPlay?.desk || DESKS[0] : selectedCard.desk) || t("inspectOnly")),
+      actions.length ? $("small", { class: "preview-note" }, t("previewHint")) : null,
+      $("details", {}, $("summary", {}, t("fileStory")), $("p", {}, flavorOf(selectedCard)))) :
+      suggestion && ready ? $("button", { class: "btn primary suggested", type: "button", disabled: busy, "data-focus-key": "suggestion", onclick: () => { selected = suggestion.cardId; render(); } }, `${t("suggestion")} ${titleOf(cardOf(suggestion.cardId))}`) : null,
+    $("div", { class: "turn-actions" },
+      humanKarsi ? $("button", { class: "btn", type: "button", disabled: busy, onclick: () => humanPass("skip-karsi") }, t("skipCounter")) : null,
+      humanKalem ? $("button", { class: `btn${suggestion ? " ghost" : " primary"}`, type: "button", disabled: busy, onclick: () => humanPass("end-kalem") }, t("endKalem")) : null),
+    humanKalem ? $("small", { class: "turn-explainer" }, t("endTurnHint")) : null);
 }
 
 function playScreen() {
@@ -423,127 +570,54 @@ function playScreen() {
   const selectedCard = selected ? cardOf(selected) : null;
   const humanKalem = view.phase === "kalem" && view.turnPlayer === 0;
   const humanKarsi = view.phase === "karsi" && view.turnPlayer === 1;
-  const desksFor = selectedCard
-    ? selectedCard.desk === "any" ? DESKS : [selectedCard.desk]
-    : [];
-  const banner = view.phase === "karsi" && humanKarsi
-    ? t("counterWindow")
-    : view.turnPlayer === 0
-      ? t("yourTurn")
-      : t("oppTurn");
-  return $(
-    "div",
-    { class: "shell" },
-    topbar(
-      $(
-        "div",
-        { class: "row" },
-        $("button", { class: "link", type: "button", "data-focus-key": "help", onclick: () => { helpOn = true; render(); } }, t("how")),
-        $("button", { class: "link", type: "button", onclick: goToMenu }, t("menu")),
-      ),
-    ),
-    $(
-      "div",
-      { class: "play" },
-      $(
-        "div",
-        { class: "meters" },
-        meter(t("hukum"), `${t("you")} ${view.me.hukum}/10 · ${t("opp")} ${view.opp.hukum}/10`),
-        meter(t("murekkep"), `${view.me.murekkep}`),
-        meter(t("muhur"), `${view.me.muhur} / ${view.opp.muhur}`),
-        meter(`${t("turn")} ${view.turn}`, view.phase === "karsi" ? t("phaseKarsi") : t("phaseKalem")),
-        $("div", { class: "heat-label" }, `${t("isi")} ${view.heat}/100 · ${t("heatHint")}`),
-        $("div", { class: "heatbar", role: "meter", "aria-label": t("isi"), "aria-valuenow": view.heat, "aria-valuemin": 0, "aria-valuemax": 100 }, $("i", { style: `width:${view.heat}%` })),
-      ),
-      $(
-        "div",
-        { class: "banner", role: "status" },
-        $("span", {}, banner),
-        notice ? $("span", { class: "why" }, notice) : null,
-      ),
-      $(
-        "div",
-        { class: "desks" },
-        DESKS.map((desk) => {
-          const d = view.desks[desk];
-          const target = selectedCard && desksFor.includes(desk);
-          return $(
-            "button",
-            {
-              class: `desk${d.lock != null ? " is-locked" : ""}${target ? " is-target" : ""}`,
-              type: "button",
-              disabled: !target || busy || !(humanKalem || (humanKarsi && selectedCard?.type === "karsi")),
-              onclick: () => playFile(selected, desk),
-              "aria-label": `${labelDesk(desk, lang !== "en")} ${d.presence[0]} ${d.presence[1]}`,
-            },
-            $("div", { class: "name display" }, labelDesk(desk, lang !== "en")),
-            $("div", { class: "pips" }, `${d.presence[0]} · ${d.presence[1]}`),
-            d.lock != null ? $("div", {}, `${t("locked")} · ${d.lock === 0 ? t("you") : t("opp")}`) : null,
-          );
-        }),
-      ),
-      $("div", { class: "hand", "aria-label": t("hand") }, view.me.hand.map((id) => fileCard(id, selected === id))),
-      $(
-        "aside",
-        { class: "dock" },
-        $(
-          "div",
-          { class: "inspector" },
-          $("div", { class: "kicker" }, t("inspector")),
-          selectedCard
-            ? [
-                $("h3", { class: "display" }, titleOf(selectedCard)),
-                $("p", {}, flavorOf(selectedCard)),
-                $("p", { class: "fx" }, fx(selectedCard, lang)),
-                $("p", {}, `${t("cost")} ${selectedCard.cost} · ${t("seal")} ${selectedCard.seal}${selectedCard.delay ? ` · ${t("delay")} ${selectedCard.delay}` : ""}`),
-                whyLine(selectedCard),
-              ]
-            : $("p", { class: "pitch" }, lang === "en" ? "Pick a file in your hand." : "Elinden bir dosya seç."),
-        ),
-        $(
-          "div",
-          { class: "row" },
-          humanKarsi ? $("button", { class: "btn", type: "button", disabled: busy, onclick: () => { applyAction(state, { type: "skip-karsi" }); afterHuman(); } }, t("skipCounter")) : null,
-          humanKalem ? $("button", { class: "btn primary", type: "button", disabled: busy, onclick: () => { applyAction(state, { type: "end-kalem" }); afterHuman(); } }, t("endKalem")) : null,
-          saveControls(),
-        ),
-        $(
-          "div",
-          { class: "ledger" },
-          $("div", { class: "kicker" }, t("log")),
-          $("ul", {}, view.log.map((row) => $("li", {}, logLine(row)))),
-        ),
-        $("p", {}, `${t("opp")}: ${ARCHETYPES[view.opp.archetype]?.title[lang] || ""} · ${t("hukum")} ${view.opp.hukum} · ${t("hand")} ${view.opp.hand}`),
-      ),
-    ),
-    helpOn ? helpSheet() : null,
-    coach >= 0 ? coachSheet() : null,
-  );
+  const available = legalActions(state, 0);
+  return $("div", { class: "shell" },
+    topbar($("div", { class: "row" },
+      $("button", { class: "link", type: "button", "data-focus-key": "help", onclick: () => { helpOn = true; render(); } }, t("how")),
+      $("button", { class: "link", type: "button", onclick: goToMenu }, t("menu")))),
+    $("main", { class: "play" },
+      scorePanel(view),
+      $("section", { class: "meters", "aria-label": t("resources") },
+        meter(t("murekkep"), `${view.me.murekkep}`, t("inkPurpose")),
+        meter(t("muhur"), `${view.me.muhur} / ${view.opp.muhur}`, t("sealPurpose")),
+        $("div", { class: `heat-meter${view.heat >= 75 ? " is-critical" : ""}` },
+          $("b", {}, `${t("isi")} ${view.heat}/100`),
+          $("div", { class: "heatbar", role: "meter", "aria-label": t("isi"), "aria-valuenow": view.heat, "aria-valuemin": 0, "aria-valuemax": 100 }, $("i", { style: `width:${view.heat}%` })),
+          $("small", {}, t("heatPurpose")))) ,
+      actionWorkspace(view, selectedCard, humanKalem, humanKarsi),
+      $("section", { class: "board", "aria-label": t("desksTitle") },
+        $("div", { class: "section-heading" }, $("h2", { class: "display" }, t("desksTitle")), $("span", {}, t("deskKey"))),
+        $("div", { class: "desks" }, DESKS.map(desk => {
+          const row = view.desks[desk], progress = deskProgress(row);
+          const target = selectedCard && available.some(action => action.cardId === selectedCard.id && action.desk === desk);
+          const status = row.lock === 0 ? t("yourLock") : row.lock === 1 ? t("oppLock") : progress.ready ? t("readyLock") : `${progress.needed} ${t("presenceNeeded")}`;
+          return $("button", { class: `desk${row.lock != null ? " is-locked" : ""}${row.lock === 0 ? " is-yours" : ""}${target ? " is-target" : ""}`, type: "button", disabled: !target || busy,
+            onclick: () => playFile(selected, desk), "aria-label": `${labelDesk(desk, lang !== "en")}. ${t("you")} ${row.presence[0]}, ${t("opp")} ${row.presence[1]}. ${status}` },
+            $("span", { class: "name display" }, labelDesk(desk, lang !== "en")),
+            $("span", { class: "pips" }, $("b", {}, String(row.presence[0])), $("span", {}, "/"), $("b", {}, String(row.presence[1]))),
+            $("small", { class: "desk-status" }, status));
+        }))),
+      $("section", { class: "hand-section", "aria-label": t("hand") },
+        $("div", { class: "section-heading" }, $("h2", { class: "display" }, t("hand")), $("span", {}, t("handHint"))),
+        $("div", { class: "hand" }, view.me.hand.map(id => fileCard(id, selected === id)))),
+      $("aside", { class: "dock" },
+        $("section", { class: "feedback", role: "status", "aria-live": "polite", "aria-atomic": "true" },
+          $("h2", { class: "display" }, t("lastOutcome")),
+          feedback ? feedbackBlock(feedback) : $("p", { class: "pitch" }, t("feedbackEmpty")),
+          replies.length ? $("details", { class: "reply-details", open: true }, $("summary", {}, t("opponentReply")), replies.map(item => feedbackBlock(item, true))) : null),
+        view.me.archive.length || view.opp.archive ? $("section", { class: "archive-panel" },
+          $("h2", { class: "display" }, t("scheduledTitle")),
+          view.me.archive.map(row => $("p", {}, `${titleOf(cardOf(row.cardId))} → ${labelDesk(row.desk, lang !== "en")} · ${t("turn")} ${row.due}`)),
+          view.opp.archive ? $("p", {}, `${t("opp")} · ${view.opp.archive} ${t("hiddenFiles")}`) : null) : null,
+        $("details", { class: "ledger" }, $("summary", {}, t("log")), $("ol", {}, [...view.log].reverse().map(row => $("li", {}, `${t("turn")} ${row.t} · ${logLine(row)}`)))),
+        $("details", { class: "save-panel" }, $("summary", {}, t("save")),
+          $("p", { class: "save-status", role: "status" }, autosaveFailed ? t("autoSaveFail") : t("autoSaved")), saveControls()),
+        autosaveFailed ? $("p", { class: "why", role: "status" }, t("autoSaveFail")) : null)),
+    helpOn ? helpSheet() : null);
 }
 
-function meter(label, value) {
-  return $("div", { class: "meter" }, $("span", {}, label), $("b", { class: "display" }, value));
-}
-
-function whyLine(card) {
-  const desk = card.desk === "any" ? DESKS[0] : card.desk;
-  const actor = state.phase === "karsi" ? 0 : state.turnPlayer;
-  const gate = canPlay(state, actor, card.id, desk);
-  if (gate.ok) return $("p", {}, t("play"));
-  const key = {
-    ink: "whyInk",
-    seal: "whySeal",
-    phase: "whyPhase",
-    "wrong-desk": "whyDesk",
-    desk: "whyDesk",
-    "repeat-desk": "whyRepeat",
-    once: "whyOnce",
-    chain: "whyChain",
-    "counter-window": "whyPhase",
-    plays: "whyPhase",
-    "not-in-hand": "whyPhase",
-  }[gate.why];
-  return $("p", { class: "why" }, key ? t(key) : "");
+function meter(label, value, purpose) {
+  return $("div", { class: "meter" }, $("span", {}, label), $("b", { class: "display" }, value), $("small", {}, purpose));
 }
 
 function helpSheet() {
@@ -560,38 +634,6 @@ function helpSheet() {
   );
 }
 
-function coachSheet() {
-  const steps = TUTORIAL[lang];
-  const step = steps[coach];
-  if (!step) return null;
-  return $(
-    "div",
-    { class: "overlay" },
-    $(
-      "div",
-      { class: "sheet", role: "dialog", "aria-modal": true, "aria-label": step.title, "data-modal": "coach", tabindex: "-1" },
-      $("p", { class: "kicker" }, `${coach + 1} / ${steps.length}`),
-      $("h2", { class: "display" }, step.title),
-      $("p", {}, step.body),
-      $(
-        "div",
-        { class: "row" },
-        $("button", { class: "btn ghost", type: "button", onclick: () => { coach = -1; render(); } }, t("skip")),
-        $("button", {
-          class: "btn primary",
-          type: "button",
-          "data-modal-primary": true,
-          onclick: () => {
-            coach += 1;
-            if (coach >= steps.length) coach = -1;
-            render();
-          },
-        }, coach + 1 >= steps.length ? t("gotIt") : t("next")),
-      ),
-    ),
-  );
-}
-
 function reportScreen() {
   const report = endReport(state, lang);
   return $(
@@ -603,7 +645,9 @@ function reportScreen() {
       { class: "report" },
       $("p", { class: "kicker" }, t("report")),
       $("h2", { class: "display" }, report.headline),
-      $("p", {}, report.reason),
+      $("p", { class: "report-verdict" }, report.reason),
+      $("p", {}, report.comparison),
+      feedback ? feedbackBlock(feedback) : null,
       $("p", {}, `${report.archetypes[0]} · ${report.archetypes[1]}`),
       $("p", {}, `${t("hukum")} ${report.meters.hukum.join(" / ")} · ${t("muhur")} ${report.meters.muhur.join(" / ")} · ${t("isi")} ${report.meters.heat} · ${t("turn")} ${report.meters.turn}`),
       $("p", {}, report.turning),

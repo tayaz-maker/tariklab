@@ -264,8 +264,8 @@ test("25 reloads preserve a pending state without reroll or growth", () => {
 });
 
 test("rules copy matches lock threshold, tenure and heat tempo bands", () => {
-  assert.match(HELP.tr.find((x) => x.title === "Masalar").body, /3 varlık/);
-  assert.match(HELP.en.find((x) => x.title === "Desks").body, /Three presence/);
+  assert.match(HELP.tr.find((x) => x.title === "Masalar").body, /3 nüfuz/);
+  assert.match(HELP.en.find((x) => x.title === "Desks").body, /three presence/i);
   assert.match(JSON.stringify(HELP) + JSON.stringify(TUTORIAL), /50/);
   assert.match(JSON.stringify(HELP) + JSON.stringify(TUTORIAL), /75/);
 });

@@ -1,0 +1,724 @@
+{
+  "method": "Legal engine dispatch and minute simulation; no free resources, units or victory flags. 1x/12x are simulation wall-time equivalents, not measured human playtime.",
+  "seedPattern": "TL-CAMPAIGN-0 through TL-CAMPAIGN-19",
+  "routes": {
+    "wealth": {
+      "completed": 20,
+      "count": 20,
+      "oneXHours": {
+        "min": 10.833333333333334,
+        "median": 12.350000000000001,
+        "max": 14.233333333333333
+      },
+      "earliestGameMinute": 39000
+    },
+    "dominion": {
+      "completed": 20,
+      "count": 20,
+      "oneXHours": {
+        "min": 11.266666666666667,
+        "median": 12.483333333333334,
+        "max": 15.5
+      },
+      "earliestGameMinute": 40560
+    },
+    "dynasty": {
+      "completed": 20,
+      "count": 20,
+      "oneXHours": {
+        "min": 13.366666666666667,
+        "median": 14.466666666666667,
+        "max": 20.9
+      },
+      "earliestGameMinute": 48120
+    }
+  },
+  "runs": [
+    {
+      "seed": "TL-CAMPAIGN-0",
+      "path": "wealth",
+      "victory": "wealth",
+      "gameMinute": 44640,
+      "commands": 1794,
+      "towns": 8,
+      "maxAITowns": 6,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-0",
+      "path": "dominion",
+      "victory": "dominion",
+      "gameMinute": 44160,
+      "commands": 1959,
+      "towns": 8,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-0",
+      "path": "dynasty",
+      "victory": "dynasty",
+      "gameMinute": 59520,
+      "commands": 2227,
+      "towns": 8,
+      "maxAITowns": 6,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-1",
+      "path": "wealth",
+      "victory": "wealth",
+      "gameMinute": 39360,
+      "commands": 1750,
+      "towns": 8,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-1",
+      "path": "dominion",
+      "victory": "dominion",
+      "gameMinute": 40560,
+      "commands": 1918,
+      "towns": 8,
+      "maxAITowns": 6,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-1",
+      "path": "dynasty",
+      "victory": "dynasty",
+      "gameMinute": 52800,
+      "commands": 2340,
+      "towns": 8,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-2",
+      "path": "wealth",
+      "victory": "wealth",
+      "gameMinute": 46680,
+      "commands": 2036,
+      "towns": 8,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-2",
+      "path": "dominion",
+      "victory": "dominion",
+      "gameMinute": 50520,
+      "commands": 2191,
+      "towns": 8,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-2",
+      "path": "dynasty",
+      "victory": "dynasty",
+      "gameMinute": 66480,
+      "commands": 2495,
+      "towns": 8,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-3",
+      "path": "wealth",
+      "victory": "wealth",
+      "gameMinute": 43560,
+      "commands": 1970,
+      "towns": 8,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-3",
+      "path": "dominion",
+      "victory": "dominion",
+      "gameMinute": 46680,
+      "commands": 2299,
+      "towns": 8,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-3",
+      "path": "dynasty",
+      "victory": "dynasty",
+      "gameMinute": 51960,
+      "commands": 2184,
+      "towns": 8,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-4",
+      "path": "wealth",
+      "victory": "wealth",
+      "gameMinute": 42720,
+      "commands": 2010,
+      "towns": 8,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-4",
+      "path": "dominion",
+      "victory": "dominion",
+      "gameMinute": 42960,
+      "commands": 2158,
+      "towns": 8,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-4",
+      "path": "dynasty",
+      "victory": "dynasty",
+      "gameMinute": 52200,
+      "commands": 2295,
+      "towns": 8,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-5",
+      "path": "wealth",
+      "victory": "wealth",
+      "gameMinute": 45240,
+      "commands": 1845,
+      "towns": 8,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-5",
+      "path": "dominion",
+      "victory": "dominion",
+      "gameMinute": 43200,
+      "commands": 2086,
+      "towns": 8,
+      "maxAITowns": 6,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-5",
+      "path": "dynasty",
+      "victory": "dynasty",
+      "gameMinute": 50160,
+      "commands": 2179,
+      "towns": 8,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-6",
+      "path": "wealth",
+      "victory": "wealth",
+      "gameMinute": 44040,
+      "commands": 1773,
+      "towns": 8,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-6",
+      "path": "dominion",
+      "victory": "dominion",
+      "gameMinute": 44760,
+      "commands": 1969,
+      "towns": 8,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-6",
+      "path": "dynasty",
+      "victory": "dynasty",
+      "gameMinute": 49920,
+      "commands": 2040,
+      "towns": 8,
+      "maxAITowns": 6,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-7",
+      "path": "wealth",
+      "victory": "wealth",
+      "gameMinute": 45960,
+      "commands": 1878,
+      "towns": 8,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-7",
+      "path": "dominion",
+      "victory": "dominion",
+      "gameMinute": 55800,
+      "commands": 1977,
+      "towns": 8,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-7",
+      "path": "dynasty",
+      "victory": "dynasty",
+      "gameMinute": 63000,
+      "commands": 1988,
+      "towns": 8,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-8",
+      "path": "wealth",
+      "victory": "wealth",
+      "gameMinute": 44760,
+      "commands": 1771,
+      "towns": 8,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-8",
+      "path": "dominion",
+      "victory": "dominion",
+      "gameMinute": 45000,
+      "commands": 1985,
+      "towns": 8,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-8",
+      "path": "dynasty",
+      "victory": "dynasty",
+      "gameMinute": 49200,
+      "commands": 2093,
+      "towns": 8,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-9",
+      "path": "wealth",
+      "victory": "wealth",
+      "gameMinute": 49440,
+      "commands": 1969,
+      "towns": 8,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-9",
+      "path": "dominion",
+      "victory": "dominion",
+      "gameMinute": 46560,
+      "commands": 2128,
+      "towns": 8,
+      "maxAITowns": 6,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-9",
+      "path": "dynasty",
+      "victory": "dynasty",
+      "gameMinute": 69120,
+      "commands": 2343,
+      "towns": 8,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-10",
+      "path": "wealth",
+      "victory": "wealth",
+      "gameMinute": 43440,
+      "commands": 1918,
+      "towns": 8,
+      "maxAITowns": 6,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-10",
+      "path": "dominion",
+      "victory": "dominion",
+      "gameMinute": 42120,
+      "commands": 2147,
+      "towns": 8,
+      "maxAITowns": 6,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-10",
+      "path": "dynasty",
+      "victory": "dynasty",
+      "gameMinute": 51240,
+      "commands": 2291,
+      "towns": 8,
+      "maxAITowns": 6,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-11",
+      "path": "wealth",
+      "victory": "wealth",
+      "gameMinute": 50280,
+      "commands": 1884,
+      "towns": 8,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-11",
+      "path": "dominion",
+      "victory": "dominion",
+      "gameMinute": 47520,
+      "commands": 1995,
+      "towns": 8,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-11",
+      "path": "dynasty",
+      "victory": "dynasty",
+      "gameMinute": 55440,
+      "commands": 2395,
+      "towns": 8,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-12",
+      "path": "wealth",
+      "victory": "wealth",
+      "gameMinute": 44280,
+      "commands": 1881,
+      "towns": 8,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-12",
+      "path": "dominion",
+      "victory": "dominion",
+      "gameMinute": 48240,
+      "commands": 2037,
+      "towns": 8,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-12",
+      "path": "dynasty",
+      "victory": "dynasty",
+      "gameMinute": 51600,
+      "commands": 2069,
+      "towns": 8,
+      "maxAITowns": 6,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-13",
+      "path": "wealth",
+      "victory": "wealth",
+      "gameMinute": 43440,
+      "commands": 1721,
+      "towns": 8,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-13",
+      "path": "dominion",
+      "victory": "dominion",
+      "gameMinute": 44160,
+      "commands": 1943,
+      "towns": 8,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-13",
+      "path": "dynasty",
+      "victory": "dynasty",
+      "gameMinute": 48960,
+      "commands": 2012,
+      "towns": 8,
+      "maxAITowns": 6,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-14",
+      "path": "wealth",
+      "victory": "wealth",
+      "gameMinute": 44760,
+      "commands": 2028,
+      "towns": 8,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-14",
+      "path": "dominion",
+      "victory": "dominion",
+      "gameMinute": 46800,
+      "commands": 2131,
+      "towns": 8,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-14",
+      "path": "dynasty",
+      "victory": "dynasty",
+      "gameMinute": 67200,
+      "commands": 2414,
+      "towns": 8,
+      "maxAITowns": 6,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-15",
+      "path": "wealth",
+      "victory": "wealth",
+      "gameMinute": 51240,
+      "commands": 2036,
+      "towns": 8,
+      "maxAITowns": 6,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-15",
+      "path": "dominion",
+      "victory": "dominion",
+      "gameMinute": 44640,
+      "commands": 2447,
+      "towns": 9,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-15",
+      "path": "dynasty",
+      "victory": "dynasty",
+      "gameMinute": 75240,
+      "commands": 2477,
+      "towns": 8,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-16",
+      "path": "wealth",
+      "victory": "wealth",
+      "gameMinute": 44160,
+      "commands": 1902,
+      "towns": 8,
+      "maxAITowns": 6,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-16",
+      "path": "dominion",
+      "victory": "dominion",
+      "gameMinute": 45120,
+      "commands": 2108,
+      "towns": 8,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-16",
+      "path": "dynasty",
+      "victory": "dynasty",
+      "gameMinute": 55200,
+      "commands": 2046,
+      "towns": 8,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-17",
+      "path": "wealth",
+      "victory": "wealth",
+      "gameMinute": 43440,
+      "commands": 1731,
+      "towns": 8,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-17",
+      "path": "dominion",
+      "victory": "dominion",
+      "gameMinute": 44880,
+      "commands": 1951,
+      "towns": 8,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-17",
+      "path": "dynasty",
+      "victory": "dynasty",
+      "gameMinute": 50760,
+      "commands": 1968,
+      "towns": 8,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-18",
+      "path": "wealth",
+      "victory": "wealth",
+      "gameMinute": 45600,
+      "commands": 1861,
+      "towns": 8,
+      "maxAITowns": 6,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-18",
+      "path": "dominion",
+      "victory": "dominion",
+      "gameMinute": 45000,
+      "commands": 2073,
+      "towns": 8,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-18",
+      "path": "dynasty",
+      "victory": "dynasty",
+      "gameMinute": 49320,
+      "commands": 2243,
+      "towns": 8,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-19",
+      "path": "wealth",
+      "victory": "wealth",
+      "gameMinute": 39000,
+      "commands": 1661,
+      "towns": 8,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-19",
+      "path": "dominion",
+      "victory": "dominion",
+      "gameMinute": 41160,
+      "commands": 1959,
+      "towns": 8,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    },
+    {
+      "seed": "TL-CAMPAIGN-19",
+      "path": "dynasty",
+      "victory": "dynasty",
+      "gameMinute": 48120,
+      "commands": 1941,
+      "towns": 8,
+      "maxAITowns": 7,
+      "losses": 0,
+      "finite": true
+    }
+  ],
+  "exploits": {
+    "idle": {
+      "count": 20,
+      "gameMinutesEach": 12000,
+      "victories": 0,
+      "maximumTradeVolume": 0,
+      "maximumPlayerTowns": 1,
+      "finite": true
+    },
+    "expansion": {
+      "count": 20,
+      "gameMinutesEach": 12000,
+      "victories": 0,
+      "maximumTradeVolume": 32009.995299999933,
+      "maximumPlayerTowns": 10,
+      "finite": true
+    },
+    "circular": {
+      "count": 20,
+      "gameMinutesEach": 12000,
+      "victories": 0,
+      "maximumTradeVolume": 55338.22649999986,
+      "maximumPlayerTowns": 8,
+      "finite": true
+    }
+  }
+}

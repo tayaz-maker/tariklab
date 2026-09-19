@@ -57,7 +57,10 @@ const EN: Record<string, string> = {
 
 export const CATALOG_EN: Record<string, { title: string; subtitle: string }> = {
   "cete-savaslari": { title: "Çete Savaşları", subtitle: "Racon, district, cash in TL." },
-  hanedan: { title: "Çete Savaşları: Hanedan", subtitle: "Men die. The house remains." },
+  hanedanian: {
+    title: "HANEDANIAN",
+    subtitle: "From one settlement to a great dynasty. Read the map, build your future.",
+  },
   racon: { title: "Racon Manager", subtitle: "Men die. The name remains." },
   "tc-sim": { title: "TC SIM", subtitle: "One life. Weekly choices, years of fallout." },
   bukucu: {
@@ -93,6 +96,9 @@ export const CATALOG_EN: Record<string, { title: string; subtitle: string }> = {
   ihtilal: { title: "İhtilâl", subtitle: "The ruling is written. The archive does not forget." },
   "darbe-h": { title: "DARBE-H!", subtitle: "The telex lands. The desk decides." },
 };
+
+// Cached catalog consumers may still request the supported legacy route alias.
+CATALOG_EN.hanedan = CATALOG_EN.hanedanian;
 
 export const CETE_HELP_EN = [
   {

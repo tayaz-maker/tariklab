@@ -38,20 +38,18 @@ export function endReport(state, lang = "tr") {
     .map(([k, v]) => ({ key: k, n: v.n, family: v.family }));
   const chains = Object.values(state.chains || {}).filter((c) => c.step >= 2);
   const crises = state.log.filter((r) => r.k === "repeat-heat" || r.k === "dagilma" || r.k === "artci-overflow");
-  const alt =
-    result.reason === "dagilma"
-      ? tr
-        ? "Isı daha düşük tutulsaydı kilitler konuşurdu."
-        : "If heat had been kept lower, the locks would have spoken."
-      : result.reason === "hukum"
-        ? tr
-          ? "Karşı kalem bir kilit çalsaydı hüküm gecikirdi."
-          : "If the opposing pen had stolen a lock, the ruling would have been late."
-        : tr
-          ? "Bir masa daha kilitlense sonuç değişirdi."
-          : "One more locked desk would have changed it.";
+  const lockCounts = [0, 1].map(owner => locks.filter(row => row.lock === owner).length);
+  const comparison = result.reason === "hukum"
+    ? (tr ? `Hüküm: sen ${state.players[0].hukum}, rakip ${state.players[1].hukum}. 10'a ilk ulaşan kazanır.` : `Ruling: you ${state.players[0].hukum}, rival ${state.players[1].hukum}. First to 10 wins.`)
+    : result.reason === "dagilma"
+      ? (tr ? `Mühür: sen ${state.players[0].muhur}, rakip ${state.players[1].muhur}. Isı 100 olduğunda yalnızca Mühür karşılaştırılır; eşitlik beraberliktir.` : `Seals: you ${state.players[0].muhur}, rival ${state.players[1].muhur}. At Heat 100 only Seals decide; equal Seals means a draw.`)
+      : (tr ? `Kilitli masa: sen ${lockCounts[0]}, rakip ${lockCounts[1]}. Mühür: ${state.players[0].muhur} / ${state.players[1].muhur}. Önce kilit sayısı, eşitse Mühür karşılaştırılır.` : `Locked desks: you ${lockCounts[0]}, rival ${lockCounts[1]}. Seals: ${state.players[0].muhur} / ${state.players[1].muhur}. Most locks wins; Seals break a tie.`);
+  const alt = result.reason === "dagilma"
+    ? (tr ? "Bir sonraki oyunda Isı yükselirken rakibin Mühür sayısını izle; gerideysen soğutan dosyalara öncelik ver." : "Next game, watch rival Seals as Heat rises; prioritise cooling files if you trail.")
+    : (tr ? "Bir sonraki oyunda iki masayı korumayı dene: tur başındaki +1 Hüküm, rakibine yeni bir masa açmaktan daha pahalıya mal olabilir." : "Next game, try holding two desks: +1 Ruling at turn start can be more valuable than opening another front.");
   return {
-    headline: draw ? (tr ? "Berabere" : "Draw") : you ? (tr ? "Senin hükmün" : "Your ruling") : tr ? "Karşı hüküm" : "Opposing ruling",
+    headline: draw ? (tr ? "Berabere" : "Draw") : you ? (tr ? "Kazandın · Senin hükmün" : "You won · Your ruling") : tr ? "Kaybettin · Karşı hüküm" : "You lost · Opposing ruling",
+    comparison,
     reason: reasonMap[result.reason] || reasonMap.time,
     archetypes: state.players.map((p) => ARCHETYPES[p.archetype]?.title?.[lang] || p.archetype),
     meters: {

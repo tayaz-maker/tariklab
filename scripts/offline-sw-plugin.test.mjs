@@ -21,8 +21,11 @@ test("generated worker precaches the static shell and client JS/CSS on its first
     "assets/index-123.js.map": {},
     "manifest.json": {},
   });
-  assert.equal(emitted.length, 1);
+  assert.equal(emitted.length, 2);
   assert.equal(emitted[0].fileName, "sw.js");
+  assert.equal(emitted[1].fileName, "games/hanedanian/sw.js");
+  assert.match(emitted[1].source, /const VERSION = "hanedanian-package-[0-9a-f]{16}";/);
+  assert.ok(!emitted[1].source.includes('HANEDANIAN_BUILD_VERSION'));
 
   const handlers = {};
   const cached = [];

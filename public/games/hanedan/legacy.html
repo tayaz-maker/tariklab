@@ -1,0 +1,2401 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0f0e0c">
+<title>Çete Savaşları: Hanedan</title>
+    <script src="/i18n/tlab-i18n.js"></script>
+    <script src="/i18n/deep-en.js"></script>
+    <script src="/i18n/deep-en-final.js"></script>
+<script src="/i18n/boot.js"></script>
+<style>
+html, body { margin:0; height:100%; background:#0f0e0c; color:#e8dcc8;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-text-size-adjust:100%; text-size-adjust:100%;
+  overscroll-behavior:none; }
+html { font-size: 16px; }
+#app {
+  height: 100dvh; height: var(--vvh, 100dvh);
+  display:flex; flex-direction:column;
+  padding-top: env(safe-area-inset-top);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+#header { flex:0 0 auto; min-height:48px; padding:8px 12px;
+  display:flex; align-items:center; gap:8px; border-bottom:1px solid #2a2620; }
+#main { flex:1 1 auto; overflow:auto; -webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain; padding:12px; padding-bottom:8px; touch-action:pan-y; }
+#tabs { flex:0 0 auto; display:flex; z-index:30;
+  padding-bottom: env(safe-area-inset-bottom);
+  border-top:1px solid #2a2620; background:#14110e; }
+#tabs button { flex:1; min-height:52px; font-size:11px; }
+button, [data-act] { touch-action:manipulation; cursor:pointer; user-select:none; -webkit-user-select:none; }
+button { background:#1a1714; color:#e8dcc8; border:1px solid #2a2620; border-radius:8px;
+  min-height:44px; min-width:44px; padding:8px 12px; font: inherit; }
+button.primary { background:#8b2e1f; border-color:#8b2e1f; color:#e8dcc8; }
+button.gold { background:#c4a574; border-color:#c4a574; color:#12100e; }
+button.ghost { background:transparent; }
+button:disabled { opacity:.45; }
+input, textarea, select { font-size:16px; background:#14110e; color:#e8dcc8;
+  border:1px solid #2a2620; border-radius:8px; padding:10px 12px; width:100%;
+  box-sizing:border-box; font-family:inherit; }
+#sheet { position:fixed; inset:0; z-index:40; overflow:auto; background:#0f0e0c;
+  padding: calc(12px + env(safe-area-inset-top)) 14px calc(16px + env(safe-area-inset-bottom));
+  overscroll-behavior:contain; touch-action:pan-y; display:none; }
+#sheet.on { display:block; }
+#toast { position:fixed; left:12px; right:12px; bottom: calc(64px + env(safe-area-inset-bottom));
+  z-index:50; background:#1a1714; border:1px solid #2a2620; padding:12px; border-radius:10px;
+  display:none; }
+#toast.on { display:block; }
+.h1 { font-size:1.55rem; letter-spacing:.04em; margin:0 0 8px; }
+.sub { color:#c4a574; font-size:.85rem; margin:0 0 14px; }
+.muted { color:#c4a574; }
+.ink { color:#e8dcc8; }
+.card { background:#1a1714; border:1px solid #2a2620; border-radius:10px; padding:12px; margin:0 0 10px; }
+.row { display:flex; align-items:center; gap:8px; }
+.grow { flex:1; min-width:0; }
+.mono { font-family: ui-monospace, "Cascadia Mono", Menlo, monospace; font-size:.85rem; }
+.serif { font-family: Georgia, "Times New Roman", serif; line-height:1.55; }
+.kronik { user-select:text; -webkit-user-select:text; white-space:pre-wrap; }
+.kicker { font-size:.68rem; letter-spacing:.22em; text-transform:uppercase; color:#c4a574; margin:0 0 6px; }
+.pip { width:8px; height:8px; border-radius:50%; display:inline-block; }
+.man { display:flex; gap:8px; align-items:center; padding:8px 0; border-bottom:1px solid #2a2620; min-height:44px; }
+.man:last-child { border-bottom:0; }
+.meter { height:6px; background:#2a2620; border-radius:4px; overflow:hidden; }
+.meter > i { display:block; height:100%; background:#8b2e1f; }
+.grid2 { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.stack { display:flex; flex-direction:column; gap:8px; }
+.small { font-size:.8rem; color:#c4a574; }
+.warn { color:#c4a574; }
+.bad { color:#c45c4a; }
+.ok { color:#7a9a7e; }
+svg.face { display:block; flex:0 0 auto; }
+#tabs.dead { pointer-events:none; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation:none !important; transition:none !important; }
+}
+
+/* Responsive release shell, shared across every game view. */
+*{box-sizing:border-box}#app{max-width:1440px;margin:auto}#main{min-height:0;min-width:0}#header{flex-wrap:wrap}#header .grow{min-width:110px}#tabs{overflow-x:auto}#tabs button{flex:1 0 66px;font-size:13px}button:disabled{cursor:not-allowed}.row{flex-wrap:wrap}.grid2{grid-template-columns:repeat(2,minmax(0,1fr))}.card,.man,.serif{overflow-wrap:anywhere;min-width:0}.man[data-act]{cursor:pointer;border-radius:8px}.man[data-act]:hover{background:#252019}button:focus-visible,[data-act]:focus-visible{outline:2px solid #c4a574;outline-offset:2px}#sheet{max-width:760px;margin:auto}.kicker{font-size:.76rem}#main>.card{border-left:3px solid #614b32}#main>.sub{padding:12px;background:#201a13;border-radius:8px}@media(min-width:1000px){#main{padding:24px max(24px,calc((100% - 1000px)/2))}#header{padding:14px 24px}#tabs{padding-left:24px;padding-right:24px}}@media(max-width:430px){.grid2{grid-template-columns:1fr}#main{padding:10px}#header{gap:6px;padding:8px}#header strong{flex-basis:100%}#tabs button{min-width:70px}#sheet{padding:12px}.h1{font-size:1.3rem}.row>button{flex-grow:1}}
+</style>
+</head>
+<body>
+<div id="app">
+  <header id="header"></header>
+  <main id="main"></main>
+  <nav id="tabs" aria-label="Sekmeler"></nav>
+</div>
+<div id="sheet" role="dialog" aria-modal="true"></div>
+<div id="toast" role="status"></div>
+<script>
+(function () {
+  "use strict";
+  /* ACCEPTANCE (silent in release): 360x640/390x844/430x932 tab bar visible;
+     landscape #main scrolls; no 100vh; double İLERLET locked; corrupt JSON recovered;
+     iframe inner scroll only #main. */
+
+  var NS = "http://www.w3.org/2000/svg";
+  var KEY = "cete_hanedan_v2";
+  var KEY_BAK = "cete_hanedan_bak";
+  var KEY_OLD = "cete_hanedan_v1";
+  var SLOT = 1;
+  var SAVE_KIND = "tlab-hanedan";
+  var TABS = [
+    ["sehir", "Şehir"],
+    ["kahve", "Kahve"],
+    ["baskin", "Baskın"],
+    ["pazar", "Pazar"],
+    ["tesis", "Tesis"],
+    ["haber", "Haber"],
+    ["defter", "Defter"]
+  ];
+  var ROLES = ["Tetikçi", "Fedai", "Toplayıcı", "Gözcü", "Avukat", "Muhasebeci", "Sürücü", "Baba adayı"];
+  var ROLE_COL = {
+    "Tetikçi": "#8b2e1f",
+    "Fedai": "#8a9099",
+    "Toplayıcı": "#c4a574",
+    "Gözcü": "#2a6f6f",
+    "Avukat": "#2c4a6e",
+    "Muhasebeci": "#c4a574",
+    "Sürücü": "#b8860b",
+    "Baba adayı": "#c4a574",
+    "Cankurtaran": "#556b2f"
+  };
+  var STATS = ["soguk", "sert", "cevik", "soz", "sadakat", "sinir", "sohret"];
+  var STAT_TR = {
+    soguk: "Soğukkan",
+    sert: "Sertlik",
+    cevik: "Çeviklik",
+    soz: "Söz",
+    sadakat: "Sadakat",
+    sinir: "Sinir",
+    sohret: "Şöhret"
+  };
+  var TRAITS = [
+    ["korkak", "Korkak"],
+    ["delidolu", "Delidolu"],
+    ["kiskan", "Kıskanç"],
+    ["sakin", "Sakin"],
+    ["kana", "Kana susamış"],
+    ["dindar", "Dindar"],
+    ["sessiz", "Sessiz"],
+    ["geveze", "Geveze"],
+    ["sadik", "Sadık"],
+    ["hain", "Hain adayı"],
+    ["kumar", "Kumar"],
+    ["aile", "Aile"],
+    ["alkol", "Alkolik"],
+    ["keskin", "Keskin"],
+    ["agir", "Ağır"],
+    ["cevikt", "Çevik"],
+    ["muhbir", "Muhbir korkusu"],
+    ["davaci", "Kan davası"],
+    ["sofor", "Usta sürücü"],
+    ["kalem", "Kalemşör"],
+    ["cimri", "Cimri"],
+    ["merhamet", "Merhametli"],
+    ["taskalp", "Taş kalp"],
+    ["ugurlu", "Uğurlu"]
+  ];
+  var TRAIT_NAME = {};
+  for (var ti = 0; ti < TRAITS.length; ti++) TRAIT_NAME[TRAITS[ti][0]] = TRAITS[ti][1];
+  var CONDITIONS = [
+    ["islak", "ıslak sokak"],
+    ["elektrik", "elektrik kesik"],
+    ["cuma", "cuma şahidi"],
+    ["karakol", "karakol yakın"],
+    ["dugun", "düğün günü"],
+    ["mac", "maç günü"],
+    ["davas", "kan davası semti"],
+    ["ramazan", "ramazan gecesi"]
+  ];
+  var GAMBITS = [
+    ["onde", "Önde dur"],
+    ["arkada", "Arkada kal"],
+    ["koru", "Koru"],
+    ["ilkates", "İlk ateş"],
+    ["esir", "Esir al"],
+    ["kacis", "Kaçış tut"],
+    ["ganimet", "Ganimet"],
+    ["polis", "Polisi oyalama"]
+  ];
+  var KITS = [
+    ["yok", "Boş el"],
+    ["fener", "El feneri"],
+    ["sargi", "Sargı"],
+    ["zarf", "Rüşvet zarfı"],
+    ["arac", "Kaçış aracı"]
+  ];
+  var SILENT = [
+    ["borclu", "Borcu tahsil et · +6.000 ₺, baskı +2"],
+    ["ihbarci", "Tanığı uzaklaştır · −3.000 ₺, baskı −3"],
+    ["telsiz", "Telsizi dinle · baskı −2"],
+    ["kasa", "Kasayı zorla · +9.000 ₺, baskı +5"],
+    ["soyleme", "İz bırakmadan geç · baskı +1"]
+  ];
+  var TIERS = ["Sokak", "Semt", "İlçe", "Yakası", "Şehir", "Taht"];
+  var BLD = [
+    ["kahvehane", "Kahvehane", "Çete evinde oturulur."],
+    ["silahhane", "Silahhane", "Baskın gücü ve 5. adam."],
+    ["garaj", "Garaj", "Kaçış tutar."],
+    ["revir", "Revir", "Yara kapanır."],
+    ["hukuk", "Hukuk odası", "Hapis ve polis baskısı düşer."],
+    ["depo", "Depo", "Malzeme tavanı."],
+    ["hamam", "Hamam", "Yorgunluk iner."],
+    ["ocak", "Çay ocağı", "Yevmiye baskısı azalır."]
+  ];
+  var STAFF = [
+    ["cayci", "Çaycı", "Sadakat."],
+    ["doktor", "Doktor", "Yara."],
+    ["avukat", "Avukat", "Hapis."],
+    ["kalfa", "Kalfa", "Kasa."],
+    ["soforbasi", "Şoförbaşı", "Kaçış."],
+    ["bekci", "Bekçi", "Kahvehane baskını."]
+  ];
+  var ADLAR = ["Rasim","Hüseyin","Cengiz","Kemal","Orhan","Süleyman","Rıza","Necmi","Celal","Hayri","Şükrü","Mümtaz","Niyazi","Behçet","Kadir","Recep","Selahattin","Ziya","Rafet","Turgut","İsmet","Burhan","Macit","Rüstem","Doğan","Erol","Yavuz","Faruk","Metin","Salih","Ömer","Halis","Cavit","Rıfkı","Nejat","Ferit","Tevfik","Numan","Ekrem","Şaban"];
+  var SOY = ["Kaya","Demir","Çelik","Yıldız","Aydın","Şahin","Koç","Arslan","Öztürk","Karaca","Aksoy","Doğan","Çetin","Yılmaz","Kurt","Polat","Güneş","Acar","Bulut","Erkan"];
+  var REGIONS = [
+    { id: "yarimada", name: "Tarihi Yarımada", d: ["Sultanahmet","Eminönü","Fatih","Aksaray","Kumkapı"] },
+    { id: "beyoglu", name: "Beyoğlu Hattı", d: ["Tarlabaşı","Cihangir","Galata","Kasımpaşa","Dolapdere"] },
+    { id: "bogaz", name: "Boğaz ve Sırtlar", d: ["Beşiktaş","Ortaköy","Arnavutköy","Sarıyer"] },
+    { id: "anadolu", name: "Anadolu Yakası", d: ["Kadıköy","Üsküdar","Ümraniye","Kartal"] },
+    { id: "bati", name: "Batı Kenar", d: ["Bakırköy","Zeytinburnu","Avcılar","Küçükçekmece"] },
+    { id: "kuzey", name: "Kuzey Çeper", d: ["Gaziosmanpaşa","Eyüp","Kağıthane","Alibeyköy"] },
+    { id: "liman", name: "Sanayi ve Liman", d: ["Tuzla","Pendik","Ambarlı","Haliç"] }
+  ];
+  var GANG_WORD = ["Kurtları","Kartalları","Yedisi","Kardeşleri","Ocağı","Halkası","Sırları","Çetesi","Bekçileri","Kılıçları"];
+
+  var S = null;
+  var view = "title";
+  var tab = "sehir";
+  var sheetOpen = false;
+  var inFlight = false;
+  var saveTimer = 0;
+  var saving = false;
+  var saveAgain = false;
+  var memStore = null;
+  var storageWarned = false;
+  var tmpWipeOk = false;
+  var press = null;
+  var swallowClick = false;
+  var layerN = 0;
+  var draftPick = [];
+  var draftPool = [];
+  var compareIds = [];
+  var reader = null;
+  var tmpName = "Hanedan";
+  var tmpMode = "klasik";
+  var tmpHome = { r: 1, d: 0 };
+  var lastAct = 0;
+
+  function setVvh() {
+    var vv = window.visualViewport;
+    var h = (vv && vv.height) || window.innerHeight || 640;
+    if (!h) h = 640;
+    document.documentElement.style.setProperty("--vvh", h + "px");
+  }
+  setVvh();
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener("resize", function () {
+      requestAnimationFrame(setVvh);
+    }, { passive: true });
+  }
+  window.addEventListener("resize", function () {
+    requestAnimationFrame(setVvh);
+  }, { passive: true });
+  window.addEventListener("orientationchange", function () {
+    setTimeout(setVvh, 250);
+  });
+
+  function hash() {
+    var h = 2166136261;
+    for (var i = 0; i < arguments.length; i++) {
+      var s = String(arguments[i]);
+      for (var j = 0; j < s.length; j++) {
+        h ^= s.charCodeAt(j);
+        h = Math.imul(h, 16777619);
+      }
+    }
+    return h >>> 0;
+  }
+  function mulberry32(a) {
+    return function () {
+      a |= 0;
+      a = a + 0x6D2B79F5 | 0;
+      var t = Math.imul(a ^ a >>> 15, 1 | a);
+      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+  }
+  function rngFrom(n) { return mulberry32(n >>> 0); }
+  function ri(rng, n) { return Math.floor(rng() * n); }
+  function pick(rng, arr) { return arr[ri(rng, arr.length)]; }
+  function clamp(n, a, b) { return n < a ? a : n > b ? b : n; }
+
+  function el(tag, attrs) {
+    if(tag==="div" && attrs && attrs["data-act"])tag="button";
+    var n = document.createElement(tag);
+    if (attrs) {
+      for (var k in attrs) {
+        if (k === "text") n.textContent = window.tlabPhrase ? window.tlabPhrase(attrs[k]) : attrs[k];
+        else if (k === "cls") n.className = attrs[k];
+        else n.setAttribute(k, attrs[k]);
+      }
+    }
+    if(attrs && attrs["data-act"]){var reason=blockedAction(attrs["data-act"]);if(reason){n.disabled=true;n.setAttribute("title",reason);n.setAttribute("aria-label",(attrs.text||"")+" · "+reason);if(tag==="button" && attrs.text)n.textContent += " · "+reason;}}
+    return n;
+  }
+  function blockedAction(code){
+    if(!S || view!=="play")return "";
+    var p=code.split(":"),k=p[0],m;
+    if(["hire","fire","bail","up","staff","gambit","kit","squadtog","koru","kid","soz","scout","rest","ilerlet"].indexOf(k)<0)return "";
+    if(S.over)return "Defter kapandı";
+    if(reader)return "Önce baskını tamamla";
+    if(k==="scout"){if(S.prep.scout)return "Keşif alındı";if(!currentSquadMen().length)return "Hazır ekip seç";if(S.malzeme<4)return "4 malzeme gerekli";}
+    if(k==="up"){if((S.bld[p[1]]||0)>=5)return "En yüksek düzey";if(S.kasa<50000*((S.bld[p[1]]||0)+1))return "Kasa yetmez";}
+    if(k==="hire"){if(S.men.length>=24)return "Kadro dolu";m=S.market.find(function(x){return x.id===p[1];});if(!m)return "Aday ayrıldı";if(S.kasa<m.yevmiye*4)return "Kasa yetmez";}
+    if(k==="squadtog"){if(S.prep.squad.indexOf(p[1])<0&&S.prep.squad.length>=squadSize())return "Önce ekipten birini çıkar";m=manById(p[1]);if(!m||m.hp<=0||m.jail>0||m.sozlesme<=0)return "Hapis veya sözleşme engeli";}
+    if(k==="soz"&&p[1]==="pay"){m=manById(p[2]);if(!m||m.sozlesme>0)return "Sözleşme sürüyor";if(S.kasa<m.yevmiye*6)return "Kasa yetmez";}
+    if(k==="staff"&&!S.staff[p[1]]&&S.kasa<30000)return "30.000 ₺ gerekli";
+    if(k==="bail"){m=manById(p[1]);if(!m||m.jail<=0)return "Hapiste değil";if(S.kasa<40000+S.heat*200)return "Kefalet yetmez";}
+    return "";
+  }
+  function svgEl(tag, attrs) {
+    var n = document.createElementNS(NS, tag);
+    if (attrs) {
+      for (var k in attrs) n.setAttribute(k, attrs[k]);
+    }
+    return n;
+  }
+  function clear(n) {
+    while (n.firstChild) n.removeChild(n.firstChild);
+  }
+  function add(p, c) { p.appendChild(c); return c; }
+
+  function fmtTL(n) {
+    return Math.round(n).toLocaleString("tr-TR") + " TL";
+  }
+  function fmtHafta() {
+    return "Hafta " + S.week + " / Sezon " + S.season;
+  }
+  function yearNow() {
+    return 1977 + S.season;
+  }
+
+  function portrait(seed, size) {
+    var rng = rngFrom(seed);
+    var svg = svgEl("svg", { viewBox: "0 0 28 28", width: String(size), height: String(size), "class": "face", "aria-hidden": "true" });
+    var skin = ["#c4a574", "#b08968", "#8a6a4b"][ri(rng, 3)];
+    var hair = ["#1a1714", "#2a2620", "#3a3228", "#6b4a2a"][ri(rng, 4)];
+    add(svg, svgEl("rect", { x: "0", y: "0", width: "28", height: "28", fill: "#14110e" }));
+    add(svg, svgEl("circle", { cx: "14", cy: "12", r: "7", fill: skin }));
+    add(svg, svgEl("rect", { x: "7", y: "5", width: "14", height: "6", fill: hair }));
+    if (rng() > 0.45) add(svg, svgEl("rect", { x: "10", y: "16", width: "8", height: "2", fill: hair }));
+    add(svg, svgEl("rect", { x: "9", y: "19", width: "10", height: "8", fill: "#2a2620" }));
+    return svg;
+  }
+
+  function toast(msg) {
+    var t = document.getElementById("toast");
+    t.textContent = msg;
+    t.className = "on";
+    setTimeout(function () { t.className = ""; }, 2400);
+  }
+
+  function fnvHex(s) {
+    return (hash(s) >>> 0).toString(16);
+  }
+  function warnStorage() {
+    if (storageWarned) return;
+    storageWarned = true;
+    toast("Bu tarayıcı kaydı tutmuyor. Yedek al.");
+  }
+  function lsGet(k) {
+    if (memStore) return memStore[k] || null;
+    try {
+      return localStorage.getItem(k);
+    } catch (e) {
+      memStore = {};
+      warnStorage();
+      return null;
+    }
+  }
+  function lsSet(k, v) {
+    if (memStore) {
+      memStore[k] = v;
+      return true;
+    }
+    try {
+      localStorage.setItem(k, v);
+      return true;
+    } catch (e) {
+      if (e && (e.name === "QuotaExceededError" || e.code === 22)) return "quota";
+      memStore = {};
+      memStore[k] = v;
+      warnStorage();
+      return false;
+    }
+  }
+  function lsDel(k) {
+    if (memStore) delete memStore[k];
+    try { localStorage.removeItem(k); } catch (e) {}
+  }
+  function bindHanedanSlot(n) {
+    n = n === 2 || n === 3 ? n : 1;
+    SLOT = n;
+    KEY = "tariklab::hanedan:" + n;
+    KEY_BAK = "tariklab::hanedan:" + n + ":bak";
+    lsSet("tariklab::hanedan:active", String(n));
+  }
+  function migrateHanedanSlots() {
+    var flag = "tariklab::hanedan:legacy-migrated";
+    if (lsGet("tariklab::hanedan:1") || lsGet(flag) === "1") {
+      var a = +lsGet("tariklab::hanedan:active");
+      bindHanedanSlot(a === 2 || a === 3 ? a : 1);
+      if (!lsGet(flag)) lsSet(flag, "1");
+      return;
+    }
+    var raw = lsGet("cete_hanedan_v2") || lsGet("cete_hanedan_v1");
+    if (raw) {
+      lsSet("tariklab::hanedan:1", raw);
+      var bak = lsGet("cete_hanedan_bak");
+      if (bak) lsSet("tariklab::hanedan:1:bak", bak);
+    }
+    lsSet(flag, "1");
+    bindHanedanSlot(1);
+  }
+  migrateHanedanSlots();
+  function yearOf(data) {
+    return 1977 + (data && data.season ? data.season : 1);
+  }
+  function saveLabel(data) {
+    if (!data) return "";
+    return data.name + " · Sezon " + data.season + " Hafta " + data.week + " · " + yearOf(data);
+  }
+  function migrate(data) {
+    if (!data || typeof data !== "object" || Array.isArray(data)) return null;
+    if (!data.run || !Array.isArray(data.men)) return null;
+    for(var key of ["men","market","grave","gangs","jail","kronik","news","archive"]){if(data[key] && !Array.isArray(data[key]))return null;}
+    if(!data.gangs || !data.gangs.length)return null;
+    for(var key of ["kasa","malzeme","heat","week","season","tier","pts"]){if(data[key]!==undefined && !Number.isFinite(data[key]))return null;}
+    if(data.men.some(function(m){return !m || !m.id || !m.st || !Array.isArray(m.traits) || !Array.isArray(m.yara) || !Number.isFinite(m.hp) || !Number.isFinite(m.maxHp);}))return null;
+    if(new Set(data.men.map(function(m){return m.id;})).size!==data.men.length)return null;
+    if(data.prep && (!Array.isArray(data.prep.squad)))return null;
+    if(data.pend && (!data.pend.raid || !Array.isArray(data.pend.raid.rooms) || !data.pend.raid.rooms.length || !Number.isInteger(data.pend.idx) || data.pend.idx<0 || data.pend.idx>=data.pend.raid.rooms.length))return null;
+    if(!Number.isInteger(data.week)||data.week<1||data.week>16||!Number.isInteger(data.season)||data.season<1)return null;
+    data.men.forEach(function(m){if(m.bag && !data.men.some(function(x){return x.id===m.bag.id;}))m.bag=null;});
+
+    data.v = 2;
+    if (!data.mode) data.mode = "klasik";
+    if (!data.name) data.name = "Hanedan";
+    if (!data.home || typeof data.home.r !== "number") data.home = { r: 1, d: 0 };
+    if (typeof data.week !== "number" || data.week < 1) data.week = 1;
+    if (typeof data.season !== "number" || data.season < 1) data.season = 1;
+    if (typeof data.kasa !== "number") data.kasa = 0;
+    if (typeof data.malzeme !== "number") data.malzeme = 0;
+    if (typeof data.sohret !== "number") data.sohret = 0;
+    if (typeof data.heat !== "number") data.heat = 0;
+    if (typeof data.siyasi !== "number") data.siyasi = 0;
+    if (!data.koruyucu) data.koruyucu = { ad: "Demir", ok: true };
+    if (!data.grave) data.grave = [];
+    if (!data.gangs) data.gangs = [];
+    if (!data.bld) data.bld = { kahvehane: 1, silahhane: 0, garaj: 0, revir: 0, hukuk: 0, depo: 0, hamam: 0, ocak: 0 };
+    if (!data.staff) data.staff = { cayci: 0, doktor: 0, avukat: 0, kalfa: 0, soforbasi: 0, bekci: 0 };
+    BLD.forEach(function(b){if(!Number.isFinite(data.bld[b[0]]))data.bld[b[0]]=0;});
+    STAFF.forEach(function(b){if(!Number.isFinite(data.staff[b[0]]))data.staff[b[0]]=0;});
+    if (!data.market) data.market = [];
+    if (!data.jail) data.jail = [];
+    if (!data.kronik) data.kronik = [];
+    if (!data.news) data.news = [];
+    if (!data.prep) data.prep = { squad: [], gambit: "onde", kit: "yok", scout: null, koru: "", silent: "" };
+    if (!data.prep.squad) data.prep.squad = [];
+    if (!data.archive) data.archive = [];
+    if (typeof data.font !== "number") data.font = 16;
+    if (!data.tab) data.tab = "sehir";
+    if (!data.over) data.over = false;
+    if (!data.overWhy) data.overWhy = "";
+    if (!data.kidNights) data.kidNights = 0;
+    data.prep.squad=data.prep.squad.filter(function(id,i,a){return a.indexOf(id)===i && data.men.some(function(m){return m.id===id && m.hp>0;});});
+    if(!TABS.some(function(t){return t[0]===data.tab;}))data.tab="sehir";
+    delete data._sumWarn;
+    return data;
+  }
+  function encodeSave(data) {
+    var payload = JSON.stringify(data);
+    var sum = fnvHex(payload);
+    return [
+      "HANEDAN/2",
+      "kind: " + SAVE_KIND,
+      "Ad: " + data.name,
+      "Hafta: " + data.week,
+      "Sezon: " + data.season,
+      "Yıl: " + yearOf(data),
+      "Mod: " + data.mode,
+      "Run: " + data.run,
+      "Kayıt: " + new Date((data.savedAt || Date.now())).toISOString(),
+      "SUM: " + sum,
+      "---",
+      payload,
+      "---"
+    ].join("\n");
+  }
+  function parseTextSave(raw) {
+    var cut = raw.indexOf("\n---\n");
+    if (cut < 0) return "corrupt";
+    var head = raw.slice(0, cut);
+    var rest = raw.slice(cut + 5);
+    var end = rest.lastIndexOf("\n---");
+    var payload = (end >= 0 ? rest.slice(0, end) : rest).replace(/^\s+|\s+$/g, "");
+    var obj;
+    try { obj = JSON.parse(payload); } catch (e) { return "corrupt"; }
+    var data = migrate(obj && obj.data && obj.kind === SAVE_KIND ? obj.data : obj);
+    if (!data) return "corrupt";
+    var sumM = /SUM:\s*([0-9a-f]+)/i.exec(head);
+    if (sumM && sumM[1] !== fnvHex(payload)) data._sumWarn = true;
+    return data;
+  }
+  function parseSave(raw) {
+    if (!raw || typeof raw !== "string") return null;
+    raw = raw.replace(/^\uFEFF/, "").replace(/^\s+|\s+$/g, "");
+    if (!raw) return null;
+    if (raw.indexOf("HANEDAN/2") === 0) return parseTextSave(raw);
+    var obj;
+    try { obj = JSON.parse(raw); } catch (e) { return "corrupt"; }
+    if (obj && obj.kind === SAVE_KIND && obj.data) {
+      var data = migrate(obj.data);
+      if (!data) return "corrupt";
+      if (obj.sum && obj.sum !== fnvHex(JSON.stringify(obj.data))) data._sumWarn = true;
+      return data;
+    }
+    return migrate(obj) || "corrupt";
+  }
+  function persistRaw(raw) {
+    var cur = lsGet(KEY);
+    if (cur && cur !== raw && parseSave(cur) !== "corrupt") lsSet(KEY_BAK, cur);
+    var ok = lsSet(KEY, raw);
+    if (SLOT === 1) lsSet("cete_hanedan_v2", raw);
+    if (ok === "quota" && S) {
+      if (S.archive && S.archive.length > 4) S.archive = S.archive.slice(0, 4);
+      if (S.kronik && S.kronik.length > 80) S.kronik = S.kronik.slice(0, 80);
+      if (S.news && S.news.length > 24) S.news = S.news.slice(0, 24);
+      raw = encodeSave(S);
+      ok = lsSet(KEY, raw);
+    }
+    if (ok === "quota") {
+      openModal("Kayıt dolu", "Kayıt dolu. Yedek al.", [["Yedek al", "export"], ["Tamam", "close"]]);
+      return false;
+    }
+    if (ok === true) {
+      try {
+        if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(function () {});
+      } catch (e) {}
+      return true;
+    }
+    return false;
+  }
+  function saveNow() {
+    if (!S) return false;
+    if (saving) {
+      saveAgain = true;
+      return false;
+    }
+    saving = true;
+    var ok = false;
+    try {
+      S.v = 2;
+      S.savedAt = Date.now();
+      S.tab = tab;
+      if (reader && !reader.done) {
+        S.pend = { raid: reader.raid, idx: reader.idx, done: false, retreated: !!reader.retreated };
+      } else {
+        S.pend = null;
+      }
+      delete S._sumWarn;
+      ok = persistRaw(encodeSave(S));
+    } finally {
+      saving = false;
+    }
+    if (saveAgain) {
+      saveAgain = false;
+      return saveNow();
+    }
+    return ok;
+  }
+  function scheduleSave() {
+    if (saveTimer) clearTimeout(saveTimer);
+    saveTimer = 0;
+    saveNow();
+  }
+  function loadSave() {
+    var raw = lsGet(KEY);
+    var data = raw ? parseSave(raw) : null;
+    if (data && data !== "corrupt") return data;
+    var bak = lsGet(KEY_BAK);
+    if (bak) {
+      var b = parseSave(bak);
+      if (b && b !== "corrupt") {
+        toast("Asıl kayıt bozuktu. Yedekten alındı.");
+        persistRaw(encodeSave(b));
+        return b;
+      }
+    }
+    var old = lsGet(KEY_OLD);
+    if (old) {
+      var o = parseSave(old);
+      if (o && o !== "corrupt") {
+        persistRaw(encodeSave(o));
+        lsDel(KEY_OLD);
+        return o;
+      }
+    }
+    if (raw || bak || old) return "corrupt";
+    return null;
+  }
+  function resumeSave(data) {
+    S = data;
+    view = "play";
+    tab = S.tab || "sehir";
+    reader = S.pend || null;
+    if (reader) tab = "baskin";
+    document.documentElement.style.fontSize = (S.font || 16) + "px";
+    if (data._sumWarn) toast("Yedek checksum uyumsuz, yine de açıldı.");
+    paint();
+  }
+  function wipeAllSaves() {
+    lsDel(KEY);
+    lsDel(KEY_BAK);
+    lsDel(KEY_OLD);
+  }
+
+  function openSheet() {
+    sheetOpen = true;
+    layerN += 1;
+    try { history.pushState({ hanedan: layerN }, ""); } catch (e) {}
+    var sh = document.getElementById("sheet");
+    sh.className = "on";
+    document.getElementById("tabs").className = "dead";
+    document.getElementById("tabs").setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "hidden";
+    var focusables = sh.querySelectorAll("button, input, textarea, select");
+    if (focusables[0]) focusables[0].focus();
+  }
+  function closeSheet(pop) {
+    if (!sheetOpen) return;
+    sheetOpen = false;
+    var sh = document.getElementById("sheet");
+    sh.className = "";
+    clear(sh);
+    document.getElementById("tabs").className = "";
+    document.getElementById("tabs").removeAttribute("aria-hidden");
+    document.body.style.overflow = "";
+    if (pop !== false) {
+      try { if (history.state && history.state.hanedan) history.back(); } catch (e) {}
+    }
+    paint();
+  }
+  function openModal(title, body, buttons) {
+    var sh = document.getElementById("sheet");
+    clear(sh);
+    add(sh, el("p", { cls: "kicker", text: "Uyarı" }));
+    add(sh, el("h2", { cls: "h1", text: title }));
+    var p = add(sh, el("p", { cls: "serif" }));
+    p.textContent = body;
+    var box = add(sh, el("div", { cls: "stack" }));
+    for (var i = 0; i < buttons.length; i++) {
+      var b = add(box, el("button", { text: buttons[i][0], "data-act": buttons[i][1] }));
+      if (i === 0) b.className = "primary";
+    }
+    openSheet();
+  }
+  var HELP = [
+    ["Amaç", "Altı kademeli lig: Sokak, Semt, İlçe, Yakası, Şehir, Taht. Sezon 16 hafta sürer; 28 puan terfi, 10 puanın altı düşüş getirir. Taht'ı bir sezon boyunca korumak Hanedan hedefini tamamlar."],
+    ["Haftalık döngü", "Her hafta ya bir rakiple baskına çıkarsın ya da dinlenirsin. Dinlenmek fikstür puanı kazandırmaz ama ekibi yormaz. Baskın öncesi hazır ve sözleşmeli adamlardan kadro seçilir."],
+    ["Kadro ve sözleşme", "Her adamın rolü (Tetikçi, Fedai, Toplayıcı, Gözcü, Avukat, Muhasebeci, Sürücü, Baba adayı), yevmiyesi, sözleşme süresi, yorgunluğu ve varsa hapis durumu vardır. Hapisteki veya sözleşmesi biten adam kadroya giremez."],
+    ["Baskın ve odalar", "Baskında ekibin rakiple çarpışır; adamlar yaralanabilir. Tesis sekmesindeki yatırımlar (ör. Hukuk odası) hapis ve polis baskısını azaltır."],
+    ["Yaralanma ve ölüm", "Canı biten adam baskında kaybedilebilir; yaşı ilerleyen adamlar emekli olur veya ölür ve deftere geçer. Kayıp kalıcıdır."],
+    ["Hapis ve kefalet", "Yakalanan adam için kasadan kefalet ödenebilir; kasa yetmezse kefalet verilemez ve adam hapiste kalır."],
+    ["Puan ve taht", "Sezon puanı fikstürlerden birikir. 16 hafta sonunda terfi/düşüş belirlenir; Taht kademesinde bir sezon kalmak Hanedan'ı tamamlar."],
+    ["Kayıt", "Oyun bu cihazda otomatik kaydedilir; üstteki Kaydet ile elle de kaydedebilirsin. Yedek al/yükle ile JSON dosyası olarak taşıyabilirsin."],
+    ["İlk sezon için ipuçları", "Draft'ta dengeli bir kadro seç, tek role yüklenme. Erken sezonda dinlenmekten çekinme; yorgun ekiple baskına çıkmak riskli. Hukuk odasına erken yatırım hapis riskini düşürür."]
+  ];
+  function openHelp() {
+    var sh = document.getElementById("sheet");
+    clear(sh);
+    add(sh, el("p", { cls: "kicker", text: "Yardım" }));
+    add(sh, el("h2", { cls: "h1", text: "NASIL OYNANIR" }));
+    for (var i = 0; i < HELP.length; i++) {
+      add(sh, el("p", { cls: "kicker", text: HELP[i][0] }));
+      var hp = add(sh, el("p", { cls: "serif" }));
+      hp.textContent = HELP[i][1];
+    }
+    add(sh, el("button", { cls: "primary", text: "Kapat", "data-act": "close" }));
+    openSheet();
+  }
+
+  window.addEventListener("popstate", function () {
+    if (sheetOpen) closeSheet(false);
+  });
+  window.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && sheetOpen) {
+      e.preventDefault();
+      closeSheet();
+      return;
+    }
+    if (e.key === "Tab" && sheetOpen) {
+      var sh = document.getElementById("sheet");
+      var f = sh.querySelectorAll("button, input, textarea, select");
+      if (!f.length) return;
+      var first = f[0];
+      var last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+  });
+  document.addEventListener("visibilitychange", function () {
+    if (document.hidden) saveNow();
+  }, { passive: true });
+  window.addEventListener("pagehide", function () {
+    saveNow();
+  });
+  try {
+    if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(function () {});
+  } catch (e) {}
+  document.getElementById("app").addEventListener("contextmenu", function (e) {
+    e.preventDefault();
+  });
+
+  function pd(e) {
+    var t = e.target.closest("[data-act]");
+    if (!t) return;
+    if (t.disabled || t.getAttribute("disabled") !== null) return;
+    press = { id: e.pointerId, x: e.clientX, y: e.clientY, el: t };
+  }
+  function pu(e) {
+    if (!press || e.pointerId !== press.id) return;
+    var t = press.el;
+    var dx = e.clientX - press.x;
+    var dy = e.clientY - press.y;
+    press = null;
+    if (Math.hypot(dx, dy) > 8) return;
+    e.preventDefault();
+    swallowClick = true;
+    act(t.getAttribute("data-act"), t);
+  }
+  function pcancel() { press = null; }
+  function onClick(e) {
+    var t = e.target.closest("[data-act]");
+    if (!t) return;
+    if (swallowClick) {
+      e.preventDefault();
+      swallowClick = false;
+      return;
+    }
+    act(t.getAttribute("data-act"), t);
+  }
+  ["app", "sheet", "toast"].forEach(function (id) {
+    var n = document.getElementById(id);
+    n.addEventListener("pointerdown", pd);
+    n.addEventListener("pointerup", pu);
+    n.addEventListener("pointercancel", pcancel);
+    n.addEventListener("click", onClick);
+  });
+
+  function districtName(home) {
+    return REGIONS[home.r].d[home.d] + " / " + REGIONS[home.r].name;
+  }
+
+  function genMan(rng, year, home, locked) {
+    var age = 19 + ri(rng, 22);
+    var role = pick(rng, ROLES);
+    var st = {};
+    for (var i = 0; i < STATS.length; i++) st[STATS[i]] = 5 + ri(rng, 12);
+    if (role === "Tetikçi") st.sert += 3;
+    if (role === "Fedai") st.sadakat += 3;
+    if (role === "Gözcü") st.soguk += 3;
+    if (role === "Sürücü") st.cevik += 3;
+    if (role === "Avukat") st.soz += 3;
+    var t1 = TRAITS[ri(rng, TRAITS.length)][0];
+    var t2 = TRAITS[ri(rng, TRAITS.length)][0];
+    if (t2 === t1) t2 = TRAITS[(TRAITS.findIndex(function (x) { return x[0] === t1; }) + 3) % TRAITS.length][0];
+    return {
+      id: "m" + (rng() * 1e9 | 0).toString(16),
+      ad: pick(rng, ADLAR) + " " + pick(rng, SOY),
+      lakap: "",
+      semt: pick(rng, REGIONS[home ? home.r : ri(rng, 7)].d),
+      dogum: year - age,
+      yas: age,
+      rol: role,
+      st: st,
+      traits: [t1, t2],
+      hp: 10,
+      maxHp: 10,
+      yorgun: 0,
+      yevmiye: 8000 + ri(rng, 12000),
+      sozlesme: 1 + ri(rng, 4),
+      bag: null,
+      yara: [],
+      erdem: rng() > 0.7 ? "sadakat" : "",
+      jail: 0,
+      carry: 0,
+      locked: !!locked,
+      favori: false
+    };
+  }
+
+  function genGangs(rng, home) {
+    var out = [];
+    var used = {};
+    for (var i = 0; i < 48; i++) {
+      var r = ri(rng, 7);
+      var d = ri(rng, REGIONS[r].d.length);
+      var nm = REGIONS[r].d[d] + " " + pick(rng, GANG_WORD);
+      if (used[nm]) nm = nm + " " + (i + 1);
+      used[nm] = 1;
+      var tier = i < 16 ? 0 : i < 28 ? 1 : i < 38 ? 2 : i < 44 ? 3 : i < 47 ? 4 : 5;
+      out.push({
+        id: "g" + i,
+        name: nm,
+        r: r,
+        d: d,
+        tier: tier,
+        pts: ri(rng, 8),
+        power: 8 + tier * 3 + ri(rng, 6)
+      });
+    }
+    var derby = null;
+    for (var j = 0; j < out.length; j++) {
+      if (out[j].r === home.r && out[j].d === home.d && out[j].tier === 0) {
+        derby = out[j];
+        break;
+      }
+    }
+    if (!derby) {
+      derby = out[0];
+      derby.r = home.r;
+      derby.d = home.d;
+      derby.name = REGIONS[home.r].d[home.d] + " " + GANG_WORD[0];
+      derby.tier = 0;
+    }
+    return { gangs: out, derby: derby.id };
+  }
+
+  function alive() {
+    var a = [];
+    for (var i = 0; i < S.men.length; i++) if (S.men[i].hp > 0 && S.men[i].jail <= 0) a.push(S.men[i]);
+    return a;
+  }
+  function manById(id) {
+    for (var i = 0; i < S.men.length; i++) if (S.men[i].id === id) return S.men[i];
+    return null;
+  }
+  function squadSize() {
+    var n = 4;
+    if (S.bld.silahhane >= 2) n = 5;
+    if (S.heat >= 80) n = 3;
+    return n;
+  }
+  function hasT(m, t) {
+    return m.traits.indexOf(t) !== -1;
+  }
+
+  function synergies(squad) {
+    var roles = {};
+    var i;
+    for (i = 0; i < squad.length; i++) roles[squad[i].rol] = (roles[squad[i].rol] || 0) + 1;
+    var s = [];
+    if (roles.Fedai && roles.Cankurtaran) s.push("Sıhhiye Motoru");
+    if (roles.Gözcü && roles.Tetikçi) s.push("Pencere Çifti");
+    if (roles.Sürücü && roles.Toplayıcı) s.push("Kaçış Kasası");
+    var bros = 0;
+    for (i = 0; i < squad.length; i++) if (squad[i].bag && squad[i].bag.tur === "kardes") bros++;
+    if (bros >= 2) s.push("Kan Sözü");
+    if (roles.Avukat && roles.Muhasebeci) s.push("Dosya Kalkanı");
+    if ((roles.Fedai || 0) >= 2) s.push("Duvar");
+    if (roles.Gözcü && roles.Sürücü) s.push("Kaçış Gözü");
+    if ((roles.Tetikçi || 0) >= 2) s.push("Çifte Namlu");
+    return s;
+  }
+
+  function autoSquad() {
+    var a = alive().filter(function(m){return m.sozlesme>0;}).sort(function (x, y) {
+      return (y.st.sert + y.st.soguk - y.yorgun) - (x.st.sert + x.st.soguk - x.yorgun);
+    });
+    var n = Math.min(squadSize(), a.length);
+    var ids = [];
+    for (var i = 0; i < n; i++) ids.push(a[i].id);
+    return ids;
+  }
+
+  function kronik(line) {
+    S.kronik.unshift({ t: fmtHafta(), y: yearNow(), s: line });
+    if (S.kronik.length > 400) S.kronik.pop();
+  }
+  function haber(bas, body) {
+    S.news.unshift({ t: fmtHafta(), bas: bas, body: body, y: yearNow() });
+    if (S.news.length > 80) S.news.pop();
+  }
+
+  function newState(mode, name, home, men, seed) {
+    var rng = rngFrom(seed);
+    var g = genGangs(rng, home);
+    var weekFix = g.derby;
+    var st = {
+      v: 2,
+      seed: seed,
+      run: "r" + seed.toString(16),
+      mode: mode,
+      name: name,
+      home: home,
+      week: 1,
+      season: 1,
+      kasa: mode === "sokak" ? 420000 : 1250000,
+      malzeme: mode === "sokak" ? 12 : 40,
+      sohret: mode === "sokak" ? 18 : 8,
+      heat: mode === "sokak" ? 28 : 12,
+      siyasi: 6,
+      koruyucu: { ad: "Demir", ok: true },
+      men: men,
+      grave: [],
+      gangs: g.gangs,
+      fixture: weekFix,
+      tier: 0,
+      pts: 0,
+      bld: { kahvehane: 1, silahhane: 0, garaj: 0, revir: 0, hukuk: 0, depo: 0, hamam: 0, ocak: 0 },
+      staff: { cayci: 0, doktor: 0, avukat: 0, kalfa: 0, soforbasi: 0, bekci: 0 },
+      market: [],
+      jail: [],
+      kronik: [],
+      news: [],
+      prep: { squad: [], gambit: "onde", kit: "yok", scout: null, koru: "", silent: "" },
+      archive: [],
+      kid: null,
+      kidNights: 0,
+      font: 16,
+      tab: "baskin",
+      pend: null,
+      savedAt: Date.now(),
+      over: false,
+      overWhy: ""
+    };
+    if (mode === "sokak") st.heat = 28;
+    return st;
+  }
+
+  function bootTitle() {
+    if (S) saveNow();
+    view = "title";
+    paint();
+  }
+
+  function startNew(mode) {
+    var old = loadSave();
+    if (mode === "demir" && old && old !== "corrupt" && old.mode === "demir" && !old.over) {
+      resumeSave(old);
+      toast("Demir devam.");
+      return;
+    }
+    tmpMode = mode;
+    tmpName = mode === "demir" ? "Demir Hanedanı" : "Hanedan";
+    tmpHome = { r: 1, d: 0 };
+    tmpWipeOk = false;
+    view = "setup";
+    paint();
+  }
+
+  function beginDraft() {
+    var seed = (Date.now() ^ (Math.random() * 1e9 | 0)) >>> 0;
+    var rng = rngFrom(seed);
+    tmpSeed = seed;
+    draftPool = [];
+    draftPick = [];
+    var year = 1978;
+    var i;
+    if (tmpMode === "hanedan") {
+      var baba = genMan(rng, year, tmpHome, true);
+      baba.ad = "Baba " + pick(rng, ADLAR);
+      baba.yas = 52;
+      baba.dogum = year - 52;
+      baba.rol = "Baba adayı";
+      baba.sozlesme = 9;
+      var o1 = genMan(rng, year, tmpHome, true);
+      var o2 = genMan(rng, year, tmpHome, true);
+      o1.bag = { tur: "kardes", id: o2.id };
+      o2.bag = { tur: "kardes", id: o1.id };
+      o1.yas = 23; o2.yas = 21;
+      draftPool.push(baba, o1, o2);
+      draftPick = [baba.id, o1.id, o2.id];
+    }
+    for (i = 0; i < 16; i++) draftPool.push(genMan(rng, year, tmpHome, false));
+    if (tmpMode === "sokak") {
+      for (i = 0; i < draftPool.length; i++) {
+        draftPool[i].yas = Math.min(47, draftPool[i].yas + 8);
+        draftPool[i].st.sert += 2;
+        draftPool[i].st.sadakat = Math.max(3, draftPool[i].st.sadakat - 4);
+      }
+    }
+    view = "draft";
+    paint();
+  }
+  var tmpSeed = 1;
+
+  function commitDraft() {
+    var need = tmpMode === "hanedan" ? 8 : 8;
+    if (draftPick.length !== need) {
+      toast("Sekiz adam seç.");
+      return;
+    }
+    var men = [];
+    for (var i = 0; i < draftPool.length; i++) {
+      if (draftPick.indexOf(draftPool[i].id) !== -1) men.push(draftPool[i]);
+    }
+    if (men.length !== 8) {
+      toast("Sekiz adam seç.");
+      return;
+    }
+    var old = loadSave();
+    if (old && old !== "corrupt" && old.run && !tmpWipeOk) {
+      openModal(
+        "Üzerine yazılsın mı?",
+        saveLabel(old) + " bu cihazdan silinir. Yedek aldın mı?",
+        [["Yaz", "draftforce"], ["Vazgeç", "close"]]
+      );
+      return;
+    }
+    tmpWipeOk = false;
+    men[0].favori = true;
+    if (men.length > 2) {
+      men[1].bag = { tur: "dost", id: men[2].id };
+      men[2].bag = { tur: "dost", id: men[1].id };
+    }
+    men[men.length - 1].sozlesme = 1;
+    S = newState(tmpMode, tmpName.replace(/^\s+|\s+$/g, "") || "Hanedan", tmpHome, men, tmpSeed);
+    var der = null;
+    for (i = 0; i < S.gangs.length; i++) if (S.gangs[i].id === S.fixture) der = S.gangs[i];
+    kronik("1958, " + districtName(S.home) + ". Semt henüz bu isimle anılmıyordu. Kan döküldü, isim yazılmadı.");
+    kronik("1968. Patron düştü. Çocukları dağıldı. Defter kapanmadı.");
+    kronik("1977 kışı. Kahvehane yine açıldı. Yeni isim bekleniyor.");
+    kronik("Hanedan " + S.name + " " + districtName(S.home) + " semtinde kuruldu. Yıl " + yearNow() + ".");
+    haber("Yeni isim", S.name + " deftere yazıldı. Ev: " + districtName(S.home) + ".");
+    haber("Derbi", (der ? der.name : "Rakip") + " ilk haftadan aynı semtte. Islak sokak beklenir.");
+    S.prep.squad = autoSquad();
+    rollMarket();
+    view = "play";
+    tab = "baskin";
+    saveNow();
+    paint();
+    toast("İlk derbi bu hafta. Ölüm masada.");
+  }
+
+  function currentOpp() {
+    for (var i = 0; i < S.gangs.length; i++) if (S.gangs[i].id === S.fixture) return S.gangs[i];
+    return S.gangs[0];
+  }
+  function currentSquadMen() {
+    var ids = S.prep.squad;
+    var a = [];
+    for (var i = 0; i < ids.length; i++) {
+      var m = manById(ids[i]);
+      if (m && m.hp > 0 && m.jail <= 0 && m.sozlesme > 0 && !a.some(function(x){return x.id===m.id;})) a.push(m);
+    }
+    return a.slice(0, squadSize());
+  }
+
+  function simRaid() {
+    var rng = rngFrom(hash(S.seed, S.season, S.week, "raid"));
+    var opp = currentOpp();
+    var derby = opp.r === S.home.r && opp.d === S.home.d;
+    var cond = CONDITIONS[hash(S.seed, S.week, "c") % CONDITIONS.length];
+    if (S.week === 1) cond = CONDITIONS[0];
+    var roomsN = 3 + ri(rng, 4);
+    var squad = JSON.parse(JSON.stringify(currentSquadMen()));
+    if (!squad.length) return null;
+    var crewIds = squad.map(function(m){return m.id;});
+    var syn = synergies(squad);
+    var gambit = S.prep.gambit;
+    var kit = S.prep.kit;
+    var rooms = [];
+    var loot = 0;
+    var heat = derby ? 8 : 5;
+    var silentAt = 1 + ri(rng, Math.max(1, roomsN - 1));
+    var i, r, m;
+
+    for (r = 0; r < roomsN; r++) {
+      squad = squad.filter(function(m){return m.hp > 0;});
+      if (!squad.length) break;
+      var lines = [];
+      var danger = 7 + r * 2 + opp.power / 4 + (derby ? 3 : 0);
+      if (cond[0] === "karakol") danger += 2;
+      if (cond[0] === "islak") danger += 1;
+      if (cond[0] === "elektrik") danger += 1;
+      var power = 0;
+      for (i = 0; i < squad.length; i++) {
+        m = squad[i];
+        power += m.st.sert * 0.35 + m.st.soguk * 0.3 + m.st.cevik * 0.2 + m.st.sadakat * 0.15;
+        power -= m.yorgun * 0.4;
+        if (hasT(m, "korkak") && r > 0) power -= 2;
+        if (hasT(m, "delidolu")) power += 1;
+        if (hasT(m, "keskin") && gambit === "ilkates") power += 2;
+        if (hasT(m, "alkol") && cond[0] === "islak") power -= 2;
+        if (hasT(m, "dindar") && (cond[0] === "cuma" || cond[0] === "ramazan")) power += 1;
+        if (hasT(m, "davaci") && cond[0] === "davas") power += 2;
+        if (hasT(m, "muhbir") && cond[0] === "karakol") power -= 2;
+        if (hasT(m, "ugurlu")) power += 1;
+      }
+      if (gambit === "onde" && r === 0) power += 4;
+      if (gambit === "arkada" && r === roomsN - 1) power += 3;
+      if (gambit === "ilkates" && r === 0) power += 5;
+      if (gambit === "kacis") power += 1;
+      if (gambit === "ganimet") power -= 1;
+      if (gambit === "esir") power -= 2;
+      if (kit === "fener" && cond[0] === "elektrik") power += 3;
+      if (kit === "arac" && gambit === "kacis") power += 2;
+      if (syn.indexOf("Pencere Çifti") !== -1) power += 3;
+      if (syn.indexOf("Duvar") !== -1) power += 2;
+      if (syn.indexOf("Çifte Namlu") !== -1 && r === 0) power += 3;
+      if (syn.indexOf("Kan Sözü") !== -1) power += 2;
+      if (S.bld.silahhane) power += S.bld.silahhane;
+      var margin = power - danger + (rng() * 8 - 4);
+      var hit = margin < 2;
+      var deadHere = [];
+      var woundHere = [];
+      lines.push("Oda " + (r + 1) + ". " + cond[1] + ".");
+      if (derby) lines.push("Derbi semti. " + opp.name + " evinde.");
+      if (gambit === "onde") lines.push(squad[0].ad + " önde durdu.");
+      if (syn.length && r === 0) lines.push("Sinerji: " + syn.join(", ") + ".");
+      if (hit) {
+        var victim = squad[ri(rng, squad.length)];
+        if (hasT(victim, "korkak") && rng() > 0.4) {
+          lines.push(victim.ad + " geri kaçtı. Emir ezilmedi, oda boşaldı.");
+          victim.yorgun += 2;
+        } else {
+          var cover = null;
+          for (i = 0; i < squad.length; i++) {
+            m = squad[i];
+            if (m.id === victim.id) continue;
+            if (m.bag && m.bag.id === victim.id && m.bag.tur !== "dava") cover = m;
+            else if (hasT(m, "sadik") && !hasT(m, "kiskan") && !hasT(m, "taskalp")) cover = cover || m;
+          }
+          if (gambit === "koru" && S.prep.koru) {
+            var km = squad.find(function(m){return m.id === S.prep.koru && m.hp > 0;});
+            if (km && km.id !== victim.id) cover = km;
+          }
+          if (cover && !hasT(cover, "kiskan") && rng() > 0.25) {
+            lines.push(cover.ad + " " + victim.ad + " için siper aldı.");
+            victim = cover;
+          }
+          var dmg = 3 + ri(rng, 5);
+          if (hasT(victim, "agir")) dmg -= 1;
+          if (kit === "sargi") dmg -= 1;
+          if (S.staff.doktor) dmg -= 1;
+          victim.hp -= dmg;
+          victim.yara.push("oda " + (r + 1));
+          victim.yara = victim.yara.slice(-20);
+          woundHere.push(victim.ad);
+          if (victim.hp <= 0) {
+            var fedaiNear = false;
+            for (i = 0; i < squad.length; i++) if (squad[i].rol === "Fedai" || squad[i].rol === "Cankurtaran") fedaiNear = true;
+            if (fedaiNear && rng() > 0.45) {
+              victim.hp = 1;
+              victim.yara.push("ağır");
+              lines.push(victim.ad + " düştü. Fedai taşıdı. Ağır yara.");
+              for (i = 0; i < squad.length; i++) if (squad[i].rol === "Fedai") squad[i].carry += 1;
+            } else {
+              victim.hp = 0;
+              deadHere.push(victim.ad);
+              lines.push(victim.ad + " dönmedi.");
+            }
+          } else {
+            lines.push("Kurşun " + victim.ad + " üstüne gitti. Ayakta. −" + dmg + " can.");
+          }
+        }
+      } else {
+        lines.push("Oda tutuldu. Kayıp yok.");
+        loot += 4000 + ri(rng, 9000);
+      }
+      if (r === silentAt) {
+        lines.push("Sessiz oda. Seçim beklenir.");
+      }
+      if (gambit === "ganimet" && !hit) loot = Math.round(loot * 1.35);
+      if (gambit === "kacis") loot = Math.round(loot * 0.7);
+      rooms.push({
+        n: r + 1,
+        lines: lines,
+        nums: { power: Math.round(power), danger: Math.round(danger), margin: Math.round(margin) },
+        silent: r === silentAt,
+        crew: JSON.parse(JSON.stringify(squad)), loot: loot,
+        dead: deadHere,
+        wound: woundHere
+      });
+    }
+
+    var living = 0;
+    for (i = 0; i < squad.length; i++) if (squad[i].hp > 0) living++;
+    var result = "temiz";
+    if (!living) result = "felaket";
+    else if (rooms.some(function (x) { return x.dead.length; })) result = "pahalı zafer";
+    else if (marginLast(rooms) > 8) result = "ezici";
+    else if (marginLast(rooms) < 0) result = "berbat";
+    heat += gambit === "polis" ? -4 : 0;
+    if(gambit==="esir" && living){loot+=4000;heat-=2;}
+    heat += gambit === "ganimet" ? 4 : 0;
+    if (cond[0] === "karakol") heat += 5;
+    if (kit === "zarf") heat -= 3;
+    heat = clamp(heat - S.bld.garaj - S.staff.soforbasi, 1, 18);
+    loot += S.bld.depo * 1500;
+    if (syn.indexOf("Kaçış Kasası") !== -1) loot += 6000;
+    return {
+      crewIds: crewIds,
+      opp: opp.name,
+      derby: derby,
+      cond: cond[1],
+      syn: syn,
+      rooms: rooms,
+      result: result,
+      loot: loot,
+      heat: heat,
+      gambit: gambit,
+      kit: kit
+    };
+  }
+  function marginLast(rooms) {
+    var x = rooms[rooms.length - 1];
+    return x ? x.nums.margin : 0;
+  }
+
+  function bury(m, last) {
+    S.grave.push({
+      ad: m.ad,
+      yas: m.yas,
+      rol: m.rol,
+      yara: m.yara.slice(),
+      bag: m.bag,
+      kitabe: last,
+      t: fmtHafta()
+    });
+    S.grave=S.grave.slice(-80);
+    kronik(m.ad + " düştü. " + last);
+  }
+
+  function applyRaid(raid, retreated) {
+    var ids = raid.crewIds || S.prep.squad;
+    var squad = ids.map(manById).filter(Boolean);
+    var i, m;
+    for (i = 0; i < squad.length; i++) {
+      m = squad[i];
+      m.yorgun += retreated ? 1 : 2;
+      if (m.hp <= 0) {
+        bury(m, raid.rooms.map(function (r) { return r.dead.indexOf(m.ad) !== -1; }).indexOf(true) >= 0
+          ? "Siper veya oda. Dönmedi."
+          : "Baskında kaldı.");
+      } else if (m.carry >= 3 && m.rol !== "Cankurtaran") {
+        m.rol = "Cankurtaran";
+        kronik(m.ad + " yaralı taşıya taşıya Cankurtaran oldu.");
+      }
+    }
+    S.men = S.men.filter(function (x) { return x.hp > 0; });
+    S.men.forEach(function(m){if(m.bag && !manById(m.bag.id))m.bag=null;});
+    S.prep.squad=S.prep.squad.filter(function(id){return !!manById(id);});
+    if (retreated) {
+      S.kasa += Math.round(raid.loot * 0.2);
+      S.heat = clamp(S.heat + Math.max(2, raid.heat - 2), 0, 100);
+      S.pts += 0;
+      kronik("Hafta " + S.week + ", " + raid.opp + ". " + raid.cond + ". Çete geri çekildi.");
+    } else {
+      S.kasa += raid.loot;
+      S.heat = clamp(S.heat + raid.heat, 0, 100);
+      S.sohret += raid.result === "ezici" ? 3 : raid.result === "felaket" ? -2 : 1;
+      S.pts += raid.result === "felaket" ? 0 : raid.result === "berbat" ? 1 : 3;
+      if (raid.result === "ezici" && squad[0] && !squad[0].lakap) {
+        squad[0].lakap = "Sessiz";
+        kronik(squad[0].ad + " lakap kazandı: Sessiz.");
+      }
+      var sip = "";
+      for (i = 0; i < raid.rooms.length; i++) {
+        if (raid.rooms[i].dead.length) sip += raid.rooms[i].dead.join(", ") + " dönmedi. ";
+      }
+      kronik(
+        "Hafta " + S.week + ", " + (raid.derby ? "derbi, " : "") + raid.opp + ". " +
+        raid.cond + ". " + (raid.syn.length ? raid.syn.join(", ") + ". " : "") +
+        sip + "Sonuç: " + raid.result + ". Kasa " + (raid.loot > 0 ? "şişti" : "kımıldamadı") + "."
+      );
+    }
+    raid.retreated = !!retreated;
+    raid.awardedLoot = retreated ? Math.round(raid.loot * 0.2) : raid.loot;
+    if (retreated) raid.result = "geri çekildi";
+    S.archive.unshift(raid);
+    if (S.archive.length > 24) S.archive.pop();
+    haber(raid.result, raid.opp + " — " + raid.cond + " — " + fmtTL(raid.awardedLoot));
+    if (S.kasa < 0) S.kasa = 0;
+    if (S.mode === "demir" && (!S.koruyucu.ok || S.bld.kahvehane <= 0)) {
+      S.over = true;
+      S.overWhy = "Demir kırıldı. Koruyucu veya kahvehane yok.";
+    }
+    if (!S.men.some(function(m){return m.hp>0;})) {
+      S.over = true;
+      S.overWhy = "Adam kalmadı.";
+    }
+  }
+
+  function simLeague() {
+    var rng = rngFrom(hash(S.seed, S.season, S.week, "lg"));
+    var lines = [];
+    for (var i = 0; i < 8; i++) {
+      var a = S.gangs[ri(rng, S.gangs.length)];
+      var b = S.gangs[ri(rng, S.gangs.length)];
+      if (a.id === b.id) continue;
+      var aw = rng() > 0.5;
+      a.pts += aw ? 3 : 1;
+      b.pts += aw ? 1 : 3;
+      if (rng() < 0.22) {
+        lines.push(a.name + (aw ? " yürüdü: " : " geriledi: ") + b.name + ".");
+      }
+    }
+    if (lines[0]) haber("Mahalle", lines[0]);
+  }
+
+  function tickWeekEnd() {
+    var i, m;
+    var wage = 0;
+    for (i = 0; i < S.men.length; i++) {
+      m = S.men[i];
+      if(m.sozlesme>0)wage += m.yevmiye;
+      m.yorgun = clamp(m.yorgun - (1 + S.bld.hamam),0,20);
+      if(S.staff.cayci)m.st.sadakat=clamp(m.st.sadakat+0.25,1,20);
+      if (m.hp < m.maxHp) m.hp = Math.min(m.maxHp, m.hp + 1 + S.staff.doktor + S.bld.revir);
+      if (m.jail > 0) m.jail = Math.max(0,m.jail-1-S.staff.avukat);
+    }
+    wage = Math.round(wage * Math.pow(0.95,S.bld.ocak));
+    S.kasa -= wage;
+    S.kasa += 18000 + Math.max(0,S.bld.kahvehane-1)*2000 + S.tier * 8000 + S.staff.kalfa * 6000 + clamp(S.sohret,0,100) * 400;
+    if(S.kasa < 0){S.men.forEach(function(m){m.st.sadakat=Math.max(1,m.st.sadakat-2);});haber("Yevmiye açığı","Kasa borçta. Yeni harcamadan önce kadro giderini azalt; sözleşme yenilemeleri bekler.");}
+    S.sohret = clamp(S.sohret,0,100);
+    S.malzeme = Math.min(40 + S.bld.depo * 15, S.malzeme + 3);
+    if (S.heat > 70 && !S.staff.bekci) {
+      if (rngFrom(hash(S.seed, S.week, "cafe"))() > 0.65) {
+        haber("Kahvehane", "Polis baskısı yüksek. Kapıya üniformalı geldi. Bu hafta oturulmadı.");
+        S.kasa -= 25000;
+        if (S.mode === "demir" && rngFrom(hash(S.seed, S.week, "burn"))() > 0.85) {
+          S.bld.kahvehane = 0;
+          S.over = true;
+          S.overWhy = "Kahvehane yandı.";
+        }
+      }
+    }
+    if (S.heat > 55 && rngFrom(hash(S.seed, S.week, "jail"))() > 0.7 && alive()[0]) {
+      var v = alive()[0];
+      v.jail = 2;
+      haber("Hapis", v.ad + " içeri alındı. İki hafta.");
+    }
+    S.heat = clamp(S.heat - S.staff.avukat - S.bld.hukuk, 0, 100);
+    if (S.kid) {
+      S.kidNights += 1;
+      if (S.kidNights >= 3 && !S.kid.resolved) {
+        S.kid.ready = true;
+      }
+    } else if (S.week > 4 && rngFrom(hash(S.seed, S.week, "kid"))() > 0.92) {
+      S.kid = { ad: pick(rngFrom(hash(S.seed, S.week)), ADLAR) + " oğlu", resolved: false, ready: false };
+      S.kidNights = 1;
+      haber("Kapı", "Üç gecedir kapıda bir çocuk. Alınır veya reddedilir.");
+    }
+    if (S.men.length < 24 && S.grave.length && S.season >= 2 && rngFrom(hash(S.seed, S.week, "old"))() > 0.93) {
+      var g = S.grave[0];
+      var fr = genMan(rngFrom(hash(S.seed, S.week, "fr")), yearNow(), S.home, false);
+      fr.ad = g.ad.split(" ")[0] + " yeğeni";
+      fr.bag = { tur: "dost", id: "" };
+      S.men.push(fr);
+      kronik("Eski dostun kanı döndü: " + fr.ad + ".");
+    }
+    rollMarket();
+    nextFixture();
+  }
+
+  function rollMarket() {
+    var rng = rngFrom(hash(S.seed, S.season, S.week, "mkt"));
+    S.market = [];
+    for (var i = 0; i < 6; i++) S.market.push(genMan(rng, yearNow(), S.home, false));
+  }
+
+  function nextFixture() {
+    var rng = rngFrom(hash(S.seed, S.season, S.week + 1, "fx"));
+    var same = [];
+    for (var i = 0; i < S.gangs.length; i++) {
+      if (S.gangs[i].tier === S.tier) same.push(S.gangs[i]);
+    }
+    if (!same.length) same = S.gangs;
+    S.fixture = pick(rng, same).id;
+    S.prep.scout = null;
+    S.prep.silent = "";
+    if (alive().length) S.prep.squad = autoSquad();
+  }
+
+  function endSeason() {
+    var wasThrone=S.tier===5;
+    var i, m;
+    S.season += 1;
+    S.week = 1;
+    for (i = 0; i < S.men.length; i++) {
+      m = S.men[i];
+      m.yas += 1;
+      m.sozlesme -= 1;
+      if (m.yas >= 38) {
+        m.st.cevik = Math.max(1, m.st.cevik - 1);
+        m.st.sert = Math.max(1, m.st.sert - 1);
+      }
+      if (m.yas >= 50 && rngFrom(hash(S.seed, S.season, m.id))() > 0.7) {
+        m.hp = 0;
+        bury(m, "Yaş. Emek veya ölüm. Deftere düştü.");
+      }
+    }
+    S.men = S.men.filter(function (x) { return x.hp > 0; });
+    S.men.forEach(function(m){if(m.bag && !manById(m.bag.id))m.bag=null;});
+    S.prep.squad=S.prep.squad.filter(function(id){return !!manById(id);});
+    if (S.pts >= 28 && S.tier < 5) {
+      S.tier += 1;
+      haber("Küme", "Üst kademe: " + TIERS[S.tier] + ".");
+      kronik("Sezon bitti. Çete " + TIERS[S.tier] + " kademesine çıktı.");
+    } else if (S.pts < 10 && S.tier > 0) {
+      S.tier -= 1;
+      haber("Düşme", "Kademe düştü: " + TIERS[S.tier] + ".");
+    }
+    if (S.tier === 5) {
+      haber("Taht", "Taht Savaşı. Şehri tutan isim deftere geçer.");
+      kronik("Taht. " + S.name + " şehri tutmaya çalıştı.");
+    }
+    S.gangs.forEach(function(g){g.pts=0;});
+    if(wasThrone && S.tier===5 && S.pts>=28 && !S.crowned){S.crowned=true;kronik("Şehir tahtı bir sezon korundu. Hanedan hedefi tamamlandı.");if(S.mode!=="hanedan"){S.over=true;S.overWhy="Tahtı bir sezon korudun. Hanedan deftere geçti.";}}
+    if(!S.men.length){S.over=true;S.overWhy="Kadroda kimse kalmadı.";}
+    S.pts = 0;
+    for (i = 0; i < S.men.length; i++) {
+      if (S.men[i].sozlesme <= 0) {
+        haber("Sözleşme", S.men[i].ad + " sözleşmesi bitti. Karşıla, pazarlık et veya bırak.");
+      }
+    }
+  }
+
+  function doAdvance() {
+    if (!S || S.over || inFlight || reader) return;
+    if (view !== "play") return;
+    var now = Date.now();
+    if (now - lastAct < 400) return;
+    lastAct = now;
+    inFlight = true;
+    try {
+      if (!currentSquadMen().length) { toast("Hazır ve sözleşmeli bir ekip seç. Gerekirse dinlen veya pazardan adam al."); return; }
+      var kitCost = {yok:0,fener:1,sargi:2,zarf:3,arac:4}[S.prep.kit] || 0;
+      if(S.malzeme < kitCost){toast("Seçilen donanım için malzeme yetmiyor.");return;}
+      S.malzeme -= kitCost;
+      var raid = simRaid();
+      reader = { raid: raid, idx: 0, done: false, retreated: false };
+      tab = "baskin";
+      S.pend = { raid: raid, idx: 0, done: false, retreated: false };
+      saveNow();
+      paint();
+    } finally {
+      inFlight = false;
+    }
+  }
+
+  function readerIlerle() {
+    if (!reader) return;
+    var room = reader.raid.rooms[reader.idx];
+    if (room && room.silent && !S.prep.silent) {
+      openSilent();
+      return;
+    }
+    if (reader.idx < reader.raid.rooms.length - 1) {
+      reader.idx += 1;
+      if (S) S.pend = { raid: reader.raid, idx: reader.idx, done: false, retreated: false };
+      scheduleSave();
+      paint();
+      return;
+    }
+    finishRaid(false);
+  }
+  function readerGeri() {
+    if (!reader) return;
+    finishRaid(true);
+  }
+  function finishRaid(retreated) {
+    if (!reader || reader.done) return;
+    reader.done = true;
+    var reached = reader.raid.rooms.slice(0, reader.idx + 1);
+    if(reader.raid.crewIds){
+      reached.forEach(function(room){(room.crew || []).forEach(function(snapshot){var m=manById(snapshot.id);if(m) Object.assign(m,snapshot);});});
+      reader.raid.rooms = reached;
+      if(retreated) reader.raid.loot = Math.max(0,(reached.length ? reached[reached.length-1].loot : 0)+(reader.raid.choiceLootDelta || 0));
+    }
+    applyRaid(reader.raid, retreated);
+    simLeague();
+    if (!retreated && S.week === 16) {
+      kronik("Kupa haftası bitti.");
+    }
+    S.week += 1;
+    if (S.week > 16) endSeason();
+    if (!S.over) tickWeekEnd();
+    var raid = reader.raid;
+    reader = null;
+    if (S) S.pend = null;
+    saveNow();
+    openDebrief(raid, retreated);
+  }
+  function openSilent() {
+    var sh = document.getElementById("sheet");
+    clear(sh);
+    add(sh, el("p", { cls: "kicker", text: "Sessiz oda" }));
+    add(sh, el("p", { cls: "serif", text: "Otomatik değil. Birini seç. Kronik bunu yazar." }));
+    var st = add(sh, el("div", { cls: "stack" }));
+    for (var i = 0; i < SILENT.length; i++) {
+      add(st, el("button", { text: SILENT[i][1], "data-act": "silent:" + SILENT[i][0] }));
+    }
+    openSheet();
+  }
+  function openDebrief(raid, retreated) {
+    var sh = document.getElementById("sheet");
+    clear(sh);
+    add(sh, el("p", { cls: "kicker", text: retreated ? "Çekilme" : "Baskın sonucu" }));
+    add(sh, el("h2", { cls: "h1", text: retreated ? "Geri çekildi" : raid.result }));
+    add(sh, el("p", { cls: "serif", text: raid.opp + ". " + raid.cond + "." }));
+    add(sh, el("p", { cls: "mono", text: "Ganimet " + fmtTL(retreated ? Math.round(raid.loot*0.2) : raid.loot) + " · Polis baskısı +" + (retreated ? Math.max(2,raid.heat-2) : raid.heat) }));
+    if (raid.syn.length) add(sh, el("p", { cls: "small", text: "Sinerji: " + raid.syn.join(", ") }));
+    add(sh, el("button", { cls: "primary", text: "Kapat", "data-act": "close" }));
+    openSheet();
+  }
+
+  function scoutNow() {
+    if (S.prep.scout) {
+      toast("Keşif yapıldı.");
+      return;
+    }
+    if (S.malzeme < 4) {
+      toast("Malzeme yetmez.");
+      return;
+    }
+    S.malzeme -= 4;
+    var snap = [];
+    var i, m;
+    for (i = 0; i < S.men.length; i++) {
+      m = S.men[i];
+      snap.push({ id: m.id, hp: m.hp, yorgun: m.yorgun, yara: m.yara.slice(), carry: m.carry });
+    }
+    var raid = simRaid();
+    for (i = 0; i < snap.length; i++) {
+      m = manById(snap[i].id);
+      if (!m) continue;
+      m.hp = snap[i].hp;
+      m.yorgun = snap[i].yorgun;
+      m.yara = snap[i].yara;
+      m.carry = snap[i].carry;
+    }
+    S.prep.scout = {
+      rooms: raid.rooms.length,
+      cond: raid.cond,
+      opp: raid.opp,
+      derby: raid.derby,
+      weak: raid.rooms[0].nums.danger
+    };
+    scheduleSave();
+    paint();
+  }
+
+  function hireMan(id) {
+    var c = null;
+    for (var i = 0; i < S.market.length; i++) if (S.market[i].id === id) c = S.market[i];
+    if (!c) return;
+    if(S.men.length>=24){toast("Kadro dolu: 24 adam.");return;}
+    if (S.kasa < c.yevmiye * 4) {
+      toast("Kasa yetmez.");
+      return;
+    }
+    S.kasa -= c.yevmiye * 4;
+    S.men.push(c);
+    S.market = S.market.filter(function (x) { return x.id !== id; });
+    kronik(c.ad + " kadroya alındı. Yevmiye " + fmtTL(c.yevmiye) + ".");
+    scheduleSave();
+    paint();
+  }
+  function fireMan(id) {
+    var m = manById(id);
+    if (!m) return;
+    S.men = S.men.filter(function (x) { return x.id !== id; });
+    kronik(m.ad + " bırakıldı. Sözleşme kapandı.");
+    scheduleSave();
+    closeSheet();
+  }
+  function bailMan(id) {
+    var m = manById(id);
+    if (!m || m.jail <= 0) return;
+    var cost = 40000 + S.heat * 200;
+    if (S.kasa < cost) {
+      toast("Kefalet yok.");
+      return;
+    }
+    S.kasa -= cost;
+    m.jail = 0;
+    kronik(m.ad + " çıktı. Kefalet " + fmtTL(cost) + ".");
+    scheduleSave();
+    paint();
+  }
+  function upgradeBld(key) {
+    if(!BLD.some(function(b){return b[0]===key;}))return;
+    var lv = S.bld[key] || 0;
+    if(lv>=5){toast("Tesis en yüksek düzeyde.");return;}
+    var cost = 50000 * (lv + 1);
+    if (S.kasa < cost) {
+      toast("Kasa yetmez.");
+      return;
+    }
+    S.kasa -= cost;
+    S.bld[key] = lv + 1;
+    scheduleSave();
+    paint();
+  }
+  function hireStaff(key) {
+    if (S.staff[key]) {
+      S.staff[key] = 0;
+    } else {
+      if (S.kasa < 30000) {
+        toast("Kasa yetmez.");
+        return;
+      }
+      S.kasa -= 30000;
+      S.staff[key] = 1;
+    }
+    scheduleSave();
+    paint();
+  }
+
+  function exportSave() {
+    if (!S) {
+      var disk = loadSave();
+      if (disk && disk !== "corrupt") S = disk;
+    }
+    if (!S) {
+      toast("Kayıt yok.");
+      return;
+    }
+    saveNow();
+    var raw = encodeSave(S);
+    var slug = String(S.name || "hanedan").replace(/[^\wçğıöşüÇĞİÖŞÜ\- ]+/g, "").replace(/\s+/g, "-").slice(0, 24);
+    var fname = "hanedan-" + (slug || "defter") + "-s" + S.season + "h" + S.week + ".hanedan";
+    try {
+      var blob = new Blob([raw], { type: "text/plain;charset=utf-8" });
+      var url = URL.createObjectURL(blob);
+      var a = el("a", { href: url, download: fname });
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function () { try { URL.revokeObjectURL(url); } catch (e) {} }, 1500);
+    } catch (e) {}
+    copyText(raw);
+  }
+  function copyText(raw) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(raw).then(function () { toast("Kopyalandı."); }, function () { fallbackCopy(raw); });
+    } else fallbackCopy(raw);
+  }
+  function fallbackCopy(raw) {
+    var sh = document.getElementById("sheet");
+    clear(sh);
+    add(sh, el("p", { cls: "kicker", text: "Kopyala" }));
+    var ta = add(sh, el("textarea"));
+    ta.value = raw;
+    ta.rows = 12;
+    ta.readOnly = true;
+    add(sh, el("button", { cls: "primary", text: "Kapat", "data-act": "close" }));
+    openSheet();
+    ta.focus();
+    ta.select();
+  }
+  function importRaw(raw) {
+    var data = parseSave(raw);
+    if (!data || data === "corrupt") {
+      openModal("Bozuk kayıt", "Yedek okunamadı. HANEDAN/2 veya eski JSON.", [["Tamam", "close"]]);
+      return;
+    }
+    if (S && S.mode === "demir" && data.run !== S.run) {
+      openModal("Red", "Demir'de başka run yüklenemez.", [["Tamam", "close"]]);
+      return;
+    }
+    resumeSave(data);
+    saveNow();
+    closeSheet();
+    toast("Kayıt yüklendi.");
+  }
+
+  function copySeason() {
+    var lines = [];
+    lines.push(S.name + " — Sezon " + S.season + " — " + yearNow());
+    for (var i = 0; i < S.kronik.length; i++) {
+      if (S.kronik[i].y === yearNow() || S.kronik[i].t.indexOf("Sezon " + S.season) !== -1) {
+        lines.push(S.kronik[i].s);
+      }
+    }
+    copyText(lines.join("\n"));
+  }
+
+  function act(code, node) {
+    if (!code) return;
+    var reason=blockedAction(code);if(reason){toast(reason);return;}
+    var p = code.split(":");
+    var k = p[0];
+    var a = p.slice(1).join(":");
+    var readOnly = ["save","close","title","menu","tab","man","haber","export","import","doimport","copy","font","wipe","wipe2","load","resume","new","demir","home","mode","setupgo","drafttog","draftsee","draftok","draftforce","help","slot"];
+    if(S && S.over && readOnly.indexOf(k)<0){toast("Defter kapandı. Yeni hanedan kurabilir veya kaydı inceleyebilirsin.");return;}
+    if(reader && ["rnext","rback","silent"].indexOf(k)<0 && readOnly.indexOf(k)<0){toast("Önce açık baskını tamamla.");return;}
+    if(k==="save"){toast(saveNow()?"Kayıt güncel.":"Kayıt yazılamadı; yedek al.");return;}
+    if(k==="rest"){if(reader||!S||S.over)return; S.week++;if(S.week>16)endSeason();if(!S.over)tickWeekEnd();kronik("Bu hafta baskın yapılmadı. Ekip dinlendi; fikstür puanı alınmadı.");saveNow();paint();return;}
+
+    if (k === "close") { closeSheet(); return; }
+    if (k === "help") { openHelp(); return; }
+    if (k === "title") { bootTitle(); return; }
+    if (k === "slot") {
+      if (S) saveNow();
+      bindHanedanSlot(+a);
+      S = null;
+      reader = null;
+      view = "title";
+      paint();
+      return;
+    }
+    if (k === "new") { startNew(a || "klasik"); return; }
+    if (k === "demir") { startNew("demir"); return; }
+    if (k === "setupgo") {
+      var inp = document.getElementById("cname");
+      if (inp) tmpName = inp.value;
+      beginDraft();
+      return;
+    }
+    if (k === "home") {
+      var cHome = document.getElementById("cname");
+      if (cHome) tmpName = cHome.value;
+      var parts = a.split(",");
+      tmpHome = { r: +parts[0], d: +parts[1] };
+      paint();
+      return;
+    }
+    if (k === "mode") {
+      var cMode = document.getElementById("cname");
+      if (cMode) tmpName = cMode.value;
+      tmpMode = a;
+      paint();
+      return;
+    }
+    if (k === "drafttog") {
+      var ix = draftPick.indexOf(a);
+      var locked = false;
+      for (var di = 0; di < draftPool.length; di++) if (draftPool[di].id === a && draftPool[di].locked) locked = true;
+      if (locked) return;
+      if (ix >= 0) draftPick.splice(ix, 1);
+      else if (draftPick.length < 8) draftPick.push(a);
+      if (sheetOpen) closeSheet(false);
+      paint();
+      return;
+    }
+    if (k === "draftsee") {
+      openDraft(a);
+      return;
+    }
+    if (k === "draftok") { commitDraft(); return; }
+    if (k === "draftforce") { tmpWipeOk = true; commitDraft(); return; }
+    if (k === "load" || k === "resume") { offerLoad(); return; }
+    if (k === "menu") { bootTitle(); return; }
+    if (k === "tab") {
+      tab = a;
+      if (S) { S.tab = a; scheduleSave(); }
+      paint();
+      return;
+    }
+    if (k === "ilerlet") { doAdvance(); return; }
+    if (k === "scout") { scoutNow(); return; }
+    if (k === "gambit") { S.prep.gambit = a; scheduleSave(); paint(); return; }
+    if (k === "kit") { S.prep.kit = a; scheduleSave(); paint(); return; }
+    if (k === "squadtog") {
+      var si = S.prep.squad.indexOf(a);
+      if (si >= 0) S.prep.squad.splice(si, 1);
+      else if (S.prep.squad.length < squadSize()) S.prep.squad.push(a);
+      scheduleSave();
+      paint();
+      return;
+    }
+    if (k === "koru") { S.prep.koru = a; scheduleSave(); paint(); return; }
+    if (k === "man") { openMan(a); return; }
+    if (k === "hire") { hireMan(a); return; }
+    if (k === "fire") { fireMan(a); return; }
+    if (k === "bail") { bailMan(a); return; }
+    if (k === "up") { upgradeBld(a); return; }
+    if (k === "staff") { hireStaff(a); return; }
+    if (k === "rnext") { readerIlerle(); return; }
+    if (k === "rback") { readerGeri(); return; }
+    if (k === "silent") {
+      if(!reader || S.prep.silent || !reader.raid.rooms[reader.idx].silent)return;
+      var changes={borclu:[6000,2],ihbarci:[-3000,-3],telsiz:[0,-2],kasa:[9000,5],soyleme:[0,1]}[a];
+      if(!changes)return;S.prep.silent=a;reader.raid.choiceLootDelta=(reader.raid.choiceLootDelta || 0)+changes[0];reader.raid.loot=Math.max(0,reader.raid.loot+changes[0]);reader.raid.heat=clamp(reader.raid.heat+changes[1],1,20);
+      var label = a;
+      for (var s = 0; s < SILENT.length; s++) if (SILENT[s][0] === a) label = SILENT[s][1];
+      kronik("Sessiz oda: " + label + ".");
+      scheduleSave();
+      closeSheet();
+      paint();
+      return;
+    }
+    if (k === "haber") { openHaber(+a); return; }
+    if (k === "font") {
+      S.font = +a;
+      document.documentElement.style.fontSize = S.font + "px";
+      scheduleSave();
+      paint();
+      return;
+    }
+    if (k === "export") { exportSave(); return; }
+    if (k === "import") { openImport(); return; }
+    if (k === "doimport") {
+      var ta = document.getElementById("imp");
+      if (ta) importRaw(ta.value);
+      return;
+    }
+    if (k === "copy") { copySeason(); return; }
+    if (k === "wipe") {
+      openModal("Defteri kapat", "Kayıt bu cihazdan silinir. Yedek aldın mı?", [["Sil", "wipe2"], ["Vazgeç", "close"]]);
+      return;
+    }
+    if (k === "wipe2") {
+      wipeAllSaves();
+      S = null;
+      reader = null;
+      closeSheet(false);
+      view = "title";
+      paint();
+      return;
+    }
+    if (k === "kid") {
+      if (a === "al" && S.kid) {
+        var boy = genMan(rngFrom(hash(S.seed, S.season, S.week, "kid")), yearNow(), S.home, false);
+        boy.ad = S.kid.ad;
+        boy.yas = 16;
+        boy.rol = "Gözcü";
+        if (!alive().length) boy.traits.push("ugurlu");
+        else {
+          var ment = alive()[0];
+          boy.bag = { tur: "dost", id: ment.id };
+        }
+        if(S.men.length >= 24){toast("Kadro dolu: 24 adam.");return;}
+        S.men.push(boy);
+        kronik("Kapıdaki çocuk alındı: " + boy.ad + ".");
+        S.kid.resolved = true;
+        S.kid = null;
+      } else if (S.kid) {
+        kronik("Kapıdaki çocuk reddedildi.");
+        S.kid.resolved = true;
+        S.kid = null;
+      }
+      scheduleSave();
+      closeSheet();
+      paint();
+      return;
+    }
+    if (k === "cmp") {
+      var ci = compareIds.indexOf(a);
+      if (ci >= 0) compareIds.splice(ci, 1);
+      else {
+        if (compareIds.length >= 2) compareIds.shift();
+        compareIds.push(a);
+      }
+      paint();
+      return;
+    }
+    if (k === "soz") {
+      var mm = manById(p[2] || "");
+      if (!mm) return;
+      if (p[1] === "pay") {
+        if (S.kasa < mm.yevmiye * 6) { toast("Kasa yetmez."); return; }
+        S.kasa -= mm.yevmiye * 6;
+        mm.sozlesme = 3;
+        kronik(mm.ad + " karşılandı. Üç sezon daha.");
+      } else if (p[1] === "leave") {
+        fireMan(mm.id);
+        return;
+      }
+      scheduleSave();
+      closeSheet();
+      return;
+    }
+    if (node && node.tagName === "INPUT") return;
+  }
+
+  function offerLoad() {
+    if (S && S.run && view !== "title") {
+      view = "play";
+      reader = S.pend || reader;
+      paint();
+      return;
+    }
+    if (S && S.run && view === "title") {
+      view = "play";
+      reader = S.pend || reader;
+      if (reader) tab = "baskin";
+      paint();
+      return;
+    }
+    var data = loadSave();
+    if (data === "corrupt") {
+      openModal("Bozuk kayıt", "Kayıt okunamadı. Yedek yükle veya yeni oyun.", [["Yedek yükle", "import"], ["Tamam", "close"]]);
+      return;
+    }
+    if (!data) {
+      openImport();
+      return;
+    }
+    resumeSave(data);
+  }
+
+  function openImport() {
+    var sh = document.getElementById("sheet");
+    clear(sh);
+    add(sh, el("p", { cls: "kicker", text: "Yedek yükle" }));
+    add(sh, el("p", { text: ".hanedan dosyası seç veya metni yapıştır." }));
+    var inp = add(sh, el("input", { type: "file", accept: ".hanedan,.json,text/plain,application/json" }));
+    inp.addEventListener("change", function () {
+      var f = inp.files && inp.files[0];
+      if (!f) return;
+      var r = new FileReader();
+      r.onload = function () { importRaw(String(r.result || "")); };
+      r.readAsText(f);
+    });
+    var ta = add(sh, el("textarea", { id: "imp" }));
+    ta.rows = 8;
+    ta.setAttribute("aria-label", "Yedek metni");
+    add(sh, el("button", { cls: "primary", text: "Yükle", "data-act": "doimport" }));
+    add(sh, el("button", { text: "Kapat", "data-act": "close" }));
+    openSheet();
+  }
+
+  function openDraft(id) {
+    var m = null;
+    for (var i = 0; i < draftPool.length; i++) if (draftPool[i].id === id) m = draftPool[i];
+    if (!m) return;
+    var on = draftPick.indexOf(m.id) !== -1;
+    var sh = document.getElementById("sheet");
+    clear(sh);
+    var top = add(sh, el("div", { cls: "row" }));
+    add(top, portrait(hash(m.id), 56));
+    var col = add(top, el("div", { cls: "grow" }));
+    add(col, el("h2", { cls: "h1", text: m.ad }));
+    add(col, el("p", { cls: "small", text: m.rol + " · " + m.yas + " · " + m.semt }));
+    add(sh, el("p", { cls: "small", text: TRAIT_NAME[m.traits[0]] + " · " + TRAIT_NAME[m.traits[1]] }));
+    for (i = 0; i < STATS.length; i++) {
+      var rw = add(sh, el("div", { cls: "row" }));
+      add(rw, el("span", { cls: "grow small", text: STAT_TR[STATS[i]] }));
+      add(rw, el("span", { cls: "mono", text: String(m.st[STATS[i]]) }));
+    }
+    add(sh, el("p", { cls: "mono", text: "Yevmiye " + fmtTL(m.yevmiye) + " · Sözleşme " + m.sozlesme + " sezon" }));
+    if (!m.locked) {
+      add(sh, el("button", { cls: "primary", text: on ? "Çıkar" : "Seç", "data-act": "drafttog:" + m.id }));
+    } else {
+      add(sh, el("p", { cls: "warn", text: "Kan. Draft kilitli." }));
+    }
+    add(sh, el("button", { text: "Kapat", "data-act": "close" }));
+    openSheet();
+  }
+
+  function openMan(id) {
+    var m = manById(id);
+    if (!m) return;
+    var sh = document.getElementById("sheet");
+    clear(sh);
+    var top = add(sh, el("div", { cls: "row" }));
+    add(top, portrait(hash(m.id), 56));
+    var col = add(top, el("div", { cls: "grow" }));
+    add(col, el("h2", { cls: "h1", text: m.ad }));
+    add(col, el("p", { cls: "small", text: m.rol + " · " + m.yas + " · " + m.semt }));
+    add(sh, el("p", { cls: "small", text: TRAIT_NAME[m.traits[0]] + " · " + TRAIT_NAME[m.traits[1]] }));
+    for (var i = 0; i < STATS.length; i++) {
+      var rw = add(sh, el("div", { cls: "row" }));
+      add(rw, el("span", { cls: "grow small", text: STAT_TR[STATS[i]] }));
+      add(rw, el("span", { cls: "mono", text: String(m.st[STATS[i]]) }));
+    }
+    add(sh, el("p", { cls: "mono", text: "Yevmiye " + fmtTL(m.yevmiye) + " · Sözleşme " + m.sozlesme + " sezon" }));
+    if (m.jail > 0) add(sh, el("button", { text: "Kefalet", "data-act": "bail:" + m.id }));
+    if (m.sozlesme <= 0) {
+      add(sh, el("button", { cls: "gold", text: "Karşıla", "data-act": "soz:pay:" + m.id }));
+      add(sh, el("button", { text: "Bırak", "data-act": "soz:leave:" + m.id }));
+    }
+    add(sh, el("button", { cls: "primary", text: "Kadrodan çıkar", "data-act": "fire:" + m.id }));
+    add(sh, el("button", { text: "Kapat", "data-act": "close" }));
+    openSheet();
+  }
+
+  function openHaber(i) {
+    var n = S.news[i];
+    if (!n) return;
+    var sh = document.getElementById("sheet");
+    clear(sh);
+    add(sh, el("p", { cls: "kicker", text: n.t }));
+    add(sh, el("h2", { cls: "h1", text: n.bas }));
+    add(sh, el("p", { cls: "serif", text: n.body }));
+    add(sh, el("button", { cls: "primary", text: "Kapat", "data-act": "close" }));
+    openSheet();
+  }
+
+  function paint() {
+    var header = document.getElementById("header");
+    var main = document.getElementById("main");
+    var tabs = document.getElementById("tabs");
+    clear(header);
+    clear(main);
+    clear(tabs);
+    if (view === "title") {
+      tabs.style.display = "none";
+      add(header, el("a", { cls: "ghost", href: "/", text: "\u2190 Oyunlar" }));
+      add(header, el("strong", { cls: "grow", text: "HANEDAN" }));
+      add(header, el("button", {text:"Nasıl oynanır", "data-act":"help"}));
+      add(main, el("p", { cls: "kicker", text: "Çete Savaşları" }));
+      add(main, el("h1", { cls: "h1", text: "ÇETE SAVAŞLARI: HANEDAN" }));
+      add(main, el("p", { cls: "sub", text: "Futbol menajerliği ile mahalle savaşı." }));
+      add(main, el("p", { cls: "serif", text: "Adamlar ölür. Hanedan kalır. Şehir ikisini de hatırlar." }));
+      add(main, el("p", { cls: "serif", text: "Bir çeteyi yaşayan bir İstanbul’da yönet. Her fikstür bir baskındır. Her adam o baskında ölebilir. Her sezon deftere yazılır." }));
+      add(main, el("p", { cls: "serif", text: "Altı kademeli lig. Kırk sekiz rakip. Taht’ı tutan şehri tutar." }));
+      add(main, el("p", { cls: "serif", text: "Soru efsane çıkıp çıkmayacağı değil. Çetenin efsane çıkaracak kadar yaşayıp yaşamayacağı." }));
+      add(main, el("p", { cls: "kicker", text: "Kayıt yerleri" }));
+      var slots = add(main, el("div", { cls: "grid2" }));
+      [1, 2, 3].forEach(function (n) {
+        var raw = lsGet("tariklab::hanedan:" + n);
+        var parsed = raw ? parseSave(raw) : null;
+        var label = "Slot " + n;
+        if (parsed && parsed !== "corrupt") label += " · " + (parsed.name || "kayıt");
+        else if (parsed === "corrupt") label += " · bozuk";
+        else label += " · boş";
+        add(slots, el("button", { cls: SLOT === n ? "primary" : "", text: label, "data-act": "slot:" + n }));
+      });
+      var disk = (S && S.run) ? S : loadSave();
+      var st = add(main, el("div", { cls: "stack" }));
+      if (disk === "corrupt") {
+        add(st, el("p", { cls: "warn", text: "Kayıt bozuk. Yedek yükle veya yeni başla." }));
+        add(st, el("button", { cls: "primary", text: "Yedek yükle", "data-act": "import" }));
+        add(st, el("button", { text: "Yeni hanedan", "data-act": "new:klasik" }));
+      } else if (disk) {
+        add(st, el("p", { cls: "ok", text: saveLabel(disk) }));
+        if (disk.savedAt) {
+          add(st, el("p", { cls: "small", text: "Son kayıt " + new Date(disk.savedAt).toLocaleString("tr-TR") }));
+        }
+        add(st, el("button", { cls: "primary", text: disk.over ? "Defteri aç" : "Devam", "data-act": "resume" }));
+        add(st, el("button", { text: "Yeni hanedan", "data-act": "new:klasik" }));
+        add(st, el("button", { text: "Demir", "data-act": "demir" }));
+        add(st, el("button", { text: "Yedek yükle", "data-act": "import" }));
+      } else {
+        add(st, el("button", { cls: "primary", text: "Yeni hanedan", "data-act": "new:klasik" }));
+        add(st, el("button", { text: "Demir", "data-act": "demir" }));
+        add(st, el("button", { text: "Yedek yükle", "data-act": "import" }));
+      }
+      var credit = add(main, el("p", { cls: "small" }));
+      credit.innerHTML = "© 2026 TarikLab. Tüm hakları saklıdır.<br>Oyun tasarımı ve özgün içerik: Tarık Halil Ayaz.";
+      return;
+    }
+    if (view === "setup") {
+      tabs.style.display = "none";
+      add(header, el("button", { cls: "ghost", text: "←", "data-act": "title", "aria-label": "Geri" }));
+      add(header, el("strong", { cls: "grow", text: "Kuruluş" }));
+      if (tmpMode !== "demir") {
+        add(main, el("p", { cls: "kicker", text: "Mod" }));
+        var mg = add(main, el("div", { cls: "grid2" }));
+        add(mg, el("button", { cls: tmpMode === "klasik" ? "primary" : "", text: "Klasik", "data-act": "mode:klasik" }));
+        add(mg, el("button", { cls: tmpMode === "hanedan" ? "primary" : "", text: "Hanedan uzun", "data-act": "mode:hanedan" }));
+        add(mg, el("button", { cls: tmpMode === "sokak" ? "primary" : "", text: "Sokak doğanları", "data-act": "mode:sokak" }));
+      } else {
+        add(main, el("p", { cls: "warn", text: "Demir: tek slot. Eski yedeğe dönüş kısıtlı. Hafta onaylıdır." }));
+      }
+      add(main, el("p", { cls: "kicker", text: "Çete adı" }));
+      var inp = add(main, el("input", { id: "cname", maxlength: "28", "aria-label": "Çete adı" }));
+      inp.value = tmpName;
+      add(main, el("p", { cls: "kicker", text: "Ev semti" }));
+      for (var r = 0; r < REGIONS.length; r++) {
+        var card = add(main, el("div", { cls: "card" }));
+        add(card, el("div", { text: REGIONS[r].name }));
+        for (var d = 0; d < REGIONS[r].d.length; d++) {
+          var b = add(card, el("button", {
+            text: REGIONS[r].d[d],
+            "data-act": "home:" + r + "," + d,
+            cls: (tmpHome.r === r && tmpHome.d === d) ? "gold" : "ghost"
+          }));
+          b.style.margin = "4px 4px 0 0";
+        }
+      }
+      add(main, el("button", { cls: "primary", text: "Adaylara geç", "data-act": "setupgo" }));
+      return;
+    }
+    if (view === "draft") {
+      tabs.style.display = "none";
+      add(header, el("strong", { cls: "grow", text: "Draft " + draftPick.length + "/8" }));
+      add(header, el("button", { cls: "primary", text: "Kur", "data-act": "draftok" }));
+      add(main, el("p", { cls: "small", text: "16 aday. 8 seç. Adayın ayrıntısı için satıra bas." }));
+      for (var i = 0; i < draftPool.length; i++) {
+        var m = draftPool[i];
+        var on = draftPick.indexOf(m.id) !== -1;
+        var row = add(main, el("div", { cls: "man", "data-act": "draftsee:" + m.id }));
+        add(row, portrait(hash(m.id), 28));
+        var c = add(row, el("div", { cls: "grow" }));
+        add(c, el("div", { text: (on ? "● " : "○ ") + m.ad + (m.locked ? " (kan)" : "") }));
+        add(c, el("div", { cls: "small", text: m.rol + " · " + m.yas + " · " + TRAIT_NAME[m.traits[0]] + " / " + TRAIT_NAME[m.traits[1]] }));
+      }
+      return;
+    }
+
+    tabs.style.display = "flex";
+    if (S && S.font) document.documentElement.style.fontSize = S.font + "px";
+    add(header, el("button", { cls: "ghost", text: "Ana Menü", "data-act": "title" }));
+    add(header, el("strong", { cls: "grow", text: S.name }));
+    add(header, el("button", {text:"?", "aria-label":"Nasıl oynanır", "data-act":"help"}));
+    add(header, el("button", {text:"Kaydet", "data-act":"save"}));
+    var meta = add(header, el("span", { cls: "mono small", text: fmtHafta() }));
+    meta.setAttribute("aria-label", fmtHafta());
+    var go = add(header, el("button", { cls: "primary", text: reader ? "Baskın sürüyor" : S.over ? "Defter kapandı" : "Baskına çık", "data-act": "ilerlet" }));
+    if (S.over || reader) go.disabled = true;
+    for (var t = 0; t < TABS.length; t++) {
+      var tb = add(tabs, el("button", { text: TABS[t][1], "data-act": "tab:" + TABS[t][0] }));
+      if (tab === TABS[t][0]) {tb.className = "gold";tb.setAttribute("aria-current","page");}
+    }
+    if (S.over) {
+      add(main, el("div", { cls: "card" }));
+      main.firstChild.appendChild(el("p", { cls: "kicker", text: "Defter kapandı" }));
+      main.firstChild.appendChild(el("p", { cls: "serif", text: S.overWhy }));
+      add(main, el("button", { text: "Yedek al", "data-act": "export" }));
+      add(main, el("button", { text: "Baştan", "data-act": "wipe2" }));
+    }
+    if (tab === "sehir") paintSehir(main);
+    else if (tab === "kahve") paintKahve(main);
+    else if (tab === "baskin") paintBaskin(main);
+    else if (tab === "pazar") paintPazar(main);
+    else if (tab === "tesis") paintTesis(main);
+    else if (tab === "haber") paintHaber(main);
+    else paintDefter(main);
+    if (S.kid && S.kid.ready && !sheetOpen) {
+      /* door prompt once per paint is noisy; show card in defter/kahve */
+    }
+  }
+
+  function paintSehir(main) {
+    add(main, el("p", {cls:"sub",text:TIERS[S.tier]+" · Sezon puanı "+S.pts+"/28 · 16 hafta sonunda 28 puan terfi, 10 altı düşüş. Tahtı bir sezon koru."}));
+    add(main, el("p", { cls: "kicker", text: districtName(S.home) }));
+    var svg = svgEl("svg", { viewBox: "0 0 220 140", width: "100%", height: "140", "aria-label": "İstanbul" });
+    var cols = ["#2a2620", "#3a3228", "#2c4a6e", "#3a4030", "#4a3020", "#2a3a32", "#3a2a28"];
+    for (var i = 0; i < 7; i++) {
+      var x = (i % 4) * 54 + 4;
+      var y = Math.floor(i / 4) * 64 + 4;
+      var g = svgEl("g");
+      var rec = svgEl("rect", { x: String(x), y: String(y), width: "50", height: "56", rx: "6", fill: cols[i], stroke: S.home.r === i ? "#c4a574" : "#2a2620" });
+      g.appendChild(rec);
+      var tx = svgEl("text", { x: String(x + 6), y: String(y + 32), fill: "#e8dcc8", "font-size": "7" });
+      tx.textContent = REGIONS[i].name.split(" ")[0];
+      g.appendChild(tx);
+      svg.appendChild(g);
+    }
+    add(main, svg);
+    var heat = add(main, el("div", { cls: "card" }));
+    add(heat, el("p", { cls: "kicker", text: "Isı" }));
+    bar(heat, "Savaş", Math.min(100, S.sohret * 4));
+    bar(heat, "Polis", S.heat);
+    bar(heat, "Siyaset", S.siyasi * 8);
+    add(main, el("p", { cls: "mono", text: "Kasa " + fmtTL(S.kasa) + " · Malzeme " + S.malzeme + " · Şöhret " + S.sohret }));
+    var opp = currentOpp();
+    var fx = add(main, el("div", { cls: "card" }));
+    add(fx, el("p", { cls: "kicker", text: "Fikstür" }));
+    add(fx, el("p", { text: opp.name + (opp.r === S.home.r && opp.d === S.home.d ? " · DERBİ" : "") }));
+    add(fx, el("p", { cls: "small", text: TIERS[opp.tier] + " · güç " + opp.power }));
+    for (var t = 5; t >= 0; t--) {
+      var acc = add(main, el("div", { cls: "card" }));
+      add(acc, el("p", { cls: "kicker", text: TIERS[t] + (S.tier === t ? " · biz" : "") }));
+      var n = 0;
+      for (i = 0; i < S.gangs.length && n < 6; i++) {
+        if (S.gangs[i].tier === t) {
+          add(acc, el("p", { cls: "small", text: S.gangs[i].name + " · " + S.gangs[i].pts + " p" }));
+          n++;
+        }
+      }
+      if (S.tier === t) add(acc, el("p", { cls: "ok", text: S.name + " · " + S.pts + " p" }));
+    }
+    if (window.tlabI18n && window.tlabI18n.getLang() === "en") window.tlabI18n.applyPhrases(document.body);
+  }
+  function bar(p, label, v) {
+    var r = add(p, el("div", { cls: "row" }));
+    add(r, el("span", { cls: "small grow", text: label }));
+    add(r, el("span", { cls: "mono small", text: String(Math.round(v)) }));
+    var m = add(p, el("div", { cls: "meter" }));
+    var i = add(m, el("i"));
+    i.style.width = clamp(v, 0, 100) + "%";
+  }
+
+  function paintKahve(main) {
+    add(main, el("p", { cls: "kicker", text: "Kadro " + S.men.length }));
+    if (S.kid && !S.kid.ready) {
+      var wait = add(main, el("div", { cls: "card" }));
+      add(wait, el("p", { text: "Kapıda biri. Gece " + S.kidNights + "/3." }));
+    }
+    if (S.kid && S.kid.ready && !S.kid.resolved) {
+      var kd = add(main, el("div", { cls: "card" }));
+      add(kd, el("p", { text: "Kapıda çocuk. Gece " + S.kidNights + "/3." }));
+      add(kd, el("button", { text: "Al", "data-act": "kid:al" }));
+      add(kd, el("button", { text: "Reddet", "data-act": "kid:hayir" }));
+    }
+    var list = S.men;
+    var max = list.length > 60 ? 60 : list.length;
+    for (var i = 0; i < max; i++) {
+      var m = list[i];
+      var row = add(main, el("div", { cls: "man", "data-act": "man:" + m.id }));
+      add(row, portrait(hash(m.id), 28));
+      var pip = add(row, el("span", { cls: "pip" }));
+      pip.style.background = ROLE_COL[m.rol] || "#c4a574";
+      var c = add(row, el("div", { cls: "grow" }));
+      add(c, el("div", { text: m.ad + (m.lakap ? " “" + m.lakap + "”" : "") }));
+      add(c, el("div", { cls: "small", text: m.rol + " · " + fmtTL(m.yevmiye) + " · " + m.sozlesme + " sezon sözleşme · yorgun " + m.yorgun + (m.bag ? " · bağ" : "") + (m.jail ? " · hapis" : "") }));
+    }
+  }
+
+  function paintBaskin(main) {
+    if (reader) {
+      var room = reader.raid.rooms[reader.idx];
+      add(main, el("p", { cls: "kicker", text: "Oda " + room.n + " / " + reader.raid.rooms.length }));
+      var box = add(main, el("div", { cls: "card" }));
+      for (var i = 0; i < room.lines.length; i++) {
+        add(box, el("p", { cls: "serif", text: room.lines[i] }));
+      }
+      add(main, el("p", { cls: "mono small", text: "güç " + room.nums.power + " · tehlike " + room.nums.danger + " · fark " + room.nums.margin }));
+      var row = add(main, el("div", { cls: "row" }));
+      add(row, el("button", { text: "Geri çekil", "data-act": "rback" }));
+      add(row, el("button", { cls: "primary grow", text: "İlerle", "data-act": "rnext" }));
+      return;
+    }
+    var opp = currentOpp();
+    add(main, el("p", { cls: "kicker", text: "Brifing" }));
+    add(main, el("p", { cls: "serif", text: opp.name + (opp.r === S.home.r && opp.d === S.home.d ? " — derbi." : ".") + " Baskına çık veya puandan vazgeçip dinlen." }));
+    if (S.week === 1) add(main, el("p", { cls: "warn", text: "İlk saat: derbi, ölüm masada, bir sözleşme bitmek üzere." }));
+    add(main, el("button", { text: S.prep.scout ? "Keşif alındı" : "Keşif (−4 malzeme)", "data-act": "scout" }));
+    if (S.prep.scout) {
+      add(main, el("p", { cls: "small", text: S.prep.scout.rooms + " oda · " + S.prep.scout.cond + " · zayıf " + S.prep.scout.weak }));
+    }
+    add(main, el("p", { cls: "kicker", text: "Kadro " + S.prep.squad.length + "/" + squadSize() }));
+    var a = alive();
+    for (var i = 0; i < a.length; i++) {
+      var on = S.prep.squad.indexOf(a[i].id) !== -1;
+      var row = add(main, el("div", { cls: "man", "data-act": "squadtog:" + a[i].id }));
+      add(row, portrait(hash(a[i].id), 28));
+      add(row, el("div", { cls: "grow", text: (on ? "● " : "○ ") + a[i].ad + " · " + a[i].rol }));
+    }
+    add(main, el("p", { cls: "kicker", text: "Yaklaşım" }));
+    var gg = add(main, el("div", { cls: "grid2" }));
+    for (i = 0; i < GAMBITS.length; i++) {
+      add(gg, el("button", { cls: S.prep.gambit === GAMBITS[i][0] ? "gold" : "", text: GAMBITS[i][1], "data-act": "gambit:" + GAMBITS[i][0] }));
+    }
+    if (S.prep.gambit === "koru") {
+      a=currentSquadMen();
+      add(main, el("p", { cls: "small", text: "Koru kimi?" }));
+      for (i = 0; i < a.length; i++) {
+        add(main, el("button", { cls: S.prep.koru === a[i].id ? "gold" : "ghost", text: a[i].ad, "data-act": "koru:" + a[i].id }));
+      }
+    }
+    add(main, el("p", { cls: "kicker", text: "Donanım · baskın başına 0 / 1 / 2 / 3 / 4 malzeme" }));
+    var kg = add(main, el("div", { cls: "grid2" }));
+    for (i = 0; i < KITS.length; i++) {
+      add(kg, el("button", { cls: S.prep.kit === KITS[i][0] ? "gold" : "", text: KITS[i][1], "data-act": "kit:" + KITS[i][0] }));
+    }
+    add(main, el("button", {text:"Bu hafta dinlen · puan yok", "data-act":"rest"}));
+    add(main, el("p", { cls: "kicker", text: "Arşiv" }));
+    for (i = 0; i < Math.min(6, S.archive.length); i++) {
+      add(main, el("p", { cls: "small", text: S.archive[i].opp + " · " + S.archive[i].result }));
+    }
+  }
+
+  function paintPazar(main) {
+    add(main, el("p", { cls: "kicker", text: "Adaylar" }));
+    add(main, el("p", { cls: "small", text: "Kıyas için iki aday işaretle." }));
+    if (compareIds.length === 2) {
+      var ca = null, cb = null;
+      for (var i = 0; i < S.market.length; i++) {
+        if (S.market[i].id === compareIds[0]) ca = S.market[i];
+        if (S.market[i].id === compareIds[1]) cb = S.market[i];
+      }
+      if (ca && cb) {
+        var cmp = add(main, el("div", { cls: "grid2" }));
+        [ca, cb].forEach(function (m) {
+          var c = add(cmp, el("div", { cls: "card" }));
+          add(c, el("p", { text: m.ad }));
+          add(c, el("p", { cls: "small", text: m.rol + " · " + m.yas }));
+          add(c, el("p", { cls: "small", text: "Sert " + m.st.sert + " · Sadakat " + m.st.sadakat }));
+        });
+      }
+    }
+    for (i = 0; i < S.market.length; i++) {
+      var m = S.market[i];
+      var row = add(main, el("div", { cls: "card" }));
+      add(row, el("p", { text: m.ad + " · " + m.rol + " · " + m.yas }));
+      add(row, el("p", { cls: "small", text: TRAIT_NAME[m.traits[0]] + " · yevmiye " + fmtTL(m.yevmiye) }));
+      var br = add(row, el("div", { cls: "row" }));
+      add(br, el("button", { text: "Kıyas", "data-act": "cmp:" + m.id }));
+      add(br, el("button", { cls: "primary", text: "Al", "data-act": "hire:" + m.id }));
+    }
+    add(main, el("p", { cls: "kicker", text: "Hapis" }));
+    var any = false;
+    for (i = 0; i < S.men.length; i++) if (S.men[i].jail > 0) {
+      any = true;
+      add(main, el("button", { text: S.men[i].ad + " · kefalet", "data-act": "bail:" + S.men[i].id }));
+    }
+    if (!any) add(main, el("p", { cls: "small", text: "İçerde kimse yok." }));
+  }
+
+  function paintTesis(main) {
+    add(main, el("p", { cls: "kicker", text: "Yapı" }));
+    for (var i = 0; i < BLD.length; i++) {
+      var key = BLD[i][0];
+      var lv = S.bld[key] || 0;
+      var c = add(main, el("div", { cls: "card" }));
+      add(c, el("p", { text: BLD[i][1] + " · düzey " + lv }));
+      add(c, el("p", { cls: "small", text: BLD[i][2] }));
+      add(c, el("button", { text: "Yükselt " + fmtTL(50000 * (lv + 1)), "data-act": "up:" + key }));
+    }
+    add(main, el("p", { cls: "kicker", text: "Personel" }));
+    for (i = 0; i < STAFF.length; i++) {
+      var k = STAFF[i][0];
+      var on = S.staff[k];
+      var s = add(main, el("div", { cls: "card" }));
+      add(s, el("p", { text: STAFF[i][1] + (on ? " · işe alındı" : "") }));
+      add(s, el("p", { cls: "small", text: STAFF[i][2] }));
+      add(s, el("button", { text: on ? "Çıkar" : "Al 30.000 ₺", "data-act": "staff:" + k }));
+    }
+  }
+
+  function paintHaber(main) {
+    add(main, el("p", { cls: "kicker", text: "Haber" }));
+    if (!S.news.length) add(main, el("p", { cls: "small", text: "Manşet yok." }));
+    for (var i = 0; i < S.news.length; i++) {
+      var n = S.news[i];
+      var c = add(main, el("div", { cls: "card", "data-act": "haber:" + i }));
+      add(c, el("p", { cls: "small", text: n.t }));
+      add(c, el("p", { text: n.bas }));
+    }
+  }
+
+  function paintDefter(main) {
+    add(main, el("p", { cls: "kicker", text: "Kronik" }));
+    var k = add(main, el("div", { cls: "card serif kronik" }));
+    if (!S.kronik.length) k.textContent = "Defter boş.";
+    else {
+      var bits = [];
+      for (var i = 0; i < S.kronik.length; i++) bits.push(S.kronik[i].t + " — " + S.kronik[i].s);
+      k.textContent = bits.join("\n\n");
+    }
+    add(main, el("p", { cls: "kicker", text: "Mezarlık" }));
+    if (!S.grave.length) add(main, el("p", { cls: "small", text: "Henüz kitabe yok." }));
+    for (i = 0; i < S.grave.length; i++) {
+      add(main, el("p", { cls: "serif", text: S.grave[i].ad + " · " + S.grave[i].kitabe }));
+    }
+    add(main, el("p", { cls: "kicker", text: "Ayarlar" }));
+    if (S.savedAt) {
+      add(main, el("p", { cls: "small", text: "Son kayıt " + new Date(S.savedAt).toLocaleString("tr-TR") }));
+    }
+    if (memStore) add(main, el("p", { cls: "warn", text: "Kayıt yalnızca bu oturumda. Yedek al." }));
+    var fs = add(main, el("div", { cls: "row" }));
+    add(fs, el("button", { text: "14", "data-act": "font:14" }));
+    add(fs, el("button", { text: "16", "data-act": "font:16" }));
+    add(fs, el("button", { text: "18", "data-act": "font:18" }));
+    var st = add(main, el("div", { cls: "stack" }));
+    add(st, el("button", { text: "Sezon kartını kopyala", "data-act": "copy" }));
+    add(st, el("button", { cls: "gold", text: "Yedek al", "data-act": "export" }));
+    add(st, el("button", { text: "Yedek yükle", "data-act": "import" }));
+    add(st, el("button", { text: "Ana menü", "data-act": "menu" }));
+    add(st, el("button", { text: "Defteri kapat", "data-act": "wipe" }));
+    add(main, el("p", { cls: "small", text: "Mod: " + S.mode + " · run " + S.run + " · HANEDAN/2" }));
+    add(main, el("p", { cls: "kicker", text: "Compendium" }));
+    for (i = 0; i < TRAITS.length; i++) add(main, el("p", { cls: "small", text: TRAIT_NAME[TRAITS[i][0]] }));
+  }
+
+  var _paintHanedan = paint;
+  paint = function () {
+    _paintHanedan();
+    if (window.tlabI18n && window.tlabI18n.getLang() === "en") window.tlabI18n.applyPhrases(document.body);
+  };
+
+  (function boot() {
+    var data = loadSave();
+    if (data === "corrupt") {
+      view = "title";
+      paint();
+      openModal("Bozuk kayıt", "Kayıt okunamadı. Yedek yükle veya yeni oyun.", [["Yedek yükle", "import"], ["Tamam", "close"]]);
+      return;
+    }
+    if (data) {
+      resumeSave(data);
+      return;
+    }
+    paint();
+  })();
+})();
+</script>
+</body>
+</html>

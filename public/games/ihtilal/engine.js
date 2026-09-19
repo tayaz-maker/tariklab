@@ -443,14 +443,16 @@ export function legalActions(state, playerId = actingPlayer(state)) {
 }
 
 function enterKarsi(state) {
+  if (!state.lastPlay) return false;
   const opp = 1 - state.turnPlayer;
-  const has = state.players[opp].hand.some((id) => cardOf(id)?.type === "karsi");
-  if (has && state.lastPlay) {
-    state.phase = "karsi";
-    state.pendingCounter = true;
-    return true;
-  }
-  return false;
+  // A response window must contain a real decision. Merely holding a Counter
+  // used to force a pass even when ink, seals or replay guards made it illegal.
+  const counterState = { ...state, phase: "karsi", pendingCounter: true };
+  const has = state.players[opp].hand.some(id => cardOf(id)?.type === "karsi" && canPlay(counterState, opp, id, state.lastPlay.desk).ok);
+  if (!has) return false;
+  state.phase = "karsi";
+  state.pendingCounter = true;
+  return true;
 }
 
 function finishKalem(state) {
@@ -506,6 +508,7 @@ export function applyAction(state, action) {
     state.phase = "kalem";
     state.pendingCounter = false;
     if (state.playsLeft <= 0) finishKalem(state);
+    checkEnd(state);
     return { ok: true, state };
   }
   if (action.type === "end-kalem") {

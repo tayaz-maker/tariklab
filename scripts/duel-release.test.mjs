@@ -282,7 +282,7 @@ test("every playable catalog game ships teaching content", () => {
   // Where each game's player-facing teaching content lives.
   const sources = {
     "cete-savaslari": ["src/components/game/help-panel.tsx", "src/components/game"],
-    hanedan: ["public/games/hanedan/index.html"],
+    hanedanian: ["public/games/hanedanian/app.js"],
     racon: ["public/games/racon/index.html"],
     "tc-sim": ["public/games/tc-sim/js/help.js"],
     bukucu: ["public/games/bukucu/index.html"],

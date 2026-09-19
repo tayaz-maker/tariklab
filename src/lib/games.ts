@@ -8,7 +8,7 @@ export type CatalogGame = {
 };
 
 export const HTML5_SLUGS = [
-  "hanedan",
+  "hanedanian",
   "labirent",
   "peg-solitaire",
   "satranc",
@@ -28,8 +28,9 @@ export const HTML5_SLUGS = [
 
 export type Html5Slug = (typeof HTML5_SLUGS)[number];
 
-/** Display/route aliases. Save keys and public/games folders stay on the canonical slug. */
+/** Public route aliases. Each game owns its save namespace and migration policy. */
 export const PLAY_ALIASES: Record<string, string> = {
+  hanedan: "hanedanian",
   "son-koy-manager": "son-kasaba",
 };
 
@@ -51,11 +52,11 @@ export const GAMES: CatalogGame[] = [
     icon: "cete",
   },
   {
-    slug: "hanedan",
-    title: "Çete Savaşları: Hanedan",
-    subtitle: "Adamlar ölür. Hanedan kalır.",
+    slug: "hanedanian",
+    title: "HANEDANIAN",
+    subtitle: "Bir yerleşimden büyük hanedana. Haritayı oku, geleceğini kur.",
     status: "live",
-    href: "/oyna/hanedan",
+    href: "/oyna/hanedanian",
     icon: "hanedan",
   },
   {

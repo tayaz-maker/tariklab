@@ -4,7 +4,7 @@ import { loadStrategy } from './strategy-harness.mjs';
 import { loadGame } from './racon-harness.mjs';
 
 test('Hanedan actual saves roundtrip between slot 1 and 2', () => {
-  const g = loadStrategy('public/games/hanedan/index.html');
+  const g = loadStrategy('public/games/hanedan/legacy.html');
   for (const n of [1, 2]) g.ev(`bindHanedanSlot(${n}); S=newState("klasik","Slot${n}",{r:0,d:0},[],42); S.kasa=${n * 10000}; saveNow();`);
   for (const n of [1, 2]) {
     g.ev(`bindHanedanSlot(${n}); S=loadSave();`);

@@ -8,13 +8,14 @@ import * as ai from "../public/games/ihtilal/ai.js";
 import * as copy from "../public/games/ihtilal/copy.js";
 import * as save from "../public/games/ihtilal/save.js";
 import * as report from "../public/games/ihtilal/report.js";
+import * as briefing from "../public/games/ihtilal/briefing.js";
 import * as rng from "../public/games/ihtilal/rng.js";
 
 const source = readFileSync(new URL("../public/games/ihtilal/app.js", import.meta.url), "utf8");
 
 // Execute the real UI handlers with its real engine/save modules and controlled timers.
 // The DOM fixture models only operations used by this vanilla app; it is not browser QA.
-function mount(slots = [], lang = "en") {
+function mount(slots = [], lang = "en", initialData = []) {
   let document;
   class Node {
     constructor(tag, text = "") { this.tag = tag; this.text = text; this.children = []; this.attrs = {}; this.events = {}; }
@@ -46,7 +47,7 @@ function mount(slots = [], lang = "en") {
     querySelector(selector) { return this.querySelectorAll(selector)[0] || null; }
     focus() { document.activeElement = this; }
   }
-  const data = new Map([["tariklab.language", lang]]);
+  const data = new Map([["tariklab.language", lang], ...initialData]);
   let quota = false;
   const storage = {
     getItem: key => data.get(key) ?? null,
@@ -62,7 +63,7 @@ function mount(slots = [], lang = "en") {
   const pending = new Map(), callbacks = new Map();
   let timerId = 0;
   vm.runInNewContext(source.replace(/^import .*;\n/gm, ""), {
-    ...decks, ...engine, ...ai, ...copy, ...save, ...report, ...rng, Node, localStorage: storage,
+    ...decks, ...engine, ...ai, ...copy, ...save, ...report, ...rng, ...briefing, Node, localStorage: storage,
     document,
     window: { addEventListener(key, handler) { const handlers = listeners.get(key) || []; handlers.push(handler); listeners.set(key, handlers); }, matchMedia: () => ({ matches: false }), confirm: () => true, scrollTo: (...args) => scrolls.push(args) },
     setTimeout(callback) { const id = ++timerId; pending.set(id, callback); callbacks.set(id, callback); return id; },
@@ -81,6 +82,16 @@ function mount(slots = [], lang = "en") {
   return {
     pending,
     click,
+    data,
+    node: selector => root.querySelector(selector),
+    resume: () => save.deserialize(data.get("tariklab.ihtilal.v1.resume")),
+    clickNode(selector) {
+      const node = root.querySelector(selector);
+      assert.ok(node, selector);
+      assert.ok(!Object.hasOwn(node.attrs, "disabled"));
+      node.focus();
+      node.events.click({ target: node });
+    },
     forceClick: label => click(label, 0, true),
     key(key, shiftKey = false) {
       let prevented = false;
@@ -162,39 +173,59 @@ test("IHTILAL help takes focus, traps Tab, closes with Escape and restores its r
   assert.equal(app.listeners.get("keydown").length, 1, "rerenders do not accumulate listeners");
 });
 
-test("IHTILAL tutorial preserves focus across steps and returns to a playable card", () => {
+test("IHTILAL first run starts in one click with live guidance and no tutorial wall", () => {
   const app = mount();
   app.click(app.copy.tutorial);
-  app.click(app.copy.start);
-  assert.equal(app.focus().textContent, app.copy.next);
-  app.key("Tab");
-  assert.equal(app.focus().textContent, app.copy.skip);
-  app.key("Tab", true);
-  assert.equal(app.focus().textContent, app.copy.next);
-  app.click(app.copy.next);
-  assert.equal(app.focus().textContent, app.copy.next);
+  assert.equal(app.dialogs().length, 0);
+  assert.ok(app.text().includes(app.copy.objective));
+  assert.ok(app.text().includes(app.copy.firstHint));
+  assert.ok(app.text().includes(app.copy.lockRule));
+  app.clickNode(".suggested");
+  const preview = app.node(".play-target");
+  assert.ok(preview, "recommended card always has a legal concrete target");
+  app.clickNode(".play-target");
+  assert.ok(app.node('[data-feedback="human"]'));
+  assert.ok(app.node(".change-chip"), "first action has numeric evidence");
+  assert.equal(app.resume().ok, true);
+  assert.ok(app.resume().state.log.some(row => row.k === "play" && row.a === 0));
+});
+
+test("IHTILAL help returns focus to the current hand during a guided match", () => {
+  const app = mount();
+  app.click(app.copy.tutorial);
+  app.click(app.copy.how);
+  assert.equal(app.dialogs().length, 1);
+  assert.ok(!app.inert(app.dialogs()[0]));
   app.key("Escape");
   assert.equal(app.dialogs().length, 0);
-  assert.ok(app.focus().className.includes("file-card"));
+  assert.equal(app.focus().attrs["data-focus-key"], "help");
   assert.ok(!app.inert(app.focus()));
 });
 
-test("IHTILAL only the top dialog is interactive if help and tutorial coexist", () => {
+test("IHTILAL a fresh document resumes the autosaved action without rerolling", () => {
   const app = mount();
   app.click(app.copy.tutorial);
-  app.click(app.copy.start);
-  // Deliver the underlying help handler directly to cover overlapping dialog state.
-  app.forceClick(app.copy.how);
-  assert.equal(app.dialogs().length, 2);
-  assert.ok(app.inert(app.dialogs()[0]));
-  assert.ok(!app.inert(app.dialogs()[1]));
-  app.key("Escape");
-  assert.equal(app.dialogs().length, 1);
-  assert.equal(app.focus().textContent, app.copy.helpTitle);
-  assert.ok(!app.inert(app.focus()));
-  app.key("Escape");
-  assert.equal(app.dialogs().length, 0);
-  assert.ok(!app.inert(app.focus()));
+  app.clickNode(".suggested");
+  app.clickNode(".play-target");
+  const expected = app.resume().state;
+  const restored = mount([], "en", [...app.data]);
+  restored.click(`${restored.copy.continue} · ${restored.copy.turn} ${expected.turn}`);
+  restored.click(`${restored.copy.save} 1`);
+  assert.deepEqual(restored.stored(1), expected);
+  assert.ok(restored.text().includes(restored.copy.objective));
+});
+
+test("IHTILAL human feedback stays visible after the AI reply", () => {
+  const app = mount();
+  app.click(app.copy.tutorial);
+  app.clickNode(".suggested");
+  app.clickNode(".play-target");
+  const humanResult = app.node('[data-feedback="human"]').textContent;
+  if (!app.pending.size) app.click(app.copy.endKalem);
+  const afterEnd = app.node('[data-feedback="human"]').textContent;
+  for (let n = 0; n < 12 && app.pending.size; n++) app.fire();
+  assert.equal(app.node('[data-feedback="human"]').textContent, afterEnd || humanResult);
+  assert.ok(app.node('[data-feedback="ai"]'));
 });
 
 function aiPreterminal() {
@@ -287,3 +318,28 @@ for (const lang of ["tr", "en"]) {
     assert.deepEqual(app.stored(1), saved, "failed save preserves the previous record");
   });
 }
+
+test("IHTILAL corrupt automatic continuation recovers its last valid backup", () => {
+  const app = mount();
+  app.click(app.copy.tutorial);
+  app.clickNode(".suggested");
+  app.clickNode(".play-target");
+  const backup = save.deserialize(app.data.get("tariklab.ihtilal.v1.resume.backup"));
+  assert.equal(backup.ok, true);
+  app.data.set("tariklab.ihtilal.v1.resume", "{broken");
+  const restored = mount([], "en", [...app.data]);
+  restored.click(`${restored.copy.continue} · ${restored.copy.turn} ${backup.state.turn}`);
+  restored.click(`${restored.copy.save} 1`);
+  assert.deepEqual(restored.stored(1), backup.state);
+});
+
+test("IHTILAL automatic storage failure warns while leaving the match playable", () => {
+  const app = mount();
+  app.setQuota(true);
+  app.click(app.copy.tutorial);
+  assert.ok(app.statuses().includes(app.copy.autoSaveFail));
+  app.clickNode(".suggested");
+  app.clickNode(".play-target");
+  assert.ok(app.node('[data-feedback="human"]'));
+  assert.ok(app.statuses().includes(app.copy.autoSaveFail));
+});

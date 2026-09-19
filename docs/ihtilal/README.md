@@ -53,3 +53,21 @@ Not applicable. Duel-core and next-wave runtimes are not imported. Only generic 
 ## Historical note
 
 Older placeholder docs that listed “9 regions / 5 institutions / election every four rounds” were speculative coming-soon copy and are superseded by this file.
+
+## Final upgrade (2026-09-19)
+
+The gameplay model, cards, AI, v1 schema and manual slots remain compatible.
+Two engine transitions are corrected: impossible counter windows no longer
+interrupt play, and passing a counter resolves a reached victory threshold.
+The first-run flow now starts directly with a legal guided move, visible win
+condition, explicit card/target actions, real effect previews, numeric outcomes
+and delayed-file timing. Resources and turn-end lock timing are explained in
+context. The result screen shows the actual winner comparison.
+
+Automatic continuation uses `tariklab.ihtilal.v1.resume` and its `.backup`, with
+the same checksum envelope as manual slots. The new `briefing.js` presentation
+adapter belongs in the offline app-shell cache. No network or new dependency
+is required by the core or the first-run UI.
+
+Audit, all twelve diagnostic answers, the frozen loop, limits and verification
+scope: [FINAL_UPGRADE_AUDIT.md](./FINAL_UPGRADE_AUDIT.md).

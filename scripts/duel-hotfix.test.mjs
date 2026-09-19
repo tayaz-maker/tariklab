@@ -12,23 +12,12 @@ import test from "node:test";
 import { detailLine, joinText, localized, plain } from "../public/games/duel-core/render-safe.js";
 import { labels } from "../public/games/duel-core/labels.js";
 
-// Mirrors HTML5_SLUGS in src/lib/games.ts — the games served from public/games.
-const HTML5_SLUGS = [
-  "hanedan",
-  "labirent",
-  "peg-solitaire",
-  "satranc",
-  "amiral-batti",
-  "racon",
-  "tc-sim",
-  "apartman",
-  "son-100-gun",
-  "kayip-telefon",
-  "tc-sim-devlet",
-  "son-kasaba",
-  "veto-h",
-  "gett-oh",
-];
+// Read the live HTML5 list so a rename or new game cannot silently escape this gate.
+const catalog = readFileSync("src/lib/games.ts", "utf8");
+const html5List = catalog.match(/export const HTML5_SLUGS = \[([\s\S]*?)\] as const/);
+assert.ok(html5List, "canonical HTML5 game list must be readable");
+const HTML5_SLUGS = [...html5List[1].matchAll(/"([^"]+)"/g)].map((match) => match[1]);
+assert.equal(HTML5_SLUGS.length, 16, "all current HTML5 games must be checked");
 
 test("text guards never turn a missing value into words on screen", () => {
   for (const empty of [null, undefined, NaN, Infinity, {}, [], false, true, () => {}]) {
@@ -86,6 +75,13 @@ test("every playable game ships a visible way out of itself", () => {
   }
 });
 
+test("legacy HANEDAN runtime and redirect keep a way back to the portal", () => {
+  for (const file of ["public/games/hanedan/legacy.html", "public/games/hanedan/index.html"]) {
+    const body = readFileSync(file, "utf8");
+    assert.match(body, /href=["'`]\/["'`]|href: ["'`]\/["'`]/, `${file}: no portal exit`);
+  }
+});
+
 function extraSources(slug) {
   // Games that build their chrome in script rather than in the page.
   return {
@@ -97,5 +93,7 @@ function extraSources(slug) {
     "son-100-gun": ["public/games/son-100-gun/app.js"],
     "veto-h": ["public/games/duel-core/app.js"],
     "gett-oh": ["public/games/duel-core/app.js"],
+    "darbe-h": ["public/games/duel-core/app.js"],
+    ihtilal: ["public/games/ihtilal/app.js"],
   }[slug] || [];
 }

@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {loadStrategy} from './strategy-harness.mjs';
-const h=()=>{const g=loadStrategy('public/games/hanedan/index.html');g.ev('act("new:klasik");act("setupgo");draftPick=draftPool.slice(0,8).map(m=>m.id);act("draftok");');return g;};
+const h=()=>{const g=loadStrategy('public/games/hanedan/legacy.html');g.ev('act("new:klasik");act("setupgo");draftPick=draftPool.slice(0,8).map(m=>m.id);act("draftok");');return g;};
 const b=()=>{const g=loadStrategy('public/games/bukucu/index.html');g.ev('act("hot3")');return g;};
 const json=(g,c)=>JSON.parse(g.ev('JSON.stringify('+c+')'));
 test('Hanedan: production raid previews do not injure crew, retreat applies visited rooms once',()=>{const g=h();g.ev('S.men.forEach(m=>{m.hp=3;Object.keys(m.st).forEach(k=>m.st[k]=1)});before=JSON.stringify(S.men);act("ilerlet")');assert.equal(g.ev('JSON.stringify(S.men)===before'),true);g.ev('act("rback");after=JSON.stringify(S);act("rback")');assert.equal(g.ev('JSON.stringify(S)===after'),true);assert.equal(g.ev('S.week'),2);assert.equal(g.ev('S.archive[0].rooms.length'),1);assert.equal(g.ev('S.archive[0].result'),'geri çekildi');assert.equal(g.ev('S.archive[0].awardedLoot===Math.round(S.archive[0].loot*0.2)'),true);});

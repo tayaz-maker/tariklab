@@ -315,3 +315,50 @@ Append after a meaningful website change to a game or shared brand/content. Skip
 - Content: no. Artwork: no. Audio: no. Gameplay/rules/balance: no. AI decision policy: no. Save schema and namespaces: unchanged.
 - UI/presentation: yes. Shared-content source: no.
 - Native follow-up: paused. Future standalone İHTİLAL should preserve session-scoped AI work, accessible modal focus, and save-result feedback. No native repository was changed.
+
+### 2026-09-19 — HANEDANIAN identity and canonical catalog route
+- Baseline: `9e747ebf6de55cfb0eb526d0c56b63e4320259cf`; branch `astra/hanedanian-ihtilal-upgrade`. The current production/main baseline is newer than the original mandate's `e091644…`; its PWA and İHTİLAL lifecycle repairs are retained.
+- Web change: rename the current catalog entry to **HANEDANIAN**, canonical slug `hanedanian`, route `/oyna/hanedanian`. Existing `/oyna/hanedan` canonicalizes to the same title and iframe through the play-route alias; the catalog still contains one entry for this game and 18 live games overall.
+- Discovery and copy: TR/EN portal catalog, credits, sitemap and current documentation index point to the new identity and its strategy-map premise. Credits now correctly distinguish the new game’s Turkish-only runtime from the bilingual portal and other games, and its auto/previous/manual archive from numbered independent campaign slots. Frozen historical records and unrelated authored content are not rewritten.
+- Artwork: retain the existing original crown/dynasty portal icon under the internal `hanedan` icon key. The site-wide TarikLab brand, OG cards and favicon are unchanged. Audio remains disabled.
+- Save namespaces: no other game's key or slot data is renamed by this catalog change. The new game and legacy compatibility are documented in [hanedan/README.md](hanedan/README.md).
+- Compatibility: the shared and React English catalog dictionaries retain `hanedan` as an alias of the current `hanedanian` translation, so cached callers do not revive stale branding. The i18n coverage gate now reads every current catalog slug instead of a frozen partial list, with a separate exercised legacy-alias translation check.
+- Verification for this surface: 42 docs/catalog/go-live/credits/i18n/sitewide checks pass; direct execution of the catalog resolver confirms both old/new names select the same unique entry and the SON KÖY MANAGER alias is unaffected. Whole-game/browser/offline acceptance is recorded in the upgrade's release report rather than inferred from catalog tests.
+- Shared-content source: no shared artwork or content bundle changed in this pass. Native follow-up: paused; any future standalone build should use HANEDANIAN as its product identity and retain the explicitly documented legacy access path.
+
+### 2026-09-19 — HANEDANIAN strategy runtime and İHTİLAL decision flow candidate
+- Web/gameplay: independent HANEDANIAN world, economy, settlement/army/scout/AI/trade/diplomacy/campaign modules replace the active old runtime. Original HANEDAN and save keys remain in the explicit legacy route. New art is procedural canvas/SVG; no borrowed game assets or new dependencies, audio stays disabled.
+- Persistence/offline: new IndexedDB auto/previous/manual archive and validated checksum envelope, export/import, journal recovery and stale-write protection; dedicated complete-package worker versioned from build content. No cloud save or cross-origin automatic transfer.
+- İHTİLAL: clear role/goal/legal-action/result, engine-derived preview, delayed queue, automatic continuation; legal-counter filtering and post-counter victory resolution repair the engine. Existing card values, AI policy, manual save schema and slots remain. User explicitly permits further engine redesign if real usability evidence requires it.
+- Validation: full suite 1,415 passed, 0 failed, one existing opt-in skip; typecheck/build passed, lint zero errors. Vercel preview READY. Actual browser/mobile/offline acceptance is blocked, campaign duration is below target, and production is not changed. See [release candidate QA](hanedanian/RELEASE_CANDIDATE_QA.md) for evidence and remaining gates.
+- Shared-content source: no. Other games' mechanics: unchanged. Native follow-up: paused; future ports need the new deterministic simulation and save/worker contract, and must retain old-save access rather than falsely converting campaign models.
+
+## Release candidate campaign pacing and acceptance gates (in progress)
+
+- Continue PR #33 on `astra/hanedanian-ihtilal-upgrade`, starting at `9a5b2550a96438e4efe306c7335e887bbd3fb123`; production/main baseline `9e747ebf6de55cfb0eb526d0c56b63e4320259cf`.
+- Replace stockpile-only victory with six developed regions, settlement specialization, consumed local investments and real cross-region supply, followed by route-specific regional finale. Building timers and 12× remain unchanged. Optional campaign metadata preserves existing v1 saves.
+- Standing supply orders use ordinary caravans, ownership, capacity and travel rules; demobilization allows upkeep reduction after major wars. No free production or instant logistics.
+- Add deterministic campaign probes and dedicated Chromium acceptance jobs, including native touch and genuine service-worker/IndexedDB offline reload. Results are pending; these changes are NOT release approval.
+- Native/Godot remains paused. No shared art or audio changes.
+
+## Release-candidate verification progress
+
+- All 60 legal campaign probes completed all three routes; 60 adversarial policy
+  probes produced no victory. Earliest normal victory is minute 39,000 (10.83h at
+  1×); AI stayed within seven settlements and all resources remained finite.
+- Chromium verified both desktop sizes and 360×800 touch gameplay through actual
+  founding expeditions and save/continue, with no console errors or horizontal
+  overflow. İHTİLAL first action, persistent effect feedback and match conclusion
+  passed on desktop/mobile; screenshots reviewed. Engine redesign unnecessary.
+- Fixed a real manual-save/close race that could reopen the menu after dismissal.
+  Offline, twenty-minute mobile soak and final production validation remain gates
+  until their dedicated CI runs complete. Latest public main is still baseline.
+
+## P1 regression found during candidate closure
+
+Latest full Chromium regression exposed a 320px VETO-H board briefly widening to
+570px during card travel and viewport resize. The design stylesheet overrode the
+motion containment from `table.css` with `overflow: visible`. Restore horizontal
+clipping on the table workspace while retaining vertical depth and the hand's own
+scroll area. Existing overflow assertions remain unchanged; full duel/sitewide
+Chromium must pass before integration.

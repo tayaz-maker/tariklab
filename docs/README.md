@@ -29,7 +29,7 @@ In the table below, “native app” for Çete Savaşları means a first-party R
 | Game | Slug | Route | Docs | Runtime | Notes |
 |---|---|---|---|---|---|
 | Çete Savaşları | `cete-savaslari` | `/cete-savaslari` | [docs/cete-savaslari/](cete-savaslari/TECHNICAL_CLOSURE_CHECKPOINT.md) | `src/` (native app, not an `/oyna/` iframe game) | Flagship game; its own route, not the `/oyna/$slug` pattern. |
-| Çete Savaşları: Hanedan | `hanedan` | `/oyna/hanedan` | [docs/hanedan/](hanedan/README.md) | `public/games/hanedan/` | Single self-contained `index.html`. |
+| HANEDANIAN | `hanedanian` | `/oyna/hanedanian` | [docs/hanedan/](hanedan/README.md) | `public/games/hanedanian/` | Seeded strategy map, local simulation and IndexedDB saves. `/oyna/hanedan` remains an alias; the original game remains at `/games/hanedan/legacy.html`. |
 | Racon Manager | `racon` | `/oyna/racon` | [docs/racon/](racon/SPEC-V1-ORIJINAL.md) | `public/games/racon/` | |
 | TC SIM | `tc-sim` | `/oyna/tc-sim` | [docs/tc-sim/](tc-sim/TC_SIM_MASTER.md) | `public/games/tc-sim/` | Reference engine for the "Life Sim" family (see Shared Systems). |
 | Son Mahalle Bükücü | `bukucu` | `/games/bukucu/index.html` | [docs/bukucu/](bukucu/RAPOR.md) | `public/games/bukucu/` | Only catalog entry routed directly to a static path rather than `/oyna/$slug`. |
