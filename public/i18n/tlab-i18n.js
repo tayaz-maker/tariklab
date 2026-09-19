@@ -433,6 +433,7 @@
       {
         h: "Contribution and attribution",
         lead: "Game design, interface and original content: Tarık Halil Ayaz.",
+        note: "Tarık is his mother's son.",
       },
       {
         h: "TLab Classics",
