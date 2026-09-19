@@ -30,11 +30,11 @@ function Html5Play() {
   const title = lang === "en" && g && CATALOG_EN[g.slug] ? CATALOG_EN[g.slug].title : (g?.title ?? "Oyun");
   return (
     <div className="flex h-dvh min-h-0 flex-col bg-bg">
-      <div className="relative flex h-9 shrink-0 items-center justify-between gap-2 border-b border-border bg-bg/95 px-2.5 sm:px-3">
+      <div className="relative flex h-8 shrink-0 items-center justify-between gap-2 border-b border-border bg-bg/95 px-2.5 sm:px-3">
         <Link
           to="/"
           aria-label={t("portal.back", "Oyunlara dön")}
-          className="relative z-10 inline-flex h-9 items-center gap-1 text-xs font-medium text-muted hover:text-fg focus-visible:outline-2 focus-visible:outline-danger"
+          className="relative z-10 inline-flex h-8 items-center gap-1 text-xs font-medium text-muted hover:text-fg focus-visible:outline-2 focus-visible:outline-danger"
         >
           <span aria-hidden="true">←</span><span className="hidden sm:inline">{t("portal.back", "Oyunlar")}</span>
         </Link>
