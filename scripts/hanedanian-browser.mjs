@@ -22,7 +22,7 @@ async function archive(page){
 async function save(page){await page.locator('#menu-button').click();await page.locator('[data-action="manual-save"]').click();await page.locator('#dialog').press('Escape');}
 async function select(page,x,y){const c=page.locator('#world-map');await page.locator('#navigation [data-view="map"]').click();await c.focus();await c.press('Home');for(let i=24;i<x;i++)await c.press('ArrowRight');for(let i=24;i>x;i--)await c.press('ArrowLeft');for(let i=24;i<y;i++)await c.press('ArrowDown');for(let i=24;i>y;i--)await c.press('ArrowUp');}
 async function touch(page, points, type){const client=page.touchClient||=await page.context().newCDPSession(page);await client.send('Input.dispatchTouchEvent',{type,touchPoints:points.map((p,id)=>({...p,id,radiusX:4,radiusY:4,force:1}))});}
-async function importState(page,state){await page.locator('#menu-button').click();await page.locator('[data-action="import"]').click();await page.locator('#import-text').fill(encodeSave(state));await page.locator('#import-form button[type="submit"]').click();await page.locator('#welcome').waitFor({state:'hidden'});}
+async function importState(page,state){if(await page.locator('#welcome').isVisible())await page.locator('#welcome [data-action="import"]').click();else{await page.locator('#menu-button').click();await page.locator('[data-action="import"]').click();}await page.locator('#import-text').fill(encodeSave(state));await page.locator('#import-form button[type="submit"]').click();await page.locator('#welcome').waitFor({state:'hidden'});}
 try {
  let ready=false;for(let i=0;i<150;i++){try{ready=(await fetch(`${origin}/games/hanedanian/index.html`)).ok;}catch{}if(ready)break;await new Promise(r=>setTimeout(r,200));}assert.ok(ready,'server ready');
  browser=await chromium.launch({headless:true,executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH||undefined,args:['--no-sandbox']});
@@ -38,9 +38,10 @@ try {
    await touch(page,[{x:x-25,y},{x:x+25,y}],'touchStart');await touch(page,[{x:x-65,y},{x:x+65,y}],'touchMove');await touch(page,[],'touchEnd');
   }else{await page.mouse.move(x,y);await page.mouse.wheel(0,-250);}
   await page.waitForFunction(value=>Number(document.querySelector('#world-map').dataset.zoom)!==value,before);
-  await page.getByRole('button',{name:'Aktif yerleşime dön',exact:true}).click();
+  await page.getByRole('button',{name:'Aktif yerleşime dön',exact:true}).click();await page.locator('[data-action="deselect"]').click();await page.waitForTimeout(100);const centerBefore=await canvas.getAttribute('data-center');
   if(mobile){await touch(page,[{x,y}],'touchStart');await touch(page,[{x:x-85,y:y+20}],'touchMove');await touch(page,[],'touchEnd');}
   else{await page.mouse.move(x,y);await page.mouse.down();await page.mouse.move(x-100,y+20,{steps:8});await page.mouse.up();}
+  await page.waitForFunction(before=>document.querySelector('#world-map').dataset.center!==before,centerBefore);
   assert.equal(await page.locator('#inspector').evaluate(el=>el.classList.contains('has-selection')),false,'drag must not select a tile');
   if(mobile)await page.touchscreen.tap(x,y);else await page.mouse.click(x,y);
   await page.locator('#inspector.has-selection').waitFor();await checkLayout(page,`${width}:selection`);
@@ -56,6 +57,8 @@ try {
   state=await archive(page);assert.equal(state.world.tiles[25*49+26].poi.ownerId,'player','army arrives and claims point');
   await page.locator('#navigation [data-view="council"]').click();assert.match(await page.locator('#section-view').innerText(),/Sancak dikildi|istihbarat geldi/);
   await page.locator('#navigation [data-view="dynasty"]').click();await checkLayout(page,`${width}:campaign`);
+  const site=state.world.tiles.filter(t=>!t.poi&&state.settlements.every(q=>Math.hypot(t.x-q.x,t.y-q.y)>=3)).sort((a,b)=>Math.hypot(a.x-24,a.y-24)-Math.hypot(b.x-24,b.y-24))[0];
+  await select(page,site.x,site.y);await page.locator('[data-action="expand"]').click();await page.locator('#expand-form button').click();await page.locator('[data-speed="12"]').click();await page.waitForTimeout(12000);await page.locator('[data-speed="0"]').click();assert.equal((await archive(page)).settlements.filter(t=>t.ownerId==='player').length,2,'real founding expedition');
   await save(page);const checkpoint=await archive(page);await page.reload();await page.locator('[data-load="auto"]').click();assert.equal((await archive(page)).world.seed,checkpoint.world.seed);
   await page.locator('#navigation [data-view="map"]').click();await page.screenshot({path:`${out}/map-${width}.png`});
   if(mobile){

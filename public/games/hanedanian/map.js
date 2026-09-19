@@ -408,6 +408,7 @@ export class StrategyMap {
     this.canvas.dataset.renderMs = String(this.lastRenderMs);
     this.canvas.dataset.mapMode = this.mode;
     this.canvas.dataset.zoom = this.zoom.toFixed(3);
+    this.canvas.dataset.center = `${this.center.x.toFixed(3)},${this.center.y.toFixed(3)}`;
     this.options.onViewChange?.(this.getView());
   }
 

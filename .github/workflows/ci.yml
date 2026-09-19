@@ -106,4 +106,4 @@ jobs:
         if: always()
         with:
           name: campaign-balance
-          path: campaign-balance.json
+          path: campaign-balance*.json
