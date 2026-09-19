@@ -1168,7 +1168,12 @@ form .row > label {
     max-width: none;
   }
   .resource {
-    padding: 3px 4px;
+    display: flex;
+    height: 32px;
+    align-items: baseline;
+    justify-content: center;
+    gap: 3px;
+    padding: 3px 2px;
   }
   .resource b {
     font-size: 14px;
@@ -1178,7 +1183,7 @@ form .row > label {
     font-size: 8px;
   }
   .resource small {
-    font-size: 8px;
+    display: none;
   }
   .timebar {
     position: absolute;
@@ -1190,6 +1195,12 @@ form .row > label {
     border: 0;
   }
   .timebar > div:first-child {
+    display: block;
+    margin-right: 3px;
+    font-size: 8px;
+    line-height: 1;
+  }
+  .timebar #clock-state {
     display: none;
   }
   .clock-controls {
