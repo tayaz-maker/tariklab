@@ -230,7 +230,7 @@ function renderHeader() {
   const campaign = getCampaign(state);
   const goal = campaign.goals.find((g) => !g.done);
   $("campaign-strip").innerHTML =
-    `<div><strong>${esc(campaign.label)}</strong><span>${esc(goal ? `${goal.label}: ${fmt(goal.current)} / ${fmt(goal.target)}` : "Kurultay yolları açılıyor. Hanedan sekmesini incele.")}</span></div><button data-view="dynasty">Hedefler →</button>`;
+    `<div><strong>${esc(campaign.label)}</strong><small class="campaign-date">${esc(gameDate())}</small><span>${esc(goal ? `${goal.label}: ${fmt(goal.current)} / ${fmt(goal.target)}` : "Kurultay yolları açılıyor. Hanedan sekmesini incele.")}</span></div><button data-view="dynasty">Hedefler →</button>`;
 }
 function syncFieldGuide(force = false) {
   const guide = $("field-guide");

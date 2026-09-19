@@ -251,6 +251,7 @@ small {
 .campaign-strip span {
   opacity: 0.83;
 }
+.campaign-date { display: none; }
 .campaign-strip button {
   background: transparent;
   color: #fff;
@@ -1188,17 +1189,14 @@ form .row > label {
   .timebar {
     position: absolute;
     top: max(2px, env(safe-area-inset-top));
-    right: 92px;
+    right: 120px;
     z-index: 4;
     min-height: 34px;
     padding: 0;
     border: 0;
   }
   .timebar > div:first-child {
-    display: block;
-    margin-right: 3px;
-    font-size: 8px;
-    line-height: 1;
+    display: none;
   }
   .timebar #clock-state {
     display: none;
@@ -1220,6 +1218,14 @@ form .row > label {
   }
   .campaign-strip > div {
     min-width: 0;
+  }
+  .campaign-date {
+    display: inline;
+    margin-left: 6px;
+    color: #d8dfce;
+    font-size: 8px;
+    font-weight: 500;
+    white-space: nowrap;
   }
   .campaign-strip span {
     display: block;
