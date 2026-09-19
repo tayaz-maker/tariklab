@@ -145,6 +145,11 @@ small {
   padding: 10px 20px;
   gap: 12px;
 }
+.commandline {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  min-width: 0;
+}
 .wordmark {
   font-family: var(--display);
   font-size: 24px;
@@ -1001,51 +1006,65 @@ form .row > label {
   display: none !important;
 }
 
-/* Production HUD: identity, economy and time share one dense command bar. */
+/* Compact strategy HUD: identity and commands are two real layout rows. */
 @media (min-width: 851px) {
   .topbar {
-    display: grid;
-    grid-template-columns: minmax(180px, .8fr) minmax(420px, 1.7fr) minmax(300px, 1fr);
-    align-items: stretch;
-    min-height: 52px;
-  }
-  .brandline,
-  .resources,
-  .timebar {
-    min-width: 0;
-    border: 0;
+    display: block;
   }
   .brandline {
-    padding: 7px 12px;
-    border-right: 1px solid var(--line);
+    height: 27px;
+    min-height: 27px;
+    padding: 2px 14px;
+    border-bottom: 1px solid var(--line);
   }
-  .wordmark { font-size: 18px; }
-  .wordmark-tag { margin-top: 3px; font-size: 6px; }
-  .top-actions { gap: 5px; }
-  .top-actions > span { display: none; }
-  .top-actions button { min-height: 36px; padding: 5px 9px; }
+  .wordmark { display: flex; align-items: baseline; gap: 8px; font-size: 16px; }
+  .wordmark-tag { display: inline; margin: 0; font-size: 6px; }
+  .top-actions { gap: 7px; }
+  .top-actions > span { display: inline; font-size: 9px; opacity: .72; }
+  .top-actions button { min-height: 24px; min-width: 32px; padding: 1px 8px; font-size: 11px; }
+  .commandline {
+    height: 37px;
+    grid-template-columns: minmax(460px, 1fr) auto;
+  }
   .resources {
     width: 100%;
     max-width: none;
     margin: 0;
+    border: 0;
   }
   .resource {
-    display: grid;
-    align-content: center;
-    padding: 4px 8px;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 4px;
+    padding: 2px 8px;
   }
-  .resource b { font-size: 15px; line-height: 1.15; }
-  .resource span,
+  .resource b { font-size: 14px; line-height: 1; }
+  .resource span { font-size: 8px; }
   .resource small { font-size: 8px; }
   .timebar {
-    min-height: 0;
-    padding: 5px 10px;
+    min-height: 37px;
+    padding: 2px 8px;
+    border-top: 0;
     border-left: 1px solid var(--line);
+    gap: 8px;
   }
-  .timebar > div:first-child { display: block; line-height: 1.2; }
-  .timebar span { display: block; font-size: 9px; }
-  .clock-controls button { min-height: 36px; min-width: 36px; padding: 4px 6px; }
-  .campaign-strip { min-height: 34px; padding: 4px 14px; }
+  .time-state { display: block; line-height: 1.05; min-width: 86px; }
+  .timebar strong { display: block; font-size: 10px; }
+  .timebar span { display: block; font-size: 8px; }
+  .clock-controls { gap: 0; }
+  .clock-controls button {
+    min-height: 32px;
+    min-width: 34px;
+    padding: 2px 6px;
+    border-radius: 0;
+    border-right-width: 0;
+    font-size: 11px;
+  }
+  .clock-controls button:first-child { border-radius: 5px 0 0 5px; }
+  .clock-controls button:last-child { border-radius: 0 5px 5px 0; border-right-width: 1px; }
+  .campaign-strip { min-height: 27px; height: 27px; padding: 1px 14px; }
+  .campaign-strip button { min-height: 24px; }
 }
 @media (min-width: 1500px) {
   .workspace {
@@ -1149,6 +1168,7 @@ form .row > label {
   .brandline {
     padding: 0 8px;
     min-height: 36px;
+    height: 36px;
   }
   .wordmark {
     font-size: 16px;
@@ -1176,53 +1196,58 @@ form .row > label {
   }
   .resources {
     max-width: none;
+    min-width: 0;
+    border-top: 0;
   }
   .resource {
-    display: flex;
+    display: grid;
     height: 32px;
-    align-items: baseline;
-    justify-content: center;
-    gap: 3px;
-    padding: 3px 2px;
+    place-content: center;
+    gap: 0;
+    padding: 1px;
   }
   .resource b {
-    font-size: 14px;
+    font-size: 13px;
     line-height: 1.1;
   }
   .resource span {
-    font-size: 8px;
+    font-size: 7px;
+    line-height: 1;
   }
   .resource small {
     display: none;
   }
   .timebar {
-    position: absolute;
-    top: max(2px, env(safe-area-inset-top));
-    right: 120px;
-    z-index: 4;
+    position: static;
     min-height: 34px;
-    padding: 0;
+    padding: 0 4px;
     border: 0;
+    border-left: 1px solid var(--line);
   }
-  .timebar > div:first-child {
+  .time-state {
     display: none;
   }
   .timebar #clock-state {
     display: none;
   }
   .clock-controls {
-    gap: 2px;
+    gap: 0;
   }
   .clock-controls button {
     min-height: 34px;
-    min-width: 32px;
+    min-width: 34px;
     padding: 3px;
     font-size: 11px;
+    border-radius: 0;
+    border-right-width: 0;
   }
+  .clock-controls button:first-child { border-radius: 5px 0 0 5px; }
+  .clock-controls button:last-child { border-radius: 0 5px 5px 0; border-right-width: 1px; }
   .campaign-strip {
-    padding: 3px 9px;
+    padding: 1px 8px;
     font-size: 11px;
-    min-height: 34px;
+    min-height: 28px;
+    height: 28px;
     gap: 8px;
   }
   .campaign-strip > div {
@@ -1241,7 +1266,7 @@ form .row > label {
     font-size: 10px;
   }
   .campaign-strip button {
-    min-height: 28px;
+    min-height: 24px;
     padding-block: 2px;
     flex: none;
   }
@@ -1380,7 +1405,7 @@ form .row > label {
     font-size: 14px;
   }
   .clock-controls button {
-    min-width: 39px;
+    min-width: 34px;
   }
   .map-tools button[data-map="world"] {
     max-width: 60px;
