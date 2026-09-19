@@ -353,3 +353,12 @@ Append after a meaningful website change to a game or shared brand/content. Skip
 - Fixed a real manual-save/close race that could reopen the menu after dismissal.
   Offline, twenty-minute mobile soak and final production validation remain gates
   until their dedicated CI runs complete. Latest public main is still baseline.
+
+## P1 regression found during candidate closure
+
+Latest full Chromium regression exposed a 320px VETO-H board briefly widening to
+570px during card travel and viewport resize. The design stylesheet overrode the
+motion containment from `table.css` with `overflow: visible`. Restore horizontal
+clipping on the table workspace while retaining vertical depth and the hand's own
+scroll area. Existing overflow assertions remain unchanged; full duel/sitewide
+Chromium must pass before integration.

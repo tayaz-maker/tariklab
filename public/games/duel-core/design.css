@@ -221,7 +221,10 @@ h3 {
 }
 .table-workspace {
   min-width: 0;
-  overflow: visible;
+  /* Keep vertical depth, but contain in-flight cards during viewport changes.
+     The design layer must not undo table.css's horizontal motion boundary. */
+  overflow-x: clip;
+  overflow-y: visible;
 }
 .duel-table {
   transform: none;
