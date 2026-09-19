@@ -8,7 +8,7 @@ mkdirSync(out,{recursive:true});
 const server=process.env.GAME_E2E_ORIGIN?null:spawn('npm',['run','dev','--','--host','127.0.0.1','--port','8083'],{stdio:'inherit'});
 const results=[],errors=[];let browser;
 try{
- let ready=false;for(let i=0;i<150;i++){try{ready=(await fetch(`${origin}/games/ihtilal/index.html`)).ok;}catch{}if(ready)break;await new Promise(r=>setTimeout(r,200));}assert.ok(ready);
+ let ready=false;for(let i=0;i<150;i++){try{ready=(await fetch(`${origin}/games/ihtilal/index.html`)).ok;}catch{/* The development server is still starting. */}if(ready)break;await new Promise(r=>setTimeout(r,200));}assert.ok(ready);
  browser=await chromium.launch({headless:true,executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH||undefined,args:['--no-sandbox']});
  for(const width of [1280,360]){
   const context=await browser.newContext({viewport:{width,height:width===360?800:720},isMobile:width===360,hasTouch:width===360});const page=await context.newPage();page.on('pageerror',e=>errors.push(String(e)));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});

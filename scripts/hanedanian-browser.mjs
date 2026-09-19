@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {mkdirSync,writeFileSync} from 'node:fs';
 import {spawn} from 'node:child_process';
 import {chromium} from 'playwright';
-import {createGame,advance,dispatch} from '../public/games/hanedanian/engine.js';
+import {createGame,advance} from '../public/games/hanedanian/engine.js';
 import {encodeSave} from '../public/games/hanedanian/save.js';
 const origin=process.env.GAME_E2E_ORIGIN||'http://127.0.0.1:8082';
 const out=`${process.env.RUNNER_TEMP||'/workspace'}/screenshots/hanedanian`;
@@ -24,11 +24,11 @@ async function select(page,x,y){const c=page.locator('#world-map');await page.lo
 async function touch(page, points, type){const client=page.touchClient||=await page.context().newCDPSession(page);await client.send('Input.dispatchTouchEvent',{type,touchPoints:points.map((p,id)=>({...p,id,radiusX:4,radiusY:4,force:1}))});}
 async function importState(page,state){if(await page.locator('#welcome').isVisible())await page.locator('#welcome [data-action="import"]').click();else{await page.locator('#menu-button').click();await page.locator('[data-action="import"]').click();}await page.locator('#import-text').fill(encodeSave(state));await page.locator('#import-form button[type="submit"]').click();await page.locator('#welcome').waitFor({state:'hidden'});}
 try {
- let ready=false;for(let i=0;i<150;i++){try{ready=(await fetch(`${origin}/games/hanedanian/index.html`)).ok;}catch{}if(ready)break;await new Promise(r=>setTimeout(r,200));}assert.ok(ready,'server ready');
+ let ready=false;for(let i=0;i<150;i++){try{ready=(await fetch(`${origin}/games/hanedanian/index.html`)).ok;}catch{/* The development server is still starting. */}if(ready)break;await new Promise(r=>setTimeout(r,200));}assert.ok(ready,'server ready');
  browser=await chromium.launch({headless:true,executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH||undefined,args:['--no-sandbox']});
  for(const [width,height,mobile] of [[1280,720,false],[1920,1080,false],[360,800,true]]){
   const context=await browser.newContext({viewport:{width,height},isMobile:mobile,hasTouch:mobile,deviceScaleFactor:mobile?2:1});
-  const page=await context.newPage();activePage=page;page.on('pageerror',e=>errors.push(String(e)));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
+  const page=await context.newPage();activePage=page;page.setDefaultTimeout(15000);page.on('pageerror',e=>errors.push(String(e)));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
   await page.goto(`${origin}/games/hanedanian/index.html`);await page.locator('[data-action="new"]').first().click();await page.locator('#new-form input[name="seed"]').fill('TL-BROWSER-ACCEPTANCE');await page.locator('#new-form button').click();await page.locator('#welcome').waitFor({state:'hidden'});
   await page.waitForFunction(()=>Number(document.querySelector('#world-map').dataset.drawnTiles)>0);
   await checkLayout(page,`${width}:launch`);
@@ -68,7 +68,7 @@ try {
   await context.close();
  }
  // Real SW + real IndexedDB; assert an uncached request fails while offline.
- const context=await browser.newContext({viewport:{width:360,height:800},isMobile:true,hasTouch:true});const page=await context.newPage();activePage=page;page.on('pageerror',e=>errors.push(String(e)));
+ const context=await browser.newContext({viewport:{width:360,height:800},isMobile:true,hasTouch:true});const page=await context.newPage();activePage=page;page.setDefaultTimeout(15000);page.on('pageerror',e=>errors.push(String(e)));
  await page.goto(`${origin}/games/hanedanian/index.html`);
  const seeded=createGame({seed:'TL-OFFLINE-REAL'});seeded.settings.autoPause=false;seeded.paused=false;advance(seeded,600);seeded.paused=true;
  await importState(page,seeded);await page.waitForFunction(()=>document.body.innerText.includes('Çevrimdışı paket hazır'),null,{timeout:30000});await save(page);

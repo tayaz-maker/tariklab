@@ -15,7 +15,7 @@ export function runCampaign(seed, path, {limit=100000, policy='network', snapsho
   const regionsWanted=[4,1,5,7,3,2,0,6,8].filter(r=>sitesFor(r).length>0).slice(0,6);
   const cachedSites=new Map();
   for (let time=0; time<limit; time+=120) {
-    const towns=getPlayerSettlements(s), p=progressOf(s), faction=getFaction(s);
+    const towns=getPlayerSettlements(s), p=progressOf(s);
     if(towns.length<previousTownCount) log.losses+=previousTownCount-towns.length;
     previousTownCount=towns.length;
     if(s.dynasty.pendingEvent) order({type:'event',choice:path==='dynasty'?'marry':'mentor'});
