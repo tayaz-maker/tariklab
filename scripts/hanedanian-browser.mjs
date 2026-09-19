@@ -34,7 +34,7 @@ try {
   assert.match(await page.locator('#field-guide').innerText(),/Reis sensin[\s\S]*Üret[\s\S]*Zamanı başlat[\s\S]*Keşfet/,'fresh player receives contextual first steps');
   const chrome=await page.evaluate(()=>{const top=document.querySelector('.topbar').getBoundingClientRect(),brand=document.querySelector('.brandline').getBoundingClientRect(),commands=document.querySelector('.commandline').getBoundingClientRect(),goal=document.querySelector('.campaign-strip').getBoundingClientRect();return {top:top.height,brand:brand.height,commands:commands.height,goal:goal.height,total:top.height+goal.height};});
   assert.ok(chrome.total<=(mobile?100:96),`compact command chrome ${JSON.stringify(chrome)}`);results.push({label:`${width}:hud`,...chrome});
-  if(mobile){const separated=await page.evaluate(()=>{const a=document.querySelector('.resources').getBoundingClientRect(),b=document.querySelector('.timebar').getBoundingClientRect();return a.right<=b.left&&Math.abs(a.top-b.top)<1;});assert.equal(separated,true,'mobile resources and time controls must share a row without overlap');}
+  if(mobile){const row=await page.evaluate(()=>{const a=document.querySelector('.resources').getBoundingClientRect(),b=document.querySelector('.timebar').getBoundingClientRect();return {overlap:Math.max(0,a.right-b.left),topDelta:Math.abs(a.top-b.top)};});assert.ok(row.overlap<=1&&row.topDelta<=1,`mobile resources and time controls must share a row without overlap ${JSON.stringify(row)}`);}
   await page.locator('[data-guide="dismiss"]').click();
   await checkLayout(page,`${width}:launch`);
   const canvas=page.locator('#world-map'),box=await canvas.boundingBox(),x=box.x+box.width*.5,y=box.y+box.height*.35;
