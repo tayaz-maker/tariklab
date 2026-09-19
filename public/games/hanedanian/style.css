@@ -153,12 +153,13 @@ small {
   text-decoration: none;
   line-height: 1;
 }
-.wordmark span {
+.wordmark-tag {
   display: block;
   margin-top: 5px;
   font: 8px/1 var(--body);
   letter-spacing: 0.21em;
 }
+.wordmark-compact { display: none; }
 .top-actions {
   display: flex;
   align-items: center;
@@ -1019,7 +1020,7 @@ form .row > label {
     border-right: 1px solid var(--line);
   }
   .wordmark { font-size: 18px; }
-  .wordmark span { margin-top: 3px; font-size: 6px; }
+  .wordmark-tag { margin-top: 3px; font-size: 6px; }
   .top-actions { gap: 5px; }
   .top-actions > span { display: none; }
   .top-actions button { min-height: 36px; padding: 5px 9px; }
@@ -1152,8 +1153,16 @@ form .row > label {
   .wordmark {
     font-size: 16px;
   }
-  .wordmark span {
+  .wordmark-full,
+  .wordmark-tag {
     display: none;
+  }
+  .wordmark-compact {
+    display: inline;
+    font-family: var(--display);
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: .04em;
   }
   .top-actions {
     gap: 8px;
@@ -1343,7 +1352,7 @@ form .row > label {
   .wordmark {
     font-size: 19px;
   }
-  .wordmark span {
+  .wordmark-tag {
     font-size: 7px;
   }
   .top-actions button {
@@ -1384,7 +1393,7 @@ form .row > label {
   .brandline {
     padding: 4px 12px;
   }
-  .brandline .wordmark span {
+  .brandline .wordmark-tag {
     display: none;
   }
   .resources {
