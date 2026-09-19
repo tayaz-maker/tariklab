@@ -340,3 +340,16 @@ Append after a meaningful website change to a game or shared brand/content. Skip
 - Standing supply orders use ordinary caravans, ownership, capacity and travel rules; demobilization allows upkeep reduction after major wars. No free production or instant logistics.
 - Add deterministic campaign probes and dedicated Chromium acceptance jobs, including native touch and genuine service-worker/IndexedDB offline reload. Results are pending; these changes are NOT release approval.
 - Native/Godot remains paused. No shared art or audio changes.
+
+## Release-candidate verification progress
+
+- All 60 legal campaign probes completed all three routes; 60 adversarial policy
+  probes produced no victory. Earliest normal victory is minute 39,000 (10.83h at
+  1×); AI stayed within seven settlements and all resources remained finite.
+- Chromium verified both desktop sizes and 360×800 touch gameplay through actual
+  founding expeditions and save/continue, with no console errors or horizontal
+  overflow. İHTİLAL first action, persistent effect feedback and match conclusion
+  passed on desktop/mobile; screenshots reviewed. Engine redesign unnecessary.
+- Fixed a real manual-save/close race that could reopen the menu after dismissal.
+  Offline, twenty-minute mobile soak and final production validation remain gates
+  until their dedicated CI runs complete. Latest public main is still baseline.

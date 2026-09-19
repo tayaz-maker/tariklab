@@ -1,7 +1,7 @@
 # HANEDANIAN / İHTİLAL release candidate — 2026-09-19
 
-**Status: implemented and published to a review branch; acceptance incomplete.
-Do not merge or promote this candidate to production yet.** The attached mandate
+**Historical implementation receipt; see the release-candidate continuation below.
+Merge requires the selected SHA’s acceptance jobs to pass.** The attached mandate
 requires real browser, mobile, offline reload and production checks. Automated
 fixtures and successful deployment builds do not satisfy those requirements.
 
@@ -155,3 +155,36 @@ Still required before acceptance:
 
 This document is a handoff of reviewable code and measured evidence, not a
 production completion certificate.
+
+## Release-candidate continuation — pacing and real Chromium
+
+Continuation starts at `9a5b2550a96438e4efe306c7335e887bbd3fb123`, on the same
+branch and Draft PR #33. Main was rechecked and remains
+`9e747ebf6de55cfb0eb526d0c56b63e4320259cf`. Earlier fixture-only limitations above
+are historical; current evidence is produced by the dedicated jobs in `ci.yml`.
+
+- `CAMPAIGN_BALANCE_REPORT.json`: 60/60 route completions, 60/60 adversarial
+  no-victory policies. Stockpile/circular trade cannot bypass regional development.
+- Local full regression: 1,421 passes, one pre-existing opt-in skip; typecheck and
+  Vercel production build pass. Lint has zero errors and 50 existing warnings.
+- Real Chromium: desktop 1280×720 and 1920×1080, touch 360×800. Launch, rendered
+  map, wheel/pinch, pan without accidental selection, edge selection, queue, scout,
+  army/claim, actual new settlement, reports, save/reload and mobile Back passed.
+  Screenshots reviewed; no uncaught errors or horizontal overflow.
+- İHTİLAL: role/objective/action within 15 seconds; cost/effect and persistent
+  outcome within one minute; legal repeated decisions through a completed match
+  on both viewports. No additional gameplay redesign justified.
+- Dedicated job also gates actual service-worker/IndexedDB offline reload,
+  mutation/save/reload, reconnect, manual archive, corrupted-auto previous-archive
+  recovery, valid/invalid import, and a 20-minute touch soak with repeated reloads.
+  **Use the selected SHA’s completed job result; pending execution is not a pass.**
+- On main, `campaign-production.mjs` requires SHA-256 equality of the deployed
+  game sources before driving both games in real Chromium. No deployment or
+  production success is inferred from a local build.
+
+Evidence: PR #33 / GitHub Actions artifacts `campaign-browser`, `campaign-balance`,
+`duel-responsive`, `sitewide-responsive`. Production URL: https://www.tariklab.com.
+
+Limits: 1× completion measurements exclude player thinking/pauses; 12× equivalents
+are 1/12, not a claimed 10–20-hour human study. Political maximum is 20.9h. Touch
+QA is Chromium device emulation, not a physical iPhone/Safari hardware test.

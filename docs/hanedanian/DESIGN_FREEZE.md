@@ -89,3 +89,33 @@ engine may be replaced if needed and that they did not like the current game.
 Preservation is a preference for proven good pieces, not a requirement to keep a
 weak core. Reassess meaningful decisions and the first five minutes after clarity
 changes; redesign mechanics/core-loop where demonstrated shortcomings remain.
+
+## Release-candidate pacing amendment
+
+The stockpile/trade-volume route is superseded by consumptive regional progression.
+Nine geographic regions differ in terrain, strategic points and neighboring AI;
+players choose at least six suitable regions rather than occupying fixed coordinates.
+All routes need developed settlements, three specializations and five genuine
+cross-region supply links. Regional investments require progressively stronger
+infrastructure, intelligence and held strategic points; each consumes equal local
+and imported resources. Standing supply uses normal paid caravans and travel times.
+
+- Economy: eight settlements, six mature economic regions, market network, influence,
+  then six regional finale deliveries.
+- Dominion: developed military regions, fourteen strategic points, three distinct
+  major battlefield victories, sustainable army strength, influence and finale.
+- Politics: developed political regions, diplomacy, at least three vassals,
+  influence and finale; vassal strategic presence counts for political control.
+
+Founding costs rise with administrative breadth, including pending founders.
+Specialization trades resource output or unlocks a regional path. Demobilization
+reduces upkeep without refunding recruitment. Existing building timers and 12× stay
+unchanged. Additive campaign metadata keeps original version-1 saves loadable;
+legacy HANEDAN remains separate and unchanged.
+
+`CAMPAIGN_BALANCE_REPORT.json` records 20 deterministic seeds × three routes and
+60 additional idle/expansion/circular-trade policies. Measured 1× completion ranges:
+economy 10.83–14.23h, dominion 11.27–15.50h, politics 13.37–20.90h. The 12× equivalents
+are one twelfth of these values and exclude human decisions and pauses. No claim
+of a measured 10–20h human playtest is made. One political outlier exceeds the target
+by 0.9h. No-route investment policies could not substitute stockpiles for progression.
