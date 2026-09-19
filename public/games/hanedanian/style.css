@@ -1,13 +1,13 @@
 :root {
   color-scheme: light;
-  --paper: #f1eee3;
-  --surface: #faf8f0;
-  --ink: #282f27;
-  --muted: #656a59;
-  --line: #d9d9c9;
-  --accent: #8b4430;
-  --accent-light: #eee1d6;
-  --forest: #384c3b;
+  --paper: #e9e6d8;
+  --surface: #f7f4e9;
+  --ink: #202a24;
+  --muted: #626959;
+  --line: #cbcdbb;
+  --accent: #934832;
+  --accent-light: #ead9cc;
+  --forest: #2f4d3b;
   --danger: #a23a2e;
   --radius: 8px;
   --space: 12px;
@@ -444,6 +444,28 @@ small {
   gap: 8px;
   font-size: 12px;
 }
+.decision-brief {
+  display: grid;
+  gap: 4px;
+  margin-top: 14px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  background: #eeecdf;
+}
+.decision-brief span {
+  color: var(--accent);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .12em;
+}
+.decision-brief p {
+  margin: 0 0 5px;
+  font-size: 11px;
+  line-height: 1.35;
+}
+.decision-brief p:last-child { margin-bottom: 0; }
+.tile-description { margin-top: 12px; font-size: 12px; }
+.tile-troops { font-size: 12px; }
 .terrain-summary span {
   color: var(--muted);
 }
@@ -883,8 +905,145 @@ form .row > label {
   font-size: 11px;
   color: var(--accent);
 }
+.icon-button {
+  min-width: 36px;
+  padding-inline: 8px;
+  font-weight: 700;
+}
+.field-guide {
+  position: absolute;
+  z-index: 5;
+  top: 64px;
+  left: 16px;
+  width: min(370px, calc(100% - 32px));
+  padding: 14px;
+  border: 1px solid #9ca58f;
+  border-radius: 10px;
+  background: rgba(247, 244, 233, 0.97);
+  box-shadow: 0 12px 32px rgba(31, 45, 35, 0.2);
+  backdrop-filter: blur(8px);
+}
+.field-guide-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.field-guide-head span {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--accent);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .16em;
+}
+.field-guide-head strong {
+  display: block;
+  max-width: 270px;
+  font-family: var(--display);
+  font-size: 17px;
+  line-height: 1.25;
+}
+.field-guide-head button {
+  min-width: 32px;
+  min-height: 32px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font-size: 20px;
+}
+.field-guide ol {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 7px;
+  margin: 12px 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: steps;
+}
+.field-guide li {
+  min-width: 0;
+  padding: 8px;
+  border: 1px solid var(--line);
+  background: #eeecdf;
+  counter-increment: steps;
+}
+.field-guide li b,
+.field-guide li span {
+  display: block;
+}
+.field-guide li b {
+  margin-bottom: 3px;
+  font-size: 11px;
+}
+.field-guide li b:before {
+  content: counter(steps) ". ";
+  color: var(--accent);
+}
+.field-guide li span {
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.3;
+}
+.field-guide-actions {
+  display: flex;
+  gap: 7px;
+}
+.field-guide-actions button {
+  flex: 1;
+  min-height: 38px;
+  padding-block: 6px;
+  font-size: 11px;
+}
 [hidden] {
   display: none !important;
+}
+
+/* Production HUD: identity, economy and time share one dense command bar. */
+@media (min-width: 851px) {
+  .topbar {
+    display: grid;
+    grid-template-columns: minmax(180px, .8fr) minmax(420px, 1.7fr) minmax(300px, 1fr);
+    align-items: stretch;
+    min-height: 52px;
+  }
+  .brandline,
+  .resources,
+  .timebar {
+    min-width: 0;
+    border: 0;
+  }
+  .brandline {
+    padding: 7px 12px;
+    border-right: 1px solid var(--line);
+  }
+  .wordmark { font-size: 18px; }
+  .wordmark span { margin-top: 3px; font-size: 6px; }
+  .top-actions { gap: 5px; }
+  .top-actions > span { display: none; }
+  .top-actions button { min-height: 36px; padding: 5px 9px; }
+  .resources {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+  }
+  .resource {
+    display: grid;
+    align-content: center;
+    padding: 4px 8px;
+  }
+  .resource b { font-size: 15px; line-height: 1.15; }
+  .resource span,
+  .resource small { font-size: 8px; }
+  .timebar {
+    min-height: 0;
+    padding: 5px 10px;
+    border-left: 1px solid var(--line);
+  }
+  .timebar > div:first-child { display: block; line-height: 1.2; }
+  .timebar span { display: block; font-size: 9px; }
+  .clock-controls button { min-height: 36px; min-width: 36px; padding: 4px 6px; }
+  .campaign-strip { min-height: 34px; padding: 4px 14px; }
 }
 @media (min-width: 1500px) {
   .workspace {
@@ -897,24 +1056,11 @@ form .row > label {
   .section-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
-  .brandline {
-    position: absolute;
-    width: 100%;
-    top: 0;
-    pointer-events: none;
-  }
-  .brandline > * {
-    pointer-events: auto;
-  }
   .resources {
     border-top: 0;
-    min-height: 67px;
-  }
-  .topbar {
-    padding-top: 0;
   }
   .resource {
-    padding: 6px 16px;
+    padding: 4px 12px;
   }
 }
 @media (max-width: 1100px) {
@@ -999,58 +1145,66 @@ form .row > label {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .brandline {
-    padding: 8px 12px;
+    padding: 4px 8px;
+    min-height: 38px;
   }
   .wordmark {
-    font-size: 21px;
+    font-size: 16px;
+  }
+  .wordmark span {
+    display: none;
   }
   .top-actions {
     gap: 8px;
   }
   .top-actions > span {
-    max-width: 110px;
-    font-size: 10px;
-    text-align: right;
+    display: none;
+  }
+  .top-actions button {
+    min-height: 36px;
+    padding: 5px 9px;
   }
   .resources {
     max-width: none;
   }
   .resource {
-    padding: 4px 5px;
+    padding: 3px 4px;
   }
   .resource b {
-    font-size: 16px;
+    font-size: 14px;
+    line-height: 1.1;
   }
   .resource span {
-    font-size: 9px;
+    font-size: 8px;
   }
   .resource small {
-    font-size: 9px;
+    font-size: 8px;
   }
   .timebar {
-    padding: 0 10px;
-    min-height: 46px;
+    position: absolute;
+    top: max(2px, env(safe-area-inset-top));
+    right: 92px;
+    z-index: 4;
+    min-height: 34px;
+    padding: 0;
+    border: 0;
   }
   .timebar > div:first-child {
-    display: block;
-    font-size: 11px;
-  }
-  .timebar span {
-    display: block;
-    font-size: 10px;
+    display: none;
   }
   .clock-controls {
-    gap: 3px;
+    gap: 2px;
   }
   .clock-controls button {
-    min-height: 44px;
-    padding: 5px;
-    min-width: 40px;
+    min-height: 34px;
+    min-width: 32px;
+    padding: 3px;
+    font-size: 11px;
   }
   .campaign-strip {
-    padding: 8px 12px;
+    padding: 5px 9px;
     font-size: 11px;
-    min-height: 44px;
+    min-height: 38px;
     gap: 8px;
   }
   .campaign-strip > div {
@@ -1061,9 +1215,17 @@ form .row > label {
     font-size: 10px;
   }
   .campaign-strip button {
-    min-height: 36px;
+    min-height: 30px;
     flex: none;
   }
+  .field-guide {
+    top: 52px;
+    left: 8px;
+    width: calc(100% - 16px);
+    padding: 12px;
+  }
+  .field-guide ol { gap: 5px; }
+  .field-guide li { padding: 6px; }
   .navigation {
     justify-content: stretch;
   }

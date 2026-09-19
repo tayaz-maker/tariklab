@@ -30,14 +30,18 @@ function Html5Play() {
   const title = lang === "en" && g && CATALOG_EN[g.slug] ? CATALOG_EN[g.slug].title : (g?.title ?? "Oyun");
   return (
     <div className="flex h-dvh min-h-0 flex-col bg-bg">
-      <div className="relative flex min-h-11 shrink-0 items-center justify-between gap-2 border-b border-border px-3 sm:px-4">
-        <Link to="/" className="relative z-10 inline-flex min-h-11 items-center text-sm text-muted hover:text-fg focus-visible:outline-2 focus-visible:outline-danger">
-          {t("portal.back", "← Oyunlar")}
+      <div className="relative flex h-9 shrink-0 items-center justify-between gap-2 border-b border-border bg-bg/95 px-2.5 sm:px-3">
+        <Link
+          to="/"
+          aria-label={t("portal.back", "Oyunlara dön")}
+          className="relative z-10 inline-flex h-9 items-center gap-1 text-xs font-medium text-muted hover:text-fg focus-visible:outline-2 focus-visible:outline-danger"
+        >
+          <span aria-hidden="true">←</span><span className="hidden sm:inline">{t("portal.back", "Oyunlar")}</span>
         </Link>
-        <p className="pointer-events-none absolute inset-0 hidden items-center justify-center px-36 text-center font-display text-sm text-fg sm:flex">
+        <p className="pointer-events-none absolute inset-0 hidden items-center justify-center px-32 text-center font-display text-xs tracking-wide text-fg sm:flex">
           {title}
         </p>
-        <LanguageToggle />
+        <LanguageToggle className="[&_button]:py-0.5" />
       </div>
       <iframe
         key={canonical}
