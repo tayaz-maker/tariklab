@@ -1,3 +1,4 @@
+import { campaignStatus, campaignCommand, emptyProgression, ensureProgression, progressOf, regionOf, completeProjects, progressionValid, PROJECT_QUOTAS } from './campaign.js';
 import { SCHEMA_VERSION, RESOURCES, TERRAINS, POIS, BUILDINGS, UNITS, FACTION_PRESETS, VICTORY_PATHS, LIMITS, resourceObject, troopObject } from './data.js';
 import { generateWorld, getTile, distance, sampleRoute, hashSeed, randomStream } from './world.js';
 
@@ -62,7 +63,7 @@ export function createGame({ seed = 'TL-SEDIR-49', size = 49, aiCount = 8, dynas
     factions: [{ id: 'player', name: cleanName(dynastyName, 'Yazhan'), color: '#e9c674', archetype: 'player', archetypeLabel: 'Sizin hanedanınız', influence: 35, relations: {}, nextThink: 0 }],
     settlements: [], armies: [], reports: [], intel: {}, dynasty: { name: cleanName(dynastyName, 'Yazhan'), ruler: 'Aybars', heir: 'Umay', xp: 0,
       stats: { stewardship: 1, warfare: 1, commerce: 1, diplomacy: 1, intrigue: 1 }, traits: ['Kurucu'], pendingEvent: null, nextEvent: 2400, generation: 1 },
-    campaign: { stage: 1, victory: null, continued: false, milestones: [], tradeVolume: 0, battlesWon: 0, scouting: 0, buildingsCompleted: 0 },
+    campaign: { progression: emptyProgression(), stage: 1, victory: null, continued: false, milestones: [], tradeVolume: 0, battlesWon: 0, scouting: 0, buildingsCompleted: 0 },
     settings: { autoPause: true } };
   state.settlements.push(makeTown(state, 'player', center, center, 'Yazhisar', true));
   const spawnRandom = randomStream(`${world.seed}:spawns`), phase = spawnRandom() * 0.6;
@@ -97,6 +98,9 @@ export function getRates(state, town) {
   });
   const traveling = state.armies.filter(army => army.fromId === town.id && army.ownerId === town.ownerId);
   const upkeep = UNIT_KEYS.reduce((sum, key) => sum + (town.troops[key] + traveling.reduce((n, army) => n + army.troops[key], 0)) * UNITS[key].upkeep, 0);
+  const specialty = progressOf(state).specializations[town.id];
+  if (specialty === 'granary') { rates.food *= 1.3; rates.iron *= 0.85; }
+  if (specialty === 'workshop') { rates.wood *= 1.15; rates.stone *= 1.15; rates.iron *= 1.15; rates.food *= 0.8; }
   rates.food -= upkeep;
   return { ...rates, upkeep };
 }
@@ -107,7 +111,8 @@ export function getBuildCost(state, town, building) {
 }
 export function getExpansionCost(state, ownerId = state.playerId) {
   const count = ownSettlements(state, ownerId).length + state.armies.filter(a => a.ownerId === ownerId && a.mission === 'expand' && !a.returning).length;
-  return { ...resourceObject([240 + count * 70, 180 + count * 60, 120 + count * 50, 70 + count * 35]), influence: 16 + count * 5 };
+  const administration = Math.max(0, count - 3) ** 2;
+  return { ...resourceObject([240 + count * 70 + administration * 25, 180 + count * 60 + administration * 25, 120 + count * 50 + administration * 20, 70 + count * 35 + administration * 15]), influence: 16 + count * 5 + administration };
 }
 export function getTravelEstimate(state, from, to, troops = {}) {
   const route = sampleRoute(state.world, from, to);
@@ -247,6 +252,7 @@ function execute(state, action, ownerId) {
   }
   const town = state.settlements.find(item => item.id === action.settlementId && item.ownerId === ownerId);
   if (!town) return fail('Kendi yerleşimlerinden birini seç.');
+  if (player && ['specialize','project','contribute','supplyOrder','cancelSupply'].includes(action.type)) return campaignCommand(state, action, town);
   if (action.type === 'build') {
     if (!Object.hasOwn(BUILDINGS, action.building)) return fail('Bina türü geçersiz.');
     const def = BUILDINGS[action.building], level = town.buildings[action.building] + town.queue.filter(item => item.kind === 'build' && item.building === action.building).length;
@@ -259,6 +265,11 @@ function execute(state, action, ownerId) {
     pay(town, cost);
     town.queue.push({ id: nextId(state, 'job'), kind: 'build', building: action.building, level: level + 1, startAt, completeAt: startAt + minutes });
     return success(`${def.label} ${level + 1}. seviye için kuyruğa alındı.`);
+  }
+  if (action.type === 'demobilize') {
+    if (!Object.hasOwn(UNITS, action.unit) || !integer(action.count,1,LIMITS.troops) || action.count > town.troops[action.unit]) return fail('Garnizondaki geçerli sayıda birliği terhis et.');
+    town.troops[action.unit] -= action.count;
+    return success('Birlikler terhis edildi; iaşe ihtiyacı azaldı. Eğitim maliyeti iade edilmez.');
   }
   if (action.type === 'train') {
     if (!Object.hasOwn(UNITS, action.unit) || !integer(action.count, 1, 100)) return fail('1–100 arasında geçerli bir birlik sayısı seç.');
@@ -273,14 +284,15 @@ function execute(state, action, ownerId) {
     return success(`${action.count} ${def.label} eğitim kuyruğunda.`);
   }
   if (state.armies.length >= LIMITS.armies) return fail('Dünya sefer kapasitesi dolu; dönüşleri bekle.');
-  if (action.type === 'trade') {
+  if (action.type === 'trade' || action.type === 'supply') {
     const target = state.settlements.find(item => item.id === action.targetId);
     if (!target || target === town || !friendly(state, ownerId, target.ownerId)) return fail('Kendi veya bağlı bir hanedanın başka yerleşimini seç.');
     if (town.buildings.market < 1 || !validResources(action.cargo)) return fail('Kervan avlusu ve geçerli bir yük gerekiyor.');
     const total = RESOURCE_KEYS.reduce((sum, key) => sum + (action.cargo[key] || 0), 0), capacity = getTradeCapacity(state, town);
-    if (total < 10 || total > capacity || !afford(town, action.cargo)) return fail(`Kervan yükü 10–${capacity} arasında ve mevcut kaynakların içinde olmalı.`);
+    if (total < (action.type === 'supply' ? 4 : 10) || total > capacity || !afford(town, action.cargo)) return fail(`Kervan yükü 10–${capacity} arasında ve mevcut kaynakların içinde olmalı.`);
     if (state.armies.filter(a => a.fromId === town.id && a.mission === 'trade').length >= town.buildings.market) return fail('Kervanlar yolda; avlu seviyesini artır veya dönüşlerini bekle.');
-    pay(town, action.cargo); launch(state, town, 'trade', target, {}, { cargo: { ...resourceObject(), ...action.cargo }, targetId: target.id });
+    if (action.type === 'supply' && (!player || target.ownerId !== ownerId || regionOf(state,town) === regionOf(state,target) || !Object.hasOwn(VICTORY_PATHS, action.path))) return fail('İkmal farklı bölgedeki kendi yatırımına gitmeli.');
+    pay(town, action.cargo); launch(state, town, 'trade', target, {}, { ...(action.type === 'supply' ? {supplyPath:action.path} : {}), cargo: { ...resourceObject(), ...action.cargo }, targetId: target.id });
     return success('Kervan yola çıktı. Teslim edilen yük mesafeye bağlı ticaret primi getirir.');
   }
   const tile = getTile(state.world, action.x, action.y);
@@ -361,6 +373,23 @@ function resolveArmy(state, army) {
     if (!survived) army.troops.scout = 0;
     returnArmy(state, army); return;
   }
+  if (army.mission === 'trade' && army.supplyPath) {
+    if (player && target?.ownerId === state.playerId && target.id === army.targetId) {
+      const p = ensureProgression(state), region = regionOf(state,target), project = p.projects[`${army.supplyPath}:${region}`];
+      const amount = Math.floor(Math.min(...RESOURCE_KEYS.map(k=>army.cargo[k])));
+      let used = 0;
+      if (project?.active && project.townId === target.id) { used = Math.min(amount, PROJECT_QUOTAS[project.level]-project.imported); project.imported += used; }
+      else if (project?.level === 3 && getCampaign(state).paths.find(x=>x.id===army.supplyPath)?.eligible) {
+        const finale = p.finales[army.supplyPath] ||= {}; used = Math.min(amount, 12000-(finale[region]||0)); finale[region]=(finale[region]||0)+used;
+      }
+      if (used > 0) {
+        for (const k of RESOURCE_KEYS) army.cargo[k] -= used;
+        const edge = `${army.fromId}:${target.id}`, link = p.logistics[edge] ||= {from:army.fromId,to:target.id,delivered:0};
+        link.delivered = Math.min(100000000,link.delivered+used*4);
+      }
+    }
+    returnArmy(state,army); return;
+  }
   if (army.mission === 'trade') {
     if (target && target.id === army.targetId && friendly(state, army.ownerId, target.ownerId)) {
       const delivered = RESOURCE_KEYS.reduce((sum, key) => sum + Math.min(army.cargo[key], Math.max(0, getCapacity(target) - target.resources[key])), 0);
@@ -413,7 +442,7 @@ function resolveArmy(state, army) {
         for (const point of pointsFor(state, { ...target, ownerId: oldOwner })) { point.poi.ownerId = army.ownerId; }
         captured = true;
       }
-      if (player) { state.campaign.battlesWon++; milestone(state, captured ? `conquest:${target.id}` : 'first-battle', captured ? 'Yeni sancak' : 'İlk zafer', captured ? 15 : 12, 30); }
+      if (player) { if (defense >= 1200) ensureProgression(state).rivals[oldOwner] = Math.max(progressOf(state).rivals[oldOwner] || 0, Math.floor(defense)); state.campaign.battlesWon++; milestone(state, captured ? `conquest:${target.id}` : 'first-battle', captured ? 'Yeni sancak' : 'İlk zafer', captured ? 15 : 12, 30); }
     }
     setRelation(state, army.ownerId, oldOwner, { score: Math.max(-100, relation(state, army.ownerId, oldOwner).score - 15) });
     if (player || defenderPlayer) report(state, 'battle', `${target.name}: ${captured ? 'sancak değişti' : won ? 'akın sonuçlandı' : 'savunma kazandı'}`,
@@ -428,22 +457,7 @@ export function getCampaign(state) {
   const peaceful = state.factions.filter(f => f.id !== state.playerId && (f.relations[state.playerId]?.vasal || f.relations[state.playerId]?.truceUntil > state.time)).length;
   const wealth = towns.reduce((sum, town) => sum + RESOURCE_KEYS.reduce((n, key) => n + town.resources[key], 0), 0);
   const influenceNow = getFaction(state).influence, power = getMilitaryPower(state, state.playerId);
-  const req = (label, current, target) => ({ label, current: Math.floor(current), target, done: current >= target });
-  const paths = [
-    { id: 'dominion', label: VICTORY_PATHS.dominion, requirements: [req('Yerleşim', towns.length, 8), req('Bağlı nokta', points, 10), req('Ordu gücü', power, 4500), req('Nüfuz', influenceNow, 120)] },
-    { id: 'wealth', label: VICTORY_PATHS.wealth, requirements: [req('Yerleşim', towns.length, 5), req('Teslim edilen yük', state.campaign.tradeVolume, 20000), req('Depolanan kaynak', wealth, 16000), req('Nüfuz', influenceNow, 100)] },
-    { id: 'dynasty', label: VICTORY_PATHS.dynasty, requirements: [req('Yerleşim', towns.length, 5), req('Bağlı hanedan', vasals, Math.min(3, state.factions.length - 1)), req('Barış ağı', peaceful, Math.min(5, state.factions.length - 1)), req('Nüfuz', influenceNow, 180)] },
-  ];
-  for (const path of paths) path.ready = path.requirements.every(item => item.done);
-  const stage = towns.length >= 5 && (points >= 5 || state.campaign.tradeVolume >= 3000 || vasals >= 1) ? 4 : towns.length >= 3 ? 3 : towns.length >= 2 ? 2 : 1;
-  const labels = ['Yerleşme', 'Hanedan', 'Bölgesel Güç', 'Büyük Oyun'];
-  const stageGoals = [
-    [req('Yapı geliştir', state.campaign.buildingsCompleted, 1), req('Keşif raporu', state.campaign.scouting, 1), req('İkinci yurt', towns.length, 2)],
-    [req('Yerleşim ağı', towns.length, 3), req('Bağlı nokta', points, 2), req('Kervan yükü', state.campaign.tradeVolume, 500)],
-    [req('Yerleşim ağı', towns.length, 5), req('Stratejik nokta', points, 5), req('Barış ağı', peaceful, 1)],
-    [req('Kurultay yolu hazır', paths.filter(path => path.ready).length, 1)],
-  ];
-  return { stage, label: labels[stage - 1], goals: stageGoals[stage - 1], paths, points, vasals, wealth, power };
+  return campaignStatus(state, { points, vasals, peaceful, wealth, power, influenceNow });
 }
 
 function thinkAI(state, faction) {
@@ -464,6 +478,7 @@ function thinkAI(state, faction) {
   if (RESOURCE_KEYS.some(key => town.resources[key] > getCapacity(town) * 0.85)) building = 'warehouse';
   if (state.time > 900 && town.buildings.barracks < 3 && random(state) < 0.25) building = 'barracks';
   if (faction.archetype === 'fortress' && town.buildings.wall < 4 && random(state) < 0.3) building = 'wall';
+  if (town.buildings.hall < 5 && faction.influence < 40 && town.queue.length < 2) building = 'hall';
   if (town.queue.length < 2) actions('build', { building });
   const troopLimit = 55 + Math.min(110, state.time / 70);
   if (getTroopCount(town.troops) < troopLimit && town.queue.length < 3 && rates.food > 0.2) {
@@ -500,19 +515,20 @@ function thinkAI(state, faction) {
   }
 }
 
-function tick(state) {
+function tick(state, rateCache) {
   state.time++;
   for (const town of state.settlements) {
-    const rates = getRates(state, town), capacity = getCapacity(town);
+    const rates = rateCache.get(town.id) || getRates(state, town), capacity = getCapacity(town);
+    rateCache.set(town.id, rates);
     for (const key of RESOURCE_KEYS) town.resources[key] = clamp(town.resources[key] + rates[key], 0, capacity);
     if (town.resources.food === 0 && rates.food < 0 && state.time - town.lastStarvation >= 60) {
       const unit = UNIT_KEYS.find(key => town.troops[key] > 0);
       if (unit) town.troops[unit]--;
-      town.lastStarvation = state.time;
+      town.lastStarvation = state.time; rateCache.delete(town.id);
       if (town.ownerId === state.playerId) report(state, 'shortage', `${town.name}: iaşe daralıyor`, 'Erzak üretimi birlik bakımını karşılamıyor. Bir asker ayrıldı. Tarlayı geliştir veya başka yurttan erzak taşı.', true);
     }
     while (town.queue[0]?.completeAt <= state.time) {
-      const item = town.queue.shift();
+      const item = town.queue.shift(); rateCache.delete(town.id);
       if (item.kind === 'build') {
         town.buildings[item.building] = item.level;
         if (town.ownerId === state.playerId) {
@@ -528,12 +544,23 @@ function tick(state) {
       }
     }
   }
-  for (const army of [...state.armies]) if (army.arriveAt <= state.time) resolveArmy(state, army);
+  for (const army of [...state.armies]) if (army.arriveAt <= state.time) { resolveArmy(state, army); rateCache.clear(); }
   state.armies = state.armies.filter(army => !army.remove);
   for (const faction of state.factions) if (faction.id !== state.playerId && state.time >= faction.nextThink) thinkAI(state, faction);
   if (state.time >= state.dynasty.nextEvent && !state.dynasty.pendingEvent) {
     state.dynasty.pendingEvent = { id: nextId(state, 'event'), type: 'heir', title: 'Varis divana geliyor', text: 'Umay ilk sorumluluğunu istiyor. Mentorluk ücretsiz deneyim, eğitim daha çok deneyim, siyasi evlilik ise ilişki kazandırır.' };
     report(state, 'dynasty', 'Hanedan kararı bekliyor', 'Varisin geleceğini Hanedan bölümünde belirle. Zamanı istediğinde sürdürebilirsin.', true);
+  }
+  if (state.time % 60 !== 0) return;
+  completeProjects(state);
+  for (const [id, order] of Object.entries(progressOf(state).supply)) {
+    const town = state.settlements.find(t=>t.id===id && t.ownerId===state.playerId);
+    const target = state.settlements.find(t=>t.id===order.targetId && t.ownerId===state.playerId);
+    if (!town || !target || state.armies.filter(a=>a.fromId===town.id&&a.mission==='trade').length >= Math.max(1,town.buildings.market-1)) continue;
+    const project = progressOf(state).projects[`${order.path}:${regionOf(state,target)}`];
+    const need = project?.active ? PROJECT_QUOTAS[project.level]-project.imported : project?.level===3 && getCampaign(state).paths.find(x=>x.id===order.path)?.eligible ? 12000-(progressOf(state).finales[order.path]?.[regionOf(state,target)]||0) : 0;
+    const amount = Math.floor(Math.min(need, getTradeCapacity(state,town)/4, ...RESOURCE_KEYS.map(k=>(town.resources[k]-500)/2)));
+    if (amount >= 1) execute(state,{type:'supply',settlementId:id,targetId:target.id,path:order.path,cargo:resourceObject(RESOURCE_KEYS.map(()=>amount))},state.playerId);
   }
   const campaign = getCampaign(state);
   if (campaign.stage > state.campaign.stage) {
@@ -548,7 +575,8 @@ function tick(state) {
 export function advance(state, minutes = 1) {
   if (!integer(minutes, 0, 10080)) return fail('Tek ilerletmede 0–10080 tam oyun dakikası kullanılabilir.');
   let advanced = 0;
-  while (advanced < minutes && !state.paused && state.time < LIMITS.time) { tick(state); advanced++; }
+  const rateCache = new Map();
+  while (advanced < minutes && !state.paused && state.time < LIMITS.time) { tick(state, rateCache); advanced++; }
   return { ok: true, advanced, paused: state.paused };
 }
 
@@ -626,6 +654,7 @@ function inspectState(state) {
     check(inBounds(army.from) && inBounds(army.to) && integer(army.departAt, 0, state.time) && integer(army.arriveAt, state.time, LIMITS.time + 100000), 'Sefer konumu veya saati geçersiz.');
     check(['expand', 'scout', 'attack', 'claim', 'trade'].includes(army.mission) && typeof army.returning === 'boolean', 'Sefer türü geçersiz.');
     check(counts(army.troops, UNIT_KEYS, LIMITS.troops, true) && counts(army.cargo, RESOURCE_KEYS, LIMITS.resource), 'Sefer yükü geçersiz.');
+    if (army.supplyPath !== undefined) check(army.mission === 'trade' && Object.hasOwn(VICTORY_PATHS, army.supplyPath), 'İkmal yolu geçersiz.');
     if (army.influenceCost !== undefined) check(integer(army.influenceCost, 0, LIMITS.influence), 'Kurucu nüfuzu geçersiz.');
     if (army.mission === 'expand') check(boundedString(army.name, 80), 'Kurucu yerleşim adı geçersiz.');
   }
@@ -640,6 +669,7 @@ function inspectState(state) {
   check(plain(dynasty) && boundedString(dynasty.name, 80) && boundedString(dynasty.ruler, 80) && boundedString(dynasty.heir, 80) && integer(dynasty.xp, 0, 1000000) && counts(dynasty.stats, ['stewardship', 'warfare', 'commerce', 'diplomacy', 'intrigue'], 10, true) && Array.isArray(dynasty.traits) && dynasty.traits.length <= 8 && dynasty.traits.every(trait => boundedString(trait, 80)) && integer(dynasty.nextEvent, 0, LIMITS.time + 4800) && integer(dynasty.generation, 1, 1000), 'Hanedan gelişimi geçersiz.');
   if (plain(dynasty) && dynasty.pendingEvent !== null) check(plain(dynasty.pendingEvent) && dynasty.pendingEvent.type === 'heir' && boundedString(dynasty.pendingEvent.title, 200) && boundedString(dynasty.pendingEvent.text, 1000), 'Varis olayı geçersiz.');
   const campaign = state.campaign;
-  check(plain(campaign) && integer(campaign.stage, 1, 4) && (campaign.victory === null || Object.hasOwn(VICTORY_PATHS, campaign.victory)) && typeof campaign.continued === 'boolean' && Array.isArray(campaign.milestones) && campaign.milestones.length <= 5000 && campaign.milestones.every(item => boundedString(item, 100)) && Number.isFinite(campaign.tradeVolume) && campaign.tradeVolume >= 0 && campaign.tradeVolume <= 100000000 && integer(campaign.battlesWon, 0, 100000000) && integer(campaign.scouting, 0, 100000000) && integer(campaign.buildingsCompleted, 0, 100000000), 'Kampanya ilerlemesi geçersiz.');
+  check(plain(campaign) && integer(campaign.stage, 1, 5) && (campaign.victory === null || Object.hasOwn(VICTORY_PATHS, campaign.victory)) && typeof campaign.continued === 'boolean' && Array.isArray(campaign.milestones) && campaign.milestones.length <= 5000 && campaign.milestones.every(item => boundedString(item, 100)) && Number.isFinite(campaign.tradeVolume) && campaign.tradeVolume >= 0 && campaign.tradeVolume <= 100000000 && integer(campaign.battlesWon, 0, 100000000) && integer(campaign.scouting, 0, 100000000) && integer(campaign.buildingsCompleted, 0, 100000000), 'Kampanya ilerlemesi geçersiz.');
+  check(progressionValid(state), 'Bölgesel kampanya kaydı geçersiz.');
   return { ok: errors.length === 0, errors };
 }

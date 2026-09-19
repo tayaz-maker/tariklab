@@ -5,6 +5,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
+import * as campaign from '../public/games/hanedanian/campaign.js';
 import * as engine from '../public/games/hanedanian/engine.js';
 import * as data from '../public/games/hanedanian/data.js';
 import * as world from '../public/games/hanedanian/world.js';
@@ -103,7 +104,7 @@ function createHarness() {
   class FakeFormData { constructor(form) { this.values = form.values; } get(key) { return this.values[key] ?? null; } }
   const window = { addEventListener(name, callback) { (windowListeners[name] ||= []).push(callback); } };
   const context = vm.createContext({
-    ...engine, ...data, ...world, SaveManager: FakeSaveManager, createMap,
+    ...engine, ...campaign, ...data, ...world, SaveManager: FakeSaveManager, createMap,
     document, window, navigator: {}, console, FormData: FakeFormData,
     requestAnimationFrame: () => 0, setTimeout: () => 1, clearTimeout: () => {},
     Blob, URL, MessageChannel, structuredClone,

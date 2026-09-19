@@ -332,3 +332,11 @@ Append after a meaningful website change to a game or shared brand/content. Skip
 - İHTİLAL: clear role/goal/legal-action/result, engine-derived preview, delayed queue, automatic continuation; legal-counter filtering and post-counter victory resolution repair the engine. Existing card values, AI policy, manual save schema and slots remain. User explicitly permits further engine redesign if real usability evidence requires it.
 - Validation: full suite 1,415 passed, 0 failed, one existing opt-in skip; typecheck/build passed, lint zero errors. Vercel preview READY. Actual browser/mobile/offline acceptance is blocked, campaign duration is below target, and production is not changed. See [release candidate QA](hanedanian/RELEASE_CANDIDATE_QA.md) for evidence and remaining gates.
 - Shared-content source: no. Other games' mechanics: unchanged. Native follow-up: paused; future ports need the new deterministic simulation and save/worker contract, and must retain old-save access rather than falsely converting campaign models.
+
+## Release candidate campaign pacing and acceptance gates (in progress)
+
+- Continue PR #33 on `astra/hanedanian-ihtilal-upgrade`, starting at `9a5b2550a96438e4efe306c7335e887bbd3fb123`; production/main baseline `9e747ebf6de55cfb0eb526d0c56b63e4320259cf`.
+- Replace stockpile-only victory with six developed regions, settlement specialization, consumed local investments and real cross-region supply, followed by route-specific regional finale. Building timers and 12× remain unchanged. Optional campaign metadata preserves existing v1 saves.
+- Standing supply orders use ordinary caravans, ownership, capacity and travel rules; demobilization allows upkeep reduction after major wars. No free production or instant logistics.
+- Add deterministic campaign probes and dedicated Chromium acceptance jobs, including native touch and genuine service-worker/IndexedDB offline reload. Results are pending; these changes are NOT release approval.
+- Native/Godot remains paused. No shared art or audio changes.

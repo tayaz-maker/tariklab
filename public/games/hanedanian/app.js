@@ -1,3 +1,4 @@
+import { progressOf, regionOf, REGION_NAMES, SPECIALIZATIONS, PROJECT_QUOTAS, projectRequirements } from "./campaign.js";
 import {
   createGame,
   advance,
@@ -375,7 +376,7 @@ function armyHTML() {
     )
       .map(
         ([key, u]) =>
-          `<article class="card"><div class="card-meta"><h3>${esc(u.label)}</h3><span class="badge">${fmt(town.troops[key])} hazır</span></div><p>Saldırı ${u.attack} · Savunma ${u.defense} · Hız ×${u.speed}</p><p class="cost">Bir asker: ${esc(costText(u.cost))}</p><p class="cost">Gereken talimgâh: seviye ${u.barracks} · İaşe ${u.upkeep * 60}/saat</p><button data-train="${key}" ${town.buildings.barracks < u.barracks ? "disabled" : ""}>${town.buildings.barracks < u.barracks ? "Talimgâhı geliştir" : "Birlik eğit"}</button></article>`,
+          `<article class="card"><div class="card-meta"><h3>${esc(u.label)}</h3><span class="badge">${fmt(town.troops[key])} hazır</span></div><p>Saldırı ${u.attack} · Savunma ${u.defense} · Hız ×${u.speed}</p><p class="cost">Bir asker: ${esc(costText(u.cost))}</p><p class="cost">Gereken talimgâh: seviye ${u.barracks} · İaşe ${u.upkeep * 60}/saat</p><button data-train="${key}" ${town.buildings.barracks < u.barracks ? "disabled" : ""}>${town.buildings.barracks < u.barracks ? "Talimgâhı geliştir" : "Birlik eğit"}</button><button data-demobilize="${key}" ${town.troops[key]?"":"disabled"}>Terhis et</button></article>`,
       )
       .join("")}</div>`
   );
@@ -400,6 +401,18 @@ function councilHTML() {
           .join("")}</div>`)
   );
 }
+function regionalHTML() {
+  const town = activeTown(), p = progressOf(state), region = regionOf(state, town);
+  return `<article class="card wide"><p class="eyebrow">BÖLGESEL GELİŞİM</p><h3>${esc(town.name)} · ${esc(REGION_NAMES[region])}</h3><p>Her aşamanın dört kaynak maliyeti vardır: yarısı yerel katkı, yarısı başka bölgeden ikmal. Yük yatırımda tüketilir; aynı malı dolaştırarak zafer kazanılmaz.</p><div class="row">${Object.entries(SPECIALIZATIONS).map(([key,label])=>`<button data-specialty="${key}" ${p.specializations[town.id]===key?'disabled':''}>${esc(label)}</button>`).join('')}</div>${p.supply[town.id]?'<button data-cancel-supply="true">İkmal emrini durdur</button>':''}<p>Uzmanlık: konak 2 ve her kaynaktan 180. İaşe +%30 erzak / −%15 demir; üretim +%15 malzeme / −%20 erzak. Diğer merkezler ilgili yatırımı açar.</p></article>` + ['wealth','dominion','dynasty'].map(path=>{
+    const info = projectRequirements(state,town,path), project=p.projects[`${path}:${region}`];
+    return `<article class="card"><h3>${esc({wealth:'Ekonomik',dominion:'Askeri',dynasty:'Siyasi'}[path])} bölge · ${info.level}/3</h3>${info.requirements.map(goalHTML).join('')}${project?.active?`<p>Her kaynak için yerel katkı: ${fmt(project.paid)} / ${fmt(PROJECT_QUOTAS[project.level])}<br>İthal ikmal: ${fmt(project.imported)} / ${fmt(PROJECT_QUOTAS[project.level])}</p><button data-contribute="${path}">Yerel katkı yap (500 stok korunur)</button>`:`<button data-project="${path}" ${info.level>=3?'disabled':''}>${info.level>=3?'Bölge tamamlandı':'Yatırım fermanı · 15 nüfuz'}</button>`}<p>Final ikmali: ${fmt(p.finales[path]?.[region]||0)} / 12.000 (her kaynak). Diğer yol koşulları tamamlanınca ikmal hatları finali besler.</p><button data-supply-setup="${path}">Bu yurttan ikmal hattı kur</button></article>`;
+  }).join('');
+}
+function supplyDialog(path) {
+  const town=activeTown(), targets=getPlayerSettlements(state).filter(t=>regionOf(state,t)!==regionOf(state,town));
+  openDialog('Bölgeler arası ikmal', `<p>Yatırım merkezini seç. Otomatik kervanlar her kaynaktan 500 güvenlik stoğu bırakır. Yeni emir eskisinin yerini alır.</p>${targets.map(t=>`<button data-supply-target="${esc(t.id)}" data-path="${path}">${esc(t.name)} · ${esc(REGION_NAMES[regionOf(state,t)])}</button>`).join('') || '<p>Önce farklı bir bölgede yerleşim kur.</p>'}`);
+}
+
 function dynastyHTML() {
   const d = state.dynasty,
     campaign = getCampaign(state);
@@ -419,7 +432,7 @@ function dynastyHTML() {
       )
       .join(
         "",
-      )}</div><p style="margin-top:12px">${(d.traits || []).map(esc).join(" · ")}</p></div><div class="card"><p class="eyebrow">KAMPANYA</p><h2 style="margin:8px 0">${esc(campaign.label)}</h2>${campaign.goals.map(goalHTML).join("")}<p style="margin-top:18px">Nüfuz; keşif, gelişim ve siyasi başarıyla kazanılır. Yeni yerleşimler ve anlaşmalar için harcanır.</p></div>${campaign.paths.map((path) => `<article class="card"><div class="card-meta"><h3>${esc(path.label)}</h3><span class="badge">Kurultay yolu</span></div>${path.requirements.map(goalHTML).join("")}<button class="primary" data-victory="${esc(path.id)}" ${path.ready ? "" : "disabled"}>${path.ready ? "Kurultayı topla" : "Koşullar hazırlanıyor"}</button></article>`).join("")}${state.campaign.victory ? `<div class="card wide"><h2>${state.campaign.victory === "defeat" ? "Hanedanın sınırı" : "Adın deftere yazıldı."}</h2><p>${esc(typeof state.campaign.victory === "string" ? state.campaign.victory : state.campaign.victory.path || "Kurultay tamamlandı")}</p><button class="primary" data-action="continue">Dünyada devam et</button><button data-action="new">Yeni kampanya</button></div>` : ""}${d.pendingEvent || state.pendingEvent ? `<div class="card wide"><h3>Varisin yolu</h3><p>Bir sonraki kuşağa nasıl bir miras bırakacaksın?</p><div class="row"><button data-event="mentor">Reisin yanında yetiştir</button><button data-event="marry">Siyasi bağ kur</button><button data-event="study">Bilgiyle güçlendir</button></div></div>` : ""}</div>`
+      )}</div><p style="margin-top:12px">${(d.traits || []).map(esc).join(" · ")}</p></div><div class="card"><p class="eyebrow">KAMPANYA</p><h2 style="margin:8px 0">${esc(campaign.label)}</h2>${campaign.goals.map(goalHTML).join("")}<p style="margin-top:18px">Nüfuz; keşif, gelişim ve siyasi başarıyla kazanılır. Yeni yerleşimler ve anlaşmalar için harcanır.</p></div>${regionalHTML()}${campaign.paths.map((path) => `<article class="card"><div class="card-meta"><h3>${esc(path.label)}</h3><span class="badge">Kurultay yolu</span></div>${path.requirements.map(goalHTML).join("")}<button class="primary" data-victory="${esc(path.id)}" ${path.ready ? "" : "disabled"}>${path.ready ? "Kurultayı topla" : "Koşullar hazırlanıyor"}</button></article>`).join("")}${state.campaign.victory ? `<div class="card wide"><h2>${state.campaign.victory === "defeat" ? "Hanedanın sınırı" : "Adın deftere yazıldı."}</h2><p>${esc(typeof state.campaign.victory === "string" ? state.campaign.victory : state.campaign.victory.path || "Kurultay tamamlandı")}</p><button class="primary" data-action="continue">Dünyada devam et</button><button data-action="new">Yeni kampanya</button></div>` : ""}${d.pendingEvent || state.pendingEvent ? `<div class="card wide"><h3>Varisin yolu</h3><p>Bir sonraki kuşağa nasıl bir miras bırakacaksın?</p><div class="row"><button data-event="mentor">Reisin yanında yetiştir</button><button data-event="marry">Siyasi bağ kur</button><button data-event="study">Bilgiyle güçlendir</button></div></div>` : ""}</div>`
   );
 }
 function render() {
@@ -597,6 +610,10 @@ function trainDialog(unit) {
     `<form id="train-form" data-unit="${unit}"><p class="form-note">Bir asker: ${esc(costText(u.cost))} · ${u.minutes} oyun dakikası. Eğitim bitince garnizona katılır.</p><label>Asker sayısı<input name="count" type="number" min="1" max="100" value="5" required step="1" inputmode="numeric"></label><p id="training-cost" class="cost">Toplam: ${esc(costText(u.cost.map((n) => n * 5)))}</p><button class="primary" type="submit">Eğitimi kuyruğa ekle</button></form>`,
   );
 }
+function demobilizeDialog(unit) {
+  const town=activeTown();
+  openDialog('Birliği terhis et', `<p>Eğitim maliyeti iade edilmez; iaşe ihtiyacı azalır. Yoldaki birlikler terhis edilemez.</p><form id="demobilize-form" data-unit="${unit}"><label>Asker sayısı<input name="count" type="number" min="1" max="${town.troops[unit]}" value="1" required></label><button class="primary" type="submit">Terhis et</button></form>`);
+}
 function tradeDialog() {
   const town = activeTown();
   const targets = state.settlements.filter(
@@ -640,6 +657,12 @@ document.addEventListener("click", async (event) => {
     setView(b.dataset.view);
     return;
   }
+  if (b.dataset.cancelSupply) { doAction({type:'cancelSupply',settlementId:activeTown().id}); return; }
+  if (b.dataset.demobilize) { demobilizeDialog(b.dataset.demobilize); return; }
+  if (b.dataset.specialty) { doAction({type:'specialize',settlementId:activeTown().id,specialty:b.dataset.specialty}); return; }
+  if (b.dataset.project || b.dataset.contribute) { doAction({type:b.dataset.project?'project':'contribute',settlementId:activeTown().id,path:b.dataset.project||b.dataset.contribute}); return; }
+  if (b.dataset.supplySetup) { supplyDialog(b.dataset.supplySetup); return; }
+  if (b.dataset.supplyTarget) { doAction({type:'supplyOrder',settlementId:activeTown().id,targetId:b.dataset.supplyTarget,path:b.dataset.path}); return; }
   if (b.dataset.speed !== undefined) {
     doAction({ type: "setSpeed", speed: Number(b.dataset.speed) });
     return;
@@ -849,6 +872,7 @@ document.addEventListener("submit", async (event) => {
   const form = event.target;
   if (
     ![
+      "demobilize-form",
       "new-form",
       "expand-form",
       "army-form",
@@ -895,6 +919,7 @@ document.addEventListener("submit", async (event) => {
     updateSaveStatus();
     return;
   }
+  if (form.id === "demobilize-form") result = doAction({type:"demobilize",settlementId:activeTown().id,unit:form.dataset.unit,count:Number(data.get("count"))});
   if (form.id === "scout-form")
     result = doAction({
       type: "scout",
