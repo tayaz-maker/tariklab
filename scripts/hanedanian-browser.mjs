@@ -31,6 +31,11 @@ try {
   const page=await context.newPage();activePage=page;page.setDefaultTimeout(15000);page.on('pageerror',e=>errors.push(String(e)));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
   await page.goto(`${origin}/games/hanedanian/index.html`);await page.locator('[data-action="new"]').first().click();await page.locator('#new-form input[name="seed"]').fill('TL-BROWSER-ACCEPTANCE');await page.locator('#new-form button').click();await page.locator('#welcome').waitFor({state:'hidden'});
   await page.waitForFunction(()=>Number(document.querySelector('#world-map').dataset.drawnTiles)>0);
+  assert.match(await page.locator('#field-guide').innerText(),/Reis sensin[\s\S]*Üret[\s\S]*Zamanı başlat[\s\S]*Keşfet/,'fresh player receives contextual first steps');
+  const chromeHeight=await page.evaluate(()=>document.querySelector('.topbar').getBoundingClientRect().height+document.querySelector('.campaign-strip').getBoundingClientRect().height);
+  assert.ok(chromeHeight<=(mobile?112:90),`compact command chrome ${chromeHeight}px`);
+  if(mobile){const separated=await page.evaluate(()=>{const a=document.querySelector('.wordmark').getBoundingClientRect(),b=document.querySelector('.timebar').getBoundingClientRect(),c=document.querySelector('.top-actions').getBoundingClientRect();return a.right<=b.left&&b.right<=c.left;});assert.equal(separated,true,'mobile identity, time controls and menu must not overlap');}
+  await page.locator('[data-guide="dismiss"]').click();
   await checkLayout(page,`${width}:launch`);
   const canvas=page.locator('#world-map'),box=await canvas.boundingBox(),x=box.x+box.width*.5,y=box.y+box.height*.35;
   const before=Number(await canvas.getAttribute('data-zoom'));

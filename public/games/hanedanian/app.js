@@ -60,6 +60,7 @@ let uiPointerActive = false;
 let cachedSlots = {},
   storageMessage = "",
   readyOffline = false;
+const GUIDE_KEY = "tariklab::hanedanian:field-guide:v1";
 const map = createMap($("world-map"), {
   onSelect(tile) {
     selected = tile ? { x: tile.x, y: tile.y } : null;
@@ -229,7 +230,14 @@ function renderHeader() {
   const campaign = getCampaign(state);
   const goal = campaign.goals.find((g) => !g.done);
   $("campaign-strip").innerHTML =
-    `<div><strong>${esc(campaign.label)}</strong><span>${esc(goal ? `${goal.label}: ${fmt(goal.current)} / ${fmt(goal.target)}` : "Kurultay yolları açılıyor. Hanedan sekmesini incele.")}</span></div><button data-view="dynasty">Hedefler →</button>`;
+    `<div><strong>${esc(campaign.label)}</strong><small class="campaign-date">${esc(gameDate())}</small><span>${esc(goal ? `${goal.label}: ${fmt(goal.current)} / ${fmt(goal.target)}` : "Kurultay yolları açılıyor. Hanedan sekmesini incele.")}</span></div><button data-view="dynasty">Hedefler →</button>`;
+}
+function syncFieldGuide(force = false) {
+  const guide = $("field-guide");
+  if (!guide || !state) return;
+  let dismissed = false;
+  try { dismissed = localStorage.getItem(GUIDE_KEY) === "done"; } catch { /* Storage is optional. */ }
+  guide.hidden = !force && (dismissed || state.time > 180);
 }
 function goalHTML(goal) {
   return `<div class="goal"><div><span>${esc(goal.label)}</span><span>${fmt(goal.current)} / ${fmt(goal.target)}</span></div><progress max="${goal.target}" value="${Math.min(goal.current, goal.target)}" aria-label="${esc(goal.label)}"></progress></div>`;
@@ -265,8 +273,16 @@ function renderInspector() {
         : null,
     own = town?.ownerId === state.playerId,
     estimate = from ? getTravelEstimate(state, from, tile, { scout: 1 }) : null;
+  const valueSummary = poi
+    ? `${poi.label}, bağlandığı yerleşime kalıcı bir bölgesel avantaj verir.`
+    : `${terrain.label}; ${RESOURCES[keys[terrain.rates.indexOf(Math.max(...terrain.rates))]].label.toLocaleLowerCase("tr")} için güçlü bir üretim zemini.`;
+  const nextMove = own
+    ? "Burayı Yerleşim ekranından geliştir; yapı seçimin bu merkezin rolünü belirler."
+    : town || tile.poi
+      ? "Önce gözcüyle bilgiyi doğrula. Ardından yeterli birlik varsa sefer veya bağlama kararı ver."
+      : "Gözcü riski azaltır. Yerleşim kafilesi ise kaynak ve nüfuz harcayarak bu karoyu kalıcı merkeze çevirir.";
   el.classList.add("has-selection");
-  el.innerHTML = `<div class="inspector-head"><p class="coordinate">${tile.x} · ${tile.y} / ${state.world.size} × ${state.world.size}</p><button data-action="deselect" aria-label="Bölge bilgisini kapat">×</button></div><h2>${esc(town?.name || poi?.label || terrain.label)}</h2><span class="badge">${esc(owner?.name || "Bağımsız toprak")}</span><p class="muted" style="margin-top:12px;font-size:12px">${esc(terrain.description)}</p><div class="terrain-summary">${keys.map((k, i) => `<div><span>${RESOURCES[k].label}</span> ×${terrain.rates[i].toFixed(2)}</div>`).join("")}<div><span>Savunma</span> ×${terrain.defense}</div><div><span>Hareket</span> ×${terrain.movement}</div></div>${poi ? `<div class="note"><strong>${esc(poi.label)}</strong><p>${esc(poi.description)}</p><p>${tile.poi.ownerId ? "Bağlı nokta" : "Bağımsız muhafızlı nokta"} · Koruma gücü ${fmt(poi.guard * (tile.poi.ownerId ? 2.4 : 1))}</p></div>` : ""}${town && own ? `<p>${esc(getSettlementRole(state, town))}</p><div class="mini-stats">${keys.map((k) => `<div>${RESOURCES[k].label}: <strong>${fmt(town.resources[k])}</strong></div>`).join("")}</div><p class="muted" style="font-size:12px">${esc(troopsText(town.troops))}</p>` : town || tile.poi ? intelHTML(tile) : ""}<div class="tile-actions">${own ? `<button class="primary" data-open-town="${esc(town.id)}">Yerleşimi yönet</button>` : `<p>Çıkış: <strong>${esc(from?.name || "Yerleşim yok")}</strong>${estimate ? ` · ${estimate.distance.toFixed(1)} karo · Gözcü ${duration(estimate.minutes)}` : ""}</p><button class="primary" data-action="scout">Gözcü gönder</button>${!town && !tile.poi ? '<button data-action="expand">Buraya yerleş</button>' : ""}${town || tile.poi ? `<button data-action="${tile.poi ? "claim" : "attack"}">${tile.poi ? "Noktayı bağla" : "Sefer hazırla"}</button>` : ""}`}<button data-action="mark">${isMarked(tile) ? "İşareti kaldır" : "Haritada işaretle"}</button></div>`;
+  el.innerHTML = `<div class="inspector-head"><p class="coordinate">${tile.x} · ${tile.y} / ${state.world.size} × ${state.world.size}</p><button data-action="deselect" aria-label="Bölge bilgisini kapat">×</button></div><h2>${esc(town?.name || poi?.label || terrain.label)}</h2><span class="badge">${esc(owner?.name || "Bağımsız toprak")}</span><div class="decision-brief"><span>NEDEN ÖNEMLİ?</span><p>${esc(valueSummary)}</p><span>SONRAKİ KARAR</span><p>${esc(nextMove)}</p></div><p class="muted tile-description">${esc(terrain.description)}</p><div class="terrain-summary">${keys.map((k, i) => `<div><span>${RESOURCES[k].label}</span> ×${terrain.rates[i].toFixed(2)}</div>`).join("")}<div><span>Savunma</span> ×${terrain.defense}</div><div><span>Hareket</span> ×${terrain.movement}</div></div>${poi ? `<div class="note"><strong>${esc(poi.label)}</strong><p>${esc(poi.description)}</p><p>${tile.poi.ownerId ? "Bağlı nokta" : "Bağımsız muhafızlı nokta"} · Koruma gücü ${fmt(poi.guard * (tile.poi.ownerId ? 2.4 : 1))}</p></div>` : ""}${town && own ? `<p>${esc(getSettlementRole(state, town))}</p><div class="mini-stats">${keys.map((k) => `<div>${RESOURCES[k].label}: <strong>${fmt(town.resources[k])}</strong></div>`).join("")}</div><p class="muted tile-troops">${esc(troopsText(town.troops))}</p>` : town || tile.poi ? intelHTML(tile) : ""}<div class="tile-actions">${own ? `<button class="primary" data-open-town="${esc(town.id)}">Yerleşimi yönet</button>` : `<p>Çıkış: <strong>${esc(from?.name || "Yerleşim yok")}</strong>${estimate ? ` · ${estimate.distance.toFixed(1)} karo · Gözcü ${duration(estimate.minutes)}` : ""}</p><button class="primary" data-action="scout">Gözcü gönder</button>${!town && !tile.poi ? '<button data-action="expand">Buraya yerleş</button>' : ""}${town || tile.poi ? `<button data-action="${tile.poi ? "claim" : "attack"}">${tile.poi ? "Noktayı bağla" : "Sefer hazırla"}</button>` : ""}`}<button data-action="mark">${isMarked(tile) ? "İşareti kaldır" : "Haritada işaretle"}</button></div>`;
 }
 function intelHTML(tile) {
   const knowledge = getTileKnowledge(state, tile.x, tile.y);
@@ -443,6 +459,7 @@ function render() {
   renderHeader();
   renderRail();
   map.setState(state);
+  syncFieldGuide();
   if (view === "map") renderInspector();
   else renderSection();
   if (focusData && !document.contains(focus)) {
@@ -654,7 +671,16 @@ document.addEventListener("click", async (event) => {
   const b = event.target.closest("button");
   if (!b || b.disabled || busy) return;
   if (b.dataset.view) {
+    if (b.closest("#field-guide")) {
+      try { localStorage.setItem(GUIDE_KEY, "done"); } catch { /* Storage is optional. */ }
+      $("field-guide").hidden = true;
+    }
     setView(b.dataset.view);
+    return;
+  }
+  if (b.dataset.guide === "dismiss") {
+    try { localStorage.setItem(GUIDE_KEY, "done"); } catch { /* Storage is optional. */ }
+    $("field-guide").hidden = true;
     return;
   }
   if (b.dataset.cancelSupply) { doAction({type:'cancelSupply',settlementId:activeTown().id}); return; }
@@ -796,6 +822,10 @@ document.addEventListener("click", async (event) => {
       newCampaign();
       break;
     case "help":
+      if (b.closest("#field-guide")) {
+        try { localStorage.setItem(GUIDE_KEY, "done"); } catch { /* Storage is optional. */ }
+        $("field-guide").hidden = true;
+      }
       help();
       break;
     case "manual-save":
@@ -838,6 +868,7 @@ document.addEventListener("click", async (event) => {
   }
 });
 $("menu-button").addEventListener("click", () => void menu());
+$("guide-button").addEventListener("click", help);
 $("dialog-close").addEventListener("click", closeDialog);
 document.addEventListener("change", (event) => {
   if (event.target.id === "town-select") useTown(event.target.value);

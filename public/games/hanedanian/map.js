@@ -7,10 +7,10 @@ const TILE = 56;
 const MAX_ZOOM = 2.6;
 const TAU = Math.PI * 2;
 const COLORS = {
-  paper: '#e7e4d3', ink: '#35443c', muted: '#70796a', player: '#325c4b',
-  plain: '#d8d7b3', forest: '#acbea2', mountain: '#c3c2b4', ore: '#c7b6a5',
-  valley: '#b9c9b4', road: '#dfd3b4', pass: '#cec8b6', arid: '#ded1af',
-  steppe: '#cdcba8', water: '#79a49e', waterLight: '#a7c4b6', stone: '#827d6b',
+  paper: '#d8d6c3', ink: '#2f4037', muted: '#687062', player: '#285744',
+  plain: '#c9c99f', forest: '#92aa8b', mountain: '#aaa99d', ore: '#b49d8a',
+  valley: '#a4bba8', road: '#d2c49e', pass: '#b9b4a5', arid: '#d1bf94',
+  steppe: '#beba90', water: '#5f918b', waterLight: '#b7d2c2', stone: '#746f60',
 };
 const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
 const sameTile = (a, b) => a?.x === b?.x && a?.y === b?.y;
@@ -417,8 +417,8 @@ export class StrategyMap {
     const v = variation(tile.x, tile.y);
     ctx.fillStyle = COLORS[tile.terrain] || COLORS.plain;
     ctx.fillRect(x, y, size + .6, size + .6);
-    // Deterministic variation is a very faint paper tint, not noisy pixel grain.
-    ctx.fillStyle = v > .5 ? `rgba(255,251,225,${(v - .5) * .07})` : `rgba(69,82,60,${(.5 - v) * .045})`;
+    // Low-cost deterministic tint gives each province material depth without assets.
+    ctx.fillStyle = v > .5 ? `rgba(255,250,221,${(v - .5) * .13})` : `rgba(54,67,53,${(.5 - v) * .09})`;
     ctx.fillRect(x, y, size + .6, size + .6);
     if (size < 22) return;
     ctx.save();
@@ -453,9 +453,9 @@ export class StrategyMap {
         path(ctx, [[39, 43], [42, 35], [48, 38], [46, 46]], true); ctx.fill();
       }
     } else if (tile.terrain === 'plain') {
-      ctx.strokeStyle = '#b4b58e';
+      ctx.strokeStyle = '#a4aa7f';
       for (let i = 0; i < 4; i++) { path(ctx, [[10, 18 + i * 6], [43, 13 + i * 6]]); ctx.stroke(); }
-      ctx.strokeStyle = '#c2c19a';
+      ctx.strokeStyle = '#dcdbb0';
       path(ctx, [[15, 10], [19, 43]]); ctx.stroke();
     } else if (tile.terrain === 'arid' || tile.terrain === 'steppe') {
       ctx.strokeStyle = tile.terrain === 'arid' ? '#c6b991' : '#b2b58d';
@@ -464,11 +464,16 @@ export class StrategyMap {
         ctx.quadraticCurveTo(25, 7 + i * 13, 47 - i * 4, 17 + i * 13); ctx.stroke();
       }
     } else if (tile.terrain === 'valley') {
-      ctx.strokeStyle = '#93b19b';
+      ctx.strokeStyle = '#789d84';
       for (let i = 0; i < 3; i++) { path(ctx, [[7 + i * 15, 39], [9 + i * 15, 34], [12 + i * 15, 38]]); ctx.stroke(); }
     }
     if (size > 40) {
-      ctx.strokeStyle = 'rgba(72,85,62,.075)';
+      // Two contour strokes make close zoom read like a surveyed atlas.
+      ctx.strokeStyle = 'rgba(53,67,51,.10)';
+      ctx.beginPath(); ctx.moveTo(2, 47 - v * 8); ctx.bezierCurveTo(14, 39, 31, 51, 54, 40 - v * 5); ctx.stroke();
+      ctx.strokeStyle = 'rgba(255,251,226,.16)';
+      ctx.beginPath(); ctx.moveTo(1, 7 + v * 8); ctx.bezierCurveTo(18, 14, 35, 3, 55, 15 + v * 3); ctx.stroke();
+      ctx.strokeStyle = 'rgba(50,65,48,.11)';
       ctx.strokeRect(0, 0, 56, 56);
     }
     ctx.restore();
@@ -487,13 +492,14 @@ export class StrategyMap {
         ctx.bezierCurveTo(ax, (ay + by) / 2, bx, (ay + by) / 2, bx, by);
       }
       ctx.lineCap = 'round';
-      ctx.lineWidth = Math.max(2, scale * .26); ctx.strokeStyle = '#92b3a2'; ctx.stroke();
-      ctx.lineWidth = Math.max(1, scale * .16); ctx.strokeStyle = COLORS.water; ctx.stroke();
-      ctx.lineWidth = Math.max(.5, scale * .045); ctx.strokeStyle = COLORS.waterLight; ctx.stroke();
+      ctx.lineWidth = Math.max(3, scale * .30); ctx.strokeStyle = 'rgba(65,92,75,.22)'; ctx.stroke();
+      ctx.lineWidth = Math.max(2, scale * .23); ctx.strokeStyle = '#8eae99'; ctx.stroke();
+      ctx.lineWidth = Math.max(1, scale * .14); ctx.strokeStyle = COLORS.water; ctx.stroke();
+      ctx.lineWidth = Math.max(.7, scale * .035); ctx.strokeStyle = COLORS.waterLight; ctx.stroke();
     }
     for (const terrain of ['road']) {
-      ctx.strokeStyle = '#b6a17c';
-      ctx.lineWidth = Math.max(1, scale * .06);
+      ctx.strokeStyle = 'rgba(91,72,49,.28)';
+      ctx.lineWidth = Math.max(3, scale * .12);
       ctx.lineCap = 'round';
       ctx.setLineDash(terrain === 'road' && scale > 18 ? [scale * .08, scale * .08] : []);
       ctx.beginPath();
@@ -507,6 +513,9 @@ export class StrategyMap {
         }
         if (!connected) { ctx.moveTo(px - .15 * scale, py + .09 * scale); ctx.lineTo(px + .15 * scale, py - .09 * scale); }
       }
+      ctx.stroke();
+      ctx.strokeStyle = '#d7c49b';
+      ctx.lineWidth = Math.max(1, scale * .055);
       ctx.stroke();
       ctx.setLineDash([]);
     }
@@ -545,8 +554,14 @@ export class StrategyMap {
       ctx.lineWidth = selected ? 2.5 : 1;
       ctx.strokeRect(p.x - size / 2, p.y - size / 2, size, size);
       if (selected) {
-        ctx.strokeStyle = '#fffcdf'; ctx.lineWidth = 1;
+        ctx.strokeStyle = '#fff7cf'; ctx.lineWidth = 1.5;
         ctx.strokeRect(p.x - size / 2 - 2, p.y - size / 2 - 2, size + 4, size + 4);
+        const c = Math.max(4, Math.min(9, size * .18));
+        ctx.strokeStyle = '#9b4b32'; ctx.lineWidth = 2;
+        for (const [sx, sy] of [[-1,-1],[1,-1],[-1,1],[1,1]]) {
+          const cx = p.x + sx * (size / 2 + 5), cy = p.y + sy * (size / 2 + 5);
+          ctx.beginPath(); ctx.moveTo(cx - sx * c, cy); ctx.lineTo(cx, cy); ctx.lineTo(cx, cy - sy * c); ctx.stroke();
+        }
       }
     }
   }
@@ -558,6 +573,7 @@ export class StrategyMap {
     if (this.mode === 'world' && !poi.ownerId && !['caravanserai', 'watchtower', 'ruins'].includes(poi.type)) return;
     const r = clamp(scale * .20, 3, 12);
     ctx.save(); ctx.translate(p.x, p.y);
+    ctx.fillStyle = 'rgba(36,56,43,.16)'; ctx.beginPath(); ctx.arc(0, 1, r + 6, 0, TAU); ctx.fill();
     ctx.fillStyle = '#ece8d3';
     ctx.strokeStyle = poi.ownerId ? this.factionColor(poi.ownerId) : '#817b62';
     ctx.lineWidth = poi.ownerId ? 2 : 1;

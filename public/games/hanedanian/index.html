@@ -17,9 +17,10 @@
     <div id="game" class="game menu-mode">
       <header class="topbar">
         <div class="brandline">
-          <span class="wordmark">HANEDANIAN<span>TOPRAK · YOL · HANEDAN</span></span>
+          <span class="wordmark"><span class="wordmark-full">HANEDANIAN</span><span class="wordmark-compact" aria-hidden="true">H.</span><span class="wordmark-tag">TOPRAK · YOL · HANEDAN</span></span>
           <div class="top-actions">
             <span id="save-status" role="status">Kayıt hazırlanıyor</span
+            ><button id="guide-button" class="icon-button" aria-label="Kısa oyun rehberi">?</button
             ><button id="menu-button" aria-label="Kayıtlar ve oyun menüsü">Menü</button>
           </div>
         </div>
@@ -64,6 +65,11 @@
           </div>
           <div id="map-caption" class="map-caption">YERYÜZÜ DEFTERİ <span>49 × 49</span></div>
           <div id="hover-info" class="hover-info" hidden></div>
+          <section id="field-guide" class="field-guide" aria-label="İlk adımlar" hidden>
+            <div class="field-guide-head"><div><span>İLK OCAK</span><strong>Reis sensin. Hedefin bir Kurultay yolu tamamlamak.</strong></div><button data-guide="dismiss" aria-label="İlk adımlar panelini kapat">×</button></div>
+            <ol><li><b>Üret</b><span>Yerleşimden bir yapı geliştir.</span></li><li><b>Zamanı başlat</b><span>4× veya 12× ile kuyruğu ilerlet.</span></li><li><b>Keşfet</b><span>Bir karo seç; değerini oku ve gözcü gönder.</span></li></ol>
+            <div class="field-guide-actions"><button class="primary" data-view="settlement">İlk yapımı seç</button><button data-action="help">Tüm rehber</button></div>
+          </section>
           <div id="map-empty" class="map-empty" hidden>Harita hazırlanıyor…</div>
         </main>
         <aside id="inspector" class="inspector" aria-label="Seçili bölge"></aside>

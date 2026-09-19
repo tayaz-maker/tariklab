@@ -362,3 +362,8 @@ motion containment from `table.css` with `overflow: visible`. Restore horizontal
 clipping on the table workspace while retaining vertical depth and the hand's own
 scroll area. Existing overflow assertions remain unchanged; full duel/sitewide
 Chromium must pass before integration.
+## 2026-09-19 — HANEDANIAN production presentation pass
+
+- The shared `/oyna/:slug` HTML-game chrome is reduced from 44px to a 36px command strip for every catalog game; mobile keeps only the back affordance and language control visible.
+- HANEDANIAN now uses a compact command HUD, a contextual three-step first-run guide, clearer tile decision framing, and a richer procedural atlas treatment without adding image payloads.
+- Simulation, campaign balance, saves and audio policy are unchanged. Web-only presentation work; no native parity action is required.
