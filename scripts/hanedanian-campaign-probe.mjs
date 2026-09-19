@@ -11,7 +11,7 @@ export function runCampaign(seed, path, {limit=100000, policy='network', snapsho
   let lastStage=0, previousTownCount=1;
   const order=a=>{const r=dispatch(s,a); if(r.ok) log.commands++; else log.rejected++; return r.ok;};
   const send=(t,type,extra)=>order({type,settlementId:t.id,...extra});
-  const regionsWanted=[4,1,5,7,3,2];
+  const regionsWanted=[4,1,5,7,3,2,0,6,8].filter(r=>s.world.tiles.filter(z=>z.poi&&regionOf(s,z)===r).length>=2).slice(0,6);
   const cachedSites=new Map();
   for (let time=0; time<limit; time+=120) {
     const towns=getPlayerSettlements(s), p=progressOf(s), faction=getFaction(s);
@@ -50,14 +50,14 @@ export function runCampaign(seed, path, {limit=100000, policy='network', snapsho
       }
       const army=s.armies.some(a=>a.fromId===t.id&&!a.returning&&['claim','attack'].includes(a.mission));
       if(!army && t.queue.length<3) {
-        if(path==='dominion' && Object.values(p.rivals).filter(x=>x>=1200).length<3 && t.buildings.barracks>=4 && t.troops.siege<20 && getRates(s,t).food>0.5 && !t.queue.some(q=>q.unit==='siege'))send(t,'train',{unit:'siege',count:4});
+        if(path==='dominion' && Object.values(p.rivals).filter(x=>x>=1200).length<3 && t.buildings.barracks>=4 && t.troops.siege<20 && (getRates(s,t).food>0.5||t.resources.food>2200) && !t.queue.some(q=>q.unit==='siege'))send(t,'train',{unit:'siege',count:4});
         if(t.troops.scout<4 && !t.queue.some(q=>q.unit==='scout'))send(t,'train',{unit:'scout',count:2});
         const warDone=Object.values(p.rivals).filter(x=>x>=1200).length>=3;
         const max=path==='dominion'&&!warDone?220:path==='dynasty'?160:70;
         if(path==='dominion'&&warDone){if(t.troops.archer>70)send(t,'demobilize',{unit:'archer',count:t.troops.archer-70});if(t.troops.siege>4)send(t,'demobilize',{unit:'siege',count:t.troops.siege-4});}
-        if(t.troops.archer<max && getRates(s,t).food>0.5 && !t.queue.some(q=>q.unit==='archer'))send(t,'train',{unit:'archer',count:10});
+        if(t.troops.archer<max && (getRates(s,t).food>0.5||t.resources.food>2200) && !t.queue.some(q=>q.unit==='archer'))send(t,'train',{unit:'archer',count:10});
       }
-      if(!Object.keys(s.intel).some(k=>{const [x,y]=k.split(',').map(Number);return regionOf(s,{x,y})===r;}) && t.troops.scout && !s.armies.some(a=>a.fromId===t.id&&a.mission==='scout')) send(t,'scout',{x:t.x===48?t.x-1:t.x+1,y:t.y,count:1});
+      if(!Object.keys(s.intel).some(k=>{const [x,y]=k.split(',').map(Number);return regionOf(s,{x,y})===r;}) && t.troops.scout && !s.armies.some(a=>a.fromId===t.id&&a.mission==='scout')) send(t,'scout',{x:regionOf(s,{x:t.x+1,y:t.y})===r&&t.x<48?t.x+1:t.x-1,y:t.y,count:1});
       const points=s.world.tiles.filter(z=>z.poi && regionOf(s,z)===r && distance(t,z)<=7 && z.poi.ownerId!=='player');
       const localOwned=s.world.tiles.filter(z=>z.poi?.ownerId==='player'&&regionOf(s,z)===r).length;
       if(!army && localOwned<(path==='dominion'?3:2)) {
@@ -80,7 +80,7 @@ export function runCampaign(seed, path, {limit=100000, policy='network', snapsho
         if(target && p.supply[t.id]?.targetId!==target.id)send(t,'supplyOrder',{path,targetId:target.id});
       }
       if(path==='dominion' && Object.values(p.rivals).filter(x=>x>=1200).length<3 && !army&&t.troops.archer>=150 && t.troops.siege>=12) {
-        const enemy=s.settlements.filter(e=>e.ownerId!=='player'&&!(p.rivals[e.ownerId]>=1200)&&!getFaction(s,e.ownerId).relations.player.vasal&&getFaction(s,e.ownerId).relations.player.truceUntil<=s.time).sort((a,b)=>distance(t,a)-distance(t,b))[0];
+        const enemy=s.settlements.filter(e=>e.ownerId!=='player'&&!(p.rivals[e.ownerId]>=1200)&&!getFaction(s,e.ownerId).relations.player.vasal&&getFaction(s,e.ownerId).relations.player.truceUntil<=s.time).sort((a,b)=>{const strength=e=>{const intel=s.intel[`${e.x},${e.y}`];if(!intel||s.time-intel.time>720)return 1200;const strength=combatPower(intel.troops,'defense')*TERRAINS[s.world.tiles[e.y*49+e.x].terrain].defense*(1+Math.max(0,intel.buildings.wall-Math.floor(t.troops.siege/3))*.15);return strength<1200?100000:strength;};return strength(a)-strength(b)||distance(t,a)-distance(t,b);})[0];
         if(enemy){
           const intel=s.intel[`${enemy.x},${enemy.y}`];
           if(!intel||s.time-intel.time>720){if(t.troops.scout>=4)send(t,'scout',{x:enemy.x,y:enemy.y,count:4});}

@@ -38,7 +38,7 @@ try {
    await touch(page,[{x:x-25,y},{x:x+25,y}],'touchStart');await touch(page,[{x:x-65,y},{x:x+65,y}],'touchMove');await touch(page,[],'touchEnd');
   }else{await page.mouse.move(x,y);await page.mouse.wheel(0,-250);}
   await page.waitForFunction(value=>Number(document.querySelector('#world-map').dataset.zoom)!==value,before);
-  await page.locator('[data-map="home"]').click();
+  await page.getByRole('button',{name:'Aktif yerleşime dön',exact:true}).click();
   if(mobile){await touch(page,[{x,y}],'touchStart');await touch(page,[{x:x-85,y:y+20}],'touchMove');await touch(page,[],'touchEnd');}
   else{await page.mouse.move(x,y);await page.mouse.down();await page.mouse.move(x-100,y+20,{steps:8});await page.mouse.up();}
   assert.equal(await page.locator('#inspector').evaluate(el=>el.classList.contains('has-selection')),false,'drag must not select a tile');
