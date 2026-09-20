@@ -1,8 +1,8 @@
 {
   "summary": {
     "coverage": 300,
-    "totalBytes": 7337216,
-    "averageBytes": 24457,
+    "totalBytes": 7332852,
+    "averageBytes": 24442,
     "p95Bytes": 36550,
     "maxBytes": 47836,
     "duplicateHashes": 0,
@@ -2856,8 +2856,8 @@
       "path": "/games/gett-oh/assets/cards/RCN-285.webp",
       "width": 400,
       "height": 300,
-      "bytes": 7864,
-      "sha256": "dfda0ec423091fc005b07f34b59be841e3064990c8ada9ab789c089bd10b14d0",
+      "bytes": 3500,
+      "sha256": "943d6bb3f776226d3d9ef8baff66f2731ce21745990988818d2bef3e699a33f3",
       "batch": "gett-oh-RCN-277",
       "cell": 8,
       "sourceName": "Çelişen Tanık"

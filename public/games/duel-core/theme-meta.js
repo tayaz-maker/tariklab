@@ -169,7 +169,7 @@ export const THEME_META = {
     showElectionShare: false,
     showHardestWorker: false,
     hoodAccent: true,
-    art: { kind: "procedural", width: 400, height: 560 },
+    art: { kind: "svg", width: 400, height: 560 },
     eyebrow: { tr: "OLAĞANÜSTÜ MASA · KART DÜELLOSU", en: "EXTRAORDINARY DESK · CARD DUEL" },
     labels: DARBE_LABELS,
     deckHeading: { tr: "Kriz Destesi", en: "Crisis Deck" },
@@ -207,61 +207,11 @@ export function identityPatch(theme, deckId, extra = {}) {
   return { [themeMeta(theme).identityKey]: deckId, ...extra };
 }
 
-const SERIES_TINT = {
-  Dosya: "#3d5a73",
-  Paraf: "#5a6e4e",
-  Heyet: "#6b4e6e",
-  Karargah: "#4a5568",
-  Telex: "#8a6a3a",
-  Muhtira: "#7a3d3d",
-  Zeyil: "#3d6a6a",
-  Ihtar: "#8a4a32",
-  Redaksiyon: "#4e4e62",
-  Brifing: "#3d5e7a",
-  Kabine: "#5a4a3a",
-  Arsiv: "#4a5a4a",
-  Tebligat: "#6a5a32",
-  Mesruiyet: "#3a4a6a",
-};
-
-function hashId(id) {
-  let h = 2166136261;
-  for (const ch of String(id)) h = Math.imul(h ^ ch.charCodeAt(0), 16777619);
-  return h >>> 0;
-}
-
-export function proceduralCardSvg(card) {
-  const series = card?.series?.[0] || "Dosya";
-  const tint = SERIES_TINT[series] || "#3d5a73";
-  const n = Number(String(card?.id || "DRB-001").slice(4)) || 1;
-  const h = hashId(card?.id || "DRB-001");
-  const a = 18 + (h % 28);
-  const b = 12 + ((h >>> 8) % 36);
-  const c = 8 + ((h >>> 16) % 20);
-  const atk = Number.isFinite(card?.attack) ? card.attack : "—";
-  const def = Number.isFinite(card?.defense) ? card.defense : "—";
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 560" width="400" height="560">
-<rect width="400" height="560" fill="#1a2433"/>
-<rect x="14" y="14" width="372" height="532" fill="none" stroke="${tint}" stroke-width="3"/>
-<rect x="28" y="28" width="344" height="40" fill="${tint}"/>
-<text x="200" y="55" text-anchor="middle" fill="#e8dcc4" font-family="Georgia,serif" font-size="18">${card?.id || ""}</text>
-<rect x="48" y="96" width="304" height="280" fill="#243044"/>
-<circle cx="${140 + (n % 90)}" cy="${180 + (n % 70)}" r="${a}" fill="none" stroke="${tint}" stroke-width="2"/>
-<rect x="${90 + b}" y="${220 + c}" width="${80 + (n % 40)}" height="${60 + (n % 30)}" fill="none" stroke="#c4a574" stroke-width="1.5"/>
-<path d="M80 360 L200 ${120 + (n % 80)} L320 360" fill="none" stroke="#e8dcc4" stroke-width="1.2"/>
-<text x="200" y="420" text-anchor="middle" fill="#c4a574" font-family="ui-monospace,monospace" font-size="14">${series}</text>
-<text x="200" y="500" text-anchor="middle" fill="#e8dcc4" font-family="ui-monospace,monospace" font-size="22">${atk} / ${def}</text>
-</svg>`;
-  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
-}
-
 export function cardArt(theme, card) {
   const meta = themeMeta(theme);
-  if (meta.art.kind === "procedural") {
-    return { src: proceduralCardSvg(card), width: meta.art.width, height: meta.art.height };
-  }
+  const ext = meta.art.kind === "svg" ? "svg" : "webp";
   return {
-    src: `/games/${theme}/assets/cards/${card.id}.webp`,
+    src: `/games/${theme}/assets/cards/${card.id}.${ext}`,
     width: meta.art.width,
     height: meta.art.height,
   };

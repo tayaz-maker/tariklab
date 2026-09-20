@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 560" width="400" height="560">
+<rect width="400" height="560" fill="#141c28"/>
+<rect x="10" y="10" width="380" height="540" fill="#1a2433" stroke="#6b4e6e" stroke-width="2"/>
+<rect x="10" y="10" width="380" height="18" fill="#6b4e6e"/>
+<text x="24" y="54" fill="#d8c48a" font-family="ui-monospace,monospace" font-size="13" letter-spacing="2">EMİRNAME</text>
+<text x="376" y="54" text-anchor="end" fill="#8a93a3" font-family="ui-monospace,monospace" font-size="13">HEYET</text>
+<text x="200" y="96" text-anchor="middle" fill="#e8dcc4" font-family="Georgia,serif" font-size="22">DRB-255</text>
+
+<rect x="36" y="118" width="328" height="268" fill="#243044" stroke="#2e3d52" stroke-width="1"/>
+<rect x="120" y="234" width="160" height="12" fill="#c4a574"/><rect x="130" y="246" width="10" height="50" fill="#e8dcc4"/><rect x="260" y="246" width="10" height="50" fill="#e8dcc4"/><circle cx="160" cy="214" r="10" fill="none" stroke="#e8dcc4" stroke-width="2"/><circle cx="200" cy="214" r="10" fill="none" stroke="#e8dcc4" stroke-width="2"/><circle cx="240" cy="214" r="10" fill="none" stroke="#e8dcc4" stroke-width="2"/>
+
+<text x="200" y="430" text-anchor="middle" fill="#e8dcc4" font-family="Georgia,serif" font-size="20">Telex Cetveli</text>
+<text x="200" y="462" text-anchor="middle" fill="#c4a574" font-family="ui-monospace,monospace" font-size="13">HEYET</text>
+<rect x="36" y="484" width="328" height="44" fill="#121820"/>
+<text x="200" y="514" text-anchor="middle" fill="#e8dcc4" font-family="ui-monospace,monospace" font-size="22">—</text>
+</svg>
