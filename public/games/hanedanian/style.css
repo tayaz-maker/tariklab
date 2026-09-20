@@ -559,6 +559,24 @@ small {
 .card button {
   margin-top: 12px;
 }
+.region-disclosure > summary {
+  cursor: pointer;
+  list-style: none;
+}
+.region-disclosure > summary::-webkit-details-marker {
+  display: none;
+}
+.region-disclosure > summary::after {
+  content: "▾";
+  float: right;
+  color: var(--muted);
+}
+.region-disclosure:not([open]) > summary::after {
+  content: "▸";
+}
+.region-disclosure[open] > summary {
+  margin-bottom: 14px;
+}
 .cost {
   font-size: 11px;
   color: var(--muted);
@@ -864,6 +882,13 @@ form .row > label {
 }
 .storage-warning {
   color: var(--danger) !important;
+}
+/* While a toast is up, give the active section's scroll area room at the
+   bottom equal to the toast's own footprint, so it has somewhere to sit
+   besides directly over a card's cost line or action buttons. */
+body.toast-visible .section-view {
+  padding-bottom: 110px;
+  scroll-padding-bottom: 110px;
 }
 .rail-collapsed .workspace {
   grid-template-columns: 0 minmax(0, 1fr) 310px;

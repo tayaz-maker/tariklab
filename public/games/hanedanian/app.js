@@ -29,7 +29,30 @@ const esc = (value) =>
   );
 const fmt = (value) =>
   Number.isFinite(Number(value)) ? Math.floor(Number(value)).toLocaleString("tr-TR") : "—";
+// Whole resource counts round down (fmt above), but sub-1 upkeep rates
+// (e.g. a scout's 0.9/hour) would all floor to the same "0" and lose the
+// difference between unit types. One decimal keeps that distinction
+// without ever showing a raw binary-float tail like 0.8999999999999999.
+const fmtRate = (value) =>
+  Number.isFinite(Number(value)) ? Number(value).toLocaleString("tr-TR", { maximumFractionDigits: 1 }) : "—";
 const keys = Object.keys(RESOURCES);
+// Position-matched to `keys` (food, wood, stone, iron): which building
+// produces which resource, for the settlement screen's rate line.
+const PRODUCTION_BUILDINGS = ["farm", "lumber", "quarry", "mine"];
+// A building card only ever showed the CURRENT rate, so upgrading was a
+// blind bet — the player had no way to tell whether the next level was
+// worth its cost. getRates()'s per-resource formula is linear in the
+// building's own level, so temporarily reading it one level higher (then
+// restoring the real level) gives the exact post-upgrade rate without
+// duplicating that formula here.
+function nextLevelRate(town, buildingKey, resourceKey) {
+  const before = town.buildings[buildingKey] || 0;
+  const pending = town.queue.filter((q) => q.kind === "build" && q.building === buildingKey).length;
+  town.buildings[buildingKey] = before + pending + 1;
+  const rate = getRates(state, town)[resourceKey];
+  town.buildings[buildingKey] = before;
+  return rate;
+}
 const labels = {
   stewardship: "İdare",
   warfare: "Savaş",
@@ -37,6 +60,30 @@ const labels = {
   diplomacy: "Diplomasi",
   intrigue: "Entrika",
 };
+// Divan reports are tagged internally (engine.js's report() calls) with a
+// short English category key for the game's own bookkeeping. That key must
+// never render as-is — a plain "welcome" or "shortage" next to otherwise
+// fully Turkish copy reads as a leaked internal field, not a real label.
+const REPORT_TYPE_LABELS = {
+  welcome: "Karşılama",
+  milestone: "Dönüm noktası",
+  build: "İnşa",
+  train: "Eğitim",
+  scout: "Keşif",
+  return: "Dönüş",
+  settlement: "Yerleşim",
+  claim: "Toprak iddiası",
+  trade: "Ticaret",
+  diplomacy: "Diplomasi",
+  battle: "Muharebe",
+  threat: "Tehdit",
+  shortage: "Kaynak sıkıntısı",
+  blocked: "Engellendi",
+  campaign: "Kampanya",
+  dynasty: "Hanedan",
+  victory: "Zafer",
+};
+const reportTypeLabel = (type) => REPORT_TYPE_LABELS[type] || "Rapor";
 const missionNames = {
   scout: "Keşif",
   attack: "Sefer",
@@ -132,9 +179,15 @@ function notice(message, error = false) {
     $("dialog-notice").classList.toggle("danger", error);
   }
   el.style.background = error ? "#853e30" : "";
+  // The toast floats over whatever section the player is on; reserving its
+  // own height at the bottom of that section's scroll area for as long as
+  // it is shown means it can sit in space the layout set aside for it
+  // instead of overlapping a card's cost line or action buttons.
+  document.body.classList.add("toast-visible");
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => {
     el.hidden = true;
+    document.body.classList.remove("toast-visible");
   }, 6500);
 }
 function updateSaveStatus() {
@@ -356,7 +409,14 @@ function settlementHTML() {
         const pending = town.queue.filter((q) => q.kind === "build" && q.building === key).length;
         const lv = actual + pending;
         const cost = getBuildCost(state, town, key);
-        return `<article class="card"><div class="card-meta"><h3>${esc(b.label)}</h3><span class="badge">Seviye ${actual}${pending ? ` +${pending} sırada` : ""}</span></div><p>${esc(b.description)}</p>${["farm", "lumber", "quarry", "mine"].includes(key) ? `<p class="rate">Şu anda +${fmt(rates[keys[["farm", "lumber", "quarry", "mine"].indexOf(key)]] * 60)}/saat</p>` : ""}<p class="cost">${lv >= b.maxLevel ? "En yüksek seviye" : esc(costText(cost))}</p><button data-build="${key}" ${lv >= b.maxLevel ? "disabled" : ""}>${lv >= b.maxLevel ? "Tam gelişmiş" : `${lv + 1}. seviyeyi inşa et`}</button></article>`;
+        const resourceIndex = PRODUCTION_BUILDINGS.indexOf(key);
+        const rateLine =
+          resourceIndex === -1
+            ? ""
+            : `<p class="rate">Şu anda +${fmt(rates[keys[resourceIndex]] * 60)}/saat${
+                lv >= b.maxLevel ? "" : ` → ${lv + 1}. seviyede +${fmt(nextLevelRate(town, key, keys[resourceIndex]) * 60)}/saat`
+              }</p>`;
+        return `<article class="card"><div class="card-meta"><h3>${esc(b.label)}</h3><span class="badge">Seviye ${actual}${pending ? ` +${pending} sırada` : ""}</span></div><p>${esc(b.description)}</p>${rateLine}<p class="cost">${lv >= b.maxLevel ? "En yüksek seviye" : esc(costText(cost))}</p><button data-build="${key}" ${lv >= b.maxLevel ? "disabled" : ""}>${lv >= b.maxLevel ? "Tam gelişmiş" : `${lv + 1}. seviyeyi inşa et`}</button></article>`;
       })
       .join(
         "",
@@ -392,7 +452,7 @@ function armyHTML() {
     )
       .map(
         ([key, u]) =>
-          `<article class="card"><div class="card-meta"><h3>${esc(u.label)}</h3><span class="badge">${fmt(town.troops[key])} hazır</span></div><p>Saldırı ${u.attack} · Savunma ${u.defense} · Hız ×${u.speed}</p><p class="cost">Bir asker: ${esc(costText(u.cost))}</p><p class="cost">Gereken talimgâh: seviye ${u.barracks} · İaşe ${u.upkeep * 60}/saat</p><button data-train="${key}" ${town.buildings.barracks < u.barracks ? "disabled" : ""}>${town.buildings.barracks < u.barracks ? "Talimgâhı geliştir" : "Birlik eğit"}</button><button data-demobilize="${key}" ${town.troops[key]?"":"disabled"}>Terhis et</button></article>`,
+          `<article class="card"><div class="card-meta"><h3>${esc(u.label)}</h3><span class="badge">${fmt(town.troops[key])} hazır</span></div><p>Saldırı ${u.attack} · Savunma ${u.defense} · Hız ×${u.speed}</p><p class="cost">Bir asker: ${esc(costText(u.cost))}</p><p class="cost">Gereken talimgâh: seviye ${u.barracks} · İaşe ${fmtRate(u.upkeep * 60)}/saat</p><button data-train="${key}" ${town.buildings.barracks < u.barracks ? "disabled" : ""}>${town.buildings.barracks < u.barracks ? "Talimgâhı geliştir" : "Birlik eğit"}</button><button data-demobilize="${key}" ${town.troops[key]?"":"disabled"}>Terhis et</button></article>`,
       )
       .join("")}</div>`
   );
@@ -406,7 +466,7 @@ function councilHTML() {
     ) +
     `<div class="tabs-inline"><button class="${councilTab === "reports" ? "active" : ""}" data-council="reports">Raporlar</button><button class="${councilTab === "diplomacy" ? "active" : ""}" data-council="diplomacy">Hanedanlar</button></div>` +
     (councilTab === "reports"
-      ? `<div class="card">${state.reports.map((r) => `<article class="report ${r.critical ? "critical" : ""}"><small>${gameDate(r.time)} · ${esc(r.type)}</small><h3>${esc(r.title)}</h3><p>${esc(r.text)}</p></article>`).join("") || "<p>İlk kararını verdiğinde sonuçları burada göreceksin.</p>"}</div>`
+      ? `<div class="card">${state.reports.map((r) => `<article class="report ${r.critical ? "critical" : ""}"><small>${gameDate(r.time)} · ${esc(reportTypeLabel(r.type))}</small><h3>${esc(r.title)}</h3><p>${esc(r.text)}</p></article>`).join("") || "<p>İlk kararını verdiğinde sonuçları burada göreceksin.</p>"}</div>`
       : `<div class="section-grid">${state.factions
           .filter((f) => f.id !== state.playerId)
           .map((f) => {
@@ -423,6 +483,17 @@ function regionalHTML() {
     const info = projectRequirements(state,town,path), project=p.projects[`${path}:${region}`];
     return `<article class="card"><h3>${esc({wealth:'Ekonomik',dominion:'Askeri',dynasty:'Siyasi'}[path])} bölge · ${info.level}/3</h3>${info.requirements.map(goalHTML).join('')}${project?.active?`<p>Her kaynak için yerel katkı: ${fmt(project.paid)} / ${fmt(PROJECT_QUOTAS[project.level])}<br>İthal ikmal: ${fmt(project.imported)} / ${fmt(PROJECT_QUOTAS[project.level])}</p><button data-contribute="${path}">Yerel katkı yap (500 stok korunur)</button>`:`<button data-project="${path}" ${info.level>=3?'disabled':''}>${info.level>=3?'Bölge tamamlandı':'Yatırım fermanı · 15 nüfuz'}</button>`}<p>Final ikmali: ${fmt(p.finales[path]?.[region]||0)} / 12.000 (her kaynak). Diğer yol koşulları tamamlanınca ikmal hatları finali besler.</p><button data-supply-setup="${path}">Bu yurttan ikmal hattı kur</button></article>`;
   }).join('');
+}
+// Regional specialization only pays off once a second settlement exists to
+// supply it (the ikmal mechanic literally requires a town in another
+// region), yet its full four-card breakdown — three 12.000-resource
+// endgame targets — used to render at full detail from turn one, next to
+// a "Kuruluş: 0/1" checklist that hadn't even unlocked it yet. A native
+// <details> keeps every number reachable in one click without deleting or
+// renaming anything, and opens on its own once it is actually actionable.
+function regionalSectionHTML() {
+  const unlocked = getPlayerSettlements(state).length > 1;
+  return `<details class="card wide region-disclosure"${unlocked ? " open" : ""}><summary><p class="eyebrow">BÖLGESEL GELİŞİM</p><h3>${unlocked ? "Bölge yatırımların" : "İkinci bir yerleşimden sonra açılır"}</h3>${unlocked ? "" : "<p>Farklı bir bölgede yerleşim kurduğunda buradan ikmal hatları ve bölge uzmanlıkları yönetebilirsin.</p>"}</summary>${regionalHTML()}</details>`;
 }
 function supplyDialog(path) {
   const town=activeTown(), targets=getPlayerSettlements(state).filter(t=>regionOf(state,t)!==regionOf(state,town));
@@ -448,7 +519,7 @@ function dynastyHTML() {
       )
       .join(
         "",
-      )}</div><p style="margin-top:12px">${(d.traits || []).map(esc).join(" · ")}</p></div><div class="card"><p class="eyebrow">KAMPANYA</p><h2 style="margin:8px 0">${esc(campaign.label)}</h2>${campaign.goals.map(goalHTML).join("")}<p style="margin-top:18px">Nüfuz; keşif, gelişim ve siyasi başarıyla kazanılır. Yeni yerleşimler ve anlaşmalar için harcanır.</p></div>${regionalHTML()}${campaign.paths.map((path) => `<article class="card"><div class="card-meta"><h3>${esc(path.label)}</h3><span class="badge">Kurultay yolu</span></div>${path.requirements.map(goalHTML).join("")}<button class="primary" data-victory="${esc(path.id)}" ${path.ready ? "" : "disabled"}>${path.ready ? "Kurultayı topla" : "Koşullar hazırlanıyor"}</button></article>`).join("")}${state.campaign.victory ? `<div class="card wide"><h2>${state.campaign.victory === "defeat" ? "Hanedanın sınırı" : "Adın deftere yazıldı."}</h2><p>${esc(typeof state.campaign.victory === "string" ? state.campaign.victory : state.campaign.victory.path || "Kurultay tamamlandı")}</p><button class="primary" data-action="continue">Dünyada devam et</button><button data-action="new">Yeni kampanya</button></div>` : ""}${d.pendingEvent || state.pendingEvent ? `<div class="card wide"><h3>Varisin yolu</h3><p>Bir sonraki kuşağa nasıl bir miras bırakacaksın?</p><div class="row"><button data-event="mentor">Reisin yanında yetiştir</button><button data-event="marry">Siyasi bağ kur</button><button data-event="study">Bilgiyle güçlendir</button></div></div>` : ""}</div>`
+      )}</div><p style="margin-top:12px">${(d.traits || []).map(esc).join(" · ")}</p></div><div class="card"><p class="eyebrow">KAMPANYA</p><h2 style="margin:8px 0">${esc(campaign.label)}</h2>${campaign.goals.map(goalHTML).join("")}<p style="margin-top:18px">Nüfuz; keşif, gelişim ve siyasi başarıyla kazanılır. Yeni yerleşimler ve anlaşmalar için harcanır.</p></div>${regionalSectionHTML()}${campaign.paths.map((path) => `<article class="card"><div class="card-meta"><h3>${esc(path.label)}</h3><span class="badge">Kurultay yolu</span></div>${path.requirements.map(goalHTML).join("")}<button class="primary" data-victory="${esc(path.id)}" ${path.ready ? "" : "disabled"}>${path.ready ? "Kurultayı topla" : "Koşullar hazırlanıyor"}</button></article>`).join("")}${state.campaign.victory ? `<div class="card wide"><h2>${state.campaign.victory === "defeat" ? "Hanedanın sınırı" : "Adın deftere yazıldı."}</h2><p>${esc(typeof state.campaign.victory === "string" ? state.campaign.victory : state.campaign.victory.path || "Kurultay tamamlandı")}</p><button class="primary" data-action="continue">Dünyada devam et</button><button data-action="new">Yeni kampanya</button></div>` : ""}${d.pendingEvent || state.pendingEvent ? `<div class="card wide"><h3>Varisin yolu</h3><p>Bir sonraki kuşağa nasıl bir miras bırakacaksın?</p><div class="row"><button data-event="mentor">Reisin yanında yetiştir</button><button data-event="marry">Siyasi bağ kur</button><button data-event="study">Bilgiyle güçlendir</button></div></div>` : ""}</div>`
   );
 }
 function render() {
@@ -932,8 +1003,13 @@ document.addEventListener("submit", async (event) => {
       });
       closeDialog();
       await enterGame(next);
-      if (await persist("auto", true))
-        notice("İlk adım: Yerleşim bölümünde üretimini geliştir. Ardından zamanı başlat.");
+      // The İLK OCAK field guide (below the map, dismissible) is now the
+      // one first-run explanation channel. A "Kampanya kaydedildi." toast
+      // right on top of it repeated its own first line and, on the Army
+      // tab, floated over the unit cards for its full 6.5s — the header's
+      // own #save-status ("Kaydedildi HH:MM") already confirms this
+      // autosave without a floating banner over live content.
+      await persist("auto");
     } catch (error) {
       notice(`Kampanya başlatılamadı: ${error.message}`, true);
     } finally {

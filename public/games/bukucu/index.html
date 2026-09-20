@@ -150,6 +150,8 @@ button:disabled { opacity: .35; }
 #menu .row button { flex: 1; min-width: 0; letter-spacing: .06em; font-size: .72rem; padding: 0 6px; }
 #menu .pick { border-color: var(--gold); }
 #menu .hint { font-size: .68rem; letter-spacing: .16em; text-transform: uppercase; color: var(--num); margin: 12px 0 6px; }
+#menu .menu-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+#menu .menu-top .hint { margin: 0; }
 #chips { position: relative; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 10px; font-size: .82rem; color: var(--num); margin-bottom: 6px; }
 .fly { position: absolute; left: 0; top: -2px; color: var(--gold); font-size: 12px; pointer-events: none;
   transition: transform .65s ease, opacity .65s ease; opacity: 1; }
@@ -2856,7 +2858,9 @@ button:disabled { opacity: .35; }
     m.setAttribute("data-len", tmpLen);
     m.setAttribute("data-lvl", tmpLvl);
     m.setAttribute("data-snd", sndPref() ? "1" : "0");
-    add(m, el("a", { href: "/", cls: "hint", text: "← Oyunlar", style: "display:inline-block;text-decoration:none" }));
+    var topRow = add(m, el("header", { cls: "menu-top" }));
+    add(topRow, el("a", { href: "/", cls: "hint", text: "← Oyunlar", style: "display:inline-block;text-decoration:none" }));
+    if (window.tlabI18n) window.tlabI18n.mountLangToggle(topRow);
     add(m, el("h1", { text: "SON MAHALLE BÜKÜCÜ" }));
     add(m, el("p", { cls: "sub", text: "İstanbul tapusu. Semti tutan büker." }));
     add(m, el("p", { cls: "hint", text: "Kayıt yerleri" }));

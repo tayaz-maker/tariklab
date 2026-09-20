@@ -103,6 +103,13 @@ try {
           assert.ok(box.width > 0 && box.height > 0);
           await save.click();
         } else if (route.id === "tc-sim") {
+          const introCta = surface.locator("#show-creation-form");
+          assert.ok(await introCta.isVisible(), `${route.id}/${lang}: editorial intro CTA`);
+          await introCta.click();
+          assert.ok(
+            await surface.locator('input[name="name"]').isVisible(),
+            `${route.id}/${lang}: character setup after intro`,
+          );
           await surface.locator('input[name="name"]').fill("Uzun İsimli Deneme Karakteri QA");
           await deskLanguageSwitch(page, surface, lang, true);
           await surface.locator('#new-game-form button[type="submit"]').click();

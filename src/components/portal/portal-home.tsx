@@ -17,14 +17,14 @@ function GameCard({ game, featured = false }: { game: CatalogGame; featured?: bo
         <p className="mt-1 text-sm text-muted">{subtitle}</p>
       </div>
       <span
-        className="text-xl text-subtle transition-transform group-hover:translate-x-1"
+        className="self-center text-xl text-subtle transition-transform group-hover:translate-x-1"
         aria-hidden="true"
       >
         →
       </span>
     </>
   );
-  const classes = `group flex h-full min-h-28 items-center gap-3 rounded-lg border border-border bg-surface/80 p-4 text-left wrap-anywhere transition-colors hover:border-danger/70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-danger sm:min-h-32 sm:gap-4 sm:p-5 ${featured ? "border-danger/50 bg-elevated" : ""}`;
+  const classes = `group flex h-full min-h-28 items-start gap-3 rounded-lg border border-border bg-surface/80 p-4 text-left wrap-anywhere transition-colors hover:border-danger/70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-danger sm:min-h-32 sm:gap-4 sm:p-5 ${featured ? "border-danger/50 bg-elevated" : ""}`;
   const label = t("portal.openGame", `${game.title} oyununu aç`, { title });
   if (!game.href)
     return (

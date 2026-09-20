@@ -749,15 +749,23 @@ dialog > .dialog-actions {
 }
 @media (max-width: 760px) {
   :root {
-    --hand-width: calc(138px * var(--card-scale, 1));
-    --board-height: calc(132px * var(--card-scale, 1));
+    --hand-width: calc(128px * var(--card-scale, 1));
+    /* The duel screen's own board (opponent field, phase strip, player
+       field) plus a full hand row and its action buttons cannot all fit a
+       360-844px viewport at desktop card size without the hand — the part
+       the player actually acts on every turn — scrolling almost entirely
+       off-screen. Shrinking only the on-board zone size (never the hand,
+       which stays at --hand-width above) buys back that space while
+       leaving every zone, counter and phase label in place. */
+    --board-height: calc(74px * var(--card-scale, 1));
     --space-5: 20px;
   }
   body {
     padding-bottom: 0;
   }
   .operations {
-    padding: var(--space-2);
+    min-height: 44px;
+    padding: var(--space-1) var(--space-2);
     gap: var(--space-1);
   }
   .operations strong {
@@ -771,7 +779,7 @@ dialog > .dialog-actions {
   }
   .duel-table {
     border-radius: var(--radius-panel);
-    padding: var(--space-2) var(--space-1);
+    padding: var(--space-1);
   }
   .zones {
     gap: var(--space-1);
@@ -794,31 +802,48 @@ dialog > .dialog-actions {
     font-size: 12px;
   }
   .support-row .zone {
-    height: 52px;
+    height: 28px;
   }
   .player-meter {
     flex-wrap: wrap;
+    min-height: 0;
+    padding: 2px var(--space-2);
     font-size: var(--text-meta);
   }
   .player-meter strong {
     font-size: var(--text-section);
   }
+  .piles {
+    gap: 2px;
+  }
   .piles button,
   .piles > span {
+    /* Tap target stays 44px (accessibility floor); only the row's own
+       padding shrinks, so the counters stop padding out the scroll height
+       beyond what a thumb actually needs. */
     min-height: 44px;
+    padding: 2px var(--space-1);
   }
   .phase-strip {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    padding: 2px 0;
+    gap: 2px;
+  }
+  .phase-strip > span {
+    padding: 2px 2px;
+    font-size: 11px;
   }
   .action-dock {
     position: sticky;
     bottom: 0;
     max-height: none;
-    padding-bottom: max(var(--space-2), env(safe-area-inset-bottom));
+    padding: var(--space-1) var(--space-2);
+    padding-bottom: max(var(--space-1), env(safe-area-inset-bottom));
   }
   .action-dock button {
     flex: 1 1 auto;
+    min-height: 40px;
   }
   .identity-grid {
     grid-template-columns: minmax(0, 1fr);

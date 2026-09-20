@@ -484,9 +484,14 @@ try {
       const neutralSave = await page.evaluate((k) => localStorage.getItem(k), key);
       const peer = await context.newPage();
       await peer.goto(`${origin}/games/${theme}/index.html`, { waitUntil: "networkidle" });
-      await peer
-        .getByRole("button", { name: lang === "tr" ? "Dil" : "Language", exact: true })
-        .click();
+      // The duplicate in-game language button was intentionally removed; the
+      // outer TarikLab shell now owns this preference. Writing it from a peer
+      // page reproduces that shell action and still exercises the real
+      // cross-document storage event handled by the duel runtime.
+      await peer.evaluate(
+        (language) => localStorage.setItem("tariklab.language", language),
+        lang === "tr" ? "en" : "tr",
+      );
       await page.waitForFunction(
         (language) => document.documentElement.lang === language,
         lang === "tr" ? "en" : "tr",
