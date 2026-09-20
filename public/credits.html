@@ -71,7 +71,8 @@
         padding: 0.65rem 0;
         border-bottom: 1px solid var(--border);
       }
-      .catalog a {
+      .catalog a,
+      .catalog .game-title {
         font-weight: 700;
         text-decoration: none;
       }
@@ -119,8 +120,8 @@
       <p class="kicker">TarikLab · oyunlar ve teknik yapı</p>
 
       <h2>Katalog</h2>
-      <p>TarikLab'da 18 oyun oynanabilir.</p>
-      <ul class="catalog" data-live-count="18" data-soon-count="0">
+      <p>TarikLab'da 18 oyun oynanabilir; 1 dosya hazırlanıyor.</p>
+      <ul class="catalog" data-live-count="18" data-soon-count="1">
         <li data-game="cete-savaslari" data-status="live" data-route="/cete-savaslari">
           <a href="/cete-savaslari">Çete Savaşları</a><span class="status">LIVE</span>
           <p>Ekip kur, görev yönet, mahalle tut; emniyet baskısı ve rakip tepkileriyle uğraş.</p>
@@ -222,6 +223,10 @@
             Kurmaca olağanüstü masada görevli, emirname ve ihtar düellosu; VETO-H! / GETT-OH! ile
             aynı motor, ayrı 300 kart ve kriz puanı.
           </p>
+        </li>
+        <li data-game="jitem-derin-ag" data-status="soon">
+          <span class="game-title">JITEM: Derin Ağ</span><span class="status">YAKINDA</span>
+          <p>1986–1996. Dosyalar susmaz. Ağ büyür.</p>
         </li>
       </ul>
 
