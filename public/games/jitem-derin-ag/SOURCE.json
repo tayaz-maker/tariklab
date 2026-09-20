@@ -1,6 +1,6 @@
 {
   "repository": "https://github.com/tayaz-maker/jitem-derin-ag",
-  "standaloneSha": "85bfa63635cfa5358ed3472cb59eb887887dda9d",
+  "standaloneSha": "0f01e80aa2a94f145a49f509598e26d74a06640e",
   "saveKey": "jitem-derin-ag-v3",
   "schemaVersion": 5,
   "integration": "Isolated static runtime built from the standalone source with ?embed=1; TarikLab owns global navigation and locale."

@@ -6,7 +6,7 @@ const read = (path) => readFileSync(new URL(`../${path}`, import.meta.url), "utf
 
 test("JITEM ships from the reviewed standalone canonical build", () => {
   const source = JSON.parse(read("public/games/jitem-derin-ag/SOURCE.json"));
-  assert.equal(source.standaloneSha, "85bfa63635cfa5358ed3472cb59eb887887dda9d");
+  assert.equal(source.standaloneSha, "0f01e80aa2a94f145a49f509598e26d74a06640e");
   assert.equal(source.saveKey, "jitem-derin-ag-v3");
   assert.equal(source.schemaVersion, 5);
   const assets = readdirSync(new URL("../public/games/jitem-derin-ag/assets/", import.meta.url));
@@ -18,6 +18,15 @@ test("JITEM ships from the reviewed standalone canonical build", () => {
   assert.match(js, /GAMEPLAY RECONSTRUCTION/);
   assert.match(js, /log\.open\.saha/);
   assert.match(js, /family\.variant/);
+  for (const semanticId of [
+    "fam_source_clash",
+    "fam_chain_consequence",
+    "clm_aygan_dogan_split",
+    "clm_kutlu_vs_official",
+    "clm_hanefi_emniyet_split",
+  ]) assert.match(js, new RegExp(semanticId), semanticId);
+  assert.match(js, /delil_zincir/);
+  assert.match(js, /kismi_adalet/);
   assert.doesNotMatch(js, /["'`]\/images\/office\.jpg/);
 });
 
