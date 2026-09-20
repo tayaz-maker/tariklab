@@ -712,10 +712,18 @@
 .tlab-lang-switch button{background:transparent;color:#9a9086;border:0;padding:.25rem .55rem;font:600 11px/1.2 system-ui,sans-serif;letter-spacing:.08em;cursor:pointer}
 .tlab-lang-switch button.is-on{background:#efe8de;color:#12100e}
 .tlab-lang-switch button:focus-visible{outline:2px solid #c45c4a;outline-offset:2px}
+/* Play routes already supply the portal back action and language switch. Keep
+   standalone game URLs self-contained, but remove the duplicated site chrome
+   when the same document is embedded in TarikLab's play shell. */
+html.tlab-embedded a[href="/"],
+html.tlab-embedded [data-lang-host],
+html.tlab-embedded .tlab-lang{display:none!important}
+html.tlab-embedded .global-chrome:not(:has(.topbar__title)):not(:has(.topbar__tools)){display:none!important}
 `;
 
   if (typeof document !== "undefined") {
     const inject = () => {
+      document.documentElement.classList.toggle("tlab-embedded", window.self !== window.top);
       if (!document.getElementById("tlab-i18n-style")) {
         const tag = document.createElement("style");
         tag.id = "tlab-i18n-style";
