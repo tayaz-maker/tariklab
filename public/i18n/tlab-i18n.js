@@ -359,7 +359,7 @@
     "amiral-batti": { title: "Amiral Battı", subtitle: "Fleet on a grid. Hit, miss, sunk." },
     apartman: {
       title: "Apartman: Apartman Yöneticisi",
-      subtitle: "One building, dozens of people, issues that do not end.",
+      subtitle: "Run a two, four or ten-block estate where every shortcut returns as a cost.",
     },
     "kayip-telefon": {
       title: "Kayıp Telefon",
@@ -408,17 +408,17 @@
           '<a href="/cete-savaslari">Çete Savaşları</a> · LIVE — Build a crew, run missions and hold turf under police and rival pressure.',
           '<a href="/oyna/hanedanian">HANEDANIAN</a> · LIVE — Build settlements, secure resources and lead a dynasty across a seeded strategy map; single-player and offline-first.',
           '<a href="/oyna/racon">Racon Manager</a> · LIVE — Narrative management shaped by relationships, decisions and delayed consequences.',
-          '<a href="/oyna/tc-sim">TC SIM</a> · LIVE — A weekly life simulation spanning work, education, family, networks, relationships, housing, finance and the market. Some choices return as Long Shadows years later: a sibling in trouble, an old guarantee, a number you never called.',
+          '<a href="/oyna/tc-sim">TC SIM</a> · LIVE — Allocate six weekly time-and-focus blocks across work, education, family, friends, relationships and recovery. Some choices return as Long Shadows years later.',
           '<a href="/games/bukucu/index.html">Son Mahalle Bükücü</a> · LIVE — A neighborhood board game of dice, deeds, auctions and trades.',
           '<a href="/oyna/labirent">Labirent</a> · LIVE — Find the exit through a newly generated maze.',
           '<a href="/oyna/peg-solitaire">Tek Taş</a> · LIVE — Use legal jumps to leave one piece on the board.',
           '<a href="/oyna/satranc">Satranç</a> · LIVE — Chess with a local rules engine, move history and a computer opponent with distinct levels.',
           '<a href="/oyna/amiral-batti">Amiral Battı</a> · LIVE — Place a fleet and hunt coordinates against an easy, medium or hard opponent.',
-          '<a href="/oyna/apartman">Apartman: Apartman Yöneticisi</a> · LIVE — Keep one building running through dues, maintenance, residents and meetings.',
+          '<a href="/oyna/apartman">Apartman: Apartman Yöneticisi</a> · LIVE — Run a two, four or ten-block estate through dues, maintenance, staffing, residents and board pressure.',
           '<a href="/oyna/kayip-telefon">Kayıp Telefon</a> · LIVE — Corroborate clues across eight apps and weigh the privacy cost of returning a lost phone.',
-          '<a href="/oyna/son-100-gun">Son 100 Gün</a> · LIVE — The Extreme Last 100 Days format: manage limited time, obligations and the bonds that survive.',
-          '<a href="/oyna/tc-sim-devlet">TC SIM: DEVLET</a> · LIVE — Configure a state, then manage policy, institutions, regions, treasury and reports month by month.',
-          '<a href="/oyna/son-koy-manager">SON KÖY MANAGER</a> · LIVE — Shape a town’s future across 24 months of budgets, buildings, migration, groups and investors.',
+          '<a href="/oyna/son-100-gun">Son 100 Gün</a> · LIVE — The Extreme Last 100 Days format: spend daily focus with different costs across media, money, team, crisis and the bonds that survive.',
+          '<a href="/oyna/tc-sim-devlet">TC SIM: DEVLET</a> · LIVE — Govern policy, institutions, regions and treasury through capacity, political capital, bureaucratic friction and crisis load.',
+          '<a href="/oyna/son-koy-manager">SON KÖY MANAGER</a> · LIVE — Spend changing field capacity and action effort across water, energy, migration, production and trust over 24 months.',
           '<a href="/oyna/veto-h">VETO-H!</a> · LIVE — An election and campaign duel with 300 original cards and individual illustrations, a seeded 40-card deck, a computer opponent and a pregame Card Archive.',
           '<a href="/oyna/gett-oh">GETT-OH!</a> · LIVE — A neighborhood and street-power duel with 300 original cards and individual illustrations: the same deterministic engine, a separate card pool and an Istanbul-night table.',
           '<a href="/oyna/ihtilal">İhtilâl</a> · LIVE — Two pens on an Extraordinary File Board drop files onto Registry, Till, Gazette, Corridor and Watch desks and write a ruling.',
@@ -431,7 +431,7 @@
         lead: "TarikLab is a collection of independent games that run directly in the browser. The portal and Çete Savaşları use React and TypeScript; the other games run as their own HTML, CSS and JavaScript applications.",
         items: [
           "Most long-running games use three local slots, kept separate on the same device. HANEDANIAN keeps an autosave, its previous version and a separate manual save, with file export/import. Original HANEDAN saves remain accessible through the legacy game. VETO-H!, GETT-OH! and DARBE-H! each autosave one active duel; reload preserves deck order, action rights and pending responses.",
-          "The portal and most games support Turkish and English. HANEDANIAN currently plays in Turkish.",
+          "The portal and all 18 live games support Turkish and English; each game keeps its own voice while the outer shell owns language navigation.",
           "Interfaces adapt to phone, tablet and desktop while preserving each game's own visual and interaction identity.",
         ],
       },
@@ -503,11 +503,11 @@
     apartman:
       "Pick an issue, prepare the file, put one proposal to a vote on Meeting Night, then close the week. Cheap patches return. Raising dues too often stops payment.",
     "son-100-gun":
-      "One hundred days. Two actions a day. Eighteen scenarios. Timed windows expire. Always-work is not free. The final report is terminal.",
+      "One hundred days. Spend each day's focus on decisions with different costs. Deadlines expire, obligations collide and the final report records what survived.",
     "kayip-telefon":
       "This phone is not yours. Eight apps open through discovery. Corroboration and contradiction change the ending. Return at any time; going deeper raises privacy cost.",
     "tc-sim-devlet":
-      "Front menu, then setup: period, mode, goal, doctrine. Take the State. Two decisions a month, then Advance Month. You read reported figures and confidence, not actuals. Intent is not implementation.",
+      "Set the period, mode, goal and doctrine, then govern through capacity, political capital, bureaucratic friction and crisis load. Advance Month when the cabinet is ready. Reported figures include confidence: intent is not implementation.",
     fallback: "Save slots are local to this device.",
   };
 
@@ -518,7 +518,7 @@
     },
     {
       title: "Weekly loop",
-      body: "Each week you have 2 decisions (1 if health is critical). Spend them on work/social/activity, then advance the week; wage, rent and regular costs land automatically at month end.",
+      body: "Each week gives you six time-and-focus blocks. Work, study, family, friends, relationships and recovery consume different shares; then the week closes and wages, rent and regular costs land on schedule.",
     },
     {
       title: "Controls",
@@ -534,7 +534,7 @@
     },
     {
       title: "Risk and fallout",
-      body: "Neglected health cuts your decision count and work; neglected relationships cool. Some consequences return weeks later as events, a message or a rent notice, not immediately. Career, school, love, family, debt, housing, circle, status, health and crisis bind in one life — not a random card, the life you stacked.",
+      body: "Neglected health makes demanding plans harder and neglected relationships cool. Some consequences return weeks later as events, a message or a rent notice, not immediately. Career, school, love, family, debt, housing, circle, status, health and crisis bind in one life — not a random card, the life you stacked.",
     },
     {
       title: "Saves",

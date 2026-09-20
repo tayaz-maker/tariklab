@@ -73,7 +73,7 @@ export const CATALOG_EN: Record<string, { title: string; subtitle: string }> = {
   "amiral-batti": { title: "Amiral Battı", subtitle: "Fleet on a grid. Hit, miss, sunk." },
   apartman: {
     title: "Apartman: Apartman Yöneticisi",
-    subtitle: "One building, dozens of people, issues that do not end.",
+    subtitle: "Run a two, four or ten-block estate where every shortcut returns as a cost.",
   },
   "kayip-telefon": {
     title: "Kayıp Telefon",

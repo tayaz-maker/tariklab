@@ -20,21 +20,22 @@ import { RESOURCES, TERRAINS, POIS, BUILDINGS, UNITS } from "./data.js";
 import { getTile } from "./world.js";
 import { createMap } from "./map.js";
 import { SaveManager } from "./save.js";
+import { getLang, installLanguage, translate } from "./i18n.js";
 
 const $ = (id) => document.getElementById(id);
 const esc = (value) =>
-  String(value ?? "").replace(
+  translate(value).replace(
     /[&<>"']/g,
     (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char],
   );
 const fmt = (value) =>
-  Number.isFinite(Number(value)) ? Math.floor(Number(value)).toLocaleString("tr-TR") : "—";
+  Number.isFinite(Number(value)) ? Math.floor(Number(value)).toLocaleString(getLang() === "en" ? "en-US" : "tr-TR") : "—";
 // Whole resource counts round down (fmt above), but sub-1 upkeep rates
 // (e.g. a scout's 0.9/hour) would all floor to the same "0" and lose the
 // difference between unit types. One decimal keeps that distinction
 // without ever showing a raw binary-float tail like 0.8999999999999999.
 const fmtRate = (value) =>
-  Number.isFinite(Number(value)) ? Number(value).toLocaleString("tr-TR", { maximumFractionDigits: 1 }) : "—";
+  Number.isFinite(Number(value)) ? Number(value).toLocaleString(getLang() === "en" ? "en-US" : "tr-TR", { maximumFractionDigits: 1 }) : "—";
 const keys = Object.keys(RESOURCES);
 // Position-matched to `keys` (food, wood, stone, iron): which building
 // produces which resource, for the settlement screen's rate line.
@@ -138,43 +139,43 @@ function player() {
   return state && getFaction(state, state.playerId);
 }
 function gameDate(time = state?.time || 0) {
-  return `Gün ${Math.floor(time / 1440) + 1} · ${String(Math.floor((time % 1440) / 60)).padStart(2, "0")}:${String(time % 60).padStart(2, "0")}`;
+  return `${getLang() === "en" ? "Day" : "Gün"} ${Math.floor(time / 1440) + 1} · ${String(Math.floor((time % 1440) / 60)).padStart(2, "0")}:${String(time % 60).padStart(2, "0")}`;
 }
 function duration(minutes) {
   return minutes === 0
-    ? "0 dk"
+    ? translate("0 dk")
     : minutes >= 1440
-      ? `${(minutes / 1440).toFixed(1)} gün`
+      ? `${(minutes / 1440).toFixed(1)} ${getLang() === "en" ? "days" : "gün"}`
       : minutes >= 60
-        ? `${Math.floor(minutes / 60)} sa ${Math.ceil(minutes % 60)} dk`
-        : `${Math.max(1, Math.ceil(minutes))} dk`;
+        ? `${Math.floor(minutes / 60)} ${getLang() === "en" ? "hr" : "sa"} ${Math.ceil(minutes % 60)} ${getLang() === "en" ? "min" : "dk"}`
+        : `${Math.max(1, Math.ceil(minutes))} ${getLang() === "en" ? "min" : "dk"}`;
 }
 function costText(cost) {
   if (!cost) return "";
   if (Array.isArray(cost))
     return keys
-      .map((k, i) => (cost[i] ? `${fmt(cost[i])} ${RESOURCES[k].label}` : ""))
+      .map((k, i) => (cost[i] ? `${fmt(cost[i])} ${translate(RESOURCES[k].label)}` : ""))
       .filter(Boolean)
       .join(" · ");
   return Object.entries(cost)
     .filter(([, v]) => typeof v === "number" && v > 0)
-    .map(([k, v]) => `${fmt(v)} ${RESOURCES[k]?.label || (k === "influence" ? "Nüfuz" : k)}`)
+    .map(([k, v]) => `${fmt(v)} ${translate(RESOURCES[k]?.label || (k === "influence" ? "Nüfuz" : k))}`)
     .join(" · ");
 }
 function troopsText(troops = {}) {
   return (
     Object.entries(troops)
       .filter(([, n]) => n > 0)
-      .map(([k, n]) => `${fmt(n)} ${UNITS[k]?.label || k}`)
+      .map(([k, n]) => `${fmt(n)} ${translate(UNITS[k]?.label || k)}`)
       .join(" · ") || "Birlik yok"
   );
 }
 function notice(message, error = false) {
   const el = $("toast");
-  el.textContent = message;
+  el.textContent = translate(message);
   el.hidden = false;
   if ($("dialog").open) {
-    $("dialog-notice").textContent = message;
+    $("dialog-notice").textContent = translate(message);
     $("dialog-notice").hidden = false;
     $("dialog-notice").classList.toggle("danger", error);
   }
@@ -1102,6 +1103,13 @@ window.addEventListener("offline", () =>
       : "Çevrimdışısın. Bu açık oyun devam eder; yeniden açılma henüz doğrulanmadı.",
   ),
 );
+const refreshLanguage = (event) => {
+  if (event.type === "storage" && event.key && event.key !== "tariklab.language") return;
+  if (state) render();
+  else void renderWelcome();
+};
+window.addEventListener("storage", refreshLanguage);
+window.addEventListener("tlab-language", refreshLanguage);
 function frame(now) {
   if (!lastFrame) lastFrame = now;
   const elapsed = Math.min(100, now - lastFrame);
@@ -1172,6 +1180,7 @@ async function prepareOffline() {
   }
 }
 async function boot() {
+  installLanguage();
   await saves.init();
   await renderWelcome();
   const recovered = await saves.load("auto");

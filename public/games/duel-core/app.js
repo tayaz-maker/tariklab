@@ -1128,6 +1128,31 @@ export async function startApp(theme, designs) {
   function confirmAction(action) {
     playAction(action);
   }
+  // Shared, data-driven explanation for all three duel families. It deliberately
+  // derives the brief from the card/action model instead of maintaining hundreds
+  // of hand-written tutorial paragraphs.
+  function interactiveBrief(card, available) {
+    const role = t(card.kind) || (lang === "tr" ? "Kart" : "Card");
+    const legal = available.length > 0;
+    const target = available.some((action) => action.target != null)
+      ? lang === "tr" ? "Seçtiğin yasal hedef" : "The legal target you choose"
+      : lang === "tr" ? "Masa durumu" : "The current board state";
+    const cost = legal
+      ? available.map((action) => actionTitle(action)).filter(Boolean).slice(0, 2).join(" · ")
+      : lang === "tr" ? "Yasal hamle yok; aşağıdaki engel açıklamasını oku." : "No legal move; read the blocker explanation below.";
+    return $(
+      "details",
+      { class: "interactive-brief" },
+      $("summary", {}, lang === "tr" ? "Karar özeti" : "Decision brief"),
+      $("dl", {},
+        $("div", {}, $("dt", {}, lang === "tr" ? "Rol" : "Role"), $("dd", {}, role)),
+        $("div", {}, $("dt", {}, lang === "tr" ? "Hedef" : "Target"), $("dd", {}, target)),
+        $("div", {}, $("dt", {}, lang === "tr" ? "Bedel / koşul" : "Cost / condition"), $("dd", {}, cost || (lang === "tr" ? "Ek bedel yok" : "No extra cost"))),
+        card.text ? $("div", {}, $("dt", {}, lang === "tr" ? "Olası sonuç" : "Possible outcome"), $("dd", {}, text(card.text))) : null,
+        card.hint ? $("div", {}, $("dt", {}, lang === "tr" ? "Sonra düşün" : "Then consider"), $("dd", {}, text(card.hint))) : null,
+      ),
+    );
+  }
   function inspectBody(uid, v = view()) {
     const card = v.cards[uid];
     if (!card) return [$("p", {}, t("hidden"))];
@@ -1188,6 +1213,7 @@ export async function startApp(theme, designs) {
           )
         : null,
       card.rulesNote ? $("small", {}, text(card.rulesNote)) : null,
+      interactiveBrief(card, available),
       // With no legal move the "Neden Kullanamıyorum?" block below carries the
       // explanation, so an empty heading would just be a dead row.
       groups.length ? $("h3", {}, t("action")) : null,
