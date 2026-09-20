@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { cardArt, themeMeta } from "../public/games/duel-core/theme-meta.js";
 
@@ -10,6 +10,14 @@ test("DARBE-H! ships 300 unique crisis-desk SVGs and cardArt points at them", ()
   assert.equal(themeMeta("darbe-h").art.kind, "svg");
   assert.equal(Object.keys(manifest.cards).length, 300);
   assert.equal(source.length, 300);
+  const diskFiles = readdirSync("public/games/darbe-h/assets/cards")
+    .filter((name) => name.endsWith(".svg"))
+    .sort();
+  const manifestFiles = Object.values(manifest.cards)
+    .map((entry) => entry.path.split("/").at(-1))
+    .sort();
+  assert.equal(diskFiles.length, 300);
+  assert.deepEqual(diskFiles, manifestFiles);
   const hashes = new Set();
   let bytes = 0;
   for (const card of source) {
@@ -32,4 +40,7 @@ test("DARBE-H! ships 300 unique crisis-desk SVGs and cardArt points at them", ()
   assert.equal(manifest.summary.coverage, 300);
   assert.equal(manifest.summary.totalBytes, bytes);
   assert.equal(manifest.summary.duplicateHashes, 0);
+
+  const app = readFileSync("public/games/duel-core/app.js", "utf8");
+  assert.match(app, /onerror:[\s\S]*replaceWith\(document\.createTextNode\("◈"\)\)/);
 });
