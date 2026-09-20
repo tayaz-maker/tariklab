@@ -19,7 +19,8 @@
     {"id":"veto-h","tr":"complete","en":"complete","model":"structured card brief + legality reason + duel log"},
     {"id":"gett-oh","tr":"complete","en":"complete","model":"structured card brief + legality reason + duel log"},
     {"id":"ihtilal","tr":"complete","en":"complete","model":"preview → action → result → why"},
-    {"id":"darbe-h","tr":"complete","en":"complete","model":"structured card brief + legality reason + duel log"}
+    {"id":"darbe-h","tr":"complete","en":"complete","model":"structured card brief + legality reason + duel log"},
+    {"id":"jitem-derin-ag","tr":"complete","en":"complete","model":"knowledge-aware action preview + evidence grade + causal dossier"}
   ],
   "surfaces": {"portal":"complete","resources":"complete"},
   "intentionalUntranslated": [

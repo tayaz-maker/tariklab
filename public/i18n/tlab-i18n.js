@@ -403,7 +403,7 @@
     sections: [
       {
         h: "Catalog",
-        lead: "TarikLab has 18 playable games and 1 sealed file in preparation.",
+        lead: "TarikLab has 19 playable games.",
         items: [
           '<a href="/cete-savaslari">Çete Savaşları</a> · LIVE — Build a crew, run missions and hold turf under police and rival pressure.',
           '<a href="/oyna/hanedanian">HANEDANIAN</a> · LIVE — Build settlements, secure resources and lead a dynasty across a seeded strategy map; single-player and offline-first.',
@@ -423,7 +423,7 @@
           '<a href="/oyna/gett-oh">GETT-OH!</a> · LIVE — A neighborhood and street-power duel with 300 original cards and individual illustrations: the same deterministic engine, a separate card pool and an Istanbul-night table.',
           '<a href="/oyna/ihtilal">İhtilâl</a> · LIVE — Two pens on an Extraordinary File Board drop files onto Registry, Till, Gazette, Corridor and Watch desks and write a ruling.',
           '<a href="/oyna/darbe-h">DARBE-H!</a> · LIVE — A fictional Extraordinary Desk duel of officers, orders and notices: the shared duel engine, a separate 300-card pool and crisis points.',
-          '<strong>JITEM: Derin Ağ</strong> · COMING SOON — 1986–1996. Files don\'t stay buried. The network grows.',
+          '<a href="/oyna/jitem-derin-ag">JITEM: Derin Ağ</a> · LIVE — A single-player strategy game set across 1986–1996, built around sourced historical records, relationship networks, asymmetric knowledge and institutional behavior.',
         ],
       },
       {
@@ -431,7 +431,7 @@
         lead: "TarikLab is a collection of independent games that run directly in the browser. The portal and Çete Savaşları use React and TypeScript; the other games run as their own HTML, CSS and JavaScript applications.",
         items: [
           "Most long-running games use three local slots, kept separate on the same device. HANEDANIAN keeps an autosave, its previous version and a separate manual save, with file export/import. Original HANEDAN saves remain accessible through the legacy game. VETO-H!, GETT-OH! and DARBE-H! each autosave one active duel; reload preserves deck order, action rights and pending responses.",
-          "The portal and all 18 live games support Turkish and English; each game keeps its own voice while the outer shell owns language navigation.",
+          "The portal and all 19 live games support Turkish and English; each game keeps its own voice while the outer shell owns language navigation.",
           "Interfaces adapt to phone, tablet and desktop while preserving each game's own visual and interaction identity.",
         ],
       },
