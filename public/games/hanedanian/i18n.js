@@ -6,6 +6,7 @@ export const pick = (tr, en) => (getLang() === "en" ? en : tr);
 const EN = new Map(Object.entries({
   "TOPRAK · YOL · HANEDAN": "LAND · ROAD · DYNASTY",
   "Kayıt hazırlanıyor": "Preparing save",
+  "Yerel kayıt hazır": "Local save ready",
   "Kısa oyun rehberi": "Quick game guide",
   "Kayıtlar ve oyun menüsü": "Saves and game menu",
   "Menü": "Menu",
@@ -42,9 +43,11 @@ const EN = new Map(Object.entries({
   "Oyun bölümleri": "Game sections",
   "Harita": "Map", "Yerleşim": "Settlement", "Ordu": "Army", "Divan": "Council", "Hanedan": "Dynasty",
   "Bir ocak yak.\nBir yol aç.\nBir iz bırak.": "Light a hearth.\nOpen a road.\nLeave a mark.",
+  "Bir ocak yak.": "Light a hearth.", "Bir yol aç.": "Open a road.", "Bir iz bırak.": "Leave a mark.",
   "ANADOLU'DAN ESİNLENEN ÖZGÜN BİR DÜNYA": "AN ORIGINAL WORLD INSPIRED BY ANATOLIA",
   "TARIKLAB · TEK OYUNCULU STRATEJİ": "TARIKLAB · SINGLE-PLAYER STRATEGY",
   "Toprak bir başlangıç.\nHanedan, verdiğin kararlar.": "Land is only a beginning.\nYour decisions become a dynasty.",
+  "Toprak bir başlangıç.": "Land is only a beginning.", "Hanedan, verdiğin kararlar.": "Your decisions become a dynasty.",
   "Yerleşimini geliştir, yolları keşfet ve sınırlarını genişlet. Sekiz rakip hanedanın arasında gücünü toprakla, ticaretle veya diplomasiyle kur.": "Develop settlements, scout roads and expand your reach. Build power through land, trade or diplomacy among eight rival dynasties.",
   "49 × 49 dünya": "49 × 49 world", "Çevrimdışı oyun": "Offline play", "Zaman kontrolü sende": "You control time",
   "Kayıtlar okunuyor…": "Reading saves…", "Eski HANEDAN kayıtların mı var?": "Have old HANEDAN saves?",
@@ -89,7 +92,7 @@ const EN = new Map(Object.entries({
   "Karşılama": "Welcome", "Dönüm noktası": "Milestone", "İnşa": "Construction", "Eğitim": "Training", "Keşif": "Scouting", "Dönüş": "Return", "Toprak iddiası": "Claim", "Muharebe": "Battle", "Tehdit": "Threat", "Kaynak sıkıntısı": "Shortage", "Engellendi": "Blocked", "Kampanya": "Campaign", "Zafer": "Victory", "Rapor": "Report",
   "Sefer": "Campaign", "Stratejik nokta": "Strategic point", "Yerleşim kafilesi": "Settler caravan", "Kervan": "Caravan", "Birlik yok": "No troops",
   "NEDEN ÖNEMLİ?": "WHY DOES IT MATTER?", "SONRAKİ KARAR": "NEXT DECISION", "Gizli": "Unknown", "Bilinmiyor": "Unknown",
-  "Kaydet": "Save", "Devam et": "Continue", "Yeni oyun": "New game", "Elle kaydet": "Manual save", "Dışa aktar": "Export", "İçe aktar": "Import", "İptal": "Cancel", "Kapat": "Close", "Onayla": "Confirm",
+  "Kaydet": "Save", "Devam et": "Continue", "Kampanyaya devam et": "Continue campaign", "Yeni oyun": "New game", "Yeni hanedan kur": "Found a new dynasty", "Yedekten kampanya aç": "Open a campaign backup", "Elle kaydet": "Manual save", "Dışa aktar": "Export", "İçe aktar": "Import", "İptal": "Cancel", "Kapat": "Close", "Onayla": "Confirm",
 }));
 
 const rules = [
@@ -107,6 +110,8 @@ export function translate(value) {
   const source = String(value ?? "");
   if (getLang() !== "en" || !source) return source;
   if (EN.has(source)) return EN.get(source);
+  const normalized = source.replace(/\s+/g, " ").trim();
+  if (EN.has(normalized)) return EN.get(normalized);
   for (const [pattern, replacement] of rules) if (pattern.test(source)) return source.replace(pattern, replacement);
   return source;
 }
