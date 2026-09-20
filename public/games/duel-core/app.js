@@ -900,6 +900,9 @@ export async function startApp(theme, designs) {
                   decoding: "async",
                   width: cardArt(theme, card).width,
                   height: cardArt(theme, card).height,
+                  onerror: (event) => {
+                    event.currentTarget.replaceWith(document.createTextNode("◈"));
+                  },
                 })
               : "◈",
         ),
