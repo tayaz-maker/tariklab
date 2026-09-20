@@ -67,6 +67,7 @@ const MODULE_GAME_PATHS = [
   "/games/ihtilal/",
   "/games/hanedanian/",
   "/games/darbe-h/",
+  "/games/jitem-derin-ag/",
   "/i18n/",
 ];
 

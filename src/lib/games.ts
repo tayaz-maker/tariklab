@@ -24,6 +24,7 @@ export const HTML5_SLUGS = [
   "gett-oh",
   "ihtilal",
   "darbe-h",
+  "jitem-derin-ag",
 ] as const;
 
 export type Html5Slug = (typeof HTML5_SLUGS)[number];
@@ -191,8 +192,8 @@ export const GAMES: CatalogGame[] = [
     slug: "jitem-derin-ag",
     title: "JITEM: Derin Ağ",
     subtitle: "1986–1996. Dosyalar susmaz. Ağ büyür.",
-    status: "soon",
-    href: null,
+    status: "live",
+    href: "/oyna/jitem-derin-ag",
     icon: "jitem",
   },
 ];

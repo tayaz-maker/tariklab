@@ -299,6 +299,7 @@ test("every playable catalog game ships teaching content", () => {
     "gett-oh": ["public/games/duel-core/help-duel.js"],
     "darbe-h": ["public/games/duel-core/help-duel.js"],
     ihtilal: ["public/games/ihtilal/copy.js"],
+    "jitem-derin-ag": ["public/games/jitem-derin-ag/assets/runtime.js"],
   };
 
   for (const slug of slugs) {
@@ -309,7 +310,7 @@ test("every playable catalog game ships teaching content", () => {
     const body = readFileSync(found, "utf8");
     assert.match(
       body,
-      /Nasıl oynanır|Nasıl Oynanır|NASIL OYNANIR|How to play|How to Play|HELP_SECTIONS|Amaç/,
+      /Nasıl oynanır|Nasıl Oynanır|NASIL OYNANIR|How to play|How to Play|How it plays|HELP_SECTIONS|Amaç/,
       `${slug}: ${found} has no how-to-play surface`,
     );
     assert.doesNotMatch(body, />\s*(undefined|null)\s*</, `${slug}: placeholder copy in ${found}`);
