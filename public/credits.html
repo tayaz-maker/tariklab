@@ -301,14 +301,15 @@
           I.applyHtmlLang();
           var host = document.querySelector("h1");
           if (host && host.parentNode) I.mountLangToggle(host.parentNode);
-          if (I.getLang() !== "en") {
+          var locale = I.getLang();
+          if (locale === "tr") {
             if (main.getAttribute("data-en") === "1") main.innerHTML = original;
             main.removeAttribute("data-en");
             var h = document.querySelector("h1");
             if (h && h.parentNode) I.mountLangToggle(h.parentNode);
             return;
           }
-          var C = I.CREDITS_EN;
+          var C = locale === "pl" ? I.CREDITS_PL : I.CREDITS_EN;
           document.title = C.h1 + " | TLab";
           var html =
             '<a class="back" href="/">' +

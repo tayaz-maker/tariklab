@@ -2,7 +2,14 @@ import { useEffect, useState } from "react";
 import { EXTRA_PHRASE } from "@/lib/i18n-phrases";
 
 export const LANG_KEY = "tariklab.language";
-export type Lang = "tr" | "en";
+export const LOCALES = ["tr", "en", "pl"] as const;
+export type Lang = (typeof LOCALES)[number];
+
+export function normalizeLang(value: unknown): Lang {
+  return typeof value === "string" && (LOCALES as readonly string[]).includes(value)
+    ? (value as Lang)
+    : "tr";
+}
 
 const EN: Record<string, string> = {
   "portal.lab": "Game Lab",
@@ -55,6 +62,31 @@ const EN: Record<string, string> = {
   "cete.tab.klinik": "Clinic",
 };
 
+const PL: Record<string, string> = {
+  "portal.lab": "Laboratorium gier",
+  "portal.games": "Gry",
+  "portal.playableCount": "{n} gier dostępnych",
+  "portal.soon": "Wkrótce",
+  "portal.sources": "Materiały źródłowe",
+  "portal.back": "← Gry",
+  "portal.openGame": "Otwórz: {title}",
+  "footer.rights": "© 2026 TarikLab. Wszelkie prawa zastrzeżone.",
+  "lang.label": "Język",
+  "common.save": "Zapisz",
+  "common.load": "Wczytaj",
+  "common.delete": "Usuń",
+  "common.newGame": "Nowa gra",
+  "common.continue": "Kontynuuj",
+  "common.howTo": "Jak grać",
+  "common.close": "Zamknij",
+  "common.confirm": "Potwierdź",
+  "common.cancel": "Anuluj",
+  "common.slot": "Slot",
+  "common.emptySlot": "Pusty slot",
+  "common.corruptSave": "Uszkodzony zapis",
+  "common.active": "aktywny",
+};
+
 export const CATALOG_EN: Record<string, { title: string; subtitle: string }> = {
   "cete-savaslari": { title: "Çete Savaşları", subtitle: "Racon, district, cash in TL." },
   hanedanian: {
@@ -104,6 +136,34 @@ export const CATALOG_EN: Record<string, { title: string; subtitle: string }> = {
 // Cached catalog consumers may still request the supported legacy route alias.
 CATALOG_EN.hanedan = CATALOG_EN.hanedanian;
 
+export const CATALOG_PL: Record<string, { title: string; subtitle: string }> = {
+  "cete-savaslari": { title: "Çete Savaşları", subtitle: "Racon, dzielnica, gotówka w TL." },
+  hanedanian: { title: "HANEDANIAN", subtitle: "Od jednej osady do wielkiej dynastii. Czytaj mapę, buduj przyszłość." },
+  racon: { title: "Racon Manager", subtitle: "Ludzie umierają. Imię zostaje." },
+  "tc-sim": { title: "TC SIM", subtitle: "Jedno życie. Tygodniowe wybory, lata konsekwencji." },
+  bukucu: { title: "Son Mahalle Bükücü", subtitle: "Stambułskie akty własności. Kto trzyma dzielnicę, ten nią rządzi. Pieniądze w TL." },
+  labirent: { title: "Labirent", subtitle: "Zamknięte ścieżki, jedno wyjście." },
+  "peg-solitaire": { title: "Tek Taş", subtitle: "Przeskakuj. Zostaw jeden pionek." },
+  satranc: { title: "Satranç", subtitle: "Plansza, ruch, mat." },
+  "amiral-batti": { title: "Amiral Battı", subtitle: "Flota na siatce. Trafienie, pudło, zatopienie." },
+  apartman: { title: "Apartman: Apartman Yöneticisi", subtitle: "Zarządzaj osiedlem z dwoma, czterema lub dziesięcioma blokami, gdzie każdy skrót ma swoją cenę." },
+  "kayip-telefon": { title: "Kayıp Telefon", subtitle: "Telefon zaginął. Życie zapisane w środku wychodzi na jaw." },
+  "son-100-gun": { title: "Son 100 Gün", subtitle: "Ostatnie sto dni. Każdy wybór waży więcej." },
+  "son-kasaba": { title: "SON KÖY MANAGER", subtitle: "Wszyscy wyjeżdżają. Ty zostajesz i próbujesz utrzymać wieś przy życiu." },
+  "tc-sim-devlet": { title: "TC SIM: DEVLET", subtitle: "Wieloepokowa symulacja państwa: instytucje, gospodarka i społeczeństwo od 1923 do 2030 roku." },
+  "veto-h": { title: "VETO-H!", subtitle: "Noc wyborcza. Buduj kampanię i odpowiadaj na ruchy rywala." },
+  "gett-oh": { title: "GETT-OH!", subtitle: "Stambuł nocą. Wystaw ekipę i rozegraj swoją uliczną siłę." },
+  ihtilal: { title: "İHTİLÂL", subtitle: "Wyrok jest pisany. Archiwum nie zapomina." },
+  "darbe-h": { title: "DARBE-H!", subtitle: "Nadchodzi teleks. Biurko podejmuje decyzję." },
+  "jitem-derin-ag": { title: "JITEM: Derin Ağ", subtitle: "1986–1996. Akta nie pozostają pogrzebane. Sieć rośnie." },
+};
+CATALOG_PL.hanedan = CATALOG_PL.hanedanian;
+
+export function catalogEntry(lang: Lang, slug: string, fallback: { title: string; subtitle: string }) {
+  const catalog = lang === "en" ? CATALOG_EN : lang === "pl" ? CATALOG_PL : undefined;
+  return catalog?.[slug] ?? fallback;
+}
+
 export const CETE_HELP_EN = [
   {
     title: "Aim",
@@ -146,7 +206,7 @@ export const CETE_HELP_EN = [
 export function readLang(): Lang {
   if (typeof window === "undefined") return "tr";
   try {
-    return window.localStorage.getItem(LANG_KEY) === "en" ? "en" : "tr";
+    return normalizeLang(window.localStorage.getItem(LANG_KEY));
   } catch {
     return "tr";
   }
@@ -170,7 +230,8 @@ export function translate(
   fallback: string,
   vars?: Record<string, string | number>,
 ) {
-  let out = lang === "en" ? (EN[key] ?? fallback) : fallback;
+  const dictionary = lang === "en" ? EN : lang === "pl" ? PL : undefined;
+  let out = dictionary?.[key] ?? fallback;
   if (vars) {
     for (const [k, v] of Object.entries(vars)) out = out.replaceAll(`{${k}}`, String(v));
   }
@@ -182,7 +243,7 @@ export function useLang() {
   useEffect(() => {
     document.documentElement.lang = lang;
     const onChange = (ev: Event) => {
-      const next = (ev as CustomEvent).detail === "en" ? "en" : readLang();
+      const next = normalizeLang((ev as CustomEvent).detail);
       setLangState(next);
       document.documentElement.lang = next;
     };

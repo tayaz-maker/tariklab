@@ -16,6 +16,14 @@ test("i18n runtime exists with stable language key", () => {
   assert.ok(typeof I.setLang === "function");
 });
 
+test("locale normalization accepts TR, EN and PL and rejects invalid input", () => {
+  assert.equal(I.normalizeLang("tr"), "tr");
+  assert.equal(I.normalizeLang("en"), "en");
+  assert.equal(I.normalizeLang("pl"), "pl");
+  assert.equal(I.normalizeLang("de"), "tr");
+  assert.equal(I.normalizeLang(null), "tr");
+});
+
 test("EN dictionary covers required portal and common keys", () => {
   const required = [
     "portal.lab",
@@ -50,6 +58,17 @@ test("catalog EN covers every current public game slug", () => {
   }
 });
 
+test("catalog PL covers every current public game slug without changing brands", () => {
+  const slugs = [...read("src/lib/games.ts").matchAll(/slug: "([^"]+)"/g)].map((match) => match[1]);
+  for (const slug of slugs) {
+    assert.ok(I.CATALOG_PL[slug], slug);
+    assert.ok(I.CATALOG_PL[slug].subtitle.length > 8, slug);
+  }
+  for (const brand of ["HANEDANIAN", "VETO-H!", "GETT-OH!", "DARBE-H!", "JITEM: Derin Ağ", "İHTİLÂL", "TC SIM", "TC SIM: DEVLET", "Racon Manager", "SON KÖY MANAGER"]) {
+    assert.ok(JSON.stringify(I.CATALOG_PL).includes(brand), brand);
+  }
+});
+
 test("legacy Hanedan catalog requests use the canonical HANEDANIAN translation", () => {
   assert.equal(I.CATALOG_EN.hanedan, I.CATALOG_EN.hanedanian);
   I.setLang("en");
@@ -74,6 +93,16 @@ test("EN mode translates known phrases and falls back safely", () => {
   assert.equal(I.t("portal.soon", "Yakında"), "Coming Soon");
   assert.equal(I.phrase("Kaydet"), "Save");
   assert.equal(I.phrase("___missing_phrase___"), "___missing_phrase___");
+  I.setLang("tr");
+});
+
+test("PL uses the shared preference key and has deterministic safe fallbacks", () => {
+  I.setLang("pl");
+  assert.equal(I.getLang(), "pl");
+  assert.equal(I.t("portal.sources", "Kaynaklar"), "Materiały źródłowe");
+  assert.equal(I.phrase("Kaydet"), "Zapisz");
+  assert.equal(I.phrase("___missing_phrase___"), "___missing_phrase___");
+  assert.equal(I.catalogEntry("jitem-derin-ag", "JITEM: Derin Ağ", "x").title, "JITEM: Derin Ağ");
   I.setLang("tr");
 });
 
@@ -125,6 +154,23 @@ test("credits English pack exists and Amiral Battı stays credited", () => {
   assert.match(read("public/credits.html"), /Tarık Halil Ayaz/);
   assert.match(JSON.stringify(I.CREDITS_EN), /Amiral Battı/);
   assert.match(I.CREDITS_EN.legal, /All rights reserved/);
+});
+
+test("credits Polish pack exposes 19 live games and preserves the personal note", () => {
+  assert.match(JSON.stringify(I.CREDITS_PL), /19 dostępnych gier/);
+  assert.match(JSON.stringify(I.CREDITS_PL), /JITEM: Derin Ağ/);
+  assert.match(JSON.stringify(I.CREDITS_PL), /Tarık jest synem swojej matki\./);
+  assert.match(read("public/credits.html"), /CREDITS_PL/);
+});
+
+test("global selector and JITEM shell carry PL without a gameplay write", () => {
+  const selector = read("src/components/portal/language-toggle.tsx");
+  const shell = read("src/routes/oyna.$slug.tsx");
+  assert.match(selector, /setLang\("pl"\)/);
+  assert.match(selector, />\s*PL\s*</);
+  assert.match(shell, /const jitemLocale = lang === "pl" \? "en" : lang/);
+  assert.match(shell, /locale: jitemLocale/);
+  assert.doesNotMatch(shell, /localStorage|Math\.random|save/i);
 });
 
 test("service worker versions i18n assets", () => {
