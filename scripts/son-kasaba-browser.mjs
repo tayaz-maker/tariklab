@@ -19,12 +19,16 @@ export async function townBrowser(page, surface, id, lang, out) {
   await page.waitForTimeout(180);
   await surface.locator('[data-command="civic:support"]').click();
   assert.equal((await read()).used.length, 3);
-  assert.equal(await surface.locator('[data-command="civic:road"]').isDisabled(), true);
+  assert.equal(await surface.locator('[data-command="civic:road"]').isDisabled(), false);
+  await page.waitForTimeout(180);
+  await surface.locator('[data-command="civic:road"]').click();
+  assert.equal((await read()).used.length, 4);
+  assert.ok((await read()).capacityUsed <= (await read()).capacityMax);
   await page.reload({ waitUntil: "networkidle" });
   surface = await (await page.locator("iframe").elementHandle()).contentFrame();
   assert.equal(await surface.locator(".slot-card").count(), 3);
   await surface.locator("#menu-continue").click();
-  assert.equal((await read()).used.length, 3);
+  assert.equal((await read()).used.length, 4);
   assert.equal((await read()).pending.length, 1);
   await surface.locator("#town-advance").dblclick();
   assert.equal((await read()).month, 2);
