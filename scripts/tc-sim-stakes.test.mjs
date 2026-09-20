@@ -132,7 +132,7 @@ test("kritik sağlıkta haftalık karar hakkı düşer, toparlanınca geri gelir
   assert.equal(getWeeklyActivityLimit(state), WEEKLY_ACTIVITY_LIMIT);
   state.health.health = CRITICAL_HEALTH;
   assert.equal(isCriticalHealth(state), true);
-  assert.equal(getWeeklyActivityLimit(state), 1);
+  assert.equal(getWeeklyActivityLimit(state), 3);
   state.health.health = CRITICAL_HEALTH + 10;
   assert.equal(isCriticalHealth(state), false);
   assert.equal(getWeeklyActivityLimit(state), WEEKLY_ACTIVITY_LIMIT);

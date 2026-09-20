@@ -30,6 +30,10 @@ body {
   justify-content: flex-end;
   gap: 8px;
 }
+.scale-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin:18px 0; }
+.scale-grid button { display:grid; gap:4px; text-align:left; }
+.scale-grid button.is-selected { border-color:var(--accent); background:#24372e; box-shadow:0 0 0 1px var(--accent); }
+.scale-grid small { color:var(--muted); }
 .apt-board {
   display: grid;
   grid-template-columns: minmax(180px, 0.65fr) minmax(340px, 1.5fr) minmax(210px, 0.8fr);
@@ -168,6 +172,7 @@ body {
 .risk-preview { display: block; margin-top: 8px; font-size: .76rem; line-height: 1.35; color: var(--ink-soft); }
 .run-summary { max-width: 780px; margin: 8vh auto; }
 @media (max-width: 620px) {
+  .scale-grid { grid-template-columns:1fr; }
   .apt-head {
     grid-template-columns: 1fr;
     padding: 10px 0;

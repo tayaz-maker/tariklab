@@ -211,6 +211,8 @@ export function createTown(options = {}) {
       acceptedMonth: null,
     })),
     used: [],
+    capacityUsed: 0,
+    capacityMax: 10,
     events: [],
     seenEvents: [],
     pending: [],
@@ -357,7 +359,10 @@ export function validateTown(s) {
   for (const k of ["used", "events", "seenEvents", "pending", "openCases", "history", "coalitions"])
     if (!Array.isArray(s[k])) return false;
   if (
-    s.used.length > 3 ||
+    s.used.length > 8 ||
+    !Number.isFinite(s.capacityUsed ?? s.used.length * 2) ||
+    (s.capacityUsed ?? s.used.length * 2) < 0 ||
+    (s.capacityUsed ?? s.used.length * 2) > (s.capacityMax || 10) ||
     new Set(s.used).size !== s.used.length ||
     s.events.length > 45 ||
     s.seenEvents.length > 45 ||
@@ -459,6 +464,8 @@ export function normalizeTown(_id, raw) {
   // Version 1 is the first public format. Missing core collections must not be
   // silently replaced with a fresh town or a reset action allowance.
   try {
+    if (raw.capacityMax == null) raw.capacityMax = 10;
+    if (raw.capacityUsed == null) raw.capacityUsed = Math.min(raw.capacityMax, raw.used.length * 2);
     if (!validateTown(raw)) return null;
     if (raw.meta.version === 1) ensureTownDepth(raw);
     return validateTown(raw) ? raw : null;
@@ -706,17 +713,19 @@ export function actionInfo(s, command) {
   let cost = 0,
     label = ["", ""],
     key = command,
-    reason = null;
+    reason = null,
+    effort = 2;
   const no = (tr, en) => {
     reason = [tr, en];
   };
   if (s.ended) no("Kampanya tamamlandı", "Campaign complete");
-  if (s.used.length >= 3) no("Bu ay üç karar kullanıldı", "All three decisions used this month");
+  if ((s.capacityUsed || 0) >= (s.capacityMax || 10)) no("Bu ayın saha kapasitesi doldu", "This month's field capacity is full");
   if (kind === "civic") {
     const a = CIVIC_ACTIONS.find((a) => a.id === id);
     if (!a) no("Geçersiz karar", "Invalid decision");
     else {
       cost = a.cost;
+      effort = ["loan", "repay"].includes(id) ? 1 : 2;
       label = a.label;
       if (
         Object.entries(a.effects).every(
@@ -734,6 +743,7 @@ export function actionInfo(s, command) {
     if (!b) no("Bina bulunamadı", "Building not found");
     else {
       cost = kind === "repair" ? d.repair : b.open ? 0 : Math.round(d.repair * 0.4);
+      effort = kind === "repair" ? 3 : 1;
       label =
         kind === "repair"
           ? [`${d.name[0]} onarımı`, `${d.name[1]} repair`]
@@ -751,9 +761,11 @@ export function actionInfo(s, command) {
     if (!e || !c) no("Bu gündem artık açık değil", "This agenda item is no longer open");
     else {
       cost = c.cost;
+      effort = 2;
       label = d.title;
     }
   } else if (kind === "investor") {
+    effort = 3;
     const o = s.investors.find((i) => i.id === id),
       d = INVESTORS.find((i) => i.id === id);
     key = `investor:${id}`;
@@ -772,6 +784,7 @@ export function actionInfo(s, command) {
       }
     }
   } else if (kind === "talk") {
+    effort = 1;
     const n = s.npcs.find((n) => n.id === id),
       d = NPCS.find((n) => n.id === id);
     if (!n || !n.present) no("Kişi köyde değil", "Person is not in the village");
@@ -780,6 +793,7 @@ export function actionInfo(s, command) {
       cost = 1000;
     }
   } else if (kind === "coalition") {
+    effort = 2;
     const a = s.groups.find((g) => g.id === id),
       b = s.groups.find((g) => g.id === choice);
     key = ["coalition", ...[id, choice].sort()].join(":");
@@ -794,8 +808,9 @@ export function actionInfo(s, command) {
       no("Koalisyon hâlâ çalışıyor", "Coalition is still active");
   } else no("Geçersiz karar", "Invalid decision");
   if (s.used.includes(key)) no("Bu dosya bu ay işlendi", "This file was handled this month");
+  if ((s.capacityUsed || 0) + effort > (s.capacityMax || 10)) no("Bu iş için ayın kalan saha kapasitesi yetmiyor", "Not enough field capacity remains this month");
   if (s.budget < cost) no("Bütçe yetersiz", "Not enough budget");
-  return { kind, id, choice, cost, label, key, reason };
+  return { kind, id, choice, cost, effort, label, key, reason };
 }
 export function applyTownAction(s, command) {
   if (typeof command !== "string") return false;
@@ -805,6 +820,7 @@ export function applyTownAction(s, command) {
   const a = actionInfo(s, action);
   if (a.reason) return false;
   s.budget -= a.cost;
+  s.capacityUsed = (s.capacityUsed || 0) + a.effort;
   s.used.push(a.key);
   if (a.kind === "civic") effect(s, CIVIC_ACTIONS.find((x) => x.id === a.id).effects);
   if (["repair", "toggle"].includes(a.kind)) {
@@ -1293,6 +1309,7 @@ export function advanceTown(s) {
   } else {
     s.month++;
     s.used = [];
+    s.capacityUsed = 0;
     refreshTown(s);
     s.ui.screen = "report";
   }

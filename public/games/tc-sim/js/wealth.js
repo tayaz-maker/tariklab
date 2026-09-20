@@ -449,9 +449,10 @@ function ledger(state, amount, reason, category = "wealth") {
     state.finances.ledger.splice(0, state.finances.ledger.length - 120);
 }
 function weekly(state, id) {
+  const capacity = state.health?.health <= 15 ? 3 : 6;
   if (state.lifetime?.death) return "Bu yaşam tamamlandı.";
   if (state.events.active) return "Önce açık olayı sonuçlandır.";
-  if (state.weekly.used >= 2) return "Bu haftanın aktivite hakkı bitti.";
+  if (state.weekly.used >= capacity) return "Bu haftanın zaman ve odak bütçesi doldu.";
   if (state.weekly.selectedIds.includes(id)) return "Bu hafta zaten yapıldı.";
   return null;
 }
@@ -485,7 +486,7 @@ export function spendLifestyle(state, id) {
     blocked = weekly(state, action);
   if (blocked) return { ok: false, reason: blocked };
   const time = x.time || 1;
-  if (state.weekly.used + time > 2)
+  if (state.weekly.used + time > (state.health?.health <= 15 ? 3 : 6))
     return { ok: false, reason: "Bu deneyim için haftanın kalan zamanı yetmiyor." };
   if (state.finances.balance < x.cost) return { ok: false, reason: "Yeterli paran yok." };
   const last = state.wealth.cooldowns[id] || 0;
@@ -837,7 +838,7 @@ export function netWorth(state) {
 export function getWealthActionAvailability(state, action, value) {
   normalizeWealth(state);
   const w = state.wealth;
-  const weekBlocked = (id, time = 1) => weekly(state, id) || (state.weekly.used + time > 2 ? "Bu işlem için haftanın kalan zamanı yetmiyor." : null);
+  const weekBlocked = (id, time = 1) => weekly(state, id) || (state.weekly.used + time > (state.health?.health <= 15 ? 3 : 6) ? "Bu işlem için haftanın kalan zamanı yetmiyor." : null);
   if (action === "lifestyle") {
     if (!TIERS[value]) return { ok: false, reason: "Yaşam standardı geçersiz." };
     if (w.lifestyle === value) return { ok: false, reason: "Bu düzende yaşıyorsun." };

@@ -23,7 +23,7 @@ test("yardım içeriği gerçek mekaniklere göre dokuz bölüm taşır", () => 
 
 test("haftalık döngü metni gerçek karar hakkı sayısını yansıtır", () => {
   const cycle = HELP_SECTIONS.find((s) => s.title === "Haftalık döngü");
-  assert.match(cycle.body, /2 karar hakkı/);
+  assert.match(cycle.body, /6 zaman\/odak bloğu/);
 });
 
 test("wealth/emeklilik/miras içeriği gerçek sistemleri adlandırır", () => {

@@ -108,7 +108,9 @@ test("8. haftalık aktivite limiti ve aynı karar tekrarı engellenir", () => {
   assert.equal(applyDecision(state, "rest").ok, true);
   assert.equal(applyDecision(state, "rest").ok, false);
   assert.equal(applyDecision(state, "family").ok, true);
-  assert.equal(applyDecision(state, "friend").ok, false);
+  assert.equal(applyDecision(state, "friend").ok, true);
+  state.weekly.used = 6;
+  assert.equal(applyDecision(state, "exercise").ok, false);
 });
 
 test("9. tek seferlik event ikinci kez uygulanmaz", () => {

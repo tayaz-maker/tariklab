@@ -198,6 +198,10 @@ export function ensureSonState(s) {
   if (!s || typeof s !== "object") return s;
   s.meta = { ...(s.meta || {}), id: "son-100-gun", version: 2, seed: s.meta?.seed || 73129 };
   s.flags = s.flags || {};
+  s.focusMax = Number.isFinite(s.focusMax) ? s.focusMax : 8;
+  s.focusRemaining = Number.isFinite(s.focusRemaining)
+    ? s.focusRemaining
+    : Math.max(0, (s.actionsRemaining ?? 2) * 4);
   s.flags.soul = { ...emptySoul(), ...(s.flags.soul || {}) };
   s.flags.milestones = Array.isArray(s.flags.milestones) ? s.flags.milestones : [];
   s.flags.workStreak = Number.isFinite(s.flags.workStreak) ? s.flags.workStreak : 0;
@@ -274,6 +278,9 @@ export function validateSonState(s) {
     !Number.isInteger(s.actionsRemaining) ||
     s.actionsRemaining < 0 ||
     s.actionsRemaining > 2 ||
+    !Number.isFinite(s.focusRemaining) ||
+    s.focusRemaining < 0 ||
+    s.focusRemaining > (s.focusMax || 8) ||
     !s.resources ||
     ![s.resources.money, s.resources.energy, s.resources.hope].every(Number.isFinite) ||
     !Array.isArray(s.relationships) ||
@@ -437,12 +444,21 @@ function queueCase(s, spec) {
   });
 }
 
+export function sonActionCost(act) {
+  if (!act) return 8;
+  if (["rest", "pray", "call-ex", "forgive"].includes(act.id)) return 2;
+  if (["doctor", "work", "write-will", "report-crime", "travel"].includes(act.id)) return 4;
+  return Math.abs(act.energy || 0) >= 10 || (act.risk || 0) >= 8 ? 4 : 3;
+}
+
 export function applySonAction(s, actId) {
   ensureSonState(s);
   if (s.flags.finalReport || (s.remainingDays ?? 1) <= 0) return s;
   if (SUICIDE.test(actId || "")) return s;
   const act = A100.find((a) => a.id === actId);
   if (!act) return s;
+  const focusCost = sonActionCost(act);
+  if ((s.focusRemaining ?? 8) < focusCost) return s;
   if (act.id === "donate" && s.flags.donateCount >= 3) return s;
   if (act.id === "pray" && usedToday(s, "pray")) return s;
   if (act.id === "gamble" && s.flags.gambleDay === s.day) return s;
@@ -559,8 +575,9 @@ export function applySonAction(s, actId) {
       else setSoul(s, { selfish: 1 });
     }
   }
-  s.actionsRemaining = Math.max(0, s.actionsRemaining - 1);
-  pushHist(s, { type: "act", id: act.id, day: s.day });
+  s.focusRemaining = Math.max(0, (s.focusRemaining ?? 8) - focusCost);
+  s.actionsRemaining = Math.max(0, Math.ceil(s.focusRemaining / 4));
+  pushHist(s, { type: "act", id: act.id, day: s.day, focusCost });
   return s;
 }
 
@@ -739,6 +756,7 @@ export function sonAdvanceDay(s) {
   s.day += 1;
   s.remainingDays = Math.max(0, s.remainingDays - 1);
   s.actionsRemaining = s.remainingDays === 0 ? 0 : 2;
+  s.focusRemaining = s.remainingDays === 0 ? 0 : (s.focusMax || 8);
   s.resources.energy = clamp(s.resources.energy - sonPhase(s).pressure);
   if (s.remainingDays <= 14) setSoul(s, { fear: 1, acceptance: s.flags.soul.faith >= 12 ? 1 : 0 });
   for (const o of s.obligations) {

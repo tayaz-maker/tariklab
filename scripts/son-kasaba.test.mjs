@@ -41,7 +41,7 @@ test("canonical town content is complete and bilingual with distinct state-drive
     assert.ok(e.choices[0].text.every((x) => x.length > 15));
   }
 });
-test("three action capacity, stale/double tick, repeated loans, investor and event transactions cannot duplicate", () => {
+test("field capacity, stale/double tick, repeated loans, investor and event transactions cannot duplicate", () => {
   const s = createTown();
   const p = s.budget;
   assert.equal(applyTownAction(s, "civic:loan@1"), true);
@@ -51,6 +51,8 @@ test("three action capacity, stale/double tick, repeated loans, investor and eve
   assert.deepEqual(s, after);
   applyTownAction(s, "civic:road@1");
   applyTownAction(s, "civic:water@1");
+  assert.equal(applyTownAction(s, "talk:cem@1"), true);
+  assert.ok(s.capacityUsed > 3);
   const capped = copy(s);
   assert.equal(applyTownAction(s, "talk:cem@1"), false);
   assert.deepEqual(s, capped);

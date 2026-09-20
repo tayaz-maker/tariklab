@@ -319,8 +319,8 @@ test("subscription, lifestyle, assets and loans round-trip without fabricated or
   assert.equal(processWealthMonthEnd(again),false); assert.equal(again.finances.balance,after); assert.notEqual(after,balance);
 });
 
-test("long travel consumes both weekly slots and cannot become free recovery farming", () => {
+test("long travel consumes two focus blocks and cannot become free recovery farming", () => {
   const s=game(100000); const before={money:s.finances.balance,stress:s.health.stress};
   assert.equal(spendLifestyle(s,"vacation").ok,true); assert.equal(s.weekly.used,2); assert.equal(s.finances.balance,before.money-22000); assert.ok(s.health.stress<before.stress);
-  assert.equal(spendLifestyle(s,"coffee").ok,false); nextWeek(s); assert.equal(spendLifestyle(s,"vacation").ok,false);
+  assert.equal(spendLifestyle(s,"coffee").ok,true); assert.equal(s.weekly.used,3); nextWeek(s); assert.equal(spendLifestyle(s,"vacation").ok,false);
 });

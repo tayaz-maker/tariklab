@@ -87,13 +87,15 @@ test("Apartman preparation, meeting, vote and weekly callback cannot be farmed",
   assert.equal(state.history.filter((row) => row.type === "callback").length, 1);
 });
 
-test("Son 100 Gün holds two actions, expiry and terminal final report", () => {
+test("Son 100 Gün prices actions by focus, expiry and terminal final report", () => {
   const state = create("son-100-gun");
   applyAction("son-100-gun", state, "act:work");
-  assert.equal(state.actionsRemaining, 1);
+  assert.equal(state.focusRemaining, 4);
   applyAction("son-100-gun", state, "act:rest");
+  assert.equal(state.focusRemaining, 2);
+  applyAction("son-100-gun", state, "act:pray");
   assert.equal(state.day, 2);
-  assert.equal(state.actionsRemaining, 2);
+  assert.equal(state.focusRemaining, 8);
   for (let i = 0; i < 100; i += 1) applyAction("son-100-gun", state, "advance");
   const end = JSON.stringify(state.flags.report);
   applyAction("son-100-gun", state, "advance");
@@ -115,18 +117,19 @@ test("Kayıp Telefon item discovery is atomic and the return ending is terminal"
   assert.equal(state.flags.ending, ending);
 });
 
-test("DEVLET has two decisions per month, no third decision and no actual-state UI leak", () => {
+test("DEVLET prices policies against administrative capacity and has no actual-state UI leak", () => {
   const state = create("tc-sim-devlet");
   const [first, second, third] = POLICIES_2002;
   applyAction("tc-sim-devlet", state, `policy:${first.id}`);
   applyAction("tc-sim-devlet", state, `policy:${second.id}`);
-  const count = state.history.filter((row) => row.type === "policy").length;
   applyAction("tc-sim-devlet", state, `policy:${third.id}`);
-  assert.equal(count, 2);
-  assert.equal(state.history.filter((row) => row.type === "policy").length, 2);
-  assert.equal(state.flags.decisionsRemaining, 0);
+  const count = state.history.filter((row) => row.type === "policy").length;
+  assert.ok(count >= 2);
+  assert.ok(state.flags.governanceUsed > 0);
+  assert.ok(state.flags.governanceUsed <= state.flags.governanceCapacity);
+  assert.ok(state.flags.bureaucraticFriction > 0);
   applyAction("tc-sim-devlet", state, "advance");
-  assert.equal(state.flags.decisionsRemaining, 2);
+  assert.equal(state.flags.governanceUsed, 0);
   assert.equal(state.archive.length, 1);
   const app = read("public/games/tc-sim-devlet/app.js");
   assert.doesNotMatch(app, /state\.actual\./);

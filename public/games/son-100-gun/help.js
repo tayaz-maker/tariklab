@@ -25,10 +25,10 @@ export const HELP_SECTIONS = [
   {
     h: ["Bir gün nasıl işler?", "How a day works"],
     list: [
-      ["Her gün tam iki aksiyon hakkın var.", "You have exactly two actions each day."],
+      ["Her gün sekiz odak puanın var; eylemler zaman ve ağırlığına göre farklı odak tüketir.", "Each day gives eight focus points; actions consume different amounts according to their time and weight."],
       [
-        "Kullanmadığın hak o gün söner; ertesi güne taşınmaz.",
-        "An action you do not use is gone; it does not carry over to the next day.",
+        "Kullanmadığın odak dinlenme alanıdır; ertesi güne stoklanmaz ama günü erken kapatmak yıpranmayı sınırlar.",
+        "Unused focus represents recovery; it is not stockpiled, but ending early limits wear.",
       ],
       [
         "Takvimde yaklaşan zorunlulukları ve son günü gelen fırsat pencerelerini görürsün.",

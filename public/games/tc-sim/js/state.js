@@ -22,11 +22,11 @@ import { ensureLifeDepthState, neutralLifeDepth, validateLifeDepthState } from "
 export const SAVE_VERSION = 6;
 export const WEEKS_PER_MONTH = 4;
 export const MONTHS_PER_YEAR = 12;
-/** Haftalık karar hakkının üst sınırı. Doğrulama bu sabiti kullanır. */
-export const WEEKLY_ACTIVITY_LIMIT = 2;
-/** Bu eşiğin altında beden kendini taşıyamaz: haftalık karar hakkı düşer. */
+/** Haftanın kullanılabilir zaman/odak blokları. Eski kayıtların `used` alanı korunur. */
+export const WEEKLY_ACTIVITY_LIMIT = 6;
+/** Bu eşiğin altında beden kendini taşıyamaz: haftalık odak bütçesi düşer. */
 export const CRITICAL_HEALTH = 15;
-export const CRITICAL_HEALTH_ACTIVITY_LIMIT = 1;
+export const CRITICAL_HEALTH_ACTIVITY_LIMIT = 3;
 
 /**
  * O haftaki gerçek karar hakkı. Kritik sağlıkta düşer; sağlık toparlanınca

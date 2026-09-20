@@ -42,7 +42,7 @@ test("apartman cheap patch delayed callback", () => {
   assert.ok(s.issues.some((i) => String(i.title).includes("yama")) || s.history.some((h) => h.type === "callback"));
 });
 
-test("son 100 gun four scenarios and two actions per day", () => {
+test("son 100 gun scenarios and focus-priced days", () => {
   assert.ok(SCENARIOS.length >= 16);
   const ids = new Set(SCENARIOS.map((x) => x.id));
   assert.equal(ids.size, SCENARIOS.length);
@@ -52,9 +52,11 @@ test("son 100 gun four scenarios and two actions per day", () => {
   assert.equal(s.remainingDays, 100);
   assert.equal(s.actionsRemaining, 2);
   applyAction("son-100-gun", s, "act:rest");
-  assert.equal(s.actionsRemaining, 1);
+  assert.equal(s.focusRemaining, 6);
   applyAction("son-100-gun", s, "act:family");
-  assert.equal(s.actionsRemaining, 2);
+  assert.equal(s.focusRemaining, 2);
+  applyAction("son-100-gun", s, "act:forgive");
+  assert.equal(s.focusRemaining, 8);
   assert.equal(s.day, 2);
 });
 

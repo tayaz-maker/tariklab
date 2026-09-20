@@ -68,6 +68,10 @@ p {
   margin: auto;
   padding: 14px;
 }
+.tlab-embedded .game-root {
+  min-height: 100%;
+  padding-top: 8px;
+}
 .topbar {
   min-height: 52px;
   display: flex;
@@ -177,6 +181,20 @@ p {
   display: none;
 }
 .embedded .topbar { justify-content: flex-end; min-height: 44px; }
+.tlab-embedded .topbar,
+.embedded .topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  min-height: 40px;
+  padding: 4px 0;
+  background: color-mix(in srgb, var(--game-bg, #090a0a) 94%, transparent);
+  backdrop-filter: blur(10px);
+}
+.tlab-embedded .topbar > a,
+.tlab-embedded .topbar__title,
+.tlab-embedded [data-lang-host] { display: none; }
+.tlab-embedded .topbar { justify-content: flex-end; }
 .muted {
   color: var(--muted, #aeb7b2);
 }

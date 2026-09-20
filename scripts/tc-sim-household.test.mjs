@@ -72,7 +72,7 @@ test("calendar conflict cannot bypass activity scarcity; refusal remains availab
   const state = establishHome(couple());
   const plan = state.openCases.find((item) => item.payload?.kind === "adjustment" && item.status !== "resolved");
   state.time.absoluteWeek = plan.dueWeek;
-  state.weekly.used = 2;
+  state.weekly.used = 6;
   state.weekly.selectedIds = ["rest", "exercise"];
   state.events.active = { eventId: plan.eventId, occurrenceId: "conflict", sourceCaseId: plan.id };
   const before = structuredClone(state);

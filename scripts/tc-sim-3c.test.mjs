@@ -61,8 +61,8 @@ test("3C.5 aynı sosyal action aynı hafta spam edilemez", () => {
   assert.equal(applySocialAction(state, "mehmet", "meet").ok, false);
 });
 
-test("3C.6 iki karar sonrası sosyal action reddedilir", () => {
-  const state = fresh(); state.weekly = { used: 2, selectedIds: ["a", "b"] };
+test("3C.6 zaman bütçesi dolunca sosyal action reddedilir", () => {
+  const state = fresh(); state.weekly = { used: 6, selectedIds: ["a", "b"] };
   assert.equal(canUseSocialAction(state, "mehmet", "meet").ok, false);
 });
 

@@ -2,6 +2,7 @@ import type { ErrorComponentProps } from "@tanstack/react-router";
 import { TriangleAlert } from "lucide-react";
 
 export function AppErrorComponent({ error }: ErrorComponentProps) {
+  const message = error instanceof Error ? error.message : String(error || "");
   return (
     <main className="flex min-h-screen flex-col items-center justify-center gap-3 bg-bg px-6 text-center text-fg">
       <span className="text-danger" aria-hidden="true">
@@ -9,7 +10,7 @@ export function AppErrorComponent({ error }: ErrorComponentProps) {
       </span>
       <h1 className="font-display text-lg font-semibold">Oyun kilitlendi</h1>
       <p className="max-w-md text-sm break-words text-muted">
-        {error.message || "Beklenmeyen bir hata. Kayıt duruyor — devam et."}
+        {message || "Beklenmeyen bir hata. Kayıt duruyor — devam et."}
       </p>
       <button
         type="button"
