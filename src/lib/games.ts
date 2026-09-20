@@ -187,4 +187,12 @@ export const GAMES: CatalogGame[] = [
     href: "/oyna/darbe-h",
     icon: "darbe-h",
   },
+  {
+    slug: "jitem-derin-ag",
+    title: "JITEM: Derin Ağ",
+    subtitle: "1986–1996. Dosyalar susmaz. Ağ büyür.",
+    status: "soon",
+    href: null,
+    icon: "jitem",
+  },
 ];
