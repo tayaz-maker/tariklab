@@ -145,7 +145,7 @@ html.tlab-embedded a[href="/"] {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 20px;
+  padding: 7px 16px;
   gap: 12px;
 }
 .commandline {
@@ -185,7 +185,7 @@ html.tlab-embedded a[href="/"] {
   margin: auto;
 }
 .resource {
-  padding: 6px 16px;
+  padding: 4px 12px;
   text-align: center;
   border-right: 1px solid var(--line);
   font-variant-numeric: tabular-nums;
@@ -195,7 +195,7 @@ html.tlab-embedded a[href="/"] {
   border: 0;
 }
 .resource b {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 550;
 }
 .resource span {
@@ -215,7 +215,7 @@ html.tlab-embedded a[href="/"] {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
+  padding: 0 16px;
   border-top: 1px solid var(--line);
   gap: 8px;
   min-height: 46px;

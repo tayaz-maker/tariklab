@@ -1,4 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 560" width="400" height="560">
+<defs><clipPath id="scene"><rect x="36" y="118" width="328" height="268"/></clipPath></defs>
 <rect width="400" height="560" fill="#141c28"/>
 <rect x="10" y="10" width="380" height="540" fill="#1a2433" stroke="#4a5568" stroke-width="2"/>
 <rect x="10" y="10" width="380" height="18" fill="#4a5568"/>
@@ -7,7 +8,7 @@
 <text x="200" y="96" text-anchor="middle" fill="#e8dcc4" font-family="Georgia,serif" font-size="22">DRB-028</text>
 <circle cx="173" cy="78" r="5" fill="#4a5568"/><circle cx="191" cy="78" r="5" fill="#4a5568"/><circle cx="209" cy="78" r="5" fill="#4a5568"/>
 <rect x="36" y="118" width="328" height="268" fill="#243044" stroke="#2e3d52" stroke-width="1"/>
-<rect x="110" y="220" width="180" height="70" fill="none" stroke="#e8dcc4" stroke-width="3"/><rect x="130" y="200" width="40" height="28" fill="none" stroke="#c4a574" stroke-width="2"/><path d="M220 240 h50 v20 h-50z" fill="none" stroke="#c4a574" stroke-width="2"/>
+<g clip-path="url(#scene)"><rect x="36" y="118" width="328" height="268" fill="#171b20"/><path d="M36 334 L364 291 V386 H36Z" fill="#3a2d24"/><path d="M36 337 L364 294" stroke="#8f7355" opacity=".45"/><path d="M221 145 l18 -4" stroke="#eadfbe" opacity=".10"/><path d="M268 174 l21 -3" stroke="#eadfbe" opacity=".10"/><path d="M315 203 l24 -2" stroke="#eadfbe" opacity=".10"/><path d="M62 232 l27 -1" stroke="#eadfbe" opacity=".10"/><path d="M109 261 l30 0" stroke="#eadfbe" opacity=".10"/><path d="M156 290 l33 1" stroke="#eadfbe" opacity=".10"/><path d="M203 319 l36 2" stroke="#eadfbe" opacity=".10"/><rect x="67" y="163" width="120" height="159" fill="#5d4935" stroke="#a88c62"/><path d="M67 198h120M67 238h120M67 278h120" stroke="#261e19"/><g fill="#c7b58f"><rect x="78" y="174" width="83" height="15"/><rect x="91" y="207" width="78" height="22"/><rect x="76" y="247" width="96" height="21"/><rect x="96" y="287" width="73" height="24"/></g><path d="M214 315v-94c0-36 27-58 58-58s58 22 58 58v94" fill="#202629" stroke="#89775d"/><path d="M247 315v-80h50v80" fill="#15191b"/><g transform="translate(166 343) rotate(-7)"><circle r="15" fill="none" stroke="#c7b58f" stroke-width="4"/><path d="M11 11l16 16" stroke="#c7b58f" stroke-width="5"/></g><g opacity=".35" transform="scale(.5) translate(310 325)"><rect x="110" y="220" width="180" height="70" fill="none" stroke="#e8dcc4" stroke-width="3"/><rect x="130" y="200" width="40" height="28" fill="none" stroke="#c4a574" stroke-width="2"/><path d="M220 240 h50 v20 h-50z" fill="none" stroke="#c4a574" stroke-width="2"/></g></g>
 
 <text x="200" y="430" text-anchor="middle" fill="#e8dcc4" font-family="Georgia,serif" font-size="20">Karargâh Müsteşarı</text>
 <text x="200" y="462" text-anchor="middle" fill="#c4a574" font-family="ui-monospace,monospace" font-size="13">KARARGAH</text>

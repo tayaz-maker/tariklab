@@ -1,4 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 560" width="400" height="560">
+<defs><clipPath id="scene"><rect x="36" y="118" width="328" height="268"/></clipPath></defs>
 <rect width="400" height="560" fill="#141c28"/>
 <rect x="10" y="10" width="380" height="540" fill="#1a2433" stroke="#3d6a6a" stroke-width="5"/>
 <rect x="10" y="10" width="380" height="18" fill="#3d6a6a"/>
@@ -7,7 +8,7 @@
 <text x="200" y="96" text-anchor="middle" fill="#e8dcc4" font-family="Georgia,serif" font-size="22">DRB-238</text>
 <circle cx="137" cy="78" r="5" fill="#3d6a6a"/><circle cx="155" cy="78" r="5" fill="#3d6a6a"/><circle cx="173" cy="78" r="5" fill="#3d6a6a"/><circle cx="191" cy="78" r="5" fill="#3d6a6a"/><circle cx="209" cy="78" r="5" fill="#3d6a6a"/><circle cx="227" cy="78" r="5" fill="#3d6a6a"/><circle cx="245" cy="78" r="5" fill="#3d6a6a"/>
 <rect x="36" y="118" width="328" height="268" fill="#243044" stroke="#2e3d52" stroke-width="1"/>
-<rect x="120" y="200" width="160" height="110" fill="none" stroke="#e8dcc4" stroke-width="2"/><rect x="240" y="200" width="18" height="110" fill="#c4a574"/>
+<g clip-path="url(#scene)"><rect x="36" y="118" width="328" height="268" fill="#171b20"/><path d="M36 334 L364 291 V386 H36Z" fill="#3a2d24"/><path d="M36 337 L364 294" stroke="#8f7355" opacity=".45"/><path d="M191 145 l18 -4" stroke="#eadfbe" opacity=".10"/><path d="M238 174 l21 -3" stroke="#eadfbe" opacity=".10"/><path d="M285 203 l24 -2" stroke="#eadfbe" opacity=".10"/><path d="M332 232 l27 -1" stroke="#eadfbe" opacity=".10"/><path d="M79 261 l30 0" stroke="#eadfbe" opacity=".10"/><path d="M126 290 l33 1" stroke="#eadfbe" opacity=".10"/><path d="M173 319 l36 2" stroke="#eadfbe" opacity=".10"/><path d="M67 318V170h258v148" fill="#262526" stroke="#8c765d"/><path d="M82 188h70v112H82ZM165 188h70v112h-70ZM248 188h61v112h-61Z" fill="#15191b" stroke="#625748"/><g fill="#b9aa8b"><circle cx="117" cy="217" r="17"/><circle cx="200" cy="217" r="17"/><circle cx="278" cy="217" r="17"/></g><path d="M98 277q19-55 38 0M181 277q19-55 38 0M260 277q18-55 36 0" fill="#343a3a" stroke="#3d6a6a"/><g transform="translate(148 343) rotate(3)"><circle r="17" fill="#20272a" stroke="#c7b58f" stroke-width="3"/><path d="M0 0l9-8M0 0v-11" stroke="#3d6a6a" stroke-width="3"/></g><g opacity=".35" transform="scale(.5) translate(310 325)"><rect x="120" y="200" width="160" height="110" fill="none" stroke="#e8dcc4" stroke-width="2"/><rect x="240" y="200" width="18" height="110" fill="#c4a574"/></g></g>
 <circle cx="338" cy="128" r="22" fill="none" stroke="#c4a574" stroke-width="3"/><text x="338" y="134" text-anchor="middle" fill="#c4a574" font-family="Georgia,serif" font-size="11">YD</text>
 <text x="200" y="430" text-anchor="middle" fill="#e8dcc4" font-family="Georgia,serif" font-size="20">Zeyil Masası</text>
 <text x="200" y="462" text-anchor="middle" fill="#c4a574" font-family="ui-monospace,monospace" font-size="13">ZEYIL</text>

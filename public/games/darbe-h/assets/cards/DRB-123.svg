@@ -1,4 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 560" width="400" height="560">
+<defs><clipPath id="scene"><rect x="36" y="118" width="328" height="268"/></clipPath></defs>
 <rect width="400" height="560" fill="#141c28"/>
 <rect x="10" y="10" width="380" height="540" fill="#1a2433" stroke="#3d6a6a" stroke-width="2"/>
 <rect x="10" y="10" width="380" height="18" fill="#3d6a6a"/>
@@ -7,7 +8,7 @@
 <text x="200" y="96" text-anchor="middle" fill="#e8dcc4" font-family="Georgia,serif" font-size="22">DRB-123</text>
 
 <rect x="36" y="118" width="328" height="268" fill="#243044" stroke="#2e3d52" stroke-width="1"/>
-<rect x="120" y="200" width="160" height="110" fill="none" stroke="#e8dcc4" stroke-width="2"/><rect x="240" y="200" width="18" height="110" fill="#c4a574"/>
+<g clip-path="url(#scene)"><rect x="36" y="118" width="328" height="268" fill="#171b20"/><path d="M36 334 L364 291 V386 H36Z" fill="#3a2d24"/><path d="M36 337 L364 294" stroke="#8f7355" opacity=".45"/><path d="M336 145 l18 -4" stroke="#eadfbe" opacity=".10"/><path d="M83 174 l21 -3" stroke="#eadfbe" opacity=".10"/><path d="M130 203 l24 -2" stroke="#eadfbe" opacity=".10"/><path d="M177 232 l27 -1" stroke="#eadfbe" opacity=".10"/><path d="M224 261 l30 0" stroke="#eadfbe" opacity=".10"/><path d="M271 290 l33 1" stroke="#eadfbe" opacity=".10"/><path d="M318 319 l36 2" stroke="#eadfbe" opacity=".10"/><rect x="72" y="176" width="86" height="117" fill="#222b2d" stroke="#9a896d"/><circle cx="115" cy="213" r="24" fill="none" stroke="#c2b18e" stroke-width="4"/><path d="M92 267h46M163 207c32-32 69-29 98-6M167 223c39-27 78-20 111 7" fill="none" stroke="#3d6a6a" stroke-width="3"/><rect x="265" y="189" width="58" height="103" rx="8" fill="#171d20" stroke="#ad9a78"/><circle cx="294" cy="212" r="18" fill="#343f42"/><path d="M282 252h24" stroke="#c0ad88" stroke-width="5"/><g transform="translate(141 338) rotate(6)"><path d="M-17 4q17-22 34 0M-12 4v12M12 4v12" fill="none" stroke="#d2c4a3" stroke-width="4"/></g><g opacity=".35" transform="scale(.5) translate(310 325)"><rect x="120" y="200" width="160" height="110" fill="none" stroke="#e8dcc4" stroke-width="2"/><rect x="240" y="200" width="18" height="110" fill="#c4a574"/></g></g>
 
 <text x="200" y="430" text-anchor="middle" fill="#e8dcc4" font-family="Georgia,serif" font-size="20">Tek Sütun</text>
 <text x="200" y="462" text-anchor="middle" fill="#c4a574" font-family="ui-monospace,monospace" font-size="13">ZEYIL</text>

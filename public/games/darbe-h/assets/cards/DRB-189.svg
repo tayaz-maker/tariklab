@@ -1,4 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 560" width="400" height="560">
+<defs><clipPath id="scene"><rect x="36" y="118" width="328" height="268"/></clipPath></defs>
 <rect width="400" height="560" fill="#141c28"/>
 <rect x="10" y="10" width="380" height="540" fill="#1a2433" stroke="#7a3d3d" stroke-width="2"/>
 <rect x="10" y="10" width="380" height="18" fill="#7a3d3d"/>
@@ -7,7 +8,7 @@
 <text x="200" y="96" text-anchor="middle" fill="#e8dcc4" font-family="Georgia,serif" font-size="22">DRB-189</text>
 <circle cx="173" cy="78" r="5" fill="#7a3d3d"/><circle cx="191" cy="78" r="5" fill="#7a3d3d"/><circle cx="209" cy="78" r="5" fill="#7a3d3d"/>
 <rect x="36" y="118" width="328" height="268" fill="#243044" stroke="#2e3d52" stroke-width="1"/>
-<rect x="140" y="180" width="120" height="150" fill="none" stroke="#e8dcc4" stroke-width="2"/><line x1="160" y1="210" x2="240" y2="210" stroke="#c4a574" stroke-width="2"/><line x1="160" y1="240" x2="240" y2="240" stroke="#e8dcc4" stroke-width="1.5"/><line x1="160" y1="266" x2="220" y2="266" stroke="#e8dcc4" stroke-width="1.5"/>
+<g clip-path="url(#scene)"><rect x="36" y="118" width="328" height="268" fill="#171b20"/><path d="M36 334 L364 291 V386 H36Z" fill="#3a2d24"/><path d="M36 337 L364 294" stroke="#8f7355" opacity=".45"/><path d="M258 145 l18 -4" stroke="#eadfbe" opacity=".10"/><path d="M305 174 l21 -3" stroke="#eadfbe" opacity=".10"/><path d="M52 203 l24 -2" stroke="#eadfbe" opacity=".10"/><path d="M99 232 l27 -1" stroke="#eadfbe" opacity=".10"/><path d="M146 261 l30 0" stroke="#eadfbe" opacity=".10"/><path d="M193 290 l33 1" stroke="#eadfbe" opacity=".10"/><path d="M240 319 l36 2" stroke="#eadfbe" opacity=".10"/><path d="M73 298h252l-31-109H104Z" fill="#4b382b" stroke="#aa8b63"/><rect x="120" y="176" width="162" height="102" fill="#d2c4a3" transform="rotate(-4 201 227)"/><path d="M143 198h109M143 215h91M143 232h116M143 249h72" stroke="#5f503d"/><path d="M85 178q21-28 43 0v84q-22 24-43 0Z" fill="#1b2224" stroke="#b5a17c"/><path d="M94 194h25M94 209h25" stroke="#7a3d3d"/><path d="M294 185v92M281 199h26" stroke="#b89f78" stroke-width="5"/><g transform="translate(223 329) rotate(-4)"><circle r="15" fill="none" stroke="#7a3d3d" stroke-width="4"/><text x="0" y="5" text-anchor="middle" fill="#7a3d3d" font-size="12" font-weight="700">M</text></g><g opacity=".35" transform="scale(.5) translate(310 325)"><rect x="140" y="180" width="120" height="150" fill="none" stroke="#e8dcc4" stroke-width="2"/><line x1="160" y1="210" x2="240" y2="210" stroke="#c4a574" stroke-width="2"/><line x1="160" y1="240" x2="240" y2="240" stroke="#e8dcc4" stroke-width="1.5"/><line x1="160" y1="266" x2="220" y2="266" stroke="#e8dcc4" stroke-width="1.5"/></g></g>
 
 <text x="200" y="430" text-anchor="middle" fill="#e8dcc4" font-family="Georgia,serif" font-size="20">Cümle Ustası</text>
 <text x="200" y="462" text-anchor="middle" fill="#c4a574" font-family="ui-monospace,monospace" font-size="13">MUHTIRA</text>

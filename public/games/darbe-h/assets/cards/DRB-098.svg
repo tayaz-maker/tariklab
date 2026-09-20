@@ -1,4 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 560" width="400" height="560">
+<defs><clipPath id="scene"><rect x="36" y="118" width="328" height="268"/></clipPath></defs>
 <rect width="400" height="560" fill="#141c28"/>
 <rect x="10" y="10" width="380" height="540" fill="#1a2433" stroke="#7a3d3d" stroke-width="2"/>
 <rect x="10" y="10" width="380" height="18" fill="#7a3d3d"/>
@@ -7,7 +8,7 @@
 <text x="200" y="96" text-anchor="middle" fill="#e8dcc4" font-family="Georgia,serif" font-size="22">DRB-098</text>
 
 <rect x="36" y="118" width="328" height="268" fill="#243044" stroke="#2e3d52" stroke-width="1"/>
-<rect x="140" y="180" width="120" height="150" fill="none" stroke="#e8dcc4" stroke-width="2"/><line x1="160" y1="210" x2="240" y2="210" stroke="#c4a574" stroke-width="2"/><line x1="160" y1="240" x2="240" y2="240" stroke="#e8dcc4" stroke-width="1.5"/><line x1="160" y1="266" x2="220" y2="266" stroke="#e8dcc4" stroke-width="1.5"/>
+<g clip-path="url(#scene)"><rect x="36" y="118" width="328" height="268" fill="#171b20"/><path d="M36 334 L364 291 V386 H36Z" fill="#3a2d24"/><path d="M36 337 L364 294" stroke="#8f7355" opacity=".45"/><path d="M211 145 l18 -4" stroke="#eadfbe" opacity=".10"/><path d="M258 174 l21 -3" stroke="#eadfbe" opacity=".10"/><path d="M305 203 l24 -2" stroke="#eadfbe" opacity=".10"/><path d="M52 232 l27 -1" stroke="#eadfbe" opacity=".10"/><path d="M99 261 l30 0" stroke="#eadfbe" opacity=".10"/><path d="M146 290 l33 1" stroke="#eadfbe" opacity=".10"/><path d="M193 319 l36 2" stroke="#eadfbe" opacity=".10"/><path d="M72 169h238l24 154H57Z" fill="#bbaa83" stroke="#5e4b37"/><path d="M92 191l78 23 53-19 86 39-62 68-84-21-73 24Z" fill="#7e8b76" stroke="#4b5548"/><path d="M110 277c54-71 113-24 175-72" fill="none" stroke="#7a3d3d" stroke-width="4"/><circle cx="188" cy="247" r="8" fill="#8c3e35"/><circle cx="260" cy="216" r="6" fill="#b99a54"/><g transform="translate(160 343) rotate(3)"><path d="M-20-8h40v24h-40z" fill="#5d4731" stroke="#ddd0ae"/><path d="M-20-8h14l5-8h21" fill="none" stroke="#ddd0ae" stroke-width="3"/></g><g opacity=".35" transform="scale(.5) translate(310 325)"><rect x="140" y="180" width="120" height="150" fill="none" stroke="#e8dcc4" stroke-width="2"/><line x1="160" y1="210" x2="240" y2="210" stroke="#c4a574" stroke-width="2"/><line x1="160" y1="240" x2="240" y2="240" stroke="#e8dcc4" stroke-width="1.5"/><line x1="160" y1="266" x2="220" y2="266" stroke="#e8dcc4" stroke-width="1.5"/></g></g>
 
 <text x="200" y="430" text-anchor="middle" fill="#e8dcc4" font-family="Georgia,serif" font-size="20">Gündem Maddesi</text>
 <text x="200" y="462" text-anchor="middle" fill="#c4a574" font-family="ui-monospace,monospace" font-size="13">MUHTIRA</text>
