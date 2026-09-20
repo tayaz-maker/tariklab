@@ -277,11 +277,11 @@ export default defineConfig(({ command, isPreview }) => ({
             preset: process.env.NITRO_PRESET || "cloudflare-module",
             cloudflare: {
               wrangler: {
-                // MUST match the existing Worker that tariklab.com routes to.
-                // Nitro otherwise derives a name from the repo
-                // ("tayaz-maker-cete-savaslari") and deploys a second, unrouted
-                // worker while the live one keeps serving the old build.
-                name: "cete-savaslari",
+                // MUST match the existing Worker that serves the canonical
+                // workers.dev endpoint: tariklab.tayaz29.workers.dev.
+                // A mismatched name causes Workers Builds to reject the deploy
+                // or publish an unrouted Worker while production stays stale.
+                name: "tariklab",
               },
             },
             // Auto-registers server/middleware/* (the PWA install page +
