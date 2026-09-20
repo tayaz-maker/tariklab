@@ -10,6 +10,7 @@ const FILES = [
   "world.js",
   "engine.js",
   "campaign.js",
+  "i18n.js",
   "map.js",
   "save.js",
   "icon.svg",

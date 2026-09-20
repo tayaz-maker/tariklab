@@ -180,7 +180,7 @@ export function contentCard(s) {
 export function feedbackHtml(s, feedback) {
   if (!feedback) return "";
   if (feedback.kind === "content")
-    return `<section class="card action-feedback" role="status"><h2>${t("Dosya işlendi", "File processed")}</h2><p>${t("Bu seçim politika kotasını kullanmadı. Etkiler hafıza, ısı ve bilgi katmanında birikir.", "This choice did not use the policy quota. Effects accumulate in memory, tension and information.")}</p></section>`;
+    return `<section class="card action-feedback" role="status"><h2>${t("Dosya işlendi", "File processed")}</h2><p>${t("Bu seçim yönetim kapasitesi harcamadı; etkisi hafıza, gerilim ve bilgi katmanında birikir.", "This choice used no governing capacity; its effects accumulate in memory, tension and information.")}</p></section>`;
   if (feedback.kind === "policy" && (s.flags.decisionIds || []).includes(feedback.id))
     return `<section class="card action-feedback" role="status"><h2>${t("Karar alındı", "Decision recorded")}</h2><p>${h(policyName(feedback.id))}</p><p>${t("Ay sonunda uygulanacak. Kalan yönetim kapasitesi", "Delivery is due at month end. Administrative capacity left")}: ${(s.flags.governanceCapacity || 8) - (s.flags.governanceUsed || 0)}</p></section>`;
   if (feedback.kind !== "month" || s.time.turn <= feedback.before.time.turn) return "";

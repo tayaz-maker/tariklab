@@ -367,3 +367,10 @@ Chromium must pass before integration.
 - The shared `/oyna/:slug` HTML-game chrome is reduced from 44px to a 36px command strip for every catalog game; mobile keeps only the back affordance and language control visible.
 - HANEDANIAN now uses a compact command HUD, a contextual three-step first-run guide, clearer tile decision framing, and a richer procedural atlas treatment without adding image payloads.
 - Simulation, campaign balance, saves and audio policy are unchanged. Web-only presentation work; no native parity action is required.
+# 2026-09-20 — Global interactive-language + TR/EN closure
+
+- Audited the 18-game production catalog, portal and Resources against the shared identity → importance → forecast → causal result → next-decision contract.
+- Added a presentation-only HANEDANIAN EN layer that reacts to the outer shell language without writing save state, consuming RNG or revealing unscouted information.
+- Replaced retired action-cap and single-building descriptions with the current focus/capacity/effort/site-management mechanics.
+- Added one data-driven decision brief to the shared duel inspector for VETO-H!, GETT-OH! and DARBE-H!; card rules remain the source of truth.
+- Preserved the sealed JITEM teaser and the bilingual personal attribution note.

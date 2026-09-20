@@ -32,8 +32,8 @@ function menu(session) {
       kicker: t("YÖNETİCİ DOSYASI", "MANAGER FILE"),
       title: "YUNUS APARTMANI",
       pitch: t(
-        "Bir bina, on altı daire, bitmeyen meseleler.",
-        "One building, sixteen flats, issues that never end.",
+        "İki, dört ya da on blok. Bütçe sınırlı; her karar bütün siteye yayılır.",
+        "Two, four or ten blocks. The budget is finite; every decision travels across the estate.",
       ),
       summary: slotSummary,
       help: HELP_SECTIONS,

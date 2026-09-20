@@ -34,7 +34,8 @@ test("all five Next Wave games are live and resolve to playable catalog routes",
 });
 
 test("İhtilâl is live on the HTML5 play route and keeps /ihtilal as a redirect", () => {
-  assert.equal((games.match(/status: "soon"/g) ?? []).length, 0);
+  assert.equal((games.match(/status: "soon"/g) ?? []).length, 1);
+  assert.match(catalogBlock("jitem-derin-ag"), /status: "soon"[\s\S]*?href: null/);
   const block = catalogBlock("ihtilal");
   assert.match(block, /status: "live"/);
   assert.match(block, /href: "\/oyna\/ihtilal"/);
@@ -97,7 +98,7 @@ test("DEVLET release copy reflects the live multi-period runtime without changin
   const staticI18n = read("public/i18n/tlab-i18n.js");
   assert.match(staticI18n, /A multi-era state simulation/);
   assert.doesNotMatch(staticI18n, /2002[–-]05 core/);
-  assert.equal(catalogEntries.length, 18);
+  assert.equal(catalogEntries.length, 19);
   assert.equal(catalogEntries.filter((game) => game.status === "live").length, 18);
-  assert.deepEqual(catalogEntries.filter((game) => game.status === "soon"), []);
+  assert.deepEqual(catalogEntries.filter((game) => game.status === "soon").map((game) => game.slug), ["jitem-derin-ag"]);
 });

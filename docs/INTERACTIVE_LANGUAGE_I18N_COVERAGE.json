@@ -1,0 +1,30 @@
+{
+  "scope": "TarikLab production catalog",
+  "standard": ["identity", "importance", "forecast", "causal result", "next decision"],
+  "games": [
+    {"id":"cete-savaslari","tr":"complete","en":"complete","model":"action preview + ledger feedback"},
+    {"id":"hanedanian","tr":"complete","en":"complete","model":"semantic runtime translation + map/action previews"},
+    {"id":"racon","tr":"complete","en":"complete","model":"choice consequence + delayed memory"},
+    {"id":"tc-sim","tr":"complete","en":"complete","model":"six-block weekly plan + consequence history"},
+    {"id":"bukucu","tr":"complete","en":"complete","model":"compact board prompts and transaction log"},
+    {"id":"labirent","tr":"complete","en":"complete","model":"minimal objective and move feedback"},
+    {"id":"peg-solitaire","tr":"complete","en":"complete","model":"minimal rule and legal-move feedback"},
+    {"id":"satranc","tr":"complete","en":"complete","model":"turn state, legal move and result"},
+    {"id":"amiral-batti","tr":"complete","en":"complete","model":"placement, shot and result feedback"},
+    {"id":"apartman","tr":"complete","en":"complete","model":"issue forecast, board vote and weekly consequence"},
+    {"id":"kayip-telefon","tr":"complete","en":"complete","model":"privacy-cost guidance without story spoilers"},
+    {"id":"son-100-gun","tr":"complete","en":"complete","model":"focus cost, forecast and daily report"},
+    {"id":"tc-sim-devlet","tr":"complete","en":"complete","model":"capacity/friction preview and causal state report"},
+    {"id":"son-kasaba","tr":"complete","en":"complete","model":"field effort, forecast and delayed file"},
+    {"id":"veto-h","tr":"complete","en":"complete","model":"structured card brief + legality reason + duel log"},
+    {"id":"gett-oh","tr":"complete","en":"complete","model":"structured card brief + legality reason + duel log"},
+    {"id":"ihtilal","tr":"complete","en":"complete","model":"preview → action → result → why"},
+    {"id":"darbe-h","tr":"complete","en":"complete","model":"structured card brief + legality reason + duel log"}
+  ],
+  "surfaces": {"portal":"complete","resources":"complete"},
+  "intentionalUntranslated": [
+    "Game and character proper names, including HANEDANIAN, İHTİLÂL, VETO-H!, GETT-OH!, DARBE-H!, TC SIM and JITEM: Derin Ağ",
+    "Fictional dynasty, settlement and person names",
+    "Historical/source titles where translation would change the cited name"
+  ]
+}

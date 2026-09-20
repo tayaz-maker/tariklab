@@ -109,7 +109,7 @@
   "Bilekte çelik. Saat sormazlar, bakarlar.": "Steel on the wrist. Nobody asks the time. They look.",
   "Bilgisayar düşünüyor": "Computer is thinking",
   "Bir arkadaşa": "To a friend",
-  "Bir bina, on altı daire, bitmeyen meseleler.": "One building, sixteen flats, issues that do not end.",
+  "İki, dört ya da on blok. Bütçe sınırlı; her karar bütün siteye yayılır.": "Two, four or ten blocks. The budget is finite; every decision travels across the estate.",
   "Bir kavşak. Haftalık gelir. Emniyet basar, baskında köşe susar.": "One junction. Weekly take. Police hit it and the corner goes quiet.",
   "Bir olay": "An event",
   "Bir saat geçti. Sokak kendi işini gördü.": "An hour passed. The street did its own work.",

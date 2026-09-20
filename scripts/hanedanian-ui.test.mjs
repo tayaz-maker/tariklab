@@ -105,6 +105,7 @@ function createHarness() {
   const window = { addEventListener(name, callback) { (windowListeners[name] ||= []).push(callback); } };
   const context = vm.createContext({
     ...engine, ...campaign, ...data, ...world, SaveManager: FakeSaveManager, createMap,
+    getLang: () => 'tr', translate: value => String(value ?? ''), installLanguage: () => {},
     document, window, navigator: {}, console, FormData: FakeFormData,
     requestAnimationFrame: () => 0, setTimeout: () => 1, clearTimeout: () => {},
     Blob, URL, MessageChannel, structuredClone,

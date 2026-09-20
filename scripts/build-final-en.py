@@ -482,7 +482,7 @@ MAP: dict[str, str] = {
     "kâğıt": "paper",
     "şöhret": "fame",
     "YÖNETİCİ DOSYASI": "MANAGER FILE",
-    "Bir bina, on altı daire, bitmeyen meseleler.": "One building, sixteen flats, issues that do not end.",
+    "İki, dört ya da on blok. Bütçe sınırlı; her karar bütün siteye yayılır.": "Two, four or ten blocks. The budget is finite; every decision travels across the estate.",
     "Meseleyi seç, dosyayı hazırla, Toplantı Gecesi'nde tek teklifi oylat ve haftayı kapat.": "Pick the issue, prepare the file, put one proposal to a vote on Meeting Night, close the week.",
     "YÖNETİM DOSYASI": "MANAGEMENT FILE",
     "1978 yapımı, 16 daire. Anahtar, ilan panosu ve hesap defteri sana geçecek.": "Built 1978, 16 flats. Keys, notice board and ledger pass to you.",

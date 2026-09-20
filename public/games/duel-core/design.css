@@ -1467,3 +1467,14 @@ body[data-theme="darbe-h"] .playing-card.face-down {
     repeating-linear-gradient(0deg, #121820 0 10px, #1a2433 10px 11px);
   border-color: #8a6a3a;
 }
+
+.interactive-brief {
+  margin: 0.55rem 0;
+  border-block: 1px solid color-mix(in srgb, var(--brass) 28%, transparent);
+  padding: 0.45rem 0;
+}
+.interactive-brief summary { cursor: pointer; font-weight: 700; }
+.interactive-brief dl { display: grid; gap: 0.35rem; margin: 0.5rem 0 0; }
+.interactive-brief dl > div { display: grid; grid-template-columns: minmax(5.8rem, 0.35fr) 1fr; gap: 0.55rem; }
+.interactive-brief dt { opacity: 0.66; }
+.interactive-brief dd { margin: 0; }

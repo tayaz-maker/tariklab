@@ -43,7 +43,7 @@ test("EN dictionary covers required portal and common keys", () => {
 
 test("catalog EN covers every current public game slug", () => {
   const slugs = [...read("src/lib/games.ts").matchAll(/slug: "([^"]+)"/g)].map((match) => match[1]);
-  assert.equal(slugs.length, 18);
+  assert.equal(slugs.length, 19);
   for (const slug of slugs) {
     assert.ok(I.CATALOG_EN[slug], slug);
     assert.ok(I.CATALOG_EN[slug].subtitle.length > 8, slug);
