@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-type IconName = "cete" | "hanedan" | "racon" | "bukucu" | "labirent" | "tek-tas" | "satranc" | "amiral" | "tc-sim" | "devlet" | "tc-sim-devlet" | "hayat" | "apartman" | "kayip-telefon" | "son-100-gun" | "ihtilal" | "son-kasaba" | "veto-h" | "gett-oh" | "darbe-h";
+type IconName = "cete" | "hanedan" | "racon" | "bukucu" | "labirent" | "tek-tas" | "satranc" | "amiral" | "tc-sim" | "devlet" | "tc-sim-devlet" | "hayat" | "apartman" | "kayip-telefon" | "son-100-gun" | "ihtilal" | "son-kasaba" | "veto-h" | "gett-oh" | "darbe-h" | "jitem";
 export function GameIcon({ name }: { name: string }) {
   const common = { viewBox: "0 0 64 64", fill: "none", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, "aria-hidden": true, focusable: false };
   const devletGlyph = <><path d="M10 52h44M15 52V25h34v27M10 25l22-12 22 12M22 32v13M32 32v13M42 32v13"/><circle cx="20" cy="18" r="3"/><circle cx="44" cy="18" r="3"/><path d="M23 18h18"/></>;
@@ -11,6 +11,7 @@ export function GameIcon({ name }: { name: string }) {
     "gett-oh": <><path d="M21 12h22l-4 15 3 17H22l3-17zM17 51h30M26 19h12M25 38h14"/><path d="M43 21h7v12h-10"/></>,
     ihtilal: <><path d="M10 22h35M39 16l6 6-6 6M54 42H19M25 36l-6 6 6 6"/><path d="M28 33c2-8 7-12 14-12l5 5-4 6 5 10M33 35l-5 9M42 33l5 11"/></>,
     "darbe-h": <><rect x="12" y="14" width="40" height="36" rx="2"/><path d="M18 22h28M18 30h20M18 38h14"/><circle cx="46" cy="40" r="6"/></>,
+    jitem: <><rect x="11" y="10" width="42" height="44" rx="3"/><path d="M18 19h17M18 26h11M18 45h28"/><circle cx="20" cy="37" r="3"/><circle cx="33" cy="33" r="3"/><circle cx="45" cy="38" r="3"/><path d="M23 36l7-2M36 34l6 3"/></>,
   };
   return <svg {...common} className="h-8 w-8 shrink-0" role="img" aria-label="">{icons[name as IconName] ?? icons.labirent}</svg>;
 }
