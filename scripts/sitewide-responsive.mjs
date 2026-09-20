@@ -67,6 +67,14 @@ try {
           await iframe.waitFor();
           surface = await (await iframe.elementHandle()).contentFrame();
           await surface.waitForFunction(() => document.body.innerText.trim().length > 20);
+          const duplicateChrome = await surface.locator(
+            'a[href="/"], .masthead-exit, .start-exit, [data-lang-host], .tlab-lang',
+          ).evaluateAll((nodes) => nodes.filter((node) => {
+            const style = getComputedStyle(node);
+            const rect = node.getBoundingClientRect();
+            return style.display !== "none" && style.visibility !== "hidden" && rect.width > 0 && rect.height > 0;
+          }).length);
+          assert.equal(duplicateChrome, 0, `${route.id}/${lang}: duplicate embedded back/language chrome`);
         }
         await measure("entry");
         if (route.id === "portal") {

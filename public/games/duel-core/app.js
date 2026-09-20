@@ -73,6 +73,7 @@ const $ = (tag, attrs = {}, ...children) => {
   return el;
 };
 export async function startApp(theme, designs) {
+  document.documentElement.classList.toggle("tlab-embedded", window.self !== window.top);
   const root = document.querySelector("#app");
   const motionLayer = $("div", { class: "duel-motion-layer", "aria-hidden": "true", inert: true });
   document.body.append(motionLayer);

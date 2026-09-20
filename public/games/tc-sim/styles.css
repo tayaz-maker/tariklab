@@ -581,6 +581,17 @@ select:focus-visible {
   place-items: center;
   padding: 20px;
 }
+/* In /oyna/tc-sim the outer shell already consumes the top command row.
+   Start content should follow it naturally instead of centering itself in a
+   second full viewport and pushing the primary action below the fold. */
+html.embedded .start-wrap {
+  min-height: 0;
+  display: block;
+  padding: 12px;
+}
+html.embedded .start-card {
+  margin: 0 auto;
+}
 .start-card {
   width: min(540px, 100%);
   border: 1px solid var(--line);
@@ -1305,6 +1316,9 @@ select {
   font-size: 0.9rem;
   text-decoration: none;
   opacity: 0.8;
+}
+html.embedded .start-wrap .start-exit {
+  display: none;
 }
 .start-wrap .start-exit:hover,
 .start-wrap .start-exit:focus-visible {

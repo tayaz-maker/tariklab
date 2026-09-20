@@ -177,6 +177,7 @@ function topbar(extra) {
   // URL keeps a way out even without the outer shell) keep the plain
   // back link alone, dropping the redundant title and language button.
   if (extra) return $("header", { class: "topbar" }, $("div", { class: "row" }, extra));
+  if (window.self !== window.top) return null;
   return $("header", { class: "topbar" }, $("a", { href: "/" }, t("back")));
 }
 

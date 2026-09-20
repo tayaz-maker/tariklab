@@ -119,6 +119,9 @@ small,
 small {
   font-size: 12px;
 }
+html.tlab-embedded a[href="/"] {
+  display: none !important;
+}
 .eyebrow {
   font-size: 10px;
   font-weight: 700;
