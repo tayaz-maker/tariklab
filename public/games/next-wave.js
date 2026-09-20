@@ -104,6 +104,7 @@ const defs = {
         parts: SYSTEMS.map((x) => ({ id: x.id, name: x.name, condition: x.condition })),
       },
       finance: { cash: 12000, dues: 2400, arrears: 1800 },
+      site: { blocks: 2, units: 32, serviceLoad: 1, operationalCapacity: 6 },
       residents: RESIDENTS.slice(0, 14).map((r) => ({
         ...r,
         trust: r.satisfaction,
@@ -141,6 +142,8 @@ const defs = {
         day: 1,
         remainingDays: 100,
         actionsRemaining: 2,
+        focusMax: 8,
+        focusRemaining: 8,
         scenarioId: sc.id,
         resources: { ...sc.resources },
         relationships: Object.entries(sc.relations).map(([id, value]) => ({ id, value })),
@@ -442,14 +445,15 @@ function tickApartman(s) {
   s.flags.prepared = [];
   s.flags.focusIssue = null;
   const paid = s.residents.filter((r) => r.pays).length;
-  s.finance.cash += Math.round((s.finance.dues * paid) / s.residents.length);
+  const serviceLoad = s.site?.serviceLoad || 1;
+  s.finance.cash += Math.round((s.finance.dues * paid * serviceLoad) / s.residents.length);
   s.finance.arrears += Math.round(
     (s.finance.dues * (s.residents.length - paid)) / s.residents.length,
   );
   const cheapSys = s.flags.cheapSystem || "asansor";
   for (const p of s.building.parts) {
     const extra = s.flags.cheapPatch > 0 && p.id === cheapSys ? 2 + (s.flags.cheapCount || 0) : 0;
-    p.condition = clamp(p.condition - (1 + extra), 0, 100);
+    p.condition = clamp(p.condition - (serviceLoad + extra), 0, 100);
   }
   s.building.condition = clamp(
     Math.round(s.building.parts.reduce((a, p) => a + p.condition, 0) / s.building.parts.length),
@@ -614,8 +618,8 @@ export function applyAction(id, s, action) {
     // counter (101 -> 121) and kept missing obligations after the game was over.
     if (!s.flags.finalReport) sonAdvanceDay(s);
   } else if (id === "son-100-gun" && action.startsWith("act:")) {
-    if (s.actionsRemaining > 0 && !s.flags.finalReport) applySonAction(s, action.slice(4));
-    if (s.actionsRemaining === 0 && !s.flags.finalReport) sonAdvanceDay(s);
+    if ((s.focusRemaining ?? 8) > 0 && !s.flags.finalReport) applySonAction(s, action.slice(4));
+    if ((s.focusRemaining ?? 0) === 0 && !s.flags.finalReport) sonAdvanceDay(s);
   } else if (id === "son-100-gun" && action.startsWith("scenario:")) {
     applySonScenario(s, action.slice(9));
   } else if (id === "kayip-telefon" && action.startsWith("discover:")) {

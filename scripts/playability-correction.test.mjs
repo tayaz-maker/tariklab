@@ -28,13 +28,14 @@ test("all 53 Market rows retain real previews; mapped ownership survives normali
     }
   }
 });
-test("purchase validation, stale clicks, four-week cooldown and two-decision time cost cannot double-apply",()=>{
+test("purchase validation, stale clicks, cooldown and focus cost cannot double-apply",()=>{
   const poor=game();poor.finances.balance=0;const before=JSON.stringify(poor);
   assert.equal(spendLifestyle(poor,"laptop").ok,false);assert.equal(JSON.stringify(poor),before);
   const s=game();assert.equal(spendLifestyle(s,"coffee").ok,true);const saved=JSON.stringify(s);
   assert.equal(spendLifestyle(s,"coffee").ok,false);assert.equal(JSON.stringify(s),saved);
   week(s);assert.equal(spendLifestyle(s,"coffee").ok,false);
-  assert.equal(spendLifestyle(s,"vacation").ok,true);assert.equal(spendLifestyle(s,"cafe").ok,false);
+  assert.equal(spendLifestyle(s,"vacation").ok,true);assert.equal(spendLifestyle(s,"cafe").ok,true);
+  s.weekly.used=6;assert.equal(spendLifestyle(s,"restaurant").ok,false);
 });
 test("owned recovery is capped and once per week, upkeep once per month, no cash creation",()=>{
   const s=game();spendLifestyle(s,"bike");week(s);buyDurable(s,"bed");week(s);

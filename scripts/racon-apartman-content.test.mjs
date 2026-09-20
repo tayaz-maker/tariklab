@@ -51,13 +51,13 @@ test("content coverage: unique ids, no filler-count cheat, targets met", () => {
   assert.deepEqual(cov.duplicateIds, []);
 });
 
-test("Wave 1 closure: Apartman copy names 16 flats and exactly 14 active households", () => {
+test("Apartman preserves the resident council while offering 2/4/10-block estates", () => {
   const source = fs.readFileSync(new URL("../public/games/apartman/app.js", import.meta.url), "utf8");
   const state = create("apartman");
   assert.equal(state.residents.length, 14);
-  assert.match(source, /16 daire/);
-  assert.match(source, /14 aktif hane/);
-  assert.doesNotMatch(source, /16 \$\{t\("sakin"/);
+  assert.match(source, /\[2,4,10\]/);
+  assert.match(source, /siteScale \* 16/);
+  assert.match(source, /Malik \/ kiracı dengesi/);
 });
 
 test("Wave 1 closure: all Apartman nodes have satisfiable gates and valid callbacks", () => {

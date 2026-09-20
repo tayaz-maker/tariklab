@@ -42,7 +42,7 @@ test("3A.1 commute açıklaması işsiz ve aktif kombinasyonlarda hesapla uyumlu
   assert.equal(active.stress, 4);
 });
 
-test("3A.1 contextual kararlar yalnız doğru durumda görünür ve iki karar limiti korunur", () => {
+test("3A.1 contextual kararlar yalnız doğru durumda görünür ve zaman bütçesi korunur", () => {
   const state = createNewGame({ seed: 11 });
   assert.equal(
     getAvailableDecisions(state).some((item) => item.id === "quiet-evening"),
@@ -55,7 +55,9 @@ test("3A.1 contextual kararlar yalnız doğru durumda görünür ve iki karar li
   );
   assert.equal(applyDecision(state, "quiet-evening").ok, true);
   assert.equal(applyDecision(state, "rest").ok, true);
-  assert.equal(applyDecision(state, "overtime").ok, false);
+  assert.equal(applyDecision(state, "overtime").ok, true);
+  state.weekly.used = 6;
+  assert.equal(applyDecision(state, "exercise").ok, false);
 });
 
 test("3A.1 yeni state Günümüz ile başlar; eski ve geçersiz dönemler güvenle migrate olur", () => {

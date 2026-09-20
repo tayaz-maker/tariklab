@@ -30,7 +30,7 @@ function Html5Play() {
   const title = lang === "en" && g && CATALOG_EN[g.slug] ? CATALOG_EN[g.slug].title : (g?.title ?? "Oyun");
   return (
     <div className="flex h-dvh min-h-0 flex-col bg-bg">
-      <div className="relative flex h-8 shrink-0 items-center justify-between gap-2 border-b border-border bg-bg/95 px-2.5 sm:px-3">
+      <div className="relative z-50 flex h-8 shrink-0 items-center justify-between gap-2 border-b border-border bg-bg/95 px-2.5 backdrop-blur sm:px-3">
         <Link
           to="/"
           aria-label={t("portal.back", "Oyunlara dön")}

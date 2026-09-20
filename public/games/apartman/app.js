@@ -16,6 +16,7 @@ import {
 const root = document.body;
 const money = (n) => new Intl.NumberFormat("tr-TR").format(Math.round(n));
 let view = "menu";
+let siteScale = 2;
 
 function slotSummary(state) {
   return t(
@@ -47,13 +48,24 @@ function menu(session) {
 }
 
 function setup(session) {
-  root.innerHTML = `<main class="game-root"><header class="topbar global-chrome"><a href="/">${t("← Oyunlar", "← Games")}</a><span data-lang-host></span></header><section class="setup-shell card"><p class="eyebrow">${t("YÖNETİM DOSYASI", "MANAGEMENT FILE")}</p><h1>YUNUS APARTMANI</h1><p>${t("1978 yapımı, 16 daire. Yönetimde söz sahibi 14 aktif hanenin anahtarı, ilan panosu ve hesap defteri sana geçecek.", "Built in 1978 with sixteen flats. The keys, notice board and ledger for fourteen active households will pass to you.")}</p><div class="apt-metrics"><span class="pill">14 ${t("aktif hane", "active households")}</span><span class="pill">₺12.000 ${t("kasa", "cash")}</span><span class="pill">₺2.400 ${t("aidat", "dues")}</span><span class="pill">72/100 ${t("bina", "building")}</span><span class="pill">5 ${t("açık mesele", "open issues")}</span></div><div class="setup-actions"><button type="button" id="cancel-setup">${t("GERİ", "BACK")}</button><button type="button" id="confirm-start" class="primary">${t("YÖNETİMİ DEVRAL", "TAKE MANAGEMENT")}</button></div></section></main>`;
+  root.innerHTML = `<main class="game-root"><header class="topbar global-chrome"><a href="/">${t("← Oyunlar", "← Games")}</a><span data-lang-host></span></header><section class="setup-shell card"><p class="eyebrow">${t("SİTE YÖNETİM DOSYASI", "ESTATE MANAGEMENT FILE")}</p><h1>YUNUS APARTMANI</h1><p>${t("Aidat, bakım, güvenlik, temizlik ve komşu siyaseti aynı masada. Ölçeği seç; büyüdükçe bütçe kadar hizmet yükü ve muhalefet de artar.", "Dues, maintenance, security, cleaning and neighbour politics share one desk. Choose the scale; a larger estate brings more revenue, service load and opposition.")}</p><div class="scale-grid">${[2,4,10].map((blocks) => `<button type="button" data-scale="${blocks}" class="${siteScale === blocks ? "is-selected" : ""}"><strong>${blocks} ${t("blok", "blocks")}</strong><small>${blocks * 16} ${t("daire", "units")} · ${blocks === 2 ? t("yakın yönetim", "hands-on") : blocks === 4 ? t("kurul dengesi", "board politics") : t("profesyonel site", "professional estate")}</small></button>`).join("")}</div><div class="apt-metrics"><span class="pill">${t("Aidat ve bütçe", "Dues and budget")}</span><span class="pill">${t("Bakım ve asansör", "Maintenance and lifts")}</span><span class="pill">${t("Güvenlik ve temizlik", "Security and cleaning")}</span><span class="pill">${t("Malik / kiracı dengesi", "Owner / tenant balance")}</span></div><div class="setup-actions"><button type="button" id="cancel-setup">${t("GERİ", "BACK")}</button><button type="button" id="confirm-start" class="primary">${t("YÖNETİMİ DEVRAL", "TAKE MANAGEMENT")}</button></div></section></main>`;
+  root.querySelectorAll("[data-scale]").forEach((button) => button.addEventListener("click", () => {
+    siteScale = Number(button.dataset.scale);
+    setup(session);
+  }));
   root.querySelector("#cancel-setup").addEventListener("click", () => {
     session.cancelNew();
     view = "menu";
     session.render();
   });
-  root.querySelector("#confirm-start").addEventListener("click", () => session.commitNew());
+  root.querySelector("#confirm-start").addEventListener("click", () => session.commitNew({ configure: (state) => {
+    const load = siteScale === 2 ? 1 : siteScale === 4 ? 1.55 : 2.6;
+    state.site = { blocks: siteScale, units: siteScale * 16, serviceLoad: load, operationalCapacity: siteScale === 2 ? 6 : siteScale === 4 ? 8 : 11 };
+    state.finance.cash = Math.round(12000 * load);
+    state.finance.dues = Math.round(2400 * load);
+    state.finance.arrears = Math.round(1800 * load);
+    state.progression.phase = siteScale === 2 ? "apartman yönetimi" : siteScale === 4 ? "site kurulu" : "profesyonel tesis yönetimi";
+  }}));
 }
 
 function issueCard(issue, state) {
@@ -92,7 +104,7 @@ function draw(session) {
     return;
   }
   root.innerHTML = `<main class="game-root"><header class="topbar global-chrome"><a href="/">${t("← Oyunlar", "← Games")}</a><span class="topbar__title">APARTMAN · ${t("YÖNETİCİ DEFTERİ", "MANAGER LEDGER")}</span><div class="topbar__tools"><span data-lang-host></span>${savePanel(session)}</div></header>
-    <section class="apt-head"><div><p class="eyebrow">${state.week}. ${t("HAFTA", "WEEK")} · ${h(state.progression?.phase || "yıpranmış bina")}</p><h1>${t("Yönetici Masası", "Manager Desk")}</h1></div><div class="apt-metrics"><span class="pill metric">${t("Kasa", "Cash")} ₺${money(state.finance.cash)}</span><span class="pill metric">${t("Aidat", "Dues")} ₺${money(state.finance.dues)}</span><span class="pill">${t("Bina", "Building")} ${state.building.condition}/100</span><span class="pill ${confidence < 35 ? "danger-pill" : ""}">${t("Güven", "Confidence")} ${confidence}/100</span></div></section>
+    <section class="apt-head"><div><p class="eyebrow">${state.week}. ${t("HAFTA", "WEEK")} · ${h(state.progression?.phase || "yıpranmış bina")}</p><h1>${t("Site Yönetim Masası", "Estate Management Desk")}</h1><p class="muted">${state.site?.blocks || 2} ${t("blok", "blocks")} · ${state.site?.units || 32} ${t("daire", "units")} · ${t("öncelik: açık meseleyi hazırla, kurula gerçek maliyetli çözüm götür", "priority: prepare an open issue and take a costed solution to the board")}</p></div><div class="apt-metrics"><span class="pill metric">${t("Kasa", "Cash")} ₺${money(state.finance.cash)}</span><span class="pill metric">${t("Aidat", "Dues")} ₺${money(state.finance.dues)}</span><span class="pill">${t("Bina", "Building")} ${state.building.condition}/100</span><span class="pill ${confidence < 35 ? "danger-pill" : ""}">${t("Güven", "Confidence")} ${confidence}/100</span></div></section>
     ${(state.politics?.warnings || []).map((warning) => `<p class="danger-warning">⚠ ${h(loc(warning))}</p>`).join("")}
     <section class="apt-board"><aside class="card"><p class="eyebrow">${t("BİNA", "BUILDING")}</p><div class="building-list">${state.building.parts.map((part) => `<div class="building-row"><span>${h(loc(part.name))}</span><b>${Math.round(part.condition)}</b><div class="meter"><i style="--value:${part.condition}%"></i></div></div>`).join("")}</div></aside>
       <section class="card desk"><p class="eyebrow">${t("BUGÜNÜN MESELELERİ", "TODAY'S ISSUES")}</p><div class="issue-list">${

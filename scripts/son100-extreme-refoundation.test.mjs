@@ -21,25 +21,27 @@ test("18/18 scenario cards select in place and start the matching life", () => {
     applyAction("son-100-gun", s, `scenario:${sc.id}`);
     assert.equal(s.scenarioId, sc.id, sc.id);
     assert.equal(s.remainingDays, 100);
-    assert.equal(s.actionsRemaining, 2);
+    assert.equal(s.focusRemaining, 8);
     assert.equal(s.resources.money, sc.resources.money);
     assert.ok(s.flags.soul);
   }
 });
 
-test("two actions per day, early finish burns rights, day 0 is terminal", () => {
+test("focus-priced days, early finish becomes recovery, day 0 is terminal", () => {
   const s = create("son-100-gun");
   applyAction("son-100-gun", s, "act:work");
-  assert.equal(s.actionsRemaining, 1);
+  assert.equal(s.focusRemaining, 4);
   assert.equal(s.day, 1);
   applyAction("son-100-gun", s, "act:rest");
+  assert.equal(s.focusRemaining, 2);
+  applyAction("son-100-gun", s, "act:pray");
   assert.equal(s.day, 2);
   applyAction("son-100-gun", s, "advance");
   assert.equal(s.day, 3);
   applyAction("son-100-gun", s, "act:work");
   applyAction("son-100-gun", s, "act:work");
   applyAction("son-100-gun", s, "act:work");
-  assert.ok(s.actionsRemaining <= 2);
+  assert.ok(s.focusRemaining <= 8);
   while (s.remainingDays > 0) applyAction("son-100-gun", s, "advance");
   assert.equal(s.remainingDays, 0);
   assert.equal(s.flags.finalReport, true);
@@ -57,7 +59,7 @@ test("suicide actions do not exist and cannot be applied", () => {
   applyAction("son-100-gun", s, "act:suicide");
   applyAction("son-100-gun", s, "act:intihar");
   assert.equal(JSON.stringify(s.resources), before);
-  assert.equal(s.actionsRemaining, 2);
+  assert.equal(s.focusRemaining, 8);
 });
 
 test("farming gates: donate, pray, gamble, crime", () => {
@@ -79,7 +81,7 @@ test("farming gates: donate, pray, gamble, crime", () => {
   assert.equal(g.day, 1);
   applyAction("son-100-gun", g, "act:gamble");
   assert.equal(g.resources.money, g2);
-  assert.equal(g.actionsRemaining, 1);
+  assert.ok(g.focusRemaining < 8);
   for (let i = 0; i < 8; i += 1) applyAction("son-100-gun", s, "act:crime");
   assert.ok(s.flags.crimeCount <= 5);
 });

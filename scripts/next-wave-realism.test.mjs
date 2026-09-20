@@ -46,14 +46,14 @@ test("apartman issue templates and systems stay in signature loop", () => {
   assert.ok(s.residents.every((r) => Array.isArray(r.memory)));
 });
 
-test("son100 two actions, opportunity expiry, final report", () => {
+test("son100 focus economy, opportunity expiry, final report", () => {
   assert.ok(SON_EVENTS.length >= 60);
   assert.ok(SCENARIOS.length >= 16);
   const s = create("son-100-gun");
-  assert.equal(s.actionsRemaining, 2);
+  assert.equal(s.focusRemaining, 8);
   assert.ok((s.opportunities || []).length >= 1);
   applyAction("son-100-gun", s, "act:work");
-  assert.equal(s.actionsRemaining, 1);
+  assert.equal(s.focusRemaining, 4);
   applyAction("son-100-gun", s, "act:work");
   assert.equal(s.day, 2);
   const wait = create("son-100-gun");

@@ -162,6 +162,9 @@ export function hydrateDevlet(eraId, opts = {}) {
     flags: {
       baseline: era.id === "gunumuz" ? GUNUMUZ_BASELINE : null,
       decisionsRemaining: 2,
+      governanceCapacity: 8,
+      governanceUsed: 0,
+      bureaucraticFriction: 0,
       decisionIds: [],
       pendingPolicies: [],
     },
@@ -197,14 +200,20 @@ export function applyPolicy(s, policyId) {
   if (s.flags.decisionMonth !== stamp) {
     s.flags.decisionMonth = stamp;
     s.flags.decisionsRemaining = 2;
+    s.flags.governanceCapacity = Math.max(5, Math.round(implementationRate(s) / 15) + 2);
+    s.flags.governanceUsed = 0;
+    s.flags.bureaucraticFriction = Math.max(0, Math.round((s.flags.bureaucraticFriction || 0) * 0.45));
     s.flags.decisionIds = [];
     s.flags.pendingPolicies = [];
   }
-  if ((s.flags.decisionsRemaining ?? 2) <= 0) return s;
   const pool = policiesOf(s.eraId);
   const p = pool.find((x) => x.id === policyId) || pool[0];
   if (!p) return s;
   if ((s.flags.decisionIds || []).includes(p.id)) return s;
+  const capacity = s.flags.governanceCapacity || 8;
+  const crisisLoad = (s.heat || 0) >= 70 ? 1 : 0;
+  const capacityCost = Math.max(1, Math.ceil((p.capacityNeed || 30) / 30) + crisisLoad);
+  if ((s.flags.governanceUsed || 0) + capacityCost > capacity) return s;
   s.flags.policyMonth = stamp;
   const inst = s.institutions.find((i) => i.id === p.inst);
   const cap = inst ? inst.capacity : 50;
@@ -221,6 +230,9 @@ export function applyPolicy(s, policyId) {
   s.flags.pendingPolicies = (s.flags.pendingPolicies || []).concat(s.flags.pendingPolicy);
   s.flags.decisionIds = (s.flags.decisionIds || []).concat(p.id);
   s.flags.decisionsRemaining = Math.max(0, (s.flags.decisionsRemaining ?? 2) - 1);
+  s.flags.governanceUsed = (s.flags.governanceUsed || 0) + capacityCost;
+  s.flags.bureaucraticFriction = clamp((s.flags.bureaucraticFriction || 0) + capacityCost * 7 + crisisLoad * 4);
+  if (inst) inst.fatigue = clamp((inst.fatigue || 0) + capacityCost * 3);
   applyDnaDelta(s, p.dna);
   const domain =
     p.inst === "belediye"
@@ -481,6 +493,9 @@ export function tickDevlet(s) {
   );
   s.flags.decisionMonth = s.time.year + "-" + s.time.month;
   s.flags.decisionsRemaining = 2;
+  s.flags.governanceCapacity = Math.max(5, Math.round(implementationRate(s) / 15) + 2);
+  s.flags.governanceUsed = 0;
+  s.flags.bureaucraticFriction = Math.max(0, Math.round((s.flags.bureaucraticFriction || 0) * 0.45));
   s.flags.decisionIds = [];
   tickDevletDepth(s);
   maybeTransition(s);

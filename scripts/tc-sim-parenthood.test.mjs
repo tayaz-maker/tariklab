@@ -96,6 +96,7 @@ test('P04 unmet care consumes recovery and gates overtime until actual care; edu
  assert.ok(getWeeklyLifeLoad(s).energy<ordinaryLoad.energy);
  assert.doesNotMatch(canApplyDecision(s,'overtime').reason || '',/bakım/);
  assert.equal(applyDecision(s,'rest').ok,true);settleHouseholdEvents(s);
+ s.weekly.used=6;
  assert.equal(canApplyDecision(s,'exercise').ok,false);
  tick(s);assert.equal(s.parenthood.missedCareWeeks,0);assert.ok(s.education.active.progressPoints>0);
 });

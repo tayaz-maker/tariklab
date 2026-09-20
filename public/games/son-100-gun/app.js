@@ -7,6 +7,7 @@ import {
   sonForecast,
   sonPhase,
   sonSoul,
+  sonActionCost,
 } from "../next-wave/son100-sim.js";
 import {
   bindFrontMenu,
@@ -146,10 +147,10 @@ function draw(session) {
   const openCases = (state.openCases || []).filter((item) => item.status === "open");
   const choiceIds = availableSonActions(state);
   const today = state.day;
-  const locked = state.actionsRemaining <= 0;
+  const locked = state.focusRemaining <= 0;
   const prep = state.depth?.preparations || {};
   const liveChains = Object.entries(state.depth?.chains || {});
-  root.innerHTML = `<main class="game-root phase-${h(phase.id)}"><header class="topbar global-chrome"><a href="/">${t("← Oyunlar", "← Games")}</a><span class="topbar__title">SON 100 GÜN</span><div class="topbar__tools"><span data-lang-host></span>${savePanel(session)}</div></header><section class="count-head"><div class="count-number">${state.remainingDays}</div><div><p class="eyebrow">${h(pair(phase.label))}</p><h1>${h(loc(SCENARIOS.find((scenario) => scenario.id === state.scenarioId)?.name || state.scenarioId))}</h1></div><div class="action-counter">${t("AKSİYON", "ACTION")} ${2 - state.actionsRemaining}/2<br><small class="muted">${t("Gün", "Day")} ${today}</small></div></section>
+  root.innerHTML = `<main class="game-root phase-${h(phase.id)}"><header class="topbar global-chrome"><a href="/">${t("← Oyunlar", "← Games")}</a><span class="topbar__title">SON 100 GÜN</span><div class="topbar__tools"><span data-lang-host></span>${savePanel(session)}</div></header><section class="count-head"><div class="count-number">${state.remainingDays}</div><div><p class="eyebrow">${h(pair(phase.label))}</p><h1>${h(loc(SCENARIOS.find((scenario) => scenario.id === state.scenarioId)?.name || state.scenarioId))}</h1><p class="muted">${t("Kesin sonuca kalan zamanda bedenini, paranı ve geride bırakacağın insan ilişkilerini yönetiyorsun.", "In the time before the certain end, you manage your body, money and the relationships you will leave behind.")}</p></div><div class="action-counter">${t("ODAK", "FOCUS")} ${state.focusRemaining}/${state.focusMax || 8}<br><small class="muted">${t("Gün", "Day")} ${today}</small></div></section>
     <section class="hundred-grid"><aside class="card"><p class="eyebrow">${t("TAKVİM", "CALENDAR")}</p><div class="calendar-strip">${Array.from(
       { length: 7 },
       (_, offset) => {
@@ -169,17 +170,18 @@ function draw(session) {
       ${liveChains.length ? `<div class="crisis-live">${liveChains.map(([id, row]) => `<span class="stamp">${h(id)} · ${h(row.stage)}</span>`).join("")}</div>` : ""}
       ${openWindows.map((window) => `<div class="window"><strong>${h(loc(window.title))}</strong><br><small>${t("Son gün", "Last day")} ${window.expiresOn} · ${h(loc(window.text || t("kaçarsa sonuç doğar", "missing it has a consequence")))}</small></div>`).join("")}
       ${openCases.map((item) => `<div class="window case"><strong>${h(loc(item.title))}</strong><br><small>${t("Geri dönüş", "Callback")} · ${t("gün", "day")} ${item.due}</small></div>`).join("")}
-      ${!openWindows.length && !openCases.length ? `<p class="muted">${t("Bugün açık pencere yok; iki hakkını nasıl yakacağın hâlâ bir karar.", "No open window today; how you spend two rights is still a decision.")}</p>` : ""}
+      ${!openWindows.length && !openCases.length ? `<p class="muted">${t("Bugün açık pencere yok; enerjini işe, insanlara, sağlığa veya hazırlığa ayırabilirsin.", "No window is open today; you can invest your energy in work, people, health or preparation.")}</p>` : ""}
       <div class="action-grid">${choiceIds
         .map((id) => {
           const action = actionById.get(id);
           if (!action) return "";
           const preview = sonActionForecast(state, id);
-          return `<button type="button" class="action-card" data-action="${h(id)}" ${locked ? "disabled" : ""}><strong>${h(loc(action.label))}</strong><small>1 ${t("aksiyon", "action")} · ₺${signed(action.money)} · ${t("enerji", "energy")} ${signed(action.energy)} · ${t("umut", "hope")} ${signed(action.hope)}${preview ? ` · ${t("hazırlık", "prep")} ${h(pair(preview.label))} +${preview.gain}` : ""}</small></button>`;
+          const focusCost = sonActionCost(action);
+          return `<button type="button" class="action-card" data-action="${h(id)}" ${locked || state.focusRemaining < focusCost ? "disabled" : ""}><strong>${h(loc(action.label))}</strong><small>${t("Odak", "Focus")} ${focusCost} · ₺${signed(action.money)} · ${t("enerji", "energy")} ${signed(action.energy)} · ${t("umut", "hope")} ${signed(action.hope)}${preview ? ` · ${t("hazırlık", "prep")} ${h(pair(preview.label))} +${preview.gain}` : ""}</small></button>`;
         })
         .join(
           "",
-        )}</div><button type="button" id="finish-day" class="day-close">${state.actionsRemaining > 0 ? t(`GÜNÜ BİTİR · ${state.actionsRemaining} hak yanar`, `END DAY · forfeit ${state.actionsRemaining} action(s)`) : t("YENİ GÜN", "NEW DAY")}</button></section>
+        )}</div><button type="button" id="finish-day" class="day-close">${state.focusRemaining > 0 ? t(`GÜNÜ BİTİR · ${state.focusRemaining} odak dinlenmeye ayrılır`, `END DAY · ${state.focusRemaining} focus becomes recovery`) : t("YENİ GÜN", "NEW DAY")}</button></section>
       <aside class="card status-panel"><p class="eyebrow">${t("DURUM", "STATUS")}</p><div class="stat-list"><div>${t("Nakit", "Cash")}<strong>₺${state.resources.money}</strong></div><div>${t("Enerji", "Energy")}<strong>${state.resources.energy}</strong></div><div>${t("Umut", "Hope")}<strong>${state.resources.hope}</strong></div><div>${t("Aile", "Family")}<strong>${relValue(state, "family")}</strong></div><div>${t("Korku / kabul", "Fear / acceptance")}<strong>${soul.fear}/${soul.acceptance}</strong></div></div><div class="prep-meters"><p class="eyebrow">${t("HAZIRLIK", "PREPARATION")}</p>${["health","money","people","legal","legacy"].map((k) => `<div class="prep-row"><span>${h(k)}</span><meter min="0" max="8" value="${prep[k] || 0}"></meter><b>${prep[k] || 0}/8</b></div>`).join("")}</div><h3>${t("Zorunluluklar", "Obligations")}</h3>${
         state.obligations
           .filter((item) => item.status === "open")

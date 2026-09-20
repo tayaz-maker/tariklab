@@ -257,6 +257,7 @@
   "Henüz konuşulmadı": "Not talked through yet",
   "henüz net değil": "not clear yet",
   "Her hafta 2 karar hakkın var (sağlığın kritikse 1'e düşer). Karar hakkını iş/sosyal/aktivite kararlarına harcadıktan sonra haftayı ilerlet; maaş, kira ve düzenli giderler ay sonunda otomatik işler.": "You get two decisions a week (one if health is critical). Spend them on work, people or activities, then advance the week. Pay, rent and regular bills land at month-end on their own.",
+  "Her hafta 6 zaman/odak bloğun var (sağlığın kritikse 3'e düşer). İş, eğitim, aile ve sosyal hayat aynı bütçeyi paylaşır; haftayı erken kapatabilir, yorgunluk ve ertelenen sonuçları göze alabilirsin. Maaş, kira ve düzenli giderler ay sonunda otomatik işler.": "You get six time/focus blocks each week (three when health is critical). Work, education, family and social life share that budget; you can close the week early and accept fatigue or deferred consequences. Pay, rent and regular bills settle at month-end.",
   "Hesabı o tutar. Masaya oturunca semt duyar.": "She keeps the books. When she sits, the district hears.",
   "Hisse sepeti": "Equity basket",
   "Hobi dersi / atölye": "Hobby class / workshop",
