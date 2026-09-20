@@ -1,6 +1,3 @@
-Warning: truncated output (original token count: 31314)
-Total output lines: 2997
-
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -1404,7 +1401,131 @@ button:disabled { opacity: .35; }
     else a.push(i);
   }
   function tradeOk(t) {
-    if (!t || !alive(t.from) || !alive(t.to) || t.from===t.to ||…1314 tokens truncated…l(face.give) + " veriyor; " + who(t.to) + " " + tl(face.take) + " veriyor" }));
+    if (!t || !alive(t.from) || !alive(t.to) || t.from===t.to || !Number.isInteger(t.giveCash) || !Number.isInteger(t.takeCash) || t.giveCash<0 || t.takeCash<0 || new Set(t.give).size!==t.give.length || new Set(t.take).size!==t.take.length) return false;
+    if (!t.give.length && !t.take.length && !t.giveCash && !t.takeCash) return false;
+    if (t.giveCash > S.cash[t.from] || t.takeCash > S.cash[t.to]) return false;
+    var i, k;
+    for (i = 0; i < t.give.length; i++) {
+      k = t.give[i];
+      if (S.own[k] !== t.from || S.bld[k] > 0 || groupHasBld(k)) return false;
+    }
+    for (i = 0; i < t.take.length; i++) {
+      k = t.take[i];
+      if (S.own[k] !== t.to || S.bld[k] > 0 || groupHasBld(k)) return false;
+    }
+    return true;
+  }
+  /* Bir semtin herhangi bir karesinde bina varsa o semtten tapu çıkamaz:
+     yoksa tekel bozulur ama binalar tahtada kalır. */
+  function groupHasBld(i) {
+    var g = SQ[i][3];
+    if (!g) return false;
+    var a = groupIdx(g), j;
+    for (j = 0; j < a.length; j++) if (S.bld[a[j]] > 0) return true;
+    return false;
+  }
+  function applyTrade(t) {
+    if(!tradeOk(t))return false;
+    var i, k;
+    for (i = 0; i < t.give.length; i++) S.own[t.give[i]] = t.to;
+    for (i = 0; i < t.take.length; i++) S.own[t.take[i]] = t.from;
+    S.cash[t.from] -= t.giveCash; S.cash[t.to] += t.giveCash;
+    S.cash[t.to] -= t.takeCash; S.cash[t.from] += t.takeCash;
+  }
+  function groupStatus(p, i) {
+    var g = SQ[i][3], a, n = 0, j;
+    if (!g) {
+      var k = SQ[i][1], tot = k === "K" ? 4 : 2;
+      for (j = 0; j < 40; j++) if (SQ[j][1] === k && S.own[j] === p) n++;
+      return n + "/" + tot;
+    }
+    a = groupIdx(g);
+    for (j = 0; j < a.length; j++) if (S.own[a[j]] === p) n++;
+    return n + "/" + a.length + (n === a.length ? " tuttun" : "");
+  }
+  function tradeFace(t) {
+    var g = t.giveCash || 0, k = t.takeCash || 0, i;
+    for (i = 0; i < t.give.length; i++) g += S.sen[t.give[i]] ? (SQ[t.give[i]][2] / 2) | 0 : SQ[t.give[i]][2];
+    for (i = 0; i < t.take.length; i++) k += S.sen[t.take[i]] ? (SQ[t.take[i]][2] / 2) | 0 : SQ[t.take[i]][2];
+    return { give: g, take: k };
+  }
+  function namesOf(arr) {
+    var s = "", i;
+    for (i = 0; i < arr.length; i++) s += (i ? ", " : "") + SQ[arr[i]][0];
+    return s || "—";
+  }
+  function tradeLine(t) {
+    var a = "Sen: " + namesOf(t.give);
+    if (t.giveCash) a += " + " + tl(t.giveCash);
+    var b = who(t.to) + ": " + namesOf(t.take);
+    if (t.takeCash) b += " + " + tl(t.takeCash);
+    return a + " → " + b;
+  }
+  function paintTradeRow(parent, i, on, act, blocked) {
+    var t = sq(i);
+    var b = add(parent, el("button", { cls: on ? "trow on" : "trow", "data-act": act }));
+    if (blocked) { b.disabled = true; b.setAttribute("aria-disabled", "true"); }
+    add(b, el("div", { cls: "nm", text: t.name }));
+    var rent = S.sen[i] ? 0 : landRent(i);
+    var meta = lvlName(i) + " · liste " + tl(SQ[i][2]) + " · kira " + tl(rent);
+    if (S.sen[i]) meta += " · SENETLİ";
+    meta += " · " + groupStatus(S.own[i], i);
+    add(b, el("div", { cls: "meta", text: meta }));
+    if (blocked) add(b, el("div", { cls: "why", text: "Önce binaları sök" }));
+    if (t.g) {
+      b.style.borderLeft = "4px solid " + (COL[t.g] || "#C4A574");
+    }
+    return b;
+  }
+  function openTrade() {
+    if (!S || busy || S.wait !== "roll" || isAi(S.turn)) return;
+    var from = S.turn, to;
+    if (!S.trade || S.trade.from !== from) {
+      to = nextAlive(from);
+      S.trade = blankTrade(from, to);
+    }
+    persist();
+    renderTrade();
+  }
+  function renderTrade() {
+    var t = S.trade;
+    if (!t) { closeSheet(); return; }
+    if (S.wait === "offer") { renderOffer(); return; }
+    var body = sheetHead("TAKAS");
+    var rivals = living().filter(function (p) { return p !== t.from; });
+    if (rivals.length > 1) {
+      var row = add(body, el("div", { cls: "ops" }));
+      rivals.forEach(function (p) {
+        var b = add(row, btn(who(p), "tsel:" + p, p === t.to));
+        if (p === t.to) b.className = "primary";
+      });
+    }
+    var cols = add(body, el("div", { cls: "cols" }));
+    var L = add(cols, el("div", { cls: "col" }));
+    var R = add(cols, el("div", { cls: "col" }));
+    add(L, el("h3", { text: who(t.from) }));
+    add(R, el("h3", { text: who(t.to) }));
+    ownedList(t.from).forEach(function (i) {
+      paintTradeRow(L, i, inArr(t.give, i) >= 0, "tgg:" + i, S.bld[i] > 0 || groupHasBld(i));
+    });
+    ownedList(t.to).forEach(function (i) {
+      paintTradeRow(R, i, inArr(t.take, i) >= 0, "ttk:" + i, S.bld[i] > 0 || groupHasBld(i));
+    });
+    var c1 = add(body, el("div", { cls: "cashrow" }));
+    add(c1, el("span", { text: who(t.from) + " veriyor" }));
+    add(c1, btn("−50", "tgc:-"));
+    add(c1, el("b", { text: tl(t.giveCash) }));
+    add(c1, btn("+50", "tgc:+"));
+    var c2 = add(body, el("div", { cls: "cashrow" }));
+    add(c2, el("span", { text: who(t.to) + " veriyor" }));
+    add(c2, btn("−50", "ttc:-"));
+    add(c2, el("b", { text: tl(t.takeCash) }));
+    add(c2, btn("+50", "ttc:+"));
+    var face = tradeFace(t);
+    var sh = document.getElementById("sheet");
+    var bar = add(sh, el("div", { cls: "footbar" }));
+    var even = Math.abs(face.give - face.take) <= 50;
+    add(bar, el("p", { cls: even ? "bal ok" : "bal bad", text: who(t.from) + " " + tl(face.give) + " veriyor; " + who(t.to) + " " + tl(face.take) + " veriyor" }));
     var ops = add(bar, el("div", { cls: "ops" }));
     var off = add(ops, btn("Teklif et", "toffer", true));
     if (!tradeOk(t)) { off.disabled = true; off.setAttribute("aria-disabled", "true"); }
@@ -2738,12 +2859,8 @@ button:disabled { opacity: .35; }
     m.setAttribute("data-lvl", tmpLvl);
     m.setAttribute("data-snd", sndPref() ? "1" : "0");
     var topRow = add(m, el("header", { cls: "menu-top" }));
-    if (window.self === window.top) {
-      add(topRow, el("a", { href: "/", cls: "hint", text: "← Oyunlar", style: "display:inline-block;text-decoration:none" }));
-      if (window.tlabI18n) window.tlabI18n.mountLangToggle(topRow);
-    } else {
-      topRow.hidden = true;
-    }
+    add(topRow, el("a", { href: "/", cls: "hint", text: "← Oyunlar", style: "display:inline-block;text-decoration:none" }));
+    if (window.tlabI18n) window.tlabI18n.mountLangToggle(topRow);
     add(m, el("h1", { text: "SON MAHALLE BÜKÜCÜ" }));
     add(m, el("p", { cls: "sub", text: "İstanbul tapusu. Semti tutan büker." }));
     add(m, el("p", { cls: "hint", text: "Kayıt yerleri" }));
