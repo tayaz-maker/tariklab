@@ -169,7 +169,7 @@ export const THEME_META = {
     showElectionShare: false,
     showHardestWorker: false,
     hoodAccent: true,
-    art: { kind: "procedural", width: 400, height: 560 },
+    art: { kind: "svg", width: 400, height: 560 },
     eyebrow: { tr: "OLAĞANÜSTÜ MASA · KART DÜELLOSU", en: "EXTRAORDINARY DESK · CARD DUEL" },
     labels: DARBE_LABELS,
     deckHeading: { tr: "Kriz Destesi", en: "Crisis Deck" },
@@ -260,8 +260,9 @@ export function cardArt(theme, card) {
   if (meta.art.kind === "procedural") {
     return { src: proceduralCardSvg(card), width: meta.art.width, height: meta.art.height };
   }
+  const ext = meta.art.kind === "svg" ? "svg" : "webp";
   return {
-    src: `/games/${theme}/assets/cards/${card.id}.webp`,
+    src: `/games/${theme}/assets/cards/${card.id}.${ext}`,
     width: meta.art.width,
     height: meta.art.height,
   };

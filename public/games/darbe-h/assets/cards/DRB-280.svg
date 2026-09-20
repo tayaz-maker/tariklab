@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 560" width="400" height="560">
+<rect width="400" height="560" fill="#141c28"/>
+<rect x="10" y="10" width="380" height="540" fill="#1a2433" stroke="#8a4a32" stroke-width="2"/>
+<rect x="10" y="10" width="380" height="18" fill="#8a4a32"/>
+<text x="24" y="54" fill="#d07a4a" font-family="ui-monospace,monospace" font-size="13" letter-spacing="2">İHTAR</text>
+<text x="376" y="54" text-anchor="end" fill="#8a93a3" font-family="ui-monospace,monospace" font-size="13">IHTAR</text>
+<text x="200" y="96" text-anchor="middle" fill="#e8dcc4" font-family="Georgia,serif" font-size="22">DRB-280</text>
+
+<rect x="36" y="118" width="328" height="268" fill="#243044" stroke="#2e3d52" stroke-width="1"/>
+<polygon points="200,190 262,298 138,298" fill="none" stroke="#c4a574" stroke-width="4"/><text x="200" y="268" text-anchor="middle" fill="#e8dcc4" font-family="Georgia,serif" font-size="28">!</text>
+
+<text x="200" y="430" text-anchor="middle" fill="#e8dcc4" font-family="Georgia,serif" font-size="20">İhtar: Nihai Değil</text>
+<text x="200" y="462" text-anchor="middle" fill="#c4a574" font-family="ui-monospace,monospace" font-size="13">İHTAR</text>
+<rect x="36" y="484" width="328" height="44" fill="#121820"/>
+<text x="200" y="514" text-anchor="middle" fill="#e8dcc4" font-family="ui-monospace,monospace" font-size="22">—</text>
+</svg>

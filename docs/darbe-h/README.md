@@ -30,7 +30,7 @@ public/games/darbe-h/
 ├── designs.js             — executable bilingual designs
 ├── source-cards.json      — DRB-001..300
 ├── decks.json             — five 40-card presets
-└── assets/                — emblem, favicon (procedural card faces)
+└── assets/                — emblem, favicon, 300 crisis-desk SVG faces
 ```
 
 - Game / theme id: `darbe-h`
