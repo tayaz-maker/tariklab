@@ -95,6 +95,10 @@ export const CATALOG_EN: Record<string, { title: string; subtitle: string }> = {
   "gett-oh": { title: "GETT-OH!", subtitle: "Istanbul at night. Field your crew and play your street power." },
   ihtilal: { title: "İhtilâl", subtitle: "The ruling is written. The archive does not forget." },
   "darbe-h": { title: "DARBE-H!", subtitle: "The telex lands. The desk decides." },
+  "jitem-derin-ag": {
+    title: "JITEM: Derin Ağ",
+    subtitle: "1986–1996. Files don't stay buried. The network grows.",
+  },
 };
 
 // Cached catalog consumers may still request the supported legacy route alias.
