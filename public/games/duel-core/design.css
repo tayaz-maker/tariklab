@@ -1,5 +1,11 @@
 @import url("./table.css") layer(duel-legacy);
 
+/* The portal shell owns exit/navigation while the duel is embedded. Direct
+   game URLs keep the same menu exit for standalone use. */
+html.tlab-embedded a[href="/"] {
+  display: none !important;
+}
+
 /* Shared presentation contract. Breakpoints: phone 760, tablet 1023, history rail 1024. */
 :root {
   --ui-scale: 1;
