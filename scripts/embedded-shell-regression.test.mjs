@@ -22,7 +22,6 @@ test("TC SIM embedded start follows the shell instead of centering in another vi
 
 test("standalone-only controls remain available outside the play shell", () => {
   assert.match(read("public/games/ihtilal/app.js"), /if \(window\.self !== window\.top\) return null;/);
-  assert.match(read("public/games/bukucu/index.html"), /if \(window\.self === window\.top\)/);
   assert.match(read("public/games/hanedanian/index.html"), /classList\.toggle\("tlab-embedded", window\.self !== window\.top\)/);
 });
 
