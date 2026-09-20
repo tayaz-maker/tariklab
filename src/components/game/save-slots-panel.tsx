@@ -8,7 +8,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useGame } from "@/game/store";
-import { useLang } from "@/lib/i18n";
+import { type Lang, useLang } from "@/lib/i18n";
 import {
   parseSlotEnvelope,
   readActiveSlot,
@@ -16,7 +16,7 @@ import {
   type SlotIndex,
 } from "@/lib/save-slots";
 
-function slotSummary(slot: SlotIndex, lang: "tr" | "en") {
+function slotSummary(slot: SlotIndex, lang: Lang) {
   const empty = lang === "en" ? "Empty slot" : "Boş slot";
   const corrupt = lang === "en" ? "Corrupt save" : "Bozuk kayıt";
   const unread = lang === "en" ? "Save unreadable" : "Kayıt okunamıyor";
@@ -31,7 +31,7 @@ function slotSummary(slot: SlotIndex, lang: "tr" | "en") {
   if (raw && (!parsed || !state || typeof state !== "object" || !("player" in state))) return { empty: false, label: corrupt };
   if (!state?.player?.name) return { empty: !raw || state?.player === null, label: raw && state?.player !== null ? corrupt : empty };
   const when = typeof state.savedAt === "number" && state.savedAt
-    ? new Date(state.savedAt).toLocaleString(lang === "en" ? "en-GB" : "tr-TR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })
+    ? new Date(state.savedAt).toLocaleString(lang === "en" ? "en-GB" : lang === "pl" ? "pl-PL" : "tr-TR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })
     : "";
   return {
     empty: false,

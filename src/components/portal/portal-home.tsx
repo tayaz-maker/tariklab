@@ -1,12 +1,12 @@
 import { Link } from "@tanstack/react-router";
 import { GAMES, type CatalogGame } from "@/lib/games";
-import { CATALOG_EN, useLang } from "@/lib/i18n";
+import { catalogEntry, useLang } from "@/lib/i18n";
 import { GameIcon } from "./game-icons";
 import { LanguageToggle } from "./language-toggle";
 
 function GameCard({ game, featured = false }: { game: CatalogGame; featured?: boolean }) {
   const { lang, t } = useLang();
-  const localized = lang === "en" && CATALOG_EN[game.slug] ? CATALOG_EN[game.slug] : game;
+  const localized = catalogEntry(lang, game.slug, game);
   const title = localized.title;
   const subtitle = localized.subtitle;
   const content = (

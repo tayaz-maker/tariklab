@@ -1,5 +1,5 @@
 /**
- * Vanilla page boot: set lang, mount TR/EN toggle.
+ * Vanilla page boot: set lang, mount TR/EN/PL toggle.
  * Language change reloads the page so static Turkish source is never rewritten
  * in place. Gameplay saves live in other localStorage keys and stay intact.
  */
@@ -14,14 +14,14 @@
     I.applyHtmlLang();
     var header = document.querySelector("header") || document.querySelector(".top") || document.querySelector("main") || document.body;
     I.mountLangToggle(header);
-    if (I.getLang() === "en") I.applyPhrases(document.body);
+    if (I.getLang() !== "tr") I.applyPhrases(document.body);
     I.onLang(function () {
       location.reload();
     });
     // Classic game renderers replace text after every move. Translate those
     // new nodes too; disconnect during our writes to avoid observer loops.
     var observer = new MutationObserver(function () {
-      if (I.getLang() !== "en") return;
+      if (I.getLang() === "tr") return;
       observer.disconnect();
       I.applyPhrases(document.body);
       observe();

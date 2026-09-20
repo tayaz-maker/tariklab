@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { LanguageToggle } from "@/components/portal/language-toggle";
 import { GAMES, canonicalPlaySlug, isHtml5Slug } from "@/lib/games";
-import { CATALOG_EN, useLang } from "@/lib/i18n";
+import { catalogEntry, useLang } from "@/lib/i18n";
 
 const BY_SLUG = new Map(GAMES.map((g) => [g.slug, g]));
 
@@ -31,19 +31,21 @@ function Html5Play() {
   const frameRef = useRef<HTMLIFrameElement>(null);
   const [initialLang] = useState(lang);
   const isJitem = canonical === "jitem-derin-ag";
-  const title =
-    lang === "en" && g && CATALOG_EN[g.slug] ? CATALOG_EN[g.slug].title : (g?.title ?? "Oyun");
+  const title = g ? catalogEntry(lang, g.slug, g).title : "Oyun";
+  // JITEM's embedded runtime currently owns TR/EN content only. Keep the shell
+  // Polish, but send its deterministic existing English fallback to the iframe.
+  const jitemLocale = lang === "pl" ? "en" : lang;
 
   useEffect(() => {
     if (!isJitem) return;
     frameRef.current?.contentWindow?.postMessage(
-      { type: "derin-ag-locale", locale: lang },
+      { type: "derin-ag-locale", locale: jitemLocale },
       "*",
     );
-  }, [isJitem, lang]);
+  }, [isJitem, jitemLocale]);
 
   const gameSrc = isJitem
-    ? `/games/${canonical}/index.html?embed=1&lang=${initialLang}`
+    ? `/games/${canonical}/index.html?embed=1&lang=${initialLang === "pl" ? "en" : initialLang}`
     : `/games/${canonical}/index.html`;
 
   return (
@@ -72,7 +74,7 @@ function Html5Play() {
         onLoad={() => {
           if (!isJitem) return;
           frameRef.current?.contentWindow?.postMessage(
-            { type: "derin-ag-locale", locale: lang },
+            { type: "derin-ag-locale", locale: jitemLocale },
             "*",
           );
         }}

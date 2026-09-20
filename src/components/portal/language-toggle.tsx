@@ -24,6 +24,14 @@ export function LanguageToggle({ className = "" }: { className?: string }) {
       >
         EN
       </button>
+      <button
+        type="button"
+        className={`px-2 py-1 text-[11px] font-semibold tracking-[0.08em] ${lang === "pl" ? "bg-fg text-bg" : "text-subtle"}`}
+        aria-pressed={lang === "pl"}
+        onClick={() => setLang("pl")}
+      >
+        PL
+      </button>
     </div>
   );
 }

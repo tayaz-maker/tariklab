@@ -72,6 +72,23 @@
     "cete.helpTitle": "How to Play",
   };
 
+  const PL = {
+    "portal.lab": "Laboratorium gier", "portal.games": "Gry", "portal.playable": "dostępne",
+    "portal.soon": "Wkrótce", "portal.play": "Graj", "portal.sources": "Materiały źródłowe",
+    "portal.back": "← Gry", "portal.openGame": "Otwórz: {title}",
+    "footer.rights": "© 2026 TarikLab. Wszelkie prawa zastrzeżone.",
+    "lang.tr": "TR", "lang.en": "EN", "lang.pl": "PL", "lang.label": "Język",
+    "common.save": "Zapisz", "common.load": "Wczytaj", "common.delete": "Usuń",
+    "common.newGame": "Nowa gra", "common.continue": "Kontynuuj", "common.howTo": "Jak grać",
+    "common.back": "Wstecz", "common.close": "Zamknij", "common.confirm": "Potwierdź",
+    "common.cancel": "Anuluj", "common.reset": "Resetuj", "common.slot": "Slot",
+    "common.emptySlot": "Pusty slot", "common.corruptSave": "Uszkodzony zapis",
+    "common.full": "zajęty", "common.empty": "pusty", "common.help": "Jak grać",
+    "common.difficulty": "Poziom trudności", "common.easy": "Łatwy", "common.medium": "Średni", "common.hard": "Trudny",
+    "common.restart": "Zacznij od nowa", "common.undo": "Cofnij", "common.hint": "Podpowiedź",
+    "credits.title": "Materiały źródłowe", "credits.kicker": "TarikLab · gry i struktura techniczna",
+  };
+
   const PHRASE = {
     "← Oyunlar": "← Games",
     Oyunlar: "Games",
@@ -341,6 +358,18 @@
     "Apartman Yöneticisi": "Building Manager",
   };
 
+  // Deliberately short, global-safe DOM replacements only. Narrative game copy
+  // remains Turkish until its own localization pass.
+  const PHRASE_PL = {
+    "← Oyunlar": "← Gry", Oyunlar: "Gry", "Oyun Laboratuvarı": "Laboratorium gier",
+    Yakında: "Wkrótce", oynanabilir: "dostępne", Kaynaklar: "Materiały źródłowe",
+    Kaydet: "Zapisz", Yükle: "Wczytaj", Sil: "Usuń", "Yeni oyun": "Nowa gra",
+    Devam: "Kontynuuj", Geri: "Wstecz", Kapat: "Zamknij", Onayla: "Potwierdź",
+    İptal: "Anuluj", Sıfırla: "Resetuj", "Nasıl oynanır": "Jak grać",
+    "Boş slot": "Pusty slot", "Bozuk kayıt": "Uszkodzony zapis", Zorluk: "Poziom trudności",
+    Kolay: "Łatwy", Orta: "Średni", Zor: "Trudny", Harita: "Mapa", Kaynak: "Zasób",
+  };
+
   const CATALOG_EN = {
     "cete-savaslari": { title: "Çete Savaşları", subtitle: "Racon, district, cash in TL." },
     hanedanian: {
@@ -395,6 +424,27 @@
 
   // The old public route still resolves to HANEDANIAN; keep cached callers aligned.
   CATALOG_EN.hanedan = CATALOG_EN.hanedanian;
+
+  const CATALOG_PL = {
+    "cete-savaslari": { title: "Çete Savaşları", subtitle: "Racon, dzielnica, gotówka w TL." },
+    hanedanian: { title: "HANEDANIAN", subtitle: "Od jednej osady do wielkiej dynastii. Czytaj mapę, buduj przyszłość." },
+    racon: { title: "Racon Manager", subtitle: "Ludzie umierają. Imię zostaje." },
+    "tc-sim": { title: "TC SIM", subtitle: "Jedno życie. Tygodniowe wybory, lata konsekwencji." },
+    bukucu: { title: "Son Mahalle Bükücü", subtitle: "Stambułskie akty własności. Kto trzyma dzielnicę, ten nią rządzi. Pieniądze w TL." },
+    labirent: { title: "Labirent", subtitle: "Zamknięte ścieżki, jedno wyjście." }, "peg-solitaire": { title: "Tek Taş", subtitle: "Przeskakuj. Zostaw jeden pionek." },
+    satranc: { title: "Satranç", subtitle: "Plansza, ruch, mat." }, "amiral-batti": { title: "Amiral Battı", subtitle: "Flota na siatce. Trafienie, pudło, zatopienie." },
+    apartman: { title: "Apartman: Apartman Yöneticisi", subtitle: "Zarządzaj osiedlem z dwoma, czterema lub dziesięcioma blokami, gdzie każdy skrót ma swoją cenę." },
+    "kayip-telefon": { title: "Kayıp Telefon", subtitle: "Telefon zaginął. Życie zapisane w środku wychodzi na jaw." },
+    "son-100-gun": { title: "Son 100 Gün", subtitle: "Ostatnie sto dni. Każdy wybór waży więcej." },
+    "son-kasaba": { title: "SON KÖY MANAGER", subtitle: "Wszyscy wyjeżdżają. Ty zostajesz i próbujesz utrzymać wieś przy życiu." },
+    "tc-sim-devlet": { title: "TC SIM: DEVLET", subtitle: "Wieloepokowa symulacja państwa: instytucje, gospodarka i społeczeństwo od 1923 do 2030 roku." },
+    "veto-h": { title: "VETO-H!", subtitle: "Noc wyborcza. Buduj kampanię i odpowiadaj na ruchy rywala." },
+    "gett-oh": { title: "GETT-OH!", subtitle: "Stambuł nocą. Wystaw ekipę i rozegraj swoją uliczną siłę." },
+    ihtilal: { title: "İHTİLÂL", subtitle: "Wyrok jest pisany. Archiwum nie zapomina." },
+    "darbe-h": { title: "DARBE-H!", subtitle: "Nadchodzi teleks. Biurko podejmuje decyzję." },
+    "jitem-derin-ag": { title: "JITEM: Derin Ağ", subtitle: "1986–1996. Akta nie pozostają pogrzebane. Sieć rośnie." },
+  };
+  CATALOG_PL.hanedan = CATALOG_PL.hanedanian;
 
   const CREDITS_EN = {
     h1: "Resources",
@@ -458,6 +508,38 @@
     ],
     legal:
       "© 2026 TarikLab. All rights reserved. No claim is made over public-domain classic game rules.",
+  };
+
+  const CREDITS_PL = {
+    h1: "Materiały źródłowe", kicker: "TarikLab · gry i struktura techniczna", back: "← Gry",
+    sections: [
+      { h: "Katalog", lead: "TarikLab ma 19 dostępnych gier.", items: [
+        '<a href="/cete-savaslari">Çete Savaşları</a> · LIVE — Zbuduj ekipę, prowadź zadania i utrzymuj dzielnicę pod presją policji oraz rywali.',
+        '<a href="/oyna/hanedanian">HANEDANIAN</a> · LIVE — Buduj osady, zabezpieczaj zasoby i prowadź dynastię na generowanej mapie strategii.',
+        '<a href="/oyna/racon">Racon Manager</a> · LIVE — Narracyjna gra menedżerska o relacjach, decyzjach i opóźnionych konsekwencjach.',
+        '<a href="/oyna/tc-sim">TC SIM</a> · LIVE — Rozdzielaj tygodniowe bloki czasu między pracę, edukację, rodzinę i odpoczynek.',
+        '<a href="/games/bukucu/index.html">Son Mahalle Bükücü</a> · LIVE — Planszowa gra dzielnicowa o kościach, aktach własności, aukcjach i wymianie.',
+        '<a href="/oyna/labirent">Labirent</a> · LIVE — Znajdź wyjście z nowo wygenerowanego labiryntu.',
+        '<a href="/oyna/peg-solitaire">Tek Taş</a> · LIVE — Wykonuj legalne skoki, aby zostawić jeden pionek na planszy.',
+        '<a href="/oyna/satranc">Satranç</a> · LIVE — Szachy z lokalnym silnikiem zasad, historią ruchów i komputerowym rywalem.',
+        '<a href="/oyna/amiral-batti">Amiral Battı</a> · LIVE — Rozmieść flotę i poluj na współrzędne przeciw rywalowi o wybranym poziomie trudności.',
+        '<a href="/oyna/apartman">Apartman: Apartman Yöneticisi</a> · LIVE — Zarządzaj osiedlem poprzez opłaty, utrzymanie, personel i naciski rady.',
+        '<a href="/oyna/kayip-telefon">Kayıp Telefon</a> · LIVE — Potwierdzaj wskazówki z ośmiu aplikacji i rozważ koszt prywatności zwrotu telefonu.',
+        '<a href="/oyna/son-100-gun">Son 100 Gün</a> · LIVE — Ostatnie sto dni: rozdzielaj codzienną uwagę między media, pieniądze, ekipę i kryzys.',
+        '<a href="/oyna/tc-sim-devlet">TC SIM: DEVLET</a> · LIVE — Zarządzaj polityką, instytucjami, regionami i skarbem państwa.',
+        '<a href="/oyna/son-koy-manager">SON KÖY MANAGER</a> · LIVE — Przez 24 miesiące rozdzielaj zdolność działania między wodę, energię, migrację i zaufanie.',
+        '<a href="/oyna/veto-h">VETO-H!</a> · LIVE — Pojedynek wyborczy i kampanijny z 300 autorskimi kartami oraz talią 40 kart.',
+        '<a href="/oyna/gett-oh">GETT-OH!</a> · LIVE — Pojedynek o dzielnicę i uliczną siłę: wspólny silnik, osobna pula kart i stambulska noc.',
+        '<a href="/oyna/ihtilal">İHTİLÂL</a> · LIVE — Dwa pióra w Nadzwyczajnej Radzie Akt zapisują wyrok.',
+        '<a href="/oyna/darbe-h">DARBE-H!</a> · LIVE — Fikcyjny pojedynek nadzwyczajnego biurka z oddzielną pulą 300 kart.',
+        '<a href="/oyna/jitem-derin-ag">JITEM: Derin Ağ</a> · LIVE — Jednoosobowa strategia 1986–1996 oparta na źródłowych zapisach historycznych, sieciach relacji i asymetrycznej wiedzy.',
+      ]},
+      { h: "Jak to działa", lead: "TarikLab to zbiór niezależnych gier działających bezpośrednio w przeglądarce.", items: ["Portal i Çete Savaşları używają Reacta i TypeScriptu; pozostałe gry są osobnymi aplikacjami HTML, CSS i JavaScript.", "Portal i wszystkie 19 dostępnych gier obsługują turecki i angielski; polski jest obecnie warstwą globalną portalu i powłoki.", "Interfejsy dostosowują się do telefonu, tabletu i komputera." ]},
+      { h: "Autorstwo", lead: "Projekt gry, interfejs i oryginalna treść: Tarık Halil Ayaz.", note: "Tarık jest synem swojej matki." },
+      { h: "TLab Classics", lead: "Labirent, Tek Taş, Satranç i Amiral Battı zostały napisane od podstaw dla TarikLab.", items: ["Labirent — niezależna implementacja TarikLab.", "Tek Taş — niezależna implementacja TarikLab.", "Satranç — niezależny silnik zasad TarikLab.", "Amiral Battı — niezależna implementacja siatki i floty TarikLab."], note: "Klasyczne zasady gier są koncepcjami domeny publicznej; ta informacja dotyczy wyłącznie kodu, interfejsu i oryginalnej treści TarikLab." },
+      { h: "Komponenty zewnętrzne", lead: "Główne komponenty zewnętrzne portalu i Çete Savaşları: React, TanStack Router, Zustand, Radix UI, Lucide i Zod. Prawa do nich należą do ich właścicieli." },
+    ],
+    legal: "© 2026 TarikLab. Wszelkie prawa zastrzeżone. Nie zgłasza się roszczeń do klasycznych zasad gier z domeny publicznej.",
   };
 
   const CETE_HELP_EN = [
@@ -550,10 +632,14 @@
     },
   ];
 
+  function normalizeLang(value) {
+    return value === "tr" || value === "en" || value === "pl" ? value : "tr";
+  }
+
   function readLang() {
     try {
       const v = root.localStorage && root.localStorage.getItem(KEY);
-      return v === "en" ? "en" : "tr";
+      return normalizeLang(v);
     } catch {
       return "tr";
     }
@@ -563,7 +649,7 @@
 
   function applyHtmlLang() {
     if (typeof document === "undefined") return;
-    document.documentElement.lang = lang === "en" ? "en" : "tr";
+    document.documentElement.lang = lang;
   }
 
   function getLang() {
@@ -571,7 +657,7 @@
   }
 
   function setLang(next) {
-    const n = next === "en" ? "en" : "tr";
+    const n = normalizeLang(next);
     if (n === lang) {
       applyHtmlLang();
       return lang;
@@ -615,13 +701,14 @@
   }
 
   function t(key, fallback) {
-    if (lang !== "en") return fallback ?? key;
-    return EN[key] ?? fallback ?? key;
+    const dictionary = lang === "en" ? EN : lang === "pl" ? PL : null;
+    return dictionary?.[key] ?? fallback ?? key;
   }
 
   function phrase(text) {
-    if (lang !== "en" || text == null) return text;
+    if (lang === "tr" || text == null) return text;
     const raw = String(text);
+    if (lang === "pl") return PHRASE_PL[raw] ?? raw;
     if (Object.prototype.hasOwnProperty.call(PHRASE, raw)) return PHRASE[raw];
     const pieces = { Kale: "Rook", At: "Knight", Fil: "Bishop", Vezir: "Queen", Şah: "King", Piyon: "Pawn" };
     let match = raw.match(/^([a-h][1-8]), (Beyaz|Siyah) (Kale|At|Fil|Vezir|Şah|Piyon)$/);
@@ -644,8 +731,9 @@
   }
 
   function catalogEntry(slug, title, subtitle) {
-    if (lang !== "en") return { title, subtitle };
-    const row = CATALOG_EN[slug];
+    const catalog = lang === "en" ? CATALOG_EN : lang === "pl" ? CATALOG_PL : null;
+    if (!catalog) return { title, subtitle };
+    const row = catalog[slug];
     return {
       title: row?.title ?? title,
       subtitle: row?.subtitle ?? subtitle,
@@ -695,9 +783,10 @@
     }
     const render = () => {
       box.innerHTML =
-        `<div class="tlab-lang-switch" role="group" aria-label="${lang === "en" ? "Language" : "Dil"}">` +
+        `<div class="tlab-lang-switch" role="group" aria-label="${t("lang.label", "Dil")}">` +
         `<button type="button" class="${lang === "tr" ? "is-on" : ""}" data-lang="tr" aria-pressed="${lang === "tr"}">TR</button>` +
         `<button type="button" class="${lang === "en" ? "is-on" : ""}" data-lang="en" aria-pressed="${lang === "en"}">EN</button>` +
+        `<button type="button" class="${lang === "pl" ? "is-on" : ""}" data-lang="pl" aria-pressed="${lang === "pl"}">PL</button>` +
         `</div>`;
       box.querySelectorAll("button").forEach((btn) => {
         btn.addEventListener("click", () => setLang(btn.getAttribute("data-lang")));
@@ -743,10 +832,8 @@ html.tlab-embedded .global-chrome:not(:has(.topbar__title)):not(:has(.topbar__to
 
   const api = {
     KEY,
-    EN,
-    PHRASE,
-    CATALOG_EN,
-    CREDITS_EN,
+    EN, PL, PHRASE, PHRASE_PL, CATALOG_EN, CATALOG_PL, CREDITS_EN, CREDITS_PL,
+    normalizeLang,
     CETE_HELP_EN,
     HELP_EN,
     TCSIM_HELP_EN,
