@@ -16,6 +16,8 @@ test("JITEM ships from the reviewed standalone canonical build", () => {
   assert.match(js, /derin-ag-locale/);
   assert.match(js, /EXPERIMENTAL LINE/);
   assert.match(js, /GAMEPLAY RECONSTRUCTION/);
+  assert.match(js, /log\.open\.saha/);
+  assert.match(js, /family\.variant/);
   assert.doesNotMatch(js, /["'`]\/images\/office\.jpg/);
 });
 
