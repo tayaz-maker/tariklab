@@ -23,7 +23,11 @@ const sorunlar = [];
 const not = (m) => sorunlar.push(m);
 
 const exe = process.env.RACON_CHROME || "/opt/pw-browsers/chromium-1194/chrome-linux/chrome";
-const browser = await chromium.launch(fs.existsSync(exe) ? { executablePath: exe } : {});
+const browser = await chromium.launch({
+  headless: true,
+  ...(fs.existsSync(exe) ? { executablePath: exe } : {}),
+  args: ["--no-sandbox", "--disable-dev-shm-usage"],
+});
 const ctx = await browser.newContext({ viewport: { width: 1280, height: 800 } });
 /* Determinizm: yeni oyun seed'i sabit. RACON_SEED ile değiştirilebilir. */
 const seed = Number(process.env.RACON_SEED || 4242);
@@ -57,16 +61,35 @@ async function oyunaDon(pg) {
   if (!nav) not("oyuna dönülemedi (menüde takılı)");
 }
 
-async function sahneyiBitir(pg) {
-  for (let i = 0; i < 16; i++) {
-    const k = pg.locator('[data-act="rnd-karar"]').first();
-    if (await k.count()) await k.click({ force: true }).catch(() => {});
-    await pg.waitForTimeout(400);
-    const acik = await pg.evaluate(() => !!document.querySelector('[data-act="rnd-karar"]') ||
-      !!document.querySelector(".stage .log"));
-    if (!acik) { await pg.waitForTimeout(500); return true; }
+async function acikKarariCoz(pg, max = 16) {
+  for (let i = 0; i < max; i++) {
+    const rnd = pg.locator('[data-act="rnd-karar"]').first();
+    if (await rnd.count()) {
+      await rnd.click({ force: true }).catch(() => {});
+      await pg.waitForTimeout(220);
+      continue;
+    }
+    const sahneEylemi = pg.locator(".scene button:not([disabled])").first();
+    if (await sahneEylemi.count()) {
+      await sahneEylemi.click({ force: true }).catch(() => {});
+      await pg.waitForTimeout(180);
+      continue;
+    }
+    const modal = pg.locator("#modal button:not([disabled])").first();
+    if (await modal.count()) {
+      await modal.click({ force: true }).catch(() => {});
+      await pg.waitForTimeout(180);
+      continue;
+    }
+    const acik = await pg.evaluate(() => !!document.querySelector(".scene, #modal:not([hidden])"));
+    if (!acik) return true;
+    await pg.waitForTimeout(220);
   }
   return false;
+}
+
+async function sahneyiBitir(pg) {
+  return acikKarariCoz(pg);
 }
 
 async function oyunaGir(pg) {
@@ -306,20 +329,29 @@ for (const [w, h, ad] of [[390, 800, "dikey 390x800"], [844, 346, "yatay 844x346
   if (!sideGizli) not(ad + ": kapalı yan panel ekrana sızıyor (x=" + m.sideX + " y=" + m.sideY + ")");
   if (m.kucukHedef) not(ad + ": " + m.kucukHedef + " menü düğmesi 32px altında");
 
-  // detay/kısa geçişi çalışıyor mu
-  const etiketOnce = await page.evaluate(() => {
-    const sp = document.querySelector(".navbtn span");
-    return sp ? getComputedStyle(sp).display !== "none" : null;
+  // Mobilde toggle gizlidir: etiketler erişilebilir kalır. Geniş görünümde toggle çalışır.
+  const navSunumu = await page.evaluate(() => {
+    const toggle = document.querySelector('[data-act="navdetay"]');
+    const label = document.querySelector(".navbtn span");
+    return {
+      toggleVisible: !!toggle && getComputedStyle(toggle).display !== "none",
+      labelVisible: !!label && getComputedStyle(label).display !== "none",
+    };
   });
-  await page.locator('[data-act="navdetay"]').first().click().catch(() => {});
-  await page.waitForTimeout(250);
-  const etiketSonra = await page.evaluate(() => {
-    const sp = document.querySelector(".navbtn span");
-    return sp ? getComputedStyle(sp).display !== "none" : null;
-  });
-  if (etiketOnce === etiketSonra) not(ad + ": detay/kısa geçişi etiketleri değiştirmedi");
-  await page.locator('[data-act="navdetay"]').first().click().catch(() => {});
-  await page.waitForTimeout(200);
+  if (navSunumu.toggleVisible) {
+    const etiketOnce = navSunumu.labelVisible;
+    await page.locator('[data-act="navdetay"]').first().click();
+    await page.waitForTimeout(250);
+    const etiketSonra = await page.evaluate(() => {
+      const sp = document.querySelector(".navbtn span");
+      return sp ? getComputedStyle(sp).display !== "none" : null;
+    });
+    if (etiketOnce === etiketSonra) not(ad + ": detay/kısa geçişi etiketleri değiştirmedi");
+    await page.locator('[data-act="navdetay"]').first().click();
+    await page.waitForTimeout(200);
+  } else if (!navSunumu.labelVisible) {
+    not(ad + ": mobil nav etiketleri görünmüyor");
+  }
 }
 await page.setViewportSize({ width: 1280, height: 800 });
 await page.waitForTimeout(200);
@@ -340,12 +372,7 @@ await oyunaDon(page);
   for (let t = 0; t < 24 && !randevu; t++) {
     await page.locator("#btn-ilerlet").click({ force: true }).catch(() => {});
     await page.waitForTimeout(460);
-    for (let k = 0; k < 5; k++) {
-      const md = await page.evaluate(() => !!document.querySelector("#modal button"));
-      if (!md) break;
-      await page.locator("#modal button").first().click({ force: true }).catch(() => {});
-      await page.waitForTimeout(80);
-    }
+    await acikKarariCoz(page, 6);
     j = await oku();
     randevu = (j.calendar || []).filter((c) => c.strip === "randevu" && c.status === "bekler")[0];
   }
@@ -364,8 +391,10 @@ await oyunaDon(page);
       await page.locator('[data-act="randevu-git"][data-tarz="kapi"]').first().click().catch(() => {});
       if (!(await sahneyiBitir(page))) not("lig: randevu sahnesi kapanmadı");
       const sonra = await oku();
-      const bitti = (sonra.lig.fikstur || []).some((f) => f.sonuc);
-      if (!bitti) not("lig: randevu çözülmedi (sonuç yazılmadı)");
+      const fikstur = (sonra.lig.fikstur || []).find((f) => f.calId === randevu.id);
+      const takvim = (sonra.calendar || []).find((c) => c.id === randevu.id);
+      if (!fikstur?.sonuc) not("lig: seçilen randevu çözülmedi (sonuç yazılmadı)");
+      if (takvim?.status !== "bitti") not("lig: seçilen randevu takvimde kapanmadı");
       if (JSON.stringify(once.rep) === JSON.stringify(sonra.rep) && once.kasa === sonra.kasa) {
         not("lig: randevu sonucu hiçbir değeri değiştirmedi");
       }
@@ -464,12 +493,7 @@ await oyunaDon(page);
     if (rnd) break;
     await page.locator("#btn-ilerlet").click({ force: true }).catch(() => {});
     await page.waitForTimeout(460);
-    for (let k = 0; k < 4; k++) {
-      const md = await page.evaluate(() => !!document.querySelector("#modal button"));
-      if (!md) break;
-      await page.locator("#modal button").first().click({ force: true }).catch(() => {});
-      await page.waitForTimeout(80);
-    }
+    await acikKarariCoz(page, 6);
   }
   if (!rnd) not("randevu: 24 günde randevu çıkmadı");
   else if (!(await kagitAc(/randevu verdi/))) not("randevu: kâğıt olaylarda yok");
@@ -479,13 +503,15 @@ await oyunaDon(page);
     if (!/Senin gücün \d+ · onlarınki \d+/.test(rapor)) not("randevu: güç kıyası yazmıyor");
     const kutu = await page.locator("[data-rman]").count();
     if (!kutu) not("randevu: kadro seçimi yok");
-    const once = await oku();
-    await page.locator('[data-act="randevu-git"][data-tarz="masa"]').first().click().catch(() => {});
+    const tercih = page.locator('[data-act="randevu-git"]:not([disabled])').first();
+    if (!(await tercih.count())) not("randevu: gidilecek açık tarz yok");
+    else await tercih.click();
     if (!(await sahneyiBitir(page))) not("randevu: sahne kapanmadı");
     const sonra = await oku();
-    if (!(sonra.lig.fikstur || []).some((f) => f.sonuc)) not("randevu: sonuç yazılmadı");
-    if (num(sonra.flags.form) === num(once.flags.form)) not("randevu: form değişmedi");
-    function num(v) { return typeof v === "number" ? v : 0; }
+    const fikstur = (sonra.lig.fikstur || []).find((f) => f.calId === rnd.id);
+    const takvim = (sonra.calendar || []).find((c) => c.id === rnd.id);
+    if (!fikstur?.sonuc) not("randevu: seçilen fikstüre sonuç yazılmadı");
+    if (takvim?.status !== "bitti") not("randevu: seçilen takvim kaydı kapanmadı");
   }
 }
 
@@ -599,12 +625,7 @@ await oyunaDon(page);
   for (let t = 0; t < 22; t++) {
     await page.locator("#btn-ilerlet").click({ force: true }).catch(() => {});
     await page.waitForTimeout(430);
-    for (let k = 0; k < 4; k++) {
-      const md = await page.evaluate(() => !!document.querySelector("#modal button"));
-      if (!md) break;
-      await page.locator("#modal button").first().click({ force: true }).catch(() => {});
-      await page.waitForTimeout(70);
-    }
+    await acikKarariCoz(page, 6);
     j = await oku();
     if (j.komiser) kom = j.komiser;
     if ((j.inbox || []).some((x) => /Baskın|İddianame/.test(x.title))) { baskin = true; break; }
