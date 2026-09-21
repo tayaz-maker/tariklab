@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { StrategyMap, worldAtScreen, zoomAtPoint, visibleTileBounds } from '../public/games/hanedanian/map.js';
 
 // Input tests use the actual camera/gesture methods without a renderer or clock.
@@ -140,4 +141,21 @@ test('right-click cannot begin a drag, and tiny finger jitter remains a tap', ()
   map.pointerEnd(event(2, 403, 302), false);
   assert.equal(selected.length, 1);
   assert.deepEqual(map.center, { x: 24.5, y: 24.5 });
+});
+
+test('atlas renderer keeps dynastic inks, distinct POI marks and undashed roads', () => {
+  const src = readFileSync(new URL('../public/games/hanedanian/map.js', import.meta.url), 'utf8');
+  assert.match(src, /paper: '#e4d4b0'/);
+  assert.match(src, /forest: '#2f4a38'/);
+  assert.match(src, /oxblood: '#7a3228'/);
+  assert.match(src, /type === 'watchtower'/);
+  assert.match(src, /type === 'caravanserai'/);
+  assert.match(src, /type === 'pasture'/);
+  assert.match(src, /type === 'iron'/);
+  assert.match(src, /type === 'quarry'/);
+  assert.match(src, /isCapital\(/);
+  assert.match(src, /landscapeTerrain\(/);
+  assert.match(src, /ensureGrain\(/);
+  assert.doesNotMatch(src, /setLineDash\(terrain === 'road'/);
+  assert.doesNotMatch(src, /plain: '#b9aa7f'/);
 });

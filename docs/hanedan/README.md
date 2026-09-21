@@ -76,7 +76,9 @@ established playtime measurement.
 Canvas2D renders visible tiles with a small buffer; no 2,401-tile DOM grid is
 created. The renderer exposes near, region and world views, a minimap, selected
 tile highlighting and measured render counters. Drawing is requested when the
-view or state changes rather than running a permanent animation loop.
+view or state changes rather than running a permanent animation loop. Terrain
+uses an illustrated atlas language (hatching, contours, paper grain, distinct
+POI symbols); tile geometry, seed and movement costs are unchanged.
 
 Desktop supports pointer pan, anchored wheel zoom, hover and selection. The
 focusable map supports arrow-key selection, plus/minus zoom, Home to the capital

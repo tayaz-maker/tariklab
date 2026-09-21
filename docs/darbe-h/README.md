@@ -56,8 +56,9 @@ untouched.
 ## Visual
 
 Ink-navy briefing room, telex amber, cool grey paper. Stamp crimson is a
-warning only. Card faces are procedural SVG (unique per id/series), not a
-painted VETO/GETT pack and not İhtilâl oxblood carbon-copy.
+warning only. Card faces are series-first archival SVG collages (dossier,
+telex, command table, paraf, cabinet, archive), unique per id — not a shared
+geometric template and not an İhtilâl oxblood carbon-copy.
 
 ## Balance repair history
 

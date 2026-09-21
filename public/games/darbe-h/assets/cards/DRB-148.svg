@@ -1,17 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 560" width="400" height="560">
-<defs><clipPath id="scene"><rect x="36" y="118" width="328" height="268"/></clipPath></defs>
-<rect width="400" height="560" fill="#141c28"/>
-<rect x="10" y="10" width="380" height="540" fill="#1a2433" stroke="#8a4a32" stroke-width="2"/>
-<rect x="10" y="10" width="380" height="18" fill="#8a4a32"/>
-<text x="24" y="54" fill="#d07a4a" font-family="ui-monospace,monospace" font-size="13" letter-spacing="2">İHTAR</text>
-<text x="376" y="54" text-anchor="end" fill="#8a93a3" font-family="ui-monospace,monospace" font-size="13">IHTAR</text>
-<text x="200" y="96" text-anchor="middle" fill="#e8dcc4" font-family="Georgia,serif" font-size="22">DRB-148</text>
+<defs><pattern id="grain" width="7" height="7" patternUnits="userSpaceOnUse"><path d="M0 7 L7 0" stroke="#2a2218" opacity=".055"/></pattern><clipPath id="well-DRB-148"><rect x="28" y="88" width="344" height="330"/></clipPath></defs>
+<rect width="400" height="560" fill="#0e1014"/>
+<rect x="10" y="10" width="380" height="540" fill="#2a1210" stroke="#7a2e28" stroke-width="2"/>
+<rect x="10" y="10" width="380" height="22" fill="#7a2e28"/>
+<text x="22" y="52" fill="#c4a574" font-family="ui-monospace,monospace" font-size="12" letter-spacing="1.6">İHTAR</text>
+<text x="378" y="52" text-anchor="end" fill="#9aa093" font-family="ui-monospace,monospace" font-size="12">İHTAR</text>
+<text x="200" y="78" text-anchor="middle" fill="#e8dcc4" font-family="Georgia,serif" font-size="20">DRB-148</text>
 
-<rect x="36" y="118" width="328" height="268" fill="#243044" stroke="#2e3d52" stroke-width="1"/>
-<g clip-path="url(#scene)"><rect x="36" y="118" width="328" height="268" fill="#171b20"/><path d="M36 334 L364 291 V386 H36Z" fill="#3a2d24"/><path d="M36 337 L364 294" stroke="#8f7355" opacity=".45"/><path d="M161 145 l18 -4" stroke="#eadfbe" opacity=".10"/><path d="M208 174 l21 -3" stroke="#eadfbe" opacity=".10"/><path d="M255 203 l24 -2" stroke="#eadfbe" opacity=".10"/><path d="M302 232 l27 -1" stroke="#eadfbe" opacity=".10"/><path d="M49 261 l30 0" stroke="#eadfbe" opacity=".10"/><path d="M96 290 l33 1" stroke="#eadfbe" opacity=".10"/><path d="M143 319 l36 2" stroke="#eadfbe" opacity=".10"/><rect x="67" y="163" width="120" height="159" fill="#5d4935" stroke="#a88c62"/><path d="M67 198h120M67 238h120M67 278h120" stroke="#261e19"/><g fill="#c7b58f"><rect x="78" y="174" width="83" height="15"/><rect x="91" y="207" width="78" height="22"/><rect x="76" y="247" width="96" height="21"/><rect x="96" y="287" width="73" height="24"/></g><path d="M214 315v-94c0-36 27-58 58-58s58 22 58 58v94" fill="#202629" stroke="#89775d"/><path d="M247 315v-80h50v80" fill="#15191b"/><g transform="translate(122 333) rotate(-7)"><circle r="15" fill="none" stroke="#c7b58f" stroke-width="4"/><path d="M11 11l16 16" stroke="#c7b58f" stroke-width="5"/></g><g opacity=".35" transform="scale(.5) translate(310 325)"><polygon points="200,190 262,298 138,298" fill="none" stroke="#c4a574" stroke-width="4"/><text x="200" y="268" text-anchor="middle" fill="#e8dcc4" font-family="Georgia,serif" font-size="28">!</text></g></g>
-
-<text x="200" y="430" text-anchor="middle" fill="#e8dcc4" font-family="Georgia,serif" font-size="20">İhtar: Üst Yazı Tutmaz</text>
-<text x="200" y="462" text-anchor="middle" fill="#c4a574" font-family="ui-monospace,monospace" font-size="13">İHTAR</text>
-<rect x="36" y="484" width="328" height="44" fill="#121820"/>
-<text x="200" y="514" text-anchor="middle" fill="#e8dcc4" font-family="ui-monospace,monospace" font-size="22">—</text>
+<g clip-path="url(#well-DRB-148)" data-series="İhtar" data-kind="trap" data-subtype="normal" data-tier="low" data-aux="0"><rect x="28" y="88" width="344" height="330" fill="#1c1210"/><rect x="80.0" y="138.0" width="240.0" height="100.0" fill="#e8dcc0" stroke="#6a5a3a" stroke-width="1.2"/><path d="M80 138 L200.0 166 L320 138" fill="none" stroke="#6a5a3a" stroke-width="1.4"/><polygon points="200,170 270,300 130,300" fill="none" stroke="#7a2e28" stroke-width="6"/><g transform="rotate(0 200 364)"><circle cx="200" cy="364" r="28" fill="none" stroke="#7a2e28" stroke-width="3.4"/><circle cx="200" cy="364" r="21" fill="none" stroke="#7a2e28" stroke-width="1.1"/><text x="200" y="368" text-anchor="middle" fill="#7a2e28" font-family="Georgia,serif" font-size="9" font-weight="700">ACİL</text></g><rect x="49" y="96" width="65" height="7.5" fill="#1a1814" opacity=".84"/><rect x="58" y="111" width="98" height="7.5" fill="#1a1814" opacity=".84"/><rect x="28" y="88" width="344" height="10" fill="#7a2e28" opacity=".55"/><path d="M50.0 390.0 C81.0 359.0 159.0 380.0 206.0 405.0 S224.0 390.0 250.0 391.0" fill="none" stroke="#7a2e28" stroke-width="2.6" stroke-linecap="round"/><path d="M74.0 398.0 C100.0 378.0 140.0 406.0 190.0 390.0" fill="none" stroke="#7a2e28" stroke-width="1.4" opacity=".7"/><g transform="rotate(-2.0 117.0 115.0)"><rect x="51.0" y="101.0" width="132.0" height="28.0" fill="#f3ead4" stroke="#6f5b43" stroke-width="1.2"/></g><text x="59" y="119" fill="#3a2a18" font-family="ui-monospace,monospace" font-size="8">DRB-148 · İhtar: Üst Yazı Tu</text><rect x="28" y="88" width="344" height="330" fill="url(#grain)"/><!--well-end--></g>
+<rect x="28" y="88" width="96" height="16" fill="#7a2e28"/><text x="76" y="100" text-anchor="middle" fill="#f0e6d0" font-size="9" font-family="ui-monospace,monospace">GİZLİ</text>
+<rect x="28" y="430" width="344" height="36" fill="#121820" opacity=".92"/>
+<text x="200" y="454" text-anchor="middle" fill="#e8dcc4" font-family="Georgia,serif" font-size="18">İhtar: Üst Yazı Tutmaz</text>
+<rect x="28" y="478" width="344" height="52" fill="#0c1016"/>
+<text x="200" y="512" text-anchor="middle" fill="#e8dcc4" font-family="ui-monospace,monospace" font-size="22">—</text>
 </svg>
