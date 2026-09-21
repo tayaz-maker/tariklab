@@ -16,7 +16,7 @@ const catalog = readFileSync("src/lib/games.ts", "utf8").split("export const GAM
 const routes = [...catalog.matchAll(/slug: "([^"]+)"[\s\S]*?status: "live",\s*href: "([^"]+)"/g)]
   .map((match) => ({ id: match[1], href: match[2] }));
 assert.equal(routes.length, 19);
-const viewports = [[320,568],[360,800],[390,844],[430,932],[640,360],[740,390],[844,390],[768,1024],[820,1180],[1024,768],[1280,800],[1440,900]];
+const viewports = [[320,568],[360,800],[390,844],[430,932],[640,360],[740,390],[844,390],[768,1024],[820,1180],[1024,768],[1280,720],[1280,800],[1440,900],[1920,1080]];
 const nextWave = new Set(["apartman", "tc-sim-devlet", "son-100-gun", "kayip-telefon", "son-kasaba"]);
 const errors = [], results = [];
 const server = spawn("npm", ["run", "dev", "--", "--host", "127.0.0.1", "--port", "8081"], { stdio: "inherit" });
@@ -148,6 +148,10 @@ try {
         if (["tc-sim", "tc-sim-devlet"].includes(route.id)) surface = await (await page.locator("iframe").elementHandle()).contentFrame();
         await deskFlows(page, surface, route.id, lang, out);
         await townBrowser(page, surface, route.id, lang, out);
+        await page.setViewportSize({ width: 1280, height: 720 });
+        await page.screenshot({ path: `${out}/all-${route.id}-${lang}-1280x720.png`, fullPage: false });
+        await page.setViewportSize({ width: 390, height: 844 });
+        await page.screenshot({ path: `${out}/all-${route.id}-${lang}-390x844.png`, fullPage: false });
         if (["portal", "tc-sim-devlet", "tc-sim"].includes(route.id)) {
           await page.screenshot({ path: `${out}/${route.id}-${lang}.png`, fullPage: true });
           await page.setViewportSize({ width: 390, height: 844 });

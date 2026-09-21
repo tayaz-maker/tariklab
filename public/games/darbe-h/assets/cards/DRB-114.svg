@@ -1,4 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 560" width="400" height="560">
+<defs><clipPath id="scene"><rect x="36" y="118" width="328" height="268"/></clipPath></defs>
 <rect width="400" height="560" fill="#141c28"/>
 <rect x="10" y="10" width="380" height="540" fill="#1a2433" stroke="#4a5a4a" stroke-width="2"/>
 <rect x="10" y="10" width="380" height="18" fill="#4a5a4a"/>
@@ -7,7 +8,7 @@
 <text x="200" y="96" text-anchor="middle" fill="#e8dcc4" font-family="Georgia,serif" font-size="22">DRB-114</text>
 
 <rect x="36" y="118" width="328" height="268" fill="#243044" stroke="#2e3d52" stroke-width="1"/>
-<rect x="130" y="230" width="140" height="70" fill="none" stroke="#e8dcc4" stroke-width="3"/><path d="M130 230 L200 200 L270 230" fill="none" stroke="#c4a574" stroke-width="3"/>
+<g clip-path="url(#scene)"><rect x="36" y="118" width="328" height="268" fill="#171b20"/><path d="M36 334 L364 291 V386 H36Z" fill="#3a2d24"/><path d="M36 337 L364 294" stroke="#8f7355" opacity=".45"/><path d="M183 145 l18 -4" stroke="#eadfbe" opacity=".10"/><path d="M230 174 l21 -3" stroke="#eadfbe" opacity=".10"/><path d="M277 203 l24 -2" stroke="#eadfbe" opacity=".10"/><path d="M324 232 l27 -1" stroke="#eadfbe" opacity=".10"/><path d="M71 261 l30 0" stroke="#eadfbe" opacity=".10"/><path d="M118 290 l33 1" stroke="#eadfbe" opacity=".10"/><path d="M165 319 l36 2" stroke="#eadfbe" opacity=".10"/><path d="M65 305h270v30H65Z" fill="#4a3729"/><rect x="87" y="164" width="102" height="132" fill="#242a2b" stroke="#a18d6d"/><circle cx="138" cy="218" r="37" fill="#171b1d" stroke="#c0ae87"/><path d="M138 218l22-19M105 265h66" stroke="#4a5a4a" stroke-width="3"/><path d="M213 181h93v112h-93Z" fill="#d2c4a3" stroke="#806d52"/><path d="M226 202h68M226 218h51M226 234h66M226 250h45" stroke="#5d503e"/><path d="M242 281q22-28 48-3" fill="none" stroke="#4a5a4a" stroke-width="4"/><g transform="translate(280 344) rotate(3)"><circle r="17" fill="#20272a" stroke="#d2c4a3" stroke-width="3"/><path d="M0 0l9-8M0 0v-11" stroke="#4a5a4a" stroke-width="3"/></g><g opacity=".35" transform="scale(.5) translate(310 325)"><rect x="130" y="230" width="140" height="70" fill="none" stroke="#e8dcc4" stroke-width="3"/><path d="M130 230 L200 200 L270 230" fill="none" stroke="#c4a574" stroke-width="3"/></g></g>
 
 <text x="200" y="430" text-anchor="middle" fill="#e8dcc4" font-family="Georgia,serif" font-size="20">Paraflı Suret</text>
 <text x="200" y="462" text-anchor="middle" fill="#c4a574" font-family="ui-monospace,monospace" font-size="13">ARSIV</text>

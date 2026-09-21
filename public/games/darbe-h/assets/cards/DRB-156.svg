@@ -1,4 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 560" width="400" height="560">
+<defs><clipPath id="scene"><rect x="36" y="118" width="328" height="268"/></clipPath></defs>
 <rect width="400" height="560" fill="#141c28"/>
 <rect x="10" y="10" width="380" height="540" fill="#1a2433" stroke="#3d5a73" stroke-width="2"/>
 <rect x="10" y="10" width="380" height="18" fill="#3d5a73"/>
@@ -7,7 +8,7 @@
 <text x="200" y="96" text-anchor="middle" fill="#e8dcc4" font-family="Georgia,serif" font-size="22">DRB-156</text>
 <circle cx="173" cy="78" r="5" fill="#3d5a73"/><circle cx="191" cy="78" r="5" fill="#3d5a73"/><circle cx="209" cy="78" r="5" fill="#3d5a73"/>
 <rect x="36" y="118" width="328" height="268" fill="#243044" stroke="#2e3d52" stroke-width="1"/>
-<rect x="130" y="210" width="140" height="90" fill="none" stroke="#e8dcc4" stroke-width="3"/><path d="M130 210 h50 l12 -16 h78" fill="none" stroke="#c4a574" stroke-width="3"/>
+<g clip-path="url(#scene)"><rect x="36" y="118" width="328" height="268" fill="#171b20"/><path d="M36 334 L364 291 V386 H36Z" fill="#3a2d24"/><path d="M36 337 L364 294" stroke="#8f7355" opacity=".45"/><path d="M297 145 l18 -4" stroke="#eadfbe" opacity=".10"/><path d="M344 174 l21 -3" stroke="#eadfbe" opacity=".10"/><path d="M91 203 l24 -2" stroke="#eadfbe" opacity=".10"/><path d="M138 232 l27 -1" stroke="#eadfbe" opacity=".10"/><path d="M185 261 l30 0" stroke="#eadfbe" opacity=".10"/><path d="M232 290 l33 1" stroke="#eadfbe" opacity=".10"/><path d="M279 319 l36 2" stroke="#eadfbe" opacity=".10"/><g transform="rotate(-7 205 250)"><rect x="92" y="157" width="224" height="151" rx="2" fill="#d2c4a3" stroke="#8b7657"/><path d="M112 185h145M112 203h176M112 221h132M112 255h162M112 273h101" stroke="#55483a" opacity=".7"/><rect x="245" y="235" width="52" height="35" fill="none" stroke="#3d5a73" stroke-width="5" transform="rotate(-8 271 252)"/><text x="271" y="258" text-anchor="middle" fill="#3d5a73" font-size="11" font-weight="700">GİZLİ</text></g><g transform="translate(182 316) rotate(-7)"><circle cx="-8" r="9" fill="none" stroke="#d2c4a3" stroke-width="3"/><circle cx="12" r="9" fill="none" stroke="#d2c4a3" stroke-width="3"/><path d="M1 0h2M-17 0h-9M21 0h9" stroke="#d2c4a3" stroke-width="3"/></g><g opacity=".35" transform="scale(.5) translate(310 325)"><rect x="130" y="210" width="140" height="90" fill="none" stroke="#e8dcc4" stroke-width="3"/><path d="M130 210 h50 l12 -16 h78" fill="none" stroke="#c4a574" stroke-width="3"/></g></g>
 
 <text x="200" y="430" text-anchor="middle" fill="#e8dcc4" font-family="Georgia,serif" font-size="20">Cetvelci</text>
 <text x="200" y="462" text-anchor="middle" fill="#c4a574" font-family="ui-monospace,monospace" font-size="13">DOSYA</text>

@@ -7,10 +7,10 @@ const TILE = 56;
 const MAX_ZOOM = 2.6;
 const TAU = Math.PI * 2;
 const COLORS = {
-  paper: '#d8d6c3', ink: '#2f4037', muted: '#687062', player: '#285744',
-  plain: '#c9c99f', forest: '#92aa8b', mountain: '#aaa99d', ore: '#b49d8a',
-  valley: '#a4bba8', road: '#d2c49e', pass: '#b9b4a5', arid: '#d1bf94',
-  steppe: '#beba90', water: '#5f918b', waterLight: '#b7d2c2', stone: '#746f60',
+  paper: '#d8c8a5', ink: '#2b2925', muted: '#6f6658', player: '#244b3a',
+  plain: '#b9aa7f', forest: '#405b43', mountain: '#696b68', ore: '#765f50',
+  valley: '#6f8570', road: '#b9935c', pass: '#89847a', arid: '#b79a67',
+  steppe: '#958e63', water: '#456f70', waterLight: '#91b0a4', stone: '#565a59',
 };
 const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
 const sameTile = (a, b) => a?.x === b?.x && a?.y === b?.y;
@@ -418,8 +418,38 @@ export class StrategyMap {
     ctx.fillStyle = COLORS[tile.terrain] || COLORS.plain;
     ctx.fillRect(x, y, size + .6, size + .6);
     // Low-cost deterministic tint gives each province material depth without assets.
-    ctx.fillStyle = v > .5 ? `rgba(255,250,221,${(v - .5) * .13})` : `rgba(54,67,53,${(.5 - v) * .09})`;
+    ctx.fillStyle = v > .5 ? `rgba(238,220,176,${(v - .5) * .18})` : `rgba(31,35,30,${(.5 - v) * .15})`;
     ctx.fillRect(x, y, size + .6, size + .6);
+    // At world zoom, deterministic ink washes break generator bands into an
+    // atlas-like surface without changing a single terrain tile or hit area.
+    if (size >= 4) {
+      ctx.save();
+      ctx.globalAlpha = .10;
+      ctx.fillStyle = v > .5 ? '#efe0b9' : '#1e2923';
+      for (let i = 0; i < 3; i++) {
+        const px = x + (((tile.x * 17 + tile.y * 31 + i * 23) % 41) / 41) * size;
+        const py = y + (((tile.x * 29 + tile.y * 13 + i * 19) % 43) / 43) * size;
+        ctx.beginPath();
+        ctx.ellipse(px, py, Math.max(1, size * (.18 + i * .035)), Math.max(.7, size * .09), v * Math.PI, 0, TAU);
+        ctx.fill();
+      }
+      ctx.restore();
+      const edges = [
+        [-1, 0, [[0, 0], [.15, .12], [.08, .42], [.18, .71], [0, 1]]],
+        [1, 0, [[1, 0], [.86, .16], [.94, .43], [.82, .76], [1, 1]]],
+        [0, -1, [[0, 0], [.18, .14], [.48, .07], [.76, .17], [1, 0]]],
+        [0, 1, [[0, 1], [.23, .86], [.51, .94], [.79, .83], [1, 1]]],
+      ];
+      ctx.save(); ctx.globalAlpha = .24;
+      for (const [dx, dy, points] of edges) {
+        const neighbor = this.tile(tile.x + dx, tile.y + dy);
+        if (!neighbor || neighbor.terrain === tile.terrain) continue;
+        ctx.fillStyle = COLORS[neighbor.terrain] || COLORS.plain;
+        path(ctx, points.map(([px, py]) => [x + px * size, y + py * size]), true);
+        ctx.fill();
+      }
+      ctx.restore();
+    }
     if (size < 22) return;
     ctx.save();
     ctx.translate(x, y);
@@ -430,14 +460,14 @@ export class StrategyMap {
       for (let i = 0; i < 4; i++) {
         const tx = 11 + (i % 2) * 26 + v * 4;
         const ty = 14 + Math.floor(i / 2) * 23 - v * 4;
-        ctx.strokeStyle = '#6f856a';
+        ctx.strokeStyle = '#203d30';
         path(ctx, [[tx, ty + 8], [tx, ty - 3]]); ctx.stroke();
-        ctx.fillStyle = i % 2 ? '#89a17f' : '#7f9877';
+        ctx.fillStyle = i % 2 ? '#4c684c' : '#34543d';
         path(ctx, [[tx - 6, ty + 3], [tx, ty - 8], [tx + 6, ty + 3]], true); ctx.fill();
-        ctx.strokeStyle = '#6d8966'; path(ctx, [[tx - 4, ty + 6], [tx, ty - 1], [tx + 4, ty + 6]]); ctx.stroke();
+        ctx.strokeStyle = '#233d2e'; path(ctx, [[tx - 4, ty + 6], [tx, ty - 1], [tx + 4, ty + 6]]); ctx.stroke();
       }
     } else if (['mountain', 'ore', 'pass'].includes(tile.terrain)) {
-      ctx.strokeStyle = '#999b88';
+      ctx.strokeStyle = '#444746';
       for (let line = 0; line < 3; line++) {
         ctx.beginPath();
         ctx.moveTo(3, 43 + line * 5);
@@ -445,36 +475,36 @@ export class StrategyMap {
         ctx.bezierCurveTo(41, 13 + line * 7, 38, 36 + line * 3, 53, 38 + line * 5);
         ctx.stroke();
       }
-      ctx.fillStyle = tile.terrain === 'ore' ? '#968876' : '#acaf9e';
+      ctx.fillStyle = tile.terrain === 'ore' ? '#684f43' : '#777974';
       path(ctx, [[15, 38], [28, 14], [42, 40], [29, 33]], true); ctx.fill();
-      ctx.fillStyle = '#dce0cf'; path(ctx, [[23, 23], [28, 14], [33, 23], [29, 21], [26, 25]], true); ctx.fill();
+      ctx.fillStyle = '#c9c0aa'; path(ctx, [[23, 23], [28, 14], [33, 23], [29, 21], [26, 25]], true); ctx.fill();
       if (tile.terrain === 'ore') {
         ctx.fillStyle = '#897061';
         path(ctx, [[39, 43], [42, 35], [48, 38], [46, 46]], true); ctx.fill();
       }
     } else if (tile.terrain === 'plain') {
-      ctx.strokeStyle = '#a4aa7f';
+      ctx.strokeStyle = '#766f4e';
       for (let i = 0; i < 4; i++) { path(ctx, [[10, 18 + i * 6], [43, 13 + i * 6]]); ctx.stroke(); }
-      ctx.strokeStyle = '#dcdbb0';
+      ctx.strokeStyle = '#d2bd86';
       path(ctx, [[15, 10], [19, 43]]); ctx.stroke();
     } else if (tile.terrain === 'arid' || tile.terrain === 'steppe') {
-      ctx.strokeStyle = tile.terrain === 'arid' ? '#c6b991' : '#b2b58d';
+      ctx.strokeStyle = tile.terrain === 'arid' ? '#846f4c' : '#66643f';
       for (let i = 0; i < 3; i++) {
         ctx.beginPath(); ctx.moveTo(6 + i * 4, 14 + i * 13);
         ctx.quadraticCurveTo(25, 7 + i * 13, 47 - i * 4, 17 + i * 13); ctx.stroke();
       }
     } else if (tile.terrain === 'valley') {
-      ctx.strokeStyle = '#789d84';
+      ctx.strokeStyle = '#3f6554';
       for (let i = 0; i < 3; i++) { path(ctx, [[7 + i * 15, 39], [9 + i * 15, 34], [12 + i * 15, 38]]); ctx.stroke(); }
     }
     if (size > 40) {
       // Two contour strokes make close zoom read like a surveyed atlas.
-      ctx.strokeStyle = 'rgba(53,67,51,.10)';
+      ctx.strokeStyle = 'rgba(43,35,29,.22)';
       ctx.beginPath(); ctx.moveTo(2, 47 - v * 8); ctx.bezierCurveTo(14, 39, 31, 51, 54, 40 - v * 5); ctx.stroke();
-      ctx.strokeStyle = 'rgba(255,251,226,.16)';
+      ctx.strokeStyle = 'rgba(235,214,171,.20)';
       ctx.beginPath(); ctx.moveTo(1, 7 + v * 8); ctx.bezierCurveTo(18, 14, 35, 3, 55, 15 + v * 3); ctx.stroke();
-      ctx.strokeStyle = 'rgba(50,65,48,.11)';
-      ctx.strokeRect(0, 0, 56, 56);
+      ctx.strokeStyle = 'rgba(45,37,29,.16)';
+      for (let h = 0; h < 3; h++) { const o = 5 + ((tile.x * 11 + tile.y * 7 + h * 13) % 43); path(ctx, [[o - 8, 54], [o + 10, 2]]); ctx.stroke(); }
     }
     ctx.restore();
   }
@@ -492,13 +522,13 @@ export class StrategyMap {
         ctx.bezierCurveTo(ax, (ay + by) / 2, bx, (ay + by) / 2, bx, by);
       }
       ctx.lineCap = 'round';
-      ctx.lineWidth = Math.max(3, scale * .30); ctx.strokeStyle = 'rgba(65,92,75,.22)'; ctx.stroke();
-      ctx.lineWidth = Math.max(2, scale * .23); ctx.strokeStyle = '#8eae99'; ctx.stroke();
+      ctx.lineWidth = Math.max(4, scale * .34); ctx.strokeStyle = 'rgba(31,43,39,.38)'; ctx.stroke();
+      ctx.lineWidth = Math.max(3, scale * .27); ctx.strokeStyle = '#294d4d'; ctx.stroke();
       ctx.lineWidth = Math.max(1, scale * .14); ctx.strokeStyle = COLORS.water; ctx.stroke();
-      ctx.lineWidth = Math.max(.7, scale * .035); ctx.strokeStyle = COLORS.waterLight; ctx.stroke();
+      ctx.lineWidth = Math.max(.7, scale * .045); ctx.strokeStyle = COLORS.waterLight; ctx.stroke();
     }
     for (const terrain of ['road']) {
-      ctx.strokeStyle = 'rgba(91,72,49,.28)';
+      ctx.strokeStyle = 'rgba(54,37,25,.65)';
       ctx.lineWidth = Math.max(3, scale * .12);
       ctx.lineCap = 'round';
       ctx.setLineDash(terrain === 'road' && scale > 18 ? [scale * .08, scale * .08] : []);
@@ -514,7 +544,7 @@ export class StrategyMap {
         if (!connected) { ctx.moveTo(px - .15 * scale, py + .09 * scale); ctx.lineTo(px + .15 * scale, py - .09 * scale); }
       }
       ctx.stroke();
-      ctx.strokeStyle = '#d7c49b';
+      ctx.strokeStyle = '#c6a56d';
       ctx.lineWidth = Math.max(1, scale * .055);
       ctx.stroke();
       ctx.setLineDash([]);

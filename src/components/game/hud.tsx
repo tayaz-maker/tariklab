@@ -24,13 +24,6 @@ import { cn, formatTRY } from "@/lib/utils";
 /** Üç kontrol dar telefonda tek satırda kalsın; dokunma alanı h-11 kalır. */
 const CTRL_BTN = "px-3 text-xs md:px-4 md:text-sm";
 
-function lastSaveLabel(at: number) {
-  if (!at) return "kayıt yok";
-  const m = Math.max(0, Math.round((Date.now() - at) / 60000));
-  if (m < 1) return "az önce";
-  return `${m} dk önce`;
-}
-
 const HOOD: Record<Player["neighborhood"], string> = {
   eyup: "Eyüp",
   tarlabasi: "Tarlabaşı",
@@ -50,7 +43,6 @@ export function Hud({
   const hiz = useGame((s) => s.hiz);
   const toggleHiz = useGame((s) => s.toggleHiz);
   const skipHour = useGame((s) => s.skipHour);
-  const savedAt = useGame((s) => s.savedAt);
   const market = useGame((s) => s.market) ?? MARKET_START;
   const eMax = energyMax(player.level, player.neighborhood);
   const sMax = staminaMax(player.level);
@@ -78,14 +70,14 @@ export function Hud({
       .join(" · ") || "Üstün boş, elinde şişe bile yok.";
 
   return (
-    <header className="hud-header border-b border-border bg-bg/90 px-4 py-3 md:px-6">
+    <header className="hud-header sticky top-0 z-30 border-b border-border bg-bg/95 px-3 py-2 backdrop-blur md:px-4">
       {/*
         Telefonda HUD tüm ilk ekranı yiyordu. Mobilde hayati olanlar (isim,
         nakit, saat, dört çubuk, uyarı) hep açık; künye/kutular/sıfırlama
         "Detay" altında. md+ hepsi açık ve sıra masaüstündeki gibi:
         kimlik → kutular → butonlar → çubuklar → uyarı (md:order-*).
       */}
-      <div className="mx-auto flex max-w-6xl flex-col gap-3">
+      <div className="mx-auto flex max-w-6xl flex-col gap-2">
         <div className="order-1 flex items-start justify-between gap-3">
           <div className="min-w-0">
             <p className="font-display text-xl leading-none font-semibold tracking-tight md:text-2xl">
@@ -98,16 +90,13 @@ export function Hud({
               {formatClock(player)}
             </p>
             <p className="mt-1 hidden text-sm text-fg md:block">{loadout}</p>
-            <p className="mt-1 line-clamp-1 text-xs text-muted md:hidden">
-              {loadout}
-            </p>
           </div>
           <p className="shrink-0 font-mono text-xl font-semibold tabular-nums text-accent md:text-2xl">
             {formatTRY(player.cash)}
           </p>
         </div>
 
-        <div className="order-2 grid grid-cols-2 gap-x-3 gap-y-2 sm:grid-cols-4 md:order-4 md:gap-3">
+        <div className="order-2 grid grid-cols-4 gap-x-2 gap-y-1 sm:gap-x-3 md:order-4 md:gap-3">
           <StatBar label={en ? "Energy" : "Mermi & Takat"} value={player.energy} max={eMax} />
           <StatBar
             label={en ? "Stamina" : "Racon & Karizma"}
@@ -140,7 +129,7 @@ export function Hud({
         ) : null}
 
         <div className="order-4 flex flex-wrap items-center gap-2 md:order-3">
-          <HelpPanel triggerClassName={CTRL_BTN} />
+          <SaveSlotsPanel />
           <Button variant="ghost" className={CTRL_BTN} onClick={toggleHiz}>
             {en ? "Speed" : "Hız"} ×{hiz}
           </Button>
@@ -149,7 +138,7 @@ export function Hud({
           </Button>
           <Button
             variant="ghost"
-            className={cn(CTRL_BTN, "md:hidden")}
+            className={CTRL_BTN}
             aria-expanded={detailOpen}
             onClick={() => setDetailOpen((v) => !v)}
           >
@@ -168,7 +157,7 @@ export function Hud({
 
         <div
           className={cn(
-            "hud-chips order-5 flex-col gap-3 md:order-2 md:flex",
+            "hud-chips order-5 flex-col gap-3 md:order-2",
             detailOpen ? "flex" : "hidden",
           )}
         >
@@ -188,10 +177,9 @@ export function Hud({
             <Chip label={en ? "Investments" : "Yatırım"} value={formatTRY(yatirim)} />
             <Chip label={en ? "Reputation" : "İtibar"} value={`${Math.round(player.itibar)}`} />
             <Chip label={en ? "Bribe fund" : "Rüşvet"} value={formatTRY(player.rusvet)} />
-            <Chip label={en ? "Last save" : "Son kayıt"} value={lastSaveLabel(savedAt)} />
           </div>
           <div className="flex flex-wrap items-center gap-3">
-            <SaveSlotsPanel />
+            <HelpPanel triggerClassName={CTRL_BTN} />
             <span className="md:hidden">
               <ResetConfirm />
             </span>

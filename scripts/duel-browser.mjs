@@ -29,7 +29,7 @@ try {
     executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || undefined,
     args: ["--no-sandbox"],
   });
-  for (const theme of ["veto-h", "gett-oh"])
+  for (const theme of (process.env.DUEL_THEMES || "veto-h,gett-oh,darbe-h").split(","))
     for (const lang of ["tr", "en"]) {
       const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
       await context.addInitScript(
@@ -125,6 +125,8 @@ try {
             `${theme}/${lang}/${stage}/${width}: ${JSON.stringify(d)}`,
           );
           if (stage === "board") {
+            if (theme === "darbe-h" && [390, 1280, 1920].includes(width))
+              await page.screenshot({ path: `${out}/${theme}-${lang}-board-${width}x${height}.png`, fullPage: true });
             // The duel board is one complete two-sided object: opponent half,
             // phase divider and player half all visible together with no
             // internal vertical scroll, the hand under it and the turn
@@ -141,7 +143,9 @@ try {
               const dock = box(dockEl);
               const t = box(table);
               const buttons = dockEl
-                ? [...dockEl.querySelectorAll("button")].map((b) => b.getBoundingClientRect())
+                ? [...dockEl.querySelectorAll("button")]
+                    .map((b) => b.getBoundingClientRect())
+                    .filter((r) => r.width > 0 && r.height > 0)
                 : [];
               const overlap = (a, b) =>
                 a && b ? Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top) : 0;
@@ -236,7 +240,7 @@ try {
         await nextPage.click();
       }
       assert.equal(ids.size, 300);
-      await page.locator(".filters input").fill(theme === "veto-h" ? "SND-001" : "RCN-001");
+      await page.locator(".filters input").fill(theme === "veto-h" ? "SND-001" : theme === "gett-oh" ? "RCN-001" : "DRB-001");
       assert.equal(await page.locator(".archive-grid .playing-card").count(), 1);
       await page.locator(".filters input").fill("");
       await page.locator(".filters select").first().selectOption("trap");

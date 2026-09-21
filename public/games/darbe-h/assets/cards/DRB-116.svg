@@ -1,4 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 560" width="400" height="560">
+<defs><clipPath id="scene"><rect x="36" y="118" width="328" height="268"/></clipPath></defs>
 <rect width="400" height="560" fill="#141c28"/>
 <rect x="10" y="10" width="380" height="540" fill="#1a2433" stroke="#3a4a6a" stroke-width="2"/>
 <rect x="10" y="10" width="380" height="18" fill="#3a4a6a"/>
@@ -7,7 +8,7 @@
 <text x="200" y="96" text-anchor="middle" fill="#e8dcc4" font-family="Georgia,serif" font-size="22">DRB-116</text>
 
 <rect x="36" y="118" width="328" height="268" fill="#243044" stroke="#2e3d52" stroke-width="1"/>
-<circle cx="200" cy="250" r="48" fill="none" stroke="#c4a574" stroke-width="5"/><text x="200" y="260" text-anchor="middle" fill="#e8dcc4" font-family="Georgia,serif" font-size="22">M</text>
+<g clip-path="url(#scene)"><rect x="36" y="118" width="328" height="268" fill="#171b20"/><path d="M36 334 L364 291 V386 H36Z" fill="#3a2d24"/><path d="M36 337 L364 294" stroke="#8f7355" opacity=".45"/><path d="M217 145 l18 -4" stroke="#eadfbe" opacity=".10"/><path d="M264 174 l21 -3" stroke="#eadfbe" opacity=".10"/><path d="M311 203 l24 -2" stroke="#eadfbe" opacity=".10"/><path d="M58 232 l27 -1" stroke="#eadfbe" opacity=".10"/><path d="M105 261 l30 0" stroke="#eadfbe" opacity=".10"/><path d="M152 290 l33 1" stroke="#eadfbe" opacity=".10"/><path d="M199 319 l36 2" stroke="#eadfbe" opacity=".10"/><path d="M80 173h102v145H80Z" fill="#725738" stroke="#b39468"/><path d="M92 185h78v31H92Z" fill="#ddd0ae"/><path d="M92 228h78v31H92Z" fill="#aa9673"/><path d="M92 271h78v31H92Z" fill="#8f7d62"/><path d="M217 171h105v149H217Z" fill="#20282b" stroke="#9c896d"/><path d="M234 197h71M234 218h51M234 239h66" stroke="#d0c19d"/><circle cx="271" cy="282" r="23" fill="none" stroke="#3a4a6a" stroke-width="5"/><path d="M257 282l9 10 20-24" fill="none" stroke="#3a4a6a" stroke-width="4"/><g transform="translate(118 331) rotate(-7)"><circle r="17" fill="#20272a" stroke="#ddd0ae" stroke-width="3"/><path d="M0 0l9-8M0 0v-11" stroke="#3a4a6a" stroke-width="3"/></g><g opacity=".35" transform="scale(.5) translate(310 325)"><circle cx="200" cy="250" r="48" fill="none" stroke="#c4a574" stroke-width="5"/><text x="200" y="260" text-anchor="middle" fill="#e8dcc4" font-family="Georgia,serif" font-size="22">M</text></g></g>
 
 <text x="200" y="430" text-anchor="middle" fill="#e8dcc4" font-family="Georgia,serif" font-size="20">Kesin Metin</text>
 <text x="200" y="462" text-anchor="middle" fill="#c4a574" font-family="ui-monospace,monospace" font-size="13">MESRUIYET</text>

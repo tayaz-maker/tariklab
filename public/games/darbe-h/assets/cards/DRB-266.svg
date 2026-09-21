@@ -1,4 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 560" width="400" height="560">
+<defs><clipPath id="scene"><rect x="36" y="118" width="328" height="268"/></clipPath></defs>
 <rect width="400" height="560" fill="#141c28"/>
 <rect x="10" y="10" width="380" height="540" fill="#1a2433" stroke="#5a6e4e" stroke-width="2"/>
 <rect x="10" y="10" width="380" height="18" fill="#5a6e4e"/>
@@ -7,7 +8,7 @@
 <text x="200" y="96" text-anchor="middle" fill="#e8dcc4" font-family="Georgia,serif" font-size="22">DRB-266</text>
 
 <rect x="36" y="118" width="328" height="268" fill="#243044" stroke="#2e3d52" stroke-width="1"/>
-<circle cx="200" cy="250" r="54" fill="none" stroke="#c4a574" stroke-width="4"/><circle cx="200" cy="250" r="38" fill="none" stroke="#e8dcc4" stroke-width="2"/><text x="200" y="258" text-anchor="middle" fill="#c4a574" font-family="Georgia,serif" font-size="18">P</text>
+<g clip-path="url(#scene)"><rect x="36" y="118" width="328" height="268" fill="#171b20"/><path d="M36 334 L364 291 V386 H36Z" fill="#3a2d24"/><path d="M36 337 L364 294" stroke="#8f7355" opacity=".45"/><path d="M67 145 l18 -4" stroke="#eadfbe" opacity=".10"/><path d="M114 174 l21 -3" stroke="#eadfbe" opacity=".10"/><path d="M161 203 l24 -2" stroke="#eadfbe" opacity=".10"/><path d="M208 232 l27 -1" stroke="#eadfbe" opacity=".10"/><path d="M255 261 l30 0" stroke="#eadfbe" opacity=".10"/><path d="M302 290 l33 1" stroke="#eadfbe" opacity=".10"/><path d="M49 319 l36 2" stroke="#eadfbe" opacity=".10"/><path d="M72 169h238l24 154H57Z" fill="#bbaa83" stroke="#5e4b37"/><path d="M92 191l78 23 53-19 86 39-62 68-84-21-73 24Z" fill="#7e8b76" stroke="#4b5548"/><path d="M110 277c54-71 113-24 175-72" fill="none" stroke="#5a6e4e" stroke-width="4"/><circle cx="188" cy="247" r="8" fill="#8c3e35"/><circle cx="260" cy="216" r="6" fill="#b99a54"/><g transform="translate(240 336) rotate(3)"><circle r="15" fill="none" stroke="#ddd0ae" stroke-width="4"/><path d="M11 11l16 16" stroke="#ddd0ae" stroke-width="5"/></g><g opacity=".35" transform="scale(.5) translate(310 325)"><circle cx="200" cy="250" r="54" fill="none" stroke="#c4a574" stroke-width="4"/><circle cx="200" cy="250" r="38" fill="none" stroke="#e8dcc4" stroke-width="2"/><text x="200" y="258" text-anchor="middle" fill="#c4a574" font-family="Georgia,serif" font-size="18">P</text></g></g>
 
 <text x="200" y="430" text-anchor="middle" fill="#e8dcc4" font-family="Georgia,serif" font-size="20">Gürültülü Kabine</text>
 <text x="200" y="462" text-anchor="middle" fill="#c4a574" font-family="ui-monospace,monospace" font-size="13">PARAF</text>

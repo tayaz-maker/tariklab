@@ -1,4 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 560" width="400" height="560">
+<defs><clipPath id="scene"><rect x="36" y="118" width="328" height="268"/></clipPath></defs>
 <rect width="400" height="560" fill="#141c28"/>
 <rect x="10" y="10" width="380" height="540" fill="#1a2433" stroke="#3d5a73" stroke-width="2"/>
 <rect x="10" y="10" width="380" height="18" fill="#3d5a73"/>
@@ -7,7 +8,7 @@
 <text x="200" y="96" text-anchor="middle" fill="#e8dcc4" font-family="Georgia,serif" font-size="22">DRB-153</text>
 <circle cx="173" cy="78" r="5" fill="#3d5a73"/><circle cx="191" cy="78" r="5" fill="#3d5a73"/><circle cx="209" cy="78" r="5" fill="#3d5a73"/>
 <rect x="36" y="118" width="328" height="268" fill="#243044" stroke="#2e3d52" stroke-width="1"/>
-<rect x="130" y="210" width="140" height="90" fill="none" stroke="#e8dcc4" stroke-width="3"/><path d="M130 210 h50 l12 -16 h78" fill="none" stroke="#c4a574" stroke-width="3"/>
+<g clip-path="url(#scene)"><rect x="36" y="118" width="328" height="268" fill="#171b20"/><path d="M36 334 L364 291 V386 H36Z" fill="#3a2d24"/><path d="M36 337 L364 294" stroke="#8f7355" opacity=".45"/><path d="M246 145 l18 -4" stroke="#eadfbe" opacity=".10"/><path d="M293 174 l21 -3" stroke="#eadfbe" opacity=".10"/><path d="M340 203 l24 -2" stroke="#eadfbe" opacity=".10"/><path d="M87 232 l27 -1" stroke="#eadfbe" opacity=".10"/><path d="M134 261 l30 0" stroke="#eadfbe" opacity=".10"/><path d="M181 290 l33 1" stroke="#eadfbe" opacity=".10"/><path d="M228 319 l36 2" stroke="#eadfbe" opacity=".10"/><path d="M73 298h252l-31-109H104Z" fill="#4b382b" stroke="#aa8b63"/><rect x="120" y="176" width="162" height="102" fill="#d2c4a3" transform="rotate(-4 201 227)"/><path d="M143 198h109M143 215h91M143 232h116M143 249h72" stroke="#5f503d"/><path d="M85 178q21-28 43 0v84q-22 24-43 0Z" fill="#1b2224" stroke="#b5a17c"/><path d="M94 194h25M94 209h25" stroke="#3d5a73"/><path d="M294 185v92M281 199h26" stroke="#b89f78" stroke-width="5"/><g transform="translate(307 318) rotate(-4)"><circle r="15" fill="none" stroke="#d2c4a3" stroke-width="4"/><path d="M11 11l16 16" stroke="#d2c4a3" stroke-width="5"/></g><g opacity=".35" transform="scale(.5) translate(310 325)"><rect x="130" y="210" width="140" height="90" fill="none" stroke="#e8dcc4" stroke-width="3"/><path d="M130 210 h50 l12 -16 h78" fill="none" stroke="#c4a574" stroke-width="3"/></g></g>
 
 <text x="200" y="430" text-anchor="middle" fill="#e8dcc4" font-family="Georgia,serif" font-size="20">Zımba Eri</text>
 <text x="200" y="462" text-anchor="middle" fill="#c4a574" font-family="ui-monospace,monospace" font-size="13">DOSYA</text>

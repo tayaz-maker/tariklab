@@ -34,10 +34,11 @@ export function CreateCharacter() {
         {t("cete.createBody", "Hesap gerekmez. Slot {n} bu cihazda tutulur. Cebin boş iner.", { n: activeSlot })}
       </p>
 
-      <label className="mt-8 block text-xs font-medium tracking-wide text-muted uppercase">
+      <label htmlFor="cete-player-name" className="mt-8 block text-xs font-medium tracking-wide text-muted uppercase">
         {t("cete.name", "Ad")}
       </label>
       <Input
+        id="cete-player-name"
         className="mt-2"
         value={name}
         maxLength={24}

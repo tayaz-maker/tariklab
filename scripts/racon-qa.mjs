@@ -18,7 +18,7 @@ import fs from "node:fs";
 import process from "node:process";
 
 const file = process.env.RACON_FILE || "public/games/racon/index.html";
-const url = "file://" + path.resolve(file);
+const url = process.env.RACON_URL || "file://" + path.resolve(file);
 const sorunlar = [];
 const not = (m) => sorunlar.push(m);
 

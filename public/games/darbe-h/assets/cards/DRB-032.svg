@@ -1,4 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 560" width="400" height="560">
+<defs><clipPath id="scene"><rect x="36" y="118" width="328" height="268"/></clipPath></defs>
 <rect width="400" height="560" fill="#141c28"/>
 <rect x="10" y="10" width="380" height="540" fill="#1a2433" stroke="#3d5e7a" stroke-width="2"/>
 <rect x="10" y="10" width="380" height="18" fill="#3d5e7a"/>
@@ -7,7 +8,7 @@
 <text x="200" y="96" text-anchor="middle" fill="#e8dcc4" font-family="Georgia,serif" font-size="22">DRB-032</text>
 <circle cx="173" cy="78" r="5" fill="#3d5e7a"/><circle cx="191" cy="78" r="5" fill="#3d5e7a"/><circle cx="209" cy="78" r="5" fill="#3d5e7a"/>
 <rect x="36" y="118" width="328" height="268" fill="#243044" stroke="#2e3d52" stroke-width="1"/>
-<rect x="150" y="260" width="100" height="14" fill="#c4a574"/><polygon points="170,260 200,200 230,260" fill="none" stroke="#e8dcc4" stroke-width="3"/>
+<g clip-path="url(#scene)"><rect x="36" y="118" width="328" height="268" fill="#171b20"/><path d="M36 334 L364 291 V386 H36Z" fill="#3a2d24"/><path d="M36 337 L364 294" stroke="#8f7355" opacity=".45"/><path d="M289 145 l18 -4" stroke="#eadfbe" opacity=".10"/><path d="M336 174 l21 -3" stroke="#eadfbe" opacity=".10"/><path d="M83 203 l24 -2" stroke="#eadfbe" opacity=".10"/><path d="M130 232 l27 -1" stroke="#eadfbe" opacity=".10"/><path d="M177 261 l30 0" stroke="#eadfbe" opacity=".10"/><path d="M224 290 l33 1" stroke="#eadfbe" opacity=".10"/><path d="M271 319 l36 2" stroke="#eadfbe" opacity=".10"/><path d="M80 173h102v145H80Z" fill="#725738" stroke="#b39468"/><path d="M92 185h78v31H92Z" fill="#ddd0ae"/><path d="M92 228h78v31H92Z" fill="#aa9673"/><path d="M92 271h78v31H92Z" fill="#8f7d62"/><path d="M217 171h105v149H217Z" fill="#20282b" stroke="#9c896d"/><path d="M234 197h71M234 218h51M234 239h66" stroke="#d0c19d"/><circle cx="271" cy="282" r="23" fill="none" stroke="#3d5e7a" stroke-width="5"/><path d="M257 282l9 10 20-24" fill="none" stroke="#3d5e7a" stroke-width="4"/><g transform="translate(78 317) rotate(-7)"><circle r="15" fill="none" stroke="#ddd0ae" stroke-width="4"/><path d="M11 11l16 16" stroke="#ddd0ae" stroke-width="5"/></g><g opacity=".35" transform="scale(.5) translate(310 325)"><rect x="150" y="260" width="100" height="14" fill="#c4a574"/><polygon points="170,260 200,200 230,260" fill="none" stroke="#e8dcc4" stroke-width="3"/></g></g>
 
 <text x="200" y="430" text-anchor="middle" fill="#e8dcc4" font-family="Georgia,serif" font-size="20">Brifing Müsteşarı</text>
 <text x="200" y="462" text-anchor="middle" fill="#c4a574" font-family="ui-monospace,monospace" font-size="13">BRIFING</text>
