@@ -6,7 +6,7 @@ TarikLab is the product/deployment canonical. JITEM source lives upstream in
 `tayaz-maker/jitem-derin-ag`; this repository stores only the built isolated
 runtime under `public/games/jitem-derin-ag/`.
 
-Current upstream SHA: `80d3baa53675e0228ce744e154d3ecfe72aa3d6f`.
+Current upstream SHA: `99836618c77b448a90a83c136e5a86fca21b4d9b`.
 Save key: `jitem-derin-ag-v3` · schema: `5`.
 
 Sync source changes by merging upstream, building that exact SHA with base
