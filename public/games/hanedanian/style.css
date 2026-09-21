@@ -1,13 +1,13 @@
 :root {
   color-scheme: light;
-  --paper: #e9e6d8;
-  --surface: #f7f4e9;
-  --ink: #202a24;
-  --muted: #626959;
-  --line: #cbcdbb;
-  --accent: #934832;
+  --paper: #e6d9b8;
+  --surface: #f3ead4;
+  --ink: #2a2218;
+  --muted: #6a5c48;
+  --line: #c4b896;
+  --accent: #7a3228;
   --accent-light: #ead9cc;
-  --forest: #2f4d3b;
+  --forest: #1e3d32;
   --danger: #a23a2e;
   --radius: 8px;
   --space: 12px;
@@ -56,7 +56,7 @@ button {
     transform 0.15s;
 }
 button:hover {
-  background: #e7e8db;
+  background: #eadfc8;
 }
 button:active {
   transform: translateY(1px);
@@ -278,7 +278,7 @@ html.tlab-embedded a[href="/"] {
 }
 .settlement-rail {
   padding: 20px 14px;
-  background: #e9e9dd;
+  background: #e6dcc0;
   border-right: 1px solid var(--line);
   overflow: auto;
   min-height: 0;
@@ -300,7 +300,7 @@ html.tlab-embedded a[href="/"] {
 }
 .settlement-card.active {
   border-color: var(--forest);
-  background: #f8f8ec;
+  background: #f8f3e6;
   box-shadow: inset 3px 0 var(--forest);
 }
 .settlement-card strong,
@@ -313,7 +313,7 @@ html.tlab-embedded a[href="/"] {
 .rail-objective {
   padding-top: 20px;
   margin-top: 16px;
-  border-top: 1px solid #c9ccba;
+  border-top: 1px solid #c4b896;
 }
 .goal {
   margin-top: 12px;
@@ -441,7 +441,7 @@ html.tlab-embedded a[href="/"] {
   padding: 3px 7px;
   border: 1px solid var(--line);
   border-radius: 3px;
-  background: #eeeee1;
+  background: #eee6d2;
   color: var(--muted);
 }
 .terrain-summary {
@@ -460,7 +460,7 @@ html.tlab-embedded a[href="/"] {
   margin-top: 14px;
   padding: 10px 12px;
   border: 1px solid var(--line);
-  background: #eeecdf;
+  background: #eee6d2;
 }
 .decision-brief span {
   color: var(--accent);
@@ -1000,7 +1000,7 @@ body.toast-visible .section-view {
   min-width: 0;
   padding: 8px;
   border: 1px solid var(--line);
-  background: #eeecdf;
+  background: #eee6d2;
   counter-increment: steps;
 }
 .field-guide li b,

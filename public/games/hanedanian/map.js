@@ -7,15 +7,17 @@ const TILE = 56;
 const MAX_ZOOM = 2.6;
 const TAU = Math.PI * 2;
 const COLORS = {
-  paper: '#d8c8a5', ink: '#2b2925', muted: '#6f6658', player: '#244b3a',
-  plain: '#b9aa7f', forest: '#405b43', mountain: '#696b68', ore: '#765f50',
-  valley: '#6f8570', road: '#b9935c', pass: '#89847a', arid: '#b79a67',
-  steppe: '#958e63', water: '#456f70', waterLight: '#91b0a4', stone: '#565a59',
+  paper: '#e4d4b0', ink: '#2a2218', muted: '#6a5c48', player: '#1e3d32',
+  plain: '#c3b56a', forest: '#2f4a38', mountain: '#5c5850', ore: '#6b4e3e',
+  valley: '#4a6a62', road: '#a08050', pass: '#6a655c', arid: '#b08958',
+  steppe: '#9a8c58', water: '#3d6468', waterLight: '#8aa8a0', stone: '#4a4c48',
+  walnut: '#4a3728', brass: '#b08a4a', oxblood: '#7a3228', ivory: '#f3ead4',
 };
 const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
 const sameTile = (a, b) => a?.x === b?.x && a?.y === b?.y;
 const pointDistance = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
 const variation = (x, y) => ((Math.imul(x + 31, 73856093) ^ Math.imul(y + 17, 19349663)) >>> 0) / 4294967295;
+const variation2 = (x, y, salt) => ((Math.imul(x + 11 + salt, 83492791) ^ Math.imul(y + 23, 2971215073)) >>> 0) / 4294967295;
 
 export function worldAtScreen(point, view) {
   const scale = TILE * view.zoom;
@@ -137,6 +139,45 @@ export class StrategyMap {
     const world = this.state?.world;
     if (!world || x < 0 || y < 0 || x >= world.size || y >= world.size) return null;
     return world.tiles[y * world.size + x] || null;
+  }
+
+  landscapeTerrain(tile) {
+    if (!tile) return 'plain';
+    if (tile.terrain !== 'road') return tile.terrain;
+    const counts = {};
+    for (const [dx, dy] of [[-1, 0], [1, 0], [0, -1], [0, 1], [-1, -1], [1, 1], [-1, 1], [1, -1]]) {
+      const n = this.tile(tile.x + dx, tile.y + dy);
+      if (!n || n.terrain === 'road') continue;
+      counts[n.terrain] = (counts[n.terrain] || 0) + 1;
+    }
+    let best = 'plain', n = 0;
+    for (const [k, v] of Object.entries(counts)) if (v > n) { best = k; n = v; }
+    return best;
+  }
+
+  isCapital(settlement) {
+    const own = (this.state?.settlements || []).filter((s) => s.ownerId === settlement.ownerId);
+    return own[0]?.id === settlement.id;
+  }
+
+  ensureGrain() {
+    if (this.grainPattern) return this.grainPattern;
+    const surface = document.createElement('canvas');
+    surface.width = 48;
+    surface.height = 48;
+    const g = surface.getContext('2d');
+    g.fillStyle = 'rgba(42,34,24,0.045)';
+    for (let i = 0; i < 220; i++) {
+      const x = (i * 13) % 48, y = (i * 29) % 48;
+      g.fillRect(x, y, i % 5 === 0 ? 2 : 1, 1);
+    }
+    g.strokeStyle = 'rgba(240,226,190,0.04)';
+    g.beginPath();
+    g.moveTo(0, 48);
+    g.lineTo(48, 0);
+    g.stroke();
+    this.grainPattern = this.ctx.createPattern(surface, 'repeat');
+    return this.grainPattern;
   }
 
   tileToScreen(x, y) {
@@ -386,6 +427,14 @@ export class StrategyMap {
       this.drawTerrain(tile, ox + x * scale, oy + y * scale, scale);
       this.drawnTiles++;
     }
+    const grain = this.ensureGrain();
+    if (grain) {
+      ctx.save();
+      ctx.globalAlpha = .18;
+      ctx.fillStyle = grain;
+      ctx.fillRect(ox, oy, this.state.world.size * scale, this.state.world.size * scale);
+      ctx.restore();
+    }
     this.drawConnections(bounds, ox, oy, scale);
     if (this.mode !== 'near') this.drawInfluence(scale);
     this.drawHighlights(scale);
@@ -397,7 +446,7 @@ export class StrategyMap {
     this.drawArmies(scale);
     this.drawMarkers(scale);
     ctx.restore();
-    ctx.strokeStyle = '#a7ad98';
+    ctx.strokeStyle = '#c4b896';
     ctx.lineWidth = 1;
     ctx.strokeRect(ox, oy, this.state.world.size * scale, this.state.world.size * scale);
     this.drawCompass();
@@ -415,16 +464,15 @@ export class StrategyMap {
   drawTerrain(tile, x, y, size) {
     const ctx = this.ctx;
     const v = variation(tile.x, tile.y);
-    ctx.fillStyle = COLORS[tile.terrain] || COLORS.plain;
+    const under = this.landscapeTerrain(tile);
+    const fill = COLORS[under] || COLORS.plain;
+    ctx.fillStyle = fill;
     ctx.fillRect(x, y, size + .6, size + .6);
-    // Low-cost deterministic tint gives each province material depth without assets.
-    ctx.fillStyle = v > .5 ? `rgba(238,220,176,${(v - .5) * .18})` : `rgba(31,35,30,${(.5 - v) * .15})`;
+    ctx.fillStyle = v > .5 ? `rgba(243,234,212,${(v - .5) * .16})` : `rgba(32,28,22,${(.5 - v) * .14})`;
     ctx.fillRect(x, y, size + .6, size + .6);
-    // At world zoom, deterministic ink washes break generator bands into an
-    // atlas-like surface without changing a single terrain tile or hit area.
     if (size >= 4) {
       ctx.save();
-      ctx.globalAlpha = .10;
+      ctx.globalAlpha = .11;
       ctx.fillStyle = v > .5 ? '#efe0b9' : '#1e2923';
       for (let i = 0; i < 3; i++) {
         const px = x + (((tile.x * 17 + tile.y * 31 + i * 23) % 41) / 41) * size;
@@ -435,76 +483,107 @@ export class StrategyMap {
       }
       ctx.restore();
       const edges = [
-        [-1, 0, [[0, 0], [.15, .12], [.08, .42], [.18, .71], [0, 1]]],
-        [1, 0, [[1, 0], [.86, .16], [.94, .43], [.82, .76], [1, 1]]],
-        [0, -1, [[0, 0], [.18, .14], [.48, .07], [.76, .17], [1, 0]]],
-        [0, 1, [[0, 1], [.23, .86], [.51, .94], [.79, .83], [1, 1]]],
+        [-1, 0, [[0, 0], [.18, .10], [.08, .42], [.20, .71], [0, 1]]],
+        [1, 0, [[1, 0], [.84, .14], [.94, .43], [.80, .76], [1, 1]]],
+        [0, -1, [[0, 0], [.18, .16], [.48, .06], [.76, .18], [1, 0]]],
+        [0, 1, [[0, 1], [.23, .84], [.51, .94], [.79, .81], [1, 1]]],
       ];
-      ctx.save(); ctx.globalAlpha = .24;
+      ctx.save(); ctx.globalAlpha = .28;
       for (const [dx, dy, points] of edges) {
         const neighbor = this.tile(tile.x + dx, tile.y + dy);
-        if (!neighbor || neighbor.terrain === tile.terrain) continue;
-        ctx.fillStyle = COLORS[neighbor.terrain] || COLORS.plain;
+        if (!neighbor) continue;
+        const nt = this.landscapeTerrain(neighbor);
+        if (nt === under) continue;
+        ctx.fillStyle = COLORS[nt] || COLORS.plain;
         path(ctx, points.map(([px, py]) => [x + px * size, y + py * size]), true);
         ctx.fill();
       }
       ctx.restore();
     }
-    if (size < 22) return;
+    if (size < 16) return;
     ctx.save();
     ctx.translate(x, y);
     ctx.scale(size / 56, size / 56);
-    ctx.lineWidth = .7;
     ctx.lineCap = 'round';
-    if (tile.terrain === 'forest') {
-      for (let i = 0; i < 4; i++) {
-        const tx = 11 + (i % 2) * 26 + v * 4;
-        const ty = 14 + Math.floor(i / 2) * 23 - v * 4;
-        ctx.strokeStyle = '#203d30';
-        path(ctx, [[tx, ty + 8], [tx, ty - 3]]); ctx.stroke();
-        ctx.fillStyle = i % 2 ? '#4c684c' : '#34543d';
-        path(ctx, [[tx - 6, ty + 3], [tx, ty - 8], [tx + 6, ty + 3]], true); ctx.fill();
-        ctx.strokeStyle = '#233d2e'; path(ctx, [[tx - 4, ty + 6], [tx, ty - 1], [tx + 4, ty + 6]]); ctx.stroke();
+    ctx.lineJoin = 'round';
+    const terrain = tile.terrain;
+    if (terrain === 'forest') {
+      const clusters = size > 36 ? 7 : 5;
+      for (let i = 0; i < clusters; i++) {
+        const tx = 8 + variation2(tile.x, tile.y, i) * 40;
+        const ty = 10 + variation2(tile.x, tile.y, i + 9) * 36;
+        ctx.fillStyle = i % 2 ? '#3d5a44' : '#2a4334';
+        ctx.strokeStyle = '#1a2c22';
+        ctx.lineWidth = .8;
+        path(ctx, [[tx - 6, ty + 5], [tx, ty - 9], [tx + 6, ty + 5]], true); ctx.fill(); ctx.stroke();
+        path(ctx, [[tx - 4.5, ty + 9], [tx, ty - 2], [tx + 4.5, ty + 9]], true); ctx.fill();
+        ctx.beginPath(); ctx.moveTo(tx, ty + 9); ctx.lineTo(tx, ty + 13); ctx.stroke();
       }
-    } else if (['mountain', 'ore', 'pass'].includes(tile.terrain)) {
-      ctx.strokeStyle = '#444746';
-      for (let line = 0; line < 3; line++) {
+    } else if (terrain === 'mountain' || terrain === 'ore' || terrain === 'pass') {
+      ctx.strokeStyle = 'rgba(42,34,24,.45)';
+      ctx.lineWidth = .85;
+      for (let line = 0; line < 4; line++) {
         ctx.beginPath();
-        ctx.moveTo(3, 43 + line * 5);
-        ctx.bezierCurveTo(12, 32 + line * 3, 18, 10 + line * 6, 28, 13 + line * 7);
-        ctx.bezierCurveTo(41, 13 + line * 7, 38, 36 + line * 3, 53, 38 + line * 5);
+        ctx.moveTo(2, 46 - line * 7 + v * 3);
+        ctx.bezierCurveTo(14, 34 - line * 5, 22, 12 + line * 5, 30, 16 + line * 6);
+        ctx.bezierCurveTo(40, 14 + line * 6, 44, 34 + line * 3, 54, 40 + line * 4);
         ctx.stroke();
       }
-      ctx.fillStyle = tile.terrain === 'ore' ? '#684f43' : '#777974';
-      path(ctx, [[15, 38], [28, 14], [42, 40], [29, 33]], true); ctx.fill();
-      ctx.fillStyle = '#c9c0aa'; path(ctx, [[23, 23], [28, 14], [33, 23], [29, 21], [26, 25]], true); ctx.fill();
-      if (tile.terrain === 'ore') {
-        ctx.fillStyle = '#897061';
-        path(ctx, [[39, 43], [42, 35], [48, 38], [46, 46]], true); ctx.fill();
+      ctx.fillStyle = terrain === 'ore' ? '#684f43' : '#6a6860';
+      path(ctx, [[12, 42], [28, 12], [44, 44], [30, 34]], true); ctx.fill();
+      ctx.fillStyle = '#d4cbb4'; path(ctx, [[22, 24], [28, 12], [33, 24], [29, 21]], true); ctx.fill();
+      if (terrain === 'ore') {
+        ctx.fillStyle = '#8a6a52';
+        path(ctx, [[38, 44], [42, 32], [50, 36], [46, 48]], true); ctx.fill();
+        ctx.strokeStyle = '#c4a574'; ctx.lineWidth = .9;
+        path(ctx, [[40, 40], [48, 34]]); ctx.stroke();
       }
-    } else if (tile.terrain === 'plain') {
-      ctx.strokeStyle = '#766f4e';
-      for (let i = 0; i < 4; i++) { path(ctx, [[10, 18 + i * 6], [43, 13 + i * 6]]); ctx.stroke(); }
-      ctx.strokeStyle = '#d2bd86';
-      path(ctx, [[15, 10], [19, 43]]); ctx.stroke();
-    } else if (tile.terrain === 'arid' || tile.terrain === 'steppe') {
-      ctx.strokeStyle = tile.terrain === 'arid' ? '#846f4c' : '#66643f';
-      for (let i = 0; i < 3; i++) {
-        ctx.beginPath(); ctx.moveTo(6 + i * 4, 14 + i * 13);
-        ctx.quadraticCurveTo(25, 7 + i * 13, 47 - i * 4, 17 + i * 13); ctx.stroke();
+      if (terrain === 'pass') {
+        ctx.strokeStyle = COLORS.brass; ctx.lineWidth = 1.6;
+        path(ctx, [[18, 46], [28, 28], [38, 46]]); ctx.stroke();
       }
-    } else if (tile.terrain === 'valley') {
+    } else if (terrain === 'plain') {
+      ctx.strokeStyle = 'rgba(74, 58, 28, .35)';
+      ctx.lineWidth = .7;
+      ctx.strokeRect(8, 10, 40, 18);
+      ctx.strokeRect(6, 30, 22, 16);
+      ctx.strokeRect(30, 32, 20, 14);
+      ctx.strokeStyle = 'rgba(90, 110, 50, .45)';
+      for (let i = 0; i < 5; i++) { path(ctx, [[10, 14 + i * 4], [46, 12 + i * 4]]); ctx.stroke(); }
+      ctx.strokeStyle = 'rgba(196, 165, 116, .35)';
+      path(ctx, [[16, 8], [18, 50]]); ctx.stroke();
+    } else if (terrain === 'steppe') {
+      ctx.strokeStyle = 'rgba(74, 64, 32, .4)';
+      ctx.lineWidth = .7;
+      for (let i = 0; i < 4; i++) {
+        const ox = 8 + i * 11 + v * 4, oy = 16 + (i % 2) * 14;
+        path(ctx, [[ox, oy], [ox + 3, oy - 6], [ox + 6, oy]]); ctx.stroke();
+      }
+    } else if (terrain === 'arid') {
+      ctx.fillStyle = 'rgba(90, 62, 34, .28)';
+      for (let i = 0; i < 5; i++) {
+        const px = 8 + variation2(tile.x, tile.y, i + 3) * 40;
+        const py = 10 + variation2(tile.x, tile.y, i + 7) * 36;
+        ctx.beginPath(); ctx.ellipse(px, py, 2.4, 1.1, v, 0, TAU); ctx.fill();
+      }
+      ctx.strokeStyle = 'rgba(120, 86, 48, .35)';
+      ctx.beginPath(); ctx.moveTo(6, 20); ctx.quadraticCurveTo(28, 12, 50, 24); ctx.stroke();
+    } else if (terrain === 'valley') {
       ctx.strokeStyle = '#3f6554';
-      for (let i = 0; i < 3; i++) { path(ctx, [[7 + i * 15, 39], [9 + i * 15, 34], [12 + i * 15, 38]]); ctx.stroke(); }
+      ctx.lineWidth = .9;
+      for (let i = 0; i < 4; i++) { path(ctx, [[8 + i * 12, 42], [10 + i * 12, 34], [14 + i * 12, 42]]); ctx.stroke(); }
+      ctx.strokeStyle = 'rgba(42, 70, 68, .35)';
+      ctx.beginPath(); ctx.moveTo(4, 28); ctx.quadraticCurveTo(28, 22, 52, 30); ctx.stroke();
+    } else if (terrain === 'road') {
+      ctx.fillStyle = 'rgba(74, 55, 28, .18)';
+      ctx.fillRect(0, 22, 56, 12);
     }
     if (size > 40) {
-      // Two contour strokes make close zoom read like a surveyed atlas.
       ctx.strokeStyle = 'rgba(43,35,29,.22)';
+      ctx.lineWidth = .8;
       ctx.beginPath(); ctx.moveTo(2, 47 - v * 8); ctx.bezierCurveTo(14, 39, 31, 51, 54, 40 - v * 5); ctx.stroke();
-      ctx.strokeStyle = 'rgba(235,214,171,.20)';
+      ctx.strokeStyle = 'rgba(235,214,171,.18)';
       ctx.beginPath(); ctx.moveTo(1, 7 + v * 8); ctx.bezierCurveTo(18, 14, 35, 3, 55, 15 + v * 3); ctx.stroke();
-      ctx.strokeStyle = 'rgba(45,37,29,.16)';
-      for (let h = 0; h < 3; h++) { const o = 5 + ((tile.x * 11 + tile.y * 7 + h * 13) % 43); path(ctx, [[o - 8, 54], [o + 10, 2]]); ctx.stroke(); }
     }
     ctx.restore();
   }
@@ -512,42 +591,53 @@ export class StrategyMap {
   drawConnections(bounds, ox, oy, scale) {
     const ctx = this.ctx;
     if (this.riverPoints?.length > 1) {
-      ctx.beginPath();
-      for (let i = 1; i < this.riverPoints.length; i++) {
-        const a = this.riverPoints[i - 1], b = this.riverPoints[i];
-        if (b.y - a.y > 3 || b.y < bounds.minY - 1 || a.y > bounds.maxY + 1) continue;
-        const ax = ox + (a.x + .5) * scale, ay = oy + (a.y + .5) * scale;
-        const bx = ox + (b.x + .5) * scale, by = oy + (b.y + .5) * scale;
-        ctx.moveTo(ax, ay);
-        ctx.bezierCurveTo(ax, (ay + by) / 2, bx, (ay + by) / 2, bx, by);
-      }
       ctx.lineCap = 'round';
-      ctx.lineWidth = Math.max(4, scale * .34); ctx.strokeStyle = 'rgba(31,43,39,.38)'; ctx.stroke();
-      ctx.lineWidth = Math.max(3, scale * .27); ctx.strokeStyle = '#294d4d'; ctx.stroke();
-      ctx.lineWidth = Math.max(1, scale * .14); ctx.strokeStyle = COLORS.water; ctx.stroke();
-      ctx.lineWidth = Math.max(.7, scale * .045); ctx.strokeStyle = COLORS.waterLight; ctx.stroke();
-    }
-    for (const terrain of ['road']) {
-      ctx.strokeStyle = 'rgba(54,37,25,.65)';
-      ctx.lineWidth = Math.max(3, scale * .12);
-      ctx.lineCap = 'round';
-      ctx.setLineDash(terrain === 'road' && scale > 18 ? [scale * .08, scale * .08] : []);
-      ctx.beginPath();
-      for (let y = bounds.minY; y <= bounds.maxY; y++) for (let x = bounds.minX; x <= bounds.maxX; x++) {
-        if (this.tile(x, y)?.terrain !== terrain) continue;
-        const px = ox + (x + .5) * scale, py = oy + (y + .5) * scale;
-        let connected = false;
-        for (const [dx, dy] of [[1, 0], [0, 1], [1, 1], [-1, 1]]) {
-          if (this.tile(x + dx, y + dy)?.terrain !== terrain) continue;
-          ctx.moveTo(px, py); ctx.lineTo(px + dx * scale, py + dy * scale); connected = true;
+      ctx.lineJoin = 'round';
+      for (let pass = 0; pass < 4; pass++) {
+        const widths = [0.42, 0.32, 0.18, 0.055];
+        const colors = ['rgba(36,48,44,.42)', '#2a4a4c', COLORS.water, COLORS.waterLight];
+        ctx.strokeStyle = colors[pass];
+        for (let i = 1; i < this.riverPoints.length; i++) {
+          const a = this.riverPoints[i - 1], b = this.riverPoints[i];
+          if (b.y - a.y > 3 || b.y < bounds.minY - 1 || a.y > bounds.maxY + 1) continue;
+          const ax = ox + (a.x + .5) * scale, ay = oy + (a.y + .5) * scale;
+          const bx = ox + (b.x + .5) * scale, by = oy + (b.y + .5) * scale;
+          const wobble = (variation(a.x, a.y) - .5) * scale * .22;
+          const swell = 0.82 + variation2(a.x, a.y, 3) * 0.45;
+          ctx.beginPath();
+          ctx.moveTo(ax, ay);
+          ctx.bezierCurveTo(ax + wobble, (ay + by) / 2, bx - wobble, (ay + by) / 2, bx, by);
+          ctx.lineWidth = Math.max(pass === 3 ? .7 : 2, scale * widths[pass] * swell);
+          ctx.stroke();
         }
-        if (!connected) { ctx.moveTo(px - .15 * scale, py + .09 * scale); ctx.lineTo(px + .15 * scale, py - .09 * scale); }
       }
+    }
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.setLineDash([]);
+    const segments = [];
+    for (let y = bounds.minY; y <= bounds.maxY; y++) for (let x = bounds.minX; x <= bounds.maxX; x++) {
+      if (this.tile(x, y)?.terrain !== 'road') continue;
+      const px = ox + (x + .5) * scale, py = oy + (y + .5) * scale;
+      let connected = false;
+      for (const [dx, dy] of [[1, 0], [0, 1], [1, 1], [-1, 1]]) {
+        if (this.tile(x + dx, y + dy)?.terrain !== 'road') continue;
+        segments.push([px, py, px + dx * scale, py + dy * scale]);
+        connected = true;
+      }
+      if (!connected) segments.push([px - .16 * scale, py + .08 * scale, px + .16 * scale, py - .08 * scale]);
+    }
+    for (const [width, color] of [[Math.max(4, scale * .20), 'rgba(54,37,25,.72)'], [Math.max(2.2, scale * .12), COLORS.road], [Math.max(.8, scale * .04), '#d4c08a']]) {
+      ctx.beginPath();
+      for (const [ax, ay, bx, by] of segments) { ctx.moveTo(ax, ay); ctx.lineTo(bx, by); }
+      ctx.lineWidth = width;
+      ctx.strokeStyle = color;
       ctx.stroke();
-      ctx.strokeStyle = '#c6a56d';
-      ctx.lineWidth = Math.max(1, scale * .055);
-      ctx.stroke();
-      ctx.setLineDash([]);
+    }
+    ctx.fillStyle = '#c4a574';
+    for (const [ax, ay, bx, by] of segments) {
+      ctx.beginPath(); ctx.arc(ax, ay, Math.max(1.2, scale * .045), 0, TAU); ctx.fill();
+      ctx.beginPath(); ctx.arc(bx, by, Math.max(1.2, scale * .045), 0, TAU); ctx.fill();
     }
   }
 
@@ -557,17 +647,17 @@ export class StrategyMap {
     const ctx = this.ctx;
     for (const settlement of this.state.settlements) {
       const p = this.tileToScreen(settlement.x, settlement.y);
-      const radius = scale * 2.2;
+      const radius = scale * (this.isCapital(settlement) ? 2.5 : 2.0);
       if (p.x + radius < 0 || p.y + radius < 0 || p.x - radius > this.width || p.y - radius > this.height) continue;
       ctx.save();
-      ctx.globalAlpha = .10;
+      ctx.globalAlpha = .08;
       ctx.fillStyle = this.factionColor(settlement.ownerId);
       ctx.beginPath(); ctx.arc(p.x, p.y, radius, 0, TAU); ctx.fill();
-      ctx.globalAlpha = .36;
+      ctx.globalAlpha = .42;
       ctx.strokeStyle = ctx.fillStyle;
-      ctx.lineWidth = .8;
-      ctx.setLineDash([3, 4]);
-      ctx.stroke();
+      ctx.lineWidth = 1;
+      ctx.setLineDash([2, 5]);
+      ctx.beginPath(); ctx.arc(p.x, p.y, radius, 0, TAU); ctx.stroke();
       ctx.restore();
     }
   }
@@ -578,16 +668,16 @@ export class StrategyMap {
       if (!tile) continue;
       const p = this.tileToScreen(tile.x, tile.y);
       const size = Math.max(12, scale - 2);
-      ctx.fillStyle = selected ? 'rgba(42,87,66,.13)' : 'rgba(255,255,241,.23)';
+      ctx.fillStyle = selected ? 'rgba(30,61,50,.16)' : 'rgba(255,248,230,.28)';
       ctx.fillRect(p.x - size / 2, p.y - size / 2, size, size);
-      ctx.strokeStyle = selected ? '#2d5945' : '#7c876c';
-      ctx.lineWidth = selected ? 2.5 : 1;
+      ctx.strokeStyle = selected ? '#1e3d32' : '#8a7a52';
+      ctx.lineWidth = selected ? 2.6 : 1.1;
       ctx.strokeRect(p.x - size / 2, p.y - size / 2, size, size);
       if (selected) {
-        ctx.strokeStyle = '#fff7cf'; ctx.lineWidth = 1.5;
+        ctx.strokeStyle = '#f3ead4'; ctx.lineWidth = 1.5;
         ctx.strokeRect(p.x - size / 2 - 2, p.y - size / 2 - 2, size + 4, size + 4);
         const c = Math.max(4, Math.min(9, size * .18));
-        ctx.strokeStyle = '#9b4b32'; ctx.lineWidth = 2;
+        ctx.strokeStyle = COLORS.oxblood; ctx.lineWidth = 2.2;
         for (const [sx, sy] of [[-1,-1],[1,-1],[-1,1],[1,1]]) {
           const cx = p.x + sx * (size / 2 + 5), cy = p.y + sy * (size / 2 + 5);
           ctx.beginPath(); ctx.moveTo(cx - sx * c, cy); ctx.lineTo(cx, cy); ctx.lineTo(cx, cy - sy * c); ctx.stroke();
@@ -601,26 +691,49 @@ export class StrategyMap {
     const poi = tile.poi;
     const p = this.tileToScreen(tile.x, tile.y);
     if (this.mode === 'world' && !poi.ownerId && !['caravanserai', 'watchtower', 'ruins'].includes(poi.type)) return;
-    const r = clamp(scale * .20, 3, 12);
+    const r = clamp(scale * .22, 3.5, 13);
     ctx.save(); ctx.translate(p.x, p.y);
-    ctx.fillStyle = 'rgba(36,56,43,.16)'; ctx.beginPath(); ctx.arc(0, 1, r + 6, 0, TAU); ctx.fill();
-    ctx.fillStyle = '#ece8d3';
-    ctx.strokeStyle = poi.ownerId ? this.factionColor(poi.ownerId) : '#817b62';
-    ctx.lineWidth = poi.ownerId ? 2 : 1;
-    path(ctx, [[0, -r - 2], [r + 2, 0], [0, r + 2], [-r - 2, 0]], true); ctx.fill(); ctx.stroke();
-    if (scale > 27) {
-      ctx.strokeStyle = '#696e56'; ctx.lineWidth = 1.5;
-      if (poi.type === 'watchtower' || poi.type === 'ruins' || poi.type === 'caravanserai') {
-        ctx.strokeRect(-r * .4, -r * .5, r * .8, r * 1.1);
-        path(ctx, [[-r * .65, -r * .5], [r * .65, -r * .5], [r * .65, -r * .8]]); ctx.stroke();
-      } else if (poi.type === 'forest') {
-        path(ctx, [[-r * .55, r * .3], [0, -r * .65], [r * .55, r * .3]], true); ctx.stroke();
-        path(ctx, [[0, r * .2], [0, r * .65]]); ctx.stroke();
-      } else if (poi.type === 'pasture') {
-        for (const px of [-4, 0, 4]) { path(ctx, [[px, 5], [px, -4], [px - 2, -2]]); ctx.stroke(); }
-      } else {
-        path(ctx, [[-r * .65, r * .45], [0, -r * .65], [r * .65, r * .45]], true); ctx.stroke();
-      }
+    ctx.fillStyle = 'rgba(36,40,32,.18)'; ctx.beginPath(); ctx.ellipse(0, r * .7, r + 5, r * .4, 0, 0, TAU); ctx.fill();
+    ctx.fillStyle = COLORS.ivory;
+    ctx.strokeStyle = poi.ownerId ? this.factionColor(poi.ownerId) : '#6a5c48';
+    ctx.lineWidth = poi.ownerId ? 2 : 1.15;
+    const type = poi.type;
+    if (type === 'watchtower') {
+      path(ctx, [[-r * .45, r * .7], [-r * .45, -r * .2], [0, -r * 1.15], [r * .45, -r * .2], [r * .45, r * .7]], true);
+      ctx.fill(); ctx.stroke();
+      ctx.fillStyle = COLORS.oxblood; ctx.fillRect(-r * .12, -r * .15, r * .24, r * .5);
+    } else if (type === 'caravanserai') {
+      ctx.fillRect(-r * .85, -r * .15, r * 1.7, r * .85);
+      ctx.strokeRect(-r * .85, -r * .15, r * 1.7, r * .85);
+      ctx.beginPath(); ctx.arc(0, -r * .15, r * .55, Math.PI, 0); ctx.fill(); ctx.stroke();
+    } else if (type === 'ruins') {
+      ctx.fillRect(-r * .7, -r * .1, r * .35, r * .8);
+      ctx.fillRect(r * .15, r * .1, r * .4, r * .6);
+      ctx.strokeRect(-r * .7, -r * .1, r * .35, r * .8);
+      ctx.strokeRect(r * .15, r * .1, r * .4, r * .6);
+      ctx.beginPath(); ctx.moveTo(-r * .7, -r * .1); ctx.lineTo(-r * .35, -r * .55); ctx.stroke();
+    } else if (type === 'pass') {
+      path(ctx, [[-r, r * .55], [0, -r], [r, r * .55]], true); ctx.fill(); ctx.stroke();
+      ctx.strokeStyle = COLORS.brass; ctx.lineWidth = 1.6;
+      path(ctx, [[-r * .35, r * .2], [0, -r * .35], [r * .35, r * .2]]); ctx.stroke();
+    } else if (type === 'forest') {
+      path(ctx, [[-r * .7, r * .5], [0, -r], [r * .7, r * .5]], true); ctx.fill(); ctx.stroke();
+      path(ctx, [[-r * .5, r * .75], [0, -r * .15], [r * .5, r * .75]], true); ctx.fill(); ctx.stroke();
+      path(ctx, [[0, r * .5], [0, r]]); ctx.stroke();
+    } else if (type === 'pasture') {
+      ctx.beginPath(); ctx.arc(0, 0, r, 0, TAU); ctx.fill(); ctx.stroke();
+      ctx.strokeStyle = '#3d5344'; ctx.lineWidth = 1.3;
+      for (const px of [-r * .45, 0, r * .45]) { path(ctx, [[px, r * .35], [px, -r * .35], [px - 3, -r * .1]]); ctx.stroke(); }
+    } else if (type === 'quarry') {
+      ctx.fillRect(-r * .7, -r * .45, r * 1.4, r * .95);
+      ctx.strokeRect(-r * .7, -r * .45, r * 1.4, r * .95);
+      ctx.strokeStyle = '#6a5c48';
+      path(ctx, [[-r * .4, -r * .1], [r * .4, -r * .1], [-r * .2, r * .3], [r * .3, r * .3]]); ctx.stroke();
+    } else if (type === 'iron') {
+      path(ctx, [[0, -r], [r * .75, 0], [0, r], [-r * .75, 0]], true); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = COLORS.ore; path(ctx, [[0, -r * .45], [r * .35, 0], [0, r * .45], [-r * .35, 0]], true); ctx.fill();
+    } else {
+      path(ctx, [[0, -r], [r, 0], [0, r], [-r, 0]], true); ctx.fill(); ctx.stroke();
     }
     ctx.restore();
     if (scale >= 48 && (sameTile(this.hover, tile) || sameTile(this.selected, tile))) this.label(POIS[poi.type]?.label || 'Stratejik nokta', p.x, p.y + r + 16, false);
@@ -635,40 +748,55 @@ export class StrategyMap {
       if (p.x < -70 || p.y < -70 || p.x > this.width + 70 || p.y > this.height + 70) continue;
       const own = settlement.ownerId === this.state.playerId;
       const color = this.factionColor(settlement.ownerId);
-      const r = clamp(scale * .34, 5, 22);
+      const capital = this.isCapital(settlement);
+      const fortified = (settlement.buildings?.wall || 0) >= 2;
+      const r = clamp(scale * (capital ? .42 : .34), capital ? 6 : 5, capital ? 26 : 22);
       ctx.save(); ctx.translate(p.x, p.y);
       ctx.fillStyle = 'rgba(55,64,47,.14)';
       ctx.beginPath(); ctx.ellipse(1, r * .49, r * 1.1, r * .42, 0, 0, TAU); ctx.fill();
       if (scale < 25) {
-        ctx.fillStyle = '#f6f1dc'; ctx.beginPath(); ctx.arc(0, 0, r + 2, 0, TAU); ctx.fill();
-        ctx.fillStyle = color; ctx.fillRect(-r * .8, -r * .8, r * 1.6, r * 1.6);
-        if (own) { ctx.strokeStyle = '#f8f3db'; ctx.lineWidth = 1; ctx.strokeRect(-r * .43, -r * .43, r * .86, r * .86); }
+        ctx.fillStyle = COLORS.ivory; ctx.beginPath(); ctx.arc(0, 0, r + 2, 0, TAU); ctx.fill();
+        if (capital) {
+          ctx.fillStyle = color;
+          path(ctx, [[0, -r - 2], [r * .72, -r * .2], [r * .45, r * .8], [-r * .45, r * .8], [-r * .72, -r * .2]], true);
+          ctx.fill();
+        } else {
+          ctx.fillStyle = color; ctx.fillRect(-r * .8, -r * .8, r * 1.6, r * 1.6);
+        }
+        if (own) { ctx.strokeStyle = COLORS.ivory; ctx.lineWidth = 1; ctx.strokeRect(-r * .43, -r * .43, r * .86, r * .86); }
       } else {
         ctx.scale(r / 20, r / 20);
-        // Small original Anatolian stone courtyard silhouette; no external assets.
         ctx.fillStyle = '#e5dfc7'; ctx.strokeStyle = '#737563'; ctx.lineWidth = 1;
         path(ctx, [[-18, 7], [-18, -7], [-10, -11], [10, -11], [18, -7], [18, 7], [0, 16]], true); ctx.fill(); ctx.stroke();
         ctx.fillStyle = '#b6b198'; path(ctx, [[0, 4], [18, -7], [18, 7], [0, 16]], true); ctx.fill();
         ctx.fillStyle = '#c6c0a7'; path(ctx, [[-18, -7], [0, 4], [0, 16], [-18, 7]], true); ctx.fill();
         ctx.fillStyle = '#eeead6'; ctx.fillRect(-8, -16, 15, 17);
-        ctx.fillStyle = '#a87458'; path(ctx, [[-11, -16], [-1, -23], [11, -16], [4, -12]], true); ctx.fill();
+        ctx.fillStyle = capital ? COLORS.oxblood : '#a87458'; path(ctx, [[-11, -16], [-1, -23], [11, -16], [4, -12]], true); ctx.fill();
         ctx.fillStyle = '#786f57'; ctx.fillRect(-2, -6, 5, 7);
         for (const tx of [-17, 12]) {
           ctx.fillStyle = '#ddd7bd'; ctx.fillRect(tx, -10, 6, 17);
           ctx.fillStyle = '#bbb399'; ctx.fillRect(tx, -12, 2, 4); ctx.fillRect(tx + 4, -12, 2, 4);
         }
+        if (fortified) {
+          ctx.strokeStyle = '#4a4c48'; ctx.lineWidth = 1.4;
+          path(ctx, [[-22, 8], [-22, -2], [-18, -6], [-14, -2], [-10, -6], [-6, -2], [-2, -6], [2, -2], [6, -6], [10, -2], [14, -6], [18, -2], [22, -6], [22, 8]]); ctx.stroke();
+        }
         ctx.strokeStyle = '#5f6451'; ctx.lineWidth = 1.2; path(ctx, [[8, -14], [8, -32]]); ctx.stroke();
         ctx.fillStyle = color; path(ctx, [[8, -32], [23, -29], [8, -24]], true); ctx.fill();
+        if (capital) {
+          ctx.fillStyle = COLORS.brass;
+          path(ctx, [[-6, -28], [-2, -36], [2, -28], [6, -36], [8, -26], [-8, -26]], true); ctx.fill();
+        }
         if (own) { ctx.strokeStyle = color; ctx.lineWidth = 1.4; ctx.beginPath(); ctx.ellipse(0, 6, 24, 15, 0, .1, Math.PI - .1); ctx.stroke(); }
       }
       ctx.restore();
-      if (scale > 20 || own) {
+      if (scale > 20 || own || capital) {
         const text = settlement.name || 'Yerleşim';
         const labelY = p.y + r * .85 + 15;
         const maxWidth = this.mode === 'near' ? 150 : 112;
         const collision = labels.some((l) => Math.abs(l.x - p.x) < maxWidth && Math.abs(l.y - labelY) < 22);
-        if (!collision || own || sameTile(this.selected, settlement)) {
-          this.label(text, p.x, labelY, own, maxWidth);
+        if (!collision || own || capital || sameTile(this.selected, settlement)) {
+          this.label(capital ? `★ ${text}` : text, p.x, labelY, own, maxWidth);
           labels.push({ x: p.x, y: labelY });
         }
       }
@@ -679,10 +807,10 @@ export class StrategyMap {
     const ctx = this.ctx;
     ctx.font = `${own ? '700' : '600'} 11px ui-sans-serif, system-ui, sans-serif`;
     const width = Math.min(ctx.measureText(text).width, maxWidth) + 12;
-    ctx.fillStyle = own ? 'rgba(242,240,221,.95)' : 'rgba(239,235,213,.88)';
+    ctx.fillStyle = own ? 'rgba(243,234,212,.95)' : 'rgba(236,226,196,.88)';
     ctx.fillRect(x - width / 2, y - 11, width, 17);
     if (own) { ctx.fillStyle = COLORS.player; ctx.fillRect(x - width / 2, y - 11, 2, 17); }
-    ctx.fillStyle = own ? '#244a39' : '#464e3d';
+    ctx.fillStyle = own ? '#1e3d32' : '#3a3228';
     ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
     ctx.fillText(text, x, y + 1, maxWidth);
   }
@@ -732,7 +860,7 @@ export class StrategyMap {
     const x = this.width - 30, y = 76;
     if (this.height < 230) return;
     ctx.save(); ctx.translate(x, y);
-    ctx.fillStyle = '#5d6958'; ctx.strokeStyle = 'rgba(91,103,82,.5)'; ctx.lineWidth = .8;
+    ctx.fillStyle = '#5a4a32'; ctx.strokeStyle = 'rgba(90,74,50,.5)'; ctx.lineWidth = .8;
     path(ctx, [[0, -12], [-4, 4], [0, 1], [4, 4]], true); ctx.fill();
     ctx.beginPath(); ctx.arc(0, 0, 18, 0, TAU); ctx.stroke();
     ctx.font = '600 9px ui-sans-serif, system-ui, sans-serif'; ctx.textAlign = 'center'; ctx.fillText('K', 0, -23);
@@ -745,12 +873,12 @@ export class StrategyMap {
     const width = scale * tiles;
     const x = 19, y = this.height - 24;
     if (this.height < 120) return;
-    ctx.fillStyle = 'rgba(238,235,216,.88)'; ctx.fillRect(x - 7, y - 21, Math.max(width + 14, 76), 38);
-    ctx.strokeStyle = '#606d59'; ctx.lineWidth = 1.2;
+    ctx.fillStyle = 'rgba(243,234,212,.9)'; ctx.fillRect(x - 7, y - 21, Math.max(width + 14, 76), 38);
+    ctx.strokeStyle = '#6a5c48'; ctx.lineWidth = 1.2;
     path(ctx, [[x, y - 4], [x, y], [x + width, y], [x + width, y - 4]]); ctx.stroke();
-    ctx.fillStyle = '#58654f'; ctx.font = '500 10px ui-sans-serif, system-ui, sans-serif'; ctx.textAlign = 'left'; ctx.fillText(`${tiles} karo`, x, y - 8);
+    ctx.fillStyle = '#3a3228'; ctx.font = '500 10px ui-sans-serif, system-ui, sans-serif'; ctx.textAlign = 'left'; ctx.fillText(`${tiles} karo`, x, y - 8);
     if (this.width > 480) {
-      ctx.fillStyle = '#747b66'; ctx.textAlign = 'left';
+      ctx.fillStyle = '#6a5c48'; ctx.textAlign = 'left';
       ctx.fillText(`${Math.floor(this.center.x)} : ${Math.floor(this.center.y)}`, x + width + 24, y - 1);
     }
   }
@@ -767,19 +895,19 @@ export class StrategyMap {
       for (const tile of this.state.world.tiles) { mini.fillStyle = COLORS[tile.terrain] || COLORS.plain; mini.fillRect(tile.x, tile.y, 1, 1); }
       this.minimapTerrain = surface;
     }
-    ctx.fillStyle = 'rgba(243,239,220,.94)'; ctx.fillRect(x - 6, y - 23, size + 12, size + 29);
-    ctx.strokeStyle = '#aeb39b'; ctx.lineWidth = 1; ctx.strokeRect(x - 6, y - 23, size + 12, size + 29);
-    ctx.fillStyle = '#626b56'; ctx.font = '600 9px ui-sans-serif, system-ui, sans-serif'; ctx.textAlign = 'left'; ctx.fillText('DÜNYA · GİTMEK İÇİN TIKLA', x, y - 9);
+    ctx.fillStyle = 'rgba(243,234,212,.94)'; ctx.fillRect(x - 6, y - 23, size + 12, size + 29);
+    ctx.strokeStyle = '#c4b896'; ctx.lineWidth = 1; ctx.strokeRect(x - 6, y - 23, size + 12, size + 29);
+    ctx.fillStyle = '#5a4a32'; ctx.font = '600 9px ui-sans-serif, system-ui, sans-serif'; ctx.textAlign = 'left'; ctx.fillText('DÜNYA · GİTMEK İÇİN TIKLA', x, y - 9);
     ctx.imageSmoothingEnabled = false; ctx.drawImage(this.minimapTerrain, x, y, size, size); ctx.imageSmoothingEnabled = true;
     for (const settlement of this.state.settlements) {
       ctx.fillStyle = this.factionColor(settlement.ownerId);
       ctx.fillRect(x + (settlement.x + .5) / worldSize * size - 2, y + (settlement.y + .5) / worldSize * size - 2, 4, 4);
     }
     const a = worldAtScreen({ x: 0, y: 0 }, this.getView()), b = worldAtScreen({ x: this.width, y: this.height }, this.getView());
-    ctx.strokeStyle = '#fdf7dd'; ctx.lineWidth = 3;
+    ctx.strokeStyle = '#f3ead4'; ctx.lineWidth = 3;
     const vx = x + clamp(a.x, 0, worldSize) / worldSize * size, vy = y + clamp(a.y, 0, worldSize) / worldSize * size;
     const vw = (clamp(b.x, 0, worldSize) - clamp(a.x, 0, worldSize)) / worldSize * size, vh = (clamp(b.y, 0, worldSize) - clamp(a.y, 0, worldSize)) / worldSize * size;
-    ctx.strokeRect(vx, vy, vw, vh); ctx.strokeStyle = '#365743'; ctx.lineWidth = 1; ctx.strokeRect(vx, vy, vw, vh);
+    ctx.strokeRect(vx, vy, vw, vh); ctx.strokeStyle = '#1e3d32'; ctx.lineWidth = 1; ctx.strokeRect(vx, vy, vw, vh);
     this.minimapRect = { x, y, size };
   }
 

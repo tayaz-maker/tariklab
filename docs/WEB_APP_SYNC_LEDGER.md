@@ -34,6 +34,16 @@ Append after a meaningful website change to a game or shared brand/content. Skip
 
 ## Entries
 
+### 2026-09-21 — DARBE-H! card art rebuild + HANEDANIAN atlas rendering
+- Web change: DARBE-H! 300 SVG faces rebuilt as series-first archival collages (telex / dossier / command table / paraf / archive). HANEDANIAN map renderer retuned to dynastic atlas (hatching, contours, paper grain, distinct POI symbols, road casing, river banks). Compact HUD palette aligned; height unchanged.
+- Content: no
+- Artwork: yes
+- Gameplay/rules: no (world seed, tiles, movement, save, decks, stats, RNG untouched)
+- UI/presentation: yes (map rendering + DARBE card faces)
+- Shared-content source: no
+- Native follow-up: yes (paused) — carry the new DARBE faces and HANEDANIAN atlas look into a later standalone build
+- Commits: grok/darbe-hanedanian-final-art
+
 ### 2026-09-19 — Global closure released under final completion override
 - Web release: reviewed implementation `455d2601ef70bc4ebf9d08913f3c717cecde788c` fast-forwarded to main in the renamed `tayaz-maker/tariklab` repository; no force update.
 - Acceptance: Vercel success; public root + 18 routes HTTP 200; 30 static assets and 6 root bundles byte-identical to the reviewed production build. Browser/viewport limitations are recorded in `ASTRA_GLOBAL_FINAL_CLOSURE.md`, not reported as executed tests.
