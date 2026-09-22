@@ -28,9 +28,10 @@ test("credits.html kaldırılmış Classics bağımlılıklarını içermez", ()
 
 test("credits.html güncel yaratıcı bilgisini ve gerekli grupları taşır", () => {
   const html = read("public/credits.html");
-  assert.match(html, /Tarık Halil Ayaz/);
+  assert.doesNotMatch(html, /Tarık Halil Ayaz/);
   assert.match(html, /Tarık, annesinin oğludur\./);
   assert.match(read("public/i18n/tlab-i18n.js"), /Tarık is his mother's son\./);
+  assert.doesNotMatch(read("public/i18n/tlab-i18n.js"), /Tarık Halil Ayaz/);
   assert.match(html, /TLab Classics/);
   assert.match(html, /Labirent/);
   assert.match(html, /Tek Taş/);

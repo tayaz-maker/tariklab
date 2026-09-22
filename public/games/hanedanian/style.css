@@ -1,14 +1,14 @@
 :root {
-  color-scheme: light;
-  --paper: #e6d9b8;
-  --surface: #f3ead4;
-  --ink: #2a2218;
-  --muted: #6a5c48;
-  --line: #c4b896;
-  --accent: #7a3228;
-  --accent-light: #ead9cc;
-  --forest: #1e3d32;
-  --danger: #a23a2e;
+  color-scheme: dark;
+  --paper: #111c17;
+  --surface: #1c2921;
+  --ink: #e1d5b4;
+  --muted: #b3aa8f;
+  --line: #48513d;
+  --accent: #8e493e;
+  --accent-light: #3a2824;
+  --forest: #324f3e;
+  --danger: #d58265;
   --radius: 8px;
   --space: 12px;
   --display: Georgia, "Times New Roman", serif;
@@ -56,7 +56,7 @@ button {
     transform 0.15s;
 }
 button:hover {
-  background: #eadfc8;
+  background: #344535;
 }
 button:active {
   transform: translateY(1px);
@@ -278,7 +278,7 @@ html.tlab-embedded a[href="/"] {
 }
 .settlement-rail {
   padding: 20px 14px;
-  background: #e6dcc0;
+  background: #18261e;
   border-right: 1px solid var(--line);
   overflow: auto;
   min-height: 0;
@@ -300,7 +300,7 @@ html.tlab-embedded a[href="/"] {
 }
 .settlement-card.active {
   border-color: var(--forest);
-  background: #f8f3e6;
+  background: #253329;
   box-shadow: inset 3px 0 var(--forest);
 }
 .settlement-card strong,
@@ -313,7 +313,7 @@ html.tlab-embedded a[href="/"] {
 .rail-objective {
   padding-top: 20px;
   margin-top: 16px;
-  border-top: 1px solid #c4b896;
+  border-top: 1px solid #48513d;
 }
 .goal {
   margin-top: 12px;
@@ -339,7 +339,7 @@ html.tlab-embedded a[href="/"] {
 .map-workspace {
   position: relative;
   overflow: hidden;
-  background: #c5cdb2;
+  background: #18251d;
   min-width: 0;
   min-height: 0;
 }
@@ -365,8 +365,8 @@ html.tlab-embedded a[href="/"] {
 }
 .map-tools button {
   pointer-events: auto;
-  background: rgba(250, 248, 240, 0.96);
-  border-color: #b6bda7;
+  background: rgba(29, 43, 33, 0.97);
+  border-color: #48543f;
   box-shadow: 0 2px 4px #23342010;
   font-size: 12px;
   padding: 8px 10px;
@@ -380,7 +380,7 @@ html.tlab-embedded a[href="/"] {
   font-size: 9px;
   font-weight: 600;
   letter-spacing: 0.13em;
-  color: #35412f;
+  color: #c4c5a5;
   white-space: nowrap;
 }
 .map-caption span {
@@ -441,7 +441,7 @@ html.tlab-embedded a[href="/"] {
   padding: 3px 7px;
   border: 1px solid var(--line);
   border-radius: 3px;
-  background: #eee6d2;
+  background: #253329;
   color: var(--muted);
 }
 .terrain-summary {
@@ -460,7 +460,7 @@ html.tlab-embedded a[href="/"] {
   margin-top: 14px;
   padding: 10px 12px;
   border: 1px solid var(--line);
-  background: #eee6d2;
+  background: #253329;
 }
 .decision-brief span {
   color: var(--accent);
@@ -497,13 +497,13 @@ html.tlab-embedded a[href="/"] {
 }
 .note {
   padding: 12px;
-  background: #e9eddf;
+  background: #243b2a;
   border-left: 3px solid var(--forest);
   font-size: 12px;
   margin: 16px 0;
 }
 .note.danger {
-  background: #f2e4dd;
+  background: #422b27;
   border-color: var(--danger);
 }
 .section-view {
@@ -665,7 +665,7 @@ html.tlab-embedded a[href="/"] {
   border-top-color: var(--forest);
   color: var(--forest);
   font-weight: 700;
-  background: #eef0e5;
+  background: #293b2c;
 }
 .welcome {
   position: fixed;
@@ -838,7 +838,7 @@ select {
   padding: 10px 12px;
   border: 1px solid #bfc6b3;
   border-radius: 6px;
-  background: #fffdf6;
+  background: #223128;
   color: var(--ink);
   min-height: 44px;
   margin-top: 5px;
@@ -954,7 +954,7 @@ body.toast-visible .section-view {
   padding: 14px;
   border: 1px solid #9ca58f;
   border-radius: 10px;
-  background: rgba(247, 244, 233, 0.97);
+  background: rgba(25, 38, 29, 0.98);
   box-shadow: 0 12px 32px rgba(31, 45, 35, 0.2);
   backdrop-filter: blur(8px);
 }
@@ -1000,7 +1000,7 @@ body.toast-visible .section-view {
   min-width: 0;
   padding: 8px;
   border: 1px solid var(--line);
-  background: #eee6d2;
+  background: #253329;
   counter-increment: steps;
 }
 .field-guide li b,
@@ -1486,3 +1486,8 @@ body.toast-visible .section-view {
     transition: none !important;
   }
 }
+
+/* Warm brass hierarchy on a low-light campaign table. */
+.brandline { box-shadow: inset 0 1px #b2985a40; }
+.brandline h1, h2, h3 { color: var(--ink); }
+#world-map { background: #18231b; }
