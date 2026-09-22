@@ -1,0 +1,105 @@
+/* DARBE's editorial card surface. The shared duel engine and siblings retain
+   their own layout, contrast and interaction rules. */
+body[data-theme="darbe-h"] {
+  --background: #0c1310;
+  --surface: #19231d;
+  --surface-raised: #263329;
+  --table: #1d2a21;
+  --muted: #b4b29f;
+  --accent: #9dad95;
+  --darbe-paper: #e9dcc1;
+  --darbe-shadow: #0b100f;
+  --darbe-brass: #ab9061;
+  --darbe-quiet: #b6aa90;
+  --hand-width: clamp(166px, calc(174px * var(--card-scale, 1)), 224px);
+  background: radial-gradient(ellipse at 45% 0%, #293329 0, #121916 48%, #090e0e 100%);
+}
+body[data-theme="darbe-h"] .playing-card:not(.face-down) {
+  padding: 0;
+  gap: 0;
+  background: var(--darbe-shadow);
+  color: var(--darbe-paper);
+  border: 1px solid var(--darbe-brass);
+  border-radius: 4px;
+  box-shadow: 0 8px 18px #0008, inset 0 0 0 1px #d8bd7b20;
+}
+body[data-theme="darbe-h"] .playing-card:not(.face-down) .card-banner {
+  padding: 6px 8px 5px;
+  background: linear-gradient(110deg, #283329, #18201c);
+  border-bottom: 1px solid #aa936842;
+}
+body[data-theme="darbe-h"] .playing-card .card-name {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 600;
+  letter-spacing: .015em;
+  color: var(--darbe-paper);
+}
+body[data-theme="darbe-h"] .playing-card .card-level,
+body[data-theme="darbe-h"] .playing-card .card-kind-tag,
+body[data-theme="darbe-h"] .playing-card .card-stats small {
+  color: var(--darbe-quiet);
+}
+body[data-theme="darbe-h"] .playing-card .card-art {
+  background: var(--darbe-shadow);
+  border: 0;
+  border-radius: 0;
+}
+body[data-theme="darbe-h"] .card-art img {
+  object-position: center 48%;
+  filter: none;
+  opacity: 1;
+}
+body[data-theme="darbe-h"] .playing-card .card-stats {
+  padding: 7px 8px;
+  color: var(--darbe-paper);
+  background: #131a17;
+  border-top: 1px solid #aa936840;
+  font-variant-numeric: tabular-nums;
+}
+body[data-theme="darbe-h"] .hand-row .playing-card,
+body[data-theme="darbe-h"] .archive-grid .playing-card {
+  aspect-ratio: 5 / 8;
+}
+body[data-theme="darbe-h"] .archive-grid {
+  grid-template-columns: repeat(auto-fill, minmax(166px, 1fr));
+  gap: 18px;
+}
+body[data-theme="darbe-h"] .inspector .playing-card .card-art,
+body[data-theme="darbe-h"] .inspector-sheet .playing-card .card-art {
+  height: clamp(250px, 34vh, 380px);
+}
+body[data-theme="darbe-h"] .inspector .card-art img,
+body[data-theme="darbe-h"] .inspector-sheet .card-art img {
+  object-fit: cover;
+  object-position: center;
+}
+body[data-theme="darbe-h"] .playing-card.selected {
+  outline-color: #ddbf79;
+  box-shadow: 0 0 0 3px #ddbf7929, 0 12px 22px #000a;
+}
+@media (max-width: 760px) {
+  body[data-theme="darbe-h"] { --hand-width: clamp(156px, calc(162px * var(--card-scale, 1)), 200px); }
+  body[data-theme="darbe-h"] .archive-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  body[data-theme="darbe-h"] .inspector-sheet .playing-card .card-art { height: min(38vh, 320px); }
+}
+body[data-theme="darbe-h"] .playing-card .card-banner,
+body[data-theme="darbe-h"] .playing-card .card-stats { width: 100%; box-sizing: border-box; }
+body[data-theme="darbe-h"] .inspector-sheet .playing-card .card-art img { object-fit: contain; }
+@media (min-width: 761px) {
+  body[data-theme="darbe-h"] dialog.inspector-sheet { width: min(960px, calc(100vw - 48px)); }
+  body[data-theme="darbe-h"] .inspector-sheet .dialog-body:has(> article.playing-card) {
+    display: grid;
+    grid-template-columns: minmax(260px, .9fr) minmax(0, 1fr);
+    align-items: start;
+    align-content: start;
+    column-gap: 24px;
+  }
+  body[data-theme="darbe-h"] .inspector-sheet .dialog-body > article.playing-card {
+    grid-column: 1;
+    grid-row: 1 / span 8;
+    position: sticky;
+    top: 0;
+  }
+  body[data-theme="darbe-h"] .inspector-sheet .dialog-body:has(> article.playing-card) > :not(article.playing-card) { grid-column: 2; }
+  body[data-theme="darbe-h"] .inspector-sheet .dialog-body > article.playing-card .card-art { height: min(58vh, 520px); }
+}

@@ -145,8 +145,8 @@ test('right-click cannot begin a drag, and tiny finger jitter remains a tap', ()
 
 test('atlas renderer keeps dynastic inks, distinct POI marks and undashed roads', () => {
   const src = readFileSync(new URL('../public/games/hanedanian/map.js', import.meta.url), 'utf8');
-  assert.match(src, /paper: '#e4d4b0'/);
-  assert.match(src, /forest: '#2f4a38'/);
+  assert.match(src, /paper: '#191f1a'/);
+  assert.match(src, /forest: '#203e30'/);
   assert.match(src, /oxblood: '#7a3228'/);
   assert.match(src, /type === 'watchtower'/);
   assert.match(src, /type === 'caravanserai'/);
@@ -158,9 +158,7 @@ test('atlas renderer keeps dynastic inks, distinct POI marks and undashed roads'
   assert.match(src, /ensureGrain\(/);
   assert.match(src, /ensureTerrainCache\(/);
   assert.match(src, /drawImage\(cache/);
-  assert.match(src, /paintForestMasses\(/);
-  assert.match(src, /paintRidgeSystems\(/);
-  assert.match(src, /paintFieldSystems\(/);
+  assert.match(src, /paintContinuousAtlas\(/);
   assert.doesNotMatch(src, /setLineDash\(terrain === 'road'/);
   assert.doesNotMatch(src, /plain: '#b9aa7f'/);
   assert.doesNotMatch(src, /fillRect\(x, y, size \+ \.6/);
