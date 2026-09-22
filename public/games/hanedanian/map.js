@@ -6,6 +6,47 @@ import { TERRAINS, POIS } from './data.js';
 const TILE = 56;
 const MAX_ZOOM = 2.6;
 const TAU = Math.PI * 2;
+// Terrain atlases are painted by time-sliced jobs: each slice runs at most
+// ATLAS_SLICE_MS before handing the main thread back, so a zoom-mode change
+// never blocks input while a large (up to 3724px) bitmap is built.
+const ATLAS_SLICE_MS = 8;
+const ATLAS_MODES = ['near', 'region', 'world'];
+// Canvas commands are rasterized when the task that recorded them ends, not
+// when JS returns. Raster-heavy steps yield ATLAS_FLUSH to end the slice so a
+// single task never carries a whole-bitmap flush; full-bitmap fills are drawn
+// in ATLAS_BANDS horizontal bands on integer rows (pixel-identical result).
+const ATLAS_FLUSH = Symbol('atlas-flush');
+const ATLAS_BANDS = 8;
+const ATLAS_SCATTER_FLUSH = 1024;
+function* atlasBands(g, width, height, paint) {
+  for (let band = 0; band < ATLAS_BANDS; band++) {
+    const top = Math.round(band * height / ATLAS_BANDS), bottom = Math.round((band + 1) * height / ATLAS_BANDS);
+    g.save();
+    g.beginPath();
+    g.rect(0, top, width, bottom - top);
+    g.clip();
+    paint();
+    g.restore();
+    yield ATLAS_FLUSH;
+  }
+}
+const atlasQueue = [];
+let atlasChannel = null;
+function deferTask(fn) {
+  if (typeof MessageChannel !== 'function') {
+    setTimeout(fn, 0);
+    return;
+  }
+  if (!atlasChannel) {
+    atlasChannel = new MessageChannel();
+    atlasChannel.port1.onmessage = () => atlasQueue.shift()?.();
+    // Node imports this module in tests; an open port must not keep it alive.
+    atlasChannel.port1.unref?.();
+    atlasChannel.port2.unref?.();
+  }
+  atlasQueue.push(fn);
+  atlasChannel.port2.postMessage(0);
+}
 const COLORS = {
   paper: '#e4d4b0', ink: '#2a2218', muted: '#6a5c48', player: '#1e3d32',
   plain: '#c3b56a', forest: '#2f4a38', mountain: '#5c5850', ore: '#6b4e3e',
@@ -59,9 +100,11 @@ export class StrategyMap {
     this.frame = null;
     this.lastRenderMs = 0;
     this.drawnTiles = 0;
-    this.terrainCache = null;
+    this.terrainCaches = new Map();
+    this.atlasJobs = new Map();
+    this.atlasPending = false;
+    this.atlasPreview = null;
     this.terrainCacheWorld = null;
-    this.terrainCacheMode = null;
     this.listeners = [];
     this.disposed = false;
     canvas.style.touchAction = 'none';
@@ -113,9 +156,7 @@ export class StrategyMap {
     this.visibleArmies = (state.armies || []).filter((army) => isArmyVisible(state, army));
     if (changedWorld) {
       this.minimapTerrain = null;
-      this.terrainCache = null;
-      this.terrainCacheWorld = null;
-      this.terrainCacheMode = null;
+      this.resetTerrainCaches();
       // The generator's river valley is several tiles wide. Draw its centerline,
       // not a mesh connecting every fertile tile (which would suggest many rivers).
       this.riverPoints = [];
@@ -226,35 +267,117 @@ export class StrategyMap {
     return clusters;
   }
 
+  resetTerrainCaches() {
+    this.terrainCaches = new Map();
+    this.atlasJobs = new Map();
+    this.atlasPreview = null;
+    this.terrainCacheWorld = null;
+  }
+
+  // Returns a bitmap to draw immediately. The atlas for the current mode is
+  // painted by time-sliced background jobs (see runAtlasSlice); until it is
+  // ready the nearest finished atlas, or a soft per-tile material preview, is
+  // drawn instead. Painting it synchronously here blocked the main thread for
+  // ~1s on every zoom-mode change.
   ensureTerrainCache() {
     if (!this.state) return null;
-    const mode = this.mode;
     const world = this.state.world;
-    if (this.terrainCache && this.terrainCacheWorld === world && this.terrainCacheMode === mode) {
-      return this.terrainCache;
+    if (this.terrainCacheWorld !== world) {
+      this.resetTerrainCaches();
+      this.terrainCacheWorld = world;
     }
-    const ppt = this.cachePpt(mode);
+    const ready = this.terrainCaches.get(this.mode);
+    if (ready) return ready;
+    this.queueAtlas(this.mode);
+    for (const mode of ATLAS_MODES) {
+      const cache = this.terrainCaches.get(mode);
+      if (cache) return cache;
+    }
+    return this.ensureAtlasPreview();
+  }
+
+  ensureAtlasPreview() {
+    if (this.atlasPreview) return this.atlasPreview;
+    const size = this.state.world.size;
     const canvas = document.createElement('canvas');
-    canvas.width = world.size * ppt;
-    canvas.height = world.size * ppt;
+    canvas.width = size;
+    canvas.height = size;
     const g = canvas.getContext('2d');
-    g.fillStyle = COLORS.paper;
-    g.fillRect(0, 0, canvas.width, canvas.height);
-    this.paintBiomeBase(g, ppt);
-    this.paintFieldSystems(g, ppt);
-    this.paintScrub(g, ppt);
-    this.paintValleyWash(g, ppt);
-    this.paintForestMasses(g, ppt);
-    this.paintRidgeSystems(g, ppt);
-    this.terrainCache = canvas;
-    this.terrainCacheWorld = world;
-    this.terrainCacheMode = mode;
+    if (!g) return null;
+    const image = g.createImageData(size, size);
+    this.state.world.tiles.forEach((tile, i) => {
+      const hex = COLORS[this.landscapeTerrain(tile)] || COLORS.plain;
+      for (let j = 0; j < 3; j++) image.data[i * 4 + j] = parseInt(hex.slice(1 + j * 2, 3 + j * 2), 16);
+      image.data[i * 4 + 3] = 255;
+    });
+    g.putImageData(image, 0, 0);
+    this.atlasPreview = canvas;
     return canvas;
   }
 
-  paintBiomeBase(g, ppt) {
+  queueAtlas(mode) {
+    if (!this.terrainCaches.has(mode) && !this.atlasJobs.has(mode)) this.atlasJobs.set(mode, this.atlasJob(mode));
+    this.pumpAtlas();
+  }
+
+  pumpAtlas() {
+    if (this.atlasPending || this.disposed || !this.atlasJobs.size) return;
+    this.atlasPending = true;
+    deferTask(() => {
+      this.atlasPending = false;
+      this.runAtlasSlice();
+    });
+  }
+
+  runAtlasSlice() {
+    if (this.disposed || !this.state || this.terrainCacheWorld !== this.state.world) return;
+    const mode = this.atlasJobs.has(this.mode) ? this.mode : this.atlasJobs.keys().next().value;
+    const job = this.atlasJobs.get(mode);
+    if (!job) return;
+    const deadline = performance.now() + ATLAS_SLICE_MS;
+    let step;
+    do step = job.next(); while (!step.done && step.value !== ATLAS_FLUSH && performance.now() < deadline);
+    if (step.done) {
+      this.atlasJobs.delete(mode);
+      const improvesView = mode === this.mode || !this.terrainCaches.has(this.mode);
+      this.terrainCaches.set(mode, step.value);
+      if (improvesView) this.invalidate();
+      // Prepare the remaining zoom levels in the background so a later zoom
+      // swaps to a finished atlas instead of starting from the preview.
+      const next = ATLAS_MODES.find((m) => !this.terrainCaches.has(m) && !this.atlasJobs.has(m));
+      if (next) this.atlasJobs.set(next, this.atlasJob(next));
+    }
+    this.pumpAtlas();
+  }
+
+  *atlasJob(mode) {
+    const size = this.state.world.size;
+    const ppt = this.cachePpt(mode);
+    const canvas = document.createElement('canvas');
+    canvas.width = size * ppt;
+    canvas.height = size * ppt;
+    const g = canvas.getContext('2d');
+    g.fillStyle = COLORS.paper;
+    yield* atlasBands(g, canvas.width, canvas.height, () => g.fillRect(0, 0, canvas.width, canvas.height));
+    yield* this.atlasSteps(g, ppt, mode);
+    return canvas;
+  }
+
+  // The terrain painters, in their original order, as one resumable job. Each
+  // painter ends a slice (ATLAS_FLUSH) after every tile row or cluster: their
+  // JS is cheap but the large translucent shapes are costly to rasterize, and
+  // the browser rasterizes a slice's recorded canvas work when its task ends.
+  *atlasSteps(g, ppt) {
+    for (const paint of [this.paintBiomeBase, this.paintFieldSystems, this.paintScrub, this.paintValleyWash, this.paintForestMasses, this.paintRidgeSystems]) {
+      yield* paint.call(this, g, ppt);
+      yield ATLAS_FLUSH;
+    }
+  }
+
+  *paintBiomeBase(g, ppt) {
     const size = this.state.world.size;
     for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) {
+      if (x === 0) yield ATLAS_FLUSH;
       const tile = this.tile(x, y);
       if (!tile) continue;
       const under = this.landscapeTerrain(tile);
@@ -268,6 +391,7 @@ export class StrategyMap {
     }
     for (const kind of ['plain', 'forest', 'mountain', 'ore', 'steppe', 'arid', 'valley', 'pass']) {
       for (const cells of this.collectClusters((t) => t && this.landscapeTerrain(t) === kind)) {
+        yield ATLAS_FLUSH;
         if (cells.length < 3) continue;
         let sx = 0, sy = 0;
         for (const [x, y] of cells) { sx += x; sy += y; }
@@ -286,6 +410,7 @@ export class StrategyMap {
     g.strokeStyle = 'rgba(42,34,24,.35)';
     g.lineWidth = Math.max(0.6, ppt * 0.04);
     for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) {
+      if (x === 0) yield ATLAS_FLUSH;
       const tile = this.tile(x, y);
       if (!tile) continue;
       const under = this.landscapeTerrain(tile);
@@ -309,8 +434,9 @@ export class StrategyMap {
     g.globalAlpha = 1;
   }
 
-  paintForestMasses(g, ppt) {
+  *paintForestMasses(g, ppt) {
     for (const cells of this.collectClusters((t) => t?.terrain === 'forest')) {
+      yield ATLAS_FLUSH;
       if (!cells.length) continue;
       // One fused canopy per cluster: overlapping per-tile ellipses merged through a
       // single Path2D fill (not stacked draws, so overlaps don't double-darken) hug
@@ -327,7 +453,9 @@ export class StrategyMap {
       }
       g.fillStyle = 'rgba(26, 44, 34, .42)';
       g.fill(canopy);
+      let drawnCells = 0;
       for (const [x, y] of cells) {
+        if (++drawnCells % 64 === 0) yield ATLAS_FLUSH;
         const px = (x + .28 + variation2(x, y, 4) * .48) * ppt;
         const py = (y + .3 + variation2(x, y, 5) * .44) * ppt;
         g.fillStyle = variation2(x, y, 6) > .5 ? '#2a4334' : '#1e3328';
@@ -352,11 +480,12 @@ export class StrategyMap {
     }
   }
 
-  paintRidgeSystems(g, ppt) {
+  *paintRidgeSystems(g, ppt) {
     const pred = (t) => t && (t.terrain === 'mountain' || t.terrain === 'ore' || t.terrain === 'pass');
     g.lineCap = 'round';
     g.lineJoin = 'round';
     for (const cells of this.collectClusters(pred)) {
+      yield ATLAS_FLUSH;
       if (cells.length < 2) continue;
       const sorted = [...cells].sort((a, b) => a[0] - b[0] || a[1] - b[1]);
       g.strokeStyle = 'rgba(36, 32, 28, .38)';
@@ -379,7 +508,9 @@ export class StrategyMap {
         if (i === 0) g.moveTo(px, py); else g.lineTo(px, py);
       }
       g.stroke();
+      let drawnCells = 0;
       for (const [x, y] of cells) {
+        if (++drawnCells % 64 === 0) yield ATLAS_FLUSH;
         const cx = (x + .5) * ppt, cy = (y + .55) * ppt;
         const peak = ppt * (0.28 + variation2(x, y, 8) * 0.2);
         g.fillStyle = this.tile(x, y)?.terrain === 'ore' ? '#684f43' : '#5e5c56';
@@ -409,7 +540,9 @@ export class StrategyMap {
       if (ppt >= 24) {
         g.strokeStyle = 'rgba(42, 34, 24, .28)';
         g.lineWidth = Math.max(0.5, ppt * 0.025);
+        let drawnCells = 0;
         for (const [x, y] of cells) {
+          if (++drawnCells % 64 === 0) yield ATLAS_FLUSH;
           const cx = (x + .5) * ppt, cy = (y + .6) * ppt;
           for (let k = 0; k < 3; k++) {
             g.beginPath();
@@ -421,15 +554,18 @@ export class StrategyMap {
     }
   }
 
-  paintFieldSystems(g, ppt) {
+  *paintFieldSystems(g, ppt) {
     g.lineCap = 'round';
     for (const cells of this.collectClusters((t) => t && this.landscapeTerrain(t) === 'plain')) {
+      yield ATLAS_FLUSH;
       if (cells.length < 4) continue;
       const set = new Set(cells.map(([x, y]) => `${x},${y}`));
       g.strokeStyle = 'rgba(74, 58, 28, .28)';
       g.lineWidth = Math.max(0.5, ppt * 0.03);
       const rows = new Map();
+      let drawnCells = 0;
       for (const [x, y] of cells) {
+        if (++drawnCells % 64 === 0) yield ATLAS_FLUSH;
         if (!rows.has(y)) rows.set(y, []);
         rows.get(y).push(x);
       }
@@ -466,9 +602,10 @@ export class StrategyMap {
     }
   }
 
-  paintScrub(g, ppt) {
+  *paintScrub(g, ppt) {
     const size = this.state.world.size;
     for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) {
+      if (x === 0) yield ATLAS_FLUSH;
       const under = this.landscapeTerrain(this.tile(x, y));
       if (under !== 'steppe' && under !== 'arid') continue;
       const n = ppt >= 40 ? 6 : ppt >= 24 ? 4 : 2;
@@ -493,8 +630,9 @@ export class StrategyMap {
     }
   }
 
-  paintValleyWash(g, ppt) {
+  *paintValleyWash(g, ppt) {
     for (const cells of this.collectClusters((t) => t?.terrain === 'valley')) {
+      yield ATLAS_FLUSH;
       if (cells.length < 2) continue;
       g.fillStyle = 'rgba(58, 96, 92, .22)';
       g.beginPath();
@@ -509,7 +647,9 @@ export class StrategyMap {
       g.strokeStyle = 'rgba(45, 80, 78, .28)';
       g.lineCap = 'round';
       g.stroke();
+      let drawnCells = 0;
       for (const [x, y] of cells) {
+        if (++drawnCells % 64 === 0) yield ATLAS_FLUSH;
         if (ppt < 24) continue;
         g.strokeStyle = '#3f6554';
         g.lineWidth = Math.max(0.6, ppt * 0.03);
@@ -800,6 +940,7 @@ export class StrategyMap {
     this.canvas.dataset.drawnTiles = String(this.drawnTiles);
     this.canvas.dataset.renderMs = String(this.lastRenderMs);
     this.canvas.dataset.mapMode = this.mode;
+    this.canvas.dataset.atlas = this.terrainCaches.has(this.mode) ? 'ready' : 'building';
     this.canvas.dataset.zoom = this.zoom.toFixed(3);
     this.canvas.dataset.center = `${this.center.x.toFixed(3)},${this.center.y.toFixed(3)}`;
     this.options.onViewChange?.(this.getView());
@@ -1154,8 +1295,7 @@ export class StrategyMap {
     this.observer?.disconnect();
     this.listeners.forEach((remove) => remove());
     this.listeners.length = 0;
-    this.terrainCache = null;
-    this.terrainCacheWorld = null;
+    this.resetTerrainCaches();
     this.minimapTerrain = null;
   }
 }
