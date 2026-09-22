@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DARBE-H! Kriz Masası</title>
+<link rel="icon" href="logo/darbe-h-favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="cards.css">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background:
+      radial-gradient(1200px 700px at 50% 0%, #243044cc, #121820f2),
+      repeating-linear-gradient(180deg, #1a243300 0 22px, #c4a5740d 22px 23px),
+      var(--dh-ink);
+    color: var(--dh-paper);
+    font: 15px/1.5 var(--dh-sans);
+  }
+  main { max-width: 1180px; margin: 0 auto; padding: 28px 16px 64px; }
+  header.top { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 28px; padding-bottom: 20px; border-bottom: 1px solid #c4a57433; }
+  header.top img { height: 56px; width: auto; }
+  header.top p { margin: 0; color: var(--dh-muted); max-width: 560px; }
+  h2 { margin: 44px 0 6px; font-size: 13px; letter-spacing: .16em; text-transform: uppercase; color: var(--dh-brass); }
+  h2 + p.lede { margin: 0 0 18px; color: var(--dh-muted); max-width: 760px; }
+  .row { display: flex; flex-wrap: wrap; gap: 18px; align-items: flex-end; }
+  .cell { display: grid; gap: 8px; justify-items: center; }
+  .cell > span.cap { font: 700 11px/1.3 var(--dh-mono); color: var(--dh-muted); text-align: center; max-width: 170px; letter-spacing: .04em; }
+  .dirs { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+  .dir { position: relative; padding: 16px; border-radius: 10px; background: #19212d; box-shadow: 0 0 0 1px #ffffff14 inset; }
+  .dir.pick { box-shadow: 0 0 0 2px var(--dh-select) inset; }
+  .dir .badge { position: absolute; top: 12px; right: 12px; padding: 3px 8px; border-radius: 3px; background: var(--dh-select); color: var(--dh-text-ink); font: 900 10px/1.2 var(--dh-sans); letter-spacing: .12em; }
+  .dir h3 { margin: 0 0 4px; font-size: 17px; }
+  .dir p { margin: 0 0 10px; color: var(--dh-muted); font-size: 13.5px; }
+  .dir .sw { display: flex; gap: 6px; }
+  .dir .sw i { width: 28px; height: 28px; border-radius: 4px; box-shadow: 0 0 0 1px #fff2 inset; }
+  .dir .risk { font-size: 12.5px; color: var(--dh-seal-text); }
+  .logo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 14px; }
+  .tile { display: grid; gap: 10px; place-items: center; padding: 18px 12px; border-radius: 10px; background: #19212d; box-shadow: 0 0 0 1px #ffffff14 inset; }
+  .tile.light { background: #f4efe4; color: var(--dh-text-ink); }
+  .tile .sizes { display: flex; align-items: flex-end; gap: 12px; }
+  .tile small { font: 700 11px var(--dh-mono); opacity: .75; }
+  .dock { display: flex; gap: 10px; padding: 10px 14px; border-radius: 18px; background: #ffffff1c; backdrop-filter: blur(6px); }
+  .dock img { width: 48px; height: 48px; border-radius: 11px; }
+  .portal-card { width: 100%; max-width: 280px; display: grid; grid-template-columns: 56px 1fr; gap: 12px; align-items: center; padding: 14px; border-radius: 12px; background: #f4efe4; color: #1a1a17; }
+  .portal-card svg { width: 56px; height: 56px; color: #b13a31; }
+  .portal-card b { display: block; font-size: 16px; }
+  .portal-card span { font-size: 12.5px; color: #4a4a44; }
+  .game-header { width: 100%; display: flex; align-items: center; gap: 12px; padding: 8px 12px; border-radius: 8px; background: #121820; box-shadow: 0 0 0 1px #c4a5742e inset; }
+  .game-header img { height: 30px; }
+  .game-header .sp { flex: 1; }
+  .game-header button { padding: 6px 10px; border: 1px solid #c4a57455; border-radius: 6px; background: transparent; color: var(--dh-paper); font: 700 12px var(--dh-sans); }
+  .anatomy { display: grid; grid-template-columns: auto 1fr; gap: 28px; align-items: start; }
+  .anatomy ol { margin: 0; padding-left: 20px; color: var(--dh-muted); }
+  .anatomy ol b { color: var(--dh-paper); }
+  .anatomy li { margin-bottom: 8px; }
+  .phone { width: 100%; max-width: 390px; margin: 0 auto; border-radius: 28px; padding: 14px 10px 12px; background: #0c1016; box-shadow: 0 0 0 8px #1f2733, 0 30px 60px #000a; }
+  .phone .bar { display: flex; justify-content: space-between; align-items: center; padding: 0 6px 10px; font: 800 12px var(--dh-mono); }
+  .phone .bar .kp { color: var(--dh-paper); }
+  .phone .bar .kp em { font-style: normal; color: var(--dh-muted); font-weight: 600; }
+  .zone-label { font: 800 10px/1 var(--dh-sans); letter-spacing: .14em; color: var(--dh-muted); padding: 8px 6px 6px; }
+  .board-row { display: flex; justify-content: center; gap: 8px; min-height: 110px; align-items: center; }
+  .slot { width: 72px; aspect-ratio: 5/7; border: 1px dashed #c4a57440; border-radius: 6px; }
+  .hand { display: flex; gap: 6px; overflow-x: auto; padding: 14px 6px 6px; scroll-snap-type: x mandatory; }
+  .hand > * { scroll-snap-align: center; flex: none; }
+  .actionbar { margin-top: 10px; padding: 10px 12px; border-radius: 12px; background: #19212d; box-shadow: 0 0 0 1px #f2b54455 inset; }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 8px; }
+  .steps div { padding: 6px 8px; border-radius: 6px; background: #0c1016; font-size: 11.5px; line-height: 1.25; color: var(--dh-muted); }
+  .steps b { display: block; color: var(--dh-paper); font-size: 12.5px; }
+  .steps .now { box-shadow: 0 0 0 1.5px var(--dh-select) inset; }
+  .forecast { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 10px; border-radius: 8px; background: var(--dh-paper); color: var(--dh-text-ink); font: 700 13px/1.2 var(--dh-sans); }
+  .forecast .num { font: 900 16px var(--dh-mono); }
+  .forecast .loss { color: #a3271e; }
+  .btns { display: grid; grid-template-columns: 1fr 2fr; gap: 8px; margin-top: 8px; }
+  .btns button { min-height: 44px; border-radius: 8px; font: 800 14px var(--dh-sans); letter-spacing: .04em; }
+  .btns .ghost { border: 1px solid #ffffff33; background: transparent; color: var(--dh-paper); }
+  .btns .go { border: 0; background: var(--dh-select); color: var(--dh-text-ink); }
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start; }
+  .split > *, .anatomy > * { min-width: 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { padding: 7px 8px; border-bottom: 1px solid #ffffff14; text-align: left; }
+  th { color: var(--dh-muted); font-weight: 700; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; }
+  td .pill { display: inline-block; padding: 2px 8px; border-radius: 3px; font-weight: 800; }
+  td.pass { color: var(--dh-up); font-weight: 800; }
+  td.fail { color: var(--dh-down); font-weight: 800; }
+  .legend { color: var(--dh-muted); font-size: 13px; }
+  @media (max-width: 760px) {
+    .anatomy, .split { grid-template-columns: 1fr; }
+    header.top img { height: 44px; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header class="top">
+    <img src="logo/darbe-h-lockup.svg" alt="DARBE-H!">
+    <p><b>Kriz Masası</b>: the DARBE-H! card system and logo, proposal v1. Every card below is a real card from <code>source-cards.json</code> with its current art. Nothing here is wired into the game yet.</p>
+  </header>
+
+  <h2>Art directions</h2>
+  <p class="lede">Three directions, all original, with no emblems, flags or real people. B is recommended.</p>
+  <div class="dirs">
+    <article class="dir">
+      <h3>A · Dosya &amp; Mühür</h3>
+      <p>A bureaucratic archive: kraft folders, typewriter type, rubber stamps. Warm and literary, but cards blur together because every kind looks like paper.</p>
+      <div class="sw"><i style="background:#cbb892"></i><i style="background:#8a6a3a"></i><i style="background:#3b3328"></i><i style="background:#a3271e"></i></div>
+    </article>
+    <article class="dir pick">
+      <span class="badge">ÖNERİLEN</span>
+      <h3>B · Kriz Masası</h3>
+      <p>A noir command room: ink navy table, telex amber, and stamp crimson only for danger. Paper appears only where you read (effect slip, rank chip). Kind colours carry across the table, so cards are told apart by rail, glyph and word.</p>
+      <div class="sw"><i style="background:#121820"></i><i style="background:#7d9cb8"></i><i style="background:#e0ad4f"></i><i style="background:#d9574b"></i><i style="background:#efe6d2"></i></div>
+    </article>
+    <article class="dir">
+      <h3>C · Afiş / Konstrüktivist</h3>
+      <p>Diagonal poster blocks, bold red and black, big type. Striking at icon size.</p>
+      <div class="sw"><i style="background:#e8e0cf"></i><i style="background:#141414"></i><i style="background:#c62e24"></i></div>
+      <p class="risk">Not recommended: it reads as real political propaganda, and at 300 cards the diagonals fight the text.</p>
+    </article>
+  </div>
+
+  <h2>Logo</h2>
+  <p class="lede">A seal ring, a geometric D whose chamfer is a dossier-tab corner, and one diagonal crack cutting through both: the stamp that breaks the order. It is built only from paths, so no font licence applies. The favicon cut drops the perforation and widens the crack for 16&nbsp;px.</p>
+  <div class="logo-grid">
+    <div class="tile">
+      <div class="sizes">
+        <img src="logo/darbe-h-favicon.svg" width="16" height="16" alt="">
+        <img src="logo/darbe-h-favicon.svg" width="32" height="32" alt="">
+        <img src="logo/darbe-h-icon.svg" width="48" height="48" alt="">
+        <img src="logo/darbe-h-icon.svg" width="96" height="96" alt="">
+      </div>
+      <small>favicon 16 · 32 · icon 48 · 96</small>
+    </div>
+    <div class="tile light">
+      <div class="dock">
+        <img src="logo/darbe-h-icon-192.png" alt="">
+        <img src="logo/darbe-h-maskable-512.png" alt="" style="border-radius:50%">
+        <img src="logo/darbe-h-apple-touch-180.png" alt="">
+      </div>
+      <small>PWA 192 · maskable (circle crop) · apple-touch 180</small>
+    </div>
+    <div class="tile light">
+      <div class="portal-card" id="portalCard"></div>
+      <small>portal tile: 2px stroke glyph in game-icons.tsx style</small>
+    </div>
+    <div class="tile">
+      <div class="game-header"><img src="logo/darbe-h-lockup.svg" alt="DARBE-H!"><span class="sp"></span><button>?</button><button>Menü</button></div>
+      <small>in-game header (replaces emblem.svg + text)</small>
+    </div>
+    <div class="tile">
+      <img src="logo/darbe-h-wordmark.svg" alt="" style="width:100%;max-width:220px">
+      <span style="color:var(--dh-brass);display:flex;gap:12px;align-items:center"><img src="logo/darbe-h-glyph.svg" alt="" width="28" style="filter:invert(76%) sepia(21%) saturate(560%) hue-rotate(356deg)"><small>mono glyph · currentColor</small></span>
+    </div>
+  </div>
+
+  <h2>Anatomy</h2>
+  <div class="anatomy">
+    <div id="anatomyCard"></div>
+    <ol>
+      <li><b>Kind rail</b>: the colour band, glyph and word (GÖREVLİ, EMİRNAME or İHTAR). This is the only thing you need to read at board size. Colour is never the only signal.</li>
+      <li><b>Rank chip</b>: <code>K4</code> means kademe 4, in paper-on-ink numerals. Emirname and İhtar show their timing instead (ANLIK, HIZLI, KALICI, TEÇHİZ, SAHA, KARŞI).</li>
+      <li><b>Name</b>: at most 2 balanced lines, and never truncated in the inspector.</li>
+      <li><b>Art window</b> with the <b>bureau stamp</b> (MHT, BRF, …): the series, so combo families read at a glance.</li>
+      <li><b>Effect slip</b>: dark ink on paper at 14:1 contrast. Tags come first: <span class="dh-tag cost" style="font-size:10px">−650 KP</span> for the cost, then the verb (ÇAĞRI, YOK ET, KONTROL…), then the text.</li>
+      <li><b>Footer</b>: tabular ATK/DEF for Görevli (the same words the effect texts use), with ▲/▼ and colour when modified. Other kinds show the resolution verb.</li>
+    </ol>
+  </div>
+
+  <h2>Kinds</h2>
+  <p class="lede">The same slots on every card, so the eye learns one layout. The kind changes the rail, glyph, footer and rank/timing chip. Everything else stays in place.</p>
+  <div class="row" id="kinds"></div>
+
+  <h2>States</h2>
+  <p class="lede">Each state has a label, shape or position cue besides colour, and a matching <code>aria-</code>/<code>data-</code> attribute that duel-core already computes.</p>
+  <div class="row" id="states"></div>
+
+  <h2>Sizes</h2>
+  <p class="lede">One component with container queries. Below 110&nbsp;px wide (the board), the effect slip, kind word and bureau stamp fold away, and the rail, rank, name and stats stay.</p>
+  <div class="row" id="sizes"></div>
+
+  <h2>On the table (390 px)</h2>
+  <div class="split">
+    <div class="phone" id="phone">
+      <div class="bar"><span class="kp">RAKİP <em>KP</em> 6400</span><span style="color:var(--dh-muted)">TUR 5 · SAVAŞ</span></div>
+      <div class="zone-label">RAKİP GÖREVLİLER</div>
+      <div class="board-row" id="oppRow"></div>
+      <div class="zone-label">SENİN GÖREVLİLERİN</div>
+      <div class="board-row" id="myRow"></div>
+      <div class="hand" id="hand"></div>
+      <div class="actionbar">
+        <div class="steps">
+          <div><b>1 · Seçili</b>Muhtıra Müşaviri</div>
+          <div class="now"><b>2 · Hedef seç</b>Kesikli çerçeveli kart</div>
+          <div><b>3 · Onayla</b>Saldırıyı başlat</div>
+        </div>
+        <div class="forecast"><span>ATK <span class="num">1200</span> → DEF <span class="num">800</span></span><span>Hedef <b>yok edilir</b> · <span class="loss num">−400</span> KP</span></div>
+        <div class="btns"><button class="ghost">Vazgeç</button><button class="go">Saldır</button></div>
+      </div>
+    </div>
+    <div>
+      <p class="legend"><b>What the player always sees:</b></p>
+      <ol class="legend">
+        <li><b>what is selected</b>: the lifted card with the SEÇİLİ tab, repeated by name in step 1;</li>
+        <li><b>what it will do</b>: a forecast strip computed from the same projection the AI uses (damage, destroy, KP change), shown <i>before</i> confirming;</li>
+        <li><b>what comes next</b>: the numbered step bar, with the current step outlined. Valid targets carry the dashed HEDEF frame, and everything else dims.</li>
+      </ol>
+      <p class="legend">After resolution, the result sits on the card for about 900&nbsp;ms (<span style="color:var(--dh-down);font-weight:800">−400 KP</span>, a YOK EDİLDİ stamp) before it moves to the grave, so cause and effect stay together.</p>
+      <h2 style="margin-top:22px">Contrast (WCAG 2.2)</h2>
+      <table id="contrast"><thead><tr><th>Pair</th><th>Ratio</th><th>Need</th><th></th></tr></thead><tbody></tbody></table>
+    </div>
+  </div>
+</main>
+
+<script type="module">
+const DATA = "../../../public/games/darbe-h/source-cards.json";
+const ART = (id) => `../../../public/games/darbe-h/assets/cards/${id}.svg`;
+const cards = await fetch(DATA).then((r) => r.json()).then((d) => (Array.isArray(d) ? d : d.cards));
+const byId = Object.fromEntries(cards.map((c) => [c.id, c]));
+const first = (kind, sub) => cards.find((c) => c.kind === kind && c.subtype === sub);
+
+const GLYPH = {
+  unit: '<svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><circle cx="8" cy="5" r="3"/><path d="M2 15c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5z"/></svg>',
+  spell: '<svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M3 1h7l3 3v11H3z" opacity=".35"/><path d="M3 1h7l3 3v11H3zM4.5 2.5v11h7V4.6L9.4 2.5z" fill-rule="evenodd"/><circle cx="8" cy="10" r="2.4"/></svg>',
+  trap: '<svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 1 15.5 14.5H.5zM7 6v4.5h2V6zm0 5.6v1.9h2v-1.9z" fill-rule="evenodd"/></svg>',
+};
+const KIND = { unit: "Görevli", spell: "Emirname", trap: "İhtar" };
+const TIMING = { normal: "Anlık", quick: "Hızlı", equip: "Teçhiz", field: "Saha", continuous: "Kalıcı", counter: "Karşı" };
+const TRAP_NORMAL = "Kurulu";
+const BUREAU = { Dosya: "DSY", Heyet: "HYT", Telex: "TLX", Zeyil: "ZYL", Kabine: "KBN", Tebligat: "TBG", Paraf: "PRF", Karargah: "KRG", Muhtira: "MHT", Brifing: "BRF", Arsiv: "ARŞ", Mesruiyet: "MŞR" };
+// In the game these come from card-dsl's parsed operations; regex is only for the mockup.
+const VERBS = [[/yok et/i, "YOK ET"], [/kontrolünü/i, "KONTROL"], [/çağır/i, "ÇAĞRI"], [/eline al|ele al/i, "ELE AL"], [/çek/i, "ÇEK"], [/hasar/i, "HASAR"], [/ATK|saldır/i, "SAVAŞ"], [/geri/i, "GERİ"]];
+const TRIGGERS = [[/turda bir/i, "TURDA 1"], [/her tur/i, "HER TUR"], [/yok edilince|mezarlığa/i, "SONRA"]];
+
+function tags(text) {
+  const out = [];
+  const cost = text.match(/(\d{2,5})\s*KP\s*öde/i);
+  if (cost) out.push(`<span class="dh-tag cost">−${cost[1]} KP</span>`);
+  for (const [re, label] of TRIGGERS) if (re.test(text)) { out.push(`<span class="dh-tag">${label}</span>`); break; }
+  for (const [re, label] of VERBS) if (re.test(text)) { out.push(`<span class="dh-tag">${label}</span>`); break; }
+  return out.join("");
+}
+function verbOf(c) {
+  for (const [re, label] of VERBS) if (re.test(c.text)) return label;
+  return "ETKİ";
+}
+
+function el(c, { w = 168, cls = "", pos = "", atk = null, def = null, stamp = "", float = "", attacked = false, board = false } = {}) {
+  const sub = c.subtype;
+  const bureau = (c.series || "").split("—")[1]?.trim();
+  const code = bureau ? BUREAU[bureau] : "İHTAR";
+  const right = c.kind === "unit"
+    ? `<span class="dh-rank" aria-label="kademe ${c.level}">K${c.level}</span>`
+    : `<span class="dh-timing">${c.kind === "trap" && sub === "normal" ? TRAP_NORMAL : TIMING[sub] || sub}</span>`;
+  const statCls = (base, now) => (now == null || now === base ? "" : now > base ? "up" : "down");
+  const foot = c.kind === "unit"
+    ? `<span class="dh-stat atk ${statCls(c.attack, atk)}"><small>ATK</small>${atk ?? c.attack}</span><span class="dh-stat def ${statCls(c.defense, def)}"><small>DEF</small>${def ?? c.defense}</span>`
+    : `<span class="dh-verb"><span>${KIND[c.kind]}</span><span>${verbOf(c)}</span></span>`;
+  return `<button type="button" class="dh-card ${cls} ${board ? "on-board" : ""}" style="--w:${w}px" data-kind="${c.kind}" data-sub="${sub}" data-position="${pos}" aria-label="${c.name}, ${KIND[c.kind]}${c.kind === "unit" ? `, kademe ${c.level}, ATK ${atk ?? c.attack}, DEF ${def ?? c.defense}` : ""}">
+    <span class="dh-rail">${GLYPH[c.kind]}<span class="dh-kind">${(c.kind === "unit" && sub === "fusion" ? "Birleşik" : KIND[c.kind]).toLocaleUpperCase("tr-TR")}</span>${right}</span>
+    <span class="dh-name">${c.name}</span>
+    <span class="dh-art"><img class="legacy-frame" src="${ART(c.id)}" alt=""><span class="dh-bureau">${code}</span>${attacked ? '<span class="dh-chip-attacked">✓ SALDIRDI</span>' : ""}</span>
+    <span class="dh-text"><span class="dh-tags">${tags(c.text)}</span><p>${c.text}</p></span>
+    <span class="dh-foot">${foot}</span>
+    ${stamp ? `<span class="dh-stamp">${stamp}</span>` : ""}
+    ${float ? `<span class="dh-float ${float.startsWith("+") ? "gain" : ""}">${float}</span>` : ""}
+  </button>`;
+}
+const MARK = await fetch("logo/darbe-h-glyph.svg").then((r) => r.text());
+const facedown = (w = 168) => `<button type="button" class="dh-card is-facedown" style="--w:${w}px" aria-label="Kapalı kart">${MARK.replace(/<title>.*?<\/title>/, "")}</button>`;
+const cell = (html, cap) => `<div class="cell">${html}<span class="cap">${cap}</span></div>`;
+
+const U1 = byId["DRB-042"], U2 = byId["DRB-201"], U3 = byId["DRB-001"];
+const FUS = first("unit", "fusion") ?? U1;
+const highUnit = cards.filter((c) => c.kind === "unit" && c.subtype === "effect").sort((a, b) => b.level - a.level)[0];
+
+document.getElementById("anatomyCard").innerHTML = el(byId["DRB-201"], { w: 260 });
+
+document.getElementById("kinds").innerHTML = [
+  cell(el(U1), "Görevli · effect"),
+  cell(el(FUS), "Görevli · birleşik"),
+  cell(el(byId["DRB-260"]), "Emirname · anlık, maliyetli"),
+  ...["quick", "equip", "field"].map((s) => cell(el(first("spell", s)), `Emirname · ${TIMING[s].toLowerCase()}`)),
+  cell(el(first("trap", "normal")), "İhtar · kurulu"),
+  cell(el(first("trap", "counter")), "İhtar · karşı"),
+  cell(facedown(), "Kapalı"),
+].join("");
+
+document.getElementById("states").innerHTML = [
+  cell(el(U1, { w: 150 }), "varsayılan"),
+  cell(el(U1, { w: 150, cls: "is-playable" }), "oynanabilir: alt amber çizgi"),
+  cell(el(U1, { w: 150, cls: "is-selected" }), "seçili: kalkar + SEÇİLİ"),
+  cell(el(U2, { w: 150, cls: "is-target" }), "geçerli hedef: kesikli + HEDEF"),
+  cell(el(first("trap", "counter"), { w: 150, cls: "is-response" }), "yanıt verilebilir: YANIT"),
+  cell(el(U3, { w: 150, cls: "is-used", stamp: "KULLANILDI" }), "bu tur kullanıldı"),
+  cell(el(U2, { w: 150, attacked: true }), "bu tur saldırdı"),
+  cell(el(U1, { w: 150, atk: 1500, def: 500 }), "değişen değer: ▲ / ▼"),
+  cell(el(U2, { w: 150, pos: "defense" }), "savunma konumu (masada 90°)"),
+  cell(el(U3, { w: 150, cls: "is-dimmed" }), "hedeflemede geçersiz: soluk"),
+  cell(el(U2, { w: 150, float: "−400 KP", stamp: "YOK EDİLDİ" }), "sonuç: ~900 ms kalır"),
+  cell(`<button class="dh-card" style="--w:150px" disabled data-kind="spell">${el(first("spell", "equip"), { w: 150 }).replace(/^<button[^>]*>|<\/button>$/g, "")}</button>`, "oynanamaz: disabled"),
+].join("");
+
+document.getElementById("sizes").innerHTML = [
+  cell(el(highUnit, { w: 240 }), "L · 240 inspector"),
+  cell(el(highUnit, { w: 132 }), "M · 132 hand (desktop)"),
+  cell(el(highUnit, { w: 104 }), "M · 104 hand (mobile)"),
+  cell(el(highUnit, { w: 76 }), "S · 76 board"),
+  cell(el(first("spell", "quick"), { w: 76 }), "S · Emirname"),
+  cell(el(first("trap", "normal"), { w: 76 }), "S · İhtar"),
+].join("");
+
+document.getElementById("oppRow").innerHTML = [el(U2, { w: 72, cls: "is-target" }), el(byId["DRB-001"], { w: 72, cls: "is-target" }), facedown(72)].join("") + '<div class="slot"></div>';
+document.getElementById("myRow").innerHTML = [el(U1, { w: 72, cls: "is-selected" }), el(U3, { w: 72, attacked: true, cls: "is-dimmed" })].join("") + '<div class="slot"></div><div class="slot"></div>';
+document.getElementById("hand").innerHTML = [el(byId["DRB-260"], { w: 104, cls: "is-playable" }), el(first("trap", "normal"), { w: 104, cls: "is-playable" }), el(highUnit, { w: 104 }), el(first("spell", "quick"), { w: 104, cls: "is-playable" })].join("");
+
+document.getElementById("portalCard").innerHTML = `<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="32" cy="32" r="24"/><path d="M24 19h13l9 9v8l-9 9H24z"/><path d="M47 8 35 30l7 2-20 26" stroke-width="3"/></svg><div><b>DARBE-H!</b><span>Kriz masasında kart düellosu</span></div>`;
+
+// Contrast, computed from the tokens actually used above.
+const L = (hex) => {
+  const [r, g, b] = hex.match(/\w\w/g).map((h) => parseInt(h, 16) / 255).map((v) => (v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4));
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+};
+const ratio = (a, b) => { const [x, y] = [L(a), L(b)].sort((m, n) => n - m); return (x + 0.05) / (y + 0.05); };
+const pairs = [
+  ["Effect text on paper slip", "#1a1a17", "#efe6d2", 4.5],
+  ["Name on card body", "#efe6d2", "#19212d", 4.5],
+  ["Muted label on body", "#b9c1c9", "#19212d", 4.5],
+  ["Rank chip (paper on ink)", "#1a1a17", "#efe6d2", 4.5],
+  ["Görevli rail word", "#8fb0cc", "#243044", 4.5],
+  ["Emirname rail word", "#e0ad4f", "#243044", 4.5],
+  ["İhtar rail word", "#f07a6c", "#243044", 4.5],
+  ["Bureau stamp text", "#ff8a7e", "#121820", 4.5],
+  ["Stat numerals", "#efe6d2", "#0c1016", 4.5],
+  ["Buffed stat ▲", "#7fd6a8", "#0c1016", 4.5],
+  ["Debuffed stat ▼", "#ff8a7e", "#0c1016", 4.5],
+  ["SEÇİLİ tab", "#1a1a17", "#f2b544", 4.5],
+  ["HEDEF tab", "#1a1a17", "#5cc8c2", 4.5],
+  ["YANIT tab", "#ffffff", "#c8463c", 4.5],
+  ["Cost tag", "#ffffff", "#c8463c", 4.5],
+  ["Selected outline vs table", "#f2b544", "#121820", 3],
+  ["Target outline vs table", "#5cc8c2", "#121820", 3],
+];
+document.querySelector("#contrast tbody").innerHTML = pairs.map(([name, fg, bg, need]) => {
+  const r = ratio(fg, bg);
+  return `<tr><td><span class="pill" style="color:${fg};background:${bg}">Aa</span> ${name}</td><td>${r.toFixed(1)}:1</td><td>${need}:1</td><td class="${r >= need ? "pass" : "fail"}">${r >= need ? "PASS" : "FAIL"}</td></tr>`;
+}).join("");
+window.__contrast = pairs.map(([n, f, b, need]) => [n, +ratio(f, b).toFixed(2), need]);
+document.body.dataset.ready = "1";
+</script>
+</body>
+</html>
