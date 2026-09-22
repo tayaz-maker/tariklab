@@ -187,7 +187,16 @@ export class StrategyMap {
   }
 
   cachePpt(mode = this.mode) {
-    return mode === 'world' ? 16 : mode === 'region' ? 24 : 40;
+    // Each mode's terrain bitmap is cached once per world/mode and then
+    // drawImage-scaled to the live TILE*zoom on-screen size (see render()).
+    // 'near' used to cache at 40px/tile while zoom can reach MAX_ZOOM=2.6
+    // (TILE*MAX_ZOOM ~= 146px/tile on screen) — a ~3.6x upscale of the
+    // cached bitmap, which read as soft/blurry terrain at close zoom.
+    // Raising the near/region caches keeps the same whole-world single
+    // cache strategy (no viewport windowing, no extra redraw triggers)
+    // while cutting that upscale to under 2x; canvas stays well inside
+    // browser size limits for a 49x49 world (49*76 = 3724px).
+    return mode === 'world' ? 16 : mode === 'region' ? 32 : 76;
   }
 
   collectClusters(pred) {
@@ -303,15 +312,21 @@ export class StrategyMap {
   paintForestMasses(g, ppt) {
     for (const cells of this.collectClusters((t) => t?.terrain === 'forest')) {
       if (!cells.length) continue;
-      let sx = 0, sy = 0;
-      for (const [x, y] of cells) { sx += x; sy += y; }
-      const mx = (sx / cells.length + .5) * ppt;
-      const my = (sy / cells.length + .5) * ppt;
-      const radius = Math.max(ppt * 0.9, Math.sqrt(cells.length) * ppt * 0.62);
+      // One fused canopy per cluster: overlapping per-tile ellipses merged through a
+      // single Path2D fill (not stacked draws, so overlaps don't double-darken) hug
+      // the cluster's real footprint -- corridor, blob or L-shape alike. The old
+      // single centroid ellipse under-covered elongated clusters (a one-tile-wide
+      // forest belt many tiles long), leaving only the individual per-tile tree
+      // glyphs visible in a straight line -- reading as a repeated grid instead of
+      // one continuous forest mass.
+      const canopy = new Path2D();
+      for (const [x, y] of cells) {
+        const cx = (x + .5 + (variation2(x, y, 40) - .5) * .34) * ppt;
+        const cy = (y + .52 + (variation2(x, y, 41) - .5) * .34) * ppt;
+        canopy.ellipse(cx, cy, ppt * (0.74 + variation2(x, y, 42) * 0.24), ppt * (0.62 + variation2(x, y, 43) * 0.2), variation(x, y) * TAU, 0, TAU);
+      }
       g.fillStyle = 'rgba(26, 44, 34, .42)';
-      g.beginPath();
-      g.ellipse(mx, my, radius * 1.18, radius * 0.82, variation(cells[0][0], cells[0][1]) * 0.5, 0, TAU);
-      g.fill();
+      g.fill(canopy);
       for (const [x, y] of cells) {
         const px = (x + .28 + variation2(x, y, 4) * .48) * ppt;
         const py = (y + .3 + variation2(x, y, 5) * .44) * ppt;
