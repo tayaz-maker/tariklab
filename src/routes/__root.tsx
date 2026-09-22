@@ -3,7 +3,7 @@ import { AuthProvider } from "@/lib/auth/provider";
 import { PreviewHostBridge } from "@/components/preview-host-bridge";
 import appCss from "../styles.css?url";
 
-const APP_NAME = "TLab";
+const APP_NAME = "TarikLab";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -21,15 +21,14 @@ export const Route = createRootRoute({
       { name: "mobile-web-app-capable", content: "yes" },
       {
         name: "description",
-        content: "TLab oyun portalı. Çete Savaşları ve diğer HTML5 oyunlar.",
+        content: "TarikLab — Oyun Laboratuvarı",
       },
     ],
     links: [
       { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
       { rel: "stylesheet", href: appCss },
       { rel: "manifest", href: "/manifest.webmanifest" },
-      { rel: "manifest", href: "/__grok/manifest.webmanifest" },
-      { rel: "apple-touch-icon", href: "/__grok/icon-180.png" },
+      { rel: "apple-touch-icon", href: "/brand/apple-touch-icon.png" },
     ],
   }),
   component: () => (
