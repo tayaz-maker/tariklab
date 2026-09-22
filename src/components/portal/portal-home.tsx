@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { GAMES, type CatalogGame } from "@/lib/games";
+import { GAME_CATEGORIES, GAMES, type CatalogGame, type GameCategory } from "@/lib/games";
 import { catalogEntry, useLang } from "@/lib/i18n";
 import { GameIcon } from "./game-icons";
 import { LanguageToggle } from "./language-toggle";
@@ -68,6 +68,16 @@ export function PortalHome() {
   const { t } = useLang();
   const active = GAMES.filter((g) => g.status === "live");
   const soon = GAMES.filter((g) => g.status !== "live");
+  const categoryTitle = (id: GameCategory) =>
+    t(
+      `portal.category.${id}`,
+      {
+        strategy: "Yönetim & Strateji",
+        dossier: "Dosya & Karar",
+        duel: "Kart & Düello",
+        classic: "Klasikler & Bulmaca",
+      }[id],
+    );
   return (
     <main className="mx-auto min-h-dvh w-full max-w-6xl px-3 py-5 sm:px-8 sm:py-12">
       <header className="mb-6 flex flex-wrap items-end justify-between gap-4 border-b border-border pb-4 sm:mb-12 sm:pb-6">
@@ -91,10 +101,27 @@ export function PortalHome() {
             {t("portal.playableCount", `${active.length} oynanabilir`, { n: active.length })}
           </span>
         </div>
-        <div className="grid auto-rows-fr gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {active.map((game, i) => (
-            <GameCard key={game.slug} game={game} featured={i === 0} />
-          ))}
+        <div className="space-y-10 sm:space-y-12">
+          {GAME_CATEGORIES.map((category) => {
+            const games = category.slugs
+              .map((slug) => active.find((game) => game.slug === slug))
+              .filter((game): game is CatalogGame => Boolean(game));
+            return (
+              <section key={category.id} aria-labelledby={`category-${category.id}`}>
+                <h2
+                  id={`category-${category.id}`}
+                  className="mb-3 text-xs font-medium uppercase tracking-[0.2em] text-muted sm:mb-4"
+                >
+                  {categoryTitle(category.id)}
+                </h2>
+                <div className="grid auto-rows-fr gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                  {games.map((game, index) => (
+                    <GameCard key={game.slug} game={game} featured={category.id === "strategy" && index === 0} />
+                  ))}
+                </div>
+              </section>
+            );
+          })}
         </div>
       </section>
       {soon.length > 0 && (
