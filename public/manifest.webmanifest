@@ -1,27 +1,33 @@
 {
-  "name": "TLab",
-  "short_name": "TLab",
-  "description": "TLab oyun portalı. Çete Savaşları ve diğer HTML5 oyunlar.",
+  "name": "TarikLab",
+  "short_name": "TarikLab",
+  "description": "TarikLab — Oyun Laboratuvarı",
   "id": "/",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "orientation": "portrait-primary",
-  "background_color": "#0e0c0b",
-  "theme_color": "#0e0c0b",
+  "orientation": "any",
+  "background_color": "#111713",
+  "theme_color": "#111713",
   "lang": "tr",
   "icons": [
     {
-      "src": "/favicon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
+      "src": "/brand/app-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/__grok/icon-180.png",
-      "sizes": "180x180",
+      "src": "/brand/app-512.png",
+      "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
+    },
+    {
+      "src": "/brand/app-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }

@@ -6,7 +6,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
-export const DEFAULT_APP_NAME = "TLab";
+export const DEFAULT_APP_NAME = "TarikLab";
 export const OG_SERVICE_URL_DEFAULT = "https://og.grok.me";
 export const OG_SITE_REL_PATH = "src/lib/og/site.json";
 
@@ -66,7 +66,7 @@ export function appNameFromHost(hostHeader) {
     .split(":")[0]
     .toLowerCase();
   if (host === "tariklab.com" || host.endsWith(".tariklab.com")) {
-    return "TLab";
+    return "TarikLab";
   }
   if (!host.endsWith(".grok.me")) {
     return DEFAULT_APP_NAME;
@@ -172,7 +172,7 @@ export function renderWebManifest(hostHeader) {
       display: "standalone",
       background_color: "#000000",
       theme_color: "#000000",
-      icons: [
+      icons: name === "TarikLab" ? [{"src": "/brand/app-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"}, {"src": "/brand/app-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"}, {"src": "/brand/app-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}] : [
         {
           src: "/__grok/icon-180.png",
           sizes: "180x180",
@@ -439,8 +439,8 @@ export function injectGrokPwaHead(html, ctx = {}) {
 
   const missing = grokPwaHeadTags(appName)
     .filter(([key]) => {
-      if (key === "manifest") return !next.includes('href="/__grok/manifest.webmanifest"');
-      if (key === "apple-touch-icon") return !next.includes('href="/__grok/icon-180.png"');
+      if (key === "manifest") return !/rel=["']manifest["']/.test(next);
+      if (key === "apple-touch-icon") return !/rel=["']apple-touch-icon["']/.test(next);
       return !next.includes(`name="${key}"`);
     })
     .map(([, tag]) => tag);

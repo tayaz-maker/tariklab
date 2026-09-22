@@ -384,3 +384,13 @@ Chromium must pass before integration.
 - Replaced retired action-cap and single-building descriptions with the current focus/capacity/effort/site-management mechanics.
 - Added one data-driven decision brief to the shared duel inspector for VETO-H!, GETT-OH! and DARBE-H!; card rules remain the source of truth.
 - Preserved the sealed JITEM teaser and the bilingual personal attribution note.
+
+### 2026-09-22 — Portal category/install identity candidate
+- Web change: retain four simple game categories; keep unclassified additions visible; consistent TarikLab PWA name, TL icon set, maskable and apple-touch assets, single manifest.
+- Content: no (category/identity labels only)
+- Artwork: yes (minimal TL monogram)
+- Gameplay/rules: no
+- UI/presentation: yes
+- Shared-content source: no
+- Native follow-up: yes (paused), brand identity only
+- Commits: portal PR #56 follow-up; not merged
