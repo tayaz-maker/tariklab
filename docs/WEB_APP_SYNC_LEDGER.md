@@ -34,6 +34,16 @@ Append after a meaningful website change to a game or shared brand/content. Skip
 
 ## Entries
 
+### 2026-09-22 — HANEDANIAN cached atlas + DARBE-H! illustrated interiors
+- Web change: HANEDANIAN terrain is a cached offscreen atlas (blended biome masses, forest clusters, ridge systems, field parcels) blitted each frame instead of per-tile fillRect. DARBE-H! 300 SVG faces rebuilt as lit interior scenes with perspective, lamp pools and series-specific furniture. Compact HUD unchanged.
+- Content: no
+- Artwork: yes
+- Gameplay/rules: no (49×49 world, seed, movement, save, decks, stats, RNG, 300 IDs untouched)
+- UI/presentation: yes (map rendering + DARBE card faces)
+- Shared-content source: no
+- Native follow-up: yes (paused) — carry atlas cache look and illustrated DARBE interiors
+- Commits: grok/hanedanian-darbe-visual-depth
+
 ### 2026-09-21 — DARBE-H! card art rebuild + HANEDANIAN atlas rendering
 - Web change: DARBE-H! 300 SVG faces rebuilt as series-first archival collages (telex / dossier / command table / paraf / archive). HANEDANIAN map renderer retuned to dynastic atlas (hatching, contours, paper grain, distinct POI symbols, road casing, river banks). Compact HUD palette aligned; height unchanged.
 - Content: no
