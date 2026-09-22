@@ -151,8 +151,9 @@ test("Çete help keeps canonical Turkish sections", () => {
 
 test("credits English pack exists and Amiral Battı stays credited", () => {
   assert.match(read("public/credits.html"), /Amiral Battı/);
-  assert.match(read("public/credits.html"), /Tarık Halil Ayaz/);
+  assert.doesNotMatch(read("public/credits.html"), /Tarık Halil Ayaz/);
   assert.match(JSON.stringify(I.CREDITS_EN), /Amiral Battı/);
+  assert.doesNotMatch(JSON.stringify(I.CREDITS_EN), /Tarık Halil Ayaz/);
   assert.match(I.CREDITS_EN.legal, /All rights reserved/);
 });
 
@@ -160,6 +161,7 @@ test("credits Polish pack exposes 19 live games and preserves the personal note"
   assert.match(JSON.stringify(I.CREDITS_PL), /19 dostępnych gier/);
   assert.match(JSON.stringify(I.CREDITS_PL), /JITEM: Derin Ağ/);
   assert.match(JSON.stringify(I.CREDITS_PL), /Tarık jest synem swojej matki\./);
+  assert.doesNotMatch(JSON.stringify(I.CREDITS_PL), /Tarık Halil Ayaz/);
   assert.match(read("public/credits.html"), /CREDITS_PL/);
 });
 

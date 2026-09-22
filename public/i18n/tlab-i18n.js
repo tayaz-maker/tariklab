@@ -487,7 +487,6 @@
       },
       {
         h: "Contribution and attribution",
-        lead: "Game design, interface and original content: Tarık Halil Ayaz.",
         note: "Tarık is his mother's son.",
       },
       {
@@ -535,7 +534,7 @@
         '<a href="/oyna/jitem-derin-ag">JITEM: Derin Ağ</a> · LIVE — Jednoosobowa strategia 1986–1996 oparta na źródłowych zapisach historycznych, sieciach relacji i asymetrycznej wiedzy.',
       ]},
       { h: "Jak to działa", lead: "TarikLab to zbiór niezależnych gier działających bezpośrednio w przeglądarce.", items: ["Portal i Çete Savaşları używają Reacta i TypeScriptu; pozostałe gry są osobnymi aplikacjami HTML, CSS i JavaScript.", "Portal i wszystkie 19 dostępnych gier obsługują turecki i angielski; polski jest obecnie warstwą globalną portalu i powłoki.", "Interfejsy dostosowują się do telefonu, tabletu i komputera." ]},
-      { h: "Autorstwo", lead: "Projekt gry, interfejs i oryginalna treść: Tarık Halil Ayaz.", note: "Tarık jest synem swojej matki." },
+      { h: "Autorstwo", note: "Tarık jest synem swojej matki." },
       { h: "TLab Classics", lead: "Labirent, Tek Taş, Satranç i Amiral Battı zostały napisane od podstaw dla TarikLab.", items: ["Labirent — niezależna implementacja TarikLab.", "Tek Taş — niezależna implementacja TarikLab.", "Satranç — niezależny silnik zasad TarikLab.", "Amiral Battı — niezależna implementacja siatki i floty TarikLab."], note: "Klasyczne zasady gier są koncepcjami domeny publicznej; ta informacja dotyczy wyłącznie kodu, interfejsu i oryginalnej treści TarikLab." },
       { h: "Komponenty zewnętrzne", lead: "Główne komponenty zewnętrzne portalu i Çete Savaşları: React, TanStack Router, Zustand, Radix UI, Lucide i Zod. Prawa do nich należą do ich właścicieli." },
     ],
