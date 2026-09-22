@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""DARBE-H! institutional crisis-archive SVG faces.
+"""DARBE-H! illustrated crisis-interior card faces.
 
-Series-first documentary collage, not a recolored geometric template.
-IDs, stats and text come from source-cards.json and are never invented.
-Illustrative / editorial only — no fake historical photographs.
+Editorial illustration + archival atmosphere. Each card is a lit room/scene
+with perspective, lamp pools and object storytelling — not a collage of
+rectangles and stamps. IDs, stats and text come from source-cards.json.
+No fake historical photographs.
 """
 from __future__ import annotations
 
@@ -44,6 +45,22 @@ SERIES_INK = {
 }
 
 KIND_LABEL = {"unit": "GÖREVLİ", "spell": "EMİRNAME", "trap": "İHTAR"}
+WALLS = {
+    "Dosya": ("#2a3642", "#1c262e", "#3a2e22"),
+    "Paraf": ("#243028", "#18221c", "#3a3424"),
+    "Heyet": ("#2c2434", "#1c1824", "#3a3228"),
+    "Karargah": ("#1e262e", "#141a22", "#2e261c"),
+    "Telex": ("#241e16", "#16120e", "#3a2c1c"),
+    "Muhtira": ("#2a1c1c", "#1a1212", "#3a2a22"),
+    "Zeyil": ("#1c2626", "#121c1c", "#2a3228"),
+    "Brifing": ("#1a2430", "#101820", "#2a2e28"),
+    "Kabine": ("#2a2218", "#1a1610", "#3a3224"),
+    "Arsiv": ("#22281e", "#161a14", "#3a3224"),
+    "Tebligat": ("#241c14", "#16120c", "#3a2e1e"),
+    "Mesruiyet": ("#1c2030", "#12161e", "#2e2a22"),
+    "İhtar": ("#2a1612", "#1a0e0c", "#3a2418"),
+    "Ihtar": ("#2a1612", "#1a0e0c", "#3a2418"),
+}
 
 
 def series_key(raw: str) -> str:
@@ -64,186 +81,604 @@ def bits(card_id: str) -> list[int]:
     return list(hashlib.sha256(card_id.encode()).digest())
 
 
-def rot_g(x, y, w, h, deg, inner: str) -> str:
-    cx, cy = x + w / 2, y + h / 2
-    return f'<g transform="rotate({deg:.1f} {cx:.1f} {cy:.1f})">{inner}</g>'
+def uid_of(cid: str) -> str:
+    return cid.replace("-", "")
 
 
-def rect(x, y, w, h, fill, stroke="#6f5b43", sw=1.2, rx=0, opacity=None) -> str:
-    r = f' rx="{rx}"' if rx else ""
+def poly(pts, fill, stroke=None, sw=1, opacity=None) -> str:
+    d = " ".join(f"{x:.1f},{y:.1f}" for x, y in pts)
+    st = f' stroke="{stroke}" stroke-width="{sw}"' if stroke else ' stroke="none"'
     op = f' opacity="{opacity}"' if opacity else ""
+    return f'<polygon points="{d}" fill="{fill}"{st}{op}/>'
+
+
+def pathd(d, fill="none", stroke=None, sw=1, cap="round", join="round", opacity=None) -> str:
+    st = f' stroke="{stroke}" stroke-width="{sw}" stroke-linecap="{cap}" stroke-linejoin="{join}"' if stroke else ""
+    op = f' opacity="{opacity}"' if opacity else ""
+    return f'<path d="{d}" fill="{fill}"{st}{op}/>'
+
+
+def rect(x, y, w, h, fill, stroke=None, sw=1, rx=0, opacity=None) -> str:
+    r = f' rx="{rx}"' if rx else ""
+    st = f' stroke="{stroke}" stroke-width="{sw}"' if stroke else ' stroke="none"'
+    op = f' opacity="{opacity}"' if opacity else ""
+    return f'<rect x="{x:.1f}" y="{y:.1f}" width="{w:.1f}" height="{h:.1f}"{r} fill="{fill}"{st}{op}/>'
+
+
+def circ(cx, cy, r, fill, stroke=None, sw=1, opacity=None) -> str:
+    st = f' stroke="{stroke}" stroke-width="{sw}"' if stroke else ' stroke="none"'
+    op = f' opacity="{opacity}"' if opacity else ""
+    return f'<circle cx="{cx:.1f}" cy="{cy:.1f}" r="{r:.1f}" fill="{fill}"{st}{op}/>'
+
+
+def txt(x, y, s, fill, size=11, anchor="start", font="Georgia,serif", w="700", extra="") -> str:
     return (
-        f'<rect x="{x:.1f}" y="{y:.1f}" width="{w:.1f}" height="{h:.1f}"{r} '
-        f'fill="{fill}" stroke="{stroke}" stroke-width="{sw}"{op}/>'
+        f'<text x="{x:.1f}" y="{y:.1f}" text-anchor="{anchor}" fill="{fill}" '
+        f'font-family="{font}" font-size="{size}" font-weight="{w}"{extra}>{esc(s)}</text>'
     )
 
 
-def paper(x, y, w, h, deg, fill, stroke="#6f5b43", sw=1.2) -> str:
-    return rot_g(x, y, w, h, deg, rect(x, y, w, h, fill, stroke, sw))
+def box3(x, y, w, h, d, top, front, side) -> str:
+    sx, sy = d * 0.58, -d * 0.34
+    front_p = [(x, y - h), (x + w, y - h), (x + w, y), (x, y)]
+    topp = [(x, y - h), (x + sx, y - h + sy), (x + w + sx, y - h + sy), (x + w, y - h)]
+    sidep = [(x + w, y - h), (x + w + sx, y - h + sy), (x + w + sx, y + sy), (x + w, y)]
+    shadow = poly(
+        [(x + 6, y + 4), (x + w + 8, y + 4), (x + w + sx + 4, y + sy + 6), (x + sx, y + sy + 6)],
+        "#0a0806",
+        opacity=0.28,
+    )
+    return shadow + poly(sidep, side) + poly(front_p, front, "#1a1612", 0.6) + poly(topp, top, "#5a4a32", 0.7)
 
 
-def typed_lines(x, y, w, n, gap, color="#5d503e", skip=-1, seed=0) -> str:
-    parts = []
-    for i in range(n):
-        if i == skip:
-            continue
-        ww = w * (0.48 + ((seed + i * 17) % 47) / 100)
-        parts.append(f'<path d="M{x:.1f} {y + i * gap:.1f} h{ww:.1f}" stroke="{color}" stroke-width="1.25"/>')
-    return "".join(parts)
-
-
-def stamp(cx, cy, label, tint, deg=-12, r=28) -> str:
+def chair(x, y, scale=1.0, wood="#4a3828") -> str:
+    s = scale
     return (
-        f'<g transform="rotate({deg} {cx} {cy})">'
-        f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="{tint}" stroke-width="3.4"/>'
-        f'<circle cx="{cx}" cy="{cy}" r="{r - 7}" fill="none" stroke="{tint}" stroke-width="1.1"/>'
-        f'<text x="{cx}" y="{cy + 4}" text-anchor="middle" fill="{tint}" '
-        f'font-family="Georgia,serif" font-size="9" font-weight="700">{esc(label)}</text></g>'
+        f'<g transform="translate({x:.1f} {y:.1f}) scale({s:.2f})">'
+        f'<ellipse cx="0" cy="18" rx="22" ry="7" fill="#0a0806" opacity=".3"/>'
+        f'{rect(-16, -6, 32, 10, wood, "#1a1612", 0.8, 2)}'
+        f'{rect(-14, -40, 6, 36, wood)}{rect(8, -40, 6, 36, wood)}'
+        f'{rect(-18, -48, 36, 12, "#3a2a1c", "#1a1612", 0.8, 2)}'
+        f'{rect(-12, 4, 5, 18, "#2a1e14")}{rect(8, 4, 5, 18, "#2a1e14")}'
+        "</g>"
     )
 
 
-def wax(cx, cy, letter="YD") -> str:
+def lamp_obj(x, y, shade="#c4a574", glow=True) -> str:
+    g = circ(x + 5, y + 10, 28, "#f0d9a0", opacity=0.18) if glow else ""
     return (
-        f'<circle cx="{cx}" cy="{cy}" r="22" fill="#6b241f" stroke="#c4a574" stroke-width="2"/>'
-        f'<circle cx="{cx}" cy="{cy}" r="14" fill="none" stroke="#e8c48a" stroke-width="1"/>'
-        f'<text x="{cx}" y="{cy + 5}" text-anchor="middle" fill="#e8c48a" '
-        f'font-family="Georgia,serif" font-size="11">{esc(letter)}</text>'
+        g
+        + pathd(f"M{x - 18} {y + 36} h46 l-10 -26 h-26z", shade, "#5a4a32", 0.8)
+        + rect(x, y + 36, 10, 40, "#4a3a28")
+        + circ(x + 5, y + 12, 7, "#efe4c4", opacity=0.7)
+        + rect(x - 8, y + 74, 26, 6, "#2a2218")
     )
-
-
-def redactions(x, y, n, seed) -> str:
-    out = []
-    for i in range(n):
-        s = seed[i % len(seed)]
-        out.append(
-            f'<rect x="{x + (s % 36)}" y="{y + i * 15}" width="{64 + s % 96}" '
-            f'height="7.5" fill="#1a1814" opacity=".84"/>'
-        )
-    return "".join(out)
-
-
-def clip_pin(x, y) -> str:
-    return (
-        f'<path d="M{x} {y} v22 q0 8 8 8 q8 0 8 -8 v-18" fill="none" stroke="#8a7a5a" stroke-width="2.4"/>'
-        f'<path d="M{x + 4} {y + 2} v18 q0 4 4 4" fill="none" stroke="#c4b48a" stroke-width="1.4"/>'
-    )
-
-
-def folder(x, y, w, h, tab, fill, tabw=54) -> str:
-    return (
-        f'<path d="M{x} {y + 14} h{tab} l8 -14 h{tabw} l8 14 h{w - tab - tabw - 16} v{h} h-{w} z" '
-        f'fill="{fill}" stroke="#5c4a32" stroke-width="1.4"/>'
-    )
-
-
-def telex_tape(x, y, w, seed) -> str:
-    holes = "".join(
-        f'<rect x="{x + 6 + i * 9}" y="{y + 4 + (seed[i % 8] % 5)}" width="5" height="5" fill="#2a2218"/>'
-        for i in range(max(4, int(w // 10)))
-    )
-    return f'{rect(x, y, w, 16, "#d8c9a4", "#6a5a3a", 1)}{holes}'
 
 
 def typewriter(x, y) -> str:
-    keys = "".join(f'<rect x="{x + 8 + i * 11}" y="{y + 28}" width="8" height="8" rx="1" fill="#c4b48a"/>' for i in range(9))
+    keys = "".join(
+        rect(x + 10 + i * 10, y + 22, 8, 7, "#d4c4a0", "#3a2a18", 0.5, 1) for i in range(9)
+    )
     return (
-        f'{rect(x, y, 118, 54, "#2c2a26", "#8a7a5a", 1.2, 4)}'
-        f'{rect(x + 10, y - 16, 98, 18, CREAM, "#6a5a3a")}'
-        f'{keys}<path d="M{x + 20} {y + 8} h80" stroke="#1a1814" stroke-width="6"/>'
+        box3(x, y + 48, 118, 28, 22, "#3a342c", "#2c2a26", "#1e1c18")
+        + rect(x + 12, y + 4, 96, 16, CREAM, "#5a4a32", 0.8)
+        + pathd(f"M{x + 22} {y + 16} h76", stroke="#1a1814", sw=5)
+        + keys
     )
 
 
-def phone(x, y) -> str:
+def phone_obj(x, y) -> str:
     return (
-        f'{rect(x, y, 52, 28, "#2a2e28", "#8a7a5a", 1.2, 4)}'
-        f'<path d="M{x + 6} {y - 8} q20 -16 40 0" fill="none" stroke="#c4a574" stroke-width="5" stroke-linecap="round"/>'
-        f'<circle cx="{x + 16}" cy="{y + 14}" r="3" fill="#e4d4b4"/>'
-        f'<circle cx="{x + 36}" cy="{y + 14}" r="3" fill="#e4d4b4"/>'
+        box3(x, y + 28, 54, 16, 16, "#3a3e38", "#2a2e28", "#1a1e18")
+        + pathd(f"M{x + 8} {y + 4} q20 -18 40 0", stroke="#c4a574", sw=5)
+        + circ(x + 16, y + 18, 3, "#e4d4b4")
+        + circ(x + 38, y + 18, 3, "#e4d4b4")
     )
 
 
-def radio(x, y) -> str:
+def radio_obj(x, y) -> str:
     return (
-        f'{rect(x, y, 64, 38, "#2a2620", "#8a7a5a")}'
-        f'<circle cx="{x + 18}" cy="{y + 19}" r="10" fill="none" stroke="#c4a574" stroke-width="2"/>'
-        f'{rect(x + 36, y + 8, 20, 6, CREAM)}'
-        f'<path d="M{x + 48} {y} v-16" stroke="#c4a574" stroke-width="2"/>'
+        box3(x, y + 36, 72, 24, 16, "#3a342c", "#2a2620", "#1a1612")
+        + circ(x + 22, y + 20, 10, "none", BRASS, 2)
+        + rect(x + 40, y + 12, 22, 6, CREAM)
+        + pathd(f"M{x + 58} {y + 12} v-18", stroke=BRASS, sw=2)
     )
 
 
 def tape_deck(x, y) -> str:
     return (
-        f'{rect(x, y, 78, 36, "#26221c", "#8a7a5a", 1.2, 2)}'
-        f'<circle cx="{x + 22}" cy="{y + 18}" r="10" fill="none" stroke="#c4a574" stroke-width="2"/>'
-        f'<circle cx="{x + 54}" cy="{y + 18}" r="10" fill="none" stroke="#c4a574" stroke-width="2"/>'
-        f'<path d="M{x + 22} {y + 18} h32" stroke="#e4d4b4" stroke-width="2"/>'
+        box3(x, y + 34, 86, 22, 14, "#322c24", "#26221c", "#16120e")
+        + circ(x + 24, y + 18, 10, "none", BRASS, 2)
+        + circ(x + 58, y + 18, 10, "none", BRASS, 2)
+        + pathd(f"M{x + 24} {y + 18} h34", stroke="#e4d4b4", sw=2)
     )
 
 
-def map_frag(x, y, w, h, tint) -> str:
+def dossier(x, y, w, h, fill, tab=36, deg=0) -> str:
+    inner = (
+        pathd(
+            f"M{x} {y + 12} h{tab} l7 -12 h{36} l7 12 h{w - tab - 50} v{h} h{-w} z",
+            fill,
+            "#5c4a32",
+            1.2,
+        )
+        + rect(x + 10, y + 22, w * 0.62, 4, "#5d503e", opacity=0.45)
+        + rect(x + 10, y + 32, w * 0.48, 4, "#5d503e", opacity=0.35)
+    )
+    if not deg:
+        return inner
+    cx, cy = x + w / 2, y + h / 2
+    return f'<g transform="rotate({deg:.1f} {cx:.1f} {cy:.1f})">{inner}</g>'
+
+
+def paper_sheet(x, y, w, h, deg, fill, lines=0, skip=-1, seed=0) -> str:
+    cx, cy = x + w / 2, y + h / 2
+    body = rect(x, y, w, h, fill, "#6f5b43", 1.1)
+    if lines:
+        for i in range(lines):
+            if i == skip:
+                continue
+            ww = w * (0.46 + ((seed + i * 17) % 47) / 100)
+            body += pathd(f"M{x + 10:.1f} {y + 16 + i * 11:.1f} h{ww:.1f}", stroke="#5d503e", sw=1.15)
+    return f'<g transform="rotate({deg:.1f} {cx:.1f} {cy:.1f})">{body}</g>'
+
+
+def map_table(x, y, w, h, tint) -> str:
     return (
-        f'{rect(x, y, w, h, "#c5cbb0", "#5a4a32")}'
-        f'<path d="M{x + 8} {y + h * 0.62:.1f} c{w * 0.28:.1f} -{h * 0.38:.1f} {w * 0.5:.1f} {h * 0.18:.1f} {w - 16:.1f} -{h * 0.14:.1f}" '
-        f'fill="none" stroke="{tint}" stroke-width="2.2"/>'
-        f'<circle cx="{x + w * 0.34:.1f}" cy="{y + h * 0.38:.1f}" r="4" fill="{OX}"/>'
-        f'<path d="M{x + 12} {y + 10} h{w * 0.2:.1f} M{x + 12} {y + 18} h{w * 0.14:.1f}" stroke="#4a5a44" stroke-width="1"/>'
+        box3(x, y + h, w, 10, 18, "#c5cbb0", "#4a3828", "#3a2a1c")
+        + pathd(
+            f"M{x + 12:.1f} {y + h * 0.55:.1f} c{w * 0.28:.1f} -{h * 0.4:.1f} {w * 0.5:.1f} {h * 0.16:.1f} {w - 22:.1f} -{h * 0.12:.1f}",
+            stroke=tint,
+            sw=2.2,
+        )
+        + circ(x + w * 0.38, y + h * 0.36, 4, OX)
+    )
+
+
+def envelope(x, y, w=120, h=68) -> str:
+    return (
+        rect(x, y, w, h, "#e8dcc0", "#6a5a3a", 1.1)
+        + pathd(f"M{x} {y} L{x + w / 2:.1f} {y + 28} L{x + w} {y}", fill="#d8ccb0", stroke="#6a5a3a", sw=1.2)
+    )
+
+
+def wax(cx, cy, letter="YD") -> str:
+    return (
+        circ(cx, cy, 16, "#6b241f", BRASS, 1.6)
+        + circ(cx, cy, 10, "none", "#e8c48a", 0.9)
+        + txt(cx, cy + 4, letter, "#e8c48a", 10, "middle")
+    )
+
+
+def stamp_seal(cx, cy, label, tint, deg=-14, r=26) -> str:
+    return (
+        f'<g transform="rotate({deg} {cx:.1f} {cy:.1f})">'
+        f'<circle cx="{cx:.1f}" cy="{cy:.1f}" r="{r}" fill="none" stroke="{tint}" stroke-width="3"/>'
+        f'<circle cx="{cx:.1f}" cy="{cy:.1f}" r="{r - 7}" fill="none" stroke="{tint}" stroke-width="1"/>'
+        f'{txt(cx, cy + 4, label, tint, 8, "middle")}</g>'
     )
 
 
 def silhouette(x, y, s=1.0) -> str:
     return (
-        f'<g transform="translate({x} {y}) scale({s})">'
-        f'<circle cx="0" cy="-18" r="7" fill="#1f1c18"/>'
-        f'<path d="M-11 -8 q11 6 22 0 v18 h-22z" fill="#1f1c18"/></g>'
+        f'<g transform="translate({x:.1f} {y:.1f}) scale({s:.2f})" opacity=".85">'
+        f'<ellipse cx="0" cy="18" rx="14" ry="5" fill="#0a0806" opacity=".35"/>'
+        f'<circle cx="0" cy="-20" r="8" fill="#1a1612"/>'
+        f'<path d="M-13 -8 q13 8 26 0 v22 h-26z" fill="#1a1612"/>'
+        "</g>"
     )
 
 
-def archive_box(x, y, w, h, label) -> str:
+def shelves(x, y, cols, rows, tint) -> str:
+    out = [box3(x, y + rows * 38 + 16, cols * 52 + 16, rows * 38 + 10, 14, "#6a5438", "#4a3a28", "#3a2a1c")]
+    for r in range(rows):
+        for c in range(cols):
+            fill = ["#c8b48a", "#d4c4a0", "#bba678", "#3d5344", "#7a2e28"][(r + c) % 5]
+            out.append(rect(x + 8 + c * 52, y + 8 + r * 36, 44, 28, fill, "#2a1c10", 0.8))
+    return "".join(out)
+
+
+def telex_machine(x, y, b) -> str:
+    holes = "".join(
+        rect(x + 14 + i * 8, y + 8 + (b[i % 8] % 4), 4, 4, "#2a2218") for i in range(12)
+    )
     return (
-        f'{rect(x, y, w, h, "#6a5438", "#3a2a18")}'
-        f'{rect(x, y, w, 10, "#8a6a42", "#3a2a18")}'
-        f'{rect(x + 8, y + h / 2 - 6, w - 16, 12, CREAM, "#3a2a18")}'
-        f'<text x="{x + w / 2:.1f}" y="{y + h / 2 + 3:.1f}" text-anchor="middle" fill="#2a2218" '
-        f'font-family="ui-monospace,monospace" font-size="8">{esc(label)}</text>'
+        box3(x, y + 70, 150, 40, 22, "#4a3e32", "#2a241c", "#1a1610")
+        + rect(x + 10, y + 4, 128, 18, "#d8c9a4", "#6a5a3a")
+        + holes
+        + rect(x + 18, y + 36, 110, 10, "#1a1814")
     )
 
 
-def envelope(x, y, w=110, h=62) -> str:
+def closed_door(x, y, w, h, tint) -> str:
     return (
-        f'{rect(x, y, w, h, "#e8dcc0", "#6a5a3a")}'
-        f'<path d="M{x} {y} L{x + w / 2:.1f} {y + 28} L{x + w} {y}" fill="none" stroke="#6a5a3a" stroke-width="1.4"/>'
+        rect(x, y, w, h, "#2a221c", tint, 1.4)
+        + rect(x + 6, y + 8, w - 12, h * 0.42, "#1a1612", "#3a3228", 0.8)
+        + rect(x + 6, y + h * 0.52, w - 12, h * 0.4, "#1a1612", "#3a3228", 0.8)
+        + circ(x + w - 12, y + h * 0.55, 3.5, BRASS)
     )
 
 
-def lamp(x, y) -> str:
+def scene_defs(uid: str, b: list[int], wall: str, lamp: str) -> str:
+    lx = 28 + b[0] % 48
+    ly = 18 + b[1] % 36
+    warm = ["#f0d9a0", "#e8c48a", "#d4a070", "#f4e2b8"][b[2] % 4]
     return (
-        f'<rect x="{x}" y="{y + 40}" width="10" height="36" fill="#6a5a3a"/>'
-        f'<path d="M{x - 16} {y + 40} h42 l-8 -28 h-26z" fill="#c4a574"/>'
-        f'<circle cx="{x + 5}" cy="{y + 8}" r="6" fill="#efe4c4" opacity=".55"/>'
+        f'<radialGradient id="lamp{uid}" cx="{lx}%" cy="{ly}%" r="62%">'
+        f'<stop offset="0" stop-color="{warm}" stop-opacity=".62"/>'
+        f'<stop offset=".42" stop-color="{lamp}" stop-opacity=".16"/>'
+        f'<stop offset="1" stop-color="#000000" stop-opacity="0"/>'
+        "</radialGradient>"
+        f'<linearGradient id="floor{uid}" x1="0" y1="0" x2="0" y2="1">'
+        f'<stop offset="0" stop-color="#3a3228"/><stop offset="1" stop-color="#1a1610"/>'
+        "</linearGradient>"
+        f'<linearGradient id="wall{uid}" x1="0" y1="0" x2="1" y2="1">'
+        f'<stop offset="0" stop-color="{wall}"/><stop offset="1" stop-color="#0e1014"/>'
+        "</linearGradient>"
+        f'<radialGradient id="vig{uid}" cx="50%" cy="42%" r="72%">'
+        '<stop offset=".4" stop-color="#000" stop-opacity="0"/>'
+        '<stop offset="1" stop-color="#000" stop-opacity=".5"/>'
+        "</radialGradient>"
+        '<pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse">'
+        '<path d="M0 6 L6 0" stroke="#2a2218" opacity=".07"/>'
+        "</pattern>"
+        '<pattern id="grain" width="7" height="7" patternUnits="userSpaceOnUse">'
+        '<path d="M0 7 L7 0" stroke="#2a2218" opacity=".05"/>'
+        "</pattern>"
     )
 
 
-def newspaper(x, y, w, h, kicker) -> str:
-    cols = "".join(
-        f'<path d="M{x + 8 + c * (w / 3):.1f} {y + 28} v{h - 36}" stroke="#6a5a3a" opacity=".35"/>'
-        for c in range(1, 3)
-    )
-    lines = typed_lines(x + 10, y + 34, w * 0.26, 6, 9, "#5a4a32", seed=int(x))
+def room_shell(uid: str, b: list[int], wall: str, floor: str, ceil: str, camera: int) -> str:
+    if camera == 2:
+        # corridor
+        return (
+            rect(28, 88, 344, 330, wall)
+            + poly([(28, 418), (168, 210), (232, 210), (372, 418)], floor)
+            + poly([(168, 210), (232, 210), (232, 88), (168, 88)], ceil)
+            + poly([(28, 88), (168, 88), (168, 210), (28, 418)], wall, opacity=0.85)
+            + poly([(372, 88), (232, 88), (232, 210), (372, 418)], "#0e1216", opacity=0.9)
+            + closed_door(186, 128, 28, 82, BRASS)
+            + rect(28, 88, 344, 330, f"url(#lamp{uid})")
+            + rect(28, 88, 344, 330, f"url(#vig{uid})")
+        )
+    if camera == 1:
+        # desk close-up: lots of floor, low walls, still a real interior
+        horizon = 168 + b[3] % 36
+        desk_y = 330 + b[9] % 28
+        return (
+            rect(28, 88, 344, horizon - 88, wall)
+            + poly([(28, 88), (28, 418), (92, horizon + 24), (92, 108)], "#12161c", opacity=0.72)
+            + poly([(372, 88), (372, 418), (308, horizon + 10), (308, 100)], "#0c1014", opacity=0.78)
+            + poly([(28, horizon), (372, horizon - 18), (372, 418), (28, 418)], floor)
+            + poly([(54, desk_y), (340, desk_y - 16), (352, 410), (42, 418)], "#4a3828")
+            + poly([(54, desk_y), (340, desk_y - 16), (328, desk_y - 28), (66, desk_y - 10)], "#6a5438")
+            + pathd(f"M28 {horizon} L372 {horizon - 18}", stroke="#5a4a32", sw=1.2)
+            + rect(28, 88, 344, 330, f"url(#lamp{uid})")
+            + rect(28, 88, 344, 330, f"url(#vig{uid})")
+        )
+    if camera == 3:
+        # looking down a long table
+        return (
+            rect(28, 88, 344, 330, wall)
+            + poly([(48, 200), (352, 188), (390, 418), (10, 418)], floor)
+            + poly([(48, 200), (352, 188), (300, 88), (100, 88)], ceil, opacity=0.9)
+            + rect(28, 88, 344, 330, f"url(#lamp{uid})")
+            + rect(28, 88, 344, 330, f"url(#vig{uid})")
+        )
+    # 1-point room
+    inset = 62 + b[4] % 48
+    back_l, back_r = 28 + inset, 372 - inset + (b[5] % 16) - 8
+    back_t = 102 + b[6] % 18
+    back_b = 208 + b[7] % 40
     return (
-        f'{rect(x, y, w, h, "#efe6cc", "#5a4a32")}'
-        f'<text x="{x + 10}" y="{y + 16}" fill="{OX}" font-family="Georgia,serif" font-size="9" font-weight="700">{esc(kicker)}</text>'
-        f'{cols}{lines}'
+        rect(28, 88, 344, 330, f"url(#wall{uid})")
+        + poly([(back_l, back_t), (back_r, back_t), (back_r, back_b), (back_l, back_b)], wall)
+        + poly([(28, 88), (back_l, back_t), (back_r, back_t), (372, 88)], ceil)
+        + poly([(28, 418), (back_l, back_b), (back_r, back_b), (372, 418)], f"url(#floor{uid})")
+        + poly([(28, 88), (back_l, back_t), (back_l, back_b), (28, 418)], wall, opacity=0.92)
+        + poly([(372, 88), (back_r, back_t), (back_r, back_b), (372, 418)], "#10141a", opacity=0.88)
+        + (closed_door((back_l + back_r) / 2 - 14, back_t + 18, 28, back_b - back_t - 28, BRASS) if b[8] % 3 == 0 else "")
+        + rect(28, 88, 344, 330, f"url(#lamp{uid})")
+        + rect(28, 88, 344, 330, "url(#hatch)")
+        + rect(28, 88, 344, 330, f"url(#vig{uid})")
     )
 
 
-def corridor(tint) -> str:
-    return (
-        f'<rect x="28" y="88" width="344" height="330" fill="#1c2228"/>'
-        f'<path d="M28 418 L168 220 L232 220 L372 418" fill="#2a323c"/>'
-        f'<path d="M168 220 L232 220 L232 88 L168 88 Z" fill="#24303a"/>'
-        f'<rect x="186" y="140" width="28" height="80" fill="#1a1814" stroke="{tint}"/>'
-        f'<path d="M28 418 L168 220 M232 220 L372 418" stroke="#8a7a5a" opacity=".45"/>'
+def plate(x, y, label, tint) -> str:
+    return rect(x, y, 92, 18, "#1a1612", tint, 1.1) + txt(x + 46, y + 13, label, BRASS, 9, "middle", "ui-monospace,monospace")
+
+
+def paint_dosya(b, tint, n, name, cid, uid) -> str:
+    cam = b[0] % 4
+    body = room_shell(uid, b, "#2a3642", "#3a2e22", "#1c262e", cam)
+    if cam == 0:
+        body += box3(70, 360, 220, 18, 40, "#5a4a32", "#3a2e22", "#2a1e14")
+        body += dossier(88, 210, 150, 96, "#c8b48a", 28, -8)
+        body += dossier(118, 226, 160, 100, "#d4c4a0", 40, 4)
+        body += dossier(96, 248, 170, 110, "#bba678", 22, -2)
+        body += paper_sheet(250, 200, 90, 120, 12, CREAM, 6, 2, b[2])
+        body += lamp_obj(300, 120, "#c4a574")
+        body += plate(48, 100, "DOSYA", tint)
+    elif cam == 1:
+        body += lamp_obj(60, 96, OX)
+        body += dossier(70, 180, 210, 140, "#d4c4a0", 48, -6)
+        body += paper_sheet(160, 210, 150, 170, 7, IVORY, 8, 3, b[3])
+        body += stamp_seal(268, 268, "GİZLİ", OX, 16, 28)
+        body += plate(48, 100, "KAYIT", tint)
+    elif cam == 2:
+        body += dossier(70, 250, 140, 90, "#c8b48a", 24, -4)
+        body += silhouette(300, 300, 1.1)
+        body += lamp_obj(48, 200)
+        body += plate(48, 100, "DOSYA", tint)
+    else:
+        body += shelves(48, 140, 4, 3, tint)
+        body += dossier(210, 280, 120, 80, "#d4c4a0", 30, 6)
+        body += plate(48, 100, "KAYIT", tint)
+        body += stamp_seal(300, 200, "DOSYA", tint, -10, 24)
+    if n > 180:
+        body += wax(330, 360)
+    return body
+
+
+def paint_telex(b, tint, n, name, cid, uid) -> str:
+    cam = b[1] % 4
+    body = room_shell(uid, b, "#241e16", "#3a2c1c", "#16120e", 1 if cam == 1 else 0 if cam != 2 else 2)
+    if cam == 0:
+        body += telex_machine(90, 200, b)
+        body += typewriter(210, 280)
+        body += paper_sheet(48, 250, 120, 70, -6, IVORY, 4, seed=b[5])
+        body += plate(48, 100, "TELEX", tint)
+        body += stamp_seal(310, 340, "ONAY", tint, 8, 24)
+    elif cam == 1:
+        body += radio_obj(48, 200)
+        body += tape_deck(150, 210)
+        body += paper_sheet(70, 280, 240, 90, 2, CREAM, 5, seed=b[6])
+        body += plate(48, 100, "TELEX", tint)
+    elif cam == 2:
+        body += telex_machine(80, 240, b)
+        body += phone_obj(250, 250)
+        body += plate(48, 100, "ONAY", tint)
+    else:
+        body += typewriter(70, 260)
+        body += telex_machine(200, 180, b)
+        body += lamp_obj(300, 110)
+        body += plate(48, 100, "TELEX", tint)
+    return body
+
+
+def paint_karargah(b, tint, n, name, cid, uid) -> str:
+    cam = b[2] % 4
+    body = room_shell(uid, b, "#1e262e", "#2e261c", "#141a22", 3 if cam == 3 else 0)
+    body += map_table(60, 240, 240 if cam != 1 else 180, 90, tint)
+    if cam == 0:
+        body += phone_obj(280, 210)
+        body += paper_sheet(90, 300, 100, 60, -6, CREAM, 3, seed=b[4])
+        body += paper_sheet(210, 292, 90, 70, 8, "#d2c4a3", 3, seed=b[5])
+        body += lamp_obj(48, 110)
+        body += plate(48, 100, "KRİZ", tint)
+    elif cam == 1:
+        body += "".join(silhouette(80 + i * 48, 300, 0.9 + (b[i] % 3) * 0.06) for i in range(5))
+        body += radio_obj(48, 180)
+        body += plate(48, 100, "KRİZ", tint)
+    elif cam == 2:
+        body += tape_deck(70, 300)
+        body += phone_obj(180, 300)
+        body += stamp_seal(300, 180, "KARAR", tint, 18, 26)
+        body += plate(48, 100, "KARAR", tint)
+    else:
+        body += "".join(silhouette(90 + i * 55, 250, 1.0) for i in range(4))
+        body += lamp_obj(300, 108)
+        body += plate(48, 100, "KRİZ", tint)
+    return body
+
+
+def paint_heyet(b, tint, n, name, cid, uid) -> str:
+    cam = b[3] % 3
+    body = room_shell(uid, b, "#2c2434", "#3a3228", "#1c1824", 3)
+    body += poly(
+        [(70, 270), (330, 255), (310, 310), (90, 322)],
+        "#4d392d",
+        "#aa8b61",
+        2,
     )
+    body += "".join(chair(86 + i * 46, 248 + (i % 2) * 8, 0.72) for i in range(5))
+    if cam == 0:
+        body += paper_sheet(176, 250, 48, 32, 8, CREAM)
+        body += lamp_obj(48, 110)
+        body += plate(48, 100, "HEYET", tint)
+    elif cam == 1:
+        body += paper_sheet(80, 330, 220, 60, -2, CREAM, 4, seed=b[7])
+        body += stamp_seal(300, 340, "TUTANAK", tint, 6, 28)
+        body += plate(48, 100, "TUTANAK", tint)
+    else:
+        body += stamp_seal(300, 180, "OY", tint, 12, 22)
+        body += plate(48, 100, "HEYET", tint)
+    return body
+
+
+def paint_kabine(b, tint, n, name, cid, uid) -> str:
+    cam = b[4] % 3
+    body = room_shell(uid, b, "#2a2218", "#3a3224", "#1a1610", 2 if cam == 2 else 0)
+    cols = "".join(box3(70 + i * 90, 280, 36, 140, 12, BRASS, "#d8c9a8", "#6a5a3a") for i in range(3))
+    if cam == 0:
+        body += cols + paper_sheet(120, 200, 160, 120, 3, CREAM, 6, seed=b[8])
+        body += plate(48, 100, "KABİNE", tint)
+    elif cam == 1:
+        body += box3(48, 360, 300, 18, 36, "#5a4a32", "#3a2e22", "#2a1e14")
+        body += "".join(silhouette(90 + i * 55, 250, 1.05) for i in range(4))
+        body += stamp_seal(304, 160, "KARAR", tint, -16, 24)
+        body += plate(48, 100, "KARAR", tint)
+    else:
+        body += cols + paper_sheet(90, 260, 170, 100, 2, CREAM, 5, seed=b[9])
+        body += plate(48, 100, "BAKAN", tint)
+    return body
+
+
+def paint_paraf(b, tint, n, name, cid, uid) -> str:
+    cam = b[5] % 4
+    body = room_shell(uid, b, "#243028", "#3a3424", "#18221c", 1 if cam in (0, 3) else 0)
+    flourish = paraf_flourish(name, 80 + b[6] % 40, 300 + b[7] % 30, tint)
+    if cam == 0:
+        body += paper_sheet(58, 150, 270, 210, -2, CREAM, 7, 4, b[1])
+        body += flourish + stamp_seal(280, 200, "PARAF", tint, -22, 34)
+        body += lamp_obj(48, 100)
+        body += plate(48, 100, "PARAF", tint)
+    elif cam == 1:
+        body += box3(90, 240, 140, 20, 20, "#3a2a18", "#2a1e14", "#1a120e")
+        body += stamp_seal(160, 200, "P", tint, 0, 38)
+        body += paper_sheet(70, 270, 240, 100, 4, CREAM, 4, seed=b[2])
+        body += flourish
+        body += plate(48, 100, "ONAY", tint)
+    elif cam == 2:
+        body += paper_sheet(50, 140, 190, 220, -7, CREAM, 6, seed=b[3])
+        body += paper_sheet(170, 180, 170, 180, 9, "#d2c4a3", 5, seed=b[4])
+        body += flourish + stamp_seal(250, 220, "ONAY", tint, 14, 30)
+        body += plate(48, 100, "PARAF", tint)
+    else:
+        body += paper_sheet(48, 150, 290, 190, 1, IVORY, 6, 2, b[2])
+        body += flourish + wax(310, 180, "P")
+        body += plate(48, 100, "PARAF", tint)
+    return body
+
+
+def paint_brifing(b, tint, n, name, cid, uid) -> str:
+    cam = b[6] % 3
+    body = room_shell(uid, b, "#1a2430", "#2a2e28", "#101820", 2 if cam == 2 else 0)
+    easel = (
+        pathd("M130 360 L200 140 L270 360", stroke="#6a5a3a", sw=6)
+        + rect(154, 148, 92, 70, "#c5cbb0", "#5a4a32")
+    )
+    if cam == 0:
+        body += easel + silhouette(80, 340, 1.2)
+        body += paper_sheet(260, 220, 90, 110, 8, CREAM, 5, seed=b[0])
+        body += plate(48, 100, "BRİF", tint)
+    elif cam == 1:
+        body += map_table(48, 160, 280, 110, tint)
+        body += pathd("M80 280 L200 150", stroke=OX, sw=3)
+        body += paper_sheet(70, 300, 150, 70, -3, CREAM, 4, seed=b[1])
+        body += silhouette(290, 340, 1.1)
+        body += plate(48, 100, "BRİF", tint)
+    else:
+        body += easel + lamp_obj(48, 220)
+        body += plate(48, 100, "NOT", tint)
+        body += stamp_seal(300, 150, "BRİF", tint, 10, 22)
+    return body
+
+
+def paint_arsiv(b, tint, n, name, cid, uid) -> str:
+    cam = b[7] % 3
+    body = room_shell(uid, b, "#22281e", "#3a3224", "#161a14", 0 if cam != 2 else 2)
+    if cam == 0:
+        body += shelves(48, 150, 5, 4, tint)
+        body += dossier(240, 300, 110, 70, "#d4c4a0", 28, 8)
+        body += plate(48, 100, "ARŞİV", tint)
+    elif cam == 1:
+        body += shelves(40, 130, 3, 5, tint)
+        body += paper_sheet(230, 250, 120, 90, 6, CREAM, 4, seed=b[3])
+        body += stamp_seal(300, 360, "KAYIT", tint, 0, 24)
+        body += plate(48, 100, "KAYIT", tint)
+    else:
+        body += "".join(
+            box3(60 + i * 100, 340, 88, 50, 16, "#8a6a42", "#6a5438", "#3a2a18") for i in range(3)
+        )
+        body += paper_sheet(80, 150, 150, 80, -4, CREAM, 4, seed=b[4])
+        body += plate(48, 100, "ARŞİV", tint)
+    return body
+
+
+def paint_muhtira(b, tint, n, name, cid, uid) -> str:
+    body = room_shell(uid, b, "#2a1c1c", "#3a2a22", "#1a1212", 1)
+    body += typewriter(48, 300)
+    body += paper_sheet(54, 140, 190, 200, -3, CREAM, 9, 1, b[3])
+    body += paper_sheet(150, 160, 180, 190, 5, IVORY, 8, seed=b[4])
+    if b[8] % 3:
+        for i in range(2 + b[8] % 3):
+            body += rect(170 + (b[i] % 20), 250 + i * 16, 70 + b[i] % 50, 8, "#1a1814", opacity=0.84)
+    body += stamp_seal(304, 170, "MUHTIRA", tint, -16, 28)
+    body += plate(48, 100, "MUHTIRA", tint)
+    body += lamp_obj(300, 110, OX)
+    return body
+
+
+def paint_tebligat(b, tint, n, name, cid, uid) -> str:
+    cam = b[9] % 3
+    body = room_shell(uid, b, "#241c14", "#3a2e1e", "#16120c", 1 if cam == 0 else 0)
+    if cam == 0:
+        body += envelope(90, 180, 210, 110)
+        body += wax(196, 230)
+        body += paper_sheet(70, 300, 230, 80, -2, CREAM, 4, seed=b[4])
+        body += plate(48, 100, "TEBLİĞ", tint)
+    elif cam == 1:
+        body += box3(80, 300, 90, 70, 20, "#5a4a32", "#4a3828", "#2a1e14")
+        body += envelope(180, 190, 150, 86)
+        body += plate(48, 100, "SEVK", tint)
+        body += stamp_seal(304, 140, "SEVK", tint, -12, 22)
+    else:
+        body += envelope(60, 160, 150, 84) + envelope(160, 200, 170, 96)
+        body += wax(250, 248) + paper_sheet(70, 320, 230, 70, -3, CREAM, 3, seed=b[5])
+        body += plate(48, 100, "TEBLİĞ", tint)
+    return body
+
+
+def paint_zeyil(b, tint, n, name, cid, uid) -> str:
+    body = room_shell(uid, b, "#1c2626", "#2a3228", "#121c1c", 1)
+    body += paper_sheet(50, 140, 200, 230, -2, CREAM, 9, 2, b[5])
+    body += paper_sheet(200, 160, 130, 210, 0, "#d2e0d8", 7, seed=b[6])
+    body += rect(200, 160, 16, 210, tint)
+    body += stamp_seal(120, 360, "ZEYİL", tint, -8, 26)
+    body += plate(48, 100, "ZEYİL", tint)
+    if b[10] % 3 == 2:
+        body += rect(70, 250, 90, 8, "#1a1814", opacity=0.84)
+        body += rect(70, 268, 120, 8, "#1a1814", opacity=0.84)
+    return body
+
+
+def paint_mesruiyet(b, tint, n, name, cid, uid) -> str:
+    cam = b[11] % 3
+    body = room_shell(uid, b, "#1c2030", "#2e2a22", "#12161e", 0)
+    body += paper_sheet(70, 150, 250, 210, 1, CREAM, 5, seed=b[0])
+    body += pathd("M180 160 v180", stroke=OX, sw=10)
+    body += pathd("M200 160 v180", stroke=tint, sw=10)
+    body += stamp_seal(200, 250, "MÜHÜR", tint, 0, 40)
+    body += plate(48, 100, "MÜHÜR", tint)
+    if cam == 0:
+        body += wax(310, 360)
+    elif cam == 1:
+        body += stamp_seal(310, 360, "KANUN", tint, 12, 22)
+        body += plate(48, 380, "KANUN", tint)
+    else:
+        body += wax(320, 160)
+        body += paper_sheet(48, 330, 120, 60, -4, IVORY, 3, seed=b[1])
+        body += txt(70, 352, "RESMÎ", OX, 10)
+    return body
+
+
+def paint_ihtar(b, tint, n, name, cid, uid) -> str:
+    cam = b[12] % 4
+    body = room_shell(uid, b, "#2a1612", "#3a2418", "#1a0e0c", 1 if cam != 3 else 2)
+    tri = pathd("M200 140 L320 340 L80 340 Z", "none", OX, 8)
+    bang = txt(200, 280, "!", OX, 64, "middle")
+    if cam == 0:
+        body += tri + bang + paper_sheet(48, 350, 300, 44, 0, CREAM, 2, seed=b[0])
+        body += plate(48, 100, "İHTAR", OX)
+    elif cam == 1:
+        body += paper_sheet(56, 140, 280, 220, -1, CREAM, 8, seed=b[1])
+        for i in range(6):
+            body += rect(80 + (b[i] % 24), 170 + i * 18, 80 + b[i] % 70, 8, "#1a1814", opacity=0.84)
+        body += stamp_seal(284, 200, "İHTAR", OX, -14, 32)
+        body += phone_obj(60, 360)
+        body += plate(48, 100, "İHTAR", OX)
+    elif cam == 2:
+        body += envelope(80, 170, 230, 96)
+        body += pathd("M200 190 L270 310 L130 310 Z", "none", OX, 6)
+        body += stamp_seal(200, 360, "ACİL", OX, 0, 28)
+        body += plate(48, 100, "ACİL", OX)
+    else:
+        body += tri + paper_sheet(48, 140, 130, 80, -6, CREAM, 4, seed=b[2])
+        body += typewriter(220, 320)
+        body += stamp_seal(300, 170, "İHTAR", OX, 16, 26)
+        body += plate(48, 100, "İHTAR", OX)
+    return body
 
 
 def paraf_flourish(name: str, x: float, y: float, tint: str) -> str:
@@ -254,294 +689,19 @@ def paraf_flourish(name: str, x: float, y: float, tint: str) -> str:
     x3, y3 = x + 120 + d[4] % 50, y - 8 + d[5] % 24
     x4, y4 = x + 170 + d[6] % 30, y + 18 - d[7] % 20
     return (
-        f'<path d="M{x:.1f} {y:.1f} C{x1:.1f} {y1:.1f} {x2:.1f} {y2:.1f} {x3:.1f} {y3:.1f} '
-        f'S{x4:.1f} {y4:.1f} {x + 200:.1f} {y + (d[8] % 16) - 8:.1f}" fill="none" stroke="{tint}" '
-        f'stroke-width="2.6" stroke-linecap="round"/>'
-        f'<path d="M{x + 24:.1f} {y + 8:.1f} C{x + 50:.1f} {y - 12:.1f} {x + 90:.1f} {y + 16:.1f} {x + 140:.1f} {y:.1f}" '
-        f'fill="none" stroke="{tint}" stroke-width="1.4" opacity=".7"/>'
-    )
-
-
-def accession(x, y, cid, n) -> str:
-    return (
-        f'<text x="{x}" y="{y}" fill="#5a4a32" font-family="ui-monospace,monospace" font-size="8">'
-        f'ESAS {esc(cid)} · KAYIT {1000 + n}</text>'
-    )
-
-
-def grain_def() -> str:
-    return (
-        '<pattern id="grain" width="7" height="7" patternUnits="userSpaceOnUse">'
-        '<path d="M0 7 L7 0" stroke="#2a2218" opacity=".055"/>'
-        "</pattern>"
-    )
-
-
-def well_bg(fill: str) -> str:
-    return f'<rect x="28" y="88" width="344" height="330" fill="{fill}"/>'
-
-
-# --- series painters ---------------------------------------------------------
-
-def paint_dosya(b, tint, n, name, cid) -> str:
-    v = b[0] % 4
-    tabs = "".join(
-        folder(
-            52 + i * 16,
-            112 + i * 26,
-            248 - i * 10,
-            148,
-            10 + (b[i] % 36),
-            ["#c8b48a", "#d4c4a0", "#bba678", "#cfc09a"][i % 4],
-            38 + b[i] % 22,
+        pathd(
+            f"M{x:.1f} {y:.1f} C{x1:.1f} {y1:.1f} {x2:.1f} {y2:.1f} {x3:.1f} {y3:.1f} "
+            f"S{x4:.1f} {y4:.1f} {x + 200:.1f} {y + (d[8] % 16) - 8:.1f}",
+            stroke=tint,
+            sw=2.4,
         )
-        for i in range(3)
-    )
-    if v == 0:
-        body = well_bg("#3a4550") + rect(40, 100, 320, 300, CREAM) + tabs + clip_pin(72, 118)
-        body += typed_lines(90, 176, 176, 7, 14, skip=3, seed=b[2]) + stamp(304, 214, "DOSYA", tint, -18)
-        body += accession(86, 390, cid, n)
-    elif v == 1:
-        body = well_bg("#2c333c")
-        body += "".join(
-            folder(58 + i * 6, 118 + i * 30, 276, 68, 18 + b[i] % 28, ["#d8c9a8", "#cbb892", "#b8a678", "#d2c4a3"][i], 46)
-            for i in range(4)
+        + pathd(
+            f"M{x + 24:.1f} {y + 8:.1f} C{x + 50:.1f} {y - 12:.1f} {x + 90:.1f} {y + 16:.1f} {x + 140:.1f} {y:.1f}",
+            stroke=tint,
+            sw=1.3,
+            opacity=0.7,
         )
-        body += clip_pin(92, 130) + typed_lines(86, 206, 188, 5, 11, seed=b[3]) + stamp(296, 348, "GİZLİ", OX, 12, 26)
-    elif v == 2:
-        body = well_bg("#24303a") + paper(68, 118, 210, 248, -5, CREAM) + paper(148, 138, 184, 226, 7, "#d2c4a3")
-        body += typed_lines(166, 168, 140, 8, 16, skip=2, seed=b[4]) + redactions(168, 252, 3, b)
-        body += clip_pin(78, 126) + stamp(118, 348, "KAYIT", tint, -8)
-    else:
-        body = corridor(tint) + paper(70, 200, 200, 170, -3, CREAM) + tabs[:200]
-        body += clip_pin(80, 208) + stamp(300, 250, "DOSYA", tint, 8, 24) + lamp(300, 110)
-    if n > 180:
-        body += wax(322, 368)
-    return body
-
-
-def paint_telex(b, tint, n, name, cid) -> str:
-    v = b[1] % 4
-    tapes = "".join(telex_tape(40, 108 + i * 20, 270 + (b[i] % 44), b[i:]) for i in range(5))
-    if v == 0:
-        body = well_bg("#2a241c") + tapes + typewriter(138, 276)
-        body += paper(48, 228, 154, 86, -3, IVORY) + typed_lines(60, 244, 128, 4, 12, INK, seed=b[5])
-        body += stamp(314, 366, "TELEX", tint, 8, 24)
-    elif v == 1:
-        body = well_bg("#1f1c18") + rect(44, 108, 312, 248, PAPER)
-        body += "".join(f'<path d="M56 {128 + i * 18} h{210 + (b[i] % 72)}" stroke="#2a2218" stroke-width="1.1"/>' for i in range(12))
-        body += telex_tape(56, 368, 300, b) + stamp(304, 158, "ONAY", tint, -14)
-    elif v == 2:
-        body = well_bg("#262018") + radio(48, 126) + tape_deck(138, 124)
-        body += paper(66, 186, 264, 176, 2, CREAM) + typed_lines(84, 206, 220, 8, 15, seed=b[6])
-        body += telex_tape(78, 370, 246, b)
-    else:
-        body = well_bg("#1a1612") + tapes
-        body += newspaper(48, 220, 180, 150, "TELEX BÜLTEN") + typewriter(240, 280) + phone(250, 220)
-    body += accession(48, 404, cid, n)
-    return body
-
-
-def paint_karargah(b, tint, n, name, cid) -> str:
-    v = b[2] % 4
-    table = (
-        '<path d="M40 300 L360 268 L360 418 L40 418Z" fill="#4a3828"/>'
-        '<path d="M40 300 L360 268" stroke="#8a6a42" stroke-width="2"/>'
     )
-    if v == 0:
-        body = well_bg("#1e242c") + '<rect x="28" y="88" width="344" height="140" fill="#2a3340"/>'
-        body += map_frag(68, 108, 204, 112, tint) + phone(286, 126) + table
-        body += paper(90, 312, 118, 68, -6, CREAM) + paper(220, 300, 100, 80, 8, "#d2c4a3")
-        body += stamp(322, 362, "KRİZ", tint)
-    elif v == 1:
-        body = well_bg("#1a2228") + table
-        body += "".join(silhouette(88 + i * 50, 292, 0.88 + (b[i] % 3) * 0.08) for i in range(5))
-        body += paper(148, 318, 90, 50, 4, CREAM) + radio(48, 118) + lamp(300, 108) + stamp(300, 200, "KRİZ", tint, 10)
-    elif v == 2:
-        body = well_bg("#202830") + map_frag(48, 108, 304, 164, tint)
-        body += phone(58, 292) + tape_deck(138, 290) + paper(240, 280, 110, 90, -5, CREAM)
-        body += stamp(304, 198, "KARAR", tint, 20)
-    else:
-        body = well_bg("#181e26") + table + map_frag(56, 112, 160, 100, tint)
-        body += "".join(silhouette(70 + i * 55, 300, 1.0) for i in range(4))
-        body += phone(280, 126) + paper(230, 310, 110, 70, 6, CREAM) + lamp(50, 110)
-    return body
-
-
-def paint_heyet(b, tint, n, name, cid) -> str:
-    chairs = "".join(silhouette(70 + i * 48, 252 + (i % 2) * 10, 1.02) for i in range(6))
-    oval = '<ellipse cx="200" cy="250" rx="140" ry="58" fill="#4d392d" stroke="#aa8b61" stroke-width="3"/>'
-    v = b[3] % 3
-    if v == 0:
-        body = well_bg("#2a2430") + oval + chairs + paper(176, 228, 50, 36, 8, CREAM)
-        body += stamp(314, 138, "HEYET", tint, -10) + lamp(50, 108)
-    elif v == 1:
-        body = well_bg("#241e28") + rect(60, 138, 280, 16, "#6a5438")
-        body += "".join(silhouette(90 + i * 44, 136, 1) for i in range(5))
-        body += paper(80, 196, 240, 164, -2, CREAM) + typed_lines(100, 216, 200, 7, 16, seed=b[7])
-        body += stamp(284, 336, "TUTANAK", tint, 6, 30)
-    else:
-        body = well_bg("#201a26") + oval
-        body += "".join(silhouette(86 + i * 46, 248, 0.95) for i in range(5))
-        body += paper(60, 320, 160, 70, -4, CREAM) + newspaper(230, 118, 120, 90, "HEYET")
-        body += stamp(300, 360, "OY", tint, 14, 22)
-    return body
-
-
-def paint_kabine(b, tint, n, name, cid) -> str:
-    cols = "".join(
-        f'{rect(70 + i * 90, 110, 28, 220, "#d8c9a8", "#6a5a3a")}{rect(64 + i * 90, 100, 40, 14, BRASS, "#6a5a3a")}'
-        for i in range(3)
-    )
-    if b[4] % 3 == 0:
-        body = well_bg("#2c241c") + cols + paper(120, 200, 160, 140, 3, CREAM)
-        body += typed_lines(136, 220, 130, 6, 14, seed=b[8]) + stamp(304, 344, "KABİNE", tint)
-    elif b[4] % 3 == 1:
-        body = well_bg("#262018") + rect(48, 250, 304, 90, "#3a2e22")
-        body += "".join(silhouette(90 + i * 55, 248, 1.1) for i in range(4))
-        body += paper(80, 118, 200, 110, -4, CREAM) + typed_lines(96, 138, 160, 5, 14, seed=b[9])
-        body += stamp(304, 158, "KARAR", tint, -16)
-    else:
-        body = corridor(tint) + cols + paper(90, 250, 180, 120, 2, CREAM) + stamp(300, 180, "BAKAN", tint, 8)
-    return body
-
-
-def paint_paraf(b, tint, n, name, cid) -> str:
-    flourish = paraf_flourish(name, 70, 300, tint)
-    v = b[5] % 4
-    if v == 0:
-        body = well_bg("#1e241c") + paper(58, 118, 284, 244, -2, CREAM)
-        body += typed_lines(80, 148, 230, 6, 18, skip=4, seed=b[1]) + flourish
-        body += stamp(284, 198, "PARAF", tint, -22, 36) + clip_pin(68, 126)
-    elif v == 1:
-        body = well_bg("#22281e") + rect(90, 138, 140, 90, "#3a2a18") + stamp(160, 183, "P", tint, 0, 40)
-        body += paper(70, 248, 250, 120, 4, CREAM) + flourish
-    elif v == 2:
-        body = well_bg("#1c221a") + paper(50, 108, 200, 264, -7, CREAM) + paper(158, 148, 180, 204, 9, "#d2c4a3")
-        body += flourish + stamp(244, 218, "ONAY", tint, 14, 32)
-    else:
-        body = well_bg("#182016") + paper(48, 120, 300, 220, 1, IVORY)
-        body += typed_lines(70, 150, 250, 5, 20, skip=2, seed=b[2]) + flourish
-        body += wax(300, 160, "P") + accession(70, 360, cid, n)
-    return body
-
-
-def paint_brifing(b, tint, n, name, cid) -> str:
-    easel = (
-        '<path d="M120 360 L200 120 L280 360" fill="none" stroke="#6a5a3a" stroke-width="6"/>'
-        '<rect x="148" y="140" width="104" height="14" fill="#8a6a42"/>'
-    )
-    v = b[6] % 3
-    if v == 0:
-        body = well_bg("#1c2430") + easel + map_frag(150, 154, 100, 70, tint)
-        body += silhouette(80, 340, 1.28) + paper(260, 220, 90, 120, 8, CREAM)
-        body += typed_lines(270, 236, 70, 5, 14, seed=b[0]) + stamp(304, 138, "BRİF", tint, -8, 22)
-    elif v == 1:
-        body = well_bg("#182028") + map_frag(48, 108, 304, 164, tint)
-        body += f'<path d="M80 280 L200 140" stroke="{OX}" stroke-width="3"/>'
-        body += paper(70, 292, 160, 88, -3, CREAM) + silhouette(284, 344, 1.18) + stamp(60, 140, "BRİF", tint, -12, 20)
-    else:
-        body = well_bg("#141c26") + easel + newspaper(48, 118, 110, 90, "BRİFİNG")
-        body += paper(250, 200, 100, 140, -6, CREAM) + lamp(48, 250) + stamp(300, 140, "NOT", tint, 10, 20)
-    return body
-
-
-def paint_arsiv(b, tint, n, name, cid) -> str:
-    boxes = "".join(
-        archive_box(48 + (i % 3) * 110, 118 + (i // 3) * 92, 96, 72, f"{100 + (b[i] % 90)}")
-        for i in range(6)
-    )
-    if b[7] % 3 == 0:
-        body = well_bg("#1c221c") + boxes + clip_pin(60, 116) + stamp(200, 392, "ARŞİV", tint, 0, 24)
-    elif b[7] % 3 == 1:
-        body = well_bg("#22261e") + rect(50, 108, 18, 284, "#6a5438") + rect(330, 108, 18, 284, "#6a5438")
-        body += "".join(rect(70, 118 + i * 52, 258, 44, "#4a3a28", "#2a1c10") for i in range(5))
-        body += "".join(archive_box(80 + i * 80, 124, 70, 32, "K") for i in range(3))
-        body += paper(140, 280, 140, 90, 6, CREAM) + stamp(304, 362, "KAYIT", tint)
-    else:
-        body = corridor(tint)
-        body += "".join(archive_box(60 + i * 100, 240, 88, 70, f"A{n % 90 + i}") for i in range(3))
-        body += paper(80, 120, 160, 90, -4, CREAM) + clip_pin(90, 128) + stamp(300, 150, "ARŞİV", tint, -12)
-    return body
-
-
-def paint_muhtira(b, tint, n, name, cid) -> str:
-    v = b[8] % 3
-    body = well_bg("#2a1e1e")
-    body += paper(54, 108, 204, 274, -3, CREAM) + paper(138, 128, 204, 254, 5, IVORY)
-    body += typed_lines(158, 158, 164, 9, 18, skip=1, seed=b[3])
-    body += typewriter(48, 304) + stamp(304, 158, "MUHTIRA", tint, -16, 28)
-    if v:
-        body += redactions(162, 248, 2 + v, b)
-    if v == 2:
-        body += newspaper(230, 300, 120, 80, "TEBLİĞ")
-    body += accession(148, 150, cid, n)
-    return body
-
-
-def paint_tebligat(b, tint, n, name, cid) -> str:
-    bag = (
-        f'<path d="M80 200 h80 v120 h-80z" fill="#4a3828" stroke="#c4a574"/>'
-        f'<path d="M80 200 q40 -40 80 0" fill="none" stroke="#c4a574" stroke-width="4"/>'
-    )
-    v = b[9] % 3
-    if v == 0:
-        body = well_bg("#241c14") + envelope(90, 138, 220, 120) + wax(200, 198)
-        body += paper(70, 272, 240, 110, -2, CREAM) + typed_lines(90, 292, 200, 4, 14, seed=b[4])
-        body += stamp(314, 366, "TEBLİĞ", tint, 10, 24)
-    elif v == 1:
-        body = well_bg("#1e1812") + bag + envelope(180, 158, 160, 90)
-        body += paper(60, 304, 280, 86, 3, CREAM) + stamp(304, 128, "SEVK", tint, -12)
-    else:
-        body = well_bg("#22180e") + envelope(60, 130, 160, 90) + envelope(160, 170, 180, 100)
-        body += wax(250, 220) + paper(70, 300, 240, 90, -3, CREAM) + stamp(80, 360, "TEBLİĞ", tint, -8, 22)
-    return body
-
-
-def paint_zeyil(b, tint, n, name, cid) -> str:
-    v = b[10] % 3
-    body = well_bg("#1c2424") + paper(50, 108, 220, 284, -2, CREAM) + paper(200, 128, 140, 264, 0, "#d2e0d8")
-    body += f'<rect x="200" y="128" width="18" height="264" fill="{tint}"/>'
-    body += typed_lines(70, 140, 180, 10, 18, skip=2, seed=b[5]) + typed_lines(228, 160, 90, 8, 20, seed=b[6])
-    body += stamp(120, 364, "ZEYİL", tint, -8) + clip_pin(58, 116)
-    if v == 1:
-        body += paper(240, 300, 90, 70, 8, IVORY) + accession(60, 160, cid, n)
-    if v == 2:
-        body += redactions(70, 250, 3, b)
-    return body
-
-
-def paint_mesruiyet(b, tint, n, name, cid) -> str:
-    ribbon = f'<path d="M180 140 v180" stroke="{OX}" stroke-width="10"/><path d="M200 140 v180" stroke="{tint}" stroke-width="10"/>'
-    v = b[11] % 3
-    body = well_bg("#1c2030") + paper(70, 118, 260, 254, 1, CREAM) + ribbon
-    body += stamp(200, 240, "MÜHÜR", tint, 0, 42) + typed_lines(90, 140, 80, 4, 14, seed=b[0])
-    if v == 0:
-        body += wax(304, 364)
-    elif v == 1:
-        body += stamp(304, 364, "KANUN", tint, 12, 22)
-    else:
-        body += newspaper(48, 320, 130, 70, "RESMÎ") + wax(320, 150)
-    return body
-
-
-def paint_ihtar(b, tint, n, name, cid) -> str:
-    triangle = f'<polygon points="200,120 320,340 80,340" fill="none" stroke="{OX}" stroke-width="8"/>'
-    bang = f'<text x="200" y="280" text-anchor="middle" fill="{OX}" font-family="Georgia,serif" font-size="64" font-weight="700">!</text>'
-    v = b[12] % 4
-    if v == 0:
-        body = well_bg("#2a1614") + triangle + bang + paper(48, 352, 304, 48, 0, CREAM) + redactions(60, 362, 2, b)
-    elif v == 1:
-        body = well_bg("#241412") + paper(56, 108, 288, 274, -1, CREAM)
-        body += redactions(80, 148, 8, b) + stamp(284, 198, "İHTAR", OX, -14, 34) + phone(60, 360)
-    elif v == 2:
-        body = well_bg("#1c1210") + envelope(80, 138, 240, 100)
-        body += '<polygon points="200,170 270,300 130,300" fill="none" stroke="#7a2e28" stroke-width="6"/>'
-        body += stamp(200, 364, "ACİL", OX, 0, 28)
-    else:
-        body = well_bg("#201010") + triangle + paper(48, 110, 140, 90, -6, CREAM)
-        body += redactions(60, 130, 4, b) + typewriter(220, 330) + stamp(300, 160, "İHTAR", OX, 16, 26)
-    return body
 
 
 PAINT = {
@@ -562,19 +722,19 @@ PAINT = {
 }
 
 
-def extra_artifact(b, kind: str) -> str:
+def extra_prop(b, kind: str) -> str:
     pick = (b[13] + b[14]) % 8
     if kind == "trap":
-        return redactions(48, 96, 2, b) if pick % 2 == 0 else stamp(70, 120, "DUR", OX, -20, 18)
+        return stamp_seal(70, 130, "DUR", OX, -20, 16) if pick % 2 else rect(48, 96, 80, 8, OX, opacity=0.7)
     catalog = [
-        lambda: phone(48, 360),
-        lambda: radio(300, 360),
-        lambda: tape_deck(48, 368),
-        lambda: lamp(318, 96),
-        lambda: clip_pin(330, 100),
-        lambda: envelope(250, 360, 90, 48),
-        lambda: newspaper(40, 350, 100, 60, "NOT"),
-        lambda: wax(60, 110, "M"),
+        lambda: phone_obj(48, 360),
+        lambda: radio_obj(290, 350),
+        lambda: tape_deck(48, 360),
+        lambda: lamp_obj(318, 96),
+        lambda: envelope(250, 350, 90, 48),
+        lambda: wax(60, 120, "M"),
+        lambda: chair(320, 340, 0.7),
+        lambda: paper_sheet(40, 350, 90, 50, -6, IVORY, 3, seed=b[15]),
     ]
     return catalog[pick]()
 
@@ -582,25 +742,22 @@ def extra_artifact(b, kind: str) -> str:
 def kind_overlay(kind: str, subtype: str, tint: str, b) -> str:
     parts = []
     if kind == "spell":
-        parts.append(paper(48, 350, 120, 48, -2, IVORY, "#6a5a3a", 1))
-        parts.append('<text x="56" y="378" fill="#5a4a32" font-family="ui-monospace,monospace" font-size="8">EMİRNAME</text>')
+        parts.append(paper_sheet(48, 360, 110, 40, -2, IVORY, 0))
+        parts.append(txt(56, 384, "EMİRNAME", "#5a4a32", 8, font="ui-monospace,monospace"))
     if kind == "trap":
-        parts.append(f'<rect x="28" y="88" width="344" height="10" fill="{OX}" opacity=".55"/>')
+        parts.append(rect(28, 88, 344, 10, OX, opacity=0.55))
     if subtype == "fusion":
-        parts.append(stamp(86, 150, "I", tint, -8, 20) + stamp(130, 158, "II", tint, 12, 20))
+        parts.append(stamp_seal(86, 150, "I", tint, -8, 16) + stamp_seal(124, 158, "II", tint, 12, 16))
     elif subtype == "equip":
-        parts.append(clip_pin(48, 92))
+        parts.append(pathd("M48 100 v20 q0 7 7 7 q7 0 7 -7 v-16", stroke="#8a7a5a", sw=2.2))
     elif subtype == "quick":
-        parts.append(
-            f'<circle cx="60" cy="120" r="14" fill="none" stroke="{BRASS}" stroke-width="2"/>'
-            f'<path d="M60 120 L60 110 M60 120 L68 124" stroke="{BRASS}" stroke-width="2"/>'
-        )
+        parts.append(circ(60, 120, 14, "none", BRASS, 2) + pathd("M60 120 L60 110 M60 120 L68 124", stroke=BRASS, sw=2))
     elif subtype == "counter":
-        parts.append(stamp(320, 130, "RED", OX, 18, 18))
+        parts.append(stamp_seal(320, 130, "RED", OX, 18, 16))
     elif subtype == "continuous":
-        parts.append(telex_tape(48, 400, 80, b))
+        parts.append(rect(48, 400, 80, 12, "#d8c9a4", "#6a5a3a"))
     elif subtype == "field":
-        parts.append(map_frag(300, 350, 60, 40, tint))
+        parts.append(map_table(300, 350, 60, 36, tint))
     return "".join(parts)
 
 
@@ -633,33 +790,35 @@ def card_svg(card: dict) -> str:
     aux = loc == "auxiliary"
     b = bits(cid_raw)
     n = int(str(cid_raw).split("-")[-1])
+    uid = uid_of(cid_raw)
     edge, ground = jacket(kind, level, aux, tint)
     heavy = 5 if aux or level >= 7 else 3 if level >= 5 else 2
+    wall, _side, _floor = WALLS.get(sid, ("#2a3642", "#1c262e", "#3a2e22"))
     painter = PAINT.get(sid, paint_dosya)
-    art = painter(b, tint, n, name_raw, cid_raw)
-    art += extra_artifact(b, kind)
+    art = painter(b, tint, n, name_raw, cid_raw, uid)
+    art += extra_prop(b, kind)
     art += kind_overlay(kind, subtype, tint, b)
     art += paraf_flourish(name_raw + cid_raw, 48 + (b[15] % 40), 390, tint if kind != "trap" else OX)
     slip_x = 36 + (b[16] % 18)
     slip_y = 96 + (b[17] % 12)
-    art += paper(slip_x, slip_y, 132, 28, -2 + (b[18] % 5), IVORY)
-    art += f'<text x="{slip_x + 8}" y="{slip_y + 18}" fill="#3a2a18" font-family="ui-monospace,monospace" font-size="8">{esc(cid_raw)} · {esc(name_raw[:18])}</text>'
+    art += paper_sheet(slip_x, slip_y, 132, 26, -2 + (b[18] % 5), IVORY, 0)
+    art += txt(slip_x + 8, slip_y + 17, f"{cid_raw} · {name_raw[:18]}", "#3a2a18", 8, font="ui-monospace,monospace", w="600")
+    art += f'<rect x="28" y="88" width="344" height="330" fill="url(#lamp{uid})" style="mix-blend-mode:soft-light" opacity=".72"/>'
+    art += f'<rect x="28" y="88" width="344" height="330" fill="url(#vig{uid})"/>'
     pips = ""
     if level:
         x0 = 200 - min(level, 8) * 8
-        pips = "".join(f'<circle cx="{x0 + i * 16}" cy="64" r="4" fill="{BRASS}"/>' for i in range(min(level, 8)))
+        pips = "".join(circ(x0 + i * 16, 64, 4, BRASS) for i in range(min(level, 8)))
     ydew = wax(352, 108) if aux else ""
     classified = ""
     if level >= 5 or kind == "trap":
-        classified = (
-            f'<rect x="28" y="88" width="96" height="16" fill="{OX}"/>'
-            f'<text x="76" y="100" text-anchor="middle" fill="#f0e6d0" font-size="9" '
-            f'font-family="ui-monospace,monospace">GİZLİ</text>'
-        )
+        classified = rect(28, 88, 96, 16, OX) + txt(76, 100, "GİZLİ", "#f0e6d0", 9, "middle", "ui-monospace,monospace")
     clip = f"well-{cid_raw}"
     tier = "aux" if aux else "high" if level >= 7 else "mid" if level >= 5 else "low"
+    lamp = OX if kind == "trap" else BRASS
+    defs = scene_defs(uid, b, wall, lamp)
     return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 560" width="400" height="560">
-<defs>{grain_def()}<clipPath id="{clip}"><rect x="28" y="88" width="344" height="330"/></clipPath></defs>
+<defs>{defs}<clipPath id="{clip}"><rect x="28" y="88" width="344" height="330"/></clipPath></defs>
 <rect width="400" height="560" fill="#0e1014"/>
 <rect x="10" y="10" width="380" height="540" fill="{ground}" stroke="{edge}" stroke-width="{heavy}"/>
 <rect x="10" y="10" width="380" height="22" fill="{edge}"/>
