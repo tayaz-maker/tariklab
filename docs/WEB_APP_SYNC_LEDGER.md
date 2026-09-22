@@ -394,3 +394,13 @@ Chromium must pass before integration.
 - Replaced retired action-cap and single-building descriptions with the current focus/capacity/effort/site-management mechanics.
 - Added one data-driven decision brief to the shared duel inspector for VETO-H!, GETT-OH! and DARBE-H!; card rules remain the source of truth.
 - Preserved the sealed JITEM teaser and the bilingual personal attribution note.
+
+### 2026-09-22 — Ultimate visual candidate
+- Web change: continuous shaded HANEDANIAN material field, traced ridge belts and dark noble chrome; DARBE original noir WebP scene plates in existing SVG transports and larger art in hand/archive/detail.
+- Content: no
+- Artwork: yes (60 original DARBE scenes, 300 editions)
+- Gameplay/rules: no
+- UI/presentation: yes
+- Shared-content source: no
+- Native follow-up: yes (paused); carry visual architecture when native resumes.
+- Commits: astra/hanedanian-darbe-ultimate-visual (candidate; not merged)

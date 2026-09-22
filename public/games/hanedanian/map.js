@@ -6,6 +6,7 @@ import { TERRAINS, POIS } from './data.js';
 const TILE = 56;
 const MAX_ZOOM = 2.6;
 const TAU = Math.PI * 2;
+const atlasRandom = (i, salt) => { let h = Math.imul(i ^ salt, 0x45d9f3b); h = Math.imul(h ^ (h >>> 16), 0x45d9f3b); return ((h ^ (h >>> 16)) >>> 0) / 4294967296; };
 // Terrain atlases are painted by time-sliced jobs: each slice runs at most
 // ATLAS_SLICE_MS before handing the main thread back, so a zoom-mode change
 // never blocks input while a large (up to 3724px) bitmap is built.
@@ -48,10 +49,10 @@ function deferTask(fn) {
   atlasChannel.port2.postMessage(0);
 }
 const COLORS = {
-  paper: '#e4d4b0', ink: '#2a2218', muted: '#6a5c48', player: '#1e3d32',
-  plain: '#c3b56a', forest: '#2f4a38', mountain: '#5c5850', ore: '#6b4e3e',
-  valley: '#4a6a62', road: '#a08050', pass: '#6a655c', arid: '#b08958',
-  steppe: '#9a8c58', water: '#3d6468', waterLight: '#8aa8a0', stone: '#4a4c48',
+  paper: '#191f1a', ink: '#2a2218', muted: '#6a5c48', player: '#1e3d32',
+  plain: '#81754b', forest: '#203e30', mountain: '#74746a', ore: '#745945',
+  valley: '#3e6251', road: '#a08050', pass: '#6a655c', arid: '#8b734e',
+  steppe: '#696747', water: '#3d6468', waterLight: '#8aa8a0', stone: '#4a4c48',
   walnut: '#4a3728', brass: '#b08a4a', oxblood: '#7a3228', ivory: '#f3ead4',
 };
 const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
@@ -363,304 +364,153 @@ export class StrategyMap {
     return canvas;
   }
 
-  // The terrain painters, in their original order, as one resumable job. Each
-  // painter ends a slice (ATLAS_FLUSH) after every tile row or cluster: their
-  // JS is cheap but the large translucent shapes are costly to rasterize, and
-  // the browser rasterizes a slice's recorded canvas work when its task ends.
-  *atlasSteps(g, ppt) {
-    for (const paint of [this.paintBiomeBase, this.paintFieldSystems, this.paintScrub, this.paintValleyWash, this.paintForestMasses, this.paintRidgeSystems]) {
-      yield* paint.call(this, g, ppt);
-      yield ATLAS_FLUSH;
-    }
+  // A continuous, shaded material field replaces cell stamps. Simulation tiles
+  // remain authoritative; interpolation is visual only and never consumes RNG.
+  paintContinuousAtlas(g, ppt, mode) {
+    const steps = this.atlasSteps(g, ppt, mode);
+    while (!steps.next().done);
   }
 
-  *paintBiomeBase(g, ppt) {
+  // Same drawing, in the same order, as a single synchronous pass; each yield
+  // is only a point where the scheduler may hand the main thread back.
+  *atlasSteps(g, ppt, mode) {
     const size = this.state.world.size;
-    for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) {
-      if (x === 0) yield ATLAS_FLUSH;
-      const tile = this.tile(x, y);
-      if (!tile) continue;
-      const under = this.landscapeTerrain(tile);
-      const rot = (variation(x, y) - .5) * 0.9;
-      const rx = ppt * (0.72 + variation2(x, y, 2) * 0.28);
-      const ry = ppt * (0.58 + variation2(x, y, 3) * 0.28);
-      g.fillStyle = COLORS[under] || COLORS.plain;
-      g.beginPath();
-      g.ellipse((x + .5) * ppt, (y + .5) * ppt, rx, ry, rot, 0, TAU);
-      g.fill();
+    const materials = this.state.world.tiles.map(t => this.landscapeTerrain(t));
+    const rgb = Object.fromEntries(Object.entries(COLORS).filter(([,v]) => /^#[0-9a-f]{6}$/i.test(v)).map(([k,v]) => [k,[1,3,5].map(i => parseInt(v.slice(i,i+2),16))]));
+    const height = {plain:.12,forest:.25,mountain:1,ore:.8,pass:.58,steppe:.2,arid:.22,valley:0};
+    // Per-tile colour/height tables and allocation-free sampling: identical
+    // arithmetic to the original per-call array version, ~2.3M calls cheaper.
+    const tileCount = size * size;
+    const mr = new Float64Array(tileCount), mg = new Float64Array(tileCount), mb = new Float64Array(tileCount), mh = new Float64Array(tileCount);
+    for (let i = 0; i < tileCount; i++) {
+      const col = rgb[materials[i]] || rgb.plain;
+      mr[i] = col[0]; mg[i] = col[1]; mb[i] = col[2];
+      mh[i] = height[materials[i]] || 0;
     }
-    for (const kind of ['plain', 'forest', 'mountain', 'ore', 'steppe', 'arid', 'valley', 'pass']) {
-      for (const cells of this.collectClusters((t) => t && this.landscapeTerrain(t) === kind)) {
+    let sr = 0, sg = 0, sb = 0, sh = 0;
+    const sample = (x,y) => {
+      x = clamp(x,0,size-1); y = clamp(y,0,size-1);
+      const ix=Math.floor(x), iy=Math.floor(y), fx=x-ix, fy=y-iy;
+      const u=fx*fx*(3-2*fx), v=fy*fy*(3-2*fy);
+      const ix1=Math.min(size-1,ix+1), iy1=Math.min(size-1,iy+1);
+      const a=iy*size+ix, b=iy*size+ix1, c=iy1*size+ix, d=iy1*size+ix1;
+      const w0=(1-u)*(1-v), w1=u*(1-v), w2=(1-u)*v, w3=u*v;
+      sr=0; sr+=mr[a]*w0; sr+=mr[b]*w1; sr+=mr[c]*w2; sr+=mr[d]*w3;
+      sg=0; sg+=mg[a]*w0; sg+=mg[b]*w1; sg+=mg[c]*w2; sg+=mg[d]*w3;
+      sb=0; sb+=mb[a]*w0; sb+=mb[b]*w1; sb+=mb[c]*w2; sb+=mb[d]*w3;
+      sh=0; sh+=mh[a]*w0; sh+=mh[b]*w1; sh+=mh[c]*w2; sh+=mh[d]*w3;
+    };
+    const sampleHeight = (x,y) => {
+      x = clamp(x,0,size-1); y = clamp(y,0,size-1);
+      const ix=Math.floor(x), iy=Math.floor(y), fx=x-ix, fy=y-iy;
+      const u=fx*fx*(3-2*fx), v=fy*fy*(3-2*fy);
+      const ix1=Math.min(size-1,ix+1), iy1=Math.min(size-1,iy+1);
+      let h=0;
+      h+=mh[iy*size+ix]*((1-u)*(1-v)); h+=mh[iy*size+ix1]*(u*(1-v)); h+=mh[iy1*size+ix]*((1-u)*v); h+=mh[iy1*size+ix1]*(u*v);
+      return h;
+    };
+    yield;
+    // Material plate is capped independently of close detail; the near pass
+    // adds crisp vector landforms rather than magnifying the far bitmap.
+    const res = mode==='world'?10:mode==='region'?14:18;
+    const plate=document.createElement('canvas');plate.width=plate.height=size*res;
+    const pg=plate.getContext('2d'), image=pg.createImageData(plate.width,plate.height);
+    for(let py=0;py<plate.height;py++) {
+      for(let px=0;px<plate.width;px++) {
+        const x=px/res-.5,y=py/res-.5;
+        const wx=x+.19*Math.sin(y*2.9+x*.7)+.09*Math.sin(y*7.1);
+        const wy=y+.18*Math.sin(x*2.1-y*.4)+.07*Math.cos(x*6.7);
+        sample(wx,wy);
+        const cr=sr, cg=sg, cb=sb, ch=sh;
+        const light=sampleHeight(wx-.13,wy-.16)-sampleHeight(wx+.13,wy+.16);
+        const folds=Math.sin(wx*9+Math.sin(wy*4)*2)*Math.sin(wy*7+wx*2);
+        const shade=.91+light*.9+folds*(.025+ch*.085);
+        const i=(py*plate.width+px)*4;
+        image.data[i]=clamp(cr*shade,0,255);
+        image.data[i+1]=clamp(cg*shade,0,255);
+        image.data[i+2]=clamp(cb*shade,0,255);
+        image.data[i+3]=255;
+      }
+      yield;
+    }
+    pg.putImageData(image,0,0);
+    yield* atlasBands(g, size*ppt, size*ppt, () => g.drawImage(plate,0,0,size*ppt,size*ppt));
+    // Contour engraving gives valleys and foothills a geographical silhouette.
+    if(mode!=='world') {
+      g.lineWidth=Math.max(.45,ppt*.008);g.strokeStyle='rgba(211,190,135,.16)';
+      const step=.36;
+      for(const level of [.16,.24,.34,.46,.6,.76]){
+        g.beginPath();
+        for(let y=0;y<size-step;y+=step){
+          for(let x=0;x<size-step;x+=step){
+            const pts=[[x,y],[x+step,y],[x+step,y+step],[x,y+step]];
+            const hs=pts.map(([a,b])=>sampleHeight(a-.5,b-.5));const cross=[];
+            for(let k=0;k<4;k++){const n=(k+1)%4;if((hs[k]<level)===(hs[n]<level))continue;const t=(level-hs[k])/(hs[n]-hs[k]);cross.push([(pts[k][0]+(pts[n][0]-pts[k][0])*t)*ppt,(pts[k][1]+(pts[n][1]-pts[k][1])*t)*ppt]);}
+            if(cross.length>=2){g.moveTo(...cross[0]);g.lineTo(...cross[1]);}
+          }
+          yield;
+        }
+        g.stroke();
         yield ATLAS_FLUSH;
-        if (cells.length < 3) continue;
-        let sx = 0, sy = 0;
-        for (const [x, y] of cells) { sx += x; sy += y; }
-        const mx = (sx / cells.length + .5) * ppt;
-        const my = (sy / cells.length + .5) * ppt;
-        const radius = Math.sqrt(cells.length) * ppt * 0.55;
-        g.fillStyle = COLORS[kind] || COLORS.plain;
-        g.globalAlpha = 0.38;
-        g.beginPath();
-        g.ellipse(mx, my, radius * (1.05 + variation(cells[0][0], cells[0][1]) * 0.25), radius * 0.78, variation(cells[0][0], cells[0][1]), 0, TAU);
-        g.fill();
-        g.globalAlpha = 1;
       }
     }
-    g.globalAlpha = 0.22;
-    g.strokeStyle = 'rgba(42,34,24,.35)';
-    g.lineWidth = Math.max(0.6, ppt * 0.04);
-    for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) {
-      if (x === 0) yield ATLAS_FLUSH;
-      const tile = this.tile(x, y);
-      if (!tile) continue;
-      const under = this.landscapeTerrain(tile);
-      const right = this.tile(x + 1, y);
-      const down = this.tile(x, y + 1);
-      if (right && this.landscapeTerrain(right) !== under) {
-        g.beginPath();
-        const ax = (x + 1) * ppt, ay = y * ppt;
-        g.moveTo(ax + (variation2(x, y, 11) - .5) * ppt * .2, ay);
-        g.bezierCurveTo(ax + (variation2(x, y, 12) - .5) * ppt * .35, ay + ppt * .35, ax - (variation2(x, y, 13) - .5) * ppt * .3, ay + ppt * .7, ax, ay + ppt);
-        g.stroke();
-      }
-      if (down && this.landscapeTerrain(down) !== under) {
-        g.beginPath();
-        const ax = x * ppt, ay = (y + 1) * ppt;
-        g.moveTo(ax, ay + (variation2(x, y, 14) - .5) * ppt * .2);
-        g.bezierCurveTo(ax + ppt * .4, ay + (variation2(x, y, 15) - .5) * ppt * .3, ax + ppt * .7, ay - (variation2(x, y, 16) - .5) * ppt * .25, ax + ppt, ay);
-        g.stroke();
+    // Scatter is world-space, not one symbol per tile. Every mark is checked
+    // against the authoritative underlying biome.
+    const count = size*size*(mode==='world'?3:mode==='region'?8:22);
+    for(let i=0;i<count;i++) {
+      if(i%128===127) yield i%ATLAS_SCATTER_FLUSH===ATLAS_SCATTER_FLUSH-1 ? ATLAS_FLUSH : undefined;
+      const x=atlasRandom(i,7171)*size, y=atlasRandom(i,113113)*size;
+      const ix=Math.floor(x),iy=Math.floor(y),kind=materials[iy*size+ix];
+      const px=x*ppt,py=y*ppt, r=atlasRandom(i,4949);
+      if(kind==='forest') {
+        const h=ppt*(.08+r*.14), w=h*.58;
+        g.fillStyle='rgba(8,18,13,.35)';
+        g.beginPath();g.ellipse(px+w*.6,py+h*.28,w*1.35,h*.38,-.4,0,TAU);g.fill();
+        g.beginPath();g.moveTo(px,py-h);g.bezierCurveTo(px+w*.35,py-h*.5,px+w,py-h*.25,px+w,py);g.quadraticCurveTo(px,py+h*.3,px-w,py);g.quadraticCurveTo(px-w*.6,py-h*.5,px,py-h);
+        g.fillStyle=r>.5?'#294b36':'#193829';g.fill();
+        if(mode!=='world'){g.strokeStyle='rgba(161,163,101,.24)';g.lineWidth=.6;g.beginPath();g.moveTo(px,py-h*.88);g.lineTo(px-w*.55,py-h*.14);g.stroke();}
+      } else if(kind==='plain' && mode!=='world' && r>.91) {
+        const angle=Math.sin(x*.7+y*.21)*.6, w=ppt*(.28+r*.32),h=w*.38;
+        g.save();g.translate(px,py);g.rotate(angle);
+        g.fillStyle=r>.9?'rgba(181,155,90,.24)':'rgba(35,51,30,.18)';
+        g.beginPath();g.moveTo(-w,-h);g.lineTo(w*.8,-h*.7);g.lineTo(w,h);g.lineTo(-w*.7,h*.8);g.closePath();g.fill();
+        g.strokeStyle='rgba(206,178,113,.23)';g.lineWidth=.6;
+        for(let k=-2;k<=2;k++){g.beginPath();g.moveTo(-w*.65,k*h/3);g.lineTo(w*.65,k*h/3);g.stroke();}g.restore();
       }
     }
-    g.globalAlpha = 1;
-  }
-
-  *paintForestMasses(g, ppt) {
-    for (const cells of this.collectClusters((t) => t?.terrain === 'forest')) {
+    yield;
+    // Trace the long axis of each mountain belt, never the cell adjacency mesh.
+    const rock=k=>k==='mountain'||k==='ore'||k==='pass';
+    const chains=[];
+    for(let y=0;y<size;y++) {
+      for(let x=0;x<size;x++){
+        if(!rock(materials[y*size+x]))continue;
+        const first=x;while(x+1<size&&rock(materials[y*size+x+1]))x++;
+        const center=(first+x+1)/2;
+        let chain=chains.find(c=>c.at(-1).y===y-1&&Math.abs(c.at(-1).x-center)<3);
+        if(!chain){chain=[];chains.push(chain);}
+        chain.push({x:center+.18*Math.sin(y*.71),y,width:x-first+1});
+      }
+    }
+    g.lineCap='round';g.lineJoin='round';
+    for(const chain of chains){
+      if(chain.length<3)continue;
+      const trace=(offset=0)=>{g.beginPath();g.moveTo((chain[0].x+offset)*ppt,(chain[0].y+.5)*ppt);for(let i=1;i<chain.length;i++){const a=chain[i-1],b=chain[i];g.quadraticCurveTo((a.x+offset)*ppt,(a.y+.5)*ppt,((a.x+b.x)/2+offset)*ppt,((a.y+b.y)/2+.5)*ppt);}};
+      for(const [width,color,offset]of [[1.1,'rgba(14,26,22,.2)',.22],[.65,'rgba(20,31,26,.3)',.16],[.22,'rgba(178,166,120,.32)',-.09],[.035,'rgba(215,203,159,.65)',-.16]]){trace(offset);g.strokeStyle=color;g.lineWidth=Math.max(.65,ppt*width);g.stroke();}
+      for(let i=1;i<chain.length-1;i++){
+        const c=chain[i],cx=c.x*ppt,cy=(c.y+.5)*ppt;
+        for(const sign of [-1,1]){
+          const length=ppt*Math.min(c.width*.42,.65+atlasRandom(i,23)*1.1),dy=ppt*(.35+atlasRandom(i,41)*.6);
+          g.beginPath();g.moveTo(cx,cy);g.bezierCurveTo(cx+sign*length*.3,cy+dy*.2,cx+sign*length*.65,cy+dy*.35,cx+sign*length,cy+dy);
+          g.strokeStyle=sign<0?'rgba(199,184,135,.45)':'rgba(20,33,27,.4)';g.lineWidth=Math.max(.5,ppt*(mode==='world'?.035:.055));g.stroke();
+        }
+      }
       yield ATLAS_FLUSH;
-      if (!cells.length) continue;
-      // One fused canopy per cluster: overlapping per-tile ellipses merged through a
-      // single Path2D fill (not stacked draws, so overlaps don't double-darken) hug
-      // the cluster's real footprint -- corridor, blob or L-shape alike. The old
-      // single centroid ellipse under-covered elongated clusters (a one-tile-wide
-      // forest belt many tiles long), leaving only the individual per-tile tree
-      // glyphs visible in a straight line -- reading as a repeated grid instead of
-      // one continuous forest mass.
-      const canopy = new Path2D();
-      for (const [x, y] of cells) {
-        const cx = (x + .5 + (variation2(x, y, 40) - .5) * .34) * ppt;
-        const cy = (y + .52 + (variation2(x, y, 41) - .5) * .34) * ppt;
-        canopy.ellipse(cx, cy, ppt * (0.74 + variation2(x, y, 42) * 0.24), ppt * (0.62 + variation2(x, y, 43) * 0.2), variation(x, y) * TAU, 0, TAU);
-      }
-      g.fillStyle = 'rgba(26, 44, 34, .42)';
-      g.fill(canopy);
-      let drawnCells = 0;
-      for (const [x, y] of cells) {
-        if (++drawnCells % 64 === 0) yield ATLAS_FLUSH;
-        const px = (x + .28 + variation2(x, y, 4) * .48) * ppt;
-        const py = (y + .3 + variation2(x, y, 5) * .44) * ppt;
-        g.fillStyle = variation2(x, y, 6) > .5 ? '#2a4334' : '#1e3328';
-        g.beginPath();
-        g.ellipse(px, py, ppt * (.5 + variation2(x, y, 7) * .32), ppt * (.38 + variation2(x, y, 8) * .22), variation2(x, y, 9), 0, TAU);
-        g.fill();
-        if (ppt < 20) continue;
-        const n = ppt >= 40 ? 5 : 3;
-        for (let i = 0; i < n; i++) {
-          const tx = (x + .12 + variation2(x, y, 10 + i) * .76) * ppt;
-          const ty = (y + .18 + variation2(x, y, 20 + i) * .68) * ppt;
-          const h = ppt * (.16 + variation2(x, y, 30 + i) * .12);
-          g.fillStyle = i % 2 ? '#15241c' : '#314a3a';
-          g.beginPath();
-          g.moveTo(tx, ty - h);
-          g.lineTo(tx + h * .46, ty + h * .38);
-          g.lineTo(tx - h * .46, ty + h * .38);
-          g.closePath();
-          g.fill();
-        }
-      }
     }
-  }
-
-  *paintRidgeSystems(g, ppt) {
-    const pred = (t) => t && (t.terrain === 'mountain' || t.terrain === 'ore' || t.terrain === 'pass');
-    g.lineCap = 'round';
-    g.lineJoin = 'round';
-    for (const cells of this.collectClusters(pred)) {
-      yield ATLAS_FLUSH;
-      if (cells.length < 2) continue;
-      const sorted = [...cells].sort((a, b) => a[0] - b[0] || a[1] - b[1]);
-      g.strokeStyle = 'rgba(36, 32, 28, .38)';
-      g.lineWidth = Math.max(1.1, ppt * 0.09);
-      g.beginPath();
-      for (let i = 0; i < sorted.length; i++) {
-        const [x, y] = sorted[i];
-        const px = (x + .35 + variation2(x, y, 4) * .3) * ppt;
-        const py = (y + .4 + variation2(x, y, 5) * .25) * ppt;
-        if (i === 0) g.moveTo(px, py); else g.lineTo(px, py);
-      }
-      g.stroke();
-      g.strokeStyle = 'rgba(232, 220, 190, .16)';
-      g.lineWidth = Math.max(0.6, ppt * 0.035);
-      g.beginPath();
-      for (let i = 0; i < sorted.length; i++) {
-        const [x, y] = sorted[i];
-        const px = (x + .42 + variation2(x, y, 6) * .2) * ppt;
-        const py = (y + .28 + variation2(x, y, 7) * .18) * ppt;
-        if (i === 0) g.moveTo(px, py); else g.lineTo(px, py);
-      }
-      g.stroke();
-      let drawnCells = 0;
-      for (const [x, y] of cells) {
-        if (++drawnCells % 64 === 0) yield ATLAS_FLUSH;
-        const cx = (x + .5) * ppt, cy = (y + .55) * ppt;
-        const peak = ppt * (0.28 + variation2(x, y, 8) * 0.2);
-        g.fillStyle = this.tile(x, y)?.terrain === 'ore' ? '#684f43' : '#5e5c56';
-        g.beginPath();
-        g.moveTo(cx - ppt * .38, cy + ppt * .18);
-        g.lineTo(cx, cy - peak);
-        g.lineTo(cx + ppt * .4, cy + ppt * .2);
-        g.closePath();
-        g.fill();
-        g.fillStyle = 'rgba(232, 222, 198, .35)';
-        g.beginPath();
-        g.moveTo(cx - ppt * .08, cy - peak * .15);
-        g.lineTo(cx, cy - peak);
-        g.lineTo(cx + ppt * .12, cy - peak * .1);
-        g.closePath();
-        g.fill();
-        if (this.tile(x, y)?.terrain === 'pass') {
-          g.strokeStyle = COLORS.brass;
-          g.lineWidth = Math.max(1, ppt * 0.06);
-          g.beginPath();
-          g.moveTo(cx - ppt * .18, cy + ppt * .16);
-          g.lineTo(cx, cy - peak * .15);
-          g.lineTo(cx + ppt * .18, cy + ppt * .16);
-          g.stroke();
-        }
-      }
-      if (ppt >= 24) {
-        g.strokeStyle = 'rgba(42, 34, 24, .28)';
-        g.lineWidth = Math.max(0.5, ppt * 0.025);
-        let drawnCells = 0;
-        for (const [x, y] of cells) {
-          if (++drawnCells % 64 === 0) yield ATLAS_FLUSH;
-          const cx = (x + .5) * ppt, cy = (y + .6) * ppt;
-          for (let k = 0; k < 3; k++) {
-            g.beginPath();
-            g.ellipse(cx, cy + k * ppt * .08, ppt * (.32 - k * .06), ppt * (.12 - k * .02), 0, 0.2, Math.PI - 0.2);
-            g.stroke();
-          }
-        }
-      }
-    }
-  }
-
-  *paintFieldSystems(g, ppt) {
-    g.lineCap = 'round';
-    for (const cells of this.collectClusters((t) => t && this.landscapeTerrain(t) === 'plain')) {
-      yield ATLAS_FLUSH;
-      if (cells.length < 4) continue;
-      const set = new Set(cells.map(([x, y]) => `${x},${y}`));
-      g.strokeStyle = 'rgba(74, 58, 28, .28)';
-      g.lineWidth = Math.max(0.5, ppt * 0.03);
-      const rows = new Map();
-      let drawnCells = 0;
-      for (const [x, y] of cells) {
-        if (++drawnCells % 64 === 0) yield ATLAS_FLUSH;
-        if (!rows.has(y)) rows.set(y, []);
-        rows.get(y).push(x);
-      }
-      for (const [y, xs] of rows) {
-        xs.sort((a, b) => a - b);
-        let start = xs[0], prev = xs[0];
-        const flush = (from, to) => {
-          if (to - from < 1) return;
-          const furrow = 3 + ((from + y) % 3);
-          for (let i = 0; i < furrow; i++) {
-            const oy = (y + .18 + i * (0.64 / furrow)) * ppt;
-            g.beginPath();
-            g.moveTo((from + .08) * ppt, oy + (variation2(from, y, i) - .5) * ppt * .08);
-            g.quadraticCurveTo(((from + to) / 2 + .5) * ppt, oy + (variation2(from, y, i + 3) - .5) * ppt * .12, (to + .92) * ppt, oy);
-            g.stroke();
-          }
-          g.strokeStyle = 'rgba(90, 110, 50, .22)';
-          g.beginPath();
-          g.moveTo((from + .12) * ppt, (y + .12) * ppt);
-          g.lineTo((to + .88) * ppt, (y + .12) * ppt);
-          g.lineTo((to + .88) * ppt, (y + .88) * ppt);
-          g.lineTo((from + .12) * ppt, (y + .88) * ppt);
-          g.closePath();
-          g.stroke();
-          g.strokeStyle = 'rgba(74, 58, 28, .28)';
-        };
-        for (let i = 1; i < xs.length; i++) {
-          if (xs[i] === prev + 1 && set.has(`${xs[i]},${y}`)) { prev = xs[i]; continue; }
-          flush(start, prev);
-          start = prev = xs[i];
-        }
-        flush(start, prev);
-      }
-    }
-  }
-
-  *paintScrub(g, ppt) {
-    const size = this.state.world.size;
-    for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) {
-      if (x === 0) yield ATLAS_FLUSH;
-      const under = this.landscapeTerrain(this.tile(x, y));
-      if (under !== 'steppe' && under !== 'arid') continue;
-      const n = ppt >= 40 ? 6 : ppt >= 24 ? 4 : 2;
-      for (let i = 0; i < n; i++) {
-        const px = (x + .12 + variation2(x, y, 40 + i) * .76) * ppt;
-        const py = (y + .16 + variation2(x, y, 50 + i) * .7) * ppt;
-        if (under === 'arid') {
-          g.fillStyle = 'rgba(90, 62, 34, .32)';
-          g.beginPath();
-          g.ellipse(px, py, ppt * .08, ppt * .035, variation(x, y), 0, TAU);
-          g.fill();
-        } else {
-          g.strokeStyle = 'rgba(74, 64, 32, .4)';
-          g.lineWidth = Math.max(0.5, ppt * 0.03);
-          g.beginPath();
-          g.moveTo(px, py);
-          g.lineTo(px + ppt * .05, py - ppt * .12);
-          g.lineTo(px + ppt * .1, py);
-          g.stroke();
-        }
-      }
-    }
-  }
-
-  *paintValleyWash(g, ppt) {
-    for (const cells of this.collectClusters((t) => t?.terrain === 'valley')) {
-      yield ATLAS_FLUSH;
-      if (cells.length < 2) continue;
-      g.fillStyle = 'rgba(58, 96, 92, .22)';
-      g.beginPath();
-      const sorted = [...cells].sort((a, b) => a[1] - b[1] || a[0] - b[0]);
-      for (let i = 0; i < sorted.length; i++) {
-        const [x, y] = sorted[i];
-        const px = (x + .5) * ppt, py = (y + .5) * ppt;
-        if (i === 0) g.moveTo(px, py);
-        else g.lineTo(px, py);
-      }
-      g.lineWidth = ppt * 1.15;
-      g.strokeStyle = 'rgba(45, 80, 78, .28)';
-      g.lineCap = 'round';
-      g.stroke();
-      let drawnCells = 0;
-      for (const [x, y] of cells) {
-        if (++drawnCells % 64 === 0) yield ATLAS_FLUSH;
-        if (ppt < 24) continue;
-        g.strokeStyle = '#3f6554';
-        g.lineWidth = Math.max(0.6, ppt * 0.03);
-        const bx = (x + .2) * ppt, by = (y + .72) * ppt;
-        g.beginPath();
-        g.moveTo(bx, by);
-        g.lineTo(bx + ppt * .08, by - ppt * .14);
-        g.lineTo(bx + ppt * .16, by);
-        g.stroke();
-      }
-    }
+    // Low warm light integrates materials without hiding the map's information.
+    const wash=g.createLinearGradient(0,0,size*ppt,size*ppt);
+    wash.addColorStop(0,'rgba(230,188,101,.08)');wash.addColorStop(.5,'rgba(0,0,0,0)');wash.addColorStop(1,'rgba(4,17,15,.2)');g.fillStyle=wash;
+    yield* atlasBands(g, size*ppt, size*ppt, () => g.fillRect(0,0,size*ppt,size*ppt));
   }
 
   tileToScreen(x, y) {
@@ -952,8 +802,8 @@ export class StrategyMap {
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
       for (let pass = 0; pass < 4; pass++) {
-        const widths = [0.42, 0.32, 0.18, 0.055];
-        const colors = ['rgba(36,48,44,.42)', '#2a4a4c', COLORS.water, COLORS.waterLight];
+        const widths = [0.31, 0.23, 0.14, 0.022];
+        const colors = ['rgba(36,48,44,.42)', '#2a4a4c', COLORS.water, 'rgba(147,182,157,.5)'];
         ctx.strokeStyle = colors[pass];
         for (let i = 1; i < this.riverPoints.length; i++) {
           const a = this.riverPoints[i - 1], b = this.riverPoints[i];
@@ -1146,12 +996,12 @@ export class StrategyMap {
         path(ctx, [[-18, 7], [-18, -7], [-10, -11], [10, -11], [18, -7], [18, 7], [0, 16]], true); ctx.fill(); ctx.stroke();
         ctx.fillStyle = '#b6b198'; path(ctx, [[0, 4], [18, -7], [18, 7], [0, 16]], true); ctx.fill();
         ctx.fillStyle = '#c6c0a7'; path(ctx, [[-18, -7], [0, 4], [0, 16], [-18, 7]], true); ctx.fill();
-        ctx.fillStyle = '#eeead6'; ctx.fillRect(-8, -16, 15, 17);
+        ctx.fillStyle = '#aa9d79'; ctx.fillRect(-8, -16, 15, 17);
         ctx.fillStyle = capital ? COLORS.oxblood : '#a87458'; path(ctx, [[-11, -16], [-1, -23], [11, -16], [4, -12]], true); ctx.fill();
         ctx.fillStyle = '#786f57'; ctx.fillRect(-2, -6, 5, 7);
         for (const tx of [-17, 12]) {
-          ctx.fillStyle = '#ddd7bd'; ctx.fillRect(tx, -10, 6, 17);
-          ctx.fillStyle = '#bbb399'; ctx.fillRect(tx, -12, 2, 4); ctx.fillRect(tx + 4, -12, 2, 4);
+          ctx.fillStyle = '#8c896f'; ctx.fillRect(tx, -10, 6, 17);
+          ctx.fillStyle = '#c9bd95'; ctx.fillRect(tx, -12, 2, 4); ctx.fillRect(tx + 4, -12, 2, 4);
         }
         if (fortified) {
           ctx.strokeStyle = '#4a4c48'; ctx.lineWidth = 1.4;
