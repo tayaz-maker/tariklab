@@ -72,7 +72,7 @@ const $ = (tag, attrs = {}, ...children) => {
   el.append(...renderable(children));
   return el;
 };
-export async function startApp(theme, designs) {
+export async function startApp(theme, designs, options = {}) {
   document.documentElement.classList.toggle("tlab-embedded", window.self !== window.top);
   const root = document.querySelector("#app");
   const motionLayer = $("div", { class: "duel-motion-layer", "aria-hidden": "true", inert: true });
@@ -865,72 +865,76 @@ export async function startApp(theme, designs) {
               ? "true"
               : "false",
           "data-position": card?.position || "",
+          "data-playable":
+            state && card?.owner === 0 ? (actions().some((a) => a.card === uid) ? "true" : "false") : null,
           "aria-label": hidden ? t("hidden") : text(card.name),
           ...attrs,
         },
-        hidden
-          ? null
-          : $(
-              "span",
-              { class: "card-banner" },
-              $("span", { class: "card-name" }, text(card.name)),
-              card.kind === "unit" && Number.isFinite(card.level)
-                ? $(
-                    "span",
-                    { class: "card-level", "aria-label": `${t("level")} ${card.level}` },
-                    "★",
-                    String(card.level),
-                  )
-                : $(
-                    "span",
-                    { class: "card-level card-kind-tag" },
-                    card.subtype ? t(card.subtype) : t(card.kind),
-                  ),
-            ),
-        $(
-          "span",
-          { class: "card-art", "aria-hidden": "true" },
-          down
-            ? "◈"
-            : card.id
-              ? $("img", {
-                  src: cardArt(theme, card).src,
-                  alt: "",
-                  loading: "lazy",
-                  decoding: "async",
-                  width: cardArt(theme, card).width,
-                  height: cardArt(theme, card).height,
-                  onerror: (event) => {
-                    event.currentTarget.replaceWith(document.createTextNode("◈"));
-                  },
-                })
-              : "◈",
-        ),
-        hidden
-          ? null
-          : $(
-              "span",
-              { class: "card-stats" },
-              card.kind === "unit"
-                ? [
-                    $(
+        ...(options.cardFace?.({ card, down, hidden, lang, t, text }) ?? [
+          hidden
+            ? null
+            : $(
+                "span",
+                { class: "card-banner" },
+                $("span", { class: "card-name" }, text(card.name)),
+                card.kind === "unit" && Number.isFinite(card.level)
+                  ? $(
                       "span",
-                      { class: "card-atk" },
-                      $("small", {}, "ATK"),
-                      String(card.attack ?? card.baseAttack ?? "—"),
-                    ),
-                    $(
+                      { class: "card-level", "aria-label": `${t("level")} ${card.level}` },
+                      "★",
+                      String(card.level),
+                    )
+                  : $(
                       "span",
-                      { class: "card-def" },
-                      $("small", {}, "DEF"),
-                      String(card.defense ?? card.baseDefense ?? "—"),
+                      { class: "card-level card-kind-tag" },
+                      card.subtype ? t(card.subtype) : t(card.kind),
                     ),
-                  ]
-                : [
-                    $("span", { class: "card-atk" }, t(card.kind)),
-                    $("span", { class: "card-def" }, card.subtype ? t(card.subtype) : t(card.kind)),
-                  ],
-            ),
+              ),
+          $(
+            "span",
+            { class: "card-art", "aria-hidden": "true" },
+            down
+              ? "◈"
+              : card.id
+                ? $("img", {
+                    src: cardArt(theme, card).src,
+                    alt: "",
+                    loading: "lazy",
+                    decoding: "async",
+                    width: cardArt(theme, card).width,
+                    height: cardArt(theme, card).height,
+                    onerror: (event) => {
+                      event.currentTarget.replaceWith(document.createTextNode("◈"));
+                    },
+                  })
+                : "◈",
+          ),
+          hidden
+            ? null
+            : $(
+                "span",
+                { class: "card-stats" },
+                card.kind === "unit"
+                  ? [
+                      $(
+                        "span",
+                        { class: "card-atk" },
+                        $("small", {}, "ATK"),
+                        String(card.attack ?? card.baseAttack ?? "—"),
+                      ),
+                      $(
+                        "span",
+                        { class: "card-def" },
+                        $("small", {}, "DEF"),
+                        String(card.defense ?? card.baseDefense ?? "—"),
+                      ),
+                    ]
+                  : [
+                      $("span", { class: "card-atk" }, t(card.kind)),
+                      $("span", { class: "card-def" }, card.subtype ? t(card.subtype) : t(card.kind)),
+                    ],
+              ),
+        ]),
       );
       if (onClick) bindCardChrome(el, uid, card, onClick);
       return el;
