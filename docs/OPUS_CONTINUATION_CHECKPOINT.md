@@ -4,7 +4,7 @@ This is a safe handoff point for any model or person continuing the work.
 
 - Repository: `tayaz-maker/tariklab`. The local clone is named `cete-savaslari`.
 - Production: https://tariklab.tayaz29.workers.dev. Cloudflare Workers Builds deploys it on every push to `main`.
-- `origin/main` = `c8f8a75d2571d21b5422d9f6a1c39e3f49b9a5f2` (merge of #73).
+- `origin/main` = `f874e401b3522df1fc108fe48857f1b630f0830c` (merge of #74).
 
 ## Rules that still apply
 
@@ -21,13 +21,13 @@ This is a safe handoff point for any model or person continuing the work.
   - a public name cleared through a TÜRKPATENT search.
 - TarikLab games are silent: no audio of any kind. Never name, list or imitate the reference apps.
 
-## In-flight PRs (recorded merge order: #73 ✅ → #74 → #75 → #76)
+## In-flight PRs (recorded merge order: #73 ✅ → #74 ✅ → #75 → #76)
 
 | PR | Branch | Head SHA | Base | CI state at checkpoint | Next single step |
 |---|---|---|---|---|---|
 | #73 T monogram | `claude/t-monogram` | `b781b1c` | — | **MERGED** as `c8f8a75`. Production verified (tree identical to head, 0 missing, 7/7 identical, icons 200 and byte-identical, sw `cete-offline-v5`, live smoke OK). | — |
-| #74 Son Köy command bar | `claude/son-koy-command` | `1006f82d59488549f82693cbbcf9a352adaeac08` (branch updated onto `c8f8a75`) | `main` | build ✅, campaign-balance ✅, Workers ✅, Vercel ✅, **campaign-browser running** | When campaign-browser is green: merge with `expectedHeadSha=1006f82…`, then run the production proof. |
-| #75 JITEM sync | `claude/jitem-sync-operations` | `45de92a74f691f2f3d8fa4577da9395e962eb1c8` | `main` @ `167f752` (stale) | Green on its old base | After #74: update the branch, wait for CI, merge, run the production proof. Expect `games/jitem-derin-ag/SOURCE.json` to change in production. |
+| #74 Son Köy command bar | `claude/son-koy-command` | `1006f82` | — | **MERGED** as `f874e40` after all 5 checks were green. Production verified: merge tree identical to head (`6b42cc5`), 0 missing, 7/7 identical, all 4 Son Köy files byte-identical, live smoke clean. The first desktop smoke hit a transient 502 on the main JS during the deploy switchover; the file returned 200 three times on recheck and the re-run smoke was clean. | — |
+| #75 JITEM sync | `claude/jitem-sync-operations` | `f1ba095fc63228fe5f3633b318d05a467cd4f089` (branch updated onto `f874e40`) | `main` | CI started at about 14:42 UTC and takes about 25 minutes | When all checks are green: merge with this head SHA, then run the production proof. Expect `games/jitem-derin-ag/SOURCE.json` to change in production. |
 | #76 DEVLET maps | `claude/devlet-maps` | `8ee2806b47d7c39ad0345a855096886f23f164a7` | `main` @ `167f752` (stale) | Green on its old base | After #75: same steps. |
 
 ## Originality / legal wave (new work)
