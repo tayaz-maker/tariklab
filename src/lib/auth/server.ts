@@ -33,7 +33,6 @@ import { betterAuth } from "better-auth";
 import { bearer, genericOAuth, username } from "better-auth/plugins";
 import { tanstackStartCookies } from "better-auth/tanstack-start";
 import { getCookie } from "@tanstack/react-start/server";
-import { randomBytes } from "node:crypto";
 import { Pool } from "pg";
 import { ensureDbReady, getPglite } from "../db";
 import {
@@ -50,23 +49,10 @@ import {
   PREVIEW_CLIENT_ID,
   PREVIEW_CLIENT_SECRET,
 } from "./preview";
+import { resolveAuthSecret } from "./preview-secret";
 
 // Kick (and share) PGLite bootstrap as soon as the auth server module loads.
 void ensureDbReady();
-
-/**
- * Preview secret must outlive module reloads: PGLite (and its session rows) is
- * stored on `globalThis`, so an HMR re-eval of this file must NOT mint a new
- * signing secret or every existing session becomes invalid mid-dev. Process
- * restart clears both the secret and PGLite together.
- */
-const globalAuthRef = globalThis as typeof globalThis & {
-  __grokAuthPreviewSecret__?: string;
-};
-function previewAuthSecret(): string {
-  globalAuthRef.__grokAuthPreviewSecret__ ??= randomBytes(32).toString("hex");
-  return globalAuthRef.__grokAuthPreviewSecret__;
-}
 
 /** Read an env var, treating empty/whitespace as unset. */
 const env = (key: string): string | undefined => {
@@ -181,11 +167,12 @@ const grokOAuthPlugin = authConfigured
     })
   : null;
 
-export const auth = betterAuth({
+const createAuth = () => betterAuth({
   baseURL,
   // Deployed apps inject BETTER_AUTH_SECRET. Preview: process-stable secret on
-  // globalThis so HMR doesn't invalidate PGLite-backed sessions (see above).
-  secret: env("BETTER_AUTH_SECRET") ?? previewAuthSecret(),
+  // globalThis so HMR doesn't invalidate PGLite-backed sessions (see
+  // preview-secret.ts).
+  secret: resolveAuthSecret(env("BETTER_AUTH_SECRET")),
   database,
 
   // CSRF / origin check for credentialed auth POSTs (email sign-up/sign-in, …).
@@ -286,6 +273,18 @@ export const auth = betterAuth({
     // last so it runs after every other plugin's hooks.
     tanstackStartCookies(),
   ],
+});
+
+/**
+ * Built on first use, inside a request, never at module load: Better Auth
+ * starts its async init (and the preview secret is minted) when constructed,
+ * and Workers forbid random values and I/O in global scope, so an eager
+ * instance crashes `vite preview` (workerd). Same options, same instance
+ * for the life of the isolate.
+ */
+let authInstance: ReturnType<typeof createAuth> | undefined;
+export const auth = new Proxy({} as ReturnType<typeof createAuth>, {
+  get: (_target, key) => Reflect.get((authInstance ??= createAuth()), key),
 });
 
 export function readSessionToken(): string | null {

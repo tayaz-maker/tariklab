@@ -18,7 +18,8 @@ import {
 } from "./engine.js";
 import { RESOURCES, TERRAINS, POIS, BUILDINGS, UNITS } from "./data.js";
 import { getTile } from "./world.js";
-import { createMap } from "./map.js";
+import { createMap, MAP_LAYERS } from "./map.js";
+import { expansionSites, expansionRange, siteVerdict, incomingThreats, regionPresence, scoutRoute, CLAIM_RANGE } from "./mapintel.js";
 import { previewOrder, snapshot, summarizePeriod, rowTone, orderStep, ORDER_STEPS } from "./orders.js";
 import { SaveManager } from "./save.js";
 import { getLang, installLanguage, translate } from "./i18n.js";
@@ -115,8 +116,19 @@ let cachedSlots = {},
   readyOffline = false;
 const GUIDE_KEY = "tariklab::hanedanian:field-guide:v1";
 const OVERLAY_KEY = "tariklab::hanedanian:map-overlay:v1";
-let overlayOn = true;
-try { overlayOn = localStorage.getItem(OVERLAY_KEY) !== "off"; } catch { /* Storage is optional. */ }
+const LAYERS_KEY = "tariklab::hanedanian:map-layers:v1";
+// Map layers are a per-browser view preference, never part of the campaign save.
+let layers = { borders: true, regions: true, threats: true, range: true };
+try {
+  const saved = JSON.parse(localStorage.getItem(LAYERS_KEY) || "null");
+  if (saved && typeof saved === "object") {
+    for (const key of MAP_LAYERS) if (key in saved) layers[key] = !!saved[key];
+  } else if (localStorage.getItem(OVERLAY_KEY) === "off") {
+    // The single "Sınırlar" toggle this replaces: keep a player's choice.
+    layers.borders = false;
+  }
+} catch { /* Storage is optional. */ }
+let sitesCache = { key: "", sites: null };
 const map = createMap($("world-map"), {
   onSelect(tile) {
     selected = tile ? { x: tile.x, y: tile.y } : null;
@@ -288,22 +300,80 @@ function renderPeriod() {
   el.innerHTML = `<div class="period-head"><div><span class="eyebrow">DÖNEM ÖZETİ</span><strong>${esc(gameDate(p.from))} → ${esc(gameDate(p.to))}</strong><small>${esc(duration(p.minutes))} geçti · tüm yerleşimlerin toplamı</small></div><button data-period="close" aria-label="Dönem özetini kapat">×</button></div><ul class="period-rows">${p.rows.map((row) => `<li class="tone-${rowTone(row)}"><span>${esc(label(row))}</span><b>${fmt(row.from)} → ${fmt(row.to)}</b><em>${signed(row.to - row.from)}</em></li>`).join("")}</ul>${p.news.length ? `<div class="period-news"><span class="eyebrow">YENİ RAPORLAR · ${p.news.length}</span>${p.news.map((n) => `<p class="${n.critical ? "critical" : ""}">${esc(n.title)}</p>`).join("")}<button data-view="council">Divan’da oku →</button></div>` : ""}`;
   el.hidden = false;
 }
-function setOverlay(on) {
-  overlayOn = on;
-  try { localStorage.setItem(OVERLAY_KEY, on ? "on" : "off"); } catch { /* Storage is optional. */ }
-  map.setOverlay?.(on);
-  document.querySelectorAll('[data-map="overlay"]').forEach((b) => b.setAttribute("aria-pressed", String(on)));
+function setLayer(key, on) {
+  if (!MAP_LAYERS.includes(key)) return;
+  layers = { ...layers, [key]: !!on };
+  try { localStorage.setItem(LAYERS_KEY, JSON.stringify(layers)); } catch { /* Storage is optional. */ }
+  map.setLayers?.(layers);
   renderLegend();
 }
+const LAYER_INFO = {
+  borders: ["Sınırlar", "Senin ve rakiplerin etki alanı; seçili yerleşimin alanı kesikli çizgiyle."],
+  regions: ["Bölgeler", "Kurultay hedefleri bölge bazlıdır: dokuz bölge, her birinde yurdun ve noktan."],
+  threats: ["Tehdit ve seferler", "Sana gelen seferler kırmızı, kendi seferlerinin varış yeri ve süresi. Rakip yurtlarda istihbarat: ✓ taze, ~ eski, ? bilinmiyor."],
+  range: ["Menzil", "Bir karo seçince: yerleşme menzili, yerleşilebilir karolar (yeşil), nokta bağlama menzili ve gözcü rotası."],
+};
 function renderLegend() {
   const list = $("map-legend-list");
   if (!list || !state) return;
   const own = player()?.color || "#1e3d32";
-  const rivals = state.factions.filter((f) => f.id !== state.playerId && state.settlements.some((t) => t.ownerId === f.id)).slice(0, 3);
-  const line = (color, dashed = false) => `<i class="legend-line${dashed ? " dashed" : ""}" style="--c:${esc(color)}"></i>`;
-  list.innerHTML = overlayOn
-    ? `<li>${line(own)}<span>Senin sınırın</span></li><li>${rivals.map((f) => line(f.color)).join("")}<span>Rakip hanedan sınırı</span></li><li>${line("#f3ead4", true)}<span>Seçili yerleşimin alanı</span></li><li><i class="legend-poi"></i><span>Özel nokta · adı yakında görünür</span></li><li><i class="legend-text">Aa</i><span>Bölge adları dünya görünümünde</span></li>`
-    : `<li><span>Sınır katmanı kapalı. Etki alanı halkaları gösteriliyor.</span></li>`;
+  const rival = state.factions.find((f) => f.id !== state.playerId && state.settlements.some((t) => t.ownerId === f.id))?.color || "#946350";
+  const swatch = {
+    borders: `<i class="legend-line" style="--c:${esc(own)}"></i><i class="legend-line" style="--c:${esc(rival)}"></i>`,
+    regions: '<i class="legend-line dashed" style="--c:#f3ead4"></i>',
+    threats: '<i class="legend-line" style="--c:#e0654a"></i>',
+    range: '<i class="legend-swatch" style="--c:rgba(159,190,120,.6)"></i>',
+  };
+  list.innerHTML = MAP_LAYERS.map((key) => `<label class="layer-row"><input type="checkbox" data-layer="${key}" ${layers[key] ? "checked" : ""}><span class="layer-swatch">${swatch[key]}</span><span class="layer-text"><b>${esc(LAYER_INFO[key][0])}</b><small>${esc(LAYER_INFO[key][1])}</small></span></label>`).join("");
+  const count = $("layer-count");
+  if (count) count.textContent = `${MAP_LAYERS.filter((k) => layers[k]).length}/${MAP_LAYERS.length}`;
+}
+/** Feed the map the decision guide for the selected tile (range, sites, route). */
+function updateGuide() {
+  const town = activeTown();
+  if (!state || !selected || !town) return map.setGuide?.(null);
+  const pending = state.armies.filter((a) => a.mission === "expand" && !a.returning).map((a) => `${a.to.x},${a.to.y}`).join(";");
+  const key = `${town.id}:${town.buildings.hall}:${state.settlements.map((t) => `${t.x},${t.y}`).join(";")}|${pending}`;
+  if (sitesCache.key !== key) sitesCache = { key, sites: expansionSites(state, town) };
+  const route = scoutRoute(state, town, selected.x, selected.y);
+  map.setGuide?.({
+    from: { x: town.x, y: town.y },
+    target: { ...selected },
+    range: expansionRange(town),
+    claimRange: CLAIM_RANGE,
+    sites: sitesCache.sites,
+    route: route ? { ...route, label: `${duration(route.minutes)} · ${route.distance.toFixed(1)} karo` } : null,
+  });
+}
+const threatTime = (minutes) => (minutes >= 60 ? `${Math.floor(minutes / 60)} sa ${Math.round(minutes % 60)} dk` : `${Math.max(1, Math.ceil(minutes))} dk`);
+function renderThreatChip() {
+  const chip = $("threat-chip") || document.querySelector?.('[data-map="threat"]');
+  if (!chip || !state) return;
+  const threats = incomingThreats(state);
+  chip.hidden = !threats.length;
+  if (threats.length)
+    chip.innerHTML = `⚠ ${threats.length}<span class="chip-long"> tehdit · ${esc(threats[0].target.name)}</span> · ${threatTime(threats[0].minutes)}`;
+}
+/** Region, range and threat context for the selected tile, in one short block. */
+function contextHTML(tile, town, own) {
+  const region = regionPresence(state)[regionOf(state, tile)];
+  const presence = region.towns || region.points
+    ? `${region.towns ? `${region.towns} yurdun` : ""}${region.towns && region.points ? ", " : ""}${region.points ? `${region.points} bağlı noktan` : ""} var${region.developed ? "; bölge gelişmiş sayılıyor" : "; Konak 2 olan bir yurt bölgeyi gelişmiş sayar"}.`
+    : "Bu bölgede yurdun yok. Kurultay yolları gelişmiş bölge ister.";
+  const rows = [`<div><span>BÖLGE</span><p><strong>${esc(region.name)}</strong> · ${esc(presence)}</p></div>`];
+  const from = activeTown();
+  if (!own && !town && !tile.poi && from) {
+    const verdict = siteVerdict(state, from, tile.x, tile.y);
+    if (verdict) rows.push(`<div class="${verdict.ok ? "ok" : "no"}"><span>YERLEŞİM</span><p>${verdict.ok ? "✓" : "✗"} ${esc(verdict.reason)}</p></div>`);
+  }
+  if (tile.poi && !own && from) {
+    const d = Math.hypot(from.x - tile.x, from.y - tile.y);
+    rows.push(`<div class="${d <= CLAIM_RANGE ? "ok" : "no"}"><span>BAĞLAMA</span><p>${d <= CLAIM_RANGE ? "✓" : "✗"} ${d.toFixed(1)} / ${CLAIM_RANGE} karo${d <= CLAIM_RANGE ? "" : " · başka bir yurttan dene"}</p></div>`);
+  }
+  const threats = incomingThreats(state).filter((t) => t.target.x === tile.x && t.target.y === tile.y);
+  if (threats.length)
+    rows.push(`<div class="threat"><span>TEHDİT</span><p>${threats.map((t) => `${esc(getFaction(state, t.ownerId)?.name || "Rakip")} ${t.mission === "claim" ? "noktayı almaya" : "saldırmaya"} geliyor · ${threatTime(t.minutes)}`).join("<br>")}. Garnizonu güçlendir, sur yükselt veya ateşkes iste.</p></div>`);
+  return `<div class="map-context">${rows.join("")}</div>`;
 }
 function notice(message, error = false) {
   const el = $("toast");
@@ -396,6 +466,12 @@ function useTown(id, focus = false) {
     map.select(town.x, town.y);
   }
 }
+/** A full amount plus a compact one (1.096 → 1,1B) that narrow screens show instead. */
+function amountHTML(value) {
+  const n = Math.floor(value || 0);
+  const compact = n < 1000 ? fmt(n) : n < 10000 ? `${(Math.floor(n / 100) / 10).toLocaleString("tr-TR")}B` : `${Math.floor(n / 1000)}B`;
+  return compact === fmt(n) ? fmt(n) : `<span class="amount-full">${fmt(n)}</span><span class="amount-compact" aria-hidden="true">${compact}</span>`;
+}
 function renderHeader() {
   if (!state) return;
   const town = activeTown(),
@@ -405,10 +481,10 @@ function renderHeader() {
     keys
       .map(
         (k) =>
-          `<div class="resource" title="${esc(town?.name)} · Depo ${fmt(capacity)}"><span>${RESOURCES[k].label.toLocaleUpperCase("tr")}</span><b>${fmt(town?.resources[k])}</b><small>${rates[k] >= 0 ? "+" : ""}${fmt((rates[k] || 0) * 60)}/saat</small></div>`,
+          `<div class="resource" title="${esc(town?.name)} · Depo ${fmt(capacity)}"><span>${RESOURCES[k].label.toLocaleUpperCase("tr")}</span><b>${amountHTML(town?.resources[k])}</b><small>${rates[k] >= 0 ? "+" : ""}${fmt((rates[k] || 0) * 60)}/saat</small></div>`,
       )
       .join("") +
-    `<div class="resource influence"><span>NÜFUZ</span><b>${fmt(player()?.influence)}</b><small>Siyasi güç</small></div>`;
+    `<div class="resource influence"><span>NÜFUZ</span><b>${amountHTML(player()?.influence)}</b><small>Siyasi güç</small></div>`;
   $("game-date").textContent = gameDate();
   $("clock-state").textContent = state.paused
     ? "Dünya duraklatıldı"
@@ -446,6 +522,7 @@ function renderInspector() {
   if (!state) return;
   if (!selected) {
     el.classList.remove("has-selection");
+    map.setGuide?.(null);
     el.innerHTML = `${stepsHTML(currentStep(), true)}<p class="eyebrow">HARİTA REHBERİ</p><h2>Bir sonraki adımın<br>nerede?</h2><p class="muted">Bir bölge seç. Araziyi, mesafeyi ve kazancını karşılaştır.</p><div class="note">Önce yerleşiminde bir üretim yapısı geliştir. Ardından bir gözcü gönder; yeni toprağa çıkmadan önce bilgi topla.</div><div class="tile-actions"><button class="primary" data-view="settlement">Yerleşimi geliştir</button><button data-map="home">Merkezimi bul</button></div><p class="rail-tip">Sürükle: gezin · Tekerlek/iki parmak: yakınlaş<br>Ok tuşları: seç · Escape: bırak</p>`;
     return;
   }
@@ -474,7 +551,8 @@ function renderInspector() {
       ? "Önce gözcüyle bilgiyi doğrula. Ardından yeterli birlik varsa sefer veya bağlama kararı ver."
       : "Gözcü riski azaltır. Yerleşim kafilesi ise kaynak ve nüfuz harcayarak bu karoyu kalıcı merkeze çevirir.";
   el.classList.add("has-selection");
-  el.innerHTML = `${stepsHTML(currentStep(), true)}<div class="inspector-head"><p class="coordinate">${tile.x} · ${tile.y} / ${state.world.size} × ${state.world.size}</p><button data-action="deselect" aria-label="Bölge bilgisini kapat">×</button></div><h2>${esc(town?.name || poi?.label || terrain.label)}</h2><span class="badge">${esc(owner?.name || "Bağımsız toprak")}</span><div class="decision-brief"><span>NEDEN ÖNEMLİ?</span><p>${esc(valueSummary)}</p><span>SONRAKİ KARAR</span><p>${esc(nextMove)}</p></div><p class="muted tile-description">${esc(terrain.description)}</p><div class="terrain-summary">${keys.map((k, i) => `<div><span>${RESOURCES[k].label}</span> ×${terrain.rates[i].toFixed(2)}</div>`).join("")}<div><span>Savunma</span> ×${terrain.defense}</div><div><span>Hareket</span> ×${terrain.movement}</div></div>${poi ? `<div class="note"><strong>${esc(poi.label)}</strong><p>${esc(poi.description)}</p><p>${tile.poi.ownerId ? "Bağlı nokta" : "Bağımsız muhafızlı nokta"} · Koruma gücü ${fmt(poi.guard * (tile.poi.ownerId ? 2.4 : 1))}</p></div>` : ""}${town && own ? `<p>${esc(getSettlementRole(state, town))}</p><div class="mini-stats">${keys.map((k) => `<div>${RESOURCES[k].label}: <strong>${fmt(town.resources[k])}</strong></div>`).join("")}</div><p class="muted tile-troops">${esc(troopsText(town.troops))}</p>` : town || tile.poi ? intelHTML(tile) : ""}<div class="tile-actions">${own ? `<button class="primary" data-open-town="${esc(town.id)}">Yerleşimi yönet</button>` : `<p>Çıkış: <strong>${esc(from?.name || "Yerleşim yok")}</strong>${estimate ? ` · ${estimate.distance.toFixed(1)} karo · Gözcü ${duration(estimate.minutes)}` : ""}</p><button class="primary" data-action="scout">Gözcü gönder</button>${!town && !tile.poi ? '<button data-action="expand">Buraya yerleş</button>' : ""}${town || tile.poi ? `<button data-action="${tile.poi ? "claim" : "attack"}">${tile.poi ? "Noktayı bağla" : "Sefer hazırla"}</button>` : ""}`}<button data-action="mark">${isMarked(tile) ? "İşareti kaldır" : "Haritada işaretle"}</button></div>`;
+  el.innerHTML = `${stepsHTML(currentStep(), true)}<div class="inspector-head"><p class="coordinate">${tile.x} · ${tile.y} / ${state.world.size} × ${state.world.size}</p><button data-action="deselect" aria-label="Bölge bilgisini kapat">×</button></div><h2>${esc(town?.name || poi?.label || terrain.label)}</h2><span class="badge">${esc(owner?.name || "Bağımsız toprak")}</span>${contextHTML(tile, town, own)}<div class="decision-brief"><span>NEDEN ÖNEMLİ?</span><p>${esc(valueSummary)}</p><span>SONRAKİ KARAR</span><p>${esc(nextMove)}</p></div><p class="muted tile-description">${esc(terrain.description)}</p><div class="terrain-summary">${keys.map((k, i) => `<div><span>${RESOURCES[k].label}</span> ×${terrain.rates[i].toFixed(2)}</div>`).join("")}<div><span>Savunma</span> ×${terrain.defense}</div><div><span>Hareket</span> ×${terrain.movement}</div></div>${poi ? `<div class="note"><strong>${esc(poi.label)}</strong><p>${esc(poi.description)}</p><p>${tile.poi.ownerId ? "Bağlı nokta" : "Bağımsız muhafızlı nokta"} · Koruma gücü ${fmt(poi.guard * (tile.poi.ownerId ? 2.4 : 1))}</p></div>` : ""}${town && own ? `<p>${esc(getSettlementRole(state, town))}</p><div class="mini-stats">${keys.map((k) => `<div>${RESOURCES[k].label}: <strong>${fmt(town.resources[k])}</strong></div>`).join("")}</div><p class="muted tile-troops">${esc(troopsText(town.troops))}</p>` : town || tile.poi ? intelHTML(tile) : ""}<div class="tile-actions">${own ? `<button class="primary" data-open-town="${esc(town.id)}">Yerleşimi yönet</button>` : `<p>Çıkış: <strong>${esc(from?.name || "Yerleşim yok")}</strong>${estimate ? ` · ${estimate.distance.toFixed(1)} karo · Gözcü ${duration(estimate.minutes)}` : ""}</p><button class="primary" data-action="scout">Gözcü gönder</button>${!town && !tile.poi ? '<button data-action="expand">Buraya yerleş</button>' : ""}${town || tile.poi ? `<button data-action="${tile.poi ? "claim" : "attack"}">${tile.poi ? "Noktayı bağla" : "Sefer hazırla"}</button>` : ""}`}<button data-action="mark">${isMarked(tile) ? "İşareti kaldır" : "Haritada işaretle"}</button></div>`;
+  updateGuide();
 }
 function intelHTML(tile) {
   const knowledge = getTileKnowledge(state, tile.x, tile.y);
@@ -676,6 +754,7 @@ function render() {
   renderHeader();
   renderRail();
   map.setState(state);
+  renderThreatChip();
   syncFieldGuide();
   if (view === "map") renderInspector();
   else renderSection();
@@ -718,9 +797,8 @@ async function enterGame(next) {
   lastPeriod = null;
   orderPending = false;
   renderPeriod();
-  map.setOverlay?.(overlayOn);
-  document.querySelectorAll('[data-map="overlay"]').forEach((b) => b.setAttribute("aria-pressed", String(overlayOn)));
-  if ($("map-legend")) $("map-legend").open = (globalThis.innerWidth || 1024) >= 760;
+  map.setLayers?.(layers);
+  if ($("map-legend")) $("map-legend").open = false;
   map.select(null, null, { notify: false });
   activeId = getPlayerSettlements(state)[0]?.id || null;
   selected = null;
@@ -943,8 +1021,13 @@ document.addEventListener("click", async (event) => {
   }
   if (b.dataset.map) {
     const key = b.dataset.map;
-    if (key === "overlay") {
-      setOverlay(!overlayOn);
+    if (key === "threat") {
+      const next = state && incomingThreats(state)[0];
+      if (next) {
+        setView("map");
+        map.focus(next.target.x, next.target.y);
+        map.select(next.target.x, next.target.y);
+      }
       return;
     }
     if (key === "in") map.zoomBy(1.35);
@@ -1114,6 +1197,10 @@ $("menu-button").addEventListener("click", () => void menu());
 $("guide-button").addEventListener("click", help);
 $("dialog-close").addEventListener("click", closeDialog);
 document.addEventListener("change", (event) => {
+  if (event.target.dataset?.layer) {
+    setLayer(event.target.dataset.layer, event.target.checked);
+    return;
+  }
   if (event.target.id === "town-select") useTown(event.target.value);
   if (event.target.id === "import-file") {
     const file = event.target.files[0];
