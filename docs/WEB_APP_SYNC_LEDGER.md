@@ -34,6 +34,16 @@ Append after a meaningful website change to a game or shared brand/content. Skip
 
 ## Entries
 
+### 2026-09-23 — HANEDANIAN Kuzey Işığı Rölyefi
+- Web change: Cached atlas uses a northwest rake (shadow length = height), canopy masses, field furrows, a carved river bed, and southeast road depth. Ownership is a hem, not a tile fill. Selection is a lit plinth. Scheduler and 49×49 simulation unchanged.
+- Content: no
+- Artwork: yes
+- Gameplay/rules: no
+- UI/presentation: yes (map only)
+- Shared-content source: no
+- Native follow-up: yes (paused)
+- Commits: grok/hanedanian-kuzey-isigi
+
 ### 2026-09-22 — HANEDANIAN cached atlas + DARBE-H! illustrated interiors
 - Web change: HANEDANIAN terrain is a cached offscreen atlas (blended biome masses, forest clusters, ridge systems, field parcels) blitted each frame instead of per-tile fillRect. DARBE-H! 300 SVG faces rebuilt as lit interior scenes with perspective, lamp pools and series-specific furniture. Compact HUD unchanged.
 - Content: no

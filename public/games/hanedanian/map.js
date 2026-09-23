@@ -436,9 +436,13 @@ export class StrategyMap {
         const wy=y+.18*Math.sin(x*2.1-y*.4)+.07*Math.cos(x*6.7);
         sample(wx,wy);
         const cr=sr, cg=sg, cb=sb, ch=sh;
-        const light=sampleHeight(wx-.13,wy-.16)-sampleHeight(wx+.13,wy+.16);
+        // Kuzey Işığı Rölyefi: one northwest rake. Shadow length is height;
+        // the southeast face darkens, the northwest face takes the lamp.
+        const litFace = sampleHeight(wx - 0.55, wy - 0.62);
+        const shadowFace = sampleHeight(wx + 0.28, wy + 0.32);
+        const rake = litFace - shadowFace;
         const folds=Math.sin(wx*9+Math.sin(wy*4)*2)*Math.sin(wy*7+wx*2);
-        const shade=.91+light*.9+folds*(.025+ch*.085);
+        const shade=.94 - rake * 1.35 + folds*(.02+ch*.06);
         const i=(py*plate.width+px)*4;
         image.data[i]=clamp(cr*shade,0,255);
         image.data[i+1]=clamp(cg*shade,0,255);
@@ -449,6 +453,9 @@ export class StrategyMap {
     }
     pg.putImageData(image,0,0);
     yield* atlasBands(g, size*ppt, size*ppt, () => g.drawImage(plate,0,0,size*ppt,size*ppt));
+    yield* this.paintCanopyMasses(g, ppt, mode);
+    yield* this.paintFieldFurrows(g, ppt, mode);
+    yield* this.paintRiverBed(g, ppt);
     // Contour engraving gives valleys and foothills a geographical silhouette.
     if(mode!=='world') {
       g.lineWidth=Math.max(.45,ppt*.008);g.strokeStyle='rgba(211,190,135,.16)';
@@ -477,12 +484,13 @@ export class StrategyMap {
       const ix=Math.floor(x),iy=Math.floor(y),kind=materials[iy*size+ix];
       const px=x*ppt,py=y*ppt, r=atlasRandom(i,4949);
       if(kind==='forest') {
-        const h=ppt*(.08+r*.14), w=h*.58;
-        g.fillStyle='rgba(8,18,13,.35)';
-        g.beginPath();g.ellipse(px+w*.6,py+h*.28,w*1.35,h*.38,-.4,0,TAU);g.fill();
-        g.beginPath();g.moveTo(px,py-h);g.bezierCurveTo(px+w*.35,py-h*.5,px+w,py-h*.25,px+w,py);g.quadraticCurveTo(px,py+h*.3,px-w,py);g.quadraticCurveTo(px-w*.6,py-h*.5,px,py-h);
-        g.fillStyle=r>.5?'#294b36':'#193829';g.fill();
-        if(mode!=='world'){g.strokeStyle='rgba(161,163,101,.24)';g.lineWidth=.6;g.beginPath();g.moveTo(px,py-h*.88);g.lineTo(px-w*.55,py-h*.14);g.stroke();}
+        if (mode !== 'near' || r < 0.93) continue;
+        const nw = iy > 0 && ix > 0 ? materials[(iy - 1) * size + (ix - 1)] : null;
+        if (nw === 'forest') continue;
+        const h=ppt*(.045+r*.06), w=h*.5;
+        g.strokeStyle='rgba(186,176,120,.35)';
+        g.lineWidth=Math.max(.4, ppt*.012);
+        g.beginPath(); g.moveTo(px, py); g.lineTo(px - w, py - h); g.stroke();
       } else if(kind==='plain' && mode!=='world' && r>.91) {
         const angle=Math.sin(x*.7+y*.21)*.6, w=ppt*(.28+r*.32),h=w*.38;
         g.save();g.translate(px,py);g.rotate(angle);
@@ -522,9 +530,97 @@ export class StrategyMap {
       yield ATLAS_FLUSH;
     }
     // Low warm light integrates materials without hiding the map's information.
-    const wash=g.createLinearGradient(0,0,size*ppt,size*ppt);
-    wash.addColorStop(0,'rgba(230,188,101,.08)');wash.addColorStop(.5,'rgba(0,0,0,0)');wash.addColorStop(1,'rgba(4,17,15,.2)');g.fillStyle=wash;
+    const wash=g.createLinearGradient(0,0,size*ppt*.42,size*ppt*.42);
+    wash.addColorStop(0,'rgba(230,188,101,.16)');wash.addColorStop(1,'rgba(0,0,0,0)');g.fillStyle=wash;
     yield* atlasBands(g, size*ppt, size*ppt, () => g.fillRect(0,0,size*ppt,size*ppt));
+    const dusk=g.createLinearGradient(size*ppt,size*ppt,size*ppt*.4,size*ppt*.4);
+    dusk.addColorStop(0,'rgba(4,12,14,.28)');dusk.addColorStop(1,'rgba(0,0,0,0)');g.fillStyle=dusk;
+    yield* atlasBands(g, size*ppt, size*ppt, () => g.fillRect(0,0,size*ppt,size*ppt));
+  }
+
+  // Forest is one canopy mass per connected stand, with a southeast shadow
+  // under the northwest lamp. Not one tree stamp per tile.
+  *paintCanopyMasses(g, ppt, mode) {
+    const clusters = this.collectClusters((t) => t?.terrain === 'forest');
+    for (const cells of clusters) {
+      if (cells.length < 2) continue;
+      let sx = 0, sy = 0, minX = 99, minY = 99, maxX = 0, maxY = 0;
+      for (const [x, y] of cells) {
+        sx += x; sy += y;
+        if (x < minX) minX = x; if (y < minY) minY = y;
+        if (x > maxX) maxX = x; if (y > maxY) maxY = y;
+      }
+      const n = cells.length;
+      const cx = (sx / n + .5) * ppt, cy = (sy / n + .5) * ppt;
+      const rx = Math.max(ppt * .85, (maxX - minX + 1.4) * ppt * .48);
+      const ry = Math.max(ppt * .62, (maxY - minY + 1.2) * ppt * .4);
+      g.fillStyle = 'rgba(6,10,8,.42)';
+      g.beginPath(); g.ellipse(cx + ppt * .22, cy + ppt * .28, rx, ry * .7, -.18, 0, TAU); g.fill();
+      g.fillStyle = mode === 'world' ? 'rgba(24,52,38,.78)' : 'rgba(20,46,34,.7)';
+      g.beginPath(); g.ellipse(cx - ppt * .05, cy - ppt * .08, rx * .9, ry * .64, -.12, 0, TAU); g.fill();
+      g.strokeStyle = 'rgba(176,168,112,.32)';
+      g.lineWidth = Math.max(.5, ppt * .035);
+      g.beginPath();
+      g.ellipse(cx - ppt * .08, cy - ppt * .12, rx * .62, ry * .36, -.45, Math.PI * 1.15, Math.PI * 1.9);
+      g.stroke();
+      yield ATLAS_FLUSH;
+    }
+  }
+
+  *paintFieldFurrows(g, ppt, mode) {
+    if (mode === 'world') return;
+    const clusters = this.collectClusters((t) => t && (t.terrain === 'plain' || t.terrain === 'steppe'));
+    g.strokeStyle = 'rgba(92,74,36,.28)';
+    g.lineWidth = Math.max(.35, ppt * .011);
+    g.lineCap = 'round';
+    let drawn = 0;
+    for (const cells of clusters) {
+      if (cells.length < 8 || drawn > 36) continue;
+      let minX = 99, minY = 99, maxX = 0, maxY = 0;
+      for (const [x, y] of cells) {
+        if (x < minX) minX = x; if (y < minY) minY = y;
+        if (x > maxX) maxX = x; if (y > maxY) maxY = y;
+      }
+      const lines = Math.min(5, Math.max(1, Math.floor((maxY - minY + 1) / 2) || 1));
+      for (let i = 0; i < lines; i++) {
+        const y = (minY + 0.6 + i * ((maxY - minY) / lines)) * ppt;
+        const drift = (variation(minX, i + 3) - .5) * ppt * .8;
+        g.beginPath();
+        g.moveTo(minX * ppt, y);
+        g.quadraticCurveTo(((minX + maxX) / 2) * ppt, y + drift, (maxX + 1) * ppt, y + drift * .3);
+        g.stroke();
+        drawn++;
+      }
+      yield ATLAS_FLUSH;
+    }
+  }
+
+  // Carved valley: dark bed, water, northwest lip. Gameplay centerline is unchanged.
+  *paintRiverBed(g, ppt) {
+    const pts = this.riverPoints;
+    if (!pts || pts.length < 2) return;
+    const stroke = (width, color, dx, dy) => {
+      g.strokeStyle = color;
+      g.lineWidth = Math.max(1, ppt * width);
+      g.lineCap = 'round';
+      g.lineJoin = 'round';
+      g.beginPath();
+      let open = false;
+      for (let i = 1; i < pts.length; i++) {
+        const a = pts[i - 1], b = pts[i];
+        if (b.y - a.y > 3) { g.stroke(); g.beginPath(); open = false; continue; }
+        const ax = (a.x + .5) * ppt + dx, ay = (a.y + .5) * ppt + dy;
+        const bx = (b.x + .5) * ppt + dx, by = (b.y + .5) * ppt + dy;
+        const wobble = (variation(Math.round(a.x), a.y) - .5) * ppt * .16;
+        if (!open) { g.moveTo(ax, ay); open = true; }
+        g.bezierCurveTo(ax + wobble, (ay + by) / 2, bx - wobble, (ay + by) / 2, bx, by);
+      }
+      g.stroke();
+    };
+    stroke(.62, 'rgba(6,10,12,.55)', ppt * .12, ppt * .14);
+    stroke(.3, '#1c3336', 0, 0);
+    stroke(.07, 'rgba(154,176,164,.7)', -ppt * .05, -ppt * .06);
+    yield ATLAS_FLUSH;
   }
 
   tileToScreen(x, y) {
@@ -859,6 +955,15 @@ export class StrategyMap {
       }
       if (!connected) segments.push([px - .16 * scale, py + .08 * scale, px + .16 * scale, py - .08 * scale, 0]);
     }
+    const drop = scale * .08;
+    ctx.beginPath();
+    ctx.strokeStyle = 'rgba(8,12,10,.55)';
+    ctx.lineWidth = Math.max(5, scale * .3);
+    for (const [ax, ay, bx, by, wobble] of segments) {
+      ctx.moveTo(ax + drop, ay + drop);
+      ctx.quadraticCurveTo((ax + bx) / 2 + wobble + drop, (ay + by) / 2 - wobble * .4 + drop, bx + drop, by + drop);
+    }
+    ctx.stroke();
     for (const [width, color] of [[Math.max(4, scale * .22), 'rgba(54,37,25,.55)'], [Math.max(2.4, scale * .13), COLORS.road], [Math.max(.7, scale * .035), '#d4c08a']]) {
       ctx.beginPath();
       for (const [ax, ay, bx, by, wobble] of segments) {
@@ -1088,12 +1193,11 @@ export class StrategyMap {
     const indexAt = (x, y) => (x < 0 || y < 0 || x >= size || y >= size ? -1 : grid[y * size + x]);
     const ownerAt = (x, y) => settlements[indexAt(x, y)]?.ownerId ?? null;
     const selectedIndex = this.selected ? indexAt(this.selected.x, this.selected.y) : -1;
-    const fills = new Map(), borders = new Map(), area = [];
+    const borders = new Map(), area = [];
     const inset = Math.min(2.5, scale * .06);
     const push = (map, owner, ...line) => { let list = map.get(owner); if (!list) map.set(owner, (list = [])); list.push(...line); };
     for (let y = bounds.minY - 1; y <= bounds.maxY; y++) for (let x = bounds.minX - 1; x <= bounds.maxX; x++) {
       const a = ownerAt(x, y), ia = indexAt(x, y);
-      if (a && x >= bounds.minX && y >= bounds.minY) push(fills, a, ox + x * scale, oy + y * scale);
       for (const [dx, dy] of [[1, 0], [0, 1]]) {
         const b = ownerAt(x + dx, y + dy), ib = indexAt(x + dx, y + dy);
         const ex = ox + (x + 1) * scale, ey = oy + (y + 1) * scale;
@@ -1106,31 +1210,19 @@ export class StrategyMap {
       }
     }
     ctx.save();
-    ctx.globalAlpha = this.mode === 'near' ? .06 : .1;
-    for (const [owner, list] of fills) {
-      ctx.fillStyle = this.factionColor(owner);
-      for (let i = 0; i < list.length; i += 2) ctx.fillRect(list[i], list[i + 1], scale, scale);
-    }
-    ctx.globalAlpha = 1;
     ctx.lineCap = 'round';
     ctx.setLineDash([]);
-    const width = clamp(scale * .07, 1.3, 3.2);
+    const width = clamp(scale * .05, 1.2, 2.6);
     const stroke = (list) => { ctx.beginPath(); for (let i = 0; i < list.length; i += 4) { ctx.moveTo(list[i], list[i + 1]); ctx.lineTo(list[i + 2], list[i + 3]); } ctx.stroke(); };
     for (const [owner, list] of borders) {
-      // An ivory halo under the dynasty colour keeps dark colours readable on dark terrain.
-      ctx.strokeStyle = 'rgba(243,234,212,.5)'; ctx.lineWidth = width + 2; stroke(list);
+      ctx.strokeStyle = 'rgba(8,12,10,.45)'; ctx.lineWidth = width + 3; stroke(list);
+      ctx.strokeStyle = 'rgba(243,234,212,.55)'; ctx.lineWidth = width + 1.4; stroke(list);
       ctx.strokeStyle = this.factionColor(owner); ctx.lineWidth = width; stroke(list);
     }
     if (area.length) {
-      const town = settlements[selectedIndex];
-      ctx.globalAlpha = .14; ctx.fillStyle = this.factionColor(town.ownerId);
-      for (let y = bounds.minY; y <= bounds.maxY; y++) for (let x = bounds.minX; x <= bounds.maxX; x++)
-        if (indexAt(x, y) === selectedIndex) ctx.fillRect(ox + x * scale, oy + y * scale, scale, scale);
-      ctx.globalAlpha = 1;
       ctx.lineWidth = Math.max(1.6, width * .8);
       ctx.strokeStyle = COLORS.ivory; ctx.setLineDash([6, 4]); stroke(area);
-      ctx.strokeStyle = COLORS.ink; ctx.lineDashOffset = 5; stroke(area);
-      ctx.setLineDash([]); ctx.lineDashOffset = 0;
+      ctx.setLineDash([]);
     }
     ctx.restore();
   }
@@ -1182,21 +1274,22 @@ export class StrategyMap {
       if (!tile) continue;
       const p = this.tileToScreen(tile.x, tile.y);
       const size = Math.max(12, scale - 2);
-      ctx.fillStyle = selected ? 'rgba(30,61,50,.16)' : 'rgba(255,248,230,.28)';
-      ctx.fillRect(p.x - size / 2, p.y - size / 2, size, size);
-      ctx.strokeStyle = selected ? '#1e3d32' : '#8a7a52';
-      ctx.lineWidth = selected ? 2.6 : 1.1;
-      ctx.strokeRect(p.x - size / 2, p.y - size / 2, size, size);
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.fillStyle = selected ? 'rgba(240,220,160,.34)' : 'rgba(240,226,196,.14)';
+      ctx.beginPath();
+      ctx.ellipse(size * .06, size * .1, size * .42, size * .26, 0, 0, TAU);
+      ctx.fill();
       if (selected) {
-        ctx.strokeStyle = '#f3ead4'; ctx.lineWidth = 1.5;
-        ctx.strokeRect(p.x - size / 2 - 2, p.y - size / 2 - 2, size + 4, size + 4);
-        const c = Math.max(4, Math.min(9, size * .18));
+        const c = Math.max(4, Math.min(10, size * .2));
+        const h = size * .46;
         ctx.strokeStyle = COLORS.oxblood; ctx.lineWidth = 2.2;
-        for (const [sx, sy] of [[-1,-1],[1,-1],[-1,1],[1,1]]) {
-          const cx = p.x + sx * (size / 2 + 5), cy = p.y + sy * (size / 2 + 5);
+        for (const [sx, sy] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) {
+          const cx = sx * h, cy = sy * h * .72;
           ctx.beginPath(); ctx.moveTo(cx - sx * c, cy); ctx.lineTo(cx, cy); ctx.lineTo(cx, cy - sy * c); ctx.stroke();
         }
       }
+      ctx.restore();
     }
   }
 
@@ -1207,7 +1300,8 @@ export class StrategyMap {
     if (this.mode === 'world' && !poi.ownerId && !['caravanserai', 'watchtower', 'ruins'].includes(poi.type)) return;
     const r = clamp(scale * .22, 3.5, 13);
     ctx.save(); ctx.translate(p.x, p.y);
-    ctx.fillStyle = 'rgba(36,40,32,.18)'; ctx.beginPath(); ctx.ellipse(0, r * .7, r + 5, r * .4, 0, 0, TAU); ctx.fill();
+    ctx.fillStyle = 'rgba(8,12,10,.45)';
+    ctx.beginPath(); ctx.ellipse(r * .35, r * .95, r + 4, r * .32, 0, 0, TAU); ctx.fill();
     ctx.fillStyle = COLORS.ivory;
     ctx.strokeStyle = poi.ownerId ? this.factionColor(poi.ownerId) : '#6a5c48';
     ctx.lineWidth = poi.ownerId ? 2 : 1.15;
@@ -1280,8 +1374,8 @@ export class StrategyMap {
       const fortified = (settlement.buildings?.wall || 0) >= 2;
       const r = clamp(scale * (capital ? .42 : .34), capital ? 6 : 5, capital ? 26 : 22);
       ctx.save(); ctx.translate(p.x, p.y);
-      ctx.fillStyle = 'rgba(55,64,47,.14)';
-      ctx.beginPath(); ctx.ellipse(1, r * .49, r * 1.1, r * .42, 0, 0, TAU); ctx.fill();
+      ctx.fillStyle = 'rgba(8,12,10,.4)';
+      ctx.beginPath(); ctx.ellipse(r * .32, r * .78, r * 1.2, r * .36, 0, 0, TAU); ctx.fill();
       if (scale < 25) {
         ctx.fillStyle = COLORS.ivory; ctx.beginPath(); ctx.arc(0, 0, r + 2, 0, TAU); ctx.fill();
         if (capital) {
@@ -1420,7 +1514,13 @@ export class StrategyMap {
       const surface = document.createElement('canvas');
       surface.width = worldSize; surface.height = worldSize;
       const mini = surface.getContext('2d');
-      for (const tile of this.state.world.tiles) { mini.fillStyle = COLORS[tile.terrain] || COLORS.plain; mini.fillRect(tile.x, tile.y, 1, 1); }
+      for (const tile of this.state.world.tiles) {
+        const hex = COLORS[tile.terrain] || COLORS.plain;
+        const lift = { mountain: 38, ore: 22, pass: 12, forest: -8, plain: 0, steppe: -6, arid: -10, valley: -22, road: 6 }[tile.terrain] || 0;
+        const n = (i) => clamp(parseInt(hex.slice(i, i + 2), 16) + lift, 0, 255);
+        mini.fillStyle = `rgb(${n(1)},${n(3)},${n(5)})`;
+        mini.fillRect(tile.x, tile.y, 1, 1);
+      }
       this.minimapTerrain = surface;
     }
     ctx.fillStyle = 'rgba(243,234,212,.94)'; ctx.fillRect(x - 6, y - 23, size + 12, size + 29);
