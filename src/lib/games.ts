@@ -7,7 +7,7 @@ export type CatalogGame = {
   icon: string;
 };
 
-export type GameCategory = "strategy" | "dossier" | "duel" | "classic";
+export type GameCategory = "strategy" | "life" | "dossier" | "tabletop";
 
 /**
  * Portal-only grouping. Routes, game status and each game's save namespace stay
@@ -15,13 +15,14 @@ export type GameCategory = "strategy" | "dossier" | "duel" | "classic";
  * readable first choice without filtering or hiding any playable game.
  */
 export const GAME_CATEGORIES: ReadonlyArray<{ id: GameCategory; slugs: readonly string[] }> = [
-  {
-    id: "strategy",
-    slugs: ["cete-savaslari", "hanedanian", "racon", "tc-sim", "bukucu", "apartman", "son-100-gun", "tc-sim-devlet", "son-kasaba"],
-  },
+  // Territory, turf and state power: you grow and hold something on a map.
+  { id: "strategy", slugs: ["cete-savaslari", "hanedanian", "racon", "bukucu", "tc-sim-devlet"] },
+  // One life, one building, one village, one hundred days: running people over time.
+  { id: "life", slugs: ["tc-sim", "apartman", "son-kasaba", "son-100-gun"] },
+  // Read the record, connect the evidence, decide.
   { id: "dossier", slugs: ["kayip-telefon", "ihtilal", "jitem-derin-ag"] },
-  { id: "duel", slugs: ["veto-h", "gett-oh", "darbe-h"] },
-  { id: "classic", slugs: ["labirent", "peg-solitaire", "satranc", "amiral-batti"] },
+  // Short table sessions: the three card duels and the four classic board and puzzle games.
+  { id: "tabletop", slugs: ["veto-h", "gett-oh", "darbe-h", "satranc", "amiral-batti", "peg-solitaire", "labirent"] },
 ];
 
 export const HTML5_SLUGS = [
