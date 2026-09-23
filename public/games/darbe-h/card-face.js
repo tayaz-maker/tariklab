@@ -133,14 +133,19 @@ export function cardFace({ card, down, hidden, lang, t, text }) {
   if (isUnit && Number.isFinite(card.level))
     head.lastChild.setAttribute("aria-label", `${t("level")} ${card.level}`);
 
-  const img = document.createElement("img");
-  img.src = ART(card.id);
-  img.alt = "";
-  img.loading = "lazy";
-  img.decoding = "async";
-  img.width = 240;
-  img.height = 160;
-  img.addEventListener("error", () => img.remove(), { once: true });
+  // Tokens are created mid-duel and have no plate: keep the art ground and
+  // kind tab, but never request a file that does not exist.
+  let img = null;
+  if (card.subtype !== "token") {
+    img = document.createElement("img");
+    img.src = ART(card.id);
+    img.alt = "";
+    img.loading = "lazy";
+    img.decoding = "async";
+    img.width = 240;
+    img.height = 160;
+    img.addEventListener("error", () => img.remove(), { once: true });
+  }
   const art = el(
     "span",
     "dh-art",

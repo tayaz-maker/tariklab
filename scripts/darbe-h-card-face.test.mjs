@@ -144,3 +144,33 @@ test("every card with an effect gets a readable effect summary", () => {
     if (op) assert.equal(VERB[op].length, 2, `${op} needs TR and EN`);
   }
 });
+
+test("token cards request no art file (none exists for tokens)", async () => {
+  // Minimal DOM: enough for cardFace to build its elements.
+  class FakeNode {
+    constructor(tag) { this.tagName = String(tag).toUpperCase(); this.children = []; this.attrs = {}; }
+    append(...nodes) { this.children.push(...nodes); }
+    setAttribute(k, v) { this.attrs[k] = v; }
+    addEventListener() {}
+    get lastChild() { return this.children.at(-1); }
+    set innerHTML(v) { this.html = v; }
+  }
+  const saved = { document: globalThis.document, Node: globalThis.Node };
+  globalThis.Node = FakeNode;
+  globalThis.document = { createElement: (tag) => new FakeNode(tag), createTextNode: (s) => Object.assign(new FakeNode("#text"), { text: s }) };
+  try {
+    const { cardFace } = await import("../public/games/darbe-h/card-face.js");
+    const images = (nodes) => nodes.flatMap(function walk(n) { return n instanceof FakeNode ? [...(n.tagName === "IMG" ? [n] : []), ...n.children.flatMap(walk)] : []; });
+    const common = { down: false, hidden: false, lang: "tr", t: (k) => k, text: (v) => (typeof v === "string" ? v : v?.tr || "") };
+    const token = { id: "token", kind: "unit", subtype: "token", level: 1, name: { tr: "Temsilci", en: "Representative" }, attack: 0, defense: 0, series: ["token"], effects: [], triggers: [] };
+    assert.deepEqual(images(cardFace({ ...common, card: token })), []);
+    const real = { ...token, id: "DRB-001", subtype: "effect", series: ["dosya"] };
+    assert.deepEqual(images(cardFace({ ...common, card: real })).map((img) => img.src), ["/games/darbe-h/assets/card-art/DRB-001.svg"]);
+  } finally {
+    globalThis.document = saved.document;
+    globalThis.Node = saved.Node;
+  }
+  // duel-core's own face (VETO-H!, GETT-OH!) guards tokens the same way.
+  const core = readFileSync(new URL("../public/games/duel-core/app.js", import.meta.url), "utf8");
+  assert.match(core, /card\.id && card\.subtype !== "token"\s*\?\s*\$\("img"/);
+});

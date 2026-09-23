@@ -895,7 +895,8 @@ export async function startApp(theme, designs, options = {}) {
             { class: "card-art", "aria-hidden": "true" },
             down
               ? "◈"
-              : card.id
+              : // Tokens are created mid-duel and have no catalogue art.
+                card.id && card.subtype !== "token"
                 ? $("img", {
                     src: cardArt(theme, card).src,
                     alt: "",
