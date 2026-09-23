@@ -1,7 +1,7 @@
 {
   "repository": "https://github.com/tayaz-maker/jitem-derin-ag",
-  "standaloneSha": "21c29a21171b337cdc49c8fcc27c9f9053c4e304",
-  "previousStandaloneSha": "002ca4660e4143899a86c60579208be65dc814aa",
+  "standaloneSha": "a7bbb6d3bdf0675fdfca503c6c7d68825b656d3e",
+  "previousStandaloneSha": "21c29a21171b337cdc49c8fcc27c9f9053c4e304",
   "saveKey": "jitem-derin-ag-v3",
   "schemaVersion": 5,
   "build": "node scripts/build-jitem-embed.mjs <jitem-derin-ag checkout at standaloneSha, after npm ci> public/games/jitem-derin-ag",
