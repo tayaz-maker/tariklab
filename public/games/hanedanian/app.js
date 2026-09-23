@@ -19,6 +19,7 @@ import {
 import { RESOURCES, TERRAINS, POIS, BUILDINGS, UNITS } from "./data.js";
 import { getTile } from "./world.js";
 import { createMap } from "./map.js";
+import { previewOrder, snapshot, summarizePeriod, rowTone, orderStep, ORDER_STEPS } from "./orders.js";
 import { SaveManager } from "./save.js";
 import { getLang, installLanguage, translate } from "./i18n.js";
 
@@ -105,13 +106,22 @@ let state = null,
   busy = false,
   councilTab = "reports";
 let uiPointerActive = false;
+// Order flow and period summary state is UI only: it is never saved.
+let periodStart = null,
+  lastPeriod = null,
+  orderPending = false;
 let cachedSlots = {},
   storageMessage = "",
   readyOffline = false;
 const GUIDE_KEY = "tariklab::hanedanian:field-guide:v1";
+const OVERLAY_KEY = "tariklab::hanedanian:map-overlay:v1";
+let overlayOn = true;
+try { overlayOn = localStorage.getItem(OVERLAY_KEY) !== "off"; } catch { /* Storage is optional. */ }
 const map = createMap($("world-map"), {
   onSelect(tile) {
     selected = tile ? { x: tile.x, y: tile.y } : null;
+    // Picking a new target starts the next order; the step bar follows it.
+    if (selected) orderPending = false;
     renderInspector();
   },
   onHover(tile, point) {
@@ -170,6 +180,131 @@ function troopsText(troops = {}) {
       .join(" · ") || "Birlik yok"
   );
 }
+const STEP_LABELS = {
+  target: "Hedef seç",
+  order: "Emri seç",
+  confirm: "Önizle ve onayla",
+  watch: "Zamanı başlat, sonucu izle",
+};
+function stepsHTML(step, compact = false) {
+  const index = ORDER_STEPS.indexOf(step);
+  if (compact)
+    return `<div class="order-steps-compact" role="status"><span class="step-pips" aria-hidden="true">${ORDER_STEPS.map((_, i) => `<i class="${i < index ? "done" : i === index ? "current" : ""}"></i>`).join("")}</span><span><b>Adım ${index + 1}/${ORDER_STEPS.length}</b> · ${esc(STEP_LABELS[step])}</span></div>`;
+  return `<ol class="order-steps" aria-label="Emir adımları">${ORDER_STEPS.map((key, i) => `<li class="${i < index ? "done" : i === index ? "current" : ""}"${i === index ? ' aria-current="step"' : ""}><b>${i + 1}</b><span>${esc(STEP_LABELS[key])}</span></li>`).join("")}</ol>`;
+}
+function currentStep() {
+  return orderStep({ selected: !!selected, dialog: false, paused: !!state?.paused, pending: orderPending });
+}
+function signed(d) {
+  return `${d > 0 ? "▲ +" : "▼ −"}${fmt(Math.abs(d))}`;
+}
+/** The action a confirmed order form sends; the preview runs the very same one. */
+function orderAction(form, data) {
+  const town = activeTown();
+  if (!town) return null;
+  if (form.id === "demobilize-form")
+    return { type: "demobilize", settlementId: town.id, unit: form.dataset.unit, count: Number(data.get("count")) };
+  if (form.id === "scout-form")
+    return { type: "scout", settlementId: town.id, x: selected.x, y: selected.y, count: Number(data.get("count")) };
+  if (form.id === "expand-form")
+    return { type: "expand", settlementId: town.id, x: selected.x, y: selected.y, name: String(data.get("name")).trim() };
+  if (form.id === "army-form")
+    return {
+      type: form.dataset.mission,
+      settlementId: town.id,
+      x: selected.x,
+      y: selected.y,
+      troops: Object.fromEntries(Object.keys(UNITS).map((k) => [k, Number(data.get(k))])),
+    };
+  if (form.id === "train-form")
+    return { type: "train", settlementId: town.id, unit: form.dataset.unit, count: Number(data.get("count")) };
+  if (form.id === "trade-form")
+    return {
+      type: "trade",
+      settlementId: town.id,
+      targetId: String(data.get("target")),
+      cargo: Object.fromEntries(keys.map((k) => [k, Number(data.get(k))])),
+    };
+  return null;
+}
+function outcomeText(outcome) {
+  if (!outcome) return "";
+  const when = (at) => `${gameDate(at)} (${duration(Math.max(0, at - state.time))})`;
+  if (outcome.kind === "army")
+    return `${missionNames[outcome.mission] || outcome.mission} ${outcome.to.x}, ${outcome.to.y} noktasına ${when(outcome.arriveAt)} varır${troopsText(outcome.troops) === "Birlik yok" ? "" : ` · ${troopsText(outcome.troops)}`}`;
+  if (outcome.kind === "queue")
+    return outcome.job === "build"
+      ? `${BUILDINGS[outcome.building]?.label} ${outcome.level}. seviye ${when(outcome.completeAt)} hazır olur`
+      : `${fmt(outcome.count)} ${UNITS[outcome.unit]?.label} ${when(outcome.completeAt)} garnizona katılır`;
+  if (outcome.kind === "troops")
+    return `Garnizon: ${Object.entries(outcome.troops).map(([k, d]) => `${UNITS[k]?.label} ${signed(d)}`).join(" · ")}`;
+  return "";
+}
+/** Cost and result of an order, from the same dispatch the confirm button runs. */
+function previewHTML(action) {
+  if (!action || !state) return "";
+  const p = previewOrder(state, action);
+  if (!p.ok)
+    return `<section class="order-preview blocked" data-ok="false"><p class="eyebrow">EMİR ÖNİZLEMESİ</p><p class="order-blocked"><span>Henüz onaylanamaz:</span> ${esc(p.message)}</p></section>`;
+  return `<section class="order-preview" data-ok="true"><p class="eyebrow">EMİR ÖNİZLEMESİ</p><dl><div><dt>Bedel</dt><dd>${esc(costText(p.cost) || "Bedelsiz")}</dd></div><div><dt>Sonuç</dt><dd>${esc(outcomeText(p.outcome) || p.message)}</dd></div></dl><p class="form-note">Onaylarsan tam olarak bu uygulanır; dünya sen onaylayana kadar durur.</p></section>`;
+}
+function previewSlot(form, values) {
+  const action = orderAction(form, { get: (k) => values[k] ?? null });
+  const ok = !!action && previewOrder(state, action).ok;
+  return { steps: stepsHTML("confirm"), preview: `<div id="order-preview" aria-live="polite">${previewHTML(action)}</div>`, disabled: ok ? "" : "disabled" };
+}
+function refreshPreview(form) {
+  const slot = $("order-preview");
+  if (!slot || typeof form.querySelector !== "function") return;
+  const action = orderAction(form, new FormData(form));
+  slot.innerHTML = previewHTML(action);
+  const submit = form.querySelector('button[type="submit"]');
+  if (submit) submit.disabled = !action || !previewOrder(state, action).ok;
+}
+const SUMMARY_LABELS = { influence: "Nüfuz", settlements: "Yerleşim", power: "Askerî güç", armies: "Yoldaki birlik", jobs: "Kuyruktaki iş" };
+function trackPeriod() {
+  if (!state) return;
+  if (!state.paused && !periodStart) {
+    periodStart = snapshot(state);
+    orderPending = false;
+    lastPeriod = null;
+    renderPeriod();
+  } else if (state.paused && periodStart) {
+    lastPeriod = summarizePeriod(periodStart, snapshot(state), state.reports);
+    periodStart = null;
+    renderPeriod();
+  }
+}
+function renderPeriod() {
+  const el = $("period-summary");
+  if (!el) return;
+  const p = lastPeriod;
+  if (!p || (!p.rows.length && !p.news.length)) {
+    el.hidden = true;
+    el.innerHTML = "";
+    return;
+  }
+  const label = (row) => (RESOURCES[row.key] ? RESOURCES[row.key].label : SUMMARY_LABELS[row.key]);
+  el.innerHTML = `<div class="period-head"><div><span class="eyebrow">DÖNEM ÖZETİ</span><strong>${esc(gameDate(p.from))} → ${esc(gameDate(p.to))}</strong><small>${esc(duration(p.minutes))} geçti · tüm yerleşimlerin toplamı</small></div><button data-period="close" aria-label="Dönem özetini kapat">×</button></div><ul class="period-rows">${p.rows.map((row) => `<li class="tone-${rowTone(row)}"><span>${esc(label(row))}</span><b>${fmt(row.from)} → ${fmt(row.to)}</b><em>${signed(row.to - row.from)}</em></li>`).join("")}</ul>${p.news.length ? `<div class="period-news"><span class="eyebrow">YENİ RAPORLAR · ${p.news.length}</span>${p.news.map((n) => `<p class="${n.critical ? "critical" : ""}">${esc(n.title)}</p>`).join("")}<button data-view="council">Divan’da oku →</button></div>` : ""}`;
+  el.hidden = false;
+}
+function setOverlay(on) {
+  overlayOn = on;
+  try { localStorage.setItem(OVERLAY_KEY, on ? "on" : "off"); } catch { /* Storage is optional. */ }
+  map.setOverlay?.(on);
+  document.querySelectorAll('[data-map="overlay"]').forEach((b) => b.setAttribute("aria-pressed", String(on)));
+  renderLegend();
+}
+function renderLegend() {
+  const list = $("map-legend-list");
+  if (!list || !state) return;
+  const own = player()?.color || "#1e3d32";
+  const rivals = state.factions.filter((f) => f.id !== state.playerId && state.settlements.some((t) => t.ownerId === f.id)).slice(0, 3);
+  const line = (color, dashed = false) => `<i class="legend-line${dashed ? " dashed" : ""}" style="--c:${esc(color)}"></i>`;
+  list.innerHTML = overlayOn
+    ? `<li>${line(own)}<span>Senin sınırın</span></li><li>${rivals.map((f) => line(f.color)).join("")}<span>Rakip hanedan sınırı</span></li><li>${line("#f3ead4", true)}<span>Seçili yerleşimin alanı</span></li><li><i class="legend-poi"></i><span>Özel nokta · adı yakında görünür</span></li><li><i class="legend-text">Aa</i><span>Bölge adları dünya görünümünde</span></li>`
+    : `<li><span>Sınır katmanı kapalı. Etki alanı halkaları gösteriliyor.</span></li>`;
+}
 function notice(message, error = false) {
   const el = $("toast");
   el.textContent = translate(message);
@@ -223,10 +358,12 @@ async function persist(slot = "auto", announce = false) {
     );
   return result.ok;
 }
+const ORDER_TYPES = new Set(["build", "train", "demobilize", "trade", "expand", "scout", "attack", "claim"]);
 function doAction(action) {
   if (!state) return;
   const result = dispatch(state, action);
   notice(result.message, !result.ok);
+  if (result.ok && ORDER_TYPES.has(action.type) && state.paused) orderPending = true;
   if (result.ok) {
     render();
     void persist();
@@ -283,6 +420,7 @@ function renderHeader() {
   });
   const campaign = getCampaign(state);
   const goal = campaign.goals.find((g) => !g.done);
+  trackPeriod();
   $("campaign-strip").innerHTML =
     `<div><strong>${esc(campaign.label)}</strong><small class="campaign-date">${esc(gameDate())}</small><span>${esc(goal ? `${goal.label}: ${fmt(goal.current)} / ${fmt(goal.target)}` : "Kurultay yolları açılıyor. Hanedan sekmesini incele.")}</span></div><button data-view="dynasty">Hedefler →</button>`;
 }
@@ -308,7 +446,7 @@ function renderInspector() {
   if (!state) return;
   if (!selected) {
     el.classList.remove("has-selection");
-    el.innerHTML = `<p class="eyebrow">HARİTA REHBERİ</p><h2>Bir sonraki adımın<br>nerede?</h2><p class="muted">Bir bölge seç. Araziyi, mesafeyi ve kazancını karşılaştır.</p><div class="note">Önce yerleşiminde bir üretim yapısı geliştir. Ardından bir gözcü gönder; yeni toprağa çıkmadan önce bilgi topla.</div><div class="tile-actions"><button class="primary" data-view="settlement">Yerleşimi geliştir</button><button data-map="home">Merkezimi bul</button></div><p class="rail-tip">Sürükle: gezin · Tekerlek/iki parmak: yakınlaş<br>Ok tuşları: seç · Escape: bırak</p>`;
+    el.innerHTML = `${stepsHTML(currentStep(), true)}<p class="eyebrow">HARİTA REHBERİ</p><h2>Bir sonraki adımın<br>nerede?</h2><p class="muted">Bir bölge seç. Araziyi, mesafeyi ve kazancını karşılaştır.</p><div class="note">Önce yerleşiminde bir üretim yapısı geliştir. Ardından bir gözcü gönder; yeni toprağa çıkmadan önce bilgi topla.</div><div class="tile-actions"><button class="primary" data-view="settlement">Yerleşimi geliştir</button><button data-map="home">Merkezimi bul</button></div><p class="rail-tip">Sürükle: gezin · Tekerlek/iki parmak: yakınlaş<br>Ok tuşları: seç · Escape: bırak</p>`;
     return;
   }
   const tile = getTile(state.world, selected.x, selected.y);
@@ -336,7 +474,7 @@ function renderInspector() {
       ? "Önce gözcüyle bilgiyi doğrula. Ardından yeterli birlik varsa sefer veya bağlama kararı ver."
       : "Gözcü riski azaltır. Yerleşim kafilesi ise kaynak ve nüfuz harcayarak bu karoyu kalıcı merkeze çevirir.";
   el.classList.add("has-selection");
-  el.innerHTML = `<div class="inspector-head"><p class="coordinate">${tile.x} · ${tile.y} / ${state.world.size} × ${state.world.size}</p><button data-action="deselect" aria-label="Bölge bilgisini kapat">×</button></div><h2>${esc(town?.name || poi?.label || terrain.label)}</h2><span class="badge">${esc(owner?.name || "Bağımsız toprak")}</span><div class="decision-brief"><span>NEDEN ÖNEMLİ?</span><p>${esc(valueSummary)}</p><span>SONRAKİ KARAR</span><p>${esc(nextMove)}</p></div><p class="muted tile-description">${esc(terrain.description)}</p><div class="terrain-summary">${keys.map((k, i) => `<div><span>${RESOURCES[k].label}</span> ×${terrain.rates[i].toFixed(2)}</div>`).join("")}<div><span>Savunma</span> ×${terrain.defense}</div><div><span>Hareket</span> ×${terrain.movement}</div></div>${poi ? `<div class="note"><strong>${esc(poi.label)}</strong><p>${esc(poi.description)}</p><p>${tile.poi.ownerId ? "Bağlı nokta" : "Bağımsız muhafızlı nokta"} · Koruma gücü ${fmt(poi.guard * (tile.poi.ownerId ? 2.4 : 1))}</p></div>` : ""}${town && own ? `<p>${esc(getSettlementRole(state, town))}</p><div class="mini-stats">${keys.map((k) => `<div>${RESOURCES[k].label}: <strong>${fmt(town.resources[k])}</strong></div>`).join("")}</div><p class="muted tile-troops">${esc(troopsText(town.troops))}</p>` : town || tile.poi ? intelHTML(tile) : ""}<div class="tile-actions">${own ? `<button class="primary" data-open-town="${esc(town.id)}">Yerleşimi yönet</button>` : `<p>Çıkış: <strong>${esc(from?.name || "Yerleşim yok")}</strong>${estimate ? ` · ${estimate.distance.toFixed(1)} karo · Gözcü ${duration(estimate.minutes)}` : ""}</p><button class="primary" data-action="scout">Gözcü gönder</button>${!town && !tile.poi ? '<button data-action="expand">Buraya yerleş</button>' : ""}${town || tile.poi ? `<button data-action="${tile.poi ? "claim" : "attack"}">${tile.poi ? "Noktayı bağla" : "Sefer hazırla"}</button>` : ""}`}<button data-action="mark">${isMarked(tile) ? "İşareti kaldır" : "Haritada işaretle"}</button></div>`;
+  el.innerHTML = `${stepsHTML(currentStep(), true)}<div class="inspector-head"><p class="coordinate">${tile.x} · ${tile.y} / ${state.world.size} × ${state.world.size}</p><button data-action="deselect" aria-label="Bölge bilgisini kapat">×</button></div><h2>${esc(town?.name || poi?.label || terrain.label)}</h2><span class="badge">${esc(owner?.name || "Bağımsız toprak")}</span><div class="decision-brief"><span>NEDEN ÖNEMLİ?</span><p>${esc(valueSummary)}</p><span>SONRAKİ KARAR</span><p>${esc(nextMove)}</p></div><p class="muted tile-description">${esc(terrain.description)}</p><div class="terrain-summary">${keys.map((k, i) => `<div><span>${RESOURCES[k].label}</span> ×${terrain.rates[i].toFixed(2)}</div>`).join("")}<div><span>Savunma</span> ×${terrain.defense}</div><div><span>Hareket</span> ×${terrain.movement}</div></div>${poi ? `<div class="note"><strong>${esc(poi.label)}</strong><p>${esc(poi.description)}</p><p>${tile.poi.ownerId ? "Bağlı nokta" : "Bağımsız muhafızlı nokta"} · Koruma gücü ${fmt(poi.guard * (tile.poi.ownerId ? 2.4 : 1))}</p></div>` : ""}${town && own ? `<p>${esc(getSettlementRole(state, town))}</p><div class="mini-stats">${keys.map((k) => `<div>${RESOURCES[k].label}: <strong>${fmt(town.resources[k])}</strong></div>`).join("")}</div><p class="muted tile-troops">${esc(troopsText(town.troops))}</p>` : town || tile.poi ? intelHTML(tile) : ""}<div class="tile-actions">${own ? `<button class="primary" data-open-town="${esc(town.id)}">Yerleşimi yönet</button>` : `<p>Çıkış: <strong>${esc(from?.name || "Yerleşim yok")}</strong>${estimate ? ` · ${estimate.distance.toFixed(1)} karo · Gözcü ${duration(estimate.minutes)}` : ""}</p><button class="primary" data-action="scout">Gözcü gönder</button>${!town && !tile.poi ? '<button data-action="expand">Buraya yerleş</button>' : ""}${town || tile.poi ? `<button data-action="${tile.poi ? "claim" : "attack"}">${tile.poi ? "Noktayı bağla" : "Sefer hazırla"}</button>` : ""}`}<button data-action="mark">${isMarked(tile) ? "İşareti kaldır" : "Haritada işaretle"}</button></div>`;
 }
 function intelHTML(tile) {
   const knowledge = getTileKnowledge(state, tile.x, tile.y);
@@ -417,7 +555,14 @@ function settlementHTML() {
             : `<p class="rate">Şu anda +${fmt(rates[keys[resourceIndex]] * 60)}/saat${
                 lv >= b.maxLevel ? "" : ` → ${lv + 1}. seviyede +${fmt(nextLevelRate(town, key, keys[resourceIndex]) * 60)}/saat`
               }</p>`;
-        return `<article class="card"><div class="card-meta"><h3>${esc(b.label)}</h3><span class="badge">Seviye ${actual}${pending ? ` +${pending} sırada` : ""}</span></div><p>${esc(b.description)}</p>${rateLine}<p class="cost">${lv >= b.maxLevel ? "En yüksek seviye" : esc(costText(cost))}</p><button data-build="${key}" ${lv >= b.maxLevel ? "disabled" : ""}>${lv >= b.maxLevel ? "Tam gelişmiş" : `${lv + 1}. seviyeyi inşa et`}</button></article>`;
+        const max = lv >= b.maxLevel;
+        const preview = max ? null : previewOrder(state, { type: "build", settlementId: town.id, building: key });
+        const result = !preview
+          ? ""
+          : preview.ok
+            ? `<p class="build-result">${esc(outcomeText(preview.outcome))}</p>`
+            : `<p class="build-result blocked"><span>Şimdi yapılamaz:</span> ${esc(preview.message)}</p>`;
+        return `<article class="card"><div class="card-meta"><h3>${esc(b.label)}</h3><span class="badge">Seviye ${actual}${pending ? ` +${pending} sırada` : ""}</span></div><p>${esc(b.description)}</p>${rateLine}<p class="cost">${max ? "En yüksek seviye" : esc(costText(cost))}</p>${result}<button data-build="${key}" ${max || !preview?.ok ? "disabled" : ""}>${max ? "Tam gelişmiş" : `${lv + 1}. seviyeyi inşa et`}</button></article>`;
       })
       .join(
         "",
@@ -569,6 +714,13 @@ function newCampaign() {
 async function enterGame(next) {
   state = next;
   state.paused = true;
+  periodStart = null;
+  lastPeriod = null;
+  orderPending = false;
+  renderPeriod();
+  map.setOverlay?.(overlayOn);
+  document.querySelectorAll('[data-map="overlay"]').forEach((b) => b.setAttribute("aria-pressed", String(overlayOn)));
+  if ($("map-legend")) $("map-legend").open = (globalThis.innerWidth || 1024) >= 760;
   map.select(null, null, { notify: false });
   activeId = getPlayerSettlements(state)[0]?.id || null;
   selected = null;
@@ -577,6 +729,7 @@ async function enterGame(next) {
   $("game").classList.remove("menu-mode");
   setView("map");
   render();
+  renderLegend();
   const town = activeTown();
   if (town) {
     map.focus(town.x, town.y);
@@ -663,16 +816,19 @@ function help() {
 function expansionDialog() {
   const town = activeTown();
   const cost = getExpansionCost(state, state.playerId);
+  const name = `${TERRAINS[getTile(state.world, selected.x, selected.y).terrain].label} Yurdu`;
+  const slot = previewSlot({ id: "expand-form", dataset: {} }, { name });
   openDialog(
     "Yeni yerleşim kafilesi",
-    `<form id="expand-form"><p>${esc(town.name)} → ${selected.x}, ${selected.y}</p><p class="form-note">Konak seviyesine bağlı menzil: ${8 + town.buildings.hall * 2} karo. Diğer yerleşimlere ve kuruculara en az 3 karo uzaklık gerekir. Kaynaklar ve nüfuz ödenir. Kafile hedefe ulaşınca yeni yerleşimin kurulur; aynı hedefe rakip senden önce ulaşabilir.</p><p class="cost">${esc(costText(cost))}</p><label>Yerleşimin adı<input name="name" maxlength="32" value="${esc(TERRAINS[getTile(state.world, selected.x, selected.y).terrain].label)} Yurdu" required></label><button class="primary" type="submit">Kafileyi yola çıkar</button></form>`,
+    `<form id="expand-form">${slot.steps}<p>${esc(town.name)} → ${selected.x}, ${selected.y}</p><p class="form-note">Konak seviyesine bağlı menzil: ${8 + town.buildings.hall * 2} karo. Diğer yerleşimlere ve kuruculara en az 3 karo uzaklık gerekir. Kaynaklar ve nüfuz ödenir. Kafile hedefe ulaşınca yeni yerleşimin kurulur; aynı hedefe rakip senden önce ulaşabilir.</p><p class="cost">${esc(costText(cost))}</p><label>Yerleşimin adı<input name="name" maxlength="32" value="${esc(name)}" required></label>${slot.preview}<button class="primary" type="submit" ${slot.disabled}>Kafileyi yola çıkar</button></form>`,
   );
 }
 function armyDialog(mission) {
   const town = activeTown();
+  const slot = previewSlot({ id: "army-form", dataset: { mission } }, Object.fromEntries(Object.keys(UNITS).map((k) => [k, 0])));
   openDialog(
     mission === "claim" ? "Stratejik noktayı bağla" : "Sefer hazırla",
-    `<form id="army-form" data-mission="${mission}"><p>${esc(town.name)} → ${selected.x}, ${selected.y}</p><p class="form-note">${mission === "claim" ? "Nokta bağlama 5 nüfuz harcar; en çok 7 karo uzakta ve yurt başına en fazla 4 nokta olabilir." : "Başkentler yağmalanabilir ama ele geçirilemez. Diğer yerleşimler zafer sonunda en az 2 sağ koçbaşı varsa ele geçirilir."} Birlikler yol boyunca merkezin savunmasına katılamaz. Keşif yapmadan çıkılan sefer daha belirsizdir. Zafer ve sağ kalanlar Divan’da raporlanır.</p><div class="unit-inputs">${Object.entries(
+    `<form id="army-form" data-mission="${mission}">${slot.steps}<p>${esc(town.name)} → ${selected.x}, ${selected.y}</p><p class="form-note">${mission === "claim" ? "Nokta bağlama 5 nüfuz harcar; en çok 7 karo uzakta ve yurt başına en fazla 4 nokta olabilir." : "Başkentler yağmalanabilir ama ele geçirilemez. Diğer yerleşimler zafer sonunda en az 2 sağ koçbaşı varsa ele geçirilir."} Birlikler yol boyunca merkezin savunmasına katılamaz. Keşif yapmadan çıkılan sefer daha belirsizdir. Zafer ve sağ kalanlar Divan’da raporlanır.</p><div class="unit-inputs">${Object.entries(
       UNITS,
     )
       .map(
@@ -681,27 +837,30 @@ function armyDialog(mission) {
       )
       .join(
         "",
-      )}</div><p id="army-eta" class="form-note">Birlik seçerek süreyi gör.</p><button class="primary" type="submit">Birlikleri gönder</button></form>`,
+      )}</div><p id="army-eta" class="form-note">Birlik seçerek süreyi gör.</p>${slot.preview}<button class="primary" type="submit" ${slot.disabled}>Birlikleri gönder</button></form>`,
   );
 }
 function scoutDialog() {
   const town = activeTown();
   if (!town || !selected) return;
+  const slot = previewSlot({ id: "scout-form", dataset: {} }, { count: 1 });
   openDialog(
     "Keşif birliği",
-    `<form id="scout-form"><p>${esc(town.name)} → ${selected.x}, ${selected.y}</p><p class="form-note">Kalabalık gözcü birliği karşı istihbaratı aşabilir. Rapor varışta Divan’a düşer; 6 oyun saati sonra eski sayılır.</p><label>Gözcü sayısı · ${fmt(town.troops.scout)} hazır<input name="count" type="number" min="1" max="${Math.min(100, town.troops.scout)}" value="1" required></label><button class="primary" type="submit" ${town.troops.scout ? "" : "disabled"}>Gözcüleri gönder</button>${town.troops.scout ? "" : '<p class="note">Önce Ordu bölümünden gözcü eğit.</p>'}</form>`,
+    `<form id="scout-form">${slot.steps}<p>${esc(town.name)} → ${selected.x}, ${selected.y}</p><p class="form-note">Kalabalık gözcü birliği karşı istihbaratı aşabilir. Rapor varışta Divan’a düşer; 6 oyun saati sonra eski sayılır.</p><label>Gözcü sayısı · ${fmt(town.troops.scout)} hazır<input name="count" type="number" min="1" max="${Math.min(100, town.troops.scout)}" value="1" required></label>${slot.preview}<button class="primary" type="submit" ${town.troops.scout ? slot.disabled : "disabled"}>Gözcüleri gönder</button>${town.troops.scout ? "" : '<p class="note">Önce Ordu bölümünden gözcü eğit.</p>'}</form>`,
   );
 }
 function trainDialog(unit) {
   const u = UNITS[unit];
+  const slot = previewSlot({ id: "train-form", dataset: { unit } }, { count: 5 });
   openDialog(
     `${u.label} eğitimi`,
-    `<form id="train-form" data-unit="${unit}"><p class="form-note">Bir asker: ${esc(costText(u.cost))} · ${u.minutes} oyun dakikası. Eğitim bitince garnizona katılır.</p><label>Asker sayısı<input name="count" type="number" min="1" max="100" value="5" required step="1" inputmode="numeric"></label><p id="training-cost" class="cost">Toplam: ${esc(costText(u.cost.map((n) => n * 5)))}</p><button class="primary" type="submit">Eğitimi kuyruğa ekle</button></form>`,
+    `<form id="train-form" data-unit="${unit}">${slot.steps}<p class="form-note">Bir asker: ${esc(costText(u.cost))} · ${u.minutes} oyun dakikası. Eğitim bitince garnizona katılır.</p><label>Asker sayısı<input name="count" type="number" min="1" max="100" value="5" required step="1" inputmode="numeric"></label><p id="training-cost" class="cost">Toplam: ${esc(costText(u.cost.map((n) => n * 5)))}</p>${slot.preview}<button class="primary" type="submit" ${slot.disabled}>Eğitimi kuyruğa ekle</button></form>`,
   );
 }
 function demobilizeDialog(unit) {
   const town=activeTown();
-  openDialog('Birliği terhis et', `<p>Eğitim maliyeti iade edilmez; iaşe ihtiyacı azalır. Yoldaki birlikler terhis edilemez.</p><form id="demobilize-form" data-unit="${unit}"><label>Asker sayısı<input name="count" type="number" min="1" max="${town.troops[unit]}" value="1" required></label><button class="primary" type="submit">Terhis et</button></form>`);
+  const slot = previewSlot({ id: "demobilize-form", dataset: { unit } }, { count: 1 });
+  openDialog('Birliği terhis et', `<p>Eğitim maliyeti iade edilmez; iaşe ihtiyacı azalır. Yoldaki birlikler terhis edilemez.</p><form id="demobilize-form" data-unit="${unit}">${slot.steps}<label>Asker sayısı<input name="count" type="number" min="1" max="${town.troops[unit]}" value="1" required></label>${slot.preview}<button class="primary" type="submit" ${slot.disabled}>Terhis et</button></form>`);
 }
 function tradeDialog() {
   const town = activeTown();
@@ -712,10 +871,13 @@ function tradeDialog() {
         player().relations?.[t.ownerId]?.vasal ||
         getFaction(state, t.ownerId)?.relations?.[state.playerId]?.vasal),
   );
+  const slot = targets.length
+    ? previewSlot({ id: "trade-form", dataset: {} }, { target: targets[0].id, ...Object.fromEntries(keys.map((k) => [k, 0])) })
+    : null;
   openDialog(
     "Kervan hazırla",
     targets.length
-      ? `<form id="trade-form"><label>Varış yerleşimi<select name="target">${targets.map((t) => `<option value="${esc(t.id)}">${esc(t.name)} · ${esc(getFaction(state, t.ownerId)?.name)}</option>`).join("")}</select></label><div class="unit-inputs">${keys.map((k) => `<label>${RESOURCES[k].label}<input name="${k}" type="number" value="0" min="0" max="${Math.floor(town.resources[k])}" step="1"></label>`).join("")}</div><p class="form-note">Kervan avlusu gerekir. Kapasite ${fmt(getTradeCapacity(state, town))} yük. Kaynak hedefe teslim edilir; mesafeye bağlı demir primi geri gelir. Dolu depoya sığmayan yük teslim edilmez.</p><button class="primary" type="submit">Kervanı gönder</button></form>`
+      ? `<form id="trade-form">${slot.steps}<label>Varış yerleşimi<select name="target">${targets.map((t) => `<option value="${esc(t.id)}">${esc(t.name)} · ${esc(getFaction(state, t.ownerId)?.name)}</option>`).join("")}</select></label><div class="unit-inputs">${keys.map((k) => `<label>${RESOURCES[k].label}<input name="${k}" type="number" value="0" min="0" max="${Math.floor(town.resources[k])}" step="1"></label>`).join("")}</div><p class="form-note">Kervan avlusu gerekir. Kapasite ${fmt(getTradeCapacity(state, town))} yük. Kaynak hedefe teslim edilir; mesafeye bağlı demir primi geri gelir. Dolu depoya sığmayan yük teslim edilmez.</p>${slot.preview}<button class="primary" type="submit" ${slot.disabled}>Kervanı gönder</button></form>`
       : '<div class="note">Henüz uygun hedef yok. İkinci yerleşimini kur veya Divan’dan bir hanedanı bağlılığa ikna et.</div>',
   );
 }
@@ -755,6 +917,11 @@ document.addEventListener("click", async (event) => {
     $("field-guide").hidden = true;
     return;
   }
+  if (b.dataset.period === "close") {
+    lastPeriod = null;
+    renderPeriod();
+    return;
+  }
   if (b.dataset.cancelSupply) { doAction({type:'cancelSupply',settlementId:activeTown().id}); return; }
   if (b.dataset.demobilize) { demobilizeDialog(b.dataset.demobilize); return; }
   if (b.dataset.specialty) { doAction({type:'specialize',settlementId:activeTown().id,specialty:b.dataset.specialty}); return; }
@@ -776,6 +943,10 @@ document.addEventListener("click", async (event) => {
   }
   if (b.dataset.map) {
     const key = b.dataset.map;
+    if (key === "overlay") {
+      setOverlay(!overlayOn);
+      return;
+    }
     if (key === "in") map.zoomBy(1.35);
     if (key === "out") map.zoomBy(1 / 1.35);
     if (key === "world") map.setZoom("world");
@@ -973,6 +1144,8 @@ document.addEventListener("input", (event) => {
     $("training-cost").textContent =
       `Toplam: ${costText(UNITS[form.dataset.unit].cost.map((n) => n * Math.max(0, Number(form.elements.count.value))))}`;
   }
+  if (form && ["expand-form", "army-form", "scout-form", "train-form", "demobilize-form", "trade-form"].includes(form.id))
+    refreshPreview(form);
 });
 document.addEventListener("submit", async (event) => {
   const form = event.target;
@@ -1030,45 +1203,8 @@ document.addEventListener("submit", async (event) => {
     updateSaveStatus();
     return;
   }
-  if (form.id === "demobilize-form") result = doAction({type:"demobilize",settlementId:activeTown().id,unit:form.dataset.unit,count:Number(data.get("count"))});
-  if (form.id === "scout-form")
-    result = doAction({
-      type: "scout",
-      settlementId: activeTown().id,
-      x: selected.x,
-      y: selected.y,
-      count: Number(data.get("count")),
-    });
-  if (form.id === "expand-form")
-    result = doAction({
-      type: "expand",
-      settlementId: activeTown().id,
-      x: selected.x,
-      y: selected.y,
-      name: String(data.get("name")).trim(),
-    });
-  if (form.id === "army-form")
-    result = doAction({
-      type: form.dataset.mission,
-      settlementId: activeTown().id,
-      x: selected.x,
-      y: selected.y,
-      troops: Object.fromEntries(Object.keys(UNITS).map((k) => [k, Number(data.get(k))])),
-    });
-  if (form.id === "train-form")
-    result = doAction({
-      type: "train",
-      settlementId: activeTown().id,
-      unit: form.dataset.unit,
-      count: Number(data.get("count")),
-    });
-  if (form.id === "trade-form")
-    result = doAction({
-      type: "trade",
-      settlementId: activeTown().id,
-      targetId: String(data.get("target")),
-      cargo: Object.fromEntries(keys.map((k) => [k, Number(data.get(k))])),
-    });
+  const action = orderAction(form, data);
+  if (action) result = doAction(action);
   if (result?.ok) closeDialog();
 });
 function checkpoint() {
