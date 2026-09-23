@@ -292,7 +292,7 @@ test("every playable catalog game ships teaching content", () => {
     "amiral-batti": ["public/games/amiral-batti/index.html"],
     apartman: ["public/games/apartman/help.js"],
     "kayip-telefon": ["public/games/kayip-telefon/help.js"],
-    "son-100-gun": ["public/games/son-100-gun/help.js"],
+    "son-100-gun": ["public/games/son-100-gun/pov-app.js"],
     "tc-sim-devlet": ["public/games/tc-sim-devlet/help.js"],
     "son-kasaba": ["public/games/son-kasaba/help.js"],
     "veto-h": ["public/games/duel-core/help-duel.js"],
@@ -321,7 +321,6 @@ test("structured help sections carry no placeholder copy", async () => {
   for (const path of [
     "public/games/apartman/help.js",
     "public/games/kayip-telefon/help.js",
-    "public/games/son-100-gun/help.js",
     "public/games/son-kasaba/help.js",
     "public/games/tc-sim-devlet/help.js",
   ]) {

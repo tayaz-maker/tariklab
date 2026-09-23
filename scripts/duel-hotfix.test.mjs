@@ -96,7 +96,7 @@ function extraSources(slug) {
     "son-kasaba": ["public/games/son-kasaba/app.js"],
     apartman: ["public/games/apartman/app.js"],
     "kayip-telefon": ["public/games/kayip-telefon/app.js"],
-    "son-100-gun": ["public/games/son-100-gun/app.js"],
+    "son-100-gun": ["public/games/son-100-gun/pov-app.js"],
     "veto-h": ["public/games/duel-core/app.js"],
     "gett-oh": ["public/games/duel-core/app.js"],
     "darbe-h": ["public/games/duel-core/app.js"],

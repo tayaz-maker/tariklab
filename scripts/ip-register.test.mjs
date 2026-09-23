@@ -109,10 +109,10 @@ test("every client package has a notice entry at the locked version with an allo
 // Legacy occurrences are counted per file so the number can only go down.
 const BLOCKED = /mini ?metro|dinosaur polo|apartman y[öo]neticisi|\binkle\b|extreme last 100/gi;
 const LEGACY = {
-  "public/credits.html": 2,
+  "public/credits.html": 1,
   "public/games/apartman/help.js": 1,
   "public/games/next-wave.js": 1,
-  "public/i18n/tlab-i18n.js": 6,
+  "public/i18n/tlab-i18n.js": 5,
   "src/lib/i18n.ts": 2,
   "src/lib/games.ts": 1,
 };

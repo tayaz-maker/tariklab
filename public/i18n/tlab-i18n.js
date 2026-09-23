@@ -466,7 +466,7 @@
           '<a href="/oyna/amiral-batti">Amiral Battı</a> · LIVE — Place a fleet and hunt coordinates against an easy, medium or hard opponent.',
           '<a href="/oyna/apartman">Apartman: Apartman Yöneticisi</a> · LIVE — Run a two, four or ten-block estate through dues, maintenance, staffing, residents and board pressure.',
           '<a href="/oyna/kayip-telefon">Kayıp Telefon</a> · LIVE — Corroborate clues across eight apps and weigh the privacy cost of returning a lost phone.',
-          '<a href="/oyna/son-100-gun">Son 100 Gün</a> · LIVE — The Extreme Last 100 Days format: spend daily focus with different costs across media, money, team, crisis and the bonds that survive.',
+          '<a href="/oyna/son-100-gun">Son 100 Gün</a> · LIVE — A one-seat life game: a hundred days, one decision per period. Body, savings, your people, calm and the mark you leave share one calendar.',
           '<a href="/oyna/tc-sim-devlet">TC SIM: DEVLET</a> · LIVE — Govern policy, institutions, regions and treasury through capacity, political capital, bureaucratic friction and crisis load.',
           '<a href="/oyna/son-koy-manager">SON KÖY MANAGER</a> · LIVE — Spend changing field capacity and action effort across water, energy, migration, production and trust over 24 months.',
           '<a href="/oyna/veto-h">VETO-H!</a> · LIVE — An election and campaign duel with 300 original cards and individual illustrations, a seeded 40-card deck, a computer opponent and a pregame Card Archive.',
@@ -524,7 +524,7 @@
         '<a href="/oyna/amiral-batti">Amiral Battı</a> · LIVE — Rozmieść flotę i poluj na współrzędne przeciw rywalowi o wybranym poziomie trudności.',
         '<a href="/oyna/apartman">Apartman: Apartman Yöneticisi</a> · LIVE — Zarządzaj osiedlem poprzez opłaty, utrzymanie, personel i naciski rady.',
         '<a href="/oyna/kayip-telefon">Kayıp Telefon</a> · LIVE — Potwierdzaj wskazówki z ośmiu aplikacji i rozważ koszt prywatności zwrotu telefonu.',
-        '<a href="/oyna/son-100-gun">Son 100 Gün</a> · LIVE — Ostatnie sto dni: rozdzielaj codzienną uwagę między media, pieniądze, ekipę i kryzys.',
+        '<a href="/oyna/son-100-gun">Son 100 Gün</a> · LIVE — Gra o jednym życiu: sto dni, jedna decyzja na okres. Ciało, oszczędności, bliscy, spokój i ślad, który zostawisz, dzielą jeden kalendarz.',
         '<a href="/oyna/tc-sim-devlet">TC SIM: DEVLET</a> · LIVE — Zarządzaj polityką, instytucjami, regionami i skarbem państwa.',
         '<a href="/oyna/son-koy-manager">SON KÖY MANAGER</a> · LIVE — Przez 24 miesiące rozdzielaj zdolność działania między wodę, energię, migrację i zaufanie.',
         '<a href="/oyna/veto-h">VETO-H!</a> · LIVE — Pojedynek wyborczy i kampanijny z 300 autorskimi kartami oraz talią 40 kart.',
@@ -584,7 +584,7 @@
     apartman:
       "Pick an issue, prepare the file, put one proposal to a vote on Meeting Night, then close the week. Cheap patches return. Raising dues too often stops payment.",
     "son-100-gun":
-      "One hundred days. Spend each day's focus on decisions with different costs. Deadlines expire, obligations collide and the final report records what survived.",
+      "One hundred days, one decision per period. Every option shows its intent, certain cost, odds and what carries forward. Situations you pass over wait or fade; the ending follows what you invested in most.",
     "kayip-telefon":
       "This phone is not yours. Eight apps open through discovery. Corroboration and contradiction change the ending. Return at any time; going deeper raises privacy cost.",
     "tc-sim-devlet":
