@@ -1,10 +1,10 @@
-# Continuation checkpoint (2026-09-23, updated ~16:12 UTC)
+# Continuation checkpoint (2026-09-23, updated ~16:40 UTC)
 
 This is a safe handoff point for any model or person continuing the work.
 
 - Repository: `tayaz-maker/tariklab`. The local clone is named `cete-savaslari`.
 - Production: https://tariklab.tayaz29.workers.dev. Cloudflare Workers Builds deploys it on every push to `main`.
-- `origin/main` = `d4b2837066d1b5fee1c963a6dfaa29d57b39d6a4` (merge of #75, on top of another session's #80 HANEDANIAN relief merge `b911b1b`).
+- `origin/main` = `787c6cbca43192c8339d9397ae3c6d7ea28c4670` (merge of #76). Before it: `d4b2837` (#75), `b911b1b` (#80, another session).
 
 ## Rules that still apply
 
@@ -22,14 +22,14 @@ This is a safe handoff point for any model or person continuing the work.
   - a public name cleared through a TÜRKPATENT search.
 - TarikLab games are silent: no audio of any kind. Never name, list or imitate the reference apps.
 
-## In-flight PRs (recorded merge order: #73 ✅ → #74 ✅ → #75 ✅ → #76)
+## In-flight PRs (recorded merge order: #73 ✅ → #74 ✅ → #75 ✅ → #76 ✅, all done)
 
 | PR | Branch | Head SHA | Base | CI state at checkpoint | Next single step |
 |---|---|---|---|---|---|
 | #73 T monogram | `claude/t-monogram` | `b781b1c` | — | **MERGED** as `c8f8a75`. Production verified (tree identical to head, 0 missing, 7/7 identical, icons 200 and byte-identical, sw `cete-offline-v5`, live smoke OK). | — |
 | #74 Son Köy command bar | `claude/son-koy-command` | `1006f82` | — | **MERGED** as `f874e40` after all 5 checks were green. Production verified: merge tree identical to head (`6b42cc5`), 0 missing, 7/7 identical, all 4 Son Köy files byte-identical, live smoke clean. The first desktop smoke hit a transient 502 on the main JS during the deploy switchover; the file returned 200 three times on recheck and the re-run smoke was clean. | — |
 | #75 JITEM sync | `claude/jitem-sync-operations` | `f1ba095` | — | **MERGED** as `d4b2837` with all 5 checks green on base `f874e40`. The merge also contains #80 (merged by another session in between), so the merge tree ≠ head tree. The files are disjoint: #80 touched `hanedanian/map.js`, a test and a ledger doc; #75 touched only `jitem-derin-ag/*` and the jitem test. #80 was green on the same base. Local full gate on `d4b2837`: typecheck/lint/build pass; tests 1430 pass / 1 skipped, plus 54/54. Production: 0 missing, 7/7 identical. JITEM `SOURCE.json`, `index.html` (via the directory URL, since Cloudflare answers `/index.html` with a 307), `runtime.js` and `hanedanian/map.js` are byte-identical to the build. Live smoke clean on `/`, `/oyna/jitem-derin-ag`, `/games/jitem-derin-ag/?embed=1` and HANEDANIAN. `main` push CI on `d4b2837` not yet checked. | Check `main`'s CI run on `d4b2837`. |
-| #76 DEVLET maps | `claude/devlet-maps` | `b9d8dd439948bb34af331d46306086024ebbe463` | `main` @ `d4b2837` (current) | At 16:10 UTC: campaign-balance ✅, Workers ✅, Vercel ✅; build and campaign-browser running on the new head | Merge when all checks are green on `b9d8dd4` **and** base = `origin/main`, with `expectedHeadSha`; then run the production proof. |
+| #76 DEVLET maps | `claude/devlet-maps` | `b9d8dd4` | — | **MERGED** at 16:22 UTC as `787c6cb` by the parallel agent, after all 5 checks were green on `b9d8dd4` over base `d4b2837`. Verified here: merge tree identical to head (`120ca6b`); production 0 missing, 7/7 identical; 7 DEVLET files (`tc-sim-devlet/{maps,presentation,app}.js`, `style.css`, `next-wave/devlet-{geo,sim}.js`, `next-wave.js`) byte-identical to the build; live smoke clean on `/` and DEVLET at desktop and 390 px. | — |
 
 **Concurrency note (16:12 UTC).** A second agent ("Grok") is working the same queue.
 - It pushed `b9d8dd4` to #76, which moves the map record lists out of a closed `<details>` table so the site-wide responsive test can click them, adds a test and re-pins the frozen hash. The change was reviewed and is in scope.
@@ -41,7 +41,7 @@ This is a safe handoff point for any model or person continuing the work.
 
 | PR | Branch | Head SHA | Base | Status | Next single step |
 |---|---|---|---|---|---|
-| #77 Wave 0 IP gate (`docs/ip/`) | `claude/ip-wave0` | `9e43e9601fdf42b216a712e6db23b3326877e563` | `main` @ `7fe82f9` | Docs and tests only. Local checks: eslint clean, `scripts/ip-register.test.mjs` 3/3 pass. The full gate also passed as part of #78's stack (1436 + 54 tests). PR CI is **all green** on `9e43e96` (build, campaign-browser, campaign-balance, Workers, Vercel). | May be merged after #76; it is IP evidence, not a new title. Update the branch first and re-check CI. |
+| #77 Wave 0 IP gate (`docs/ip/`) | `claude/ip-wave0` | `9e43e9601fdf42b216a712e6db23b3326877e563` | `main` @ `7fe82f9` | Docs and tests only. Local checks: eslint clean, `scripts/ip-register.test.mjs` 3/3 pass. The full gate also passed as part of #78's stack (1436 + 54 tests). PR CI is **all green** on `9e43e96` (build, campaign-browser, campaign-balance, Workers, Vercel). | **Next queued item.** Coordinate with the parallel agent, whose queue also lists it as TODO. Update the branch onto `787c6cb`, wait for CI, check the base is still `main`, then merge. It is docs and tests only; the production proof is a build match only. |
 | #78 Apartment slice (draft) | `claude/slice-apartment` | `28ee6cffd6745acf48647997e20baccd6a0e6dcb` | stacked on #77 | Full local gate on this SHA: typecheck/lint/build pass; tests 1436 pass / 1 skipped, plus 54/54. Sonnet adversarial review: Low; 2 Medium findings fixed. QA at 3 viewports. | **Do not merge** (IP gate). Nothing else is pending. |
 | #79 Transit slice (draft) | `claude/slice-transit` | `b27b07c68691aa8a9adbcc62fbfca279bcc61c73` | stacked on #77 | Slice and IP tests 13/13. Sonnet review: all axes Low. QA at 3 viewports. **The full-repo gate was not run locally**; PR CI was running at checkpoint time (campaign-balance ✅, build and campaign-browser in progress). | **Do not merge** (IP gate). Confirm PR CI is green. |
 | (no PR yet) Novella slice | `claude/slice-novella` | `4e960918ed3edd215bc319d18fc9c0f2dbcfa612` | stacked on #77 | WIP commit. 7 rules tests plus the IP tests pass (10/10), eslint is clean, every file parses. | See the novella section below. |
