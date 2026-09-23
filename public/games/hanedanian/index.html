@@ -59,7 +59,7 @@
             ><button data-map="in" aria-label="Haritaya yaklaş">+</button
             ><button data-map="home" aria-label="Aktif yerleşime dön">Merkez</button
             ><button data-map="world">Dünya</button
-            ><button data-map="overlay" aria-pressed="true" aria-label="Sınır katmanını aç veya kapat">Sınırlar</button
+            ><button data-map="threat" class="threat-chip" hidden aria-live="polite"></button
             ><button
               data-map="rail"
               class="rail-toggle"
@@ -71,8 +71,8 @@
           <div id="map-caption" class="map-caption">YERYÜZÜ DEFTERİ <span>49 × 49</span></div>
           <div id="hover-info" class="hover-info" hidden></div>
           <details id="map-legend" class="map-legend">
-            <summary>Lejant</summary>
-            <ul id="map-legend-list"></ul>
+            <summary>Katmanlar <span id="layer-count"></span></summary>
+            <div id="map-legend-list" class="layer-list"></div>
           </details>
           <section id="field-guide" class="field-guide" aria-label="İlk adımlar" hidden>
             <div class="field-guide-head"><div><span>İLK OCAK</span><strong>Reis sensin. Hedefin bir Kurultay yolu tamamlamak.</strong></div><button data-guide="dismiss" aria-label="İlk adımlar panelini kapat">×</button></div>

@@ -1295,6 +1295,99 @@ body.toast-visible .section-view {
   align-items: center;
   gap: 7px;
 }
+.map-legend[open] {
+  max-width: min(320px, calc(100% - 28px));
+}
+.map-legend summary #layer-count {
+  margin-left: 4px;
+  color: var(--muted);
+  font-weight: 500;
+}
+.layer-list {
+  display: grid;
+  gap: 2px;
+  padding: 0 6px 8px;
+}
+.layer-row {
+  display: grid;
+  grid-template-columns: 18px 30px minmax(0, 1fr);
+  align-items: start;
+  gap: 6px;
+  padding: 6px 4px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.layer-row:hover {
+  background: rgba(243, 234, 212, 0.06);
+}
+.layer-row input {
+  margin: 2px 0 0;
+  width: 16px;
+  height: 16px;
+  accent-color: #c9a45a;
+}
+.layer-swatch {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: 6px;
+}
+.layer-text b {
+  display: block;
+  font-size: 12px;
+}
+.layer-text small {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.35;
+}
+.legend-swatch {
+  display: block;
+  width: 22px;
+  height: 12px;
+  border-radius: 2px;
+  background: var(--c);
+  border: 1px solid #9fbe78;
+}
+.map-tools .threat-chip {
+  background: #7a2e22;
+  border-color: #e0654a;
+  color: #fff5ea;
+  font-weight: 700;
+}
+.map-context {
+  display: grid;
+  gap: 6px;
+  margin: 10px 0;
+  font-size: 12px;
+}
+.map-context > div {
+  padding: 6px 9px;
+  border-left: 3px solid var(--line);
+  background: rgba(17, 28, 23, 0.55);
+  border-radius: 0 5px 5px 0;
+}
+.map-context span {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+.map-context p {
+  margin: 2px 0 0;
+}
+.map-context .ok {
+  border-left-color: #9fbe78;
+}
+.map-context .no {
+  border-left-color: #d6a24a;
+}
+.map-context .threat {
+  border-left-color: #e0654a;
+  background: rgba(122, 46, 34, 0.35);
+}
+
 .legend-line {
   flex: none;
   width: 18px;
@@ -1806,3 +1899,39 @@ body.toast-visible .section-view {
 .brandline { box-shadow: inset 0 1px #b2985a40; }
 .brandline h1, h2, h3 { color: var(--ink); }
 #world-map { background: #18231b; }
+
+.amount-compact {
+  display: none;
+}
+@media (max-width: 450px) {
+  .resource .amount-full {
+    display: none;
+  }
+  .resource .amount-compact {
+    display: inline;
+  }
+  .resources .resource {
+    overflow: hidden;
+    border-right: 1px solid var(--line);
+  }
+  .resources .resource b {
+    font-size: 12px;
+    letter-spacing: -0.2px;
+  }
+  .map-tools .threat-chip .chip-long {
+    display: none;
+  }
+}
+@media (max-width: 850px) {
+  /* The inspector sheet covers the bottom of the map on phones: keep layers up top. */
+  .map-legend {
+    top: 64px;
+    bottom: auto;
+    left: 10px;
+  }
+  .map-legend[open] {
+    max-height: calc(100% - 80px);
+    overflow: auto;
+    z-index: 7;
+  }
+}
