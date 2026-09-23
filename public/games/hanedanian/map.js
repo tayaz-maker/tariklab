@@ -6,11 +6,53 @@ import { TERRAINS, POIS } from './data.js';
 const TILE = 56;
 const MAX_ZOOM = 2.6;
 const TAU = Math.PI * 2;
+const atlasRandom = (i, salt) => { let h = Math.imul(i ^ salt, 0x45d9f3b); h = Math.imul(h ^ (h >>> 16), 0x45d9f3b); return ((h ^ (h >>> 16)) >>> 0) / 4294967296; };
+// Terrain atlases are painted by time-sliced jobs: each slice runs at most
+// ATLAS_SLICE_MS before handing the main thread back, so a zoom-mode change
+// never blocks input while a large (up to 3724px) bitmap is built.
+const ATLAS_SLICE_MS = 8;
+const ATLAS_MODES = ['near', 'region', 'world'];
+// Canvas commands are rasterized when the task that recorded them ends, not
+// when JS returns. Raster-heavy steps yield ATLAS_FLUSH to end the slice so a
+// single task never carries a whole-bitmap flush; full-bitmap fills are drawn
+// in ATLAS_BANDS horizontal bands on integer rows (pixel-identical result).
+const ATLAS_FLUSH = Symbol('atlas-flush');
+const ATLAS_BANDS = 8;
+const ATLAS_SCATTER_FLUSH = 1024;
+function* atlasBands(g, width, height, paint) {
+  for (let band = 0; band < ATLAS_BANDS; band++) {
+    const top = Math.round(band * height / ATLAS_BANDS), bottom = Math.round((band + 1) * height / ATLAS_BANDS);
+    g.save();
+    g.beginPath();
+    g.rect(0, top, width, bottom - top);
+    g.clip();
+    paint();
+    g.restore();
+    yield ATLAS_FLUSH;
+  }
+}
+const atlasQueue = [];
+let atlasChannel = null;
+function deferTask(fn) {
+  if (typeof MessageChannel !== 'function') {
+    setTimeout(fn, 0);
+    return;
+  }
+  if (!atlasChannel) {
+    atlasChannel = new MessageChannel();
+    atlasChannel.port1.onmessage = () => atlasQueue.shift()?.();
+    // Node imports this module in tests; an open port must not keep it alive.
+    atlasChannel.port1.unref?.();
+    atlasChannel.port2.unref?.();
+  }
+  atlasQueue.push(fn);
+  atlasChannel.port2.postMessage(0);
+}
 const COLORS = {
-  paper: '#e4d4b0', ink: '#2a2218', muted: '#6a5c48', player: '#1e3d32',
-  plain: '#c3b56a', forest: '#2f4a38', mountain: '#5c5850', ore: '#6b4e3e',
-  valley: '#4a6a62', road: '#a08050', pass: '#6a655c', arid: '#b08958',
-  steppe: '#9a8c58', water: '#3d6468', waterLight: '#8aa8a0', stone: '#4a4c48',
+  paper: '#191f1a', ink: '#2a2218', muted: '#6a5c48', player: '#1e3d32',
+  plain: '#81754b', forest: '#203e30', mountain: '#74746a', ore: '#745945',
+  valley: '#3e6251', road: '#a08050', pass: '#6a655c', arid: '#8b734e',
+  steppe: '#696747', water: '#3d6468', waterLight: '#8aa8a0', stone: '#4a4c48',
   walnut: '#4a3728', brass: '#b08a4a', oxblood: '#7a3228', ivory: '#f3ead4',
 };
 const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
@@ -59,6 +101,11 @@ export class StrategyMap {
     this.frame = null;
     this.lastRenderMs = 0;
     this.drawnTiles = 0;
+    this.terrainCaches = new Map();
+    this.atlasJobs = new Map();
+    this.atlasPending = false;
+    this.atlasPreview = null;
+    this.terrainCacheWorld = null;
     this.listeners = [];
     this.disposed = false;
     canvas.style.touchAction = 'none';
@@ -110,6 +157,7 @@ export class StrategyMap {
     this.visibleArmies = (state.armies || []).filter((army) => isArmyVisible(state, army));
     if (changedWorld) {
       this.minimapTerrain = null;
+      this.resetTerrainCaches();
       // The generator's river valley is several tiles wide. Draw its centerline,
       // not a mesh connecting every fertile tile (which would suggest many rivers).
       this.riverPoints = [];
@@ -178,6 +226,291 @@ export class StrategyMap {
     g.stroke();
     this.grainPattern = this.ctx.createPattern(surface, 'repeat');
     return this.grainPattern;
+  }
+
+  cachePpt(mode = this.mode) {
+    // Each mode's terrain bitmap is cached once per world/mode and then
+    // drawImage-scaled to the live TILE*zoom on-screen size (see render()).
+    // 'near' used to cache at 40px/tile while zoom can reach MAX_ZOOM=2.6
+    // (TILE*MAX_ZOOM ~= 146px/tile on screen) — a ~3.6x upscale of the
+    // cached bitmap, which read as soft/blurry terrain at close zoom.
+    // Raising the near/region caches keeps the same whole-world single
+    // cache strategy (no viewport windowing, no extra redraw triggers)
+    // while cutting that upscale to under 2x; canvas stays well inside
+    // browser size limits for a 49x49 world (49*76 = 3724px).
+    return mode === 'world' ? 16 : mode === 'region' ? 32 : 76;
+  }
+
+  collectClusters(pred) {
+    const size = this.state.world.size;
+    const seen = new Uint8Array(size * size);
+    const clusters = [];
+    const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [-1, 1], [1, -1], [-1, -1]];
+    for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) {
+      const i0 = y * size + x;
+      if (seen[i0] || !pred(this.tile(x, y))) continue;
+      const cells = [];
+      const stack = [x, y];
+      seen[i0] = 1;
+      while (stack.length) {
+        const cy = stack.pop(), cx = stack.pop();
+        cells.push([cx, cy]);
+        for (const [dx, dy] of dirs) {
+          const nx = cx + dx, ny = cy + dy, i = ny * size + nx;
+          if (nx < 0 || ny < 0 || nx >= size || ny >= size || seen[i]) continue;
+          if (!pred(this.tile(nx, ny))) continue;
+          seen[i] = 1;
+          stack.push(nx, ny);
+        }
+      }
+      clusters.push(cells);
+    }
+    return clusters;
+  }
+
+  resetTerrainCaches() {
+    this.terrainCaches = new Map();
+    this.atlasJobs = new Map();
+    this.atlasPreview = null;
+    this.terrainCacheWorld = null;
+  }
+
+  // Returns a bitmap to draw immediately. The atlas for the current mode is
+  // painted by time-sliced background jobs (see runAtlasSlice); until it is
+  // ready the nearest finished atlas, or a soft per-tile material preview, is
+  // drawn instead. Painting it synchronously here blocked the main thread for
+  // ~1s on every zoom-mode change.
+  ensureTerrainCache() {
+    if (!this.state) return null;
+    const world = this.state.world;
+    if (this.terrainCacheWorld !== world) {
+      this.resetTerrainCaches();
+      this.terrainCacheWorld = world;
+    }
+    const ready = this.terrainCaches.get(this.mode);
+    if (ready) return ready;
+    this.queueAtlas(this.mode);
+    for (const mode of ATLAS_MODES) {
+      const cache = this.terrainCaches.get(mode);
+      if (cache) return cache;
+    }
+    return this.ensureAtlasPreview();
+  }
+
+  ensureAtlasPreview() {
+    if (this.atlasPreview) return this.atlasPreview;
+    const size = this.state.world.size;
+    const canvas = document.createElement('canvas');
+    canvas.width = size;
+    canvas.height = size;
+    const g = canvas.getContext('2d');
+    if (!g) return null;
+    const image = g.createImageData(size, size);
+    this.state.world.tiles.forEach((tile, i) => {
+      const hex = COLORS[this.landscapeTerrain(tile)] || COLORS.plain;
+      for (let j = 0; j < 3; j++) image.data[i * 4 + j] = parseInt(hex.slice(1 + j * 2, 3 + j * 2), 16);
+      image.data[i * 4 + 3] = 255;
+    });
+    g.putImageData(image, 0, 0);
+    this.atlasPreview = canvas;
+    return canvas;
+  }
+
+  queueAtlas(mode) {
+    if (!this.terrainCaches.has(mode) && !this.atlasJobs.has(mode)) this.atlasJobs.set(mode, this.atlasJob(mode));
+    this.pumpAtlas();
+  }
+
+  pumpAtlas() {
+    if (this.atlasPending || this.disposed || !this.atlasJobs.size) return;
+    this.atlasPending = true;
+    deferTask(() => {
+      this.atlasPending = false;
+      this.runAtlasSlice();
+    });
+  }
+
+  runAtlasSlice() {
+    if (this.disposed || !this.state || this.terrainCacheWorld !== this.state.world) return;
+    const mode = this.atlasJobs.has(this.mode) ? this.mode : this.atlasJobs.keys().next().value;
+    const job = this.atlasJobs.get(mode);
+    if (!job) return;
+    const deadline = performance.now() + ATLAS_SLICE_MS;
+    let step;
+    do step = job.next(); while (!step.done && step.value !== ATLAS_FLUSH && performance.now() < deadline);
+    if (step.done) {
+      this.atlasJobs.delete(mode);
+      const improvesView = mode === this.mode || !this.terrainCaches.has(this.mode);
+      this.terrainCaches.set(mode, step.value);
+      if (improvesView) this.invalidate();
+      // Prepare the remaining zoom levels in the background so a later zoom
+      // swaps to a finished atlas instead of starting from the preview.
+      const next = ATLAS_MODES.find((m) => !this.terrainCaches.has(m) && !this.atlasJobs.has(m));
+      if (next) this.atlasJobs.set(next, this.atlasJob(next));
+    }
+    this.pumpAtlas();
+  }
+
+  *atlasJob(mode) {
+    const size = this.state.world.size;
+    const ppt = this.cachePpt(mode);
+    const canvas = document.createElement('canvas');
+    canvas.width = size * ppt;
+    canvas.height = size * ppt;
+    const g = canvas.getContext('2d');
+    g.fillStyle = COLORS.paper;
+    yield* atlasBands(g, canvas.width, canvas.height, () => g.fillRect(0, 0, canvas.width, canvas.height));
+    yield* this.atlasSteps(g, ppt, mode);
+    return canvas;
+  }
+
+  // A continuous, shaded material field replaces cell stamps. Simulation tiles
+  // remain authoritative; interpolation is visual only and never consumes RNG.
+  paintContinuousAtlas(g, ppt, mode) {
+    const steps = this.atlasSteps(g, ppt, mode);
+    while (!steps.next().done);
+  }
+
+  // Same drawing, in the same order, as a single synchronous pass; each yield
+  // is only a point where the scheduler may hand the main thread back.
+  *atlasSteps(g, ppt, mode) {
+    const size = this.state.world.size;
+    const materials = this.state.world.tiles.map(t => this.landscapeTerrain(t));
+    const rgb = Object.fromEntries(Object.entries(COLORS).filter(([,v]) => /^#[0-9a-f]{6}$/i.test(v)).map(([k,v]) => [k,[1,3,5].map(i => parseInt(v.slice(i,i+2),16))]));
+    const height = {plain:.12,forest:.25,mountain:1,ore:.8,pass:.58,steppe:.2,arid:.22,valley:0};
+    // Per-tile colour/height tables and allocation-free sampling: identical
+    // arithmetic to the original per-call array version, ~2.3M calls cheaper.
+    const tileCount = size * size;
+    const mr = new Float64Array(tileCount), mg = new Float64Array(tileCount), mb = new Float64Array(tileCount), mh = new Float64Array(tileCount);
+    for (let i = 0; i < tileCount; i++) {
+      const col = rgb[materials[i]] || rgb.plain;
+      mr[i] = col[0]; mg[i] = col[1]; mb[i] = col[2];
+      mh[i] = height[materials[i]] || 0;
+    }
+    let sr = 0, sg = 0, sb = 0, sh = 0;
+    const sample = (x,y) => {
+      x = clamp(x,0,size-1); y = clamp(y,0,size-1);
+      const ix=Math.floor(x), iy=Math.floor(y), fx=x-ix, fy=y-iy;
+      const u=fx*fx*(3-2*fx), v=fy*fy*(3-2*fy);
+      const ix1=Math.min(size-1,ix+1), iy1=Math.min(size-1,iy+1);
+      const a=iy*size+ix, b=iy*size+ix1, c=iy1*size+ix, d=iy1*size+ix1;
+      const w0=(1-u)*(1-v), w1=u*(1-v), w2=(1-u)*v, w3=u*v;
+      sr=0; sr+=mr[a]*w0; sr+=mr[b]*w1; sr+=mr[c]*w2; sr+=mr[d]*w3;
+      sg=0; sg+=mg[a]*w0; sg+=mg[b]*w1; sg+=mg[c]*w2; sg+=mg[d]*w3;
+      sb=0; sb+=mb[a]*w0; sb+=mb[b]*w1; sb+=mb[c]*w2; sb+=mb[d]*w3;
+      sh=0; sh+=mh[a]*w0; sh+=mh[b]*w1; sh+=mh[c]*w2; sh+=mh[d]*w3;
+    };
+    const sampleHeight = (x,y) => {
+      x = clamp(x,0,size-1); y = clamp(y,0,size-1);
+      const ix=Math.floor(x), iy=Math.floor(y), fx=x-ix, fy=y-iy;
+      const u=fx*fx*(3-2*fx), v=fy*fy*(3-2*fy);
+      const ix1=Math.min(size-1,ix+1), iy1=Math.min(size-1,iy+1);
+      let h=0;
+      h+=mh[iy*size+ix]*((1-u)*(1-v)); h+=mh[iy*size+ix1]*(u*(1-v)); h+=mh[iy1*size+ix]*((1-u)*v); h+=mh[iy1*size+ix1]*(u*v);
+      return h;
+    };
+    yield;
+    // Material plate is capped independently of close detail; the near pass
+    // adds crisp vector landforms rather than magnifying the far bitmap.
+    const res = mode==='world'?10:mode==='region'?14:18;
+    const plate=document.createElement('canvas');plate.width=plate.height=size*res;
+    const pg=plate.getContext('2d'), image=pg.createImageData(plate.width,plate.height);
+    for(let py=0;py<plate.height;py++) {
+      for(let px=0;px<plate.width;px++) {
+        const x=px/res-.5,y=py/res-.5;
+        const wx=x+.19*Math.sin(y*2.9+x*.7)+.09*Math.sin(y*7.1);
+        const wy=y+.18*Math.sin(x*2.1-y*.4)+.07*Math.cos(x*6.7);
+        sample(wx,wy);
+        const cr=sr, cg=sg, cb=sb, ch=sh;
+        const light=sampleHeight(wx-.13,wy-.16)-sampleHeight(wx+.13,wy+.16);
+        const folds=Math.sin(wx*9+Math.sin(wy*4)*2)*Math.sin(wy*7+wx*2);
+        const shade=.91+light*.9+folds*(.025+ch*.085);
+        const i=(py*plate.width+px)*4;
+        image.data[i]=clamp(cr*shade,0,255);
+        image.data[i+1]=clamp(cg*shade,0,255);
+        image.data[i+2]=clamp(cb*shade,0,255);
+        image.data[i+3]=255;
+      }
+      yield;
+    }
+    pg.putImageData(image,0,0);
+    yield* atlasBands(g, size*ppt, size*ppt, () => g.drawImage(plate,0,0,size*ppt,size*ppt));
+    // Contour engraving gives valleys and foothills a geographical silhouette.
+    if(mode!=='world') {
+      g.lineWidth=Math.max(.45,ppt*.008);g.strokeStyle='rgba(211,190,135,.16)';
+      const step=.36;
+      for(const level of [.16,.24,.34,.46,.6,.76]){
+        g.beginPath();
+        for(let y=0;y<size-step;y+=step){
+          for(let x=0;x<size-step;x+=step){
+            const pts=[[x,y],[x+step,y],[x+step,y+step],[x,y+step]];
+            const hs=pts.map(([a,b])=>sampleHeight(a-.5,b-.5));const cross=[];
+            for(let k=0;k<4;k++){const n=(k+1)%4;if((hs[k]<level)===(hs[n]<level))continue;const t=(level-hs[k])/(hs[n]-hs[k]);cross.push([(pts[k][0]+(pts[n][0]-pts[k][0])*t)*ppt,(pts[k][1]+(pts[n][1]-pts[k][1])*t)*ppt]);}
+            if(cross.length>=2){g.moveTo(...cross[0]);g.lineTo(...cross[1]);}
+          }
+          yield;
+        }
+        g.stroke();
+        yield ATLAS_FLUSH;
+      }
+    }
+    // Scatter is world-space, not one symbol per tile. Every mark is checked
+    // against the authoritative underlying biome.
+    const count = size*size*(mode==='world'?3:mode==='region'?8:22);
+    for(let i=0;i<count;i++) {
+      if(i%128===127) yield i%ATLAS_SCATTER_FLUSH===ATLAS_SCATTER_FLUSH-1 ? ATLAS_FLUSH : undefined;
+      const x=atlasRandom(i,7171)*size, y=atlasRandom(i,113113)*size;
+      const ix=Math.floor(x),iy=Math.floor(y),kind=materials[iy*size+ix];
+      const px=x*ppt,py=y*ppt, r=atlasRandom(i,4949);
+      if(kind==='forest') {
+        const h=ppt*(.08+r*.14), w=h*.58;
+        g.fillStyle='rgba(8,18,13,.35)';
+        g.beginPath();g.ellipse(px+w*.6,py+h*.28,w*1.35,h*.38,-.4,0,TAU);g.fill();
+        g.beginPath();g.moveTo(px,py-h);g.bezierCurveTo(px+w*.35,py-h*.5,px+w,py-h*.25,px+w,py);g.quadraticCurveTo(px,py+h*.3,px-w,py);g.quadraticCurveTo(px-w*.6,py-h*.5,px,py-h);
+        g.fillStyle=r>.5?'#294b36':'#193829';g.fill();
+        if(mode!=='world'){g.strokeStyle='rgba(161,163,101,.24)';g.lineWidth=.6;g.beginPath();g.moveTo(px,py-h*.88);g.lineTo(px-w*.55,py-h*.14);g.stroke();}
+      } else if(kind==='plain' && mode!=='world' && r>.91) {
+        const angle=Math.sin(x*.7+y*.21)*.6, w=ppt*(.28+r*.32),h=w*.38;
+        g.save();g.translate(px,py);g.rotate(angle);
+        g.fillStyle=r>.9?'rgba(181,155,90,.24)':'rgba(35,51,30,.18)';
+        g.beginPath();g.moveTo(-w,-h);g.lineTo(w*.8,-h*.7);g.lineTo(w,h);g.lineTo(-w*.7,h*.8);g.closePath();g.fill();
+        g.strokeStyle='rgba(206,178,113,.23)';g.lineWidth=.6;
+        for(let k=-2;k<=2;k++){g.beginPath();g.moveTo(-w*.65,k*h/3);g.lineTo(w*.65,k*h/3);g.stroke();}g.restore();
+      }
+    }
+    yield;
+    // Trace the long axis of each mountain belt, never the cell adjacency mesh.
+    const rock=k=>k==='mountain'||k==='ore'||k==='pass';
+    const chains=[];
+    for(let y=0;y<size;y++) {
+      for(let x=0;x<size;x++){
+        if(!rock(materials[y*size+x]))continue;
+        const first=x;while(x+1<size&&rock(materials[y*size+x+1]))x++;
+        const center=(first+x+1)/2;
+        let chain=chains.find(c=>c.at(-1).y===y-1&&Math.abs(c.at(-1).x-center)<3);
+        if(!chain){chain=[];chains.push(chain);}
+        chain.push({x:center+.18*Math.sin(y*.71),y,width:x-first+1});
+      }
+    }
+    g.lineCap='round';g.lineJoin='round';
+    for(const chain of chains){
+      if(chain.length<3)continue;
+      const trace=(offset=0)=>{g.beginPath();g.moveTo((chain[0].x+offset)*ppt,(chain[0].y+.5)*ppt);for(let i=1;i<chain.length;i++){const a=chain[i-1],b=chain[i];g.quadraticCurveTo((a.x+offset)*ppt,(a.y+.5)*ppt,((a.x+b.x)/2+offset)*ppt,((a.y+b.y)/2+.5)*ppt);}};
+      for(const [width,color,offset]of [[1.1,'rgba(14,26,22,.2)',.22],[.65,'rgba(20,31,26,.3)',.16],[.22,'rgba(178,166,120,.32)',-.09],[.035,'rgba(215,203,159,.65)',-.16]]){trace(offset);g.strokeStyle=color;g.lineWidth=Math.max(.65,ppt*width);g.stroke();}
+      for(let i=1;i<chain.length-1;i++){
+        const c=chain[i],cx=c.x*ppt,cy=(c.y+.5)*ppt;
+        for(const sign of [-1,1]){
+          const length=ppt*Math.min(c.width*.42,.65+atlasRandom(i,23)*1.1),dy=ppt*(.35+atlasRandom(i,41)*.6);
+          g.beginPath();g.moveTo(cx,cy);g.bezierCurveTo(cx+sign*length*.3,cy+dy*.2,cx+sign*length*.65,cy+dy*.35,cx+sign*length,cy+dy);
+          g.strokeStyle=sign<0?'rgba(199,184,135,.45)':'rgba(20,33,27,.4)';g.lineWidth=Math.max(.5,ppt*(mode==='world'?.035:.055));g.stroke();
+        }
+      }
+      yield ATLAS_FLUSH;
+    }
+    // Low warm light integrates materials without hiding the map's information.
+    const wash=g.createLinearGradient(0,0,size*ppt,size*ppt);
+    wash.addColorStop(0,'rgba(230,188,101,.08)');wash.addColorStop(.5,'rgba(0,0,0,0)');wash.addColorStop(1,'rgba(4,17,15,.2)');g.fillStyle=wash;
+    yield* atlasBands(g, size*ppt, size*ppt, () => g.fillRect(0,0,size*ppt,size*ppt));
   }
 
   tileToScreen(x, y) {
@@ -421,16 +754,17 @@ export class StrategyMap {
     ctx.beginPath();
     ctx.rect(ox, oy, this.state.world.size * scale, this.state.world.size * scale);
     ctx.clip();
-    for (let y = bounds.minY; y <= bounds.maxY; y++) for (let x = bounds.minX; x <= bounds.maxX; x++) {
-      const tile = this.tile(x, y);
-      if (!tile) continue;
-      this.drawTerrain(tile, ox + x * scale, oy + y * scale, scale);
-      this.drawnTiles++;
+    const cache = this.ensureTerrainCache();
+    if (cache) {
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = this.mode === 'near' ? 'high' : 'medium';
+      ctx.drawImage(cache, ox, oy, this.state.world.size * scale, this.state.world.size * scale);
     }
+    this.drawnTiles = (bounds.maxX - bounds.minX + 1) * (bounds.maxY - bounds.minY + 1);
     const grain = this.ensureGrain();
     if (grain) {
       ctx.save();
-      ctx.globalAlpha = .18;
+      ctx.globalAlpha = .16;
       ctx.fillStyle = grain;
       ctx.fillRect(ox, oy, this.state.world.size * scale, this.state.world.size * scale);
       ctx.restore();
@@ -456,136 +790,10 @@ export class StrategyMap {
     this.canvas.dataset.drawnTiles = String(this.drawnTiles);
     this.canvas.dataset.renderMs = String(this.lastRenderMs);
     this.canvas.dataset.mapMode = this.mode;
+    this.canvas.dataset.atlas = this.terrainCaches.has(this.mode) ? 'ready' : 'building';
     this.canvas.dataset.zoom = this.zoom.toFixed(3);
     this.canvas.dataset.center = `${this.center.x.toFixed(3)},${this.center.y.toFixed(3)}`;
     this.options.onViewChange?.(this.getView());
-  }
-
-  drawTerrain(tile, x, y, size) {
-    const ctx = this.ctx;
-    const v = variation(tile.x, tile.y);
-    const under = this.landscapeTerrain(tile);
-    const fill = COLORS[under] || COLORS.plain;
-    ctx.fillStyle = fill;
-    ctx.fillRect(x, y, size + .6, size + .6);
-    ctx.fillStyle = v > .5 ? `rgba(243,234,212,${(v - .5) * .16})` : `rgba(32,28,22,${(.5 - v) * .14})`;
-    ctx.fillRect(x, y, size + .6, size + .6);
-    if (size >= 4) {
-      ctx.save();
-      ctx.globalAlpha = .11;
-      ctx.fillStyle = v > .5 ? '#efe0b9' : '#1e2923';
-      for (let i = 0; i < 3; i++) {
-        const px = x + (((tile.x * 17 + tile.y * 31 + i * 23) % 41) / 41) * size;
-        const py = y + (((tile.x * 29 + tile.y * 13 + i * 19) % 43) / 43) * size;
-        ctx.beginPath();
-        ctx.ellipse(px, py, Math.max(1, size * (.18 + i * .035)), Math.max(.7, size * .09), v * Math.PI, 0, TAU);
-        ctx.fill();
-      }
-      ctx.restore();
-      const edges = [
-        [-1, 0, [[0, 0], [.18, .10], [.08, .42], [.20, .71], [0, 1]]],
-        [1, 0, [[1, 0], [.84, .14], [.94, .43], [.80, .76], [1, 1]]],
-        [0, -1, [[0, 0], [.18, .16], [.48, .06], [.76, .18], [1, 0]]],
-        [0, 1, [[0, 1], [.23, .84], [.51, .94], [.79, .81], [1, 1]]],
-      ];
-      ctx.save(); ctx.globalAlpha = .28;
-      for (const [dx, dy, points] of edges) {
-        const neighbor = this.tile(tile.x + dx, tile.y + dy);
-        if (!neighbor) continue;
-        const nt = this.landscapeTerrain(neighbor);
-        if (nt === under) continue;
-        ctx.fillStyle = COLORS[nt] || COLORS.plain;
-        path(ctx, points.map(([px, py]) => [x + px * size, y + py * size]), true);
-        ctx.fill();
-      }
-      ctx.restore();
-    }
-    if (size < 16) return;
-    ctx.save();
-    ctx.translate(x, y);
-    ctx.scale(size / 56, size / 56);
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
-    const terrain = tile.terrain;
-    if (terrain === 'forest') {
-      const clusters = size > 36 ? 7 : 5;
-      for (let i = 0; i < clusters; i++) {
-        const tx = 8 + variation2(tile.x, tile.y, i) * 40;
-        const ty = 10 + variation2(tile.x, tile.y, i + 9) * 36;
-        ctx.fillStyle = i % 2 ? '#3d5a44' : '#2a4334';
-        ctx.strokeStyle = '#1a2c22';
-        ctx.lineWidth = .8;
-        path(ctx, [[tx - 6, ty + 5], [tx, ty - 9], [tx + 6, ty + 5]], true); ctx.fill(); ctx.stroke();
-        path(ctx, [[tx - 4.5, ty + 9], [tx, ty - 2], [tx + 4.5, ty + 9]], true); ctx.fill();
-        ctx.beginPath(); ctx.moveTo(tx, ty + 9); ctx.lineTo(tx, ty + 13); ctx.stroke();
-      }
-    } else if (terrain === 'mountain' || terrain === 'ore' || terrain === 'pass') {
-      ctx.strokeStyle = 'rgba(42,34,24,.45)';
-      ctx.lineWidth = .85;
-      for (let line = 0; line < 4; line++) {
-        ctx.beginPath();
-        ctx.moveTo(2, 46 - line * 7 + v * 3);
-        ctx.bezierCurveTo(14, 34 - line * 5, 22, 12 + line * 5, 30, 16 + line * 6);
-        ctx.bezierCurveTo(40, 14 + line * 6, 44, 34 + line * 3, 54, 40 + line * 4);
-        ctx.stroke();
-      }
-      ctx.fillStyle = terrain === 'ore' ? '#684f43' : '#6a6860';
-      path(ctx, [[12, 42], [28, 12], [44, 44], [30, 34]], true); ctx.fill();
-      ctx.fillStyle = '#d4cbb4'; path(ctx, [[22, 24], [28, 12], [33, 24], [29, 21]], true); ctx.fill();
-      if (terrain === 'ore') {
-        ctx.fillStyle = '#8a6a52';
-        path(ctx, [[38, 44], [42, 32], [50, 36], [46, 48]], true); ctx.fill();
-        ctx.strokeStyle = '#c4a574'; ctx.lineWidth = .9;
-        path(ctx, [[40, 40], [48, 34]]); ctx.stroke();
-      }
-      if (terrain === 'pass') {
-        ctx.strokeStyle = COLORS.brass; ctx.lineWidth = 1.6;
-        path(ctx, [[18, 46], [28, 28], [38, 46]]); ctx.stroke();
-      }
-    } else if (terrain === 'plain') {
-      ctx.strokeStyle = 'rgba(74, 58, 28, .35)';
-      ctx.lineWidth = .7;
-      ctx.strokeRect(8, 10, 40, 18);
-      ctx.strokeRect(6, 30, 22, 16);
-      ctx.strokeRect(30, 32, 20, 14);
-      ctx.strokeStyle = 'rgba(90, 110, 50, .45)';
-      for (let i = 0; i < 5; i++) { path(ctx, [[10, 14 + i * 4], [46, 12 + i * 4]]); ctx.stroke(); }
-      ctx.strokeStyle = 'rgba(196, 165, 116, .35)';
-      path(ctx, [[16, 8], [18, 50]]); ctx.stroke();
-    } else if (terrain === 'steppe') {
-      ctx.strokeStyle = 'rgba(74, 64, 32, .4)';
-      ctx.lineWidth = .7;
-      for (let i = 0; i < 4; i++) {
-        const ox = 8 + i * 11 + v * 4, oy = 16 + (i % 2) * 14;
-        path(ctx, [[ox, oy], [ox + 3, oy - 6], [ox + 6, oy]]); ctx.stroke();
-      }
-    } else if (terrain === 'arid') {
-      ctx.fillStyle = 'rgba(90, 62, 34, .28)';
-      for (let i = 0; i < 5; i++) {
-        const px = 8 + variation2(tile.x, tile.y, i + 3) * 40;
-        const py = 10 + variation2(tile.x, tile.y, i + 7) * 36;
-        ctx.beginPath(); ctx.ellipse(px, py, 2.4, 1.1, v, 0, TAU); ctx.fill();
-      }
-      ctx.strokeStyle = 'rgba(120, 86, 48, .35)';
-      ctx.beginPath(); ctx.moveTo(6, 20); ctx.quadraticCurveTo(28, 12, 50, 24); ctx.stroke();
-    } else if (terrain === 'valley') {
-      ctx.strokeStyle = '#3f6554';
-      ctx.lineWidth = .9;
-      for (let i = 0; i < 4; i++) { path(ctx, [[8 + i * 12, 42], [10 + i * 12, 34], [14 + i * 12, 42]]); ctx.stroke(); }
-      ctx.strokeStyle = 'rgba(42, 70, 68, .35)';
-      ctx.beginPath(); ctx.moveTo(4, 28); ctx.quadraticCurveTo(28, 22, 52, 30); ctx.stroke();
-    } else if (terrain === 'road') {
-      ctx.fillStyle = 'rgba(74, 55, 28, .18)';
-      ctx.fillRect(0, 22, 56, 12);
-    }
-    if (size > 40) {
-      ctx.strokeStyle = 'rgba(43,35,29,.22)';
-      ctx.lineWidth = .8;
-      ctx.beginPath(); ctx.moveTo(2, 47 - v * 8); ctx.bezierCurveTo(14, 39, 31, 51, 54, 40 - v * 5); ctx.stroke();
-      ctx.strokeStyle = 'rgba(235,214,171,.18)';
-      ctx.beginPath(); ctx.moveTo(1, 7 + v * 8); ctx.bezierCurveTo(18, 14, 35, 3, 55, 15 + v * 3); ctx.stroke();
-    }
-    ctx.restore();
   }
 
   drawConnections(bounds, ox, oy, scale) {
@@ -594,8 +802,8 @@ export class StrategyMap {
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
       for (let pass = 0; pass < 4; pass++) {
-        const widths = [0.42, 0.32, 0.18, 0.055];
-        const colors = ['rgba(36,48,44,.42)', '#2a4a4c', COLORS.water, COLORS.waterLight];
+        const widths = [0.31, 0.23, 0.14, 0.022];
+        const colors = ['rgba(36,48,44,.42)', '#2a4a4c', COLORS.water, 'rgba(147,182,157,.5)'];
         ctx.strokeStyle = colors[pass];
         for (let i = 1; i < this.riverPoints.length; i++) {
           const a = this.riverPoints[i - 1], b = this.riverPoints[i];
@@ -622,14 +830,18 @@ export class StrategyMap {
       let connected = false;
       for (const [dx, dy] of [[1, 0], [0, 1], [1, 1], [-1, 1]]) {
         if (this.tile(x + dx, y + dy)?.terrain !== 'road') continue;
-        segments.push([px, py, px + dx * scale, py + dy * scale]);
+        const wobble = (variation(x, y) - .5) * scale * .22;
+        segments.push([px, py, px + dx * scale, py + dy * scale, wobble]);
         connected = true;
       }
-      if (!connected) segments.push([px - .16 * scale, py + .08 * scale, px + .16 * scale, py - .08 * scale]);
+      if (!connected) segments.push([px - .16 * scale, py + .08 * scale, px + .16 * scale, py - .08 * scale, 0]);
     }
-    for (const [width, color] of [[Math.max(4, scale * .20), 'rgba(54,37,25,.72)'], [Math.max(2.2, scale * .12), COLORS.road], [Math.max(.8, scale * .04), '#d4c08a']]) {
+    for (const [width, color] of [[Math.max(4, scale * .22), 'rgba(54,37,25,.55)'], [Math.max(2.4, scale * .13), COLORS.road], [Math.max(.7, scale * .035), '#d4c08a']]) {
       ctx.beginPath();
-      for (const [ax, ay, bx, by] of segments) { ctx.moveTo(ax, ay); ctx.lineTo(bx, by); }
+      for (const [ax, ay, bx, by, wobble] of segments) {
+        ctx.moveTo(ax, ay);
+        ctx.quadraticCurveTo((ax + bx) / 2 + wobble, (ay + by) / 2 - wobble * .4, bx, by);
+      }
       ctx.lineWidth = width;
       ctx.strokeStyle = color;
       ctx.stroke();
@@ -735,6 +947,20 @@ export class StrategyMap {
     } else {
       path(ctx, [[0, -r], [r, 0], [0, r], [-r, 0]], true); ctx.fill(); ctx.stroke();
     }
+    if (this.mode === 'near' && scale >= 44) {
+      if (type === 'watchtower') {
+        ctx.fillStyle = '#4a3c30';
+        ctx.fillRect(-r * .08, -r * 1.2, r * .16, r * .35);
+        ctx.fillStyle = COLORS.brass;
+        ctx.beginPath(); ctx.arc(0, -r * 1.22, r * .12, 0, TAU); ctx.fill();
+      } else if (type === 'caravanserai') {
+        ctx.fillStyle = '#6a5438';
+        ctx.fillRect(-r * .35, .05 * r, r * .22, r * .4);
+      } else if (type === 'pasture') {
+        ctx.fillStyle = 'rgba(61,83,68,.35)';
+        ctx.beginPath(); ctx.ellipse(-r * .15, r * .15, r * .35, r * .18, 0, 0, TAU); ctx.fill();
+      }
+    }
     ctx.restore();
     if (scale >= 48 && (sameTile(this.hover, tile) || sameTile(this.selected, tile))) this.label(POIS[poi.type]?.label || 'Stratejik nokta', p.x, p.y + r + 16, false);
   }
@@ -770,12 +996,12 @@ export class StrategyMap {
         path(ctx, [[-18, 7], [-18, -7], [-10, -11], [10, -11], [18, -7], [18, 7], [0, 16]], true); ctx.fill(); ctx.stroke();
         ctx.fillStyle = '#b6b198'; path(ctx, [[0, 4], [18, -7], [18, 7], [0, 16]], true); ctx.fill();
         ctx.fillStyle = '#c6c0a7'; path(ctx, [[-18, -7], [0, 4], [0, 16], [-18, 7]], true); ctx.fill();
-        ctx.fillStyle = '#eeead6'; ctx.fillRect(-8, -16, 15, 17);
+        ctx.fillStyle = '#aa9d79'; ctx.fillRect(-8, -16, 15, 17);
         ctx.fillStyle = capital ? COLORS.oxblood : '#a87458'; path(ctx, [[-11, -16], [-1, -23], [11, -16], [4, -12]], true); ctx.fill();
         ctx.fillStyle = '#786f57'; ctx.fillRect(-2, -6, 5, 7);
         for (const tx of [-17, 12]) {
-          ctx.fillStyle = '#ddd7bd'; ctx.fillRect(tx, -10, 6, 17);
-          ctx.fillStyle = '#bbb399'; ctx.fillRect(tx, -12, 2, 4); ctx.fillRect(tx + 4, -12, 2, 4);
+          ctx.fillStyle = '#8c896f'; ctx.fillRect(tx, -10, 6, 17);
+          ctx.fillStyle = '#c9bd95'; ctx.fillRect(tx, -12, 2, 4); ctx.fillRect(tx + 4, -12, 2, 4);
         }
         if (fortified) {
           ctx.strokeStyle = '#4a4c48'; ctx.lineWidth = 1.4;
@@ -919,6 +1145,8 @@ export class StrategyMap {
     this.observer?.disconnect();
     this.listeners.forEach((remove) => remove());
     this.listeners.length = 0;
+    this.resetTerrainCaches();
+    this.minimapTerrain = null;
   }
 }
 

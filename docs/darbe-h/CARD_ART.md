@@ -8,9 +8,9 @@ Presentation only. No deck, mechanic or balance change. VETO-H! assets not regen
 |---|---|---|
 | VETO-H! | existing 576×384 webp, campaign night | unchanged |
 | GETT-OH! | 400×300 webp, Istanbul night | `RCN-285` placeholder replaced in pack |
-| DARBE-H! | 400×560 SVG, crisis-archive collage | `public/games/darbe-h/assets/cards/DRB-NNN.svg` |
+| DARBE-H! | 400×560 SVG, illustrated crisis interiors | `public/games/darbe-h/assets/cards/DRB-NNN.svg` |
 
-DARBE class language: Görevli / Emirname / İhtar. Faces are series-first documentary collages (telex, dossier, command table, paraf, archive), not a shared geometric template with swapped labels. L5+ heavier frame, auxiliary wax `YD`. Readable at 360px.
+DARBE class language: Görevli / Emirname / İhtar. Faces are series-first illustrated interiors (lamp-lit desks, telex rooms, briefing corridors, archive stacks) with perspective, lighting pools and object storytelling — not a shared collage template with swapped labels. L5+ heavier frame, auxiliary wax `YD`. Readable at 360px.
 
 ## Naming
 

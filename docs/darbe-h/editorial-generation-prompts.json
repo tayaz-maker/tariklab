@@ -1,0 +1,119 @@
+{
+  "tool": "built-in image_gen.imagegen",
+  "medium": "original fictional editorial noir illustration",
+  "sourceSheets": 10,
+  "panelsPerSheet": 6,
+  "promptTemplate": "Use case: illustration-story. Make a high-resolution 1536x1024 sheet with EXACTLY 3 columns and 2 rows of six equal square artwork panels. Zero gutters, borders or text. Each panel an ORIGINAL fictional political thriller card illustration, entirely different scene. Premium editorial noir cinematic painted illustration, real perspective, rich material grain, foreground occlusion, cast shadows, directional warm light, deep institutional green and charcoal, oxblood and brass accents, visible detail in shadows. NO flat vectors, icons, UI, labels, readable documents, fake historical evidence or recognizable people. Panels reading order: {scenes}. Professional concept-art quality. Each image fills its entire square. Fictional imagery, not archival photography.",
+  "batches": [
+    {
+      "batch": 1,
+      "scenes": [
+        "overhead evidence desk with blank folders and warm green banker lamp",
+        "wide command room seen behind massive empty leather chair",
+        "long low-lit ministry corridor polished stone floor",
+        "towering archive aisle from floor with ladder",
+        "extreme telex paper tape mechanism macro",
+        "vintage telephone radio console in profile"
+      ]
+    },
+    {
+      "batch": 2,
+      "scenes": [
+        "empty horseshoe committee table from balcony",
+        "sealed red envelope on walnut closeup",
+        "typewriter carriage side detail in lamplight",
+        "large strategic map table diagonal view",
+        "open green filing drawer from above",
+        "heavy doorway lit from behind into empty office"
+      ]
+    },
+    {
+      "batch": 3,
+      "scenes": [
+        "waiting room benches from corner",
+        "operational chalk board and pool of lamplight",
+        "venetian blind shadows over empty leather chair",
+        "vaulted records room with shelves",
+        "after-hours office through rain window",
+        "red desk lamp large foreground dossier in distance"
+      ]
+    },
+    {
+      "batch": 4,
+      "scenes": [
+        "stairwell curling downward",
+        "ribbed glass partition with empty desks behind",
+        "radio mast silhouette at Anatolian dusk",
+        "briefing projector beam in empty smoky room",
+        "open leather briefcase beneath desk lamp",
+        "abandoned press lectern microphones and red curtain"
+      ]
+    },
+    {
+      "batch": 5,
+      "scenes": [
+        "underground switchboard cable room",
+        "rain on institutional window deep focus exterior",
+        "wax seal macro scissors on paper",
+        "tube dispatch system brass cylinders",
+        "dark library ladder towering shelves",
+        "printing press machinery moving paper"
+      ]
+    },
+    {
+      "batch": 6,
+      "scenes": [
+        "overhead broken red telephone receiver coiled cord",
+        "mail sorting wall with lit brass cubbies",
+        "heavy steel safe ajar low angle",
+        "reel-to-reel tape recorder side angle",
+        "blank closed folder reflected in dark glass",
+        "grand empty chamber viewed from balcony"
+      ]
+    },
+    {
+      "batch": 7,
+      "scenes": [
+        "anonymous gloved hand passing folded paper through door gap no face",
+        "fluorescent basement long perspective",
+        "dusty clockwork mechanism macro",
+        "stack of sealed black dispatch cases in close foreground",
+        "empty armored vehicle interior through hatch",
+        "disused security checkpoint rain at night"
+      ]
+    },
+    {
+      "batch": 8,
+      "scenes": [
+        "overhead torn map fragments no readable place names",
+        "ministerial desk viewed from underneath chair legs",
+        "underground tunnel pipes vanishing point",
+        "empty microphone in single spotlight profile",
+        "blank notice board behind chain fence",
+        "old switchboard seen through fan cage"
+      ]
+    },
+    {
+      "batch": 9,
+      "scenes": [
+        "brass scales against dark archive shelves",
+        "empty staircase landing diagonal sunlight",
+        "surveillance monitors showing generic empty hallways",
+        "empty officer coat over wooden chair",
+        "map lit by portable floor lamp",
+        "empty council table through frosted glass"
+      ]
+    },
+    {
+      "batch": 10,
+      "scenes": [
+        "overturned ink bottle spreading ink over blank paper",
+        "empty car rear seat leather folder wet night window",
+        "closed train compartment dispatch case",
+        "rain soaked stone institutional entrance night",
+        "carbon paper fountain pen extreme closeup",
+        "tall record stacks crossed by diagonal daylight"
+      ]
+    }
+  ]
+}

@@ -1,10 +1,10 @@
 {
   "summary": {
     "coverage": 300,
-    "totalBytes": 1386042,
-    "averageBytes": 4620,
-    "p95Bytes": 6008,
-    "maxBytes": 13950,
+    "totalBytes": 13389526,
+    "averageBytes": 44632,
+    "p95Bytes": 68927,
+    "maxBytes": 78396,
     "duplicateHashes": 0,
     "duplicateWells": 0,
     "dimensions": [
@@ -18,2101 +18,2101 @@
       "path": "/games/darbe-h/assets/cards/DRB-001.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3637,
-      "sha256": "727a25f8206d338dc171bd05661c3aaaa0e730b59c0c60ead67af84da5d0f409"
+      "bytes": 47514,
+      "sha256": "378d33569fcc10584cf9389263ab1c1254474b00c9ca44e61bd37e868d56dd8f"
     },
     "DRB-002": {
       "path": "/games/darbe-h/assets/cards/DRB-002.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3764,
-      "sha256": "fe6ff7a47658b9dfb40c338f0abc8c21b88a93ec0861e76aae1b7ef6f611de9e"
+      "bytes": 46176,
+      "sha256": "3f1a97b3e3eef3cefbcb4835c34846f0c821825706af41b91432af8989dc6586"
     },
     "DRB-003": {
       "path": "/games/darbe-h/assets/cards/DRB-003.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4145,
-      "sha256": "3303f6786ee0df0b8ea59826416191e78e648d044b440e82176e3e0ded180548"
+      "bytes": 50430,
+      "sha256": "f3815c98e17e8088ef4604dec69dce70212cfb4e5d53bc5855fa6bf1220b85c5"
     },
     "DRB-004": {
       "path": "/games/darbe-h/assets/cards/DRB-004.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4066,
-      "sha256": "64683f9899b095b19fe1ec4cc0b4eb24168d502aaf8a879f268a5c91bf47512e"
+      "bytes": 64659,
+      "sha256": "451a2213e4120cf28f53fdffbc198f83addfab868121239b170686dd2b62ec2c"
     },
     "DRB-005": {
       "path": "/games/darbe-h/assets/cards/DRB-005.svg",
       "width": 400,
       "height": 560,
-      "bytes": 13685,
-      "sha256": "3ab4ec72452744c90cac1cdbcb294454ce49e8cbe971c465769754e4e36dbedc"
+      "bytes": 45314,
+      "sha256": "4bbd7af86884d5ec4f26e429f0408defeff0bb1e6525948aa275d421452974a3"
     },
     "DRB-006": {
       "path": "/games/darbe-h/assets/cards/DRB-006.svg",
       "width": 400,
       "height": 560,
-      "bytes": 5076,
-      "sha256": "df3a3d696f22d7e4242aa2cc4dbba93a40f3c2ee6b53c720e7556bb5bfe1d4ad"
+      "bytes": 43623,
+      "sha256": "2cfc72f6b34b184811d4dc2dc0e9e55fde7d567009ebc54342b0599ac24f7d22"
     },
     "DRB-007": {
       "path": "/games/darbe-h/assets/cards/DRB-007.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4596,
-      "sha256": "cb5b8e7b1a045e39a22c1c773aae0be449929d107917d333724499856951c3e6"
+      "bytes": 40402,
+      "sha256": "5c960be052602a7241e16d622f09b263630d29b7bce9c501f11a74595d023402"
     },
     "DRB-008": {
       "path": "/games/darbe-h/assets/cards/DRB-008.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4068,
-      "sha256": "146436a0b2168548254d1d55f01e7aa0505761c0f87fb424da4d164147486c4d"
+      "bytes": 33482,
+      "sha256": "70afe48d5563d79d23871a905d9b4ea1a4cebfbbcd73b5c68e1dd78b7b5721fb"
     },
     "DRB-009": {
       "path": "/games/darbe-h/assets/cards/DRB-009.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4060,
-      "sha256": "e85052ffc16e3b1f5d10ce793d528262534d1078254ee8230d16879af540a48b"
+      "bytes": 34778,
+      "sha256": "6a47bfa2d101a5a15e40d9a3f227c57b441c8840492aebeead8ea07dc3901a34"
     },
     "DRB-010": {
       "path": "/games/darbe-h/assets/cards/DRB-010.svg",
       "width": 400,
       "height": 560,
-      "bytes": 5015,
-      "sha256": "c30354cb40882a63b4634f1bcaa034c9eb848e3fd33183eb616ecfbd55a0f930"
+      "bytes": 64943,
+      "sha256": "1d0164c98c4a73d8c2936fdb1c2bc3c8138179ab9624f02febe9a0310e3a9f94"
     },
     "DRB-011": {
       "path": "/games/darbe-h/assets/cards/DRB-011.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3323,
-      "sha256": "3286e17f842ce68cfaa711f5a77fd01e2816f50141c09cdff3ec67f8c8014ce0"
+      "bytes": 35634,
+      "sha256": "f26e84fc1df3272aa1046e70877ae23e2efb33ecbc804d00b0c96b488c294365"
     },
     "DRB-012": {
       "path": "/games/darbe-h/assets/cards/DRB-012.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3734,
-      "sha256": "8cc43fafa985c0095e194b2f4fefdec38af047be2d3966013e731ef81dbb6c75"
+      "bytes": 33879,
+      "sha256": "f3678d1124034a7346b9af68a0547d0e9c76f9f0875eace81ee8f8b8d175596c"
     },
     "DRB-013": {
       "path": "/games/darbe-h/assets/cards/DRB-013.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3726,
-      "sha256": "e5bcd4f34d3555a4339a35fe21c5a882f80e9a26b1dc67352e49f6e933a992fc"
+      "bytes": 48416,
+      "sha256": "5f1e8da0ff792ca4f8c79d60cd7043f285fe84634437c29703c95e827f748c1a"
     },
     "DRB-014": {
       "path": "/games/darbe-h/assets/cards/DRB-014.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3383,
-      "sha256": "18650bdf8644f46be722ea85acebe910899e61fb94b541195d74d2c1a9360650"
+      "bytes": 46922,
+      "sha256": "2728c77cbe3b2a8bd375a87c75aea5cbe14619bdb7623e22f2b119f48e488ea1"
     },
     "DRB-015": {
       "path": "/games/darbe-h/assets/cards/DRB-015.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4472,
-      "sha256": "2920a4e2316179983b7c227fbc198536da66d9fada0ca53779c03e030a9e8cd0"
+      "bytes": 35584,
+      "sha256": "0c6eddd2d1a377738584a1ab193c282b46358a6e03ea178d74fa82d8ba78c71f"
     },
     "DRB-016": {
       "path": "/games/darbe-h/assets/cards/DRB-016.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3970,
-      "sha256": "cc9f663b6896196525c8bb42cb054f21f0d658f3841f923d149163ead465f8c2"
+      "bytes": 55415,
+      "sha256": "0615eea54edb5d30d98feba3e0de2ef4c6a503d1823683e10ecc1027468a9e18"
     },
     "DRB-017": {
       "path": "/games/darbe-h/assets/cards/DRB-017.svg",
       "width": 400,
       "height": 560,
-      "bytes": 5695,
-      "sha256": "6d59225f4709585db52ab7a48e267a7dbe87cc50db10f972015d68d1a3614cda"
+      "bytes": 50980,
+      "sha256": "3e5fd6512cbf7e3b2e8d7b23789320fcce144b138d2830d6c7ca2398d66d4836"
     },
     "DRB-018": {
       "path": "/games/darbe-h/assets/cards/DRB-018.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4833,
-      "sha256": "02a81d87cfcc09690f4e242dca6b40bd7dc8026f08648549152b221de8f43f43"
+      "bytes": 33121,
+      "sha256": "8f88ff0ecfb4f435f51ca228a6ded2dbb1142f61c40a40d317b8904be668bf1e"
     },
     "DRB-019": {
       "path": "/games/darbe-h/assets/cards/DRB-019.svg",
       "width": 400,
       "height": 560,
-      "bytes": 5238,
-      "sha256": "ea7a6985bb01006a4374a67e24ddccfc627120b1055d60a7909f60018e44c6e0"
+      "bytes": 35960,
+      "sha256": "806a550d308003481b1b8efd64e90b4cdf7a4360e710fe1687459f1bc0232f27"
     },
     "DRB-020": {
       "path": "/games/darbe-h/assets/cards/DRB-020.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3468,
-      "sha256": "e51f1e1dc306dc416e2e1ba2e9d3dbfc7b5db58049172f7dec9252764d569e23"
+      "bytes": 39494,
+      "sha256": "a8a72a5450aa9fbe45ff11cde38da874ea60d08ba80d6ed264383c08720989a0"
     },
     "DRB-021": {
       "path": "/games/darbe-h/assets/cards/DRB-021.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4114,
-      "sha256": "748b60532819529ae5206cb1afbd4c09d7f9354d72e5dc0d4c5ebd295fb6437e"
+      "bytes": 35160,
+      "sha256": "78e34c5a7c49ef32d30fa87078a797ede54d1365443250b72c7d76155850f817"
     },
     "DRB-022": {
       "path": "/games/darbe-h/assets/cards/DRB-022.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4685,
-      "sha256": "3692bc0795e072de751d3f23347ddb82633197c6076c5a944e1a776b84dbfbca"
+      "bytes": 24233,
+      "sha256": "4878bc52b3068682afaf4f94db24286666a1df5a7f7d894d75638694b9eaa758"
     },
     "DRB-023": {
       "path": "/games/darbe-h/assets/cards/DRB-023.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3800,
-      "sha256": "dc39547da2258fa5367f61e756b9e643f7db415f8c1bba8f8156e6b6b9773c25"
+      "bytes": 36646,
+      "sha256": "e85d2fd44cfb4a29348082517c984bd7cbd827838478ba1c5c9104af6a892b01"
     },
     "DRB-024": {
       "path": "/games/darbe-h/assets/cards/DRB-024.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4470,
-      "sha256": "2d20a8b8cb6f5ab4343f8d5016e115cb22da90e7d3dc04341251ced4c2334f23"
+      "bytes": 26484,
+      "sha256": "367a074e03efe5aabf24e96a26c0f9bbb01251911fbe879193b39108551dd141"
     },
     "DRB-025": {
       "path": "/games/darbe-h/assets/cards/DRB-025.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3897,
-      "sha256": "02aed1429e05aa8859eb1356b21873bcb7633e0f3a38077c82948fbf93516f1a"
+      "bytes": 58113,
+      "sha256": "679174ccc7a9dc0040c184ade2c9aa650b3bd2b3c5339c34f8984a5be55effdb"
     },
     "DRB-026": {
       "path": "/games/darbe-h/assets/cards/DRB-026.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3345,
-      "sha256": "181bf8d14103072d3b2677c7f4dd02ffffdd748036893217e3de304cdc10a285"
+      "bytes": 56963,
+      "sha256": "729e65fcf4bcd9c9603c4e59f0088699b5f657aaf0620cba2f44f05433a7d353"
     },
     "DRB-027": {
       "path": "/games/darbe-h/assets/cards/DRB-027.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4224,
-      "sha256": "7694e2847d595e6e8eda7c1452eeadeffe0bbd23d953dc6f76ce864a38abcc9d"
+      "bytes": 42729,
+      "sha256": "8f7ec8cbab91c0369f4e9479f3f9e98aff132916608065dcf2b084dea2769f84"
     },
     "DRB-028": {
       "path": "/games/darbe-h/assets/cards/DRB-028.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3887,
-      "sha256": "98923583e42a86e2e10c2b6ba9fa107127572a6b61e4f3b90d2c5a299dea888f"
+      "bytes": 39362,
+      "sha256": "da47430fe92b252abcb8b6caf1303cf18ce80b5dfeae19879e094c3c5ab312c2"
     },
     "DRB-029": {
       "path": "/games/darbe-h/assets/cards/DRB-029.svg",
       "width": 400,
       "height": 560,
-      "bytes": 13561,
-      "sha256": "95d8a283a751f36a5dcdd2e3e8eba3b189f786dacff2bf20eb4be602125441ea"
+      "bytes": 53981,
+      "sha256": "3fb7aa249cd3267ce2c191fa60f3b9b0dd559e16cdeb318a2a40280905d4d2b5"
     },
     "DRB-030": {
       "path": "/games/darbe-h/assets/cards/DRB-030.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4593,
-      "sha256": "60a2d90017a388d7932b9afab279a18b652c90159c36179f49b0f18c52433fad"
+      "bytes": 51630,
+      "sha256": "33a573dd66d6ab8b05cdc0101666ca5705cf9b5e4d9ad0dcf66b6f050aa8032f"
     },
     "DRB-031": {
       "path": "/games/darbe-h/assets/cards/DRB-031.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4578,
-      "sha256": "e020462d3fe036a5a700f99cefdc518ea04086e425a6e37cfc714a0b24511c2c"
+      "bytes": 78381,
+      "sha256": "d2e8798b4fa97c84dcae18f4bdbb8d75e7aa334c0955245babe7cf160bf153e0"
     },
     "DRB-032": {
       "path": "/games/darbe-h/assets/cards/DRB-032.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3894,
-      "sha256": "2a8bfa0f91b3984da1f4352757315332f8e991ab7d090318399487727fb18b0c"
+      "bytes": 47885,
+      "sha256": "d4a3db3b599cbff0c5a6d92c076e49cbc9834438fccfda3dd58a2776436e43ae"
     },
     "DRB-033": {
       "path": "/games/darbe-h/assets/cards/DRB-033.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3954,
-      "sha256": "f58996bc20bee623c1605bf558040ff757b3a0e88a1038edc0357d5b531550a4"
+      "bytes": 39297,
+      "sha256": "8946cdca3ed414a69426ce71a466d2f911187b56deda17d7b04dbbef5086a7ad"
     },
     "DRB-034": {
       "path": "/games/darbe-h/assets/cards/DRB-034.svg",
       "width": 400,
       "height": 560,
-      "bytes": 5165,
-      "sha256": "6a313159f9ee81d86ae7f2afcb7e64d3aeb4ea5a660f4aef4098c44c71336470"
+      "bytes": 32268,
+      "sha256": "22da3a0a7a92259114a5edd67329e6d99e40d769b2e881c6aec351c7e9b14dc8"
     },
     "DRB-035": {
       "path": "/games/darbe-h/assets/cards/DRB-035.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3716,
-      "sha256": "3b3c7f470bb2e013b9c2c2cf871d51187249c9c7f32cf36806d32bc941eea71c"
+      "bytes": 28435,
+      "sha256": "adae507ec7ad8e802a4dd88c028ccc56bdaeb06b4c4a1c3d1244eef0890b8e08"
     },
     "DRB-036": {
       "path": "/games/darbe-h/assets/cards/DRB-036.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3636,
-      "sha256": "465f09745f06531707b9789bbb9279a3d70ce7c9420a423d7d8c40b261af6879"
+      "bytes": 52790,
+      "sha256": "aebdf3b331adc5a179844665c3166e2c6eb4b33228c580e4b73a143df0b2e41b"
     },
     "DRB-037": {
       "path": "/games/darbe-h/assets/cards/DRB-037.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3775,
-      "sha256": "bf68c089545981330fd7e13c019c97dea60c54d61df3227dd6714bd90b9bc298"
+      "bytes": 34647,
+      "sha256": "651d2b24ab581d715be7795b32c2f5d62d0e8a030370f8c7637256cb06efcb8c"
     },
     "DRB-038": {
       "path": "/games/darbe-h/assets/cards/DRB-038.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3724,
-      "sha256": "be445303c264068bcdff9933161432d1cdcc32104ea83d51e6f3a700556f48d4"
+      "bytes": 41319,
+      "sha256": "d9859ffd46e1bebf149af880d440f478e0fb2ae4f0a0483d5f2fa49bb638b555"
     },
     "DRB-039": {
       "path": "/games/darbe-h/assets/cards/DRB-039.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4117,
-      "sha256": "8698896f6ce340a44245ee8521951afa4f60079ecb5624e03182df82817dc201"
+      "bytes": 51817,
+      "sha256": "1f6d8b12f42465e7bf675da895049a759ad273c01fb8427f8c87cd2a709ed98b"
     },
     "DRB-040": {
       "path": "/games/darbe-h/assets/cards/DRB-040.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4354,
-      "sha256": "b0fc00b6e3cd2a0922a7609345679700a693c71d6492092ee7b29452751979a8"
+      "bytes": 45228,
+      "sha256": "374e86ab8cdea7483c11914ae0c800549a3f21a0d0dbb9a173ab14d8e3d677f9"
     },
     "DRB-041": {
       "path": "/games/darbe-h/assets/cards/DRB-041.svg",
       "width": 400,
       "height": 560,
-      "bytes": 12883,
-      "sha256": "8a5aca68486498dd7272e910ddf01577adf7c9b0e5f1fbacad399be3fc55b5f0"
+      "bytes": 42913,
+      "sha256": "936d4a068b6a9f76d71998e6235aec5bd423aa0852335a9c20d0e1d3801b08c8"
     },
     "DRB-042": {
       "path": "/games/darbe-h/assets/cards/DRB-042.svg",
       "width": 400,
       "height": 560,
-      "bytes": 5675,
-      "sha256": "4b145d745b485ae654c3abb53d863df3524bb3112fbb0364a15993cffd9302e2"
+      "bytes": 68916,
+      "sha256": "d2223fe973fecd2405edbfce1f3d09095d69d8694b049adfffc74862a3f085b0"
     },
     "DRB-043": {
       "path": "/games/darbe-h/assets/cards/DRB-043.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4644,
-      "sha256": "2d10946985d9deefc36067e09fe941f73320fbfa40a3ccb37c25a95cae864b51"
+      "bytes": 71329,
+      "sha256": "30b9e6f9e0a3e6f9b423e3ab706e5eb576cc93b13b4d2caa40394bb95d36e81b"
     },
     "DRB-044": {
       "path": "/games/darbe-h/assets/cards/DRB-044.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3592,
-      "sha256": "38591ffc6980ab645299b2983ba31278414b7aea7a03a5aa5305781ed9452f9a"
+      "bytes": 31287,
+      "sha256": "4c951db8eb2e8787333989645b8ea073bacd921e52e435c7d8380ea2cdbfc85a"
     },
     "DRB-045": {
       "path": "/games/darbe-h/assets/cards/DRB-045.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4081,
-      "sha256": "bd2adb3f019afaca2668e1bbed8b8e239419c7d5443886eb8fcc45e9e2f908a6"
+      "bytes": 51185,
+      "sha256": "8952f38b4508ca9daed8d065afb85b5df6b6cec0d35f28031b9ecae31ce0b6d3"
     },
     "DRB-046": {
       "path": "/games/darbe-h/assets/cards/DRB-046.svg",
       "width": 400,
       "height": 560,
-      "bytes": 5744,
-      "sha256": "e88f17dc52fc40108c64b69c2361606f7b58eda7d6f43043c44b94e8d52865c6"
+      "bytes": 14444,
+      "sha256": "48f54aa3554b43d91d33f48dd817a63dbd7f12517cb33c21495c89e74a11f5a8"
     },
     "DRB-047": {
       "path": "/games/darbe-h/assets/cards/DRB-047.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3787,
-      "sha256": "ea6415fdf35f9d2165913efd4095da5c1c0193e09f1fa2cceaa0cd6684a07032"
+      "bytes": 59443,
+      "sha256": "733c4fd365a91ad177ca061e6d5e1c1e0ac78ba8613d53ba96c6bc88c9551ea4"
     },
     "DRB-048": {
       "path": "/games/darbe-h/assets/cards/DRB-048.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3743,
-      "sha256": "cac7b862fd20e54b314394e187de5fe69044fb77a154152d3896cffccf2136f4"
+      "bytes": 39299,
+      "sha256": "963d8e7c8d3de8e6611938da726a8e0a7e066c144fe39995f9ae42b0a7401a1d"
     },
     "DRB-049": {
       "path": "/games/darbe-h/assets/cards/DRB-049.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4139,
-      "sha256": "b43fe8bab2699ae1b0bc69dc92eacbef311e72c96538f5393f11ef66f7722a06"
+      "bytes": 40696,
+      "sha256": "96987c76b0bf564b1ad94c6d13eb902c945dfde4a18a4fab37237041f3c2135c"
     },
     "DRB-050": {
       "path": "/games/darbe-h/assets/cards/DRB-050.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3860,
-      "sha256": "f7570923e9f07fca86c8445ffcc72ff6cb82939c4eabd23903f2da71bcefed71"
+      "bytes": 41302,
+      "sha256": "a95ebbbf0e09445b82e9c0b339f844a16a39166bb9047de63760b3a0934c327d"
     },
     "DRB-051": {
       "path": "/games/darbe-h/assets/cards/DRB-051.svg",
       "width": 400,
       "height": 560,
-      "bytes": 5060,
-      "sha256": "0d46c641a5125610aaf689bdfb45e1da2f34aa1dc6854dd6e54aa8a2409ede2d"
+      "bytes": 35828,
+      "sha256": "680cfc7b5a5f86bcba57938f52c71ad7615f2a405bcd2bad4436910441bf2ab5"
     },
     "DRB-052": {
       "path": "/games/darbe-h/assets/cards/DRB-052.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4704,
-      "sha256": "c5bf19837d9d9f2d2c29a328faa311d9ccb7970dfa8be74c2fc575e8634eeb40"
+      "bytes": 28793,
+      "sha256": "21f26faf7b4c48aa283a183bc3341138f59c4843b8c843312a976d3a145eff39"
     },
     "DRB-053": {
       "path": "/games/darbe-h/assets/cards/DRB-053.svg",
       "width": 400,
       "height": 560,
-      "bytes": 13348,
-      "sha256": "83b2056dc881c10150822184b71dfe1ecbfdae2b30820fe4fd716ac3e82d4500"
+      "bytes": 75676,
+      "sha256": "020ef9bc77cf57eb86a0418109dde3a4dc32d429c9c35434bfc355c56662f041"
     },
     "DRB-054": {
       "path": "/games/darbe-h/assets/cards/DRB-054.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4856,
-      "sha256": "450d162c8344bb622fa5962c3a455efe779606108f97a35783229199c2edb66b"
+      "bytes": 30511,
+      "sha256": "43c89e8e12b65934e8c5bd10fcfdc19f478e253b53bb72f09f0003510ad6e523"
     },
     "DRB-055": {
       "path": "/games/darbe-h/assets/cards/DRB-055.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4711,
-      "sha256": "62725e822a94014b678feef1aa025d95bece646acf6d019f07e35aa58a4fd01f"
+      "bytes": 38718,
+      "sha256": "c19a46bfa950059ae6a63410f81dd84d9609aadd5b44d23449724fed852ff40d"
     },
     "DRB-056": {
       "path": "/games/darbe-h/assets/cards/DRB-056.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4141,
-      "sha256": "687e32e41390d250dfe37e739b50e56ccf4656163e53dbd88b2a123fa7fc9812"
+      "bytes": 51716,
+      "sha256": "7d1a0fd2331159a9623c8e2565f2d0846d34aee049939b9b0e3d7efaa658883c"
     },
     "DRB-057": {
       "path": "/games/darbe-h/assets/cards/DRB-057.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4226,
-      "sha256": "7b7f5ba78c8295cf0433d99b98ee67c39ddfe9743ad000c8a7db303c02f16d21"
+      "bytes": 40138,
+      "sha256": "1cd297de617492b09d28d1a88cb97ef4eddb1fc120ad5d23004dcb88bd412f80"
     },
     "DRB-058": {
       "path": "/games/darbe-h/assets/cards/DRB-058.svg",
       "width": 400,
       "height": 560,
-      "bytes": 5214,
-      "sha256": "7250e04d6827ed75c53a87ef85559c93b8d70a86e430fecd35e491971a850921"
+      "bytes": 59585,
+      "sha256": "bfb840551421a85585c0c7d47b00a9559fa14640654660b5509b565d974cb3b0"
     },
     "DRB-059": {
       "path": "/games/darbe-h/assets/cards/DRB-059.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3855,
-      "sha256": "35730424348832fe4904b429c70a8dddd8e12023df13b06124c3d2eb35d93a30"
+      "bytes": 34992,
+      "sha256": "e15ba1b442428043748bbd822370a2806a13567381a1d2c16299bb2a4b5c6259"
     },
     "DRB-060": {
       "path": "/games/darbe-h/assets/cards/DRB-060.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4392,
-      "sha256": "878c3607ffe41badba88fbb2afe5d0b9e516b4e87db01ce392cef2276094442d"
+      "bytes": 57008,
+      "sha256": "b5ee162d178c65ad8f48e4a7451698106dc576f111f00b02935401a5ab6fa8fe"
     },
     "DRB-061": {
       "path": "/games/darbe-h/assets/cards/DRB-061.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4155,
-      "sha256": "b374e93cfda3746fa28f8e7dfa4109977d3740524f08aa6efd7d277f6b096211"
+      "bytes": 33115,
+      "sha256": "affe28d2efc4079ef70d418cd3be27c04b046861a8fbf74e71aa3189b2d225ae"
     },
     "DRB-062": {
       "path": "/games/darbe-h/assets/cards/DRB-062.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3750,
-      "sha256": "4387d0adb23c433c192af4e7ad15241007c0e0cd2144e62f4314148510ec76ca"
+      "bytes": 35963,
+      "sha256": "0b43772e29a459287c397cd8f763a177888a06c2194894f61fdd9241922a62aa"
     },
     "DRB-063": {
       "path": "/games/darbe-h/assets/cards/DRB-063.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4647,
-      "sha256": "96487e4f0218d27f736d1371deb7b785eabc8cde6080211e1bbd5a86479a660e"
+      "bytes": 39489,
+      "sha256": "eceb6cf88016a0a1cde52016ab36b9cd6026ac192d1a5684df6d3e230cc8fb7f"
     },
     "DRB-064": {
       "path": "/games/darbe-h/assets/cards/DRB-064.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4752,
-      "sha256": "dbfe920d45914c634c8062172ad34a74a5ce8f037b51f28f903ee283a4039de3"
+      "bytes": 35172,
+      "sha256": "3ae08201910c37a71d85532ca1b918bdd5736e34fd62601052d678ba873c94f9"
     },
     "DRB-065": {
       "path": "/games/darbe-h/assets/cards/DRB-065.svg",
       "width": 400,
       "height": 560,
-      "bytes": 13549,
-      "sha256": "196090a9ae87cc1f874f326c106a7e93ea746d5a72f3f7898efbe088470ac296"
+      "bytes": 24235,
+      "sha256": "88be499c3465111b88591a95dd3627a2803fa85d946f806a24342b8866ddab57"
     },
     "DRB-066": {
       "path": "/games/darbe-h/assets/cards/DRB-066.svg",
       "width": 400,
       "height": 560,
-      "bytes": 5683,
-      "sha256": "40e221c5af32b093ec74aa073c0332b643b32afeb2c0c10fc0ee5ba34bcb0382"
+      "bytes": 36646,
+      "sha256": "ddbbb24b6c9996c4595c61f2d7ed517f332152caacfb457ea5840b95781b3d67"
     },
     "DRB-067": {
       "path": "/games/darbe-h/assets/cards/DRB-067.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4918,
-      "sha256": "4b2345cfe0eb7ef16b84dca2c29528af2a98351248fd6c5f06ae5828447a0258"
+      "bytes": 26469,
+      "sha256": "9a0b4c700dd479381a67d5b1ffca7410a57420274aca73924e4e04150a5b927a"
     },
     "DRB-068": {
       "path": "/games/darbe-h/assets/cards/DRB-068.svg",
       "width": 400,
       "height": 560,
-      "bytes": 5133,
-      "sha256": "d1d0bc7bb1c777bffa08ee6254401aad84dce8ae5e27f0d0c0cf65877cc26940"
+      "bytes": 58110,
+      "sha256": "263ea0215d9fb061bc6a331e9db721382159c2eb55a5cd44410ffbfaf9860b88"
     },
     "DRB-069": {
       "path": "/games/darbe-h/assets/cards/DRB-069.svg",
       "width": 400,
       "height": 560,
-      "bytes": 5852,
-      "sha256": "136c03785372e3d6006491263ed00a876f7a2546ca0759cc96e95bd41fc77024"
+      "bytes": 56960,
+      "sha256": "140ff34613dd68da7afa9bacfe1a45bd2744dbded08bb6ee815064ed21b2e435"
     },
     "DRB-070": {
       "path": "/games/darbe-h/assets/cards/DRB-070.svg",
       "width": 400,
       "height": 560,
-      "bytes": 6715,
-      "sha256": "29c971c896de35f60e21f6ed6eb564b7c2c1f6201b1c871e80966ad14772438a"
+      "bytes": 42726,
+      "sha256": "a32ddbf401f5334cdfbb5d8cc1bd6e4d69f190c00ba30ebf074a0319f8d3f4b9"
     },
     "DRB-071": {
       "path": "/games/darbe-h/assets/cards/DRB-071.svg",
       "width": 400,
       "height": 560,
-      "bytes": 6080,
-      "sha256": "fe37c325f926b76c3a40b89839a3b4715549ecb4d9d71447abe9e2e42f2bb354"
+      "bytes": 39346,
+      "sha256": "0950aca298dc1d936fc094a09ee575e8b1b0ef4ff4b8848e2c7bf6cb6db74fb8"
     },
     "DRB-072": {
       "path": "/games/darbe-h/assets/cards/DRB-072.svg",
       "width": 400,
       "height": 560,
-      "bytes": 5245,
-      "sha256": "ba28436ea879085ae7844eb7db83fdfe2c9cb1daa6c5faab99c2ca091eb084f3"
+      "bytes": 53982,
+      "sha256": "2437a8bc8216598cb2a00d386601b7a72a99435076b2ff863fd8165e13473f2f"
     },
     "DRB-073": {
       "path": "/games/darbe-h/assets/cards/DRB-073.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4927,
-      "sha256": "aaf923b1675e32bad7f1b53858260a4191148b4af7e6d6f688c7458836058012"
+      "bytes": 51627,
+      "sha256": "864522afd75b9e2219d445730b28ff30dc01824ee2bba97248d764643cbf74cb"
     },
     "DRB-074": {
       "path": "/games/darbe-h/assets/cards/DRB-074.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3910,
-      "sha256": "2e7bbc72b4efabc135331b1bda9945d8b13e3d8a3d4457ceab70b928426332ae"
+      "bytes": 78391,
+      "sha256": "4b021e76c4104aad41cb956fcde3360a146506d11fcdbad3cddfe381fb9a2991"
     },
     "DRB-075": {
       "path": "/games/darbe-h/assets/cards/DRB-075.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4439,
-      "sha256": "3539e1d8a3c5a7d63700379a6786482f0e194d353771821c272cd1f4ecf284fc"
+      "bytes": 47883,
+      "sha256": "e7c8a5e67bc9c01c6586e025220b92f9670118facb8c0038fad6a48941872403"
     },
     "DRB-076": {
       "path": "/games/darbe-h/assets/cards/DRB-076.svg",
       "width": 400,
       "height": 560,
-      "bytes": 6008,
-      "sha256": "04cfda05e39ebb003313e8350a14cfd58fff169c67936f4fe676a35a19caeacc"
+      "bytes": 39296,
+      "sha256": "a169891baa89d5261afc1f121d3fbe76e2c746ae5083524de7bd3b6a44b28835"
     },
     "DRB-077": {
       "path": "/games/darbe-h/assets/cards/DRB-077.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4236,
-      "sha256": "60850a4d08757f6bf049884d5c6f8f63a9dd6f6416e82312f3240483a7537c72"
+      "bytes": 32281,
+      "sha256": "d1866f68f00b627143c5cef13c83bca5b5a3e0fb16a9546f76bcd8b063f6a085"
     },
     "DRB-078": {
       "path": "/games/darbe-h/assets/cards/DRB-078.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3987,
-      "sha256": "36830cfda687cca612f27309ca753479791245be362de4daa4e591dd4d8455c1"
+      "bytes": 28442,
+      "sha256": "6bf288e41c869962c39e6dabf3ad4b1c4e6fa2a2864da63e115fc5cd7d2c4134"
     },
     "DRB-079": {
       "path": "/games/darbe-h/assets/cards/DRB-079.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4124,
-      "sha256": "be2b66a5b74f0557456fc8538437774b1ec3e6fd984105a57d14e0be77e239c1"
+      "bytes": 52777,
+      "sha256": "9d687122dc300b23c8fadf2c1934cfb585ad627e668ddfbfbadf89eaeb8fffa0"
     },
     "DRB-080": {
       "path": "/games/darbe-h/assets/cards/DRB-080.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4460,
-      "sha256": "1374575a3edc9b56c7402ac11438f047e3eef989a53a82b32b0b648cf9e03fcb"
+      "bytes": 34651,
+      "sha256": "3b09d79ccf208f9f50ec6d76ee246ced486dab3730589b57d9d382ea704d57e6"
     },
     "DRB-081": {
       "path": "/games/darbe-h/assets/cards/DRB-081.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4149,
-      "sha256": "c3535dffb62fb311784003a14ea12b3bb3c8c57d575bd4d74f8cd7b0b61687f7"
+      "bytes": 41323,
+      "sha256": "d728c4c0e55a5bb7af69d88b97e2b5b997fe048e739075e3015a3189bf39c495"
     },
     "DRB-082": {
       "path": "/games/darbe-h/assets/cards/DRB-082.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4030,
-      "sha256": "e48c220a8f1ac7132f2b428a386e2fc1867bfecd35ec8070f42ba41ee7a95e7c"
+      "bytes": 51818,
+      "sha256": "c28e255defe56319fff828490549ea82a29cd3b85c2b35d30adcb4d83fee1ae9"
     },
     "DRB-083": {
       "path": "/games/darbe-h/assets/cards/DRB-083.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4471,
-      "sha256": "1fea2c7448bf3895113c8823bd9822076c563a1f7a0676850c7148c4373e6ad7"
+      "bytes": 45216,
+      "sha256": "0cab6d3b5795d5ffa0535780601c74e12384af3d2072babafaa9d24a02e54fd5"
     },
     "DRB-084": {
       "path": "/games/darbe-h/assets/cards/DRB-084.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4443,
-      "sha256": "b58d305caea186dd1c57c4eac9d1edbd4b1c1223c156bfa7e176df914ad2d051"
+      "bytes": 42924,
+      "sha256": "db6841a0b9945081090fd7825893a70584c5dcfff4df1900ae911c3f3224fe4d"
     },
     "DRB-085": {
       "path": "/games/darbe-h/assets/cards/DRB-085.svg",
       "width": 400,
       "height": 560,
-      "bytes": 5821,
-      "sha256": "558122811b22e59ff28ebfaee9b6009060a3689845a2cd43cd2042ff8f2fc70c"
+      "bytes": 68914,
+      "sha256": "962d808d6e8ef8fb495505a557eafee4cb05c84d60be25fe53b70022bcc75d2c"
     },
     "DRB-086": {
       "path": "/games/darbe-h/assets/cards/DRB-086.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4988,
-      "sha256": "e8d237e3b6c0cc92da8a4a770c0a3b6fc99061bf1e8cf77a136522b70049a92d"
+      "bytes": 71341,
+      "sha256": "b1dcfb22f19c45161b7aa718151237b2fa2118b51487e77afdb367dd3c8e35bb"
     },
     "DRB-087": {
       "path": "/games/darbe-h/assets/cards/DRB-087.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4744,
-      "sha256": "1505a58df2f3640ed0294cee79c2e753d1474e4fa2f136db65016e20efbdf193"
+      "bytes": 31279,
+      "sha256": "99c1b4fd6f8519dd1796c16b2cd64ba371a49833596d83c60eaf9b110b219bc7"
     },
     "DRB-088": {
       "path": "/games/darbe-h/assets/cards/DRB-088.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3718,
-      "sha256": "d378b6304e0e472559e40e0f063aaf0da3b008157ce33c1b8c4b1e24d6607361"
+      "bytes": 51190,
+      "sha256": "f146364b7031294917d32847c0e6c20f54a645e753b7abd6120ad4f53b85ecee"
     },
     "DRB-089": {
       "path": "/games/darbe-h/assets/cards/DRB-089.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4177,
-      "sha256": "679b5f5f5249c28befd603c4e01d340882241478818a3939c195048590273c9d"
+      "bytes": 14454,
+      "sha256": "691d1542b54fc9340e8e2b5f0cf76852a4ccc6b7af653ee9a0fdd96790b8b6c3"
     },
     "DRB-090": {
       "path": "/games/darbe-h/assets/cards/DRB-090.svg",
       "width": 400,
       "height": 560,
-      "bytes": 5591,
-      "sha256": "46510740bcdd053c7a7651b1134b6b7a1ca358a103589e2a5b3b5ebba530e70c"
+      "bytes": 59439,
+      "sha256": "cf7efab2f3babb6106963ed05f21293b8d66e63b80f9ce5614352d6d2cd21fc4"
     },
     "DRB-091": {
       "path": "/games/darbe-h/assets/cards/DRB-091.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3654,
-      "sha256": "9c07fa9866acedc759d1ca3e3277a17531d75a11f33de5d834c4badc3e9a8ed2"
+      "bytes": 39294,
+      "sha256": "2daeede9e5419197ed98a1b3c710fa57587afe9284bb2570307bc81d5219f2c2"
     },
     "DRB-092": {
       "path": "/games/darbe-h/assets/cards/DRB-092.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4713,
-      "sha256": "c6490c0f669153e38e8a656c5725b73054186016d27411445ca5a74e42241461"
+      "bytes": 40714,
+      "sha256": "a2ce769cc541597e65db290496be40781cec1ad9425a2b13e7154639cc0753b3"
     },
     "DRB-093": {
       "path": "/games/darbe-h/assets/cards/DRB-093.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4153,
-      "sha256": "b6ea6352a9803bb762f586cfca55392fea0e5f8a6388560d3a5a28a7027478b2"
+      "bytes": 41310,
+      "sha256": "991892c88694e4f576c2d17b8d357410a64d5b0004cb5d373e77d90d84d2b219"
     },
     "DRB-094": {
       "path": "/games/darbe-h/assets/cards/DRB-094.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3906,
-      "sha256": "c7f437c596f71fa16a54a6f869aaee1ed8a87beda5ad59b816735730678dc2d8"
+      "bytes": 35830,
+      "sha256": "6e52b144d6ddfd691360c056025f99bff36e576eb50e1be1fbfbd1819f42049a"
     },
     "DRB-095": {
       "path": "/games/darbe-h/assets/cards/DRB-095.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4258,
-      "sha256": "8da27c697c6e49d8e79f2e74cd5f634b57053029e420d4209db3fdf61e6ac0cc"
+      "bytes": 28785,
+      "sha256": "d69fd4bc6c6e018b37c23d760e22c04c570b8407389f2c3a259b1c05a2f53fbe"
     },
     "DRB-096": {
       "path": "/games/darbe-h/assets/cards/DRB-096.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4372,
-      "sha256": "7fa41a78a46ea83649fe414bc479a42ec775dd9bcd26494fa33ed180334a405a"
+      "bytes": 75687,
+      "sha256": "10d04b5bc02bde2a53e1ef81b72331322495d7a67f8b6a42f63e62f562eeb6d5"
     },
     "DRB-097": {
       "path": "/games/darbe-h/assets/cards/DRB-097.svg",
       "width": 400,
       "height": 560,
-      "bytes": 13950,
-      "sha256": "f1d7feb78392f38ded2b1cd2fb17d43ac458831a0518e8d6ddfaeb498806c836"
+      "bytes": 30507,
+      "sha256": "68dfd2bc512864e5d7eb35556164c8fcec83e54b0fbf3fb9886a53ceccc9c806"
     },
     "DRB-098": {
       "path": "/games/darbe-h/assets/cards/DRB-098.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4912,
-      "sha256": "e4e8292d6d7a3729e04a087d030ffead53a17820a0878be4c056327b517fcf78"
+      "bytes": 38731,
+      "sha256": "7b12a5e1d22d185f9f0e52d175abc64953948d3c5c88b1799cfa4195cffa2a15"
     },
     "DRB-099": {
       "path": "/games/darbe-h/assets/cards/DRB-099.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4894,
-      "sha256": "0fef68be5b6d9179877b5e40820fa8df95be501b57afd1480192131a4be7d24e"
+      "bytes": 51711,
+      "sha256": "b5d2124edccbabda380f92d89d31e2d5fc49821707de95fc307367914b22712a"
     },
     "DRB-100": {
       "path": "/games/darbe-h/assets/cards/DRB-100.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3849,
-      "sha256": "5e31f51b8bc3425612658ea7e781d38bfc08402fd838608a2d3ee275efb26a43"
+      "bytes": 40144,
+      "sha256": "81475ee73f64dd5787d9902e3170fc484801e5b4a61d09a33af8619989de94af"
     },
     "DRB-101": {
       "path": "/games/darbe-h/assets/cards/DRB-101.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4056,
-      "sha256": "ed1290c35cfed8666364b641eef3586370fc0e52636410b435643c6a6329cfeb"
+      "bytes": 59593,
+      "sha256": "cd90108709a85ee4ac34deb0ee170cef5574a1ac7c07264047d34a9a7053f3f4"
     },
     "DRB-102": {
       "path": "/games/darbe-h/assets/cards/DRB-102.svg",
       "width": 400,
       "height": 560,
-      "bytes": 5043,
-      "sha256": "6f6f5f9124b043a2e0ff1e5ce0535078405745f1b2a90b3a28175a1510ee0f64"
+      "bytes": 34987,
+      "sha256": "5b5504bb77827729a847ecf519c1dcebd683c2f5842870c2989236ec551ef5f0"
     },
     "DRB-103": {
       "path": "/games/darbe-h/assets/cards/DRB-103.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3818,
-      "sha256": "564bb1929ab249b741b95678e3b05a615e639cb072917b980c4ef5c9d41fff43"
+      "bytes": 57002,
+      "sha256": "3ca18f69e2e00fb2afea29ad5762ab672c69a9033c155bba603db7676e75f69e"
     },
     "DRB-104": {
       "path": "/games/darbe-h/assets/cards/DRB-104.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3890,
-      "sha256": "36892974beb730df378669e4cdcea423824ed0d4418df31a424a766e826652a0"
+      "bytes": 47529,
+      "sha256": "17d7716991b0037b1d48013cd2fe0ed5c3707371596921c75e304cfba9d820cb"
     },
     "DRB-105": {
       "path": "/games/darbe-h/assets/cards/DRB-105.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3952,
-      "sha256": "8e97829279414b4507ff9f95416dc3eab5df163941db45cbbd67323dead1f793"
+      "bytes": 46180,
+      "sha256": "a64d7bba788f12c95b15d69097d0784a664ced0d98f43819487870be9fd49d94"
     },
     "DRB-106": {
       "path": "/games/darbe-h/assets/cards/DRB-106.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4114,
-      "sha256": "849f5bf740ac50176cd5e162b2a2db6b82d1e852ad9c9d40f64fd9e8d4765b22"
+      "bytes": 50436,
+      "sha256": "5a30e24499a99d9d0cc11ba972ba4db54cb2dd23655a35082061d1c16b0fedef"
     },
     "DRB-107": {
       "path": "/games/darbe-h/assets/cards/DRB-107.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4495,
-      "sha256": "105684408fcc7deda6f71fdd4ee84422dd3c99a11635f5a979ef5fb0829a196c"
+      "bytes": 64655,
+      "sha256": "e443a8c5ded64e9674010b412dd4b8bbdc6911c41e8344b8beb76fb0d84976f9"
     },
     "DRB-108": {
       "path": "/games/darbe-h/assets/cards/DRB-108.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4325,
-      "sha256": "35f2c936faa1500aa489dad508e4c0b037c0d7b7f629fe787b1c55d42a80393b"
+      "bytes": 45329,
+      "sha256": "ae9b2ccb74245e45a46e6100c01d1c779f0858edaafb9f286de5b309a60a4d7e"
     },
     "DRB-109": {
       "path": "/games/darbe-h/assets/cards/DRB-109.svg",
       "width": 400,
       "height": 560,
-      "bytes": 5507,
-      "sha256": "0944aeb33b39504619fbcde7f545905ea9ffd3b4c8a82fbdab121e6c8b1c9fd8"
+      "bytes": 43617,
+      "sha256": "f8d192d4ac0b313a1287af893f57d29e09d44b7230b46a001c8c29d28e122c79"
     },
     "DRB-110": {
       "path": "/games/darbe-h/assets/cards/DRB-110.svg",
       "width": 400,
       "height": 560,
-      "bytes": 5163,
-      "sha256": "ab0030c31b2c612d6e7936c81036a27ab538347ce20c5f93e907250ad4caf24f"
+      "bytes": 40409,
+      "sha256": "57623b70b858f2b8b7d030d39354a1fe2afb072d23f700924830fa8dc90cf23a"
     },
     "DRB-111": {
       "path": "/games/darbe-h/assets/cards/DRB-111.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4830,
-      "sha256": "8f89721a897e74c357dbfdbc6d8571b2cd1466eb5bde91100ba3391ffc0d6e52"
+      "bytes": 33475,
+      "sha256": "d7166aa811326cb4a737acd70e6d602502a4d0b080bcaeeef7431165f80a078b"
     },
     "DRB-112": {
       "path": "/games/darbe-h/assets/cards/DRB-112.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3996,
-      "sha256": "6187583fe9af333ae6d60319266a9704c468904b870818da3ddab0ba96ece48d"
+      "bytes": 34793,
+      "sha256": "c03d36879fde8273308c5667b6f7117868fc2c75aa545dc68d5607f24f6dfcc1"
     },
     "DRB-113": {
       "path": "/games/darbe-h/assets/cards/DRB-113.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4202,
-      "sha256": "122d24de36f8775820d30e359cb519eab36ba997cd0c829431587101aff8621e"
+      "bytes": 64948,
+      "sha256": "ee3c4602e1cfe64fca9be6fb4aa7064c3fdc3ae66f7ff01787a86ded15d1b229"
     },
     "DRB-114": {
       "path": "/games/darbe-h/assets/cards/DRB-114.svg",
       "width": 400,
       "height": 560,
-      "bytes": 5773,
-      "sha256": "e4943a856d4835fb764e02dd44fe45ed696a0efb311f687c16352afef5587df4"
+      "bytes": 35628,
+      "sha256": "3530405fb7dd1efab603f5b2b855f6415ca0b4f78a630c0cb23ea1dfdba7ccca"
     },
     "DRB-115": {
       "path": "/games/darbe-h/assets/cards/DRB-115.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4202,
-      "sha256": "f22b4ac557020dee017065949387d7921301b7a4bf42753c8b597c42c715f67d"
+      "bytes": 33871,
+      "sha256": "07fa21c0ab6c8fa49034a17eb2cd8a0b1378ac5ade87891410ab859070c44375"
     },
     "DRB-116": {
       "path": "/games/darbe-h/assets/cards/DRB-116.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4550,
-      "sha256": "81367df63524f448914ab20a4a514ab6ee8cbac1c776c3b1141e5958c7538228"
+      "bytes": 48426,
+      "sha256": "d0c3d8ef24d890f0944a366e11b40180c4dc662a03d60dd914f14a7677537185"
     },
     "DRB-117": {
       "path": "/games/darbe-h/assets/cards/DRB-117.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3787,
-      "sha256": "79d0fe67df3b52afc7d50ecf9dcac51d9a4e64c5d131bf6a2aa2cac5b3399ad8"
+      "bytes": 46921,
+      "sha256": "f5bd6e793a99e756ab6b33591c42be355e77cbba2c57d370c369f587d22b24a5"
     },
     "DRB-118": {
       "path": "/games/darbe-h/assets/cards/DRB-118.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3492,
-      "sha256": "c3d2d451d87deac3b1bcee504374b1a69cef6a87b2db120be848e4eb487cf79a"
+      "bytes": 35581,
+      "sha256": "f0fe8493356b4fe0adc37ab220011a88b9f0f02e04eeaba0454eab296b517f89"
     },
     "DRB-119": {
       "path": "/games/darbe-h/assets/cards/DRB-119.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4313,
-      "sha256": "5e526b70ea5c5841fee22974c9d611836ad4d5f52fd9c2d315dd97586c1990be"
+      "bytes": 55402,
+      "sha256": "a7ff0e25ec2c21f9cbb04c6c2272c6b519d6e5c1da40f7c6b98c34993091f3e8"
     },
     "DRB-120": {
       "path": "/games/darbe-h/assets/cards/DRB-120.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3985,
-      "sha256": "9f17ebc0852d9a1c94f398688c6a2733ac9cd74f1667482417eebc4857e0a726"
+      "bytes": 50997,
+      "sha256": "4111fe31f0e336a01799d64256da9d47c87e3175bf364d9bffbc3d4f01312c7b"
     },
     "DRB-121": {
       "path": "/games/darbe-h/assets/cards/DRB-121.svg",
       "width": 400,
       "height": 560,
-      "bytes": 6326,
-      "sha256": "026d8ff77f3ab753e06a061af55d1b0789a851340777983a8d506b5e92e2be6f"
+      "bytes": 28428,
+      "sha256": "e469ea597fb29274c3f7621b40e66a81dde39d5ebbceabf7ab01b365840f1946"
     },
     "DRB-122": {
       "path": "/games/darbe-h/assets/cards/DRB-122.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4847,
-      "sha256": "e456c24b06b8cf190bc7b1eb139e1f76825dea0b96123d0559da1a995ac04572"
+      "bytes": 52780,
+      "sha256": "dca7d9dd73f3de3a07c93416bf59ee8e58f07bd24bf04a28e27a5d1783181197"
     },
     "DRB-123": {
       "path": "/games/darbe-h/assets/cards/DRB-123.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4798,
-      "sha256": "f3ec273ce2a4717f7d2bc77427b88463c7823b0215e8b4d691341771426f7664"
+      "bytes": 34646,
+      "sha256": "7cbb8d3a15ad5cf008796e5109c0ac3e3192aeeaab273608a4151c2faddc6303"
     },
     "DRB-124": {
       "path": "/games/darbe-h/assets/cards/DRB-124.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3718,
-      "sha256": "2ae7ed3271d9c2dff80a4c31361da6e49abbe9ee9c6d36f55fe4e93bc30afd2e"
+      "bytes": 41328,
+      "sha256": "99f912df3a4b1dbd90eee6e45fde489119fa18fe5d11adb4d5cbc3476b9e885c"
     },
     "DRB-125": {
       "path": "/games/darbe-h/assets/cards/DRB-125.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4243,
-      "sha256": "5f7a048f0a3d6b87b9142dd35ef9a24e5deb5374b991f212f7d182095c535162"
+      "bytes": 51824,
+      "sha256": "932a1f2f9b508e291b90b5b16a27767dab687badcd6ab2d65dd93ce5bae7314c"
     },
     "DRB-126": {
       "path": "/games/darbe-h/assets/cards/DRB-126.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3112,
-      "sha256": "545a4d0df05c2ac565492a704c03acc28306343cf7b2b4eba2654febf899bf26"
+      "bytes": 45221,
+      "sha256": "86b8e80f1948cb41ed1d43f48c746b6b9ea0601a201d48732416284a3c19855b"
     },
     "DRB-127": {
       "path": "/games/darbe-h/assets/cards/DRB-127.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3450,
-      "sha256": "5bc2a36ad3d1a841f95028c9606835c37c3269e7bff0c72b5fdbf1753d4ce6a6"
+      "bytes": 42924,
+      "sha256": "a45bbf7080fcce8f3d6cd8e3dfefb2f1d9e92cf3f4f53dfa2ecf60d60b043550"
     },
     "DRB-128": {
       "path": "/games/darbe-h/assets/cards/DRB-128.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4423,
-      "sha256": "b082aa71908b01c2aed660995a4e500f2c11c517d9d96fbf145fe786aca64be6"
+      "bytes": 68914,
+      "sha256": "6eed38808317ee195f7102fba7ca9d6b18ca23dd81322d94752035bff8e87f05"
     },
     "DRB-129": {
       "path": "/games/darbe-h/assets/cards/DRB-129.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3197,
-      "sha256": "395d00782e83e493a0c563539e10c4f573b9a246578d3fb61caa653d459db721"
+      "bytes": 71339,
+      "sha256": "e4ef2a4a84421b528d6bdcc485ddd2cbdad10232d469e0f069fbc13da190f356"
     },
     "DRB-130": {
       "path": "/games/darbe-h/assets/cards/DRB-130.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4247,
-      "sha256": "d9300f207d29e1cbd62d1aed63a51611a115ac636f0007666c8d82dc5808586d"
+      "bytes": 31286,
+      "sha256": "ca89d5049bb0194b56c746d0377a402bd44a304023cd3aafce49e0a82e9eee7e"
     },
     "DRB-131": {
       "path": "/games/darbe-h/assets/cards/DRB-131.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3902,
-      "sha256": "722bf26ba026cf07ad587f45073d1ca8b4369c3e498113966c2e8dff381d794f"
+      "bytes": 51190,
+      "sha256": "c4ade79ed9c8246d8cfa762215034556707932d35cd5e1c295d5e9a5eab278e9"
     },
     "DRB-132": {
       "path": "/games/darbe-h/assets/cards/DRB-132.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3893,
-      "sha256": "b4fbf519a1ad91512a6b7673e8fa6f60aaf0a27e4e79563dc798017cd66acc9a"
+      "bytes": 14448,
+      "sha256": "b37c5a1d6eac5bdcc7f67c0019ea602ac9e75671dca1c8b717cf4a991383b53b"
     },
     "DRB-133": {
       "path": "/games/darbe-h/assets/cards/DRB-133.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4248,
-      "sha256": "dc6e9934ec5740926670e97bb7950fbc296ff60c797939c8a274b25993b24d72"
+      "bytes": 59439,
+      "sha256": "4b50c333992759b4bc97878537206608338e9d77f8a6e818361ac687465c18f9"
     },
     "DRB-134": {
       "path": "/games/darbe-h/assets/cards/DRB-134.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4424,
-      "sha256": "4b421ad05630657f375f4ea09cbcd02e5adb38046d850938c09c19586ed393fd"
+      "bytes": 39293,
+      "sha256": "95509b705b593fbd1a603d2889bb8487f674c399afd780014e97ae5695339c81"
     },
     "DRB-135": {
       "path": "/games/darbe-h/assets/cards/DRB-135.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3913,
-      "sha256": "52373adb052b2542e60274351dd750caf8fb973ac247204a3595d231512255c6"
+      "bytes": 40713,
+      "sha256": "de9a368f52e7a9c9dc66b181252be9f64fa8f20b3a6104ba82a687424cee9f05"
     },
     "DRB-136": {
       "path": "/games/darbe-h/assets/cards/DRB-136.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4588,
-      "sha256": "f85a2314f319ce1b524beba3fdd0913e953e40e7508cbaf9578dd27b079df3c2"
+      "bytes": 41318,
+      "sha256": "6c93b945b67a6b624935e9fb995cf124495b27f1ff09c4e0ddf75e72540ea55a"
     },
     "DRB-137": {
       "path": "/games/darbe-h/assets/cards/DRB-137.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4754,
-      "sha256": "023de5760926346be184fbb0314a35e95139711372f6888e539d69b4ba4b3be1"
+      "bytes": 35839,
+      "sha256": "c82485a3c1dd061037967e99d76bb653bdfc8e3dd232e9301505decf9d8f24c2"
     },
     "DRB-138": {
       "path": "/games/darbe-h/assets/cards/DRB-138.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4074,
-      "sha256": "5811dd3b10b40d4744aa86cb5269767f7949d71abb26da25af00053cb49e2b41"
+      "bytes": 28788,
+      "sha256": "f24ba282ad9783352ce64a0acf3338302cbf0e22d40bda87d595e521de183e77"
     },
     "DRB-139": {
       "path": "/games/darbe-h/assets/cards/DRB-139.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3902,
-      "sha256": "65954162d33d414ca83f7d53758494b13ddacff76798947aed1da484afd49d93"
+      "bytes": 75686,
+      "sha256": "bf370bd17648cde9c21a12c902041e358be007e82653386e2d7c46be6fad9d57"
     },
     "DRB-140": {
       "path": "/games/darbe-h/assets/cards/DRB-140.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4079,
-      "sha256": "f783d9db63ec716e211d8d5e3e0574e9688e1c36f7a1d34dd7611b745420d66f"
+      "bytes": 30512,
+      "sha256": "051e89ec891afba14be038ea73bb09dc87c30357ae23638134123d1f188d41e1"
     },
     "DRB-141": {
       "path": "/games/darbe-h/assets/cards/DRB-141.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3626,
-      "sha256": "cbce248bd5ecdc6e9b4e4f2b68d7f210ca9f6118e8d547d3dbbbe3344a96fcb6"
+      "bytes": 38732,
+      "sha256": "8e09acb02a49446004d12b134704cc255f30420a24656fbe4aabb0d9c0a7dd10"
     },
     "DRB-142": {
       "path": "/games/darbe-h/assets/cards/DRB-142.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3697,
-      "sha256": "83b3a0943c527096e070f7948f683803b8c589ea8f32981f711b3d8a93bea6a3"
+      "bytes": 51731,
+      "sha256": "03993e0c8436e94ff052a8ab1b9cc8719e55ce8666c4a649cd38d2b475ec0ccf"
     },
     "DRB-143": {
       "path": "/games/darbe-h/assets/cards/DRB-143.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3195,
-      "sha256": "10fb3b0df21368a0966abcf1959a77014ab458fd4ff89f6a232b87bdafc68cdb"
+      "bytes": 40147,
+      "sha256": "8fbc1e63a666160cc760d1e92456f059b2b935cf7055395442c98000ff418fff"
     },
     "DRB-144": {
       "path": "/games/darbe-h/assets/cards/DRB-144.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4082,
-      "sha256": "babb8145208761204aa7735204a9fc4ae4ae44290ee4a307d80322adc4d91292"
+      "bytes": 59597,
+      "sha256": "b07c5c80c1106868367aa80611bf60d666704f0b1e17fd1a0bb535c18ad2d749"
     },
     "DRB-145": {
       "path": "/games/darbe-h/assets/cards/DRB-145.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4750,
-      "sha256": "827121ff29111caf91bb348357641d1b0a1d6ba349b440b7e4fb0e388f457b42"
+      "bytes": 34990,
+      "sha256": "8b497bf072a46727195242324296b0e2c4a660990dd44e060b615db9ed724403"
     },
     "DRB-146": {
       "path": "/games/darbe-h/assets/cards/DRB-146.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4248,
-      "sha256": "966c6817d598a4e8289e07f37dd783d642bb72dbd135cba06d6cc8ef1ceb9a8d"
+      "bytes": 57001,
+      "sha256": "eaa39b35271a93732ecf5eb929df4a2d40e3bbcd5e847293b1f6ce43c4d7742c"
     },
     "DRB-147": {
       "path": "/games/darbe-h/assets/cards/DRB-147.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3196,
-      "sha256": "1663ab9865581c67e6d2ed670775bf2021bb5e067108f2e0a25392a0cf057b73"
+      "bytes": 47526,
+      "sha256": "e911a804aca69dd3a336291b8d414051ba66f35ce401dc21a1ed57a7780d42ce"
     },
     "DRB-148": {
       "path": "/games/darbe-h/assets/cards/DRB-148.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3122,
-      "sha256": "a0a115410e2f8d4f753a4b50134be26978eed12318eca1aeb696f64c764a8aac"
+      "bytes": 46192,
+      "sha256": "2d132e34a04c4feb7e0165f95ba45e5db05fcce5cefaeeffd5daf64cac39c9cc"
     },
     "DRB-149": {
       "path": "/games/darbe-h/assets/cards/DRB-149.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3027,
-      "sha256": "7209879b9c30181d27193ff2d8d54953f411885e7e79b8e0cc8e444bff5f78ae"
+      "bytes": 50447,
+      "sha256": "e8d91cec9819c9b890f3db6ef18714bb429dca1895b069ede30b16b860525adb"
     },
     "DRB-150": {
       "path": "/games/darbe-h/assets/cards/DRB-150.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3118,
-      "sha256": "4ff549067ea4fc48b817cf29f0d5913f6be1f74a73cc9d2a83fb8b4b95f91e77"
+      "bytes": 64658,
+      "sha256": "ea333d20f6166840fa620890ffdf03e15968b1355f6a7b004201ee7e736f60d7"
     },
     "DRB-151": {
       "path": "/games/darbe-h/assets/cards/DRB-151.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3680,
-      "sha256": "9f6237f940d2cb43d93cdf89f3ecc6fae6e2589a0cd3cd9fbe504987361190d5"
+      "bytes": 45315,
+      "sha256": "cc76dda8a42b884fa5b548a6bb8b053ff8c3f235a202fed20bddd78d598fd047"
     },
     "DRB-152": {
       "path": "/games/darbe-h/assets/cards/DRB-152.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4222,
-      "sha256": "1f12ce70750b1b44fa47960a470f2b657f6f750d873e120cafa07538c7e0653c"
+      "bytes": 43615,
+      "sha256": "daa67ff5182d99b3cc1cd9fc4200e3117508fa299b31a4585c0301f5a7d7c125"
     },
     "DRB-153": {
       "path": "/games/darbe-h/assets/cards/DRB-153.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3913,
-      "sha256": "d334359991512d24444136be29ef35cf586f724aafd8b42c17da72e993d68c01"
+      "bytes": 40403,
+      "sha256": "7c847ba5f406bf25c389d787d196c8c9a86c5e2ea64600caf54015dad0772e3d"
     },
     "DRB-154": {
       "path": "/games/darbe-h/assets/cards/DRB-154.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4084,
-      "sha256": "8519779104600c6212f0e4eb25270ccbe0e499b52c2756167a03355948213b86"
+      "bytes": 33474,
+      "sha256": "e91cee38ac5d059250462576f034b278b1966cea4c48a9ff7ef4a1c8556185f4"
     },
     "DRB-155": {
       "path": "/games/darbe-h/assets/cards/DRB-155.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3625,
-      "sha256": "bb9e9add15c6acaf37881605ab0d5c322438e079f96da2c8dd4dd7103bd0bffb"
+      "bytes": 34772,
+      "sha256": "fc2d980e77c41d883536455cd5d20c8a006982c77580882c45faee04f20437fc"
     },
     "DRB-156": {
       "path": "/games/darbe-h/assets/cards/DRB-156.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3863,
-      "sha256": "242c387e6aa4e243e558afc86a48456bb9622fe5e0749fb1f7b027c18765e87f"
+      "bytes": 64941,
+      "sha256": "41355cb1275004f48a7f40bba14daf1c214c832672622fd6bf84fd9c6583785b"
     },
     "DRB-157": {
       "path": "/games/darbe-h/assets/cards/DRB-157.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4543,
-      "sha256": "16462de63f6a62302a327e3c4d644d9ffcdf613fed51aec1ed1e3cd952a4cd17"
+      "bytes": 35628,
+      "sha256": "4e652f47ac694f8cb084da1717a4dbe6eedb7d576e98ce6da28c299387b71728"
     },
     "DRB-158": {
       "path": "/games/darbe-h/assets/cards/DRB-158.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3515,
-      "sha256": "c6050abcb0711580bf47291445339b5c58ff89ec6b58b206c74b76ebf97df688"
+      "bytes": 33865,
+      "sha256": "7e76a33e8de8d304cc85e32120d290edf8d085d7a534ec85f6d31ed1669a9034"
     },
     "DRB-159": {
       "path": "/games/darbe-h/assets/cards/DRB-159.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3309,
-      "sha256": "04353c1845458e77360b1f7f4429f392108f6c71ac7a03885f3ea7cfbd524463"
+      "bytes": 48411,
+      "sha256": "3bc4a4f7a76aef9c9d7a846fe4b4133852bed9c4b6ebd9c4d9c95b50106a037c"
     },
     "DRB-160": {
       "path": "/games/darbe-h/assets/cards/DRB-160.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4028,
-      "sha256": "023cd40c18a0cba83680c9674c1841cfedbb5929d82931fa7f7ecabde80afb9a"
+      "bytes": 46917,
+      "sha256": "3cd18646964bb655789299ce5bbb7151f7407c03d48af82d38bf205f21bcf1e5"
     },
     "DRB-161": {
       "path": "/games/darbe-h/assets/cards/DRB-161.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3593,
-      "sha256": "3b69e5a263a600a506f6dcc50dd80ee4efc811761745b0139d5289b6281faad0"
+      "bytes": 35585,
+      "sha256": "64a9d9c65e1edb2b80ec99a9c2a59f00083e2992bdcc4676217ed1a12c9e3b79"
     },
     "DRB-162": {
       "path": "/games/darbe-h/assets/cards/DRB-162.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3354,
-      "sha256": "c27f3cf762ec34cbbcab5b2803a2bf48099de51afe0c6fd9ea9a82046a97e032"
+      "bytes": 55398,
+      "sha256": "7878509c430d24f16c008ea5f0250ec5f83aee5be625ec0649b5ba1cddd2b0ed"
     },
     "DRB-163": {
       "path": "/games/darbe-h/assets/cards/DRB-163.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3490,
-      "sha256": "2cb7f3d7df237e737c6a187a67b9b2b06bd2eb8dd25a474f79c685275e55abab"
+      "bytes": 50980,
+      "sha256": "835fe26b1ecda4abd01bd65cc79cccefc9ba797687c884a0f811ac502a9b755a"
     },
     "DRB-164": {
       "path": "/games/darbe-h/assets/cards/DRB-164.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4053,
-      "sha256": "d42d5f17c31ace324e5f293ade2e013bbf76dba469e47a9f2e28e49391d7a413"
+      "bytes": 33114,
+      "sha256": "ee07fc5b56daaf2b159b2464b7364ce77e00bddee9cf119be66d1ebd446976b4"
     },
     "DRB-165": {
       "path": "/games/darbe-h/assets/cards/DRB-165.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4591,
-      "sha256": "a81c0e8e2438c5de86c75e4e44469f2deb1c23e6d69868e44f02bf1d014a55b3"
+      "bytes": 35958,
+      "sha256": "d99e9dbda2d8dc63f2dc51079e5466e61c83164bd35faa3b0f3a0f2df528fc6a"
     },
     "DRB-166": {
       "path": "/games/darbe-h/assets/cards/DRB-166.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4057,
-      "sha256": "e70c0080820bc401ee57ba146f49ca3c5ce57ed5faedf8b7a391eda2b0a2d508"
+      "bytes": 39483,
+      "sha256": "edbbfd05fa177ea0f7706777c052280815902b93daf4e3b59597698c3aeee8fb"
     },
     "DRB-167": {
       "path": "/games/darbe-h/assets/cards/DRB-167.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4463,
-      "sha256": "9875a0c11843dc39cb0756aae8c1239ded29829af8ba20ddc1a15bbc4d9465d5"
+      "bytes": 35153,
+      "sha256": "2e18898f6f1317f8f5c9fcc185c50420521e22f8a8e99e9dbdad6e2d07421cb6"
     },
     "DRB-168": {
       "path": "/games/darbe-h/assets/cards/DRB-168.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4350,
-      "sha256": "7565b6cb53ca15ade0bc9bdea37b163b7498ab843ab8d61002a200ff888f79da"
+      "bytes": 24235,
+      "sha256": "d2c4632bb0b568eeea11189f6e89c747179f3734b2188f65ce627ac382f91068"
     },
     "DRB-169": {
       "path": "/games/darbe-h/assets/cards/DRB-169.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4592,
-      "sha256": "15f1d2c328fd64235e722d10c9abb59f70eec1b391caeb53726489def6a732c2"
+      "bytes": 36635,
+      "sha256": "f50f3e9f6ac831728fb347cc86ec9a040f8776877b50a1bb99c5e2fa1e840d94"
     },
     "DRB-170": {
       "path": "/games/darbe-h/assets/cards/DRB-170.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4061,
-      "sha256": "0286b59bd80027683ec297e740290c82917154ff4e3f51737a35b2ddb6f6ae2a"
+      "bytes": 26464,
+      "sha256": "124986d98b8318abc24ac1df908fba51623abfae7e88cbc7d6bc2ece1a966d26"
     },
     "DRB-171": {
       "path": "/games/darbe-h/assets/cards/DRB-171.svg",
       "width": 400,
       "height": 560,
-      "bytes": 5292,
-      "sha256": "d447f33464e1f640aa970fd3897bdd2d9aacf31d60899b86a58073fc58acd496"
+      "bytes": 58114,
+      "sha256": "1870e5ea8298e1b742bd17962be9d927aeeef6f42356680aa107ed1024c14226"
     },
     "DRB-172": {
       "path": "/games/darbe-h/assets/cards/DRB-172.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4414,
-      "sha256": "15945f6c7a159173695041aac36acfd57f524a5d02b2dbd1542bae09df609339"
+      "bytes": 56967,
+      "sha256": "9fc59b49114d09a2bedc0b1b65e17f12928a61d11cdad1dcec94246b668872ee"
     },
     "DRB-173": {
       "path": "/games/darbe-h/assets/cards/DRB-173.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3887,
-      "sha256": "bb985d0712a02d11a54dc97fee1f83e68bdd2b0770e445a131877b808a29d9e2"
+      "bytes": 42734,
+      "sha256": "d93da2be1008bd654f0c9214fb0df3fdb117e0870ff1bb8294d25517cca4b6d5"
     },
     "DRB-174": {
       "path": "/games/darbe-h/assets/cards/DRB-174.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4454,
-      "sha256": "5de6e2d3552528dbafbc1dd4be07b125819d168c81fab2f74d61179c16b7d111"
+      "bytes": 39352,
+      "sha256": "52afee3cc59d960096faeef56a516a22e8a4ea8458c6ea575f23df45e3bfdd14"
     },
     "DRB-175": {
       "path": "/games/darbe-h/assets/cards/DRB-175.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3953,
-      "sha256": "28564670e0eeac60c02a6add7960ba3d5203bc82beefc4ff895001a170a5084f"
+      "bytes": 53984,
+      "sha256": "855baff4b428853e7612560a1e06894c6728976c42360238d3bad172eac3170b"
     },
     "DRB-176": {
       "path": "/games/darbe-h/assets/cards/DRB-176.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4396,
-      "sha256": "d227cc2808bc2179e327ed57df0128838dbac740784e364547b9482b4cbb65e6"
+      "bytes": 51629,
+      "sha256": "e0c80dbb8bcc91e561a750911cebafd25471686705fd3f9d3f4066633783f101"
     },
     "DRB-177": {
       "path": "/games/darbe-h/assets/cards/DRB-177.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4461,
-      "sha256": "bba9dda60bb5d6db9107ec6b0d6e55a48ca55beea618d16e1066c4449681ca89"
+      "bytes": 78396,
+      "sha256": "0986af2af4244c23d2563432107d6a8987611dd7d5615b0056814628f9e9ff2a"
     },
     "DRB-178": {
       "path": "/games/darbe-h/assets/cards/DRB-178.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4164,
-      "sha256": "fa319c6ab72662b9eab6fa8da33afe8c15cd68ea898c1e901c0b32d33deaa025"
+      "bytes": 47891,
+      "sha256": "c75d9e2e95a8efa25dd7c20f2943134c5f4a99818ac3a5808ff880014b4c70d1"
     },
     "DRB-179": {
       "path": "/games/darbe-h/assets/cards/DRB-179.svg",
       "width": 400,
       "height": 560,
-      "bytes": 5690,
-      "sha256": "d3361a9bd1f1e7541d24b8823eb15b2ffc183f82e18433503e25e8b2277f3710"
+      "bytes": 39295,
+      "sha256": "0a46c1e9a3b20829e8bc71d98795897ec3dec1da8c50d5613e5ff1bf7f413620"
     },
     "DRB-180": {
       "path": "/games/darbe-h/assets/cards/DRB-180.svg",
       "width": 400,
       "height": 560,
-      "bytes": 13535,
-      "sha256": "76c8c18617eb4d85c5766d2502bed87c7b7ce626b629e26a56d3b18cfd789d8c"
+      "bytes": 32262,
+      "sha256": "f23bbf66b6af006b37781b2baca2eb6e83e3d7276cb57999edbc2d230ded9b48"
     },
     "DRB-181": {
       "path": "/games/darbe-h/assets/cards/DRB-181.svg",
       "width": 400,
       "height": 560,
-      "bytes": 5393,
-      "sha256": "c1a7fca7506d63498025028630c7457348713ecca3e79cbbadfed839ad02f073"
+      "bytes": 28777,
+      "sha256": "8c7a2e1e9f739fc2b0f34e734401b93c3a77a7041d580ba299ba801d9fb88d80"
     },
     "DRB-182": {
       "path": "/games/darbe-h/assets/cards/DRB-182.svg",
       "width": 400,
       "height": 560,
-      "bytes": 5725,
-      "sha256": "77e9a9df9e8fe4a1562747f4211721d65e132852cf62572aff201484580e8dbf"
+      "bytes": 75677,
+      "sha256": "6c18074282a9045b235c44e9438ca9657f0640e81cd5bf6ef79f182662a07d4e"
     },
     "DRB-183": {
       "path": "/games/darbe-h/assets/cards/DRB-183.svg",
       "width": 400,
       "height": 560,
-      "bytes": 5521,
-      "sha256": "ef5ec5af9029e0c6f19c2362670895f50dd13aef158ca8e662825815cbd35455"
+      "bytes": 30504,
+      "sha256": "80bf1773ddfeb1790c785c85670d0427e95b81c0e28110735a466edb787c69ae"
     },
     "DRB-184": {
       "path": "/games/darbe-h/assets/cards/DRB-184.svg",
       "width": 400,
       "height": 560,
-      "bytes": 5581,
-      "sha256": "32f7c2fd41982784ee980edebae0f48585328f66c9ddfce2304e90fb356afed7"
+      "bytes": 38721,
+      "sha256": "d8ef6edb50cbaeb7b4eb8c2a3c78269e41bca4d05321442d9590e6349230a940"
     },
     "DRB-185": {
       "path": "/games/darbe-h/assets/cards/DRB-185.svg",
       "width": 400,
       "height": 560,
-      "bytes": 5857,
-      "sha256": "f9899595723ea74d0e84ef329a41ab6d8ce3fe2a6606d66404d83ee52734ad18"
+      "bytes": 51713,
+      "sha256": "8b5f77cb75114bced425cc72feb902a05837e52d66545d78d71de23c4a931a43"
     },
     "DRB-186": {
       "path": "/games/darbe-h/assets/cards/DRB-186.svg",
       "width": 400,
       "height": 560,
-      "bytes": 6157,
-      "sha256": "7308123865cc365f9607aac9e8861195066f036c68803b7ce3a182b42964d5c1"
+      "bytes": 40144,
+      "sha256": "31aa4069f4ecfd2244277e4250d47f5e4b4c896762869a7c9c62e25a5b72a7e9"
     },
     "DRB-187": {
       "path": "/games/darbe-h/assets/cards/DRB-187.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4805,
-      "sha256": "f09e4749e029a98b5a25fb9c4712d94cc08af849236c313366ff1411806a1b52"
+      "bytes": 59594,
+      "sha256": "252aa42deb18c013bc8d9fa558e29acf605dba2546a45b9433305d7a0839ae64"
     },
     "DRB-188": {
       "path": "/games/darbe-h/assets/cards/DRB-188.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4801,
-      "sha256": "ad341e362600c9a6af25ea99856faea0f05506d599b84b87714ad8fe85dcf43c"
+      "bytes": 34986,
+      "sha256": "c11541abad6766464252b47a3f8503e5cf30c5a53266328bdcb7e7331c2a580b"
     },
     "DRB-189": {
       "path": "/games/darbe-h/assets/cards/DRB-189.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4706,
-      "sha256": "369762f14e99e69b68079b0ed46dfd58d92cac4f798af759d898c4b247b1ede1"
+      "bytes": 56998,
+      "sha256": "b1f82f8703e79a20e15dd73b4b152fe9669cfbd63e0ccae308764cca897c0251"
     },
     "DRB-190": {
       "path": "/games/darbe-h/assets/cards/DRB-190.svg",
       "width": 400,
       "height": 560,
-      "bytes": 5584,
-      "sha256": "e262633d8e24fb4541380ef98f44f715c27b6d2f8878cc7072cb835887bcae55"
+      "bytes": 47522,
+      "sha256": "acec5ed562db5269f98b7784de6fc1ced8c4411ae9d2b5d0cc0ae9742551f346"
     },
     "DRB-191": {
       "path": "/games/darbe-h/assets/cards/DRB-191.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4984,
-      "sha256": "33123f9d94a4508bbd8cf403e8857adee172badf83397d5a4c270a1bdc2c5d8a"
+      "bytes": 46189,
+      "sha256": "d09d8cb9e9bc3be1de118916a544b38c25bb0aca3a391fec9212f17418ff285b"
     },
     "DRB-192": {
       "path": "/games/darbe-h/assets/cards/DRB-192.svg",
       "width": 400,
       "height": 560,
-      "bytes": 5993,
-      "sha256": "60f0cebdf2c03760150388b99d739c967d3bae659ed4cda6a6e1cef8a00dd68b"
+      "bytes": 50444,
+      "sha256": "a302969e437e3b0a3f9db0b99ac9249b8431da16961afb3211eb0b9f1f5ffbb3"
     },
     "DRB-193": {
       "path": "/games/darbe-h/assets/cards/DRB-193.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4659,
-      "sha256": "73f54180fe7db2927b39b3e79e1d396e7a58fea27f7f46a41adf7d48d242e516"
+      "bytes": 64649,
+      "sha256": "5fc797a40e7d114d8d1af824811794cec4e0f2954e6c5c179d82cb9d8a8a2ccf"
     },
     "DRB-194": {
       "path": "/games/darbe-h/assets/cards/DRB-194.svg",
       "width": 400,
       "height": 560,
-      "bytes": 5182,
-      "sha256": "8e6283f7d247317ae883b57a3ffaeea4b12fac30397ed598369626093d48cbeb"
+      "bytes": 45313,
+      "sha256": "baf634f010883ecbd8ca1753542c4e8f10bc14d085fcd1b8d96152ff0c3989b2"
     },
     "DRB-195": {
       "path": "/games/darbe-h/assets/cards/DRB-195.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4693,
-      "sha256": "21945fef595a089ffe25f9740f8f4b5428aaa858d09bea0764dee64cf7c9c978"
+      "bytes": 43613,
+      "sha256": "529ccfdd109c85c3e7fac61772f47da45079d50e6ea39a7038e0fef76b8937fc"
     },
     "DRB-196": {
       "path": "/games/darbe-h/assets/cards/DRB-196.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4420,
-      "sha256": "bc5f3dd5806c35fe72685cdc38447ed781ee5d3db472b1ffdef48922e5944b5d"
+      "bytes": 40406,
+      "sha256": "73d712aebfeef8383c14caed203fd682ba31e56ea48d54b7b1604cd9feaf1c56"
     },
     "DRB-197": {
       "path": "/games/darbe-h/assets/cards/DRB-197.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4608,
-      "sha256": "47c09887cb43e07532b269247ce5c29b975af06e74abac36880b76a1012fa8da"
+      "bytes": 33475,
+      "sha256": "56224e29b734231315309a47d7f4b21c5cb0b2151f70ff4fa79b1f91d36d8cee"
     },
     "DRB-198": {
       "path": "/games/darbe-h/assets/cards/DRB-198.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4961,
-      "sha256": "34c57022ecb659c37bc4cc009d5c9238472770049925b3c6b56fb4e4a701f0e9"
+      "bytes": 34777,
+      "sha256": "f57ad225ca7e57cb93f5bff8dfd28938a80fda0592b344124157ce2479298381"
     },
     "DRB-199": {
       "path": "/games/darbe-h/assets/cards/DRB-199.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4713,
-      "sha256": "bb897e66291633700005349f282d7cdeb65b76290fcef457330610258db6da89"
+      "bytes": 64947,
+      "sha256": "2ad48b3845cefd0c0f087a460889559c5899b62934806e606b4172023faa6cf2"
     },
     "DRB-200": {
       "path": "/games/darbe-h/assets/cards/DRB-200.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4080,
-      "sha256": "6e8daca3e5280d42857a53454280bb930f8b229caa656be39cff4d00c42d5145"
+      "bytes": 35636,
+      "sha256": "2bdc7f18a681f9afe10153d8a03ddcfd6bba89215d96b6afc6962e439ec91cec"
     },
     "DRB-201": {
       "path": "/games/darbe-h/assets/cards/DRB-201.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4475,
-      "sha256": "e86b0d0445ee4692bb668f374f31828a97871ea215a6ad8fef3ac56f74104171"
+      "bytes": 33863,
+      "sha256": "827dd6f93d2ae4fbe238d471241af9f5397180d06faecf17c46c5fad28ba88ad"
     },
     "DRB-202": {
       "path": "/games/darbe-h/assets/cards/DRB-202.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4008,
-      "sha256": "cf62a68fb65b753cdb6fe6167ad096f0e49d40d1f2dca1e522585ad241ad348b"
+      "bytes": 48418,
+      "sha256": "e7b496a183679983b778223f008f37eb996265ce95840223f82b1f229a72b7ea"
     },
     "DRB-203": {
       "path": "/games/darbe-h/assets/cards/DRB-203.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3442,
-      "sha256": "df106793b390c621e9b859e6a597786ccf9fdadec38ce52de513a3f6d5ed9762"
+      "bytes": 46927,
+      "sha256": "97ceccae88c1b30bd42c7b14f490d36f9482fd9309200b13986b6a105ccaeaf6"
     },
     "DRB-204": {
       "path": "/games/darbe-h/assets/cards/DRB-204.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3911,
-      "sha256": "af1c9330b2ff0b9cf95f0d10234741bd47971604eea6178f82c845d7512aa1d5"
+      "bytes": 35591,
+      "sha256": "a82e382be20efe81f16b4a01daf1a20df5c76a4943dc525b217b8c2f64eaf16b"
     },
     "DRB-205": {
       "path": "/games/darbe-h/assets/cards/DRB-205.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4492,
-      "sha256": "ff48d1d7604961a2465883beb269ec3e7b6d3a3f164fd6877d8da8a5be42688a"
+      "bytes": 55411,
+      "sha256": "d631c3a08e5010faa6d61eb7505a2d84f42d234f0502581c1cfd6725e4c38bd3"
     },
     "DRB-206": {
       "path": "/games/darbe-h/assets/cards/DRB-206.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4145,
-      "sha256": "0539e54357f236788798e3831ee51b1e598341512fe5406bc752628feec1595e"
+      "bytes": 50989,
+      "sha256": "476b09512ae27a620581f0c70cdf411e04a6289ff816a233031c714201db900d"
     },
     "DRB-207": {
       "path": "/games/darbe-h/assets/cards/DRB-207.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4352,
-      "sha256": "6dfb7ce50669e0a74a44eefa333511dc9d0eef3c7b395da33b87d75e94f639ab"
+      "bytes": 33118,
+      "sha256": "2a24b64df92e6400d02a2a62ee579147d2837da8aa2c433eb2b67a5c0d6a088c"
     },
     "DRB-208": {
       "path": "/games/darbe-h/assets/cards/DRB-208.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3810,
-      "sha256": "5519c1d450dbde1a4161d58ca5880f6a32ef7f6b5df0ce7d8cfc84efa05fbab9"
+      "bytes": 35958,
+      "sha256": "a4eb9f2c8a9a84546d8e30faea7fcbb46c688f9a917bfafa6c9a2cc42a220037"
     },
     "DRB-209": {
       "path": "/games/darbe-h/assets/cards/DRB-209.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4101,
-      "sha256": "5f059284b61063783d09bc4d3170757dd75bbb9c6e3643621b8b9a9a317039d5"
+      "bytes": 39486,
+      "sha256": "e3df8c9d9ce9aec790aa160e4a6091e4481dd6154298754931d57e2e69b8c489"
     },
     "DRB-210": {
       "path": "/games/darbe-h/assets/cards/DRB-210.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4030,
-      "sha256": "da58a9768fd52514bb73ec8393088bd124f99e22a7cc6d6c2939765330ae96fe"
+      "bytes": 35160,
+      "sha256": "86b45e734fb0ac996562df15329f5960f9d14704e9f6cb38bf6b85d07a86636e"
     },
     "DRB-211": {
       "path": "/games/darbe-h/assets/cards/DRB-211.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3971,
-      "sha256": "8f253a416b6f1599c282d47b95c4018bec920d3ebc3215893d456123d9f57afa"
+      "bytes": 24232,
+      "sha256": "2be8b6be786dc7a20e9aeadfb4f95546d46277a63296a8f437c07186494d9c71"
     },
     "DRB-212": {
       "path": "/games/darbe-h/assets/cards/DRB-212.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3805,
-      "sha256": "e3306773d5cf30618a7159ba7431677be0863ea157d114b5f7457035d5363d4d"
+      "bytes": 36637,
+      "sha256": "d18b8e80a3a45824e6246346903abd4b1c172b6150b1cee2f24acad1070419a0"
     },
     "DRB-213": {
       "path": "/games/darbe-h/assets/cards/DRB-213.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4345,
-      "sha256": "7057aae6095aea39a0a401a42bebbc0457755567d2f485a6121709a3a274058e"
+      "bytes": 26471,
+      "sha256": "39b06dada172c2f7c663e6b3e1a920743847e5de6f9284797794737aee8ee6ed"
     },
     "DRB-214": {
       "path": "/games/darbe-h/assets/cards/DRB-214.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4831,
-      "sha256": "fdd11e71ffb441b013bc66be13aa2311ab1cb43dbd0e26f3255b0fd9b3d8727f"
+      "bytes": 58113,
+      "sha256": "20f9e164c1d0032108145a086c5bdd37436c710a3228d223beb19ec1b1f9e3a0"
     },
     "DRB-215": {
       "path": "/games/darbe-h/assets/cards/DRB-215.svg",
       "width": 400,
       "height": 560,
-      "bytes": 5051,
-      "sha256": "903f72af967c07d6a35064840741af89800b8b2da981902aa5544b1e427a644a"
+      "bytes": 56955,
+      "sha256": "2420da07555062b84c6e098530b252fb323ed32e7f66b04cd29b46e7ccdadbd2"
     },
     "DRB-216": {
       "path": "/games/darbe-h/assets/cards/DRB-216.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4804,
-      "sha256": "a24227f1bb89f65c8b74d9485d9bab0d15d3bb6b90e95ae380583f683b65c3be"
+      "bytes": 42724,
+      "sha256": "860781454ad8716714290c3c9daba9cbc9ffa17e4ce6f32c0b75bf977c370f7f"
     },
     "DRB-217": {
       "path": "/games/darbe-h/assets/cards/DRB-217.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4666,
-      "sha256": "d988c5a49cbf713cfc3b14155b62edd0af4e22bf5fd39fb658c291a3f4bfe283"
+      "bytes": 39351,
+      "sha256": "b7303f46499c82c23ac4228786815e3224872db194bff3cfa34efb6fdbbeb9a4"
     },
     "DRB-218": {
       "path": "/games/darbe-h/assets/cards/DRB-218.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4907,
-      "sha256": "abace2ba65361a6d28a550c69e5af55a0436e58ff01a11f3e1a8ccb4d9a4b55a"
+      "bytes": 53981,
+      "sha256": "417e164bc872405e5b4fdaba1c1d780130795d681b81606340384c3b483ab6c9"
     },
     "DRB-219": {
       "path": "/games/darbe-h/assets/cards/DRB-219.svg",
       "width": 400,
       "height": 560,
-      "bytes": 5080,
-      "sha256": "4e26f29810a4270c2196cc6cd8d6640f1a55631331ce0fa51ff113a27036976d"
+      "bytes": 51617,
+      "sha256": "7734e8c7f049ab6f0c9890426e2e9e689cbdc994a81008025506f28628cdf658"
     },
     "DRB-220": {
       "path": "/games/darbe-h/assets/cards/DRB-220.svg",
       "width": 400,
       "height": 560,
-      "bytes": 5992,
-      "sha256": "13b0f3d643f2059e03b00a9e5d65be329d70f47f614399a9bd1793adb69f7a1f"
+      "bytes": 78382,
+      "sha256": "bfa3aaee4e1f9bc599989968a925543029475f82e909ab323a22e65364198cd8"
     },
     "DRB-221": {
       "path": "/games/darbe-h/assets/cards/DRB-221.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3389,
-      "sha256": "3e8e3558bb31800aec7e60cf6a47c64820360cbdf8f81128e206978df32f4d74"
+      "bytes": 47887,
+      "sha256": "c5f95d782cc9380623305b35a1ee14d7b845ce0d5db9a1bc61ea593efbf13d81"
     },
     "DRB-222": {
       "path": "/games/darbe-h/assets/cards/DRB-222.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3377,
-      "sha256": "cfc30ae9b4cea26dc75440f017f727b0b4e2617c87936083de50e81a4360e3c6"
+      "bytes": 39296,
+      "sha256": "e5bbe5c82f961fe1d2eb55bc8665f0ca4bd6b06e6c2ea88d9e0a7c8d245ed20f"
     },
     "DRB-223": {
       "path": "/games/darbe-h/assets/cards/DRB-223.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3579,
-      "sha256": "855efe898e16a53408f1c45c43c2d20bf1816e4e372b20f5f0f51c508f560a70"
+      "bytes": 32277,
+      "sha256": "0189754f5c2d1fe08088829ed7733d418957980a039e5036febe8e8f22a80021"
     },
     "DRB-224": {
       "path": "/games/darbe-h/assets/cards/DRB-224.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4091,
-      "sha256": "14c8edadc9dc5df71d5769828fe78432ec6be6271115d713c995866be9d9f478"
+      "bytes": 28426,
+      "sha256": "8ffd113c7a8dfee57410c301946ea7530f4887e1f359c963d450fea28f51df6a"
     },
     "DRB-225": {
       "path": "/games/darbe-h/assets/cards/DRB-225.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3629,
-      "sha256": "0972842cdc47f386d854fcadfc12f43107c7b8257ade3b0d0ccd0ac30b0ef8ca"
+      "bytes": 52778,
+      "sha256": "2e240bf039e45b744dffb08b3395a832b2724889de2419e7899a65badb96641a"
     },
     "DRB-226": {
       "path": "/games/darbe-h/assets/cards/DRB-226.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3792,
-      "sha256": "0452b330988361abd4fb2a33bfcbe549a09720af388700b330351e0a611d3612"
+      "bytes": 34659,
+      "sha256": "0302050f3dcb6e594fe1c81e8d2292d7aa4039b726ba8f9ce5e587c57a1218bf"
     },
     "DRB-227": {
       "path": "/games/darbe-h/assets/cards/DRB-227.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3841,
-      "sha256": "b038231addc4bc77f904df385fb70b0b68a429ddee4c1d93ad9b0b0491d61a91"
+      "bytes": 41333,
+      "sha256": "c3c2507d2ddc22f9e312e82614b67679b1e680013dfb68fbbb799ecdd47b56ba"
     },
     "DRB-228": {
       "path": "/games/darbe-h/assets/cards/DRB-228.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4286,
-      "sha256": "02b70fec68037433676834ef4802a95967b343311f599eb50385663dd6335ee2"
+      "bytes": 51832,
+      "sha256": "b294631fd77552a98d86b9de81b85f60ab0c07438ac882d7877daea47c42d17c"
     },
     "DRB-229": {
       "path": "/games/darbe-h/assets/cards/DRB-229.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3757,
-      "sha256": "f1c23fda6da63fa35da1a73055d75470fd662dac7cf0bb1f0dd00b84387f7196"
+      "bytes": 45222,
+      "sha256": "4ede2eddb2400b3c5aa36a26ce49c69afed47901e458a6cd4ed6ce3bfc0dad9a"
     },
     "DRB-230": {
       "path": "/games/darbe-h/assets/cards/DRB-230.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4159,
-      "sha256": "161143e34b8ccabcd5466881b8ff9c521a156c167a2a6b2bbaa806573c5025ac"
+      "bytes": 42924,
+      "sha256": "6c9d54d1c115e959fc56c8caf9d44edf1a53cf54e9cfb1844a9fd60970333164"
     },
     "DRB-231": {
       "path": "/games/darbe-h/assets/cards/DRB-231.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3573,
-      "sha256": "518f72345293a82a75809968d755b4e6e46d84f986baa7314da690a4b144221d"
+      "bytes": 68927,
+      "sha256": "f843ebf5566ac089eb53345404efe75f93cf94d18fad2cfc447dc585b6f41608"
     },
     "DRB-232": {
       "path": "/games/darbe-h/assets/cards/DRB-232.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3608,
-      "sha256": "ac1322123656e47083ee7eda2d85b46c4715201b42e54dd1d56f694911304bf5"
+      "bytes": 71344,
+      "sha256": "6d42bb5346d6070af07b5af20085bb397f85dec8d0ab9f99d04c6a28310443cd"
     },
     "DRB-233": {
       "path": "/games/darbe-h/assets/cards/DRB-233.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3633,
-      "sha256": "a87501dbdcad0f9b8bf2e3ef4cd6db7d5c65bc3b483ab65ad84c0d60edc70ed1"
+      "bytes": 31290,
+      "sha256": "1f03603973e17fa0d1936d2254e29d61591a82d10d6a8f3d839159e536e708a5"
     },
     "DRB-234": {
       "path": "/games/darbe-h/assets/cards/DRB-234.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4722,
-      "sha256": "2dfcc49258b9aa3efc39a95b769e183e2a416213c818997cffa316cfbf13429f"
+      "bytes": 51200,
+      "sha256": "3e9203da44b5565150738f2b16b5db1ebe6d0c56a1360f132c3889294237bbf4"
     },
     "DRB-235": {
       "path": "/games/darbe-h/assets/cards/DRB-235.svg",
       "width": 400,
       "height": 560,
-      "bytes": 5456,
-      "sha256": "b7ed209b9a005664d7110c882c1ef74fd7e3b28ca84d53a8dfa43cd5e6b287b0"
+      "bytes": 14441,
+      "sha256": "4ce0aac8eb38d9c0c5fa144e35d2a8b0571e7191b859edc1157472e219cc9907"
     },
     "DRB-236": {
       "path": "/games/darbe-h/assets/cards/DRB-236.svg",
       "width": 400,
       "height": 560,
-      "bytes": 6049,
-      "sha256": "136cbaa8d11e745b1f27d34446ae86b876f7b261432a3d1cab4ee734d29da8ad"
+      "bytes": 59429,
+      "sha256": "eaf47799f7941a2d12640754e1f3ccdc27eb38d0300915a9342c18ba84709e7e"
     },
     "DRB-237": {
       "path": "/games/darbe-h/assets/cards/DRB-237.svg",
       "width": 400,
       "height": 560,
-      "bytes": 6867,
-      "sha256": "32d3b5375eefebbb969bf789ea48397c54eb8b8d0f8cb6f40baa707c16d14ac0"
+      "bytes": 39284,
+      "sha256": "abfd040d4d6e633747ffe067e4110ae7553835ed878f674d1978bc8aead61463"
     },
     "DRB-238": {
       "path": "/games/darbe-h/assets/cards/DRB-238.svg",
       "width": 400,
       "height": 560,
-      "bytes": 5998,
-      "sha256": "ccf28fae03a504c0cd624a19e0d80ad2a7e65563f574291eba8654915098fb70"
+      "bytes": 40699,
+      "sha256": "5128e0e706131c8ed1d8cd7e15e0f56c293ae5f315a846b5bab07a4d0f21c485"
     },
     "DRB-239": {
       "path": "/games/darbe-h/assets/cards/DRB-239.svg",
       "width": 400,
       "height": 560,
-      "bytes": 5095,
-      "sha256": "bde453c984d980d5aad8062cffa6cbcb0bfc8cd4934cfdf4594d35ec3a7cf208"
+      "bytes": 41308,
+      "sha256": "848d3d0b9d67563fd561c9fbc2520dfc374d4b90810305e4171b2d4d4a11b4db"
     },
     "DRB-240": {
       "path": "/games/darbe-h/assets/cards/DRB-240.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4866,
-      "sha256": "4fbf0dfe9198909e999ba953b85ec63c1e79ffcb1cdb01c4808457a62e452272"
+      "bytes": 35839,
+      "sha256": "0046fe4ee82ad28eda3f1f89e9d58e453bee44d05a2b5f61b3abf3bcabef3e83"
     },
     "DRB-241": {
       "path": "/games/darbe-h/assets/cards/DRB-241.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4240,
-      "sha256": "4822de1de033016e8451d609d5a2d86983e25dbf03d47ce4bb5e14c7949208ee"
+      "bytes": 34775,
+      "sha256": "e4da08baf3a64b5a6bbd260474e71acb43430bc1d5bb9375a6411f718e0bd891"
     },
     "DRB-242": {
       "path": "/games/darbe-h/assets/cards/DRB-242.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3908,
-      "sha256": "2d422bea466f3b1854b5d98b03f47dfefb3ddd10390e35585d4679b7fc5774f9"
+      "bytes": 64944,
+      "sha256": "ee0cadf05c99b64878b45642faba3d0dac169023d52c3aedc5881499fc729530"
     },
     "DRB-243": {
       "path": "/games/darbe-h/assets/cards/DRB-243.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4408,
-      "sha256": "e79354b03100905771255000b4daf6701a789b8fc2642a3ea4f9c058d4432ecf"
+      "bytes": 35625,
+      "sha256": "dacd6715f2e1c4b9e20635a1755f1a347668b6dda21a97f18fd40ec5b00c9ba3"
     },
     "DRB-244": {
       "path": "/games/darbe-h/assets/cards/DRB-244.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3967,
-      "sha256": "45a94f38e0435cb25795e7dd62d17e813f441f55cef0f6993b742695274e08c5"
+      "bytes": 33868,
+      "sha256": "51d27460d6930f6681f4529822acb21335b73dd6baaa4c933119ddfc0dfabf22"
     },
     "DRB-245": {
       "path": "/games/darbe-h/assets/cards/DRB-245.svg",
       "width": 400,
       "height": 560,
-      "bytes": 5824,
-      "sha256": "f41761d32200424931430c6ab3c615ed9a1a563c51056cb51b027ddcbd0d7c5b"
+      "bytes": 48413,
+      "sha256": "dac746bc3123508d6cb1ae177c8f5f5a21fd4ad0f7adc6989898141ecd84194a"
     },
     "DRB-246": {
       "path": "/games/darbe-h/assets/cards/DRB-246.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4806,
-      "sha256": "c88c0e61eea6e7c4b0579a2a686ef495b6bcf64c31b7c9f6d5fa9c343ace0021"
+      "bytes": 46927,
+      "sha256": "15a67a5a3664726ef12c3193be66a57f498e9abaea67c284edc48a83068815bf"
     },
     "DRB-247": {
       "path": "/games/darbe-h/assets/cards/DRB-247.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4961,
-      "sha256": "805e0c89c9019dcd2839dede34fcdd61e7086f1f50deab8a4e9582556b48e995"
+      "bytes": 35585,
+      "sha256": "024955563c9ffbef8152bbe3818a8cda56139f942ca6a4ce6a978277706dd189"
     },
     "DRB-248": {
       "path": "/games/darbe-h/assets/cards/DRB-248.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4578,
-      "sha256": "715e922811277570a39ab3b03dae6521d4ceb4bb26d2718cde194e670f33814f"
+      "bytes": 55404,
+      "sha256": "9cbc706fe83af45d27e200f6221def72ee778822cf36d413ec50166b6c6dc756"
     },
     "DRB-249": {
       "path": "/games/darbe-h/assets/cards/DRB-249.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3897,
-      "sha256": "6bff2edeca18ebf646f94673ead07809cdc6ab96bd2779510a8eb3ef5fcaa339"
+      "bytes": 50979,
+      "sha256": "3a252ad18e4508caf32918aa305643e7069673584acf4bad3c6bb1c97b9cd405"
     },
     "DRB-250": {
       "path": "/games/darbe-h/assets/cards/DRB-250.svg",
       "width": 400,
       "height": 560,
-      "bytes": 5057,
-      "sha256": "51e754f73c48a09c0795c2d9c95ffe055eee83d113f83afa93c9d2f8ce1fc995"
+      "bytes": 33115,
+      "sha256": "3d22ea1d11cc7fff026e7d675518aacb3bb8acd8b753b2f821b3d22993e511d5"
     },
     "DRB-251": {
       "path": "/games/darbe-h/assets/cards/DRB-251.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4202,
-      "sha256": "0653f9f240253833a15aa4d38f0cb6874f54ad313b57e34bf669579bbe8f35ab"
+      "bytes": 35968,
+      "sha256": "a7a6e4b974883522c604534242c07754dcea09b6cc548b3ec2c61438fc444fbb"
     },
     "DRB-252": {
       "path": "/games/darbe-h/assets/cards/DRB-252.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3854,
-      "sha256": "530564e942abfc7342deab0e107c02089c69a2cf2fa538c60ec9e56d1539757d"
+      "bytes": 39500,
+      "sha256": "4a71d67167d484c670d1435de9412babc34f234578e31e491ee55c32c7efc3e6"
     },
     "DRB-253": {
       "path": "/games/darbe-h/assets/cards/DRB-253.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4385,
-      "sha256": "095deb292d41179b8a643d7be52e1b700c4b44acfa4b1d604a9e1d220073e6d2"
+      "bytes": 35155,
+      "sha256": "d4d5d257dd33463e6b67d4cc9e8b56ac6a36b7af8ea0d01f9caeff2d65088965"
     },
     "DRB-254": {
       "path": "/games/darbe-h/assets/cards/DRB-254.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3619,
-      "sha256": "d9e1df026f94274c44fb5df8e6fbcfe248988a00388cdadc7e631c13d600979a"
+      "bytes": 24234,
+      "sha256": "b598893ba6f9709a36757b5d0ddd12fb8f8d231c80224cc840ecc590f29944db"
     },
     "DRB-255": {
       "path": "/games/darbe-h/assets/cards/DRB-255.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4258,
-      "sha256": "bb72a46c5eed83eda4d691849d74674b7667cdcb94298686d3b588541cf582a8"
+      "bytes": 36634,
+      "sha256": "9168b0edb4552c93a42a29825d5fdc07b2536fc496c41f7981566babef29e9b1"
     },
     "DRB-256": {
       "path": "/games/darbe-h/assets/cards/DRB-256.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4546,
-      "sha256": "e6dab57c593efc87d667573cdb02bb9642f25190d0c22a091d009d2c8621baff"
+      "bytes": 26475,
+      "sha256": "b36bd55b3ec156926afeb4a3233a155b2a64a17a8cbda41542271cf18ceca9af"
     },
     "DRB-257": {
       "path": "/games/darbe-h/assets/cards/DRB-257.svg",
       "width": 400,
       "height": 560,
-      "bytes": 13517,
-      "sha256": "c2410a7354511513e204796a499567679624d0f1c86847042446a2f2557d64cb"
+      "bytes": 58110,
+      "sha256": "6b5c5691794dc878b11a3c955c08e1370808570e9e158076fcff4c3e82c5384f"
     },
     "DRB-258": {
       "path": "/games/darbe-h/assets/cards/DRB-258.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4823,
-      "sha256": "d9781bb27fa3e569c8e44808cf4d112da7b8f719e4f4b7499178dac0f9c78a42"
+      "bytes": 56966,
+      "sha256": "01758822e77717efc583f23da4dda0aa1f8de59d3a2bc2f0f6e61196b84a9e95"
     },
     "DRB-259": {
       "path": "/games/darbe-h/assets/cards/DRB-259.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4954,
-      "sha256": "ed8bd4b0b57c0086541af28e0ec3fbb62d13209af5b3ffb27ba36ba79cfcac3c"
+      "bytes": 42726,
+      "sha256": "4db217dd128c356bc0e8604291e1dd1ed25043c3698a30bc5f0d99e5076da441"
     },
     "DRB-260": {
       "path": "/games/darbe-h/assets/cards/DRB-260.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4138,
-      "sha256": "8f9e14b9ef78e036db5d35f2c62091e189466c57931ea6ebef1743e6c5204f70"
+      "bytes": 39354,
+      "sha256": "49d0d584d0bc373f1990f064689f30f739b0d85f2547a10e471c768ffd4257dd"
     },
     "DRB-261": {
       "path": "/games/darbe-h/assets/cards/DRB-261.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4165,
-      "sha256": "7639e662de5e6f98a42ff2336b4c446f3a82d53691e16872846cb530b94f2581"
+      "bytes": 53982,
+      "sha256": "b38b23af93310dbc82fbde797f35129c793b38c0405121df8174b5329f1d8ba6"
     },
     "DRB-262": {
       "path": "/games/darbe-h/assets/cards/DRB-262.svg",
       "width": 400,
       "height": 560,
-      "bytes": 5791,
-      "sha256": "1e2e404e05076d5335c851cdb55858e298761a93a31ff8c239bfd4e9e03ec982"
+      "bytes": 51619,
+      "sha256": "d3f90d8574365887eb79b5c9971b41a0bf6e5b78978b3294b791966b07057cd9"
     },
     "DRB-263": {
       "path": "/games/darbe-h/assets/cards/DRB-263.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3910,
-      "sha256": "182eb45622e25f0b517e8b416c64c474116db881785473e148cc81f253cca520"
+      "bytes": 78389,
+      "sha256": "a2ff5286bae848c3c4b24ac7176477db3af4c4592d697ad551410a09be3738c4"
     },
     "DRB-264": {
       "path": "/games/darbe-h/assets/cards/DRB-264.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4533,
-      "sha256": "fab4a016f9f1b4353593b184e61435a27b3e12d260791733398ad88df5a1ef24"
+      "bytes": 47887,
+      "sha256": "7476daeb57e635980871f6540020032cbaee38169ec46bdcffc9f1ee92641224"
     },
     "DRB-265": {
       "path": "/games/darbe-h/assets/cards/DRB-265.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4361,
-      "sha256": "53bdd0722298da82f5016d55181e3d326398c8e858082f94fe7449d8ddc584bc"
+      "bytes": 39290,
+      "sha256": "835f2cd9104ea98f8bdcb72f8a70fd0d3978030790d8e285236e3b703db62750"
     },
     "DRB-266": {
       "path": "/games/darbe-h/assets/cards/DRB-266.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3781,
-      "sha256": "c20b6445227f0d6834d4b12653ae93a3652ec5fddea63de01a3b00729dd33eab"
+      "bytes": 32272,
+      "sha256": "33971ed6042ff9b624701d7d3c3fddb563d99690ce120814b27cf951da5c6954"
     },
     "DRB-267": {
       "path": "/games/darbe-h/assets/cards/DRB-267.svg",
       "width": 400,
       "height": 560,
-      "bytes": 5290,
-      "sha256": "d80affa1b3d8b3e914cdb9b1a6c3c401b6e2f7a26f4b2cef2aa0a6d3aa15bba6"
+      "bytes": 28423,
+      "sha256": "9a88e3fbae7e7d3a815912bf656967ca627f535443b04fde74da28943b369a45"
     },
     "DRB-268": {
       "path": "/games/darbe-h/assets/cards/DRB-268.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4295,
-      "sha256": "e3953a5ae90c042d477df30f7fe2450ab9859816c8942e5097891e3c06108e22"
+      "bytes": 52782,
+      "sha256": "5be0521d2dccd524458062ef16c2d458e06b6a5842f9b6f4c4d9937af97affd0"
     },
     "DRB-269": {
       "path": "/games/darbe-h/assets/cards/DRB-269.svg",
       "width": 400,
       "height": 560,
-      "bytes": 13651,
-      "sha256": "ec9f1634d5989ac78ab171c2b054df7b6a93f14ab0fc33d779cd5247fcb743ff"
+      "bytes": 34643,
+      "sha256": "5506495e97fd3b04e1f89ebfa40609cbbb69c06afce9175875f063918b1b9587"
     },
     "DRB-270": {
       "path": "/games/darbe-h/assets/cards/DRB-270.svg",
       "width": 400,
       "height": 560,
-      "bytes": 5390,
-      "sha256": "dabefb98ae33acaeefb08c82e50d772575e5a5a182614e0a1f26fa85c64d5080"
+      "bytes": 41324,
+      "sha256": "65d766f7602b0d899dccf6c96fc003112231b917662059587475b6f108bf0499"
     },
     "DRB-271": {
       "path": "/games/darbe-h/assets/cards/DRB-271.svg",
       "width": 400,
       "height": 560,
-      "bytes": 5094,
-      "sha256": "f1cdce49162cf2af41a0fc122072adbcecee92ef90e65e9dfbaeaaaaecafb33e"
+      "bytes": 51819,
+      "sha256": "0e009fc5e9e528ad5238860a2e5ed2a2c6b71dabe4ed4430c8946ebc623f117b"
     },
     "DRB-272": {
       "path": "/games/darbe-h/assets/cards/DRB-272.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4296,
-      "sha256": "46b6fba0dde835bb65a5b3c87f9243e60b0e20616d3202c0dd83be2dd7be043e"
+      "bytes": 45225,
+      "sha256": "7c0eb3ca83194c01c844f77d80865508dec3e0b7ae4358cf5f70c71b6cf395fb"
     },
     "DRB-273": {
       "path": "/games/darbe-h/assets/cards/DRB-273.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4093,
-      "sha256": "76cdaea302e57328503e342167f4849ed0ce8c38245c7de27f28919dcbfd1a09"
+      "bytes": 42917,
+      "sha256": "a838e55fc153fffdea73665191571ad4ba446e52b4b72d6bf8e79edc8c5ad27a"
     },
     "DRB-274": {
       "path": "/games/darbe-h/assets/cards/DRB-274.svg",
       "width": 400,
       "height": 560,
-      "bytes": 5300,
-      "sha256": "ebb062e229edf89834a7329ce1c9de36e345b805fe76de631bc476000e2af6e1"
+      "bytes": 68907,
+      "sha256": "1cad71f157ff492eb378b7e9adfa39397e245a6bcf1d987d60132e1400d2024f"
     },
     "DRB-275": {
       "path": "/games/darbe-h/assets/cards/DRB-275.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4456,
-      "sha256": "ca50dd4d9bc2b3f4d80c5305e4042913e8d96db233b4bd9d6861a1414c1f1fdc"
+      "bytes": 71340,
+      "sha256": "0c173aa61eae22233572a4850ebfc722d1585b00169aca967e53313ce9cbfc15"
     },
     "DRB-276": {
       "path": "/games/darbe-h/assets/cards/DRB-276.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4082,
-      "sha256": "8c317602d61c3c5c02bfa41f8324d71b5c5f066c8b57e7785b3d38aeb1decbfd"
+      "bytes": 31288,
+      "sha256": "8ce6e2a04eb3f0e00732eb9e1f10726e987a560594b05307cf07fc27e8d8c9b5"
     },
     "DRB-277": {
       "path": "/games/darbe-h/assets/cards/DRB-277.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4084,
-      "sha256": "94425384323297b1f79b2adca6b4309cfa80a45b3078b8c64131bd4e5da82670"
+      "bytes": 51190,
+      "sha256": "70589bcec0f10cfa3bddb234f20bca39cdc69db87c664618bb20457effcf74cb"
     },
     "DRB-278": {
       "path": "/games/darbe-h/assets/cards/DRB-278.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4430,
-      "sha256": "fd8a57f7baca7d4f5c36061321a715c8640665b230f976453a2be1d871b3b7a6"
+      "bytes": 14453,
+      "sha256": "4118c24c703f1c5c470ba96407a2fe693eacfde0317950c9860162b45912502c"
     },
     "DRB-279": {
       "path": "/games/darbe-h/assets/cards/DRB-279.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3014,
-      "sha256": "51f65f43c934342ada5d612d6db5610bcf6abf4bba02924f02d21e4ffcc60b5b"
+      "bytes": 59435,
+      "sha256": "8cc0c74e94aaaa7886b8cf8198cfdad37d31fce4e57547c699056262969ff215"
     },
     "DRB-280": {
       "path": "/games/darbe-h/assets/cards/DRB-280.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4423,
-      "sha256": "052a0a21098640e4c48d17c7ddc51fa71b8ca71a4cb0179e87dda8c49cda366d"
+      "bytes": 39292,
+      "sha256": "120ce4c8d2c6131446dc3965180151bb74155f1fe1317dd6c1de4031df2efa14"
     },
     "DRB-281": {
       "path": "/games/darbe-h/assets/cards/DRB-281.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4422,
-      "sha256": "bfb1e5fdb0119312178b493285bf876275b61bd47ea8ad009c02d1928f3e97ba"
+      "bytes": 40707,
+      "sha256": "85004a26880202c8ce1b2c422e798b5948797232ce38c7fd15045c04f6ce3520"
     },
     "DRB-282": {
       "path": "/games/darbe-h/assets/cards/DRB-282.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4425,
-      "sha256": "e9c000ff80dfada90cf24453365a5adc9cb6ffa5f8dc6fd795c763fc99817c9b"
+      "bytes": 41315,
+      "sha256": "f1abe39059777e5ca543d6f08dac184b0f62a4a3859ae7f4a9b2cf9644250f4d"
     },
     "DRB-283": {
       "path": "/games/darbe-h/assets/cards/DRB-283.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3195,
-      "sha256": "be66521949844c5f72fb6ec653b30655a0f499f336fd6bd23faf0de823355e98"
+      "bytes": 35838,
+      "sha256": "0eab5f99c05347d44486adf3ddaed79b1ae29c729273b6e0cff3b23a9dc7194c"
     },
     "DRB-284": {
       "path": "/games/darbe-h/assets/cards/DRB-284.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3131,
-      "sha256": "4093de2fcbd6c65e2f76a5a982e0edc423230b94e4578b77620edd22d799d1d9"
+      "bytes": 28798,
+      "sha256": "7f2ed9c88b73d18a57a08e4b5e669ffc6d18c4ebe87041408ea976b051a7c4b6"
     },
     "DRB-285": {
       "path": "/games/darbe-h/assets/cards/DRB-285.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3021,
-      "sha256": "caa3812dd53b698a34de0194ac9de560bcbab4505e2a583809b37e595400324f"
+      "bytes": 75688,
+      "sha256": "62e92c0e30634745718c36460537213ce9ed322b5766e9ce5e3f5ed091b544f2"
     },
     "DRB-286": {
       "path": "/games/darbe-h/assets/cards/DRB-286.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4424,
-      "sha256": "ce3840d36ce9a2f85ff8e7663bdeda21e9e236c4593baa6aa984374184a81227"
+      "bytes": 30515,
+      "sha256": "f67d6c2ce91495497b23a60d00d9ca25a5d42bf6b953d77a059abb0ad61abedd"
     },
     "DRB-287": {
       "path": "/games/darbe-h/assets/cards/DRB-287.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4427,
-      "sha256": "61fde9b1fb75b34c68afa6ec2f8184fa0c0fcdb863f78578e0cb92d037ba7e76"
+      "bytes": 38732,
+      "sha256": "39d1709b67c9e73db2a4e5670823d8f0b5ca8bedc565489153e67eb94ac4beea"
     },
     "DRB-288": {
       "path": "/games/darbe-h/assets/cards/DRB-288.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3195,
-      "sha256": "1eb2a20b6322eb14f91b93c967eab79d9d969f30ae4023fd3a92611456f834d6"
+      "bytes": 51720,
+      "sha256": "6c08a2e51a2e5e22c2cf079999cb5246250cc2cb57b7b163fcbbc61b2dfc5a33"
     },
     "DRB-289": {
       "path": "/games/darbe-h/assets/cards/DRB-289.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3118,
-      "sha256": "a779ed2deb9cb0419fee9ef6529848a881626fcc523b91c6d7c336948877fd16"
+      "bytes": 40147,
+      "sha256": "9f85132fb6f0644428510a153e1526b1cbf5ed2872ebbf7940188c222e3db3de"
     },
     "DRB-290": {
       "path": "/games/darbe-h/assets/cards/DRB-290.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4246,
-      "sha256": "7431249ce06f7fc30e1046c043385c6d0272c10716cec0fd9748882cd5c58029"
+      "bytes": 59595,
+      "sha256": "e6f65337b0a501330bea5df642509f5a8771887f18bb60b1012b45c9bb2f96a6"
     },
     "DRB-291": {
       "path": "/games/darbe-h/assets/cards/DRB-291.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3196,
-      "sha256": "101a0c61d9dd9723f415ee6807cd0c8ed3c8ac715e3f839e2f48da36f56e0d5c"
+      "bytes": 34991,
+      "sha256": "b981d2da076ab7abb977d5d7c8763d6b9b976067ecb06d2b1c67557d16213e0f"
     },
     "DRB-292": {
       "path": "/games/darbe-h/assets/cards/DRB-292.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3905,
-      "sha256": "0a4abeaef84f178a4bbb3870736c4dcb41f2f351de02bca33ed1c8605e3ae9b4"
+      "bytes": 57001,
+      "sha256": "ca74cfc358347a0263d8cb3cac8a565a59a7ff97a45853a7a36327aea909f96c"
     },
     "DRB-293": {
       "path": "/games/darbe-h/assets/cards/DRB-293.svg",
       "width": 400,
       "height": 560,
-      "bytes": 4242,
-      "sha256": "6ad3bb5853fecbad5bc4ad14b69a8259e5cfb0748a8c2c1a62e6c2995ed4967d"
+      "bytes": 47521,
+      "sha256": "8f192e89f1c4b98a6e9850d99c549d40598e4c11ea4a77b7b2a10efa6deacc88"
     },
     "DRB-294": {
       "path": "/games/darbe-h/assets/cards/DRB-294.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3193,
-      "sha256": "78da256e8f02c3da5ad114b7b48de265f9c1ff8390c0709915f403767ca3e57e"
+      "bytes": 46186,
+      "sha256": "c837c55248bdafc6353023b3823b70c4b06b5f95e074b2c63b617b4f9bf4a048"
     },
     "DRB-295": {
       "path": "/games/darbe-h/assets/cards/DRB-295.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3190,
-      "sha256": "dee9ebb1159ab5006f980a279b60a346716e3dd948d39fc87995ce3d29c2332a"
+      "bytes": 50438,
+      "sha256": "7bc522e95f13aee7736d44d601755e2069e6bc56cc7f124eede6b2e7fc0f5e43"
     },
     "DRB-296": {
       "path": "/games/darbe-h/assets/cards/DRB-296.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3018,
-      "sha256": "fc9a9e6c0966ba46fc63dcbf515895e8cd8a1b4df92ea617c0b1005eef9d5245"
+      "bytes": 64655,
+      "sha256": "27e331159aef9dffecab02889270b5d0d339f98a52b09931651975337c6a98b4"
     },
     "DRB-297": {
       "path": "/games/darbe-h/assets/cards/DRB-297.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3116,
-      "sha256": "5d5df339b710f5badc2d88bd771473627ae269960a6bdc53d608ba80697beab1"
+      "bytes": 45324,
+      "sha256": "e1c99de8fb7e2e15b0447ee07e3de9a11cb6e0cfd1e736095a63afd676e70773"
     },
     "DRB-298": {
       "path": "/games/darbe-h/assets/cards/DRB-298.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3904,
-      "sha256": "4eec68116e957b5b9ae739f56cdead49aadc0629076453a799d43b6699937456"
+      "bytes": 43624,
+      "sha256": "2de685d57e9306e762192b2cb06b5a0255d006a28d0f8a922ba2b3252542969d"
     },
     "DRB-299": {
       "path": "/games/darbe-h/assets/cards/DRB-299.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3201,
-      "sha256": "caabc3bfd88da58d683ff2962eb2211dc7b27bf9f002e2fd74d39757b5df235c"
+      "bytes": 40416,
+      "sha256": "0d149a5ef34960b6d61ade5924ebc5be3083144a7f0cd7d34bfffd5d241017a1"
     },
     "DRB-300": {
       "path": "/games/darbe-h/assets/cards/DRB-300.svg",
       "width": 400,
       "height": 560,
-      "bytes": 3899,
-      "sha256": "f24770e2c010f35be8e997fb1a332ad23ae07cf94fee13eddc4208e4f8dfb176"
+      "bytes": 33486,
+      "sha256": "feaac715c98927251e3846bc5b461a54843b1a89e90eef11f781b5cb1183342f"
     }
   }
 }

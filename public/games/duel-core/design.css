@@ -1467,6 +1467,27 @@ body[data-theme="darbe-h"] .playing-card.face-down {
     repeating-linear-gradient(0deg, #121820 0 10px, #1a2433 10px 11px);
   border-color: #8a6a3a;
 }
+/* DARBE-H! card art is editorial illustration composed for a 400x560 (5:7)
+   portrait frame. On small hand cards the shared layout gives .card-art only
+   the leftover space after the name/stat rows, which on a ~120px-wide card
+   collapsed to a landscape sliver: object-fit:cover then cropped away most
+   of each illustration's vertical composition, so every card showed the
+   same generic paper-and-stamp band regardless of its real scene. Widening
+   the hand card (more absolute pixels, same text chrome) restores enough
+   vertical room for the art to actually read; object-position keeps the
+   crop biased toward where each composition's identifying prop sits rather
+   than a blind centre-crop. VETO-H!/GETT-OH! keep the shared --hand-width. */
+body[data-theme="darbe-h"] {
+  --hand-width: clamp(150px, calc(158px * var(--card-scale, 1)), 210px);
+}
+body[data-theme="darbe-h"] .card-art img {
+  object-position: center 38%;
+}
+@media (max-width: 760px) {
+  body[data-theme="darbe-h"] {
+    --hand-width: clamp(138px, calc(144px * var(--card-scale, 1)), 190px);
+  }
+}
 
 .interactive-brief {
   margin: 0.55rem 0;

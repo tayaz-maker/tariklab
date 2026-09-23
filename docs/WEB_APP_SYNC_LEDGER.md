@@ -34,6 +34,16 @@ Append after a meaningful website change to a game or shared brand/content. Skip
 
 ## Entries
 
+### 2026-09-22 — HANEDANIAN cached atlas + DARBE-H! illustrated interiors
+- Web change: HANEDANIAN terrain is a cached offscreen atlas (blended biome masses, forest clusters, ridge systems, field parcels) blitted each frame instead of per-tile fillRect. DARBE-H! 300 SVG faces rebuilt as lit interior scenes with perspective, lamp pools and series-specific furniture. Compact HUD unchanged.
+- Content: no
+- Artwork: yes
+- Gameplay/rules: no (49×49 world, seed, movement, save, decks, stats, RNG, 300 IDs untouched)
+- UI/presentation: yes (map rendering + DARBE card faces)
+- Shared-content source: no
+- Native follow-up: yes (paused) — carry atlas cache look and illustrated DARBE interiors
+- Commits: grok/hanedanian-darbe-visual-depth
+
 ### 2026-09-21 — DARBE-H! card art rebuild + HANEDANIAN atlas rendering
 - Web change: DARBE-H! 300 SVG faces rebuilt as series-first archival collages (telex / dossier / command table / paraf / archive). HANEDANIAN map renderer retuned to dynastic atlas (hatching, contours, paper grain, distinct POI symbols, road casing, river banks). Compact HUD palette aligned; height unchanged.
 - Content: no
@@ -384,3 +394,13 @@ Chromium must pass before integration.
 - Replaced retired action-cap and single-building descriptions with the current focus/capacity/effort/site-management mechanics.
 - Added one data-driven decision brief to the shared duel inspector for VETO-H!, GETT-OH! and DARBE-H!; card rules remain the source of truth.
 - Preserved the sealed JITEM teaser and the bilingual personal attribution note.
+
+### 2026-09-22 — Ultimate visual candidate
+- Web change: continuous shaded HANEDANIAN material field, traced ridge belts and dark noble chrome; DARBE original noir WebP scene plates in existing SVG transports and larger art in hand/archive/detail.
+- Content: no
+- Artwork: yes (60 original DARBE scenes, 300 editions)
+- Gameplay/rules: no
+- UI/presentation: yes
+- Shared-content source: no
+- Native follow-up: yes (paused); carry visual architecture when native resumes.
+- Commits: astra/hanedanian-darbe-ultimate-visual (candidate; not merged)

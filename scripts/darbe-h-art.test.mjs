@@ -66,41 +66,24 @@ test("DARBE-H! ships 300 unique crisis-desk SVGs and cardArt points at them", ()
   assert.match(app, /loading:\s*"lazy"/);
 });
 
-test("DARBE-H! series families are authored collages, not one recolored template", () => {
+test("DARBE-H! embeds local original scene plates without runtime dependencies", () => {
   const source = JSON.parse(readFileSync("public/games/darbe-h/source-cards.json", "utf8"));
-  const bySeries = new Map();
+  const scenes = new Set();
+  const plates = readdirSync("public/games/darbe-h/assets/plates").filter((name) => name.endsWith(".webp"));
+  assert.equal(plates.length, 60);
+  for (const name of plates) {
+    const data = readFileSync(`public/games/darbe-h/assets/plates/${name}`);
+    assert.equal(data.toString("ascii", 0, 4), "RIFF");
+    assert.equal(data.toString("ascii", 8, 12), "WEBP");
+  }
   for (const card of source) {
-    const key = seriesKey(card.series);
-    if (!bySeries.has(key)) bySeries.set(key, card);
-  }
-  const markers = {
-    Dosya: /DOSYA|KAYIT|GİZLİ/,
-    Telex: /TELEX|ONAY/,
-    Karargah: /KRİZ|KARAR/,
-    Heyet: /HEYET|TUTANAK|OY/,
-    Kabine: /KABİNE|BAKAN|KARAR/,
-    Paraf: /PARAF|ONAY/,
-    Brifing: /BRİF|NOT/,
-    Arsiv: /ARŞİV|KAYIT/,
-    Muhtira: /MUHTIRA/,
-    Tebligat: /TEBLİĞ|SEVK/,
-    Zeyil: /ZEYİL/,
-    Mesruiyet: /MÜHÜR|KANUN|RESMÎ/,
-    İhtar: /İHTAR|ACİL/,
-  };
-  for (const [series, card] of bySeries) {
     const svg = readFileSync(`public/games/darbe-h/assets/cards/${card.id}.svg`, "utf8");
-    const token = markers[series] || markers.Dosya;
-    assert.match(svg, token, `${series} ${card.id} missing family motif`);
-    assert.match(svg, /data-series="/);
+    const embedded = svg.match(/href="data:image\/webp;base64,([^"]+)"/);
+    assert.ok(embedded, `missing bundled scene: ${card.id}`);
+    const data = Buffer.from(embedded[1], "base64");
+    assert.equal(data.toString("ascii", 8, 12), "WEBP");
+    assert.doesNotMatch(svg, /href="https?:/);
+    scenes.add(svg.match(/data-scene="([^"]+)"/)[1]);
   }
-  assert.ok(bySeries.size >= 12, `expected 12+ series, got ${bySeries.size}`);
-
-  const generator = readFileSync("scripts/build-darbe-h-art.py", "utf8");
-  assert.match(generator, /def paint_dosya/);
-  assert.match(generator, /def paint_telex/);
-  assert.match(generator, /def paint_karargah/);
-  assert.match(generator, /def paint_paraf/);
-  assert.match(generator, /def paint_arsiv/);
-  assert.doesNotMatch(generator, /motif\(kind, cx=200, cy=250\)/);
+  assert.equal(scenes.size, 60);
 });

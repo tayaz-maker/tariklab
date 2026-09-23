@@ -7,6 +7,23 @@ export type CatalogGame = {
   icon: string;
 };
 
+export type GameCategory = "strategy" | "dossier" | "duel" | "classic";
+
+/**
+ * Portal-only grouping. Routes, game status and each game's save namespace stay
+ * owned by the game catalogue above/below; this simply gives the home screen a
+ * readable first choice without filtering or hiding any playable game.
+ */
+export const GAME_CATEGORIES: ReadonlyArray<{ id: GameCategory; slugs: readonly string[] }> = [
+  {
+    id: "strategy",
+    slugs: ["cete-savaslari", "hanedanian", "racon", "tc-sim", "bukucu", "apartman", "son-100-gun", "tc-sim-devlet", "son-kasaba"],
+  },
+  { id: "dossier", slugs: ["kayip-telefon", "ihtilal", "jitem-derin-ag"] },
+  { id: "duel", slugs: ["veto-h", "gett-oh", "darbe-h"] },
+  { id: "classic", slugs: ["labirent", "peg-solitaire", "satranc", "amiral-batti"] },
+];
+
 export const HTML5_SLUGS = [
   "hanedanian",
   "labirent",
