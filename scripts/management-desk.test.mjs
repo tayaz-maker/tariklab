@@ -45,7 +45,10 @@ test("frozen baseline: all 37 content, simulation, persistence and projection so
   assert.equal(files.length, 37);
   const hash = createHash("sha256");
   for (const file of files) hash.update(file).update(readFileSync(file));
-  assert.equal(hash.digest("hex"), "92a08d997b5651b151ea73bdca1781f364e05092bb082864545ef6588141dabf");
+  // Re-pinned for the DEVLET maps PR: next-wave.js (geo dispatch + month
+  // tick), devlet-sim.js (beginDecisionMonth extracted, behaviour unchanged)
+  // and presentation.js (regions/foreign screens render the maps).
+  assert.equal(hash.digest("hex"), "1c962734cdaa964fb9e3b394941a71e8141f0e5aee70f581e6bf1eece33a64a2");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);

@@ -1,4 +1,5 @@
 export const VERSION = 1;
+import { applyGeoTick, setRegionFocus, applyDiplomacy } from "./next-wave/devlet-geo.js";
 import "./shared/depth-framework.js";
 export const seeds = (n) => {
   let x = n >>> 0;
@@ -569,7 +570,11 @@ function devletPolicy(s, policyId) {
 }
 
 function devletAdvance(s) {
-  return tickDevlet(s);
+  const campaignOver = Boolean(s.flags?.campaignEnd);
+  tickDevlet(s);
+  // The closing month's regional priority and any diplomacy that came due.
+  if (!campaignOver) applyGeoTick(s);
+  return s;
 }
 
 export function applyAction(id, s, action) {
@@ -644,6 +649,11 @@ export function applyAction(id, s, action) {
     devletPolicy(s, "imf-sba");
   } else if (id === "tc-sim-devlet" && action.startsWith("policy:")) {
     devletPolicy(s, action.slice(7));
+  } else if (id === "tc-sim-devlet" && action.startsWith("focus:")) {
+    setRegionFocus(s, action.slice(6));
+  } else if (id === "tc-sim-devlet" && action.startsWith("diplo:")) {
+    const [axis, kind] = action.slice(6).split(":");
+    applyDiplomacy(s, axis, kind);
   } else if (id === "tc-sim-devlet" && action === "advance") {
     settleDevletContent(s);
     devletAdvance(s);

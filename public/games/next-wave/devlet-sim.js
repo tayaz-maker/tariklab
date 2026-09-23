@@ -194,8 +194,11 @@ function applyDnaDelta(s, delta) {
   }
 }
 
-export function applyPolicy(s, policyId) {
-  ensureDevletDepth(s);
+/**
+ * Opens this month's decision budget once. Policies, regional priority and
+ * diplomatic initiatives all draw on the same governance capacity.
+ */
+export function beginDecisionMonth(s) {
   const stamp = s.time.year + "-" + s.time.month;
   if (s.flags.decisionMonth !== stamp) {
     s.flags.decisionMonth = stamp;
@@ -206,6 +209,12 @@ export function applyPolicy(s, policyId) {
     s.flags.decisionIds = [];
     s.flags.pendingPolicies = [];
   }
+  return stamp;
+}
+
+export function applyPolicy(s, policyId) {
+  ensureDevletDepth(s);
+  const stamp = beginDecisionMonth(s);
   const pool = policiesOf(s.eraId);
   const p = pool.find((x) => x.id === policyId) || pool[0];
   if (!p) return s;

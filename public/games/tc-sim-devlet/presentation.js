@@ -10,6 +10,7 @@ import {
   STATE_FORM_FLAVOR,
   CADRE_PROFILES,
 } from "../next-wave/devlet-content.js";
+import { regionsMapHtml, foreignMapHtml } from "./maps.js";
 
 const names = {
   us: ["ABD", "United States"],
@@ -203,7 +204,7 @@ export function helpHtml() {
 }
 export function screenHtml(
   s,
-  { screen = s.ui?.screen || "home", formOf = loc, feedback = null } = {},
+  { screen = s.ui?.screen || "home", formOf = loc, feedback = null, map = {} } = {},
 ) {
   const wrap = (title, body) => `<section class="card"><h2>${title}</h2>${body}</section>`;
   if (screen === "home" || screen === "agenda") {
@@ -278,9 +279,9 @@ export function screenHtml(
           )}<article class="report-card"><h3>${t("Bilgi kalitesi", "Information quality")}</h3>${meter(s.infoQuality)}<p>${t("Yüksek kalite rapor üretimini ve uygulama gücünü destekler.", "Higher quality supports reporting and delivery.")}</p></article><article class="report-card"><h3>${t("Söylenti baskısı", "Rumor pressure")}</h3>${meter(s.rumor, "tension")}<p>${t("Yüksek baskı bilgi kalitesini ve rapor güvenini aşındırır.", "Higher pressure erodes information quality and confidence.")}</p></article></div>`,
     );
   if (screen === "foreign")
-    return wrap(
-      t("Dış ilişkiler", "Foreign relations"),
-      `<p>${t("Senaryo ilişki endeksi, 0–100: düşük daha gergin, yüksek daha yakın; 50 başlangıç orta noktasıdır. Bu ekrandaki sıralama karar almaz veya yeni etki üretmez.", "Scenario relationship index, 0–100: lower is strained, higher is closer; 50 is the starting midpoint. Sorting this view creates no decisions or effects.")}</p><div class="data-grid">${Object.entries(
+    return (
+      foreignMapHtml(s, { selected: map.axis, nameOf: displayName }) +
+      `<details class="card geo-table"><summary>${t("Tablo görünümü", "Table view")}</summary><div class="data-grid">${Object.entries(
         s.foreign,
       )
         .sort((a, b) => a[1] - b[1])
@@ -288,23 +289,20 @@ export function screenHtml(
           ([k, v]) =>
             `<article class="report-card"><h3>${displayName(k)}</h3>${meter(v, "foreign")}</article>`,
         )
-        .join("")}</div>`,
+        .join("")}</div></details>`
     );
-  if (screen === "regions") {
-    const lowest = s.regions.slice().sort((a, b) => a.impl - b.impl)[0],
-      hottest = s.regions.slice().sort((a, b) => b.heat - a.heat)[0];
-    return wrap(
-      t("Bölgesel durum", "Regional situation"),
-      `<p>${t("Dikkat", "Attention")}: ${h(loc(lowest.name))} — ${t("en düşük uygulama hazırlığı", "lowest delivery readiness")}; ${h(loc(hottest.name))} — ${t("en yüksek toplumsal gerilim", "highest social tension")}.</p><div class="data-grid">${s.regions
+  if (screen === "regions")
+    return (
+      regionsMapHtml(s, { selected: map.region, metric: map.metric }) +
+      `<details class="card geo-table"><summary>${t("Tablo görünümü", "Table view")}</summary><div class="data-grid">${s.regions
         .slice()
         .sort((a, b) => a.impl - b.impl)
         .map(
           (r) =>
             `<article class="report-card"><h3>${h(loc(r.name))}</h3><p>${t("Aktivite", "Activity")}: ${number(r.activity)} · ${t("İşsizlik", "Unemployment")}: %${number(r.unemployment)}</p><p>${t("Hizmet", "Services")}: ${number(r.services)} · ${t("Altyapı", "Infrastructure")}: ${number(r.infrastructure)}</p><p>${t("Memnuniyet", "Satisfaction")}: ${number(r.satisfaction)} · ${t("Göç çekimi", "Migration pull")}: ${number(r.migration)}</p>${meter(r.heat, "tension")}</article>`,
         )
-        .join("")}</div>`,
+        .join("")}</div></details>`
     );
-  }
   if (screen === "institutions")
     return wrap(
       t("Kurumlar", "Institutions"),
