@@ -72,10 +72,10 @@ export function PortalHome() {
     t(
       `portal.category.${id}`,
       {
-        strategy: "Yönetim & Strateji",
-        dossier: "Dosya & Karar",
-        duel: "Kart & Düello",
-        classic: "Klasikler & Bulmaca",
+        strategy: "Strateji & Güç",
+        life: "Hayat & Yönetim",
+        dossier: "Dosya & Soruşturma",
+        tabletop: "Kart & Masa",
       }[id],
     );
   return (
