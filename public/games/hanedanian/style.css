@@ -1387,6 +1387,29 @@ body.toast-visible .section-view {
   border-left-color: #e0654a;
   background: rgba(122, 46, 34, 0.35);
 }
+.strategy-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  margin: 10px 0 12px;
+}
+.strategy-cell {
+  min-width: 0;
+  text-align: left;
+  padding: 6px 7px;
+  border-radius: 8px;
+  background: rgba(243, 234, 212, 0.06);
+  color: inherit;
+}
+.strategy-cell b,
+.strategy-cell small {
+  display: block;
+  overflow-wrap: anywhere;
+}
+.strategy-cell small {
+  color: #c4b896;
+  font-size: 11px;
+}
 
 .legend-line {
   flex: none;
@@ -1573,6 +1596,16 @@ body.toast-visible .section-view {
     box-shadow: 0 -6px 20px #273b2320;
   }
   .inspector:not(.has-selection) {
+    display: block;
+    max-height: 168px;
+    overflow: auto;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+  .inspector:not(.has-selection) h2,
+  .inspector:not(.has-selection) .note,
+  .inspector:not(.has-selection) .tile-actions,
+  .inspector:not(.has-selection) .rail-tip {
     display: none;
   }
   .inspector h2 {

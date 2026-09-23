@@ -1,10 +1,10 @@
 import { isArmyVisible } from './engine.js';
-import { TERRAINS, POIS } from './data.js';
+import { TERRAINS, POIS, RESOURCES } from './data.js';
 import { REGION_NAMES, regionOf } from './campaign.js';
-import { incomingThreats, regionPresence } from './mapintel.js';
+import { incomingThreats, regionPresence, tradeLinks, relationMarks } from './mapintel.js';
 
-export const MAP_LAYERS = ['borders', 'regions', 'threats', 'range'];
-const DEFAULT_LAYERS = { borders: true, regions: true, threats: true, range: true };
+export const MAP_LAYERS = ['borders', 'regions', 'threats', 'range', 'trade', 'discovery', 'relations', 'resources'];
+const DEFAULT_LAYERS = { borders: true, regions: true, threats: true, range: true, trade: true, discovery: true, relations: true, resources: true };
 const THREAT = '#e0654a';
 
 // World coordinates are tile edges; a settlement sits at (x + .5, y + .5).
@@ -893,7 +893,10 @@ export class StrategyMap {
     this.drawZoomLabels(bounds, scale);
     if (layers.regions) this.drawRegionLabels(ox, oy, scale);
     this.drawSettlements(scale);
-    if (layers.threats && this.mode !== 'world') this.drawIntelBadges(scale);
+    if (layers.discovery && this.mode !== 'world') this.drawIntelBadges(scale);
+    if (layers.relations && this.mode !== 'near') this.drawRelations(scale);
+    if (layers.trade) this.drawTrade(scale);
+    if (layers.resources && this.mode === 'near') this.drawResourceBias(scale);
     if (layers.range && this.guide) this.drawGuideRoute(scale);
     this.drawArmies(scale);
     if (layers.threats) this.drawThreats(scale);
@@ -1106,6 +1109,59 @@ export class StrategyMap {
     ctx.restore();
     if (this.mode !== 'world')
       this.label(`Gözcü ${guide.route.label}`, (a.x + b.x) / 2, (a.y + b.y) / 2 - 4, false, 150);
+  }
+
+  drawTrade(scale) {
+    const origin = this.state.settlements.find((t) => t.ownerId === this.state.playerId && (this.guide?.from ? t.x === this.guide.from.x && t.y === this.guide.from.y : true))
+      || this.state.settlements.find((t) => t.ownerId === this.state.playerId);
+    if (!origin) return;
+    const ctx = this.ctx;
+    for (const link of tradeLinks(this.state, origin)) {
+      const a = this.tileToScreen(origin.x, origin.y);
+      const b = this.tileToScreen(link.x, link.y);
+      ctx.save();
+      ctx.lineCap = 'round';
+      ctx.strokeStyle = 'rgba(17,28,23,.45)'; ctx.lineWidth = Math.max(3, Math.min(5, scale * 0.08));
+      path(ctx, [[a.x, a.y], [b.x, b.y]]); ctx.stroke();
+      ctx.setLineDash([2, 6]); ctx.strokeStyle = '#e0b15a'; ctx.lineWidth = Math.max(1.2, Math.min(2.2, scale * 0.04));
+      path(ctx, [[a.x, a.y], [b.x, b.y]]); ctx.stroke();
+      ctx.restore();
+      if (this.mode === 'near')
+        this.label(`${Math.round(link.minutes)} dk`, (a.x + b.x) / 2, (a.y + b.y) / 2 - 8, false, 72);
+    }
+  }
+
+  drawRelations(scale) {
+    const ctx = this.ctx;
+    for (const mark of relationMarks(this.state)) {
+      const p = this.tileToScreen(mark.x, mark.y);
+      if (p.x < -20 || p.y < -20 || p.x > this.width + 20 || p.y > this.height + 20) continue;
+      const color = mark.vasal ? '#9fbe78' : mark.truce ? '#e0b15a' : mark.score < 0 ? '#e0654a' : '#f3ead4';
+      ctx.save();
+      ctx.beginPath(); ctx.arc(p.x, p.y, Math.max(10, scale * 0.55), 0, TAU);
+      ctx.strokeStyle = color; ctx.lineWidth = 2; ctx.stroke();
+      ctx.restore();
+      if (this.mode === 'world' && (mark.vasal || mark.truce || mark.score !== 0))
+        this.label(`${mark.vasal ? 'bağlı' : mark.truce ? 'ateşkes' : mark.score > 0 ? `+${mark.score}` : String(mark.score)}`, p.x, p.y - Math.max(10, scale * 0.55) - 10, true, 88);
+    }
+  }
+
+  drawResourceBias(scale) {
+    if (!this.selected) return;
+    const tile = this.tile(this.selected.x, this.selected.y);
+    const terrain = TERRAINS[tile?.terrain];
+    if (!terrain) return;
+    const p = this.tileToScreen(this.selected.x, this.selected.y);
+    const keys = Object.keys(RESOURCES);
+    const ctx = this.ctx;
+    keys.forEach((key, i) => {
+      const h = Math.max(2, terrain.rates[i] * Math.min(18, scale * 0.22));
+      const x = p.x - 10 + i * 7;
+      ctx.fillStyle = '#1c2a22';
+      ctx.fillRect(x, p.y + 8, 4, 16);
+      ctx.fillStyle = '#e7c56a';
+      ctx.fillRect(x, p.y + 24 - h, 4, h);
+    });
   }
 
   drawIntelBadges(scale) {

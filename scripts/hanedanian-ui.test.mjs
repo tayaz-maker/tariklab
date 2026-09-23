@@ -110,7 +110,7 @@ function createHarness() {
     ...engine, ...campaign, ...data, ...world, ...orders, ...mapintel, MAP_LAYERS, SaveManager: FakeSaveManager, createMap,
     getLang: () => 'tr', translate: value => String(value ?? ''), installLanguage: () => {},
     document, window, navigator: {}, console, FormData: FakeFormData,
-    requestAnimationFrame: () => 0, setTimeout: () => 1, clearTimeout: () => {},
+    requestAnimationFrame: () => 0, setTimeout: (fn, ms) => { if (typeof fn === "function" && !ms) queueMicrotask(fn); return 1; }, clearTimeout: () => {},
     Blob, URL, MessageChannel, structuredClone,
   });
   let source = app.replace(/^import\s+[\s\S]*?\s+from\s+["'][^"']+["'];\s*/gm, '');
