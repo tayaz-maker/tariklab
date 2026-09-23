@@ -39,12 +39,26 @@ export function parseCsv(text) {
     rows.push(row);
   }
   const [head, ...body] = rows;
-  return body.filter((r) => r.some(Boolean)).map((r) => Object.fromEntries(head.map((h, i) => [h, r[i] ?? ""])));
+  return body
+    .filter((r) => r.some(Boolean))
+    .map((r) => Object.fromEntries(head.map((h, i) => [h, r[i] ?? ""])));
 }
 
 const COLUMNS = [
-  "id", "path", "title", "kind", "count", "creator", "created", "source_type",
-  "license", "commercial_use", "modification", "evidence", "status", "note",
+  "id",
+  "path",
+  "title",
+  "kind",
+  "count",
+  "creator",
+  "created",
+  "source_type",
+  "license",
+  "commercial_use",
+  "modification",
+  "evidence",
+  "status",
+  "note",
 ];
 
 test("asset register has the required columns, unique ids and honest statuses", () => {
@@ -59,9 +73,11 @@ test("asset register has the required columns, unique ids and honest statuses", 
     assert.ok(["CLEARED", "REVIEW", "BLOCKED"].includes(r.status), `${r.id} status ${r.status}`);
     assert.ok(r.path && r.title && r.kind, `${r.id} incomplete`);
     // Unknown commercial-use rights can never be recorded as cleared.
-    if (/unknown/i.test(r.commercial_use)) assert.notEqual(r.status, "CLEARED", `${r.id} cleared with unknown rights`);
+    if (/unknown/i.test(r.commercial_use))
+      assert.notEqual(r.status, "CLEARED", `${r.id} cleared with unknown rights`);
     // New titles are cleared only with a written counsel reference.
-    if (/slice/i.test(r.title) && r.status === "CLEARED") assert.match(r.note, /counsel:\s*\S+/i, `${r.id} lacks counsel ref`);
+    if (/slice/i.test(r.title) && r.status === "CLEARED")
+      assert.match(r.note, /counsel:\s*\S+/i, `${r.id} lacks counsel ref`);
     // Audio is out of scope for TarikLab.
     if (r.kind === "audio") assert.equal(Number(r.count || 0), 0, "audio asset registered");
   }
@@ -76,9 +92,15 @@ test("every client package has a notice entry at the locked version with an allo
   for (const name of packages) {
     const locked = lock[`node_modules/${name}`];
     assert.ok(locked, `${name} not in package-lock`);
-    const row = notices.match(new RegExp(`^\\| ${name.replace(/[/.]/g, "\\$&")} \\| ([^|]+) \\| ([^|]+) \\|$`, "m"));
+    const row = notices.match(
+      new RegExp(`^\\| ${name.replace(/[/.]/g, "\\$&")} \\| ([^|]+) \\| ([^|]+) \\|$`, "m"),
+    );
     assert.ok(row, `${name} missing from THIRD_PARTY_NOTICES.md`);
-    assert.equal(row[1].trim(), locked.version, `${name} notice version is stale; rerun scripts/ip/third-party-notices.mjs`);
+    assert.equal(
+      row[1].trim(),
+      locked.version,
+      `${name} notice version is stale; rerun scripts/ip/third-party-notices.mjs`,
+    );
     assert.match(row[2].trim(), allowed, `${name} license`);
   }
 });
@@ -113,5 +135,8 @@ test("no blocked third-party names in shipped product text beyond the recorded l
       if (n) found[file] = n;
     }
   for (const [file, n] of Object.entries(found))
-    assert.ok(n <= (LEGACY[file] ?? 0), `${file}: ${n} blocked-name occurrence(s), legacy allowance ${LEGACY[file] ?? 0}`);
+    assert.ok(
+      n <= (LEGACY[file] ?? 0),
+      `${file}: ${n} blocked-name occurrence(s), legacy allowance ${LEGACY[file] ?? 0}`,
+    );
 });

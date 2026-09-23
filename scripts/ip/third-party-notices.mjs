@@ -5,7 +5,14 @@
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
-export const ALLOWED_LICENSES = new Set(["MIT", "ISC", "Apache-2.0", "0BSD", "BSD-2-Clause", "BSD-3-Clause"]);
+export const ALLOWED_LICENSES = new Set([
+  "MIT",
+  "ISC",
+  "Apache-2.0",
+  "0BSD",
+  "BSD-2-Clause",
+  "BSD-3-Clause",
+]);
 
 export function readPackage(root, name) {
   const dir = join(root, "node_modules", name);
@@ -16,7 +23,7 @@ export function readPackage(root, name) {
     name,
     version: pkg.version,
     license: typeof pkg.license === "string" ? pkg.license : String(pkg.license?.type ?? "UNKNOWN"),
-    repository: typeof pkg.repository === "string" ? pkg.repository : pkg.repository?.url ?? "",
+    repository: typeof pkg.repository === "string" ? pkg.repository : (pkg.repository?.url ?? ""),
     author: author ?? "",
     file: file ?? null,
     text: file ? readFileSync(join(dir, file), "utf8").trim() : null,
@@ -40,7 +47,12 @@ export function render(packages) {
     "",
   ];
   for (const p of packages) {
-    out.push(`## ${p.name} ${p.version}`, "", `License: ${p.license}${p.repository ? ` · Source: ${p.repository.replace(/^git\+/, "")}` : ""}`, "");
+    out.push(
+      `## ${p.name} ${p.version}`,
+      "",
+      `License: ${p.license}${p.repository ? ` · Source: ${p.repository.replace(/^git\+/, "")}` : ""}`,
+      "",
+    );
     if (p.text) out.push("```text", p.text, "```", "");
     else
       out.push(
@@ -59,7 +71,10 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   if (!existsSync(join(root, "node_modules"))) throw Error("Run npm ci first");
   const list = packages.map((n) => readPackage(root, n));
   const bad = list.filter((p) => !ALLOWED_LICENSES.has(p.license));
-  if (bad.length) throw Error("License outside the allowed set: " + bad.map((p) => `${p.name} (${p.license})`).join(", "));
+  if (bad.length)
+    throw Error(
+      "License outside the allowed set: " + bad.map((p) => `${p.name} (${p.license})`).join(", "),
+    );
   writeFileSync(join(root, "docs/ip/THIRD_PARTY_NOTICES.md"), render(list));
   console.log(`${list.length} packages written`);
 }
