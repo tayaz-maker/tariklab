@@ -37,9 +37,12 @@ try {
         lang,
       );
       const page = await context.newPage();
+      // DARBE-H! card faces show one plate per card from assets/card-art/;
+      // the other themes keep duel-core's catalog art in assets/cards/.
+      const artPath = theme === "darbe-h" ? "/assets/card-art/" : "/assets/cards/";
       const artRequests = new Set();
       page.on("request", (r) => {
-        if (r.url().includes("/assets/cards/")) artRequests.add(r.url());
+        if (r.url().includes(artPath)) artRequests.add(r.url());
       });
       page.on("pageerror", (e) => errors.push(`${theme}/${lang}: ${e.message}`));
       page.on("response", (r) => {
@@ -216,9 +219,10 @@ try {
       // Each theme's art is rendered at its own size; read the declared width
       // from the manifest rather than pinning a constant that goes stale the
       // next time the art is regenerated.
-      const artWidth = JSON.parse(
-        readFileSync(`public/games/${theme}/assets/art-manifest.json`, "utf8"),
-      ).summary.dimensions[0];
+      const artWidth =
+        theme === "darbe-h"
+          ? JSON.parse(readFileSync("public/games/darbe-h/assets/card-art/manifest.json", "utf8")).summary.width
+          : JSON.parse(readFileSync(`public/games/${theme}/assets/art-manifest.json`, "utf8")).summary.dimensions[0];
       assert.equal(
         await page
           .locator(".archive-grid img")
