@@ -177,7 +177,7 @@ test("global selector and JITEM shell carry PL without a gameplay write", () => 
 
 test("service worker versions i18n assets", () => {
   const sw = read("public/sw.js");
-  assert.match(sw, /cete-offline-v4/);
+  assert.match(sw, /cete-offline-v5/);
   assert.match(sw, /\/i18n\/deep-en\.js/);
   assert.match(sw, /\/i18n\/deep-en-final\.js/);
   assert.match(sw, /\/i18n\//);
