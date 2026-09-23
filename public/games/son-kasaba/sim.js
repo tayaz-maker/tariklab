@@ -359,10 +359,13 @@ export function validateTown(s) {
   for (const k of ["used", "events", "seenEvents", "pending", "openCases", "history", "coalitions"])
     if (!Array.isArray(s[k])) return false;
   if (
-    s.used.length > 8 ||
+    s.used.length > BASE_CAPACITY + RESERVE_BONUS + STRETCH_MAX ||
+    !Number.isFinite(s.capacityMax ?? BASE_CAPACITY) ||
+    (s.capacityMax ?? BASE_CAPACITY) < BASE_CAPACITY - STRETCH_MAX ||
+    (s.capacityMax ?? BASE_CAPACITY) > BASE_CAPACITY + RESERVE_BONUS ||
     !Number.isFinite(s.capacityUsed ?? s.used.length * 2) ||
     (s.capacityUsed ?? s.used.length * 2) < 0 ||
-    (s.capacityUsed ?? s.used.length * 2) > (s.capacityMax || 10) ||
+    (s.capacityUsed ?? s.used.length * 2) > (s.capacityMax || BASE_CAPACITY) + STRETCH_MAX ||
     new Set(s.used).size !== s.used.length ||
     s.events.length > 45 ||
     s.seenEvents.length > 45 ||
@@ -657,6 +660,23 @@ export function refreshTown(s) {
       offer.status = "offered";
   }
 }
+/**
+ * Monthly field capacity is a plan, not a counter. You may stretch up to
+ * STRETCH_MAX points past it, and next month starts that much shorter; leave
+ * RESERVE_AT or more unused and next month starts RESERVE_BONUS longer.
+ */
+export const BASE_CAPACITY = 10;
+export const STRETCH_MAX = 3;
+export const RESERVE_AT = 4;
+export const RESERVE_BONUS = 2;
+export const capacityLimit = (s) => (s.capacityMax || BASE_CAPACITY) + STRETCH_MAX;
+export function nextCapacity(s) {
+  const max = s.capacityMax || BASE_CAPACITY,
+    used = s.capacityUsed || 0;
+  if (used > max) return BASE_CAPACITY - (used - max);
+  if (max - used >= RESERVE_AT) return BASE_CAPACITY + RESERVE_BONUS;
+  return BASE_CAPACITY;
+}
 export const CIVIC_ACTIONS = [
   { id: "road", label: ["Yolu onar", "Repair the road"], cost: 12000, effects: { road: 22 } },
   {
@@ -719,7 +739,7 @@ export function actionInfo(s, command) {
     reason = [tr, en];
   };
   if (s.ended) no("Kampanya tamamlandı", "Campaign complete");
-  if ((s.capacityUsed || 0) >= (s.capacityMax || 10)) no("Bu ayın saha kapasitesi doldu", "This month's field capacity is full");
+  if ((s.capacityUsed || 0) >= capacityLimit(s)) no("Bu ayın saha kapasitesi (zorlamayla birlikte) doldu", "This month's field capacity, including stretch, is full");
   if (kind === "civic") {
     const a = CIVIC_ACTIONS.find((a) => a.id === id);
     if (!a) no("Geçersiz karar", "Invalid decision");
@@ -808,9 +828,11 @@ export function actionInfo(s, command) {
       no("Koalisyon hâlâ çalışıyor", "Coalition is still active");
   } else no("Geçersiz karar", "Invalid decision");
   if (s.used.includes(key)) no("Bu dosya bu ay işlendi", "This file was handled this month");
-  if ((s.capacityUsed || 0) + effort > (s.capacityMax || 10)) no("Bu iş için ayın kalan saha kapasitesi yetmiyor", "Not enough field capacity remains this month");
+  if ((s.capacityUsed || 0) + effort > capacityLimit(s)) no("Bu iş için ayın kalan saha kapasitesi yetmiyor", "Not enough field capacity remains this month");
   if (s.budget < cost) no("Bütçe yetersiz", "Not enough budget");
-  return { kind, id, choice, cost, effort, label, key, reason };
+  // Points of this action that go past the plan and will be taken from next month.
+  const stretch = Math.max(0, (s.capacityUsed || 0) + effort - Math.max(s.capacityMax || BASE_CAPACITY, s.capacityUsed || 0));
+  return { kind, id, choice, cost, effort, label, key, reason, stretch };
 }
 export function applyTownAction(s, command) {
   if (typeof command !== "string") return false;
@@ -1295,7 +1317,19 @@ export function advanceTown(s) {
     stage: s.progression.stage,
     institutions: s.progression.institutions.slice(),
     activeChains: Object.values(s.chains).map((c) => ({ id: c.id, stage: c.stage })),
+    capacity: { used: s.capacityUsed || 0, max: s.capacityMax || BASE_CAPACITY, next: nextCapacity(s) },
   };
+  if (s.report.capacity.next !== BASE_CAPACITY)
+    addHistory(
+      s,
+      s.report.capacity.next < BASE_CAPACITY
+        ? `Ekip zorlandı: gelecek ay saha kapasitesi ${s.report.capacity.next}.`
+        : `İş planlı yürüdü: gelecek ay ${RESERVE_BONUS} ek saha kapasitesi.`,
+      s.report.capacity.next < BASE_CAPACITY
+        ? `The team was stretched: next month's field capacity is ${s.report.capacity.next}.`
+        : `Work ran to plan: ${RESERVE_BONUS} extra field capacity next month.`,
+      "month",
+    );
   addHistory(
     s,
     `Ay kapandı: gelir ${finance.totalIncome} TL, gider ${finance.totalCosts} TL, nüfus ${population(s) - before.population >= 0 ? "+" : ""}${population(s) - before.population}.`,
@@ -1309,9 +1343,53 @@ export function advanceTown(s) {
   } else {
     s.month++;
     s.used = [];
+    s.capacityMax = nextCapacity(s);
     s.capacityUsed = 0;
     refreshTown(s);
     s.ui.screen = "report";
   }
   return true;
+}
+
+/**
+ * What needs an answer this month and what is an investment that can wait.
+ * Read-only: it ranks what the engine already exposes, it never decides.
+ */
+export function triage(s) {
+  const urgent = [],
+    invest = [];
+  const next = s.month + 1;
+  for (const e of s.events.filter((e) => e.status === "open")) {
+    const d = EVENTS.find((d) => d.id === e.id);
+    if (!d) continue;
+    const row = { kind: "event", id: e.id, label: d.title, screen: "agenda", expires: e.expires };
+    if (e.expires <= next)
+      urgent.push({ ...row, reason: ["Bu ay kapanınca düşer", "Lapses when this month closes"] });
+    else invest.push({ ...row, reason: [`Son yanıt: ay ${e.expires}`, `Reply by month ${e.expires}`] });
+  }
+  const i = indicators(s),
+    m = s.metrics;
+  const infra = [
+    ["road", m.road, 35, ["Yol kopuyor: stok ve fiyat zinciri", "Road failing: supply and price chain"]],
+    ["water", m.water, 35, ["Su hattı zayıf", "Water supply weak"]],
+    ["energy", m.energy, 35, ["Enerji ağı zayıf", "Power network weak"]],
+  ];
+  for (const [id, v, floor, reason] of infra)
+    if (v < floor)
+      urgent.push({ kind: "civic", id, label: CIVIC_ACTIONS.find((a) => a.id === id).label, screen: "center", reason });
+  for (const b of s.buildings.filter((b) => b.open && b.condition < 40)) {
+    const d = BUILDINGS.find((x) => x.id === b.id);
+    urgent.push({ kind: "building", id: b.id, label: d.name, screen: "services", reason: [`Bina durumu ${b.condition}/100`, `Condition ${b.condition}/100`] });
+  }
+  if (i.jobs < 45)
+    invest.push({ kind: "civic", id: "support", label: CIVIC_ACTIONS.find((a) => a.id === "support").label, screen: "center", reason: ["İş imkânı zayıf; kalma kararını besler", "Jobs are weak; feeds the decision to stay"] });
+  if (m.social < 45)
+    invest.push({ kind: "civic", id: "festival", label: CIVIC_ACTIONS.find((a) => a.id === "festival").label, screen: "center", reason: ["Sosyal hayat zayıf", "Social life is weak"] });
+  for (const o of s.investors.filter((o) => o.status === "offered")) {
+    const d = INVESTORS.find((x) => x.id === o.id);
+    if (d) invest.push({ kind: "investor", id: o.id, label: d.name, screen: "investors", reason: ["Açık yatırım teklifi", "Open investment offer"] });
+  }
+  // Anything already handled this month is not a suggestion any more.
+  const open = (x) => !s.used.includes(x.kind === "event" ? `event:${x.id}` : x.kind === "building" ? `building:${x.id}` : x.kind === "investor" ? `investor:${x.id}` : `civic:${x.id}`);
+  return { urgent: urgent.filter(open).slice(0, 4), invest: invest.filter(open).slice(0, 4) };
 }
