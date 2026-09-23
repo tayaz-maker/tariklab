@@ -82,7 +82,17 @@ export function PortalHome() {
     <main className="mx-auto min-h-dvh w-full max-w-6xl px-3 py-5 sm:px-8 sm:py-12">
       <header className="mb-6 flex flex-wrap items-end justify-between gap-4 border-b border-border pb-4 sm:mb-12 sm:pb-6">
         <div>
-          <p className="text-3xl font-semibold tracking-tight sm:text-5xl">TARIKLAB</p>
+          <p className="flex items-center gap-3 text-3xl font-semibold tracking-tight sm:gap-4 sm:text-5xl">
+            <img
+              src="/brand/app-mark.svg"
+              alt=""
+              aria-hidden="true"
+              width={48}
+              height={48}
+              className="size-9 shrink-0 sm:size-12"
+            />
+            TARIKLAB
+          </p>
           <p className="mt-2 text-[0.65rem] font-medium tracking-[0.35em] text-muted uppercase">
             {t("portal.lab", "Oyun Laboratuvarı")}
           </p>

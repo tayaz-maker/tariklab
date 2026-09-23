@@ -6,7 +6,7 @@ const read = (path) => readFileSync(new URL(`../${path}`, import.meta.url), "utf
 
 test("JITEM ships from the reviewed standalone canonical build", () => {
   const source = JSON.parse(read("public/games/jitem-derin-ag/SOURCE.json"));
-  assert.equal(source.standaloneSha, "1e7c588a550c6515a62d505328478fa73fead2ab");
+  assert.equal(source.standaloneSha, "21c29a21171b337cdc49c8fcc27c9f9053c4e304");
   assert.equal(source.saveKey, "jitem-derin-ag-v3");
   assert.equal(source.schemaVersion, 5);
   const assets = readdirSync(new URL("../public/games/jitem-derin-ag/assets/", import.meta.url));

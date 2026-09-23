@@ -159,8 +159,15 @@ test('atlas renderer keeps dynastic inks, distinct POI marks and undashed roads'
   assert.match(src, /ensureTerrainCache\(/);
   assert.match(src, /drawImage\(cache/);
   assert.match(src, /paintContinuousAtlas\(/);
+  assert.match(src, /paintCanopyMasses\(/);
+  assert.match(src, /paintRiverBed\(/);
+  assert.match(src, /paintFieldFurrows\(/);
+  assert.match(src, /Kuzey Işığı Rölyefi/);
+  assert.match(src, /sampleHeight\(wx - 0\.55, wy - 0\.62\)/);
+  assert.match(src, /ATLAS_SLICE_MS/);
   assert.doesNotMatch(src, /setLineDash\(terrain === 'road'/);
   assert.doesNotMatch(src, /plain: '#b9aa7f'/);
   assert.doesNotMatch(src, /fillRect\(x, y, size \+ \.6/);
   assert.doesNotMatch(src, /drawTerrain\(/);
+  assert.doesNotMatch(src, /fillRect\(list\[i\], list\[i \+ 1\], scale, scale\)/);
 });

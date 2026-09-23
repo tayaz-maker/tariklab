@@ -18,6 +18,13 @@ import {
   CIVIC_ACTIONS,
   TOWN_STAGES,
   investorTerms,
+  triage,
+  nextCapacity,
+  capacityLimit,
+  BASE_CAPACITY,
+  STRETCH_MAX,
+  RESERVE_AT,
+  RESERVE_BONUS,
 } from "./sim.js";
 import { escapeHtml as h, helpPanel, language, text as t } from "../next-wave/shared/runtime.js";
 export const tr = (p) => t(p[0], p[1]);
@@ -128,9 +135,35 @@ const band = (v, inverse = false) => {
 function meter(label, value, inverse = false) {
   return `<div class="town-meter"><span>${h(label)}</span><strong>${number(value)}/100 · ${band(value, inverse)}</strong><meter min="0" max="100" value="${value}" aria-label="${h(label)}"></meter></div>`;
 }
+/** The month's field capacity as cells: used, free, and the stretch zone. */
+export function capacityCells(s) {
+  const max = s.capacityMax || BASE_CAPACITY,
+    used = s.capacityUsed || 0;
+  const cells = Array.from({ length: capacityLimit(s) }, (_, k) =>
+    `<i class="${k < used ? (k >= max ? "is-stretch" : "is-used") : k >= max ? "is-zone" : ""}"></i>`,
+  ).join("");
+  return `<span class="cap-cells" role="img" aria-label="${h(t(`Kapasite ${used}/${max}, ${STRETCH_MAX} zorlama payı`, `Capacity ${used}/${max}, ${STRETCH_MAX} stretch points`))}">${cells}</span>`;
+}
 export function button(s, cmd, label) {
   const a = actionInfo(s, cmd);
-  return `<button type="button" data-command="${h(cmd)}" ${a.reason ? "disabled" : ""}><strong>${h(label || tr(a.label))}</strong><small>${t("1 karar", "1 decision")} · ${number(a.cost)} TL${a.reason ? ` · ${h(tr(a.reason))}` : ""}</small></button>`;
+  const stretch = !a.reason && a.stretch ? ` · ${t(`${a.stretch} zorlama`, `${a.stretch} stretch`)}` : "";
+  return `<button type="button" data-command="${h(cmd)}" ${a.reason ? "disabled" : ""} class="${stretch ? "is-stretching" : ""}"><strong>${h(label || tr(a.label))}</strong><small>${a.effort} ${t("kapasite", "capacity")} · ${number(a.cost)} TL${stretch}${a.reason ? ` · ${h(tr(a.reason))}` : ""}</small></button>`;
+}
+/** This month's plan: what the capacity buys, what is urgent, what can wait. */
+function monthPlan(s) {
+  const max = s.capacityMax || BASE_CAPACITY,
+    used = s.capacityUsed || 0,
+    next = nextCapacity(s),
+    q = triage(s);
+  const status =
+    used > max
+      ? t(`Ekip zorlanıyor: gelecek ay kapasite ${next}.`, `The team is stretched: next month's capacity is ${next}.`)
+      : max - used >= RESERVE_AT
+        ? t(`${max - used} boş: böyle kapatırsan gelecek ay +${RESERVE_BONUS} kapasite.`, `${max - used} free: close like this and next month gains +${RESERVE_BONUS}.`)
+        : t(`${max - used} kapasite kaldı. ${STRETCH_MAX} puana kadar zorlayabilirsin; her puan gelecek aydan düşer.`, `${max - used} capacity left. You can stretch up to ${STRETCH_MAX}; each point comes off next month.`);
+  const row = (x, tone) =>
+    `<li><button type="button" class="plan-item ${tone}" data-screen="${x.screen}"><strong>${h(tr(x.label))}</strong><small>${h(tr(x.reason))}</small></button></li>`;
+  return `<section class="month-plan" aria-label="${t("Bu ayın planı", "This month's plan")}"><div class="month-plan__head"><div><p class="eyebrow">${t("BU AYIN PLANI", "THIS MONTH'S PLAN")}</p><p class="month-plan__cap"><strong>${used}/${max}</strong> ${t("saha kapasitesi", "field capacity")}</p></div>${capacityCells(s)}</div><p class="month-plan__status">${h(status)}</p><div class="month-plan__lists"><div><h3 class="is-urgent">${t("Acil", "Urgent")}</h3>${q.urgent.length ? `<ul>${q.urgent.map((x) => row(x, "is-urgent")).join("")}</ul>` : `<p class="empty">${t("Bu ay düşecek dosya ya da çöken altyapı yok.", "Nothing lapses this month and no infrastructure is failing.")}</p>`}</div><div><h3 class="is-invest">${t("Yatırım · bekleyebilir", "Investment · can wait")}</h3>${q.invest.length ? `<ul>${q.invest.map((x) => row(x, "is-invest")).join("")}</ul>` : `<p class="empty">${t("Açık fırsat yok.", "No open opportunity.")}</p>`}</div></div></section>`;
 }
 const effects = (e) =>
   Object.entries(e)
@@ -222,7 +255,7 @@ export function townPanel(s) {
               "No immediate crisis; watch open agenda items and delayed files.",
             );
   if (screen === "center")
-    return `<section class="town-lead"><p class="eyebrow">${s.month <= 8 ? t("BOŞALAN KÖY", "THE EMPTYING VILLAGE") : s.month <= 16 ? t("SON FIRSATLAR", "LAST CHANCES") : t("KÖYÜN YOLU", "THE VILLAGE PATH")}</p><h2>${t("Bu ay köyde neyi ayakta tutacağız?", "What will we keep standing in the village this month?")}</h2><p>${t("Üç kararın var. Yol, iş ve hizmetler insanların kalma kararını birlikte etkiler. Her talebi aynı ay çözemeyeceksin.", "You have three decisions. Roads, jobs and services jointly affect who stays. You cannot solve every request in one month.")}</p><div class="town-risk"><strong>${t("Yaklaşan baskı", "Approaching pressure")}</strong><p>${h(pressure)}</p><small>${t("Yönetim katmanı", "Governance layer")}: ${h(tr(stage.label))} · ${stage.institutions.length} ${t("kurum", "institutions")}</small></div></section><div class="town-grid metrics">${[
+    return `<section class="town-lead"><p class="eyebrow">${s.month <= 8 ? t("BOŞALAN KÖY", "THE EMPTYING VILLAGE") : s.month <= 16 ? t("SON FIRSATLAR", "LAST CHANCES") : t("KÖYÜN YOLU", "THE VILLAGE PATH")}</p><h2>${t("Bu ay köyde neyi ayakta tutacağız?", "What will we keep standing in the village this month?")}</h2><p>${t("Her iş saha kapasitesi harcar. Yol, iş ve hizmetler insanların kalma kararını birlikte etkiler; her talebi aynı ay çözemeyeceksin.", "Every job spends field capacity. Roads, jobs and services jointly decide who stays; you cannot solve every request in one month.")}</p><div class="town-risk"><strong>${t("Yaklaşan baskı", "Approaching pressure")}</strong><p>${h(pressure)}</p><small>${t("Yönetim katmanı", "Governance layer")}: ${h(tr(stage.label))} · ${stage.institutions.length} ${t("kurum", "institutions")}</small></div></section>${monthPlan(s)}<div class="town-grid metrics">${[
       ["jobs", i.jobs],
       ["services", i.services],
       ["trust", m.trust],
