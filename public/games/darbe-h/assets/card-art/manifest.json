@@ -1,0 +1,2413 @@
+{
+ "summary": {
+  "coverage": 300,
+  "width": 240,
+  "height": 160,
+  "totalBytes": 1473707,
+  "averageBytes": 4912,
+  "maxBytes": 9029,
+  "duplicateHashes": 0
+ },
+ "cards": {
+  "DRB-001": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "dosya",
+   "event": "summon",
+   "bytes": 7137,
+   "sha256": "520831be2ca28a0d768b6338b14400e1021217a9611b52d4add2727e0cd53050"
+  },
+  "DRB-002": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "paraf",
+   "event": "modifier",
+   "bytes": 6772,
+   "sha256": "700190a7decf9524c70503570079823dcabf84b9c09f75198084057cf61e9b96"
+  },
+  "DRB-003": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "heyet",
+   "event": "move",
+   "bytes": 6287,
+   "sha256": "928bb30f321ec940359ad96dd66a0ca95dd8e9c3cae68a47461d8e4d8c79d7ce"
+  },
+  "DRB-004": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "karargah",
+   "event": "points",
+   "bytes": 6959,
+   "sha256": "209c445b30062aff8fa06f3c06eef392243b419446bfdcda54326b327e16be26"
+  },
+  "DRB-005": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "telex",
+   "event": "move",
+   "bytes": 6451,
+   "sha256": "580ffafec52d5317ac62b39a698ebd0713d88847f5d6f0d9655af167970bac37"
+  },
+  "DRB-006": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "muhtira",
+   "event": "draw",
+   "bytes": 7117,
+   "sha256": "56442efd5f68ecca6d764fbb4cbdd7f2b50eca563c7dbd7d4c5158cd5613e0ab"
+  },
+  "DRB-007": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "zeyil",
+   "event": "points",
+   "bytes": 7040,
+   "sha256": "cf07983dadb82463fece8e52478ff25d6fa5c348994718e0db533a72f719ca50"
+  },
+  "DRB-008": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "brifing",
+   "event": "trait",
+   "bytes": 5456,
+   "sha256": "26970d906df0f59d1603df7a0840750c95db09692c15fae568d1f5ae6125e386"
+  },
+  "DRB-009": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "kabine",
+   "event": "trait",
+   "bytes": 6047,
+   "sha256": "8528eb557bbee73412dda73f0ba9c3c549896460b63f7c626b29c6d96d379952"
+  },
+  "DRB-010": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "arsiv",
+   "event": "look",
+   "bytes": 9029,
+   "sha256": "d472c89ecff4f9e24f9b279e9dbe878f94a2ffeddc05b6c7e8c738c04dc6c31e"
+  },
+  "DRB-011": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "tebligat",
+   "event": "token",
+   "bytes": 7044,
+   "sha256": "321248a1ccaa166b558705e4ef028119e312c41ebb1a68a2d9f1ce5de23f0fad"
+  },
+  "DRB-012": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "mesruiyet",
+   "event": "draw",
+   "bytes": 4703,
+   "sha256": "e0d2adebca335ec549370578ab78ff82a6326606f792ba59d35d6b7a0b6abe4a"
+  },
+  "DRB-013": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "dosya",
+   "event": "draw",
+   "bytes": 5376,
+   "sha256": "bdb19c90d0dc5dfa966d05edbbfa9d99c908436a36a6218327ed134f9f20685a"
+  },
+  "DRB-014": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "paraf",
+   "event": "points",
+   "bytes": 5228,
+   "sha256": "8e6c32bac74517befdf3c124b5817d36053dee43779524f11ff9a04703ae8cf5"
+  },
+  "DRB-015": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "heyet",
+   "event": "discard",
+   "bytes": 4461,
+   "sha256": "6a83893d50645d6c5c8c46322bb5f6f00b5bd6c8b42f0a305d0b76538fb300c9"
+  },
+  "DRB-016": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "karargah",
+   "event": "trait",
+   "bytes": 4408,
+   "sha256": "d3f76e5e2c52d2bfbcb755c055a1a09c4b7aaa89e4fbfa801a8ef73596b7dad2"
+  },
+  "DRB-017": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "telex",
+   "event": "trait",
+   "bytes": 4359,
+   "sha256": "b010db6f78a70977b0e9cb122405685e30835ac457a551efb608018d12d8822c"
+  },
+  "DRB-018": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "muhtira",
+   "event": "modifier",
+   "bytes": 5706,
+   "sha256": "1d47a8db4235fcf8f75d67cfe45a91ace20d8405bf29cc4df8b1abaace1fd769"
+  },
+  "DRB-019": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "zeyil",
+   "event": "summon",
+   "bytes": 5073,
+   "sha256": "2c054440ad61cdebfe7f69075d5b1159b531b05c4043ef77d740d05125e2b1a2"
+  },
+  "DRB-020": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "brifing",
+   "event": "move",
+   "bytes": 3775,
+   "sha256": "32a7ebbf230f94577b09f12a21643c0df0b0b68636a7481f5fde8b48ab08cce5"
+  },
+  "DRB-021": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "kabine",
+   "event": "points",
+   "bytes": 4692,
+   "sha256": "49a51b3b58390a4c4117aa1c8e85ac1578662c9714444c8e88559a1efebb5134"
+  },
+  "DRB-022": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "arsiv",
+   "event": "points",
+   "bytes": 8254,
+   "sha256": "d9d2d7e1e607485350569c605167e05db54a1adf1c7bfbd5c1b8d643a408f376"
+  },
+  "DRB-023": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "tebligat",
+   "event": "shuffle",
+   "bytes": 5302,
+   "sha256": "63b10ff4f1f8323525d15a3421cc5f0e09983756fd2be185ef6dad92713ff3dc"
+  },
+  "DRB-024": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "mesruiyet",
+   "event": "set",
+   "bytes": 4369,
+   "sha256": "319983d00f62405971d1df69e624a01aa784df0dd511d82b54aae2c84dcf241d"
+  },
+  "DRB-025": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "dosya",
+   "event": "points",
+   "bytes": 5572,
+   "sha256": "720da36a94091930f2fd81e4accea5b8ca99ede4eb4fca293ea6364f15d5565f"
+  },
+  "DRB-026": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "paraf",
+   "event": "points",
+   "bytes": 5371,
+   "sha256": "a8f9f8b9fad4f3f1e5fca57284851afa37701f24ce5a118e883ef0dc87a0b6fb"
+  },
+  "DRB-027": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "heyet",
+   "event": "trait",
+   "bytes": 4911,
+   "sha256": "75abbdcfe2d21045285c1a639e815ee36d41781f3d3f532d2ba9d540b2b314b8"
+  },
+  "DRB-028": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "karargah",
+   "event": "points",
+   "bytes": 5347,
+   "sha256": "1c838e0d9d2a641435147323fb67aca42de943e0458c5e723f371ba3bef9658f"
+  },
+  "DRB-029": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "telex",
+   "event": "move",
+   "bytes": 4761,
+   "sha256": "85ec93f96279e5b05277ca802baebfd0f8882b79964f26cc5206d0dff8a75664"
+  },
+  "DRB-030": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "muhtira",
+   "event": "summon",
+   "bytes": 5796,
+   "sha256": "cdc7b46244be1c4ac849683c0b3c3c7bc5d1508038cbecbcbb34bb2f5a3f0d5a"
+  },
+  "DRB-031": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "zeyil",
+   "event": "draw",
+   "bytes": 5511,
+   "sha256": "a993dd7dd7c8a94fc0240b944be82245b3550f4f800399d89ca17f63640c7643"
+  },
+  "DRB-032": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "brifing",
+   "event": "reveal",
+   "bytes": 4163,
+   "sha256": "fab487827c6fe9adbb91a9a716cb2e056898c4059ac6b26275851804a1f35855"
+  },
+  "DRB-033": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "kabine",
+   "event": "trait",
+   "bytes": 4765,
+   "sha256": "6f824178577a2ffe9f080c34b5534d2dc8b1de1f8098cf93ac914783926c1120"
+  },
+  "DRB-034": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "arsiv",
+   "event": "trait",
+   "bytes": 7689,
+   "sha256": "81839a49788ec01ed870593d4665d16c51dd877173279c3682b3313c0a3bcaad"
+  },
+  "DRB-035": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "tebligat",
+   "event": "negate",
+   "bytes": 5544,
+   "sha256": "e6d45462d0abd2de48e2ad595bad5ae06baaa33d941c66a97b31a78c64610eae"
+  },
+  "DRB-036": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "mesruiyet",
+   "event": "trait",
+   "bytes": 3682,
+   "sha256": "8b2cba3c510876c1641f45cb528e97966a9a85941733089ee96520a10b24fd93"
+  },
+  "DRB-037": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "dosya",
+   "event": "trait",
+   "bytes": 4399,
+   "sha256": "56a528aba11260d6b1ec815203bd306b015f31ff7242ad7fe6cfaa1e81465885"
+  },
+  "DRB-038": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "paraf",
+   "event": "trait",
+   "bytes": 4106,
+   "sha256": "c487157f4196a64c3f0eb24c51580bc34d63d862fd65729cbf5e48149fdc7ea0"
+  },
+  "DRB-039": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "heyet",
+   "event": "trait",
+   "bytes": 4369,
+   "sha256": "6cef7f20fd7b63bd3537d6500b2426a990547e945e8845d249b4dedca3eecab9"
+  },
+  "DRB-040": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "karargah",
+   "event": "look",
+   "bytes": 4140,
+   "sha256": "6f6fae61f69875d9576a3ab1d8baef236387ed1279bb2f5652107020611323c9"
+  },
+  "DRB-041": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "telex",
+   "event": "trait",
+   "bytes": 3907,
+   "sha256": "6c4a5511af23680fca8ee84ec16a68e213fb743ac3cd31ddf0e65ed660cd7f59"
+  },
+  "DRB-042": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "muhtira",
+   "event": "trait",
+   "bytes": 4755,
+   "sha256": "930f5bab2d16dcb0eab1bafdc0fada6ef4007491c280744d6d06abc8f0c7bd44"
+  },
+  "DRB-043": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "zeyil",
+   "event": "summon",
+   "bytes": 4620,
+   "sha256": "1c0f0864d0ab4469aeee40c45f425f81d7d99d5f5d02244fc377f1b0697eafa5"
+  },
+  "DRB-044": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "brifing",
+   "event": "modifier",
+   "bytes": 3684,
+   "sha256": "e52cd84a8a400fe67f4272da87476dc4c031b5b064179740ed9bdf187286e172"
+  },
+  "DRB-045": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "kabine",
+   "event": "move",
+   "bytes": 4262,
+   "sha256": "d3e1ddfbfccc25e97823933984459d74039b242a52dfcbc4e709f722061584ea"
+  },
+  "DRB-046": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "arsiv",
+   "event": "points",
+   "bytes": 7699,
+   "sha256": "b411dbd87f73add018002db42998ea8f69f3873d79e8068480995826e846aeb1"
+  },
+  "DRB-047": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "tebligat",
+   "event": "move",
+   "bytes": 4637,
+   "sha256": "b4a14f3d4cb7e9aa1fa64c02742d4ad37844e5450e498dc7f60b9ba00db84651"
+  },
+  "DRB-048": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "mesruiyet",
+   "event": "draw",
+   "bytes": 4774,
+   "sha256": "a48c2278e602b726ad0eab82cad8cabc95ffbb5632a169b819b7548de5268cf7"
+  },
+  "DRB-049": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "dosya",
+   "event": "points",
+   "bytes": 5333,
+   "sha256": "160730b82fffacfa60f44f158e3f3298eb5900634237c28f856eb7c716d52139"
+  },
+  "DRB-050": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "paraf",
+   "event": "trait",
+   "bytes": 4500,
+   "sha256": "a2f86c98a879c1e85c6a4968561ee0993a6fdd7be1a42c0c6666640f08b223a8"
+  },
+  "DRB-051": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "heyet",
+   "event": "trait",
+   "bytes": 4556,
+   "sha256": "d5fc813cb091353b9c5a83d962cba29778815046df1f49e5df3aacce49fb599d"
+  },
+  "DRB-052": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "karargah",
+   "event": "look",
+   "bytes": 4628,
+   "sha256": "1cb1bfa8d8d68de24cead770deeb4bf3f7c1e224d994fa96e0a78c463b773903"
+  },
+  "DRB-053": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "telex",
+   "event": "token",
+   "bytes": 4398,
+   "sha256": "318056d0da01acb49fe9806fbe0d8f9c2b7ec6562ea5014e3b6519cf0dd291ea"
+  },
+  "DRB-054": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "muhtira",
+   "event": "draw",
+   "bytes": 5863,
+   "sha256": "de43c4f193413bf4ddbc66819eb85b7ed689a4fe26aaba796b3ec46566e055a7"
+  },
+  "DRB-055": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "zeyil",
+   "event": "draw",
+   "bytes": 5577,
+   "sha256": "05685f5cb779e7bd027b7e3ad7891eb03c071584c666c72ac4399385f4ccc1d9"
+  },
+  "DRB-056": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "brifing",
+   "event": "points",
+   "bytes": 4261,
+   "sha256": "4483b844e0ff06b03a26484c48b281057a643c26c06c67c16a75cd2a0a73face"
+  },
+  "DRB-057": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "kabine",
+   "event": "discard",
+   "bytes": 4436,
+   "sha256": "9cb8dabb5a8b310698206ee290a0362f5f973f3fd42320d7ab0f9b8cde17f9c8"
+  },
+  "DRB-058": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "arsiv",
+   "event": "trait",
+   "bytes": 7321,
+   "sha256": "a6626e50e13597fea7555838d8d7ec29f2b6574e4463de30ba4eb3fc21bab876"
+  },
+  "DRB-059": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "tebligat",
+   "event": "trait",
+   "bytes": 5083,
+   "sha256": "fbc3425fdf094563dfeffeff5fa1c5e5ac116316a9e8e7eae8a50fa1897c2e25"
+  },
+  "DRB-060": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "mesruiyet",
+   "event": "modifier",
+   "bytes": 5201,
+   "sha256": "13c334e15da876c4839be2594fc5d5f179cbf7d9d3195b101b874dc4dcfe91c6"
+  },
+  "DRB-061": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "dosya",
+   "event": "summon",
+   "bytes": 5957,
+   "sha256": "df9d74f6934e2b735dd720eb2da2ef1cf0c7b1cf6e794a3fb38bc2659231f3d7"
+  },
+  "DRB-062": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "paraf",
+   "event": "move",
+   "bytes": 5477,
+   "sha256": "246a78cde083083a1f6b36e970f47d18d61a9e5d6d5f1c914e1891be457af6ad"
+  },
+  "DRB-063": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "heyet",
+   "event": "points",
+   "bytes": 5440,
+   "sha256": "70161697e0c6e95777ae99c5d6109ebb4427dbc3df6323a5c4faf8ae536656fa"
+  },
+  "DRB-064": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "karargah",
+   "event": "points",
+   "bytes": 5431,
+   "sha256": "7db07daa94c8cfe2ed3d8a6567ee6c2d8e1e0cf1907a22ef24200639731dc162"
+  },
+  "DRB-065": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "telex",
+   "event": "shuffle",
+   "bytes": 5356,
+   "sha256": "9821619fab33493b77a7492d2f6d4f9afff9f43116e64f59c55d3b36de461fa5"
+  },
+  "DRB-066": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "muhtira",
+   "event": "set",
+   "bytes": 5717,
+   "sha256": "d69205ba2a22567de1ad10e4783e4ab804ba5632c6e01712508053c891dc6337"
+  },
+  "DRB-067": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "zeyil",
+   "event": "points",
+   "bytes": 5816,
+   "sha256": "519ffae18c5624814bc12ce34a1535287084471a989dccc2fa44bc3fb4861a56"
+  },
+  "DRB-068": {
+   "kind": "unit",
+   "subtype": "fusion",
+   "bureau": "dosya",
+   "event": "points",
+   "bytes": 7023,
+   "sha256": "e9c0e373d8ab6316cfc88cb5b8d8c214ad68fa1782b16c97edb2acf07e8dd0bf"
+  },
+  "DRB-069": {
+   "kind": "unit",
+   "subtype": "fusion",
+   "bureau": "heyet",
+   "event": "points",
+   "bytes": 6754,
+   "sha256": "4540f6328af9fe4dc6cc75fdd693a4a2206435112bd9d47003b404cccc5baebf"
+  },
+  "DRB-070": {
+   "kind": "unit",
+   "subtype": "fusion",
+   "bureau": "telex",
+   "event": "points",
+   "bytes": 6718,
+   "sha256": "906fdfd427cc0d936ff18cdd1b1b2ab620634d9f1bc2747d107f6c5bd69530e6"
+  },
+  "DRB-071": {
+   "kind": "unit",
+   "subtype": "fusion",
+   "bureau": "zeyil",
+   "event": "points",
+   "bytes": 6922,
+   "sha256": "06f2e513e8ca9cf47b97bd20bfd2ae2bb7c779c824436386bdb88b9647056302"
+  },
+  "DRB-072": {
+   "kind": "unit",
+   "subtype": "fusion",
+   "bureau": "kabine",
+   "event": "points",
+   "bytes": 6651,
+   "sha256": "696869551d848d6dfe264d84d8024ed034f46d5e08cdc57fa17559e32265cdfa"
+  },
+  "DRB-073": {
+   "kind": "unit",
+   "subtype": "fusion",
+   "bureau": "tebligat",
+   "event": "points",
+   "bytes": 7232,
+   "sha256": "63cfc2588f7fdb89943acfdcc7b92f96cc20659b3913149ed98d60ee1f87835d"
+  },
+  "DRB-074": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "brifing",
+   "event": "reveal",
+   "bytes": 5169,
+   "sha256": "5effc2916afee8b6115abbc9ba0235164f0912ac82be55bdbbe8161b34abda1b"
+  },
+  "DRB-075": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "kabine",
+   "event": "trait",
+   "bytes": 5689,
+   "sha256": "38c043536b93391aee73890f860f054d5f67feec48fe1378c2e68354fa17a6d5"
+  },
+  "DRB-076": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "arsiv",
+   "event": "trait",
+   "bytes": 8665,
+   "sha256": "74e3b6674796d5c69b479f6e3ba09ac55be3e7cb9f5019c77e145d8a2fe16264"
+  },
+  "DRB-077": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "tebligat",
+   "event": "negate",
+   "bytes": 6627,
+   "sha256": "53ed1054f68ff89a4f13fb9c3bced7497390595151b9b1c0b1b7cb8308d4f9a7"
+  },
+  "DRB-078": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "mesruiyet",
+   "event": "trait",
+   "bytes": 5555,
+   "sha256": "1fb5dbe46956739456f14188f8acd1db02c7843d9a1c7c368a4b2e339dc84e30"
+  },
+  "DRB-079": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "dosya",
+   "event": "trait",
+   "bytes": 6290,
+   "sha256": "ae818414028a286216c96562cdab99077b1410d09396b64704ff3943abc7f20d"
+  },
+  "DRB-080": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "paraf",
+   "event": "trait",
+   "bytes": 5993,
+   "sha256": "b45fa6a0495cde45f0eb4cbde39ef0f3bfb9972a3436864b9254102658f8fbb6"
+  },
+  "DRB-081": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "dosya",
+   "event": "points",
+   "bytes": 3517,
+   "sha256": "4f241f26467e1107213d7ca23c93587b4f33a9d456a53fb5c05fc8240d192bcb"
+  },
+  "DRB-082": {
+   "kind": "spell",
+   "subtype": "quick",
+   "bureau": "paraf",
+   "event": "negate",
+   "bytes": 3145,
+   "sha256": "db92be0bb372c82d19dafdff4672cb87e2bdb3406c3b961432babe89dc23bb2b"
+  },
+  "DRB-083": {
+   "kind": "spell",
+   "subtype": "quick",
+   "bureau": "heyet",
+   "event": "discard",
+   "bytes": 3483,
+   "sha256": "832b3932a00e487bbef61f2aa08a66c2ba4a00ffbfb8130b5ed18e9da32ec1be"
+  },
+  "DRB-084": {
+   "kind": "spell",
+   "subtype": "field",
+   "bureau": "karargah",
+   "event": "trait",
+   "bytes": 3806,
+   "sha256": "b35a9e21c6553f9cdc4eace3f73976662d417a797dc50ab71149fe30fcc516db"
+  },
+  "DRB-085": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "telex",
+   "event": "move",
+   "bytes": 2864,
+   "sha256": "9bb522b4674af48913d27532e5ef747f77fda805851c2afb41e2488da5cc01a2"
+  },
+  "DRB-086": {
+   "kind": "spell",
+   "subtype": "equip",
+   "bureau": "muhtira",
+   "event": "trait",
+   "bytes": 4005,
+   "sha256": "4c5cfff5f11342c9ca894a5bd911eca92a1eda200ea8ca2610548e0552c9e0a9"
+  },
+  "DRB-087": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "zeyil",
+   "event": "shuffle",
+   "bytes": 4285,
+   "sha256": "05a5a831ac88bba8a29173bb2ede473843e36481ef4df9cfcbe004b9dc29699b"
+  },
+  "DRB-088": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "brifing",
+   "event": "drawSetTrap",
+   "bytes": 2571,
+   "sha256": "33bfd8db6ab2458be885359fb2f3d83e321fff3b79b17ca517d1a870431cc134"
+  },
+  "DRB-089": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "kabine",
+   "event": "draw",
+   "bytes": 3839,
+   "sha256": "2cc00767d057211aad21a8e790db61448175bc84798400da3c84d99994d14dca"
+  },
+  "DRB-090": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "arsiv",
+   "event": "summon",
+   "bytes": 5730,
+   "sha256": "86f3ab79c87b035289e83dc2fb97d45e2903075002367dfff20b3bb0e15b5544"
+  },
+  "DRB-091": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "tebligat",
+   "event": "draw",
+   "bytes": 3355,
+   "sha256": "4cc495db14bec5bc63268ef975047f6428f6c69340e08c3b2040b3a09d2122f0"
+  },
+  "DRB-092": {
+   "kind": "spell",
+   "subtype": "quick",
+   "bureau": "mesruiyet",
+   "event": "modifier",
+   "bytes": 3401,
+   "sha256": "7ef8d401a2573be5353074a7a76df17c5d128baad803ed2bf0253027334077d9"
+  },
+  "DRB-093": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "dosya",
+   "event": "move",
+   "bytes": 3633,
+   "sha256": "6e6faa96b9afd082698ad7f084661482cac4a8687ae25c17a6de2bc9873e4557"
+  },
+  "DRB-094": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "paraf",
+   "event": "destroy",
+   "bytes": 3814,
+   "sha256": "db394608f16c377ebacd887f6fb9f11b06632494f376d936979c9d369c179c82"
+  },
+  "DRB-095": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "heyet",
+   "event": "draw",
+   "bytes": 3488,
+   "sha256": "8371c2ddf23189cac4c77a5d929b53b4512ba406599c073bf649c82e4581583c"
+  },
+  "DRB-096": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "karargah",
+   "event": "look",
+   "bytes": 2691,
+   "sha256": "c7c153a934e00b3f58c383f49bb99d8dc5f32209936583a94065276f83c7b009"
+  },
+  "DRB-097": {
+   "kind": "spell",
+   "subtype": "continuous",
+   "bureau": "telex",
+   "event": "trait",
+   "bytes": 3618,
+   "sha256": "6ca50562254a6881dc320ed49dc74fd60553722f81710abd3b395ea5ae2ac353"
+  },
+  "DRB-098": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "muhtira",
+   "event": "destroy",
+   "bytes": 4473,
+   "sha256": "601eaae4e172d414c500307026797f2bf41ccd799f7bfd4580295672cfec8098"
+  },
+  "DRB-099": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "zeyil",
+   "event": "move",
+   "bytes": 4140,
+   "sha256": "4d351b2aedf18e821a1fefe461e62850a12547820de1b6e45870bd7b7a4d2790"
+  },
+  "DRB-100": {
+   "kind": "spell",
+   "subtype": "quick",
+   "bureau": "brifing",
+   "event": "points",
+   "bytes": 3005,
+   "sha256": "c94bcfd9d51740013d95e53531893451f7e2886e3d5ca0d6f7bc6bd582eb5806"
+  },
+  "DRB-101": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "kabine",
+   "event": "set",
+   "bytes": 3100,
+   "sha256": "4c098d4288d8b97b5eaf40805a080904664616ee04ef3209a20e2a352595d6a9"
+  },
+  "DRB-102": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "arsiv",
+   "event": "draw",
+   "bytes": 5759,
+   "sha256": "5f29fa4e58b175c47910b514195e56b17ffbc921ffa16ca1bc2435540db01e14"
+  },
+  "DRB-103": {
+   "kind": "spell",
+   "subtype": "quick",
+   "bureau": "tebligat",
+   "event": "skipBattle",
+   "bytes": 3992,
+   "sha256": "b9878f65ba952ae2317135542b737fb436644a204d3b27baf990448c8111b8de"
+  },
+  "DRB-104": {
+   "kind": "spell",
+   "subtype": "quick",
+   "bureau": "mesruiyet",
+   "event": "flag",
+   "bytes": 2973,
+   "sha256": "9f3664182c657e428820359640048db04466dd49ffd3a5dabe13f6a3292c27f7"
+  },
+  "DRB-105": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "dosya",
+   "event": "points",
+   "bytes": 4443,
+   "sha256": "3f1857d9d479c61abb37758bb75819b021e47590d86e347396ad782515bdc5d3"
+  },
+  "DRB-106": {
+   "kind": "spell",
+   "subtype": "quick",
+   "bureau": "paraf",
+   "event": "negate",
+   "bytes": 3299,
+   "sha256": "6a874af3077178bd155e3040c1684ceb02f67b252883e70ab37c76f460ff8aab"
+  },
+  "DRB-107": {
+   "kind": "spell",
+   "subtype": "quick",
+   "bureau": "heyet",
+   "event": "discard",
+   "bytes": 3819,
+   "sha256": "76b770704e9adf64da8a5beafb33ebe3b429fd27c13f00b123b3c12b908c0bf3"
+  },
+  "DRB-108": {
+   "kind": "spell",
+   "subtype": "field",
+   "bureau": "karargah",
+   "event": "trait",
+   "bytes": 3325,
+   "sha256": "311ea4835183d44b8c42179195f72c513ba6eb37e022ff2ef906e6747db20be1"
+  },
+  "DRB-109": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "telex",
+   "event": "move",
+   "bytes": 3163,
+   "sha256": "be4874d94f1dc179ef0911d0b6e1b8ca035b029d79ff4d343787d5a3c42915e3"
+  },
+  "DRB-110": {
+   "kind": "spell",
+   "subtype": "equip",
+   "bureau": "muhtira",
+   "event": "trait",
+   "bytes": 4000,
+   "sha256": "cfb7de331c057a3da0ff96546cfa00dca2ef14bcd9ecb278cb1cd8e05f5fa0a4"
+  },
+  "DRB-111": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "zeyil",
+   "event": "shuffle",
+   "bytes": 3807,
+   "sha256": "567a382a058cd06414c96a68ad27ef37c50c04d3ebe662ad3d44299c4d1bffeb"
+  },
+  "DRB-112": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "brifing",
+   "event": "drawSetTrap",
+   "bytes": 2676,
+   "sha256": "4b526b0c9e9601b4a12ce5edf177605296792c69655c1f0fb2a874b237efc7b2"
+  },
+  "DRB-113": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "kabine",
+   "event": "draw",
+   "bytes": 3503,
+   "sha256": "4efc0ec2af070b5be71530189bd1c70c6083a892082b15708277c47017edbf2e"
+  },
+  "DRB-114": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "arsiv",
+   "event": "summon",
+   "bytes": 6206,
+   "sha256": "e8a5ced060abb973cae824b116455a6b2236e351c24a6e61b3442fdfc512997c"
+  },
+  "DRB-115": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "tebligat",
+   "event": "draw",
+   "bytes": 4223,
+   "sha256": "2a97a60d3aa71e14a58ecca9793544cad8dae649bd2ba99794db30042655275d"
+  },
+  "DRB-116": {
+   "kind": "spell",
+   "subtype": "quick",
+   "bureau": "mesruiyet",
+   "event": "modifier",
+   "bytes": 3521,
+   "sha256": "24d6d7c3267d4f6504b8feab5900d0f5d2cb19f7e1a9f57283ff1884ba28cb46"
+  },
+  "DRB-117": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "dosya",
+   "event": "move",
+   "bytes": 4155,
+   "sha256": "3508146ac9633a9f7449e28ed22cd34682a992278a05b4388529a9da6abf5418"
+  },
+  "DRB-118": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "paraf",
+   "event": "destroy",
+   "bytes": 3811,
+   "sha256": "61d3a72dde3bad62da0eb344f57685d5f2089d97ccac953989d5ec928565e374"
+  },
+  "DRB-119": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "heyet",
+   "event": "draw",
+   "bytes": 3726,
+   "sha256": "c8b4ad534ad9946f2b1c72fc11ea991818a92eb5e7d42cef4974c59238652251"
+  },
+  "DRB-120": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "karargah",
+   "event": "look",
+   "bytes": 2692,
+   "sha256": "b943e86709aeda3c2a82b94acb78bcbfd82df0e7cacb75bed33265fbfdb4e85f"
+  },
+  "DRB-121": {
+   "kind": "spell",
+   "subtype": "continuous",
+   "bureau": "telex",
+   "event": "trait",
+   "bytes": 3598,
+   "sha256": "6adbb2cb2add9c01f2fcf248298643341aecd74be2aa897b299e5bbd6f76fa6c"
+  },
+  "DRB-122": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "muhtira",
+   "event": "destroy",
+   "bytes": 4252,
+   "sha256": "a5967d2655cbc84bb5ff9bec50e60c4093ec87f5acad20792d54d6bb322a616b"
+  },
+  "DRB-123": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "zeyil",
+   "event": "move",
+   "bytes": 4169,
+   "sha256": "f69812b13f1f3216b872f673ce2a4af60addcff83a58927312c1ea745286f62c"
+  },
+  "DRB-124": {
+   "kind": "spell",
+   "subtype": "quick",
+   "bureau": "brifing",
+   "event": "points",
+   "bytes": 3419,
+   "sha256": "5911bc1276cc4bea1a1e13349dd1bd0037e04e954543f50da456e369c121d61a"
+  },
+  "DRB-125": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "destroy",
+   "bytes": 5340,
+   "sha256": "33d0e818ea983eafe199af1f714af1d7ff118b99c701b55a6d686e5b273f5c68"
+  },
+  "DRB-126": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "destroy",
+   "bytes": 5317,
+   "sha256": "41a33a173d3ab135e1105447248812e6afbb26f4c58680adf82782c801eedf64"
+  },
+  "DRB-127": {
+   "kind": "trap",
+   "subtype": "counter",
+   "bureau": "ihtar",
+   "event": "cancelSummonToGrave",
+   "bytes": 4388,
+   "sha256": "46776a5504d6413ccbd38efc4627cd7d16b46137f9ac2f0d80800c14293a1d75"
+  },
+  "DRB-128": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "flag",
+   "bytes": 5242,
+   "sha256": "38bbe2d6a839f08cb294bd133587d5cf6d2885f8d883587d2ef434d6f4ca02ff"
+  },
+  "DRB-129": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "move",
+   "bytes": 5171,
+   "sha256": "b6e3b3ea190b872072ac10e6a20b5acf6f9e162415058e6eeb8f84a6585423b8"
+  },
+  "DRB-130": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "cancelAttack",
+   "bytes": 5026,
+   "sha256": "ed59912e8842538616ebbce2ef88a31c588139b18d437f5dc30ca0b2b1f9b800"
+  },
+  "DRB-131": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "destroy",
+   "bytes": 6493,
+   "sha256": "bcf6bcc0deb52d436330f7a8044d668948728f9241ac9bf9c13b00ccab0da55a"
+  },
+  "DRB-132": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "skipBattle",
+   "bytes": 5707,
+   "sha256": "92d9f53e8ede89bc5f0ad028aabf74aaa6332f86d6269c5a22282a93099f3f32"
+  },
+  "DRB-133": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "draw",
+   "bytes": 4661,
+   "sha256": "f4d21877368c0a8e8d6e1b12c794f5062c548ca98226696b8855980199254278"
+  },
+  "DRB-134": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "draw",
+   "bytes": 5255,
+   "sha256": "886727ddeab7ddceacdb2604f1d0dba917d22d6d0eacc26d9b362e65b8c5d873"
+  },
+  "DRB-135": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "discard",
+   "bytes": 4714,
+   "sha256": "731771fb06536a07bf78239113bae34c652fac0a11252c776c611cc7bcb90a79"
+  },
+  "DRB-136": {
+   "kind": "trap",
+   "subtype": "counter",
+   "bureau": "ihtar",
+   "event": "negateResponse",
+   "bytes": 5318,
+   "sha256": "239c688bc6918a55d60215edf9d4cf0468bed995dd6444baa66401db2f902035"
+  },
+  "DRB-137": {
+   "kind": "trap",
+   "subtype": "counter",
+   "bureau": "ihtar",
+   "event": "targetOrBattleNegate",
+   "bytes": 4664,
+   "sha256": "b9302f6b4af93c9e29e682fbd6a64a2d36b6a9e4f9d56fe0d9db211f4b635f18"
+  },
+  "DRB-138": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "modifier",
+   "bytes": 5906,
+   "sha256": "c0eae9dbae6c03914484b761b1320e75d909035ac47038ae511ea72843e94125"
+  },
+  "DRB-139": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "summon",
+   "bytes": 7133,
+   "sha256": "889700f38f5cb576e8a1822d5cf65065952805e75d1614b30e91e814c7caecae"
+  },
+  "DRB-140": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "points",
+   "bytes": 5129,
+   "sha256": "8371ff9033f3711fadb41c979d6e8c55dca236719055f8ce27f9de3fbf9b0b05"
+  },
+  "DRB-141": {
+   "kind": "trap",
+   "subtype": "counter",
+   "bureau": "ihtar",
+   "event": "negate",
+   "bytes": 4494,
+   "sha256": "72d43d55723a0e1cef089fa13e81fe07f0eb556fb7791474a934112e19c95b8f"
+  },
+  "DRB-142": {
+   "kind": "trap",
+   "subtype": "continuous",
+   "bureau": "ihtar",
+   "event": "points",
+   "bytes": 5101,
+   "sha256": "d63cc674922aad6cfdc35b6f70116d0b9d663ce573ca969f4a61693af6b8c339"
+  },
+  "DRB-143": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "destroy",
+   "bytes": 4650,
+   "sha256": "11d3d3aa8e4671e74c2972c846bbd4126dc4ba774e5633e159c2b0bb413045e7"
+  },
+  "DRB-144": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "destroy",
+   "bytes": 6685,
+   "sha256": "fe1c9109d8f4185308602b57b3eb4cd8d36941fefe731eb15b2fe0dc4fe491d8"
+  },
+  "DRB-145": {
+   "kind": "trap",
+   "subtype": "counter",
+   "bureau": "ihtar",
+   "event": "cancelSummonToGrave",
+   "bytes": 5252,
+   "sha256": "0c682dae226db387eaef0e428cd6bf647d10325fbdb91d2efd42fa9d071b35b2"
+  },
+  "DRB-146": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "flag",
+   "bytes": 5108,
+   "sha256": "2c258e440071ad50683503c713661cee00bd57400a30d6a830471350f7714f6a"
+  },
+  "DRB-147": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "move",
+   "bytes": 4912,
+   "sha256": "c42ac8f5aa166230866c5aefaced1ddbadc9c3c5cb5ab35a04fc497ceedc04ee"
+  },
+  "DRB-148": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "cancelAttack",
+   "bytes": 5108,
+   "sha256": "e815e4b754533bd8404d5a94839769286bcb69c8ccf7ebec54122908aa826388"
+  },
+  "DRB-149": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "destroy",
+   "bytes": 5239,
+   "sha256": "9b6cc4156a6019bff9fd5304efa045531200adbd00270983c695294044a7b4d5"
+  },
+  "DRB-150": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "skipBattle",
+   "bytes": 5440,
+   "sha256": "431b2baec52de4ca2180d5450bd55535c48b91372ffce6775d90075be7b9ac58"
+  },
+  "DRB-151": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "dosya",
+   "event": "points",
+   "bytes": 5841,
+   "sha256": "2a3252b950797997b862953f59d4e52b5144533d77f265c638b4862b48f37752"
+  },
+  "DRB-152": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "dosya",
+   "event": "skipBattle",
+   "bytes": 5467,
+   "sha256": "c6ecd048f8884a99426c7f57acc01eac2fc17e9348e1b89beb83ff03dc281ed9"
+  },
+  "DRB-153": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "dosya",
+   "event": "reveal",
+   "bytes": 4093,
+   "sha256": "0cda9dfc587ed484aee444a0e77efb865e688520a713bab066248d9bf5e55394"
+  },
+  "DRB-154": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "dosya",
+   "event": "points",
+   "bytes": 6074,
+   "sha256": "d3fdb7fc08c55897692b0abd05af5cf75f982f7abca146a7119623ffe52ba588"
+  },
+  "DRB-155": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "dosya",
+   "event": "modifier",
+   "bytes": 5139,
+   "sha256": "7566e9bce6fe0ed8562aec2cc013ea90241487a235a0a24914cdf48f97e3253e"
+  },
+  "DRB-156": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "dosya",
+   "event": "points",
+   "bytes": 5429,
+   "sha256": "266e556c55e17a0fcb756a5e12eb96bbaac4733f66fcd7e936894dd7113726cd"
+  },
+  "DRB-157": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "dosya",
+   "event": "move",
+   "bytes": 4426,
+   "sha256": "b760edc4957d086454d052700402f94f5425f6d4dcf7a48c5638c07c2710185e"
+  },
+  "DRB-158": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "paraf",
+   "event": "points",
+   "bytes": 4671,
+   "sha256": "c774702556d354cd0f2c6ae7c6a9c1894f227a41b4266c3e4630e439efb1ce4b"
+  },
+  "DRB-159": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "paraf",
+   "event": "points",
+   "bytes": 4125,
+   "sha256": "8eb74a3e6385e8ad2f7e373ffad5ea5f3085625602e4409bd5ca363fa1e7baeb"
+  },
+  "DRB-160": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "paraf",
+   "event": "trait",
+   "bytes": 4512,
+   "sha256": "a5d272ac529aadaf03f4b6be2c54e72ec4dd9d73adaa02d7676363685ba9ceb0"
+  },
+  "DRB-161": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "paraf",
+   "event": "points",
+   "bytes": 5105,
+   "sha256": "f9235256b40ca1a5ec0ce5a4b07af766a4a99df99c1dab0b2f206cc95f1ee755"
+  },
+  "DRB-162": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "paraf",
+   "event": "skipBattle",
+   "bytes": 4374,
+   "sha256": "36e9b9138201a0c0f9a105a8400ba1e87f6f4698e2ba5e787b719042914c0b80"
+  },
+  "DRB-163": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "paraf",
+   "event": "points",
+   "bytes": 5520,
+   "sha256": "878c738e32cd547c4f1861a1ee762563475c53dcf51f371da1cd0d5fb9acea65"
+  },
+  "DRB-164": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "paraf",
+   "event": "move",
+   "bytes": 4053,
+   "sha256": "4b053f95f98890b12a455dea820e843506e0960ab198a3d30903afc98087a0a5"
+  },
+  "DRB-165": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "heyet",
+   "event": "points",
+   "bytes": 5270,
+   "sha256": "e6a36c3da340f9d9e7d7ba31e6084f059a029f9092cb99101165c0affa2d6469"
+  },
+  "DRB-166": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "heyet",
+   "event": "modifier",
+   "bytes": 4204,
+   "sha256": "b62929ae868ce38fce49b5b91eac4fa2eddc2267036647e76bb9d632cce0201b"
+  },
+  "DRB-167": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "heyet",
+   "event": "points",
+   "bytes": 5236,
+   "sha256": "56ca62e54bf065e31e3935cad3438c161e542194b3327c23ba97d361ecdc0049"
+  },
+  "DRB-168": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "heyet",
+   "event": "modifier",
+   "bytes": 4710,
+   "sha256": "787f104e54542a5c55c272dda9ca40dc78ff3362922da214d4ac1ac30ed19933"
+  },
+  "DRB-169": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "heyet",
+   "event": "points",
+   "bytes": 5003,
+   "sha256": "7b063ee283f45ad7306f3f2e6b1205616b123d568fb29c6fcffe0c18170a12e4"
+  },
+  "DRB-170": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "heyet",
+   "event": "modifier",
+   "bytes": 5298,
+   "sha256": "1addd1c9eb14fdb9512cead0e1cbb033d3aee6f52739112c30c758b0ed8a58f8"
+  },
+  "DRB-171": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "heyet",
+   "event": "move",
+   "bytes": 4118,
+   "sha256": "5e3e7b4e3334544f1f35563f381123d4d4a5863c2d185f293c645ad0b1630016"
+  },
+  "DRB-172": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "karargah",
+   "event": "points",
+   "bytes": 4488,
+   "sha256": "5a6b162d899874e6982b1efdeb0e711c8451d0a2327cbd5b1667d9635bce96b2"
+  },
+  "DRB-173": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "karargah",
+   "event": "skipBattle",
+   "bytes": 4402,
+   "sha256": "14aaefec088bf59f141ffdf7b8307c71538ee677217f2853a81bf3b8f92eb36e"
+  },
+  "DRB-174": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "karargah",
+   "event": "reveal",
+   "bytes": 3712,
+   "sha256": "99340aa6971439de82d2f17e8fe2af0d925911a6bf2dacc279bddc45f0c54891"
+  },
+  "DRB-175": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "karargah",
+   "event": "points",
+   "bytes": 3920,
+   "sha256": "514d8fc129ae8d754a4ae80c00e7644e224709b800cbc1f3dac31e8318420b77"
+  },
+  "DRB-176": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "karargah",
+   "event": "modifier",
+   "bytes": 5115,
+   "sha256": "21082857399701c89e7bfbf8411b29c66c8c38cddd37a342536a6800f41ef840"
+  },
+  "DRB-177": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "karargah",
+   "event": "points",
+   "bytes": 4601,
+   "sha256": "45ba8b2b409bc4ebd22a8270d63958943365105c47f03732c1530cfb0b33c714"
+  },
+  "DRB-178": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "karargah",
+   "event": "move",
+   "bytes": 4107,
+   "sha256": "784761542cc7e6a244cfe11e1ebd81329437da0bd72fc08d7f2a18ece88bab0c"
+  },
+  "DRB-179": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "telex",
+   "event": "points",
+   "bytes": 4727,
+   "sha256": "67c997bf7db330eb7a103eaa68f096b0dedb9d3f93ead7b7e73191e3d88ede4f"
+  },
+  "DRB-180": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "telex",
+   "event": "points",
+   "bytes": 4457,
+   "sha256": "e8cb52087fd35c6c2e9745bfebda7ff7a17a16283591fe9dc1a3635b07ee315f"
+  },
+  "DRB-181": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "telex",
+   "event": "trait",
+   "bytes": 3821,
+   "sha256": "aff28b411406f0522cb80901c98d5cfdfc54bf49f58337e1f8aa66cbb14ad2e6"
+  },
+  "DRB-182": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "telex",
+   "event": "points",
+   "bytes": 3808,
+   "sha256": "41fd3096212e76ee3a3738752504961bb782944407c901f2f3a2e16afc07b0ad"
+  },
+  "DRB-183": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "telex",
+   "event": "skipBattle",
+   "bytes": 5119,
+   "sha256": "83e4e12a0eead7bd5fd6fbd5863471f4569da50df9639c123e2ce9edfbb4c936"
+  },
+  "DRB-184": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "telex",
+   "event": "points",
+   "bytes": 4961,
+   "sha256": "d5a445cbd243f960426659ed2488a594865c12cd86c289d601d085460686477d"
+  },
+  "DRB-185": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "telex",
+   "event": "move",
+   "bytes": 3980,
+   "sha256": "3cbdb3ba36440b90d8ce5bf23dfb4aa8325155ab175143c81851a30e8388fa65"
+  },
+  "DRB-186": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "muhtira",
+   "event": "points",
+   "bytes": 5729,
+   "sha256": "54d48f9b0a69cc98081e8cfb2171114ee02d42301971cb0ce826abd7228059b4"
+  },
+  "DRB-187": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "muhtira",
+   "event": "modifier",
+   "bytes": 4816,
+   "sha256": "f2e0f8c35972fe2eaba9273bd89b7f8f6ac92d64603502389fe60cf95d956913"
+  },
+  "DRB-188": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "muhtira",
+   "event": "points",
+   "bytes": 6440,
+   "sha256": "5cfa50a5f87ed170d30883b05207e27c64731524ca277f465eea4f984461b8be"
+  },
+  "DRB-189": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "muhtira",
+   "event": "modifier",
+   "bytes": 5866,
+   "sha256": "738accd30bbd0f0f9265eb52e185b210a86e1df5820a39300a914b855ac0ec52"
+  },
+  "DRB-190": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "muhtira",
+   "event": "points",
+   "bytes": 5067,
+   "sha256": "14a5adc90cf1b9325bdad1099b2947e70f83a53641e0c68dc018f65152803d93"
+  },
+  "DRB-191": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "muhtira",
+   "event": "modifier",
+   "bytes": 5869,
+   "sha256": "ded65d26d8232876b730240e9575e69cad7f56deb12f7c17071c7cc930c49d68"
+  },
+  "DRB-192": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "muhtira",
+   "event": "move",
+   "bytes": 4787,
+   "sha256": "fab25f1cde53aa1d89ae1b0ae738867e96113a3ca6f6e7e7e737c6273f24bb00"
+  },
+  "DRB-193": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "zeyil",
+   "event": "points",
+   "bytes": 4997,
+   "sha256": "ba8734feafd0d583d97e60c5690aa851894ab31bdab5800e99d630d08a8c2fbc"
+  },
+  "DRB-194": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "zeyil",
+   "event": "skipBattle",
+   "bytes": 6133,
+   "sha256": "98793b94cf8d9c983be6321c409941c4484071c8b224d333fa94fa876e0927a4"
+  },
+  "DRB-195": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "zeyil",
+   "event": "reveal",
+   "bytes": 4452,
+   "sha256": "2b550f7fde3edc94e674ebd9656d1a1a6641a17a454018eb79aba84c059ba425"
+  },
+  "DRB-196": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "zeyil",
+   "event": "points",
+   "bytes": 5302,
+   "sha256": "9ffe4ac12f0bc541a200b49e24cd6ea1de7e80ffb34451ff7dcb7d8fcaf2a168"
+  },
+  "DRB-197": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "zeyil",
+   "event": "modifier",
+   "bytes": 5437,
+   "sha256": "8cae8c0e2cd063f0022f974e5659504f52ffd6d0f288a28c225d28482a4d1469"
+  },
+  "DRB-198": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "zeyil",
+   "event": "points",
+   "bytes": 5785,
+   "sha256": "2bfc9e4bf6773f1b40af39981882a063f165a1ced231ee0805c00cc7920f19ab"
+  },
+  "DRB-199": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "zeyil",
+   "event": "move",
+   "bytes": 4444,
+   "sha256": "75a189eb5774c8c8329f737dddeb5beb92cc8d7cd81d9152ad639c3cb1fb2191"
+  },
+  "DRB-200": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "brifing",
+   "event": "points",
+   "bytes": 4206,
+   "sha256": "e65b5971a21e47831e4e70ecef2d532cbff98c9b249cb2c9ce0a13789eca300f"
+  },
+  "DRB-201": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "brifing",
+   "event": "points",
+   "bytes": 3655,
+   "sha256": "78bf489d30b9286d226ef9ea56ef44c81ca939171b7a71341d16732143508850"
+  },
+  "DRB-202": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "brifing",
+   "event": "trait",
+   "bytes": 4018,
+   "sha256": "04c078c1615b6e2e62630c86393efae27073924afd9cb9d7a26acb86505f2db9"
+  },
+  "DRB-203": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "brifing",
+   "event": "points",
+   "bytes": 4160,
+   "sha256": "624f7d115c30d633c1b4c3853ba392058240a8daee0081f2648cc07b1d2efdf4"
+  },
+  "DRB-204": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "brifing",
+   "event": "skipBattle",
+   "bytes": 4514,
+   "sha256": "a5bfc3d9ef5b5f49a118a677b99258480a44acbe3d4139ef66790d59711460a3"
+  },
+  "DRB-205": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "brifing",
+   "event": "points",
+   "bytes": 3465,
+   "sha256": "68ab88d1101cba599b70e48ebc64d020f6ffc1df0617f6c779fef1c508b37f1d"
+  },
+  "DRB-206": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "brifing",
+   "event": "move",
+   "bytes": 3358,
+   "sha256": "065b5e0ee4f9603e3ba36de1cf2e0a70194081d673f23a63160c84e00be786a0"
+  },
+  "DRB-207": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "kabine",
+   "event": "points",
+   "bytes": 4360,
+   "sha256": "485327776133bfa90df5446eed5d99a732d716fc49f7bcd909e7b8e9d38e17cb"
+  },
+  "DRB-208": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "kabine",
+   "event": "modifier",
+   "bytes": 4289,
+   "sha256": "e3c1b9c774948ec37506414bad1b8daf1cc00a17d2ea935f508e964a768d7c5f"
+  },
+  "DRB-209": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "kabine",
+   "event": "points",
+   "bytes": 4716,
+   "sha256": "58685a7718ec036aafd8906195884bd1c7f3df74ed3630e2fbced17f4a21c97e"
+  },
+  "DRB-210": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "kabine",
+   "event": "modifier",
+   "bytes": 4085,
+   "sha256": "f2c413c57c7a9db240709330b316e5e2e1e149a545bfd8b939b2daf7d61e88c8"
+  },
+  "DRB-211": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "kabine",
+   "event": "points",
+   "bytes": 3832,
+   "sha256": "809abf5fa5fbe056635ebb95490b58d0bf59450c0be888a159a6d1b20ae23168"
+  },
+  "DRB-212": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "kabine",
+   "event": "modifier",
+   "bytes": 4983,
+   "sha256": "be6bc6bfa7f4282cc9a09416c6571b5b56073c2523cb4f58e5b7672424dd8f39"
+  },
+  "DRB-213": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "kabine",
+   "event": "move",
+   "bytes": 3905,
+   "sha256": "4f5b04b1c372667b92b1a29f6e8ff45801a5e188bbfb3ca23cb60650cfb0c44c"
+  },
+  "DRB-214": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "arsiv",
+   "event": "points",
+   "bytes": 7353,
+   "sha256": "e76d83f667d7d3cc031a8496dd99c525cee463a7b7d995c828727a7f73b3d74c"
+  },
+  "DRB-215": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "arsiv",
+   "event": "skipBattle",
+   "bytes": 7251,
+   "sha256": "b42ee3a62c8269182058eebe1009871ead6ce3b71f9afc48517a21a1a7b9c59f"
+  },
+  "DRB-216": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "arsiv",
+   "event": "reveal",
+   "bytes": 6482,
+   "sha256": "b49c1d0b66f4b252b2ce29e46ccec7809e970569fc07b04e54130df928965826"
+  },
+  "DRB-217": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "arsiv",
+   "event": "points",
+   "bytes": 7317,
+   "sha256": "328fa296ce381178370471c00898b5251ae52cd44536ea0c98a04f3d3a9a310f"
+  },
+  "DRB-218": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "arsiv",
+   "event": "modifier",
+   "bytes": 7980,
+   "sha256": "93b63da827666290bf0425866bac7e7919946ce6387b0567c4b477ce9b40bce3"
+  },
+  "DRB-219": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "arsiv",
+   "event": "points",
+   "bytes": 7896,
+   "sha256": "a93e18ff46c04f887c43402087f0aafe2e933a07e6cbd42964facafc7ddeb70c"
+  },
+  "DRB-220": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "arsiv",
+   "event": "move",
+   "bytes": 7010,
+   "sha256": "75f1530942ecacb9ddc68d3015f7001d337cb3fa47b4ff564ca2b9d6b2f4f46c"
+  },
+  "DRB-221": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "tebligat",
+   "event": "points",
+   "bytes": 5041,
+   "sha256": "ead8365ee94b372578fec323f4a3fa36fa9d52e92cf04223812f1c6da891dede"
+  },
+  "DRB-222": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "tebligat",
+   "event": "points",
+   "bytes": 4714,
+   "sha256": "cafdae8c6978d8af10c99a506e904a91e27bb45e238ecf67f6eebee54d532373"
+  },
+  "DRB-223": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "tebligat",
+   "event": "trait",
+   "bytes": 5271,
+   "sha256": "6fdc138e3a474eed23ee53eff78e9c3e53ac98c5639c99ce4c8649da450a44d3"
+  },
+  "DRB-224": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "tebligat",
+   "event": "points",
+   "bytes": 5025,
+   "sha256": "0a65cab96e115b74fe5bcf0c76e067caa80ae31d8fe44f71fbb6059dcf89f24e"
+  },
+  "DRB-225": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "tebligat",
+   "event": "skipBattle",
+   "bytes": 5539,
+   "sha256": "7845686e564f9b2555c6dc3c051b02a0d8c43e64609e108cf059b087df4dc230"
+  },
+  "DRB-226": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "tebligat",
+   "event": "points",
+   "bytes": 5594,
+   "sha256": "29e5d5019781f6f7cb2859c1820fb1ce3739537b1d7efdade5e65392c92b1f0b"
+  },
+  "DRB-227": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "tebligat",
+   "event": "move",
+   "bytes": 4544,
+   "sha256": "ec18c92f7c78fb79190a955e6236a8a400a555ecada88481b51dae23360238f5"
+  },
+  "DRB-228": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "mesruiyet",
+   "event": "points",
+   "bytes": 4244,
+   "sha256": "2226f9987dc7b4c39dcbad22a1e81596ffa652fc1c92dd37f59e58f3290d14ba"
+  },
+  "DRB-229": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "mesruiyet",
+   "event": "modifier",
+   "bytes": 4083,
+   "sha256": "181ccc72a2e7b7d78b69154815061dba9df74855f902aa826cd89b6707d794ee"
+  },
+  "DRB-230": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "mesruiyet",
+   "event": "points",
+   "bytes": 3704,
+   "sha256": "a9a306d4840ec202d472229d4b2de52247c584cc7c7e091426e4abe6c657325a"
+  },
+  "DRB-231": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "mesruiyet",
+   "event": "modifier",
+   "bytes": 4277,
+   "sha256": "1c1edac7a29be011d10da15c7d8fd19eef0b4776d41ee2471a5e1ffe117ffa31"
+  },
+  "DRB-232": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "mesruiyet",
+   "event": "points",
+   "bytes": 5105,
+   "sha256": "26a1721fd1bd301cd0b094cc3213b0ec06d047e46aa8df6d18183ad13b5d6654"
+  },
+  "DRB-233": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "mesruiyet",
+   "event": "modifier",
+   "bytes": 5135,
+   "sha256": "9eb16fc07f9346416847b29b592c0f413941fab98376cdd5ed310dd5679f0de2"
+  },
+  "DRB-234": {
+   "kind": "unit",
+   "subtype": "effect",
+   "bureau": "mesruiyet",
+   "event": "move",
+   "bytes": 3705,
+   "sha256": "6765f2db46819294f2985d72d171df1c91653f489c3543542ff8a5dd88922a8e"
+  },
+  "DRB-235": {
+   "kind": "unit",
+   "subtype": "fusion",
+   "bureau": "dosya",
+   "event": "points",
+   "bytes": 7252,
+   "sha256": "0ce5318f14c5369ad57308c9d6789ebd4f3d68d19baa13a55dba9e4080a0ed54"
+  },
+  "DRB-236": {
+   "kind": "unit",
+   "subtype": "fusion",
+   "bureau": "heyet",
+   "event": "points",
+   "bytes": 6934,
+   "sha256": "77df224ad130fce9eb8676b2be92cc1c8f72f9fb567f68e44fc93673d67ab030"
+  },
+  "DRB-237": {
+   "kind": "unit",
+   "subtype": "fusion",
+   "bureau": "telex",
+   "event": "points",
+   "bytes": 6673,
+   "sha256": "6256bf80e6a5e6bfeb5b374a78950ec71181ebc777db633465b7e9d7c0c4cf65"
+  },
+  "DRB-238": {
+   "kind": "unit",
+   "subtype": "fusion",
+   "bureau": "zeyil",
+   "event": "points",
+   "bytes": 7242,
+   "sha256": "dd26a2a2dfde9fb5b93510a2462d12a387b23549fd77e4d0dc64449ec273d7ce"
+  },
+  "DRB-239": {
+   "kind": "unit",
+   "subtype": "fusion",
+   "bureau": "kabine",
+   "event": "points",
+   "bytes": 6716,
+   "sha256": "f08c750450546cc9449484c0c5d9c2e7f7789c5ca0e92d1561623aca29218c2e"
+  },
+  "DRB-240": {
+   "kind": "unit",
+   "subtype": "fusion",
+   "bureau": "tebligat",
+   "event": "points",
+   "bytes": 7120,
+   "sha256": "f51b0f8af94c84c20bbae1833d56180a5636288ac6e484745c9006735bd7d19d"
+  },
+  "DRB-241": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "dosya",
+   "event": "points",
+   "bytes": 3588,
+   "sha256": "d8ebf4cfee8cfe571d2634aebeb2f173c09550b1e7cfaeb6dbfec1e9ba5d0dda"
+  },
+  "DRB-242": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "paraf",
+   "event": "points",
+   "bytes": 3526,
+   "sha256": "f9ef40d94b5e5676967d057583a680fd8680ea5ccb711ed6da3a08795396339a"
+  },
+  "DRB-243": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "heyet",
+   "event": "points",
+   "bytes": 3252,
+   "sha256": "cccb2d11d9243608b8412c9d9cef2db929c5c81852e1968d3e66d68679d22982"
+  },
+  "DRB-244": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "karargah",
+   "event": "modifier",
+   "bytes": 4154,
+   "sha256": "ccf50d0c1c42f030c8c23e24c0db0b42f1359ac3e86078e0d9f5ca56ab13ffc7"
+  },
+  "DRB-245": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "telex",
+   "event": "points",
+   "bytes": 4091,
+   "sha256": "0cce8bba6cfffcc1fc3284d428b6b936152b05f7d911711a128b6e24e9b53dc7"
+  },
+  "DRB-246": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "muhtira",
+   "event": "points",
+   "bytes": 4331,
+   "sha256": "fa83da378b7c64daae66c40bf82c99991feaff532961b9ff0ed4e4c171d4506f"
+  },
+  "DRB-247": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "zeyil",
+   "event": "points",
+   "bytes": 3409,
+   "sha256": "6fbed9dd50f0a35961a580b9fb5b9f4658dd63a49448e7c5d2705db7752dd552"
+  },
+  "DRB-248": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "brifing",
+   "event": "modifier",
+   "bytes": 3163,
+   "sha256": "671dcb2b8e413fc6c7ec6aef736fbaa05b502107961e861100b17d8b64703a39"
+  },
+  "DRB-249": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "kabine",
+   "event": "points",
+   "bytes": 2974,
+   "sha256": "0f8fe2d604f6c8fc628a1d499f356e56804017007ac6f15df14bc64ce5b58c78"
+  },
+  "DRB-250": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "arsiv",
+   "event": "points",
+   "bytes": 7934,
+   "sha256": "5c48fbb7e27d1ac6347a18eebe5ea55a6ff4893dfa0007e46d95b6e580850793"
+  },
+  "DRB-251": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "tebligat",
+   "event": "points",
+   "bytes": 4152,
+   "sha256": "8187f4690df3ca3f97637ca0a20997fb0ddf9d49de8b62bfbfc17f7e8b1054d2"
+  },
+  "DRB-252": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "mesruiyet",
+   "event": "modifier",
+   "bytes": 2948,
+   "sha256": "90f9de19f50c672407064f11d15ec462acc8570d3e436a0ae991c63e3eaabd33"
+  },
+  "DRB-253": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "dosya",
+   "event": "skipBattle",
+   "bytes": 4089,
+   "sha256": "2add4acb7a4f82f0e89c65d50d7a04935b7c2273647d55a4ede090e804b8beaf"
+  },
+  "DRB-254": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "paraf",
+   "event": "points",
+   "bytes": 3912,
+   "sha256": "363cd9a69ad212ab194eb299698362bd08f17be4ba52367ffa64e7180310d90a"
+  },
+  "DRB-255": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "heyet",
+   "event": "draw",
+   "bytes": 3381,
+   "sha256": "e172054c2ffd854c1fa752194c27e83d36996228d9750b8ac98568dd72452137"
+  },
+  "DRB-256": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "karargah",
+   "event": "control",
+   "bytes": 3013,
+   "sha256": "f741c08be7e414131cb6da6e8eac192f3e6becb86b50643f5f235cee4ffc0caf"
+  },
+  "DRB-257": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "telex",
+   "event": "skipBattle",
+   "bytes": 4006,
+   "sha256": "994503f65f332f7797d828507250bc23ea94a714120be0626e7fb34f4c24ea3c"
+  },
+  "DRB-258": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "muhtira",
+   "event": "points",
+   "bytes": 5874,
+   "sha256": "6e8ff8165d961e6d445b235d7aaf616bfc52088d69454177356e5774ea9cc427"
+  },
+  "DRB-259": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "zeyil",
+   "event": "draw",
+   "bytes": 3789,
+   "sha256": "68bc28769f5976e9d9f5f4a6ed5e5a624dc018566715f735487dfbb87dc9ae75"
+  },
+  "DRB-260": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "brifing",
+   "event": "control",
+   "bytes": 2322,
+   "sha256": "99fe95a05a3f0fe38f6494e0d474148254c3aa535462e20de33b20565645c841"
+  },
+  "DRB-261": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "kabine",
+   "event": "skipBattle",
+   "bytes": 3072,
+   "sha256": "d0a821850e3cb03deba2a0c4bd1f907cb371af7311d0374faeaa04b952f4f00c"
+  },
+  "DRB-262": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "arsiv",
+   "event": "points",
+   "bytes": 6627,
+   "sha256": "f71b11a211db88a0c04813c7e083e202659e6bf621ef8c9c7ea055abb246a452"
+  },
+  "DRB-263": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "tebligat",
+   "event": "draw",
+   "bytes": 3589,
+   "sha256": "b2e91907b6c67e74a4670c807fbffca058af850229184e6899942c48af9e0692"
+  },
+  "DRB-264": {
+   "kind": "spell",
+   "subtype": "normal",
+   "bureau": "mesruiyet",
+   "event": "control",
+   "bytes": 2839,
+   "sha256": "8db331a9463c72b2d5991d76035867238db21e9a40cc81e82eb0fa41a2879019"
+  },
+  "DRB-265": {
+   "kind": "spell",
+   "subtype": "equip",
+   "bureau": "dosya",
+   "event": "trait",
+   "bytes": 3853,
+   "sha256": "8a64d06f6b3411fb10f69fe8ad5eb4107775f09703bdd5e2c71e9b11f1cdfd13"
+  },
+  "DRB-266": {
+   "kind": "spell",
+   "subtype": "equip",
+   "bureau": "paraf",
+   "event": "trait",
+   "bytes": 4378,
+   "sha256": "b4b8edffa83a950577ab0fe10f418fc43affb51c1be2f4f404fb977811bb09ea"
+  },
+  "DRB-267": {
+   "kind": "spell",
+   "subtype": "equip",
+   "bureau": "heyet",
+   "event": "trait",
+   "bytes": 3032,
+   "sha256": "be6092e2d2fdf89c4d7053690f8adde20e5bacb983db1bf32e16c53a70bb971a"
+  },
+  "DRB-268": {
+   "kind": "spell",
+   "subtype": "equip",
+   "bureau": "karargah",
+   "event": "trait",
+   "bytes": 2637,
+   "sha256": "d0b3b5e119651a6bb758b503c0baa0f91510dd760fb4081f635a3bc9dfe10927"
+  },
+  "DRB-269": {
+   "kind": "spell",
+   "subtype": "equip",
+   "bureau": "telex",
+   "event": "trait",
+   "bytes": 3618,
+   "sha256": "e9378ae7d53ce075b94fa855a413f578189a3313a8a88c998af795bd171256f2"
+  },
+  "DRB-270": {
+   "kind": "spell",
+   "subtype": "equip",
+   "bureau": "muhtira",
+   "event": "trait",
+   "bytes": 3869,
+   "sha256": "a161b444090c1e9cfaa51ff02176aeb925be5d0225ce5fe5dda6159d31a4b40a"
+  },
+  "DRB-271": {
+   "kind": "spell",
+   "subtype": "equip",
+   "bureau": "zeyil",
+   "event": "trait",
+   "bytes": 4121,
+   "sha256": "6a884daaaa36a59c8dd78b9ad052521901140a6fec97f7fe03f3b35b9bba9379"
+  },
+  "DRB-272": {
+   "kind": "spell",
+   "subtype": "equip",
+   "bureau": "brifing",
+   "event": "trait",
+   "bytes": 2020,
+   "sha256": "b47cdb055990f7ced9a1f30bfd034d68baccad6afc2559f657e23a2e83f070bf"
+  },
+  "DRB-273": {
+   "kind": "spell",
+   "subtype": "equip",
+   "bureau": "kabine",
+   "event": "trait",
+   "bytes": 3261,
+   "sha256": "0910975697421fefaf48b9b8a48f9e49e8104228d5c7d6ddbf51e3d2c884a7da"
+  },
+  "DRB-274": {
+   "kind": "spell",
+   "subtype": "equip",
+   "bureau": "arsiv",
+   "event": "trait",
+   "bytes": 5809,
+   "sha256": "8dba58fdeda1bc2297ce9be10a32f1bbc78394efee4f4a00a5ac606c811dd544"
+  },
+  "DRB-275": {
+   "kind": "spell",
+   "subtype": "equip",
+   "bureau": "tebligat",
+   "event": "trait",
+   "bytes": 3881,
+   "sha256": "5da3b34c5b3cf6cfe9e45acfa75b34d1d31734fc01e7e7b118e49c2b9e16224c"
+  },
+  "DRB-276": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "cancelAttack",
+   "bytes": 5164,
+   "sha256": "d9500bd5de683ff5d846f935d621ee6061c89751910e3450fa41b185bd6c9e8b"
+  },
+  "DRB-277": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "cancelAttack",
+   "bytes": 5644,
+   "sha256": "4c2301283fe483c7626c16a69d1a908bb709cae77f2fd0aa55196879dbf335d1"
+  },
+  "DRB-278": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "cancelAttack",
+   "bytes": 5528,
+   "sha256": "c647735752898a71fdf30a00aed1bcb091f34464b1b7c10210727c710aeab477"
+  },
+  "DRB-279": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "cancelAttack",
+   "bytes": 5467,
+   "sha256": "6032cee30e9ac1209b8aaece5a5d8ed55388e5ae0522136731356fc2d5212d31"
+  },
+  "DRB-280": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "cancelAttack",
+   "bytes": 5754,
+   "sha256": "642575322a5b86b1b651509990bbafe5742f50b7357934fbd1590647a8ba393a"
+  },
+  "DRB-281": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "cancelAttack",
+   "bytes": 5597,
+   "sha256": "85ced9f14c361664ede5d96999aa1bdcf573018dafbd10780223b9d02450d9cc"
+  },
+  "DRB-282": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "cancelAttack",
+   "bytes": 5862,
+   "sha256": "98d12740d8024518416fe06a9ae5002af74d8581e3b4f0df78a2bf7bf5d7228a"
+  },
+  "DRB-283": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "cancelAttack",
+   "bytes": 5766,
+   "sha256": "9eda188b5a2ffa200b77f0c4ce3b2243d6e401fd85fc4f17f7dc54859b790eb9"
+  },
+  "DRB-284": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "cancelAttack",
+   "bytes": 7067,
+   "sha256": "dc6b80e6afaafabdc09c8c2ac33a2cf712367cdaf39f3fecc69591c81d5ea08e"
+  },
+  "DRB-285": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "cancelAttack",
+   "bytes": 5404,
+   "sha256": "b210109eadd375cc5614be8f29854ea1f14a5ee42eb9115e6346f93ac76b021b"
+  },
+  "DRB-286": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "cancelAttack",
+   "bytes": 6357,
+   "sha256": "1ec2e2140d6923da2bd508368f799c76605b063aaa24ee14a91530d7bdfdb92a"
+  },
+  "DRB-287": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "cancelAttack",
+   "bytes": 5825,
+   "sha256": "6163a7ec388e547a18a78a28c629cc367471028ef3b18bfdf5ba799535675d06"
+  },
+  "DRB-288": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "negate",
+   "bytes": 5012,
+   "sha256": "fbdca83260e5b1e04f87a8e4e76b3b20845e62257f907dbb393561c3442211f8"
+  },
+  "DRB-289": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "negate",
+   "bytes": 5591,
+   "sha256": "48fc601ddfe4a7c9070637bcc25f998156ce034d516d7d3493c2530b4240d402"
+  },
+  "DRB-290": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "negate",
+   "bytes": 5751,
+   "sha256": "654ffd8f3a582362943726b2cd05ab20016511952ce9344ed2f98e7f2e6e7f7f"
+  },
+  "DRB-291": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "negate",
+   "bytes": 5809,
+   "sha256": "0890b1912332e38bcdcce0b81596e5bada39db8c130229d708ff88f11218e507"
+  },
+  "DRB-292": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "negate",
+   "bytes": 5268,
+   "sha256": "c165d444e0ff1ce7853d805a38ff5583f798e491b23dea0b8e8afc5b8b4ca422"
+  },
+  "DRB-293": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "negate",
+   "bytes": 5224,
+   "sha256": "70d26dd72bb591e374d876062fa7e0ef30d31be8e33f5d77d9c20a6fc5d20221"
+  },
+  "DRB-294": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "negate",
+   "bytes": 4860,
+   "sha256": "9f4aacc7657ed4ec809ca4e7dd861bacbc8efa8d52c474f31600f5ef7f629aae"
+  },
+  "DRB-295": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "negate",
+   "bytes": 5393,
+   "sha256": "3b9433305734557be06bc280dd54eb6fcd3ffd4d877f9ab5e1db2044ba90c323"
+  },
+  "DRB-296": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "negate",
+   "bytes": 4707,
+   "sha256": "470bfedfbe360a548a5331527d9fb1670e9c4ba6a2df98d345e858d11c584d0f"
+  },
+  "DRB-297": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "negate",
+   "bytes": 4503,
+   "sha256": "0bc791f4e88cf3b39649155c1b66fd176c7db191f705d0c44730f48075be6126"
+  },
+  "DRB-298": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "negate",
+   "bytes": 4741,
+   "sha256": "f053371a523bfb3aa547284967856036c1d527d71c3ff243e4f8e3b10f1f9b80"
+  },
+  "DRB-299": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "negate",
+   "bytes": 5565,
+   "sha256": "f36d82b64ce3c614a6af967ac77357b53f5f59a445fe103a37f473774b7c1f7a"
+  },
+  "DRB-300": {
+   "kind": "trap",
+   "subtype": "normal",
+   "bureau": "ihtar",
+   "event": "cancelAttack",
+   "bytes": 4476,
+   "sha256": "0ca7b78dcd11e4daf558a3cf80d81766ce80a8a9b9749c466e5639052916dab2"
+  }
+ }
+}
