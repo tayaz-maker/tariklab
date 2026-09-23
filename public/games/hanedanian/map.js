@@ -1,5 +1,6 @@
 import { isArmyVisible } from './engine.js';
 import { TERRAINS, POIS } from './data.js';
+import { REGION_NAMES } from './campaign.js';
 
 // World coordinates are tile edges; a settlement sits at (x + .5, y + .5).
 // The map never mutates campaign state. A gesture updates the camera only.
@@ -106,6 +107,9 @@ export class StrategyMap {
     this.atlasPending = false;
     this.atlasPreview = null;
     this.terrainCacheWorld = null;
+    this.overlayOn = true;
+    this.territoryKey = null;
+    this.territoryGrid = null;
     this.listeners = [];
     this.disposed = false;
     canvas.style.touchAction = 'none';
@@ -770,12 +774,14 @@ export class StrategyMap {
       ctx.restore();
     }
     this.drawConnections(bounds, ox, oy, scale);
-    if (this.mode !== 'near') this.drawInfluence(scale);
+    if (this.overlayOn) this.drawOverlay(bounds, ox, oy, scale);
+    else if (this.mode !== 'near') this.drawInfluence(scale);
     this.drawHighlights(scale);
     for (let y = bounds.minY; y <= bounds.maxY; y++) for (let x = bounds.minX; x <= bounds.maxX; x++) {
       const tile = this.tile(x, y);
       if (tile?.poi && !this.settlements.has(`${x},${y}`)) this.drawPoi(tile, scale);
     }
+    if (this.overlayOn) this.drawZoomLabels(bounds, scale);
     this.drawSettlements(scale);
     this.drawArmies(scale);
     this.drawMarkers(scale);
@@ -851,6 +857,115 @@ export class StrategyMap {
       ctx.beginPath(); ctx.arc(ax, ay, Math.max(1.2, scale * .045), 0, TAU); ctx.fill();
       ctx.beginPath(); ctx.arc(bx, by, Math.max(1.2, scale * .045), 0, TAU); ctx.fill();
     }
+  }
+
+  // Light overlay: ownership borders, the selected settlement's area and
+  // zoom-dependent labels. It is plain vector drawing over the finished terrain
+  // bitmap. Territory is recomputed only when settlements change, and nothing
+  // here touches, invalidates or rebuilds a terrain atlas.
+  setOverlay(on) {
+    this.overlayOn = !!on;
+    this.invalidate();
+  }
+
+  territory() {
+    const settlements = this.state.settlements || [], size = this.state.world.size;
+    const key = `${size}|${settlements.map((t) => `${t.id}:${t.ownerId}:${t.x}:${t.y}:${this.isCapital(t) ? 1 : 0}`).join('|')}`;
+    if (this.territoryKey === key) return this.territoryGrid;
+    const grid = new Int16Array(size * size).fill(-1), best = new Float32Array(size * size).fill(Infinity);
+    settlements.forEach((town, index) => {
+      const r = this.isCapital(town) ? 2.5 : 2;
+      for (let y = Math.max(0, Math.floor(town.y - r)); y <= Math.min(size - 1, Math.ceil(town.y + r)); y++)
+        for (let x = Math.max(0, Math.floor(town.x - r)); x <= Math.min(size - 1, Math.ceil(town.x + r)); x++) {
+          const d = Math.hypot(x - town.x, y - town.y), i = y * size + x;
+          if (d <= r && d < best[i]) { best[i] = d; grid[i] = index; }
+        }
+    });
+    this.territoryKey = key;
+    this.territoryGrid = grid;
+    return grid;
+  }
+
+  drawOverlay(bounds, ox, oy, scale) {
+    const ctx = this.ctx, size = this.state.world.size, settlements = this.state.settlements || [];
+    const grid = this.territory();
+    const indexAt = (x, y) => (x < 0 || y < 0 || x >= size || y >= size ? -1 : grid[y * size + x]);
+    const ownerAt = (x, y) => settlements[indexAt(x, y)]?.ownerId ?? null;
+    const selectedIndex = this.selected ? indexAt(this.selected.x, this.selected.y) : -1;
+    const fills = new Map(), borders = new Map(), area = [];
+    const inset = Math.min(2.5, scale * .06);
+    const push = (map, owner, ...line) => { let list = map.get(owner); if (!list) map.set(owner, (list = [])); list.push(...line); };
+    for (let y = bounds.minY - 1; y <= bounds.maxY; y++) for (let x = bounds.minX - 1; x <= bounds.maxX; x++) {
+      const a = ownerAt(x, y), ia = indexAt(x, y);
+      if (a && x >= bounds.minX && y >= bounds.minY) push(fills, a, ox + x * scale, oy + y * scale);
+      for (const [dx, dy] of [[1, 0], [0, 1]]) {
+        const b = ownerAt(x + dx, y + dy), ib = indexAt(x + dx, y + dy);
+        const ex = ox + (x + 1) * scale, ey = oy + (y + 1) * scale;
+        const line = (shift) => dx ? [ex + shift, oy + y * scale, ex + shift, ey] : [ox + x * scale, ey + shift, ex, ey + shift];
+        if (a !== b) {
+          if (a) push(borders, a, ...line(-inset));
+          if (b) push(borders, b, ...line(inset));
+        }
+        if (selectedIndex >= 0 && (ia === selectedIndex) !== (ib === selectedIndex)) area.push(...line(0));
+      }
+    }
+    ctx.save();
+    ctx.globalAlpha = this.mode === 'near' ? .06 : .1;
+    for (const [owner, list] of fills) {
+      ctx.fillStyle = this.factionColor(owner);
+      for (let i = 0; i < list.length; i += 2) ctx.fillRect(list[i], list[i + 1], scale, scale);
+    }
+    ctx.globalAlpha = 1;
+    ctx.lineCap = 'round';
+    ctx.setLineDash([]);
+    const width = clamp(scale * .07, 1.3, 3.2);
+    const stroke = (list) => { ctx.beginPath(); for (let i = 0; i < list.length; i += 4) { ctx.moveTo(list[i], list[i + 1]); ctx.lineTo(list[i + 2], list[i + 3]); } ctx.stroke(); };
+    for (const [owner, list] of borders) {
+      // An ivory halo under the dynasty colour keeps dark colours readable on dark terrain.
+      ctx.strokeStyle = 'rgba(243,234,212,.5)'; ctx.lineWidth = width + 2; stroke(list);
+      ctx.strokeStyle = this.factionColor(owner); ctx.lineWidth = width; stroke(list);
+    }
+    if (area.length) {
+      const town = settlements[selectedIndex];
+      ctx.globalAlpha = .14; ctx.fillStyle = this.factionColor(town.ownerId);
+      for (let y = bounds.minY; y <= bounds.maxY; y++) for (let x = bounds.minX; x <= bounds.maxX; x++)
+        if (indexAt(x, y) === selectedIndex) ctx.fillRect(ox + x * scale, oy + y * scale, scale, scale);
+      ctx.globalAlpha = 1;
+      ctx.lineWidth = Math.max(1.6, width * .8);
+      ctx.strokeStyle = COLORS.ivory; ctx.setLineDash([6, 4]); stroke(area);
+      ctx.strokeStyle = COLORS.ink; ctx.lineDashOffset = 5; stroke(area);
+      ctx.setLineDash([]); ctx.lineDashOffset = 0;
+    }
+    ctx.restore();
+  }
+
+  drawZoomLabels(bounds, scale) {
+    const ctx = this.ctx, size = this.state.world.size;
+    ctx.save();
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.lineJoin = 'round';
+    if (this.mode === 'world' && this.width >= 300) {
+      // Region names only where the whole map is in view; they name the Kurultay regions.
+      ctx.font = `600 ${clamp(scale * 1.1, 9, 13)}px ui-sans-serif, system-ui, sans-serif`;
+      REGION_NAMES.forEach((name, id) => {
+        const p = this.tileToScreen((id % 3 + .5) * size / 3 - .5, (Math.floor(id / 3) + .5) * size / 3 - .5);
+        const text = name.toLocaleUpperCase('tr');
+        ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(25,31,26,.55)'; ctx.strokeText(text, p.x, p.y - scale * 2.2);
+        ctx.fillStyle = 'rgba(243,234,212,.78)'; ctx.fillText(text, p.x, p.y - scale * 2.2);
+      });
+    } else if (this.mode === 'near') {
+      ctx.font = '600 10px ui-sans-serif, system-ui, sans-serif';
+      for (let y = bounds.minY; y <= bounds.maxY; y++) for (let x = bounds.minX; x <= bounds.maxX; x++) {
+        const tile = this.tile(x, y);
+        if (!tile?.poi || this.settlements.has(`${x},${y}`)) continue;
+        const text = POIS[tile.poi.type]?.label;
+        if (!text) continue;
+        const p = this.tileToScreen(x, y), ly = p.y + clamp(scale * .22, 3.5, 13) + 12;
+        const w = Math.min(ctx.measureText(text).width, 120) + 10;
+        ctx.fillStyle = 'rgba(25,31,26,.72)'; ctx.fillRect(p.x - w / 2, ly - 8, w, 15);
+        ctx.fillStyle = COLORS.ivory; ctx.fillText(text, p.x, ly, 120);
+      }
+    }
+    ctx.restore();
   }
 
   factionColor(id) { return this.factions.get(id)?.color || (id === this.state.playerId ? COLORS.player : '#946350'); }

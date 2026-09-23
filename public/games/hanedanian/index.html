@@ -41,6 +41,7 @@
         </div>
       </header>
       <div id="campaign-strip" class="campaign-strip"></div>
+      <section id="period-summary" class="period-summary" aria-label="Dönem özeti" aria-live="polite" hidden></section>
       <div class="workspace">
         <aside
           id="settlement-rail"
@@ -58,6 +59,7 @@
             ><button data-map="in" aria-label="Haritaya yaklaş">+</button
             ><button data-map="home" aria-label="Aktif yerleşime dön">Merkez</button
             ><button data-map="world">Dünya</button
+            ><button data-map="overlay" aria-pressed="true" aria-label="Sınır katmanını aç veya kapat">Sınırlar</button
             ><button
               data-map="rail"
               class="rail-toggle"
@@ -68,6 +70,10 @@
           </div>
           <div id="map-caption" class="map-caption">YERYÜZÜ DEFTERİ <span>49 × 49</span></div>
           <div id="hover-info" class="hover-info" hidden></div>
+          <details id="map-legend" class="map-legend">
+            <summary>Lejant</summary>
+            <ul id="map-legend-list"></ul>
+          </details>
           <section id="field-guide" class="field-guide" aria-label="İlk adımlar" hidden>
             <div class="field-guide-head"><div><span>İLK OCAK</span><strong>Reis sensin. Hedefin bir Kurultay yolu tamamlamak.</strong></div><button data-guide="dismiss" aria-label="İlk adımlar panelini kapat">×</button></div>
             <ol><li><b>Üret</b><span>Yerleşimden bir yapı geliştir.</span></li><li><b>Zamanı başlat</b><span>4× veya 12× ile kuyruğu ilerlet.</span></li><li><b>Keşfet</b><span>Bir karo seç; değerini oku ve gözcü gönder.</span></li></ol>

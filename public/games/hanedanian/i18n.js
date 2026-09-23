@@ -92,6 +92,11 @@ const EN = new Map(Object.entries({
   "Karşılama": "Welcome", "Dönüm noktası": "Milestone", "İnşa": "Construction", "Eğitim": "Training", "Keşif": "Scouting", "Dönüş": "Return", "Toprak iddiası": "Claim", "Muharebe": "Battle", "Tehdit": "Threat", "Kaynak sıkıntısı": "Shortage", "Engellendi": "Blocked", "Kampanya": "Campaign", "Zafer": "Victory", "Rapor": "Report",
   "Sefer": "Campaign", "Stratejik nokta": "Strategic point", "Yerleşim kafilesi": "Settler caravan", "Kervan": "Caravan", "Birlik yok": "No troops",
   "NEDEN ÖNEMLİ?": "WHY DOES IT MATTER?", "SONRAKİ KARAR": "NEXT DECISION", "Gizli": "Unknown", "Bilinmiyor": "Unknown",
+  "Hedef seç": "Pick a target", "Emri seç": "Pick an order", "Önizle ve onayla": "Preview and confirm", "Zamanı başlat, sonucu izle": "Start time, watch the result", "Emir adımları": "Order steps",
+  "EMİR ÖNİZLEMESİ": "ORDER PREVIEW", "Bedel": "Cost", "Sonuç": "Result", "Bedelsiz": "No cost", "Henüz onaylanamaz:": "Cannot confirm yet:", "Şimdi yapılamaz:": "Not possible now:",
+  "Onaylarsan tam olarak bu uygulanır; dünya sen onaylayana kadar durur.": "Confirming applies exactly this; the world waits until you confirm.",
+  "DÖNEM ÖZETİ": "PERIOD SUMMARY", "Dönem özeti": "Period summary", "Dönem özetini kapat": "Close period summary", "Divan’da oku →": "Read in the Council →", "Askerî güç": "Military power", "Yoldaki birlik": "Troops on the road", "Kuyruktaki iş": "Queued jobs",
+  "Lejant": "Legend", "Sınırlar": "Borders", "Sınır katmanını aç veya kapat": "Toggle the border layer", "Senin sınırın": "Your border", "Rakip hanedan sınırı": "Rival dynasty border", "Seçili yerleşimin alanı": "Selected settlement's area", "Özel nokta · adı yakında görünür": "Special point · named when zoomed in", "Bölge adları dünya görünümünde": "Region names in world view", "Sınır katmanı kapalı. Etki alanı halkaları gösteriliyor.": "Border layer off. Influence rings are shown.",
   "Kaydet": "Save", "Devam et": "Continue", "Kampanyaya devam et": "Continue campaign", "Yeni oyun": "New game", "Yeni hanedan kur": "Found a new dynasty", "Yedekten kampanya aç": "Open a campaign backup", "Elle kaydet": "Manual save", "Dışa aktar": "Export", "İçe aktar": "Import", "İptal": "Cancel", "Kapat": "Close", "Onayla": "Confirm",
 }));
 

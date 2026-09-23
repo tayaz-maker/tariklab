@@ -9,6 +9,7 @@ import * as campaign from '../public/games/hanedanian/campaign.js';
 import * as engine from '../public/games/hanedanian/engine.js';
 import * as data from '../public/games/hanedanian/data.js';
 import * as world from '../public/games/hanedanian/world.js';
+import * as orders from '../public/games/hanedanian/orders.js';
 import { encodeSave, decodeSave } from '../public/games/hanedanian/save.js';
 
 const html = readFileSync(new URL('../public/games/hanedanian/index.html', import.meta.url), 'utf8');
@@ -104,7 +105,7 @@ function createHarness() {
   class FakeFormData { constructor(form) { this.values = form.values; } get(key) { return this.values[key] ?? null; } }
   const window = { addEventListener(name, callback) { (windowListeners[name] ||= []).push(callback); } };
   const context = vm.createContext({
-    ...engine, ...campaign, ...data, ...world, SaveManager: FakeSaveManager, createMap,
+    ...engine, ...campaign, ...data, ...world, ...orders, SaveManager: FakeSaveManager, createMap,
     getLang: () => 'tr', translate: value => String(value ?? ''), installLanguage: () => {},
     document, window, navigator: {}, console, FormData: FakeFormData,
     requestAnimationFrame: () => 0, setTimeout: () => 1, clearTimeout: () => {},
