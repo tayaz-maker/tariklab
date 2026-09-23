@@ -1,6 +1,11 @@
 import { isArmyVisible } from './engine.js';
 import { TERRAINS, POIS } from './data.js';
-import { REGION_NAMES } from './campaign.js';
+import { REGION_NAMES, regionOf } from './campaign.js';
+import { incomingThreats, regionPresence } from './mapintel.js';
+
+export const MAP_LAYERS = ['borders', 'regions', 'threats', 'range'];
+const DEFAULT_LAYERS = { borders: true, regions: true, threats: true, range: true };
+const THREAT = '#e0654a';
 
 // World coordinates are tile edges; a settlement sits at (x + .5, y + .5).
 // The map never mutates campaign state. A gesture updates the camera only.
@@ -107,7 +112,10 @@ export class StrategyMap {
     this.atlasPending = false;
     this.atlasPreview = null;
     this.terrainCacheWorld = null;
-    this.overlayOn = true;
+    this.layers = { ...DEFAULT_LAYERS };
+    this.guide = null;
+    this.threats = [];
+    this.presence = [];
     this.territoryKey = null;
     this.territoryGrid = null;
     this.listeners = [];
@@ -159,6 +167,8 @@ export class StrategyMap {
     // Visibility is simulation-dependent, so calculate once per state update,
     // never scan all watchtowers for every army on every pan/pinch frame.
     this.visibleArmies = (state.armies || []).filter((army) => isArmyVisible(state, army));
+    this.threats = incomingThreats(state);
+    this.presence = regionPresence(state);
     if (changedWorld) {
       this.minimapTerrain = null;
       this.resetTerrainCaches();
@@ -774,16 +784,23 @@ export class StrategyMap {
       ctx.restore();
     }
     this.drawConnections(bounds, ox, oy, scale);
-    if (this.overlayOn) this.drawOverlay(bounds, ox, oy, scale);
+    const layers = this.layers || DEFAULT_LAYERS;
+    if (layers.borders) this.drawOverlay(bounds, ox, oy, scale);
     else if (this.mode !== 'near') this.drawInfluence(scale);
+    if (layers.regions) this.drawRegionGrid(ox, oy, scale);
+    if (layers.range && this.guide) this.drawGuideArea(bounds, ox, oy, scale);
     this.drawHighlights(scale);
     for (let y = bounds.minY; y <= bounds.maxY; y++) for (let x = bounds.minX; x <= bounds.maxX; x++) {
       const tile = this.tile(x, y);
       if (tile?.poi && !this.settlements.has(`${x},${y}`)) this.drawPoi(tile, scale);
     }
-    if (this.overlayOn) this.drawZoomLabels(bounds, scale);
+    this.drawZoomLabels(bounds, scale);
+    if (layers.regions) this.drawRegionLabels(ox, oy, scale);
     this.drawSettlements(scale);
+    if (layers.threats && this.mode !== 'world') this.drawIntelBadges(scale);
+    if (layers.range && this.guide) this.drawGuideRoute(scale);
     this.drawArmies(scale);
+    if (layers.threats) this.drawThreats(scale);
     this.drawMarkers(scale);
     ctx.restore();
     ctx.strokeStyle = '#c4b896';
@@ -864,8 +881,187 @@ export class StrategyMap {
   // bitmap. Territory is recomputed only when settlements change, and nothing
   // here touches, invalidates or rebuilds a terrain atlas.
   setOverlay(on) {
-    this.overlayOn = !!on;
+    this.setLayers({ borders: !!on });
+  }
+
+  get overlayOn() { return (this.layers || DEFAULT_LAYERS).borders; }
+  set overlayOn(on) { this.layers = { ...(this.layers || DEFAULT_LAYERS), borders: !!on }; }
+
+  /** Turn map layers on or off; unknown keys are ignored. Never touches the atlas. */
+  setLayers(update = {}) {
+    const next = { ...(this.layers || DEFAULT_LAYERS) };
+    for (const key of MAP_LAYERS) if (key in update) next[key] = !!update[key];
+    this.layers = next;
     this.invalidate();
+  }
+
+  /**
+   * The decision guide for the selected tile: expansion range and valid sites
+   * around the acting settlement, claim range, and the route to the target.
+   */
+  setGuide(guide) {
+    this.guide = guide || null;
+    this.invalidate();
+  }
+
+  regionEdges() {
+    const size = this.state.world.size, edges = [];
+    for (let i = 1; i < size; i++) if (regionOf(this.state, { x: i, y: 0 }) !== regionOf(this.state, { x: i - 1, y: 0 })) edges.push(i);
+    return edges;
+  }
+
+  drawRegionGrid(ox, oy, scale) {
+    const ctx = this.ctx, size = this.state.world.size, span = size * scale;
+    const selectedRegion = this.selected ? regionOf(this.state, this.selected) : -1;
+    ctx.save();
+    ctx.setLineDash([scale > 30 ? 10 : 6, scale > 30 ? 8 : 5]);
+    ctx.lineWidth = 1.4;
+    ctx.strokeStyle = 'rgba(243,234,212,.42)';
+    ctx.beginPath();
+    for (const e of this.regionEdges()) {
+      ctx.moveTo(ox + e * scale, oy); ctx.lineTo(ox + e * scale, oy + span);
+      ctx.moveTo(ox, oy + e * scale); ctx.lineTo(ox + span, oy + e * scale);
+    }
+    ctx.stroke();
+    if (selectedRegion >= 0) {
+      // Outline the region the selected tile belongs to, so its campaign role is legible.
+      const edges = [0, ...this.regionEdges(), size];
+      const col = selectedRegion % 3, row = Math.floor(selectedRegion / 3);
+      ctx.setLineDash([]);
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = 'rgba(227,192,110,.75)';
+      ctx.strokeRect(ox + edges[col] * scale + 1, oy + edges[row] * scale + 1, (edges[col + 1] - edges[col]) * scale - 2, (edges[row + 1] - edges[row]) * scale - 2);
+    }
+    ctx.restore();
+  }
+
+  drawRegionLabels(ox, oy, scale) {
+    if (this.mode === 'near' || this.width < 300) return;
+    const ctx = this.ctx, size = this.state.world.size;
+    const edges = [0, ...this.regionEdges(), size];
+    ctx.save();
+    ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+    REGION_NAMES.forEach((name, id) => {
+      const col = id % 3, row = Math.floor(id / 3);
+      // Keep labels clear of the map toolbar along the top edge of the canvas.
+      const x = Math.max(8, ox + edges[col] * scale + 6), y = Math.max(row === 0 ? 62 : 8, oy + edges[row] * scale + 6);
+      if (x > this.width || y > this.height || x + 60 < 0 || y + 30 < 0) return;
+      const presence = this.presence[id];
+      const title = name.toLocaleUpperCase('tr');
+      const sub = presence && (presence.towns || presence.points)
+        ? `${presence.towns ? `${presence.towns} yurt` : ''}${presence.towns && presence.points ? ' · ' : ''}${presence.points ? `${presence.points} nokta` : ''}${presence.developed ? ' · gelişmiş' : ''}`
+        : '';
+      ctx.font = '700 10px ui-sans-serif, system-ui, sans-serif';
+      const w = Math.max(ctx.measureText(title).width, sub ? ctx.measureText(sub).width : 0) + 10;
+      ctx.fillStyle = 'rgba(17,28,23,.72)';
+      ctx.fillRect(x, y, w, sub ? 29 : 16);
+      if (presence?.developed) { ctx.fillStyle = '#e3c06e'; ctx.fillRect(x, y, 2, sub ? 29 : 16); }
+      ctx.fillStyle = 'rgba(243,234,212,.9)';
+      ctx.fillText(title, x + 5, y + 3);
+      if (sub) {
+        ctx.font = '600 10px ui-sans-serif, system-ui, sans-serif';
+        ctx.fillStyle = presence.developed ? '#e3c06e' : '#c8d3b4';
+        ctx.fillText(sub, x + 5, y + 16);
+      }
+    });
+    ctx.restore();
+  }
+
+  drawGuideArea(bounds, ox, oy, scale) {
+    const guide = this.guide, ctx = this.ctx, size = this.state.world.size;
+    if (!guide?.from) return;
+    ctx.save();
+    if (guide.sites) {
+      // Solid fill at world/region zoom (a gap would read as a grid); tile gaps only up close.
+      const gap = this.mode === 'near' ? 1 : 0;
+      ctx.fillStyle = this.mode === 'near' ? 'rgba(159,190,120,.2)' : 'rgba(159,190,120,.16)';
+      for (let y = bounds.minY; y <= bounds.maxY; y++) for (let x = bounds.minX; x <= bounds.maxX; x++)
+        if (guide.sites[y * size + x]) ctx.fillRect(ox + x * scale + gap, oy + y * scale + gap, scale - gap * 2, scale - gap * 2);
+    }
+    const c = this.tileToScreen(guide.from.x, guide.from.y);
+    const ring = (radius, color, dash, width) => {
+      ctx.setLineDash(dash); ctx.lineWidth = width; ctx.strokeStyle = color;
+      ctx.beginPath(); ctx.arc(c.x, c.y, radius * scale, 0, TAU); ctx.stroke();
+    };
+    if (guide.range) { ring(guide.range, 'rgba(17,28,23,.5)', [], 4); ring(guide.range, '#9fbe78', [8, 6], 2); }
+    if (guide.claimRange) ring(guide.claimRange, 'rgba(227,192,110,.8)', [2, 5], 1.6);
+    ctx.restore();
+  }
+
+  drawGuideRoute(scale) {
+    const guide = this.guide, ctx = this.ctx;
+    if (!guide?.from || !guide.target || !guide.route) return;
+    const a = this.tileToScreen(guide.from.x, guide.from.y), b = this.tileToScreen(guide.target.x, guide.target.y);
+    ctx.save();
+    ctx.lineCap = 'round';
+    ctx.setLineDash([]); ctx.lineWidth = 5; ctx.strokeStyle = 'rgba(17,28,23,.55)';
+    path(ctx, [[a.x, a.y], [b.x, b.y]]); ctx.stroke();
+    ctx.setLineDash([7, 5]); ctx.lineWidth = 2.2; ctx.strokeStyle = '#f3ead4';
+    path(ctx, [[a.x, a.y], [b.x, b.y]]); ctx.stroke();
+    ctx.restore();
+    if (this.mode !== 'world')
+      this.label(`Gözcü ${guide.route.label}`, (a.x + b.x) / 2, (a.y + b.y) / 2 - 4, false, 150);
+  }
+
+  drawIntelBadges(scale) {
+    const ctx = this.ctx, intel = this.state.intel || {};
+    for (const town of this.state.settlements) {
+      if (town.ownerId === this.state.playerId) continue;
+      const p = this.tileToScreen(town.x, town.y);
+      if (p.x < -30 || p.y < -30 || p.x > this.width + 30 || p.y > this.height + 30) continue;
+      const known = intel[`${town.x},${town.y}`];
+      const fresh = known && this.state.time - known.time <= 360;
+      const r = clamp(scale * .34, 5, 22);
+      const x = p.x + r + 3, y = p.y - r - 1;
+      ctx.save();
+      ctx.beginPath(); ctx.arc(x, y, 7, 0, TAU);
+      ctx.fillStyle = fresh ? '#9fbe78' : known ? '#d6a24a' : '#5c5c4c';
+      ctx.fill(); ctx.lineWidth = 1.5; ctx.strokeStyle = '#f3ead4'; ctx.stroke();
+      ctx.fillStyle = '#111c17'; ctx.font = '800 9px ui-sans-serif, system-ui, sans-serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(fresh ? '✓' : known ? '~' : '?', x, y + .5);
+      ctx.restore();
+    }
+  }
+
+  drawThreats(scale) {
+    const ctx = this.ctx;
+    const minutes = (m) => (m >= 60 ? `${Math.floor(m / 60)} sa ${Math.round(m % 60)} dk` : `${Math.max(1, Math.ceil(m))} dk`);
+    // Your own campaigns: where each is going and when it arrives.
+    for (const army of this.visibleArmies || []) {
+      if (army.ownerId !== this.state.playerId) continue;
+      const to = this.tileToScreen(army.to.x, army.to.y);
+      if (to.x < -40 || to.y < -40 || to.x > this.width + 40 || to.y > this.height + 40) continue;
+      ctx.save();
+      ctx.strokeStyle = this.factionColor(army.ownerId); ctx.lineWidth = 2; ctx.setLineDash([3, 3]);
+      ctx.beginPath(); ctx.arc(to.x, to.y, Math.max(7, scale * .38), 0, TAU); ctx.stroke();
+      ctx.restore();
+      if (this.mode !== 'world') {
+        const mission = army.returning ? 'Dönüş' : ({ scout: 'Keşif', expand: 'Kafile', attack: 'Sefer', trade: 'Kervan', claim: 'Bağlama' }[army.mission] || 'Sefer');
+        this.label(`${mission} · ${minutes(army.arriveAt - this.state.time)}`, to.x, to.y + Math.max(7, scale * .38) + 14, true, 140);
+      }
+    }
+    // Hostile campaigns you can see coming at your towns and points.
+    for (const threat of this.threats || []) {
+      const from = this.tileToScreen(threat.position.x, threat.position.y);
+      const to = this.tileToScreen(threat.target.x, threat.target.y);
+      const r = Math.max(12, scale * .72);
+      ctx.save();
+      ctx.lineCap = 'round';
+      ctx.strokeStyle = 'rgba(17,28,23,.6)'; ctx.lineWidth = 5; path(ctx, [[from.x, from.y], [to.x, to.y]]); ctx.stroke();
+      ctx.strokeStyle = THREAT; ctx.lineWidth = 2.4; path(ctx, [[from.x, from.y], [to.x, to.y]]); ctx.stroke();
+      ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(to.x, to.y, r, 0, TAU); ctx.stroke();
+      ctx.restore();
+      const text = `⚠ ${threat.mission === 'claim' ? 'Bağlama' : 'Saldırı'} · ${minutes(threat.minutes)}`;
+      const ctx2 = this.ctx;
+      ctx2.save();
+      ctx2.font = '800 11px ui-sans-serif, system-ui, sans-serif';
+      const w = ctx2.measureText(text).width + 12;
+      ctx2.fillStyle = THREAT; ctx2.fillRect(to.x - w / 2, to.y - r - 22, w, 17);
+      ctx2.fillStyle = '#fff5ea'; ctx2.textAlign = 'center'; ctx2.textBaseline = 'middle';
+      ctx2.fillText(text, to.x, to.y - r - 13.5);
+      ctx2.restore();
+    }
   }
 
   territory() {
@@ -940,19 +1136,10 @@ export class StrategyMap {
   }
 
   drawZoomLabels(bounds, scale) {
-    const ctx = this.ctx, size = this.state.world.size;
+    const ctx = this.ctx;
     ctx.save();
     ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.lineJoin = 'round';
-    if (this.mode === 'world' && this.width >= 300) {
-      // Region names only where the whole map is in view; they name the Kurultay regions.
-      ctx.font = `600 ${clamp(scale * 1.1, 9, 13)}px ui-sans-serif, system-ui, sans-serif`;
-      REGION_NAMES.forEach((name, id) => {
-        const p = this.tileToScreen((id % 3 + .5) * size / 3 - .5, (Math.floor(id / 3) + .5) * size / 3 - .5);
-        const text = name.toLocaleUpperCase('tr');
-        ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(25,31,26,.55)'; ctx.strokeText(text, p.x, p.y - scale * 2.2);
-        ctx.fillStyle = 'rgba(243,234,212,.78)'; ctx.fillText(text, p.x, p.y - scale * 2.2);
-      });
-    } else if (this.mode === 'near') {
+    if (this.mode === 'near') {
       ctx.font = '600 10px ui-sans-serif, system-ui, sans-serif';
       for (let y = bounds.minY; y <= bounds.maxY; y++) for (let x = bounds.minX; x <= bounds.maxX; x++) {
         const tile = this.tile(x, y);
@@ -1173,7 +1360,7 @@ export class StrategyMap {
       ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(Math.atan2(to.y - from.y, to.x - from.x));
       ctx.fillStyle = color; ctx.strokeStyle = '#fff5dc'; ctx.lineWidth = 1.7;
       path(ctx, [[8, 0], [-5, -5], [-2, 0], [-5, 5]], true); ctx.fill(); ctx.stroke(); ctx.restore();
-      if (scale >= 40 && army.ownerId === this.state.playerId) {
+      if (scale >= 40 && army.ownerId === this.state.playerId && !(this.layers || DEFAULT_LAYERS).threats) {
         const mission = army.returning ? 'Dönüş' : ({ scout: 'Keşif', expand: 'Yerleşim', settle: 'Yerleşim', attack: 'Sefer', raid: 'Akın', trade: 'Ticaret', claim: 'Bağlama', reinforce: 'Takviye' }[army.mission] || 'Sefer');
         this.label(`${mission} · ${Math.max(0, Math.ceil(army.arriveAt - this.state.time))} dk`, p.x, p.y - 15, false, 110);
       }

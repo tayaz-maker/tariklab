@@ -97,6 +97,7 @@ const EN = new Map(Object.entries({
   "Onaylarsan tam olarak bu uygulanır; dünya sen onaylayana kadar durur.": "Confirming applies exactly this; the world waits until you confirm.",
   "DÖNEM ÖZETİ": "PERIOD SUMMARY", "Dönem özeti": "Period summary", "Dönem özetini kapat": "Close period summary", "Divan’da oku →": "Read in the Council →", "Askerî güç": "Military power", "Yoldaki birlik": "Troops on the road", "Kuyruktaki iş": "Queued jobs",
   "Lejant": "Legend", "Sınırlar": "Borders", "Sınır katmanını aç veya kapat": "Toggle the border layer", "Senin sınırın": "Your border", "Rakip hanedan sınırı": "Rival dynasty border", "Seçili yerleşimin alanı": "Selected settlement's area", "Özel nokta · adı yakında görünür": "Special point · named when zoomed in", "Bölge adları dünya görünümünde": "Region names in world view", "Sınır katmanı kapalı. Etki alanı halkaları gösteriliyor.": "Border layer off. Influence rings are shown.",
+  "Katmanlar": "Layers", "Bölgeler": "Regions", "Tehdit ve seferler": "Threats and campaigns", "Menzil": "Range", "BÖLGE": "REGION", "YERLEŞİM": "SETTLING", "BAĞLAMA": "CLAIM", "TEHDİT": "THREAT",
   "Kaydet": "Save", "Devam et": "Continue", "Kampanyaya devam et": "Continue campaign", "Yeni oyun": "New game", "Yeni hanedan kur": "Found a new dynasty", "Yedekten kampanya aç": "Open a campaign backup", "Elle kaydet": "Manual save", "Dışa aktar": "Export", "İçe aktar": "Import", "İptal": "Cancel", "Kapat": "Close", "Onayla": "Confirm",
 }));
 
