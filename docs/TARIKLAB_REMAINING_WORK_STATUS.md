@@ -10,7 +10,7 @@ Kaynak: `TARIKLAB_REMAINING_WORK_COMPLETION_QUEUE.md`. Satır, merge ve producti
 | Son 100 Gün | IN REVIEW | [#85](https://github.com/tayaz-maker/tariklab/pull/85) | — | Production yok. | Yeni tek kişilik POV oyunu `pov*.js`/`pov.css`. Yeni kayıt alanı `tariklab.son100.pov.v1.slotN`; eski `tariklab.nextwave.son-100-gun.*` kayıtları okunmaz, silinmez. Merge ve production kanıtı bekliyor. |
 | Racon Manager | TODO | — | — | — | — |
 | TC SIM | TODO | — | — | — | — |
-| SON KÖY MANAGER | TODO | — | — | — | — |
+| SON KÖY MANAGER | IN REVIEW | (PR açılıyor) | — | Production yok. | Bakım borcu döngüsü: kriz (40'ta arıza, 70'te bina yıpranması), yatırım (yatırımcı yükü borcu büyütür) ve bakım (yama şimdi rahatlatır, 3 ay sonra geri döner ve borcu büyütür; tam onarım borcu eritir) tek döngüde. Plan paneli borcu gösterir, işlenmiş/bitmiş işi önermez. Komuta çubuğu değişmedi. Kayıt: `maintenance`; eski kayıt 15 ile açılır. |
 | TC SIM: DEVLET | TODO | — | — | — | Harita [#76](https://github.com/tayaz-maker/tariklab/pull/76) ile duruyor; derinlik ayrı iş. |
 | JITEM | DONE | [#83](https://github.com/tayaz-maker/tariklab/pull/83) | `3e7194a` | `www` ve workers `runtime.js` `c9139e0b581e97bed0b6f5376290c6053c87c3cb073769f6429d93c9bd8e379b`, `SOURCE.json` `a7bbb6d3bdf0675fdfca503c6c7d68825b656d3e`. Save key `jitem-derin-ag-v3`, şema 5. | Karar masası dosyadan önce. Eski kart destesi değil. |
 | Apartman / transit hukuk | BLOCKED | [#78](https://github.com/tayaz-maker/tariklab/pull/78) [#79](https://github.com/tayaz-maker/tariklab/pull/79) draft | — | Yayın yok | İnsan marka araştırması yok. Merge yok. |
