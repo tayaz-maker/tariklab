@@ -46,6 +46,8 @@ export function loadGame(file = "public/games/racon/index.html") {
   const depthCode = fs.readFileSync("public/games/shared/depth-framework.js", "utf8");
   new Function("window", depthCode)(win);
 
+  new Function("window", fs.readFileSync("public/games/racon/network.js", "utf8"))(win);
+
   const contentPath = "public/games/racon/content.js";
   if (fs.existsSync(contentPath)) {
     const contentCode = fs.readFileSync(contentPath, "utf8");

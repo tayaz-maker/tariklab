@@ -8,7 +8,7 @@ Kaynak: `TARIKLAB_REMAINING_WORK_COMPLETION_QUEUE.md`. Satır, merge ve producti
 | HANEDANIAN strateji / campaign-start | DONE | [#81](https://github.com/tayaz-maker/tariklab/pull/81) | `d3fbe23` | Aynı byte eşlemesi. PR CI [35897431597](https://github.com/tayaz-maker/tariklab/actions/runs/35897431597) build, campaign-browser (24m23s) ve campaign-balance yeşil. | 49×49, seed ve kayıt şeması duruyor. Katmanlar atlası yeniden kurmuyor. |
 | İHTİLÂL tek oyunculu yeniden inşa | IN REVIEW | [#84](https://github.com/tayaz-maker/tariklab/pull/84) | `d6240a8` (branch, main değil) | Production yok. CI koşuyor. | Canlı sayfa `solo-app.js`. Eski kart motoru testlerde. Gerçek kişi yok. Merge ve production doğrulaması bekliyor. |
 | Son 100 Gün | TODO | — | — | — | — |
-| Racon Manager | TODO | — | — | — | — |
+| Racon Manager | IN REVIEW | (PR açılıyor) | — | Production yok. | Harita şeması `network.js`: 4 karar (Koru/Yatırım/Çekil/İlişki kur), kontrol/itibar/ilişki/kaynak/tehdit/fırsat/komşu sinyalleri. Kayıt: `S.ag` + sokak `yatirim`; eski kayıt boş ağla açılır. EN yalnız statik etiketlerde; dinamik satırlar Racon'un geri kalanı gibi TR. Merge ve production kanıtı bekliyor. |
 | TC SIM | TODO | — | — | — | — |
 | SON KÖY MANAGER | TODO | — | — | — | — |
 | TC SIM: DEVLET | TODO | — | — | — | Harita [#76](https://github.com/tayaz-maker/tariklab/pull/76) ile duruyor; derinlik ayrı iş. |
