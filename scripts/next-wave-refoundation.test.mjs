@@ -6,7 +6,8 @@ import { createActionGate } from "../public/games/next-wave/shared/runtime.js";
 
 const root = new URL("../", import.meta.url);
 const read = (path) => readFileSync(new URL(path, root), "utf8");
-const ids = ["apartman", "son-100-gun", "kayip-telefon", "tc-sim-devlet"];
+// Son 100 Gün left the shared shell for its own single-seat page (pov-app.js).
+const ids = ["apartman", "kayip-telefon", "tc-sim-devlet"];
 
 test("each Next Wave game owns its controller and layout; the generic shell is retired", () => {
   const signatures = new Set();
@@ -23,7 +24,10 @@ test("each Next Wave game owns its controller and layout; the generic shell is r
     assert.ok(css.length > 1000, `${id} owns a real visual system`);
     signatures.add(css.match(/--accent:([^;]+)/)?.[1]);
   }
-  assert.equal(signatures.size, 4);
+  assert.equal(signatures.size, ids.length);
+  const son100 = read("public/games/son-100-gun/index.html");
+  assert.match(son100, /\.\/pov-app\.js/);
+  assert.doesNotMatch(son100, /next-wave\/shared\/base\.css|\.\/app\.js/);
   const engine = read("public/games/next-wave.js");
   assert.doesNotMatch(
     engine,
@@ -41,7 +45,7 @@ test("every experience exposes its signature loop and binds every primary contro
       'id="advance"',
       "session.act(`proposal:",
     ],
-    "son-100-gun": ["data-scenario", "data-action", 'id="finish-day"', "session.act(`act:"],
+    "son-100-gun": ["data-scenario", "data-card", "data-opt", 'id="commit"', "G.choose(game,"],
     "kayip-telefon": [
       "data-app",
       "data-item",
@@ -58,7 +62,7 @@ test("every experience exposes its signature loop and binds every primary contro
     ],
   };
   for (const [id, needles] of Object.entries(contracts)) {
-    const app = read(`public/games/${id}/app.js`);
+    const app = read(`public/games/${id}/${id === "son-100-gun" ? "pov-app.js" : "app.js"}`);
     for (const needle of needles) assert.ok(app.includes(needle), `${id}: ${needle}`);
   }
 });

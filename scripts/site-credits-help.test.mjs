@@ -72,7 +72,7 @@ test("resources describes current products and technical contract in both langua
   const tr = read("public/credits.html");
   const en = read("public/i18n/tlab-i18n.js");
   for (const term of [
-    "Extreme Last 100 Days",
+    "Tek kişilik yaşam oyunu",
     "Uzun Gölge",
     "üç yerel slot",
     "Türkçe ve İngilizce",
@@ -80,13 +80,18 @@ test("resources describes current products and technical contract in both langua
   ])
     assert.match(tr, new RegExp(term));
   for (const term of [
-    "Extreme Last 100 Days",
+    "A one-seat life game",
     "Long Shadows",
     "three local slots",
     "Turkish and English",
     "phone, tablet and desktop",
   ])
     assert.match(en, new RegExp(term));
+});
+
+test("resources no longer describe Son 100 Gün with the retired third-party format wording", () => {
+  for (const file of ["public/credits.html", "public/i18n/tlab-i18n.js"])
+    assert.doesNotMatch(read(file), /Extreme Last 100 Days/, file);
 });
 
 test("credits linki portal ana sayfasında hâlâ çalışır durumda", () => {
