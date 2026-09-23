@@ -45,7 +45,12 @@ test("frozen baseline: all 37 content, simulation, persistence and projection so
   assert.equal(files.length, 37);
   const hash = createHash("sha256");
   for (const file of files) hash.update(file).update(readFileSync(file));
-  assert.equal(hash.digest("hex"), "92a08d997b5651b151ea73bdca1781f364e05092bb082864545ef6588141dabf");
+  // Re-pinned for the DEVLET maps PR: next-wave.js (geo dispatch + month
+  // tick), devlet-sim.js (beginDecisionMonth extracted, behaviour unchanged)
+  // and presentation.js (regions/foreign screens render the maps).
+  // Re-pinned again so those map records stay in the open desk list instead
+  // of a closed <details> table the operations desk cannot click.
+  assert.equal(hash.digest("hex"), "e7c767cd996ccae4e6e6cda8e2c3e091b6fa5f31ddcbdc00f427397e28dd5192");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);

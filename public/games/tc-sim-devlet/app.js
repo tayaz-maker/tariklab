@@ -16,6 +16,7 @@ import {
   text as t,
 } from "../next-wave/shared/runtime.js";
 import { screenHtml, helpHtml, visibleSnapshot } from "./presentation.js";
+import { implementationRate } from "../next-wave/devlet-sim.js";
 import { arrangeStateDesk } from "./desk.js";
 
 const axisLabel = {
@@ -93,7 +94,9 @@ let selectedScreen = null;
 let feedback = null;
 let renderedState = null;
 const currentScreen = state => selectedScreen || (state.ui?.screen === legacyPeriodScreen ? "period-file" : state.ui?.screen) || "home";
-const renderScreen = state => screenHtml(state, { screen: currentScreen(state), formOf, feedback });
+// Map selection is view state only; it never enters the save.
+const mapSel = { region: null, axis: null, metric: "satisfaction" };
+const renderScreen = state => screenHtml(state, { screen: currentScreen(state), formOf, feedback, map: mapSel });
 
 const setupReady = () =>
   Boolean(
@@ -200,7 +203,10 @@ function draw(session) {
     return;
   }
   const screen = currentScreen(state);
-  const capacity = state.flags.governanceCapacity || 8;
+  // Before the month's first decision the budget is not opened yet; show the
+  // capacity it will open with, not the stored default.
+  const opened = state.flags.decisionMonth === `${state.time.year}-${state.time.month}`;
+  const capacity = opened ? state.flags.governanceCapacity || 8 : Math.max(5, Math.round(implementationRate(state) / 15) + 2);
   const used = state.flags.governanceUsed || 0;
   root.innerHTML = `<main class="game-root"><header class="topbar"><a href="/">${t("← Oyunlar", "← Games")}</a><span class="topbar__title">TC SIM: DEVLET</span><div class="topbar__tools"><span data-lang-host></span>${savePanel(session)}</div></header><section class="state-head"><div><p class="eyebrow">${state.time.year}/${String(state.time.month).padStart(2, "0")} · ${h(loc(PERIODS[state.eraId]?.name || state.eraId))}</p><h1>${t("Devlet Merkezi", "State Center")}</h1></div><div class="state-metrics"><span class="pill">${t("Yönetim kapasitesi", "Administrative capacity")}: ${used}/${capacity}</span><span class="pill">${t("Sürtünme", "Friction")}: ${state.flags.bureaucraticFriction || 0}</span></div></section><section class="state-layout"><nav class="state-nav" aria-label="${t("Devlet bölümleri", "State sections")}">${nav.map((item) => `<button type="button" class="${screen === item[0] ? "is-active" : ""}" data-screen="${item[0]}">${t(item[1], item[2])}</button>`).join("")}</nav><div class="state-center">${renderScreen(state)}<div class="month-bar"><span><strong>${t("YÖNETİM KAPASİTESİ", "ADMINISTRATIVE CAPACITY")} ${used}/${capacity}</strong><br><small class="muted">${t("Her politika kurumsal kapasite tüketir; hepsini kullanmak zorunda değilsin. Kriz yükü ve düşük uygulama gücü maliyeti artırır; ayı erken kapatmak kurum yorgunluğunu ve sürtünmeyi azaltır.", "Each policy consumes institutional capacity; you do not have to spend it all. Crisis load and weak delivery raise its cost; closing early reduces fatigue and friction.")}</small></span><button type="button" id="advance" ${state.flags.campaignEnd ? "disabled" : ""}>${state.flags.campaignEnd ? t("DÖNEM KAPANDI", "PERIOD CLOSED") : t("AYI İLERLET", "ADVANCE MONTH")}</button></div></div></section><p class="notice">${h(session.notice)}</p>${helpHtml()}<footer class="footer">© 2026 TarikLab · Tarık Halil Ayaz</footer></main>`;
   root
@@ -238,6 +244,24 @@ function draw(session) {
       root.querySelector(".action-feedback")?.scrollIntoView({ block: "start" });
     }
   });
+  const pick = (el, apply) => {
+    const run = () => { apply(); session.render(); root.querySelector(".geo-panel")?.scrollIntoView({ block: "nearest" }); };
+    el.addEventListener("click", run);
+    el.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); run(); }
+    });
+  };
+  root.querySelectorAll("[data-region]").forEach((el) => pick(el, () => { mapSel.region = mapSel.region === el.dataset.region ? null : el.dataset.region; }));
+  root.querySelectorAll("[data-axis]").forEach((el) => pick(el, () => { mapSel.axis = mapSel.axis === el.dataset.axis ? null : el.dataset.axis; }));
+  root.querySelectorAll("[data-metric]").forEach((el) => el.addEventListener("click", () => { mapSel.metric = el.dataset.metric; session.render(); }));
+  root.querySelectorAll("[data-focus]").forEach((el) => el.addEventListener("click", () => {
+    feedback = { kind: "focus", id: el.dataset.focus };
+    session.act(`focus:${el.dataset.focus}`);
+  }));
+  root.querySelectorAll("[data-diplo]").forEach((el) => el.addEventListener("click", () => {
+    feedback = { kind: "diplomacy", id: el.dataset.diplo };
+    session.act(`diplo:${el.dataset.diplo}`);
+  }));
   bindSavePanel(root, session);
   arrangeStateDesk(root, screen, t);
   if (freshState && document.scrollingElement) document.scrollingElement.scrollTop = 0;
