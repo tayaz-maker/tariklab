@@ -1,4 +1,4 @@
-# Continuation checkpoint (2026-09-23, updated ~15:45 UTC)
+# Continuation checkpoint (2026-09-23, updated ~16:12 UTC)
 
 This is a safe handoff point for any model or person continuing the work.
 
@@ -29,7 +29,13 @@ This is a safe handoff point for any model or person continuing the work.
 | #73 T monogram | `claude/t-monogram` | `b781b1c` | — | **MERGED** as `c8f8a75`. Production verified (tree identical to head, 0 missing, 7/7 identical, icons 200 and byte-identical, sw `cete-offline-v5`, live smoke OK). | — |
 | #74 Son Köy command bar | `claude/son-koy-command` | `1006f82` | — | **MERGED** as `f874e40` after all 5 checks were green. Production verified: merge tree identical to head (`6b42cc5`), 0 missing, 7/7 identical, all 4 Son Köy files byte-identical, live smoke clean. The first desktop smoke hit a transient 502 on the main JS during the deploy switchover; the file returned 200 three times on recheck and the re-run smoke was clean. | — |
 | #75 JITEM sync | `claude/jitem-sync-operations` | `f1ba095` | — | **MERGED** as `d4b2837` with all 5 checks green on base `f874e40`. The merge also contains #80 (merged by another session in between), so the merge tree ≠ head tree. The files are disjoint: #80 touched `hanedanian/map.js`, a test and a ledger doc; #75 touched only `jitem-derin-ag/*` and the jitem test. #80 was green on the same base. Local full gate on `d4b2837`: typecheck/lint/build pass; tests 1430 pass / 1 skipped, plus 54/54. Production: 0 missing, 7/7 identical. JITEM `SOURCE.json`, `index.html` (via the directory URL, since Cloudflare answers `/index.html` with a 307), `runtime.js` and `hanedanian/map.js` are byte-identical to the build. Live smoke clean on `/`, `/oyna/jitem-derin-ag`, `/games/jitem-derin-ag/?embed=1` and HANEDANIAN. `main` push CI on `d4b2837` not yet checked. | Check `main`'s CI run on `d4b2837`. |
-| #76 DEVLET maps | `claude/devlet-maps` | `c417f2a8ea42dda525e0454c4d5815d00b5b8ea8` (branch updated about 15:32 UTC) | `main` | CI running | When all checks are green **and** the PR base is still current `main`: merge with this head SHA, then run the production proof. |
+| #76 DEVLET maps | `claude/devlet-maps` | `b9d8dd439948bb34af331d46306086024ebbe463` | `main` @ `d4b2837` (current) | At 16:10 UTC: campaign-balance ✅, Workers ✅, Vercel ✅; build and campaign-browser running on the new head | Merge when all checks are green on `b9d8dd4` **and** base = `origin/main`, with `expectedHeadSha`; then run the production proof. |
+
+**Concurrency note (16:12 UTC).** A second agent ("Grok") is working the same queue.
+- It pushed `b9d8dd4` to #76, which moves the map record lists out of a closed `<details>` table so the site-wide responsive test can click them, adds a test and re-pins the frozen hash. The change was reviewed and is in scope.
+- It keeps its own live status in `docs/GROK_EXECUTION_QUEUE.md` on that branch. There it records `main` CI on `d4b2837` as green (run `35882278960`); not independently re-checked here.
+- It marks the interactive novella as **LATER**: no new code, PR, merge or deploy this wave.
+- Before any merge, check that file and the PR head so two agents do not race; `expectedHeadSha` prevents a double merge.
 
 ## Originality / legal wave (new work)
 
@@ -58,7 +64,7 @@ This is a safe handoff point for any model or person continuing the work.
   - No adversarial similarity review and no story review (GPT is unavailable, so use a Claude subagent and label it).
   - No performance check.
   - No full gate.
-- **Next single step:**
+- **Status per the owner's live queue: LATER (paused).** When resumed, the next single step is:
   1. Re-run the browser QA: 1440, 1024 and 390 px; open → 3 choices → ending for 2 paths; mid-story reload; the settings panel.
   2. Then add A021, NOVELLA.md and the reviews.
   3. Then open a **draft `[DO NOT MERGE — IP gate]` PR**.
