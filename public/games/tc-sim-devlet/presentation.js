@@ -281,7 +281,7 @@ export function screenHtml(
   if (screen === "foreign")
     return (
       foreignMapHtml(s, { selected: map.axis, nameOf: displayName }) +
-      `<details class="card geo-table"><summary>${t("Tablo görünümü", "Table view")}</summary><div class="data-grid">${Object.entries(
+      `<div class="data-grid geo-ledger">${Object.entries(
         s.foreign,
       )
         .sort((a, b) => a[1] - b[1])
@@ -289,19 +289,19 @@ export function screenHtml(
           ([k, v]) =>
             `<article class="report-card"><h3>${displayName(k)}</h3>${meter(v, "foreign")}</article>`,
         )
-        .join("")}</div></details>`
+        .join("")}</div>`
     );
   if (screen === "regions")
     return (
       regionsMapHtml(s, { selected: map.region, metric: map.metric }) +
-      `<details class="card geo-table"><summary>${t("Tablo görünümü", "Table view")}</summary><div class="data-grid">${s.regions
+      `<div class="data-grid geo-ledger">${s.regions
         .slice()
         .sort((a, b) => a.impl - b.impl)
         .map(
           (r) =>
             `<article class="report-card"><h3>${h(loc(r.name))}</h3><p>${t("Aktivite", "Activity")}: ${number(r.activity)} · ${t("İşsizlik", "Unemployment")}: %${number(r.unemployment)}</p><p>${t("Hizmet", "Services")}: ${number(r.services)} · ${t("Altyapı", "Infrastructure")}: ${number(r.infrastructure)}</p><p>${t("Memnuniyet", "Satisfaction")}: ${number(r.satisfaction)} · ${t("Göç çekimi", "Migration pull")}: ${number(r.migration)}</p>${meter(r.heat, "tension")}</article>`,
         )
-        .join("")}</div></details>`
+        .join("")}</div>`
     );
   if (screen === "institutions")
     return wrap(

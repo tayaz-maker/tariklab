@@ -15,6 +15,7 @@ import {
 } from "../public/games/next-wave/devlet-geo.js";
 import { validateDevletDepth } from "../public/games/next-wave/devlet-depth.js";
 import { REGION_SHAPES } from "../public/games/tc-sim-devlet/maps.js";
+import { screenHtml } from "../public/games/tc-sim-devlet/presentation.js";
 
 const fresh = () => {
   const s = hydrateDevlet("2002");
@@ -129,4 +130,25 @@ test("geo state survives save/load, old saves without it still validate, and not
   assert.equal(previewDiplomacy(ended, "eu", "trade").ok, false);
   assert.deepEqual(applyGeoTick(ended), []);
   void tickDevlet;
+});
+
+test("maps stay on the desk and relation records are not hidden in a closed table", () => {
+  globalThis.window = {};
+  try {
+    const s = fresh();
+    const foreign = screenHtml(s, { screen: "foreign", map: { axis: "eu" } });
+    const regions = screenHtml(s, { screen: "regions", map: { region: "ege", metric: "satisfaction" } });
+    assert.match(foreign, /class="dip-map"/);
+    assert.match(regions, /class="geo-map"/);
+    for (const html of [foreign, regions]) {
+      assert.match(html, /class="data-grid geo-ledger"/);
+      assert.match(html, /class="report-card"/);
+      assert.doesNotMatch(html, /<details[^>]*geo-table/);
+    }
+    assert.match(foreign, /data-axis="eu"/);
+    assert.match(regions, /data-region="ege"/);
+    assert.match(regions, /data-focus="ege"/);
+  } finally {
+    delete globalThis.window;
+  }
 });

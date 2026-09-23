@@ -340,3 +340,9 @@ body {
   .geo-chips button b { white-space: nowrap; }
   .geo-chips button span, .geo-chips button { overflow-wrap: anywhere; }
 }
+.geo-card, .dip-card, .geo-head, .geo-panel, .dip-option, .geo-ledger { min-width: 0; max-width: 100%; }
+.geo-map, .dip-map { max-width: 100%; }
+.geo-legend { flex-wrap: wrap; }
+.geo-legend i { flex: 1 1 72px; max-width: 140px; min-width: 0; }
+.management-workspace .dip-options,
+.management-workspace .dip-panel .geo-panel__main { grid-template-columns: minmax(0, 1fr); }
