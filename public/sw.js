@@ -1,7 +1,7 @@
 /* Çete Savaşları — kalıcı çevrimdışı.
  * İlk online ziyarette kabuk + asset cache'lenir. Sonra uçak modu çalışır.
  */
-const CACHE = "cete-offline-v4";
+const CACHE = "cete-offline-v5";
 const BUILD_ASSETS = /* TARIKLAB_BUILD_ASSETS */ [];
 const SHELL = ["/", "/cete-savaslari", "/favicon.svg", "/__grok/icon-180.png", "/manifest.webmanifest", "/i18n/tlab-i18n.js", "/i18n/deep-en.js", "/i18n/deep-en-final.js", "/i18n/boot.js", "/credits.html"].concat(BUILD_ASSETS);
 
