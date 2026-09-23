@@ -19,7 +19,7 @@ import {
 import { RESOURCES, TERRAINS, POIS, BUILDINGS, UNITS } from "./data.js";
 import { getTile } from "./world.js";
 import { createMap, MAP_LAYERS } from "./map.js";
-import { expansionSites, expansionRange, siteVerdict, incomingThreats, regionPresence, scoutRoute, CLAIM_RANGE } from "./mapintel.js";
+import { expansionSites, expansionRange, siteVerdict, incomingThreats, regionPresence, scoutRoute, decisionBrief, strategicOverview, CLAIM_RANGE } from "./mapintel.js";
 import { previewOrder, snapshot, summarizePeriod, rowTone, orderStep, ORDER_STEPS } from "./orders.js";
 import { SaveManager } from "./save.js";
 import { getLang, installLanguage, translate } from "./i18n.js";
@@ -118,7 +118,7 @@ const GUIDE_KEY = "tariklab::hanedanian:field-guide:v1";
 const OVERLAY_KEY = "tariklab::hanedanian:map-overlay:v1";
 const LAYERS_KEY = "tariklab::hanedanian:map-layers:v1";
 // Map layers are a per-browser view preference, never part of the campaign save.
-let layers = { borders: true, regions: true, threats: true, range: true };
+let layers = { borders: true, regions: true, threats: true, range: true, trade: true, discovery: true, relations: true, resources: true };
 try {
   const saved = JSON.parse(localStorage.getItem(LAYERS_KEY) || "null");
   if (saved && typeof saved === "object") {
@@ -129,6 +129,7 @@ try {
   }
 } catch { /* Storage is optional. */ }
 let sitesCache = { key: "", sites: null };
+let lastMapMode = null;
 const map = createMap($("world-map"), {
   onSelect(tile) {
     selected = tile ? { x: tile.x, y: tile.y } : null;
@@ -151,6 +152,9 @@ const map = createMap($("world-map"), {
   onViewChange(info) {
     $("map-caption").innerHTML =
       `${info.mode === "world" ? "HANEDANLAR ATLASI" : info.mode === "region" ? "BÖLGE DEFTERİ" : "YERYÜZÜ DEFTERİ"} <span>${state?.world.size || 49} × ${state?.world.size || 49}</span>`;
+    if (info.mode === lastMapMode) return;
+    lastMapMode = info.mode;
+    if (view === "map" && state && !selected) renderInspector();
   },
 });
 function activeTown() {
@@ -239,6 +243,11 @@ function orderAction(form, data) {
     };
   return null;
 }
+function yieldMain() {
+  const scheduler = globalThis.scheduler;
+  if (typeof scheduler?.yield === "function") return scheduler.yield();
+  return new Promise((resolve) => setTimeout(resolve, 0));
+}
 function outcomeText(outcome) {
   if (!outcome) return "";
   const when = (at) => `${gameDate(at)} (${duration(Math.max(0, at - state.time))})`;
@@ -252,13 +261,32 @@ function outcomeText(outcome) {
     return `Garnizon: ${Object.entries(outcome.troops).map(([k, d]) => `${UNITS[k]?.label} ${signed(d)}`).join(" · ")}`;
   return "";
 }
+function briefHTML(action) {
+  const town = activeTown();
+  if (!town || !action) return "";
+  const tradeTarget = action.targetId ? state.settlements.find((t) => t.id === action.targetId) : null;
+  const point = Number.isFinite(action.x) ? { x: action.x, y: action.y } : tradeTarget || town;
+  const brief = decisionBrief(state, town, point.x, point.y);
+  if (!brief) return "";
+  const hour = brief.hour
+    ? keys.map((k) => `${RESOURCES[k].label} ${brief.hour[k] >= 0 ? "+" : ""}${fmtRate(brief.hour[k])}`).join(" · ")
+    : "bu karo üretim vermez";
+  const where = point === town ? "bu yurt" : `${point.x}, ${point.y}`;
+  const risk = brief.threats
+    ? `acil · ${threatTime(brief.threatMinutes)}`
+    : brief.risk === "yakın"
+      ? `yakın rakip · ${brief.nearest.toFixed(1)} karo`
+      : "sakin";
+  const next = brief.projection === "live" ? `sonraki saat (${where}): ${hour}` : brief.projection === "ifSettled" ? `yerleşirsen ilk saat: ${hour}` : "üretim yok; yalnız yol ve risk";
+  return `<div><dt>Mesafe / risk</dt><dd>${brief.distance.toFixed(1)} karo · gözcü ${duration(brief.minutes)} · kervan ${duration(brief.caravanMinutes)} · ${esc(risk)}</dd></div><div><dt>Sonraki dönem</dt><dd>${esc(next)}</dd></div>`;
+}
 /** Cost and result of an order, from the same dispatch the confirm button runs. */
 function previewHTML(action) {
   if (!action || !state) return "";
   const p = previewOrder(state, action);
   if (!p.ok)
     return `<section class="order-preview blocked" data-ok="false"><p class="eyebrow">EMİR ÖNİZLEMESİ</p><p class="order-blocked"><span>Henüz onaylanamaz:</span> ${esc(p.message)}</p></section>`;
-  return `<section class="order-preview" data-ok="true"><p class="eyebrow">EMİR ÖNİZLEMESİ</p><dl><div><dt>Bedel</dt><dd>${esc(costText(p.cost) || "Bedelsiz")}</dd></div><div><dt>Sonuç</dt><dd>${esc(outcomeText(p.outcome) || p.message)}</dd></div></dl><p class="form-note">Onaylarsan tam olarak bu uygulanır; dünya sen onaylayana kadar durur.</p></section>`;
+  return `<section class="order-preview" data-ok="true"><p class="eyebrow">EMİR ÖNİZLEMESİ</p><dl><div><dt>Bedel</dt><dd>${esc(costText(p.cost) || "Bedelsiz")}</dd></div><div><dt>Sonuç</dt><dd>${esc(outcomeText(p.outcome) || p.message)}</dd></div>${briefHTML(action)}</dl><p class="form-note">Onaylarsan tam olarak bu uygulanır; dünya sen onaylayana kadar durur.</p></section>`;
 }
 function previewSlot(form, values) {
   const action = orderAction(form, { get: (k) => values[k] ?? null });
@@ -310,8 +338,12 @@ function setLayer(key, on) {
 const LAYER_INFO = {
   borders: ["Sınırlar", "Senin ve rakiplerin etki alanı; seçili yerleşimin alanı kesikli çizgiyle."],
   regions: ["Bölgeler", "Kurultay hedefleri bölge bazlıdır: dokuz bölge, her birinde yurdun ve noktan."],
-  threats: ["Tehdit ve seferler", "Sana gelen seferler kırmızı, kendi seferlerinin varış yeri ve süresi. Rakip yurtlarda istihbarat: ✓ taze, ~ eski, ? bilinmiyor."],
-  range: ["Menzil", "Bir karo seçince: yerleşme menzili, yerleşilebilir karolar (yeşil), nokta bağlama menzili ve gözcü rotası."],
+  threats: ["Tehdit ve seferler", "Sana gelen seferler kırmızı; kendi seferlerinin varış yeri ve süresi."],
+  range: ["Menzil", "Bir karo seçince: yerleşme menzili, yerleşilebilir karolar, nokta bağlama menzili ve gözcü rotası."],
+  trade: ["Ticaret", "Aktif yurttan gidebileceğin bağlı yerleşimler ve kervan süresi."],
+  discovery: ["Keşif", "Rakip yurtlarda istihbarat: taze, eski veya hiç yok. Dünya görünümünde kapalıdır."],
+  relations: ["İlişkiler", "Rakip başkentinde skor, ateşkes veya bağlılık. Yakın görünümde kapalıdır."],
+  resources: ["Kaynak zemini", "Seçili karonun arazi üretimi. Yalnız yakın görünümde."],
 };
 function renderLegend() {
   const list = $("map-legend-list");
@@ -323,6 +355,10 @@ function renderLegend() {
     regions: '<i class="legend-line dashed" style="--c:#f3ead4"></i>',
     threats: '<i class="legend-line" style="--c:#e0654a"></i>',
     range: '<i class="legend-swatch" style="--c:rgba(159,190,120,.6)"></i>',
+    trade: '<i class="legend-line dashed" style="--c:#e0b15a"></i>',
+    discovery: '<i class="legend-swatch" style="--c:#9fbe78"></i>',
+    relations: '<i class="legend-line" style="--c:#f3ead4"></i>',
+    resources: '<i class="legend-swatch" style="--c:#e7c56a"></i>',
   };
   list.innerHTML = MAP_LAYERS.map((key) => `<label class="layer-row"><input type="checkbox" data-layer="${key}" ${layers[key] ? "checked" : ""}><span class="layer-swatch">${swatch[key]}</span><span class="layer-text"><b>${esc(LAYER_INFO[key][0])}</b><small>${esc(LAYER_INFO[key][1])}</small></span></label>`).join("");
   const count = $("layer-count");
@@ -373,6 +409,15 @@ function contextHTML(tile, town, own) {
   const threats = incomingThreats(state).filter((t) => t.target.x === tile.x && t.target.y === tile.y);
   if (threats.length)
     rows.push(`<div class="threat"><span>TEHDİT</span><p>${threats.map((t) => `${esc(getFaction(state, t.ownerId)?.name || "Rakip")} ${t.mission === "claim" ? "noktayı almaya" : "saldırmaya"} geliyor · ${threatTime(t.minutes)}`).join("<br>")}. Garnizonu güçlendir, sur yükselt veya ateşkes iste.</p></div>`);
+  if (from) {
+    const brief = decisionBrief(state, from, tile.x, tile.y);
+    if (brief) {
+      const hour = brief.hour ? keys.map((k) => `${RESOURCES[k].label} ${brief.hour[k] >= 0 ? "+" : ""}${fmtRate(brief.hour[k])}`).join(" · ") : "";
+      const relation = brief.relation ? `${brief.relation.name}: ilişki ${brief.relation.score}${brief.relation.truce ? ", ateşkes" : ""}${brief.relation.vasal ? ", bağlı" : ""}` : "";
+      const known = brief.discovery === "own" ? "kendi yurdun" : brief.discovery === "surveyed" ? (brief.stale ? "keşif eski" : "keşif taze") : "keşfedilmedi";
+      rows.push(`<div class="${brief.risk === "acil" ? "threat" : brief.risk === "sakin" ? "ok" : ""}"><span>KARAR</span><p>${brief.distance.toFixed(1)} karo · gözcü ${duration(brief.minutes)} · kervan ${duration(brief.caravanMinutes)} · risk ${esc(brief.risk)} · ${esc(known)}${relation ? ` · ${esc(relation)}` : ""}${hour ? `<br>${brief.projection === "ifSettled" ? "Yerleşirsen ilk saat" : "Sonraki saat"}: ${esc(hour)}` : ""}${brief.expand ? `<br>Kuruluş bedeli ${esc(costText(brief.expand))}` : ""}</p></div>`);
+    }
+  }
   return `<div class="map-context">${rows.join("")}</div>`;
 }
 function notice(message, error = false) {
@@ -523,7 +568,9 @@ function renderInspector() {
   if (!selected) {
     el.classList.remove("has-selection");
     map.setGuide?.(null);
-    el.innerHTML = `${stepsHTML(currentStep(), true)}<p class="eyebrow">HARİTA REHBERİ</p><h2>Bir sonraki adımın<br>nerede?</h2><p class="muted">Bir bölge seç. Araziyi, mesafeyi ve kazancını karşılaştır.</p><div class="note">Önce yerleşiminde bir üretim yapısı geliştir. Ardından bir gözcü gönder; yeni toprağa çıkmadan önce bilgi topla.</div><div class="tile-actions"><button class="primary" data-view="settlement">Yerleşimi geliştir</button><button data-map="home">Merkezimi bul</button></div><p class="rail-tip">Sürükle: gezin · Tekerlek/iki parmak: yakınlaş<br>Ok tuşları: seç · Escape: bırak</p>`;
+    const board = strategicOverview(state);
+    const zoom = map.mode === "world" ? "Dünya: bölge seç, tehdit ve yurt dağılımına bak." : map.mode === "region" ? "Bölge: bir karo seçince mesafe, risk ve bedel açılır." : "Yakın: seçili karonun arazi, rota ve kuruluş kararı.";
+    el.innerHTML = `${stepsHTML(currentStep(), true)}<p class="eyebrow">HARİTA REHBERİ</p><h2>Bir sonraki adımın<br>nerede?</h2><p class="muted">${esc(zoom)}</p><div class="strategy-grid">${board.map((row) => `<button type="button" class="strategy-cell" data-region="${row.id}"><b>${esc(row.name)}</b><small>${row.towns} yurt${row.points ? ` · ${row.points} nokta` : ""}${row.threats ? ` · ${row.threats} tehdit` : ""}</small></button>`).join("")}</div><div class="note">Önce yerleşiminde bir üretim yapısı geliştir. Ardından bir gözcü gönder; yeni toprağa çıkmadan önce bilgi topla.</div><div class="tile-actions"><button class="primary" data-view="settlement">Yerleşimi geliştir</button><button data-map="home">Merkezimi bul</button></div><p class="rail-tip">Sürükle: gezin · Tekerlek/iki parmak: yakınlaş<br>Ok tuşları: seç · Escape: bırak</p>`;
     return;
   }
   const tile = getTile(state.world, selected.x, selected.y);
@@ -797,17 +844,23 @@ async function enterGame(next) {
   lastPeriod = null;
   orderPending = false;
   renderPeriod();
-  map.setLayers?.(layers);
-  if ($("map-legend")) $("map-legend").open = false;
-  map.select(null, null, { notify: false });
   activeId = getPlayerSettlements(state)[0]?.id || null;
   selected = null;
   view = "map";
   $("welcome").hidden = true;
   $("game").classList.remove("menu-mode");
+  renderHeader();
+  renderRail();
+  await yieldMain();
+  map.setLayers?.(layers);
+  if ($("map-legend")) $("map-legend").open = false;
+  map.setState(state);
+  map.select(null, null, { notify: false });
   setView("map");
-  render();
+  renderThreatChip();
+  syncFieldGuide();
   renderLegend();
+  await yieldMain();
   const town = activeTown();
   if (town) {
     map.focus(town.x, town.y);
@@ -1012,6 +1065,16 @@ document.addEventListener("click", async (event) => {
   }
   if (b.dataset.town) {
     useTown(b.dataset.town, true);
+    return;
+  }
+  if (b.dataset.region !== undefined && state) {
+    const id = Number(b.dataset.region);
+    if (id >= 0 && id < 9) {
+      const col = id % 3, row = Math.floor(id / 3), size = state.world.size;
+      setView("map");
+      map.focus((col + 0.5) * size / 3, (row + 0.5) * size / 3);
+      map.setZoom("region");
+    }
     return;
   }
   if (b.dataset.openTown) {
@@ -1262,6 +1325,7 @@ document.addEventListener("submit", async (event) => {
         size: 49,
         aiCount: 8,
       });
+      await yieldMain();
       closeDialog();
       await enterGame(next);
       // The İLK OCAK field guide (below the map, dismissible) is now the
@@ -1270,6 +1334,7 @@ document.addEventListener("submit", async (event) => {
       // tab, floated over the unit cards for its full 6.5s — the header's
       // own #save-status ("Kaydedildi HH:MM") already confirms this
       // autosave without a floating banner over live content.
+      await yieldMain();
       await persist("auto");
     } catch (error) {
       notice(`Kampanya başlatılamadı: ${error.message}`, true);
@@ -1384,18 +1449,22 @@ async function prepareOffline() {
       };
       worker.postMessage({ type: "CACHE_HANEDANIAN" }, [channel.port2]);
     };
-    if (registration.active) check(registration.active);
-    const installing = registration.installing;
-    if (installing)
-      installing.addEventListener("statechange", () => {
-        if (installing.state === "activated") check(installing);
+    const arm = (worker) => {
+      if (!worker) return;
+      if (worker.state === "activated") check(worker);
+      else worker.addEventListener("statechange", () => {
+        if (worker.state === "activated") check(worker);
       });
+    };
+    arm(registration.active);
+    arm(registration.installing);
+    arm(registration.waiting);
     registration.addEventListener("updatefound", () => {
       const worker = registration.installing;
+      arm(worker);
       worker?.addEventListener("statechange", () => {
         if (worker.state === "installed" && registration.waiting)
           notice("Yeni sürüm hazır. Kaydet ve oyun sekmelerini kapatıp yeniden aç.");
-        if (worker.state === "activated") check(worker);
       });
     });
   } catch {

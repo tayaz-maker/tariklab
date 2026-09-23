@@ -1,10 +1,11 @@
 // The decision map's data agrees with the engine, and its layers never touch the atlas.
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import * as engine from '../public/games/hanedanian/engine.js';
 import { regionOf } from '../public/games/hanedanian/campaign.js';
 import { previewOrder } from '../public/games/hanedanian/orders.js';
-import { expansionSites, siteVerdict, incomingThreats, regionPresence, expansionRange, scoutRoute } from '../public/games/hanedanian/mapintel.js';
+import { expansionSites, siteVerdict, incomingThreats, regionPresence, expansionRange, scoutRoute, decisionBrief, tradeLinks, relationMarks, strategicOverview } from '../public/games/hanedanian/mapintel.js';
 
 const fresh = (seed) => {
   const state = engine.createGame({ seed, size: 49, aiCount: 8, dynastyName: 'Sedir Hanedanı' });
@@ -132,7 +133,7 @@ test('every layer combination draws at every zoom without resetting or rebuildin
     assert.equal(map.threats.length, engine.isArmyVisible(state, state.armies.at(-1)) ? 1 : 0);
     map.selected = { x: town.x + 3, y: town.y + 1 };
     map.setGuide({ from: { x: town.x, y: town.y }, target: map.selected, range: expansionRange(town), claimRange: 7, sites: expansionSites(state, town), route: { minutes: 12, distance: 3.2, label: '12 dk · 3.2 karo' } });
-    for (let mask = 0; mask < 16; mask++) {
+    for (let mask = 0; mask < (1 << MAP_LAYERS.length); mask++) {
       map.setLayers(Object.fromEntries(MAP_LAYERS.map((key, i) => [key, !!(mask & (1 << i))])));
       map.draw();
     }
@@ -144,3 +145,49 @@ test('every layer combination draws at every zoom without resetting or rebuildin
     assert.equal(map.atlasJobs.size, 0, 'no atlas job queued by any layer');
   }
 });
+
+test('a tile brief reports distance, risk, cost and the next hour without writing the campaign', () => {
+  const state = fresh('TL-MAP-BRIEF');
+  const town = engine.getPlayerSettlements(state)[0];
+  const before = JSON.stringify(state);
+  const site = decisionBrief(state, town, town.x + 4, town.y);
+  assert.equal(JSON.stringify(state), before);
+  assert.ok(site.distance > 3 && site.distance < 6);
+  assert.equal(site.projection, 'ifSettled');
+  assert.ok(site.hour.food > 0);
+  assert.ok(['acil', 'yakın', 'sakin'].includes(site.risk));
+  const home = decisionBrief(state, town, town.x, town.y);
+  assert.equal(home.projection, 'live');
+  assert.equal(home.distance < 0.5, true);
+  const rival = state.settlements.find((s) => s.ownerId !== state.playerId);
+  const enemy = decisionBrief(state, town, rival.x, rival.y);
+  assert.equal(enemy.projection, null);
+  assert.ok(enemy.relation);
+  assert.equal(enemy.expand, null);
+  const board = strategicOverview(state);
+  assert.equal(board.length, 9);
+  assert.equal(board.reduce((n, row) => n + row.towns, 0), 1);
+  assert.deepEqual(tradeLinks(state, town), []);
+  state.settlements.push({ ...town, id: 'town-extra', x: town.x + 6, y: town.y + 2, name: 'İkinci Yurt' });
+  const links = tradeLinks(state, town);
+  assert.equal(links.length, 1);
+  assert.equal(links[0].name, 'İkinci Yurt');
+  assert.ok(links[0].minutes > 0);
+  assert.equal(relationMarks(state).length, state.factions.length - 1);
+});
+
+test('campaign start yields before the map, and the offline ready check rejects the pending sentence', () => {
+  const app = readFileSync(new URL('../public/games/hanedanian/app.js', import.meta.url), 'utf8');
+  const browser = readFileSync(new URL('./hanedanian-browser.mjs', import.meta.url), 'utf8');
+  const start = app.slice(app.indexOf('if (form.id === "new-form")'), app.indexOf('if (form.id === "import-form")'));
+  const created = start.indexOf('createGame(');
+  const yielded = start.indexOf('await yieldMain()');
+  const entered = start.indexOf('enterGame(');
+  assert.ok(created >= 0 && created < yielded && yielded < entered);
+  assert.match(browser, /!text\.includes\('hazırlanıyor'\)/);
+  const pending = 'Çevrimdışı paket hazırlanıyor';
+  const ready = 'Çevrimdışı paket hazır';
+  assert.equal(pending.includes('Çevrimdışı paket hazır') && !pending.includes('hazırlanıyor'), false);
+  assert.equal(ready.includes('Çevrimdışı paket hazır') && !ready.includes('hazırlanıyor'), true);
+});
+
