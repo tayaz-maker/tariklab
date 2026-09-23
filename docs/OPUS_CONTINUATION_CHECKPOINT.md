@@ -1,16 +1,17 @@
-# Continuation checkpoint (2026-09-23, ~14:35 UTC)
+# Continuation checkpoint (2026-09-23, updated ~15:45 UTC)
 
 This is a safe handoff point for any model or person continuing the work.
 
 - Repository: `tayaz-maker/tariklab`. The local clone is named `cete-savaslari`.
 - Production: https://tariklab.tayaz29.workers.dev. Cloudflare Workers Builds deploys it on every push to `main`.
-- `origin/main` = `f874e401b3522df1fc108fe48857f1b630f0830c` (merge of #74).
+- `origin/main` = `d4b2837066d1b5fee1c963a6dfaa29d57b39d6a4` (merge of #75, on top of another session's #80 HANEDANIAN relief merge `b911b1b`).
 
 ## Rules that still apply
 
 - Merge only when every check on the PR head is green.
   - Use merge method "merge" with `expectedHeadSha` set.
   - After each merge, update the next PR's branch and wait for its CI (about 25 minutes).
+  - **Right before merging, confirm the PR's CI base is still `origin/main`.** Other sessions also merge into `main`: #80 landed between #75's branch update and its merge. If `main` moved, update the branch again and wait for CI.
 - Prove production after every merge:
   1. The merge commit's tree must equal the gated head's tree.
   2. Run `npm run build` on the merged `main`.
@@ -21,14 +22,14 @@ This is a safe handoff point for any model or person continuing the work.
   - a public name cleared through a TÜRKPATENT search.
 - TarikLab games are silent: no audio of any kind. Never name, list or imitate the reference apps.
 
-## In-flight PRs (recorded merge order: #73 ✅ → #74 ✅ → #75 → #76)
+## In-flight PRs (recorded merge order: #73 ✅ → #74 ✅ → #75 ✅ → #76)
 
 | PR | Branch | Head SHA | Base | CI state at checkpoint | Next single step |
 |---|---|---|---|---|---|
 | #73 T monogram | `claude/t-monogram` | `b781b1c` | — | **MERGED** as `c8f8a75`. Production verified (tree identical to head, 0 missing, 7/7 identical, icons 200 and byte-identical, sw `cete-offline-v5`, live smoke OK). | — |
 | #74 Son Köy command bar | `claude/son-koy-command` | `1006f82` | — | **MERGED** as `f874e40` after all 5 checks were green. Production verified: merge tree identical to head (`6b42cc5`), 0 missing, 7/7 identical, all 4 Son Köy files byte-identical, live smoke clean. The first desktop smoke hit a transient 502 on the main JS during the deploy switchover; the file returned 200 three times on recheck and the re-run smoke was clean. | — |
-| #75 JITEM sync | `claude/jitem-sync-operations` | `f1ba095fc63228fe5f3633b318d05a467cd4f089` (branch updated onto `f874e40`) | `main` | CI started at about 14:42 UTC and takes about 25 minutes | When all checks are green: merge with this head SHA, then run the production proof. Expect `games/jitem-derin-ag/SOURCE.json` to change in production. |
-| #76 DEVLET maps | `claude/devlet-maps` | `8ee2806b47d7c39ad0345a855096886f23f164a7` | `main` @ `167f752` (stale) | Green on its old base | After #75: same steps. |
+| #75 JITEM sync | `claude/jitem-sync-operations` | `f1ba095` | — | **MERGED** as `d4b2837` with all 5 checks green on base `f874e40`. The merge also contains #80 (merged by another session in between), so the merge tree ≠ head tree. The files are disjoint: #80 touched `hanedanian/map.js`, a test and a ledger doc; #75 touched only `jitem-derin-ag/*` and the jitem test. #80 was green on the same base. Local full gate on `d4b2837`: typecheck/lint/build pass; tests 1430 pass / 1 skipped, plus 54/54. Production: 0 missing, 7/7 identical. JITEM `SOURCE.json`, `index.html` (via the directory URL, since Cloudflare answers `/index.html` with a 307), `runtime.js` and `hanedanian/map.js` are byte-identical to the build. Live smoke clean on `/`, `/oyna/jitem-derin-ag`, `/games/jitem-derin-ag/?embed=1` and HANEDANIAN. `main` push CI on `d4b2837` not yet checked. | Check `main`'s CI run on `d4b2837`. |
+| #76 DEVLET maps | `claude/devlet-maps` | `c417f2a8ea42dda525e0454c4d5815d00b5b8ea8` (branch updated about 15:32 UTC) | `main` | CI running | When all checks are green **and** the PR base is still current `main`: merge with this head SHA, then run the production proof. |
 
 ## Originality / legal wave (new work)
 
@@ -86,8 +87,7 @@ This is a safe handoff point for any model or person continuing the work.
 ## Environment notes
 
 - Worktrees still present, under the session scratchpad:
-  - `sk` → #74;
-  - `js` → #75;
+  - `js` → #75 (can be removed);
   - `sc` → novella;
   - `ckpt` → this checkpoint.
   - Everything else was removed. The patches from the old `fix55`/`fix58` experiments are archived in `scratchpad/archived-diffs/`.
