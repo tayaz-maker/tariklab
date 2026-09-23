@@ -113,14 +113,16 @@ odaklanmalıyım" sorularını tek bakışta cevaplasın. Performans da korunsun
 ## 3. İHTİLÂL
 
 **Bugünkü oyuncu deneyimi.**
-- Kimlik güçlü. Önizle-sonra-oyna akışı ve rakibin hamle izi iyi.
-- Ama çekirdek döngü (dosya → masa → nüfuz → kilit → Hüküm) matematiksel olarak
-  sığ. Bir masanın kilidi çoğu zaman tek hamlede belirleniyor.
-- Bir kararın uzun vadeli sonucu, yani neden kazandığın veya kaybettiğin,
-  maçın sonunda okunamıyor. Rapor (`report.js`) olayları sıralıyor ama
-  nedensellik zinciri kurmuyor.
-- Kullanıcı bu oyunun mantığını ve döngüsünü zayıf buluyor. Yeniden kurulum
-  kabul edilebilir.
+- Kimlik güçlü. Önizle-sonra-oyna akışı ve rakibin hamle izi iyi
+  (`TARIKLAB_FULL_HUMAN_GAME_AUDIT.md`).
+- Kullanıcı, oyunun mantığını ve döngüsünü zayıf buluyor. Yeniden kurulum kabul
+  edilebilir.
+- Aşağıdaki iki madde **henüz ölçülmedi, doğrulanacak hipotezlerdir**. İşin ilk
+  adımı, bunları tohumlu maç simülasyonu ile ölçmektir:
+  - Çekirdek döngü (dosya → masa → nüfuz → kilit → Hüküm) sığ olabilir. Bir
+    masanın kilidi az sayıda hamlede belirleniyor olabilir.
+  - Maç sonu raporu (`report.js`) olayları sıralıyor. Sonucu hangi kararların
+    belirlediği ise okunmuyor olabilir.
 
 **Ürün hedefi.** Oyuncu maç sonunda "şu üç kararım yüzünden kazandım/kaybettim"
 diyebilsin. Her turda ertelenmiş sonucu olan en az bir seçenek bulunsun.
