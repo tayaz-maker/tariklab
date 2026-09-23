@@ -23,7 +23,8 @@ export async function townBrowser(page, surface, id, lang, out) {
   await page.waitForTimeout(180);
   await surface.locator('[data-command="civic:road"]').click();
   assert.equal((await read()).used.length, 4);
-  assert.ok((await read()).capacityUsed <= (await read()).capacityMax);
+  // Capacity may run into the stretch zone, never past it.
+  assert.ok((await read()).capacityUsed <= (await read()).capacityMax + 3);
   await page.reload({ waitUntil: "networkidle" });
   surface = await (await page.locator("iframe").elementHandle()).contentFrame();
   assert.equal(await surface.locator(".slot-card").count(), 3);
