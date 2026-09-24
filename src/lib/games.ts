@@ -136,8 +136,8 @@ export const GAMES: CatalogGame[] = [
   },
   {
     slug: "apartman",
-    title: "Apartman: Apartman Yöneticisi",
-    subtitle: "Bir apartman, onlarca insan, bitmeyen meseleler.",
+    title: "Kapı Nöbeti",
+    subtitle: "Gece avlusu, bakım kuyruğu, güven ve kasa. Masada üç karar.",
     status: "live",
     href: "/oyna/apartman",
     icon: "apartman",

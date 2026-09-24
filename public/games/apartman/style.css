@@ -171,33 +171,24 @@ body {
 .danger-pill { border-color: #b91c1c !important; color: #991b1b !important; }
 .risk-preview { display: block; margin-top: 8px; font-size: .76rem; line-height: 1.35; color: var(--ink-soft); }
 .run-summary { max-width: 780px; margin: 8vh auto; }
-@media (max-width: 620px) {
-  .scale-grid { grid-template-columns:1fr; }
-  .apt-head {
-    grid-template-columns: 1fr;
-    padding: 10px 0;
-    gap: 8px;
-  }
+.courtyard { width: 100%; height: auto; display: block; }
+.desk-tabs { display: none; }
+.night-court text { font-family: "Segoe UI", system-ui, sans-serif; }
+@media (max-width: 720px) {
+  .scale-grid { grid-template-columns: 1fr; }
+  .apt-head { grid-template-columns: 1fr; padding: 10px 0; gap: 8px; }
   .apt-head h1 { font-size: 1.75rem; line-height: 1.15; }
   .meeting-paper { padding: 14px; max-height: calc(100dvh - 32px); overscroll-behavior: contain; }
-  .apt-metrics {
-    justify-content: flex-start;
-  }
-  .apt-board {
-    display: flex;
-    flex-direction: column;
-  }
-  .desk {
-    order: -1;
-  }
-  .resident-list,
-  .proposal-grid {
-    grid-template-columns: 1fr;
-  }
-  .apt-footer-actions .primary {
-    margin-left: 0;
-    width: 100%;
-  }
+  .apt-metrics { justify-content: flex-start; }
+  .desk-tabs { display: flex; gap: 6px; margin: 0 0 8px; }
+  .desk-tabs button { flex: 1; min-height: 44px; }
+  .apt-board { display: block; }
+  .apt-board > [data-pane] { display: none; }
+  body[data-pane="queue"] .apt-board > [data-pane="queue"],
+  body[data-pane="court"] .apt-board > [data-pane="court"],
+  body[data-pane="people"] .apt-board > [data-pane="people"] { display: block; }
+  .resident-list, .proposal-grid { grid-template-columns: 1fr; }
+  .apt-footer-actions .primary { margin-left: 0; width: 100%; }
 }
 @media (max-height: 500px) {
   .apt-footer-actions { position: static; }
