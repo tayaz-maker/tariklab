@@ -15,7 +15,8 @@ Draft PRs [#78](https://github.com/tayaz-maker/tariklab/pull/78) and [#79](https
 ## Assets
 
 - Replaced: `public/games/bukucu/icon-180.png`, `icon-192.png`, `icon-512.png` with `public/games/bukucu/icon.svg`. Record: `docs/ip/bukucu-silence.md` and register row A015.
-- Still provenance pending, not called licensed or original: portal `og.jpg` and `x-banner.jpg`; JITEM raster images; VETO-H!, GETT-OH! and DARBE-H! AI plates. Resources states that pending line. No licence is claimed for them.
+- Redrawn from code in #94: portal `og.jpg` and `x-banner.jpg`, the JITEM share images, map and office images, and the portal background. Record: `docs/ip/original-art-2026-09-24.md`.
+- Still provenance pending, not called licensed or original: VETO-H!, GETT-OH! and DARBE-H! AI plates. Resources states that pending line. No licence is claimed for them.
 - No audio file was added to any game.
 
 ## Production
@@ -24,9 +25,9 @@ Canonical `main` SHA and the Cloudflare `www` / workers smoke result are filled 
 
 | PR | main SHA | www smoke | workers smoke |
 |---|---|---|---|
-| #91 | | | |
-| #92 | | | |
-| #93 | | | |
+| #91 | `a6cf31c` | `/oyna/apartman` 390: 200, avlu + 3 iş, hata yok; `app.js` byte-aynı | 1280: aynı, 6/6 dosya byte-aynı |
+| #92 | `d941d85` | `/oyna/esik` 390: 200, kıyı SVG + 8 hamle, hata yok; `app.js` byte-aynı | 1280: aynı, 6/6 dosya byte-aynı |
+| #93 | `e431508` | `/games/bukucu/` 390: 200, ses kodu 0, `icon.svg` 200 | 1280: aynı, 6/6 dosya byte-aynı |
 
 ## Remaining, not claimed done
 

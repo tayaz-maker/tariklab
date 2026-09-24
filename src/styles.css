@@ -130,9 +130,12 @@
       rgba(8, 14, 23, 0.45) 100%
     ),
     linear-gradient(180deg, rgba(8, 14, 23, 0.18) 0%, rgba(8, 14, 23, 0.82) 100%),
-    url("/brand/prism-spectrum.webp");
+    radial-gradient(60% 55% at 74% 40%, rgba(201, 168, 106, 0.28), transparent 70%),
+    radial-gradient(45% 50% at 62% 58%, rgba(88, 132, 150, 0.26), transparent 72%),
+    radial-gradient(40% 45% at 86% 30%, rgba(150, 96, 120, 0.2), transparent 70%),
+    linear-gradient(120deg, #0a1018, #121b24 55%, #0b1017);
   background-repeat: no-repeat;
-  background-size: auto, auto, cover;
+  background-size: auto;
   background-position: center, center, 72% 42%;
 }
 @media (max-width: 700px) {
@@ -145,9 +148,12 @@
         rgba(8, 14, 23, 0.78) 100%
       ),
       linear-gradient(90deg, rgba(8, 14, 23, 0.5) 0%, rgba(8, 14, 23, 0.22) 100%),
-      url("/brand/prism-spectrum.webp");
+      radial-gradient(60% 55% at 74% 40%, rgba(201, 168, 106, 0.28), transparent 70%),
+    radial-gradient(45% 50% at 62% 58%, rgba(88, 132, 150, 0.26), transparent 72%),
+    radial-gradient(40% 45% at 86% 30%, rgba(150, 96, 120, 0.2), transparent 70%),
+    linear-gradient(120deg, #0a1018, #121b24 55%, #0b1017);
     background-position: center, center, 50% 38%;
-    background-size: auto, auto, cover;
+    background-size: auto;
   }
 }
 

@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
 const root = new URL("../", import.meta.url).pathname;
@@ -194,7 +194,14 @@ test("resources show only verified licences and disclose AI images and unrecorde
   assert.match(tr, /data-chain="verified"/);
   assert.match(tr, /data-chain="review"/);
   assert.match(tr, /Yapay zekâ ile üretilmiş görseller[^<]*lisans iddiası yoktur/);
-  assert.match(tr, /Yaratıcısı kayda geçmemiş görseller/);
+  assert.match(tr, /Kodla yeniden çizilen görseller[^\n]*render-original-art/);
+  assert.match(i18n, /Images redrawn from code[^"]*render-original-art/);
+  assert.match(i18n, /Obrazy narysowane na nowo kodem[^"]*render-original-art/);
+  // Old share/JITEM/background images with unrecorded creators are gone.
+  for (const f of ["public/brand/prism-spectrum.webp", "public/games/jitem-derin-ag/images/road.jpg"]) {
+    assert.equal(existsSync(join(root, f)), false, f);
+  }
+  assert.doesNotMatch(read("src/styles.css"), /prism-spectrum/);
   assert.match(i18n, /AI-generated images[^"]*no licence is claimed/);
   assert.match(i18n, /Obrazy wygenerowane przez AI[^"]*nie deklarujemy dla nich licencji/);
   // Licence counts come from the generated notice table.
