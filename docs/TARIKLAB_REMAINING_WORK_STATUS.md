@@ -16,7 +16,7 @@ Kaynak: `TARIKLAB_REMAINING_WORK_COMPLETION_QUEUE.md`. Satır, merge ve producti
 | Lehçe (PL) oyun içeriği | IN REVIEW | PR açılıyor | — | Production yok. | PL okuyucu artık Türkçe görmüyor: yazılmış Lehçe → İngilizce → kaynak. 18 oyunda arayüz Lehçe (menü, slot, gezinme, ana düğmeler, başlıklar); hikâye/olay/kart/yardım gövdesi İngilizce. JITEM yalnız EN fallback. Oyun başına kayıt `docs/TARIKLAB_PL_COVERAGE.md` + coverage JSON `pl/plNote`. Anadil kontrolü yok. |
 | Apartman / transit hukuk | BLOCKED | [#78](https://github.com/tayaz-maker/tariklab/pull/78) [#79](https://github.com/tayaz-maker/tariklab/pull/79) draft | — | Yayın yok | İnsan marka araştırması yok. Merge yok. |
 | Novella | LATER | — | — | — | Bu dalga dışı. |
-| Kaynaklar / hak zinciri | TODO | — | — | — | — |
+| Kaynaklar / hak zinciri | IN REVIEW | PR açılıyor | — | Production yok. | Kaynaklar (TR/EN/PL): lisans yalnız doğrulanmış kayıtta (54 paket: 51 MIT, 1 Apache-2.0, 1 ISC, 1 0BSD; kodla çizilmiş görseller TarikLab). Yapay zekâ görselleri (VETO-H!/GETT-OH! kartları, DARBE-H! plakaları) açıkça belirtildi, kayıt tamamlanana kadar lisans iddiası yok. Yaratıcısı kaydedilmemiş görseller (paylaşım, JITEM, Bükücü ikonları) inceleniyor. VETO/GETT için "özgün illüstrasyon" iddiası kaldırıldı; İHTİLÂL tanımı güncellendi. #57/#59 belgeleri `docs/archive/` altına taşındı; PR'lar merge sonrası kapatılacak. Sahip/hukuk kararı gereken: AI sağlayıcı koşulları, eksik yaratıcı kayıtları, TÜRKPATENT araması. |
 | Final closure | TODO | — | — | — | Kuyruk bitmeden yazılmaz. |
 
 ## Checkpoint 2026-09-23
