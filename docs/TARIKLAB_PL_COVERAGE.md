@@ -93,9 +93,8 @@ the depth-framework layer, so `strings` includes text that game never shows);
 matters is on-screen: `scripts/pl-body.test.mjs` runs the real runtime
 translator against sample lines per game, and separately, browser capture
 (`localStorage.tariklab.language = "pl"`, walking the live DOM) confirms what
-a Polish reader actually sees on the start screen, before vs. after this
-change, for a sample of games measured post-fix (loader-tag repair and latest
-screen supplements):
+a Polish reader actually sees on the start screen, before (production, prior
+build) vs. after (this change) for all 18 games:
 
 | Game | Lines on screen (before / after) | Lines in Polish (before → after) | Non-Polish prose lines (before → after) |
 |---|---|---|---|
@@ -106,18 +105,33 @@ screen supplements):
 | labirent | 141 / 140 | 11 → 30 | 26 → 0 |
 | peg-solitaire | 82 / 82 | 7 → 65 | 59 → 0 |
 | satranc | 175 / 174 | 15 → 78 | 53 → 1 |
+| amiral-batti | 262 / 262 | 14 → 37 | 26 → 0 |
+| apartman | 52 / 39 | 7 → 23 | 22 → 0 |
+| kayip-telefon | 370 / 336 | 16 → 167 | 166 → 9 |
+| son-100-gun | 211 / 305 | 54 → 160 | 68 → 12 |
+| tc-sim-devlet | 37 / 37 | 6 → 21 | 15 → 0 |
+| son-kasaba | 495 / 495 | 33 → 228 | 161 → 9 |
+| veto-h | 252 / 249 | 12 → 134 | 107 → 2 |
+| gett-oh | 266 / 262 | 13 → 128 | 113 → 4 |
+| ihtilal | 202 / 202 | 95 → 111 | 13 → 2 |
+| darbe-h | 255 / 252 | 12 → 132 | 94 → 0 |
+| esik | 189 / 190 | 0 → 30 | 98 → 0 |
 
-The remaining 11 games (amiral-batti, apartman, kayip-telefon, son-100-gun,
-tc-sim-devlet, son-kasaba, veto-h, gett-oh, ihtilal, darbe-h, esik) were
-checked the same way against an interim build during development (all showed
-gains and no regression) but not re-captured on screen against this exact
-final commit; their build-time coverage above and the `pl-body.test.mjs`
-runtime assertions are the check that shipped with this PR. A full 18-game
-before/after screen capture on the final commit was still running when this
-PR closed and was not blocking; anyone re-running it can compare against the
-`plbefore`/`plafter` methodology recorded in this repo's PL scratch tooling
-notes (browser walk of `document.body`, Turkish/English/Polish word
-detection).
+Every game moved: more Polish lines, fewer non-Polish prose lines. Some
+non-zero "after" counts remain in longer games (kayip-telefon, son-100-gun,
+son-kasaba, tc-sim, bukucu): these are single-shot start-screen captures, so
+they include Turkish-only proper names the checker's word list flags as
+non-Polish, and, for son-100-gun, a scenario intro that varies by random
+seed each capture. `apartman` and `tc-sim-devlet` above are the menu screen
+only, matching the production baseline; a deeper capture that plays past the
+setup screen (start button pressed, ~30s into a campaign) shows apartman at
+272 on-screen lines with 0 English/Turkish-looking, and tc-sim-devlet at 481
+lines with 1.
+
+Not a formal sample: single capture per game per side, one viewport pair
+(1280×900 desktop + 390×844 mobile combined), one random seed where the game
+is seeded. It shows direction and scale, not a guarantee that no string is
+ever missed deep in a long campaign.
 
 ## Not done
 
