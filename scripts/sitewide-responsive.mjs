@@ -15,7 +15,7 @@ mkdirSync(out, { recursive: true });
 const catalog = readFileSync("src/lib/games.ts", "utf8").split("export const GAMES:")[1];
 const routes = [...catalog.matchAll(/slug: "([^"]+)"[\s\S]*?status: "live",\s*href: "([^"]+)"/g)]
   .map((match) => ({ id: match[1], href: match[2] }));
-assert.equal(routes.length, 19);
+assert.equal(routes.length, 20);
 const viewports = [[320,568],[360,800],[390,844],[430,932],[640,360],[740,390],[844,390],[768,1024],[820,1180],[1024,768],[1280,720],[1280,800],[1440,900],[1920,1080]];
 const nextWave = new Set(["apartman", "tc-sim-devlet", "son-100-gun", "kayip-telefon", "son-kasaba"]);
 const errors = [], results = [];

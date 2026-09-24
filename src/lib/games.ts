@@ -16,7 +16,7 @@ export type GameCategory = "strategy" | "life" | "dossier" | "tabletop";
  */
 export const GAME_CATEGORIES: ReadonlyArray<{ id: GameCategory; slugs: readonly string[] }> = [
   // Territory, turf and state power: you grow and hold something on a map.
-  { id: "strategy", slugs: ["cete-savaslari", "hanedanian", "racon", "bukucu", "tc-sim-devlet"] },
+  { id: "strategy", slugs: ["cete-savaslari", "hanedanian", "racon", "bukucu", "tc-sim-devlet", "esik"] },
   // One life, one building, one village, one hundred days: running people over time.
   { id: "life", slugs: ["tc-sim", "apartman", "son-kasaba", "son-100-gun"] },
   // Read the record, connect the evidence, decide.
@@ -43,6 +43,7 @@ export const HTML5_SLUGS = [
   "ihtilal",
   "darbe-h",
   "jitem-derin-ag",
+  "esik",
 ] as const;
 
 export type Html5Slug = (typeof HTML5_SLUGS)[number];
@@ -213,5 +214,13 @@ export const GAMES: CatalogGame[] = [
     status: "live",
     href: "/oyna/jitem-derin-ag",
     icon: "jitem",
+  },
+  {
+    slug: "esik",
+    title: "Kıyı Eşiği",
+    subtitle: "Kurgusal kıyıda rıhtım, merdiven, rampa ve köprü. Kopuk erişimin nedeni yazılır.",
+    status: "live",
+    href: "/oyna/esik",
+    icon: "esik",
   },
 ];
