@@ -93,7 +93,7 @@ function scenarioOf(id) {
 
 const defs = {
   apartman: {
-    title: "Apartman: Apartman Yöneticisi",
+    title: "Kapı Nöbeti",
     tag: "Toplantı Gecesi",
     screens: ["Genel", "Sakinler", "Bina", "Aidat/Kasa", "Meseleler", "Toplantı", "Geçmiş"],
     initial: () => ({

@@ -112,8 +112,8 @@ export const CATALOG_EN: Record<string, { title: string; subtitle: string }> = {
   satranc: { title: "Satranç", subtitle: "Board, move, checkmate." },
   "amiral-batti": { title: "Amiral Battı", subtitle: "Fleet on a grid. Hit, miss, sunk." },
   apartman: {
-    title: "Apartman: Apartman Yöneticisi",
-    subtitle: "Run a two, four or ten-block estate where every shortcut returns as a cost.",
+    title: "Kapı Nöbeti",
+    subtitle: "A night courtyard, a maintenance queue, trust and cash. Three decisions on the desk.",
   },
   "kayip-telefon": {
     title: "Kayıp Telefon",
@@ -154,7 +154,7 @@ export const CATALOG_PL: Record<string, { title: string; subtitle: string }> = {
   "peg-solitaire": { title: "Tek Taş", subtitle: "Przeskakuj. Zostaw jeden pionek." },
   satranc: { title: "Satranç", subtitle: "Plansza, ruch, mat." },
   "amiral-batti": { title: "Amiral Battı", subtitle: "Flota na siatce. Trafienie, pudło, zatopienie." },
-  apartman: { title: "Apartman: Apartman Yöneticisi", subtitle: "Zarządzaj osiedlem z dwoma, czterema lub dziesięcioma blokami, gdzie każdy skrót ma swoją cenę." },
+  apartman: { title: "Kapı Nöbeti", subtitle: "Nocny dziedziniec, kolejka napraw, zaufanie i kasa. Na biurku trzy decyzje." },
   "kayip-telefon": { title: "Kayıp Telefon", subtitle: "Telefon zaginął. Życie zapisane w środku wychodzi na jaw." },
   "son-100-gun": { title: "Son 100 Gün", subtitle: "Ostatnie sto dni. Każdy wybór waży więcej." },
   "son-kasaba": { title: "SON KÖY MANAGER", subtitle: "Wszyscy wyjeżdżają. Ty zostajesz i próbujesz utrzymać wieś przy życiu." },

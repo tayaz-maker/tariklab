@@ -17,6 +17,7 @@ const root = document.body;
 const money = (n) => new Intl.NumberFormat("tr-TR").format(Math.round(n));
 let view = "menu";
 let siteScale = 2;
+let pane = "queue";
 
 function slotSummary(state) {
   return t(
@@ -29,8 +30,8 @@ function menu(session) {
   root.innerHTML = `<main class="game-root"><header class="topbar global-chrome"><a href="/">${t("← Oyunlar", "← Games")}</a><span data-lang-host></span></header>${frontMenu(
     session,
     {
-      kicker: t("YÖNETİCİ DOSYASI", "MANAGER FILE"),
-      title: "YUNUS APARTMANI",
+      kicker: t("GECE NÖBETİ", "NIGHT WATCH"),
+      title: "KAPI NÖBETİ",
       pitch: t(
         "İki, dört ya da on blok. Bütçe sınırlı; her karar bütün siteye yayılır.",
         "Two, four or ten blocks. The budget is finite; every decision travels across the estate.",
@@ -48,7 +49,7 @@ function menu(session) {
 }
 
 function setup(session) {
-  root.innerHTML = `<main class="game-root"><header class="topbar global-chrome"><a href="/">${t("← Oyunlar", "← Games")}</a><span data-lang-host></span></header><section class="setup-shell card"><p class="eyebrow">${t("SİTE YÖNETİM DOSYASI", "ESTATE MANAGEMENT FILE")}</p><h1>YUNUS APARTMANI</h1><p>${t("Aidat, bakım, güvenlik, temizlik ve komşu siyaseti aynı masada. Ölçeği seç; büyüdükçe bütçe kadar hizmet yükü ve muhalefet de artar.", "Dues, maintenance, security, cleaning and neighbour politics share one desk. Choose the scale; a larger estate brings more revenue, service load and opposition.")}</p><div class="scale-grid">${[2,4,10].map((blocks) => `<button type="button" data-scale="${blocks}" class="${siteScale === blocks ? "is-selected" : ""}"><strong>${blocks} ${t("blok", "blocks")}</strong><small>${blocks * 16} ${t("daire", "units")} · ${blocks === 2 ? t("yakın yönetim", "hands-on") : blocks === 4 ? t("kurul dengesi", "board politics") : t("profesyonel site", "professional estate")}</small></button>`).join("")}</div><div class="apt-metrics"><span class="pill">${t("Aidat ve bütçe", "Dues and budget")}</span><span class="pill">${t("Bakım ve asansör", "Maintenance and lifts")}</span><span class="pill">${t("Güvenlik ve temizlik", "Security and cleaning")}</span><span class="pill">${t("Malik / kiracı dengesi", "Owner / tenant balance")}</span></div><div class="setup-actions"><button type="button" id="cancel-setup">${t("GERİ", "BACK")}</button><button type="button" id="confirm-start" class="primary">${t("YÖNETİMİ DEVRAL", "TAKE MANAGEMENT")}</button></div></section></main>`;
+  root.innerHTML = `<main class="game-root"><header class="topbar global-chrome"><a href="/">${t("← Oyunlar", "← Games")}</a><span data-lang-host></span></header><section class="setup-shell card"><p class="eyebrow">${t("GECE NÖBETİ", "NIGHT WATCH")}</p><h1>KAPI NÖBETİ</h1><p>${t("Aidat, bakım, güvenlik, temizlik ve komşu siyaseti aynı masada. Ölçeği seç; büyüdükçe bütçe kadar hizmet yükü ve muhalefet de artar.", "Dues, maintenance, security, cleaning and neighbour politics share one desk. Choose the scale; a larger estate brings more revenue, service load and opposition.")}</p><div class="scale-grid">${[2,4,10].map((blocks) => `<button type="button" data-scale="${blocks}" class="${siteScale === blocks ? "is-selected" : ""}"><strong>${blocks} ${t("blok", "blocks")}</strong><small>${blocks * 16} ${t("daire", "units")} · ${blocks === 2 ? t("yakın yönetim", "hands-on") : blocks === 4 ? t("kurul dengesi", "board politics") : t("profesyonel site", "professional estate")}</small></button>`).join("")}</div><div class="apt-metrics"><span class="pill">${t("Aidat ve bütçe", "Dues and budget")}</span><span class="pill">${t("Bakım ve asansör", "Maintenance and lifts")}</span><span class="pill">${t("Güvenlik ve temizlik", "Security and cleaning")}</span><span class="pill">${t("Malik / kiracı dengesi", "Owner / tenant balance")}</span></div><div class="setup-actions"><button type="button" id="cancel-setup">${t("GERİ", "BACK")}</button><button type="button" id="confirm-start" class="primary">${t("YÖNETİMİ DEVRAL", "TAKE MANAGEMENT")}</button></div></section></main>`;
   root.querySelectorAll("[data-scale]").forEach((button) => button.addEventListener("click", () => {
     siteScale = Number(button.dataset.scale);
     setup(session);
@@ -81,6 +82,35 @@ function issueCard(issue, state) {
   </button>`;
 }
 
+function courtyardSvg(parts) {
+  const cell = (id, x, y, w, height) => {
+    const part = parts.find((item) => item.id === id);
+    const condition = part ? Math.round(part.condition) : 0;
+    const worn = condition < 45;
+    return `<g><rect x="${x}" y="${y}" width="${w}" height="${height}" rx="4" fill="${worn ? "#3a2a22" : "#1c2a24"}" stroke="#d7c7a2" stroke-dasharray="${worn ? "4 3" : "0"}"/><text x="${x + 8}" y="${y + 18}" fill="#f3ead7" font-size="12">${h(part ? loc(part.name) : id)} ${condition}</text></g>`;
+  };
+  const cond = (id) => Math.round(parts.find((item) => item.id === id)?.condition || 0);
+  return `<svg class="courtyard" viewBox="0 0 360 280" role="img" aria-label="${t("Avlu planı", "Courtyard plan")}">
+    <rect x="8" y="8" width="344" height="264" rx="8" fill="#121614" stroke="#3a3228"/>
+    ${cell("cati", 24, 20, 312, 40)}
+    ${cell("asansor", 24, 72, 86, 118)}
+    ${cell("su", 250, 72, 86, 118)}
+    <rect x="122" y="72" width="116" height="118" rx="6" fill="#243028" stroke="#86aa91"/>
+    <text x="138" y="124" fill="#e7f0df" font-size="13">${t("Avlu", "Court")}</text>
+    <text x="138" y="146" fill="#cbbba4" font-size="11">${t("temizlik", "cleaning")} ${cond("temizlik")}</text>
+    <text x="138" y="164" fill="#cbbba4" font-size="11">${t("güvenlik", "security")} ${cond("guvenlik")}</text>
+    ${cell("elektrik", 24, 204, 100, 48)}
+    ${cell("isitma", 132, 204, 100, 48)}
+    ${cell("otopark", 240, 204, 96, 48)}
+  </svg>`;
+}
+
+function deskIssues(open, focus) {
+  const ranked = open.slice().sort((a, b) => (b.severity || 1) - (a.severity || 1) || String(a.id).localeCompare(String(b.id)));
+  const top = ranked.slice(0, 3);
+  if (focus && !top.some((issue) => issue.id === focus.id)) return [focus, ...top.slice(0, 2)];
+  return top;
+}
 function draw(session) {
   const state = session.state;
   if (!state) {
@@ -103,19 +133,21 @@ function draw(session) {
     bindSavePanel(root, session);
     return;
   }
-  root.innerHTML = `<main class="game-root"><header class="topbar global-chrome"><a href="/">${t("← Oyunlar", "← Games")}</a><span class="topbar__title">APARTMAN · ${t("YÖNETİCİ DEFTERİ", "MANAGER LEDGER")}</span><div class="topbar__tools"><span data-lang-host></span>${savePanel(session)}</div></header>
-    <section class="apt-head"><div><p class="eyebrow">${state.week}. ${t("HAFTA", "WEEK")} · ${h(state.progression?.phase || "yıpranmış bina")}</p><h1>${t("Site Yönetim Masası", "Estate Management Desk")}</h1><p class="muted">${state.site?.blocks || 2} ${t("blok", "blocks")} · ${state.site?.units || 32} ${t("daire", "units")} · ${t("öncelik: açık meseleyi hazırla, kurula gerçek maliyetli çözüm götür", "priority: prepare an open issue and take a costed solution to the board")}</p></div><div class="apt-metrics"><span class="pill metric">${t("Kasa", "Cash")} ₺${money(state.finance.cash)}</span><span class="pill metric">${t("Aidat", "Dues")} ₺${money(state.finance.dues)}</span><span class="pill">${t("Bina", "Building")} ${state.building.condition}/100</span><span class="pill ${confidence < 35 ? "danger-pill" : ""}">${t("Güven", "Confidence")} ${confidence}/100</span></div></section>
+  const visible = deskIssues(open, focus);
+  root.innerHTML = `<main class="game-root"><header class="topbar global-chrome"><a href="/">${t("← Oyunlar", "← Games")}</a><span class="topbar__title">KAPI NÖBETİ</span><div class="topbar__tools"><span data-lang-host></span>${savePanel(session)}</div></header>
+    <section class="apt-head"><div><p class="eyebrow">${state.week}. ${t("HAFTA", "WEEK")} · ${h(state.progression?.phase || "yıpranmış bina")}</p><h1>${t("Gece nöbet masası", "Night watch desk")}</h1><p class="muted">${state.site?.blocks || 2} ${t("blok", "blocks")} · ${state.site?.units || 32} ${t("daire", "units")} · ${t("masada en fazla üç açık karar", "at most three open decisions on the desk")}</p></div><div class="apt-metrics"><span class="pill metric">${t("Kasa", "Cash")} ₺${money(state.finance.cash)}</span><span class="pill metric">${t("Aidat borcu", "Arrears")} ₺${money(state.finance.arrears || 0)}</span><span class="pill">${t("Bina", "Building")} ${state.building.condition}/100</span><span class="pill ${confidence < 35 ? "danger-pill" : ""}">${t("Güven", "Confidence")} ${confidence}/100</span></div></section>
     ${(state.politics?.warnings || []).map((warning) => `<p class="danger-warning">⚠ ${h(loc(warning))}</p>`).join("")}
-    <section class="apt-board"><aside class="card"><p class="eyebrow">${t("BİNA", "BUILDING")}</p><div class="building-list">${state.building.parts.map((part) => `<div class="building-row"><span>${h(loc(part.name))}</span><b>${Math.round(part.condition)}</b><div class="meter"><i style="--value:${part.condition}%"></i></div></div>`).join("")}</div></aside>
-      <section class="card desk"><p class="eyebrow">${t("BUGÜNÜN MESELELERİ", "TODAY'S ISSUES")}</p><div class="issue-list">${
-        open
-          .slice(0, 6)
+    <nav class="desk-tabs" aria-label="${t("Masa bölümleri", "Desk sections")}"><button type="button" data-pane="queue" aria-pressed="${pane === "queue"}">${t("Kuyruk", "Queue")}</button><button type="button" data-pane="court" aria-pressed="${pane === "court"}">${t("Avlu", "Court")}</button><button type="button" data-pane="people" aria-pressed="${pane === "people"}">${t("Sakinler", "Residents")}</button></nav>
+    <section class="apt-board"><aside class="card night-court" data-pane="court"><p class="eyebrow">${t("AVLU", "COURTYARD")}</p>${courtyardSvg(state.building.parts)}</aside>
+      <section class="card desk" data-pane="queue"><p class="eyebrow">${t("ÜÇ KARAR", "THREE DECISIONS")} · ${open.length}</p><div class="issue-list">${
+        visible
           .map((issue) => issueCard(issue, state))
           .join("") ||
         `<p>${t("Açık mesele yok; haftayı kapatabilirsin.", "No open issue; you can close the week.")}</p>`
       }</div>
+        ${open.length > visible.length ? `<p class="muted">${open.length - visible.length} ${t("mesele defterde bekliyor; masa yalnız üçünü gösterir.", "issues stay in the ledger; the desk shows only three.")}</p>` : ""}
         ${focus ? `<div class="desk-actions"><button type="button" data-prepare="${h(focus.id)}" ${(state.flags.prepared || []).includes(focus.id) || (state.flags.prepared || []).length >= 2 ? "disabled" : ""}>${t("Dosyayı hazırla", "Prepare file")} · ${(state.flags.prepared || []).length}/2</button><span class="muted">${t("Toplantı gündemi", "Meeting agenda")}: ${h(loc(focus.title))}</span></div>` : ""}</section>
-      <aside class="card notice-board"><p class="eyebrow">${t("BİNA SİYASETİ", "BUILDING POLITICS")}</p><p class="muted">${t("İttifak", "Alliances")}: ${h((state.politics?.alliances || []).map((id) => allianceLabel(id, t)).join(", ") || "—")} · ${t("Muhalefet", "Opposition")}: ${state.politics?.opposition?.length || 0}</p><div class="resident-list">${(residents.length ? residents : state.residents.slice(0, 5)).map((resident) => `<div class="resident"><strong>${h(resident.name)}</strong> · ${t("güven", "trust")} ${resident.trust}<br>${h(loc(resident.personality))} · ${h(loc(resident.interest))}${resident.memories?.length ? `<br>${t("Hatırlıyor", "Remembers")}: ${h(memoryLabel(resident.memories.at(-1), loc, t))}` : ""}</div>`).join("")}</div></aside></section>
+      <aside class="card notice-board" data-pane="people"><p class="eyebrow">${t("GÜVEN VE BORÇ", "TRUST AND DEBT")}</p><p class="muted">${t("İttifak", "Alliances")}: ${h((state.politics?.alliances || []).map((id) => allianceLabel(id, t)).join(", ") || "—")} · ${t("Muhalefet", "Opposition")}: ${state.politics?.opposition?.length || 0}</p><div class="resident-list">${(residents.length ? residents : state.residents.slice(0, 5)).map((resident) => `<div class="resident"><strong>${h(resident.name)}</strong> · ${t("güven", "trust")} ${resident.trust}<br>${h(loc(resident.personality))} · ${h(loc(resident.interest))}${resident.pays === false ? ` · ${t("aidat gecikmiş", "dues late")}` : ""}${resident.memories?.length ? `<br>${t("Hatırlıyor", "Remembers")}: ${h(memoryLabel(resident.memories.at(-1), loc, t))}` : ""}</div>`).join("")}</div></aside></section>
     ${state.lastMeeting ? `<section class="card vote-result"><strong>${t("Son oylama", "Last vote")}: ${state.lastMeeting.yes}-${state.lastMeeting.no}</strong> · ${state.lastMeeting.accepted ? t("Kabul", "Passed") : t("Ret", "Rejected")} · ${h(loc(PROPOSALS.find((p) => p.id === state.lastMeeting.proposal)?.label || state.lastMeeting.proposal))}</section>` : ""}
     ${
       state.activeEvent
@@ -176,6 +208,13 @@ function draw(session) {
   root
     .querySelector("#history")
     .addEventListener("click", () => session.setUI("ledgerOpen", !state.ui?.ledgerOpen));
+  root.querySelectorAll(".desk-tabs [data-pane]").forEach((button) =>
+    button.addEventListener("click", () => {
+      pane = button.dataset.pane;
+      draw(session);
+    }),
+  );
+  document.body.dataset.pane = pane;
   bindSavePanel(root, session);
 }
 
