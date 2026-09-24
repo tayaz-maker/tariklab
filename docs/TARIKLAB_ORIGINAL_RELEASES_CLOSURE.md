@@ -16,7 +16,7 @@ Draft PRs [#78](https://github.com/tayaz-maker/tariklab/pull/78) and [#79](https
 
 - Replaced: `public/games/bukucu/icon-180.png`, `icon-192.png`, `icon-512.png` with `public/games/bukucu/icon.svg`. Record: `docs/ip/bukucu-silence.md` and register row A015.
 - Redrawn from code in #94: portal `og.jpg` and `x-banner.jpg`, the JITEM share images, map and office images, and the portal background. Record: `docs/ip/original-art-2026-09-24.md`.
-- Still provenance pending, not called licensed or original: VETO-H!, GETT-OH! and DARBE-H! AI plates. Resources states that pending line. No licence is claimed for them.
+- VETO-H!, GETT-OH! and DARBE-H! card art: redrawn from code in #95 (`docs/ip/card-art-2026-09-24.md`). No pending line is left on Resources.
 - No audio file was added to any game.
 
 ## Production
