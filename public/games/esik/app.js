@@ -1,6 +1,7 @@
 import { KEY, LINKS, NODES, apply, createCoast, deserialize, legal, nodeById, preview, serialize } from "./sim.js";
 
 const root = document.querySelector("#app");
+if (window.self !== window.top) document.documentElement.classList.add("embedded");
 const lang = () => {
   try { return localStorage.getItem("tariklab.language") === "en" ? "en" : "tr"; }
   catch { return "tr"; }
@@ -11,6 +12,7 @@ const COPY = {
     pitch: "Kurgusal bir kıyı. Hat, rıhtım, merdiven, rampa, tünel ve köprü eklemi arasında kurulur. Erişim koparsa nedeni yazılır.",
     note: "Gerçek şehir yok. Başka bir ulaşım oyunundan alınmış işaret yok.",
     open: "Kıyıyı aç",
+    teach: "Nasıl oynanır: bir eşiği bağla, merdiven veya yokuşa rampa ekle, dönemi kapat. Kopuk eşik riski büyütür. Tam hat ile kısa mahalle aynı sonu vermez.",
     period: "Dönem", resource: "Kaynak", trust: "Güven", risk: "Risk", access: "Erişim",
     map: "Kıyı eşikleri",
     build: "Kur",
@@ -35,6 +37,7 @@ const COPY = {
     pitch: "A fictional coast. The route is built across a pier, stair, ramp, tunnel mouth and bridge joint. If access breaks, the reason is written.",
     note: "No real city and no mark taken from another transit game.",
     open: "Open the coast",
+    teach: "How to play: link a threshold, add a ramp to a stair or slope, then close the period. A broken threshold raises risk. A full route and a short neighbourhood do not end the same way.",
     period: "Period", resource: "Resource", trust: "Trust", risk: "Risk", access: "Access",
     map: "Coastal thresholds",
     build: "Build",
@@ -153,10 +156,12 @@ function render() {
   root.replaceChildren();
   if (screen === "menu") {
     root.append($("main", { class: "coast" },
+      $("a", { class: "exit", href: "/" }, lang() === "en" ? "Games" : "Oyunlar"),
       $("p", { class: "kicker" }, c.title),
       $("h1", {}, c.title),
       $("p", { class: "pitch" }, c.pitch),
       $("p", {}, c.note),
+      $("p", { class: "teach" }, c.teach),
       $("button", { class: "primary", type: "button", onclick: () => {
         try {
           const saved = deserialize(localStorage.getItem(KEY));
@@ -176,6 +181,7 @@ function render() {
     return $("button", { class: "act", type: "button", onclick: () => play(id) }, `${name} · ${c.resource} ${look.resource} · ${c.risk} ${look.risk}`);
   });
   root.append($("main", { class: "coast" },
+    $("a", { class: "exit", href: "/" }, lang() === "en" ? "Games" : "Oyunlar"),
     $("header", { class: "meters" },
       $("span", {}, `${c.period} ${state.period}`),
       $("span", {}, `${c.resource} ${state.resource}`),

@@ -2,7 +2,8 @@ body { margin: 0; background: #101614; color: #f3ead7; font: 16px/1.4 "Segoe UI"
 .coast { min-height: 100dvh; padding: 16px 12px 28px; display: grid; gap: 12px; overflow-x: clip; }
 h1, h2, p { margin: 0; }
 h1 { font-family: Palatino, Georgia, serif; font-size: clamp(2rem, 6vw, 3rem); }
-.kicker { letter-spacing: .14em; text-transform: uppercase; color: #d7a15a; font-size: 12px; }
+.exit { color: #d7a15a; }
+.embedded .exit { display: none; }
 .pitch { max-width: 40rem; color: #d9cbb6; }
 .coast-map { width: 100%; height: auto; background:
   radial-gradient(120px 40px at 20% 78%, #1a4650 0 40%, transparent 42%),
