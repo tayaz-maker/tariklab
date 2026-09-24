@@ -38,6 +38,7 @@ Hukuk/marka onayı beklenmedi; yayın yetkisi sahipte. Uygulanan ölçüt:
 | Bükücü sessiz + SVG ikon | DONE | [#93](https://github.com/tayaz-maker/tariklab/pull/93) | `e431508` | 6/6 dosya byte-aynı, `bukucu/index.html` sha256 `5a4bcd17…`, ses kodu 3 → 0, AudioContext 0, `icon.svg` 200, eski PNG 404. |
 | Paylaşım, JITEM ve arka plan görselleri | DONE | [#94](https://github.com/tayaz-maker/tariklab/pull/94) | #94 merge | Kodla yeniden çizildi (`scripts/ip/render-original-art.mjs`, CSS). Production kanıtı #94 yorumunda. |
 | Kart görselleri + sessizlik | DONE | [#95](https://github.com/tayaz-maker/tariklab/pull/95) | `771a288` | 12/12 dosya byte-aynı, `SND-001.webp` sha256 `0b737ef0…`; manifestler kod üreticisini gösteriyor, DARBE kartları yalnız kendi SVG çizimini gömüyor, plakalar 404, iframe `autoplay` yok, ses/titreşim 0. |
+| Lehçe (PL) oyun gövdesi + Grok temizliği | DONE | [#97](https://github.com/tayaz-maker/tariklab/pull/97) | `64ffa7b` | 5/5 kontrol yeşil (build, campaign-browser, campaign-balance, Workers Builds, Vercel), merge `64ffa7b`. Production: ana sayfa ve 14 taranan `/oyna/*` + `/games/*/` rotasında `grok.com/grok-app-builder` veya `__grok` referansı 0; `/__grok/*` 404. Gerçek tarayıcı, PL modu: portal ana sayfa Lehçe; HANEDANIAN 297/0 İngilizce-görünümlü, Apartman 39/0, VETO-H! 115/0, GETT-OH! 115/1, DARBE-H! 110/0, DEVLET 38/0, Kıyı Eşiği 130/0. |
 
 ## Görsel temizlik sırası
 
@@ -71,4 +72,4 @@ Hukuk/marka onayı beklenmedi; yayın yetkisi sahipte. Uygulanan ölçüt:
 ## Açık kalanlar (DONE sayılmaz)
 
 - Gerçek oyuncu testi yok.
-- PL oyun gövdesi İngilizce; anadil kontrolü yok.
+- PL oyun gövdesi artık Lehçe ([#97](https://github.com/tayaz-maker/tariklab/pull/97)); Çete Savaşları ve JITEM kapsam dışı. Anadil kontrolü hâlâ yok — çeviriler gözden geçirilmedi.
