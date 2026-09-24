@@ -1,0 +1,92 @@
+{
+ "hanedanian": {
+  "strings": 233,
+  "translated": 225,
+  "screen": 184
+ },
+ "racon": {
+  "strings": 2308,
+  "translated": 2291,
+  "screen": 97
+ },
+ "tc-sim": {
+  "strings": 3662,
+  "translated": 3592,
+  "screen": 273
+ },
+ "bukucu": {
+  "strings": 2305,
+  "translated": 2291,
+  "screen": 304
+ },
+ "labirent": {
+  "strings": 2305,
+  "translated": 2291,
+  "screen": 40
+ },
+ "peg-solitaire": {
+  "strings": 2306,
+  "translated": 2291,
+  "screen": 42
+ },
+ "satranc": {
+  "strings": 2310,
+  "translated": 2291,
+  "screen": 106
+ },
+ "amiral-batti": {
+  "strings": 2306,
+  "translated": 2291,
+  "screen": 53
+ },
+ "apartman": {
+  "strings": 4135,
+  "translated": 4094,
+  "screen": 718
+ },
+ "kayip-telefon": {
+  "strings": 4122,
+  "translated": 4081,
+  "screen": 59
+ },
+ "son-100-gun": {
+  "strings": 770,
+  "translated": 741,
+  "screen": 43
+ },
+ "tc-sim-devlet": {
+  "strings": 4746,
+  "translated": 4691,
+  "screen": 54
+ },
+ "son-kasaba": {
+  "strings": 3000,
+  "translated": 2957,
+  "screen": 30
+ },
+ "veto-h": {
+  "strings": 1158,
+  "translated": 1127,
+  "screen": 188
+ },
+ "gett-oh": {
+  "strings": 1113,
+  "translated": 1080,
+  "screen": 188
+ },
+ "ihtilal": {
+  "strings": 46,
+  "translated": 42,
+  "screen": 25
+ },
+ "darbe-h": {
+  "strings": 1001,
+  "translated": 970,
+  "screen": 201
+ },
+ "esik": {
+  "strings": 33,
+  "translated": 33,
+  "screen": 31
+ }
+}

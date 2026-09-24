@@ -3,7 +3,8 @@ import { KEY, LINKS, NODES, apply, createCoast, deserialize, legal, nodeById, pr
 const root = document.querySelector("#app");
 if (window.self !== window.top) document.documentElement.classList.add("embedded");
 const lang = () => {
-  try { return localStorage.getItem("tariklab.language") === "en" ? "en" : "tr"; }
+  // Polish readers get the English copy; /i18n/pl-body.js renders it in Polish.
+  try { return ["en", "pl"].includes(localStorage.getItem("tariklab.language")) ? "en" : "tr"; }
   catch { return "tr"; }
 };
 const COPY = {

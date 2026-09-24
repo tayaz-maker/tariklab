@@ -1,0 +1,33 @@
+{
+ "tc-sim-devlet": {
+  "Open dossiers hold delayed issues; some return to the agenda until you deal with them.": "Otwarte teczki przechowują odłożone sprawy; niektóre wracają na agendę, dopóki się nimi nie zajmiesz.",
+  "Alternative Türkiye": "Alternatywna Turcja",
+  "1923 — Kuruluş": "1923 — Założenie",
+  "1950 — Çok partili hayat": "1950 — Życie wielopartyjne",
+  "1980 — Kavşak": "1980 — Rozdroże",
+  "2002–2005 — Yeniden yapılanma": "2002–2005 — Restrukturyzacja",
+  "Muasır Medeniyet": "Współczesna cywilizacja",
+  "Bölgesel Güç": "Potęga regionalna",
+  "Tam Bağımsızlık": "Pełna niepodległość",
+  "İstikrar Devleti": "Państwo stabilności",
+  "Affected groups: {0}": "Grupy, których to dotyczy: {0}",
+  "business {0}": "biznes {0}",
+  "bureaucracy {0}": "biurokracja {0}",
+  "urban {0}": "miasto {0}",
+  "security {0}": "bezpieczeństwo {0}",
+  "media {0}": "media {0}",
+  "youth {0}": "młodzi {0}",
+  "rural {0}": "wieś {0}",
+  "labor {0}": "praca {0}",
+  "farmers {0}": "rolnicy {0}",
+  "pensioners {0}": "emeryci {0}",
+  "workers {0}": "robotnicy {0}",
+  "civil society {0}": "społeczeństwo obywatelskie {0}",
+  "military {0}": "wojsko {0}",
+  "yüksek borç mali alanı daraltıyor": "wysoki dług zawęża pole fiskalne",
+  "{0} Confidence is a simulation indicator of uncertainty, not a measured accuracy rate. Lower confidence calls for caution.": "{0} Pewność to symulacyjny wskaźnik niepewności, a nie zmierzony wskaźnik trafności. Niższa pewność wymaga ostrożności.",
+  "Curriculum / YÖK pace": "Podstawa programowa / tempo YÖK",
+  "Hard currency is sought; SME access is uneven.": "Szuka się twardej waluty; dostęp MŚP jest nierówny.",
+  "Delivery is due at month end. Administrative capacity left: {0}": "Realizacja przypada na koniec miesiąca. Pozostałe zdolności administracyjne: {0}"
+ }
+}

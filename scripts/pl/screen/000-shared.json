@@ -1,0 +1,29 @@
+{
+  "*": {
+    "© 2026 TarikLab. All rights reserved.": "© 2026 TarikLab. Wszelkie prawa zastrzeżone.",
+    "© 2026 TarikLab. Tüm hakları saklıdır.": "© 2026 TarikLab. Wszelkie prawa zastrzeżone.",
+    "Oyun tasarımı ve özgün içerik: Tarık Halil Ayaz.": "Projekt gry i oryginalna treść: Tarık Halil Ayaz.",
+    "TarikLab sürümü, arayüzü ve özgün oyun içeriği: Tarık Halil Ayaz.": "Wersja TarikLab, interfejs i oryginalna treść gry: Tarık Halil Ayaz.",
+    "TarikLab sürümü, arayüzü, tahtası ve özgün taş seti: Tarık Halil Ayaz.": "Wersja TarikLab, interfejs, plansza i oryginalny zestaw bierek: Tarık Halil Ayaz.",
+    "Turn the phone sideways": "Obróć telefon poziomo",
+    "Ana menü": "Menu główne",
+    "Ana Menü": "Menu główne",
+    "Yeni oyun": "Nowa gra",
+    "Yeni oyun.": "Nowa gra.",
+    "Nasıl Oynanır": "Jak grać",
+    "Nasıl oynanır?": "Jak grać?",
+    "? Nasıl Oynanır": "? Jak grać",
+    "Kapat": "Zamknij",
+    "← Geri": "← Wstecz",
+    "Kayıt yerleri": "Sloty zapisu",
+    "Henüz kayıt yok.": "Brak zapisów.",
+    "Henüz kayıt yok": "Brak zapisów",
+    "BU HAFTA": "W TYM TYGODNIU",
+    "Oyun bitti": "Koniec gry",
+    "Tur": "Tura",
+    "{0} hr {1} min": "{0} godz. {1} min",
+    "{0} hr": "{0} godz.",
+    "Yedek kopyalandı.": "Kopia skopiowana.",
+    "Yedek okunamadı.": "Nie udało się odczytać kopii."
+  }
+}
