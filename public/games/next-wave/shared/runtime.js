@@ -11,19 +11,23 @@ export function escapeHtml(value) {
     .replaceAll('"', "&quot;");
 }
 
+/** Content language: Polish readers get English where no Polish is authored. */
 export function language() {
-  return window.tlabI18n?.getLang?.() === "en" ? "en" : "tr";
+  const lang = window.tlabI18n?.getLang?.();
+  return lang === "en" || lang === "pl" ? "en" : "tr";
 }
 
 export function loc(tr, en) {
-  if (en && language() === "en") return en;
+  if (language() !== "en") return tr;
   const I = window.tlabI18n;
-  if (I && language() === "en") return I.phrase(String(tr ?? ""));
-  return tr;
+  if (I?.localize) return I.localize(String(tr ?? ""), en || undefined);
+  if (en) return en;
+  return I ? I.phrase(String(tr ?? "")) : tr;
 }
 
 export function text(tr, en) {
-  return language() === "en" ? en : tr;
+  if (language() !== "en") return tr;
+  return window.tlabI18n?.localize ? window.tlabI18n.localize(tr, en) : en;
 }
 
 /**
@@ -247,7 +251,7 @@ export function bootGame(id, draw, engine = {}) {
     );
     const host = document.querySelector("[data-lang-host]");
     if (host && window.tlabI18n) window.tlabI18n.mountLangToggle(host);
-    if (window.tlabI18n?.getLang?.() === "en") {
+    if (language() === "en") {
       window.tlabI18n.applyPhrases?.(document.body);
     }
   };

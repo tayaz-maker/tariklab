@@ -202,7 +202,7 @@ export const MARKET = {
 
 const integer = (v, fallback = 0) => (Number.isFinite(v) ? Math.max(0, Math.round(v)) : fallback);
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
-const tr = (a, b) => globalThis.window?.tlabI18n?.getLang?.() === "en" ? b : a;
+const tr = (a, b) => globalThis.window?.tlabI18n?.contentLang?.() === "en" ? b : a;
 export const economyText = tr;
 const tl = (n) => `₺${Math.round(n).toLocaleString("tr-TR")}`;
 export const MARKET_OWNERSHIP = { new_phone: "phone", laptop: "computer", headphones: "headphones", furniture: "furniture", appliance: "appliance", bike: "bike", scooter: "scooter", luxury_watch: "luxury_watch" };

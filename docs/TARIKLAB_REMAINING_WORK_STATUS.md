@@ -13,6 +13,7 @@ Kaynak: `TARIKLAB_REMAINING_WORK_COMPLETION_QUEUE.md`. Satır, merge ve producti
 | SON KÖY MANAGER | TODO | — | — | — | — |
 | TC SIM: DEVLET | TODO | — | — | — | Harita [#76](https://github.com/tayaz-maker/tariklab/pull/76) ile duruyor; derinlik ayrı iş. |
 | JITEM | DONE | [#83](https://github.com/tayaz-maker/tariklab/pull/83) | `3e7194a` | `www` ve workers `runtime.js` `c9139e0b581e97bed0b6f5376290c6053c87c3cb073769f6429d93c9bd8e379b`, `SOURCE.json` `a7bbb6d3bdf0675fdfca503c6c7d68825b656d3e`. Save key `jitem-derin-ag-v3`, şema 5. | Karar masası dosyadan önce. Eski kart destesi değil. |
+| Lehçe (PL) oyun içeriği | IN REVIEW | PR açılıyor | — | Production yok. | PL okuyucu artık Türkçe görmüyor: yazılmış Lehçe → İngilizce → kaynak. 18 oyunda arayüz Lehçe (menü, slot, gezinme, ana düğmeler, başlıklar); hikâye/olay/kart/yardım gövdesi İngilizce. JITEM yalnız EN fallback. Oyun başına kayıt `docs/TARIKLAB_PL_COVERAGE.md` + coverage JSON `pl/plNote`. Anadil kontrolü yok. |
 | Apartman / transit hukuk | BLOCKED | [#78](https://github.com/tayaz-maker/tariklab/pull/78) [#79](https://github.com/tayaz-maker/tariklab/pull/79) draft | — | Yayın yok | İnsan marka araştırması yok. Merge yok. |
 | Novella | LATER | — | — | — | Bu dalga dışı. |
 | Kaynaklar / hak zinciri | TODO | — | — | — | — |

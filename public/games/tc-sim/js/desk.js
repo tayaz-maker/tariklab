@@ -94,7 +94,7 @@ export function arrangeLifeDesk(view, text) {
   // Install before app.js binds the original person action: the subsequent
   // render opens the newly selected person's sheet, without a second tap.
   workspace.querySelectorAll(".person-select, [data-open-person]").forEach(button => button.addEventListener("click", () => { openPerson = window.matchMedia("(max-width: 900px)").matches; }));
-  if (document.documentElement.lang === "en" || window.tlabI18n?.getLang?.() === "en") translateDesk(document.querySelector(".game-frame"));
+  if (document.documentElement.lang === "en" || window.tlabI18n?.contentLang?.() === "en") translateDesk(document.querySelector(".game-frame"));
   const operations = document.querySelector(".game-topbar");
   const week = workspace.querySelector(".week-control");
   if (week && operations) operations.append(week);

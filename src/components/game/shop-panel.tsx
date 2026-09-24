@@ -7,7 +7,7 @@ import { formatTRY } from "@/lib/utils";
 
 export function ShopPanel({ player }: { player: Player }) {
   const { lang } = useLang();
-  const en = lang === "en";
+  const en = lang !== "tr";
   return (
     <div className="space-y-8">
       <p className="text-sm text-muted">
@@ -35,7 +35,7 @@ function Catalog({
   player: Player;
 }) {
   const { lang, phrase } = useLang();
-  const en = lang === "en";
+  const en = lang !== "tr";
   const buyItem = useGame((s) => s.buyItem);
   const sellItem = useGame((s) => s.sellItem);
   const equipItem = useGame((s) => s.equipItem);

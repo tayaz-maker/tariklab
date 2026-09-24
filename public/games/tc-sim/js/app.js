@@ -93,14 +93,15 @@ const app = document.querySelector("#app");
 // never sees post-boot content. Re-running it after each render is what makes
 // EN mode reach navigation/buttons/modals instead of only the very first paint.
 function applyLangPhrases() {
-  if (window.tlabI18n?.getLang() === "en") window.tlabI18n.applyPhrases(app);
+  if (window.tlabI18n?.contentLang?.() === "en") window.tlabI18n.applyPhrases(app);
 }
 
 // window.confirm() dialogs are native browser chrome, invisible to the DOM
 // phrase walker - they need an explicit EN string for critical destructive
 // actions (generation succession, quitting education, wiping the save).
 function confirmText(tr, en) {
-  return window.tlabI18n?.getLang() === "en" ? en : tr;
+  if (window.tlabI18n?.contentLang?.() !== "en") return tr;
+  return window.tlabI18n.localize ? window.tlabI18n.localize(tr, en) : en;
 }
 
 let state = null;
@@ -359,7 +360,7 @@ function startScreen(loadResult) {
 }
 
 function renderPeople() {
-  const en = window.tlabI18n?.getLang?.() === "en";
+  const en = window.tlabI18n?.contentLang?.() === "en";
   return state.people
     .map((person) => {
       const voice = actorVoiceLine(person.id, en);
@@ -399,7 +400,7 @@ function renderPeopleScreen() {
   const milestone = selected.lifeMilestones
     ?.filter((item) => selected.knownMilestones?.includes(item.id))
     .at(-1);
-  const voice = actorVoiceLine(selected.id, window.tlabI18n?.getLang?.() === "en");
+  const voice = actorVoiceLine(selected.id, window.tlabI18n?.contentLang?.() === "en");
   const voiceNote = voice ? `<p class="context-note person-voice">${escapeText(voice)}</p>` : "";
   return `<div class="workspace-head"><div><p class="eyebrow">KİŞİLER</p><h1>Sosyal çevre</h1></div>${renderWeekControl()}</div>
     <div class="social-layout"><section class="panel people-directory"><div class="panel-head"><div><p class="eyebrow">ÇEVRE</p><h2>Önemli kişiler</h2></div><span>${state.people.length}</span></div>${state.people.map((person) => `<button class="person-select ${person.id === selected.id ? "is-current" : ""}" data-person="${person.id}"><span><strong>${escapeText(person.name)}</strong><small>${escapeText(SOCIAL_ROLE_LABELS[person.roleId])}</small></span><b>${escapeText(personStageLabel(person.id))}</b></button>`).join("")}</section>
@@ -1118,15 +1119,15 @@ function phraseText(value) {
  * TR kanonik: EN yoksa mevcut sözlük davranışı aynen sürer.
  */
 function eventTitle(definition) {
-  if (window.tlabI18n?.getLang?.() === "en" && definition.en?.title) return definition.en.title;
+  if (window.tlabI18n?.contentLang?.() === "en" && definition.en?.title) return definition.en.title;
   return phraseText(definition.title);
 }
 function eventBody(definition) {
-  if (window.tlabI18n?.getLang?.() === "en" && definition.en?.text) return definition.en.text;
+  if (window.tlabI18n?.contentLang?.() === "en" && definition.en?.text) return definition.en.text;
   return phraseText(definition.text);
 }
 function eventChoiceLabel(definition, choice) {
-  if (window.tlabI18n?.getLang?.() === "en" && definition.en?.choices?.[choice.id])
+  if (window.tlabI18n?.contentLang?.() === "en" && definition.en?.choices?.[choice.id])
     return definition.en.choices[choice.id];
   return phraseText(choice.label);
 }

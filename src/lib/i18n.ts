@@ -276,7 +276,7 @@ export function useLang() {
   const t = (key: string, fallback: string, vars?: Record<string, string | number>) =>
     translate(lang, key, fallback, vars);
   const phrase = (text: string) => {
-    if (lang !== "en" || text == null) return text;
+    if (lang === "tr" || text == null) return text;
     return EXTRA_PHRASE[text] ?? text;
   };
   return { lang, setLang, t, phrase };

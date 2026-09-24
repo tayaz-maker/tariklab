@@ -11,7 +11,7 @@ import { formatTRY } from "@/lib/utils";
 
 export function ClinicPanel({ player }: { player: Player }) {
   const { lang } = useLang();
-  const en = lang === "en";
+  const en = lang !== "tr";
   const treatClinic = useGame((s) => s.treatClinic);
   const depositBribe = useGame((s) => s.depositBribe);
   const skipHour = useGame((s) => s.skipHour);

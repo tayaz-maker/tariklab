@@ -97,7 +97,7 @@ export function GameShell({
   const swipe = useRef<{ x: number; y: number; fromUi: boolean } | null>(null);
   const { lang } = useLang();
   const tabText = (id: TabId, fallback: string, short: string) => {
-    if (lang !== "en") return { label: fallback, short };
+    if (lang === "tr") return { label: fallback, short };
     const map: Record<TabId, { label: string; short: string }> = {
       ben: { label: "Me", short: "Me" },
       icraat: { label: "Jobs", short: "Job" },
@@ -107,7 +107,17 @@ export function GameShell({
       hayat: { label: "Life", short: "Life" },
       klinik: { label: "Clinic", short: "Cln" },
     };
-    return map[id];
+    // Polish tab labels; panel content falls back to English.
+    const pl: Record<TabId, { label: string; short: string }> = {
+      ben: { label: "Ja", short: "Ja" },
+      icraat: { label: "Zlecenia", short: "Zlec" },
+      tezgah: { label: "Sklep", short: "Sklep" },
+      emlak: { label: "Nieruchomości", short: "Nier" },
+      sokak: { label: "Ulica", short: "Ul" },
+      hayat: { label: "Życie", short: "Życie" },
+      klinik: { label: "Klinika", short: "Klin" },
+    };
+    return lang === "pl" ? pl[id] : map[id];
   };
 
   useGameClock(Boolean(player));

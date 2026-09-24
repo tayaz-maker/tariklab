@@ -1,7 +1,17 @@
 const STORAGE_KEY = "tariklab.language";
 
-export const getLang = () => (localStorage.getItem(STORAGE_KEY) === "en" ? "en" : "tr");
-export const pick = (tr, en) => (getLang() === "en" ? en : tr);
+const reader = () => {
+  try {
+    return localStorage.getItem(STORAGE_KEY) || "tr";
+  } catch {
+    return "tr";
+  }
+};
+// Content language: Polish readers get the Polish interface below and English
+// everywhere else, never Turkish.
+export const getLang = () => (reader() === "en" || reader() === "pl" ? "en" : "tr");
+export const pick = (tr, en) => (getLang() === "en" ? PL.get(tr) ?? plOf(en) : tr);
+const plOf = (en) => (reader() === "pl" ? PL_EN.get(en) ?? en : en);
 
 const EN = new Map(Object.entries({
   "TOPRAK · YOL · HANEDAN": "LAND · ROAD · DYNASTY",
@@ -101,6 +111,38 @@ const EN = new Map(Object.entries({
   "Kaydet": "Save", "Devam et": "Continue", "Kampanyaya devam et": "Continue campaign", "Yeni oyun": "New game", "Yeni hanedan kur": "Found a new dynasty", "Yedekten kampanya aç": "Open a campaign backup", "Elle kaydet": "Manual save", "Dışa aktar": "Export", "İçe aktar": "Import", "İptal": "Cancel", "Kapat": "Close", "Onayla": "Confirm",
 }));
 
+// Polish interface labels keyed by the Turkish source; used only for PL readers.
+const PL_SOURCE = {
+  "TOPRAK · YOL · HANEDAN": "ZIEMIA · DROGA · DYNASTIA",
+  "Kayıt hazırlanıyor": "Przygotowywanie zapisu",
+  "Yerel kayıt hazır": "Zapis lokalny gotowy",
+  "Kısa oyun rehberi": "Krótki przewodnik",
+  "Kayıtlar ve oyun menüsü": "Zapisy i menu gry",
+  "Menü": "Menu",
+  "Yeni bir çağ": "Nowa epoka",
+  "Zaman senin elinde.": "Czas jest w twoich rękach.",
+  "Zaman kontrolü": "Sterowanie czasem",
+  "Zamanı duraklat": "Wstrzymaj czas",
+  "Yerleşimler ve kampanya": "Osady i kampania",
+  "Harita kontrolleri": "Sterowanie mapą",
+  "Haritadan uzaklaş": "Oddal",
+  "Haritaya yaklaş": "Przybliż",
+  "Aktif yerleşime dön": "Wróć do aktywnej osady",
+  "Merkez": "Środek",
+  "Dünya": "Świat",
+  "Panel": "Panel",
+  "YERYÜZÜ DEFTERİ": "KSIĘGA ŚWIATA",
+  "İlk adımlar": "Pierwsze kroki",
+  "İLK OCAK": "PIERWSZE OGNISKO",
+  "Katmanlar": "Warstwy", "Bölgeler": "Regiony", "Tehdit ve seferler": "Zagrożenia i wyprawy", "Menzil": "Zasięg",
+  "BÖLGE": "REGION", "YERLEŞİM": "OSADA", "BAĞLAMA": "PRZYŁĄCZENIE", "TEHDİT": "ZAGROŻENIE",
+  "Kaydet": "Zapisz", "Devam et": "Kontynuuj", "Kampanyaya devam et": "Kontynuuj kampanię", "Yeni oyun": "Nowa gra",
+  "Yeni hanedan kur": "Załóż nową dynastię", "Yedekten kampanya aç": "Otwórz kampanię z kopii", "Elle kaydet": "Zapisz ręcznie",
+  "Dışa aktar": "Eksportuj", "İçe aktar": "Importuj", "İptal": "Anuluj", "Kapat": "Zamknij", "Onayla": "Potwierdź",
+};
+const PL = new Map(Object.entries(PL_SOURCE).filter(() => reader() === "pl"));
+const PL_EN = new Map(Object.entries(PL_SOURCE).map(([tr, pl]) => [EN.get(tr), pl]).filter(([en]) => en));
+
 const rules = [
   [/^Gün (\d+) ·/, "Day $1 ·"],
   [/^(\d+(?:[.,]\d+)?) gün$/, "$1 days"],
@@ -115,8 +157,10 @@ const rules = [
 export function translate(value) {
   const source = String(value ?? "");
   if (getLang() !== "en" || !source) return source;
+  if (reader() === "pl" && PL_SOURCE[source]) return PL_SOURCE[source];
   if (EN.has(source)) return EN.get(source);
   const normalized = source.replace(/\s+/g, " ").trim();
+  if (reader() === "pl" && PL_SOURCE[normalized]) return PL_SOURCE[normalized];
   if (EN.has(normalized)) return EN.get(normalized);
   for (const [pattern, replacement] of rules) if (pattern.test(source)) return source.replace(pattern, replacement);
   return source;
@@ -146,7 +190,7 @@ function paintNode(node) {
 }
 
 export function applyLanguage(root = document.documentElement) {
-  document.documentElement.lang = getLang();
+  document.documentElement.lang = reader() === "pl" ? "pl" : getLang();
   document.title = getLang() === "en" ? "HANEDANIAN — TarikLab" : "HANEDANIAN — TarikLab";
   paintNode(root);
 }
