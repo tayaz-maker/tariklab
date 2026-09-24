@@ -26,7 +26,6 @@ import { ACHIEVEMENTS } from "@/game/meta";
 import { useGame } from "@/game/store";
 import type { NeighborhoodId, Player } from "@/game/types";
 import { track } from "@/lib/analytics";
-import { hapticEnabled, setHaptic } from "@/lib/haptic";
 import { formatTRY } from "@/lib/utils";
 
 const HOOD: Record<NeighborhoodId, string> = {
@@ -95,12 +94,7 @@ export function MePanel({ player }: { player: Player }) {
     .map(([id, v]) => `${PARTNER_MAP[id]?.name ?? id} ${Math.round(v)}`);
   const have = new Set(player.achievements ?? []);
   const [board, setBoard] = useState<BoardRow[]>(LOCAL_BOARD);
-  const [hapticOn, setHapticOn] = useState(true);
   const spark = useMemo(() => sparkFromLogs(logs, player.cash), [logs, player.cash]);
-
-  useEffect(() => {
-    setHapticOn(hapticEnabled());
-  }, []);
 
   useEffect(() => {
     let live = true;
@@ -236,21 +230,6 @@ export function MePanel({ player }: { player: Player }) {
             : "Kodun lakabın. İlk işten sonra ikinize 5.000 ₺, bir kez."}
         </p>
         <p className="mt-2 break-all font-mono text-xs text-fg">{invite}</p>
-      </section>
-
-      <section>
-        <h3 className="font-display text-xl font-semibold">{en ? "Vibration" : "Titreşim"}</h3>
-        <Button
-          variant="ghost"
-          className="mt-2"
-          onClick={() => {
-            const next = !hapticOn;
-            setHaptic(next);
-            setHapticOn(next);
-          }}
-        >
-          {hapticOn ? "Açık" : "Kapalı"}
-        </Button>
       </section>
 
       <section>

@@ -29,11 +29,9 @@ opened or traced. Re-running the script reproduces the files.
 - `public/games/bukucu/*.png` icons and the Bükücü Web Audio tones / vibration
   (PR #93, `docs/ip/bukucu-silence.md`).
 
-## Still provenance pending
+## Follow-up (same day)
 
-These are not replaced yet. Resources lists them honestly and claims no licence:
-
-- VETO-H! and GETT-OH! card art and atmosphere backgrounds (register A010–A012).
-- DARBE-H! plates and the card faces built on them (A008, A009).
-- The standalone `tayaz-maker/jitem-derin-ag` repo still holds its old images;
-  only the TarikLab copy was replaced (A014).
+The card art that was still pending here was replaced later on 2026-09-24:
+VETO-H! and GETT-OH! card art and table backgrounds, and the DARBE-H! plates.
+See `docs/ip/card-art-2026-09-24.md`. The standalone `tayaz-maker/jitem-derin-ag`
+repo still holds its old images; only the TarikLab copy was replaced (A014).

@@ -1,2415 +1,2416 @@
 {
   "summary": {
     "coverage": 300,
-    "totalBytes": 14083170,
-    "averageBytes": 46944,
-    "p95Bytes": 60214,
-    "maxBytes": 67416,
+    "totalBytes": 4494526,
+    "averageBytes": 14982,
+    "p95Bytes": 18646,
+    "maxBytes": 20120,
     "duplicateHashes": 0,
     "dimensions": [
       576,
       384
-    ]
+    ],
+    "generator": "scripts/duel-card-art/compose.mjs (code-drawn SVG, rasterised to WebP)"
   },
   "cards": {
     "SND-001": {
       "path": "/games/veto-h/assets/cards/SND-001.webp",
       "width": 576,
       "height": 384,
-      "bytes": 52108,
-      "sha256": "242dddfe2b22606a92edf1763720a74ac8d112d7343cc748f860ea6c8e21a433",
+      "bytes": 14438,
+      "sha256": "0b737ef02117b490e53e5aa0166579741fe8d3fc0a17ae0649845e47184ef31d",
       "sourceName": "Sandık Görevlisi"
     },
     "SND-002": {
       "path": "/games/veto-h/assets/cards/SND-002.webp",
       "width": 576,
       "height": 384,
-      "bytes": 52950,
-      "sha256": "e40f475d9b0a504b7d618baa18863ed5cfd28fbc01b3d55c0870a74cc510fc8b",
+      "bytes": 14924,
+      "sha256": "8a6157b150291c0a706c3ce614910b063ea5a86a9ea0ba8b2046ed216eb669dc",
       "sourceName": "Müşahit"
     },
     "SND-003": {
       "path": "/games/veto-h/assets/cards/SND-003.webp",
       "width": 576,
       "height": 384,
-      "bytes": 63428,
-      "sha256": "c98dfb02dae90bb58ed54bb9b7dc35ff32be02fd2f6b582003c3be018a7b844c",
+      "bytes": 13558,
+      "sha256": "bb57f42e3c6db9940f3f43d1e3f8896d05f9afd1cf5551c284f1da487a27f6aa",
       "sourceName": "Muhtar Adayı"
     },
     "SND-004": {
       "path": "/games/veto-h/assets/cards/SND-004.webp",
       "width": 576,
       "height": 384,
-      "bytes": 57774,
-      "sha256": "2f17f360158507c5832503681b35a44f72f311c3bb71a9643754d6dc22a63da6",
+      "bytes": 13338,
+      "sha256": "eef791357a21bf71d81e5da6cc6f2cee67b61b3c7582c2729922926c0f54e5b5",
       "sourceName": "Seçmen Otobüsü"
     },
     "SND-005": {
       "path": "/games/veto-h/assets/cards/SND-005.webp",
       "width": 576,
       "height": 384,
-      "bytes": 61138,
-      "sha256": "4732cccb0e4256c66529eaf5679cee51af2f611e6a268084e24f2c39f290f42a",
+      "bytes": 14376,
+      "sha256": "6dafe7da08eaeadc9ff77569e81eb97fcc22d55203b6e44c7eb890fb7630d292",
       "sourceName": "Pazar Tezgâhı"
     },
     "SND-006": {
       "path": "/games/veto-h/assets/cards/SND-006.webp",
       "width": 576,
       "height": 384,
-      "bytes": 64314,
-      "sha256": "9e625a798b5c88de079e9f6638b5edd7913374e239a6af8750e86d645cebf7c3",
+      "bytes": 14594,
+      "sha256": "00c39c7619bd9f43d9200e571f23d47088b5446adfb5888324b24ed4f8404b87",
       "sourceName": "Broşür Ekibi"
     },
     "SND-007": {
       "path": "/games/veto-h/assets/cards/SND-007.webp",
       "width": 576,
       "height": 384,
-      "bytes": 53556,
-      "sha256": "367320ea0b41daaa756109bade501f4bd8da491be4c17dacd40f8ad168a13c83",
+      "bytes": 13120,
+      "sha256": "48e63d6cf4074e5541676a96eee92713ec81fb385245bee188d696fa9c2efbc0",
       "sourceName": "İlçe Yazmanı"
     },
     "SND-008": {
       "path": "/games/veto-h/assets/cards/SND-008.webp",
       "width": 576,
       "height": 384,
-      "bytes": 62612,
-      "sha256": "298605f2369ae211f92549ab3ae90bf1f6f64f17aa3316b832c885089dd2c119",
+      "bytes": 14990,
+      "sha256": "7b7cab6d5714870e79df83bca3e8ad889529bb2d4028312db1c7345eb9840386",
       "sourceName": "Kurye"
     },
     "SND-009": {
       "path": "/games/veto-h/assets/cards/SND-009.webp",
       "width": 576,
       "height": 384,
-      "bytes": 55010,
-      "sha256": "0769226c96b9e2eaf1f37f1a37149b06bf251cd190b5006f409c44a0d4fd653a",
+      "bytes": 14074,
+      "sha256": "fe2ba4548c5090e3acc6abf576434e4b86aaa2d1d833b0a04e543e5bb67098f3",
       "sourceName": "Çaycı Delegesi"
     },
     "SND-010": {
       "path": "/games/veto-h/assets/cards/SND-010.webp",
       "width": 576,
       "height": 384,
-      "bytes": 62248,
-      "sha256": "dfbfbdd013e4965d5746821140bae302c71e8f3057bd8886830c166652cf6ab0",
+      "bytes": 11584,
+      "sha256": "1b7d21beea6d6e3f422cf6d07f7ba8d1b468cbc369c6c611ff366e1d9b493f01",
       "sourceName": "Kapı Kapı Ekibi"
     },
     "SND-011": {
       "path": "/games/veto-h/assets/cards/SND-011.webp",
       "width": 576,
       "height": 384,
-      "bytes": 52788,
-      "sha256": "7418588e51556babb93bc593b41de08f0e53dcb2212f60646f53ab2973b10f20",
+      "bytes": 12608,
+      "sha256": "116afb36169a8d418ea3568baed0ddb26876ad4584ee70bfbe70975c2fea53d5",
       "sourceName": "Sandık Çantası"
     },
     "SND-012": {
       "path": "/games/veto-h/assets/cards/SND-012.webp",
       "width": 576,
       "height": 384,
-      "bytes": 43042,
-      "sha256": "f77841ac2f74115228c64f1acb7b3cea64a7f98985d2eb5ceea593e1234f5382",
+      "bytes": 13156,
+      "sha256": "a173575489f06994dc264fbc952a7b85e3eb1c35738eebf82fe14982893ed19c",
       "sourceName": "Yedek Müşahit"
     },
     "SND-013": {
       "path": "/games/veto-h/assets/cards/SND-013.webp",
       "width": 576,
       "height": 384,
-      "bytes": 64954,
-      "sha256": "754e7531a98198c05dfe52f9a3cc3c70bca2b26fd713b0f611ba157c60000c72",
+      "bytes": 12866,
+      "sha256": "3c17ad39b34053069630fe41d32f3b855fa6a27ef949d21a906f9fa7258b0104",
       "sourceName": "Genel Sekreter"
     },
     "SND-014": {
       "path": "/games/veto-h/assets/cards/SND-014.webp",
       "width": 576,
       "height": 384,
-      "bytes": 44150,
-      "sha256": "7c216842dbbec717ba7f8de6939928551fff9e860b5de3ff413434d2fcd75f14",
+      "bytes": 12742,
+      "sha256": "57ad0f94f0b1335c2976a664c94783fa80a6af95f8a8d8ba2aba5922f36b86ac",
       "sourceName": "Sözcü"
     },
     "SND-015": {
       "path": "/games/veto-h/assets/cards/SND-015.webp",
       "width": 576,
       "height": 384,
-      "bytes": 50362,
-      "sha256": "6e9a09ba1f071215a8659cd79dcfa97958f987bc9cd0ee365d5f52edfb1cada2",
+      "bytes": 12314,
+      "sha256": "d69c671db7da57a093ece18e932eea29640da39202c22deec53bcb8728b038f4",
       "sourceName": "Grup Başkanvekili"
     },
     "SND-016": {
       "path": "/games/veto-h/assets/cards/SND-016.webp",
       "width": 576,
       "height": 384,
-      "bytes": 54036,
-      "sha256": "e363181cb7d20a6df17440edeb8b9210fd4d045484a1dd480e89b4c65a541391",
+      "bytes": 12908,
+      "sha256": "ca324cd35dddb6822e40c0a77139045b29f589edab1ee6463213826e38cc58bb",
       "sourceName": "İlçe Başkanı"
     },
     "SND-017": {
       "path": "/games/veto-h/assets/cards/SND-017.webp",
       "width": 576,
       "height": 384,
-      "bytes": 64564,
-      "sha256": "8e18e1f15b8b33b509edbddf5e0b14d77fb0d064c7c7a7d6af4aba98ebf3f59c",
+      "bytes": 12316,
+      "sha256": "cabc66833a3beae176dcd9eb968dfc4fdb175b964a38bae37f3ef495d2987373",
       "sourceName": "Teşkilatçı"
     },
     "SND-018": {
       "path": "/games/veto-h/assets/cards/SND-018.webp",
       "width": 576,
       "height": 384,
-      "bytes": 54216,
-      "sha256": "e593e33f7f51c6ce5ff243a1aee6983e59a2d06eaf2a78c18970d10e770b7e7c",
+      "bytes": 12386,
+      "sha256": "b3324f768eb57cb18d974e9e16979a917aab2f7fbd1c570883170557f934145f",
       "sourceName": "Lobici"
     },
     "SND-019": {
       "path": "/games/veto-h/assets/cards/SND-019.webp",
       "width": 576,
       "height": 384,
-      "bytes": 54542,
-      "sha256": "2d7446dc3cf43eb5c317eede3a48f59556e1f9e11dcfbd45bdc5b80263a608c6",
+      "bytes": 14512,
+      "sha256": "df6f325f095415efbbb6e48b5b8634c80d6041e6891e9127b10b061473363031",
       "sourceName": "Danışman"
     },
     "SND-020": {
       "path": "/games/veto-h/assets/cards/SND-020.webp",
       "width": 576,
       "height": 384,
-      "bytes": 50276,
-      "sha256": "64e53464680fe51814c2fd9dde9049588131dddf3d607a22f1d6bfc0b41ae516",
+      "bytes": 13882,
+      "sha256": "707bb44db4cd88b029a099fe1b663945fceec8bc99a0632408326f1b883d2cb8",
       "sourceName": "Anketör"
     },
     "SND-021": {
       "path": "/games/veto-h/assets/cards/SND-021.webp",
       "width": 576,
       "height": 384,
-      "bytes": 59820,
-      "sha256": "51f2f6d248eb46b6a2eeff3b5240edc2e461a80fbfd46d82f999a26062f4d753",
+      "bytes": 12868,
+      "sha256": "7621ae73967618938b6573279af3efbb37dae08a015c6712f619e8ff1201a7a7",
       "sourceName": "Protokol"
     },
     "SND-022": {
       "path": "/games/veto-h/assets/cards/SND-022.webp",
       "width": 576,
       "height": 384,
-      "bytes": 60702,
-      "sha256": "a924d7cae68406c9311b9b56c565348aa7001f0127e5b2fa936f5830c3b8f0c4",
+      "bytes": 13740,
+      "sha256": "c00022a9067b54ba165ace19cfc5e41c6df6dcb6b62324fce7c1b75a36981cc6",
       "sourceName": "Kampanya Direktörü"
     },
     "SND-023": {
       "path": "/games/veto-h/assets/cards/SND-023.webp",
       "width": 576,
       "height": 384,
-      "bytes": 57622,
-      "sha256": "dbcb5604ec56549ef96be82de31957a9a527dd7afe54b8aa03c7df39e9921fb0",
+      "bytes": 14590,
+      "sha256": "3dc7841c7ca48be183d740cc40acdf0fbbf10677ab72d61ef4bbe175253bf0fe",
       "sourceName": "Medya Koordinatörü"
     },
     "SND-024": {
       "path": "/games/veto-h/assets/cards/SND-024.webp",
       "width": 576,
       "height": 384,
-      "bytes": 47070,
-      "sha256": "6c849fa814758e20d79b0c1e9a68142f1efb4fedb1f7fbb06c93cfbe782f85d0",
+      "bytes": 14706,
+      "sha256": "6ac158d51a7e3452850fe6d85c7a292e39c5da371c265ca73fba723f097de998",
       "sourceName": "Hukukçu"
     },
     "SND-025": {
       "path": "/games/veto-h/assets/cards/SND-025.webp",
       "width": 576,
       "height": 384,
-      "bytes": 50048,
-      "sha256": "2b0c72235707f18a5cecf1176a5d26646c7ef4c6bc1c98d8a9d863d4dbcaa8ff",
+      "bytes": 13746,
+      "sha256": "2203aeebcddd5801f1d6311f998835e2a94dd5aba74420383ac86796b60d97af",
       "sourceName": "Gölge Yazarı"
     },
     "SND-026": {
       "path": "/games/veto-h/assets/cards/SND-026.webp",
       "width": 576,
       "height": 384,
-      "bytes": 48038,
-      "sha256": "3b1899a56f989d82527641654578e354dbf34a3db248dc02f01f4d6ebed7409d",
+      "bytes": 12176,
+      "sha256": "fdc93df9987d2e67b35b8361c0b589b7648dd03a92265f4866b89ea7994ab431",
       "sourceName": "Transfer Avcısı"
     },
     "SND-027": {
       "path": "/games/veto-h/assets/cards/SND-027.webp",
       "width": 576,
       "height": 384,
-      "bytes": 64814,
-      "sha256": "1e86d0b1f1fec74614219ed9a50ca8a52c32f525df05b5c0400b617946801f8c",
+      "bytes": 14942,
+      "sha256": "cbc33afb685a9da6c5fab4f7cbe507031b4f731c5f57887010682ac36d9e30ca",
       "sourceName": "Belediye Başkanı"
     },
     "SND-028": {
       "path": "/games/veto-h/assets/cards/SND-028.webp",
       "width": 576,
       "height": 384,
-      "bytes": 46354,
-      "sha256": "eb6e0ad728fd438c57ff8cae8707ada478d0e137cbdfd4070d5adb1697af2c97",
+      "bytes": 14550,
+      "sha256": "9225a2ca7fc846c1d55f4805bdcc1ecfe4d59d1d48e370b182a4aa5dc4571116",
       "sourceName": "Milletvekili"
     },
     "SND-029": {
       "path": "/games/veto-h/assets/cards/SND-029.webp",
       "width": 576,
       "height": 384,
-      "bytes": 53288,
-      "sha256": "a8b0343aab04aa297f76f35cb1e6a3f26bfef169f4578ece83c372dae5c70b6f",
+      "bytes": 14976,
+      "sha256": "23222889198e9e2269ce24de8d4976ccaa686ef8f9f50f416254d04e40985248",
       "sourceName": "Bakan Adayı"
     },
     "SND-030": {
       "path": "/games/veto-h/assets/cards/SND-030.webp",
       "width": 576,
       "height": 384,
-      "bytes": 47350,
-      "sha256": "f36c6de686cbe0f93d522e5c99c65c305c392c4a5f86b923b9ed1d9c3f431060",
+      "bytes": 14518,
+      "sha256": "062f5b6d06e7565d1a772f3ce8f0544b165b23f0f84631afd3eb6e95e6df359a",
       "sourceName": "Büyükşehir Adayı"
     },
     "SND-031": {
       "path": "/games/veto-h/assets/cards/SND-031.webp",
       "width": 576,
       "height": 384,
-      "bytes": 44024,
-      "sha256": "3bcb83d44cd7230f7da99c9d0ff0f850fae5f594dfe57b9f3a2c4304d7b9c391",
+      "bytes": 16494,
+      "sha256": "5c3090e6778c358154e2f99208216d7181836c8506ba004a74d5093316686b1e",
       "sourceName": "Parti Sözcüsü"
     },
     "SND-032": {
       "path": "/games/veto-h/assets/cards/SND-032.webp",
       "width": 576,
       "height": 384,
-      "bytes": 55632,
-      "sha256": "6106f32e085954b02f1d83dd5707660005268943aec62eaf3a0d948465be3506",
+      "bytes": 15506,
+      "sha256": "6db2ea48c22db69b0abbc006b510c374c9e99761813479f2d5409c61a91ea195",
       "sourceName": "Fraksiyon Lideri"
     },
     "SND-033": {
       "path": "/games/veto-h/assets/cards/SND-033.webp",
       "width": 576,
       "height": 384,
-      "bytes": 55610,
-      "sha256": "1a76193df15e17bc4dcbe63b20ba5831a5b9e4bfb3740e6043d6b473ca831d7e",
+      "bytes": 15130,
+      "sha256": "052e7b449f4544b0fb971f6b9ed580094c23282874d366870829f3afa42a8287",
       "sourceName": "Eski Vali"
     },
     "SND-034": {
       "path": "/games/veto-h/assets/cards/SND-034.webp",
       "width": 576,
       "height": 384,
-      "bytes": 48486,
-      "sha256": "9814c2ce50269fb429e1b3a8822130bf86cf71d8d389359106ad4f2870a1f8c4",
+      "bytes": 15716,
+      "sha256": "17b4d0c98aadf27a16a0f8e9aa0b7ccad90c5f0d33fcafb0d32d80273fa25125",
       "sourceName": "Sendika Başkanı"
     },
     "SND-035": {
       "path": "/games/veto-h/assets/cards/SND-035.webp",
       "width": 576,
       "height": 384,
-      "bytes": 61866,
-      "sha256": "91b7355a216006c48109620b20f087372b1620d216dca3f69c05010774e3634f",
+      "bytes": 14604,
+      "sha256": "8ad5f2fe3bbe95796ae9637abb8cbe118787f7b85199e4ff09bbd8674de366cd",
       "sourceName": "Odalar Birliği"
     },
     "SND-036": {
       "path": "/games/veto-h/assets/cards/SND-036.webp",
       "width": 576,
       "height": 384,
-      "bytes": 50068,
-      "sha256": "b4511403ab01d5b401cbc94b13f08de1669e27768754b5265ea305efef9516ff",
+      "bytes": 16918,
+      "sha256": "77bb91bbd27964766b5ef81e1e530a87cdf9e53904a4e77811d5a7192066141f",
       "sourceName": "TV Yorumcusu"
     },
     "SND-037": {
       "path": "/games/veto-h/assets/cards/SND-037.webp",
       "width": 576,
       "height": 384,
-      "bytes": 64222,
-      "sha256": "ff7711effc67509c09055aacebefa34d972a8c5a478b2076863bd76c70a44dca",
+      "bytes": 15590,
+      "sha256": "ff295bbac86a4b5ec2b7192d86cf441f693c8b494c3044d5468fcfd6b01caaa4",
       "sourceName": "Gazete Patronu"
     },
     "SND-038": {
       "path": "/games/veto-h/assets/cards/SND-038.webp",
       "width": 576,
       "height": 384,
-      "bytes": 40904,
-      "sha256": "b98651455c38cfcdf6ee01cd67ecde1d2e86c04f2c87b166da469cf39537b0f2",
+      "bytes": 15750,
+      "sha256": "42ffe8ee6cd514fc7d4824f01af2f3c42e176b368e11899bf37e88fb838ed7bc",
       "sourceName": "Üniversite Hocası"
     },
     "SND-039": {
       "path": "/games/veto-h/assets/cards/SND-039.webp",
       "width": 576,
       "height": 384,
-      "bytes": 41660,
-      "sha256": "78a38234086dd73a54a4dad6d46ab31eed2a47e2ae8b4a7378b2a7c12948f3ae",
+      "bytes": 14132,
+      "sha256": "ed97bd68e7e10d5e7f5512f7c2b1f41e49dc9b61f91800112af2eb53c2f840ea",
       "sourceName": "Lobici Ağır"
     },
     "SND-040": {
       "path": "/games/veto-h/assets/cards/SND-040.webp",
       "width": 576,
       "height": 384,
-      "bytes": 55056,
-      "sha256": "3ecd85346938a566e9358135ef86c2e6b489e6fd8fbb6547acbb26ad5e2516ba",
+      "bytes": 14638,
+      "sha256": "ebb64025856a793c3c086016b99ce59ea026deadf7d05d0b3b454e735b465f59",
       "sourceName": "Hemşehri Derneği"
     },
     "SND-041": {
       "path": "/games/veto-h/assets/cards/SND-041.webp",
       "width": 576,
       "height": 384,
-      "bytes": 44706,
-      "sha256": "278c87ec65613d8a4456b8091253466a7e008abed7d08d87e90294d5e053a4a9",
+      "bytes": 15886,
+      "sha256": "ded4c99ea096d96c6bef7723d4afce63c6120f8cb4765b792665219c8596b74b",
       "sourceName": "İş İnsanı Destekçi"
     },
     "SND-042": {
       "path": "/games/veto-h/assets/cards/SND-042.webp",
       "width": 576,
       "height": 384,
-      "bytes": 42812,
-      "sha256": "4690b9348a81eaa7023c221cfc20b6e6a48b30ce149e4c9f91243926eb415677",
+      "bytes": 15126,
+      "sha256": "a481aedcbafb8a2b0fd3efa98dcc8a7e693d00acebc856b747737593d811a313",
       "sourceName": "Emekli Paşa"
     },
     "SND-043": {
       "path": "/games/veto-h/assets/cards/SND-043.webp",
       "width": 576,
       "height": 384,
-      "bytes": 38536,
-      "sha256": "afdae610029a35e2a3d6a62a8fcffbb828fde288cc82b5841b1b342613b56e29",
+      "bytes": 19170,
+      "sha256": "cdfccdf69924a0b94e8deb77a9586487381800ccd472de539d704337436b3743",
       "sourceName": "Genel Başkan"
     },
     "SND-044": {
       "path": "/games/veto-h/assets/cards/SND-044.webp",
       "width": 576,
       "height": 384,
-      "bytes": 46612,
-      "sha256": "a2c5d10b3e9828e03b071296039ac0859a06afd2819641bbfa07a98f32e0e04b",
+      "bytes": 17882,
+      "sha256": "33a84ac8b3d90f7307062742f781d981c4d6757fc7454b3e1542622fcd254cec",
       "sourceName": "Cumhurbaşkanı Adayı"
     },
     "SND-045": {
       "path": "/games/veto-h/assets/cards/SND-045.webp",
       "width": 576,
       "height": 384,
-      "bytes": 55506,
-      "sha256": "7cf25ce5aa9c31bf39c9100854d1a8eb9e21b2626e6c443466ceeedb99258d6b",
+      "bytes": 15882,
+      "sha256": "e50926f4d268da9144cd790a4277f1bb41937c2d7e66dfad7bdf34253b889947",
       "sourceName": "Koalisyon Mimarı"
     },
     "SND-046": {
       "path": "/games/veto-h/assets/cards/SND-046.webp",
       "width": 576,
       "height": 384,
-      "bytes": 46438,
-      "sha256": "3af363e90238044221e4ed70fcf804969f3f58502945518fd4de657cd210bab7",
+      "bytes": 17044,
+      "sha256": "fc456eff6c4c147abf01c7190c0908e5c4f987ccc60c55b18e29ab0f045bd86c",
       "sourceName": "Eski Devlet"
     },
     "SND-047": {
       "path": "/games/veto-h/assets/cards/SND-047.webp",
       "width": 576,
       "height": 384,
-      "bytes": 53340,
-      "sha256": "f930a09051463fe96121091f9eec4ef2ea3592e36f08bfdce82b44c40a9264ca",
+      "bytes": 17500,
+      "sha256": "d81a6fbc1887aefcacaa5db4744ad704c49e21d88be67b8b8cb3d282cdd18328",
       "sourceName": "Medya İmparatoru"
     },
     "SND-048": {
       "path": "/games/veto-h/assets/cards/SND-048.webp",
       "width": 576,
       "height": 384,
-      "bytes": 37686,
-      "sha256": "cfae8c4c072733b4398ea9e73c618450519f14de978511f99dae341ef33b9f41",
+      "bytes": 16446,
+      "sha256": "a68af0f84f4e314f9f842575dbd655c4564637bbbfc61cf02cc3c69ac96693d6",
       "sourceName": "Sandık Bakanı"
     },
     "SND-049": {
       "path": "/games/veto-h/assets/cards/SND-049.webp",
       "width": 576,
       "height": 384,
-      "bytes": 44328,
-      "sha256": "524d5d90fc70050b881e8ecadf5fa8af9e9b8edfca78e454ad90c8e40181216a",
+      "bytes": 18766,
+      "sha256": "7cb6cad401755446dada3482302edd46b11e2986c5c67ca3f8341c5e1a042aff",
       "sourceName": "Yargı Lobisi"
     },
     "SND-050": {
       "path": "/games/veto-h/assets/cards/SND-050.webp",
       "width": 576,
       "height": 384,
-      "bytes": 45346,
-      "sha256": "80a7738880af2a532ffc3ff40cc53c5ffe3de373d21fce3bdfc9c2b4716087b8",
+      "bytes": 16816,
+      "sha256": "72b26d9789788a52a3a9facfd40e1a3054fa56c574a8c0b5c539525d6dd3bd5d",
       "sourceName": "Diaspora Hazinesi"
     },
     "SND-051": {
       "path": "/games/veto-h/assets/cards/SND-051.webp",
       "width": 576,
       "height": 384,
-      "bytes": 47872,
-      "sha256": "058cbee45421ff32a53c135e53a83ef29abb9917357015caf077ab7851530f07",
+      "bytes": 16786,
+      "sha256": "afdbd0bb2adc9ceafc8c95392335a338838e46055febd1733a5f6fe026e85eb0",
       "sourceName": "Kriz Masası"
     },
     "SND-052": {
       "path": "/games/veto-h/assets/cards/SND-052.webp",
       "width": 576,
       "height": 384,
-      "bytes": 35630,
-      "sha256": "8a041ad0b0a2a62489f12c1d186d52362d0d5d40d8c57754423ea28b9913afe2",
+      "bytes": 16382,
+      "sha256": "44771078af5c5d4a874beeb541c090e60c5fa1734aab6bf220c7f9a0093a61ca",
       "sourceName": "Garanti Liste"
     },
     "SND-053": {
       "path": "/games/veto-h/assets/cards/SND-053.webp",
       "width": 576,
       "height": 384,
-      "bytes": 46738,
-      "sha256": "6df7425abfc544051a59ede6372d282a5464c2c15fa59e67dd33be6580e05097",
+      "bytes": 15266,
+      "sha256": "f21c179329f50f1c1c032da132e418f50bd817d2cee25c32af2ef8179b2510ba",
       "sourceName": "Son Anket"
     },
     "SND-054": {
       "path": "/games/veto-h/assets/cards/SND-054.webp",
       "width": 576,
       "height": 384,
-      "bytes": 45948,
-      "sha256": "8c7b81dc1613b9e52dd8e57455e82f623d25e3f86e6ba15c479d59cb48b56624",
+      "bytes": 15040,
+      "sha256": "8a48f749765a5510346d8bf03283409ab94a27b4af9ede4924cf1f45e2c3743e",
       "sourceName": "Kararsız Seçmen"
     },
     "SND-055": {
       "path": "/games/veto-h/assets/cards/SND-055.webp",
       "width": 576,
       "height": 384,
-      "bytes": 35050,
-      "sha256": "fafeaa2aa726973adfb17c18ec58e4e9815e61084810a97c592ba580868517fa",
+      "bytes": 13788,
+      "sha256": "e66bea078232575f7aa0f28087063fc641e72fd7f781a8c0085b95c04d6248d9",
       "sourceName": "Taktik Oy"
     },
     "SND-056": {
       "path": "/games/veto-h/assets/cards/SND-056.webp",
       "width": 576,
       "height": 384,
-      "bytes": 40786,
-      "sha256": "17711def00b1afc348ca17f5781f6ad09506a691c3d8cc1ad9ff5bf2a6b6fb81",
+      "bytes": 14078,
+      "sha256": "1fb62c7d1caec4cbe12684c9bd6ce5f05e1eea3085e0a07ecc79b0ec5e7bb457",
       "sourceName": "Exit Poll"
     },
     "SND-057": {
       "path": "/games/veto-h/assets/cards/SND-057.webp",
       "width": 576,
       "height": 384,
-      "bytes": 47574,
-      "sha256": "68cab1a347289c76501b173df1829b0eb86e5435d39d510ff645b0d5679274f3",
+      "bytes": 13336,
+      "sha256": "73c30358a7603012f29e82c624c3b9a4b74af2fea2633449823f2af4685dcc29",
       "sourceName": "Oy Kırılımı"
     },
     "SND-058": {
       "path": "/games/veto-h/assets/cards/SND-058.webp",
       "width": 576,
       "height": 384,
-      "bytes": 44432,
-      "sha256": "cfc0477e2f59d894a08ada1b07b2cda682396b64d27b2bfc22b37b3e93bb5ef2",
+      "bytes": 13886,
+      "sha256": "3074a624b2d410b700bc1cd5b880b631879668095c3dba3e9b0afab905f6ff3f",
       "sourceName": "Katılım Rekoru"
     },
     "SND-059": {
       "path": "/games/veto-h/assets/cards/SND-059.webp",
       "width": 576,
       "height": 384,
-      "bytes": 53468,
-      "sha256": "d0df4cb4f8604e3e8de12abfa77cdf8bc096f11f6bb166ed1942adcff0c5f650",
+      "bytes": 13330,
+      "sha256": "7c7dc51b28db922855f4ffca65a0184c68bc2b25ffae3d9769ec466c590f59ab",
       "sourceName": "Beyaz Oy"
     },
     "SND-060": {
       "path": "/games/veto-h/assets/cards/SND-060.webp",
       "width": 576,
       "height": 384,
-      "bytes": 50964,
-      "sha256": "7668f1749fea39dfc27cc140979af577334107b468036ca35d34ff287cb84373",
+      "bytes": 15494,
+      "sha256": "158e8ff768fb8ac362013eb8eeba28c2967cb14a0fe7fc8eef4f1a7f116d49a3",
       "sourceName": "Geçersiz Zarf"
     },
     "SND-061": {
       "path": "/games/veto-h/assets/cards/SND-061.webp",
       "width": 576,
       "height": 384,
-      "bytes": 43856,
-      "sha256": "815b8a56450fff42c9f14ea24757b4b0a5e6993b55fc87117e54d44d66216543",
+      "bytes": 15090,
+      "sha256": "e15fe0507130ff082124e48ce673e41b2d78a783ad699f715807b14e514cf05f",
       "sourceName": "Sandık Farkı"
     },
     "SND-062": {
       "path": "/games/veto-h/assets/cards/SND-062.webp",
       "width": 576,
       "height": 384,
-      "bytes": 40708,
-      "sha256": "2ac7aaa892b12fc55be4e5c3574983959b40f9e30749a405cf6635a92f6d7e20",
+      "bytes": 13168,
+      "sha256": "1f77dc231ca804ef11e40a9b94ed85dbbc758b5a9da87ed398cd5df451411305",
       "sourceName": "Konsensüs"
     },
     "SND-063": {
       "path": "/games/veto-h/assets/cards/SND-063.webp",
       "width": 576,
       "height": 384,
-      "bytes": 60550,
-      "sha256": "9d30c537b8f5be34ebfeb6d95a94c93bb18c229926a4ef24c1f92e0de6424a8c",
+      "bytes": 12550,
+      "sha256": "ccb3e858e3f53fbe3b0f453eb1993af7b1fcc5b93f3217e2c6cbe67189813701",
       "sourceName": "Dip Dalga"
     },
     "SND-064": {
       "path": "/games/veto-h/assets/cards/SND-064.webp",
       "width": 576,
       "height": 384,
-      "bytes": 36594,
-      "sha256": "44f6233146ffd4e330f2b4410e0905b68b22feea7f3d0bbce3753ca8386059a3",
+      "bytes": 13722,
+      "sha256": "c6bf9b247d254c31b1ae26f99b2112890b5a7bfce09f73e2b6d50864ca66f30d",
       "sourceName": "Sessiz Çoğunluk"
     },
     "SND-065": {
       "path": "/games/veto-h/assets/cards/SND-065.webp",
       "width": 576,
       "height": 384,
-      "bytes": 55084,
-      "sha256": "46697ec7d85d57d99690b34f191f254c085cedb74b1613eb827c60dd0f574676",
+      "bytes": 15714,
+      "sha256": "aa1409ef6b306389ecc3e39c41e8839d5432a16b3816b5e607492e8876330949",
       "sourceName": "Kurultay Delegesi"
     },
     "SND-066": {
       "path": "/games/veto-h/assets/cards/SND-066.webp",
       "width": 576,
       "height": 384,
-      "bytes": 48338,
-      "sha256": "f5fcda5e0ac80a5d857cea44dbbf24f3e35859124d219811095d92491c78e122",
-      "sourceName": "Kurultay Delegesi"
+      "bytes": 14100,
+      "sha256": "7584dad644a6b0bd67f3cac64f75ba0461ce6b03c7ae264a872002c145150c4a",
+      "sourceName": "Kurultay Yedek Delegesi"
     },
     "SND-067": {
       "path": "/games/veto-h/assets/cards/SND-067.webp",
       "width": 576,
       "height": 384,
-      "bytes": 54036,
-      "sha256": "8e7cdd2d22cf955fd7ea738d352737ee98e1e65465fef082a257e4b9e6ed29fe",
+      "bytes": 15598,
+      "sha256": "c54ea508d70e74f6fd348ba6c18d973ba82e852e259d1b092e28698c007d7d91",
       "sourceName": "Liste Müteahhidi"
     },
     "SND-068": {
       "path": "/games/veto-h/assets/cards/SND-068.webp",
       "width": 576,
       "height": 384,
-      "bytes": 47244,
-      "sha256": "b704061c06f1a818c49d1dc35de0b08b58f23a5bcb841c30e095800452e4ca93",
+      "bytes": 15584,
+      "sha256": "db1ece5001ddd6f1b3b87e5f6fa770295c3dcf10d7b6fa62353c57b36d107851",
       "sourceName": "Ortak Aday"
     },
     "SND-069": {
       "path": "/games/veto-h/assets/cards/SND-069.webp",
       "width": 576,
       "height": 384,
-      "bytes": 49240,
-      "sha256": "1b93e658e45fef002fb2dbe3777d644dd385221969c7568d763ee3302f7244e3",
+      "bytes": 15556,
+      "sha256": "b19a14185cd838a9904efd5a9a7d6d54188d3bf5cd345ccaa919877344adddc4",
       "sourceName": "İttifak Protokolü"
     },
     "SND-070": {
       "path": "/games/veto-h/assets/cards/SND-070.webp",
       "width": 576,
       "height": 384,
-      "bytes": 48270,
-      "sha256": "82de7bfe13f85e55574a1d34ae347c636966f57cd9e92476ef3be57605f46e2e",
+      "bytes": 20006,
+      "sha256": "8d38b452bb8a1f85aaa179f37d7ae64af11e2cc8eb0fd5ee15d317540aa0d6da",
       "sourceName": "Milli Liste"
     },
     "SND-071": {
       "path": "/games/veto-h/assets/cards/SND-071.webp",
       "width": 576,
       "height": 384,
-      "bytes": 44312,
-      "sha256": "30940653c2afe2225dc48ceac159897ba659b33c6f1bae4ed0274ff386cac081",
+      "bytes": 14468,
+      "sha256": "70b6dfdea213c74f472eea3f0e8f0c057c77002c5eb391daed25c8fead5dddf4",
       "sourceName": "Gölge Kabine"
     },
     "SND-072": {
       "path": "/games/veto-h/assets/cards/SND-072.webp",
       "width": 576,
       "height": 384,
-      "bytes": 43238,
-      "sha256": "74fa607e0a82a1a770c312886c8248d423bc1fd8bef7b39e4ffee02f88b18c7a",
+      "bytes": 14338,
+      "sha256": "279d184373414e528b449e1005d3b57cbcccd31dae4f78ae70cf7fa90c90ae89",
       "sourceName": "Seçim İttifakı A"
     },
     "SND-073": {
       "path": "/games/veto-h/assets/cards/SND-073.webp",
       "width": 576,
       "height": 384,
-      "bytes": 37062,
-      "sha256": "a5bc63e92d13732d936fcb0f75dcdc2c40797ec5d259d8d91903ddbbc556f68b",
+      "bytes": 14732,
+      "sha256": "9162786ea5c10f07e5f9e360a45f813f0280576c3b8b4fb85f67a9b128df1182",
       "sourceName": "Seçim İttifakı B"
     },
     "SND-074": {
       "path": "/games/veto-h/assets/cards/SND-074.webp",
       "width": 576,
       "height": 384,
-      "bytes": 49338,
-      "sha256": "ea81a008078cd5f8e66d3ef7d40c26bb6d6ae68ab192c388d6a3b54cc6f5a578",
+      "bytes": 18318,
+      "sha256": "24dd7fb613f9dac6b5cf27309f50e37ea366b08541da0265181668db8434f66a",
       "sourceName": "Resmi Aday"
     },
     "SND-075": {
       "path": "/games/veto-h/assets/cards/SND-075.webp",
       "width": 576,
       "height": 384,
-      "bytes": 49486,
-      "sha256": "02a4b44bb67c9f895d6aca9976e89106e3e262410790f188a313c7ec527e04b9",
+      "bytes": 14734,
+      "sha256": "dd05d1019a38d0a7e19c1ab5dbb4a971d152906f458aebe781450b18fb2e1863",
       "sourceName": "Bağımsız Sürpriz"
     },
     "SND-076": {
       "path": "/games/veto-h/assets/cards/SND-076.webp",
       "width": 576,
       "height": 384,
-      "bytes": 35168,
-      "sha256": "6b4ee80a560aa587d4be9ab52bdd162d1979426de512e430c4a276874699df79",
+      "bytes": 14680,
+      "sha256": "50d296533c637900cebd8f09ba2276970a076a29bf03b81a54eee4223dfb5038",
       "sourceName": "Devralınmış Teşkilat"
     },
     "SND-077": {
       "path": "/games/veto-h/assets/cards/SND-077.webp",
       "width": 576,
       "height": 384,
-      "bytes": 52032,
-      "sha256": "6e93ad8de479e22727472cc82a73d8f5f9bc8d379f1cbd666a96fe2350dcbf7b",
+      "bytes": 19198,
+      "sha256": "7947b22f747e3765cd4ee19b24559daa39e1732c704a25372fc4ab333b6dcf6b",
       "sourceName": "Liste Başı"
     },
     "SND-078": {
       "path": "/games/veto-h/assets/cards/SND-078.webp",
       "width": 576,
       "height": 384,
-      "bytes": 41186,
-      "sha256": "9ba79beb36a302c6da7254d8f603f98127c2f0bee90d64a53fd87d7898af7780",
+      "bytes": 16138,
+      "sha256": "963f90f880a61434f62dba6a342eebcf2db3bc5b126906da51bedf9183693176",
       "sourceName": "Ortak Bildiri"
     },
     "SND-079": {
       "path": "/games/veto-h/assets/cards/SND-079.webp",
       "width": 576,
       "height": 384,
-      "bytes": 41768,
-      "sha256": "00d523244b50d69fd3d0783732c1367db18c8368e58bf131516f30bed3c377b4",
+      "bytes": 14640,
+      "sha256": "f15ec69c4a1f275c5151963a8c398587c8f59c374efb51a7545770e7b1ded975",
       "sourceName": "Delege Bloğu"
     },
     "SND-080": {
       "path": "/games/veto-h/assets/cards/SND-080.webp",
       "width": 576,
       "height": 384,
-      "bytes": 37988,
-      "sha256": "373ef2d93197777427cda1a71feb35e8b13dd6ff1a2106ee9ed289c0d3be9705",
-      "sourceName": "Delege Bloğu"
+      "bytes": 16024,
+      "sha256": "1cfaf3e13c2cebdffed58d01ee57b543b27d96d092cb9de0804b33ee4b0273bd",
+      "sourceName": "Yedek Delege Bloğu"
     },
     "SND-081": {
       "path": "/games/veto-h/assets/cards/SND-081.webp",
       "width": 576,
       "height": 384,
-      "bytes": 60214,
-      "sha256": "f65721bcc02a32263807399c558c832d3ffd1505197de5d295d14c5c26ccb4df",
+      "bytes": 18110,
+      "sha256": "9a0ff626430731ab00a56eba62dafc43d871069f87f9e1d457925ebfcd692762",
       "sourceName": "Miting Alanı"
     },
     "SND-082": {
       "path": "/games/veto-h/assets/cards/SND-082.webp",
       "width": 576,
       "height": 384,
-      "bytes": 57280,
-      "sha256": "402af6c2494b8e8cb6310dc7264d224d235b99eed8b8b223551f005d0721aba0",
+      "bytes": 18868,
+      "sha256": "df65ed6aec72cd2329584c77de302c2400799c52248d2abec4cb93212eb76df5",
       "sourceName": "Vaad Maratonu"
     },
     "SND-083": {
       "path": "/games/veto-h/assets/cards/SND-083.webp",
       "width": 576,
       "height": 384,
-      "bytes": 55438,
-      "sha256": "7776efb819338a2ee9c1a026246603d29b86b2fc4e966ac3b6dc9522b699d3d6",
+      "bytes": 15102,
+      "sha256": "9c4825799679a6e0ac68cb2a3a9b73f8538dae0e64403a35031e4f2a211cb400",
       "sourceName": "Broşür Yağmuru"
     },
     "SND-084": {
       "path": "/games/veto-h/assets/cards/SND-084.webp",
       "width": 576,
       "height": 384,
-      "bytes": 48262,
-      "sha256": "93bc780c45ce54cb79192427d7ec456a240fd7607138fb0d7e928cde32f83dc2",
+      "bytes": 18646,
+      "sha256": "a33a5c3b0f2e26ad5753fac10298909d444432c1b6b5a3b7b9ad08c54dd3a998",
       "sourceName": "Transfer Bombası"
     },
     "SND-085": {
       "path": "/games/veto-h/assets/cards/SND-085.webp",
       "width": 576,
       "height": 384,
-      "bytes": 43516,
-      "sha256": "d7c286ba6878ddfc36e3ddbb8394868ec0238d93bb6adac910a1e98e2504e4f9",
+      "bytes": 17224,
+      "sha256": "8c5bf8991efa6aebeebd46527b8b0bedafbbef8d3be26749b2582d21bd73dca6",
       "sourceName": "Teşkilat Toplantısı"
     },
     "SND-086": {
       "path": "/games/veto-h/assets/cards/SND-086.webp",
       "width": 576,
       "height": 384,
-      "bytes": 35772,
-      "sha256": "5304681e640edce9d57e2db7a918a711319fafcc8a717d5da1a87e36556abe69",
+      "bytes": 18178,
+      "sha256": "1dcce4fc27a2869dcd00f1998fa2b2e71182ca5ed32c38373399216a5096da0a",
       "sourceName": "Kamuoyu Yoklaması"
     },
     "SND-087": {
       "path": "/games/veto-h/assets/cards/SND-087.webp",
       "width": 576,
       "height": 384,
-      "bytes": 46250,
-      "sha256": "a163f2750caaef6055434f6cace194477c3894e0c40dc558c8cbc04cca2718d5",
+      "bytes": 17442,
+      "sha256": "e4bef4319e62f197acf74651871afeb79499f2c0e8d2057fd45fc0258ddcaa4a",
       "sourceName": "Canlı Bağlantı"
     },
     "SND-088": {
       "path": "/games/veto-h/assets/cards/SND-088.webp",
       "width": 576,
       "height": 384,
-      "bytes": 55354,
-      "sha256": "5c7e60fe1de81bbdc18cd100853f5053bdaea2b1440b04a7514d0cc521192233",
+      "bytes": 18120,
+      "sha256": "f1fe33ae000df2043488efb8070fdc18df61bab904610811b4f24240acbfb2d5",
       "sourceName": "Açılış Merasimi"
     },
     "SND-089": {
       "path": "/games/veto-h/assets/cards/SND-089.webp",
       "width": 576,
       "height": 384,
-      "bytes": 41268,
-      "sha256": "5922fbc8cfb5ae6a3ad81ecbc1954a5b4b6d9eb12be6933b3d7d9fa14a952e25",
+      "bytes": 17638,
+      "sha256": "932f2207e010ae80cbc1f54ccdd6477929081eb216640d10f5be460a74c621d3",
       "sourceName": "Destek Açıklaması"
     },
     "SND-090": {
       "path": "/games/veto-h/assets/cards/SND-090.webp",
       "width": 576,
       "height": 384,
-      "bytes": 41214,
-      "sha256": "85ae2dbf59a0df5dfcb5c1c94a95a3eaef0ac5e6da434f8e2d27878ece171284",
+      "bytes": 17676,
+      "sha256": "f4eb2330501409a0744dda7930a5c4dc84f5d69237349b13da3028b4a809b901",
       "sourceName": "Özür Metni"
     },
     "SND-091": {
       "path": "/games/veto-h/assets/cards/SND-091.webp",
       "width": 576,
       "height": 384,
-      "bytes": 40288,
-      "sha256": "a6fc19481150cf162b1581aa352085361ddd1bc2d353869ff9338071efd7225f",
+      "bytes": 16272,
+      "sha256": "3a16d793b4370f831616a8231c965008e94cbaa008fa02adae0afc7db7ae96c5",
       "sourceName": "İstifa Çağrısı"
     },
     "SND-092": {
       "path": "/games/veto-h/assets/cards/SND-092.webp",
       "width": 576,
       "height": 384,
-      "bytes": 51066,
-      "sha256": "9af9dc3bf18c6bf77c12a38e309d3aa497cfaa9d2f6cff08bc1a2c74900e568e",
+      "bytes": 20120,
+      "sha256": "71a35c12d450c08668fd8f29ae3ec99dbb1ff64bc18ef83ce599cd3e677c081e",
       "sourceName": "Sandık Taşıma"
     },
     "SND-093": {
       "path": "/games/veto-h/assets/cards/SND-093.webp",
       "width": 576,
       "height": 384,
-      "bytes": 67416,
-      "sha256": "7942c6f7a7f9ebf80fb1afe6d39442d441040d3e5457aa301e7412987f0ee740",
+      "bytes": 18210,
+      "sha256": "739621b885f9375fa9cd3c20f17ac36c1eb431f6544a59103582bdbb27f1360f",
       "sourceName": "Hemşehri Kahvaltısı"
     },
     "SND-094": {
       "path": "/games/veto-h/assets/cards/SND-094.webp",
       "width": 576,
       "height": 384,
-      "bytes": 41204,
-      "sha256": "07907032f7104ad9161c092df7aef8d42e0c403bc7eb618bd71a28742432fac7",
+      "bytes": 18750,
+      "sha256": "e4c04fba8a71a3df8853ea290e3cbab1136e77fc590aa8f90eceaf9bced9d8df",
       "sourceName": "Sponsor Yemeği"
     },
     "SND-095": {
       "path": "/games/veto-h/assets/cards/SND-095.webp",
       "width": 576,
       "height": 384,
-      "bytes": 43628,
-      "sha256": "ab5ba8ec47ba67f04a679e3b40a978293c7b049203ce87dd42a18ed2912ddd7f",
+      "bytes": 17098,
+      "sha256": "35b5e7064a187fa94419bcdcfccb3c01dc353a435fc022fdb9161bdda6e150c3",
       "sourceName": "Slogan Tekrarı"
     },
     "SND-096": {
       "path": "/games/veto-h/assets/cards/SND-096.webp",
       "width": 576,
       "height": 384,
-      "bytes": 34004,
-      "sha256": "c1cc12d5ea912175ddada8aafc1f3a414f5d147ca2baf20a75a91cc83d919d34",
+      "bytes": 16516,
+      "sha256": "b3c8f3b2cd19d3f6d5b4108a88a79a089172590bf07a0530e26ccc0e49f973d5",
       "sourceName": "Arşiv Sızıntısı"
     },
     "SND-097": {
       "path": "/games/veto-h/assets/cards/SND-097.webp",
       "width": 576,
       "height": 384,
-      "bytes": 42258,
-      "sha256": "ba7482beb0e79dd6414808ef80313cf30e2a24cb2eba72eabbedfcf2046ad860",
+      "bytes": 19566,
+      "sha256": "b933475e121574fb491a9991c0f56108fa26396008f1663d6dcc168587868eb4",
       "sourceName": "Yeniden Sayım"
     },
     "SND-098": {
       "path": "/games/veto-h/assets/cards/SND-098.webp",
       "width": 576,
       "height": 384,
-      "bytes": 40730,
-      "sha256": "f33d35a31046e751537cc36805eaf48e380a3ed170301c85722db522d40a377a",
+      "bytes": 17452,
+      "sha256": "5d1e031c06c7c931e6fc9e12af2e3325713212d5260b5d1c551eec1611d4eeb7",
       "sourceName": "Seçim Barajı"
     },
     "SND-099": {
       "path": "/games/veto-h/assets/cards/SND-099.webp",
       "width": 576,
       "height": 384,
-      "bytes": 46022,
-      "sha256": "9f6fd3d82e75cb87ac8de870546cc4b54aca3c0943cbccd5f10c4b466d9febeb",
+      "bytes": 17738,
+      "sha256": "5108163a7b1600e9747746c00ad8a275ca3e37f3a26a50d3315e5fb8add870bf",
       "sourceName": "Aday Yoklaması"
     },
     "SND-100": {
       "path": "/games/veto-h/assets/cards/SND-100.webp",
       "width": 576,
       "height": 384,
-      "bytes": 42230,
-      "sha256": "085b122bb9c117e96399a272292f5e03ddf7b06cd3efbc5b14aa0e2e68f0047a",
+      "bytes": 18724,
+      "sha256": "7dba0f68153d80e416ecfed87ee91f6adb809b426a83de8190953b5515d5a802",
       "sourceName": "Eski Haber Döndü"
     },
     "SND-101": {
       "path": "/games/veto-h/assets/cards/SND-101.webp",
       "width": 576,
       "height": 384,
-      "bytes": 49694,
-      "sha256": "91b55388ebe4a45e72c02aa60881ca1953018863dc2b13363e49a27a4dc292ca",
+      "bytes": 19448,
+      "sha256": "5a0d9c75ee6e90da8c8f24899219fcf24c914f9daf9575a6f5fa50d94c6ba108",
       "sourceName": "Bütçe Kanalı"
     },
     "SND-102": {
       "path": "/games/veto-h/assets/cards/SND-102.webp",
       "width": 576,
       "height": 384,
-      "bytes": 36778,
-      "sha256": "1f94704e1edc4c5fda7dbb44a00cc44bf54826a7d34f0b3ee12d6d892d1704aa",
+      "bytes": 18730,
+      "sha256": "d5a785989baad1a2110ae37d7ce2215b3e7fd6c802d909256ada45f1814d1544",
       "sourceName": "Kapalı Anket"
     },
     "SND-103": {
       "path": "/games/veto-h/assets/cards/SND-103.webp",
       "width": 576,
       "height": 384,
-      "bytes": 50366,
-      "sha256": "f937ded9f69c38e32c7fc6811b9acb15c13ad89f4238d2a5f60c464186988f05",
+      "bytes": 17168,
+      "sha256": "c09ac0add8f5e6fc770fed52b11fda4b95400584746a1f1b95175608bc98fb2e",
       "sourceName": "Açık Tartışma Daveti"
     },
     "SND-104": {
       "path": "/games/veto-h/assets/cards/SND-104.webp",
       "width": 576,
       "height": 384,
-      "bytes": 43730,
-      "sha256": "18d23ccfb143ff31625271e1e60c4103aa525b2604ec7041490a906b42d5efb1",
+      "bytes": 16668,
+      "sha256": "754fcb02f9023a5f7c0580fa5cda6726ea55fb7c65381d3146ccbb6b35f71a03",
       "sourceName": "Liste Pazarlığı"
     },
     "SND-105": {
       "path": "/games/veto-h/assets/cards/SND-105.webp",
       "width": 576,
       "height": 384,
-      "bytes": 52052,
-      "sha256": "083827c91ffb3a66d7dc9e4ce2b46459520854fa979a541434768d5277264f49",
+      "bytes": 17222,
+      "sha256": "55b0607628a568384d3b01068cdebbd9bd03d55959814c3fbce7ca3129675690",
       "sourceName": "Teşkilat Feshi"
     },
     "SND-106": {
       "path": "/games/veto-h/assets/cards/SND-106.webp",
       "width": 576,
       "height": 384,
-      "bytes": 34990,
-      "sha256": "606bb9cb5328768d0a3ae5286a7b215c614ffca53e50c0ab93572843ec5df310",
+      "bytes": 18556,
+      "sha256": "8fed82fd93d34b7aaf458670fcede5aad76086a9145f3029b81411b46601d9b3",
       "sourceName": "Basın Toplantısı"
     },
     "SND-107": {
       "path": "/games/veto-h/assets/cards/SND-107.webp",
       "width": 576,
       "height": 384,
-      "bytes": 48118,
-      "sha256": "4cceb6d070d316c08d778d15926bac7429e079f315de2deb5d8a7f36ca2b6f9a",
+      "bytes": 17080,
+      "sha256": "c6ab6824d472c7950f5e8f08c7f8525457f05caad447f4415ca6d31169258949",
       "sourceName": "Sabah Bülteni"
     },
     "SND-108": {
       "path": "/games/veto-h/assets/cards/SND-108.webp",
       "width": 576,
       "height": 384,
-      "bytes": 40078,
-      "sha256": "4697a00920cfac5b9a726d6d1d2c724040f1be55a73deab2887c7b9a2cc85981",
+      "bytes": 17076,
+      "sha256": "0646f042e8b10f6569c9eb1942547df02e1485c58dca33515be64f6eb5413ab5",
       "sourceName": "Akşam Kuşağı"
     },
     "SND-109": {
       "path": "/games/veto-h/assets/cards/SND-109.webp",
       "width": 576,
       "height": 384,
-      "bytes": 51106,
-      "sha256": "a0e5702d91f7c1ca6eb5754a945eedf4a4677eaa4ac81edfd287f16c63a81d45",
+      "bytes": 17520,
+      "sha256": "5f2e8e76fe29ac24399643b635abfde9d34e75158b40bd14a9d19a27d88e15e6",
       "sourceName": "Kesik Yayın"
     },
     "SND-110": {
       "path": "/games/veto-h/assets/cards/SND-110.webp",
       "width": 576,
       "height": 384,
-      "bytes": 43886,
-      "sha256": "38e24579c46098fbe7487659f420e83cb3de3328789ca72e19383ef57488c1af",
+      "bytes": 19458,
+      "sha256": "f86ea0cc4366644aa4b33051117d76a0752c67d4b97bc7e88ec3444d0c388646",
       "sourceName": "Tekzip"
     },
     "SND-111": {
       "path": "/games/veto-h/assets/cards/SND-111.webp",
       "width": 576,
       "height": 384,
-      "bytes": 51948,
-      "sha256": "e054d0258db0c9995058c2e9a9c7d7cb458c04ca96436af6af56ccd42c4be587",
+      "bytes": 19514,
+      "sha256": "0f36c6b8b1bab8d2edf58165006ceefe98fefee69cb3e2271950f2ec37ff069d",
       "sourceName": "Anlık Anket"
     },
     "SND-112": {
       "path": "/games/veto-h/assets/cards/SND-112.webp",
       "width": 576,
       "height": 384,
-      "bytes": 37102,
-      "sha256": "e378f8e98a5598fe2d17b6c3eafb4d3650c37ac90d165693bc2e4de38d1b3968",
+      "bytes": 17304,
+      "sha256": "312d64d76e7fb60d3781dc34779580374b2e99bc74ecb9d90654eb90a6bf4dea",
       "sourceName": "Bekleyin Yazısı"
     },
     "SND-113": {
       "path": "/games/veto-h/assets/cards/SND-113.webp",
       "width": 576,
       "height": 384,
-      "bytes": 44684,
-      "sha256": "c9e064aeac6e419df7935c90930284b3c77b4cfddff01ab56297ac33a5cbdd44",
+      "bytes": 17420,
+      "sha256": "da8a430261c4d39bd9958669e4e4f6c5fd14d63db3ac66696cee4fd012e384c9",
       "sourceName": "Reklam Bandı"
     },
     "SND-114": {
       "path": "/games/veto-h/assets/cards/SND-114.webp",
       "width": 576,
       "height": 384,
-      "bytes": 47312,
-      "sha256": "f26e4cb7fc8158d38fffdb8e40bf62b1d2e9ec5ee83964104b46ad19ee936ab5",
+      "bytes": 16602,
+      "sha256": "eec5f7800aaba1f5b273e874050aeb3c0890b5e052e6925e9b26e7d0e18e50d7",
       "sourceName": "Büyükşehir Havzası"
     },
     "SND-115": {
       "path": "/games/veto-h/assets/cards/SND-115.webp",
       "width": 576,
       "height": 384,
-      "bytes": 46190,
-      "sha256": "03d8546ab9deebb5635090a84b8c4316cc9cf68964c91f62c9d57af862ebbeb9",
+      "bytes": 17828,
+      "sha256": "06d389e79fbbf599fd8ce2113ec1ef819c1d319a492c483e61099979abad3813",
       "sourceName": "Taşra Sancağı"
     },
     "SND-116": {
       "path": "/games/veto-h/assets/cards/SND-116.webp",
       "width": 576,
       "height": 384,
-      "bytes": 46250,
-      "sha256": "34b894a36ab3128375b80ba1715592e8486f6d16bb3bc45ca7d38a0fd86559b5",
+      "bytes": 17428,
+      "sha256": "57ad69569d8b63f3663a8bdc255fb180cc9fe8996fbe35c9a749b29294e0ac0e",
       "sourceName": "Stüdyo Gecesi"
     },
     "SND-117": {
       "path": "/games/veto-h/assets/cards/SND-117.webp",
       "width": 576,
       "height": 384,
-      "bytes": 45878,
-      "sha256": "fba9e28097025bb6cf9f0af2f70bf4ac328abc76cf2731e43701cbda29ad9a06",
+      "bytes": 18760,
+      "sha256": "7b7da8f059d1c871d32aff17a6c1a72c74f1491daf77efb87d73676b19fa3757",
       "sourceName": "Makam Koltuğu"
     },
     "SND-118": {
       "path": "/games/veto-h/assets/cards/SND-118.webp",
       "width": 576,
       "height": 384,
-      "bytes": 58354,
-      "sha256": "25d143c872c3109e5d9d0c46a118416fb4ee04d619f1c645552a88a0e5cd4f46",
+      "bytes": 18832,
+      "sha256": "c3f20d54854ef0a52d5e473b11c2a18b1da4f46262dc74910b94d881b5d748ac",
       "sourceName": "Koruma Konvoyu"
     },
     "SND-119": {
       "path": "/games/veto-h/assets/cards/SND-119.webp",
       "width": 576,
       "height": 384,
-      "bytes": 47872,
-      "sha256": "42e5ad4b7146bc96d2f04ff02df96756ebadffa90e6873893c49008eec701c19",
+      "bytes": 18066,
+      "sha256": "4075a7a6c4b9adb8a4f41c14758cef507ff6b27b211ff91184c75b6c6901b748",
       "sourceName": "Resmi Rapor"
     },
     "SND-120": {
       "path": "/games/veto-h/assets/cards/SND-120.webp",
       "width": 576,
       "height": 384,
-      "bytes": 44684,
-      "sha256": "05c9beacbf053b2c551322e78faa130dc10f65f156faadbd15417a88756d548c",
+      "bytes": 16128,
+      "sha256": "a04207af946dd786bee64888cf1ad90c0301a444f5cb9a9310168adf26fbc936",
       "sourceName": "Canlı Skandal"
     },
     "SND-121": {
       "path": "/games/veto-h/assets/cards/SND-121.webp",
       "width": 576,
       "height": 384,
-      "bytes": 52108,
-      "sha256": "2379932d1d23e20500dfc09c9dcec3a149bbd2debe6939a019d1a4f473ff0c39",
+      "bytes": 15730,
+      "sha256": "d2958b74b837d54d3ccd84f18b48942529da87dbc83fe34ddfac65a4996fc3aa",
       "sourceName": "Eski Tweet"
     },
     "SND-122": {
       "path": "/games/veto-h/assets/cards/SND-122.webp",
       "width": 576,
       "height": 384,
-      "bytes": 47706,
-      "sha256": "dfb91866a40710982aa5f58ff64c82f07d0ae19832d49b08c2a20709d2cfdabd",
+      "bytes": 16654,
+      "sha256": "3469e82b3352e17f76edc6aa9d5abc380f226bdbaa4800ef686059b34ba2a415",
       "sourceName": "Sahte Diploma"
     },
     "SND-123": {
       "path": "/games/veto-h/assets/cards/SND-123.webp",
       "width": 576,
       "height": 384,
-      "bytes": 45594,
-      "sha256": "9c4b2abed12e0e33c4e52863180e746da8210084af5d6fcb6cb03352a0fb1941",
+      "bytes": 13296,
+      "sha256": "cc2c9e8c0d18a2bc026c081baf4f311cfc45ce693b7f295741ff905109b7d6cb",
       "sourceName": "Gizli Kayıt"
     },
     "SND-124": {
       "path": "/games/veto-h/assets/cards/SND-124.webp",
       "width": 576,
       "height": 384,
-      "bytes": 41534,
-      "sha256": "aeb7521df3bcadbbe91783a00e4e4fdd560c466658f4a2b45854972f378a7dd4",
+      "bytes": 15236,
+      "sha256": "98294a066b03f4de86a90a36223d6623afa4b49fbd34dccec6cbaaee44cc236f",
       "sourceName": "Rüşvet İddiası"
     },
     "SND-125": {
       "path": "/games/veto-h/assets/cards/SND-125.webp",
       "width": 576,
       "height": 384,
-      "bytes": 53904,
-      "sha256": "48e9b7136536cb979b61c89913d3b82bf2d992de7faf487b7fce0ddfeb9deaf1",
+      "bytes": 16240,
+      "sha256": "6f69b204b2423e4a2c9509f0dd35d89b9245a51bf03302ebeaf0b44d0131f0c5",
       "sourceName": "Aile Şirketi"
     },
     "SND-126": {
       "path": "/games/veto-h/assets/cards/SND-126.webp",
       "width": 576,
       "height": 384,
-      "bytes": 56264,
-      "sha256": "ef47821eb2fd4829ae07a8272ba848dca645111c6eb9647ff93decab4874b37f",
+      "bytes": 12450,
+      "sha256": "de1166930bb99a8be655b254ab7b09cf1c5ac1653ef221eaae92bfd19b0cd541",
       "sourceName": "Oy Sürme İhbarı"
     },
     "SND-127": {
       "path": "/games/veto-h/assets/cards/SND-127.webp",
       "width": 576,
       "height": 384,
-      "bytes": 41036,
-      "sha256": "4e022e07869e64ca4e74c6ecd29a7b7a9015a4744c8e5a40d33927df052172c3",
+      "bytes": 13200,
+      "sha256": "76b0d6924c15192a91c033aec86fc75c1b32409e691ff4fe62c43da6f99d66bf",
       "sourceName": "Mitinğe Saldırı"
     },
     "SND-128": {
       "path": "/games/veto-h/assets/cards/SND-128.webp",
       "width": 576,
       "height": 384,
-      "bytes": 39714,
-      "sha256": "1a7b2b03e1d16669cbbebd5158754b75a2c4403aaa9c84a2fe4580ae61df830f",
+      "bytes": 13420,
+      "sha256": "46d2c75e9f7c4c700c52596b79ecc5833145766df3134ac79dc5e42e12096f80",
       "sourceName": "Yayın Yasağı"
     },
     "SND-129": {
       "path": "/games/veto-h/assets/cards/SND-129.webp",
       "width": 576,
       "height": 384,
-      "bytes": 44106,
-      "sha256": "c1a384d0cc227efd8ec45c8566d98a641cf7631f038dc3e2bed524d2ddd0cfc4",
+      "bytes": 13694,
+      "sha256": "d83af08748a9689b5b94556bf43f64f8c7ae91da7e700de6f6c26f725277aff4",
       "sourceName": "Karşı Miting"
     },
     "SND-130": {
       "path": "/games/veto-h/assets/cards/SND-130.webp",
       "width": 576,
       "height": 384,
-      "bytes": 50606,
-      "sha256": "345172adab50fc7e350f2a1278f84f3c6b7bc074c154ff33df747939a203e4aa",
+      "bytes": 15524,
+      "sha256": "b9ef32df75737c8047f43ce267ec64126c915b7b54b64fcacf40bcae93a2c69a",
       "sourceName": "Delege İsyanı"
     },
     "SND-131": {
       "path": "/games/veto-h/assets/cards/SND-131.webp",
       "width": 576,
       "height": 384,
-      "bytes": 43432,
-      "sha256": "895cbb96dcaac03022a8960d9e451e18cc3813f9276080a0af766b1130fe47e9",
+      "bytes": 13186,
+      "sha256": "0b9ba958d93497950c9db022892924522b8189455c14095622bc702e0162fbab",
       "sourceName": "Anket İptali"
     },
     "SND-132": {
       "path": "/games/veto-h/assets/cards/SND-132.webp",
       "width": 576,
       "height": 384,
-      "bytes": 50118,
-      "sha256": "513eb89e35c62a347d709105371bf2b1d4da3439a3b335ffc270d2d11a32701d",
+      "bytes": 14658,
+      "sha256": "fd1923bfdd98387866cc35e7c442ccda646f381fdb56cca0dab52c627ae8ab0c",
       "sourceName": "Kaynaklar"
     },
     "SND-133": {
       "path": "/games/veto-h/assets/cards/SND-133.webp",
       "width": 576,
       "height": 384,
-      "bytes": 39558,
-      "sha256": "072c40335961c961ea3d4747fba6c0898e28e10a58460e0de097c6ba966a3dd8",
+      "bytes": 13832,
+      "sha256": "1d20a5a9b8abb39143b464d0b19ea2ffe9ecfa1d243f399df831436698aff825",
       "sourceName": "İstifa Baskısı"
     },
     "SND-134": {
       "path": "/games/veto-h/assets/cards/SND-134.webp",
       "width": 576,
       "height": 384,
-      "bytes": 44020,
-      "sha256": "b2b89faee0a218b03c41b800d67744afcb2bd67e842bde7b1f81cd53dee0513d",
+      "bytes": 15512,
+      "sha256": "645e0d4aceaf8fb201106be3ca99236480c82142fe1e3205e6c79cfc38d02505",
       "sourceName": "Sandık İtirazı"
     },
     "SND-135": {
       "path": "/games/veto-h/assets/cards/SND-135.webp",
       "width": 576,
       "height": 384,
-      "bytes": 37934,
-      "sha256": "7aff683939af5473759f5646f517ea0381405efcfac302d00d4573aaf9b62352",
+      "bytes": 14336,
+      "sha256": "e7383f93868eb3600ad47f60fc379ce82e2b2f3a27160372f7683e6779be3892",
       "sourceName": "Kulis Baskını"
     },
     "SND-136": {
       "path": "/games/veto-h/assets/cards/SND-136.webp",
       "width": 576,
       "height": 384,
-      "bytes": 34624,
-      "sha256": "f2bfaead452b7b399eb694f8bd3cf8ef173b8e3d7333b9d48e5d33bb2e84f79a",
+      "bytes": 16238,
+      "sha256": "dad9950c91d6477681b76f13a92ee5ec69f3946a3e1c4479b95b5bb52bd3a91b",
       "sourceName": "Yuhalama"
     },
     "SND-137": {
       "path": "/games/veto-h/assets/cards/SND-137.webp",
       "width": 576,
       "height": 384,
-      "bytes": 46540,
-      "sha256": "8bbb991660d4ae67a876b0c5457ba2c797c0b93ae7003374f9d9197eb8439a7a",
+      "bytes": 13824,
+      "sha256": "7eb5e53ff6977498f198dd4bc39342814a2a17f1cfa49bcb3a49345309fe31e2",
       "sourceName": "Reklam Kesildi"
     },
     "SND-138": {
       "path": "/games/veto-h/assets/cards/SND-138.webp",
       "width": 576,
       "height": 384,
-      "bytes": 47658,
-      "sha256": "0887c84e2e3c6dd0d79325b758568abe7e31cebb9d649bd74a416d0127a384b7",
+      "bytes": 15254,
+      "sha256": "c06d90162dbfc9678937bc36d071edfacc9de4fee39e9b4c6c3d047ab485f6c6",
       "sourceName": "Tekzip Atıldı"
     },
     "SND-139": {
       "path": "/games/veto-h/assets/cards/SND-139.webp",
       "width": 576,
       "height": 384,
-      "bytes": 37786,
-      "sha256": "952f92538931484f10394b8d8e1bb02ffebaf23d95bb0a9969647486c630a732",
+      "bytes": 15418,
+      "sha256": "c00d094b2e52cf94678baa1a4ab3ccb7866b835b22e42e99054d642d78f1f812",
       "sourceName": "Yayın Durduruldu"
     },
     "SND-140": {
       "path": "/games/veto-h/assets/cards/SND-140.webp",
       "width": 576,
       "height": 384,
-      "bytes": 51316,
-      "sha256": "1d38f98344f749f184d4508f31ddeef5156f6d384d82b7d33ce5551ee4ce4026",
+      "bytes": 13644,
+      "sha256": "797e97ebb0f1e20181de84199958de9f8823cbe8234a703738bf5834f3b3c1bd",
       "sourceName": "Mahkeme Tedbiri"
     },
     "SND-141": {
       "path": "/games/veto-h/assets/cards/SND-141.webp",
       "width": 576,
       "height": 384,
-      "bytes": 45180,
-      "sha256": "913ccbd0ce36f559faf8ec682077528b9d17748bf6ecdd45faed76611a337200",
+      "bytes": 16592,
+      "sha256": "cfcdfa24339a37ce69f5c93eb730a0ce5355fe1531953ba32717c9e4084f22f5",
       "sourceName": "Sansür Bandı"
     },
     "SND-142": {
       "path": "/games/veto-h/assets/cards/SND-142.webp",
       "width": 576,
       "height": 384,
-      "bytes": 54720,
-      "sha256": "302aaac912664dc80c78ad49833586f5df8b326b0d7ec74045f684ee13af923e",
+      "bytes": 13808,
+      "sha256": "e6b140be6bd22ad676aff5914157b8943eea0da393d4ec9785ddb103ca759627",
       "sourceName": "Montaj Savunması"
     },
     "SND-143": {
       "path": "/games/veto-h/assets/cards/SND-143.webp",
       "width": 576,
       "height": 384,
-      "bytes": 41932,
-      "sha256": "d8943a957eb6550374fc14d98374f63f8f1848246ec2c8d7b358c44902a110c5",
+      "bytes": 13620,
+      "sha256": "1e7bb74ce815f6c6b55fe9dfaaf7aef98e34610fd49427727e8f462709476966",
       "sourceName": "Canlı Bağlantı Koptu"
     },
     "SND-144": {
       "path": "/games/veto-h/assets/cards/SND-144.webp",
       "width": 576,
       "height": 384,
-      "bytes": 51914,
-      "sha256": "eea641d1a3c4535a602f63ed6512a0407a51a27b9994e3f5209af15257526802",
+      "bytes": 15428,
+      "sha256": "774fdc536fd3cffcd393e07eab115f1fee335daa772fb2e53a2e8bba305e8cf3",
       "sourceName": "Seçim Kurulu Kararı"
     },
     "SND-145": {
       "path": "/games/veto-h/assets/cards/SND-145.webp",
       "width": 576,
       "height": 384,
-      "bytes": 33966,
-      "sha256": "850eca539de095c1f7c6372efe2bd55ab9c09993c62a2a6e1bad7b5dbf96c90d",
+      "bytes": 13690,
+      "sha256": "f0b25ee00546015bb96d24dd26ad724496467e3ef0d9f8a209ac0b1e5217cbcd",
       "sourceName": "Sandık Nöbeti"
     },
     "SND-146": {
       "path": "/games/veto-h/assets/cards/SND-146.webp",
       "width": 576,
       "height": 384,
-      "bytes": 49874,
-      "sha256": "84325f42ca12745a6bf0850c2fdb6dc781c24e5e0acb2f307a44f6e9e5472694",
+      "bytes": 13472,
+      "sha256": "a74d73ca9a2dfe95fd900b85d0a8a610623df620fbceb2dee101040469ac8bc1",
       "sourceName": "Liste Dışı Aday"
     },
     "SND-147": {
       "path": "/games/veto-h/assets/cards/SND-147.webp",
       "width": 576,
       "height": 384,
-      "bytes": 40082,
-      "sha256": "60603d077b6114965e42b1b1f18dc35c4614a57de9b119ff169adf9da2fcd7ea",
+      "bytes": 15570,
+      "sha256": "4788efec0ebce246743bfb6d4da9158bf725ab2255d6179e7d39c43322d3affd",
       "sourceName": "Oy Pusulası"
     },
     "SND-148": {
       "path": "/games/veto-h/assets/cards/SND-148.webp",
       "width": 576,
       "height": 384,
-      "bytes": 48482,
-      "sha256": "26cb679ab3cf900ad7c3cad9c26f9325c7295dc7cff7180d9b44e5991577a6ca",
+      "bytes": 12406,
+      "sha256": "5847b8f546d9cbf600c9494592e46a6f2d96ac3c9a6a6465cd9106323a9c5fc9",
       "sourceName": "Mühürlü Çanta"
     },
     "SND-149": {
       "path": "/games/veto-h/assets/cards/SND-149.webp",
       "width": 576,
       "height": 384,
-      "bytes": 40948,
-      "sha256": "e326f1e4672bf27b0e251db45ba6b95649830c46eb3b35554e1a0c240018bd7c",
+      "bytes": 14140,
+      "sha256": "c3a6fb518ec4f15a7615193a0330e4cd400b4eae8133353071d2c47b0979c523",
       "sourceName": "İttifak Masası"
     },
     "SND-150": {
       "path": "/games/veto-h/assets/cards/SND-150.webp",
       "width": 576,
       "height": 384,
-      "bytes": 52588,
-      "sha256": "8ba2be64f0e193c95fab0aacdeef16f63ad933772f38ff62efe21852879aa313",
+      "bytes": 12004,
+      "sha256": "92a8f40de5923134e10f4f8cf0de8f0f105c0a660718e6822c50dec3a9ce49e3",
       "sourceName": "Seçim Gecesi"
     },
     "SND-151": {
       "path": "/games/veto-h/assets/cards/SND-151.webp",
       "width": 576,
       "height": 384,
-      "bytes": 42784,
-      "sha256": "924a502ed9fc5403adfe4f0950e1988e0420cfb5496b4152482316b687a5ad85",
+      "bytes": 12850,
+      "sha256": "7b61ffafb8a656c8932289ffc161c6a11c1b456643f76b3cd619c91e08dfe40a",
       "sourceName": "Tutanak Yazmanı"
     },
     "SND-152": {
       "path": "/games/veto-h/assets/cards/SND-152.webp",
       "width": 576,
       "height": 384,
-      "bytes": 48694,
-      "sha256": "a86b87b611bd3543d7a9db0b792c02f7527a79b97f59122865d0fd2048cc466e",
+      "bytes": 14080,
+      "sha256": "4fdf98b9813e1adc180d1d75d89d205418e4c589429e0ecd8160afc41d4db4dc",
       "sourceName": "Gezici Müşahit"
     },
     "SND-153": {
       "path": "/games/veto-h/assets/cards/SND-153.webp",
       "width": 576,
       "height": 384,
-      "bytes": 44410,
-      "sha256": "564b71cee7afc8d81b63a5624b5dc1a1ee3f35a679dbd08a032df635b36f8ad1",
+      "bytes": 13408,
+      "sha256": "0c2733f7e318ef477a5ac6eb38459a22a197fb3581797964ff0fac55885cb6a1",
       "sourceName": "Sandık Avukatı"
     },
     "SND-154": {
       "path": "/games/veto-h/assets/cards/SND-154.webp",
       "width": 576,
       "height": 384,
-      "bytes": 49124,
-      "sha256": "cfb3a9ff2bb3930e34f7fb6c70f9e27ec68f836d3f371ee1c54295425e2c2a4c",
+      "bytes": 13920,
+      "sha256": "18c5edd7977b5939a21ce15e95bd0c8ce23ce01cbd0b74add7023068345e427b",
       "sourceName": "Bölge Sorumlusu"
     },
     "SND-155": {
       "path": "/games/veto-h/assets/cards/SND-155.webp",
       "width": 576,
       "height": 384,
-      "bytes": 46358,
-      "sha256": "fab9e4beec102edfc254a4f094bd0cd232498175e0027a7c544ac43d4d108e2c",
+      "bytes": 13344,
+      "sha256": "5b84db17ea83edf2db61c60c9bce9fd423791d7df93c867fea0354a7b73eff0e",
       "sourceName": "Okul Temsilcisi"
     },
     "SND-156": {
       "path": "/games/veto-h/assets/cards/SND-156.webp",
       "width": 576,
       "height": 384,
-      "bytes": 48152,
-      "sha256": "9eb411aae30030658b7a132c5a4f5ce1f950a85b07b3b4cb3c1d8e2f0eb8dc31",
+      "bytes": 13470,
+      "sha256": "06b703c6c786355c5e6ef94fd37fe00e17b0a819454c64cee791628226107db0",
       "sourceName": "Seçim Veri Uzmanı"
     },
     "SND-157": {
       "path": "/games/veto-h/assets/cards/SND-157.webp",
       "width": 576,
       "height": 384,
-      "bytes": 43640,
-      "sha256": "72d499bd73bd3124f93f397e28afdf3978e0843a9ddc281a2dab71800c00c97c",
+      "bytes": 16358,
+      "sha256": "da5ba77096ba6f788ceccc7fcd962128015bbc083371090c7019bd2097038660",
       "sourceName": "İlçe Koordinatörü"
     },
     "SND-158": {
       "path": "/games/veto-h/assets/cards/SND-158.webp",
       "width": 576,
       "height": 384,
-      "bytes": 50540,
-      "sha256": "13bb7a5db9c26f3902d0d7782a4eb6986b3661cfb54e435ee57e18bceed75555",
+      "bytes": 12488,
+      "sha256": "52b599af50b260263fe171adc7d22b6a961002b70a226b1761c76198840f5ea8",
       "sourceName": "Randevu Sekreteri"
     },
     "SND-159": {
       "path": "/games/veto-h/assets/cards/SND-159.webp",
       "width": 576,
       "height": 384,
-      "bytes": 37484,
-      "sha256": "80e915241a969d23de778227b96e94862ed5a6f4e5a2d29a91dc6e1d1530f356",
+      "bytes": 15634,
+      "sha256": "27050280313ed7c4d877037ec4bd7b45aa59dc6c5290e303309318fdbbe37aa5",
       "sourceName": "Koridor Habercisi"
     },
     "SND-160": {
       "path": "/games/veto-h/assets/cards/SND-160.webp",
       "width": 576,
       "height": 384,
-      "bytes": 47546,
-      "sha256": "6738ecc88d2e6d7fc8f8b49cfe6d17e27f42fef41fd80f43da8fcb98a7f3be20",
+      "bytes": 12886,
+      "sha256": "1edf8c6d4b8b336a5fd3377d975dccfeba7d6b8af589d1fe8ae9afd952b26f3f",
       "sourceName": "Teşkilat Emektarı"
     },
     "SND-161": {
       "path": "/games/veto-h/assets/cards/SND-161.webp",
       "width": 576,
       "height": 384,
-      "bytes": 46272,
-      "sha256": "fe51b556ac437255054fc131d1af99f518ffef17efddae15a97a2ee3cd34a5f3",
+      "bytes": 12976,
+      "sha256": "57cee34705802de68326e2e7fe0e39769dfc9c2a74c99dc51bb0b6fea656e73d",
       "sourceName": "Liste Pazarlıkçısı"
     },
     "SND-162": {
       "path": "/games/veto-h/assets/cards/SND-162.webp",
       "width": 576,
       "height": 384,
-      "bytes": 51302,
-      "sha256": "795a72c18eddb22a73268424c79b92fedd414adbdf93b336d075efc82c2725ef",
+      "bytes": 13462,
+      "sha256": "3d91c1f9e62e3a1536b59cbc398d699e10f21c1b65b10c294f4f26fc429dcfcd",
       "sourceName": "İl Delegesi"
     },
     "SND-163": {
       "path": "/games/veto-h/assets/cards/SND-163.webp",
       "width": 576,
       "height": 384,
-      "bytes": 36128,
-      "sha256": "0e8a52e23dce97caef610b9b9d6f5d16ea3829da67da4166a56f00a5228da87b",
+      "bytes": 13690,
+      "sha256": "0fa1cb4932a7dd4406180e789b40ed27917f4193603a9bdc12d63ff999de3c81",
       "sourceName": "Grup Arabulucusu"
     },
     "SND-164": {
       "path": "/games/veto-h/assets/cards/SND-164.webp",
       "width": 576,
       "height": 384,
-      "bytes": 39398,
-      "sha256": "0ba0c1c618d12010dc2e4f2d4d2f16881cbb805eb5ad70d3b0db49ee2e3565e2",
+      "bytes": 16326,
+      "sha256": "e51a33c74709925a4ec00c19556295ec31690366add3ab4b58b43c93988312c7",
       "sourceName": "Kapalı Oturum Başkanı"
     },
     "SND-165": {
       "path": "/games/veto-h/assets/cards/SND-165.webp",
       "width": 576,
       "height": 384,
-      "bytes": 37794,
-      "sha256": "176a9e3d1b2a97c5d95eef61b72c12646dc4c6c310256b257b1f0e874ec17db5",
+      "bytes": 14162,
+      "sha256": "645d815b069ea62889f6aeff87542d8a357231bf0ae2bcdd616ab3ef8bee0fc6",
       "sourceName": "Komisyon Raportörü"
     },
     "SND-166": {
       "path": "/games/veto-h/assets/cards/SND-166.webp",
       "width": 576,
       "height": 384,
-      "bytes": 41804,
-      "sha256": "9fc0040f2905b6b1d470cd0832ba0c09187963d0c715dfc95128c1a0f4801f71",
+      "bytes": 15550,
+      "sha256": "06e7d891c157f8c83c83eafffa966f9e87e94c86b5b6521ea5e3e833d31720ee",
       "sourceName": "Oturum Katibi"
     },
     "SND-167": {
       "path": "/games/veto-h/assets/cards/SND-167.webp",
       "width": 576,
       "height": 384,
-      "bytes": 43342,
-      "sha256": "01fa2fac368a90020bddda45355eaa8f33f204f8ca4ab8cd1c64629701c90ad6",
+      "bytes": 16506,
+      "sha256": "040267f3d091e8a08356f90b1c6cdfc6c0192a535c83f11c2d053ee4b9f13b81",
       "sourceName": "Usul Savunucusu"
     },
     "SND-168": {
       "path": "/games/veto-h/assets/cards/SND-168.webp",
       "width": 576,
       "height": 384,
-      "bytes": 53862,
-      "sha256": "0c7c4253c6401986c695fef3fbe86eb5297106f78cffbdb64c39c1d7873e3190",
+      "bytes": 15624,
+      "sha256": "18b9d2b2cdea3100c6b8d6ac22cd3bb8245fe0e5729715ddfc7958e4536246c2",
       "sourceName": "Meclis Sözcüsü"
     },
     "SND-169": {
       "path": "/games/veto-h/assets/cards/SND-169.webp",
       "width": 576,
       "height": 384,
-      "bytes": 37690,
-      "sha256": "7cda4eedb9e74d6df88ce67403737a46a4841d5125ae4f1503c59e1a969702f2",
+      "bytes": 14918,
+      "sha256": "5a6fcc81b4fd1e54197268d4fef3d86ed9feddc4f4d41aa062839da326351eff",
       "sourceName": "Soru Önergesi Yazarı"
     },
     "SND-170": {
       "path": "/games/veto-h/assets/cards/SND-170.webp",
       "width": 576,
       "height": 384,
-      "bytes": 51254,
-      "sha256": "92405d985f7c5118738a011ee84fff639be085bbfb701883ea5e2b2f6ceb872b",
+      "bytes": 15530,
+      "sha256": "87bf040ba850510087b6a55ac2353fbfdbab7a00c53b6ebe8af9b4f2b0fb1a44",
       "sourceName": "Bütçe Denetçisi"
     },
     "SND-171": {
       "path": "/games/veto-h/assets/cards/SND-171.webp",
       "width": 576,
       "height": 384,
-      "bytes": 49600,
-      "sha256": "80281efb6d1d3f3fa4294a1f317b9ab3ab667e9b5a35da7741968ca5b726c714",
+      "bytes": 15648,
+      "sha256": "27f31209b7820587c749b991446910c90ec45ffa287c97abfd9b052e24f49270",
       "sourceName": "Komisyon Başkanı"
     },
     "SND-172": {
       "path": "/games/veto-h/assets/cards/SND-172.webp",
       "width": 576,
       "height": 384,
-      "bytes": 37100,
-      "sha256": "a1c338a6d46a54092bd1acbd14919ec0b4ebca10c4db0e557e293f2723852ebf",
+      "bytes": 14802,
+      "sha256": "38411f8ec667604d4828f3510205e71d80db931a16f6486fa0538b338a7d342b",
       "sourceName": "İmar Arşivcisi"
     },
     "SND-173": {
       "path": "/games/veto-h/assets/cards/SND-173.webp",
       "width": 576,
       "height": 384,
-      "bytes": 53824,
-      "sha256": "b414be8a57b64b3629fee45de32f814bf10f2f08efaa763bcac749287a51eda6",
+      "bytes": 14482,
+      "sha256": "7b68eeffea74a80f0b06ecf1ddfdf27aa8c81aeeec70fc628f07d57740c3db6e",
       "sourceName": "Park Bahçe Şefi"
     },
     "SND-174": {
       "path": "/games/veto-h/assets/cards/SND-174.webp",
       "width": 576,
       "height": 384,
-      "bytes": 51736,
-      "sha256": "0e7278a767503cb48326bbce49bbee50a1ab6a6fa6d3a96b9c24a2c9be213ecd",
+      "bytes": 14312,
+      "sha256": "e0937dcf5282642cae9a1a551dfaaaf092940e41159f58d759d79dec284b9fd8",
       "sourceName": "Afet Koordinatörü"
     },
     "SND-175": {
       "path": "/games/veto-h/assets/cards/SND-175.webp",
       "width": 576,
       "height": 384,
-      "bytes": 53438,
-      "sha256": "b842d0470a2b4733d8a5e1e811a9ec69702c9727f6e708a5ff732c189f8561e7",
+      "bytes": 14548,
+      "sha256": "ad3a70af111fe5dfd33ff4dc99215d0fd3a920b538ceef0ce53a93351e9df115",
       "sourceName": "Mahalle Meclisi Başkanı"
     },
     "SND-176": {
       "path": "/games/veto-h/assets/cards/SND-176.webp",
       "width": 576,
       "height": 384,
-      "bytes": 58304,
-      "sha256": "039a41d868f34910531f57905352e5adfb20231e380825be002b5ac8f6bf9847",
+      "bytes": 13304,
+      "sha256": "444d21219320b3c973ede0e1dee540a1d69be8388052559082d4383165149381",
       "sourceName": "Fen İşleri Mühendisi"
     },
     "SND-177": {
       "path": "/games/veto-h/assets/cards/SND-177.webp",
       "width": 576,
       "height": 384,
-      "bytes": 43716,
-      "sha256": "274b004e380ac8137306479028370c3cd1f0e07802f46a1ce026998b5f0c338d",
+      "bytes": 14868,
+      "sha256": "16d7fbcb8ebf1c3ecfa3adc9aabe16256cc591bd9c1306cfc85830b27799ad8e",
       "sourceName": "İhale Gözlemcisi"
     },
     "SND-178": {
       "path": "/games/veto-h/assets/cards/SND-178.webp",
       "width": 576,
       "height": 384,
-      "bytes": 48890,
-      "sha256": "d8585ddc3e49bf73ffc48e14dffbef72e08b2915068fca0a19d4145f337a5ee3",
+      "bytes": 14220,
+      "sha256": "746de992e5331ede32bc720adc8cad5262a416d534e8fab15f91d56aeb2e5bf2",
       "sourceName": "Kent Plancısı"
     },
     "SND-179": {
       "path": "/games/veto-h/assets/cards/SND-179.webp",
       "width": 576,
       "height": 384,
-      "bytes": 45748,
-      "sha256": "38ec523f102bf46e7231c8f2670b2064c223675edf829533352b9ec3f481051a",
+      "bytes": 16150,
+      "sha256": "c0440921db9c04d5dba8747cf7857ee2c4297873ac222a1fa03a19d644b7464b",
       "sourceName": "Gece Editörü"
     },
     "SND-180": {
       "path": "/games/veto-h/assets/cards/SND-180.webp",
       "width": 576,
       "height": 384,
-      "bytes": 58274,
-      "sha256": "bf42468b0d038de591680e60fae5a1d42616f5aedd52f429a976e47d42732cd3",
+      "bytes": 15864,
+      "sha256": "9dab62f1192631364997ddda334f70101de3f92b5d3fddb6f009ae6e08fef087",
       "sourceName": "Yerel Muhabir"
     },
     "SND-181": {
       "path": "/games/veto-h/assets/cards/SND-181.webp",
       "width": 576,
       "height": 384,
-      "bytes": 40506,
-      "sha256": "35579f95bb3639afce59d4d74463739ea0b9c0856aab3592b349bb3fda7f2f42",
+      "bytes": 15678,
+      "sha256": "7fe72b1549673a7a3ad2b3924d24b506b8d26a0060fff096f0c17e7678bb68d0",
       "sourceName": "Doğrulama Editörü"
     },
     "SND-182": {
       "path": "/games/veto-h/assets/cards/SND-182.webp",
       "width": 576,
       "height": 384,
-      "bytes": 52086,
-      "sha256": "208a867ffe5c901f90f3ce017365879c302f2c5fe2859b9d6befb967aabfa1ac",
+      "bytes": 16508,
+      "sha256": "6f07bf54e9afae1028488665c08db2e15cad879d41db110faac1a2d5bab5f1dc",
       "sourceName": "Yayın Yönetmeni"
     },
     "SND-183": {
       "path": "/games/veto-h/assets/cards/SND-183.webp",
       "width": 576,
       "height": 384,
-      "bytes": 52828,
-      "sha256": "05e279eeef7e25547473eb3eb8bb2c47bd6cc85830b446d150ccfced12068001",
+      "bytes": 15846,
+      "sha256": "5acb7048506a0845e7a8aa54aa8b3464c840e638273f5765b76db16b6fd84093",
       "sourceName": "Saha Kameramanı"
     },
     "SND-184": {
       "path": "/games/veto-h/assets/cards/SND-184.webp",
       "width": 576,
       "height": 384,
-      "bytes": 45046,
-      "sha256": "00639818f1ae2846b0db3e339cd7ab87b9930258b6323014adfe683f2aa4f574",
+      "bytes": 16918,
+      "sha256": "b9e11a2163533ed6851321d0d6141e5bf73d032d95473c1df58ed1522824c7fb",
       "sourceName": "Basın Ombudsmanı"
     },
     "SND-185": {
       "path": "/games/veto-h/assets/cards/SND-185.webp",
       "width": 576,
       "height": 384,
-      "bytes": 49530,
-      "sha256": "1d001110edd61a24214983bc7ef8fbc46ab49353130a22da31bdc01f33f5ba57",
+      "bytes": 16124,
+      "sha256": "13c992a463064a0d8cc9771e3daf36883b28d6c65a616e35a11df2fea3bdd414",
       "sourceName": "Araştırmacı Gazeteci"
     },
     "SND-186": {
       "path": "/games/veto-h/assets/cards/SND-186.webp",
       "width": 576,
       "height": 384,
-      "bytes": 49862,
-      "sha256": "0afeab5f089f0151a2aee1590c3c3e41a18934a4d39b21df2523f09a463cd577",
+      "bytes": 15078,
+      "sha256": "27fdea038ba4fb99367f7d1138eea3489b2344ddcbfabcbdb33b302af5723f89",
       "sourceName": "Örneklem Uzmanı"
     },
     "SND-187": {
       "path": "/games/veto-h/assets/cards/SND-187.webp",
       "width": 576,
       "height": 384,
-      "bytes": 43286,
-      "sha256": "9b6668ca8ffbb31aa70e278ba32f8ce83ed0853596e3a48ef19c9a901b66caa6",
+      "bytes": 13938,
+      "sha256": "4e5843bf73ff566ef1501c2d0539ec0cdfa542c13d0b1cfc03d7e4700a4e8e2d",
       "sourceName": "Telefon Anketçisi"
     },
     "SND-188": {
       "path": "/games/veto-h/assets/cards/SND-188.webp",
       "width": 576,
       "height": 384,
-      "bytes": 49944,
-      "sha256": "1116d506a0ceb6a26dfb49edeb98135d7d31054bbe2e34642529c6bddbeb1685",
+      "bytes": 13090,
+      "sha256": "8f8467634a7132e0e6add08e8db58ab53fd6b2b7295f128a5c7d6da62d873593",
       "sourceName": "Veri Temizleyicisi"
     },
     "SND-189": {
       "path": "/games/veto-h/assets/cards/SND-189.webp",
       "width": 576,
       "height": 384,
-      "bytes": 46574,
-      "sha256": "a74ee9ae2ac64542a0da7721d12a20b6a97f324a444ce073c86cec969ed58203",
+      "bytes": 12550,
+      "sha256": "8291beaeb3fb3e458f1043bbc83ac34dac58efcb796faea8bec6a32a6a7f28c2",
       "sourceName": "Araştırma Direktörü"
     },
     "SND-190": {
       "path": "/games/veto-h/assets/cards/SND-190.webp",
       "width": 576,
       "height": 384,
-      "bytes": 37392,
-      "sha256": "8890eddd908124769726998e7e3a8056dc7acf2de34a8df9434a06a2c4aca210",
+      "bytes": 15470,
+      "sha256": "8e1007a39620b929e4eeff1feedadd08241ee37a84fae670cfd0d4816ac3e8af",
       "sourceName": "Odak Grup Moderatörü"
     },
     "SND-191": {
       "path": "/games/veto-h/assets/cards/SND-191.webp",
       "width": 576,
       "height": 384,
-      "bytes": 55984,
-      "sha256": "58d3e7ac9d487cace47c4eed61c22b3bb200385db711279df501ed1a3ba0531e",
+      "bytes": 14254,
+      "sha256": "30e38efd4e265094cadecce684dcda7636313befcbb85f7416d1c50f387fedc6",
       "sourceName": "Hata Payı Analisti"
     },
     "SND-192": {
       "path": "/games/veto-h/assets/cards/SND-192.webp",
       "width": 576,
       "height": 384,
-      "bytes": 55516,
-      "sha256": "024c876c396c902d93814dd4230811eac690d234eac5bb36da7c069fe2835f29",
+      "bytes": 15306,
+      "sha256": "d33a50ff576f2b9f5ee58fb849bef99a7bed9ff9bdda12c7ac08419085a77bc1",
       "sourceName": "Seçmen Davranışçısı"
     },
     "SND-193": {
       "path": "/games/veto-h/assets/cards/SND-193.webp",
       "width": 576,
       "height": 384,
-      "bytes": 42236,
-      "sha256": "7d00a78292704cbaad5adb30453d9509d5824a91169de12512895cd15b2d5f79",
+      "bytes": 12830,
+      "sha256": "5676b6033289c6cf3aa5bc94bd87bbe515c15a6fdeb83f64f8cbb0a95ee4cb07",
       "sourceName": "Evrak Memuru"
     },
     "SND-194": {
       "path": "/games/veto-h/assets/cards/SND-194.webp",
       "width": 576,
       "height": 384,
-      "bytes": 48632,
-      "sha256": "a24c93d763793e173567ad9dc145493d3123e38d6839e7c6a49fd44ddf3615c3",
+      "bytes": 12724,
+      "sha256": "d462c5d24d4935dc3443deb53c206cef980e146869cabf28841a8a0e2e7fdd8c",
       "sourceName": "Arşiv Denetmeni"
     },
     "SND-195": {
       "path": "/games/veto-h/assets/cards/SND-195.webp",
       "width": 576,
       "height": 384,
-      "bytes": 43390,
-      "sha256": "d024295650cf5ee0b3e4ed18164fb54a0fc76fefc80d590559e89ae9a6467711",
+      "bytes": 13556,
+      "sha256": "8a82a69d6ff629f1702f27d2e17eba5705b5843bcb443802a5927fca9f7a4892",
       "sourceName": "Etik Kurul Üyesi"
     },
     "SND-196": {
       "path": "/games/veto-h/assets/cards/SND-196.webp",
       "width": 576,
       "height": 384,
-      "bytes": 46648,
-      "sha256": "9d345fb2533d79773408e83e014078a346c3ac85644b91fc0030e89f0ef26c53",
+      "bytes": 12734,
+      "sha256": "15996861fad0dc9900379a51135546e7f4ebc22b5a224196cd2920fd1b52861b",
       "sourceName": "Kurum Sekreteri"
     },
     "SND-197": {
       "path": "/games/veto-h/assets/cards/SND-197.webp",
       "width": 576,
       "height": 384,
-      "bytes": 51156,
-      "sha256": "cc91f8c2702be6a0e1510587445c76b0f2bcfb7c564b102f049c28b9a475f7b2",
+      "bytes": 11706,
+      "sha256": "c23869a89070e25764a5e0a5d9317d84f2e525d77c3625645c9ca78c1ddd26e7",
       "sourceName": "Saha Müfettişi"
     },
     "SND-198": {
       "path": "/games/veto-h/assets/cards/SND-198.webp",
       "width": 576,
       "height": 384,
-      "bytes": 49546,
-      "sha256": "7ec03e4e562b0456e5d1c75e04100d61d975e6f7faa6d87e28a22e651faf2102",
+      "bytes": 13026,
+      "sha256": "8ec4410fae9de1816eeff7a103976ff6a3e00bda056c3910353dbaf0e4cce5fd",
       "sourceName": "Kamu Denetçisi"
     },
     "SND-199": {
       "path": "/games/veto-h/assets/cards/SND-199.webp",
       "width": 576,
       "height": 384,
-      "bytes": 42578,
-      "sha256": "3d565eac37b960a870591c1842e1c4a46699d5deadb75d87fa3535048526d18d",
+      "bytes": 14720,
+      "sha256": "de656f2ec90e2bb1021e4e0211677195609a60f214a87b59a4880102185eaead",
       "sourceName": "İdari Yargıç"
     },
     "SND-200": {
       "path": "/games/veto-h/assets/cards/SND-200.webp",
       "width": 576,
       "height": 384,
-      "bytes": 47964,
-      "sha256": "dfec91f8f9348a4b163a3421d2928e0d91af95051b00972c6a24fb5cc9f4b702",
+      "bytes": 13998,
+      "sha256": "abe3afe23b5d231869b062c5006352aa9f1019e148391066dc53cb05126c9355",
       "sourceName": "Toplantı Asistanı"
     },
     "SND-201": {
       "path": "/games/veto-h/assets/cards/SND-201.webp",
       "width": 576,
       "height": 384,
-      "bytes": 34134,
-      "sha256": "93a1b7481d15f0cf407c98bc94010ac3b6f65ce388456358b0b4f094e1bdece1",
+      "bytes": 13664,
+      "sha256": "bd635f180e993ae48f69ac10255bd56fb1e01382f5671573347969f292c02f38",
       "sourceName": "Sektör Temsilcisi"
     },
     "SND-202": {
       "path": "/games/veto-h/assets/cards/SND-202.webp",
       "width": 576,
       "height": 384,
-      "bytes": 38168,
-      "sha256": "fc3d4e4beb21a60940cf12322d15bf5e08771bbe2f03e2e34739177e703e141d",
+      "bytes": 14684,
+      "sha256": "92681aa52b16ea9d311c6ff5f98570259f70d79b2f1098796ef0855feedf15c4",
       "sourceName": "Uyum Danışmanı"
     },
     "SND-203": {
       "path": "/games/veto-h/assets/cards/SND-203.webp",
       "width": 576,
       "height": 384,
-      "bytes": 43182,
-      "sha256": "69cf99c09e27bcbb05ed964e0375b7c498a3cc9fe3061a06af7cdf495def2eeb",
+      "bytes": 13300,
+      "sha256": "4156ad95973de6e19962e5794d820aaab6513bb9fdb55139326be11196991d6d",
       "sourceName": "Müzakere Başkanı"
     },
     "SND-204": {
       "path": "/games/veto-h/assets/cards/SND-204.webp",
       "width": 576,
       "height": 384,
-      "bytes": 47066,
-      "sha256": "71cf11df1270b7bf8a9e347dbce2f2f89c7578aee0436744fe7f40e90ce8943c",
+      "bytes": 14546,
+      "sha256": "2fe74dc9bddcb7f843169abdc9597acea2f9d0aa04c88a5578a9abb3dabd23b4",
       "sourceName": "Sendika Delegesi"
     },
     "SND-205": {
       "path": "/games/veto-h/assets/cards/SND-205.webp",
       "width": 576,
       "height": 384,
-      "bytes": 38718,
-      "sha256": "d9927f56560dc8f8f10ae0068eb1c8328571b256b02cfe72bad6052d551494a3",
+      "bytes": 13532,
+      "sha256": "7df950a86bf444ec770901d9250d566acc7c3b210a6d727b7337b3315c0ffd81",
       "sourceName": "Çıkar Çatışması Uzmanı"
     },
     "SND-206": {
       "path": "/games/veto-h/assets/cards/SND-206.webp",
       "width": 576,
       "height": 384,
-      "bytes": 47452,
-      "sha256": "44ae14023d74bc687a0ff798e792206b3b305944fdfb4315ada5f6577f9e052b",
+      "bytes": 13860,
+      "sha256": "cee4400f16088b8ec2247f44067b188470762d6ab1f01ca1b0dbaa85cc229b0c",
       "sourceName": "Bağış Denetçisi"
     },
     "SND-207": {
       "path": "/games/veto-h/assets/cards/SND-207.webp",
       "width": 576,
       "height": 384,
-      "bytes": 45690,
-      "sha256": "984245a1e900c4a21d87fa69c059d6ed3282ae0a091edb299745171b200a1e42",
+      "bytes": 16048,
+      "sha256": "e2c89bef8d603f81e8c5322eaef25541da87cd3eefa09065c4291d6909e45fa5",
       "sourceName": "Kampüs Gönüllüsü"
     },
     "SND-208": {
       "path": "/games/veto-h/assets/cards/SND-208.webp",
       "width": 576,
       "height": 384,
-      "bytes": 42752,
-      "sha256": "4831f396e03d18d976cca81829577c8f0073a5f1229b95072618493ba0f2dbc0",
+      "bytes": 15298,
+      "sha256": "ceb0ce19a563569b46ab1d19466b2e6061199e180f9d813a67a5df948cf0249b",
       "sourceName": "Öğrenci Temsilcisi"
     },
     "SND-209": {
       "path": "/games/veto-h/assets/cards/SND-209.webp",
       "width": 576,
       "height": 384,
-      "bytes": 41238,
-      "sha256": "fd81d5263a0d93ff779b9ecd2e4687adff8f66269adf3e926c2a7084c488be90",
+      "bytes": 16104,
+      "sha256": "eba7a371aa7ad51261ce01cdef618124773875606ddce6ae7167c8adb104fdf3",
       "sourceName": "Forum Kolaylaştırıcısı"
     },
     "SND-210": {
       "path": "/games/veto-h/assets/cards/SND-210.webp",
       "width": 576,
       "height": 384,
-      "bytes": 55264,
-      "sha256": "b98a88dc655316b32fe499bbff336170932ee175302b9a00f5ee6b9ba64cb4f5",
+      "bytes": 15132,
+      "sha256": "85c3b5498c94cf2e9055c0c4bc3eb36a533b00d95fc9e0c11e63ea8e2b06b757",
       "sourceName": "Gençlik Koordinatörü"
     },
     "SND-211": {
       "path": "/games/veto-h/assets/cards/SND-211.webp",
       "width": 576,
       "height": 384,
-      "bytes": 55576,
-      "sha256": "da00452e880ef7af04cf7db4a93ea08ecca1005f64a178af8f336ecdffe82dd5",
+      "bytes": 17288,
+      "sha256": "a060db8e79732e267bc58aabfb848d9afcc1b803cc118a41ce0a5acb873344b5",
       "sourceName": "Bisikletli Gönüllü"
     },
     "SND-212": {
       "path": "/games/veto-h/assets/cards/SND-212.webp",
       "width": 576,
       "height": 384,
-      "bytes": 56954,
-      "sha256": "5d5adf1646f7c10f33f1b0045c023309e58529473afee6eeef416dbea94c973e",
+      "bytes": 16708,
+      "sha256": "24fa12791d6d9a7740156d588ff4453d44f74c40ade42390bc9419e22578b11d",
       "sourceName": "Burs İzleyicisi"
     },
     "SND-213": {
       "path": "/games/veto-h/assets/cards/SND-213.webp",
       "width": 576,
       "height": 384,
-      "bytes": 44364,
-      "sha256": "355ba305482c9343aa0c2d9eedd62f3c7ab4a016697185270e29492a81851ca9",
+      "bytes": 15964,
+      "sha256": "2c83aef494e7dff5f925ce6b77e7f95d485310d495e9287bea337f7ff06a9e30",
       "sourceName": "Kampüs Sözcüsü"
     },
     "SND-214": {
       "path": "/games/veto-h/assets/cards/SND-214.webp",
       "width": 576,
       "height": 384,
-      "bytes": 40080,
-      "sha256": "5905d75822a51c622ccb97261bb3345b849557eae0ed7c4a33c6a2710839b90f",
+      "bytes": 14102,
+      "sha256": "ca8537c1794671d4e9d92e25392957035354cd1c9e09287485113b5fae72bae0",
       "sourceName": "Dilekçe Yazarı"
     },
     "SND-215": {
       "path": "/games/veto-h/assets/cards/SND-215.webp",
       "width": 576,
       "height": 384,
-      "bytes": 50256,
-      "sha256": "a82dba0d8324cc98cefbc2c6193aeece9a2f86877c9c3eefa31dba8b9c95a3f3",
+      "bytes": 14696,
+      "sha256": "ed7f2f4b4ff06b4f4c6355b0d2d81b6c230e9f4ae70e183fc086c9ff70e45973",
       "sourceName": "Stajyer Avukat"
     },
     "SND-216": {
       "path": "/games/veto-h/assets/cards/SND-216.webp",
       "width": 576,
       "height": 384,
-      "bytes": 37762,
-      "sha256": "86aa78297d7ade77625839af7fd60c55a9a11529eb0e2a6dbf2f7132a4fafe9a",
+      "bytes": 14696,
+      "sha256": "8ff21d96eeeb12cf1041faed91da6b817b3199d21e0f4387f5164cfa99b87cd0",
       "sourceName": "Hak Savunucusu"
     },
     "SND-217": {
       "path": "/games/veto-h/assets/cards/SND-217.webp",
       "width": 576,
       "height": 384,
-      "bytes": 42104,
-      "sha256": "4aeddc1f98400d4e06c509119139c2db3074ea99dba547ad0c64a78fa194af07",
+      "bytes": 14778,
+      "sha256": "a354b4e9725828fd042f794b6407d2a2488792aaa61afd273b1448b0b5af71de",
       "sourceName": "Kriz Hukukçusu"
     },
     "SND-218": {
       "path": "/games/veto-h/assets/cards/SND-218.webp",
       "width": 576,
       "height": 384,
-      "bytes": 53692,
-      "sha256": "261411976deb507176ba045916f74628bb332ff0be2376d089f4b47620bf8d6f",
+      "bytes": 14946,
+      "sha256": "acdeafd68c53afdef1530f266058a79862d3e36041b98fec58627f6c551fada5",
       "sourceName": "Adliye Muhabiri"
     },
     "SND-219": {
       "path": "/games/veto-h/assets/cards/SND-219.webp",
       "width": 576,
       "height": 384,
-      "bytes": 40758,
-      "sha256": "73505329f69ea40ac84b21e594b3a41d4f96e58869ff260d46e6f7b53be09a6c",
+      "bytes": 13136,
+      "sha256": "605d10d78f887c2cd6fb0172443cc3852f79eb48c77ab3ec89d790a4531b2a44",
       "sourceName": "Dosya İncelemecisi"
     },
     "SND-220": {
       "path": "/games/veto-h/assets/cards/SND-220.webp",
       "width": 576,
       "height": 384,
-      "bytes": 50600,
-      "sha256": "e74a003bb5c0783dcb4dde0f3ae5e017b7e03bc48c7f5d625dba4f22bf2987fc",
+      "bytes": 16462,
+      "sha256": "8bfec3908fcfa51e6172239d0f67cdd4717f70fd0234557e8400c3e8f50cb9ec",
       "sourceName": "Anayasa Profesörü"
     },
     "SND-221": {
       "path": "/games/veto-h/assets/cards/SND-221.webp",
       "width": 576,
       "height": 384,
-      "bytes": 45798,
-      "sha256": "5c91b264767fdecf8cc0473507b159dbea189cec96a5c2d7bee6028d9c0a9f71",
+      "bytes": 14780,
+      "sha256": "1f07565daf0937337a134c8a60f3e431e86ad11e9075cbca6c6ee1af984b66e7",
       "sourceName": "Protokol Yazmanı"
     },
     "SND-222": {
       "path": "/games/veto-h/assets/cards/SND-222.webp",
       "width": 576,
       "height": 384,
-      "bytes": 41600,
-      "sha256": "aa4c397a1434cd763e91c109a07d7c36eb965907c5a8061230955071b377844c",
+      "bytes": 14738,
+      "sha256": "4945d36ac5043d9a9dc77e9618bcc2e6a420f8496b771d28586aefec6b65195c",
       "sourceName": "Heyet Sekreteri"
     },
     "SND-223": {
       "path": "/games/veto-h/assets/cards/SND-223.webp",
       "width": 576,
       "height": 384,
-      "bytes": 47786,
-      "sha256": "d660b36fd39865d83d2f49ea6c44c6556df6c989241d4c1e31ea9a7d3c0d21de",
+      "bytes": 15372,
+      "sha256": "459424577c4edd59de0e50f9e6326ac307bec66ee3e2f756fbe8dd67e153c51a",
       "sourceName": "Uzlaşı Gözlemcisi"
     },
     "SND-224": {
       "path": "/games/veto-h/assets/cards/SND-224.webp",
       "width": 576,
       "height": 384,
-      "bytes": 56362,
-      "sha256": "8c9b18af213db0d8bc100231ed0778093923d69c3fd71ef144fccecf6ffd2b45",
+      "bytes": 16454,
+      "sha256": "d667ef4d924881a9f80192204004743a28a909ee7355345f8d2852660265a90a",
       "sourceName": "Ortak Masa Sözcüsü"
     },
     "SND-225": {
       "path": "/games/veto-h/assets/cards/SND-225.webp",
       "width": 576,
       "height": 384,
-      "bytes": 49540,
-      "sha256": "d3a9e899c2261b9720b79523e366f1c6122b0357cfd6d60e18c7d0abfec48398",
+      "bytes": 17224,
+      "sha256": "a2b70dc5eefc68913592c5a8d37de240661e9f7580e502462d24425255fa5796",
       "sourceName": "Heyet Kuryesi"
     },
     "SND-226": {
       "path": "/games/veto-h/assets/cards/SND-226.webp",
       "width": 576,
       "height": 384,
-      "bytes": 41488,
-      "sha256": "853d5a992bdc60a9c37c4fd92cf402a159a589b0558f8d12841566a479c1e63f",
+      "bytes": 15156,
+      "sha256": "fa7956281b664274c679d719a6946ce8b303a428212b98b80b35f0213f2c2ff9",
       "sourceName": "Mutabakat Denetçisi"
     },
     "SND-227": {
       "path": "/games/veto-h/assets/cards/SND-227.webp",
       "width": 576,
       "height": 384,
-      "bytes": 41048,
-      "sha256": "a88fd5d0b08b8c7ce3fca03a88b1cac1e153069bb1f2535b84f2b578ada54f30",
+      "bytes": 15748,
+      "sha256": "eec4a062260b3537ab685c4bbd5221a421a4933ded1884f988e6e2145271c86f",
       "sourceName": "İttifak Müzakerecisi"
     },
     "SND-228": {
       "path": "/games/veto-h/assets/cards/SND-228.webp",
       "width": 576,
       "height": 384,
-      "bytes": 48546,
-      "sha256": "8aa23f45943fff67211ee2d9920a75f3c565fa94c00ebe9966f7f4ade89b0429",
+      "bytes": 15252,
+      "sha256": "2551588bf53cce597437c8c69e86702b63dd61730fdab300975627ffe0041967",
       "sourceName": "Depo Sayımcısı"
     },
     "SND-229": {
       "path": "/games/veto-h/assets/cards/SND-229.webp",
       "width": 576,
       "height": 384,
-      "bytes": 47040,
-      "sha256": "fade8eceba9711979ae28c6c2736045b3de654ab46ee2ed6e9929b852436ee8f",
+      "bytes": 13664,
+      "sha256": "3006093ec86dad9b99f1e67e0b180b1be4827f1e77e544f528cec1189e628e95",
       "sourceName": "Otobüs Koordinatörü"
     },
     "SND-230": {
       "path": "/games/veto-h/assets/cards/SND-230.webp",
       "width": 576,
       "height": 384,
-      "bytes": 44332,
-      "sha256": "704c9584d3baa95a3758ec662c073bd9c41e8622eca5310289a0430e6a6283f1",
+      "bytes": 13390,
+      "sha256": "a469dd6359b5dd67a03be2672c713ff999d2a18b00c53607320fa1a439803499",
       "sourceName": "Sahne Güvenlikçisi"
     },
     "SND-231": {
       "path": "/games/veto-h/assets/cards/SND-231.webp",
       "width": 576,
       "height": 384,
-      "bytes": 53986,
-      "sha256": "330115f4f006746ecfad987d1cd88e36adfc905d3bb06393f2eea0356e6fda09",
+      "bytes": 12974,
+      "sha256": "b36d6657b4eee9f7b7d7b8a9257276f71852bfd7302afbe23f858170be12f720",
       "sourceName": "Saha Operasyon Şefi"
     },
     "SND-232": {
       "path": "/games/veto-h/assets/cards/SND-232.webp",
       "width": 576,
       "height": 384,
-      "bytes": 48182,
-      "sha256": "fe06dc00956fe5444d524fc9b125d32db0458a1b7bcccc4de8b70ed380c5f424",
+      "bytes": 14852,
+      "sha256": "818cc41e1ac58181f640ec108330e33e851722cdc0a8e6be49dcf49c2ed98fca",
       "sourceName": "Afiş Dağıtıcısı"
     },
     "SND-233": {
       "path": "/games/veto-h/assets/cards/SND-233.webp",
       "width": 576,
       "height": 384,
-      "bytes": 45008,
-      "sha256": "94d079c71a8a8b3c0bcef33a7275b945263518faab1cd383ec2babd38333e34c",
+      "bytes": 13430,
+      "sha256": "0ce09fb93aaacf12af4d396011605d313ecdbe9ede7bcd63039530fae1c32358",
       "sourceName": "Akaryakıt Denetçisi"
     },
     "SND-234": {
       "path": "/games/veto-h/assets/cards/SND-234.webp",
       "width": 576,
       "height": 384,
-      "bytes": 59360,
-      "sha256": "5d0cc88d262b7e63167954659ed7a92997b3698eef7a6ec32e30cc9acf22c45e",
+      "bytes": 14958,
+      "sha256": "0557a495c48a4eaea317f4c318c057fd36a27f7f1031f5e5efc0be24f4d430a1",
       "sourceName": "Miting Organizatörü"
     },
     "SND-235": {
       "path": "/games/veto-h/assets/cards/SND-235.webp",
       "width": 576,
       "height": 384,
-      "bytes": 42794,
-      "sha256": "bd17b0f87c39b0f3ee2e9aecc23a0ccbbfb09ff07a4d11bc7ee8b29f6909d4f8",
+      "bytes": 14874,
+      "sha256": "ecfa8187e7065c2a624f9edebca0eded533749c35b9c2282292368199e43bf7b",
       "sourceName": "Kentler Birliği"
     },
     "SND-236": {
       "path": "/games/veto-h/assets/cards/SND-236.webp",
       "width": 576,
       "height": 384,
-      "bytes": 41984,
-      "sha256": "01df584cb5a2a094e46b61260b7949110a24bc0ee6343419e037c34fb9354a94",
+      "bytes": 18300,
+      "sha256": "78e9acd89c8d8756a224e107f667e8b6eae98b48e0682e7805fc3e4acc793d5e",
       "sourceName": "Ortak Seçim Kurulu"
     },
     "SND-237": {
       "path": "/games/veto-h/assets/cards/SND-237.webp",
       "width": 576,
       "height": 384,
-      "bytes": 38658,
-      "sha256": "ebce74bb08b185e905354b681eef8292650733283d73c43416a7ccfec0997660",
+      "bytes": 16712,
+      "sha256": "c1b0b7282f5eda94c7e802192ef97c510a06e084c32925791b23c3544b09753b",
       "sourceName": "Bağımsız Denetim Heyeti"
     },
     "SND-238": {
       "path": "/games/veto-h/assets/cards/SND-238.webp",
       "width": 576,
       "height": 384,
-      "bytes": 35790,
-      "sha256": "9f7f89ac4c3fa3d156df1f919d4d0b376c4ec5403fabab922656e2761ebcb38c",
+      "bytes": 13490,
+      "sha256": "9ed22664a2407d70654718be004a9e83ad4f692a72d06b5c319306ea547feee8",
       "sourceName": "Toplumsal Uzlaşı Heyeti"
     },
     "SND-239": {
       "path": "/games/veto-h/assets/cards/SND-239.webp",
       "width": 576,
       "height": 384,
-      "bytes": 44998,
-      "sha256": "8520184cc2c2f5fa11ac6d0f70070d7bb1b329b2e3528731b68fa7087b56cffd",
+      "bytes": 14588,
+      "sha256": "eca6f43722c15522ed1feb5954355a579da4bb968e33002cc1b84bc45c24ce2d",
       "sourceName": "Sayım İtirazı"
     },
     "SND-240": {
       "path": "/games/veto-h/assets/cards/SND-240.webp",
       "width": 576,
       "height": 384,
-      "bytes": 36508,
-      "sha256": "6239ccff5454461dc31b16cab3232c13963e50a6c620d28e02b1d078b080390d",
+      "bytes": 14188,
+      "sha256": "0b59a4cc2e1d614a5e5ff5637c659586d1bcb2c325912377b149dfe6fd453cd6",
       "sourceName": "Koridor Randevusu"
     },
     "SND-241": {
       "path": "/games/veto-h/assets/cards/SND-241.webp",
       "width": 576,
       "height": 384,
-      "bytes": 40616,
-      "sha256": "25f9c750f20c66da8e513cbd1fabe11df377038e7da56b22b6e9e1e09909aad4",
+      "bytes": 14588,
+      "sha256": "7ae647490b27b8a225814a3fdb13b82c9110d42baf1bec62e28ff762384e2a18",
       "sourceName": "Komisyon Takvimi"
     },
     "SND-242": {
       "path": "/games/veto-h/assets/cards/SND-242.webp",
       "width": 576,
       "height": 384,
-      "bytes": 60388,
-      "sha256": "b64aacedff93a5fa83e568a257e3bf743174ad27e987dca97e0355ea70812248",
+      "bytes": 13160,
+      "sha256": "894f921b9e8b131925823b7158b65bca811b6b4f8ada4bc4538d395a28bbda53",
       "sourceName": "İmar Askısı"
     },
     "SND-243": {
       "path": "/games/veto-h/assets/cards/SND-243.webp",
       "width": 576,
       "height": 384,
-      "bytes": 42008,
-      "sha256": "92ef7bc3f9d403d940554fc1233b27484498bddb28ff7f85b19b9916ee563807",
+      "bytes": 14502,
+      "sha256": "41fc30dc2816de4624744c32c1917a191ab825c700b9054e9be7a7a7555a0be7",
       "sourceName": "Basın Taraması"
     },
     "SND-244": {
       "path": "/games/veto-h/assets/cards/SND-244.webp",
       "width": 576,
       "height": 384,
-      "bytes": 37778,
-      "sha256": "276668c4e8c762f1c80604c79f6807f38cf83ea23d96873e21ad982bd22bc4d2",
+      "bytes": 12398,
+      "sha256": "dce1e1038e580f225750d3d44ba118d9a4c0fc5976ba662cef46edc3551e5667",
       "sourceName": "Ham Veri"
     },
     "SND-245": {
       "path": "/games/veto-h/assets/cards/SND-245.webp",
       "width": 576,
       "height": 384,
-      "bytes": 50974,
-      "sha256": "067b4d8c6abcef15159040c73dff6a4f8a210e53cbe6f31ea7e42c075e61370f",
+      "bytes": 12406,
+      "sha256": "5b604a9011d2c1cea34115cb9bb7def69eb2a1ed763eeadd6d36bd8a885c06d9",
       "sourceName": "Arşiv Talebi"
     },
     "SND-246": {
       "path": "/games/veto-h/assets/cards/SND-246.webp",
       "width": 576,
       "height": 384,
-      "bytes": 49138,
-      "sha256": "bcb3807a7e9eaf4547ad063931e082bd28e753b08195d95b4ab58198f3abbc37",
+      "bytes": 14626,
+      "sha256": "8f00254a17d787be61e2d92561a8acf7c2e5e9987619b53c2bea6d31090d20de",
       "sourceName": "Şeffaf Bağış"
     },
     "SND-247": {
       "path": "/games/veto-h/assets/cards/SND-247.webp",
       "width": 576,
       "height": 384,
-      "bytes": 49616,
-      "sha256": "dd5f0abdba511cf796df5dd7d77003f152efe9317c17fc7b81258931898c1593",
+      "bytes": 14844,
+      "sha256": "5656e6331cbc3e794962e1f8fd4fcf02111bc726e78e28f465683202e962b083",
       "sourceName": "Kampüs Forumu"
     },
     "SND-248": {
       "path": "/games/veto-h/assets/cards/SND-248.webp",
       "width": 576,
       "height": 384,
-      "bytes": 51930,
-      "sha256": "6c08cb87b6a8c0bbf2fb9657d763f9cc8f22a802a39d2b5569eaccb42893a1c4",
+      "bytes": 13262,
+      "sha256": "6effbd95b09d134494400faf40c16a8a1c8552cf87b00cd942bb737f04523c8c",
       "sourceName": "Dava Hazırlığı"
     },
     "SND-249": {
       "path": "/games/veto-h/assets/cards/SND-249.webp",
       "width": 576,
       "height": 384,
-      "bytes": 40464,
-      "sha256": "632019981d08070e09ca970be2b9c6dc1f08c7add0fdf66f3a3d28c2706ff943",
+      "bytes": 15902,
+      "sha256": "b97effcdac1ace41cbdffc2e6c234e81a6382819b373c201d71fadb54ca5c850",
       "sourceName": "Ortak Çalışma Metni"
     },
     "SND-250": {
       "path": "/games/veto-h/assets/cards/SND-250.webp",
       "width": 576,
       "height": 384,
-      "bytes": 45070,
-      "sha256": "e2881d33bc533202280e141c94a7b3eb5f9e2002ee2691608400c8ded29220f1",
+      "bytes": 12912,
+      "sha256": "8482525ed1ac4c349579bf9db2dacbf3d534c76af6418aac277b64d6de25a7e5",
       "sourceName": "Sefer Planı"
     },
     "SND-251": {
       "path": "/games/veto-h/assets/cards/SND-251.webp",
       "width": 576,
       "height": 384,
-      "bytes": 40854,
-      "sha256": "84324619fc03126d15f4d6c5d2b603880bb37490ac185e3749d9263cc18dd803",
+      "bytes": 14640,
+      "sha256": "231e29630f1c2fbd680fe95b30c0763ff6749dd67420a932bfeddc3f4166d2e0",
       "sourceName": "Tutanak Yedeği"
     },
     "SND-252": {
       "path": "/games/veto-h/assets/cards/SND-252.webp",
       "width": 576,
       "height": 384,
-      "bytes": 46180,
-      "sha256": "8f3c64d42da27c50f3cee35efac1558be9977837c42bdc7fe2a5d8540dcf4c95",
+      "bytes": 14252,
+      "sha256": "148edd597021befce8edc4a2510d9a2ebd8fd181e25de82e24a0bb74c089dba6",
       "sourceName": "Liste Revizyonu"
     },
     "SND-253": {
       "path": "/games/veto-h/assets/cards/SND-253.webp",
       "width": 576,
       "height": 384,
-      "bytes": 40590,
-      "sha256": "f62ff1462804eaed7267aeb83fb976c3b40bda8854d001cd78118257e21ac7a3",
+      "bytes": 14052,
+      "sha256": "195af209f57391f811efef5c08deb1f58fb7cae6a36b368bb6f74f7f7057be22",
       "sourceName": "Usul Molası"
     },
     "SND-254": {
       "path": "/games/veto-h/assets/cards/SND-254.webp",
       "width": 576,
       "height": 384,
-      "bytes": 49614,
-      "sha256": "454193053430bb981cc95ebd06be94d456a4acd9fe903dcb78be9bccb5092315",
+      "bytes": 12838,
+      "sha256": "5f24ef189b6ef6991d46f7b55c1a9e993dbfe653b9f2d45b10a3a7a08a23cd57",
       "sourceName": "Acil Bakım"
     },
     "SND-255": {
       "path": "/games/veto-h/assets/cards/SND-255.webp",
       "width": 576,
       "height": 384,
-      "bytes": 39868,
-      "sha256": "b815c9dd503304ed057b8a7d16b043eabdc4d8ae39c0f1d8669992f51dca49e3",
+      "bytes": 15030,
+      "sha256": "b1b15ecdf7304418fda6af66c72a5ced5c46cdbbd0df145d5abeea62c80b7710",
       "sourceName": "İkinci Baskı"
     },
     "SND-256": {
       "path": "/games/veto-h/assets/cards/SND-256.webp",
       "width": 576,
       "height": 384,
-      "bytes": 41358,
-      "sha256": "cd55f6243c9f05bbd207b96e3a5a17e539ea12f8dcb1ef08a1f361e478297128",
+      "bytes": 12722,
+      "sha256": "0353b30270ab39eb2c1568e5ba9e48b92a287c7a6d2c2359fc424054e52c25b6",
       "sourceName": "Örneklem Onarımı"
     },
     "SND-257": {
       "path": "/games/veto-h/assets/cards/SND-257.webp",
       "width": 576,
       "height": 384,
-      "bytes": 44794,
-      "sha256": "2ab9f7e8ae77c11ebab80b1c78b1588a7ec6308fdc286ebd50b84a0b40b88e89",
+      "bytes": 11842,
+      "sha256": "9cded63a1e9550b8911a160a8091e6dca20b8cd341167c0eeb08c8534046ed83",
       "sourceName": "Kamuya Açık Dosya"
     },
     "SND-258": {
       "path": "/games/veto-h/assets/cards/SND-258.webp",
       "width": 576,
       "height": 384,
-      "bytes": 46460,
-      "sha256": "4ff35c57d8c3f654f892c8bb2d667cea719a26b773f536f4b18135a7d4832e66",
+      "bytes": 13214,
+      "sha256": "f93bdf9504aa7286c45f2ec97af7b197d2fffed90562a79288209bd6ae26c668",
       "sourceName": "Çıkar Beyanı"
     },
     "SND-259": {
       "path": "/games/veto-h/assets/cards/SND-259.webp",
       "width": 576,
       "height": 384,
-      "bytes": 38088,
-      "sha256": "f060c730d7fb2ee06d60e664cab60a42672196207e2ee0fe991e9f17542c6245",
+      "bytes": 13582,
+      "sha256": "8b5c156e40fc56a1b68ad8c0d2b533a54677785a13344ceede29b7d78edef8f6",
       "sourceName": "Gönüllü Rotası"
     },
     "SND-260": {
       "path": "/games/veto-h/assets/cards/SND-260.webp",
       "width": 576,
       "height": 384,
-      "bytes": 46174,
-      "sha256": "95ddeebbec5794acf712cd013b10f62bc0ae74f3cc933368e5bbc20ebf56b3a3",
+      "bytes": 13216,
+      "sha256": "a5c6b11ab6f976b1d4d1f600f9ccf364f2be6510cc4339e81e222393580c4ffd",
       "sourceName": "İtiraz Süresi"
     },
     "SND-261": {
       "path": "/games/veto-h/assets/cards/SND-261.webp",
       "width": 576,
       "height": 384,
-      "bytes": 48276,
-      "sha256": "58910a7460337ed08d21d8fa2de646546d83ae7acd4a284d63a585ee9806d265",
+      "bytes": 15852,
+      "sha256": "6267ce50e3f547c0460f4465615881265e05150b617a8e8c8b97b1174be3d89a",
       "sourceName": "Masa Genişletme"
     },
     "SND-262": {
       "path": "/games/veto-h/assets/cards/SND-262.webp",
       "width": 576,
       "height": 384,
-      "bytes": 41518,
-      "sha256": "2e2fdb9307022c83532c493e4d70e29e202e20af39587f3362f7b5c1d5ea0c00",
+      "bytes": 12970,
+      "sha256": "e81584685bfb4b380926c8720c553461318a48235c74270a771d95fe89ea2ed5",
       "sourceName": "Ses Kontrolü"
     },
     "SND-263": {
       "path": "/games/veto-h/assets/cards/SND-263.webp",
       "width": 576,
       "height": 384,
-      "bytes": 46414,
-      "sha256": "f16b4465d6b75d5e264fe3a86f04e14d1e094b7af6990378833383e070ddc4c5",
+      "bytes": 15690,
+      "sha256": "0fa0c86f5d2bb00a87cbe0b8f01ca5e645bb457f274e3bebcc160cba88311c0f",
       "sourceName": "Oy Torbası"
     },
     "SND-264": {
       "path": "/games/veto-h/assets/cards/SND-264.webp",
       "width": 576,
       "height": 384,
-      "bytes": 32894,
-      "sha256": "a35ff2aaaca7a0ff67416204435947a8184363d2de23116fb1ef082b7d8c2146",
+      "bytes": 11778,
+      "sha256": "72fab039a90fe4876fe2439cf4f9c9e451c9c7c8ac10089b709891927cd6c5c1",
       "sourceName": "Sessiz Görüşme"
     },
     "SND-265": {
       "path": "/games/veto-h/assets/cards/SND-265.webp",
       "width": 576,
       "height": 384,
-      "bytes": 51578,
-      "sha256": "8c38f36a8bcb67883903e2e9bfe325509e7b19775878e20dd74ed9fca03555e2",
+      "bytes": 15710,
+      "sha256": "feef1885758b07d5f9fe266acf7d0d26d878c2a7e8b2090e883b9c9eb7de2c12",
       "sourceName": "Geçici Komisyon"
     },
     "SND-266": {
       "path": "/games/veto-h/assets/cards/SND-266.webp",
       "width": 576,
       "height": 384,
-      "bytes": 54378,
-      "sha256": "03ede6a281a47cf57dfedbbd98db61800ca6f2f3c60142638a1ce04383ac181e",
+      "bytes": 15078,
+      "sha256": "f0692658e44bd159dcd87cebcf6a20f48cab1f737fee80f578d7dc337bad0956",
       "sourceName": "Gece Belediye Otobüsü"
     },
     "SND-267": {
       "path": "/games/veto-h/assets/cards/SND-267.webp",
       "width": 576,
       "height": 384,
-      "bytes": 49926,
-      "sha256": "35ff33287532704cc6adc28d95cc2916b29089e8d3705cd5deafacad7a436035",
+      "bytes": 14144,
+      "sha256": "d12b9b1ffd937a7618b0269b6e9e22ca02c7955a655362cb070beb83dd0c9ad4",
       "sourceName": "Canlı Yayın Hattı"
     },
     "SND-268": {
       "path": "/games/veto-h/assets/cards/SND-268.webp",
       "width": 576,
       "height": 384,
-      "bytes": 54502,
-      "sha256": "77aad6dd458efde6651649442fca187cad3ad591bad9a3dbd62275282d4397e0",
+      "bytes": 12838,
+      "sha256": "e08be834b136878935a434a8f7a0b2e572973810774e5b5723542e9283f6c062",
       "sourceName": "Saha Kontrolü"
     },
     "SND-269": {
       "path": "/games/veto-h/assets/cards/SND-269.webp",
       "width": 576,
       "height": 384,
-      "bytes": 47230,
-      "sha256": "a7e403f5930cc5173300989140416d51e108d744c2dd6cdc5f4530a963cae25c",
+      "bytes": 13896,
+      "sha256": "fd0e7edbece409bc94d81ee1e8975ee438237deec3c64fb2063b9b634ac6f768",
       "sourceName": "İşlem Makbuzu"
     },
     "SND-270": {
       "path": "/games/veto-h/assets/cards/SND-270.webp",
       "width": 576,
       "height": 384,
-      "bytes": 44598,
-      "sha256": "41799a3c6b09bf62c3e62bf021f87bdcfd8a7e3d908115d6b972ef8db16a872d",
+      "bytes": 12820,
+      "sha256": "22b6083c4174a2325126cc0bb4f4b7aae53caf676e5ddc0e7864fc186809d7b8",
       "sourceName": "Toplantı Protokolü"
     },
     "SND-271": {
       "path": "/games/veto-h/assets/cards/SND-271.webp",
       "width": 576,
       "height": 384,
-      "bytes": 43946,
-      "sha256": "5b9a817c1bffb77ed2002167ae38cbc079c68bcad4997bc729366e7732213295",
+      "bytes": 14750,
+      "sha256": "623e5d95c19a46239f009df2ee1489f32a854e7c88e923ef47eba7f59e252f5b",
       "sourceName": "Öğrenci Servisi"
     },
     "SND-272": {
       "path": "/games/veto-h/assets/cards/SND-272.webp",
       "width": 576,
       "height": 384,
-      "bytes": 51002,
-      "sha256": "4bb1ee0f344259a38fe0a4a7b94d845ef35b158cfedddeb99a8f3e3b166df927",
+      "bytes": 13756,
+      "sha256": "5a31be18b90440e031148bcc4cdaf3ce8417fb7726ba30dc572b2ead5592eb1f",
       "sourceName": "Tedbir Talebi"
     },
     "SND-273": {
       "path": "/games/veto-h/assets/cards/SND-273.webp",
       "width": 576,
       "height": 384,
-      "bytes": 46182,
-      "sha256": "d4f2ffc34e2b4b9552822228e4fee3aa6c0fab7a9fa5ff849d68d777709435a2",
+      "bytes": 16660,
+      "sha256": "6671544389f532a4bfdcdae6dd83eb9a243986e15510279a7951435d7436e7b8",
       "sourceName": "Koalisyon Çalıştayı"
     },
     "SND-274": {
       "path": "/games/veto-h/assets/cards/SND-274.webp",
       "width": 576,
       "height": 384,
-      "bytes": 49586,
-      "sha256": "d2cbcdd06380bb873fed85455bc91ed4b1c36714dc3db2cf079876780fc92e62",
+      "bytes": 13336,
+      "sha256": "57fb9cbbf30a1708be1d81ff1a354ca2c6b509158ad1fbfb3b54a54a2c5f7c86",
       "sourceName": "Mobil Kürsü"
     },
     "SND-275": {
       "path": "/games/veto-h/assets/cards/SND-275.webp",
       "width": 576,
       "height": 384,
-      "bytes": 40492,
-      "sha256": "884b199bec6a1819d75b72c8b9f4bdd033aa80bbd6bfbaf1f70f7236ff2a11c6",
+      "bytes": 13522,
+      "sha256": "3c704d22d2277b983c9cd44d1c400d1344dea7cff705d038e68e3108fca83a5a",
       "sourceName": "Son Dakika Uzlaşısı"
     },
     "SND-276": {
       "path": "/games/veto-h/assets/cards/SND-276.webp",
       "width": 576,
       "height": 384,
-      "bytes": 52168,
-      "sha256": "9666acefc49cf314478d38d88469709753776ecfc79045ee81a512622db41a60",
+      "bytes": 14718,
+      "sha256": "b77b2a09898631b736eff53615e7d15be96b4ff3cd8b1cc03c4c47b868b86378",
       "sourceName": "Mühür Uyuşmazlığı"
     },
     "SND-277": {
       "path": "/games/veto-h/assets/cards/SND-277.webp",
       "width": 576,
       "height": 384,
-      "bytes": 39234,
-      "sha256": "2bd7a798fab177b95cff2920a43485cf9dd1fc7124898369661f81e09d3384d0",
+      "bytes": 14180,
+      "sha256": "9d79580340da6ea97a6eaf583d8cb94b23c5aa715fd370793f8ea02473b68221",
       "sourceName": "Sızan Randevu"
     },
     "SND-278": {
       "path": "/games/veto-h/assets/cards/SND-278.webp",
       "width": 576,
       "height": 384,
-      "bytes": 44734,
-      "sha256": "0daa2b34303d10886a1c5e27fba7a34e0ca35a989167a0e0e529f1d43125df16",
+      "bytes": 14564,
+      "sha256": "512fd528ea41ce852a4e31eb787fd3569350cdda876da81ef1650e73cecffa35",
       "sourceName": "Usul İtirazı"
     },
     "SND-279": {
       "path": "/games/veto-h/assets/cards/SND-279.webp",
       "width": 576,
       "height": 384,
-      "bytes": 40324,
-      "sha256": "dc8c222df826b35619bc046fc60bae7194bf6a449d1da811fe252a2bfd888947",
+      "bytes": 13488,
+      "sha256": "392048bca0d795b019d936f785eaf448e37a82fe9cfb2c9d2eadb9ab966642ad",
       "sourceName": "Ruhsat Eksikliği"
     },
     "SND-280": {
       "path": "/games/veto-h/assets/cards/SND-280.webp",
       "width": 576,
       "height": 384,
-      "bytes": 39078,
-      "sha256": "fb9b81d77e61cb0a9ee5f8aa0da21564aee26bb677259fc0cdd9468a1fe373e0",
+      "bytes": 14048,
+      "sha256": "f32b1581639ffaa774d2ad2b16e94e78cff049ca92fb36c62ddf569ec854e646",
       "sourceName": "Tekzip Hakkı"
     },
     "SND-281": {
       "path": "/games/veto-h/assets/cards/SND-281.webp",
       "width": 576,
       "height": 384,
-      "bytes": 48270,
-      "sha256": "f61fef1cbb2aa8f3b0b0ef1c4cc378142fe4abbc64c2c2ae76a48113efa3bcdc",
+      "bytes": 14046,
+      "sha256": "7804112107640a1031e7347c16c7d316924cac9a4332208a02d8f7dee2ebc0cb",
       "sourceName": "Hatalı Örneklem"
     },
     "SND-282": {
       "path": "/games/veto-h/assets/cards/SND-282.webp",
       "width": 576,
       "height": 384,
-      "bytes": 43170,
-      "sha256": "3a24f236b744466a237585cde2d53f2ab7aef87d08af746234601a8703c7e74e",
+      "bytes": 12102,
+      "sha256": "68636819bd5ae338176019c7e60335c43805711f18e46e9dd047c86cf4eb959d",
       "sourceName": "Kayıp Evrak"
     },
     "SND-283": {
       "path": "/games/veto-h/assets/cards/SND-283.webp",
       "width": 576,
       "height": 384,
-      "bytes": 44524,
-      "sha256": "c3c115c10288a785813cfc88ea1363c1fe2a701c90aacad754a1ca6c1870df72",
+      "bytes": 14578,
+      "sha256": "ae135d4e8e431019236cad0106502f000ff06d56c89fe9d124ccc874ef0bbdb6",
       "sourceName": "Bağış İncelemesi"
     },
     "SND-284": {
       "path": "/games/veto-h/assets/cards/SND-284.webp",
       "width": 576,
       "height": 384,
-      "bytes": 46412,
-      "sha256": "a2a9cf026d1d6ef77b5723248cb7188f9b41ce4c11988ec75784fd08f6ef6d7b",
+      "bytes": 14810,
+      "sha256": "4420e9355938ffe8932f0f2a8153d2fc94450c84e927a9a7874f9baa887e86d4",
       "sourceName": "Forum Protestosu"
     },
     "SND-285": {
       "path": "/games/veto-h/assets/cards/SND-285.webp",
       "width": 576,
       "height": 384,
-      "bytes": 39762,
-      "sha256": "a0093622f277657f575796c28c09a266d22080cc5a2a967bdd8fc8433a7891a8",
+      "bytes": 13174,
+      "sha256": "e4e1be3d558150e613e9ac027637340f5df7532b797df979b241ebb2c5e86321",
       "sourceName": "Yürütme Durdurma"
     },
     "SND-286": {
       "path": "/games/veto-h/assets/cards/SND-286.webp",
       "width": 576,
       "height": 384,
-      "bytes": 44554,
-      "sha256": "5661853fe56d02edf90371f536b4aa4840172914f2fb81db3c2741028b17e8d5",
+      "bytes": 15758,
+      "sha256": "f18777201c51b88fbae996703e66ba9826b139dd026c87d363044d21f5b60996",
       "sourceName": "Protokol İhlali"
     },
     "SND-287": {
       "path": "/games/veto-h/assets/cards/SND-287.webp",
       "width": 576,
       "height": 384,
-      "bytes": 48426,
-      "sha256": "652af75e60c466d1a79f9c5f84977f8340003dfb574c0f49bb7aa539a8a7ec7f",
+      "bytes": 12952,
+      "sha256": "e0ac388e6fa36c4bb9e6f048156b7ba377cf16b9680e6f96bbda8e61fee9ed30",
       "sourceName": "Sefer İptali"
     },
     "SND-288": {
       "path": "/games/veto-h/assets/cards/SND-288.webp",
       "width": 576,
       "height": 384,
-      "bytes": 42292,
-      "sha256": "51079c861f44686687e1cade8397fd1f712a5435a7613ace688e425f54e042be",
+      "bytes": 14820,
+      "sha256": "2c55b1458d788f997742170fbc0f753f3999f037e9552ea635b76f707c86ed1f",
       "sourceName": "Çift Tutanak"
     },
     "SND-289": {
       "path": "/games/veto-h/assets/cards/SND-289.webp",
       "width": 576,
       "height": 384,
-      "bytes": 30774,
-      "sha256": "28ad7fb2d061578bbdeb2816262d5eb120f07640862815ec5df4da9af77ac0d5",
+      "bytes": 11208,
+      "sha256": "b3219e200608a16f2f3d02bf69293f8b449391751ab1e6553db68b2c11f96cde",
       "sourceName": "Kapalı Kapı"
     },
     "SND-290": {
       "path": "/games/veto-h/assets/cards/SND-290.webp",
       "width": 576,
       "height": 384,
-      "bytes": 56134,
-      "sha256": "786b03e021c48dea214506e9108365a32dd45bbf97fe8eb8d9156d88dfa80064",
+      "bytes": 15862,
+      "sha256": "91db0481190e0d8f43d33a74fc8deeddac76ff966befba960aec8e5f971ea319",
       "sourceName": "Süre Aşımı"
     },
     "SND-291": {
       "path": "/games/veto-h/assets/cards/SND-291.webp",
       "width": 576,
       "height": 384,
-      "bytes": 48698,
-      "sha256": "efb8b679933e2777940364fb1c5653f84065766446e8265092f29f1324bce7ce",
+      "bytes": 13582,
+      "sha256": "716ac04d7f245598aa62315ac572650cf8e3e8b7d3d999b0a9746ac5601042ce",
       "sourceName": "İmar İtirazı"
     },
     "SND-292": {
       "path": "/games/veto-h/assets/cards/SND-292.webp",
       "width": 576,
       "height": 384,
-      "bytes": 36708,
-      "sha256": "a223bd905105240aa905e16a1f8d725d7619e148feb9abf5c63e1618ec41b0ab",
+      "bytes": 16320,
+      "sha256": "8166f10fde8569a3fea3ed9937aa073a39f761d1107879726691a1eae4597f75",
       "sourceName": "Mikrofon Açık"
     },
     "SND-293": {
       "path": "/games/veto-h/assets/cards/SND-293.webp",
       "width": 576,
       "height": 384,
-      "bytes": 42828,
-      "sha256": "12c44e02154d88bcd9ea12a87acfe9c95fade4cfaaec081709e8f937c9ec0fbb",
+      "bytes": 13798,
+      "sha256": "082db6d4ea37fd337c31db48026e694c0be505bf25226e5b8cb4a91639a04297",
       "sourceName": "Veri Çelişkisi"
     },
     "SND-294": {
       "path": "/games/veto-h/assets/cards/SND-294.webp",
       "width": 576,
       "height": 384,
-      "bytes": 43620,
-      "sha256": "dc964b0ed9823d18ee2ee63e3734607ec486dae8a42c8e10627e8a2be3393cdf",
+      "bytes": 13852,
+      "sha256": "4b93d216fd7d8e8caa4d31aeb6116370a29dee2b826260f13f45accb8aaa0364",
       "sourceName": "Denetim Baskını"
     },
     "SND-295": {
       "path": "/games/veto-h/assets/cards/SND-295.webp",
       "width": 576,
       "height": 384,
-      "bytes": 39530,
-      "sha256": "b6059ac100a0eecfb9ddf58682701288d6e97518048ab63829fd9b2a9a4e0437",
+      "bytes": 13322,
+      "sha256": "fc1c33720ffa32d033a9b72de6e82125c08021a7fc19d9720c50b6d458e61c54",
       "sourceName": "Çıkar Çatışması"
     },
     "SND-296": {
       "path": "/games/veto-h/assets/cards/SND-296.webp",
       "width": 576,
       "height": 384,
-      "bytes": 49604,
-      "sha256": "c81667ce559efd0f356519e44d4a3602881796bfc4dad146db632de0fe7fe14f",
+      "bytes": 14918,
+      "sha256": "b5918b4aea3016b86a8f461db139147ad4b680320ddc44a649677f042d6b9369",
       "sourceName": "Kampüs Boykotu"
     },
     "SND-297": {
       "path": "/games/veto-h/assets/cards/SND-297.webp",
       "width": 576,
       "height": 384,
-      "bytes": 43726,
-      "sha256": "82e7c142e10c195c4df8790412e069522d304b70ed3751449a8dbfea82aeef8f",
+      "bytes": 13572,
+      "sha256": "110570ba435cd82409cc10bdcaeaf7fdf3bb9a82b77b860dc73154f50ae59d21",
       "sourceName": "Gece Tebligatı"
     },
     "SND-298": {
       "path": "/games/veto-h/assets/cards/SND-298.webp",
       "width": 576,
       "height": 384,
-      "bytes": 39976,
-      "sha256": "f4a8206a46a47e324ef6dd1ff82903910755276e5aacbc4dccd3dffa6fd98252",
+      "bytes": 15946,
+      "sha256": "b9bdc102111bf56d538afc84dbb64ccc7499cc1a7df210b5e2ecabab15c89491",
       "sourceName": "Masadan Kalkış"
     },
     "SND-299": {
       "path": "/games/veto-h/assets/cards/SND-299.webp",
       "width": 576,
       "height": 384,
-      "bytes": 48086,
-      "sha256": "64cb299e0f9e1e7e9ffaeba710e37284333a337becb6fb80415ff883e806cfb1",
+      "bytes": 12506,
+      "sha256": "e3a61d24bf3008822c69014bcf590af31b5e7dfa66684cf2ea27e94234970da3",
       "sourceName": "Lojistik Açığı"
     },
     "SND-300": {
       "path": "/games/veto-h/assets/cards/SND-300.webp",
       "width": 576,
       "height": 384,
-      "bytes": 50822,
-      "sha256": "0b96a2239fe4b575bba8b86ea665ff1cd6d9b048e5efb213d2057b465468dc0a",
+      "bytes": 12520,
+      "sha256": "ce9020a84b60ef1c3cc90e1fb4c45c9d64b695181fdd9e6d7196732c6305df52",
       "sourceName": "Son İtiraz"
     }
   }

@@ -70,7 +70,7 @@ function Html5Play() {
         title={title}
         src={gameSrc}
         className="block min-h-0 w-full flex-1 border-0 bg-bg"
-        allow="fullscreen; autoplay; gamepad"
+        allow="fullscreen; gamepad"
         onLoad={() => {
           if (!isJitem) return;
           frameRef.current?.contentWindow?.postMessage(
