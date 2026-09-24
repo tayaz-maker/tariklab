@@ -83,7 +83,8 @@ import {
 import { getRelationshipContext } from "./depth2-systems.js?v=10";
 import { getReputationContext, getSocialDistanceContext } from "./depth3-systems.js?v=10";
 import { renderHelpModal } from "./help.js?v=10";
-import { LIFE_ARC_LABELS, economyCausality, refreshLifeArcs } from "./life-depth.js?v=10";
+import { LIFE_ARC_LABELS, LIFE_DEPTH_EVENTS, economyCausality, refreshLifeArcs } from "./life-depth.js?v=10";
+import { DOMAIN_LABEL, STREAK_PAYOFF, decisionTags, weekPlan } from "./decision-network.js?v=10";
 import { actorVoiceLine } from "./life-content.js?v=10";
 
 const app = document.querySelector("#app");
@@ -564,6 +565,50 @@ function bodyRiskText() {
   return "Enerji ve stres; haftalık kararlar, iş yükü ve ulaşım tarafından etkilenir.";
 }
 
+function renderWeekPlan(activeCases, projectedBalance) {
+  const plan = weekPlan(state, {
+    openCases: activeCases,
+    caseLabel: openCaseLabel,
+    projected: projectedBalance,
+    effectLabel: (effect) => LIFE_DEPTH_EVENTS.find((e) => e.id === effect.eventId)?.title || "Geçmiş bir karar geri dönecek",
+  });
+  const week = state.time.absoluteWeek;
+  const goal = plan.goal
+    ? `<strong>${escapeText(plan.goal.label)}</strong><small>İlerleme ${plan.goal.progress}% · ${plan.goal.wait ? `taahhüt karşılığı ${plan.goal.wait} hafta sonra` : `taahhüt ${plan.goal.streak}/${STREAK_PAYOFF} hafta`}</small>`
+    : `<strong>Açık bir orta vadeli hedef yok</strong><small>Bir hedef açılınca seçimler ona bağlanır.</small>`;
+  const pressure = plan.pressure
+    ? `<strong>${escapeText(plan.pressure.text)}</strong>${plan.pressures.slice(1).map((p) => `<small>${escapeText(p.text)}</small>`).join("")}`
+    : `<strong>Bu hafta acil bir baskı yok</strong><small>Planlama için iyi bir hafta.</small>`;
+  const opportunity = plan.opportunity
+    ? `<strong>${escapeText(plan.opportunity)}</strong>`
+    : `<strong>Belirgin bir fırsat yok</strong><small>Hedefe ayrılan haftalar fırsat doğurur.</small>`;
+  const chain = plan.chain.length
+    ? `<ol class="network-chain">${plan.chain.map((x) => `<li class="${x.future ? "is-future" : "is-past"}"><span>${x.future ? `+${Math.max(0, x.week - week)} ${weekUnit()}` : "Önceki"}</span>${escapeText(x.text)}</li>`).join("")}</ol>`
+    : `<strong>Zincirde bekleyen sonuç yok</strong><small>Sonraya taşan seçimler burada görünür.</small>`;
+  // Two blocks: on phones the decisions sit between them, so the choice stays
+  // one screen away; on wide screens both sit above the decisions for planning.
+  return {
+    top: `<section class="network-plan is-top" aria-label="Haftanın baskısı ve hedefi">
+      <article class="network-cell is-pressure"><p class="panel-kicker">ACİL BASKI</p>${pressure}</article>
+      <article class="network-cell is-goal"><p class="panel-kicker">HEDEF</p>${goal}</article>
+    </section>`,
+    more: `<section class="network-plan is-more" aria-label="Fırsat ve sonuç zinciri">
+      <article class="network-cell is-opportunity"><p class="panel-kicker">FIRSAT</p>${opportunity}</article>
+      <article class="network-cell is-chain"><p class="panel-kicker">SONUÇ ZİNCİRİ</p>${chain}</article>
+    </section>`,
+  };
+}
+
+function weekUnit() {
+  return window.tlabI18n?.getLang?.() === "en" ? "wk" : "hf";
+}
+
+function renderDecisionTags(decisionId) {
+  return `<span class="decision-tags">${decisionTags(state, decisionId)
+    .map((tag) => `<span class="decision-tag is-${tag.domain}${tag.sign > 0 ? " is-up" : " is-down"}"><span>${escapeText(DOMAIN_LABEL[tag.domain])}</span> ${tag.domain === "zaman" ? "1" : tag.sign > 0 ? "+" : "−"}${tag.carry ? ` · ${escapeText(tag.carry.replace(/ hf$/, ` ${weekUnit()}`))}` : ""}</span>`)
+    .join("")}</span>`;
+}
+
 function renderDashboard() {
   const depth = refreshLifeArcs(state);
   const causalEconomy = economyCausality(state);
@@ -573,6 +618,7 @@ function renderDashboard() {
   const home = getHomeById(state.household.homeId);
   const monthly = getMonthlySummary(state);
   const projectedBalance = state.finances.balance + monthly.income - monthly.expenses;
+  const weekPlanHtml = renderWeekPlan(activeCases, projectedBalance);
   const socialCases = activeCases.filter((item) => item.type === "social-obligation");
   const partner = state.social.currentPartnerNpcId
     ? getPerson(state, state.social.currentPartnerNpcId)
@@ -592,16 +638,16 @@ function renderDashboard() {
       ${depth.echoes.length ? `<p class="context-note">Son yankı: ${escapeText(depth.echoes.at(-1).text)}</p>` : ""}
     </section>
     <div class="dashboard-grid">
-      <section class="panel week-panel"><div class="panel-head"><div><p class="eyebrow">BU HAFTA</p><h2>Zamanını nasıl kullandın?</h2></div><span>${remaining} odak kaldı</span></div><p class="decision-context">Her seçim zaman, enerji, para veya ilişki bedeli taşır. Haftayı doldurmak zorunda değilsin; yorgunluk ve ertelenen işler sonraki haftaya yansır.</p><div class="decisions">${getAvailableDecisions(
+      <section class="panel week-panel"><div class="panel-head"><div><p class="eyebrow">BU HAFTA</p><h2>Zamanını nasıl kullandın?</h2></div><span>${remaining} odak kaldı</span></div><p class="decision-context">Her seçim zaman, enerji, para veya ilişki bedeli taşır. Haftayı doldurmak zorunda değilsin; yorgunluk ve ertelenen işler sonraki haftaya yansır.</p>${weekPlanHtml.top}<div class="decisions">${getAvailableDecisions(
         state,
       )
         .map((decision) => {
           const check = canApplyDecision(state, decision.id);
-          return `<button class="button decision" data-decision="${decision.id}" ${check.ok ? "" : "disabled"} title="${escapeText(check.reason || "")}"><strong>${escapeText(decision.title)}</strong><small>${escapeText(decision.detail)}</small></button>`;
+          return `<button class="button decision" data-decision="${decision.id}" ${check.ok ? "" : "disabled"} title="${escapeText(check.reason || "")}"><strong>${escapeText(decision.title)}</strong><small>${escapeText(decision.detail)}</small>${renderDecisionTags(decision.id)}</button>`;
         })
         .join(
           "",
-        )}</div><p class="result" role="status">${escapeText(notice || "Bu haftanın kararlarını ver veya zamanı ilerlet.")}</p></section>
+        )}</div>${weekPlanHtml.more}<p class="result" role="status">${escapeText(notice || "Bu haftanın kararlarını ver veya zamanı ilerlet.")}</p></section>
       <aside class="right-column"><section class="panel agenda-panel"><div class="panel-head"><div><p class="eyebrow">GÜNDEM</p><h2>Gelen kutusu</h2></div></div>${renderAgenda()}</section><section class="panel people-panel"><div class="panel-head"><div><p class="eyebrow">İLİŞKİLER</p><h2>Önemli kişiler</h2></div><span>/ 100</span></div><div class="people">${renderPeople()}</div></section></aside>
       <section class="panel history-panel"><div class="panel-head"><div><p class="eyebrow">GEÇMİŞ</p><h2>Son hayat kayıtları</h2></div><span>${state.memories.length}</span></div><div class="history">${renderMemories()}</div></section>
       <section class="panel cases-panel"><div class="panel-head"><div><p class="eyebrow">AÇIK MESELELER</p><h2>Bekleyen sonuçlar</h2></div><span>${activeCases.length}</span></div>${activeCases.length ? activeCases.map((item) => `<p class="open-case"><b>${escapeText(openCaseLabel(item))}</b><span>${Math.max(0, item.dueWeek - state.time.absoluteWeek)} hafta kaldı</span></p>`).join("") : `<p class="empty">Şu anda açık dosya yok.</p>`}<div class="year-file"><span>Yıl dosyası</span>${renderYearHistory()}</div></section>
