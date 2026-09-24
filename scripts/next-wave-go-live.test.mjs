@@ -98,7 +98,7 @@ test("DEVLET release copy reflects the live multi-period runtime without changin
   const staticI18n = read("public/i18n/tlab-i18n.js");
   assert.match(staticI18n, /A multi-era state simulation/);
   assert.doesNotMatch(staticI18n, /2002[–-]05 core/);
-  assert.equal(catalogEntries.length, 19);
-  assert.equal(catalogEntries.filter((game) => game.status === "live").length, 19);
+  assert.equal(catalogEntries.length, 20);
+  assert.equal(catalogEntries.filter((game) => game.status === "live").length, 20);
   assert.deepEqual(catalogEntries.filter((game) => game.status === "soon").map((game) => game.slug), []);
 });

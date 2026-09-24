@@ -4,10 +4,10 @@ import test from "node:test";
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 
-test("interactive-language coverage names all 19 live games", async () => {
+test("interactive-language coverage names all 20 live games", async () => {
   const report = JSON.parse(await read("docs/INTERACTIVE_LANGUAGE_I18N_COVERAGE.json"));
-  assert.equal(report.games.length, 19);
-  assert.equal(new Set(report.games.map((game) => game.id)).size, 19);
+  assert.equal(report.games.length, 20);
+  assert.equal(new Set(report.games.map((game) => game.id)).size, 20);
   assert.ok(report.games.every((game) => game.tr === "complete" && game.en === "complete"));
   assert.equal(report.surfaces.portal, "complete");
   assert.equal(report.surfaces.resources, "complete");
@@ -24,7 +24,7 @@ test("current action-economy copy replaces retired hard caps", async () => {
   for (const stale of ["Two actions a day", "Two decisions a month", "Each week you have 2 decisions", "currently plays in Turkish", "politika kotasını", "Keep one building running"]) {
     assert.equal(copy.includes(stale), false, `stale production copy: ${stale}`);
   }
-  for (const current of ["six time-and-focus blocks", "governing capacity", "two, four or ten-block", "19 live games support Turkish and English"]) {
+  for (const current of ["six time-and-focus blocks", "governing capacity", "two, four or ten-block", "20 live games support Turkish and English"]) {
     assert.ok(copy.toLowerCase().includes(current.toLowerCase()), `missing current mechanic copy: ${current}`);
   }
 });

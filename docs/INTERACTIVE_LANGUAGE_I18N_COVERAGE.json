@@ -20,7 +20,8 @@
     {"id":"gett-oh","tr":"complete","en":"complete","model":"structured card brief + legality reason + duel log","pl":"interface","plNote":"PL: shared duel table labels (menu, phases, actions, zones, settings). Card, theme, help and analysis text: English."},
     {"id":"ihtilal","tr":"complete","en":"complete","model":"preview → action → result → why","pl":"interface","plNote":"PL: desk labels, stats and decision buttons. Hints, endings and basin names: English."},
     {"id":"darbe-h","tr":"complete","en":"complete","model":"structured card brief + legality reason + duel log","pl":"interface","plNote":"PL: shared duel table labels (menu, phases, actions, zones, settings). Card, theme, help and analysis text: English."},
-    {"id":"jitem-derin-ag","tr":"complete","en":"complete","model":"knowledge-aware action preview + evidence grade + causal dossier","pl":"english-fallback","plNote":"No Polish. Vendored runtime with its own TR/EN switch; the /oyna play route sends English to Polish readers. The standalone /games URL keeps the game's own switch."}
+    {"id":"jitem-derin-ag","tr":"complete","en":"complete","model":"knowledge-aware action preview + evidence grade + causal dossier","pl":"english-fallback","plNote":"No Polish. Vendored runtime with its own TR/EN switch; the /oyna play route sends English to Polish readers. The standalone /games URL keeps the game's own switch."},
+    {"id":"esik","tr":"complete","en":"complete","model":"threshold cost, access fault and delayed risk","pl":"interface","plNote":"PL: catalog title only. Route copy is Turkish and English."}
   ],
   "surfaces": {"portal":"complete","resources":"complete"},
   "intentionalUntranslated": [

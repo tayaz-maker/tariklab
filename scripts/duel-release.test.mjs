@@ -291,6 +291,7 @@ test("every playable catalog game ships teaching content", () => {
     satranc: ["public/games/satranc/index.html"],
     "amiral-batti": ["public/games/amiral-batti/index.html"],
     apartman: ["public/games/apartman/help.js"],
+    esik: ["public/games/esik/app.js"],
     "kayip-telefon": ["public/games/kayip-telefon/help.js"],
     "son-100-gun": ["public/games/son-100-gun/pov-app.js"],
     "tc-sim-devlet": ["public/games/tc-sim-devlet/help.js"],

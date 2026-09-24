@@ -37,7 +37,8 @@ In the table below, “native app” for Çete Savaşları means a first-party R
 | Tek Taş | `peg-solitaire` | `/oyna/peg-solitaire` | [docs/tlab-classics/](tlab-classics/PROVENANCE_AND_LICENSES.md) | `public/games/peg-solitaire/` | Original TarikLab implementation; see provenance doc for what it replaced. |
 | Satranç | `satranc` | `/oyna/satranc` | [docs/tlab-classics/](tlab-classics/PROVENANCE_AND_LICENSES.md) | `public/games/satranc/` | Original TarikLab implementation; see provenance doc for what it replaced. |
 | Amiral Battı | `amiral-batti` | `/oyna/amiral-batti` | [docs/amiral-batti/](amiral-batti/README.md) | `public/games/amiral-batti/` | Not covered by the Classics provenance doc — has its own entry. |
-| Kapı Nöbeti | `apartman` | `/oyna/apartman` | [docs/apartman/](apartman/00_PRODUCT_IDENTITY.md) | `public/games/apartman/` | Reuses the Management Sim engine family (see Shared Systems). |
+| Kapı Nöbeti | `apartman` | `/oyna/apartman` | [docs/apartman/](apartman/00_PRODUCT_IDENTITY.md) | `public/games/apartman/` | Public name is Kapı Nöbeti. Slug and save version stay. |
+| Kıyı Eşiği | `esik` | `/oyna/esik` | [docs/ip/esik-source.md](ip/esik-source.md) | `public/games/esik/` | Fictional coast of thresholds. Save key `tariklab.kiyi-esigi.v1`. |
 | Kayıp Telefon | `kayip-telefon` | `/oyna/kayip-telefon` | [docs/kayip-telefon/](kayip-telefon/00_PRODUCT_IDENTITY.md) | `public/games/kayip-telefon/` | |
 | Son 100 Gün | `son-100-gun` | `/oyna/son-100-gun` | [docs/son-100-gun/](son-100-gun/00_PRODUCT_IDENTITY.md) | `public/games/son-100-gun/` | Reuses the Life Sim engine family (see Shared Systems). |
 | JITEM: Derin Ağ | `jitem-derin-ag` | Sealed teaser | [docs/jitem-derin-ag/](jitem-derin-ag/00_PRODUCT_IDENTITY.md) | Not integrated | Coming soon; catalog card intentionally has no route. |
