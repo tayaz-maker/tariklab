@@ -42,7 +42,7 @@ test("generated worker precaches the static shell and client JS/CSS on its first
   await installation;
 
   assert.deepEqual(cached, [
-    "/", "/cete-savaslari", "/favicon.svg", "/__grok/icon-180.png", "/manifest.webmanifest",
+    "/", "/cete-savaslari", "/favicon.svg", "/manifest.webmanifest",
     "/i18n/tlab-i18n.js", "/i18n/deep-en.js", "/i18n/deep-en-final.js", "/i18n/boot.js", "/credits.html",
     "/assets/index-123.js", "/assets/game-456.js", "/assets/styles-789.css",
   ]);

@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -10,14 +10,10 @@ import {
   grokXCreatorHeadTags,
   injectGrokPwaHead,
   isDocumentPath,
-  isInstallQuery,
   publicAppHost,
-  renderWebManifest,
   resolveOgCardAsset,
   snapshotOgIdentity,
-  stripInstallParams,
 } from "./grok-pwa-shared.mjs";
-import { renderInstallPage } from "./grok-pwa-plugin.mjs";
 
 const TEMPLATE_ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const ISOLATED_CWD = mkdtempSync(join(tmpdir(), "grok-pwa-isolated-"));
@@ -34,28 +30,29 @@ test("injects before </head>", () => {
   const out = injectGrokPwaHeadIsolated("<html><head><title>x</title></head><body></body></html>");
   assert.match(out, /rel="manifest"/);
   assert.match(out, /apple-touch-icon/);
-  assert.match(out, /grok-app-builder\/extensions\.js/);
+  assert.doesNotMatch(out, /extensions\.js|__grok/);
   assert.ok(out.indexOf("manifest") < out.indexOf("</head>"));
 });
 
-test("injects the extensions script without a project id", () => {
-  const out = injectGrokPwaHeadIsolated("<html><head></head></html>", {
-    appName: "Demo",
-    projectId: "",
-  });
-  assert.match(out, /src="https:\/\/grok\.com\/grok-app-builder\/extensions\.js" defer/);
-  assert.doesNotMatch(out, /grok-project-id/);
-  assert.doesNotMatch(out, /data-project-id/);
-  assert.doesNotMatch(out, /property="grok:app_id"/);
+test("never injects the Grok extensions script", () => {
+  for (const projectId of ["", "proj-123"]) {
+    const out = injectGrokPwaHeadIsolated("<html><head></head></html>", { appName: "Demo", projectId });
+    assert.doesNotMatch(out, /extensions\.js|grok-project-id|data-project-id/);
+  }
 });
 
-test("injects project id on the script and meta when provided", () => {
+test("strips an extensions script that is already in the document", () => {
+  const html =
+    '<html><head><meta name="grok-project-id" content="p"><script src="https://grok.com/grok-app-builder/extensions.js" data-project-id="p" defer></script></head></html>';
+  const out = injectGrokPwaHeadIsolated(html, { appName: "Demo" });
+  assert.doesNotMatch(out, /extensions\.js|grok-project-id/);
+});
+
+test("injects grok:app_id only when a project id is provided", () => {
   const out = injectGrokPwaHeadIsolated("<html><head></head></html>", {
     appName: "Demo",
     projectId: "proj-123",
   });
-  assert.match(out, /name="grok-project-id" content="proj-123"/);
-  assert.match(out, /data-project-id="proj-123"/);
   assert.match(out, /property="grok:app_id" content="proj-123"/);
 });
 
@@ -389,14 +386,6 @@ test("streaming injector matches </HEAD> case-insensitively", () => {
   assert.match(out, /<body>hello<\/body>/);
 });
 
-test("does not duplicate the extensions script", () => {
-  const ctx = { appName: "Demo", projectId: "proj-123" };
-  const once = injectGrokPwaHeadIsolated("<html><head></head></html>", ctx);
-  const twice = injectGrokPwaHeadIsolated(once, ctx);
-  assert.equal(once, twice);
-  assert.equal(twice.split("extensions.js").length - 1, 1);
-});
-
 test("is idempotent", () => {
   const once = injectGrokPwaHeadIsolated("<html><head></head></html>");
   const twice = injectGrokPwaHeadIsolated(once);
@@ -435,15 +424,6 @@ test("streaming injector falls back when no </head> is seen", () => {
   assert.match(out, /rel="manifest"/);
 });
 
-test("detects install query", () => {
-  assert.equal(isInstallQuery("/?install=1&platform=ios"), true);
-  assert.equal(isInstallQuery("/app?foo=1&install=true&platform=ios"), true);
-  assert.equal(isInstallQuery("/?install=1"), false);
-  assert.equal(isInstallQuery("/?install=1&platform=android"), false);
-  assert.equal(isInstallQuery("/?install=0&platform=ios"), false);
-  assert.equal(isInstallQuery("/"), false);
-});
-
 test("filters non-document paths", () => {
   assert.equal(isDocumentPath("/"), true);
   assert.equal(isDocumentPath("/app"), true);
@@ -452,12 +432,7 @@ test("filters non-document paths", () => {
   assert.equal(isDocumentPath("/logo.png"), false);
 });
 
-test("strips install params from the app link", () => {
-  assert.equal(stripInstallParams("/?install=1&platform=ios"), "/");
-  assert.equal(stripInstallParams("/app?install=1&platform=ios&tab=2"), "/app?tab=2");
-});
-
-test("names the install page from host slug", () => {
+test("names the app from host slug", () => {
   assert.equal(appNameFromHost("localhost:8080"), "TarikLab");
   assert.equal(appNameFromHost("172.17.154.217:8080"), "TarikLab");
   assert.equal(appNameFromHost("wild-race.grok.me"), "Wild Race");
@@ -468,43 +443,22 @@ test("rejects hosts that are not plain slugs", () => {
   assert.equal(appNameFromHost('"><img src=x onerror=1>.grok.me'), "TarikLab");
 });
 
-test("renders install page markup", () => {
-  const html = renderInstallPage("wild-race.grok.me", "/?install=1&platform=ios");
-  assert.match(html, /Add Wild Race to your/);
-  assert.match(html, /\/__grok\/install\/styles\.css/);
-  assert.match(html, /href="\/"/);
-  assert.equal(html.includes("{{APP_NAME}}"), false);
-  assert.equal(html.includes("{{APP_URL}}"), false);
-});
-
-test("escapes host-derived values in the install page", () => {
-  const html = renderInstallPage("<script>alert(1)</script>", "/?install=1&platform=ios");
-  assert.equal(html.includes("<script>alert(1)</script>"), false);
-});
-
-test("renders the manifest with the per-app name", () => {
-  const manifest = JSON.parse(renderWebManifest("wild-race.grok.me"));
-  assert.equal(manifest.name, "Wild Race");
-  assert.equal(manifest.short_name, "Wild Race");
-  assert.equal(manifest.icons[0].src, "/__grok/icon-180.png");
-});
-
 // Tripwires: the deployed-app path only works if Nitro scans server/ — an
 // accidental edit that drops serverDir or the middleware file would otherwise
-// fail silently (published apps would just render the app for ?install=1).
+// fail silently.
 test("vite config keeps the nitro serverDir wiring", () => {
   const viteConfig = readFileSync(join(TEMPLATE_ROOT, "vite.config.ts"), "utf8");
   assert.match(viteConfig, /serverDir:\s*"\.\/server"/);
   assert.match(viteConfig, /grokPwaPlugin\(\)/);
 });
 
-test("nitro middleware and its bundled assets exist", () => {
+test("nitro middleware exists and no Grok install assets remain", () => {
   const middleware = readFileSync(join(TEMPLATE_ROOT, "server/middleware/grok-pwa.ts"), "utf8");
-  assert.match(middleware, /install-page\.html\?raw/);
   assert.match(middleware, /virtual:grok-og-identity/);
-  readFileSync(join(TEMPLATE_ROOT, "scripts/install-page.html"));
-  readFileSync(join(TEMPLATE_ROOT, "public/__grok/icon-180.png"));
-  readFileSync(join(TEMPLATE_ROOT, "public/__grok/install/styles.css"));
+  // The Grok install tutorial and its public/__grok assets are gone.
+  assert.doesNotMatch(middleware, /install-page|__grok\/manifest/);
+  assert.equal(existsSync(join(TEMPLATE_ROOT, "scripts/install-page.html")), false);
+  assert.equal(existsSync(join(TEMPLATE_ROOT, "public/__grok")), false);
 });
 
 test("vite plugin bakes og identity as a virtual module", () => {
