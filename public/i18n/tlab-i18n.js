@@ -549,7 +549,7 @@
           '<a href="/oyna/peg-solitaire">Tek Taş</a> · LIVE — Use legal jumps to leave one piece on the board.',
           '<a href="/oyna/satranc">Satranç</a> · LIVE — Chess with a local rules engine, move history and a computer opponent with distinct levels.',
           '<a href="/oyna/amiral-batti">Amiral Battı</a> · LIVE — Place a fleet and hunt coordinates against an easy, medium or hard opponent.',
-          '<a href="/oyna/apartman">Kapı Nöbeti</a> · LIVE — Night courtyard desk: three open decisions, maintenance debt, trust and cash.',
+          '<a href="/oyna/apartman">Kapı Nöbeti</a> · LIVE — Night courtyard desk for a two, four or ten-block estate: three open decisions, maintenance debt, trust and cash.',
           '<a href="/oyna/kayip-telefon">Kayıp Telefon</a> · LIVE — Corroborate clues across eight apps and weigh the privacy cost of returning a lost phone.',
           '<a href="/oyna/son-100-gun">Son 100 Gün</a> · LIVE — A one-seat life game: a hundred days, one decision per period. Body, savings, your people, calm and the mark you leave share one calendar.',
           '<a href="/oyna/tc-sim-devlet">TC SIM: DEVLET</a> · LIVE — Govern policy, institutions, regions and treasury through capacity, political capital, bureaucratic friction and crisis load.',

@@ -54,7 +54,9 @@ test("frozen baseline: all 38 content, simulation, persistence and projection so
   // source) and time.js calling its week close after the parenthood week.
   // Re-pinned again for Polish readers: runtime.js, help.js and wealth.js pick
   // the content language with PL -> EN fallback instead of showing Turkish.
-  assert.equal(hash.digest("hex"), "0887da1dd60dfe7fdd7740a99b07252f52026b68782008b39caa17ca89b58246");
+  // Re-pinned for Kapı Nöbeti: next-wave.js public title only. The slug,
+  // save version and simulation stay the previous baseline.
+  assert.equal(hash.digest("hex"), "350076f0cb972f3f97ed8a69bb82ac1675f1b69ee7c1508694c18527680ff2a3");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);

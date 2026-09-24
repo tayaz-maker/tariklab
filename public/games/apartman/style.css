@@ -174,6 +174,11 @@ body {
 .courtyard { width: 100%; height: auto; display: block; }
 .desk-tabs { display: none; }
 .night-court text { font-family: "Segoe UI", system-ui, sans-serif; }
+@media (min-width: 721px) {
+  .night-court { min-width: 0; }
+  .desk { min-width: 0; }
+  .notice-board { min-width: 0; }
+}
 @media (max-width: 720px) {
   .scale-grid { grid-template-columns: 1fr; }
   .apt-head { grid-template-columns: 1fr; padding: 10px 0; gap: 8px; }
@@ -189,6 +194,7 @@ body {
   body[data-pane="people"] .apt-board > [data-pane="people"] { display: block; }
   .resident-list, .proposal-grid { grid-template-columns: 1fr; }
   .apt-footer-actions .primary { margin-left: 0; width: 100%; }
+  .game-root { overflow-x: hidden; }
 }
 @media (max-height: 500px) {
   .apt-footer-actions { position: static; }
