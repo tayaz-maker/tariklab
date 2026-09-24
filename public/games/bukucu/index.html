@@ -16,8 +16,8 @@
 <script src="/i18n/boot.js"></script>
 <meta name="smb-rev" content="13">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="apple-touch-icon" href="icon-180.png">
-<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.svg">
 <style>
 :root { --bg:#0B0B0B; --card:#161412; --ink:#E8DFD0; --num:#9A9086; --gold:#C4A574; --hair:#2A2620; }
 html, body { margin:0; background:var(--bg); color:var(--ink); height:100%;
@@ -311,7 +311,6 @@ button:disabled { opacity: .35; }
   var tmpLvl = "esnaf";
   var rolling = false;
   var rollShow = [0, 0];
-  var ac = null;
   var SHORT_TURNS = 30;
   function shortLimit() { return SHORT_TURNS * (nP() > 2 ? nP() / 2 : 1); }
   var DICE_P = [0, 0, 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1];
@@ -701,7 +700,7 @@ button:disabled { opacity: .35; }
       else { S.own[i] = -1; S.bld[i] = 0; S.sen[i] = 0; }
     }
     log(senSoz(p) ? "Sen battın." : (isAi(p) ? "Naci Bey battı." : who(p) + " battı."));
-    buzz([40, 60, 40]); sndFail();
+
     var liv = living();
     if (liv.length <= 1) {
       S.win = liv.length ? liv[0] : nextAlive(p);
@@ -778,8 +777,8 @@ button:disabled { opacity: .35; }
     if (!payTo(p, amt, to)) return false;
     if (S.stat && S.stat.rentPaid) S.stat.rentPaid[p] += amt;
     flyCash(amt);
-    buzz(30);
-    sndCash();
+
+    
     return true;
   }
 
@@ -1126,8 +1125,8 @@ button:disabled { opacity: .35; }
       persist();
       moveBy(p, sum, true, function () { afterLand(p); });
     }
-    buzz(10);
-    sndDice();
+
+    
     if (reduceMot()) { commit(); return; }
     setBusy(true);
     rolling = true;
@@ -1149,7 +1148,7 @@ button:disabled { opacity: .35; }
     var i = S.pos[p], t = sq(i);
     if (["T","K","U"].indexOf(t.kind)<0 || S.own[i] >= 0 || S.cash[p] < t.price) return false;
     S.cash[p] -= t.price; S.own[i] = p;
-    buzz(20); sndCash();
+
     log(who(p) + " " + accOf(t.name) + (senSoz(p) ? " aldın." : " aldı."));
     persist();
     return true;
@@ -1231,7 +1230,7 @@ button:disabled { opacity: .35; }
   function naciBuy() {
     var i = S.pos[1];
     if (naciWants(i) && buy(1)) {
-      buzz(20); sndCash();
+
       persist(); paint(); later(naciAfterOwn); return;
     }
     log("Naci Bey geçti.");
@@ -1278,49 +1277,6 @@ button:disabled { opacity: .35; }
 
   function reduceMot() {
     return !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
-  }
-  function sndPref() {
-    try { return localStorage.getItem("smb.snd") === "1"; } catch (e) { return false; }
-  }
-  function setSndPref(on) {
-    try { localStorage.setItem("smb.snd", on ? "1" : "0"); } catch (e) {}
-  }
-  function unlockAudio() {
-    if (!sndPref()) return;
-    try {
-      if (!ac) ac = new (window.AudioContext || window.webkitAudioContext)();
-      if (ac.state === "suspended") ac.resume();
-    } catch (e) {}
-  }
-  function tone(freq, dur, type, vol) {
-    if (!sndPref() || !ac) return;
-    try {
-      var o = ac.createOscillator(), g = ac.createGain(), t = ac.currentTime;
-      o.type = type || "square";
-      o.frequency.setValueAtTime(freq, t);
-      g.gain.setValueAtTime(0.0001, t);
-      g.gain.exponentialRampToValueAtTime(vol || 0.04, t + 0.012);
-      g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-      o.connect(g); g.connect(ac.destination);
-      o.start(t); o.stop(t + dur + 0.02);
-    } catch (e) {}
-  }
-  function sndDice() {
-    if (!sndPref() || !ac) return;
-    try {
-      var t = ac.currentTime, n = ac.createBuffer(1, ac.sampleRate * 0.09, ac.sampleRate);
-      var d = n.getChannelData(0), i;
-      for (i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / d.length);
-      var src = ac.createBufferSource(), f = ac.createBiquadFilter(), g = ac.createGain();
-      f.type = "bandpass"; f.frequency.value = 1200;
-      g.gain.setValueAtTime(0.08, t); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.09);
-      src.buffer = n; src.connect(f); f.connect(g); g.connect(ac.destination); src.start(t);
-    } catch (e) {}
-  }
-  function sndCash() { tone(440, 0.07, "square", 0.03); tone(660, 0.09, "square", 0.025); }
-  function sndFail() { tone(180, 0.22, "sawtooth", 0.04); }
-  function buzz(ms) {
-    try { navigator.vibrate(ms); } catch (e) {}
   }
   function flyCash(amt) {
     if (reduceMot()) return;
@@ -1575,7 +1531,7 @@ button:disabled { opacity: .35; }
         if (tradeScore(cur.to, cur) > 0) {
           applyTrade(cur);
           log("Naci Bey kabul etti.");
-          sndCash(); buzz(20);
+
           S.trade = null;
           S.wait = "roll";
           persist(); paint();
@@ -1611,7 +1567,7 @@ button:disabled { opacity: .35; }
     if (!t || !tradeOk(t)) { S.trade = null; S.wait = "roll"; persist(); paint(); closeSheet(); return; }
     applyTrade(t);
     log("Takas kabul.");
-    sndCash(); buzz(20);
+
     S.trade = null;
     S.wait = "roll";
     persist(); paint();
@@ -1732,7 +1688,7 @@ button:disabled { opacity: .35; }
       }
       S.own[a.i] = a.by;
       log(who(a.by) + " " + accOf(SQ[a.i][0]) + " " + tl(a.bid) + (senSoz(a.by) ? " ile aldın." : " ile aldı."));
-      sndCash(); buzz(20);
+
     } else if (a) {
       log(SQ[a.i][0] + " bankada kaldı.");
     }
@@ -1876,7 +1832,6 @@ button:disabled { opacity: .35; }
   }
 
   function act(code) {
-    unlockAudio();
     var i;
     var shown = S ? (peek >= 0 ? peek : S.focus) : -1;
     if (code === "cpu") { tmpLvl = tmpLvl || "esnaf"; newGame("cpu", 2); return; }
@@ -1887,7 +1842,6 @@ button:disabled { opacity: .35; }
     if (code === "hot4") { newGame("hotseat", 4); return; }
     if (code === "len:short") { tmpLen = "short"; paintMenu(); return; }
     if (code === "len:long") { tmpLen = "long"; paintMenu(); return; }
-    if (code === "snd") { setSndPref(!sndPref()); paintMenu(); return; }
     if (code.indexOf("slot:") === 0) {
       var sn = +code.slice(5);
       if (S) persist();
@@ -2857,7 +2811,6 @@ button:disabled { opacity: .35; }
     clear(m); m.className = "on";
     m.setAttribute("data-len", tmpLen);
     m.setAttribute("data-lvl", tmpLvl);
-    m.setAttribute("data-snd", sndPref() ? "1" : "0");
     var topRow = add(m, el("header", { cls: "menu-top" }));
     add(topRow, el("a", { href: "/", cls: "hint", text: "← Oyunlar", style: "display:inline-block;text-decoration:none" }));
     if (window.tlabI18n) window.tlabI18n.mountLangToggle(topRow);
@@ -2895,7 +2848,6 @@ button:disabled { opacity: .35; }
       add(st, btn("Dört insan, aynı telefon", "hot4"));
     }
     add(st, btn("Nasıl oynanır", "rules"));
-    add(st, el("button", { text: sndPref() ? "Ses açık" : "Ses kapalı", "data-act": "snd", cls: sndPref() ? "pick" : "" }));
     add(m, el("p", { cls: "plus", text: "18+ kurgu · başla 1.500 TL" }));
     var credit = add(m, el("p", { cls: "plus" }));
     credit.innerHTML = "© 2026 TarikLab. Tüm hakları saklıdır.<br>Oyun tasarımı ve özgün içerik: Tarık Halil Ayaz.";
