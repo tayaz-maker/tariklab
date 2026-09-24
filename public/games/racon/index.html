@@ -177,6 +177,57 @@ html,body{margin:0;height:100%;max-height:100%;background:var(--bg);color:var(--
 .st.rakip{border-left-color:var(--danger)}
 .st.pale{opacity:.62}
 .st h4{margin:0 0 8px;letter-spacing:.08em;text-transform:uppercase;font-size:12px}
+/* Mahalle ağı: şema düğümleri; kontrol hem yazıyla hem kenar biçimiyle okunur. */
+.ag{display:grid;gap:12px;container-type:inline-size;min-width:0}
+.ag-map{position:relative;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(3,minmax(104px,auto));min-width:0}
+.ag-lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.ag-lines.ag-wide{display:none}
+.ag-lines line{stroke:var(--line);stroke-width:2}
+.ag-lines line.hat{stroke:var(--accent);stroke-width:5}
+.ag-lines line.sinir{stroke:var(--danger);stroke-width:3;stroke-dasharray:6 5}
+.ag-node{position:relative;z-index:1;margin:8px;grid-column:var(--nc);grid-row:var(--nr);display:flex;flex-direction:column;gap:3px;align-items:flex-start;justify-content:center;min-height:88px;padding:8px 10px;background:var(--surface);color:inherit;font:inherit;text-align:left;border:2px dotted var(--line);border-radius:var(--r);cursor:pointer;min-width:0}
+.ag-node.sen{border:2px solid var(--accent)}
+.ag-node.rakip{border:2px dashed var(--danger)}
+.ag-node.on{box-shadow:0 0 0 3px var(--ink);background:var(--surface-2)}
+.ag-node:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.ag-ad{font-size:13px;letter-spacing:.04em}
+.ag-sahip{font-size:10px;letter-spacing:.12em;color:var(--ink-dim)}
+.ag-node.sen .ag-sahip{color:var(--accent)}
+.ag-tehdit,.ag-mini,.ag-karar{font-size:11px;color:var(--ink-dim)}
+.ag-tehdit.t-mid{color:var(--heat)}
+.ag-tehdit.t-hi{color:var(--danger);font-weight:600}
+.ag-firsat{font-size:10px;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--respect);color:var(--respect);border-radius:999px;padding:0 6px}
+.ag-karar{color:var(--ink)}
+.ag-legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin:0;font-size:11px;color:var(--ink-dim)}
+.ag-legend .lg::before{content:"";display:inline-block;width:22px;height:0;margin-right:6px;vertical-align:middle;border-top:2px solid var(--line)}
+.ag-legend .lg.hat::before{border-top:4px solid var(--accent)}
+.ag-legend .lg.sinir::before{border-top:3px dashed var(--danger)}
+.ag-panel{margin:0;display:grid;gap:8px}
+.ag-panel h3{margin:0}
+.ag-sub{margin:6px 0 0;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-dim)}
+.ag-dl{display:grid;gap:4px;margin:0}
+.ag-dl>div{display:grid;grid-template-columns:88px minmax(0,1fr);gap:8px}
+.ag-dl dt{color:var(--ink-dim);font-size:12px}
+.ag-dl dd{margin:0;min-width:0}
+.ag-komsu,.ag-log{margin:0;padding:0;list-style:none;display:grid;gap:4px}
+.linkbtn{background:none;border:0;padding:0;min-height:40px;color:var(--accent);font:inherit;text-decoration:underline;cursor:pointer}
+.ag-kararlar{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.ag-k{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;min-height:52px}
+.ag-k.on{border-color:var(--accent);background:var(--surface-2)}
+.ag-why{font-size:11px;color:var(--ink-dim)}
+.ag-plan{display:grid;gap:8px;border-top:1px solid var(--line);padding-top:8px}
+.ag-niyet{margin:0}
+.ag-fx{display:inline-block;margin:0 4px 2px 0;padding:0 6px;border:1px solid var(--line);border-radius:6px;font-size:12px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.ag-fx.up{color:var(--respect)}
+.ag-fx.down{color:var(--heat)}
+.ag-running{margin:0}
+@container (min-width:620px){
+  .ag-map{grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(2,minmax(112px,auto))}
+  .ag-node{grid-column:var(--wc);grid-row:var(--wr)}
+  .ag-lines.ag-wide{display:block}
+  .ag-lines.ag-narrow{display:none}
+  .ag-kararlar{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
 .emirler{display:flex;flex-direction:column;gap:8px;margin-top:6px}
 .btn.emir{display:flex;flex-direction:column;align-items:flex-start;gap:2px;
   min-height:52px;padding:8px 12px;text-align:left;line-height:1.3}
@@ -604,6 +655,7 @@ html,body{font-size:14px}
 <div id="vig"></div>
 <script src="../shared/depth-framework.js"></script>
 <script src="content.js"></script>
+<script src="network.js"></script>
 <script>
 (function () {
   "use strict";
@@ -955,6 +1007,7 @@ html,body{font-size:14px}
     if (cost && S.kasa < cost) return "Kasada ₺" + cost.toLocaleString("tr-TR") + " gerekli.";
     if (code === "tanik-satinal" && S.dirtyKasa < 3000) return "Kirli kasada ₺3.000 gerekli.";
     if (code === "avukat-tut" && S.flags.avukatTutuldu) return "Avukat zaten çalışıyor.";
+    if (code === "ag") return window.RaconAg.reason(S, p.id, p.kind);
     if (code === "tut") { var st=streetBy(p.id); if(!st||st.sahip!=="bos") return "Sokak boş değil."; if(num(S.flags.touchJobs[st.id],0)<2) return "Önce bu sokakta iki işi sonuçlandır."; }
     if (code === "hayat" && p.id === "cami" && S.day !== 5) return "Cuma günü açılır.";
     if (code === "buy" && S.inventory.indexOf(p.id)>=0) return "Zaten sende.";
@@ -1345,7 +1398,8 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
       dikey: (st.dikey && typeof st.dikey === "object") ? { site: str(st.dikey.site, ""), kapiciId: st.dikey.kapiciId } : undefined,
       insaat: (st.insaat && typeof st.insaat === "object") ? { weekLeft: num(st.insaat.weekLeft, 0) } : undefined,
       muhurLeft: num(st.muhurLeft, 0),
-      sivilUyari: !!st.sivilUyari
+      sivilUyari: !!st.sivilUyari,
+      yatirim: clamp(Math.round(num(st.yatirim, 0)), 0, 2)
     };
   }
   function migrateMan(m) {
@@ -1450,6 +1504,7 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
         { id: "rival_amca", ad: "Eski amca ekibi", husumet: 0, band: "yok", agresiflik: 20, streetsClaimed: [] }
       ],
       streets: cs,
+      ag: { orders: [], log: [] },
       cops: [],
       calendar: [],
       jobs: [],
@@ -1511,6 +1566,7 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
       men: arr(raw.men, b.men).map(migrateMan),
       rivals: arr(raw.rivals, b.rivals),
       streets: arr(raw.streets, b.streets),
+      ag: window.RaconAg.normalize(raw.ag),
       cops: arr(raw.cops, []),
       calendar: arr(raw.calendar, []),
       jobs: arr(raw.jobs, []).map(migrateJob),
@@ -3219,6 +3275,7 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
     S.streets.forEach(function (st) {
       if (st.sahip !== "bos") return;
       if (UI.spawnLeft <= 0) return;
+      if (window.RaconAg.protectedFromRival(S, st.id)) return;
       var last = num(S.flags.lastTouch[st.id], 1);
       if (S.week - last < 2) return;
       var sans = ((r.kus ? 0.15 : 0.4) + (bosTahtMi() ? 0.35 : 0)) * (num(S.flags.rakipGerilim, 0) > 0 ? 0.5 : 1);
@@ -3878,6 +3935,9 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
     var own = S.streets.filter(function (st) { return st.sahip === "sen"; });
     if (own.length < 2) return;
     if (rng() > 0.28) return;
+    /* Koru kararı süren sokağa rakip randevu veremez. */
+    own = own.filter(function (st) { var o = window.RaconAg.active(S, st.id); return !(o && o.kind === "koru"); });
+    if (!own.length) return;
     var hedef = own.filter(function (st) { return st.id !== S.streetHome; });
     var st = (hedef.length ? hedef : own)[ri(0, (hedef.length ? hedef : own).length - 1)];
     if (!st || !S.lig.ekipler.length) return;
@@ -3894,10 +3954,21 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
   }
   function sokakEkonomi() {
     S.streets.forEach(function (st) {
-      if (st.sahip === "sen") st.heat = clamp(st.heat + 2, 0, 100);
-      else if (st.heat > 0) st.heat = clamp(st.heat - 1, 0, 100);
+      /* Sende olan sokak haftada 2 ısınır; her yatırım kademesi bunu 1 azaltır. */
+      st.heat = clamp(st.heat + window.RaconAg.heatStep(st), 0, 100);
     });
   }
+  function agApi() {
+    return {
+      pay: function (n, ad) { cashChange(-n); defter("ağ · " + ad + " · " + fmtPara(-n)); },
+      addRep: addRep,
+      esnafRel: function (sid, d) { var p = esnafOf(sid); if (p) relModEkle(p, d, "ilişki", S.week + 8); },
+      esnafFavor: function (sid, d) { var p = esnafOf(sid); if (p) p.favor = clamp(num(p.favor, 0) + d, 0, 3); },
+      inbox: function (t, b) { pushInbox(t, b, { href: "harita" }); },
+      income: function (n) { cashChange(n, true); defter("yatırım geliri · " + fmtPara(n)); }
+    };
+  }
+  function agHafta() { window.RaconAg.weekly(S, agApi()); }
   /* Gidilmeyen randevunun bedeli. */
   /* ---- RANDEVU SAHNESİ (haftanın doruk noktası) ---- */
   var RND_ADIM = ["Buluşma", "Bakışma", "Söz", "Karar", "Dağılma"];
@@ -4295,6 +4366,7 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
       S.flags.haftaIsTip = null;
       ligHafta();
       sokakEkonomi();
+      agHafta();
       /* 6 — RelMod expire · scout çürümesi · aklama tick */
       relModTemizle();
       scoutHaftalikCoz();
@@ -4466,18 +4538,7 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
     if (!S) { el.innerHTML = ""; return; }
     var raconCls = S.rep.racon < 40 ? "red" : "";
     var extra = "";
-    var st = UI.streetId ? streetBy(UI.streetId) : null;
-    if (st && S.screen === "harita") {
-      extra =
-        '<div class="hr"></div><div class="card" style="margin:0">' +
-        "<h3>" + esc(up(st.ad)) + "</h3>" +
-        '<p class="dim">' + esc(STREET_NOTE[st.id] || "") + "</p>" +
-        '<p class="dim">sahip: ' + (st.sahip === "sen" ? "sen" : st.sahip === "rakip" ? "rakip" : "—") + "</p>" +
-        barrow("Baskı", st.heat, 100, "heat") +
-        '<div class="acts"><button type="button" class="btn" data-act="nav" data-id="isler">Bu sokakta iş planla</button>' +
-        (st.sahip === "bos" ? '<button type="button" class="btn" data-act="tut" data-id="' + st.id + '"' + (S.kasa < 4500 ? " disabled" : "") + ">Tut · ₺4.500</button>" : "") +
-        "</div></div>";
-    }
+    /* Seçili sokak paneli artık haritanın içinde; yan panel onu tekrar etmez. */
     var notes = S.inbox.slice(0, 3).map(function (n) { return "<p>" + esc(n.title) + "</p>"; }).join("");
     if (!notes) notes = "<p class=\"dim\">Mahalle duruyor.</p>";
     var gear = ["silah", "ust", "arac"].map(function (slot) {
@@ -4735,26 +4796,123 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
     return '<div class="split"><div class="list">' + list + '<div class="acts" style="padding:8px"><button type="button" class="btn" data-act="cmpgo" ' + (n < 2 ? "disabled" : "") + ">Karşılaştır (" + n + ")</button></div></div><div class=\"sheet\">" + sheet + kunye + (hire ? '<div class="card"><h3>Tutulacak adam</h3>' + hire + "</div>" : "") + "</div></div>";
   }
 
+  var AG_FX = { heat: "Baskı", teror: "Terör", sadakat: "Sadakat", dosya: "Dosya", yatirim: "Yatırım kademesi",
+    saygi: "Saygı", esnaf: "Esnaf ilişkisi", favor: "İyilik hakkı", dokun: "Rakibe karşı iz" };
+  var AG_SAHIP = { sen: "SENDE", rakip: "RAKİPTE", bos: "BOŞ" };
+  var AG_BAG = { hat: "Senin hattın: iki sokak da sende.", sinir: "Sınır: bir yan sende, bir yan rakipte.", yol: "Yol: el değiştirebilir." };
+  function agFx(fx) {
+    if (!fx) return "";
+    return Object.keys(fx).map(function (k) {
+      if (k === "sahip") return '<span class="ag-fx down">Sokak boşalır</span>';
+      var v = fx[k];
+      if (!v || !AG_FX[k]) return "";
+      var good = k === "heat" || k === "teror" || k === "dosya" ? v < 0 : v > 0;
+      return '<span class="ag-fx ' + (good ? "up" : "down") + '"><span>' + AG_FX[k] + "</span> " + (v > 0 ? "+" : "−") + Math.abs(v) + "</span>";
+    }).join("");
+  }
+  function agRandevu(id) {
+    return (S.calendar || []).some(function (c) { return c.status === "bekler" && c.ref && c.ref.sokakId === id; });
+  }
   function drawHarita() {
-    var pale = S.flags && S.flags.paleStreet;
-    return '<div class="map">' + S.streets.map(function (s) {
-      var own = s.sahip === "sen" ? "sen" : s.sahip === "rakip" ? "rakip" : "bos";
-      var ownTxt = s.sahip === "sen" ? "SEN" : s.sahip === "rakip" ? "RAKİP" : "—";
-      var sBand = scoutBand("street", s.id);
-      var heatHtml = (s.sahip === "rakip" && sBand < 2)
-        ? '<p class="dim">heat: bilinmiyor</p>'
-        : barrow("Baskı", s.heat, 100, "heat");
-      var ince = '<div class="ince2"><span title="sadakat">S ' + Math.round(num(s.sadakatMahalle, 50)) +
-        '</span><span title="terör">T ' + Math.round(num(s.terorMahalle, 0)) + "</span></div>";
-      var komsu = (s.komsular || []).map(function (kid) { var k = streetBy(kid); return k ? k.ad : ""; }).filter(Boolean).join(", ");
-      var yumusakTxt = s.komsuYumusak ? '<p class="dim">komşular sende · sokak yumuşak</p>' : "";
-      var uyariTxt = (num(s.muhurLeft, 0) > 0 ? '<p class="minus">mühürlü · iş planlanamaz</p>' : "") +
-        (s.sivilUyari ? '<p class="minus">sivil araç dolaşıyor</p>' : "");
-      var hafizaTxt = (s.hafiza || []).slice(-3).map(function (h) { return '<p class="dim">H' + h.week + " · " + esc(h.text) + "</p>"; }).join("");
-      var dikeyTxt = s.dikey ? '<p class="dim">site: ' + esc(s.dikey.site) + " · baskı kata sızar</p>" : "";
-      return '<button type="button" class="st ' + own + (s.id === pale ? " pale" : "") + '" data-act="street" data-id="' + s.id + '"><h4>' + esc(up(s.ad)) + "</h4><p class=\"dim\">" + esc(STREET_NOTE[s.id] || "") + "</p><p class=\"dim\">sahip: " + ownTxt + " · saygı " + num(s.saygiPuan, 0) + "</p>" + heatHtml + ince +
-        (komsu ? '<p class="dim">komşu: ' + esc(komsu) + "</p>" : "") + yumusakTxt + uyariTxt + hafizaTxt + dikeyTxt + "</button>";
-    }).join("") + "</div>" + drawKose();
+    var Ag = window.RaconAg;
+    var ag = Ag.ensure(S);
+    var sel = streetBy(UI.streetId) || streetBy(S.streetHome) || S.streets[0];
+    var sig = {};
+    S.streets.forEach(function (s) { sig[s.id] = Ag.signals(S, s, { randevu: agRandevu(s.id), touch: num(S.flags.touchJobs && S.flags.touchJobs[s.id], 0) }); });
+    function cells(mode) { var o = {}; S.streets.forEach(function (s, i) { o[s.id] = Ag.cell(s.id, mode, i); }); return o; }
+    var wide = cells("wide"), narrow = cells("narrow");
+    function svg(mode, pos, cols, rows) {
+      var x = function (c) { return ((c + 0.5) / cols * 100).toFixed(2); };
+      var y = function (r) { return ((r + 0.5) / rows * 100).toFixed(2); };
+      return '<svg class="ag-lines ag-' + mode + '" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">' +
+        Ag.links(S).map(function (l) {
+          var a = pos[l.a], b = pos[l.b];
+          if (!a || !b) return "";
+          return '<line class="' + l.kind + '" x1="' + x(a[0]) + '" y1="' + y(a[1]) + '" x2="' + x(b[0]) + '" y2="' + y(b[1]) + '" vector-effect="non-scaling-stroke"/>';
+        }).join("") + "</svg>";
+    }
+    var nodes = S.streets.map(function (s) {
+      var g = sig[s.id];
+      var w0 = wide[s.id], n0 = narrow[s.id];
+      var on = s.id === sel.id;
+      var karar = g.karar ? '<span class="ag-karar">' + esc(Ag.ORDERS[g.karar.kind].ad) + " · " + g.karar.left + " hf</span>" : "";
+      var label = s.ad + ", " + AG_SAHIP[g.kontrol] + ", tehdit " + g.tehdit + (g.rozet ? ", fırsat var" : "") + (g.karar ? ", süren karar " + Ag.ORDERS[g.karar.kind].ad : "");
+      return '<button type="button" class="ag-node ' + g.kontrol + (on ? " on" : "") + '" data-act="street" data-id="' + s.id + '" aria-pressed="' + on + '" aria-label="' + esc(label) + '" style="--wc:' + (w0[0] + 1) + ";--wr:" + (w0[1] + 1) + ";--nc:" + (n0[0] + 1) + ";--nr:" + (n0[1] + 1) + '">' +
+        '<b class="ag-ad">' + esc(s.ad) + "</b>" +
+        '<span class="ag-sahip">' + AG_SAHIP[g.kontrol] + "</span>" +
+        '<span class="ag-tehdit t-' + (g.tehdit === "yüksek" ? "hi" : g.tehdit === "orta" ? "mid" : "lo") + '"><span>Tehdit</span> ' + g.tehdit + "</span>" +
+        '<span class="ag-mini">S ' + g.saygi + " · Sd " + g.sadakat + (g.yatirim ? " · Y" + g.yatirim : "") + "</span>" +
+        (g.rozet ? '<span class="ag-firsat">Fırsat</span>' : "") + karar + "</button>";
+    }).join("");
+    var map = '<div class="ag-map" role="group" aria-label="Mahalle ağı şeması">' + svg("wide", wide, 3, 2) + svg("narrow", narrow, 2, 3) + nodes + "</div>" +
+      '<p class="ag-legend"><span class="lg hat">Senin hattın</span><span class="lg sinir">Sınır</span><span class="lg yol">Yol</span><span class="dim">Şema; gerçek konum ya da ölçek değil.</span></p>';
+    var g = sig[sel.id];
+    var es = esnafOf(sel.id);
+    var esRel = es ? personRelHesap(es) : null;
+    var dl = [
+      ["Kontrol", AG_SAHIP[g.kontrol] + (sel.id === S.streetHome ? " · ev sokağı" : "")],
+      ["İtibar", "Saygı " + g.saygi + " · Sadakat " + g.sadakat],
+      ["İlişki", es ? es.ad + " (" + (es.rol || "esnaf") + ") · " + (esRel > 10 ? "yakın" : esRel < -10 ? "küs" : "mesafeli") + " " + esRel : "Tanıdık esnaf yok"],
+      ["Kaynak", g.yatirim ? "Yatırım " + g.yatirim + "/" + Ag.YATIRIM_MAX + (g.gelir ? " · haftalık ₺" + g.gelir.toLocaleString("tr-TR") : " · sokak sende değilken gelir yok") : "Yatırım yok"],
+      ["Tehdit", g.tehdit + " (" + g.tehditPuan + ") · baskı " + g.heat + " · terör " + g.teror],
+      ["Uyarı", g.uyari.length ? g.uyari.join(" · ") : "Yok"],
+      ["Fırsat", g.firsat.length ? g.firsat.join(" · ") : "Yok"]
+    ].map(function (r) { return "<div><dt>" + r[0] + "</dt><dd>" + esc(r[1]) + "</dd></div>"; }).join("");
+    var komsu = (sel.komsular || []).map(function (kid) {
+      var k = streetBy(kid);
+      if (!k) return "";
+      var kind = sel.sahip === "sen" && k.sahip === "sen" ? "hat" : (sel.sahip === "sen" && k.sahip === "rakip") || (sel.sahip === "rakip" && k.sahip === "sen") ? "sinir" : "yol";
+      return '<li><button type="button" class="linkbtn" data-act="street" data-id="' + k.id + '">' + esc(k.ad) + "</button> · " + AG_SAHIP[k.sahip] + ' <span class="dim">' + AG_BAG[kind] + "</span></li>";
+    }).join("");
+    var cap = Ag.capacity(S);
+    var karar = g.karar
+      ? '<p class="ag-running"><b>' + esc(Ag.ORDERS[g.karar.kind].ad) + "</b> sürüyor · " + g.karar.left + " hafta kaldı.</p>"
+      : "";
+    var dolu = !g.karar && ag.orders.length >= cap;
+    var ortak = g.karar ? "" : dolu ? "Ekip dolu: yeni sokak kararı için süren bir kararın bitmesini bekle." : "";
+    var kararlar = g.karar ? "" : Ag.KIND.map(function (k) {
+      var why = dolu ? "" : Ag.reason(S, sel.id, k);
+      var o = Ag.ORDERS[k];
+      var on = UI.agKind === k;
+      return '<button type="button" class="btn ag-k' + (on ? " on" : "") + '" data-act="ag-sec" data-id="' + sel.id + '" data-kind="' + k + '" aria-pressed="' + on + '"' + (why ? ' aria-describedby="agw-' + k + '"' : "") + ">" +
+        "<b>" + esc(o.ad) + "</b>" + '<span class="dim">' + (o.cost ? "₺" + o.cost.toLocaleString("tr-TR") : "Bedelsiz") + " · " + o.weeks + " hafta</span>" +
+        (why ? '<span class="ag-why" id="agw-' + k + '">' + esc(why) + "</span>" : "") + "</button>";
+    }).join("");
+    var pv = UI.agKind ? Ag.preview(S, sel.id, UI.agKind) : null;
+    var plan = "";
+    if (pv) {
+      var komsuFx = [pv.komsu.now && ["Hemen", pv.komsu.now], pv.komsu.weekly && ["Her hafta", pv.komsu.weekly], pv.komsu.end && ["Sonunda", pv.komsu.end]].filter(Boolean);
+      plan = '<div class="ag-plan">' +
+        '<p class="ag-niyet">' + esc(pv.niyet) + "</p>" +
+        '<dl class="ag-dl">' +
+        "<div><dt>Bedel</dt><dd>" + (pv.cost ? "₺" + pv.cost.toLocaleString("tr-TR") : "Yok") + "</dd></div>" +
+        "<div><dt>Şimdi</dt><dd>" + (agFx(pv.now) || '<span class="dim">Görünür etki yok</span>') + "</dd></div>" +
+        "<div><dt>Her hafta · " + pv.weeks + "</dt><dd>" + (agFx(pv.weekly) || '<span class="dim">Görünür etki yok</span>') + "</dd></div>" +
+        "<div><dt>Sonunda</dt><dd>" + (agFx(pv.end) || '<span class="dim">Görünür etki yok</span>') + "</dd></div>" +
+        (komsuFx.length ? "<div><dt>Komşulara</dt><dd>" + komsuFx.map(function (x) { return '<span class="dim">' + x[0] + ":</span> " + agFx(x[1]); }).join(" ") + '<br><span class="dim">' + esc(pv.komsu.streets.join(", ") || "Etkilenen komşu yok") + "</span></dd></div>" : "") +
+        "</dl>" +
+        (pv.extra ? '<p class="dim">' + esc(pv.extra) + "</p>" : "") +
+        '<div class="acts"><button type="button" class="btn primary" data-act="ag" data-id="' + sel.id + '" data-kind="' + pv.kind + '"' + (pv.reason ? " disabled" : "") + ">Kararı ver · " + esc(pv.ad) + "</button></div>" +
+        (pv.reason ? '<p class="minus">' + esc(pv.reason) + "</p>" : "") +
+        "</div>";
+    }
+    var tut = sel.sahip === "bos"
+      ? '<button type="button" class="btn" data-act="tut" data-id="' + sel.id + '"' + (S.kasa < 4500 ? " disabled" : "") + ">Tut · ₺4.500</button>"
+      : "";
+    var logs = ag.log.slice(-4).reverse().map(function (l) { return "<li>H" + l.week + " · " + esc(l.text) + "</li>"; }).join("");
+    var panel = '<section class="card ag-panel" aria-labelledby="ag-h">' +
+      '<h3 id="ag-h">' + esc(up(sel.ad)) + "</h3>" +
+      '<p class="dim">' + esc(STREET_NOTE[sel.id] || "") + "</p>" +
+      '<dl class="ag-dl">' + dl + "</dl>" +
+      (komsu ? '<h4 class="ag-sub">Bağlı ağ</h4><ul class="ag-komsu">' + komsu + "</ul>" : "") +
+      '<h4 class="ag-sub">Karar</h4>' + karar +
+      '<p class="dim">Süren sokak kararları ' + ag.orders.length + "/" + cap + ". Her sokakta bir karar sürer.</p>" +
+      (ortak ? '<p class="minus">' + esc(ortak) + "</p>" : "") +
+      (kararlar ? '<div class="ag-kararlar">' + kararlar + "</div>" : "") + (g.karar ? "" : plan) +
+      '<div class="acts">' + tut + '<button type="button" class="btn ghost" data-act="nav" data-id="isler">Bu sokakta iş planla</button></div>' +
+      (logs ? '<h4 class="ag-sub">Ağ defteri</h4><ul class="ag-log">' + logs + "</ul>" : "") +
+      "</section>";
+    return '<div class="ag">' + map + panel + "</div>" + drawKose();
   }
   function drawKose() {
     var lvl = num(S.kose, 0);
@@ -5890,9 +6048,27 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
       return;
     }
     if (code === "street") {
+      if (UI.streetId !== payload.id) UI.agKind = null;
       UI.streetId = payload.id;
       UI.planStreet = payload.id;
-      UI.sideOpen = true;
+      /* Harita kendi seçili-sokak panelini gösterir; yan paneli açmaz. */
+      UI.sideOpen = S.screen !== "harita";
+      render();
+      return;
+    }
+    if (code === "ag-sec") {
+      UI.streetId = payload.id;
+      UI.agKind = UI.agKind === payload.kind ? null : payload.kind;
+      render();
+      return;
+    }
+    if (code === "ag") {
+      if (window.RaconAg.start(S, payload.id, payload.kind, agApi())) {
+        UI.agKind = null;
+        recalcSaygi();
+        recalcDosya();
+        persist();
+      }
       render();
       return;
     }

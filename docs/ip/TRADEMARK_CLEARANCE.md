@@ -85,8 +85,12 @@ them; renaming live products is an owner decision after counsel review.
    life total. Rules and numbers are generally not protected by copyright, but name
    similarity is a trademark question. Counsel to assess.
 3. **Son 100 Gün** — the credits text in `public/credits.html` and `public/i18n/tlab-i18n.js`
-   describes it as being in "Extreme Last 100 Days format", which names a third-party
-   format. Remove from product copy (scheduled for the Resources update).
+   described it as being in a named third-party "last 100 days" format. **Removed** with the
+   single-seat rebuild: the Resources line now describes the game in its own words, the
+   blocked-terms allowance in `scripts/ip-register.test.mjs` was lowered, and
+   `scripts/site-credits-help.test.mjs` fails if the wording returns. The title
+   "Son 100 Gün" itself is an existing product name and is not a new public mark; counsel
+   should still confirm the title alongside the other live names.
 4. **Racon Manager** — the internal spec (`docs/racon/SPEC-V1-ORIJINAL.md`) states that it
    takes a named commercial sports-management game's screen skeleton. The shipped UI
    should be reviewed for overall screen appearance; internal docs should not describe

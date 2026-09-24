@@ -3,7 +3,8 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 
 const read = (path) => readFileSync(new URL(`../${path}`, import.meta.url), "utf8");
-const gameIds = ["apartman", "son-100-gun", "kayip-telefon", "tc-sim-devlet"];
+// Son 100 Gün now runs its own single-seat page (pov-app.js), not the shared front menu.
+const gameIds = ["apartman", "kayip-telefon", "tc-sim-devlet"];
 
 function storageHarness(initial = {}) {
   const values = new Map(Object.entries(initial));
@@ -130,7 +131,6 @@ test("new-game authorization, cancel and final commit enforce the state boundary
 test("all five games expose the universal menu before a game-specific setup", () => {
   const ctas = {
     apartman: "YÖNETİMİ DEVRAL",
-    "son-100-gun": "100 GÜNÜ BAŞLAT",
     "kayip-telefon": "TELEFONU AÇ",
     "tc-sim-devlet": "DEVLETİ DEVRAL",
   };
@@ -144,11 +144,13 @@ test("all five games expose the universal menu before a game-specific setup", ()
 });
 
 test("Son 100 Gün separates scenario selection from final state creation", () => {
-  const app = read("public/games/son-100-gun/app.js");
-  assert.match(app, /chooseScenario/);
-  assert.match(app, /paintScenarioSelection/);
-  assert.match(app, /id="confirm-start"/);
-  assert.doesNotMatch(app, /data-scenario[\s\S]{0,300}session\.start/);
-  assert.match(app, /commitNew\(\{ action: `scenario:/);
-  assert.doesNotMatch(app, /selectedScenario = button\.dataset\.scenario;\s*session\.render\(\)/);
+  const app = read("public/games/son-100-gun/pov-app.js");
+  assert.match(app, /data-scenario="\$\{sc\.id\}"/);
+  assert.match(app, /id="confirm-start" class="primary wide" \$\{setup\.scenario \? "" : "disabled"\}/);
+  const pickBranch = app.slice(app.indexOf("} else if (d.scenario) {"), app.indexOf("} else if (d.slotPick) {"));
+  assert.match(pickBranch, /setup\.scenario = d\.scenario/);
+  assert.doesNotMatch(pickBranch, /createGame|persist\(/, "choosing a life must not start or save a game");
+  const startBranch = app.slice(app.indexOf('} else if (el.id === "confirm-start") {'), app.indexOf("} else if (d.card && d.opt) {"));
+  assert.match(startBranch, /G\.createGame\(setup\.scenario/);
+  assert.match(startBranch, /if \(!setup\.scenario\) return;/);
 });
