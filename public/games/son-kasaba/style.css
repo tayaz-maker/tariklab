@@ -524,6 +524,11 @@ button.primary,
 .month-plan__cap strong { font: 700 1.5rem Georgia, serif; font-variant-numeric: tabular-nums; }
 .month-plan .cap-cells i { width: 13px; height: 20px; }
 .month-plan__status { margin: 8px 0 10px; font-size: .9rem; color: var(--ink); }
+.month-plan__backlog { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; margin: 0 0 10px; font-size: .85rem; color: var(--ink); }
+.month-plan__backlog meter { width: 120px; height: 10px; flex: none; }
+.month-plan__backlog > span { min-width: 0; overflow-wrap: anywhere; }
+.month-plan__backlog.is-invest { color: var(--field); }
+.month-plan__backlog.is-urgent { color: var(--danger); font-weight: 600; }
 .month-plan__lists { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 .month-plan__lists h3 { margin: 0 0 6px; font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; }
 .month-plan__lists h3.is-urgent { color: var(--danger); }

@@ -213,6 +213,7 @@ export function createTown(options = {}) {
     used: [],
     capacityUsed: 0,
     capacityMax: 10,
+    maintenance: { backlog: MAINTENANCE_START, patches: [], lastBreak: 0 },
     events: [],
     seenEvents: [],
     pending: [],
@@ -471,6 +472,7 @@ export function normalizeTown(_id, raw) {
     if (raw.capacityUsed == null) raw.capacityUsed = Math.min(raw.capacityMax, raw.used.length * 2);
     if (!validateTown(raw)) return null;
     if (raw.meta.version === 1) ensureTownDepth(raw);
+    ensureMaintenance(raw);
     return validateTown(raw) ? raw : null;
   } catch {
     return null;
@@ -669,6 +671,102 @@ export const BASE_CAPACITY = 10;
 export const STRETCH_MAX = 3;
 export const RESERVE_AT = 4;
 export const RESERVE_BONUS = 2;
+
+/* Bakım borcu: kriz, yatırım ve bakım tek döngüde. Yama bugünü kurtarır ve
+   borcu büyütür; tam onarım pahalıdır ve borcu eritir. Borç eşiği aşınca
+   arıza gelir, bakım gideri her ay borçla birlikte artar. */
+export const MAINTENANCE_START = 15;
+export const BACKLOG_BREAKDOWN = 40;
+export const BACKLOG_CRITICAL = 70;
+export const BACKLOG_COST = 80;
+/** Crews absorb a small backlog; above the free band every point costs every month. */
+export const BACKLOG_FREE = 20;
+export const backlogCost = (backlog) => Math.max(0, Math.round(backlog) - BACKLOG_FREE) * BACKLOG_COST;
+export const PATCHES = {
+  road: { now: 12, back: -10, backlog: 6, after: 3 },
+  water: { now: 10, back: -8, backlog: 5, after: 3 },
+  energy: { now: 10, back: -8, backlog: 5, after: 3 },
+};
+export const FULL_REPAIR_RELIEF = { road: 6, water: 6, energy: 6, cleanup: 3 };
+export function ensureMaintenance(s) {
+  // Normalised in place: every caller works on the same object.
+  if (!s.maintenance || typeof s.maintenance !== "object" || Array.isArray(s.maintenance)) s.maintenance = {};
+  const mt = s.maintenance;
+  mt.backlog = clamp(Math.round(Number.isFinite(mt.backlog) ? mt.backlog : MAINTENANCE_START));
+  mt.patches = (Array.isArray(mt.patches) ? mt.patches : [])
+    .filter((p) => p && PATCHES[p.id] && Number.isInteger(p.at) && Number.isFinite(p.amount))
+    .map((p) => ({ id: p.id, at: p.at, amount: Math.max(-20, Math.min(0, Math.round(p.amount))) }))
+    .slice(-12);
+  mt.lastBreak = Number.isInteger(mt.lastBreak) ? mt.lastBreak : 0;
+  for (const key of Object.keys(mt)) if (!["backlog", "patches", "lastBreak"].includes(key)) delete mt[key];
+  return mt;
+}
+/** How the backlog moves at the next month close, and what it costs. */
+export function maintenanceForecast(s) {
+  const mt = ensureMaintenance(s),
+    m = s.metrics,
+    modifiers = townModifiers(s);
+  const worn = s.buildings.filter((b) => b.open && b.condition < 30).length;
+  const failing = ["road", "water", "energy"].filter((k) => m[k] < 30).length;
+  const load = Math.ceil(s.investors.filter((o) => o.status === "accepted").length / 2);
+  const crews = modifiers.upkeepFactor < 1 ? 4 : 3;
+  const growth = Math.floor(worn / 2) + failing + load - crews;
+  const returning = mt.patches.filter((p) => p.at <= s.month + 1);
+  return {
+    backlog: mt.backlog,
+    growth,
+    next: clamp(mt.backlog + growth),
+    cost: backlogCost(mt.backlog),
+    worn,
+    failing,
+    load,
+    returning: returning.map((p) => ({ id: p.id, amount: p.amount })),
+    risk: mt.backlog >= BACKLOG_CRITICAL ? "critical" : mt.backlog >= BACKLOG_BREAKDOWN ? "breakdown" : mt.backlog >= BACKLOG_BREAKDOWN - 10 ? "near" : "low",
+  };
+}
+function maintenanceMonth(s) {
+  const mt = ensureMaintenance(s),
+    f = maintenanceForecast(s),
+    m = s.metrics;
+  mt.backlog = f.next;
+  for (const p of mt.patches.filter((p) => p.at <= s.month + 1)) {
+    effect(s, { [p.id]: p.amount });
+    addHistory(
+      s,
+      `Yama geri döndü: ${tr2(CIVIC_ACTIONS.find((a) => a.id === p.id).label, 0)} ${p.amount}.`,
+      `A patch came back: ${tr2(CIVIC_ACTIONS.find((a) => a.id === p.id).label, 1)} ${p.amount}.`,
+      "chain",
+    );
+  }
+  mt.patches = mt.patches.filter((p) => p.at > s.month + 1);
+  // lastBreak 0 means no breakdown yet; after one, the next needs three months.
+  if (mt.backlog >= BACKLOG_BREAKDOWN && (mt.lastBreak === 0 || s.month - mt.lastBreak >= 3)) {
+    const worst = ["road", "water", "energy"].sort((a, b) => m[a] - m[b])[0];
+    effect(s, { [worst]: -12 });
+    mt.lastBreak = s.month;
+    addHistory(
+      s,
+      `Bakım borcu ${mt.backlog}: ${tr2(CIVIC_ACTIONS.find((a) => a.id === worst).label, 0).toLocaleLowerCase("tr")} arızası.`,
+      `Maintenance backlog ${mt.backlog}: breakdown — ${tr2(CIVIC_ACTIONS.find((a) => a.id === worst).label, 1).toLowerCase()}.`,
+      "chain",
+    );
+    if (mt.backlog >= BACKLOG_CRITICAL) {
+      const b = s.buildings.filter((b) => b.open).sort((x, y) => x.condition - y.condition)[0];
+      if (b) {
+        b.condition = clamp(b.condition - 15);
+        addHistory(s, "Kritik bakım borcu bir binayı da yıprattı.", "The critical backlog wore down a building too.", "chain");
+      }
+    }
+  }
+  updateChain(
+    s,
+    "maintenance-debt",
+    mt.backlog >= BACKLOG_CRITICAL ? "crisis" : mt.backlog >= BACKLOG_BREAKDOWN ? "risk" : "stable",
+    mt.backlog >= BACKLOG_BREAKDOWN ? "Bakım borcu arıza üretmeye başladı." : "Bakım borcu kontrol altında.",
+    mt.backlog >= BACKLOG_BREAKDOWN ? "The maintenance backlog started causing breakdowns." : "The maintenance backlog is under control.",
+  );
+}
+const tr2 = (pair, i) => (Array.isArray(pair) ? pair[i] : "");
 export const capacityLimit = (s) => (s.capacityMax || BASE_CAPACITY) + STRETCH_MAX;
 export function nextCapacity(s) {
   const max = s.capacityMax || BASE_CAPACITY,
@@ -755,6 +853,16 @@ export function actionInfo(s, command) {
         no("Bu alanda ek iyileştirme gerekmiyor", "No further improvement needed here");
       if (id === "loan" && s.debt >= 200000) no("Borç sınırına ulaştın", "Debt limit reached");
       if (id === "repay" && s.debt < 10000) no("Borç 10.000 TL altında", "Debt below 10,000 TL");
+    }
+  } else if (kind === "patch") {
+    const p = PATCHES[id],
+      a = CIVIC_ACTIONS.find((x) => x.id === id);
+    if (!p || !a) no("Geçersiz karar", "Invalid decision");
+    else {
+      cost = Math.round(a.cost * 0.4);
+      effort = 1;
+      label = [`${a.label[0]} · yama`, `${a.label[1]} · patch`];
+      if (s.metrics[id] >= 90) no("Yama gerekmiyor", "No patch needed");
     }
   } else if (["repair", "toggle"].includes(kind)) {
     const b = s.buildings.find((b) => b.id === id),
@@ -844,7 +952,29 @@ export function applyTownAction(s, command) {
   s.budget -= a.cost;
   s.capacityUsed = (s.capacityUsed || 0) + a.effort;
   s.used.push(a.key);
-  if (a.kind === "civic") effect(s, CIVIC_ACTIONS.find((x) => x.id === a.id).effects);
+  if (a.kind === "civic") {
+    effect(s, CIVIC_ACTIONS.find((x) => x.id === a.id).effects);
+    if (FULL_REPAIR_RELIEF[a.id]) {
+      const mt = ensureMaintenance(s);
+      mt.backlog = clamp(mt.backlog - FULL_REPAIR_RELIEF[a.id]);
+    }
+  }
+  if (a.kind === "patch") {
+    const p = PATCHES[a.id],
+      mt = ensureMaintenance(s);
+    effect(s, { [a.id]: p.now });
+    mt.backlog = clamp(mt.backlog + p.backlog);
+    mt.patches.push({ id: a.id, at: s.month + p.after, amount: p.back });
+    addHistory(
+      s,
+      `Hızlı yama: şimdi +${p.now}, ${p.after} ay sonra ${p.back}; bakım borcu +${p.backlog}.`,
+      `Quick patch: +${p.now} now, ${p.back} in ${p.after} months; backlog +${p.backlog}.`,
+    );
+  }
+  if (a.kind === "repair") {
+    const mt = ensureMaintenance(s);
+    mt.backlog = clamp(mt.backlog - 4);
+  }
   if (["repair", "toggle"].includes(a.kind)) {
     const b = s.buildings.find((b) => b.id === a.id);
     if (a.kind === "repair") b.condition = clamp(b.condition + 30);
@@ -1039,6 +1169,7 @@ export function economy(s) {
     infrastructure: Math.round((1500 + (100 - m.road) * 15) * modifiers.upkeepFactor),
     energy: Math.round(1800 + (100 - m.energy) * 12),
     interest: Math.ceil(s.debt * 0.012),
+    backlog: backlogCost(s.maintenance?.backlog ?? MAINTENANCE_START),
     health: Math.round(i.health * 18),
     education: Math.round(i.school * 16),
     commitments: s.investors
@@ -1121,6 +1252,7 @@ export function advanceTown(s) {
       b.condition - (b.open ? 2 : 1) + (s.coalitions.some((c) => c.until >= s.month) ? 1 : 0),
     );
   effect(s, { road: -3, water: -2, energy: -2 });
+  maintenanceMonth(s);
   const blocked =
     m.road < 30 || effective(s, "fuel") < 20 || !s.buildings.find((b) => b.id === "market").open;
   effect(s, { supply: blocked ? -14 : 5, prices: blocked ? 12 : m.supply > 60 ? -5 : 4 });
@@ -1389,6 +1521,18 @@ export function triage(s) {
     const d = INVESTORS.find((x) => x.id === o.id);
     if (d) invest.push({ kind: "investor", id: o.id, label: d.name, screen: "investors", reason: ["Açık yatırım teklifi", "Open investment offer"] });
   }
+  const f = maintenanceForecast(s);
+  if (f.risk !== "low")
+    (f.risk === "near" ? invest : urgent).push({
+      kind: "backlog",
+      id: "backlog",
+      label: ["Bakım borcunu erit", "Work down the maintenance backlog"],
+      screen: "services",
+      reason:
+        f.risk === "near"
+          ? [`Bakım borcu ${f.backlog}; ${BACKLOG_BREAKDOWN}'ta arıza başlar`, `Backlog ${f.backlog}; breakdowns start at ${BACKLOG_BREAKDOWN}`]
+          : [`Bakım borcu ${f.backlog}: arıza riski, aylık ${f.cost} TL`, `Backlog ${f.backlog}: breakdown risk, ${f.cost} TL a month`],
+    });
   // Anything already handled this month is not a suggestion any more.
   const open = (x) => !s.used.includes(x.kind === "event" ? `event:${x.id}` : x.kind === "building" ? `building:${x.id}` : x.kind === "investor" ? `investor:${x.id}` : `civic:${x.id}`);
   return { urgent: urgent.filter(open).slice(0, 4), invest: invest.filter(open).slice(0, 4) };
