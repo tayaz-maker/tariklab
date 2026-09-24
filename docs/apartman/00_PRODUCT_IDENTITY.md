@@ -1,4 +1,6 @@
-# Apartman: Apartman Yöneticisi — Product Identity
+# Kapı Nöbeti — Product Identity
+
+Public catalog name is **Kapı Nöbeti**. The slug stays `apartman` so existing saves (`meta.id` apartman, version 2) keep loading. A simple web search on 24 Sep 2026 found an active App Store role-playing game titled "Apartman Yöneticisi"; that phrase is not the public name. This note is not a trademark clearance.
 
 ## Player fantasy
 You manage a living apartment building full of conflicting residents. It is a social-and-financial balancing act, not a construction game.
