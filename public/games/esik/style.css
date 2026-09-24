@@ -1,0 +1,26 @@
+body { margin: 0; background: #101614; color: #f3ead7; font: 16px/1.4 "Segoe UI", system-ui, sans-serif; }
+.coast { min-height: 100dvh; padding: 16px 12px 28px; display: grid; gap: 12px; overflow-x: clip; }
+h1, h2, p { margin: 0; }
+h1 { font-family: Palatino, Georgia, serif; font-size: clamp(2rem, 6vw, 3rem); }
+.exit { color: #d7a15a; }
+.embedded .exit { display: none; }
+.pitch { max-width: 40rem; color: #d9cbb6; }
+.coast-map { width: 100%; height: auto; background:
+  radial-gradient(120px 40px at 20% 78%, #1a4650 0 40%, transparent 42%),
+  linear-gradient(#18211c, #141c18); border: 1px solid #3c463c; border-radius: 8px; }
+.meters, .build, .problem, .report { display: grid; gap: 8px; }
+.meters { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.act, .primary { min-height: 44px; width: 100%; text-align: left; border-radius: 6px; border: 1px solid #d7a15a; background: #243028; color: #f3ead7; padding: 8px 10px; }
+.primary { width: auto; background: #8a5a22; }
+.fault { border-left: 3px solid #d7a15a; padding-left: 8px; }
+.line-active { stroke: #e7d7a8; }
+.line-idle { stroke: #6d7c74; }
+@media (min-width: 900px) {
+  .layout { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(240px, .8fr) minmax(220px, .7fr); gap: 12px; align-items: start; }
+}
+@media (max-width: 720px) {
+  .meters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .layout { display: flex; flex-direction: column; }
+  .build { position: sticky; bottom: 0; background: #101614f2; padding: 8px 0 max(8px, env(safe-area-inset-bottom)); max-height: 46vh; overflow: auto; }
+  .coast-map { max-height: 42vh; }
+}

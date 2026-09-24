@@ -139,6 +139,10 @@ export const CATALOG_EN: Record<string, { title: string; subtitle: string }> = {
     title: "JITEM: Derin Ağ",
     subtitle: "1986–1996. Files don't stay buried. The network grows.",
   },
+  esik: {
+    title: "Kıyı Eşiği",
+    subtitle: "A fictional coast of piers, stairs, ramps and a bridge joint. A broken threshold says why.",
+  },
 };
 
 // Cached catalog consumers may still request the supported legacy route alias.
@@ -164,6 +168,7 @@ export const CATALOG_PL: Record<string, { title: string; subtitle: string }> = {
   ihtilal: { title: "İHTİLÂL", subtitle: "Wyrok jest pisany. Archiwum nie zapomina." },
   "darbe-h": { title: "DARBE-H!", subtitle: "Nadchodzi teleks. Biurko podejmuje decyzję." },
   "jitem-derin-ag": { title: "JITEM: Derin Ağ", subtitle: "1986–1996. Akta nie pozostają pogrzebane. Sieć rośnie." },
+  esik: { title: "Kıyı Eşiği", subtitle: "Wymyślone wybrzeże: nabrzeża, schody, rampy i przęsło mostu. Przerwany próg mówi dlaczego." },
 };
 CATALOG_PL.hanedan = CATALOG_PL.hanedanian;
 
