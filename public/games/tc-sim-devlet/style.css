@@ -279,6 +279,12 @@ body {
 .geo-row i { grid-column: 1 / -1; height: 5px; border-radius: 3px; background: linear-gradient(90deg, var(--c) var(--v), #1b2629 var(--v)); }
 .geo-mini { font-size: .76rem; color: var(--muted); margin: 6px 0; }
 .geo-effects { list-style: none; margin: 6px 0; padding: 0; display: grid; gap: 3px; }
+.geo-chain { grid-column: 1 / -1; list-style: none; margin: 8px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; counter-reset: chain; }
+.geo-chain li { counter-increment: chain; min-width: 0; padding: 7px 9px; border: 1px solid #2c3a3e; border-radius: 3px; background: #0d1518; font-size: .8rem; line-height: 1.35; overflow-wrap: anywhere; }
+.geo-chain li span { display: block; margin-bottom: 3px; font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; color: #9fb1a8; }
+.geo-chain li span::before { content: counter(chain) " · "; }
+.dip-breach { color: #e2a79b; }
+@media (max-width: 760px) { .geo-chain { grid-template-columns: 1fr; } }
 .geo-effects li { display: flex; justify-content: space-between; gap: 8px; font-size: .82rem; padding: 3px 8px; background: #0d1518; border-radius: 3px; }
 .geo-effects b { font-variant-numeric: tabular-nums; }
 .geo-effects .good { color: #b7cc93; }
