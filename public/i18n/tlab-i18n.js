@@ -598,8 +598,8 @@
         items: [
           "Code-drawn visuals (game emblems, the T monogram, icons, seed-generated maps, DEVLET region outlines): TarikLab, all rights reserved.",
           "No font files, audio files or third-party map data are used.",
-          "AI-generated images: VETO-H! and GETT-OH! card art and backgrounds, DARBE-H! plates. The generation tool, account and the terms in force on the generation date were not recorded; no licence is claimed for these images until the record is complete.",
-          "Images whose creator was not recorded: the portal share images, JITEM: Derin Ağ images and the Son Mahalle Bükücü icons. Under review.",
+          "AI-generated images: VETO-H! and GETT-OH! card art and backgrounds, DARBE-H! plates. The generation tool, account and the terms in force on the generation date were not recorded; provenance pending, no licence is claimed.",
+          "Images whose creator was not recorded: the portal share images and the JITEM: Derin Ağ images. Provenance pending. The Son Mahalle Bükücü icon was replaced with a code-drawn SVG.",
         ],
       },
       {
@@ -642,8 +642,8 @@
       { h: "Grafiki i łańcuch praw", lead: "Jako licencje pokazujemy tylko prawa z potwierdzonym zapisem.", items: [
         "Grafiki rysowane kodem (emblematy gier, monogram T, ikony, mapy generowane z ziarna, obrysy regionów DEVLET): TarikLab, wszelkie prawa zastrzeżone.",
         "Nie używamy plików czcionek, plików dźwiękowych ani zewnętrznych danych map.",
-        "Obrazy wygenerowane przez AI: grafiki kart i tła VETO-H! i GETT-OH!, plansze DARBE-H!. Narzędzie, konto i warunki obowiązujące w dniu generowania nie zostały zapisane; do czasu uzupełnienia zapisu nie deklarujemy dla nich licencji.",
-        "Obrazy bez zapisanego autora: grafiki udostępniania portalu, grafiki JITEM: Derin Ağ i ikony Son Mahalle Bükücü. W trakcie weryfikacji.",
+        "Obrazy wygenerowane przez AI: grafiki kart i tła VETO-H! i GETT-OH!, plansze DARBE-H!. Narzędzie, konto i warunki obowiązujące w dniu generowania nie zostały zapisane; provenance pending, nie deklarujemy dla nich licencji.",
+        "Obrazy bez zapisanego autora: grafiki udostępniania portalu i grafiki JITEM: Derin Ağ. Provenance pending. Ikona Son Mahalle Bükücü została zastąpiona SVG narysowanym kodem.",
       ]},
       { h: "Komponenty zewnętrzne", lead: "Główne komponenty zewnętrzne portalu i Çete Savaşları: React, TanStack Router, Zustand, Radix UI, Lucide i Zod. Prawa do nich należą do ich właścicieli. 54 pakiety wysyłane do przeglądarki mają potwierdzone licencje: 51 MIT, 1 Apache-2.0, 1 ISC, 1 0BSD. Lista pakietów środowiska JITEM: Derin Ağ nie została jeszcze wygenerowana." },
     ],
