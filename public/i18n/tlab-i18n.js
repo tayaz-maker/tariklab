@@ -593,7 +593,7 @@
           "Code-drawn visuals (game emblems, the T monogram, icons, seed-generated maps, DEVLET region outlines): TarikLab, all rights reserved.",
           "No font files, audio files or third-party map data are used.",
           "AI-generated images: VETO-H! and GETT-OH! card art and backgrounds, DARBE-H! plates. The generation tool, account and the terms in force on the generation date were not recorded; provenance pending, no licence is claimed.",
-          "Images whose creator was not recorded: the portal share images and the JITEM: Derin Ağ images. Provenance pending. The Son Mahalle Bükücü icon was replaced with a code-drawn SVG.",
+          "Images redrawn from code: the portal share images, the JITEM: Derin Ağ images and the portal background are produced by scripts/ip/render-original-art.mjs and CSS; the older files whose creator was not recorded were removed. The Son Mahalle Bükücü icon was replaced with a code-drawn SVG.",
         ],
       },
       {
@@ -636,7 +636,7 @@
         "Grafiki rysowane kodem (emblematy gier, monogram T, ikony, mapy generowane z ziarna, obrysy regionów DEVLET): TarikLab, wszelkie prawa zastrzeżone.",
         "Nie używamy plików czcionek, plików dźwiękowych ani zewnętrznych danych map.",
         "Obrazy wygenerowane przez AI: grafiki kart i tła VETO-H! i GETT-OH!, plansze DARBE-H!. Narzędzie, konto i warunki obowiązujące w dniu generowania nie zostały zapisane; provenance pending, nie deklarujemy dla nich licencji.",
-        "Obrazy bez zapisanego autora: grafiki udostępniania portalu i grafiki JITEM: Derin Ağ. Provenance pending. Ikona Son Mahalle Bükücü została zastąpiona SVG narysowanym kodem.",
+        "Obrazy narysowane na nowo kodem: grafiki udostępniania portalu, grafiki JITEM: Derin Ağ i tło portalu powstają w scripts/ip/render-original-art.mjs i CSS; starsze pliki bez zapisanego autora zostały usunięte. Ikona Son Mahalle Bükücü została zastąpiona SVG narysowanym kodem.",
       ]},
       { h: "Komponenty zewnętrzne", lead: "Główne komponenty zewnętrzne portalu i Çete Savaşları: React, TanStack Router, Zustand, Radix UI, Lucide i Zod. Prawa do nich należą do ich właścicieli. 54 pakiety wysyłane do przeglądarki mają potwierdzone licencje: 51 MIT, 1 Apache-2.0, 1 ISC, 1 0BSD. Lista pakietów środowiska JITEM: Derin Ağ nie została jeszcze wygenerowana." },
     ],
