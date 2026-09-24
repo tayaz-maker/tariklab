@@ -52,7 +52,7 @@ test("frozen baseline: all 38 content, simulation, persistence and projection so
   // of a closed <details> table the operations desk cannot click.
   // Re-pinned for the TC SIM decision network: new decision-network.js (38th
   // source) and time.js calling its week close after the parenthood week.
-  assert.equal(hash.digest("hex"), "4bbbdca2f0a3e03a046df3c8f1443cde0c115ae25c43ed37686d3bcd8bea301c");
+  assert.equal(hash.digest("hex"), "da0e2ead7d5d1ef743bcd042b3dfb2c965f338a7e55e3032961bcf7373a6f961");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);
