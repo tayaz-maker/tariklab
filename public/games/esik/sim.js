@@ -4,13 +4,13 @@ export const KEY = "tariklab.kiyi-esigi.v1";
 export const PERIODS = 6;
 
 export const NODES = [
-  { id: "rihtim", kind: "pier", tr: "Rıhtım", en: "Pier", x: 58, y: 214, water: 1, slope: 0 },
-  { id: "iskele", kind: "pier", tr: "İskele", en: "Landing", x: 148, y: 186, water: 1, slope: 0 },
-  { id: "merdiven", kind: "stair", tr: "Merdiven", en: "Stair", x: 148, y: 112, water: 0, slope: 2 },
-  { id: "rampa", kind: "ramp", tr: "Rampa", en: "Ramp", x: 228, y: 138, water: 0, slope: 1 },
-  { id: "tunel", kind: "tunnel", tr: "Tünel ağzı", en: "Tunnel mouth", x: 274, y: 72, water: 0, slope: 1 },
-  { id: "kopru", kind: "bridge", tr: "Köprü eklemi", en: "Bridge joint", x: 64, y: 96, water: 1, slope: 1 },
-  { id: "yokus", kind: "slope", tr: "Yokuş", en: "Slope", x: 186, y: 46, water: 0, slope: 2 },
+  { id: "rihtim", kind: "pier", tr: "Rıhtım", en: "Pier", x: 58, y: 214, water: 1, slope: 0, trust: 1 },
+  { id: "iskele", kind: "pier", tr: "İskele", en: "Landing", x: 148, y: 186, water: 1, slope: 0, trust: 1 },
+  { id: "merdiven", kind: "stair", tr: "Merdiven", en: "Stair", x: 148, y: 112, water: 0, slope: 2, trust: 2 },
+  { id: "rampa", kind: "ramp", tr: "Rampa", en: "Ramp", x: 228, y: 138, water: 0, slope: 1, trust: 3 },
+  { id: "tunel", kind: "tunnel", tr: "Tünel ağzı", en: "Tunnel mouth", x: 274, y: 72, water: 0, slope: 1, trust: 1 },
+  { id: "kopru", kind: "bridge", tr: "Köprü eklemi", en: "Bridge joint", x: 64, y: 96, water: 1, slope: 1, trust: 0 },
+  { id: "yokus", kind: "slope", tr: "Yokuş", en: "Slope", x: 186, y: 46, water: 0, slope: 2, trust: 1 },
 ];
 
 export const LINKS = [
@@ -80,7 +80,7 @@ export function legal(state) {
   }
   for (const id of state.line) {
     const n = nodeById(id);
-    if ((n.kind === "stair" || n.kind === "slope") && !state.ramps.includes(id) && state.resource >= 3) {
+    if ((n.kind === "stair" || n.kind === "slope") && !state.ramps.includes(id) && state.resource >= 2) {
       moves.push(`rampa:${id}`);
     }
   }
@@ -91,6 +91,7 @@ export function legal(state) {
 function endOf(state) {
   if (state.risk >= 90 || (state.fault && state.risk >= 80)) return "kopuk";
   if (state.period > PERIODS && state.line.length === NODES.length && !faultOf(state) && state.trust >= 40) return "surekli";
+  if (state.period > PERIODS && state.line.length >= 4 && !faultOf(state) && state.trust >= 55 && state.risk <= 70) return "mahalle";
   if (state.period > PERIODS || (state.resource <= 0 && !legal({ ...state, phase: "play" }).some((m) => m.startsWith("bagla") || m.startsWith("rampa")))) {
     return state.period > PERIODS || state.resource <= 0 ? "yorgun" : null;
   }
@@ -106,6 +107,7 @@ function close(state) {
     access += item.access || 0;
   }
   if (faultOf(state)) risk += 28;
+  else resource += Math.min(3, 1 + state.line.length);
   const next = {
     ...state,
     period: state.period + 1,
@@ -139,7 +141,7 @@ export function apply(state, move) {
     const next = {
       ...state,
       ramps: state.ramps.concat(id),
-      resource: state.resource - 3,
+      resource: state.resource - 2,
       trust: clamp(state.trust + 7, 0, 100),
       built: state.built + 1,
       pending: state.pending.concat({ access: 1, tag: "ramp" }),
@@ -156,7 +158,7 @@ export function apply(state, move) {
     line: state.line.concat(id),
     resource: state.resource - costOf(id),
     access: state.access + (n.kind === "stair" || n.kind === "slope" ? 0 : 1),
-    trust: clamp(state.trust + (n.water ? -2 : 2), 0, 100),
+    trust: clamp(state.trust + (n.water ? -2 : 2) + (n.trust || 0), 0, 100),
     risk: clamp(state.risk + n.water * 4 + n.slope * 3 + (rushed ? 8 : 0), 0, 100),
     built: state.built + 1,
     pending: rushed ? state.pending.concat({ risk: 5, tag: "rush" }) : state.pending,

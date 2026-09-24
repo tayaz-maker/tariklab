@@ -25,6 +25,7 @@ const COPY = {
     again: "Yeni kıyı",
     endings: {
       surekli: "Eşikler birbirine bağlı. Erişim koptuğu yer kalmadı.",
+      mahalle: "Kıyı tam değil ama mahalle rampayla yürüyor. Tam hat başka bir bedel isterdi.",
       yorgun: "Kaynak bitti ya da dönem kapandı. Kıyı hâlâ eksik.",
       kopuk: "Risk eşiği aştı. Kopuk merdiven ya da yokuş hattı taşıyamadı.",
     },
@@ -48,6 +49,7 @@ const COPY = {
     again: "New coast",
     endings: {
       surekli: "The thresholds hold together. No break remains.",
+      mahalle: "The coast is not complete, but the neighbourhood can walk it. A full route would have cost something else.",
       yorgun: "The resource ran out or the periods ended. The coast is still incomplete.",
       kopuk: "Risk crossed the limit. A broken stair or slope could not carry the route.",
     },
@@ -124,7 +126,7 @@ function mapSvg(c) {
     const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
     line.setAttribute("x1", by[a].x); line.setAttribute("y1", by[a].y);
     line.setAttribute("x2", by[b].x); line.setAttribute("y2", by[b].y);
-    line.setAttribute("stroke", linked ? "#e7d7a8" : "#6d7c74");
+    line.setAttribute("class", linked ? "line-active" : "line-idle");
     line.setAttribute("stroke-width", linked ? 4 : 2);
     line.setAttribute("stroke-dasharray", linked ? "0" : (index % 2 ? "2 6" : "8 5"));
     svg.append(line);

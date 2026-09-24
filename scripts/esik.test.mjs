@@ -36,3 +36,29 @@ test("the coast file does not borrow a transit-game screen language", () => {
   assert.match(src, /stroke-dasharray/);
   assert.doesNotMatch(src, /metro|istasyon|İstanbul|Istanbul|station/i);
 });
+
+test("a paced full route and a short neighbourhood route do not share an ending", () => {
+  function run(script) {
+    let state = createCoast(5);
+    for (const move of script) {
+      if (state.phase === "end") break;
+      if (!legal(state).includes(move)) throw new Error(`illegal ${move} at ${state.period} res ${state.resource} line ${state.line}`);
+      state = apply(state, move);
+    }
+    return state.ending;
+  }
+  assert.equal(run([
+    "bagla:rampa", "bagla:merdiven", "rampa:merdiven", "kapat",
+    "bagla:iskele", "bagla:rihtim", "kapat",
+    "bagla:tunel", "kapat",
+    "bagla:yokus", "kapat",
+    "rampa:yokus", "kapat",
+    "bagla:kopru", "kapat",
+  ]), "surekli");
+  assert.equal(run([
+    "bagla:rampa", "bagla:merdiven", "rampa:merdiven", "kapat",
+    "bagla:iskele", "kapat",
+    "bagla:yokus", "rampa:yokus", "kapat",
+    "bekle", "bekle", "bekle",
+  ]), "mahalle");
+});
