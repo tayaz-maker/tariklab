@@ -700,7 +700,7 @@ button:disabled { opacity: .35; }
       else { S.own[i] = -1; S.bld[i] = 0; S.sen[i] = 0; }
     }
     log(senSoz(p) ? "Sen battın." : (isAi(p) ? "Naci Bey battı." : who(p) + " battı."));
-    buzz([40, 60, 40]); 
+
     var liv = living();
     if (liv.length <= 1) {
       S.win = liv.length ? liv[0] : nextAlive(p);
@@ -777,7 +777,7 @@ button:disabled { opacity: .35; }
     if (!payTo(p, amt, to)) return false;
     if (S.stat && S.stat.rentPaid) S.stat.rentPaid[p] += amt;
     flyCash(amt);
-    buzz(30);
+
     
     return true;
   }
@@ -1125,7 +1125,7 @@ button:disabled { opacity: .35; }
       persist();
       moveBy(p, sum, true, function () { afterLand(p); });
     }
-    buzz(10);
+
     
     if (reduceMot()) { commit(); return; }
     setBusy(true);
@@ -1148,7 +1148,7 @@ button:disabled { opacity: .35; }
     var i = S.pos[p], t = sq(i);
     if (["T","K","U"].indexOf(t.kind)<0 || S.own[i] >= 0 || S.cash[p] < t.price) return false;
     S.cash[p] -= t.price; S.own[i] = p;
-    buzz(20); 
+
     log(who(p) + " " + accOf(t.name) + (senSoz(p) ? " aldın." : " aldı."));
     persist();
     return true;
@@ -1230,7 +1230,7 @@ button:disabled { opacity: .35; }
   function naciBuy() {
     var i = S.pos[1];
     if (naciWants(i) && buy(1)) {
-      buzz(20); 
+
       persist(); paint(); later(naciAfterOwn); return;
     }
     log("Naci Bey geçti.");
@@ -1277,9 +1277,6 @@ button:disabled { opacity: .35; }
 
   function reduceMot() {
     return !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
-  }
-  function buzz(ms) {
-    try { navigator.vibrate(ms); } catch (e) {}
   }
   function flyCash(amt) {
     if (reduceMot()) return;
@@ -1534,7 +1531,7 @@ button:disabled { opacity: .35; }
         if (tradeScore(cur.to, cur) > 0) {
           applyTrade(cur);
           log("Naci Bey kabul etti.");
-           buzz(20);
+
           S.trade = null;
           S.wait = "roll";
           persist(); paint();
@@ -1570,7 +1567,7 @@ button:disabled { opacity: .35; }
     if (!t || !tradeOk(t)) { S.trade = null; S.wait = "roll"; persist(); paint(); closeSheet(); return; }
     applyTrade(t);
     log("Takas kabul.");
-     buzz(20);
+
     S.trade = null;
     S.wait = "roll";
     persist(); paint();
@@ -1691,7 +1688,7 @@ button:disabled { opacity: .35; }
       }
       S.own[a.i] = a.by;
       log(who(a.by) + " " + accOf(SQ[a.i][0]) + " " + tl(a.bid) + (senSoz(a.by) ? " ile aldın." : " ile aldı."));
-       buzz(20);
+
     } else if (a) {
       log(SQ[a.i][0] + " bankada kaldı.");
     }
