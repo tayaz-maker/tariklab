@@ -37,12 +37,12 @@ import { deskEnglish } from "../public/games/tc-sim/js/desk.js";
 // causality, entropy recovery, crisis/form math, save V2 ve 2002 POLICIES/EVENTS
 // sayıları donmuş kalır. Overlay kadrolar flavor-only; içerik seçimi 2 politika
 // kotasını tüketmez.
-test("frozen baseline: all 37 content, simulation, persistence and projection sources are byte-identical", () => {
+test("frozen baseline: all 38 content, simulation, persistence and projection sources are byte-identical", () => {
   const files = readdirSync("public/games/tc-sim/js")
     .filter(f => f.endsWith(".js") && !["app.js", "desk.js"].includes(f))
     .map(f => `public/games/tc-sim/js/${f}`)
     .concat(["public/games/next-wave.js", "public/games/next-wave/devlet-data.js", "public/games/next-wave/devlet-sim.js", "public/games/next-wave/shared/runtime.js", "public/games/tc-sim-devlet/presentation.js"]).sort();
-  assert.equal(files.length, 37);
+  assert.equal(files.length, 38);
   const hash = createHash("sha256");
   for (const file of files) hash.update(file).update(readFileSync(file));
   // Re-pinned for the DEVLET maps PR: next-wave.js (geo dispatch + month
@@ -50,9 +50,11 @@ test("frozen baseline: all 37 content, simulation, persistence and projection so
   // and presentation.js (regions/foreign screens render the maps).
   // Re-pinned again so those map records stay in the open desk list instead
   // of a closed <details> table the operations desk cannot click.
-  // Re-pinned for Polish readers: runtime.js, help.js and wealth.js pick the
-  // content language with PL -> EN fallback instead of showing Turkish.
-  assert.equal(hash.digest("hex"), "e4062e32774683a8275fa3ab5092fa95071b675a3171a143eeaadb3ddfbb8c0d");
+  // Re-pinned for the TC SIM decision network: new decision-network.js (38th
+  // source) and time.js calling its week close after the parenthood week.
+  // Re-pinned again for Polish readers: runtime.js, help.js and wealth.js pick
+  // the content language with PL -> EN fallback instead of showing Turkish.
+  assert.equal(hash.digest("hex"), "0887da1dd60dfe7fdd7740a99b07252f52026b68782008b39caa17ca89b58246");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);

@@ -54,6 +54,27 @@ const labels = {
   "Gündem": "Agenda", "Gelen kutusu": "Inbox", "Hayat kaydı": "Life record", "Önceliklerin": "Your priorities",
   "Enerji ve stres; haftalık kararlar, iş yükü ve ulaşım tarafından etkilenir.": "Energy and stress are affected by weekly decisions, workload and commuting.",
   "Temel kararlar her hafta açık. Diğer seçenekler hayat durumuna göre değişir.": "Basic decisions are available every week. Other options depend on your life situation.",
+  // Decision network (week plan and decision tags).
+  "ACİL BASKI": "URGENT PRESSURE", "HEDEF": "GOAL", "FIRSAT": "OPPORTUNITY", "SONUÇ ZİNCİRİ": "CONSEQUENCE CHAIN",
+  "Zaman": "Time", "Para": "Money", "İlişki": "Relationship", "Hedef": "Goal", "Önceki": "Earlier",
+  "Bu hafta acil bir baskı yok": "No urgent pressure this week", "Planlama için iyi bir hafta.": "A good week for planning.",
+  "Açık bir orta vadeli hedef yok": "No open medium-term goal", "Bir hedef açılınca seçimler ona bağlanır.": "When a goal opens, choices connect to it.",
+  "Belirgin bir fırsat yok": "No clear opportunity", "Hedefe ayrılan haftalar fırsat doğurur.": "Weeks given to a goal create openings.",
+  "Zincirde bekleyen sonuç yok": "Nothing waiting in the chain", "Sonraya taşan seçimler burada görünür.": "Choices that carry forward appear here.",
+  "Ay sonu eksiye düşüyor": "Month-end goes negative",
+  "Üç haftalık iş odağı iş yükünü hafifletti.": "Three weeks of work focus eased the workload.",
+  "Üç haftalık para düzeni stresi azalttı.": "Three weeks of money order eased stress.",
+  "Üç haftalık para düzeni konut adımını yakınlaştırdı.": "Three weeks of money order brought the housing step closer.",
+  "Üç hafta aileye ayrılan zaman güven bıraktı.": "Three weeks of family time left trust behind.",
+  "Üç hafta süren ilgi dostlukta güven bıraktı.": "Three weeks of attention built trust in the friendship.",
+  "Üç haftalık bakım düzeni bedende karşılık buldu.": "Three weeks of care showed in the body.",
+  "Üç haftalık odak eğitimi hızlandırdı.": "Three weeks of focus sped up education.",
+  "Üç hafta süren ilgi ilişkideki gerilimi azalttı.": "Three weeks of attention eased tension in the relationship.",
+  "Hedefe ayrılan seri bu hafta kesildi.": "The run of weeks for the goal broke this week.",
+  "İlgisiz geçen haftalar bir yakınla mesafeyi büyüttü.": "Weeks without attention widened the distance with someone close.",
+  "Bakımsız geçen haftalar stresi artırdı.": "Weeks without care raised stress.",
+  "Yakınlara zaman ayırmazsan gelecek hafta mesafe başlar": "If you give no time to your people, distance starts next week",
+  "Geçmiş bir karar geri dönecek": "A past decision will come back",
 };
 const english = new Map(Object.entries(labels).map(([tr, en]) => [tr.toLocaleLowerCase("tr"), en]));
 export function deskEnglish(value) {

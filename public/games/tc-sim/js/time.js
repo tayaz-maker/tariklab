@@ -26,6 +26,7 @@ import {
 import { applyRelationshipDelta, markMeaningfulContact } from "./social.js?v=10";
 import { activateNextEvent, enqueueEvent, processDueOpenCases, hasEligiblePoolEvent } from "./events.js?v=10";
 import { attachLifeDossier, processLifeDepthWeek, recordLifeDecision } from "./life-depth.js?v=10";
+import { processDecisionNetworkWeek } from "./decision-network.js?v=10";
 import { decorateLifeDossier, processLifeContentWeek, pickLifeContentOrganic, shouldOfferLifeContent, takeDueLifeContent } from "./life-content.js?v=10";
 import { applyWeeklyLifeLoad, getMonthlySummary } from "./life.js?v=10";
 import { processWealthMonthEnd, processOwnedBenefits, processCashShortfall, netWorth } from "./wealth.js?v=10";
@@ -505,6 +506,9 @@ export function advanceWeek(state) {
   const workedOvertime = state.flags.overtimeLastWeek === state.time.absoluteWeek;
 
   processParenthoodWeek(state);
+  // The week's choices close into the decision network before time moves on:
+  // commitment to the current goal, and the cost of areas left untended.
+  processDecisionNetworkWeek(state, state.weekly.selectedIds);
   applyWeeklyLifeLoad(state);
   processLongTermBody(state, { decisionIds: state.weekly.selectedIds });
 
