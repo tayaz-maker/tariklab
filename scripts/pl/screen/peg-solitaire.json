@@ -1,0 +1,21 @@
+{
+  "peg-solitaire": {
+    "Tek Taş": "Samotnik",
+    "Peg at row {0}, column {1}": "Pionek w rzędzie {0}, kolumnie {1}",
+    "Peg at row {0}, column {1}, selected": "Pionek w rzędzie {0}, kolumnie {1}, wybrany",
+    "Jump to row {0}, column {1}": "Skocz do rzędu {0}, kolumny {1}",
+    "Peg selected — {0} possible jumps.": "Wybrano pionek — możliwe skoki: {0}.",
+    "Tahtada olabildiğince az taş bırakmak. Klasik çözüm, tek taşı tam ortada bırakmaktır.": "Zostawić na planszy jak najmniej pionków. Klasyczne rozwiązanie to jeden pionek dokładnie pośrodku.",
+    "Bir taş, hemen komşusunun üzerinden atlayarak iki delik ötedeki boş deliğe gider.": "Pionek przeskakuje sąsiada i ląduje w wolnym otworze dwa pola dalej.",
+    "Atlanan taş tahtadan kalkar. Her hamle tahtadaki taş sayısını bir azaltır.": "Przeskoczony pionek schodzi z planszy. Każdy ruch zmniejsza liczbę pionków o jeden.",
+    "Atlayışlar yalnız yatay ve dikeydir; çapraz atlanmaz.": "Skoki są tylko poziome i pionowe; po skosie się nie skacze.",
+    "Taşa dokun; oynanabilir hedefler yeşil halkayla belirir.": "Dotknij pionka; możliwe cele pojawią się z zielonym pierścieniem.",
+    "Seçili taşa tekrar dokunmak seçimi bırakır.": "Ponowne dotknięcie wybranego pionka anuluje wybór.",
+    "Hiç hamle kalmadığında oyun biter. Kaç taş kaldıysa sonucun odur; kaybetme diye bir şey yok, daha iyisini denersin.": "Gra kończy się, gdy nie ma już ruchów. Liczba pozostałych pionków to twój wynik; nie ma przegranej, próbujesz lepiej.",
+    "Kenarlardaki taşları erken toplamak; ortaya dönmek zorlaşır.": "Zbyt wczesne zbieranie pionków z krawędzi; trudniej potem wrócić do środka.",
+    "Tahtanın bir ucunda tek başına kalan taş bırakmak — o taş bir daha oynanamaz.": "Zostawianie samotnego pionka na końcu planszy — nie da się nim już zagrać.",
+    "Bu taşın oynayabileceği bir atlayış yok.": "Ten pionek nie ma dostępnego skoku.",
+    "Atladın. Kalan taş: {0}.": "Skok wykonany. Pozostało pionków: {0}.",
+    "Bu taş tahtayı en az kilitleyen atlayışı yapabilir.": "Ten pionek może wykonać skok, który najmniej blokuje planszę."
+  }
+}

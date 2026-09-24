@@ -1,0 +1,19 @@
+{
+  "labirent": {
+    "Labirentin girişinden çıkışına ulaşmak. Acele etmek zorunda değilsin: derece süreye değil, en kısa yola ne kadar yaklaştığına bakar.": "Dojść od wejścia labiryntu do wyjścia. Nie musisz się spieszyć: wynik zależy nie od czasu, tylko od tego, jak blisko najkrótszej drogi jesteś.",
+    "Ok tuşları veya W/A/S/D ile ilerle.": "Poruszaj się strzałkami albo W/A/S/D.",
+    "Ekrandaki yön tuşlarına basabilirsin.": "Możesz naciskać przyciski kierunku na ekranie.",
+    "Labirent üzerinde parmağını kaydırarak da yön verebilirsin.": "Możesz też sterować, przesuwając palcem po labiryncie.",
+    "Duvarlar geçişi engeller; aradan geçemezsin.": "Ściany blokują przejście; nie przejdziesz przez nie.",
+    "Geçtiğin yol soluk bir iz bırakır, böylece nereleri denediğini görürsün.": "Przebyta droga zostawia blady ślad, więc widzisz, gdzie już próbowałeś.",
+    "Aynı kod her zaman aynı labirenti üretir. Kodu paylaşırsan karşındaki tam olarak aynı labirenti oynar.": "Ten sam kod zawsze tworzy ten sam labirynt. Jeśli udostępnisz kod, druga osoba zagra dokładnie w ten sam labirynt.",
+    "İz bırakılan yolları tekrar tekrar denemek; iz zaten nereyi gördüğünü söyler.": "Ponowne próbowanie dróg ze śladem; ślad już mówi, gdzie byłeś.",
+    "Hızlı bitirmeye çalışmak — derece süreyle değil, yolun uzunluğuyla ölçülür.": "Próba szybkiego ukończenia — wynik mierzy się długością drogi, nie czasem.",
+    "Bir meydan okuma kodu gir; aynı kod her zaman aynı labirenti üretir.": "Wpisz kod wyzwania; ten sam kod zawsze tworzy ten sam labirynt.",
+    "Çıktın": "Wyszedłeś",
+    "En kısa yol": "Najkrótsza droga",
+    "Aynı labirent, baştan.": "Ten sam labirynt, od początku.",
+    "Bu yönde duvar var.": "W tym kierunku jest ściana.",
+    "Kod yüklendi: {0}": "Wczytano kod: {0}"
+  }
+}

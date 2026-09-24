@@ -1,5 +1,5 @@
 /**
- * Single source of truth for platform head chrome (PWA, extensions.js, OG),
+ * Single source of truth for platform head chrome (PWA and OG meta),
  * shared by the Vite plugin and Nitro middleware. Plain ESM so `node --test`
  * and the Nitro bundler can both consume it.
  */
@@ -119,14 +119,6 @@ export function resolvePublicHost(hostHeader) {
   );
 }
 
-export function isInstallQuery(url) {
-  const query = String(url ?? "").split("?", 2)[1] ?? "";
-  const params = new URLSearchParams(query);
-  const install = params.get("install");
-  const platform = (params.get("platform") ?? "").toLowerCase();
-  return (install === "1" || install === "true") && platform === "ios";
-}
-
 /** Paths that can carry an app document (vs assets / API / internals). */
 export function isDocumentPath(pathname) {
   const path = String(pathname ?? "");
@@ -144,53 +136,12 @@ export function acceptsHtml(accept) {
   return value === "" || value.includes("text/html") || value.includes("*/*");
 }
 
-/** The same URL without the install-tutorial params (used as the app link). */
-export function stripInstallParams(url) {
-  const [path = "/", query = ""] = String(url ?? "/").split("?", 2);
-  const params = new URLSearchParams(query);
-  params.delete("install");
-  params.delete("platform");
-  const rest = params.toString();
-  return rest ? `${path}?${rest}` : path;
-}
-
-export function renderInstallPageHtml(template, { host, url } = {}) {
-  return String(template)
-    .replaceAll("{{APP_NAME}}", escapeHtml(appNameFromHost(host)))
-    .replaceAll("{{APP_URL}}", escapeHtml(stripInstallParams(url)));
-}
-
-export function renderWebManifest(hostHeader) {
-  const name = appNameFromHost(hostHeader);
-  return JSON.stringify(
-    {
-      name,
-      short_name: name,
-      id: "/",
-      start_url: "/",
-      scope: "/",
-      display: "standalone",
-      background_color: "#000000",
-      theme_color: "#000000",
-      icons: name === "TarikLab" ? [{"src": "/brand/app-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"}, {"src": "/brand/app-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"}, {"src": "/brand/app-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}] : [
-        {
-          src: "/__grok/icon-180.png",
-          sizes: "180x180",
-          type: "image/png",
-        },
-      ],
-    },
-    null,
-    2,
-  );
-}
-
 export function grokPwaHeadTags(appName = DEFAULT_APP_NAME) {
   return [
     // Standalone display comes from the manifest ("display": "standalone");
     // the legacy *-web-app-capable metas it replaces are deliberately absent.
-    ["manifest", '<link rel="manifest" href="/__grok/manifest.webmanifest">'],
-    ["apple-touch-icon", '<link rel="apple-touch-icon" href="/__grok/icon-180.png">'],
+    ["manifest", '<link rel="manifest" href="/manifest.webmanifest">'],
+    ["apple-touch-icon", '<link rel="apple-touch-icon" href="/brand/apple-touch-icon.png">'],
     [
       "apple-mobile-web-app-title",
       `<meta name="apple-mobile-web-app-title" content="${escapeHtml(appName)}">`,
@@ -202,8 +153,6 @@ export function grokPwaHeadTags(appName = DEFAULT_APP_NAME) {
     ["theme-color", '<meta name="theme-color" content="#000000">'],
   ];
 }
-
-export const GROK_EXTENSIONS_SCRIPT_SRC = "https://grok.com/grok-app-builder/extensions.js";
 
 export function readGrokProjectId() {
   const fromProcess = typeof process !== "undefined" ? process.env?.VITE_PROJECT_ID : "";
@@ -228,21 +177,6 @@ export function grokXCreatorHeadTags(creator = readXCreator(), creatorId = readX
     `<meta property="x:creator" content="${escapeHtml(name)}">`,
     `<meta property="x:creator:id" content="${escapeHtml(id)}">`,
   ];
-}
-
-/** Platform "Created with Grok" banner — injected into every HTML document. */
-export function grokExtensionsHeadTags(projectId = readGrokProjectId()) {
-  const id = escapeHtml(projectId);
-  const tags = [];
-  if (projectId) {
-    tags.push(`<meta name="grok-project-id" content="${id}">`);
-  }
-  tags.push(
-    `<script src="${GROK_EXTENSIONS_SCRIPT_SRC}"${
-      projectId ? ` data-project-id="${id}"` : ""
-    } defer></script>`,
-  );
-  return tags;
 }
 
 export function readOgSite(cwd = process.cwd()) {
@@ -450,11 +384,11 @@ export function injectGrokPwaHead(html, ctx = {}) {
     grokOgHeadTags({ host, appName, site, documentTitle, cwd }).join(""),
   );
 
-  if (!next.includes("/grok-app-builder/extensions.js")) {
-    missing.push(...grokExtensionsHeadTags(projectId));
-  } else if (projectId && !next.includes('name="grok-project-id"')) {
-    missing.push(`<meta name="grok-project-id" content="${escapeHtml(projectId)}">`);
-  }
+  // TarikLab ships no third-party platform script: drop any injected
+  // "Created with Grok" extensions.js tag and its project-id meta.
+  next = next
+    .replace(/<script[^>]*grok-app-builder\/extensions\.js[^>]*><\/script>/gi, "")
+    .replace(/<meta name="grok-project-id"[^>]*>/gi, "");
   if (
     projectId &&
     !next.includes('property="grok:app_id"') &&

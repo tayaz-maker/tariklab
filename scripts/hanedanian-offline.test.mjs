@@ -16,6 +16,10 @@ const contentType = path => path.endsWith('.js') ? 'text/javascript; charset=utf
   : path.endsWith('.svg') ? 'image/svg+xml'
   : path.endsWith('.webmanifest') ? 'application/manifest+json'
   : 'application/octet-stream';
+// Optional online-only layers outside the package. The game runs without them
+// (a deferred script that fails offline changes nothing); the worker never caches
+// them, so they are not part of the package graph.
+const optionalShared = new Set(['/i18n/pl-body.js']);
 const pathOf = request => new URL(typeof request === 'string' ? request : request.url, origin).pathname;
 
 function harness({ networkResponse } = {}) {
@@ -102,6 +106,7 @@ function dependencyGraph() {
     for (const link of links) {
       if (!link || link.startsWith('data:') || link.startsWith('#')) continue;
       const url = new URL(link, origin + path);
+      if (optionalShared.has(url.pathname)) continue;
       assert.equal(url.origin, origin, `Offline game unexpectedly depends on a remote asset: ${link}`);
       assert.ok(url.pathname.startsWith(root), `Game dependency falls outside its scoped package: ${link}`);
       pending.push(url.pathname);
@@ -116,6 +121,12 @@ test('standalone package contains the complete real HTML/module/CSS/manifest dep
   assert.deepEqual([...worker.files].sort(), [...graph].sort());
   for (const path of worker.files) assert.ok(existsSync(new URL(path.slice(root.length), gameDirectory)), `Cached asset missing on disk: ${path}`);
   assert.ok(!worker.files.includes(root + 'sw.js'), 'Worker must update through its own lifecycle, not cache itself');
+  for (const path of optionalShared) assert.ok(!worker.files.includes(path), `Optional layer must stay out of the package: ${path}`);
+  const html = readFileSync(new URL('index.html', gameDirectory), 'utf8');
+  for (const path of optionalShared) {
+    const tag = html.match(new RegExp(`<script[^>]*src="${path.replace(/[.]/g, '\\.')}"[^>]*>`));
+    if (tag) assert.match(tag[0], /\bdefer\b/, `Optional layer must not block the game: ${path}`);
+  }
 });
 
 test('install fetches and caches all assets with reload policy, but never forces an upgrade on an open game', async () => {

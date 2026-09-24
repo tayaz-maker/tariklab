@@ -1,0 +1,32 @@
+{
+  "amiral-batti": {
+    "Amiral Battı": "Okręty",
+    "Kayıt: {0#} galibiyet": "Bilans: wygrane {0}",
+    "{0#} mağlubiyet": "przegrane {0}",
+    "Amiral ({0#})": "Admirał ({0})",
+    "Kruvazör ({0#})": "Krążownik ({0})",
+    "Fırkateyn ({0#})": "Fregata ({0})",
+    "Korvet ({0#})": "Korweta ({0})",
+    "Karakol ({0#})": "Patrolowiec ({0})",
+    "kondu": "ustawiony",
+    "Gemiler yan yana durabilir. Dön: yatay.": "Okręty mogą stać obok siebie. Obrót: poziomo.",
+    "Gemiler yan yana durabilir. Dön: dikey.": "Okręty mogą stać obok siebie. Obrót: pionowo.",
+    "© 2026 TarikLab. Tüm hakları saklıdır. Klasik oyun kuralları üzerindeki hak iddiası bu bildirimin kapsamı dışındadır.": "© 2026 TarikLab. Wszelkie prawa zastrzeżone. Roszczenia do klasycznych zasad gry nie są objęte tą informacją.",
+    "Rakibin bütün gemilerini, o senin filonu batırmadan önce batırmak. İki taraf da birbirinin ızgarasını göremez.": "Zatopić wszystkie okręty rywala, zanim on zatopi twoją flotę. Żadna strona nie widzi siatki drugiej.",
+    "10×10 ızgara. Filo: Amiral 5, Kruvazör 4, Fırkateyn 3, Korvet 3, Karakol 2 kare.": "Siatka 10×10. Flota: Admirał 5, Krążownik 4, Fregata 3, Korweta 3, Patrolowiec 2 pola.",
+    "Gemiler yatay veya dikey durur, üst üste binemez. Birbirine değmeleri serbesttir.": "Okręty stoją poziomo albo pionowo i nie mogą na siebie nachodzić. Mogą się stykać.",
+    "Döndür (R) ile yönünü çevir, \"Kendin yerleştir\" ile tamamını rastgele diz.": "Obracaj przyciskiem Obróć (R), a „Rozstaw sam” ustawi wszystkie losowo.",
+    "Tur başına bir atış yaparsın: rakip ızgarada bir kareye dokun.": "W każdej turze oddajesz jeden strzał: dotknij pola na siatce rywala.",
+    "Sonuç üç şeyden biridir: ıska, isabet ya da gemi battı.": "Wynik to jedno z trzech: pudło, trafienie albo zatopienie okrętu.",
+    "Sonra rakip atışını yapar.": "Potem strzela rywal.",
+    "Rakibin bütün filosu batarsa kazanırsın; seninki önce batarsa kaybedersin.": "Jeśli cała flota rywala pójdzie na dno, wygrywasz; jeśli twoja pierwsza — przegrywasz.",
+    "Kolay: rastgeleye yakın hedefler seçer.": "Łatwy: wybiera cele niemal losowo.",
+    "Orta: isabet aldıktan sonra komşu karelere yönelir.": "Średni: po trafieniu celuje w sąsiednie pola.",
+    "Zor: kalan gemi boylarına göre yoğunluk hesaplar.": "Trudny: liczy gęstość według długości pozostałych okrętów.",
+    "Motor hiçbir zorlukta senin gemilerinin yerini okumaz.": "Na żadnym poziomie silnik nie podgląda położenia twoich okrętów.",
+    "İsabetten sonra rastgele yere atmak; önce komşu kareleri dene.": "Strzelanie losowo po trafieniu; najpierw spróbuj sąsiednich pól.",
+    "Bütün gemileri ızgaranın ortasına toplamak.": "Skupianie wszystkich okrętów na środku siatki.",
+    "Batan geminin çevresini taramaya devam edip atış harcamak.": "Marnowanie strzałów na ostrzeliwanie okolic zatopionego okrętu.",
+    "Kayıt bu tarayıcıda tutulur; yarıda kalan maç kaldığı yerden devam eder.": "Zapis jest w tej przeglądarce; przerwany mecz wznowi się od miejsca, w którym został."
+  }
+}
