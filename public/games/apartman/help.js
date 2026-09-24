@@ -1,4 +1,4 @@
-/** Beginner guide for Apartman: Apartman Yöneticisi. */
+/** Beginner guide for Kapı Nöbeti. */
 export const HELP_SECTIONS = [
   {
     h: ["Amaç", "The goal"],

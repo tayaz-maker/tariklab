@@ -355,7 +355,7 @@
     Kira: "Rent",
     "Kredi kartı asgari": "Card minimum",
     Aidat: "Building dues",
-    "Apartman Yöneticisi": "Building Manager",
+    "Kapı Nöbeti": "Gate Watch",
   };
 
   // Deliberately short, global-safe DOM replacements only. Narrative game copy
@@ -472,8 +472,8 @@
     satranc: { title: "Satranç", subtitle: "Board, move, checkmate." },
     "amiral-batti": { title: "Amiral Battı", subtitle: "Fleet on a grid. Hit, miss, sunk." },
     apartman: {
-      title: "Apartman: Apartman Yöneticisi",
-      subtitle: "Run a two, four or ten-block estate where every shortcut returns as a cost.",
+      title: "Kapı Nöbeti",
+      subtitle: "A night courtyard, a maintenance queue, trust and cash. Three decisions on the desk.",
     },
     "kayip-telefon": {
       title: "Kayıp Telefon",
@@ -518,7 +518,7 @@
     bukucu: { title: "Son Mahalle Bükücü", subtitle: "Stambułskie akty własności. Kto trzyma dzielnicę, ten nią rządzi. Pieniądze w TL." },
     labirent: { title: "Labirent", subtitle: "Zamknięte ścieżki, jedno wyjście." }, "peg-solitaire": { title: "Tek Taş", subtitle: "Przeskakuj. Zostaw jeden pionek." },
     satranc: { title: "Satranç", subtitle: "Plansza, ruch, mat." }, "amiral-batti": { title: "Amiral Battı", subtitle: "Flota na siatce. Trafienie, pudło, zatopienie." },
-    apartman: { title: "Apartman: Apartman Yöneticisi", subtitle: "Zarządzaj osiedlem z dwoma, czterema lub dziesięcioma blokami, gdzie każdy skrót ma swoją cenę." },
+    apartman: { title: "Kapı Nöbeti", subtitle: "Nocny dziedziniec, kolejka napraw, zaufanie i kasa. Na biurku trzy decyzje." },
     "kayip-telefon": { title: "Kayıp Telefon", subtitle: "Telefon zaginął. Życie zapisane w środku wychodzi na jaw." },
     "son-100-gun": { title: "Son 100 Gün", subtitle: "Ostatnie sto dni. Każdy wybór waży więcej." },
     "son-kasaba": { title: "SON KÖY MANAGER", subtitle: "Wszyscy wyjeżdżają. Ty zostajesz i próbujesz utrzymać wieś przy życiu." },
@@ -549,7 +549,7 @@
           '<a href="/oyna/peg-solitaire">Tek Taş</a> · LIVE — Use legal jumps to leave one piece on the board.',
           '<a href="/oyna/satranc">Satranç</a> · LIVE — Chess with a local rules engine, move history and a computer opponent with distinct levels.',
           '<a href="/oyna/amiral-batti">Amiral Battı</a> · LIVE — Place a fleet and hunt coordinates against an easy, medium or hard opponent.',
-          '<a href="/oyna/apartman">Apartman: Apartman Yöneticisi</a> · LIVE — Run a two, four or ten-block estate through dues, maintenance, staffing, residents and board pressure.',
+          '<a href="/oyna/apartman">Kapı Nöbeti</a> · LIVE — Night courtyard desk for a two, four or ten-block estate: three open decisions, maintenance debt, trust and cash.',
           '<a href="/oyna/kayip-telefon">Kayıp Telefon</a> · LIVE — Corroborate clues across eight apps and weigh the privacy cost of returning a lost phone.',
           '<a href="/oyna/son-100-gun">Son 100 Gün</a> · LIVE — A one-seat life game: a hundred days, one decision per period. Body, savings, your people, calm and the mark you leave share one calendar.',
           '<a href="/oyna/tc-sim-devlet">TC SIM: DEVLET</a> · LIVE — Govern policy, institutions, regions and treasury through capacity, political capital, bureaucratic friction and crisis load.',
@@ -618,7 +618,7 @@
         '<a href="/oyna/peg-solitaire">Tek Taş</a> · LIVE — Wykonuj legalne skoki, aby zostawić jeden pionek na planszy.',
         '<a href="/oyna/satranc">Satranç</a> · LIVE — Szachy z lokalnym silnikiem zasad, historią ruchów i komputerowym rywalem.',
         '<a href="/oyna/amiral-batti">Amiral Battı</a> · LIVE — Rozmieść flotę i poluj na współrzędne przeciw rywalowi o wybranym poziomie trudności.',
-        '<a href="/oyna/apartman">Apartman: Apartman Yöneticisi</a> · LIVE — Zarządzaj osiedlem poprzez opłaty, utrzymanie, personel i naciski rady.',
+        '<a href="/oyna/apartman">Kapı Nöbeti</a> · LIVE — Nocne biurko dziedzińca: trzy decyzje, dług napraw, zaufanie i kasa.',
         '<a href="/oyna/kayip-telefon">Kayıp Telefon</a> · LIVE — Potwierdzaj wskazówki z ośmiu aplikacji i rozważ koszt prywatności zwrotu telefonu.',
         '<a href="/oyna/son-100-gun">Son 100 Gün</a> · LIVE — Gra o jednym życiu: sto dni, jedna decyzja na okres. Ciało, oszczędności, bliscy, spokój i ślad, który zostawisz, dzielą jeden kalendarz.',
         '<a href="/oyna/tc-sim-devlet">TC SIM: DEVLET</a> · LIVE — Zarządzaj polityką, instytucjami, regionami i skarbem państwa.',
