@@ -2,7 +2,6 @@ import { validateSaveSlice } from "./save-validation";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { track } from "@/lib/analytics";
-import { hapticFail, hapticOk, hapticWin } from "@/lib/haptic";
 import {
   clearSlot,
   isSlotIndex,
@@ -465,7 +464,6 @@ export const useGame = create<GameState>()(
           const ach = withMeta(next, logs);
           next = ach.player;
           logs = ach.logs;
-          hapticOk();
           logs = pushLog(
             logs,
             next,
@@ -490,7 +488,6 @@ export const useGame = create<GameState>()(
         next.itibar = Math.max(0, next.itibar - 2);
         next.isi = clamp(next.isi + heatAdd, 0, HEAT_MAX);
         next.jobsDone = (next.jobsDone ?? 0) + 1;
-        hapticFail();
         const busted = Math.random() < jailChance(player, mission.risk);
 
         if (next.health <= 0) {
@@ -1326,8 +1323,6 @@ export const useGame = create<GameState>()(
           ...player,
           cash: player.cash - bet + payout,
         };
-        if (payout > bet) hapticWin();
-        else if (payout < bet) hapticFail();
         set({
           player: next,
           logs: pushLog(

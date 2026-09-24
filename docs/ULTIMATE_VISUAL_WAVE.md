@@ -18,7 +18,7 @@ Remaining limits: the preserved generated world's broad north–south biome band
 
 ## DARBE-H!
 
-See [editorial plate architecture and real screens](darbe-h/EDITORIAL_PLATES.md). Sixty original illustrated scenes supply 300 camera editions, retaining the existing 300 SVG addresses and manifest schema. Local WebP is embedded into SVG transport; shared lazy loading is unchanged. Full card corpus is 13.39 MB. This is sixty original paintings with editions, not 300 independent paintings.
+DARBE-H! card SVGs now embed each card's own code-drawn illustration (`assets/card-art/<id>.svg`, `scripts/build-darbe-h-art.mjs`); the sixty AI editorial plates were removed on 2026-09-24 (`docs/ip/card-art-2026-09-24.md`). The 300 SVG addresses and manifest schema are unchanged.
 
 Card data, decks, stats, text, balance, RNG, save, first-150 and 90/35/25 are unchanged. VETO/GETT/İHTİLÂL files are unchanged.
 

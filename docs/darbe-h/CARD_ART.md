@@ -26,7 +26,8 @@ Was a 1×1 WebP in `gett-oh-24`. Replacement is 400×300 VP8, Çelişen Tanık, 
 ## Regenerate DARBE faces
 
 ```
-python3 scripts/build-darbe-h-art.py
+node scripts/build-darbe-h-card-art.mjs
+node scripts/build-darbe-h-art.mjs
 ```
 
 Drop-in: `THEME_META["darbe-h"].art.kind = "svg"` and `cardArt()` picks `.svg` vs `.webp`. Lazy `loading="lazy"` on duel-core `<img>` is unchanged.

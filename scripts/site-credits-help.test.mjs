@@ -183,7 +183,7 @@ test("credits distinguishes independent Classics from shipping application depen
   assert.doesNotMatch(html, /Çete Savaşları —[^<]*bağımlılığı yok/);
 });
 
-test("resources show only verified licences and disclose AI images and unrecorded creators", () => {
+test("resources show only verified licences and record how every card picture is made", () => {
   const tr = read("public/credits.html");
   const i18n = read("public/i18n/tlab-i18n.js");
   // No originality or licence claim for AI-generated card art.
@@ -193,7 +193,9 @@ test("resources show only verified licences and disclose AI images and unrecorde
   }
   assert.match(tr, /data-chain="verified"/);
   assert.match(tr, /data-chain="review"/);
-  assert.match(tr, /Yapay zekâ ile üretilmiş görseller[^<]*lisans iddiası yoktur/);
+  assert.match(tr, /Kodla çizilen kart görselleri[^\n]*duel-card-art[^\n]*darbe-h-card-art/);
+  // No AI card art is left to disclose, and nothing is left pending.
+  for (const text of [tr, i18n]) assert.doesNotMatch(text, /provenance pending|Yapay zekâ ile üretilmiş görseller|AI-generated images:|Obrazy wygenerowane przez AI:/);
   assert.match(tr, /Kodla yeniden çizilen görseller[^\n]*render-original-art/);
   assert.match(i18n, /Images redrawn from code[^"]*render-original-art/);
   assert.match(i18n, /Obrazy narysowane na nowo kodem[^"]*render-original-art/);
@@ -202,8 +204,8 @@ test("resources show only verified licences and disclose AI images and unrecorde
     assert.equal(existsSync(join(root, f)), false, f);
   }
   assert.doesNotMatch(read("src/styles.css"), /prism-spectrum/);
-  assert.match(i18n, /AI-generated images[^"]*no licence is claimed/);
-  assert.match(i18n, /Obrazy wygenerowane przez AI[^"]*nie deklarujemy dla nich licencji/);
+  assert.match(i18n, /Card pictures drawn from code[^"]*duel-card-art/);
+  assert.match(i18n, /Grafiki kart rysowane kodem[^"]*duel-card-art/);
   // Licence counts come from the generated notice table.
   const notices = read("docs/ip/THIRD_PARTY_NOTICES.md");
   const rows = [...notices.matchAll(/^\| [^|]+ \| [^|]+ \| ([^|]+) \|$/gm)]

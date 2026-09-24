@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { cardArt, themeMeta } from "../public/games/duel-core/theme-meta.js";
 
@@ -66,24 +66,21 @@ test("DARBE-H! ships 300 unique crisis-desk SVGs and cardArt points at them", ()
   assert.match(app, /loading:\s*"lazy"/);
 });
 
-test("DARBE-H! embeds local original scene plates without runtime dependencies", () => {
+test("DARBE-H! card SVGs embed only each card's own code-drawn illustration", () => {
   const source = JSON.parse(readFileSync("public/games/darbe-h/source-cards.json", "utf8"));
-  const scenes = new Set();
-  const plates = readdirSync("public/games/darbe-h/assets/plates").filter((name) => name.endsWith(".webp"));
-  assert.equal(plates.length, 60);
-  for (const name of plates) {
-    const data = readFileSync(`public/games/darbe-h/assets/plates/${name}`);
-    assert.equal(data.toString("ascii", 0, 4), "RIFF");
-    assert.equal(data.toString("ascii", 8, 12), "WEBP");
-  }
+  assert.equal(existsSync("public/games/darbe-h/assets/plates"), false);
   for (const card of source) {
     const svg = readFileSync(`public/games/darbe-h/assets/cards/${card.id}.svg`, "utf8");
-    const embedded = svg.match(/href="data:image\/webp;base64,([^"]+)"/);
-    assert.ok(embedded, `missing bundled scene: ${card.id}`);
-    const data = Buffer.from(embedded[1], "base64");
-    assert.equal(data.toString("ascii", 8, 12), "WEBP");
+    const embedded = [...svg.matchAll(/href="data:([^;]+);base64,([^"]+)"/g)];
+    assert.equal(embedded.length, 1, card.id);
+    assert.equal(embedded[0][1], "image/svg+xml", card.id);
+    // byte-identical to the card-art illustration drawn from code
+    assert.deepEqual(
+      Buffer.from(embedded[0][2], "base64"),
+      readFileSync(`public/games/darbe-h/assets/card-art/${card.id}.svg`),
+      card.id,
+    );
+    assert.doesNotMatch(svg, /image\/(webp|png|jpe?g)/);
     assert.doesNotMatch(svg, /href="https?:/);
-    scenes.add(svg.match(/data-scene="([^"]+)"/)[1]);
   }
-  assert.equal(scenes.size, 60);
 });
