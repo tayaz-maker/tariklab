@@ -156,8 +156,13 @@ function neglectWeeks(state, domain) {
 }
 
 function push(state, text) {
+  // A repeating effect keeps one line with its latest week, so the chain
+  // stays a list of distinct consequences instead of the same note twice.
   const net = ensureDecisionNetwork(state);
-  net.chain = net.chain.concat({ week: state.time.absoluteWeek, text }).slice(-8);
+  net.chain = net.chain
+    .filter((x) => x.text !== text)
+    .concat({ week: state.time.absoluteWeek, text })
+    .slice(-8);
 }
 
 /**

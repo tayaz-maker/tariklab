@@ -583,7 +583,7 @@ function renderWeekPlan(activeCases, projectedBalance) {
     ? `<strong>${escapeText(plan.opportunity)}</strong>`
     : `<strong>Belirgin bir fırsat yok</strong><small>Hedefe ayrılan haftalar fırsat doğurur.</small>`;
   const chain = plan.chain.length
-    ? `<ol class="network-chain">${plan.chain.map((x) => `<li class="${x.future ? "is-future" : "is-past"}"><span>${x.future ? `+${Math.max(0, x.week - week)} hf` : "Önceki"}</span>${escapeText(x.text)}</li>`).join("")}</ol>`
+    ? `<ol class="network-chain">${plan.chain.map((x) => `<li class="${x.future ? "is-future" : "is-past"}"><span>${x.future ? `+${Math.max(0, x.week - week)} ${weekUnit()}` : "Önceki"}</span>${escapeText(x.text)}</li>`).join("")}</ol>`
     : `<strong>Zincirde bekleyen sonuç yok</strong><small>Sonraya taşan seçimler burada görünür.</small>`;
   // Two blocks: on phones the decisions sit between them, so the choice stays
   // one screen away; on wide screens both sit above the decisions for planning.
@@ -599,9 +599,13 @@ function renderWeekPlan(activeCases, projectedBalance) {
   };
 }
 
+function weekUnit() {
+  return window.tlabI18n?.getLang?.() === "en" ? "wk" : "hf";
+}
+
 function renderDecisionTags(decisionId) {
   return `<span class="decision-tags">${decisionTags(state, decisionId)
-    .map((tag) => `<span class="decision-tag is-${tag.domain}${tag.sign > 0 ? " is-up" : " is-down"}"><span>${escapeText(DOMAIN_LABEL[tag.domain])}</span> ${tag.domain === "zaman" ? "1" : tag.sign > 0 ? "+" : "−"}${tag.carry ? ` · ${escapeText(tag.carry)}` : ""}</span>`)
+    .map((tag) => `<span class="decision-tag is-${tag.domain}${tag.sign > 0 ? " is-up" : " is-down"}"><span>${escapeText(DOMAIN_LABEL[tag.domain])}</span> ${tag.domain === "zaman" ? "1" : tag.sign > 0 ? "+" : "−"}${tag.carry ? ` · ${escapeText(tag.carry.replace(/ hf$/, ` ${weekUnit()}`))}` : ""}</span>`)
     .join("")}</span>`;
 }
 

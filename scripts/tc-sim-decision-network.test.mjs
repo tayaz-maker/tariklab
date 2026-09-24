@@ -94,7 +94,8 @@ test("commitment: three weeks on the current goal pay once, then wait a quarter"
   // The close ran on the week that just ended, so a full quarter less that week remains.
   assert.equal(payoffWait(s), PAYOFF_COOLDOWN - 1);
   assert.equal(weekPlan(s, {}).goal.wait, PAYOFF_COOLDOWN - 1);
-  const paid = () => s.decisionNetwork.chain.filter((x) => /iş yükünü hafifletti/.test(x.text)).length;
+  const paid = () =>
+    s.decisionNetwork.chain.filter((x) => /iş yükünü hafifletti/.test(x.text)).length;
   for (let i = 0; i < 4; i += 1) week(s, ["overtime"]);
   assert.equal(paid(), 1, "no second payoff inside the cooldown");
   assert.match(decisionTags(s, "overtime").find((t) => t.domain === "hedef").carry, /hf$/);
@@ -108,6 +109,11 @@ test("neglect: weeks without your people cost closeness; tending them stops it",
   const start = { anne: s.relationships.anne, mehmet: s.relationships.mehmet };
   for (let i = 0; i < NEGLECT.iliski + 2; i += 1) week(s, ["rest"]);
   assert.ok(s.decisionNetwork.chain.some((x) => /mesafeyi büyüttü/.test(x.text)));
+  assert.equal(
+    s.decisionNetwork.chain.filter((x) => /mesafeyi büyüttü/.test(x.text)).length,
+    1,
+    "a repeating cost keeps one line in the chain",
+  );
   const t = createNewGame({ name: "A", seed: 11 });
   for (let i = 0; i < NEGLECT.iliski + 2; i += 1) week(t, ["rest", "family"]);
   assert.ok(!t.decisionNetwork.chain.some((x) => /mesafeyi büyüttü/.test(x.text)));
