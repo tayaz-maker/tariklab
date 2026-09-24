@@ -16,7 +16,7 @@ function riskVariant(risk: Risk) {
 
 export function JobsPanel({ player }: { player: Player }) {
   const { lang, phrase } = useLang();
-  const en = lang === "en";
+  const en = lang !== "tr";
   const doJob = useGame((s) => s.doJob);
   const blocked = !canAct(player);
   const contract = player.contractId

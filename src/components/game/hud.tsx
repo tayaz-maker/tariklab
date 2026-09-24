@@ -38,7 +38,7 @@ export function Hud({
   onAccount?: (tab?: "giris" | "kayit" | "unuttum" | "sifre") => void;
 }) {
   const { lang } = useLang();
-  const en = lang === "en";
+  const en = lang !== "tr";
   const [detailOpen, setDetailOpen] = useState(false);
   const hiz = useGame((s) => s.hiz);
   const toggleHiz = useGame((s) => s.toggleHiz);

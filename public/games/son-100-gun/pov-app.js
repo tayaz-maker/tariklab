@@ -5,7 +5,7 @@ import { SCENARIOS, ROUTINES, ENDINGS, EPILOGUE, PHASES } from "./pov-data.js";
 const root = document.querySelector("#app");
 const LEGACY_KEYS = [1, 2, 3].map((n) => `tariklab.nextwave.son-100-gun.slot${n}`);
 
-function lang() {
+function reader() {
   let raw = window.tlabI18n?.getLang?.();
   if (!raw) {
     try {
@@ -14,7 +14,13 @@ function lang() {
       raw = "tr";
     }
   }
-  // Polish has no authored game text yet: an honest English fallback.
+  return raw || "tr";
+}
+
+// Content language. Polish readers get the Polish interface (UI_PL) and English
+// for scenario and story text, which has no Polish version.
+function lang() {
+  const raw = reader();
   return raw === "en" || raw === "pl" ? "en" : "tr";
 }
 
@@ -234,7 +240,81 @@ const UI = {
   },
 };
 
-const u = () => UI[lang()];
+// Polish interface labels. Scenario, situation, ending and journal text stay English.
+const UI_PL = {
+  kicker: "Gra o jednym życiu",
+  lede: "Zostało sto dni. W każdym okresie możesz poświęcić czas tylko jednej sprawie; to, co pominiesz, czeka albo znika.",
+  slots: "Zapisy",
+  slot: "Zapis",
+  empty: "Pusty",
+  cont: "Kontynuuj",
+  del: "Usuń",
+  delAsk: "Usunąć ten zapis?",
+  delYes: "Tak, usuń",
+  cancel: "Anuluj",
+  newGame: "Nowe sto dni",
+  how: "Jak się gra",
+  howList: [
+    "Każdy okres przynosi trzy sytuacje; decydujesz tylko o jednej.",
+    "Każda opcja pokazuje zamiar, pewny koszt, niepewność i to, co przechodzi na kolejne dni.",
+    "Dnia 15 ustalasz rytm; dnia 57 pęka twój najsłabszy obszar.",
+    "Zakończenie to nie jeden wynik: podąża za tym, w co inwestowałeś najwięcej.",
+  ],
+  silent: "Cicha gra: bez dźwięku i muzyki. Zapisy zostają tylko na tym urządzeniu.",
+  who: "Kim jesteś?",
+  whoNote: "Trzy różne życia: inne wartości startowe, inni ludzie i jedna własna karta.",
+  where: "Slot zapisu",
+  overwrite: "zajęty — zostanie nadpisany",
+  start: "Zacznij",
+  back: "← Zapisy",
+  day: "Dzień",
+  left: (n) => `Zostało dni: ${n}`,
+  save: "Zapis",
+  toMenu: "Wróć do zapisów",
+  period: (a, b) => (a === b ? `Dzień ${a}` : `Dni ${a}–${b}`),
+  deskNote: "Jedna decyzja w tym okresie. To, co pominiesz, czeka; część z tego kosztuje.",
+  ifSkipped: "Jeśli pominiesz",
+  certain: "Pewne",
+  uncertain: (p) => `Niepewne · ${p}%`,
+  lasting: "Przechodzi dalej",
+  noReturn: "Bez odwrotu",
+  stays: "Decyzja pozostaje otwarta",
+  intent: "Zamiar",
+  cost: "Teraz",
+  none: "Bez efektu",
+  odds: "Niepewność",
+  oddsWin: (p) => `szansa ${p}%`,
+  oddsLose: (p) => `szansa ${p}%`,
+  sure: "Wynik jest pewny; bez losowania.",
+  later: "Kolejne dni",
+  close: (d) => `Zamknięcie okresu (dzień ${d})`,
+  lapses: "Pominięte sytuacje",
+  rhythmFrom: "Od teraz w każdym okresie",
+  commit: "Przeżyj tę decyzję",
+  decision: "Decyzja",
+  waited: "Pominięte",
+  closed: (n) => `Zamknięcie okresu · dni: ${n}`,
+  arrived: "Nadchodzi teraz",
+  you: "Ty",
+  people: "Twoi ludzie",
+  rhythm: "Rytm",
+  noRhythm: "Jeszcze brak. Ustala się dnia 15.",
+  carried: "Przeniesione dalej",
+  nothingCarried: "Nic nie czeka.",
+  marks: "Trwałe ślady",
+  noMarks: "Jeszcze żadnej nieodwracalnej decyzji.",
+  journal: "Dziennik",
+  endings: "Odległość do zakończeń",
+  stats: { body: "Ciało", money: "Oszczędności", peace: "Spokój", mark: "Ślad" },
+  axes: { door: "Otwarte drzwi", mark: "Co zostaje", still: "Cisza" },
+  end: "Zakończenie",
+  full: "Sto dni minęło.",
+  story: "Zapis stu dni",
+  again: "Nowe sto dni",
+  win: "utrzymane",
+  lose: "nieutrzymane",
+};
+const u = () => (reader() === "pl" ? { ...UI.en, ...UI_PL } : UI[lang()]);
 const tx = (pair) => (pair ? (pair[lang()] ?? pair.tr) : "");
 const esc = (v) =>
   String(v).replace(
@@ -689,7 +769,7 @@ function renderEnd() {
 }
 
 function render() {
-  document.documentElement.lang = lang();
+  document.documentElement.lang = reader() === "pl" ? "pl" : lang();
   const day = view === "game" && game ? game.day : 1;
   document.body.dataset.light = view === "game" && game?.ending ? "gece" : light(day);
   if (view === "menu") root.innerHTML = renderMenu();

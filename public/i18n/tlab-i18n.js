@@ -368,6 +368,91 @@
     İptal: "Anuluj", Sıfırla: "Resetuj", "Nasıl oynanır": "Jak grać",
     "Boş slot": "Pusty slot", "Bozuk kayıt": "Uszkodzony zapis", Zorluk: "Poziom trudności",
     Kolay: "Łatwy", Orta: "Średni", Zor: "Trudny", Harita: "Mapa", Kaynak: "Zasób",
+    // ---- Per-game interface (static UI only). Keys are the English label, or
+    // the Turkish source where a game shows no English for it. Story, event,
+    // card and help body text is not translated and falls back to English.
+    // Shared shell
+    "← Games": "← Gry", Menu: "Menu", MENÜ: "MENU", Save: "Zapisz", Load: "Wczytaj", Delete: "Usuń", DELETE: "USUŃ",
+    "How to Play": "Jak grać", "How to Play?": "Jak grać?", "HOW TO PLAY?": "JAK GRAĆ?", "How to play": "Jak grać",
+    "How to play?": "Jak grać?", "? How to Play": "? Jak grać", "New Game": "Nowa gra", "NEW GAME": "NOWA GRA",
+    Continue: "Kontynuuj", CONTINUE: "KONTYNUUJ", "Main Menu": "Menu główne", Back: "Wstecz", "Back out": "Wycofaj się",
+    Close: "Zamknij", Open: "Otwórz", Panel: "Panel", "More sections": "Więcej sekcji", "Search this section": "Szukaj w tej sekcji",
+    "DETAILS / ACTIONS": "SZCZEGÓŁY / DZIAŁANIA", "← Back to list": "← Powrót do listy", "Collapse menu": "Zwiń menu",
+    "Slot 1 · empty": "Slot 1 · pusty", "Slot 2 · empty": "Slot 2 · pusty", "Slot 3 · empty": "Slot 3 · pusty",
+    "Slot 1 · occupied": "Slot 1 · zajęty", "Slot 2 · occupied": "Slot 2 · zajęty", "Slot 3 · occupied": "Slot 3 · zajęty",
+    "Slot 1 · dolu": "Slot 1 · zajęty", "Selected slot is empty.": "Wybrany slot jest pusty.",
+    "Sure? This save goes.": "Na pewno? Ten zapis zniknie.", Kopyala: "Kopiuj", Yedek: "Kopia zapasowa",
+    Difficulty: "Poziom trudności", Easy: "Łatwy", Medium: "Średni", Hard: "Trudny", Mode: "Tryb", Aim: "Cel",
+    Controls: "Sterowanie", "The goal": "Cel gry", "Common mistakes": "Częste błędy", Saving: "Zapisywanie",
+    "What you see on screen": "Co widzisz na ekranie", "Sık yapılan hatalar": "Częste błędy",
+    // Racon Manager
+    ADVANCE: "DALEJ", Events: "Wydarzenia", Takvim: "Kalendarz", Adamlar: "Ludzie", Jobs: "Roboty",
+    Pazar: "Targ", Property: "Majątek", Life: "Życie", Emniyet: "Policja", Husumet: "Wrogość", Kasa: "Kasa",
+    "Sıralama": "Ranking", "Bugün": "Dzisiaj", "Bu hafta": "Ten tydzień", "Paneli kapat": "Zamknij panel",
+    "Okundu, kaldır": "Przeczytane, usuń", "What the game is": "O czym jest gra", "At the start": "Na początku",
+    "Core loop: ADVANCE": "Główna pętla: DALEJ", "Screens in the menu": "Ekrany w menu", "Bir iş nasıl yapılır": "Jak wykonać robotę",
+    "Dört çubuk (itibarın)": "Cztery paski (twoja reputacja)", "Dosya (polis kaydın)": "Akta (twoja kartoteka)",
+    "Nasıl biter": "Jak się kończy", "İpuçları": "Wskazówki", "Anladım": "Rozumiem", "Önce bir hayat başlat.": "Najpierw zacznij życie.",
+    // Racon network map
+    "Ağ haritası": "Mapa sieci", Koru: "Chroń", "Yatırım": "Inwestuj", "Çekil": "Wycofaj się", "İlişki kur": "Nawiąż relacje",
+    // TC SIM
+    "Hayatını Başlat": "Zacznij życie", "Haftayı değerlendir": "Podsumuj tydzień", HOME: "GŁÓWNA", "Life desk": "Biurko życia",
+    "This week": "Ten tydzień", "Life stage": "Etap życia", Residence: "Miejsce zamieszkania", Job: "Praca",
+    "Commute burden": "Obciążenie dojazdem", Agenda: "Agenda", Inbox: "Skrzynka", "Key people": "Kluczowe osoby",
+    "RECORD / ACCOUNT LEDGER": "ZAPIS / KSIĘGA RACHUNKÓW", HISTORY: "HISTORIA", "CASH / RECENT TRANSACTIONS": "GOTÓWKA / OSTATNIE TRANSAKCJE",
+    When: "Kiedy", Description: "Opis", "Amount (TRY)": "Kwota (TRY)", "URGENT PRESSURE": "PILNA PRESJA", GOAL: "CEL",
+    OPPORTUNITY: "SZANSA", "CONSEQUENCE CHAIN": "ŁAŃCUCH SKUTKÓW", Time: "Czas", Money: "Pieniądze", Relationship: "Relacje",
+    Energy: "Energia", Goal: "Cel", Earlier: "Wcześniej", "No urgent pressure this week": "W tym tygodniu brak pilnej presji",
+    "A good week for planning.": "Dobry tydzień na planowanie.",
+    // Son Mahalle Bükücü
+    Short: "Krótka", Long: "Długa", Novice: "Nowicjusz", Tradesman: "Kupiec", "Versus Naci Bey": "Przeciw Naci Beyowi",
+    "Two people, same phone": "Dwie osoby, jeden telefon", "Three people, same phone": "Trzy osoby, jeden telefon",
+    "Four people, same phone": "Cztery osoby, jeden telefon",
+    // Classics
+    "Move up": "Ruch w górę", "Move left": "Ruch w lewo", "Move right": "Ruch w prawo", "Move down": "Ruch w dół",
+    "New maze": "Nowy labirynt", "Solve from start": "Rozwiąż od startu", "Enter code": "Wpisz kod",
+    "Ekranda ne görüyorum?": "Co widzę na ekranie?", "Meydan okuma kodu": "Kod wyzwania", "Labirenti aç": "Otwórz labirynt",
+    Undo: "Cofnij", Hint: "Podpowiedź", "Reset board": "Resetuj planszę", "Hamle nasıl yapılır?": "Jak wykonać ruch?",
+    "Oyun ne zaman biter?": "Kiedy gra się kończy?", Restart: "Od nowa", "Flip board": "Obróć planszę", Moves: "Ruchy",
+    "Taşlar nasıl gider?": "Jak poruszają się bierki?", "Bir hamle nasıl yapılır?": "Jak wykonać ruch?", "Özel kurallar": "Zasady specjalne",
+    "Nasıl kazanırım, nasıl berabere kalırım?": "Jak wygrać, jak zremisować?", "Oyun modları ve kontroller": "Tryby gry i sterowanie",
+    "Game mode": "Tryb gry", "Two Players": "Dwóch graczy", "Versus Computer": "Przeciw komputerowi", "Oynayacağın renk": "Twój kolor",
+    Beyaz: "Białe", Siyah: "Czarne", Random: "Losowo", "Start game": "Rozpocznij grę", "Tahtayı incele": "Obejrzyj planszę",
+    "A fleet on the grid.": "Flota na siatce.", "Versus computer": "Przeciw komputerowi", "Hotseat (same device)": "Na zmianę (jedno urządzenie)",
+    "Rotate (R)": "Obróć (R)", "Auto-place": "Rozmieść automatycznie", "Reset fleet": "Resetuj flotę", "Start battle": "Rozpocznij bitwę",
+    "Önce filonu yerleştir": "Najpierw rozmieść flotę", "Bir tur nasıl işler?": "Jak działa tura?",
+    "Nasıl kazanırım, nasıl kaybederim?": "Jak wygrać, jak przegrać?",
+    // Apartman
+    "MANAGER FILE": "AKTA ZARZĄDCY", "Estate Management Desk": "Biurko zarządu osiedla", BUILDING: "BUDYNEK",
+    "TODAY'S ISSUES": "DZISIEJSZE SPRAWY", "BUILDING POLITICS": "POLITYKA BUDYNKU", "Recent ledger": "Ostatnie wpisy",
+    "MEETING NIGHT": "WIECZÓR ZEBRANIA", "CLOSE THE WEEK": "ZAMKNIJ TYDZIEŃ", "How a week works": "Jak działa tydzień",
+    "How residents vote": "Jak głosują mieszkańcy",
+    // Kayıp Telefon
+    "FOUND DEVICE": "ZNALEZIONE URZĄDZENIE", "Unlocks after another finding": "Odblokuje się po kolejnym odkryciu",
+    Messages: "Wiadomości", "CASE NOTEBOOK": "NOTATNIK SPRAWY", EVIDENCE: "DOWODY", THEORY: "TEORIA", TIMELINE: "OŚ CZASU",
+    "Final decision": "Ostateczna decyzja", "CLOSE CASE / RETURN": "ZAMKNIJ SPRAWĘ / ODDAJ", "How you make progress": "Jak robisz postępy",
+    "Reading the findings": "Jak czytać odkrycia", "How it ends": "Jak się kończy",
+    // SON KÖY MANAGER
+    "A VILLAGE'S LAST CHANCE": "OSTATNIA SZANSA WSI", Budget: "Budżet", Population: "Ludność", Debt: "Dług", Capacity: "Zdolność",
+    "CLOSE MONTH": "ZAMKNIJ MIESIĄC", "VILLAGE CENTRE": "CENTRUM WSI", AGENDA: "AGENDA", BUDGET: "BUDŻET", SERVICES: "USŁUGI",
+    BUSINESSES: "FIRMY", "POPULATION / MIGRATION": "LUDNOŚĆ / MIGRACJA", PEOPLE: "LUDZIE", GROUPS: "GRUPY", INVESTORS: "INWESTORZY",
+    FILES: "AKTA", "MONTHLY REPORT": "RAPORT MIESIĘCZNY", "THE EMPTYING VILLAGE": "PUSTOSZEJĄCA WIEŚ", "THIS MONTH'S PLAN": "PLAN NA TEN MIESIĄC",
+    Urgent: "Pilne", "Investment · can wait": "Inwestycja · może poczekać", "Requests on your desk": "Prośby na twoim biurku",
+    "How should I read the indicators?": "Jak czytać wskaźniki?", "How a month works": "Jak działa miesiąc",
+    "What affects what": "Co na co wpływa", "What to watch": "Na co uważać", "CONSEQUENCE FEED": "KANAŁ SKUTKÓW",
+    // TC SIM: DEVLET
+    "State Center": "Centrum państwa", "ADVANCE MONTH": "NASTĘPNY MIESIĄC", ECONOMY: "GOSPODARKA", POLICY: "POLITYKA",
+    INSTITUTIONS: "INSTYTUCJE", SOCIETY: "SPOŁECZEŃSTWO", FOREIGN: "SPRAWY ZAGRANICZNE", REGIONS: "REGIONY", "YEAR FILE": "AKTA ROKU",
+    "PERIOD FILE": "AKTA OKRESU", "How to play this month": "Jak grać w tym miesiącu", "STATE DOSSIER": "DOSSIER PAŃSTWA",
+    "What is happening this month?": "Co dzieje się w tym miesiącu?", "This month's decisions": "Decyzje tego miesiąca",
+    "Browse all policies": "Przeglądaj wszystkie polityki", "Open dossiers": "Otwarte dossier", "PERIOD / REPORT LEDGER": "OKRES / KSIĘGA RAPORTÓW",
+    "What does this mean?": "Co to oznacza?", "Inflation report": "Raport o inflacji", "Unemployment report": "Raport o bezrobociu",
+    "Institutional delivery strength": "Siła realizacji instytucji", "How do decisions reach the field?": "Jak decyzje docierają w teren?",
+    "How to read the reports": "Jak czytać raporty", "Open dossiers and the year file": "Otwarte dossier i akta roku",
+    "SELECTED REGION": "WYBRANY REGION", "REGIONAL PRIORITY": "PRIORYTET REGIONALNY", "SELECTED PARTY": "WYBRANA STRONA",
+    Priority: "Priorytet", "Resources / capacity": "Zasoby / zdolność", "Service gap / public reaction": "Luka w usługach / reakcja społeczna",
+    "Next period": "Następny okres", "Make this month's priority": "Ustaw jako priorytet miesiąca", Launch: "Uruchom",
+    "Trade talks": "Rozmowy handlowe", "Security accord": "Porozumienie bezpieczeństwa",
   };
 
   const CATALOG_EN = {
@@ -469,10 +554,10 @@
           '<a href="/oyna/son-100-gun">Son 100 Gün</a> · LIVE — A one-seat life game: a hundred days, one decision per period. Body, savings, your people, calm and the mark you leave share one calendar.',
           '<a href="/oyna/tc-sim-devlet">TC SIM: DEVLET</a> · LIVE — Govern policy, institutions, regions and treasury through capacity, political capital, bureaucratic friction and crisis load.',
           '<a href="/oyna/son-koy-manager">SON KÖY MANAGER</a> · LIVE — Spend changing field capacity and action effort across water, energy, migration, production and trust over 24 months.',
-          '<a href="/oyna/veto-h">VETO-H!</a> · LIVE — An election and campaign duel with 300 original cards and individual illustrations, a seeded 40-card deck, a computer opponent and a pregame Card Archive.',
-          '<a href="/oyna/gett-oh">GETT-OH!</a> · LIVE — A neighborhood and street-power duel with 300 original cards and individual illustrations: the same deterministic engine, a separate card pool and an Istanbul-night table.',
-          '<a href="/oyna/ihtilal">İhtilâl</a> · LIVE — Two pens on an Extraordinary File Board drop files onto Registry, Till, Gazette, Corridor and Watch desks and write a ruling.',
-          '<a href="/oyna/darbe-h">DARBE-H!</a> · LIVE — A fictional Extraordinary Desk duel of officers, orders and notices: the shared duel engine, a separate 300-card pool and crisis points.',
+          '<a href="/oyna/veto-h">VETO-H!</a> · LIVE — A 300-card election and campaign duel with a seeded 40-card deck, a computer opponent and a pregame Card Archive. Card art was made with AI tools (see below).',
+          '<a href="/oyna/gett-oh">GETT-OH!</a> · LIVE — A 300-card neighborhood and street-power duel: the same deterministic engine, a separate card pool and an Istanbul-night table. Card art was made with AI tools (see below).',
+          '<a href="/oyna/ihtilal">İhtilâl</a> · LIVE — A one-seat desk: load, trust, information and tension are tied together across fictional basins; choose between short relief and a delayed load.',
+          '<a href="/oyna/darbe-h">DARBE-H!</a> · LIVE — A fictional Extraordinary Desk duel of officers, orders and notices: the shared duel engine, a separate 300-card pool and crisis points. Plate art was made with AI tools (see below).',
           '<a href="/oyna/jitem-derin-ag">JITEM: Derin Ağ</a> · LIVE — A single-player strategy game set across 1986–1996, built around sourced historical records, relationship networks, asymmetric knowledge and institutional behavior.',
         ],
       },
@@ -482,6 +567,7 @@
         items: [
           "Most long-running games use three local slots, kept separate on the same device. HANEDANIAN keeps an autosave, its previous version and a separate manual save, with file export/import. Original HANEDAN saves remain accessible through the legacy game. VETO-H!, GETT-OH! and DARBE-H! each autosave one active duel; reload preserves deck order, action rights and pending responses.",
           "The portal and all 19 live games support Turkish and English; each game keeps its own voice while the outer shell owns language navigation.",
+          "Polish covers the interface only (menus, saves, navigation, main buttons); game text is shown in English to Polish readers.",
           "Interfaces adapt to phone, tablet and desktop while preserving each game's own visual and interaction identity.",
         ],
       },
@@ -501,8 +587,18 @@
         note: "Classic game rules (maze, peg solitaire, chess, grid-fleet) are public-domain concepts; this notice covers only TarikLab's own code, interface and original content.",
       },
       {
+        h: "Visuals and chain of title",
+        lead: "Only rights with a verified record are shown here as licences.",
+        items: [
+          "Code-drawn visuals (game emblems, the T monogram, icons, seed-generated maps, DEVLET region outlines): TarikLab, all rights reserved.",
+          "No font files, audio files or third-party map data are used.",
+          "AI-generated images: VETO-H! and GETT-OH! card art and backgrounds, DARBE-H! plates. The generation tool, account and the terms in force on the generation date were not recorded; no licence is claimed for these images until the record is complete.",
+          "Images whose creator was not recorded: the portal share images, JITEM: Derin Ağ images and the Son Mahalle Bükücü icons. Under review.",
+        ],
+      },
+      {
         h: "Third-party components",
-        lead: "Principal third-party components of the portal and Çete Savaşları application: React, TanStack Router, Zustand, Radix UI, Lucide and Zod. Rights in those components belong to their owners. The note on TLab Classics' independent game logic is separate from this application stack.",
+        lead: "Principal third-party components of the portal and Çete Savaşları application: React, TanStack Router, Zustand, Radix UI, Lucide and Zod. Rights in those components belong to their owners. The note on TLab Classics' independent game logic is separate from this application stack. The 54 packages shipped to the browser have verified licences: 51 MIT, 1 Apache-2.0, 1 ISC, 1 0BSD. The JITEM: Derin Ağ runtime package list has not been generated yet.",
       },
     ],
     legal:
@@ -527,16 +623,22 @@
         '<a href="/oyna/son-100-gun">Son 100 Gün</a> · LIVE — Gra o jednym życiu: sto dni, jedna decyzja na okres. Ciało, oszczędności, bliscy, spokój i ślad, który zostawisz, dzielą jeden kalendarz.',
         '<a href="/oyna/tc-sim-devlet">TC SIM: DEVLET</a> · LIVE — Zarządzaj polityką, instytucjami, regionami i skarbem państwa.',
         '<a href="/oyna/son-koy-manager">SON KÖY MANAGER</a> · LIVE — Przez 24 miesiące rozdzielaj zdolność działania między wodę, energię, migrację i zaufanie.',
-        '<a href="/oyna/veto-h">VETO-H!</a> · LIVE — Pojedynek wyborczy i kampanijny z 300 autorskimi kartami oraz talią 40 kart.',
-        '<a href="/oyna/gett-oh">GETT-OH!</a> · LIVE — Pojedynek o dzielnicę i uliczną siłę: wspólny silnik, osobna pula kart i stambulska noc.',
-        '<a href="/oyna/ihtilal">İHTİLÂL</a> · LIVE — Dwa pióra w Nadzwyczajnej Radzie Akt zapisują wyrok.',
-        '<a href="/oyna/darbe-h">DARBE-H!</a> · LIVE — Fikcyjny pojedynek nadzwyczajnego biurka z oddzielną pulą 300 kart.',
+        '<a href="/oyna/veto-h">VETO-H!</a> · LIVE — Pojedynek wyborczy i kampanijny na 300 kart z talią 40 kart. Grafiki kart powstały przy użyciu narzędzi AI (zob. niżej).',
+        '<a href="/oyna/gett-oh">GETT-OH!</a> · LIVE — Pojedynek o dzielnicę i uliczną siłę: wspólny silnik, osobna pula kart i stambulska noc. Grafiki kart powstały przy użyciu narzędzi AI (zob. niżej).',
+        '<a href="/oyna/ihtilal">İHTİLÂL</a> · LIVE — Biurko dla jednej osoby: obciążenie, zaufanie, informacja i napięcie w fikcyjnych dorzeczach; wybór między krótką ulgą a odroczonym ciężarem.',
+        '<a href="/oyna/darbe-h">DARBE-H!</a> · LIVE — Fikcyjny pojedynek nadzwyczajnego biurka z oddzielną pulą 300 kart. Grafiki plansz powstały przy użyciu narzędzi AI (zob. niżej).',
         '<a href="/oyna/jitem-derin-ag">JITEM: Derin Ağ</a> · LIVE — Jednoosobowa strategia 1986–1996 oparta na źródłowych zapisach historycznych, sieciach relacji i asymetrycznej wiedzy.',
       ]},
-      { h: "Jak to działa", lead: "TarikLab to zbiór niezależnych gier działających bezpośrednio w przeglądarce.", items: ["Portal i Çete Savaşları używają Reacta i TypeScriptu; pozostałe gry są osobnymi aplikacjami HTML, CSS i JavaScript.", "Portal i wszystkie 19 dostępnych gier obsługują turecki i angielski; polski jest obecnie warstwą globalną portalu i powłoki.", "Interfejsy dostosowują się do telefonu, tabletu i komputera." ]},
+      { h: "Jak to działa", lead: "TarikLab to zbiór niezależnych gier działających bezpośrednio w przeglądarce.", items: ["Portal i Çete Savaşları używają Reacta i TypeScriptu; pozostałe gry są osobnymi aplikacjami HTML, CSS i JavaScript.", "Portal i wszystkie 19 dostępnych gier obsługują turecki i angielski. Polski obejmuje tylko interfejs (menu, zapisy, nawigacja, główne przyciski); tekst gier jest pokazywany po angielsku.", "Interfejsy dostosowują się do telefonu, tabletu i komputera." ]},
       { h: "Autorstwo", note: "Tarık jest synem swojej matki." },
       { h: "TLab Classics", lead: "Labirent, Tek Taş, Satranç i Amiral Battı zostały napisane od podstaw dla TarikLab.", items: ["Labirent — niezależna implementacja TarikLab.", "Tek Taş — niezależna implementacja TarikLab.", "Satranç — niezależny silnik zasad TarikLab.", "Amiral Battı — niezależna implementacja siatki i floty TarikLab."], note: "Klasyczne zasady gier są koncepcjami domeny publicznej; ta informacja dotyczy wyłącznie kodu, interfejsu i oryginalnej treści TarikLab." },
-      { h: "Komponenty zewnętrzne", lead: "Główne komponenty zewnętrzne portalu i Çete Savaşları: React, TanStack Router, Zustand, Radix UI, Lucide i Zod. Prawa do nich należą do ich właścicieli." },
+      { h: "Grafiki i łańcuch praw", lead: "Jako licencje pokazujemy tylko prawa z potwierdzonym zapisem.", items: [
+        "Grafiki rysowane kodem (emblematy gier, monogram T, ikony, mapy generowane z ziarna, obrysy regionów DEVLET): TarikLab, wszelkie prawa zastrzeżone.",
+        "Nie używamy plików czcionek, plików dźwiękowych ani zewnętrznych danych map.",
+        "Obrazy wygenerowane przez AI: grafiki kart i tła VETO-H! i GETT-OH!, plansze DARBE-H!. Narzędzie, konto i warunki obowiązujące w dniu generowania nie zostały zapisane; do czasu uzupełnienia zapisu nie deklarujemy dla nich licencji.",
+        "Obrazy bez zapisanego autora: grafiki udostępniania portalu, grafiki JITEM: Derin Ağ i ikony Son Mahalle Bükücü. W trakcie weryfikacji.",
+      ]},
+      { h: "Komponenty zewnętrzne", lead: "Główne komponenty zewnętrzne portalu i Çete Savaşları: React, TanStack Router, Zustand, Radix UI, Lucide i Zod. Prawa do nich należą do ich właścicieli. 54 pakiety wysyłane do przeglądarki mają potwierdzone licencje: 51 MIT, 1 Apache-2.0, 1 ISC, 1 0BSD. Lista pakietów środowiska JITEM: Derin Ağ nie została jeszcze wygenerowana." },
     ],
     legal: "© 2026 TarikLab. Wszelkie prawa zastrzeżone. Nie zgłasza się roszczeń do klasycznych zasad gier z domeny publicznej.",
   };
@@ -699,16 +801,48 @@
     });
   }
 
+  const own = (dict, key) => Object.prototype.hasOwnProperty.call(dict, key);
+
   function t(key, fallback) {
-    const dictionary = lang === "en" ? EN : lang === "pl" ? PL : null;
+    // Polish falls back to English, never to Turkish source text.
+    if (lang === "pl") return PL[key] ?? EN[key] ?? fallback ?? key;
+    const dictionary = lang === "en" ? EN : null;
     return dictionary?.[key] ?? fallback ?? key;
+  }
+
+  /** "tr" or "en": the language game content is written in for this reader.
+   *  Polish readers get English content where no Polish text exists. */
+  function contentLang() {
+    return lang === "tr" ? "tr" : "en";
+  }
+
+  /** Polish for a Turkish or English source string, if one is authored. */
+  function polish(text) {
+    if (text == null) return null;
+    const raw = String(text);
+    if (own(PHRASE_PL, raw)) return PHRASE_PL[raw];
+    const en = englishPhrase(raw);
+    return own(PHRASE_PL, en) ? PHRASE_PL[en] : null;
+  }
+
+  /** Pick the reader's text from a Turkish source and an optional English
+   *  version: Polish when authored, otherwise English, otherwise Turkish. */
+  function localize(tr, en) {
+    if (lang === "tr") return tr;
+    const english = en ?? englishPhrase(String(tr ?? ""));
+    if (lang === "pl") return polish(tr) ?? polish(english) ?? english;
+    return english;
   }
 
   function phrase(text) {
     if (lang === "tr" || text == null) return text;
     const raw = String(text);
-    if (lang === "pl") return PHRASE_PL[raw] ?? raw;
-    if (Object.prototype.hasOwnProperty.call(PHRASE, raw)) return PHRASE[raw];
+    if (lang === "pl") return polish(raw) ?? englishPhrase(raw);
+    return englishPhrase(raw);
+  }
+
+  function englishPhrase(raw) {
+    if (own(PHRASE, raw)) return PHRASE[raw];
     const pieces = { Kale: "Rook", At: "Knight", Fil: "Bishop", Vezir: "Queen", Şah: "King", Piyon: "Pawn" };
     let match = raw.match(/^([a-h][1-8]), (Beyaz|Siyah) (Kale|At|Fil|Vezir|Şah|Piyon)$/);
     if (match) return `${match[1]}, ${match[2] === "Beyaz" ? "White" : "Black"} ${pieces[match[3]]}`;
@@ -841,6 +975,9 @@ html.tlab-embedded .global-chrome:not(:has(.topbar__title)):not(:has(.topbar__to
     onLang,
     t,
     phrase,
+    polish,
+    localize,
+    contentLang,
     catalogEntry,
     applyPhrases,
     applyHtmlLang,

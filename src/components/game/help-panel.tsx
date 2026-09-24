@@ -51,7 +51,7 @@ const SECTIONS: { title: string; body: string }[] = [
 export function HelpPanel({ triggerClassName }: { triggerClassName?: string }) {
   const [open, setOpen] = useState(false);
   const { lang, t } = useLang();
-  const sections = lang === "en" ? CETE_HELP_EN : SECTIONS;
+  const sections = lang !== "tr" ? CETE_HELP_EN : SECTIONS;
   const how = t("common.howTo", "Nasıl Oynanır");
   return (
     <>

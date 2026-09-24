@@ -182,3 +182,31 @@ test("credits distinguishes independent Classics from shipping application depen
   assert.doesNotMatch(html, /hiçbir oyun/);
   assert.doesNotMatch(html, /Çete Savaşları —[^<]*bağımlılığı yok/);
 });
+
+test("resources show only verified licences and disclose AI images and unrecorded creators", () => {
+  const tr = read("public/credits.html");
+  const i18n = read("public/i18n/tlab-i18n.js");
+  // No originality or licence claim for AI-generated card art.
+  for (const text of [tr, i18n]) {
+    assert.doesNotMatch(text, /300 özgün kart|300 original cards|300 autorskimi/);
+    assert.doesNotMatch(text, /karta özel illüstrasyon|individual illustrations/);
+  }
+  assert.match(tr, /data-chain="verified"/);
+  assert.match(tr, /data-chain="review"/);
+  assert.match(tr, /Yapay zekâ ile üretilmiş görseller[^<]*lisans iddiası yoktur/);
+  assert.match(tr, /Yaratıcısı kayda geçmemiş görseller/);
+  assert.match(i18n, /AI-generated images[^"]*no licence is claimed/);
+  assert.match(i18n, /Obrazy wygenerowane przez AI[^"]*nie deklarujemy dla nich licencji/);
+  // Licence counts come from the generated notice table.
+  const notices = read("docs/ip/THIRD_PARTY_NOTICES.md");
+  const rows = [...notices.matchAll(/^\| [^|]+ \| [^|]+ \| ([^|]+) \|$/gm)]
+    .map((m) => m[1].trim())
+    .filter((l) => l !== "License");
+  const count = (l) => rows.filter((x) => x === l).length;
+  assert.equal(rows.length, 54);
+  assert.match(tr, new RegExp(`${rows.length} paketin lisansı doğrulandı: ${count("MIT")} MIT, ${count("Apache-2.0")} Apache-2.0, ${count("ISC")} ISC, ${count("0BSD")} 0BSD`));
+  assert.match(i18n, new RegExp(`${rows.length} packages shipped to the browser have verified licences: ${count("MIT")} MIT`));
+  // The retired two-pen description of İHTİLÂL is gone.
+  assert.doesNotMatch(tr, /iki kalem/);
+  assert.doesNotMatch(i18n, /Two pens on an Extraordinary File Board|Dwa pióra/);
+});

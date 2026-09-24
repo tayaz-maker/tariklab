@@ -9,6 +9,7 @@ import { generateDeck } from "./deckgen.js";
 import { random } from "./random.js";
 import { PHASES } from "./model.js";
 import { labels } from "./labels.js";
+import { labelsPl } from "./labels-pl.js";
 import { rejectionText } from "./rejections.js";
 import { explainRejection } from "./explain.js";
 import { eventStory, moveStory } from "./flow-copy.js";
@@ -85,10 +86,14 @@ export async function startApp(theme, designs, options = {}) {
     getItem: (key) => localStorage.getItem(key),
     setItem: (key, value) => localStorage.setItem(key, value),
   };
+  // `lang` is the content language; Polish readers get Polish interface
+  // labels where authored and English everywhere else, never Turkish.
   let lang = "tr",
+    reader = "tr",
     motion = "on";
   try {
-    lang = localStorage.getItem("tariklab.language") === "en" ? "en" : "tr";
+    reader = localStorage.getItem("tariklab.language") || "tr";
+    lang = reader === "en" || reader === "pl" ? "en" : "tr";
     motion = localStorage.getItem("tariklab.duel.motion") || "on";
   } catch {
     /* Storage errors are reported when a duel is saved. */
@@ -129,7 +134,12 @@ export async function startApp(theme, designs, options = {}) {
     point = meta.point;
   const themeLabels = meta.labels;
   const t = (key) =>
-    typeof key === "string" ? themeLabels[lang][key] || labels[lang][key] || key : "";
+    typeof key === "string"
+      ? (reader === "pl" && !themeLabels[lang][key] && labelsPl[key]) ||
+        themeLabels[lang][key] ||
+        labels[lang][key] ||
+        key
+      : "";
   const text = (value) => localized(value, lang);
   const persistSettings = (patch = {}) => {
     settings = { ...settings, ...patch, motion };
@@ -284,7 +294,8 @@ export async function startApp(theme, designs, options = {}) {
   });
   window.addEventListener("storage", (event) => {
     if (event.key !== "tariklab.language" || !pool.length) return;
-    lang = event.newValue === "en" ? "en" : "tr";
+    reader = event.newValue || "tr";
+    lang = reader === "en" || reader === "pl" ? "en" : "tr";
     close();
     render();
   });
@@ -515,7 +526,7 @@ export async function startApp(theme, designs, options = {}) {
   }
   function render() {
     root.removeAttribute("aria-busy");
-    document.documentElement.lang = lang;
+    document.documentElement.lang = reader === "pl" ? "pl" : lang;
     document.body.dataset.theme = theme;
     document.body.dataset.screen = screen;
     document.body.dataset.motion = motion === "on" ? "full" : "reduced";

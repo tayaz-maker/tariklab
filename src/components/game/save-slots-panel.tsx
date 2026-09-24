@@ -17,10 +17,10 @@ import {
 } from "@/lib/save-slots";
 
 function slotSummary(slot: SlotIndex, lang: Lang) {
-  const empty = lang === "en" ? "Empty slot" : "Boş slot";
-  const corrupt = lang === "en" ? "Corrupt save" : "Bozuk kayıt";
-  const unread = lang === "en" ? "Save unreadable" : "Kayıt okunamıyor";
-  const vacant = lang === "en" ? "Empty" : "Boş";
+  const empty = lang !== "tr" ? "Empty slot" : "Boş slot";
+  const corrupt = lang !== "tr" ? "Corrupt save" : "Bozuk kayıt";
+  const unread = lang !== "tr" ? "Save unreadable" : "Kayıt okunamıyor";
+  const vacant = lang !== "tr" ? "Empty" : "Boş";
   if (typeof window === "undefined") return { empty: true, label: vacant };
   let raw: string | null;
   try { raw = readSlotRaw(window.localStorage, "cete", slot); } catch { return { empty: false, label: unread }; }
@@ -87,7 +87,7 @@ export function SaveSlotsPanel() {
                       else act(item.slot, "load");
                     }}
                   >
-                    {lang === "en" ? "Open" : "Aç"}
+                    {lang !== "tr" ? "Open" : "Aç"}
                   </Button>
                   <Button
                     size="sm"
@@ -111,7 +111,7 @@ export function SaveSlotsPanel() {
               </li>
             ))}
           </ul>
-          <p role="status" className="mt-3 text-xs text-muted">{message || (lang === "en" ? "A leftover single save is moved to Slot 1." : "Eski tek kayıt varsa Slot 1’e taşınır.")}</p>
+          <p role="status" className="mt-3 text-xs text-muted">{message || (lang !== "tr" ? "A leftover single save is moved to Slot 1." : "Eski tek kayıt varsa Slot 1’e taşınır.")}</p>
         </DialogContent>
       </Dialog>
       <Dialog open={Boolean(confirm)} onOpenChange={(next) => !next && setConfirm(null)}>
@@ -119,21 +119,21 @@ export function SaveSlotsPanel() {
           <DialogHeader>
             <DialogTitle>
               {confirm?.mode === "clear"
-                ? (lang === "en" ? "Delete slot" : "Slotu sil")
+                ? (lang !== "tr" ? "Delete slot" : "Slotu sil")
                 : confirm?.mode === "save"
-                  ? (lang === "en" ? "Overwrite" : "Üzerine yaz")
-                  : (lang === "en" ? "Open slot" : "Slotu aç")}
+                  ? (lang !== "tr" ? "Overwrite" : "Üzerine yaz")
+                  : (lang !== "tr" ? "Open slot" : "Slotu aç")}
             </DialogTitle>
             <DialogDescription>
               {confirm?.mode === "clear"
-                ? (lang === "en" ? `Slot ${confirm.slot} will be deleted. Other slots stay.` : `Slot ${confirm.slot} silinir. Diğer slotlar durur.`)
+                ? (lang !== "tr" ? `Slot ${confirm.slot} will be deleted. Other slots stay.` : `Slot ${confirm.slot} silinir. Diğer slotlar durur.`)
                 : confirm?.mode === "save"
-                  ? (lang === "en" ? `Slot ${confirm?.slot} is full. Overwrite it with the current game?` : `Slot ${confirm?.slot} dolu. Şu anki oyunu bunun üzerine yazmak istiyor musun?`)
-                  : (lang === "en" ? `Opening slot ${confirm?.slot} replaces the game on screen. Unsaved progress is lost.` : `Slot ${confirm?.slot} açılınca ekrandaki oyun değişir. Kaydetmediysen kaybolur.`)}
+                  ? (lang !== "tr" ? `Slot ${confirm?.slot} is full. Overwrite it with the current game?` : `Slot ${confirm?.slot} dolu. Şu anki oyunu bunun üzerine yazmak istiyor musun?`)
+                  : (lang !== "tr" ? `Opening slot ${confirm?.slot} replaces the game on screen. Unsaved progress is lost.` : `Slot ${confirm?.slot} açılınca ekrandaki oyun değişir. Kaydetmediysen kaybolur.`)}
             </DialogDescription>
           </DialogHeader>
           <div className="mt-4 flex justify-end gap-2">
-            <Button variant="ghost" onClick={() => setConfirm(null)}>{lang === "en" ? "Never mind" : "Vazgeç"}</Button>
+            <Button variant="ghost" onClick={() => setConfirm(null)}>{lang !== "tr" ? "Never mind" : "Vazgeç"}</Button>
             <Button
               variant={confirm?.mode === "clear" ? "danger" : "default"}
               onClick={() => {

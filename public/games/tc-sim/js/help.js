@@ -51,10 +51,10 @@ function escapeText(value) {
 /** Modal HTML'i. Salt görüntü — hiçbir alanı state'e yazmaz. */
 export function renderHelpModal() {
   const I = typeof window !== "undefined" ? window.tlabI18n : null;
-  const source = I && I.getLang() === "en" ? I.TCSIM_HELP_EN : HELP_SECTIONS;
-  const title = I && I.getLang() === "en" ? "How to Play" : "Nasıl Oynanır";
-  const close = I && I.getLang() === "en" ? "Close" : "Kapat";
-  const extra = I && I.getLang() === "en" ? [
+  const source = I && I.contentLang() === "en" ? I.TCSIM_HELP_EN : HELP_SECTIONS;
+  const title = I && I.contentLang() === "en" ? "How to Play" : "Nasıl Oynanır";
+  const close = I && I.contentLang() === "en" ? "Close" : "Kapat";
+  const extra = I && I.contentLang() === "en" ? [
     {title: "Market: effects and ownership", body: "Read the cost, decision time and body effects before buying. Owned items retain their benefits across saves; buying another does not stack them. Bikes and scooters add monthly upkeep. Risky experiences can harm health, finances or relationships. Gambling shows stake, payout and net cash: losses are more likely in the long run."},
     {title: "Finance: investment profit and loss", body: "Cash is spendable money; net worth also includes assets minus debts. Investment cost basis includes the purchase fee. Unrealized P/L is current value minus basis, not cash income. Monthly reports show valuation changes. Selling deducts a 1% fee and allocates the sold share of basis to calculate realized P/L. Remaining holdings keep their proportional basis."},
   ] : [

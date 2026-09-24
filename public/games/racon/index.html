@@ -5383,7 +5383,7 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
     drawModal();
     decorateActions();
     if(S&&UI.mode==="play") writeSave();
-    if (window.tlabI18n && window.tlabI18n.getLang() === "en") window.tlabI18n.applyPhrases(document.body);
+    if (window.tlabI18n && window.tlabI18n.getLang() !== "tr") window.tlabI18n.applyPhrases(document.body);
   }
 
   function act(code, payload) {

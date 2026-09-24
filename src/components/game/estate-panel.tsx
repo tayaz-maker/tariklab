@@ -25,7 +25,7 @@ import { formatTRY } from "@/lib/utils";
 
 export function EstatePanel({ player }: { player: Player }) {
   const { lang } = useLang();
-  const en = lang === "en";
+  const en = lang !== "tr";
   const bankMove = useGame((s) => s.bankMove);
   const writeSenet = useGame((s) => s.writeSenet);
   const rivals = useGame((s) => s.rivals);
@@ -141,7 +141,7 @@ export function EstatePanel({ player }: { player: Player }) {
 
 function AssetCard({ id, player }: { id: InvestId; player: Player }) {
   const { lang } = useLang();
-  const en = lang === "en";
+  const en = lang !== "tr";
   const tradeInvest = useGame((s) => s.tradeInvest);
   const market = useGame((s) => s.market) ?? MARKET_START;
   const def = ASSETS.find((a) => a.id === id)!;
@@ -191,7 +191,7 @@ function AssetCard({ id, player }: { id: InvestId; player: Player }) {
 
 function KoseCard({ player }: { player: Player }) {
   const { lang } = useLang();
-  const en = lang === "en";
+  const en = lang !== "tr";
   const fundKose = useGame((s) => s.fundKose);
   const t = player.kose ? KOSE_TIERS[player.kose - 1] : null;
   const next = player.kose < 3 ? KOSE_TIERS[player.kose] : null;
@@ -250,7 +250,7 @@ function EstateList({
   player: Player;
 }) {
   const { lang } = useLang();
-  const en = lang === "en";
+  const en = lang !== "tr";
   const buyEstate = useGame((s) => s.buyEstate);
   const upgradeEstate = useGame((s) => s.upgradeEstate);
   return (

@@ -19,7 +19,7 @@ export function ResetConfirm({
   label?: string;
 }) {
   const { lang } = useLang();
-  const en = lang === "en";
+  const en = lang !== "tr";
   const [open, setOpen] = useState(false);
 
   return (
@@ -65,7 +65,7 @@ export function ResetConfirm({
 
 export function ResetLink({ className }: { className?: string }) {
   const { lang } = useLang();
-  const en = lang === "en";
+  const en = lang !== "tr";
   const [open, setOpen] = useState(false);
   return (
     <>

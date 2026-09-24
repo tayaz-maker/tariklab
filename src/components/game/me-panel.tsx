@@ -67,7 +67,7 @@ function loadBoard() {
 
 export function MePanel({ player }: { player: Player }) {
   const { lang } = useLang();
-  const en = lang === "en";
+  const en = lang !== "tr";
   const market = useGame((s) => s.market) ?? MARKET_START;
   const logs = useGame((s) => s.logs);
   const savedAt = useGame((s) => s.savedAt);

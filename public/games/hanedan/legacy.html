@@ -2181,7 +2181,7 @@ svg.face { display:block; flex:0 0 auto; }
       }
       if (S.tier === t) add(acc, el("p", { cls: "ok", text: S.name + " · " + S.pts + " p" }));
     }
-    if (window.tlabI18n && window.tlabI18n.getLang() === "en") window.tlabI18n.applyPhrases(document.body);
+    if (window.tlabI18n && window.tlabI18n.getLang() !== "tr") window.tlabI18n.applyPhrases(document.body);
   }
   function bar(p, label, v) {
     var r = add(p, el("div", { cls: "row" }));
@@ -2378,7 +2378,7 @@ svg.face { display:block; flex:0 0 auto; }
   var _paintHanedan = paint;
   paint = function () {
     _paintHanedan();
-    if (window.tlabI18n && window.tlabI18n.getLang() === "en") window.tlabI18n.applyPhrases(document.body);
+    if (window.tlabI18n && window.tlabI18n.getLang() !== "tr") window.tlabI18n.applyPhrases(document.body);
   };
 
   (function boot() {

@@ -20,7 +20,7 @@ import { formatTRY } from "@/lib/utils";
 
 export function StreetPanel({ player }: { player: Player }) {
   const { lang, phrase } = useLang();
-  const en = lang === "en";
+  const en = lang !== "tr";
   const rivals = useGame((s) => s.rivals);
   const attackRival = useGame((s) => s.attackRival);
   const putBounty = useGame((s) => s.putBounty);

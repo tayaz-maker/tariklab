@@ -4,10 +4,13 @@ import {
 } from "./solo.js";
 
 const root = document.querySelector("#app");
-const lang = () => {
-  try { return localStorage.getItem("tariklab.language") === "en" ? "en" : "tr"; }
+const reader = () => {
+  try { return localStorage.getItem("tariklab.language") || "tr"; }
   catch { return "tr"; }
 };
+// Content language: Polish readers get the Polish interface below and English
+// everywhere else, never Turkish.
+const lang = () => (reader() === "en" || reader() === "pl" ? "en" : "tr");
 
 const COPY = {
   tr: {
@@ -98,7 +101,33 @@ const COPY = {
   },
 };
 
-const t = () => COPY[lang()] || COPY.tr;
+// Polish interface labels; hints, endings and region names stay English.
+const PL = {
+  kicker: "Jedno biurko",
+  pitch: "Biurko dla jednej osoby. Obciążenie dorzeczy, zaufanie, informacja i napięcie są ze sobą powiązane. Nie ma przeciwnego krzesła.",
+  note: "Ta robocza mapa to schemat dorzeczy administracyjnych. Nie jest oficjalną granicą, prawdziwą osobą ani zapisem instytucji.",
+  open: "Otwórz akta",
+  period: "Okres",
+  cap: "Zdolność",
+  trust: "Zaufanie",
+  intel: "Informacja",
+  tension: "Napięcie",
+  map: "Mapa dorzeczy",
+  moves: "Decyzja",
+  tut: "Trzymaj",
+  ac: "Otwórz",
+  sustur: "Wycisz",
+  devret: "Przenieś",
+  kapat: "Zamknij okres",
+  sert: "Trzymaj twardo",
+  acik: "Trzymaj otwarcie",
+  outcome: "Wynik",
+  delayed: "Przechodzi na późniejszy okres",
+  now: "teraz",
+  file: "Dlaczego to biurko",
+  again: "Nowe akta",
+};
+const t = () => (reader() === "pl" ? { ...COPY.en, ...PL } : COPY[lang()] || COPY.tr);
 let screen = "menu";
 let state = null;
 let last = null;
@@ -193,6 +222,8 @@ function moveButton(c, id) {
 }
 
 function render() {
+  // Casing (CSS uppercase) follows the page language: Turkish dotted İ only for Turkish.
+  document.documentElement.lang = reader() === "pl" ? "pl" : lang();
   const c = t();
   root.replaceChildren();
   const bar = $("header", { class: "solo-bar" },
