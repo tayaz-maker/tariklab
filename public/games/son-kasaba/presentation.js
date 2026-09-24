@@ -19,6 +19,11 @@ import {
   TOWN_STAGES,
   investorTerms,
   triage,
+  maintenanceForecast,
+  FULL_REPAIR_RELIEF,
+  PATCHES,
+  BACKLOG_BREAKDOWN,
+  BACKLOG_FREE,
   nextCapacity,
   capacityLimit,
   BASE_CAPACITY,
@@ -73,6 +78,7 @@ const CHAIN_LABELS = {
   "school-families": ["Okul ve aileler", "School and families"],
   "investor-dependency": ["Yatırımcı bağımlılığı", "Investor dependency"],
   "town-charter": ["Köy şartı", "Village charter"],
+  "maintenance-debt": ["Bakım borcu", "Maintenance backlog"],
 };
 const CHAIN_STAGES = {
   signal: ["sinyal", "signal"],
@@ -149,6 +155,29 @@ export function button(s, cmd, label) {
   const stretch = !a.reason && a.stretch ? ` · ${t(`${a.stretch} zorlama`, `${a.stretch} stretch`)}` : "";
   return `<button type="button" data-command="${h(cmd)}" ${a.reason ? "disabled" : ""} class="${stretch ? "is-stretching" : ""}"><strong>${h(label || tr(a.label))}</strong><small>${a.effort} ${t("kapasite", "capacity")} · ${number(a.cost)} TL${stretch}${a.reason ? ` · ${h(tr(a.reason))}` : ""}</small></button>`;
 }
+/** One line tying crisis, investment and upkeep together: the maintenance backlog. */
+function backlogLine(s) {
+  const f = maintenanceForecast(s);
+  const move = f.growth > 0 ? `+${f.growth}` : `${f.growth}`;
+  const tone = f.risk === "low" ? "" : f.risk === "near" ? "is-invest" : "is-urgent";
+  const text = t(
+    `Bakım borcu ${f.backlog}/100 · ay kapanınca ${move} · ${f.cost ? `aylık ${number(f.cost)} TL` : `${BACKLOG_FREE}'ye kadar bedelsiz`} · ${BACKLOG_BREAKDOWN}'ta arıza`,
+    `Maintenance backlog ${f.backlog}/100 · ${move} at month close · ${f.cost ? `${number(f.cost)} TL a month` : `free up to ${BACKLOG_FREE}`} · breakdowns at ${BACKLOG_BREAKDOWN}`,
+  );
+  const back = f.returning.length
+    ? ` <span>${t("Bu ay dönen yama", "Patch returning this month")}: ${f.returning.map((r) => `${h(tr(LABELS[r.id]))} ${r.amount}`).join(", ")}</span>`
+    : "";
+  return `<p class="month-plan__backlog ${tone}"><meter min="0" max="100" value="${f.backlog}" aria-label="${h(t("Bakım borcu", "Maintenance backlog"))}"></meter><span>${h(text)}</span>${back}</p>`;
+}
+/** Quick patches: relief now, a return later and a bigger backlog. */
+function patches(s) {
+  return `<h3>${t("Hızlı yama ya da tam onarım", "Quick patch or full repair")}</h3><p class="effect-preview">${t("Yama ucuzdur ve bugünü kurtarır; birkaç ay sonra geri döner ve bakım borcunu büyütür. Tam onarım pahalıdır ama borcu eritir.", "A patch is cheap and saves today; it comes back a few months later and grows the backlog. A full repair costs more but works the backlog down.")}</p><div class="town-actions">${Object.entries(PATCHES)
+    .map(
+      ([id, p]) =>
+        `<article>${button(s, `patch:${id}`)}<p class="effect-preview">${h(t(`Şimdi ${tr(LABELS[id])} +${p.now} · ${p.after} ay sonra ${p.back} · bakım borcu +${p.backlog}`, `Now ${tr(LABELS[id])} +${p.now} · ${p.back} after ${p.after} months · backlog +${p.backlog}`))}</p></article>`,
+    )
+    .join("")}</div>`;
+}
 /** This month's plan: what the capacity buys, what is urgent, what can wait. */
 function monthPlan(s) {
   const max = s.capacityMax || BASE_CAPACITY,
@@ -163,7 +192,7 @@ function monthPlan(s) {
         : t(`${max - used} kapasite kaldı. ${STRETCH_MAX} puana kadar zorlayabilirsin; her puan gelecek aydan düşer.`, `${max - used} capacity left. You can stretch up to ${STRETCH_MAX}; each point comes off next month.`);
   const row = (x, tone) =>
     `<li><button type="button" class="plan-item ${tone}" data-screen="${x.screen}"><strong>${h(tr(x.label))}</strong><small>${h(tr(x.reason))}</small></button></li>`;
-  return `<section class="month-plan" aria-label="${t("Bu ayın planı", "This month's plan")}"><div class="month-plan__head"><div><p class="eyebrow">${t("BU AYIN PLANI", "THIS MONTH'S PLAN")}</p><p class="month-plan__cap"><strong>${used}/${max}</strong> ${t("saha kapasitesi", "field capacity")}</p></div>${capacityCells(s)}</div><p class="month-plan__status">${h(status)}</p><div class="month-plan__lists"><div><h3 class="is-urgent">${t("Acil", "Urgent")}</h3>${q.urgent.length ? `<ul>${q.urgent.map((x) => row(x, "is-urgent")).join("")}</ul>` : `<p class="empty">${t("Bu ay düşecek dosya ya da çöken altyapı yok.", "Nothing lapses this month and no infrastructure is failing.")}</p>`}</div><div><h3 class="is-invest">${t("Yatırım · bekleyebilir", "Investment · can wait")}</h3>${q.invest.length ? `<ul>${q.invest.map((x) => row(x, "is-invest")).join("")}</ul>` : `<p class="empty">${t("Açık fırsat yok.", "No open opportunity.")}</p>`}</div></div></section>`;
+  return `<section class="month-plan" aria-label="${t("Bu ayın planı", "This month's plan")}"><div class="month-plan__head"><div><p class="eyebrow">${t("BU AYIN PLANI", "THIS MONTH'S PLAN")}</p><p class="month-plan__cap"><strong>${used}/${max}</strong> ${t("saha kapasitesi", "field capacity")}</p></div>${capacityCells(s)}</div><p class="month-plan__status">${h(status)}</p>${backlogLine(s)}<div class="month-plan__lists"><div><h3 class="is-urgent">${t("Acil", "Urgent")}</h3>${q.urgent.length ? `<ul>${q.urgent.map((x) => row(x, "is-urgent")).join("")}</ul>` : `<p class="empty">${t("Bu ay düşecek dosya ya da çöken altyapı yok.", "Nothing lapses this month and no infrastructure is failing.")}</p>`}</div><div><h3 class="is-invest">${t("Yatırım · bekleyebilir", "Investment · can wait")}</h3>${q.invest.length ? `<ul>${q.invest.map((x) => row(x, "is-invest")).join("")}</ul>` : `<p class="empty">${t("Açık fırsat yok.", "No open opportunity.")}</p>`}</div></div></section>`;
 }
 const effects = (e) =>
   Object.entries(e)
@@ -174,7 +203,7 @@ const effects = (e) =>
     .join(" · ");
 function civic(s, ids) {
   return `<div class="town-actions">${CIVIC_ACTIONS.filter((a) => ids.includes(a.id))
-    .map((a) => `<article>${button(s, `civic:${a.id}`)}<p>${h(effects(a.effects))}</p></article>`)
+    .map((a) => `<article>${button(s, `civic:${a.id}`)}<p>${h(effects(a.effects))}${FULL_REPAIR_RELIEF[a.id] ? h(t(` · bakım borcu −${FULL_REPAIR_RELIEF[a.id]}`, ` · backlog −${FULL_REPAIR_RELIEF[a.id]}`)) : ""}</p></article>`)
     .join("")}</div>`;
 }
 function agenda(s, limit = 10) {
@@ -222,6 +251,7 @@ const COSTS = {
   health: ["Sağlık", "Healthcare"],
   education: ["Eğitim", "Education"],
   commitments: ["Yatırımcı yükümlülükleri", "Investor commitments"],
+  backlog: ["Bakım borcu", "Maintenance backlog"],
 };
 function report(s) {
   const r = s.report;
@@ -273,7 +303,7 @@ export function townPanel(s) {
     return `<h2>${t("Gelecek ayın hesabı", "Next month's accounts")}</h2><p>${t("Tahmin mevcut hizmetlerden hesaplanır. Açık bina bakım gideri sürer. Altı aylık yatırım vergi indirimi işletme gelirini azaltır. Borç faizi aylık %1,2; nakit açığı borca eklenir.", "Forecasts use current services. Open buildings retain maintenance costs. Six months of investor tax relief reduce business income. Debt interest is 1.2% monthly; a cash shortfall becomes debt.")}</p><div class="town-grid"><article><h3>${t("Gelir", "Income")} · ${number(e.totalIncome)} TL</h3>${lineRows(e.income, INCOME)}</article><article><h3>${t("Gider", "Costs")} · ${number(e.totalCosts)} TL</h3>${lineRows(e.costs, COSTS)}</article></div>${civic(s, ["loan", "repay"])}`;
   }
   if (screen === "services")
-    return `<h2>${t("Açık tutmanın bedeli", "The cost of keeping things open")}</h2>${civic(s, ["road", "water", "energy", "cleanup"])}${buildingCards(s, ["hall", "pharmacy", "clinic", "school", "bus"])}`;
+    return `<h2>${t("Açık tutmanın bedeli", "The cost of keeping things open")}</h2>${backlogLine(s)}${civic(s, ["road", "water", "energy", "cleanup"])}${patches(s)}${buildingCards(s, ["hall", "pharmacy", "clinic", "school", "bus"])}`;
   if (screen === "business")
     return `<h2>${t("Köyün çalışan kapıları", "The village's working doors")}</h2>${civic(s, ["support", "festival", "housing"])}${buildingCards(s, ["market", "fuel", "hotel", "workshop", "cafe", "factory", "farms", "heritage"])}`;
   if (screen === "population")
