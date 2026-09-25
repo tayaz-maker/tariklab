@@ -54,7 +54,7 @@ PixiJS scene and the existing fallback renderer consume identically.
 
 | Game | Status | PR | main SHA | Notes |
 |---|---|---|---|---|
-| **0. Foundation + Kıyı Eşiği proof** | IN PROGRESS | (this PR) | — | See below. |
+| **0. Foundation + Kıyı Eşiği proof** | DONE | [#98](https://github.com/tayaz-maker/cete-savaslari/pull/98) | `a46ce8b6ea4a6e28930b904948cdecd0eef015de` | See below. |
 | 1. HANEDANIAN | NOT STARTED | — | — | 49×49 atlas cache/blit/overlay; performance-critical, separate PR per plan. |
 | 2. Racon Manager | NOT STARTED | — | — | Fictional neighbourhood/network map. |
 | 3. TC SIM: DEVLET | NOT STARTED | — | — | Seven abstract regions + external-relations map; clickable regions, capacity/risk overlay. |
@@ -62,7 +62,10 @@ PixiJS scene and the existing fallback renderer consume identically.
 | 5. JITEM: Derin Ağ | NOT STARTED | — | — | Upstream `jitem-derin-ag` repo first (clean PR there), then a separate TarikLab vendor-sync PR. Save key `jitem-derin-ag-v3` / schema 5 untouched. |
 | 6. Other candidates | NOT STARTED | — | — | Only where a real spatial decision surface helps; list/panel games are not converted. |
 
-### 0. Foundation + Kıyı Eşiği (this PR)
+### 0. Foundation + Kıyı Eşiği — DONE
+
+Merged as [PR #98](https://github.com/tayaz-maker/cete-savaslari/pull/98), main SHA
+`a46ce8b6ea4a6e28930b904948cdecd0eef015de`.
 
 Kıyı Eşiği is the plan's own choice of smallest independent map surface: 7
 nodes, 8 links, no animation, a self-contained `sim.js` with no dependency on
@@ -149,7 +152,21 @@ own unused VideoSource (video-texture) feature referencing the DOM
 `autoplay` attribute name in its source -- paired with a new test asserting
 no TarikLab game ever calls that PixiJS feature.
 
-PRODUCTION_PLACEHOLDER
+**Production verification (real Playwright/Chromium against
+`https://tariklab.tayaz29.workers.dev`, main SHA `a46ce8b6ea4a6e28930b904948cdecd0eef015de`):**
+
+| Check | Result |
+|---|---|
+| `/`, `/oyna/esik`, `/games/esik/index.html` | HTTP 200, content renders, 0 console errors |
+| `public/games/shared/pixi-adapter.js`, `public/games/esik/map-model.js`, `public/games/esik/map-pixi.js`, `public/vendor/pixi/pixi-8.21.0.min.mjs` | all served, HTTP 200 |
+| Desktop 1280×900, Kıyı Eşiği play screen | `data-renderer="pixi"`, canvas mounted, 0 console errors |
+| Mobile 390×844, Kıyı Eşiği play screen | `data-renderer="pixi"`, canvas mounted, no horizontal overflow, 0 console errors |
+| Polish mode (`localStorage.tariklab.language = "pl"`), Kıyı Eşiği play screen | `data-renderer="pixi"`, canvas mounted, Polish body text rendered (`/i18n/pl-body.js` overlay), 0 console errors |
+| Polish-mode portal home | loads, "20 gier dostępnych", 0 console errors |
+
+The PixiJS canvas is confirmed rendering in production, not just in the
+pre-merge branch preview, in Turkish, English and Polish modes, at both
+desktop and 390 px.
 
 ## Bitmiş sayılma koşulu (per game, per the plan)
 
