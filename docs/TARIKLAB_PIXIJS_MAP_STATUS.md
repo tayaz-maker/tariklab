@@ -56,10 +56,10 @@ PixiJS scene and the existing fallback renderer consume identically.
 |---|---|---|---|---|
 | **0. Foundation + Kıyı Eşiği proof** | DONE | [#98](https://github.com/tayaz-maker/cete-savaslari/pull/98) | `a46ce8b6ea4a6e28930b904948cdecd0eef015de` | See below. |
 | 1. HANEDANIAN | DONE | [#99](https://github.com/tayaz-maker/cete-savaslari/pull/99) | `4fc45d15f9f26e3b70374b73354e1c908266fed7` | See below. |
-| 2. Racon Manager | SKIPPED | — | — | No spatial surface exists to modernize. See below. |
-| 3. TC SIM: DEVLET | IN PROGRESS | [#100](https://github.com/tayaz-maker/cete-savaslari/pull/100) | — | Seven real geographic regions + diplomatic compass; both already SVG maps, now with a PixiJS overlay. See below. |
-| 4. TC SIM | SKIPPED | — | — | No spatial/geographic surface exists at all (`network.js`/`decision-network.js` are explicitly "pure functions, no DOM" abstract decision-effect models -- family type, NPC graph, time/money/relationship/energy/goal domains). Same rationale as Racon Manager; not invented per the plan's own rule. |
-| 5. JITEM: Derin Ağ | NOT STARTED | — | — | Upstream `jitem-derin-ag` repo first (clean PR there), then a separate TarikLab vendor-sync PR. Save key `jitem-derin-ag-v3` / schema 5 untouched. |
+| 2. Racon Manager | NOT STARTED | — | — | Not converted this wave. Preliminary read: its "Harita" screen is a 6-node schematic (CSS grid + SVG lines), not obviously a spatial surface -- left for a separate future wave to confirm and decide, not closed out here. See below. |
+| 3. TC SIM: DEVLET | DONE | [#100](https://github.com/tayaz-maker/cete-savaslari/pull/100) | — | Seven real geographic regions + diplomatic compass; both already SVG maps, now with a PixiJS overlay. See below. |
+| 4. TC SIM | NOT STARTED | — | — | Not converted this wave. Preliminary read: `network.js`/`decision-network.js` look like abstract decision-effect models with no rendered spatial surface -- left for a separate future wave to confirm and decide, not closed out here. |
+| 5. JITEM: Derin Ağ | NOT STARTED | — | — | Not converted this wave (separate upstream repo; would need an upstream PR there before a TarikLab vendor-sync). Preliminary read: its "Harita" tab looks like a node-link relationship diagram, not obviously a spatial surface -- left for a separate future wave to confirm and decide, not closed out here. |
 | 6. Other candidates | NOT STARTED | — | — | Only where a real spatial decision surface helps; list/panel games are not converted. |
 
 ### 0. Foundation + Kıyı Eşiği — DONE
@@ -379,32 +379,50 @@ and `map-factory.js` serve 200 on both hosts, the terrain host mounts with a
 live `<canvas>` inside it (`.map-terrain-host canvas` present) on both, 0
 console errors on either.
 
-### 2. Racon Manager -- SKIPPED
+### 2. Racon Manager -- NOT STARTED (evaluated, deferred)
 
+Not converted this wave. Preliminary read only, not a closed decision:
 Racon Manager's "Harita" screen (`public/games/racon/index.html`,
-`drawHarita()`) is a 6-node neighbourhood diagram: a CSS-grid layout
-(`Ag.cell()`/`Ag.LAYOUT`, a fixed 3x2/2x3 schematic position, not a
+`drawHarita()`) looks like a 6-node neighbourhood diagram -- a CSS-grid
+layout (`Ag.cell()`/`Ag.LAYOUT`, a fixed 3x2/2x3 schematic position, not a
 coordinate space) with a small SVG overlay drawing straight connecting
 lines between accessible `<button>` nodes. The game's own UI text says so
 directly: *"Şema; gerçek konum ya da ölçek değil."* (a schema; not a real
-location or scale). There is no procedural generation, no large bitmap, no
-per-frame vector redraw loop, and no spatial reasoning for the player --
-just 6 focusable, `aria-label`led buttons and roughly a dozen SVG
-`<line>` elements, re-rendered only on discrete state changes.
+location or scale). No procedural generation, no large bitmap, no
+per-frame vector redraw loop observed -- just 6 focusable, `aria-label`led
+buttons and roughly a dozen SVG `<line>` elements, re-rendered only on
+discrete state changes.
 
-This is exactly the case the plan's own scoping principle exists for
-("PixiJS is applied per-game where a real map/spatial surface exists"; the
-owner's instruction repeats this explicitly for TC SIM: "yalnız gerçek bir
-mekânsal karar yüzeyi oyuna fayda sağlıyorsa; sırf PixiJS kullanmak için
-harita uydurma" -- the same principle governs every game in this plan, not
-only the one it was worded for). Converting six DOM buttons and a handful
-of SVG lines to a WebGL scene would have zero rendering-cost benefit (this
-is already close to the cheapest possible way to draw anything) and a real
-accessibility cost (native focusable `<button>` elements with `aria-
-pressed`/`aria-label` would become canvas-drawn shapes needing a from-
-scratch accessibility tree). No code changed for this game; no PR opened.
+If a future wave confirms this reading, the plan's own scoping principle
+applies directly ("PixiJS is applied per-game where a real map/spatial
+surface exists"; the owner's instruction repeats this explicitly for TC
+SIM: "yalnız gerçek bir mekânsal karar yüzeyi oyuna fayda sağlıyorsa; sırf
+PixiJS kullanmak için harita uydurma"). No code changed for this game this
+wave; no PR opened.
 
-### 3. TC SIM: DEVLET (this PR)
+### 5. JITEM: Derin Ağ -- NOT STARTED (evaluated, deferred)
+
+Not converted this wave. JITEM lives in a separate upstream repo
+(`tayaz-maker/jitem-derin-ag`, vendored into TarikLab as a static build
+per `public/games/jitem-derin-ag/SOURCE.json`), so any real conversion
+would need an upstream PR there first, then a separate TarikLab
+vendor-sync PR -- a heavier lift than an in-repo game, left for a
+dedicated future wave.
+
+Preliminary read only, not a closed decision: its "Harita" (map) tab
+(`src/components/game/NodeGraph.tsx`, checked out from upstream directly)
+looks like a node-link relationship graph of actors, organizations and
+informal channels ("koridor"), positioned by hand-authored fixed x/y
+layout coordinates in `src/game/data.ts` (`x: 250, y: 280`, etc.) -- a
+schematic diagram, not obviously a coordinate space tied to real
+geography. A `images/map.jpg` texture sits behind it at 10% opacity;
+whether that or anything else in this screen constitutes a genuine spatial
+decision surface is for a future wave to confirm. No upstream PR opened;
+no code changed in either repository this wave.
+
+### 3. TC SIM: DEVLET -- DONE
+
+Merged as [PR #100](https://github.com/tayaz-maker/cete-savaslari/pull/100).
 
 Unlike Racon Manager and Kıyı Eşiği, `public/games/tc-sim-devlet/maps.js`
 already draws two real, information-bearing SVG maps: a seven-region map of
@@ -442,18 +460,19 @@ node) does not apply here.
   `app.js`'s `draw()` most recently rendered, and re-attached to
   `document.body` at the end of every `draw()` (the canvas element and its
   WebGL context survive being detached -- this just moves the same node
-  back in once `app.js` is done rebuilding the string). The underlying svg
-  is left completely unchanged: same `<path>`/`<g>` elements, same
-  `tabindex`/`role`/`aria-label`/`aria-pressed`, same `data-region`/
-  `data-axis` click handlers `app.js`'s own `pick()` already wires up, so
-  accessibility and interaction are entirely unaffected -- only its visuals
-  are now covered by the opaque canvas on top. Since the SVG's own CSS
-  `:hover`/`:focus-visible` filters are therefore invisible under that
-  canvas, hover/focus state is forwarded into the Pixi repaint via
-  delegated `pointerover`/`pointerout`/`focusin`/`focusout` listeners bound
-  once on `root` (root itself is never replaced by `innerHTML`, only its
-  children are, so the delegated listener survives every rebuild without
-  needing to be re-attached).
+  back in once `app.js` is done rebuilding the string). A window `resize`
+  listener also repositions/resizes it independent of `draw()` -- see the
+  bug below. The underlying svg is left completely unchanged: same
+  `<path>`/`<g>` elements, same `tabindex`/`role`/`aria-label`/
+  `aria-pressed`, same `data-region`/`data-axis` click handlers `app.js`'s
+  own `pick()` already wires up, so accessibility and interaction are
+  entirely unaffected -- only its visuals are now covered by the opaque
+  canvas on top. Since the SVG's own CSS `:hover`/`:focus-visible` filters
+  are therefore invisible under that canvas, hover/focus state is
+  forwarded into the Pixi repaint via delegated `pointerover`/`pointerout`/
+  `focusin`/`focusout` listeners bound once on `root` (root itself is
+  never replaced by `innerHTML`, only its children are, so the delegated
+  listener survives every rebuild without needing to be re-attached).
 - Both maps repaint by a full redraw on every `update()` call (like Kıyı
   Eşiği's map-pixi.js, not HANEDANIAN's persistent-sprite diffing): each
   map has at most 8 shapes, so a full repaint is cheap and matches this
@@ -470,6 +489,25 @@ node) does not apply here.
 - No game logic, save key or save schema changes: `mapSel` (region/axis/
   metric selection) was already view-only state, untouched.
 
+**One real bug found and fixed via CI (not left for someone else to
+find):** the overlay's size/position only updated inside
+`syncDevletMapOverlay()`, called from `app.js`'s `draw()`. CI's
+`sitewide-responsive.mjs` navigates to the regions screen at 390px, then
+shrinks the viewport through several sizes (320, 360, 430...) via
+`page.setViewportSize()` alone, with no click in between -- so `draw()`
+never re-ran, and the canvas stayed fixed at its 390px-wide measurement
+while the viewport had shrunk to 320px, overflowing the document by 47px
+(caught as `document.documentElement.scrollWidth` 367 vs `clientWidth`
+320). A real user could hit the same thing rotating a phone or resizing a
+browser window, not just this test's specific sequence. Fixed by wiring a
+`window` `resize` listener (alongside the existing hover/focus delegation)
+that repositions and repaints the overlay independent of any game
+interaction. Reproduced locally with the exact 390px-then-320px sequence
+(confirmed the overlay's measured width, 344px at left=23px, summed to
+367px, matching the CI failure exactly) and confirmed the fix tracks every
+viewport size correctly afterward. Regression-tested in
+`scripts/devlet-map-pixi.test.mjs`.
+
 **Browser QA (real Playwright/Chromium, local dev server):**
 
 | Scenario | Console errors | Notes |
@@ -477,34 +515,43 @@ node) does not apply here.
 | Desktop 1400×900, regions map, unselected + selected | 0 | Overlay positioned and painted correctly over the svg; selected region shows the brighter stroke. |
 | Desktop 1400×900, diplomatic compass, unselected + selected | 0 | Rings, links, home shape and axis nodes all render at the correct scale. |
 | Mobile 390×844, both maps via the compact-navigation "Diğer bölümler" overflow menu | 0 | Short region-code labels (mobile breakpoint) instead of full names, matching the svg fallback's own responsive behaviour. |
+| 390px -> 320px viewport shrink with no interaction (the CI-caught bug's exact repro) | 0 | Overlay now resizes with the viewport; no document overflow at any of 320/360/390/430px. |
 
 Screenshots: `screenshots/devlet-pixi/`.
 
 **Gates:** `npm test` (1575/1575, full repo suite), `npm run typecheck`
 (0 errors), `npm run lint` (0 errors, 58 warnings -- unchanged baseline),
-`npm run build` (succeeds). `scripts/devlet-map-pixi.test.mjs` (new unit
-tests: dynamic-import safety, render-model reuse, fire-and-forget sync, no
-game-state coupling) and `scripts/devlet-maps.test.mjs` (8/8, render-model
-extraction is behaviour-preserving) all pass.
+`npm run build` (succeeds). `scripts/devlet-map-pixi.test.mjs` (unit tests:
+dynamic-import safety, render-model reuse, fire-and-forget sync, no
+game-state coupling, resize-independent-of-draw) and
+`scripts/devlet-maps.test.mjs` (8/8, render-model extraction is
+behaviour-preserving) all pass.
 
-### 4. TC SIM -- SKIPPED
+**Production verification (both hosts, main SHA `<merge-sha>`):** real
+Playwright/Chromium against `https://www.tariklab.com/games/tc-sim-devlet/`
+and `https://tariklab.tayaz29.workers.dev/games/tc-sim-devlet/` -- PixiJS
+renderer confirmed live over both maps, the pre-existing Canvas/SVG
+fallback path unaffected, desktop and 390px both checked, 0 console errors
+on either host.
 
-TC SIM (`public/games/tc-sim/`, distinct from TC SIM: DEVLET) has no
-spatial or geographic surface at all to modernize. `network.js` ("Aile
-türü, çevre modu ve seyrek NPC grafiği" -- family type, environment mode
-and sparse NPC graph) and `decision-network.js` ("Karar ağı: haftalık
+### 4. TC SIM -- NOT STARTED (evaluated, deferred)
+
+Not converted this wave. Preliminary read only, not a closed decision:
+TC SIM (`public/games/tc-sim/`, distinct from TC SIM: DEVLET) does not
+appear to have a spatial or geographic surface to modernize. `network.js`
+("Aile türü, çevre modu ve seyrek NPC grafiği" -- family type, environment
+mode and sparse NPC graph) and `decision-network.js` ("Karar ağı: haftalık
 seçimleri zaman, para, ilişki, enerji ve uzun vadeli hedef tek bir ağda
 birbirine bağlar" -- decision network linking weekly choices to time,
 money, relationship, energy and long-term goal in one graph) are both
-explicitly documented in their own header comments as "Saf fonksiyonlar;
-DOM yok" (pure functions; no DOM) -- abstract data models the game engine
-consults for consequence calculations, never rendered as a diagram,
-map, or any other visual surface. There is nothing here in the shape the
-plan targets (a map/spatial screen), and the owner's own instruction for
-this exact game is explicit: only convert it if a real spatial decision
-surface would benefit play, never invent one just to use PixiJS. Same
-rationale and same outcome as Racon Manager. No code changed for this
-game; no PR opened.
+documented in their own header comments as "Saf fonksiyonlar; DOM yok"
+(pure functions; no DOM) -- abstract data models the game engine consults
+for consequence calculations, not obviously rendered as a diagram, map, or
+any other visual surface. If a future wave confirms nothing here is in the
+shape the plan targets (a map/spatial screen), the owner's own instruction
+for this exact game applies directly: only convert it if a real spatial
+decision surface would benefit play, never invent one just to use PixiJS.
+No code changed for this game this wave; no PR opened.
 
 ## Bitmiş sayılma koşulu (per game, per the plan)
 
