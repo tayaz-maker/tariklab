@@ -1,4 +1,7 @@
-import { KEY, LINKS, NODES, apply, createCoast, deserialize, legal, nodeById, preview, serialize } from "./sim.js";
+import { KEY, apply, createCoast, deserialize, legal, nodeById, preview, serialize } from "./sim.js";
+import { buildMapRenderModel } from "./map-model.js";
+import { supportsPixi } from "../shared/pixi-adapter.js";
+import { mountCoastPixi } from "./map-pixi.js";
 
 const root = document.querySelector("#app");
 if (window.self !== window.top) document.documentElement.classList.add("embedded");
@@ -85,14 +88,17 @@ function play(move) {
   render();
 }
 
-function mark(n) {
+// Both renderers below (SVG here, PixiJS in map-pixi.js) consume the same
+// render model from map-model.js -- neither reads `state` or NODES/LINKS
+// directly. This is the data -> render model -> renderer boundary the
+// PixiJS modernization plan requires (docs/TARIKLAB_PIXIJS_MAP_STATUS.md).
+function mark(n, currentLang) {
   const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
-  const on = state.line.includes(n.id);
   const box = document.createElementNS("http://www.w3.org/2000/svg", "rect");
   box.setAttribute("x", n.x - 16); box.setAttribute("y", n.y - 14);
   box.setAttribute("width", 32); box.setAttribute("height", 22); box.setAttribute("rx", 3);
-  box.setAttribute("fill", on ? "#1d3a32" : "#17211c");
-  box.setAttribute("stroke", state.fault?.id === n.id ? "#e0b15a" : "#d7c7a2");
+  box.setAttribute("fill", n.active ? "#1d3a32" : "#17211c");
+  box.setAttribute("stroke", n.fault ? "#e0b15a" : "#d7c7a2");
   box.setAttribute("stroke-dasharray", n.water ? "2 2" : n.slope ? "6 3" : "0");
   g.append(box);
   if (n.kind === "stair") {
@@ -109,47 +115,98 @@ function mark(n) {
   label.setAttribute("text-anchor", "middle");
   label.setAttribute("fill", "#f3ead7");
   label.setAttribute("font-size", "10");
-  label.textContent = n[lang()] || n.tr;
+  label.textContent = n[currentLang] || n.tr;
   g.append(label);
   return g;
 }
 
-function mapSvg(c) {
+function mapSvg(model, currentLang, ariaLabel) {
   const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   svg.setAttribute("viewBox", "0 0 320 260");
   svg.setAttribute("class", "coast-map");
   svg.setAttribute("role", "img");
-  svg.setAttribute("aria-label", c.map);
+  svg.setAttribute("aria-label", ariaLabel);
   const water = document.createElementNS("http://www.w3.org/2000/svg", "path");
   water.setAttribute("d", "M0 168 C40 150 80 190 140 176 C190 164 230 196 320 170 L320 260 L0 260 Z");
   water.setAttribute("fill", "#12343a");
   svg.append(water);
-  const by = Object.fromEntries(NODES.map((n) => [n.id, n]));
-  LINKS.forEach(([a, b], index) => {
-    const linked = state.line.includes(a) && state.line.includes(b);
+  const by = Object.fromEntries(model.nodes.map((n) => [n.id, n]));
+  model.links.forEach((link) => {
     const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-    line.setAttribute("x1", by[a].x); line.setAttribute("y1", by[a].y);
-    line.setAttribute("x2", by[b].x); line.setAttribute("y2", by[b].y);
-    line.setAttribute("class", linked ? "line-active" : "line-idle");
-    line.setAttribute("stroke-width", linked ? 4 : 2);
-    line.setAttribute("stroke-dasharray", linked ? "0" : (index % 2 ? "2 6" : "8 5"));
+    line.setAttribute("x1", by[link.a].x); line.setAttribute("y1", by[link.a].y);
+    line.setAttribute("x2", by[link.b].x); line.setAttribute("y2", by[link.b].y);
+    line.setAttribute("class", link.active ? "line-active" : "line-idle");
+    line.setAttribute("stroke-width", link.active ? 4 : 2);
+    line.setAttribute("stroke-dasharray", link.active ? "0" : (link.index % 2 ? "2 6" : "8 5"));
     svg.append(line);
-    if (linked) {
+    if (link.active) {
       const twin = line.cloneNode();
       twin.setAttribute("stroke", "#2f6f62");
       twin.setAttribute("stroke-width", "1.5");
-      const dx = by[b].y - by[a].y;
-      const dy = by[a].x - by[b].x;
+      const dx = by[link.b].y - by[link.a].y;
+      const dy = by[link.a].x - by[link.b].x;
       const len = Math.hypot(dx, dy) || 1;
-      twin.setAttribute("x1", by[a].x + (dx / len) * 4);
-      twin.setAttribute("y1", by[a].y + (dy / len) * 4);
-      twin.setAttribute("x2", by[b].x + (dx / len) * 4);
-      twin.setAttribute("y2", by[b].y + (dy / len) * 4);
+      twin.setAttribute("x1", by[link.a].x + (dx / len) * 4);
+      twin.setAttribute("y1", by[link.a].y + (dy / len) * 4);
+      twin.setAttribute("x2", by[link.b].x + (dx / len) * 4);
+      twin.setAttribute("y2", by[link.b].y + (dy / len) * 4);
       svg.append(twin);
     }
   });
-  for (const n of NODES) svg.append(mark(n));
+  for (const n of model.nodes) svg.append(mark(n, currentLang));
   return svg;
+}
+
+// --- Map renderer selection ----------------------------------------------
+// The Pixi canvas element is created once and reused across renders (moved
+// into the freshly-built tree each time, never recreated) so a WebGL
+// context is not torn down and rebuilt on every click. Capability detection
+// runs once; if PixiJS is unsupported or fails to load/init, the SVG map
+// above stays the renderer for the rest of the session -- no game state
+// changes because of this, and no visitor is blocked from playing.
+let mapSlot = null;
+let pixiScene = null;
+let pixiAttempted = false;
+
+function getMapSlot() {
+  if (!mapSlot) {
+    mapSlot = document.createElement("div");
+    mapSlot.className = "coast-map-slot";
+  }
+  return mapSlot;
+}
+
+function paintMap(model, currentLang, ariaLabel) {
+  const slot = getMapSlot();
+  if (pixiScene) {
+    pixiScene.update(model, currentLang);
+    slot.dataset.renderer = "pixi";
+    return slot;
+  }
+  // Show the SVG map immediately (no blank frame) while Pixi loads, if it
+  // is going to be tried at all.
+  slot.dataset.renderer = "svg";
+  slot.replaceChildren(mapSvg(model, currentLang, ariaLabel));
+  if (!pixiAttempted) {
+    pixiAttempted = true;
+    // supportsPixi() creates a real WebGL context to probe capability; that
+    // is measurably slow (GPU process spin-up, tens to hundreds of ms on a
+    // cold context) and running it synchronously here would hold the main
+    // thread and delay the browser from ever painting the SVG map just
+    // appended above -- the opposite of "shown immediately". Deferring past
+    // two animation frames guarantees that paint has already happened.
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() => {
+        if (!supportsPixi()) return;
+        mountCoastPixi({ container: slot, model: buildMapRenderModel(state), lang: lang() }).then((scene) => {
+          if (!scene) return; // load/init failed; SVG stays the renderer
+          pixiScene = scene;
+          slot.dataset.renderer = "pixi";
+        });
+      }),
+    );
+  }
+  return slot;
 }
 
 function render() {
@@ -191,7 +248,7 @@ function render() {
       $("span", {}, `${c.access} ${state.access}`),
     ),
     $("div", { class: "layout" },
-      mapSvg(c),
+      paintMap(buildMapRenderModel(state), lang(), c.map),
       $("section", { class: "build", "aria-label": c.build }, $("h2", {}, c.build), ...moves),
       $("section", { class: "problem" }, $("h2", {}, c.problem), $("p", { class: "fault" }, reason)),
     ),

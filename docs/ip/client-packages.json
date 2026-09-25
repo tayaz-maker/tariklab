@@ -1,5 +1,5 @@
 {
-  "_note": "Third-party npm packages whose code or CSS ships in the portal client bundle (.output/public/assets). Collected from the Rollup module graph of a production build of main on 2026-09-23; tailwindcss added for its emitted base CSS. Regenerate the list after dependency changes; scripts/ip/third-party-notices.mjs writes THIRD_PARTY_NOTICES.md from it.",
+  "_note": "Third-party npm packages whose code or CSS ships in the portal client bundle (.output/public/assets, from the Rollup module graph) OR is vendored as a static file under public/vendor/ for a game's own <script type=module> (not part of that Rollup graph; each such vendored file's exact path, upstream version and sha256 is recorded in docs/TARIKLAB_PIXIJS_MAP_STATUS.md and, for the file itself, in a header comment). Collected from the Rollup module graph of a production build of main on 2026-09-23; tailwindcss added for its emitted base CSS; pixi.js added 2026-09-25 as a vendored static file for the Kıyı Eşiği map renderer. Regenerate the list after dependency changes; scripts/ip/third-party-notices.mjs writes THIRD_PARTY_NOTICES.md from it.",
   "packages": [
     "@radix-ui/primitive",
     "@radix-ui/react-compose-refs",
@@ -39,6 +39,7 @@
     "get-nonce",
     "iceberg-js",
     "lucide-react",
+    "pixi.js",
     "react",
     "react-dom",
     "react-remove-scroll",
