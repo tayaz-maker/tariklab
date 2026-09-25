@@ -55,9 +55,9 @@ PixiJS scene and the existing fallback renderer consume identically.
 | Game | Status | PR | main SHA | Notes |
 |---|---|---|---|---|
 | **0. Foundation + Kıyı Eşiği proof** | DONE | [#98](https://github.com/tayaz-maker/cete-savaslari/pull/98) | `a46ce8b6ea4a6e28930b904948cdecd0eef015de` | See below. |
-| 1. HANEDANIAN | NOT STARTED | — | — | 49×49 atlas cache/blit/overlay; performance-critical, separate PR per plan. |
-| 2. Racon Manager | NOT STARTED | — | — | Fictional neighbourhood/network map. |
-| 3. TC SIM: DEVLET | NOT STARTED | — | — | Seven abstract regions + external-relations map; clickable regions, capacity/risk overlay. |
+| 1. HANEDANIAN | IN PROGRESS | (this PR) | — | See below. |
+| 2. Racon Manager | SKIPPED | — | — | No spatial surface exists to modernize. See below. |
+| 3. TC SIM: DEVLET | IN PROGRESS | (next PR) | — | Seven abstract regions + external-relations map; clickable regions, capacity/risk overlay. |
 | 4. TC SIM | NOT STARTED | — | — | Only if the game genuinely needs a spatial surface; not automatic. |
 | 5. JITEM: Derin Ağ | NOT STARTED | — | — | Upstream `jitem-derin-ag` repo first (clean PR there), then a separate TarikLab vendor-sync PR. Save key `jitem-derin-ag-v3` / schema 5 untouched. |
 | 6. Other candidates | NOT STARTED | — | — | Only where a real spatial decision surface helps; list/panel games are not converted. |
@@ -167,6 +167,208 @@ no TarikLab game ever calls that PixiJS feature.
 The PixiJS canvas is confirmed rendering in production, not just in the
 pre-merge branch preview, in Turkish, English and Polish modes, at both
 desktop and 390 px.
+
+### 1. HANEDANIAN (this PR)
+
+HANEDANIAN's map (`public/games/hanedanian/map.js`, `StrategyMap`) is a
+1600-line, already highly-tuned Canvas 2D renderer: a time-sliced procedural
+terrain-atlas painter (bezier river beds, canopy masses, contour engraving,
+mountain-chain tracing -- `atlasJob`/`atlasSteps` and friends) whose output
+is cached per zoom mode and blitted once per `draw()`, plus a large set of
+hand-drawn vector overlays (borders, settlements, POIs, armies, threats,
+region labels, minimap, compass, scale bar). That overlay system is exactly
+the kind of hard-won, artistically-tuned code the plan's "renderer-only,
+never rewrite" rule exists to protect -- reimplementing all of it in PixiJS
+Graphics would be a large, high-regression-risk rewrite for a system that
+was already fast (invalidate()-gated, not a continuous loop) and already
+followed the plan's own "static layer cached/render-textured" pattern for
+its terrain bitmap.
+
+So instead of a rewrite, this PR does the narrowest thing that is still a
+real PixiJS integration with a real, measured benefit: the terrain-atlas
+*generation* algorithm is untouched (100% inherited, not duplicated), and
+only how that finished bitmap reaches the screen changes.
+
+**Architecture:**
+
+- `public/games/hanedanian/map.js` -- three small, behaviour-preserving
+  refactors, verified against its full existing test suite before anything
+  else was built on top of them:
+  1. `this.ctx = options.context || canvas.getContext('2d', { alpha: false });`
+     -- an optional injected context (still opaque by default for every
+     existing caller).
+  2. `clearCanvas(ctx)` extracted from the top of `draw()` (was three inline
+     lines) so a subclass can leave the canvas transparent instead of
+     opaque-filling it.
+  3. `paintTerrainLayer(ctx, cache, ox, oy, scale)` extracted from the
+     `ctx.drawImage(cache, ...)` call so a subclass can render that same
+     cache bitmap a different way.
+  Nothing else in the file changed -- same atlas generation, same overlay
+  drawing, same camera/gesture/keyboard/save wiring.
+- `public/games/hanedanian/map-pixi.js` -- `StrategyMapPixi extends
+  StrategyMap`. It overrides only `clearCanvas` (transparent), `resize`,
+  `resetTerrainCaches` and `paintTerrainLayer` (uploads the *same* cache
+  canvas `ensureTerrainCache()` already produced as a `PIXI.Sprite`
+  texture, one texture per distinct cache object, reused across pans/zooms
+  rather than re-uploaded every frame). Every camera, pointer, pinch,
+  keyboard, selection and accessibility method is inherited unchanged.
+- `public/games/hanedanian/map-factory.js` -- `createMap()` mounts the
+  plain `StrategyMap` synchronously first (identical to today, fully
+  interactive immediately), then -- deferred past two animation frames,
+  same perf-safe pattern as Step 0 -- probes `supportsPixi()` and, only if
+  it passes, mounts a second, WebGL terrain canvas (`map-pixi.js`) stacked
+  under a *new* overlay canvas (a canvas's 2D context options lock in on
+  first `getContext()` call, so the transparent-context overlay needs a
+  fresh element), transfers the camera/selection/layers/guide state the
+  player already has, and swaps. `app.js` now imports `createMap`/
+  `MAP_LAYERS` from `map-factory.js` instead of `map.js` directly; nothing
+  else in `app.js` changed.
+- `public/games/hanedanian/style.css` -- `.map-workspace.has-pixi-terrain`
+  positions the two stacked canvases; inert (no effect at all) unless the
+  swap actually happens, so the default single-canvas layout is untouched
+  when Pixi never mounts.
+- `public/games/hanedanian/sw.js` -- `map-pixi.js`/`map-factory.js` added
+  to the offline package's `FILES` list (both are hard runtime
+  dependencies now, online or offline). `scripts/hanedanian-offline.test.mjs`
+  gained `pixi-adapter.js` as an `optionalShared` dependency (same
+  treatment as `/i18n/pl-body.js`): offline, its dynamic import fails,
+  `loadPixi()` resolves to `null`, and `map-factory.js` keeps the Canvas 2D
+  `StrategyMap` that already ships in the package.
+- `public/games/shared/pixi-adapter.js` -- `mountPixiScene()` gained an
+  optional `antialias` parameter (default `true`, so Kıyı Eşiği's existing
+  Graphics-based scene is unaffected). HANEDANIAN's terrain scene passes
+  `antialias: false`: it is one opaque Sprite with no Graphics edges to
+  smooth, and turning MSAA off measurably cut its render cost (below).
+
+Fallback: forcing `supportsPixi()` to fail leaves the exact pre-existing
+`StrategyMap` -- terrain, overlays, camera, saves, everything -- unreduced.
+
+**Two real bugs found and fixed during this PR's own QA (not left for
+someone else to find):**
+
+1. `app.js` calls `map.resize()` directly (rail-panel toggle, window
+   resize) -- the first version of `map-factory.js`'s wrapper didn't proxy
+   it, so campaign start threw `map.resize is not a function` in a visible
+   error toast on every load once Pixi was enabled. Fixed by adding
+   `resize` to the wrapper's proxied method set.
+2. A pre-existing, unconditional CSS rule (`#world-map { background:
+   #18231b; }`, meant to avoid a blank flash before the Canvas 2D
+   renderer's first opaque draw) gave the *overlay* canvas its own opaque
+   background. That's invisible in the single-canvas case (the canvas
+   always draws fully over its own background anyway), but once the
+   overlay became a second, transparent canvas stacked over the WebGL
+   terrain layer, that CSS background painted solid over the terrain
+   canvas regardless of the 2D context's own alpha -- the map still
+   worked (every overlay element drew correctly on top) but the terrain
+   looked flat, with all canopy/contour/relief detail hidden underneath an
+   opaque near-black fill. Caught by comparing screenshots against the
+   Canvas 2D fallback with a **fixed world seed** (the first, unfixed-seed
+   comparison was misleading -- different random terrain naturally looks
+   different near the capital) and by isolating the terrain canvas alone
+   (temporarily hiding the overlay) to confirm the sprite itself painted
+   correctly. Fixed by scoping the background rule off under
+   `.map-workspace.has-pixi-terrain`.
+
+**Browser QA (real Playwright/Chromium, local dev server, fixed world seed
+for visual comparisons):**
+
+| Scenario | Renderer | Console errors | Notes |
+|---|---|---|---|
+| Desktop 1400×900 | pixi (terrain canvas + overlay canvas) | 0 | Canopy/contour/relief detail matches the Canvas 2D fallback for the same seed. |
+| Desktop, WebGL forced unavailable | Canvas 2D fallback only | 0 | No `.map-terrain-host`, no `has-pixi-terrain` class. |
+| Mobile 390×844 | pixi | 0 | No horizontal overflow. |
+| Move camera → localStorage save → full page reload | pixi (re-mounts cleanly) | 0 | Save data present after reload; Pixi swap happens again on the fresh load. |
+
+**Performance (median of 6 interleaved trials each, headless
+Chromium/SwiftShader software rendering -- see caveat below):**
+
+| Measurement | Canvas 2D only | PixiJS enabled | Delta |
+|---|---|---|---|
+| First paint (`map-workspace` present) | 38.1 ms | 36.2 ms | noise-level |
+| Per-draw render cost during a pan gesture (`this.lastRenderMs`, the game's own instrumentation) | 5.6 ms median | 0.9 ms median | **~6× faster**, not a regression |
+
+The per-draw number is read directly from `StrategyMap`'s own
+`canvas.dataset.renderMs` (set at the end of every `draw()` call for both
+renderers), over 20 real drag frames per trial, 6 trials per condition run
+interleaved (fallback, pixi, fallback, pixi, ...) so warm-up/GC/CPU
+contention drift affects both conditions equally. An earlier, cruder
+measurement (wall-clock time around a whole multi-step drag gesture) showed
+Pixi *slower*; that number turned out to be dominated by Playwright's
+synthetic-input dispatch overhead, not actual rendering -- the per-draw
+number above, read from the game's own timing, is the trustworthy one, and
+it matches the expected result: blitting a large (≈3300×3300px near-mode)
+cached bitmap is cheaper as a GPU sprite transform than as a repeated
+CPU-bound `ctx.drawImage` bilinear scale. Caveat: this ran in headless
+Chromium's software (SwiftShader) WebGL rasterizer, not a real GPU --
+absolute numbers do not transfer directly to real hardware, but there is no
+mechanism by which software-rendered WebGL would be *unrepresentatively
+fast* relative to Canvas 2D, so the direction of the result (Pixi cheaper
+per draw) is not an artifact of the test environment.
+
+**Gates:** `npm test` (1545/1546, one pre-existing opt-in `DARBE_H_CLOSURE`
+suite skipped by design, same as every other run in this repo) +
+54/54 TypeScript suite, `npm run typecheck` (0 errors), `npm run lint`
+(0 errors, 58 warnings -- unchanged baseline), `npm run build` (succeeds).
+`scripts/hanedanian-*.test.mjs` (104 tests, including 9 new PixiJS-specific
+unit tests in `scripts/hanedanian-map-pixi.test.mjs`) all pass; the map.js
+refactor was verified against the full existing suite before
+`map-pixi.js`/`map-factory.js` were built on top of it.
+
+**Production-build verification:** `npm run build` output
+(`.output/public`) was served with a plain static file server (bypassing
+this sandbox's local Cloudflare Workers preview, which fails to start on
+an unrelated, pre-existing issue -- `previewAuthSecret` calling
+`crypto.randomBytes` at module scope trips Workers' "no async I/O in
+global scope" restriction under this container's `wrangler`/workerd
+version; `git log` shows that file already has one dedicated fix commit
+for local-preview startup, so this is an environment quirk, not something
+this PR touched) and re-run through the same browser QA: PixiJS terrain
+mounts, 0 console errors, save/reload works, on the *built* client bundle
+containing `map-pixi.js`/`map-factory.js` -- not just the dev server.
+
+**A third real bug, caught by CI's own real-browser offline acceptance test
+(`scripts/hanedanian-browser.mjs`, not part of this repo's DOM-mocked unit
+suite) after this PR's first push:** `map-pixi.js` statically imported
+`pixi-adapter.js`. Since `app.js -> map-factory.js -> map-pixi.js` are all
+static imports too, that made `pixi-adapter.js` -- a deliberately
+*uncached*, optional dependency (see the Shared foundation section) -- a
+hard dependency of the whole module graph. Offline, that one fetch fails
+and ES module semantics block every static importer, including `app.js`
+itself, from ever instantiating: the game hung forever on its "Kayıtlar
+okunuyor..." loading placeholder instead of booting into the Canvas 2D
+fallback. Fixed by loading `pixi-adapter.js` with a dynamic `import()`
+inside `map-pixi.js` instead, so a failed fetch is just a rejected promise
+already handled there. **Lesson for every later game in this plan:** an
+optional/uncached shared dependency must only ever be reached through a
+dynamic `import()`, never a static `import` statement, anywhere in the
+chain a game's entry module (`app.js`) statically imports -- a static
+import makes the dependency hard regardless of how "optional" it looks in
+isolation. Regression-tested in `scripts/hanedanian-map-pixi.test.mjs`.
+
+### 2. Racon Manager -- SKIPPED
+
+Racon Manager's "Harita" screen (`public/games/racon/index.html`,
+`drawHarita()`) is a 6-node neighbourhood diagram: a CSS-grid layout
+(`Ag.cell()`/`Ag.LAYOUT`, a fixed 3x2/2x3 schematic position, not a
+coordinate space) with a small SVG overlay drawing straight connecting
+lines between accessible `<button>` nodes. The game's own UI text says so
+directly: *"Şema; gerçek konum ya da ölçek değil."* (a schema; not a real
+location or scale). There is no procedural generation, no large bitmap, no
+per-frame vector redraw loop, and no spatial reasoning for the player --
+just 6 focusable, `aria-label`led buttons and roughly a dozen SVG
+`<line>` elements, re-rendered only on discrete state changes.
+
+This is exactly the case the plan's own scoping principle exists for
+("PixiJS is applied per-game where a real map/spatial surface exists"; the
+owner's instruction repeats this explicitly for TC SIM: "yalnız gerçek bir
+mekânsal karar yüzeyi oyuna fayda sağlıyorsa; sırf PixiJS kullanmak için
+harita uydurma" -- the same principle governs every game in this plan, not
+only the one it was worded for). Converting six DOM buttons and a handful
+of SVG lines to a WebGL scene would have zero rendering-cost benefit (this
+is already close to the cheapest possible way to draw anything) and a real
+accessibility cost (native focusable `<button>` elements with `aria-
+pressed`/`aria-label` would become canvas-drawn shapes needing a from-
+scratch accessibility tree). No code changed for this game; no PR opened.
 
 ## Bitmiş sayılma koşulu (per game, per the plan)
 

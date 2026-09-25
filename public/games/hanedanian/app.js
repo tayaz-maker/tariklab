@@ -18,7 +18,7 @@ import {
 } from "./engine.js";
 import { RESOURCES, TERRAINS, POIS, BUILDINGS, UNITS } from "./data.js";
 import { getTile } from "./world.js";
-import { createMap, MAP_LAYERS } from "./map.js";
+import { createMap, MAP_LAYERS } from "./map-factory.js";
 import { expansionSites, expansionRange, siteVerdict, incomingThreats, regionPresence, scoutRoute, decisionBrief, strategicOverview, CLAIM_RANGE } from "./mapintel.js";
 import { previewOrder, snapshot, summarizePeriod, rowTone, orderStep, ORDER_STEPS } from "./orders.js";
 import { SaveManager } from "./save.js";

@@ -19,7 +19,11 @@ const contentType = path => path.endsWith('.js') ? 'text/javascript; charset=utf
 // Optional online-only layers outside the package. The game runs without them
 // (a deferred script that fails offline changes nothing); the worker never caches
 // them, so they are not part of the package graph.
-const optionalShared = new Set(['/i18n/pl-body.js']);
+// pixi-adapter.js is the shared PixiJS capability-probe/loader map-pixi.js
+// imports: offline (or any environment where its dynamic import fails)
+// resolves to null and map-factory.js keeps the Canvas 2D StrategyMap that
+// already ships in this package -- see docs/TARIKLAB_PIXIJS_MAP_STATUS.md.
+const optionalShared = new Set(['/i18n/pl-body.js', '/games/shared/pixi-adapter.js']);
 const pathOf = request => new URL(typeof request === 'string' ? request : request.url, origin).pathname;
 
 function harness({ networkResponse } = {}) {

@@ -92,7 +92,10 @@ function path(ctx, points, close = false) {
 export class StrategyMap {
   constructor(canvas, options = {}) {
     this.canvas = canvas;
-    this.ctx = canvas.getContext('2d', { alpha: false });
+    // A PixiJS-backed overlay (map-pixi.js) passes its own alpha:true 2D
+    // context here so vector overlays composite over a WebGL terrain canvas
+    // stacked underneath; every other caller keeps today's opaque canvas.
+    this.ctx = options.context || canvas.getContext('2d', { alpha: false });
     if (!this.ctx) throw new Error('Bu tarayıcı harita çizimini desteklemiyor.');
     this.options = options;
     this.width = 1;
@@ -848,12 +851,31 @@ export class StrategyMap {
     });
   }
 
-  draw() {
-    const started = performance.now();
-    const ctx = this.ctx;
+  // Overridable so a PixiJS-backed subclass (map-pixi.js) can leave the
+  // canvas transparent instead of opaque-filling it -- a WebGL terrain
+  // canvas is stacked underneath and must show through.
+  clearCanvas(ctx) {
     ctx.setTransform(this.dpr || 1, 0, 0, this.dpr || 1, 0, 0);
     ctx.fillStyle = COLORS.paper;
     ctx.fillRect(0, 0, this.width, this.height);
+  }
+
+  // Overridable so a PixiJS-backed subclass can render the same cached
+  // terrain bitmap as a GPU sprite instead of a 2D drawImage blit. `cache`
+  // is whatever ensureTerrainCache() returned (a finished atlas, an
+  // in-progress one, or the coarse per-tile preview) -- same bitmap either
+  // renderer would draw, just a different destination.
+  paintTerrainLayer(ctx, cache, ox, oy, scale) {
+    if (!cache) return;
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = this.mode === 'near' ? 'high' : 'medium';
+    ctx.drawImage(cache, ox, oy, this.state.world.size * scale, this.state.world.size * scale);
+  }
+
+  draw() {
+    const started = performance.now();
+    const ctx = this.ctx;
+    this.clearCanvas(ctx);
     if (!this.state) return;
     this.drawnTiles = 0;
     const scale = TILE * this.zoom;
@@ -865,11 +887,7 @@ export class StrategyMap {
     ctx.rect(ox, oy, this.state.world.size * scale, this.state.world.size * scale);
     ctx.clip();
     const cache = this.ensureTerrainCache();
-    if (cache) {
-      ctx.imageSmoothingEnabled = true;
-      ctx.imageSmoothingQuality = this.mode === 'near' ? 'high' : 'medium';
-      ctx.drawImage(cache, ox, oy, this.state.world.size * scale, this.state.world.size * scale);
-    }
+    this.paintTerrainLayer(ctx, cache, ox, oy, scale);
     this.drawnTiles = (bounds.maxX - bounds.minX + 1) * (bounds.maxY - bounds.minY + 1);
     const grain = this.ensureGrain();
     if (grain) {

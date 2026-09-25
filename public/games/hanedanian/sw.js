@@ -12,6 +12,8 @@ const FILES = [
   "campaign.js",
   "i18n.js",
   "map.js",
+  "map-pixi.js",
+  "map-factory.js",
   "mapintel.js",
   "orders.js",
   "save.js",
