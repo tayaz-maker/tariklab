@@ -20,6 +20,7 @@ function cloneCanvas(source) {
 }
 
 async function trySwapToPixi(options, getActive, setActive) {
+  if (!(await supportsHanedanianPixi())) return;
   const old = getActive();
   const canvas = old.canvas;
   const workspace = canvas.parentElement;
@@ -68,15 +69,13 @@ async function trySwapToPixi(options, getActive, setActive) {
 
 export function createMap(canvas, options = {}) {
   let active = new StrategyMap(canvas, options);
-  if (supportsHanedanianPixi()) {
-    requestAnimationFrame(() =>
-      requestAnimationFrame(() => {
-        trySwapToPixi(options, () => active, (next) => { active = next; }).catch((err) => {
-          console.error('[hanedanian map-factory] PixiJS terrain swap failed:', err);
-        });
-      }),
-    );
-  }
+  requestAnimationFrame(() =>
+    requestAnimationFrame(() => {
+      trySwapToPixi(options, () => active, (next) => { active = next; }).catch((err) => {
+        console.error('[hanedanian map-factory] PixiJS terrain swap failed:', err);
+      });
+    }),
+  );
   return {
     setState: (state) => active.setState(state),
     select: (x, y, opts) => active.select(x, y, opts),

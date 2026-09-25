@@ -8,7 +8,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { readFileSync } from 'node:fs';
 import { StrategyMap } from '../public/games/hanedanian/map.js';
-import { StrategyMapPixi } from '../public/games/hanedanian/map-pixi.js';
+import { StrategyMapPixi, mountHanedanianTerrain, supportsHanedanianPixi } from '../public/games/hanedanian/map-pixi.js';
 
 function fakeSprite() {
   return { visible: true, x: 0, y: 0, width: 0, height: 0, texture: null };
@@ -177,6 +177,30 @@ test('map-pixi.js reuses StrategyMap unchanged -- no duplicated atlas-generation
   // *definition* with the same name is what would mean a duplicated copy).
   for (const marker of ['atlasSteps', 'paintCanopyMasses', 'paintFieldFurrows', 'paintRiverBed', 'drawSettlements', 'drawOverlay', 'drawMinimap', 'drawPoi'])
     assert.doesNotMatch(src, new RegExp(`(^|[^/*\\s])\\b${marker}\\s*\\(`, 'm'), `map-pixi.js must not redefine ${marker} -- it should inherit map.js's`);
+});
+
+test('pixi-adapter.js is never a static import of map-pixi.js -- it is a deliberately uncached, optional dependency, and app.js statically imports this file via map-factory.js', () => {
+  const src = readFileSync(new URL('../public/games/hanedanian/map-pixi.js', import.meta.url), 'utf8');
+  // A static `import ... from` of pixi-adapter.js would make its one
+  // uncached fetch a hard dependency of the whole module graph (app.js ->
+  // map-factory.js -> map-pixi.js -> pixi-adapter.js are all static
+  // imports otherwise): offline, that fetch fails and ES module semantics
+  // block app.js itself from ever instantiating -- the real bug this test
+  // guards against (caught via a real browser offline-reload acceptance
+  // test, not by this repo's DOM-mocked unit suite).
+  assert.doesNotMatch(src, /^\s*import\s+.*pixi-adapter\.js/m, 'pixi-adapter.js must only be reached via a dynamic import()');
+  assert.match(src, /import\(['"]\.\.\/shared\/pixi-adapter\.js['"]\)/, 'pixi-adapter.js must still be loaded, just dynamically');
+});
+
+test('supportsHanedanianPixi() and mountHanedanianTerrain() degrade to false/null instead of throwing when pixi-adapter.js cannot be loaded', async () => {
+  // Node has no window/WebGL, so the real dynamic import resolves but
+  // supportsPixi() itself correctly reports false -- this exercises the
+  // actual loadAdapter() path (not a mock), proving the dynamic import
+  // resolves cleanly in an environment where pixi-adapter.js can't do
+  // anything useful, the same shape of "adapter present, capability absent"
+  // a real unsupported browser hits.
+  assert.equal(await supportsHanedanianPixi(), false);
+  assert.equal(await mountHanedanianTerrain({ style: {} }, 100, 100), null);
 });
 
 test('the terrain scene opts out of antialiasing (one opaque sprite, no Graphics edges) while the shared adapter keeps its true default for scenes that do have Graphics', () => {

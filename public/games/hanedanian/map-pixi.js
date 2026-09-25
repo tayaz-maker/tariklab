@@ -18,9 +18,26 @@
 // exactly as before. Every camera/gesture/selection/keyboard method is
 // inherited unchanged.
 import { StrategyMap } from './map.js';
-import { mountPixiScene, supportsPixi } from '../shared/pixi-adapter.js';
 
 const PAPER_BACKGROUND = 0x191f1a; // COLORS.paper in map.js
+
+// pixi-adapter.js is loaded dynamically, never with a static `import`. It is
+// a deliberately uncached, optional dependency (see the offline package's
+// FILES list in sw.js and its optionalShared entry in
+// hanedanian-offline.test.mjs) -- but app.js statically imports
+// map-factory.js, which statically imports this file, so a static import of
+// pixi-adapter.js here would make its one uncached fetch a hard dependency
+// of the whole module graph: fine online, but offline (no network, not in
+// the SW cache by design) that fetch fails and ES module semantics block
+// the entire chain -- including app.js itself -- from ever instantiating.
+// A failed *dynamic* import here is just a rejected promise this file
+// already handles, so the rest of the game boots normally and falls back to
+// the Canvas 2D map.
+let adapterPromise = null;
+function loadAdapter() {
+  if (!adapterPromise) adapterPromise = import('../shared/pixi-adapter.js').catch(() => null);
+  return adapterPromise;
+}
 
 export class StrategyMapPixi extends StrategyMap {
   constructor(overlayCanvas, options, pixi) {
@@ -107,8 +124,10 @@ export class StrategyMapPixi extends StrategyMap {
  * callers must keep using the plain StrategyMap in that case.
  */
 export async function mountHanedanianTerrain(terrainHost, width, height) {
+  const adapter = await loadAdapter();
+  if (!adapter) return null;
   let sprite;
-  const scene = await mountPixiScene({
+  const scene = await adapter.mountPixiScene({
     container: terrainHost,
     width: Math.max(1, Math.round(width)),
     height: Math.max(1, Math.round(height)),
@@ -128,6 +147,7 @@ export async function mountHanedanianTerrain(terrainHost, width, height) {
 }
 
 /** True if this environment can plausibly run the PixiJS terrain layer. */
-export function supportsHanedanianPixi() {
-  return supportsPixi();
+export async function supportsHanedanianPixi() {
+  const adapter = await loadAdapter();
+  return adapter ? adapter.supportsPixi() : false;
 }
