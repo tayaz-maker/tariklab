@@ -237,7 +237,22 @@ function ensureContainer() {
   if (!container) {
     container = document.createElement("div");
     container.className = "devlet-map-pixi-overlay";
-    Object.assign(container.style, { position: "absolute", pointerEvents: "none", zIndex: "1", display: "none" });
+    // max-width/max-height are a pure-CSS safety clamp, not just the resize
+    // listener's job: a window "resize" event -- what the listener relies on
+    // -- does not fire for every possible viewport-size change (notably,
+    // Playwright's page.setViewportSize() changes layout without dispatching
+    // one), so the overlay's *positioned* left/top/width/height can go stale
+    // for a window relative to any one specific re-sync trigger. Capping the
+    // rendered box to the viewport keeps it from ever overflowing the
+    // document even while stale; the listener (and the next real draw())
+    // still catch up and correct the actual position/size shortly after.
+    // overflow: hidden matters just as much as the max-width/max-height
+    // themselves: the <canvas> PixiJS mounts inside this container gets its
+    // own independent inline width/height from its autoDensity sizing, and
+    // without clipping, that child -- not just this container box -- is what
+    // actually still overflows the document even once the container itself
+    // is clamped.
+    Object.assign(container.style, { position: "absolute", pointerEvents: "none", zIndex: "1", display: "none", maxWidth: "100vw", maxHeight: "100vh", overflow: "hidden" });
   }
   if (!container.isConnected) document.body.appendChild(container);
   return container;
