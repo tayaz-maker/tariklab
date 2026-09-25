@@ -43,3 +43,8 @@ test('the overlay never touches game state, save data or the shared bootGame ses
   assert.doesNotMatch(src, /localStorage/);
   assert.doesNotMatch(src, /SaveManager|\.save\(|createGame\(|\bsession\.\w/, 'the overlay must never call into the game session -- it only reads the state object app.js already passes in');
 });
+
+test('the overlay repositions/resizes itself on window resize, not only on the next draw() -- a bare viewport resize with no game interaction never calls draw(), so without this the canvas stays stuck at its last-measured pixel size and can overflow a narrower viewport (the real bug CI\'s sitewide-responsive.mjs caught: overlay sized at 390px, then the viewport shrank to 320px with no click in between, and the canvas never shrank with it)', () => {
+  const src = readFileSync(new URL('../public/games/tc-sim-devlet/maps-pixi.js', import.meta.url), 'utf8');
+  assert.match(src, /addEventListener\(["']resize["']/, 'must listen for window resize and reposition/resize the overlay independent of draw()');
+});

@@ -313,9 +313,22 @@ function repaint(s, mapSel) {
 // Delegated on `root` itself (a fixed node app.js never replaces, only its
 // children) so hover/focus keep working across every full-string re-render,
 // without re-binding listeners on the transient svg elements each redraws.
+// Also wires a window resize listener here (once): the overlay's size only
+// otherwise updates on the next draw(), but a bare viewport/window resize
+// with no intervening game interaction (rotating a phone, resizing a
+// browser window) never calls draw() -- without this, the canvas stays
+// stuck at its last-measured pixel size and can overflow a now-narrower
+// viewport.
 function wireRootInteraction(root, sync) {
   if (wiredRoot === root) return;
   wiredRoot = root;
+  window.addEventListener("resize", () => {
+    if (!scene) return;
+    const viewEl = root.querySelector(sceneKind === "regions" ? "svg.geo-map" : "svg.dip-map");
+    if (!viewEl) return;
+    positionOverlay(viewEl);
+    repaint(sync.state(), sync.mapSel());
+  });
   const set = (key, value) => {
     if (interaction[key] === value) return;
     interaction[key] = value;
