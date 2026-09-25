@@ -55,10 +55,10 @@ PixiJS scene and the existing fallback renderer consume identically.
 | Game | Status | PR | main SHA | Notes |
 |---|---|---|---|---|
 | **0. Foundation + Kıyı Eşiği proof** | DONE | [#98](https://github.com/tayaz-maker/cete-savaslari/pull/98) | `a46ce8b6ea4a6e28930b904948cdecd0eef015de` | See below. |
-| 1. HANEDANIAN | IN PROGRESS | (this PR) | — | See below. |
+| 1. HANEDANIAN | DONE | [#99](https://github.com/tayaz-maker/cete-savaslari/pull/99) | `4fc45d15f9f26e3b70374b73354e1c908266fed7` | See below. |
 | 2. Racon Manager | SKIPPED | — | — | No spatial surface exists to modernize. See below. |
-| 3. TC SIM: DEVLET | IN PROGRESS | (next PR) | — | Seven abstract regions + external-relations map; clickable regions, capacity/risk overlay. |
-| 4. TC SIM | NOT STARTED | — | — | Only if the game genuinely needs a spatial surface; not automatic. |
+| 3. TC SIM: DEVLET | IN PROGRESS | [#100](https://github.com/tayaz-maker/cete-savaslari/pull/100) | — | Seven real geographic regions + diplomatic compass; both already SVG maps, now with a PixiJS overlay. See below. |
+| 4. TC SIM | SKIPPED | — | — | No spatial/geographic surface exists at all (`network.js`/`decision-network.js` are explicitly "pure functions, no DOM" abstract decision-effect models -- family type, NPC graph, time/money/relationship/energy/goal domains). Same rationale as Racon Manager; not invented per the plan's own rule. |
 | 5. JITEM: Derin Ağ | NOT STARTED | — | — | Upstream `jitem-derin-ag` repo first (clean PR there), then a separate TarikLab vendor-sync PR. Save key `jitem-derin-ag-v3` / schema 5 untouched. |
 | 6. Other candidates | NOT STARTED | — | — | Only where a real spatial decision surface helps; list/panel games are not converted. |
 
@@ -168,7 +168,10 @@ The PixiJS canvas is confirmed rendering in production, not just in the
 pre-merge branch preview, in Turkish, English and Polish modes, at both
 desktop and 390 px.
 
-### 1. HANEDANIAN (this PR)
+### 1. HANEDANIAN — DONE
+
+Merged as [PR #99](https://github.com/tayaz-maker/cete-savaslari/pull/99), main SHA
+`4fc45d15f9f26e3b70374b73354e1c908266fed7`.
 
 HANEDANIAN's map (`public/games/hanedanian/map.js`, `StrategyMap`) is a
 1600-line, already highly-tuned Canvas 2D renderer: a time-sliced procedural
@@ -345,6 +348,37 @@ chain a game's entry module (`app.js`) statically imports -- a static
 import makes the dependency hard regardless of how "optional" it looks in
 isolation. Regression-tested in `scripts/hanedanian-map-pixi.test.mjs`.
 
+**A fourth real bug, caught by CI's 20-minute `campaign-browser` soak test
+after the offline-boot fix's own push:** `resetTerrainCaches()` destroyed
+every cached `PIXI.Texture` but never touched the sprite's own `.texture`
+reference. `paintTerrainLayer()` only reassigns that reference once a fresh
+atlas is ready, and atlas generation is time-sliced (async), so there was a
+real window where the sprite still pointed at a texture that had just been
+destroyed. Any `render()` call in that window -- `resize()`'s own trailing
+`render()`, for instance -- made PixiJS try to draw the destroyed texture and
+crash reading its now-null internal state: `TypeError: Cannot read
+properties of null (reading 'addressModeU')`, a genuine intermittent crash a
+short QA pass would not reliably hit but a long soak eventually would. Fixed
+by pointing the sprite at the shared `PIXI.Texture.EMPTY` and hiding it as
+part of `resetTerrainCaches()` itself, so every `render()` is safe until the
+next real paint; guarded so this never happens once `destroy()` has started
+(no future render to protect against then, and assigning the shared
+singleton right before `app.destroy({texture: true})` would destroy it for
+the whole page). **Lesson for every later game:** when an object's texture
+can be destroyed out of band from when it is repainted (any cache-eviction
+path, not just an explicit user action), the display object holding a
+reference to that texture must be defused in the same step that destroys
+it -- do not rely on "the next paint will fix it" when *any* render can run
+in between. Regression-tested in `scripts/hanedanian-map-pixi.test.mjs`.
+
+**Production verification (both hosts, main SHA
+`4fc45d15f9f26e3b70374b73354e1c908266fed7`):** real Playwright/Chromium
+against `https://www.tariklab.com/games/hanedanian/` and
+`https://tariklab.tayaz29.workers.dev/games/hanedanian/` -- `map-pixi.js`
+and `map-factory.js` serve 200 on both hosts, the terrain host mounts with a
+live `<canvas>` inside it (`.map-terrain-host canvas` present) on both, 0
+console errors on either.
+
 ### 2. Racon Manager -- SKIPPED
 
 Racon Manager's "Harita" screen (`public/games/racon/index.html`,
@@ -369,6 +403,25 @@ is already close to the cheapest possible way to draw anything) and a real
 accessibility cost (native focusable `<button>` elements with `aria-
 pressed`/`aria-label` would become canvas-drawn shapes needing a from-
 scratch accessibility tree). No code changed for this game; no PR opened.
+
+### 4. TC SIM -- SKIPPED
+
+TC SIM (`public/games/tc-sim/`, distinct from TC SIM: DEVLET) has no
+spatial or geographic surface at all to modernize. `network.js` ("Aile
+türü, çevre modu ve seyrek NPC grafiği" -- family type, environment mode
+and sparse NPC graph) and `decision-network.js` ("Karar ağı: haftalık
+seçimleri zaman, para, ilişki, enerji ve uzun vadeli hedef tek bir ağda
+birbirine bağlar" -- decision network linking weekly choices to time,
+money, relationship, energy and long-term goal in one graph) are both
+explicitly documented in their own header comments as "Saf fonksiyonlar;
+DOM yok" (pure functions; no DOM) -- abstract data models the game engine
+consults for consequence calculations, never rendered as a diagram,
+map, or any other visual surface. There is nothing here in the shape the
+plan targets (a map/spatial screen), and the owner's own instruction for
+this exact game is explicit: only convert it if a real spatial decision
+surface would benefit play, never invent one just to use PixiJS. Same
+rationale and same outcome as Racon Manager. No code changed for this
+game; no PR opened.
 
 ## Bitmiş sayılma koşulu (per game, per the plan)
 
