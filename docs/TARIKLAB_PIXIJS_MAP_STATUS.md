@@ -59,7 +59,7 @@ PixiJS scene and the existing fallback renderer consume identically.
 | 2. Racon Manager | SKIPPED | — | — | No spatial surface exists to modernize. See below. |
 | 3. TC SIM: DEVLET | IN PROGRESS | [#100](https://github.com/tayaz-maker/cete-savaslari/pull/100) | — | Seven real geographic regions + diplomatic compass; both already SVG maps, now with a PixiJS overlay. See below. |
 | 4. TC SIM | SKIPPED | — | — | No spatial/geographic surface exists at all (`network.js`/`decision-network.js` are explicitly "pure functions, no DOM" abstract decision-effect models -- family type, NPC graph, time/money/relationship/energy/goal domains). Same rationale as Racon Manager; not invented per the plan's own rule. |
-| 5. JITEM: Derin Ağ | NOT STARTED | — | — | Upstream `jitem-derin-ag` repo first (clean PR there), then a separate TarikLab vendor-sync PR. Save key `jitem-derin-ag-v3` / schema 5 untouched. |
+| 5. JITEM: Derin Ağ | SKIPPED | — | — | No spatial/geographic surface exists. `NodeGraph.tsx`'s "harita" is a hand-authored node-link relationship diagram (fixed x/y schematic layout for actors/orgs/corridors), the same kind of surface as Racon Manager, not a real map. See below. |
 | 6. Other candidates | NOT STARTED | — | — | Only where a real spatial decision surface helps; list/panel games are not converted. |
 
 ### 0. Foundation + Kıyı Eşiği — DONE
@@ -403,6 +403,34 @@ is already close to the cheapest possible way to draw anything) and a real
 accessibility cost (native focusable `<button>` elements with `aria-
 pressed`/`aria-label` would become canvas-drawn shapes needing a from-
 scratch accessibility tree). No code changed for this game; no PR opened.
+
+### 5. JITEM: Derin Ağ -- SKIPPED
+
+JITEM lives in a separate upstream repo (`tayaz-maker/jitem-derin-ag`,
+vendored into TarikLab as a static build per `public/games/jitem-derin-ag/
+SOURCE.json`), so evaluating it meant checking out that repo
+(`src/components/game/NodeGraph.tsx`) directly rather than reading in-repo
+code.
+
+Its "Harita" (map) tab is a node-link relationship graph of actors,
+organizations and informal channels ("koridor"), positioned by hand-
+authored fixed x/y layout coordinates in `src/game/data.ts` (`x: 250, y:
+280`, etc.) -- a schematic diagram, not a coordinate space tied to any real
+geography. A `images/map.jpg` texture sits behind it at 10% opacity purely
+as atmosphere; the game reads no position or distance data from it. This is
+the same kind of surface as Racon Manager's already-skipped 6-node diagram,
+just larger (dozens of nodes instead of six): native focusable SVG
+`role="button"` elements with `aria-label`, keyboard-activated
+(`activate()`), re-rendered only on discrete state changes -- already close
+to the cheapest possible way to draw a node-link graph, and converting it
+to WebGL would trade that free native accessibility for a canvas scene that
+would need its own accessibility tree built from scratch, for no rendering-
+cost benefit.
+
+No upstream PR opened (the "upstream first, then a TarikLab vendor-sync"
+sequence in this plan describes the process a real conversion would need,
+given JITEM's separate-repo structure -- it does not by itself mean a
+conversion is warranted here). No code changed in either repository.
 
 ### 4. TC SIM -- SKIPPED
 
