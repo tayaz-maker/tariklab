@@ -353,6 +353,20 @@ html.tlab-embedded a[href="/"] {
 #world-map:active {
   cursor: grabbing;
 }
+/* Only present once map-factory.js has swapped in the PixiJS terrain layer:
+   a WebGL canvas (map-terrain-host) sits under the transparent overlay
+   canvas that keeps drawing every vector layer as before. Inert otherwise --
+   the plain single-canvas layout above is untouched when Pixi never mounts. */
+.map-workspace.has-pixi-terrain #world-map,
+.map-workspace .map-terrain-host {
+  position: absolute;
+  inset: 0;
+}
+.map-workspace .map-terrain-host canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
 .map-tools {
   position: absolute;
   top: 14px;
@@ -1932,6 +1946,11 @@ body.toast-visible .section-view {
 .brandline { box-shadow: inset 0 1px #b2985a40; }
 .brandline h1, h2, h3 { color: var(--ink); }
 #world-map { background: #18231b; }
+/* The PixiJS terrain layer needs the overlay canvas's own opaque background
+   removed, or it hides the WebGL canvas stacked underneath -- the overlay's
+   2D context is already alpha:true in that mode (map-pixi.js) and paints
+   COLORS.paper-toned grain/vector art, not a full-canvas opaque fill. */
+.map-workspace.has-pixi-terrain #world-map { background: transparent; }
 
 .amount-compact {
   display: none;

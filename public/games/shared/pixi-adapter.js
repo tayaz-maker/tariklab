@@ -95,6 +95,10 @@ export function prefersReducedMotion({ win = typeof window === "undefined" ? und
  * @param {number} opts.width
  * @param {number} opts.height
  * @param {number} [opts.background=0x000000]
+ * @param {boolean} [opts.antialias=true] - a scene made only of opaque
+ *   Sprites (e.g. a terrain bitmap layer with no Graphics edges) can turn
+ *   this off for a real render-cost win; default keeps existing scenes
+ *   (vector Graphics/Text) exactly as before.
  * @param {(scene: {app: import("pixi.js").Application, PIXI: unknown}) => void} opts.build
  *   Called once after init with the live Application and the PIXI namespace;
  *   build the initial scene graph here (Containers, Graphics, Text).
@@ -102,7 +106,7 @@ export function prefersReducedMotion({ win = typeof window === "undefined" ? und
  *   null if PixiJS failed to load or init (caller falls back to the
  *   existing renderer).
  */
-export async function mountPixiScene({ container, width, height, background = 0x000000, build }) {
+export async function mountPixiScene({ container, width, height, background = 0x000000, antialias = true, build }) {
   const PIXI = await loadPixi();
   if (!PIXI || !container) return null;
   const app = new PIXI.Application();
@@ -111,7 +115,7 @@ export async function mountPixiScene({ container, width, height, background = 0x
       width,
       height,
       background,
-      antialias: true,
+      antialias,
       preference: "webgl",
       autoDensity: true,
       resolution: typeof window === "undefined" ? 1 : window.devicePixelRatio || 1,
