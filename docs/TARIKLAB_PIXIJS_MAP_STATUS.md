@@ -56,8 +56,8 @@ PixiJS scene and the existing fallback renderer consume identically.
 |---|---|---|---|---|
 | **0. Foundation + Kıyı Eşiği proof** | DONE | [#98](https://github.com/tayaz-maker/cete-savaslari/pull/98) | `a46ce8b6ea4a6e28930b904948cdecd0eef015de` | See below. |
 | 1. HANEDANIAN | IN PROGRESS | (this PR) | — | See below. |
-| 2. Racon Manager | NOT STARTED | — | — | Fictional neighbourhood/network map. |
-| 3. TC SIM: DEVLET | NOT STARTED | — | — | Seven abstract regions + external-relations map; clickable regions, capacity/risk overlay. |
+| 2. Racon Manager | SKIPPED | — | — | No spatial surface exists to modernize. See below. |
+| 3. TC SIM: DEVLET | IN PROGRESS | (next PR) | — | Seven abstract regions + external-relations map; clickable regions, capacity/risk overlay. |
 | 4. TC SIM | NOT STARTED | — | — | Only if the game genuinely needs a spatial surface; not automatic. |
 | 5. JITEM: Derin Ağ | NOT STARTED | — | — | Upstream `jitem-derin-ag` repo first (clean PR there), then a separate TarikLab vendor-sync PR. Save key `jitem-derin-ag-v3` / schema 5 untouched. |
 | 6. Other candidates | NOT STARTED | — | — | Only where a real spatial decision surface helps; list/panel games are not converted. |
@@ -325,6 +325,50 @@ for local-preview startup, so this is an environment quirk, not something
 this PR touched) and re-run through the same browser QA: PixiJS terrain
 mounts, 0 console errors, save/reload works, on the *built* client bundle
 containing `map-pixi.js`/`map-factory.js` -- not just the dev server.
+
+**A third real bug, caught by CI's own real-browser offline acceptance test
+(`scripts/hanedanian-browser.mjs`, not part of this repo's DOM-mocked unit
+suite) after this PR's first push:** `map-pixi.js` statically imported
+`pixi-adapter.js`. Since `app.js -> map-factory.js -> map-pixi.js` are all
+static imports too, that made `pixi-adapter.js` -- a deliberately
+*uncached*, optional dependency (see the Shared foundation section) -- a
+hard dependency of the whole module graph. Offline, that one fetch fails
+and ES module semantics block every static importer, including `app.js`
+itself, from ever instantiating: the game hung forever on its "Kayıtlar
+okunuyor..." loading placeholder instead of booting into the Canvas 2D
+fallback. Fixed by loading `pixi-adapter.js` with a dynamic `import()`
+inside `map-pixi.js` instead, so a failed fetch is just a rejected promise
+already handled there. **Lesson for every later game in this plan:** an
+optional/uncached shared dependency must only ever be reached through a
+dynamic `import()`, never a static `import` statement, anywhere in the
+chain a game's entry module (`app.js`) statically imports -- a static
+import makes the dependency hard regardless of how "optional" it looks in
+isolation. Regression-tested in `scripts/hanedanian-map-pixi.test.mjs`.
+
+### 2. Racon Manager -- SKIPPED
+
+Racon Manager's "Harita" screen (`public/games/racon/index.html`,
+`drawHarita()`) is a 6-node neighbourhood diagram: a CSS-grid layout
+(`Ag.cell()`/`Ag.LAYOUT`, a fixed 3x2/2x3 schematic position, not a
+coordinate space) with a small SVG overlay drawing straight connecting
+lines between accessible `<button>` nodes. The game's own UI text says so
+directly: *"Şema; gerçek konum ya da ölçek değil."* (a schema; not a real
+location or scale). There is no procedural generation, no large bitmap, no
+per-frame vector redraw loop, and no spatial reasoning for the player --
+just 6 focusable, `aria-label`led buttons and roughly a dozen SVG
+`<line>` elements, re-rendered only on discrete state changes.
+
+This is exactly the case the plan's own scoping principle exists for
+("PixiJS is applied per-game where a real map/spatial surface exists"; the
+owner's instruction repeats this explicitly for TC SIM: "yalnız gerçek bir
+mekânsal karar yüzeyi oyuna fayda sağlıyorsa; sırf PixiJS kullanmak için
+harita uydurma" -- the same principle governs every game in this plan, not
+only the one it was worded for). Converting six DOM buttons and a handful
+of SVG lines to a WebGL scene would have zero rendering-cost benefit (this
+is already close to the cheapest possible way to draw anything) and a real
+accessibility cost (native focusable `<button>` elements with `aria-
+pressed`/`aria-label` would become canvas-drawn shapes needing a from-
+scratch accessibility tree). No code changed for this game; no PR opened.
 
 ## Bitmiş sayılma koşulu (per game, per the plan)
 
