@@ -56,10 +56,10 @@ PixiJS scene and the existing fallback renderer consume identically.
 |---|---|---|---|---|
 | **0. Foundation + Kıyı Eşiği proof** | DONE | [#98](https://github.com/tayaz-maker/cete-savaslari/pull/98) | `a46ce8b6ea4a6e28930b904948cdecd0eef015de` | See below. |
 | 1. HANEDANIAN | DONE | [#99](https://github.com/tayaz-maker/cete-savaslari/pull/99) | `4fc45d15f9f26e3b70374b73354e1c908266fed7` | See below. |
-| 2. Racon Manager | SKIPPED | — | — | No spatial surface exists to modernize. See below. |
-| 3. TC SIM: DEVLET | IN PROGRESS | [#100](https://github.com/tayaz-maker/cete-savaslari/pull/100) | — | Seven real geographic regions + diplomatic compass; both already SVG maps, now with a PixiJS overlay. See below. |
-| 4. TC SIM | SKIPPED | — | — | No spatial/geographic surface exists at all (`network.js`/`decision-network.js` are explicitly "pure functions, no DOM" abstract decision-effect models -- family type, NPC graph, time/money/relationship/energy/goal domains). Same rationale as Racon Manager; not invented per the plan's own rule. |
-| 5. JITEM: Derin Ağ | SKIPPED | — | — | No spatial/geographic surface exists. `NodeGraph.tsx`'s "harita" is a hand-authored node-link relationship diagram (fixed x/y schematic layout for actors/orgs/corridors), the same kind of surface as Racon Manager, not a real map. See below. |
+| 2. Racon Manager | NOT STARTED | — | — | Not converted this wave. Preliminary read: its "Harita" screen is a 6-node schematic (CSS grid + SVG lines), not obviously a spatial surface -- left for a separate future wave to confirm and decide, not closed out here. See below. |
+| 3. TC SIM: DEVLET | DONE | [#100](https://github.com/tayaz-maker/cete-savaslari/pull/100) | — | Seven real geographic regions + diplomatic compass; both already SVG maps, now with a PixiJS overlay. See below. |
+| 4. TC SIM | NOT STARTED | — | — | Not converted this wave. Preliminary read: `network.js`/`decision-network.js` look like abstract decision-effect models with no rendered spatial surface -- left for a separate future wave to confirm and decide, not closed out here. |
+| 5. JITEM: Derin Ağ | NOT STARTED | — | — | Not converted this wave (separate upstream repo; would need an upstream PR there before a TarikLab vendor-sync). Preliminary read: its "Harita" tab looks like a node-link relationship diagram, not obviously a spatial surface -- left for a separate future wave to confirm and decide, not closed out here. |
 | 6. Other candidates | NOT STARTED | — | — | Only where a real spatial decision surface helps; list/panel games are not converted. |
 
 ### 0. Foundation + Kıyı Eşiği — DONE
@@ -379,77 +379,65 @@ and `map-factory.js` serve 200 on both hosts, the terrain host mounts with a
 live `<canvas>` inside it (`.map-terrain-host canvas` present) on both, 0
 console errors on either.
 
-### 2. Racon Manager -- SKIPPED
+### 2. Racon Manager -- NOT STARTED (evaluated, deferred)
 
+Not converted this wave. Preliminary read only, not a closed decision:
 Racon Manager's "Harita" screen (`public/games/racon/index.html`,
-`drawHarita()`) is a 6-node neighbourhood diagram: a CSS-grid layout
-(`Ag.cell()`/`Ag.LAYOUT`, a fixed 3x2/2x3 schematic position, not a
+`drawHarita()`) looks like a 6-node neighbourhood diagram -- a CSS-grid
+layout (`Ag.cell()`/`Ag.LAYOUT`, a fixed 3x2/2x3 schematic position, not a
 coordinate space) with a small SVG overlay drawing straight connecting
 lines between accessible `<button>` nodes. The game's own UI text says so
 directly: *"Şema; gerçek konum ya da ölçek değil."* (a schema; not a real
-location or scale). There is no procedural generation, no large bitmap, no
-per-frame vector redraw loop, and no spatial reasoning for the player --
-just 6 focusable, `aria-label`led buttons and roughly a dozen SVG
-`<line>` elements, re-rendered only on discrete state changes.
+location or scale). No procedural generation, no large bitmap, no
+per-frame vector redraw loop observed -- just 6 focusable, `aria-label`led
+buttons and roughly a dozen SVG `<line>` elements, re-rendered only on
+discrete state changes.
 
-This is exactly the case the plan's own scoping principle exists for
-("PixiJS is applied per-game where a real map/spatial surface exists"; the
-owner's instruction repeats this explicitly for TC SIM: "yalnız gerçek bir
-mekânsal karar yüzeyi oyuna fayda sağlıyorsa; sırf PixiJS kullanmak için
-harita uydurma" -- the same principle governs every game in this plan, not
-only the one it was worded for). Converting six DOM buttons and a handful
-of SVG lines to a WebGL scene would have zero rendering-cost benefit (this
-is already close to the cheapest possible way to draw anything) and a real
-accessibility cost (native focusable `<button>` elements with `aria-
-pressed`/`aria-label` would become canvas-drawn shapes needing a from-
-scratch accessibility tree). No code changed for this game; no PR opened.
+If a future wave confirms this reading, the plan's own scoping principle
+applies directly ("PixiJS is applied per-game where a real map/spatial
+surface exists"; the owner's instruction repeats this explicitly for TC
+SIM: "yalnız gerçek bir mekânsal karar yüzeyi oyuna fayda sağlıyorsa; sırf
+PixiJS kullanmak için harita uydurma"). No code changed for this game this
+wave; no PR opened.
 
-### 5. JITEM: Derin Ağ -- SKIPPED
+### 5. JITEM: Derin Ağ -- NOT STARTED (evaluated, deferred)
 
-JITEM lives in a separate upstream repo (`tayaz-maker/jitem-derin-ag`,
-vendored into TarikLab as a static build per `public/games/jitem-derin-ag/
-SOURCE.json`), so evaluating it meant checking out that repo
-(`src/components/game/NodeGraph.tsx`) directly rather than reading in-repo
-code.
+Not converted this wave. JITEM lives in a separate upstream repo
+(`tayaz-maker/jitem-derin-ag`, vendored into TarikLab as a static build
+per `public/games/jitem-derin-ag/SOURCE.json`), so any real conversion
+would need an upstream PR there first, then a separate TarikLab
+vendor-sync PR -- a heavier lift than an in-repo game, left for a
+dedicated future wave.
 
-Its "Harita" (map) tab is a node-link relationship graph of actors,
-organizations and informal channels ("koridor"), positioned by hand-
-authored fixed x/y layout coordinates in `src/game/data.ts` (`x: 250, y:
-280`, etc.) -- a schematic diagram, not a coordinate space tied to any real
-geography. A `images/map.jpg` texture sits behind it at 10% opacity purely
-as atmosphere; the game reads no position or distance data from it. This is
-the same kind of surface as Racon Manager's already-skipped 6-node diagram,
-just larger (dozens of nodes instead of six): native focusable SVG
-`role="button"` elements with `aria-label`, keyboard-activated
-(`activate()`), re-rendered only on discrete state changes -- already close
-to the cheapest possible way to draw a node-link graph, and converting it
-to WebGL would trade that free native accessibility for a canvas scene that
-would need its own accessibility tree built from scratch, for no rendering-
-cost benefit.
+Preliminary read only, not a closed decision: its "Harita" (map) tab
+(`src/components/game/NodeGraph.tsx`, checked out from upstream directly)
+looks like a node-link relationship graph of actors, organizations and
+informal channels ("koridor"), positioned by hand-authored fixed x/y
+layout coordinates in `src/game/data.ts` (`x: 250, y: 280`, etc.) -- a
+schematic diagram, not obviously a coordinate space tied to real
+geography. A `images/map.jpg` texture sits behind it at 10% opacity;
+whether that or anything else in this screen constitutes a genuine spatial
+decision surface is for a future wave to confirm. No upstream PR opened;
+no code changed in either repository this wave.
 
-No upstream PR opened (the "upstream first, then a TarikLab vendor-sync"
-sequence in this plan describes the process a real conversion would need,
-given JITEM's separate-repo structure -- it does not by itself mean a
-conversion is warranted here). No code changed in either repository.
+### 4. TC SIM -- NOT STARTED (evaluated, deferred)
 
-### 4. TC SIM -- SKIPPED
-
-TC SIM (`public/games/tc-sim/`, distinct from TC SIM: DEVLET) has no
-spatial or geographic surface at all to modernize. `network.js` ("Aile
-türü, çevre modu ve seyrek NPC grafiği" -- family type, environment mode
-and sparse NPC graph) and `decision-network.js` ("Karar ağı: haftalık
+Not converted this wave. Preliminary read only, not a closed decision:
+TC SIM (`public/games/tc-sim/`, distinct from TC SIM: DEVLET) does not
+appear to have a spatial or geographic surface to modernize. `network.js`
+("Aile türü, çevre modu ve seyrek NPC grafiği" -- family type, environment
+mode and sparse NPC graph) and `decision-network.js` ("Karar ağı: haftalık
 seçimleri zaman, para, ilişki, enerji ve uzun vadeli hedef tek bir ağda
 birbirine bağlar" -- decision network linking weekly choices to time,
 money, relationship, energy and long-term goal in one graph) are both
-explicitly documented in their own header comments as "Saf fonksiyonlar;
-DOM yok" (pure functions; no DOM) -- abstract data models the game engine
-consults for consequence calculations, never rendered as a diagram,
-map, or any other visual surface. There is nothing here in the shape the
-plan targets (a map/spatial screen), and the owner's own instruction for
-this exact game is explicit: only convert it if a real spatial decision
-surface would benefit play, never invent one just to use PixiJS. Same
-rationale and same outcome as Racon Manager. No code changed for this
-game; no PR opened.
+documented in their own header comments as "Saf fonksiyonlar; DOM yok"
+(pure functions; no DOM) -- abstract data models the game engine consults
+for consequence calculations, not obviously rendered as a diagram, map, or
+any other visual surface. If a future wave confirms nothing here is in the
+shape the plan targets (a map/spatial screen), the owner's own instruction
+for this exact game applies directly: only convert it if a real spatial
+decision surface would benefit play, never invent one just to use PixiJS.
+No code changed for this game this wave; no PR opened.
 
 ## Bitmiş sayılma koşulu (per game, per the plan)
 
