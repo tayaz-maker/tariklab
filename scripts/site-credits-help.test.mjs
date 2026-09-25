@@ -212,7 +212,7 @@ test("resources show only verified licences and record how every card picture is
     .map((m) => m[1].trim())
     .filter((l) => l !== "License");
   const count = (l) => rows.filter((x) => x === l).length;
-  assert.equal(rows.length, 54);
+  assert.equal(rows.length, 55);
   assert.match(tr, new RegExp(`${rows.length} paketin lisansı doğrulandı: ${count("MIT")} MIT, ${count("Apache-2.0")} Apache-2.0, ${count("ISC")} ISC, ${count("0BSD")} 0BSD`));
   assert.match(i18n, new RegExp(`${rows.length} packages shipped to the browser have verified licences: ${count("MIT")} MIT`));
   // The retired two-pen description of İHTİLÂL is gone.

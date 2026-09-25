@@ -16,6 +16,7 @@ export default tseslint.config(
       "node_modules/**",
       "src/routeTree.gen.ts",
       "public/games/jitem-derin-ag/assets/**",
+      "public/vendor/**",
     ],
   },
   js.configs.recommended,

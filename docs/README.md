@@ -66,6 +66,7 @@ None. The catalog currently has no coming-soon titles.
 | Duel engine (`public/games/duel-core/`) | [docs/duel/DUEL_ENGINE.md](duel/DUEL_ENGINE.md) | VETO-H!, GETT-OH!, DARBE-H! |
 | Next Wave engine families (`public/games/next-wave*`) | [docs/next-wave/](next-wave/00_MASTER_PLAN.md) | Apartman, Son 100 Gün, Kayıp Telefon, TC SIM: DEVLET (reuse references); TC SIM (Life Sim reference engine) |
 | TLab Classics provenance/licensing | [docs/tlab-classics/PROVENANCE_AND_LICENSES.md](tlab-classics/PROVENANCE_AND_LICENSES.md) | Labirent, Tek Taş, Satranç |
+| PixiJS map render adapter (`public/games/shared/pixi-adapter.js`) | [docs/TARIKLAB_PIXIJS_MAP_STATUS.md](TARIKLAB_PIXIJS_MAP_STATUS.md) | Kıyı Eşiği; other games with a real spatial decision surface, one PR each, per that doc's roadmap |
 | Web ↔ native sync ledger | [docs/WEB_APP_SYNC_LEDGER.md](WEB_APP_SYNC_LEDGER.md) | All games that will later have a standalone native build |
 
 ## Documentation Rules

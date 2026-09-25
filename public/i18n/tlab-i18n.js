@@ -604,7 +604,7 @@
       },
       {
         h: "Third-party components",
-        lead: "Principal third-party components of the portal and Çete Savaşları application: React, TanStack Router, Zustand, Radix UI, Lucide and Zod. Rights in those components belong to their owners. The note on TLab Classics' independent game logic is separate from this application stack. The 54 packages shipped to the browser have verified licences: 51 MIT, 1 Apache-2.0, 1 ISC, 1 0BSD. The JITEM: Derin Ağ runtime package list has not been generated yet.",
+        lead: "Principal third-party components of the portal and Çete Savaşları application: React, TanStack Router, Zustand, Radix UI, Lucide and Zod. Rights in those components belong to their owners. The note on TLab Classics' independent game logic is separate from this application stack. Map render infrastructure: PixiJS (MIT, version 8.21.0) draws Kıyı Eşiği's map; a browser without WebGL falls back to the game's own SVG map, no player is excluded. The 55 packages shipped to the browser have verified licences: 52 MIT, 1 Apache-2.0, 1 ISC, 1 0BSD. The JITEM: Derin Ağ runtime package list has not been generated yet.",
       },
     ],
     legal:
@@ -645,7 +645,7 @@
         "Grafiki kart rysowane kodem: grafiki kart i tła stołu VETO-H! i GETT-OH! powstają w scripts/duel-card-art, ilustracje kart DARBE-H! w scripts/darbe-h-card-art. Wcześniejsze obrazy wygenerowane przez AI i plansze DARBE-H! zostały usunięte.",
         "Obrazy narysowane na nowo kodem: grafiki udostępniania portalu, grafiki JITEM: Derin Ağ i tło portalu powstają w scripts/ip/render-original-art.mjs i CSS; starsze pliki bez zapisanego autora zostały usunięte. Ikona Son Mahalle Bükücü została zastąpiona SVG narysowanym kodem.",
       ]},
-      { h: "Komponenty zewnętrzne", lead: "Główne komponenty zewnętrzne portalu i Çete Savaşları: React, TanStack Router, Zustand, Radix UI, Lucide i Zod. Prawa do nich należą do ich właścicieli. 54 pakiety wysyłane do przeglądarki mają potwierdzone licencje: 51 MIT, 1 Apache-2.0, 1 ISC, 1 0BSD. Lista pakietów środowiska JITEM: Derin Ağ nie została jeszcze wygenerowana." },
+      { h: "Komponenty zewnętrzne", lead: "Główne komponenty zewnętrzne portalu i Çete Savaşları: React, TanStack Router, Zustand, Radix UI, Lucide i Zod. Prawa do nich należą do ich właścicieli. Infrastruktura renderowania mapy: PixiJS (MIT, wersja 8.21.0) rysuje mapę Kıyı Eşiği; przeglądarka bez WebGL wraca do własnej mapy SVG gry, żaden gracz nie jest wykluczony. 55 pakietów wysyłanych do przeglądarki ma potwierdzone licencje: 52 MIT, 1 Apache-2.0, 1 ISC, 1 0BSD. Lista pakietów środowiska JITEM: Derin Ağ nie została jeszcze wygenerowana." },
     ],
     legal: "© 2026 TarikLab. Wszelkie prawa zastrzeżone. Nie zgłasza się roszczeń do klasycznych zasad gier z domeny publicznej.",
   };

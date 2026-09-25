@@ -5,9 +5,11 @@ h1 { font-family: Palatino, Georgia, serif; font-size: clamp(2rem, 6vw, 3rem); }
 .exit { color: #d7a15a; }
 .embedded .exit { display: none; }
 .pitch { max-width: 40rem; color: #d9cbb6; }
-.coast-map { width: 100%; height: auto; background:
+.coast-map-slot { background:
   radial-gradient(120px 40px at 20% 78%, #1a4650 0 40%, transparent 42%),
-  linear-gradient(#18211c, #141c18); border: 1px solid #3c463c; border-radius: 8px; }
+  linear-gradient(#18211c, #141c18); border: 1px solid #3c463c; border-radius: 8px;
+  overflow: hidden; line-height: 0; }
+.coast-map-slot > svg, .coast-map-slot > canvas { width: 100%; height: auto; display: block; }
 .meters, .build, .problem, .report { display: grid; gap: 8px; }
 .meters { grid-template-columns: repeat(5, minmax(0, 1fr)); }
 .act, .primary { min-height: 44px; width: 100%; text-align: left; border-radius: 6px; border: 1px solid #d7a15a; background: #243028; color: #f3ead7; padding: 8px 10px; }
@@ -22,5 +24,5 @@ h1 { font-family: Palatino, Georgia, serif; font-size: clamp(2rem, 6vw, 3rem); }
   .meters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .layout { display: flex; flex-direction: column; }
   .build { position: sticky; bottom: 0; background: #101614f2; padding: 8px 0 max(8px, env(safe-area-inset-bottom)); max-height: 46vh; overflow: auto; }
-  .coast-map { max-height: 42vh; }
+  .coast-map-slot { max-height: 42vh; }
 }
