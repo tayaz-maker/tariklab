@@ -75,7 +75,12 @@ const NEED_LABEL = {
   calm: ["Toplumsal gerilim", "Social tension"], impl: ["Zayıf uygulama", "Weak delivery"],
 };
 
-export function regionsMapHtml(s, { selected, metric }) {
+/**
+ * Pure data -> render-model step shared by the SVG map (below) and the
+ * PixiJS terrain layer (maps-pixi.js): every field either renderer needs to
+ * draw a region, with no HTML/SVG/Pixi-specific content in it.
+ */
+export function regionsRenderModel(s, { selected, metric }) {
   const g = readGeo(s);
   const m = metricOf(metric);
   const sel = s.regions.find((r) => r.id === selected) || null;
@@ -85,27 +90,47 @@ export function regionsMapHtml(s, { selected, metric }) {
   const lo = Math.min(...values), hi = Math.max(...values);
   const mid = (lo + hi) / 2, span = Math.max(20, hi - lo + 6);
   const shade = (v) => tone(50 + ((v - mid) / span) * 100, m.inverse);
-  const shapes = s.regions
+  const regions = s.regions
     .filter((r) => REGION_SHAPES[r.id])
     .map((r) => {
       const v = m.read(r);
-      const focused = g.focus?.id === r.id;
-      const label = `${regionName(r.id)}: ${t(...m.label)} ${n(v)}${focused ? ` · ${t("bu ayın önceliği", "this month's priority")}` : ""}`;
-      return `<path class="geo-region${sel?.id === r.id ? " is-selected" : ""}${focused ? " is-focus" : ""}" d="${path(REGION_SHAPES[r.id])}" fill="${shade(v)}" data-region="${r.id}" tabindex="0" role="button" aria-pressed="${sel?.id === r.id}" aria-label="${h(label)}"><title>${h(label)}</title></path>`;
-    })
-    .join("");
-  const labels = s.regions
-    .filter((r) => LABEL_AT[r.id])
-    .map((r) => {
-      const [x, y] = LABEL_AT[r.id];
-      return `<g class="geo-label" transform="translate(${x} ${y})"><text class="geo-label__name" text-anchor="middle">${h(regionName(r.id).toLocaleUpperCase(t("tr-TR", "en-GB")))}</text><text class="geo-label__short" text-anchor="middle">${REGION_SHORT[r.id]}</text><text class="geo-label__value" y="17" text-anchor="middle">${n(m.read(r))}</text>${g.focus?.id === r.id ? `<text class="geo-label__focus" y="-16" text-anchor="middle">◆ ${t("ÖNCELİK", "PRIORITY")}</text>` : ""}</g>`;
-    })
-    .join("");
+      return {
+        id: r.id,
+        shape: REGION_SHAPES[r.id],
+        labelAt: LABEL_AT[r.id] || null,
+        short: REGION_SHORT[r.id],
+        name: regionName(r.id),
+        color: shade(v),
+        value: v,
+        selected: sel?.id === r.id,
+        focused: g.focus?.id === r.id,
+      };
+    });
   const [first, last] = m.inverse ? [hi, lo] : [lo, hi];
-  const legend = `<div class="geo-legend" aria-hidden="true"><span>${m.inverse ? t("en gergin", "most tense") : t("en zayıf", "weakest")} ${n(first)}</span><i style="background:linear-gradient(90deg,${tone(0, false)},${tone(45, false)},${tone(100, false)})"></i><span>${m.inverse ? t("en sakin", "calmest") : t("en güçlü", "strongest")} ${n(last)}</span></div><div class="geo-chips" role="group" aria-label="${t("Bölge seç", "Select a region")}">${s.regions.filter((r) => REGION_SHAPES[r.id]).map((r) => `<button type="button" data-region="${r.id}" aria-pressed="${sel?.id === r.id}"><i style="background:${shade(m.read(r))}"></i>${h(regionName(r.id))} <b>${n(m.read(r))}</b></button>`).join("")}</div>`;
+  return { metric: m, regions, selected: sel, range: { first, last }, marmaraSea: MARMARA_SEA };
+}
+
+export function regionsMapHtml(s, { selected, metric }) {
+  const model = regionsRenderModel(s, { selected, metric });
+  const m = model.metric;
+  const shapes = model.regions
+    .map((r) => {
+      const label = `${r.name}: ${t(...m.label)} ${n(r.value)}${r.focused ? ` · ${t("bu ayın önceliği", "this month's priority")}` : ""}`;
+      return `<path class="geo-region${r.selected ? " is-selected" : ""}${r.focused ? " is-focus" : ""}" d="${path(r.shape)}" fill="${r.color}" data-region="${r.id}" tabindex="0" role="button" aria-pressed="${r.selected}" aria-label="${h(label)}"><title>${h(label)}</title></path>`;
+    })
+    .join("");
+  const labels = model.regions
+    .filter((r) => r.labelAt)
+    .map((r) => {
+      const [x, y] = r.labelAt;
+      return `<g class="geo-label" transform="translate(${x} ${y})"><text class="geo-label__name" text-anchor="middle">${h(r.name.toLocaleUpperCase(t("tr-TR", "en-GB")))}</text><text class="geo-label__short" text-anchor="middle">${r.short}</text><text class="geo-label__value" y="17" text-anchor="middle">${n(r.value)}</text>${r.focused ? `<text class="geo-label__focus" y="-16" text-anchor="middle">◆ ${t("ÖNCELİK", "PRIORITY")}</text>` : ""}</g>`;
+    })
+    .join("");
+  const { first, last } = model.range;
+  const legend = `<div class="geo-legend" aria-hidden="true"><span>${m.inverse ? t("en gergin", "most tense") : t("en zayıf", "weakest")} ${n(first)}</span><i style="background:linear-gradient(90deg,${tone(0, false)},${tone(45, false)},${tone(100, false)})"></i><span>${m.inverse ? t("en sakin", "calmest") : t("en güçlü", "strongest")} ${n(last)}</span></div><div class="geo-chips" role="group" aria-label="${t("Bölge seç", "Select a region")}">${model.regions.map((r) => `<button type="button" data-region="${r.id}" aria-pressed="${r.selected}"><i style="background:${r.color}"></i>${h(r.name)} <b>${n(r.value)}</b></button>`).join("")}</div>`;
   const metrics = `<div class="geo-metrics" role="group" aria-label="${t("Harita göstergesi", "Map indicator")}">${MAP_METRICS.map((x) => `<button type="button" data-metric="${x.id}" aria-pressed="${x.id === m.id}">${t(...x.label)}</button>`).join("")}</div>`;
-  const svg = `<svg class="geo-map" viewBox="0 0 1000 460" role="group" aria-label="${t("Türkiye'nin yedi coğrafi bölgesi", "Turkey's seven geographic regions")}"><defs><pattern id="geo-hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" stroke="#e8e3cf" stroke-opacity=".35" stroke-width="2"/></pattern><filter id="geo-glow"><feGaussianBlur stdDeviation="3"/></filter></defs><rect class="geo-sea" width="1000" height="460"/>${shapes}<path class="geo-inland-sea" d="${path(MARMARA_SEA)}"/>${s.regions.filter((r) => g.focus?.id === r.id && REGION_SHAPES[r.id]).map((r) => `<path class="geo-focus-hatch" d="${path(REGION_SHAPES[r.id])}" fill="url(#geo-hatch)"/>`).join("")}${labels}</svg>`;
-  return `<section class="card geo-card"><div class="geo-head"><div><p class="eyebrow">${t("BÖLGESEL STRATEJİ HARİTASI", "REGIONAL STRATEGY MAP")}</p><h2>${t("Bölgeler", "Regions")}</h2></div>${metrics}</div><div class="geo-body">${svg}${legend}</div>${regionPanel(s, sel)}</section>`;
+  const svg = `<svg class="geo-map" viewBox="0 0 1000 460" role="group" aria-label="${t("Türkiye'nin yedi coğrafi bölgesi", "Turkey's seven geographic regions")}"><defs><pattern id="geo-hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" stroke="#e8e3cf" stroke-opacity=".35" stroke-width="2"/></pattern><filter id="geo-glow"><feGaussianBlur stdDeviation="3"/></filter></defs><rect class="geo-sea" width="1000" height="460"/>${shapes}<path class="geo-inland-sea" d="${path(MARMARA_SEA)}"/>${model.regions.filter((r) => r.focused).map((r) => `<path class="geo-focus-hatch" d="${path(r.shape)}" fill="url(#geo-hatch)"/>`).join("")}${labels}</svg>`;
+  return `<section class="card geo-card"><div class="geo-head"><div><p class="eyebrow">${t("BÖLGESEL STRATEJİ HARİTASI", "REGIONAL STRATEGY MAP")}</p><h2>${t("Bölgeler", "Regions")}</h2></div>${metrics}</div><div class="geo-body">${svg}${legend}</div>${regionPanel(s, model.selected)}</section>`;
 }
 
 function regionPanel(s, r) {
@@ -154,27 +179,45 @@ const KIND = {
 const relBand = (v) =>
   v < 30 ? ["Gergin", "Strained"] : v < 45 ? ["Mesafeli", "Distant"] : v < 60 ? ["Dengeli", "Balanced"] : v < 75 ? ["Yakın", "Close"] : ["Çok yakın", "Very close"];
 
-export function foreignMapHtml(s, { selected, nameOf }) {
+/** Pure data -> render-model step for the diplomatic compass; see regionsRenderModel. */
+export function foreignRenderModel(s, { selected }) {
   const g = readGeo(s);
   const pending = new Set(g.pending.map((p) => p.axis));
-  const axes = Object.keys(FOREIGN_LAYOUT).filter((k) => k in (s.foreign || {}));
-  const links = axes
+  const axes = Object.keys(FOREIGN_LAYOUT)
+    .filter((k) => k in (s.foreign || {}))
     .map((k) => {
-      const [x, y] = FOREIGN_LAYOUT[k], v = s.foreign[k];
-      return `<line class="dip-link${selected === k ? " is-selected" : ""}" x1="${CENTER[0]}" y1="${CENTER[1]}" x2="${x}" y2="${y}" stroke="${tone(v)}" stroke-width="${1.5 + v / 22}" ${v < 40 ? 'stroke-dasharray="6 6"' : ""}/>`;
+      const v = s.foreign[k];
+      return {
+        id: k,
+        at: FOREIGN_LAYOUT[k],
+        value: v,
+        selected: selected === k,
+        pending: pending.has(k),
+        code: t(FOREIGN_CODE[k], FOREIGN_CODE_EN[k]),
+        color: tone(v),
+      };
+    });
+  return { center: CENTER, axes, homeShape: Object.values(REGION_SHAPES) };
+}
+
+export function foreignMapHtml(s, { selected, nameOf }) {
+  const model = foreignRenderModel(s, { selected });
+  const [cx, cy] = model.center;
+  const links = model.axes
+    .map((a) => {
+      const [x, y] = a.at;
+      return `<line class="dip-link${a.selected ? " is-selected" : ""}" x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="${a.color}" stroke-width="${1.5 + a.value / 22}" ${a.value < 40 ? 'stroke-dasharray="6 6"' : ""}/>`;
     })
     .join("");
-  const nodes = axes
-    .map((k) => {
-      const [x, y] = FOREIGN_LAYOUT[k], v = s.foreign[k];
-      const label = `${nameOf(k)}: ${n(v)} · ${t(...relBand(v))}${pending.has(k) ? ` · ${t("yolda bir sonuç var", "a consequence is on the way")}` : ""}`;
-      return `<g class="dip-node${selected === k ? " is-selected" : ""}" data-axis="${k}" tabindex="0" role="button" aria-pressed="${selected === k}" aria-label="${h(label)}" transform="translate(${x} ${y})"><title>${h(label)}</title>${pending.has(k) ? '<circle class="dip-pending" r="34"/>' : ""}<circle class="dip-disc" r="27" fill="${tone(v)}"/><text class="dip-code" text-anchor="middle" y="5">${t(FOREIGN_CODE[k], FOREIGN_CODE_EN[k])}</text><text class="dip-value" text-anchor="middle" y="46">${n(v)}</text></g>`;
+  const nodes = model.axes
+    .map((a) => {
+      const [x, y] = a.at;
+      const label = `${nameOf(a.id)}: ${n(a.value)} · ${t(...relBand(a.value))}${a.pending ? ` · ${t("yolda bir sonuç var", "a consequence is on the way")}` : ""}`;
+      return `<g class="dip-node${a.selected ? " is-selected" : ""}" data-axis="${a.id}" tabindex="0" role="button" aria-pressed="${a.selected}" aria-label="${h(label)}" transform="translate(${x} ${y})"><title>${h(label)}</title>${a.pending ? '<circle class="dip-pending" r="34"/>' : ""}<circle class="dip-disc" r="27" fill="${a.color}"/><text class="dip-code" text-anchor="middle" y="5">${a.code}</text><text class="dip-value" text-anchor="middle" y="46">${n(a.value)}</text></g>`;
     })
     .join("");
-  const turkey = Object.values(REGION_SHAPES)
-    .map((shape) => `<path d="${path(shape)}"/>`)
-    .join("");
-  const svg = `<svg class="dip-map" viewBox="0 0 1000 440" role="group" aria-label="${t("Dış ilişkiler haritası", "Foreign relations map")}"><rect class="dip-bg" width="1000" height="440"/><g class="dip-rings"><circle cx="${CENTER[0]}" cy="${CENTER[1]}" r="120"/><circle cx="${CENTER[0]}" cy="${CENTER[1]}" r="240"/><circle cx="${CENTER[0]}" cy="${CENTER[1]}" r="360"/></g>${links}<g class="dip-home" transform="translate(${CENTER[0] - 150} ${CENTER[1] - 62}) scale(.3)">${turkey}</g><text class="dip-home-label" x="${CENTER[0]}" y="${CENTER[1] + 92}" text-anchor="middle">${t("ANKARA", "ANKARA")}</text>${nodes}</svg>`;
+  const turkey = model.homeShape.map((shape) => `<path d="${path(shape)}"/>`).join("");
+  const svg = `<svg class="dip-map" viewBox="0 0 1000 440" role="group" aria-label="${t("Dış ilişkiler haritası", "Foreign relations map")}"><rect class="dip-bg" width="1000" height="440"/><g class="dip-rings"><circle cx="${cx}" cy="${cy}" r="120"/><circle cx="${cx}" cy="${cy}" r="240"/><circle cx="${cx}" cy="${cy}" r="360"/></g>${links}<g class="dip-home" transform="translate(${cx - 150} ${cy - 62}) scale(.3)">${turkey}</g><text class="dip-home-label" x="${cx}" y="${cy + 92}" text-anchor="middle">${t("ANKARA", "ANKARA")}</text>${nodes}</svg>`;
   return `<section class="card geo-card dip-card"><div class="geo-head"><div><p class="eyebrow">${t("DİPLOMATİK PUSULA", "DIPLOMATIC COMPASS")}</p><h2>${t("Dış ilişkiler", "Foreign relations")}</h2></div><p class="geo-note">${t("Çizgi kalınlığı ve rengi ilişki endeksini (0–100) gösterir; kesikli çizgi gergin ilişkidir. Konumlar yönü anlatır, mesafeyi değil.", "Line weight and colour show the relation index (0–100); dashed means strained. Positions show direction, not distance.")}</p></div><div class="geo-body">${svg}</div>${actorPanel(s, selected, nameOf)}</section>`;
 }
 
