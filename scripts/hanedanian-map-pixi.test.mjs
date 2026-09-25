@@ -16,9 +16,11 @@ function fakeSprite() {
 
 function fakePixiNamespace() {
   const textures = [];
+  const EMPTY = { source: { resource: null, scaleMode: 'nearest' }, destroyed: false, destroy() { this.destroyed = true; } };
   return {
     textures,
     Texture: {
+      EMPTY,
       from(source) {
         const texture = { source: { resource: source, scaleMode: 'nearest' }, destroyed: false, destroy() { this.destroyed = true; } };
         textures.push(texture);
@@ -133,6 +135,40 @@ test('resetTerrainCaches destroys every uploaded texture and forgets the cache',
   map.resetTerrainCaches();
   assert.equal(map._textures.size, 0);
   assert.ok(PIXI.textures.every((t) => t.destroyed));
+});
+
+test('resetTerrainCaches also clears the sprite itself, so a render() before the next paint never draws a destroyed texture (the CI soak-test crash: "Cannot read properties of null (reading \'addressModeU\')")', () => {
+  const { map, sprite, pixi } = fixture();
+  const cache = { id: 'atlas-canvas' };
+  map.paintTerrainLayer(map.ctx, cache, 0, 0, 20);
+  assert.equal(sprite.texture.destroyed, false);
+  const paintedTexture = sprite.texture;
+  map.resetTerrainCaches();
+  // The texture the sprite used to point at is now destroyed...
+  assert.equal(paintedTexture.destroyed, true);
+  // ...but the sprite itself no longer references a destroyed texture, so a
+  // render() that fires before the next real paint (e.g. resize()'s own
+  // render() call, or any other stray render in that window) is safe: it
+  // draws the sprite hidden, pointed at the shared empty texture, instead of
+  // touching the destroyed one's now-null internal state.
+  assert.equal(sprite.visible, false);
+  assert.equal(sprite.texture, pixi.PIXI.Texture.EMPTY);
+});
+
+test('destroy() never reassigns the sprite to the shared Texture.EMPTY singleton once teardown has started (app.destroy(texture: true) right after would destroy the singleton itself)', () => {
+  const { map, sprite, pixi } = fixture();
+  map.paintTerrainLayer(map.ctx, { id: 'a' }, 0, 0, 20);
+  const paintedTexture = sprite.texture;
+  const emptyDestroySpy = pixi.PIXI.Texture.EMPTY.destroy;
+  let emptyTouched = false;
+  pixi.PIXI.Texture.EMPTY.destroy = () => { emptyTouched = true; emptyDestroySpy.call(pixi.PIXI.Texture.EMPTY); };
+  map.destroy();
+  assert.equal(emptyTouched, false, 'the shared empty texture singleton must never be destroyed');
+  // super.destroy() calls resetTerrainCaches() a second time, after
+  // this._pixi.destroy() already tore the app down; both calls must skip
+  // reassigning the sprite once destroy() has started (there is no future
+  // render left to protect against, and the app is gone anyway).
+  assert.equal(sprite.texture, paintedTexture, 'the sprite must not be touched once destroy() has started');
 });
 
 test('resize() is a safe no-op before _pixi exists (fired once from inside the base constructor) and sizes the terrain layer once it does', () => {

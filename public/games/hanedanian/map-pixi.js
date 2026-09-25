@@ -92,6 +92,23 @@ export class StrategyMapPixi extends StrategyMap {
       if (!texture.destroyed) texture.destroy(true);
     }
     this._textures.clear();
+    // The sprite's own `.texture` can still point at one of the textures
+    // just destroyed above -- paintTerrainLayer() only reassigns it once a
+    // fresh atlas is ready, which is async (time-sliced), so there is a real
+    // window where nothing has repainted yet. If *any* render() happens in
+    // that window (resize()'s own render() at the end of a resize event, for
+    // instance) Pixi tries to draw a destroyed texture and crashes reading
+    // its (now-null) internal source -- the real bug a 20-minute soak test
+    // caught in CI. Point the sprite at the shared empty texture instead so
+    // every render() is safe until the next real paint. Skipped once
+    // destroy() has started: the whole Pixi app is about to be torn down
+    // right after, and assigning the shared Texture.EMPTY singleton here
+    // would let that teardown's `texture: true` destroy the singleton itself.
+    if (this._pixi && !this._destroyed) {
+      const { sprite, PIXI } = this._pixi;
+      sprite.visible = false;
+      sprite.texture = PIXI.Texture.EMPTY;
+    }
   }
 
   resize() {
@@ -111,6 +128,7 @@ export class StrategyMapPixi extends StrategyMap {
   }
 
   destroy() {
+    this._destroyed = true;
     this.resetTerrainCaches();
     this._pixi.destroy();
     super.destroy();
