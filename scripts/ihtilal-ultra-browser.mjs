@@ -8,7 +8,8 @@ import {applyMove,deserializeSolo,SOLO_KEY} from '../public/games/ihtilal/solo.j
 import {checkedOutputPath} from './browser-guard.mjs';
 const args=process.argv.slice(2),arg=(name,fallback)=>args.includes(name)?args[args.indexOf(name)+1]:fallback;
 const root=resolve(arg('--serve','public')),label=arg('--label','head'),baseline=args.includes('--baseline'),only=arg('--only','');
-const out=checkedOutputPath(`/workspace/screenshots/ihtilal-ultra/${label}`,['/workspace/screenshots'],'proof');
+const proofRoot=resolve(process.env.RUNNER_TEMP||'/workspace','screenshots');
+const out=checkedOutputPath(resolve(proofRoot,'ihtilal',label),[proofRoot],'proof');
 await mkdir(out,{recursive:true});const results=[],errors=[];let browser,page;
 const types={'.html':'text/html','.js':'text/javascript','.mjs':'text/javascript','.css':'text/css','.json':'application/json','.svg':'image/svg+xml','.png':'image/png','.webmanifest':'application/manifest+json'};
 const server=createServer(async(req,res)=>{try{const pathname=decodeURIComponent(new URL(req.url,'http://localhost').pathname);const file=resolve(root,`.${pathname.endsWith('/')?pathname+'index.html':pathname}`);if(!file.startsWith(root+sep)){res.writeHead(403).end();return;}res.writeHead(200,{'content-type':types[extname(file)]||'application/octet-stream','cache-control':'no-store'}).end(await readFile(file));}catch{res.writeHead(404).end();}});
