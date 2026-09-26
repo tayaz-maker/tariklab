@@ -52,9 +52,15 @@ try {
             text: document.body.innerText.trim().length,
             duplicates: [...document.querySelectorAll("[id]")].map((node) => node.id).filter((id, index, all) => all.indexOf(id) !== index),
           }));
+          const offenders = dimensions.scroll > dimensions.width + 1
+            ? await surface.evaluate((viewportWidth) => [...document.querySelectorAll("*")].map((node) => {
+                const rect = node.getBoundingClientRect();
+                return { tag: node.tagName, className: typeof node.className === "string" ? node.className : node.className?.baseVal || "", id: node.id, left: Math.round(rect.left), right: Math.round(rect.right), width: Math.round(rect.width), scrollWidth: node.scrollWidth, text: node.textContent?.trim().slice(0, 80) };
+              }).filter((node) => node.right > viewportWidth + 1 || node.left < -1 || node.scrollWidth > viewportWidth + 1).slice(0, 12), dimensions.width)
+            : [];
           results.push({ game: route.id, lang, stage, width, height, overflow: dimensions.scroll - dimensions.width });
           assert.ok(dimensions.text > 20, `${route.id}/${stage}: empty surface`);
-          assert.ok(dimensions.scroll <= dimensions.width + 1, `${route.id}/${lang}/${stage}/${width}x${height}: overflow ${JSON.stringify(dimensions)}`);
+          assert.ok(dimensions.scroll <= dimensions.width + 1, `${route.id}/${lang}/${stage}/${width}x${height}: overflow ${JSON.stringify({ dimensions, offenders })}`);
           assert.deepEqual(dimensions.duplicates, [], `${route.id}/${stage}: duplicate IDs`);
         }
       }
