@@ -3,14 +3,14 @@
 
   var NPCS = [
     { id: "m_hasan", ad: "Hasan Kısa", rol: "ayakçı", yas: "kırkına yakın", motivasyon: "Kuzenini karakolda tutmak, kendini sokakta.", sadakat: "Korkudan değil, hesap defterinden.", korku: "Kuzeninin adı dosyaya yazılırsa", para: "orta — yevmiye aksamasın yeter", statu: "düşük; sözü kısa", aile: "karakol kuzeni Nedim'in yeğeni değil, başka bir Nedim", beklenti: "Sessiz iş, açık pay.", kirmizi: "Kuzenini muhbire çevirmek.", kirginlik: "Bir kez payı kesildi, unutmadı.", gizli: "Kuzeni aracılığıyla küçük ihbarları yumuşatmak.", yuz: "Az konuşur, tespih çevirir.", baski: "Sıkışınca kuzenine koşar, ekibe değil.", iliskiler: { m_sabri: "eski mahalle", m_cevdet: "çekinir", p_cavus: "kuzen kapısı" }, unutmaz: ["pay kesmek", "kuzeni satmak", "ateş emri"], yakin: ["kontrollu", "sadik"], uzak: ["fevri", "hain"] },
-    { id: "m_muharrem", ad: "Muharrem", rol: "şoför", yas: "otuz beş", motivasyon: "Fener'deki evin taksiti.", sadakat: "Direksiyon elindeyken durur; ateş duyunca kaçar.", korku: "Plaka deftere yazılır.", para: "yüksek — çocuklar okulda", statu: "yok; araba onun yüzü", aile: "eşi ve iki çocuk, Fener arka sokak", beklenti: "İş bitince evine bırakılsın.", kirmizi: "Çocukların önünde silah.", kirginlik: "Bir gece geç bırakıldı, kapı sürgülendi.", gizli: "Sessizler'e araba kiralamış, bir kez.", yuz: "Sigara içer, ayna ayarlar, susar.", baski: "Aile adı geçince direksiyonu bırakır.", iliskiler: { m_hasan: "iş", m_sabri: "selam", m_riza: "inşaat tanıdık" }, unutmaz: ["ates", "gec kalmak", "aile"], yakin: ["merhametli", "kontrollu"], uzak: ["fevri", "korkulan"] },
+    { id: "m_muharrem", ad: "Muharrem", rol: "şoför", yas: "otuz beş", motivasyon: "Son Kepenk'deki evin taksiti.", sadakat: "Direksiyon elindeyken durur; ateş duyunca kaçar.", korku: "Plaka deftere yazılır.", para: "yüksek — çocuklar okulda", statu: "yok; araba onun yüzü", aile: "eşi ve iki çocuk, Son Kepenk arka sokak", beklenti: "İş bitince evine bırakılsın.", kirmizi: "Çocukların önünde silah.", kirginlik: "Bir gece geç bırakıldı, kapı sürgülendi.", gizli: "Sessizler'e araba kiralamış, bir kez.", yuz: "Sigara içer, ayna ayarlar, susar.", baski: "Aile adı geçince direksiyonu bırakır.", iliskiler: { m_hasan: "iş", m_sabri: "selam", m_riza: "inşaat tanıdık" }, unutmaz: ["ates", "gec kalmak", "aile"], yakin: ["merhametli", "kontrollu"], uzak: ["fevri", "korkulan"] },
     { id: "m_sabri", ad: "Sabri", rol: "gözcü", yas: "elliye yakın", motivasyon: "Çarşamba esnafının selamı.", sadakat: "Mahalle sözü; para ikinci.", korku: "Esnafın yüz çevirmesi.", para: "düşük — yevmiyesi yetiyor", statu: "eski göz, mahalle bilir", aile: "bekâr, kahvede yerı sabit", beklenti: "Söz tutulsun, gürültü olmasın.", kirmizi: "Esnafa hakaret, cami önünde kavga.", kirginlik: "Bir düğüne çağrılmadı.", gizli: "Kartallar'ın bir adamını tanır, söylemez.", yuz: "Tespih, kısa cümle, uzun bakış.", baski: "Sessizce çekilir, ihbar etmez.", iliskiler: { m_hasan: "eski", p_kahveci: "masa", p_esnaf_st_carsamba: "koruma" }, unutmaz: ["soz", "esnaf", "cekil"], yakin: ["merhametli", "sadik"], uzak: ["paraOdakli", "fevri"] },
     { id: "m_riza", ad: "Rıza", rol: "kırıcı", yas: "kırk", motivasyon: "İnşaat payı, kalfa hakkı.", sadakat: "Pay gelince durur.", korku: "Kol kırığı, işsiz kalmak.", para: "yüksek — hakkı yensin istemez", statu: "kalfa; Cevdet'i çekemez", aile: "kardeşleri Üsküdar'da", beklenti: "Ağır işte ekstra.", kirmizi: "Payı Cevdet'le bölüşmek.", kirginlik: "Bir inşaatta adı geçmedi.", gizli: "Kendi kalfalarını sokmak.", yuz: "Güler, sonra faturayı uzatır.", baski: "Gürültü çıkarır, ekibi böler.", iliskiler: { m_cevdet: "kıskançlık", m_muharrem: "tanıdık", m_fazil: "hesap" }, unutmaz: ["pay", "Cevdet kayırma"], yakin: ["pragmatik", "paraOdakli"], uzak: ["merhametli"] },
     { id: "m_cevdet", ad: "Cevdet Sivri", rol: "tetikçi", yas: "otuz", motivasyon: "Adı korkuyla ansın.", sadakat: "Güç kimdeyse.", korku: "Sönük ölmek.", para: "orta — nam daha pahalı", statu: "yüksek ister, şimdi yok", aile: "yok sayar", beklenti: "Ağır iş, açık emir.", kirmizi: "Geri çekil emri, alay.", kirginlik: "Hasan'ın kuzeni yüzünden bir iş durdu.", gizli: "Taht boşalırsa oturmak.", yuz: "İnce, hızlı, şaka gibi tehdit.", baski: "Ateş eder, sonra sorar.", iliskiler: { m_hasan: "hor görür", m_riza: "rakip pay", m_nuri: "kullanır" }, unutmaz: ["cekil", "alay", "kuzen"], yakin: ["fevri", "korkulan"], uzak: ["merhametli", "kontrollu"] },
     { id: "m_nuri", ad: "Nuri", rol: "ağız", yas: "yirmi beş", motivasyon: "İsmail'in masasında yer.", sadakat: "Kahve evlatlığı; İsmail söyler o gider.", korku: "Kapıdan kovulmak.", para: "düşük", statu: "yok; dili var", aile: "yok, kahve yatak", beklenti: "Sözü taşınsın, pay küçük olsun.", kirmizi: "İsmail'e hakaret.", kirginlik: "Bir haber için para almadı.", gizli: "Duyduğunu iki tarafa satmak.", yuz: "Güler, çay koyar, dinler.", baski: "Ağzı açılır, sonra pişman.", iliskiler: { p_kahveci: "baba yerinde", m_zeki: "kulak ortağı", m_cevdet: "korkar" }, unutmaz: ["kovulmak", "İsmail"], yakin: ["pragmatik"], uzak: ["sadik"] },
     { id: "m_fazil", ad: "Fazıl", rol: "muhasebeci", yas: "kırk beş", motivasyon: "Defterin temiz görünmesi.", sadakat: "Rakam durduğu sürece.", korku: "Maliye, sahte fatura, isim.", para: "yüksek — kâr payı", statu: "sessiz güç", aile: "eşi bilmez işi", beklenti: "Kirli para ayrı kasa.", kirmizi: "İmzası açık çek.", kirginlik: "Bir kez kasa sayılmadı.", gizli: "Kendi payını yuvarlamak.", yuz: "Gözlük, kurşun kalem, az kelime.", baski: "Defteri kapatır, çekilir.", iliskiler: { m_cemil: "adliye kapısı", p_avukat: "evrak" }, unutmaz: ["kasa sayımı", "imza"], yakin: ["kontrollu", "pragmatik"], uzak: ["fevri"] },
     { id: "m_cemil", ad: "Cemil", rol: "ayakçı", yas: "otuz sekiz", motivasyon: "Adliye kâtibi tanıdık, bilgi satmak.", sadakat: "Dosya kimin lehineyse.", korku: "Kâtibin adı çıkmak.", para: "yüksek — bilgi pahalı", statu: "aracı", aile: "sessiz tutar", beklenti: "Zarf düzenli.", kirmizi: "Kâtibi yakmak.", kirginlik: "Bir zarf geç kaldı, kapı soğudu.", gizli: "Aynı bilgiyi iki kere satmak.", yuz: "Takım elbise değil, ceket.", baski: "Susar, fiyatı yükseltir.", iliskiler: { m_fazil: "hesap", p_avukat: "iş", p_cavus: "mesafe" }, unutmaz: ["zarf gecikmesi", "kâtip"], yakin: ["paraOdakli", "pragmatik"], uzak: ["sadik"] },
-    { id: "m_zeki", ad: "Zeki Kambur", rol: "gözcü", yas: "yirmi iki", motivasyon: "Kahvede yer, kulağın ücreti.", sadakat: "Kim bakarsa ona.", korku: "Sabri'nin yerini almak ister, yakalanmak istemez.", para: "düşük", statu: "yok", aile: "anne Draman'da", beklenti: "Küçük iş, büyük kulak.", kirmizi: "Annesinin adı.", kirginlik: "Bir çay parası unutuldu.", gizli: "Sabri'nin yerini sessizce devralmak.", yuz: "Eğilir, duyar, unutmuş gibi bakar.", baski: "Kaçar, sonra satar.", iliskiler: { m_sabri: "usta-çırak kıskançlığı", m_nuri: "orta", p_kahveci: "çay" }, unutmaz: ["çay parası", "alay"], yakin: ["pragmatik"], uzak: ["korkulan"] },
+    { id: "m_zeki", ad: "Zeki Kambur", rol: "gözcü", yas: "yirmi iki", motivasyon: "Kahvede yer, kulağın ücreti.", sadakat: "Kim bakarsa ona.", korku: "Sabri'nin yerini almak ister, yakalanmak istemez.", para: "düşük", statu: "yok", aile: "anne Dilsiz Çatı'da", beklenti: "Küçük iş, büyük kulak.", kirmizi: "Annesinin adı.", kirginlik: "Bir çay parası unutuldu.", gizli: "Sabri'nin yerini sessizce devralmak.", yuz: "Eğilir, duyar, unutmuş gibi bakar.", baski: "Kaçar, sonra satar.", iliskiler: { m_sabri: "usta-çırak kıskançlığı", m_nuri: "orta", p_kahveci: "çay" }, unutmaz: ["çay parası", "alay"], yakin: ["pragmatik"], uzak: ["korkulan"] },
     { id: "p_berber", ad: "Necati", rol: "berber", yas: "elli", motivasyon: "Dükkân, lakap, mahalle ağzı.", sadakat: "Sözü kesilmesin.", korku: "Kepenk inmesi.", para: "borçlu — kira birikti", statu: "dil; makas onun mührü", aile: "kızı evlendi, damat uzakta", beklenti: "Borç silinsin ya da taksit.", kirmizi: "Dükkânda silah, ayna karşısı.", kirginlik: "Lakap bir kez alaya alındı.", gizli: "Kartallar'a da tıraş eder, söylemez.", yuz: "Makas konuşur, o değil.", baski: "Ağzı açılır sandalyede.", iliskiler: { m_hasan: "musteri", rival_kartallar: "sessiz musteri" }, unutmaz: ["borç", "lakap", "alay"], yakin: ["kontrollu"], uzak: ["fevri"] },
     { id: "p_kahveci", ad: "İsmail", rol: "kahveci", yas: "altmış", motivasyon: "Masanın düzeni, Nuri'nin yolu.", sadakat: "Ocak durduğu sürece.", korku: "Masa kan lekesi, karakol.", para: "orta — ocak döner", statu: "mahalle durak", aile: "Nuri evlatlık", beklenti: "Gürültü yok, çay para.", kirmizi: "Ocaktaki masada silah.", kirginlik: "Bir gece okey bozuldu, kimse özür dilemedi.", gizli: "Amca zamanında kasa tuttu, unutmadı.", yuz: "Çay koyar, gözü kapıda.", baski: "Masayı kapatır, konuşmaz.", iliskiler: { m_nuri: "evlat", m_sabri: "musteri", rival_amca: "eski defter" }, unutmaz: ["masa", "Nuri", "amca"], yakin: ["kontrollu", "sadik"], uzak: ["fevri"] },
     { id: "p_kapici", ad: "Rüstem", rol: "kapıcı", yas: "kırk sekiz", motivasyon: "Site anahtarı, sessiz kira.", sadakat: "Kim kapıyı ısıtırsa.", korku: "Tahliye, müteahhit.", para: "düşük — kapıcı konutu", statu: "yok; anahtar var", aile: "eşi üst katta temizlik", beklenti: "Kira dokunulmasın, çay parası.", kirmizi: "Karısının adı, konut.", kirginlik: "Bir kış kömür gelmedi.", gizli: "Bodrumda bir oda kiraladı, yazmıyor.", yuz: "Selam, süpürge, sus.", baski: "Anahtarı teslim eder, unutur.", iliskiler: { m_hasan: "selam", p_cavus: "korkar" }, unutmaz: ["kömür", "konut"], yakin: ["merhametli"], uzak: ["korkulan"] },
@@ -265,7 +265,7 @@
           { id: "is", label: "İş bitmeden ev yok", effects: { flags: { muharremIs: 1 }, gonul: { m_muharrem: -8 }, remember: [{ who: "m_muharrem", type: "is-oncelik", sentiment: -2 }], schedule: { due: 2, next: 1, echo: "is" } } },
           { id: "bekle", label: "Sabah konuş", effects: { gonul: { m_muharrem: -2 }, schedule: { due: 2, next: 1 } } }
         ] },
-      { id: "ma-2", minWeek: 6, cooldown: 8, title: "Fener'de plaka",
+      { id: "ma-2", minWeek: 6, cooldown: 8, title: "Son Kepenk'de plaka",
         body: "Okul çıkışı bir sivil plaka sordu. Muharrem 'çocukların önünde' dedi, cümle bitti.",
         choices: [
           { id: "plaka", label: "Plakayı değiştir, para ver", effects: { cash: -2800, flags: { plaka: 1 }, gonul: { m_muharrem: 6 }, dosya: -2, schedule: { due: 3, next: 2, echo: "plaka" } } },
@@ -280,9 +280,9 @@
           { id: "bekle", label: "Anahtar masada", effects: { flags: { muharremMirasi: "anahtar" }, schedule: { due: 2, next: "done" } } }
         ] },
       { id: "ma-4", minWeek: 16, cooldown: 10, requireMemory: { who: "m_muharrem", type: "is-oncelik" }, title: "Muharrem direksiyonu bıraktı",
-        body: "Araba kapıda, adam yok. Sabri: 'Fener'e gitti. Geri döner ya da dönmez.'",
+        body: "Araba kapıda, adam yok. Sabri: 'Son Kepenk'e gitti. Geri döner ya da dönmez.'",
         choices: [
-          { id: "git", label: "Fener'e git, özür", effects: { cash: -500, gonul: { m_muharrem: 8 }, flags: { muharremDon: 1 }, schedule: { due: 2, next: "done" } } },
+          { id: "git", label: "Son Kepenk'e git, özür", effects: { cash: -500, gonul: { m_muharrem: 8 }, flags: { muharremDon: 1 }, schedule: { due: 2, next: "done" } } },
           { id: "yeni", label: "Başka şoför ara", effects: { gonul: { m_muharrem: -10 }, flags: { muharremGitti: 1 }, schedule: { due: 2, next: "done" } } },
           { id: "bekle", label: "Kapı açık dursun", effects: { schedule: { due: 2, next: "done" } } }
         ] }
@@ -452,7 +452,7 @@
           { id: "bekle", label: "Kahve önü boşalsın", effects: { schedule: { due: 2, next: 1 } } }
         ] },
       { id: "ka-2", minWeek: 7, cooldown: 8, title: "Geçici hat",
-        body: "Macar Kardeşler çizgi oldu. Kim geçer?",
+        body: "Kül Merdiven çizgi oldu. Kim geçer?",
         choices: [
           { id: "hat", label: "Hattı kabul et, üç hafta", effects: { flags: { hat: 1 }, husumet: -4, schedule: { due: 3, next: 2, echo: "hat" } } },
           { id: "gec", label: "Çizgi yok, geç", effects: { flags: { hatYok: 1 }, husumet: 8, dosya: 3, schedule: { due: 3, next: 2 } } },
@@ -474,7 +474,7 @@
         ] }
     ]},
     { id: "kartal-provokasyon", family: "rakipler", exclusive: ["kartal-ateskes"], npc: "rival_kartallar", stages: [
-      { id: "kp-1", minWeek: 4, maxWeek: 11, cooldown: 8, title: "Macar'da kepenk çizildi",
+      { id: "kp-1", minWeek: 4, maxWeek: 11, cooldown: 8, title: "Kül Merdiven'da kepenk çizildi",
         body: "Bizim sokak değil. Çizgi bize bakıyor. Cevdet 'cevap ver' diyor. Sabri 'yem' diyor.",
         idBody: { fevri: "Çizgi taze. Cevdet gülümsedi. Sen de gülüyorsun, mahalle görüyor.", kontrollu: "Sabri kısık. 'Yem bu. Ölçülü dur, çizgi onlarda kalsın.'" },
         choices: [
@@ -569,7 +569,7 @@
     { id: "zeki-kulak", family: "ekip", exclusive: [], npc: "m_zeki", stages: [
       { id: "zk-1", minWeek: 2, maxWeek: 9, cooldown: 8, requireMan: "m_zeki", title: "Zeki çay parası sordu",
         body: "Eğildi. 'Duydum. Sabri duymadı. Çay parası unutulursa kulak da unutur.'",
-        idBody: { paraOdakli: "Zeki elini açtı. 'Kulak ucuz değil. Çay parası, küçük.'", merhametli: "Zeki eğildi. 'Anam Draman'da. Çay parası değil, yerim.'", kontrollu: "Zeki kısık. 'Sabri duymadı. Ben duydum. Ölçülü öde, kulak durur.'" },
+        idBody: { paraOdakli: "Zeki elini açtı. 'Kulak ucuz değil. Çay parası, küçük.'", merhametli: "Zeki eğildi. 'Anam Dilsiz Çatı'da. Çay parası değil, yerim.'", kontrollu: "Zeki kısık. 'Sabri duymadı. Ben duydum. Ölçülü öde, kulak durur.'" },
         choices: [
           { id: "cay", label: "Çay parasını ver", effects: { cash: -200, flags: { zekiCay: 1 }, gonul: { m_zeki: 8 }, remember: [{ who: "m_zeki", type: "cay-aldi", sentiment: 1 }], schedule: { due: 3, next: 1, echo: "cay" } } },
           { id: "yok", label: "Kulak ücretsiz", effects: { gonul: { m_zeki: -8 }, remember: [{ who: "m_zeki", type: "cay-yok", sentiment: -2 }], schedule: { due: 2, next: 1 } } },
@@ -583,11 +583,11 @@
           { id: "bekle", label: "Sandalye boş değil", effects: { schedule: { due: 2, next: 2 } } }
         ] },
       { id: "zk-3", minWeek: 11, cooldown: 10, requireMan: "m_zeki", title: "Annesinin adı",
-        body: "Draman. Biri Zeki'nin annesinden bahsetti. Zeki eğilmedi, dikildi.",
+        body: "Dilsiz Çatı. Biri Zeki'nin annesinden bahsetti. Zeki eğilmedi, dikildi.",
         choices: [
           { id: "koru", label: "Adı kapat, mahalle duymasın", effects: { flags: { zekiMirasi: "anne" }, gonul: { m_zeki: 10 }, remember: [{ who: "m_zeki", type: "anne-korundu", sentiment: 2 }], schedule: { due: 3, next: "done" } } },
           { id: "gec", label: "Geç, iş var", effects: { flags: { zekiMirasi: "gec" }, gonul: { m_zeki: -12 }, schedule: { due: 3, next: "done" } } },
-          { id: "bekle", label: "Draman uzak", effects: { flags: { zekiMirasi: "uzak" }, schedule: { due: 2, next: "done" } } }
+          { id: "bekle", label: "Dilsiz Çatı uzak", effects: { flags: { zekiMirasi: "uzak" }, schedule: { due: 2, next: "done" } } }
         ] },
       { id: "zk-4", minWeek: 16, cooldown: 10, requireMan: "m_zeki", requireMemory: { who: "m_zeki", type: "cay-yok" }, title: "Kulak satıldı",
         body: "Bir cümle dışarı çıktı. Zeki 'çay parasıydı' demiyor, bakıyor.",
@@ -678,7 +678,7 @@
           { id: "bekle", label: "Yorum uçar", effects: { schedule: { due: 2, next: 2 } } }
         ] },
       { id: "me-3", minWeek: 12, cooldown: 10, title: "Oğul geri geldi",
-        body: "Borç değil, teşekkür de değil. Bir bilgi. 'Kartallar Fener'de araba arıyor.'",
+        body: "Borç değil, teşekkür de değil. Bir bilgi. 'Kartallar Son Kepenk'de araba arıyor.'",
         choices: [
           { id: "dinle", label: "Dinle, bırak", effects: { flags: { merhametMirasi: "bilgi" }, gonul: { m_muharrem: 4 }, schedule: { due: 3, next: "done" } } },
           { id: "kullan", label: "Kullan, oğula pay yok", effects: { flags: { merhametMirasi: "kullan" }, husumet: 3, schedule: { due: 3, next: "done" } } },
@@ -801,7 +801,7 @@
           { id: "bekle", label: "Kahve dağılır", effects: { schedule: { due: 2, next: 2 } } }
         ] },
       { id: "sa-3", minWeek: 13, cooldown: 10, title: "Bölge prestiji",
-        body: "Fevzi Paşa'da adın geçiyor. Doğru mu, yanlış mı, sen seçeceksin.",
+        body: "Kırık Avlu'da adın geçiyor. Doğru mu, yanlış mı, sen seçeceksin.",
         choices: [
           { id: "kabul", label: "Kabul et, görünür ol", effects: { flags: { sozMirasi: "gorunur" }, rep: { nam: 4, racon: 2 }, dosya: 4, schedule: { due: 3, next: "done" } } },
           { id: "inkar", label: "İnkar, mahalle küçük kalsın", effects: { flags: { sozMirasi: "kucuk" }, rep: { nam: -2 }, gonul: { m_sabri: 4 }, schedule: { due: 3, next: "done" } } },
@@ -846,7 +846,7 @@
         ] }
     ]},
     { id: "fener-cenaze", family: "kisisel", exclusive: [], npc: "m_muharrem", stages: [
-      { id: "fc-1", minWeek: 8, maxWeek: 16, cooldown: 8, title: "Fener'de cenaze",
+      { id: "fc-1", minWeek: 8, maxWeek: 16, cooldown: 8, title: "Son Kepenk'de cenaze",
         body: "Muharrem'in mahallesi. 'Bugün iş yok. Cenaze var. Gelirsen sözün ağırlaşır, gelmezsen ev soğur.'",
         idBody: { merhametli: "Muharrem bekliyor. Gelmen yeter, çelenk ikinci.", fevri: "Muharrem kısık. 'Ateşli haftada cenazeye gelinmez sandım. Yanıldım mı?'" },
         choices: [
@@ -861,7 +861,7 @@
           { id: "yaz", label: "Borç durur, defter durur", effects: { gonul: { m_muharrem: -6 }, flags: { cenazeYaz: 1 }, schedule: { due: 3, next: 2 } } },
           { id: "bekle", label: "Kâğıt cebe", effects: { schedule: { due: 2, next: 2 } } }
         ] },
-      { id: "fc-3", minWeek: 16, cooldown: 10, title: "Fener'in bakışı",
+      { id: "fc-3", minWeek: 16, cooldown: 10, title: "Son Kepenk'in bakışı",
         body: "Muharrem eve gitti, döndü. 'Sordular. Sen nasıl birisin diye. Ben cevap vermedim.'",
         choices: [
           { id: "iyi", label: "İyi de, mahalle duysun", effects: { flags: { fenerMirasi: "iyi" }, gonul: { m_muharrem: 6 }, rep: { saygi: 2 }, schedule: { due: 3, next: "done" } } },
@@ -898,7 +898,7 @@
     "avukat": "Ferit kapıyı açtı. Saat durdu.",
     "masa": "Ateşkes masası kuruldu. Çay soğumadı.",
     "cevap": "Cevap vitrine işlendi. Kartallar gördü.",
-    "cenaze": "Cenazeye gidildi. Fener sordu, Muharrem cevap vermedi.",
+    "cenaze": "Cenazeye gidildi. Son Kepenk sordu, Muharrem cevap vermedi.",
     "soz": "Söz tutuldu. Sabri tespihi döndürdü.",
     "borc-geldi": "Kısa borç geldi. Gelecek hafta iki kat kapıda."
   };
@@ -1048,7 +1048,7 @@
     if (f.merhametMirasi) traces.push("Merhamet: " + f.merhametMirasi);
     if (f.korkuMirasi) traces.push("Korku: " + f.korkuMirasi);
     if (f.sozMirasi) traces.push("Söz: " + f.sozMirasi);
-    if (f.fenerMirasi) traces.push("Fener: " + f.fenerMirasi);
+    if (f.fenerMirasi) traces.push("Son Kepenk: " + f.fenerMirasi);
     return traces;
   }
 

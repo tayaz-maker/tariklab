@@ -414,3 +414,8 @@ Chromium must pass before integration.
 - Shared-content source: no
 - Native follow-up: yes (paused); carry visual architecture when native resumes.
 - Commits: astra/hanedanian-darbe-ultimate-visual (candidate; not merged)
+
+### 2026-09-26 — Racon courtyard consequences
+- Web: inherited save-order keys rejected; original fictional street labels, directed delayed neighbour effects and exact network-only closure rehearsal; pure render model with lazy Pixi / semantic SVG+DOM parity.
+- Saves: existing three-slot RACON/1 contract and opaque street/item IDs preserved; optional bounded flow queue/history added. Audio/assets/new dependencies: none; A025 records code geometry.
+- Native remains paused. Release handoff: `astra/racon-neighbourhood-consequences`; port the same rules/model only when native work resumes.

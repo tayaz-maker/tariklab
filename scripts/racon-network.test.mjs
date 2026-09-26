@@ -81,10 +81,12 @@ test("protect: order now, heat each week, file pressure at the end; rivals canno
   for (let i = 0; i < 3; i += 1) Ag.weekly(S, api());
   assert.equal(st(S, "st_aksem").heat, 26);
   assert.equal(st(S, "st_aksem").terorMahalle, 11);
-  assert.equal(st(S, "st_fevzi").heat, 23, "owned neighbour warms with the patrol");
+  assert.equal(st(S, "st_fevzi").heat, 22, "third patrol signal is still in transit");
   assert.equal(S.dosya, 12, "the police remember the patrols");
   assert.equal(Ag.active(S, "st_aksem"), null);
   assert.equal(Ag.protectedFromRival(S, "st_aksem"), false);
+  Ag.weekly(S, api());
+  assert.equal(st(S, "st_fevzi").heat, 23, "last patrol arrives after the order ends");
 });
 
 test("invest: nothing for four weeks, then lasting income and slower heat; lost to a rival", () => {
@@ -98,8 +100,10 @@ test("invest: nothing for four weeks, then lasting income and slower heat; lost 
   assert.equal(st(S, "st_fevzi").yatirim, 1);
   assert.equal(st(S, "st_fevzi").sadakatMahalle, 60);
   assert.equal(st(S, "st_fene"), undefined);
-  assert.equal(st(S, "st_fener").sadakatMahalle, 52, "neighbours feel the investment");
+  assert.equal(st(S, "st_fener").sadakatMahalle, 50, "investment signal has not arrived yet");
   assert.deepEqual(log.at(-1), ["income", 600]);
+  Ag.weekly(S, api()); Ag.weekly(S, api());
+  assert.equal(st(S, "st_fener").sadakatMahalle, 52, "neutral neighbour receives delayed investment trust");
   assert.equal(Ag.heatStep(st(S, "st_fevzi")), 1);
   assert.equal(Ag.heatStep({ sahip: "sen", yatirim: 0 }), 2);
   const T = world();
@@ -123,11 +127,12 @@ test("withdraw: pressure drops now, the file eases two weeks later, the street i
     log.find((x) => x[0] === "rep"),
     ["rep", "saygi", -1],
   );
-  assert.equal(st(S, "st_fevzi").heat, 18);
+  assert.equal(st(S, "st_fevzi").heat, 20, "withdrawal relief travels after control is abandoned");
   Ag.weekly(S, api());
   assert.equal(S.dosya, 10);
   Ag.weekly(S, api());
   assert.equal(S.dosya, 7);
+  assert.equal(st(S, "st_fevzi").heat, 18);
 });
 
 test("relation: slow loyalty, favour at the end, a rival street can fall open", () => {
