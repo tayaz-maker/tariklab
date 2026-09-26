@@ -320,6 +320,18 @@ p {
   .save-row > :first-child {
     grid-column: 1 / -1;
   }
+  .tlab-embedded .topbar,
+  .embedded .topbar {
+    /* backdrop-filter captures fixed descendants; the save panel must anchor to the viewport. */
+    backdrop-filter: none;
+  }
+  .save-popover {
+    position: fixed;
+    top: max(10px, env(safe-area-inset-top));
+    right: max(10px, env(safe-area-inset-right));
+    left: auto;
+    max-height: calc(100dvh - 20px);
+  }
   .front-menu {
     margin-top: 12px;
   }
