@@ -8,5 +8,5 @@
 - Tarayıcı: 1440/390/320 × gerçek Pixi/zorlanmış SVG, 43 kontrol PASS; mevcut campaign akışı 1280/360 PASS; save/reload, kota, gerçek context-loss, resize, menü/reset ve odak doğrulandı.
 - Ölçüm: son pakette başlangıç 96–188 ms; ölçülen CPU çizim medyanı 1,1 ms, en yüksek 4,2 ms; sürekli ticker yok, en çok bir canvas, eski kayıttan güvenli geçiş var. FPS iddiası değildir.
 - Açık risk: runner SwiftShader; fiziksel GPU/production smoke Terra/Sol’da. Tüm 17 oyun dosyası temiz build ile birebir eşleşti; son küçük düzeltmeler hedefli/browser testleriyle kapatıldı.
-- Release: PR açılıyor; Terra/Sol gerçek PR head’inde zorunlu CI yeşilken merge etsin; `/oyna/ihtilal` ve `/games/ihtilal/index.html` smoke. #101/Luna/Novella değiştirilmedi.
-- Sonraki adım: handoff sonrası temiz worktree’de Racon discovery; bu tur ikinci çekirdek sistem yok, CI/merge/production beklenmez. Novella LATER.
+- Release: [PR #104](https://github.com/tayaz-maker/tariklab/pull/104) handoff Terra/Sol’da; gerçek head’de zorunlu CI yeşilken merge, iki hostta `/oyna/ihtilal` ve `/games/ihtilal/index.html` smoke. #101/Luna değişmedi.
+- Sonraki adım: Racon temiz worktree keşfi başladı; 6 sokak DOM/SVG, üç slot v1, hedefli ağ/kayıt 16/16. Sonraki tur: oyuncu eşzamanlı sokak kararlarının haftalık maliyetini ve komşu etkisini haritada karşılaştırabilsin; önce normalize’ın `__proto__` kararını kabul etme repro’sunu düzelt. İHTİLÂL ikinci sistem sonraya; Novella LATER.
