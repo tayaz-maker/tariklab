@@ -320,6 +320,13 @@ p {
   .save-row > :first-child {
     grid-column: 1 / -1;
   }
+  .save-popover {
+    position: fixed;
+    top: max(10px, env(safe-area-inset-top));
+    right: max(10px, env(safe-area-inset-right));
+    left: auto;
+    max-height: calc(100dvh - 20px);
+  }
   .front-menu {
     margin-top: 12px;
   }
