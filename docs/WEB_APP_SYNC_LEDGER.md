@@ -414,3 +414,11 @@ Chromium must pass before integration.
 - Shared-content source: no
 - Native follow-up: yes (paused); carry visual architecture when native resumes.
 - Commits: astra/hanedanian-darbe-ultimate-visual (candidate; not merged)
+
+
+### 2026-09-26 — TC SIM historical starts
+- Web change: added fixed 18 April 1999 and seeded 1980s solo life routes through 1 January 2026; preserved Günümüz and `tc-sim-save` compatibility.
+- Historical event cards carry event-specific institutional citations; uncited dated choices are explicitly fictional life prompts.
+- Added deterministic choices and delayed life effects; browser coverage targets 1440, 390 and 320 px.
+- Scope: TC SIM historical core only; no DEVLET #100, Pixi CI infrastructure or JITEM changes.
+- PR: codex/tc-sim-historical-starts.

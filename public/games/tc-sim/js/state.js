@@ -18,6 +18,7 @@ import {
   selectNetworkPeople,
 } from "./network.js?v=10";
 import { ensureLifeDepthState, neutralLifeDepth, validateLifeDepthState } from "./life-depth.js?v=10";
+import { createScenario } from "./historical-scenarios.js?v=10";
 
 export const SAVE_VERSION = 6;
 export const WEEKS_PER_MONTH = 4;
@@ -157,6 +158,8 @@ export function createNewGame(options = {}) {
   const profile = profileSettings(options.profile);
   const now = options.now || new Date().toISOString();
   const seed = Number.isInteger(options.seed) ? options.seed >>> 0 : 20270101;
+  const scenario = createScenario(options.eraId, seed);
+  const startingYear = scenario?.startYear || 2027;
   const socialBonus = options.profile === "social" ? 6 : 0;
   const background = {
     family: Object.hasOwn(BACKGROUND_OPTIONS.family, options.familyBackground)
@@ -208,6 +211,7 @@ export function createNewGame(options = {}) {
       createdAt: now,
       updatedAt: now,
       rngState: seed || 1,
+      startYear: startingYear,
       yearStartBalance: profile.balance + economicBalance,
       yearStartHealth: { energy: profile.energy, stress: profile.stress, health: 82 },
       yearStartRelationships: {
@@ -236,8 +240,13 @@ export function createNewGame(options = {}) {
       age: 18,
       city: "İstanbul",
     },
-    world: { eraId: getEraById(options.eraId)?.id || PRESENT_DAY_ERA_ID },
-    time: { year: 2027, month: 1, weekOfMonth: 1, absoluteWeek: 1 },
+    world: { eraId: getEraById(options.eraId)?.id || PRESENT_DAY_ERA_ID, ...(scenario ? { scenario } : {}) },
+    time: {
+      year: startingYear,
+      month: scenario ? Number(scenario.startDate.slice(5, 7)) : 1,
+      weekOfMonth: scenario ? Math.ceil(Number(scenario.startDate.slice(8, 10)) / 7) : 1,
+      absoluteWeek: 1,
+    },
     wealth: neutralWealth(),
     finances: {
       balance: profile.balance + economicBalance,
@@ -277,7 +286,7 @@ export function createNewGame(options = {}) {
     events: { active: null, queue: [], seen: [], cooldowns: {}, history: [] },
     weekly: { used: 0, selectedIds: [] },
     yearlyHistory: [],
-    yearlyPlan: { year: 2027, priorities: [], progress: {} },
+    yearlyPlan: { year: startingYear, priorities: [], progress: {} },
     secrets: [],
     favors: [],
     reputation: { evidence: [] },

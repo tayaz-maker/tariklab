@@ -2,7 +2,7 @@ name: ci
 
 on:
   push:
-    branches: [main]
+    branches: [main, codex/tc-sim-historical-starts]
   pull_request:
 
 concurrency:
@@ -51,12 +51,21 @@ jobs:
       - name: Responsive and interaction regression (TR/EN, 16 live routes)
         timeout-minutes: 10
         run: node scripts/sitewide-responsive.mjs
+      - name: TC SIM historical starts (1440, 390, 320 px; save, reload and 2026)
+        timeout-minutes: 10
+        run: node scripts/tc-sim-historical-browser.mjs
       - name: Upload responsive evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: sitewide-responsive
           path: ${{ runner.temp }}/screenshots/tariklab-ux
+      - name: Upload TC SIM historical evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tc-sim-historical-responsive
+          path: ${{ runner.temp }}/screenshots/tc-sim-historical
       - name: Verify deployed duel assets, archives and legacy saves
         if: github.ref == 'refs/heads/main'
         timeout-minutes: 8

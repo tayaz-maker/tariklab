@@ -26,7 +26,6 @@ import {
 import { applyRelationshipDelta, markMeaningfulContact } from "./social.js?v=10";
 import { activateNextEvent, enqueueEvent, processDueOpenCases, hasEligiblePoolEvent } from "./events.js?v=10";
 import { attachLifeDossier, processLifeDepthWeek, recordLifeDecision } from "./life-depth.js?v=10";
-import { processDecisionNetworkWeek } from "./decision-network.js?v=10";
 import { decorateLifeDossier, processLifeContentWeek, pickLifeContentOrganic, shouldOfferLifeContent, takeDueLifeContent } from "./life-content.js?v=10";
 import { applyWeeklyLifeLoad, getMonthlySummary } from "./life.js?v=10";
 import { processWealthMonthEnd, processOwnedBenefits, processCashShortfall, netWorth } from "./wealth.js?v=10";
@@ -40,6 +39,7 @@ import {
 import { processLongTermBody, getBodyYearSummary, getHealthPriorityReflection } from "./body-systems.js?v=10";
 import { processNetworkWeek } from "./network.js?v=10";
 import { acknowledgeBodyWarning, manageBodyCondition } from "./body-systems.js?v=10";
+import { processScenarioWeek } from "./historical-scenarios.js?v=10";
 
 import { getPlayerVisibleOpenCases } from "./calendar.js?v=10";
 
@@ -384,7 +384,7 @@ function processMonthEnd(state) {
 
 function closeYear(state, endedYear) {
   const yearMemories = state.memories.filter((memory) => memory.year === endedYear);
-  const yearStartWeek = (endedYear - 2027) * 48 + 1;
+  const yearStartWeek = (endedYear - (state.meta.startYear || 2027)) * 48 + 1;
   const yearEndWeek = yearStartWeek + 47;
   const yearEvents = state.events.history.filter(
     (entry) => entry.week >= yearStartWeek && entry.week <= yearEndWeek,
@@ -500,19 +500,21 @@ function reflectYearPriorities(state, priorities) {
 export function advanceWeek(state) {
   if (state.lifetime?.death)
     return { ok: false, messages: ["Bu yaşam tamamlandı; yaşam raporuna geç."] };
+  if (state.world?.scenario?.completed)
+    return { ok: false, messages: ["1 Ocak 2026 sonucuna ulaştın; bu tarihsel rota tamamlandı."] };
+  if (state.world?.scenario?.pendingEvent)
+    return { ok: false, messages: ["Önce dönem kararını ver."] };
   if (state.events.active) return { ok: false, messages: ["Önce açık olayı sonuçlandır."] };
   const messages = [];
   const previousYear = state.time.year;
   const workedOvertime = state.flags.overtimeLastWeek === state.time.absoluteWeek;
 
   processParenthoodWeek(state);
-  // The week's choices close into the decision network before time moves on:
-  // commitment to the current goal, and the cost of areas left untended.
-  processDecisionNetworkWeek(state, state.weekly.selectedIds);
   applyWeeklyLifeLoad(state);
   processLongTermBody(state, { decisionIds: state.weekly.selectedIds });
 
   state.time.absoluteWeek += 1;
+  messages.push(...processScenarioWeek(state));
   if (Number.isInteger(state.lifetime?.bornWeek))
     state.player.age = Math.floor((state.time.absoluteWeek - state.lifetime.bornWeek) / 48);
   state.time.weekOfMonth += 1;

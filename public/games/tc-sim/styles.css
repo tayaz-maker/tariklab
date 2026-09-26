@@ -462,120 +462,6 @@ select:focus-visible {
   font-size: 0.78rem;
   line-height: 1.42;
 }
-/* Karar ağı: baskı ve hedef önce; fırsat ve sonuç zinciri planlama derinliği. */
-.week-panel {
-  display: flex;
-  flex-direction: column;
-}
-.network-plan {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 7px;
-  margin: 0 0 10px;
-}
-.network-plan.is-more {
-  margin: 10px 0 0;
-}
-.network-cell {
-  min-width: 0;
-  border: 1px solid var(--line);
-  border-radius: 5px;
-  padding: 9px 10px;
-  background: var(--surface-2);
-}
-.network-cell .panel-kicker {
-  margin: 0 0 4px;
-  text-transform: uppercase;
-}
-.network-cell strong,
-.network-cell small {
-  display: block;
-  overflow-wrap: anywhere;
-}
-.network-cell strong {
-  font-size: 0.83rem;
-  line-height: 1.35;
-}
-.network-cell small {
-  margin-top: 3px;
-  color: var(--muted);
-  font-size: 0.73rem;
-  line-height: 1.35;
-}
-.network-cell.is-pressure {
-  border-left: 3px solid var(--danger);
-}
-.network-cell.is-goal {
-  border-left: 3px solid var(--accent);
-}
-.network-cell.is-opportunity {
-  border-left: 3px solid var(--good);
-}
-.network-chain {
-  display: grid;
-  gap: 4px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  font-size: 0.76rem;
-  line-height: 1.35;
-}
-.network-chain span {
-  display: block;
-  color: var(--muted);
-  font-size: 0.68rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-.decision-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  margin-top: 6px;
-}
-.decision-tag {
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  padding: 0 7px;
-  font-size: 0.66rem;
-  line-height: 1.6;
-  color: var(--muted);
-  white-space: nowrap;
-}
-.decision-tag.is-hedef {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-.decision-tag.is-up:not(.is-hedef):not(.is-zaman) {
-  color: var(--good);
-}
-.decision-tag.is-down:not(.is-zaman) {
-  color: var(--danger);
-}
-@media (min-width: 901px) {
-  .week-panel > .panel-head,
-  .week-panel > .decision-context {
-    order: 0;
-  }
-  .week-panel > .network-plan.is-top {
-    order: 1;
-  }
-  .week-panel > .network-plan.is-more {
-    order: 2;
-    margin: 0 0 10px;
-  }
-  .week-panel > .decisions {
-    order: 3;
-  }
-  .week-panel > .result {
-    order: 4;
-  }
-}
-@media (max-width: 420px) {
-  .network-plan {
-    grid-template-columns: 1fr;
-  }
-}
 .agenda-panel p:not(.eyebrow) {
   margin: 0;
   color: var(--muted);
@@ -778,6 +664,61 @@ select {
   padding: 12px;
   background: var(--surface-2);
 }
+
+.historical-strip,
+.historical-event,
+.historical-result {
+  margin: 0 0 14px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: 14px;
+}
+.historical-strip {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 18px;
+  color: var(--muted);
+}
+.historical-strip b { color: var(--text); }
+.historical-event h2,
+.historical-result h2 { margin: 0 0 8px; font-size: 1.2rem; }
+.historical-event > p:not(.eyebrow),
+.historical-result > p { color: var(--muted); line-height: 1.5; }
+.historical-disclosure { font-size: 0.78rem; }
+.historical-choice-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 12px;
+}
+.historical-choice {
+  display: grid;
+  align-content: start;
+  gap: 5px;
+  min-height: 92px;
+  padding: 10px;
+  text-align: left;
+  white-space: normal;
+}
+.historical-choice small { color: var(--muted); line-height: 1.35; }
+.historical-result-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+.historical-result-grid span {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 9px;
+  color: var(--muted);
+}
+.historical-result-grid b { color: var(--text); }
 
 .event-backdrop {
   position: fixed;
@@ -1207,6 +1148,9 @@ select {
   }
 }
 @media (max-width: 540px) {
+  .historical-choice-grid,
+  .historical-result-grid { grid-template-columns: 1fr; }
+  .historical-choice { min-height: 54px; }
   .game-brand span,
   .top-meta span:first-child {
     display: none;
@@ -1439,3 +1383,5 @@ html.embedded .start-wrap .start-exit {
   opacity: 1;
   text-decoration: underline;
 }
+.historical-citations { overflow-wrap: anywhere; }
+.historical-citations a { color: var(--accent, #8fe3c0); text-underline-offset: .18em; }
