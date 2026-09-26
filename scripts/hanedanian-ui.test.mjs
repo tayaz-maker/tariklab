@@ -100,6 +100,9 @@ function createHarness() {
       focus(x, y) { this.focusPoint = { x, y }; },
       setZoom(zoom) { this.zoom = zoom; callbacks.onViewChange({ mode: zoom }); },
       resize() {}, zoomBy() {},
+      getView() { return { mode: this.zoom }; },
+      getRenderer() { return this.renderer || 'canvas'; },
+      setRenderer(renderer) { this.renderer = renderer; },
       select(x, y) { callbacks.onSelect(x === null || !this.state ? null : world.getTile(this.state.world, x, y)); },
     };
     return map;
@@ -295,4 +298,77 @@ test('VM UI contract: failed save stays visible and quit does not discard an uns
   assert.equal(h.ui.state, h.state);
   assert.match(h.nodes.get('toast').textContent, /Kayıt alanı dolu/);
   assert.match(h.nodes.get('save-status').textContent, /Kayıt alanı dolu/);
+});
+
+test('VM UI contract: owned-point transfer previews the old-town loss and submits the selected receiving town', async () => {
+  const h = createHarness();
+  const state = engine.createGame({ seed: 'TL-UI-TRANSFER', size: 49, aiCount: 0 });
+  const home = engine.getPlayerSettlements(state)[0];
+  const advanceTo = target => {
+    for (let pass = 0; pass < 8 && state.time < target; pass++) {
+      engine.dispatch(state, { type: 'setSpeed', speed: 1 });
+      engine.advance(state, target - state.time);
+    }
+    assert.equal(state.time, target, 'fixture reaches the scheduled engine arrival');
+    engine.dispatch(state, { type: 'setSpeed', speed: 0 });
+  };
+  // Build the second town and acquire its future resource point through actual orders.
+  assert.equal(engine.dispatch(state, { type: 'expand', settlementId: home.id, x: home.x - 3, y: home.y, name: 'Demir Yurdu' }).ok, true);
+  advanceTo(state.armies.at(-1).arriveAt);
+  const receiving = engine.getPlayerSettlements(state).find(t => t.id !== home.id);
+  const point = world.getTile(state.world, home.x - 2, home.y - 3);
+  assert.equal(engine.dispatch(state, { type: 'claim', settlementId: home.id, x: point.x, y: point.y, troops: { spear: 4 } }).ok, true);
+  advanceTo(state.armies.at(-1).arriveAt);
+  assert.equal(point.poi.ownerId, state.playerId);
+  assert.equal(point.poi.settlementId, home.id);
+  assert.equal(engine.validateState(state).ok, true);
+
+  await h.ui.enterGame(state);
+  await h.click({ town: home.id });
+  h.map.select(point.x, point.y);
+  assert.match(h.nodes.get('inspector').innerHTML, /data-action="reassign"/);
+  assert.match(h.nodes.get('inspector').innerHTML, /Bağlı yurdu değiştir/);
+  const beforePreview = JSON.stringify(state);
+  await h.click({ action: 'reassign' });
+  assert.equal(h.nodes.get('dialog').open, true);
+  const dialog = h.nodes.get('dialog-body').innerHTML;
+  const brief = mapintel.pointBrief(state, receiving, point.x, point.y);
+  assert.match(dialog, /id="reassign-form"/);
+  assert.ok(dialog.includes(`<option value="${receiving.id}" selected`));
+  assert.ok(dialog.includes(brief.benefit), 'visible brief includes receiver gain and old-town hourly loss');
+  assert.match(dialog, /katkıyı kaybeder/);
+  assert.match(dialog, /5 Nüfuz/);
+  assert.match(dialog, /Bağlantı kuryesi/);
+  assert.equal(JSON.stringify(state), beforePreview, 'opening and previewing does not charge or change campaign state');
+
+  const influence = engine.getFaction(state).influence;
+  const resources = clone(receiving.resources), troops = clone(receiving.troops);
+  await h.submit('reassign-form', { origin: receiving.id });
+  const courier = state.armies.find(a => a.rebind === true);
+  assert.ok(courier);
+  assert.equal(courier.fromId, receiving.id, 'form destination wins over the still-active capital');
+  assert.equal(courier.mission, 'claim');
+  assert.equal(courier.influenceCost, 5);
+  assert.equal(engine.getFaction(state).influence, influence - 5);
+  assert.deepEqual(receiving.resources, resources);
+  assert.deepEqual(receiving.troops, troops);
+  assert.equal(point.poi.settlementId, home.id, 'benefit remains with the old town until arrival');
+  assert.equal(h.nodes.get('dialog').open, false);
+  assert.match(h.nodes.get('inspector').innerHTML, /Zamanı başlat, sonucu izle/);
+  assert.ok(h.ui.saves.slots.auto.state.armies.some(a => a.rebind && a.fromId === receiving.id));
+  assert.equal(engine.validateState(state).ok, true);
+});
+
+test('VM UI contract: unselected inspector guidance follows the actual world and near zoom modes', async () => {
+  const h = createHarness();
+  await h.ui.enterGame(h.state);
+  await h.click({ action: 'deselect' });
+  h.map.setZoom('world');
+  assert.equal(h.map.getView().mode, 'world');
+  assert.match(h.nodes.get('inspector').innerHTML, /Dünya: bölge seç, tehdit ve yurt dağılımına bak/);
+  assert.doesNotMatch(h.nodes.get('inspector').innerHTML, /Yakın: seçili karonun/);
+  h.map.setZoom('near');
+  assert.equal(h.map.getView().mode, 'near');
+  assert.match(h.nodes.get('inspector').innerHTML, /Yakın: seçili karonun arazi, rota ve kuruluş kararı/);
+  assert.doesNotMatch(h.nodes.get('inspector').innerHTML, /Dünya: bölge seç/);
 });

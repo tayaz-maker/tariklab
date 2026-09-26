@@ -19,7 +19,7 @@ import {
 import { RESOURCES, TERRAINS, POIS, BUILDINGS, UNITS } from "./data.js";
 import { getTile } from "./world.js";
 import { createMap, MAP_LAYERS } from "./map-factory.js";
-import { expansionSites, expansionRange, siteVerdict, incomingThreats, regionPresence, scoutRoute, decisionBrief, strategicOverview, CLAIM_RANGE } from "./mapintel.js";
+import { expansionSites, expansionRange, siteVerdict, incomingThreats, regionPresence, scoutRoute, decisionBrief, routeBrief, pointBrief, strategicOverview, CLAIM_RANGE } from "./mapintel.js";
 import { previewOrder, snapshot, summarizePeriod, rowTone, orderStep, ORDER_STEPS } from "./orders.js";
 import { SaveManager } from "./save.js";
 import { getLang, installLanguage, translate } from "./i18n.js";
@@ -131,6 +131,10 @@ try {
 let sitesCache = { key: "", sites: null };
 let lastMapMode = null;
 const map = createMap($("world-map"), {
+  onRendererChange(renderer) {
+    const button = document.querySelector('[data-map="accessible"]');
+    if (button) button.setAttribute("aria-pressed", String(renderer === "dom"));
+  },
   onSelect(tile) {
     selected = tile ? { x: tile.x, y: tile.y } : null;
     // Picking a new target starts the next order; the step bar follows it.
@@ -220,6 +224,8 @@ function orderAction(form, data) {
   if (!town) return null;
   if (form.id === "demobilize-form")
     return { type: "demobilize", settlementId: town.id, unit: form.dataset.unit, count: Number(data.get("count")) };
+  if (form.id === "reassign-form")
+    return { type: "reassign", settlementId: String(data.get("origin")), x: selected.x, y: selected.y };
   if (form.id === "scout-form")
     return { type: "scout", settlementId: town.id, x: selected.x, y: selected.y, count: Number(data.get("count")) };
   if (form.id === "expand-form")
@@ -252,7 +258,7 @@ function outcomeText(outcome) {
   if (!outcome) return "";
   const when = (at) => `${gameDate(at)} (${duration(Math.max(0, at - state.time))})`;
   if (outcome.kind === "army")
-    return `${missionNames[outcome.mission] || outcome.mission} ${outcome.to.x}, ${outcome.to.y} noktasına ${when(outcome.arriveAt)} varır${troopsText(outcome.troops) === "Birlik yok" ? "" : ` · ${troopsText(outcome.troops)}`}`;
+    return `${outcome.rebind ? "Bağlantı kuryesi" : missionNames[outcome.mission] || outcome.mission} ${outcome.to.x}, ${outcome.to.y} noktasına ${when(outcome.arriveAt)} varır${troopsText(outcome.troops) === "Birlik yok" ? "" : ` · ${troopsText(outcome.troops)}`}`;
   if (outcome.kind === "queue")
     return outcome.job === "build"
       ? `${BUILDINGS[outcome.building]?.label} ${outcome.level}. seviye ${when(outcome.completeAt)} hazır olur`
@@ -262,7 +268,7 @@ function outcomeText(outcome) {
   return "";
 }
 function briefHTML(action) {
-  const town = activeTown();
+  const town = state.settlements.find(t => t.id === action?.settlementId) || activeTown();
   if (!town || !action) return "";
   const tradeTarget = action.targetId ? state.settlements.find((t) => t.id === action.targetId) : null;
   const point = Number.isFinite(action.x) ? { x: action.x, y: action.y } : tradeTarget || town;
@@ -277,7 +283,8 @@ function briefHTML(action) {
     : brief.risk === "yakın"
       ? `yakın rakip · ${brief.nearest.toFixed(1)} karo`
       : "sakin";
-  const next = brief.projection === "live" ? `sonraki saat (${where}): ${hour}` : brief.projection === "ifSettled" ? `yerleşirsen ilk saat: ${hour}` : "üretim yok; yalnız yol ve risk";
+  const pointContribution = pointBrief(state, town, point.x, point.y);
+  const next = pointContribution ? pointContribution.benefit : brief.projection === "live" ? `sonraki saat (${where}): ${hour}` : brief.projection === "ifSettled" ? `yerleşirsen ilk saat: ${hour}` : "üretim yok; yalnız yol ve risk";
   return `<div><dt>Mesafe / risk</dt><dd>${brief.distance.toFixed(1)} karo · gözcü ${duration(brief.minutes)} · kervan ${duration(brief.caravanMinutes)} · ${esc(risk)}</dd></div><div><dt>Sonraki dönem</dt><dd>${esc(next)}</dd></div>`;
 }
 /** Cost and result of an order, from the same dispatch the confirm button runs. */
@@ -378,6 +385,7 @@ function updateGuide() {
     range: expansionRange(town),
     claimRange: CLAIM_RANGE,
     sites: sitesCache.sites,
+    logistics: routeBrief(state, town, selected.x, selected.y, { scout: 1 }),
     route: route ? { ...route, label: `${duration(route.minutes)} · ${route.distance.toFixed(1)} karo` } : null,
   });
 }
@@ -419,6 +427,18 @@ function contextHTML(tile, town, own) {
     }
   }
   return `<div class="map-context">${rows.join("")}</div>`;
+}
+function routeCardHTML(town, tile) {
+  const route = town && routeBrief(state, town, tile.x, tile.y, { scout: 1 });
+  if (!route || route.distance < .5) return "";
+  const previous = document.querySelector?.(".route-brief");
+  const key = `${tile.x},${tile.y}`;
+  const open = previous?.open && previous.dataset.routeTile === key;
+  return `<details class="route-brief" data-route-tile="${key}" ${open ? "open" : ""}><summary>Yol defteri · ${duration(route.minutes)}</summary><p>${esc(route.summary)}</p><dl><div><dt>Yol / vadi / sarp</dt><dd>${route.roadTiles} / ${route.riverTiles} / ${route.roughTiles} karo</dd></div><div><dt>Gözlenmeyen kesim</dt><dd>${route.unobservedTiles} / ${route.tiles.length} karo</dd></div><div><dt>Görünen tehlike</dt><dd>${route.threats.length} sefer</dd></div></dl><p class="form-note">Kesikli rota gözlem dışını gösterir; güvenlik garantisi değildir. Çatışma hedefte çözülür.</p></details>`;
+}
+function pointCardHTML(point) {
+  if (!point) return "";
+  return `<section class="point-brief"><span class="eyebrow">NOKTANIN KATKISI</span><p>${esc(point.benefit)}</p><p><strong>Bağlı yurt:</strong> ${esc(point.currentBinding?.name || "Bağlı değil")}</p>${point.resourceDeltaPerHour != null ? `<p><strong>Bu yurda katkı:</strong> +${fmtRate(point.resourceDeltaPerHour)} ${esc(RESOURCES[point.resource]?.label || "")} / saat</p>` : ""}<small>${esc(point.reason)}</small></section>`;
 }
 function notice(message, error = false) {
   const el = $("toast");
@@ -473,7 +493,7 @@ async function persist(slot = "auto", announce = false) {
     );
   return result.ok;
 }
-const ORDER_TYPES = new Set(["build", "train", "demobilize", "trade", "expand", "scout", "attack", "claim"]);
+const ORDER_TYPES = new Set(["build", "train", "demobilize", "trade", "expand", "scout", "attack", "claim", "reassign"]);
 function doAction(action) {
   if (!state) return;
   const result = dispatch(state, action);
@@ -569,7 +589,7 @@ function renderInspector() {
     el.classList.remove("has-selection");
     map.setGuide?.(null);
     const board = strategicOverview(state);
-    const zoom = map.mode === "world" ? "Dünya: bölge seç, tehdit ve yurt dağılımına bak." : map.mode === "region" ? "Bölge: bir karo seçince mesafe, risk ve bedel açılır." : "Yakın: seçili karonun arazi, rota ve kuruluş kararı.";
+    const zoom = map.getView().mode === "world" ? "Dünya: bölge seç, tehdit ve yurt dağılımına bak." : map.getView().mode === "region" ? "Bölge: bir karo seçince mesafe, risk ve bedel açılır." : "Yakın: seçili karonun arazi, rota ve kuruluş kararı.";
     el.innerHTML = `${stepsHTML(currentStep(), true)}<p class="eyebrow">HARİTA REHBERİ</p><h2>Bir sonraki adımın<br>nerede?</h2><p class="muted">${esc(zoom)}</p><div class="strategy-grid">${board.map((row) => `<button type="button" class="strategy-cell" data-region="${row.id}"><b>${esc(row.name)}</b><small>${row.towns} yurt${row.points ? ` · ${row.points} nokta` : ""}${row.threats ? ` · ${row.threats} tehdit` : ""}</small></button>`).join("")}</div><div class="note">Önce yerleşiminde bir üretim yapısı geliştir. Ardından bir gözcü gönder; yeni toprağa çıkmadan önce bilgi topla.</div><div class="tile-actions"><button class="primary" data-view="settlement">Yerleşimi geliştir</button><button data-map="home">Merkezimi bul</button></div><p class="rail-tip">Sürükle: gezin · Tekerlek/iki parmak: yakınlaş<br>Ok tuşları: seç · Escape: bırak</p>`;
     return;
   }
@@ -589,16 +609,19 @@ function renderInspector() {
         : null,
     own = town?.ownerId === state.playerId,
     estimate = from ? getTravelEstimate(state, from, tile, { scout: 1 }) : null;
+  const point = poi && from ? pointBrief(state, from, tile.x, tile.y) : null;
   const valueSummary = poi
-    ? `${poi.label}, bağlandığı yerleşime kalıcı bir bölgesel avantaj verir.`
+    ? point?.benefit || poi.description
     : `${terrain.label}; ${RESOURCES[keys[terrain.rates.indexOf(Math.max(...terrain.rates))]].label.toLocaleLowerCase("tr")} için güçlü bir üretim zemini.`;
   const nextMove = own
     ? "Burayı Yerleşim ekranından geliştir; yapı seçimin bu merkezin rolünü belirler."
-    : town || tile.poi
+    : tile.poi?.ownerId === state.playerId
+      ? "Bağlı yurdun katkısını incele. İhtiyaç değiştiyse 5 nüfuzla başka yurduna kurye gönder."
+      : town || tile.poi
       ? "Önce gözcüyle bilgiyi doğrula. Ardından yeterli birlik varsa sefer veya bağlama kararı ver."
       : "Gözcü riski azaltır. Yerleşim kafilesi ise kaynak ve nüfuz harcayarak bu karoyu kalıcı merkeze çevirir.";
   el.classList.add("has-selection");
-  el.innerHTML = `${stepsHTML(currentStep(), true)}<div class="inspector-head"><p class="coordinate">${tile.x} · ${tile.y} / ${state.world.size} × ${state.world.size}</p><button data-action="deselect" aria-label="Bölge bilgisini kapat">×</button></div><h2>${esc(town?.name || poi?.label || terrain.label)}</h2><span class="badge">${esc(owner?.name || "Bağımsız toprak")}</span>${contextHTML(tile, town, own)}<div class="decision-brief"><span>NEDEN ÖNEMLİ?</span><p>${esc(valueSummary)}</p><span>SONRAKİ KARAR</span><p>${esc(nextMove)}</p></div><p class="muted tile-description">${esc(terrain.description)}</p><div class="terrain-summary">${keys.map((k, i) => `<div><span>${RESOURCES[k].label}</span> ×${terrain.rates[i].toFixed(2)}</div>`).join("")}<div><span>Savunma</span> ×${terrain.defense}</div><div><span>Hareket</span> ×${terrain.movement}</div></div>${poi ? `<div class="note"><strong>${esc(poi.label)}</strong><p>${esc(poi.description)}</p><p>${tile.poi.ownerId ? "Bağlı nokta" : "Bağımsız muhafızlı nokta"} · Koruma gücü ${fmt(poi.guard * (tile.poi.ownerId ? 2.4 : 1))}</p></div>` : ""}${town && own ? `<p>${esc(getSettlementRole(state, town))}</p><div class="mini-stats">${keys.map((k) => `<div>${RESOURCES[k].label}: <strong>${fmt(town.resources[k])}</strong></div>`).join("")}</div><p class="muted tile-troops">${esc(troopsText(town.troops))}</p>` : town || tile.poi ? intelHTML(tile) : ""}<div class="tile-actions">${own ? `<button class="primary" data-open-town="${esc(town.id)}">Yerleşimi yönet</button>` : `<p>Çıkış: <strong>${esc(from?.name || "Yerleşim yok")}</strong>${estimate ? ` · ${estimate.distance.toFixed(1)} karo · Gözcü ${duration(estimate.minutes)}` : ""}</p><button class="primary" data-action="scout">Gözcü gönder</button>${!town && !tile.poi ? '<button data-action="expand">Buraya yerleş</button>' : ""}${town || tile.poi ? `<button data-action="${tile.poi ? "claim" : "attack"}">${tile.poi ? "Noktayı bağla" : "Sefer hazırla"}</button>` : ""}`}<button data-action="mark">${isMarked(tile) ? "İşareti kaldır" : "Haritada işaretle"}</button></div>`;
+  el.innerHTML = `${stepsHTML(currentStep(), true)}<div class="inspector-head"><p class="coordinate">${tile.x} · ${tile.y} / ${state.world.size} × ${state.world.size}</p><button data-action="deselect" aria-label="Bölge bilgisini kapat">×</button></div><h2>${esc(town?.name || poi?.label || terrain.label)}</h2><span class="badge">${esc(owner?.name || "Bağımsız toprak")}</span>${contextHTML(tile, town, own)}${routeCardHTML(from, tile)}${pointCardHTML(point)}<div class="decision-brief"><span>NEDEN ÖNEMLİ?</span><p>${esc(valueSummary)}</p><span>SONRAKİ KARAR</span><p>${esc(nextMove)}</p></div><p class="muted tile-description">${esc(terrain.description)}</p><div class="terrain-summary">${keys.map((k, i) => `<div><span>${RESOURCES[k].label}</span> ×${terrain.rates[i].toFixed(2)}</div>`).join("")}<div><span>Savunma</span> ×${terrain.defense}</div><div><span>Hareket</span> ×${terrain.movement}</div></div>${poi ? `<div class="note"><strong>${esc(poi.label)}</strong><p>${esc(poi.description)}</p><p>${tile.poi.ownerId ? "Bağlı nokta" : "Bağımsız muhafızlı nokta"} · Koruma gücü ${fmt(poi.guard * (tile.poi.ownerId ? 2.4 : 1))}</p></div>` : ""}${town && own ? `<p>${esc(getSettlementRole(state, town))}</p><div class="mini-stats">${keys.map((k) => `<div>${RESOURCES[k].label}: <strong>${fmt(town.resources[k])}</strong></div>`).join("")}</div><p class="muted tile-troops">${esc(troopsText(town.troops))}</p>` : town || tile.poi ? intelHTML(tile) : ""}<div class="tile-actions">${own ? `<button class="primary" data-open-town="${esc(town.id)}">Yerleşimi yönet</button>` : `<p>Çıkış: <strong>${esc(from?.name || "Yerleşim yok")}</strong>${estimate ? ` · ${estimate.distance.toFixed(1)} karo · Gözcü ${duration(estimate.minutes)}` : ""}</p><button class="primary" data-action="scout">Gözcü gönder</button>${!town && !tile.poi ? '<button data-action="expand">Buraya yerleş</button>' : ""}${tile.poi?.ownerId === state.playerId ? `<button data-action="reassign">Bağlı yurdu değiştir</button>` : town || tile.poi ? `<button data-action="${tile.poi ? "claim" : "attack"}">${tile.poi ? "Noktayı bağla" : "Sefer hazırla"}</button>` : ""}`}<button data-action="mark">${isMarked(tile) ? "İşareti kaldır" : "Haritada işaretle"}</button></div>`;
   updateGuide();
 }
 function intelHTML(tile) {
@@ -718,7 +741,7 @@ function armyHTML() {
       "Birlikler harita üzerinde yol alır. Uzak bir hedefe çıkan asker, yoldayken yerleşimini savunamaz.",
       true,
     ) +
-    `<div class="section-grid"><div class="card wide"><h3>Yoldaki birlikler · ${moving.length}</h3>${moving.length ? moving.map((a) => `<div class="report"><div class="row spread"><strong>${esc(missionNames[a.mission] || a.mission)}${a.returning ? " · Dönüşte" : ""}</strong><span class="badge">${duration(a.arriveAt - state.time)}</span></div><div class="army-route">${a.from.x},${a.from.y} → ${a.to.x},${a.to.y}</div><p>${esc(troopsText(a.troops))}</p>${!a.returning ? `<button data-recall="${esc(a.id)}">Geri çağır</button>` : ""}</div>`).join("") : '<p style="margin-top:12px">Şu anda yolda birlik yok. Haritadan bir hedef seçip keşif veya sefer başlat.</p>'}</div>${Object.entries(
+    `<div class="section-grid"><div class="card wide"><h3>Yoldaki birlikler · ${moving.length}</h3>${moving.length ? moving.map((a) => `<div class="report"><div class="row spread"><strong>${esc(a.rebind ? "Bağlantı kuryesi" : missionNames[a.mission] || a.mission)}${a.returning ? " · Dönüşte" : ""}</strong><span class="badge">${duration(a.arriveAt - state.time)}</span></div><div class="army-route">${a.from.x},${a.from.y} → ${a.to.x},${a.to.y}</div><p>${esc(troopsText(a.troops))}</p>${!a.returning ? `<button data-recall="${esc(a.id)}">Geri çağır</button>` : ""}</div>`).join("") : '<p style="margin-top:12px">Şu anda yolda birlik yok. Haritadan bir hedef seçip keşif veya sefer başlat.</p>'}</div>${Object.entries(
       UNITS,
     )
       .map(
@@ -971,6 +994,15 @@ function armyDialog(mission) {
       )}</div><p id="army-eta" class="form-note">Birlik seçerek süreyi gör.</p>${slot.preview}<button class="primary" type="submit" ${slot.disabled}>Birlikleri gönder</button></form>`,
   );
 }
+function reassignmentDialog() {
+  if (!selected) return;
+  const towns = getPlayerSettlements(state);
+  const choices = towns.map(town => ({ town, point: pointBrief(state, town, selected.x, selected.y) }));
+  const first = choices.find(row => row.point?.canReassign) || choices[0];
+  if (!first?.point) return;
+  const slot = previewSlot({ id: "reassign-form", dataset: {} }, { origin: first.town.id });
+  openDialog("Noktanın bağlı yurdunu değiştir", `<form id="reassign-form">${slot.steps}<p class="form-note">Kurye 5 nüfuz harcar. Eski yurt kurye varana kadar katkıyı alır; sonra yeni yurt alır. Nokta el değiştirirse veya yeni bağ kurulamazsa kurye döner; 5 nüfuz dönüşte iade edilir. Asker gönderilmez.</p><label>Yeni bağlı yurt<select name="origin">${choices.map(({ town, point }) => `<option value="${esc(town.id)}" ${town.id === first.town.id ? "selected" : ""}>${esc(town.name)} · ${point?.canReassign ? duration(point.minutes) : esc(point?.reason || "Uygun değil")}</option>`).join("")}</select></label><div id="point-transfer-plan">${pointCardHTML(first.point)}</div>${slot.preview}<button class="primary" type="submit" ${slot.disabled}>Bağlantı kuryesini gönder</button></form>`);
+}
 function scoutDialog() {
   const town = activeTown();
   if (!town || !selected) return;
@@ -1093,6 +1125,10 @@ document.addEventListener("click", async (event) => {
       }
       return;
     }
+    if (key === "accessible") {
+      map.setRenderer(map.getRenderer() === "dom" ? "auto" : "dom");
+      return;
+    }
     if (key === "in") map.zoomBy(1.35);
     if (key === "out") map.zoomBy(1 / 1.35);
     if (key === "world") map.setZoom("world");
@@ -1184,6 +1220,9 @@ document.addEventListener("click", async (event) => {
     case "expand":
       expansionDialog();
       break;
+    case "reassign":
+      reassignmentDialog();
+      break;
     case "attack":
     case "claim":
       armyDialog(b.dataset.action);
@@ -1264,6 +1303,12 @@ document.addEventListener("change", (event) => {
     setLayer(event.target.dataset.layer, event.target.checked);
     return;
   }
+  if (event.target.closest("#reassign-form")) {
+    const form = event.target.closest("form");
+    const town = state.settlements.find(t => t.id === form.elements.origin.value);
+    $("point-transfer-plan").innerHTML = pointCardHTML(pointBrief(state, town, selected.x, selected.y));
+    refreshPreview(form);
+  }
   if (event.target.id === "town-select") useTown(event.target.value);
   if (event.target.id === "import-file") {
     const file = event.target.files[0];
@@ -1294,7 +1339,7 @@ document.addEventListener("input", (event) => {
     $("training-cost").textContent =
       `Toplam: ${costText(UNITS[form.dataset.unit].cost.map((n) => n * Math.max(0, Number(form.elements.count.value))))}`;
   }
-  if (form && ["expand-form", "army-form", "scout-form", "train-form", "demobilize-form", "trade-form"].includes(form.id))
+  if (form && ["expand-form", "army-form", "scout-form", "train-form", "demobilize-form", "trade-form", "reassign-form"].includes(form.id))
     refreshPreview(form);
 });
 document.addEventListener("submit", async (event) => {
@@ -1302,6 +1347,7 @@ document.addEventListener("submit", async (event) => {
   if (
     ![
       "demobilize-form",
+      "reassign-form",
       "new-form",
       "expand-form",
       "army-form",

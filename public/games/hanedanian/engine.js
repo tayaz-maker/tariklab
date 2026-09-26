@@ -27,6 +27,23 @@ function worldPoints(state) {
   return pointCache.get(state.world);
 }
 const pointsFor = (state, town) => worldPoints(state).filter(tile => tile.poi.settlementId === town.id && tile.poi.ownerId === town.ownerId);
+
+// A binding transfer uses the ordinary claim courier, but never fights or
+// acquires a point. Read-only legality is shared by the map and dispatch.
+export function getPointReassignment(state, town, tile) {
+  const used = town ? pointsFor(state, town).length : 0;
+  const pending = town ? state.armies.filter(a => a.fromId === town.id && a.ownerId === town.ownerId && a.mission === 'claim' && !a.returning).length : 0;
+  let reason = '';
+  if (!town || town.ownerId !== state.playerId || !state.settlements.includes(town)) reason = 'Kendi çıkış yurdunu seç.';
+  else if (!tile?.poi || tile.poi.ownerId !== town.ownerId || !tile.poi.settlementId) reason = 'Yalnız kendi bağlı noktana yeni yurt atanabilir.';
+  else if (tile.poi.settlementId === town.id) reason = 'Nokta zaten bu yurda bağlı.';
+  else if (distance(town, tile) > 7) reason = 'Yeni bağlanacak yurt noktaya en fazla 7 karo uzakta olmalı.';
+  else if (state.armies.some(a => a.mission === 'claim' && a.ownerId === town.ownerId && !a.returning && a.to.x === tile.x && a.to.y === tile.y)) reason = 'Bu noktaya zaten bir sefer gidiyor.';
+  else if (used + pending >= 4) reason = 'Yurdun 4 nokta yeri dolu veya yoldaki seferlere ayrılmış.';
+  else if (state.armies.length >= LIMITS.armies) reason = 'Dünya sefer kapasitesi dolu; dönüşleri bekle.';
+  else if (getFaction(state, town.ownerId).influence < 5) reason = 'Bağlantı nakli için 5 nüfuz gerekiyor.';
+  return { ok: !reason, reason: reason || 'Ulaktan sonra katkı bu yurda taşınır; eski yurt katkıyı kaybeder.', used, pending };
+}
 function random(state) {
   state.randomState = (state.randomState + 0x6d2b79f5) >>> 0;
   let t = Math.imul(state.randomState ^ (state.randomState >>> 15), 1 | state.randomState);
@@ -298,6 +315,13 @@ function execute(state, action, ownerId) {
   const tile = getTile(state.world, action.x, action.y);
   if (!tile) return fail('Harita sınırları içinde bir karo seç.');
   const target = getSettlementAt(state, tile.x, tile.y);
+  if (action.type === 'reassign') {
+    const verdict = getPointReassignment(state, town, tile);
+    if (!verdict.ok) return fail(verdict.reason);
+    influence(state, ownerId, -5);
+    launch(state, town, 'claim', tile, {}, { rebind: true, pointId: tile.poi.id, rebindFromId: tile.poi.settlementId, influenceCost: 5 });
+    return success('Bağlantı ulağı yolda. Katkı varışa kadar eski yurtta; nakil gerçekleşmezse 5 nüfuz dönüşte geri gelir.');
+  }
   if (distance(town, tile) < 0.5) return fail('Sefer hedefi çıkış yerleşiminden farklı olmalı.');
   if (action.type === 'expand') {
     const cost = getExpansionCost(state, ownerId);
@@ -321,7 +345,8 @@ function execute(state, action, ownerId) {
     if (opponent && atPeace(state, ownerId, opponent)) return fail('Dost veya ateşkes yapılan hanedana saldırılamaz.');
     if (action.type === 'claim') {
       if (!tile.poi || tile.poi.ownerId === ownerId) return fail('Bağlanabilecek bir stratejik nokta seç.');
-      if (distance(town, tile) > 7 || pointsFor(state, town).length >= 4) return fail('Nokta en fazla 7 karo uzakta olmalı; yurt başına en fazla 4 nokta bağlanır.');
+      const pending = state.armies.filter(a => a.fromId === town.id && a.ownerId === ownerId && a.mission === 'claim' && !a.returning).length;
+      if (distance(town, tile) > 7 || pointsFor(state, town).length + pending >= 4) return fail('Nokta en fazla 7 karo uzakta olmalı; yurt başına 4 nokta yeri bağlı ve yoldaki seferler arasında paylaşılır.');
       if (state.armies.some(a => a.mission === 'claim' && a.ownerId === ownerId && !a.returning && a.to.x === tile.x && a.to.y === tile.y)) return fail('Bu noktaya zaten bir sefer gidiyor.');
       if (faction.influence < 5) return fail('Nokta bağlamak 5 nüfuz ister.');
       influence(state, ownerId, -5);
@@ -410,6 +435,16 @@ function resolveArmy(state, army) {
   }
   if (army.mission === 'claim') {
     const home = state.settlements.find(town => town.id === army.fromId && town.ownerId === army.ownerId);
+    if (army.rebind) {
+      const valid = home && tile.poi?.id === army.pointId && tile.poi.ownerId === army.ownerId && tile.poi.settlementId === army.rebindFromId && tile.poi.settlementId !== home.id && distance(home, tile) <= 7 && pointsFor(state, home).length < 4;
+      if (valid) {
+        const oldHome = state.settlements.find(town => town.id === tile.poi.settlementId);
+        tile.poi.settlementId = home.id;
+        army.influenceCost = 0;
+        if (player) report(state, 'claim', 'Noktanın bağı değişti', `${POIS[tile.poi.type].label}: katkı ${oldHome?.name || 'eski yurt'} yerleşiminden ${home.name} yerleşimine taşındı. Yola çıkmış seferlerin süreleri değişmez.`);
+      } else if (player) report(state, 'blocked', 'Bağlantı nakli iptal oldu', 'Noktanın sahibi, eski bağlantısı veya yeni yurdun kapasitesi değişti. Katkı taşınmadı; 5 nüfuz ulak dönüşünde geri gelir.');
+      returnArmy(state, army); return;
+    }
     if (!tile.poi || !home || tile.poi.ownerId === army.ownerId || (tile.poi.ownerId && atPeace(state, army.ownerId, tile.poi.ownerId)) || pointsFor(state, home).length >= 4) { returnArmy(state, army); return; }
     const power = combatPower(army.troops) * (player ? 1 + state.dynasty.stats.warfare * 0.035 : 1), guard = POIS[tile.poi.type].guard * (tile.poi.ownerId ? 2.4 : 1);
     const won = power > guard;
@@ -656,6 +691,9 @@ function inspectState(state) {
     check(counts(army.troops, UNIT_KEYS, LIMITS.troops, true) && counts(army.cargo, RESOURCE_KEYS, LIMITS.resource), 'Sefer yükü geçersiz.');
     if (army.supplyPath !== undefined) check(army.mission === 'trade' && Object.hasOwn(VICTORY_PATHS, army.supplyPath), 'İkmal yolu geçersiz.');
     if (army.influenceCost !== undefined) check(integer(army.influenceCost, 0, LIMITS.influence), 'Kurucu nüfuzu geçersiz.');
+    if (army.rebind !== undefined) {
+      check(army.rebind === true && army.mission === 'claim' && [0, 5].includes(army.influenceCost) && townIds.has(army.rebindFromId) && boundedString(army.pointId, 50) && army.pointId.length > 0 && UNIT_KEYS.every(key => army.troops[key] === 0) && RESOURCE_KEYS.every(key => army.cargo[key] === 0), 'Nokta nakli ulağı geçersiz.');
+    } else check(army.pointId === undefined && army.rebindFromId === undefined, 'Nokta nakli işareti eksik.');
     if (army.mission === 'expand') check(boundedString(army.name, 80), 'Kurucu yerleşim adı geçersiz.');
   }
   check(Array.isArray(state.reports) && state.reports.length <= LIMITS.reports, 'Rapor sınırı geçersiz.');

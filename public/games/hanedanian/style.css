@@ -1952,6 +1952,51 @@ body.toast-visible .section-view {
    COLORS.paper-toned grain/vector art, not a full-canvas opaque fill. */
 .map-workspace.has-pixi-terrain #world-map { background: transparent; }
 
+/* Canvas-independent atlas: real coordinate selection and the same orders. */
+#world-map[hidden] { display: none; }
+.map-directory {
+  position: absolute;
+  inset: 0;
+  overflow: auto;
+  padding: 80px 24px 48px;
+  background: var(--paper);
+  color: var(--ink);
+  scrollbar-gutter: stable;
+}
+.map-directory + .map-tools, .map-workspace:has(.map-directory) .map-tools { z-index: 2; }
+.map-workspace:has(.map-directory) .map-caption,
+.map-workspace:has(.map-directory) .map-legend,
+.map-workspace:has(.map-directory) .field-guide { display: none; }
+.atlas-directory-head h2 { margin: 4px 0 8px; }
+.atlas-directory-head p { max-width: 46ch; color: var(--muted); }
+.atlas-overview { display: block; width: min(100%, 260px); aspect-ratio: 1; border: 1px solid var(--line); }
+.atlas-selection { min-height: 24px; }
+.atlas-coordinate-form { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; gap: 8px; align-items: end; max-width: 460px; }
+.atlas-coordinate-form label { min-width: 0; }
+.atlas-coordinate-form input { min-width: 0; width: 100%; margin: 4px 0 0; }
+.atlas-place-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 8px; margin-top: 16px; }
+.atlas-place-list button { display: grid; text-align: left; white-space: normal; overflow-wrap: anywhere; }
+.atlas-place-list button span { font-size: 12px; color: var(--muted); }
+.atlas-place-list [aria-pressed="true"] { border-color: var(--ink); }
+.route-brief, .point-brief { padding: 12px; margin: 12px 0; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); overflow-wrap: anywhere; }
+.route-brief summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; font-weight: 600; }
+.route-brief summary::before { content: '+'; margin-right: 8px; }
+.route-brief[open] summary::before { content: '−'; }
+.route-brief dl { margin: 8px 0; }
+.route-brief dl div { display: flex; gap: 8px; justify-content: space-between; }
+.route-brief dd { margin: 0; font-variant-numeric: tabular-nums; }
+.point-brief p { margin: 6px 0; }
+.point-brief small { color: var(--muted); }
+#reassign-form select { width: 100%; min-width: 0; }
+@media (max-width: 450px) {
+  .map-tools { max-width: calc(100% - 16px); }
+  .map-tools button { padding-inline: 7px; }
+  .map-directory { padding: 68px 12px 55vh; }
+  .atlas-overview { width: min(100%, 176px); }
+  .atlas-coordinate-form { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .atlas-coordinate-form button { grid-column: 1 / -1; }
+}
+
 .amount-compact {
   display: none;
 }
@@ -1986,4 +2031,17 @@ body.toast-visible .section-view {
     overflow: auto;
     z-index: 7;
   }
+}
+
+@media (max-width: 450px) {
+  /* Reserve full rows for stock and time; five values must never compete
+     with a fixed-width clock for the same 320px line. */
+  .commandline { grid-template-columns: minmax(0, 1fr); }
+  .resources { width: 100%; margin: 0; }
+  .resource { height: 36px; }
+  .resource span { font-size: 9px; }
+  .timebar { min-height: 44px; padding: 0 8px; border-left: 0; border-top: 1px solid var(--line); }
+  .timebar > .time-state:first-child { display: flex; min-width: 0; white-space: nowrap; }
+  .timebar strong { font-size: 11px; }
+  .clock-controls button { min-width: 44px; min-height: 44px; }
 }
