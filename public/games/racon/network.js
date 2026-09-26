@@ -83,17 +83,34 @@
   function normalize(raw) {
     var ag = raw && typeof raw === "object" ? raw : {};
     var orders = Array.isArray(ag.orders) ? ag.orders : [];
-    return {
+    var seen = new Set();
+    var clean = {
       orders: orders
+        .slice(0, 24)
         .filter(function (o) {
-          return o && typeof o.street === "string" && ORDERS[o.kind] && num(o.left, 0) > 0;
+          if (
+            !o ||
+            typeof o.street !== "string" ||
+            !/^st_[a-z0-9_]{1,48}$/.test(o.street) ||
+            KIND.indexOf(o.kind) < 0 ||
+            !Number.isInteger(o.left) ||
+            o.left < 1 ||
+            o.left > ORDERS[o.kind].weeks ||
+            seen.has(o.street)
+          )
+            return false;
+          seen.add(o.street);
+          return true;
         })
         .map(function (o) {
           return {
             street: o.street,
             kind: o.kind,
-            from: num(o.from, 1),
-            left: Math.round(num(o.left, 1)),
+            from: clamp(Math.floor(num(o.from, 1)), 1, 100000),
+            left: o.left,
+            ...(typeof o.target === "string" && /^st_[a-z0-9_]{1,48}$/.test(o.target)
+              ? { target: o.target }
+              : {}),
           };
         })
         .slice(0, 4),
@@ -104,14 +121,29 @@
               return x && typeof x.text === "string";
             })
             .map(function (x) {
-              return { week: num(x.week, 1), text: x.text };
+              return { week: num(x.week, 1), text: x.text.slice(0, 320) };
             })
         : [],
     };
+    if (ag.flow && ag.flow.version === 1) clean.flow = normalizeFlow(ag.flow);
+    return clean;
   }
 
   function ensure(S) {
     S.ag = normalize(S.ag);
+    var ids = new Set(
+      (S.streets || []).map(function (s) {
+        return s.id;
+      }),
+    );
+    S.ag.orders = S.ag.orders.filter(function (o) {
+      return ids.has(o.street);
+    });
+    if (S.ag.flow)
+      S.ag.flow.queue = S.ag.flow.queue.filter(function (p) {
+        var st = streetBy(S, p.from);
+        return ids.has(p.to) && st && (st.komsular || []).indexOf(p.to) >= 0;
+      });
     return S.ag;
   }
 
@@ -124,19 +156,19 @@
 
   function active(S, streetId) {
     return (
-      ensure(S).orders.filter(function (o) {
+      normalize(S.ag).orders.filter(function (o) {
         return o.street === streetId;
       })[0] || null
     );
   }
 
-  function reason(S, streetId, kind) {
+  function reason(S, streetId, kind, target) {
     var st = streetBy(S, streetId);
-    var o = ORDERS[kind];
+    var o = KIND.indexOf(kind) >= 0 ? ORDERS[kind] : null;
     if (!st || !o) return "Böyle bir karar yok.";
     if (S.flags && S.flags.oyunSonu) return "Defter kapandı.";
     if (active(S, streetId)) return "Bu sokakta süren bir karar var.";
-    if (ensure(S).orders.length >= capacity(S))
+    if (normalize(S.ag).orders.length >= capacity(S))
       return "Ekip aynı anda en fazla " + capacity(S) + " sokak kararı taşır.";
     if (o.needs === "sen" && st.sahip !== "sen") return "Yalnız senin sokağında.";
     if (o.needs === "senVeyaBos" && st.sahip === "rakip") return "Rakip sokağa sermaye girmez.";
@@ -147,22 +179,26 @@
     if (kind === "yatirim" && num(st.yatirim, 0) >= YATIRIM_MAX)
       return "Bu sokağa daha fazla sermaye sığmaz.";
     if (kind !== "cekil" && num(st.muhurLeft, 0) > 0) return "Mühürlü sokakta karar alınmaz.";
-    if (o.cost && num(S.kasa, 0) < o.cost)
-      return "Kasada ₺" + o.cost.toLocaleString("tr-TR") + " gerekli.";
+    if (target && (!streetBy(S, target) || !(st.komsular || []).includes(target)))
+      return "Yalnız bağlı komşuya yön verilebilir.";
+    if (target && kind === "koru" && streetBy(S, target)?.sahip !== "sen")
+      return "Koru baskısı yalnız kontrolündeki komşuya yayılır.";
+    var cost = o.cost + (target ? 250 : 0);
+    if (num(S.kasa, 0) < cost) return "Kasada ₺" + cost.toLocaleString("tr-TR") + " gerekli.";
     return "";
   }
 
   /* Seçimden önce oyuncuya gösterilen tam etki. Zar yok: rakam neyse o. */
-  function preview(S, streetId, kind) {
+  function preview(S, streetId, kind, target) {
     var st = streetBy(S, streetId);
-    var o = ORDERS[kind];
+    var o = KIND.indexOf(kind) >= 0 ? ORDERS[kind] : null;
     if (!st || !o) return null;
     var ks = komsular(S, st);
     return {
       kind: kind,
       ad: o.ad,
       niyet: o.niyet,
-      cost: o.cost,
+      cost: o.cost + (target ? 250 : 0),
       weeks: o.weeks,
       now: o.now,
       weekly: o.weekly,
@@ -198,7 +234,8 @@
                 : st.sahip === "bos"
                   ? "Süre boyunca rakip bu boş sokağa kolay giremez."
                   : "",
-      reason: reason(S, streetId, kind),
+      reason: reason(S, streetId, kind, target),
+      spread: spreadPlan(S, streetId, kind, target),
     };
   }
 
@@ -209,7 +246,10 @@
     if (fx.sadakat) st.sadakatMahalle = clamp(num(st.sadakatMahalle, 50) + fx.sadakat, 0, 100);
     if (fx.yatirim) st.yatirim = clamp(num(st.yatirim, 0) + fx.yatirim, 0, YATIRIM_MAX);
     if (fx.sahip) st.sahip = fx.sahip;
-    if (fx.dosya) S.dosya = clamp(num(S.dosya, 0) + fx.dosya, 0, 100);
+    if (fx.dosya) {
+      if (api && api.filePressure) api.filePressure(fx.dosya, "Sokak kararı · " + st.ad);
+      else S.dosya = clamp(num(S.dosya, 0) + fx.dosya, 0, 100);
+    }
     if (fx.saygi && api && api.addRep) api.addRep("saygi", fx.saygi);
     if (fx.dokun) {
       S.flags = S.flags || {};
@@ -221,31 +261,37 @@
   }
 
   function note(S, text) {
-    var ag = ensure(S);
+    var ag = S.ag || ensure(S);
     ag.log.push({ week: num(S.week, 1), text: text });
     if (ag.log.length > 12) ag.log = ag.log.slice(-12);
   }
 
   /* Kararı başlat: bedel ve anlık etki şimdi. */
-  function start(S, streetId, kind, api) {
-    if (reason(S, streetId, kind)) return false;
+  function start(S, streetId, kind, api, target) {
+    if (reason(S, streetId, kind, target)) return false;
+    ensure(S);
+    flow(S);
     var st = streetBy(S, streetId);
-    var o = ORDERS[kind];
-    if (o.cost) {
-      if (api && api.pay) api.pay(o.cost, st.ad);
-      else S.kasa -= o.cost;
+    var o = KIND.indexOf(kind) >= 0 ? ORDERS[kind] : null;
+    var cost = o.cost + (target ? 250 : 0);
+    if (cost) {
+      if (api && api.pay) api.pay(cost, st.ad);
+      else S.kasa -= cost;
     }
     applyFx(S, st, o.now, api);
-    if (o.komsuNow)
-      komsular(S, st).forEach(function (k) {
-        applyFx(S, k, o.komsuNow, api);
-      });
+    send(S, { street: streetId, kind: kind, target: target }, "now");
     if (kind === "cekil") {
       S.flags = S.flags || {};
       S.flags.lastTouch = S.flags.lastTouch || {};
       S.flags.lastTouch[st.id] = S.week;
     }
-    ensure(S).orders.push({ street: st.id, kind: kind, from: num(S.week, 1), left: o.weeks });
+    S.ag.orders.push({
+      street: st.id,
+      kind: kind,
+      from: num(S.week, 1),
+      left: o.weeks,
+      ...(target ? { target: target } : {}),
+    });
     note(S, st.ad + " · " + o.ad + " başladı.");
     return true;
   }
@@ -253,6 +299,7 @@
   /* Haftalık kapanış: süren kararlar, kalıcı yatırım geliri ve bitişler. */
   function weekly(S, api) {
     var ag = ensure(S);
+    arrive(S, api);
     var done = [];
     ag.orders.forEach(function (ord) {
       var st = streetBy(S, ord.street);
@@ -267,10 +314,7 @@
         return;
       }
       applyFx(S, st, o.weekly, api);
-      if (o.komsuWeekly)
-        komsular(S, st).forEach(function (k) {
-          if (k.sahip === "sen") applyFx(S, k, o.komsuWeekly, api);
-        });
+      send(S, ord, "weekly");
       ord.left -= 1;
       if (ord.left <= 0) done.push(ord);
     });
@@ -278,10 +322,7 @@
       var st = streetBy(S, ord.street);
       var o = ORDERS[ord.kind];
       applyFx(S, st, o.end, api);
-      if (o.komsuEnd)
-        komsular(S, st).forEach(function (k) {
-          applyFx(S, k, o.komsuEnd, api);
-        });
+      send(S, ord, "end");
       if (ord.kind === "iliski" && st.sahip === "rakip" && num(st.sadakatMahalle, 0) >= 60) {
         st.sahip = "bos";
         note(S, st.ad + " · mahalle rakipten yüz çevirdi; sokak boş.");
@@ -391,6 +432,204 @@
     return out;
   }
 
+  // Fictional names keep old save IDs stable; these are not geographic coordinates.
+  var NAMES = {
+    st_fevzi: "Kırık Avlu",
+    st_aksem: "Bakır Eşik",
+    st_carsamba: "Çift Kandil",
+    st_macar: "Kül Merdiven",
+    st_draman: "Dilsiz Çatı",
+    st_fener: "Son Kepenk",
+  };
+  var PHASES = { now: "komsuNow", weekly: "komsuWeekly", end: "komsuEnd" };
+  function normalizeFlow(raw) {
+    var seen = new Set();
+    return {
+      version: 1,
+      seq: clamp(Math.floor(num(raw.seq, 0)), 0, 1000000),
+      queue: (Array.isArray(raw.queue) ? raw.queue : [])
+        .slice(0, 72)
+        .filter(function (p) {
+          if (
+            !p ||
+            !Number.isInteger(p.id) ||
+            p.id < 1 ||
+            p.id > 1000000 ||
+            seen.has(p.id) ||
+            KIND.indexOf(p.kind) < 0 ||
+            !Object.hasOwn(PHASES, p.phase) ||
+            !ORDERS[p.kind][PHASES[p.phase]] ||
+            !Object.hasOwn(NAMES, p.from) ||
+            !Object.hasOwn(NAMES, p.to) ||
+            p.from === p.to ||
+            !Number.isInteger(p.left) ||
+            p.left < 1 ||
+            p.left > 3
+          )
+            return false;
+          seen.add(p.id);
+          return true;
+        })
+        .map(function (p) {
+          return {
+            id: p.id,
+            from: p.from,
+            to: p.to,
+            kind: p.kind,
+            phase: p.phase,
+            left: p.left,
+            focus: p.focus === true,
+          };
+        }),
+      history: (Array.isArray(raw.history) ? raw.history : [])
+        .slice(-12)
+        .filter(function (h) {
+          return h && typeof h.text === "string";
+        })
+        .map(function (h) {
+          return { week: clamp(Math.floor(num(h.week, 1)), 1, 100000), text: h.text.slice(0, 320) };
+        }),
+    };
+  }
+  function flow(S) {
+    if (!S.ag.flow) S.ag.flow = normalizeFlow({});
+    return S.ag.flow;
+  }
+  function delay(S, from, to) {
+    var a = streetBy(S, from),
+      b = streetBy(S, to);
+    return a?.sahip === "sen" && b?.sahip === "sen" ? 1 : b?.sahip === "rakip" ? 3 : 2;
+  }
+  function spreadPlan(S, sid, kind, target) {
+    var st = streetBy(S, sid),
+      o = ORDERS[kind];
+    if (!st || KIND.indexOf(kind) < 0) return [];
+    return komsular(S, st)
+      .filter(function (k) {
+        return (!target || target === k.id) && (kind !== "koru" || k.sahip === "sen");
+      })
+      .map(function (k) {
+        var phase = o.komsuNow ? "now" : o.komsuWeekly ? "weekly" : "end";
+        var launch = phase === "now" ? 0 : phase === "weekly" ? 1 : o.weeks;
+        return {
+          from: sid,
+          to: k.id,
+          delay: kind === "cekil" ? (k.sahip === "rakip" ? 3 : 2) : delay(S, sid, k.id),
+          first: launch + (kind === "cekil" ? (k.sahip === "rakip" ? 3 : 2) : delay(S, sid, k.id)),
+          phase: phase,
+          focus: !!target,
+          fx: waveFx({ kind: kind, phase: phase, focus: !!target }, k),
+          repeat: phase === "weekly" ? o.weeks : 1,
+        };
+      });
+  }
+  function waveFx(p, receiver) {
+    var fx = ORDERS[p.kind][PHASES[p.phase]],
+      out = {};
+    Object.keys(fx).forEach(function (k) {
+      out[k] = fx[k] * (p.focus ? 2 : 1);
+    });
+    // A strained street hears only half a positive trust signal; never amplify money/favours.
+    if (out.sadakat > 0 && receiver.heat >= 60) out.sadakat = Math.floor(out.sadakat / 2);
+    return out;
+  }
+  function send(S, ord, phase) {
+    if (!ORDERS[ord.kind][PHASES[phase]]) return;
+    var f = flow(S);
+    spreadPlan(S, ord.street, ord.kind, ord.target).forEach(function (p) {
+      if (f.queue.length >= 72) return;
+      f.seq =
+        Math.max(
+          f.seq,
+          ...f.queue.map(function (q) {
+            return q.id;
+          }),
+        ) + 1;
+      f.queue.push({
+        id: f.seq,
+        from: p.from,
+        to: p.to,
+        kind: ord.kind,
+        phase: phase,
+        left: p.delay,
+        focus: p.focus,
+      });
+    });
+  }
+  function arrive(S, api) {
+    if (!S.ag.flow) return;
+    var f = S.ag.flow,
+      due = [],
+      totals = new Map();
+    f.queue.forEach(function (p) {
+      p.left--;
+      if (p.left === 0) due.push(p);
+    });
+    f.queue = f.queue.filter(function (p) {
+      return p.left > 0;
+    });
+    due
+      .sort(function (a, b) {
+        return a.id - b.id;
+      })
+      .forEach(function (p) {
+        var st = streetBy(S, p.to);
+        if (!st) return;
+        var fx = waveFx(p, st),
+          sum = totals.get(p.to) || {};
+        Object.keys(fx).forEach(function (k) {
+          sum[k] = (sum[k] || 0) + fx[k];
+        });
+        totals.set(p.to, sum);
+        var text =
+          NAMES[p.from] +
+          " → " +
+          NAMES[p.to] +
+          " · " +
+          ORDERS[p.kind].ad +
+          " · " +
+          Object.keys(fx)
+            .map(function (k) {
+              return (k === "heat" ? "baskı" : "güven") + " " + (fx[k] > 0 ? "+" : "") + fx[k];
+            })
+            .join(", ") +
+          (fx.sadakat && st.heat >= 60 ? " (yüksek baskı: yarım güven)" : "");
+        f.history.push({ week: S.week, text: text });
+        note(S, text);
+      });
+    totals.forEach(function (fx, id) {
+      applyFx(S, streetBy(S, id), fx, api);
+    });
+    f.history = f.history.slice(-12);
+  }
+  // Exact network + passive heat rehearsal, not a claim to predict rival AI or all weekly events.
+  function forecast(S) {
+    var copy = JSON.parse(JSON.stringify(S)),
+      income = 0;
+    copy.week++;
+    copy.streets.forEach(function (st) {
+      st.heat = clamp(st.heat + heatStep(st), 0, 100);
+    });
+    weekly(copy, {
+      income: function (n) {
+        income += n;
+      },
+    });
+    return {
+      income: income,
+      streets: copy.streets.map(function (st) {
+        var old = streetBy(S, st.id);
+        return {
+          id: st.id,
+          heat: st.heat,
+          trust: st.sadakatMahalle,
+          heatDelta: st.heat - old.heat,
+          trustDelta: st.sadakatMahalle - old.sadakatMahalle,
+        };
+      }),
+    };
+  }
+
   /* Şema yerleşimi: halka düzeninde 3×2 (geniş) ya da 2×3 (dar). Gerçek konum değil. */
   var LAYOUT = {
     wide: {
@@ -418,6 +657,11 @@
   }
 
   w.RaconAg = {
+    NAMES: NAMES,
+    delay: delay,
+    spreadPlan: spreadPlan,
+    waveFx: waveFx,
+    forecast: forecast,
     ORDERS: ORDERS,
     KIND: KIND,
     YATIRIM_GELIR: YATIRIM_GELIR,
