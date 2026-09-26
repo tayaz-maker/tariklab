@@ -18,6 +18,7 @@ import {
 import { screenHtml, helpHtml, visibleSnapshot } from "./presentation.js";
 import { implementationRate } from "../next-wave/devlet-sim.js";
 import { arrangeStateDesk } from "./desk.js";
+import { syncDevletMapOverlay } from "./maps-pixi.js";
 
 const axisLabel = {
   centralization: ["Merkezileşme", "Centralization"],
@@ -200,6 +201,7 @@ function draw(session) {
         draw(session);
       },
     });
+    syncDevletMapOverlay(root, null, mapSel);
     return;
   }
   const screen = currentScreen(state);
@@ -264,6 +266,7 @@ function draw(session) {
   }));
   bindSavePanel(root, session);
   arrangeStateDesk(root, screen, t);
+  syncDevletMapOverlay(root, state, mapSel);
   if (freshState && document.scrollingElement) document.scrollingElement.scrollTop = 0;
 }
 
