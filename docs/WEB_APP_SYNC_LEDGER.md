@@ -414,3 +414,11 @@ Chromium must pass before integration.
 - Shared-content source: no
 - Native follow-up: yes (paused); carry visual architecture when native resumes.
 - Commits: astra/hanedanian-darbe-ultimate-visual (candidate; not merged)
+
+### 2026-09-26 — HANEDANIAN living atlas and point logistics
+- Web: original zoom-aware procedural capital/town/fortification/POI miniatures; atlas-baked road, river and crossing relief; separate live ownership and observed/unobserved route cues.
+- Gameplay: owned points can transfer between towns via a paid courier; source contribution persists until arrival, transfer legality is rechecked and cancelled couriers refund on return. Claim capacity reserves pending slots.
+- Reliability: diplomacy-aware threats; correct founder production forecast; accessible SVG/DOM directory with the same tile/order flow; safe Pixi context-loss fallback and renderer cleanup.
+- Save/schema: HANEDANIAN schema 1 and storage keys retained; optional courier fields validated; old campaign and pending-order saves remain readable.
+- Assets: original code geometry only (A023); no new runtime dependencies or sound. Shared native content unchanged; native remains paused.
+- Proof and release owner: docs/ASTRA_ULTRA_RUN_STATE.md and this checkpoint's PR handoff.

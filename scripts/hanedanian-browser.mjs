@@ -33,8 +33,13 @@ try {
   await page.waitForFunction(()=>Number(document.querySelector('#world-map').dataset.drawnTiles)>0);
   assert.match(await page.locator('#field-guide').innerText(),/Reis sensin[\s\S]*Üret[\s\S]*Zamanı başlat[\s\S]*Keşfet/,'fresh player receives contextual first steps');
   const chrome=await page.evaluate(()=>{const top=document.querySelector('.topbar').getBoundingClientRect(),brand=document.querySelector('.brandline').getBoundingClientRect(),commands=document.querySelector('.commandline').getBoundingClientRect(),goal=document.querySelector('.campaign-strip').getBoundingClientRect();return {top:top.height,brand:brand.height,commands:commands.height,goal:goal.height,total:top.height+goal.height};});
-  assert.ok(chrome.total<=(mobile?100:96),`compact command chrome ${JSON.stringify(chrome)}`);results.push({label:`${width}:hud`,...chrome});
-  if(mobile){const row=await page.evaluate(()=>{const a=document.querySelector('.resources').getBoundingClientRect(),b=document.querySelector('.timebar').getBoundingClientRect();return {overlap:Math.max(0,a.right-b.left),topDelta:Math.abs(a.top-b.top)};});assert.ok(row.overlap<=1&&row.topDelta<=1,`mobile resources and time controls must share a row without overlap ${JSON.stringify(row)}`);}
+  assert.ok(mobile?chrome.top<=128&&chrome.total<=156:chrome.total<=96,`bounded command chrome ${JSON.stringify(chrome)}`);results.push({label:`${width}:hud`,...chrome});
+  if(mobile){
+   const row=await page.evaluate(()=>{const a=document.querySelector('.resources').getBoundingClientRect(),b=document.querySelector('.timebar').getBoundingClientRect();return {verticalOverlap:Math.max(0,a.bottom-b.top),stocksWidth:a.width,viewport:innerWidth,values:[...document.querySelectorAll('.resources .resource b')].map(el=>({text:el.innerText,width:el.clientWidth,scroll:el.scrollWidth})),clock:[...document.querySelectorAll('.clock-controls button')].map(el=>{const r=el.getBoundingClientRect();return {width:r.width,height:r.height};})};});
+   assert.ok(row.verticalOverlap<=1&&row.stocksWidth>=row.viewport-20,`mobile stocks and time controls have separate full rows ${JSON.stringify(row)}`);
+   assert.ok(row.values.every(v=>v.width>0&&v.scroll<=v.width+1),`all mobile stock values are readable ${JSON.stringify(row.values)}`);
+   assert.ok(row.clock.every(b=>b.width>=44&&b.height>=44),`mobile clock targets are at least 44px ${JSON.stringify(row.clock)}`);
+  }
   await page.locator('[data-guide="dismiss"]').click();
   await checkLayout(page,`${width}:launch`);
   const canvas=page.locator('#world-map'),box=await canvas.boundingBox(),x=box.x+box.width*.5,y=box.y+box.height*.35;
