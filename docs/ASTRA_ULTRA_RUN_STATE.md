@@ -8,7 +8,8 @@ Updated: 2026-09-26 (UTC). Release monitoring belongs to Terra / Sol / Luna; thi
 - Base: merged #100, `dee186f7c437e2675765bebe7ffdeec9a271cf9c`.
 - Published implementation SHA: `421443a18562b627985c6c3a19e5bd3f56c1f571` (subsequent checkpoint commits update this record only).
 - Exact tested tree: `940e469faf15df9bcc809f84bea084cf2ad15ec6`, identical to local tested commit `c7f8fdd17e873e74d45eaac2e89dd487af8aa93e`. Shell HTTPS push lacked credentials, so the connected GitHub API published the identical tree; no source changes were introduced during publication.
-- Release PR: opening from this branch after the checkpoint push; final link recorded in the handoff update.
+- Release PR: [#102 — living relief atlas and point logistics](https://github.com/tayaz-maker/tariklab/pull/102).
+- First published checkpoint head: `ce3750465bf272176223d49307e04b66b9dc3b2d`; the PR handoff identifies the latest documentation-only head. Gate the actual PR head when releasing.
 - Status: **merge-ready checkpoint**; implementation, clean-build browser and real offline gates passed. CI/merge/production belong to the release agent.
 
 ### Material change
@@ -63,4 +64,14 @@ Reproduction: `node --test scripts/hanedanian-*.test.mjs`; `node scripts/hanedan
 
 ## Next game / boundaries
 
-TC SIM is next in sequence. After the HANEDANIAN handoff, check Luna's historical-start PR/merge result once and open a clean discovery worktree. Do not duplicate or modify Luna's branch; implementation/audit of the historical start depends on that handoff result. Preserve `tc-sim-save`. PR #101 remains Terra's responsibility. Novella remains **LATER**.
+Immediately after the #102 handoff, a single GitHub search for `head:codex/tc-sim-historical-starts` across all PR states returned no PR (2026-09-26, 13:27 UTC). No Actions/CI/deployment polling followed. Luna's PR/merge result is therefore still an integration prerequisite; her branch was neither modified nor duplicated.
+
+A clean detached discovery worktree was opened at merged #100 (`dee186f7c437e2675765bebe7ffdeec9a271cf9c`): `/workspace/scratch/f69805d9a14c/tariklab-tc-discovery`. Discovery is limited to the existing main's file/contract inventory. Historical-start auditing or implementation starts only when Luna supplies the PR/merge handoff. Preserve `tc-sim-save`; resume with a narrow bug baseline, then life-network consequences and source-by-source historical provenance. Do not skip ahead to İHTİLÂL while this integration prerequisite remains unresolved.
+
+Discovery inventory (no TC SIM code/test changes):
+
+- Correct game: `public/games/tc-sim/`, `/oyna/tc-sim`, `/games/tc-sim/index.html`; `tc-sim-devlet/` is a separate game. At the inspected base, `state.js` is version 6 and `save.js` owns `tc-sim-save`, its backup and three `tariklab::tc-sim:*` slots/migrations.
+- Extend existing systems: `time.js::advanceWeek` determines ordering; `decision-network.js` already connects time, money, relationships, energy and goals; `life-depth.js` already carries ten life domains, pending/resolved effects and decision history. Do not create a competing consequence engine.
+- Integration boundaries: `life.js`/`education.js` for work–study–energy; `household.js`/`social.js` for costs, trust and timed `openCases`; `wealth.js`/`body-systems.js` for debt, access and wellbeing. `app.js`/`weekly-feedback.js` are the existing preview and observed before/after explanation surfaces. Reconcile these with Luna's result before proposing changes.
+
+PR #101 remains Terra's responsibility. Novella remains **LATER**.
