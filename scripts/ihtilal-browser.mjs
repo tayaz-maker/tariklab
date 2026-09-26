@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {mkdirSync,writeFileSync} from 'node:fs';
+import {existsSync,mkdirSync,writeFileSync} from 'node:fs';
 import {spawn} from 'node:child_process';
 import {chromium} from 'playwright';
 const origin=process.env.GAME_E2E_ORIGIN||'http://127.0.0.1:8083';
@@ -41,3 +41,12 @@ try{
  }
 }finally{writeFileSync(`${out}/results.json`,JSON.stringify({results,errors},null,2));await browser?.close();server?.kill('SIGTERM');}
 console.log(JSON.stringify({results,errors}));
+
+// Keep the protected campaign-browser entry point exercising the actual basin system.
+// Reuses the installed browser; no workflow change, network fixtures or unattended soak.
+const basinRoot=existsSync('.output/public/games/ihtilal/basin-network.js')?'.output/public':'public';
+const basinExit=await new Promise((done,reject)=>{
+ const child=spawn(process.execPath,['scripts/ihtilal-ultra-browser.mjs','--serve',basinRoot,'--label','basin-checkpoint'],{stdio:'inherit',env:process.env});
+ child.once('error',reject);child.once('exit',done);
+});
+assert.equal(basinExit,0,'basin current, fallback and save acceptance');
