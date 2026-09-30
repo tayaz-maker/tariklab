@@ -1,0 +1,361 @@
+[
+  {
+    "key": "tariklab.ihtilal.solo.v1",
+    "version": 1,
+    "state": {
+      "id": "ihtilal-solo",
+      "version": 1,
+      "seed": 19,
+      "period": 1,
+      "capacity": 3,
+      "spent": 0,
+      "trust": 52,
+      "intel": 34,
+      "tension": 22,
+      "selected": "merkez",
+      "regions": [
+        {
+          "id": "kuzey",
+          "strain": 35,
+          "hold": 51
+        },
+        {
+          "id": "bati",
+          "strain": 43,
+          "hold": 43
+        },
+        {
+          "id": "ic",
+          "strain": 29,
+          "hold": 37
+        },
+        {
+          "id": "merkez",
+          "strain": 35,
+          "hold": 39
+        },
+        {
+          "id": "dogu",
+          "strain": 32,
+          "hold": 48
+        },
+        {
+          "id": "yayla",
+          "strain": 25,
+          "hold": 49
+        },
+        {
+          "id": "guney",
+          "strain": 43,
+          "hold": 51
+        }
+      ],
+      "pending": [],
+      "log": [],
+      "phase": "play",
+      "ending": null
+    }
+  },
+  {
+    "key": "tariklab.ihtilal.solo.v1",
+    "version": 1,
+    "state": {
+      "id": "ihtilal-solo",
+      "version": 1,
+      "seed": 19,
+      "period": 1,
+      "capacity": 2,
+      "spent": 1,
+      "trust": 48,
+      "intel": 44,
+      "tension": 24,
+      "selected": "merkez",
+      "regions": [
+        {
+          "id": "kuzey",
+          "strain": 35,
+          "hold": 51
+        },
+        {
+          "id": "bati",
+          "strain": 43,
+          "hold": 43
+        },
+        {
+          "id": "ic",
+          "strain": 29,
+          "hold": 37
+        },
+        {
+          "id": "merkez",
+          "strain": 35,
+          "hold": 39
+        },
+        {
+          "id": "dogu",
+          "strain": 32,
+          "hold": 48
+        },
+        {
+          "id": "yayla",
+          "strain": 25,
+          "hold": 49
+        },
+        {
+          "id": "guney",
+          "strain": 43,
+          "hold": 51
+        }
+      ],
+      "pending": [
+        {
+          "due": 2,
+          "tension": 7,
+          "intel": 2,
+          "tag": "ac-echo"
+        }
+      ],
+      "log": [
+        {
+          "k": "move",
+          "id": "ac",
+          "region": "merkez",
+          "period": 1
+        }
+      ],
+      "phase": "play",
+      "ending": null
+    }
+  },
+  {
+    "key": "tariklab.ihtilal.solo.v1",
+    "version": 1,
+    "state": {
+      "id": "ihtilal-solo",
+      "version": 1,
+      "seed": 19,
+      "period": 4,
+      "capacity": 3,
+      "spent": 0,
+      "trust": 50,
+      "intel": 46,
+      "tension": 31,
+      "selected": "merkez",
+      "regions": [
+        {
+          "id": "kuzey",
+          "strain": 35,
+          "hold": 51
+        },
+        {
+          "id": "bati",
+          "strain": 43,
+          "hold": 43
+        },
+        {
+          "id": "ic",
+          "strain": 29,
+          "hold": 37
+        },
+        {
+          "id": "merkez",
+          "strain": 11,
+          "hold": 55
+        },
+        {
+          "id": "dogu",
+          "strain": 32,
+          "hold": 48
+        },
+        {
+          "id": "yayla",
+          "strain": 25,
+          "hold": 49
+        },
+        {
+          "id": "guney",
+          "strain": 43,
+          "hold": 51
+        }
+      ],
+      "pending": [
+        {
+          "due": 4,
+          "trust": 4,
+          "tag": "tut-calm"
+        }
+      ],
+      "log": [
+        {
+          "k": "move",
+          "id": "ac",
+          "region": "merkez",
+          "period": 1
+        },
+        {
+          "k": "period",
+          "from": 1,
+          "echoes": 0
+        },
+        {
+          "k": "move",
+          "id": "tut",
+          "region": "merkez",
+          "period": 2
+        },
+        {
+          "k": "period",
+          "from": 2,
+          "echoes": 1
+        },
+        {
+          "k": "move",
+          "id": "tut",
+          "region": "merkez",
+          "period": 3
+        },
+        {
+          "k": "period",
+          "from": 3,
+          "echoes": 1
+        }
+      ],
+      "phase": "break",
+      "ending": null
+    }
+  },
+  {
+    "key": "tariklab.ihtilal.solo.v1",
+    "version": 1,
+    "state": {
+      "id": "ihtilal-solo",
+      "version": 1,
+      "seed": 19,
+      "period": 7,
+      "capacity": 3,
+      "spent": 0,
+      "trust": 65,
+      "intel": 52,
+      "tension": 39,
+      "selected": "merkez",
+      "regions": [
+        {
+          "id": "kuzey",
+          "strain": 35,
+          "hold": 51
+        },
+        {
+          "id": "bati",
+          "strain": 43,
+          "hold": 43
+        },
+        {
+          "id": "ic",
+          "strain": 29,
+          "hold": 37
+        },
+        {
+          "id": "merkez",
+          "strain": 0,
+          "hold": 79
+        },
+        {
+          "id": "dogu",
+          "strain": 32,
+          "hold": 48
+        },
+        {
+          "id": "yayla",
+          "strain": 25,
+          "hold": 49
+        },
+        {
+          "id": "guney",
+          "strain": 43,
+          "hold": 51
+        }
+      ],
+      "pending": [
+        {
+          "due": 7,
+          "trust": 4,
+          "tag": "tut-calm"
+        }
+      ],
+      "log": [
+        {
+          "k": "move",
+          "id": "ac",
+          "region": "merkez",
+          "period": 1
+        },
+        {
+          "k": "period",
+          "from": 1,
+          "echoes": 0
+        },
+        {
+          "k": "move",
+          "id": "tut",
+          "region": "merkez",
+          "period": 2
+        },
+        {
+          "k": "period",
+          "from": 2,
+          "echoes": 1
+        },
+        {
+          "k": "move",
+          "id": "tut",
+          "region": "merkez",
+          "period": 3
+        },
+        {
+          "k": "period",
+          "from": 3,
+          "echoes": 1
+        },
+        {
+          "k": "break",
+          "id": "acik"
+        },
+        {
+          "k": "move",
+          "id": "tut",
+          "region": "merkez",
+          "period": 4
+        },
+        {
+          "k": "period",
+          "from": 4,
+          "echoes": 1
+        },
+        {
+          "k": "move",
+          "id": "tut",
+          "region": "merkez",
+          "period": 5
+        },
+        {
+          "k": "period",
+          "from": 5,
+          "echoes": 1
+        },
+        {
+          "k": "move",
+          "id": "tut",
+          "region": "merkez",
+          "period": 6
+        },
+        {
+          "k": "period",
+          "from": 6,
+          "echoes": 1
+        }
+      ],
+      "phase": "end",
+      "ending": "tutanak"
+    }
+  }
+]
