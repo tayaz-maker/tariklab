@@ -103,6 +103,7 @@ try {
               saved.time.absoluteWeek = eventWeek - 1;
               await page.evaluate(({ key, save }) => localStorage.setItem(key, JSON.stringify(save)), { key: storageKey, save: saved });
               await page.reload({ waitUntil: "networkidle" });
+              await page.locator("#continue-game").click();
               await page.locator("#advance-week").click();
             }
             assert.ok(await page.locator(".historical-event").count(), "an event card is visible");
@@ -115,6 +116,7 @@ try {
             }
             await page.locator('[data-scenario-choice="work"]').click();
             await page.reload({ waitUntil: "networkidle" });
+            await page.locator("#continue-game").click();
             saved = await page.evaluate((key) => JSON.parse(localStorage.getItem(key)), storageKey);
             assert.equal(saved.world.scenario.history.length, 1, "chosen event survives save/reload");
             await assertNoOverflow("save-reload");
@@ -125,6 +127,7 @@ try {
             saved.world.scenario.pendingEvent = null;
             await page.evaluate(({ key, save }) => localStorage.setItem(key, JSON.stringify(save)), { key: storageKey, save: saved });
             await page.reload({ waitUntil: "networkidle" });
+            await page.locator("#continue-game").click();
             await page.locator("#advance-week").click();
             saved = await page.evaluate((key) => JSON.parse(localStorage.getItem(key)), storageKey);
             assert.equal(saved.world.scenario.delayedEffects[0].applied, true, "delayed consequence resolves after 48 weeks");
@@ -137,6 +140,7 @@ try {
             saved.world.scenario.pendingEvent = null;
             await page.evaluate(({ key, save }) => localStorage.setItem(key, JSON.stringify(save)), { key: storageKey, save: saved });
             await page.reload({ waitUntil: "networkidle" });
+            await page.locator("#continue-game").click();
             await page.locator("#advance-week").click();
             saved = await page.evaluate((key) => JSON.parse(localStorage.getItem(key)), storageKey);
             assert.equal(saved.world.scenario.completed, true, "1 January 2026 final is saved");
