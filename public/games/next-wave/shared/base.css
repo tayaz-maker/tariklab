@@ -257,6 +257,7 @@ p {
   overflow-y: auto;
   overscroll-behavior: contain;
 }
+.save-menu:not([open]) > .save-popover { display: none; }
 .save-note {
   margin: 0 0 10px;
   color: var(--muted);
@@ -320,6 +321,18 @@ p {
   .save-row > :first-child {
     grid-column: 1 / -1;
   }
+  .tlab-embedded .topbar,
+  .embedded .topbar {
+    /* backdrop-filter captures fixed descendants; the save panel must anchor to the viewport. */
+    backdrop-filter: none;
+  }
+  .save-popover {
+    position: fixed;
+    top: max(var(--save-panel-top, 140px), env(safe-area-inset-top));
+    right: max(10px, env(safe-area-inset-right));
+    left: auto;
+    max-height: calc(100dvh - var(--save-panel-top, 140px) - max(10px, env(safe-area-inset-bottom)));
+  }
   .front-menu {
     margin-top: 12px;
   }
@@ -350,9 +363,9 @@ p {
   .setup-actions { position: static; }
   .save-popover {
     position: fixed;
-    top: 54px;
+    top: var(--save-panel-top, 64px);
     right: max(10px, env(safe-area-inset-right));
-    max-height: calc(100dvh - 64px);
+    max-height: calc(100dvh - var(--save-panel-top, 64px) - 10px);
   }
 }
 @media (prefers-reduced-motion: reduce) {
