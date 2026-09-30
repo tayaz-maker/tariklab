@@ -424,3 +424,11 @@ Chromium must pass before integration.
 ### 2026-09-30 — ordered CI release integration (#101)
 - #103 passed every protected job on fffc2b34 and merged as fc21dc91. TR/EN at 320/360/390 on both www.tariklab.com and tariklab.tayaz29.workers.dev passed real save/reload, panel close, immediate resize and Regions/Foreign transitions.
 - Updated #101 on that exact main; shared/workflow/script changes still select the full browser/campaign/balance matrix. No test or soak gate is removed. Web-only tooling; game rules, saves and native pause unchanged.
+
+### 2026-09-26 — TC SIM historical starts
+- Web change: added fixed 18 April 1999 and seeded 1980s solo life routes through 1 January 2026; preserved Günümüz and `tc-sim-save` compatibility.
+- Historical event cards carry event-specific official source URL, publication/access date, institution role and supported claim; uncited dated choices are explicitly fictional life prompts.
+- Added deterministic choices and delayed life effects; browser coverage targets 1440, 390 and 320 px.
+- Rebased on the #101 merge (`513127f`); retained main's phone `weekPlanHtml` decision layout and decision-network week close.
+- Scope: TC SIM historical core only; no DEVLET #100, Pixi CI infrastructure or JITEM changes.
+- PR: codex/tc-sim-historical-starts.
