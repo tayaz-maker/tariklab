@@ -252,7 +252,7 @@ function ensureContainer() {
     // without clipping, that child -- not just this container box -- is what
     // actually still overflows the document even once the container itself
     // is clamped.
-    Object.assign(container.style, { position: "absolute", pointerEvents: "none", zIndex: "1", display: "none", maxWidth: "100vw", maxHeight: "100vh", overflow: "hidden" });
+    Object.assign(container.style, { position: "absolute", pointerEvents: "none", zIndex: "1", display: "none", maxWidth: "max(0px, calc(100vw - var(--overlay-left, 0px)))", maxHeight: "100vh", overflow: "hidden" });
   }
   if (!container.isConnected) document.body.appendChild(container);
   return container;
@@ -304,6 +304,9 @@ async function ensureScene(kind, viewEl) {
 function positionOverlay(viewEl) {
   const el = ensureContainer();
   const rect = viewEl.getBoundingClientRect();
+  // A stale width must fit the remaining viewport, not the whole viewport:
+  // a map inset 23px with max-width:100vw still escapes by exactly 23px.
+  el.style.setProperty("--overlay-left", `${Math.max(0, rect.left)}px`);
   el.style.left = `${rect.left + window.scrollX}px`;
   el.style.top = `${rect.top + window.scrollY}px`;
   el.style.width = `${rect.width}px`;
