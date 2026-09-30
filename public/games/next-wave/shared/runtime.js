@@ -159,7 +159,29 @@ export function bindFrontMenu(root, session, options) {
   });
 }
 
+let releaseSavePanel = null;
+function bindSavePanelLayout(root) {
+  releaseSavePanel?.();
+  const menu = root.querySelector?.('.save-menu');
+  if (!menu) return;
+  const header = menu?.closest('.topbar');
+  const positionPanel = () => {
+    if (!menu?.open) return;
+    const bottom = (header || menu.querySelector('summary')).getBoundingClientRect().bottom;
+    menu.style.setProperty('--save-panel-top', `${Math.max(10, bottom + 8)}px`);
+  };
+  const observer = header && typeof ResizeObserver === 'function' ? new ResizeObserver(positionPanel) : null;
+  observer?.observe(header);
+  menu?.addEventListener('toggle', positionPanel);
+  window.addEventListener('resize', positionPanel);
+  releaseSavePanel = () => {
+    observer?.disconnect();
+    menu?.removeEventListener('toggle', positionPanel);
+    window.removeEventListener('resize', positionPanel);
+  };
+}
 export function bindSavePanel(root, session) {
+  bindSavePanelLayout(root);
   root.querySelectorAll("[data-load-slot]").forEach((button) => {
     button.addEventListener("click", () => session.load(Number(button.dataset.loadSlot)));
   });

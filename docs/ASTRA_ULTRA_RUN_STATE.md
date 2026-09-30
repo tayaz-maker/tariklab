@@ -10,3 +10,7 @@
 - Browser: 1440/390/320 × Pixi/SVG, 47 kontrol PASS; yeni oyun, save/reload, gerçek context-loss, geç init iptali, ekran/menü/BFCache temizliği, odak/taşma; CPU çizim medyanı 0,8 ms, en çok 7,7 ms (FPS değil); temiz build 6/6 dosya eşit.
 - Release/risk: [PR #105](https://github.com/tayaz-maker/tariklab/pull/105) handoff hazır; Terra/Sol gerçek head’de zorunlu CI yeşilken merge + iki hostta `/oyna/racon` ve `/games/racon/index.html` smoke. Runner SwiftShader; fiziksel GPU release aşamasında; CI beklenmez.
 - Sonraki adım: sıradaki JITEM: Derin Ağ için canonical upstream keşfi; TarikLab vendor sync yalnız upstream merge sonrası; Racon’da ikinci sistem (daha uzun emir zaman çizelgesi) sonraki tura. #101/#102/#104/Luna değişmedi; Novella LATER.
+
+## Release integration · 2026-09-30
+
+#103/#101 are merged and verified. This candidate includes reviewed HANEDANIAN #102 (46498412) and IHTILAL #104 (abf237ce); merge order stays #102 → #104 → #105. Full CI on this combined head is required. Prior evidence is preserved in [HANEDANIAN](checkpoints/HANEDANIAN_2026-09-26.md) and [IHTILAL](checkpoints/IHTILAL_2026-09-26.md).

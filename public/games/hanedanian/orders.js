@@ -39,7 +39,7 @@ export function orderDelta(before, after, action) {
   let outcome = null;
   const armyIds = new Set(before.armies.map((a) => a.id));
   const army = after.armies.find((a) => !armyIds.has(a.id));
-  if (army) outcome = { kind: 'army', mission: army.mission, arriveAt: army.arriveAt, to: { ...army.to }, troops: { ...army.troops } };
+  if (army) outcome = { kind: 'army', mission: army.mission, ...(army.rebind ? { rebind: true } : {}), arriveAt: army.arriveAt, to: { ...army.to }, troops: { ...army.troops } };
   else if (town && next && next.queue.length > town.queue.length) {
     const job = next.queue.at(-1);
     outcome = { kind: 'queue', job: job.kind, building: job.building, unit: job.unit, level: job.level, count: job.count, startAt: job.startAt, completeAt: job.completeAt };
