@@ -5,10 +5,10 @@ import { chromium } from "playwright";
 import { createNewGame } from "../public/games/tc-sim/js/state.js";
 import { chooseEightiesStartYear } from "../public/games/tc-sim/js/historical-scenarios.js";
 
-const origin = "http://127.0.0.1:8081/games/tc-sim/index.html";
+const origin = "http://127.0.0.1:8082/games/tc-sim/index.html";
 const out = `${process.env.RUNNER_TEMP || "/workspace"}/screenshots/tc-sim-historical`;
 mkdirSync(out, { recursive: true });
-const server = spawn("npm", ["run", "dev", "--", "--host", "127.0.0.1", "--port", "8081"], { stdio: "inherit" });
+const server = spawn("npm", ["run", "dev", "--", "--host", "127.0.0.1", "--port", "8082"], { stdio: "inherit" });
 let browser;
 const results = [];
 const seeds = new Map();
@@ -45,7 +45,7 @@ try {
           if (message.type() === "error") errors.push(message.text());
         });
         page.on("response", (response) => {
-          if (response.url().startsWith("http://127.0.0.1:8081") && response.status() >= 400) errors.push(`HTTP ${response.status()} ${response.url()}`);
+          if (response.url().startsWith("http://127.0.0.1:8082") && response.status() >= 400) errors.push(`HTTP ${response.status()} ${response.url()}`);
         });
         try {
           await page.goto(origin, { waitUntil: "networkidle" });
