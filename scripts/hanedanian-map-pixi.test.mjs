@@ -8,7 +8,17 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { readFileSync } from 'node:fs';
 import { StrategyMap } from '../public/games/hanedanian/map.js';
-import { StrategyMapPixi, mountHanedanianTerrain, supportsHanedanianPixi } from '../public/games/hanedanian/map-pixi.js';
+import { StrategyMapPixi, mountHanedanianTerrain, supportsHanedanianPixi, isSoftwareWebGL } from '../public/games/hanedanian/map-pixi.js';
+
+test('known software WebGL devices use the original atlas through Canvas; hardware and private device names stay eligible', () => {
+  const gl = name => ({ RENDERER: 1, getExtension: () => ({ UNMASKED_RENDERER_WEBGL: 2 }), getParameter: () => name });
+  for (const name of ['ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero)), SwiftShader driver)', 'llvmpipe (LLVM 18)', 'Mesa softpipe', 'Software Rasterizer'])
+    assert.equal(isSoftwareWebGL(gl(name)), true, name);
+  for (const name of ['ANGLE (Apple, Apple M2, OpenGL)', 'ANGLE (Intel, Intel Iris Xe, D3D11)', 'AMD Radeon', 'Mesa Intel UHD', 'WebKit WebGL', ''])
+    assert.equal(isSoftwareWebGL(gl(name)), false, name);
+  assert.equal(isSoftwareWebGL({ RENDERER: 1, getExtension: () => null, getParameter: () => 'WebKit WebGL' }), false);
+  assert.equal(isSoftwareWebGL({ getExtension() { throw new Error('private'); } }), false);
+});
 
 function fakeSprite() {
   return { visible: true, x: 0, y: 0, width: 0, height: 0, texture: null };

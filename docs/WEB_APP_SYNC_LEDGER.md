@@ -415,6 +415,13 @@ Chromium must pass before integration.
 - Native follow-up: yes (paused); carry visual architecture when native resumes.
 - Commits: astra/hanedanian-darbe-ultimate-visual (candidate; not merged)
 
+### 2026-09-26 — HANEDANIAN living atlas and point logistics
+- Web: original zoom-aware procedural capital/town/fortification/POI miniatures; atlas-baked road, river and crossing relief; separate live ownership and observed/unobserved route cues.
+- Gameplay: owned points can transfer between towns via a paid courier; source contribution persists until arrival, transfer legality is rechecked and cancelled couriers refund on return. Claim capacity reserves pending slots.
+- Reliability: diplomacy-aware threats; correct founder production forecast; accessible SVG/DOM directory with the same tile/order flow; safe Pixi context-loss fallback and renderer cleanup.
+- Save/schema: HANEDANIAN schema 1 and storage keys retained; optional courier fields validated; old campaign and pending-order saves remain readable.
+- Assets: original code geometry only (A023); no new runtime dependencies or sound. Shared native content unchanged; native remains paused.
+- Proof and release owner: docs/ASTRA_ULTRA_RUN_STATE.md and this checkpoint's PR handoff.
 ### 2026-09-30 — mobile DEVLET release unblocker (#103)
 - Measured CI wide-to-narrow Regions failure: closed save details; visible Pixi overlay at x=23, width=320, right=343. TR and EN reproduce; open panel itself fits the viewport.
 - Overlay now clamps to the remaining viewport width. Shared save panel stays below the real header, preserving the summary close target and scrollable content; old keys/schema and rules unchanged.
@@ -424,3 +431,7 @@ Chromium must pass before integration.
 ### 2026-09-30 — ordered CI release integration (#101)
 - #103 passed every protected job on fffc2b34 and merged as fc21dc91. TR/EN at 320/360/390 on both www.tariklab.com and tariklab.tayaz29.workers.dev passed real save/reload, panel close, immediate resize and Regions/Foreign transitions.
 - Updated #101 on that exact main; shared/workflow/script changes still select the full browser/campaign/balance matrix. No test or soak gate is removed. Web-only tooling; game rules, saves and native pause unchanged.
+
+### 2026-09-30 — HANEDANIAN release candidate (#102)
+- Integrated the existing Living Atlas candidate with reviewed #103 and #101 content. Shared mobile save fix and complete CI routing are retained; HANEDANIAN save format and native pause are preserved.
+- #101 merged as 513127f4 after every protected CI job passed. Full tests and real browser/campaign evidence are required on the new #102 head before its merge.
