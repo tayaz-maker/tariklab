@@ -165,7 +165,35 @@ export async function mountHanedanianTerrain(terrainHost, width, height) {
 }
 
 /** True if this environment can plausibly run the PixiJS terrain layer. */
-export async function supportsHanedanianPixi() {
+export function isSoftwareWebGL(gl) {
+  try {
+    const debug = gl.getExtension('WEBGL_debug_renderer_info');
+    const name = String(gl.getParameter(debug?.UNMASKED_RENDERER_WEBGL ?? gl.RENDERER) || '');
+    return /swiftshader|llvmpipe|softpipe|software (?:rasterizer|renderer)/i.test(name);
+  } catch { return false; } // Privacy-restricted renderer info is not a failure.
+}
+
+export async function hanedanianGraphicsCapability() {
   const adapter = await loadAdapter();
-  return adapter ? adapter.supportsPixi() : false;
+  if (!adapter) return { supported: false, reason: 'unavailable' };
+  let probe, gl;
+  try {
+    const supported = adapter.supportsPixi({ createCanvas: () => (probe = document.createElement('canvas')) });
+    if (!supported) return { supported: false, reason: 'unavailable' };
+    gl = probe.getContext('webgl2') || probe.getContext('webgl');
+    // A software WebGL device has no hardware acceleration to preserve. The
+    // stopped, stacked terrain canvas reproduces opaque stale tiles on
+    // SwiftShader after mobile reload; the same atlas in Canvas 2D is clean.
+    // Keep Pixi for eligible GPUs, and take the already-tested 2D path here.
+    if (isSoftwareWebGL(gl)) return { supported: false, reason: 'software' };
+    return { supported: true, reason: 'webgl' };
+  } catch { return { supported: false, reason: 'unavailable' }; }
+  finally {
+    // A capability check must not leave an orphaned GPU context behind.
+    try { gl?.getExtension('WEBGL_lose_context')?.loseContext(); } catch { /* optional */ }
+  }
+}
+
+export async function supportsHanedanianPixi() {
+  return (await hanedanianGraphicsCapability()).supported;
 }
