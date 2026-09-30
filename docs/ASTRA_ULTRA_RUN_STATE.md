@@ -10,3 +10,7 @@
 - Açık risk: runner SwiftShader; fiziksel GPU/production smoke Terra/Sol’da. Tüm 17 oyun dosyası temiz build ile birebir eşleşti; son küçük düzeltmeler hedefli/browser testleriyle kapatıldı.
 - Release: [PR #104](https://github.com/tayaz-maker/tariklab/pull/104) handoff Terra/Sol’da; gerçek head’de zorunlu CI yeşilken merge, iki hostta `/oyna/ihtilal` ve `/games/ihtilal/index.html` smoke. #101/Luna değişmedi.
 - Sonraki adım: Racon temiz worktree keşfi başladı; 6 sokak DOM/SVG, üç slot v1, hedefli ağ/kayıt 16/16. Sonraki tur: oyuncu eşzamanlı sokak kararlarının haftalık maliyetini ve komşu etkisini haritada karşılaştırabilsin; önce normalize’ın `__proto__` kararını kabul etme repro’sunu düzelt. İHTİLÂL ikinci sistem sonraya; Novella LATER.
+
+## Release integration · 2026-09-30
+
+#103 and #101 are merged and verified. This candidate includes the reviewed HANEDANIAN candidate (PR #102, head 46498412) so release order remains #102 → #104 → #105. Full CI on the combined head is required. HANEDANIAN provenance and measurements are preserved in [the checkpoint](checkpoints/HANEDANIAN_2026-09-26.md).

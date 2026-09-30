@@ -10,7 +10,26 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      full: ${{ steps.route.outputs.full }}
+      browser: ${{ steps.route.outputs.browser }}
+      routes: ${{ steps.route.outputs.routes }}
+      devlet: ${{ steps.route.outputs.devlet }}
+      duel: ${{ steps.route.outputs.duel }}
+      campaign: ${{ steps.route.outputs.campaign }}
+      balance: ${{ steps.route.outputs.balance }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - id: route
+        env:
+          BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+          HEAD: ${{ github.sha }}
+        run: node scripts/ci-changes.mjs "$BASE" "$HEAD"
   build:
+    needs: changes
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -37,9 +56,11 @@ jobs:
             npx playwright install --with-deps chromium --only-shell
           fi
       - name: Duel archive, save and 2.5D responsive regression
+        if: needs.changes.outputs.duel == 'true'
         timeout-minutes: 5
         run: node scripts/duel-browser.mjs
       - name: DEVLET map transition mobile regression
+        if: needs.changes.outputs.devlet == 'true'
         timeout-minutes: 5
         run: node scripts/devlet-map-transition-browser.mjs
       - name: Upload duel evidence
@@ -49,8 +70,11 @@ jobs:
           name: duel-responsive
           path: ${{ runner.temp }}/screenshots/duel
       - name: Responsive and interaction regression (TR/EN, 16 live routes)
+        if: needs.changes.outputs.browser == 'true'
         timeout-minutes: 10
         run: node scripts/sitewide-responsive.mjs
+        env:
+          SITEWIDE_ROUTE_IDS: ${{ needs.changes.outputs.routes }}
       - name: Upload responsive evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -68,6 +92,7 @@ jobs:
           name: duel-production
           path: ${{ runner.temp }}/screenshots/duel-production
   campaign-browser:
+    needs: changes
     runs-on: ubuntu-latest
     timeout-minutes: 35
     steps:
@@ -86,11 +111,12 @@ jobs:
             npx playwright install --with-deps chromium --only-shell
           fi
       - name: HANEDANIAN desktop, touch and real offline reload
+        if: needs.changes.outputs.campaign == 'true'
         run: node scripts/hanedanian-browser.mjs
         env:
           HANEDANIAN_SOAK_MS: ${{ github.ref == 'refs/heads/main' && '0' || '1200000' }}
       - name: IHTILAL first minute and five minute decision loop
-        if: '!cancelled()'
+        if: needs.changes.outputs.campaign == 'true' && !cancelled()
         run: node scripts/ihtilal-browser.mjs
       - name: Verify exact production game code and both games in Chromium
         if: github.ref == 'refs/heads/main'
@@ -104,6 +130,7 @@ jobs:
             ${{ runner.temp }}/screenshots/hanedanian
             ${{ runner.temp }}/screenshots/ihtilal
   campaign-balance:
+    needs: changes
     runs-on: ubuntu-latest
     timeout-minutes: 40
     steps:
@@ -112,6 +139,7 @@ jobs:
         with:
           node-version: "22"
       - name: Twenty deterministic seeds across all three victory routes
+        if: needs.changes.outputs.balance == 'true'
         run: node scripts/hanedanian-campaign-probe.mjs
         env:
           PROBE_OUTPUT: campaign-balance.json
