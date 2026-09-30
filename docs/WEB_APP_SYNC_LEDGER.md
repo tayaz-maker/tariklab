@@ -418,5 +418,5 @@ Chromium must pass before integration.
 ### 2026-09-30 — mobile DEVLET release unblocker (#103)
 - Measured CI wide-to-narrow Regions failure: closed save details; visible Pixi overlay at x=23, width=320, right=343. TR and EN reproduce; open panel itself fits the viewport.
 - Overlay now clamps to the remaining viewport width. Shared save panel stays below the real header, preserving the summary close target and scrollable content; old keys/schema and rules unchanged.
-- Chromium TR/EN × 320/360/390: immediate resize, panel open/close, save/reload and Regions→Foreign→Regions PASS; 1,510 full site responsive checks PASS. Targeted tests 18/18; build/typecheck PASS, lint 0 errors/58 baseline warnings. Full repository test still running at checkpoint.
+- Chromium TR/EN × 320/360/390: immediate resize, panel open/close, save/reload and Regions→Foreign→Regions PASS; 1,510 full site responsive checks PASS. Targeted tests 18/18; build/typecheck PASS, lint 0 errors/58 baseline warnings. Node 22 full run: 1,554 pass / 2 fail / 1 skip; failures were the DOM-less save fixture and authorized runtime UI hash. Narrow follow-up fixes both (11/11 relevant tests); full CI rerun required.
 - Web-only UI/lifecycle fix; native paused. Production proof follows green protected CI.

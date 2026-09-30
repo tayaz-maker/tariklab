@@ -160,9 +160,10 @@ export function bindFrontMenu(root, session, options) {
 }
 
 let releaseSavePanel = null;
-export function bindSavePanel(root, session) {
+function bindSavePanelLayout(root) {
   releaseSavePanel?.();
-  const menu = root.querySelector('.save-menu');
+  const menu = root.querySelector?.('.save-menu');
+  if (!menu) return;
   const header = menu?.closest('.topbar');
   const positionPanel = () => {
     if (!menu?.open) return;
@@ -178,6 +179,9 @@ export function bindSavePanel(root, session) {
     menu?.removeEventListener('toggle', positionPanel);
     window.removeEventListener('resize', positionPanel);
   };
+}
+export function bindSavePanel(root, session) {
+  bindSavePanelLayout(root);
   root.querySelectorAll("[data-load-slot]").forEach((button) => {
     button.addEventListener("click", () => session.load(Number(button.dataset.loadSlot)));
   });

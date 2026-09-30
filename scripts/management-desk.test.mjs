@@ -56,7 +56,9 @@ test("frozen baseline: all 38 content, simulation, persistence and projection so
   // the content language with PL -> EN fallback instead of showing Turkish.
   // Re-pinned for Kapı Nöbeti: next-wave.js public title only. The slug,
   // save version and simulation stay the previous baseline.
-  assert.equal(hash.digest("hex"), "350076f0cb972f3f97ed8a69bb82ac1675f1b69ee7c1508694c18527680ff2a3");
+  // 2026-09-30: authorized shared save-panel DOM positioning only.
+  // Slot writes, overwrite confirmation, engine/content and schemas unchanged.
+  assert.equal(hash.digest("hex"), "27d3845f1042ab41b928546f6286f47b3bc526cd9959fc18f530564876ecacf5");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);
