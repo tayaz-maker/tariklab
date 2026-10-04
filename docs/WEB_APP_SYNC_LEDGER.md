@@ -472,3 +472,8 @@ Chromium must pass before integration.
 - Original CSS/SVG night blocks, ledger and connection traces; existing palette/fonts, no assets/audio/canvas. 2.2s visual, close/Escape, focus/hover pause, static reduced-motion, polite persistent announcement.
 - Cash, reputation, pressure, net energy, crew commitment and newly set/extended reaction clocks come from the engine. No invented trust score or guaranteed future reward. Existing save key/schema 15 and all engine rules unchanged.
 - Native standalone parity: presentation-only adapter/component to port later; native remains paused. CI verifies canonical legacy-save restore, focus, repetition, responsive geometry and deployed bundle evidence.
+
+### 2026-10-04 — Wave 1 decision traces and permanent state artwork
+- HANEDANIAN sealed order/queue progress; İHTİLÂL measured basin record/metric level; Racon street commitment/door-light-pressure marks. Separate game vocabularies/layouts, shared transient lifecycle only.
+- Rules/content/save schemas remain unchanged. The only offline infrastructure change includes HANEDANIAN's new shared presentation dependency in its atomic package and content hash.
+- Original-source register and paired before/after evidence contract: `docs/WAVE1_OUTCOME_ASSETS.md`. Native remains paused; no external assets or audio. Novella LATER; SON KÖY WIP untouched.

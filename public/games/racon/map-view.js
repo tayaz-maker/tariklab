@@ -49,10 +49,17 @@
             color: num(n.selected ? model.colors.gold : n.color),
             width: n.selected ? 3 : 1.6,
           });
-        for (let j = 0; j < 3; j++)
-          g.moveTo(n.x - n.half + 6 + j * 7, n.y - 58)
-            .lineTo(n.x - n.half + 6 + j * 7, n.y - 36)
-            .stroke({ color: num(n.color), alpha: 0.7, width: 2 });
+        for (const mark of n.marks) {
+          if (mark.type === "rect")
+            g.rect(mark.x, mark.y, mark.width, mark.height).fill({
+              color: num(mark.color),
+              alpha: mark.alpha,
+            });
+          else
+            g.moveTo(mark.x1, mark.y1)
+              .lineTo(mark.x2, mark.y2)
+              .stroke({ color: num(mark.color), alpha: mark.alpha, width: mark.width });
+        }
       }
       scene.render();
       renderCount++;
@@ -162,17 +169,31 @@
             "stroke-width": n.selected ? 3 : 1.6,
           }),
         );
-        for (let j = 0; j < 3; j++)
+        for (const mark of n.marks)
           g.append(
-            el("line", {
-              x1: n.x - n.half + 6 + j * 7,
-              y1: n.y - 58,
-              x2: n.x - n.half + 6 + j * 7,
-              y2: n.y - 36,
-              stroke: n.color,
-              "stroke-width": 2,
-              opacity: 0.7,
-            }),
+            el(
+              mark.type,
+              mark.type === "rect"
+                ? {
+                    "data-street-mark": mark.role,
+                    x: mark.x,
+                    y: mark.y,
+                    width: mark.width,
+                    height: mark.height,
+                    fill: mark.color,
+                    opacity: mark.alpha,
+                  }
+                : {
+                    "data-street-mark": mark.role,
+                    x1: mark.x1,
+                    y1: mark.y1,
+                    x2: mark.x2,
+                    y2: mark.y2,
+                    stroke: mark.color,
+                    "stroke-width": mark.width,
+                    opacity: mark.alpha,
+                  },
+            ),
           );
         svg.append(g);
         const b = document.createElement("button");

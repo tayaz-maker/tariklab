@@ -99,3 +99,27 @@ body[data-game="ihtilal"] { background: #16130f; }
 @media (prefers-reduced-motion: reduce) { .solo *, .solo *::before, .solo *::after { animation: none !important; transition: none !important; } }
 .objective { font-size: .8rem; color: var(--muted); padding: 7px 10px; border-left: 2px solid var(--accent); }
 @media (max-width: 899px) { .basin-inspector { scroll-margin-top: 12px; } }
+/* Permanent basin level is the selected value on a literal 0–100 height scale. */
+.has-basin-pixi .basin-metric-band, .has-basin-pixi .basin-state-trace { opacity: 0; }
+[data-outcome-host]:empty { display: none; }
+.ihtilal-outcome { border: 1px solid var(--accent); border-left-width: 3px; border-radius: 6px; background: var(--paper); color: var(--ink); padding: 12px; display: grid; gap: 10px; }
+.ihtilal-outcome header { display: flex; justify-content: space-between; align-items: start; gap: 8px; }
+.ihtilal-outcome header h2 { font-family: Palatino, Georgia, serif; font-size: 1.15rem; margin-top: 4px; }
+.ihtilal-outcome [data-outcome-close] { flex: 0 0 44px; min-height: 44px; border: 1px solid var(--line); border-radius: 4px; background: transparent; color: var(--ink); font-size: 1.4rem; }
+.outcome-cost { color: var(--accent); font-size: .78rem; font-variant-numeric: tabular-nums; }
+.outcome-scope { color: var(--muted); font-size: .73rem; }
+.outcome-metrics { min-width: 0; }
+.outcome-metric-group { min-width: 0; }
+.outcome-metric-group h3 { font-size: .8rem; color: var(--muted); }
+.outcome-metric-group dl { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 5px 14px; margin: 8px 0 0; }
+.outcome-metric-group dl > div { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; column-gap: 6px; font-size: .75rem; }
+.outcome-metric-group dd { margin: 0; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.outcome-metric-group dd b { color: var(--accent); font-weight: 500; }
+.outcome-waves { list-style: none; margin: 0; padding: 8px 0 0; border-top: 1px solid var(--line); display: grid; gap: 8px; }
+.outcome-waves li { display: grid; gap: 3px; font-size: .72rem; }
+.outcome-waves strong { font-weight: 500; }
+.outcome-waves span { color: var(--muted); }
+
+.outcome-desk { font-size: .76rem; font-variant-numeric: tabular-nums; }
+.outcome-more { color: var(--accent); font-size: .75rem; text-underline-offset: 3px; }
+.outcome-more:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }

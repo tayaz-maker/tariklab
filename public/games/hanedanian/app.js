@@ -23,6 +23,8 @@ import { expansionSites, expansionRange, siteVerdict, incomingThreats, regionPre
 import { previewOrder, snapshot, summarizePeriod, rowTone, orderStep, ORDER_STEPS } from "./orders.js";
 import { SaveManager } from "./save.js";
 import { getLang, installLanguage, translate } from "./i18n.js";
+import '../shared/outcome-runtime.js';
+import {captureOrderState, buildOutcomeMoment, settlementWork} from './outcome-moment.js';
 
 const $ = (id) => document.getElementById(id);
 const esc = (value) =>
@@ -494,18 +496,34 @@ async function persist(slot = "auto", announce = false) {
   return result.ok;
 }
 const ORDER_TYPES = new Set(["build", "train", "demobilize", "trade", "expand", "scout", "attack", "claim", "reassign"]);
+const orderReceipt = window.TarikOutcome.create({host:()=>document.body,
+  fallbackFocus:()=>document.querySelector('#navigation [aria-current="page"]'),
+  render:moment=>{
+    const el=document.createElement('section'); el.className='han-order-receipt'; el.dataset.outcomeMoment='hanedanian';
+    el.setAttribute('aria-label',moment.en?'Order receipt':'Ferman alındısı');
+    el.innerHTML=`<header><div><small>${moment.en?'ORDER LEDGER':'EMİR DEFTERİ'}</small><h2>${esc(moment.title)}</h2></div><button data-outcome-close aria-label="${moment.en?'Close outcome':'Sonucu kapat'}">×</button></header>
+      <svg viewBox="0 0 260 42" aria-hidden="true" focusable="false"><path class="receipt-fold" d="M2 4H226L244 20V38H2Z M226 4V20H244"/><path class="receipt-route" d="M15 29H200"/>${moment.marks.map(m=>`<path class="receipt-cost" d="M${m.x} 17h${m.width}"/>`).join('')}<path class="receipt-seal" d="M215 19l9-5 9 5v10l-9 5-9-5z"/></svg>
+      <strong>${esc(moment.label)}</strong><p>${esc(moment.summary)}</p><dl>${moment.cost.map(c=>`<div><dt>${esc(c.label)}</dt><dd>−${c.value}</dd></div>`).join('')}</dl><small>${moment.en?'Paid now · follow completion in the ledger':'Bedel şimdi ödendi · tamamlanmayı defterden izle'}${moment.paused?(moment.en?' · Clock paused':' · Zaman duruyor'):''}</small>`;
+    return el;
+  }});
 function doAction(action) {
   if (!state) return;
+  const origin=document.activeElement, before=ORDER_TYPES.has(action.type)?captureOrderState(state):null;
   const result = dispatch(state, action);
-  notice(result.message, !result.ok);
+  const moment=result.ok&&before?buildOutcomeMoment(before,state,action,getLang()):null;
+  orderReceipt.clear();
+  if (!moment) notice(result.message, !result.ok);
+  else {clearTimeout(toastTimer);$('toast').hidden=true;document.body.classList.remove('toast-visible');}
   if (result.ok && ORDER_TYPES.has(action.type) && state.paused) orderPending = true;
   if (result.ok) {
     render();
     void persist();
+    if (moment) queueMicrotask(()=>orderReceipt.show(moment,{origin}));
   }
   return result;
 }
 function setView(next) {
+  orderReceipt.clear();
   view = next;
   $("game").dataset.view = view;
   document
@@ -621,7 +639,7 @@ function renderInspector() {
       ? "Önce gözcüyle bilgiyi doğrula. Ardından yeterli birlik varsa sefer veya bağlama kararı ver."
       : "Gözcü riski azaltır. Yerleşim kafilesi ise kaynak ve nüfuz harcayarak bu karoyu kalıcı merkeze çevirir.";
   el.classList.add("has-selection");
-  el.innerHTML = `${stepsHTML(currentStep(), true)}<div class="inspector-head"><p class="coordinate">${tile.x} · ${tile.y} / ${state.world.size} × ${state.world.size}</p><button data-action="deselect" aria-label="Bölge bilgisini kapat">×</button></div><h2>${esc(town?.name || poi?.label || terrain.label)}</h2><span class="badge">${esc(owner?.name || "Bağımsız toprak")}</span>${contextHTML(tile, town, own)}${routeCardHTML(from, tile)}${pointCardHTML(point)}<div class="decision-brief"><span>NEDEN ÖNEMLİ?</span><p>${esc(valueSummary)}</p><span>SONRAKİ KARAR</span><p>${esc(nextMove)}</p></div><p class="muted tile-description">${esc(terrain.description)}</p><div class="terrain-summary">${keys.map((k, i) => `<div><span>${RESOURCES[k].label}</span> ×${terrain.rates[i].toFixed(2)}</div>`).join("")}<div><span>Savunma</span> ×${terrain.defense}</div><div><span>Hareket</span> ×${terrain.movement}</div></div>${poi ? `<div class="note"><strong>${esc(poi.label)}</strong><p>${esc(poi.description)}</p><p>${tile.poi.ownerId ? "Bağlı nokta" : "Bağımsız muhafızlı nokta"} · Koruma gücü ${fmt(poi.guard * (tile.poi.ownerId ? 2.4 : 1))}</p></div>` : ""}${town && own ? `<p>${esc(getSettlementRole(state, town))}</p><div class="mini-stats">${keys.map((k) => `<div>${RESOURCES[k].label}: <strong>${fmt(town.resources[k])}</strong></div>`).join("")}</div><p class="muted tile-troops">${esc(troopsText(town.troops))}</p>` : town || tile.poi ? intelHTML(tile) : ""}<div class="tile-actions">${own ? `<button class="primary" data-open-town="${esc(town.id)}">Yerleşimi yönet</button>` : `<p>Çıkış: <strong>${esc(from?.name || "Yerleşim yok")}</strong>${estimate ? ` · ${estimate.distance.toFixed(1)} karo · Gözcü ${duration(estimate.minutes)}` : ""}</p><button class="primary" data-action="scout">Gözcü gönder</button>${!town && !tile.poi ? '<button data-action="expand">Buraya yerleş</button>' : ""}${tile.poi?.ownerId === state.playerId ? `<button data-action="reassign">Bağlı yurdu değiştir</button>` : town || tile.poi ? `<button data-action="${tile.poi ? "claim" : "attack"}">${tile.poi ? "Noktayı bağla" : "Sefer hazırla"}</button>` : ""}`}<button data-action="mark">${isMarked(tile) ? "İşareti kaldır" : "Haritada işaretle"}</button></div>`;
+  el.innerHTML = `${stepsHTML(currentStep(), true)}<div class="inspector-head"><p class="coordinate">${tile.x} · ${tile.y} / ${state.world.size} × ${state.world.size}</p><button data-action="deselect" aria-label="Bölge bilgisini kapat">×</button></div><h2>${esc(town?.name || poi?.label || terrain.label)}</h2><span class="badge">${esc(owner?.name || "Bağımsız toprak")}</span>${contextHTML(tile, town, own)}${routeCardHTML(from, tile)}${pointCardHTML(point)}<div class="decision-brief"><span>NEDEN ÖNEMLİ?</span><p>${esc(valueSummary)}</p><span>SONRAKİ KARAR</span><p>${esc(nextMove)}</p></div><p class="muted tile-description">${esc(terrain.description)}</p><div class="terrain-summary">${keys.map((k, i) => `<div><span>${RESOURCES[k].label}</span> ×${terrain.rates[i].toFixed(2)}</div>`).join("")}<div><span>Savunma</span> ×${terrain.defense}</div><div><span>Hareket</span> ×${terrain.movement}</div></div>${poi ? `<div class="note"><strong>${esc(poi.label)}</strong><p>${esc(poi.description)}</p><p>${tile.poi.ownerId ? "Bağlı nokta" : "Bağımsız muhafızlı nokta"} · Koruma gücü ${fmt(poi.guard * (tile.poi.ownerId ? 2.4 : 1))}</p></div>` : ""}${town && own ? `<p>${esc(getSettlementRole(state, town))}</p>${workTraceHTML(town)}<div class="mini-stats">${keys.map((k) => `<div>${RESOURCES[k].label}: <strong>${fmt(town.resources[k])}</strong></div>`).join("")}</div><p class="muted tile-troops">${esc(troopsText(town.troops))}</p>` : town || tile.poi ? intelHTML(tile) : ""}<div class="tile-actions">${own ? `<button class="primary" data-open-town="${esc(town.id)}">Yerleşimi yönet</button>` : `<p>Çıkış: <strong>${esc(from?.name || "Yerleşim yok")}</strong>${estimate ? ` · ${estimate.distance.toFixed(1)} karo · Gözcü ${duration(estimate.minutes)}` : ""}</p><button class="primary" data-action="scout">Gözcü gönder</button>${!town && !tile.poi ? '<button data-action="expand">Buraya yerleş</button>' : ""}${tile.poi?.ownerId === state.playerId ? `<button data-action="reassign">Bağlı yurdu değiştir</button>` : town || tile.poi ? `<button data-action="${tile.poi ? "claim" : "attack"}">${tile.poi ? "Noktayı bağla" : "Sefer hazırla"}</button>` : ""}`}<button data-action="mark">${isMarked(tile) ? "İşareti kaldır" : "Haritada işaretle"}</button></div>`;
   updateGuide();
 }
 function intelHTML(tile) {
@@ -716,6 +734,10 @@ function settlementHTML() {
         "",
       )}<div class="card wide"><h3>Yerleşim ağı</h3><p>Kendi veya sana bağlı hanedanların yerleşimlerine kervan gönder. Kaynak doğru yerdeyse sınırdaki şehir de büyür.</p><button data-action="trade">Kervan hazırla</button><button data-map="home">Haritada göster</button></div></div>`
   );
+}
+function workTraceHTML(town) {
+  const work=settlementWork(state,town);if(!work)return '';
+  return `<div class="han-work-trace"><span>${esc(work.label)} · ${work.minutes} dk · ${work.count} iş</span><progress value="${work.progress}" max="1" aria-label="Sıradaki iş ilerlemesi"></progress><small>Haritadaki yurt çizgisi: sıradaki işin ilerlemesi.</small></div>`;
 }
 function queueHTML(town) {
   return town.queue.length
@@ -836,6 +858,7 @@ function render() {
   }
 }
 function openDialog(title, body) {
+  orderReceipt.clear();
   if (state && !$("dialog").open) {
     dispatch(state, { type: "setSpeed", speed: 0 });
     renderHeader();
@@ -861,6 +884,7 @@ function newCampaign() {
   );
 }
 async function enterGame(next) {
+  orderReceipt.clear();
   state = next;
   state.paused = true;
   periodStart = null;
@@ -1425,7 +1449,7 @@ document.addEventListener("visibilitychange", () => {
     renderHeader();
   }
 });
-window.addEventListener("pagehide", checkpoint);
+window.addEventListener("pagehide", () => { orderReceipt.clear(); checkpoint(); });
 window.addEventListener("online", () => {
   void prepareOffline();
   notice("Bağlantı geldi. Kampanyan bu cihazda devam ediyor.");

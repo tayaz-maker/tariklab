@@ -4,6 +4,8 @@ import {
 } from "./solo.js";
 import {neighbours, targetFor, FIELDS, spillRisk, basinReady} from "./basin-network.js";
 import {createBasinMap, basinRenderModel} from "./basin-map.js";
+import {buildOutcomeMoment} from "./outcome-moment.js";
+import "../shared/outcome-runtime.js";
 
 const root = document.querySelector("#app");
 const reader = () => {
@@ -169,7 +171,7 @@ const UI={
   },
 };
 const u=()=>UI[lang()];
-let screen='menu', state=null, last=null, map=null, layer='strain', planned='tut', saveError=false, notice='';
+let screen='menu', state=null, map=null, layer='strain', planned='tut', saveError=false, notice='', compactFeedback=null;
 const $=(tag,attrs={},...kids)=>{
   const el=document.createElement(tag);
   for(const [k,v] of Object.entries(attrs)) {
@@ -180,6 +182,40 @@ const $=(tag,attrs={},...kids)=>{
   for(const kid of kids.flat())if(kid!=null)el.append(kid instanceof Node?kid:document.createTextNode(String(kid)));
   return el;
 };
+function renderOutcome(model) {
+  const c=model.copy;
+  const representatives=[...new Set(model.waves.map(w=>w.status))].map(status=>model.waves.find(w=>w.status===status));
+  const displayed=[...representatives,...model.waves.filter(w=>!representatives.includes(w))].slice(0,2);
+  const metricRows=(rows,label)=>$('div',{class:'outcome-metric-group'},$('h3',{},label),
+    $('dl',{},...rows.map(row=>$('div',{'data-delta':row.key},$('dt',{},c[row.key]),
+      $('dd',{},`${row.before} → ${row.after}`, $('b',{},` (${row.delta>0?'+':''}${row.delta})`))))));
+  return $('section',{class:'ihtilal-outcome inline-outcome','data-outcome-moment':'','aria-label':c.title},
+    $('header',{},$('div',{},$('span',{class:'solo-kicker'},c.title),$('h2',{},model.title)),
+      $('button',{type:'button','data-outcome-close':'','aria-label':c.close},'×')),
+    $('p',{class:'outcome-cost'},model.costText),
+    $('p',{class:'outcome-scope'},model.closed?c.net:c.now),
+    model.local.some(row=>row.delta)?$('div',{class:'outcome-metrics'},metricRows(model.local.filter(row=>row.delta),model.region.name)):null,
+    $('p',{class:'outcome-desk'},`${c.global}: ${model.global.map(row=>`${c[row.key]} ${sign(row.delta)}`).join(' · ')}`),
+    model.waves.length?$('ul',{class:'outcome-waves'},...displayed.map(w=>$('li',{},
+      $('strong',{},`${w.label} · ${w.timingLabel}`),$('span',{},w.deltaLabel)))):$('p',{class:'outcome-scope'},c.noWaves),
+    model.waves.length>displayed.length?$('a',{class:'outcome-more',href:state.phase==='end'?'#ihtilal-report':'#ihtilal-transit'},`+${model.waves.length-displayed.length} · ${state.phase==='end'?t().outcome:u().arrivals}`):null);
+}
+const outcome=window.TarikOutcome.create({
+  host:()=>root.querySelector('[data-outcome-host]'),render:renderOutcome,
+  fallbackFocus:()=>root.querySelector('[data-focus-key="moves"]')||root.querySelector('[data-focus-key="new"]')||root.querySelector('[data-focus-key="open"]'),
+});
+function finishDecision(before,action) {
+  const model=buildOutcomeMoment(before,state,action,lang());
+  compactFeedback=model?null:{id:action,from:before.selected,trust:state.trust,intel:state.intel,tension:state.tension,capacity:state.capacity};
+  persist();render();
+  if(model)outcome.show(model,{origin:document.activeElement});
+}
+function outcomeHost() {
+  const c=t(),q=u(),last=compactFeedback;
+  // Ordinary decisions retain the existing compact result, without a second live region.
+  return $('div',{'data-outcome-host':''},last?$('p',{class:'outcome inline-outcome'},
+    `${c[last.id]||q[last.id]} · ${name(last.from)}. ${c.outcome}: ${c.trust} ${last.trust} · ${c.intel} ${last.intel} · ${c.tension} ${last.tension} · ${q.orders} ${last.capacity}.`):null);
+}
 const name=id=>REGIONS.find(r=>r.id===id)?.[lang()]||id;
 const sign=n=>n>0?`+${n}`:String(n);
 const labels=()=>({strain:u().load,capacity:u().localCap,intel:t().intel,trust:t().trust,tension:t().tension});
@@ -207,10 +243,10 @@ function persist() {
 function play(id) {
   const preview=previewMove(state,id);
   if(!preview.ok)return;
-  const from=state.selected;
-  state=applyMove(state,id);last={id,preview,from};
+  const before=state;
+  state=applyMove(state,id);
   if(state.phase==='end')screen='report';
-  persist();render();
+  finishDecision(before,id);
 }
 function updateMap() {
   if(!map||!state)return;
@@ -249,7 +285,7 @@ function networkPanel() {
         ...routes.map(r=>$('option',{value:r.other,selected:r.other===target},`${name(r.other)} · ${r.travel} ${q.period}`)))),
       $('p',{class:'muted'},q.routeHint),
       $('button',{class:'route-control',type:'button','data-connection':nextMode,'data-focus-key':'route-mode',disabled:state.phase!=='play'||state.capacity<1,
-        onclick:()=>{const before=state;state=setConnection(state,nextMode);if(state===before)return;last={route:true,id:nextMode};persist();render();}},
+        onclick:()=>{const before=state;state=setConnection(state,nextMode);if(state===before)return;finishDecision(before,nextMode);}},
         mode==='open'?q.filter:q.unfilter,` · ${q.cost}${state.capacity===1?` · ${q.close}`:''}`)),
     $('details',{class:'rule-fold','data-fold':'rule'},$('summary',{},q.riskLabel),$('p',{},q.rule),$('p',{class:'muted'},lang()==='tr'?'Bilgi her kapanışta 2 azalır; yük 60 ve üzerindeyse 3. Haber akışı kesilen havza zamanla körleşir.':'Information fades by 2 each closing, or 3 at load 60+. A basin cut off from reports gradually loses sight.'),$('p',{},lang()==='tr'?'Dayanabilen havza: yük ve gerilim 65 altı; kapasite en az 20, güven 30, bilgi 25.':'Resilient basin: load and tension below 65; capacity at least 20, trust 30 and information 25.')),
   );
@@ -280,7 +316,7 @@ function forecastPanel() {
 }
 function transitPanel() {
   const q=u();
-  return $('section',{class:'transit'},$('h2',{},`${q.arrivals} · ${state.network.pulses.length}`),
+  return $('section',{class:'transit',id:'ihtilal-transit'},$('h2',{},`${q.arrivals} · ${state.network.pulses.length}`),
     state.network.pulses.length?wavesList([...state.network.pulses].sort((a,b)=>a.due-b.due||a.id-b.id)): $('p',{class:'muted'},q.none),
     state.network.pulses.length?$('p',{class:'muted'},q.next):null,
     state.pending.length?$('details',{},$('summary',{},`${q.legacy} · ${state.pending.length}`),
@@ -288,12 +324,8 @@ function transitPanel() {
     state.network.last.length?$('details',{},$('summary',{},`${q.current} · ${state.network.last.length}`),wavesList(state.network.last)):null,
   );
 }
-function feedback() {
-  const q=u(),c=t();
-  return $('p',{class:'outcome inline-outcome',role:'status'},last.route?`${q.route}: ${q[last.id]}. ${q.cost}.`:
-    `${c[last.id]} · ${name(last.from)}. ${c.outcome}: ${c.trust} ${state.trust}, ${c.tension} ${state.tension}, ${c.intel} ${state.intel}.${last.preview.autoClose?' '+q.after:''}`);
-}
 function render() {
+  outcome.clear({restore:true});
   const focusKey=document.activeElement?.getAttribute?.('data-focus-key'),scroll=window.scrollY;
   document.documentElement.lang=reader()==='pl'?'pl':lang();
   const c=t(),q=u();
@@ -302,11 +334,12 @@ function render() {
   const bar=$('header',{class:'solo-bar'},$('span',{class:'solo-kicker'},'İHTİLÂL · '+c.kicker),
     $('button',{class:'link',type:'button','aria-label':q.back,'data-focus-key':'menu',onclick:()=>{screen='menu';map?.destroy();map=null;render();window.scrollTo(0,0);}},'←'));
   if(screen==='menu') {
+    compactFeedback=null;
     map?.destroy();map=null;
     root.append($('div',{class:'solo'},bar,$('main',{class:'solo-main'},$('p',{class:'solo-kicker'},c.kicker),$('h1',{},c.title),
       $('p',{class:'pitch'},c.pitch),$('p',{class:'menu-brief'},c.note),
       $('button',{class:'primary',type:'button','data-focus-key':'open',onclick:()=>{
-        state=state||readSaved()||createSolo(Date.now()%100000);screen=state.phase==='end'?'report':'play';last=null;persist();render();window.scrollTo(0,0);
+        state=state||readSaved()||createSolo(Date.now()%100000);screen=state.phase==='end'?'report':'play';persist();render();window.scrollTo(0,0);
       }},c.open),$('p',{class:'muted'},q.original))));return;
   }
   const body=[meters(),$('p',{class:'objective'},q.objective),$('p',{class:'save-status',role:'status'},saveError?q.saveFail:notice||q.saved)];
@@ -323,16 +356,16 @@ function render() {
       ...legalMoves(state).map(moveButton),
       ...(state.phase==='play'?MOVES.filter(id=>!legalMoves(state).includes(id)).map(id=>$('button',{class:'act',disabled:true,type:'button'},
         $('b',{},c[id]),$('span',{},`${q.capacityShort} (${q.localCap}: ${state.regions.find(r=>r.id===state.selected).capacity} / ${{tut:6,ac:4,sustur:0,devret:12}[id]})`))):[]));
-    body.push($('div',{class:'solo-play'},surface,$('div',{class:'decision-column'},networkPanel(),last?feedback():null,moves)));
+    body.push($('div',{class:'solo-play'},surface,$('div',{class:'decision-column'},networkPanel(),outcomeHost(),moves)));
     body.push(transitPanel());
   }
   if(state.phase==='end') {
-    body.push($('section',{class:'report'},$('h2',{class:'report-verdict'},c.endings[state.ending]),
+    body.push(outcomeHost(),$('section',{class:'report',id:'ihtilal-report'},$('h2',{class:'report-verdict'},c.endings[state.ending]),
       $('p',{},`${c.period} ${Math.min(state.period,6)} · ${c.trust} ${state.trust} · ${c.tension} ${state.tension}`),
       $('p',{},`${q.ready}: ${state.regions.filter(basinReady).length} / 7 · ${c.intel}: ${state.intel}`),$('p',{class:'muted'},q.objective),
       $('h3',{},q.endChains),state.network.history.length?wavesList(state.network.history.slice(-10)):$('p',{},q.noArrival),
       $('p',{},`${q.unresolved}: ${state.network.pulses.length+state.pending.length} · ${q.doctrine}: ${q[state.network.doctrine]}`),
-      $('button',{class:'primary',type:'button','data-focus-key':'new',onclick:()=>{state=createSolo((state.seed+1)>>>0);screen='play';last=null;notice='';planned='tut';persist();render();window.scrollTo(0,0);}},c.again)));
+      $('button',{class:'primary',type:'button','data-focus-key':'new',onclick:()=>{state=createSolo((state.seed+1)>>>0);compactFeedback=null;screen='play';notice='';planned='tut';persist();render();window.scrollTo(0,0);}},c.again)));
     map?.destroy();map=null;
   }
   body.push($('details',{class:'file-fold','data-fold':'file'},$('summary',{},c.file),$('p',{},q.original),$('p',{},c.fileBody)));
@@ -344,7 +377,7 @@ function render() {
   }
   window.scrollTo(0,scroll);
 }
-window.addEventListener('pagehide',()=>{if(state)persist();map?.destroy();map=null;});
+window.addEventListener('pagehide',()=>{outcome.clear();compactFeedback=null;if(state)persist();map?.destroy();map=null;});
 window.addEventListener('pageshow',event=>{if(event.persisted)render();});
 window.addEventListener('storage',event=>{if(event.key==='tariklab.language')render();});
 render();

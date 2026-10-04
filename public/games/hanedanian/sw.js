@@ -17,10 +17,11 @@ const FILES = [
   "map-dom.js",
   "mapintel.js",
   "orders.js",
+  "outcome-moment.js",
   "save.js",
   "icon.svg",
   "manifest.webmanifest",
-].map((p) => ROOT + p);
+].map((p) => ROOT + p).concat('/games/shared/outcome-runtime.js');
 self.addEventListener("install", (event) => {
   event.waitUntil(
     (async () => {

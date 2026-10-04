@@ -10,10 +10,147 @@
     ink: "#e7e0cc",
     gold: "#d9bc72",
   };
+  /* Static façade marks share one geometry in SVG and Pixi. Keep them in the
+     perimeter bands, clear of the unchanged street label and button geometry. */
+  function streetMarks(
+    signal = {},
+    { x = 0, y = 0, half = 76, narrow = false, reduced = false } = {},
+  ) {
+    const value = (v) => (Number.isFinite(v) ? Math.max(0, Math.min(100, v)) : 0),
+      trust = value(signal.sadakat),
+      pressure = value(signal.heat),
+      compact = narrow || reduced,
+      left = x - half + 16,
+      open = trust >= 35 && pressure < 60,
+      order = signal.karar;
+    const marks = [
+      {
+        type: "rect",
+        role: "door-frame",
+        x: left,
+        y: y - 62,
+        width: 8,
+        height: 13,
+        color: COLORS.line,
+        alpha: 1,
+      },
+      {
+        type: "rect",
+        role: open ? "door-open" : "door-closed",
+        x: left + 2,
+        y: y - 60,
+        width: open ? 2 : 4,
+        height: 11,
+        color: open ? COLORS.gold : COLORS.paper,
+        alpha: 1,
+      },
+      {
+        type: "rect",
+        role: "trust-light",
+        x: left + 15,
+        y: y - 60,
+        width: compact ? 6 + Math.floor(trust / 25) : 6,
+        height: 5,
+        color: trust >= 35 ? COLORS.gold : COLORS.line,
+        alpha: trust >= 35 ? 0.95 : 0.6,
+      },
+    ];
+    if (!compact) {
+      marks.push(
+        {
+          type: "rect",
+          role: "trust-light",
+          x: left + 25,
+          y: y - 60,
+          width: 6,
+          height: 5,
+          color: trust >= 60 ? COLORS.gold : COLORS.line,
+          alpha: trust >= 60 ? 0.95 : 0.6,
+        },
+        {
+          type: "rect",
+          role: "trust-light",
+          x: left + 35,
+          y: y - 60,
+          width: 6,
+          height: 5,
+          color: trust >= 80 ? COLORS.gold : COLORS.line,
+          alpha: trust >= 80 ? 0.95 : 0.6,
+        },
+      );
+    }
+    if (pressure >= 30)
+      marks.push({
+        type: "line",
+        role: "pressure",
+        x1: left + 6,
+        y1: y + 60,
+        x2: left + (compact ? 6 + Math.ceil(pressure / 10) : 12),
+        y2: y + 60,
+        color: pressure >= 60 ? COLORS.rakip : COLORS.gold,
+        width: 2,
+        alpha: 0.9,
+      });
+    if (!compact && pressure >= 60)
+      marks.push({
+        type: "line",
+        role: "pressure",
+        x1: left + 16,
+        y1: y + 60,
+        x2: left + 22,
+        y2: y + 60,
+        color: COLORS.rakip,
+        width: 2,
+        alpha: 0.9,
+      });
+    if (!compact && pressure >= 80)
+      marks.push({
+        type: "line",
+        role: "pressure",
+        x1: left + 26,
+        y1: y + 60,
+        x2: left + 32,
+        y2: y + 60,
+        color: COLORS.rakip,
+        width: 2,
+        alpha: 0.9,
+      });
+    if (order && ["koru", "yatirim", "cekil", "iliski"].includes(order.kind)) {
+      const orderWidth = { koru: 12, yatirim: 16, cekil: 6, iliski: 10 }[order.kind];
+      marks.push({
+        type: "rect",
+        role: "active-order",
+        x: x + half - 42,
+        y: y + 57,
+        width: orderWidth,
+        height: 5,
+        color: COLORS.gold,
+        alpha: 0.95,
+      });
+      if (!compact)
+        marks.push({
+          type: "line",
+          role: "order-time",
+          x1: x + half - 42,
+          y1: y + 64,
+          x2:
+            x +
+            half -
+            42 +
+            Math.max(1, Math.min(4, Number.isFinite(order.left) ? order.left : 1)) * 4,
+          y2: y + 64,
+          color: COLORS.gold,
+          width: 1,
+          alpha: 0.75,
+        });
+    }
+    return marks;
+  }
   function model(S, options = {}) {
     const Ag = w.RaconAg,
       ag = Ag.normalize(S.ag),
-      narrow = options.narrow !== false;
+      narrow = options.narrow !== false,
+      reduced = options.reduced === true;
     const selected = options.selected || S.streetHome,
       layer = options.layer || "control";
     const next = Ag.forecast(S),
@@ -75,6 +212,7 @@
         half,
         shape,
         signal,
+        marks: streetMarks(signal, { x, y, half, narrow, reduced }),
         favor,
         incoming,
         prediction,
@@ -113,6 +251,7 @@
       width,
       height,
       narrow,
+      reduced,
       selected,
       layer,
       nodes,
@@ -126,5 +265,5 @@
       colors: COLORS,
     };
   }
-  w.RaconMapModel = { model, COLORS };
+  w.RaconMapModel = { model, streetMarks, COLORS };
 })(typeof window !== "undefined" ? window : globalThis);

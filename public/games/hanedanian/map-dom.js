@@ -1,6 +1,7 @@
 // Canvas-independent command surface. Uses the same world and selection callback;
 // no alternate simulation, saved state, network assets or continuous render loop.
 import { TERRAINS, POIS } from './data.js';
+import {settlementWork} from './outcome-moment.js';
 
 const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const clamp = (n, lo, hi) => Math.min(hi, Math.max(lo, n));
@@ -14,6 +15,7 @@ export function atlasDirectory(state, center, limit = 12) {
     return { x: tile.x, y: tile.y, label: town?.name || POIS[tile.poi.type].label,
       kind: town ? (town.buildings.wall > 0 ? 'Surlu yerleşim' : 'Yerleşim') : POIS[tile.poi.type].label,
       owner: state.factions.find(f => f.id === ownerId)?.name || 'Bağımsız',
+      work:town?settlementWork(state,town):null,
       distance: Math.hypot(tile.x + .5 - center.x, tile.y + .5 - center.y) };
   }).sort((a, b) => a.distance - b.distance || a.y - b.y || a.x - b.x).slice(0, limit);
 }
@@ -58,7 +60,7 @@ export class StrategyMapDOM {
       const home = state.settlements.find(t => t.ownerId === state.playerId);
       if (home) this.center = { x: home.x + .5, y: home.y + .5 };
     }
-    const contentKey = state.settlements.map(t => `${t.id}:${t.name}:${t.ownerId}:${t.buildings.wall}`).join('|') +
+    const contentKey = state.settlements.map(t => `${t.id}:${t.name}:${t.ownerId}:${t.buildings.wall}:${JSON.stringify(settlementWork(state,t))}`).join('|') +
       state.world.tiles.filter(t => t.poi).map(t => `${t.poi.id}:${t.poi.ownerId}`).join('|');
     if (this.world !== state.world || contentKey !== this.contentKey) {
       this.world = state.world;
@@ -119,7 +121,7 @@ export class StrategyMapDOM {
       <svg class="atlas-overview" viewBox="0 0 ${size} ${size}" role="img" aria-label="${size} çarpı ${size} özgün dünya; açık kareler senin yerleşimlerin">${this.terrainHTML}${towns}${marker}</svg>
       <p class="atlas-selection" role="status"><strong>${esc(active)}</strong> ${esc(selection)}</p>
       <form data-atlas-coordinates class="atlas-coordinate-form"><label>Doğu<input name="x" type="number" min="0" max="${size - 1}" step="1" required value="${selected?.x ?? Math.floor(this.center.x)}"></label><label>Kuzey<input name="y" type="number" min="0" max="${size - 1}" step="1" required value="${selected?.y ?? Math.floor(this.center.y)}"></label><button type="submit" data-atlas-submit>Karoyu seç</button></form>
-      <div class="atlas-place-list">${rows.map(row => `<button data-atlas-tile="${row.x},${row.y}" data-x="${row.x}" data-y="${row.y}" aria-pressed="${selected?.x === row.x && selected?.y === row.y}"><strong>${esc(row.label)}</strong><span>${esc(row.owner)} · ${row.x}, ${row.y} · ${row.distance.toFixed(1)} karo</span></button>`).join('')}</div>`;
+      <div class="atlas-place-list">${rows.map(row => `<button data-atlas-tile="${row.x},${row.y}" data-x="${row.x}" data-y="${row.y}" aria-pressed="${selected?.x === row.x && selected?.y === row.y}"><strong>${esc(row.label)}</strong><span>${esc(row.owner)} · ${row.x}, ${row.y} · ${row.distance.toFixed(1)} karo</span>${row.work?`<small>${esc(row.work.label)} · ${row.work.minutes} dk · ${row.work.count} iş</small><progress value="${row.work.progress}" max="1" aria-label="Sıradaki iş ilerlemesi"></progress>`:""}</button>`).join('')}</div>`;
     if (focusName) {
       for (const [name, value] of fieldValues) this.host.querySelector(`[name="${name}"]`).value = value;
       this.host.querySelector(`[name="${focusName}"]`)?.focus({ preventScroll: true });

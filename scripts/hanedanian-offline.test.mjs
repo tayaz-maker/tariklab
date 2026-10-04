@@ -24,6 +24,8 @@ const contentType = path => path.endsWith('.js') ? 'text/javascript; charset=utf
 // resolves to null and map-factory.js keeps the Canvas 2D StrategyMap that
 // already ships in this package -- see docs/TARIKLAB_PIXIJS_MAP_STATUS.md.
 const optionalShared = new Set(['/i18n/pl-body.js', '/games/shared/pixi-adapter.js']);
+const packagedShared = new Set(['/games/shared/outcome-runtime.js']);
+const localAsset = path => new URL('../public' + path, import.meta.url);
 const pathOf = request => new URL(typeof request === 'string' ? request : request.url, origin).pathname;
 
 function harness({ networkResponse } = {}) {
@@ -94,7 +96,7 @@ function dependencyGraph() {
     const path = pending.pop();
     if (found.has(path)) continue;
     found.add(path);
-    const local = new URL(path.slice(root.length), gameDirectory);
+    const local = localAsset(path);
     assert.ok(existsSync(local), `Missing local package dependency: ${path}`);
     const source = readFileSync(local, 'utf8'), links = [];
     if (path.endsWith('.html')) for (const match of source.matchAll(/<(?:script|link)\b[^>]*\b(?:src|href)=["']([^"']+)["']/g)) links.push(match[1]);
@@ -112,7 +114,7 @@ function dependencyGraph() {
       const url = new URL(link, origin + path);
       if (optionalShared.has(url.pathname)) continue;
       assert.equal(url.origin, origin, `Offline game unexpectedly depends on a remote asset: ${link}`);
-      assert.ok(url.pathname.startsWith(root), `Game dependency falls outside its scoped package: ${link}`);
+      assert.ok(url.pathname.startsWith(root) || packagedShared.has(url.pathname), `Game dependency falls outside its scoped package: ${link}`);
       pending.push(url.pathname);
     }
   }
@@ -123,7 +125,7 @@ test('standalone package contains the complete real HTML/module/CSS/manifest dep
   const worker = harness(), graph = dependencyGraph();
   assert.equal(new Set(worker.files).size, worker.files.length, 'Duplicate package entry');
   assert.deepEqual([...worker.files].sort(), [...graph].sort());
-  for (const path of worker.files) assert.ok(existsSync(new URL(path.slice(root.length), gameDirectory)), `Cached asset missing on disk: ${path}`);
+  for (const path of worker.files) assert.ok(existsSync(localAsset(path)), `Cached asset missing on disk: ${path}`);
   assert.ok(!worker.files.includes(root + 'sw.js'), 'Worker must update through its own lifecycle, not cache itself');
   for (const path of optionalShared) assert.ok(!worker.files.includes(path), `Optional layer must stay out of the package: ${path}`);
   const html = readFileSync(new URL('index.html', gameDirectory), 'utf8');
@@ -250,7 +252,7 @@ test('content-version generation is deterministic across dependency insertion or
 });
 
 test('changing any real offline dependency, its name, or worker source changes the emitted package version', () => {
-  const files = Object.fromEntries(harness().files.map(path => [path.slice(root.length), readFileSync(new URL(path.slice(root.length), gameDirectory))]));
+  const files = Object.fromEntries(harness().files.map(path => [path.startsWith(root)?path.slice(root.length):path, readFileSync(localAsset(path))]));
   const original = versionGameWorker(workerSource, files);
   for (const name of Object.keys(files)) {
     const changed = { ...files, [name]: Buffer.concat([files[name], Buffer.from('\nchanged-byte')]) };

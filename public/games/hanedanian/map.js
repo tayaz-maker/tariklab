@@ -2,6 +2,7 @@ import { isArmyVisible } from './engine.js';
 import { TERRAINS, POIS, RESOURCES } from './data.js';
 import { REGION_NAMES, regionOf } from './campaign.js';
 import { incomingThreats, regionPresence, tradeLinks, relationMarks } from './mapintel.js';
+import {settlementWork} from './outcome-moment.js';
 
 export const MAP_LAYERS = ['borders', 'regions', 'threats', 'range', 'trade', 'discovery', 'relations', 'resources'];
 const DEFAULT_LAYERS = { borders: true, regions: true, threats: true, range: true, trade: true, discovery: true, relations: true, resources: true };
@@ -1671,6 +1672,15 @@ export class StrategyMap {
       ctx.fillStyle=color; path(ctx,[[fx,fy-r*.35],[fx+r*.7,fy-r*.12],[fx,fy+r*.14]],true); ctx.fill();
       if (own || active) { ctx.strokeStyle=active?COLORS.ivory:color; ctx.lineWidth=active?2:1.5; ctx.beginPath(); ctx.ellipse(p.x,p.y+r*.78,r*1.4,r*.45,0,.15,Math.PI-.15); ctx.stroke(); }
       ctx.restore();
+      const work=settlementWork(this.state,settlement);
+      if (work && this.mode!=='world') {
+        // Workshop plinth: actual first queued job progress, not a new bonus.
+        const w=Math.max(20,r*2), y=p.y-r*1.32;
+        ctx.save();ctx.fillStyle='#26372b';ctx.fillRect(p.x-w/2-1,y-1,w+2,5);
+        ctx.fillStyle='#877a57';ctx.fillRect(p.x-w/2,y,w,3);
+        ctx.fillStyle='#f0d290';ctx.fillRect(p.x-w/2,y,w*work.progress,3);
+        ctx.restore();
+      }
       if (compact && !own && !active && this.mode !== 'near') continue;
       if (this.mode === 'world' && !own && !active && !capital) continue;
       const labelY=p.y+r*1.12+13, maxWidth=compact?104:this.mode === 'near'?150:112;
