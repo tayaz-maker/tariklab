@@ -85,7 +85,7 @@ test("actual store action and persistence are unchanged by producing the moment"
   const { ALL_MISSIONS } = await import("./data.ts");
   useGame.getState().createPlayer("Actual", "eyup");
   const mission = ALL_MISSIONS.find((m) => m.risk === "Çok Yüksek")!;
-  useGame.setState({ player: hydratePlayer({ ...useGame.getState().player!, level: 100, jobsDone: 10, contractId: null, energy: 1000, cash: 100000, crew: ["gozcu", "sofor", "silahci"], inventory: mission.requiredItems ?? [] }) });
+  useGame.setState({ player: hydratePlayer({ ...useGame.getState().player!, level: 100, jobsDone: 10, contractId: null, energy: 1000, cash: 100000, crew: ["gozcu", "sofor"], inventory: mission.requiredItems ?? [] }) });
   const a = useGame.getState();
   const random = Math.random; Math.random = () => 0.1;
   try { useGame.getState().doJob(mission.id); } finally { Math.random = random; }

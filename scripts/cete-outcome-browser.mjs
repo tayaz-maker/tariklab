@@ -108,7 +108,7 @@ try {
   // Unfocused normal motion exits in 2.2s; reduced motion stays until closed.
   for (const reducedMotion of ["no-preference", "reduce"]) {
     const context = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion });
-    await context.addInitScript(() => { localStorage.setItem("cete-age-ok", "1"); localStorage.setItem("tariklab.language", "tr"); Math.random = () => 0.1; });
+    await context.addInitScript(() => { localStorage.setItem("cete-age-ok", "1"); localStorage.setItem("tariklab.language", "tr"); let seed = 77; Math.random = () => ((seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0) / 4294967296) * 0.1; });
     const page = await context.newPage();
     await page.goto(`${base}/cete-savaslari`, { waitUntil: "networkidle" });
     await page.getByPlaceholder("Örn. Halil").fill("Süre Testi");

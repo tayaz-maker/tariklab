@@ -55,6 +55,12 @@ jobs:
           else
             npx playwright install --with-deps chromium --only-shell
           fi
+      - name: Cete outcome moments (1440/390/320, motion, save and focus)
+        if: needs.changes.outputs.full == 'true'
+        timeout-minutes: 5
+        run: |
+          node --experimental-strip-types --import ./scripts/ts-alias.mjs scripts/cete-outcome-browser.mjs
+          CETE_BUILD=1 CETE_LABEL=built node --experimental-strip-types --import ./scripts/ts-alias.mjs scripts/cete-outcome-browser.mjs
       - name: Duel archive, save and 2.5D responsive regression
         if: needs.changes.outputs.duel == 'true'
         timeout-minutes: 5
@@ -79,12 +85,6 @@ jobs:
         if: needs.changes.outputs.full == 'true'
         timeout-minutes: 10
         run: node scripts/tc-sim-historical-browser.mjs
-      - name: Cete outcome moments (1440/390/320, motion, save and focus)
-        if: needs.changes.outputs.full == 'true'
-        timeout-minutes: 5
-        run: |
-          node --experimental-strip-types --import ./scripts/ts-alias.mjs scripts/cete-outcome-browser.mjs
-          CETE_BUILD=1 CETE_LABEL=built node --experimental-strip-types --import ./scripts/ts-alias.mjs scripts/cete-outcome-browser.mjs
       - name: Cete outcome production smoke (both hosts)
         if: github.ref == 'refs/heads/main'
         timeout-minutes: 5
