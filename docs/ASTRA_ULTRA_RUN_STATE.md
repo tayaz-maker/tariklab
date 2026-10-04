@@ -149,3 +149,15 @@ PR #101 remains Terra's responsibility. Novella remains **LATER**.
 - Bağımsız kayıt: final360 checklistine güncel 7 harita entry'si, artifact sınırları ve SON KÖY WIP'in gerekçeli deferred/ayrı Wave3 PR adayı sınıflaması eklendi.
 - Risk: fiziksel GPU/PL anadil/anatomi uzmanı yok; Racon eski PNG genişliği ve preview DB bootstrap logu son review için açık; Novella/#78/#79 değişmedi.
 - Sonraki: #111 tüm checks green → #110 merge → güncel main'e #111 rebase/CI; her merge sonrası iki-host gerçek smoke ve SHA.
+
+### 2026-10-05 — korumalı CI split ve iki güncel head checkpoint
+- Hedef: doğrulanmış 25 dakika seri build iptalini kapatmak; kullanıcı/oyun/save/dependency kapsamı değişmedi.
+- Branch/PR: #110 `astra/wave1-decision-traces` head `fea0d0cb3b582c58d1759e0d09b29fc1aaeb846e`; #111 `astra/map-static-cache` head `de4c416e0af57f818a6cdf8262f623bb9fafe241`.
+- Ortak fix SHA: `889cd133de67f46c5a7081dfee9203f1b6f06fbb`; workflow + exact-success helper/test; #111 dokuz commit bu tabana rebase, eski `fec5f66` backup ref'te.
+- Kök kanıt: run `37241690632` / job `111551601225` açık 25 dakika timeout; assertion failure yok, TC SIM bu tavanda iptal; cancelled PASS değildir.
+- Gate: core/browser ayrı 25 dakika; required build always/all-needs success; komutlar, baseline pinleri, routing/cache/concurrency ve production adımları aynı.
+- Yerel: 20/20 gate+HTTP/archive, scoped ESLint ve production build PASS; rebase public/src/package/lock byte-identical.
+- Gerçek CI: #110 `37244054041`, #111 `37244258514` ve map `37244258417` yayın anında pending.
+- Merge/production: ikisi de merge edilmedi; production iddiası yok; önceki 126 ölçüm PASS yalnız eski head kanıtıdır.
+- Açık risk: yerel Chromium SIGSEGV, fiziksel GPU / PL ana dil / anatomi uzmanı yok; main browser+production toplam süre bütçesi henüz ölçülmedi.
+- Sonraki: iki güncel head green → #110 merge/iki-host → #111 main rebase/CI/merge/iki-host; pendingken yalnız kanıt ve bağımsız kaynak notu.

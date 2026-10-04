@@ -51,8 +51,14 @@ Gerekçeli LATER kaydı DONE değildir ve zorunlu bir release kapısını kendil
   bounded metadata teşhisi içerir; 30 yerel regression, ESLint/build PASS. Yeni run `37241690633`
   route-costs SUCCESS, artifact `11317803281`: before/after 63+63, errors=[], ölçülmüş overflow=0.
   Metadata kontrolü before/Han390'da response promise'inin çözülmediğini doğruladı; aynı isteğin
-  HTTP 200 / 1260 gövde baytı / finished=true ağ kaydı mevcut. Genel CI `37241690632` pending;
-  bu satır tam #111 veya release PASS değildir. #110 ve #111 ikisi green olmadan merge yok.
+  HTTP 200 / 1260 gövde baytı / finished=true ağ kaydı mevcut. Genel CI `37241690632` build job `111551601225`, 25 dakika toplam job tavanında CANCELLED;
+  TC SIM adımı yarım kaldı. Bu satır tam #111 veya release PASS değildir. #110 ve #111 ikisi green olmadan merge yok.
+- Güncel dar CI fix `889cd133`: aynı core/browser kontrolleri ayrı 25 dakika işlerde;
+  required `build` always gate bütün bağımlılıkları exact success olarak doğrular. Failure,
+  cancelled, skipped, missing veya bozuk payload FAIL; 20 yerel regression + ESLint/build PASS.
+  #110 head `fea0d0c`, CI `37244054041`; #111 head `de4c416`, CI `37244258514`,
+  ölçüm `37244258417`: yayın anında pending, yeni head için PASS verilmedi. #111 ürün/src/save
+  ve bağımlılık dosyaları eski `fec5f66` ile aynı; 9 commit rebase edildi, eski head backup ref'te.
 - Görsel kanıt sınırı: #110 Racon 390/320 full-page PNG genişliği 730/621 px, sağ boşluk
   baseline/source/built'te aynı; DOM scrollWidth 390/320. Yeni regresyon doğrulanmadı.
   Final B/C incelemesinde viewport screenshot + gerçek yatay kaydırma/hit-test ile sınıflandırılacak;
@@ -75,6 +81,23 @@ Portalın üç genişlikte oyun/Pixi isteği yok. Bu giriş maliyetidir; harita 
 Baseline ve aday preview stdout'unda aynı PGLite `Invalid URL string` bootstrap kaydı var;
 ziyaret edilen oyunların console/ağ assertion'ları geçti. Sunucu log kaydı gizlenmez; C/F review'de
 guest oyun akışından ayrı DB kullanan yüzey etkisi doğrulanacak, bu kaynak kaydı tek başına P1 teşhisi değildir.
+
+### #111 tamamlanmış browser artifact'i — eski head kanıtı
+
+Run `37241690632`, head `fec5f66`, [artifact 11317874879](https://github.com/tayaz-maker/tariklab/actions/runs/37241690632/artifacts/11317874879).
+ZIP SHA-256 `6d2314f9e34ec2dd15dcd6fdaebf1bd2dfafa1fa04c3f3e4ce7f80874f92d20a` doğrulandı.
+Before/source/built sonuçları 9/13/13 senaryo, 42/79/79 kayıt, errors=[]; saveReload/noReplay true.
+Built 1440/390/320 harita ve dört low-memory/DPR screenshot'u açılarak incelendi; constrained
+senaryolarda Pixi isteği 0, SVG karar yüzeyi mevcut. Context-loss/cleanup ayrı JSON event'i değil:
+exact-head scriptindeki `WEBGL_lose_context`, SVG'ye geçiş/sıfır canvas ve ekran cleanup assertion'ları
+başarılı son kayıttan önce çalışır. Bu ayrım fiziksel GPU veya production PASS'a dönüştürülmez.
+
+12 seçimde source/built İHTİLÂL ve Racon'un 10'ar senaryosunda kaldırılan statik işaret 0;
+baseline 84–384. İHTİLÂL1440 medyan senkron render 1.3→0.5 ms, Racon1440 2.2→0.8 ms.
+Bütün başlangıç süreleri iyileşmedi: Racon1440 karar yüzeyi 399→477 ms. Bu tek CI örneği genel
+hızlanma iddiası vermez. Racon390/320 after PNG'leri before/source/built arasında piksel olarak aynı
+(730×844 / 621×844); yukarıdaki mobil görsel kanıt sınırı açık kalır. Dört outcome modülü hash'i
+source/built eş; tüm renderer/deploy paritesi henüz yok. Yeni head `de4c416` CI'sı ayrı kapıdır.
 
 ### Harita girişleri — pending CI sırasında yalnız kaynak keşfi
 
@@ -111,7 +134,7 @@ Test kaynakları: `hanedanian-map-pixi/atlas-scheduler/offline`, `ihtilal-basin-
 
 | No / kapsam | Gelecekteki somut doğrulama ve değişiklik sınırı | Durum |
 | --- | --- | --- |
-| 1 — DARBE-H! / Wave 4 | Mevcut **300 özgün/prosedürel SVG kart** ve ölçüleri korunur. Yalnız mevcut state'ten türeyen sessiz sonuç anı ve masa/eldeki kart/arşiv için hafif erişilebilir katman; reduced motion, skip, okunabilir metin. Kart verisi/denge/deste/save/ortak duel engine değişmez. Gerçek kişi/kurum/parti/askerî sembol, şiddet estetiği, dış asset ve kopya UI yok. DRB kaydı aşağıda ayrı | LATER |
+| 1 — DARBE-H! / Wave 4 | Kaynak sınır notu: `outputs/ASTRA_WAVE4_DARBE_BOUNDARY.md` (test/teşhis yapılmadı). Mevcut **300 özgün/prosedürel SVG kart** ve ölçüleri korunur. Yalnız mevcut state'ten türeyen sessiz sonuç anı ve masa/eldeki kart/arşiv için hafif erişilebilir katman; reduced motion, skip, okunabilir metin. Kart verisi/denge/deste/save/ortak duel engine değişmez. Gerçek kişi/kurum/parti/askerî sembol, şiddet estetiği, dış asset ve kopya UI yok. DRB kaydı aşağıda ayrı | LATER |
 | 2 — VETO-H! / GETT-OH! / DARBE-H! | 320/390 px el-masa akışı, focus/restore, reduced motion, legacy save, kart yüzleri ve sessizlik gerçek browser'da test edilir. Yeni kapsamda ortak duel engine'e dokunulmaz; oyun-özel veri sınırı korunur. Gerekli kural düzeltmesi görsel PR'a karıştırılmaz | LATER |
 | 3 — HANEDANIAN / İHTİLÂL / Racon / TC SIM: DEVLET / TC SIM / JİTEM / Kıyı Eşiği | Güncel Pixi/SVG/DOM/Canvas durumu doğrulanır; 1440/390/320 px, context loss, resize, pan/zoom, ekran geçişi, offline, save ve overlay test edilir. Haritanın gerçek karara etkisi incelenir; baştan “dekoratif” veya “uygulanamaz” varsayılmaz. Eksik karar yüzeyi açık backlog veya kanıtlı P1 gerekçesiyle kaydedilir | LATER |
 | 4 — TC SIM başlangıçları | Günümüz, **1999-04-18**, **1980/1984/1988** başlangıçlarının her biri sabit seed ile **2026-01-01 son akışına kadar** test edilir. Determinizm, gecikmiş etkiler, legacy `tc-sim-save`, save/reload, olay-bazlı kaynaklar ve üç genişlik doğrulanır. Olgular dengeli/kaynaklı; propaganda veya belirsiz iddiayı kesinleştirme yok | LATER |
