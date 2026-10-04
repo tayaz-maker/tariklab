@@ -1,8 +1,8 @@
 // Real decisions and paired visual evidence. No engine or save writes in the page.
 import assert from 'node:assert/strict';
-import {createServer} from 'node:http';
+import {createStaticGameServer} from './static-game-server.mjs';
 import {readFile,mkdir,writeFile} from 'node:fs/promises';
-import {resolve,extname,sep} from 'node:path';
+import {resolve} from 'node:path';
 import {createHash} from 'node:crypto';
 import {chromium} from 'playwright';
 import {checkedUrl,checkedOutputPath} from './browser-guard.mjs';
@@ -12,8 +12,7 @@ const args=process.argv.slice(2),arg=(key,fallback)=>args.includes(key)?args[arg
 const baseline=args.includes('--baseline'),label=arg('--label','source'),root=resolve(arg('--serve','public'));
 const proofRoot=resolve(process.env.RUNNER_TEMP||'/workspace','screenshots');
 const out=checkedOutputPath(resolve(proofRoot,'wave1-outcome',label),[proofRoot]);await mkdir(out,{recursive:true});
-const mime={'.js':'text/javascript','.mjs':'text/javascript','.html':'text/html','.css':'text/css','.json':'application/json','.webmanifest':'application/manifest+json','.svg':'image/svg+xml','.png':'image/png'};
-const server=process.env.WAVE1_BASE?null:createServer(async(req,res)=>{try{const url=new URL(req.url,'http://localhost');const file=resolve(root,'.'+decodeURIComponent(url.pathname.endsWith('/')?url.pathname+'index.html':url.pathname));if(!file.startsWith(root+sep)){res.writeHead(403).end();return;}res.writeHead(200,{'content-type':mime[extname(file)]||'application/octet-stream','cache-control':'no-store'}).end(await readFile(file));}catch{res.writeHead(404).end();}});
+const server=process.env.WAVE1_BASE?null:createStaticGameServer(root);
 if(server)await new Promise(r=>server.listen(0,'127.0.0.1',r));
 const base=checkedUrl(process.env.WAVE1_BASE||`http://127.0.0.1:${server.address().port}`);
 const harness=loadGame();harness.ev('blank("Avlu");enterPlay();S.seed=4242;S.kasa=50000;S.cleanKasa=50000;S.dirtyKasa=0;S.screen="harita";S.stage="kabadayi";S.day=7;S.streets[1].sahip="sen";writeSave();');
