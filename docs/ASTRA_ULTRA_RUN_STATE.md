@@ -150,3 +150,15 @@ PR #101 remains Terra's responsibility. Novella remains **LATER**.
 - Browser/performans: 1440/390/320 before/source/built ve iki host CI adımları hazır; gerçek sonuç henüz bekleniyor.
 - Açık risk: yerel Chromium SIGSEGV; CI browser yeşil olmadan merge/production başarısı iddia edilmeyecek.
 - Sonraki adım: dar Dalga 1 PR/CI; #109 kapanışı; ölçülmüş performans ve asset referans temizliği ayrı PR.
+
+### 2026-10-04 — ayrı harita performans checkpoint
+- Hedef: İHTİLÂL/Racon statik tabanı koruma ve güvenli GPU bütçesi; görsel dalgadan ayrı PR.
+- Oyuncu değeri: seçim/plan değişiminde aynı karar haritasını gereksiz taban çizimi olmadan kullanabilir.
+- Branch: `astra/map-static-cache`; kod SHA: `e855c5c0e46ed5ee9cb0726f7b58aff173ae82b4`; taban #110 `53534e2`.
+- Dosyalar: iki renderer; gerçek-source VM ve browser/performance ölçümleri; CI/provenance/asset envanteri.
+- Test: instrumentation 14/14, birleşik hedefli 38/38; build PASS, değişen JS ESLint PASS; 59 mevcut uyarı.
+- Browser: 1440/390/320, save/reload/context/cleanup + düşük bellek/DPR senaryoları hazırlanmış; CI sonucu henüz yok.
+- Performans: tüm 20 rota+portal cold before/after; iki haritada 12 seçimlik gerçek redraw ölçümü; kazanım henüz iddia edilmiyor.
+- Asset: yanlış tracked build/büyük duplicate yok; referanslı screenshot arşivi korundu; dosya silinmedi.
+- Açık risk: kod +10.314 B; sık güncellemelerdeki tasarruf ve görsel eşlik browser kanıtıyla değerlendirilecek.
+- Sonraki adım: bağımsız dar PR; #109/#110 yeşil ve production kanıtlı kapanmadan sonraki oyun dalgasına geçme.
