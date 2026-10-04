@@ -8,6 +8,7 @@ import {checkedUrl,checkedOutputPath} from './browser-guard.mjs';
 import {withDeadline} from './route-performance-deadline.mjs';
 import {createResponseByteMeter} from './response-byte-meter.mjs';
 import {diagnoseWorkerSizes} from './worker-size-diagnostic.mjs';
+import {hasReadableBody} from './route-performance-surface.mjs';
 
 const args=process.argv.slice(2),arg=(name,fallback)=>args.includes(name)?args[args.indexOf(name)+1]:fallback;
 const routeFilter=arg('--route',null),widthFilter=arg('--width',null),focused=routeFilter!==null||widthFilter!==null;
@@ -106,7 +107,7 @@ try {
    const start=performance.now();await stage('navigation',()=>page.goto(base+route.href,{waitUntil:'domcontentloaded'}));
    let surface=page;
    if(route.href.startsWith('/oyna/'))surface=await stage('iframe',async()=>{const iframe=page.locator('iframe');await iframe.waitFor();return (await iframe.elementHandle()).contentFrame();});
-   await stage('readable surface',()=>surface.waitForFunction(()=>document.body.innerText.trim().length>20));
+   await stage('readable surface',()=>surface.waitForFunction(hasReadableBody));
    const firstReadableMs=Math.round(performance.now()-start);
    await stage('networkidle',()=>page.waitForLoadState('networkidle'));
    try {await stage('quiet',()=>new Promise(done=>{quietDone=done;settle();}));}finally {clearCaseTimers();}
