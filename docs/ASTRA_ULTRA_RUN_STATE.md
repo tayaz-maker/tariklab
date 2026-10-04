@@ -138,3 +138,15 @@ PR #101 remains Terra's responsibility. Novella remains **LATER**.
 - Browser: önizlemede gerçek karar/odak PASS; kurulum ipucu örtüşmesi düzeltildi. CI'da dev + built çıktı, TR/EN × 1440/390/320 × motion/reduced; üretimde iki host aynı test.
 - Açık risk: yerel Chromium SIGSEGV; browser sonuçları/CI yeşil olmadan merge edilmeyecek.
 - Sonraki adım: CI kanıtı, merge, iki host production; başka ürün yok, Novella LATER.
+
+### 2026-10-04 — Dalga 1 / karar izleri checkpoint
+- Hedef: HANEDANIAN, İHTİLÂL ve Racon'da gerçek karar sonucu + kalıcı durum işaretleri.
+- Oyuncu değeri: ödediği bedeli, taahhüdün zamanını ve haritada biriken güven/baskı/iş ilerlemesini okuyabilir.
+- Branch: `astra/wave1-decision-traces`; kod SHA: `2287786007c2dd920fab31f388a61e27569c25ed`.
+- Dosyalar: üç saf model/özel UI/harita izi; ortak geçici lifecycle; Han offline paketi; test/CI/provenance kayıtları.
+- Sözleşme: hesap, içerik, RNG, save key/schema değişmedi; görsel durum kayda yazılmaz.
+- Test: hedefli model 17/17, offline/version 19/19, TS 61/61; typecheck/lint/build PASS.
+- Tam suite: JS 1617 PASS, 12 test-harness FAIL, 1 mevcut skip; gerçek runtime yüklenerek aynı 12/12 hedefli test PASS.
+- Browser/performans: 1440/390/320 before/source/built ve iki host CI adımları hazır; gerçek sonuç henüz bekleniyor.
+- Açık risk: yerel Chromium SIGSEGV; CI browser yeşil olmadan merge/production başarısı iddia edilmeyecek.
+- Sonraki adım: dar Dalga 1 PR/CI; #109 kapanışı; ölçülmüş performans ve asset referans temizliği ayrı PR.

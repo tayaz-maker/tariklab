@@ -19,6 +19,7 @@ const base=checkedUrl(process.env.WAVE1_BASE||`http://127.0.0.1:${server.address
 const harness=loadGame();harness.ev('blank("Avlu");enterPlay();S.seed=4242;S.kasa=50000;S.cleanKasa=50000;S.dirtyKasa=0;S.screen="harita";S.stage="kabadayi";S.day=7;S.streets[1].sahip="sen";writeSave();');
 const raconSave=JSON.parse(harness.localStorage.getItem('tariklab::racon:1'));
 const results=[],errors=[];let browser,page;
+const transfer=p=>p.evaluate(()=>{const rows=[...performance.getEntriesByType('navigation'),...performance.getEntriesByType('resource')];return {transferBytes:rows.reduce((n,r)=>n+(r.transferSize||0),0),requestCount:rows.length,pixiRequests:rows.filter(r=>/pixi/i.test(r.name)).length};});
 const readRacon=p=>p.evaluate(()=>JSON.parse(localStorage.getItem('tariklab::racon:1')));
 const readBasin=p=>p.evaluate(key=>JSON.parse(localStorage.getItem(key)).state,SOLO_KEY);
 async function hanSave(p){await p.locator('#menu-button').click();await p.locator('[data-action="export"]').click();const state=JSON.parse(await p.locator('#export-text').inputValue()).state;await p.locator('#dialog').press('Escape');return state;}
@@ -40,13 +41,18 @@ try{
   },{game,mode,raconSave,basinSave:serializeSolo(createSolo(4242)),key:SOLO_KEY});
   page=await context.newPage();page.setDefaultTimeout(15000);
   const caseErrors=[];page.on('pageerror',e=>caseErrors.push(String(e)));page.on('console',m=>{if(m.type()==='error')caseErrors.push(m.text());});
-  await page.goto(`${base}/games/${game}/index.html`);
+  const opened=performance.now();await page.goto(`${base}/games/${game}/index.html`);
+  await page.waitForFunction(()=>document.body.innerText.trim().length>60);
+  const firstRenderMs=Math.round(performance.now()-opened),menuTransfer=await transfer(page),mapStarted=performance.now();
   if(game==='hanedanian'){
    await page.locator('[data-action="new"]').first().click();await page.locator('#new-form input[name="seed"]').fill('WAVE1-PROOF');await page.locator('#new-form button').click();await page.locator('#welcome').waitFor({state:'hidden'});
    if(await page.locator('[data-guide="dismiss"]').isVisible())await page.locator('[data-guide="dismiss"]').click();
    await page.locator('#navigation [data-view="settlement"]').click();
   }else if(game==='ihtilal')await page.getByRole('button',{name:'Dosyayı aç',exact:true}).click();
   else{await page.locator('#btn-devam').click();await page.locator('.rm-node[data-id="st_aksem"]').click();await page.locator('[data-act="ag-sec"][data-kind="cekil"]').click();await page.locator('[data-act="ag-target"][data-id="st_fevzi"]').click();}
+  if(game!=='hanedanian')await page.waitForFunction(({selector,mode})=>document.querySelector(selector)?.dataset.renderer===mode,{selector:game==='ihtilal'?'.basin-surface':'.rm-surface',mode});
+  const surfaceMs=Math.round(performance.now()-mapStarted),mapTransfer=await transfer(page);
+  results.push({tag,performance:{firstRenderMs,surfaceMs,...mapTransfer,lazyTransferBytes:mapTransfer.transferBytes-menuTransfer.transferBytes,lazyRequests:mapTransfer.requestCount-menuTransfer.requestCount,pixiAtMenu:menuTransfer.pixiRequests}});
   assert.equal(await page.locator('[data-outcome-moment]').count(),0,'no hydration replay');
   await layout(`${tag}:before`);await screenshot(`${tag}-before`);
   const before=game==='racon'?await readRacon(page):game==='ihtilal'?await readBasin(page):null;
@@ -106,3 +112,10 @@ try{
 }catch(e){errors.push(e.stack);if(page&&!page.isClosed())await page.screenshot({path:`${out}/failure.png`,fullPage:true}).catch(()=>{});throw e;}
 finally{await writeFile(`${out}/results.json`,JSON.stringify({label,baseline,base,results,errors},null,2));await browser?.close();if(server)await new Promise(r=>server.close(r));}
 console.log(JSON.stringify({label,scenarios:results.filter(r=>r.ok).length,errors}));
+
+if(label==='built'){
+ const snapshots=await Promise.all(['before','source','built'].map(async name=>JSON.parse(await readFile(resolve(out,'..',name,'results.json'),'utf8'))));
+ const lines=['# Wave 1 measured performance','', 'Fresh browser contexts; same fixtures and UI actions. Transfer bytes use Navigation/Resource Timing transferSize (encoded payload + response headers). Surface time includes starting the game and selecting its tested decision; lazy transfer is the delta after the initial menu. No claim of universal network latency.','', '| Game / viewport | Before bytes / requests | Built bytes / requests | Before → built first render ms | Before → built decision surface ms | Built lazy bytes / requests |','| --- | ---: | ---: | ---: | ---: | ---: |'];
+ for(const row of snapshots[0].results.filter(r=>r.performance)){const next=snapshots[2].results.find(r=>r.tag===row.tag&&r.performance);if(!next)continue;const a=row.performance,b=next.performance;lines.push(`| ${row.tag} | ${a.transferBytes} / ${a.requestCount} | ${b.transferBytes} / ${b.requestCount} | ${a.firstRenderMs} → ${b.firstRenderMs} | ${a.surfaceMs} → ${b.surfaceMs} | ${b.lazyTransferBytes} / ${b.lazyRequests} |`);}
+ await writeFile(resolve(out,'..','performance-comparison.md'),lines.join('\n')+'\n');
+}
