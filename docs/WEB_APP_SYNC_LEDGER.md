@@ -459,3 +459,10 @@ Chromium must pass before integration.
 - Rebased on the #101 merge (`513127f`); retained main's phone `weekPlanHtml` decision layout and decision-network week close.
 - Scope: TC SIM historical core only; no DEVLET #100, Pixi CI infrastructure or JITEM changes.
 - PR: codex/tc-sim-historical-starts.
+
+## 2026-10-04 — sıralı release kapanışı
+
+- Web releases: #105 `7315055785fa90a46e87c1264c23cfdbb60b3d7b`, #107 `82c731c91b40894060936d9299a61644c970241f`, #106 `d1ea695b76fba15c284690c07cf818316cd97f10`; each merged after 7/7 successful checks.
+- Both production hosts matched all Racon/JITEM/TC SIM game files (6/31/38). Per-host browser acceptance: 34 Racon checks, four JITEM restore/renderer scenarios, ten TC SIM starts/legacy/reload/delayed/final scenarios at 1440/390; no console errors or horizontal overflow. Durable hashes/results and screenshot artifact links: `docs/evidence/2026-10-04-release.json`.
+- Shared security release: exact React Start 1.168.60 and transitive server-core 1.169.39; npm 10-compatible lock and version-only notices regenerated. No protection bypass or game redesign. JITEM remains upstream #21 `0c1fc08`, key `jitem-derin-ag-v3`, schema 5; source content/rules retained.
+- Native remains paused. Test-only production proof branch stays outside main; physical GPU, lint dependency advisory and existing TC SIM lower-card layout limits are recorded in closure/status. Novella LATER; separate SON KÖY WIP untouched.
