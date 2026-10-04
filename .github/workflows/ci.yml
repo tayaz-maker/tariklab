@@ -79,6 +79,26 @@ jobs:
         if: needs.changes.outputs.full == 'true'
         timeout-minutes: 10
         run: node scripts/tc-sim-historical-browser.mjs
+      - name: Cete outcome moments (1440/390/320, motion, save and focus)
+        if: needs.changes.outputs.full == 'true'
+        timeout-minutes: 5
+        run: |
+          node --experimental-strip-types --import ./scripts/ts-alias.mjs scripts/cete-outcome-browser.mjs
+          CETE_BUILD=1 CETE_LABEL=built node --experimental-strip-types --import ./scripts/ts-alias.mjs scripts/cete-outcome-browser.mjs
+      - name: Cete outcome production smoke (both hosts)
+        if: github.ref == 'refs/heads/main'
+        timeout-minutes: 5
+        env:
+          BROWSER_ALLOW_EXTERNAL_HOST: '1'
+        run: |
+          CETE_BASE=https://www.tariklab.com CETE_LABEL=www node --experimental-strip-types --import ./scripts/ts-alias.mjs scripts/cete-outcome-browser.mjs
+          CETE_BASE=https://tariklab.tayaz29.workers.dev CETE_LABEL=workers node --experimental-strip-types --import ./scripts/ts-alias.mjs scripts/cete-outcome-browser.mjs
+      - name: Upload Cete outcome evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cete-outcome
+          path: ${{ runner.temp }}/screenshots/cete-outcome
       - name: Upload responsive evidence
         if: always()
         uses: actions/upload-artifact@v4

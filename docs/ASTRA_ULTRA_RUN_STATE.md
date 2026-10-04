@@ -125,3 +125,16 @@ PR #101 remains Terra's responsibility. Novella remains **LATER**.
 - Kanıt: `docs/evidence/2026-10-04-release.json`; test-only branch `astra/closure-production-proof`, main'e merge edilmez.
 - Açık risk: fiziksel GPU yok; lint zincirinde bir high `brace-expansion`; TC SIM mevcut alt-kart darlığı. Save key/schema/içerik korunur.
 - Sonraki adım: bu üç yayın kapalı; yeni kapsam açma. SON KÖY WIP korunuyor; Novella LATER.
+
+### 2026-10-04 — Çete Savaşları / outcome moment checkpoint
+- Hedef: önemli icraatın gerçek sonucu için sessiz 2.2 saniyelik soyut sonuç kartı.
+- Oyuncu değeri: nakit/itibar/baskı değişimini, ekip bağını ve gecikmiş tepki zamanını birlikte okuyabilir.
+- Branch: `astra/cete-outcome-moments`; taban SHA: `b4ebc2babe7c754493d84421051c9531fc09215e`.
+- Kaynak: TarikLab `src/game` + React JobsPanel; vendor/upstream kopyası yok.
+- Dosyalar: saf model/test, outcome component/CSS, JobsPanel çağrısı, browser testi ve CI adımı.
+- Kayıt: `cete-savaslari-save-v1`, schema 15, slot ve hesap kuralları değişmedi; görsel durum kayda yazılmaz.
+- Eşik: ilk başarı, sözleşme kapanışı, çok üyeli operasyon, her 5 seviye; 64 anahtarlı tekrar filtresi ve 2.5 sn burst sınırı.
+- Test: baseline 19/19; model + gerçek store eylemi 7/7; typecheck/lint/build PASS; tam suite checkpoint'te.
+- Browser: CI'da dev + built çıktı, TR/EN × 1440/390/320 × motion/reduced; üretimde iki host aynı test.
+- Açık risk: yerel Chromium SIGSEGV; browser sonuçları/CI yeşil olmadan merge edilmeyecek.
+- Sonraki adım: CI kanıtı, merge, iki host production; başka ürün yok, Novella LATER.

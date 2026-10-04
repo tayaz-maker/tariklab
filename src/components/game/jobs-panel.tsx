@@ -7,6 +7,9 @@ import { jobSuccessChance, missionCrewBlock, missionCrewNeed } from "@/game/form
 import { useGame } from "@/game/store";
 import type { Player, Risk } from "@/game/types";
 import { formatTRY } from "@/lib/utils";
+import { useCallback, useState } from "react";
+import { buildOutcomeMoment, createMomentGate, type OutcomeMoment } from "@/game/outcome-moment";
+import { OutcomeMomentCard } from "./outcome-moment";
 
 function riskVariant(risk: Risk) {
   if (risk === "Düşük") return "ok" as const;
@@ -18,6 +21,15 @@ export function JobsPanel({ player }: { player: Player }) {
   const { lang, phrase } = useLang();
   const en = lang !== "tr";
   const doJob = useGame((s) => s.doJob);
+  const [moment, setMoment] = useState<OutcomeMoment | null>(null);
+  const [gate] = useState(createMomentGate);
+  const closeMoment = useCallback(() => setMoment(null), []);
+  const completeJob = (id: string) => {
+    const before = useGame.getState();
+    doJob(id);
+    const outcome = buildOutcomeMoment(before, useGame.getState(), id);
+    if (gate(outcome, performance.now())) setMoment(outcome);
+  };
   const blocked = !canAct(player);
   const contract = player.contractId
     ? CONTRACT_MAP[player.contractId]
@@ -97,7 +109,7 @@ export function JobsPanel({ player }: { player: Player }) {
                   <Button
                     className="mt-4"
                     disabled={disabled}
-                    onClick={() => doJob(m.id)}
+                    onClick={() => completeJob(m.id)}
                   >
                     {en ? "Take job" : "İcraata çık"}
                   </Button>
@@ -107,6 +119,7 @@ export function JobsPanel({ player }: { player: Player }) {
           </ul>
         </section>
       ))}
+      <OutcomeMomentCard moment={moment} onClose={closeMoment} />
     </div>
   );
 }
