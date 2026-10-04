@@ -57,6 +57,7 @@ try {
     const action = page.getByRole("button", { name: lang === "tr" ? "İcraata çık" : "Take job", exact: true }).first();
     await action.waitFor();
     assert.equal(await page.locator("[data-outcome-moment]").count(), 0, "load does not replay");
+    await page.screenshot({ path: `${out}/${tag}-before.png` });
     const before = await readSave(page);
     await action.click();
     const moment = page.locator("[data-outcome-moment]");
@@ -80,7 +81,7 @@ try {
     assert.equal(geometry.canvas, 0);
     assert.ok(await page.getByRole("status").filter({ hasText: lang === "tr" ? "KAYIT KAPANDI" : "RECORD CLOSED" }).count() > 0);
     if (reducedMotion === "reduce") assert.equal(geometry.animations.length, 0);
-    await page.screenshot({ path: `${out}/${tag}.png` });
+    await page.screenshot({ path: `${out}/${tag}-after.png` });
     const close = moment.getByRole("button", { name: lang === "tr" ? "Sonucu kapat" : "Close outcome" });
     await close.focus();
     await page.mouse.move(0, 0);
