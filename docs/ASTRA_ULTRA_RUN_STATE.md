@@ -125,3 +125,15 @@ PR #101 remains Terra's responsibility. Novella remains **LATER**.
 - Kanıt: `docs/evidence/2026-10-04-release.json`; test-only branch `astra/closure-production-proof`, main'e merge edilmez.
 - Açık risk: fiziksel GPU yok; lint zincirinde bir high `brace-expansion`; TC SIM mevcut alt-kart darlığı. Save key/schema/içerik korunur.
 - Sonraki adım: bu üç yayın kapalı; yeni kapsam açma. SON KÖY WIP korunuyor; Novella LATER.
+
+### 2026-10-05 — #110 kapandı / #111 ölçülmüş blocker checkpoint
+- Branch'ler: #110 `astra/wave1-decision-traces` / `64f20ffd03b555808e2f2db6ffb505d2dc37a567`; #111 `astra/map-static-cache` / `457213ae75e795f3560bad9b6deb468e413bca73`.
+- #110: run `37238892501` dört Actions job'ı SUCCESS; build ve baseline/source/built 1440/390/320 browser PASS; merge/production yapılmadı.
+- #111: run `37240215425`, job `111547271911` FAIL; 44 baseline case PASS, Han 320 worker `/games/hanedanian/sw.js` için `request.sizes()` 10 saniyede sonuç vermiyor (`serviceWorker=true`).
+- Kanıt: artifact `11317571288`; eski 15 dakika sessiz takılma artık URL/aşama/deadline ile yeniden üretildi; paired before/after ölçüm tamamlanmadı.
+- Ayrı ölçüm fix'i doğrulandı: raw CSS headers=249/body=−249/transfer=0; gerçek toplam korunur, bilinmeyen byte sıfıra çevrilmez.
+- Test: son fix metrics 11 + deadline 5 PASS, scoped ESLint/build PASS; ürün/save/dependency değişmedi; console/overflow/measurement kapıları açık.
+- İki başarısız deneme sınırı: yeni yama zorlanmadı; #111 kırmızı, merge yok; Anatomi A ve final 360 inceleme başlamadı.
+- Sonraki bounded tur: SW bootstrap ölçümünü CI-local HTTP cevap-byte sayacı veya doğrulanmış upstream Playwright çözümüyle küçük repro üzerinde karşılaştır; worker kapatma/istek atlama/sahte 0 yok.
+- Envanter: `astra/review-release-gates`, kaynak belge commit `22ec07fa1833718fbf889866ce1191c89bfcbfa0`; tek `TARIKLAB_FINAL_360_REVIEW.md` içinde 12 kapsam, DARBE sınırları ve insan kapıları kayıtlı.
+- Açık risk: #111 CI blocker; fiziksel GPU/PL anadil/anatomi bağımsız uzman kanıtı yok; SON KÖY korunuyor, Novella LATER, #78/#79 yeniden açılmaz.
