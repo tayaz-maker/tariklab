@@ -171,3 +171,16 @@ PR #101 remains Terra's responsibility. Novella remains **LATER**.
 - Test: HTTP ve entry/gerçek worker registration/archive 2/2 PASS; ESLint ve production build PASS; DB yoksa migrate doğru skip.
 - Açık risk: yerel Chromium SIGSEGV sürüyor; ilgili browser yeni CI'da tekrar doğrulanacak, fiziksel GPU kanıtı yok.
 - Sonraki adım: #110 browser PASS olmadan #111 merge yok; #111 bounded ölçüm teşhisi hazır; anatomi ve 360 review başlamadı.
+
+### 2026-10-05 — ortak CI bütçesi checkpoint
+- Hedef: #111 gerçek 25 dakika job iptalini test kapsamını azaltmadan gidermek; aynı workflow #110 main geçişini de korur.
+- Branch/PR: `astra/wave1-decision-traces` #110 → `astra/map-static-cache` #111; ortak fix SHA `889cd133de67f46c5a7081dfee9203f1b6f06fbb`.
+- Kanıt: #111 `fec5f66`, run `37241690632` / job `111551601225`: “The job has exceeded the maximum execution time of 25m0s”; assertion FAIL yok.
+- Önce: 1673 JS + 61 TS PASS/1 eski skip; stress/type/lint/build, Wave1, Çete, duel, DEVLET ve sitewide PASS; TC SIM adımı toplam job süresinde iptal.
+- Fix: core/browser ayrı 25 dakika; required `build` always aggregate, bütün needs yalnız exact success ise PASS; cancelled/skipped/missing FAIL.
+- Korunan: baseline SHA'ları, komutlar, routing/cache/concurrency, browser matrisleri, step timeout'ları ve main production adımları; ürün/save/dependency değişmedi.
+- Yerel: 20/20 gate+HTTP/archive regression, scoped ESLint ve production build PASS; migration DATABASE_URL yokken doğru skip.
+- #111 ölçüm: run `37241690633`, artifact `11317803281`, 63 before + 63 after PASS; worker response metadata eksikliği gerçek HTTP200/1260 B/finished kaydıyla doğrulandı.
+- CI/merge/production: yeni ortak head'ler henüz CI doğrulanmadı; #110/#111 merge edilmedi; production PASS iddiası yok.
+- Açık risk: local Chromium SIGSEGV/fiziksel GPU yok; main browser+production toplam süre bütçesi gerçek main koşusunda ayrıca doğrulanmalı.
+- Sonraki: #111 ortak fix üstüne rebase; ikisi güncel head green → #110 merge/smoke → #111 main rebase/CI/merge/smoke; yeni ürün dalgası bekler.
