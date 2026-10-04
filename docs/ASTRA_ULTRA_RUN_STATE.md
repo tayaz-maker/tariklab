@@ -238,3 +238,15 @@ PR #101 remains Terra's responsibility. Novella remains **LATER**.
 - CI/merge/production: yeni head kontrolleri kapı; #110/#111 henüz merge ve production doğrulaması yok.
 - Açık risk: local Chromium SIGSEGV, fiziksel GPU yok; main production adımları dahil browser işinin toplam süresi ayrıca doğrulanacak.
 - Sonraki: iki güncel head yeşil → #110 merge+iki host → #111 main rebase/yeni CI/merge+iki host; Wave2–4/anatomi kodu başlamaz.
+
+### 2026-10-05 — #111 iframe okunurluk yarışı checkpoint
+- Hedef: yeni CI'da doğrulanan body-null yarışını kapatmak; #110 `fea0d0c` tabanı değişmedi.
+- Branch/PR: `astra/map-static-cache`, #111; fix SHA `24c76754f70224277ae74d3bd2b9929b28e2fb83`.
+- Kanıt: head `de4c416`, run `37244258417` / job `111558890122`, TC SIM DEVLET390 / `route-performance.mjs:109`, body.innerText null TypeError.
+- Repro: iframe handle mevcutken iç belge body=null; eski predicate aynı TypeError'ı üretir, yeni predicate body hazır olana kadar false.
+- Fix: aynı trim length>20 eşiği ve 20 saniye deadline korunur; gerçek getter/document hataları gizlenmez, hiçbir rota/console/overflow/byte kontrolü atlanmaz.
+- Test: yeni3 + deadline5 + gerçek HTTP8 + metadata4 =20/20 PASS; scoped ESLint + production build PASS; yerel browser SIGSEGV sınırı sürer.
+- Değişen: yalnız route-performance predicate/helper/test ve bu kayıt; ürün/save/dependency değişmedi.
+- CI/merge/production: yeni head CI kapısı; #110 hâlâ pending, #111 eski run kırmızı; iki PR da merge edilmedi, production PASS yok.
+- Açık risk: yeni tam browser koşusu gerekir; eski FEC 126 ölçüm/9-13-13 Wave1 PASS yeni head yerine kullanılamaz; fiziksel GPU yok.
+- Sonraki: yeni #111 CI; iki güncel head green olmadan #110→#111 merge zinciri başlamaz, yeni ürün dalgası açılmaz.
