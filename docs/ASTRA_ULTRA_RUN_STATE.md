@@ -217,3 +217,14 @@ PR #101 remains Terra's responsibility. Novella remains **LATER**.
 - Test: metrics 11 + deadline 5 = 16/16 PASS; scoped ESLint ve production build PASS; ürün/save/dependency değişmedi.
 - Açık risk: eski 15 dakika takılmasının belirli await'i hâlâ kanıtlanmadı; tam route browser ölçümü yeni CI'da doğrulanacak.
 - Sonraki adım: #111 ilgili CI kanıtı; kırmızı/pending merge yok, anatomi A ve 360 inceleme henüz başlamadı.
+
+### 2026-10-05 — #111 worker metadata / gerçek HTTP ölçümü checkpoint
+- Hedef: 320 px Han worker metadata takılmasını byte kaybı veya CI kapısı gevşetmeden gidermek.
+- Branch/PR: `astra/map-static-cache`, #111; kod SHA `192458bc308dff3ace5c863ba5af2b3fffb2b95e`.
+- Repro: run `37240215425` / job `111547271911`, 44 baseline vaka sonrası scoped Han worker `request.sizes()` timeout.
+- Fix: her iki sürümde socket HTTP baytları; worker/cache/status korunur, yarım/hatalı/off-origin ölçüm FAIL; metadata aşaması ayrıca bounded kaydedilir.
+- Test: 30/30 hedefli regression PASS; ESLint + production build PASS; runtime/save/dependency değişmedi.
+- #110: `64f20ff`, run `37238892501` dört Actions job SUCCESS; gerçek before/source/built 3 oyun × 3 genişlik PASS.
+- CI/merge/production: yeni #111 CI henüz doğrulanmadı; #110/#111 merge edilmedi, yeni production iddiası yok.
+- Açık risk: yerel Chromium SIGSEGV; #110 Racon mobile PNG genişliği baseline'da da mevcut, final review kanıt sınırı; fiziksel GPU doğrulanmadı.
+- Sonraki adım: yeni #111 tam 126 route vakası ve tüm required checks; ikisi green olduktan sonra #110→#111 ve iki-host smoke.
