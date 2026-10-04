@@ -126,7 +126,7 @@ PR #101 remains Terra's responsibility. Novella remains **LATER**.
 - Açık risk: fiziksel GPU yok; lint zincirinde bir high `brace-expansion`; TC SIM mevcut alt-kart darlığı. Save key/schema/içerik korunur.
 - Sonraki adım: bu üç yayın kapalı; yeni kapsam açma. SON KÖY WIP korunuyor; Novella LATER.
 
-### 2026-10-05 — #110 kapandı / #111 ölçülmüş blocker checkpoint
+### 2026-10-05 — #110 CI geçti / #111 ölçülmüş blocker checkpoint
 - Branch'ler: #110 `astra/wave1-decision-traces` / `64f20ffd03b555808e2f2db6ffb505d2dc37a567`; #111 `astra/map-static-cache` / `457213ae75e795f3560bad9b6deb468e413bca73`.
 - #110: run `37238892501` dört Actions job'ı SUCCESS; build ve baseline/source/built 1440/390/320 browser PASS; merge/production yapılmadı.
 - #111: run `37240215425`, job `111547271911` FAIL; 44 baseline case PASS, Han 320 worker `/games/hanedanian/sw.js` için `request.sizes()` 10 saniyede sonuç vermiyor (`serviceWorker=true`).
@@ -137,3 +137,15 @@ PR #101 remains Terra's responsibility. Novella remains **LATER**.
 - Sonraki bounded tur: SW bootstrap ölçümünü CI-local HTTP cevap-byte sayacı veya doğrulanmış upstream Playwright çözümüyle küçük repro üzerinde karşılaştır; worker kapatma/istek atlama/sahte 0 yok.
 - Envanter: `astra/review-release-gates`, kaynak belge commit `22ec07fa1833718fbf889866ce1191c89bfcbfa0`; tek `TARIKLAB_FINAL_360_REVIEW.md` içinde 12 kapsam, DARBE sınırları ve insan kapıları kayıtlı.
 - Açık risk: #111 CI blocker; fiziksel GPU/PL anadil/anatomi bağımsız uzman kanıtı yok; SON KÖY korunuyor, Novella LATER, #78/#79 yeniden açılmaz.
+
+### 2026-10-05 — #111 kök neden ve tam ölçüm PASS checkpoint
+- Hedef: worker ölçüm takılmasını kapatmak; branch/PR `astra/map-static-cache` / #111, head `fec5f661477d09b62e9a82c53b6affd6deefd6be`.
+- Kod SHA `192458bc308dff3ace5c863ba5af2b3fffb2b95e`; ölçer + metadata teşhisi + regression + workflow helper path'leri; runtime/save/dependency değişmedi.
+- Gerçek CI: run `37241690633`, job `111551512627` SUCCESS; artifact `11317803281`, 63 before + 63 after, errors=[] ve DOM overflow=0.
+- Kök kanıt: requestfinished sonrası worker response promise'i çözülmüyor; aynı Han390 isteği gerçek HTTP 200 / 1260 body B / finished=true olarak tam sayıldı.
+- Yerel: 30/30 hedefli test, ESLint/build PASS. Tarayıcı metadata timeout'u ölçümde istek atlama veya uydurma sıfır oluşturmaz.
+- #110 `64f20ff`: görünen 6 check + Vercel status SUCCESS; #109 head tam atası, browser PASS fakat production bekliyor.
+- Merge/production: #111 genel CI `37241690632` pending; iki PR da merge edilmedi, iki-host production henüz yapılmadı.
+- Bağımsız kayıt: final360 checklistine güncel 7 harita entry'si, artifact sınırları ve SON KÖY WIP'in gerekçeli deferred/ayrı Wave3 PR adayı sınıflaması eklendi.
+- Risk: fiziksel GPU/PL anadil/anatomi uzmanı yok; Racon eski PNG genişliği ve preview DB bootstrap logu son review için açık; Novella/#78/#79 değişmedi.
+- Sonraki: #111 tüm checks green → #110 merge → güncel main'e #111 rebase/CI; her merge sonrası iki-host gerçek smoke ve SHA.

@@ -27,7 +27,7 @@ Aşağıdaki PR ve çalışma notları kullanıcının devir kayıtlarıdır; bu
 | #110 → #111 | Önce #110 kırmızı kontrolünün kök nedeni dar repro/fix ile kapatılır; baseline HTTP ve gerçek browser kapanışı olmadan #111 merge edilmez. Düzeltilmiş tabana rebase'in push/CI sonucunu bu belge doğrulamaz | LATER |
 | #109 | Browser CI ve production kanıtı olmadan DONE değildir | LATER |
 | Mevcut release dalgaları | Ürün/visual/performance/anatomy foundation PR → merge SHA → iki host production kanıtı; bundan sonra birleşik 360° hedef SHA'sı kesinleşir | LATER |
-| SON KÖY | Korunmuş kirli worktree'ye dokunulmaz; iş ayrı PR veya sahibi/gerekçesi olan LATER kaydı olarak sınıflandırılır. Şimdi audit, taşıma veya merge yok | LATER |
+| SON KÖY | `astra/son-koy-maintenance-atlas` / `95099f9` korunmuş WIP: `son-kasaba/app.js` atlas aç/kapat/karar masası geçişi; untracked `atlas-model.js` bakım borcu ve kopya state önizlemesi; `atlas.js` SVG kesit/filtre/klavye. CSS/test/offline/mobil/PL kanıtı eksik. Wave3'te güncel main'den ayrı PR'a seçici aktarım adayı; şimdi dosyalar değişmedi ve branch bütünü merge edilmez. Sahip Astra | **LATER — gerekçeli deferred, kayıp iş değil** |
 | `brace-expansion` dev/high | Güncel advisory, sürüm ve bağımlılık yolu yeniden doğrulanır; ayrı dar PR veya sürüm/etki/erişilebilirlik/azaltım/sahip içeren açık blocker kaydı. Eski bulgu kapanmış veya güncel diye varsayılmaz | LATER |
 | Fiziksel GPU | SwiftShader/llvmpipe/softpipe fiziksel GPU/Pixi kanıtı değildir; gerçek aygıt ve renderer kanıtı ayrıca gerekir | LATER |
 | PL ana dil | Ana dili Lehçe olan insanın isim/tarih/kapsam ve düzeltme kaydı | insan-inceleme-gerekli |
@@ -35,6 +35,65 @@ Aşağıdaki PR ve çalışma notları kullanıcının devir kayıtlarıdır; bu
 | Eski branch kabulü | Yalnız açık PR, bağlayıcı kaynak planı veya açık kullanıcı talebiyle eşleşen branch alınır; eski olması otomatik kapsam oluşturmaz | LATER |
 
 Gerekçeli LATER kaydı DONE değildir ve zorunlu bir release kapısını kendiliğinden kaldırmaz. Astra mevcut kullanıcı yetkisiyle release kapanışını da sahiplenir; başka ajana zorunlu handoff şartı yoktur.
+
+### 2026-10-05 release önkoşulu kanıtı — final review başlamadı
+
+- #110 `64f20ffd03b555808e2f2db6ffb505d2dc37a567`: run `37238892501` dört Actions job SUCCESS;
+  ayrıca görünen Workers/Vercel check ve Vercel status SUCCESS. Required-check yönetim API'si 403;
+  bağımsız required kümesi okundu iddiası yok, GitHub normal merge koruması atlanmaz.
+- Artifact `11317021469`: before/source/built her fazda üç oyun × 1440/390/320 = 9 başarılı
+  senaryo; save/reload/no-replay ve errors=[] kayıtları. Source/built dört outcome modülünün
+  SHA-256'sı exact head ile eşleşir. Bütün dosyalar/deploy SHA veya fiziksel GPU kanıtı değildir.
+- #109 head `04aeacbc` #110'un tam atasıdır (compare ahead 6 / behind 0). #109 source/built
+  Çete browser adımları PASS; PR koşusunun production adımları SKIPPED. Production hâlâ kapıdır.
+- #111 eski `457213a` run `37240215425` / job `111547271911`: 44 baseline vaka sonrası
+  HANEDANIAN/320 worker `request.sizes()` timeout. Yeni `fec5f66` tam HTTP byte ölçümü ve
+  bounded metadata teşhisi içerir; 30 yerel regression, ESLint/build PASS. Yeni run `37241690633`
+  route-costs SUCCESS, artifact `11317803281`: before/after 63+63, errors=[], ölçülmüş overflow=0.
+  Metadata kontrolü before/Han390'da response promise'inin çözülmediğini doğruladı; aynı isteğin
+  HTTP 200 / 1260 gövde baytı / finished=true ağ kaydı mevcut. Genel CI `37241690632` pending;
+  bu satır tam #111 veya release PASS değildir. #110 ve #111 ikisi green olmadan merge yok.
+- Görsel kanıt sınırı: #110 Racon 390/320 full-page PNG genişliği 730/621 px, sağ boşluk
+  baseline/source/built'te aynı; DOM scrollWidth 390/320. Yeni regresyon doğrulanmadı.
+  Final B/C incelemesinde viewport screenshot + gerçek yatay kaydırma/hit-test ile sınıflandırılacak;
+  yalnız DOM testiyle “bütün görsel taşma temiz” denmeyecek.
+- Release sırası: #110 (aynı #109 kodu dahil) → iki-host gerçek smoke → #111 güncel main
+  tabanı/CI → iki-host smoke. Değişen renderer/app/style dosyalarının paritesi ayrıca gerekir;
+  dört outcome dosyasının paritesi tüm deploy'u kanıtlamaz. Yeni ürün dalgası henüz başlamadı.
+
+Ek preview keşfi: Cloudflare commit preview `262f19d9` (#111 `fec5f66`) Racon, TR,
+1363×936 gerçek tarayıcı/SVG. Boş Slot1 → yeni oyun → Koru: kasa 11000→8500, güven
+50→53, 3 kapanışlık emir; Kaydet→reload→Devam aynı değerler, outcome replay=0.
+DOM genişlik=scrollWidth=1363; incelenen oyun-origin console error yok. Browser extension
+metadata hataları ayrı görüldü. Screenshot `racon-fec5f66-preview-1363-save.jpg` (110510 B).
+Bu ek gözlem 320/390/1440, Pixi, iki-host production veya final 360 PASS yerine geçmez.
+
+`11317803281` ölçüm notu (390 px, aynı yerel HTTP forwarder; production HTTPS değildir):
+portal 172399→172415 B / 9→9 istek; HANEDANIAN 696509→696525 B / 87→87;
+Racon 407249→408850 B / 22→22; İHTİLÂL 206685→207429 B / 19→19.
+Portalın üç genişlikte oyun/Pixi isteği yok. Bu giriş maliyetidir; harita seçim maliyeti ayrıca ölçülür.
+Baseline ve aday preview stdout'unda aynı PGLite `Invalid URL string` bootstrap kaydı var;
+ziyaret edilen oyunların console/ağ assertion'ları geçti. Sunucu log kaydı gizlenmez; C/F review'de
+guest oyun akışından ayrı DB kullanan yüzey etkisi doğrulanacak, bu kaynak kaydı tek başına P1 teşhisi değildir.
+
+### Harita girişleri — pending CI sırasında yalnız kaynak keşfi
+
+Kaynak ağacı #111 `fec5f66`; aşağıdaki entry/import/test varlığı güncel browser veya production PASS değildir.
+Eski map-status dosyasındaki Racon/JITEM “NOT STARTED” notları güncel kaynakla çelişir; İHTİLÂL solo entry'si ayrıca alınır.
+
+| Oyun | Kaynakta doğrulanan karar/render yolu | Güncel review'de tamamlanacak kanıt | Durum |
+| --- | --- | --- | --- |
+| HANEDANIAN | `app.js → map-factory.js → map/map-pixi/map-dom`; Canvas taban, opsiyonel Pixi atlas, DOM defteri | Fallback/context-loss/texture cleanup, offline/save, gerçek GPU ayrıca; cold entry harita kabulünün yerine geçmez | LATER |
+| İHTİLÂL | `solo-app.js → basin-map.js → shared/pixi-adapter`; havza/rota/varış zamanı, SVG/Pixi | #111 low-memory/DPR ve statik işaret testi artifact'i; güncel offline/production | LATER |
+| Racon | `index.html → network/map-model/map-view`; emir/komşu gecikmesi, SVG/Pixi | #111 retention/cleanup/low-memory; Racon PNG sınırı; offline/production | LATER |
+| TC SIM DEVLET | `app/presentation → maps.js/maps-pixi.js`; bölge kapasitesi/diplomasi, SVG ve Pixi overlay | Tam repaint maliyeti, listener/canvas ömrü, hidden/low-memory/offline; eski #100 kaydı tek başına yeni PASS değil | LATER |
+| TC SIM | `js/app → decision-network/weekly-feedback`; gerçek hafta/ilişki/sonuç DOM'u; bu entry'de mekânsal renderer yok | Coğrafya uydurmadan karar-zaman-bağ karşılaştırması; uygulanamaz sayılmaz, eksik fayda gerçek akışla P1/backlog olarak gerekçelendirilir | LATER |
+| JITEM | Upstream `0c1fc08`: `GameApp → NodeGraph → AtlasSurface → lazy atlas-pixi`; SVG etiket/klavye, gerçek hamle | Kaynak önce canonical upstream; vendor paritesi, hidden/redraw/low-memory/offline, iki-host; lazy dosya varlığı çalışma kanıtı değil | LATER |
+| Kıyı Eşiği | `app → map-model/map-pixi`; SVG ve lazy Pixi, erişim kopukluğu ve dönem kararı | Full redraw/nesne ömrü, context-loss, düşük bellek/visibility, offline; ölçmeden cache dönüşümü yok | LATER |
+
+Test kaynakları: `hanedanian-map-pixi/atlas-scheduler/offline`, `ihtilal-basin-network`, `racon-map-consequences`,
+`map-static-cache`, `devlet-map-pixi`, `tc-sim-decision-network/weekly-feedback/production-cache`, `jitem-integration`,
+`esik`, `pixi-adapter` testleri ve ilgili browser scriptleri. Yalnız kaynak varlığı burada kaydedildi; final PASS verilmedi.
 
 ## A–G kabul kapsamı
 
