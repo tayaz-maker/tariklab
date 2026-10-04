@@ -161,3 +161,13 @@ PR #101 remains Terra's responsibility. Novella remains **LATER**.
 - Test: gerçek HTTP/eksik dosya sonrası devam + entry asset/archive kapsamı 2/2 PASS; değişen JS ESLint ve production build PASS (DB yok: migrate doğru skip).
 - Browser: yerel Chromium sayfa açılmadan SIGSEGV; yeni CI head'i çalışmadan browser PASS/merge iddia edilmez.
 - Sonraki adım: #110 browser kanıtı, sonra #111 düzeltmeyi devralıp CI; kırmızı merge yok; anatomi A keşfi bu kapıdan sonra.
+
+### 2026-10-05 — baseline worker bağımlılığı checkpoint
+- Hedef: aynı #110 baseline paketinin eksik kök worker dosyasını tamamlama; oyun kodu değişmedi.
+- Branch: `astra/wave1-decision-traces`; fix SHA: `22524cd4791ba365324bc136d351c0c79f5bea39`.
+- Kanıt: run `37237784746`, job `111540300782`; HTTP headers çökmesi yok, Han 1440 console iki worker-script 404 ile FAIL.
+- Kök: gerçek Han boot `navigator.serviceWorker.register('/sw.js')` çağırıyor; eski archive kök worker'ı içermiyordu (repro: old false / fixed true).
+- Fix: aynı sabit baseline SHA'nın tam `public` ağacı; worker ve statik bağımlılıklar birlikte, hata/console kapıları aynen korunur.
+- Test: HTTP ve entry/gerçek worker registration/archive 2/2 PASS; ESLint ve production build PASS; DB yoksa migrate doğru skip.
+- Açık risk: yerel Chromium SIGSEGV sürüyor; ilgili browser yeni CI'da tekrar doğrulanacak, fiziksel GPU kanıtı yok.
+- Sonraki adım: #110 browser PASS olmadan #111 merge yok; #111 bounded ölçüm teşhisi hazır; anatomi ve 360 review başlamadı.
