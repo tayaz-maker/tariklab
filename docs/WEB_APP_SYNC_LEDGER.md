@@ -439,3 +439,7 @@ Chromium must pass before integration.
 - Single-player fictional basins now carry local information/trust/tension/capacity; directed effects travel along real adjacency with visible delay, filtering and one attenuated onward hop. Capacity aid never duplicates.
 - Original procedural SVG/Pixi geometry shares the simulation's route/layer model. Closing rehearsal, arrival ledger and basin resilience connect decisions to the ending; no audio, external art, real map/person/institution or new dependency.
 - Solo v1 key/envelope retained with validated optional network state and old-save fixtures; neighbour targeting, save recovery, terminal continuation, keyboard focus and renderer cleanup hardened. Legacy two-seat archive untouched; native remains paused.
+### 2026-09-26 — Racon courtyard consequences
+- Web: inherited save-order keys rejected; original fictional street labels, directed delayed neighbour effects and exact network-only closure rehearsal; pure render model with lazy Pixi / semantic SVG+DOM parity.
+- Saves: existing three-slot RACON/1 contract and opaque street/item IDs preserved; optional bounded flow queue/history added. Audio/assets/new dependencies: none; A025 records code geometry.
+- Native remains paused. Release handoff: `astra/racon-neighbourhood-consequences`; port the same rules/model only when native work resumes.
