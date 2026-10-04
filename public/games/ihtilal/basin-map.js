@@ -56,42 +56,77 @@ export function createBasinMap(onSelect) {
   const element=document.createElement('div');element.className='basin-surface';element.dataset.renderer='svg';
   const gpu=document.createElement('div');gpu.className='basin-gpu';gpu.setAttribute('aria-hidden','true');
   const svg=node('svg',{viewBox:'0 0 320 320',class:'basin-map',role:'group'});element.append(gpu,svg);
-  let scene=null,disposed=false,forced=false,model=null,layer=null,contextCanvas=null;
+  const svgBase=node('g',{'data-map-base':'basins'}),svgSelection=node('g',{'data-map-overlay':'selection'}),svgOverlay=node('g',{'data-map-overlay':'routes-and-controls'});
+  svg.append(svgBase,svgSelection,svgOverlay);
+  let scene=null,disposed=false,forced=false,starting=false,model=null,baseGraphics=null,selectionGraphics=null,contextCanvas=null;
+  let baseKey=null,overlayKey=null,selectionKey=null,gpuBaseKey=null,gpuSelectionKey=null,renderWidth=0;
+  const baseInput=()=>JSON.stringify(model.regions.map(r=>[r.id,r.shape,r.color,r.band]));
+  const selectionInput=()=>JSON.stringify(model.regions.filter(r=>r.selected).map(r=>[r.id,r.shape]));
+  const overlayInput=()=>JSON.stringify([model.lang,model.links,model.regions.map(r=>[r.id,r.x,r.y,r[model.lang]||r.en,r.value,r.risk,r.selected,r.affected])]);
+  const width=()=>Math.max(0,Math.round(element.getBoundingClientRect().width));
+  function preferSVG() {
+    const memory=Number(window.navigator?.deviceMemory),side=width()||320,dpr=window.devicePixelRatio||1;
+    return (memory>0&&memory<=2)||side*side*dpr*dpr>2_000_000;
+  }
   function paint() {
-    if(!scene||disposed||!model)return;
-    const g=layer;g.clear();
-    for(const r of model.regions) {
-      g.poly(r.shape.flat()).fill(Number.parseInt(r.color.slice(1),16)).stroke({color:r.selected?0xefcb87:0x78664c,width:r.selected?2:1});
-      if(r.band.shape.length>=3)g.poly(r.band.shape.flat()).fill({color:0xc2b18e,alpha:.19});
-      if(r.band.trace.length>=2)g.moveTo(...r.band.trace[0]).lineTo(...r.band.trace.at(-1)).stroke({color:0xefcb87,width:1,alpha:.65});
+    if(!scene||disposed||!model||document.hidden)return;
+    const side=width();
+    if(!side)return; // Reparenting the persistent map must not allocate a 1px framebuffer.
+    if(preferSVG()){fallback();return;}
+    let changed=false;
+    if(side!==renderWidth) {
+      scene.app.renderer.resize(side,side);scene.app.stage.scale.set(side/320);renderWidth=side;changed=true;
     }
-    scene.render();
+    const nextBase=baseInput(),nextSelection=selectionInput();
+    if(gpuBaseKey!==nextBase) {
+      const g=baseGraphics;g.clear();
+      for(const r of model.regions) {
+        g.poly(r.shape.flat()).fill(Number.parseInt(r.color.slice(1),16)).stroke({color:0x78664c,width:1});
+        if(r.band.shape.length>=3)g.poly(r.band.shape.flat()).fill({color:0xc2b18e,alpha:.19});
+        if(r.band.trace.length>=2)g.moveTo(...r.band.trace[0]).lineTo(...r.band.trace.at(-1)).stroke({color:0xefcb87,width:1,alpha:.65});
+      }
+      gpuBaseKey=nextBase;changed=true;
+    }
+    if(gpuSelectionKey!==nextSelection) {
+      selectionGraphics.clear();
+      for(const r of model.regions)if(r.selected)selectionGraphics.poly(r.shape.flat()).stroke({color:0xefcb87,width:2});
+      gpuSelectionKey=nextSelection;changed=true;
+    }
+    if(changed)scene.render();
   }
-  function resize() {
-    if(!scene||disposed)return;
-    const width=Math.max(1,Math.round(element.getBoundingClientRect().width));
-    scene.app.renderer.resize(width,width);scene.app.stage.scale.set(width/320);paint();
-  }
+  function resize() {if(!disposed&&!document.hidden){if(preferSVG())fallback();else paint();}}
   function fallback() {
     forced=true;
     if(contextCanvas)contextCanvas.removeEventListener('webglcontextlost',lost);
-    contextCanvas=null;scene?.destroy();scene=null;layer=null;gpu.replaceChildren();
+    contextCanvas=null;scene?.destroy();scene=null;baseGraphics=null;selectionGraphics=null;gpu.replaceChildren();
+    gpuBaseKey=null;gpuSelectionKey=null;renderWidth=0;
     element.classList.remove('has-basin-pixi');element.dataset.renderer='svg';
   }
   function lost(event) {event.preventDefault();fallback();}
   const observer=typeof ResizeObserver==='function'?new ResizeObserver(resize):null;
   observer?.observe(element);
-  function update(next) {
-    if(disposed)return;
-    const started=performance.now();model=next;
+  function flush() {
+    if(disposed||!model||document.hidden)return;
+    const started=performance.now(),next=model;
     const active=document.activeElement?.closest?.('[data-basin]')?.getAttribute('data-basin');
-    svg.replaceChildren();svg.setAttribute('aria-label',next.lang==='tr'?'İHTİLÂL havzaları, bağlantılar ve yoldaki etkiler':'İHTİLÂL basins, routes and effects in transit');
-    for(const r of model.regions) {
-      const group=node('g');const polygon=node('polygon',{points:r.shape.map(p=>p.join(',')).join(' '),fill:r.color,class:'basin-fill',stroke:r.selected?'#efcb87':'#78664c','stroke-width':r.selected?2:1});group.append(polygon);
-      if(r.band.shape.length>=3)group.append(node('polygon',{points:r.band.shape.map(p=>p.join(',')).join(' '),fill:'#c2b18e',opacity:.19,class:'basin-metric-band','data-metric-value':r.band.value}));
-      if(r.band.trace.length>=2)group.append(node('polyline',{points:r.band.trace.map(p=>p.join(',')).join(' '),fill:'none',stroke:'#efcb87','stroke-width':1,opacity:.65,class:'basin-state-trace'}));
-      svg.append(group);
+    const nextBase=baseInput(),nextSelection=selectionInput(),nextOverlay=overlayInput();
+    if(baseKey!==nextBase) {
+      svgBase.replaceChildren();
+      for(const r of model.regions) {
+        const group=node('g');const polygon=node('polygon',{points:r.shape.map(p=>p.join(',')).join(' '),fill:r.color,class:'basin-fill',stroke:'#78664c','stroke-width':1});group.append(polygon);
+        if(r.band.shape.length>=3)group.append(node('polygon',{points:r.band.shape.map(p=>p.join(',')).join(' '),fill:'#c2b18e',opacity:.19,class:'basin-metric-band','data-metric-value':r.band.value}));
+        if(r.band.trace.length>=2)group.append(node('polyline',{points:r.band.trace.map(p=>p.join(',')).join(' '),fill:'none',stroke:'#efcb87','stroke-width':1,opacity:.65,class:'basin-state-trace'}));
+        svgBase.append(group);
+      }
+      baseKey=nextBase;
     }
+    if(selectionKey!==nextSelection) {
+      svgSelection.replaceChildren();
+      for(const r of model.regions)if(r.selected)svgSelection.append(node('polygon',{points:r.shape.map(p=>p.join(',')).join(' '),fill:'none',class:'basin-fill',stroke:'#efcb87','stroke-width':2}));
+      selectionKey=nextSelection;
+    }
+    if(overlayKey!==nextOverlay) {
+      svgOverlay.replaceChildren();svg.setAttribute('aria-label',next.lang==='tr'?'İHTİLÂL havzaları, bağlantılar ve yoldaki etkiler':'İHTİLÂL basins, routes and effects in transit');
     for(const route of model.links) {
       const a=route.from,b=route.to;
       const group=node('g',{'data-route':route.id});
@@ -105,7 +140,7 @@ export function createBasinMap(onSelect) {
       group.append(node('rect',{x:mx-14,y:my-8,width:28,height:16,rx:4,fill:'#1b211e'}));
       group.append(node('text',{x:mx,y:my+3,'text-anchor':'middle',class:'route-number'},route.pulses?`${route.pulses}·${route.due}`:`${route.delay}d`));
       const title=next.lang==='tr'?`${route.delay} dönem yol · ${route.pulses} etki yolda`:`${route.delay} periods travel · ${route.pulses} in transit`;
-      group.append(node('title',{},title));svg.append(group);
+      group.append(node('title',{},title));svgOverlay.append(group);
     }
     for(const r of model.regions) {
       const label=r[model.lang]||r.en;
@@ -116,30 +151,40 @@ export function createBasinMap(onSelect) {
       group.append(node('title',{},label));
       group.addEventListener('click',()=>onSelect(r.id,{keyboard:false}));
       group.addEventListener('keydown',ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();onSelect(r.id,{keyboard:true});}});
-      svg.append(group);
+      svgOverlay.append(group);
     }
-    if(active)svg.querySelector(`[data-basin="${active}"]`)?.focus({preventScroll:true});
-    paint();element.dataset.renderMs=(performance.now()-started).toFixed(2);
+      overlayKey=nextOverlay;
+      if(active)svg.querySelector(`[data-basin="${active}"]`)?.focus({preventScroll:true});
+    }
+    if(preferSVG())fallback();else paint();
+    element.dataset.renderMs=(performance.now()-started).toFixed(2);
   }
+  function update(next) {if(disposed)return;model=next;flush();}
   async function enhance() {
+    if(disposed||forced||starting||scene||document.hidden)return;
+    if(preferSVG()){fallback();return;}
+    starting=true;
     try {
       const adapter=await import('../shared/pixi-adapter.js');
-      if(disposed||forced)return;
+      if(disposed||forced||document.hidden)return;
       let probe,gl,supported=false;
       try {
         supported=adapter.supportsPixi({createCanvas:()=>{probe=document.createElement('canvas');return probe;}});
         if(probe)gl=probe.getContext('webgl2')||probe.getContext('webgl');
       } finally { try {gl?.getExtension('WEBGL_lose_context')?.loseContext();} catch { /* optional */ } }
-      if(!supported)return;
+      if(!supported){fallback();return;}
       const mounted=await adapter.mountPixiScene({container:gpu,width:320,height:320,background:0x18201c,antialias:true,
-        build({app,PIXI}){layer=new PIXI.Graphics();app.stage.addChild(layer);}});
-      if(disposed||forced){mounted?.destroy();return;}
-      if(!mounted)return;
+        build({app,PIXI}){baseGraphics=new PIXI.Graphics();baseGraphics.label='basin-base';selectionGraphics=new PIXI.Graphics();selectionGraphics.label='basin-selection';app.stage.addChild(baseGraphics,selectionGraphics);}});
+      if(disposed||forced){mounted?.destroy();baseGraphics=null;selectionGraphics=null;return;}
+      if(!mounted){fallback();return;}
       scene=mounted;contextCanvas=scene.app.canvas;contextCanvas.addEventListener('webglcontextlost',lost);
       element.classList.add('has-basin-pixi');element.dataset.renderer='pixi';resize();
     } catch { if(!disposed)fallback(); }
+    finally {starting=false;}
   }
-  // No ticker, no animation loop, no WebGL work on the initial interaction path.
+  function visibility() {if(disposed||document.hidden)return;flush();enhance();}
+  document.addEventListener('visibilitychange',visibility);
+  // Initial enhancement only; subsequent frames follow changes, never a ticker.
   requestAnimationFrame(()=>requestAnimationFrame(()=>{if(!disposed)enhance();}));
-  return {element,update,useSVG:fallback,destroy(){if(disposed)return;disposed=true;observer?.disconnect();fallback();element.remove();}};
+  return {element,update,useSVG:fallback,destroy(){if(disposed)return;disposed=true;observer?.disconnect();document.removeEventListener('visibilitychange',visibility);fallback();element.remove();}};
 }
