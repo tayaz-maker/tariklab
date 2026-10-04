@@ -477,3 +477,8 @@ Chromium must pass before integration.
 - HANEDANIAN sealed order/queue progress; İHTİLÂL measured basin record/metric level; Racon street commitment/door-light-pressure marks. Separate game vocabularies/layouts, shared transient lifecycle only.
 - Rules/content/save schemas remain unchanged. The only offline infrastructure change includes HANEDANIAN's new shared presentation dependency in its atomic package and content hash.
 - Original-source register and paired before/after evidence contract: `docs/WAVE1_OUTCOME_ASSETS.md`. Native remains paused; no external assets or audio. Novella LATER; SON KÖY WIP untouched.
+
+### 2026-10-04 — separate map redraw performance
+- İHTİLÂL/Racon retain base geometry and separate decision overlays, skip unchanged framebuffer resize, coalesce hidden updates, and choose same-model SVG under explicit memory/pixel budgets. No rule/content/save/asset changes.
+- Instrumented actual renderers, paired 320/390/1440 screenshots/costs and all-live-route cold costs cover this scope. Inventory: `docs/MAP_PERFORMANCE_ASSET_AUDIT.md`; implementation/evidence contract: `docs/MAP_STATIC_CACHE_CHECKPOINT.md`. No asset deletion or claim of unmeasured network savings.
+- Native paused; same presentation-only cache policy is a later parity task. Novella LATER; SON KÖY WIP untouched.
