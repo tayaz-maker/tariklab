@@ -28,7 +28,7 @@ jobs:
           BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
           HEAD: ${{ github.sha }}
         run: node scripts/ci-changes.mjs "$BASE" "$HEAD"
-  build:
+  build-core:
     needs: changes
     runs-on: ubuntu-latest
     timeout-minutes: 25
@@ -45,6 +45,18 @@ jobs:
         run: node scripts/duel-stress.mjs 500
       - run: npm run typecheck
       - run: npm run lint
+      - run: npm run build
+  browser-regression:
+    needs: changes
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
       - run: npm run build
       - name: Install Chromium for responsive regression
         timeout-minutes: 5
@@ -145,6 +157,20 @@ jobs:
         with:
           name: duel-production
           path: ${{ runner.temp }}/screenshots/duel-production
+  build:
+    if: ${{ always() }}
+    needs: [changes, build-core, browser-regression]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Require every build dependency to succeed
+        env:
+          NEEDS_JSON: ${{ toJSON(needs) }}
+        run: node scripts/ci-required-gate.mjs
   campaign-browser:
     needs: changes
     runs-on: ubuntu-latest
