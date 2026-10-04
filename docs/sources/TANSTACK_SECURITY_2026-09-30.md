@@ -35,3 +35,11 @@ security policy, deployment protection or required check is disabled.
 Release order remains Racon (#105), JITEM vendor (#107), then historical TC SIM
 (#106). Record each actual final head/merge SHA and production evidence in the
 closure status after release. Previous green checks apply only to their old heads.
+
+CI reproducibility: GitHub uses Node 22.23.3/npm 10.9.9. npm 11's initial lock
+regeneration omitted Nitro's optional peer `lru-cache`, although local npm 11
+`ci` succeeded. npm 10.9.9 reproduced `Missing: lru-cache@11.5.3 from lock file`.
+Regenerating with npm 10.9.9 restored that entry (plus one dependency-classification
+flag), and npm 10.9.9 `ci --dry-run` passed. The patch also regenerates the existing
+third-party notices with `scripts/ip/third-party-notices.mjs`; license texts stay
+unchanged while their recorded package versions follow the lock.
