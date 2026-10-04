@@ -107,8 +107,8 @@ try {
     await context.close();
   }
   // Unfocused normal motion exits in 2.2s; reduced motion stays until closed.
-  for (const mode of ["no-preference", "reduce", "screen-switch"]) {
-    const reducedMotion = mode === "screen-switch" ? "reduce" : mode;
+  for (const mode of ["no-preference", "reduce", "screen-switch", "keyboard"]) {
+    const reducedMotion = (mode === "screen-switch" || mode === "keyboard") ? "reduce" : mode;
     const context = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion });
     await context.addInitScript(() => { localStorage.setItem("cete-age-ok", "1"); localStorage.setItem("tariklab.language", "tr"); let seed = 77; Math.random = () => ((seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0) / 4294967296) * 0.1; });
     const page = await context.newPage();
@@ -126,7 +126,11 @@ try {
       const r = el.getBoundingClientRect();
       return !!document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2)?.closest("[data-outcome-moment]");
     }), true, "install hint cannot occlude the receipt");
-    if (mode === "screen-switch") {
+    if (mode === "keyboard") {
+      await page.keyboard.press("Escape");
+      assert.equal(await moment.count(), 0, "Escape also works from the decision button");
+      assert.equal(await action.evaluate((el) => el === document.activeElement), true);
+    } else if (mode === "screen-switch") {
       await page.getByRole("button", { name: "Ben", exact: true }).click();
       assert.equal(await moment.count(), 0, "switch disposes card");
       await page.getByRole("button", { name: "İcraat", exact: true }).click();
@@ -142,6 +146,33 @@ try {
       assert.ok(Date.now() - started >= 1500 && Date.now() - started <= 2500, `duration ${Date.now() - started}`);
     }
     results.push({ tag: `duration-${mode}`, ok: true, elapsed: Date.now() - started });
+    await context.close();
+  }
+  // A spent action may become disabled: closing must land on the game region,
+  // never on body. Frozen time isolates this real low-energy decision.
+  {
+    const context = await browser.newContext({ viewport: { width: 320, height: 844 } });
+    const fixture = { state: { version: SAVE_VERSION, player: hydratePlayer({ name: "Focus Test", neighborhood: "eyup", energy: 24, jobsDone: 1, contractId: "c101", contractGun: 1, tutorialStep: 4, streakDay: "2026-10-04" }), rivals: [], logs: [], hiz: 1, market: MARKET_START }, version: SAVE_VERSION };
+    await context.addInitScript((fixture) => {
+      localStorage.setItem("cete-age-ok", "1"); localStorage.setItem("tariklab.language", "tr");
+      localStorage.setItem("cete-savaslari-save-v1", JSON.stringify(fixture));
+      Math.random = () => 0.1;
+    }, fixture);
+    const page = await context.newPage();
+    await page.clock.install({ time: new Date("2026-10-04T11:59:00Z") });
+    await page.goto(`${base}/cete-savaslari`, { waitUntil: "networkidle" });
+    await page.clock.pauseAt(new Date("2026-10-04T12:00:00Z"));
+    const action = page.getByRole("button", { name: "İcraata çık", exact: true }).first();
+    await action.click();
+    const moment = page.locator("[data-outcome-moment]");
+    await moment.waitFor();
+    for (let i = 0; i < 8 && await action.isEnabled(); i++) await action.press("Enter");
+    assert.equal(await action.isDisabled(), true);
+    await moment.getByRole("button", { name: "Sonucu kapat" }).focus();
+    await page.keyboard.press("Escape");
+    assert.equal(await moment.count(), 0);
+    assert.equal(await page.locator(".game-shell main").evaluate((el) => el === document.activeElement), true);
+    results.push({ tag: "disabled-origin-focus", ok: true });
     await context.close();
   }
 } catch (e) {

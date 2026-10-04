@@ -258,6 +258,7 @@ export function GameShell({
           `.game-shell main` rule in styles.css, which is where it is wanted.
         */}
         <main
+          tabIndex={-1}
           className="min-w-0 flex-1 px-4 py-5 pb-[calc(7rem+env(safe-area-inset-bottom))] md:px-6 md:pb-8"
           onTouchStart={onTouchStart}
           onTouchEnd={onTouchEnd}

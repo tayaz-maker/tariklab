@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { describeOutcomeMoment, type OutcomeMoment } from "@/game/outcome-moment";
 import { useLang } from "@/lib/i18n";
 import "./outcome-moment.css";
@@ -33,12 +33,25 @@ export function OutcomeMomentCard({ moment, onClose }: {
     return () => window.clearTimeout(timer);
   }, [moment, onClose, reduced, paused]);
 
-  const close = () => {
-    if (card.current?.contains(document.activeElement) && origin.current?.isConnected) origin.current.focus({ preventScroll: true });
+  const close = useCallback(() => {
+    if (card.current?.contains(document.activeElement)) {
+      const target = origin.current?.isConnected && !origin.current.matches(":disabled")
+        ? origin.current : card.current.closest("main");
+      if (target instanceof HTMLElement) target.focus({ preventScroll: true });
+    }
     setHovered(false);
     setFocused(false);
     onClose();
-  };
+  }, [onClose]);
+  useEffect(() => {
+    if (!moment) return;
+    const escape = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && !event.defaultPrevented &&
+        !(document.activeElement instanceof Element && document.activeElement.closest('[role="dialog"]'))) close();
+    };
+    document.addEventListener("keydown", escape);
+    return () => document.removeEventListener("keydown", escape);
+  }, [moment, close]);
   const n = (value: number) => new Intl.NumberFormat(en ? "en" : "tr", { maximumFractionDigits: 1 }).format(value);
   const signed = (value: number) => `${value > 0 ? "+" : ""}${n(value)}`;
   const copy = moment ? describeOutcomeMoment(moment, en) : null;
