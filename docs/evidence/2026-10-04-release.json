@@ -1,0 +1,2305 @@
+{
+  "verifiedAt": "2026-10-04",
+  "releaseOrder": [
+    105,
+    107,
+    106
+  ],
+  "proofBranch": "astra/closure-production-proof",
+  "proofBranchMustNotMerge": true,
+  "rendererHardware": "Chromium ANGLE/SwiftShader; physical GPU not verified",
+  "releases": [
+    {
+      "game": "racon",
+      "pr": 105,
+      "headSha": "a0b35905dcdc5103740c01599286827a28545a0a",
+      "mergeSha": "7315055785fa90a46e87c1264c23cfdbb60b3d7b",
+      "ciRun": "https://github.com/tayaz-maker/tariklab/actions/runs/37220177294",
+      "listedChecks": "7/7 success before expected-head merge",
+      "proofRun": "https://github.com/tayaz-maker/tariklab/actions/runs/37221945549",
+      "proofCommit": "0c24ba0c80629f5ff90b19b10fad8c48bc11ef8a",
+      "hosts": {
+        "workers": {
+          "artifact": "https://github.com/tayaz-maker/tariklab/actions/runs/37221945549/artifacts/11311135098",
+          "production": {
+            "checkedAt": "2026-10-04T17:49:19.612Z",
+            "origin": "https://tariklab.tayaz29.workers.dev",
+            "game": "racon",
+            "mergeSha": "7315055785fa90a46e87c1264c23cfdbb60b3d7b",
+            "files": [
+              "public/games/racon/content.js",
+              "public/games/racon/index.html",
+              "public/games/racon/layout-check.html",
+              "public/games/racon/map-model.js",
+              "public/games/racon/map-view.js",
+              "public/games/racon/network.js"
+            ],
+            "assets": [
+              {
+                "file": "public/games/racon/content.js",
+                "expected": "864abdaa696460991a5ddfbc0d385b3d74ac98f7cc6c1608b6a2ea26131597fc",
+                "actual": "864abdaa696460991a5ddfbc0d385b3d74ac98f7cc6c1608b6a2ea26131597fc"
+              },
+              {
+                "file": "public/games/racon/index.html",
+                "expected": "7376dd03b428fb054876e9ee614667c334da91bc5fa3680950d71821dfaf03dd",
+                "actual": "7376dd03b428fb054876e9ee614667c334da91bc5fa3680950d71821dfaf03dd"
+              },
+              {
+                "file": "public/games/racon/layout-check.html",
+                "expected": "014cd8cf7acee64195f8bc05bccb812fdfdef7cc24d4b871daff51b0477593a0",
+                "actual": "014cd8cf7acee64195f8bc05bccb812fdfdef7cc24d4b871daff51b0477593a0"
+              },
+              {
+                "file": "public/games/racon/map-model.js",
+                "expected": "1a151c53e1b59dbe4200b6d8f19b1c19ff85d40bf1a2da66388cbaa611706ee1",
+                "actual": "1a151c53e1b59dbe4200b6d8f19b1c19ff85d40bf1a2da66388cbaa611706ee1"
+              },
+              {
+                "file": "public/games/racon/map-view.js",
+                "expected": "a9cbff5e4dd2c9201e196bbf6ccef3c449d73d34fd6d35957b58a7cb4db97732",
+                "actual": "a9cbff5e4dd2c9201e196bbf6ccef3c449d73d34fd6d35957b58a7cb4db97732"
+              },
+              {
+                "file": "public/games/racon/network.js",
+                "expected": "51fb6c9cc5927e76eeb0c208e22c4ffa8591935d11f899af7f8be5a8a4e96f26",
+                "actual": "51fb6c9cc5927e76eeb0c208e22c4ffa8591935d11f899af7f8be5a8a4e96f26"
+              }
+            ],
+            "browser": "pass"
+          },
+          "browserResults": {
+            "results": [
+              {
+                "scenario": "pixi-1440",
+                "phase": "startup",
+                "ms": 3120.1307499999994
+              },
+              {
+                "scenario": "pixi-1440",
+                "phase": "open",
+                "width": 1440,
+                "scroll": 1440,
+                "stageWidth": 1010,
+                "stageScroll": 1010,
+                "nodes": 6,
+                "canvas": 1,
+                "renderer": "pixi",
+                "renderMs": 2.4,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "pixi-1440",
+                "phase": "focused-decision",
+                "width": 1440,
+                "scroll": 1440,
+                "stageWidth": 1010,
+                "stageScroll": 1010,
+                "nodes": 6,
+                "canvas": 1,
+                "renderer": "pixi",
+                "renderMs": 3.8,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "pixi-1440",
+                "phase": "weekly-step",
+                "width": 1440,
+                "scroll": 1440,
+                "stageWidth": 1010,
+                "stageScroll": 1010,
+                "nodes": 6,
+                "canvas": 0,
+                "renderer": "svg",
+                "renderMs": 0.7,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "pixi-1440",
+                "phase": "landscape",
+                "width": 720,
+                "scroll": 720,
+                "stageWidth": 720,
+                "stageScroll": 720,
+                "nodes": 6,
+                "canvas": 0,
+                "renderer": "svg",
+                "renderMs": 0.7,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "pixi-1440",
+                "phase": "renderer-settling",
+                "stable": true,
+                "samples": [
+                  {
+                    "paints": "1",
+                    "width": 522,
+                    "height": 331
+                  },
+                  {
+                    "paints": "1",
+                    "width": 522,
+                    "height": 331
+                  },
+                  {
+                    "paints": "1",
+                    "width": 522,
+                    "height": 331
+                  },
+                  {
+                    "paints": "1",
+                    "width": 522,
+                    "height": 331
+                  }
+                ]
+              },
+              {
+                "scenario": "pixi-1440",
+                "phase": "actual-context-loss",
+                "width": 1440,
+                "scroll": 1440,
+                "stageWidth": 1010,
+                "stageScroll": 1010,
+                "nodes": 6,
+                "canvas": 0,
+                "renderer": "svg",
+                "renderMs": 0.6,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "pixi-1440",
+                "phase": "lightweight",
+                "width": 1440,
+                "scroll": 1440,
+                "stageWidth": 1010,
+                "stageScroll": 1010,
+                "nodes": 6,
+                "canvas": 0,
+                "renderer": "svg",
+                "renderMs": 0.6,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "pixi-1440",
+                "phase": "bfcache",
+                "width": 1440,
+                "scroll": 1440,
+                "stageWidth": 1010,
+                "stageScroll": 1010,
+                "nodes": 6,
+                "canvas": 0,
+                "renderer": "svg",
+                "renderMs": 0.5,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "svg-1440",
+                "phase": "startup",
+                "ms": 2015.1582020000005
+              },
+              {
+                "scenario": "svg-1440",
+                "phase": "open",
+                "width": 1440,
+                "scroll": 1440,
+                "stageWidth": 1010,
+                "stageScroll": 1010,
+                "nodes": 6,
+                "canvas": 0,
+                "renderer": "svg",
+                "renderMs": 2.7,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "svg-1440",
+                "phase": "focused-decision",
+                "width": 1440,
+                "scroll": 1440,
+                "stageWidth": 1010,
+                "stageScroll": 1010,
+                "nodes": 6,
+                "canvas": 0,
+                "renderer": "svg",
+                "renderMs": 0.7,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "svg-1440",
+                "phase": "weekly-step",
+                "width": 1440,
+                "scroll": 1440,
+                "stageWidth": 1010,
+                "stageScroll": 1010,
+                "nodes": 6,
+                "canvas": 0,
+                "renderer": "svg",
+                "renderMs": 0.8,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "svg-1440",
+                "phase": "landscape",
+                "width": 720,
+                "scroll": 720,
+                "stageWidth": 720,
+                "stageScroll": 720,
+                "nodes": 6,
+                "canvas": 0,
+                "renderer": "svg",
+                "renderMs": 0.8,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "svg-1440",
+                "phase": "lightweight",
+                "width": 1440,
+                "scroll": 1440,
+                "stageWidth": 1010,
+                "stageScroll": 1010,
+                "nodes": 6,
+                "canvas": 0,
+                "renderer": "svg",
+                "renderMs": 0.7,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "svg-1440",
+                "phase": "bfcache",
+                "width": 1440,
+                "scroll": 1440,
+                "stageWidth": 1010,
+                "stageScroll": 1010,
+                "nodes": 6,
+                "canvas": 0,
+                "renderer": "svg",
+                "renderMs": 0.6,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "pixi-390",
+                "phase": "startup",
+                "ms": 2031.8389090000019
+              },
+              {
+                "scenario": "pixi-390",
+                "phase": "open",
+                "width": 390,
+                "scroll": 390,
+                "stageWidth": 390,
+                "stageScroll": 390,
+                "nodes": 6,
+                "canvas": 1,
+                "renderer": "pixi",
+                "renderMs": 1.3,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "pixi-390",
+                "phase": "focused-decision",
+                "width": 390,
+                "scroll": 390,
+                "stageWidth": 390,
+                "stageScroll": 390,
+                "nodes": 6,
+                "canvas": 1,
+                "renderer": "pixi",
+                "renderMs": 2.2,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "pixi-390",
+                "phase": "weekly-step",
+                "width": 390,
+                "scroll": 390,
+                "stageWidth": 390,
+                "stageScroll": 390,
+                "nodes": 6,
+                "canvas": 0,
+                "renderer": "svg",
+                "renderMs": 0.7,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "pixi-390",
+                "phase": "landscape",
+                "width": 720,
+                "scroll": 720,
+                "stageWidth": 720,
+                "stageScroll": 720,
+                "nodes": 6,
+                "canvas": 0,
+                "renderer": "svg",
+                "renderMs": 0.7,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "pixi-390",
+                "phase": "renderer-settling",
+                "stable": true,
+                "samples": [
+                  {
+                    "paints": "2",
+                    "width": 368,
+                    "height": 615
+                  },
+                  {
+                    "paints": "2",
+                    "width": 368,
+                    "height": 615
+                  },
+                  {
+                    "paints": "2",
+                    "width": 368,
+                    "height": 615
+                  },
+                  {
+                    "paints": "2",
+                    "width": 368,
+                    "height": 615
+                  }
+                ]
+              },
+              {
+                "scenario": "pixi-390",
+                "phase": "actual-context-loss",
+                "width": 390,
+                "scroll": 390,
+                "stageWidth": 390,
+                "stageScroll": 390,
+                "nodes": 6,
+                "canvas": 0,
+                "renderer": "svg",
+                "renderMs": 2.2,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "pixi-390",
+                "phase": "lightweight",
+                "width": 390,
+                "scroll": 390,
+                "stageWidth": 390,
+                "stageScroll": 390,
+                "nodes": 6,
+                "canvas": 0,
+                "renderer": "svg",
+                "renderMs": 0.4,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "pixi-390",
+                "phase": "bfcache",
+                "width": 390,
+                "scroll": 390,
+                "stageWidth": 390,
+                "stageScroll": 390,
+                "nodes": 6,
+                "canvas": 0,
+                "renderer": "svg",
+                "renderMs": 0.3,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "svg-390",
+                "phase": "startup",
+                "ms": 1664.883221
+              },
+              {
+                "scenario": "svg-390",
+                "phase": "open",
+                "width": 390,
+                "scroll": 390,
+                "stageWidth": 390,
+                "stageScroll": 390,
+                "nodes": 6,
+                "canvas": 0,
+                "renderer": "svg",
+                "renderMs": 0.9,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "svg-390",
+                "phase": "focused-decision",
+                "width": 390,
+                "scroll": 390,
+                "stageWidth": 390,
+                "stageScroll": 390,
+                "nodes": 6,
+                "canvas": 0,
+                "renderer": "svg",
+                "renderMs": 0.5,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "svg-390",
+                "phase": "weekly-step",
+                "width": 390,
+                "scroll": 390,
+                "stageWidth": 390,
+                "stageScroll": 390,
+                "nodes": 6,
+                "canvas": 0,
+                "renderer": "svg",
+                "renderMs": 0.5,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "svg-390",
+                "phase": "landscape",
+                "width": 720,
+                "scroll": 720,
+                "stageWidth": 720,
+                "stageScroll": 720,
+                "nodes": 6,
+                "canvas": 0,
+                "renderer": "svg",
+                "renderMs": 1,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "svg-390",
+                "phase": "lightweight",
+                "width": 390,
+                "scroll": 390,
+                "stageWidth": 390,
+                "stageScroll": 390,
+                "nodes": 6,
+                "canvas": 0,
+                "renderer": "svg",
+                "renderMs": 0.5,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "svg-390",
+                "phase": "bfcache",
+                "width": 390,
+                "scroll": 390,
+                "stageWidth": 390,
+                "stageScroll": 390,
+                "nodes": 6,
+                "canvas": 0,
+                "renderer": "svg",
+                "renderMs": 0.5,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "new-game",
+                "phase": "first-map",
+                "width": 390,
+                "scroll": 390,
+                "stageWidth": 390,
+                "stageScroll": 390,
+                "nodes": 6,
+                "canvas": 0,
+                "renderer": "svg",
+                "renderMs": 1.5,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "late-init",
+                "phase": "cancel-and-reopen",
+                "width": 390,
+                "scroll": 390,
+                "stageWidth": 390,
+                "stageScroll": 390,
+                "nodes": 6,
+                "canvas": 1,
+                "renderer": "pixi",
+                "renderMs": 0.7,
+                "small": 0,
+                "clipped": 0
+              }
+            ],
+            "errors": []
+          }
+        },
+        "www": {
+          "artifact": "https://github.com/tayaz-maker/tariklab/actions/runs/37221945549/artifacts/11310571408",
+          "production": {
+            "checkedAt": "2026-10-04T17:49:19.622Z",
+            "origin": "https://www.tariklab.com",
+            "game": "racon",
+            "mergeSha": "7315055785fa90a46e87c1264c23cfdbb60b3d7b",
+            "files": [
+              "public/games/racon/content.js",
+              "public/games/racon/index.html",
+              "public/games/racon/layout-check.html",
+              "public/games/racon/map-model.js",
+              "public/games/racon/map-view.js",
+              "public/games/racon/network.js"
+            ],
+            "assets": [
+              {
+                "file": "public/games/racon/content.js",
+                "expected": "864abdaa696460991a5ddfbc0d385b3d74ac98f7cc6c1608b6a2ea26131597fc",
+                "actual": "864abdaa696460991a5ddfbc0d385b3d74ac98f7cc6c1608b6a2ea26131597fc"
+              },
+              {
+                "file": "public/games/racon/index.html",
+                "expected": "7376dd03b428fb054876e9ee614667c334da91bc5fa3680950d71821dfaf03dd",
+                "actual": "7376dd03b428fb054876e9ee614667c334da91bc5fa3680950d71821dfaf03dd"
+              },
+              {
+                "file": "public/games/racon/layout-check.html",
+                "expected": "014cd8cf7acee64195f8bc05bccb812fdfdef7cc24d4b871daff51b0477593a0",
+                "actual": "014cd8cf7acee64195f8bc05bccb812fdfdef7cc24d4b871daff51b0477593a0"
+              },
+              {
+                "file": "public/games/racon/map-model.js",
+                "expected": "1a151c53e1b59dbe4200b6d8f19b1c19ff85d40bf1a2da66388cbaa611706ee1",
+                "actual": "1a151c53e1b59dbe4200b6d8f19b1c19ff85d40bf1a2da66388cbaa611706ee1"
+              },
+              {
+                "file": "public/games/racon/map-view.js",
+                "expected": "a9cbff5e4dd2c9201e196bbf6ccef3c449d73d34fd6d35957b58a7cb4db97732",
+                "actual": "a9cbff5e4dd2c9201e196bbf6ccef3c449d73d34fd6d35957b58a7cb4db97732"
+              },
+              {
+                "file": "public/games/racon/network.js",
+                "expected": "51fb6c9cc5927e76eeb0c208e22c4ffa8591935d11f899af7f8be5a8a4e96f26",
+                "actual": "51fb6c9cc5927e76eeb0c208e22c4ffa8591935d11f899af7f8be5a8a4e96f26"
+              }
+            ],
+            "browser": "pass"
+          },
+          "browserResults": {
+            "results": [
+              {
+                "scenario": "pixi-1440",
+                "phase": "startup",
+                "ms": 4336.5833569999995
+              },
+              {
+                "scenario": "pixi-1440",
+                "phase": "open",
+                "width": 1440,
+                "scroll": 1440,
+                "stageWidth": 1010,
+                "stageScroll": 1010,
+                "nodes": 6,
+                "canvas": 1,
+                "renderer": "pixi",
+                "renderMs": 1,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "pixi-1440",
+                "phase": "focused-decision",
+                "width": 1440,
+                "scroll": 1440,
+                "stageWidth": 1010,
+                "stageScroll": 1010,
+                "nodes": 6,
+                "canvas": 1,
+                "renderer": "pixi",
+                "renderMs": 3.5,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "pixi-1440",
+                "phase": "weekly-step",
+                "width": 1440,
+                "scroll": 1440,
+                "stageWidth": 1010,
+                "stageScroll": 1010,
+                "nodes": 6,
+                "canvas": 1,
+                "renderer": "pixi",
+                "renderMs": 2.3,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "pixi-1440",
+                "phase": "landscape",
+                "width": 720,
+                "scroll": 720,
+                "stageWidth": 720,
+                "stageScroll": 720,
+                "nodes": 6,
+                "canvas": 1,
+                "renderer": "pixi",
+                "renderMs": 2.3,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "pixi-1440",
+                "phase": "renderer-settling",
+                "stable": true,
+                "samples": [
+                  {
+                    "paints": "1",
+                    "width": 522,
+                    "height": 331
+                  },
+                  {
+                    "paints": "1",
+                    "width": 522,
+                    "height": 331
+                  },
+                  {
+                    "paints": "1",
+                    "width": 522,
+                    "height": 331
+                  },
+                  {
+                    "paints": "1",
+                    "width": 522,
+                    "height": 331
+                  }
+                ]
+              },
+              {
+                "scenario": "pixi-1440",
+                "phase": "actual-context-loss",
+                "width": 1440,
+                "scroll": 1440,
+                "stageWidth": 1010,
+                "stageScroll": 1010,
+                "nodes": 6,
+                "canvas": 0,
+                "renderer": "svg",
+                "renderMs": 0.6,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "pixi-1440",
+                "phase": "lightweight",
+                "width": 1440,
+                "scroll": 1440,
+                "stageWidth": 1010,
+                "stageScroll": 1010,
+                "nodes": 6,
+                "canvas": 0,
+                "renderer": "svg",
+                "renderMs": 0.4,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "pixi-1440",
+                "phase": "bfcache",
+                "width": 1440,
+                "scroll": 1440,
+                "stageWidth": 1010,
+                "stageScroll": 1010,
+                "nodes": 6,
+                "canvas": 0,
+                "renderer": "svg",
+                "renderMs": 0.5,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "svg-1440",
+                "phase": "startup",
+                "ms": 1792.1533209999998
+              },
+              {
+                "scenario": "svg-1440",
+                "phase": "open",
+                "width": 1440,
+                "scroll": 1440,
+                "stageWidth": 1010,
+                "stageScroll": 1010,
+                "nodes": 6,
+                "canvas": 0,
+                "renderer": "svg",
+                "renderMs": 1.2,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "svg-1440",
+                "phase": "focused-decision",
+                "width": 1440,
+                "scroll": 1440,
+                "stageWidth": 1010,
+                "stageScroll": 1010,
+                "nodes": 6,
+                "canvas": 0,
+                "renderer": "svg",
+                "renderMs": 2.5,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "svg-1440",
+                "phase": "weekly-step",
+                "width": 1440,
+                "scroll": 1440,
+                "stageWidth": 1010,
+                "stageScroll": 1010,
+                "nodes": 6,
+                "canvas": 0,
+                "renderer": "svg",
+                "renderMs": 0.8,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "svg-1440",
+                "phase": "landscape",
+                "width": 720,
+                "scroll": 720,
+                "stageWidth": 720,
+                "stageScroll": 720,
+                "nodes": 6,
+                "canvas": 0,
+                "renderer": "svg",
+                "renderMs": 0.8,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "svg-1440",
+                "phase": "lightweight",
+                "width": 1440,
+                "scroll": 1440,
+                "stageWidth": 1010,
+                "stageScroll": 1010,
+                "nodes": 6,
+                "canvas": 0,
+                "renderer": "svg",
+                "renderMs": 0.5,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "svg-1440",
+                "phase": "bfcache",
+                "width": 1440,
+                "scroll": 1440,
+                "stageWidth": 1010,
+                "stageScroll": 1010,
+                "nodes": 6,
+                "canvas": 0,
+                "renderer": "svg",
+                "renderMs": 0.6,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "pixi-390",
+                "phase": "startup",
+                "ms": 1929.1035539999975
+              },
+              {
+                "scenario": "pixi-390",
+                "phase": "open",
+                "width": 390,
+                "scroll": 390,
+                "stageWidth": 390,
+                "stageScroll": 390,
+                "nodes": 6,
+                "canvas": 1,
+                "renderer": "pixi",
+                "renderMs": 1.1,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "pixi-390",
+                "phase": "focused-decision",
+                "width": 390,
+                "scroll": 390,
+                "stageWidth": 390,
+                "stageScroll": 390,
+                "nodes": 6,
+                "canvas": 1,
+                "renderer": "pixi",
+                "renderMs": 2.3,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "pixi-390",
+                "phase": "weekly-step",
+                "width": 390,
+                "scroll": 390,
+                "stageWidth": 390,
+                "stageScroll": 390,
+                "nodes": 6,
+                "canvas": 0,
+                "renderer": "svg",
+                "renderMs": 0.6,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "pixi-390",
+                "phase": "landscape",
+                "width": 720,
+                "scroll": 720,
+                "stageWidth": 720,
+                "stageScroll": 720,
+                "nodes": 6,
+                "canvas": 1,
+                "renderer": "pixi",
+                "renderMs": 2,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "pixi-390",
+                "phase": "renderer-settling",
+                "stable": true,
+                "samples": [
+                  {
+                    "paints": "2",
+                    "width": 368,
+                    "height": 615
+                  },
+                  {
+                    "paints": "2",
+                    "width": 368,
+                    "height": 615
+                  },
+                  {
+                    "paints": "2",
+                    "width": 368,
+                    "height": 615
+                  },
+                  {
+                    "paints": "2",
+                    "width": 368,
+                    "height": 615
+                  }
+                ]
+              },
+              {
+                "scenario": "pixi-390",
+                "phase": "actual-context-loss",
+                "width": 390,
+                "scroll": 390,
+                "stageWidth": 390,
+                "stageScroll": 390,
+                "nodes": 6,
+                "canvas": 0,
+                "renderer": "svg",
+                "renderMs": 1.6,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "pixi-390",
+                "phase": "lightweight",
+                "width": 390,
+                "scroll": 390,
+                "stageWidth": 390,
+                "stageScroll": 390,
+                "nodes": 6,
+                "canvas": 0,
+                "renderer": "svg",
+                "renderMs": 0.4,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "pixi-390",
+                "phase": "bfcache",
+                "width": 390,
+                "scroll": 390,
+                "stageWidth": 390,
+                "stageScroll": 390,
+                "nodes": 6,
+                "canvas": 0,
+                "renderer": "svg",
+                "renderMs": 0.4,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "svg-390",
+                "phase": "startup",
+                "ms": 1476.2500849999997
+              },
+              {
+                "scenario": "svg-390",
+                "phase": "open",
+                "width": 390,
+                "scroll": 390,
+                "stageWidth": 390,
+                "stageScroll": 390,
+                "nodes": 6,
+                "canvas": 0,
+                "renderer": "svg",
+                "renderMs": 0.9,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "svg-390",
+                "phase": "focused-decision",
+                "width": 390,
+                "scroll": 390,
+                "stageWidth": 390,
+                "stageScroll": 390,
+                "nodes": 6,
+                "canvas": 0,
+                "renderer": "svg",
+                "renderMs": 0.6,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "svg-390",
+                "phase": "weekly-step",
+                "width": 390,
+                "scroll": 390,
+                "stageWidth": 390,
+                "stageScroll": 390,
+                "nodes": 6,
+                "canvas": 0,
+                "renderer": "svg",
+                "renderMs": 0.7,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "svg-390",
+                "phase": "landscape",
+                "width": 720,
+                "scroll": 720,
+                "stageWidth": 720,
+                "stageScroll": 720,
+                "nodes": 6,
+                "canvas": 0,
+                "renderer": "svg",
+                "renderMs": 0.7,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "svg-390",
+                "phase": "lightweight",
+                "width": 390,
+                "scroll": 390,
+                "stageWidth": 390,
+                "stageScroll": 390,
+                "nodes": 6,
+                "canvas": 0,
+                "renderer": "svg",
+                "renderMs": 0.5,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "svg-390",
+                "phase": "bfcache",
+                "width": 390,
+                "scroll": 390,
+                "stageWidth": 390,
+                "stageScroll": 390,
+                "nodes": 6,
+                "canvas": 0,
+                "renderer": "svg",
+                "renderMs": 0.6,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "new-game",
+                "phase": "first-map",
+                "width": 390,
+                "scroll": 390,
+                "stageWidth": 390,
+                "stageScroll": 390,
+                "nodes": 6,
+                "canvas": 0,
+                "renderer": "svg",
+                "renderMs": 1.2,
+                "small": 0,
+                "clipped": 0
+              },
+              {
+                "scenario": "late-init",
+                "phase": "cancel-and-reopen",
+                "width": 390,
+                "scroll": 390,
+                "stageWidth": 390,
+                "stageScroll": 390,
+                "nodes": 6,
+                "canvas": 1,
+                "renderer": "pixi",
+                "renderMs": 0.6,
+                "small": 0,
+                "clipped": 0
+              }
+            ],
+            "errors": []
+          }
+        }
+      }
+    },
+    {
+      "game": "jitem",
+      "pr": 107,
+      "headSha": "d583ee11ae7b83986c1a011d1a1d963c9388174f",
+      "mergeSha": "82c731c91b40894060936d9299a61644c970241f",
+      "ciRun": "https://github.com/tayaz-maker/tariklab/actions/runs/37220657803",
+      "listedChecks": "7/7 success before expected-head merge",
+      "proofRun": "https://github.com/tayaz-maker/tariklab/actions/runs/37222399263",
+      "proofCommit": "16103cf81d55ab2b4e9384dda0744cf449dedb90",
+      "hosts": {
+        "workers": {
+          "artifact": "https://github.com/tayaz-maker/tariklab/actions/runs/37222399263/artifacts/11310682040",
+          "production": {
+            "checkedAt": "2026-10-04T17:56:17.539Z",
+            "origin": "https://tariklab.tayaz29.workers.dev",
+            "game": "jitem",
+            "mergeSha": "82c731c91b40894060936d9299a61644c970241f",
+            "files": [
+              "public/games/jitem-derin-ag/SOURCE.json",
+              "public/games/jitem-derin-ag/__grok/icon-180.png",
+              "public/games/jitem-derin-ag/__grok/install/assets/homescreen/glass-puzzle.svg",
+              "public/games/jitem-derin-ag/__grok/install/assets/homescreen/glass-share.svg",
+              "public/games/jitem-derin-ag/__grok/install/assets/homescreen/logo-grok.svg",
+              "public/games/jitem-derin-ag/__grok/install/assets/homescreen/ob-ipad.png",
+              "public/games/jitem-derin-ag/__grok/install/assets/homescreen/ob-phone.png",
+              "public/games/jitem-derin-ag/__grok/install/assets/homescreen/plus.svg",
+              "public/games/jitem-derin-ag/__grok/install/styles.css",
+              "public/games/jitem-derin-ag/assets/BufferResource-5Lhx2wWa.js",
+              "public/games/jitem-derin-ag/assets/CanvasRenderer-DSklI2pD.js",
+              "public/games/jitem-derin-ag/assets/Geometry-DWxeac-G.js",
+              "public/games/jitem-derin-ag/assets/RenderTargetSystem-Bd4dlm9e.js",
+              "public/games/jitem-derin-ag/assets/WebGLRenderer-CHTKhrxb.js",
+              "public/games/jitem-derin-ag/assets/WebGPURenderer--WNXb8Aa.js",
+              "public/games/jitem-derin-ag/assets/atlas-pixi-Dilx3yA8.js",
+              "public/games/jitem-derin-ag/assets/browserAll-C2Mk01om.js",
+              "public/games/jitem-derin-ag/assets/canvasUtils-BqmlzUgB.js",
+              "public/games/jitem-derin-ag/assets/getTextureBatchBindGroup-DuEkjIZ8.js",
+              "public/games/jitem-derin-ag/assets/init-Cz6bzehy.js",
+              "public/games/jitem-derin-ag/assets/init-w6whaPur.js",
+              "public/games/jitem-derin-ag/assets/integration-BNWgPZj5.css",
+              "public/games/jitem-derin-ag/assets/lib-DttBULyp.js",
+              "public/games/jitem-derin-ag/assets/runtime.js",
+              "public/games/jitem-derin-ag/assets/webworkerAll-BKbgqR6g.js",
+              "public/games/jitem-derin-ag/favicon.svg",
+              "public/games/jitem-derin-ag/images/map.jpg",
+              "public/games/jitem-derin-ag/images/office.jpg",
+              "public/games/jitem-derin-ag/index.html",
+              "public/games/jitem-derin-ag/og.jpg",
+              "public/games/jitem-derin-ag/x-banner.jpg"
+            ],
+            "assets": [
+              {
+                "file": "public/games/jitem-derin-ag/SOURCE.json",
+                "expected": "21e164db1542ff979004dce12674bf11e8c98432fc2cfe158272cd09816d6951",
+                "actual": "21e164db1542ff979004dce12674bf11e8c98432fc2cfe158272cd09816d6951"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/__grok/icon-180.png",
+                "expected": "3cf5d17d294b51c6cca6c86070309b88554b7ad702b0412e8e2709a01990bc8a",
+                "actual": "3cf5d17d294b51c6cca6c86070309b88554b7ad702b0412e8e2709a01990bc8a"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/__grok/install/assets/homescreen/glass-puzzle.svg",
+                "expected": "a677c9356c23d1e699559ddbffac97cd135c2782cd893fb34f3738f6d11bee17",
+                "actual": "a677c9356c23d1e699559ddbffac97cd135c2782cd893fb34f3738f6d11bee17"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/__grok/install/assets/homescreen/glass-share.svg",
+                "expected": "efad1b4b507a68c1f1af4aad2c93e8c24076224aa593da86677697f543d026d6",
+                "actual": "efad1b4b507a68c1f1af4aad2c93e8c24076224aa593da86677697f543d026d6"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/__grok/install/assets/homescreen/logo-grok.svg",
+                "expected": "0654e3e59cce69856f38525cbfe4ab3a9ef52d4b64c8532dd0bc1a3f34fcb5b1",
+                "actual": "0654e3e59cce69856f38525cbfe4ab3a9ef52d4b64c8532dd0bc1a3f34fcb5b1"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/__grok/install/assets/homescreen/ob-ipad.png",
+                "expected": "4c9b09a4660c662b394597d551a04124293b0e37a7a7c72271dd2948c4499a14",
+                "actual": "4c9b09a4660c662b394597d551a04124293b0e37a7a7c72271dd2948c4499a14"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/__grok/install/assets/homescreen/ob-phone.png",
+                "expected": "80e0a5ede614d9b920c67d7cb79c80a79134687b1fc9f560384e896a88e302db",
+                "actual": "80e0a5ede614d9b920c67d7cb79c80a79134687b1fc9f560384e896a88e302db"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/__grok/install/assets/homescreen/plus.svg",
+                "expected": "c2c94be46aa2c3c2fda95d7c6f2fc6d0b656d1f5847828d5d95b5a81a6f4f20d",
+                "actual": "c2c94be46aa2c3c2fda95d7c6f2fc6d0b656d1f5847828d5d95b5a81a6f4f20d"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/__grok/install/styles.css",
+                "expected": "7e8e881302f58e54a9c07e7be395692d3de20fdaa27ce358531cc8dcca472cb6",
+                "actual": "7e8e881302f58e54a9c07e7be395692d3de20fdaa27ce358531cc8dcca472cb6"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/assets/BufferResource-5Lhx2wWa.js",
+                "expected": "ff092643370d2d2b9ac13783815103f1a25ba4750a382750c0ceeecd2f224f7d",
+                "actual": "ff092643370d2d2b9ac13783815103f1a25ba4750a382750c0ceeecd2f224f7d"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/assets/CanvasRenderer-DSklI2pD.js",
+                "expected": "55abe8ecd80bd5cb549e838e657c6630b4af43c15fd70e0c75948d5e7de5ac19",
+                "actual": "55abe8ecd80bd5cb549e838e657c6630b4af43c15fd70e0c75948d5e7de5ac19"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/assets/Geometry-DWxeac-G.js",
+                "expected": "02a2a39400fa88a40a4a899c9c4be8990edf3304444ac75c2956ebdaeaaf3307",
+                "actual": "02a2a39400fa88a40a4a899c9c4be8990edf3304444ac75c2956ebdaeaaf3307"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/assets/RenderTargetSystem-Bd4dlm9e.js",
+                "expected": "70abea61b63e3895838566602b2522098608ed96d67bfebc58fa7f70f31942f4",
+                "actual": "70abea61b63e3895838566602b2522098608ed96d67bfebc58fa7f70f31942f4"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/assets/WebGLRenderer-CHTKhrxb.js",
+                "expected": "820f3b3f3aa0579541615a46cb089946a3c4976749a29276160819a9154bffc9",
+                "actual": "820f3b3f3aa0579541615a46cb089946a3c4976749a29276160819a9154bffc9"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/assets/WebGPURenderer--WNXb8Aa.js",
+                "expected": "c0dd2e6ad3af450a4d72a5ef445593c98aa4412dcae0bd9535661cf38a223797",
+                "actual": "c0dd2e6ad3af450a4d72a5ef445593c98aa4412dcae0bd9535661cf38a223797"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/assets/atlas-pixi-Dilx3yA8.js",
+                "expected": "e8eed5d1a195206f3f407361321a8bbcaad23953aabce6536e0e9801ed294c4f",
+                "actual": "e8eed5d1a195206f3f407361321a8bbcaad23953aabce6536e0e9801ed294c4f"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/assets/browserAll-C2Mk01om.js",
+                "expected": "947fdbd1d231d632cdbfe85f06657281a14d566908b235be96cad2ce95fcfa46",
+                "actual": "947fdbd1d231d632cdbfe85f06657281a14d566908b235be96cad2ce95fcfa46"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/assets/canvasUtils-BqmlzUgB.js",
+                "expected": "59dc9b7f173043801593f1b6bf7d126710cae9df61989902fe9a2cedc83d3081",
+                "actual": "59dc9b7f173043801593f1b6bf7d126710cae9df61989902fe9a2cedc83d3081"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/assets/getTextureBatchBindGroup-DuEkjIZ8.js",
+                "expected": "4bda14165c8c90015b7e397048a4a9c1d6da4c257548fbc942e2444c295db7c4",
+                "actual": "4bda14165c8c90015b7e397048a4a9c1d6da4c257548fbc942e2444c295db7c4"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/assets/init-Cz6bzehy.js",
+                "expected": "b1ed7596675370c5f4b5011b91295e469e1c2e08610b0bfb2a3fb1cf2514a2aa",
+                "actual": "b1ed7596675370c5f4b5011b91295e469e1c2e08610b0bfb2a3fb1cf2514a2aa"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/assets/init-w6whaPur.js",
+                "expected": "bc86230b0416e72e7549f108d25475c7cfffa4db5e3e633a6d2c20ffcbda610b",
+                "actual": "bc86230b0416e72e7549f108d25475c7cfffa4db5e3e633a6d2c20ffcbda610b"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/assets/integration-BNWgPZj5.css",
+                "expected": "d9694e14cecfad0daa80399c0574f61e459471dc1ce9db9c4dab2b70acdd7c24",
+                "actual": "d9694e14cecfad0daa80399c0574f61e459471dc1ce9db9c4dab2b70acdd7c24"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/assets/lib-DttBULyp.js",
+                "expected": "0425dca58557d02afe6133e558a487e18d52f79a58ddd4d87a3c53200768510f",
+                "actual": "0425dca58557d02afe6133e558a487e18d52f79a58ddd4d87a3c53200768510f"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/assets/runtime.js",
+                "expected": "643bf9acf328193a20a2eabf3174d2a1d177b79329e7632d2e83bc6175e4360c",
+                "actual": "643bf9acf328193a20a2eabf3174d2a1d177b79329e7632d2e83bc6175e4360c"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/assets/webworkerAll-BKbgqR6g.js",
+                "expected": "366565810a4415c6020c754cbd8d710aba1314a368f4a8f37bd9be22e28616f1",
+                "actual": "366565810a4415c6020c754cbd8d710aba1314a368f4a8f37bd9be22e28616f1"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/favicon.svg",
+                "expected": "353e2959be8823683350a182b03f7517c786f0d02905d5edcd4399c766cbc93c",
+                "actual": "353e2959be8823683350a182b03f7517c786f0d02905d5edcd4399c766cbc93c"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/images/map.jpg",
+                "expected": "c4720b4b1116057fee75343a6afda6aff25885d892cb00e19c92a14783f4afa2",
+                "actual": "c4720b4b1116057fee75343a6afda6aff25885d892cb00e19c92a14783f4afa2"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/images/office.jpg",
+                "expected": "205ce133a42b659d6da04da6cf0223c78e3069f6419649f871894ca5c7ef2e09",
+                "actual": "205ce133a42b659d6da04da6cf0223c78e3069f6419649f871894ca5c7ef2e09"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/index.html",
+                "expected": "28cb0c7ccb974728b120ac8b8629c3822f8977288d50be9fd4e758311428757f",
+                "actual": "28cb0c7ccb974728b120ac8b8629c3822f8977288d50be9fd4e758311428757f"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/og.jpg",
+                "expected": "df615907916a0e54e0671af2d60dccbe7d85dadba1d3ddd9770388dd0e717a4f",
+                "actual": "df615907916a0e54e0671af2d60dccbe7d85dadba1d3ddd9770388dd0e717a4f"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/x-banner.jpg",
+                "expected": "fd52e0644d7b3748aa1a03b4974b088f62835deee7e17908ca8c0c9335e9003f",
+                "actual": "fd52e0644d7b3748aa1a03b4974b088f62835deee7e17908ca8c0c9335e9003f"
+              }
+            ],
+            "browser": "pass"
+          },
+          "browserResults": {
+            "origin": "https://tariklab.tayaz29.workers.dev",
+            "results": [
+              {
+                "width": 1440,
+                "noWebGL": false,
+                "opening": true,
+                "backupRestore": true,
+                "reload": true,
+                "fallback": true,
+                "contextLoss": true,
+                "dimensions": {
+                  "width": 1440,
+                  "scroll": 1440
+                }
+              },
+              {
+                "width": 1440,
+                "noWebGL": true,
+                "opening": true,
+                "backupRestore": true,
+                "reload": true,
+                "fallback": true,
+                "contextLoss": false,
+                "dimensions": {
+                  "width": 1440,
+                  "scroll": 1440
+                }
+              },
+              {
+                "width": 390,
+                "noWebGL": false,
+                "opening": true,
+                "backupRestore": true,
+                "reload": true,
+                "fallback": true,
+                "contextLoss": true,
+                "dimensions": {
+                  "width": 390,
+                  "scroll": 390
+                }
+              },
+              {
+                "width": 390,
+                "noWebGL": true,
+                "opening": true,
+                "backupRestore": true,
+                "reload": true,
+                "fallback": true,
+                "contextLoss": false,
+                "dimensions": {
+                  "width": 390,
+                  "scroll": 390
+                }
+              }
+            ],
+            "errors": []
+          }
+        },
+        "www": {
+          "artifact": "https://github.com/tayaz-maker/tariklab/actions/runs/37222399263/artifacts/11310781809",
+          "production": {
+            "checkedAt": "2026-10-04T17:56:22.896Z",
+            "origin": "https://www.tariklab.com",
+            "game": "jitem",
+            "mergeSha": "82c731c91b40894060936d9299a61644c970241f",
+            "files": [
+              "public/games/jitem-derin-ag/SOURCE.json",
+              "public/games/jitem-derin-ag/__grok/icon-180.png",
+              "public/games/jitem-derin-ag/__grok/install/assets/homescreen/glass-puzzle.svg",
+              "public/games/jitem-derin-ag/__grok/install/assets/homescreen/glass-share.svg",
+              "public/games/jitem-derin-ag/__grok/install/assets/homescreen/logo-grok.svg",
+              "public/games/jitem-derin-ag/__grok/install/assets/homescreen/ob-ipad.png",
+              "public/games/jitem-derin-ag/__grok/install/assets/homescreen/ob-phone.png",
+              "public/games/jitem-derin-ag/__grok/install/assets/homescreen/plus.svg",
+              "public/games/jitem-derin-ag/__grok/install/styles.css",
+              "public/games/jitem-derin-ag/assets/BufferResource-5Lhx2wWa.js",
+              "public/games/jitem-derin-ag/assets/CanvasRenderer-DSklI2pD.js",
+              "public/games/jitem-derin-ag/assets/Geometry-DWxeac-G.js",
+              "public/games/jitem-derin-ag/assets/RenderTargetSystem-Bd4dlm9e.js",
+              "public/games/jitem-derin-ag/assets/WebGLRenderer-CHTKhrxb.js",
+              "public/games/jitem-derin-ag/assets/WebGPURenderer--WNXb8Aa.js",
+              "public/games/jitem-derin-ag/assets/atlas-pixi-Dilx3yA8.js",
+              "public/games/jitem-derin-ag/assets/browserAll-C2Mk01om.js",
+              "public/games/jitem-derin-ag/assets/canvasUtils-BqmlzUgB.js",
+              "public/games/jitem-derin-ag/assets/getTextureBatchBindGroup-DuEkjIZ8.js",
+              "public/games/jitem-derin-ag/assets/init-Cz6bzehy.js",
+              "public/games/jitem-derin-ag/assets/init-w6whaPur.js",
+              "public/games/jitem-derin-ag/assets/integration-BNWgPZj5.css",
+              "public/games/jitem-derin-ag/assets/lib-DttBULyp.js",
+              "public/games/jitem-derin-ag/assets/runtime.js",
+              "public/games/jitem-derin-ag/assets/webworkerAll-BKbgqR6g.js",
+              "public/games/jitem-derin-ag/favicon.svg",
+              "public/games/jitem-derin-ag/images/map.jpg",
+              "public/games/jitem-derin-ag/images/office.jpg",
+              "public/games/jitem-derin-ag/index.html",
+              "public/games/jitem-derin-ag/og.jpg",
+              "public/games/jitem-derin-ag/x-banner.jpg"
+            ],
+            "assets": [
+              {
+                "file": "public/games/jitem-derin-ag/SOURCE.json",
+                "expected": "21e164db1542ff979004dce12674bf11e8c98432fc2cfe158272cd09816d6951",
+                "actual": "21e164db1542ff979004dce12674bf11e8c98432fc2cfe158272cd09816d6951"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/__grok/icon-180.png",
+                "expected": "3cf5d17d294b51c6cca6c86070309b88554b7ad702b0412e8e2709a01990bc8a",
+                "actual": "3cf5d17d294b51c6cca6c86070309b88554b7ad702b0412e8e2709a01990bc8a"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/__grok/install/assets/homescreen/glass-puzzle.svg",
+                "expected": "a677c9356c23d1e699559ddbffac97cd135c2782cd893fb34f3738f6d11bee17",
+                "actual": "a677c9356c23d1e699559ddbffac97cd135c2782cd893fb34f3738f6d11bee17"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/__grok/install/assets/homescreen/glass-share.svg",
+                "expected": "efad1b4b507a68c1f1af4aad2c93e8c24076224aa593da86677697f543d026d6",
+                "actual": "efad1b4b507a68c1f1af4aad2c93e8c24076224aa593da86677697f543d026d6"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/__grok/install/assets/homescreen/logo-grok.svg",
+                "expected": "0654e3e59cce69856f38525cbfe4ab3a9ef52d4b64c8532dd0bc1a3f34fcb5b1",
+                "actual": "0654e3e59cce69856f38525cbfe4ab3a9ef52d4b64c8532dd0bc1a3f34fcb5b1"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/__grok/install/assets/homescreen/ob-ipad.png",
+                "expected": "4c9b09a4660c662b394597d551a04124293b0e37a7a7c72271dd2948c4499a14",
+                "actual": "4c9b09a4660c662b394597d551a04124293b0e37a7a7c72271dd2948c4499a14"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/__grok/install/assets/homescreen/ob-phone.png",
+                "expected": "80e0a5ede614d9b920c67d7cb79c80a79134687b1fc9f560384e896a88e302db",
+                "actual": "80e0a5ede614d9b920c67d7cb79c80a79134687b1fc9f560384e896a88e302db"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/__grok/install/assets/homescreen/plus.svg",
+                "expected": "c2c94be46aa2c3c2fda95d7c6f2fc6d0b656d1f5847828d5d95b5a81a6f4f20d",
+                "actual": "c2c94be46aa2c3c2fda95d7c6f2fc6d0b656d1f5847828d5d95b5a81a6f4f20d"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/__grok/install/styles.css",
+                "expected": "7e8e881302f58e54a9c07e7be395692d3de20fdaa27ce358531cc8dcca472cb6",
+                "actual": "7e8e881302f58e54a9c07e7be395692d3de20fdaa27ce358531cc8dcca472cb6"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/assets/BufferResource-5Lhx2wWa.js",
+                "expected": "ff092643370d2d2b9ac13783815103f1a25ba4750a382750c0ceeecd2f224f7d",
+                "actual": "ff092643370d2d2b9ac13783815103f1a25ba4750a382750c0ceeecd2f224f7d"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/assets/CanvasRenderer-DSklI2pD.js",
+                "expected": "55abe8ecd80bd5cb549e838e657c6630b4af43c15fd70e0c75948d5e7de5ac19",
+                "actual": "55abe8ecd80bd5cb549e838e657c6630b4af43c15fd70e0c75948d5e7de5ac19"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/assets/Geometry-DWxeac-G.js",
+                "expected": "02a2a39400fa88a40a4a899c9c4be8990edf3304444ac75c2956ebdaeaaf3307",
+                "actual": "02a2a39400fa88a40a4a899c9c4be8990edf3304444ac75c2956ebdaeaaf3307"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/assets/RenderTargetSystem-Bd4dlm9e.js",
+                "expected": "70abea61b63e3895838566602b2522098608ed96d67bfebc58fa7f70f31942f4",
+                "actual": "70abea61b63e3895838566602b2522098608ed96d67bfebc58fa7f70f31942f4"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/assets/WebGLRenderer-CHTKhrxb.js",
+                "expected": "820f3b3f3aa0579541615a46cb089946a3c4976749a29276160819a9154bffc9",
+                "actual": "820f3b3f3aa0579541615a46cb089946a3c4976749a29276160819a9154bffc9"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/assets/WebGPURenderer--WNXb8Aa.js",
+                "expected": "c0dd2e6ad3af450a4d72a5ef445593c98aa4412dcae0bd9535661cf38a223797",
+                "actual": "c0dd2e6ad3af450a4d72a5ef445593c98aa4412dcae0bd9535661cf38a223797"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/assets/atlas-pixi-Dilx3yA8.js",
+                "expected": "e8eed5d1a195206f3f407361321a8bbcaad23953aabce6536e0e9801ed294c4f",
+                "actual": "e8eed5d1a195206f3f407361321a8bbcaad23953aabce6536e0e9801ed294c4f"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/assets/browserAll-C2Mk01om.js",
+                "expected": "947fdbd1d231d632cdbfe85f06657281a14d566908b235be96cad2ce95fcfa46",
+                "actual": "947fdbd1d231d632cdbfe85f06657281a14d566908b235be96cad2ce95fcfa46"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/assets/canvasUtils-BqmlzUgB.js",
+                "expected": "59dc9b7f173043801593f1b6bf7d126710cae9df61989902fe9a2cedc83d3081",
+                "actual": "59dc9b7f173043801593f1b6bf7d126710cae9df61989902fe9a2cedc83d3081"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/assets/getTextureBatchBindGroup-DuEkjIZ8.js",
+                "expected": "4bda14165c8c90015b7e397048a4a9c1d6da4c257548fbc942e2444c295db7c4",
+                "actual": "4bda14165c8c90015b7e397048a4a9c1d6da4c257548fbc942e2444c295db7c4"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/assets/init-Cz6bzehy.js",
+                "expected": "b1ed7596675370c5f4b5011b91295e469e1c2e08610b0bfb2a3fb1cf2514a2aa",
+                "actual": "b1ed7596675370c5f4b5011b91295e469e1c2e08610b0bfb2a3fb1cf2514a2aa"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/assets/init-w6whaPur.js",
+                "expected": "bc86230b0416e72e7549f108d25475c7cfffa4db5e3e633a6d2c20ffcbda610b",
+                "actual": "bc86230b0416e72e7549f108d25475c7cfffa4db5e3e633a6d2c20ffcbda610b"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/assets/integration-BNWgPZj5.css",
+                "expected": "d9694e14cecfad0daa80399c0574f61e459471dc1ce9db9c4dab2b70acdd7c24",
+                "actual": "d9694e14cecfad0daa80399c0574f61e459471dc1ce9db9c4dab2b70acdd7c24"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/assets/lib-DttBULyp.js",
+                "expected": "0425dca58557d02afe6133e558a487e18d52f79a58ddd4d87a3c53200768510f",
+                "actual": "0425dca58557d02afe6133e558a487e18d52f79a58ddd4d87a3c53200768510f"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/assets/runtime.js",
+                "expected": "643bf9acf328193a20a2eabf3174d2a1d177b79329e7632d2e83bc6175e4360c",
+                "actual": "643bf9acf328193a20a2eabf3174d2a1d177b79329e7632d2e83bc6175e4360c"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/assets/webworkerAll-BKbgqR6g.js",
+                "expected": "366565810a4415c6020c754cbd8d710aba1314a368f4a8f37bd9be22e28616f1",
+                "actual": "366565810a4415c6020c754cbd8d710aba1314a368f4a8f37bd9be22e28616f1"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/favicon.svg",
+                "expected": "353e2959be8823683350a182b03f7517c786f0d02905d5edcd4399c766cbc93c",
+                "actual": "353e2959be8823683350a182b03f7517c786f0d02905d5edcd4399c766cbc93c"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/images/map.jpg",
+                "expected": "c4720b4b1116057fee75343a6afda6aff25885d892cb00e19c92a14783f4afa2",
+                "actual": "c4720b4b1116057fee75343a6afda6aff25885d892cb00e19c92a14783f4afa2"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/images/office.jpg",
+                "expected": "205ce133a42b659d6da04da6cf0223c78e3069f6419649f871894ca5c7ef2e09",
+                "actual": "205ce133a42b659d6da04da6cf0223c78e3069f6419649f871894ca5c7ef2e09"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/index.html",
+                "expected": "28cb0c7ccb974728b120ac8b8629c3822f8977288d50be9fd4e758311428757f",
+                "actual": "28cb0c7ccb974728b120ac8b8629c3822f8977288d50be9fd4e758311428757f"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/og.jpg",
+                "expected": "df615907916a0e54e0671af2d60dccbe7d85dadba1d3ddd9770388dd0e717a4f",
+                "actual": "df615907916a0e54e0671af2d60dccbe7d85dadba1d3ddd9770388dd0e717a4f"
+              },
+              {
+                "file": "public/games/jitem-derin-ag/x-banner.jpg",
+                "expected": "fd52e0644d7b3748aa1a03b4974b088f62835deee7e17908ca8c0c9335e9003f",
+                "actual": "fd52e0644d7b3748aa1a03b4974b088f62835deee7e17908ca8c0c9335e9003f"
+              }
+            ],
+            "browser": "pass"
+          },
+          "browserResults": {
+            "origin": "https://www.tariklab.com",
+            "results": [
+              {
+                "width": 1440,
+                "noWebGL": false,
+                "opening": true,
+                "backupRestore": true,
+                "reload": true,
+                "fallback": true,
+                "contextLoss": true,
+                "dimensions": {
+                  "width": 1440,
+                  "scroll": 1440
+                }
+              },
+              {
+                "width": 1440,
+                "noWebGL": true,
+                "opening": true,
+                "backupRestore": true,
+                "reload": true,
+                "fallback": true,
+                "contextLoss": false,
+                "dimensions": {
+                  "width": 1440,
+                  "scroll": 1440
+                }
+              },
+              {
+                "width": 390,
+                "noWebGL": false,
+                "opening": true,
+                "backupRestore": true,
+                "reload": true,
+                "fallback": true,
+                "contextLoss": true,
+                "dimensions": {
+                  "width": 390,
+                  "scroll": 390
+                }
+              },
+              {
+                "width": 390,
+                "noWebGL": true,
+                "opening": true,
+                "backupRestore": true,
+                "reload": true,
+                "fallback": true,
+                "contextLoss": false,
+                "dimensions": {
+                  "width": 390,
+                  "scroll": 390
+                }
+              }
+            ],
+            "errors": []
+          }
+        }
+      }
+    },
+    {
+      "game": "tc-sim",
+      "pr": 106,
+      "headSha": "9edf341039b76b9082881adf8c884714d39a89b9",
+      "mergeSha": "d1ea695b76fba15c284690c07cf818316cd97f10",
+      "ciRun": "https://github.com/tayaz-maker/tariklab/actions/runs/37220702175",
+      "listedChecks": "7/7 success before expected-head merge",
+      "proofRun": "https://github.com/tayaz-maker/tariklab/actions/runs/37222532649",
+      "proofCommit": "3b1f7bf2d0b6540037d12f67842c96e898160ac4",
+      "hosts": {
+        "workers": {
+          "artifact": "https://github.com/tayaz-maker/tariklab/actions/runs/37222532649/artifacts/11310403828",
+          "production": {
+            "checkedAt": "2026-10-04T17:58:27.180Z",
+            "origin": "https://tariklab.tayaz29.workers.dev",
+            "game": "tc-sim",
+            "mergeSha": "d1ea695b76fba15c284690c07cf818316cd97f10",
+            "files": [
+              "public/games/tc-sim/index.html",
+              "public/games/tc-sim/js/adult-life-events.js",
+              "public/games/tc-sim/js/app.js",
+              "public/games/tc-sim/js/body-events.js",
+              "public/games/tc-sim/js/body-systems.js",
+              "public/games/tc-sim/js/calendar.js",
+              "public/games/tc-sim/js/catalog.js",
+              "public/games/tc-sim/js/decision-network.js",
+              "public/games/tc-sim/js/depth-events.js",
+              "public/games/tc-sim/js/depth2-events.js",
+              "public/games/tc-sim/js/depth2-systems.js",
+              "public/games/tc-sim/js/depth3-events.js",
+              "public/games/tc-sim/js/depth3-systems.js",
+              "public/games/tc-sim/js/desk.js",
+              "public/games/tc-sim/js/education.js",
+              "public/games/tc-sim/js/eras.js",
+              "public/games/tc-sim/js/events.js",
+              "public/games/tc-sim/js/expansion-events.js",
+              "public/games/tc-sim/js/help.js",
+              "public/games/tc-sim/js/historical-scenarios.js",
+              "public/games/tc-sim/js/household.js",
+              "public/games/tc-sim/js/life-content.js",
+              "public/games/tc-sim/js/life-depth.js",
+              "public/games/tc-sim/js/life-echo-events.js",
+              "public/games/tc-sim/js/life.js",
+              "public/games/tc-sim/js/lifetime-ui.js",
+              "public/games/tc-sim/js/lifetime.js",
+              "public/games/tc-sim/js/navigation.js",
+              "public/games/tc-sim/js/network.js",
+              "public/games/tc-sim/js/parenthood.js",
+              "public/games/tc-sim/js/realism-events.js",
+              "public/games/tc-sim/js/save.js",
+              "public/games/tc-sim/js/social.js",
+              "public/games/tc-sim/js/state.js",
+              "public/games/tc-sim/js/time.js",
+              "public/games/tc-sim/js/wealth.js",
+              "public/games/tc-sim/js/weekly-feedback.js",
+              "public/games/tc-sim/styles.css"
+            ],
+            "assets": [
+              {
+                "file": "public/games/tc-sim/index.html",
+                "expected": "73ee855c58cfde7e1beebc39b9b99383d8404afdc68c852d2c1da7ce3f9cd637",
+                "actual": "73ee855c58cfde7e1beebc39b9b99383d8404afdc68c852d2c1da7ce3f9cd637"
+              },
+              {
+                "file": "public/games/tc-sim/js/adult-life-events.js",
+                "expected": "0b89756301795fcd3a176c2d8e4da7f6456b47fbd9e2e3cee17a5e5d03a19fe0",
+                "actual": "0b89756301795fcd3a176c2d8e4da7f6456b47fbd9e2e3cee17a5e5d03a19fe0"
+              },
+              {
+                "file": "public/games/tc-sim/js/app.js",
+                "expected": "0c2ab62023469c093c3395bef8128276e9590aba4e5e8d76083bc041d6e2367f",
+                "actual": "0c2ab62023469c093c3395bef8128276e9590aba4e5e8d76083bc041d6e2367f"
+              },
+              {
+                "file": "public/games/tc-sim/js/body-events.js",
+                "expected": "e6fb084d6fb805af0ab18c61450cb035d7118a9c7ac4da886e96ca249dde0c40",
+                "actual": "e6fb084d6fb805af0ab18c61450cb035d7118a9c7ac4da886e96ca249dde0c40"
+              },
+              {
+                "file": "public/games/tc-sim/js/body-systems.js",
+                "expected": "33e75f96f1dc29849abafa17bb247f95d057944c72656e6fad3e87a2abd196f7",
+                "actual": "33e75f96f1dc29849abafa17bb247f95d057944c72656e6fad3e87a2abd196f7"
+              },
+              {
+                "file": "public/games/tc-sim/js/calendar.js",
+                "expected": "258f8d0d16296ba3dee1a4516a5313fcf8dd89f704390232b18978898187cbda",
+                "actual": "258f8d0d16296ba3dee1a4516a5313fcf8dd89f704390232b18978898187cbda"
+              },
+              {
+                "file": "public/games/tc-sim/js/catalog.js",
+                "expected": "de4efbb7219f72dd0cc78f497669e49df164c0a29b311db84f6add658e2d7df8",
+                "actual": "de4efbb7219f72dd0cc78f497669e49df164c0a29b311db84f6add658e2d7df8"
+              },
+              {
+                "file": "public/games/tc-sim/js/decision-network.js",
+                "expected": "872ea67f3d799534f38f1e0b57dff716d1fd7070f35a3b77c9a3e2865ee873bb",
+                "actual": "872ea67f3d799534f38f1e0b57dff716d1fd7070f35a3b77c9a3e2865ee873bb"
+              },
+              {
+                "file": "public/games/tc-sim/js/depth-events.js",
+                "expected": "98742aeba5302275a74931b398486262ad1640f38af49721294f60e8de6ab044",
+                "actual": "98742aeba5302275a74931b398486262ad1640f38af49721294f60e8de6ab044"
+              },
+              {
+                "file": "public/games/tc-sim/js/depth2-events.js",
+                "expected": "7d1a341e95331510b6f69032b1a4f1ece6350c98cea7fc7df972b2d600b34030",
+                "actual": "7d1a341e95331510b6f69032b1a4f1ece6350c98cea7fc7df972b2d600b34030"
+              },
+              {
+                "file": "public/games/tc-sim/js/depth2-systems.js",
+                "expected": "4c3f63c182b378f726cbdf5771044d8dccd514f5b74f1e90c81c60a561bced45",
+                "actual": "4c3f63c182b378f726cbdf5771044d8dccd514f5b74f1e90c81c60a561bced45"
+              },
+              {
+                "file": "public/games/tc-sim/js/depth3-events.js",
+                "expected": "9c1f0feebe580a608bf6c80e97e28433b885ba418440f00a86fede00aacd2df3",
+                "actual": "9c1f0feebe580a608bf6c80e97e28433b885ba418440f00a86fede00aacd2df3"
+              },
+              {
+                "file": "public/games/tc-sim/js/depth3-systems.js",
+                "expected": "d24f81fcc9c4c8e78705312baac9199a24cc17c573914ef3a50d9ba1a88bf742",
+                "actual": "d24f81fcc9c4c8e78705312baac9199a24cc17c573914ef3a50d9ba1a88bf742"
+              },
+              {
+                "file": "public/games/tc-sim/js/desk.js",
+                "expected": "35a103998f32a9666b292e309f3e9a507067940c08f8f5f24efcca8ca88241bb",
+                "actual": "35a103998f32a9666b292e309f3e9a507067940c08f8f5f24efcca8ca88241bb"
+              },
+              {
+                "file": "public/games/tc-sim/js/education.js",
+                "expected": "19846a1c47592ebf688484ec2d043234e983ebbbca9541f20c466d4320d78c48",
+                "actual": "19846a1c47592ebf688484ec2d043234e983ebbbca9541f20c466d4320d78c48"
+              },
+              {
+                "file": "public/games/tc-sim/js/eras.js",
+                "expected": "4ec1d0dd7a57ee1272dca5b9589548903cf43b46faf5d0c5ae871aff82bf15b1",
+                "actual": "4ec1d0dd7a57ee1272dca5b9589548903cf43b46faf5d0c5ae871aff82bf15b1"
+              },
+              {
+                "file": "public/games/tc-sim/js/events.js",
+                "expected": "6c477034dd3a26797cbbd3e0b3a603e4d5c3ccfcdd0ffcf694f53410caa88ec7",
+                "actual": "6c477034dd3a26797cbbd3e0b3a603e4d5c3ccfcdd0ffcf694f53410caa88ec7"
+              },
+              {
+                "file": "public/games/tc-sim/js/expansion-events.js",
+                "expected": "ebd2c3ec5c650a8949a4e5cb9758489edb4e20504c672fb3970992ae0a8791bb",
+                "actual": "ebd2c3ec5c650a8949a4e5cb9758489edb4e20504c672fb3970992ae0a8791bb"
+              },
+              {
+                "file": "public/games/tc-sim/js/help.js",
+                "expected": "7ddf55ef7baa5e1c93ab75620db0f36f9a31d9028c057bf09d705fec8b880c4a",
+                "actual": "7ddf55ef7baa5e1c93ab75620db0f36f9a31d9028c057bf09d705fec8b880c4a"
+              },
+              {
+                "file": "public/games/tc-sim/js/historical-scenarios.js",
+                "expected": "b19e6da08d2b3709a14dde31531887baf3258be8b7aef790b75100ca9d7081ba",
+                "actual": "b19e6da08d2b3709a14dde31531887baf3258be8b7aef790b75100ca9d7081ba"
+              },
+              {
+                "file": "public/games/tc-sim/js/household.js",
+                "expected": "656e635f4633bab3d8d953c7b4ec610ad31c72e855415c04ef6c32d72315460a",
+                "actual": "656e635f4633bab3d8d953c7b4ec610ad31c72e855415c04ef6c32d72315460a"
+              },
+              {
+                "file": "public/games/tc-sim/js/life-content.js",
+                "expected": "5ffe3519ef033dbaaf1e98b7c906bde01fd2f88f91aba05d006e1543ac1e1426",
+                "actual": "5ffe3519ef033dbaaf1e98b7c906bde01fd2f88f91aba05d006e1543ac1e1426"
+              },
+              {
+                "file": "public/games/tc-sim/js/life-depth.js",
+                "expected": "24d87393b866da8d364a36e9bde13cc484a510660b8b90e41a135c6039e6a90d",
+                "actual": "24d87393b866da8d364a36e9bde13cc484a510660b8b90e41a135c6039e6a90d"
+              },
+              {
+                "file": "public/games/tc-sim/js/life-echo-events.js",
+                "expected": "6afab3213ab70f3ee343a981c362b9da960e48fb8bd1562f63eb6d136def862d",
+                "actual": "6afab3213ab70f3ee343a981c362b9da960e48fb8bd1562f63eb6d136def862d"
+              },
+              {
+                "file": "public/games/tc-sim/js/life.js",
+                "expected": "126d6ab2624ad5525af5c76f5f38e65d7f6b9f75669d7e3184add945d2021e03",
+                "actual": "126d6ab2624ad5525af5c76f5f38e65d7f6b9f75669d7e3184add945d2021e03"
+              },
+              {
+                "file": "public/games/tc-sim/js/lifetime-ui.js",
+                "expected": "6a2b0e7888b9a574516fea4acad987ff59a258fb07cc0dd090945486783d5665",
+                "actual": "6a2b0e7888b9a574516fea4acad987ff59a258fb07cc0dd090945486783d5665"
+              },
+              {
+                "file": "public/games/tc-sim/js/lifetime.js",
+                "expected": "cbd168e52e3247c3f3488443d6d959e82d7fb66a23a7c03c2ede5cad020216d5",
+                "actual": "cbd168e52e3247c3f3488443d6d959e82d7fb66a23a7c03c2ede5cad020216d5"
+              },
+              {
+                "file": "public/games/tc-sim/js/navigation.js",
+                "expected": "27a4aa4a7f3621ea54db5d87321cfa2fbf5c5bb027a500d7ae68e37b1559e982",
+                "actual": "27a4aa4a7f3621ea54db5d87321cfa2fbf5c5bb027a500d7ae68e37b1559e982"
+              },
+              {
+                "file": "public/games/tc-sim/js/network.js",
+                "expected": "d84b00d4e8aded99f5bf68a41122d67696e3d5b13b365fb412e7820dc63bb2f9",
+                "actual": "d84b00d4e8aded99f5bf68a41122d67696e3d5b13b365fb412e7820dc63bb2f9"
+              },
+              {
+                "file": "public/games/tc-sim/js/parenthood.js",
+                "expected": "4cffaddc24904884f10819f1f3834d17fb131a9622b021e12cef2bf3993cf83c",
+                "actual": "4cffaddc24904884f10819f1f3834d17fb131a9622b021e12cef2bf3993cf83c"
+              },
+              {
+                "file": "public/games/tc-sim/js/realism-events.js",
+                "expected": "5c53b9e2c41a62f9786d04e13333e32c36f62c9b9d106444e1b17ee55c783b2e",
+                "actual": "5c53b9e2c41a62f9786d04e13333e32c36f62c9b9d106444e1b17ee55c783b2e"
+              },
+              {
+                "file": "public/games/tc-sim/js/save.js",
+                "expected": "ede73ef5c5838db632f81a08e6bbd807a4149ba6270e8acb369684473402bd8f",
+                "actual": "ede73ef5c5838db632f81a08e6bbd807a4149ba6270e8acb369684473402bd8f"
+              },
+              {
+                "file": "public/games/tc-sim/js/social.js",
+                "expected": "3f810daa48ac9048d0b058c6691d8b83318656063fd3b13312a67ed0d6bf824f",
+                "actual": "3f810daa48ac9048d0b058c6691d8b83318656063fd3b13312a67ed0d6bf824f"
+              },
+              {
+                "file": "public/games/tc-sim/js/state.js",
+                "expected": "02750dbe7ffd1e2b39b8894a2acb1d2b70e5617c10686cc7264033ea2f3f6986",
+                "actual": "02750dbe7ffd1e2b39b8894a2acb1d2b70e5617c10686cc7264033ea2f3f6986"
+              },
+              {
+                "file": "public/games/tc-sim/js/time.js",
+                "expected": "d683005a020b0fa1ceda661d644768747c5dfc6eb8b318a7b071169462c0a2ab",
+                "actual": "d683005a020b0fa1ceda661d644768747c5dfc6eb8b318a7b071169462c0a2ab"
+              },
+              {
+                "file": "public/games/tc-sim/js/wealth.js",
+                "expected": "e3abb83814145eda2ee9e9469343507e645d08e8211cd671b86bc87aaf20f9da",
+                "actual": "e3abb83814145eda2ee9e9469343507e645d08e8211cd671b86bc87aaf20f9da"
+              },
+              {
+                "file": "public/games/tc-sim/js/weekly-feedback.js",
+                "expected": "d00937d91648e6b3c1062b3f8358ac1a6510c72977f819b8f173e9b880c2fe64",
+                "actual": "d00937d91648e6b3c1062b3f8358ac1a6510c72977f819b8f173e9b880c2fe64"
+              },
+              {
+                "file": "public/games/tc-sim/styles.css",
+                "expected": "d9b98f45876c6aec84827abfddb7c5329ed62eb5af0e12ec2f2ee60f94625063",
+                "actual": "d9b98f45876c6aec84827abfddb7c5329ed62eb5af0e12ec2f2ee60f94625063"
+              }
+            ],
+            "browser": "pass"
+          },
+          "browserResults": [
+            {
+              "start": "present_day",
+              "seed": null,
+              "language": "tr",
+              "width": 1440,
+              "noOverflow": true,
+              "consoleErrors": 0,
+              "legacy": true,
+              "delayedAndFinal": false
+            },
+            {
+              "start": "1999-04-18",
+              "seed": null,
+              "language": "tr",
+              "width": 1440,
+              "noOverflow": true,
+              "consoleErrors": 0,
+              "legacy": false,
+              "delayedAndFinal": true
+            },
+            {
+              "start": "1980-01-01",
+              "seed": 1,
+              "language": "tr",
+              "width": 1440,
+              "noOverflow": true,
+              "consoleErrors": 0,
+              "legacy": false,
+              "delayedAndFinal": true
+            },
+            {
+              "start": "1984-01-01",
+              "seed": 49,
+              "language": "tr",
+              "width": 1440,
+              "noOverflow": true,
+              "consoleErrors": 0,
+              "legacy": false,
+              "delayedAndFinal": true
+            },
+            {
+              "start": "1988-01-01",
+              "seed": 48,
+              "language": "tr",
+              "width": 1440,
+              "noOverflow": true,
+              "consoleErrors": 0,
+              "legacy": false,
+              "delayedAndFinal": true
+            },
+            {
+              "start": "present_day",
+              "seed": null,
+              "language": "tr",
+              "width": 390,
+              "noOverflow": true,
+              "consoleErrors": 0,
+              "legacy": true,
+              "delayedAndFinal": false
+            },
+            {
+              "start": "1999-04-18",
+              "seed": null,
+              "language": "tr",
+              "width": 390,
+              "noOverflow": true,
+              "consoleErrors": 0,
+              "legacy": false,
+              "delayedAndFinal": true
+            },
+            {
+              "start": "1980-01-01",
+              "seed": 1,
+              "language": "tr",
+              "width": 390,
+              "noOverflow": true,
+              "consoleErrors": 0,
+              "legacy": false,
+              "delayedAndFinal": true
+            },
+            {
+              "start": "1984-01-01",
+              "seed": 49,
+              "language": "tr",
+              "width": 390,
+              "noOverflow": true,
+              "consoleErrors": 0,
+              "legacy": false,
+              "delayedAndFinal": true
+            },
+            {
+              "start": "1988-01-01",
+              "seed": 48,
+              "language": "tr",
+              "width": 390,
+              "noOverflow": true,
+              "consoleErrors": 0,
+              "legacy": false,
+              "delayedAndFinal": true
+            }
+          ]
+        },
+        "www": {
+          "artifact": "https://github.com/tayaz-maker/tariklab/actions/runs/37222532649/artifacts/11310288981",
+          "production": {
+            "checkedAt": "2026-10-04T17:58:28.385Z",
+            "origin": "https://www.tariklab.com",
+            "game": "tc-sim",
+            "mergeSha": "d1ea695b76fba15c284690c07cf818316cd97f10",
+            "files": [
+              "public/games/tc-sim/index.html",
+              "public/games/tc-sim/js/adult-life-events.js",
+              "public/games/tc-sim/js/app.js",
+              "public/games/tc-sim/js/body-events.js",
+              "public/games/tc-sim/js/body-systems.js",
+              "public/games/tc-sim/js/calendar.js",
+              "public/games/tc-sim/js/catalog.js",
+              "public/games/tc-sim/js/decision-network.js",
+              "public/games/tc-sim/js/depth-events.js",
+              "public/games/tc-sim/js/depth2-events.js",
+              "public/games/tc-sim/js/depth2-systems.js",
+              "public/games/tc-sim/js/depth3-events.js",
+              "public/games/tc-sim/js/depth3-systems.js",
+              "public/games/tc-sim/js/desk.js",
+              "public/games/tc-sim/js/education.js",
+              "public/games/tc-sim/js/eras.js",
+              "public/games/tc-sim/js/events.js",
+              "public/games/tc-sim/js/expansion-events.js",
+              "public/games/tc-sim/js/help.js",
+              "public/games/tc-sim/js/historical-scenarios.js",
+              "public/games/tc-sim/js/household.js",
+              "public/games/tc-sim/js/life-content.js",
+              "public/games/tc-sim/js/life-depth.js",
+              "public/games/tc-sim/js/life-echo-events.js",
+              "public/games/tc-sim/js/life.js",
+              "public/games/tc-sim/js/lifetime-ui.js",
+              "public/games/tc-sim/js/lifetime.js",
+              "public/games/tc-sim/js/navigation.js",
+              "public/games/tc-sim/js/network.js",
+              "public/games/tc-sim/js/parenthood.js",
+              "public/games/tc-sim/js/realism-events.js",
+              "public/games/tc-sim/js/save.js",
+              "public/games/tc-sim/js/social.js",
+              "public/games/tc-sim/js/state.js",
+              "public/games/tc-sim/js/time.js",
+              "public/games/tc-sim/js/wealth.js",
+              "public/games/tc-sim/js/weekly-feedback.js",
+              "public/games/tc-sim/styles.css"
+            ],
+            "assets": [
+              {
+                "file": "public/games/tc-sim/index.html",
+                "expected": "73ee855c58cfde7e1beebc39b9b99383d8404afdc68c852d2c1da7ce3f9cd637",
+                "actual": "73ee855c58cfde7e1beebc39b9b99383d8404afdc68c852d2c1da7ce3f9cd637"
+              },
+              {
+                "file": "public/games/tc-sim/js/adult-life-events.js",
+                "expected": "0b89756301795fcd3a176c2d8e4da7f6456b47fbd9e2e3cee17a5e5d03a19fe0",
+                "actual": "0b89756301795fcd3a176c2d8e4da7f6456b47fbd9e2e3cee17a5e5d03a19fe0"
+              },
+              {
+                "file": "public/games/tc-sim/js/app.js",
+                "expected": "0c2ab62023469c093c3395bef8128276e9590aba4e5e8d76083bc041d6e2367f",
+                "actual": "0c2ab62023469c093c3395bef8128276e9590aba4e5e8d76083bc041d6e2367f"
+              },
+              {
+                "file": "public/games/tc-sim/js/body-events.js",
+                "expected": "e6fb084d6fb805af0ab18c61450cb035d7118a9c7ac4da886e96ca249dde0c40",
+                "actual": "e6fb084d6fb805af0ab18c61450cb035d7118a9c7ac4da886e96ca249dde0c40"
+              },
+              {
+                "file": "public/games/tc-sim/js/body-systems.js",
+                "expected": "33e75f96f1dc29849abafa17bb247f95d057944c72656e6fad3e87a2abd196f7",
+                "actual": "33e75f96f1dc29849abafa17bb247f95d057944c72656e6fad3e87a2abd196f7"
+              },
+              {
+                "file": "public/games/tc-sim/js/calendar.js",
+                "expected": "258f8d0d16296ba3dee1a4516a5313fcf8dd89f704390232b18978898187cbda",
+                "actual": "258f8d0d16296ba3dee1a4516a5313fcf8dd89f704390232b18978898187cbda"
+              },
+              {
+                "file": "public/games/tc-sim/js/catalog.js",
+                "expected": "de4efbb7219f72dd0cc78f497669e49df164c0a29b311db84f6add658e2d7df8",
+                "actual": "de4efbb7219f72dd0cc78f497669e49df164c0a29b311db84f6add658e2d7df8"
+              },
+              {
+                "file": "public/games/tc-sim/js/decision-network.js",
+                "expected": "872ea67f3d799534f38f1e0b57dff716d1fd7070f35a3b77c9a3e2865ee873bb",
+                "actual": "872ea67f3d799534f38f1e0b57dff716d1fd7070f35a3b77c9a3e2865ee873bb"
+              },
+              {
+                "file": "public/games/tc-sim/js/depth-events.js",
+                "expected": "98742aeba5302275a74931b398486262ad1640f38af49721294f60e8de6ab044",
+                "actual": "98742aeba5302275a74931b398486262ad1640f38af49721294f60e8de6ab044"
+              },
+              {
+                "file": "public/games/tc-sim/js/depth2-events.js",
+                "expected": "7d1a341e95331510b6f69032b1a4f1ece6350c98cea7fc7df972b2d600b34030",
+                "actual": "7d1a341e95331510b6f69032b1a4f1ece6350c98cea7fc7df972b2d600b34030"
+              },
+              {
+                "file": "public/games/tc-sim/js/depth2-systems.js",
+                "expected": "4c3f63c182b378f726cbdf5771044d8dccd514f5b74f1e90c81c60a561bced45",
+                "actual": "4c3f63c182b378f726cbdf5771044d8dccd514f5b74f1e90c81c60a561bced45"
+              },
+              {
+                "file": "public/games/tc-sim/js/depth3-events.js",
+                "expected": "9c1f0feebe580a608bf6c80e97e28433b885ba418440f00a86fede00aacd2df3",
+                "actual": "9c1f0feebe580a608bf6c80e97e28433b885ba418440f00a86fede00aacd2df3"
+              },
+              {
+                "file": "public/games/tc-sim/js/depth3-systems.js",
+                "expected": "d24f81fcc9c4c8e78705312baac9199a24cc17c573914ef3a50d9ba1a88bf742",
+                "actual": "d24f81fcc9c4c8e78705312baac9199a24cc17c573914ef3a50d9ba1a88bf742"
+              },
+              {
+                "file": "public/games/tc-sim/js/desk.js",
+                "expected": "35a103998f32a9666b292e309f3e9a507067940c08f8f5f24efcca8ca88241bb",
+                "actual": "35a103998f32a9666b292e309f3e9a507067940c08f8f5f24efcca8ca88241bb"
+              },
+              {
+                "file": "public/games/tc-sim/js/education.js",
+                "expected": "19846a1c47592ebf688484ec2d043234e983ebbbca9541f20c466d4320d78c48",
+                "actual": "19846a1c47592ebf688484ec2d043234e983ebbbca9541f20c466d4320d78c48"
+              },
+              {
+                "file": "public/games/tc-sim/js/eras.js",
+                "expected": "4ec1d0dd7a57ee1272dca5b9589548903cf43b46faf5d0c5ae871aff82bf15b1",
+                "actual": "4ec1d0dd7a57ee1272dca5b9589548903cf43b46faf5d0c5ae871aff82bf15b1"
+              },
+              {
+                "file": "public/games/tc-sim/js/events.js",
+                "expected": "6c477034dd3a26797cbbd3e0b3a603e4d5c3ccfcdd0ffcf694f53410caa88ec7",
+                "actual": "6c477034dd3a26797cbbd3e0b3a603e4d5c3ccfcdd0ffcf694f53410caa88ec7"
+              },
+              {
+                "file": "public/games/tc-sim/js/expansion-events.js",
+                "expected": "ebd2c3ec5c650a8949a4e5cb9758489edb4e20504c672fb3970992ae0a8791bb",
+                "actual": "ebd2c3ec5c650a8949a4e5cb9758489edb4e20504c672fb3970992ae0a8791bb"
+              },
+              {
+                "file": "public/games/tc-sim/js/help.js",
+                "expected": "7ddf55ef7baa5e1c93ab75620db0f36f9a31d9028c057bf09d705fec8b880c4a",
+                "actual": "7ddf55ef7baa5e1c93ab75620db0f36f9a31d9028c057bf09d705fec8b880c4a"
+              },
+              {
+                "file": "public/games/tc-sim/js/historical-scenarios.js",
+                "expected": "b19e6da08d2b3709a14dde31531887baf3258be8b7aef790b75100ca9d7081ba",
+                "actual": "b19e6da08d2b3709a14dde31531887baf3258be8b7aef790b75100ca9d7081ba"
+              },
+              {
+                "file": "public/games/tc-sim/js/household.js",
+                "expected": "656e635f4633bab3d8d953c7b4ec610ad31c72e855415c04ef6c32d72315460a",
+                "actual": "656e635f4633bab3d8d953c7b4ec610ad31c72e855415c04ef6c32d72315460a"
+              },
+              {
+                "file": "public/games/tc-sim/js/life-content.js",
+                "expected": "5ffe3519ef033dbaaf1e98b7c906bde01fd2f88f91aba05d006e1543ac1e1426",
+                "actual": "5ffe3519ef033dbaaf1e98b7c906bde01fd2f88f91aba05d006e1543ac1e1426"
+              },
+              {
+                "file": "public/games/tc-sim/js/life-depth.js",
+                "expected": "24d87393b866da8d364a36e9bde13cc484a510660b8b90e41a135c6039e6a90d",
+                "actual": "24d87393b866da8d364a36e9bde13cc484a510660b8b90e41a135c6039e6a90d"
+              },
+              {
+                "file": "public/games/tc-sim/js/life-echo-events.js",
+                "expected": "6afab3213ab70f3ee343a981c362b9da960e48fb8bd1562f63eb6d136def862d",
+                "actual": "6afab3213ab70f3ee343a981c362b9da960e48fb8bd1562f63eb6d136def862d"
+              },
+              {
+                "file": "public/games/tc-sim/js/life.js",
+                "expected": "126d6ab2624ad5525af5c76f5f38e65d7f6b9f75669d7e3184add945d2021e03",
+                "actual": "126d6ab2624ad5525af5c76f5f38e65d7f6b9f75669d7e3184add945d2021e03"
+              },
+              {
+                "file": "public/games/tc-sim/js/lifetime-ui.js",
+                "expected": "6a2b0e7888b9a574516fea4acad987ff59a258fb07cc0dd090945486783d5665",
+                "actual": "6a2b0e7888b9a574516fea4acad987ff59a258fb07cc0dd090945486783d5665"
+              },
+              {
+                "file": "public/games/tc-sim/js/lifetime.js",
+                "expected": "cbd168e52e3247c3f3488443d6d959e82d7fb66a23a7c03c2ede5cad020216d5",
+                "actual": "cbd168e52e3247c3f3488443d6d959e82d7fb66a23a7c03c2ede5cad020216d5"
+              },
+              {
+                "file": "public/games/tc-sim/js/navigation.js",
+                "expected": "27a4aa4a7f3621ea54db5d87321cfa2fbf5c5bb027a500d7ae68e37b1559e982",
+                "actual": "27a4aa4a7f3621ea54db5d87321cfa2fbf5c5bb027a500d7ae68e37b1559e982"
+              },
+              {
+                "file": "public/games/tc-sim/js/network.js",
+                "expected": "d84b00d4e8aded99f5bf68a41122d67696e3d5b13b365fb412e7820dc63bb2f9",
+                "actual": "d84b00d4e8aded99f5bf68a41122d67696e3d5b13b365fb412e7820dc63bb2f9"
+              },
+              {
+                "file": "public/games/tc-sim/js/parenthood.js",
+                "expected": "4cffaddc24904884f10819f1f3834d17fb131a9622b021e12cef2bf3993cf83c",
+                "actual": "4cffaddc24904884f10819f1f3834d17fb131a9622b021e12cef2bf3993cf83c"
+              },
+              {
+                "file": "public/games/tc-sim/js/realism-events.js",
+                "expected": "5c53b9e2c41a62f9786d04e13333e32c36f62c9b9d106444e1b17ee55c783b2e",
+                "actual": "5c53b9e2c41a62f9786d04e13333e32c36f62c9b9d106444e1b17ee55c783b2e"
+              },
+              {
+                "file": "public/games/tc-sim/js/save.js",
+                "expected": "ede73ef5c5838db632f81a08e6bbd807a4149ba6270e8acb369684473402bd8f",
+                "actual": "ede73ef5c5838db632f81a08e6bbd807a4149ba6270e8acb369684473402bd8f"
+              },
+              {
+                "file": "public/games/tc-sim/js/social.js",
+                "expected": "3f810daa48ac9048d0b058c6691d8b83318656063fd3b13312a67ed0d6bf824f",
+                "actual": "3f810daa48ac9048d0b058c6691d8b83318656063fd3b13312a67ed0d6bf824f"
+              },
+              {
+                "file": "public/games/tc-sim/js/state.js",
+                "expected": "02750dbe7ffd1e2b39b8894a2acb1d2b70e5617c10686cc7264033ea2f3f6986",
+                "actual": "02750dbe7ffd1e2b39b8894a2acb1d2b70e5617c10686cc7264033ea2f3f6986"
+              },
+              {
+                "file": "public/games/tc-sim/js/time.js",
+                "expected": "d683005a020b0fa1ceda661d644768747c5dfc6eb8b318a7b071169462c0a2ab",
+                "actual": "d683005a020b0fa1ceda661d644768747c5dfc6eb8b318a7b071169462c0a2ab"
+              },
+              {
+                "file": "public/games/tc-sim/js/wealth.js",
+                "expected": "e3abb83814145eda2ee9e9469343507e645d08e8211cd671b86bc87aaf20f9da",
+                "actual": "e3abb83814145eda2ee9e9469343507e645d08e8211cd671b86bc87aaf20f9da"
+              },
+              {
+                "file": "public/games/tc-sim/js/weekly-feedback.js",
+                "expected": "d00937d91648e6b3c1062b3f8358ac1a6510c72977f819b8f173e9b880c2fe64",
+                "actual": "d00937d91648e6b3c1062b3f8358ac1a6510c72977f819b8f173e9b880c2fe64"
+              },
+              {
+                "file": "public/games/tc-sim/styles.css",
+                "expected": "d9b98f45876c6aec84827abfddb7c5329ed62eb5af0e12ec2f2ee60f94625063",
+                "actual": "d9b98f45876c6aec84827abfddb7c5329ed62eb5af0e12ec2f2ee60f94625063"
+              }
+            ],
+            "browser": "pass"
+          },
+          "browserResults": [
+            {
+              "start": "present_day",
+              "seed": null,
+              "language": "tr",
+              "width": 1440,
+              "noOverflow": true,
+              "consoleErrors": 0,
+              "legacy": true,
+              "delayedAndFinal": false
+            },
+            {
+              "start": "1999-04-18",
+              "seed": null,
+              "language": "tr",
+              "width": 1440,
+              "noOverflow": true,
+              "consoleErrors": 0,
+              "legacy": false,
+              "delayedAndFinal": true
+            },
+            {
+              "start": "1980-01-01",
+              "seed": 1,
+              "language": "tr",
+              "width": 1440,
+              "noOverflow": true,
+              "consoleErrors": 0,
+              "legacy": false,
+              "delayedAndFinal": true
+            },
+            {
+              "start": "1984-01-01",
+              "seed": 49,
+              "language": "tr",
+              "width": 1440,
+              "noOverflow": true,
+              "consoleErrors": 0,
+              "legacy": false,
+              "delayedAndFinal": true
+            },
+            {
+              "start": "1988-01-01",
+              "seed": 48,
+              "language": "tr",
+              "width": 1440,
+              "noOverflow": true,
+              "consoleErrors": 0,
+              "legacy": false,
+              "delayedAndFinal": true
+            },
+            {
+              "start": "present_day",
+              "seed": null,
+              "language": "tr",
+              "width": 390,
+              "noOverflow": true,
+              "consoleErrors": 0,
+              "legacy": true,
+              "delayedAndFinal": false
+            },
+            {
+              "start": "1999-04-18",
+              "seed": null,
+              "language": "tr",
+              "width": 390,
+              "noOverflow": true,
+              "consoleErrors": 0,
+              "legacy": false,
+              "delayedAndFinal": true
+            },
+            {
+              "start": "1980-01-01",
+              "seed": 1,
+              "language": "tr",
+              "width": 390,
+              "noOverflow": true,
+              "consoleErrors": 0,
+              "legacy": false,
+              "delayedAndFinal": true
+            },
+            {
+              "start": "1984-01-01",
+              "seed": 49,
+              "language": "tr",
+              "width": 390,
+              "noOverflow": true,
+              "consoleErrors": 0,
+              "legacy": false,
+              "delayedAndFinal": true
+            },
+            {
+              "start": "1988-01-01",
+              "seed": 48,
+              "language": "tr",
+              "width": 390,
+              "noOverflow": true,
+              "consoleErrors": 0,
+              "legacy": false,
+              "delayedAndFinal": true
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "harnessRepair": {
+    "firstRun": "https://github.com/tayaz-maker/tariklab/actions/runs/37221795516",
+    "observed": "Racon 390px post-landscape repaint count 1 -> 2 during initial ResizeObserver delivery.",
+    "resolution": "Bounded <=1.5s settling trace, then unchanged 250ms no-idle-paint assertion. Both production hosts settle at 2 and remain unchanged; production code was not modified."
+  },
+  "remainingRisks": [
+    "Physical-GPU visual/performance acceptance was not run.",
+    "Final npm audit: one high finding, brace-expansion in ESLint/typescript-eslint development dependencies; no general audit-clean claim.",
+    "Existing TC SIM present-day desktop lower inbox/people cards are narrow; dashboard markup/layout was not changed by #106. No redesign in this release."
+  ]
+}

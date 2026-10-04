@@ -30,3 +30,16 @@ Kaynak: `TARIKLAB_REMAINING_WORK_COMPLETION_QUEUE.md`. Satır, merge ve producti
 - İHTİLÂL [#84](https://github.com/tayaz-maker/tariklab/pull/84) branch `grok/ihtilal-single` `d6240a8`. Yerel: `ihtilal-solo` + `ihtilal.test` geçti. Tarayıcı 1280 ve 360: 19 karar, bitiş, taşma yok, sayfa hatası yok. CI henüz yeşil değil; kör merge yok.
 - Sıradaki kod: CI yeşilse #84 merge + production `index.html` / `solo-app.js` doğrula, durumu DONE yaz. Sonra Son 100 Gün POV. Novella LATER.
 
+## 2026-10-04 — sıralı release kapanışı
+
+Her satır gerçek head üzerinde 7/7 yeşil kontrol, expected-head merge ve **iki hostta** (`www.tariklab.com`, `tariklab.tayaz29.workers.dev`) üretim kanıtıyla kapandı.
+
+| Yayın | Durum / merge SHA | CI | Production kanıtı |
+| --- | --- | --- | --- |
+| [#105 Racon](https://github.com/tayaz-maker/tariklab/pull/105) | DONE · `7315055785fa90a46e87c1264c23cfdbb60b3d7b` | [37220177294](https://github.com/tayaz-maker/tariklab/actions/runs/37220177294) | [37221945549](https://github.com/tayaz-maker/tariklab/actions/runs/37221945549): her host 6/6 dosya, 34 kontrol; 1440/390, karar, save/reload, Pixi/SVG, context-loss/resize/cleanup, konsol ve taşma PASS. |
+| [#107 JITEM](https://github.com/tayaz-maker/tariklab/pull/107) | DONE · `82c731c91b40894060936d9299a61644c970241f` | [37220657803](https://github.com/tayaz-maker/tariklab/actions/runs/37220657803) | [37222399263](https://github.com/tayaz-maker/tariklab/actions/runs/37222399263): her host 31/31 dosya, dört 1440/390 × Pixi/no-WebGL senaryosu; bozuk primary → geçerli backup, ilk okumada bozuk veriyi koruma, normal persistence ile onarım, reload ve SVG/context-loss PASS. |
+| [#106 TC SIM](https://github.com/tayaz-maker/tariklab/pull/106) | DONE · `d1ea695b76fba15c284690c07cf818316cd97f10` | [37220702175](https://github.com/tayaz-maker/tariklab/actions/runs/37220702175) | [37222532649](https://github.com/tayaz-maker/tariklab/actions/runs/37222532649): her host 38/38 dosya, 10 senaryo; Günümüz, 18 Nisan 1999, 1980/84/88 (seed 1/49/48), 1440/390, eski/yeni kayıt, gecikmiş etki ve 2026 sonu PASS. |
+
+Tam dosya SHA-256 değerleri, senaryo sonuçları ve PNG artifact bağlantıları: [makine tarafından okunabilir kanıt](evidence/2026-10-04-release.json). Sıfır uygulama konsol hatası / yatay taşma. Testler temiz, ayrı browser context'lerinde yapıldı; kullanıcı kayıtlarına dokunulmadı. Merge ağaçları sırasıyla `3c3f4e4`, `6ff2bac`, `ff1c187` ile test edilen aday ağaçlarıyla eşleşti.
+
+Açık sınırlar: fiziksel GPU ölçülmedi (Pixi gerçek WebGL/SwiftShader); final npm audit'te geliştirme araçlarından gelen tek high `brace-expansion` bulgusu var. TC SIM Günümüz masaüstü alt gündem/kişi kartlarının mevcut dar sütun görünümü ayrıca gözlendi; ilgili dashboard markup/layout #106'da değişmedi. Bu kapanış yeni UI kapsamı açmaz. Novella LATER; SON KÖY WIP ayrı dalında korundu.

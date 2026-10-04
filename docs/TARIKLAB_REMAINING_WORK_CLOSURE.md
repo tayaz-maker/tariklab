@@ -73,3 +73,15 @@ Hukuk/marka onayı beklenmedi; yayın yetkisi sahipte. Uygulanan ölçüt:
 
 - Gerçek oyuncu testi yok.
 - PL oyun gövdesi artık Lehçe ([#97](https://github.com/tayaz-maker/tariklab/pull/97)); Çete Savaşları ve JITEM kapsam dışı. Anadil kontrolü hâlâ yok — çeviriler gözden geçirilmedi.
+
+## 2026-10-04 — sıralı release kapanışı
+
+#105 → #107 → #106 sırası tamamlandı. Gerçek merge SHA'ları, son head CI'ları ve iki-host production sonuçları [status tablosunda](TARIKLAB_REMAINING_WORK_STATUS.md#2026-10-04--sıralı-release-kapanışı); ham dosya hashleri ve browser sonuçları [kanıt kaydında](evidence/2026-10-04-release.json).
+
+TanStack engeli main ve üç adayda ortak çıktı: doğrudan React Start `1.168.48` → tam pin `1.168.60`, transitif server-core `1.169.30` → `1.169.39`. [Maintainer kaynakları ve npm 10 repro](sources/TANSTACK_SECURITY_2026-09-30.md) kayıtlı. Notices sürümleri güncellendi; güvenlik kapısı/required checks değiştirilmedi. Üç son head ve üç production merge'inin Vercel durumları success oldu. Aynı sona eklenen handoff belgeleri korunarak bağımlılık sırası entegre edildi.
+
+Racon production testinin ilk çalışması mobil yeniden boyutlandırmada tek gecikmiş çizimi idle ticker sanarak durdu. Test-only dalında sınırlı settling ölçümü eklendi; ardından mevcut idle assertion korunarak iki hostta 34'er kontrol geçti. Ürün kodu bu ölçüm için değişmedi. `astra/closure-production-proof` yalnız kanıt dalıdır, main'e merge edilmez.
+
+JITEM canonical kaynak `tayaz-maker/jitem-derin-ag` #21 / `0c1fc08db3f050ebf34e237ef4fd1018ba223293`; save key `jitem-derin-ag-v3`, schema 5, tarihsel içerik ve hesap kuralları aynı. TC SIM kaynak kayıtları ve tarihsel uygulaması release düzeltmesinde değiştirilmedi. Racon üç-slot sözleşmesi korundu.
+
+Production kapsamı 1440/390; TC SIM final-head CI ayrıca TR/EN/PL × 1440/390/320'de 45 tarihsel senaryo kontrolünü geçti. Fiziksel GPU ve gerçek oyuncu testi yapılmadı. Açık lint bağımlılığı bulgusu ve mevcut TC SIM alt-kart darlığı status'ta açıkça kayıtlı; genel güvenlik veya kusursuz görsel kalite iddiası yok. Novella LATER; yeni oyun/görsel işi başlatılmadı.

@@ -112,3 +112,16 @@ PR #101 remains Terra's responsibility. Novella remains **LATER**.
 - Tam repo: ilk koşu 1.589 PASS / 1 FAIL / 1 mevcut skip; tek Pixi fixture engeli küçültülmüş repro sonrası 7/7 hedefli testle kapandı; tam yeniden koşu PR CI'ında.
 - Açık risk: vendor browser/fiziksel GPU/production doğrulanmadı; yerel Chromium indirilemedi; üretilmiş shader boşlukları korunur.
 - Sonraki adım: dar vendor PR'ında gerçek head'in CI'sı ve release doğrulaması; CI bekleme/merge yok. SON KÖY ayrı branch'te korunuyor.
+
+## 2026-10-04 — sıralı release kapanışı
+
+- Hedef: #105 → #107 → #106 yayınlarını CI ve iki-host production kanıtıyla kapatmak.
+- Oyuncu değeri: Racon sokak kararları, JITEM kayıt kurtarma/karar atlası ve TC SIM tarihsel başlangıçları canlıda kullanılabiliyor.
+- Branch: `astra/release-closure-2026-10-04`; release main: `d1ea695b76fba15c284690c07cf818316cd97f10`.
+- Merge SHA: #105 `7315055785fa90a46e87c1264c23cfdbb60b3d7b`; #107 `82c731c91b40894060936d9299a61644c970241f`; #106 `d1ea695b76fba15c284690c07cf818316cd97f10`.
+- Değişen kayıtlar: status, closure, run-state, web ledger, TanStack kaynak notu ve `docs/evidence/2026-10-04-release.json`; bu checkpoint ürün kodunu değiştirmez.
+- CI: her son head 7/7 success; run 37220177294 / 37220657803 / 37220702175. TanStack pin/lock/notices düzeltildi; koruma bypass edilmedi.
+- Production: www + workers, 1440/390; Racon 34'er, JITEM 4'er, TC SIM 10'ar kontrol PASS; 6/31/38 dosya hashleri iki hostta eşleşti, konsol/taşma 0.
+- Kanıt: `docs/evidence/2026-10-04-release.json`; test-only branch `astra/closure-production-proof`, main'e merge edilmez.
+- Açık risk: fiziksel GPU yok; lint zincirinde bir high `brace-expansion`; TC SIM mevcut alt-kart darlığı. Save key/schema/içerik korunur.
+- Sonraki adım: bu üç yayın kapalı; yeni kapsam açma. SON KÖY WIP korunuyor; Novella LATER.

@@ -43,3 +43,9 @@ Regenerating with npm 10.9.9 restored that entry (plus one dependency-classifica
 flag), and npm 10.9.9 `ci --dry-run` passed. The patch also regenerates the existing
 third-party notices with `scripts/ip/third-party-notices.mjs`; license texts stay
 unchanged while their recorded package versions follow the lock.
+
+## 2026-10-04 — sıralı release kapanışı
+
+Final Node 22/npm 10 CI passed on all three heads; all listed checks were 7/7 before merge. Vercel accepted both the final previews and production merge commits `7315055`, `82c731c`, `d1ea695`. Actual two-host production hashes/browser outcomes are preserved in `../evidence/2026-10-04-release.json`; the earlier private deployment-log API limitation is not represented as a verified log diagnosis.
+
+Final `npm audit --json --package-lock-only` reports one high finding in `brace-expansion`, via the ESLint/typescript-eslint development toolchain. `fast-uri` is absent from the final installed tree and final audit. This bounded TanStack remediation does not claim a generally clean dependency audit. No historical content, save schema/key or calculation-rule adjustment was used to resolve the release block.
