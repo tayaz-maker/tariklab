@@ -14,6 +14,7 @@ const FILES = [
   "map.js",
   "map-pixi.js",
   "map-factory.js",
+  "map-dom.js",
   "mapintel.js",
   "orders.js",
   "save.js",

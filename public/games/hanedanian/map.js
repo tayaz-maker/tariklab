@@ -89,6 +89,46 @@ function path(ctx, points, close = false) {
   if (close) ctx.closePath();
 }
 
+// Only real road neighbours are joined. A west/north-only endpoint is not an
+// isolated road; the old forward-only test added a misleading second stub.
+// Avoid diagonal shortcuts across the inside of an existing right-angle bend.
+export function roadSegments(world) {
+  const road = (x, y) => x >= 0 && y >= 0 && x < world.size && y < world.size && ['road', 'pass'].includes(world.tiles[y * world.size + x]?.terrain);
+  const segments = [];
+  for (const tile of world.tiles) {
+    if (tile.terrain !== 'road' && tile.terrain !== 'pass') continue;
+    const { x, y } = tile;
+    let neighbours = 0;
+    for (const [dx, dy] of [[1, 0], [0, 1], [-1, 0], [0, -1], [1, 1], [-1, 1], [1, -1], [-1, -1]]) {
+      if (!road(x + dx, y + dy)) continue;
+      neighbours++;
+      if (dy < 0 || (dy === 0 && dx < 0)) continue;
+      if (dx && dy && (road(x + dx, y) || road(x, y + dy))) continue;
+      segments.push([x + .5, y + .5, x + dx + .5, y + dy + .5]);
+    }
+    if (!neighbours) segments.push([x + .34, y + .58, x + .66, y + .42]);
+  }
+  return segments;
+}
+
+// Pure visual intersections: crossings do not invent blocked rivers or costs.
+export function riverCrossings(segments, river) {
+  const crossings = [];
+  for (const [ax, ay, bx, by] of segments) for (let i = 1; i < river.length; i++) {
+    const a = river[i - 1], b = river[i];
+    if (b.y - a.y > 3) continue;
+    const cx = a.x + .5, cy = a.y + .5, dx = b.x - a.x, dy = b.y - a.y;
+    const rx = bx - ax, ry = by - ay, det = rx * dy - ry * dx;
+    if (Math.abs(det) < .001) continue;
+    const t = ((cx - ax) * dy - (cy - ay) * dx) / det;
+    const u = ((cx - ax) * ry - (cy - ay) * rx) / det;
+    if (t < 0 || t > 1 || u < 0 || u > 1) continue;
+    const x = ax + t * rx, y = ay + t * ry;
+    if (!crossings.some((p) => Math.hypot(p.x - x, p.y - y) < .2)) crossings.push({ x, y, angle: Math.atan2(ry, rx) });
+  }
+  return crossings;
+}
+
 export class StrategyMap {
   constructor(canvas, options = {}) {
     this.canvas = canvas;
@@ -167,12 +207,18 @@ export class StrategyMap {
     this.state = state;
     this.settlements = new Map((state.settlements || []).map((s) => [`${s.x},${s.y}`, s]));
     this.factions = new Map((state.factions || []).map((f) => [f.id, f]));
+    this.capitalIds = new Set();
+    const capitalOwners = new Set();
+    for (const town of state.settlements || []) if (!capitalOwners.has(town.ownerId)) { capitalOwners.add(town.ownerId); this.capitalIds.add(town.id); }
+    this.cachedTradeLinks = new Map();
+    this.cachedRelations = relationMarks(state);
     // Visibility is simulation-dependent, so calculate once per state update,
     // never scan all watchtowers for every army on every pan/pinch frame.
     this.visibleArmies = (state.armies || []).filter((army) => isArmyVisible(state, army));
     this.threats = incomingThreats(state);
     this.presence = regionPresence(state);
     if (changedWorld) {
+      this.transportSegments = roadSegments(state.world);
       this.minimapTerrain = null;
       this.resetTerrainCaches();
       // The generator's river valley is several tiles wide. Draw its centerline,
@@ -189,6 +235,7 @@ export class StrategyMap {
         }
         if (bestStart >= 0) this.riverPoints.push({ x: bestStart + (bestLength - 1) / 2, y });
       }
+      this.transportCrossings = riverCrossings(this.transportSegments, this.riverPoints);
     }
     if (first) {
       const home = state.settlements.find((s) => s.ownerId === state.playerId);
@@ -221,6 +268,7 @@ export class StrategyMap {
   }
 
   isCapital(settlement) {
+    if (this.capitalIds) return this.capitalIds.has(settlement.id);
     const own = (this.state?.settlements || []).filter((s) => s.ownerId === settlement.ownerId);
     return own[0]?.id === settlement.id;
   }
@@ -458,7 +506,6 @@ export class StrategyMap {
     yield* atlasBands(g, size*ppt, size*ppt, () => g.drawImage(plate,0,0,size*ppt,size*ppt));
     yield* this.paintCanopyMasses(g, ppt, mode);
     yield* this.paintFieldFurrows(g, ppt, mode);
-    yield* this.paintRiverBed(g, ppt);
     // Contour engraving gives valleys and foothills a geographical silhouette.
     if(mode!=='world') {
       g.lineWidth=Math.max(.45,ppt*.008);g.strokeStyle='rgba(211,190,135,.16)';
@@ -532,6 +579,11 @@ export class StrategyMap {
       }
       yield ATLAS_FLUSH;
     }
+    // Water and tracks sit above the landform engravings. They are static:
+    // baked once per zoom, never retraced during a drag or a diplomacy tick.
+    yield* this.paintRiverBed(g, ppt, mode);
+    yield* this.paintTransport(g, ppt, mode);
+    yield* this.paintSiteGround(g, ppt, mode);
     // Low warm light integrates materials without hiding the map's information.
     const wash=g.createLinearGradient(0,0,size*ppt*.42,size*ppt*.42);
     wash.addColorStop(0,'rgba(230,188,101,.16)');wash.addColorStop(1,'rgba(0,0,0,0)');g.fillStyle=wash;
@@ -599,7 +651,7 @@ export class StrategyMap {
   }
 
   // Carved valley: dark bed, water, northwest lip. Gameplay centerline is unchanged.
-  *paintRiverBed(g, ppt) {
+  *paintRiverBed(g, ppt, mode) {
     const pts = this.riverPoints;
     if (!pts || pts.length < 2) return;
     const stroke = (width, color, dx, dy) => {
@@ -621,9 +673,80 @@ export class StrategyMap {
       g.stroke();
     };
     stroke(.62, 'rgba(6,10,12,.55)', ppt * .12, ppt * .14);
+    stroke(.4, '#547166', -ppt * .035, -ppt * .03);
     stroke(.3, '#1c3336', 0, 0);
+    stroke(.22, COLORS.water, 0, 0);
+    stroke(.095, '#5d8783', -ppt * .025, -ppt * .03);
     stroke(.07, 'rgba(154,176,164,.7)', -ppt * .05, -ppt * .06);
     yield ATLAS_FLUSH;
+    if (mode !== 'near') return;
+    for (let i = 1; i < pts.length; i += 2) {
+      const p = pts[i];
+      const x = (p.x + .5) * ppt, y = (p.y + .5) * ppt;
+      g.lineWidth = ppt * .012; g.strokeStyle = 'rgba(204,222,191,.38)';
+      path(g, [[x - ppt * .075, y], [x - ppt * .03, y - ppt * .055], [x + ppt * .025, y - ppt * .07]]); g.stroke();
+      g.strokeStyle = 'rgba(145,158,103,.62)';
+      for (const side of [-1, 1]) for (let reed = 0; reed < 3; reed++) {
+        const rx = x + side * ppt * (.22 + reed * .035), ry = y + reed * ppt * .08;
+        path(g, [[rx, ry], [rx - ppt * .025, ry - ppt * .09]]); g.stroke();
+      }
+    }
+    yield ATLAS_FLUSH;
+  }
+
+  *paintTransport(g, ppt, mode) {
+    const segments = this.transportSegments || roadSegments(this.state.world);
+    g.lineCap = 'round'; g.lineJoin = 'round'; g.setLineDash([]);
+    for (const [width, color, offset] of [[.22, 'rgba(10,16,12,.5)', .055], [.15, '#625239', 0], [.085, '#bc9d65', 0], [.022, '#e0c893', -.025]]) {
+      g.beginPath();
+      for (const [ax, ay, bx, by] of segments) {
+        const bend = (variation(Math.floor(ax), Math.floor(ay)) - .5) * .12;
+        g.moveTo((ax + offset) * ppt, (ay + offset) * ppt);
+        g.quadraticCurveTo(((ax + bx) / 2 + bend + offset) * ppt, ((ay + by) / 2 - bend * .4 + offset) * ppt, (bx + offset) * ppt, (by + offset) * ppt);
+      }
+      g.lineWidth = Math.max(.5, width * ppt); g.strokeStyle = color; g.stroke();
+      yield ATLAS_FLUSH;
+    }
+    for (const bridge of this.transportCrossings || []) {
+      g.save(); g.translate(bridge.x * ppt, bridge.y * ppt); g.rotate(bridge.angle);
+      g.fillStyle = '#252e28'; g.fillRect(-ppt * .3, -ppt * .065, ppt * .63, ppt * .23);
+      g.fillStyle = '#c3b38b'; g.fillRect(-ppt * .31, -ppt * .1, ppt * .62, ppt * .15);
+      g.strokeStyle = '#eee0ba'; g.lineWidth = Math.max(.6, ppt * .018);
+      path(g, [[-ppt * .31, -ppt * .1], [ppt * .31, -ppt * .1]]); g.stroke();
+      if (mode === 'near') {
+        g.strokeStyle = '#766a50'; g.lineWidth = ppt * .012;
+        for (let k = -3; k <= 3; k++) { path(g, [[k * ppt * .08, -ppt * .075], [k * ppt * .08, ppt * .035]]); g.stroke(); }
+      }
+      g.restore();
+    }
+    yield ATLAS_FLUSH;
+  }
+
+  *paintSiteGround(g, ppt, mode) {
+    if (mode === 'world') return;
+    let count = 0;
+    for (const tile of this.state.world.tiles) {
+      if (!tile.poi) continue;
+      const type = tile.poi.type, x = (tile.x + .5) * ppt, y = (tile.y + .5) * ppt;
+      g.save(); g.translate(x, y);
+      if (type === 'quarry' || type === 'iron') {
+        // Benches cut into the southeast face; the northwest rim catches light.
+        for (let bench = 0; bench < 3; bench++) {
+          g.strokeStyle = bench % 2 ? '#c0b59a' : '#343b32'; g.lineWidth = ppt * .035;
+          g.beginPath(); g.ellipse(ppt * .08, ppt * .1, ppt * (.46 - bench * .09), ppt * (.27 - bench * .055), -.2, .15, Math.PI * 1.87); g.stroke();
+        }
+      } else if (type === 'pasture') {
+        g.fillStyle = 'rgba(156,161,99,.3)';
+        path(g, [[-ppt * .5, 0], [-ppt * .15, -ppt * .24], [ppt * .5, ppt * .08], [ppt * .1, ppt * .4]], true); g.fill();
+        g.strokeStyle = '#60734b'; g.lineWidth = ppt * .018;
+        for (let f = 0; f < 3; f++) { path(g, [[-ppt * .4, f * ppt * .07], [ppt * .25, ppt * (.22 + f * .04)]]); g.stroke(); }
+      } else if (type === 'caravanserai' || type === 'watchtower' || type === 'ruins') {
+        g.fillStyle = 'rgba(160,143,94,.3)';
+        g.beginPath(); g.ellipse(0, ppt * .12, ppt * .48, ppt * .27, -.15, 0, TAU); g.fill();
+      }
+      g.restore();
+      if (++count % 16 === 0) yield ATLAS_FLUSH;
+    }
   }
 
   tileToScreen(x, y) {
@@ -937,69 +1060,27 @@ export class StrategyMap {
   }
 
   drawConnections(bounds, ox, oy, scale) {
+    // Finished atlases already contain transport. The first soft preview gets
+    // one inexpensive line per visible segment until that atlas is ready.
+    if (this.terrainCaches?.size) return;
     const ctx = this.ctx;
-    if (this.riverPoints?.length > 1) {
-      ctx.lineCap = 'round';
-      ctx.lineJoin = 'round';
-      for (let pass = 0; pass < 4; pass++) {
-        const widths = [0.31, 0.23, 0.14, 0.022];
-        const colors = ['rgba(36,48,44,.42)', '#2a4a4c', COLORS.water, 'rgba(147,182,157,.5)'];
-        ctx.strokeStyle = colors[pass];
-        for (let i = 1; i < this.riverPoints.length; i++) {
-          const a = this.riverPoints[i - 1], b = this.riverPoints[i];
-          if (b.y - a.y > 3 || b.y < bounds.minY - 1 || a.y > bounds.maxY + 1) continue;
-          const ax = ox + (a.x + .5) * scale, ay = oy + (a.y + .5) * scale;
-          const bx = ox + (b.x + .5) * scale, by = oy + (b.y + .5) * scale;
-          const wobble = (variation(a.x, a.y) - .5) * scale * .22;
-          const swell = 0.82 + variation2(a.x, a.y, 3) * 0.45;
-          ctx.beginPath();
-          ctx.moveTo(ax, ay);
-          ctx.bezierCurveTo(ax + wobble, (ay + by) / 2, bx - wobble, (ay + by) / 2, bx, by);
-          ctx.lineWidth = Math.max(pass === 3 ? .7 : 2, scale * widths[pass] * swell);
-          ctx.stroke();
-        }
-      }
-    }
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
-    ctx.setLineDash([]);
-    const segments = [];
-    for (let y = bounds.minY; y <= bounds.maxY; y++) for (let x = bounds.minX; x <= bounds.maxX; x++) {
-      if (this.tile(x, y)?.terrain !== 'road') continue;
-      const px = ox + (x + .5) * scale, py = oy + (y + .5) * scale;
-      let connected = false;
-      for (const [dx, dy] of [[1, 0], [0, 1], [1, 1], [-1, 1]]) {
-        if (this.tile(x + dx, y + dy)?.terrain !== 'road') continue;
-        const wobble = (variation(x, y) - .5) * scale * .22;
-        segments.push([px, py, px + dx * scale, py + dy * scale, wobble]);
-        connected = true;
-      }
-      if (!connected) segments.push([px - .16 * scale, py + .08 * scale, px + .16 * scale, py - .08 * scale, 0]);
-    }
-    const drop = scale * .08;
+    ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.setLineDash([]);
+    ctx.strokeStyle = COLORS.road; ctx.lineWidth = Math.max(1, scale * .09);
     ctx.beginPath();
-    ctx.strokeStyle = 'rgba(8,12,10,.55)';
-    ctx.lineWidth = Math.max(5, scale * .3);
-    for (const [ax, ay, bx, by, wobble] of segments) {
-      ctx.moveTo(ax + drop, ay + drop);
-      ctx.quadraticCurveTo((ax + bx) / 2 + wobble + drop, (ay + by) / 2 - wobble * .4 + drop, bx + drop, by + drop);
+    for (const [ax, ay, bx, by] of this.transportSegments || []) {
+      if (Math.max(ax, bx) < bounds.minX || Math.min(ax, bx) > bounds.maxX + 1 || Math.max(ay, by) < bounds.minY || Math.min(ay, by) > bounds.maxY + 1) continue;
+      ctx.moveTo(ox + ax * scale, oy + ay * scale); ctx.lineTo(ox + bx * scale, oy + by * scale);
     }
     ctx.stroke();
-    for (const [width, color] of [[Math.max(4, scale * .22), 'rgba(54,37,25,.55)'], [Math.max(2.4, scale * .13), COLORS.road], [Math.max(.7, scale * .035), '#d4c08a']]) {
-      ctx.beginPath();
-      for (const [ax, ay, bx, by, wobble] of segments) {
-        ctx.moveTo(ax, ay);
-        ctx.quadraticCurveTo((ax + bx) / 2 + wobble, (ay + by) / 2 - wobble * .4, bx, by);
-      }
-      ctx.lineWidth = width;
-      ctx.strokeStyle = color;
-      ctx.stroke();
+    ctx.strokeStyle = COLORS.waterLight; ctx.lineWidth = Math.max(1, scale * .1);
+    ctx.beginPath();
+    for (let i = 1; i < (this.riverPoints?.length || 0); i++) {
+      const a = this.riverPoints[i - 1], b = this.riverPoints[i];
+      if (b.y - a.y > 3) continue;
+      ctx.moveTo(ox + (a.x + .5) * scale, oy + (a.y + .5) * scale);
+      ctx.lineTo(ox + (b.x + .5) * scale, oy + (b.y + .5) * scale);
     }
-    ctx.fillStyle = '#c4a574';
-    for (const [ax, ay, bx, by] of segments) {
-      ctx.beginPath(); ctx.arc(ax, ay, Math.max(1.2, scale * .045), 0, TAU); ctx.fill();
-      ctx.beginPath(); ctx.arc(bx, by, Math.max(1.2, scale * .045), 0, TAU); ctx.fill();
-    }
+    ctx.stroke();
   }
 
   // Light overlay: ownership borders, the selected settlement's area and
@@ -1122,10 +1203,37 @@ export class StrategyMap {
     ctx.lineCap = 'round';
     ctx.setLineDash([]); ctx.lineWidth = 5; ctx.strokeStyle = 'rgba(17,28,23,.55)';
     path(ctx, [[a.x, a.y], [b.x, b.y]]); ctx.stroke();
-    ctx.setLineDash([7, 5]); ctx.lineWidth = 2.2; ctx.strokeStyle = '#f3ead4';
-    path(ctx, [[a.x, a.y], [b.x, b.y]]); ctx.stroke();
+    const route = guide.logistics?.tiles;
+    ctx.lineWidth = 2.2;
+    if (route?.length > 1) {
+      // Travel uses a straight sampled corridor, not a pathfinder. Project the
+      // observed tiles onto that corridor rather than inventing a zigzag path.
+      const dx = guide.target.x-guide.from.x, dy = guide.target.y-guide.from.y;
+      const denominator = dx*dx+dy*dy || 1;
+      const project = tile => {
+        const t = clamp(((tile.x-guide.from.x)*dx+(tile.y-guide.from.y)*dy)/denominator,0,1);
+        return {x:a.x+(b.x-a.x)*t,y:a.y+(b.y-a.y)*t};
+      };
+      for (let i = 1; i < route.length; i++) {
+        const from = route[i - 1], to = route[i];
+        const start = project(from), end = project(to);
+        const observed = from.visible && to.visible;
+        ctx.setLineDash(observed ? [] : [3, 6]);
+        ctx.strokeStyle = observed ? '#f3ead4' : '#b3ae95';
+        path(ctx,[[start.x,start.y],[end.x,end.y]]); ctx.stroke();
+      }
+    } else {
+      ctx.setLineDash([7, 5]); ctx.strokeStyle = '#f3ead4';
+      path(ctx, [[a.x, a.y], [b.x, b.y]]); ctx.stroke();
+    }
+    ctx.setLineDash([]); ctx.strokeStyle = '#f3ead4'; ctx.lineWidth = 1.8;
+    const r = clamp(scale * .45, 8, 30);
+    for (const side of [-1,1]) {
+      path(ctx,[[b.x+side*r,b.y-6],[b.x+side*r,b.y+6]]); ctx.stroke();
+      path(ctx,[[b.x-6,b.y+side*r],[b.x+6,b.y+side*r]]); ctx.stroke();
+    }
     ctx.restore();
-    if (this.mode !== 'world')
+    if (this.mode !== 'world' && this.width > 430)
       this.label(`Gözcü ${guide.route.label}`, (a.x + b.x) / 2, (a.y + b.y) / 2 - 4, false, 150);
   }
 
@@ -1134,7 +1242,9 @@ export class StrategyMap {
       || this.state.settlements.find((t) => t.ownerId === this.state.playerId);
     if (!origin) return;
     const ctx = this.ctx;
-    for (const link of tradeLinks(this.state, origin)) {
+    this.cachedTradeLinks ||= new Map();
+    if (!this.cachedTradeLinks.has(origin.id)) this.cachedTradeLinks.set(origin.id, tradeLinks(this.state, origin));
+    for (const link of this.cachedTradeLinks.get(origin.id)) {
       const a = this.tileToScreen(origin.x, origin.y);
       const b = this.tileToScreen(link.x, link.y);
       ctx.save();
@@ -1144,14 +1254,14 @@ export class StrategyMap {
       ctx.setLineDash([2, 6]); ctx.strokeStyle = '#e0b15a'; ctx.lineWidth = Math.max(1.2, Math.min(2.2, scale * 0.04));
       path(ctx, [[a.x, a.y], [b.x, b.y]]); ctx.stroke();
       ctx.restore();
-      if (this.mode === 'near')
+      if (this.mode === 'near' && this.width > 430)
         this.label(`${Math.round(link.minutes)} dk`, (a.x + b.x) / 2, (a.y + b.y) / 2 - 8, false, 72);
     }
   }
 
   drawRelations(scale) {
     const ctx = this.ctx;
-    for (const mark of relationMarks(this.state)) {
+    for (const mark of this.cachedRelations || relationMarks(this.state)) {
       const p = this.tileToScreen(mark.x, mark.y);
       if (p.x < -20 || p.y < -20 || p.x > this.width + 20 || p.y > this.height + 20) continue;
       const color = mark.vasal ? '#9fbe78' : mark.truce ? '#e0b15a' : mark.score < 0 ? '#e0654a' : '#f3ead4';
@@ -1159,13 +1269,13 @@ export class StrategyMap {
       ctx.beginPath(); ctx.arc(p.x, p.y, Math.max(10, scale * 0.55), 0, TAU);
       ctx.strokeStyle = color; ctx.lineWidth = 2; ctx.stroke();
       ctx.restore();
-      if (this.mode === 'world' && (mark.vasal || mark.truce || mark.score !== 0))
+      if (this.mode === 'world' && this.width > 430 && (mark.vasal || mark.truce || mark.score !== 0))
         this.label(`${mark.vasal ? 'bağlı' : mark.truce ? 'ateşkes' : mark.score > 0 ? `+${mark.score}` : String(mark.score)}`, p.x, p.y - Math.max(10, scale * 0.55) - 10, true, 88);
     }
   }
 
   drawResourceBias(scale) {
-    if (!this.selected) return;
+    if (!this.selected || this.width <= 430) return;
     const tile = this.tile(this.selected.x, this.selected.y);
     const terrain = TERRAINS[tile?.terrain];
     if (!terrain) return;
@@ -1216,7 +1326,7 @@ export class StrategyMap {
       ctx.beginPath(); ctx.arc(to.x, to.y, Math.max(7, scale * .38), 0, TAU); ctx.stroke();
       ctx.restore();
       if (this.mode !== 'world') {
-        const mission = army.returning ? 'Dönüş' : ({ scout: 'Keşif', expand: 'Kafile', attack: 'Sefer', trade: 'Kervan', claim: 'Bağlama' }[army.mission] || 'Sefer');
+        const mission = army.returning ? 'Dönüş' : army.rebind ? 'Bağlantı kuryesi' : ({ scout: 'Keşif', expand: 'Kafile', attack: 'Sefer', trade: 'Kervan', claim: 'Bağlama' }[army.mission] || 'Sefer');
         this.label(`${mission} · ${minutes(army.arriveAt - this.state.time)}`, to.x, to.y + Math.max(7, scale * .38) + 14, true, 140);
       }
     }
@@ -1310,9 +1420,11 @@ export class StrategyMap {
       for (let y = bounds.minY; y <= bounds.maxY; y++) for (let x = bounds.minX; x <= bounds.maxX; x++) {
         const tile = this.tile(x, y);
         if (!tile?.poi || this.settlements.has(`${x},${y}`)) continue;
+        const active = sameTile(this.selected, tile) || sameTile(this.hover, tile);
+        if (!active && (this.width <= 430 || scale < 68)) continue;
         const text = POIS[tile.poi.type]?.label;
         if (!text) continue;
-        const p = this.tileToScreen(x, y), ly = p.y + clamp(scale * .22, 3.5, 13) + 12;
+        const p = this.tileToScreen(x, y), ly = p.y + clamp(scale * .29, 3.5, 18) + 16;
         const w = Math.min(ctx.measureText(text).width, 120) + 10;
         ctx.fillStyle = 'rgba(25,31,26,.72)'; ctx.fillRect(p.x - w / 2, ly - 8, w, 15);
         ctx.fillStyle = COLORS.ivory; ctx.fillText(text, p.x, ly, 120);
@@ -1367,134 +1479,205 @@ export class StrategyMap {
     }
   }
 
-  drawPoi(tile, scale) {
-    const ctx = this.ctx;
-    const poi = tile.poi;
-    const p = this.tileToScreen(tile.x, tile.y);
-    if (this.mode === 'world' && !poi.ownerId && !['caravanserai', 'watchtower', 'ruins'].includes(poi.type)) return;
-    const r = clamp(scale * .22, 3.5, 13);
-    ctx.save(); ctx.translate(p.x, p.y);
-    ctx.fillStyle = 'rgba(8,12,10,.45)';
-    ctx.beginPath(); ctx.ellipse(r * .35, r * .95, r + 4, r * .32, 0, 0, TAU); ctx.fill();
-    ctx.fillStyle = COLORS.ivory;
-    ctx.strokeStyle = poi.ownerId ? this.factionColor(poi.ownerId) : '#6a5c48';
-    ctx.lineWidth = poi.ownerId ? 2 : 1.15;
-    const type = poi.type;
-    if (type === 'watchtower') {
-      path(ctx, [[-r * .45, r * .7], [-r * .45, -r * .2], [0, -r * 1.15], [r * .45, -r * .2], [r * .45, r * .7]], true);
-      ctx.fill(); ctx.stroke();
-      ctx.fillStyle = COLORS.oxblood; ctx.fillRect(-r * .12, -r * .15, r * .24, r * .5);
-    } else if (type === 'caravanserai') {
-      ctx.fillRect(-r * .85, -r * .15, r * 1.7, r * .85);
-      ctx.strokeRect(-r * .85, -r * .15, r * 1.7, r * .85);
-      ctx.beginPath(); ctx.arc(0, -r * .15, r * .55, Math.PI, 0); ctx.fill(); ctx.stroke();
-    } else if (type === 'ruins') {
-      ctx.fillRect(-r * .7, -r * .1, r * .35, r * .8);
-      ctx.fillRect(r * .15, r * .1, r * .4, r * .6);
-      ctx.strokeRect(-r * .7, -r * .1, r * .35, r * .8);
-      ctx.strokeRect(r * .15, r * .1, r * .4, r * .6);
-      ctx.beginPath(); ctx.moveTo(-r * .7, -r * .1); ctx.lineTo(-r * .35, -r * .55); ctx.stroke();
-    } else if (type === 'pass') {
-      path(ctx, [[-r, r * .55], [0, -r], [r, r * .55]], true); ctx.fill(); ctx.stroke();
-      ctx.strokeStyle = COLORS.brass; ctx.lineWidth = 1.6;
-      path(ctx, [[-r * .35, r * .2], [0, -r * .35], [r * .35, r * .2]]); ctx.stroke();
-    } else if (type === 'forest') {
-      path(ctx, [[-r * .7, r * .5], [0, -r], [r * .7, r * .5]], true); ctx.fill(); ctx.stroke();
-      path(ctx, [[-r * .5, r * .75], [0, -r * .15], [r * .5, r * .75]], true); ctx.fill(); ctx.stroke();
-      path(ctx, [[0, r * .5], [0, r]]); ctx.stroke();
-    } else if (type === 'pasture') {
-      ctx.beginPath(); ctx.arc(0, 0, r, 0, TAU); ctx.fill(); ctx.stroke();
-      ctx.strokeStyle = '#3d5344'; ctx.lineWidth = 1.3;
-      for (const px of [-r * .45, 0, r * .45]) { path(ctx, [[px, r * .35], [px, -r * .35], [px - 3, -r * .1]]); ctx.stroke(); }
-    } else if (type === 'quarry') {
-      ctx.fillRect(-r * .7, -r * .45, r * 1.4, r * .95);
-      ctx.strokeRect(-r * .7, -r * .45, r * 1.4, r * .95);
-      ctx.strokeStyle = '#6a5c48';
-      path(ctx, [[-r * .4, -r * .1], [r * .4, -r * .1], [-r * .2, r * .3], [r * .3, r * .3]]); ctx.stroke();
-    } else if (type === 'iron') {
-      path(ctx, [[0, -r], [r * .75, 0], [0, r], [-r * .75, 0]], true); ctx.fill(); ctx.stroke();
-      ctx.fillStyle = COLORS.ore; path(ctx, [[0, -r * .45], [r * .35, 0], [0, r * .45], [-r * .35, 0]], true); ctx.fill();
-    } else {
-      path(ctx, [[0, -r], [r, 0], [0, r], [-r, 0]], true); ctx.fill(); ctx.stroke();
-    }
-    if (this.mode === 'near' && scale >= 44) {
-      if (type === 'watchtower') {
-        ctx.fillStyle = '#4a3c30';
-        ctx.fillRect(-r * .08, -r * 1.2, r * .16, r * .35);
-        ctx.fillStyle = COLORS.brass;
-        ctx.beginPath(); ctx.arc(0, -r * 1.22, r * .12, 0, TAU); ctx.fill();
-      } else if (type === 'caravanserai') {
-        ctx.fillStyle = '#6a5438';
-        ctx.fillRect(-r * .35, .05 * r, r * .22, r * .4);
-      } else if (type === 'pasture') {
-        ctx.fillStyle = 'rgba(61,83,68,.35)';
-        ctx.beginPath(); ctx.ellipse(-r * .15, r * .15, r * .35, r * .18, 0, 0, TAU); ctx.fill();
+  // Original miniature architecture, cached independently of ownership. The
+  // same northwest lamp as the relief lights roofs and left faces; flags,
+  // diplomacy and selection remain live overlays. No state or RNG is touched.
+  objectGlyph(type, detail, tier = 1, fortified = false, market = false) {
+    this.objectGlyphs ||= new Map();
+    const key = `${type}:${detail}:${tier}:${fortified}:${market}`;
+    if (this.objectGlyphs.has(key)) return this.objectGlyphs.get(key);
+    const canvas = document.createElement('canvas'); canvas.width = canvas.height = 128;
+    const g = canvas.getContext('2d');
+    if (!g) return null;
+    g.translate(64, 82); g.scale(1.7, 1.7);
+    g.lineJoin = 'round'; g.lineCap = 'round';
+    const fill = (points, color) => { g.fillStyle = color; path(g, points, true); g.fill(); };
+    const line = (points, color, width = .7) => { g.strokeStyle = color; g.lineWidth = width; path(g, points); g.stroke(); };
+    const slab = (x, y, w, d, h, roof = '#c8bc92') => {
+      fill([[x-w,y-h],[x,y-d-h],[x+w,y-h],[x,y+d-h]],roof);
+      fill([[x-w,y-h],[x,y+d-h],[x,y+d],[x-w,y]],'#b1a78a');
+      fill([[x,y+d-h],[x+w,y-h],[x+w,y],[x,y+d]],'#686f5c');
+      line([[x-w,y-h],[x,y-d-h],[x+w,y-h]],'#ead9ae');
+    };
+    const roof = (x, y, w, h, color = '#a26443') => {
+      slab(x, y, w, w*.46, h, '#a89d7c');
+      fill([[x-w-1,y-h],[x,y-h-w*.65],[x+w+1,y-h],[x,y-h+w*.45]],color);
+      line([[x-w-1,y-h],[x,y-h-w*.65]],'#d2a777');
+      if (detail) line([[x,y-h-w*.65],[x,y-h+w*.45]],'#6c4935');
+    };
+    const tower = (x, y, w, h) => {
+      slab(x,y,w,w*.48,h,'#d3c5a0');
+      for (const dx of [-w,0,w]) slab(x+dx*.75,y-h*.03,w*.19,w*.14,h+1,'#dccdaa');
+      if (detail) {
+        line([[x-w*.45,y-h*.65],[x-w*.45,y-h*.39]],'#514e3c',1);
+        line([[x+w*.45,y-h*.5],[x+w*.45,y-h*.28]],'#383e31',1);
       }
+    };
+    g.fillStyle = 'rgba(8,14,11,.48)';
+    g.beginPath(); g.ellipse(7,11,type === 'capital' ? 28 : 23,9,-.15,0,TAU); g.fill();
+    if (type === 'capital' || type === 'settlement') {
+      const capital = type === 'capital';
+      fill([[-29,3],[-6,-11],[29,4],[9,23]],'#8a825c');
+      line([[-27,3],[-6,-9],[27,4]],'#c4b382');
+      roof(-15,-1,7,7); roof(15,1,6,8);
+      if (tier >= 2) { roof(-20,7,5,6,'#8e5840'); roof(18,11,5,6,'#8e5840'); }
+      if (market) {
+        fill([[-14,12],[-4,7],[4,11],[-6,17]],'#c5ae73');
+        for (let i=0;i<3;i++) { g.fillStyle=i%2?'#b08348':'#e1cc91'; g.fillRect(-12+i*3,9,3,4); }
+      }
+      slab(0,3,capital?12:10,6,capital?18:13,'#d8c69a');
+      roof(-2,-4,capital?11:9,capital?19:14,capital?COLORS.oxblood:'#956043');
+      if (capital || tier >= 3) tower(7,-4,5,29);
+      if (fortified) {
+        // A visibly closed enceinte, with a southern gate and corner bastions.
+        slab(-11,11,13,5,8,'#bfb79a'); slab(13,10,12,5,8,'#bfb79a');
+        tower(-24,5,4,16); tower(24,6,4,16); tower(-2,18,5,15);
+        fill([[-4,20],[-4,13],[-2,10],[0,13],[0,20]],'#353d30');
+        if (detail) for (let k=-18;k<=18;k+=5) line([[k,11-Math.abs(k)*.19],[k,8-Math.abs(k)*.19]],'#e4d6b1',1.4);
+      } else {
+        line([[-24,12],[-3,23],[24,11]],'#c6b581',1.2);
+        fill([[-3,15],[-3,10],[0,8],[3,10],[3,17]],'#4a4b37');
+      }
+      if (detail && tier >= 2) {
+        for (const x of [-7,-2,3]) line([[x,-12],[x,-9]],'#edcd89',1.1);
+        slab(-22,13,4,2,4,'#d2bd86');
+      }
+    } else if (type === 'watchtower') {
+      fill([[-20,12],[-8,-1],[11,-4],[22,10],[0,19]],'#77785f');
+      slab(0,9,9,5,5,'#bdb496');
+      tower(0,6,6,29);
+      fill([[-5,-24],[0,-31],[7,-24],[1,-20]],'#9a6747');
+      if (detail) { line([[-13,13],[-5,8]],'#d5c08c',2); line([[-9,12],[-4,9]],'#645b42'); }
+    } else if (type === 'caravanserai') {
+      // Open central courtyard distinguishes a han from a military keep.
+      slab(0,8,24,12,4,'#d0bf93');
+      slab(-9,-1,13,5,9,'#b19568'); slab(11,0,12,5,9,'#b19568');
+      slab(-14,9,8,4,9,'#c8b188'); slab(14,10,8,4,9,'#c8b188');
+      fill([[-9,7],[0,2],[10,7],[1,12]],'#716f4d');
+      slab(0,18,7,4,13,'#ddc7a1');
+      fill([[-3,21],[-3,15],[0,12],[3,15],[3,21]],'#343d30');
+      if (detail) {
+        g.fillStyle='#6e684b'; g.beginPath(); g.ellipse(0,7,3,1.6,0,0,TAU); g.fill();
+        line([[-20,18],[-10,22]],'#77563b',1.5);
+        for (const x of [-18,-11,12,18]) line([[x,-4],[x,-1]],'#554d35',1.4);
+      }
+    } else if (type === 'ruins') {
+      fill([[-24,10],[0,-4],[24,8],[1,21]],'#83836a');
+      slab(-14,7,6,3,18,'#b9b492'); slab(8,4,6,3,11,'#b9b492');
+      fill([[-20,-11],[-18,-16],[-14,-12],[-10,-15],[-8,-11],[-14,-8]],'#d1c6a3');
+      line([[-13,-7],[-13,-3],[-16,0],[-14,6]],'#666850',1);
+      slab(0,13,7,4,3,'#aca58a'); slab(18,13,4,2,4,'#c3b698');
+      if (detail) { slab(-8,17,3,2,2); line([[6,13],[11,15],[16,12]],'#536b49',1.5); }
+    } else if (type === 'quarry') {
+      fill([[-24,5],[-12,-7],[16,-8],[26,4],[16,19],[-10,18]],'#dad0ad');
+      fill([[-14,5],[-4,-2],[15,-2],[18,6],[10,13],[-8,13]],'#777d6a');
+      fill([[-10,6],[0,1],[11,3],[6,9],[-6,11]],'#454f42');
+      line([[-22,5],[-9,-3],[15,-4]],'#f2e5c1',2);
+      line([[-17,10],[-6,0],[14,1]],'#b6b395',1.7);
+      slab(15,15,5,3,5,'#d2c8ac'); slab(-17,13,4,2,4,'#e0d7ba');
+      if (detail) { line([[17,-10],[17,4],[7,4]],'#715b3e',1.3); line([[12,-8],[22,-8]],'#af9060',1.3); }
+    } else if (type === 'iron') {
+      fill([[-24,12],[-18,-7],[-2,-17],[16,-6],[25,14],[0,20]],'#765c47');
+      fill([[-24,12],[-18,-7],[-2,-17],[-5,7]],'#aa9472');
+      fill([[-10,14],[-9,-1],[0,-8],[10,-1],[12,14]],'#27382f');
+      line([[-10,13],[-9,-1],[0,-8],[10,-1],[12,13]],'#c8ae7e',2.3);
+      line([[-6,9],[-16,20]],'#c8ae7e',1.1); line([[5,9],[-2,23]],'#c8ae7e',1.1);
+      slab(13,15,5,3,4,'#a8815f');
+      if (detail) for (let k=0;k<3;k++) line([[-8-k*3,13+k*3],[3-k*2,14+k*3]],'#676851',1.5);
+    } else if (type === 'pasture') {
+      fill([[-24,4],[-3,-8],[25,8],[2,21]],'#9aa570');
+      line([[-22,5],[1,18],[23,7]],'#d4c08f',1.2);
+      for (const [x,y] of [[-20,5],[-9,11],[2,17],[13,12],[23,7]]) line([[x,y+2],[x,y-3]],'#786b49',1.2);
+      roof(-9,-2,8,8,'#978057');
+      if (detail) for (const [x,y] of [[4,5],[11,9],[-3,10]]) { g.fillStyle='#e5dec2'; g.beginPath(); g.ellipse(x,y,2.2,1.3,-.3,0,TAU); g.fill(); }
+    } else if (type === 'forest') {
+      for (const [x,y,h] of [[-12,5,21],[10,6,26],[0,14,29]]) {
+        line([[x,y],[x,y-h*.8]],'#8b7550',2);
+        for (let tier=0;tier<3;tier++) {
+          const top=y-h+tier*h*.24, w=5+tier*3;
+          fill([[x-w,top+h*.44],[x,top],[x+w,top+h*.44]],'#254936');
+          line([[x-w,top+h*.44],[x,top]],'#899d66',1);
+        }
+      }
+    } else if (type === 'pass') {
+      fill([[-27,14],[-16,-19],[-5,2],[-9,16]],'#96977f');
+      fill([[-16,-19],[-7,-5],[-5,2],[-9,16]],'#485848');
+      fill([[5,15],[11,-16],[27,14]],'#7c806a');
+      line([[-25,13],[-16,-19],[-10,-5]],'#d1c59e',1.1);
+      line([[-5,18],[-1,8],[2,-3],[6,-10]],'#d3bb80',2.2);
+      if (detail) { slab(-3,11,2,1,4,'#d5c49c'); slab(5,5,2,1,4,'#d5c49c'); }
     }
-    ctx.restore();
-    if (scale >= 48 && (sameTile(this.hover, tile) || sameTile(this.selected, tile))) this.label(POIS[poi.type]?.label || 'Stratejik nokta', p.x, p.y + r + 16, false);
+    this.objectGlyphs.set(key, canvas);
+    return canvas;
+  }
+
+  drawObjectGlyph(type, p, r, detail, tier, fortified, market) {
+    const glyph = this.objectGlyph(type, detail, tier, fortified, market);
+    if (!glyph) return;
+    const factor = r / 34;
+    // Terrain requests high-quality resampling of a large bitmap. Applying
+    // that setting to every tiny overlay sprite makes near-map panning costly
+    // on software Canvas renderers without adding readable detail.
+    const quality = this.ctx.imageSmoothingQuality;
+    this.ctx.imageSmoothingQuality = 'low';
+    this.ctx.drawImage(glyph, p.x - 64 * factor, p.y - 82 * factor, 128 * factor, 128 * factor);
+    this.ctx.imageSmoothingQuality = quality;
+  }
+
+  drawPoi(tile, scale) {
+    const ctx = this.ctx, poi = tile.poi, type = poi.type;
+    const p = this.tileToScreen(tile.x, tile.y);
+    const active = sameTile(this.hover, tile) || sameTile(this.selected, tile);
+    if (this.mode === 'world' && !poi.ownerId && !active && !['caravanserai', 'watchtower', 'ruins'].includes(type)) return;
+    const r = clamp(scale * .29, 3.5, 18);
+    if (this.mode === 'world') {
+      ctx.save(); ctx.translate(p.x,p.y);
+      ctx.fillStyle = '#d2c298'; ctx.strokeStyle = '#243b2f'; ctx.lineWidth = 1;
+      ctx.beginPath();
+      if (type === 'watchtower') path(ctx,[[-3,3],[-2,-4],[0,-7],[3,-4],[4,3]],true);
+      else if (type === 'caravanserai') { ctx.rect(-4,-3,8,6); }
+      else path(ctx,[[0,-4],[4,0],[0,4],[-4,0]],true);
+      ctx.fill(); ctx.stroke(); ctx.restore();
+    } else this.drawObjectGlyph(type,p,r,this.mode === 'near' && this.width > 430);
+    if (poi.ownerId) {
+      ctx.save(); ctx.strokeStyle = this.factionColor(poi.ownerId); ctx.lineWidth = active ? 2.2 : 1.4;
+      ctx.beginPath(); ctx.ellipse(p.x,p.y+r*.67,r*1.35,r*.48,0,.15,Math.PI-.15); ctx.stroke();
+      ctx.fillStyle = this.factionColor(poi.ownerId);
+      path(ctx,[[p.x+r*.8,p.y-r*.65],[p.x+r*1.48,p.y-r*.4],[p.x+r*.8,p.y-r*.15]],true); ctx.fill(); ctx.restore();
+    }
+    // One label pass owns POI names; selected objects are never double-labelled.
   }
 
   drawSettlements(scale) {
-    const ctx = this.ctx;
-    const labels = [];
-    const sorted = [...this.state.settlements].sort((a, b) => Number(a.ownerId === this.state.playerId) - Number(b.ownerId === this.state.playerId));
+    const ctx = this.ctx, labels = [], compact = this.width <= 430;
+    const sorted = [...this.state.settlements].sort((a,b) => Number(a.ownerId === this.state.playerId) - Number(b.ownerId === this.state.playerId));
     for (const settlement of sorted) {
-      const p = this.tileToScreen(settlement.x, settlement.y);
-      if (p.x < -70 || p.y < -70 || p.x > this.width + 70 || p.y > this.height + 70) continue;
-      const own = settlement.ownerId === this.state.playerId;
-      const color = this.factionColor(settlement.ownerId);
-      const capital = this.isCapital(settlement);
+      const p = this.tileToScreen(settlement.x,settlement.y);
+      if (p.x < -90 || p.y < -90 || p.x > this.width+90 || p.y > this.height+90) continue;
+      const own = settlement.ownerId === this.state.playerId, active = sameTile(this.selected,settlement) || sameTile(this.hover,settlement);
+      const capital = this.isCapital(settlement), color = this.factionColor(settlement.ownerId);
       const fortified = (settlement.buildings?.wall || 0) >= 2;
-      const r = clamp(scale * (capital ? .42 : .34), capital ? 6 : 5, capital ? 26 : 22);
-      ctx.save(); ctx.translate(p.x, p.y);
-      ctx.fillStyle = 'rgba(8,12,10,.4)';
-      ctx.beginPath(); ctx.ellipse(r * .32, r * .78, r * 1.2, r * .36, 0, 0, TAU); ctx.fill();
-      if (scale < 25) {
-        ctx.fillStyle = COLORS.ivory; ctx.beginPath(); ctx.arc(0, 0, r + 2, 0, TAU); ctx.fill();
-        if (capital) {
-          ctx.fillStyle = color;
-          path(ctx, [[0, -r - 2], [r * .72, -r * .2], [r * .45, r * .8], [-r * .45, r * .8], [-r * .72, -r * .2]], true);
-          ctx.fill();
-        } else {
-          ctx.fillStyle = color; ctx.fillRect(-r * .8, -r * .8, r * 1.6, r * 1.6);
-        }
-        if (own) { ctx.strokeStyle = COLORS.ivory; ctx.lineWidth = 1; ctx.strokeRect(-r * .43, -r * .43, r * .86, r * .86); }
-      } else {
-        ctx.scale(r / 20, r / 20);
-        ctx.fillStyle = '#e5dfc7'; ctx.strokeStyle = '#737563'; ctx.lineWidth = 1;
-        path(ctx, [[-18, 7], [-18, -7], [-10, -11], [10, -11], [18, -7], [18, 7], [0, 16]], true); ctx.fill(); ctx.stroke();
-        ctx.fillStyle = '#b6b198'; path(ctx, [[0, 4], [18, -7], [18, 7], [0, 16]], true); ctx.fill();
-        ctx.fillStyle = '#c6c0a7'; path(ctx, [[-18, -7], [0, 4], [0, 16], [-18, 7]], true); ctx.fill();
-        ctx.fillStyle = '#aa9d79'; ctx.fillRect(-8, -16, 15, 17);
-        ctx.fillStyle = capital ? COLORS.oxblood : '#a87458'; path(ctx, [[-11, -16], [-1, -23], [11, -16], [4, -12]], true); ctx.fill();
-        ctx.fillStyle = '#786f57'; ctx.fillRect(-2, -6, 5, 7);
-        for (const tx of [-17, 12]) {
-          ctx.fillStyle = '#8c896f'; ctx.fillRect(tx, -10, 6, 17);
-          ctx.fillStyle = '#c9bd95'; ctx.fillRect(tx, -12, 2, 4); ctx.fillRect(tx + 4, -12, 2, 4);
-        }
-        if (fortified) {
-          ctx.strokeStyle = '#4a4c48'; ctx.lineWidth = 1.4;
-          path(ctx, [[-22, 8], [-22, -2], [-18, -6], [-14, -2], [-10, -6], [-6, -2], [-2, -6], [2, -2], [6, -6], [10, -2], [14, -6], [18, -2], [22, -6], [22, 8]]); ctx.stroke();
-        }
-        ctx.strokeStyle = '#5f6451'; ctx.lineWidth = 1.2; path(ctx, [[8, -14], [8, -32]]); ctx.stroke();
-        ctx.fillStyle = color; path(ctx, [[8, -32], [23, -29], [8, -24]], true); ctx.fill();
-        if (capital) {
-          ctx.fillStyle = COLORS.brass;
-          path(ctx, [[-6, -28], [-2, -36], [2, -28], [6, -36], [8, -26], [-8, -26]], true); ctx.fill();
-        }
-        if (own) { ctx.strokeStyle = color; ctx.lineWidth = 1.4; ctx.beginPath(); ctx.ellipse(0, 6, 24, 15, 0, .1, Math.PI - .1); ctx.stroke(); }
-      }
+      const tier = Math.min(3,Math.max(1,Math.ceil((settlement.buildings?.hall || 1)/2)));
+      const r = clamp(scale * (capital ? .44 : .36),capital ? 6 : 5,capital ? 29 : 24);
+      if (this.mode === 'world') {
+        ctx.save(); ctx.translate(p.x,p.y); ctx.fillStyle = '#e5d4a9'; ctx.strokeStyle = '#26372b'; ctx.lineWidth = 1.2;
+        path(ctx,capital?[[-r,3],[-r,-r*.5],[-r*.5,-r],[0,-r*.4],[r*.5,-r],[r,-r*.5],[r,3]]:[[-r,2],[-r,-r*.45],[0,-r],[r,-r*.45],[r,2]],true);
+        ctx.fill(); ctx.stroke(); ctx.fillStyle=color; ctx.fillRect(-r*.4,-r*.2,r*.8,r*.65); ctx.restore();
+      } else this.drawObjectGlyph(capital?'capital':'settlement',p,r,this.mode === 'near' && !compact,tier,fortified,(settlement.buildings?.market || 0)>0);
+      ctx.save();
+      const fy = p.y-r*(this.mode === 'world'?1.25:1.75), fx=p.x+r*.47;
+      ctx.strokeStyle='#d7c69b'; ctx.lineWidth=1;
+      path(ctx,[[fx,fy+r*.58],[fx,fy-r*.35]]); ctx.stroke();
+      ctx.fillStyle=color; path(ctx,[[fx,fy-r*.35],[fx+r*.7,fy-r*.12],[fx,fy+r*.14]],true); ctx.fill();
+      if (own || active) { ctx.strokeStyle=active?COLORS.ivory:color; ctx.lineWidth=active?2:1.5; ctx.beginPath(); ctx.ellipse(p.x,p.y+r*.78,r*1.4,r*.45,0,.15,Math.PI-.15); ctx.stroke(); }
       ctx.restore();
-      if (scale > 20 || own || capital) {
-        const text = settlement.name || 'Yerleşim';
-        const labelY = p.y + r * .85 + 15;
-        const maxWidth = this.mode === 'near' ? 150 : 112;
-        const collision = labels.some((l) => Math.abs(l.x - p.x) < maxWidth && Math.abs(l.y - labelY) < 22);
-        if (!collision || own || capital || sameTile(this.selected, settlement)) {
-          this.label(capital ? `★ ${text}` : text, p.x, labelY, own, maxWidth);
-          labels.push({ x: p.x, y: labelY });
-        }
+      if (compact && !own && !active && this.mode !== 'near') continue;
+      if (this.mode === 'world' && !own && !active && !capital) continue;
+      const labelY=p.y+r*1.12+13, maxWidth=compact?104:this.mode === 'near'?150:112;
+      const collision=labels.some(l=>Math.abs(l.x-p.x)<maxWidth && Math.abs(l.y-labelY)<23);
+      if (!collision || own || active) {
+        this.label(capital?`★ ${settlement.name || 'Yerleşim'}`:settlement.name || 'Yerleşim',p.x,labelY,own,maxWidth);
+        labels.push({x:p.x,y:labelY});
       }
     }
   }
@@ -1529,7 +1712,7 @@ export class StrategyMap {
       ctx.fillStyle = color; ctx.strokeStyle = '#fff5dc'; ctx.lineWidth = 1.7;
       path(ctx, [[8, 0], [-5, -5], [-2, 0], [-5, 5]], true); ctx.fill(); ctx.stroke(); ctx.restore();
       if (scale >= 40 && army.ownerId === this.state.playerId && !(this.layers || DEFAULT_LAYERS).threats) {
-        const mission = army.returning ? 'Dönüş' : ({ scout: 'Keşif', expand: 'Yerleşim', settle: 'Yerleşim', attack: 'Sefer', raid: 'Akın', trade: 'Ticaret', claim: 'Bağlama', reinforce: 'Takviye' }[army.mission] || 'Sefer');
+        const mission = army.returning ? 'Dönüş' : army.rebind ? 'Bağlantı kuryesi' : ({ scout: 'Keşif', expand: 'Yerleşim', settle: 'Yerleşim', attack: 'Sefer', raid: 'Akın', trade: 'Ticaret', claim: 'Bağlama', reinforce: 'Takviye' }[army.mission] || 'Sefer');
         this.label(`${mission} · ${Math.max(0, Math.ceil(army.arriveAt - this.state.time))} dk`, p.x, p.y - 15, false, 110);
       }
     }
@@ -1623,6 +1806,7 @@ export class StrategyMap {
     this.listeners.length = 0;
     this.resetTerrainCaches();
     this.minimapTerrain = null;
+    this.objectGlyphs?.clear();
   }
 }
 
