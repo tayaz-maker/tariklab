@@ -72,3 +72,24 @@ Portal chunk’larında Pixi yok. HTML oyunları iframe rotasında; Racon map-vi
 Ölçüm araçları: `scripts/wave1-outcome-browser.mjs` transfer/request/ilk render/harita geçişi;
 `scripts/racon-map-browser.mjs` startup/renderMs; `scripts/hanedanian-pixi-perf.mjs` renderer karşılaştırması.
 Bu keşif yeni browser çalıştırmadı; öneriler için ölçülmüş ağ veya kullanıcı gecikmesi kazanımı iddia etmez.
+
+## #111 CI ölçüm onarımı — 2026-10-05
+
+- Run `37240215425`, job `111547271911`: 44 baseline vakasından sonra HANEDANIAN/320
+  `/games/hanedanian/sw.js` (`serviceWorker=true`) için `request.sizes()` tamamlanmadı.
+  Oyun açıldı; hata ölçüm API'sinin metadata beklemesinde. Bu koşu tam ölçüm/PASS değildir.
+- Playwright 1.62.1 public sizes yolu sınırsız response/extra-info promise bekler. Hangi
+  metadata aşamasının eksik olduğunu yeni bounded `worker-size-diagnostic` artifact'a yazar;
+  bu kontrol gerçek transfer metriğinin yerine geçmez ve timeout için sıfır üretmez.
+- İki sürüm de aynı yerel HTTP forwarder üzerinden yeniden ölçülür: browser-facing
+  `socket.bytesWritten` farkı HTTP başlıklarını, encoded gövdeyi ve HTTP chunk framing'i
+  içerir; TCP/TLS hariçtir. Kapanmış socket toplamı korunur. Cache network'e çıkmazsa
+  wire byte üretmez; tüm worker bootstrap istekleri gerçek ağ kaydında bulunmalıdır.
+- Status, ham gövde ve cache/worker başlıkları korunur. Eksik/hatalı yanıt, off-origin
+  ölçülmemiş istek, console/404/overflow ve portal eager oyun/Pixi yükü hâlâ FAIL verir.
+  Ağ istek sayısı ile browser/SW mantıksal istek sayısı ayrı kaydedilir. Pixi gövde baytı
+  ayrıca etiketlenir; önceden yarım kalmış sizes sonuçlarıyla kıyas yapılmaz.
+- Yeni araçlar yalnız Node CI kodudur; runtime asset, oyun, save, dependency değişmez.
+  Gerçek TCP/HTTP 8 + metadata 4 + mevcut deadline/metrics/HTTP 18 = 30/30 test PASS;
+  ESLint ve production build PASS. Tam 21 rota × 3 genişlik × iki sürüm browser sonucu
+  yeni CI kapısıdır; yerel Chromium SIGSEGV nedeniyle yerel browser PASS iddiası yoktur.
