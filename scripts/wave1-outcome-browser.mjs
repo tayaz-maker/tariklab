@@ -24,10 +24,10 @@ const readRacon=p=>p.evaluate(()=>JSON.parse(localStorage.getItem('tariklab::rac
 const readBasin=p=>p.evaluate(key=>JSON.parse(localStorage.getItem(key)).state,SOLO_KEY);
 async function hanSave(p){await p.locator('#menu-button').click();await p.locator('[data-action="export"]').click();const state=JSON.parse(await p.locator('#export-text').inputValue()).state;await p.locator('#dialog').press('Escape');return state;}
 async function layout(tag){const m=await page.evaluate(()=>({width:innerWidth,scroll:document.documentElement.scrollWidth,stage:[...document.querySelectorAll('#stage')].map(e=>({width:e.clientWidth,scroll:e.scrollWidth})),cards:[...document.querySelectorAll('[data-outcome-moment]')].map(e=>({width:e.clientWidth,scroll:e.scrollWidth})),canvases:document.querySelectorAll('canvas').length}));assert.ok(m.scroll<=m.width+1,`${tag}: ${JSON.stringify(m)}`);for(const r of [...m.stage,...m.cards])assert.ok(r.scroll<=r.width+1,`${tag}: ${JSON.stringify(r)}`);results.push({tag,layout:m});}
-async function screenshot(tag){await page.screenshot({path:`${out}/${tag}.png`,fullPage:true});}
+async function screenshot(tag){await page.screenshot({path:`${out}/${tag}.png`,fullPage:true,scale:'css'});}
 try{
  browser=await chromium.launch({headless:true,executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH||undefined,args:['--no-sandbox']});
- for(const game of ['hanedanian','ihtilal','racon'])for(const option of [{width:1440},{width:390},{width:320},...(!baseline&&game!=='hanedanian'?[{width:390,memory:1},{width:1440,dpr:3}]:[])]){
+ for(const game of ['hanedanian','ihtilal','racon'])for(const option of [{width:1440},{width:390},{width:320},...(!baseline&&game!=='hanedanian'?[{width:390,memory:1},{width:1440,dpr:4}]:[])]){
   const {width,memory,dpr}=option,limited=!!memory||!!dpr;
   const mode=width===320||limited?'svg':'pixi',motion=width===1440?'no-preference':'reduce',tag=`${game}-${width}-${mode}${memory?'-low-memory':dpr?'-pixel-budget':''}`;
   const context=await browser.newContext({viewport:{width,height:width===1440?960:844},deviceScaleFactor:dpr||1,isMobile:width<500,hasTouch:width<500,reducedMotion:motion});
@@ -127,7 +127,7 @@ try{
   // Record actual served game presentation bytes on preview and both production hosts.
   const served={};for(const path of ['hanedanian/outcome-moment.js','ihtilal/outcome-moment.js','racon/outcome-moment.js','shared/outcome-runtime.js']){const response=await fetch(`${base}/games/${path}`);assert.equal(response.status,200);const body=Buffer.from(await response.arrayBuffer());assert.deepEqual(body,await readFile(resolve('public/games',path)),`${path}: deployed/source parity`);served[path]=createHash('sha256').update(body).digest('hex');}results.push({served});
  }
-}catch(e){errors.push(e.stack);if(page&&!page.isClosed())await page.screenshot({path:`${out}/failure.png`,fullPage:true}).catch(()=>{});throw e;}
+}catch(e){errors.push(e.stack);if(page&&!page.isClosed())await page.screenshot({path:`${out}/failure.png`,fullPage:true,scale:'css'}).catch(()=>{});throw e;}
 finally{await writeFile(`${out}/results.json`,JSON.stringify({label,baseline,base,results,errors},null,2));await browser?.close();if(server)await new Promise(r=>server.close(r));}
 console.log(JSON.stringify({label,scenarios:results.filter(r=>r.ok).length,errors}));
 
