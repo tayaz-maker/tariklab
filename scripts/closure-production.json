@@ -1,0 +1,12 @@
+{
+  "game": "racon",
+  "mergeSha": "7315055785fa90a46e87c1264c23cfdbb60b3d7b",
+  "files": [
+    "public/games/racon/content.js",
+    "public/games/racon/index.html",
+    "public/games/racon/layout-check.html",
+    "public/games/racon/map-model.js",
+    "public/games/racon/map-view.js",
+    "public/games/racon/network.js"
+  ]
+}
