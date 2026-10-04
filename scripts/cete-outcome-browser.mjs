@@ -132,6 +132,10 @@ try {
       assert.equal(await action.evaluate((el) => el === document.activeElement), true);
     } else if (mode === "screen-switch") {
       await page.getByRole("button", { name: "Ben", exact: true }).click();
+      // The destination is lazy loaded: Suspense may retain hidden old DOM
+      // until its module resolves. Verify the completed transition, not the
+      // synchronous node count in the click's first frame.
+      await moment.waitFor({ state: "detached" });
       assert.equal(await moment.count(), 0, "switch disposes card");
       await page.getByRole("button", { name: "İcraat", exact: true }).click();
       await action.waitFor();
