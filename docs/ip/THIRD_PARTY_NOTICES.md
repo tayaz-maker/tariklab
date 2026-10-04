@@ -35,14 +35,14 @@ TarikLab uses no third-party fonts (system font stacks only), no audio, and no t
 | @supabase/realtime-js | 2.112.4 | MIT |
 | @supabase/storage-js | 2.112.4 | MIT |
 | @supabase/supabase-js | 2.112.4 | MIT |
-| @tanstack/history | 1.162.1 | MIT |
-| @tanstack/react-router | 1.170.31 | MIT |
-| @tanstack/react-start | 1.168.48 | MIT |
-| @tanstack/react-start-client | 1.168.29 | MIT |
-| @tanstack/react-store | 0.9.3 | MIT |
-| @tanstack/router-core | 1.171.26 | MIT |
-| @tanstack/start-client-core | 1.170.26 | MIT |
-| @tanstack/store | 0.9.3 | MIT |
+| @tanstack/history | 1.162.4 | MIT |
+| @tanstack/react-router | 1.170.41 | MIT |
+| @tanstack/react-start | 1.168.60 | MIT |
+| @tanstack/react-start-client | 1.168.39 | MIT |
+| @tanstack/react-store | 0.11.2 | MIT |
+| @tanstack/router-core | 1.171.34 | MIT |
+| @tanstack/start-client-core | 1.170.34 | MIT |
+| @tanstack/store | 0.11.2 | MIT |
 | aria-hidden | 1.2.6 | MIT |
 | class-variance-authority | 0.7.1 | Apache-2.0 |
 | clsx | 2.1.1 | MIT |
@@ -57,15 +57,15 @@ TarikLab uses no third-party fonts (system font stacks only), no audio, and no t
 | react-remove-scroll-bar | 2.3.8 | MIT |
 | react-style-singleton | 2.2.3 | MIT |
 | scheduler | 0.27.0 | MIT |
-| seroval | 1.6.2 | MIT |
-| seroval-plugins | 1.6.2 | MIT |
+| seroval | 1.6.8 | MIT |
+| seroval-plugins | 1.6.8 | MIT |
 | tailwind-merge | 3.6.0 | MIT |
 | tailwindcss | 4.3.3 | MIT |
 | tslib | 2.8.1 | 0BSD |
 | use-callback-ref | 1.3.3 | MIT |
 | use-sidecar | 1.1.3 | MIT |
 | use-sync-external-store | 1.6.0 | MIT |
-| zod | 4.4.3 | MIT |
+| zod | 4.6.5 | MIT |
 | zustand | 5.0.15 | MIT |
 
 ## @radix-ui/primitive 1.1.7
@@ -713,7 +713,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-## @tanstack/history 1.162.1
+## @tanstack/history 1.162.4
 
 License: MIT · Source: https://github.com/TanStack/router.git
 
@@ -741,7 +741,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-## @tanstack/react-router 1.170.31
+## @tanstack/react-router 1.170.41
 
 License: MIT · Source: https://github.com/TanStack/router.git
 
@@ -769,7 +769,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-## @tanstack/react-start 1.168.48
+## @tanstack/react-start 1.168.60
 
 License: MIT · Source: https://github.com/TanStack/router.git
 
@@ -797,7 +797,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-## @tanstack/react-start-client 1.168.29
+## @tanstack/react-start-client 1.168.39
 
 License: MIT · Source: https://github.com/TanStack/router.git
 
@@ -825,7 +825,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-## @tanstack/react-store 0.9.3
+## @tanstack/react-store 0.11.2
 
 License: MIT · Source: https://github.com/TanStack/store.git
 
@@ -853,7 +853,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-## @tanstack/router-core 1.171.26
+## @tanstack/router-core 1.171.34
 
 License: MIT · Source: https://github.com/TanStack/router.git
 
@@ -881,7 +881,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-## @tanstack/start-client-core 1.170.26
+## @tanstack/start-client-core 1.170.34
 
 License: MIT · Source: https://github.com/TanStack/router.git
 
@@ -909,7 +909,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-## @tanstack/store 0.9.3
+## @tanstack/store 0.11.2
 
 License: MIT · Source: https://github.com/TanStack/store.git
 
@@ -1466,7 +1466,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-## seroval 1.6.2
+## seroval 1.6.8
 
 License: MIT · Source: https://github.com/lxsmnsyc/seroval.git
 
@@ -1480,7 +1480,7 @@ The above copyright notice and this permission notice (including the next paragr
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ```
 
-## seroval-plugins 1.6.2
+## seroval-plugins 1.6.8
 
 License: MIT · Source: https://github.com/lxsmnsyc/seroval.git
 
@@ -1653,7 +1653,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-## zod 4.4.3
+## zod 4.6.5
 
 License: MIT · Source: https://github.com/colinhacks/zod.git
 
