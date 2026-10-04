@@ -87,3 +87,16 @@ PR #101 remains Terra's responsibility. Novella remains **LATER**.
 - Açık risk: runner SwiftShader; fiziksel GPU/production smoke Terra/Sol’da. Tüm 17 oyun dosyası temiz build ile birebir eşleşti; son küçük düzeltmeler hedefli/browser testleriyle kapatıldı.
 - Release: [PR #104](https://github.com/tayaz-maker/tariklab/pull/104) handoff Terra/Sol’da; gerçek head’de zorunlu CI yeşilken merge, iki hostta `/oyna/ihtilal` ve `/games/ihtilal/index.html` smoke. #101/Luna değişmedi.
 - Sonraki adım: Racon temiz worktree keşfi başladı; 6 sokak DOM/SVG, üç slot v1, hedefli ağ/kayıt 16/16. Sonraki tur: oyuncu eşzamanlı sokak kararlarının haftalık maliyetini ve komşu etkisini haritada karşılaştırabilsin; önce normalize’ın `__proto__` kararını kabul etme repro’sunu düzelt. İHTİLÂL ikinci sistem sonraya; Novella LATER.
+
+## JITEM — dar vendor/source checkpoint · 2026-10-04
+- Hedef: merge edilmiş upstream atlasını TarikLab'e birebir senkronize etmek; yeni oyun/görsel kapsamı yok.
+- Oyuncu değeri: #21'deki karar atlası ve güvenli yedek kurtarma aynı davranışla TarikLab paketine taşınır.
+- Branch: `astra/jitem-vendor-atlas-sync`; taban `95099f967036782f1cd7e2c43d2ca8286df519d7`.
+- Upstream: [#21](https://github.com/tayaz-maker/jitem-derin-ag/pull/21) MERGED; SHA `0c1fc08db3f050ebf34e237ef4fd1018ba223293`; atlas CI 37209063810 SUCCESS.
+- Kod checkpoint SHA: `e0544ad40959d932f125aa1b53fe758275f342a8`; sonraki commit yalnız bu kayıt/ledger.
+- Dosyalar: JITEM vendor çıktısı/SOURCE, ürün kimliği, source-pin testi, SHA-sabitli Pixi sessizlik istisnası, run-state/ledger.
+- Sözleşme: `jitem-derin-ag-v3`, schema 5, tarihsel içerik ve hesap kuralları korundu; kaynak checkout temiz.
+- Kanıt: iki embed build 30/30 eş; TarikLab build çıktısı 31/31 eş; hedefli test 7/7, TS test 54/54, build/typecheck/ESLint PASS.
+- Tam repo: ilk koşu 1.589 PASS / 1 FAIL / 1 mevcut skip; tek Pixi fixture engeli küçültülmüş repro sonrası 7/7 hedefli testle kapandı; tam yeniden koşu PR CI'ında.
+- Açık risk: vendor browser/fiziksel GPU/production doğrulanmadı; yerel Chromium indirilemedi; üretilmiş shader boşlukları korunur.
+- Sonraki adım: dar vendor PR'ında gerçek head'in CI'sı ve release doğrulaması; CI bekleme/merge yok. SON KÖY ayrı branch'te korunuyor.
