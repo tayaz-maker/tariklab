@@ -5,7 +5,9 @@ on:
     paths:
       - public/games/ihtilal/basin-map.js
       - public/games/racon/map-view.js
-      - scripts/route-performance.mjs
+      - scripts/route-performance*.mjs
+      - scripts/response-byte-meter*.mjs
+      - scripts/worker-size-diagnostic*.mjs
       - .github/workflows/map-performance.yml
 
 concurrency:
