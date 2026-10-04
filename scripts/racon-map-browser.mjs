@@ -42,7 +42,7 @@ const server = createServer(async (req, res) => {
   }
 });
 await new Promise((r) => server.listen(0, "127.0.0.1", r));
-const origin = `http://127.0.0.1:${server.address().port}`;
+const origin = process.env.RELEASE_ORIGIN || `http://127.0.0.1:${server.address().port}`;
 const h = loadGame();
 h.ev(
   'blank("Avlu");enterPlay();S.seed=4242;S.kasa=50000;S.cleanKasa=50000;S.dirtyKasa=0;S.screen="harita";S.stage="kabadayi";S.day=7;S.streets[1].sahip="sen";writeSave();',
@@ -89,9 +89,9 @@ try {
   browser = await chromium.launch({
     headless: true,
     executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || undefined,
-    args: ["--no-sandbox"],
+    args: ["--no-sandbox", "--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"],
   });
-  for (const width of [1440, 390, 320])
+  for (const width of (process.env.RELEASE_ORIGIN ? [1440, 390] : [1440, 390, 320]))
     for (const mode of ["pixi", "svg"]) {
       const scenario = `${mode}-${width}`;
       if (only && only !== scenario) continue;
@@ -124,6 +124,12 @@ try {
         if (m.type() === "error") errors.push({ scenario, error: m.text() });
       });
       const start = performance.now();
+      if (process.env.RELEASE_ORIGIN) {
+        await page.goto(`${origin}/oyna/racon`, { waitUntil: "networkidle" });
+        await page.frameLocator("iframe").locator("#btn-devam").waitFor();
+        const portal = await page.evaluate(() => ({ width: innerWidth, scroll: document.documentElement.scrollWidth }));
+        assert.ok(portal.scroll <= portal.width + 1, JSON.stringify(portal));
+      }
       await page.goto(`${origin}/games/racon/index.html`);
       assert.equal(await page.locator("canvas").count(), 0, "menu does not eagerly load Pixi");
       await go();
@@ -180,10 +186,25 @@ try {
         await page.waitForFunction(
           () => document.querySelector(".rm-surface")?.dataset.renderer === "pixi",
         );
-        await page.evaluate(
-          () =>
-            new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))),
-        );
+        // Returning from landscape can deliver ResizeObserver after Pixi's first
+        // paint. Bound that settling separately; an active ticker never settles.
+        const settling = await page.evaluate(async () => {
+          const samples = [];
+          let previous = "", stable = 0;
+          for (let i = 0; i < 15; i++) {
+            const root = document.querySelector(".rm-surface");
+            const sample = { paints: root.dataset.paints, width: root.clientWidth, height: root.clientHeight };
+            samples.push(sample);
+            const signature = JSON.stringify(sample);
+            stable = signature === previous ? stable + 1 : 0;
+            previous = signature;
+            if (stable >= 3) return { stable: true, samples };
+            await new Promise((resolve) => setTimeout(resolve, 100));
+          }
+          return { stable: false, samples };
+        });
+        results.push({ scenario, phase: "renderer-settling", ...settling });
+        assert.equal(settling.stable, true, "renderer settles within 1.5 seconds");
         const idle = await page.locator(".rm-surface").getAttribute("data-paints");
         await page.waitForTimeout(250);
         assert.equal(

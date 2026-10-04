@@ -1,0 +1,650 @@
+{
+  "version": 5,
+  "schemaVersion": 5,
+  "state": {
+    "version": 5,
+    "schemaVersion": 5,
+    "hat": "saha",
+    "turn": 3,
+    "phase": "actions",
+    "stats": {
+      "etki": 20,
+      "kara": 20,
+      "giz": 72,
+      "bilgi": 22,
+      "saha": 56,
+      "sadakat": 58,
+      "kamuoyu": 12,
+      "hukuk": 10
+    },
+    "nodeHeat": {},
+    "edgeStr": {
+      "dogan-ersever": 1,
+      "dogan-jitem": 1,
+      "ersever-jitem": 1,
+      "ersever-guneydogu": 1,
+      "jitem-guneydogu": 1,
+      "ersever-aygan": 1,
+      "ersever-yesil": 1,
+      "abas-eymur": 1,
+      "abas-mit": 1,
+      "eymur-mit": 1,
+      "ersever-veli": 1,
+      "veli-jitem": 1,
+      "abas-eken": 1,
+      "eken-mit": 1,
+      "eymur-emniyet": 1,
+      "catli-emniyet": 1,
+      "catli-kocadag": 2,
+      "kocadag-emniyet": 2,
+      "catli-bucak": 2,
+      "catli-gonca": 1,
+      "agar-emniyet": 1,
+      "sahin-emniyet": 1,
+      "sahin-catli": 1,
+      "agar-catli": 1
+    },
+    "edgeLive": {
+      "dogan-ersever": {
+        "trust": 52,
+        "dependency": 40,
+        "secrecy": 48,
+        "tension": 28
+      },
+      "dogan-jitem": {
+        "trust": 52,
+        "dependency": 40,
+        "secrecy": 48,
+        "tension": 28
+      },
+      "ersever-jitem": {
+        "trust": 52,
+        "dependency": 40,
+        "secrecy": 48,
+        "tension": 28
+      },
+      "ersever-guneydogu": {
+        "trust": 52,
+        "dependency": 40,
+        "secrecy": 48,
+        "tension": 28
+      },
+      "jitem-guneydogu": {
+        "trust": 52,
+        "dependency": 40,
+        "secrecy": 48,
+        "tension": 28
+      },
+      "ersever-aygan": {
+        "trust": 52,
+        "dependency": 40,
+        "secrecy": 48,
+        "tension": 28
+      },
+      "ersever-yesil": {
+        "trust": 52,
+        "dependency": 40,
+        "secrecy": 48,
+        "tension": 28
+      },
+      "abas-eymur": {
+        "trust": 52,
+        "dependency": 40,
+        "secrecy": 48,
+        "tension": 28
+      },
+      "abas-mit": {
+        "trust": 52,
+        "dependency": 40,
+        "secrecy": 48,
+        "tension": 28
+      },
+      "eymur-mit": {
+        "trust": 52,
+        "dependency": 40,
+        "secrecy": 48,
+        "tension": 28
+      },
+      "ersever-veli": {
+        "trust": 28,
+        "dependency": 22,
+        "secrecy": 62,
+        "tension": 44
+      },
+      "veli-jitem": {
+        "trust": 28,
+        "dependency": 22,
+        "secrecy": 62,
+        "tension": 44
+      },
+      "abas-eken": {
+        "trust": 52,
+        "dependency": 40,
+        "secrecy": 48,
+        "tension": 28
+      },
+      "eken-mit": {
+        "trust": 52,
+        "dependency": 40,
+        "secrecy": 48,
+        "tension": 28
+      },
+      "eymur-emniyet": {
+        "trust": 52,
+        "dependency": 40,
+        "secrecy": 48,
+        "tension": 28
+      },
+      "catli-emniyet": {
+        "trust": 52,
+        "dependency": 40,
+        "secrecy": 48,
+        "tension": 28
+      },
+      "catli-kocadag": {
+        "trust": 70,
+        "dependency": 50,
+        "secrecy": 25,
+        "tension": 20
+      },
+      "kocadag-emniyet": {
+        "trust": 70,
+        "dependency": 50,
+        "secrecy": 25,
+        "tension": 20
+      },
+      "catli-bucak": {
+        "trust": 70,
+        "dependency": 50,
+        "secrecy": 25,
+        "tension": 20
+      },
+      "catli-gonca": {
+        "trust": 52,
+        "dependency": 40,
+        "secrecy": 48,
+        "tension": 28
+      },
+      "agar-emniyet": {
+        "trust": 52,
+        "dependency": 40,
+        "secrecy": 48,
+        "tension": 28
+      },
+      "sahin-emniyet": {
+        "trust": 52,
+        "dependency": 40,
+        "secrecy": 48,
+        "tension": 28
+      },
+      "sahin-catli": {
+        "trust": 52,
+        "dependency": 40,
+        "secrecy": 48,
+        "tension": 28
+      },
+      "agar-catli": {
+        "trust": 28,
+        "dependency": 22,
+        "secrecy": 62,
+        "tension": 44
+      }
+    },
+    "stance": {},
+    "actorMemory": {},
+    "revealed": {
+      "jitem": true,
+      "mit": true,
+      "emniyet": true,
+      "dogan": true,
+      "ersever": true,
+      "veli": true,
+      "abas": true,
+      "eymur": true,
+      "eken": true,
+      "yesil": true,
+      "aygan": true,
+      "catli": true,
+      "kocadag": true,
+      "bucak": true,
+      "gonca": true,
+      "guneydogu": true,
+      "agar": true,
+      "sahin": true
+    },
+    "dead": {},
+    "logs": [
+      {
+        "turn": 0,
+        "year": "1986",
+        "text": "Masa: saha hattı. Ersever tipi. Emredilen: kapasite ve inkâr. Emredilmeyen: çıpa ölümler.",
+        "key": "log.open.saha",
+        "kind": "sistem"
+      },
+      {
+        "turn": 1,
+        "year": "1986–88",
+        "text": "KAYNAK İDDİASI · B-01/JİTEM — Fiilî oluşum. Kanıt: GÜÇLÜ.",
+        "kind": "olay"
+      },
+      {
+        "turn": 1,
+        "year": "1986–88",
+        "text": "OYUNSAL REKONSTRÜKSİYON: Saha hattı fiilî timden bakar. Resmi dil uzaktır.",
+        "kind": "gizli"
+      }
+    ],
+    "decisions": [],
+    "tags": [],
+    "factions": {
+      "jitem": {
+        "id": "jitem",
+        "known": [
+          "jitem",
+          "dogan",
+          "ersever",
+          "guneydogu"
+        ],
+        "rumor": [],
+        "hostility": 18,
+        "lastAct": "",
+        "agenda": "Kapasite ve resmi yok dili.",
+        "fear": "Görünürlük ve konuşan içerideki.",
+        "resources": 40,
+        "confidence": 50,
+        "redLines": [
+          "resmi varlık kabulü"
+        ],
+        "allies": [],
+        "rivals": [
+          "media",
+          "hukuk"
+        ],
+        "currentObjective": "Kapasite ve resmi yok dili.",
+        "memory": [],
+        "knowledgeBase": {
+          "jitem": {
+            "claimId": "jitem",
+            "status": "PARTIAL",
+            "confidence": 60,
+            "source": "kendi dosya",
+            "freshness": 0,
+            "propagationRisk": 15
+          },
+          "dogan": {
+            "claimId": "dogan",
+            "status": "PARTIAL",
+            "confidence": 60,
+            "source": "kendi dosya",
+            "freshness": 0,
+            "propagationRisk": 15
+          },
+          "ersever": {
+            "claimId": "ersever",
+            "status": "PARTIAL",
+            "confidence": 60,
+            "source": "kendi dosya",
+            "freshness": 0,
+            "propagationRisk": 15
+          },
+          "guneydogu": {
+            "claimId": "guneydogu",
+            "status": "PARTIAL",
+            "confidence": 60,
+            "source": "kendi dosya",
+            "freshness": 0,
+            "propagationRisk": 15
+          },
+          "clm_jitem_exists": {
+            "claimId": "clm_jitem_exists",
+            "status": "TRUE",
+            "confidence": 85,
+            "source": "saha",
+            "freshness": 0,
+            "propagationRisk": 15
+          },
+          "clm_official_denial": {
+            "claimId": "clm_official_denial",
+            "status": "TRUE",
+            "confidence": 90,
+            "source": "resmi dil",
+            "freshness": 0,
+            "propagationRisk": 15
+          }
+        }
+      },
+      "mit": {
+        "id": "mit",
+        "known": [
+          "mit"
+        ],
+        "rumor": [],
+        "hostility": 18,
+        "lastAct": "",
+        "agenda": "Kendi kurumunu korumak.",
+        "fear": "İç hat kırılması, yanlış bağ.",
+        "resources": 40,
+        "confidence": 50,
+        "redLines": [
+          "jitem emri gibi görünmek"
+        ],
+        "allies": [],
+        "rivals": [
+          "jitem"
+        ],
+        "currentObjective": "Kendi kurumunu korumak.",
+        "memory": [],
+        "knowledgeBase": {
+          "mit": {
+            "claimId": "mit",
+            "status": "PARTIAL",
+            "confidence": 60,
+            "source": "kendi dosya",
+            "freshness": 0,
+            "propagationRisk": 15
+          }
+        }
+      },
+      "emniyet": {
+        "id": "emniyet",
+        "known": [
+          "emniyet"
+        ],
+        "rumor": [],
+        "hostility": 18,
+        "lastAct": "",
+        "agenda": "Kendi kesişimi.",
+        "fear": "Siyasi terk, kamu karesi.",
+        "resources": 40,
+        "confidence": 50,
+        "redLines": [
+          "jandarma uzantısı sayılmak"
+        ],
+        "allies": [
+          "siyaset"
+        ],
+        "rivals": [
+          "jitem"
+        ],
+        "currentObjective": "Kendi kesişimi.",
+        "memory": [],
+        "knowledgeBase": {
+          "emniyet": {
+            "claimId": "emniyet",
+            "status": "PARTIAL",
+            "confidence": 60,
+            "source": "kendi dosya",
+            "freshness": 0,
+            "propagationRisk": 15
+          }
+        }
+      },
+      "media": {
+        "id": "media",
+        "known": [],
+        "rumor": [],
+        "hostility": 18,
+        "lastAct": "",
+        "agenda": "Haber. Yanlış bilgiye açık.",
+        "fear": "Tekzip / kaynak kuruması.",
+        "resources": 40,
+        "confidence": 50,
+        "redLines": [],
+        "allies": [],
+        "rivals": [],
+        "currentObjective": "Haber. Yanlış bilgiye açık.",
+        "memory": [],
+        "knowledgeBase": {
+          "clm_jitem_exists": {
+            "claimId": "clm_jitem_exists",
+            "status": "UNKNOWN",
+            "confidence": 10,
+            "source": "masa",
+            "freshness": 0,
+            "propagationRisk": 15
+          }
+        }
+      },
+      "hukuk": {
+        "id": "hukuk",
+        "known": [],
+        "rumor": [],
+        "hostility": 18,
+        "lastAct": "",
+        "agenda": "Dosya ve kamu.",
+        "fear": "Siyasi bloke.",
+        "resources": 40,
+        "confidence": 50,
+        "redLines": [],
+        "allies": [
+          "media"
+        ],
+        "rivals": [],
+        "currentObjective": "Dosya ve kamu.",
+        "memory": [],
+        "knowledgeBase": {}
+      },
+      "askeri": {
+        "id": "askeri",
+        "known": [
+          "jitem"
+        ],
+        "rumor": [],
+        "hostility": 18,
+        "lastAct": "",
+        "agenda": "Kurumsal mesafe.",
+        "fear": "Saha detayının görünmesi.",
+        "resources": 40,
+        "confidence": 50,
+        "redLines": [
+          "siyasi emir kabulü"
+        ],
+        "allies": [],
+        "rivals": [
+          "media"
+        ],
+        "currentObjective": "Kurumsal mesafe.",
+        "memory": [],
+        "knowledgeBase": {
+          "jitem": {
+            "claimId": "jitem",
+            "status": "PARTIAL",
+            "confidence": 60,
+            "source": "kendi dosya",
+            "freshness": 0,
+            "propagationRisk": 15
+          },
+          "clm_official_denial": {
+            "claimId": "clm_official_denial",
+            "status": "TRUE",
+            "confidence": 80,
+            "source": "resmi dil",
+            "freshness": 0,
+            "propagationRisk": 15
+          }
+        }
+      },
+      "yeralti": {
+        "id": "yeralti",
+        "known": [],
+        "rumor": [],
+        "hostility": 18,
+        "lastAct": "",
+        "agenda": "Fayda.",
+        "fear": "Harcanmak.",
+        "resources": 40,
+        "confidence": 50,
+        "redLines": [],
+        "allies": [
+          "emniyet"
+        ],
+        "rivals": [],
+        "currentObjective": "Fayda.",
+        "memory": [],
+        "knowledgeBase": {}
+      },
+      "siyaset": {
+        "id": "siyaset",
+        "known": [],
+        "rumor": [],
+        "hostility": 18,
+        "lastAct": "",
+        "agenda": "Kalkan ve inkâr dili.",
+        "fear": "Kamu kilidi.",
+        "resources": 40,
+        "confidence": 50,
+        "redLines": [
+          "meclis karesi"
+        ],
+        "allies": [
+          "emniyet"
+        ],
+        "rivals": [
+          "hukuk"
+        ],
+        "currentObjective": "Kalkan ve inkâr dili.",
+        "memory": [],
+        "knowledgeBase": {}
+      }
+    },
+    "hand": {
+      "clm_jitem_exists": {
+        "claimId": "clm_jitem_exists",
+        "status": "PARTIAL",
+        "confidence": 70,
+        "source": "saha",
+        "freshness": 0,
+        "propagationRisk": 15
+      },
+      "clm_official_denial": {
+        "claimId": "clm_official_denial",
+        "status": "TRUE",
+        "confidence": 90,
+        "source": "resmi dil",
+        "freshness": 0,
+        "propagationRisk": 15
+      },
+      "clm_dogan_founder": {
+        "claimId": "clm_dogan_founder",
+        "status": "RUMOR",
+        "confidence": 35,
+        "source": "saha fısıltı",
+        "freshness": 0,
+        "propagationRisk": 40
+      }
+    },
+    "truth": {
+      "clm_jitem_exists": "TRUE",
+      "clm_jitem_founding_date": "UNKNOWN",
+      "clm_yesil_ersever": "PARTIAL",
+      "clm_veli_order": "UNKNOWN",
+      "clm_abas_jitem": "UNKNOWN",
+      "clm_susurluk_car": "TRUE",
+      "clm_jitem_catli_command": "UNKNOWN",
+      "clm_mumcu_jitem": "UNKNOWN",
+      "clm_agar_catli": "PARTIAL",
+      "clm_official_denial": "TRUE",
+      "clm_eymur_abas_split": "TRUE",
+      "clm_informant_layer": "TRUE",
+      "clm_bitlis_sabotaj": "UNKNOWN",
+      "clm_bitlis_jitem": "UNKNOWN",
+      "clm_dogan_founder": "PARTIAL",
+      "clm_yesil_kayip": "PARTIAL",
+      "clm_ersever_tapes": "TRUE",
+      "clm_abas_watch_withdrawn": "UNKNOWN",
+      "clm_kocadag_catli_precrash": "PARTIAL",
+      "clm_eymur_emniyet_warn": "TRUE",
+      "clm_tbmm_commission": "TRUE",
+      "clm_aygan_dogan_split": "PARTIAL",
+      "clm_kutlu_vs_official": "PARTIAL",
+      "clm_hanefi_emniyet_split": "UNKNOWN"
+    },
+    "investigation": {
+      "stage": "dormant",
+      "heat": 0,
+      "documents": [],
+      "suppressed": [],
+      "comparisons": [],
+      "chain": []
+    },
+    "objectives": [
+      {
+        "id": "obj_edge",
+        "title": "Bir bağı sıkılaştır veya gevşet",
+        "hint": "Haritada çizgi.",
+        "secret": false,
+        "origin": "act",
+        "status": "open"
+      }
+    ],
+    "replay": [
+      {
+        "turn": 1,
+        "familyId": "fam_formation",
+        "variantId": "saha",
+        "factionActs": [],
+        "note": "Fiilî oluşum"
+      }
+    ],
+    "replayMeta": {
+      "seed": 71,
+      "hat": "saha",
+      "decisions": [],
+      "events": [
+        {
+          "turn": 1,
+          "familyId": "fam_formation",
+          "variantId": "saha",
+          "factionActs": [],
+          "note": "Fiilî oluşum"
+        }
+      ],
+      "factions": [],
+      "major": []
+    },
+    "actionsLeft": 4,
+    "flags": {
+      "commandShifted": false,
+      "abasDead": false,
+      "erseverTalked": false,
+      "erseverDead": false,
+      "susurluk": false,
+      "mitCooledUntil": 0,
+      "emniyetCooledUntil": 0,
+      "leakSuppressed": false,
+      "lastReportTurn": 0,
+      "investigationOpen": false,
+      "gizCrisisTurns": 0,
+      "informantBurned": false,
+      "yesilUsed": false
+    },
+    "selectedNodeId": "jitem",
+    "selectedEdgeId": "dogan-ersever",
+    "pendingAction": null,
+    "ending": null,
+    "lastResolution": [],
+    "recap": [],
+    "dossier": null,
+    "worldSeed": 71,
+    "eventSeed": 2654435838,
+    "aiSeed": 2246822444,
+    "rngCursor": 0,
+    "graphMode": "people"
+  },
+  "replayMeta": {
+    "seed": 71,
+    "hat": "saha",
+    "decisions": [],
+    "events": [
+      {
+        "turn": 1,
+        "familyId": "fam_formation",
+        "variantId": "saha",
+        "factionActs": [],
+        "note": "Fiilî oluşum"
+      }
+    ],
+    "factions": [],
+    "major": []
+  }
+}

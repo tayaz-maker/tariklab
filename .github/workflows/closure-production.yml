@@ -1,0 +1,47 @@
+name: Closure production proof
+on:
+  push:
+    branches: [astra/closure-production-proof]
+permissions:
+  contents: read
+concurrency:
+  group: closure-production-proof
+  cancel-in-progress: true
+jobs:
+  production-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - id: www
+            origin: https://www.tariklab.com
+          - id: workers
+            origin: https://tariklab.tayaz29.workers.dev
+    env:
+      RELEASE_ORIGIN: ${{ matrix.origin }}
+      RELEASE_HOST: ${{ matrix.id }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - name: Chromium
+        run: |
+          browser_path="$(command -v google-chrome || command -v chromium || true)"
+          if [ -n "$browser_path" ]; then
+            echo "PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=$browser_path" >> "$GITHUB_ENV"
+          else
+            npx playwright install --with-deps chromium --only-shell
+          fi
+      - name: Exact production bytes and fresh-context gameplay
+        run: node scripts/closure-production.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: closure-production-${{ matrix.id }}
+          path: ${{ runner.temp }}/screenshots
+          if-no-files-found: error
