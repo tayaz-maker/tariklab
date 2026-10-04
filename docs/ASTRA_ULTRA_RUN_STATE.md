@@ -196,3 +196,13 @@ PR #101 remains Terra's responsibility. Novella remains **LATER**.
 - CI/merge/production: yeni ortak head'ler henüz CI doğrulanmadı; #110/#111 merge edilmedi; production PASS iddiası yok.
 - Açık risk: local Chromium SIGSEGV/fiziksel GPU yok; main browser+production toplam süre bütçesi gerçek main koşusunda ayrıca doğrulanmalı.
 - Sonraki: #111 ortak fix üstüne rebase; ikisi güncel head green → #110 merge/smoke → #111 main rebase/CI/merge/smoke; yeni ürün dalgası bekler.
+
+### 2026-10-05 — #111 dar CI teşhis checkpoint
+- Hedef: düzeltilmiş #110 tabanını devralmak ve route-costs zaman aşımının tam bekleme aşamasını kanıtlamak.
+- Branch: `astra/map-static-cache`; diagnostic SHA: `8a6453e66c3afc8e2cbc7f20e810bfc77cb91814`; hedef taban #110 `64f20ff`.
+- Rebase: ürün, renderer, save ve bağımlılık dosyaları eski #111 ile aynı; yalnız inherited CI fix + ölçüm teşhisi değişti.
+- Kanıt: eski run `37233660896`, job `111528404051`, Han SW isteklerinden sonra 15 dakika job timeout; hangi await olduğu önceki logda yok.
+- Ölçüm: request.sizes sınırsız API; URL/SW etiketli 10 saniye sınırı, aşama/cleanup sınırları ve kısmi artifact; eksik ölçüm asla sıfır byte/PASS olmaz.
+- Test: gerçek renderer 14 + HTTP/archive 2 + beklemeyen promise regression 5 = 21/21 PASS; ESLint ve production build PASS.
+- Açık risk: timeout kök nedeni henüz browser ile doğrulanmadı; fiziksel GPU kanıtı yok; yeni CI/browser/production PASS iddiası yok.
+- Sonraki adım: #110 gerçek baseline/browser kapanışı, sonra #111 rebased CI; kırmızı veya pending kontrol ile merge yok.
