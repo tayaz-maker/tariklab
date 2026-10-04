@@ -150,3 +150,14 @@ PR #101 remains Terra's responsibility. Novella remains **LATER**.
 - Browser/performans: 1440/390/320 before/source/built ve iki host CI adımları hazır; gerçek sonuç henüz bekleniyor.
 - Açık risk: yerel Chromium SIGSEGV; CI browser yeşil olmadan merge/production başarısı iddia edilmeyecek.
 - Sonraki adım: dar Dalga 1 PR/CI; #109 kapanışı; ölçülmüş performans ve asset referans temizliği ayrı PR.
+
+### 2026-10-05 — #110/#111 CI kök hata checkpoint
+- Hedef: yalnız Wave 1 baseline/browser CI sunucusu; yeni ürün/görsel kapsamı yok.
+- Branch: `astra/wave1-decision-traces`; fix SHA: `48372bd1856fb71e3c97de2fe11fea9beb6afe42`.
+- Kesin hata: run `37232890491`, job `111526171921`, `wave1-outcome-browser.mjs:16:449` → `ERR_HTTP_HEADERS_SENT`.
+- CI önceki head: JS 1629 PASS/1 skip + TS 61 PASS; typecheck/lint/production build PASS; yalnız browser baseline kırmızı.
+- Repro: eksik dosyada `writeHead(200)` sonrası ENOENT, ikinci `writeHead(404)` çöküyordu.
+- Fix: dosya başlıktan önce okunur; kontrollü 400/403/404; baseline archive İHTİLÂL'in kök `/favicon.svg` bağımlılığını içerir.
+- Test: gerçek HTTP/eksik dosya sonrası devam + entry asset/archive kapsamı 2/2 PASS; değişen JS ESLint ve production build PASS (DB yok: migrate doğru skip).
+- Browser: yerel Chromium sayfa açılmadan SIGSEGV; yeni CI head'i çalışmadan browser PASS/merge iddia edilmez.
+- Sonraki adım: #110 browser kanıtı, sonra #111 düzeltmeyi devralıp CI; kırmızı merge yok; anatomi A keşfi bu kapıdan sonra.
