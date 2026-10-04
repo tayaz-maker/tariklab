@@ -4,6 +4,7 @@
 // future change cannot quietly bring any of it back.
 import test from "node:test";
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 
@@ -60,6 +61,12 @@ test("no audio or video media files ship anywhere", () => {
 // contents), is exempted, and re-verified every run.
 const VENDORED_PIXI = /public[/\\]vendor[/\\]pixi[/\\].*\.min\.mjs$/;
 const KNOWN_VENDOR_AUTOPLAY_HITS_PER_COPY = 2;
+// Exact npm-locked Pixi chunk emitted by the upstream #21 embed build.
+// detectVideoAlphaMode sets autoplay=false; only the unused video-texture
+// loader calls that probe. JITEM draws Graphics and never loads video.
+// Pin both bytes and the sole reference, retaining every other noise check.
+const JITEM_PIXI_PROBE = /public[/\\]games[/\\]jitem-derin-ag[/\\]assets[/\\]init-Cz6bzehy\.js$/;
+const JITEM_PIXI_PROBE_SHA256 = "b1ed7596675370c5f4b5011b91295e469e1c2e08610b0bfb2a3fb1cf2514a2aa";
 
 test("no sound, voice, vibration or autoplay code in shipped source", () => {
   const hits = [];
@@ -68,13 +75,19 @@ test("no sound, voice, vibration or autoplay code in shipped source", () => {
       if (!TEXT.test(file)) continue;
       const isVendoredPixi = VENDORED_PIXI.test(file);
       const text = readFileSync(file, "utf8");
+      const isJitemPixiProbe = JITEM_PIXI_PROBE.test(file);
+      if (isJitemPixiProbe) {
+        assert.equal(createHash("sha256").update(text).digest("hex"), JITEM_PIXI_PROBE_SHA256,
+          `${relative(root, file)}: upstream Pixi probe changed; re-verify before updating the pin`);
+        assert.match(text, /\.autoplay=!1[,;]/);
+      }
       for (const re of NOISE) {
         const isAutoplayPattern = re.source === /\bautoplay\b/.source;
-        if (isVendoredPixi && isAutoplayPattern) {
+        if ((isVendoredPixi || isJitemPixiProbe) && isAutoplayPattern) {
           const count = (text.match(new RegExp(re.source, "g")) || []).length;
           assert.equal(
             count,
-            KNOWN_VENDOR_AUTOPLAY_HITS_PER_COPY,
+            isJitemPixiProbe ? 1 : KNOWN_VENDOR_AUTOPLAY_HITS_PER_COPY,
             `${relative(root, file)}: autoplay-reference count changed -- re-verify it is still the unused VideoSource feature, not a real use, before adjusting this number`,
           );
           continue;

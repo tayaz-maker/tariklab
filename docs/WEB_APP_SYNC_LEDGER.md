@@ -439,6 +439,18 @@ Chromium must pass before integration.
 - Single-player fictional basins now carry local information/trust/tension/capacity; directed effects travel along real adjacency with visible delay, filtering and one attenuated onward hop. Capacity aid never duplicates.
 - Original procedural SVG/Pixi geometry shares the simulation's route/layer model. Closing rehearsal, arrival ledger and basin resilience connect decisions to the ending; no audio, external art, real map/person/institution or new dependency.
 - Solo v1 key/envelope retained with validated optional network state and old-save fixtures; neighbour targeting, save recovery, terminal continuation, keyboard focus and renderer cleanup hardened. Legacy two-seat archive untouched; native remains paused.
+### 2026-09-26 — Racon courtyard consequences
+- Web: inherited save-order keys rejected; original fictional street labels, directed delayed neighbour effects and exact network-only closure rehearsal; pure render model with lazy Pixi / semantic SVG+DOM parity.
+- Saves: existing three-slot RACON/1 contract and opaque street/item IDs preserved; optional bounded flow queue/history added. Audio/assets/new dependencies: none; A025 records code geometry.
+- Native remains paused. Release handoff: `astra/racon-neighbourhood-consequences`; port the same rules/model only when native work resumes.
+
+### 2026-10-04 — JITEM upstream #21 vendor/source sync
+- Upstream #21 merged as `0c1fc08db3f050ebf34e237ef4fd1018ba223293` after Decision atlas run [37209063810](https://github.com/tayaz-maker/jitem-derin-ag/actions/runs/37209063810) succeeded on `11c567425c799b92a6442f1acdc77d180ec2c635`; merge used that expected head.
+- Built the exact clean upstream SHA after `npm ci` with the unchanged embed builder. All 30 generated files match an independent rebuild; all 31 deployed-output files (including SOURCE.json) match the vendor directory. No compiled file was hand edited.
+- Updated SOURCE.json, the integration-test source pin and the stale product identity SHA. Save key `jitem-derin-ag-v3`, schema 5, historical content, calculation rules and TarikLab shell are unchanged. No new artwork/media or gameplay scope; native remains paused.
+- Reproduced the silence guard false positive in Pixi's unused video-alpha probe (`autoplay=false`); added only the exact generated chunk SHA-256 plus one-reference pin. All other noise/media checks still run. Targeted integration/silence 7/7, typecheck, build:dev and changed-test ESLint PASS.
+- Upstream browser CI covers TR/EN × 1440/390/320 and lifecycle/save/fallback. Vendor browser/physical GPU/production checks remain release work; local browser installation was unavailable. Generated Pixi shader whitespace is preserved byte-for-byte; non-generated diff checks pass. SON KÖY work remains isolated.
+- Full local JS run: 1,589 PASS / 1 FAIL / 1 existing skip (235 s); the sole failure was the reproduced Pixi probe guard, then corrected and rechecked 7/7. The separately completed TypeScript phase passed 54/54. Final-head CI must re-run the complete gate; `ci-changes.mjs` selects full browser, DEVLET, duel, campaign and balance checks.
 
 ### 2026-09-26 — TC SIM historical starts
 - Web change: added fixed 18 April 1999 and seeded 1980s solo life routes through 1 January 2026; preserved Günümüz and `tc-sim-save` compatibility.
