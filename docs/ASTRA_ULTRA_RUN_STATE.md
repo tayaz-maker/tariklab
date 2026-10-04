@@ -134,7 +134,7 @@ PR #101 remains Terra's responsibility. Novella remains **LATER**.
 - Dosyalar: saf model/test, outcome component/CSS, JobsPanel çağrısı, browser testi ve CI adımı.
 - Kayıt: `cete-savaslari-save-v1`, schema 15, slot ve hesap kuralları değişmedi; görsel durum kayda yazılmaz.
 - Eşik: ilk başarı, sözleşme kapanışı, çok üyeli operasyon, her 5 seviye; 64 anahtarlı tekrar filtresi ve 2.5 sn burst sınırı.
-- Test: baseline 19/19; model + gerçek store eylemi 7/7; typecheck/lint/build PASS; tam suite checkpoint'te.
-- Browser: CI'da dev + built çıktı, TR/EN × 1440/390/320 × motion/reduced; üretimde iki host aynı test.
+- Test: baseline 19/19; model + gerçek store eylemi 7/7; typecheck/lint/build PASS; tam suite 1673 PASS, 1 mevcut isteğe bağlı skip.
+- Browser: önizlemede gerçek karar/odak PASS; kurulum ipucu örtüşmesi düzeltildi. CI'da dev + built çıktı, TR/EN × 1440/390/320 × motion/reduced; üretimde iki host aynı test.
 - Açık risk: yerel Chromium SIGSEGV; browser sonuçları/CI yeşil olmadan merge edilmeyecek.
 - Sonraki adım: CI kanıtı, merge, iki host production; başka ürün yok, Novella LATER.

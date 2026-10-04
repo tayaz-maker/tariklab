@@ -106,7 +106,8 @@ try {
     await context.close();
   }
   // Unfocused normal motion exits in 2.2s; reduced motion stays until closed.
-  for (const reducedMotion of ["no-preference", "reduce"]) {
+  for (const mode of ["no-preference", "reduce", "screen-switch"]) {
+    const reducedMotion = mode === "screen-switch" ? "reduce" : mode;
     const context = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion });
     await context.addInitScript(() => { localStorage.setItem("cete-age-ok", "1"); localStorage.setItem("tariklab.language", "tr"); let seed = 77; Math.random = () => ((seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0) / 4294967296) * 0.1; });
     const page = await context.newPage();
@@ -114,12 +115,23 @@ try {
     await page.getByPlaceholder("Örn. Halil").fill("Süre Testi");
     await page.getByRole("button", { name: /Sokağa in/i }).click();
     const action = page.getByRole("button", { name: "İcraata çık", exact: true }).first();
+    await page.getByText("Ana ekrana ekle", { exact: true }).waitFor({ timeout: 7000 });
     await action.click();
     const moment = page.locator("[data-outcome-moment]");
     await moment.waitFor();
     await page.mouse.move(0, 0);
     const started = Date.now();
-    if (reducedMotion === "reduce") {
+    assert.equal(await moment.locator(".cete-moment-foot").evaluate((el) => {
+      const r = el.getBoundingClientRect();
+      return !!document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2)?.closest("[data-outcome-moment]");
+    }), true, "install hint cannot occlude the receipt");
+    if (mode === "screen-switch") {
+      await page.getByRole("button", { name: "Ben", exact: true }).click();
+      assert.equal(await moment.count(), 0, "switch disposes card");
+      await page.getByRole("button", { name: "İcraat", exact: true }).click();
+      await action.waitFor();
+      assert.equal(await moment.count(), 0, "return does not replay");
+    } else if (reducedMotion === "reduce") {
       await page.waitForTimeout(2600);
       assert.equal(await moment.count(), 1);
       await moment.getByRole("button", { name: "Sonucu kapat" }).click();
@@ -128,7 +140,7 @@ try {
       await moment.waitFor({ state: "detached", timeout: 3000 });
       assert.ok(Date.now() - started >= 1500 && Date.now() - started <= 2500, `duration ${Date.now() - started}`);
     }
-    results.push({ tag: `duration-${reducedMotion}`, ok: true, elapsed: Date.now() - started });
+    results.push({ tag: `duration-${mode}`, ok: true, elapsed: Date.now() - started });
     await context.close();
   }
 } catch (e) {
