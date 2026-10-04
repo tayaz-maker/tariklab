@@ -21,7 +21,7 @@ test('missing baseline asset returns 404 and later requests still serve exact by
  assert.equal((await fetch(base+'/module.js')).status,200,'rejected paths do not stop the server');
 });
 
-test('pinned baseline archive contains every entry-page script, stylesheet and icon',async()=>{
+test('pinned baseline archive contains entry assets and actual service-worker registrations',async()=>{
  const workflow=await readFile(new URL('../.github/workflows/ci.yml',import.meta.url),'utf8');
  const paths=workflow.match(/git archive [a-f0-9]{40} (.+) \| tar/)[1].split(' ');
  for(const game of ['hanedanian','ihtilal','racon']){
@@ -29,6 +29,14 @@ test('pinned baseline archive contains every entry-page script, stylesheet and i
   for(const [,asset] of html.matchAll(/<(?:script|link)\b[^>]*?\b(?:src|href)=["']([^"']+)["']/g)){
    const path='public'+new URL(asset,'http://localhost'+entry).pathname;
    assert.ok(paths.some(prefix=>path===prefix||path.startsWith(prefix+'/')),`${entry} needs ${path} in baseline archive`);
+  }
+  let scripts=html;
+  for(const [,asset] of html.matchAll(/<script\b[^>]*?\bsrc=["']([^"']+)["']/g)){
+   scripts+='\n'+await readFile(new URL('../public'+new URL(asset,'http://localhost'+entry).pathname,import.meta.url),'utf8');
+  }
+  for(const [,asset] of scripts.matchAll(/navigator\.serviceWorker\.register\(["']([^"']+)["']/g)){
+   const path='public'+new URL(asset,'http://localhost'+entry).pathname;
+   assert.ok(paths.some(prefix=>path===prefix||path.startsWith(prefix+'/')),`${entry} registers ${path}; baseline must serve the real worker`);
   }
  }
 });
