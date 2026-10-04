@@ -6,6 +6,7 @@ import {spawn} from 'node:child_process';
 import {chromium} from 'playwright';
 import {checkedUrl,checkedOutputPath} from './browser-guard.mjs';
 import {withDeadline} from './route-performance-deadline.mjs';
+import {responseTransferBytes} from './route-performance-metrics.mjs';
 
 const args=process.argv.slice(2),arg=(name,fallback)=>args.includes(name)?args[args.indexOf(name)+1]:fallback;
 const routeFilter=arg('--route',null),widthFilter=arg('--width',null),focused=routeFilter!==null||widthFilter!==null;
@@ -22,7 +23,7 @@ assert.ok(widths.every(width=>[1440,390,320].includes(width)),'--width must be 1
 const base=checkedUrl('http://127.0.0.1:8089');
 const server=spawn('npm',['run','preview','--','--host','127.0.0.1','--port','8089'],{cwd,stdio:'inherit',detached:true});
 let serverError;server.once('error',error=>{serverError=error;});
-const rows=[],errors=[],progress=[];let browser,activeContext,activeCase=null,primaryError=null,complete=false,clearCaseTimers=()=>{};
+const rows=[],errors=[],progress=[],negativeBodySamples=new Set();let browser,activeContext,activeCase=null,primaryError=null,complete=false,clearCaseTimers=()=>{};
 const expectedCases=routes.length*widths.length;
 function record(stage,event,details={}) {
  const row={at:new Date().toISOString(),route:activeCase?.route||null,width:activeCase?.width||null,stage,event,...details};
@@ -76,7 +77,7 @@ try {
   activeCase={route:route.id,href:route.href,width};record('case','start');await persist();
   const context=await stage('context create',()=>browser.newContext({viewport:{width,height:width===1440?900:844},reducedMotion:'reduce'}));activeContext=context;
   await stage('context setup',()=>context.addInitScript(()=>localStorage.setItem('tariklab.language','tr')));
-  const page=await stage('page create',()=>context.newPage()),requests=[],reads=[],caseErrors=[],pendingSizes=new Map();page.setDefaultTimeout(20000);
+  const page=await stage('page create',()=>context.newPage()),requests=[],reads=[],caseErrors=[],pendingSizes=new Map(),responseSources=new WeakMap();page.setDefaultTimeout(20000);
   page.on('pageerror',e=>caseErrors.push(e.message));
   page.on('console',m=>{if(m.type()==='error')caseErrors.push(m.text());});
   const pending=new Set();let quietTimer,quietDone;
@@ -84,12 +85,15 @@ try {
   const settle=()=>{clearTimeout(quietTimer);if(!pending.size&&quietDone)quietTimer=setTimeout(quietDone,500);};
   context.on('request',request=>{pending.add(request);clearTimeout(quietTimer);});
   context.on('requestfailed',request=>{pending.delete(request);caseErrors.push(`${request.url()}: ${request.failure()?.errorText}`);settle();});
-  context.on('response',response=>{if(response.status()>=400)caseErrors.push(`HTTP ${response.status()}: ${response.url()}`);});
+  context.on('response',response=>{responseSources.set(response.request(),response.fromServiceWorker());if(response.status()>=400)caseErrors.push(`HTTP ${response.status()}: ${response.url()}`);});
   context.on('requestfinished',request=>{
-   const requestInfo={url:request.url(),serviceWorker:!!request.serviceWorker()};pendingSizes.set(request,requestInfo);
+   const requestInfo={url:request.url(),serviceWorker:!!request.serviceWorker(),fromServiceWorker:responseSources.get(request)??null};pendingSizes.set(request,requestInfo);
    const read=withDeadline(`${route.id}/${width}: request.sizes ${requestInfo.url} (serviceWorker=${requestInfo.serviceWorker})`,()=>request.sizes(),10000).then(size=>{
-    assert.ok(Number.isFinite(size.responseBodySize)&&size.responseBodySize>=0&&Number.isFinite(size.responseHeadersSize)&&size.responseHeadersSize>=0,`Invalid response sizes: ${request.url()}`);
-    requests.push({...requestInfo,bytes:size.responseBodySize+size.responseHeadersSize});
+    const bytes=responseTransferBytes(size);
+    if(size.responseBodySize<0&&!negativeBodySamples.has(route.id)){
+     negativeBodySamples.add(route.id);record('sizes','negative-body',{...requestInfo,rawSizes:size,transferBytes:bytes});
+    }
+    requests.push({...requestInfo,bytes});
    }).catch(error=>caseErrors.push(`request.sizes ${request.url()}: ${failure(error)}`)).finally(()=>pendingSizes.delete(request));
    reads.push(read);pending.delete(request);settle();
   });
