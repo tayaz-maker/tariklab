@@ -1,0 +1,49 @@
+name: map-performance
+
+on:
+  pull_request:
+    paths:
+      - public/games/ihtilal/basin-map.js
+      - public/games/racon/map-view.js
+      - scripts/route-performance.mjs
+      - .github/workflows/map-performance.yml
+
+concurrency:
+  group: map-performance-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  route-costs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Build exact pre-performance baseline
+        run: |
+          git worktree add --detach "$RUNNER_TEMP/map-before" 53534e2f9526ad80ce296952c212fa44aaa0ada1
+          ln -s "$GITHUB_WORKSPACE/node_modules" "$RUNNER_TEMP/map-before/node_modules"
+          npm --prefix "$RUNNER_TEMP/map-before" run build
+      - name: Chromium
+        run: |
+          browser_path="$(command -v google-chrome || command -v chromium || true)"
+          if [ -n "$browser_path" ]; then
+            echo "PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=$browser_path" >> "$GITHUB_ENV"
+          else
+            npx playwright install --with-deps chromium --only-shell
+          fi
+      - name: Cold route costs and portal lazy boundary, before and after
+        run: |
+          node scripts/route-performance.mjs --cwd "$RUNNER_TEMP/map-before" --label before
+          node scripts/route-performance.mjs --label after
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: map-route-costs
+          path: ${{ runner.temp }}/screenshots/map-performance

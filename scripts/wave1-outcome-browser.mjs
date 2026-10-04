@@ -27,18 +27,20 @@ async function layout(tag){const m=await page.evaluate(()=>({width:innerWidth,sc
 async function screenshot(tag){await page.screenshot({path:`${out}/${tag}.png`,fullPage:true});}
 try{
  browser=await chromium.launch({headless:true,executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH||undefined,args:['--no-sandbox']});
- for(const game of ['hanedanian','ihtilal','racon'])for(const width of [1440,390,320]){
-  const mode=width===320?'svg':'pixi',motion=width===1440?'no-preference':'reduce',tag=`${game}-${width}-${mode}`;
-  const context=await browser.newContext({viewport:{width,height:width===1440?960:844},isMobile:width<500,hasTouch:width<500,reducedMotion:motion});
-  await context.addInitScript(({game,mode,raconSave,basinSave,key})=>{
+ for(const game of ['hanedanian','ihtilal','racon'])for(const option of [{width:1440},{width:390},{width:320},...(!baseline&&game!=='hanedanian'?[{width:390,memory:1},{width:1440,dpr:3}]:[])]){
+  const {width,memory,dpr}=option,limited=!!memory||!!dpr;
+  const mode=width===320||limited?'svg':'pixi',motion=width===1440?'no-preference':'reduce',tag=`${game}-${width}-${mode}${memory?'-low-memory':dpr?'-pixel-budget':''}`;
+  const context=await browser.newContext({viewport:{width,height:width===1440?960:844},deviceScaleFactor:dpr||1,isMobile:width<500,hasTouch:width<500,reducedMotion:motion});
+  await context.addInitScript(({game,mode,memory,limited,raconSave,basinSave,key})=>{
+   if(memory)Object.defineProperty(navigator,'deviceMemory',{get:()=>memory,configurable:true});
    localStorage.setItem('tariklab.language','tr');
    if(!sessionStorage.getItem('wave1-initialized')){
     if(game==='racon'){localStorage.setItem('tariklab::racon:1',JSON.stringify(raconSave));localStorage.setItem('tariklab::racon:active','1');}
     if(game==='ihtilal')localStorage.setItem(key,basinSave);
     sessionStorage.setItem('wave1-initialized','yes');
    }
-   if(mode==='svg'){const get=HTMLCanvasElement.prototype.getContext;HTMLCanvasElement.prototype.getContext=function(type,...args){return /webgl/.test(type)?null:get.call(this,type,...args);};}
-  },{game,mode,raconSave,basinSave:serializeSolo(createSolo(4242)),key:SOLO_KEY});
+   if(mode==='svg'&&!limited){const get=HTMLCanvasElement.prototype.getContext;HTMLCanvasElement.prototype.getContext=function(type,...args){return /webgl/.test(type)?null:get.call(this,type,...args);};}
+  },{game,mode,memory,limited,raconSave,basinSave:serializeSolo(createSolo(4242)),key:SOLO_KEY});
   page=await context.newPage();page.setDefaultTimeout(15000);
   const caseErrors=[];page.on('pageerror',e=>caseErrors.push(String(e)));page.on('console',m=>{if(m.type()==='error')caseErrors.push(m.text());});
   const opened=performance.now();await page.goto(`${base}/games/${game}/index.html`);
@@ -52,6 +54,7 @@ try{
   else{await page.locator('#btn-devam').click();await page.locator('.rm-node[data-id="st_aksem"]').click();await page.locator('[data-act="ag-sec"][data-kind="cekil"]').click();await page.locator('[data-act="ag-target"][data-id="st_fevzi"]').click();}
   if(game!=='hanedanian')await page.waitForFunction(({selector,mode})=>document.querySelector(selector)?.dataset.renderer===mode,{selector:game==='ihtilal'?'.basin-surface':'.rm-surface',mode});
   const surfaceMs=Math.round(performance.now()-mapStarted),mapTransfer=await transfer(page);
+  if(limited)assert.equal(mapTransfer.pixiRequests,0,'memory/pixel guard avoids Pixi download');
   results.push({tag,performance:{firstRenderMs,surfaceMs,...mapTransfer,lazyTransferBytes:mapTransfer.transferBytes-menuTransfer.transferBytes,lazyRequests:mapTransfer.requestCount-menuTransfer.requestCount,pixiAtMenu:menuTransfer.pixiRequests}});
   assert.equal(await page.locator('[data-outcome-moment]').count(),0,'no hydration replay');
   await layout(`${tag}:before`);await screenshot(`${tag}-before`);
@@ -89,6 +92,21 @@ try{
    await page.reload();await page.locator('#btn-devam').click();assert.deepEqual((await readRacon(page)).ag,saved.ag);
   }
   assert.equal(await page.locator('[data-outcome-moment]').count(),0,'save reload does not replay');
+  if(game!=='hanedanian'){
+   const surfaceSelector=game==='ihtilal'?'.basin-surface':'.rm-surface',markSelector=game==='ihtilal'?'.basin-metric-band':'[data-street-mark]';
+   await page.evaluate(({surfaceSelector,markSelector})=>{
+    const surface=document.querySelector(surfaceSelector);window.__mapCost={removed:0,samples:[]};
+    window.__mapCost.observer=new MutationObserver(records=>{for(const row of records)for(const node of row.removedNodes)if(node.nodeType===1)window.__mapCost.removed+=(node.matches(markSelector)?1:0)+node.querySelectorAll(markSelector).length;});
+    window.__mapCost.observer.observe(surface,{childList:true,subtree:true});
+   },{surfaceSelector,markSelector});
+   for(let i=0;i<12;i++){
+    await page.locator(game==='ihtilal'?'[data-basin]':'.rm-node').nth(i%2).click();
+    await page.evaluate(selector=>window.__mapCost.samples.push(Number(document.querySelector(selector).dataset.renderMs||0)),surfaceSelector);
+   }
+   const interaction=await page.evaluate(()=>{const m=window.__mapCost;m.observer.disconnect();m.samples.sort((a,b)=>a-b);const result={selectionUpdates:m.samples.length,removedBaseMarks:m.removed,medianRenderMs:m.samples[Math.floor(m.samples.length/2)]};delete window.__mapCost;return result;});
+   if(!baseline)assert.equal(interaction.removedBaseMarks,0,'selection retains static state marks');
+   results.push({tag,interaction});
+  }
   await page.setViewportSize({width:720,height:390});await layout(`${tag}:resize`);await page.setViewportSize({width,height:width===1440?960:844});
   if(!baseline&&game!=='hanedanian'){
    const surface=page.locator(game==='ihtilal'?'.basin-surface':'.rm-surface');
@@ -117,5 +135,7 @@ if(label==='built'){
  const snapshots=await Promise.all(['before','source','built'].map(async name=>JSON.parse(await readFile(resolve(out,'..',name,'results.json'),'utf8'))));
  const lines=['# Wave 1 measured performance','', 'Fresh browser contexts; same fixtures and UI actions. Transfer bytes use Navigation/Resource Timing transferSize (encoded payload + response headers). Surface time includes starting the game and selecting its tested decision; lazy transfer is the delta after the initial menu. No claim of universal network latency.','', '| Game / viewport | Before bytes / requests | Built bytes / requests | Before → built first render ms | Before → built decision surface ms | Built lazy bytes / requests |','| --- | ---: | ---: | ---: | ---: | ---: |'];
  for(const row of snapshots[0].results.filter(r=>r.performance)){const next=snapshots[2].results.find(r=>r.tag===row.tag&&r.performance);if(!next)continue;const a=row.performance,b=next.performance;lines.push(`| ${row.tag} | ${a.transferBytes} / ${a.requestCount} | ${b.transferBytes} / ${b.requestCount} | ${a.firstRenderMs} → ${b.firstRenderMs} | ${a.surfaceMs} → ${b.surfaceMs} | ${b.lazyTransferBytes} / ${b.lazyRequests} |`);}
+ lines.push('', '| Selection burst / viewport | Removed base marks before → built | Median synchronous renderer ms before → built |', '| --- | ---: | ---: |');
+ for(const row of snapshots[0].results.filter(r=>r.interaction)){const next=snapshots[2].results.find(r=>r.tag===row.tag&&r.interaction);if(next)lines.push(`| ${row.tag} | ${row.interaction.removedBaseMarks} → ${next.interaction.removedBaseMarks} | ${row.interaction.medianRenderMs} → ${next.interaction.medianRenderMs} |`);}
  await writeFile(resolve(out,'..','performance-comparison.md'),lines.join('\n')+'\n');
 }
