@@ -67,7 +67,7 @@ import {
   getPathDurationWeeks,
   isEligibleForJob,
 } from "./education.js?v=10";
-import { ERAS, PRESENT_DAY_ERA_ID, getEraById } from "./eras.js?v=10";
+import { PRESENT_DAY_ERA_ID, getEraById } from "./eras.js?v=10";
 import { NAVIGATION_ITEMS, getNavigationTarget } from "./navigation.js?v=10";
 import {
   RELATIONSHIP_STAGES,
@@ -86,6 +86,7 @@ import { renderHelpModal } from "./help.js?v=10";
 import { LIFE_ARC_LABELS, LIFE_DEPTH_EVENTS, economyCausality, refreshLifeArcs } from "./life-depth.js?v=10";
 import { DOMAIN_LABEL, STREAK_PAYOFF, decisionTags, weekPlan } from "./decision-network.js?v=10";
 import { actorVoiceLine } from "./life-content.js?v=10";
+import { chooseEightiesStartYear, HISTORICAL_END_DATE, resolveScenarioChoice } from "./historical-scenarios.js?v=10";
 
 const app = document.querySelector("#app");
 
@@ -121,6 +122,11 @@ let startLoadResult = null;
 // unchanged, behind one editorial step; returning-player slots/continue
 // stay on the front step since resuming a life is not character creation.
 let showCreationForm = false;
+function freshScenarioSeed() {
+  const values = new Uint32Array(1);
+  if (window.crypto?.getRandomValues) window.crypto.getRandomValues(values);
+  return values[0] || (Date.now() >>> 0) || 1;
+}
 
 const money = (value) =>
   new Intl.NumberFormat("tr-TR", {
@@ -298,7 +304,8 @@ function startScreen(loadResult) {
             .map(([id, label]) => `<option value="${id}">${escapeText(label)}</option>`)
             .join("")}</select></label>
           <label>Askerlik durumu<select name="militaryApplicable"><option value="false">Bu yaşamda yükümlülük yok</option><option value="true">Yükümlülük var</option></select></label>
-          <label>Başlangıç dönemi<select name="eraId" disabled>${ERAS.map((era) => `<option value="${era.id}" ${era.id === PRESENT_DAY_ERA_ID ? "selected" : ""}>${escapeText(era.title)} · aktif</option>`).join("")}</select><small>Diğer dönemler daha sonra eklenecek.</small></label>
+          <label>Başlangıç<select name="eraId"><option value="present_day">Günümüz · mevcut başlangıç</option><option value="1999-04-18">18 Nisan 1999 · 1 Ocak 2026'ya kadar</option><option value="1980s">1980'lerden seed'li başlangıç · 1 Ocak 2026'ya kadar</option></select></label>
+          <label id="scenario-seed-wrap">Tekrar üretim seed'i<input name="scenarioSeed" type="number" min="1" max="4294967295" value="${freshScenarioSeed()}" inputmode="numeric" /><small id="scenario-preview">Seed aynı kaldığında 1980'ler başlangıcı da aynı kalır.</small></label>
         <div class="row">
           <button class="button button-quiet" type="button" id="back-to-intro">← Geri</button>
           <button class="button button-primary" type="submit">Bu slota yeni hayat</button>
@@ -337,9 +344,36 @@ function startScreen(loadResult) {
     showCreationForm = false;
     startScreen(loadResult);
   });
+  const eraSelect = document.querySelector('#new-game-form [name="eraId"]');
+  const seedInput = document.querySelector('#new-game-form [name="scenarioSeed"]');
+  const preview = document.querySelector("#scenario-preview");
+  const seedLabel = document.querySelector("#scenario-seed-wrap");
+  const updateScenarioPreview = () => {
+    if (!preview) return;
+    const era = eraSelect?.value;
+    const seed = Number(seedInput?.value || 1);
+    const language = window.tlabI18n?.getLang?.() || "tr";
+    if (seedLabel) seedLabel.hidden = era !== "1980s";
+    const year = chooseEightiesStartYear(seed);
+    preview.textContent = era === "1980s"
+      ? language === "en" ? `Seeded start: ${year}. Period decisions continue through 1 January 2026.`
+        : language === "pl" ? `Start z seedem: ${year}. Decyzje trwają do 1 stycznia 2026.`
+          : `Bu seed ile başlangıç: ${year}. Dönem kararları 1 Ocak 2026'ya kadar sürer.`
+      : era === "1999-04-18"
+        ? language === "en" ? "Fixed start: 18 April 1999. End date: 1 January 2026."
+          : language === "pl" ? "Stały start: 18 kwietnia 1999. Data końcowa: 1 stycznia 2026."
+            : "Sabit başlangıç: 18 Nisan 1999. Hedef: 1 Ocak 2026."
+        : language === "en" ? "The present-day option keeps the existing start and save behavior."
+          : language === "pl" ? "Współczesny wariant zachowuje obecny start i zapis gry."
+            : "Günümüz seçeneği mevcut başlangıç ve kayıt davranışını korur.";
+  };
+  eraSelect?.addEventListener("change", updateScenarioPreview);
+  seedInput?.addEventListener("input", updateScenarioPreview);
+  updateScenarioPreview();
   document.querySelector("#new-game-form")?.addEventListener("submit", (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    const eraId = data.get("eraId") || PRESENT_DAY_ERA_ID;
     state = createNewGame({
       name: data.get("name"),
       gender: data.get("gender"),
@@ -350,8 +384,8 @@ function startScreen(loadResult) {
       socialBackground: data.get("socialBackground"),
       familyType: data.get("familyType"),
       militaryApplicable: data.get("militaryApplicable") === "true",
-      eraId: PRESENT_DAY_ERA_ID,
-      seed: Date.now() >>> 0,
+      eraId,
+      seed: eraId === "1980s" ? (Number(data.get("scenarioSeed")) || (Date.now() >>> 0)) : (Date.now() >>> 0),
     });
     notice = "Yeni hayat başladı.";
     weekStartSnapshot = null;
@@ -1190,6 +1224,21 @@ function renderEvent() {
   return `<div class="event-backdrop" role="presentation"><section class="event-card" role="dialog" aria-modal="true" aria-labelledby="event-title"><h2 id="event-title">${escapeText(eventTitle(definition))}</h2><p>${escapeText(eventBody(definition))}</p>${getBodyEventContext(state, definition) ? `<p>${escapeText(phraseText(getBodyEventContext(state, definition)))}</p>` : ""}<div class="event-choices">${definition.choices.map((choice) => `<button class="button event-choice" data-event-choice="${choice.id}" ${getEventChoiceAvailability(state, choice.id).ok ? "" : "disabled"} title="${escapeText(phraseText(getEventChoiceAvailability(state, choice.id).reason || ""))}"><strong>${escapeText(eventChoiceLabel(definition, choice))}</strong><small>${escapeText(phraseText(getChoiceEffectSummary(choice)))}</small></button>`).join("")}</div></section></div>`;
 }
 
+function renderScenarioPanel() {
+  const scenario = state?.world?.scenario;
+  if (!scenario) return "";
+  if (scenario.pendingEvent) {
+    const event = scenario.pendingEvent;
+    const citations = event.sources?.length ? `<p class="historical-citations">Kaynak: ${event.sources.map((source) => `<span><a href="${escapeText(source.url)}" target="_blank" rel="noopener noreferrer">${escapeText(source.title)}</a> · ${escapeText(source.date)} · ${escapeText(source.role)}</span>`).join(" · ")}</p>` : `<p class="historical-citations">Kurgu yaşam kararı; gerçek tarihsel olay iddiası değildir.</p>`;
+    return `<section class="historical-event" aria-labelledby="historical-event-title"><p class="eyebrow">${event.year} · DÖNEM KARARI</p><h2 id="historical-event-title">${escapeText(event.title)}</h2><p>${escapeText(event.body)}</p>${citations}<p class="historical-disclosure">Dönem etkileri nitelikseldir. Oyun içi para, tarihsel ücret veya satın alma gücü verisi değildir; simülasyon takvimi sıkıştırılmıştır. 2026 özeti, sona yakın kararların henüz vadesi dolmamış yankılarını da toplar.</p><div class="historical-choice-grid">${event.choices.map((choice) => `<button class="button historical-choice" data-scenario-choice="${choice.id}"><strong>${escapeText(choice.label)}</strong><small>${escapeText({ work: "Kariyer ve gelir fırsatı · enerji yükü", study: "Eğitim ve beceri · zaman/enerji bedeli", save: "Birikim ve güvenlik · bugünkü erişimden feragat", family: "Aile bağı · zaman ve bütçe yükü", move: "Yeni erişim · taşınma ve bağların bedeli", rest: "Sağlık ve toparlanma · kısa vadeli kariyer bedeli" }[choice.id])}</small><small>Gecikmiş etkisi yaklaşık bir simülasyon yılı sonra görünür.</small></button>`).join("")}</div></section>`;
+  }
+  if (scenario.completed) {
+    const result = scenario.final || {};
+    return `<section class="historical-result" aria-labelledby="historical-result-title"><p class="eyebrow">TARİHSEL ROTA TAMAMLANDI · ${HISTORICAL_END_DATE}</p><h2 id="historical-result-title">${escapeText(result.summary || "Yaşam rotası tamamlandı.")}</h2><div class="historical-result-grid"><span>Dönem kararları <b>${result.decisions || 0}</b></span><span>Gecikmiş sonuçlar <b>${result.delayedEchoes || 0}</b></span><span>Birikim <b>${money(result.balance || 0)}</b></span><span>Sağlık <b>${result.health || 0}/100</b></span><span>Kariyer <b>${result.career || 0}/100</b></span><span>Aile bağı <b>${result.family || 0}/100</b></span></div><p class="context-note">Bu, oyun içi yaşam özeti ve kurgu kararlarının sonucudur; resmî tarih simülasyonu değildir.</p></section>`;
+  }
+  return `<section class="historical-strip"><span><b>${escapeText(scenario.pack.title)}</b> · ${escapeText(scenario.currentDate)} → ${HISTORICAL_END_DATE}</span><span>${scenario.history.length} dönem kararı işlendi</span></section>`;
+}
+
 const VIEW_RENDERERS = {
   career: renderCareer,
   education: renderEducation,
@@ -1211,7 +1260,7 @@ function render() {
   const terminal = Boolean(state.lifetime?.death);
   const workspace = terminal
     ? renderLifetimeTerminal(state)
-    : (VIEW_RENDERERS[activeView] || renderDashboard)() +
+    : renderScenarioPanel() + (VIEW_RENDERERS[activeView] || renderDashboard)() +
       (["character", "history", "yearbook"].includes(activeView) ? renderLineage(state) : "");
   app.innerHTML = `
     <main class="game-frame">
@@ -1235,6 +1284,13 @@ function render() {
     applyLangPhrases();
   }
   compactNavigation(document.querySelector(".side-nav"), confirmText("Diğer bölümler", "More sections"));
+
+  document.querySelectorAll("[data-scenario-choice]").forEach((button) => button.addEventListener("click", () => {
+    const result = resolveScenarioChoice(state, button.dataset.scenarioChoice);
+    notice = result.message;
+    persist();
+    render();
+  }));
 
   document.querySelectorAll("[data-successor]").forEach(button => button.addEventListener("click", () => {
     if (!window.confirm(confirmText("Bu çocukla yeni kuşağa geçmek istiyor musun?", "Move on to this child's new generation?"))) return;

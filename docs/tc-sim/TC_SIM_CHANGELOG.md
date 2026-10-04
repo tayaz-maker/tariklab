@@ -125,3 +125,12 @@
 - Dashboard "AÇIK MESELELER" panelinin sabit etiket eşlemesi yeni case türlerini (`personal-debt`, `social-followup`) tanıyacak şekilde genişletildi; başka arayüz değişikliği yapılmadı.
 - Save sürümü değişmedi (**hâlâ 5**); `migrateV4()`'e dokunulmadı, v6 yok.
 - 24 yeni davranış/bütünleşik senaryo testiyle (`scripts/tc-sim-3d.test.mjs`) toplam 135 test yeşil; 144/520 hafta ve 20 seed × 260 hafta fuzz koşuları ile gerçek tarayıcı smoke testi geçti. Ayrıntı: `TC_SIM_3D_POST_IMPLEMENTATION.md`.
+
+## Historical starts — PR A
+
+- TC SIM kept its existing Günümüz path and added the fixed 18 April 1999 and seeded 1980s life routes, each ending on 1 January 2026.
+- Added deterministic scenario event order, six life choices, one-year delayed effects and a final life outcome; pending effects are summarized at the endpoint.
+- Kept the `tc-sim-save` key and added a legacy-load assertion for present-day saves without historical scenario state.
+- Added inline institutional citations for each factual historical/economic event; uncited dated cards are explicitly fictional life decisions.
+- Added CI Chromium coverage for 1440/390/320 px, all three starts, decision persistence/reload and historical final screens.
+- Technical frame: `outputs/TARIKLAB_LUNA_TC_SIM_HISTORICAL_STARTS.md`.

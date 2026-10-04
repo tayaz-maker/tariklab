@@ -439,3 +439,11 @@ Chromium must pass before integration.
 - Single-player fictional basins now carry local information/trust/tension/capacity; directed effects travel along real adjacency with visible delay, filtering and one attenuated onward hop. Capacity aid never duplicates.
 - Original procedural SVG/Pixi geometry shares the simulation's route/layer model. Closing rehearsal, arrival ledger and basin resilience connect decisions to the ending; no audio, external art, real map/person/institution or new dependency.
 - Solo v1 key/envelope retained with validated optional network state and old-save fixtures; neighbour targeting, save recovery, terminal continuation, keyboard focus and renderer cleanup hardened. Legacy two-seat archive untouched; native remains paused.
+
+### 2026-09-26 — TC SIM historical starts
+- Web change: added fixed 18 April 1999 and seeded 1980s solo life routes through 1 January 2026; preserved Günümüz and `tc-sim-save` compatibility.
+- Historical event cards carry event-specific official source URL, publication/access date, institution role and supported claim; uncited dated choices are explicitly fictional life prompts.
+- Added deterministic choices and delayed life effects; browser coverage targets 1440, 390 and 320 px.
+- Rebased on the #101 merge (`513127f`); retained main's phone `weekPlanHtml` decision layout and decision-network week close.
+- Scope: TC SIM historical core only; no DEVLET #100, Pixi CI infrastructure or JITEM changes.
+- PR: codex/tc-sim-historical-starts.
