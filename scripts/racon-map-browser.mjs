@@ -186,10 +186,25 @@ try {
         await page.waitForFunction(
           () => document.querySelector(".rm-surface")?.dataset.renderer === "pixi",
         );
-        await page.evaluate(
-          () =>
-            new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))),
-        );
+        // Returning from landscape can deliver ResizeObserver after Pixi's first
+        // paint. Bound that settling separately; an active ticker never settles.
+        const settling = await page.evaluate(async () => {
+          const samples = [];
+          let previous = "", stable = 0;
+          for (let i = 0; i < 15; i++) {
+            const root = document.querySelector(".rm-surface");
+            const sample = { paints: root.dataset.paints, width: root.clientWidth, height: root.clientHeight };
+            samples.push(sample);
+            const signature = JSON.stringify(sample);
+            stable = signature === previous ? stable + 1 : 0;
+            previous = signature;
+            if (stable >= 3) return { stable: true, samples };
+            await new Promise((resolve) => setTimeout(resolve, 100));
+          }
+          return { stable: false, samples };
+        });
+        results.push({ scenario, phase: "renderer-settling", ...settling });
+        assert.equal(settling.stable, true, "renderer settles within 1.5 seconds");
         const idle = await page.locator(".rm-surface").getAttribute("data-paints");
         await page.waitForTimeout(250);
         assert.equal(

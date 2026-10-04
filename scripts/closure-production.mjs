@@ -23,10 +23,12 @@ try {
   }
   const scripts = { racon: 'scripts/racon-map-browser.mjs', jitem: 'scripts/closure-jitem-browser.mjs', 'tc-sim': 'scripts/closure-tc-browser.mjs' };
   assert.ok(scripts[config.game]);
+  proof.browser = 'running';
   const result = spawnSync(process.execPath, [scripts[config.game], '--label', `production-${process.env.RELEASE_HOST}`], { stdio: 'inherit', env: process.env, timeout: 8 * 60 * 1000 });
   assert.equal(result.status, 0, `${config.game} browser acceptance: ${result.error || result.signal || result.status}`);
   proof.browser = 'pass';
 } catch (error) {
+  if (proof.browser === 'running') proof.browser = 'fail';
   proof.error = String(error);
   process.exitCode = 1;
 } finally {
