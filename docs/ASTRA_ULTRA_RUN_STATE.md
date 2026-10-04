@@ -228,3 +228,13 @@ PR #101 remains Terra's responsibility. Novella remains **LATER**.
 - CI/merge/production: yeni #111 CI henüz doğrulanmadı; #110/#111 merge edilmedi, yeni production iddiası yok.
 - Açık risk: yerel Chromium SIGSEGV; #110 Racon mobile PNG genişliği baseline'da da mevcut, final review kanıt sınırı; fiziksel GPU doğrulanmadı.
 - Sonraki adım: yeni #111 tam 126 route vakası ve tüm required checks; ikisi green olduktan sonra #110→#111 ve iki-host smoke.
+
+### 2026-10-05 — #111 ortak CI fix üstüne rebase checkpoint
+- Branch/PR: `astra/map-static-cache`, #111; taban #110 `fea0d0cb3b582c58d1759e0d09b29fc1aaeb846e`.
+- SHA: rebase `c7b5b1672f8789ac35c412e69f042a232e3cf7ca`; ölçüm kodu `67b7297c7918472c26c53e4336c9566a10afe04a`; ortak CI fix `889cd133`.
+- Değişen: CI workflow, exact-success gate+regression ve run-state; eski head `fec5f66` ile public/src/package/lock byte-identical.
+- Test: yeni tabanda gate18 + gerçek HTTP/archive2 =20/20 PASS; ortak fix build/ESLint PASS; browser kanıtı eski head'e aittir.
+- Önceki CI: ölçüm126/126 PASS; full build 25 dakika job tavanında CANCELLED; bu iptal PASS sayılmadı.
+- CI/merge/production: yeni head kontrolleri kapı; #110/#111 henüz merge ve production doğrulaması yok.
+- Açık risk: local Chromium SIGSEGV, fiziksel GPU yok; main production adımları dahil browser işinin toplam süresi ayrıca doğrulanacak.
+- Sonraki: iki güncel head yeşil → #110 merge+iki host → #111 main rebase/yeni CI/merge+iki host; Wave2–4/anatomi kodu başlamaz.
