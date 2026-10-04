@@ -137,7 +137,7 @@ try {
       // synchronous node count in the click's first frame.
       await moment.waitFor({ state: "detached" });
       assert.equal(await moment.count(), 0, "switch disposes card");
-      await page.getByRole("button", { name: "İcraat", exact: true }).click();
+      await page.getByRole("button", { name: "İş", exact: true }).click();
       await action.waitFor();
       assert.equal(await moment.count(), 0, "return does not replay");
     } else if (reducedMotion === "reduce") {
