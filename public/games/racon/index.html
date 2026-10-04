@@ -502,6 +502,19 @@ html,body{font-size:14px}
 @media(max-height:520px){.top .btn,.btn,.strip{min-height:44px}.menu-layer{align-items:flex-start}.log{max-height:none}.scene{min-height:0}}
 @media(prefers-reduced-motion:reduce){.side{transition:none}}
 
+
+/* Racon courtyard atlas: original cut-corner blocks, no geography or asset layers. */
+.rm-layout{display:grid;gap:18px;align-items:start}.rm-chart{min-width:0}.rm-chart h3{display:flex;justify-content:space-between;letter-spacing:.16em;font-size:16px}.rm-chart h3 span{color:var(--ink-dim)}
+.rm-layers{display:flex;flex-wrap:wrap;gap:5px;margin:10px 0}.rm-layers .btn{flex:1;min-width:64px;padding:7px;font-size:12px;min-height:44px}
+.rm-layers [aria-pressed=true],.rm-directions [aria-pressed=true]{border-color:var(--accent);background:var(--surface-2);box-shadow:inset 0 -2px var(--accent)}
+.rm-surface{position:relative;width:100%;background:#1b211e;border:1px solid #59645d;isolation:isolate;contain:layout paint}
+.rm-gpu,.rm-svg,.rm-buttons{position:absolute;inset:0;width:100%;height:100%}.rm-gpu{pointer-events:none}.rm-gpu canvas{display:block;width:100%;height:100%}.rm-svg{overflow:visible;pointer-events:none}.rm-buttons{pointer-events:none}
+.rm-surface[data-renderer=pixi] .rm-shape,.rm-surface[data-renderer=pixi] .rm-line{visibility:hidden}
+.ag-node.rm-node{position:absolute;margin:0;padding:5px 3px;display:flex;gap:2px;justify-content:center;align-items:center;text-align:center;border:0;border-radius:0;background:transparent;color:#e7e0cc;box-shadow:none;min-height:44px;pointer-events:auto;font-size:12px;line-height:1.25;grid-column:auto;grid-row:auto;overflow:hidden}
+.rm-node b{font-size:13px;color:#eee7d1;overflow-wrap:anywhere}.rm-node .rm-control{font-size:9px;letter-spacing:.12em;color:var(--rm-color)}.rm-node .rm-metric{font-size:12px}.rm-node .rm-order,.rm-node .rm-wave{font-size:10px}.rm-node .rm-wave{color:#d9bc72}.rm-node:focus-visible{outline:2px solid #f7d17d;outline-offset:1px}
+.rm-key{font-size:11px;color:var(--ink-dim)}.rm-arrivals,.rm-forecast{padding:10px 0;border-top:1px solid var(--line);margin-top:10px}.rm-arrivals summary,.rm-forecast summary{cursor:pointer;min-height:44px;display:flex;align-items:center;font-size:13px}.rm-arrivals li,.rm-forecast li{font-size:12px;overflow-wrap:anywhere}.rm-directions .acts{display:flex;flex-wrap:wrap}.rm-directions .btn{min-height:44px;font-size:12px;white-space:normal}.rm-layout .ag-panel{min-width:0}.rm-layout .ag-dl>div{grid-template-columns:78px minmax(0,1fr)}.rm-layout .ag-k{min-height:64px}.rm-layout .ag-kararlar{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(min-width:1100px){.rm-layout{grid-template-columns:minmax(0,1.2fr) minmax(310px,1fr)}.rm-chart{position:sticky;top:12px}}
+@media(max-width:390px){.rm-node b{font-size:12px}.rm-node .rm-metric{font-size:11px}.rm-node .rm-order,.rm-node .rm-wave{font-size:10px}.rm-layout .ag-dl>div{grid-template-columns:66px minmax(0,1fr)}}
 </style>
 <script src="/i18n/pl-body.js" data-game="racon" defer></script>
 </head>
@@ -555,15 +568,15 @@ html,body{font-size:14px}
         <p class="legal">© 2026 TarikLab. Tüm hakları saklıdır.<br>Oyun tasarımı ve özgün içerik: Tarık Halil Ayaz.</p>
       </div>
       <div id="menu-nick" class="stack" hidden>
-        <label class="dim" for="lakap">Lakap · semt Fatih</label>
+        <label class="dim" for="lakap">Lakap · semt Avlu Semti</label>
         <input id="lakap" maxlength="16" placeholder="Adsız">
         <button type="button" class="btn primary" data-act="menu" data-go="origin">Devam</button>
         <button type="button" class="btn ghost" data-act="menu" data-go="home">Vazgeç</button>
       </div>
       <div id="menu-origin" class="stack origin" hidden>
         <p class="dim">Mahalleye adsız girilmez. Nereden geldin?</p>
-        <button type="button" class="btn pick" data-act="origin" data-id="hapis"><b>Hapisten çıkan</b>Sağmalcılar kapısı. Cebinde az para, sırtında bir isim.</button>
-        <button type="button" class="btn pick" data-act="origin" data-id="koy"><b>Köyden gelen</b>Doğu otobüsü Edirnekapı'da. Amcanın kahvesi Fevzi Paşa'da.</button>
+        <button type="button" class="btn pick" data-act="origin" data-id="hapis"><b>Hapisten çıkan</b>Demir Kapı kapısı. Cebinde az para, sırtında bir isim.</button>
+        <button type="button" class="btn pick" data-act="origin" data-id="koy"><b>Köyden gelen</b>Doğu otobüsü Uzak Terminal'da. Amcanın kahvesi Kırık Avlu'da.</button>
         <button type="button" class="btn pick" data-act="origin" data-id="borc"><b>Borçlu</b>Kumar masası. Cuma akşamı alacaklı gelecek.</button>
         <button type="button" class="btn ghost" data-act="menu" data-go="nick">Geri</button>
       </div>
@@ -602,7 +615,7 @@ html,body{font-size:14px}
       <p class="tag">Kısaca, kolay Türkçe.</p>
 
       <h3>Oyun ne anlatıyor</h3>
-      <p>Fatih'te <b>adsız</b> başlıyorsun. Elinde ad yok, para az, ekip yok. İş yapa yapa <b>ad</b> kazanıyorsun; ad ile <b>adam</b> topluyorsun; adamla <b>sokak</b> tutuyorsun. Ama her iş bir iz bırakıyor: dosyan büyüyor, polis dikkat kesiliyor. Amaç mahallede güçlenirken dosyanı fazla şişirmemek.</p>
+      <p>Avlu Semti'te <b>adsız</b> başlıyorsun. Elinde ad yok, para az, ekip yok. İş yapa yapa <b>ad</b> kazanıyorsun; ad ile <b>adam</b> topluyorsun; adamla <b>sokak</b> tutuyorsun. Ama her iş bir iz bırakıyor: dosyan büyüyor, polis dikkat kesiliyor. Amaç mahallede güçlenirken dosyanı fazla şişirmemek.</p>
 
       <h3>Başlarken</h3>
       <p>Bir <b>lakap</b> yaz, bir <b>köken</b> seç (hapisten çıkan / köyden gelen / borçlu). Köken, ilk elindeki para ve adamı belirler.</p>
@@ -657,6 +670,8 @@ html,body{font-size:14px}
 <script src="../shared/depth-framework.js"></script>
 <script src="content.js"></script>
 <script src="network.js"></script>
+<script src="map-model.js"></script>
+<script src="map-view.js"></script>
 <script>
 (function () {
   "use strict";
@@ -790,10 +805,10 @@ html,body{font-size:14px}
     { id: "w101", kind: "silah", ad: "Çakı", fiyat: 0, atk: 2, def: 0, nam: 0, desc: "Emanet. Cebe sığar, iş görür." },
     { id: "w102", kind: "silah", ad: "Sustalı", fiyat: 800, atk: 8, def: 1, nam: 0, desc: "Bilek hareketi. Laf dinletir." },
     { id: "w103", kind: "silah", ad: "Kama", fiyat: 2200, atk: 14, def: 2, nam: 0, desc: "Belde durur. Kahve masasında görünmez." },
-    { id: "w104", kind: "silah", ad: "14'lük Browning", fiyat: 8500, atk: 28, def: 4, nam: 1, desc: "Numarasız. Tetikte tutukluk ayrı mesele." },
+    { id: "w104", kind: "silah", ad: "Eski tabanca", fiyat: 8500, atk: 28, def: 4, nam: 1, desc: "Numarasız. Tetikte tutukluk ayrı mesele." },
     { id: "w105", kind: "silah", ad: "Pompalı", fiyat: 14000, atk: 40, def: 6, nam: 2, desc: "Kapı arkasında konuşur." },
     { id: "w106", kind: "silah", ad: "İşlemeli tabanca", fiyat: 28000, atk: 55, def: 10, nam: 3, desc: "Makam silahı. Masa durur." },
-    { id: "w107", kind: "silah", ad: "Mauser 1910", fiyat: 42000, atk: 62, def: 8, nam: 4, desc: "Cep tabancası. Eski, temiz, sessiz." },
+    { id: "w107", kind: "silah", ad: "Cep tabancası", fiyat: 42000, atk: 62, def: 8, nam: 4, desc: "Cep tabancası. Eski, temiz, sessiz." },
     { id: "a101", kind: "ust", ad: "Kasket ve pardösü", fiyat: 3500, atk: 1, def: 8, nam: 1, desc: "Sokak üniforması. Yağmurda da durur." },
     { id: "a102", kind: "ust", ad: "Kalın palto", fiyat: 9000, atk: 2, def: 16, nam: 2, desc: "Kış, rüzgar, duruş." },
     { id: "a103", kind: "ust", ad: "Deri yelek", fiyat: 18000, atk: 4, def: 28, nam: 3, desc: "Altında plaka yok, duruş var." },
@@ -818,9 +833,9 @@ html,body{font-size:14px}
     { id: "e104", ad: "Depo", fiyat: 320000, hafta: 14000, tur: "is", desc: "Koli, kaçak mal, kilit." },
     { id: "e105", ad: "Tefeci ofisi", fiyat: 750000, hafta: 28000, tur: "is", desc: "Senet, faiz, sessiz para." },
     { id: "e106", ad: "Haliç gazinosu", fiyat: 980000, hafta: 36000, tur: "is", desc: "Sahne, kasa, gece. Polis ayrı mesele." },
-    { id: "e201", ad: "Fevzi Paşa oda", fiyat: 22000, hafta: 200, tur: "konut", desc: "Tek oda. Çatı akar." },
+    { id: "e201", ad: "Kırık Avlu oda", fiyat: 22000, hafta: 200, tur: "konut", desc: "Tek oda. Çatı akar." },
     { id: "e202", ad: "Çarşamba ev", fiyat: 95000, hafta: 700, tur: "konut", desc: "İki oda. Mahalle görür." },
-    { id: "e204", ad: "Balat ev", fiyat: 180000, hafta: 1100, tur: "konut", desc: "İki kat. Mahalle görür, karakol da." }
+    { id: "e204", ad: "Avlulu ev", fiyat: 180000, hafta: 1100, tur: "konut", desc: "İki kat. Mahalle görür, karakol da." }
   ];
   var HIRE = [
     { id: "m_riza", ad: "Rıza", rol: "kirici", hire: 4500, yevmiye: 550, bag: "inşaat kalfası" },
@@ -847,7 +862,7 @@ html,body{font-size:14px}
   var KADIN = [
     { id: "k_seher", ad: "Seher", yer: "pavyon", hediye: 900, desc: "Pavyon masası. Gülüş pahalı." },
     { id: "k_neriman", ad: "Neriman", yer: "kahve", hediye: 280, desc: "Kahve tezgâhı. Çay söyler, mahalle duyar." },
-    { id: "k_ayla", ad: "Ayla", yer: "terzi", hediye: 450, desc: "Terzi kızı. Fevzi Paşa çıkışı, perşembe." }
+    { id: "k_ayla", ad: "Ayla", yer: "terzi", hediye: 450, desc: "Terzi kızı. Kırık Avlu çıkışı, perşembe." }
   ];
   var ATLAR = [
     { id: "at_kara", ad: "Karagöz", oran: 2.2 },
@@ -866,7 +881,7 @@ html,body{font-size:14px}
     { id: "sp_naci", kim: "Naci Bey", kind: "tahsilat", bonus: 1400, text: "Pavyon çıkışı kirlendi. Sarhoşu sen temizle, hesap bende." },
     { id: "sp_riza", kim: "Tombalacı Rıza", kind: "tombala", bonus: 2600, text: "Bu gece masayı sen çevir. Polis başka semtte, diyorlar." },
     { id: "sp_haydar", kim: "Haydar Usta", kind: "kepenk", bonus: 1800, text: "Kepenk inmeden geç. Tezgah açık kalmasın." },
-    { id: "sp_veli", kim: "Hurdacı Veli", kind: "tek_arac", bonus: 2200, text: "Bir araç, bir koli. Macar'dan Fevzi'ye, iz yok." },
+    { id: "sp_veli", kim: "Hurdacı Veli", kind: "tek_arac", bonus: 2200, text: "Bir araç, bir koli. Kül Merdiven'dan Kırık Avlu'ye, iz yok." },
     { id: "sp_semih", kim: "Jilet Semih", kind: "insaat_harac", bonus: 4200, text: "Şantiye 'güvenlik' yazacak. Sen çay iç, kasa dolsun." },
     { id: "sp_orhan", kim: "Piranha Orhan", kind: "kacak_mal", bonus: 9000, text: "Eminönü iskele. Koli, zarf, kepenk. Sen bilirsin." },
     { id: "sp_hasan", kim: "Büfeci Hasan", kind: "esnaf_koruma", bonus: 1100, text: "Büfe rahat durmuyor. Bir gece kapıda dur." },
@@ -875,17 +890,17 @@ html,body{font-size:14px}
   var ORIGIN = {
     hapis: {
       title: "Hapisten çıkan",
-      lead: "Sağmalcılar kapısı sabah açıldı.",
+      lead: "Demir Kapı kapısı sabah açıldı.",
       body: "Sabri dışarıda bekliyordu. Cebinde 4.200 var. Kartallar hâlâ adını anıyor.",
-      night: "Akşam Fevzi Paşa kahvesine indik. İçeride iki masa, biri suskun.",
+      night: "Akşam Kırık Avlu kahvesine indik. İçeride iki masa, biri suskun.",
       kasa: 4200, korku: 12, saygi: 4, nam: 6, racon: 62,
       men: ["m_sabri"], inv: ["w101"],
       paper: "Sabri kahveye götürdü. Mahalle bakıyor."
     },
     koy: {
       title: "Köyden gelen",
-      lead: "Doğu otobüsü Edirnekapı'ya indi.",
-      body: "Amcanın kahvesi Fevzi Paşa'da. 'Bir hafta yat, bakacağız' dedi.",
+      lead: "Doğu otobüsü Uzak Terminal'ya indi.",
+      body: "Amcanın kahvesi Kırık Avlu'da. 'Bir hafta yat, bakacağız' dedi.",
       night: "Kahve kalabalık. Amca köşede, Hasan kapıda.",
       kasa: 11000, korku: 3, saygi: 10, nam: 1, racon: 74,
       men: ["m_hasan", "m_sabri"], inv: [],
@@ -1008,7 +1023,7 @@ html,body{font-size:14px}
     if (cost && S.kasa < cost) return "Kasada ₺" + cost.toLocaleString("tr-TR") + " gerekli.";
     if (code === "tanik-satinal" && S.dirtyKasa < 3000) return "Kirli kasada ₺3.000 gerekli.";
     if (code === "avukat-tut" && S.flags.avukatTutuldu) return "Avukat zaten çalışıyor.";
-    if (code === "ag") return window.RaconAg.reason(S, p.id, p.kind);
+    if (code === "ag") return window.RaconAg.reason(S, p.id, p.kind, UI.agTarget);
     if (code === "tut") { var st=streetBy(p.id); if(!st||st.sahip!=="bos") return "Sokak boş değil."; if(num(S.flags.touchJobs[st.id],0)<2) return "Önce bu sokakta iki işi sonuçlandır."; }
     if (code === "hayat" && p.id === "cami" && S.day !== 5) return "Cuma günü açılır.";
     if (code === "buy" && S.inventory.indexOf(p.id)>=0) return "Zaten sende.";
@@ -1386,7 +1401,7 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
     st = st || {};
     return {
       id: str(st.id, "st"),
-      ad: str(st.ad, "Sokak"),
+      ad: window.RaconAg.NAMES[st.id] || str(st.ad, "Sokak"),
       sahip: str(st.sahip, "bos"),
       heat: num(st.heat, 0),
       saygiPuan: num(st.saygiPuan, 0),
@@ -1473,12 +1488,12 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
   }
   function canonStreets() {
     return [
-      migrateStreet({ id: "st_fevzi", ad: "Fevzi Paşa", sahip: "sen", heat: 8 }),
-      migrateStreet({ id: "st_aksem", ad: "Akşemsettin", sahip: "bos", heat: 4, dikey: { site: "Akşemsettin Apartmanı", kapiciId: "p_kapici" } }),
-      migrateStreet({ id: "st_carsamba", ad: "Çarşamba", sahip: "bos", heat: 5 }),
-      migrateStreet({ id: "st_macar", ad: "Macar Kardeşler", sahip: "bos", heat: 6 }),
-      migrateStreet({ id: "st_draman", ad: "Draman", sahip: "bos", heat: 3 }),
-      migrateStreet({ id: "st_fener", ad: "Fener", sahip: "bos", heat: 4 })
+      migrateStreet({ id: "st_fevzi", ad: "Kırık Avlu", sahip: "sen", heat: 8 }),
+      migrateStreet({ id: "st_aksem", ad: "Bakır Eşik", sahip: "bos", heat: 4, dikey: { site: "Bakır Eşik Apartmanı", kapiciId: "p_kapici" } }),
+      migrateStreet({ id: "st_carsamba", ad: "Çift Kandil", sahip: "bos", heat: 5 }),
+      migrateStreet({ id: "st_macar", ad: "Kül Merdiven", sahip: "bos", heat: 6 }),
+      migrateStreet({ id: "st_draman", ad: "Dilsiz Çatı", sahip: "bos", heat: 3 }),
+      migrateStreet({ id: "st_fener", ad: "Son Kepenk", sahip: "bos", heat: 4 })
     ];
   }
   function canonical() {
@@ -1816,7 +1831,7 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
       var st = streetBy(S.streetHome);
       if (st) st.heat = clamp(st.heat + 3, 0, 100);
       addRep("korku", 2);
-      pushInbox("Sokak seni gördü.", "Fevzi Paşa ağzında durdun. Heat ince ince yürüdü.");
+      pushInbox("Sokak seni gördü.", "Kırık Avlu ağzında durdun. Heat ince ince yürüdü.");
     } else if (choice === "konus") {
       addRep("racon", 2);
       pushInbox("Borç konuşuldu.", "Kartallar Cuma'yı unutturmaz. Ama yüzünü gördüler.");
@@ -3295,7 +3310,7 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
     });
   }
   var BASIN_SORU = [
-    "Fevzi Paşa'da adın geçiyor, doğru mu?",
+    "Kırık Avlu'da adın geçiyor, doğru mu?",
     "Kartallar'la aranızda ne var?",
     "Mahalle neden bu kadar sessiz?"
   ];
@@ -3369,22 +3384,22 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
   }
   function writeBugun() {
     var pool = [
-      "Hava kurşun. Fevzi Paşa toz içinde.",
+      "Hava kurşun. Kırık Avlu toz içinde.",
       "Yağmur ince. Kepenkler erken indi.",
       "Pazar günü kalabalık. Çarşamba konuşuyor.",
       "İnönü'de düğün var. Mahalle boşaldı.",
       "Düğün konvoyu geçti. Toz kaldı.",
       "Cuma çıkışı. Cami önü kalabalık.",
-      "Sis Haliç'ten yürüdü. Fener görünmüyor.",
+      "Sis Haliç'ten yürüdü. Son Kepenk görünmüyor.",
       "Karakol sivil iki kişi sordu, geçti.",
       "Kartallar kahve önünde durdu, konuşmadı.",
       "Esnaf şikayet etti. Ses mahallede.",
       "Fırın erken açıldı. Ekmek kuyruğu uzadı.",
-      "Tramvay durdu. Akşemsettin taşındı.",
-      "Balık kokusu Fener'den geldi. Rüzgâr ters.",
+      "Tramvay durdu. Bakır Eşik taşındı.",
+      "Balık kokusu Son Kepenk'den geldi. Rüzgâr ters.",
       "Kahvede okey sesi yok. Masa boş.",
       "Sabri tespih çekti. Söz etmedi.",
-      "Macar Kardeşler'de kepenk yarım. İçerisi karanlık.",
+      "Kül Merdiven'de kepenk yarım. İçerisi karanlık.",
       "Çocuklar topu duvara vurdu. Kimse çıkmadı.",
       "Gazete bayii geç geldi. Manşet suskun.",
       "Kömür dumanı evlerin üstünde duruyor.",
@@ -3392,7 +3407,7 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
       "Bekçi düdüğü uzak. Sokak kendi işini görüyor.",
       "Taksi şoförü sordu, cevap almadı, gitti.",
       "Çarşıda kavgaya yakın durdu, dağılmadı.",
-      "Gece lambası yandı. Draman uzun göründü."
+      "Gece lambası yandı. Dilsiz Çatı uzun göründü."
     ];
     S.flags.bugun = pool[Math.floor(rng() * pool.length)];
   }
@@ -3962,6 +3977,7 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
   function agApi() {
     return {
       pay: function (n, ad) { cashChange(-n); defter("ağ · " + ad + " · " + fmtPara(-n)); },
+      filePressure: filePressure,
       addRep: addRep,
       esnafRel: function (sid, d) { var p = esnafOf(sid); if (p) relModEkle(p, d, "ilişki", S.week + 8); },
       esnafFavor: function (sid, d) { var p = esnafOf(sid); if (p) p.favor = clamp(num(p.favor, 0) + d, 0, 3); },
@@ -4468,6 +4484,8 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
     UI.manId = (S.men[0] && S.men[0].id) || null;
     UI.cmp = [];
     UI.streetId = null;
+    UI.agKind = null;
+    UI.agTarget = null;
     UI.calId = null;
     if (S && !S.flags.bugun) writeBugun();
     if(S.scene){
@@ -4526,7 +4544,7 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
     if (!S) { document.getElementById("top-meta").innerHTML = ""; return; }
     var dc = S.dosya >= 75 ? "is-danger" : S.dosya >= 40 ? "is-heat" : "";
     document.getElementById("top-meta").innerHTML =
-      "<span>FATİH</span><span>H" + S.week + " · " + DAYS[S.day - 1] + "</span>" +
+      "<span>AVLU SEMTİ</span><span>H" + S.week + " · " + DAYS[S.day - 1] + "</span>" +
       '<span class="' + dc + '">DOSYA <b>' + Math.round(S.dosya) + "%</b></span>" +
       "<span>₺" + S.kasa.toLocaleString("tr-TR") + "</span>";
     document.getElementById("btn-ilerlet").disabled = !!S.busy || UI.sahne || !!(S && S.flags && S.flags.oyunSonu);
@@ -4550,7 +4568,7 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
       '<button type="button" class="btn side-close" data-act="side">Paneli kapat</button>' +
       (bosTahtMi()
         ? '<p class="unvan dim">' + up("TAHT BOŞ · " + Math.max(0, 3 - num(S.throne.weeksEmpty, 0)) + " HAFTA") + "</p>"
-        : '<p class="unvan' + (num(S.flags.amcaKonusulmuyor, 0) > 0 ? " dim" : "") + '">' + up((STAGE_TR[S.stage] || S.stage) + " · Fatih") + (num(S.flags.amcaKonusulmuyor, 0) > 0 ? " · soluk" : "") + "</p>") +
+        : '<p class="unvan' + (num(S.flags.amcaKonusulmuyor, 0) > 0 ? " dim" : "") + '">' + up((STAGE_TR[S.stage] || S.stage) + " · Avlu Semti") + (num(S.flags.amcaKonusulmuyor, 0) > 0 ? " · soluk" : "") + "</p>") +
       '<p class="side-note">' + esc(S.lakap) + (S.origin ? " · " + esc((ORIGIN[S.origin] || {}).title || "") : "") + "</p>" +
       '<p class="side-note"><b>BU HAFTA</b><br>' + esc(S.defterHafta || "Hafta yeni başladı.") + "</p>" +
       barrow("Korku", S.rep.korku, 100, "") +
@@ -4797,7 +4815,7 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
     return '<div class="split"><div class="list">' + list + '<div class="acts" style="padding:8px"><button type="button" class="btn" data-act="cmpgo" ' + (n < 2 ? "disabled" : "") + ">Karşılaştır (" + n + ")</button></div></div><div class=\"sheet\">" + sheet + kunye + (hire ? '<div class="card"><h3>Tutulacak adam</h3>' + hire + "</div>" : "") + "</div></div>";
   }
 
-  var AG_FX = { heat: "Baskı", teror: "Terör", sadakat: "Sadakat", dosya: "Dosya", yatirim: "Yatırım kademesi",
+  var AG_FX = { heat: "Baskı", teror: "Terör", sadakat: "Sadakat", dosya: "Dosya izi", yatirim: "Yatırım kademesi",
     saygi: "Saygı", esnaf: "Esnaf ilişkisi", favor: "İyilik hakkı", dokun: "Rakibe karşı iz" };
   var AG_SAHIP = { sen: "SENDE", rakip: "RAKİPTE", bos: "BOŞ" };
   var AG_BAG = { hat: "Senin hattın: iki sokak da sende.", sinir: "Sınır: bir yan sende, bir yan rakipte.", yol: "Yol: el değiştirebilir." };
@@ -4852,7 +4870,7 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
     var esRel = es ? personRelHesap(es) : null;
     var dl = [
       ["Kontrol", AG_SAHIP[g.kontrol] + (sel.id === S.streetHome ? " · ev sokağı" : "")],
-      ["İtibar", "Saygı " + g.saygi + " · Sadakat " + g.sadakat],
+      ["İtibar", "Saygı " + g.saygi + " · Güven " + g.sadakat],
       ["İlişki", es ? es.ad + " (" + (es.rol || "esnaf") + ") · " + (esRel > 10 ? "yakın" : esRel < -10 ? "küs" : "mesafeli") + " " + esRel : "Tanıdık esnaf yok"],
       ["Kaynak", g.yatirim ? "Yatırım " + g.yatirim + "/" + Ag.YATIRIM_MAX + (g.gelir ? " · haftalık ₺" + g.gelir.toLocaleString("tr-TR") : " · sokak sende değilken gelir yok") : "Yatırım yok"],
       ["Tehdit", g.tehdit + " (" + g.tehditPuan + ") · baskı " + g.heat + " · terör " + g.teror],
@@ -4879,20 +4897,22 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
         "<b>" + esc(o.ad) + "</b>" + '<span class="dim">' + (o.cost ? "₺" + o.cost.toLocaleString("tr-TR") : "Bedelsiz") + " · " + o.weeks + " hafta</span>" +
         (why ? '<span class="ag-why" id="agw-' + k + '">' + esc(why) + "</span>" : "") + "</button>";
     }).join("");
-    var pv = UI.agKind ? Ag.preview(S, sel.id, UI.agKind) : null;
+    var pv = UI.agKind ? Ag.preview(S, sel.id, UI.agKind, UI.agTarget) : null;
     var plan = "";
     if (pv) {
-      var komsuFx = [pv.komsu.now && ["Hemen", pv.komsu.now], pv.komsu.weekly && ["Her hafta", pv.komsu.weekly], pv.komsu.end && ["Sonunda", pv.komsu.end]].filter(Boolean);
+      var direction = '<div class="rm-directions"><b>Yayılım yönü</b><div class="acts"><button type="button" class="btn ghost" data-act="ag-target" data-id="" aria-pressed="'+(!UI.agTarget)+'">Tüm komşular</button>' + (sel.komsular || []).map(function(id){ var st=streetBy(id); if(!st || (pv.kind==="koru" && st.sahip!=="sen"))return "";return '<button type="button" class="btn ghost" data-act="ag-target" data-id="'+esc(id)+'" aria-pressed="'+(UI.agTarget===id)+'">'+esc(st.ad)+' · +₺250</button>'; }).join("") + '</div><p class="dim">Tek komşu: iki kat komşu etkisi, diğerlerine yayılmaz. Yoldaki izler yön değiştirmez. Varışta baskı 60+ ise güven etkisi yarıya iner.</p></div>';
+      var spread = pv.spread.map(function(p){return '<li>'+esc(window.RaconAg.NAMES[p.to])+' · ilk varış '+p.first+' kapanış sonra · '+agFx(p.fx)+(p.repeat>1?' · '+p.repeat+' haftalık sevk':'')+'</li>';}).join('');
       plan = '<div class="ag-plan">' +
-        '<p class="ag-niyet">' + esc(pv.niyet) + "</p>" +
+        '<p class="ag-niyet">' + esc(pv.niyet) + "</p>" + direction +
         '<dl class="ag-dl">' +
         "<div><dt>Bedel</dt><dd>" + (pv.cost ? "₺" + pv.cost.toLocaleString("tr-TR") : "Yok") + "</dd></div>" +
         "<div><dt>Şimdi</dt><dd>" + (agFx(pv.now) || '<span class="dim">Görünür etki yok</span>') + "</dd></div>" +
         "<div><dt>Her hafta · " + pv.weeks + "</dt><dd>" + (agFx(pv.weekly) || '<span class="dim">Görünür etki yok</span>') + "</dd></div>" +
         "<div><dt>Sonunda</dt><dd>" + (agFx(pv.end) || '<span class="dim">Görünür etki yok</span>') + "</dd></div>" +
-        (komsuFx.length ? "<div><dt>Komşulara</dt><dd>" + komsuFx.map(function (x) { return '<span class="dim">' + x[0] + ":</span> " + agFx(x[1]); }).join(" ") + '<br><span class="dim">' + esc(pv.komsu.streets.join(", ") || "Etkilenen komşu yok") + "</span></dd></div>" : "") +
+        '<div><dt>Komşu varışı</dt><dd><ul class="ag-komsu">'+(spread || '<li>Bu yönde etkilenen komşu yok.</li>')+'</ul><small>Kontrol şimdi aynı kalırsa bu süreler geçerli; sevk anındaki kontrol yol süresini belirler.</small></dd></div>' +
         "</dl>" +
         (pv.extra ? '<p class="dim">' + esc(pv.extra) + "</p>" : "") +
+        (pv.end.dosya ? '<p class="dim">Dosya izi delil hesabına girer; avukat ve mevcut eskime kuralı geçerlidir.</p>' : "") +
         '<div class="acts"><button type="button" class="btn primary" data-act="ag" data-id="' + sel.id + '" data-kind="' + pv.kind + '"' + (pv.reason ? " disabled" : "") + ">Kararı ver · " + esc(pv.ad) + "</button></div>" +
         (pv.reason ? '<p class="minus">' + esc(pv.reason) + "</p>" : "") +
         "</div>";
@@ -4901,7 +4921,7 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
       ? '<button type="button" class="btn" data-act="tut" data-id="' + sel.id + '"' + (S.kasa < 4500 ? " disabled" : "") + ">Tut · ₺4.500</button>"
       : "";
     var logs = ag.log.slice(-4).reverse().map(function (l) { return "<li>H" + l.week + " · " + esc(l.text) + "</li>"; }).join("");
-    var panel = '<section class="card ag-panel" aria-labelledby="ag-h">' +
+    var panel = '<section class="card ag-panel" tabindex="-1" aria-labelledby="ag-h">' +
       '<h3 id="ag-h">' + esc(up(sel.ad)) + "</h3>" +
       '<p class="dim">' + esc(STREET_NOTE[sel.id] || "") + "</p>" +
       '<dl class="ag-dl">' + dl + "</dl>" +
@@ -4913,7 +4933,12 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
       '<div class="acts">' + tut + '<button type="button" class="btn ghost" data-act="nav" data-id="isler">Bu sokakta iş planla</button></div>' +
       (logs ? '<h4 class="ag-sub">Ağ defteri</h4><ul class="ag-log">' + logs + "</ul>" : "") +
       "</section>";
-    return '<div class="ag">' + map + panel + "</div>" + drawKose();
+    var model = window.RaconMapModel.model(S, {selected:sel.id,layer:UI.agLayer,kind:UI.agKind,target:UI.agTarget});
+    var layers = [["control","Kontrol"],["trust","Güven"],["risk","Risk"],["resource","Kaynak"],["favor","İyilik"]].map(function(l){return '<button type="button" class="btn ghost" data-act="rm-layer" data-id="'+l[0]+'" aria-pressed="'+(model.layer===l[0])+'">'+l[1]+'</button>';}).join('');
+    var arrivals = model.nodes.flatMap(function(n){return n.incoming.map(function(p){return '<li>'+esc(Ag.NAMES[p.from])+' → '+esc(n.name)+' · '+esc(Ag.ORDERS[p.kind].ad)+' · '+p.left+' kapanış sonra '+agFx(Ag.waveFx(p,streetBy(p.to)))+'</li>';});}).join('');
+    var rehearsal = model.next.streets.map(function(n){return '<li><b>'+esc(Ag.NAMES[n.id])+'</b> · baskı '+n.heat+' ('+(n.heatDelta>=0?'+':'')+n.heatDelta+') · güven '+Math.round(n.trust)+' ('+(n.trustDelta>=0?'+':'')+n.trustDelta+')</li>';}).join('');
+    var chart = '<section class="rm-chart"><h3>AVLU DEFTERİ <span>H'+S.week+'</span></h3><p class="dim">Altı kurgusal sokak · G: güven, B: baskı. Bağdaki sayı sevkten sonraki ağ kapanışıdır; çift sayı iki yönün süresidir.</p><div class="rm-layers" role="group" aria-label="Harita katmanı">'+layers+'</div><div id="rm-map-host">'+map+'</div><p class="rm-key">Kesik sınır / rakip · ◇ fırsat · ok / yoldaki iz · altın / seçilen karar</p><div class="acts"><button type="button" class="btn primary" data-act="rm-plan">'+esc(sel.ad)+' · kararları aç</button><button type="button" class="btn ghost" data-act="rm-light">Hafif harita</button></div><details class="rm-arrivals" open><summary>Yoldaki etkiler · '+model.nodes.reduce(function(n,s){return n+s.incoming.length;},0)+'</summary><ul class="ag-log">'+(arrivals||'<li>Henüz sevk edilmiş etki yok.</li>')+'</ul></details><details class="rm-forecast"><summary>Sıradaki ağ kapanışı · ₺'+model.next.income+' yatırım geliri</summary><p class="dim">Yalnız sokak ısınması, aktif emirler ve yoldaki izler. Rakip hamleleri ve diğer haftalık olaylar bu prova dışında.</p><ul class="ag-log">'+rehearsal+'</ul></details></section>';
+    return '<div class="ag rm-layout">' + chart + panel + "</div>" + drawKose();
   }
   function drawKose() {
     var lvl = num(S.kose, 0);
@@ -5315,7 +5340,21 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
       "<p>Bu aşamada kilitli. — " + esc(st) + "</p></div>";
   }
 
+  var raconMapView = null;
+  function destroyRaconMap() { if(raconMapView){raconMapView.destroy();raconMapView=null;} }
+  function refreshRaconMap() {
+    var host=document.getElementById("rm-map-host");
+    if (!window.RaconMapView || !host || !S || S.screen!=="harita" || UI.mode!=="play" || UI.rnd || S.flags.oyunSonu) { destroyRaconMap(); return; }
+    if(!raconMapView)raconMapView=window.RaconMapView.create();
+    host.replaceChildren(raconMapView.element);
+    raconMapView.update(window.RaconMapModel.model(S,{selected:UI.streetId||S.streetHome,layer:UI.agLayer,kind:UI.agKind,target:UI.agTarget,narrow:raconMapView.narrow}));
+    if(UI.agLight)raconMapView.fallback();else raconMapView.start();
+  }
+  window.addEventListener("racon-map-resize", function(){ if(raconMapView) refreshRaconMap(); });
+  window.addEventListener("pagehide", destroyRaconMap);
+  window.addEventListener("pageshow", function(e){if(e.persisted)refreshRaconMap();});
   function drawStage() {
+    if(raconMapView)raconMapView.element.remove();
     if (!S) { document.getElementById("stage").innerHTML = ""; return; }
     if (S.flags && S.flags.oyunSonu) {
       var depthRows = ((S.depth && S.depth.decisions) || []).slice(-6).reverse().map(function (d) { return '<p class="dim">H' + d.week + ' · ' + esc(d.kind) + ' · ' + esc(d.choice) + ' → ' + esc(d.consequence) + '</p>'; }).join("");
@@ -5363,6 +5402,10 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
     navResizeTimer = setTimeout(function () { if (S) drawNav(); }, 120);
   });
   function render() {
+    var focused=document.activeElement;
+    var focusData=focused && focused.dataset ? {act:focused.dataset.act,id:focused.dataset.id,kind:focused.dataset.kind} : null;
+    var forecastOpen=document.querySelector(".rm-forecast")?.open;
+    var arrivalsOpen=document.querySelector(".rm-arrivals")?.open;
     document.getElementById("menu").classList.toggle("hide", UI.mode === "play");
     var err = document.getElementById("menu-err");
     if (UI.loadErr) { err.hidden = false; err.textContent = UI.loadErr; }
@@ -5383,6 +5426,11 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
     drawStage();
     drawModal();
     decorateActions();
+    refreshRaconMap();
+    var forecastEl=document.querySelector(".rm-forecast"), arrivalsEl=document.querySelector(".rm-arrivals");
+    if(forecastEl && forecastOpen!==undefined)forecastEl.open=forecastOpen;
+    if(arrivalsEl && arrivalsOpen!==undefined)arrivalsEl.open=arrivalsOpen;
+    if(focusData?.act)Array.from(document.querySelectorAll("[data-act]")).find(function(b){return b.dataset.act===focusData.act && b.dataset.id===focusData.id && b.dataset.kind===focusData.kind;})?.focus({preventScroll:true});
     if(S&&UI.mode==="play") writeSave();
     if (window.tlabI18n && window.tlabI18n.getLang() !== "tr") window.tlabI18n.applyPhrases(document.body);
   }
@@ -6049,7 +6097,7 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
       return;
     }
     if (code === "street") {
-      if (UI.streetId !== payload.id) UI.agKind = null;
+      if (UI.streetId !== payload.id) { UI.agKind = null; UI.agTarget = null; }
       UI.streetId = payload.id;
       UI.planStreet = payload.id;
       /* Harita kendi seçili-sokak panelini gösterir; yan paneli açmaz. */
@@ -6057,14 +6105,19 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
       render();
       return;
     }
+    if (code === "rm-plan") { var panel=document.querySelector(".ag-panel"); panel?.scrollIntoView({block:"start"}); panel?.focus({preventScroll:true}); return; }
+    if (code === "rm-layer") { UI.agLayer = payload.id; render(); return; }
+    if (code === "rm-light") { UI.agLight = true; raconMapView?.fallback(); render(); return; }
+    if (code === "ag-target") { UI.agTarget = payload.id || null; render(); return; }
     if (code === "ag-sec") {
       UI.streetId = payload.id;
       UI.agKind = UI.agKind === payload.kind ? null : payload.kind;
+      UI.agTarget = null;
       render();
       return;
     }
     if (code === "ag") {
-      if (window.RaconAg.start(S, payload.id, payload.kind, agApi())) {
+      if (window.RaconAg.start(S, payload.id, payload.kind, agApi(), UI.agTarget)) {
         UI.agKind = null;
         recalcSaygi();
         recalcDosya();
@@ -7218,7 +7271,7 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
     (function () {
       var eski = { kind: "racon_v1", week: 4, day: 3, kasa: 9000, stage: "delikanli", lakap: "Eski",
         men: [{ id: "m_eski", ad: "Kadir", rol: "ayakci", gonul: 50 }],
-        streets: [{ id: "st_fevzi", ad: "Fevzi Paşa", sahip: "sen" }] };
+        streets: [{ id: "st_fevzi", ad: "Kırık Avlu", sahip: "sen" }] };
       var esk;
       try { esk = migrate(eski); } catch (e) { fail("migrate: eski kayıt patladı — " + e.message); return; }
       if (!esk || esk.week !== 4 || esk.kasa !== 9000) fail("migrate: eski kayıt temel alanları korunmadı");
