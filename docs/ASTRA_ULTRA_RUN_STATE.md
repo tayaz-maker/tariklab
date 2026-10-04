@@ -206,3 +206,14 @@ PR #101 remains Terra's responsibility. Novella remains **LATER**.
 - Test: gerçek renderer 14 + HTTP/archive 2 + beklemeyen promise regression 5 = 21/21 PASS; ESLint ve production build PASS.
 - Açık risk: timeout kök nedeni henüz browser ile doğrulanmadı; fiziksel GPU kanıtı yok; yeni CI/browser/production PASS iddiası yok.
 - Sonraki adım: #110 gerçek baseline/browser kapanışı, sonra #111 rebased CI; kırmızı veya pending kontrol ile merge yok.
+
+### 2026-10-05 — #110 browser kapandı; #111 transfer ölçümü checkpoint
+- #110 `64f20ff`, run `37238892501` / job `111543489272`: baseline/source/built 1440/390/320 Wave 1 browser PASS; diğer zorunlu kontroller merge kapısıdır.
+- Branch: `astra/map-static-cache`; ölçüm fix SHA: `5175ab021486b8782dfde6b25a454c882d63e792`.
+- #111 run `37239830196` / job `111546137343`: Han 1440 CSS yanıtı yeni bileşen-validasyonunda FAIL; aşamalar/cleanup tamamlandı, bu koşu takılmadı.
+- Repro/kaynak: Playwright 1.62.1 Chromium body=encodedDataLength−headers; body tek başına negatif olabilir. Public sizes dört alan verir, transferSize vermez.
+- Fix: sonlu güvenli headers/body ve negatif olmayan gerçek toplam doğrulanır; 200 + (−200) = 0 korunur; clamp/uydurma sıfır yok, gerçek negatif toplam reddedilir.
+- Kanıt: ilk negatif bileşen rota başına raw alanlar ve URL/SW ile kaydedilir; console/overflow/deadline kapıları değişmedi.
+- Test: metrics 11 + deadline 5 = 16/16 PASS; scoped ESLint ve production build PASS; ürün/save/dependency değişmedi.
+- Açık risk: eski 15 dakika takılmasının belirli await'i hâlâ kanıtlanmadı; tam route browser ölçümü yeni CI'da doğrulanacak.
+- Sonraki adım: #111 ilgili CI kanıtı; kırmızı/pending merge yok, anatomi A ve 360 inceleme henüz başlamadı.
