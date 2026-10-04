@@ -161,3 +161,14 @@ PR #101 remains Terra's responsibility. Novella remains **LATER**.
 - Merge/production: ikisi de merge edilmedi; production iddiası yok; önceki 126 ölçüm PASS yalnız eski head kanıtıdır.
 - Açık risk: yerel Chromium SIGSEGV, fiziksel GPU / PL ana dil / anatomi uzmanı yok; main browser+production toplam süre bütçesi henüz ölçülmedi.
 - Sonraki: iki güncel head green → #110 merge/iki-host → #111 main rebase/CI/merge/iki-host; pendingken yalnız kanıt ve bağımsız kaynak notu.
+
+### 2026-10-05 — son bounded CI checkpoint
+- Branch/PR: #110 `astra/wave1-decision-traces` head `fea0d0cb3b582c58d1759e0d09b29fc1aaeb846e`; #111 `astra/map-static-cache` head `9c47c0d293a0f47dbce62822d94637151ccaceb4`.
+- SHA: ortak korumalı CI split `889cd133`; iframe readiness fix `24c76754f70224277ae74d3bd2b9929b28e2fb83`.
+- Son somut hata: run `37244258417` / job `111558890122`, TC SIM DEVLET390 body-null; aynı >20 metin eşiği/20 saniye süreyle bekleme eklendi.
+- Test: readiness/deadline/HTTP/metadata20 PASS, gate/HTTP/archive20 PASS; scoped ESLint ve production build PASS.
+- Gerçek CI: #110 `37244054041` core SUCCESS, browser/soak in_progress; #111 `37244773929` pending, map `37244773932` in_progress.
+- Merge/production: ikisi de yapılmadı; kırmızı veya pending ile merge yok. Eski FEC126 ölçüm/9-13-13 browser kanıtı yeni head PASS yerine geçmez.
+- Kanıt: final360 intake'inde artifact `11317874879`, low-memory/DPR/statik retention ve Racon PNG/performance sınırları; DARBE sınırları ayrı kaynak notunda, kural testi/teşhisi yok.
+- Risk: yerel Chromium SIGSEGV, fiziksel GPU yok; main browser+production süre bütçesi ayrıca ölçülecek. PL ve anatomi insan kapıları açık.
+- Sonraki: iki güncel head green → #110 merge/iki-host → #111 main rebase/yeni CI/merge/iki-host; Wave2–4/anatomi kodu henüz başlamadı.

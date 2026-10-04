@@ -59,6 +59,12 @@ Gerekçeli LATER kaydı DONE değildir ve zorunlu bir release kapısını kendil
   #110 head `fea0d0c`, CI `37244054041`; #111 head `de4c416`, CI `37244258514`,
   ölçüm `37244258417`: yayın anında pending, yeni head için PASS verilmedi. #111 ürün/src/save
   ve bağımlılık dosyaları eski `fec5f66` ile aynı; 9 commit rebase edildi, eski head backup ref'te.
+- Sonraki dar fix: `de4c416` ölçüm run `37244258417` / job `111558890122`, TC SIM DEVLET390
+  iframe henüz body oluşturmadan `innerText` okunduğu için FAIL. Fix `24c76754` null body'de
+  bekler; aynı trim length>20 / 20 saniye ve bütün hata/byte/overflow kapıları korunur.
+  20 hedefli regression + ESLint/build PASS. Güncel #111 head `9c47c0d293a0f47dbce62822d94637151ccaceb4`;
+  CI `37244773929` pending, map `37244773932` in_progress. #110 `fea0d0c` build-core SUCCESS,
+  browser/soak henüz in_progress. Hiçbir merge veya yeni production PASS yok.
 - Görsel kanıt sınırı: #110 Racon 390/320 full-page PNG genişliği 730/621 px, sağ boşluk
   baseline/source/built'te aynı; DOM scrollWidth 390/320. Yeni regresyon doğrulanmadı.
   Final B/C incelemesinde viewport screenshot + gerçek yatay kaydırma/hit-test ile sınıflandırılacak;
