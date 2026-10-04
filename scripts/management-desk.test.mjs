@@ -37,9 +37,11 @@ import { deskEnglish } from "../public/games/tc-sim/js/desk.js";
 // causality, entropy recovery, crisis/form math, save V2 ve 2002 POLICIES/EVENTS
 // sayıları donmuş kalır. Overlay kadrolar flavor-only; içerik seçimi 2 politika
 // kotasını tüketmez.
-test("frozen baseline: all 38 content, simulation, persistence and projection sources are byte-identical", () => {
+// Refresh the frozen TC SIM baseline for this authorized historical-start core;
+// unrelated content and DEVLET assets remain guarded by the same digest.
+test("frozen baseline: historical-start-agnostic content and simulation sources stay unchanged", () => {
   const files = readdirSync("public/games/tc-sim/js")
-    .filter(f => f.endsWith(".js") && !["app.js", "desk.js"].includes(f))
+    .filter(f => f.endsWith(".js") && !["app.js", "desk.js", "historical-scenarios.js"].includes(f))
     .map(f => `public/games/tc-sim/js/${f}`)
     .concat(["public/games/next-wave.js", "public/games/next-wave/devlet-data.js", "public/games/next-wave/devlet-sim.js", "public/games/next-wave/shared/runtime.js", "public/games/tc-sim-devlet/presentation.js"]).sort();
   assert.equal(files.length, 38);
@@ -58,7 +60,7 @@ test("frozen baseline: all 38 content, simulation, persistence and projection so
   // save version and simulation stay the previous baseline.
   // 2026-09-30: authorized shared save-panel DOM positioning only.
   // Slot writes, overwrite confirmation, engine/content and schemas unchanged.
-  assert.equal(hash.digest("hex"), "27d3845f1042ab41b928546f6286f47b3bc526cd9959fc18f530564876ecacf5");
+  assert.equal(hash.digest("hex"), "049055e59558ff160f1326fcf16d72432d6695027acba75e0518ec031645f4ed");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);

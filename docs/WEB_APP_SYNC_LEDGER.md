@@ -451,3 +451,11 @@ Chromium must pass before integration.
 - Reproduced the silence guard false positive in Pixi's unused video-alpha probe (`autoplay=false`); added only the exact generated chunk SHA-256 plus one-reference pin. All other noise/media checks still run. Targeted integration/silence 7/7, typecheck, build:dev and changed-test ESLint PASS.
 - Upstream browser CI covers TR/EN × 1440/390/320 and lifecycle/save/fallback. Vendor browser/physical GPU/production checks remain release work; local browser installation was unavailable. Generated Pixi shader whitespace is preserved byte-for-byte; non-generated diff checks pass. SON KÖY work remains isolated.
 - Full local JS run: 1,589 PASS / 1 FAIL / 1 existing skip (235 s); the sole failure was the reproduced Pixi probe guard, then corrected and rechecked 7/7. The separately completed TypeScript phase passed 54/54. Final-head CI must re-run the complete gate; `ci-changes.mjs` selects full browser, DEVLET, duel, campaign and balance checks.
+
+### 2026-09-26 — TC SIM historical starts
+- Web change: added fixed 18 April 1999 and seeded 1980s solo life routes through 1 January 2026; preserved Günümüz and `tc-sim-save` compatibility.
+- Historical event cards carry event-specific official source URL, publication/access date, institution role and supported claim; uncited dated choices are explicitly fictional life prompts.
+- Added deterministic choices and delayed life effects; browser coverage targets 1440, 390 and 320 px.
+- Rebased on the #101 merge (`513127f`); retained main's phone `weekPlanHtml` decision layout and decision-network week close.
+- Scope: TC SIM historical core only; no DEVLET #100, Pixi CI infrastructure or JITEM changes.
+- PR: codex/tc-sim-historical-starts.
