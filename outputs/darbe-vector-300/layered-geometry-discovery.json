@@ -1,0 +1,25 @@
+{
+  "status": "DISCOVERY_ONLY_UNPROVEN",
+  "owner": "Astra",
+  "date": "2026-10-05",
+  "sourceReview": "Failed original DRB-001 plus one revision; no third same-method probe",
+  "available": {
+    "numpy": "2.3.5",
+    "scipy": "1.17.0",
+    "vtk": "9.3.1",
+    "inkscape": "1.2.2",
+    "openscad": "2021.01",
+    "vtkClasses": ["vtkSampleFunction", "vtkFlyingEdges3D", "vtkParametricSpline", "vtkLoopSubdivisionFilter", "vtkPolyDataNormals", "vtkGL2PSExporter"],
+    "svgExporterMethods": ["SetFileFormatToSVG", "SetSortToBSP", "Write3DPropsAsRasterImageOff"],
+    "svgExporterDefaultRasterFlag": 0
+  },
+  "unavailable": ["blender", "trimesh", "skimage", "moderngl", "pyvista", "open3d"],
+  "evidenceMethod": "Local command lookup, version commands, Python import/class/method inspection, installed vtkGL2PSExporter documentation",
+  "notRun": ["new geometry creation", "render-window capability test", "SVG geometry export", "anatomy quality test", "browser artwell crop", "performance benchmark"],
+  "qualityAcceptedCards": 0,
+  "newArtAssets": 0,
+  "productionChanges": false,
+  "downloadsOrDependencyChanges": false,
+  "existingManifestRawBytes": {"count": 300, "total": 2450904, "average": 8170, "p95": 11131, "maximum": 13654},
+  "risks": ["Anatomical credibility depends on original surface authorship, not tool availability", "Fine vector meshes may exceed asset budgets", "SVG export may lose lighting or occlusion", "Transparency cannot be accepted through raster fallback", "New method needs separate measured quality gate"]
+}
