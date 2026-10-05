@@ -1,0 +1,91 @@
+name: darbe-rule-proof
+on:
+  pull_request:
+    paths:
+      - public/games/darbe-h/**
+      - public/games/duel-core/**
+      - outputs/darbe-rule-browser-proof/**
+      - outputs/darbe-rule-ci/**
+      - scripts/static-game-server.mjs
+      - scripts/static-game-server.test.mjs
+      - public/i18n/pl-body.js
+      - package.json
+      - package-lock.json
+      - .github/workflows/darbe-rule-proof.yml
+  push:
+    branches: [main]
+    paths:
+      - public/games/darbe-h/**
+      - public/games/duel-core/**
+      - outputs/darbe-rule-browser-proof/**
+      - outputs/darbe-rule-ci/**
+      - scripts/static-game-server.mjs
+      - scripts/static-game-server.test.mjs
+      - public/i18n/pl-body.js
+      - package.json
+      - package-lock.json
+      - .github/workflows/darbe-rule-proof.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: darbe-rule-proof-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+jobs:
+  browser-proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Fetch only immutable production-protection baseline
+        run: git fetch --no-tags --depth=1 origin 9e50404c0573e1cf9e2dd7e623c9c8bd98b95e56
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Fixture, origin, count, hash and production invariants
+        run: node --test outputs/darbe-rule-browser-proof/*.test.mjs outputs/darbe-rule-ci/*.test.mjs scripts/static-game-server.test.mjs
+      - name: Build exact candidate public output
+        id: build
+        run: npm run build
+      - name: Chromium
+        run: |
+          browser_path="$(command -v google-chrome || command -v chromium || true)"
+          if [ -n "$browser_path" ]; then
+            echo "PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=$browser_path" >> "$GITHUB_ENV"
+          else
+            npx playwright install --with-deps chromium --only-shell
+          fi
+      - name: Exact built public 12-case UI proof
+        id: local
+        timeout-minutes: 5
+        run: node outputs/darbe-rule-ci/run.mjs built http://127.0.0.1:8097 "$RUNNER_TEMP/screenshots/darbe-rule/built"
+      - name: Main www 12-case proof after exact hash gate
+        if: always() && !cancelled() && github.ref == 'refs/heads/main' && steps.build.outcome == 'success' && steps.local.outcome == 'success'
+        timeout-minutes: 5
+        run: node outputs/darbe-rule-ci/run.mjs production https://www.tariklab.com "$RUNNER_TEMP/screenshots/darbe-rule/www"
+      - name: Main Workers 12-case proof after exact hash gate
+        if: always() && !cancelled() && github.ref == 'refs/heads/main' && steps.build.outcome == 'success' && steps.local.outcome == 'success'
+        timeout-minutes: 5
+        run: node outputs/darbe-rule-ci/run.mjs production https://tariklab.tayaz29.workers.dev "$RUNNER_TEMP/screenshots/darbe-rule/workers"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: darbe-rule-built
+          path: ${{ runner.temp }}/screenshots/darbe-rule/built
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        if: always() && github.ref == 'refs/heads/main'
+        with:
+          name: darbe-rule-production-www
+          path: ${{ runner.temp }}/screenshots/darbe-rule/www
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        if: always() && github.ref == 'refs/heads/main'
+        with:
+          name: darbe-rule-production-workers
+          path: ${{ runner.temp }}/screenshots/darbe-rule/workers
+          if-no-files-found: error

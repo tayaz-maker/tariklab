@@ -449,3 +449,16 @@ PR #101 remains Terra's responsibility. Novella remains **LATER**.
 - D1–D4/general D5 OPEN; D4 inventory `1580d3e`,49 PNG lossless trial −6,117,735 B decoded-RGBA equal, NOT APPLIED/no route or history savings claim; D5 brace #114 CLOSED.
 - D6 Novella/#78/#79/SON KÖY WIP preserved; E1 foundation NOT IMPLEMENTED, E2 drafts not reviewed, E3 PL/anatomy/physical-GPU human gates OPEN; F NOT STARTED.
 - Evidence/next: [TC](evidence/2026-10-05-tc-job-start-release.json), [B11](evidence/2026-10-05-darbe-b11-release.json), [D4](evidence/2026-10-05-repo-weight-discovery.json); finish real two-host proof, then #118 only all-green normal merge.
+
+
+## 2026-10-05 07:57 UTC — C1/B11 release and narrow P1 checkpoint
+- Owner/branch: Astra; `astra/b10-production-checkpoint`; current main `23fb636cbfb0c30ad86fb52467982785e1e298b5`; current full CI37277755938 SUCCESS.
+- A1–A3 CLOSED: #113375b837 → #111a534289; prior two-host reload/CI proof retained; no gate bypass.
+- C1 partial CLOSED scope: #117539df6e, PR9/9+Vercel, www+Workers22/22 each, six screenshots/hash proof; own-main run cancelled by successor push, successor full CI green.
+- B11 proof #11823fb636: PR9/9+Vercel/main CI green; www+Workers12/12 each,50 hashes/eight screenshots; NOT_REPRODUCED_IN_VALID_UI_FIXTURES, natural-match/AI/affected user save allegation OPEN.
+- C1/D2 P1 #119 `astra/tc-dashboard-row-layout` head063aa4e: only8 CSS lines/+324B; local1804 PASS/1 existing skip then15 final target PASS; built22/22, old CSS real failure→readable titles; general CI pending, no merge/production.
+- B1–B10 OPEN: accepted art0/900; target reference files unavailable and original vector/CPU probes rejected; no failed artwork rollout or gameplay/data/save change.
+- C2/C3 and D1–D3 OPEN; mixed TC body translations, full old-worker/save matrices and other game-specific visual/map gates remain; F has not begun.
+- D4 measured-only inventory1580d3e/lossless49-image trial retained, no conversion/deletion/history savings claimed; D5 brace #114 CLOSED, general security/provenance OPEN; D6 Novella/#78/#79/SON KÖY WIP preserved.
+- E1 NOT IMPLEMENTED; E2 factual drafts NOT_REVIEWED; E3 physical GPU/PL native/anatomy expert HUMAN REQUIRED; remaining mandatory scope is OPEN, not DONE.
+- Evidence/next: [TC](evidence/2026-10-05-tc-job-start-release.json), [B11](evidence/2026-10-05-darbe-b11-release.json), [P1](evidence/2026-10-05-tc-dashboard-layout-release.json); #119 only all-green normal merge→two-host proof; red/pending means no merge.

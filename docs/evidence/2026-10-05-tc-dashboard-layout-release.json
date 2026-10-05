@@ -1,0 +1,307 @@
+{
+  "contract": [
+    "C1",
+    "D2",
+    "D4",
+    "F"
+  ],
+  "owner": "Astra",
+  "pr": 119,
+  "head": "063aa4e3c192f9e68509c135462463e2d3724158",
+  "tree": "a09aeaa517a38c9c7e28734811aec3b5fe67da63",
+  "base": "23fb636cbfb0c30ad86fb52467982785e1e298b5",
+  "status": "BUILT_BROWSER_PASS_GENERAL_CI_PENDING",
+  "merge": null,
+  "production": "NOT_RUN",
+  "scope": "TC-only8 CSS lines, no shared style/JS/data/rules/save/i18n/asset change",
+  "sourceByteDelta": 324,
+  "sourceGzipDelta": 112,
+  "browser": {
+    "run": 37279468556,
+    "job": 111663897775,
+    "artifact": 11331717496,
+    "zipSHA256": "bc74f80fbfc4ec21e1a3b2f54d3dd4352bea3d39dd230753c3418b9c44eb6570",
+    "status": "PASS",
+    "cases": 22,
+    "screenshots": 67,
+    "layoutRecords": 88,
+    "actualDashboardRecords": 76,
+    "nonDashboardRecords": 12,
+    "baseline": {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "grid": {
+        "x": 191,
+        "y": 1978.671875,
+        "width": 802,
+        "height": 483.125,
+        "columns": "66.0938px 727.906px",
+        "areas": "\"week right\" \"history cases\""
+      },
+      "right": {
+        "x": 191,
+        "y": 1978.671875,
+        "width": 66.09375,
+        "height": 475.125,
+        "row": "right",
+        "column": "auto"
+      },
+      "titles": [
+        {
+          "text": "Gelen kutusu",
+          "x": 204,
+          "y": 1989.671875,
+          "width": 16.09375,
+          "height": 181.875,
+          "row": {
+            "x": 191,
+            "y": 1978.671875,
+            "width": 66.09375,
+            "height": 242.65625
+          },
+          "fontSize": 14,
+          "lineHeight": 18.2,
+          "lineCount": 9.993131868131869,
+          "overflowWrap": "anywhere"
+        },
+        {
+          "text": "Önemli kişiler",
+          "x": 204,
+          "y": 2240.328125,
+          "width": 16.09375,
+          "height": 163.6875,
+          "row": {
+            "x": 191,
+            "y": 2229.328125,
+            "width": 66.09375,
+            "height": 224.46875
+          },
+          "fontSize": 14,
+          "lineHeight": 18.2,
+          "lineCount": 8.993818681318682,
+          "overflowWrap": "anywhere"
+        }
+      ]
+    },
+    "baselineStatus": "EXPECTED_READABILITY_FAILURE",
+    "baselineStyleSHA256": "134497f6c9dde56e192bfdd5fcb7a41f4b34a0c8d6760bce5324ca8f8fe90b39",
+    "maximumTitleLineCount": 0.9993131868131868,
+    "fingerprints": [
+      {
+        "path": "/games/tc-sim/js/app.js?v=10",
+        "sha256": "282669c4da5c3cda1d0df04eae4cea03bf523f8052473116dafda9295134e958"
+      },
+      {
+        "path": "/games/tc-sim/styles.css?v=10",
+        "sha256": "bb68040c160b80cfe3438f0ebb217bfd5b07a7e13a6c72247b4e22dd43014aae"
+      },
+      {
+        "path": "/games/tc-sim/js/job-start-outcome.js?v=10",
+        "sha256": "47fe74924c558f227bb569886fc41e20af78fa69ce062280972173f6a47fab14"
+      },
+      {
+        "path": "/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+        "sha256": "86d50e27fe842bd6163f97275cfa6b2dfde28346fc8489c11513784a7f8adf39"
+      }
+    ],
+    "geometrySummary": [
+      {
+        "language": "tr",
+        "caseWidth": 1440,
+        "records": 8,
+        "maxTitleLines": 0.9993131868131868,
+        "minTitleWidth": 250,
+        "areas": [
+          "none"
+        ]
+      },
+      {
+        "language": "tr",
+        "caseWidth": 390,
+        "records": 10,
+        "maxTitleLines": 0.9993131868131868,
+        "minTitleWidth": 250,
+        "areas": [
+          "none"
+        ]
+      },
+      {
+        "language": "tr",
+        "caseWidth": 320,
+        "records": 10,
+        "maxTitleLines": 0.9993131868131868,
+        "minTitleWidth": 250,
+        "areas": [
+          "none"
+        ]
+      },
+      {
+        "language": "en",
+        "caseWidth": 1440,
+        "records": 8,
+        "maxTitleLines": 0.9993131868131868,
+        "minTitleWidth": 250,
+        "areas": [
+          "none"
+        ]
+      },
+      {
+        "language": "en",
+        "caseWidth": 390,
+        "records": 8,
+        "maxTitleLines": 0.9993131868131868,
+        "minTitleWidth": 250,
+        "areas": [
+          "none"
+        ]
+      },
+      {
+        "language": "en",
+        "caseWidth": 320,
+        "records": 8,
+        "maxTitleLines": 0.9993131868131868,
+        "minTitleWidth": 250,
+        "areas": [
+          "none"
+        ]
+      },
+      {
+        "language": "pl",
+        "caseWidth": 1440,
+        "records": 8,
+        "maxTitleLines": 0.9993131868131868,
+        "minTitleWidth": 250,
+        "areas": [
+          "none"
+        ]
+      },
+      {
+        "language": "pl",
+        "caseWidth": 390,
+        "records": 8,
+        "maxTitleLines": 0.9993131868131868,
+        "minTitleWidth": 250,
+        "areas": [
+          "none"
+        ]
+      },
+      {
+        "language": "pl",
+        "caseWidth": 320,
+        "records": 8,
+        "maxTitleLines": 0.9993131868131868,
+        "minTitleWidth": 250,
+        "areas": [
+          "none"
+        ]
+      }
+    ],
+    "desktopAfter": {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "grid": {
+        "x": 191,
+        "y": 1978.671875,
+        "width": 802,
+        "height": 218.125,
+        "columns": "802px",
+        "areas": "none"
+      },
+      "right": {
+        "x": 191,
+        "y": 1978.671875,
+        "width": 802,
+        "height": 148.546875,
+        "row": "auto",
+        "column": "auto"
+      },
+      "titles": [
+        {
+          "text": "Gelen kutusu",
+          "x": 204,
+          "y": 1989.671875,
+          "width": 752,
+          "height": 18.1875,
+          "row": {
+            "x": 191,
+            "y": 1978.671875,
+            "width": 802,
+            "height": 61.578125
+          },
+          "fontSize": 14,
+          "lineHeight": 18.2,
+          "lineCount": 0.9993131868131868,
+          "overflowWrap": "anywhere"
+        },
+        {
+          "text": "Önemli kişiler",
+          "x": 204,
+          "y": 2059.25,
+          "width": 752,
+          "height": 18.1875,
+          "row": {
+            "x": 191,
+            "y": 2048.25,
+            "width": 802,
+            "height": 78.96875
+          },
+          "fontSize": 14,
+          "lineHeight": 18.2,
+          "lineCount": 0.9993131868131868,
+          "overflowWrap": "anywhere"
+        }
+      ]
+    },
+    "fullResultsSHA256": "2eaf81773b40f84912706ff47007beec189fc7af132443108dad23e755524483",
+    "fullEvidence": "All88 read-only records (76 actual dashboard/12 non-dashboard null),67 screenshots and exact hash rows are in the linked digest-verified artifact."
+  },
+  "cost": {
+    "scope": "Single TR/1440/no-preference cold-entry sample per fresh context in the same Chromium process, same uncompressed no-store localhost server; only stylesheet differs. ResourceTiming totals, not production TLS/FMP or a speed claim. Separate 9e50404 comparison includes the earlier job-outcome change and is not this CSS fix's delta.",
+    "before": {
+      "recordedRequestEntries": 50,
+      "transferBytes": 1300328,
+      "encodedBodyBytes": 1285328
+    },
+    "after": {
+      "recordedRequestEntries": 50,
+      "transferBytes": 1300652,
+      "encodedBodyBytes": 1285652
+    },
+    "delta": {
+      "recordedRequestEntries": 0,
+      "transferBytes": 324,
+      "encodedBodyBytes": 324
+    }
+  },
+  "screenshotsOpened": [
+    {
+      "path": "layout-baseline-1440.png",
+      "sha256": "998e6a406c76b0068d9cb9c1ed187e0fbb3476de5eb4085084f3d1f52680b3d9"
+    },
+    {
+      "path": "dashboard-tr-1440-motion-after.png",
+      "sha256": "3e96c8f9866f39ed134370daf33f943bb7b511f99a0ddda169ac5b6918a00930"
+    },
+    {
+      "path": "dashboard-tr-1440-motion-reloaded.png",
+      "sha256": "5043d65c0875cb042e215b6e7c667c658365a7d4215a974ba7c61f1baf11eadc"
+    },
+    {
+      "path": "dashboard-en-390-reduced-after.png",
+      "sha256": "687beaa40b2d30277b7f758bcf72c12e6ad2a516c5946b236685884d52da423a"
+    },
+    {
+      "path": "dashboard-pl-320-reduced-reloaded.png",
+      "sha256": "f72a5f63b939e867d144488f36065ace4f9f4a41be6fcd00012b28f9e8450970"
+    }
+  ],
+  "limits": [
+    "PR CI and production pending; actual browser baseline/candidate only.",
+    "Existing mixed body translation, full SW-old-cache upgrade and archived saves remain open.",
+    "F is not started; this P1 arose during an implementation acceptance check."
+  ]
+}

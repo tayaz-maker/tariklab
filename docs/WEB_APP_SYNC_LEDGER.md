@@ -527,3 +527,9 @@ Chromium must pass before integration.
 - Content: presentation copy only (TR/EN/PL draft); Artwork: original CSS only; Gameplay/rules/save: no; UI/presentation: yes; Shared-content source: no new external asset.
 - Native follow-up: yes, only after web release; native remains paused. Browser/offline/build transfer gates and PL native review remain open; no release claim.
 - Commits: branch `astra/tc-sim-job-start-outcome`, based on `9e50404`; see `outputs/tc-sim-job-start-outcome/CHECKPOINT.md` in this checkpoint.
+
+
+### 2026-10-05 — #117 TC result and #118 bounded rule proof released
+- #117 normal merge `539df6ee8cd3fe1e56b4a7833bffcc8953765488` after9/9+Vercel: actual job-start result, rules/save unchanged. Dedicated production37276537798 attempt2 passed22 cases per host with four exact hashes; six PNGs inspected. First attempt rejected previous-main bytes before deployment completion; no gate changed.
+- #118 normal merge `23fb636cbfb0c30ad86fb52467982785e1e298b5` after9/9+Vercel: test/workflow only, no artwork/content/native change. Production37277755646 passed12 cases per host,50 runtime/data hashes, eight PNGs inspected; all four DRB effects triggered in legal synthetic UI fixtures. Broader affected-save/natural-match allegation remains bounded OPEN.
+- #117 own-main general CI was cancelled by the existing successor-push concurrency; #118 current-main full CI37277755938 SUCCESS; the cancelled #117 run itself is not labelled PASS. TC desktop narrow-label P1 has production DOM evidence and a separate CSS-only candidate; no full visual/i18n acceptance. Native remains paused.

@@ -8,9 +8,655 @@
   "owner": "Astra",
   "pr": 118,
   "head": "40ab0da50158dcf498f6c3d86c637e6032b62440",
-  "status": "PR_GENERAL_CI_PENDING",
-  "merge": null,
-  "production": "NOT_RUN",
+  "status": "MERGED_SCOPED_PRODUCTION_PASS_MAIN_CI_SUCCESS",
+  "merge": "23fb636cbfb0c30ad86fb52467982785e1e298b5",
+  "production": {
+    "run": 37277755646,
+    "sha": "23fb636cbfb0c30ad86fb52467982785e1e298b5",
+    "status": "PASS",
+    "mainGeneralCI": {
+      "run": 37277755938,
+      "status": "SUCCESS"
+    },
+    "hosts": [
+      {
+        "host": "www",
+        "origin": "https://www.tariklab.com",
+        "status": "PASS",
+        "cases": 12,
+        "artifact": 11331430488,
+        "zipSHA256": "132dbfbf43ebad0d6a15411032260ca32ca3644cb325dcbd185a919bf7b5f1cb",
+        "summary": [
+          {
+            "id": "DRB-237",
+            "width": 1440,
+            "status": "PASS",
+            "errors": [],
+            "points": [
+              7100,
+              8000
+            ],
+            "boss": {
+              "player": 0,
+              "zone": "units",
+              "index": 0
+            },
+            "target": {
+              "player": 1,
+              "zone": "hand",
+              "index": 0
+            },
+            "overflow": {
+              "viewport": 1440,
+              "scroll": 1440
+            }
+          },
+          {
+            "id": "DRB-238",
+            "width": 1440,
+            "status": "PASS",
+            "errors": [],
+            "points": [
+              7000,
+              8000
+            ],
+            "boss": {
+              "player": 0,
+              "zone": "units",
+              "index": 0
+            },
+            "target": {
+              "player": 1,
+              "zone": "hand",
+              "index": 0
+            },
+            "overflow": {
+              "viewport": 1440,
+              "scroll": 1440
+            }
+          },
+          {
+            "id": "DRB-239",
+            "width": 1440,
+            "status": "PASS",
+            "errors": [],
+            "points": [
+              6900,
+              8000
+            ],
+            "boss": {
+              "player": 0,
+              "zone": "units",
+              "index": 0
+            },
+            "target": {
+              "player": 1,
+              "zone": "hand",
+              "index": 0
+            },
+            "overflow": {
+              "viewport": 1440,
+              "scroll": 1440
+            }
+          },
+          {
+            "id": "DRB-240",
+            "width": 1440,
+            "status": "PASS",
+            "errors": [],
+            "points": [
+              6800,
+              8000
+            ],
+            "boss": {
+              "player": 0,
+              "zone": "units",
+              "index": 0
+            },
+            "target": {
+              "player": 1,
+              "zone": "hand",
+              "index": 0
+            },
+            "overflow": {
+              "viewport": 1440,
+              "scroll": 1440
+            }
+          },
+          {
+            "id": "DRB-237",
+            "width": 390,
+            "status": "PASS",
+            "errors": [],
+            "points": [
+              7100,
+              8000
+            ],
+            "boss": {
+              "player": 0,
+              "zone": "units",
+              "index": 0
+            },
+            "target": {
+              "player": 1,
+              "zone": "hand",
+              "index": 0
+            },
+            "overflow": {
+              "viewport": 390,
+              "scroll": 390
+            }
+          },
+          {
+            "id": "DRB-238",
+            "width": 390,
+            "status": "PASS",
+            "errors": [],
+            "points": [
+              7000,
+              8000
+            ],
+            "boss": {
+              "player": 0,
+              "zone": "units",
+              "index": 0
+            },
+            "target": {
+              "player": 1,
+              "zone": "hand",
+              "index": 0
+            },
+            "overflow": {
+              "viewport": 390,
+              "scroll": 390
+            }
+          },
+          {
+            "id": "DRB-239",
+            "width": 390,
+            "status": "PASS",
+            "errors": [],
+            "points": [
+              6900,
+              8000
+            ],
+            "boss": {
+              "player": 0,
+              "zone": "units",
+              "index": 0
+            },
+            "target": {
+              "player": 1,
+              "zone": "hand",
+              "index": 0
+            },
+            "overflow": {
+              "viewport": 390,
+              "scroll": 390
+            }
+          },
+          {
+            "id": "DRB-240",
+            "width": 390,
+            "status": "PASS",
+            "errors": [],
+            "points": [
+              6800,
+              8000
+            ],
+            "boss": {
+              "player": 0,
+              "zone": "units",
+              "index": 0
+            },
+            "target": {
+              "player": 1,
+              "zone": "hand",
+              "index": 0
+            },
+            "overflow": {
+              "viewport": 390,
+              "scroll": 390
+            }
+          },
+          {
+            "id": "DRB-237",
+            "width": 320,
+            "status": "PASS",
+            "errors": [],
+            "points": [
+              7100,
+              8000
+            ],
+            "boss": {
+              "player": 0,
+              "zone": "units",
+              "index": 0
+            },
+            "target": {
+              "player": 1,
+              "zone": "hand",
+              "index": 0
+            },
+            "overflow": {
+              "viewport": 320,
+              "scroll": 320
+            }
+          },
+          {
+            "id": "DRB-238",
+            "width": 320,
+            "status": "PASS",
+            "errors": [],
+            "points": [
+              7000,
+              8000
+            ],
+            "boss": {
+              "player": 0,
+              "zone": "units",
+              "index": 0
+            },
+            "target": {
+              "player": 1,
+              "zone": "hand",
+              "index": 0
+            },
+            "overflow": {
+              "viewport": 320,
+              "scroll": 320
+            }
+          },
+          {
+            "id": "DRB-239",
+            "width": 320,
+            "status": "PASS",
+            "errors": [],
+            "points": [
+              6900,
+              8000
+            ],
+            "boss": {
+              "player": 0,
+              "zone": "units",
+              "index": 0
+            },
+            "target": {
+              "player": 1,
+              "zone": "hand",
+              "index": 0
+            },
+            "overflow": {
+              "viewport": 320,
+              "scroll": 320
+            }
+          },
+          {
+            "id": "DRB-240",
+            "width": 320,
+            "status": "PASS",
+            "errors": [],
+            "points": [
+              6800,
+              8000
+            ],
+            "boss": {
+              "player": 0,
+              "zone": "units",
+              "index": 0
+            },
+            "target": {
+              "player": 1,
+              "zone": "hand",
+              "index": 0
+            },
+            "overflow": {
+              "viewport": 320,
+              "scroll": 320
+            }
+          }
+        ],
+        "fingerprintsSHA256": "bfe66f97c7de842af0c4a5f1c9a6439374bfc02c3b549e422849be8733a00adc",
+        "fingerprintCount": 50,
+        "fullEvidence": "Complete 7-stage state/save and runtime fingerprint rows are in the linked digest-verified artifact."
+      },
+      {
+        "host": "workers",
+        "origin": "https://tariklab.tayaz29.workers.dev",
+        "status": "PASS",
+        "cases": 12,
+        "artifact": 11330504573,
+        "zipSHA256": "b33fb2dc75e336f65c903b31441b7f9d3cfb1a5c0be496044a705ef8ad3bfd1b",
+        "summary": [
+          {
+            "id": "DRB-237",
+            "width": 1440,
+            "status": "PASS",
+            "errors": [],
+            "points": [
+              7100,
+              8000
+            ],
+            "boss": {
+              "player": 0,
+              "zone": "units",
+              "index": 0
+            },
+            "target": {
+              "player": 1,
+              "zone": "hand",
+              "index": 0
+            },
+            "overflow": {
+              "viewport": 1440,
+              "scroll": 1440
+            }
+          },
+          {
+            "id": "DRB-238",
+            "width": 1440,
+            "status": "PASS",
+            "errors": [],
+            "points": [
+              7000,
+              8000
+            ],
+            "boss": {
+              "player": 0,
+              "zone": "units",
+              "index": 0
+            },
+            "target": {
+              "player": 1,
+              "zone": "hand",
+              "index": 0
+            },
+            "overflow": {
+              "viewport": 1440,
+              "scroll": 1440
+            }
+          },
+          {
+            "id": "DRB-239",
+            "width": 1440,
+            "status": "PASS",
+            "errors": [],
+            "points": [
+              6900,
+              8000
+            ],
+            "boss": {
+              "player": 0,
+              "zone": "units",
+              "index": 0
+            },
+            "target": {
+              "player": 1,
+              "zone": "hand",
+              "index": 0
+            },
+            "overflow": {
+              "viewport": 1440,
+              "scroll": 1440
+            }
+          },
+          {
+            "id": "DRB-240",
+            "width": 1440,
+            "status": "PASS",
+            "errors": [],
+            "points": [
+              6800,
+              8000
+            ],
+            "boss": {
+              "player": 0,
+              "zone": "units",
+              "index": 0
+            },
+            "target": {
+              "player": 1,
+              "zone": "hand",
+              "index": 0
+            },
+            "overflow": {
+              "viewport": 1440,
+              "scroll": 1440
+            }
+          },
+          {
+            "id": "DRB-237",
+            "width": 390,
+            "status": "PASS",
+            "errors": [],
+            "points": [
+              7100,
+              8000
+            ],
+            "boss": {
+              "player": 0,
+              "zone": "units",
+              "index": 0
+            },
+            "target": {
+              "player": 1,
+              "zone": "hand",
+              "index": 0
+            },
+            "overflow": {
+              "viewport": 390,
+              "scroll": 390
+            }
+          },
+          {
+            "id": "DRB-238",
+            "width": 390,
+            "status": "PASS",
+            "errors": [],
+            "points": [
+              7000,
+              8000
+            ],
+            "boss": {
+              "player": 0,
+              "zone": "units",
+              "index": 0
+            },
+            "target": {
+              "player": 1,
+              "zone": "hand",
+              "index": 0
+            },
+            "overflow": {
+              "viewport": 390,
+              "scroll": 390
+            }
+          },
+          {
+            "id": "DRB-239",
+            "width": 390,
+            "status": "PASS",
+            "errors": [],
+            "points": [
+              6900,
+              8000
+            ],
+            "boss": {
+              "player": 0,
+              "zone": "units",
+              "index": 0
+            },
+            "target": {
+              "player": 1,
+              "zone": "hand",
+              "index": 0
+            },
+            "overflow": {
+              "viewport": 390,
+              "scroll": 390
+            }
+          },
+          {
+            "id": "DRB-240",
+            "width": 390,
+            "status": "PASS",
+            "errors": [],
+            "points": [
+              6800,
+              8000
+            ],
+            "boss": {
+              "player": 0,
+              "zone": "units",
+              "index": 0
+            },
+            "target": {
+              "player": 1,
+              "zone": "hand",
+              "index": 0
+            },
+            "overflow": {
+              "viewport": 390,
+              "scroll": 390
+            }
+          },
+          {
+            "id": "DRB-237",
+            "width": 320,
+            "status": "PASS",
+            "errors": [],
+            "points": [
+              7100,
+              8000
+            ],
+            "boss": {
+              "player": 0,
+              "zone": "units",
+              "index": 0
+            },
+            "target": {
+              "player": 1,
+              "zone": "hand",
+              "index": 0
+            },
+            "overflow": {
+              "viewport": 320,
+              "scroll": 320
+            }
+          },
+          {
+            "id": "DRB-238",
+            "width": 320,
+            "status": "PASS",
+            "errors": [],
+            "points": [
+              7000,
+              8000
+            ],
+            "boss": {
+              "player": 0,
+              "zone": "units",
+              "index": 0
+            },
+            "target": {
+              "player": 1,
+              "zone": "hand",
+              "index": 0
+            },
+            "overflow": {
+              "viewport": 320,
+              "scroll": 320
+            }
+          },
+          {
+            "id": "DRB-239",
+            "width": 320,
+            "status": "PASS",
+            "errors": [],
+            "points": [
+              6900,
+              8000
+            ],
+            "boss": {
+              "player": 0,
+              "zone": "units",
+              "index": 0
+            },
+            "target": {
+              "player": 1,
+              "zone": "hand",
+              "index": 0
+            },
+            "overflow": {
+              "viewport": 320,
+              "scroll": 320
+            }
+          },
+          {
+            "id": "DRB-240",
+            "width": 320,
+            "status": "PASS",
+            "errors": [],
+            "points": [
+              6800,
+              8000
+            ],
+            "boss": {
+              "player": 0,
+              "zone": "units",
+              "index": 0
+            },
+            "target": {
+              "player": 1,
+              "zone": "hand",
+              "index": 0
+            },
+            "overflow": {
+              "viewport": 320,
+              "scroll": 320
+            }
+          }
+        ],
+        "fingerprintsSHA256": "557350234188f47ba4b2134389976cb08af90ec167cc3e0ff1d8ea11a00c577f",
+        "fingerprintCount": 50,
+        "fullEvidence": "Complete 7-stage state/save and runtime fingerprint rows are in the linked digest-verified artifact."
+      }
+    ],
+    "screenshotsOpened": [
+      {
+        "path": "www/DRB-237-1440/choice.png",
+        "sha256": "d464a28a9358d250412bf8b5505e71cd276ee0f93c049e0e17160fb184ffd7f1"
+      },
+      {
+        "path": "www/DRB-238-320/after-reloaded.png",
+        "sha256": "8a49344b71cbee3517abb4d24df4c6d7a7e055eed773af07baf741c3515a76c2"
+      },
+      {
+        "path": "www/DRB-239-390/after-reloaded.png",
+        "sha256": "043f6d534fd4fc05a22deaf14c13cc087dcaeed1ca89e9ae5f8f79416eed988c"
+      },
+      {
+        "path": "www/DRB-240-1440/after-reloaded.png",
+        "sha256": "1f5960426b68ca985f202328912bc15efda17cb97bc3d77e24b513317bd0a36b"
+      },
+      {
+        "path": "workers/DRB-237-1440/choice.png",
+        "sha256": "d464a28a9358d250412bf8b5505e71cd276ee0f93c049e0e17160fb184ffd7f1"
+      },
+      {
+        "path": "workers/DRB-238-320/after-reloaded.png",
+        "sha256": "8a49344b71cbee3517abb4d24df4c6d7a7e055eed773af07baf741c3515a76c2"
+      },
+      {
+        "path": "workers/DRB-239-390/after-reloaded.png",
+        "sha256": "043f6d534fd4fc05a22deaf14c13cc087dcaeed1ca89e9ae5f8f79416eed988c"
+      },
+      {
+        "path": "workers/DRB-240-1440/after-reloaded.png",
+        "sha256": "1f5960426b68ca985f202328912bc15efda17cb97bc3d77e24b513317bd0a36b"
+      }
+    ]
+  },
   "local": {
     "targetedTests": 17,
     "build": "PASS",
@@ -32,43 +678,23 @@
         "width": 1440,
         "status": "PASS",
         "errors": [],
-        "final": {
-          "name": "after-reloaded",
-          "revision": 3,
-          "points": [
-            7100,
-            8000
-          ],
-          "boss": {
-            "player": 0,
-            "zone": "units",
-            "index": 0
-          },
-          "target": {
-            "player": 1,
-            "zone": "hand",
-            "index": 0
-          },
-          "materials": [
-            {
-              "player": 0,
-              "zone": "grave",
-              "index": 0
-            },
-            {
-              "player": 0,
-              "zone": "grave",
-              "index": 1
-            }
-          ],
-          "choice": null,
-          "pending": null,
-          "overflow": {
-            "viewport": 1440,
-            "scroll": 1440
-          },
-          "actualOrigin": "http://127.0.0.1:8097",
-          "actualURL": "http://127.0.0.1:8097/games/darbe-h/"
+        "points": [
+          7100,
+          8000
+        ],
+        "boss": {
+          "player": 0,
+          "zone": "units",
+          "index": 0
+        },
+        "target": {
+          "player": 1,
+          "zone": "hand",
+          "index": 0
+        },
+        "overflow": {
+          "viewport": 1440,
+          "scroll": 1440
         }
       },
       {
@@ -76,43 +702,23 @@
         "width": 1440,
         "status": "PASS",
         "errors": [],
-        "final": {
-          "name": "after-reloaded",
-          "revision": 3,
-          "points": [
-            7000,
-            8000
-          ],
-          "boss": {
-            "player": 0,
-            "zone": "units",
-            "index": 0
-          },
-          "target": {
-            "player": 1,
-            "zone": "hand",
-            "index": 0
-          },
-          "materials": [
-            {
-              "player": 0,
-              "zone": "grave",
-              "index": 0
-            },
-            {
-              "player": 0,
-              "zone": "grave",
-              "index": 1
-            }
-          ],
-          "choice": null,
-          "pending": null,
-          "overflow": {
-            "viewport": 1440,
-            "scroll": 1440
-          },
-          "actualOrigin": "http://127.0.0.1:8097",
-          "actualURL": "http://127.0.0.1:8097/games/darbe-h/"
+        "points": [
+          7000,
+          8000
+        ],
+        "boss": {
+          "player": 0,
+          "zone": "units",
+          "index": 0
+        },
+        "target": {
+          "player": 1,
+          "zone": "hand",
+          "index": 0
+        },
+        "overflow": {
+          "viewport": 1440,
+          "scroll": 1440
         }
       },
       {
@@ -120,43 +726,23 @@
         "width": 1440,
         "status": "PASS",
         "errors": [],
-        "final": {
-          "name": "after-reloaded",
-          "revision": 3,
-          "points": [
-            6900,
-            8000
-          ],
-          "boss": {
-            "player": 0,
-            "zone": "units",
-            "index": 0
-          },
-          "target": {
-            "player": 1,
-            "zone": "hand",
-            "index": 0
-          },
-          "materials": [
-            {
-              "player": 0,
-              "zone": "grave",
-              "index": 0
-            },
-            {
-              "player": 0,
-              "zone": "grave",
-              "index": 1
-            }
-          ],
-          "choice": null,
-          "pending": null,
-          "overflow": {
-            "viewport": 1440,
-            "scroll": 1440
-          },
-          "actualOrigin": "http://127.0.0.1:8097",
-          "actualURL": "http://127.0.0.1:8097/games/darbe-h/"
+        "points": [
+          6900,
+          8000
+        ],
+        "boss": {
+          "player": 0,
+          "zone": "units",
+          "index": 0
+        },
+        "target": {
+          "player": 1,
+          "zone": "hand",
+          "index": 0
+        },
+        "overflow": {
+          "viewport": 1440,
+          "scroll": 1440
         }
       },
       {
@@ -164,43 +750,23 @@
         "width": 1440,
         "status": "PASS",
         "errors": [],
-        "final": {
-          "name": "after-reloaded",
-          "revision": 3,
-          "points": [
-            6800,
-            8000
-          ],
-          "boss": {
-            "player": 0,
-            "zone": "units",
-            "index": 0
-          },
-          "target": {
-            "player": 1,
-            "zone": "hand",
-            "index": 0
-          },
-          "materials": [
-            {
-              "player": 0,
-              "zone": "grave",
-              "index": 0
-            },
-            {
-              "player": 0,
-              "zone": "grave",
-              "index": 1
-            }
-          ],
-          "choice": null,
-          "pending": null,
-          "overflow": {
-            "viewport": 1440,
-            "scroll": 1440
-          },
-          "actualOrigin": "http://127.0.0.1:8097",
-          "actualURL": "http://127.0.0.1:8097/games/darbe-h/"
+        "points": [
+          6800,
+          8000
+        ],
+        "boss": {
+          "player": 0,
+          "zone": "units",
+          "index": 0
+        },
+        "target": {
+          "player": 1,
+          "zone": "hand",
+          "index": 0
+        },
+        "overflow": {
+          "viewport": 1440,
+          "scroll": 1440
         }
       },
       {
@@ -208,43 +774,23 @@
         "width": 390,
         "status": "PASS",
         "errors": [],
-        "final": {
-          "name": "after-reloaded",
-          "revision": 3,
-          "points": [
-            7100,
-            8000
-          ],
-          "boss": {
-            "player": 0,
-            "zone": "units",
-            "index": 0
-          },
-          "target": {
-            "player": 1,
-            "zone": "hand",
-            "index": 0
-          },
-          "materials": [
-            {
-              "player": 0,
-              "zone": "grave",
-              "index": 0
-            },
-            {
-              "player": 0,
-              "zone": "grave",
-              "index": 1
-            }
-          ],
-          "choice": null,
-          "pending": null,
-          "overflow": {
-            "viewport": 390,
-            "scroll": 390
-          },
-          "actualOrigin": "http://127.0.0.1:8097",
-          "actualURL": "http://127.0.0.1:8097/games/darbe-h/"
+        "points": [
+          7100,
+          8000
+        ],
+        "boss": {
+          "player": 0,
+          "zone": "units",
+          "index": 0
+        },
+        "target": {
+          "player": 1,
+          "zone": "hand",
+          "index": 0
+        },
+        "overflow": {
+          "viewport": 390,
+          "scroll": 390
         }
       },
       {
@@ -252,43 +798,23 @@
         "width": 390,
         "status": "PASS",
         "errors": [],
-        "final": {
-          "name": "after-reloaded",
-          "revision": 3,
-          "points": [
-            7000,
-            8000
-          ],
-          "boss": {
-            "player": 0,
-            "zone": "units",
-            "index": 0
-          },
-          "target": {
-            "player": 1,
-            "zone": "hand",
-            "index": 0
-          },
-          "materials": [
-            {
-              "player": 0,
-              "zone": "grave",
-              "index": 0
-            },
-            {
-              "player": 0,
-              "zone": "grave",
-              "index": 1
-            }
-          ],
-          "choice": null,
-          "pending": null,
-          "overflow": {
-            "viewport": 390,
-            "scroll": 390
-          },
-          "actualOrigin": "http://127.0.0.1:8097",
-          "actualURL": "http://127.0.0.1:8097/games/darbe-h/"
+        "points": [
+          7000,
+          8000
+        ],
+        "boss": {
+          "player": 0,
+          "zone": "units",
+          "index": 0
+        },
+        "target": {
+          "player": 1,
+          "zone": "hand",
+          "index": 0
+        },
+        "overflow": {
+          "viewport": 390,
+          "scroll": 390
         }
       },
       {
@@ -296,43 +822,23 @@
         "width": 390,
         "status": "PASS",
         "errors": [],
-        "final": {
-          "name": "after-reloaded",
-          "revision": 3,
-          "points": [
-            6900,
-            8000
-          ],
-          "boss": {
-            "player": 0,
-            "zone": "units",
-            "index": 0
-          },
-          "target": {
-            "player": 1,
-            "zone": "hand",
-            "index": 0
-          },
-          "materials": [
-            {
-              "player": 0,
-              "zone": "grave",
-              "index": 0
-            },
-            {
-              "player": 0,
-              "zone": "grave",
-              "index": 1
-            }
-          ],
-          "choice": null,
-          "pending": null,
-          "overflow": {
-            "viewport": 390,
-            "scroll": 390
-          },
-          "actualOrigin": "http://127.0.0.1:8097",
-          "actualURL": "http://127.0.0.1:8097/games/darbe-h/"
+        "points": [
+          6900,
+          8000
+        ],
+        "boss": {
+          "player": 0,
+          "zone": "units",
+          "index": 0
+        },
+        "target": {
+          "player": 1,
+          "zone": "hand",
+          "index": 0
+        },
+        "overflow": {
+          "viewport": 390,
+          "scroll": 390
         }
       },
       {
@@ -340,43 +846,23 @@
         "width": 390,
         "status": "PASS",
         "errors": [],
-        "final": {
-          "name": "after-reloaded",
-          "revision": 3,
-          "points": [
-            6800,
-            8000
-          ],
-          "boss": {
-            "player": 0,
-            "zone": "units",
-            "index": 0
-          },
-          "target": {
-            "player": 1,
-            "zone": "hand",
-            "index": 0
-          },
-          "materials": [
-            {
-              "player": 0,
-              "zone": "grave",
-              "index": 0
-            },
-            {
-              "player": 0,
-              "zone": "grave",
-              "index": 1
-            }
-          ],
-          "choice": null,
-          "pending": null,
-          "overflow": {
-            "viewport": 390,
-            "scroll": 390
-          },
-          "actualOrigin": "http://127.0.0.1:8097",
-          "actualURL": "http://127.0.0.1:8097/games/darbe-h/"
+        "points": [
+          6800,
+          8000
+        ],
+        "boss": {
+          "player": 0,
+          "zone": "units",
+          "index": 0
+        },
+        "target": {
+          "player": 1,
+          "zone": "hand",
+          "index": 0
+        },
+        "overflow": {
+          "viewport": 390,
+          "scroll": 390
         }
       },
       {
@@ -384,43 +870,23 @@
         "width": 320,
         "status": "PASS",
         "errors": [],
-        "final": {
-          "name": "after-reloaded",
-          "revision": 3,
-          "points": [
-            7100,
-            8000
-          ],
-          "boss": {
-            "player": 0,
-            "zone": "units",
-            "index": 0
-          },
-          "target": {
-            "player": 1,
-            "zone": "hand",
-            "index": 0
-          },
-          "materials": [
-            {
-              "player": 0,
-              "zone": "grave",
-              "index": 0
-            },
-            {
-              "player": 0,
-              "zone": "grave",
-              "index": 1
-            }
-          ],
-          "choice": null,
-          "pending": null,
-          "overflow": {
-            "viewport": 320,
-            "scroll": 320
-          },
-          "actualOrigin": "http://127.0.0.1:8097",
-          "actualURL": "http://127.0.0.1:8097/games/darbe-h/"
+        "points": [
+          7100,
+          8000
+        ],
+        "boss": {
+          "player": 0,
+          "zone": "units",
+          "index": 0
+        },
+        "target": {
+          "player": 1,
+          "zone": "hand",
+          "index": 0
+        },
+        "overflow": {
+          "viewport": 320,
+          "scroll": 320
         }
       },
       {
@@ -428,43 +894,23 @@
         "width": 320,
         "status": "PASS",
         "errors": [],
-        "final": {
-          "name": "after-reloaded",
-          "revision": 3,
-          "points": [
-            7000,
-            8000
-          ],
-          "boss": {
-            "player": 0,
-            "zone": "units",
-            "index": 0
-          },
-          "target": {
-            "player": 1,
-            "zone": "hand",
-            "index": 0
-          },
-          "materials": [
-            {
-              "player": 0,
-              "zone": "grave",
-              "index": 0
-            },
-            {
-              "player": 0,
-              "zone": "grave",
-              "index": 1
-            }
-          ],
-          "choice": null,
-          "pending": null,
-          "overflow": {
-            "viewport": 320,
-            "scroll": 320
-          },
-          "actualOrigin": "http://127.0.0.1:8097",
-          "actualURL": "http://127.0.0.1:8097/games/darbe-h/"
+        "points": [
+          7000,
+          8000
+        ],
+        "boss": {
+          "player": 0,
+          "zone": "units",
+          "index": 0
+        },
+        "target": {
+          "player": 1,
+          "zone": "hand",
+          "index": 0
+        },
+        "overflow": {
+          "viewport": 320,
+          "scroll": 320
         }
       },
       {
@@ -472,43 +918,23 @@
         "width": 320,
         "status": "PASS",
         "errors": [],
-        "final": {
-          "name": "after-reloaded",
-          "revision": 3,
-          "points": [
-            6900,
-            8000
-          ],
-          "boss": {
-            "player": 0,
-            "zone": "units",
-            "index": 0
-          },
-          "target": {
-            "player": 1,
-            "zone": "hand",
-            "index": 0
-          },
-          "materials": [
-            {
-              "player": 0,
-              "zone": "grave",
-              "index": 0
-            },
-            {
-              "player": 0,
-              "zone": "grave",
-              "index": 1
-            }
-          ],
-          "choice": null,
-          "pending": null,
-          "overflow": {
-            "viewport": 320,
-            "scroll": 320
-          },
-          "actualOrigin": "http://127.0.0.1:8097",
-          "actualURL": "http://127.0.0.1:8097/games/darbe-h/"
+        "points": [
+          6900,
+          8000
+        ],
+        "boss": {
+          "player": 0,
+          "zone": "units",
+          "index": 0
+        },
+        "target": {
+          "player": 1,
+          "zone": "hand",
+          "index": 0
+        },
+        "overflow": {
+          "viewport": 320,
+          "scroll": 320
         }
       },
       {
@@ -516,46 +942,27 @@
         "width": 320,
         "status": "PASS",
         "errors": [],
-        "final": {
-          "name": "after-reloaded",
-          "revision": 3,
-          "points": [
-            6800,
-            8000
-          ],
-          "boss": {
-            "player": 0,
-            "zone": "units",
-            "index": 0
-          },
-          "target": {
-            "player": 1,
-            "zone": "hand",
-            "index": 0
-          },
-          "materials": [
-            {
-              "player": 0,
-              "zone": "grave",
-              "index": 0
-            },
-            {
-              "player": 0,
-              "zone": "grave",
-              "index": 1
-            }
-          ],
-          "choice": null,
-          "pending": null,
-          "overflow": {
-            "viewport": 320,
-            "scroll": 320
-          },
-          "actualOrigin": "http://127.0.0.1:8097",
-          "actualURL": "http://127.0.0.1:8097/games/darbe-h/"
+        "points": [
+          6800,
+          8000
+        ],
+        "boss": {
+          "player": 0,
+          "zone": "units",
+          "index": 0
+        },
+        "target": {
+          "player": 1,
+          "zone": "hand",
+          "index": 0
+        },
+        "overflow": {
+          "viewport": 320,
+          "scroll": 320
         }
       }
-    ]
+    ],
+    "fullEvidence": "Complete 7-stage state/save and runtime fingerprint rows are in the linked digest-verified artifact."
   },
   "result": "NOT_REPRODUCED_IN_VALID_UI_FIXTURES",
   "limitations": [
@@ -582,5 +989,12 @@
       "path": "DRB-240-1440/after-reloaded.png",
       "sha256": "1f5960426b68ca985f202328912bc15efda17cb97bc3d77e24b513317bd0a36b"
     }
-  ]
+  ],
+  "ci": {
+    "generalRun": 37275391036,
+    "listedChecks": 9,
+    "allListed": "SUCCESS",
+    "Vercel": "SUCCESS",
+    "mergeMethod": "normal expected-head-pinned merge"
+  }
 }
