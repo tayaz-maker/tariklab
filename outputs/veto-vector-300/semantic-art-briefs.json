@@ -105,12 +105,11 @@
         "SND-199",
         "SND-262"
       ],
-      "sourceBoundedCount": 10,
-      "unresolvedCount": 3,
+      "sourceBoundedCount": 11,
+      "unresolvedCount": 2,
       "artApprovedCount": 0
     },
     "unresolvedIds": [
-      "SND-017",
       "SND-046",
       "SND-132"
     ]
@@ -630,36 +629,47 @@
       },
       "sourceRecordSha256": "2a8081037e0f53a7855f34414819a91a2d6c0bb3b01fb4a3affb2907eb227bb3",
       "sceneClass": "character",
-      "subjectAction": "Teşkilatçı açık kapıda yeni gönüllüyü karşılar ve çalışma yerini gösterir",
+      "subjectAction": "Teşkilatçı açık kapıda tek yetişkin sandık gönüllüsünü karşılar ve boş çalışma yerini gösterir",
       "setting": "gönüllü kayıt bankosu",
       "composition": "full-scene",
       "effectRelationship": {
         "kind": "visual_metaphor_not_rule_rewrite",
-        "description": "Küçük Sandık kadrosunu devreye alma; kaynak metindeki yemin sözcüğü değiştirilmez",
+        "description": "Uygun düşük kademeli Sandık kadrosunu elden veya desteden devreye alma; sahne koşulsuz çağrı ya da yemin töreni değildir",
         "mechanicalAuthority": "source.text"
       },
       "sourceGrounding": {
         "expectedName": "Teşkilatçı",
-        "disposition": "UNRESOLVED_SOURCE_AMBIGUITY",
-        "sourceFacts": "Unit/effect card. On summon, the exact text calls one “Sandık yemini” from hand or deck, level3 or below.",
-        "visualInterpretation": "An organizer welcoming a new volunteer is an authored recruitment metaphor.",
-        "notImpliedBySource": "The text does not prove that yemini means kadro, a pledge, or a ritual. Do not repair the rule through art.",
+        "disposition": "SOURCE_BOUNDED_NOT_ART_APPROVED",
+        "sourceFacts": "The immutable Turkish text retains “Sandık yemini”; source.textEn and designs[17] explicitly specify one Level 3 or lower Ballot unit from own hand or deck when summoned. The typed summon helper adds kind:unit; runtime also requires an empty unit slot and specialAllowed.",
+        "visualInterpretation": "One adult ballot volunteer welcomed into an available work position represents the executable recruitment effect. This is an authored scene, not an oath ceremony.",
+        "notImpliedBySource": "This resolves the visual recruitment reading, not permission to correct Turkish copy or bypass summon eligibility. No pledge, ritual, invented type or guaranteed summon is implied.",
         "retainedConstraints": [
-          "Preserve the exact typo or term pending a separate rule/content decision.",
-          "No oath text, religious ritual or invented card type."
+          "Keep source.text and all other card fields byte-for-byte unchanged.",
+          "No oath text, religious ritual or invented card type.",
+          "Exactly one arriving adult; do not depict unlimited reinforcements."
         ],
+        "runtimeEvidence": {
+          "authority": "Read-only source and executable-operation inspection; not an individual gameplay replay or art approval.",
+          "paths": [
+            "public/games/veto-h/designs.js:105-111",
+            "public/games/duel-core/card-dsl.js:49-51",
+            "public/games/duel-core/effects.js:433-445",
+            "public/games/duel-core/selection.js:21-31"
+          ],
+          "existingTestBoundary": "duel-parity.test.mjs checks the Special Summon cap for both seats; no dedicated SND-017 scenario was found or run in this brief review."
+        },
         "evidence": {
           "name": "Teşkilatçı",
           "kind": "unit",
           "subtype": "effect",
           "effectText": "Çağrıldığında 1 “Sandık” yemini özel çağır (el veya deste, Kademe 3 veya altı)."
         },
-        "authority": "Canonical card text only; not a runtime-rule test or rendered-art review"
+        "authority": "Canonical bilingual source plus read-only typed-operation inspection; not a dedicated gameplay replay or rendered-art review"
       },
       "implementationStatus": "PLANNED_NOT_DRAWN",
       "qualityGate": "BLOCKED_BY_FAILED_VECTOR_REALISM_PROBE",
-      "reviewStatus": "SEMANTIC_REVIEW_REQUIRED",
-      "unresolved": "The source says “Sandık yemini”, without defining “yemini” as a card, kind or subtype. Do not silently correct it to kadro or claim the intended referent is verified. Recruitment remains a provisional visual interpretation."
+      "reviewStatus": "ASSISTANT_BRIEF_ONLY_NOT_ART_APPROVAL",
+      "unresolved": null
     },
     {
       "id": "SND-018",
@@ -1566,36 +1576,44 @@
       },
       "sourceRecordSha256": "ae76027e0517be18316e922f468e0f35f069be8b8dfcf155462e050b99a56dff",
       "sceneClass": "institution",
-      "subjectAction": "Eski ahşap kurum kapısı aşınmış menteşesine rağmen ayakta durur",
+      "subjectAction": "Aşınmış sivil arşiv kapısının tek kullanımlık yedek takozu yerinde durur; ikinci takoz yoktur",
       "setting": "sivil arşiv giriş koridoru",
       "composition": "environment",
       "effectRelationship": {
         "kind": "visual_metaphor_not_rule_rewrite",
-        "description": "Bir kez dayanabilen kurumsal süreklilik metaforu",
+        "description": "Tur başına tek savaşta yok olmama hakkının sınırlı dayanıklılık metaforu; kalıcı dokunulmazlık veya hasar iptali değildir",
         "mechanicalAuthority": "source.text"
       },
       "sourceGrounding": {
         "expectedName": "Eski Devlet",
         "disposition": "UNRESOLVED_SOURCE_AMBIGUITY",
-        "sourceFacts": "Unit/effect card with once-per-turn protection from battle destruction.",
-        "visualInterpretation": "An old civic doorway remaining standing proposes durability and continuity.",
+        "sourceFacts": "Unit/effect card; designs[46].traits.battleProtection is turn. rules.js consumes card.used.protection for the current turn on the first battle-destruction attempt. This does not itself cancel battle damage or grant protection from effects.",
+        "visualInterpretation": "An aged civic doorway with one temporary support proposes limited durability; the doorway and support are authored metaphors, not source-defined objects.",
         "notImpliedBySource": "No literal person, institution, era, regime, building or political identity is specified.",
         "retainedConstraints": [
-          "Keep the doorway marked as provisional metaphor.",
+          "Keep the doorway and support marked as provisional metaphor; no invulnerability halo.",
           "No real institution, historical identity, national boundary or emblem."
         ],
+        "runtimeEvidence": {
+          "authority": "Read-only executable-operation inspection; unresolved literal identity remains, not a mechanical ambiguity.",
+          "paths": [
+            "public/games/veto-h/designs.js:266-268",
+            "public/games/duel-core/rules.js:236-245"
+          ],
+          "existingTestBoundary": "duel-mechanics.test.mjs:174 tests destruction protection without damage cancellation using GETT cards, not SND-046; no dedicated SND-046 scenario was found or run."
+        },
         "evidence": {
           "name": "Eski Devlet",
           "kind": "unit",
           "subtype": "effect",
           "effectText": "1 turda 1 kez savaşta yok olmaz."
         },
-        "authority": "Canonical card text only; not a runtime-rule test or rendered-art review"
+        "authority": "Canonical bilingual source plus read-only typed-operation inspection; not a dedicated gameplay replay or rendered-art review"
       },
       "implementationStatus": "PLANNED_NOT_DRAWN",
       "qualityGate": "BLOCKED_BY_FAILED_VECTOR_REALISM_PROBE",
       "reviewStatus": "SEMANTIC_REVIEW_REQUIRED",
-      "unresolved": "The source defines a once-per-turn battle-survival effect but does not identify the entity meant by “Eski Devlet”. The civic doorway remains an unconfirmed metaphor, not an established literal subject."
+      "unresolved": "The executable once-per-turn battle-destruction protection is clear; the identity meant by “Eski Devlet” remains unspecified. A supported civic doorway is an authored durability metaphor awaiting visual-author review, not a literal source identification."
     },
     {
       "id": "SND-047",
@@ -4378,36 +4396,46 @@
       },
       "sourceRecordSha256": "bfcdb15b632f34187b89af2ba6daa97a47659ba45885c20267ad431bd4ab9f26",
       "sceneClass": "object",
-      "subjectAction": "Farklı evrakların arasından tek kapalı zarf ayrılmıştır",
-      "setting": "kimliksiz kaynak teslim kutusu",
+      "subjectAction": "Aynı ölçüde kapalı evrak zarflarının arasından tek zarf yan bölmeye ayrılmıştır; seçen kişi görünmez",
+      "setting": "tasnif tepsili ortak evrak masası",
       "composition": "still-life",
       "effectRelationship": {
         "kind": "visual_metaphor_not_rule_rewrite",
-        "description": "Rastgele el kaybı; kaynağın kimliği uydurulmaz",
+        "description": "Rakip elden tek rastgele seçeneğin atılması metaforu; zarf içeriği ve kaynak kimliği ileri sürülmez",
         "mechanicalAuthority": "source.text"
       },
       "sourceGrounding": {
         "expectedName": "Kaynaklar",
         "disposition": "UNRESOLVED_SOURCE_AMBIGUITY",
-        "sourceFacts": "Normal trap causes the opponent to discard one random hand card.",
-        "visualInterpretation": "One closed envelope separated from mixed papers proposes a lost option.",
+        "sourceFacts": "Normal trap; designs[132] composes discard(1,true,true). The discard primitive selects one opposing-hand UID with seeded random(state) and moves it to grave if present; an empty hand yields no discarded card.",
+        "visualInterpretation": "One identical sealed file separated from a group represents a lost option without a visible choosing hand; the scene does not identify what Sources refers to.",
         "notImpliedBySource": "Source identity and even the meaning of sources are unspecified. Intentional anonymity, an informant, financing or evidence collection cannot be asserted.",
         "retainedConstraints": [
-          "Provisional anonymous object only.",
-          "No invented source identity, journalist, payment or factual disclosure."
+          "The file metaphor remains provisional; do not assert anonymity or a leak as source facts.",
+          "No invented source identity, journalist, payment or factual disclosure.",
+          "No chooser selecting a valuable visible file; no guaranteed reward or empty-hand loss."
         ],
+        "runtimeEvidence": {
+          "authority": "Read-only executable-operation inspection; unresolved narrative referent remains, not a mechanical ambiguity.",
+          "paths": [
+            "public/games/veto-h/designs.js:741",
+            "public/games/duel-core/card-dsl.js:11-16",
+            "public/games/duel-core/effects.js:59-69"
+          ],
+          "existingTestBoundary": "duel-mechanics.test.mjs:202 tests non-random SND-014 hidden-hand choice, not this random discard; no dedicated SND-132 scenario was found or run."
+        },
         "evidence": {
           "name": "Kaynaklar",
           "kind": "trap",
           "subtype": "normal",
           "effectText": "Rakip 1 rastgele el kartını atar."
         },
-        "authority": "Canonical card text only; not a runtime-rule test or rendered-art review"
+        "authority": "Canonical bilingual source plus read-only typed-operation inspection; not a dedicated gameplay replay or rendered-art review"
       },
       "implementationStatus": "PLANNED_NOT_DRAWN",
       "qualityGate": "BLOCKED_BY_FAILED_VECTOR_REALISM_PROBE",
       "reviewStatus": "SEMANTIC_REVIEW_REQUIRED",
-      "unresolved": "The title “Kaynaklar” and random opposing-hand discard effect do not say whether sources are people, records, funding or something else. An anonymous envelope is provisional; intentional anonymity cannot be inferred."
+      "unresolved": "Random opponent-hand discard is explicit in text and executable operations. “Kaynaklar” still does not identify people, records or funding; a separated sealed file is a provisional lost-option metaphor, not proof of an informant, leak or intentionally anonymous source."
     },
     {
       "id": "SND-133",

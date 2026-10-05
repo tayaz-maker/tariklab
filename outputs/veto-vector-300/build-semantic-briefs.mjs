@@ -25,7 +25,7 @@ const authoredRows = String.raw`
 014|character|Sivil sözcü açıklama masasındayken karşısındaki dinleyici bir evrakını çantasına kaldırır|amblemsiz basın odası|two-shot|Çağrı sonrasında rakip eldeki seçenek kaybı
 015|character|Grup başkanvekili eşit yükseklikteki iki konuşma masasından birinde itirazını anlatır|yuvarlak müzakere odası|wide-diagonal|Aynı kademedeki karşılaşmada ek tartışma etkisi
 016|character|İlçe başkanı iki saha görevlisine çalışma malzemesini paylaştırır|küçük teşkilat avlusu|three-person|Sandık ekibinin birlikte güçlenmesi
-017|character|Teşkilatçı açık kapıda yeni gönüllüyü karşılar ve çalışma yerini gösterir|gönüllü kayıt bankosu|full-scene|Küçük Sandık kadrosunu devreye alma; kaynak metindeki yemin sözcüğü değiştirilmez
+017|character|Teşkilatçı açık kapıda tek yetişkin sandık gönüllüsünü karşılar ve boş çalışma yerini gösterir|gönüllü kayıt bankosu|full-scene|Uygun düşük kademeli Sandık kadrosunu elden veya desteden devreye alma; sahne koşulsuz çağrı ya da yemin töreni değildir
 018|character|Lobici karşı masadaki sunumu dinlerken kendi dosyasına yeni not kâğıdı ekler|konferans dinlenme alanı|side-profile|Karşı kampanya etkinleşmesinden yarar sağlama
 019|character|Danışman henüz açılmamış ekip dosyalarının önüne koruyucu kapak yerleştirir|gizli olmayan hazırlık odası|close-action|Kapalı kadroların açıklanana kadar korunması
 020|character|Anketör üç sonuç klasöründen birini seçip diğer ikisini sırayla bırakır|saha araştırması kontrol bankosu|top-down|Üç kaydı inceleyip birini alma; yazı veya sayı resmedilmez
@@ -54,7 +54,7 @@ const authoredRows = String.raw`
 043|character|Genel başkan ayrılan ekipten dosya devralıp karşıdaki kapalı tepsiyi açtırır|genel merkez sivil toplantı odası|three-person|İstifa sonrası eldeki ve kapalı seçeneklere eşzamanlı baskı
 044|character|Kurmaca üst düzey aday geniş sivil toplantının girişindeki geçişi düzenler|amblemsiz aday tanıtım holü|full-scene|Doğrudan etkinin sınırlanması ve küçük kadro girişinin kapanması
 045|character|Koalisyon mimarı iki ayrı toplantı masasını tek uzun masaya yaklaştırır|ortak çalışma atölyesi|high-angle|Malzeme olarak ayrılan kadroların koalisyona dönüşmesi
-046|institution|Eski ahşap kurum kapısı aşınmış menteşesine rağmen ayakta durur|sivil arşiv giriş koridoru|environment|Bir kez dayanabilen kurumsal süreklilik metaforu
+046|institution|Aşınmış sivil arşiv kapısının tek kullanımlık yedek takozu yerinde durur; ikinci takoz yoktur|sivil arşiv giriş koridoru|environment|Tur başına tek savaşta yok olmama hakkının sınırlı dayanıklılık metaforu; kalıcı dokunulmazlık veya hasar iptali değildir
 047|character|Medya yöneticisi rafın ön sırasındaki yayına hazır paketi doğrudan görevliye verir|büyük yayın dağıtım galerisi|medium|Hazır kampanyaya desteden hızlı erişim
 048|character|Sandık sorumlusu sayım masasının üstüne ortak koruma örtüsü açar|yüksek pencereli sayım salonu|wide-diagonal|Sandık ekibine sürekli dayanıklılık sağlama
 049|institution|Sivil görüşme heyeti randevu dosyalarını bir sonraki bölmeye taşır|amblemsiz hukuk danışma bekleme alanı|top-down|Tuzak açılmasına bir tur gecikme; gerçek mahkeme iddiası yok
@@ -140,7 +140,7 @@ const authoredRows = String.raw`
 129|event|Karşılıklı iki sivil toplantı grubu konuşmayı durdurup kendi oturma alanına döner|iki bölümlü açık forum|crowd|Doğrudan ilerleyişin iptali ve savunmaya dönüş
 130|event|Delege masasında kalkmak üzere olan görevlinin dosyası ortak ellerce yerinde tutulur|kurultay çalışma halkası|close-action|İlan edilen görevden vazgeçişi iptal; şiddet yok
 131|object|İncelenecek anket dosyasının kapağı seçim yapılmadan kapanır|araştırma kontrol masası|macro|Bakıp alma sürecini durdurma
-132|object|Farklı evrakların arasından tek kapalı zarf ayrılmıştır|kimliksiz kaynak teslim kutusu|still-life|Rastgele el kaybı; kaynağın kimliği uydurulmaz
+132|object|Aynı ölçüde kapalı evrak zarflarının arasından tek zarf yan bölmeye ayrılmıştır; seçen kişi görünmez|tasnif tepsili ortak evrak masası|still-life|Rakip elden tek rastgele seçeneğin atılması metaforu; zarf içeriği ve kaynak kimliği ileri sürülmez
 133|action|Boşalan görev sandalyesi ile eksilen kaynak kutusu aynı görüşmede karşı karşıyadır|zor sivil müzakere odası|wide-diagonal|Kadro bırakma ile yüksek kaynak ödeme seçimi
 134|event|İki sayım ekibi ellerini masadan çekip itiraz dosyasını ortaya bırakır|ortak itiraz tezgâhı|top-down|İki tarafa da geçici hasarsızlık
 135|event|Beklenmedik sivil denetimde yan odadaki tek kapalı dosya incelemeye alınır|toplantı kulis kapısı|door-framing|Kapalı rakip seçeneğin kaldırılması; baskın şiddeti yok
@@ -312,20 +312,20 @@ const authoredRows = String.raw`
 `.trim().split('\n').map(row => row.split('|'));
 
 const unresolved = {
-  'SND-017': 'The source says “Sandık yemini”, without defining “yemini” as a card, kind or subtype. Do not silently correct it to kadro or claim the intended referent is verified. Recruitment remains a provisional visual interpretation.',
-  'SND-046': 'The source defines a once-per-turn battle-survival effect but does not identify the entity meant by “Eski Devlet”. The civic doorway remains an unconfirmed metaphor, not an established literal subject.',
-  'SND-132': 'The title “Kaynaklar” and random opposing-hand discard effect do not say whether sources are people, records, funding or something else. An anonymous envelope is provisional; intentional anonymity cannot be inferred.'
+  'SND-046': 'The executable once-per-turn battle-destruction protection is clear; the identity meant by “Eski Devlet” remains unspecified. A supported civic doorway is an authored durability metaphor awaiting visual-author review, not a literal source identification.',
+  'SND-132': 'Random opponent-hand discard is explicit in text and executable operations. “Kaynaklar” still does not identify people, records or funding; a separated sealed file is a provisional lost-option metaphor, not proof of an informant, leak or intentionally anonymous source.'
 };
 
 // B4/B8 source-only recheck of the 13 original interpretation flags.
 // SOURCE_BOUNDED means the cited source settles the narrow meaning, NOT that art is approved.
 const grounding = {
   'SND-017': {
-    expectedName:'Teşkilatçı',disposition:'UNRESOLVED_SOURCE_AMBIGUITY',
-    sourceFacts:'Unit/effect card. On summon, the exact text calls one “Sandık yemini” from hand or deck, level3 or below.',
-    visualInterpretation:'An organizer welcoming a new volunteer is an authored recruitment metaphor.',
-    notImpliedBySource:'The text does not prove that yemini means kadro, a pledge, or a ritual. Do not repair the rule through art.',
-    retainedConstraints:['Preserve the exact typo or term pending a separate rule/content decision.','No oath text, religious ritual or invented card type.']
+    expectedName:'Teşkilatçı',disposition:'SOURCE_BOUNDED_NOT_ART_APPROVED',
+    sourceFacts:'The immutable Turkish text retains “Sandık yemini”; source.textEn and designs[17] explicitly specify one Level 3 or lower Ballot unit from own hand or deck when summoned. The typed summon helper adds kind:unit; runtime also requires an empty unit slot and specialAllowed.',
+    visualInterpretation:'One adult ballot volunteer welcomed into an available work position represents the executable recruitment effect. This is an authored scene, not an oath ceremony.',
+    notImpliedBySource:'This resolves the visual recruitment reading, not permission to correct Turkish copy or bypass summon eligibility. No pledge, ritual, invented type or guaranteed summon is implied.',
+    retainedConstraints:['Keep source.text and all other card fields byte-for-byte unchanged.','No oath text, religious ritual or invented card type.','Exactly one arriving adult; do not depict unlimited reinforcements.'],
+    runtimeEvidence:{authority:'Read-only source and executable-operation inspection; not an individual gameplay replay or art approval.',paths:['public/games/veto-h/designs.js:105-111','public/games/duel-core/card-dsl.js:49-51','public/games/duel-core/effects.js:433-445','public/games/duel-core/selection.js:21-31'],existingTestBoundary:'duel-parity.test.mjs checks the Special Summon cap for both seats; no dedicated SND-017 scenario was found or run in this brief review.'}
   },
   'SND-042': {
     expectedName:'Emekli Paşa',disposition:'SOURCE_BOUNDED_NOT_ART_APPROVED',
@@ -336,10 +336,11 @@ const grounding = {
   },
   'SND-046': {
     expectedName:'Eski Devlet',disposition:'UNRESOLVED_SOURCE_AMBIGUITY',
-    sourceFacts:'Unit/effect card with once-per-turn protection from battle destruction.',
-    visualInterpretation:'An old civic doorway remaining standing proposes durability and continuity.',
+    sourceFacts:'Unit/effect card; designs[46].traits.battleProtection is turn. rules.js consumes card.used.protection for the current turn on the first battle-destruction attempt. This does not itself cancel battle damage or grant protection from effects.',
+    visualInterpretation:'An aged civic doorway with one temporary support proposes limited durability; the doorway and support are authored metaphors, not source-defined objects.',
     notImpliedBySource:'No literal person, institution, era, regime, building or political identity is specified.',
-    retainedConstraints:['Keep the doorway marked as provisional metaphor.','No real institution, historical identity, national boundary or emblem.']
+    retainedConstraints:['Keep the doorway and support marked as provisional metaphor; no invulnerability halo.','No real institution, historical identity, national boundary or emblem.'],
+    runtimeEvidence:{authority:'Read-only executable-operation inspection; unresolved literal identity remains, not a mechanical ambiguity.',paths:['public/games/veto-h/designs.js:266-268','public/games/duel-core/rules.js:236-245'],existingTestBoundary:'duel-mechanics.test.mjs:174 tests destruction protection without damage cancellation using GETT cards, not SND-046; no dedicated SND-046 scenario was found or run.'}
   },
   'SND-049': {
     expectedName:'Yargı Lobisi',disposition:'SOURCE_BOUNDED_NOT_ART_APPROVED',
@@ -392,10 +393,11 @@ const grounding = {
   },
   'SND-132': {
     expectedName:'Kaynaklar',disposition:'UNRESOLVED_SOURCE_AMBIGUITY',
-    sourceFacts:'Normal trap causes the opponent to discard one random hand card.',
-    visualInterpretation:'One closed envelope separated from mixed papers proposes a lost option.',
+    sourceFacts:'Normal trap; designs[132] composes discard(1,true,true). The discard primitive selects one opposing-hand UID with seeded random(state) and moves it to grave if present; an empty hand yields no discarded card.',
+    visualInterpretation:'One identical sealed file separated from a group represents a lost option without a visible choosing hand; the scene does not identify what Sources refers to.',
     notImpliedBySource:'Source identity and even the meaning of sources are unspecified. Intentional anonymity, an informant, financing or evidence collection cannot be asserted.',
-    retainedConstraints:['Provisional anonymous object only.','No invented source identity, journalist, payment or factual disclosure.']
+    retainedConstraints:['The file metaphor remains provisional; do not assert anonymity or a leak as source facts.','No invented source identity, journalist, payment or factual disclosure.','No chooser selecting a valuable visible file; no guaranteed reward or empty-hand loss.'],
+    runtimeEvidence:{authority:'Read-only executable-operation inspection; unresolved narrative referent remains, not a mechanical ambiguity.',paths:['public/games/veto-h/designs.js:741','public/games/duel-core/card-dsl.js:11-16','public/games/duel-core/effects.js:59-69'],existingTestBoundary:'duel-mechanics.test.mjs:202 tests non-random SND-014 hidden-hand choice, not this random discard; no dedicated SND-132 scenario was found or run.'}
   },
   'SND-199': {
     expectedName:'İdari Yargıç',disposition:'SOURCE_BOUNDED_NOT_ART_APPROVED',
@@ -432,7 +434,7 @@ export function buildManifest() {
       sourceRecordSha256:digest(JSON.stringify(source)),
       sceneClass,subjectAction,setting,composition,
       effectRelationship:{kind:'visual_metaphor_not_rule_rewrite',description:effectRelationship,mechanicalAuthority:'source.text'},
-      ...(grounding[source.id]?{sourceGrounding:{...grounding[source.id],evidence:{name:source.name,kind:source.kind,subtype:source.subtype,effectText:source.text},authority:'Canonical card text only; not a runtime-rule test or rendered-art review'}}:{}),
+      ...(grounding[source.id]?{sourceGrounding:{...grounding[source.id],evidence:{name:source.name,kind:source.kind,subtype:source.subtype,effectText:source.text},authority:grounding[source.id].runtimeEvidence?'Canonical bilingual source plus read-only typed-operation inspection; not a dedicated gameplay replay or rendered-art review':'Canonical card text only; not a runtime-rule test or rendered-art review'}}:{}),
       implementationStatus:'PLANNED_NOT_DRAWN',
       qualityGate:'BLOCKED_BY_FAILED_VECTOR_REALISM_PROBE',
       reviewStatus:unresolved[source.id]?'SEMANTIC_REVIEW_REQUIRED':'ASSISTANT_BRIEF_ONLY_NOT_ART_APPROVAL',

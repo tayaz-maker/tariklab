@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { buildManifest, protectedSourceSha256 } from './build-semantic-briefs.mjs';
+import { designs } from '../../public/games/veto-h/designs.js';
 const sourceBytes=readFileSync(new URL('../../public/games/veto-h/source-cards.json',import.meta.url));
 const source=JSON.parse(sourceBytes);
 const saved=JSON.parse(readFileSync(new URL('./semantic-art-briefs.json',import.meta.url)));
@@ -52,20 +53,20 @@ test('preparation cannot masquerade as completed, approved or tested production 
     assert.equal(entry.reviewStatus,entry.unresolved?'SEMANTIC_REVIEW_REQUIRED':'ASSISTANT_BRIEF_ONLY_NOT_ART_APPROVAL');
   }
   assert.deepEqual(saved.coverage.unresolvedIds,saved.cards.filter(e=>e.unresolved).map(e=>e.id));
-  assert.equal(saved.coverage.unresolvedIds.length,3);
+  assert.equal(saved.coverage.unresolvedIds.length,2);
   assert.equal(saved.constraints.noImageGeneration,true);
   assert.equal(saved.constraints.noRasterPlate,true);
   assert.deepEqual(saved.constraints.intrinsicArtDimensions,[576,384]);
 });
 
-test('13 source-grounding records keep exact evidence and separate10bounded interpretations from3real ambiguities',()=>{
+test('13 source-grounding records keep exact evidence and separate11bounded interpretations from2unresolved narrative referents',()=>{
   const records=saved.cards.filter(e=>e.sourceGrounding);
   assert.equal(records.length,13);
   assert.deepEqual(saved.coverage.sourceGrounding.reviewedIds,records.map(e=>e.id));
-  assert.equal(saved.coverage.sourceGrounding.sourceBoundedCount,10);
-  assert.equal(saved.coverage.sourceGrounding.unresolvedCount,3);
+  assert.equal(saved.coverage.sourceGrounding.sourceBoundedCount,11);
+  assert.equal(saved.coverage.sourceGrounding.unresolvedCount,2);
   assert.equal(saved.coverage.sourceGrounding.artApprovedCount,0);
-  assert.deepEqual(saved.coverage.unresolvedIds,['SND-017','SND-046','SND-132']);
+  assert.deepEqual(saved.coverage.unresolvedIds,['SND-046','SND-132']);
   for(const entry of records){
     const g=entry.sourceGrounding;
     assert.deepEqual(g.evidence,{name:entry.source.name,kind:entry.source.kind,subtype:entry.source.subtype,effectText:entry.source.text});
@@ -74,7 +75,18 @@ test('13 source-grounding records keep exact evidence and separate10bounded inte
     assert.ok(g.retainedConstraints.length>=2,entry.id);
     assert.equal(entry.implementationStatus,'PLANNED_NOT_DRAWN');
   }
-  // The exact undefined term remains untouched; the brief must not silently rewrite the card.
+  // English source plus executable operations settle recruitment; Turkish copy is untouched.
+  const organizer=saved.cards.find(e=>e.id==='SND-017');
+  assert.equal(organizer.unresolved,null);
+  assert.equal(organizer.source.textEn,designs[17].text);
+  assert.deepEqual(designs[17].triggers[0].effects,[{op:'select',key:'ballot',selector:{owner:'own',zones:['hand','deck'],kind:'unit',series:'Sandık',maxLevel:3},count:1,chooser:'own'},{op:'summon',count:1}]);
+  assert.equal(designs[46].traits.battleProtection,'turn');
+  assert.deepEqual(designs[132].effects,[{op:'discard',count:1,opponent:true,random:true}]);
+  for(const id of ['SND-017','SND-046','SND-132']){
+    const evidence=saved.cards.find(e=>e.id===id).sourceGrounding.runtimeEvidence;
+    assert.ok(evidence.paths.length>=2);
+    assert.ok(evidence.existingTestBoundary.includes('no dedicated'));
+  }
   assert.ok(saved.cards.find(e=>e.id==='SND-017').source.text.includes('“Sandık” yemini'));
   assert.equal(source.some(c=>c.name==='Sandık Yemini'),false);
 });
