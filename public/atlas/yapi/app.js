@@ -15,6 +15,7 @@ const $ = (tag, attrs = {}, ...children) => {
 };
 const L = (tr, en, pl) => ({ tr, en, pl });
 const UI = {
+  skip: L('İçeriğe geç', 'Skip to content', 'Przejdź do treści'),
   edition: L('İlk öğrenme sürümü', 'First learning edition', 'Pierwsza wersja edukacyjna'),
   subtitle: L('İnsan anatomisi · Katmanlı, kaynaklı bir öğrenme önizlemesi', 'Human anatomy · A layered, sourced learning preview', 'Anatomia człowieka · Podgląd edukacyjny z warstwami i źródłami'),
   sources: L('Kaynaklar ve kapsam', 'Sources and scope', 'Źródła i zakres'),
@@ -170,6 +171,7 @@ let sourcesLocale = '';
 let detailId = '';
 function sync() {
   document.documentElement.lang = state.locale;
+  document.querySelector('.skip-link').textContent = copy('skip');
   document.title = `${text(FOUNDATION.title)} · ${copy('edition')}`;
   Object.assign(root.dataset, { locale: state.locale, selected: state.selectedId || '', zoom: String(state.zoom), variant: state.variant, view: state.view });
   for (const [node, key] of uiTextNodes) node.textContent = copy(key);

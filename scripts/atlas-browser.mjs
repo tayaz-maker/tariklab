@@ -163,6 +163,7 @@ try {
     await atlas.waitFor({ state: "visible" });
     await page.waitForFunction(() => Number.isFinite(window.__atlasMeaningfulViewMs));
     const before = await inspect("first-view"); assert.equal(before.selected, "heart");
+    assert.equal((await page.locator(".skip-link").textContent()).trim(), { tr: "İçeriğe geç", en: "Skip to content", pl: "Przejdź do treści" }[language], "skip link must use the selected language");
     const coldEntry = await page.evaluate(() => ({ readyDomMs: window.__atlasReadyDomMs, meaningfulViewMs: window.__atlasMeaningfulViewMs,
       navigation: performance.getEntriesByType("navigation").map(r => ({ name: r.name, startTime: r.startTime, duration: r.duration, transferSize: r.transferSize, encodedBodySize: r.encodedBodySize })),
       paints: performance.getEntriesByType("paint").map(r => ({ name: r.name, startTime: r.startTime })),

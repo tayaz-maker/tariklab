@@ -111,7 +111,7 @@ export const FOUNDATION = {
   systems: [
     system('surface', L('Yüzey', 'Surface', 'Powierzchnia'), L('Yön bulmak için yaklaşık yetişkin yüzeyi; deri sistemi modülü değildir.', 'Approximate adult surface for orientation; not an integumentary system module.', 'Przybliżona powierzchnia ciała dorosłego do orientacji; nie jest modułem układu powłokowego.'), ['nci-body-terminology']),
     system('skeleton', L('İskelet grupları', 'Skeletal groups', 'Grupy szkieletu'), L('Yedi büyük kemik grubu; eksiksiz kemik kataloğu değildir.', 'Seven broad bone groups; not a complete bone catalogue.', 'Siedem głównych grup kości; nie jest to pełny katalog kości.'), ['nci-skeleton-divisions', 'nci-axial-groups', 'nci-appendicular-groups']),
-    system('organs', L('Büyük organ örnekleri', 'Major organ demonstrator', 'Przykłady głównych narządów'), L('Altı organ örneği; tam organ sistemleri sunulmaz.', 'Six organ examples; complete organ systems are not presented.', 'Sześć przykładów narządów; bez pełnych układów narządowych.'), ['nci-brain-cns', 'nhlbi-heart-anatomy', 'nhlbi-lungs', 'niddk-digestion', 'niddk-kidneys']),
+    system('organs', L('Büyük organ örnekleri', 'Organ examples', 'Przykłady głównych narządów'), L('Altı organ örneği; tam organ sistemleri sunulmaz.', 'Six organ examples; complete organ systems are not presented.', 'Sześć przykładów narządów; bez pełnych układów narządowych.'), ['nci-brain-cns', 'nhlbi-heart-anatomy', 'nhlbi-lungs', 'niddk-digestion', 'niddk-kidneys']),
   ],
   structures,
   sources,
