@@ -1,0 +1,481 @@
+{
+  "contract": [
+    "D3",
+    "D2",
+    "C3",
+    "F"
+  ],
+  "owner": "Astra",
+  "pr": 121,
+  "prURL": "https://github.com/tayaz-maker/tariklab/pull/121",
+  "head": "7ea1ba7f023c54c5dfaaa53476f2401028f55e34",
+  "base": "be160c95eb5283e5ed2ce8bf139ef7aa714d329d",
+  "merge": "9b4e169ab198d1ad37f6dd82f13f4b394adf2045",
+  "status": "NARROW_SAVE_RECOVERY_TWO_HOST_PASS; SUCCESSOR_MAIN_CI_PENDING",
+  "scope": {
+    "problem": "Malformed schema-1 saves lacking ramps could pass deserialize and throw during legal-move evaluation.",
+    "fix": "Validate before legal moves/rendering, read a valid backup without mutation, preserve unreadable original bytes in non-evicting recovery slots before replacement, and block writes when quota or available slots prevent preservation.",
+    "files": 13,
+    "insertions": 919,
+    "deletions": 9,
+    "runtimeFiles": [
+      "public/games/esik/index.html",
+      "public/games/esik/app.js",
+      "public/games/esik/sim.js",
+      "public/games/esik/save-store.js"
+    ],
+    "saveKey": "tariklab.kiyi-esigi.v1",
+    "saveSchema": 1,
+    "schemaChanged": false,
+    "formulasThroughSerializeSHA256": "7e573a8f7a04d60bc8e4ee535aa81972b488a23f6c9f9eb3f9fb6a883354fb61",
+    "formulasThroughSerializeByteIdentical": true,
+    "sharedServiceWorkerChanged": false,
+    "mapArtDataDependenciesChanged": false
+  },
+  "localGate": {
+    "source": "outputs/kiyi-save-hotfix/CHECKPOINT.md at PR head; not rerun by this evidence compiler",
+    "redRepro": "Deleting ramps from serialize(apply(createCoast(3), \"bagla:merdiven\")) was accepted by old deserialize; legal then threw on .includes. Initial validation tests were red.",
+    "targetedPassed": 28,
+    "fullPassed": 1823,
+    "fullFailed": 0,
+    "existingOptInDarbeSkipped": 1,
+    "typecheck": "PASS",
+    "lint": "PASS",
+    "build": "PASS_ON_UNCHANGED_SOURCE_RETRY",
+    "firstRootBuild": "Transient .rsync-tmp ENOENT paths (2932); no source change before passing retry.",
+    "migration": "Existing migration step skipped without DATABASE_URL; not an executed migration claim.",
+    "seededCompatibility": "Targeted tests cover 500 seeded legal games and four endings retaining exact state and next moves."
+  },
+  "sourceByteCost": {
+    "scope": "Sum across four changed runtime files versus be160c95; gzip-9 per-file size delta. Not transfer/FMP.",
+    "rawDeltaBytes": 7376,
+    "gzip9DeltaBytes": 2570
+  },
+  "ci": {
+    "requiredChecksBeforeMerge": 9,
+    "requiredChecksConclusion": "SUCCESS",
+    "vercelBeforeMerge": "SUCCESS",
+    "mergeMethod": "Normal guarded merge, no bypass",
+    "prFullRun": 37311130418,
+    "prFullStatus": "SUCCESS",
+    "builtRun": 37311130629,
+    "builtStatus": "SUCCESS",
+    "mainRun": 37314184406,
+    "mainStatusAtCheckpoint": "IN_PROGRESS",
+    "finalGreenMainStillRequired": true
+  },
+  "builtBrowser": {
+    "run": 37311130629,
+    "artifact": 11346062060,
+    "artifactURL": "https://github.com/tayaz-maker/tariklab/actions/runs/37311130629/artifacts/11346062060",
+    "artifactSHA256": "a9a635676f31e79b1b4fc21e7e91526b7451000fdb84b75007a2bca36218dac3",
+    "resultsSHA256": "5f430455934e7d56215f178cc611996c2102dcc71850443931b563cc7fcccb52",
+    "resultsBytes": 315331,
+    "origin": "http://127.0.0.1:36711",
+    "status": "PASS",
+    "expectedCases": 37,
+    "passedCases": 37,
+    "originalScreenshots": 111,
+    "matrix": {
+      "standardCases": 36,
+      "scenarios": [
+        "valid",
+        "backup",
+        "invalid",
+        "quota"
+      ],
+      "languages": [
+        "tr",
+        "en",
+        "pl"
+      ],
+      "viewportModes": [
+        {
+          "width": 1440,
+          "reducedMotion": false
+        },
+        {
+          "width": 390,
+          "reducedMotion": false
+        },
+        {
+          "width": 320,
+          "reducedMotion": true
+        }
+      ],
+      "extraCase": "backup / TR / 390 / normal motion / pinned old-cache online upgrade"
+    },
+    "scenarioSummary": [
+      {
+        "scenario": "valid",
+        "cases": 9,
+        "passed": 9,
+        "preservedRawCases": 0,
+        "persistedCases": 9,
+        "onlineUpgradeCases": 0
+      },
+      {
+        "scenario": "backup",
+        "cases": 10,
+        "passed": 10,
+        "preservedRawCases": 10,
+        "persistedCases": 10,
+        "onlineUpgradeCases": 1
+      },
+      {
+        "scenario": "invalid",
+        "cases": 9,
+        "passed": 9,
+        "preservedRawCases": 9,
+        "persistedCases": 9,
+        "onlineUpgradeCases": 0
+      },
+      {
+        "scenario": "quota",
+        "cases": 9,
+        "passed": 9,
+        "preservedRawCases": 9,
+        "persistedCases": 0,
+        "onlineUpgradeCases": 0
+      }
+    ],
+    "fingerprints": [
+      {
+        "path": "/games/esik/",
+        "sha256": "279729ee17fe47535affc557dbf2347e6f54ec09f3f2bf0b9f706f6624595c14"
+      },
+      {
+        "path": "/games/esik/app.js?save=2",
+        "sha256": "d2921715a7b07ed596d1262c83cb74429bdfc20f63a672435d5d0e4f7fcd6d5d"
+      },
+      {
+        "path": "/games/esik/sim.js?save=2",
+        "sha256": "c74eb2f2c157161e4154bb278ecab5819e3f8ae95de520eeeeab053c1a576a47"
+      },
+      {
+        "path": "/games/esik/save-store.js?save=2",
+        "sha256": "a7f86375a2ba9e89da4a6fbd8a453e24bc9e7f2ae77e96f84016572d74ef5b8f"
+      },
+      {
+        "path": "/games/esik/style.css",
+        "sha256": "f553cdcad734810ac6ca342840e268a162d194ef6202a20f8ebdcf12ee8a1943"
+      }
+    ],
+    "measurementCount": 148,
+    "measurementPhaseCounts": {
+      "open": 37,
+      "decision": 37,
+      "online-reload": 37,
+      "offline-reload": 37
+    },
+    "maxHorizontalOverflowPx": 0,
+    "minimumActionHeightPx": 44,
+    "noticeObservations": 74,
+    "allNoticesStatusPoliteAndWithinWidth": true,
+    "consolePageHttpErrors": 0,
+    "failedRequests": 0,
+    "externalRequests": 0,
+    "renderer": "Forced existing SVG fallback for all cases; no active Pixi claim.",
+    "schemaValues": [
+      1
+    ],
+    "oldCacheUpgrade": {
+      "scenario": "backup",
+      "language": "tr",
+      "width": 390,
+      "preservedRaw": true,
+      "persisted": true,
+      "cache": {
+        "name": "cete-offline-v5",
+        "urls": [
+          "http://127.0.0.1:36711/games/esik/",
+          "http://127.0.0.1:36711/games/esik/app.js",
+          "http://127.0.0.1:36711/games/esik/sim.js"
+        ],
+        "baseline": "be160c95eb5283e5ed2ce8bf139ef7aa714d329d",
+        "blobs": [
+          {
+            "path": "/games/esik/app.js",
+            "sha256": "e392544020518ed6a0db158e01751480c04349952b7f0f610b0b5a1397e50d48"
+          },
+          {
+            "path": "/games/esik/sim.js",
+            "sha256": "20f9c5eb99b8421b96eea077b448b1347d3b42b052133f640d363c3665a30181"
+          },
+          {
+            "path": "/games/esik/",
+            "sha256": "b2565b68eef5c35edbb8638dc8dbb0e23ade7000826d193bf491a1a49dcc4e79"
+          }
+        ],
+        "legacyCacheAfter": [
+          {
+            "path": "/games/esik/app.js",
+            "unchanged": true
+          },
+          {
+            "path": "/games/esik/sim.js",
+            "unchanged": false
+          }
+        ],
+        "moduleBoundaries": {
+          "legacyAcceptedCorrupt": true,
+          "candidateRejectedCorrupt": true
+        }
+      },
+      "meaning": "Pinned old entry/JS cache followed by an online new entry, decision, online reload and warm offline reload; not a completely offline old installation receiving new code."
+    },
+    "rootModelReviewedScreenshots": [
+      {
+        "path": "backup-tr-390-old-cache-open.png",
+        "sha256": "2b6adab42066638fce4441c6d92559d0cb0077f0fdaf76cae2e0846490083cb2",
+        "dimensions": [
+          390,
+          976
+        ],
+        "review": "Root model opened the actual built-browser screenshot; not human or native-language review."
+      },
+      {
+        "path": "quota-pl-320-decision.png",
+        "sha256": "76f49355d6225104b109069a0254b0ee259c9894a3261d52baed5fd3574e62a5",
+        "dimensions": [
+          320,
+          912
+        ],
+        "review": "Root model opened the actual built-browser screenshot; not human or native-language review."
+      },
+      {
+        "path": "invalid-en-1440-decision.png",
+        "sha256": "1b8775218b857846948f73720614153cbd6afcea84a6709360726e4a284fbef5",
+        "dimensions": [
+          1440,
+          944
+        ],
+        "review": "Root model opened the actual built-browser screenshot; not human or native-language review."
+      }
+    ]
+  },
+  "production": {
+    "run": 37314184260,
+    "runURL": "https://github.com/tayaz-maker/tariklab/actions/runs/37314184260",
+    "statusAtCheckpoint": "SUCCESS",
+    "attempt": 2,
+    "hosts": [
+      {
+        "origin": "https://www.tariklab.com",
+        "job": 111777729469,
+        "statusAtCheckpoint": "PASS",
+        "cases": 37,
+        "artifact": 11348135653,
+        "artifactURL": "https://github.com/tayaz-maker/tariklab/actions/runs/37314184260/artifacts/11348135653",
+        "zipBytes": 6914879,
+        "zipSHA256": "adbd798e9246af7e1275ca593840906d5bb9790c5f51bb5556d3ccab60bbc98b",
+        "resultsSHA256": "843043bf4b24c1e2da1c0bb3c7e46d0773563badece56ea924ee754e8ea81bf9",
+        "fingerprints": [
+          {
+            "path": "/games/esik/",
+            "sha256": "279729ee17fe47535affc557dbf2347e6f54ec09f3f2bf0b9f706f6624595c14"
+          },
+          {
+            "path": "/games/esik/app.js?save=2",
+            "sha256": "d2921715a7b07ed596d1262c83cb74429bdfc20f63a672435d5d0e4f7fcd6d5d"
+          },
+          {
+            "path": "/games/esik/sim.js?save=2",
+            "sha256": "c74eb2f2c157161e4154bb278ecab5819e3f8ae95de520eeeeab053c1a576a47"
+          },
+          {
+            "path": "/games/esik/save-store.js?save=2",
+            "sha256": "a7f86375a2ba9e89da4a6fbd8a453e24bc9e7f2ae77e96f84016572d74ef5b8f"
+          },
+          {
+            "path": "/games/esik/style.css",
+            "sha256": "f553cdcad734810ac6ca342840e268a162d194ef6202a20f8ebdcf12ee8a1943"
+          }
+        ],
+        "screenshots": 111,
+        "measurements": 148,
+        "errors": 0,
+        "oldCache": {
+          "name": "cete-offline-v5",
+          "urls": [
+            "https://www.tariklab.com/games/esik/",
+            "https://www.tariklab.com/games/esik/app.js",
+            "https://www.tariklab.com/games/esik/sim.js"
+          ],
+          "baseline": "be160c95eb5283e5ed2ce8bf139ef7aa714d329d",
+          "blobs": [
+            {
+              "path": "/games/esik/app.js",
+              "sha256": "e392544020518ed6a0db158e01751480c04349952b7f0f610b0b5a1397e50d48"
+            },
+            {
+              "path": "/games/esik/sim.js",
+              "sha256": "20f9c5eb99b8421b96eea077b448b1347d3b42b052133f640d363c3665a30181"
+            },
+            {
+              "path": "/games/esik/",
+              "sha256": "b2565b68eef5c35edbb8638dc8dbb0e23ade7000826d193bf491a1a49dcc4e79"
+            }
+          ],
+          "legacyCacheAfter": [
+            {
+              "path": "/games/esik/app.js",
+              "unchanged": true
+            },
+            {
+              "path": "/games/esik/sim.js",
+              "unchanged": false
+            }
+          ],
+          "moduleBoundaries": {
+            "legacyAcceptedCorrupt": true,
+            "candidateRejectedCorrupt": true
+          }
+        },
+        "screenshotsOpened": [
+          {
+            "path": "backup-tr-390-old-cache-open.png",
+            "sha256": "2b6adab42066638fce4441c6d92559d0cb0077f0fdaf76cae2e0846490083cb2",
+            "viewed": "complete image (all below1100px)"
+          },
+          {
+            "path": "quota-pl-320-decision.png",
+            "sha256": "76f49355d6225104b109069a0254b0ee259c9894a3261d52baed5fd3574e62a5",
+            "viewed": "complete image (all below1100px)"
+          },
+          {
+            "path": "invalid-en-1440-decision.png",
+            "sha256": "1b8775218b857846948f73720614153cbd6afcea84a6709360726e4a284fbef5",
+            "viewed": "complete image (all below1100px)"
+          }
+        ]
+      },
+      {
+        "origin": "https://tariklab.tayaz29.workers.dev",
+        "job": 111777729794,
+        "statusAtCheckpoint": "PASS",
+        "cases": 37,
+        "artifact": 11347741298,
+        "artifactURL": "https://github.com/tayaz-maker/tariklab/actions/runs/37314184260/artifacts/11347741298",
+        "zipBytes": 6915055,
+        "zipSHA256": "090bd903305f22ad473333ee9890ed882603f49e390767f08e9376ee27168799",
+        "resultsSHA256": "b9c063c9a9723053dc7054b059630b307f6159898197c8c800b23fb59faf07b7",
+        "fingerprints": [
+          {
+            "path": "/games/esik/",
+            "sha256": "279729ee17fe47535affc557dbf2347e6f54ec09f3f2bf0b9f706f6624595c14"
+          },
+          {
+            "path": "/games/esik/app.js?save=2",
+            "sha256": "d2921715a7b07ed596d1262c83cb74429bdfc20f63a672435d5d0e4f7fcd6d5d"
+          },
+          {
+            "path": "/games/esik/sim.js?save=2",
+            "sha256": "c74eb2f2c157161e4154bb278ecab5819e3f8ae95de520eeeeab053c1a576a47"
+          },
+          {
+            "path": "/games/esik/save-store.js?save=2",
+            "sha256": "a7f86375a2ba9e89da4a6fbd8a453e24bc9e7f2ae77e96f84016572d74ef5b8f"
+          },
+          {
+            "path": "/games/esik/style.css",
+            "sha256": "f553cdcad734810ac6ca342840e268a162d194ef6202a20f8ebdcf12ee8a1943"
+          }
+        ],
+        "screenshots": 111,
+        "measurements": 148,
+        "errors": 0,
+        "oldCache": {
+          "name": "cete-offline-v5",
+          "urls": [
+            "https://tariklab.tayaz29.workers.dev/games/esik/",
+            "https://tariklab.tayaz29.workers.dev/games/esik/app.js",
+            "https://tariklab.tayaz29.workers.dev/games/esik/sim.js"
+          ],
+          "baseline": "be160c95eb5283e5ed2ce8bf139ef7aa714d329d",
+          "blobs": [
+            {
+              "path": "/games/esik/app.js",
+              "sha256": "e392544020518ed6a0db158e01751480c04349952b7f0f610b0b5a1397e50d48"
+            },
+            {
+              "path": "/games/esik/sim.js",
+              "sha256": "20f9c5eb99b8421b96eea077b448b1347d3b42b052133f640d363c3665a30181"
+            },
+            {
+              "path": "/games/esik/",
+              "sha256": "b2565b68eef5c35edbb8638dc8dbb0e23ade7000826d193bf491a1a49dcc4e79"
+            }
+          ],
+          "legacyCacheAfter": [
+            {
+              "path": "/games/esik/app.js",
+              "unchanged": true
+            },
+            {
+              "path": "/games/esik/sim.js",
+              "unchanged": false
+            }
+          ],
+          "moduleBoundaries": {
+            "legacyAcceptedCorrupt": true,
+            "candidateRejectedCorrupt": true
+          }
+        },
+        "screenshotsOpened": [
+          {
+            "path": "backup-tr-390-old-cache-open.png",
+            "sha256": "2b6adab42066638fce4441c6d92559d0cb0077f0fdaf76cae2e0846490083cb2",
+            "viewed": "complete image (all below1100px)"
+          },
+          {
+            "path": "quota-pl-320-decision.png",
+            "sha256": "76f49355d6225104b109069a0254b0ee259c9894a3261d52baed5fd3574e62a5",
+            "viewed": "complete image (all below1100px)"
+          },
+          {
+            "path": "invalid-en-1440-decision.png",
+            "sha256": "1b8775218b857846948f73720614153cbd6afcea84a6709360726e4a284fbef5",
+            "viewed": "complete image (all below1100px)"
+          }
+        ]
+      }
+    ],
+    "attempt1": {
+      "status": "BOTH_HOSTS_FAIL_CLOSED_BEFORE_BROWSER",
+      "path": "/games/esik/",
+      "actualPreviousSHA256": "b2565b68eef5c35edbb8638dc8dbb0e23ade7000826d193bf491a1a49dcc4e79",
+      "actualMatchesPreviousRevision": "1700e6a665ce8c43a67d03de913b34eeee4141a2 / unchanged be160c95 entry",
+      "expectedSHA256": "279729ee17fe47535affc557dbf2347e6f54ec09f3f2bf0b9f706f6624595c14",
+      "wwwFailedAt": "2026-10-05T13:06:13.555Z",
+      "workersFailedAt": "2026-10-05T13:06:09.887Z",
+      "vercelDeploymentSucceededAt": "2026-10-05T13:06:13Z",
+      "workersDeploymentSucceededAt": "2026-10-05T13:07:27Z"
+    },
+    "rerun": {
+      "selection": "failed jobs only",
+      "startedMinuteUTC": "2026-10-05T13:08Z",
+      "afterBothDeploymentsReady": true,
+      "gatesChanged": false,
+      "codeChanged": false,
+      "timeoutBypass": false,
+      "status": "SUCCESS"
+    }
+  },
+  "evidenceProvenance": {
+    "runMergeMetadata": "Root-reported authenticated GitHub verification; no GitHub mutation by evidence compiler.",
+    "artifactMetrics": "Independently read downloaded results.json, recomputed hash/counts, and hashed the three root-reviewed PNG files.",
+    "sourceCost": "Independently computed via git show for four runtime files at be160c95 and PR head; gzip compression level9."
+  },
+  "limits": [
+    "Synthetic complete v1 saves, not an affected real user's archive.",
+    "QuotaExceededError is injected at the real browser Storage boundary; physical disk exhaustion is not simulated.",
+    "SVG fallback only; active Pixi/context loss, physical GPU and native Polish review remain outside this save hotfix.",
+    "Pinned legacy-cache case proves a new online entry followed by warm offline; an entirely offline old installation cannot receive new code.",
+    "Cold resource/paint timing is captured, not a before/after performance or first-meaningful-render claim.",
+    "Production attempt2 and full main CI remain pending at this checkpoint; do not mark the release fully closed before real two-host production evidence and green main are appended.",
+    "Reduced motion is covered at320px; normal motion at390/1440px. This is not both motion modes at every viewport.",
+    "Existing old cached app.js can remain unchanged; the versioned new entry isolates the corrected app/validator/store. This does not certify whole-service-worker atomic upgrade or every offline route.",
+    "Broader language completeness, native Polish review, affected real-user archives, active Pixi/context-loss and physical GPU remain OPEN; this narrow save hotfix does not close final360."
+  ]
+}

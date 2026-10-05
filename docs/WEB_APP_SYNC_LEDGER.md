@@ -34,6 +34,15 @@ Append after a meaningful website change to a game or shared brand/content. Skip
 
 ## Entries
 
+### 2026-10-05 — Kıyı Eşiği v1 save recovery (candidate, not released)
+- Web change: malformed v1 saves are rejected before legal/render consumers; a valid backup opens without writing. Unreadable primary/backup bytes are retained before replacement; quota or a full recovery area blocks persistence with a calm TR/EN/PL status.
+- Content/artwork/gameplay/rules: no. Key `tariklab.kiyi-esigi.v1`, schema 1, formulas and serialized reachable state remain unchanged; renderer, card surfaces and dependencies untouched.
+- UI/presentation: game-local accessible recovery text only; native follow-up when resumed: match the validation/preservation boundary, not a new save schema. Shared-content source: no.
+- Offline: versioned entry/app/helper share `sim.js?save=2`; actual root-SW regression covers old fixed-URL cache and warm offline. Completely offline old HTML still runs its old code until reconnect; no whole-site atomic upgrade claim.
+- Local: 28 targeted PASS; full suite 1,823 PASS / 1 existing opt-in skip; build/typecheck/lint PASS. One local build hit transient `.rsync-tmp` ENOENT paths; unchanged-source retry passed. Browser/CI/two-host production pending.
+- Cost: four changed runtime files total 18,768 → 26,144 raw bytes; gzip-9 sum 6,870 → 9,440 (+2,570). No new art/asset/library; one new small JS module. Route/FMP before-after not measured.
+- Provenance: original validation/storage code, existing game data and artwork preserved. Candidate branch `astra/kiyi-save-hotfix`; implementation `da45226`, browser gate `9906185`.
+
 ### 2026-09-23 — HANEDANIAN Kuzey Işığı Rölyefi
 - Web change: Cached atlas uses a northwest rake (shadow length = height), canopy masses, field furrows, a carved river bed, and southeast road depth. Ownership is a hem, not a tile fill. Selection is a lit plinth. Scheduler and 49×49 simulation unchanged.
 - Content: no
@@ -556,3 +565,16 @@ Chromium must pass before integration.
 - `docs/GROK_CARD_ART_HANDOFF.md` links exact published 300×3 semantic drafts, source hashes, canonical/shared-art sync, private references and build/manifest/offline acceptance. All 17 preparation tests passed; no art approval or human/GPU test claim.
 - Shared-content repository remains `tayaz-maker/tariklab-content`; native paused. Existing #112 and preparation/probe branches preserved; old-source differences/GETT alias and pack overwrite risks explicitly retained.
 - A1–A3 and TC #117/#119 are already released; current main `be160c95` and CI/two-host evidence cited in handoff. Final 360 report is gated on remaining products plus Grok production releases; no autonomous broad post-report fix wave.
+
+### 2026-10-05 — TC SIM week-control translation P1 (unreleased local checkpoint)
+- Web copy only: EN week-review button, time/focus label and week heading; missing PL time/focus label plus EN aliases to preserve the existing Polish overlay. Original TR keys, all game files/rules/save/card content and native remain unchanged.
+- Real phrase/body API RED reproduced missing labels; 64 targeted tests, production build, typecheck and changed-script lint PASS. Existing 22-case browser gate now records exact visible controls before/after the decision and both offline reload paths; two changed dictionaries join the four unchanged game fingerprints.
+- Browser/full suite/CI/two-host production are NOT RUN for this candidate. PL wording remains a draft requiring native review; no full-i18n closure claim. Native follow-up only after web release; see `outputs/tc-week-control-i18n/CHECKPOINT.md`.
+
+
+## 2026-10-05 — Grok ownership / non-card release evidence
+- Documentation-only: preserves #112/source branches; Grok owns all900 illustrations/frames/generators/assets, Astra later invariant review. No new card/runtime/workflow edits in this evidence PR.
+- #120 merge1700e6a: exact-head9/9+Vercel; built22/22, www+Workers22/22 each, six released hashes and88 control records/host. Narrow TC control translation; full body/nativePL open.
+- #121 merge9b4e169: exact-head9/9+Vercel; built37/37, www+Workers37/37 each, five hashes and148 measurements/host; save backup/raw retention/quota/warm offline proof. Main37314184406 still pending; own #120 main superseded/cancelled.
+- First production runs rejected exact old assets before deployment; only failed jobs rerun after successful deployments. No gate/timeout/hash relaxation. Exact artifact/result/screenshot digests in release JSONs.
+- B11 natural50matches/6,342actions produced no target summon/activation opportunity; not activation-resolution acceptance. P1/affected-old-save boundary open. E1/C1/C3 handoffs are discovery, not implementation; F remains unstarted until product+Grok releases, then report/classify only.

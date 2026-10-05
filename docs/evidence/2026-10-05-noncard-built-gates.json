@@ -1,0 +1,100 @@
+{
+  "recordedAt": "2026-10-05",
+  "scope": "Built artifacts only; shared CI, merge and two-host release were pending when recorded. Not final360 acceptance.",
+  "candidates": [
+    {
+      "scope": "tc-week-control-i18n",
+      "head": "f1cc533a9701273d2374360d6e9ecc5b15536d20",
+      "run": 37309615003,
+      "artifact": 11345097869,
+      "artifactSha256": "74d8d837846cea5eb5a32939c2897647d3b2badfcfb5ab749c55eb8b7eb60cd3",
+      "resultsSha256": "40f8e002855ca5ade11a15d287f460f46ba8458b9d4739562292ac7ed7375e7b",
+      "status": "PASS",
+      "caseCount": 22,
+      "fingerprints": [
+        {
+          "path": "/games/tc-sim/js/app.js?v=10",
+          "sha256": "282669c4da5c3cda1d0df04eae4cea03bf523f8052473116dafda9295134e958"
+        },
+        {
+          "path": "/games/tc-sim/styles.css?v=10",
+          "sha256": "bb68040c160b80cfe3438f0ebb217bfd5b07a7e13a6c72247b4e22dd43014aae"
+        },
+        {
+          "path": "/games/tc-sim/js/job-start-outcome.js?v=10",
+          "sha256": "47fe74924c558f227bb569886fc41e20af78fa69ce062280972173f6a47fab14"
+        },
+        {
+          "path": "/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+          "sha256": "86d50e27fe842bd6163f97275cfa6b2dfde28346fc8489c11513784a7f8adf39"
+        },
+        {
+          "path": "/i18n/expansion-en.js",
+          "sha256": "d022fc2494136f10cc62fb282eb3040e360d00d6c3a73012e68c2b06dc84958f"
+        },
+        {
+          "path": "/i18n/pl/tc-sim.json",
+          "sha256": "5c3471d3def1e9141eef4680df7775d74159091f1e9f5d20fde38b3f1df31f6d"
+        }
+      ],
+      "screenshotsInspectedByModel": [
+        "dashboard-en-390-motion-after.png",
+        "dashboard-pl-320-reduced-after.png",
+        "dashboard-tr-1440-motion-before.png"
+      ],
+      "humanReview": false,
+      "production": false,
+      "localizedControlMeasurements": 88
+    },
+    {
+      "scope": "kiyi-save-recovery",
+      "head": "7ea1ba7f023c54c5dfaaa53476f2401028f55e34",
+      "run": 37311130629,
+      "artifact": 11346062060,
+      "artifactSha256": "a9a635676f31e79b1b4fc21e7e91526b7451000fdb84b75007a2bca36218dac3",
+      "resultsSha256": "5f430455934e7d56215f178cc611996c2102dcc71850443931b563cc7fcccb52",
+      "status": "PASS",
+      "caseCount": 37,
+      "fingerprints": [
+        {
+          "path": "/games/esik/",
+          "sha256": "279729ee17fe47535affc557dbf2347e6f54ec09f3f2bf0b9f706f6624595c14"
+        },
+        {
+          "path": "/games/esik/app.js?save=2",
+          "sha256": "d2921715a7b07ed596d1262c83cb74429bdfc20f63a672435d5d0e4f7fcd6d5d"
+        },
+        {
+          "path": "/games/esik/sim.js?save=2",
+          "sha256": "c74eb2f2c157161e4154bb278ecab5819e3f8ae95de520eeeeab053c1a576a47"
+        },
+        {
+          "path": "/games/esik/save-store.js?save=2",
+          "sha256": "a7f86375a2ba9e89da4a6fbd8a453e24bc9e7f2ae77e96f84016572d74ef5b8f"
+        },
+        {
+          "path": "/games/esik/style.css",
+          "sha256": "f553cdcad734810ac6ca342840e268a162d194ef6202a20f8ebdcf12ee8a1943"
+        }
+      ],
+      "screenshotsInspectedByModel": [
+        "backup-tr-390-old-cache-open.png",
+        "quota-pl-320-decision.png",
+        "invalid-en-1440-decision.png"
+      ],
+      "humanReview": false,
+      "production": false,
+      "oldCacheModuleBoundary": {
+        "legacyAcceptedCorrupt": true,
+        "candidateRejectedCorrupt": true
+      }
+    }
+  ],
+  "open": [
+    "Native Polish review",
+    "Archived affected-user saves",
+    "Physical GPU",
+    "Remaining C1/C2/C3/D/E work",
+    "Final360 after all products and Grok production art"
+  ]
+}

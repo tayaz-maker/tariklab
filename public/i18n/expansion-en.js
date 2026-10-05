@@ -1,5 +1,8 @@
 (function (root) {
   const extra = {
+    "Haftayı değerlendir": "Review the week",
+    "Zaman / odak": "Time / focus",
+    "Zamanını nasıl kullandın?": "How did you use your time?",
     "FİNANS": "FINANCE",
     "MARKET": "MARKET",
     "Aile yapısı": "Family structure",

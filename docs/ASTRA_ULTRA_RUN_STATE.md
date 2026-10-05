@@ -524,3 +524,17 @@ PR #101 remains Terra's responsibility. Novella remains **LATER**.
 - E1:48-line route/offline handoff saved; isolated static product proposed, not implemented. Geometry/source gaps and hash-bound independent anatomy review remain open.
 - F NOT STARTED: waits for remaining products and Grok production art; report/classify only, no automatic broad post-report fixes.
 - Next: finish both green release gates and exact two-host proof; then Kıyı's one state-derived continuity/outcome upgrade. Novella/#78/#79 untouched.
+
+
+### 2026-10-05 13:15 UTC — D2/D3 iki-host release checkpoint
+- Branch `astra/release-evidence-116-119`; main `9b4e169ab198d1ad37f6dd82f13f4b394adf2045`; yalnız kanıt/handoff belgeleri, runtime farkı yok.
+- A1–A3 CLOSED: #113/#111 reload zinciri korunuyor; eski blocker yeniden açılmadı.
+- B1–B10 Grok: kısa `GROK_CARD_ART_HANDOFF.md`, 300×3 brief/source/provenance kapıları; Astra sanat commit'i yok. B11 doğal50 maç/6.342 yasal aksiyonda0 hedef çağırma/aktivasyon fırsatı; iddia P1 OPEN, etkilenen eski save yok.
+- D2 #120: head`f1cc533` → merge`1700e6a`; exact-head9/9+Vercel SUCCESS; local1.807 PASS/1 skip, built22/22; production37312651467 attempt2 iki-host22/22 +88 kontrol/host ve6hash PASS.
+- D3 #121: head`7ea1ba7` → merge`9b4e169`; exact-head9/9+Vercel SUCCESS; local28target/full1.823 PASS/1 skip, build/typecheck/lint; built37/37.
+- D3 production37314184260 attempt2: www37/37 +Workers37/37;5hash/host,148 ölçüm/host,console/network/overflow0,111PNG/host;6 ekran açıldı. Bozukprimary→backup, ham veri koruma, kota, eski cache→online→warmoffline PASS; schema1/rules değişmedi.
+- CI: #120 main37312651635 successor tarafından CANCELLED; #121 current-main37314184406 IN_PROGRESS, green kapanışı hâlâ gerekli. İlk production denemeleri önceki hash'i doğru reddetti; deploy kanıtından sonra yalnız failed jobs rerun, gate değişmedi.
+- C1–C3: Kıyı süreklilik/sonuç sözleşmesi net; `astra/kiyi-continuity-outcome` temiz9b4e169 discovery tabanı, henüz uygulama yok. Apartman/Son100 adayları ayrı discovery handoff.
+- D1–D5 genel OPEN; #114 brace CLOSED; PL gövde/anadil, gerçek eski save, tam SW kohortu ve fizikselGPU OPEN. E1 route/source planı var, foundation NOT IMPLEMENTED/uzman atanmamış.
+- F NOT STARTED: kalan ürünler ve Grok production release sonrası kanıtlı rapor/sınıflandırma; rapor sonrası geniş fix görevi kullanıcıda. Novella/#78/#79/SON KÖY WIP korunuyor.
+- Sonraki: current-main green → Kıyı tek C1/C3 upgrade'i; release JSON'ları `docs/evidence/2026-10-05-{tc-week-control-i18n,kiyi-save-recovery}-release.json`.

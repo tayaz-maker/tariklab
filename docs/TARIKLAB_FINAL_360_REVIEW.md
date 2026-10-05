@@ -2,7 +2,7 @@
 
 Tarih: **2026-10-05 (UTC)**. Sahip: **Astra — kart dışı ürün/teknik işler ve kanıtlı inceleme; Grok — 900 kartın sanat/frame/generator/asset üretimi**. Bu belge final 360° için gelecekteki kabul checklist'idir; final inceleme başlamadı. Anatomi A kaynak/rota keşfi tamamlandı; foundation uygulaması başlamadı. Ayrı release/repro kanıtları aşağıdaki tarihli checkpoint'lerde belirtilir. Yeni kaynak planı/özellik de bu hazırlıkta denetlenmez.
 
-Güncel kanıt checkpoint branch'i: `astra/release-evidence-116-119`; en son release tabanı `be160c95eb5283e5ed2ce8bf139ef7aa714d329d` (#119; iki-host22/22 production ve genel main CI SUCCESS). Önceki `astra/release-evidence-a1-a2-d5` belgesi tarihsel tabandır. Önceki `astra/review-release-gates` checkpoint'leri tarihsel olarak korunur. Bu SHA bütün ürünlerin final incelemesinden geçmiş sayılmaz; aşağıdaki kapsamlı envanter review'ün başladığı veya geçtiği anlamına gelmez.
+Güncel kanıt checkpoint branch'i: `astra/release-evidence-116-119`; en son release tabanı `9b4e169ab198d1ad37f6dd82f13f4b394adf2045` (#121; Kıyı iki-host37/37 ve #120 TC iki-host22/22 production PASS; current-main CI37314184406 henüz IN_PROGRESS). Önceki `astra/release-evidence-a1-a2-d5` belgesi tarihsel tabandır. Önceki `astra/review-release-gates` checkpoint'leri tarihsel olarak korunur. Bu SHA bütün ürünlerin final incelemesinden geçmiş sayılmaz; aşağıdaki kapsamlı envanter review'ün başladığı veya geçtiği anlamına gelmez.
 
 
 ## 2026-10-05 12:11 UTC — yürürlükteki kullanıcı iş bölümü
@@ -14,6 +14,12 @@ B1–B10 sanat üretimi Grok'a devredildi; Astra bu generator/frame/asset/card-a
 ## 2026-10-05 12:40 UTC — candidate evidence, final review NOT STARTED
 
 D2 #120 `f1cc533`: local1,807 PASS/1 existing skip, built22/22+88 localized-control records, six hashes and three inspected screenshots; shared CI pending, not merged/production. EN/PL mixed body text and native-PL review remain open. D3 #121 `7ea1ba7`: Kıyı malformed-v1/backup/raw-retention/old-cache fix, local1,823 PASS/1 existing skip and28 target PASS;37 browser cases/CI/two-host gate pending. E1 route/offline plan is at `outputs/anatomy-foundation/E1_ROUTE_OFFLINE_HANDOFF.md`, discovery-only; no foundation or expert acceptance. These are intake/release checkpoints, not final360 PASS rows.
+
+## B11 — 50 doğal maçlık dar örnek, P1 inceleme sınırı açık
+
+`docs/evidence/2026-10-05-darbe-natural-boundary.json`: be160c95 ile aynı korunan kaynaklarda 50/50 doğal seeded maç, 6.342 legal dispatch, 0 stuck/rejection; gerçek presetler ve UI seed/rakip seçimi, public-view AI, elle saha/el/çekiliş yerleştirme yok. Her DRB-237–240 kartı20 auxiliary örneğinde/18 maçta vardı; ana deste/el0 beklenen yardımcı deste davranışı. Her biri için legal summon, summon, legal activate ve activation **0**: bu örnek etki çözümünü sınamadı ve #118'in sentetik UI kanıtıyla birlikte tetik P1'ını kapatmaz.
+
+Kendi authored ana destelerinde malzeme kapsamı: muhtira/237 Telex, zeyilname/238 Brifing, istisare/239 Kabine+Arsiv, tebligat/240 Mesruiyet içermiyor. Bu bir erişim/kapsam bulgusudur; rakip kontrolü, üretilen desteler, seri değiştirme veya malzeme kredisi/indirimi gibi tüm yolların imkânsız olduğu iddiası değildir. Doğal oyuncu erişimi ve etkilenen gerçek eski save **OPEN**, owner Astra; doğrulanmış gameplay kök nedeni veya düzeltme PR'ı yok. Kart/Grok sanatına dokunulmadı. Portable read-only probe ve kaynak/sonuç hashleri yan dosyalarda; model/Node örneği insan/browser incelemesi diye sunulmaz.
 
 ## Nihai tek kaynak sözleşme — 2026-10-05 01:56 UTC
 
@@ -36,13 +42,13 @@ Bu sözleşmenin kapsam/kalite koşulları sürer; üretim sahipliği ve final r
 | B8 | DEVAM — mevcut kart metni korunur | Grok (sanat); Astra (review) | Sanata slogan, motto, flavour text, tabela veya rastgele UI metni gömülmez |
 | B9 | OPEN — üç frame üretime girmedi | Grok (sanat); Astra (review) | Bağımsız kimlik; 320/390'da isim, yıldız, görsel ve ATK/DEF okunur; ölçü ve UI davranışı sabit |
 | B10 | OPEN — oyun başına 300/300 manifest, bütçe, offline ve düello kabulünün hiçbiri kapanmadı | Grok (sanat); Astra (review) / her oyun için ayrı PR | ID/asset/provenance ve kalıntı kontrolü; üç genişlikte browser; klavye, reduced motion, ekran okuyucu, save ve 24 düello testi |
-| B11 | P1 İDDİASI AÇIK — motor21/21 ve #118 gerçek UI12/12 fixture PASS; NOT_REPRODUCED_IN_VALID_UI_FIXTURES; doğal maç/AI/etkilenen kullanıcı kaydı doğrulanmadı | Astra / proof #118 merged23fb636; ayrı kural düzeltmesi yok | UI/özgül save repro'su; motor karşı kanıtı kullanıcı kaydını veya browser kapısını kapatmaz; sanat PR'ından ayrı |
+| B11 | P1 İDDİASI AÇIK — #118 valid UI12/12 fixture PASS; doğal50/50 maçta6.342 yasal aksiyon, DRB237–240 için0 yasal çağırma/aktivasyon fırsatı; bu örnek tetik çözümünü sınamadı | Astra / proof #118 merged23fb636; doğal örnek evidence JSON, ayrı kural fix yok | Preset/malzeme kapsama açığı; evrensel imkânsızlık veya kesin tetik hatası değil. Rakip-kontrolü/generated-deck ve etkilenen gerçek eski save açık |
 | C1 | OPEN/KISMİ — Çete/Wave 1 kanıtı ve #117 TC job-start merge539df6e; TC iki hostta22/22 PASS, #119 dar masaüstü okunurluk düzeltmesi mergebe160c9; iki-host22/22 production PASS; genel main CI SUCCESS; 12 oyun tamam değil | Astra / #109/#110/#117/#119 released | Oyuna özgü gerçek state sonucu; sessiz, kısa, atlanabilir, erişilebilir ve anlamlı sahne |
 | C2 | OPEN — kalan oyunların sinematik/gerçekçi görsel kalite kapısı açık | Astra | Oyun dünyasına özgü doğru ışık, katman ve malzeme; çocuk estetiği, ikon kolajı veya renk değiştirerek kopyalama yok |
 | C3 | OPEN/KISMİ — #111 çalışması tüm yüzeyler için uygulanabilirlik kararı yerine geçmez | Astra / #111 | Yedi yüzeyde fallback, context loss, resize, pan/zoom, üç genişlik, offline ve save; Racon/TC SIM/JITEM için kanıtlı DONE/P1/N-A |
 | D1 | OPEN — bu checkpoint tüm ürünlerin sessizlik taraması değildir | Astra | Tüm oyunlarda audio, music, speech, vibrate ve autoplay: 0 |
-| D2 | OPEN + İNSAN | Astra; PL ana dil inceleyicisi atanmadı | TR/EN/PL gövde ve UI metni, encoding ve taşma; PL için bağımsız dil kalitesi incelemesi |
-| D3 | OPEN — tüm offline rotalar ve upgrade matrisi açık | Astra | SW/cache sürümleri, yeni asset'ler, eski save/migration, bozuk kayıt ve online dönüş |
+| D2 | KISMİ — #120 merge1700e6a; dört TC hafta kontrolü iki-host22/22 PASS; karma gövde metni ve anadil kapısı OPEN | Astra; PL ana dil inceleyicisi atanmadı | TR/EN/PL gövde ve UI metni, encoding ve taşma; PL için bağımsız dil kalitesi incelemesi |
+| D3 | KISMİ — #121 merge9b4e169; Kıyı save recovery/SVG iki-host37/37 PASS; tam offline/Pixi/upgrade matrisi OPEN | Astra | SW/cache sürümleri, yeni asset'ler, eski save/migration, bozuk kayıt ve online dönüş |
 | D4 | OPEN/KISMİ — kaynak inventory1580d3e ve lossless deneme ölçüldü; uygulama/rota/Git-history tasarrufu ve tam rota matrisi açık | Astra / #111 kısmi ölçüm | Rota başına byte/istek/FMP/lazy ölçümü, portal asset izolasyonu ve ölçülmüş tablo; referans taraması olmadan silme yok |
 | D5 | KISMİ — brace-expansion CLOSED: #114 merge `0383d24`;14/14 yerel, exact-head8/8+Vercel ve main `37260245958` SUCCESS; iki-host production geçti | Astra / #114 merged | Bağımlılık bulgusu kapandı; genel CSP/provenance/statik-path denetimi açık. `npm audit` NOT RUN: otomatik onay incelemesi metadata dışa aktarımını reddetti; alternatif yoldan denenmedi |
 | D6 | LATER/KORUNDU — Novella, #78/#79 ve eski dallar açılmadı | Astra | Yetkisiz yeniden açma veya merge yok; SON KÖY WIP açıkça DEFERRED |

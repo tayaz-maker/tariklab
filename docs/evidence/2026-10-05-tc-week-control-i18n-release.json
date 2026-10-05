@@ -1,0 +1,961 @@
+{
+  "contract": [
+    "C1",
+    "D2",
+    "D3",
+    "F"
+  ],
+  "owner": "Astra",
+  "pr": 120,
+  "prURL": "https://github.com/tayaz-maker/tariklab/pull/120",
+  "head": "f1cc533a9701273d2374360d6e9ecc5b15536d20",
+  "base": "be160c95eb5283e5ed2ce8bf139ef7aa714d329d",
+  "merge": "1700e6a665ce8c43a67d03de913b34eeee4141a2",
+  "status": "CLOSED_NARROW_WEEK_CONTROL_COPY_AND_TWO_HOST_PRODUCTION; SUCCESSOR_MAIN_CI_PENDING",
+  "scope": "Three English dictionary phrases plus one Polish time/focus label and existing Polish-overlay English aliases; no TC game, rule, save, CSS, artwork or card changes. Four changed copy entries are not a complete-language certification.",
+  "evidenceProvenance": {
+    "releaseRunAndArtifactMetadata": "Root-reported authenticated GitHub verification; no GitHub mutation performed by evidence compiler.",
+    "resultFiles": "Read and hashed local downloaded built/www/workers artifacts; case and control totals checked independently.",
+    "screenshotReview": "Root model confirmed six cropped production screenshots opened; this compiler hashes those existing crops and their source screenshots."
+  },
+  "localGate": {
+    "source": "outputs/tc-week-control-i18n/CHECKPOINT.md at PR head",
+    "targeted": {
+      "passed": 33
+    },
+    "full": {
+      "passed": 1807,
+      "failed": 0,
+      "existingOptInDarbeSkipped": 1
+    },
+    "build": "PASS",
+    "typecheck": "PASS",
+    "changedScriptLint": "PASS",
+    "diffCheck": "PASS",
+    "migration": "Existing build migration skipped without DATABASE_URL; no migration execution claim.",
+    "rerunByEvidenceCompiler": false
+  },
+  "fileSizeDelta": {
+    "scope": "Source-file bytes and local gzip-9 measurements; not production transfer deltas.",
+    "expansion-en.js": {
+      "beforeBytes": 25835,
+      "afterBytes": 25986,
+      "deltaBytes": 151,
+      "gzipDeltaBytes": 73
+    },
+    "pl/tc-sim.json": {
+      "beforeBytes": 285980,
+      "afterBytes": 286141,
+      "deltaBytes": 161,
+      "gzipDeltaBytes": 52
+    }
+  },
+  "ci": {
+    "prFullRun": 37309614750,
+    "prFullStatus": "SUCCESS",
+    "builtRun": 37309615003,
+    "builtStatus": "SUCCESS",
+    "mainRun": 37312651635,
+    "mainStatus": "CANCELLED",
+    "mainCancellationReason": "Superseded by subsequent #121 main push/concurrency; not reported as green.",
+    "successorMain": "9b4e169ab198d1ad37f6dd82f13f4b394adf2045",
+    "successorMainRun": 37314184406,
+    "successorMainStatusAtCheckpoint": "IN_PROGRESS",
+    "successorGreenRequiredForFinalClosure": true
+  },
+  "builtBrowser": {
+    "origin": "http://127.0.0.1:35485",
+    "status": "PASS",
+    "resultsSHA256": "40f8e002855ca5ade11a15d287f460f46ba8458b9d4739562292ac7ed7375e7b",
+    "resultsBytes": 699706,
+    "cases": 22,
+    "caseMatrix": [
+      {
+        "language": "tr",
+        "width": 1440,
+        "reduced": false,
+        "view": "dashboard",
+        "status": "PASS"
+      },
+      {
+        "language": "tr",
+        "width": 1440,
+        "reduced": true,
+        "view": "dashboard",
+        "status": "PASS"
+      },
+      {
+        "language": "tr",
+        "width": 390,
+        "reduced": false,
+        "view": "dashboard",
+        "status": "PASS"
+      },
+      {
+        "language": "tr",
+        "width": 390,
+        "reduced": true,
+        "view": "dashboard",
+        "status": "PASS"
+      },
+      {
+        "language": "tr",
+        "width": 320,
+        "reduced": false,
+        "view": "dashboard",
+        "status": "PASS"
+      },
+      {
+        "language": "tr",
+        "width": 320,
+        "reduced": true,
+        "view": "dashboard",
+        "status": "PASS"
+      },
+      {
+        "language": "en",
+        "width": 1440,
+        "reduced": false,
+        "view": "dashboard",
+        "status": "PASS"
+      },
+      {
+        "language": "en",
+        "width": 1440,
+        "reduced": true,
+        "view": "dashboard",
+        "status": "PASS"
+      },
+      {
+        "language": "en",
+        "width": 390,
+        "reduced": false,
+        "view": "dashboard",
+        "status": "PASS"
+      },
+      {
+        "language": "en",
+        "width": 390,
+        "reduced": true,
+        "view": "dashboard",
+        "status": "PASS"
+      },
+      {
+        "language": "en",
+        "width": 320,
+        "reduced": false,
+        "view": "dashboard",
+        "status": "PASS"
+      },
+      {
+        "language": "en",
+        "width": 320,
+        "reduced": true,
+        "view": "dashboard",
+        "status": "PASS"
+      },
+      {
+        "language": "pl",
+        "width": 1440,
+        "reduced": false,
+        "view": "dashboard",
+        "status": "PASS"
+      },
+      {
+        "language": "pl",
+        "width": 1440,
+        "reduced": true,
+        "view": "dashboard",
+        "status": "PASS"
+      },
+      {
+        "language": "pl",
+        "width": 390,
+        "reduced": false,
+        "view": "dashboard",
+        "status": "PASS"
+      },
+      {
+        "language": "pl",
+        "width": 390,
+        "reduced": true,
+        "view": "dashboard",
+        "status": "PASS"
+      },
+      {
+        "language": "pl",
+        "width": 320,
+        "reduced": false,
+        "view": "dashboard",
+        "status": "PASS"
+      },
+      {
+        "language": "pl",
+        "width": 320,
+        "reduced": true,
+        "view": "dashboard",
+        "status": "PASS"
+      },
+      {
+        "language": "tr",
+        "width": 390,
+        "reduced": false,
+        "view": "people",
+        "status": "PASS"
+      },
+      {
+        "language": "tr",
+        "width": 320,
+        "reduced": false,
+        "view": "people",
+        "status": "PASS"
+      },
+      {
+        "language": "tr",
+        "width": 390,
+        "reduced": false,
+        "view": "finance",
+        "status": "PASS"
+      },
+      {
+        "language": "tr",
+        "width": 320,
+        "reduced": false,
+        "view": "finance",
+        "status": "PASS"
+      }
+    ],
+    "originalScreenshotCount": 67,
+    "controlMeasurementCount": 88,
+    "controlPhases": {
+      "before-decision": 22,
+      "after-decision": 22,
+      "offline-reload": 22,
+      "synthetic-v1-reload": 22
+    },
+    "localizedControlSamples": {
+      "tr": {
+        "button": "Haftayı değerlendir",
+        "time": "Zaman / odak",
+        "counter": "0 / 6",
+        "heading": "Zamanını nasıl kullandın?"
+      },
+      "en": {
+        "button": "Review the week",
+        "time": "Time / focus",
+        "counter": "0 / 6",
+        "heading": "How did you use your time?"
+      },
+      "pl": {
+        "button": "Podsumuj tydzień",
+        "time": "Czas / uwaga",
+        "counter": "0 / 6",
+        "heading": "Jak wykorzystałeś swój czas?"
+      }
+    },
+    "layoutMeasurementCount": 88,
+    "actualDashboardLayoutCount": 76,
+    "nonDashboardNullLayoutCount": 12,
+    "fingerprints": [
+      {
+        "path": "/games/tc-sim/js/app.js?v=10",
+        "sha256": "282669c4da5c3cda1d0df04eae4cea03bf523f8052473116dafda9295134e958"
+      },
+      {
+        "path": "/games/tc-sim/styles.css?v=10",
+        "sha256": "bb68040c160b80cfe3438f0ebb217bfd5b07a7e13a6c72247b4e22dd43014aae"
+      },
+      {
+        "path": "/games/tc-sim/js/job-start-outcome.js?v=10",
+        "sha256": "47fe74924c558f227bb569886fc41e20af78fa69ce062280972173f6a47fab14"
+      },
+      {
+        "path": "/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+        "sha256": "86d50e27fe842bd6163f97275cfa6b2dfde28346fc8489c11513784a7f8adf39"
+      },
+      {
+        "path": "/i18n/expansion-en.js",
+        "sha256": "d022fc2494136f10cc62fb282eb3040e360d00d6c3a73012e68c2b06dc84958f"
+      },
+      {
+        "path": "/i18n/pl/tc-sim.json",
+        "sha256": "5c3471d3def1e9141eef4680df7775d74159091f1e9f5d20fde38b3f1df31f6d"
+      }
+    ],
+    "offlineSaveFacts": {
+      "version": 6,
+      "jobId": "market",
+      "pendingJob": null,
+      "cash": 5000,
+      "energy": 83,
+      "stress": 22,
+      "week": 2
+    },
+    "syntheticV1SaveFactsEqualOfflineFacts": true,
+    "allRequiredDictionaryAndOutcomeCachesPresent": true,
+    "coldEntrySamples": [
+      {
+        "language": "tr",
+        "view": "dashboard",
+        "width": 1440,
+        "reducedMotion": false,
+        "recordedResourceTimingEntries": 50,
+        "transferBytes": 1300803,
+        "firstContentfulPaintMs": 236
+      },
+      {
+        "language": "tr",
+        "view": "dashboard",
+        "width": 390,
+        "reducedMotion": false,
+        "recordedResourceTimingEntries": 50,
+        "transferBytes": 1300803,
+        "firstContentfulPaintMs": 236
+      },
+      {
+        "language": "tr",
+        "view": "dashboard",
+        "width": 320,
+        "reducedMotion": false,
+        "recordedResourceTimingEntries": 50,
+        "transferBytes": 1300803,
+        "firstContentfulPaintMs": 200
+      }
+    ]
+  },
+  "production": {
+    "status": "PASS_TWO_HOSTS",
+    "run": 37312651467,
+    "runURL": "https://github.com/tayaz-maker/tariklab/actions/runs/37312651467",
+    "attempt": 2,
+    "firstWorkersAttempt": {
+      "status": "FAIL_CLOSED_BEFORE_BROWSER",
+      "path": "/i18n/expansion-en.js",
+      "actualPreviousSHA256": "1821a78483dea763c3910c2e449a42c8c6ad63bec82e936df302288a4873b3c4",
+      "previousRevision": "be160c95eb5283e5ed2ce8bf139ef7aa714d329d",
+      "expectedSHA256": "d022fc2494136f10cc62fb282eb3040e360d00d6c3a73012e68c2b06dc84958f",
+      "failedAt": "2026-10-05T12:53:40Z",
+      "deploymentSucceededAt": "2026-10-05T12:54:21Z"
+    },
+    "rerun": {
+      "selection": "failed jobs only",
+      "startedAt": "2026-10-05T12:56:38Z",
+      "status": "SUCCESS",
+      "codeChanged": false,
+      "gatesChanged": false,
+      "timeoutsChanged": false
+    },
+    "hosts": [
+      {
+        "origin": "https://www.tariklab.com",
+        "status": "PASS",
+        "resultsSHA256": "bbe1e5fc515caed6b870b82a3f99e32fe789849bc1edadd69e9ca73c088e7cfa",
+        "resultsBytes": 692102,
+        "cases": 22,
+        "caseMatrix": [
+          {
+            "language": "tr",
+            "width": 1440,
+            "reduced": false,
+            "view": "dashboard",
+            "status": "PASS"
+          },
+          {
+            "language": "tr",
+            "width": 1440,
+            "reduced": true,
+            "view": "dashboard",
+            "status": "PASS"
+          },
+          {
+            "language": "tr",
+            "width": 390,
+            "reduced": false,
+            "view": "dashboard",
+            "status": "PASS"
+          },
+          {
+            "language": "tr",
+            "width": 390,
+            "reduced": true,
+            "view": "dashboard",
+            "status": "PASS"
+          },
+          {
+            "language": "tr",
+            "width": 320,
+            "reduced": false,
+            "view": "dashboard",
+            "status": "PASS"
+          },
+          {
+            "language": "tr",
+            "width": 320,
+            "reduced": true,
+            "view": "dashboard",
+            "status": "PASS"
+          },
+          {
+            "language": "en",
+            "width": 1440,
+            "reduced": false,
+            "view": "dashboard",
+            "status": "PASS"
+          },
+          {
+            "language": "en",
+            "width": 1440,
+            "reduced": true,
+            "view": "dashboard",
+            "status": "PASS"
+          },
+          {
+            "language": "en",
+            "width": 390,
+            "reduced": false,
+            "view": "dashboard",
+            "status": "PASS"
+          },
+          {
+            "language": "en",
+            "width": 390,
+            "reduced": true,
+            "view": "dashboard",
+            "status": "PASS"
+          },
+          {
+            "language": "en",
+            "width": 320,
+            "reduced": false,
+            "view": "dashboard",
+            "status": "PASS"
+          },
+          {
+            "language": "en",
+            "width": 320,
+            "reduced": true,
+            "view": "dashboard",
+            "status": "PASS"
+          },
+          {
+            "language": "pl",
+            "width": 1440,
+            "reduced": false,
+            "view": "dashboard",
+            "status": "PASS"
+          },
+          {
+            "language": "pl",
+            "width": 1440,
+            "reduced": true,
+            "view": "dashboard",
+            "status": "PASS"
+          },
+          {
+            "language": "pl",
+            "width": 390,
+            "reduced": false,
+            "view": "dashboard",
+            "status": "PASS"
+          },
+          {
+            "language": "pl",
+            "width": 390,
+            "reduced": true,
+            "view": "dashboard",
+            "status": "PASS"
+          },
+          {
+            "language": "pl",
+            "width": 320,
+            "reduced": false,
+            "view": "dashboard",
+            "status": "PASS"
+          },
+          {
+            "language": "pl",
+            "width": 320,
+            "reduced": true,
+            "view": "dashboard",
+            "status": "PASS"
+          },
+          {
+            "language": "tr",
+            "width": 390,
+            "reduced": false,
+            "view": "people",
+            "status": "PASS"
+          },
+          {
+            "language": "tr",
+            "width": 320,
+            "reduced": false,
+            "view": "people",
+            "status": "PASS"
+          },
+          {
+            "language": "tr",
+            "width": 390,
+            "reduced": false,
+            "view": "finance",
+            "status": "PASS"
+          },
+          {
+            "language": "tr",
+            "width": 320,
+            "reduced": false,
+            "view": "finance",
+            "status": "PASS"
+          }
+        ],
+        "originalScreenshotCount": 66,
+        "controlMeasurementCount": 88,
+        "controlPhases": {
+          "before-decision": 22,
+          "after-decision": 22,
+          "offline-reload": 22,
+          "synthetic-v1-reload": 22
+        },
+        "localizedControlSamples": {
+          "tr": {
+            "button": "Haftayı değerlendir",
+            "time": "Zaman / odak",
+            "counter": "0 / 6",
+            "heading": "Zamanını nasıl kullandın?"
+          },
+          "en": {
+            "button": "Review the week",
+            "time": "Time / focus",
+            "counter": "0 / 6",
+            "heading": "How did you use your time?"
+          },
+          "pl": {
+            "button": "Podsumuj tydzień",
+            "time": "Czas / uwaga",
+            "counter": "0 / 6",
+            "heading": "Jak wykorzystałeś swój czas?"
+          }
+        },
+        "layoutMeasurementCount": 88,
+        "actualDashboardLayoutCount": 76,
+        "nonDashboardNullLayoutCount": 12,
+        "fingerprints": [
+          {
+            "path": "/games/tc-sim/js/app.js?v=10",
+            "sha256": "282669c4da5c3cda1d0df04eae4cea03bf523f8052473116dafda9295134e958"
+          },
+          {
+            "path": "/games/tc-sim/styles.css?v=10",
+            "sha256": "bb68040c160b80cfe3438f0ebb217bfd5b07a7e13a6c72247b4e22dd43014aae"
+          },
+          {
+            "path": "/games/tc-sim/js/job-start-outcome.js?v=10",
+            "sha256": "47fe74924c558f227bb569886fc41e20af78fa69ce062280972173f6a47fab14"
+          },
+          {
+            "path": "/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+            "sha256": "86d50e27fe842bd6163f97275cfa6b2dfde28346fc8489c11513784a7f8adf39"
+          },
+          {
+            "path": "/i18n/expansion-en.js",
+            "sha256": "d022fc2494136f10cc62fb282eb3040e360d00d6c3a73012e68c2b06dc84958f"
+          },
+          {
+            "path": "/i18n/pl/tc-sim.json",
+            "sha256": "5c3471d3def1e9141eef4680df7775d74159091f1e9f5d20fde38b3f1df31f6d"
+          }
+        ],
+        "offlineSaveFacts": {
+          "version": 6,
+          "jobId": "market",
+          "pendingJob": null,
+          "cash": 5000,
+          "energy": 83,
+          "stress": 22,
+          "week": 2
+        },
+        "syntheticV1SaveFactsEqualOfflineFacts": true,
+        "allRequiredDictionaryAndOutcomeCachesPresent": true,
+        "coldEntrySamples": [
+          {
+            "language": "tr",
+            "view": "dashboard",
+            "width": 1440,
+            "reducedMotion": false,
+            "recordedResourceTimingEntries": 50,
+            "transferBytes": 419151,
+            "firstContentfulPaintMs": 924
+          },
+          {
+            "language": "tr",
+            "view": "dashboard",
+            "width": 390,
+            "reducedMotion": false,
+            "recordedResourceTimingEntries": 50,
+            "transferBytes": 419151,
+            "firstContentfulPaintMs": 344
+          },
+          {
+            "language": "tr",
+            "view": "dashboard",
+            "width": 320,
+            "reducedMotion": false,
+            "recordedResourceTimingEntries": 50,
+            "transferBytes": 419151,
+            "firstContentfulPaintMs": 340
+          }
+        ],
+        "artifact": 11346119432,
+        "artifactURL": "https://github.com/tayaz-maker/tariklab/actions/runs/37312651467/artifacts/11346119432",
+        "artifactSHA256": "bada05f2302e4fffdc32270aa28797e48709a0b36f1ee7fe24894d74064a936a",
+        "job": 111771592115,
+        "latestAttemptWrapperJob": 111772951769,
+        "rootModelReviewedCrops": [
+          {
+            "path": "review-dashboard-pl-320-reduced-after.png",
+            "sha256": "eaf820da577c87731b5cf061a6aded54ac1e73de6b599258f243314f9e0f5adf",
+            "dimensions": [
+              320,
+              1100
+            ],
+            "sourceScreenshot": "dashboard-pl-320-reduced-after.png",
+            "sourceSHA256": "95edfab2031ec88f4c987ea86f703f1dcedac1e4bb338fa90cfa40b7504d5578",
+            "review": "Root model opened top1100px crop; targeted week controls readable; existing mixed-language body text remains open. Not human/native-language review."
+          },
+          {
+            "path": "review-dashboard-en-1440-motion-reloaded.png",
+            "sha256": "fc6630bdf946fc0e37e2a4ab9cff93428aa220a581060e06011259bc15ca8d8c",
+            "dimensions": [
+              1440,
+              1100
+            ],
+            "sourceScreenshot": "dashboard-en-1440-motion-reloaded.png",
+            "sourceSHA256": "58b783fdde226ce3506d401b0c822fed59d610b40f1567b8455f0ac897c20c58",
+            "review": "Root model opened top1100px crop; targeted week controls readable; existing mixed-language body text remains open. Not human/native-language review."
+          },
+          {
+            "path": "review-dashboard-en-390-motion-after.png",
+            "sha256": "3b3469466f982e3d7d1a340fde57b70ac982c5ff147b25fa206095e3f0e9cd92",
+            "dimensions": [
+              390,
+              1100
+            ],
+            "sourceScreenshot": "dashboard-en-390-motion-after.png",
+            "sourceSHA256": "12decec5bb70d17037af20d7c5f68e9fd99b757f21cc187adead802cf90ec75b",
+            "review": "Root model opened top1100px crop; targeted week controls readable; existing mixed-language body text remains open. Not human/native-language review."
+          }
+        ],
+        "assertions": "Runner requires actual origin, exact six deployment hashes, visible localized control text and numerical HUD, zero console/page/HTTP errors and external requests, horizontal overflow guard, focus-preserving close and reduced-motion/no-replay behavior, warm-worker offline reload and the explicitly limited saved facts. Counts and values independently recomputed from downloaded results.json."
+      },
+      {
+        "origin": "https://tariklab.tayaz29.workers.dev",
+        "status": "PASS",
+        "resultsSHA256": "3d7b97c728c0f520f1e8d47e385d4172e6bf9b4adf19ec4ba25a7ecfd7e9431d",
+        "resultsBytes": 718932,
+        "cases": 22,
+        "caseMatrix": [
+          {
+            "language": "tr",
+            "width": 1440,
+            "reduced": false,
+            "view": "dashboard",
+            "status": "PASS"
+          },
+          {
+            "language": "tr",
+            "width": 1440,
+            "reduced": true,
+            "view": "dashboard",
+            "status": "PASS"
+          },
+          {
+            "language": "tr",
+            "width": 390,
+            "reduced": false,
+            "view": "dashboard",
+            "status": "PASS"
+          },
+          {
+            "language": "tr",
+            "width": 390,
+            "reduced": true,
+            "view": "dashboard",
+            "status": "PASS"
+          },
+          {
+            "language": "tr",
+            "width": 320,
+            "reduced": false,
+            "view": "dashboard",
+            "status": "PASS"
+          },
+          {
+            "language": "tr",
+            "width": 320,
+            "reduced": true,
+            "view": "dashboard",
+            "status": "PASS"
+          },
+          {
+            "language": "en",
+            "width": 1440,
+            "reduced": false,
+            "view": "dashboard",
+            "status": "PASS"
+          },
+          {
+            "language": "en",
+            "width": 1440,
+            "reduced": true,
+            "view": "dashboard",
+            "status": "PASS"
+          },
+          {
+            "language": "en",
+            "width": 390,
+            "reduced": false,
+            "view": "dashboard",
+            "status": "PASS"
+          },
+          {
+            "language": "en",
+            "width": 390,
+            "reduced": true,
+            "view": "dashboard",
+            "status": "PASS"
+          },
+          {
+            "language": "en",
+            "width": 320,
+            "reduced": false,
+            "view": "dashboard",
+            "status": "PASS"
+          },
+          {
+            "language": "en",
+            "width": 320,
+            "reduced": true,
+            "view": "dashboard",
+            "status": "PASS"
+          },
+          {
+            "language": "pl",
+            "width": 1440,
+            "reduced": false,
+            "view": "dashboard",
+            "status": "PASS"
+          },
+          {
+            "language": "pl",
+            "width": 1440,
+            "reduced": true,
+            "view": "dashboard",
+            "status": "PASS"
+          },
+          {
+            "language": "pl",
+            "width": 390,
+            "reduced": false,
+            "view": "dashboard",
+            "status": "PASS"
+          },
+          {
+            "language": "pl",
+            "width": 390,
+            "reduced": true,
+            "view": "dashboard",
+            "status": "PASS"
+          },
+          {
+            "language": "pl",
+            "width": 320,
+            "reduced": false,
+            "view": "dashboard",
+            "status": "PASS"
+          },
+          {
+            "language": "pl",
+            "width": 320,
+            "reduced": true,
+            "view": "dashboard",
+            "status": "PASS"
+          },
+          {
+            "language": "tr",
+            "width": 390,
+            "reduced": false,
+            "view": "people",
+            "status": "PASS"
+          },
+          {
+            "language": "tr",
+            "width": 320,
+            "reduced": false,
+            "view": "people",
+            "status": "PASS"
+          },
+          {
+            "language": "tr",
+            "width": 390,
+            "reduced": false,
+            "view": "finance",
+            "status": "PASS"
+          },
+          {
+            "language": "tr",
+            "width": 320,
+            "reduced": false,
+            "view": "finance",
+            "status": "PASS"
+          }
+        ],
+        "originalScreenshotCount": 66,
+        "controlMeasurementCount": 88,
+        "controlPhases": {
+          "before-decision": 22,
+          "after-decision": 22,
+          "offline-reload": 22,
+          "synthetic-v1-reload": 22
+        },
+        "localizedControlSamples": {
+          "tr": {
+            "button": "Haftayı değerlendir",
+            "time": "Zaman / odak",
+            "counter": "0 / 6",
+            "heading": "Zamanını nasıl kullandın?"
+          },
+          "en": {
+            "button": "Review the week",
+            "time": "Time / focus",
+            "counter": "0 / 6",
+            "heading": "How did you use your time?"
+          },
+          "pl": {
+            "button": "Podsumuj tydzień",
+            "time": "Czas / uwaga",
+            "counter": "0 / 6",
+            "heading": "Jak wykorzystałeś swój czas?"
+          }
+        },
+        "layoutMeasurementCount": 88,
+        "actualDashboardLayoutCount": 76,
+        "nonDashboardNullLayoutCount": 12,
+        "fingerprints": [
+          {
+            "path": "/games/tc-sim/js/app.js?v=10",
+            "sha256": "282669c4da5c3cda1d0df04eae4cea03bf523f8052473116dafda9295134e958"
+          },
+          {
+            "path": "/games/tc-sim/styles.css?v=10",
+            "sha256": "bb68040c160b80cfe3438f0ebb217bfd5b07a7e13a6c72247b4e22dd43014aae"
+          },
+          {
+            "path": "/games/tc-sim/js/job-start-outcome.js?v=10",
+            "sha256": "47fe74924c558f227bb569886fc41e20af78fa69ce062280972173f6a47fab14"
+          },
+          {
+            "path": "/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+            "sha256": "86d50e27fe842bd6163f97275cfa6b2dfde28346fc8489c11513784a7f8adf39"
+          },
+          {
+            "path": "/i18n/expansion-en.js",
+            "sha256": "d022fc2494136f10cc62fb282eb3040e360d00d6c3a73012e68c2b06dc84958f"
+          },
+          {
+            "path": "/i18n/pl/tc-sim.json",
+            "sha256": "5c3471d3def1e9141eef4680df7775d74159091f1e9f5d20fde38b3f1df31f6d"
+          }
+        ],
+        "offlineSaveFacts": {
+          "version": 6,
+          "jobId": "market",
+          "pendingJob": null,
+          "cash": 5000,
+          "energy": 83,
+          "stress": 22,
+          "week": 2
+        },
+        "syntheticV1SaveFactsEqualOfflineFacts": true,
+        "allRequiredDictionaryAndOutcomeCachesPresent": true,
+        "coldEntrySamples": [
+          {
+            "language": "tr",
+            "view": "dashboard",
+            "width": 1440,
+            "reducedMotion": false,
+            "recordedResourceTimingEntries": 50,
+            "transferBytes": 422431,
+            "firstContentfulPaintMs": 608
+          },
+          {
+            "language": "tr",
+            "view": "dashboard",
+            "width": 390,
+            "reducedMotion": false,
+            "recordedResourceTimingEntries": 50,
+            "transferBytes": 422770,
+            "firstContentfulPaintMs": 328
+          },
+          {
+            "language": "tr",
+            "view": "dashboard",
+            "width": 320,
+            "reducedMotion": false,
+            "recordedResourceTimingEntries": 50,
+            "transferBytes": 421794,
+            "firstContentfulPaintMs": 440
+          }
+        ],
+        "artifact": 11346618380,
+        "artifactURL": "https://github.com/tayaz-maker/tariklab/actions/runs/37312651467/artifacts/11346618380",
+        "artifactSHA256": "2130d3d240e84b3188e838419a44d5fd0a426b6caffe83c4498bac0ede242f36",
+        "job": 111772950516,
+        "rootModelReviewedCrops": [
+          {
+            "path": "review-dashboard-pl-320-reduced-after.png",
+            "sha256": "eaf820da577c87731b5cf061a6aded54ac1e73de6b599258f243314f9e0f5adf",
+            "dimensions": [
+              320,
+              1100
+            ],
+            "sourceScreenshot": "dashboard-pl-320-reduced-after.png",
+            "sourceSHA256": "95edfab2031ec88f4c987ea86f703f1dcedac1e4bb338fa90cfa40b7504d5578",
+            "review": "Root model opened top1100px crop; targeted week controls readable; existing mixed-language body text remains open. Not human/native-language review."
+          },
+          {
+            "path": "review-dashboard-en-1440-motion-reloaded.png",
+            "sha256": "491f54df373ffb60069c28997a308afbaed4c9b348864b612e9faf1606e66180",
+            "dimensions": [
+              1440,
+              1100
+            ],
+            "sourceScreenshot": "dashboard-en-1440-motion-reloaded.png",
+            "sourceSHA256": "b302f3f835840a47dd5d2a6de1799e39fa903146ce1e711c81436b3a1809ad62",
+            "review": "Root model opened top1100px crop; targeted week controls readable; existing mixed-language body text remains open. Not human/native-language review."
+          },
+          {
+            "path": "review-dashboard-en-390-motion-after.png",
+            "sha256": "90fbb55411acceaadcaee74fd432f5fbbc7aa4b0249a449af6ea29941c88d65c",
+            "dimensions": [
+              390,
+              1100
+            ],
+            "sourceScreenshot": "dashboard-en-390-motion-after.png",
+            "sourceSHA256": "0d5051c3e51e273fc46da2fcd337db32c899a3c3facb5ff8a61add5df4017ce9",
+            "review": "Root model opened top1100px crop; targeted week controls readable; existing mixed-language body text remains open. Not human/native-language review."
+          }
+        ],
+        "assertions": "Runner requires actual origin, exact six deployment hashes, visible localized control text and numerical HUD, zero console/page/HTTP errors and external requests, horizontal overflow guard, focus-preserving close and reduced-motion/no-replay behavior, warm-worker offline reload and the explicitly limited saved facts. Counts and values independently recomputed from downloaded results.json."
+      }
+    ]
+  },
+  "limits": [
+    "Narrow week-control copy passes the specified production matrix; broader mixed EN/PL body language remains OPEN.",
+    "Native Polish review was not performed and remains a human requirement; model/browser tests do not certify idiomatic language quality.",
+    "Save proof is synthetic v1 migration and warm-cache offline reload, comparing version/jobId/pendingJob/cash/energy/stress/week only. No archived real-user save, whole-state equality or old-service-worker cohort upgrade claim.",
+    "Each production artifact has 66 original screenshot captures; three local top1100px review crops per host are derivatives, not extra browser cases or artifact screenshots.",
+    "Cold-entry numbers are single samples from ResourceTiming, not a full wire census, before/after experiment, speed claim or first-meaningful-render measurement.",
+    "No physical GPU or human visual review was performed. These narrow browser guards do not close the final 360 review.",
+    "Main #120 full CI was cancelled by the successor push. Successor full main CI is still pending at this evidence checkpoint and must be verified before a final green-main claim."
+  ]
+}
