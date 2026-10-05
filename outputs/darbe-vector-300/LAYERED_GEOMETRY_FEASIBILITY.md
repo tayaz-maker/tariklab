@@ -11,7 +11,7 @@
 | Saç eş aralıklı çizgi taraması gibi | Kafa yüzeyine bağlı, farklı kalınlık/eğrilikte özgün üç boyutlu tutamlar; kök yönü ve yerçekimi ile tutarlı akış | Yüzler/tutamlar kartlar arasında kopyalanamaz; salt seed değiştirmek çeşitlilik sayılmaz. |
 | Kumaş ve cilt farklı malzemeler gibi davranmıyor | Poz üzerine ayrı kalınlıklı giysi yüzeyi; omuz/dirsek/bilekte gerilim yönüne göre özgün kıvrım geometrisi; ten/kumaş/kâğıt/metal için ayrı hesaplanan yansıma | Fotoğraf dokusu veya AI plaka olmadan mikrodetay pahalı; plastik/oyuncak görünümü yeniden doğabilir. |
 | Elle yerleştirilen tonlar tek lamba ile tam bağlanmıyor | Tek ana lamba, yüzey normalleri, görüş yönü, geometrik gölge/örtüşme hesabı; aynı fiziksel oda koordinatları | SVG export materyal/ışık hesabını eksiksiz taşımayabilir. Exportu gözle ve veriyle karşılaştırmadan gerçekçi render iddiası yok. |
-| El ve evrak alt kenarda kesilme riski taşıyor | Kamera kadrajı mevcut kart artwell sınırına göre kurulmalı; yüz, temas eli ve etkili nesne güvenli kesişimde kalmalı | Mevcut 400×560 manifest, shared CSS ve merkez %38 cover değişmez. 320/390/1440 gerçek kart kırpımı henüz test edilmedi. |
+| El ve evrak alt kenarda kesilme riski taşıyor | Kamera kadrajı mevcut kart artwell sınırına göre kurulmalı; yüz, temas eli ve etkili nesne güvenli kesişimde kalmalı | Mevcut 400×560 manifest değişmez. Aktif custom `.dh-art img` cover + varsayılan merkez; inspector `.dh-art` 3:2 (`card-face.css:89,333`). Shared `.card-art img` %38 kuralı bu custom seçiciye uygulanmaz. 320/390/1440 browser kırpımı henüz test edilmedi. |
 
 ## Yerelde gerçekten bulunan araçlar
 

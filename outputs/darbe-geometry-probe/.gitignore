@@ -1,0 +1,3 @@
+# Reproducible diagnostic export; never a production asset.
+geometry-export.svg
+*.png

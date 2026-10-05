@@ -1,0 +1,267 @@
+{
+  "status": "REJECTED_QUALITY_CONTACT_AND_WEIGHT",
+  "method": "Original implicit continuous surfaces + articulated capsule-chain hand; VTK CPU marching surface/decimation; custom camera/light CPU SVG triangle projection",
+  "noImportedOrGeneratedArt": true,
+  "rawBytes": 358836,
+  "gzipBytes": 65814,
+  "svgPathCount": 5052,
+  "sha256": "9a262835cade3683f103cf140abbcb5f0cd54de834455df37685f003b8959f5a",
+  "meshVertices": 4821,
+  "meshTriangles": 9563,
+  "generationAndExportSeconds": 2.250181609997526,
+  "meshes": [
+    {
+      "name": "authored-continuous-adult-head",
+      "vertices": 2104,
+      "triangles": 4200,
+      "rawTriangles": 59584,
+      "seconds": 0.7480233950045658
+    },
+    {
+      "name": "authored-articulated-paper-contact-hand",
+      "vertices": 1146,
+      "triangles": 2300,
+      "rawTriangles": 32964,
+      "seconds": 0.8958997519948753
+    },
+    {
+      "name": "sclera",
+      "vertices": 77,
+      "triangles": 150,
+      "rawTriangles": 3088,
+      "seconds": 0.007409940000798088
+    },
+    {
+      "name": "iris",
+      "vertices": 47,
+      "triangles": 90,
+      "rawTriangles": 972,
+      "seconds": 0.002471375002642162
+    },
+    {
+      "name": "sclera",
+      "vertices": 77,
+      "triangles": 150,
+      "rawTriangles": 3088,
+      "seconds": 0.007229754002764821
+    },
+    {
+      "name": "iris",
+      "vertices": 47,
+      "triangles": 90,
+      "rawTriangles": 972,
+      "seconds": 0.0025120760037680157
+    },
+    {
+      "name": "hair-cap",
+      "vertices": 362,
+      "triangles": 700,
+      "rawTriangles": 22110,
+      "seconds": 0.0916150609991746
+    },
+    {
+      "name": "civilian-knit-garment",
+      "vertices": 905,
+      "triangles": 1799,
+      "rawTriangles": 25370,
+      "seconds": 0.13000100999488495
+    },
+    {
+      "name": "unmarked-paper-folio",
+      "vertices": 8,
+      "triangles": 12,
+      "rawTriangles": 12,
+      "seconds": 0
+    },
+    {
+      "name": "desk",
+      "vertices": 8,
+      "triangles": 12,
+      "rawTriangles": 12,
+      "seconds": 0
+    },
+    {
+      "name": "blank-archive-volume",
+      "vertices": 8,
+      "triangles": 12,
+      "rawTriangles": 12,
+      "seconds": 0
+    },
+    {
+      "name": "blank-archive-volume",
+      "vertices": 8,
+      "triangles": 12,
+      "rawTriangles": 12,
+      "seconds": 0
+    },
+    {
+      "name": "blank-archive-volume",
+      "vertices": 8,
+      "triangles": 12,
+      "rawTriangles": 12,
+      "seconds": 0
+    },
+    {
+      "name": "blank-archive-volume",
+      "vertices": 8,
+      "triangles": 12,
+      "rawTriangles": 12,
+      "seconds": 0
+    },
+    {
+      "name": "blank-archive-volume",
+      "vertices": 8,
+      "triangles": 12,
+      "rawTriangles": 12,
+      "seconds": 0
+    }
+  ],
+  "contacts": [
+    {
+      "finger": "index",
+      "intendedPaperSide": "front",
+      "tipJoint": [
+        1.015,
+        0.855,
+        0.729
+      ],
+      "radius": 0.035,
+      "signedSurfaceDistanceToPlane": 0.0,
+      "absoluteSurfaceDistanceToPlane": 0.0,
+      "insidePaperXY": true
+    },
+    {
+      "finger": "middle",
+      "intendedPaperSide": "front",
+      "tipJoint": [
+        1.02,
+        0.785,
+        0.73
+      ],
+      "radius": 0.036,
+      "signedSurfaceDistanceToPlane": 0.0,
+      "absoluteSurfaceDistanceToPlane": 0.0,
+      "insidePaperXY": true
+    },
+    {
+      "finger": "ring",
+      "intendedPaperSide": "front",
+      "tipJoint": [
+        0.97,
+        0.724,
+        0.728
+      ],
+      "radius": 0.034,
+      "signedSurfaceDistanceToPlane": 0.0,
+      "absoluteSurfaceDistanceToPlane": 0.0,
+      "insidePaperXY": true
+    },
+    {
+      "finger": "little",
+      "intendedPaperSide": "front",
+      "tipJoint": [
+        0.89,
+        0.663,
+        0.724
+      ],
+      "radius": 0.029,
+      "signedSurfaceDistanceToPlane": 0.0010000000000000009,
+      "absoluteSurfaceDistanceToPlane": 0.0010000000000000009,
+      "insidePaperXY": false
+    },
+    {
+      "finger": "thumb",
+      "intendedPaperSide": "back",
+      "tipJoint": [
+        1.015,
+        0.805,
+        0.652
+      ],
+      "radius": 0.042,
+      "signedSurfaceDistanceToPlane": 0.08400000000000007,
+      "absoluteSurfaceDistanceToPlane": 0.08400000000000007,
+      "insidePaperXY": true
+    }
+  ],
+  "camera": {
+    "eye": [
+      3.2,
+      2.5,
+      6.3
+    ],
+    "target": [
+      -0.13,
+      1.35,
+      0.15
+    ],
+    "focalPixels": 1450
+  },
+  "light": {
+    "position": [
+      1.8,
+      3.7,
+      3.2
+    ],
+    "kind": "single point key plus constant ambient approximation",
+    "shadows": "not ray-traced; occlusion uses face-depth sorting"
+  },
+  "knownLimitations": [
+    "Authored proportions not expert anatomical validation",
+    "Depth-average painter sorting can fail at intersecting meshes",
+    "No true cast-shadow/subsurface/microfabric solution",
+    "Contact distances are simplified capsule endpoints, not exact remeshed skin contact",
+    "No approved art or browser viewport result"
+  ],
+  "productionEligibility": false,
+  "acceptedArt": 0,
+  "vectorValidation": "PASS_NO_RASTER_EXTERNAL_SCRIPT_OR_TEXT",
+  "budgetComparison": {
+    "rawBytesCurrentManifestMax": 13654,
+    "ratioToExistingMax": 26.280650358869195,
+    "hypothetical300RawBytes": 107650800,
+    "assetBudgetGate": "FAIL_NOT_ELIGIBLE_26X_EXISTING_MAX"
+  },
+  "diagnosticRasterization": [
+    {
+      "source": "outputs/darbe-geometry-probe/geometry-export.svg",
+      "pngEvidence": "/workspace/screenshots/darbe-geometry-probe/full.png",
+      "width": 800,
+      "seconds": 0.3214170200008084,
+      "exitCode": 0,
+      "stderr": "** (inkscape:7): WARNING **: 06:56:58.165: Failed to wrap object of type 'GtkRecentManager'. Hint: this error is commonly caused by failing to call a library init() function.",
+      "pngSha256": "94ec9fb0b28e71d45eae654503883740249249a035910271694e81bf1d98d19c",
+      "pngBytes": 152770
+    },
+    {
+      "source": "/workspace/screenshots/darbe-geometry-probe/inspector-cover-crop.svg",
+      "pngEvidence": "/workspace/screenshots/darbe-geometry-probe/inspector-cover-400.png",
+      "width": 400,
+      "seconds": 0.29538631399918813,
+      "exitCode": 0,
+      "stderr": "** (inkscape:15): WARNING **: 06:56:58.495: Failed to wrap object of type 'GtkRecentManager'. Hint: this error is commonly caused by failing to call a library init() function.",
+      "pngSha256": "4925f87f27854c0c0a6a598ceb5a1ae2afe61b9b74f125b1bfc72630c5a1f799",
+      "pngBytes": 47828
+    },
+    {
+      "source": "/workspace/screenshots/darbe-geometry-probe/inspector-cover-crop.svg",
+      "pngEvidence": "/workspace/screenshots/darbe-geometry-probe/inspector-cover-144.png",
+      "width": 144,
+      "seconds": 0.2802122459979728,
+      "exitCode": 0,
+      "stderr": "** (inkscape:23): WARNING **: 06:56:58.789: Failed to wrap object of type 'GtkRecentManager'. Hint: this error is commonly caused by failing to call a library init() function.",
+      "pngSha256": "73280a9b001a6583b265299ecdaf1558affb273fdca3cf831a59c157f68c2ba3",
+      "pngBytes": 8138
+    }
+  ],
+  "review": "EXPERIMENT_REVIEW.md",
+  "generatorSha256": "e869088791234bd358a0d748e12ac7d19cf03c3e97b6a947b6ddc0f80a4ab2fc",
+  "cropSource": {
+    "activeSelector": "body[data-theme=\"darbe-h\"] .dh-art img",
+    "source": "public/games/darbe-h/card-face.css:89",
+    "fit": "cover",
+    "objectPosition": "default center",
+    "inspectorAspectRatio": "3 / 2",
+    "notApplicable": "shared .card-art img center 38% does not match custom .dh-art"
+  },
+  "exportArtifactPersistence": "Excluded from versioned checkpoint; regenerate with geometry-probe.py. SVG SHA256/bytes recorded above; local export ignored, no production use."
+}
