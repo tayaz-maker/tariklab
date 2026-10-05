@@ -1,0 +1,4 @@
+# Rejected study renders are reproducible and must not ship or inflate git history.
+*.svg
+*.png
+*.webp

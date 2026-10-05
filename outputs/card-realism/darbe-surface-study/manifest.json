@@ -1,0 +1,19 @@
+{
+  "id": "DRB-001",
+  "name": "Dosya K\u00e2tibi",
+  "status": "STUDY_NOT_ACCEPTED",
+  "productionEligible": false,
+  "authoredSource": "scripts/card-art/darbe-surface-study.py",
+  "sourceMethod": "original cubic Bezier contours, layered analytical gradients, seeded procedural microtexture",
+  "artworkOnly": true,
+  "noExternalInput": true,
+  "visibleText": false,
+  "width": 720,
+  "height": 480,
+  "nativeWidth": 240,
+  "nativeHeight": 160,
+  "bytes": 62583,
+  "sha256": "39c2683640310386d03fca81ba425159aa3b1847daf2019d98eb2ba502045b79",
+  "seed": 1001,
+  "referenceUse": "quality observation only; no reference pixels, geometry, composition, person, typography or emblem used as input"
+}

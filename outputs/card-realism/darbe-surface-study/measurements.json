@@ -1,0 +1,52 @@
+{
+  "baseSha": "be160c95eb5283e5ed2ce8bf139ef7aa714d329d",
+  "cardId": "DRB-001",
+  "iterations": 2,
+  "decision": "REJECTED",
+  "productionEligible": false,
+  "acceptedCards": 0,
+  "reviewer": "model visual inspection, not independent human review",
+  "nativeAndRetinaInspected": true,
+  "renderer": "Inkscape SVG CPU rasterization; no physical GPU claim",
+  "tests": {
+    "command": "python3 scripts/card-art/darbe-surface-study.test.py",
+    "passed": 6,
+    "failures": 0,
+    "scope": "isolated technical invariants only"
+  },
+  "artifacts": [
+    {
+      "file": "DRB-001-surface-study.svg",
+      "bytes": 62583,
+      "sha256": "39c2683640310386d03fca81ba425159aa3b1847daf2019d98eb2ba502045b79"
+    },
+    {
+      "file": "DRB-001-native.png",
+      "bytes": 42559,
+      "sha256": "c9a1318d84d222567ef286f0834c4949f47fc208ea0a77d43d661f169dcf9f18",
+      "dimensions": [
+        240,
+        160
+      ]
+    },
+    {
+      "file": "DRB-001-retina.png",
+      "bytes": 120449,
+      "sha256": "00da3a541dbc5cf446e752bfc4c8600045421aa684ba21e89330f9511af48688",
+      "dimensions": [
+        480,
+        320
+      ]
+    }
+  ],
+  "qualityGaps": [
+    "Illustrative hard-planar face rather than realistic anatomy and skin volume",
+    "Stiff fingers and forearm, contact only partially convincing",
+    "Fabric relief too simple and patterned",
+    "Repeated shelf shapes and insufficient material realism"
+  ],
+  "productionPathsTouched": false,
+  "ci": "NOT_RUN isolated rejected study",
+  "merge": "NONE",
+  "production": "UNCHANGED"
+}
