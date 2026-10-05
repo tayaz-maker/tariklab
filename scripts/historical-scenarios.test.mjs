@@ -37,7 +37,7 @@ test("1980s start year is reproducible from seed and remains in the supported co
 test("1999 start is fixed and exposes a playable six-choice scenario event", () => {
   const state = fixture("1999-04-18");
   assert.equal(state.world.scenario.startDate, "1999-04-18");
-  assert.equal(state.world.scenario.endDate, "2026-01-01");
+  assert.equal(state.world.scenario.endDate, "2030-01-01");
   assert.equal(state.world.scenario.pendingEvent.choices.length, 6);
   assert.equal(resolveScenarioChoice(state, "study").ok, true);
   assert.equal(state.career.performance, 53);
@@ -69,15 +69,30 @@ test("same seed and same decision order produce the same event and outcome histo
   assert.deepEqual(play(), play());
 });
 
-test("2026 final is available and captures the life-system outcomes", () => {
+test("2030 final is available and captures the life-system outcomes", () => {
   const state = fixture("1999-04-18");
   resolveScenarioChoice(state, "rest");
-  state.time.absoluteWeek = 1 + Math.ceil((Date.parse("2026-01-01T00:00:00Z") - Date.parse("1999-04-18T00:00:00Z")) / (365.2425 * 86400000) * 48);
+  state.time.absoluteWeek = 1 + Math.ceil((Date.parse("2030-01-01T00:00:00Z") - Date.parse("1999-04-18T00:00:00Z")) / (365.2425 * 86400000) * 48);
   const messages = processScenarioWeek(state);
-  assert.ok(messages.some((message) => message.includes("1 Ocak 2026")));
-  assert.equal(state.world.scenario.currentDate, "2026-01-01");
+  assert.ok(messages.some((message) => message.includes("1 Ocak 2030")));
+  assert.equal(state.world.scenario.currentDate, "2030-01-01");
   assert.equal(state.world.scenario.completed, true);
   assert.equal(buildScenarioFinal(state).decisions, 1);
+});
+
+test("a finished 2026 historical save can continue without replaying old choices", () => {
+  const old = createNewGame({ eraId: "1999-04-18", seed: 17 });
+  old.world.scenario.version = 1;
+  old.world.scenario.endDate = "2026-01-01";
+  old.world.scenario.completed = true;
+  old.world.scenario.pendingEvent = null;
+  old.world.scenario.eventCursor = old.world.scenario.pack.events.length - 4;
+  old.world.scenario.history.push({ eventId: "old-choice", year: 2025, choiceId: "save" });
+  const result = migrateState(JSON.parse(JSON.stringify(old)));
+  assert.equal(result.ok, true);
+  assert.equal(result.state.world.scenario.endDate, "2030-01-01");
+  assert.equal(result.state.world.scenario.completed, false);
+  assert.equal(result.state.world.scenario.history.length, 1);
 });
 
 test("choice effects are game-scale axes rather than historical currency claims", () => {

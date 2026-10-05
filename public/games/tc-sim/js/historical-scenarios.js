@@ -1,7 +1,7 @@
 const clamp = (value, min = 0, max = 100) => Math.min(max, Math.max(min, Number(value) || 0));
 
-export const HISTORICAL_END_DATE = "2026-01-01";
-export const HISTORICAL_SCENARIO_VERSION = 1;
+export const HISTORICAL_END_DATE = "2030-01-01";
+export const HISTORICAL_SCENARIO_VERSION = 2;
 export const HISTORICAL_SOURCES = {
   tcmb1980: { title: "Merkez Bankası Tarihçesi — 1980 Sonrası Dönem", url: "https://www.tcmb.gov.tr/wps/wcm/connect/TR/TCMB+TR/Main+Menu/Banka+Hakkinda/Tarihce/", date: "Yayın tarihi belirtilmemiş; erişim 30 Eylül 2026", role: "TCMB kurumsal tarih sayfası; 24 Ocak kararları anlatısı", claim: "24 Ocak 1980 kararlarının Türkiye ekonomisinde yapısal dönüşüm başlattığını kaydediyor." },
   tcmb1994: { title: "Merkez Bankası Tarihçesi — 1980 Sonrası Dönem", url: "https://www.tcmb.gov.tr/wps/wcm/connect/TR/TCMB+TR/Main+Menu/Banka+Hakkinda/Tarihce/", date: "Yayın tarihi belirtilmemiş; erişim 30 Eylül 2026", role: "TCMB kurumsal tarih sayfası; 1994 finansal kriz anlatısı", claim: "1994'ün ilk çeyreğinde finansal kriz yaşandığını kaydediyor." },
@@ -46,7 +46,11 @@ const PACKS = {
       [2018, "Hane bütçesi kararı", "Tasarruf, eğitim ve aile desteği arasında sınırlı kaynaklarını nasıl paylaşacağını seç.", "life"],
       [2020, "Gündelik hayatın kesintisi", "COVID-19 pandemisinin ekonomik etkileri sürerken sağlık, gelir ve yakın bağların bakımını birlikte düşün.", "historical", ["wb2020"]],
       [2023, "Yeniden kurma dönemi", "İş, eğitim ve yaşam alanı planını yeniden değerlendir.", "life"],
-      [2025, "Son yılın tercihleri", "2026'ya yaklaşırken birikmiş kararlarının sonuçlarını toparlama zamanı.", "life"],
+      [2025, "Dönüm noktası", "Geçmiş kararlarının yükünü ve kazancını tart. Önünde dört yıllık yeni bir dönem var.", "life"],
+      [2026, "Yeni düzen", "İş, ev ve yakın ilişkilerinde hangi yükü sürdürebileceğini seç. Bundan sonrası tarihsel kayıt değil, olası bir yaşam senaryosudur.", "future"],
+      [2027, "Değişen ihtiyaçlar", "Beceri, bakım ve geçim planını yeni koşullara göre yeniden kur.", "future"],
+      [2028, "Uzun vadeli karar", "Bugünkü rahatlık ile gelecekteki dayanıklılık arasında yeni bir denge kur.", "future"],
+      [2029, "2030'a yaklaşırken", "Son yılların kararları bütçende, bedeninde ve ilişkilerinde nasıl birikti?", "future"],
     ],
   },
   "1980s": {
@@ -64,7 +68,11 @@ const PACKS = {
       [2008, "Küresel belirsizlik", "2008'de derinleşen küresel finansal kriz Türkiye'deki iktisadi gelişmeleri de etkiledi.", "historical", ["tcmb2008"]],
       [2020, "Gündelik hayatın kesintisi", "COVID-19 pandemisinin ekonomik etkileri sürerken sağlık, gelir ve yakın bağların bakımını birlikte düşün.", "historical", ["wb2020"]],
       [2023, "Yeniden kurma dönemi", "İş, eğitim ve yaşam alanı planını yeniden değerlendir.", "life"],
-      [2025, "Son yılın tercihleri", "2026'ya yaklaşırken birikmiş kararlarının sonuçlarını toparlama zamanı.", "life"],
+      [2025, "Dönüm noktası", "Geçmiş kararlarının yükünü ve kazancını tart. Önünde dört yıllık yeni bir dönem var.", "life"],
+      [2026, "Yeni düzen", "İş, ev ve yakın ilişkilerinde hangi yükü sürdürebileceğini seç. Bundan sonrası tarihsel kayıt değil, olası bir yaşam senaryosudur.", "future"],
+      [2027, "Değişen ihtiyaçlar", "Beceri, bakım ve geçim planını yeni koşullara göre yeniden kur.", "future"],
+      [2028, "Uzun vadeli karar", "Bugünkü rahatlık ile gelecekteki dayanıklılık arasında yeni bir denge kur.", "future"],
+      [2029, "2030'a yaklaşırken", "Son yılların kararları bütçende, bedeninde ve ilişkilerinde nasıl birikti?", "future"],
     ],
   },
 };
@@ -103,6 +111,23 @@ export function createScenario(eraId, seed = 1) {
   };
   scenario.pendingEvent = scenarioAtWeek(scenario, 1);
   return scenario;
+}
+
+/** Extend old 2026 routes without replaying already resolved period choices. */
+export function upgradeScenarioTo2030(state) {
+  const scenario = state?.world?.scenario;
+  if (!scenario || !PACKS[scenario.id] || scenario.version >= HISTORICAL_SCENARIO_VERSION) return false;
+  const wasFinished = scenario.completed === true;
+  scenario.version = HISTORICAL_SCENARIO_VERSION;
+  scenario.endDate = HISTORICAL_END_DATE;
+  scenario.pack = PACKS[scenario.id];
+  if (wasFinished) {
+    scenario.completed = false;
+    scenario.final = null;
+    scenario.pendingEvent = null;
+  }
+  // The 2026+ events are appended, so old eventCursor and history stay valid.
+  return true;
 }
 
 function weekForYear(scenario, year) {
@@ -172,15 +197,15 @@ export function processScenarioWeek(state) {
       applyEffect(state, Object.fromEntries(Object.entries(item.effect).map(([key, value]) => [key, Math.trunc(value / 2)])));
       item.applied = true;
       item.reconciledAtEnd = true;
-      messages.push(`2026 sonucu: ${item.source} kararının kalan gecikmiş etkisi yaşam özetine yansıtıldı.`);
+      messages.push(`2030 sonucu: ${item.source} kararının kalan gecikmiş etkisi yaşam özetine yansıtıldı.`);
     }
     scenario.currentDate = scenario.endDate;
     scenario.completed = true;
     scenario.pendingEvent = null;
     scenario.final = buildScenarioFinal(state);
-    state.time.year = 2026;
-    if (state.yearlyPlan) state.yearlyPlan.year = 2026;
-    messages.push("1 Ocak 2026: tarihsel yaşam rotası tamamlandı.");
+    state.time.year = 2030;
+    if (state.yearlyPlan) state.yearlyPlan.year = 2030;
+    messages.push("1 Ocak 2030: yaşam rotası tamamlandı. 2026 sonrası kurgu senaryodur.");
   } else {
     const start = Date.parse(`${scenario.startDate}T00:00:00Z`);
     const end = Date.parse(`${scenario.endDate}T00:00:00Z`);
@@ -202,7 +227,7 @@ export function buildScenarioFinal(state) {
     career: Math.round(state.career?.performance || 0),
     family: Math.round(state.relationships?.anne || 0),
     access: Math.round(state.flags?.historicalAccess || 50),
-    summary: `2026'ya ${scenario.history.length} dönem kararı ve ${appliedEchoes} gecikmiş sonuçla ulaştın.`,
+    summary: `2030'a ${scenario.history.length} dönem kararı ve ${appliedEchoes} gecikmiş sonuçla ulaştın.`,
   };
 }
 

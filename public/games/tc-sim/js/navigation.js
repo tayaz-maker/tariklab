@@ -1,5 +1,6 @@
 export const NAVIGATION_ITEMS = [
   { label: "ANA SAYFA", view: "dashboard" },
+  { label: "GELEN KUTUSU", view: "inbox" },
   { label: "BEN", view: "character" },
   { label: "TAKVİM", view: "calendar" },
   { label: "FİNANS", view: "finance" },

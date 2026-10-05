@@ -7,7 +7,7 @@ import { hydrateDevlet, applyPolicy } from "../public/games/next-wave/devlet-sim
 import { createTown, applyTownAction, actionInfo } from "../public/games/son-kasaba/sim.js";
 import { ensureSonState, applySonAction, sonActionCost } from "../public/games/next-wave/son100-sim.js";
 
-test("TC SIM uses a six-block week while preserving anti-repeat", () => {
+test("TC SIM preserves anti-repeat with the expanded weekly budget", () => {
   const state = createNewGame({ seed: 42 });
   for (const id of ["rest", "family", "friend", "exercise"]) {
     assert.equal(applyDecision(state, id).ok, true, id);

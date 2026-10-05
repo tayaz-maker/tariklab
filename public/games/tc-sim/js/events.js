@@ -1170,15 +1170,16 @@ export const EVENT_DEFINITIONS = [
     social3D: true,
     repeat: "once",
     title: "Evde kimse yok",
-    text: "Elif: \"Bugün evde kimse yok, kal bakayım.\"",
+    text: "Elif yakınlaşmak istediğini açıkça söylüyor; ikiniz de yetişkinsiniz. Rıza, sınırlar ve korunma üzerine karar senin. İstemiyorsan bugün hayır diyebilirsin.",
     condition: (state) =>
+      state.player.age >= 18 &&
       isElifRomantic(state) &&
       getRelationship(state, "elif").closeness >= 60 &&
       getRelationship(state, "elif").trust >= 55,
     choices: [
-      { id: "protected", label: "Kal, korunmayı konuşarak", effects: { social: { elif: { closeness: 8 } } } },
-      { id: "unprotected", label: "Kal", effects: { social: { elif: { closeness: 8 } } } },
-      { id: "leave", label: "Çık, bugün olmaz de", effects: { social: { elif: { trust: 2 } } } },
+      { id: "protected", label: "İkiniz de istiyorsanız kondomla seks", effects: { money: -120, social: { elif: { closeness: 8, trust: 2 } } } },
+      { id: "unprotected", label: "İkiniz de kabul ediyorsanız kondomsuz seks", effects: { social: { elif: { closeness: 8 } } } },
+      { id: "leave", label: "Bugün seks istemiyorum de", effects: { social: { elif: { trust: 2 } } } },
     ],
   },
   {
@@ -1587,12 +1588,8 @@ export function resolveEvent(state, choiceId) {
       dueWeek: state.time.absoluteWeek + 1,
       personId: "elif",
     });
-    if (choiceId === "unprotected")
-      scheduleSocialFollowup(state, {
-        eventId: "pregnancy_scare",
-        dueWeek: state.time.absoluteWeek + 6,
-        personId: "elif",
-      });
+    if (choiceId === "unprotected" && !state.parenthood.pregnancy)
+      state.flags.intimacyFollowup = { partnerId: "elif", dueWeek: state.time.absoluteWeek + 4, originWeek: state.time.absoluteWeek };
   }
   // 3D — CHN-03: referans sözü, sonra sonucu, sonra uzun vadeli karşılığı.
   if (definition.id === "promise_mehmet_reference" && choiceId === "promise") {

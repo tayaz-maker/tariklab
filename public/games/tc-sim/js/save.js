@@ -1,6 +1,7 @@
 import { SAVE_VERSION, createNewGame, normalizeEducationCareer, validateState } from "./state.js?v=10";
 import { getHomeById, getJobById } from "./life.js?v=10";
 import { PRESENT_DAY_ERA_ID, getEraById } from "./eras.js?v=10";
+import { upgradeScenarioTo2030 } from "./historical-scenarios.js?v=10";
 
 export const SAVE_KEY = "tc-sim-save";
 export const BACKUP_KEY = "tc-sim-save-backup";
@@ -164,6 +165,7 @@ export function migrateState(raw) {
     if (state.meta.saveVersion < 5) state = migrateV4(state);
     if (state.meta.saveVersion < 6) state = migrateV5(state);
     state = normalizeCurrentEra(state);
+    upgradeScenarioTo2030(state);
     // mergeLegacy() career nesnesini baştan kurduğu için deneyim haritası burada geri eklenir.
     state = normalizeEducationCareer(state);
     const validation = validateState(state);

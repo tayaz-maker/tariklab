@@ -103,7 +103,7 @@ try {
             await assertNoOverflow("legacy-save-reload");
           } else {
             assert.equal(saved.world.scenario.startDate, start.expectedDate, `${start.id}/${start.year || ""} start date`);
-            assert.equal(saved.world.scenario.endDate, "2026-01-01");
+            assert.equal(saved.world.scenario.endDate, "2030-01-01");
             assert.equal(saved.world.scenario.seed, start.id === "1980s" ? start.seed : saved.world.scenario.seed);
             if (start.id === "1980s") assert.equal(chooseEightiesStartYear(saved.world.scenario.seed), start.year);
 
@@ -147,7 +147,7 @@ try {
             saved = await page.evaluate((key) => JSON.parse(localStorage.getItem(key)), storageKey);
             assert.equal(saved.world.scenario.delayedEffects[0].applied, true, "delayed effect survives reload");
 
-            const totalWeeks = Math.ceil((Date.parse("2026-01-01T00:00:00Z") - Date.parse(`${saved.world.scenario.startDate}T00:00:00Z`)) / (365.2425 * 86400000) * 48);
+            const totalWeeks = Math.ceil((Date.parse("2030-01-01T00:00:00Z") - Date.parse(`${saved.world.scenario.startDate}T00:00:00Z`)) / (365.2425 * 86400000) * 48);
             saved.time.absoluteWeek = totalWeeks;
             saved.world.scenario.pendingEvent = null;
             await page.evaluate(({ key, save }) => localStorage.setItem(key, JSON.stringify(save)), { key: storageKey, save: saved });
@@ -156,7 +156,7 @@ try {
             await advanceOneWeek();
             saved = await page.evaluate((key) => JSON.parse(localStorage.getItem(key)), storageKey);
             assert.equal(saved.world.scenario.completed, true, "1 January 2026 final is saved");
-            assert.equal(saved.world.scenario.final.date, "2026-01-01");
+            assert.equal(saved.world.scenario.final.date, "2030-01-01");
             assert.equal(saved.world.scenario.history.length, 1);
             await assertNoOverflow("2026-final");
           }

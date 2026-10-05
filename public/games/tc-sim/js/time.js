@@ -8,6 +8,8 @@ import {
   processParenthoodWeek,
   parenthoodYearSummary,
 } from "./parenthood.js?v=10";
+import { processIntimacyFollowup } from "./intimacy.js?v=10";
+import { processBusinessMonth } from "./bank-business.js?v=10";
 import { getHouseholdSummary } from "./household.js?v=10";
 import {
   WEEKS_PER_MONTH,
@@ -291,9 +293,47 @@ export const DECISIONS = [
       addNpcMemory(state, "mehmet", "Uzun sessizliğin ardından bana ulaştı.");
     },
   },
+  {
+    id: "partner-evening",
+    title: "Partnerinle baş başa zaman ayır",
+    detail: "₺400 · yakınlık ve güven · enerji −5",
+    contextual: (state) => Boolean(state.social?.currentPartnerNpcId),
+    minimumBalance: 400,
+    apply(state) {
+      const id = state.social.currentPartnerNpcId;
+      transact(state, -400, "Birlikte geçirilen akşam", "social");
+      applyRelationshipDelta(state, id, { closeness: 4, trust: 2, tension: -2 });
+      markMeaningfulContact(state, id);
+      adjustHealth(state, { energy: -5, stress: -5 });
+      addMemory(state, "Partnerinle telefonsuz, sakin bir akşam geçirdin.");
+    },
+  },
+  {
+    id: "home-routine",
+    title: "Ev ve gündelik işleri toparla",
+    detail: "₺180 · enerji −6 · stres −6",
+    minimumBalance: 180,
+    apply(state) {
+      transact(state, -180, "Ev ve gündelik ihtiyaçlar", "housing");
+      adjustHealth(state, { energy: -6, stress: -6 });
+      addMemory(state, "Temizlik, çamaşır ve ertelenen küçük işleri toparladın.");
+    },
+  },
+  {
+    id: "practice-skill",
+    title: "İş becerini geliştir",
+    detail: "enerji −8 · mevcut işte performans +2",
+    contextual: (state) => Boolean(state.career?.jobId),
+    apply(state) {
+      state.career.performance = Math.min(100, state.career.performance + 2);
+      adjustHealth(state, { energy: -8, stress: 2 });
+      adjustTendency(state, "discipline", 1);
+      addMemory(state, "İşinin bir ayrıntısını çalışıp becerini geliştirdin.");
+    },
+  },
 ];
 
-const CORE_DECISION_IDS = new Set(["overtime", "rest", "exercise"]);
+const CORE_DECISION_IDS = new Set(["overtime", "rest", "exercise", "home-routine"]);
 
 export function getAvailableDecisions(state) {
   return DECISIONS.filter((decision) =>
@@ -325,7 +365,7 @@ export function canApplyDecision(state, decisionId) {
     return {
       ok: false,
       reason: isCriticalHealth(state)
-        ? "Sağlığın kritik; bu hafta yalnız bir şeye gücün yetiyor."
+        ? "Sağlığın kritik; bu hafta en fazla üç hafif işe zamanın var."
         : "Bu haftanın aktivite hakkı bitti.",
     };
   if (
@@ -379,8 +419,9 @@ function processMonthEnd(state) {
     state.education.tuitionOwedThisMonth = 0;
   }
   processWealthMonthEnd(state);
+  const businessResult = processBusinessMonth(state);
   processCashShortfall(state);
-  return `Ay sonu: ₺${summary.income.toLocaleString("tr-TR")} gelir, ₺${summary.expenses.toLocaleString("tr-TR")} gider işlendi.`;
+  return `Ay sonu: ₺${summary.income.toLocaleString("tr-TR")} gelir, ₺${summary.expenses.toLocaleString("tr-TR")} gider işlendi.${businessResult ? ` ${businessResult}` : ""}`;
 }
 
 function closeYear(state, endedYear) {
@@ -502,7 +543,7 @@ export function advanceWeek(state) {
   if (state.lifetime?.death)
     return { ok: false, messages: ["Bu yaşam tamamlandı; yaşam raporuna geç."] };
   if (state.world?.scenario?.completed)
-    return { ok: false, messages: ["1 Ocak 2026 sonucuna ulaştın; bu tarihsel rota tamamlandı."] };
+    return { ok: false, messages: ["1 Ocak 2030 sonucuna ulaştın; bu yaşam rotası tamamlandı."] };
   if (state.world?.scenario?.pendingEvent)
     return { ok: false, messages: ["Önce dönem kararını ver."] };
   if (state.events.active) return { ok: false, messages: ["Önce açık olayı sonuçlandır."] };
@@ -518,6 +559,8 @@ export function advanceWeek(state) {
   processLongTermBody(state, { decisionIds: state.weekly.selectedIds });
 
   state.time.absoluteWeek += 1;
+  const intimacyResult = processIntimacyFollowup(state);
+  if (intimacyResult) messages.push(intimacyResult);
   messages.push(...processScenarioWeek(state));
   if (Number.isInteger(state.lifetime?.bornWeek))
     state.player.age = Math.floor((state.time.absoluteWeek - state.lifetime.bornWeek) / 48);

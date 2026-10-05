@@ -10,15 +10,19 @@ export const HELP_SECTIONS = [
   },
   {
     title: "Haftalık döngü",
-    body: "Her hafta 6 zaman/odak bloğun var (sağlığın kritikse 3'e düşer). İş, eğitim, aile ve sosyal hayat aynı bütçeyi paylaşır; haftayı erken kapatabilir, yorgunluk ve ertelenen sonuçları göze alabilirsin. Maaş, kira ve düzenli giderler ay sonunda otomatik işler.",
+    body: "Her hafta 7 zaman/odak bloğun var; düzenli iş, eğitim ve çocuk bakım yükü yoksa 8, sağlığın kritikse 3. İş, eğitim, aile, aşk ve dinlenme aynı bütçeyi paylaşır. Haftayı erken kapatabilirsin; maaş, kira, kredi ve işletme sonucu ay sonunda işler.",
   },
   {
     title: "Kontroller",
-    body: "Üstteki menüden Ana Sayfa, Ben, Takvim, Finans, Market, İş, Eğitim, Kişiler, Aile/İlişkiler, Ev, Beden, Geçmiş ve Yıl Dosyası bölümlerine geçersin. Bazı seçimler ayrı bir olay penceresi açar; orada verdiğin cevap haftayı ilerletmeden hemen uygulanır.",
+    body: "Üst şeritten Gelen Kutusu, Takvim, Banka/Finans, İlişkiler ve Beden'e doğrudan geçersin. Diğer bölümler aşağıdaki menüdedir. Gelen Kutusu bekleyen kararları ve son gelişmeleri tek yerde toplar; açık olay bitmeden hafta ilerlemez.",
   },
   {
     title: "İş ve finans",
-    body: "İş bulmak, terfi ve eğitim Finans'ı doğrudan etkiler. Finans ekranı bakiye, aylık gelir/gider ve net servetini gösterir: nakit, yatırım, gayrimenkul, araç/eşya ve borçların toplamı. Yaşam standardını (mütevazıdan yükseğe) ve abonelik harcamalarını da buradan yönetirsin; günlük alışveriş, hediye ve riskli harcamalar ayrı Market ekranındadır.",
+    body: "Finans ekranında nakit, net servet, borçlar, banka kredisi ve küçük işletme var. Kredi bugün para verir ama aylık geri ödeme getirir; işletmenin ciro eksi gideri kâr da zarar da olabilir. Eski tarihli başlangıçlarda tutarlar dönem TÜFE'siyle yaklaşık gösterilir, doğrulanmış ürün fiyatı veya banka oranı değildir.",
+  },
+  {
+    title: "Tarihsel rota ve yetişkin hayatı",
+    body: "1999 ya da 1980'lerden başlayan rotalar 1 Ocak 2030'a ulaşır; 2026–2029 olayları kurgu olasılıklarıdır. Yetişkin ilişkisinde karşılıklı rıza varsa korunma ve seks seçimi açılır; kondomsuz ilişkide gebelik sonucu gecikmeli gelebilir. Söz, nişan, düğün, takı, evlilik ve çocuk bakımının hem duygusal hem mali sonuçları vardır. Bunlar oyun mekaniğidir, sağlık tavsiyesi değildir.",
   },
   {
     title: "İlerleme ve göstergeler",

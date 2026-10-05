@@ -721,15 +721,19 @@
     },
     {
       title: "Weekly loop",
-      body: "Each week gives you six time-and-focus blocks. Work, study, family, friends, relationships and recovery consume different shares; then the week closes and wages, rent and regular costs land on schedule.",
+      body: "Each week offers seven time-and-focus blocks, eight without steady work, study or child care, and three during critical health. Work, study, relationships and recovery share that budget; wages, rent, credit payments and business results settle at month-end.",
     },
     {
       title: "Controls",
-      body: "The top menu moves you through Home, Me, Calendar, Money, Work, Education, People, Family/Relations, Home, Body, History and the Year File. Some picks open an event window; the answer there applies immediately without advancing the week.",
+      body: "The top shortcuts open Inbox, Calendar, Bank/Finance, Relationships and Body. Other sections remain in the navigation. Inbox collects pending decisions and recent developments in one place; an open event must be resolved before advancing the week.",
     },
     {
       title: "Work and money",
-      body: "Finding work, promotion and education hit Money directly. The Money screen shows balance, monthly in/out and net worth: cash, investments, property, vehicles/goods and debt. Living standard and subscriptions live there too.",
+      body: "Finance shows cash, net worth, bank credit and a small business. Credit creates future monthly payments; the business can make a profit or a loss. Historical amounts are CPI-based game approximations, not observed product prices or actual bank offers.",
+    },
+    {
+      title: "Historical starts and adult life",
+      body: "The 1999 and 1980s routes run to 1 January 2030; 2026–2029 events are fictional possibilities. In a consensual adult relationship, protection and sex decisions can open; unprotected sex can lead to a delayed pregnancy outcome. Engagement, wedding gifts, marriage and child care carry emotional and financial consequences. This is gameplay, not medical advice.",
     },
     {
       title: "Progress and meters",
