@@ -1,0 +1,83 @@
+name: esik-save-recovery
+
+on:
+  pull_request:
+    paths:
+      - public/games/esik/**
+      - public/games/shared/pixi-adapter.js
+      - public/i18n/pl-body.js
+      - public/i18n/pl/esik.json
+      - public/sw.js
+      - scripts/offline-sw-plugin.mjs
+      - scripts/static-game-server*.mjs
+      - scripts/esik*.mjs
+      - package.json
+      - package-lock.json
+      - .github/workflows/esik-save-recovery.yml
+  push:
+    branches: [main]
+    paths:
+      - public/games/esik/**
+      - public/games/shared/pixi-adapter.js
+      - public/i18n/pl-body.js
+      - public/i18n/pl/esik.json
+      - public/sw.js
+      - scripts/offline-sw-plugin.mjs
+      - scripts/static-game-server*.mjs
+      - scripts/esik*.mjs
+      - package.json
+      - package-lock.json
+      - .github/workflows/esik-save-recovery.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+concurrency:
+  group: esik-save-recovery-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  save-browser:
+    name: Kıyı save recovery / ${{ matrix.label }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(github.ref == 'refs/heads/main' && '[{"label":"www","origin":"https://www.tariklab.com"},{"label":"workers","origin":"https://tariklab.tayaz29.workers.dev"}]' || '[{"label":"built","origin":""}]') }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Exact pre-fix blobs for the synthetic old-cache browser case
+        run: git fetch --no-tags --depth=1 origin be160c95eb5283e5ed2ce8bf139ef7aa714d329d
+      - name: Validation, storage, SW upgrade and fail-closed browser-target regressions
+        run: node --test scripts/esik.test.mjs scripts/esik-save-validation.test.mjs scripts/esik-save-store.test.mjs scripts/esik-save-upgrade.test.mjs scripts/esik-save-target.test.mjs scripts/static-game-server.test.mjs
+      - run: npm run build
+      - name: Chromium
+        run: |
+          browser_path="$(command -v google-chrome || command -v chromium || true)"
+          if [ -n "$browser_path" ]; then
+            echo "PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=$browser_path" >> "$GITHUB_ENV"
+          else
+            npx playwright install --with-deps chromium --only-shell
+          fi
+      - name: Built candidate — 36 save matrix cases and a pinned old-cache upgrade
+        if: matrix.label == 'built'
+        run: node scripts/esik-save-browser.mjs --serve .output/public --label built
+      - name: Exact released candidate — isolated synthetic saves on allowlisted host
+        if: matrix.label != 'built'
+        env:
+          ESIK_SAVE_ORIGIN: ${{ matrix.origin }}
+          ESIK_SAVE_LABEL: ${{ matrix.label }}
+        run: node scripts/esik-save-browser.mjs --base-url "$ESIK_SAVE_ORIGIN" --production --expected-root .output/public --label "$ESIK_SAVE_LABEL"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: esik-save-recovery-${{ matrix.label }}
+          path: ${{ runner.temp }}/screenshots/esik-save-recovery/${{ matrix.label }}

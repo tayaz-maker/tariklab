@@ -188,9 +188,40 @@ export function serialize(state) {
 
 export function deserialize(raw) {
   try {
+    // A complete reachable v1 game has at most seven links, two ramps and
+    // six period closures (21 log records). Bound untrusted input before
+    // any renderer or legal-move consumer dereferences it; never repair it.
+    if (typeof raw !== "string" || raw.length > 65536) return null;
     const data = JSON.parse(raw);
-    if (data.key !== KEY || data.version !== 1 || !Array.isArray(data.state?.line)) return null;
-    return data.state;
+    if (data?.key !== KEY || data.version !== 1) return null;
+    const s = data.state;
+    if (!s || s.id !== "kiyi-esigi" || s.version !== 1) return null;
+    const integer = (n, min, max) => Number.isInteger(n) && n >= min && n <= max;
+    if (!integer(s.seed, 1, 4294967295) || !integer(s.period, 1, PERIODS + 1)
+      || !integer(s.resource, 0, 24) || !integer(s.trust, 0, 100)
+      || !integer(s.risk, 0, 100) || !integer(s.access, 0, NODES.length)
+      || !integer(s.built, 0, NODES.length + 2)) return null;
+    const ids = (items, limit, allowed) => Array.isArray(items) && items.length <= limit
+      && new Set(items).size === items.length && items.every(allowed);
+    if (!ids(s.line, NODES.length, (id) => !!nodeById(id))) return null;
+    if (!ids(s.ramps, 2, (id) => ["merdiven", "yokus"].includes(id) && s.line.includes(id))) return null;
+    if (!Array.isArray(s.pending) || s.pending.length > NODES.length + 2
+      || !s.pending.every((item) => item && (
+        item.tag === "ramp" && item.access === 1 && item.risk === undefined
+        || item.tag === "rush" && item.risk === 5 && item.access === undefined
+      ) && item.resource === undefined && item.trust === undefined)) return null;
+    if (!Array.isArray(s.log) || s.log.length > NODES.length + 2 + PERIODS * 2
+      || !s.log.every((item) => item && (
+        item.k === "bekle"
+        || item.k === "period" && integer(item.n, 1, PERIODS)
+        || item.k === "bagla" && !!nodeById(item.id)
+        || item.k === "rampa" && ["merdiven", "yokus"].includes(item.id)
+      ))) return null;
+    const fault = faultOf(s);
+    if (fault ? !s.fault || s.fault.id !== fault.id || s.fault.reason !== fault.reason : s.fault !== null) return null;
+    if (s.phase === "play" ? s.ending !== null || s.period > PERIODS
+      : s.phase !== "end" || !["surekli", "mahalle", "yorgun", "kopuk"].includes(s.ending)) return null;
+    return s;
   } catch {
     return null;
   }
