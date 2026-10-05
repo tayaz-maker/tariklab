@@ -71,9 +71,9 @@ jobs:
         if: needs.changes.outputs.campaign == 'true' || needs.changes.outputs.full == 'true'
         timeout-minutes: 8
         run: |
-          git fetch --no-tags --depth=1 origin b4ebc2babe7c754493d84421051c9531fc09215e
+          git fetch --no-tags --depth=1 origin 53534e2f9526ad80ce296952c212fa44aaa0ada1
           mkdir -p "$RUNNER_TEMP/wave1-before"
-          git archive b4ebc2babe7c754493d84421051c9531fc09215e public | tar -x -C "$RUNNER_TEMP/wave1-before"
+          git archive 53534e2f9526ad80ce296952c212fa44aaa0ada1 public | tar -x -C "$RUNNER_TEMP/wave1-before"
           node scripts/wave1-outcome-browser.mjs --serve "$RUNNER_TEMP/wave1-before/public" --baseline --label before
           node scripts/wave1-outcome-browser.mjs --serve public --label source
           node scripts/wave1-outcome-browser.mjs --serve .output/public --label built
