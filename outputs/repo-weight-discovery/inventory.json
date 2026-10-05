@@ -1,0 +1,483 @@
+{
+  "sha": "9e50404c0573e1cf9e2dd7e623c9c8bd98b95e56",
+  "tree": "c4494b717329d3aea041c7bfe088d59b61ce0a0a",
+  "trackedBlobPaths": 1824,
+  "uniqueBlobs": 1812,
+  "trackedPathBytes": 64704847,
+  "uniqueBlobBytes": 63181199,
+  "duplicateGroups": 10,
+  "duplicatePathBytes": 1523648,
+  "availableMainCommits": 53,
+  "isShallow": true,
+  "top20": [
+    {
+      "path": "scripts/pl/source/en-strings.json",
+      "bytes": 1724794,
+      "oid": "9e215bd1522f9d2694ebfb1ebb7dc1620b59425b",
+      "mode": "100644"
+    },
+    {
+      "path": "screenshots/emniyet-hayat.png",
+      "bytes": 1157562,
+      "oid": "e0085cece532b3bef0783a5c118ef68c3bd8518a",
+      "mode": "100644"
+    },
+    {
+      "path": "screenshots/shop-modern.png",
+      "bytes": 914086,
+      "oid": "9652e7c99086c4355621951874c0f2ffd2b44aad",
+      "mode": "100644"
+    },
+    {
+      "path": "screenshots/systems.png",
+      "bytes": 901377,
+      "oid": "d1fa60c1ea848097cfe90c7f4ed6003d5d0e6f20",
+      "mode": "100644"
+    },
+    {
+      "path": "screenshots/systems-street.png",
+      "bytes": 897826,
+      "oid": "f90b8e6acda09c93fa73a37accbca2d4b131c41c",
+      "mode": "100644"
+    },
+    {
+      "path": "screenshots/no-dialog.png",
+      "bytes": 891012,
+      "oid": "a59a980e6deb7bc33831d6ef7d37dcff8bb4af94",
+      "mode": "100644"
+    },
+    {
+      "path": "screenshots/hayat-nss.png",
+      "bytes": 879904,
+      "oid": "d99076b7c576ace6ff0b81fd0501afd63d0deb44",
+      "mode": "100644"
+    },
+    {
+      "path": "screenshots/hayat-desktop.png",
+      "bytes": 878637,
+      "oid": "cb75c6756cb8c3eeeb89da32af5b0a642c8a53e7",
+      "mode": "100644"
+    },
+    {
+      "path": "screenshots/boot-fixed.png",
+      "bytes": 874532,
+      "oid": "a120b06c0106879bb920ce2e666b45c7e6f582cb",
+      "mode": "100644"
+    },
+    {
+      "path": "screenshots/clock-desktop.png",
+      "bytes": 870848,
+      "oid": "1e81edaa3b566b40472012b3369bd1dcd28de964",
+      "mode": "100644"
+    },
+    {
+      "path": "screenshots/no-age-gate.png",
+      "bytes": 854699,
+      "oid": "3714edcebe7d8968d270092e78a069c2603a7cd2",
+      "mode": "100644"
+    },
+    {
+      "path": "screenshots/07-estate.png",
+      "bytes": 854280,
+      "oid": "09f0b7fc6199bd4df869421c1ac68618293ea276",
+      "mode": "100644"
+    },
+    {
+      "path": "screenshots/03-game.png",
+      "bytes": 849936,
+      "oid": "9e78def8588ab62071671a1b0896b2a78fca4d6d",
+      "mode": "100644"
+    },
+    {
+      "path": "screenshots/10-desktop-game.png",
+      "bytes": 849830,
+      "oid": "d62df3b6b1b896924c4ddc768c0ad2aee6cd8aad",
+      "mode": "100644"
+    },
+    {
+      "path": "screenshots/06-street.png",
+      "bytes": 840753,
+      "oid": "9f694e751651983b47054d163453a3081ea5331b",
+      "mode": "100644"
+    },
+    {
+      "path": "screenshots/05-shop.png",
+      "bytes": 838794,
+      "oid": "04df3756338159ec7ebabf4a37bba8c57293496c",
+      "mode": "100644"
+    },
+    {
+      "path": "screenshots/hud-chips.png",
+      "bytes": 836585,
+      "oid": "ef7747a8ae9baed081cd6ec16dec55f03ff481da",
+      "mode": "100644"
+    },
+    {
+      "path": "public/vendor/pixi/pixi-8.21.0.min.mjs",
+      "bytes": 828971,
+      "oid": "c417aec4e8d15af5c67ae56c33a5c083f807ea5c",
+      "mode": "100644"
+    },
+    {
+      "path": "screenshots/08-clinic.png",
+      "bytes": 817925,
+      "oid": "4d846118abf5462aa1c3a54aab8d6016e31fcee7",
+      "mode": "100644"
+    },
+    {
+      "path": "screenshots/create-eyup.png",
+      "bytes": 804051,
+      "oid": "a856b4bdf3ec592587fe368d76cc1a85d8859257",
+      "mode": "100644"
+    }
+  ],
+  "duplicates": [
+    {
+      "oid": "79b99fbfa690b0bc2446e29a81be8e81d1e75530",
+      "bytesEach": 753569,
+      "copies": 2,
+      "pathBytes": 1507138,
+      "duplicatePathBytes": 753569,
+      "paths": [
+        "screenshots/app-builder-built.png",
+        "screenshots/app-builder-preview.png"
+      ]
+    },
+    {
+      "oid": "cce0a403d946bb4943779b836479be37eabba17a",
+      "bytesEach": 345886,
+      "copies": 2,
+      "pathBytes": 691772,
+      "duplicatePathBytes": 345886,
+      "paths": [
+        "screenshots/hayat-mobile.png",
+        "screenshots/systems-mobile.png"
+      ]
+    },
+    {
+      "oid": "e11bf474914104fa217e261b99a50e146490ef47",
+      "bytesEach": 336798,
+      "copies": 2,
+      "pathBytes": 673596,
+      "duplicatePathBytes": 336798,
+      "paths": [
+        "screenshots/app-builder-built-mobile.png",
+        "screenshots/app-builder-preview-mobile.png"
+      ]
+    },
+    {
+      "oid": "f6caf25eaeaa521e7546b854d65ea1f03527958b",
+      "bytesEach": 57210,
+      "copies": 2,
+      "pathBytes": 114420,
+      "duplicatePathBytes": 57210,
+      "paths": [
+        "docs/archive/pr57/portal-identity/portal-desktop.webp",
+        "docs/portal-identity/portal-desktop.webp"
+      ]
+    },
+    {
+      "oid": "e3fff55dc63fdd56aefcc04fa09f22812141d0c6",
+      "bytesEach": 25184,
+      "copies": 2,
+      "pathBytes": 50368,
+      "duplicatePathBytes": 25184,
+      "paths": [
+        "docs/archive/pr57/portal-identity/portal-mobile.webp",
+        "docs/portal-identity/portal-mobile.webp"
+      ]
+    },
+    {
+      "oid": "5c7720b24e8d24177847e32f8fa498328167f6ba",
+      "bytesEach": 1065,
+      "copies": 3,
+      "pathBytes": 3195,
+      "duplicatePathBytes": 2130,
+      "paths": [
+        ".grok/skills/generate2dmap/LICENSE",
+        ".grok/skills/generate2dsprite/LICENSE",
+        ".grok/skills/video2dsprite/LICENSE"
+      ]
+    },
+    {
+      "oid": "c79a3ea597b2112420832827f370a6fbfc2feabb",
+      "bytesEach": 1402,
+      "copies": 2,
+      "pathBytes": 2804,
+      "duplicatePathBytes": 1402,
+      "paths": [
+        "docs/archive/pr57/portal-identity/pwa-icon-browser.webp",
+        "docs/portal-identity/pwa-icon-browser.webp"
+      ]
+    },
+    {
+      "oid": "46438921d9b965f7a9ea267f7ddd2efc73b2f977",
+      "bytesEach": 863,
+      "copies": 2,
+      "pathBytes": 1726,
+      "duplicatePathBytes": 863,
+      "paths": [
+        "public/brand/app-mark.svg",
+        "public/favicon.svg"
+      ]
+    },
+    {
+      "oid": "71b68ff6752d68b4b71f97aa025b57f768429ef3",
+      "bytesEach": 303,
+      "copies": 3,
+      "pathBytes": 909,
+      "duplicatePathBytes": 606,
+      "paths": [
+        ".grok/skills/generate2dmap/SOURCE.md",
+        ".grok/skills/generate2dsprite/SOURCE.md",
+        ".grok/skills/video2dsprite/SOURCE.md"
+      ]
+    },
+    {
+      "oid": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytesEach": 0,
+      "copies": 2,
+      "pathBytes": 0,
+      "duplicatePathBytes": 0,
+      "paths": [
+        ".node_modules.lock",
+        "screenshots/.gitkeep"
+      ]
+    }
+  ],
+  "localPackFiles": [
+    {
+      "path": "pack-8c28c7f281e6686dde74b7168debc1bb2464de76.idx",
+      "bytes": 5748
+    },
+    {
+      "path": "pack-8c28c7f281e6686dde74b7168debc1bb2464de76.pack",
+      "bytes": 376079
+    },
+    {
+      "path": "pack-8c28c7f281e6686dde74b7168debc1bb2464de76.rev",
+      "bytes": 720
+    },
+    {
+      "path": "pack-abf2ecffda3170105b6692f9abdd1de7cca508c1.idx",
+      "bytes": 53824
+    },
+    {
+      "path": "pack-abf2ecffda3170105b6692f9abdd1de7cca508c1.pack",
+      "bytes": 41572277
+    },
+    {
+      "path": "pack-abf2ecffda3170105b6692f9abdd1de7cca508c1.rev",
+      "bytes": 7588
+    }
+  ],
+  "localPackFileBytes": 42016236,
+  "availableReachableObjectPayloads": {
+    "scope": "only locally available ancestry reachable from fixed main; shallow boundary, not full remote history",
+    "byType": {
+      "commit": {
+        "objects": 53,
+        "logicalBytes": 24822
+      },
+      "tree": {
+        "objects": 342,
+        "logicalBytes": 588036
+      },
+      "blob": {
+        "objects": 1934,
+        "logicalBytes": 67773522
+      }
+    },
+    "totalObjects": 2329,
+    "logicalBytes": 68386380
+  },
+  "trackedCategoryBytes": {
+    "screenshots/": {
+      "paths": 52,
+      "bytes": 26514223
+    },
+    "scripts/duel-art-packs/": {
+      "paths": 52,
+      "bytes": 9984293
+    },
+    "scripts/pl/": {
+      "paths": 62,
+      "bytes": 2500816
+    },
+    "public/": {
+      "paths": 954,
+      "bytes": 16145537
+    },
+    "public/games/jitem-derin-ag/": {
+      "paths": 31,
+      "bytes": 1572115
+    },
+    "public/games/jitem-derin-ag/__grok/": {
+      "paths": 8,
+      "bytes": 221931
+    },
+    "docs/": {
+      "paths": 193,
+      "bytes": 3065569
+    },
+    "artifacts/": {
+      "paths": 3,
+      "bytes": 1410687
+    },
+    "attachments/": {
+      "paths": 2,
+      "bytes": 541469
+    }
+  },
+  "measuredAtUTC": "2026-10-05T07:09:17.518380+00:00",
+  "owner": "Astra",
+  "status": "LATER — source-only discovery; review/release gate not completed",
+  "branch": "astra/repo-weight-discovery",
+  "pr": null,
+  "method": {
+    "tree": "git ls-tree -r -l -z <fixed SHA>; only blob entries; grouped by exact Git blob OID",
+    "references": "Current fixed main tracked source/config/docs text, literal paths and explicit import/build chains; no old branch scan",
+    "excluded": "Working-tree untracked/ignored generated files, node_modules and outputs created by this discovery",
+    "notRun": [
+      "build",
+      "tests",
+      "browser",
+      "network performance",
+      "production probe",
+      "full remote history fetch"
+    ],
+    "duplicateCaveat": "Duplicate path bytes are logical checkout bytes, not promised Git-pack savings: identical blobs are already content-deduplicated."
+  },
+  "localObjectStore": {
+    "scope": "Shared local common Git object store, includes available other refs/worktrees; not main-only or complete remote history",
+    "countObjectsV": {
+      "count": 1232,
+      "sizeKiB": 9164,
+      "inPack": 2051,
+      "packs": 2,
+      "sizePackKiB": 41023,
+      "prunePackable": 136,
+      "garbage": 1,
+      "sizeGarbageKiB": 4
+    },
+    "warning": "count-objects reported a refs directory as garbage in the worktree Git metadata; recorded only, no prune/cleanup",
+    "packBytesOnly": 41948356
+  },
+  "referenceInventory": [
+    {
+      "candidate": "screenshots/ (52 paths)",
+      "classification": "historical evidence; not proven unused",
+      "refs": [
+        "scripts/qa-play.mjs:125",
+        "scripts/browser-smoke-verdict.mjs:38",
+        "docs/ASTRA_GLOBAL_FINAL_CLOSURE.md:173-174"
+      ],
+      "uncertainty": "No runtime import found in inspected source/build chains; documentation retention is explicit. No deployment/browser byte claim."
+    },
+    {
+      "candidate": "scripts/pl/source/en-strings.json",
+      "classification": "active localization build source",
+      "refs": [
+        "scripts/pl/build.mjs:12",
+        "scripts/pl/extract-en.mjs:156"
+      ],
+      "uncertainty": "Manual localization generator input; not evidence every row is reachable at runtime."
+    },
+    {
+      "candidate": "scripts/duel-art-packs/ (52 paths)",
+      "classification": "active encoded source transport, 9984293 bytes",
+      "refs": [
+        "package.json:20-22",
+        "scripts/duel-art-unpack.mjs:6-29",
+        ".gitignore:14-18"
+      ],
+      "uncertainty": "Generated WebP outputs are intentionally ignored and excluded from tracked totals; runtime/build footprint needs independent measurement."
+    },
+    {
+      "candidate": "public/games/jitem-derin-ag/assets/",
+      "classification": "intentional embedded build output, active route",
+      "refs": [
+        "public/games/jitem-derin-ag/SOURCE.json:3-8",
+        "public/games/jitem-derin-ag/index.html:1-2",
+        "src/routes/oyna.$slug.tsx:47-49",
+        "scripts/build-jitem-embed.mjs:29-39",
+        "public/games/jitem-derin-ag/assets/runtime.js:9"
+      ],
+      "uncertainty": "Dynamic renderer chunks exist; no dead-code judgement from file names or size."
+    },
+    {
+      "candidate": "public/vendor/pixi/pixi-8.21.0.min.mjs",
+      "classification": "active same-origin lazy vendor dependency",
+      "refs": [
+        "public/games/shared/pixi-adapter.js:10-16"
+      ],
+      "uncertainty": "Package pixi.js also declared; source distribution overlap is not same-OID duplication or proof of duplicate network load."
+    },
+    {
+      "candidate": "src/routeTree.gen.ts",
+      "classification": "active generated source",
+      "refs": [
+        "src/routeTree.gen.ts:7-9",
+        "src/router.tsx:3-7"
+      ],
+      "uncertainty": "Generated name is not unused evidence."
+    },
+    {
+      "candidate": "public/games/{apartman,racon}/layout-check.html",
+      "classification": "directly addressable QA documents; retention decision open",
+      "refs": [
+        "public/games/apartman/layout-check.html:5-11",
+        "public/games/racon/layout-check.html:5-16",
+        "docs/MAP_PERFORMANCE_ASSET_AUDIT.md:52",
+        "docs/evidence/2026-10-04-release.json:32-49"
+      ],
+      "uncertainty": "Literal tracked refs found in docs/evidence, no app import found; each embeds its real index.html. Public direct URL/external callers are not disproved."
+    },
+    {
+      "candidate": "artifacts/imagine_images/ and attachments/",
+      "classification": "historical source/evidence candidates, not proven unused",
+      "refs": [
+        "docs/ASTRA_GLOBAL_FINAL_CLOSURE.md:173-174"
+      ],
+      "literalScan": "git grep across fixed tree for imagine_images, artifacts/imagine_images, attachments/ and three exact image UUID basenames returned no direct consumers",
+      "uncertainty": "No deletion authorization inferred; provenance/source purpose, dynamic paths and external consumers remain unresolved."
+    },
+    {
+      "candidate": "public/games/jitem-derin-ag/__grok/ (8 paths, 221931 bytes)",
+      "classification": "copied upstream residue candidate, not proven unused",
+      "refs": [
+        "scripts/build-jitem-embed.mjs:29-30",
+        "AGENTS.md:153",
+        "AGENTS.md:193-203"
+      ],
+      "literalScan": "No direct reference to this subtree found in inspected current JITEM runtime/CSS/HTML",
+      "uncertainty": "Upstream publicDir copy can recreate it; AGENTS branding contract conflict must be resolved before any removal."
+    },
+    {
+      "candidate": "extensions.js / root __grok / branding injector",
+      "classification": "contradictory instructions and current implementation; no removal",
+      "refs": [
+        "AGENTS.md:153",
+        "AGENTS.md:193-203",
+        "scripts/grok-pwa-shared.mjs:387-391",
+        "scripts/grok-pwa-plugin.test.mjs:37-48",
+        "scripts/grok-pwa-plugin.test.mjs:455-461",
+        "vite.config.ts:260",
+        "server/middleware/grok-pwa.ts:59-68",
+        "src/routes/__root.tsx:3-41"
+      ],
+      "uncertainty": "No tracked extensions.js or root public/__grok; tests contain old external extensions URL and removal assertions, not runtime browser evidence. PWA/OG transform and separate preview bridge remain active."
+    }
+  ],
+  "trackedBuildDirectoryScan": {
+    "paths": [
+      ".output/",
+      "dist/",
+      "build/",
+      ".vercel/",
+      "node_modules/"
+    ],
+    "matchedPaths": [],
+    "scope": "Fixed tree only; intentional JITEM embedded build and generated route tree classified separately"
+  }
+}
