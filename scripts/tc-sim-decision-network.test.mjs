@@ -190,7 +190,7 @@ test("the week close is idempotent per call and never throws on an empty week", 
 test("UI contract: pressure and goal before the decisions, opportunity and chain after on phones", () => {
   const app = readFileSync(new URL("../public/games/tc-sim/js/app.js", import.meta.url), "utf8");
   const top = app.indexOf('${weekPlanHtml.top}<div class="decisions">');
-  const more = app.indexOf('</div>${weekPlanHtml.more}<p class="result"');
+  const more = app.indexOf('</div>${weekPlanHtml.more}${renderResult(');
   assert.ok(top > 0 && more > top);
   assert.match(app, /renderDecisionTags\(decision\.id\)/);
   const css = readFileSync(new URL("../public/games/tc-sim/styles.css", import.meta.url), "utf8");

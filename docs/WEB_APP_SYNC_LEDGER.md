@@ -517,3 +517,9 @@ Chromium must pass before integration.
 - Test/evidence scripts require fixture UID + per-card manifest source/dimensions and bounded visible-image decode before each VETO/GETT legacy screenshot. No game/data/art/save/native changes; native remains paused.
 - Visible placeholder/broken/absent images fail; clipped/offscreen lazy art is not forced. Existing duel browser gate now exercises deterministic readiness fixtures without changing workflow budgets.
 - Local helper/CI guard tests 28/28, changed-script ESLint, typecheck, build:dev and production build PASS (migration step skipped under its existing no-DATABASE_URL contract). Local Chromium crashed at launch (SIGSEGV); browser CI and production proof remain pending. The identical legacy capture flow is shared by local CI and production callers. Owner Astra, PR none. Scope/evidence: `docs/DUEL_VISIBLE_ART_READINESS.md`.
+
+### 2026-10-05 — TC SIM job-start outcome (unreleased branch checkpoint)
+- Web change: actual next-week job completion separates immediate cash/focus deltas from prospective salary/workload in one visible result panel outside collapsed inspectors/ledgers; silent 2 s CSS emphasis, static reduced motion and focus-preserving close.
+- Content: presentation copy only (TR/EN/PL draft); Artwork: original CSS only; Gameplay/rules/save: no; UI/presentation: yes; Shared-content source: no new external asset.
+- Native follow-up: yes, only after web release; native remains paused. Browser/offline/build transfer gates and PL native review remain open; no release claim.
+- Commits: branch `astra/tc-sim-job-start-outcome`, based on `9e50404`; see `outputs/tc-sim-job-start-outcome/CHECKPOINT.md` in this checkpoint.

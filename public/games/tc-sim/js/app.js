@@ -1,3 +1,5 @@
+import { snapshotJobStart, buildJobStartOutcome } from "./job-start-outcome.js?v=10";
+import { renderJobStartOutcome, bindJobStartOutcome, jobOutcomeText } from "./job-start-outcome-ui.js?v=10";
 import { compactNavigation } from "../../shared/compact-navigation.js";
 import { arrangeLifeDesk } from "./desk.js?v=10";
 import { adultChildSummary, adultEventContext, continueGeneration } from "./lifetime.js?v=10";
@@ -108,6 +110,12 @@ function confirmText(tr, en) {
 
 let state = null;
 let notice = "";
+// Ephemeral presentation only: no replay or marker is written to a save.
+let jobStartOutcome = null;
+let jobOutcomeNotice = "";
+let jobOutcomeFresh = false;
+let jobOutcomeEmphasis = false;
+let jobOutcomeSettled = false;
 let saveStatus = "";
 let activeView = "dashboard";
 let selectedPersonId = "mehmet";
@@ -139,6 +147,19 @@ const escapeText = (value) =>
     /[&<>'"]/g,
     (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[char],
   );
+
+const outcomeText = (tr, en) => jobOutcomeText(window.tlabI18n?.getLang?.() || "tr", tr, en);
+
+function renderResult(fallback = "") {
+  return jobStartOutcome ? "" : `<p class="result" role="status">${escapeText(notice || fallback)}</p>`;
+}
+
+function renderJobResult() {
+  return renderJobStartOutcome({ ...jobStartOutcome, jobTitle: phraseText(jobStartOutcome.jobTitle) }, {
+    t: outcomeText, money, announce: jobOutcomeFresh, settled: jobOutcomeSettled,
+    emphasize: jobOutcomeEmphasis && !window.matchMedia?.("(prefers-reduced-motion: reduce)").matches,
+  });
+}
 
 function openCaseLabel(item) {
   if (item.type === "adult-child")
@@ -446,7 +467,7 @@ function renderPeopleScreen() {
       .map((note) => `<p class="context-note">${escapeText(note)}</p>`)
       .join(
         "",
-      )}${renderRelationshipMetrics(selected)}<div class="social-actions">${actions.map((action) => `<button class="button decision" data-social-action="${action.id}" data-person-id="${selected.id}" ${action.availability.ok ? "" : "disabled"} title="${escapeText(action.availability.reason || "")}"><strong>${escapeText(action.title)}</strong><small>${escapeText(action.detail)}</small></button>`).join("")}</div><div class="person-memories"><p class="panel-kicker">SON ÖNEMLİ ANILAR</p>${memories.length ? memories.map((memory) => `<p><span>${memory.year}</span>${escapeText(memory.text)}</p>`).join("") : `<p class="empty">Henüz ortak bir anı yok.</p>`}</div><p class="result" role="status">${escapeText(notice || "Bir sosyal etkileşim haftalık zaman ve odak kullanır.")}</p></section></div>`;
+      )}${renderRelationshipMetrics(selected)}<div class="social-actions">${actions.map((action) => `<button class="button decision" data-social-action="${action.id}" data-person-id="${selected.id}" ${action.availability.ok ? "" : "disabled"} title="${escapeText(action.availability.reason || "")}"><strong>${escapeText(action.title)}</strong><small>${escapeText(action.detail)}</small></button>`).join("")}</div><div class="person-memories"><p class="panel-kicker">SON ÖNEMLİ ANILAR</p>${memories.length ? memories.map((memory) => `<p><span>${memory.year}</span>${escapeText(memory.text)}</p>`).join("") : `<p class="empty">Henüz ortak bir anı yok.</p>`}</div>${renderResult("Bir sosyal etkileşim haftalık zaman ve odak kullanır.")} </section></div>`;
 }
 
 function renderParenthoodContext() {
@@ -683,7 +704,7 @@ function renderDashboard() {
         })
         .join(
           "",
-        )}</div>${weekPlanHtml.more}<p class="result" role="status">${escapeText(notice || "Bu haftanın kararlarını ver veya zamanı ilerlet.")}</p></section>
+        )}</div>${weekPlanHtml.more}${renderResult("Bu haftanın kararlarını ver veya zamanı ilerlet.")} </section>
       <aside class="right-column"><section class="panel agenda-panel"><div class="panel-head"><div><p class="eyebrow">GÜNDEM</p><h2>Gelen kutusu</h2></div></div>${renderAgenda()}</section><section class="panel people-panel"><div class="panel-head"><div><p class="eyebrow">İLİŞKİLER</p><h2>Önemli kişiler</h2></div><span>/ 100</span></div><div class="people">${renderPeople()}</div></section></aside>
       <section class="panel history-panel"><div class="panel-head"><div><p class="eyebrow">GEÇMİŞ</p><h2>Son hayat kayıtları</h2></div><span>${state.memories.length}</span></div><div class="history">${renderMemories()}</div></section>
       <section class="panel cases-panel"><div class="panel-head"><div><p class="eyebrow">AÇIK MESELELER</p><h2>Bekleyen sonuçlar</h2></div><span>${activeCases.length}</span></div>${activeCases.length ? activeCases.map((item) => `<p class="open-case"><b>${escapeText(openCaseLabel(item))}</b><span>${Math.max(0, item.dueWeek - state.time.absoluteWeek)} hafta kaldı</span></p>`).join("") : `<p class="empty">Şu anda açık dosya yok.</p>`}<div class="year-file"><span>Yıl dosyası</span>${renderYearHistory()}</div></section>
@@ -746,7 +767,7 @@ function renderCareer() {
             )
             .join("")
         : `<p class="empty">Henüz bir kariyer dönüm noktası yok.</p>`
-    }</div><p class="result" role="status">${escapeText(notice || "Teklif kabulü bir karar hakkı kullanır ve iş gelecek hafta başlar.")}</p></section>`;
+    }</div>${renderResult("Teklif kabulü bir karar hakkı kullanır ve iş gelecek hafta başlar.")} </section>`;
 }
 
 function experienceSummary() {
@@ -801,7 +822,7 @@ function renderEducation() {
       },
     ).join(
       "",
-    )}</div><p class="result" role="status">${escapeText(notice || "Eğitime kaydolmak haftalık karar hakkı kullanmaz; haftalık enerji ve stres yükü getirir.")}</p></section>`;
+    )}</div>${renderResult("Eğitime kaydolmak haftalık karar hakkı kullanmaz; haftalık enerji ve stres yükü getirir.")} </section>`;
 }
 
 function renderHomes() {
@@ -830,7 +851,7 @@ function renderHomes() {
       },
     ).join(
       "",
-    )}</div><p class="result" role="status">${escapeText(notice || "Taşınma bir karar hakkı ve tek seferlik taşınma maliyeti kullanır.")}</p></section>`;
+    )}</div>${renderResult("Taşınma bir karar hakkı ve tek seferlik taşınma maliyeti kullanır.")} </section>`;
 }
 
 function getFriendLoanAmount() {
@@ -926,7 +947,7 @@ function renderFinance() {
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">GAYRİMENKUL</p><h2>Ev ve kiralık mülk</h2></div><span>${state.wealth.properties.length}/3</span></div><p class="context-note">Oturulan evde kira durur; bakım ve varsa konut borcu işler. Kiralık mülk düzenli gelir ve gider yaratır.</p><div class="wealth-grid">${[...state.wealth.properties.flatMap((p) => [wealthButton("property-sell", p.id, p.occupancy === "owner" ? "Oturulan evi sat" : "Yatırım mülkünü sat", `Değer ${money(p.currentValue)}`), ...(p.occupancy === "owner" ? [] : [wealthButton(p.occupancy === "rental" ? "property-vacant" : "property-rent", p.id, p.occupancy === "rental" ? "Boş bırak" : "Kiraya ver", p.occupancy === "rental" ? "Kira geliri durur" : "Aylık kira geliri başlar")])]), wealthButton("property-owner", "cash", "Oturulan ev al", money(480000), state.finances.balance < 480000 || state.wealth.properties.some((p) => p.occupancy === "owner")), wealthButton("property-owner", "mortgage", "Oturulan ev · konut borcu", "%30 peşinat", state.finances.balance < 144000 || state.wealth.properties.some((p) => p.occupancy === "owner")), wealthButton("property-rental", "cash", "Kiralık mülk al", money(420000), state.finances.balance < 420000 || state.wealth.properties.some((p) => p.occupancy === "rental")), wealthButton("property-rental", "mortgage", "Kiralık mülk · konut borcu", "%30 peşinat", state.finances.balance < 126000 || state.wealth.properties.some((p) => p.occupancy === "rental"))].join("")}</div></section>
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">BORÇLAR</p><h2>Varlığa bağlı yükümlülükler</h2></div><span>${money(worth.debt)}</span></div>${state.wealth.debts.length ? state.wealth.debts.map((d) => `<p class="open-case"><b>${d.type === "mortgage" ? "Konut borcu" : d.type === "vehicle" ? "Araç borcu" : "Kişisel borç"}</b><span>${money(d.principal)} · aylık ${money(Math.min(d.principal, d.monthlyPayment))}</span></p>`).join("") : `<p class="empty">Varlığa bağlı borç yok.</p>`}</section>
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">ALACAKLAR</p><h2>Sana borçlu olanlar</h2></div><span>${owedToPlayer.length}</span></div>${owedToPlayer.length ? owedToPlayer.map((item) => `<p class="open-case"><b>${escapeText(item.name)}</b><span>${money(item.amount)}</span></p>`).join("") : `<p class="empty">Şu anda kimsenin sana borcu yok.</p>`}</section>
-    <section class="panel"><div class="panel-head"><div><p class="eyebrow">İŞLEMLER</p><h2>Son işlemler</h2></div><span>${state.finances.ledger.length}</span></div><div class="history">${ledger.length ? ledger.map((entry) => `<div class="memory"><strong>${entry.amount >= 0 ? "+" : ""}${money(entry.amount)}</strong> · ${escapeText(entry.reason)} · <span>${escapeText(weeksAgoLabel(entry.week))}</span></div>`).join("") : `<p class="empty">Henüz bir işlem kaydı yok.</p>`}</div><p class="result" role="status">${escapeText(notice || "Varlıklar piyasa değeriyle, borçlar kalan anaparayla gösterilir.")}</p></section>`;
+    <section class="panel"><div class="panel-head"><div><p class="eyebrow">İŞLEMLER</p><h2>Son işlemler</h2></div><span>${state.finances.ledger.length}</span></div><div class="history">${ledger.length ? ledger.map((entry) => `<div class="memory"><strong>${entry.amount >= 0 ? "+" : ""}${money(entry.amount)}</strong> · ${escapeText(entry.reason)} · <span>${escapeText(weeksAgoLabel(entry.week))}</span></div>`).join("") : `<p class="empty">Henüz bir işlem kaydı yok.</p>`}</div>${renderResult("Varlıklar piyasa değeriyle, borçlar kalan anaparayla gösterilir.")} </section>`;
 }
 
 function renderMarket() {
@@ -1255,13 +1276,16 @@ const VIEW_RENDERERS = {
 };
 
 function render() {
-  if (!state) return startScreen(loadGame(localStorage));
+  if (!state) { jobStartOutcome = null; return startScreen(loadGame(localStorage)); }
+  if (jobStartOutcome && notice !== jobOutcomeNotice) jobStartOutcome = null;
   if (!weekStartSnapshot) weekStartSnapshot = snapshotWeekState(state);
   const terminal = Boolean(state.lifetime?.death);
-  const workspace = terminal
+  let workspace = terminal
     ? renderLifetimeTerminal(state)
     : renderScenarioPanel() + (VIEW_RENDERERS[activeView] || renderDashboard)() +
       (["character", "history", "yearbook"].includes(activeView) ? renderLineage(state) : "");
+  // Keep this one result outside person inspectors and collapsed finance ledgers.
+  if (jobStartOutcome) workspace = renderJobResult() + workspace;
   app.innerHTML = `
     <main class="game-frame">
       <header class="game-topbar">
@@ -1278,6 +1302,9 @@ function render() {
       ${helpOpen ? renderHelpModal() : ""}
       <footer class="game-footer">© 2026 TarikLab. Tüm hakları saklıdır.<br>Oyun tasarımı ve özgün içerik: Tarık Halil Ayaz.</footer>
     </main>`;
+  jobOutcomeFresh = false;
+  jobOutcomeEmphasis = false;
+  bindJobStartOutcome(app, () => { jobOutcomeEmphasis = false; jobOutcomeSettled = true; }, outcomeText);
   applyLangPhrases();
   if (!terminal) {
     arrangeLifeDesk(activeView, confirmText);
@@ -1398,8 +1425,14 @@ function render() {
   );
   document.querySelectorAll("[data-event-choice]").forEach((button) =>
     button.addEventListener("click", () => {
+      const before = snapshotJobStart(state);
       const result = resolveEvent(state, button.dataset.eventChoice);
       notice = result.message;
+      jobStartOutcome = buildJobStartOutcome(before, state, result, button.dataset.eventChoice);
+      jobOutcomeNotice = notice;
+      jobOutcomeFresh = Boolean(jobStartOutcome);
+      jobOutcomeEmphasis = jobOutcomeFresh;
+      jobOutcomeSettled = false;
       persist();
       render();
     }),
