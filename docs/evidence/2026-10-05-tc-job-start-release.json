@@ -1,0 +1,2071 @@
+{
+  "contract": [
+    "C1",
+    "D2",
+    "D3",
+    "D4",
+    "F"
+  ],
+  "owner": "Astra",
+  "pr": 117,
+  "head": "c6f2e18334cd0103851a8d15482c7514587dd4dc",
+  "tree": "9aafc1b1876884f1e24762ab67c5e9a1a1e00103",
+  "base": "9e50404c0573e1cf9e2dd7e623c9c8bd98b95e56",
+  "status": "MERGED_SCOPED_TWO_HOST_PRODUCTION_PASS",
+  "merge": "539df6ee8cd3fe1e56b4a7833bffcc8953765488",
+  "production": {
+    "run": 37276537798,
+    "sha": "539df6ee8cd3fe1e56b4a7833bffcc8953765488",
+    "attempt1": {
+      "status": "FAILED_BEFORE_BROWSER",
+      "jobs": [
+        111654686439,
+        111654686728
+      ],
+      "reason": "Exact asset guard observed previous-main app.js before deployment completed; no fixture/localStorage mutation occurred.",
+      "actualAppSHA256": "0c2ab62023469c093c3395bef8128276e9590aba4e5e8d76083bc041d6e2367f",
+      "expectedAppSHA256": "282669c4da5c3cda1d0df04eae4cea03bf523f8052473116dafda9295134e958",
+      "oldAssetConfirmedAtCommit": "9e50404c0573e1cf9e2dd7e623c9c8bd98b95e56"
+    },
+    "deployReady": {
+      "Vercel": "2026-10-05T07:13:55Z",
+      "Workers": "2026-10-05T07:14:27Z",
+      "status": "SUCCESS"
+    },
+    "attempt2": {
+      "status": "PASS",
+      "jobs": [
+        111656267985,
+        111656267587
+      ],
+      "change": "None. Reran only failed jobs after exact commit deployment checks succeeded; hash/origin assertions retained.",
+      "hosts": [
+        {
+          "host": "www",
+          "origin": "https://www.tariklab.com",
+          "status": "PASS",
+          "cases": 22,
+          "artifact": 11330488504,
+          "zipSHA256": "295c6b77fc9bec4f6a6b9a822683e0bf109bd4e29496e04e3debf5753a4c825e",
+          "fingerprints": [
+            {
+              "path": "/games/tc-sim/js/app.js?v=10",
+              "sha256": "282669c4da5c3cda1d0df04eae4cea03bf523f8052473116dafda9295134e958"
+            },
+            {
+              "path": "/games/tc-sim/styles.css?v=10",
+              "sha256": "134497f6c9dde56e192bfdd5fcb7a41f4b34a0c8d6760bce5324ca8f8fe90b39"
+            },
+            {
+              "path": "/games/tc-sim/js/job-start-outcome.js?v=10",
+              "sha256": "47fe74924c558f227bb569886fc41e20af78fa69ce062280972173f6a47fab14"
+            },
+            {
+              "path": "/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+              "sha256": "86d50e27fe842bd6163f97275cfa6b2dfde28346fc8489c11513784a7f8adf39"
+            }
+          ],
+          "rows": [
+            {
+              "language": "tr",
+              "width": 1440,
+              "reduced": false,
+              "view": "dashboard",
+              "status": "PASS",
+              "cached": [
+                {
+                  "url": "https://www.tariklab.com/games/tc-sim/js/job-start-outcome.js?v=10",
+                  "cached": true
+                },
+                {
+                  "url": "https://www.tariklab.com/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+                  "cached": true
+                }
+              ],
+              "offlineSaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              },
+              "syntheticV1SaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              }
+            },
+            {
+              "language": "tr",
+              "width": 1440,
+              "reduced": true,
+              "view": "dashboard",
+              "status": "PASS",
+              "cached": [
+                {
+                  "url": "https://www.tariklab.com/games/tc-sim/js/job-start-outcome.js?v=10",
+                  "cached": true
+                },
+                {
+                  "url": "https://www.tariklab.com/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+                  "cached": true
+                }
+              ],
+              "offlineSaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              },
+              "syntheticV1SaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              }
+            },
+            {
+              "language": "tr",
+              "width": 390,
+              "reduced": false,
+              "view": "dashboard",
+              "status": "PASS",
+              "cached": [
+                {
+                  "url": "https://www.tariklab.com/games/tc-sim/js/job-start-outcome.js?v=10",
+                  "cached": true
+                },
+                {
+                  "url": "https://www.tariklab.com/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+                  "cached": true
+                }
+              ],
+              "offlineSaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              },
+              "syntheticV1SaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              }
+            },
+            {
+              "language": "tr",
+              "width": 390,
+              "reduced": true,
+              "view": "dashboard",
+              "status": "PASS",
+              "cached": [
+                {
+                  "url": "https://www.tariklab.com/games/tc-sim/js/job-start-outcome.js?v=10",
+                  "cached": true
+                },
+                {
+                  "url": "https://www.tariklab.com/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+                  "cached": true
+                }
+              ],
+              "offlineSaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              },
+              "syntheticV1SaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              }
+            },
+            {
+              "language": "tr",
+              "width": 320,
+              "reduced": false,
+              "view": "dashboard",
+              "status": "PASS",
+              "cached": [
+                {
+                  "url": "https://www.tariklab.com/games/tc-sim/js/job-start-outcome.js?v=10",
+                  "cached": true
+                },
+                {
+                  "url": "https://www.tariklab.com/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+                  "cached": true
+                }
+              ],
+              "offlineSaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              },
+              "syntheticV1SaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              }
+            },
+            {
+              "language": "tr",
+              "width": 320,
+              "reduced": true,
+              "view": "dashboard",
+              "status": "PASS",
+              "cached": [
+                {
+                  "url": "https://www.tariklab.com/games/tc-sim/js/job-start-outcome.js?v=10",
+                  "cached": true
+                },
+                {
+                  "url": "https://www.tariklab.com/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+                  "cached": true
+                }
+              ],
+              "offlineSaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              },
+              "syntheticV1SaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              }
+            },
+            {
+              "language": "en",
+              "width": 1440,
+              "reduced": false,
+              "view": "dashboard",
+              "status": "PASS",
+              "cached": [
+                {
+                  "url": "https://www.tariklab.com/games/tc-sim/js/job-start-outcome.js?v=10",
+                  "cached": true
+                },
+                {
+                  "url": "https://www.tariklab.com/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+                  "cached": true
+                }
+              ],
+              "offlineSaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              },
+              "syntheticV1SaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              }
+            },
+            {
+              "language": "en",
+              "width": 1440,
+              "reduced": true,
+              "view": "dashboard",
+              "status": "PASS",
+              "cached": [
+                {
+                  "url": "https://www.tariklab.com/games/tc-sim/js/job-start-outcome.js?v=10",
+                  "cached": true
+                },
+                {
+                  "url": "https://www.tariklab.com/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+                  "cached": true
+                }
+              ],
+              "offlineSaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              },
+              "syntheticV1SaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              }
+            },
+            {
+              "language": "en",
+              "width": 390,
+              "reduced": false,
+              "view": "dashboard",
+              "status": "PASS",
+              "cached": [
+                {
+                  "url": "https://www.tariklab.com/games/tc-sim/js/job-start-outcome.js?v=10",
+                  "cached": true
+                },
+                {
+                  "url": "https://www.tariklab.com/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+                  "cached": true
+                }
+              ],
+              "offlineSaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              },
+              "syntheticV1SaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              }
+            },
+            {
+              "language": "en",
+              "width": 390,
+              "reduced": true,
+              "view": "dashboard",
+              "status": "PASS",
+              "cached": [
+                {
+                  "url": "https://www.tariklab.com/games/tc-sim/js/job-start-outcome.js?v=10",
+                  "cached": true
+                },
+                {
+                  "url": "https://www.tariklab.com/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+                  "cached": true
+                }
+              ],
+              "offlineSaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              },
+              "syntheticV1SaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              }
+            },
+            {
+              "language": "en",
+              "width": 320,
+              "reduced": false,
+              "view": "dashboard",
+              "status": "PASS",
+              "cached": [
+                {
+                  "url": "https://www.tariklab.com/games/tc-sim/js/job-start-outcome.js?v=10",
+                  "cached": true
+                },
+                {
+                  "url": "https://www.tariklab.com/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+                  "cached": true
+                }
+              ],
+              "offlineSaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              },
+              "syntheticV1SaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              }
+            },
+            {
+              "language": "en",
+              "width": 320,
+              "reduced": true,
+              "view": "dashboard",
+              "status": "PASS",
+              "cached": [
+                {
+                  "url": "https://www.tariklab.com/games/tc-sim/js/job-start-outcome.js?v=10",
+                  "cached": true
+                },
+                {
+                  "url": "https://www.tariklab.com/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+                  "cached": true
+                }
+              ],
+              "offlineSaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              },
+              "syntheticV1SaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              }
+            },
+            {
+              "language": "pl",
+              "width": 1440,
+              "reduced": false,
+              "view": "dashboard",
+              "status": "PASS",
+              "cached": [
+                {
+                  "url": "https://www.tariklab.com/games/tc-sim/js/job-start-outcome.js?v=10",
+                  "cached": true
+                },
+                {
+                  "url": "https://www.tariklab.com/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+                  "cached": true
+                }
+              ],
+              "offlineSaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              },
+              "syntheticV1SaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              }
+            },
+            {
+              "language": "pl",
+              "width": 1440,
+              "reduced": true,
+              "view": "dashboard",
+              "status": "PASS",
+              "cached": [
+                {
+                  "url": "https://www.tariklab.com/games/tc-sim/js/job-start-outcome.js?v=10",
+                  "cached": true
+                },
+                {
+                  "url": "https://www.tariklab.com/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+                  "cached": true
+                }
+              ],
+              "offlineSaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              },
+              "syntheticV1SaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              }
+            },
+            {
+              "language": "pl",
+              "width": 390,
+              "reduced": false,
+              "view": "dashboard",
+              "status": "PASS",
+              "cached": [
+                {
+                  "url": "https://www.tariklab.com/games/tc-sim/js/job-start-outcome.js?v=10",
+                  "cached": true
+                },
+                {
+                  "url": "https://www.tariklab.com/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+                  "cached": true
+                }
+              ],
+              "offlineSaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              },
+              "syntheticV1SaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              }
+            },
+            {
+              "language": "pl",
+              "width": 390,
+              "reduced": true,
+              "view": "dashboard",
+              "status": "PASS",
+              "cached": [
+                {
+                  "url": "https://www.tariklab.com/games/tc-sim/js/job-start-outcome.js?v=10",
+                  "cached": true
+                },
+                {
+                  "url": "https://www.tariklab.com/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+                  "cached": true
+                }
+              ],
+              "offlineSaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              },
+              "syntheticV1SaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              }
+            },
+            {
+              "language": "pl",
+              "width": 320,
+              "reduced": false,
+              "view": "dashboard",
+              "status": "PASS",
+              "cached": [
+                {
+                  "url": "https://www.tariklab.com/games/tc-sim/js/job-start-outcome.js?v=10",
+                  "cached": true
+                },
+                {
+                  "url": "https://www.tariklab.com/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+                  "cached": true
+                }
+              ],
+              "offlineSaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              },
+              "syntheticV1SaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              }
+            },
+            {
+              "language": "pl",
+              "width": 320,
+              "reduced": true,
+              "view": "dashboard",
+              "status": "PASS",
+              "cached": [
+                {
+                  "url": "https://www.tariklab.com/games/tc-sim/js/job-start-outcome.js?v=10",
+                  "cached": true
+                },
+                {
+                  "url": "https://www.tariklab.com/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+                  "cached": true
+                }
+              ],
+              "offlineSaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              },
+              "syntheticV1SaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              }
+            },
+            {
+              "language": "tr",
+              "width": 390,
+              "reduced": false,
+              "view": "people",
+              "status": "PASS",
+              "cached": [
+                {
+                  "url": "https://www.tariklab.com/games/tc-sim/js/job-start-outcome.js?v=10",
+                  "cached": true
+                },
+                {
+                  "url": "https://www.tariklab.com/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+                  "cached": true
+                }
+              ],
+              "offlineSaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              },
+              "syntheticV1SaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              }
+            },
+            {
+              "language": "tr",
+              "width": 320,
+              "reduced": false,
+              "view": "people",
+              "status": "PASS",
+              "cached": [
+                {
+                  "url": "https://www.tariklab.com/games/tc-sim/js/job-start-outcome.js?v=10",
+                  "cached": true
+                },
+                {
+                  "url": "https://www.tariklab.com/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+                  "cached": true
+                }
+              ],
+              "offlineSaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              },
+              "syntheticV1SaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              }
+            },
+            {
+              "language": "tr",
+              "width": 390,
+              "reduced": false,
+              "view": "finance",
+              "status": "PASS",
+              "cached": [
+                {
+                  "url": "https://www.tariklab.com/games/tc-sim/js/job-start-outcome.js?v=10",
+                  "cached": true
+                },
+                {
+                  "url": "https://www.tariklab.com/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+                  "cached": true
+                }
+              ],
+              "offlineSaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              },
+              "syntheticV1SaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              }
+            },
+            {
+              "language": "tr",
+              "width": 320,
+              "reduced": false,
+              "view": "finance",
+              "status": "PASS",
+              "cached": [
+                {
+                  "url": "https://www.tariklab.com/games/tc-sim/js/job-start-outcome.js?v=10",
+                  "cached": true
+                },
+                {
+                  "url": "https://www.tariklab.com/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+                  "cached": true
+                }
+              ],
+              "offlineSaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              },
+              "syntheticV1SaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              }
+            }
+          ]
+        },
+        {
+          "host": "workers",
+          "origin": "https://tariklab.tayaz29.workers.dev",
+          "status": "PASS",
+          "cases": 22,
+          "artifact": 11330821402,
+          "zipSHA256": "9374acb79dbbad263e2ad0554b677ea7286b5457ec36f64c44d07afecf73d4f7",
+          "fingerprints": [
+            {
+              "path": "/games/tc-sim/js/app.js?v=10",
+              "sha256": "282669c4da5c3cda1d0df04eae4cea03bf523f8052473116dafda9295134e958"
+            },
+            {
+              "path": "/games/tc-sim/styles.css?v=10",
+              "sha256": "134497f6c9dde56e192bfdd5fcb7a41f4b34a0c8d6760bce5324ca8f8fe90b39"
+            },
+            {
+              "path": "/games/tc-sim/js/job-start-outcome.js?v=10",
+              "sha256": "47fe74924c558f227bb569886fc41e20af78fa69ce062280972173f6a47fab14"
+            },
+            {
+              "path": "/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+              "sha256": "86d50e27fe842bd6163f97275cfa6b2dfde28346fc8489c11513784a7f8adf39"
+            }
+          ],
+          "rows": [
+            {
+              "language": "tr",
+              "width": 1440,
+              "reduced": false,
+              "view": "dashboard",
+              "status": "PASS",
+              "cached": [
+                {
+                  "url": "https://tariklab.tayaz29.workers.dev/games/tc-sim/js/job-start-outcome.js?v=10",
+                  "cached": true
+                },
+                {
+                  "url": "https://tariklab.tayaz29.workers.dev/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+                  "cached": true
+                }
+              ],
+              "offlineSaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              },
+              "syntheticV1SaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              }
+            },
+            {
+              "language": "tr",
+              "width": 1440,
+              "reduced": true,
+              "view": "dashboard",
+              "status": "PASS",
+              "cached": [
+                {
+                  "url": "https://tariklab.tayaz29.workers.dev/games/tc-sim/js/job-start-outcome.js?v=10",
+                  "cached": true
+                },
+                {
+                  "url": "https://tariklab.tayaz29.workers.dev/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+                  "cached": true
+                }
+              ],
+              "offlineSaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              },
+              "syntheticV1SaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              }
+            },
+            {
+              "language": "tr",
+              "width": 390,
+              "reduced": false,
+              "view": "dashboard",
+              "status": "PASS",
+              "cached": [
+                {
+                  "url": "https://tariklab.tayaz29.workers.dev/games/tc-sim/js/job-start-outcome.js?v=10",
+                  "cached": true
+                },
+                {
+                  "url": "https://tariklab.tayaz29.workers.dev/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+                  "cached": true
+                }
+              ],
+              "offlineSaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              },
+              "syntheticV1SaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              }
+            },
+            {
+              "language": "tr",
+              "width": 390,
+              "reduced": true,
+              "view": "dashboard",
+              "status": "PASS",
+              "cached": [
+                {
+                  "url": "https://tariklab.tayaz29.workers.dev/games/tc-sim/js/job-start-outcome.js?v=10",
+                  "cached": true
+                },
+                {
+                  "url": "https://tariklab.tayaz29.workers.dev/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+                  "cached": true
+                }
+              ],
+              "offlineSaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              },
+              "syntheticV1SaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              }
+            },
+            {
+              "language": "tr",
+              "width": 320,
+              "reduced": false,
+              "view": "dashboard",
+              "status": "PASS",
+              "cached": [
+                {
+                  "url": "https://tariklab.tayaz29.workers.dev/games/tc-sim/js/job-start-outcome.js?v=10",
+                  "cached": true
+                },
+                {
+                  "url": "https://tariklab.tayaz29.workers.dev/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+                  "cached": true
+                }
+              ],
+              "offlineSaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              },
+              "syntheticV1SaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              }
+            },
+            {
+              "language": "tr",
+              "width": 320,
+              "reduced": true,
+              "view": "dashboard",
+              "status": "PASS",
+              "cached": [
+                {
+                  "url": "https://tariklab.tayaz29.workers.dev/games/tc-sim/js/job-start-outcome.js?v=10",
+                  "cached": true
+                },
+                {
+                  "url": "https://tariklab.tayaz29.workers.dev/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+                  "cached": true
+                }
+              ],
+              "offlineSaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              },
+              "syntheticV1SaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              }
+            },
+            {
+              "language": "en",
+              "width": 1440,
+              "reduced": false,
+              "view": "dashboard",
+              "status": "PASS",
+              "cached": [
+                {
+                  "url": "https://tariklab.tayaz29.workers.dev/games/tc-sim/js/job-start-outcome.js?v=10",
+                  "cached": true
+                },
+                {
+                  "url": "https://tariklab.tayaz29.workers.dev/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+                  "cached": true
+                }
+              ],
+              "offlineSaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              },
+              "syntheticV1SaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              }
+            },
+            {
+              "language": "en",
+              "width": 1440,
+              "reduced": true,
+              "view": "dashboard",
+              "status": "PASS",
+              "cached": [
+                {
+                  "url": "https://tariklab.tayaz29.workers.dev/games/tc-sim/js/job-start-outcome.js?v=10",
+                  "cached": true
+                },
+                {
+                  "url": "https://tariklab.tayaz29.workers.dev/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+                  "cached": true
+                }
+              ],
+              "offlineSaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              },
+              "syntheticV1SaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              }
+            },
+            {
+              "language": "en",
+              "width": 390,
+              "reduced": false,
+              "view": "dashboard",
+              "status": "PASS",
+              "cached": [
+                {
+                  "url": "https://tariklab.tayaz29.workers.dev/games/tc-sim/js/job-start-outcome.js?v=10",
+                  "cached": true
+                },
+                {
+                  "url": "https://tariklab.tayaz29.workers.dev/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+                  "cached": true
+                }
+              ],
+              "offlineSaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              },
+              "syntheticV1SaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              }
+            },
+            {
+              "language": "en",
+              "width": 390,
+              "reduced": true,
+              "view": "dashboard",
+              "status": "PASS",
+              "cached": [
+                {
+                  "url": "https://tariklab.tayaz29.workers.dev/games/tc-sim/js/job-start-outcome.js?v=10",
+                  "cached": true
+                },
+                {
+                  "url": "https://tariklab.tayaz29.workers.dev/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+                  "cached": true
+                }
+              ],
+              "offlineSaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              },
+              "syntheticV1SaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              }
+            },
+            {
+              "language": "en",
+              "width": 320,
+              "reduced": false,
+              "view": "dashboard",
+              "status": "PASS",
+              "cached": [
+                {
+                  "url": "https://tariklab.tayaz29.workers.dev/games/tc-sim/js/job-start-outcome.js?v=10",
+                  "cached": true
+                },
+                {
+                  "url": "https://tariklab.tayaz29.workers.dev/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+                  "cached": true
+                }
+              ],
+              "offlineSaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              },
+              "syntheticV1SaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              }
+            },
+            {
+              "language": "en",
+              "width": 320,
+              "reduced": true,
+              "view": "dashboard",
+              "status": "PASS",
+              "cached": [
+                {
+                  "url": "https://tariklab.tayaz29.workers.dev/games/tc-sim/js/job-start-outcome.js?v=10",
+                  "cached": true
+                },
+                {
+                  "url": "https://tariklab.tayaz29.workers.dev/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+                  "cached": true
+                }
+              ],
+              "offlineSaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              },
+              "syntheticV1SaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              }
+            },
+            {
+              "language": "pl",
+              "width": 1440,
+              "reduced": false,
+              "view": "dashboard",
+              "status": "PASS",
+              "cached": [
+                {
+                  "url": "https://tariklab.tayaz29.workers.dev/games/tc-sim/js/job-start-outcome.js?v=10",
+                  "cached": true
+                },
+                {
+                  "url": "https://tariklab.tayaz29.workers.dev/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+                  "cached": true
+                }
+              ],
+              "offlineSaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              },
+              "syntheticV1SaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              }
+            },
+            {
+              "language": "pl",
+              "width": 1440,
+              "reduced": true,
+              "view": "dashboard",
+              "status": "PASS",
+              "cached": [
+                {
+                  "url": "https://tariklab.tayaz29.workers.dev/games/tc-sim/js/job-start-outcome.js?v=10",
+                  "cached": true
+                },
+                {
+                  "url": "https://tariklab.tayaz29.workers.dev/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+                  "cached": true
+                }
+              ],
+              "offlineSaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              },
+              "syntheticV1SaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              }
+            },
+            {
+              "language": "pl",
+              "width": 390,
+              "reduced": false,
+              "view": "dashboard",
+              "status": "PASS",
+              "cached": [
+                {
+                  "url": "https://tariklab.tayaz29.workers.dev/games/tc-sim/js/job-start-outcome.js?v=10",
+                  "cached": true
+                },
+                {
+                  "url": "https://tariklab.tayaz29.workers.dev/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+                  "cached": true
+                }
+              ],
+              "offlineSaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              },
+              "syntheticV1SaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              }
+            },
+            {
+              "language": "pl",
+              "width": 390,
+              "reduced": true,
+              "view": "dashboard",
+              "status": "PASS",
+              "cached": [
+                {
+                  "url": "https://tariklab.tayaz29.workers.dev/games/tc-sim/js/job-start-outcome.js?v=10",
+                  "cached": true
+                },
+                {
+                  "url": "https://tariklab.tayaz29.workers.dev/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+                  "cached": true
+                }
+              ],
+              "offlineSaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              },
+              "syntheticV1SaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              }
+            },
+            {
+              "language": "pl",
+              "width": 320,
+              "reduced": false,
+              "view": "dashboard",
+              "status": "PASS",
+              "cached": [
+                {
+                  "url": "https://tariklab.tayaz29.workers.dev/games/tc-sim/js/job-start-outcome.js?v=10",
+                  "cached": true
+                },
+                {
+                  "url": "https://tariklab.tayaz29.workers.dev/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+                  "cached": true
+                }
+              ],
+              "offlineSaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              },
+              "syntheticV1SaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              }
+            },
+            {
+              "language": "pl",
+              "width": 320,
+              "reduced": true,
+              "view": "dashboard",
+              "status": "PASS",
+              "cached": [
+                {
+                  "url": "https://tariklab.tayaz29.workers.dev/games/tc-sim/js/job-start-outcome.js?v=10",
+                  "cached": true
+                },
+                {
+                  "url": "https://tariklab.tayaz29.workers.dev/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+                  "cached": true
+                }
+              ],
+              "offlineSaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              },
+              "syntheticV1SaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              }
+            },
+            {
+              "language": "tr",
+              "width": 390,
+              "reduced": false,
+              "view": "people",
+              "status": "PASS",
+              "cached": [
+                {
+                  "url": "https://tariklab.tayaz29.workers.dev/games/tc-sim/js/job-start-outcome.js?v=10",
+                  "cached": true
+                },
+                {
+                  "url": "https://tariklab.tayaz29.workers.dev/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+                  "cached": true
+                }
+              ],
+              "offlineSaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              },
+              "syntheticV1SaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              }
+            },
+            {
+              "language": "tr",
+              "width": 320,
+              "reduced": false,
+              "view": "people",
+              "status": "PASS",
+              "cached": [
+                {
+                  "url": "https://tariklab.tayaz29.workers.dev/games/tc-sim/js/job-start-outcome.js?v=10",
+                  "cached": true
+                },
+                {
+                  "url": "https://tariklab.tayaz29.workers.dev/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+                  "cached": true
+                }
+              ],
+              "offlineSaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              },
+              "syntheticV1SaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              }
+            },
+            {
+              "language": "tr",
+              "width": 390,
+              "reduced": false,
+              "view": "finance",
+              "status": "PASS",
+              "cached": [
+                {
+                  "url": "https://tariklab.tayaz29.workers.dev/games/tc-sim/js/job-start-outcome.js?v=10",
+                  "cached": true
+                },
+                {
+                  "url": "https://tariklab.tayaz29.workers.dev/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+                  "cached": true
+                }
+              ],
+              "offlineSaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              },
+              "syntheticV1SaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              }
+            },
+            {
+              "language": "tr",
+              "width": 320,
+              "reduced": false,
+              "view": "finance",
+              "status": "PASS",
+              "cached": [
+                {
+                  "url": "https://tariklab.tayaz29.workers.dev/games/tc-sim/js/job-start-outcome.js?v=10",
+                  "cached": true
+                },
+                {
+                  "url": "https://tariklab.tayaz29.workers.dev/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+                  "cached": true
+                }
+              ],
+              "offlineSaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              },
+              "syntheticV1SaveFacts": {
+                "version": 6,
+                "jobId": "market",
+                "pendingJob": null,
+                "cash": 5000,
+                "energy": 83,
+                "stress": 22,
+                "week": 2
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "screenshotsOpened": [
+      {
+        "path": "www/dashboard-tr-1440-motion-after.png",
+        "sha256": "998e6a406c76b0068d9cb9c1ed187e0fbb3476de5eb4085084f3d1f52680b3d9"
+      },
+      {
+        "path": "www/dashboard-en-390-reduced-after.png",
+        "sha256": "687beaa40b2d30277b7f758bcf72c12e6ad2a516c5946b236685884d52da423a"
+      },
+      {
+        "path": "www/people-tr-320-motion-after.png",
+        "sha256": "4259f9df77d125303c0efa23f0a020833e3d52c3c60a0fd61715b5ed28592aa9"
+      },
+      {
+        "path": "workers/dashboard-tr-1440-motion-after.png",
+        "sha256": "998e6a406c76b0068d9cb9c1ed187e0fbb3476de5eb4085084f3d1f52680b3d9"
+      },
+      {
+        "path": "workers/dashboard-pl-320-reduced-after.png",
+        "sha256": "46e70ce052b18d82c2b3c735c148087092119a42b3802ed37e6dcb8504b81df1"
+      },
+      {
+        "path": "workers/finance-tr-390-motion-after.png",
+        "sha256": "ff775a5d64eddbf3cb3a3ff287e745244cc9cf23a0e0016eb6719e0c5fcf317e"
+      }
+    ],
+    "limits": [
+      "22 scoped cases per host; not full TC historical-start matrix or all-game final review.",
+      "Synthetic v1 save and warmed current SW module caches, not an archived user save or full old-worker upgrade.",
+      "Existing mixed body translations and desktop narrow Inbox labels persist; new result visible in dashboard/People/Finance.",
+      "No native PL, anatomy expert or physical GPU acceptance."
+    ]
+  },
+  "local": {
+    "targetTests": 43,
+    "integrationSubset": 59,
+    "fullNode": {
+      "tests": 1740,
+      "pass": 1739,
+      "fail": 0,
+      "skipped": 1,
+      "skip": "Existing opt-in DARBE_H_CLOSURE=1 3000+ mirrored-match matrix"
+    },
+    "fullTypeScript": {
+      "tests": 61,
+      "pass": 61,
+      "fail": 0
+    },
+    "fullLogSHA256": "75b3af0d343d2478286e50392830b4f54fa363eab606f8af1a9c0e9755c06675",
+    "typecheck": "PASS",
+    "build": "PASS",
+    "initialFailures": "Missing temporary node_modules link; three source integration mismatches fixed: v10 imports, preserved old38 plus new40 hash inventory, result renderer selector. No CI weakening."
+  },
+  "candidateBrowser": {
+    "run": 37274078147,
+    "job": 111647121241,
+    "cases": 22,
+    "status": "PASS",
+    "artifact": 11328982971,
+    "zipSHA256": "1857f695eb44a1930f4d5ed8ee9df725e63bebac641618190ff4a19cd0cc7c3a",
+    "fingerprints": [
+      {
+        "path": "/games/tc-sim/js/app.js?v=10",
+        "sha256": "282669c4da5c3cda1d0df04eae4cea03bf523f8052473116dafda9295134e958"
+      },
+      {
+        "path": "/games/tc-sim/styles.css?v=10",
+        "sha256": "134497f6c9dde56e192bfdd5fcb7a41f4b34a0c8d6760bce5324ca8f8fe90b39"
+      },
+      {
+        "path": "/games/tc-sim/js/job-start-outcome.js?v=10",
+        "sha256": "47fe74924c558f227bb569886fc41e20af78fa69ce062280972173f6a47fab14"
+      },
+      {
+        "path": "/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+        "sha256": "86d50e27fe842bd6163f97275cfa6b2dfde28346fc8489c11513784a7f8adf39"
+      }
+    ],
+    "rows": [
+      {
+        "language": "tr",
+        "width": 1440,
+        "reduced": false,
+        "view": "dashboard",
+        "status": "PASS"
+      },
+      {
+        "language": "tr",
+        "width": 1440,
+        "reduced": true,
+        "view": "dashboard",
+        "status": "PASS"
+      },
+      {
+        "language": "tr",
+        "width": 390,
+        "reduced": false,
+        "view": "dashboard",
+        "status": "PASS"
+      },
+      {
+        "language": "tr",
+        "width": 390,
+        "reduced": true,
+        "view": "dashboard",
+        "status": "PASS"
+      },
+      {
+        "language": "tr",
+        "width": 320,
+        "reduced": false,
+        "view": "dashboard",
+        "status": "PASS"
+      },
+      {
+        "language": "tr",
+        "width": 320,
+        "reduced": true,
+        "view": "dashboard",
+        "status": "PASS"
+      },
+      {
+        "language": "en",
+        "width": 1440,
+        "reduced": false,
+        "view": "dashboard",
+        "status": "PASS"
+      },
+      {
+        "language": "en",
+        "width": 1440,
+        "reduced": true,
+        "view": "dashboard",
+        "status": "PASS"
+      },
+      {
+        "language": "en",
+        "width": 390,
+        "reduced": false,
+        "view": "dashboard",
+        "status": "PASS"
+      },
+      {
+        "language": "en",
+        "width": 390,
+        "reduced": true,
+        "view": "dashboard",
+        "status": "PASS"
+      },
+      {
+        "language": "en",
+        "width": 320,
+        "reduced": false,
+        "view": "dashboard",
+        "status": "PASS"
+      },
+      {
+        "language": "en",
+        "width": 320,
+        "reduced": true,
+        "view": "dashboard",
+        "status": "PASS"
+      },
+      {
+        "language": "pl",
+        "width": 1440,
+        "reduced": false,
+        "view": "dashboard",
+        "status": "PASS"
+      },
+      {
+        "language": "pl",
+        "width": 1440,
+        "reduced": true,
+        "view": "dashboard",
+        "status": "PASS"
+      },
+      {
+        "language": "pl",
+        "width": 390,
+        "reduced": false,
+        "view": "dashboard",
+        "status": "PASS"
+      },
+      {
+        "language": "pl",
+        "width": 390,
+        "reduced": true,
+        "view": "dashboard",
+        "status": "PASS"
+      },
+      {
+        "language": "pl",
+        "width": 320,
+        "reduced": false,
+        "view": "dashboard",
+        "status": "PASS"
+      },
+      {
+        "language": "pl",
+        "width": 320,
+        "reduced": true,
+        "view": "dashboard",
+        "status": "PASS"
+      },
+      {
+        "language": "tr",
+        "width": 390,
+        "reduced": false,
+        "view": "people",
+        "status": "PASS"
+      },
+      {
+        "language": "tr",
+        "width": 320,
+        "reduced": false,
+        "view": "people",
+        "status": "PASS"
+      },
+      {
+        "language": "tr",
+        "width": 390,
+        "reduced": false,
+        "view": "finance",
+        "status": "PASS"
+      },
+      {
+        "language": "tr",
+        "width": 320,
+        "reduced": false,
+        "view": "finance",
+        "status": "PASS"
+      }
+    ]
+  },
+  "performance": {
+    "scope": "Local uncompressed static HTTP baseline/candidate, same Chromium process and viewport, separate identically configured clean contexts, HTTP cache disabled, service workers blocked. Not production TLS or offline performance.",
+    "artifact": 11329472333,
+    "zipSHA256": "879d7b0a958f890ff208b818d3994104dcfd82a34ef8b913ad75ead2c0a4e4bd",
+    "comparison": [
+      {
+        "width": 1440,
+        "before": {
+          "requests": 47,
+          "transferBytes": 1287874,
+          "fcpMs": 716,
+          "continueToVisiblePlusTwoRafMs": 166
+        },
+        "after": {
+          "requests": 49,
+          "transferBytes": 1300328,
+          "fcpMs": 244,
+          "continueToVisiblePlusTwoRafMs": 48.40000000002328
+        },
+        "delta": {
+          "requests": 2,
+          "transferBytes": 12454,
+          "fcpMs": -472,
+          "continueToVisiblePlusTwoRafMs": -117.59999999997672
+        }
+      },
+      {
+        "width": 390,
+        "before": {
+          "requests": 47,
+          "transferBytes": 1287874,
+          "fcpMs": 240,
+          "continueToVisiblePlusTwoRafMs": 64.30000000001746
+        },
+        "after": {
+          "requests": 49,
+          "transferBytes": 1300328,
+          "fcpMs": 272,
+          "continueToVisiblePlusTwoRafMs": 44
+        },
+        "delta": {
+          "requests": 2,
+          "transferBytes": 12454,
+          "fcpMs": 32,
+          "continueToVisiblePlusTwoRafMs": -20.300000000017462
+        }
+      },
+      {
+        "width": 320,
+        "before": {
+          "requests": 47,
+          "transferBytes": 1287874,
+          "fcpMs": 216,
+          "continueToVisiblePlusTwoRafMs": 45.60000000000582
+        },
+        "after": {
+          "requests": 49,
+          "transferBytes": 1300328,
+          "fcpMs": 220,
+          "continueToVisiblePlusTwoRafMs": 44.89999999999418
+        },
+        "delta": {
+          "requests": 2,
+          "transferBytes": 12454,
+          "fcpMs": 4,
+          "continueToVisiblePlusTwoRafMs": -0.7000000000116415
+        }
+      }
+    ],
+    "limit": "Single-run local HTTP ResourceTiming. Not TLS/CDN/FMP or a statistically established speed improvement."
+  },
+  "screenshotsOpened": [
+    {
+      "path": "built/dashboard-tr-1440-motion-after.png",
+      "sha256": "998e6a406c76b0068d9cb9c1ed187e0fbb3476de5eb4085084f3d1f52680b3d9"
+    },
+    {
+      "path": "built/dashboard-tr-390-motion-after.png",
+      "sha256": "c938d05c77eb971059a9d2166ff32787ca1e86777858cde0398fa7b23bc94993"
+    },
+    {
+      "path": "built/dashboard-pl-320-reduced-after.png",
+      "sha256": "46e70ce052b18d82c2b3c735c148087092119a42b3802ed37e6dcb8504b81df1"
+    },
+    {
+      "path": "built/people-tr-320-motion-after.png",
+      "sha256": "2a9bedd851834f48fdb8898ddfcc53c98e035253c359b7242dc9685286375d64"
+    },
+    {
+      "path": "built/finance-tr-390-motion-after.png",
+      "sha256": "ba23cb14f872043f1ef29776e6557e36aef69defcbd7e1d1fb2c4a1231a14dca"
+    },
+    {
+      "path": "built/dashboard-tr-1440-motion-before.png",
+      "sha256": "61aca9732caf2d0d30473e9c285bab11a9833a0ec7764aca17e0bd1fe721ceea"
+    },
+    {
+      "path": "built/dashboard-en-390-reduced-after.png",
+      "sha256": "687beaa40b2d30277b7f758bcf72c12e6ad2a516c5946b236685884d52da423a"
+    },
+    {
+      "path": "performance/before-1440-continued.png",
+      "sha256": "4d1ee392b2ba05c862c002d4917c35487e260f5b1b53dfd0bb75c00c733b08d9"
+    },
+    {
+      "path": "performance/after-1440-continued.png",
+      "sha256": "4d1ee392b2ba05c862c002d4917c35487e260f5b1b53dfd0bb75c00c733b08d9"
+    }
+  ],
+  "openFindings": [
+    {
+      "id": "D2-TC-MIXED-COPY",
+      "priority": "P1",
+      "status": "OPEN",
+      "owner": "Astra",
+      "fixPR": null,
+      "evidence": [
+        "built/dashboard-en-390-reduced-after.png",
+        "built/dashboard-pl-320-reduced-after.png"
+      ],
+      "finding": "Existing body/summary copy mixes TR/EN/PL outside the new translated result. No all-screen language PASS; native Polish review still required."
+    },
+    {
+      "id": "F-TC-DESKTOP-NARROW-INBOX",
+      "priority": "P1",
+      "status": "OPEN_NEEDS_DOM_MEASURE",
+      "owner": "Astra",
+      "fixPR": null,
+      "evidence": [
+        "built/dashboard-tr-1440-motion-before.png",
+        "built/dashboard-tr-1440-motion-after.png"
+      ],
+      "finding": "Desktop Inbox/Key people labels stack one letter per line in a narrow column before and after the job-start choice. Observed in candidate screenshots; geometry/root-cause and production reproduction remain open."
+    }
+  ],
+  "limits": [
+    "Warm-cache offline reload and synthetic-v1 migration only; not previous worker/cohort upgrade or archived real saves.",
+    "No human native-language, anatomy expert or physical-GPU review.",
+    "C1 job-start only; C2 permanent cinematic scenes and broader C/F scope are not complete."
+  ],
+  "prCI": {
+    "generalRun": 37274078168,
+    "checks": 9,
+    "allListedChecks": "SUCCESS",
+    "Vercel": "SUCCESS",
+    "mergeMethod": "normal head-pinned merge"
+  },
+  "desktopLayoutFollowup": {
+    "status": "P1_REPRODUCED_DOM_FIX_PENDING",
+    "tool": "Cloud Browser / Cua read-only computed DOM",
+    "url": "https://www.tariklab.com/games/tc-sim/",
+    "viewport": {
+      "width": 1363,
+      "height": 936,
+      "documentScrollWidth": 1348
+    },
+    "fixture": "Fresh empty test slot, default fictional Deniz/current start, ordinary UI; no hidden state injection.",
+    "observed": {
+      "dashboard": {
+        "width": 737.609375,
+        "gridTemplateColumns": "57.6094px 672px",
+        "gridTemplateAreas": "\"week right\" \"history cases\""
+      },
+      "rightColumn": {
+        "width": 57.609375,
+        "gridRow": "right",
+        "gridColumn": "auto"
+      },
+      "inboxTitle": {
+        "width": 7.609375,
+        "height": 200.0625,
+        "lineHeight": 18.2,
+        "overflowWrap": "anywhere"
+      },
+      "peopleTitle": {
+        "width": 7.609375,
+        "height": 236.4375,
+        "lineHeight": 18.2,
+        "overflowWrap": "anywhere"
+      }
+    },
+    "sourceInference": "TC named grid areas remain after management-desk replaces/moves panels; shared CSS resets columns but not named areas/row placement. Candidate is TC-only reset of named areas and direct-child placement.",
+    "evidenceLimit": "Current www UI DOM measurement at1363, paired with both-host1440 production screenshots. No temporary CSS or after-fix browser proof yet. Source-app hashes come from separate CI production proof, not a Cua network hash measurement.",
+    "owner": "Astra",
+    "pr": null
+  },
+  "ownMainCI": {
+    "run": 37276537794,
+    "status": "CANCELLED",
+    "reason": "Successor main push from #118 superseded in-progress main CI through existing workflow concurrency. No success claim for this run.",
+    "successorSHA": "23fb636cbfb0c30ad86fb52467982785e1e298b5",
+    "successorRun": 37277755938,
+    "successorStatus": "SUCCESS",
+    "prCI": "All9 checks plus Vercel SUCCESS before merge."
+  }
+}

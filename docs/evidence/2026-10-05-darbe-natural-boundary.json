@@ -1,0 +1,3435 @@
+{
+  "createdAt": "2026-10-05T12:49:01.499Z",
+  "productionBaseline": "be160c95eb5283e5ed2ce8bf139ef7aa714d329d",
+  "method": "50 natural seeded matches; real authored presets; UI prepare seed/opponent algorithm; unchanged public-projection AI decisions; no state placement, forced draw or preferred target decisions",
+  "limits": [
+    "Node engine sample, not browser/human play",
+    "No affected old user save",
+    "An accepted activation count does not assert unnegated final resolution",
+    "No claim about frequency beyond this sample",
+    "Missing required series in own authored main deck is a deck/material coverage finding, not proof that all possible opposing/control/generated-deck routes are impossible",
+    "The browser-proof README in this checkout predates the actual #118 production run; source statements alone must not overwrite later release evidence"
+  ],
+  "matchCount": 50,
+  "finished": 50,
+  "errors": [],
+  "aggregate": {
+    "DRB-237": {
+      "presentMain": 0,
+      "presentAuxiliary": 20,
+      "seenHand": 0,
+      "seenBoard": 0,
+      "legalSpecial": 0,
+      "chosenSpecial": 0,
+      "legalActivate": 0,
+      "chosenActivate": 0,
+      "matchesWith": {
+        "presentMain": 0,
+        "presentAuxiliary": 18,
+        "seenHand": 0,
+        "seenBoard": 0,
+        "legalSpecial": 0,
+        "chosenSpecial": 0,
+        "legalActivate": 0,
+        "chosenActivate": 0
+      }
+    },
+    "DRB-238": {
+      "presentMain": 0,
+      "presentAuxiliary": 20,
+      "seenHand": 0,
+      "seenBoard": 0,
+      "legalSpecial": 0,
+      "chosenSpecial": 0,
+      "legalActivate": 0,
+      "chosenActivate": 0,
+      "matchesWith": {
+        "presentMain": 0,
+        "presentAuxiliary": 18,
+        "seenHand": 0,
+        "seenBoard": 0,
+        "legalSpecial": 0,
+        "chosenSpecial": 0,
+        "legalActivate": 0,
+        "chosenActivate": 0
+      }
+    },
+    "DRB-239": {
+      "presentMain": 0,
+      "presentAuxiliary": 20,
+      "seenHand": 0,
+      "seenBoard": 0,
+      "legalSpecial": 0,
+      "chosenSpecial": 0,
+      "legalActivate": 0,
+      "chosenActivate": 0,
+      "matchesWith": {
+        "presentMain": 0,
+        "presentAuxiliary": 18,
+        "seenHand": 0,
+        "seenBoard": 0,
+        "legalSpecial": 0,
+        "chosenSpecial": 0,
+        "legalActivate": 0,
+        "chosenActivate": 0
+      }
+    },
+    "DRB-240": {
+      "presentMain": 0,
+      "presentAuxiliary": 20,
+      "seenHand": 0,
+      "seenBoard": 0,
+      "legalSpecial": 0,
+      "chosenSpecial": 0,
+      "legalActivate": 0,
+      "chosenActivate": 0,
+      "matchesWith": {
+        "presentMain": 0,
+        "presentAuxiliary": 18,
+        "seenHand": 0,
+        "seenBoard": 0,
+        "legalSpecial": 0,
+        "chosenSpecial": 0,
+        "legalActivate": 0,
+        "chosenActivate": 0
+      }
+    }
+  },
+  "matches": [
+    {
+      "seed": 151000,
+      "first": 0,
+      "deckA": "muhtira",
+      "deckB": "tebligat",
+      "profileA": "aggressive",
+      "profileB": "trapper",
+      "steps": 190,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 1,
+        "reason": "points",
+        "turn": 20,
+        "points": [
+          -500,
+          9200
+        ]
+      },
+      "finalTurn": 20,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151000,
+      "first": 1,
+      "deckA": "muhtira",
+      "deckB": "tebligat",
+      "profileA": "aggressive",
+      "profileB": "trapper",
+      "steps": 148,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 1,
+        "reason": "points",
+        "turn": 15,
+        "points": [
+          -1175,
+          8800
+        ]
+      },
+      "finalTurn": 15,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151001,
+      "first": 0,
+      "deckA": "muhtira",
+      "deckB": "karargah",
+      "profileA": "patient",
+      "profileB": "gambler",
+      "steps": 238,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 0,
+        "reason": "points",
+        "turn": 29,
+        "points": [
+          4250,
+          -725
+        ]
+      },
+      "finalTurn": 29,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151001,
+      "first": 1,
+      "deckA": "muhtira",
+      "deckB": "karargah",
+      "profileA": "patient",
+      "profileB": "gambler",
+      "steps": 209,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 1,
+        "reason": "points",
+        "turn": 25,
+        "points": [
+          -800,
+          6125
+        ]
+      },
+      "finalTurn": 25,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151002,
+      "first": 0,
+      "deckA": "muhtira",
+      "deckB": "istisare",
+      "profileA": "trapper",
+      "profileB": "controlled",
+      "steps": 119,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 1,
+        "reason": "points",
+        "turn": 12,
+        "points": [
+          -350,
+          3850
+        ]
+      },
+      "finalTurn": 12,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151002,
+      "first": 1,
+      "deckA": "muhtira",
+      "deckB": "istisare",
+      "profileA": "trapper",
+      "profileB": "controlled",
+      "steps": 111,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 1,
+        "reason": "points",
+        "turn": 11,
+        "points": [
+          -1050,
+          5600
+        ]
+      },
+      "finalTurn": 11,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151003,
+      "first": 0,
+      "deckA": "muhtira",
+      "deckB": "zeyilname",
+      "profileA": "gambler",
+      "profileB": "aggressive",
+      "steps": 112,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 1,
+        "reason": "points",
+        "turn": 12,
+        "points": [
+          -450,
+          5400
+        ]
+      },
+      "finalTurn": 12,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151003,
+      "first": 1,
+      "deckA": "muhtira",
+      "deckB": "zeyilname",
+      "profileA": "gambler",
+      "profileB": "aggressive",
+      "steps": 97,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 1,
+        "reason": "points",
+        "turn": 11,
+        "points": [
+          -650,
+          6100
+        ]
+      },
+      "finalTurn": 11,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151004,
+      "first": 0,
+      "deckA": "muhtira",
+      "deckB": "muhtira",
+      "profileA": "controlled",
+      "profileB": "patient",
+      "steps": 138,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 2,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 0,
+        "reason": "points",
+        "turn": 15,
+        "points": [
+          3800,
+          -550
+        ]
+      },
+      "finalTurn": 15,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151004,
+      "first": 1,
+      "deckA": "muhtira",
+      "deckB": "muhtira",
+      "profileA": "controlled",
+      "profileB": "patient",
+      "steps": 145,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 2,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 0,
+        "reason": "points",
+        "turn": 16,
+        "points": [
+          1900,
+          -400
+        ]
+      },
+      "finalTurn": 16,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151100,
+      "first": 0,
+      "deckA": "tebligat",
+      "deckB": "tebligat",
+      "profileA": "aggressive",
+      "profileB": "trapper",
+      "steps": 116,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 2,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 1,
+        "reason": "points",
+        "turn": 12,
+        "points": [
+          -1000,
+          4400
+        ]
+      },
+      "finalTurn": 12,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151100,
+      "first": 1,
+      "deckA": "tebligat",
+      "deckB": "tebligat",
+      "profileA": "aggressive",
+      "profileB": "trapper",
+      "steps": 90,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 2,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 1,
+        "reason": "points",
+        "turn": 9,
+        "points": [
+          -200,
+          5500
+        ]
+      },
+      "finalTurn": 9,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151101,
+      "first": 0,
+      "deckA": "tebligat",
+      "deckB": "karargah",
+      "profileA": "patient",
+      "profileB": "gambler",
+      "steps": 200,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 0,
+        "reason": "points",
+        "turn": 25,
+        "points": [
+          7500,
+          -350
+        ]
+      },
+      "finalTurn": 25,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151101,
+      "first": 1,
+      "deckA": "tebligat",
+      "deckB": "karargah",
+      "profileA": "patient",
+      "profileB": "gambler",
+      "steps": 195,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 0,
+        "reason": "points",
+        "turn": 22,
+        "points": [
+          6550,
+          -625
+        ]
+      },
+      "finalTurn": 22,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151102,
+      "first": 0,
+      "deckA": "tebligat",
+      "deckB": "istisare",
+      "profileA": "trapper",
+      "profileB": "controlled",
+      "steps": 128,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 1,
+        "reason": "points",
+        "turn": 12,
+        "points": [
+          -100,
+          3000
+        ]
+      },
+      "finalTurn": 12,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151102,
+      "first": 1,
+      "deckA": "tebligat",
+      "deckB": "istisare",
+      "profileA": "trapper",
+      "profileB": "controlled",
+      "steps": 115,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 1,
+        "reason": "points",
+        "turn": 11,
+        "points": [
+          -100,
+          3000
+        ]
+      },
+      "finalTurn": 11,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151103,
+      "first": 0,
+      "deckA": "tebligat",
+      "deckB": "zeyilname",
+      "profileA": "gambler",
+      "profileB": "aggressive",
+      "steps": 118,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 0,
+        "reason": "points",
+        "turn": 13,
+        "points": [
+          6100,
+          -325
+        ]
+      },
+      "finalTurn": 13,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151103,
+      "first": 1,
+      "deckA": "tebligat",
+      "deckB": "zeyilname",
+      "profileA": "gambler",
+      "profileB": "aggressive",
+      "steps": 200,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 1,
+        "reason": "points",
+        "turn": 23,
+        "points": [
+          -500,
+          5850
+        ]
+      },
+      "finalTurn": 23,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151104,
+      "first": 0,
+      "deckA": "tebligat",
+      "deckB": "muhtira",
+      "profileA": "controlled",
+      "profileB": "patient",
+      "steps": 77,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 0,
+        "reason": "points",
+        "turn": 9,
+        "points": [
+          8000,
+          -650
+        ]
+      },
+      "finalTurn": 9,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151104,
+      "first": 1,
+      "deckA": "tebligat",
+      "deckB": "muhtira",
+      "profileA": "controlled",
+      "profileB": "patient",
+      "steps": 86,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 0,
+        "reason": "points",
+        "turn": 10,
+        "points": [
+          8000,
+          -950
+        ]
+      },
+      "finalTurn": 10,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151200,
+      "first": 0,
+      "deckA": "karargah",
+      "deckB": "tebligat",
+      "profileA": "aggressive",
+      "profileB": "trapper",
+      "steps": 145,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 0,
+        "reason": "points",
+        "turn": 15,
+        "points": [
+          8550,
+          -500
+        ]
+      },
+      "finalTurn": 15,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151200,
+      "first": 1,
+      "deckA": "karargah",
+      "deckB": "tebligat",
+      "profileA": "aggressive",
+      "profileB": "trapper",
+      "steps": 137,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 0,
+        "reason": "points",
+        "turn": 14,
+        "points": [
+          8550,
+          -600
+        ]
+      },
+      "finalTurn": 14,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151201,
+      "first": 0,
+      "deckA": "karargah",
+      "deckB": "karargah",
+      "profileA": "patient",
+      "profileB": "gambler",
+      "steps": 107,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 0,
+        "reason": "points",
+        "turn": 13,
+        "points": [
+          7200,
+          -450
+        ]
+      },
+      "finalTurn": 13,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151201,
+      "first": 1,
+      "deckA": "karargah",
+      "deckB": "karargah",
+      "profileA": "patient",
+      "profileB": "gambler",
+      "steps": 94,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 0,
+        "reason": "points",
+        "turn": 12,
+        "points": [
+          8200,
+          -1950
+        ]
+      },
+      "finalTurn": 12,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151202,
+      "first": 0,
+      "deckA": "karargah",
+      "deckB": "istisare",
+      "profileA": "trapper",
+      "profileB": "controlled",
+      "steps": 143,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 1,
+        "reason": "points",
+        "turn": 12,
+        "points": [
+          -1650,
+          700
+        ]
+      },
+      "finalTurn": 12,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151202,
+      "first": 1,
+      "deckA": "karargah",
+      "deckB": "istisare",
+      "profileA": "trapper",
+      "profileB": "controlled",
+      "steps": 187,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 1,
+        "reason": "points",
+        "turn": 17,
+        "points": [
+          -450,
+          200
+        ]
+      },
+      "finalTurn": 17,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151203,
+      "first": 0,
+      "deckA": "karargah",
+      "deckB": "zeyilname",
+      "profileA": "gambler",
+      "profileB": "aggressive",
+      "steps": 90,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 1,
+        "reason": "points",
+        "turn": 10,
+        "points": [
+          -400,
+          7425
+        ]
+      },
+      "finalTurn": 10,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151203,
+      "first": 1,
+      "deckA": "karargah",
+      "deckB": "zeyilname",
+      "profileA": "gambler",
+      "profileB": "aggressive",
+      "steps": 75,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 1,
+        "reason": "points",
+        "turn": 9,
+        "points": [
+          -400,
+          8375
+        ]
+      },
+      "finalTurn": 9,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151204,
+      "first": 0,
+      "deckA": "karargah",
+      "deckB": "muhtira",
+      "profileA": "controlled",
+      "profileB": "patient",
+      "steps": 140,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 0,
+        "reason": "points",
+        "turn": 15,
+        "points": [
+          875,
+          -550
+        ]
+      },
+      "finalTurn": 15,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151204,
+      "first": 1,
+      "deckA": "karargah",
+      "deckB": "muhtira",
+      "profileA": "controlled",
+      "profileB": "patient",
+      "steps": 146,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 0,
+        "reason": "points",
+        "turn": 16,
+        "points": [
+          2650,
+          -1150
+        ]
+      },
+      "finalTurn": 16,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151300,
+      "first": 0,
+      "deckA": "istisare",
+      "deckB": "tebligat",
+      "profileA": "aggressive",
+      "profileB": "trapper",
+      "steps": 102,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 0,
+        "reason": "points",
+        "turn": 11,
+        "points": [
+          7200,
+          -800
+        ]
+      },
+      "finalTurn": 11,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151300,
+      "first": 1,
+      "deckA": "istisare",
+      "deckB": "tebligat",
+      "profileA": "aggressive",
+      "profileB": "trapper",
+      "steps": 134,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 0,
+        "reason": "points",
+        "turn": 14,
+        "points": [
+          6250,
+          -1050
+        ]
+      },
+      "finalTurn": 14,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151301,
+      "first": 0,
+      "deckA": "istisare",
+      "deckB": "karargah",
+      "profileA": "patient",
+      "profileB": "gambler",
+      "steps": 165,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 0,
+        "reason": "points",
+        "turn": 15,
+        "points": [
+          2450,
+          -425
+        ]
+      },
+      "finalTurn": 15,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151301,
+      "first": 1,
+      "deckA": "istisare",
+      "deckB": "karargah",
+      "profileA": "patient",
+      "profileB": "gambler",
+      "steps": 197,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 0,
+        "reason": "points",
+        "turn": 22,
+        "points": [
+          250,
+          -50
+        ]
+      },
+      "finalTurn": 22,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151302,
+      "first": 0,
+      "deckA": "istisare",
+      "deckB": "istisare",
+      "profileA": "trapper",
+      "profileB": "controlled",
+      "steps": 86,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 2,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 1,
+        "reason": "points",
+        "turn": 8,
+        "points": [
+          -550,
+          8000
+        ]
+      },
+      "finalTurn": 8,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151302,
+      "first": 1,
+      "deckA": "istisare",
+      "deckB": "istisare",
+      "profileA": "trapper",
+      "profileB": "controlled",
+      "steps": 77,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 2,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 1,
+        "reason": "points",
+        "turn": 7,
+        "points": [
+          -550,
+          8000
+        ]
+      },
+      "finalTurn": 7,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151303,
+      "first": 0,
+      "deckA": "istisare",
+      "deckB": "zeyilname",
+      "profileA": "gambler",
+      "profileB": "aggressive",
+      "steps": 182,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 0,
+        "reason": "points",
+        "turn": 19,
+        "points": [
+          5000,
+          -50
+        ]
+      },
+      "finalTurn": 19,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151303,
+      "first": 1,
+      "deckA": "istisare",
+      "deckB": "zeyilname",
+      "profileA": "gambler",
+      "profileB": "aggressive",
+      "steps": 82,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 1,
+        "reason": "points",
+        "turn": 9,
+        "points": [
+          -150,
+          7500
+        ]
+      },
+      "finalTurn": 9,
+      "finalPhase": "main1"
+    },
+    {
+      "seed": 151304,
+      "first": 0,
+      "deckA": "istisare",
+      "deckB": "muhtira",
+      "profileA": "controlled",
+      "profileB": "patient",
+      "steps": 76,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 0,
+        "reason": "points",
+        "turn": 7,
+        "points": [
+          5875,
+          -50
+        ]
+      },
+      "finalTurn": 7,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151304,
+      "first": 1,
+      "deckA": "istisare",
+      "deckB": "muhtira",
+      "profileA": "controlled",
+      "profileB": "patient",
+      "steps": 98,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 0,
+        "reason": "points",
+        "turn": 10,
+        "points": [
+          6725,
+          -750
+        ]
+      },
+      "finalTurn": 10,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151400,
+      "first": 0,
+      "deckA": "zeyilname",
+      "deckB": "tebligat",
+      "profileA": "aggressive",
+      "profileB": "trapper",
+      "steps": 152,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 1,
+        "reason": "points",
+        "turn": 14,
+        "points": [
+          -150,
+          4000
+        ]
+      },
+      "finalTurn": 14,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151400,
+      "first": 1,
+      "deckA": "zeyilname",
+      "deckB": "tebligat",
+      "profileA": "aggressive",
+      "profileB": "trapper",
+      "steps": 191,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 0,
+        "reason": "points",
+        "turn": 20,
+        "points": [
+          7200,
+          -700
+        ]
+      },
+      "finalTurn": 20,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151401,
+      "first": 0,
+      "deckA": "zeyilname",
+      "deckB": "karargah",
+      "profileA": "patient",
+      "profileB": "gambler",
+      "steps": 68,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 0,
+        "reason": "points",
+        "turn": 9,
+        "points": [
+          8000,
+          -450
+        ]
+      },
+      "finalTurn": 9,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151401,
+      "first": 1,
+      "deckA": "zeyilname",
+      "deckB": "karargah",
+      "profileA": "patient",
+      "profileB": "gambler",
+      "steps": 65,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 0,
+        "reason": "points",
+        "turn": 8,
+        "points": [
+          8000,
+          -200
+        ]
+      },
+      "finalTurn": 8,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151402,
+      "first": 0,
+      "deckA": "zeyilname",
+      "deckB": "istisare",
+      "profileA": "trapper",
+      "profileB": "controlled",
+      "steps": 68,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 1,
+        "reason": "points",
+        "turn": 6,
+        "points": [
+          -700,
+          5875
+        ]
+      },
+      "finalTurn": 6,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151402,
+      "first": 1,
+      "deckA": "zeyilname",
+      "deckB": "istisare",
+      "profileA": "trapper",
+      "profileB": "controlled",
+      "steps": 57,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 1,
+        "reason": "points",
+        "turn": 5,
+        "points": [
+          0,
+          5875
+        ]
+      },
+      "finalTurn": 5,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151403,
+      "first": 0,
+      "deckA": "zeyilname",
+      "deckB": "zeyilname",
+      "profileA": "gambler",
+      "profileB": "aggressive",
+      "steps": 99,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 2,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 1,
+        "reason": "points",
+        "turn": 12,
+        "points": [
+          0,
+          6500
+        ]
+      },
+      "finalTurn": 12,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151403,
+      "first": 1,
+      "deckA": "zeyilname",
+      "deckB": "zeyilname",
+      "profileA": "gambler",
+      "profileB": "aggressive",
+      "steps": 89,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 2,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 1,
+        "reason": "points",
+        "turn": 11,
+        "points": [
+          -800,
+          7800
+        ]
+      },
+      "finalTurn": 11,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151404,
+      "first": 0,
+      "deckA": "zeyilname",
+      "deckB": "muhtira",
+      "profileA": "controlled",
+      "profileB": "patient",
+      "steps": 107,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 0,
+        "reason": "points",
+        "turn": 11,
+        "points": [
+          6250,
+          -50
+        ]
+      },
+      "finalTurn": 11,
+      "finalPhase": "battle"
+    },
+    {
+      "seed": 151404,
+      "first": 1,
+      "deckA": "zeyilname",
+      "deckB": "muhtira",
+      "profileA": "controlled",
+      "profileB": "patient",
+      "steps": 151,
+      "byCard": {
+        "DRB-237": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-238": {
+          "presentMain": 0,
+          "presentAuxiliary": 1,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-239": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        },
+        "DRB-240": {
+          "presentMain": 0,
+          "presentAuxiliary": 0,
+          "seenHand": 0,
+          "seenBoard": 0,
+          "legalSpecial": 0,
+          "chosenSpecial": 0,
+          "legalActivate": 0,
+          "chosenActivate": 0
+        }
+      },
+      "actions": [],
+      "result": {
+        "winner": 1,
+        "reason": "points",
+        "turn": 15,
+        "points": [
+          -700,
+          5550
+        ]
+      },
+      "finalTurn": 15,
+      "finalPhase": "battle"
+    }
+  ],
+  "staticMembership": [
+    {
+      "deck": "muhtira",
+      "mainTargetCount": 0,
+      "auxiliaryTargets": [
+        {
+          "id": "DRB-237",
+          "count": 1,
+          "requirements": [
+            {
+              "series": "Telex",
+              "ownMainMatches": []
+            },
+            {
+              "series": "Muhtira",
+              "ownMainMatches": [
+                {
+                  "id": "DRB-006",
+                  "count": 2
+                },
+                {
+                  "id": "DRB-190",
+                  "count": 2
+                },
+                {
+                  "id": "DRB-018",
+                  "count": 2
+                },
+                {
+                  "id": "DRB-186",
+                  "count": 2
+                },
+                {
+                  "id": "DRB-187",
+                  "count": 2
+                },
+                {
+                  "id": "DRB-188",
+                  "count": 1
+                },
+                {
+                  "id": "DRB-192",
+                  "count": 1
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "deck": "tebligat",
+      "mainTargetCount": 0,
+      "auxiliaryTargets": [
+        {
+          "id": "DRB-240",
+          "count": 1,
+          "requirements": [
+            {
+              "series": "Tebligat",
+              "ownMainMatches": [
+                {
+                  "id": "DRB-023",
+                  "count": 2
+                },
+                {
+                  "id": "DRB-221",
+                  "count": 2
+                },
+                {
+                  "id": "DRB-222",
+                  "count": 1
+                },
+                {
+                  "id": "DRB-035",
+                  "count": 2
+                },
+                {
+                  "id": "DRB-047",
+                  "count": 2
+                },
+                {
+                  "id": "DRB-059",
+                  "count": 1
+                },
+                {
+                  "id": "DRB-227",
+                  "count": 1
+                },
+                {
+                  "id": "DRB-077",
+                  "count": 1
+                }
+              ]
+            },
+            {
+              "series": "Mesruiyet",
+              "ownMainMatches": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "deck": "karargah",
+      "mainTargetCount": 0,
+      "auxiliaryTargets": []
+    },
+    {
+      "deck": "istisare",
+      "mainTargetCount": 0,
+      "auxiliaryTargets": [
+        {
+          "id": "DRB-239",
+          "count": 1,
+          "requirements": [
+            {
+              "series": "Kabine",
+              "ownMainMatches": []
+            },
+            {
+              "series": "Arsiv",
+              "ownMainMatches": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "deck": "zeyilname",
+      "mainTargetCount": 0,
+      "auxiliaryTargets": [
+        {
+          "id": "DRB-238",
+          "count": 1,
+          "requirements": [
+            {
+              "series": "Zeyil",
+              "ownMainMatches": [
+                {
+                  "id": "DRB-007",
+                  "count": 2
+                },
+                {
+                  "id": "DRB-031",
+                  "count": 2
+                },
+                {
+                  "id": "DRB-198",
+                  "count": 2
+                },
+                {
+                  "id": "DRB-043",
+                  "count": 2
+                },
+                {
+                  "id": "DRB-055",
+                  "count": 1
+                },
+                {
+                  "id": "DRB-199",
+                  "count": 1
+                }
+              ]
+            },
+            {
+              "series": "Brifing",
+              "ownMainMatches": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "sourceHashes": {
+    "public/games/darbe-h/source-cards.json": "222916020ef176ced6ad72d4c61038bf045757e7ae9d7a6bfa6d8f99c657f3f9",
+    "public/games/darbe-h/decks.json": "71efd17ee75255dfd3fd3f35ac6bd1cead7955006fbf07fa63aae33d65a9f333",
+    "public/games/darbe-h/designs.js": "76bdba01683f4a43768e65f8501210b25b2b9ec4376e04f58061576ae3731768",
+    "public/games/duel-core/app.js": "391a5117f25a4c843f815ff96463392df475bdc926b972c992f659343e6e3c36",
+    "public/games/duel-core/actions.js": "ad9415fbf6cb38436a114e3c65f95770dce459b310263a0817b0b3faffbbfa8d",
+    "public/games/duel-core/summoning.js": "0bba60830bffa018d1e040fbb4a22477d3f0097002bff6ec246294db02d81501",
+    "public/games/duel-core/modifiers.js": "499cde455c115a7a98bf0fed2c663020c0c66d0f0687f66f5ab4714637525c25",
+    "public/games/duel-core/ai.js": "a53d66e8abdefd7cf6d159f5953534b862890d16a07d1701ada0437c978f7533",
+    "public/games/duel-core/rules.js": "7dae4ed48e75923584dc6376f32645319c5e1dde711c07001d50bb9646398ffa"
+  }
+}

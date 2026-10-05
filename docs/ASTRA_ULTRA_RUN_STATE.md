@@ -1,6 +1,6 @@
 # Astra Ultra — game-by-game run state
 
-Updated: 2026-09-26 (UTC). Release monitoring belongs to Terra / Sol / Luna; this run does not poll CI, wait for merges/deployments or run unattended soaks.
+Updated: 2026-10-05 (UTC). Owner: Astra for non-card implementation, normal protected merges and two-host verification. The 2026-10-05 ownership split assigns all 900 card illustrations/frames/generators/assets to Grok; Astra retains later invariant/quality/release review. Earlier Terra / Sol / Luna handoffs below are historical; the latest dated checkpoint governs current status. No red/pending merge or CI bypass.
 
 ## 1. HANEDANIAN — living relief atlas
 
@@ -410,3 +410,131 @@ PR #101 remains Terra's responsibility. Novella remains **LATER**.
 - C1–C3/D1–D4/rest of D5 open; TC/DEVLET source-only outcome handoff is not implementation. D6 Novella/#78/#79/SONKÖY WIP preserved.
 - E1–E3/F: discovery only; foundation and final360 not started; PL native language/anatomy expert/physical GPU human gates open.
 - Next: exact-head CI actual browser fixture+legacy proof → normal merge only if fully green → fresh two-host production; no CI or timeout bypass.
+
+
+## 2026-10-05 05:40 UTC — B10 checkpoint, release pending
+- Owner/branch/PR: Astra; `astra/duel-visible-art-readiness`; #116 head `8f979cbaa2797f1a208cfddb8477ef4b6930180a`, main `dfbab3f`; status branch `astra/b10-production-checkpoint`.
+- Hedef/değer: kart kanıtı placeholder veya başka host ile yanlış PASS veremez; oyun, veri, görsel ve save değişmedi.
+- A1–A3 CLOSED: #113 `375b837` → #111 `a534289`, önceki gerçek iki-host reload/CI kanıtı geçerli.
+- B10: 31/31 local, lint/typecheck/build PASS; CI `37268425509` pending; bu head merge/production kabulü yok.
+- B1–B9 AÇIK: kabul0/900; canonical kaynak sınırı doğrulandı, VETO önceki300 görseli korunuyor; B7 kalite eşiği geçilmedi.
+- B11 P1 AÇIK:21 geçerli motor fixture'ında NOT REPRODUCED; browser/özgül eski-save henüz yok.
+- C1/C2 AÇIK; C3 Racon source-supported drawer/capture teşhisi runtime kanıtı değil; ayrı discovery dalları kanıt JSON'unda.
+- D1/D2/D4 AÇIK; D3 P1 karma art-cache kohortu VM'de repro; D5 brace #114 `0383d24` CLOSED, genel security açık; D6 Novella/#78/#79 korunuyor.
+- E1 NOT IMPLEMENTED; E2 dört kaynak/draft not-reviewed; E3 fiziksel GPU/PL/anatomi insan kapıları açık; F NOT STARTED.
+- Kanıt/sonraki: [JSON](evidence/2026-10-05-b10-readiness-checkpoint.json); #116 exact-head CI green → normal merge → iki-host actual-origin/decode/save proof; kırmızıda yalnız repro fix.
+
+
+## 2026-10-05 06:24 UTC — B10 release checkpoint
+- Owner/branch: Astra; `astra/b10-production-checkpoint`; main/merge #116 `9e50404c0573e1cf9e2dd7e623c9c8bd98b95e56`; no status-only PR opened.
+- A1–A3 CLOSED: #113 `375b837` → #111 `a534289`, verified two-host reload/CI evidence remains valid.
+- B10 scoped proof CLOSED:31 local +9 real-browser fixture +216 viewport records; exact-head8/8+Vercel, main37270312084 SUCCESS; no gate/budget relaxation.
+- B10 production: www+Workers each24 duel scenarios, VETO/GETT archives300 and unchanged legacy saves; actual origins/11 hashes; artifact11328870080 digest verified,8 PNGs opened.
+- B1–B9 OPEN:0/900 accepted; CPU SND-011 probe `fc0c7e1` also rejected; no old/rejected/AI art rolled out, gameplay unchanged.
+- B11 P1 OPEN: valid engine NOT_REPRODUCED; browser preparation `f18ff4d`,10 Node PASS, browser NOT_RUN.
+- C1 partial: TC job-start candidate `0de03d8`,22 tests/36 protected files unchanged; mobile hidden-result review finding being fixed; no PR/browser/build/production acceptance. C2/C3 OPEN.
+- D1/D2/D4 OPEN; D3 mixed art-cache P1 remains, DEVLET six synthetic cases did not reproduce data loss; D5 brace #114 CLOSED/general security OPEN; D6 Novella/#78/#79/SON KÖY WIP preserved.
+- E1 NOT IMPLEMENTED; E2 four factual-source drafts/not expert-reviewed; E3 physical GPU/PL/anatomy human gates OPEN; F NOT STARTED.
+- Evidence/next: [JSON](evidence/2026-10-05-b10-readiness-checkpoint.json); finish the narrow TC visibility/browser/offline gates; B7 quality threshold remains unmet, no900-card completion claim.
+
+
+## 2026-10-05 07:24 UTC — C1/B11 release checkpoint
+- Owner/branch: Astra; `astra/b10-production-checkpoint`; main #117 `539df6ee8cd3fe1e56b4a7833bffcc8953765488`; no status-only PR.
+- A1–A3 CLOSED: #113 `375b837` → #111 `a534289`; prior exact-head CI/two-host reload proof retained.
+- C1 partial: #117 actual job-start now/future result merged after9/9+Vercel; local1800 PASS/1 existing opt-in skip; built22/22 PASS; no rule/save change.
+- C1 production run37276537798: first attempt stopped before browser on exact old-main hash; both deployments subsequently SUCCESS; failed-only attempt2 running, production NOT ACCEPTED yet.
+- B11: #118 head `40ab0da`;17 local, built12/12 actual UI PASS; general CI campaign-browser pending, no merge; P1 allegation NOT_REPRODUCED_IN_VALID_UI_FIXTURES, natural-match/affected user save open.
+- B1–B10 OPEN: accepted art0/900; existing cramped320 board text remains; no rejected asset rollout, no 300-card completion claim.
+- C2/C3 OPEN; D2 TC mixed body translation and desktop narrow Inbox labels recorded as intake, not fixed or final-reviewed; source/DOM follow-up pending.
+- D1–D4/general D5 OPEN; D4 inventory `1580d3e`,49 PNG lossless trial −6,117,735 B decoded-RGBA equal, NOT APPLIED/no route or history savings claim; D5 brace #114 CLOSED.
+- D6 Novella/#78/#79/SON KÖY WIP preserved; E1 foundation NOT IMPLEMENTED, E2 drafts not reviewed, E3 PL/anatomy/physical-GPU human gates OPEN; F NOT STARTED.
+- Evidence/next: [TC](evidence/2026-10-05-tc-job-start-release.json), [B11](evidence/2026-10-05-darbe-b11-release.json), [D4](evidence/2026-10-05-repo-weight-discovery.json); finish real two-host proof, then #118 only all-green normal merge.
+
+
+## 2026-10-05 07:57 UTC — C1/B11 release and narrow P1 checkpoint
+- Owner/branch: Astra; `astra/b10-production-checkpoint`; current main `23fb636cbfb0c30ad86fb52467982785e1e298b5`; current full CI37277755938 SUCCESS.
+- A1–A3 CLOSED: #113375b837 → #111a534289; prior two-host reload/CI proof retained; no gate bypass.
+- C1 partial CLOSED scope: #117539df6e, PR9/9+Vercel, www+Workers22/22 each, six screenshots/hash proof; own-main run cancelled by successor push, successor full CI green.
+- B11 proof #11823fb636: PR9/9+Vercel/main CI green; www+Workers12/12 each,50 hashes/eight screenshots; NOT_REPRODUCED_IN_VALID_UI_FIXTURES, natural-match/AI/affected user save allegation OPEN.
+- C1/D2 P1 #119 `astra/tc-dashboard-row-layout` head063aa4e: only8 CSS lines/+324B; local1804 PASS/1 existing skip then15 final target PASS; built22/22, old CSS real failure→readable titles; general CI pending, no merge/production.
+- B1–B10 OPEN: accepted art0/900; target reference files unavailable and original vector/CPU probes rejected; no failed artwork rollout or gameplay/data/save change.
+- C2/C3 and D1–D3 OPEN; mixed TC body translations, full old-worker/save matrices and other game-specific visual/map gates remain; F has not begun.
+- D4 measured-only inventory1580d3e/lossless49-image trial retained, no conversion/deletion/history savings claimed; D5 brace #114 CLOSED, general security/provenance OPEN; D6 Novella/#78/#79/SON KÖY WIP preserved.
+- E1 NOT IMPLEMENTED; E2 factual drafts NOT_REVIEWED; E3 physical GPU/PL native/anatomy expert HUMAN REQUIRED; remaining mandatory scope is OPEN, not DONE.
+- Evidence/next: [TC](evidence/2026-10-05-tc-job-start-release.json), [B11](evidence/2026-10-05-darbe-b11-release.json), [P1](evidence/2026-10-05-tc-dashboard-layout-release.json); #119 only all-green normal merge→two-host proof; red/pending means no merge.
+
+
+## 2026-10-05 08:12 UTC — C1/D2 narrow P1 merge checkpoint
+- Branch/PR: `astra/tc-dashboard-row-layout`, #119 head063aa4e; normal merge `be160c95eb5283e5ed2ce8bf139ef7aa714d329d`.
+- Value: Inbox/Key people titles use the available dashboard width; residual named CSS grid areas removed. No gameplay/save/shared engine/art change.
+- Local: full1804 PASS/1 existing opt-in skip, final15 target PASS, build/typecheck/lint; exact-head9/9 checks+Vercel SUCCESS, built22/22 browser PASS.
+- Production: run37282054880 and main37282054896 PENDING; no two-host production PASS yet.
+- A1–A3 CLOSED; B1–B10 OPEN0/900; B11 bounded12-case proof released but broader affected-save allegation OPEN; C2/C3 and D1–D4/generalD5 OPEN.
+- D5 brace #114 CLOSED; D6 Novella/#78/#79/SON KÖY WIP preserved; E1 NOT IMPLEMENTED/E2 drafts/E3 human gates; F NOT STARTED.
+- Next: require exact new CSS hash and both-host22 cases/320–390–1440 layout+offline reload; no new large wave while CI pending.
+
+
+## 2026-10-05 08:34 UTC — C1/D2 dar P1 kapanış checkpoint'i
+- Branch: `astra/release-evidence-116-119`; PR #119 merge `be160c95eb5283e5ed2ce8bf139ef7aa714d329d`; uygulama farkı yalnız8 TC CSS satırı/+324B.
+- Oyuncu değeri: Gelen kutusu/Önemli kişiler başlıkları masaüstünde tam satır genişliğini kullanıyor; karar ve kayıt hesapları değişmedi.
+- Yerel gate: full1804 PASS/1 mevcut opt-in skip; son15 hedefli PASS; build/typecheck/lint PASS; built22/22 browser PASS.
+- CI: exact-head9/9+Vercel SUCCESS; main37282054896 SUCCESS; korumalı normal merge, gate değişikliği yok.
+- Production37282054880 attempt2: www22/22+Workers22/22; dört exact hash,76 ölçüm/host,320–390–1440/offline reload/sentetik v1; ZIP digestleri ve6 ekran görüntüsü doğrulandı. İlk deneme eski CSS'i doğru reddetti.
+- A1–A3 CLOSED (#113375b837 → #111a534289); önceki iki-host reload kanıtı korunuyor.
+- B1–B10 OPEN, kabul0/900; B7 gerçekçilik engeli aşılmadı. B11 #118 bounded UI proof12/12/host; özgül kullanıcı kaydı/doğal maç iddiası OPEN.
+- C1 KISMİ; C2/C3 OPEN. D2 üç eksik EN kontrol metni+bir PL etiket için ayrı dar çalışma başladı; henüz PR/CI/production yok, kalan karma gövde metni OPEN.
+- D1–D4/genelD5 OPEN; D5 brace #114 CLOSED; D6 Novella/#78/#79/korunan SON KÖY WIP değişmedi.
+- E1 NOT IMPLEMENTED; E2 kaynaklar taslak/not-reviewed; E3 anatomi uzmanı/fizikselGPU ve D2 PL anadil gereksinimleri OPEN; F NOT STARTED.
+- Kanıt: `docs/evidence/2026-10-05-tc-dashboard-layout-release.json`; sonraki yalnız dar D2 test/CI/iki-host zinciri. Bu checkpoint bütün sözleşmenin kapanışı değildir.
+
+
+## 2026-10-05 11:52 UTC — A1–A3 doğrulandı; B yeniden etkin
+- Branch: `astra/release-evidence-116-119`; mevcut main `be160c95eb5283e5ed2ce8bf139ef7aa714d329d`; main CI37282054896 SUCCESS.
+- A1/A3 CLOSED: #113 merge375b837; iki-host HANEDANIAN reload/save/320–390–1440 kanıtı37256148798 SUCCESS.
+- A2 CLOSED: #111 mergea534289; bağımlılık sırası korunmuş, iki-host production37258787888 SUCCESS; yeni hotfix gerekmedi.
+- B3: üç gerçek onaylı hedef dosya kurtarıldı ve pikselleri incelendi; yalnız ışık/materyal/anatomi kalite yönü, kopya/türetme yok.
+- B1–B10 OPEN: kabul0/900; önceki başarısız vektör/CPU denemeleri üretime alınmadı. Üç oyun için ayrı kaynak-yüzey uygulaması sürüyor.
+- B10: build-time tam300/cohort/hash/provenance doğrulaması ayrı uygulama; henüz runtime/offline çözümü veya production kabulü değil.
+- B11: #118 iki-host12/12 gerçek UI fixture; dar koşullarda tetiklenmeme yeniden üretilemedi, özgül eski kullanıcı kaydı/doğal maç iddiası OPEN.
+- C1 KISMİ (#117/#119 kanıtlı); C2/C3 OPEN; D2 yerel `astra/tc-week-control-i18n` b32a4dd korunuyor/DEFERRED, PR/CI/production yok.
+- D1–D4/genelD5 OPEN; brace #114 CLOSED; D6 Novella/#78/#79/SON KÖY WIP korunuyor; E1 NOT IMPLEMENTED/E2 taslak/E3 insan kapıları; F NOT STARTED.
+- Sonraki: B7 gerçekçilik eşiği → oyun başına300 kart/B10 → bağımsız CI/iki-host release. Referans erişimi sanat onayı değildir.
+
+
+### 2026-10-05 12:15 UTC — user ownership split / Grok handoff
+- Branch `astra/grok-card-handoff`, base `be160c95`; docs-only checkpoint, no art/frame/generator/runtime/engine/save changes; PR/CI/merge/production not run for this docs-only handoff.
+- B1–B10 production ownership transferred to Grok; Astra stops conflicting art commits/PRs and retains invariant/quality/release review. Replacement art remains 0/900 accepted.
+- Handoff: `docs/GROK_CARD_ART_HANDOFF.md`; three immutable remote branches, exact source hashes/IDs, 300×3 existing briefs, private-reference IDs, source/transport/provenance/budget/offline acceptance.
+- Validation: source 300 unique IDs/game; all remote preparation trees match local; semantic tests VETO6/6 + GETT5/5 + DARBE6/6 PASS. No new browser/production/art-acceptance claim.
+- A1–A3 CLOSED: #113 `375b837` → #111 `a534289`; TC #117/#119 released, main `be160c95`; main CI37282054896 and two-host production37282054880 SUCCESS. Earlier pending entries are historical.
+- B11: #118 valid UI fixtures NOT REPRODUCED; natural-match/affected-old-save boundary stays open, no artwork-based rule closure.
+- C1–C3/D1–D5/E remain Astra scope; card cache integration must coordinate with Grok. #112, source/preparation branches and rejected studies preserved; local cohort pipeline `ecfbf29` deferred/unwired.
+- D6: Novella LATER, closed #78/#79 and stale branches untouched; PL native, anatomy expert and physical GPU remain honest human requirements.
+- F: only after all product work and Grok releases reach production; report/classify evidence, then stop broad fixes unless separately tasked. Next: root reviews/publishes this narrow handoff and resumes non-card work.
+
+
+### 2026-10-05 12:40 UTC — D2/D3 candidate checkpoint; Grok owns B1–B10
+- A1–A3 CLOSED: main `be160c95`; #113/#111 and #119 release runs remain verified green, not reopened.
+- B1–B10: Grok handoff published `3bc44fb`; 900 semantic briefs/protected sources retained, no new Astra art/frame/generator/asset changes.
+- D2: #120 `f1cc533`, `astra/tc-week-control-i18n`; local 1,807 PASS/1 existing skip; built browser22/22 +88 localized-control measurements PASS, artifact11345097869; root inspected EN390, PL320 and TR1440 screenshots.
+- D2 CI: build-core/TC built/Workers/Vercel green; shared browser and campaign-browser pending. No merge/production claim for #120.
+- D3: #121 `7ea1ba7`, `astra/kiyi-save-hotfix`; missing-ramps crash and unsafe old-cache validator reproduced, valid backup/raw retention/quota path fixed; schema/rules/art/renderers unchanged.
+- D3 local:28 target PASS; full1,823 PASS/1 existing skip; build/typecheck/lint PASS. First root build had only transient rsync-tmp ENOENT; unchanged retry passed. CI/built browser now running; no merge/production.
+- D3 boundary:37 actual browser cases required; completely offline old HTML remains old until reconnect; no archived-user/Pixi/physical-GPU/native-PL acceptance claim.
+- E1:48-line route/offline handoff saved; isolated static product proposed, not implemented. Geometry/source gaps and hash-bound independent anatomy review remain open.
+- F NOT STARTED: waits for remaining products and Grok production art; report/classify only, no automatic broad post-report fixes.
+- Next: finish both green release gates and exact two-host proof; then Kıyı's one state-derived continuity/outcome upgrade. Novella/#78/#79 untouched.
+
+
+### 2026-10-05 13:15 UTC — D2/D3 iki-host release checkpoint
+- Branch `astra/release-evidence-116-119`; main `9b4e169ab198d1ad37f6dd82f13f4b394adf2045`; yalnız kanıt/handoff belgeleri, runtime farkı yok.
+- A1–A3 CLOSED: #113/#111 reload zinciri korunuyor; eski blocker yeniden açılmadı.
+- B1–B10 Grok: kısa `GROK_CARD_ART_HANDOFF.md`, 300×3 brief/source/provenance kapıları; Astra sanat commit'i yok. B11 doğal50 maç/6.342 yasal aksiyonda0 hedef çağırma/aktivasyon fırsatı; iddia P1 OPEN, etkilenen eski save yok.
+- D2 #120: head`f1cc533` → merge`1700e6a`; exact-head9/9+Vercel SUCCESS; local1.807 PASS/1 skip, built22/22; production37312651467 attempt2 iki-host22/22 +88 kontrol/host ve6hash PASS.
+- D3 #121: head`7ea1ba7` → merge`9b4e169`; exact-head9/9+Vercel SUCCESS; local28target/full1.823 PASS/1 skip, build/typecheck/lint; built37/37.
+- D3 production37314184260 attempt2: www37/37 +Workers37/37;5hash/host,148 ölçüm/host,console/network/overflow0,111PNG/host;6 ekran açıldı. Bozukprimary→backup, ham veri koruma, kota, eski cache→online→warmoffline PASS; schema1/rules değişmedi.
+- CI: #120 main37312651635 successor tarafından CANCELLED; #121 current-main37314184406 IN_PROGRESS, green kapanışı hâlâ gerekli. İlk production denemeleri önceki hash'i doğru reddetti; deploy kanıtından sonra yalnız failed jobs rerun, gate değişmedi.
+- C1–C3: Kıyı süreklilik/sonuç sözleşmesi net; `astra/kiyi-continuity-outcome` temiz9b4e169 discovery tabanı, henüz uygulama yok. Apartman/Son100 adayları ayrı discovery handoff.
+- D1–D5 genel OPEN; #114 brace CLOSED; PL gövde/anadil, gerçek eski save, tam SW kohortu ve fizikselGPU OPEN. E1 route/source planı var, foundation NOT IMPLEMENTED/uzman atanmamış.
+- F NOT STARTED: kalan ürünler ve Grok production release sonrası kanıtlı rapor/sınıflandırma; rapor sonrası geniş fix görevi kullanıcıda. Novella/#78/#79/SON KÖY WIP korunuyor.
+- Sonraki: current-main green → Kıyı tek C1/C3 upgrade'i; release JSON'ları `docs/evidence/2026-10-05-{tc-week-control-i18n,kiyi-save-recovery}-release.json`.

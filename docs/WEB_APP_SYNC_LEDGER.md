@@ -527,18 +527,54 @@ Chromium must pass before integration.
 - Visible placeholder/broken/absent images fail; clipped/offscreen lazy art is not forced. Existing duel browser gate now exercises deterministic readiness fixtures without changing workflow budgets.
 - Local helper/CI guard tests 28/28, changed-script ESLint, typecheck, build:dev and production build PASS (migration step skipped under its existing no-DATABASE_URL contract). Local Chromium crashed at launch (SIGSEGV); browser CI and production proof remain pending. The identical legacy capture flow is shared by local CI and production callers. Owner Astra, PR none. Scope/evidence: `docs/DUEL_VISIBLE_ART_READINESS.md`.
 
+
+### 2026-10-05 — #116 proof release closed
+- Normal merge `9e50404c0573e1cf9e2dd7e623c9c8bd98b95e56`; exact-head8/8+Vercel and own main37270312084 SUCCESS. www+Workers each24 duel UI scenarios, VETO/GETT300-card archives and unchanged legacy saves; actual origins/11 hashes checked;8 production PNGs opened, artifact11328870080 digest verified.
+- Test/evidence-only change; application, artwork/content and native output unchanged. Native remains paused. Full900-card redesign, offline upgrade and human gates stay open; see B10 checkpoint JSON for scoped evidence.
 ### 2026-10-05 — TC SIM job-start outcome (unreleased branch checkpoint)
 - Web change: actual next-week job completion separates immediate cash/focus deltas from prospective salary/workload in one visible result panel outside collapsed inspectors/ledgers; silent 2 s CSS emphasis, static reduced motion and focus-preserving close.
 - Content: presentation copy only (TR/EN/PL draft); Artwork: original CSS only; Gameplay/rules/save: no; UI/presentation: yes; Shared-content source: no new external asset.
 - Native follow-up: yes, only after web release; native remains paused. Browser/offline/build transfer gates and PL native review remain open; no release claim.
 - Commits: branch `astra/tc-sim-job-start-outcome`, based on `9e50404`; see `outputs/tc-sim-job-start-outcome/CHECKPOINT.md` in this checkpoint.
 
+
+### 2026-10-05 — #117 TC result and #118 bounded rule proof released
+- #117 normal merge `539df6ee8cd3fe1e56b4a7833bffcc8953765488` after9/9+Vercel: actual job-start result, rules/save unchanged. Dedicated production37276537798 attempt2 passed22 cases per host with four exact hashes; six PNGs inspected. First attempt rejected previous-main bytes before deployment completion; no gate changed.
+- #118 normal merge `23fb636cbfb0c30ad86fb52467982785e1e298b5` after9/9+Vercel: test/workflow only, no artwork/content/native change. Production37277755646 passed12 cases per host,50 runtime/data hashes, eight PNGs inspected; all four DRB effects triggered in legal synthetic UI fixtures. Broader affected-save/natural-match allegation remains bounded OPEN.
+- #117 own-main general CI was cancelled by the existing successor-push concurrency; #118 current-main full CI37277755938 SUCCESS; the cancelled #117 run itself is not labelled PASS. TC desktop narrow-label P1 has production DOM evidence and a separate CSS-only candidate; no full visual/i18n acceptance. Native remains paused.
 ### 2026-10-05 — TC SIM dashboard readability P1 (unreleased local checkpoint)
 - Web presentation only: clear residual dashboard named areas/placement after the existing management desk moves panels; Inbox/Key people should use full row width. Parent production DOM confirmed the 7.609 px title defect.
 - TC stylesheet only; shared engine/CSS, rules, data, save, localization and artwork unchanged. No native work; any native parity follow-up waits for a verified web release.
 - 29 targeted tests, production build and typecheck PASS. Old-CSS/candidate browser comparison, full suite, CI and production remain open; see `outputs/tc-dashboard-row-layout/CHECKPOINT.md`.
 
+
+### 2026-10-05 — #119 TC dashboard title release closed
+- Normal merge `be160c95eb5283e5ed2ce8bf139ef7aa714d329d` after9/9+Vercel; main37282054896 SUCCESS. TC CSS-only8 lines/+324B; all game/rule/save/shared styles and native output unchanged, native paused.
+- Dedicated37282054880 attempt2 passed22 cases on each public host, exact CSS/app/outcome hashes,76 dashboard measurements and12 non-dashboard null per host;1440/390/320, warm-worker offline reload and synthetic-v1 migration. Both ZIP digests checked,6 PNGs opened. Attempt1 stopped on old CSS before deployment readiness; no gate or timeout changed.
+- Existing mixed EN/PL body copy, all-route old-worker/archive-save review and full visual/art quality remain open. Detailed IDs/digests/cost samples are in `docs/evidence/2026-10-05-tc-dashboard-layout-release.json`.
+
+
+### 2026-10-05 11:52 UTC — approved card references and active priority
+- Documentation checkpoint only; verified A1–A3/#113/#111 remain merged with two-host proof; main be160c95/full CI37282054896 SUCCESS. #116–119 immutable release evidence is retained.
+- B3 exact approved targets recovered and visually inspected privately; reference pixels are not copied into web/canonical/native repos or used as asset material. Reference emblems, people, lettering and compositions are excluded.
+- New art acceptance remains0/900. B10 pack/cohort validation and separate game-specific procedural surface work are in progress, not production. Latest user prioritizes B; unrelated local TC i18n b32a4dd is preserved/deferred. Native remains paused.
+
+
+### 2026-10-05 — Grok card-art ownership handoff (documentation only)
+- User assigned VETO/GETT/DARBE 900-card art/frame/generator/assets to Grok; Astra retains later immutable-data/engine/save/quality/release review and non-card scope. No new art or production output in this checkpoint.
+- `docs/GROK_CARD_ART_HANDOFF.md` links exact published 300×3 semantic drafts, source hashes, canonical/shared-art sync, private references and build/manifest/offline acceptance. All 17 preparation tests passed; no art approval or human/GPU test claim.
+- Shared-content repository remains `tayaz-maker/tariklab-content`; native paused. Existing #112 and preparation/probe branches preserved; old-source differences/GETT alias and pack overwrite risks explicitly retained.
+- A1–A3 and TC #117/#119 are already released; current main `be160c95` and CI/two-host evidence cited in handoff. Final 360 report is gated on remaining products plus Grok production releases; no autonomous broad post-report fix wave.
+
 ### 2026-10-05 — TC SIM week-control translation P1 (unreleased local checkpoint)
 - Web copy only: EN week-review button, time/focus label and week heading; missing PL time/focus label plus EN aliases to preserve the existing Polish overlay. Original TR keys, all game files/rules/save/card content and native remain unchanged.
 - Real phrase/body API RED reproduced missing labels; 64 targeted tests, production build, typecheck and changed-script lint PASS. Existing 22-case browser gate now records exact visible controls before/after the decision and both offline reload paths; two changed dictionaries join the four unchanged game fingerprints.
 - Browser/full suite/CI/two-host production are NOT RUN for this candidate. PL wording remains a draft requiring native review; no full-i18n closure claim. Native follow-up only after web release; see `outputs/tc-week-control-i18n/CHECKPOINT.md`.
+
+
+## 2026-10-05 — Grok ownership / non-card release evidence
+- Documentation-only: preserves #112/source branches; Grok owns all900 illustrations/frames/generators/assets, Astra later invariant review. No new card/runtime/workflow edits in this evidence PR.
+- #120 merge1700e6a: exact-head9/9+Vercel; built22/22, www+Workers22/22 each, six released hashes and88 control records/host. Narrow TC control translation; full body/nativePL open.
+- #121 merge9b4e169: exact-head9/9+Vercel; built37/37, www+Workers37/37 each, five hashes and148 measurements/host; save backup/raw retention/quota/warm offline proof. Main37314184406 still pending; own #120 main superseded/cancelled.
+- First production runs rejected exact old assets before deployment; only failed jobs rerun after successful deployments. No gate/timeout/hash relaxation. Exact artifact/result/screenshot digests in release JSONs.
+- B11 natural50matches/6,342actions produced no target summon/activation opportunity; not activation-resolution acceptance. P1/affected-old-save boundary open. E1/C1/C3 handoffs are discovery, not implementation; F remains unstarted until product+Grok releases, then report/classify only.

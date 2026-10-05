@@ -1,0 +1,12 @@
+{
+  "sourceBaseline": "be160c95eb5283e5ed2ce8bf139ef7aa714d329d",
+  "originalProbeSha256": "04b0cba8cbd14eccdf3d9884dc0f5ed430ff57ada9eb2d44698cf13d36da5146",
+  "portableProbeSha256": "f657dd0b45b95038677ccd1043b1c584b7d032aa24878890ee6ff381a588e865",
+  "recordSha256": "e47825de692859c8541fb998f7832270f2590f1fea4c4dae7ce189bb2bf55bbe",
+  "matches": 50,
+  "finished": 50,
+  "dispatchedActions": 6342,
+  "minTurn": 5,
+  "maxTurn": 29,
+  "errors": []
+}
