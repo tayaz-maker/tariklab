@@ -1,0 +1,11 @@
+# TC SIM week controls — local P1 candidate, not released
+- Goal/player value: an EN/PL reader can identify the actual week-review action and time/focus counter without Turkish control labels.
+- Branch: `astra/tc-week-control-i18n`; base SHA `be160c95eb5283e5ed2ce8bf139ef7aa714d329d`; local checkpoint commit only, no PR/push/CI/merge.
+- Scope: three EN phrases, one new PL label, EN aliases for the existing Polish overlay; generated PL coverage 273 → 277 screen mappings.
+- RED: real TC-loaded `tlabI18n.applyPhrases` + `tlabPlBody.translate` APIs gave 1 PASS/3 FAIL before dictionary edits (EN button, PL time/focus, missing EN→PL alias); after edits 64/64 targeted tests PASS, final changed tests 6/6 PASS.
+- Root gate: targeted 33/33 PASS; full suite 1,807 PASS / 1 existing opt-in DARBE skip / 0 FAIL; production build, typecheck, changed-script ESLint and diff check PASS. No DATABASE_URL: existing migration step skipped. Local Chromium was not retried after its unchanged launch failure.
+- Protection: entire `public/games/tc-sim` tree remains `57b3e368564478c5c6af9d4d8be1cdddf436e5d7`; game/rules/save/style/card files untouched. Existing PL entries and patterns preserved.
+- Bytes: `expansion-en.js` 25,835 → 25,986 (+151 raw; gzip-9 +73); `pl/tc-sim.json` 285,980 → 286,141 (+161 raw; gzip-9 +52). Built public files exactly match source. These are file bytes, not route transfer/FCP measurements.
+- Browser prepared: same 22 cases, 1440/390/320 × TR/EN/PL × motion modes plus mobile People/Finance; exact visible labels before/after decision and offline/synthetic-v1 reload; six exact deployment hashes; changed dictionaries in SW-cache assertions.
+- Open: browser evidence, CI and both-host production NOT RUN; archived real-user legacy saves and old SW-cohort upgrade not claimed; PL native review OPEN.
+- Next: normal gated PR and built/two-host browser proof. No additional copy, feature wave or new asset scope.

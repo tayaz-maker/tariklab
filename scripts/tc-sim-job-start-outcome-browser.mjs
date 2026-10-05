@@ -20,7 +20,7 @@ assert.ok(!values.production || (!values.serve && values["expected-root"]), "pro
 const out = resolve(process.env.RUNNER_TEMP || "/workspace", "screenshots/tc-job-start-outcome", values.label);
 mkdirSync(out, { recursive: true });
 let server, browser, origin, fingerprints = [], layoutBaseline = null, layoutCostComparison = null, failure = null;
-const rows = [], layoutMeasurements = [];
+const rows = [], layoutMeasurements = [], controlMeasurements = [];
 try {
   if (values.serve) {
     server = createStaticGameServer(values.serve);
@@ -40,7 +40,38 @@ try {
   for (const view of ["people", "finance"]) for (const width of [390, 320]) cases.push({ language: "tr", width, reduced: false, view });
   for (const {language, width, reduced, view} of cases) {
     const context = await browser.newContext({ viewport: { width, height: width === 1440 ? 900 : 844 }, reducedMotion: reduced ? "reduce" : "no-preference" });
-    const page = await context.newPage(), errors = [], external = [], dashboardLayout = [];
+    const page = await context.newPage(), errors = [], external = [], dashboardLayout = [], localizedControls = [];
+    const expectedControls = {
+      tr: { button: "Haftayı değerlendir", time: "Zaman / odak", heading: "Zamanını nasıl kullandın?" },
+      en: { button: "Review the week", time: "Time / focus", heading: "How did you use your time?" },
+      pl: { button: "Podsumuj tydzień", time: "Czas / uwaga", heading: "Jak wykorzystałeś swój czas?" },
+    }[language];
+    const inspectControls = async phase => {
+      const headingRequired = view === "dashboard" || phase.includes("reload");
+      const capture = () => {
+        const time = document.querySelector(".week-control > span");
+        return { language: window.tlabI18n.getLang(), button: document.querySelector("#advance-week")?.textContent.trim(),
+          time: time && Array.from(time.childNodes).filter(node => node.nodeType === Node.TEXT_NODE).map(node => node.textContent).join("").trim(),
+          counter: time?.querySelector("b")?.textContent.trim(), heading: document.querySelector(".week-panel .panel-head h2")?.textContent.trim() ?? null };
+      };
+      try {
+        await page.waitForFunction(({ expected, language, headingRequired }) => {
+          const time = document.querySelector(".week-control > span");
+          const label = time && Array.from(time.childNodes).filter(node => node.nodeType === Node.TEXT_NODE).map(node => node.textContent).join("").trim();
+          return window.tlabI18n.getLang() === language && document.querySelector("#advance-week")?.textContent.trim() === expected.button && label === expected.time
+            && (!headingRequired || document.querySelector(".week-panel .panel-head h2")?.textContent.trim() === expected.heading);
+        }, { expected: expectedControls, language, headingRequired }, { timeout: 5000 });
+      } finally {
+        const actual = await page.evaluate(capture);
+        localizedControls.push({ phase, ...actual });
+        controlMeasurements.push({ expectedLanguage: language, width, reduced, view, phase, ...actual });
+      }
+      assert.equal(await page.locator("#advance-week").isVisible(), true, "translated primary control is visible");
+      assert.equal(await page.locator(".week-control > span").isVisible(), true, "translated time/focus HUD is visible");
+      if (headingRequired) assert.equal(await page.locator(".week-panel .panel-head h2").isVisible(), true, "translated week heading is visible");
+      assert.match(localizedControls.at(-1).counter, /^\d+ \/ \d+$/, "localized HUD retains its actual usage counter");
+    };
+    const cacheAssets = [...modules, `${origin}/i18n/expansion-en.js`, ...(language === "pl" ? [`${origin}/i18n/pl/tc-sim.json`] : [])];
     const inspectDashboard = async phase => {
       const dom = await captureDashboardLayout(page);
       layoutMeasurements.push({ language, width, reduced, view, phase, dom });
@@ -77,12 +108,12 @@ try {
       const urls = new Set();
       for (const name of await caches.keys()) for (const request of await (await caches.open(name)).keys()) urls.add(request.url);
       return expected.every(url => urls.has(url));
-    }, modules, { timeout: 5000 });
+    }, cacheAssets, { timeout: 5000 });
     const cached = await page.evaluate(async expected => {
       const urls = new Set();
       for (const name of await caches.keys()) for (const request of await (await caches.open(name)).keys()) urls.add(request.url);
       return expected.map(url => ({ url, cached: urls.has(url) }));
-    }, modules);
+    }, cacheAssets);
     assert.ok(cached.every(item => item.cached), `missing offline modules: ${JSON.stringify(cached)}`);
     await page.locator("#continue-game").click();
     const navigate = async nextView => {
@@ -95,6 +126,7 @@ try {
       await page.locator("#advance-week").click();
     }
     const stem = `${view}-${language}-${width}-${reduced ? "reduced" : "motion"}`;
+    await inspectControls("before-decision");
     await page.screenshot({ path: `${out}/${stem}-before.png`, fullPage: true });
     await inspectDashboard("before-decision");
     await page.locator('[data-event-choice="start"]').click();
@@ -105,6 +137,7 @@ try {
     assert.equal(await moment.getAttribute("role"), "status");
     assert.equal(await page.evaluate(() => window.tlabI18n.getLang()), language, "actual UI language matches the matrix");
     assert.equal(await moment.locator(".job-start-moment__head strong").textContent(), {tr:"İŞ BAŞLADI",en:"JOB STARTED",pl:"PRACA ROZPOCZĘTA"}[language], "actual outcome heading is translated");
+    await inspectControls("after-decision");
     await dimensions();
     const close = moment.locator("[data-outcome-close]");
     assert.equal(await close.evaluate(el => document.activeElement === el), false, "moment must not steal focus");
@@ -128,6 +161,7 @@ try {
     await context.setOffline(true); await page.reload({ waitUntil: "networkidle" }); assertTargetOrigin();
     await page.locator("#continue-game").click();
     assert.equal(await page.locator("[data-job-start-moment]").count(), 0, "offline reload must not replay");
+    await inspectControls("offline-reload");
     await page.screenshot({ path: `${out}/${stem}-reloaded.png`, fullPage: true });
     await inspectDashboard("offline-reload");
     await page.locator("#save-game").click();
@@ -148,12 +182,13 @@ try {
     assert.equal(migrated.meta.saveVersion, 6);
     assert.deepEqual(saveFacts(migrated), saveFacts(saved), "synthetic v1 retains job, money and body after explicit save");
     assert.equal(await page.locator("[data-job-start-moment]").count(), 0);
+    await inspectControls("synthetic-v1-reload");
     await dimensions();
     await context.setOffline(false);
     await navigate("career"); await navigate("dashboard");
     assert.equal(await page.locator("[data-job-start-moment]").count(), 0);
     assert.deepEqual(errors, []); assert.deepEqual(external, []);
-    rows.push({ language, width, reduced, view, dashboardLayout, coldEntry, status: "PASS", cached, resources, offlineSaveFacts: saveFacts(offlineSaved), syntheticV1SaveFacts: saveFacts(migrated) });
+    rows.push({ language, width, reduced, view, dashboardLayout, localizedControls, coldEntry, status: "PASS", cached, resources, offlineSaveFacts: saveFacts(offlineSaved), syntheticV1SaveFacts: saveFacts(migrated) });
     await context.close();
   }
   if (layoutBaseline) {
@@ -166,5 +201,5 @@ try {
 finally {
   await browser?.close();
   if (server) await new Promise(done => server.close(done));
-  writeFileSync(`${out}/results.json`, JSON.stringify({ origin, fingerprints, layoutBaseline, layoutCostComparison, layoutMeasurements, status: failure ? "FAIL" : "PASS", failure, expectedCases: 22, rows, performance: "Candidate cold entry only; before/after comparison remains unmeasured." }, null, 2) + "\n");
+  writeFileSync(`${out}/results.json`, JSON.stringify({ origin, fingerprints, layoutBaseline, layoutCostComparison, layoutMeasurements, controlMeasurements, status: failure ? "FAIL" : "PASS", failure, expectedCases: 22, rows, performance: "Candidate cold entry only; before/after comparison remains unmeasured." }, null, 2) + "\n");
 }
