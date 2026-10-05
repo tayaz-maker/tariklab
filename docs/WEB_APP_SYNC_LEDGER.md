@@ -482,9 +482,3 @@ Chromium must pass before integration.
 - Release failure: Workers canonical `index.html` redirect was stored as a redirected HTML Response, then HANEDANIAN navigation reload failed. Main run `37246439763` / artifact `11319313487`; www Wave1 passed9/9.
 - Scoped SW repair preserves HTML bytes/status/headers while removing only redirected HTML response metadata. Atomic install/versioning and user saves remain unchanged; native remains paused, no gameplay or asset change.
 - Native redirect unit RED→GREEN; offline/version17/17, typecheck/lint/build PASS. Local HTTP browser baseline-negative/fixed online+offline/save fixture and required CI are pending; production is not yet accepted. Details: `docs/HANEDANIAN_OFFLINE_REDIRECT_FIX.md`.
-
-### 2026-10-05 — D5 / brace-expansion development dependency patch
-- Web tooling only: same-major lock updates 1.1.18→1.1.21 and 5.0.9→5.0.12 under the existing ESLint/typescript-eslint minimatch chains; official registry integrity retained. No package.json/override, gameplay, save, client/native content or runtime-source change.
-- Local code/test checkpoint `0e9209309167de8ae2ceb5161d8c018897f70562`, branch `astra/security-brace-expansion`. Exact six lock fields changed, no formatting or unrelated dependency drift; independent npm ci left shared dependencies untouched.
-- Old modules reproduced12 advisory failures alongside2 passing normal-behavior cases; patched modules passed14/14. Build/typecheck/lint and3 IP checks passed; generated55-entry client NOTICE is byte-identical. Details: `docs/sources/BRACE_EXPANSION_SECURITY_2026-10-05.md`.
-- Audit NOT RUN: automatic approval review blocked exporting private dependency metadata to npm; no retry or workaround. No broad security or production claim. Local checkpoint only, no remote CI/PR/deploy; native remains paused.

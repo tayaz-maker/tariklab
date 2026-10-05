@@ -84,7 +84,7 @@ Observed baseline 1.1.18 / 5.0.9: **2 normal-behavior tests passed, 12 advisory
 tests failed**. Eight stack-exhaustion cases threw RangeError; all four quadratic
 cases hit the 3-second deadline and were killed. Payloads ran locally only.
 
-Patched-run results are recorded in `docs/ASTRA_ULTRA_RUN_STATE.md`.
+Patched consumers passed **14/14** in 3.05 seconds; the slowest child took 536 ms. Build and typecheck passed; lint had zero errors and 59 existing warnings; three IP checks passed. The central release checkpoint tracks this PR separately.
 `scripts/ip/third-party-notices.mjs` was read and its render compared without
 writing: all 55 client entries matched THIRD_PARTY_NOTICES.md byte for byte.
 brace-expansion is absent from that client manifest, so no notice regeneration
@@ -105,4 +105,4 @@ dependency updates, the existing lint warnings and unrelated advisories are
 outside this change.
 
 
-Release preparation: rebased onto repaired main `375b83752df3d5e16c960797cf99634af0405d31` after #113's exact two-host production proof (run37256148798, six cases). The sync-ledger conflict retained both historical entries. Dependency and test bytes are unchanged by the rebase. This narrow security branch is independent from #111's renderer work; remote CI and normal gated release remain required.
+Release preparation: rebased onto repaired main `375b83752df3d5e16c960797cf99634af0405d31` after #113's exact two-host production proof (run37256148798, six cases). Dependency and test bytes are unchanged by the rebase. The PR changes only the lockfile, scoped regression and this evidence record; central run-state/ledger updates are carried by the release checkpoint so this branch does not overlap #111's journal edits. This narrow security branch is independent from #111's renderer work; remote CI and normal gated release remain required.
