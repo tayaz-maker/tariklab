@@ -552,3 +552,11 @@ PR #101 remains Terra's responsibility. Novella remains **LATER**.
 - C1–C3: Kıyı visual branch remains preserved/deferred, no implementation; other noncard scene/map work resumes only after Atlas production proof. A1–A3/#113/#111 already CLOSED, not reopened; Novella/#78/#79 untouched.
 - F: final360 review explicitly transferred to another agent by user; removed from Astra task list. Historical review entries are superseded; no report preparation in this checkpoint.
 - Next: exact-head CI + real browser screenshots → protected merge → exact package/two-host production proof; only then next noncard product wave.
+
+
+### 2026-10-05 14:02 UTC — E1 real browser mobile regression
+- PR#124 `astra/anatomy-foundation`, published head `28d3018`; CI37320954738 built browser correctly FAIL, no merge/production.
+- Actual Chromium screenshot/DOM: EN desktop→320 resize yielded326px scroll width. Long organ label's flex-item minimum width escaped its three-column control; artifact11349882173 (ZIP SHA25689c8625d25962feee67400bdebaeea91ba8bf9511df1b554cdac23c4d644128b).
+- Narrow fix: allow the label's flex text to shrink/wrap; no body overflow clipping, hidden text, threshold or timeout relaxation. Existing all-language320/390/1440/resize browser assertions remain unchanged.
+- Local52 target PASS, build+real HTTP package fingerprint PASS; prior TR1440/390/320 browser/offline cases passed. Full browser and exact new-head CI required before merge.
+- Next: push this single layout correction, inspect complete browser artifacts, then green merge and two-host proof. No card/game/save/Atlas content semantics change.
