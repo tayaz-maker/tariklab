@@ -6,6 +6,7 @@ on:
       - assets/atlas-3d/**
       - vite.config.ts
       - scripts/atlas-3d*
+      - scripts/atlas-unified-browser.mjs
       - .github/workflows/atlas-3d.yml
   workflow_dispatch:
 permissions:
@@ -31,8 +32,9 @@ jobs:
         run: |
           npx playwright install --with-deps chromium --only-shell
           python3 -m http.server 8096 --bind 127.0.0.1 --directory .output/public > /tmp/atlas-3d-server.log 2>&1 &
-          node scripts/atlas-3d-browser.mjs
+          node scripts/atlas-unified-browser.mjs
         env:
+          ATLAS3D_ORIGIN: http://127.0.0.1:8096
           ATLAS3D_OUT: /tmp/atlas-3d-evidence
       - uses: actions/upload-artifact@v4
         if: always()
