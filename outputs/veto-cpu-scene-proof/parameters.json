@@ -1,0 +1,46 @@
+{
+  "status": "REJECT_FOR_PRODUCTION",
+  "acceptedCards": 0,
+  "base": "dfbab3f15b74df5336fecf9f7d4247184cbb9222",
+  "sourcePath": "public/games/veto-h/source-cards.json",
+  "sourceSha256": "b876fdb69eeb4ddcfd1d06e397df14e14070cf3131ad4d210b4608e8fe7b4acd",
+  "sourceCard": {
+    "id": "SND-011",
+    "name": "Sandık Çantası",
+    "kind": "unit",
+    "subtype": "effect",
+    "series": "Kadro — Sandık serisi",
+    "level": 1,
+    "attack": 0,
+    "defense": 1500,
+    "deckLocation": "main",
+    "text": "Savaşta yok olmaz. Her Hazırlık Aşaması’nda OP −200.",
+    "nameEn": "Ballot Bag",
+    "textEn": "Cannot be destroyed in battle. Lose 200 OP during every Standby Phase."
+  },
+  "semanticRelation": "A serviceable ballot bag with worn canvas, repaired carrying straps and blank envelopes suggests durability maintained at a continuing cost. No new equipment, reward, coin, stat icon or literal payoff is depicted. Exact battle protection and standby cost remain unchanged outside the illustration.",
+  "geometry": "Independently authored rounded cloth volume with actual low-frequency folds, front pocket, stitched rim, two leather straps, hollow buckles and raised handle loops; three rotated envelope solids; timber table and wall.",
+  "lighting": "One deterministic sampled area emitter; per-sample shadow ray intersections; diffuse plus GGX direct response; one traced specular reflection from timber/metal; no painted light plates.",
+  "limitations": [
+    "One primary sample per pixel, not converged Monte Carlo path tracing.",
+    "Procedural weave and folds are mathematical approximations, not fabric simulation.",
+    "No human or anatomical subject.",
+    "576x384 is the canonical art aspect only; actual DOM crop was not verified.",
+    "No production, offline, engine, save, package or dependency changes."
+  ],
+  "tooling": {
+    "numpy": "2.3.5",
+    "Pillow": "12.3.0",
+    "numbaInstalled": false,
+    "externalRendererUsed": false,
+    "packageInstallation": false,
+    "downloadedModelsTexturesOrImages": false
+  },
+  "provenance": {
+    "code": "Original purpose-authored Python/NumPy geometry, intersections and procedural materials.",
+    "assets": "No external assets, AI image generation, raster plates, references traced, logos, people, text or symbols.",
+    "rendererDownloadBoundary": "Root reported the official Blender checksum request received HTTP 403. No alternate host/client or download retry was attempted in this proof. This independent local numerical implementation does not access that resource."
+  },
+  "reproduce": "timeout 180 python outputs/veto-cpu-scene-proof/render.py --width 768 --height 512 --out /workspace/screenshots/veto-cpu-scene-proof",
+  "rootReview": "REJECT_FOR_PRODUCTION"
+}

@@ -1,0 +1,42 @@
+{
+  "status": "REJECT_FOR_PRODUCTION",
+  "acceptedCards": 0,
+  "width": 768,
+  "height": 512,
+  "primarySamplesPerPixel": 1,
+  "directAreaShadowSamples": 8,
+  "reflectionAreaShadowSamples": 4,
+  "specularBounces": 1,
+  "notClaimed": [
+    "converged path tracing",
+    "physical GPU",
+    "anatomy",
+    "production acceptance"
+  ],
+  "seconds": 17.617,
+  "raytracingSeconds": 17.569,
+  "maxRssKiB": 182948,
+  "counters": {
+    "trace_calls": 14,
+    "sdf_evaluated_points": 13912121
+  },
+  "files": [
+    {
+      "name": "SND-011-cpu-raytrace.png",
+      "bytes": 252866,
+      "sha256": "f2bd52fd33bb8fc7b03d86d9397061ef544d48d44098a83f9624d41ab1ac3eb9"
+    },
+    {
+      "name": "SND-011-canonical-576.png",
+      "bytes": 192017,
+      "sha256": "65a155e6033a4f66350b69bc3f2e4461688d66c11a383f07b75db87a02879ca2"
+    }
+  ],
+  "selfReview": "REJECT_FOR_PRODUCTION",
+  "rootReview": "REJECT_FOR_PRODUCTION",
+  "attempts": 1,
+  "cosmeticRetry": false,
+  "codeBytes": 11272,
+  "codeSha256": "7c700278131039789aa73d3610d7aad5529ad0def55d5cf6c3ec3d2cd672141f",
+  "evidenceStorage": "Rendered PNGs are review-only outside git; no raster image committed."
+}
