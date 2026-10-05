@@ -1,0 +1,32 @@
+{
+  "cardId": "RCN-001",
+  "name": "\u00c7ayc\u0131",
+  "status": "REJECTED_REALISM_NOT_PRODUCTION",
+  "source": "original Bezier masks + analytic relief lighting + deterministic procedural material fields",
+  "inputs": [
+    "Python source only"
+  ],
+  "sourceSha256": "b8c06c2e432758c2053058fecec5c1db629cbcd14cfad3dc7dd749111fcebfa9",
+  "iterations": 2,
+  "externalInputs": 0,
+  "imagegen": false,
+  "runtimeChanges": false,
+  "seed": 100104,
+  "masterSize": [
+    1200,
+    900
+  ],
+  "elapsedSeconds": 11.606,
+  "outputs": [
+    {
+      "path": "RCN-001-study-160.webp",
+      "bytes": 2726,
+      "sha256": "2e5120bebb71646581c9770eb049669dc1edebc13209e39c78aaa978e95e0d11"
+    },
+    {
+      "path": "RCN-001-study-400.webp",
+      "bytes": 9064,
+      "sha256": "8abd9f7487dd05448e12c794d0a850fc7c4c13c551a3f0a7aaea6604430211d6"
+    }
+  ]
+}
