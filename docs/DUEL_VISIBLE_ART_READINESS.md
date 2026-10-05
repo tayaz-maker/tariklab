@@ -1,6 +1,6 @@
 # B10 — restored hand screenshot readiness
 
-Owner: Astra. Initial base: `0383d24dce3e45fc1db16773da8b3a135bf51b6e`; rebased onto verified main `dfbab3f15b74df5336fecf9f7d4247184cbb9222`. Branch: `astra/duel-visible-art-readiness`. PR: none; local candidate for review.
+Owner: Astra. Initial base: `0383d24dce3e45fc1db16773da8b3a135bf51b6e`; rebased onto verified main `dfbab3f15b74df5336fecf9f7d4247184cbb9222`. Branch: `astra/duel-visible-art-readiness`. PR: [#116](https://github.com/tayaz-maker/tariklab/pull/116); release pending.
 
 Main D5 artifact `11325111667` showed six placeholder hand wells in the www VETO/GETT legacy desktop captures; mobile captures after resize showed art. The old script decoded only the filtered archive card before restoring the save. This establishes a screenshot-readiness gap, not permanent production asset failure.
 
@@ -15,3 +15,11 @@ Validation performed locally:
 - Local Chromium launch failed with **SIGSEGV before any browser fixture ran**; unchanged launch was not retried. No local browser or production PASS claim.
 
 `scripts/duel-visible-art-browser.mjs` adds deterministic real-browser fixtures for delayed response/decode, broken bytes, actual onerror image removal, absent/empty cohort, wrong source/UID, ancestor-clipped lazy images, one-pixel partial visibility, tiny images, deadline and zero visible art. The existing `duel-browser.mjs` CI gate writes synthetic-case `visible-art-readiness.json`, actual-app `legacy-art-readiness.json` and paired captures; workflow checks/budgets remain unchanged. Browser CI (including the shared actual-app flow) and fresh production screenshots/results remain open before acceptance. Public game code/data/art and native output remain unchanged; native development remains paused.
+
+## Exact-head intermediate evidence and remaining release gate
+
+PR head `3de2d9bc5b0ca3ece4b4fd1a6cee856b341515f6`, run `37266111399`: the duel browser step passed. Artifact `11326691632` (`duel-responsive`, 7,080,369 bytes), SHA-256 `f8c7a8176183112482a47508ed0ef00b24ad3c01211141dd3bcd85ecc7ea5db7`, was downloaded and verified. Its nine synthetic browser cases passed; 216 TR/EN viewport-stage records report overflow zero. The actual VETO/GETT legacy save proof records six decoded desktop images and three viewport-visible mobile images per game, the exact fixture IDs/URLs/dimensions, unchanged save and no recorded errors. Astra inspected all four legacy screenshots: desktop now captures the existing illustrations instead of placeholders. This validates screenshot readiness, not the quality or acceptance of any new artwork; accepted new cards remain **0/900**.
+
+Scope review found that the old production script ran only on www. The candidate now runs the identical asset-hash, archive/legacy-save/visible-art and 24-scenario flow on **www and Workers**, with separate host directories and results. Aggregate success is written only after both hosts pass. No CI step, timeout, asset check or failure gate was removed or relaxed. This follow-up requires fresh exact-head CI and fresh two-host production evidence; the preceding head's evidence is not a green result for the follow-up.
+
+Follow-up local validation uses the existing security worktree's dependencies only after confirming byte-identical `package.json` and `package-lock.json` (lock SHA-256 `81c3e3646982a746f1a7efb9c6d4344683fefbd966afc078d1d74b62cf2f8678`). The 28 targeted tests, changed-script ESLint, typecheck and production build pass. Migration ran and skipped under the unchanged no-`DATABASE_URL` contract. The initial run without the temporary dependency link failed to resolve `js-yaml`; the missing local setup was corrected, not the gate. No local Chromium retry or new browser PASS is claimed.
