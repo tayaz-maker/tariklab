@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import { readFileSync, existsSync } from 'node:fs';
+import { createServer } from 'node:http';
 import { versionGameWorker } from './offline-sw-plugin.mjs';
 
 // This is a deterministic Service Worker unit harness, not browser/offline QA.
@@ -28,7 +29,7 @@ const packagedShared = new Set(['/games/shared/outcome-runtime.js']);
 const localAsset = path => new URL('../public' + path, import.meta.url);
 const pathOf = request => new URL(typeof request === 'string' ? request : request.url, origin).pathname;
 
-function harness({ networkResponse } = {}) {
+function harness({ networkResponse, onCachePut } = {}) {
   const listeners = new Map(), stores = new Map(), networkCalls = [];
   let offline = false, claimed = 0, skippedWaiting = 0;
   const keyOf = request => new URL(typeof request === 'string' ? request : request.url, origin).href;
@@ -37,7 +38,7 @@ function harness({ networkResponse } = {}) {
       if (!stores.has(name)) stores.set(name, new Map());
       const entries = stores.get(name);
       return {
-        async put(request, response) { entries.set(keyOf(request), response.clone()); },
+        async put(request, response) { onCachePut?.(request, response); entries.set(keyOf(request), response.clone()); },
         async match(request) { return entries.get(keyOf(request))?.clone(); },
         async delete(request) { return entries.delete(keyOf(request)); },
         async keys() { return [...entries.keys()].map(url => new Request(url)); },
@@ -144,6 +145,171 @@ test('install fetches and caches all assets with reload policy, but never forces
   for (const path of worker.files) assert.equal(await (await cache.match(path)).text(), `package:${path}`);
   assert.equal(worker.skippedWaiting, 0);
   assert.equal(worker.claimed, 0);
+});
+
+async function nativePackageServer(t, { redirectHtml }) {
+  const server = createServer((request, response) => {
+    const path = new URL(request.url, origin).pathname;
+    const destination = path === root + 'index.html' && redirectHtml ? root
+      : path === root + 'app.js' ? root + 'canonical/app.js' : null;
+    if (destination) {
+      response.writeHead(302, { location: destination });
+      response.end();
+      return;
+    }
+    const html = path === root || path.endsWith('.html');
+    response.writeHead(html ? 203 : 200, html ? 'Package Ready' : 'OK', {
+      'content-type': contentType(path),
+      'cache-control': 'public, max-age=60',
+      'x-package-fixture': 'native-response',
+    });
+    // Include non-ASCII text, NUL and an invalid UTF-8 byte so decoding and
+    // re-encoding would be detected rather than silently changing the stream.
+    response.end(html ? Buffer.concat([
+      Buffer.from('<!doctype html><p>Hanedan — ışık'), Buffer.from([0, 0xff]), Buffer.from('</p>\r\n'),
+    ]) : Buffer.from(`package:${path}`));
+  });
+  t.after(() => new Promise((resolve, reject) => {
+    server.close(error => error ? reject(error) : resolve());
+    server.closeAllConnections();
+  }));
+  await new Promise((resolve, reject) => {
+    server.once('error', reject);
+    server.listen(0, '127.0.0.1', resolve);
+  });
+  const serverOrigin = `http://127.0.0.1:${server.address().port}`;
+  const originals = new Map();
+  const worker = harness({ networkResponse: async path => {
+    const response = await fetch(serverOrigin + path);
+    originals.set(path, {
+      redirected: response.redirected, url: response.url, type: response.type,
+      status: response.status, statusText: response.statusText,
+      headers: [...response.headers], bytes: Buffer.from(await response.clone().arrayBuffer()),
+    });
+    return response;
+  } });
+  await worker.lifecycle('install');
+  worker.setOffline(true);
+  return { worker, originals };
+}
+
+test('redirected HTML is replayable offline with its exact bytes, status and headers; other assets retain native response metadata', async t => {
+  const { worker, originals } = await nativePackageServer(t, { redirectHtml: true });
+  const htmlPath = root + 'index.html';
+  assert.equal(originals.get(htmlPath).redirected, true, 'Fixture must produce a real followed redirect');
+  assert.equal(originals.get(root + 'app.js').redirected, true, 'Non-HTML redirect is a separate regression guard');
+  const requestCount = worker.networkCalls.length;
+  for (const path of worker.files) {
+    const original = originals.get(path);
+    const { response } = await worker.fetchRequest(path);
+    assert.equal(response.redirected, path === htmlPath ? false : original.redirected, path);
+    assert.equal(response.url, path === htmlPath ? '' : original.url, path);
+    assert.equal(response.type, path === htmlPath ? 'default' : original.type, path);
+    assert.equal(response.status, original.status, path);
+    assert.equal(response.statusText, original.statusText, path);
+    assert.deepEqual([...response.headers], original.headers, path);
+    assert.deepEqual(Buffer.from(await response.arrayBuffer()), original.bytes, path);
+  }
+  const directory = (await worker.fetchRequest(root)).response;
+  assert.equal(directory.redirected, false, 'Directory navigation must reuse the normalized HTML');
+  assert.deepEqual(Buffer.from(await directory.arrayBuffer()), originals.get(htmlPath).bytes);
+  assert.equal(worker.networkCalls.length, requestCount, 'Offline replay must not refetch the redirect');
+});
+
+test('nonredirected HTML retains its native URL and response type', async t => {
+  const { worker, originals } = await nativePackageServer(t, { redirectHtml: false });
+  const path = root + 'index.html';
+  const original = originals.get(path);
+  const { response } = await worker.fetchRequest(path);
+  assert.equal(original.redirected, false);
+  assert.notEqual(original.url, '');
+  assert.equal(original.type, 'basic');
+  assert.equal(response.redirected, original.redirected);
+  assert.equal(response.url, original.url);
+  assert.equal(response.type, original.type);
+  assert.equal(response.status, original.status);
+  assert.equal(response.statusText, original.statusText);
+  assert.deepEqual([...response.headers], original.headers);
+  assert.deepEqual(Buffer.from(await response.arrayBuffer()), original.bytes);
+});
+
+function bodyLimitedNetwork({ limit = 3, failPath } = {}) {
+  const waiting = [], completed = [], bodyFailures = [];
+  let active = 0, peak = 0;
+  const chunksFor = path => Array.from({ length: 8 }, (_, index) => Buffer.from(`chunk:${index}:${path}\n`));
+  return {
+    completed, bodyFailures,
+    get peak() { return peak; },
+    expectedBytes: path => Buffer.concat(chunksFor(path)),
+    async response(path) {
+      if (active >= limit) await new Promise(resolve => waiting.push(resolve));
+      peak = Math.max(peak, ++active);
+      const chunks = chunksFor(path);
+      let index = 0;
+      const body = new ReadableStream({
+        pull(controller) {
+          if (index < chunks.length) { controller.enqueue(chunks[index++]); return; }
+          // A response header does not release the connection. Only reaching
+          // EOF (or a late transport error) admits another pending fetch.
+          active--;
+          waiting.shift()?.();
+          if (path === failPath) {
+            bodyFailures.push({ path, chunksRead: index });
+            controller.error(new TypeError(`Truncated package body: ${path}`));
+          } else {
+            completed.push(path);
+            controller.close();
+          }
+        },
+      }, { highWaterMark: 0 });
+      return new Response(body, { headers: { 'content-type': contentType(path) } });
+    },
+  };
+}
+
+async function boundedInstall(worker) {
+  let timer;
+  try {
+    await Promise.race([
+      worker.lifecycle('install'),
+      new Promise((_, reject) => { timer = setTimeout(() => reject(new Error('Package stalled: occupied fetch slots require body consumption')), 2000); }),
+    ]);
+  } finally { clearTimeout(timer); }
+}
+
+test('installation drains a three-slot response pool before writing any of the complete package', async () => {
+  const network = bodyLimitedNetwork();
+  let writes = 0;
+  const worker = harness({ networkResponse: path => network.response(path), onCachePut() {
+    assert.equal(network.completed.length, worker.files.length, 'No cache write may precede the final response body EOF');
+    writes++;
+  } });
+  await boundedInstall(worker);
+  assert.equal(network.peak, 3);
+  assert.deepEqual([...network.completed].sort(), [...worker.files].sort());
+  assert.equal(writes, worker.files.length);
+  worker.setOffline(true);
+  for (const path of worker.files) {
+    const { response } = await worker.fetchRequest(path);
+    assert.deepEqual(Buffer.from(await response.arrayBuffer()), network.expectedBytes(path), path);
+  }
+});
+
+test('a late body-read failure rejects installation without overwriting a complete same-version package', async () => {
+  const failPath = '/games/shared/outcome-runtime.js';
+  const network = bodyLimitedNetwork({ failPath });
+  let writes = 0;
+  const worker = harness({ networkResponse: path => network.response(path), onCachePut() { writes++; } });
+  const previous = await worker.caches.open(worker.version);
+  for (const path of worker.files) await previous.put(path, new Response(`previous:${path}`));
+  writes = 0;
+  await assert.rejects(boundedInstall(worker), /Truncated package body/);
+  assert.deepEqual(network.bodyFailures, [{ path: failPath, chunksRead: 8 }], 'Failure must occur after consuming body chunks, not at response headers');
+  assert.equal(writes, 0, 'A body error must be discovered before any cache writes');
+  assert.deepEqual(await worker.caches.keys(), [worker.version]);
+  for (const path of worker.files) assert.equal(await (await previous.match(path)).text(), `previous:${path}`);
+  assert.equal(worker.claimed, 0);
+  assert.equal(worker.skippedWaiting, 0);
 });
 
 test('a partial network failure rejects installation before writes and preserves a complete old package', async () => {

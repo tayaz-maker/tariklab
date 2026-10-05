@@ -40,7 +40,21 @@ self.addEventListener("install", (event) => {
                   ? /(?:manifest\+json|application\/json)/
                   : /text\/html/;
           if (!expected.test(contentType)) throw new Error(`Invalid game module: ${path}`);
-          return [path, response];
+          // Fetch resolves at headers. Finish each body before awaiting the
+          // complete package, so install-time request limits can release slots.
+          // Drain a clone to retain the original response's native metadata.
+          await response.clone().arrayBuffer();
+          // Canonical HTML hosts may redirect index.html to the directory URL.
+          // Navigation reloads cannot consume a cached redirected response.
+          // Preserve the payload and HTTP metadata, without its redirect history.
+          const cachedResponse = path.endsWith(".html") && response.redirected
+            ? new Response(response.body, {
+                status: response.status,
+                statusText: response.statusText,
+                headers: response.headers,
+              })
+            : response;
+          return [path, cachedResponse];
         }),
       );
       const cache = await caches.open(VERSION);
