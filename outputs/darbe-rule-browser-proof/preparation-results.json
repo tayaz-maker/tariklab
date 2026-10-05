@@ -1,0 +1,613 @@
+{
+  "sourceBase": "dfbab3f15b74df5336fecf9f7d4247184cbb9222",
+  "counterproofSource": "a0bc478295a16d0a7120b7d200b0df61dc86af29",
+  "node": "PASS",
+  "browser": "NOT_RUN",
+  "B11": "OPEN",
+  "cases": [
+    {
+      "id": "DRB-237",
+      "name": {
+        "tr": "Telex Kurulu",
+        "en": "Telex Board"
+      },
+      "materials": [
+        "DRB-005",
+        "DRB-006"
+      ],
+      "cost": 900,
+      "boss": "0:auxiliary:0",
+      "target": "fixture:3",
+      "bytes": 21916,
+      "sha256": "043e983cb8b58cd598b5b85d3627c19d49d6dcfd9c0275b7e21ca55f72c5ce8b",
+      "stages": {
+        "before": {
+          "revision": 0,
+          "points": [
+            8000,
+            8000
+          ],
+          "boss": {
+            "player": 0,
+            "zone": "auxiliary",
+            "index": 0
+          },
+          "target": {
+            "player": 1,
+            "zone": "support",
+            "index": 0
+          },
+          "materials": [
+            {
+              "player": 0,
+              "zone": "units",
+              "index": 0
+            },
+            {
+              "player": 0,
+              "zone": "units",
+              "index": 1
+            }
+          ],
+          "choice": null,
+          "pending": null
+        },
+        "summoned": {
+          "revision": 1,
+          "points": [
+            8000,
+            8000
+          ],
+          "boss": {
+            "player": 0,
+            "zone": "units",
+            "index": 0
+          },
+          "target": {
+            "player": 1,
+            "zone": "support",
+            "index": 0
+          },
+          "materials": [
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 0
+            },
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 1
+            }
+          ],
+          "choice": null,
+          "pending": null
+        },
+        "choice": {
+          "revision": 2,
+          "points": [
+            7100,
+            8000
+          ],
+          "boss": {
+            "player": 0,
+            "zone": "units",
+            "index": 0
+          },
+          "target": {
+            "player": 1,
+            "zone": "support",
+            "index": 0
+          },
+          "materials": [
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 0
+            },
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 1
+            }
+          ],
+          "choice": {
+            "player": 0,
+            "source": "0:auxiliary:0",
+            "key": "support",
+            "ids": [
+              "fixture:3"
+            ],
+            "count": 1,
+            "jobId": 1
+          },
+          "pending": null
+        },
+        "after": {
+          "revision": 3,
+          "points": [
+            7100,
+            8000
+          ],
+          "boss": {
+            "player": 0,
+            "zone": "units",
+            "index": 0
+          },
+          "target": {
+            "player": 1,
+            "zone": "hand",
+            "index": 0
+          },
+          "materials": [
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 0
+            },
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 1
+            }
+          ],
+          "choice": null,
+          "pending": null
+        }
+      }
+    },
+    {
+      "id": "DRB-238",
+      "name": {
+        "tr": "Zeyil Masası",
+        "en": "Annex Board"
+      },
+      "materials": [
+        "DRB-007",
+        "DRB-008"
+      ],
+      "cost": 1000,
+      "boss": "fixture:4",
+      "target": "fixture:7",
+      "bytes": 22143,
+      "sha256": "cc1547b3e5a2ff0ffcb9e0585606102075af839e8853409cbbb61726962c847f",
+      "stages": {
+        "before": {
+          "revision": 0,
+          "points": [
+            8000,
+            8000
+          ],
+          "boss": {
+            "player": 0,
+            "zone": "auxiliary",
+            "index": 4
+          },
+          "target": {
+            "player": 1,
+            "zone": "support",
+            "index": 0
+          },
+          "materials": [
+            {
+              "player": 0,
+              "zone": "units",
+              "index": 0
+            },
+            {
+              "player": 0,
+              "zone": "units",
+              "index": 1
+            }
+          ],
+          "choice": null,
+          "pending": null
+        },
+        "summoned": {
+          "revision": 1,
+          "points": [
+            8000,
+            8000
+          ],
+          "boss": {
+            "player": 0,
+            "zone": "units",
+            "index": 0
+          },
+          "target": {
+            "player": 1,
+            "zone": "support",
+            "index": 0
+          },
+          "materials": [
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 0
+            },
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 1
+            }
+          ],
+          "choice": null,
+          "pending": null
+        },
+        "choice": {
+          "revision": 2,
+          "points": [
+            7000,
+            8000
+          ],
+          "boss": {
+            "player": 0,
+            "zone": "units",
+            "index": 0
+          },
+          "target": {
+            "player": 1,
+            "zone": "support",
+            "index": 0
+          },
+          "materials": [
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 0
+            },
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 1
+            }
+          ],
+          "choice": {
+            "player": 0,
+            "source": "fixture:4",
+            "key": "support",
+            "ids": [
+              "fixture:7"
+            ],
+            "count": 1,
+            "jobId": 1
+          },
+          "pending": null
+        },
+        "after": {
+          "revision": 3,
+          "points": [
+            7000,
+            8000
+          ],
+          "boss": {
+            "player": 0,
+            "zone": "units",
+            "index": 0
+          },
+          "target": {
+            "player": 1,
+            "zone": "hand",
+            "index": 0
+          },
+          "materials": [
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 0
+            },
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 1
+            }
+          ],
+          "choice": null,
+          "pending": null
+        }
+      }
+    },
+    {
+      "id": "DRB-239",
+      "name": {
+        "tr": "Arşiv Kurulu",
+        "en": "Archive Board"
+      },
+      "materials": [
+        "DRB-009",
+        "DRB-010"
+      ],
+      "cost": 1100,
+      "boss": "fixture:8",
+      "target": "fixture:11",
+      "bytes": 22148,
+      "sha256": "98e728f3b541f8f5ccba4025d6fd4cfd3323d180922931c26a6784d2493507a9",
+      "stages": {
+        "before": {
+          "revision": 0,
+          "points": [
+            8000,
+            8000
+          ],
+          "boss": {
+            "player": 0,
+            "zone": "auxiliary",
+            "index": 4
+          },
+          "target": {
+            "player": 1,
+            "zone": "support",
+            "index": 0
+          },
+          "materials": [
+            {
+              "player": 0,
+              "zone": "units",
+              "index": 0
+            },
+            {
+              "player": 0,
+              "zone": "units",
+              "index": 1
+            }
+          ],
+          "choice": null,
+          "pending": null
+        },
+        "summoned": {
+          "revision": 1,
+          "points": [
+            8000,
+            8000
+          ],
+          "boss": {
+            "player": 0,
+            "zone": "units",
+            "index": 0
+          },
+          "target": {
+            "player": 1,
+            "zone": "support",
+            "index": 0
+          },
+          "materials": [
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 0
+            },
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 1
+            }
+          ],
+          "choice": null,
+          "pending": null
+        },
+        "choice": {
+          "revision": 2,
+          "points": [
+            6900,
+            8000
+          ],
+          "boss": {
+            "player": 0,
+            "zone": "units",
+            "index": 0
+          },
+          "target": {
+            "player": 1,
+            "zone": "support",
+            "index": 0
+          },
+          "materials": [
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 0
+            },
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 1
+            }
+          ],
+          "choice": {
+            "player": 0,
+            "source": "fixture:8",
+            "key": "support",
+            "ids": [
+              "fixture:11"
+            ],
+            "count": 1,
+            "jobId": 1
+          },
+          "pending": null
+        },
+        "after": {
+          "revision": 3,
+          "points": [
+            6900,
+            8000
+          ],
+          "boss": {
+            "player": 0,
+            "zone": "units",
+            "index": 0
+          },
+          "target": {
+            "player": 1,
+            "zone": "hand",
+            "index": 0
+          },
+          "materials": [
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 0
+            },
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 1
+            }
+          ],
+          "choice": null,
+          "pending": null
+        }
+      }
+    },
+    {
+      "id": "DRB-240",
+      "name": {
+        "tr": "Yazı Heyeti",
+        "en": "Writ Panel"
+      },
+      "materials": [
+        "DRB-011",
+        "DRB-012"
+      ],
+      "cost": 1200,
+      "boss": "0:auxiliary:2",
+      "target": "fixture:14",
+      "bytes": 21922,
+      "sha256": "5c79ea24d29f189b8e927fc314bb23a42547d1dc1396a43688727a07e5c10ffb",
+      "stages": {
+        "before": {
+          "revision": 0,
+          "points": [
+            8000,
+            8000
+          ],
+          "boss": {
+            "player": 0,
+            "zone": "auxiliary",
+            "index": 2
+          },
+          "target": {
+            "player": 1,
+            "zone": "support",
+            "index": 0
+          },
+          "materials": [
+            {
+              "player": 0,
+              "zone": "units",
+              "index": 0
+            },
+            {
+              "player": 0,
+              "zone": "units",
+              "index": 1
+            }
+          ],
+          "choice": null,
+          "pending": null
+        },
+        "summoned": {
+          "revision": 1,
+          "points": [
+            8000,
+            8000
+          ],
+          "boss": {
+            "player": 0,
+            "zone": "units",
+            "index": 0
+          },
+          "target": {
+            "player": 1,
+            "zone": "support",
+            "index": 0
+          },
+          "materials": [
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 0
+            },
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 1
+            }
+          ],
+          "choice": null,
+          "pending": null
+        },
+        "choice": {
+          "revision": 2,
+          "points": [
+            6800,
+            8000
+          ],
+          "boss": {
+            "player": 0,
+            "zone": "units",
+            "index": 0
+          },
+          "target": {
+            "player": 1,
+            "zone": "support",
+            "index": 0
+          },
+          "materials": [
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 0
+            },
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 1
+            }
+          ],
+          "choice": {
+            "player": 0,
+            "source": "0:auxiliary:2",
+            "key": "support",
+            "ids": [
+              "fixture:14"
+            ],
+            "count": 1,
+            "jobId": 1
+          },
+          "pending": null
+        },
+        "after": {
+          "revision": 3,
+          "points": [
+            6800,
+            8000
+          ],
+          "boss": {
+            "player": 0,
+            "zone": "units",
+            "index": 0
+          },
+          "target": {
+            "player": 1,
+            "zone": "hand",
+            "index": 0
+          },
+          "materials": [
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 0
+            },
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 1
+            }
+          ],
+          "choice": null,
+          "pending": null
+        }
+      }
+    }
+  ]
+}
