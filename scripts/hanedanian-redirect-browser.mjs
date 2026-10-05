@@ -44,25 +44,31 @@ async function persist(page) {
 async function snapshot(page) {
   return page.evaluate(async () => {
     const registrations = await navigator.serviceWorker.getRegistrations();
-    const packages = [];
-    for (const key of await caches.keys()) {
+    const cacheKeys = await caches.keys(), packages = [];
+    for (const key of cacheKeys) {
       if (!key.startsWith('hanedanian-package-')) continue;
       const cache = await caches.open(key);
       const response = await cache.match('/games/hanedanian/index.html');
       const bytes = response && await response.clone().arrayBuffer();
       const hash = bytes && [...new Uint8Array(await crypto.subtle.digest('SHA-256', bytes))].map(b => b.toString(16).padStart(2,'0')).join('');
-      packages.push({key, files:(await cache.keys()).length, html:response && {url:response.url, redirected:response.redirected, type:response.type, status:response.status, statusText:response.statusText, headers:Object.fromEntries(response.headers), sha256:hash}});
+      const fileURLs = (await cache.keys()).map(request => request.url);
+      packages.push({key, files:fileURLs.length, fileURLs, html:response && {url:response.url, redirected:response.redirected, type:response.type, status:response.status, statusText:response.statusText, headers:Object.fromEntries(response.headers), sha256:hash}});
     }
-    return {url:location.href, controller:navigator.serviceWorker.controller?.scriptURL, registrations:registrations.map(r => ({scope:r.scope, active:r.active?.state, installing:r.installing?.state, waiting:r.waiting?.state})), packages};
+    return {url:location.href, controller:navigator.serviceWorker.controller?.scriptURL, controllerState:navigator.serviceWorker.controller?.state, registrations:registrations.map(r => ({scope:r.scope, active:r.active?.state, activeURL:r.active?.scriptURL, installing:r.installing?.state, installingURL:r.installing?.scriptURL, waiting:r.waiting?.state, waitingURL:r.waiting?.scriptURL})), cacheKeys, packages};
   });
 }
 async function runCase(label, worker) {
-  const entry = {label, workerSHA256:digest(worker), requests:[], console:[], pageErrors:[], requestFailures:[], navigations:[], status:'running'};
+  const entry = {label, workerSHA256:digest(worker), requests:[], console:[], pageErrors:[], requestFailures:[], navigations:[], workerErrors:[], workerVersions:[], workerRegistrations:[], browserLog:[], status:'running'};
   report.cases.push(entry);
   const server = createServer(async (req,res) => {
+    const request = {path:req.url, method:req.method, startedAt:new Date().toISOString()};
+    entry.requests.push(request);
+    res.once('finish', () => Object.assign(request, {status:res.statusCode, headers:res.getHeaders(), finishedAt:new Date().toISOString()}));
+    res.once('close', () => {request.responseFinished = res.writableFinished;});
+    req.once('aborted', () => {request.aborted = true;});
     try {
       const url = new URL(req.url, 'http://127.0.0.1');
-      entry.requests.push({path:url.pathname, method:req.method});
+      request.path = url.pathname;
       if (url.pathname === GAME + 'index.html') {
         res.writeHead(307, {location:GAME, 'cache-control':'no-store'}).end(); return;
       }
@@ -72,7 +78,7 @@ async function runCase(label, worker) {
       if (!file.startsWith(root + sep)) { res.writeHead(403).end(); return; }
       const body = path === GAME + 'sw.js' ? worker : await readFile(file);
       res.writeHead(200, {'content-type':mime[extname(file)] || 'application/octet-stream', 'cache-control':'no-store', 'content-length':body.length, 'x-redirect-fixture':'real-game'}).end(body);
-    } catch(error) { res.writeHead(error.code === 'ENOENT' ? 404 : 500).end(); }
+    } catch(error) {request.error = error.stack || String(error);res.writeHead(error.code === 'ENOENT' ? 404 : 500).end();}
   });
   let context, page;
   try {
@@ -82,6 +88,15 @@ async function runCase(label, worker) {
     context = await browser.newContext({viewport:{width:1440,height:960}});
     await context.tracing.start({screenshots:true,snapshots:true,sources:true});
     page = await context.newPage();
+    // Read-only browser telemetry: observe worker install/redundancy failures
+    // without intercepting requests or changing registration/cache behavior.
+    const cdp = await context.newCDPSession(page);
+    cdp.on('ServiceWorker.workerErrorReported', event => entry.workerErrors.push({at:new Date().toISOString(), ...event.errorMessage}));
+    cdp.on('ServiceWorker.workerVersionUpdated', event => entry.workerVersions.push({at:new Date().toISOString(), versions:event.versions}));
+    cdp.on('ServiceWorker.workerRegistrationUpdated', event => entry.workerRegistrations.push({at:new Date().toISOString(), registrations:event.registrations}));
+    cdp.on('Log.entryAdded', event => entry.browserLog.push({at:new Date().toISOString(), ...event.entry}));
+    await cdp.send('ServiceWorker.enable');
+    await cdp.send('Log.enable');
     page.setDefaultTimeout(15000); page.setDefaultNavigationTimeout(15000);
     page.on('console', message => entry.console.push({type:message.type(),text:message.text()}));
     page.on('pageerror', error => entry.pageErrors.push(String(error)));
@@ -140,7 +155,18 @@ async function runCase(label, worker) {
     entry.offlineNetworkDisabled = await page.evaluate(async () => {try {await fetch('/__uncached_redirect_probe__');return false;}catch{return true;}});
     assert.equal(entry.offlineNetworkDisabled, true, 'uncached network really fails');
     entry.status = 'passed';
-  } catch(error) {entry.error = error.stack || String(error);entry.status='failed';throw error;}
+  } catch(error) {
+    entry.error = error.stack || String(error);entry.status='failed';
+    if (page && !page.isClosed()) {
+      let timer;
+      try {
+        entry.failureSnapshot = await Promise.race([snapshot(page), new Promise((_, reject) => {timer=setTimeout(() => reject(Error('Failure snapshot exceeded 5s')),5000);})]);
+      } catch(snapshotError) {entry.failureSnapshotError = String(snapshotError);}
+      finally {clearTimeout(timer);}
+    }
+    await writeFile(resolve(out,'results.json'),JSON.stringify(report,null,2));
+    throw error;
+  }
   finally {
     await context?.tracing.stop({path:resolve(out, `${label}-trace.zip`)});
     await context?.close();
