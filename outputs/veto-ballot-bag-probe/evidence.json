@@ -1,0 +1,73 @@
+{
+  "schema": 1,
+  "status": "REJECT_FOR_PRODUCTION",
+  "id": "SND-011",
+  "sourceCard": {
+    "id": "SND-011",
+    "name": "Sandık Çantası",
+    "kind": "unit",
+    "subtype": "effect",
+    "series": "Kadro — Sandık serisi",
+    "level": 1,
+    "attack": 0,
+    "defense": 1500,
+    "deckLocation": "main",
+    "text": "Savaşta yok olmaz. Her Hazırlık Aşaması’nda OP −200.",
+    "nameEn": "Ballot Bag",
+    "textEn": "Cannot be destroyed in battle. Lose 200 OP during every Standby Phase."
+  },
+  "sourceCardFile": "public/games/veto-h/source-cards.json",
+  "sourceFileSha256": "b876fdb69eeb4ddcfd1d06e397df14e14070cf3131ad4d210b4608e8fe7b4acd",
+  "sourceRecordSha256": "b93b6e61361e06abbd2a9dfe6562ea938cb05b4ecc40e3826b57ed2adb253844",
+  "base": "3c1c8d1ec3035b697761a9c86fd0bfa553c6aec0",
+  "branch": "astra/veto-ballot-bag-vector-probe",
+  "sourceAuthorship": "New original authored SVG geometry, gradients, weave patterns and seeded wear marks. No image generation, image tracing, downloaded model or raster source.",
+  "externalAssets": [],
+  "embeddedImages": 0,
+  "visibleText": false,
+  "people": false,
+  "animation": false,
+  "artworkDimensions": [
+    576,
+    384
+  ],
+  "masterViewBox": [
+    0,
+    0,
+    1440,
+    960
+  ],
+  "bytes": 45283,
+  "gzipBytes": 7357,
+  "sha256": "349ab1034bae0d299ac1eaa158cd221f86c025b0ff05cbf128dfd7bc1300253b",
+  "semanticRelation": {
+    "fact": "Savaşta yok olmaz. Her Hazırlık Aşaması’nda OP −200.",
+    "interpretation": "Reinforced heavy canvas transport bag remains intact; repair stitches, spare leather and thread suggest upkeep. The200OP amount and battle rule remain solely in unchanged UI text.",
+    "doesNotClaim": [
+      "Invulnerability outside battle",
+      "A new repair action or resource",
+      "Actual election institution or event"
+    ]
+  },
+  "quality": {
+    "accepted": false,
+    "completedProductionCards": 0,
+    "humanArtStillBlocked": true,
+    "full300Expansion": false,
+    "reviewer": "Root assistant visual inspection of both renders; not independent human review",
+    "decision": "REJECT_FOR_PRODUCTION",
+    "reason": "Meaning and cream-green identity are legible, but broad schematic folds, uniform weave, flat wall/wood and weak perspective/material depth remain stylized vector, below the B3/B7 realism target.",
+    "retryAllowed": false
+  },
+  "scope": {
+    "publicChanges": false,
+    "engineChanges": false,
+    "saveChanges": false,
+    "uiChanges": false
+  },
+  "crop": {
+    "canonicalAssetAspect": "3:2",
+    "source": "public/games/duel-core/theme-meta.js art.width576/art.height384",
+    "layout": "Unchanged design.css uses flex art wells and object-fit:cover; actual responsive DOM crop not measured by this standalone renderer."
+  }
+}
