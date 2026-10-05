@@ -1,0 +1,367 @@
+import { readFileSync, writeFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { fileURLToPath } from 'node:url';
+
+export const SOURCE_SHA = 'e385808c632851e5110e47950af4c33f33e6f9784ca235ca7d70c5a1e6dd99a3';
+export const sourceUrl = new URL('../../public/games/gett-oh/source-cards.json', import.meta.url);
+// Every row was authored after reading that ID's name, kind, series and effect.
+// Fields: ordinal | scene class | subjects | visual action/effect bridge | setting | camera/composition.
+// No name/regex/template classifier or default scene exists: a missing ID fails.
+const directedRows = `
+001|character|34 yaşında geniş omuzlu kısa saçlı çay görevlisi; tepside dört bardak|Boşalan masadan tepsiyi alırken arka masaya yeni bardak götürür; ayrılışın yeni imkâna açılması|Dar ahşap çayhane geçidi, pirinç askı lambası|Bel hizasından çapraz, tepsi ön planda, yüz sağ üstte
+002|character|63 yaşında gümüş saçlı kadın müdavim; gerçek okey ıstakası|Kapalı taşını çevirip sıradaki taşı görür; açılmanın bilgi sağlaması|Yeşil kapılı mahalle kahvesinin oyun köşesi|Masa üzerinden üç çeyrek yakın plan, eller ile taş yüzü odakta
+003|character|24 yaşında ince yapılı kıvırcık saçlı erkek ayakçı|Bir işi başka çalışana devredip çayhaneden ayrılır; yerine çağrılacak bağlantı|Arka mutfak ile servis penceresi arasındaki eşik|İki kapı derinliği boyunca geniş açı, devredilen boş tepsi merkezde
+004|character|46 yaşında kısa saçlı kadın sokak gözlemcisi|Yeni bırakılan kapalı zarfı cam yansımasından fark eder; saklı hazırlığı okuma|Köşe kahvenin cam kenarı, akşam iç ışığı|Camın içinden dışarı bakış, yüz ve zarf farklı netlikte
+005|character|29 yaşında saçını toplayan kadın kurye; düz paket|Dar yan geçitten teslim noktasına doğrudan ulaşır; kısa yolun sınırlı taşıma kapasitesi|Yağmur sonrası taş merdivenli apartman avlusu|Yandan tam hareket, paket önünde, yol solda derinleşir
+006|character|21 yaşında kısa boylu erkek çırak; iş önlüğü|Önlüğünü yetişkin yeni çalışana teslim edip tezgâhtan çekilir; yerini küçük göreve bırakma|Çay ocağının bakır lavabolu arka tezgâhı|Omuz üzerinden iki el değişimi, yeni çalışan arkada
+007|character|56 yaşında kır saçlı göbekli erkek park görevlisi|Yaya kapısını kontrol edip ana yolu açık başka güzergâha yöneltir; hedefin başka tarafa çevrilmesi|Kurgu mahalle parkının alçak yeşil kapısı|Çevre ağırlıklı geniş kadraj, görevli sol kenarda, patika kıvrılır
+008|character|38 yaşında kısa sakallı minibüs muavini|Yakındaki taksi görevlisinden işaret alıp yolcuların geçişini düzenler; seri desteği|Boş tabelalı küçük servis durağı|Açık araç kapısından dışarı, iki görevli çapraz bakış hattında
+009|character|51 yaşında seyrek saçlı kadın simit satıcısı|Sabah sepetindeki ürünleri düzenleyip küçük para kesesini kapatır; dönemlik gelir ritmi|Köşe fırının dışındaki basamaksız kaldırım|Sepet hizasında yakın çevre, insan belden yukarı arkada
+010|event|Yetişkin düğün hazırlık görevlisi; boş davet zarfı ve kapalı bildirim|Hazırlık başlarken perde arkasına kapalı haber bırakılır; çağrıyla kurulan İhbar|Sade mahalle düğün salonunun servis girişi|Perde aralığından zarf odaklı çapraz görüş, silah ve şiddet yok
+011|character|60 yaşında kısa saçlı erkek kapıcı; anahtar demeti|Apartman sakinlerinin açtığı kapıların arasında yerinde kalır; semtin dayanıklılığı|Yıpranmış mozaik zeminli bina girişi|Alçak göz hizası, kapıcı ve kapı kemeri koruyucu çerçeve kurar
+012|character|41 yaşında dağınık saçlı iri yetişkin kahve müdavimi|Sandalyeyi hızla geri itip öne çıkar; arkasında korumasız açık yer kalır|Kalabalık olmayan akşam kahvesinin orta masası|Hareketli çapraz orta plan, boşalan sandalye açıkça görünür
+013|character|27 yaşında uzun saçlı zayıf erkek mahalleli|Durduğu kaldırımdan başka sokağa sapar; eski bekleyişin yeni fırsatla yer değiştirmesi|Boş otobüs saçağı ile ara sokak kavşağı|Uzak tam boy, iki yol arasında küçük duraksama
+014|character|44 yaşında toplu saçlı kadın yedek çalışan|Boşalan servis yerindeki önlüğü alır; kaybın ardından tek bir yer doldurulur|Çayhanenin askılıklı personel koridoru|Askılığa yakın plan, arka planda boş iş istasyonu
+015|character|58 yaşında bıyıklı erkek taksi işletmecisi|Durağın çay tepsisini çalışanlara dağıtır; çevredeki çayhane ağı güçlenir|Kurgu taksi kulübesinin sundurması|Üç kişilik yatay grup, yüzler farklı, tepsi bağ kurar
+016|character|47 yaşında gözlüklü kadın gece şoförü|Yalnız güzergâha çıkmadan cebinden yol payını ayırır; doğrudan ilerlemenin bedeli|Markasız otomobilin loş sürücü bölmesi|Yolcu koltuğundan yakın orta plan, eller anahtar ile para kesesinde
+017|character|49 yaşında kel erkek garaj ustası|Doğru takımını beline yerleştirince ağır işi dengeler; donanımın iki yönlü desteği|Kaldırma sehpalı bağımsız garaj|Takım-bel-omuz üçgeni, düşük açıdan tam çalışma duruşu
+018|character|36 yaşında kestane saçlı kadın durak gözlemcisi|Kapalı panjur aralığını açıp karşı masadaki açık zarfları görür; görünür bilgi|Yol hizmet kulübesindeki camlı bölme|İçeriden dar aralıklı bakış, yansıma katmanı
+019|action|Sivil yol düzenleyici; portatif ahşap bariyer|Duran taşıtların arasından yükün ağırlığını sınar; savunmayı başka ölçüyle değerlendirme|Kurgu tamir sokağının dar ağzı|Bariyer ön planda, iki duruşu karşılaştıran eğik üst görüş
+020|character|32 yaşında yuvarlak yüzlü erkek servis görevlisi|Mola vermiş çaycıyı servis kapısından yeniden işe çağırır; geri getirme|Küçük servis minibüsünün yan kapısı ve çay ocağı|Kapı eşiğinde iki figür, iç-dış ışık geçişi
+021|object|Markasız boş transfer minibüsü; bir inen ve bir binen yetişkin|Bir koltuk boşalırken başka yolcuya yer açılır; dolaşıma gönderip yenisini alma|Güneş batmış avlu durağı|Araç dışından yan kesit, iki kapı arasındaki hareket
+022|character|62 yaşında beyaz sakallı sivil köprü gözetmeni|Yan geçişi kendisi karşılayıp akışı köprü başında toplar; bir kez yön değiştirme|Uydurma kanaldaki kısa yaya köprüsü|Korkuluk çizgileri merkeze gider, görevli tam boy önde
+023|character|43 yaşında saçları örgülü kadın durak sorumlusu|Bekleme ipini kapatıp geliş sırasını durdurur; küçük girişlerin engellenmesi|Taksi kulübesinin yağmurlu bekleme cebi|Sıra ipi diyagonal, tek el kapatma anında
+024|location|Tabelasız yan servis çıkışı; yarı boş yakıt göstergesi görünmeyen araç|Dar imkânla daha kestirme hatta çıkılır; düşük kaynakta ek baskı|İki atölye arasındaki alternatif araç geçidi|Sokak seviyesinde uzun perspektif, insan yerine rota baskın
+025|character|39 yaşında geniş yapılı kadın yol yardım ustası|Eski alet kutusunu kurtarma kasasından alır; ekipmanı geri kazanma|Yağmur sonrası kurtarma aracının arka platformu|Alet tutuşuna yakın, platformun zincirsiz güvenli köşesi
+026|character|64 yaşında kır bıyıklı şoför|Vardiyasını bitirip yakındaki çay çalışanına boş direksiyon yerini gösterir; yerini başka seri alır|Gece garajındaki dinlenme bankı|İki kuşak yan profil, anahtar merkezde
+027|character|45 yaşında sakalsız şantiye ekip sorumlusu, sivil iş giysisi|Kapalı malzeme dolabının önünde bekler; kendisine yönelince gizli müdahale açılmaz|Tamamlanmamış yapıdaki korumalı çalışma geçidi|Dikey payandalar arasında kararlı orta plan, üniforma yok
+028|character|52 yaşında dalgalı saçlı kadın yapı yüklenicisi|Semt avlusundaki küçük maketi komşularla karşılaştırır; yerel saha desteği|Kurgu yeniden düzenlenen apartman bahçesi|Maket ön planda, orta geniş grup, gerçek harita yok
+029|character|57 yaşında ince bıyıklı sivil gece görevlisi|Eskimiş kapının tek sağlam sürgüsünü kapatır; bir defalık dayanma|Çarşı servis kapısının taş eşiği|Sürgüye yakın eller, yüz yarı profilde arkada
+030|character|42 yaşında kolları güçlü kadın demir ustası|Yeni mengeneyi takıp başka aleti çekmeceden çıkarır; ekipmandan fırsat|Kıvılcımsız metal işçiliği tezgâhı|El hizası yatay yakın plan, iş nesnesi merkez
+031|character|55 yaşında dolgun yüzlü erkek hal esnafı|Sabah kasaları sayıp küçük gelir kutusuna pay ekler; düzenli kazanç|Kapalı sebze halinin yük rampası|Kasalar arasından geniş açı, kişi arka üçte birde
+032|character|46 yaşında kısa saçlı kadın kasap; temiz iş önlüğü|Ayırdığı boş sandığı geri dönüş rafından çıkarır; kalıcı ayırma metaforu|Temiz kuru hazırlık odası, et ve kesici alet görünmez|Rafların içinden dışarı bakış, boş kasa hareketi
+033|character|37 yaşında koyu tenli kıvırcık saçlı erkek depocu|Bir kapalı koliyi düşmeden yakalayıp sağlam rafa koyar; tek müdahalelik koruma|Ahşap raflı dükkân deposu|Koliye yakın üç çeyrek, iki elin desteği okunur
+034|character|48 yaşında kısa kumral saçlı vinç operatörü|Eski kapalı kasayı kaldırıp yerine geçici duvar paneli bırakır; hazırlığı savunmaya çevirme|İnsanlardan arındırılmış güvenli yük sahası|Kabinden dışarı görüş, panel ve boşalan zemin birlikte
+035|location|Kilitli küçük depo; iki sağlam destek sütunu|Hareket etmeyen mekân başka iki işe dayanak olur; çift katkı|Sade kiralık depo iç hacmi|Kapıdan simetrik değil hafif çapraz geniş açı
+036|character|59 yaşında toplu saçlı kadın pazar yöneticisi|Esnafların tezgâh tentelerini ortak hizada açtırır; toplu destek|Mahalle pazarının orta koridoru|Üst kot merdivenden aşağı, temsilci ve dört farklı tezgâh
+037|action|Düşmüş boş bez çanta; uzanan yetişkin el|Bir hareketle düzenin dağılması ve eldekinin eksilmesi; kişiye saldırı resmedilmez|Kalabalıksız pazar çıkışı|Zemin seviyesinde nesne odaklı yakın plan, yüz yok
+038|character|54 yaşında gözlüklü erkek kuyumcu|Küçük keseyi güvenlik kutusuna ayırıp vitrin kapağını indirir; kaynakla koruma|Markasız kuyum iş tezgâhı|Vitrin camından içeri, kutu ve yüz kontrollü yansımalı
+039|character|25 yaşında kısa saçlı kadın hesap çırağı|Her iki tarafa ayrılmış keselerden küçük payı ayırır; tekrar eden bedel|Loş arka dükkânın taş masası|Üç çeyrek üst görüş, yüz arka planda, iki kese
+040|character|50 yaşında ince sakallı sivil tahsil görevlisi|Kapanan dükkânın geçici levhasını söküp hesap kutusunu alır; sürekli desteğin sona ermesi|Boş vitrinli kiralık iş yeri|Kapı çerçevesinden geniş orta plan, belge yüzleri boş
+041|character|40 yaşında uzun boylu kadın liman gözetmeni|Gece vardiyasının bıraktığı kapalı zarfı aydınlık rafa koyup kontrol eder|Hayalî iskele kulübesinin servis penceresi|Pencere dışından bakış, zarf ve göz hattı birlikte
+042|location|Denizci eşyaları taşıyan ama amblemsiz kıyı kahvesi|Çay masası liman ile mahalle arasında ortak merkez olur; çayhane aidiyeti|Gerçek limanı taklit etmeyen küçük kıyı kahvesi|Boş ön masa ve uzaktaki yetişkin grup, derin iç mekân
+043|character|61 yaşında kısık gözlü erkek gece görevlisi|Gece kapanmış girişin önünde sessizce oturur; yeni rutin giriş gecikir|Koyu ahşap liman bekleme odası|Sabit geniş kadraj, kapalı kapı baskın, kişi küçük
+044|location|Takviyeli ambar kapısı, taşınabilir yük destekleri|Kapıya eklenen araçlar eşiği sağlamlaştırır; donanıma bağlı savunma|Kurgu kıyı deposunun içi|Kapı kanadına düşük açı, metal ve ahşap bağlantılar odakta
+045|location|Markasız yük giriş kapısı; kapalı bildirim cebi|Geçiş başlarken yan cebe bir zarf bırakılır; harekete bağlı hazırlık|Depolar arası araç geçidi|Geçiş doğrultusunda uzun perspektif, bildirim cebi yakın
+046|character|43 yaşında uzun yüzlü sivil yük taşıyıcısı|Kapanmış her rafın boş kasasını üst üste dizer; eksilenden güç birikmesi|Gece arka ambarın numarasız rafları|Bel hizası yan açı, raf boşlukları ile yük dengesi
+047|character|58 yaşında güneşte yıpranmış yüzlü rıhtım işçisi|İskele babasına yaslanarak tek büyük sarsıntıyı dengeler; sahaya bağlı dayanma|Soyut kıyı yük iskelesi|İskele tahtalarından alçak bakış, dalga yalnız arka doku
+048|character|35 yaşında kısa kıvırcık saçlı kadın nöbetçi|Eski zarfı çekmeceden çıkarıp yeniden kapalı bölmeye koyar; geri kurulan hazırlık|Gece vardiyası kontrol bankosu|Çekmece hizasında yakın aksiyon
+049|event|Biri çıkan biri gelen iki yetişkin vardiya çalışanı|Aynı noktada konumlarını değiştirirler; tur sonunda yeniden yerleşme|İskele soyunma odasının açık kapısı|Karşı yönlü yürüyüş, iki farklı ışık düzlemi
+050|location|Yüksek raf arkasındaki dar görünmez girinti|Öndeki geçişte hiçbir doğrudan bakış çizgisi içeri ulaşmaz; hedef dışı kalma|Ambarın karmaşık ama mantıklı raf köşesi|Yukarıdan eğik, engellenen görüşü nesneler anlatır
+051|character|39 yaşında topuzlu kadın organizatör|Perde arkasında hazır sandalyeyi gelen çalışana sessizce açar; bedelsiz saklı yerleşme|Kıyı toplantı salonunun hazırlık odası|Perde katmanları arasından orta plan
+052|character|31 yaşında ince yapılı erkek bant işçisi|Eş boyutlu iki koliden birini tamamlayınca yeni paketi çeker; eş seviyeden fırsat|Tungsten lambalı ahşap paketleme bandı|Bandın ucundan perspektif, eş kutular farklı aşamada
+053|character|56 yaşında gri saçlı sivil evrak tanıdığı|Birleştirilmiş yeni yük dosyasına bekleme klipsi takar; birleşmenin bedeli|Amblemsiz kıyı evrak penceresi|Cam bölme ardından eller ve kalın dosya
+054|character|48 yaşında dalgalı saçlı kadın erken vardiya çalışanı|Kapalı panjuru günün ilk ışığında kaldırır; gizli bekleyişin güçlenmesi|Kıyı çay ocağının doğu penceresi|İçeriden karşı ışık, omuz üstü panjur hareketi
+055|character|61 yaşında beyaz bıyıklı mahalle işletmecisi|Avludaki esnafın açtığı yerden ortaya yürür; semt desteği|Kurgu dört dükkânlı avlu|Yatay geniş plan, kişi merkez dışında, komşular bağ oluşturur
+056|character|57 yaşında kır saçlı iri kadın mahalle büyüğü|Boşalan çay masasına oturup kendisine uzatılan yeni zarfı alır; fedadan bilgi|Kahvenin arka duvarındaki uzun sedir|Sedir boyunca düşük yan açı
+057|character|60 yaşında gözlüklü erkek borç veren|Karşısındakine para kesesi veya zarf arasında sakin seçim alanı bırakır|Dükkânın gece hesap köşesi|Masanın ortasından iki eş seçenek, tehdit dili yok
+058|character|53 yaşında kel ve geniş omuzlu garaj işletmecisi|Bir sıra şoföre hazır anahtarları dağıtır; ortak güçlenme|Servis garajının açık sundurması|Anahtar kasasına yakın, çalışanlar farklı derinlikte
+059|location|Sade büyük düğün evi ve kapalı avlu kapıları|İç avluya kestirme yol kapalıdır; doğrudan geçişe engel|Kurgu mahalle düğün yapısının taş avlusu|Yukarıdan avlu bütünlüğü, süs ve arma yok
+060|character|62 yaşında kısa saçlı kadın toptancı|Esnaf kasalarından toplanan payları ortak sepette düzenler; çarşıya bağlı gelir|Hal çıkışındaki açık kantar alanı|Sepet merkezli orta grup, güçlü fakat gündelik duruş
+061|object|Üç farklı markasız servis minibüsü|İki ayrı küçük çıkış koluna dağılım; iki sınırlı geçiş|Kurgu garajın geniş arka alanı|Yüksek açı, iki açık yol ve bir bekleyen araç
+062|location|Amblemsiz küçük gece mekânı; hazır kapı zarfı|Gece kapısı açılır açılmaz bekleyen haber el değiştirebilir|Dar mahalle müzik dışı gece oturma salonu|Kapı eşiğinden uzun iç görüş, hiçbir sanatçı/marka yok
+063|character|44 yaşında dalgalı saçlı kadın inşaat ortağı|Ayrılan çalışanın planını dosyaya koyup başka iş notunu alır; katkının yeni yola dönüşmesi|Geçici yapı danışma kulübesi|Katlanır masa üzerinde diagonal belge hareketi
+064|character|51 yaşında sivil giyimli danışma tanıdığı|Açılmak üzere olan bildirim zarfının üzerine nazikçe elini koyar; ihbarın bir kez durması|Tamamen kurmaca kamusal danışma koridoru|Banko içinden yan profil, logo/üniforma yok
+065|character|47 yaşında kısa saçlı sivil çarşı düzen görevlisi|Sürekli açık kalan işaret levhasını ters çevirir; devam eden etki kesilir|Pazarın boş servis kapısı|Levhanın boş arkası ön planda, kişi arkadan üç çeyrek
+066|character|59 yaşında gözlüklü kadın aile temsilcisi|İki dosyanın birleşmesinde kendi boş dosyasını aradan çıkarır; bir katkıyı üstlenme|Ev avlusundaki sade aile masası|Ellerin tepeden görünümü, yüz kenarda
+067|event|Sivil kıyafetli orta yaşlı yetişkin; eski bez bavul|Kapalı geçitten açık mahalle kapısına geri adım atar; dışarıdan dönüş|Kurum adı görünmeyen taş koridor çıkışı|Arkadan tam boy, gün ışığına açılan eşik
+068|character|65 yaşında dik duruşlu erkek; sade hırka|Eş ağırlıkta iki sandalyeyi dengelerken yerinde kalır; eşleşmede dayanma|Ev avlusuna açılan küçük ahşap atölye|Yandan oturur orta plan; askerî eşya/üniforma yok
+069|institution|Logosuz semt spor topluluğu; küçük dolaplar ve basit minderler|Yeni katılan yetişkinlere daha sağlam bekleme alanı açılır|Mahalle spor odasının hazırlık bölmesi|Geniş iç açı, küçük donanımın çevresinde koruyucu düzen
+070|institution|Yaşları farklı üç sivil bina yöneticisi|Kapalı evrak kutusunu düşen panodan bir kez korurlar|Apartman girişindeki toplantı masası|Düşey pano ve yatay eller kompozisyonu
+071|character|67 yaşında beyaz saçlı geniş yapılı mahalle büyüğü|Ayrılmış sandalyelerin arkasından açık geçide yönelir; katkı birikimi ve yol açılması|Uzun kahve masası ile arka sokak kapısı|Derin masa perspektifi, kişiye değil boş yerlere ağırlık
+072|character|73 yaşında seyrek beyaz saçlı sakin erkek|Aşınmış bastonunu sağlam zemine koyup bir kere ayağa kalkar; tekrar dayanma|Mahalle kahvesinin taş basamağı|Diz hizasından kontrollü orta plan
+073|object|Markasız şehirlerarası otobüs; sökülmüş boş durak paneli|Uzak güzergâh gelişi yerel geçiş düzenini kaldırır; kuvvetin kısılması|Hayalî otogarın küçük peronu|Otobüs yanından uzun lens, panel sağ alt köşede
+074|character|66 yaşında geniş yüzlü kadın aile reisi|İki farklı aile üyesinin bıraktığı yerden iki yeni zarf alır|Sade geniş ev sofrası|Masa başına üç çeyrek, iki el ayrı yönden uzanır
+075|character|63 yaşında kır sakallı kıyı işletmecisi|Yük işçilerini ortak sağlam saçak altında toplar; seri korunması|Rüzgârlı kurgu iskele saçağı|Saçak altından dışarı, insan grubu geniş yatay
+076|object|Eski çelik kasa; gelir kesesi ve ayrılan tek zarf|Büyük pay alınırken bir belge dışarı bırakılır; getirinin bedeli|Penceresiz küçük hesap odası|Kasa kapağı içinden nesne yakın plan
+077|event|58 yaşında uzun saçlı kadın; bez seyahat çantası|Dış kapıdan dönüp eski sandalyesini yeniden çeker; dönüşle kuvvet kazanma|Çarşı üstündeki tanıdık ev girişi|Arka üç çeyrek, çanta ve sandalye çapraz
+078|institution|İki farklı mahalleden dört yetişkin temsilci|İki ayrı avlunun anahtarlarını aynı halkada birleştirirler; iki semtin deneyimi|İki geçide açılan ortak avlu|Anahtarlar önde yakın, iki mekân arkada farklı derinlikte
+079|object|Yıpranmış isimsiz mühür kutusu ve kapalı kişisel zarf|Zarfı işaretlemeye uzanan el durur, kutu fiziksel olarak erişilebilir kalır|Eski kahvenin emanet rafı|Raf hizası yakın plan, hiçbir isim yazılmaz
+080|institution|Beş farklı yetişkinin mahalle masası|Herkes zarfını önce masaya kapalı koyar; acele açıklama ertelenir|Pencereli sade toplantı odası|Masa üstüne eğik geniş açı, beş el farklı konumda
+081|character|54 yaşında kısa saçlı kadın sivil şahit|Başkasının sözünü dinleyip kendi sandalyeden kalkmaya hazırlanır; hazırlık katkısı|Aile toplantısının yan sehpası|Şahidin omuz üzerinden diğer kişilere bakışı
+082|event|Aynı aileden görünüşleri farklı üç yetişkin; örgülü kumaş şerit|Şeritler ortak düğümde birleşirken yanına kapalı zarf bırakılır; ritüel ve hazırlık|Sade keten örtülü eski ahşap ev sofrası|Ellerin yakın üst görünümü; kan/yaralanma yok
+083|institution|İki farklı iş kıyafetindeki yetişkin komşu grubu|Her grubun aleti ortak çalışma tezgâhında yer bulur; seri çeşitliliği|Mahalle onarım avlusu|Geniş yatay topluluk, tek lider portresi yok
+084|institution|İki çayhane çalışanının ortak masası|İki ayrı tepsi tek sağlam sehpayı dengeler; bir defalık dayanışma|Birbirine bakan iki küçük çay ocağının arası|Sehpa yüksekliğinde yan görüş
+085|institution|Yaşlı temsilci ve daha genç yetişkin ortak|Toplantı zarfını bir sonraki boş bölmeye koyarlar; bildirim gecikir|Kurmaca konseyin sade kayıt masası|Bölmeli evrak rafı önde, konuşma arkada
+086|object|İki anahtarla açılan ortak ahşap para kutusu|İki çarşı katkısının düzenli ortak payı|Pazar kapanışındaki ortak tezgâh|Tepeden nesne kompozisyonu, iki farklı el kenarda
+087|location|Bir servis sokağı ile çayhane sokağı birleşimi|İki dolambaç tek açık geçide bağlanır; birleşik doğrudan yol|Gerçek coğrafyaya benzemeyen dar mahalle kavşağı|Balkon yüksekliğinden perspektif, rota fiziksel mekânla anlatılır
+088|character|69 yaşında kısa beyaz saçlı sivil aile büyüğü|Ortak kumaş bağı sıkarken eski katkı zarfları kapalı sandığa kaldırılır|Loş aile avlusunun uzun sediri|Yan profil, ellerin yaptığı düğüm ana odak
+089|event|Yeni katılan yetişkin ve onu karşılayan iki yaşlı komşu|Geri getirilen sandalye yanında küçük bir yer daha açar; geri dönüş zinciri|Çayhanenin sundurmalı avlusu|Kapıdan içeri geniş göz hizası
+090|object|Üzerinde okunur yazı olmayan katlanmış kâğıt; seçilmiş sandalye pulları|Katkılar bir araya toplanıp yeni oturma yeri açılır; ritüel hazırlığı|Yan pencereden ışık alan sade ev masası|Dikey üstten düzen, metin yüzü kapalı
+091|action|Esnafın bıraktığı küçük keseler; alınan tek kapalı zarf|Toplama sonrası para payı ile yeni bilgi aynı anda gelir|Çarşı arka servis masası|Eller ve iki sonuç nesnesine yakın plan
+092|action|Azalan ortak ödeme kabı; geri çekilen yetişkin el|Payın bir taraftan eksilmesi; bedel aktarımı|Loş semt hesap tezgâhı|Kaba göz hizasından makro yakınlık
+093|object|Bozuk para kesesi, anahtar ve yıpranmış yol çantası|Ayrılan yol bedeli sürücünün hazırlığını güçlendirir|Markasız araç ön koltuğu|Açık kapıdan eğik nesne üçlüsü
+094|action|Sertçe çekilen sandalye ve açık bırakılan geri dönüş kapısı|Kısa baskılı hamlenin ardından yerin boşalması; saldırı aracı gösterilmez|Gece kahvesindeki keskin ışıklı köşe|Boşalan sandalye odaklı hareket izsiz sahne
+095|event|Boş araç park cebi; katlanmış kullanılmaz tente|Donanım veya mekân desteğinin kullanım dışı kalması; ateş ve zarar gösterilmez|Kurgu garajın servis alanı|Geniş sessiz sonuç sahnesi, araçta insan yok
+096|action|Üç yetişkinin kısa kahve görüşmesi; iki gelen bir ayrılan zarf|İki seçenek dinlenir, biri masadan kaldırılır|Penceresi alçak çay masası|Daire değil asimetrik üçlü, masa yüzeyi odakta
+097|object|Boş kabartmalı davet zarfı; açık sandalye|Davet edilen yetişkine ayrılan yer; aranan kişinin gelişi|Düğün salonunun sade vestiyeri|Zarf yakın, sandalye arka netlikte
+098|action|Ayrılan para kesesi ve korunmak üzere kapatılan dosya|Koruma için görünür bedel ödenir|Kurmaca sivil danışma odası|Bir el bedeli bırakırken diğeri dosyayı örter
+099|action|İki komşu tezgâh arasında geçen yetişkin çalışan|Kısa süreli iş değiştirme; kalıcı sahiplik değil|Yan yana küçük tamir dükkânları|Geniş cephe kesiti, kişi eşikte
+100|event|60 yaşında yetişkin ziyaretçi; küçük çiçek demeti ve eski zarf|Hatırlanan bağ yeniden ele alınır; yitirilen kaynağa dönüş metaforu|İsimsiz ve simgesiz sakin anı bahçesi|Arkadan oturur figür, boş taş ve zarf ön planda
+101|action|Boş sandalye ve kapanan yan oda|Bir eşya ortak alandan tamamen kaldırılır; oyun dışına çıkış|Kahvenin arka eşik odası|Sandalye yarısı kapı dışında, sakin yandan yakınlık
+102|object|Kapalı zarf bölmelerinin önüne çekilmiş düz ahşap sürgü|Hazır bildirimlerin hepsini geçici olarak kapalı tutma|Sivil kayıt kulübesi|Raf yüzeyine tam karşı nesne odaklı kompozisyon
+103|action|Masa altında değil açık kenarda bırakılan isimsiz kese; iki dosya|Görünür yüksek bedel karşılığında birleşik bağlantı kurulur; gerçek kurum gösterilmez|Kurmaca özel görüşme bölmesi|İki dosya arasında kese, kişilerin yalnız sivil elleri
+104|object|Boş ön yüzlü ruhsat kılıfı ve aralanmış zarf|Saklı belge görülür; yanındaki kese ek müdahalenin bedelini anlatır|Tamirhane camlı evrak köşesi|Şeffaf kılıftan çapraz makro bakış
+105|object|Ağır depo anahtarı ve kayan ahşap panel|Anahtarla yerinde duran koruyucu duvar açığa çıkar|Taş çerçeveli depo kapısı|Anahtar önünde büyütülmüş, panel arkada keskin perspektif
+106|action|Gece çalışan üç yetişkine eşit küçük keseler|Vardiya payı ortak çalışmayı kısa süre destekler|İskele servis masasının dış saçağı|Yandan yatay ritim, üç farklı el ve pay
+107|event|Sabah temizlik arabası ve kaldırılmış küçük sandalyeler|Küçük düzen öğeleri topluca alandan kaldırılır|Gün açılırken boş çay salonu|Zemin seviyesinde uzun salon derinliği
+108|action|Yaşlı mahalleli ile genç yetişkinin sessiz konuşması|Büyük ya da en küçük bağlantıya ulaşma; iki ölçekli seçenek|Manav yanındaki dar gölgeli geçit|Yakın yüz profilleri, uzakta iki ayrı açık kapı
+109|event|Görüşmesi biten iki yetişkin; masadan geri alınan zarf|Konuşmanın ardından karşı taraf bir seçeneğinden vazgeçer|Kahve arkasındaki cam bölme|Masaya doğru üst açı, zarf çıkış yönünde
+110|object|Eskimiş boş defter; arasından çıkarılan eski zarf|Önceki sıradan bir hamle yeniden ele alınır|Çekmeceli eski yan sehpa|Defter sırtı ve çekmece çapraz yakın plan
+111|object|Hiçbir gerçek yere benzemeyen küçük kabartma avlu modeli|Farklı semt zeminlerinden biri seçilmek üzere öne alınır|Mahalle marangozunun plan bankosu|Tepeden değil alçak izometrik nesne görüşü
+112|location|İki hazır servis yeri ve kenara kaldırılan tek fincan|İki bağlantı açılırken biri elenir; seçimli tedarik|Dar çay ocağı bankosu|Ocak arkasından geniş enine görüş
+113|location|Açık garaj kapısı ve eski takım askısı|Unutulmuş ekipman tekrar erişilebilir olur|Tuğla duvarlı küçük garaj|Kapı dışından içeri, askı tek aydınlık odak
+114|action|Kapalı gece defteri ve gizli rafa bırakılan zarf|Gelecek olay için bildirimin hazırlanması|Rıhtım vardiya kontrol penceresi|Raf içinden elin yaklaşmasına bakış
+115|object|Markasız araç açık kapısı; geri dönen ayak izsiz rota|İlerleyen kişi güvenle geri çevrilir; hamlenin iptali ve dolaşıma dönüş|Avlu çıkışındaki kuru ara sokak|Araç içinden iki ters yönlü yol perspektifi
+116|object|Düz tuşlu kapalı telefon ahizesi|Ahize yerine otururken devam eden bağlantı kesilir|Tungsten ışıklı duvar telefonu köşesi|Ahize ile yuvasına çok yakın yan görüş
+117|location|Boş sandalye, açık perde ve görünmeyen yan geçit|Doğrudan erişilecek yerde kimse yoktur; hamle boşa düşer|Üst kat kahve balkonunun kapısı|Kapı eşiğinden boşluğa geniş açı
+118|action|Yetişkinin masaya koyduğu ağır dosya; geriye çekilen el|Bir hamlenin o anki kuvvetini durdurma; tehdit/şiddet yok|Çarşı görüşme masası|Dosya yüzeyine eğik yakınlık, kişiler kadraj dışında
+119|event|Aynı anda kapanmış tenteler ve boşalan açık oturma alanı|Ortak korunma düzeni zayıflar; korku/terör eylemi gösterilmez|Akşam kurgu pazar meydancığı|Yüksek çevre kadrajı, savunmasız boş alanlar odakta
+120|location|Alçak ev avluları, küçük dükkânların ortak saçağı|Küçük ölçekli mahalle yerleri korunaklı bağlantı kurar|Tamamen uydurma aşağı kot sokağı|Yokuş dibinden geniş açı, küçük girişler okunur
+121|location|Yüksek teraslı apartmanlar ve geniş basamak|Büyük iş yerleri geçiş hattında daha baskın yer tutar|Kurgu yukarı kot çarşı terası|Aşağıdan katmanlı mimari görünüm, gerçek siluet yok
+122|location|Sade rıhtım yolu, açık yük koridoru|Liman hareketi daha doğrudan ve güçlü geçiş bulur|Uydurma kıyı servis şeridi|Kıyı boyunca yatay uzun perspektif
+123|location|Ortak gider kutusu bulunan çarşı iç avlusu|İçeride çalışan esnafın dönüşü giderden farklılaşır|Çarşının kapalı ara geçidi|Kutu ön planda, aktif dükkân ile boş dükkân karşılıklı
+124|object|Logosuz elde taşınan telsiz; yarı açık bölme|Kapalı hazırlık açılırken bilgi alıcıya ulaşır|Taksi kulübesinin çalışma rafı|Telsiz kablo çizgisi gözü açık bölmeye götürür
+125|object|Markasız koyu renk makam aracı; açık arka kapı|Donanımlı ulaşım kişinin hareket alanını büyütür|Sade kurgu iş hanı çıkışı|Kapı içinden alçak geniş bakış, plaka görünmez
+126|object|Yuvarlak demir çubuk, gevşeyen destek sehpası|Bir desteğin gücü artarken öbür dayanak kaldırılır; araç şiddet için tutulmaz|Metal atölyesi mengenesi|Nesne natürmortu, çubuk yatay ve insan yok
+127|location|Birbirine kapanan iki ahşap geçit kapağı|İlerleme hattı kesilir; karşılaşma yaşanmadan durur|Kahve arkasındaki kör avlu geçidi|Köşe arkasından boş geçide bakış, saklanan kişi yok
+128|object|Boş ekranlı eski telefon ve yüzü kapanan küçük dosya|Yeni gelen kayıt kapalı konuma döner|Mahalle danışma bankosu|Telefon yakın, dosya dönüşü arka odakta
+129|event|Birden açılan depo kapağı; kaldırılmış kapalı koli|Saklı hazırlığın bir parçası kullanım dışına alınır; operasyon/şiddet yok|Amblemsiz ortak depo|Kapak altından ışığa eğik açı
+130|object|Yanıp sönmeyen masa telefonu; kapalı geçiş anahtarı|Gelen cevap doğrudan geçişi durdurur|Tamamen kurmaca sivil danışma odası|Durgun masa natürmortu, hiçbir kolluk simgesi yok
+131|object|Markasız güvenlik kamerası ve açılmış eşit dosya kapakları|Saklı alanların hepsi görünür olur|Site danışmasının cam rafı|Kamera altta yakın, açılan raflar yukarı derinlikte
+132|character|67 yaşında doğal kıvırcık saçlı kadın komşu|Perdeyi aralayıp kapalı avludaki boşalan yeri görür|Apartman mutfağının küçük penceresi|İçeriden profil, dışarıdaki kapalı depo kapısı ikinci odak
+133|character|40 yaşında sade giyimli yetişkin haber taşıyıcı|Karşıdaki zarf destesinden birinin ayrıldığını işaret eder|Sessiz gece fırınının yan bankosu|Eller hizası uzun lens, kimlik klişesi yok
+134|object|Adres yazısız iki kapı levhası; ters duran zarf|Gösterilen kapı başka yere açılır; sürekli yer düzeni bozulur|Numarasız iki kapılı kurgu koridor|Tam ortadan değil kayık tek kaçışlı görüş
+135|location|Ters çevrilmiş sandalyelerle kapanmış kahve alanı|Karşılaşma başlamadan oturma düzeni kullanılamaz; patlayıcı yok|Servise kapatılmış çay salonu|Yüksek camdan aşağı, sandalye bariyeri net
+136|object|Açılmış eski kapı kanadı; sağlam dikme|Kapalı dayanaktan açık harekete geçiş; savunma yerine giriş kuvveti|Bakım gören depo eşiği|Menteşeye yakın çapraz görüş, kırma eylemi gösterilmez
+137|location|Taksi çıkışına çekilmiş bakım şeridi; bekleyen araçlar|Yol serisinin hareketi kısa süre durur|Kurgu durak arka çıkışı|Yerden geniş görüş, şerit yalnız iş güvenliği nesnesi
+138|event|Kapalı yan kapılar, bekleme bankına oturan yetişkinler|Her iki tarafta ek girişler bekler; kolluk figürü yok|Uydurma mahalle ortak bina holü|Koridor ekseninde iki simetrik olmayan bekleme grubu
+139|event|İki masadan aynı anda kaldırılan boş sandalyeler|İki taraf da bir yer kaybeder; çatışmanın şiddetsiz sonucu|Akşam avlusundaki karşılıklı toplantı alanları|Üstten geniş çevre, kişiler uzakta
+140|object|Kilitli emanet kutusu; yanında yeni zarf|Hareketli kaynağın bir süre tutulması bilgi fırsatı doğurur; insan tutulmaz|Kahvenin emanet bankosu|Kilit ve zarf yakın plan, kapalı kutu yüzeyi
+141|character|33 yaşında kısa saçlı kadın hızlı haberci|Kapanan çay ocağından kendi tanıdık kapısına geri döner|İki avlu arasındaki kuru ara geçit|Arkadan hareket yönü, koşu abartısız
+142|object|Eski hesap kesesi altından çıkarılan kapalı ihbar zarfı|Kullanılmış hazırlığın yeniden rafına konması|Ahşap kasa çekmecesi|Çekmece içinden el hareketine bakış
+143|event|Kapatılmış semt toplantı terası ve eksilen ödeme kabı|Mekân desteği kalkınca görünür kaynak kaybı kalır|Gerçek yere benzemeyen çarşı terası|Geniş sonuç kadrajı, kapalı giriş önünde boş kap
+144|location|Telefonları kapalı küçük gece haber odası|Bütün bağlantılar dönem sonuna kadar durur|Kahve üstündeki sivil irtibat odası|Çok nesneli ama sade yatay gece natürmortu
+145|object|Geri çevrilmiş iki kapalı zarf; boşa düşen telefon bağlantısı|Bir bildirimin doğrulanmayıp açılmaması|Eski ahşap danışma masası|İki zarf çapraz, telefon arka derinlikte
+146|character|49 yaşında saçlarını toplayan sivil kadın danışman|Kaldırılacak dosyanın yanına gelip işlemi durdurur|Amblemsiz evrak kabul odası|Kapı eşiğinde tam boy giriş, masaya uzanan açık el
+147|character|44 yaşında kısa saçlı sivil çarşı düzenleyici|Başlayan günlük işlemin kapağını kapatır|Tabelasız pazar hizmet kulübesi|Banko üzerinden omuz hizası, üniforma/rozet yok
+148|object|Boş evrak yuvası ve yarıda kalmış açık dosya|İşlemin dayanağı yerinde olmayınca bağlantı kesilir|Dar metal arşiv dolabı|Raf gözünden dışarı, eksik boşluk baskın
+149|action|Ayrılan iki yetişkin el; ortak saçağa çekilen sandalye|Hedef bağı reddedilir ya da semt dayanışması korur; kip ayrımı görselde kesinleştirilmez|Mahalle görüşme eşiği|Ellerin arası açık, korunaklı sandalye yanda
+150|institution|Farklı yaşlarda dört sivil masa temsilcisi|Ortak el hareketi işlemi durdurur; iki tarafa birer yeni zarf uzatılır|Sade konsey toplantı masası|Masa ekseninden geniş açı, simetrik olmayan iki sonuç
+151|character|58 yaşında kalın bıyıklı çay demleme ustası|Eski küçük servis önlüğünü raftan alıp gelir kesesini yanına koyar; eski bağ ve küçük getiri|Çift kazanlı sade ocak köşesi|Kazan buharı arkasından omuz planı
+152|character|36 yaşında saçını örmüş kadın masa toplayıcı|Bedeli ayırıp eski çalışanın boş sandalyesini getirir; o tur masalar sakin kalır|Gün sonu çay bahçesi|Sandalyeye yakın alçak açı, masalar arka planda boş
+153|character|47 yaşında kısa beyaz telli saçlı vardiya ablası|İş önlüğünü takıp eski takım rafını açar; donanım ve geri kazanım|Personel dolaplarının dar koridoru|Açık dolap kapağından çapraz bakış
+154|character|51 yaşında kel ocak sorumlusu|Çalışanların çaylarını hazırlar, kendi ödeme kabından günlük pay ayırır|Uzun servis tezgâhının sıcak ucu|Tezgâh boyunca düşük perspektif, ekip arkada
+155|character|32 yaşında uzun saçlı kadın çay tedarikçisi|Ücret kesesini bırakıp bir çalışana çay çuvalı desteği verir; kendi yükünü sağlam bağlar|Çayhanenin kuru mal kabul kapısı|Çuval, el ve destek kayışı üçgen kompozisyonu
+156|character|45 yaşında yuvarlak gözlüklü erkek hesap tutucu|Kendi yerini bırakıp karşı tarafın eski küçük hesabını arşivden ayırır|Dar çekmeceli hesap bölmesi|Çekmece üzerinde yakın üst açı
+157|character|68 yaşında kısa saçlı kadın müdavim sözcüsü|Birinin bıraktığı yere oturur; ayrıldığında eski müdavime yer açar|Pencere altındaki uzun kahve sediri|Sedir boyunca ardışık boş ve dolu yerler
+158|character|40 yaşında kıvırcık saçlı erkek durak yazıcısı|Eski küçük görev kartını geri çağırır, gelir payını cebe koyar|Durak kulübesinin açık camı|Cam çerçevesine yakın, eller orta planda
+159|character|35 yaşında omuz hizası saçlı minibüs hostesi|Bedeli ödeyip dışarıda bekleyen yetişkin yol arkadaşını geri davet eder|Markasız minibüsün son sıra kapısı|Araç içinden kapıya bakış, dönüş yolu görünür
+160|character|56 yaşında kısa sakallı erkek gece tamircisi|Üzerindeki takım kemeriyle eski alet bölmesini açar|Tek lambalı motor atölyesi|Omuz arkasından alet yakın planı
+161|character|48 yaşında saçını toplamış kadın hat sorumlusu|Küçük servis çalışanlarını korunaklı bekleme sırasına alır; günlük payı ayırır|Kapalı durak saçağının içi|Yağmur çizgisine paralel yatay grup
+162|character|43 yaşında iri yapılı yedek şoför|Ücreti bırakıp diğer sürücünün yükünü alır; kendisi güvenli yerde bekler|Garajın anahtar teslim penceresi|Pencere seviyesinde iki kişi, eller farklı derinlikte
+163|character|30 yaşında gözlüklü kadın plaka takipçisi|Okunmaz boş levhayı eski dosyadan çıkarıp ortak kayıttan ayırır|Garaj içindeki logosuz araç kayıt masası|Levhanın arkasından yakın bakış, rakam gösterilmez
+164|character|66 yaşında kısa gri saçlı durak kıdemlisi|Boşalan görevi devralır; ayrılırken eski genç yetişkin sürücüye anahtar bırakır|Durak yanındaki sabah bankı|Bank boyunca alçak orta plan
+165|character|28 yaşında çilli kadın yedek parça arayıcısı|Eski parçayı raftan bulup iş payı kutusuna koyar|Küçük sanayi parça rafı|Raf aralığından yüz ve seçilen parça
+166|character|33 yaşında uzun saçlı erkek çırak başı|Kapalı kutuyu kontrol ettikten sonra yan ustanın koruyucu desteğini ayarlar|Atölye kontrol tezgâhı|Kutunun içinden iki el ve yüze bakış
+167|character|46 yaşında kısa saçlı kadın kaynak ustası|Koruyucu işi bıraktıktan sonra kapalı takım çekmecesini açar|Soğumuş metal iş tezgâhı|Yandan orta plan, kaynak ışığı ve kıvılcım yok
+168|character|54 yaşında kır bıyıklı atölye şefi|Yedek kapalı dolabı arkasına alıp ustanın çalışma sehpasını güçlendirir|Oluklu tavanlı dar sanayi onarım hangarı|Sehpa önünde geniş üç çeyrek, kapalı dolap arkada
+169|character|41 yaşında kısa kıvırcık saçlı çekici operatörü|Bedel karşılığı başka ustanın ağır yükünü destekler; kendi araç ayağını sabitler|Kurgu yol yardım avlusu|Yüksek platformdan aşağı eğik görüş
+170|character|39 yaşında gözlüklü kadın ekspertizci|Eski dosyadaki uygunsuz parçayı kesin olarak ayırır; kendi görev yerinden çekilir|Sessiz araç inceleme çukuru kenarı|Parça yakın, uzman belden yukarı geride
+171|character|62 yaşında beyaz saçlı motor revizyoncusu|Bir ustanın bıraktığı işe geçer; kendisi ayrıldığında küçük görev aleti geri gelir|Motor parçalarının düzenli olduğu tamir masası|Masanın uzun ekseninde derinlik
+172|character|50 yaşında dalgalı saçlı kadın sabah toptancısı|Dün kalan küçük siparişi yeniden çıkarıp gelen payı sayar|Güneş görmeyen hal arka koridoru|Kasalar üstünden aşağı orta plan
+173|character|38 yaşında sağlam yapılı erkek pazar arabacısı|Ücret kesesini ayırıp eski esnafı boş arabayla getirir; hareket sonrası pazar sakin|Kapanmış pazarın yan yolu|Araba tekeri ön planda, kişi yandan tam boy
+174|character|59 yaşında gözlüklü terzi ablası|Makas yerine güvenli kumaş aparatı takıp eski dikiş kutusunu açar|Sıcak ışıklı dar terzi odası|İğne tablası düzleminden eller ve yüz
+175|character|45 yaşında kısa saçlı kadın esnaf temsilcisi|Komşu tezgâhlara hazır destek dağıtır; kendi günlük payını ayırır|Üstü örtülü küçük çarşı|Tezgâhlar arasında yürüyüşe yandan bakış
+176|character|31 yaşında sakallı dükkân devralan|Devir bedelini koyup komşunun tentesini düzeltir; kendi kepengini sağlamlar|Yeni açılan isimsiz küçük dükkân|İçeriden yarı açık kepenk altına bakış
+177|character|53 yaşında gümüş saçlı kadın tartı denetçisi|Eski hatalı ağırlığı ayırıp ödeme kesesini azaltır; kendi inceleme yerini boşaltır|Taş zeminli hal tartı kontrol odası|Tartı kefeleri yakın, ayrılan ağırlık yanda
+178|character|64 yaşında bıyıklı çarşı sözcüsü|Bir esnafın bıraktığı sandalyede görüşür, giderken eski genç esnafı içeri alır|Çarşı taş kemerinin altı|Kapı kemerinden uzun yatay grup
+179|character|34 yaşında kısa saçlı kadın ambar yazıcısı|Eski küçük yük dosyasını geri açıp payını kenara ayırır|Ambarın camlı kayıt masası|Rafın önünden diyagonal masa görünümü
+180|character|44 yaşında iri erkek gece istifçisi|Dış alanda bırakılmış kullanılabilir kasayı bedel karşılığında içeri geri taşır|Depo dış eşiği ve iki katlı raf|Kasa hizasından yandan tam boy
+181|character|57 yaşında kısa beyaz saçlı kadın rıhtım gözetmeni|Donanım kemeri takılıyken eski fener rafını açar|Kıyı ahşap nöbet sundurması|Sundurmanın iç köşesinden denize değil rafa bakış
+182|character|52 yaşında sakalsız vardiya kaptanı|Yeni yetişkin işçilere korunaklı malzeme yerleri gösterir, rutin bedeli ayırır|Liman servis dolapları|Dolaplar boyunca göz hizası grup sahnesi
+183|character|37 yaşında dalgalı saçlı kadın yük aktarmacı|Başka işçinin yükünü desteklerken kendi kasasını sağlam bağlar|İki alçak yük arabasının buluştuğu rampa|Rampanın üst ucundan eğik tam hareket
+184|character|49 yaşında gözlüklü erkek mühür kontrolcüsü|Eski geçersiz kapama klipsini ayırıp karşı hesap payını düşürür|Logosuz yük kontrol bankosu|Klips ve eller makro, yüz yansımasız arkada
+185|character|63 yaşında kısa saçlı kadın iskele ustabaşı|Boşalan görevi devralır; sonraki vardiyaya küçük araç seti bırakır|Kuru iskele bakım alanı|Araç sandığı önünden yarım boy
+186|character|42 yaşında kısa saçlı bina aidat takipçisi|Eski küçük bina görev dosyasını geri getirip ödeme kabını düzenler|Apartman mozaik giriş masası|Kapıdan yan açı, dosya hareketi merkeze gelir
+187|character|55 yaşında örgülü saçlı kadın merdiven temizlikçisi|Kapalı hizmet dolabını kontrol eder, komşunun eşiğini kaymaz hâle getirir|Dar apartman ara sahanlığı|Basamak seviyesinden eller ve paspas
+188|character|36 yaşında ince sakallı bina teknisyeni|Takım çantasıyla eski bakım dolabını açıp parçayı geri alır|Kuru tesisat servis nişi|Niş içinden çalışma duruşuna bakış
+189|character|60 yaşında beyaz saçlı kadın site temsilcisi|Kapalı evrak kutusunu yanında tutup bir sakinin kapı desteğini sağlamlar|Site avlusu danışma tezgâhı|Eşik boyunca geniş çapraz orta plan
+190|character|67 yaşında gözlüklü anahtar emanetçisi|Bedeli teslim alıp başka görevliye doğru anahtarı uzatır; kendi kutusunu kapar|Ahşap emanet anahtarlığı|Anahtar halkası yakın, yüzler ayrı kenarlarda
+191|character|29 yaşında kısa kıvırcık saçlı kadın sayaç okuyucusu|Eski geçersiz sayaç dosyasını ayırıp hesabı düşürür; rakamlar görünmez|Binanın boş servis holü|Sayaç kapağının iç yüzünden orta yakın plan
+192|character|58 yaşında geniş yapılı erkek kat malikleri sözcüsü|Bir sakinin bıraktığı yere oturur, eski yardımcıya dosya devreder|Apartman çatı altı toplantı alanı|Eğimli tavan altında yatay küçük topluluk
+193|character|40 yaşında uzun saçlı kadın düğün davetçisi|Önceki davetliden kalan zarfı yeniden ulaştırır; küçük hazırlık payını alır|Düğün evinin dış basamağı|Yukarıdan merdiven kıvrımı, zarf uzanışı merkezde
+194|character|51 yaşında kısa saçlı erkek sofra kurucusu|Bedeli ayırıp geçmişte boşalmış yere bir yetişkin için tabak koyar; sakin dönem|Uzun aile sofrasının servis tarafı|Tabak seviyesinde derin masa perspektifi
+195|character|46 yaşında dalgalı saçlı kadın aile arabulucusu|Yanındaki evrak çantasıyla eski ortak anlaşma kutusunu açar|Aydınlık olmayan ev salonu|İki koltuk arasından yakın orta görünüm
+196|character|33 yaşında kısa sakallı sivil nikâh şahidi|Farklı aile üyelerini yan yana tutar, ortak masraf payını ayırır|Amblemsiz küçük tören sonrası oda|Grup bel hizası, boş evrak yüzleri kenarda
+197|character|39 yaşında örgülü saçlı kadın emanet taşıyıcısı|Bedel karşılığı diğer aile üyesine sandığı ulaştırır; kendi çantasını sağlam tutar|Evler arasındaki üstü örtülü avlu|Sandık ön planda, iki elin alışverişi
+198|character|61 yaşında gözlüklü kadın çeyiz sayımcısı|Eski listeden ayrılmış boş kutuyu kenara çıkarıp hesabı azaltır|Ahşap sandıklı ev odası|Sandık ağzından eğik bakış, kumaş dokuları
+199|character|74 yaşında kısa beyaz saçlı büyük teyze|Bir yetişkinin açtığı yerden sofraya gelir; kalkarken eski aile bağını çağırır|Mutfakla birleşen geniş ev sofrası|Yüz portresi değil iki kuşağın karşılıklı oturuşu
+200|character|28 yaşında kıvırcık saçlı erkek üye kayıtçısı|Eski küçük üyelik dosyasını geri çıkarıp aidat kabına pay koyar|Simgesiz mahalle dernek giriş masası|Dış kapıdan zarf yakınlığına doğru dar derinlik
+201|character|48 yaşında kısa saçlı kadın kulüp malzemecisi|Bedeli ayırıp dış depodaki eski kullanılabilir çantayı geri getirir|Logosuz spor odasının arka malzeme deposu|Açık çanta düzleminden raflara bakış
+202|character|32 yaşında uzun boylu salon görevlisi|Takım önlüğünü takıp unutulmuş destek aparatını dolaptan çıkarır|Mahalle çok amaçlı salonunun yan odası|Yarı açık dolabın iki kanadı arasında figür
+203|character|59 yaşında kısa kır saçlı kadın dernek kaptanı|Yeni yetişkin üyelerin oturma sırasını korunaklı biçimde kurar, masrafı ayırır|Simgesiz dernek avlusunun saçağı|Sandalyelerin arkasından yatay grup düzeni
+204|character|26 yaşında kısa saçlı erkek forma dağıtıcısı|Ücreti bırakıp logosuz üstlükleri arkadaşına uzatır; kendi paketini kapar|Mahalle spor odasının açık rafı|Üstlük kumaşlarına yakın, iki yetişkin yanda
+205|character|54 yaşında gözlüklü kadın kasa denetmeni|Eski tutarsız küçük zarfı arşivden ayırır, karşı hesaptaki keseyi azaltır|Dernek büfesinin hesap nişi|Kasanın içinden kayıt kutusuna çapraz
+206|character|62 yaşında kır sakallı tribün arabulucusu|Birinin açtığı yere geçip iki yetişkin grubu sakin bağlar; ardından eski üyeyi çağırır|Simgesiz küçük saha oturma basamakları|Basamak çizgileri boyunca uzak tam figür
+207|character|45 yaşında kısa kızıl saçlı kadın veresiye yazmanı|Eski küçük borç dosyasını geri açıp yeni payı ayrı kaba koyar|Bakkalın işaretsiz veresiye çekmecesi|Defterin kapalı sırtı ön planda, yüz arkada
+208|character|31 yaşında zayıf erkek tahsilat kuryesi|Bedel kesesini bırakıp kapalı evrakı kontrol eder; diğer çalışanın dosyasını korur|İki dükkân arasındaki evrak teslim penceresi|Pencere dışından elleri izleyen yakın açı
+209|character|65 yaşında beyaz bıyıklı kefil dayı|Evrak çantasıyla eski teminat kutusunu açıp dayanağı geri alır|Kahvehane üstü küçük sivil görüşme odası|Kutu yüksekliğinde yarım boy, doğal oturuş
+210|character|38 yaşında gözlüklü kadın ödeme planlayıcısı|Kapalı yedek dosyası yanında, bir borç dosyasına sağlam klips takar|Pencere kenarındaki ev hesap sehpası|Klips makro, katlanmış kâğıtlar farklı derinlikte
+211|character|43 yaşında kısa saçlı erkek senet taşıyıcısı|Bedeli ödeyip başka çalışanın kapalı evrak tomarını dengeler; kendi dosyası sağlam|Yağmurdan korunmuş han geçidi|Yandan yürüyüş, evrak ve ayak yönü farklı diyagonal
+212|character|57 yaşında kısa gümüş saçlı kadın hesap uzlaştırıcısı|Geçmişteki uyuşmaz dosyayı ortak raftan ayırıp eksilen bedeli gösterir|Eski ahşap hesap dolabı önü|Rafın boşalan gözü odakta, figür sağ kenarda
+213|character|69 yaşında saçları seyrelmiş alacak sözcüsü|Önceki temsilcinin yerini alır; ayrılınca eski küçük dosyayı geri gönderir|Loş çarşı toplantı sediri|İki boş sandalye arasında oturur yan profil
+214|character|41 yaşında koyu kıvırcık saçlı kadın mahalle kulakçısı|Eski küçük haberi yeniden ulaştırıp payını alır|Pazarın sakin yan sokağı|İki insan arasında kısa görüş hattı, kalabalık dışarıda
+215|character|52 yaşında ince yapılı gazete dağıtıcısı|Ücreti bırakıp eski haber taşıyıcısını dinlenme yerinden çağırır; acele durur|Yazısız gazete paketli dağıtım tezgâhı|Paketlerin arkasından tam boy hareket
+216|character|60 yaşında kısa saçlı kadın sessiz tanık|Evrak çantası yanında açılan eski eşya dolabından destek alır|Küçük çay bahçesinin sakin kenarı|Pencere yansımasız yan yüz, nesne ikinci odak
+217|character|35 yaşında gözlüklü erkek haber ağcısı|Üç ayrı teslim ipini ortak rafta düzenler; düzenli küçük masrafı ayırır|Mahalle kuryelerinin sivil dağıtım nişi|Rafın üst köşesinden aşağı ağ bağlantısı
+218|character|27 yaşında uzun örgülü saçlı kadın mesaj taşıyıcısı|Bedel karşılığında bir habercinin dosyasını hızlandırır; kendi zarfını korur|Taş basamaklı iki kapı arası|Zarf alışverişine yakın, merdivenler çapraz
+219|character|55 yaşında kel kayıt inceleyicisi|Eski yanlış haber dosyasını kalıcı ayrı göze kaldırır; hesap eksilir|Amblemsiz küçük ev arşivi|Dolap kapağı içinden eller ve seçilmiş dosya
+220|character|64 yaşında dalgalı gri saçlı kadın kaynak koruyucusu|Bir başkasının bıraktığı görüşmeyi sürdürür, giderken eski küçük habercinin yerini korur|Bahçe duvarına bitişik sessiz bank|Yandan iki yetişkin, aralarında boş emanet yeri
+221|character|33 yaşında kısa saçlı kadın sokak haritacısı|Gerçek olmayan minyatür sokakta eski küçük bağlantıyı geri kurar, payını alır|Marangoz avlusundaki kabartma mahalle modeli|Model üzerinden alçak çapraz bakış
+222|character|23 yaşında kısa kıvırcık saçlı yetişkin bekçi çırağı|Bedeli ayırıp dış kapıda bekleyen eski görevliyi içeri alır|Parkın servis avlusu|Çırağın omzundan açık yan kapıya görüş
+223|character|46 yaşında geniş omuzlu sivil köşe nöbetçisi|İş çantasıyla eski fener kutusunu açar; hazırlığı geri kazanır|İki isimsiz dükkân arasındaki köşe sundurma|Köşe duvarı kadrajı ikiye böler, kişi bir tarafta
+224|character|58 yaşında saçını toplamış kadın sokak temsilcisi|Küçük dükkân görevlilerine korunaklı ortak bekleme yeri açar, masraf paylaşır|Mahalle ortak çardak altı|Çardak direkleri arasında geniş grup
+225|character|30 yaşında ince bıyıklı bisikletli haberci|Ödeme kesesini bırakıp başka görevliye paket taşır, bisikletini sağlam sabitler|Dar taş avlunun bisiklet parkı|Teker yakın ön plan, teslim edilen paket üstte
+226|character|49 yaşında kısa saçlı kadın iz sürücüsü|Yanlış evrak izini eski raftan ayırıp geri dönüşünü kapatır|Ayakkabı izleri değil eşya yerleri olan servis odası|Zemin ile raf arasında eğik araştırma bakışı
+227|character|71 yaşında ince beyaz sakallı mahalle uzlaştırıcısı|Ayrılan kişinin yerini alır; eski genç yardımcıya açık sandalye bırakır|Dört eve açılan küçük avlu|Avlu girişinden uzak ama okunur karşılıklı oturuş
+228|character|66 yaşında gözlüklü kadın eski defterci|Eski küçük aile dosyasını yeniden çıkarıp payını ayırır|Kahve üst katındaki ahşap raf köşesi|Rafın üstünden eğik portre olmayan çalışma görünümü
+229|character|28 yaşında kısa dalgalı saçlı ikinci kuşak yetişkin|Kapalı aile dosyasını ücret karşılığı kontrol edip büyüğünün sandalyesini sağlamlar|Ev avlusundaki eski sedir yanı|Genç kişinin diz hizası, dosya ile sedir bağlantısı
+230|character|55 yaşında kır saçlı erkek aile dostu|Emanet çantasıyla eski dayanışma kutusunu yeniden açar|Sade ev girişinin yüklük köşesi|Yüklük içinden yarım boy yakınlık
+231|character|72 yaşında kısa beyaz saçlı kadın masa büyüğü|Kapalı yedek zarfı yanında tutup başka yetişkinin masa yerini destekler|Uzun ahşap aile masası başı|Masa boyunca düşük göz hizası, liderlik simgesi yok
+232|character|61 yaşında geniş yapılı güvenilir emanetçi|Bedel karşılığında bir büyüğün yükünü taşır, kendi kilitli kutusunu dengeler|Han avlusunun taş emanet bankosu|Kutular ağırlık merkezinde, insan yandan
+233|character|47 yaşında saçları örgülü kadın söz denetçisi|Tutarsız eski anlaşma bağını ayırıp karşı payı küçültür|İki aile arasındaki sade görüşme nişi|Bağlı kâğıt tomarına makro, yüz arkada yumuşak
+234|character|34 yaşında uzun saçlı yeni kuşak sözcüsü|Bir büyüğün açtığı görev yerini devralır; giderken eski küçük bağlantıyı geri kurar|Kahve ile konut avlusu arasındaki eşik|İçeriden dışarı, iki kuşak farklı derinlikte
+235|institution|Çay çalışanı ve taksi görevlisinin ortak masası|İki katkı birleşir; ücret karşılığı karşı masadaki destek dosyası geri uzatılır|İki avlu arasında küçük köprü masası|Masa üzerinden iki farklı iş kıyafeti ve geri giden dosya
+236|institution|Sanayi ustası ve çarşı esnafı|Ortak tezgâh kurup karşı tarafın açık desteğini geri teslim ederler|Pazar ile atölye arasındaki yük eşiği|Geniş üç çeyrek, iki farklı alet ortak zeminde
+237|institution|Liman çalışanı ile apartman hizmet sorumlusu|Ortak yük desteği kurulur; bedel ödenince diğer destek kaldırılıp sahibine döner|Kıyı deposuna açılan konut avlusu|Yük arabasından bina kapısına diyagonal kompozisyon
+238|institution|Aile temsilcisi ile dernek üyesi|İki dosya bir araya gelir, bir karşı destek dosyası geri gönderilir|Sade aile ve komşuluk toplantısı|Yan yana değil çapraz oturan dört farklı yetişkin
+239|institution|Borç planlayıcısı ile haber görevlisi; bekleme bankları|Finans ve haber birlikte durak işini düzenler; açık destek iade edilir|Kurgu iki durak arasındaki danışma masası|Bank çizgileri iki odaklı masaya bağlanır
+240|institution|Sokak temsilcisi ve mahalle büyüğü|Ortak bedelle karşı taraftaki açık destek geri verilir|Geniş avludaki sade büyükler toplantısı|Yüksek kapı eşiğinden yatay topluluk, tek portre yok
+241|object|Taze demlik, seçilen tek fincan ve ayrılan peçete|Bedelle bir çayhane bağlantısı seçilir, eldeki bir seçenek bırakılır|Sıcak çay demleme rafı|Buharsız olmayan ama sabit yakın natürmort
+242|event|Boş son servis koltukları; iki kapalı yol zarfı|İki seçenekten en çok biri alınır, diğeri sırasını korur|Markasız minibüsün gece aydınlatmalı içi|Orta koridordan iki ön koltuğa bakış
+243|object|Yazısız parça fişi, geri alınan sağlam parça ve ayrılan bozuk parça|Eski destek geri gelirken karşıdaki eski parça kalıcı ayrılır|Sanayi parça çekmecesi|Üç nesne net farklı bölgede üstten görünüm
+244|object|Yazısız alışveriş kâğıdı, geri verilen sepet ve korunaklı tezgâh|Karşı destek sahibine döner, esnafın çalışma yeri sağlamlaşır|Kanvas tenteli pazarın mekanik tartı kenarı|Sepet üzerinden kâğıda ve tezgâha çapraz
+245|object|Kapalı yük evrak dosyası, seçilmiş tek sandık|Bedelle liman kaynağı seçilir, bir başka zarf bırakılır|Ambar evrak kabininin rafı|Dosya sırtından yük alanına perspektif
+246|action|Üç farklı anahtar zarfı ve seçen yetişkin el|En çok bir anahtar alınır, diğerleri sıra bozulmadan kalır|Apartman anahtar teslim nişi|Raf hizasında üç nesneli yakın plan
+247|event|Açılan sofra yeri, geri gelen tabak, kaldırılan öteki boş tabak|Aile bağlantısı geri gelirken karşıdaki eski kaynak ayrılır|Dar ev mutfağının genişletilmiş masası|Sofra ucundan derin tabak sıraları
+248|object|Yazısız üyelik defteri ve geri teslim edilen destek dosyası|Açık destek iade edilir, topluluğun yeri sağlamlaştırılır|Dernek girişindeki ahşap kayıt rafı|Defterin arkasından dosya alışverişi
+249|object|Rakamsız bölmeli takvim, seçilmiş kese ve ayrılan zarf|Bedelle borç bağlantısı aranır, bir seçenek bırakılır|Ev hesabının duvar rafı|Takvim yüzeyi açıyla, yazı yerine boş bölmeler
+250|action|Dört kapalı zarf, tek haberci el|Dört bilgi adayından biri seçilir, diğerleri sırada kalır|Gece haber kulübesinin dar rafı|Dört zarf perspektifte derinleşir, seçilen önde
+251|location|Geri açılan yan sokak kapısı ve kalıcı kapanan öteki geçit|Eski sokak bağı geri gelirken karşı eski bağ ayrılır|Gerçek olmayan arka sokak kavşağı|Yokuş ortasından iki kapıya çevre bakışı
+252|object|Eskimiş bağlı kumaş düğümü ve iade edilen kâğıt tomar|Eski söz karşı desteği geri çevirir, büyüğün yerini korur|Aile sedirinin yan sehpası|Düğüm ön planda, desteklenen sandalye arkada
+253|location|Tek boş kahve masası, yeniden getirilen sandalye|Bedelle küçük çayhane çalışanına yer açılır; o dönem sakin kalır|Kapanışa hazırlanmış çay salonu|Boş masa tüm ön planı kaplar, sandalye yaklaşır
+254|action|Yol yardım çantası ve yeniden kapatılan eski zarf|Eski hazırlık yerine konur ama hemen açılmaz|Taksi servis cebindeki açık bagaj|Bagaj içinden yardım tezgâhına bakış
+255|action|Eski kullanılamaz parça ile yeni açılan paket|Karşıdaki eski kaynak ayrılır, yerine yeni fırsat gelir|Sanayi hurdalık ayrıştırma masası|İki nesne arasında el değişimi yakın plan
+256|character|43 yaşında sivil dükkân nöbetçisi ve kısa süre gelen yardımcı|Bedelle komşu küçük görevli geçici olarak dükkâna gelir|Gece kepenk altındaki aydınlık eşik|Kapının içinden dışarı tam boy iki farklı figür
+257|event|Çıkan vardiya, eski küçük görevine dönen çalışan|Bedelle eski liman işçisi geri gelir, o dönem karşılaşma yapılmaz|İskele personel girişi|Giriş kapısına paralel yatay hareket
+258|institution|Üç farklı yetişkin bina sakini, kapalı eski bildirim|Eski hazırlık yeniden rafa konur; o gün açılmadan bekler|Apartman merdivenaltı toplantı alanı|Üst sahanlıktan masaya eğik görüş
+259|object|Eski düğün sandığı, ayrılmış eski paket, yeni küçük zarf|Eski kaynak dışarı ayrılırken yeni imkân açılır|Aile odasının kumaş örtülü köşesi|Sandık kapağının içinden nesne ayrımı
+260|action|Logosuz forma ve ödünç alan yetişkin|Bedelle karşı grubun küçük görevlisi kısa süre ortak göreve katılır|Dernek spor odası emanet rafı|Forma dokusu önde, teslim alan arka üçte birde
+261|object|Kapalı senet dosyasının bir elden diğerine geçişi|Bedelle eski küçük borç bağlantısı yeniden açılır; o dönem işlem sakinler|Han içindeki sivil hesap penceresi|Pencere eşiğinin tam hizasından iki el
+262|object|Markasız kamera kayıt kutusu ve yeniden kapalı dosya|Geçmiş hazırlık geri kurulur, aynı dönem açılamaz|Sivil haber odasının ekipman rafı|Kutunun kenarından rafa çapraz düşük açı
+263|location|Tek sokak lambasının aydınlattığı eski boş kutu ve yeni zarf|Eski karşı kaynak ayrılır, bir sonraki fırsat görünür|Kurgu dar sokak köşesi|Lamba üstte küçük, ışık havuzu zemin odaklı
+264|institution|İki yaşlı sivil arasında duran yetişkin yardımcı|Bedelle başka grubun deneyimli yardımcısı kısa süre ortak işe geçer|İki aile avlusunun ortak sediri|Üç ayrı bakış yönü, masa değil geçiş eşiği
+265|object|İyi dengelenmiş çay tepsisi ve dört ayrı fincan yeri|Taşıyıcıyı dengelerken çayhane grubunun işini kolaylaştırır|Servis rafının sıcak metal yüzeyi|Tepsiye çok yakın alçak açı, yalnız nesne
+266|object|Aşınmış markasız durak telsizi ve gevşek askı|Haber gücü artar ama taşıyıcının desteği azalır; çevreye küçük koruma|Ahşap duvarlı taksi kulübesinin dar rafı|Telsiz net, askı gevşekliği ikinci odak
+267|object|Açık takım çantası, küçük ve büyük alet yuvaları|Taşıyıcıyı korur, küçük ustalara işe yarar destek dağıtır|Boyası aşınmış kuru ahşap atölye bankosu|Çanta içinden dışarı nesne odaklı perspektif
+268|object|Pirinç kepenk anahtarı ve birleşen iki kilit dili|İş yerini sağlamlaştırırken esnafın açılışını destekler|Çarşı kepenginin iç yuvası|Anahtar ve metal doku makrosu, dışarısı flu değil sade
+269|object|Amblemsiz yük kapama klipsi ve sıkılmış bant|Yükleme hızını artıran kapama taşıyıcıya bedel getirir; liman çevresi korunur|Ambar kapı çerçevesi|Klips yandan büyük, gevşeyen yan dayanak görünür
+270|object|Yedek düz kilit; küçük anahtar keseleri|Sahibini korur ve küçük bina görevlerini destekler|Apartmanın mozaik zeminli bakım odası rafı|Kilit önde, üç küçük kese arkada farklı yükseklikte
+271|object|İçindeki yüzleri kapalı eski aile albümü|Sahibine dayanıklılık, çevresine ortak bağ hissi verir|Sivil ev sehpası, tek sıcak abajur|Albüm sırtı merkezde, fotoğraf yüzleri gösterilmez
+272|object|Logosuz dokuma kulüp atkısı; boş dolap askıları|Taşıyıcıya kuvvet, bazı dayanaklardan vazgeçiş ve gruba destek|Mahalle spor odasının ahşap askılığı|Kumaş kıvrımlarına yakın dikey detay
+273|object|Yazısız kefalet zarfı, koruyucu kılıf ve küçük dosyalar|Taşıyıcı korunur, küçük borç bağlantıları güçlenir|Han danışma masasının cam altlığı|Zarf katı belirgin, küçük dosyalar yelpaze değil sıralı
+274|object|Yazıları görünmeyen ters haber kupürü ve saklama kılıfı|Bilgi dayanağı taşıyıcıyı ve haber ağını destekler|Cam kenarlı sivil haber rafı|Kâğıt lifine yakın eğik ışık
+275|object|Eski sokak anahtarları ve aşınmış kapı tokmağı|Hafıza bağlantısı kuvvet verir; taşıyıcının yükü artarken sokak korunur|Kurgu avlunun taş eşik nişi|Tokmak ve anahtar natürmortu, harita/isim yok
+276|object|Soğumuş tek çay bardağı, geri gelen küçük önlük|İlerleyiş durur, eski küçük çayhane bağlantısı yeniden gelir; bedel kesesi yanda|Boş akşam kahve masası|Bardağa yatay yakın plan, buhar yok
+277|object|Ters çevrilmiş numarasız araç levhası ve geri gelen anahtar|Yanlış eşleşme hareketi durdurur, eski küçük taksi görevi döner|Durak bakım penceresi|Levhanın arka metal yüzüne yakın, rakam yok
+278|object|Uymayan yedek parça ve iade edilen küçük takım|Yanlış parça ilerlemeyi keser, eski usta desteği geri çağrılır|Sanayi kontrol tablası|Uyumsuz birleşim boşluğuna makro açı
+279|object|Eksik ağırlıklı terazi, geri gelen esnaf sepeti|Ölçüm farkı hamleyi durdurur ve eski küçük bağlantıyı geri getirir|Tenteden gölge alan ahşap pazar tartı tezgâhı|Dengesiz kefeler arasında düşük göz hizası
+280|object|Açılmış amblemsiz kapama klipsi, eski yük zarfı|Bozuk kapama geçişi durdurur; eski liman bağlantısı geri alınır|Gece depo giriş bankosu|Kopmuş olmayan açılmış klips yakın, zarf arkada
+281|location|Kilitli bina kapısı, dışarıdan dönen küçük anahtar kesesi|Geçiş durur, önceki küçük bina görevi yeniden erişilir|Apartman yan servis eşiği|Dışarıdan kilit hizası ve uzanan el
+282|event|Ayrı yere konmuş iki sade yüzük kutusu, geri gelen aile sandalyesi|Ortak ilerleyiş durur ve eski küçük aile bağı çağrılır|Ev tören hazırlık sehpası|Kutular arası boşluk baskın, üzgün yüz portresi yok
+283|object|Boş forma askısı, eski malzeme çantası|Eksiklik hareketi durdurur; eski küçük dernek görevi geri gelir|Simgesiz soyunma odası rafı|Askılıktan aşağı çantaya bakış
+284|object|Boş zarflı senet kılıfı ve geri alınan küçük hesap defteri|Karşılık eksikliği hamleyi durdurur; eski borç bağlantısı geri gelir|Gece hesap odasının çekmecesi|Kılıfın boş iç yüzü yakın odakta
+285|event|Farklı yön gösteren iki yetişkin tanık, eski haber zarfı|Çelişki hamleyi durdurur; eski küçük haber bağlantısı geri alınır|Camlı kahve kapısının iki yanı|İki profil arasında geniş boşluk, zarf altta
+286|object|Markasız kapalı kamera monitörü, geri gelen küçük sokak anahtarı|Kesilen görüntü hareketi durdurur; önceki küçük sokak görevi döner|Sivil bina izleme nişi|Ekran siyah yansımasız, anahtar aydınlık alt köşede
+287|event|Çözülmüş kumaş düğümü, geri gelen eski küçük zarf|Sözün bozulması ilerlemeyi keser; eski mahalle bağı geri gelir|Aile sedirinin ortak sehpası|Düğüm uçları ayrık, geri gelen zarf yan eksende
+288|action|Hesap kesesini masaya koyan el, kapatılan destek dosyası|Bedelle karşı işlem durur; çay çalışanının yeri korunur|Çayhane akşam hesap masası|Kese önde, korunan servis yeri arkada
+289|object|Kapalı durak telefonu hattı, sağlam anahtar kutusu|Bedelle haber işlemi kesilir; taksi görevi korunur|Gece masa lambası açık taksi kulübesi|Telefon kablosu kutuya paralel yakın natürmort
+290|character|58 yaşında kısa saçlı kadın usta, kaldırdığı açık avuç|İşleme itiraz eder; bedel sonrası diğer ustanın destek sehpası sağlam kalır|Sanayi kontrol kapısı|Avuç yan görünür, alet ve sehpa farklı derinlikte
+291|event|Erkenden indirilen kepenk, içeride korunan esnaf tezgâhı|Karşı destek kesilir; çarşı görevi güvenli yerde kalır|Akşamüstü dar kurgu çarşı|Kepenk altından içeri alçak yatay görüş
+292|character|47 yaşında gözlüklü sivil kadın gece kontrol görevlisi|Bedelle açık yük işlemini durdurup liman çalışanının yerini korur|Amblemsiz rıhtım servis masası|Fener kullanılmadan masa lambası altında yan orta plan
+293|action|Aidat kesesini geri tutan yetişkin el; korunmuş bina dosyası|Bedel ödenerek işlem reddedilir, bina bağlantısı korunur|Apartman ortak toplantı rafı|Üç yetişkinin yalnız elleri, tek dosya odakta
+294|event|Düğün hazırlığında iki sessiz konuşan yetişkin, durdurulan zarf|Dedikodu akışı karşı işlemi keser; aile hazırlığı korunur|Düğün evinin perde arkası|Perde çerçevesinde çapraz ikili, ağızlara aşırı yakınlık yok
+295|location|Kapalı küçük seyir giriş kapısı ve korunaklı kulüp malzemeleri|Destek erişimi durur, dernek görevi içeride korunur|Simgesiz semt spor alanı|Turnikesiz sade kapı önünden geniş görüş
+296|event|Boşalan kefil sandalyesi, geride sağlam kalan hesap dosyası|Bir dayanak çekilir, karşı işlem kesilir; borç görevi korunur|Sivil görüşme odasının köşe masası|Boş sandalye önde, dosya masada geride
+297|object|Kapatılmış haber penceresi, emniyete alınmış küçük evrak kutusu|Bilgi bağlantısı kesilir; kendi haber kaynağı korunur; kişiye baskı yok|Kahve üst katının sivil haber nişi|Pencere sürgüsünden kutuya çapraz yakınlık
+298|location|Geçici sivil bakım kapaması, korunaklı sokak görevi|Karşı bağlantının geçişi durur; sokak desteği korunur|Tamamen hayalî dar yaya geçidi|Kapama ön planda, açık yan saçak arkada
+299|event|Ayrılan iki anlaşma dosyası, yerinde kalan büyük sandalye|Karşı destek işlemi bozulur; mahalle büyüğünün yeri korunur|Avlu toplantısının uzun sedir önü|Dosyalar yanlara, sağlam boş sandalye merkez dışında
+300|object|Tek son emanet kutusu ve içinden alınan yeni zarf|Bir defalık yüksek bedelle doğrudan geçiş durur, yeni fırsat açılır|Kapanmış çayhanenin son aydınlık rafı|Kutunun içinden sıcak lambaya çapraz yakın plan
+`;
+
+export function buildManifest(rowsText = directedRows) {
+  const sourceBytes = readFileSync(sourceUrl);
+  const sourceSha = createHash('sha256').update(sourceBytes).digest('hex');
+  if (sourceSha !== SOURCE_SHA) throw new Error('Immutable GETT source changed: review required');
+  const cards = JSON.parse(sourceBytes);
+  const rows = rowsText.trim().split('\n').filter(Boolean).map(line => line.split('|'));
+  if (rows.some(row => row.length !== 6)) throw new Error('Every explicit art row needs six fields');
+  const byId = new Map(rows.map(([n,...rest]) => [`RCN-${n}`,rest]));
+  if (byId.size !== 300 || rows.length !== 300 || cards.length !== 300) throw new Error('Exactly 300 explicit unique rows and cards required');
+  const allowed = new Set(['character','object','location','event','institution','action']);
+  const briefs = cards.map(card => {
+    const row = byId.get(card.id);
+    if (!row || !allowed.has(row[0])) throw new Error(`Unreviewed scene ${card.id}`);
+    return { id:card.id, sourceCard:structuredClone(card), sceneClass:row[0], subjects:row[1], actionAndEffectBridge:row[2], setting:row[3], composition:row[4], status:'BRIEF_ONLY_NOT_ACCEPTED_ART', accepted:false, format:'original SVG/vector/layered render only', illustrationDimensions:[400,300], mechanicAuthority:'sourceCard.text is unchanged and authoritative; the image is a nonliteral scene, not a new effect', constraints:['Adult fictional people only; anatomically credible diverse cast','No real person, institution, logo, uniform, political emblem or real map','No generated raster, embedded image, traced photo, external asset or CDN','No visible title, motto, slogan, flavour text, labels or random letters inside artwork','No weapons, injury, violence or intimidation aesthetics','No shared-engine, card-data, UI-dimension, save or accessibility-text edits'], unresolved:reviewNotes[card.id] || [] };
+  });
+  return { schemaVersion:1, game:'GETT-OH!', sourceSha256:SOURCE_SHA, preparation:true, acceptedArtCount:0, cardCount:300, authorship:'Explicit per-ID scene briefs after reading immutable card names/types/series/effects; no fallback classifier', identity:{palette:['warm amber','dark brown','dirty cream','dark green'], materials:['aged timber','woven everyday fabric','tea glass','worn metal','matte paper'], light:'One plausible principal practical light per scene; background light only when scene requires it', tone:'Adult humane invented urban neighborhood, differentiated from VETO institutional daylight and DARBE archive noir'}, qualityGate:'BLOCKED: first vector probe failed photographic-realism target; briefs do not resolve execution quality', briefs };
+}
+
+const reviewNotes = {
+  'RCN-010':['Name Düğün Tetiği is ambiguous. Brief uses event-trigger preparation, not a weapon. Confirm this nonviolent interpretation before illustration.'],
+  'RCN-012':['Avoid caricature or mental-health stereotype suggested by the existing name; keep the unchanged name only in existing UI.'],
+  'RCN-024':['Show an invented alternative route; do not add real transport branding or imply a real route.'],
+  'RCN-037':['Theft-associated name conflicts with nonviolent visual direction. Object-consequence scene needs art approval; rules/name remain unchanged.'],
+  'RCN-046':['No contraband procedure, weapons or stereotyped criminal portrait; the scene interprets accumulated absence through empty crates.'],
+  'RCN-059':['This source unit is a location. Preserve unit data but draw a venue rather than inventing a person.'],
+  'RCN-064':['Institution-associated name must use fictional civilian setting; no actual police identity, crest or uniform.'],
+  'RCN-065':['Keep the existing card name; do not invent a municipal uniform or copy an agency.'],
+  'RCN-068':['Existing veteran-associated name does not authorize military symbols/uniforms; civilian memory/durability reading needs approval.'],
+  'RCN-079':['Abstract identity cannot be made specific with invented text or named portrait; object metaphor needs clarity review.'],
+  'RCN-082':['Name Kan Bağı is represented with kinship/knot metaphor, not literal blood.'],
+  'RCN-090':['Source is unit/effect although text describes ritual spell; art brief must not correct this data or imply a new card type.'],
+  'RCN-094':['Existing weapon-associated title requires approved nonliteral cost/consequence scene; no weapon may be rendered.'],
+  'RCN-095':['Existing arson-associated title requires approved nonliteral disabled-support scene; no fire, damage act or injury.'],
+  'RCN-103':['Keep source cost and effect; no real institution or bribery procedure. Abstract fictional exchange scene needs review.'],
+  'RCN-104':['No real license template or readable fabricated document; blank prop must still communicate concealed information.'],
+  'RCN-119':['Existing terror-associated title requires nonviolent loss-of-cover consequence, not threatening imagery.'],
+  'RCN-129':['Avoid raid/policing imagery; depict removed concealed preparation only.'],
+  'RCN-130':['No real police institution or recognizable official symbol.'],
+  'RCN-135':['No explosive or trap device; closed meeting space conveys skipped confrontation.'],
+  'RCN-138':['No police figure, vehicle livery, insignia or real agency; shared waiting communicates blocked arrivals.'],
+  'RCN-139':['No fighting, injury or intimidation; two empty positions convey mutual loss.'],
+  'RCN-140':['No captive person; an object held in escrow is a nonliteral interpretation requiring approval.'],
+  'RCN-147':['Source spelling Zabıta Yoldı is intentionally preserved; do not silently correct localization or print it inside art.'],
+  'RCN-149':['Source text has two modes. Art must remain compatible with both target cancellation and preservation; no mode-specific promise.'],
+  'RCN-239':['Name Duraklar Birliği, series Borç and materials Borç+Haber differ semantically. Explicitly preserve all; brief connects finance/news at a stop. Needs human art-direction review.'],
+  'RCN-271':['No photo or raster inside the family-album prop; closed pages only until original adult vector portraits independently pass quality.'],
+  'RCN-274':['No copied news text or fictional gibberish. Blank/back-facing paper must communicate the object without printed content.'],
+  'RCN-275':['Abstract street memory uses worn original objects, not a copied neighborhood or real map.'],
+  'RCN-297':['No coercion or silenced person; closing a source window is metaphorical.']
+};
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  const manifest=buildManifest();
+  writeFileSync(new URL('./semantic-art-briefs.json',import.meta.url), JSON.stringify(manifest,null,2)+'\n');
+  console.log(JSON.stringify({count:manifest.cardCount,acceptedArtCount:manifest.acceptedArtCount}));
+}
