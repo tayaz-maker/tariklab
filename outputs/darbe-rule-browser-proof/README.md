@@ -22,12 +22,14 @@ Save contract: `tariklab.darbe-h.duel`, existing version-1 checksum envelope fro
 Executed on 2026-10-05:
 
 ```sh
-node --test outputs/darbe-rule-browser-proof/fixtures.test.mjs
+node --test outputs/darbe-rule-browser-proof/fixtures.test.mjs outputs/darbe-rule-browser-proof/proof-guards.test.mjs
 node outputs/darbe-rule-browser-proof/prepare.mjs
 node --check outputs/darbe-rule-browser-proof/browser-driver.mjs
-# Existing installed ESLint + repo config, these four .mjs files only.
+# Existing installed ESLint + repo config, this preparation directory's .mjs files only.
 ```
 
-Result: **5/5 Node tests PASS**, four reproducible checksum saves generated locally, driver syntax PASS, targeted ESLint PASS (0 findings). Protected 1049 tracked files under DARBE/duel-core/scripts/.github unchanged against the base. `preparation-results.json` contains measured Node stages and fixture hashes; it explicitly labels browser NOT_RUN. Initial test caught a test-only assumption about explicit summon slots; corrected from actual legal actions. No production defect was inferred from that test authoring error.
+Result: **10/10 Node tests PASS** (five original fixture/protection checks plus five driver-guard tests), four reproducible checksum saves generated locally, driver/guard syntax PASS, targeted ESLint PASS (0 findings). Protected 1049 tracked files under DARBE/duel-core/scripts/.github unchanged against the base. `preparation-results.json` contains measured Node stages and fixture hashes; it explicitly labels browser NOT_RUN. Initial test caught a test-only assumption about explicit summon slots; corrected from actual legal actions. No production defect was inferred from that test authoring error.
+
+Peer-review guard correction (2026-10-05): the driver now requires all three unique supported integer widths, rejecting empty, partial, duplicate or invalid lists before any context opens. Every artifact declares `expectedCaseCount: 12` and `completedCaseCount`; zero, incomplete, duplicate or failed cases cannot yield PASS. Every completed goto, reload, Continue and capture checks and records `page.url()`'s actual origin against the intended origin; the first check happens before fixture storage is written. Failed origin observations remain in the FAIL artifact. Negative tests use Node-only stand-ins, including a redirected initial page and an inspected FAIL artifact; **these are not browser execution evidence**. No #116 helper/dependency, existing CI or workflow changed.
 
 `prepare.mjs [evidence-directory]` recreates all four `.save.json` fixtures (default `/workspace/screenshots/darbe-rule-browser-preparation`). `browser-driver.mjs` only exports `runDarbeRuleBrowserProof(browser, origin, evidenceDirectory)` and **does not launch a browser or server**. Root may integrate it with an already-running authorized Playwright browser after #116; inspect actual screenshots before interpreting a successful machine result. Console/network/overflow failures remain failures. No test can mark browser PASS until the driver really runs.

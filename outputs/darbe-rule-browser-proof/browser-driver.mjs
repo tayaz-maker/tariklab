@@ -4,17 +4,20 @@ import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { CASES, KEY, buildFixture, decode, verifyStage } from './fixtures.mjs';
+import { validateWidths, recordActualOrigin, verifyCompletedCases } from './proof-guards.mjs';
 
 export async function runDarbeRuleBrowserProof(browser, origin, output,
   widths = [1440, 390, 320]) {
   assert.ok(browser?.newContext, 'provide an already-running Playwright Browser');
   assert.ok(output, 'provide a dedicated evidence directory');
+  const runWidths = validateWidths(widths);
   const targetOrigin = new URL(origin).origin;
   const report = { status: 'RUNNING', startedAt: new Date().toISOString(), origin: targetOrigin,
+    widths: runWidths, expectedCaseCount: CASES.length * runWidths.length, completedCaseCount: 0,
     scope: 'DRB-237..240 synthetic saved-state public-UI counterproof only', cases: [] };
   await mkdir(output, { recursive: true });
   try {
-    for (const width of widths) for (const spec of CASES) {
+    for (const width of runWidths) for (const spec of CASES) {
       const fixture = buildFixture(spec);
       const evidence = resolve(output, `${spec.id}-${width}`);
       await mkdir(evidence, { recursive: true });
@@ -22,10 +25,11 @@ export async function runDarbeRuleBrowserProof(browser, origin, output,
         viewport: { width, height: width === 1440 ? 900 : 844 },
         reducedMotion: 'reduce', serviceWorkers: 'block',
       });
-      const row = { id: spec.id, width, status: 'RUNNING', errors: [], stages: [] };
+      const row = { id: spec.id, width, status: 'RUNNING', errors: [], stages: [], origins: [] };
       report.cases.push(row);
       try {
         const page = await context.newPage();
+        const checkOrigin = checkpoint => recordActualOrigin(page, targetOrigin, row, checkpoint);
         page.on('pageerror', error => row.errors.push(error.message));
         page.on('console', msg => { if (msg.type() === 'error') row.errors.push(msg.text()); });
         page.on('response', response => {
@@ -34,6 +38,7 @@ export async function runDarbeRuleBrowserProof(browser, origin, output,
         });
         page.on('requestfailed', request => row.errors.push(`${request.url()} ${request.failure()?.errorText}`));
         await page.goto(targetOrigin, { waitUntil: 'domcontentloaded' });
+        checkOrigin('goto:fixture-origin');
         // Standard persisted-save setup, not an app state/window/dispatch hook.
         await page.evaluate(({ key, raw }) => {
           localStorage.setItem(key, raw);
@@ -41,12 +46,16 @@ export async function runDarbeRuleBrowserProof(browser, origin, output,
           localStorage.setItem('tariklab.duel.motion', 'off');
         }, { key: KEY, raw: fixture.raw });
         await page.goto(`${targetOrigin}/games/darbe-h/index.html`, { waitUntil: 'domcontentloaded' });
-        const continueGame = async () => {
+        checkOrigin('goto:game');
+        const continueGame = async (stage) => {
+          checkOrigin(`continue:${stage}:before`);
           await page.getByRole('button', { name: 'Continue', exact: true }).click();
           await page.locator('.duel-table').waitFor();
+          checkOrigin(`continue:${stage}:after`);
         };
         const rawSave = () => page.evaluate(key => localStorage.getItem(key), KEY);
         async function capture(stage, name = stage) {
+          checkOrigin(`capture:${name}:before`);
           const raw = await rawSave();
           const state = decode(raw);
           const summary = verifyStage(state, fixture, stage);
@@ -61,18 +70,22 @@ export async function runDarbeRuleBrowserProof(browser, origin, output,
           await writeFile(resolve(evidence, `${name}.save.json`), raw + '\n');
           if (backup) await writeFile(resolve(evidence, `${name}.backup.json`), backup + '\n');
           await page.screenshot({ path: resolve(evidence, `${name}.png`), fullPage: true });
-          row.stages.push({ name, ...summary, overflow });
+          const location = checkOrigin(`capture:${name}:after`);
+          row.stages.push({ name, ...summary, overflow, actualOrigin: location.actualOrigin,
+            actualURL: location.actualURL });
           return raw;
         }
         async function reloadExact(stage) {
+          checkOrigin(`reload:${stage}:before`);
           const before = await rawSave();
           await page.reload({ waitUntil: 'domcontentloaded' });
+          checkOrigin(`reload:${stage}:after`);
           assert.equal(await rawSave(), before, 'reload must preserve the exact serialized record');
-          await continueGame();
+          await continueGame(`${stage}-reloaded`);
           assert.equal(await rawSave(), before, 'Continue must not dispatch or rewrite this player-owned choice');
           await capture(stage, `${stage}-reloaded`);
         }
-        await continueGame();
+        await continueGame('initial');
         await capture('before');
         await page.locator('[data-pile="0:auxiliary"]').click();
         await page.locator('dialog[open]').getByRole('button', { name: fixture.name.en, exact: true }).click();
@@ -100,11 +113,13 @@ export async function runDarbeRuleBrowserProof(browser, origin, output,
         await capture('after');
         await reloadExact('after');
         row.status = 'PASS';
+        report.completedCaseCount++;
       } catch (error) {
         row.status = 'FAIL'; row.failure = error.message;
         throw error;
       } finally { await context.close(); }
     }
+    verifyCompletedCases(report);
     report.status = 'PASS';
     return report;
   } catch (error) {
