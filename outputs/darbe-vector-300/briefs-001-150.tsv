@@ -1,0 +1,150 @@
+001|character|Kır saçlı kadın dosya kâtibi|Kendi açık dosyasını kapatıp genç yetişkin meslektaşına yer açar|Gece devir masası|Yandan iki derinlik; el ve boşalan sandalye merkezde|Kendisini parafla gönderme karşılığında düşük kademe çağrı
+002|character|Orta yaşlı erkek paraf kâtibi|Gelen ihtar zarfını bir tur için ağır cam altına alır|Dar denetim bankosu|El hizasından yakın çapraz bakış|Geçici ihtar iptali; kalıcı imha gösterilmez
+003|character|Olgun kadın heyet kâtibi|Toplantı dosyalarından birini kapalı raf gözüne yerleştirir|Boşalan toplantı salonu|Aralık kapıdan orta plan|Çağrıda desteden arşive gönderme
+004|character|Genç yetişkin sivil koordinasyon kâtibi|Karşı bankonun işlem kapasitesini bir dosya takozuyla daraltır|Kurgusal operasyon bürosu|İki bankolu derin kompozisyon|Rakip KP azalması şiddetsiz idari sıkışma olarak
+005|character|Kısa saçlı kadın telex kâtibi|Kapanan cihazın son şeridini kilitli ayrı kutuya taşır|Loş iletişim odası|Makara ön planda yan açı|Yok oluş sonrası rakip arşivinden kalıcı çıkarma
+006|character|Gözlüklü yetişkin muhtıra kâtibi|Gelen evrak ağzından tek kapalı dosyayı alır|İç yazışma gişesi|Banko üzerinden yakın plan|Çağrıda tek kart çekişi
+007|character|Yaşlı zeyil kâtibi|Ekleri teslim edip çalışma lambasını sonraki görevliye bırakır|Dar ek ciltleme masası|Omuz üzerinden ayrılma anı|Parafla gönderme sonrası KP toparlanması
+008|character|İri yapılı kadın brifing kâtibi|Kapalı sunum sehpasının gerisinde evrakını korur|Boş dinleme sıraları|Alçak geniş plan; korunan dosya görünür|Savunmada hedef olamama; mutlak alan koruması yok
+009|character|Sade yelekli kabine kâtibi|Eş seviyedeki iki evrak istifinden birine ek klasör yükler|İkili değerlendirme masası|Tam karşıdan dengesi bozulan simetri|Aynı kademeye karşı ek etki
+010|character|Yaşlı erkek arşiv kâtibi|Üç dosyanın birini ayırıp kalan ikisini sıraya dizer|Yüksek arşiv rafı|Dosya kenarlarından dar açı|Üst üç karttan seçim ve kalan sıra
+011|character|Genç yetişkin tebligat kâtibi|Boş kâğıdı koruyucu katlı bir mühür kılıfına dönüştürür|Tebligat paket masası|Eller ve katlanmış kılıf yakın plan|0 ATK savunma jetonu; saldırı gücü ima edilmez
+012|character|Kadın meşruiyet raportörü|Her hazırlanan dosya demetine yeni inceleme sayfası ekler|Gün doğmadan rapor bürosu|Uzun masa boyunca tekrarlanan çalışma durakları|Hazırlık başına sürekli kart akışı
+013|character|Sakallı dosya raportörü|Kapalı rapor kapağını kaldırınca iki ek dosya ortaya çıkar|Koyu ahşap inceleme sehpası|Üstten dar eğimli açı|Setten açılmada iki çekiş
+014|character|Yaşlı kadın paraf raportörü|Paraf klasörünü kabul ederek iş kuyruğunda açıklık yaratır|Açılır camlı kayıt bankosu|Yüz ve boşalan alan birlikte|Çağrıda KP artışı kaynak rahatlaması
+015|character|Genç yetişkin heyet raportörü|Karşı dosya grubundan tek evrakın ayrılmasını ister|Yan yana iki toplantı arabası|Arabanın altından değil göz hizasında geniş plan|Rakibin bir kart bırakması
+016|character|Sivil koordinasyon raportörü|Kapalı dosyaları sayarak çalışma tahtasını genişletir|Mühürsüz planlama odası|Arka sıradaki kapalı dosyalar ritmik derinlik|Rakibin set kartlarıyla ölçeklenen ATK
+017|character|Telex raportörü kadın|İletişim masasına bağlı ana alan klasörünü açık tutar|Merkezi santral bürosu|Kablo hattı gözden masaya götürür|Alan emirnamesi varlığında yok olmama koşulu
+018|character|Muhtıra raportörü erkek|Meslektaşının dosyasına kısa süreli destek eki iliştirir|Ortak rapor yazım bölmesi|İki el arasında aktarılan tek ek|Turda bir görevliye geçici ATK desteği
+019|character|Dalgalı saçlı zeyil raportörü|Bekleme rafından genç yetişkin çalışanın dosyasını çıkarır|Personel dosyası köşesi|Ön el ve arka kapı çift odak|El veya desteden düşük kademe özel çağrı
+020|character|Brifing raportörü kadın|Katılımcıya kendi kapalı dosyasını geri teslim eder|Sunum odası çıkışı|Kapı eşiğinde orta plan|Rakip görevlinin ele dönüşü; yok edilmez
+021|character|Kabine raportörü yaşlı erkek|Son raporunu arşivleyip odayı ortak çalışmaya açar|Kapanış yapılan kurul odası|Boşalan baş sandalye önde|Kendisini arşive gönderme karşılığında KP
+022|character|Arşiv raportörü genç yetişkin kadın|Açık dosyaları yeniden tasnif etmeye hazırlanır|Yuvarlak tasnif masası|Yüksek eğik açı; karıştırma zorunlu görünmez|Çağrı KP ve isteğe bağlı deste karıştırma
+023|character|Tebligat raportörü erkek|Dağıtım çekmecesinden aynı hizmetin görev dosyasını seçer|Koridor gişesi|Çekmece seviyesinde çapraz bakış|Normal çağrıda Tebligat görevlisi arama
+024|character|Meşruiyet müsteşarı kadın|Görev yerini boşaltırken kapalı ihtar zarfını bırakır|Eski makam olmayan sivil büro|Giden omuz ve geride kalan zarf|Arşive geçişte desteden ihtar set etme
+025|character|Dosya müsteşarı erkek|Yıpranan cildini her hazırlıkta yeniden güçlendirir|Bakım gerektiren dosya deposu|Cilt yakın planda yorulan yüz arkasında|Yok olmama karşılığında düzenli KP maliyeti
+026|character|Paraf müsteşarı kadın|Karşı bankoda açılan emirden kendi inceleme hattına evrak alır|Çift servis bankosu|Bankoları bağlayan diyagonal|Rakip emirname açınca KP artışı
+027|character|Heyet müsteşarı yetişkin erkek|Acele dosyaya ikinci teslim kanalı açar|Toplantı öncesi dağıtım koridoru|Ön planda iki yönlü evrak tepsisi|Hızlı emirname KP etkisini artırır
+028|character|Sivil koordinasyon müsteşarı kadın|Kapanan çalışma masasından kullanılabilir klasörleri ayırır|Taşınan büro|Dağınık masa üzerinde kontrollü orta plan|Yok oluş sonrası KP toparlanması
+029|character|Telex müsteşarı yaşlı erkek|Arşiv makarasındaki eski emri çözüp masaya geri getirir|Telex saklama dolabı|Makara boşluğu içinden bakış|Arşivden emirnameyi ele alma
+030|character|Muhtıra müsteşarı kadın|Eski görev dosyasını etkin masanın ışığına taşır|Alt raftan çalışma alanına geçiş|Aşağıdan yukarı dosya hareketi|Arşivden düşük kademe özel çağrı
+031|character|Zeyil müsteşarı erkek|Kapanmış ek klasörünün içinden son bir dosya çıkarır|Demonte edilen yazı masası|Klasör ağzına yakın plan|Yok oluşta bir kart çekişi
+032|character|Brifing müsteşarı kadın|Kapalı sunum perdesinin aralığından tek zarfı inceler|Küçük hazırlık odası|Perde kenarı çerçeveleme|Setten açılınca rakip set kartını görme
+033|character|Kabine müsteşarı erkek|Büyük toplantı hattını dolaşarak dar yan teslim penceresine ulaşır|Yan koridor|Uzun dar perspektif|Doğrudan ama yarı etkili işlem
+034|character|Arşiv müsteşarı kadın|Açılmamış personel dosyalarını kapak altında toplar|Koruma ciltliği|Örtünün önünde sakin orta plan|Yüzükoyun görevliler açılana dek etki koruması
+035|character|Tebligat müsteşarı erkek|Son arşiv nüshasını tek kullanımlık itiraz kılıfına kapatır|İade evrak odası|Boşalacak göz ve kapanan kılıf|Düelloda bir arşivden çıkarma ile set ihtar iptali
+036|character|Meşruiyet müşaviri kadın|Kapalı ihtar zarfının yanında savını güçlendiren ciltler dizer|Dar danışma masası|Ön zarf arka dosya piramidi|Set ihtar koşullu ATK
+037|character|Dosya müşaviri erkek|Dosyayı bekleyen aracı masaları atlayarak teslim eder|Açık geçişli evrak koridoru|Kesintisiz görüş hattı|Doğrudan işlem yolu
+038|character|Paraf müşaviri kadın|Çalışanların dosyalarına sağlam koruyucu kapaklar dağıtır|Ortak yazı işleri odası|Yarım dairede eller ve kapaklar|Tüm görevlilere DEF
+039|character|Heyet müşaviri erkek|Her katılımcının dosyasını tek ortak cilde ekler|Toplantı sekreterliği|Birleşen eller yüksek açı|Kontrol edilen görevli sayısıyla ATK artışı
+040|character|Sivil koordinasyon müşaviri kadın|En üst dosyanın personel cildi olup olmadığını kontrol eder|Sevk bekleme rafı|Üst dosya kenarı yakın çekim|Üst kart birimse alma koşulu
+041|character|Telex müşaviri yaşlı erkek|İletişim personeline sağlam makara kılıfları dağıtır|Birbirine bağlı iletişim tezgâhları|Oda köşesinden çapraz geniş açı|Yalnız Telex ATK ve DEF desteği
+042|character|Muhtıra müşaviri kadın|Günlük sıraya ikinci genç yetişkin çalışan için tabure çeker|Dar kabul odası|Ek tabure önde kapı arkada|Yalnız düşük kademeye ek normal çağrı
+043|character|Zeyil müşaviri erkek|Kendi ek paketini teslim edip başka görev dosyasını açar|Eklerin teslim holü|Ön teslim arka yeni kabul|Kendi parafı karşılığında düşük kademe çağrı
+044|character|Brifing müşaviri kadın|Sunum sırasında gelen uyarıyı kapanan dosya arasına alır|Küçük brifing salonu|Yandan kesilen kâğıt akışı|Turda bir geçici ihtar iptali
+045|character|Kabine müşaviri erkek|Toplantı taslağından bir dosyayı arşiv arabasına koyar|Masanın dar uç kısmı|Araba ön planda|Çağrıda desteden arşive transfer
+046|character|Arşiv müşaviri kadın|Karşı tasnif alanını ağır bir inceleme cildiyle daraltır|Çift arşiv bankosu|Sıkışan boşluk üzerinden bakış|Çağrıda rakip KP azalması
+047|character|Tebligat müşaviri erkek|Görevi bitince karşı arşivdeki tek iade dosyasını ayırır|İadelerin kilitli bölmesi|Ayrı kutu merkezde|Yok oluş sonrası rakip arşivinden çıkarma
+048|character|Meşruiyet kuryesi kadın|Gece penceresinden taze değerlendirme zarfını alır|Yağmurlu iç avluya bakan gişe|Islak cam önünden orta plan|Çağrıda bir kart çekme
+049|character|Dosya kuryesi erkek|Evrak torbasını devredip boş taşıma alanı bırakır|Yükleme odası|Torba ve hafifleyen omuz|Parafla gönderilince KP kazanımı
+050|character|Paraf kuryesi kadın|Savunma bekleyişinde dosyayı mühürsüz güvenlik kılıfında tutar|İç dağıtım bekleme nişi|Nişten dışarı bakış|Savunmada hedef olamama; tüm yolu kapatmaz
+051|character|Heyet kuryesi erkek|Eş büyüklükte karşı paketle buluştuğunda ek dosya sunar|Toplantı katı geçişi|İki paket ve ek ince nüsha|Aynı kademeye ek etki
+052|character|Sivil koordinasyon kuryesi kadın|Üç sevk torbasından birinin iç dosyasını seçer|Sevk masası|Torba seviyesinde önden açı|Üst üçten bir seçim; kalan sıra korunur
+053|character|Telex kuryesi erkek|Makara paketinin yanına katlı koruma kâğıdı yerleştirir|İletişim posta odası|Paketleme elleri yakın plan|Savunma jetonu oluşturma
+054|character|Muhtıra kuryesi kadın|Hazırlık arabasına her durakta yeni zarf ekler|Uzun iç dağıtım koridoru|Arabanın yanından takip hissi|Her hazırlıkta kart akışı
+055|character|Zeyil kuryesi erkek|Kapalı evrak çantasından iki ayrı ek çıkarır|Merdiven sahanlığı|Yukarıdan çanta içi|Setten açılınca iki çekiş
+056|character|Brifing kuryesi kadın|Sunum çantasını vaktinde ulaştırıp bankoyu rahatlatır|Giriş vestiyer bankosu|Kapıdan içeri kısa orta plan|Çağrıda küçük KP artışı
+057|character|Kabine kuryesi erkek|Karşı teslimatçının paketinden bir dosyayı iade tepsisine alır|Çift yönlü evrak penceresi|Cam arkasından karşılıklı eller|Rakip bir kart bırakır
+058|character|Arşiv kuryesi kadın|Her kapalı karşı paket için taşıma askısına bir ek takar|Paket kabul antreposu|Askı ön planda kapalı kutular arkada|Rakip set sayısıyla ATK
+059|character|Tebligat kuryesi erkek|Açık alan talimat klasörünü izleyerek dosyasını korur|Dağıtım salonu|Genel klasörden kuryeye diyagonal|Alan emirnamesi varken yok olmama
+060|character|Meşruiyet arşivcisi kadın|Başka çalışanın dosyasını uygun destek rafına yükseltir|Dönen tasnif rafı|Raf ağzından el hareketi|Turda bir tek görevliye ATK
+061|character|Dosya arşivcisi erkek|Genç yetişkin görevlinin çalışma dosyasını çağrı bankosuna koyar|Personel arşivi çıkışı|Düşük raf ve açık kapı|El veya desteden düşük kademe çağrı
+062|character|Paraf arşivcisi kadın|Karşı görev dosyasını gönderenin eline geri iter|Paraf iade bankosu|Dosya boyunca sığ derinlik|Rakip görevli ele döner
+063|character|Heyet arşivcisi erkek|Kendi cildini kapatıp toplantı salonuna kaynak alanı bırakır|Oturum sonrası tasnif alanı|Boşalan raf geniş plan|Kendisini arşive gönderme karşılığı KP
+064|character|Sivil koordinasyon arşivcisi kadın|Tasnif tepsilerini yeniden dizmek üzere çözer|Yuvarlak sevk masası|Saat yönü zorunluluğu olmayan üst bakış|Çağrı KP ve isteğe bağlı karıştırma
+065|character|Telex arşivcisi erkek|Makara kataloğundan bir iletişim görevlisi cildi seçer|Silindirik makara rafları|Yan raf aralığından bakış|Normal çağrıda Telex arama
+066|character|Muhtıra arşivcisi kadın|Kapanan rafı terk ederken kapalı uyarı kılıfını destek alanına bırakır|Dosya geçiş tezgâhı|Giden figür arka planda|Arşive gidişte ihtar set etme
+067|character|Zeyil arşivcisi erkek|Sökülmeyen eki her sabah yeniden onarır|Cilt tamir köşesi|Yıpranma ve onaran parmaklar|Yok olmama karşılığı sürekli KP maliyeti
+068|institution|Dosya ve Paraf sivil yedek ekibi|İki hizmet dosyasını birleştirip karşı desteği geri yollar|İkili kabul ofisi|Biri raf biri paraf masası iki odak|İki farklı malzeme ve ücretli destek iadesi
+069|institution|Heyet ve sivil koordinasyon ekibi|Oturum dosyasıyla sevk cildini tek teslim hattına bağlar|Oval yan toplantı odası|Dört sandalyeden çapraz plan|Heyet ve Karargâh birleşimi; ücretli açık destek iadesi
+070|institution|Telex ve Muhtıra yedek ekibi|Makara ile karar paketini eşleyip gelen desteği geri çevirir|İletişim sekreterliği|Makara önde iki çalışma alanı arkada|Telex ve Muhtıra malzemesi; KP bedeli
+071|institution|Zeyil ve Brifing yedek ekibi|Ek cildi sunum paketine bağlayıp karşı tepsiyi geri iter|Sunum arka odası|Menteşeli tezgâh üstten|Zeyil ve Brifing birleşimi; bedelli destek iadesi
+072|institution|Kabine ve Arşiv yedek ekibi|Kurul dosyasını raftan çıkarıp başka desteğin iadesini hazırlar|Yarım açık arşivli salon|Raf-kurul masası eşit derinlik|Kabine ve Arşiv malzemesi
+073|institution|Tebligat ve Meşruiyet yedek yazı ekibi|Gönderi dosyasını usul kılıfıyla eşler|Çift evrak penceresi|Cam yansımalarıyla iki ayrı çalışma|Tebligat ve Meşruiyet birleşimi; geri yollama
+074|character|Brifing dizgicisi kadın|Kapalı prova levhasını kaldırıp tek gizli nüshayı inceler|Dizgi prova odası|Levha kenarından yakın plan|Açılınca rakip set kartını görme
+075|character|Kabine dizgicisi erkek|Kısa dar bir dağıtım yoluna küçük prova bırakır|Baskı odası yan geçidi|Dar boşluk merkezli derinlik|Yarı etkili doğrudan işlem
+076|character|Arşiv dizgicisi kadın|Henüz açılmamış prova dosyalarını sert kılıfa alır|Kâğıt kurutma rafı|Kat kat kılıflar yandan|Kapalı görevlilere açılana dek koruma
+077|character|Tebligat dizgicisi erkek|Arşivde kalan son provayı tek kullanımlık iptal kılıfına geçirir|Klişe saklama bölmesi|Tek boşalan yuva yakın plan|Düelloda bir arşivden çıkarma ile ihtar iptali
+078|character|Meşruiyet dizgicisi kadın|Kapalı uyarı yanında daha sağlam baskı provası hazırlar|Dizgi denetim bankosu|Baskı merdanesi ön plan|Set ihtar koşullu ATK
+079|character|Dosya dizgicisi erkek|Prova dosyasını ara tepsileri atlayan olukla yollar|Dizgi aktarım odası|Oluk boyunca alçak görüş|Doğrudan işlem
+080|character|Paraf dizgicisi kadın|Görev dosyalarının cilt sırtlarını sertleştirir|Cilt presleri sırası|Pres kolu ve dosyalar orta plan|Görevlilere DEF desteği
+081|object|Açılmış tebligat zarfı|Sıkışık dosya demetini serbest bırakan çözülmüş bağ taşır|Açık kabul tepsisi|Zarfa yakın sabah ışığı|KP kazanımı kapasite rahatlığı; para nesnesi yok
+082|event|Gece brifingi yarıda kesilen sunum|Başlamak üzere olan işlemin dosyası kapatılır|Tek lambalı toplantı salonu|Arka sıradan kapatılan cilde bakış|İlan edilen işlem iptali
+083|action|Paraf için uzatılan emir zarfı|Karşı elin tuttuğu seçeneklerden biri ayrılır|İki banko arası|Eller ve seçenekler yakın plan|Rastgele rakip bırakışı; hedef seçiliyormuş gibi gösterilmez
+084|location|Sivil koordinasyon alanında ek çalışma yüzeyi|Var olan masaları ortak koruyucu cilt hattıyla bağlar|Kurgusal planlama salonu|Yüksek köşe geniş plan|Yalnız Karargah alan 300/300 desteği
+085|action|Açık arşiv çağrı çekmecesi|Tek personel dosyası tekrar elde tutulur|Alt raf bölmesi|Dosya çekme yönünde yakın açı|Arşivden görevli ele alma
+086|event|Küçük heyet toplantısı|Tek katılımcının dosyasına ortak destek eklenir|Dikdörtgen sivil masa|Hedef dosya merkezde topluluk çevrede|Kuşanan görevliye ATK
+087|object|Kabine ek notu|Zeyil dosyaları arasından bir klasöre ilişir|Yan karar sehpası|Not klipsi yakın plan|Desteden Zeyil arama
+088|action|Telex kâğıt akışı|Yeni evrak gelirse kapalı uyarı gözüne ayrılabilir|İletişim çıkış tepsisi|İki olası yol birlikte görünür|Bir çekiş; yalnız ihtarsa set
+089|action|Redaksiyon sırasında ayrılan iki nüsha|Boş iki temiz yaprak incelemeye açılır|Düzeltme ışık masası|İki yaprak merkezli üst görünüm|İki kart çekme
+090|action|Usul onay kılıfı|Genç yetişkin görev dosyasının çalışma alanına girişini açar|Sivil kabul eşiği|Kılıf ve açık sandalye|Düşük kademe özel çağrı
+091|action|Dosya devir arabası|Bir cilt rafa giderken yenisi ele gelir|Karşılıklı evrak rafları|Çapraz iki hareket|Desteden arşive bir; sonra bir çekiş
+092|event|Ayakta kısa istişare|Tek dosyanın yanında geçici destek grubu oluşur|Koridor nişi|Dar yarım daire orta plan|Bu turluk tek görevliye ATK
+093|object|Kaşenin boş iz bırakmış tablası|Ayrı kutudan gelen dosyayı arşiv tepsisine geri kabul eder|Kaşe kabul masası|Islak iz yerine boş baskı kabartısı yakın plan|Oyun dışından arşive dönüş
+094|action|Müzekkere zarfı|Karşı emir dosyasının bağını çözüp dosyayı işlemden alır|Denetim masasının kenarı|Yalnız evraklar odak|Rakip emirnameyi kaldırma; gerçek şiddet yok
+095|object|İki kollu dağıtım tepsisi|İş gücü tahsis edilen iki yeni dosyayı sunar|Tevzi rafı önü|İki dolu çıkış ve azalan malzeme|KP maliyeti karşılığı iki çekiş
+096|object|Üç katlı üst yazı cildi|Üç nüshadan ikisi ayrılmış halde durur|Üst evrak bankosu|Yelpaze üstten yakın|Üçten iki seçim
+097|object|Birleştirilmiş ek cetvel klasörü|Çalışanların dosyalarını ortak sağlam hatla tutar|İletişim evrak masası|Yatay uzun cilt merkezi|Sürekli görevli ATK artışı
+098|action|Toplantı gündemine eklenen dosya|Karşı görev dosyasının işlem yeri boşalır|Oturum kayıt tezgâhı|Boşlukla sonuç anlatımı|Rakip görevliyi yok etme; kişi zarar görmez
+099|object|Kısa karar kılıfı|Karşı görev dosyasını arşiv arabasına yöneltir|Dar karar penceresi|Kılıftan arşive tek diyagonal|Doğrudan arşive gönderme
+100|object|Kalın gerekçe cildi|Karşı bankonun kullanılabilir alanını önemli ölçüde kaplar|Brifing teslim masası|Ağır cilt alçak yakın açı|Rakip KP kaybı idari yük olarak
+101|action|Sıraya konmuş imza kalemleri|Kapalı ihtar zarfı sıranın sonunda bekler|Kabine yazı bankosu|Kalemler ritmi ve tek kapalı zarf|Desteden ihtar set
+102|object|Havale paketinden çıkan yeni dosya|Yanındaki dağınık alanı düzenler|Arşiv kabul masası|Paket açık ağızdan bakış|Bir çekiş ve KP toparlanması
+103|event|Tebliğ sureti teslimi|Kriz için kurulmuş masanın kapağı bu tur kapalı tutulur|Toplantı odası antre|Kapalı masa ve eldeki suret|Bu tur kriz aşaması yok
+104|action|Cevabi evrak bariyeri|Doğrudan teslim yolu kısa süreli dolaylı yola çevrilir|Usul evrak kavşağı|İki yol görünür geniş açı|Yalnız doğrudan saldırı engeli
+105|object|İç genelge dosyası|İç çalışma tepsilerini aynı düzende rahatlatır|Personel yazı işleri alanı|Açılan alan merkeze yerleşir|KP kazanımı
+106|action|Dış yazışma dönüş zarfı|Yeni ilan edilen işlem dosyasını gişede durdurur|Dış evrak kabul odası|Cam düzlemi boyunca yan plan|İşlem iptali; 082 ile oda ve açı farklı
+107|action|Kayıt düzeltme kızağı|Karşı yığından hangi dosya olduğu görünmeden birini ayırır|Eski kayıt makinesi bankosu|Dosya arkaları görünür üst açı|Rastgele bırakış
+108|location|Bölümlenmiş sayfa sıralama alanı|Sivil koordinasyon çalışanlarına ortak düzen sağlar|Geniş tasnif salonu|Numarasız sekmelerle derin sıralar|Karargah alan desteği; rakam çizilmez
+109|object|Dipnot eki bulunan eski cilt|Arşivdeki görev dosyasına dönüş yolu açar|Alçak inceleme rafı|Cildin alt kenarı yakın plan|Arşivden görevliyi ele alma
+110|object|Üst kenara bağlanan sert bilgi kılıfı|Tek görev dosyasını daha güçlü taşınır hale getirir|Muhtıra paket tezgâhı|Kılıfın bağlantı noktası odak|Tek kuşanana ATK
+111|object|Dosyanın altındaki ince ek cep|Zeyil personel cildini saklı sıradan çıkarır|Ek belgeler rafı|Alt cep açılırken alçak açı|Zeyil arama
+112|action|Dağıtım çizelgesi yerine boş sekmeli tepsi|Yeni dosyayı uygun ise kapalı destek gözüne ayırır|Brifing evrak aktarma odası|Tepsi üstten iki durak|Çekiş ve ihtarsa set koşulu
+113|object|Vize şerhi kılıfı|İki yeni nüshanın birlikte açılmasına izin verir|Kabine kontrol penceresi|Çift nüsha güçlü merkez|İki çekiş
+114|action|Paraflı suret kabulü|Alçak raflı görev dosyası boş çalışma yerine geçer|Arşiv personel kabul alanı|Açık kapı ve düşük raf|Kademe dört altı özel çağrı
+115|object|Taslak yaprak demeti|Eski taslak arşive ayrılırken taze dosya açılır|Tebligat prova masası|Eski ve yeni kâğıt dokusu karşılaşır|Bir gönderme ardından bir çekiş
+116|object|Kesin metin cildi|Tek görev dosyasının altına geçici sağlam destek olur|Usul karar bankosu|Cilt katmanı makro olmayan yakın plan|Bu turluk ATK artışı
+117|action|Ek protokol yeniden kabulü|Ayrı saklanan dosya arşiv sınırına geri alınır|Yan kabul dolabı|Ayrı kutu ve raf eşiği|Oyun dışından arşive dönüş
+118|event|Ara karar sırasında duran yazışma|Karşı emir dosyası işlem sehpasından kaldırılır|Paraf inceleme bölmesi|Kesilen hareket yandan|Rakip emirnameyi yok etme
+119|object|Son yaprağı kapanan gerekçe cildi|Kullanılan malzeme karşılığında iki yeni inceleme dosyası açılır|Heyet yazı odası|Son yaprak ve ikili paket|KP bedelli iki çekiş
+120|action|Geri çekme yazısı düzenlemesi|Üç üst dosyadan ikisi geri alınır|Sevk iptal rafı|Üç yuvadan iki dosya önde|Üçten iki seçim; tüm desteyi iade değil
+121|action|Yeniden yazım işi|Tüm görev dosyaları için kesintisiz ek yaprak hazırlar|Telex prova tezgâhı|Uzun kâğıt şeridi boyunca bakış|Sürekli ATK desteği
+122|object|İki boş sütunlu dosya ayırıcı|Karşı görev cildi işlem çizgisinden ayrılır|Muhtıra ayırma masası|İki dik cilt arasında boşluk|Rakip görevliyi kaldırma; yazı yok
+123|object|Tek dar sıralama kanalı|Karşı görev dosyasını arşiv ucuna taşır|Zeyil raylı rafı|Tek perspektif hattı|Arşive gönderme
+124|object|Mat kırmızı evrak bandı|Karşı evrak yığınının kullanılabilir kısmını bağlar|Brifing denetim odası|Bant gerilimi yakın plan|KP azalması; sansür sloganı veya gerçek simge yok
+125|action|Erken uzatılmış imza kalemi|Destek dosyası onay oluşmadan işlemden alınır|Paraf bankosu|Kalem ve geri alınan cilt|Rakip desteği kaldırma
+126|object|Boş paraf kılıfı|İki işlem dosyasından hedef olanı geçersiz tepsiye ayırır|Çift yönlü başvuru masası|Boş kılıf ön planda|Saldıran veya hedef görevliyi kaldırma
+127|action|Uyuşmayan suretin geri çevrilmesi|Yeni görev dosyası arşiv çıkışına yönelir|Kabul kapısı|Giriş ve raf yolu birlikte|Çağrı iptali ve arşiv sonucu
+128|object|Eksik dağıtım bölmesi|Emir zarfları kapalı dağıtım kapağının arkasında kalır|Tevzi dolabı|Boş bölme yakın plan|Bir tur emirname açamama
+129|location|Kapalı arşiv penceresi|Görev dosyası gönderenin eline geri uzatılır|Raf kapatma saati|Yarı kapalı panjur ve el|Rakip görevliyi ele döndürme
+130|object|Açılmış evrak bandı|İlerleyen işlem paketi bantta durur|İhtar kabul kızağı|Bant ucu ve duran dosya|Saldırı iptali
+131|event|İki gündem cildinin çakışması|Bekleyen işlemin kaynak klasörü masadan ayrılır|Çift oturum salonu|Masa çaprazında iki cilt|İşlemin kaynağını kaldırma
+132|object|Tek imza için hazırlanmış kalem|Kriz masası kurulu olduğu halde kullanılmadan kalır|Boş oturum masası|Kalem küçük masa büyük|Kriz aşaması atlanır
+133|event|Geç başlayan brifing|Gecikme sırasında iki yeni dosya masaya ulaşır|Gece bekleme salonu|Kapıdaki iki paket derinde|İki çekiş
+134|event|Sessiz sivil heyet|Tek yeni dosya açılırken sıkışmış masa rahatlar|Küçük toplantı nişi|Sakin açık alan ve yeni zarf|KP ve tek çekiş; sessizlik ses etkisi değildir
+135|event|Kalabalık çalışma masası|Karşı katılımcı bir dosyasını kenara bırakır|Dar değerlendirme salonu|Çakışan evrak elleri üst açı|Rakibin bir kart bırakması
+136|object|Kırmızı düzeltme şeridi|Tepki için gelen zarf geri kapatılır|İhtar denetim sehpası|Kapanan zarf ağzı yakın|Rakip tepkiyi iptal
+137|object|Sarı koruma şeridi|Hedef dosyanın köşesini bir kez sarar|Evrak onarım masası|Sarı kat izi makro yakın|Hedefli iptal veya tek yok oluş koruması
+138|object|Eksik ek cebi|Asıl görev dosyası boş cebe rağmen sağlam kalır|Zeyil kontrol rafı|Boş ek ile sağlam cilt birlikte|Bu savaşta bir kez yok olmama
+139|action|Fazla ekin ayıklanması|Arşiv içindeki düşük kademeli görev dosyası yeniden açılır|Taşan ek dosya odası|Eklerin arasından tek cilt|Arşivden özel çağrı
+140|object|Kopmuş telex şeridi|Karşı işlem tepsisinin akışını eksiltir|İletişim hattı tezgâhı|Şeridin iki ucu arasında boşluk|KP kaybı bağlantı kapasitesi metaforu
+141|action|İade edilen tebligat paketi|İlan edilen etki zarfı açılmadan geri döner|Geri gönderi bankosu|Paketin dönüş yönü|İlan etkisi iptali
+142|institution|Usul inceleme heyeti|Her yeni karşı kabul dosyasında kendi inceleme payını açar|Gözetimli başvuru salonu|İki ayrı kabul hattı geniş plan|Rakip çağrı başına KP; siyasi şüphe propagandası yok
+143|event|Rayından kayan dosya|Karşı destek cildi çalışma yüzeyinden ayrılır|Tekerlekli dosya rafı|Düşme değil kontrollü yan ayrılma|Rakip desteğini kaldırma
+144|action|Sırası değişen görev dosyası|Etkin veya hedef dosya işlem kuyruğundan çıkarılır|Sıra düzenleme sehpası|Yukarıdan boşalan sıra|Saldıran veya hedef görevliyi kaldırma
+145|action|Vize kılıfının kapanması|Yeni dosya kabul yerine arşiv tepsisine geçer|Vize kontrol odası|Kılıfın dışından yakın açı|Çağrı iptali ve arşiv
+146|action|Havale paketinin geri gelmesi|Günlük emir gönderim kapağı kapatılır|İade havale gişesi|Paket önünde kapalı kapak|Bu tur rakip emirname açamaz
+147|object|Uymayan dipnot ek cebi|Görev dosyası sahibine iade edilir|Ekler denetim bankosu|Cilt altındaki taşan kenar|Ele dönüş; yok oluş değil
+148|object|Uymayan üst yazı kapağı|İşlem dosyasının ileri hareketi durur|Üst evrak kızağı|Kapağın yanlış oturan kenarı|Saldırı iptali
+149|event|Dağıtım kanallarının çaprazlanması|Bekleyen işlemin kaynak torbası geri çekilir|Evrak sevk kavşağı|İki kanal ve ayrılan kaynak|Kaynak kartın kaldırılması
+150|object|Uyuşmayan kayıt dizisi|Kriz masasına giden son dosya kapalı kalır|Kayıt kontrol masası|Boş kayıt boşluğu merkezli|Kriz aşamasını atlama

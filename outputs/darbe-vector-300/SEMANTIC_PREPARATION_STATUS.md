@@ -1,0 +1,12 @@
+# DARBE-H — 300 kart anlamsal sanat hazırlığı
+- Owner: Astra; branch `astra/darbe-semantic-art-preparation`; güncel taban `a534289`.
+- Kaynak: gerçek `public/games/darbe-h/source-cards.json`, SHA256 `222916020ef176ced6ad72d4c61038bf045757e7ae9d7a6bfa6d8f99c657f3f9`.
+- 300/300 ID için ayrı subject/action/setting/composition/effectLink satırı yazıldı; kartın tüm özgün alanları manifestte birebir korunur.
+- Dağılım: character 128, object 63, action 59, event 27, institution 15, location 8.
+- Eksik anlamsal satır: 0. Tüm satırlar AUTHOR DRAFT; bağımsız kalite/semantik kabulü yapılmış değildir.
+- Kabul edilmiş yeni sanat: **0/300**. Ayrı yerel `d6dec0c` probe kalite kapısı FAIL; probe dosyaları bu dala alınmadı.
+- Test: `node --test outputs/darbe-vector-300/semantic-briefs.test.mjs` **6/6 PASS**; 652 mevcut public/duel dosyası değişmez; ID/istatistik/efekt/onay kayması negatif testleri PASS.
+- Üretim: özgün prosedürel SVG/vektör/katmanlı geometri; AI plaka, raster, dış asset, gerçek kişi/amblem/üniforma/metin yok. Sivil yorum kart adlarını değiştirmez.
+- Açık risk: kağıt hareketi/KP alegorileri çizimde tekrar ve belirsizlik yaratabilir; her görsel için yetişkin anatomi, malzeme, 400×560 mevcut artwell kırpımı ve mobil okunurluk ayrı kanıtlanmalı.
+- DRB-237–240 **P1 tetik repro gerekli**; kaynak etki briefe alınmıştır, çalıştığı varsayılmamış ve kural düzeltilmemiştir.
+- Sonraki adım: B7 içinde farklı özgün katmanlı geometri/malzeme yaklaşımı için ölçülmüş tek-kart kalite kararı; asset/300 kabulü, browser/offline kabulü, PR/production **YOK**; yalnız hazırlık dalı yayımlanabilir.
