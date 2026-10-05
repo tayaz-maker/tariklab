@@ -1,0 +1,17 @@
+# B10 — restored hand screenshot readiness
+
+Owner: Astra. Initial base: `0383d24dce3e45fc1db16773da8b3a135bf51b6e`; rebased onto verified main `dfbab3f15b74df5336fecf9f7d4247184cbb9222`. Branch: `astra/duel-visible-art-readiness`. PR: none; local candidate for review.
+
+Main D5 artifact `11325111667` showed six placeholder hand wells in the www VETO/GETT legacy desktop captures; mobile captures after resize showed art. The old script decoded only the filtered archive card before restoring the save. This establishes a screenshot-readiness gap, not permanent production asset failure.
+
+`scripts/duel-legacy-art-proof.mjs` preserves the production archive→legacy restore→capture flow and checks the canonical six-card hand against each fixture UID and each card's manifest path/dimensions immediately before both desktop and mobile captures. Both canonical boards must remain empty. The production script and existing local CI duel-browser gate call this identical flow, exercising actual fixture/manifest/iframe wiring before merge. This contract covers restored hand art, not arbitrary board cards or all 300 archive entries.
+
+`scripts/duel-visible-art.mjs` checks the viewport and ancestor overflow clips, requires meaningful visible image area, awaits visible images' decode and two subsequent animation frames, then records UID, card ID, actual URL, natural/rendered dimensions and clipped area. Missing images, onerror glyph replacement, wrong sources/dimensions, empty cohorts and the five-second deadline all fail closed. No scroll, lazy-image promotion, extra preload, game/save mutation or broad timeout increase. Continue restoration itself does not invoke the gameplay card transition animation.
+
+Validation performed locally:
+
+- Helper contract tests **10/10 PASS**; existing required-CI guard tests **18/18 PASS**.
+- Changed-script ESLint, typecheck, build:dev, production `npm run build` and diff whitespace checks **PASS**. The build's `db:migrate` step ran and skipped according to its existing no-`DATABASE_URL` contract; no database was changed.
+- Local Chromium launch failed with **SIGSEGV before any browser fixture ran**; unchanged launch was not retried. No local browser or production PASS claim.
+
+`scripts/duel-visible-art-browser.mjs` adds deterministic real-browser fixtures for delayed response/decode, broken bytes, actual onerror image removal, absent/empty cohort, wrong source/UID, ancestor-clipped lazy images, one-pixel partial visibility, tiny images, deadline and zero visible art. The existing `duel-browser.mjs` CI gate writes synthetic-case `visible-art-readiness.json`, actual-app `legacy-art-readiness.json` and paired captures; workflow checks/budgets remain unchanged. Browser CI (including the shared actual-app flow) and fresh production screenshots/results remain open before acceptance. Public game code/data/art and native output remain unchanged; native development remains paused.
