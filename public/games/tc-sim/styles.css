@@ -395,6 +395,14 @@ select:focus-visible {
   grid-template-areas: "week right" "history cases";
   gap: 10px;
 }
+/* The management desk moves week/history panels out of this grid. Clear the
+   old named areas as well as child placement, so no unused desktop track survives. */
+.game-frame .management-workspace .dashboard-grid {
+  grid-template-areas: none;
+}
+.game-frame .management-workspace .dashboard-grid > * {
+  grid-area: auto;
+}
 .panel {
   padding: 14px;
 }

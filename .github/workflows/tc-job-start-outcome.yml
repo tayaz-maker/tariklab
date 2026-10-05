@@ -64,12 +64,14 @@ jobs:
       - run: npm ci
       - name: Fetch the exact TC static baseline
         if: matrix.label == 'built'
-        run: git fetch --no-tags --depth=1 origin 9e50404c0573e1cf9e2dd7e623c9c8bd98b95e56
+        run: |
+          git fetch --no-tags --depth=1 origin 9e50404c0573e1cf9e2dd7e623c9c8bd98b95e56
+          git fetch --no-tags --depth=1 origin 539df6ee8cd3fe1e56b4a7833bffcc8953765488
       - name: Pinned archive, import closure and fail-closed regressions
         if: matrix.label == 'built'
         run: node --test scripts/tc-sim-job-start-baseline.test.mjs
       - name: Targeted outcome, origin and safe-server regressions
-        run: node --test scripts/tc-sim-job-start-outcome.test.mjs scripts/tc-sim-job-start-target.test.mjs scripts/tc-sim-weekly-feedback.test.mjs scripts/tc-sim-lifetime-ui.test.mjs scripts/static-game-server.test.mjs
+        run: node --test scripts/tc-sim-job-start-outcome.test.mjs scripts/tc-sim-job-start-target.test.mjs scripts/tc-sim-job-start-layout.test.mjs scripts/tc-sim-weekly-feedback.test.mjs scripts/tc-sim-lifetime-ui.test.mjs scripts/static-game-server.test.mjs
       - run: npm run build
       - name: Chromium
         run: |

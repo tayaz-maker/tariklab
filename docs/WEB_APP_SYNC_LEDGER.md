@@ -523,3 +523,8 @@ Chromium must pass before integration.
 - Content: presentation copy only (TR/EN/PL draft); Artwork: original CSS only; Gameplay/rules/save: no; UI/presentation: yes; Shared-content source: no new external asset.
 - Native follow-up: yes, only after web release; native remains paused. Browser/offline/build transfer gates and PL native review remain open; no release claim.
 - Commits: branch `astra/tc-sim-job-start-outcome`, based on `9e50404`; see `outputs/tc-sim-job-start-outcome/CHECKPOINT.md` in this checkpoint.
+
+### 2026-10-05 — TC SIM dashboard readability P1 (unreleased local checkpoint)
+- Web presentation only: clear residual dashboard named areas/placement after the existing management desk moves panels; Inbox/Key people should use full row width. Parent production DOM confirmed the 7.609 px title defect.
+- TC stylesheet only; shared engine/CSS, rules, data, save, localization and artwork unchanged. No native work; any native parity follow-up waits for a verified web release.
+- 29 targeted tests, production build and typecheck PASS. Old-CSS/candidate browser comparison, full suite, CI and production remain open; see `outputs/tc-dashboard-row-layout/CHECKPOINT.md`.

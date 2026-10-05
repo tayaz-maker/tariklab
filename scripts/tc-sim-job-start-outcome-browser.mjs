@@ -4,6 +4,8 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { chromium } from "playwright";
+import { captureDashboardLayout, assertReadableDashboardLayout, summarizeLayoutEntryCost } from "./tc-sim-job-start-layout.mjs";
+import { provePreviousDashboardStyles } from "./tc-sim-job-start-layout-baseline.mjs";
 import { readyJobStartState, pendingJobStartState } from "./tc-sim-job-start-fixture.mjs";
 import { createStaticGameServer } from "./static-game-server.mjs";
 import { checkedOutcomeOrigin, verifyOutcomeBuild } from "./tc-sim-job-start-target.mjs";
@@ -17,8 +19,8 @@ assert.ok(!values["base-url"] || values["expected-root"], "hosted checks require
 assert.ok(!values.production || (!values.serve && values["expected-root"]), "production requires expected built files");
 const out = resolve(process.env.RUNNER_TEMP || "/workspace", "screenshots/tc-job-start-outcome", values.label);
 mkdirSync(out, { recursive: true });
-let server, browser, origin, fingerprints = [], failure = null;
-const rows = [];
+let server, browser, origin, fingerprints = [], layoutBaseline = null, layoutCostComparison = null, failure = null;
+const rows = [], layoutMeasurements = [];
 try {
   if (values.serve) {
     server = createStaticGameServer(values.serve);
@@ -30,6 +32,7 @@ try {
   const key = "tariklab::tc-sim:1";
   const modules = ["job-start-outcome.js", "job-start-outcome-ui.js"].map(name => `${origin}/games/tc-sim/js/${name}?v=10`);
   browser = await chromium.launch({ headless: true, executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || undefined, args: ["--no-sandbox"] });
+  if (values.serve) layoutBaseline = await provePreviousDashboardStyles(browser, values.serve, out);
   const saveFacts = state => ({ version: state.meta.saveVersion, jobId: state.career.jobId,
     pendingJob: state.career.pendingJob, cash: state.finances.balance, energy: state.health.energy,
     stress: state.health.stress, week: state.time.absoluteWeek });
@@ -37,7 +40,13 @@ try {
   for (const view of ["people", "finance"]) for (const width of [390, 320]) cases.push({ language: "tr", width, reduced: false, view });
   for (const {language, width, reduced, view} of cases) {
     const context = await browser.newContext({ viewport: { width, height: width === 1440 ? 900 : 844 }, reducedMotion: reduced ? "reduce" : "no-preference" });
-    const page = await context.newPage(), errors = [], external = [];
+    const page = await context.newPage(), errors = [], external = [], dashboardLayout = [];
+    const inspectDashboard = async phase => {
+      const dom = await captureDashboardLayout(page);
+      layoutMeasurements.push({ language, width, reduced, view, phase, dom });
+      if (dom) dashboardLayout.push({ phase, ...assertReadableDashboardLayout(dom) });
+      else assert.ok(view !== "dashboard" && !phase.includes("reload"), `dashboard missing during ${phase}`);
+    };
     const assertTargetOrigin = () => assert.equal(new URL(page.url()).origin, origin, "navigation must remain at the authorized origin");
     page.on("pageerror", error => errors.push(error.message));
     page.on("console", message => { if (message.type() === "error") errors.push(message.text()); });
@@ -57,7 +66,7 @@ try {
       assert.ok(d.scroll <= d.viewport, JSON.stringify(d));
     };
     await page.goto(url, { waitUntil: "networkidle" }); assertTargetOrigin();
-    const coldEntry = await page.evaluate(() => ({ navigation: performance.getEntriesByType("navigation").map(r => ({ duration:r.duration,transferSize:r.transferSize })), paint: performance.getEntriesByType("paint").map(r => ({name:r.name,startTime:r.startTime})), resources:performance.getEntriesByType("resource").map(r=>({name:r.name,transferSize:r.transferSize,encodedBodySize:r.encodedBodySize})) }));
+    const coldEntry = await page.evaluate(() => ({ navigation: performance.getEntriesByType("navigation").map(r => ({ duration:r.duration,transferSize:r.transferSize,encodedBodySize:r.encodedBodySize })), paint: performance.getEntriesByType("paint").map(r => ({name:r.name,startTime:r.startTime})), resources:performance.getEntriesByType("resource").map(r=>({name:r.name,transferSize:r.transferSize,encodedBodySize:r.encodedBodySize})) }));
     // Control + warm, then verify exact new module URLs in a real SW cache.
     await page.evaluate(async () => { await navigator.serviceWorker.register("/sw.js"); await navigator.serviceWorker.ready; });
     await page.reload({ waitUntil: "networkidle" }); assertTargetOrigin();
@@ -87,6 +96,7 @@ try {
     }
     const stem = `${view}-${language}-${width}-${reduced ? "reduced" : "motion"}`;
     await page.screenshot({ path: `${out}/${stem}-before.png`, fullPage: true });
+    await inspectDashboard("before-decision");
     await page.locator('[data-event-choice="start"]').click();
     const moment = page.locator("[data-job-start-moment]");
     assert.equal(await moment.count(), 1);
@@ -100,6 +110,7 @@ try {
     assert.equal(await close.evaluate(el => document.activeElement === el), false, "moment must not steal focus");
     if (reduced) assert.equal(await moment.locator(".job-start-moment__periods > div").first().evaluate(el => getComputedStyle(el).animationName), "none");
     await page.screenshot({ path: `${out}/${stem}-after.png`, fullPage: true });
+    await inspectDashboard("after-decision");
     if (!reduced && width === 390) await page.waitForFunction(() => document.querySelector("[data-job-start-moment]").classList.contains("is-settled"), null, { timeout: 4000 });
     await close.focus(); await close.press("Escape");
     assert.equal(await close.getAttribute("aria-pressed"), "true");
@@ -107,6 +118,8 @@ try {
     assert.equal(await moment.getAttribute("aria-live"), "off");
     await moment.locator("summary").click(); await dimensions();
     await page.setViewportSize({ width: 320, height: 844 }); await dimensions();
+    await inspectDashboard("resize-320");
+    await page.setViewportSize({ width, height: width === 1440 ? 900 : 844 }); await dimensions();
     await page.locator("#save-game").click();
     assert.equal(await page.locator("[data-job-start-moment][role=status]").count(), 0, "save does not reannounce");
     const saved = await page.evaluate(key => JSON.parse(localStorage.getItem(key)), key);
@@ -115,6 +128,8 @@ try {
     await context.setOffline(true); await page.reload({ waitUntil: "networkidle" }); assertTargetOrigin();
     await page.locator("#continue-game").click();
     assert.equal(await page.locator("[data-job-start-moment]").count(), 0, "offline reload must not replay");
+    await page.screenshot({ path: `${out}/${stem}-reloaded.png`, fullPage: true });
+    await inspectDashboard("offline-reload");
     await page.locator("#save-game").click();
     const offlineSaved = await page.evaluate(key => JSON.parse(localStorage.getItem(key)), key);
     assert.deepEqual(saveFacts(offlineSaved), saveFacts(saved), "offline loaded game retains actual saved values");
@@ -138,12 +153,18 @@ try {
     await navigate("career"); await navigate("dashboard");
     assert.equal(await page.locator("[data-job-start-moment]").count(), 0);
     assert.deepEqual(errors, []); assert.deepEqual(external, []);
-    rows.push({ language, width, reduced, view, coldEntry, status: "PASS", cached, resources, offlineSaveFacts: saveFacts(offlineSaved), syntheticV1SaveFacts: saveFacts(migrated) });
+    rows.push({ language, width, reduced, view, dashboardLayout, coldEntry, status: "PASS", cached, resources, offlineSaveFacts: saveFacts(offlineSaved), syntheticV1SaveFacts: saveFacts(migrated) });
     await context.close();
+  }
+  if (layoutBaseline) {
+    const sample=rows.find(row=>row.language==="tr"&&row.width===1440&&!row.reduced&&row.view==="dashboard");
+    assert.ok(sample,"matching candidate entry sample required");
+    const before=layoutBaseline.entryCost,after=summarizeLayoutEntryCost(sample.coldEntry);
+    layoutCostComparison={scope:"Single TR/1440/no-preference cold-entry sample per fresh context in the same Chromium process, same uncompressed no-store localhost server; only stylesheet differs. ResourceTiming totals, not production TLS/FMP or a speed claim. Separate 9e50404 comparison includes the earlier job-outcome change and is not this CSS fix's delta.",before,after,delta:Object.fromEntries(Object.keys(before).map(key=>[key,after[key]-before[key]]))};
   }
 } catch (error) { failure = error.stack || String(error); throw error; }
 finally {
   await browser?.close();
   if (server) await new Promise(done => server.close(done));
-  writeFileSync(`${out}/results.json`, JSON.stringify({ origin, fingerprints, status: failure ? "FAIL" : "PASS", failure, expectedCases: 22, rows, performance: "Candidate cold entry only; before/after comparison remains unmeasured." }, null, 2) + "\n");
+  writeFileSync(`${out}/results.json`, JSON.stringify({ origin, fingerprints, layoutBaseline, layoutCostComparison, layoutMeasurements, status: failure ? "FAIL" : "PASS", failure, expectedCases: 22, rows, performance: "Candidate cold entry only; before/after comparison remains unmeasured." }, null, 2) + "\n");
 }

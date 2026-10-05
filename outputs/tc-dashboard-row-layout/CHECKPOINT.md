@@ -1,0 +1,11 @@
+# TC SIM dashboard row layout — P1 local checkpoint, CI/BROWSER PENDING
+- Goal/value: Inbox and Key people remain readable in the existing dashboard instead of wrapping into one-letter columns.
+- Branch/base: `astra/tc-dashboard-row-layout` from `539df6ee8cd3fe1e56b4a7833bffcc8953765488`; merged current main23fb636; PR/push/merge pending.
+- Confirmed cause: parent production DOM measured 737.609 px grid with 57.609/672 px columns, retained named areas and 7.609 px title width.
+- Fix: eight TC stylesheet lines clear named areas/child placement only inside its management workspace; shared CSS/JS, engine, data, save and i18n unchanged.
+- Tests: 29 targeted PASS; syntax/lint PASS; production build PASS (existing no-DATABASE_URL migration skip); typecheck PASS.
+- Read-only browser gate prepared: exact old CSS must reproduce real narrow multi-line text; candidate 1440/390/320 measures before/after/resize/offline reload and saves screenshots/DOM evidence.
+- Existing 22 outcome cases, exact production asset hashes, route baseline comparison, workflow timeouts and general CI gates retained.
+- Browser/new screenshots/route transfer: NOT RUN; no browser launch in this block. Source byte budget and protected file hashes are in `evidence.json`.
+- No assets, motion, sound, library, gameplay or translation changes. This is a P1 layout fix, not a new visual wave.
+- Open: actual browser baseline/fixed proof; final exact-head CI and two-host production. Root source review passed; no artwork/translation closure.
