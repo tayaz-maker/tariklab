@@ -512,3 +512,13 @@ Chromium must pass before integration.
 - HAN host-split artifacts11323133708/11322919338 were downloaded, digest-verified and six reload-2 screenshots inspected. Full evidence/limits: `docs/evidence/2026-10-05-a2-han-production.json`. Large production Wave1 artifact11323759638 exceeded32MiB local tool limit; CI assertions/logs verified, not locally inspected pixels. Racon mobile fullPage capture discrepancy stays open; physical GPU/full old-cache cohort are not claimed.
 - D5 #114 exact head316355d passed8/8 checks plus Vercel and merged normally as `0383d24dce3e45fc1db16773da8b3a135bf51b6e`. Only development lockfile, real-consumer regression and source evidence changed; no app/native/save/rule/NOTICE change. Main run37260245958 SUCCESS: both hosts passed Wave1 13/13 and Çete 17/17; VETO/GETT archives/legacy saves and24 deterministic UI scenarios passed. Workers/Vercel deployment checks for this exact merge SHA were SUCCESS. `npm audit` was not run after automatic approval review rejected metadata export; no bypass or broad security-clean claim.
 - B1–B10 remain0/900 accepted art; three300-card semantic preparation branches are drafts, not release PRs. E anatomy discovery is documented separately; foundation and final360 have not started. No new visual scope merged.
+
+### 2026-10-05 — B10 restored hand capture readiness candidate
+- Test/evidence scripts require fixture UID + per-card manifest source/dimensions and bounded visible-image decode before each VETO/GETT legacy screenshot. No game/data/art/save/native changes; native remains paused.
+- Visible placeholder/broken/absent images fail; clipped/offscreen lazy art is not forced. Existing duel browser gate now exercises deterministic readiness fixtures without changing workflow budgets.
+- Local helper/CI guard tests 28/28, changed-script ESLint, typecheck, build:dev and production build PASS (migration step skipped under its existing no-DATABASE_URL contract). Local Chromium crashed at launch (SIGSEGV); browser CI and production proof remain pending. The identical legacy capture flow is shared by local CI and production callers. Owner Astra, PR none. Scope/evidence: `docs/DUEL_VISIBLE_ART_READINESS.md`.
+
+
+### 2026-10-05 — #116 proof release closed
+- Normal merge `9e50404c0573e1cf9e2dd7e623c9c8bd98b95e56`; exact-head8/8+Vercel and own main37270312084 SUCCESS. www+Workers each24 duel UI scenarios, VETO/GETT300-card archives and unchanged legacy saves; actual origins/11 hashes checked;8 production PNGs opened, artifact11328870080 digest verified.
+- Test/evidence-only change; application, artwork/content and native output unchanged. Native remains paused. Full900-card redesign, offline upgrade and human gates stay open; see B10 checkpoint JSON for scoped evidence.

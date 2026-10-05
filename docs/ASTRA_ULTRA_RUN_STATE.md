@@ -399,6 +399,19 @@ PR #101 remains Terra's responsibility. Novella remains **LATER**.
 - Sonraki: Bu dar kanıt PR'ı kendi CI/release kapısından geçecek; B7 sanat kalitesi blocker, ölçülü red kaydı korunuyor,300/900 çoğaltma yok.
 
 
+### 2026-10-05 05:02 UTC — B10 bounded evidence fix checkpoint
+- Branch `astra/duel-visible-art-readiness`; implementation commit `13cc3dc11a817b5a064ad4d7cdfc288ac4eff231`; source scripts unchanged by rebase. PR/CI pending.
+- Player value: restored hand art must really be visible before screenshot evidence can pass; missing/failed/placeholder images cannot count as success.
+- B10: fixture UID + manifest URL/dimensions, viewport clipping, bounded decode and paint; identical actual-app legacy flow runs in local CI and production. No game/data/engine/save/art edits.
+- Local gate:28/28 target tests, changed-script lint/typecheck/production build PASS; migrate skipped by existing no-DATABASE_URL contract. Local Chromium SIGSEGV before fixture; no browser PASS claim.
+- A1–A3/D5 scoped CLOSED: #113375b837, #111a534289, #1140383d24. Evidence #115 merged `dfbab3f15b74df5336fecf9f7d4247184cbb9222`; its main37264953158 SUCCESS, two-host Wave1 13'er/Çete17'şer.
+- #115 artifact11325843219 digest verified; six production screenshots opened. C3 Racon390/320 fullPage730/621px gap remains; no blanket overflow/GPU claim.
+- B1–B9/B10 art:0/900 accepted. B7 geometry and separate SND-011 object candidates rejected; source/metrics retained on isolated branches, no rollout. B11 engine21/21 NOT REPRODUCED; browser/old-save P1 open.
+- C1–C3/D1–D4/rest of D5 open; TC/DEVLET source-only outcome handoff is not implementation. D6 Novella/#78/#79/SONKÖY WIP preserved.
+- E1–E3/F: discovery only; foundation and final360 not started; PL native language/anatomy expert/physical GPU human gates open.
+- Next: exact-head CI actual browser fixture+legacy proof → normal merge only if fully green → fresh two-host production; no CI or timeout bypass.
+
+
 ## 2026-10-05 05:40 UTC — B10 checkpoint, release pending
 - Owner/branch/PR: Astra; `astra/duel-visible-art-readiness`; #116 head `8f979cbaa2797f1a208cfddb8477ef4b6930180a`, main `dfbab3f`; status branch `astra/b10-production-checkpoint`.
 - Hedef/değer: kart kanıtı placeholder veya başka host ile yanlış PASS veremez; oyun, veri, görsel ve save değişmedi.
@@ -410,3 +423,16 @@ PR #101 remains Terra's responsibility. Novella remains **LATER**.
 - D1/D2/D4 AÇIK; D3 P1 karma art-cache kohortu VM'de repro; D5 brace #114 `0383d24` CLOSED, genel security açık; D6 Novella/#78/#79 korunuyor.
 - E1 NOT IMPLEMENTED; E2 dört kaynak/draft not-reviewed; E3 fiziksel GPU/PL/anatomi insan kapıları açık; F NOT STARTED.
 - Kanıt/sonraki: [JSON](evidence/2026-10-05-b10-readiness-checkpoint.json); #116 exact-head CI green → normal merge → iki-host actual-origin/decode/save proof; kırmızıda yalnız repro fix.
+
+
+## 2026-10-05 06:24 UTC — B10 release checkpoint
+- Owner/branch: Astra; `astra/b10-production-checkpoint`; main/merge #116 `9e50404c0573e1cf9e2dd7e623c9c8bd98b95e56`; no status-only PR opened.
+- A1–A3 CLOSED: #113 `375b837` → #111 `a534289`, verified two-host reload/CI evidence remains valid.
+- B10 scoped proof CLOSED:31 local +9 real-browser fixture +216 viewport records; exact-head8/8+Vercel, main37270312084 SUCCESS; no gate/budget relaxation.
+- B10 production: www+Workers each24 duel scenarios, VETO/GETT archives300 and unchanged legacy saves; actual origins/11 hashes; artifact11328870080 digest verified,8 PNGs opened.
+- B1–B9 OPEN:0/900 accepted; CPU SND-011 probe `fc0c7e1` also rejected; no old/rejected/AI art rolled out, gameplay unchanged.
+- B11 P1 OPEN: valid engine NOT_REPRODUCED; browser preparation `f18ff4d`,10 Node PASS, browser NOT_RUN.
+- C1 partial: TC job-start candidate `0de03d8`,22 tests/36 protected files unchanged; mobile hidden-result review finding being fixed; no PR/browser/build/production acceptance. C2/C3 OPEN.
+- D1/D2/D4 OPEN; D3 mixed art-cache P1 remains, DEVLET six synthetic cases did not reproduce data loss; D5 brace #114 CLOSED/general security OPEN; D6 Novella/#78/#79/SON KÖY WIP preserved.
+- E1 NOT IMPLEMENTED; E2 four factual-source drafts/not expert-reviewed; E3 physical GPU/PL/anatomy human gates OPEN; F NOT STARTED.
+- Evidence/next: [JSON](evidence/2026-10-05-b10-readiness-checkpoint.json); finish the narrow TC visibility/browser/offline gates; B7 quality threshold remains unmet, no900-card completion claim.

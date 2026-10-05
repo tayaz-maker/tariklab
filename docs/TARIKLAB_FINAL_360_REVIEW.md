@@ -47,6 +47,14 @@ Her PR sırası: yerel gate → CI → merge → iki hostta gerçek production d
 
 > Aşağıdaki tarihsel checkpoint kayıtları kendi tarihlerindeki durumu gösterir; güncel madde tablosu ve son merge/production eki önceliklidir. Eski onay bekleme notları yürürlükte değildir.
 
+## 2026-10-05 06:24 UTC — bounded checkpoint, final review still NOT STARTED
+
+A1–A3 remain closed. #116 proof-only fix merged `9e50404c0573e1cf9e2dd7e623c9c8bd98b95e56` after exact-head8/8+Vercel; its main37270312084 and both deploy checks SUCCESS. www+Workers each passed24 duel UI scenarios, VETO/GETT300-card archives/unchanged legacy saves, actual origins and11 asset hashes;8 production screenshots opened after verifying artifact11328870080 SHA256 `083ea42076c3048004c9b906f7bb6db6a264831dec2f679793c0f0978c4dad19`. **This closes only the B10 evidence defect; B10 full-art acceptance remains OPEN.**
+
+B1–B9 remain0/900 accepted. Original CPU SND-011 render `fc0c7e1` was rejected for rigid geometry/material artifacts; no new assets published. B11 preparation `f18ff4d` has10 passing Node tests and requires12 actual browser cases, but browser NOT_RUN; prior engine counterproof does not close the reported P1. C1 TC candidate `0de03d8` has22 targeted tests and36 unchanged protected files; People/Finance mobile result visibility is a source-supported review finding being fixed, with no browser/CI/release acceptance. C2/C3 and D1–D4/general D5 remain open; only brace-expansion is closed. DEVLET's six synthetic runtime cases did not reproduce data loss; default backup recovery is not implemented and no real-browser/archived-save acceptance is claimed.
+
+D6 remains preserved. E foundation NOT IMPLEMENTED; factual-source drafts do not satisfy independent expert review. Physical GPU, PL native quality and anatomy expert gates remain human requirements. F has not begun. Detailed evidence and preparation-branch SHAs: [checkpoint JSON](evidence/2026-10-05-b10-readiness-checkpoint.json). Older pending statements below are historical; this block takes precedence only for its explicitly measured scope.
+
 ## Durum sözleşmesi
 
 | Durum | Anlam |

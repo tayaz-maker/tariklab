@@ -3,8 +3,13 @@ import { readFileSync, mkdirSync, writeFileSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { chromium } from "playwright";
 import { duelScenarios } from "./duel-browser-scenarios.mjs";
+import { duelLegacyArtProof } from "./duel-legacy-art-proof.mjs";
+import { assertSameOrigin } from "./duel-origin-proof.mjs";
 
-const origin = "https://www.tariklab.com";
+const hosts = [
+  { label: "www", origin: "https://www.tariklab.com" },
+  { label: "workers", origin: "https://tariklab.tayaz29.workers.dev" },
+];
 const hash = (data) => createHash("sha256").update(data).digest("hex");
 const paths = [
   "games/duel-core/app.js",
@@ -18,26 +23,36 @@ const paths = [
   ]),
 ];
 const expected = new Map(paths.map((path) => [path, hash(readFileSync(`public/${path}`))]));
-let mismatch = paths;
-// Deployment runs independently of Actions; wait for this exact revision's bytes.
-for (let attempt = 0; attempt < 60; attempt++) {
-  mismatch = [];
-  for (const path of paths) {
-    try {
-      const response = await fetch(`${origin}/${path}`, {
-        signal: AbortSignal.timeout(10000),
-        cache: "no-store",
-      });
-      if (!response.ok || hash(Buffer.from(await response.arrayBuffer())) !== expected.get(path))
+async function verifyAssets(origin) {
+  let mismatch = paths;
+  // Each deployment must serve this revision's bytes before its browser proof.
+  for (let attempt = 0; attempt < 60; attempt++) {
+    mismatch = [];
+    for (const path of paths) {
+      let response;
+      try {
+        response = await fetch(`${origin}/${path}`, {
+          signal: AbortSignal.timeout(10000),
+          cache: "no-store",
+        });
+      } catch {
         mismatch.push(path);
-    } catch {
-      mismatch.push(path);
+        continue;
+      }
+      // A different deployment is not a retryable missing asset or valid host proof.
+      assertSameOrigin(response.url, origin, `asset ${path}`);
+      try {
+        if (!response.ok || hash(Buffer.from(await response.arrayBuffer())) !== expected.get(path))
+          mismatch.push(path);
+      } catch {
+        mismatch.push(path);
+      }
     }
+    if (!mismatch.length) break;
+    await new Promise((resolve) => setTimeout(resolve, 3000));
   }
-  if (!mismatch.length) break;
-  await new Promise((resolve) => setTimeout(resolve, 3000));
+  assert.deepEqual(mismatch, [], `${origin} must serve accepted game/art manifests before smoke`);
 }
-assert.deepEqual(mismatch, [], "Production must serve accepted game/art manifests before smoke");
 const out = `${process.env.RUNNER_TEMP || "/workspace"}/screenshots/duel-production`;
 mkdirSync(out, { recursive: true });
 const browser = await chromium.launch({
@@ -47,64 +62,29 @@ const browser = await chromium.launch({
 });
 const evidence = [];
 try {
-  for (const theme of ["veto-h", "gett-oh"]) {
-    const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
-    const key = `tariklab.${theme}.duel`;
-    const raw = readFileSync(`scripts/fixtures/duel/${theme}-old-save.json`, "utf8");
-    await context.addInitScript(
-      ({ key, raw }) => {
-        if (!localStorage.getItem(key)) localStorage.setItem(key, raw);
-        localStorage.setItem("tariklab.language", "tr");
-      },
-      { key, raw },
-    );
-    const page = await context.newPage();
-    const errors = [];
-    page.on("pageerror", (error) => errors.push(error.message));
-    await page.goto(`${origin}/oyna/${theme}`, { waitUntil: "networkidle" });
-    const game = page.frameLocator("iframe");
-    await game.getByRole("button", { name: "Kart Arşivi · 300", exact: true }).click();
-    assert.equal(await game.locator(".archive-head span").innerText(), "300 / 300");
-    await game.locator(".filters input").fill(theme === "veto-h" ? "SND-300" : "RCN-300");
-    await game
-      .locator(".archive-grid img")
-      .first()
-      .evaluate(async (image) => {
-        await image.decode();
-      });
-    // Each theme's art is rendered at its own size; read the declared width
-    // from the manifest rather than pinning a constant that goes stale the
-    // next time the art is regenerated. VETO-H! is 576 wide, GETT-OH! 400.
-    const artWidth = JSON.parse(
-      readFileSync(`public/games/${theme}/assets/art-manifest.json`, "utf8"),
-    ).summary.dimensions[0];
-    assert.equal(
-      await game
-        .locator(".archive-grid img")
-        .first()
-        .evaluate((image) => image.naturalWidth),
-      artWidth,
-    );
-    await game.getByRole("button", { name: "Ana Menü", exact: true }).click();
-    await game.getByRole("button", { name: "Devam Et", exact: true }).click();
-    await game.locator(".duel-table").waitFor();
-    assert.equal(await page.evaluate((key) => localStorage.getItem(key), key), raw);
-    assert.equal(
-      await game.getByRole("button", { name: /^(Sonraki Evre|Next Phase)$/i }).count(),
-      0,
-    );
-    await page.screenshot({ path: `${out}/${theme}-legacy-desktop.png`, fullPage: true });
-    await page.setViewportSize({ width: 390, height: 844 });
-    await page.screenshot({ path: `${out}/${theme}-legacy-mobile.png`, fullPage: true });
-    assert.deepEqual(errors, []);
-    evidence.push({ theme, archive: 300, expansionArt: true, legacySaveUnchanged: true, errors });
-    await context.close();
+  for (const { label, origin } of hosts) {
+    await verifyAssets(origin);
+    const hostOut = `${out}/${label}`;
+    mkdirSync(hostOut, { recursive: true });
+    const restored = [];
+    for (const theme of ["veto-h", "gett-oh"])
+      restored.push(await duelLegacyArtProof(browser, origin, theme, hostOut));
+    await duelScenarios(browser, origin);
+    const result = {
+      sha: process.env.GITHUB_SHA,
+      label,
+      origin,
+      assets: Object.fromEntries(expected),
+      evidence: restored,
+    };
+    writeFileSync(`${hostOut}/results.json`, JSON.stringify(result, null, 2));
+    evidence.push(result);
+    console.log("DUEL_PRODUCTION_HOST_PASS", label, JSON.stringify(restored));
   }
-  await duelScenarios(browser, origin);
   writeFileSync(
     `${out}/results.json`,
     JSON.stringify(
-      { sha: process.env.GITHUB_SHA, assets: Object.fromEntries(expected), evidence },
+      { sha: process.env.GITHUB_SHA, hosts: evidence },
       null,
       2,
     ),

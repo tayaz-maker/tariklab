@@ -1,0 +1,44 @@
+{
+  "base": "dfbab3f15b74df5336fecf9f7d4247184cbb9222",
+  "scope": "Synthetic in-memory localStorage and DOM stubs; actual unmodified runtime/create/normalize imported",
+  "finding": "NOT_REPRODUCED_AS_DATA_LOSS_BUG",
+  "results": [
+    {
+      "case": "valid v2 default reload and repeated save",
+      "result": "PASS",
+      "backupCreated": false
+    },
+    {
+      "case": "default corrupt primary plus injected valid backup",
+      "result": "EXPECTED_DEFAULT_NO_BACKUP_CONTRACT",
+      "backupRead": false,
+      "bytesPreserved": true
+    },
+    {
+      "case": "default corrupt load while game is open",
+      "result": "PASS",
+      "liveStatePreserved": true,
+      "storedBytesPreserved": true
+    },
+    {
+      "case": "explicit safe:true control",
+      "result": "PASS",
+      "validBackupRecovered": true,
+      "repairWrite": false,
+      "actualDevletConfiguration": false
+    },
+    {
+      "case": "synthetic legacy v1 without depth via actual default runtime",
+      "result": "PASS",
+      "loadedVersion": 2,
+      "idempotent": true,
+      "legacyBytesUntouchedUntilSave": true
+    },
+    {
+      "case": "synthetic write quota failure",
+      "result": "PASS",
+      "liveStatePreserved": true,
+      "primaryBytesPreserved": true
+    }
+  ]
+}
