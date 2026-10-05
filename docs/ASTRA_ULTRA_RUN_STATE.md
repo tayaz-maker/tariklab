@@ -397,3 +397,16 @@ PR #101 remains Terra's responsibility. Novella remains **LATER**.
 - C1–C3/D1–D4: kalan outcome/görsel/map/offline/eski-save/perf işleri açık; Racon mobil capture farkı ayrıcaP1 doğrulama, tüm-sahne overflow0 iddiası yok.
 - D6/E1–E3/F: Novella/#78/#79/SONKÖYWIP korunur; E keşif belgelendi, foundation/final360 başlamadı; PL/anatomi/fizikselGPU insan kapıları açık.
 - Sonraki: Bu dar kanıt PR'ı kendi CI/release kapısından geçecek; B7 sanat kalitesi blocker, ölçülü red kaydı korunuyor,300/900 çoğaltma yok.
+
+
+## 2026-10-05 05:40 UTC — B10 checkpoint, release pending
+- Owner/branch/PR: Astra; `astra/duel-visible-art-readiness`; #116 head `8f979cbaa2797f1a208cfddb8477ef4b6930180a`, main `dfbab3f`; status branch `astra/b10-production-checkpoint`.
+- Hedef/değer: kart kanıtı placeholder veya başka host ile yanlış PASS veremez; oyun, veri, görsel ve save değişmedi.
+- A1–A3 CLOSED: #113 `375b837` → #111 `a534289`, önceki gerçek iki-host reload/CI kanıtı geçerli.
+- B10: 31/31 local, lint/typecheck/build PASS; CI `37268425509` pending; bu head merge/production kabulü yok.
+- B1–B9 AÇIK: kabul0/900; canonical kaynak sınırı doğrulandı, VETO önceki300 görseli korunuyor; B7 kalite eşiği geçilmedi.
+- B11 P1 AÇIK:21 geçerli motor fixture'ında NOT REPRODUCED; browser/özgül eski-save henüz yok.
+- C1/C2 AÇIK; C3 Racon source-supported drawer/capture teşhisi runtime kanıtı değil; ayrı discovery dalları kanıt JSON'unda.
+- D1/D2/D4 AÇIK; D3 P1 karma art-cache kohortu VM'de repro; D5 brace #114 `0383d24` CLOSED, genel security açık; D6 Novella/#78/#79 korunuyor.
+- E1 NOT IMPLEMENTED; E2 dört kaynak/draft not-reviewed; E3 fiziksel GPU/PL/anatomi insan kapıları açık; F NOT STARTED.
+- Kanıt/sonraki: [JSON](evidence/2026-10-05-b10-readiness-checkpoint.json); #116 exact-head CI green → normal merge → iki-host actual-origin/decode/save proof; kırmızıda yalnız repro fix.

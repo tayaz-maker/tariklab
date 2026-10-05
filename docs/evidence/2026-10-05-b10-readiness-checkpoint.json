@@ -1,0 +1,133 @@
+{
+  "scope": "B10 proof correctness checkpoint; no new artwork or final 360 acceptance",
+  "recordedAt": "2026-10-05T05:40:32.076248+00:00",
+  "owner": "Astra",
+  "main": "dfbab3f15b74df5336fecf9f7d4247184cbb9222",
+  "candidate": {
+    "pr": 116,
+    "branch": "astra/duel-visible-art-readiness",
+    "head": "8f979cbaa2797f1a208cfddb8477ef4b6930180a",
+    "tree": "c4494b717329d3aea041c7bfe088d59b61ce0a0a",
+    "ciRun": 37268425509,
+    "status": "PENDING as last observed; no merge or production acceptance"
+  },
+  "local": {
+    "targetedPass": 31,
+    "lint": "PASS",
+    "typecheck": "PASS",
+    "productionBuild": "PASS",
+    "migration": "invoked; existing no-DATABASE_URL skip",
+    "browser": "NOT RUN after prior launch SIGSEGV; no unchanged retries",
+    "lockSHA256": "81c3e3646982a746f1a7efb9c6d4344683fefbd966afc078d1d74b62cf2f8678"
+  },
+  "earlierHeadEvidence": {
+    "head": "3de2d9bc5b0ca3ece4b4fd1a6cee856b341515f6",
+    "run": 37266111399,
+    "artifact": 11326691632,
+    "bytes": 7080369,
+    "sha256": "f8c7a8176183112482a47508ed0ef00b24ad3c01211141dd3bcd85ecc7ea5db7",
+    "scope": "completed duel browser step only; does not green the current head",
+    "syntheticBrowserCases": 9,
+    "viewportStageRecords": 216,
+    "nonzeroRecordedOverflow": 0,
+    "legacyGames": [
+      "veto-h",
+      "gett-oh"
+    ],
+    "decodedVisiblePerGame": {
+      "desktop": 6,
+      "mobile": 3
+    },
+    "saveUnchanged": true,
+    "recordedErrors": [],
+    "rootInspectedScreenshots": [
+      {
+        "file": "veto-h-legacy-desktop.png",
+        "sha256": "0775a5bcb38fe0a3921c20cd7a5c59d0a03ee4355ebf265e23b322427168a4e3"
+      },
+      {
+        "file": "veto-h-legacy-mobile.png",
+        "sha256": "f74ce8719c8f5f7335dac8ecc1e594354decdc483fb8e6b6dde9c2273042c4e6"
+      },
+      {
+        "file": "gett-oh-legacy-desktop.png",
+        "sha256": "bd437efffcc011169caf3364fc45a62ce1ba4db7b343a55673bc543a791c0fd1"
+      },
+      {
+        "file": "gett-oh-legacy-mobile.png",
+        "sha256": "1c9052c2da593de036308e1fe302f4487bd518624a342c1ff932950831c8f5ea"
+      }
+    ]
+  },
+  "corrections": [
+    "require exact fixture IDs, manifest URL/dimensions and visible image decode before capture",
+    "run identical production flow on www and Workers in separate output directories",
+    "real local HTTP cross-origin 302 with matching hash reproduced false-PASS; now reject actual asset/page/frame origin mismatch; same-origin redirect remains valid"
+  ],
+  "art": {
+    "accepted": 0,
+    "required": 900,
+    "status": "QUALITY BLOCKED; no rejected SVG or AI plates rolled out",
+    "semanticBranches": {
+      "veto": "eb7da70df8cf1b555f8de531d16a641583c9808c",
+      "gett": "ccdd9c9015cb90badce65983f76856a4c63623be",
+      "darbe": "931429dba20bf521877aa4f6ad4ad8bc591827e4"
+    },
+    "authorDraftOnly": true,
+    "openVetoTitleRisks": [
+      "SND-046",
+      "SND-132"
+    ],
+    "openGettTitleRisks": [
+      "RCN-094",
+      "RCN-095",
+      "RCN-119",
+      "RCN-135",
+      "RCN-140"
+    ]
+  },
+  "independentDiscovery": {
+    "B10_D3": {
+      "branch": "astra/card-art-offline-discovery",
+      "sha": "ed63eb7c74fb66bb9a577b37afb27f9a64b43b12",
+      "status": "P1: unchanged worker VM gives 1 new +299 old images per game across partial same-URL upgrade; browser upgrade not tested"
+    },
+    "C1": {
+      "branch": "astra/wave2-outcome-discovery",
+      "sha": "b4dbe3e2451f0fb27f9d5046a048ab24348fb442",
+      "status": "NOT IMPLEMENTED"
+    },
+    "C3": {
+      "branch": "astra/racon-capture-diagnosis",
+      "sha": "c1a24cf7cd0b0b041bba104bd912276ad5a12f34",
+      "status": "hidden drawer geometry matches fullPage widths; actual user overflow NOT runtime-confirmed"
+    },
+    "E2": {
+      "branch": "astra/anatomy-foundation-source-discovery",
+      "sha": "6fcd800c4e5e7cad4c56f5c4b905dc2168391c05",
+      "status": "four official factual sources checked; no geometry or independent expert review; foundation not implemented"
+    }
+  },
+  "canonicalBoundary": {
+    "repo": "tayaz-maker/tariklab-content",
+    "sha": "81fb4668abef664eca3f616a421ea8b579bc8169",
+    "vetoArt": {
+      "count": 300,
+      "canonicalBytes": 14083170,
+      "webBytes": 4494526,
+      "hashMatches": 0,
+      "note": "preserved old source; no current quality approval or restoration"
+    },
+    "vetoCardData": "300 IDs/order/all fields structurally equal",
+    "gettCardData": "300 IDs/order equal; only web RCN-149 aliases field differs; preserve existing alias",
+    "gettArt": "absent from inspected canonical game directory",
+    "darbe": "absent from inspected canonical games directory",
+    "native": "PAUSED; not changed"
+  },
+  "humanGates": [
+    "physical GPU",
+    "Polish native-language review",
+    "independent anatomy expert"
+  ],
+  "final360": "NOT STARTED; A–F closure incomplete"
+}
