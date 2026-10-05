@@ -1,6 +1,6 @@
 # B10 — restored hand screenshot readiness
 
-Owner: Astra. Initial base: `0383d24dce3e45fc1db16773da8b3a135bf51b6e`; rebased onto verified main `dfbab3f15b74df5336fecf9f7d4247184cbb9222`. Branch: `astra/duel-visible-art-readiness`. PR: [#116](https://github.com/tayaz-maker/tariklab/pull/116); release pending.
+Owner: Astra. Initial base: `0383d24dce3e45fc1db16773da8b3a135bf51b6e`; rebased onto verified main `dfbab3f15b74df5336fecf9f7d4247184cbb9222`. Branch: `astra/duel-visible-art-readiness`. PR: [#116](https://github.com/tayaz-maker/tariklab/pull/116); scoped proof release CLOSED at9e50404 (see dated evidence below). Replacement artwork remains0/900; this is not B10 full-art acceptance.
 
 Main D5 artifact `11325111667` showed six placeholder hand wells in the www VETO/GETT legacy desktop captures; mobile captures after resize showed art. The old script decoded only the filtered archive card before restoring the save. This establishes a screenshot-readiness gap, not permanent production asset failure.
 
@@ -27,3 +27,12 @@ Follow-up local validation uses the existing security worktree's dependencies on
 ## Origin-proof follow-up
 
 Peer review reproduced another false-PASS path with two local HTTP servers: the actual asset verifier accepted a cross-origin 302 when the final bytes had the expected hash. No cross-origin production redirect was observed or claimed. Asset responses now require the expected origin outside the retry catch; same-origin path/query redirects remain supported. The legacy page and iframe and every scenario navigation also assert the actual origin. Both screenshot stages record the actual page/frame origins. Tests execute the production verifier against real HTTP redirects: cross-origin rejects immediately, same-origin passes. Together with readiness and gate tests, **31/31 PASS**; changed-script ESLint and typecheck pass. This head needs fresh CI and two-host production proof; earlier-head browser results do not substitute for it.
+
+
+## 2026-10-05 — #116 production closure
+
+Head `8f979cbaa2797f1a208cfddb8477ef4b6930180a` passed8/8 checks plus Vercel; normal merge `9e50404c0573e1cf9e2dd7e623c9c8bd98b95e56`. Main run `37270312084`, Workers build and Vercel deployment SUCCESS. Each of www and Workers passed24 deterministic duel UI scenarios, VETO/GETT300-card archive and unchanged legacy-save restoration. Actual page/frame origins match the intended host;11 asset hashes match. Desktop captures contain6 decoded hand images, mobile3 visible images per game; errors are empty.
+
+Production artifact [11328870080](https://github.com/tayaz-maker/tariklab/actions/runs/37270312084/artifacts/11328870080),7,144,034B, SHA256 `083ea42076c3048004c9b906f7bb6db6a264831dec2f679793c0f0978c4dad19`: digest verified and all8 screenshots opened by Astra. Current-head local CI artifact11327044734 separately proves9 negative/positive readiness cases and216 TR/EN viewport-stage records with zero recorded overflow. Detailed host/hash/screenshot evidence: [checkpoint JSON](evidence/2026-10-05-b10-readiness-checkpoint.json).
+
+Only this proof defect is closed. New artwork remains0/900; full B10 art/offline acceptance, B11 browser-specific investigation, PL native review and physical GPU remain open. These screenshots display existing artwork, not approved replacement art. No application/engine/save/art or CI gate/budget changed.

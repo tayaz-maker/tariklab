@@ -1,8 +1,8 @@
 # TarikLab — final 360° inceleme intake'i ve yayın kapıları
 
-Tarih: **2026-10-05 (Türkiye)**. Sahip: **Astra — inceleme, dar düzeltme ve release kapanışının tamamı**. Bu belge final 360° için gelecekteki kabul checklist'idir; final inceleme başlamadı. Anatomi A kaynak/rota keşfi tamamlandı; foundation uygulaması başlamadı. Ayrı release/repro kanıtları aşağıdaki tarihli checkpoint'lerde belirtilir. Yeni kaynak planı/özellik de bu hazırlıkta denetlenmez.
+Tarih: **2026-10-05 (UTC)**. Sahip: **Astra — inceleme, dar düzeltme ve release kapanışının tamamı**. Bu belge final 360° için gelecekteki kabul checklist'idir; final inceleme başlamadı. Anatomi A kaynak/rota keşfi tamamlandı; foundation uygulaması başlamadı. Ayrı release/repro kanıtları aşağıdaki tarihli checkpoint'lerde belirtilir. Yeni kaynak planı/özellik de bu hazırlıkta denetlenmez.
 
-Dokümantasyon branch'i: `astra/release-evidence-a1-a2-d5`; yayın kanıtı tabanı `a534289490f502f68e12d91803fbc3883de7d790`. Önceki `astra/review-release-gates` checkpoint'leri tarihsel olarak korunur. Bu SHA bütün ürünlerin final incelemesinden geçmiş sayılmaz; aşağıdaki kapsamlı envanter review'ün başladığı veya geçtiği anlamına gelmez.
+Güncel kanıt checkpoint branch'i: `astra/release-evidence-116-119`; en son release tabanı `be160c95eb5283e5ed2ce8bf139ef7aa714d329d` (#119; iki-host22/22 production ve genel main CI SUCCESS). Önceki `astra/release-evidence-a1-a2-d5` belgesi tarihsel tabandır. Önceki `astra/review-release-gates` checkpoint'leri tarihsel olarak korunur. Bu SHA bütün ürünlerin final incelemesinden geçmiş sayılmaz; aşağıdaki kapsamlı envanter review'ün başladığı veya geçtiği anlamına gelmez.
 
 
 ## Nihai tek kaynak sözleşme — 2026-10-05 01:56 UTC
@@ -17,35 +17,92 @@ Bu bölüm önceki çelişen kapsam, stil ve onay notlarının üstündedir. Kul
 | A2 | CLOSED — #111 `a534289`; exact head `eb5913d` 10/10 checks+Vercel SUCCESS; main CI `37258787799` SUCCESS | Astra / #111 merged | Wave1 iki hostta13/13; özel HAN6/6 reload/save; artifact/hash/screenshot ayrımı aşağıda. Racon capture açığı C3'te korunur |
 | A3 | CLOSED — dar HAN düzeltmesi aynı A1 merge/iki-host kanıtıyla kapandı; main full CI SUCCESS | Astra / #113 merged | Kapanış yalnız repro edilen reload kapsamıdır; genel lifecycle/offline upgrade ve fiziksel GPU kabulü değildir |
 | B1 | DEVAM — 900 kart / 12 pilot ID doğrulandı; 60 çekirdek dosya için hash koruması hazır; gameplay değişmedi | Astra / ayrı oyun PR'ları henüz yok | Kart verisi, motor, save, i18n, a11y, ölçü ve etkileşim semantiği değişmez |
-| B2 | LATER — frame ve ana illüstrasyon yenilemesi tamam değil | Astra / ayrı VETO, GETT, DARBE PR'ları | Aktif eski ilkel veya belirsiz asset kalıntısı yok; referans, build ve offline kontrolleri |
-| B3 | DEVAM — kullanıcının üç referansı yalnız kalite yönü için | Astra | Kompozisyon, kişi, yazı veya logo türetme ve kopyalama yok |
-| B4 | LATER — VETO'nun 300 kartı tamam değil | Astra / PR henüz yok | Aydınlık kurmaca seçim/bürokrasi; krem, yeşil, ahşap ve sınırlı kırmızı |
-| B5 | LATER — GETT'nin 300 kartı tamam değil | Astra / PR henüz yok | Sıcak kurmaca mahalle; doğal insan ve mekân çeşitliliği |
-| B6 | LATER — DARBE'nin 300 kartı tamam değil; #112 yeni üretim kanıtı değil | Astra / PR henüz yok | Sivil bürokratik noir; özgün lacivert, füme ve mat altın; askerî, parti veya şiddet dili yok |
+| B2 | OPEN — frame ve ana illüstrasyon yenilemesi tamam değil | Astra / ayrı VETO, GETT, DARBE PR'ları | Aktif eski ilkel veya belirsiz asset kalıntısı yok; referans, build ve offline kontrolleri |
+| B3 | KAYNAK ERİŞİMİ DOĞRULANDI — üç asıl onaylı hedefin pikselleri 2026-10-05 incelendi; B4–B10 sanat kabulü hâlâ OPEN/0–900 | Astra | Yalnız kalite yönü; referans kişisi/kompozisyonu/metni/logo/amblemi kullanılmaz; pikseller üretime/repo'ya eklenmez |
+| B4 | OPEN — VETO'nun 300 kartı tamam değil | Astra / PR henüz yok | Aydınlık kurmaca seçim/bürokrasi; krem, yeşil, ahşap ve sınırlı kırmızı |
+| B5 | OPEN — GETT'nin 300 kartı tamam değil | Astra / PR henüz yok | Sıcak kurmaca mahalle; doğal insan ve mekân çeşitliliği |
+| B6 | OPEN — DARBE'nin 300 kartı tamam değil; #112 yeni üretim kanıtı değil | Astra / PR henüz yok | Sivil bürokratik noir; özgün lacivert, füme ve mat altın; askerî, parti veya şiddet dili yok |
 | B7 | BLOKE KALİTE — üretilmiş raster denemeler git dışında SUPERSEDED; kabul edilmiş yeni prosedürel production kartı 0/900 | Astra | Özgün kod ve katmanlı render; farklı yetişkin yüzleri, bedenleri ve pozları; anatomi, perspektif ve ışık doğrulaması. Metadata/UI prototipi sanat kabulü sayılmaz |
 | B8 | DEVAM — mevcut kart metni korunur | Astra | Sanata slogan, motto, flavour text, tabela veya rastgele UI metni gömülmez |
-| B9 | LATER — üç frame üretime girmedi | Astra | Bağımsız kimlik; 320/390'da isim, yıldız, görsel ve ATK/DEF okunur; ölçü ve UI davranışı sabit |
-| B10 | LATER — oyun başına 300/300 manifest, bütçe, offline ve düello kabulünün hiçbiri kapanmadı | Astra / her oyun için ayrı PR | ID/asset/provenance ve kalıntı kontrolü; üç genişlikte browser; klavye, reduced motion, ekran okuyucu, save ve 24 düello testi |
-| B11 | P1 AÇIK — DRB-237–240 gerçek motor fixture'ları 21/21 PASS, NOT REPRODUCED; browser/özgül eski save henüz doğrulanmadı | Astra / ayrı kural PR'ı yok | UI/özgül save repro'su; motor karşı kanıtı kullanıcı kaydını veya browser kapısını kapatmaz; sanat PR'ından ayrı |
-| C1 | LATER/KISMİ — Çete/Wave 1 kanıtı var; 12 oyun bütünsel olarak tamam değil | Astra / mevcut #109/#110; diğer PR'lar yok | Oyuna özgü gerçek state sonucu; sessiz, kısa, atlanabilir, erişilebilir ve anlamlı sahne |
-| C2 | LATER — kalan oyunların sinematik/gerçekçi görsel kalite kapısı açık | Astra | Oyun dünyasına özgü doğru ışık, katman ve malzeme; çocuk estetiği, ikon kolajı veya renk değiştirerek kopyalama yok |
-| C3 | LATER/KISMİ — #111 çalışması tüm yüzeyler için uygulanabilirlik kararı yerine geçmez | Astra / #111 | Yedi yüzeyde fallback, context loss, resize, pan/zoom, üç genişlik, offline ve save; Racon/TC SIM/JITEM için kanıtlı DONE/P1/N-A |
-| D1 | LATER — bu checkpoint tüm ürünlerin sessizlik taraması değildir | Astra | Tüm oyunlarda audio, music, speech, vibrate ve autoplay: 0 |
-| D2 | LATER + İNSAN | Astra; PL ana dil inceleyicisi atanmadı | TR/EN/PL gövde ve UI metni, encoding ve taşma; PL için bağımsız dil kalitesi incelemesi |
-| D3 | LATER — tüm offline rotalar ve upgrade matrisi açık | Astra | SW/cache sürümleri, yeni asset'ler, eski save/migration, bozuk kayıt ve online dönüş |
-| D4 | LATER — tüm asset, repo ve git ağırlığı denetimi açık | Astra / #111 kısmi ölçüm | Rota başına byte/istek/FMP/lazy ölçümü, portal asset izolasyonu ve ölçülmüş tablo; referans taraması olmadan silme yok |
+| B9 | OPEN — üç frame üretime girmedi | Astra | Bağımsız kimlik; 320/390'da isim, yıldız, görsel ve ATK/DEF okunur; ölçü ve UI davranışı sabit |
+| B10 | OPEN — oyun başına 300/300 manifest, bütçe, offline ve düello kabulünün hiçbiri kapanmadı | Astra / her oyun için ayrı PR | ID/asset/provenance ve kalıntı kontrolü; üç genişlikte browser; klavye, reduced motion, ekran okuyucu, save ve 24 düello testi |
+| B11 | P1 İDDİASI AÇIK — motor21/21 ve #118 gerçek UI12/12 fixture PASS; NOT_REPRODUCED_IN_VALID_UI_FIXTURES; doğal maç/AI/etkilenen kullanıcı kaydı doğrulanmadı | Astra / proof #118 merged23fb636; ayrı kural düzeltmesi yok | UI/özgül save repro'su; motor karşı kanıtı kullanıcı kaydını veya browser kapısını kapatmaz; sanat PR'ından ayrı |
+| C1 | OPEN/KISMİ — Çete/Wave 1 kanıtı ve #117 TC job-start merge539df6e; TC iki hostta22/22 PASS, #119 dar masaüstü okunurluk düzeltmesi mergebe160c9; iki-host22/22 production PASS; genel main CI SUCCESS; 12 oyun tamam değil | Astra / #109/#110/#117; #119 dar P1 pending | Oyuna özgü gerçek state sonucu; sessiz, kısa, atlanabilir, erişilebilir ve anlamlı sahne |
+| C2 | OPEN — kalan oyunların sinematik/gerçekçi görsel kalite kapısı açık | Astra | Oyun dünyasına özgü doğru ışık, katman ve malzeme; çocuk estetiği, ikon kolajı veya renk değiştirerek kopyalama yok |
+| C3 | OPEN/KISMİ — #111 çalışması tüm yüzeyler için uygulanabilirlik kararı yerine geçmez | Astra / #111 | Yedi yüzeyde fallback, context loss, resize, pan/zoom, üç genişlik, offline ve save; Racon/TC SIM/JITEM için kanıtlı DONE/P1/N-A |
+| D1 | OPEN — bu checkpoint tüm ürünlerin sessizlik taraması değildir | Astra | Tüm oyunlarda audio, music, speech, vibrate ve autoplay: 0 |
+| D2 | OPEN + İNSAN | Astra; PL ana dil inceleyicisi atanmadı | TR/EN/PL gövde ve UI metni, encoding ve taşma; PL için bağımsız dil kalitesi incelemesi |
+| D3 | OPEN — tüm offline rotalar ve upgrade matrisi açık | Astra | SW/cache sürümleri, yeni asset'ler, eski save/migration, bozuk kayıt ve online dönüş |
+| D4 | OPEN/KISMİ — kaynak inventory1580d3e ve lossless deneme ölçüldü; uygulama/rota/Git-history tasarrufu ve tam rota matrisi açık | Astra / #111 kısmi ölçüm | Rota başına byte/istek/FMP/lazy ölçümü, portal asset izolasyonu ve ölçülmüş tablo; referans taraması olmadan silme yok |
 | D5 | KISMİ — brace-expansion CLOSED: #114 merge `0383d24`;14/14 yerel, exact-head8/8+Vercel ve main `37260245958` SUCCESS; iki-host production geçti | Astra / #114 merged | Bağımlılık bulgusu kapandı; genel CSP/provenance/statik-path denetimi açık. `npm audit` NOT RUN: otomatik onay incelemesi metadata dışa aktarımını reddetti; alternatif yoldan denenmedi |
 | D6 | LATER/KORUNDU — Novella, #78/#79 ve eski dallar açılmadı | Astra | Yetkisiz yeniden açma veya merge yok; SON KÖY WIP açıkça DEFERRED |
-| E1 | LATER — A keşfi tamam; foundation uygulaması/PR yok | Astra | Ayrı offline ürün; özgün klinik 2.5D yetişkin varyantları, iskelet ve büyük organlar; dış fotoğraf, model veya CDN yok |
-| E2 | LATER — kaynak/review şeması keşifte; uygulama yok | Astra + bağımsız uzman | Eğitim amaçlı/tıbbi tavsiye değildir notu; kaynak URL'si, tarih ve review durumu; uzman olmadan tam/klinik kesinlik iddiası yok; ek sistemler LATER |
+| E1 | OPEN — A keşfi tamam; foundation uygulaması/PR yok | Astra | Ayrı offline ürün; özgün klinik 2.5D yetişkin varyantları, iskelet ve büyük organlar; dış fotoğraf, model veya CDN yok |
+| E2 | OPEN — kaynak/review şeması keşifte; uygulama yok | Astra + bağımsız uzman | Eğitim amaçlı/tıbbi tavsiye değildir notu; kaynak URL'si, tarih ve review durumu; uzman olmadan tam/klinik kesinlik iddiası yok; ek sistemler LATER |
 | E3 | İNSAN/DONANIM-GEREKLİ | Atanacak anatomi uzmanı ve fiziksel GPU testçisi; koordinasyon Astra | Gerçek insan ve donanım inceleme kaydı; model veya SwiftShader bu kapıyı kapatmaz |
 | F | LATER/BAŞLAMADI — bu belge intake/checkpoint | Astra | Son merge/deploy sonrasında bütün rota × viewport × dil için A–G; gerçek kanıt, SHA ve PR; dar P0/P1 düzeltmeleri |
 
-PR belirtilmeyen açık maddelerde henüz uygulama PR'ı yok; sahibi Astra. LATER kaydı yetkinin geri alınması değil, bağımlılık sırasındaki açık iştir.
+PR belirtilmeyen açık maddelerde henüz uygulama PR'ı yok; sahibi Astra. Zorunlu bitmemiş işler OPEN; yalnız açıkça ertelenen Novella/ek anatomi sistemleri/korunan SON KÖY WIP LATER veya DEFERRED. Tarihsel LATER satırları tamamlanmış iş değildir.
 
 Her PR sırası: yerel gate → CI → merge → iki hostta gerçek production doğrulaması → status. A1–A3 kanıtı kapandı; her yeni kart/ürün PR'ı kendi güncel CI/production kapıları kapanmadan yayımlanmış sayılmaz. En geç 60–75 dakikada anlamlı checkpoint bırakılır; beklerken yalnız bağımsız işler yapılır, boş polling yok. Bütün maddeleri kapsayan nihai kapanış henüz yapılmadı.
 
 > Aşağıdaki tarihsel checkpoint kayıtları kendi tarihlerindeki durumu gösterir; güncel madde tablosu ve son merge/production eki önceliklidir. Eski onay bekleme notları yürürlükte değildir.
+
+## 2026-10-05 11:52 UTC — A1–A3 doğrulandı; B yeniden etkin
+- Branch: `astra/release-evidence-116-119`; mevcut main `be160c95eb5283e5ed2ce8bf139ef7aa714d329d`; main CI37282054896 SUCCESS.
+- A1/A3 CLOSED: #113 merge375b837; iki-host HANEDANIAN reload/save/320–390–1440 kanıtı37256148798 SUCCESS.
+- A2 CLOSED: #111 mergea534289; bağımlılık sırası korunmuş, iki-host production37258787888 SUCCESS; yeni hotfix gerekmedi.
+- B3: üç gerçek onaylı hedef dosya kurtarıldı ve pikselleri incelendi; yalnız ışık/materyal/anatomi kalite yönü, kopya/türetme yok.
+- B1–B10 OPEN: kabul0/900; önceki başarısız vektör/CPU denemeleri üretime alınmadı. Üç oyun için ayrı kaynak-yüzey uygulaması sürüyor.
+- B10: build-time tam300/cohort/hash/provenance doğrulaması ayrı uygulama; henüz runtime/offline çözümü veya production kabulü değil.
+- B11: #118 iki-host12/12 gerçek UI fixture; dar koşullarda tetiklenmeme yeniden üretilemedi, özgül eski kullanıcı kaydı/doğal maç iddiası OPEN.
+- C1 KISMİ (#117/#119 kanıtlı); C2/C3 OPEN; D2 yerel `astra/tc-week-control-i18n` b32a4dd korunuyor/DEFERRED, PR/CI/production yok.
+- D1–D4/genelD5 OPEN; brace #114 CLOSED; D6 Novella/#78/#79/SON KÖY WIP korunuyor; E1 NOT IMPLEMENTED/E2 taslak/E3 insan kapıları; F NOT STARTED.
+- Sonraki: B7 gerçekçilik eşiği → oyun başına300 kart/B10 → bağımsız CI/iki-host release. Referans erişimi sanat onayı değildir.
+
+## 2026-10-05 08:34 UTC — C1/D2 dar P1 kapanış checkpoint'i
+- Branch: `astra/release-evidence-116-119`; PR #119 merge `be160c95eb5283e5ed2ce8bf139ef7aa714d329d`; uygulama farkı yalnız8 TC CSS satırı/+324B.
+- Oyuncu değeri: Gelen kutusu/Önemli kişiler başlıkları masaüstünde tam satır genişliğini kullanıyor; karar ve kayıt hesapları değişmedi.
+- Yerel gate: full1804 PASS/1 mevcut opt-in skip; son15 hedefli PASS; build/typecheck/lint PASS; built22/22 browser PASS.
+- CI: exact-head9/9+Vercel SUCCESS; main37282054896 SUCCESS; korumalı normal merge, gate değişikliği yok.
+- Production37282054880 attempt2: www22/22+Workers22/22; dört exact hash,76 ölçüm/host,320–390–1440/offline reload/sentetik v1; ZIP digestleri ve6 ekran görüntüsü doğrulandı. İlk deneme eski CSS'i doğru reddetti.
+- A1–A3 CLOSED (#113375b837 → #111a534289); önceki iki-host reload kanıtı korunuyor.
+- B1–B10 OPEN, kabul0/900; B7 gerçekçilik engeli aşılmadı. B11 #118 bounded UI proof12/12/host; özgül kullanıcı kaydı/doğal maç iddiası OPEN.
+- C1 KISMİ; C2/C3 OPEN. D2 üç eksik EN kontrol metni+bir PL etiket için ayrı dar çalışma başladı; henüz PR/CI/production yok, kalan karma gövde metni OPEN.
+- D1–D4/genelD5 OPEN; D5 brace #114 CLOSED; D6 Novella/#78/#79/korunan SON KÖY WIP değişmedi.
+- E1 NOT IMPLEMENTED; E2 kaynaklar taslak/not-reviewed; E3 anatomi uzmanı/fizikselGPU ve D2 PL anadil gereksinimleri OPEN; F NOT STARTED.
+- Kanıt: `docs/evidence/2026-10-05-tc-dashboard-layout-release.json`; sonraki yalnız dar D2 test/CI/iki-host zinciri. Bu checkpoint bütün sözleşmenin kapanışı değildir.
+
+## 2026-10-05 07:57 UTC — C1/B11 release and narrow P1 checkpoint
+- Owner/branch: Astra; `astra/b10-production-checkpoint`; current main `23fb636cbfb0c30ad86fb52467982785e1e298b5`; current full CI37277755938 SUCCESS.
+- A1–A3 CLOSED: #113375b837 → #111a534289; prior two-host reload/CI proof retained; no gate bypass.
+- C1 partial CLOSED scope: #117539df6e, PR9/9+Vercel, www+Workers22/22 each, six screenshots/hash proof; own-main run cancelled by successor push, successor full CI green.
+- B11 proof #11823fb636: PR9/9+Vercel/main CI green; www+Workers12/12 each,50 hashes/eight screenshots; NOT_REPRODUCED_IN_VALID_UI_FIXTURES, natural-match/AI/affected user save allegation OPEN.
+- C1/D2 P1 #119 `astra/tc-dashboard-row-layout` head063aa4e: only8 CSS lines/+324B; local1804 PASS/1 existing skip then15 final target PASS; built22/22, old CSS real failure→readable titles; general CI pending, no merge/production.
+- B1–B10 OPEN: accepted art0/900; target reference files unavailable and original vector/CPU probes rejected; no failed artwork rollout or gameplay/data/save change.
+- C2/C3 and D1–D3 OPEN; mixed TC body translations, full old-worker/save matrices and other game-specific visual/map gates remain; F has not begun.
+- D4 measured-only inventory1580d3e/lossless49-image trial retained, no conversion/deletion/history savings claimed; D5 brace #114 CLOSED, general security/provenance OPEN; D6 Novella/#78/#79/SON KÖY WIP preserved.
+- E1 NOT IMPLEMENTED; E2 factual drafts NOT_REVIEWED; E3 physical GPU/PL native/anatomy expert HUMAN REQUIRED; remaining mandatory scope is OPEN, not DONE.
+- Evidence/next: [TC](evidence/2026-10-05-tc-job-start-release.json), [B11](evidence/2026-10-05-darbe-b11-release.json), [P1](evidence/2026-10-05-tc-dashboard-layout-release.json); #119 only all-green normal merge→two-host proof; red/pending means no merge.
+
+## 2026-10-05 07:24 UTC — C1/B11 release checkpoint
+- Owner/branch: Astra; `astra/b10-production-checkpoint`; main #117 `539df6ee8cd3fe1e56b4a7833bffcc8953765488`; no status-only PR.
+- A1–A3 CLOSED: #113 `375b837` → #111 `a534289`; prior exact-head CI/two-host reload proof retained.
+- C1 partial: #117 actual job-start now/future result merged after9/9+Vercel; local1800 PASS/1 existing opt-in skip; built22/22 PASS; no rule/save change.
+- C1 production run37276537798: first attempt stopped before browser on exact old-main hash; both deployments subsequently SUCCESS; failed-only attempt2 running, production NOT ACCEPTED yet.
+- B11: #118 head `40ab0da`;17 local, built12/12 actual UI PASS; general CI campaign-browser pending, no merge; P1 allegation NOT_REPRODUCED_IN_VALID_UI_FIXTURES, natural-match/affected user save open.
+- B1–B10 OPEN: accepted art0/900; existing cramped320 board text remains; no rejected asset rollout, no 300-card completion claim.
+- C2/C3 OPEN; D2 TC mixed body translation and desktop narrow Inbox labels recorded as intake, not fixed or final-reviewed; source/DOM follow-up pending.
+- D1–D4/general D5 OPEN; D4 inventory `1580d3e`,49 PNG lossless trial −6,117,735 B decoded-RGBA equal, NOT APPLIED/no route or history savings claim; D5 brace #114 CLOSED.
+- D6 Novella/#78/#79/SON KÖY WIP preserved; E1 foundation NOT IMPLEMENTED, E2 drafts not reviewed, E3 PL/anatomy/physical-GPU human gates OPEN; F NOT STARTED.
+- Evidence/next: [TC](evidence/2026-10-05-tc-job-start-release.json), [B11](evidence/2026-10-05-darbe-b11-release.json), [D4](evidence/2026-10-05-repo-weight-discovery.json); finish real two-host proof, then #118 only all-green normal merge.
+
+## 2026-10-05 06:24 UTC — bounded checkpoint, final review still NOT STARTED
+
+A1–A3 remain closed. #116 proof-only fix merged `9e50404c0573e1cf9e2dd7e623c9c8bd98b95e56` after exact-head8/8+Vercel; its main37270312084 and both deploy checks SUCCESS. www+Workers each passed24 duel UI scenarios, VETO/GETT300-card archives/unchanged legacy saves, actual origins and11 asset hashes;8 production screenshots opened after verifying artifact11328870080 SHA256 `083ea42076c3048004c9b906f7bb6db6a264831dec2f679793c0f0978c4dad19`. **This closes only the B10 evidence defect; B10 full-art acceptance remains OPEN.**
+
+B1–B9 remain0/900 accepted. Original CPU SND-011 render `fc0c7e1` was rejected for rigid geometry/material artifacts; no new assets published. B11 preparation `f18ff4d` has10 passing Node tests and requires12 actual browser cases, but browser NOT_RUN; prior engine counterproof does not close the reported P1. C1 TC candidate `0de03d8` has22 targeted tests and36 unchanged protected files; People/Finance mobile result visibility is a source-supported review finding being fixed, with no browser/CI/release acceptance. C2/C3 and D1–D4/general D5 remain open; only brace-expansion is closed. DEVLET's six synthetic runtime cases did not reproduce data loss; default backup recovery is not implemented and no real-browser/archived-save acceptance is claimed.
+
+D6 remains preserved. E foundation NOT IMPLEMENTED; factual-source drafts do not satisfy independent expert review. Physical GPU, PL native quality and anatomy expert gates remain human requirements. F has not begun. Detailed evidence and preparation-branch SHAs: [checkpoint JSON](evidence/2026-10-05-b10-readiness-checkpoint.json). Older pending statements below are historical; this block takes precedence only for its explicitly measured scope.
 
 ## Durum sözleşmesi
 
@@ -476,3 +533,12 @@ Tek farklı yöntem de reddedildi; kozmetik tekrar veya300/900 çoğaltma yok. K
 B10 screenshot-readiness açığı: production duel artifact11325111667 hash'i doğrulandı, VETO390 ve GETT1440 legacy ekranı açıldı. GETT ekranında mevcut elde altı art placeholder görülüyor. Script arşivdeRCN-300 decode'unu bekliyor, restore sonrası el görsellerini beklemeden screenshot alıyor; görüntüdeki eksik readiness gerçek kanıt, kalıcı production art kaybı kök teşhisi henüz yok. Archive300/legacy-save assertion PASS, bütün elde çizim okunurluğu PASS değil. Astra dar browser-evidence doğrulaması hazırlıyor; sanat/engine/rules değişmeyecek, PR henüz yok.
 
 B7 ölçülü ret kaynakları kalıcı ayrı [astra/darbe-geometry-export-probe](https://github.com/tayaz-maker/tariklab/tree/49f0aab04de5e7270f7099a3e077fe876c05bea3/outputs/darbe-geometry-probe) checkpoint'inde; SHA `49f0aab04de5e7270f7099a3e077fe876c05bea3`. Başarısız SVG/PNG remote commit'e veya geçmişine taşınmadı; yalnız yeniden üretilebilir kod/metrik/red raporu. Sanat kabulü0/900.
+
+
+### E2 / D3 / B7 — bounded independent preparation, 2026-10-05
+
+E2 additional official-source note: [`astra/anatomy-skeleton-brain-stomach-sources`,2e5a5df](https://github.com/tayaz-maker/tariklab/blob/2e5a5df07b118459827f87dbece808b79d9e354c/outputs/anatomy-foundation/E2_SKELETON_BRAIN_STOMACH_SOURCE_DISCOVERY.md). NIH/NCI skeleton groups/CNS and the existing NIDDK stomach sections support limited original factual drafts. Missing source update dates are null, not substituted with access dates. All records remain not-reviewed/releaseEligible:false; no geometry, product or expert acceptance. E1 remains NOT IMPLEMENTED.
+
+D3 source review reconfirmed the unchanged root worker hash962b1d0e and previously recorded OLD300→NEW1→offline mixed cohort. One downloaded B image cannot establish a300/300 offline B package. Minimum next bounded contract: per-game immutable art identity/hash manifests; retain a verified complete A cohort while an explicitly requested single-game B package stages; activate only after300/300 verification. No900-image cold precache, silent cross-cohort substitution, save mutation or unverified legacy cache adoption. This is a design/repro boundary, not a fix or browser PASS.
+
+B7 read-only assessment found no previously untested, demonstrated pipeline that passes the required quality threshold. Existing vector/CPU/triangle-export failures concern original shape/anatomy/contact/material construction, not just renderer choice. No additional failed probes, assets, renderer download or900-card rollout were made. Accepted art remains0/900. This is a quality blocker owned by Astra, not a request for renewed user approval.

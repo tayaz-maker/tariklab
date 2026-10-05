@@ -1,0 +1,42 @@
+{
+  "date": "2026-10-05 11:52 UTC",
+  "status": "REFERENCE_PIXELS_INSPECTED_ARTWORK_NOT_ACCEPTED",
+  "acceptedNewProductionCards": 0,
+  "totalRequired": 900,
+  "references": [
+    {
+      "localReferenceName": "image-gen-1(5).png",
+      "sha256": "382789fb8222a9e8b9ecbf87882a2617023d09027615c985a30cef59cf343f2d",
+      "bytes": 2000398,
+      "pixelsInspectedBy": "Astra (model, not human review)",
+      "purpose": "quality direction only",
+      "includedInRepository": false,
+      "copiedOrTraced": false
+    },
+    {
+      "localReferenceName": "image-gen-2(5).png",
+      "sha256": "02f880caf8938b0b07453d86f8dacda2712bef6ea4d775ae71e56de09d01f5b9",
+      "bytes": 1726419,
+      "pixelsInspectedBy": "Astra (model, not human review)",
+      "purpose": "quality direction only",
+      "includedInRepository": false,
+      "copiedOrTraced": false
+    },
+    {
+      "localReferenceName": "image-gen-3(2).png",
+      "sha256": "22bd2e341775a090be8825caed65af2a529a720e357d333607972b7d2be13d6f",
+      "bytes": 1737269,
+      "pixelsInspectedBy": "Astra (model, not human review)",
+      "purpose": "quality direction only",
+      "includedInRepository": false,
+      "copiedOrTraced": false
+    }
+  ],
+  "excludedReferenceDetails": [
+    "people and composition",
+    "text and slogans",
+    "logos and institutional/political emblems",
+    "photographic pixel or texture reuse"
+  ],
+  "requirements": "Original procedural SVG/vector/layered-render sources only; no external assets or AI raster plates."
+}
