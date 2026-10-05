@@ -1,0 +1,1152 @@
+{
+  "contract": [
+    "A1",
+    "A2",
+    "A3"
+  ],
+  "mergeSHA": "a534289490f502f68e12d91803fbc3883de7d790",
+  "run": 37258787888,
+  "job": 111601366977,
+  "scope": "HANEDANIAN fresh profile production reload only; other A2 surfaces await full main production job",
+  "hosts": [
+    {
+      "startedAt": "2026-10-05T03:17:18.259Z",
+      "origin": "https://www.tariklab.com",
+      "expectedWorkerSHA256": "8f44b24062a076d29b4d771f940f31f713d4685f8a1c1fd33ef43bfaa2811d39",
+      "scope": "Three fresh contexts: real campaign/farm/manual save/export/two reloads, exact worker and complete 19-file package. No offline claim or physical GPU claim.",
+      "status": "passed",
+      "browserVersion": "154.0.8037.57",
+      "errors": [],
+      "finishedAt": "2026-10-05T03:17:39.198Z",
+      "cases": [
+        {
+          "width": 1440,
+          "height": 900,
+          "startedAt": "2026-10-05T03:17:18.446Z",
+          "status": "passed",
+          "httpErrors": [],
+          "requestFailures": [],
+          "consoleErrors": [],
+          "pageErrors": [],
+          "navigations": [
+            {
+              "url": "https://www.tariklab.com/games/hanedanian/index.html",
+              "status": 200,
+              "fromServiceWorker": false
+            },
+            {
+              "url": "https://www.tariklab.com/games/hanedanian/index.html",
+              "status": 200,
+              "fromServiceWorker": true
+            },
+            {
+              "url": "https://www.tariklab.com/games/hanedanian/index.html",
+              "status": 200,
+              "fromServiceWorker": true
+            }
+          ],
+          "snapshots": [
+            {
+              "label": "started",
+              "viewport": {
+                "width": 1440,
+                "height": 900
+              },
+              "documentScrollWidth": 1440,
+              "bodyScrollWidth": 1440,
+              "horizontalOverflow": 0,
+              "canvasCount": 1,
+              "packageVersion": "hanedanian-package-b6c1b7a0476f423a",
+              "cachedFileCount": 19,
+              "missing": [],
+              "html": {
+                "status": 200,
+                "contentType": "text/html; charset=utf-8",
+                "redirected": false,
+                "sha256": "871f31aed7b6649d2590a0394a6a36be76ccdc0c8c15333bc068138b4e3dd8d4"
+              }
+            },
+            {
+              "label": "saved",
+              "viewport": {
+                "width": 1440,
+                "height": 900
+              },
+              "documentScrollWidth": 1440,
+              "bodyScrollWidth": 1440,
+              "horizontalOverflow": 0,
+              "canvasCount": 1,
+              "packageVersion": "hanedanian-package-b6c1b7a0476f423a",
+              "cachedFileCount": 19,
+              "missing": [],
+              "html": {
+                "status": 200,
+                "contentType": "text/html; charset=utf-8",
+                "redirected": false,
+                "sha256": "871f31aed7b6649d2590a0394a6a36be76ccdc0c8c15333bc068138b4e3dd8d4"
+              }
+            },
+            {
+              "label": "reload-1",
+              "viewport": {
+                "width": 1440,
+                "height": 900
+              },
+              "documentScrollWidth": 1440,
+              "bodyScrollWidth": 1440,
+              "horizontalOverflow": 0,
+              "canvasCount": 1,
+              "packageVersion": "hanedanian-package-b6c1b7a0476f423a",
+              "cachedFileCount": 19,
+              "missing": [],
+              "html": {
+                "status": 200,
+                "contentType": "text/html; charset=utf-8",
+                "redirected": false,
+                "sha256": "871f31aed7b6649d2590a0394a6a36be76ccdc0c8c15333bc068138b4e3dd8d4"
+              }
+            },
+            {
+              "label": "reload-2",
+              "viewport": {
+                "width": 1440,
+                "height": 900
+              },
+              "documentScrollWidth": 1440,
+              "bodyScrollWidth": 1440,
+              "horizontalOverflow": 0,
+              "canvasCount": 1,
+              "packageVersion": "hanedanian-package-b6c1b7a0476f423a",
+              "cachedFileCount": 19,
+              "missing": [],
+              "html": {
+                "status": 200,
+                "contentType": "text/html; charset=utf-8",
+                "redirected": false,
+                "sha256": "871f31aed7b6649d2590a0394a6a36be76ccdc0c8c15333bc068138b4e3dd8d4"
+              }
+            }
+          ],
+          "screenshots": [
+            "1440-started.png",
+            "1440-saved.png",
+            "1440-reload-1.png",
+            "1440-reload-2.png"
+          ],
+          "reloads": [
+            {
+              "reload": 1,
+              "status": 200,
+              "fromServiceWorker": true,
+              "seed": "RELEASE-1440",
+              "queue": [
+                {
+                  "id": "job-11",
+                  "kind": "build",
+                  "building": "farm",
+                  "level": 3,
+                  "startAt": 0,
+                  "completeAt": 46
+                }
+              ],
+              "time": 0,
+              "finalURL": "https://www.tariklab.com/games/hanedanian/index.html"
+            },
+            {
+              "reload": 2,
+              "status": 200,
+              "fromServiceWorker": true,
+              "seed": "RELEASE-1440",
+              "queue": [
+                {
+                  "id": "job-11",
+                  "kind": "build",
+                  "building": "farm",
+                  "level": 3,
+                  "startAt": 0,
+                  "completeAt": 46
+                }
+              ],
+              "time": 0,
+              "finalURL": "https://www.tariklab.com/games/hanedanian/index.html"
+            }
+          ],
+          "contextClosed": true,
+          "worker": {
+            "url": "https://www.tariklab.com/games/hanedanian/sw.js",
+            "status": 200,
+            "contentType": "application/javascript; charset=utf-8",
+            "bytes": 4042,
+            "sha256": "8f44b24062a076d29b4d771f940f31f713d4685f8a1c1fd33ef43bfaa2811d39",
+            "retrievedAt": "2026-10-05T03:17:19.155Z"
+          },
+          "buildVersion": "hanedanian-package-b6c1b7a0476f423a",
+          "initialCanonicalURL": "https://www.tariklab.com/games/hanedanian/index.html",
+          "saved": {
+            "seed": "RELEASE-1440",
+            "queue": [
+              {
+                "id": "job-11",
+                "kind": "build",
+                "building": "farm",
+                "level": 3,
+                "startAt": 0,
+                "completeAt": 46
+              }
+            ],
+            "time": 0,
+            "paused": true,
+            "exportedStateSHA256": "050ed875237d13ef0ed576397be075d0c7072922f84ea191eba573a7b67d6f56"
+          },
+          "finishedAt": "2026-10-05T03:17:26.264Z"
+        },
+        {
+          "width": 390,
+          "height": 844,
+          "startedAt": "2026-10-05T03:17:26.265Z",
+          "status": "passed",
+          "httpErrors": [],
+          "requestFailures": [],
+          "consoleErrors": [],
+          "pageErrors": [],
+          "navigations": [
+            {
+              "url": "https://www.tariklab.com/games/hanedanian/index.html",
+              "status": 200,
+              "fromServiceWorker": false
+            },
+            {
+              "url": "https://www.tariklab.com/games/hanedanian/index.html",
+              "status": 200,
+              "fromServiceWorker": true
+            },
+            {
+              "url": "https://www.tariklab.com/games/hanedanian/index.html",
+              "status": 200,
+              "fromServiceWorker": true
+            }
+          ],
+          "snapshots": [
+            {
+              "label": "started",
+              "viewport": {
+                "width": 390,
+                "height": 844
+              },
+              "documentScrollWidth": 390,
+              "bodyScrollWidth": 390,
+              "horizontalOverflow": 0,
+              "canvasCount": 1,
+              "packageVersion": "hanedanian-package-b6c1b7a0476f423a",
+              "cachedFileCount": 19,
+              "missing": [],
+              "html": {
+                "status": 200,
+                "contentType": "text/html; charset=utf-8",
+                "redirected": false,
+                "sha256": "871f31aed7b6649d2590a0394a6a36be76ccdc0c8c15333bc068138b4e3dd8d4"
+              }
+            },
+            {
+              "label": "saved",
+              "viewport": {
+                "width": 390,
+                "height": 844
+              },
+              "documentScrollWidth": 390,
+              "bodyScrollWidth": 390,
+              "horizontalOverflow": 0,
+              "canvasCount": 1,
+              "packageVersion": "hanedanian-package-b6c1b7a0476f423a",
+              "cachedFileCount": 19,
+              "missing": [],
+              "html": {
+                "status": 200,
+                "contentType": "text/html; charset=utf-8",
+                "redirected": false,
+                "sha256": "871f31aed7b6649d2590a0394a6a36be76ccdc0c8c15333bc068138b4e3dd8d4"
+              }
+            },
+            {
+              "label": "reload-1",
+              "viewport": {
+                "width": 390,
+                "height": 844
+              },
+              "documentScrollWidth": 390,
+              "bodyScrollWidth": 390,
+              "horizontalOverflow": 0,
+              "canvasCount": 1,
+              "packageVersion": "hanedanian-package-b6c1b7a0476f423a",
+              "cachedFileCount": 19,
+              "missing": [],
+              "html": {
+                "status": 200,
+                "contentType": "text/html; charset=utf-8",
+                "redirected": false,
+                "sha256": "871f31aed7b6649d2590a0394a6a36be76ccdc0c8c15333bc068138b4e3dd8d4"
+              }
+            },
+            {
+              "label": "reload-2",
+              "viewport": {
+                "width": 390,
+                "height": 844
+              },
+              "documentScrollWidth": 390,
+              "bodyScrollWidth": 390,
+              "horizontalOverflow": 0,
+              "canvasCount": 1,
+              "packageVersion": "hanedanian-package-b6c1b7a0476f423a",
+              "cachedFileCount": 19,
+              "missing": [],
+              "html": {
+                "status": 200,
+                "contentType": "text/html; charset=utf-8",
+                "redirected": false,
+                "sha256": "871f31aed7b6649d2590a0394a6a36be76ccdc0c8c15333bc068138b4e3dd8d4"
+              }
+            }
+          ],
+          "screenshots": [
+            "390-started.png",
+            "390-saved.png",
+            "390-reload-1.png",
+            "390-reload-2.png"
+          ],
+          "reloads": [
+            {
+              "reload": 1,
+              "status": 200,
+              "fromServiceWorker": true,
+              "seed": "RELEASE-390",
+              "queue": [
+                {
+                  "id": "job-11",
+                  "kind": "build",
+                  "building": "farm",
+                  "level": 3,
+                  "startAt": 0,
+                  "completeAt": 46
+                }
+              ],
+              "time": 0,
+              "finalURL": "https://www.tariklab.com/games/hanedanian/index.html"
+            },
+            {
+              "reload": 2,
+              "status": 200,
+              "fromServiceWorker": true,
+              "seed": "RELEASE-390",
+              "queue": [
+                {
+                  "id": "job-11",
+                  "kind": "build",
+                  "building": "farm",
+                  "level": 3,
+                  "startAt": 0,
+                  "completeAt": 46
+                }
+              ],
+              "time": 0,
+              "finalURL": "https://www.tariklab.com/games/hanedanian/index.html"
+            }
+          ],
+          "contextClosed": true,
+          "worker": {
+            "url": "https://www.tariklab.com/games/hanedanian/sw.js",
+            "status": 200,
+            "contentType": "application/javascript; charset=utf-8",
+            "bytes": 4042,
+            "sha256": "8f44b24062a076d29b4d771f940f31f713d4685f8a1c1fd33ef43bfaa2811d39",
+            "retrievedAt": "2026-10-05T03:17:26.431Z"
+          },
+          "buildVersion": "hanedanian-package-b6c1b7a0476f423a",
+          "initialCanonicalURL": "https://www.tariklab.com/games/hanedanian/index.html",
+          "saved": {
+            "seed": "RELEASE-390",
+            "queue": [
+              {
+                "id": "job-11",
+                "kind": "build",
+                "building": "farm",
+                "level": 3,
+                "startAt": 0,
+                "completeAt": 46
+              }
+            ],
+            "time": 0,
+            "paused": true,
+            "exportedStateSHA256": "6c7a309d65ce99bfefad7007f98e2a1e2484677ca4f6a0f03cefd57823fa46fb"
+          },
+          "finishedAt": "2026-10-05T03:17:32.996Z"
+        },
+        {
+          "width": 320,
+          "height": 800,
+          "startedAt": "2026-10-05T03:17:32.999Z",
+          "status": "passed",
+          "httpErrors": [],
+          "requestFailures": [],
+          "consoleErrors": [],
+          "pageErrors": [],
+          "navigations": [
+            {
+              "url": "https://www.tariklab.com/games/hanedanian/index.html",
+              "status": 200,
+              "fromServiceWorker": false
+            },
+            {
+              "url": "https://www.tariklab.com/games/hanedanian/index.html",
+              "status": 200,
+              "fromServiceWorker": true
+            },
+            {
+              "url": "https://www.tariklab.com/games/hanedanian/index.html",
+              "status": 200,
+              "fromServiceWorker": true
+            }
+          ],
+          "snapshots": [
+            {
+              "label": "started",
+              "viewport": {
+                "width": 320,
+                "height": 800
+              },
+              "documentScrollWidth": 320,
+              "bodyScrollWidth": 320,
+              "horizontalOverflow": 0,
+              "canvasCount": 1,
+              "packageVersion": "hanedanian-package-b6c1b7a0476f423a",
+              "cachedFileCount": 19,
+              "missing": [],
+              "html": {
+                "status": 200,
+                "contentType": "text/html; charset=utf-8",
+                "redirected": false,
+                "sha256": "871f31aed7b6649d2590a0394a6a36be76ccdc0c8c15333bc068138b4e3dd8d4"
+              }
+            },
+            {
+              "label": "saved",
+              "viewport": {
+                "width": 320,
+                "height": 800
+              },
+              "documentScrollWidth": 320,
+              "bodyScrollWidth": 320,
+              "horizontalOverflow": 0,
+              "canvasCount": 1,
+              "packageVersion": "hanedanian-package-b6c1b7a0476f423a",
+              "cachedFileCount": 19,
+              "missing": [],
+              "html": {
+                "status": 200,
+                "contentType": "text/html; charset=utf-8",
+                "redirected": false,
+                "sha256": "871f31aed7b6649d2590a0394a6a36be76ccdc0c8c15333bc068138b4e3dd8d4"
+              }
+            },
+            {
+              "label": "reload-1",
+              "viewport": {
+                "width": 320,
+                "height": 800
+              },
+              "documentScrollWidth": 320,
+              "bodyScrollWidth": 320,
+              "horizontalOverflow": 0,
+              "canvasCount": 1,
+              "packageVersion": "hanedanian-package-b6c1b7a0476f423a",
+              "cachedFileCount": 19,
+              "missing": [],
+              "html": {
+                "status": 200,
+                "contentType": "text/html; charset=utf-8",
+                "redirected": false,
+                "sha256": "871f31aed7b6649d2590a0394a6a36be76ccdc0c8c15333bc068138b4e3dd8d4"
+              }
+            },
+            {
+              "label": "reload-2",
+              "viewport": {
+                "width": 320,
+                "height": 800
+              },
+              "documentScrollWidth": 320,
+              "bodyScrollWidth": 320,
+              "horizontalOverflow": 0,
+              "canvasCount": 1,
+              "packageVersion": "hanedanian-package-b6c1b7a0476f423a",
+              "cachedFileCount": 19,
+              "missing": [],
+              "html": {
+                "status": 200,
+                "contentType": "text/html; charset=utf-8",
+                "redirected": false,
+                "sha256": "871f31aed7b6649d2590a0394a6a36be76ccdc0c8c15333bc068138b4e3dd8d4"
+              }
+            }
+          ],
+          "screenshots": [
+            "320-started.png",
+            "320-saved.png",
+            "320-reload-1.png",
+            "320-reload-2.png"
+          ],
+          "reloads": [
+            {
+              "reload": 1,
+              "status": 200,
+              "fromServiceWorker": true,
+              "seed": "RELEASE-320",
+              "queue": [
+                {
+                  "id": "job-11",
+                  "kind": "build",
+                  "building": "farm",
+                  "level": 3,
+                  "startAt": 0,
+                  "completeAt": 46
+                }
+              ],
+              "time": 0,
+              "finalURL": "https://www.tariklab.com/games/hanedanian/index.html"
+            },
+            {
+              "reload": 2,
+              "status": 200,
+              "fromServiceWorker": true,
+              "seed": "RELEASE-320",
+              "queue": [
+                {
+                  "id": "job-11",
+                  "kind": "build",
+                  "building": "farm",
+                  "level": 3,
+                  "startAt": 0,
+                  "completeAt": 46
+                }
+              ],
+              "time": 0,
+              "finalURL": "https://www.tariklab.com/games/hanedanian/index.html"
+            }
+          ],
+          "contextClosed": true,
+          "worker": {
+            "url": "https://www.tariklab.com/games/hanedanian/sw.js",
+            "status": 200,
+            "contentType": "application/javascript; charset=utf-8",
+            "bytes": 4042,
+            "sha256": "8f44b24062a076d29b4d771f940f31f713d4685f8a1c1fd33ef43bfaa2811d39",
+            "retrievedAt": "2026-10-05T03:17:33.162Z"
+          },
+          "buildVersion": "hanedanian-package-b6c1b7a0476f423a",
+          "initialCanonicalURL": "https://www.tariklab.com/games/hanedanian/index.html",
+          "saved": {
+            "seed": "RELEASE-320",
+            "queue": [
+              {
+                "id": "job-11",
+                "kind": "build",
+                "building": "farm",
+                "level": 3,
+                "startAt": 0,
+                "completeAt": 46
+              }
+            ],
+            "time": 0,
+            "paused": true,
+            "exportedStateSHA256": "d8af64357312c803cef7a72384d00119f4ed3bc4f3ef2aaf909c589a2ffbd2a7"
+          },
+          "finishedAt": "2026-10-05T03:17:39.121Z"
+        }
+      ],
+      "artifact": 11323133708,
+      "locallyVerifiedZipSHA256": "a594f7ea78492d75f26ac64e911cdbfd5d278f767ae1e719be7e9cb202a0e877",
+      "screenshotsInspected": [
+        "1440-reload-2.png",
+        "390-reload-2.png",
+        "320-reload-2.png"
+      ]
+    },
+    {
+      "startedAt": "2026-10-05T03:17:39.634Z",
+      "origin": "https://tariklab.tayaz29.workers.dev",
+      "expectedWorkerSHA256": "8f44b24062a076d29b4d771f940f31f713d4685f8a1c1fd33ef43bfaa2811d39",
+      "scope": "Three fresh contexts: real campaign/farm/manual save/export/two reloads, exact worker and complete 19-file package. No offline claim or physical GPU claim.",
+      "status": "passed",
+      "browserVersion": "154.0.8037.57",
+      "errors": [],
+      "finishedAt": "2026-10-05T03:17:59.484Z",
+      "cases": [
+        {
+          "width": 1440,
+          "height": 900,
+          "startedAt": "2026-10-05T03:17:39.817Z",
+          "status": "passed",
+          "httpErrors": [],
+          "requestFailures": [],
+          "consoleErrors": [],
+          "pageErrors": [],
+          "navigations": [
+            {
+              "url": "https://tariklab.tayaz29.workers.dev/games/hanedanian/index.html",
+              "status": 307,
+              "fromServiceWorker": false
+            },
+            {
+              "url": "https://tariklab.tayaz29.workers.dev/games/hanedanian/",
+              "status": 200,
+              "fromServiceWorker": false
+            },
+            {
+              "url": "https://tariklab.tayaz29.workers.dev/games/hanedanian/",
+              "status": 200,
+              "fromServiceWorker": true
+            },
+            {
+              "url": "https://tariklab.tayaz29.workers.dev/games/hanedanian/",
+              "status": 200,
+              "fromServiceWorker": true
+            }
+          ],
+          "snapshots": [
+            {
+              "label": "started",
+              "viewport": {
+                "width": 1440,
+                "height": 900
+              },
+              "documentScrollWidth": 1440,
+              "bodyScrollWidth": 1440,
+              "horizontalOverflow": 0,
+              "canvasCount": 1,
+              "packageVersion": "hanedanian-package-b6c1b7a0476f423a",
+              "cachedFileCount": 19,
+              "missing": [],
+              "html": {
+                "status": 200,
+                "contentType": "text/html",
+                "redirected": false,
+                "sha256": "871f31aed7b6649d2590a0394a6a36be76ccdc0c8c15333bc068138b4e3dd8d4"
+              }
+            },
+            {
+              "label": "saved",
+              "viewport": {
+                "width": 1440,
+                "height": 900
+              },
+              "documentScrollWidth": 1440,
+              "bodyScrollWidth": 1440,
+              "horizontalOverflow": 0,
+              "canvasCount": 1,
+              "packageVersion": "hanedanian-package-b6c1b7a0476f423a",
+              "cachedFileCount": 19,
+              "missing": [],
+              "html": {
+                "status": 200,
+                "contentType": "text/html",
+                "redirected": false,
+                "sha256": "871f31aed7b6649d2590a0394a6a36be76ccdc0c8c15333bc068138b4e3dd8d4"
+              }
+            },
+            {
+              "label": "reload-1",
+              "viewport": {
+                "width": 1440,
+                "height": 900
+              },
+              "documentScrollWidth": 1440,
+              "bodyScrollWidth": 1440,
+              "horizontalOverflow": 0,
+              "canvasCount": 1,
+              "packageVersion": "hanedanian-package-b6c1b7a0476f423a",
+              "cachedFileCount": 19,
+              "missing": [],
+              "html": {
+                "status": 200,
+                "contentType": "text/html",
+                "redirected": false,
+                "sha256": "871f31aed7b6649d2590a0394a6a36be76ccdc0c8c15333bc068138b4e3dd8d4"
+              }
+            },
+            {
+              "label": "reload-2",
+              "viewport": {
+                "width": 1440,
+                "height": 900
+              },
+              "documentScrollWidth": 1440,
+              "bodyScrollWidth": 1440,
+              "horizontalOverflow": 0,
+              "canvasCount": 1,
+              "packageVersion": "hanedanian-package-b6c1b7a0476f423a",
+              "cachedFileCount": 19,
+              "missing": [],
+              "html": {
+                "status": 200,
+                "contentType": "text/html",
+                "redirected": false,
+                "sha256": "871f31aed7b6649d2590a0394a6a36be76ccdc0c8c15333bc068138b4e3dd8d4"
+              }
+            }
+          ],
+          "screenshots": [
+            "1440-started.png",
+            "1440-saved.png",
+            "1440-reload-1.png",
+            "1440-reload-2.png"
+          ],
+          "reloads": [
+            {
+              "reload": 1,
+              "status": 200,
+              "fromServiceWorker": true,
+              "seed": "RELEASE-1440",
+              "queue": [
+                {
+                  "id": "job-11",
+                  "kind": "build",
+                  "building": "farm",
+                  "level": 3,
+                  "startAt": 0,
+                  "completeAt": 46
+                }
+              ],
+              "time": 0,
+              "finalURL": "https://tariklab.tayaz29.workers.dev/games/hanedanian/"
+            },
+            {
+              "reload": 2,
+              "status": 200,
+              "fromServiceWorker": true,
+              "seed": "RELEASE-1440",
+              "queue": [
+                {
+                  "id": "job-11",
+                  "kind": "build",
+                  "building": "farm",
+                  "level": 3,
+                  "startAt": 0,
+                  "completeAt": 46
+                }
+              ],
+              "time": 0,
+              "finalURL": "https://tariklab.tayaz29.workers.dev/games/hanedanian/"
+            }
+          ],
+          "contextClosed": true,
+          "worker": {
+            "url": "https://tariklab.tayaz29.workers.dev/games/hanedanian/sw.js",
+            "status": 200,
+            "contentType": "text/javascript",
+            "bytes": 4042,
+            "sha256": "8f44b24062a076d29b4d771f940f31f713d4685f8a1c1fd33ef43bfaa2811d39",
+            "retrievedAt": "2026-10-05T03:17:40.452Z"
+          },
+          "buildVersion": "hanedanian-package-b6c1b7a0476f423a",
+          "initialCanonicalURL": "https://tariklab.tayaz29.workers.dev/games/hanedanian/",
+          "saved": {
+            "seed": "RELEASE-1440",
+            "queue": [
+              {
+                "id": "job-11",
+                "kind": "build",
+                "building": "farm",
+                "level": 3,
+                "startAt": 0,
+                "completeAt": 46
+              }
+            ],
+            "time": 0,
+            "paused": true,
+            "exportedStateSHA256": "050ed875237d13ef0ed576397be075d0c7072922f84ea191eba573a7b67d6f56"
+          },
+          "finishedAt": "2026-10-05T03:17:47.220Z"
+        },
+        {
+          "width": 390,
+          "height": 844,
+          "startedAt": "2026-10-05T03:17:47.221Z",
+          "status": "passed",
+          "httpErrors": [],
+          "requestFailures": [],
+          "consoleErrors": [],
+          "pageErrors": [],
+          "navigations": [
+            {
+              "url": "https://tariklab.tayaz29.workers.dev/games/hanedanian/index.html",
+              "status": 307,
+              "fromServiceWorker": false
+            },
+            {
+              "url": "https://tariklab.tayaz29.workers.dev/games/hanedanian/",
+              "status": 200,
+              "fromServiceWorker": false
+            },
+            {
+              "url": "https://tariklab.tayaz29.workers.dev/games/hanedanian/",
+              "status": 200,
+              "fromServiceWorker": true
+            },
+            {
+              "url": "https://tariklab.tayaz29.workers.dev/games/hanedanian/",
+              "status": 200,
+              "fromServiceWorker": true
+            }
+          ],
+          "snapshots": [
+            {
+              "label": "started",
+              "viewport": {
+                "width": 390,
+                "height": 844
+              },
+              "documentScrollWidth": 390,
+              "bodyScrollWidth": 390,
+              "horizontalOverflow": 0,
+              "canvasCount": 1,
+              "packageVersion": "hanedanian-package-b6c1b7a0476f423a",
+              "cachedFileCount": 19,
+              "missing": [],
+              "html": {
+                "status": 200,
+                "contentType": "text/html",
+                "redirected": false,
+                "sha256": "871f31aed7b6649d2590a0394a6a36be76ccdc0c8c15333bc068138b4e3dd8d4"
+              }
+            },
+            {
+              "label": "saved",
+              "viewport": {
+                "width": 390,
+                "height": 844
+              },
+              "documentScrollWidth": 390,
+              "bodyScrollWidth": 390,
+              "horizontalOverflow": 0,
+              "canvasCount": 1,
+              "packageVersion": "hanedanian-package-b6c1b7a0476f423a",
+              "cachedFileCount": 19,
+              "missing": [],
+              "html": {
+                "status": 200,
+                "contentType": "text/html",
+                "redirected": false,
+                "sha256": "871f31aed7b6649d2590a0394a6a36be76ccdc0c8c15333bc068138b4e3dd8d4"
+              }
+            },
+            {
+              "label": "reload-1",
+              "viewport": {
+                "width": 390,
+                "height": 844
+              },
+              "documentScrollWidth": 390,
+              "bodyScrollWidth": 390,
+              "horizontalOverflow": 0,
+              "canvasCount": 1,
+              "packageVersion": "hanedanian-package-b6c1b7a0476f423a",
+              "cachedFileCount": 19,
+              "missing": [],
+              "html": {
+                "status": 200,
+                "contentType": "text/html",
+                "redirected": false,
+                "sha256": "871f31aed7b6649d2590a0394a6a36be76ccdc0c8c15333bc068138b4e3dd8d4"
+              }
+            },
+            {
+              "label": "reload-2",
+              "viewport": {
+                "width": 390,
+                "height": 844
+              },
+              "documentScrollWidth": 390,
+              "bodyScrollWidth": 390,
+              "horizontalOverflow": 0,
+              "canvasCount": 1,
+              "packageVersion": "hanedanian-package-b6c1b7a0476f423a",
+              "cachedFileCount": 19,
+              "missing": [],
+              "html": {
+                "status": 200,
+                "contentType": "text/html",
+                "redirected": false,
+                "sha256": "871f31aed7b6649d2590a0394a6a36be76ccdc0c8c15333bc068138b4e3dd8d4"
+              }
+            }
+          ],
+          "screenshots": [
+            "390-started.png",
+            "390-saved.png",
+            "390-reload-1.png",
+            "390-reload-2.png"
+          ],
+          "reloads": [
+            {
+              "reload": 1,
+              "status": 200,
+              "fromServiceWorker": true,
+              "seed": "RELEASE-390",
+              "queue": [
+                {
+                  "id": "job-11",
+                  "kind": "build",
+                  "building": "farm",
+                  "level": 3,
+                  "startAt": 0,
+                  "completeAt": 46
+                }
+              ],
+              "time": 0,
+              "finalURL": "https://tariklab.tayaz29.workers.dev/games/hanedanian/"
+            },
+            {
+              "reload": 2,
+              "status": 200,
+              "fromServiceWorker": true,
+              "seed": "RELEASE-390",
+              "queue": [
+                {
+                  "id": "job-11",
+                  "kind": "build",
+                  "building": "farm",
+                  "level": 3,
+                  "startAt": 0,
+                  "completeAt": 46
+                }
+              ],
+              "time": 0,
+              "finalURL": "https://tariklab.tayaz29.workers.dev/games/hanedanian/"
+            }
+          ],
+          "contextClosed": true,
+          "worker": {
+            "url": "https://tariklab.tayaz29.workers.dev/games/hanedanian/sw.js",
+            "status": 200,
+            "contentType": "text/javascript",
+            "bytes": 4042,
+            "sha256": "8f44b24062a076d29b4d771f940f31f713d4685f8a1c1fd33ef43bfaa2811d39",
+            "retrievedAt": "2026-10-05T03:17:47.365Z"
+          },
+          "buildVersion": "hanedanian-package-b6c1b7a0476f423a",
+          "initialCanonicalURL": "https://tariklab.tayaz29.workers.dev/games/hanedanian/",
+          "saved": {
+            "seed": "RELEASE-390",
+            "queue": [
+              {
+                "id": "job-11",
+                "kind": "build",
+                "building": "farm",
+                "level": 3,
+                "startAt": 0,
+                "completeAt": 46
+              }
+            ],
+            "time": 0,
+            "paused": true,
+            "exportedStateSHA256": "6c7a309d65ce99bfefad7007f98e2a1e2484677ca4f6a0f03cefd57823fa46fb"
+          },
+          "finishedAt": "2026-10-05T03:17:53.371Z"
+        },
+        {
+          "width": 320,
+          "height": 800,
+          "startedAt": "2026-10-05T03:17:53.372Z",
+          "status": "passed",
+          "httpErrors": [],
+          "requestFailures": [],
+          "consoleErrors": [],
+          "pageErrors": [],
+          "navigations": [
+            {
+              "url": "https://tariklab.tayaz29.workers.dev/games/hanedanian/index.html",
+              "status": 307,
+              "fromServiceWorker": false
+            },
+            {
+              "url": "https://tariklab.tayaz29.workers.dev/games/hanedanian/",
+              "status": 200,
+              "fromServiceWorker": false
+            },
+            {
+              "url": "https://tariklab.tayaz29.workers.dev/games/hanedanian/",
+              "status": 200,
+              "fromServiceWorker": true
+            },
+            {
+              "url": "https://tariklab.tayaz29.workers.dev/games/hanedanian/",
+              "status": 200,
+              "fromServiceWorker": true
+            }
+          ],
+          "snapshots": [
+            {
+              "label": "started",
+              "viewport": {
+                "width": 320,
+                "height": 800
+              },
+              "documentScrollWidth": 320,
+              "bodyScrollWidth": 320,
+              "horizontalOverflow": 0,
+              "canvasCount": 1,
+              "packageVersion": "hanedanian-package-b6c1b7a0476f423a",
+              "cachedFileCount": 19,
+              "missing": [],
+              "html": {
+                "status": 200,
+                "contentType": "text/html",
+                "redirected": false,
+                "sha256": "871f31aed7b6649d2590a0394a6a36be76ccdc0c8c15333bc068138b4e3dd8d4"
+              }
+            },
+            {
+              "label": "saved",
+              "viewport": {
+                "width": 320,
+                "height": 800
+              },
+              "documentScrollWidth": 320,
+              "bodyScrollWidth": 320,
+              "horizontalOverflow": 0,
+              "canvasCount": 1,
+              "packageVersion": "hanedanian-package-b6c1b7a0476f423a",
+              "cachedFileCount": 19,
+              "missing": [],
+              "html": {
+                "status": 200,
+                "contentType": "text/html",
+                "redirected": false,
+                "sha256": "871f31aed7b6649d2590a0394a6a36be76ccdc0c8c15333bc068138b4e3dd8d4"
+              }
+            },
+            {
+              "label": "reload-1",
+              "viewport": {
+                "width": 320,
+                "height": 800
+              },
+              "documentScrollWidth": 320,
+              "bodyScrollWidth": 320,
+              "horizontalOverflow": 0,
+              "canvasCount": 1,
+              "packageVersion": "hanedanian-package-b6c1b7a0476f423a",
+              "cachedFileCount": 19,
+              "missing": [],
+              "html": {
+                "status": 200,
+                "contentType": "text/html",
+                "redirected": false,
+                "sha256": "871f31aed7b6649d2590a0394a6a36be76ccdc0c8c15333bc068138b4e3dd8d4"
+              }
+            },
+            {
+              "label": "reload-2",
+              "viewport": {
+                "width": 320,
+                "height": 800
+              },
+              "documentScrollWidth": 320,
+              "bodyScrollWidth": 320,
+              "horizontalOverflow": 0,
+              "canvasCount": 1,
+              "packageVersion": "hanedanian-package-b6c1b7a0476f423a",
+              "cachedFileCount": 19,
+              "missing": [],
+              "html": {
+                "status": 200,
+                "contentType": "text/html",
+                "redirected": false,
+                "sha256": "871f31aed7b6649d2590a0394a6a36be76ccdc0c8c15333bc068138b4e3dd8d4"
+              }
+            }
+          ],
+          "screenshots": [
+            "320-started.png",
+            "320-saved.png",
+            "320-reload-1.png",
+            "320-reload-2.png"
+          ],
+          "reloads": [
+            {
+              "reload": 1,
+              "status": 200,
+              "fromServiceWorker": true,
+              "seed": "RELEASE-320",
+              "queue": [
+                {
+                  "id": "job-11",
+                  "kind": "build",
+                  "building": "farm",
+                  "level": 3,
+                  "startAt": 0,
+                  "completeAt": 46
+                }
+              ],
+              "time": 0,
+              "finalURL": "https://tariklab.tayaz29.workers.dev/games/hanedanian/"
+            },
+            {
+              "reload": 2,
+              "status": 200,
+              "fromServiceWorker": true,
+              "seed": "RELEASE-320",
+              "queue": [
+                {
+                  "id": "job-11",
+                  "kind": "build",
+                  "building": "farm",
+                  "level": 3,
+                  "startAt": 0,
+                  "completeAt": 46
+                }
+              ],
+              "time": 0,
+              "finalURL": "https://tariklab.tayaz29.workers.dev/games/hanedanian/"
+            }
+          ],
+          "contextClosed": true,
+          "worker": {
+            "url": "https://tariklab.tayaz29.workers.dev/games/hanedanian/sw.js",
+            "status": 200,
+            "contentType": "text/javascript",
+            "bytes": 4042,
+            "sha256": "8f44b24062a076d29b4d771f940f31f713d4685f8a1c1fd33ef43bfaa2811d39",
+            "retrievedAt": "2026-10-05T03:17:53.532Z"
+          },
+          "buildVersion": "hanedanian-package-b6c1b7a0476f423a",
+          "initialCanonicalURL": "https://tariklab.tayaz29.workers.dev/games/hanedanian/",
+          "saved": {
+            "seed": "RELEASE-320",
+            "queue": [
+              {
+                "id": "job-11",
+                "kind": "build",
+                "building": "farm",
+                "level": 3,
+                "startAt": 0,
+                "completeAt": 46
+              }
+            ],
+            "time": 0,
+            "paused": true,
+            "exportedStateSHA256": "d8af64357312c803cef7a72384d00119f4ed3bc4f3ef2aaf909c589a2ffbd2a7"
+          },
+          "finishedAt": "2026-10-05T03:17:59.401Z"
+        }
+      ],
+      "artifact": 11322919338,
+      "locallyVerifiedZipSHA256": "dffcc2b62ede78499661160b94ecd17a27383214dd863f04e1c4fd8b1726fe4d",
+      "screenshotsInspected": [
+        "1440-reload-2.png",
+        "390-reload-2.png",
+        "320-reload-2.png"
+      ]
+    }
+  ]
+}

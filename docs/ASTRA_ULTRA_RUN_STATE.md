@@ -261,3 +261,139 @@ PR #101 remains Terra's responsibility. Novella remains **LATER**.
 - Release: fresh remote CI pending; #111 merge/production not yet done. A1 production evidence is not substituted for #111 acceptance.
 - B–F remaining gates stay open in the final360 contract ledger; no card art, dependency, Atlas or other game scope enters this PR.
 - Next: all exact-head checks green → normal merge → paired Wave1/two-host production and route-cost artifacts → status.
+
+
+### 2026-10-05 — #110 CI geçti / #111 ölçülmüş blocker checkpoint
+- Branch'ler: #110 `astra/wave1-decision-traces` / `64f20ffd03b555808e2f2db6ffb505d2dc37a567`; #111 `astra/map-static-cache` / `457213ae75e795f3560bad9b6deb468e413bca73`.
+- #110: run `37238892501` dört Actions job'ı SUCCESS; build ve baseline/source/built 1440/390/320 browser PASS; merge/production yapılmadı.
+- #111: run `37240215425`, job `111547271911` FAIL; 44 baseline case PASS, Han 320 worker `/games/hanedanian/sw.js` için `request.sizes()` 10 saniyede sonuç vermiyor (`serviceWorker=true`).
+- Kanıt: artifact `11317571288`; eski 15 dakika sessiz takılma artık URL/aşama/deadline ile yeniden üretildi; paired before/after ölçüm tamamlanmadı.
+- Ayrı ölçüm fix'i doğrulandı: raw CSS headers=249/body=−249/transfer=0; gerçek toplam korunur, bilinmeyen byte sıfıra çevrilmez.
+- Test: son fix metrics 11 + deadline 5 PASS, scoped ESLint/build PASS; ürün/save/dependency değişmedi; console/overflow/measurement kapıları açık.
+- İki başarısız deneme sınırı: yeni yama zorlanmadı; #111 kırmızı, merge yok; Anatomi A ve final 360 inceleme başlamadı.
+- Sonraki bounded tur: SW bootstrap ölçümünü CI-local HTTP cevap-byte sayacı veya doğrulanmış upstream Playwright çözümüyle küçük repro üzerinde karşılaştır; worker kapatma/istek atlama/sahte 0 yok.
+- Envanter: `astra/review-release-gates`, kaynak belge commit `22ec07fa1833718fbf889866ce1191c89bfcbfa0`; tek `TARIKLAB_FINAL_360_REVIEW.md` içinde 12 kapsam, DARBE sınırları ve insan kapıları kayıtlı.
+- Açık risk: #111 CI blocker; fiziksel GPU/PL anadil/anatomi bağımsız uzman kanıtı yok; SON KÖY korunuyor, Novella LATER, #78/#79 yeniden açılmaz.
+
+### 2026-10-05 — #111 kök neden ve tam ölçüm PASS checkpoint
+- Hedef: worker ölçüm takılmasını kapatmak; branch/PR `astra/map-static-cache` / #111, head `fec5f661477d09b62e9a82c53b6affd6deefd6be`.
+- Kod SHA `192458bc308dff3ace5c863ba5af2b3fffb2b95e`; ölçer + metadata teşhisi + regression + workflow helper path'leri; runtime/save/dependency değişmedi.
+- Gerçek CI: run `37241690633`, job `111551512627` SUCCESS; artifact `11317803281`, 63 before + 63 after, errors=[] ve DOM overflow=0.
+- Kök kanıt: requestfinished sonrası worker response promise'i çözülmüyor; aynı Han390 isteği gerçek HTTP 200 / 1260 body B / finished=true olarak tam sayıldı.
+- Yerel: 30/30 hedefli test, ESLint/build PASS. Tarayıcı metadata timeout'u ölçümde istek atlama veya uydurma sıfır oluşturmaz.
+- #110 `64f20ff`: görünen 6 check + Vercel status SUCCESS; #109 head tam atası, browser PASS fakat production bekliyor.
+- Merge/production: #111 genel CI `37241690632` pending; iki PR da merge edilmedi, iki-host production henüz yapılmadı.
+- Bağımsız kayıt: final360 checklistine güncel 7 harita entry'si, artifact sınırları ve SON KÖY WIP'in gerekçeli deferred/ayrı Wave3 PR adayı sınıflaması eklendi.
+- Risk: fiziksel GPU/PL anadil/anatomi uzmanı yok; Racon eski PNG genişliği ve preview DB bootstrap logu son review için açık; Novella/#78/#79 değişmedi.
+- Sonraki: #111 tüm checks green → #110 merge → güncel main'e #111 rebase/CI; her merge sonrası iki-host gerçek smoke ve SHA.
+
+### 2026-10-05 — korumalı CI split ve iki güncel head checkpoint
+- Hedef: doğrulanmış 25 dakika seri build iptalini kapatmak; kullanıcı/oyun/save/dependency kapsamı değişmedi.
+- Branch/PR: #110 `astra/wave1-decision-traces` head `fea0d0cb3b582c58d1759e0d09b29fc1aaeb846e`; #111 `astra/map-static-cache` head `de4c416e0af57f818a6cdf8262f623bb9fafe241`.
+- Ortak fix SHA: `889cd133de67f46c5a7081dfee9203f1b6f06fbb`; workflow + exact-success helper/test; #111 dokuz commit bu tabana rebase, eski `fec5f66` backup ref'te.
+- Kök kanıt: run `37241690632` / job `111551601225` açık 25 dakika timeout; assertion failure yok, TC SIM bu tavanda iptal; cancelled PASS değildir.
+- Gate: core/browser ayrı 25 dakika; required build always/all-needs success; komutlar, baseline pinleri, routing/cache/concurrency ve production adımları aynı.
+- Yerel: 20/20 gate+HTTP/archive, scoped ESLint ve production build PASS; rebase public/src/package/lock byte-identical.
+- Gerçek CI: #110 `37244054041`, #111 `37244258514` ve map `37244258417` yayın anında pending.
+- Merge/production: ikisi de merge edilmedi; production iddiası yok; önceki 126 ölçüm PASS yalnız eski head kanıtıdır.
+- Açık risk: yerel Chromium SIGSEGV, fiziksel GPU / PL ana dil / anatomi uzmanı yok; main browser+production toplam süre bütçesi henüz ölçülmedi.
+- Sonraki: iki güncel head green → #110 merge/iki-host → #111 main rebase/CI/merge/iki-host; pendingken yalnız kanıt ve bağımsız kaynak notu.
+
+### 2026-10-05 — son bounded CI checkpoint
+- Branch/PR: #110 `astra/wave1-decision-traces` head `fea0d0cb3b582c58d1759e0d09b29fc1aaeb846e`; #111 `astra/map-static-cache` head `9c47c0d293a0f47dbce62822d94637151ccaceb4`.
+- SHA: ortak korumalı CI split `889cd133`; iframe readiness fix `24c76754f70224277ae74d3bd2b9929b28e2fb83`.
+- Son somut hata: run `37244258417` / job `111558890122`, TC SIM DEVLET390 body-null; aynı >20 metin eşiği/20 saniye süreyle bekleme eklendi.
+- Test: readiness/deadline/HTTP/metadata20 PASS, gate/HTTP/archive20 PASS; scoped ESLint ve production build PASS.
+- Gerçek CI: #110 `37244054041` core SUCCESS, browser/soak in_progress; #111 `37244773929` pending, map `37244773932` in_progress.
+- Merge/production: ikisi de yapılmadı; kırmızı veya pending ile merge yok. Eski FEC126 ölçüm/9-13-13 browser kanıtı yeni head PASS yerine geçmez.
+- Kanıt: final360 intake'inde artifact `11317874879`, low-memory/DPR/statik retention ve Racon PNG/performance sınırları; DARBE sınırları ayrı kaynak notunda, kural testi/teşhisi yok.
+- Risk: yerel Chromium SIGSEGV, fiziksel GPU yok; main browser+production süre bütçesi ayrıca ölçülecek. PL ve anatomi insan kapıları açık.
+- Sonraki: iki güncel head green → #110 merge/iki-host → #111 main rebase/yeni CI/merge/iki-host; Wave2–4/anatomi kodu henüz başlamadı.
+
+### 2026-10-05 — #110 merge / #111 main rebase checkpoint
+- Branch/PR: #110 `astra/wave1-decision-traces` / head `fea0d0c`; #111 `astra/map-static-cache` / head `2011a59aeced3600d46363bb6c24708673e49052`.
+- Merge SHA: #110 `562831dba3b16be2a0bc8b2aec2e613eb1b80f45`, normal GitHub merge; protection bypass yok.
+- Gerçek CI: #110 8/8 + Vercel SUCCESS; #111 eski `9c47c0d` 9/9 + Vercel SUCCESS, 126 route ölçümü tamam/hatasız.
+- Rebase: #111 12 commit güncel main üzerine; tree `5b2a64a013ba032b744be255d13b51f0bff9e0db` önceki yeşil tree ile aynı; eski head backup ref'te.
+- Production: #110 iki-host smoke henüz kapanmadı; #111 yeni CI kapısı, merge edilmedi.
+- Ayrı kullanıcı değişikliği: DARBE 300 görsel yenilemesi onay öncesi10 kartlık proof'a ayrıldı; engine/save/data/ölçü/a11y korunur, uygulama paketi henüz değişmez.
+- Değişen kayıtlar: final360 intake ve Wave4 DARBE boundary; eski görseli koru talimatı güncellendi, DRB237–240 ayrı P1 kalır.
+- Risk: fiziksel GPU/PL ana dil/anatomi uzmanı açık; main production süresi yeni koşuda ölçülecek.
+- Sonraki: #110 iki-host kanıtı + #111 yeni CI → #111 merge/production; DARBE proof kullanıcı incelemesi, onay olmadan300 yayılmaz.
+
+### 2026-10-05 — DARBE stil örneği ve production blocker checkpoint
+- Hedef/oyuncu değeri: kartın gerçek etki türünü özgün sivil arşiv sahnesinden ayırt etmek; 300 yayılımı kullanıcı onayı bekler.
+- Branch/PR: `astra/darbe-art-direction-proof` / #112; head `f541bcfc0a571b2ad2dd3d9aa1c047343e76ed70`, taslak ve merge edilmedi.
+- Değişiklik: 10 SVG/generator/manifest, standalone karşılaştırma, 651 dosya hash koruması, hedefli browser workflow; oyun/save/engine/kart ölçüsü değişmedi.
+- Yerel test/build PASS; art CI `37247459967` SUCCESS, artifact `11319492846`: 6/6 viewport-motion, sıfır console/overflow/worker, 25 screenshot. Genel #112 CI henüz pending.
+- #110 merge SHA `562831dba3b16be2a0bc8b2aec2e613eb1b80f45`; main run `37246439763` production FAIL: Workers HAN1440 reload `net::ERR_FAILED`; artifact `11319313487`.
+- Production geçen kapsam: Çete iki host 17/17; Wave1 www 9/9; campaign www PASS. Workers Wave1 ve sonraki duel production kapalı değil; fiziksel GPU iddiası yok.
+- #111 head `2011a59aeced3600d46363bb6c24708673e49052`: build/route SUCCESS, campaign pending; main production blocker nedeniyle merge yok.
+- Repro adayı: Workers index.html HTTP307 → oyun kökü doğrulandı; redirected HTML cache yanıtı kontrollü yerel fixture ile ayrıştırılacak. Kör retry veya SW bypass yok.
+- Kayıt: final360 intake, Wave4 DARBE boundary ve `docs/evidence/2026-10-05-darbe-proof-release.json`; DRB-237–240 ayrı P1, PL/anatomi insan kapıları açık.
+- Sonraki: dar HAN offline redirect repro/fix → green release kapıları; DARBE stil onayından önce 300 karta yayma. Novella/#78/#79/SON KÖY WIP değişmedi.
+
+### 2026-10-05 00:52 UTC — bounded proof/release checkpoint
+- Hedef/oyuncu değeri: DARBE kart etkilerini ayrı sivil arşiv sahneleriyle okumak; bu tur 10 örnek, 300 yayılımı onay bekler.
+- Stil branch/PR/SHA: `astra/darbe-art-direction-proof` / #112 / `f541bcfc0a571b2ad2dd3d9aa1c047343e76ed70`; taslak, merge yok.
+- Proof: yerel 5/5 + build; hedefli browser 6/6 SUCCESS, 320/390/1440 × reduced/default motion, console/overflow 0; 10 SVG 25.758 B, 651 ürün dosyası değişmedi.
+- Genel #112 CI: build/browser/core/balance/art SUCCESS, campaign hâlâ pending; gerçek düello/save/PWA kabulü değildir, DRB237–240 ayrı P1 kalır.
+- Release: #110 merge `562831dba3b16be2a0bc8b2aec2e613eb1b80f45`; www Wave1 9/9, Çete iki host 17/17; Workers HAN reload FAIL, sonraki duel smoke çalışmadı.
+- #111 `2011a59aeced3600d46363bb6c24708673e49052`: 9/9 + Vercel SUCCESS; #110 production blocker nedeniyle merge edilmedi.
+- Dar aday #113 `astra/han-offline-redirect-fix`, head `2a59e4de1033084c5d06015208d132ac56db6ab0`: yerel offline/version17/17, lint/typecheck/build PASS; genel CI pending.
+- Browser repro ikinci kez setup'ta FAIL: run37248756789/job111571847240, artifact11320051287; root SW activated, HAN SW installing, HAN cache yok; gerçek reload assertion ve fixed case çalışmadı.
+- Sınır: iki başarısız deneme sonrası üçüncü tahmin/yama yok; HTTP307 görülmesi ve native regression tek başına production kök neden/çözüm kanıtı sayılmaz.
+- Kayıt/sonraki: final360 + evidence JSON güncellendi; izole per-asset fetch/body ölçümü sonraki dar blok; #113 green/iki-host kapanmadan #111 yok, stil onayı olmadan300 yok.
+
+
+### 2026-10-05 02:13 UTC — A1 release repair checkpoint
+- A1/A3 hedef: HANEDANIAN reload hatasını gerçek tarayıcıda kök neden ve kayıt korumasıyla kapatmak; branch `astra/han-offline-redirect-fix`, PR #113.
+- A1 SHA: `cac09e1341e6dbfd72ee41298557f88052ddf8c9`; tree `8392027e96aaeec548fc3251d5391f7158ba8429`; main hâlâ `562831dba3b16be2a0bc8b2aec2e613eb1b80f45`.
+- A1 değişiklik: HTML redirect metadata normalizasyonu + cache bariyerinden önce gövde tüketimi; SW, hedefli unit/browser/release smoke, workflow ve kanıt belgesi. Gameplay/save değişmedi.
+- A1 yerel: küçültülmüş test önce RED; sonra 23/23 hedefli test, lint ve production build PASS. Yeni paket SW SHA256 `8f44b24062a076d29b4d771f940f31f713d4685f8a1c1fd33ef43bfaa2811d39`.
+- A1 browser: run `37254296791`, job `111588005984`, artifact `11322227990`: minimal eski kodda gerçek ERR_FAILED; fixed tam19 dosya + online/offline save/reload PASS.
+- A1/A3 CI: ilk preview eski SHA'yı reddetti; Workers `6b1db98d` SUCCESS sonrası yalnız başarısız job yeniden koştu ve `111588570839` PASS: 3 genişlik × 2 reload, console/404/overflow0. Genel CI pending; production/merge yok.
+- A2: #111 `2011a59aeced3600d46363bb6c24708673e49052` green geçmişi A1'i kapatmaz; rebase/merge BLOCKED.
+- B1–B11: yeni prosedürel kabul 0/900; B7 uyarınca raster denemeleri git dışında SUPERSEDED. Üç ayrı 300-kart PR ve B10 kabul kapıları açık; DRB237–240 ayrı P1 repro.
+- C1–C3/D1–D6: kalan outcome/map, offline/save/perf/security işleri açık; Novella, #78/#79 ve SON KÖY WIP korunur. Hiçbir toplu DONE yok.
+- E1–E3/F: Atlas foundation ve final360 başlamadı; PL ana dil/anatomi uzmanı/fiziksel GPU insan kapıları açık. Tüm madde sahipleri final360 sözleşme tablosunda.
+- Sonraki: exact preview + tüm CI → normal #113 merge → iki-host 320/390/1440 gerçek production kanıtı → A2; yanlış SHA/kırmızı CI bypass edilmez.
+
+
+### 2026-10-05 02:42 UTC — A1/A3 production closure, A2 rebase
+- A1/A3: PR #113 normal merge `375b83752df3d5e16c960797cf99634af0405d31`; head `cac09e1` üzerinde9/9 check + Vercel SUCCESS, bypass yok.
+- A1 production: run37256148798/job111593543370 SUCCESS; www+Workers ×1440/390/320 =6/6, her vakada2 gerçek reload, gerçek farm save/queue/seed/paused-clock korunması.
+- A1 kanıt: worker SHA256 `8f44b24062a076d29b4d771f940f31f713d4685f8a1c1fd33ef43bfaa2811d39`;19/19 paket; console/page/HTTP/network errors0, overflow0.
+- A1 artifact11322886877:24 screenshot+6 trace+2results;33.774.583B,32MiB yerel transfer sınırını aştı. Production assertion/log kanıtı var; bu görüntüler yerelde incelendi denmez.
+- A2: #111 güncel375b837 üzerine yerel rebase edildi; ledger'ın iki tarihsel eki korundu. Yeni head `eb5913d97ffe387033b315c1560ee25a691f263d` push edildi; fresh CI run37256926906/37256926916/37256926899, merge yok.
+- A2 yerel: cache/traffic/deadline/surface/offline/redirect hedefli68/68 PASS, lint ve production build PASS. Kanıt upload'ları host başına bölünüyor, hiçbir test kapısı gevşemiyor.
+- B1–B10: yeni kabul0/900; üç prosedürel insan sahnesi kalite FAIL, yayılım/public değişiklik yok. B11 gerçek engine fixture21/21 PASS; bildirilen browser/eski-save P1 henüz doğrulanmadı.
+- C1–C3/D1–D6: kalan işler açık; C3 kaynak matrisi hazırlanıyor. D5 ayrı #114, head `316355d72153e1804a906f3e2d5d62f2cd349577`:14/14 RED→GREEN/build/lint/typecheck PASS; fresh CI bekliyor, merge yok.
+- E1–E3/F: Atlas ve final360 başlamadı; PL/anatomi/physicalGPU insan kapıları açık. Novella/#78/#79 ve SON KÖY WIP korunur.
+- Sonraki: A2 freshCI→normalmerge→iki-host production; D5 bağımsız dar PR. Büyük yeni ürün dalgası açılmadı.
+
+
+### 2026-10-05 03:16 UTC — A2 merge checkpoint
+- A1/A3 CLOSED: #113 merge375b837, iki-host6/6 gerçek saved-game reload kanıtı; main CI SUCCESS.
+- A2: #111 head `eb5913d97ffe387033b315c1560ee25a691f263d` üzerinde10/10 checks+Vercel SUCCESS; normal merge `a534289490f502f68e12d91803fbc3883de7d790`, bypass yok.
+- A2/D4: 68 local hedefli test/build/lint PASS; route63×2 ve Wave1 built13 browser PASS. Portal9request/~172.4KB, oyun/Pixi isteği0.
+- A2 production: bu merge'in iki-host smoke sonucu henüz yok; deploy/production beklerken yeni kapsam başlamadı.
+- A2 açık kanıt: Racon320/390 fullPage map capture621/730px; baseline da aynı, kullanıcı-scroll kusuru henüz kanıtlanmadı. AyrıP1 doğrulama, örtülmedi.
+- D5: #114 `316355d` üç dosyalık dev dependency fix, local14/14 PASS; fresh CI pending, merge yok.
+- B1–B10:0/900 kabul;300×3 semantic brief hazırlığı üretim sanatı değildir. B11 engine21/21 karşı kanıt; özgülbrowser/eski-saveP1 açık.
+- C1–C3/D1–D4:7harita/20rota kaynak matrisi tamamlandı, runtimegenelPASS değil; offline kohortlar/ağırlık/geri kalan visual işi açık.
+- E1–E3/F: Atlas/final360 başlamadı; PL/anatomi/fizikselGPU insan kapıları açık; D6Novella/#78/#79/SON KÖY WIP korunur.
+- Sonraki: A2 exactproduction→D5gatedrelease; kart kalite eşiği düşürülmez.
+
+
+### 2026-10-05 04:00 UTC — A2 and D5 release closure checkpoint
+- Branch `astra/release-evidence-a1-a2-d5`; kanıt belgeleri/ledger/final360 intake + E keşif; ürün/gameplay/save değişikliği yok.
+- A1/A3 CLOSED: #113 merge `375b83752df3d5e16c960797cf99634af0405d31`, iki-host1440/390/320 gerçek reload/save6/6.
+- A2 CLOSED: #111 merge `a534289490f502f68e12d91803fbc3883de7d790`; exact-head10/10+Vercel, main37258787799 SUCCESS.
+- A2 production: iki-hostWave1 13'er/Çete17'şer; özelHAN37258787888 6/6, host artifact hashleri doğrulandı ve altı reload-2 PNG açıldı.
+- D5: #114 head316355d8/8+Vercel SUCCESS → normal merge `0383d24dce3e45fc1db16773da8b3a135bf51b6e`;14/14 yerel RED→GREEN, build/lint/typecheck PASS; main37260245958 SUCCESS; iki hostta Wave1 13'er/Çete17'şer PASS.
+- B1–B10: üç ayrı kalıcı hazırlık branch'inde300×3 kaynaklı sahne taslağı,17/17 hedefli test; sanat kabulü0/900. B7 farklı geometri deneyi de kalite/temas/bütçe FAIL;359KB SVG yayımlanmadı, raster/AIplaka yok.
+- B11:21/21 gerçek engine fixture PASS/NOT REPRODUCED; kullanıcı bildirimine özgü browser/eski-saveP1 hâlâ açık, kural PR'ı yok.
+- C1–C3/D1–D4: kalan outcome/görsel/map/offline/eski-save/perf işleri açık; Racon mobil capture farkı ayrıcaP1 doğrulama, tüm-sahne overflow0 iddiası yok.
+- D6/E1–E3/F: Novella/#78/#79/SONKÖYWIP korunur; E keşif belgelendi, foundation/final360 başlamadı; PL/anatomi/fizikselGPU insan kapıları açık.
+- Sonraki: Bu dar kanıt PR'ı kendi CI/release kapısından geçecek; B7 sanat kalitesi blocker, ölçülü red kaydı korunuyor,300/900 çoğaltma yok.

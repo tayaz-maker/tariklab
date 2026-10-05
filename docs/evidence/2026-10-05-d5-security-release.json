@@ -1,0 +1,158 @@
+{
+  "recordedAt": "2026-10-05T04:02:00Z",
+  "contract": [
+    "D5"
+  ],
+  "pr": 114,
+  "headSHA": "316355d72153e1804a906f3e2d5d62f2cd349577",
+  "mergeSHA": "0383d24dce3e45fc1db16773da8b3a135bf51b6e",
+  "scope": {
+    "changedFiles": [
+      "package-lock.json",
+      "scripts/brace-expansion-security.test.mjs",
+      "docs/sources/BRACE_EXPANSION_SECURITY_2026-10-05.md"
+    ],
+    "developmentOnly": true,
+    "before": [
+      "1.1.18",
+      "5.0.9"
+    ],
+    "after": [
+      "1.1.21",
+      "5.0.12"
+    ],
+    "advisories": [
+      "GHSA-6j4f-fj2g-mc7p",
+      "GHSA-qhr7-859c-m2p7",
+      "GHSA-q2hr-2g5m-vwhr"
+    ],
+    "appRulesSaveNoticeChanged": false
+  },
+  "local": {
+    "baseline": {
+      "pass": 2,
+      "fail": 12
+    },
+    "patched": {
+      "pass": 14,
+      "fail": 0
+    },
+    "build": "PASS",
+    "typecheck": "PASS",
+    "lint": {
+      "errors": 0,
+      "existingWarnings": 59
+    }
+  },
+  "preMergeGate": {
+    "listedChecks": 8,
+    "allListedChecks": "SUCCESS",
+    "VercelStatus": "SUCCESS",
+    "normalMerge": true,
+    "bypass": false
+  },
+  "main": {
+    "run": 37260245958,
+    "conclusion": "success",
+    "browserJob": 111605791078,
+    "coreJob": 111605791133,
+    "campaignJob": 111605791096,
+    "nodeTests": {
+      "pass": 1716,
+      "fail": 0,
+      "skip": 1,
+      "skipReason": "pre-existing opt-in DARBE_H_CLOSURE 3000+ mirrored matrix"
+    },
+    "vitest": {
+      "pass": 61,
+      "fail": 0
+    },
+    "deterministicDuelsPerTheme": 500,
+    "WorkersBuild": "success",
+    "VercelDeploymentStatus": "success"
+  },
+  "production": [
+    {
+      "host": "https://www.tariklab.com",
+      "wave1Cases": 13,
+      "wave1Errors": [],
+      "ceteCases": 17,
+      "ceteOk": true
+    },
+    {
+      "host": "https://tariklab.tayaz29.workers.dev",
+      "wave1Cases": 13,
+      "wave1Errors": [],
+      "ceteCases": 17,
+      "ceteOk": true
+    }
+  ],
+  "artifacts": [
+    {
+      "id": 11325261377,
+      "name": "wave1-outcome",
+      "bytes": 47021330,
+      "githubSHA256": "217cfabace0d907c133b44b32a1a85164a8a4ab9afdf4c9af7e9a5458f70ea1f",
+      "locallyDownloaded": false,
+      "reason": "Exceeds32MiB tool download limit; real CI browser assertions/logs verified, pixels not locally reviewed"
+    },
+    {
+      "id": 11324777483,
+      "name": "cete-outcome",
+      "bytes": 38782669,
+      "githubSHA256": "4ef89c26a2b81739847847a39ce899cce0a4254e4592fd2fbf6bae2a84072f0a",
+      "locallyDownloaded": false,
+      "reason": "Exceeds32MiB tool download limit"
+    },
+    {
+      "id": 11325111667,
+      "name": "duel-production",
+      "bytes": 3546053,
+      "locallyVerifiedSHA256": "dc16ebab6cacf040d3e3a7f6fe9559b102bcd78bb20acc50588f852f5d9d6852",
+      "locallyReviewedScreenshots": [
+        "veto-h-legacy-mobile.png",
+        "gett-oh-legacy-desktop.png"
+      ],
+      "readinessCaveat": "GETT legacy desktop hand art placeholders visible; script awaits archive card decode but not restored hand decode. B10 evidence/readiness gap, not diagnosed persistent production art loss."
+    }
+  ],
+  "duelProduction": {
+    "sha": "0383d24dce3e45fc1db16773da8b3a135bf51b6e",
+    "assets": {
+      "games/duel-core/app.js": "391a5117f25a4c843f815ff96463392df475bdc926b972c992f659343e6e3c36",
+      "games/duel-core/presentation.js": "bc78a80b53123201d8c7a05c89f47dac53636f04a823d1dfa5b8c440e9efec55",
+      "games/duel-core/table.css": "29aabab71233cb3c5db274196e7b3c71c59c0f61100edf8c7998867947f2ad59",
+      "games/veto-h/source-cards.json": "b876fdb69eeb4ddcfd1d06e397df14e14070cf3131ad4d210b4608e8fe7b4acd",
+      "games/veto-h/expansion.js": "d5f7f3eb2ff9c63295148c11266148fc346d0a91f5ef9b1779d020aacda1a438",
+      "games/veto-h/assets/art-manifest.json": "448ba43e82023146a2c811e47b1313e7eff050db4481d64b1dba1b6af75d819a",
+      "games/veto-h/assets/atmosphere.webp": "70b02eb1a72f7c348377dd9443cd2dd0184b35f70b640571b1f600e14b8a7565",
+      "games/gett-oh/source-cards.json": "e385808c632851e5110e47950af4c33f33e6f9784ca235ca7d70c5a1e6dd99a3",
+      "games/gett-oh/expansion.js": "1bb4dd429cf76bf78d4d7477d871e5454abb68f073c6aa82319c3dc93667e6d7",
+      "games/gett-oh/assets/art-manifest.json": "67e395c6caaab3ba08007254104eae8421f8b154a483669d0aea089b8b2c99a5",
+      "games/gett-oh/assets/atmosphere.webp": "3bd989e035716ee60e1b0763204c28e6476bb5b1483e93d8b8af4c592fbd82e0"
+    },
+    "evidence": [
+      {
+        "theme": "veto-h",
+        "archive": 300,
+        "expansionArt": true,
+        "legacySaveUnchanged": true,
+        "errors": []
+      },
+      {
+        "theme": "gett-oh",
+        "archive": 300,
+        "expansionArt": true,
+        "legacySaveUnchanged": true,
+        "errors": []
+      }
+    ]
+  },
+  "limitations": [
+    "npm audit NOT RUN: automatic approval review rejected dependency metadata export; no retry or bypass. Public advisory and real-consumer regression are scoped evidence, not a general security audit.",
+    "Physical GPU, PL native-language and anatomy expert gates remain open.",
+    "D5 did not alter application bytes; exact deployment check success and actual public-host browser assertions are recorded separately.",
+    "Large Wave1/Çete production artifact pixels were not locally inspected; prior A2 HAN host-split screenshots were separately inspected.",
+    "DARBE legacy save browser and900-card redesign acceptance are not claimed."
+  ]
+}
