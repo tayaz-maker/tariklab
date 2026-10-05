@@ -195,3 +195,15 @@ PR #101 remains Terra's responsibility. Novella remains **LATER**.
 - Repro adayı: Workers index.html HTTP307 → oyun kökü doğrulandı; redirected HTML cache yanıtı kontrollü yerel fixture ile ayrıştırılacak. Kör retry veya SW bypass yok.
 - Kayıt: final360 intake, Wave4 DARBE boundary ve `docs/evidence/2026-10-05-darbe-proof-release.json`; DRB-237–240 ayrı P1, PL/anatomi insan kapıları açık.
 - Sonraki: dar HAN offline redirect repro/fix → green release kapıları; DARBE stil onayından önce 300 karta yayma. Novella/#78/#79/SON KÖY WIP değişmedi.
+
+### 2026-10-05 00:52 UTC — bounded proof/release checkpoint
+- Hedef/oyuncu değeri: DARBE kart etkilerini ayrı sivil arşiv sahneleriyle okumak; bu tur 10 örnek, 300 yayılımı onay bekler.
+- Stil branch/PR/SHA: `astra/darbe-art-direction-proof` / #112 / `f541bcfc0a571b2ad2dd3d9aa1c047343e76ed70`; taslak, merge yok.
+- Proof: yerel 5/5 + build; hedefli browser 6/6 SUCCESS, 320/390/1440 × reduced/default motion, console/overflow 0; 10 SVG 25.758 B, 651 ürün dosyası değişmedi.
+- Genel #112 CI: build/browser/core/balance/art SUCCESS, campaign hâlâ pending; gerçek düello/save/PWA kabulü değildir, DRB237–240 ayrı P1 kalır.
+- Release: #110 merge `562831dba3b16be2a0bc8b2aec2e613eb1b80f45`; www Wave1 9/9, Çete iki host 17/17; Workers HAN reload FAIL, sonraki duel smoke çalışmadı.
+- #111 `2011a59aeced3600d46363bb6c24708673e49052`: 9/9 + Vercel SUCCESS; #110 production blocker nedeniyle merge edilmedi.
+- Dar aday #113 `astra/han-offline-redirect-fix`, head `2a59e4de1033084c5d06015208d132ac56db6ab0`: yerel offline/version17/17, lint/typecheck/build PASS; genel CI pending.
+- Browser repro ikinci kez setup'ta FAIL: run37248756789/job111571847240, artifact11320051287; root SW activated, HAN SW installing, HAN cache yok; gerçek reload assertion ve fixed case çalışmadı.
+- Sınır: iki başarısız deneme sonrası üçüncü tahmin/yama yok; HTTP307 görülmesi ve native regression tek başına production kök neden/çözüm kanıtı sayılmaz.
+- Kayıt/sonraki: final360 + evidence JSON güncellendi; izole per-asset fetch/body ölçümü sonraki dar blok; #113 green/iki-host kapanmadan #111 yok, stil onayı olmadan300 yok.
