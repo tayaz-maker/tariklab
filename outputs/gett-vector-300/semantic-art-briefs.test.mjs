@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { buildManifest, sourceUrl, SOURCE_SHA } from './build-semantic-manifest.mjs';
+import { designs } from '../../public/games/gett-oh/designs.js';
 
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
 const source = readFileSync(sourceUrl);
@@ -45,12 +46,38 @@ test('ambiguous source semantics stay explicit instead of being silently repaire
   assert.equal(byId['RCN-147'].sourceCard.name,'Zabıta Yoldı');
   assert.equal(byId['RCN-090'].sourceCard.kind,'unit');
   assert.equal(byId['RCN-239'].sourceCard.series,'Borç');
-  for(const id of ['RCN-010','RCN-090','RCN-094','RCN-095','RCN-135','RCN-140','RCN-147','RCN-149','RCN-239'])
+  for(const id of ['RCN-010','RCN-037','RCN-090','RCN-094','RCN-095','RCN-119','RCN-135','RCN-140'])
     assert.ok(byId[id].unresolved.length,id);
+  assert.equal(byId['RCN-147'].interpretationReview.sourceFacts.name,'Zabıta Yoldı');
+  assert.equal(byId['RCN-149'].interpretationReview.status,'RESOLVED_BRIEF_INTERPRETATION_ONLY');
+  assert.equal(byId['RCN-239'].interpretationReview.status,'RESOLVED_BRIEF_INTERPRETATION_ONLY');
   assert.equal(byId['RCN-035'].sceneClass,'location');
   assert.equal(byId['RCN-044'].sceneClass,'location');
   assert.equal(byId['RCN-059'].sceneClass,'location');
   assert.equal(byId['RCN-076'].sceneClass,'object');
+});
+
+test('all 30 dispositions separate immutable rule facts from nonliteral scenes and retain genuine open questions', () => {
+  const reviewed=artifact.briefs.filter(b=>b.interpretationReview);
+  assert.equal(reviewed.length,30);
+  assert.deepEqual(artifact.interpretationReviewSummary,{reviewed:30,resolvedAtBriefLevel:22,open:8,noArtworkOrHumanApproval:true});
+  for(const b of reviewed){
+    const r=b.interpretationReview,c=b.sourceCard;
+    assert.deepEqual(r.sourceFacts,{name:c.name,kind:c.kind,subtype:c.subtype,series:c.series,effectText:c.text});
+    assert.equal(r.artAccepted,false);
+    assert.equal(r.humanApproval,false);
+    assert.ok(r.proposedSceneInterpretation.length>30);
+    assert.ok(r.groundedDisposition.length>30);
+    assert.ok(r.noMechanicalClaim.length>30);
+    assert.equal(Boolean(r.openQuestion),b.unresolved.length>0);
+  }
+  assert.equal(designs[90].traits.ritualEnabler,true);
+  assert.equal(designs[90].effects[0].op,'ritual');
+  assert.equal(designs[149].effects[0].op,'targetOrBattleNegate');
+  assert.deepEqual(designs[239].traits.materials.series,['Borç','Haber']);
+  assert.equal(designs[239].effects[0].amount,-1100);
+  assert.equal(designs[239].effects[1].selector.face,'up');
+  assert.equal(designs[239].effects[2].to,'hand');
 });
 
 test('missing explicit direction fails closed rather than filling an ID with a generic template', () => {

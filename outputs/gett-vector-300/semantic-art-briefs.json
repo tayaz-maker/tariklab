@@ -6,6 +6,12 @@
   "acceptedArtCount": 0,
   "cardCount": 300,
   "authorship": "Explicit per-ID scene briefs after reading immutable card names/types/series/effects; no fallback classifier",
+  "interpretationReviewSummary": {
+    "reviewed": 30,
+    "resolvedAtBriefLevel": 22,
+    "open": 8,
+    "noArtworkOrHumanApproval": true
+  },
   "identity": {
     "palette": [
       "warm amber",
@@ -62,6 +68,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -101,6 +108,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -140,6 +148,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -179,6 +188,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -218,6 +228,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -257,6 +268,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -296,6 +308,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -335,6 +348,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -374,6 +388,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -413,8 +428,29 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": {
+        "status": "OPEN_INTERPRETATION",
+        "owner": "Astra",
+        "sourceFacts": {
+          "name": "Düğün Tetiği",
+          "kind": "unit",
+          "subtype": "effect",
+          "series": "Çayhane",
+          "effectText": "Çağrıldığında 1 İhbar’ı desteden sete koy."
+        },
+        "sourceEvidence": [
+          "public/games/gett-oh/source-cards.json#RCN-010"
+        ],
+        "initialConcern": "Name Düğün Tetiği is ambiguous. Brief uses event-trigger preparation, not a weapon. Confirm this nonviolent interpretation before illustration.",
+        "proposedSceneInterpretation": "A civilian wedding preparation worker puts one closed notification in a side compartment as the event begins.",
+        "groundedDisposition": "The printed summon trigger supports setting one İhbar. Wedding setting follows the title; a weapon is neither necessary to depict the effect nor permitted.",
+        "noMechanicalClaim": "The source does not specify whether Tetiği names a person or an event role. The scene cannot decide a new unit identity.",
+        "openQuestion": "Choose whether a civilian wedding coordinator or an event-only notification best preserves the existing Düğün Tetiği identity; no weapon interpretation.",
+        "artAccepted": false,
+        "humanApproval": false
+      },
       "unresolved": [
-        "Name Düğün Tetiği is ambiguous. Brief uses event-trigger preparation, not a weapon. Confirm this nonviolent interpretation before illustration."
+        "Choose whether a civilian wedding coordinator or an event-only notification best preserves the existing Düğün Tetiği identity; no weapon interpretation."
       ]
     },
     {
@@ -454,6 +490,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -493,9 +530,28 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
-      "unresolved": [
-        "Avoid caricature or mental-health stereotype suggested by the existing name; keep the unchanged name only in existing UI."
-      ]
+      "interpretationReview": {
+        "status": "RESOLVED_BRIEF_INTERPRETATION_ONLY",
+        "owner": "Astra",
+        "sourceFacts": {
+          "name": "Kahvehane Delisi",
+          "kind": "unit",
+          "subtype": "effect",
+          "series": "Çayhane",
+          "effectText": "Saldırdığı tur DEF 0 sayılır, ATK +600."
+        },
+        "sourceEvidence": [
+          "public/games/gett-oh/source-cards.json#RCN-012"
+        ],
+        "initialConcern": "Avoid caricature or mental-health stereotype suggested by the existing name; keep the unchanged name only in existing UI.",
+        "proposedSceneInterpretation": "An ordinary adult steps forward from a pulled-back chair, leaving an exposed space behind.",
+        "groundedDisposition": "Forward commitment and lost cover map to the printed attack-turn ATK increase and DEF zero. No diagnosis, grotesque face or psychiatric stereotype is needed.",
+        "noMechanicalClaim": "Posture is a metaphor; no speed, extra attack or lasting statistic is added.",
+        "openQuestion": null,
+        "artAccepted": false,
+        "humanApproval": false
+      },
+      "unresolved": []
     },
     {
       "id": "RCN-013",
@@ -534,6 +590,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -573,6 +630,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -612,6 +670,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -651,6 +710,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -690,6 +750,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -729,6 +790,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -768,6 +830,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -807,6 +870,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -846,6 +910,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -885,6 +950,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -924,6 +990,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -963,9 +1030,28 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
-      "unresolved": [
-        "Show an invented alternative route; do not add real transport branding or imply a real route."
-      ]
+      "interpretationReview": {
+        "status": "RESOLVED_BRIEF_INTERPRETATION_ONLY",
+        "owner": "Astra",
+        "sourceFacts": {
+          "name": "Korsan Hat",
+          "kind": "unit",
+          "subtype": "effect",
+          "series": "Taksi / Yol",
+          "effectText": "Kendi RP 4000 altındayken doğrudan +600."
+        },
+        "sourceEvidence": [
+          "public/games/gett-oh/source-cards.json#RCN-024"
+        ],
+        "initialConcern": "Show an invented alternative route; do not add real transport branding or imply a real route.",
+        "proposedSceneInterpretation": "An invented narrow alternative service route with a limited-load vehicle entering it.",
+        "groundedDisposition": "The low-resource route scene maps to the source RP threshold and direct-pressure bonus, without real transport branding.",
+        "noMechanicalClaim": "Route length and vehicle load are visual metaphors; they do not introduce movement rules or change the 4000/+600 values.",
+        "openQuestion": null,
+        "artAccepted": false,
+        "humanApproval": false
+      },
+      "unresolved": []
     },
     {
       "id": "RCN-025",
@@ -1004,6 +1090,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -1043,6 +1130,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -1082,6 +1170,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -1121,6 +1210,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -1160,6 +1250,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -1199,6 +1290,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -1238,6 +1330,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -1277,6 +1370,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -1316,6 +1410,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -1355,6 +1450,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -1394,6 +1490,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -1433,6 +1530,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -1472,8 +1570,29 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": {
+        "status": "OPEN_INTERPRETATION",
+        "owner": "Astra",
+        "sourceFacts": {
+          "name": "Kapkaççı",
+          "kind": "unit",
+          "subtype": "effect",
+          "series": "İnşaat / Çarşı",
+          "effectText": "Saldırınca rakip 1 rastgele el atar (başarılı yok etmede)."
+        },
+        "sourceEvidence": [
+          "public/games/gett-oh/source-cards.json#RCN-037"
+        ],
+        "initialConcern": "Theft-associated name conflicts with nonviolent visual direction. Object-consequence scene needs art approval; rules/name remain unchanged.",
+        "proposedSceneInterpretation": "A bag is suddenly absent from a bench, leaving one displaced object; no victim or aggressive person appears.",
+        "groundedDisposition": "The source conditions a random opposing hand discard on successful destruction. Absence can show the consequence without depicting an assault.",
+        "noMechanicalClaim": "A dropped bag alone does not establish the required trigger, randomness or unchanged Kapkaççı identity.",
+        "openQuestion": "Can a nonviolent consequence-only scene remain recognizably Kapkaççı, or is a different civilian object/action composition needed? Do not waive title-to-scene clarity.",
+        "artAccepted": false,
+        "humanApproval": false
+      },
       "unresolved": [
-        "Theft-associated name conflicts with nonviolent visual direction. Object-consequence scene needs art approval; rules/name remain unchanged."
+        "Can a nonviolent consequence-only scene remain recognizably Kapkaççı, or is a different civilian object/action composition needed? Do not waive title-to-scene clarity."
       ]
     },
     {
@@ -1513,6 +1632,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -1552,6 +1672,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -1591,6 +1712,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -1630,6 +1752,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -1669,6 +1792,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -1708,6 +1832,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -1747,6 +1872,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -1786,6 +1912,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -1825,9 +1952,28 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
-      "unresolved": [
-        "No contraband procedure, weapons or stereotyped criminal portrait; the scene interprets accumulated absence through empty crates."
-      ]
+      "interpretationReview": {
+        "status": "RESOLVED_BRIEF_INTERPRETATION_ONLY",
+        "owner": "Astra",
+        "sourceFacts": {
+          "name": "Kaçakçı",
+          "kind": "unit",
+          "subtype": "effect",
+          "series": "Liman / Gece",
+          "effectText": "Sürgün edilen her senin kartın için +200 ATK."
+        },
+        "sourceEvidence": [
+          "public/games/gett-oh/source-cards.json#RCN-046"
+        ],
+        "initialConcern": "No contraband procedure, weapons or stereotyped criminal portrait; the scene interprets accumulated absence through empty crates.",
+        "proposedSceneInterpretation": "A civilian dock worker arranges empty spaces/crates from previously removed cargo.",
+        "groundedDisposition": "Accumulated absence supports the printed +200 per own banished card; the cargo world follows Liman/Gece without showing contraband or procedures.",
+        "noMechanicalClaim": "No actual illegal cargo, identity, new banish action or numeric bonus is depicted.",
+        "openQuestion": null,
+        "artAccepted": false,
+        "humanApproval": false
+      },
+      "unresolved": []
     },
     {
       "id": "RCN-047",
@@ -1866,6 +2012,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -1905,6 +2052,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -1944,6 +2092,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -1983,6 +2132,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -2022,6 +2172,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -2061,6 +2212,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -2100,6 +2252,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -2139,6 +2292,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -2178,6 +2332,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -2217,6 +2372,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -2256,6 +2412,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -2295,6 +2452,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -2334,9 +2492,28 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
-      "unresolved": [
-        "This source unit is a location. Preserve unit data but draw a venue rather than inventing a person."
-      ]
+      "interpretationReview": {
+        "status": "RESOLVED_BRIEF_INTERPRETATION_ONLY",
+        "owner": "Astra",
+        "sourceFacts": {
+          "name": "Düğün Malikânesi",
+          "kind": "unit",
+          "subtype": "effect",
+          "series": "Mertebe Lv5–6",
+          "effectText": "Savunmadayken doğrudan saldırı yok."
+        },
+        "sourceEvidence": [
+          "public/games/gett-oh/source-cards.json#RCN-059"
+        ],
+        "initialConcern": "This source unit is a location. Preserve unit data but draw a venue rather than inventing a person.",
+        "proposedSceneInterpretation": "A wedding venue courtyard with closed shortcut gates and an intact entry boundary.",
+        "groundedDisposition": "The noun is a venue even though its mechanical kind is unit. Drawing architecture is compatible with blocking direct attacks while defending.",
+        "noMechanicalClaim": "The card remains unit/effect. The venue scene must not suggest a field card or add a restriction outside defense position.",
+        "openQuestion": null,
+        "artAccepted": false,
+        "humanApproval": false
+      },
+      "unresolved": []
     },
     {
       "id": "RCN-060",
@@ -2375,6 +2552,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -2414,6 +2592,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -2453,6 +2632,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -2492,6 +2672,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -2531,9 +2712,28 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
-      "unresolved": [
-        "Institution-associated name must use fictional civilian setting; no actual police identity, crest or uniform."
-      ]
+      "interpretationReview": {
+        "status": "RESOLVED_BRIEF_INTERPRETATION_ONLY",
+        "owner": "Astra",
+        "sourceFacts": {
+          "name": "Karakol Tanıdığı",
+          "kind": "unit",
+          "subtype": "effect",
+          "series": "Mertebe Lv5–6",
+          "effectText": "Rakip İhbar’ı iptal 1/tur (elden atarak değil, serbest)."
+        },
+        "sourceEvidence": [
+          "public/games/gett-oh/source-cards.json#RCN-064"
+        ],
+        "initialConcern": "Institution-associated name must use fictional civilian setting; no actual police identity, crest or uniform.",
+        "proposedSceneInterpretation": "A civilian acquaintance pauses the opening of one notification at a wholly fictional consultation counter.",
+        "groundedDisposition": "The one notification corresponds to the printed once-per-turn İhbar cancellation; a real police office is unnecessary.",
+        "noMechanicalClaim": "The scene does not add a discard/payment or represent an actual institution; the source specifically says the effect is free.",
+        "openQuestion": null,
+        "artAccepted": false,
+        "humanApproval": false
+      },
+      "unresolved": []
     },
     {
       "id": "RCN-065",
@@ -2572,9 +2772,28 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
-      "unresolved": [
-        "Keep the existing card name; do not invent a municipal uniform or copy an agency."
-      ]
+      "interpretationReview": {
+        "status": "RESOLVED_BRIEF_INTERPRETATION_ONLY",
+        "owner": "Astra",
+        "sourceFacts": {
+          "name": "Zabıta",
+          "kind": "unit",
+          "subtype": "effect",
+          "series": "Mertebe Lv5–6",
+          "effectText": "Rakip Racon sürekli etkisini iptal."
+        },
+        "sourceEvidence": [
+          "public/games/gett-oh/source-cards.json#RCN-065"
+        ],
+        "initialConcern": "Keep the existing card name; do not invent a municipal uniform or copy an agency.",
+        "proposedSceneInterpretation": "A civilian market coordinator reverses an unlettered continuously displayed work marker.",
+        "groundedDisposition": "Stopping a standing arrangement matches cancellation of the opposing continuous Racon effect. Civilian wardrobe preserves the no-uniform boundary.",
+        "noMechanicalClaim": "No official insignia or expanded cancellation to all spells; unchanged source name remains in existing UI only.",
+        "openQuestion": null,
+        "artAccepted": false,
+        "humanApproval": false
+      },
+      "unresolved": []
     },
     {
       "id": "RCN-066",
@@ -2613,6 +2832,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -2652,6 +2872,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -2672,7 +2893,7 @@
       },
       "sceneClass": "character",
       "subjects": "65 yaşında dik duruşlu erkek; sade hırka",
-      "actionAndEffectBridge": "Eş ağırlıkta iki sandalyeyi dengelerken yerinde kalır; eşleşmede dayanma",
+      "actionAndEffectBridge": "Eş büyüklükte karşı destek geri çekilirken kendi sandalyesinde dengede kalır; eşleşmede tek tarafın dayanması",
       "setting": "Ev avlusuna açılan küçük ahşap atölye",
       "composition": "Yandan oturur orta plan; askerî eşya/üniforma yok",
       "status": "BRIEF_ONLY_NOT_ACCEPTED_ART",
@@ -2691,9 +2912,28 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
-      "unresolved": [
-        "Existing veteran-associated name does not authorize military symbols/uniforms; civilian memory/durability reading needs approval."
-      ]
+      "interpretationReview": {
+        "status": "RESOLVED_BRIEF_INTERPRETATION_ONLY",
+        "owner": "Astra",
+        "sourceFacts": {
+          "name": "Eski Asker",
+          "kind": "unit",
+          "subtype": "effect",
+          "series": "Mertebe Lv5–6",
+          "effectText": "Savaşta eşit ATK’te yalnızca rakip yok olur."
+        },
+        "sourceEvidence": [
+          "public/games/gett-oh/source-cards.json#RCN-068"
+        ],
+        "initialConcern": "Existing veteran-associated name does not authorize military symbols/uniforms; civilian memory/durability reading needs approval.",
+        "proposedSceneInterpretation": "An older civilian stays seated steadily while an equally sized opposite support is withdrawn.",
+        "groundedDisposition": "Equal physical weight is only a visual analogy for the printed equal-ATK comparison and asymmetric result. Age and ordinary clothing communicate an experienced civilian.",
+        "noMechanicalClaim": "No military biography, weapon, uniform or automatic win beyond the existing equal-ATK condition is asserted.",
+        "openQuestion": null,
+        "artAccepted": false,
+        "humanApproval": false
+      },
+      "unresolved": []
     },
     {
       "id": "RCN-069",
@@ -2732,6 +2972,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -2771,6 +3012,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -2810,6 +3052,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -2849,6 +3092,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -2888,6 +3132,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -2927,6 +3172,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -2966,6 +3212,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -3005,6 +3252,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -3044,6 +3292,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -3083,6 +3332,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -3102,10 +3352,10 @@
         "textEn": "Cannot be targeted by effects, but may be attacked."
       },
       "sceneClass": "object",
-      "subjects": "Yıpranmış isimsiz mühür kutusu ve kapalı kişisel zarf",
-      "actionAndEffectBridge": "Zarfı işaretlemeye uzanan el durur, kutu fiziksel olarak erişilebilir kalır",
-      "setting": "Eski kahvenin emanet rafı",
-      "composition": "Raf hizası yakın plan, hiçbir isim yazılmaz",
+      "subjects": "Kapalı kişisel zarf ve sahibinin erişilebilir sıradan sandalyesi",
+      "actionAndEffectBridge": "Zarfı ayrı hedef göstermeye uzanan el durur; fiziksel oturma yerine açık yol sürer",
+      "setting": "Eski kahvenin emanet rafı ve yanındaki geçiş",
+      "composition": "Zarf yakın, açık sandalye yolu arka planda; isim yazılmaz",
       "status": "BRIEF_ONLY_NOT_ACCEPTED_ART",
       "accepted": false,
       "format": "original SVG/vector/layered render only",
@@ -3122,9 +3372,28 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
-      "unresolved": [
-        "Abstract identity cannot be made specific with invented text or named portrait; object metaphor needs clarity review."
-      ]
+      "interpretationReview": {
+        "status": "RESOLVED_BRIEF_INTERPRETATION_ONLY",
+        "owner": "Astra",
+        "sourceFacts": {
+          "name": "İsim",
+          "kind": "unit",
+          "subtype": "effect",
+          "series": "Baba Lv7–8",
+          "effectText": "Efektle hedef alınamaz. Savaşta hedef olur."
+        },
+        "sourceEvidence": [
+          "public/games/gett-oh/source-cards.json#RCN-079"
+        ],
+        "initialConcern": "Abstract identity cannot be made specific with invented text or named portrait; object metaphor needs clarity review.",
+        "proposedSceneInterpretation": "An opaque personal envelope resists being singled out, while the owner’s ordinary chair remains physically reachable.",
+        "groundedDisposition": "Private identification versus open physical position maps to effect-target protection while battle targeting remains allowed; no written name is needed.",
+        "noMechanicalClaim": "The scene is not total invulnerability or concealment of all game information.",
+        "openQuestion": null,
+        "artAccepted": false,
+        "humanApproval": false
+      },
+      "unresolved": []
     },
     {
       "id": "RCN-080",
@@ -3163,6 +3432,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -3202,6 +3472,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -3241,9 +3512,28 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
-      "unresolved": [
-        "Name Kan Bağı is represented with kinship/knot metaphor, not literal blood."
-      ]
+      "interpretationReview": {
+        "status": "RESOLVED_BRIEF_INTERPRETATION_ONLY",
+        "owner": "Astra",
+        "sourceFacts": {
+          "name": "Kan Bağı",
+          "kind": "unit",
+          "subtype": "ritual",
+          "series": "Yemin / Extra",
+          "effectText": "Yemin büyüsü + 7 mertebe. Çağrılınca 1 İhbar set."
+        },
+        "sourceEvidence": [
+          "public/games/gett-oh/source-cards.json#RCN-082"
+        ],
+        "initialConcern": "Name Kan Bağı is represented with kinship/knot metaphor, not literal blood.",
+        "proposedSceneInterpretation": "Three different adult relatives tie plain textile strands and place one closed notification beside the knot.",
+        "groundedDisposition": "Kinship explains the title nonliterally; the knot supports an oath ritual and the single envelope supports the printed summon/set consequence.",
+        "noMechanicalClaim": "No literal blood, extra family mechanic or changed ritual requirement; seven levels stay in existing rules text only.",
+        "openQuestion": null,
+        "artAccepted": false,
+        "humanApproval": false
+      },
+      "unresolved": []
     },
     {
       "id": "RCN-083",
@@ -3282,6 +3572,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -3321,6 +3612,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -3360,6 +3652,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -3399,6 +3692,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -3438,6 +3732,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -3477,6 +3772,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -3516,6 +3812,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -3555,8 +3852,31 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": {
+        "status": "OPEN_INTERPRETATION",
+        "owner": "Astra",
+        "sourceFacts": {
+          "name": "Yemin Metni",
+          "kind": "unit",
+          "subtype": "effect",
+          "series": "Yemin / Extra",
+          "effectText": "Ritüel büyüsü: mertebe toplamı kadar Iskarta’ya adam gönder, ritüeli çağır."
+        },
+        "sourceEvidence": [
+          "public/games/gett-oh/source-cards.json#RCN-090",
+          "public/games/gett-oh/designs.js#90",
+          "public/games/duel-core/card-data.js#buildCards"
+        ],
+        "initialConcern": "Source is unit/effect although text describes ritual spell; art brief must not correct this data or imply a new card type.",
+        "proposedSceneInterpretation": "A closed oath document beside grouped contribution tokens and an open place at a meeting.",
+        "groundedDisposition": "Source keeps kind unit/subtype effect but calls the action a ritual spell. designs.js entry90 supplies op ritual and trait ritualEnabler, so a document scene is grounded without retyping the card.",
+        "noMechanicalClaim": "This read-only check does not diagnose a gameplay bug or decide whether the source terminology should change.",
+        "openQuestion": "Source terminology says ritual spell while kind remains unit/effect. Keep both unchanged and obtain a separate terminology/art-label decision before any type-specific visual cue.",
+        "artAccepted": false,
+        "humanApproval": false
+      },
       "unresolved": [
-        "Source is unit/effect although text describes ritual spell; art brief must not correct this data or imply a new card type."
+        "Source terminology says ritual spell while kind remains unit/effect. Keep both unchanged and obtain a separate terminology/art-label decision before any type-specific visual cue."
       ]
     },
     {
@@ -3596,6 +3916,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -3635,6 +3956,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -3674,6 +3996,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -3713,8 +4036,29 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": {
+        "status": "OPEN_INTERPRETATION",
+        "owner": "Astra",
+        "sourceFacts": {
+          "name": "Silah Çek",
+          "kind": "spell",
+          "subtype": "normal",
+          "series": "Racon",
+          "effectText": "1 adam 800 ATK kazanır; Tur Sonu’nda o adamı Iskarta’ya gönder."
+        },
+        "sourceEvidence": [
+          "public/games/gett-oh/source-cards.json#RCN-094"
+        ],
+        "initialConcern": "Existing weapon-associated title requires approved nonliteral cost/consequence scene; no weapon may be rendered.",
+        "proposedSceneInterpretation": "A forward-pulled chair gives a worker brief leverage; the same place is left empty behind the action.",
+        "groundedDisposition": "Temporary leverage and later absence map to the printed +800 ATK and End-Phase grave movement. Rendering a weapon would breach the current art boundary.",
+        "noMechanicalClaim": "The metaphor is neither a weapon substitution in gameplay nor proof that the weapon-associated title remains visually clear.",
+        "openQuestion": "A nonweapon scene must still be distinct and connected to Silah Çek. Cost/consequence metaphor is proposed but its title readability is unresolved.",
+        "artAccepted": false,
+        "humanApproval": false
+      },
       "unresolved": [
-        "Existing weapon-associated title requires approved nonliteral cost/consequence scene; no weapon may be rendered."
+        "A nonweapon scene must still be distinct and connected to Silah Çek. Cost/consequence metaphor is proposed but its title readability is unresolved."
       ]
     },
     {
@@ -3754,8 +4098,29 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": {
+        "status": "OPEN_INTERPRETATION",
+        "owner": "Astra",
+        "sourceFacts": {
+          "name": "Araba Yak",
+          "kind": "spell",
+          "subtype": "normal",
+          "series": "Racon",
+          "effectText": "1 donanım veya saha kartını Iskarta’ya gönder."
+        },
+        "sourceEvidence": [
+          "public/games/gett-oh/source-cards.json#RCN-095"
+        ],
+        "initialConcern": "Existing arson-associated title requires approved nonliteral disabled-support scene; no fire, damage act or injury.",
+        "proposedSceneInterpretation": "A service bay has an unoccupied vehicle position and a withdrawn support canopy; no burning or damage act.",
+        "groundedDisposition": "Removed support is compatible with sending one equipment or field card to the grave.",
+        "noMechanicalClaim": "No destruction tutorial, fire, person in danger or extra vehicle rule. This does not silently rename the card.",
+        "openQuestion": "Araba Yak is a literal arson-associated title; the permitted nonviolent removal scene has not yet solved unmistakable title-to-scene identity.",
+        "artAccepted": false,
+        "humanApproval": false
+      },
       "unresolved": [
-        "Existing arson-associated title requires approved nonliteral disabled-support scene; no fire, damage act or injury."
+        "Araba Yak is a literal arson-associated title; the permitted nonviolent removal scene has not yet solved unmistakable title-to-scene identity."
       ]
     },
     {
@@ -3795,6 +4160,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -3834,6 +4200,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -3873,6 +4240,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -3912,6 +4280,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -3951,6 +4320,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -3990,6 +4360,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -4029,6 +4400,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -4068,9 +4440,28 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
-      "unresolved": [
-        "Keep source cost and effect; no real institution or bribery procedure. Abstract fictional exchange scene needs review."
-      ]
+      "interpretationReview": {
+        "status": "RESOLVED_BRIEF_INTERPRETATION_ONLY",
+        "owner": "Astra",
+        "sourceFacts": {
+          "name": "Rüşvet",
+          "kind": "spell",
+          "subtype": "normal",
+          "series": "Racon",
+          "effectText": "1500 RP öde: Birleşik Deste’nden özel çağrı yap."
+        },
+        "sourceEvidence": [
+          "public/games/gett-oh/source-cards.json#RCN-103"
+        ],
+        "initialConcern": "Keep source cost and effect; no real institution or bribery procedure. Abstract fictional exchange scene needs review.",
+        "proposedSceneInterpretation": "A visible payment pouch sits between two different joined work dossiers in a fictional private room.",
+        "groundedDisposition": "The printed 1500 RP payment and auxiliary-deck special summon are expressed as cost and access to a combined connection; a public institution is unnecessary.",
+        "noMechanicalClaim": "No bribery procedure or real institution. Two dossiers illustrate combination without inventing new material requirements.",
+        "openQuestion": null,
+        "artAccepted": false,
+        "humanApproval": false
+      },
+      "unresolved": []
     },
     {
       "id": "RCN-104",
@@ -4109,9 +4500,28 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
-      "unresolved": [
-        "No real license template or readable fabricated document; blank prop must still communicate concealed information."
-      ]
+      "interpretationReview": {
+        "status": "RESOLVED_BRIEF_INTERPRETATION_ONLY",
+        "owner": "Astra",
+        "sourceFacts": {
+          "name": "Sahte Ruhsat",
+          "kind": "spell",
+          "subtype": "normal",
+          "series": "Racon",
+          "effectText": "Rakibin 1 kapalı kartına bak. İstersen 700 RP ödeyip o kartı yok et."
+        },
+        "sourceEvidence": [
+          "public/games/gett-oh/source-cards.json#RCN-104"
+        ],
+        "initialConcern": "No real license template or readable fabricated document; blank prop must still communicate concealed information.",
+        "proposedSceneInterpretation": "A blank-backed permit sleeve reveals one previously covered envelope, with an optional separate payment pouch.",
+        "groundedDisposition": "The scene separates looking from the optional paid removal, matching the two clauses.",
+        "noMechanicalClaim": "No actual license template, forgery instructions, automatic destruction or payment for the initial look.",
+        "openQuestion": null,
+        "artAccepted": false,
+        "humanApproval": false
+      },
+      "unresolved": []
     },
     {
       "id": "RCN-105",
@@ -4150,6 +4560,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -4189,6 +4600,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -4228,6 +4640,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -4267,6 +4680,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -4306,6 +4720,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -4345,6 +4760,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -4384,6 +4800,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -4423,6 +4840,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -4462,6 +4880,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -4501,6 +4920,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -4540,6 +4960,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -4579,6 +5000,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -4618,6 +5040,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -4657,6 +5080,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -4696,8 +5120,29 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": {
+        "status": "OPEN_INTERPRETATION",
+        "owner": "Astra",
+        "sourceFacts": {
+          "name": "Terör Estir",
+          "kind": "spell",
+          "subtype": "quick",
+          "series": "Racon",
+          "effectText": "Rakibin bütün adamları bu tur 800 DEF kaybeder."
+        },
+        "sourceEvidence": [
+          "public/games/gett-oh/source-cards.json#RCN-119"
+        ],
+        "initialConcern": "Existing terror-associated title requires nonviolent loss-of-cover consequence, not threatening imagery.",
+        "proposedSceneInterpretation": "Several separate sheltered market positions temporarily lose their overhead cover.",
+        "groundedDisposition": "Shared reduced cover is a nonviolent analogy for the source’s all-opponent DEF reduction for this turn.",
+        "noMechanicalClaim": "No threatening crowd, terrorist imagery or claim of permanent damage. No attack increase is implied.",
+        "openQuestion": "The loss-of-cover scene follows the effect, but the strong existing title Terör Estir remains a distinctness/readability issue under the non-intimidation art rule.",
+        "artAccepted": false,
+        "humanApproval": false
+      },
       "unresolved": [
-        "Existing terror-associated title requires nonviolent loss-of-cover consequence, not threatening imagery."
+        "The loss-of-cover scene follows the effect, but the strong existing title Terör Estir remains a distinctness/readability issue under the non-intimidation art rule."
       ]
     },
     {
@@ -4737,6 +5182,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -4776,6 +5222,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -4815,6 +5262,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -4854,6 +5302,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -4893,6 +5342,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -4932,6 +5382,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -4971,6 +5422,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -5010,6 +5462,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -5049,6 +5502,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -5088,9 +5542,28 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
-      "unresolved": [
-        "Avoid raid/policing imagery; depict removed concealed preparation only."
-      ]
+      "interpretationReview": {
+        "status": "RESOLVED_BRIEF_INTERPRETATION_ONLY",
+        "owner": "Astra",
+        "sourceFacts": {
+          "name": "Baskın",
+          "kind": "trap",
+          "subtype": "normal",
+          "series": "İhbar",
+          "effectText": "1 kapalı kartı yok et."
+        },
+        "sourceEvidence": [
+          "public/games/gett-oh/source-cards.json#RCN-129"
+        ],
+        "initialConcern": "Avoid raid/policing imagery; depict removed concealed preparation only.",
+        "proposedSceneInterpretation": "One closed storage package is removed from its concealed preparation bay.",
+        "groundedDisposition": "The singular concealed package matches destroying one face-down card. A raid squad is not a rule fact and is omitted.",
+        "noMechanicalClaim": "No extra search, all-card destruction, police action or depiction of operational violence.",
+        "openQuestion": null,
+        "artAccepted": false,
+        "humanApproval": false
+      },
+      "unresolved": []
     },
     {
       "id": "RCN-130",
@@ -5129,9 +5602,28 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
-      "unresolved": [
-        "No real police institution or recognizable official symbol."
-      ]
+      "interpretationReview": {
+        "status": "RESOLVED_BRIEF_INTERPRETATION_ONLY",
+        "owner": "Astra",
+        "sourceFacts": {
+          "name": "Karakol Cevabı",
+          "kind": "trap",
+          "subtype": "normal",
+          "series": "İhbar",
+          "effectText": "Doğrudan saldırıyı iptal et."
+        },
+        "sourceEvidence": [
+          "public/games/gett-oh/source-cards.json#RCN-130"
+        ],
+        "initialConcern": "No real police institution or recognizable official symbol.",
+        "proposedSceneInterpretation": "A plain desk telephone receives a response beside a closed direct passage.",
+        "groundedDisposition": "A response halting the direct path conveys direct-attack cancellation. Fictional civilian fixtures suffice.",
+        "noMechanicalClaim": "No actual police office, general effect negation or blocked non-direct attacks is asserted.",
+        "openQuestion": null,
+        "artAccepted": false,
+        "humanApproval": false
+      },
+      "unresolved": []
     },
     {
       "id": "RCN-131",
@@ -5170,6 +5662,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -5209,6 +5702,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -5248,6 +5742,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -5287,6 +5782,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -5326,8 +5822,29 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": {
+        "status": "OPEN_INTERPRETATION",
+        "owner": "Astra",
+        "sourceFacts": {
+          "name": "Mayınlı Kahve",
+          "kind": "trap",
+          "subtype": "normal",
+          "series": "İhbar",
+          "effectText": "Kapışma aşaması başında: bu tur kapışma aşaması yapılmaz."
+        },
+        "sourceEvidence": [
+          "public/games/gett-oh/source-cards.json#RCN-135"
+        ],
+        "initialConcern": "No explosive or trap device; closed meeting space conveys skipped confrontation.",
+        "proposedSceneInterpretation": "An empty coffeehouse encounter area is closed before anyone sits down.",
+        "groundedDisposition": "Closure at the start supports skipping this turn’s battle phase. No explosive device is required by the mechanical effect.",
+        "noMechanicalClaim": "An ordinary closed venue may not distinguish this title from other closure scenes.",
+        "openQuestion": "Find a nonexplosive visual identity for Mayınlı Kahve that clearly differs from other skipped-phase or blocked-entry cards. Current closure scene is not yet accepted.",
+        "artAccepted": false,
+        "humanApproval": false
+      },
       "unresolved": [
-        "No explosive or trap device; closed meeting space conveys skipped confrontation."
+        "Find a nonexplosive visual identity for Mayınlı Kahve that clearly differs from other skipped-phase or blocked-entry cards. Current closure scene is not yet accepted."
       ]
     },
     {
@@ -5367,6 +5884,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -5406,6 +5924,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -5425,10 +5944,10 @@
         "textEn": "Neither player may Special Summon this turn."
       },
       "sceneClass": "event",
-      "subjects": "Kapalı yan kapılar, bekleme bankına oturan yetişkinler",
-      "actionAndEffectBridge": "Her iki tarafta ek girişler bekler; kolluk figürü yok",
+      "subjects": "Kapalı iki ek giriş, açık ana kapı, bekleyen yetişkinler",
+      "actionAndEffectBridge": "İki tarafın ek gelişleri beklerken olağan ana giriş açık kalır; kolluk figürü yok",
       "setting": "Uydurma mahalle ortak bina holü",
-      "composition": "Koridor ekseninde iki simetrik olmayan bekleme grubu",
+      "composition": "Koridor ekseninde iki ayrı bekleme grubu, ana geçiş yanda açık",
       "status": "BRIEF_ONLY_NOT_ACCEPTED_ART",
       "accepted": false,
       "format": "original SVG/vector/layered render only",
@@ -5445,9 +5964,28 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
-      "unresolved": [
-        "No police figure, vehicle livery, insignia or real agency; shared waiting communicates blocked arrivals."
-      ]
+      "interpretationReview": {
+        "status": "RESOLVED_BRIEF_INTERPRETATION_ONLY",
+        "owner": "Astra",
+        "sourceFacts": {
+          "name": "Polis Geliyor",
+          "kind": "trap",
+          "subtype": "normal",
+          "series": "İhbar",
+          "effectText": "Bu tur iki oyuncu da özel çağrı yapamaz."
+        },
+        "sourceEvidence": [
+          "public/games/gett-oh/source-cards.json#RCN-138"
+        ],
+        "initialConcern": "No police figure, vehicle livery, insignia or real agency; shared waiting communicates blocked arrivals.",
+        "proposedSceneInterpretation": "Two groups of adults wait outside separately closed additional-entry doors.",
+        "groundedDisposition": "Both doors express the source’s bilateral special-summon restriction this turn; normal arrivals must not be depicted as universally impossible.",
+        "noMechanicalClaim": "No police figure or uniform, no future-turn lock and no implied ban on normal summons.",
+        "openQuestion": null,
+        "artAccepted": false,
+        "humanApproval": false
+      },
+      "unresolved": []
     },
     {
       "id": "RCN-139",
@@ -5486,9 +6024,28 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
-      "unresolved": [
-        "No fighting, injury or intimidation; two empty positions convey mutual loss."
-      ]
+      "interpretationReview": {
+        "status": "RESOLVED_BRIEF_INTERPRETATION_ONLY",
+        "owner": "Astra",
+        "sourceFacts": {
+          "name": "Çete Çatışması",
+          "kind": "trap",
+          "subtype": "normal",
+          "series": "İhbar",
+          "effectText": "Her oyuncu kendi adamlarından 1’ini yok eder."
+        },
+        "sourceEvidence": [
+          "public/games/gett-oh/source-cards.json#RCN-139"
+        ],
+        "initialConcern": "No fighting, injury or intimidation; two empty positions convey mutual loss.",
+        "proposedSceneInterpretation": "One chair is removed from each of two distinct meeting sides, with all adults unharmed.",
+        "groundedDisposition": "Exactly one empty position per side maps to each player destroying one own unit.",
+        "noMechanicalClaim": "No battlefield, fight, injury, random selection or unilateral loss is added.",
+        "openQuestion": null,
+        "artAccepted": false,
+        "humanApproval": false
+      },
+      "unresolved": []
     },
     {
       "id": "RCN-140",
@@ -5527,8 +6084,29 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": {
+        "status": "OPEN_INTERPRETATION",
+        "owner": "Astra",
+        "sourceFacts": {
+          "name": "Rehin",
+          "kind": "trap",
+          "subtype": "normal",
+          "series": "İhbar",
+          "effectText": "1 adam bu tur saldıramaz. 1 kart çek."
+        },
+        "sourceEvidence": [
+          "public/games/gett-oh/source-cards.json#RCN-140"
+        ],
+        "initialConcern": "No captive person; an object held in escrow is a nonliteral interpretation requiring approval.",
+        "proposedSceneInterpretation": "A movable item waits in a temporary emanet compartment while one new envelope becomes available.",
+        "groundedDisposition": "Temporary withholding plus new information maps to one unit not attacking this turn and drawing one card, without a captive person.",
+        "noMechanicalClaim": "The source restricts attacking, not every action; a sealed permanent prison or fully disabled unit would overclaim.",
+        "openQuestion": "Resolve how an object-only temporary-hold scene keeps Rehin recognizable without captive-person imagery or implying broader immobilization.",
+        "artAccepted": false,
+        "humanApproval": false
+      },
       "unresolved": [
-        "No captive person; an object held in escrow is a nonliteral interpretation requiring approval."
+        "Resolve how an object-only temporary-hold scene keeps Rehin recognizable without captive-person imagery or implying broader immobilization."
       ]
     },
     {
@@ -5568,6 +6146,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -5607,6 +6186,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -5646,6 +6226,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -5685,6 +6266,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -5724,6 +6306,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -5763,6 +6346,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -5802,9 +6386,28 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
-      "unresolved": [
-        "Source spelling Zabıta Yoldı is intentionally preserved; do not silently correct localization or print it inside art."
-      ]
+      "interpretationReview": {
+        "status": "RESOLVED_BRIEF_INTERPRETATION_ONLY",
+        "owner": "Astra",
+        "sourceFacts": {
+          "name": "Zabıta Yoldı",
+          "kind": "trap",
+          "subtype": "counter",
+          "series": "İhbar",
+          "effectText": "Bir Racon büyüsünü iptal et."
+        },
+        "sourceEvidence": [
+          "public/games/gett-oh/source-cards.json#RCN-147"
+        ],
+        "initialConcern": "Source spelling Zabıta Yoldı is intentionally preserved; do not silently correct localization or print it inside art.",
+        "proposedSceneInterpretation": "A civilian coordinator closes one active work-process cover at a market service counter.",
+        "groundedDisposition": "The printed spelling Zabıta Yoldı remains unchanged. The effect is one Racon spell cancellation; no uniform or title lettering is necessary.",
+        "noMechanicalClaim": "This is not a spelling/localization correction, and the art must not suggest it cancels units or all effects.",
+        "openQuestion": null,
+        "artAccepted": false,
+        "humanApproval": false
+      },
+      "unresolved": []
     },
     {
       "id": "RCN-148",
@@ -5843,6 +6446,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -5885,9 +6489,29 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
-      "unresolved": [
-        "Source text has two modes. Art must remain compatible with both target cancellation and preservation; no mode-specific promise."
-      ]
+      "interpretationReview": {
+        "status": "RESOLVED_BRIEF_INTERPRETATION_ONLY",
+        "owner": "Astra",
+        "sourceFacts": {
+          "name": "Tanımıyorum",
+          "kind": "trap",
+          "subtype": "counter",
+          "series": "İhbar",
+          "effectText": "Bir kartı hedef alan etkiyi iptal et. Semt Korudu kipinde bunun yerine savaşta yok olmayı engeller."
+        },
+        "sourceEvidence": [
+          "public/games/gett-oh/source-cards.json#RCN-149",
+          "public/games/gett-oh/designs.js#149"
+        ],
+        "initialConcern": "Source text has two modes. Art must remain compatible with both target cancellation and preservation; no mode-specific promise.",
+        "proposedSceneInterpretation": "A hand declines a direct offered link while another hand keeps a shared sheltered chair in place.",
+        "groundedDisposition": "Both source modes remain visible as refusal and preservation. designs.js entry149 confirms targetOrBattleNegate with responseTargetOrBattle, so the brief must not privilege one mode.",
+        "noMechanicalClaim": "The image does not choose a mode, provide both results simultaneously or add unconditional protection.",
+        "openQuestion": null,
+        "artAccepted": false,
+        "humanApproval": false
+      },
+      "unresolved": []
     },
     {
       "id": "RCN-150",
@@ -5926,6 +6550,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -5965,6 +6590,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -6004,6 +6630,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -6043,6 +6670,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -6082,6 +6710,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -6121,6 +6750,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -6160,6 +6790,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -6199,6 +6830,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -6238,6 +6870,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -6277,6 +6910,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -6316,6 +6950,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -6355,6 +6990,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -6394,6 +7030,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -6433,6 +7070,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -6472,6 +7110,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -6511,6 +7150,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -6550,6 +7190,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -6589,6 +7230,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -6628,6 +7270,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -6667,6 +7310,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -6706,6 +7350,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -6745,6 +7390,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -6784,6 +7430,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -6823,6 +7470,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -6862,6 +7510,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -6901,6 +7550,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -6940,6 +7590,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -6979,6 +7630,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -7018,6 +7670,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -7057,6 +7710,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -7096,6 +7750,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -7135,6 +7790,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -7174,6 +7830,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -7213,6 +7870,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -7252,6 +7910,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -7291,6 +7950,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -7330,6 +7990,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -7369,6 +8030,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -7408,6 +8070,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -7447,6 +8110,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -7486,6 +8150,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -7525,6 +8190,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -7564,6 +8230,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -7603,6 +8270,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -7642,6 +8310,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -7681,6 +8350,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -7720,6 +8390,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -7759,6 +8430,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -7798,6 +8470,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -7837,6 +8510,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -7876,6 +8550,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -7915,6 +8590,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -7954,6 +8630,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -7993,6 +8670,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -8032,6 +8710,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -8071,6 +8750,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -8110,6 +8790,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -8149,6 +8830,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -8188,6 +8870,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -8227,6 +8910,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -8266,6 +8950,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -8305,6 +8990,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -8344,6 +9030,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -8383,6 +9070,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -8422,6 +9110,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -8461,6 +9150,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -8500,6 +9190,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -8539,6 +9230,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -8578,6 +9270,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -8617,6 +9310,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -8656,6 +9350,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -8695,6 +9390,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -8734,6 +9430,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -8773,6 +9470,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -8812,6 +9510,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -8851,6 +9550,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -8890,6 +9590,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -8929,6 +9630,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -8968,6 +9670,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -9007,6 +9710,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -9046,6 +9750,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -9085,6 +9790,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -9124,6 +9830,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -9163,6 +9870,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -9202,6 +9910,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -9241,6 +9950,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -9280,6 +9990,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -9319,6 +10030,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -9358,6 +10070,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -9397,9 +10110,29 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
-      "unresolved": [
-        "Name Duraklar Birliği, series Borç and materials Borç+Haber differ semantically. Explicitly preserve all; brief connects finance/news at a stop. Needs human art-direction review."
-      ]
+      "interpretationReview": {
+        "status": "RESOLVED_BRIEF_INTERPRETATION_ONLY",
+        "owner": "Astra",
+        "sourceFacts": {
+          "name": "Duraklar Birliği",
+          "kind": "unit",
+          "subtype": "effect",
+          "series": "Borç",
+          "effectText": "Yardımcı deste: 1 Borç ve 1 Haber birimi malzeme. Turda bir kez: 1100 RP öde; rakibin 1 açık destek kartını eline gönder."
+        },
+        "sourceEvidence": [
+          "public/games/gett-oh/source-cards.json#RCN-239",
+          "public/games/gett-oh/expansion.js#239"
+        ],
+        "initialConcern": "Name Duraklar Birliği, series Borç and materials Borç+Haber differ semantically. Explicitly preserve all; brief connects finance/news at a stop. Needs human art-direction review.",
+        "proposedSceneInterpretation": "A debt planner and news messenger join work at an invented stop waiting area, then hand one open support dossier back.",
+        "groundedDisposition": "Duraklar is setting only. Source and expansion entry239 agree on Borç series, Borç+Haber materials, 1100 RP and return of one opposing face-up support. The brief must show these two roles rather than assume Taxi.",
+        "noMechanicalClaim": "No Taksi series, new fusion materials, removal of face-down traps or changed cost is introduced.",
+        "openQuestion": null,
+        "artAccepted": false,
+        "humanApproval": false
+      },
+      "unresolved": []
     },
     {
       "id": "RCN-240",
@@ -9438,6 +10171,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -9477,6 +10211,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -9516,6 +10251,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -9555,6 +10291,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -9594,6 +10331,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -9633,6 +10371,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -9672,6 +10411,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -9711,6 +10451,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -9750,6 +10491,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -9789,6 +10531,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -9828,6 +10571,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -9867,6 +10611,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -9906,6 +10651,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -9945,6 +10691,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -9984,6 +10731,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -10023,6 +10771,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -10062,6 +10811,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -10101,6 +10851,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -10140,6 +10891,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -10179,6 +10931,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -10218,6 +10971,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -10257,6 +11011,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -10296,6 +11051,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -10335,6 +11091,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -10374,6 +11131,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -10413,6 +11171,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -10452,6 +11211,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -10491,6 +11251,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -10530,6 +11291,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -10569,6 +11331,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -10608,6 +11371,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -10647,9 +11411,28 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
-      "unresolved": [
-        "No photo or raster inside the family-album prop; closed pages only until original adult vector portraits independently pass quality."
-      ]
+      "interpretationReview": {
+        "status": "RESOLVED_BRIEF_INTERPRETATION_ONLY",
+        "owner": "Astra",
+        "sourceFacts": {
+          "name": "Aile Albümü",
+          "kind": "spell",
+          "subtype": "equip",
+          "series": "Aile",
+          "effectText": "Donatılan birim 450 DEF kazanır. Sahadaki Aile birimleri 150 ATK kazanır."
+        },
+        "sourceEvidence": [
+          "public/games/gett-oh/source-cards.json#RCN-271"
+        ],
+        "initialConcern": "No photo or raster inside the family-album prop; closed pages only until original adult vector portraits independently pass quality.",
+        "proposedSceneInterpretation": "A tactile closed family album anchors a steady hand beside several family seats.",
+        "groundedDisposition": "The album object directly matches the title and offers a bond/support metaphor for owner DEF and Aile ATK buffs without rendering photos.",
+        "noMechanicalClaim": "No embedded photo, generated plate, real face, additional memory rule or new family-member count.",
+        "openQuestion": null,
+        "artAccepted": false,
+        "humanApproval": false
+      },
+      "unresolved": []
     },
     {
       "id": "RCN-272",
@@ -10688,6 +11471,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -10727,6 +11511,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -10766,9 +11551,28 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
-      "unresolved": [
-        "No copied news text or fictional gibberish. Blank/back-facing paper must communicate the object without printed content."
-      ]
+      "interpretationReview": {
+        "status": "RESOLVED_BRIEF_INTERPRETATION_ONLY",
+        "owner": "Astra",
+        "sourceFacts": {
+          "name": "Haber Kupürü",
+          "kind": "spell",
+          "subtype": "equip",
+          "series": "Haber",
+          "effectText": "Donatılan birim 525 DEF kazanır. Sahadaki Haber birimleri 150 ATK kazanır."
+        },
+        "sourceEvidence": [
+          "public/games/gett-oh/source-cards.json#RCN-274"
+        ],
+        "initialConcern": "No copied news text or fictional gibberish. Blank/back-facing paper must communicate the object without printed content.",
+        "proposedSceneInterpretation": "The blank reverse of a clipped paper fragment is preserved in a sleeve beside a messenger’s work materials.",
+        "groundedDisposition": "Cut paper edge and archive handling identify a news clipping without fabricated words. Preservation supports the source DEF and Haber-group ATK roles.",
+        "noMechanicalClaim": "No copied article, invented factual news, extra draw effect or guaranteed translation via unreadable text.",
+        "openQuestion": null,
+        "artAccepted": false,
+        "humanApproval": false
+      },
+      "unresolved": []
     },
     {
       "id": "RCN-275",
@@ -10807,9 +11611,28 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
-      "unresolved": [
-        "Abstract street memory uses worn original objects, not a copied neighborhood or real map."
-      ]
+      "interpretationReview": {
+        "status": "RESOLVED_BRIEF_INTERPRETATION_ONLY",
+        "owner": "Astra",
+        "sourceFacts": {
+          "name": "Sokağın Hafızası",
+          "kind": "spell",
+          "subtype": "equip",
+          "series": "Sokak",
+          "effectText": "Donatılan birim 600 ATK kazanır ama 200 DEF kaybeder. Sahadaki Sokak birimleri 100 DEF kazanır."
+        },
+        "sourceEvidence": [
+          "public/games/gett-oh/source-cards.json#RCN-275"
+        ],
+        "initialConcern": "Abstract street memory uses worn original objects, not a copied neighborhood or real map.",
+        "proposedSceneInterpretation": "Worn original keys and a door fitting are carried as a heavier but useful street-work bundle.",
+        "groundedDisposition": "Useful weight illustrates increased owner ATK with reduced owner DEF; familiar local objects imply shared street support.",
+        "noMechanicalClaim": "No actual street map or real neighborhood; the wear does not create a new persistent memory mechanic.",
+        "openQuestion": null,
+        "artAccepted": false,
+        "humanApproval": false
+      },
+      "unresolved": []
     },
     {
       "id": "RCN-276",
@@ -10848,6 +11671,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -10887,6 +11711,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -10926,6 +11751,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -10965,6 +11791,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -11004,6 +11831,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -11043,6 +11871,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -11082,6 +11911,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -11121,6 +11951,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -11160,6 +11991,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -11199,6 +12031,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -11238,6 +12071,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -11277,6 +12111,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -11316,6 +12151,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -11355,6 +12191,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -11394,6 +12231,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -11433,6 +12271,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -11472,6 +12311,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -11511,6 +12351,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -11550,6 +12391,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -11589,6 +12431,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -11628,6 +12471,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -11667,9 +12511,28 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
-      "unresolved": [
-        "No coercion or silenced person; closing a source window is metaphorical."
-      ]
+      "interpretationReview": {
+        "status": "RESOLVED_BRIEF_INTERPRETATION_ONLY",
+        "owner": "Astra",
+        "sourceFacts": {
+          "name": "Kaynak Susturuldu",
+          "kind": "trap",
+          "subtype": "normal",
+          "series": "Haber",
+          "effectText": "Rakip bir destek kartı etkinleştirdiğinde: 1200 RP öde; etkinleştirmeyi etkisizleştir, ardından 1 Haber birimine bu tur 300 DEF ver."
+        },
+        "sourceEvidence": [
+          "public/games/gett-oh/source-cards.json#RCN-297"
+        ],
+        "initialConcern": "No coercion or silenced person; closing a source window is metaphorical.",
+        "proposedSceneInterpretation": "A civilian news window closes while its small internal record box stays sheltered, with a payment pouch separate.",
+        "groundedDisposition": "The source cancels an opponent support activation for 1200 RP then gives one Haber unit temporary DEF. Closed information access and kept shelter match those clauses without coercing a person.",
+        "noMechanicalClaim": "No kidnapped/threatened source, free cancellation, all-unit protection or permanent buff.",
+        "openQuestion": null,
+        "artAccepted": false,
+        "humanApproval": false
+      },
+      "unresolved": []
     },
     {
       "id": "RCN-298",
@@ -11708,6 +12571,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -11747,6 +12611,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     },
     {
@@ -11786,6 +12651,7 @@
         "No weapons, injury, violence or intimidation aesthetics",
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
+      "interpretationReview": null,
       "unresolved": []
     }
   ]
