@@ -67,6 +67,14 @@ const KNOWN_VENDOR_AUTOPLAY_HITS_PER_COPY = 2;
 // Pin both bytes and the sole reference, retaining every other noise check.
 const JITEM_PIXI_PROBE = /public[/\\]games[/\\]jitem-derin-ag[/\\]assets[/\\]init-Cz6bzehy\.js$/;
 const JITEM_PIXI_PROBE_SHA256 = "b1ed7596675370c5f4b5011b91295e469e1c2e08610b0bfb2a3fb1cf2514a2aa";
+// The unmodified Three.js distribution contains optional audio/video APIs,
+// but the Atlas imports only geometry, materials and WebGL rendering. Pin the
+// exact vendor bytes, and keep checking every first-party file below.
+const ATLAS_THREE = {
+  "three.core.min.js": "61ba0df005b05991361d040d8ff670e1aadfd0ce7aeebd1fdb0725957a8957de",
+  "three.module.min.js": "e2b5ee6bccd38fd6d8a2428546b83c5f2426d84b152ef82be8055556e3b40eb6",
+};
+const ATLAS_THREE_PATH = /public[/\\]atlas[/\\]3d[/\\]vendor[/\\](three\.core|three\.module)\.min\.js$/;
 
 test("no sound, voice, vibration or autoplay code in shipped source", () => {
   const hits = [];
@@ -75,6 +83,12 @@ test("no sound, voice, vibration or autoplay code in shipped source", () => {
       if (!TEXT.test(file)) continue;
       const isVendoredPixi = VENDORED_PIXI.test(file);
       const text = readFileSync(file, "utf8");
+      if (ATLAS_THREE_PATH.test(file)) {
+        const expected = ATLAS_THREE[file.split(/[/\\]/).at(-1)];
+        assert.equal(createHash("sha256").update(text).digest("hex"), expected,
+          `${relative(root, file)}: Atlas Three.js vendor changed; re-audit optional media APIs`);
+        continue;
+      }
       const isJitemPixiProbe = JITEM_PIXI_PROBE.test(file);
       if (isJitemPixiProbe) {
         assert.equal(createHash("sha256").update(text).digest("hex"), JITEM_PIXI_PROBE_SHA256,
@@ -108,6 +122,13 @@ test("no TarikLab game ever calls PixiJS's video-texture / VideoSource feature",
       assert.doesNotMatch(text, /\bVideoSource\b/, relative(root, file));
       assert.doesNotMatch(text, /\bPIXI\.Assets\.load\(.*\.(mp4|webm|mov)/i, relative(root, file));
     }
+});
+
+test("Atlas uses no Three.js audio or video classes", () => {
+  for (const name of ["app.js", "viewer.js", "vendor/OrbitControls.js"]) {
+    const text = readFileSync(join(root, "public/atlas/3d", name), "utf8");
+    assert.doesNotMatch(text, /\b(AudioListener|AudioLoader|PositionalAudio|VideoTexture|VideoFrameTexture)\b/, name);
+  }
 });
 
 test("the game frame does not grant autoplay", () => {

@@ -7,6 +7,8 @@ import { gunzipSync } from "node:zlib";
 import { createHash } from "node:crypto";
 const root = new URL("../public/atlas/3d/", import.meta.url);
 const read = (p) => readFile(new URL(p, root));
+const filePath = (f) => f.url ? `../yapi/${f.path.slice("yapi/".length)}` : f.path;
+const requestPath = (f) => f.url || "/atlas/3d/" + f.path;
 const hash = (b) => createHash("sha256").update(b).digest("hex");
 test("nine source-identified male groups preserve 468 distinct source meshes with valid indexed triangles", async () => {
   const m = JSON.parse(await read("models/manifest.json"));
@@ -41,7 +43,7 @@ test("offline package binds exact assets within 8 MiB and keeps the root and exi
   assert(p.files.every((f) => !f.path.includes("..") && !f.path.startsWith("/")));
   assert.equal(new Set(p.files.map((f) => f.path)).size, p.files.length);
   for (const f of p.files) {
-    const bytes = await read(f.path);
+    const bytes = await read(filePath(f));
     assert.equal(bytes.length, f.bytes);
     assert.equal(hash(bytes), f.sha256);
   }
@@ -66,13 +68,42 @@ test("all nine selected structures have source-linked draft descriptions; geomet
   assert(sources.includes("kadın"));
   assert(sources.includes("THREE-LICENSE.txt"));
 });
+test("expanded male/female system geometry has original source identities and valid files", async () => {
+  const expansion = JSON.parse(await read("models/expansion/manifest.json"));
+  assert.equal(expansion.reviewStatus, "not-reviewed");
+  assert.equal(expansion.male.structures.length, 22);
+  assert.equal(expansion.female.structures.length, 28);
+  assert.match(expansion.male.attribution, /BodyParts3D/);
+  assert.match(expansion.female.attribution, /Browne/);
+  assert.match(expansion.female.limitations, /lacks upper-limb/);
+  for (const sex of ["male", "female"]) {
+    const ids = new Set(), systems = new Set();
+    for (const structure of expansion[sex].structures) {
+      assert(!ids.has(structure.id));
+      ids.add(structure.id);
+      systems.add(structure.system);
+      assert(structure.sources.length > 0);
+      const packed = await read(structure.file);
+      assert.equal(packed.length, structure.bytes);
+      assert.equal(hash(packed), structure.sha256);
+      const bytes = gunzipSync(packed);
+      assert.equal(bytes.length, structure.decodedBytes);
+      assert.equal(bytes.readUInt32LE(0), structure.vertices);
+      assert.equal(bytes.readUInt32LE(4), structure.triangles * 3);
+      assert.equal(bytes.length, 8 + structure.vertices * 12 + structure.triangles * 12);
+    }
+    assert(systems.has("surface") && systems.has("skeleton") && systems.has("nervous"));
+    const skin = expansion[sex].structures.find((s) => s.system === "surface");
+    assert(skin.bounds[0][1] < .2 && skin.bounds[1][1] > 1.6);
+  }
+});
 
 import vm from "node:vm";
 import { webcrypto } from "node:crypto";
 async function offlineHarness({ failPath = null, stores = new Map() } = {}) {
   const pkg = JSON.parse(await read("offline-manifest.json")),
     bodies = new Map(
-      await Promise.all(pkg.files.map(async (f) => ["/atlas/3d/" + f.path, await read(f.path)])),
+      await Promise.all([...pkg.files, ...pkg.extras].map(async (f) => [requestPath(f), await read(filePath(f))])),
     ),
     listeners = new Map();
   let offline = false;
@@ -127,6 +158,16 @@ async function offlineHarness({ failPath = null, stores = new Map() } = {}) {
     await pending;
     return result;
   };
+  const cacheSystem = async (sex, systems) => {
+    let pending, result;
+    listeners.get("message")({
+      data: { type: "cache-system", sex, systems },
+      ports: [{ postMessage: (r) => (result = r) }],
+      waitUntil: (p) => (pending = p),
+    });
+    await pending;
+    return result;
+  };
   const get = async (path, method = "GET") => {
     let response;
     listeners.get("fetch")({
@@ -135,7 +176,7 @@ async function offlineHarness({ failPath = null, stores = new Map() } = {}) {
     });
     return response ? await response : null;
   };
-  return { pkg, stores, lifecycle, status, get, setOffline: () => (offline = true) };
+  return { pkg, stores, lifecycle, status, cacheSystem, get, setOffline: () => (offline = true) };
 }
 test("real 3D worker verifies the entire package, serves offline query/deep link and avoids other game scopes", async () => {
   const h = await offlineHarness();
@@ -171,4 +212,16 @@ test("corrupt candidate cannot claim offline ready or erase existing foundation/
     ["old-proof", "cete-offline-v5", "atlas-foundation-existing"],
   );
   assert.equal((await h.status()).ready, false);
+});
+test("optional female systems are verified and playable offline without preloading all geometry", async () => {
+  const h = await offlineHarness();
+  assert(h.pkg.bytes < 8 * 1024 * 1024);
+  assert.equal(h.pkg.extras.length, 50);
+  await h.lifecycle("install");
+  const result = await h.cacheSystem("female", ["surface", "circulatory"]);
+  assert.equal(result.ready, true);
+  assert.equal(result.files, 3);
+  h.setOffline();
+  assert.equal((await h.get("/atlas/3d/models/expansion/female-2.bin.gz")).status, 200);
+  await assert.rejects(h.get("/atlas/3d/models/expansion/female-81.bin.gz"), /offline/);
 });

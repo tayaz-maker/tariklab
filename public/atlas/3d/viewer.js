@@ -11,7 +11,7 @@ export async function createViewer(stage, manifest, onPick, onProgress) {
   renderer.toneMapping = T.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 0.96;
   renderer.setClearColor(0xeef0ed, 0);
-  renderer.domElement.setAttribute("aria-label", "BodyParts3D göğüs ve karın modeli");
+  renderer.domElement.setAttribute("aria-label", "Kaynaklı tam vücut anatomik model");
   const scene = new T.Scene(),
     camera = new T.PerspectiveCamera(38, 1, 0.01, 30),
     controls = new OrbitControls(camera, renderer.domElement);
@@ -31,13 +31,18 @@ export async function createViewer(stage, manifest, onPick, onProgress) {
   }
   const meshes = [],
     materials = [],
-    palette = { iskelet: 0xd5c4a1, organ: 0xb85f54, kas: 0xa9534b };
+    palette = {
+      surface: 0xc9967f, skeleton: 0xdfd4bc, muscular: 0xb7675d,
+      nervous: 0xd1a7a0, circulatory: 0x9f464b, respiratory: 0xb78789,
+      digestive: 0xb6785c, urinary: 0xa67762, lymphatic: 0xa59074,
+      reproductive: 0xb47b79,
+    };
   let selected = null,
     isolated = false,
     amount = 0,
     disposed = false,
     lost = false;
-  const enabled = new Set(["iskelet", "organ", "kas"]);
+  const enabled = new Set(manifest.structures.map((s) => s.system));
   const draw = () => {
     if (!disposed && !lost && document.visibilityState !== "hidden") renderer.render(scene, camera);
   };
@@ -59,7 +64,7 @@ export async function createViewer(stage, manifest, onPick, onProgress) {
       size.z / 2;
     const dir = direction || camera.position.clone().sub(controls.target).normalize();
     controls.target.copy(center);
-    camera.position.copy(center).addScaledVector(dir, Math.max(d * 1.3, 0.18));
+    camera.position.copy(center).addScaledVector(dir, Math.max(d * 1.14, 0.18));
     camera.near = 0.005;
     camera.far = 30;
     camera.updateProjectionMatrix();
@@ -78,6 +83,7 @@ export async function createViewer(stage, manifest, onPick, onProgress) {
       (m) => enabled.has(m.userData.system) && (!isolated || m.userData.id === selected),
     );
     let index = 0;
+    const otherSystemVisible = shown.some((m) => m.userData.system !== "surface");
     for (const m of meshes) {
       m.visible = shown.includes(m);
       const original = m.userData.center;
@@ -92,6 +98,10 @@ export async function createViewer(stage, manifest, onPick, onProgress) {
       if (m.visible) index++;
       m.material.color.setHex(m.userData.id === selected ? 0xc38d48 : m.userData.color);
       m.material.emissive.setHex(m.userData.id === selected ? 0x211507 : 0x000000);
+      const translucent = m.userData.system === "surface" && otherSystemVisible && amount === 0;
+      m.material.transparent = translucent;
+      m.material.opacity = translucent ? 0.16 : 1;
+      m.material.depthWrite = !translucent;
     }
     fit();
   }
@@ -138,7 +148,7 @@ export async function createViewer(stage, manifest, onPick, onProgress) {
               ? 0x976153
               : s.id === "FMA7197"
                 ? 0x8e5147
-                : palette[s.system];
+                : palette[s.system] || 0xb6785c;
         const material = new T.MeshStandardMaterial({
           color,
           roughness: 0.78,
@@ -255,7 +265,8 @@ export async function createViewer(stage, manifest, onPick, onProgress) {
       update();
     },
     toggle(system, on) {
-      on ? enabled.add(system) : enabled.delete(system);
+      if (on) enabled.add(system);
+      else enabled.delete(system);
       update();
     },
     explode(value) {
@@ -271,7 +282,7 @@ export async function createViewer(stage, manifest, onPick, onProgress) {
       isolated = false;
       selected = null;
       enabled.clear();
-      ["iskelet", "organ", "kas"].forEach((s) => enabled.add(s));
+      manifest.structures.forEach((s) => enabled.add(s.system));
       update();
       fit(new T.Vector3(0.2, 0.06, 1).normalize());
     },
