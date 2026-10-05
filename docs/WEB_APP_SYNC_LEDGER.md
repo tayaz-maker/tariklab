@@ -477,3 +477,8 @@ Chromium must pass before integration.
 - HANEDANIAN sealed order/queue progress; İHTİLÂL measured basin record/metric level; Racon street commitment/door-light-pressure marks. Separate game vocabularies/layouts, shared transient lifecycle only.
 - Rules/content/save schemas remain unchanged. The only offline infrastructure change includes HANEDANIAN's new shared presentation dependency in its atomic package and content hash.
 - Original-source register and paired before/after evidence contract: `docs/WAVE1_OUTCOME_ASSETS.md`. Native remains paused; no external assets or audio. Novella LATER; SON KÖY WIP untouched.
+
+### 2026-10-05 — HANEDANIAN canonical HTML offline repair
+- Release failure: Workers canonical `index.html` redirect was stored as a redirected HTML Response, then HANEDANIAN navigation reload failed. Main run `37246439763` / artifact `11319313487`; www Wave1 passed9/9.
+- Scoped SW repair preserves HTML bytes/status/headers while removing only redirected HTML response metadata. Atomic install/versioning and user saves remain unchanged; native remains paused, no gameplay or asset change.
+- Native redirect unit RED→GREEN; offline/version17/17, typecheck/lint/build PASS. Local HTTP browser baseline-negative/fixed online+offline/save fixture and required CI are pending; production is not yet accepted. Details: `docs/HANEDANIAN_OFFLINE_REDIRECT_FIX.md`.

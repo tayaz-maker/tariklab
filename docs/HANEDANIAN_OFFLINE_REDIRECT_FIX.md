@@ -1,0 +1,12 @@
+# HANEDANIAN canonical-HTML offline repair
+
+2026-10-05; release blocker after #110 merge `562831dba3b16be2a0bc8b2aec2e613eb1b80f45`.
+
+- Main run `37246439763`, job `111565191391`: www Wave1 9/9 passed; Workers failed on the first HANEDANIAN1440 reload with `net::ERR_FAILED` at `scripts/wave1-outcome-browser.mjs:82`. Artifact `11319313487` retains the exact failure. This was not a 25-minute timeout.
+- A read-only HTTP check at 00:31:09Z confirmed Workers `/games/hanedanian/index.html` returns307 with `Location: /games/hanedanian/`.
+- The old worker stored the followed HTML Response unchanged. Its redirect URL list remains attached in CacheStorage; the Fetch Standard's service-worker response checks reject that response when navigation's redirect mode is not follow. Reference: https://fetch.spec.whatwg.org/#http-fetch (accessed2026-10-05).
+- Narrow repair: only redirected HTML is reconstructed before the atomic cache write. Body stream, status, status text and headers are preserved. Nonredirected HTML and all non-HTML responses retain their metadata. No request is skipped or retried; no save, engine, content, renderer or dependency changes.
+- Native local HTTP regression first failed on the old worker, then passed. It checks a real followed redirect, non-ASCII/binary body bytes, status203/custom status text, all headers and non-HTML/native response preservation. Offline/version tests17/17, targeted ESLint, typecheck and production build passed.
+- `hanedanian-redirect` CI serves only its own local HTTP fixture. The immutable old worker must reproduce a real reload failure; the fixed built worker must reload online and offline, retain an actual queued construction save and preserve the exact HTML hash/header. Diagnostic JSON, screenshots and Playwright traces are uploaded. No external production URL or Cloud Browser workaround is used by this fixture.
+- Browser regression and fresh required CI are pending at PR creation. No production PASS is claimed. #111 stays blocked until this release repair and two-host proof close.
+- Package version changes automatically through the existing build hash. Existing sessions keep their complete old package until game clients close; no forced activation, cache-wide wipe or user-save deletion is introduced. A full old-cache migration matrix remains part of the later final360 review.
