@@ -482,3 +482,8 @@ Chromium must pass before integration.
 - Release failure: Workers canonical `index.html` redirect was stored as a redirected HTML Response, then HANEDANIAN navigation reload failed. Main run `37246439763` / artifact `11319313487`; www Wave1 passed9/9.
 - Scoped SW repair preserves HTML bytes/status/headers while removing only redirected HTML response metadata. Atomic install/versioning and user saves remain unchanged; native remains paused, no gameplay or asset change.
 - Native redirect unit RED→GREEN; offline/version17/17, typecheck/lint/build PASS. Local HTTP browser baseline-negative/fixed online+offline/save fixture and required CI are pending; production is not yet accepted. Details: `docs/HANEDANIAN_OFFLINE_REDIRECT_FIX.md`.
+
+### 2026-10-04 — separate map redraw performance
+- İHTİLÂL/Racon retain base geometry and separate decision overlays, skip unchanged framebuffer resize, coalesce hidden updates, and choose same-model SVG under explicit memory/pixel budgets. No rule/content/save/asset changes.
+- Instrumented actual renderers, paired 320/390/1440 screenshots/costs and all-live-route cold costs cover this scope. Inventory: `docs/MAP_PERFORMANCE_ASSET_AUDIT.md`; implementation/evidence contract: `docs/MAP_STATIC_CACHE_CHECKPOINT.md`. No asset deletion or claim of unmeasured network savings.
+- Native paused; same presentation-only cache policy is a later parity task. Novella LATER; SON KÖY WIP untouched.

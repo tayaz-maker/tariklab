@@ -151,6 +151,18 @@ PR #101 remains Terra's responsibility. Novella remains **LATER**.
 - Açık risk: yerel Chromium SIGSEGV; CI browser yeşil olmadan merge/production başarısı iddia edilmeyecek.
 - Sonraki adım: dar Dalga 1 PR/CI; #109 kapanışı; ölçülmüş performans ve asset referans temizliği ayrı PR.
 
+### 2026-10-04 — ayrı harita performans checkpoint
+- Hedef: İHTİLÂL/Racon statik tabanı koruma ve güvenli GPU bütçesi; görsel dalgadan ayrı PR.
+- Oyuncu değeri: seçim/plan değişiminde aynı karar haritasını gereksiz taban çizimi olmadan kullanabilir.
+- Branch: `astra/map-static-cache`; kod SHA: `e855c5c0e46ed5ee9cb0726f7b58aff173ae82b4`; taban #110 `53534e2`.
+- Dosyalar: iki renderer; gerçek-source VM ve browser/performance ölçümleri; CI/provenance/asset envanteri.
+- Test: instrumentation 14/14, birleşik hedefli 38/38; build PASS, değişen JS ESLint PASS; 59 mevcut uyarı.
+- Browser: 1440/390/320, save/reload/context/cleanup + düşük bellek/DPR senaryoları hazırlanmış; CI sonucu henüz yok.
+- Performans: tüm 20 rota+portal cold before/after; iki haritada 12 seçimlik gerçek redraw ölçümü; kazanım henüz iddia edilmiyor.
+- Asset: yanlış tracked build/büyük duplicate yok; referanslı screenshot arşivi korundu; dosya silinmedi.
+- Açık risk: kod +10.314 B; sık güncellemelerdeki tasarruf ve görsel eşlik browser kanıtıyla değerlendirilecek.
+- Sonraki adım: bağımsız dar PR; #109/#110 yeşil ve production kanıtlı kapanmadan sonraki oyun dalgasına geçme.
+
 ### 2026-10-05 — #110/#111 CI kök hata checkpoint
 - Hedef: yalnız Wave 1 baseline/browser CI sunucusu; yeni ürün/görsel kapsamı yok.
 - Branch: `astra/wave1-decision-traces`; fix SHA: `48372bd1856fb71e3c97de2fe11fea9beb6afe42`.
@@ -184,3 +196,68 @@ PR #101 remains Terra's responsibility. Novella remains **LATER**.
 - CI/merge/production: yeni ortak head'ler henüz CI doğrulanmadı; #110/#111 merge edilmedi; production PASS iddiası yok.
 - Açık risk: local Chromium SIGSEGV/fiziksel GPU yok; main browser+production toplam süre bütçesi gerçek main koşusunda ayrıca doğrulanmalı.
 - Sonraki: #111 ortak fix üstüne rebase; ikisi güncel head green → #110 merge/smoke → #111 main rebase/CI/merge/smoke; yeni ürün dalgası bekler.
+
+### 2026-10-05 — #111 dar CI teşhis checkpoint
+- Hedef: düzeltilmiş #110 tabanını devralmak ve route-costs zaman aşımının tam bekleme aşamasını kanıtlamak.
+- Branch: `astra/map-static-cache`; diagnostic SHA: `8a6453e66c3afc8e2cbc7f20e810bfc77cb91814`; hedef taban #110 `64f20ff`.
+- Rebase: ürün, renderer, save ve bağımlılık dosyaları eski #111 ile aynı; yalnız inherited CI fix + ölçüm teşhisi değişti.
+- Kanıt: eski run `37233660896`, job `111528404051`, Han SW isteklerinden sonra 15 dakika job timeout; hangi await olduğu önceki logda yok.
+- Ölçüm: request.sizes sınırsız API; URL/SW etiketli 10 saniye sınırı, aşama/cleanup sınırları ve kısmi artifact; eksik ölçüm asla sıfır byte/PASS olmaz.
+- Test: gerçek renderer 14 + HTTP/archive 2 + beklemeyen promise regression 5 = 21/21 PASS; ESLint ve production build PASS.
+- Açık risk: timeout kök nedeni henüz browser ile doğrulanmadı; fiziksel GPU kanıtı yok; yeni CI/browser/production PASS iddiası yok.
+- Sonraki adım: #110 gerçek baseline/browser kapanışı, sonra #111 rebased CI; kırmızı veya pending kontrol ile merge yok.
+
+### 2026-10-05 — #110 browser kapandı; #111 transfer ölçümü checkpoint
+- #110 `64f20ff`, run `37238892501` / job `111543489272`: baseline/source/built 1440/390/320 Wave 1 browser PASS; diğer zorunlu kontroller merge kapısıdır.
+- Branch: `astra/map-static-cache`; ölçüm fix SHA: `5175ab021486b8782dfde6b25a454c882d63e792`.
+- #111 run `37239830196` / job `111546137343`: Han 1440 CSS yanıtı yeni bileşen-validasyonunda FAIL; aşamalar/cleanup tamamlandı, bu koşu takılmadı.
+- Repro/kaynak: Playwright 1.62.1 Chromium body=encodedDataLength−headers; body tek başına negatif olabilir. Public sizes dört alan verir, transferSize vermez.
+- Fix: sonlu güvenli headers/body ve negatif olmayan gerçek toplam doğrulanır; 200 + (−200) = 0 korunur; clamp/uydurma sıfır yok, gerçek negatif toplam reddedilir.
+- Kanıt: ilk negatif bileşen rota başına raw alanlar ve URL/SW ile kaydedilir; console/overflow/deadline kapıları değişmedi.
+- Test: metrics 11 + deadline 5 = 16/16 PASS; scoped ESLint ve production build PASS; ürün/save/dependency değişmedi.
+- Açık risk: eski 15 dakika takılmasının belirli await'i hâlâ kanıtlanmadı; tam route browser ölçümü yeni CI'da doğrulanacak.
+- Sonraki adım: #111 ilgili CI kanıtı; kırmızı/pending merge yok, anatomi A ve 360 inceleme henüz başlamadı.
+
+### 2026-10-05 — #111 worker metadata / gerçek HTTP ölçümü checkpoint
+- Hedef: 320 px Han worker metadata takılmasını byte kaybı veya CI kapısı gevşetmeden gidermek.
+- Branch/PR: `astra/map-static-cache`, #111; kod SHA `192458bc308dff3ace5c863ba5af2b3fffb2b95e`.
+- Repro: run `37240215425` / job `111547271911`, 44 baseline vaka sonrası scoped Han worker `request.sizes()` timeout.
+- Fix: her iki sürümde socket HTTP baytları; worker/cache/status korunur, yarım/hatalı/off-origin ölçüm FAIL; metadata aşaması ayrıca bounded kaydedilir.
+- Test: 30/30 hedefli regression PASS; ESLint + production build PASS; runtime/save/dependency değişmedi.
+- #110: `64f20ff`, run `37238892501` dört Actions job SUCCESS; gerçek before/source/built 3 oyun × 3 genişlik PASS.
+- CI/merge/production: yeni #111 CI henüz doğrulanmadı; #110/#111 merge edilmedi, yeni production iddiası yok.
+- Açık risk: yerel Chromium SIGSEGV; #110 Racon mobile PNG genişliği baseline'da da mevcut, final review kanıt sınırı; fiziksel GPU doğrulanmadı.
+- Sonraki adım: yeni #111 tam 126 route vakası ve tüm required checks; ikisi green olduktan sonra #110→#111 ve iki-host smoke.
+
+### 2026-10-05 — #111 ortak CI fix üstüne rebase checkpoint
+- Branch/PR: `astra/map-static-cache`, #111; taban #110 `fea0d0cb3b582c58d1759e0d09b29fc1aaeb846e`.
+- SHA: rebase `c7b5b1672f8789ac35c412e69f042a232e3cf7ca`; ölçüm kodu `67b7297c7918472c26c53e4336c9566a10afe04a`; ortak CI fix `889cd133`.
+- Değişen: CI workflow, exact-success gate+regression ve run-state; eski head `fec5f66` ile public/src/package/lock byte-identical.
+- Test: yeni tabanda gate18 + gerçek HTTP/archive2 =20/20 PASS; ortak fix build/ESLint PASS; browser kanıtı eski head'e aittir.
+- Önceki CI: ölçüm126/126 PASS; full build 25 dakika job tavanında CANCELLED; bu iptal PASS sayılmadı.
+- CI/merge/production: yeni head kontrolleri kapı; #110/#111 henüz merge ve production doğrulaması yok.
+- Açık risk: local Chromium SIGSEGV, fiziksel GPU yok; main production adımları dahil browser işinin toplam süresi ayrıca doğrulanacak.
+- Sonraki: iki güncel head yeşil → #110 merge+iki host → #111 main rebase/yeni CI/merge+iki host; Wave2–4/anatomi kodu başlamaz.
+
+### 2026-10-05 — #111 iframe okunurluk yarışı checkpoint
+- Hedef: yeni CI'da doğrulanan body-null yarışını kapatmak; #110 `fea0d0c` tabanı değişmedi.
+- Branch/PR: `astra/map-static-cache`, #111; fix SHA `24c76754f70224277ae74d3bd2b9929b28e2fb83`.
+- Kanıt: head `de4c416`, run `37244258417` / job `111558890122`, TC SIM DEVLET390 / `route-performance.mjs:109`, body.innerText null TypeError.
+- Repro: iframe handle mevcutken iç belge body=null; eski predicate aynı TypeError'ı üretir, yeni predicate body hazır olana kadar false.
+- Fix: aynı trim length>20 eşiği ve 20 saniye deadline korunur; gerçek getter/document hataları gizlenmez, hiçbir rota/console/overflow/byte kontrolü atlanmaz.
+- Test: yeni3 + deadline5 + gerçek HTTP8 + metadata4 =20/20 PASS; scoped ESLint + production build PASS; yerel browser SIGSEGV sınırı sürer.
+- Değişen: yalnız route-performance predicate/helper/test ve bu kayıt; ürün/save/dependency değişmedi.
+- CI/merge/production: yeni head CI kapısı; #110 hâlâ pending, #111 eski run kırmızı; iki PR da merge edilmedi, production PASS yok.
+- Açık risk: yeni tam browser koşusu gerekir; eski FEC 126 ölçüm/9-13-13 Wave1 PASS yeni head yerine kullanılamaz; fiziksel GPU yok.
+- Sonraki: yeni #111 CI; iki güncel head green olmadan #110→#111 merge zinciri başlamaz, yeni ürün dalgası açılmaz.
+
+
+### 2026-10-05 — A2 repaired-main checkpoint
+- A1/A3 closed: #113 merge `375b83752df3d5e16c960797cf99634af0405d31`;9/9+Vercel green before normal merge; production run37256148798 six host/viewport cases PASS.
+- A2 branch/PR: `astra/map-static-cache` / #111; rebased onto375b837, preserving both ledger sections; previous remotehead2011a59 is superseded by the pending fresh push.
+- Player value: unchanged IHTILAL/Racon bases stay mounted while actual decision overlays update; map/save semantics and previous green map implementation bytes are unchanged.
+- Fresh local tests:68/68 cache/traffic/deadline/surface/offline/redirect PASS; targeted lint and production build PASS. No repeated local browser attempt in the known-broken local Chromium environment.
+- Evidence maintenance: accurate baseline-minimization label and separate provider artifacts; no timeout/assertion/CI gate weakening.
+- Release: fresh remote CI pending; #111 merge/production not yet done. A1 production evidence is not substituted for #111 acceptance.
+- B–F remaining gates stay open in the final360 contract ledger; no card art, dependency, Atlas or other game scope enters this PR.
+- Next: all exact-head checks green → normal merge → paired Wave1/two-host production and route-cost artifacts → status.

@@ -68,5 +68,15 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: hanedanian-hosted-release
-          path: ${{ runner.temp }}/screenshots/han-release-*
+          name: hanedanian-hosted-preview
+          path: ${{ runner.temp }}/screenshots/han-release-astra-han-offline-redirect-fix-tariklab.tayaz29.workers.dev
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: hanedanian-production-www
+          path: ${{ runner.temp }}/screenshots/han-release-www.tariklab.com
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: hanedanian-production-workers
+          path: ${{ runner.temp }}/screenshots/han-release-tariklab.tayaz29.workers.dev
