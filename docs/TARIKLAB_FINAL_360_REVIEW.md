@@ -235,3 +235,105 @@ DARBE talimat güncellemesi yalnız ayrı proof branch'ine alındı; 300 uygulam
 - Kullanıcının iki başarısız deneme kuralı uygulandı: üçüncü tahmini patch/retry yapılmaz. Sonraki dar ölçüm seçenekleri: gerçek yerel preview/SSR ile fixture404 sapmasını kontrollü karşılaştırmak veya portal shell bağımsız minimal worker fixture'ında per-asset fetch/body tamamlanmasını ölçmek; sonra aynı HTTP307 koşulunda baseline/fixed/save/offline karşılaştırması. Server finish browser gövdesi tüketildi anlamına gelmez; HTTP header kaydı bu artifact'ta boş. Timeout/assertion/kapsam gevşetilmez.
 - #112 DARBE10 stil örneği ve 6/6 browser kanıtı kullanıcıya sunulur; 300 kart uygulaması için açık stil onayı gerekir. Genel campaign CI henüz pending, merge yok. Ürün düello/legacy-save/cold-offline kabulü gelecekte ayrıca gerekir.
 - Final360 hâlâ başlamadı. Fiziksel GPU, PL ana dil, anatomi uzmanı, eski cache/migration matrisi ve DRB237–240 kural repro kapıları açık. Kanıt: `docs/evidence/2026-10-05-darbe-proof-release.json`.
+
+### 2026-10-05 01:54 UTC — kullanıcı kapsam güncellemesi / açık sahiplik
+
+Kart görsel yönü artık kullanıcı ekindeki gerçekçi sinematik referanslardır; reddedilmiş geometrik #112 örnekleri300 karta çoğaltılmaz. Üç oyun için300'er kart kapsam yetkisi vardır; önce12 temsil kartında kalite kanıtı, sonra oyun-özel çakışmayan PR'lar. Kart adı/ID/sayı/kural/denge/shared engine/save/i18n/a11y/ölçü/etkileşim korunur. Görsel içine motto/ek metin/logo/gerçek kişi konmaz. #112 mevcut taslağı production kabulü veya yeni gerçekçi pilot kanıtı değildir.
+
+| Açık iş | Owner | PR / durum | Kapanış kanıtı |
+| --- | --- | --- | --- |
+| #110 Workers HAN reload | Astra | #113 aday; browser repro FAIL, kullanıcı önceliği P0 | Aynı baseline/fixed browser repro; CI green; iki hostta gerçek reload/save/console |
+| Statik harita cache yayını | Astra | #111 green head2011a59; merge BLOCKED | Yukarıdaki blocker kapanışı; güncel main rebase/CI; iki-host smoke |
+| VETO-H300 gerçekçi kart görseli | Astra | Ayrı oyun PR'ı henüz açılmadı;12pilotun4 kartı hazırlanıyor | Anlamsal ID/asset/provenance, immutable veri,320/390/1440,save/duel/offline,bütçe |
+| GETT-OH300 gerçekçi kart görseli | Astra | Ayrı oyun PR'ı henüz açılmadı;12pilotun4 kartı hazırlanıyor | Aynı kapılar; prebuild art-pack geri yazma zinciri dahil |
+| DARBE-H300 gerçekçi kart görseli | Astra | #112 eski geometrik proof; yeni ayrı uygulama PR'ı henüz yok | Aynı kapılar; aktif card-art ve eski whole-card asset ayrımı |
+| Wave2–4 outcome/kalıcı görsel işleri | Astra | LATER / tamam değil; yeni uygulama PR'ı yok | Oyun-özel gerçek karar sonucu, sessizlik/a11y/browser ve iki-host |
+| Wave2–4 dışında kalan oyunların visual/outcome kapsamı | Astra | LATER / tamam değil; kapsam envanteri ve PR eşlemesi yapılacak | Her rota için gerçek değişiklik ve kanıt; dalga adıyla toplu DONE yok |
+| Anatomi Atlas foundation | Astra; bağımsız uzman içerik kapısı | LATER / BAŞLAMADI; PR yok | Ayrı offline ürün; eğitim notu,kaynak/tarih/owner/review; tam/klinik kesinlik iddiası yok |
+| Final360 review | Astra | LATER / BAŞLAMADI; bu dosya intake/backlog | Önkoşullar sonrası rota×viewport×dil A–G kanıtı; P0/P1 dar fix'ler |
+| DRB-237–240 tetik sorunu | Astra | P1 — repro bekliyor; ayrı kural PR'ı yok | Önkoşullu gerçek test, güçlü regresyon; kart sanat PR'ında çözülmez |
+| Racon / TC SIM / JITEM karar haritası uygulanabilirliği | Astra | LATER — karar ve testler kapanmadı | Güncel gerçek karar yüzeyi, renderer/fallback/perf/save/offline; peşinen dekor/N-A yok |
+| SW/offline/eski save upgrade | Astra | LATER; yalnız kapsamlı matrisle kapanır | Her offline rota, yeni/eski cache ve save, rollback/reconnect/bozuk kayıt |
+| Asset transfer / repo ve git ağırlığı | Astra | LATER; #111 ölçümü global audit yerine geçmez | Route bytes/requests, lazy, kullanılmayan/tekrar asset; referans+route+build ile dar temizlik |
+| brace-expansion dev/high | Astra | Açık — güncel sürüm/erişilebilirlik yeniden doğrulanmadı; ayrı security PR yok | Advisory/bağımlılık zinciri, güvenli pin/test/NOTICE veya somut mitigasyon |
+| PL ana dil kalite incelemesi | Atanacak PL ana dil inceleyici; koordinasyon Astra | İNSAN-İNCELEME-GEREKLİ / yapılmadı | Sürüme bağlı yazılı insan inceleme kaydı; model/CI kapatmaz |
+| Bağımsız anatomi uzmanı | Atanacak bağımsız anatomi uzmanı; koordinasyon Astra | İNSAN-İNCELEME-GEREKLİ / yapılmadı | Etiket/sistem/açıklama ve sürüme bağlı uzman kararı; release gate |
+| Fiziksel GPU/Pixi | Atanacak fiziksel GPU testçisi; koordinasyon Astra | İNSAN/DONANIM-DOĞRULAMASI-GEREKLİ / yapılmadı | GerçekGPU/browser/context-loss/resize kanıtı; SwiftShader buna eşit değil |
+| SON KÖY korunmuş WIP | Astra | DEFERRED — ayrı dal korunur, mevcut dalgaya alınmadı | Önce kapsam sınıflandırma; alınırsa ayrı PR |
+| Novella / kapalı#78–79 | Astra | LATER / kapalı kalır | Yeniden açma/merge yok; kapanış gerekçeleri korunur |
+
+Yayın sırası bağlayıcı: #110 hotfix → iki-host gerçek production kanıtı → #111 güncelmain green/merge/production. Kart dalları/CI bağımsız ilerleyebilir; bu blocker kapanmadan kartlar production'a alınmaz. Hiçbir yukarıdaki açık satır DONE sayılmaz.
+
+2026-10-05 01:52 UTC son kullanıcı kararı: kalan kapsam için tekrar kullanıcı/stil onayı istenmez; iç kalite kapıları, ayrı PR'lar ve yeşil CI/iki-host yayın sırası geçerlidir. Önceki onay-bekleme kayıtları tarihsel kalır ve bu kararla geçersizdir. HAN reload operasyonel P0 önceliğidir. Bütün kalan görseller yetişkin, sinematik/gerçekçi, özgün ve bütçeli olacaktır. Anatomi bundan farklı olarak özgün bilimsel2.5D klinik diyagramdır; fotogerçekçi dış beden/indirilen3D yok, kaynak+bağımsız uzman kapısı bu yetkiyle kaldırılmaz.
+
+## Nihai tek kaynak sözleşme — 2026-10-05 01:56 UTC
+
+Bu bölüm önceki çelişen kapsam, stil ve onay notlarının üstündedir. Kullanıcının tekrar onayı gerekmez. Her oyunda 300, üç oyunda toplam 900 kart zorunludur; örnek veya pilot DONE değildir. **B7: AI plaka ve fotogerçekçi dış asset yok; özgün prosedürel SVG, vektör veya katmanlı render kullanılacak.** Önceki raster talimatıyla üretilen denemeler git dışında **SUPERSEDED** olarak işaretlendi; production'a eklenmedi ve yeni işte kullanılmayacak. Kabul edilmiş yeni prosedürel production kartı **0/900**. Mevcut prototip metadata'sı ve UI'sı tek başına kabul edilmiş kart sanatı değildir. Reddedilmiş #112 geometrik proof yayılmayacak. Kurmaca yetişkin görsellerde doğru anatomi, ışık, perspektif, materyal ve anlamsal sahne çeşitliliği kalite kapısıdır; yüz, oda veya poz yalnız renk değiştirilerek çoğaltılamaz.
+
+**Güncel A1 checkpoint:** #113 head `cac09e1341e6dbfd72ee41298557f88052ddf8c9`; hedefli unit **23/23 PASS**, build ve lint **PASS**. Browser ve CI **PENDING**; iki-host production kabulü kapanmadı. **A2 / #111 BLOCKED** kalır. Yerel test sonucu browser veya production kanıtı yerine geçmez.
+
+| Madde | Durum / kapsam | Owner / PR | Somut kapanış kapısı |
+| --- | --- | --- | --- |
+| A1 | P0 AÇIK — Workers HAN reload; www'deki önceki Wave 1 9/9 sonucu tek başına kapanış değil | Astra / #113 | www + Workers üzerinde 1440/390/320 gerçek reload/save; console/404/overflow, screenshot ve SW/build SHA |
+| A2 | BLOCKED — #111 head `2011a59` green, ancak merge yok | Astra / #111 | A1 kapanışı → güncel main'e rebase → tüm CI green → merge ve iki-host production |
+| A3 | Önceki browser repro FAIL; güncel browser ve CI PENDING, iki-host kabulü eksik | Astra / #113, başka hotfix PR yok | Kanıtlı dar kaynak düzeltmesi; hata gizleme veya gate bypass yok |
+| B1 | DEVAM — 900 kart / 12 pilot ID doğrulandı; 60 çekirdek dosya için hash koruması hazır; gameplay değişmedi | Astra / ayrı oyun PR'ları henüz yok | Kart verisi, motor, save, i18n, a11y, ölçü ve etkileşim semantiği değişmez |
+| B2 | LATER — frame ve ana illüstrasyon yenilemesi tamam değil | Astra / ayrı VETO, GETT, DARBE PR'ları | Aktif eski ilkel veya belirsiz asset kalıntısı yok; referans, build ve offline kontrolleri |
+| B3 | DEVAM — kullanıcının üç referansı yalnız kalite yönü için | Astra | Kompozisyon, kişi, yazı veya logo türetme ve kopyalama yok |
+| B4 | LATER — VETO'nun 300 kartı tamam değil | Astra / PR henüz yok | Aydınlık kurmaca seçim/bürokrasi; krem, yeşil, ahşap ve sınırlı kırmızı |
+| B5 | LATER — GETT'nin 300 kartı tamam değil | Astra / PR henüz yok | Sıcak kurmaca mahalle; doğal insan ve mekân çeşitliliği |
+| B6 | LATER — DARBE'nin 300 kartı tamam değil; #112 yeni üretim kanıtı değil | Astra / PR henüz yok | Sivil bürokratik noir; özgün lacivert, füme ve mat altın; askerî, parti veya şiddet dili yok |
+| B7 | BLOKE KALİTE — üretilmiş raster denemeler git dışında SUPERSEDED; kabul edilmiş yeni prosedürel production kartı 0/900 | Astra | Özgün kod ve katmanlı render; farklı yetişkin yüzleri, bedenleri ve pozları; anatomi, perspektif ve ışık doğrulaması. Metadata/UI prototipi sanat kabulü sayılmaz |
+| B8 | DEVAM — mevcut kart metni korunur | Astra | Sanata slogan, motto, flavour text, tabela veya rastgele UI metni gömülmez |
+| B9 | LATER — üç frame üretime girmedi | Astra | Bağımsız kimlik; 320/390'da isim, yıldız, görsel ve ATK/DEF okunur; ölçü ve UI davranışı sabit |
+| B10 | LATER — oyun başına 300/300 manifest, bütçe, offline ve düello kabulünün hiçbiri kapanmadı | Astra / her oyun için ayrı PR | ID/asset/provenance ve kalıntı kontrolü; üç genişlikte browser; klavye, reduced motion, ekran okuyucu, save ve 24 düello testi |
+| B11 | P1 — DRB-237–240 kullanıcı bildirimi; gerçek repro henüz yok | Astra / ayrı kural kapsamlı PR yok | Gerçek tetik testi; kanıtlı, güçlü testli düzeltme veya doğrulanmadığının açık kaydı |
+| C1 | LATER/KISMİ — Çete/Wave 1 kanıtı var; 12 oyun bütünsel olarak tamam değil | Astra / mevcut #109/#110; diğer PR'lar yok | Oyuna özgü gerçek state sonucu; sessiz, kısa, atlanabilir, erişilebilir ve anlamlı sahne |
+| C2 | LATER — kalan oyunların sinematik/gerçekçi görsel kalite kapısı açık | Astra | Oyun dünyasına özgü doğru ışık, katman ve malzeme; çocuk estetiği, ikon kolajı veya renk değiştirerek kopyalama yok |
+| C3 | LATER/KISMİ — #111 çalışması tüm yüzeyler için uygulanabilirlik kararı yerine geçmez | Astra / #111 | Yedi yüzeyde fallback, context loss, resize, pan/zoom, üç genişlik, offline ve save; Racon/TC SIM/JITEM için kanıtlı DONE/P1/N-A |
+| D1 | LATER — bu checkpoint tüm ürünlerin sessizlik taraması değildir | Astra | Tüm oyunlarda audio, music, speech, vibrate ve autoplay: 0 |
+| D2 | LATER + İNSAN | Astra; PL ana dil inceleyicisi atanmadı | TR/EN/PL gövde ve UI metni, encoding ve taşma; PL için bağımsız dil kalitesi incelemesi |
+| D3 | LATER — tüm offline rotalar ve upgrade matrisi açık | Astra | SW/cache sürümleri, yeni asset'ler, eski save/migration, bozuk kayıt ve online dönüş |
+| D4 | LATER — tüm asset, repo ve git ağırlığı denetimi açık | Astra / #111 kısmi ölçüm | Rota başına byte/istek/FMP/lazy ölçümü, portal asset izolasyonu ve ölçülmüş tablo; referans taraması olmadan silme yok |
+| D5 | AÇIK — dev/high bulgusu yeniden doğrulandı; dar güncelleme yapılmadı | Astra / dar security PR yok | Advisory, bağımlılık zinciri, NOTICE, provenance, CSP/harici script ve statik path kontrolü; gizli bilgi maskelenir |
+| D6 | LATER/KORUNDU — Novella, #78/#79 ve eski dallar açılmadı | Astra | Yetkisiz yeniden açma veya merge yok; SON KÖY WIP açıkça DEFERRED |
+| E1 | LATER/BAŞLAMADI — Atlas foundation PR'ı yok | Astra | Ayrı offline ürün; özgün klinik 2.5D yetişkin varyantları, iskelet ve büyük organlar; dış fotoğraf, model veya CDN yok |
+| E2 | LATER/BAŞLAMADI | Astra + bağımsız uzman | Eğitim amaçlı/tıbbi tavsiye değildir notu; kaynak URL'si, tarih ve review durumu; uzman olmadan tam/klinik kesinlik iddiası yok; ek sistemler LATER |
+| E3 | İNSAN/DONANIM-GEREKLİ | Atanacak anatomi uzmanı ve fiziksel GPU testçisi; koordinasyon Astra | Gerçek insan ve donanım inceleme kaydı; model veya SwiftShader bu kapıyı kapatmaz |
+| F | LATER/BAŞLAMADI — bu belge intake/checkpoint | Astra | Son merge/deploy sonrasında bütün rota × viewport × dil için A–G; gerçek kanıt, SHA ve PR; dar P0/P1 düzeltmeleri |
+
+Her PR sırası: yerel gate → CI → merge → iki hostta gerçek production doğrulaması → status. A1 kanıtlanmadan #111 veya kart production yayını yok. En geç 60–75 dakikada anlamlı checkpoint bırakılır; beklerken yalnız bağımsız işler yapılır, boş polling yok. Bütün maddeleri kapsayan nihai kapanış henüz yapılmadı.
+
+
+### A1/A3 doğrulanmış tarayıcı sonucu — 2026-10-05 02:14 UTC
+
+PR #113 `cac09e1`, run [37254296791](https://github.com/tayaz-maker/tariklab/actions/runs/37254296791), ikinci job `111588570839` **SUCCESS**. İlk job yalnız preview'ın eski SW SHA'sını servis etmesi nedeniyle kırmızıydı; Workers build tamamlandıktan sonra yalnız başarısız job yeniden koştu. CI assertion veya timeout değiştirilmedi.
+
+- Yerel gerçek Chromium: küçültülmüş eski baseline'da `net::ERR_FAILED`; adayda tam 19 dosya, online/offline reload ve gerçek farm queue/seed korunması PASS. Tam eski paket kurulumunun geçtiği iddia edilmez.
+- Workers **preview**, Chromium 154.0.8037.57: 1440/390/320, her genişlikte iki gerçek reload; console/page/network/HTTP errors ve horizontal overflow sıfır. Dört snapshot'ta da 19/19 paket; worker SHA256 `8f44b24062a076d29b4d771f940f31f713d4685f8a1c1fd33ef43bfaa2811d39`.
+- Preview kanıtı artifact `11321769395`, SHA256 `9957891f8d8741ad00b1b62d9a9cffae178392aabddd50b2f3be59e0b7c7439c`; 12 screenshot, üç trace ve results.json. Bu production veya fiziksel GPU kanıtı değildir.
+- Vercel preview resmi bağlı fetch aracı erişimi reddetti; koruma ayarı değiştirilmedi ve yetki engeli aşılmadı. Genel CI sürüyor; normal merge sonrası www + Workers public production smoke zorunlu. A1/A3 production kapanışı ve A2 hâlâ BLOCKED.
+
+### D5 yeniden doğrulama — 2026-10-05, kaynak snapshot 562831d
+
+Salt okunur lockfile + resmi advisory doğrulaması; güncelleme/kurulum/genel audit henüz yapılmadı. Owner Astra; ayrı dar security PR **LATER**, açık dev/high bulgusu **DONE değil**.
+
+| Geliştirme bağımlılığı zinciri | Kilit | Önerilen aynı-major hedef |
+| --- | --- | --- |
+| eslint 9.39.5 → minimatch 3.1.5 (^1.1.7) | brace-expansion 1.1.18, dev:true | 1.1.21 |
+| typescript-eslint 8.67.0 → typescript-estree 8.67.0 → minimatch 10.2.6 (^5.0.8) | brace-expansion 5.0.9, dev:true | 5.0.12 |
+
+Resmi kaynaklar, 2026-10-05 kontrolü: [GHSA-6j4f-fj2g-mc7p](https://github.com/advisories/GHSA-6j4f-fj2g-mc7p) High parse recursion (1.1.19/5.0.10); [GHSA-qhr7-859c-m2p7](https://github.com/advisories/GHSA-qhr7-859c-m2p7) High nested recursion (1.1.20/5.0.11); [GHSA-q2hr-2g5m-vwhr](https://github.com/juliangruber/brace-expansion/security/advisories/GHSA-q2hr-2g5m-vwhr) Moderate quadratic CPU DoS (1.1.21/5.0.12). Bunlar farklı advisory'lerdir. Önceki GHSA-rgw5-rvv9-x895 mevcut kilitlerde zaten düzeltilmiştir; eski kapanış kaydı GHSA kimliği içermediğinden tarihsel bulgunun birebir aynısı olduğu söylenmez. Güncel iki düğüm de yeni aralıklardan etkilenir. Dar çözüm aynı-major lock refresh + lint/test/build/NOTICE kanıtıdır; global 5.x override uygun değildir. Production saldırılabilirliği veya genel güvenlik PASS sonucu çıkarılmadı.
+
+
+### B4–B7 bağımsız prosedürel kalite denemesi — 2026-10-05 02:24 UTC
+
+Üç ayrı dalda yalnız birer SVG sahne yerel olarak çizildi ve render edildi. Raster/AI plaka kullanılmadı; public, kart verisi, motor, save ve ölçüler değişmedi. XML, kaynak hash ve dış asset yokluğu teknik kontrolleri görsel kalite kabulünün yerine geçmez. Astra ekranları inceleyip üçünü de **FAIL_REALISM / production'a uygun değil** olarak bıraktı; 300'e çoğaltılmadılar. Bu bir kullanıcı onayı bekleme durumu değildir. Kabul edilen yeni production sanatı **0/900**.
+
+| Madde / dal | Yerel deneme | Ölçüm / gerçek kalite engeli | Durum |
+| --- | --- | --- | --- |
+| B4/B7 `astra/veto-cinematic-vector-300` | SND-001; taban562831d, commit/push yok | 50.234 B,576×384; yüz/el/kumaş stilize, poz ve bakış sert | FAIL, 0/300 |
+| B5/B7 `astra/gett-cinematic-vector-300` | RCN-001; taban562831d, commit/push yok | 73.963 B,400×300; yüz/saç/kumaş vektör illüstrasyon gibi | FAIL, 0/300 |
+| B6/B7 `astra/darbe-cinematic-vector-300` | DRB-001; yalnız yerel checkpoint `d6dec0c2e1ea307f7a7b02678046d468b909d622` | 55.181 B; yüz oranları stilize, saç mekanik, el-kâğıt teması ikna edici değil | FAIL, 0/300 |
+
+Aynı başarısız çizim yaklaşımını 900 karta çoğaltmak kabul şartını karşılamaz. Bir sonraki teknik seçenek özgün katmanlı geometri ve malzeme render için ayrı ölçülmüş kalite denemesidir; henüz uygulanmış veya başarılı sayılmaz. B1–B11 kapsamı açık ve owner Astra; eski düşük kaliteli sanatın kaldırılması ancak onay ölçütlerini karşılayan 300'lük oyun paketi ve B10 regresyonlarıyla yapılacak.

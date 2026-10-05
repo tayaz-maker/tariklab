@@ -207,3 +207,17 @@ PR #101 remains Terra's responsibility. Novella remains **LATER**.
 - Browser repro ikinci kez setup'ta FAIL: run37248756789/job111571847240, artifact11320051287; root SW activated, HAN SW installing, HAN cache yok; gerçek reload assertion ve fixed case çalışmadı.
 - Sınır: iki başarısız deneme sonrası üçüncü tahmin/yama yok; HTTP307 görülmesi ve native regression tek başına production kök neden/çözüm kanıtı sayılmaz.
 - Kayıt/sonraki: final360 + evidence JSON güncellendi; izole per-asset fetch/body ölçümü sonraki dar blok; #113 green/iki-host kapanmadan #111 yok, stil onayı olmadan300 yok.
+
+
+### 2026-10-05 02:13 UTC — A1 release repair checkpoint
+- A1/A3 hedef: HANEDANIAN reload hatasını gerçek tarayıcıda kök neden ve kayıt korumasıyla kapatmak; branch `astra/han-offline-redirect-fix`, PR #113.
+- A1 SHA: `cac09e1341e6dbfd72ee41298557f88052ddf8c9`; tree `8392027e96aaeec548fc3251d5391f7158ba8429`; main hâlâ `562831dba3b16be2a0bc8b2aec2e613eb1b80f45`.
+- A1 değişiklik: HTML redirect metadata normalizasyonu + cache bariyerinden önce gövde tüketimi; SW, hedefli unit/browser/release smoke, workflow ve kanıt belgesi. Gameplay/save değişmedi.
+- A1 yerel: küçültülmüş test önce RED; sonra 23/23 hedefli test, lint ve production build PASS. Yeni paket SW SHA256 `8f44b24062a076d29b4d771f940f31f713d4685f8a1c1fd33ef43bfaa2811d39`.
+- A1 browser: run `37254296791`, job `111588005984`, artifact `11322227990`: minimal eski kodda gerçek ERR_FAILED; fixed tam19 dosya + online/offline save/reload PASS.
+- A1/A3 CI: ilk preview eski SHA'yı reddetti; Workers `6b1db98d` SUCCESS sonrası yalnız başarısız job yeniden koştu ve `111588570839` PASS: 3 genişlik × 2 reload, console/404/overflow0. Genel CI pending; production/merge yok.
+- A2: #111 `2011a59aeced3600d46363bb6c24708673e49052` green geçmişi A1'i kapatmaz; rebase/merge BLOCKED.
+- B1–B11: yeni prosedürel kabul 0/900; B7 uyarınca raster denemeleri git dışında SUPERSEDED. Üç ayrı 300-kart PR ve B10 kabul kapıları açık; DRB237–240 ayrı P1 repro.
+- C1–C3/D1–D6: kalan outcome/map, offline/save/perf/security işleri açık; Novella, #78/#79 ve SON KÖY WIP korunur. Hiçbir toplu DONE yok.
+- E1–E3/F: Atlas foundation ve final360 başlamadı; PL ana dil/anatomi uzmanı/fiziksel GPU insan kapıları açık. Tüm madde sahipleri final360 sözleşme tablosunda.
+- Sonraki: exact preview + tüm CI → normal #113 merge → iki-host 320/390/1440 gerçek production kanıtı → A2; yanlış SHA/kırmızı CI bypass edilmez.

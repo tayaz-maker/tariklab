@@ -466,3 +466,10 @@ Chromium must pass before integration.
 - Both production hosts matched all Racon/JITEM/TC SIM game files (6/31/38). Per-host browser acceptance: 34 Racon checks, four JITEM restore/renderer scenarios, ten TC SIM starts/legacy/reload/delayed/final scenarios at 1440/390; no console errors or horizontal overflow. Durable hashes/results and screenshot artifact links: `docs/evidence/2026-10-04-release.json`.
 - Shared security release: exact React Start 1.168.60 and transitive server-core 1.169.39; npm 10-compatible lock and version-only notices regenerated. No protection bypass or game redesign. JITEM remains upstream #21 `0c1fc08`, key `jitem-derin-ag-v3`, schema 5; source content/rules retained.
 - Native remains paused. Test-only production proof branch stays outside main; physical GPU, lint dependency advisory and existing TC SIM lower-card layout limits are recorded in closure/status. Novella LATER; separate SON KÖY WIP untouched.
+
+
+## 2026-10-05 — A1 HANEDANIAN release repair candidate
+
+- PR #113, head `cac09e1341e6dbfd72ee41298557f88052ddf8c9`: redirected cached HTML is normalized; all mandatory download bodies finish before atomic package writes. No gameplay, save, shared content/artwork or native changes.
+- Local targeted23/23, lint and build PASS. Real Chromium reproduces the minimal old redirect failure and passes patched 19-file online/offline save reload. Workers preview1440/390/320 passes exact-worker/two-reload/zero-error checks, artifact `11321769395`; preview is not production evidence.
+- General CI and normal gated merge/two-host production closure remain pending. #111 is blocked until A1 closes. Native remains paused; B7 excludes generated raster trials from production.

@@ -1,0 +1,52 @@
+{
+  "contract": "A1/A3",
+  "recordedAt": "2026-10-05T02:13:00Z",
+  "mainSHA": "562831dba3b16be2a0bc8b2aec2e613eb1b80f45",
+  "pr": 113,
+  "headSHA": "cac09e1341e6dbfd72ee41298557f88052ddf8c9",
+  "treeSHA": "8392027e96aaeec548fc3251d5391f7158ba8429",
+  "local": {
+    "targetedTests": "23/23 PASS",
+    "lint": "PASS",
+    "productionBuild": "PASS"
+  },
+  "browser": {
+    "run": 37254296791,
+    "job": 111588005984,
+    "artifact": 11322227990,
+    "artifactSHA256": "1e3b57658da8986223e78d441bc8d7f4a7a18214c6f7360750675ab52199f0e4",
+    "baseline": "Only original FILES minimized to one HTML asset; fetch handler byte-identical. Real cached redirect causes net::ERR_FAILED.",
+    "candidate": "All19 assets cached; online/offline reload preserves actual queue and seed; uncached network probe fails offline.",
+    "limitations": [
+      "Local fixture only, not production",
+      "Root SSR shell intentionally absent; known fixture404s",
+      "Offline optional shared Pixi adapter and PL body failed network; mandatory package succeeds",
+      "No physical GPU claim",
+      "fixtureDeviation retains an old transport-only phrase; baselineMinimization correctly records the additional FILES reduction"
+    ]
+  },
+  "preview": {
+    "firstAttempt": "FAIL: exact worker hash mismatch; old deployment served",
+    "newDeploymentVersion": "6b1db98d-961e-4788-9094-6f48363a0c16",
+    "retry": "PASS, job111588570839",
+    "artifact": 11321769395,
+    "artifactSHA256": "9957891f8d8741ad00b1b62d9a9cffae178392aabddd50b2f3be59e0b7c7439c",
+    "browser": "154.0.8037.57",
+    "widths": [
+      1440,
+      390,
+      320
+    ],
+    "reloadsPerWidth": 2,
+    "consoleErrors": 0,
+    "pageErrors": 0,
+    "httpErrors": 0,
+    "requestFailures": 0,
+    "horizontalOverflow": 0,
+    "workerSHA256": "8f44b24062a076d29b4d771f940f31f713d4685f8a1c1fd33ef43bfaa2811d39",
+    "vercelPreview": "Authenticated connector denied access; protection unchanged; no preview browser proof"
+  },
+  "production": "NOT VERIFIED for patch",
+  "merged": false,
+  "A2": "BLOCKED"
+}
