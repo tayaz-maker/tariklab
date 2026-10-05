@@ -1,0 +1,26 @@
+{
+  "id": "SND-001",
+  "title": "Sandık Görevlisi",
+  "status": "REJECTED_FOR_PRODUCTION",
+  "artAccepted": false,
+  "production": false,
+  "method": "Original authored SVG contours, material gradients and seeded surface marks",
+  "source": "scripts/card-art/veto-surface-study.mjs",
+  "referenceUse": "Quality direction only; reference pixels are neither sampled nor embedded",
+  "externalAssets": [],
+  "width": 576,
+  "height": 384,
+  "bytes": 56061,
+  "sha256": "e1d31a42ac16ed310487b5aef4ea6137075ba6c41729a7d60a27eba390481460",
+  "seed": 100137,
+  "light": "One large daylight opening at upper right; room bounce only",
+  "composition": "Older fictional adult in side profile on left, sorting blank envelopes diagonally across tabletop; transparent receptacle rear right",
+  "protectedScope": "No gameplay, card metadata, frame, runtime or public asset changes",
+  "rejection": [
+    "Facial planes remain stylized instead of realistic",
+    "Clothing folds and boundaries have hard vector edges",
+    "Raised fingers read as a stiff spread instead of a credible paper grip",
+    "Material appearance lacks photographic microstructure and light transport"
+  ],
+  "rolloutEligible": false
+}

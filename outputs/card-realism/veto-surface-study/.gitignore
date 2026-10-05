@@ -1,0 +1,4 @@
+# Failed study pixels remain local review evidence, never production assets.
+SND-001-study.svg
+*.png
+*.webp
