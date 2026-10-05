@@ -14,6 +14,8 @@ import { appEnvPlugin } from "./scripts/app-env-plugin.mjs";
 import { offlineSwPlugin } from "./scripts/offline-sw-plugin.mjs";
 // @ts-expect-error JS plugin alongside the TS vite config
 import { atlasPackagePlugin } from "./scripts/atlas-package.mjs";
+// @ts-expect-error JS plugin alongside the TS vite config
+import { atlas3dAssetsPlugin } from "./scripts/atlas-3d-assets.mjs";
 import { isMigrationFile } from "./scripts/migration-plan.mjs";
 
 /** The files `src/lib/db.ts` globs — same directory, same non-recursive scope. */
@@ -263,6 +265,7 @@ export default defineConfig(({ command, isPreview }) => ({
     offlineSwPlugin(),
     // The education product has its own scope; keep it out of the game shell cache.
     atlasPackagePlugin(),
+    atlas3dAssetsPlugin(),
     tailwindcss(),
     tanstackStart(),
     ...(command === "build" || isPreview
