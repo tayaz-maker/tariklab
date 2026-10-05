@@ -8,8 +8,8 @@
   "authorship": "Explicit per-ID scene briefs after reading immutable card names/types/series/effects; no fallback classifier",
   "interpretationReviewSummary": {
     "reviewed": 30,
-    "resolvedAtBriefLevel": 22,
-    "open": 8,
+    "resolvedAtBriefLevel": 25,
+    "open": 5,
     "noArtworkOrHumanApproval": true
   },
   "identity": {
@@ -408,10 +408,10 @@
         "textEn": "When summoned, Set 1 Tip-off from your deck."
       },
       "sceneClass": "event",
-      "subjects": "Yetişkin düğün hazırlık görevlisi; boş davet zarfı ve kapalı bildirim",
-      "actionAndEffectBridge": "Hazırlık başlarken perde arkasına kapalı haber bırakılır; çağrıyla kurulan İhbar",
+      "subjects": "Sade tören giysili yetişkin düğün görevlisi; yığından ayrılan tek kapalı zarf",
+      "actionAndEffectBridge": "Hazırlık görevlisi gelir gelmez perde yanındaki göze kapalı bildirim bırakır; çağrıyla hazırlanan tek İhbar",
       "setting": "Sade mahalle düğün salonunun servis girişi",
-      "composition": "Perde aralığından zarf odaklı çapraz görüş, silah ve şiddet yok",
+      "composition": "Perde aralığından el ve zarf odaklı çapraz görüş, silah ve şiddet yok",
       "status": "BRIEF_ONLY_NOT_ACCEPTED_ART",
       "accepted": false,
       "format": "original SVG/vector/layered render only",
@@ -429,7 +429,7 @@
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
       "interpretationReview": {
-        "status": "OPEN_INTERPRETATION",
+        "status": "RESOLVED_BRIEF_INTERPRETATION_ONLY",
         "owner": "Astra",
         "sourceFacts": {
           "name": "Düğün Tetiği",
@@ -439,19 +439,27 @@
           "effectText": "Çağrıldığında 1 İhbar’ı desteden sete koy."
         },
         "sourceEvidence": [
-          "public/games/gett-oh/source-cards.json#RCN-010"
+          "public/games/gett-oh/source-cards.json#RCN-010",
+          "public/games/gett-oh/designs.js#10 summon/select/set",
+          "public/games/duel-core/effects.js#set (face down; current setTurn; empty support slot)"
         ],
         "initialConcern": "Name Düğün Tetiği is ambiguous. Brief uses event-trigger preparation, not a weapon. Confirm this nonviolent interpretation before illustration.",
-        "proposedSceneInterpretation": "A civilian wedding preparation worker puts one closed notification in a side compartment as the event begins.",
-        "groundedDisposition": "The printed summon trigger supports setting one İhbar. Wedding setting follows the title; a weapon is neither necessary to depict the effect nor permitted.",
-        "noMechanicalClaim": "The source does not specify whether Tetiği names a person or an event role. The scene cannot decide a new unit identity.",
-        "openQuestion": "Choose whether a civilian wedding coordinator or an event-only notification best preserves the existing Düğün Tetiği identity; no weapon interpretation.",
+        "proposedSceneInterpretation": "An adult civilian wedding attendant, in ordinary event clothes, slips one closed notification from a small stack into a curtained side compartment as preparations begin.",
+        "groundedDisposition": "The title supplies the wedding context and the unchanged unit kind permits a fictional attendant as an author-draft subject. Entry 10 triggers on summon, selects one own deck trap and sets it face down; the single closed envelope expresses that preparation without a weapon. The attendant is a scene choice, not a newly asserted canonical occupation.",
+        "noMechanicalClaim": "No extra draw, immediately usable trap, firearm or new unit subtype. The image does not claim every summon guarantees a set when deck or support-space conditions prevent it.",
+        "openQuestion": null,
         "artAccepted": false,
-        "humanApproval": false
+        "humanApproval": false,
+        "authorDraftReview": {
+          "status": "AUTHOR_DRAFT",
+          "drawingStatus": "PLANNED_NOT_DRAWN",
+          "artAccepted": false,
+          "humanApproval": false,
+          "engineEvidenceStatus": "SOURCE_INSPECTED_NOT_RUNTIME_TESTED",
+          "specificExistingTest": "No ID-specific assertion found in the bounded duel-mechanics/duel-core/duel-acceptance test read; no runtime behavior certified"
+        }
       },
-      "unresolved": [
-        "Choose whether a civilian wedding coordinator or an event-only notification best preserves the existing Düğün Tetiği identity; no weapon interpretation."
-      ]
+      "unresolved": []
     },
     {
       "id": "RCN-011",
@@ -1550,10 +1558,10 @@
         "textEn": "When this unit destroys a unit in battle, your opponent discards 1 random card."
       },
       "sceneClass": "action",
-      "subjects": "Düşmüş boş bez çanta; uzanan yetişkin el",
-      "actionAndEffectBridge": "Bir hareketle düzenin dağılması ve eldekinin eksilmesi; kişiye saldırı resmedilmez",
-      "setting": "Kalabalıksız pazar çıkışı",
-      "composition": "Zemin seviyesinde nesne odaklı yakın plan, yüz yok",
+      "subjects": "Sıradan giysili kurgusal yetişkin; boş banktan alınan tek bez çanta",
+      "actionAndEffectBridge": "Çanta banktan ani bir hareketle alınır; karşı eldeki tek eksilmenin sahne benzetmesi, temas veya tehdit yok",
+      "setting": "Pazar çıkışındaki boş kahve bankı",
+      "composition": "Bank hizasından çapraz yakın plan, çanta askısı ve boşalan yer odakta",
       "status": "BRIEF_ONLY_NOT_ACCEPTED_ART",
       "accepted": false,
       "format": "original SVG/vector/layered render only",
@@ -1571,7 +1579,7 @@
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
       "interpretationReview": {
-        "status": "OPEN_INTERPRETATION",
+        "status": "RESOLVED_BRIEF_INTERPRETATION_ONLY",
         "owner": "Astra",
         "sourceFacts": {
           "name": "Kapkaççı",
@@ -1581,19 +1589,28 @@
           "effectText": "Saldırınca rakip 1 rastgele el atar (başarılı yok etmede)."
         },
         "sourceEvidence": [
-          "public/games/gett-oh/source-cards.json#RCN-037"
+          "public/games/gett-oh/source-cards.json#RCN-037",
+          "public/games/gett-oh/designs.js#37 battle-kill/random discard",
+          "public/games/duel-core/battle.js#resolveBattle battle-kill emission",
+          "public/games/duel-core/effects.js#discard random hand selection"
         ],
         "initialConcern": "Theft-associated name conflicts with nonviolent visual direction. Object-consequence scene needs art approval; rules/name remain unchanged.",
-        "proposedSceneInterpretation": "A bag is suddenly absent from a bench, leaving one displaced object; no victim or aggressive person appears.",
-        "groundedDisposition": "The source conditions a random opposing hand discard on successful destruction. Absence can show the consequence without depicting an assault.",
-        "noMechanicalClaim": "A dropped bag alone does not establish the required trigger, randomness or unchanged Kapkaççı identity.",
-        "openQuestion": "Can a nonviolent consequence-only scene remain recognizably Kapkaççı, or is a different civilian object/action composition needed? Do not waive title-to-scene clarity.",
+        "proposedSceneInterpretation": "A fictional adult is caught mid-motion lifting one unattended canvas bag from a cafe bench; the bag strap leads toward an empty neighboring place. No person is grabbed, threatened or injured.",
+        "groundedDisposition": "The snatching action identifies Kapkaççı more directly than a bag already missing. Entry 37 listens only to battle-kill and discards one random opposing hand card. battle.js emits that event only after the defender is actually destroyed; effects.js samples the opponent hand rather than offering the acting player a choice. This is an aftermath analogy, not a depiction of battle.",
+        "noMechanicalClaim": "No instructions for theft, chase, victim contact or claim that declaring any attack is enough. One pictured bag cannot communicate randomness or the battle-kill condition; unchanged rules text retains those facts.",
+        "openQuestion": null,
         "artAccepted": false,
-        "humanApproval": false
+        "humanApproval": false,
+        "authorDraftReview": {
+          "status": "AUTHOR_DRAFT",
+          "drawingStatus": "PLANNED_NOT_DRAWN",
+          "artAccepted": false,
+          "humanApproval": false,
+          "engineEvidenceStatus": "SOURCE_INSPECTED_NOT_RUNTIME_TESTED",
+          "specificExistingTest": "No ID-specific assertion found in the bounded duel-mechanics/duel-core/duel-acceptance test read; no runtime behavior certified"
+        }
       },
-      "unresolved": [
-        "Can a nonviolent consequence-only scene remain recognizably Kapkaççı, or is a different civilian object/action composition needed? Do not waive title-to-scene clarity."
-      ]
+      "unresolved": []
     },
     {
       "id": "RCN-038",
@@ -3853,7 +3870,7 @@
         "No shared-engine, card-data, UI-dimension, save or accessibility-text edits"
       ],
       "interpretationReview": {
-        "status": "OPEN_INTERPRETATION",
+        "status": "RESOLVED_BRIEF_INTERPRETATION_ONLY",
         "owner": "Astra",
         "sourceFacts": {
           "name": "Yemin Metni",
@@ -3864,20 +3881,27 @@
         },
         "sourceEvidence": [
           "public/games/gett-oh/source-cards.json#RCN-090",
-          "public/games/gett-oh/designs.js#90",
-          "public/games/duel-core/card-data.js#buildCards"
+          "public/games/gett-oh/designs.js#90 ritualEnabler/ritual",
+          "public/games/duel-core/summoning.js#ritualPlans trait-based enabler",
+          "scripts/duel-mechanics.test.mjs#ritual requires a real enabler; materials and rite are consumed exactly once"
         ],
         "initialConcern": "Source is unit/effect although text describes ritual spell; art brief must not correct this data or imply a new card type.",
-        "proposedSceneInterpretation": "A closed oath document beside grouped contribution tokens and an open place at a meeting.",
-        "groundedDisposition": "Source keeps kind unit/subtype effect but calls the action a ritual spell. designs.js entry90 supplies op ritual and trait ritualEnabler, so a document scene is grounded without retyping the card.",
-        "noMechanicalClaim": "This read-only check does not diagnose a gameplay bug or decide whether the source terminology should change.",
-        "openQuestion": "Source terminology says ritual spell while kind remains unit/effect. Keep both unchanged and obtain a separate terminology/art-label decision before any type-specific visual cue.",
+        "proposedSceneInterpretation": "A folded oath document lies face down beside separate contribution tokens; a meeting place becomes available beyond them. No card-type emblem, magic symbol or lettering is included.",
+        "groundedDisposition": "The title directly supports the document subject. Entry 90 is a ritualEnabler, and ritualPlans finds an enabler by its trait rather than requiring kind spell. The existing ritual test uses RCN-090 from hand and checks that rite and materials are consumed once. An object scene therefore needs no decision to retype the unchanged unit/effect source card; the source wording remains verbatim.",
+        "noMechanicalClaim": "This resolves only the visual subject. It does not rename the card, edit the ritual-spell wording, assert a new type, or certify all ritual edge cases. Existing card UI remains responsible for its real kind and rules.",
+        "openQuestion": null,
         "artAccepted": false,
-        "humanApproval": false
+        "humanApproval": false,
+        "authorDraftReview": {
+          "status": "AUTHOR_DRAFT",
+          "drawingStatus": "PLANNED_NOT_DRAWN",
+          "artAccepted": false,
+          "humanApproval": false,
+          "engineEvidenceStatus": "SOURCE_INSPECTED_NOT_RUNTIME_TESTED",
+          "specificExistingTest": "scripts/duel-mechanics.test.mjs: ritual requires a real enabler; materials and rite are consumed exactly once (inspected, not run)"
+        }
       },
-      "unresolved": [
-        "Source terminology says ritual spell while kind remains unit/effect. Keep both unchanged and obtain a separate terminology/art-label decision before any type-specific visual cue."
-      ]
+      "unresolved": []
     },
     {
       "id": "RCN-091",
@@ -4047,18 +4071,29 @@
           "effectText": "1 adam 800 ATK kazanır; Tur Sonu’nda o adamı Iskarta’ya gönder."
         },
         "sourceEvidence": [
-          "public/games/gett-oh/source-cards.json#RCN-094"
+          "public/games/gett-oh/source-cards.json#RCN-094",
+          "public/games/gett-oh/designs.js#94 own-unit modifier",
+          "public/games/duel-core/effects.js#modifier until current turn",
+          "public/games/duel-core/rules.js#nextPhase endGrave"
         ],
         "initialConcern": "Existing weapon-associated title requires approved nonliteral cost/consequence scene; no weapon may be rendered.",
-        "proposedSceneInterpretation": "A forward-pulled chair gives a worker brief leverage; the same place is left empty behind the action.",
-        "groundedDisposition": "Temporary leverage and later absence map to the printed +800 ATK and End-Phase grave movement. Rendering a weapon would breach the current art boundary.",
-        "noMechanicalClaim": "The metaphor is neither a weapon substitution in gameplay nor proof that the weapon-associated title remains visually clear.",
-        "openQuestion": "A nonweapon scene must still be distinct and connected to Silah Çek. Cost/consequence metaphor is proposed but its title readability is unresolved.",
+        "proposedSceneInterpretation": "Retained unaccepted candidate: a chair pulled forward for temporary leverage, followed by an empty place under the same cafe lamp.",
+        "groundedDisposition": "Entry 94 targets one own unit and applies attack +800 with endGrave. effects.js makes the modifier expire at the current turn; rules.js moves an endGrave unit to the grave at turn closure. The temporary-gain/later-loss reading is grounded, but that does not make a chair an honest visual equivalent of Silah Çek.",
+        "noMechanicalClaim": "No weapon, intimidation, new choice or gameplay correction. The attack benefit and later grave movement stay in unchanged effect text; the current metaphor remains an unapproved art candidate.",
+        "openQuestion": "AUTHOR RISK OPEN: the literal weapon-associated title has no sufficiently distinct permitted nonweapon scene. Art direction must resolve title readability; do not label the chair metaphor accepted.",
         "artAccepted": false,
-        "humanApproval": false
+        "humanApproval": false,
+        "authorDraftReview": {
+          "status": "AUTHOR_DRAFT",
+          "drawingStatus": "PLANNED_NOT_DRAWN",
+          "artAccepted": false,
+          "humanApproval": false,
+          "engineEvidenceStatus": "SOURCE_INSPECTED_NOT_RUNTIME_TESTED",
+          "specificExistingTest": "No ID-specific assertion found in the bounded duel-mechanics/duel-core/duel-acceptance test read; no runtime behavior certified"
+        }
       },
       "unresolved": [
-        "A nonweapon scene must still be distinct and connected to Silah Çek. Cost/consequence metaphor is proposed but its title readability is unresolved."
+        "AUTHOR RISK OPEN: the literal weapon-associated title has no sufficiently distinct permitted nonweapon scene. Art direction must resolve title readability; do not label the chair metaphor accepted."
       ]
     },
     {
@@ -4109,18 +4144,28 @@
           "effectText": "1 donanım veya saha kartını Iskarta’ya gönder."
         },
         "sourceEvidence": [
-          "public/games/gett-oh/source-cards.json#RCN-095"
+          "public/games/gett-oh/source-cards.json#RCN-095",
+          "public/games/gett-oh/designs.js#95 both-owner equip/field selector and move",
+          "public/games/duel-core/effects.js#move"
         ],
         "initialConcern": "Existing arson-associated title requires approved nonliteral disabled-support scene; no fire, damage act or injury.",
-        "proposedSceneInterpretation": "A service bay has an unoccupied vehicle position and a withdrawn support canopy; no burning or damage act.",
-        "groundedDisposition": "Removed support is compatible with sending one equipment or field card to the grave.",
-        "noMechanicalClaim": "No destruction tutorial, fire, person in danger or extra vehicle rule. This does not silently rename the card.",
-        "openQuestion": "Araba Yak is a literal arson-associated title; the permitted nonviolent removal scene has not yet solved unmistakable title-to-scene identity.",
+        "proposedSceneInterpretation": "Retained unaccepted candidate: an empty invented vehicle-service bay with a removed support canopy; no fire, damaged vehicle or endangered person.",
+        "groundedDisposition": "Entry 95 selects exactly one equipment or field card from either player and moves it to grave with reason effect. It does not target a vehicle or require destruction. Removed support follows the effect, while the literal arson-associated title remains visually unrepresented under the current art constraints.",
+        "noMechanicalClaim": "No fire, destructive act, vehicle-only target, opposing-only target or claim that the effect uses destroy. Scene planning cannot silently change the existing title or broaden the rule.",
+        "openQuestion": "AUTHOR RISK OPEN: a support-removal metaphor is mechanically compatible but does not yet identify Araba Yak. Preserve the title and obtain a distinct permitted interpretation before drawing.",
         "artAccepted": false,
-        "humanApproval": false
+        "humanApproval": false,
+        "authorDraftReview": {
+          "status": "AUTHOR_DRAFT",
+          "drawingStatus": "PLANNED_NOT_DRAWN",
+          "artAccepted": false,
+          "humanApproval": false,
+          "engineEvidenceStatus": "SOURCE_INSPECTED_NOT_RUNTIME_TESTED",
+          "specificExistingTest": "No ID-specific assertion found in the bounded duel-mechanics/duel-core/duel-acceptance test read; no runtime behavior certified"
+        }
       },
       "unresolved": [
-        "Araba Yak is a literal arson-associated title; the permitted nonviolent removal scene has not yet solved unmistakable title-to-scene identity."
+        "AUTHOR RISK OPEN: a support-removal metaphor is mechanically compatible but does not yet identify Araba Yak. Preserve the title and obtain a distinct permitted interpretation before drawing."
       ]
     },
     {
@@ -5131,18 +5176,28 @@
           "effectText": "Rakibin bütün adamları bu tur 800 DEF kaybeder."
         },
         "sourceEvidence": [
-          "public/games/gett-oh/source-cards.json#RCN-119"
+          "public/games/gett-oh/source-cards.json#RCN-119",
+          "public/games/gett-oh/designs.js#119 all-opponent defense modifier",
+          "public/games/duel-core/effects.js#modifier until current turn"
         ],
         "initialConcern": "Existing terror-associated title requires nonviolent loss-of-cover consequence, not threatening imagery.",
-        "proposedSceneInterpretation": "Several separate sheltered market positions temporarily lose their overhead cover.",
-        "groundedDisposition": "Shared reduced cover is a nonviolent analogy for the source’s all-opponent DEF reduction for this turn.",
-        "noMechanicalClaim": "No threatening crowd, terrorist imagery or claim of permanent damage. No attack increase is implied.",
-        "openQuestion": "The loss-of-cover scene follows the effect, but the strong existing title Terör Estir remains a distinctness/readability issue under the non-intimidation art rule.",
+        "proposedSceneInterpretation": "Retained unaccepted candidate: several opposite-side market seats lose overhead cover for one short interval while their normal activity remains possible.",
+        "groundedDisposition": "Entry 119 selects all opposing units and gives defense -800; effects.js assigns the current turn as modifier expiry. Loss of shared cover expresses defense reduction without suggesting attack loss, removal or permanent damage. It does not yet carry the title Terör Estir without the prohibited intimidation aesthetic.",
+        "noMechanicalClaim": "No threat, terrorist imagery, all-player effect, permanent debuff or disabling of other actions. Actual values remain governed by the unchanged engine and text, not a pictured amount of damage.",
+        "openQuestion": "AUTHOR RISK OPEN: find a distinctive non-intimidating scene that preserves title identity. Generic missing cover remains insufficient.",
         "artAccepted": false,
-        "humanApproval": false
+        "humanApproval": false,
+        "authorDraftReview": {
+          "status": "AUTHOR_DRAFT",
+          "drawingStatus": "PLANNED_NOT_DRAWN",
+          "artAccepted": false,
+          "humanApproval": false,
+          "engineEvidenceStatus": "SOURCE_INSPECTED_NOT_RUNTIME_TESTED",
+          "specificExistingTest": "No ID-specific assertion found in the bounded duel-mechanics/duel-core/duel-acceptance test read; no runtime behavior certified"
+        }
       },
       "unresolved": [
-        "The loss-of-cover scene follows the effect, but the strong existing title Terör Estir remains a distinctness/readability issue under the non-intimidation art rule."
+        "AUTHOR RISK OPEN: find a distinctive non-intimidating scene that preserves title identity. Generic missing cover remains insufficient."
       ]
     },
     {
@@ -5833,18 +5888,28 @@
           "effectText": "Kapışma aşaması başında: bu tur kapışma aşaması yapılmaz."
         },
         "sourceEvidence": [
-          "public/games/gett-oh/source-cards.json#RCN-135"
+          "public/games/gett-oh/source-cards.json#RCN-135",
+          "public/games/gett-oh/designs.js#135 responseTypes battle-start",
+          "public/games/duel-core/effects.js#skipBattle"
         ],
         "initialConcern": "No explosive or trap device; closed meeting space conveys skipped confrontation.",
-        "proposedSceneInterpretation": "An empty coffeehouse encounter area is closed before anyone sits down.",
-        "groundedDisposition": "Closure at the start supports skipping this turn’s battle phase. No explosive device is required by the mechanical effect.",
-        "noMechanicalClaim": "An ordinary closed venue may not distinguish this title from other closure scenes.",
-        "openQuestion": "Find a nonexplosive visual identity for Mayınlı Kahve that clearly differs from other skipped-phase or blocked-entry cards. Current closure scene is not yet accepted.",
+        "proposedSceneInterpretation": "Retained unaccepted candidate: a coffeehouse encounter area is unavailable before anyone takes a seat; the rest of the venue remains open.",
+        "groundedDisposition": "Entry 135 responds to battle-start. effects.js skipBattle sends the phase to main2 and negates the pending battle-start; it does not end the whole turn or require an explosive object. This supports skipped confrontation but not the literal mined-coffeehouse identity.",
+        "noMechanicalClaim": "No explosive, booby trap, dangerous preparation, whole-turn skip or permanent closure. Ordinary closed chairs are not treated as accepted title-specific art.",
+        "openQuestion": "AUTHOR RISK OPEN: a nonexplosive scene must still distinguish Mayınlı Kahve from generic venue closure. The existing candidate has not met that requirement.",
         "artAccepted": false,
-        "humanApproval": false
+        "humanApproval": false,
+        "authorDraftReview": {
+          "status": "AUTHOR_DRAFT",
+          "drawingStatus": "PLANNED_NOT_DRAWN",
+          "artAccepted": false,
+          "humanApproval": false,
+          "engineEvidenceStatus": "SOURCE_INSPECTED_NOT_RUNTIME_TESTED",
+          "specificExistingTest": "No ID-specific assertion found in the bounded duel-mechanics/duel-core/duel-acceptance test read; no runtime behavior certified"
+        }
       },
       "unresolved": [
-        "Find a nonexplosive visual identity for Mayınlı Kahve that clearly differs from other skipped-phase or blocked-entry cards. Current closure scene is not yet accepted."
+        "AUTHOR RISK OPEN: a nonexplosive scene must still distinguish Mayınlı Kahve from generic venue closure. The existing candidate has not met that requirement."
       ]
     },
     {
@@ -6064,10 +6129,10 @@
         "textEn": "1 unit cannot attack this turn. Draw 1 card."
       },
       "sceneClass": "object",
-      "subjects": "Kilitli emanet kutusu; yanında yeni zarf",
-      "actionAndEffectBridge": "Hareketli kaynağın bir süre tutulması bilgi fırsatı doğurur; insan tutulmaz",
-      "setting": "Kahvenin emanet bankosu",
-      "composition": "Kilit ve zarf yakın plan, kapalı kutu yüzeyi",
+      "subjects": "Açık emanet tezgâhında bekleyen tek teminat nesnesi; yanında yeni kapalı zarf",
+      "actionAndEffectBridge": "Geçici bekletme ve tek bilgi fırsatı; saldırı kısıtı bütün hareketlerin kapanması diye gösterilmez",
+      "setting": "Kahvenin gündelik eşya emanet bankosu",
+      "composition": "Nesne ve zarf yakın planda, kilitli insan veya hapishane yok",
       "status": "BRIEF_ONLY_NOT_ACCEPTED_ART",
       "accepted": false,
       "format": "original SVG/vector/layered render only",
@@ -6095,18 +6160,29 @@
           "effectText": "1 adam bu tur saldıramaz. 1 kart çek."
         },
         "sourceEvidence": [
-          "public/games/gett-oh/source-cards.json#RCN-140"
+          "public/games/gett-oh/source-cards.json#RCN-140",
+          "public/games/gett-oh/designs.js#140 both-owner cannotAttack plus own draw",
+          "public/games/duel-core/effects.js#modifier and draw",
+          "public/games/duel-core/combat-rules.js#attackBlocked"
         ],
         "initialConcern": "No captive person; an object held in escrow is a nonliteral interpretation requiring approval.",
-        "proposedSceneInterpretation": "A movable item waits in a temporary emanet compartment while one new envelope becomes available.",
-        "groundedDisposition": "Temporary withholding plus new information maps to one unit not attacking this turn and drawing one card, without a captive person.",
-        "noMechanicalClaim": "The source restricts attacking, not every action; a sealed permanent prison or fully disabled unit would overclaim.",
-        "openQuestion": "Resolve how an object-only temporary-hold scene keeps Rehin recognizable without captive-person imagery or implying broader immobilization.",
+        "proposedSceneInterpretation": "Retained unaccepted candidate: one collateral item waits on an open emanet counter beside a newly received closed envelope; no locked person or prison is shown.",
+        "groundedDisposition": "Entry 140 can target either player unit, sets cannotAttack for this turn and draws one own card. combat-rules.js checks the modifier in attackBlocked; it does not declare the unit entirely unusable. The collateral reading is supported by one meaning of Rehin but does not solve the unchanged English name Hostage.",
+        "noMechanicalClaim": "No captive person, total immobilization, control transfer, permanent restriction or opponent-only targeting. The two language titles stay unchanged; an object-only scene is not presented as their approved common meaning.",
+        "openQuestion": "AUTHOR RISK OPEN: reconcile Turkish Rehin and English Hostage with the no-captive visual boundary; collateral alone is not sufficient evidence of bilingual title fidelity.",
         "artAccepted": false,
-        "humanApproval": false
+        "humanApproval": false,
+        "authorDraftReview": {
+          "status": "AUTHOR_DRAFT",
+          "drawingStatus": "PLANNED_NOT_DRAWN",
+          "artAccepted": false,
+          "humanApproval": false,
+          "engineEvidenceStatus": "SOURCE_INSPECTED_NOT_RUNTIME_TESTED",
+          "specificExistingTest": "No ID-specific assertion found in the bounded duel-mechanics/duel-core/duel-acceptance test read; no runtime behavior certified"
+        }
       },
       "unresolved": [
-        "Resolve how an object-only temporary-hold scene keeps Rehin recognizable without captive-person imagery or implying broader immobilization."
+        "AUTHOR RISK OPEN: reconcile Turkish Rehin and English Hostage with the no-captive visual boundary; collateral alone is not sufficient evidence of bilingual title fidelity."
       ]
     },
     {

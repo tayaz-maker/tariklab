@@ -17,11 +17,8 @@
   "method": "Read all 300 immutable names, types, series and effects; authored an explicit per-ID six-field scene row. No regex classifier or generic fallback. Repeated mechanics remain faithful; camera, subjects and setting differ explicitly.",
   "humanReview": "NOT_DONE",
   "visualConsistencyRealismReview": "NOT_DONE_NO_ACCEPTED_IMAGES",
-  "unresolvedBriefCount": 8,
+  "unresolvedBriefCount": 5,
   "unresolvedIds": [
-    "RCN-010",
-    "RCN-037",
-    "RCN-090",
     "RCN-094",
     "RCN-095",
     "RCN-119",
@@ -30,7 +27,7 @@
   ],
   "qualityBlocker": "Procedural vector probe did not reach requested photographic-realism quality. This manifest is planning only and does not resolve that blocker; zero accepted artworks.",
   "futureGates": [
-    "Resolve 8 remaining identity/terminology questions without editing name, kind, series or effect: RCN-010, RCN-037, RCN-090, RCN-094, RCN-095, RCN-119, RCN-135, RCN-140",
+    "Resolve 5 remaining title-to-scene author risks without editing immutable game data: RCN-094, RCN-095, RCN-119, RCN-135, RCN-140. Three other flags are resolved only as author-draft scene choices, not accepted art.",
     "Establish a B7-compliant vector/layered technique that passes adult realistic art review",
     "Independent desktop/mobile card readability and frame verification",
     "All 300 ID/manifest matching and transport pack consistency",
@@ -55,20 +52,22 @@
   },
   "buildBrowserOfflineProduction": "NOT_RUN; no runtime artifact changed",
   "sourceCommitBase": "a534289490f502f68e12d91803fbc3883de7d790",
-  "manifestSha256": "0ce993c1324732a25b4d3ba7b8d48e14c8a3ce610ba17f18abdb6445d0dc847c",
-  "generatorSha256": "a9777f280c4d24394a138dba3f55a049bbb331e98c8b0f7367843ffcd4d44930",
-  "manifestBytes": 581570,
+  "manifestSha256": "1ac136ed0a9e8458ce0ac40d8ce3dfc11c5995c0ba0ac534b19f97daf7d83b52",
+  "generatorSha256": "d8015549a41d015df1a597ece7f721fd7b23cb563c159b24498479cffb575c70",
+  "manifestBytes": 588552,
   "nextStep": "User-facing art-quality blocker remains. Do not infer 300 accepted cards from 300 briefs. No production until release prerequisites and visual quality gates pass.",
   "initialInterpretationFlagCount": 30,
   "interpretationReviewSummary": {
     "reviewed": 30,
-    "resolvedAtBriefLevel": 22,
-    "open": 8,
+    "resolvedAtBriefLevel": 25,
+    "open": 5,
     "noArtworkOrHumanApproval": true
   },
   "resolvedBriefLevelIds": [
+    "RCN-010",
     "RCN-012",
     "RCN-024",
+    "RCN-037",
     "RCN-046",
     "RCN-059",
     "RCN-064",
@@ -76,6 +75,7 @@
     "RCN-068",
     "RCN-079",
     "RCN-082",
+    "RCN-090",
     "RCN-103",
     "RCN-104",
     "RCN-129",
@@ -90,10 +90,46 @@
     "RCN-275",
     "RCN-297"
   ],
-  "interpretationDispositionScope": "30 original concerns read against immutable name/kind/subtype/series/effect. Each now keeps sourceFacts separate from proposedSceneInterpretation, groundedDisposition, noMechanicalClaim and any openQuestion. 22 planning interpretations resolved; 8 remain open. This is not artwork, human approval, gameplay QA or a wording fix.",
+  "interpretationDispositionScope": "30 concerns remain recorded. This bounded follow-up inspected only the 8 open cards against immutable names/effects, designs, shared effect code and existing targeted test source. RCN-010/037/090 now have grounded author-draft scenes; 094/095/119/135/140 remain open title-identity risks. 25 brief interpretations resolved, 5 open. No source wording, aliases, mechanics, rendered artwork or human approval changed.",
   "additionalSourceEvidence": [
     "public/games/gett-oh/designs.js#90 (ritual op and ritualEnabler, kind still source unit)",
     "public/games/gett-oh/designs.js#149 (targetOrBattleNegate, both modes preserved)",
-    "public/games/gett-oh/expansion.js#239 (Borç+Haber materials, 1100 RP, face-up support to hand)"
-  ]
+    "public/games/gett-oh/expansion.js#239 (Borç+Haber materials, 1100 RP, face-up support to hand)",
+    "public/games/gett-oh/designs.js#10,#37,#94,#95,#119,#135,#140 (exact selectors/triggers/effects)",
+    "public/games/duel-core/{effects,battle,summoning,combat-rules,rules}.js (bounded relevant operations)",
+    "scripts/duel-mechanics.test.mjs ritual enabler test (source inspection only)"
+  ],
+  "authorDraftFollowup": {
+    "status": "AUTHOR_DRAFT",
+    "drawingStatus": "PLANNED_NOT_DRAWN",
+    "reviewedIds": [
+      "RCN-010",
+      "RCN-037",
+      "RCN-090",
+      "RCN-094",
+      "RCN-095",
+      "RCN-119",
+      "RCN-135",
+      "RCN-140"
+    ],
+    "resolvedIds": [
+      "RCN-010",
+      "RCN-037",
+      "RCN-090"
+    ],
+    "openIds": [
+      "RCN-094",
+      "RCN-095",
+      "RCN-119",
+      "RCN-135",
+      "RCN-140"
+    ],
+    "changedBriefCount": 8,
+    "unchangedOtherBriefCount": 292,
+    "protectedSourceCardCount": 300,
+    "engineEvidence": "SOURCE_INSPECTED_NOT_RUNTIME_TESTED",
+    "existingTestEvidence": "RCN-090 ritual enabler assertion inspected in scripts/duel-mechanics.test.mjs; suite not run. No ID-specific assertion found for the other seven in the bounded three-file test read.",
+    "artAccepted": 0,
+    "humanApproval": false
+  }
 }

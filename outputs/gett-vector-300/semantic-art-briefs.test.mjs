@@ -46,8 +46,20 @@ test('ambiguous source semantics stay explicit instead of being silently repaire
   assert.equal(byId['RCN-147'].sourceCard.name,'Zabıta Yoldı');
   assert.equal(byId['RCN-090'].sourceCard.kind,'unit');
   assert.equal(byId['RCN-239'].sourceCard.series,'Borç');
-  for(const id of ['RCN-010','RCN-037','RCN-090','RCN-094','RCN-095','RCN-119','RCN-135','RCN-140'])
+  for(const id of ['RCN-094','RCN-095','RCN-119','RCN-135','RCN-140'])
     assert.ok(byId[id].unresolved.length,id);
+  for(const id of ['RCN-010','RCN-037','RCN-090']) {
+    assert.equal(byId[id].interpretationReview.status,'RESOLVED_BRIEF_INTERPRETATION_ONLY');
+    assert.deepEqual(byId[id].unresolved,[]);
+  }
+  for(const id of ['RCN-010','RCN-037','RCN-090','RCN-094','RCN-095','RCN-119','RCN-135','RCN-140']) {
+    const review=byId[id].interpretationReview.authorDraftReview;
+    assert.equal(review.status,'AUTHOR_DRAFT');
+    assert.equal(review.drawingStatus,'PLANNED_NOT_DRAWN');
+    assert.equal(review.artAccepted,false);
+    assert.equal(review.humanApproval,false);
+    assert.equal(review.engineEvidenceStatus,'SOURCE_INSPECTED_NOT_RUNTIME_TESTED');
+  }
   assert.equal(byId['RCN-147'].interpretationReview.sourceFacts.name,'Zabıta Yoldı');
   assert.equal(byId['RCN-149'].interpretationReview.status,'RESOLVED_BRIEF_INTERPRETATION_ONLY');
   assert.equal(byId['RCN-239'].interpretationReview.status,'RESOLVED_BRIEF_INTERPRETATION_ONLY');
@@ -60,7 +72,7 @@ test('ambiguous source semantics stay explicit instead of being silently repaire
 test('all 30 dispositions separate immutable rule facts from nonliteral scenes and retain genuine open questions', () => {
   const reviewed=artifact.briefs.filter(b=>b.interpretationReview);
   assert.equal(reviewed.length,30);
-  assert.deepEqual(artifact.interpretationReviewSummary,{reviewed:30,resolvedAtBriefLevel:22,open:8,noArtworkOrHumanApproval:true});
+  assert.deepEqual(artifact.interpretationReviewSummary,{reviewed:30,resolvedAtBriefLevel:25,open:5,noArtworkOrHumanApproval:true});
   for(const b of reviewed){
     const r=b.interpretationReview,c=b.sourceCard;
     assert.deepEqual(r.sourceFacts,{name:c.name,kind:c.kind,subtype:c.subtype,series:c.series,effectText:c.text});
@@ -73,6 +85,19 @@ test('all 30 dispositions separate immutable rule facts from nonliteral scenes a
   }
   assert.equal(designs[90].traits.ritualEnabler,true);
   assert.equal(designs[90].effects[0].op,'ritual');
+  assert.equal(designs[10].triggers[0].event,'summon');
+  assert.equal(designs[10].triggers[0].effects[0].selector.kind,'trap');
+  assert.equal(designs[37].triggers[0].event,'battle-kill');
+  assert.equal(designs[37].triggers[0].effects[0].random,true);
+  assert.deepEqual(designs[94].effects[1].value,{attack:800,endGrave:true});
+  assert.equal(designs[95].effects[0].selector.owner,'both');
+  assert.equal(designs[95].effects[1].op,'move');
+  assert.equal(designs[119].effects[0].selector.owner,'opponent');
+  assert.deepEqual(designs[119].effects[1].value,{defense:-800});
+  assert.deepEqual(designs[135].traits.responseTypes,['battle-start']);
+  assert.equal(designs[140].effects[0].selector.owner,'both');
+  assert.deepEqual(designs[140].effects[1].value,{cannotAttack:true});
+  assert.equal(designs[140].effects[2].op,'draw');
   assert.equal(designs[149].effects[0].op,'targetOrBattleNegate');
   assert.deepEqual(designs[239].traits.materials.series,['Borç','Haber']);
   assert.equal(designs[239].effects[0].amount,-1100);
