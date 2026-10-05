@@ -34,6 +34,15 @@ Append after a meaningful website change to a game or shared brand/content. Skip
 
 ## Entries
 
+### 2026-10-05 — Kıyı Eşiği v1 save recovery (candidate, not released)
+- Web change: malformed v1 saves are rejected before legal/render consumers; a valid backup opens without writing. Unreadable primary/backup bytes are retained before replacement; quota or a full recovery area blocks persistence with a calm TR/EN/PL status.
+- Content/artwork/gameplay/rules: no. Key `tariklab.kiyi-esigi.v1`, schema 1, formulas and serialized reachable state remain unchanged; renderer, card surfaces and dependencies untouched.
+- UI/presentation: game-local accessible recovery text only; native follow-up when resumed: match the validation/preservation boundary, not a new save schema. Shared-content source: no.
+- Offline: versioned entry/app/helper share `sim.js?save=2`; actual root-SW regression covers old fixed-URL cache and warm offline. Completely offline old HTML still runs its old code until reconnect; no whole-site atomic upgrade claim.
+- Local: 28 targeted PASS; full suite 1,823 PASS / 1 existing opt-in skip; build/typecheck/lint PASS. One local build hit transient `.rsync-tmp` ENOENT paths; unchanged-source retry passed. Browser/CI/two-host production pending.
+- Cost: four changed runtime files total 18,768 → 26,144 raw bytes; gzip-9 sum 6,870 → 9,440 (+2,570). No new art/asset/library; one new small JS module. Route/FMP before-after not measured.
+- Provenance: original validation/storage code, existing game data and artwork preserved. Candidate branch `astra/kiyi-save-hotfix`; implementation `da45226`, browser gate `9906185`.
+
 ### 2026-09-23 — HANEDANIAN Kuzey Işığı Rölyefi
 - Web change: Cached atlas uses a northwest rake (shadow length = height), canopy masses, field furrows, a carved river bed, and southeast road depth. Ownership is a hem, not a tile fill. Selection is a lit plinth. Scheduler and 49×49 simulation unchanged.
 - Content: no

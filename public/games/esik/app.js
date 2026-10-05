@@ -1,4 +1,5 @@
-import { KEY, apply, createCoast, deserialize, legal, nodeById, preview, serialize } from "./sim.js";
+import { apply, createCoast, legal, nodeById, preview } from "./sim.js?save=2";
+import { loadCoastSave, saveCoastSave } from "./save-store.js?save=2";
 import { buildMapRenderModel } from "./map-model.js";
 import { supportsPixi } from "../shared/pixi-adapter.js";
 import { mountCoastPixi } from "./map-pixi.js";
@@ -65,6 +66,45 @@ const COPY = {
 const t = () => COPY[lang()] || COPY.tr;
 let screen = "menu";
 let state = null;
+let saveStatus = "";
+// The existing Polish body overlay handles the rest of this game. Keep new
+// recovery messages complete in all three languages without shared changes.
+const SAVE_COPY = {
+  tr: {
+    backup: "Geçerli yedek okundu. Mevcut kayıtlar silinmedi.",
+    invalid: "Kayıt okunamadı. Eski veri korunuyor; bu kıyı yeniden başlıyor.",
+    unavailable: "Kayıt alanına erişilemiyor. Bu kıyı şimdilik yalnız açık sayfada tutuluyor.",
+    blocked: "İlerleme kaydedilemedi. Eski kayıt korunuyor; bu kıyı şimdilik yalnız açık sayfada tutuluyor.",
+    preserved: "Okunamayan eski kayıt ayrı bir kopyada korundu. İlerleme kaydedildi.",
+  },
+  en: {
+    backup: "A valid backup was read. Existing records were not deleted.",
+    invalid: "The save could not be read. The old data is kept; this coast starts anew.",
+    unavailable: "Save storage is unavailable. This coast is currently kept only in the open page.",
+    blocked: "Progress could not be saved. The old record is kept; this coast is currently kept only in the open page.",
+    preserved: "The unreadable old record was kept in a separate copy. Progress was saved.",
+  },
+  pl: {
+    backup: "Odczytano prawidłową kopię zapasową. Istniejące zapisy nie zostały usunięte.",
+    invalid: "Nie można odczytać zapisu. Stare dane są zachowane; to wybrzeże zaczyna od nowa.",
+    unavailable: "Pamięć zapisów jest niedostępna. To wybrzeże jest teraz przechowywane tylko na otwartej stronie.",
+    blocked: "Nie udało się zapisać postępu. Stary zapis jest zachowany; to wybrzeże jest teraz przechowywane tylko na otwartej stronie.",
+    preserved: "Nieczytelny stary zapis zachowano w oddzielnej kopii. Postęp został zapisany.",
+  },
+};
+
+function saveStorage() {
+  try { return localStorage; } catch { return null; }
+}
+
+function saveNotice() {
+  const storage = saveStorage();
+  let locale = "tr";
+  try { locale = storage?.getItem("tariklab.language") || locale; } catch { /* use Turkish */ }
+  if (!SAVE_COPY[locale]) locale = "tr";
+  const message = SAVE_COPY[locale][saveStatus];
+  return message ? $("p", { class: "teach", role: "status", "aria-live": "polite", "aria-atomic": "true", lang: locale, "data-save-status": saveStatus }, message) : null;
+}
 
 const $ = (tag, attrs = {}, ...kids) => {
   const el = document.createElement(tag);
@@ -78,7 +118,9 @@ const $ = (tag, attrs = {}, ...kids) => {
 };
 
 function persist() {
-  try { localStorage.setItem(KEY, serialize(state)); } catch { /* private mode */ }
+  const result = saveCoastSave(saveStorage(), state);
+  if (!result.ok || result.status === "preserved") saveStatus = result.status;
+  else if (["blocked", "unavailable"].includes(saveStatus)) saveStatus = "";
 }
 
 function play(move) {
@@ -221,10 +263,9 @@ function render() {
       $("p", {}, c.note),
       $("p", { class: "teach" }, c.teach),
       $("button", { class: "primary", type: "button", onclick: () => {
-        try {
-          const saved = deserialize(localStorage.getItem(KEY));
-          state = saved && saved.phase !== "end" ? saved : createCoast(Date.now() % 100000);
-        } catch { state = createCoast(4); }
+        const loaded = loadCoastSave(saveStorage());
+        state = loaded.state && loaded.state.phase !== "end" ? loaded.state : createCoast(loaded.status === "unavailable" ? 4 : Date.now() % 100000);
+        saveStatus = loaded.status;
         screen = "play";
         render();
       } }, c.open),
@@ -240,6 +281,7 @@ function render() {
   });
   root.append($("main", { class: "coast" },
     $("a", { class: "exit", href: "/" }, lang() === "en" ? "Games" : "Oyunlar"),
+    saveNotice(),
     $("header", { class: "meters" },
       $("span", {}, `${c.period} ${state.period}`),
       $("span", {}, `${c.resource} ${state.resource}`),
