@@ -528,3 +528,8 @@ Chromium must pass before integration.
 - Web presentation only: clear residual dashboard named areas/placement after the existing management desk moves panels; Inbox/Key people should use full row width. Parent production DOM confirmed the 7.609 px title defect.
 - TC stylesheet only; shared engine/CSS, rules, data, save, localization and artwork unchanged. No native work; any native parity follow-up waits for a verified web release.
 - 29 targeted tests, production build and typecheck PASS. Old-CSS/candidate browser comparison, full suite, CI and production remain open; see `outputs/tc-dashboard-row-layout/CHECKPOINT.md`.
+
+### 2026-10-05 — TC SIM week-control translation P1 (unreleased local checkpoint)
+- Web copy only: EN week-review button, time/focus label and week heading; missing PL time/focus label plus EN aliases to preserve the existing Polish overlay. Original TR keys, all game files/rules/save/card content and native remain unchanged.
+- Real phrase/body API RED reproduced missing labels; 64 targeted tests, production build, typecheck and changed-script lint PASS. Existing 22-case browser gate now records exact visible controls before/after the decision and both offline reload paths; two changed dictionaries join the four unchanged game fingerprints.
+- Browser/full suite/CI/two-host production are NOT RUN for this candidate. PL wording remains a draft requiring native review; no full-i18n closure claim. Native follow-up only after web release; see `outputs/tc-week-control-i18n/CHECKPOINT.md`.
