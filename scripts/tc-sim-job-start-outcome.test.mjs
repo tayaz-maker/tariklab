@@ -104,10 +104,16 @@ test("actual app choice renders one result, save rerender is not live, reload ne
     const document={querySelector:s=>s==="#app"?root:root.elements.find(e=>matches(e,s))||null,querySelectorAll:s=>root.elements.filter(e=>matches(e,s))};
     globalThis.document=document;globalThis.localStorage=saved;globalThis.window={confirm:()=>true,matchMedia:()=>({matches:reduce})};
     await import(`../public/games/tc-sim/js/app.js?job-outcome-test=${++serial}`);
-    const click=s=>{const el=document.querySelector(s);assert.ok(el,s);assert.equal(el.disabled,false);el.listeners.click();};
+    const click=(s,value)=>{const el=value ? root.elements.find(e=>matches(e,s) && e.dataset.view===value) : document.querySelector(s);assert.ok(el,s);assert.equal(el.disabled,false);el.listeners.click();};
     click("#continue-game");return{root,saved,click};
   }
   try{
+    for (const view of ["people", "finance"]) {
+      const other=await mount(readyJobStartState());other.click("[data-view]",view);other.click("[data-event-choice]");
+      assert.match(other.root.innerHTML, /<section class="workspace"><section class="result job-start-moment/);
+      assert.equal((other.root.innerHTML.match(/data-job-start-moment/g)||[]).length,1);
+      assert.doesNotMatch(other.root.innerHTML, /<p class="result" role="status">/);
+    }
     const ui=await mount(readyJobStartState());ui.click("[data-event-choice]");
     assert.equal((ui.root.innerHTML.match(/data-job-start-moment/g)||[]).length,1);
     assert.match(ui.root.innerHTML,/job-start-moment is-emphasized/);

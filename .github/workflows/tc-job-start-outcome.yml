@@ -1,0 +1,69 @@
+name: tc-job-start-outcome
+
+on:
+  pull_request:
+    paths:
+      - public/games/tc-sim/js/app.js
+      - public/games/tc-sim/js/job-start-outcome*.js
+      - public/games/tc-sim/styles.css
+      - scripts/tc-sim-job-start-*.mjs
+      - .github/workflows/tc-job-start-outcome.yml
+  push:
+    branches: [main]
+    paths:
+      - public/games/tc-sim/js/app.js
+      - public/games/tc-sim/js/job-start-outcome*.js
+      - public/games/tc-sim/styles.css
+      - scripts/tc-sim-job-start-*.mjs
+      - .github/workflows/tc-job-start-outcome.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+concurrency:
+  group: tc-job-start-outcome-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  outcome-browser:
+    name: TC job-start / ${{ matrix.label }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(github.ref == 'refs/heads/main' && '[{"label":"www","origin":"https://www.tariklab.com"},{"label":"workers","origin":"https://tariklab.tayaz29.workers.dev"}]' || '[{"label":"built","origin":""}]') }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Targeted outcome, origin and safe-server regressions
+        run: node --test scripts/tc-sim-job-start-outcome.test.mjs scripts/tc-sim-job-start-target.test.mjs scripts/tc-sim-weekly-feedback.test.mjs scripts/tc-sim-lifetime-ui.test.mjs scripts/static-game-server.test.mjs
+      - run: npm run build
+      - name: Chromium
+        run: |
+          browser_path="$(command -v google-chrome || command -v chromium || true)"
+          if [ -n "$browser_path" ]; then
+            echo "PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=$browser_path" >> "$GITHUB_ENV"
+          else
+            npx playwright install --with-deps chromium --only-shell
+          fi
+      - name: Built candidate — 18 matrix cases and 4 mobile hidden-panel regressions
+        if: matrix.label == 'built'
+        run: node scripts/tc-sim-job-start-outcome-browser.mjs --serve .output/public --label built
+      - name: Exact released candidate — isolated synthetic saves on allowlisted host
+        if: matrix.label != 'built'
+        env:
+          TC_OUTCOME_ORIGIN: ${{ matrix.origin }}
+          TC_OUTCOME_LABEL: ${{ matrix.label }}
+        run: node scripts/tc-sim-job-start-outcome-browser.mjs --base-url "$TC_OUTCOME_ORIGIN" --production --expected-root .output/public --label "$TC_OUTCOME_LABEL"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: tc-job-start-outcome-${{ matrix.label }}
+          path: ${{ runner.temp }}/screenshots/tc-job-start-outcome/${{ matrix.label }}

@@ -151,8 +151,10 @@ const escapeText = (value) =>
 const outcomeText = (tr, en) => jobOutcomeText(window.tlabI18n?.getLang?.() || "tr", tr, en);
 
 function renderResult(fallback = "") {
-  if (!jobStartOutcome)
-    return `<p class="result" role="status">${escapeText(notice || fallback)}</p>`;
+  return jobStartOutcome ? "" : `<p class="result" role="status">${escapeText(notice || fallback)}</p>`;
+}
+
+function renderJobResult() {
   return renderJobStartOutcome({ ...jobStartOutcome, jobTitle: phraseText(jobStartOutcome.jobTitle) }, {
     t: outcomeText, money, announce: jobOutcomeFresh, settled: jobOutcomeSettled,
     emphasize: jobOutcomeEmphasis && !window.matchMedia?.("(prefers-reduced-motion: reduce)").matches,
@@ -1282,7 +1284,8 @@ function render() {
     ? renderLifetimeTerminal(state)
     : renderScenarioPanel() + (VIEW_RENDERERS[activeView] || renderDashboard)() +
       (["character", "history", "yearbook"].includes(activeView) ? renderLineage(state) : "");
-  if (jobStartOutcome && !workspace.includes("data-job-start-moment")) workspace += renderResult();
+  // Keep this one result outside person inspectors and collapsed finance ledgers.
+  if (jobStartOutcome) workspace = renderJobResult() + workspace;
   app.innerHTML = `
     <main class="game-frame">
       <header class="game-topbar">

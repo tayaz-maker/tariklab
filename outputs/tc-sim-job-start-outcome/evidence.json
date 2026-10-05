@@ -2,14 +2,14 @@
   "status": "IMPLEMENTED_LOCAL_CHECKPOINT_NOT_MERGE_READY",
   "base": "9e50404c0573e1cf9e2dd7e623c9c8bd98b95e56",
   "tests": {
-    "passed": 22,
+    "passed": 26,
     "failed": 0
   },
   "syntax": "PASS",
   "lint": "0 errors; 2 pre-existing app unused-import warnings",
   "browser": "NOT_RUN_CHROME_SIGSEGV_ENVIRONMENT",
   "offline": "NOT_RUN",
-  "buildAndTransfer": "NOT_RUN; source gzip is a file budget, not measured route transfer",
+  "buildAndTransfer": "Production build PASS (same lockfile dependencies); existing migration skips without DATABASE_URL. Browser/route transfer and before/after remain NOT RUN.",
   "externalAssets": 0,
   "canvasWebGL": 0,
   "acceptedNewArtwork": 0,
@@ -164,30 +164,30 @@
     {
       "path": "public/games/tc-sim/js/app.js",
       "beforeBytes": 100278,
-      "afterBytes": 101645,
-      "rawDelta": 1367,
-      "gzipAfterBytes": 27661
+      "afterBytes": 101723,
+      "rawDelta": 1445,
+      "gzipAfterBytes": 27536
     },
     {
       "path": "public/games/tc-sim/styles.css",
       "beforeBytes": 27687,
       "afterBytes": 29594,
       "rawDelta": 1907,
-      "gzipAfterBytes": 6069
+      "gzipAfterBytes": 6029
     },
     {
       "path": "public/games/tc-sim/js/job-start-outcome.js",
       "beforeBytes": 0,
       "afterBytes": 2371,
       "rawDelta": 2371,
-      "gzipAfterBytes": 873
+      "gzipAfterBytes": 874
     },
     {
       "path": "public/games/tc-sim/js/job-start-outcome-ui.js",
       "beforeBytes": 0,
       "afterBytes": 6129,
       "rawDelta": 6129,
-      "gzipAfterBytes": 2565
+      "gzipAfterBytes": 2571
     }
   ],
   "stateHash": "f195dd977496ad00d63020b7b7e648ad6a975d70215b9eb368db7bd5aa43a2ee",
@@ -199,5 +199,28 @@
     "Built-route transfer/request/first render before/after",
     "PL native review",
     "Root code review; no PR, CI, merge or production in this checkpoint"
+  ],
+  "buildLockSha256": "81c3e3646982a746f1a7efb9c6d4344683fefbd966afc078d1d74b62cf2f8678",
+  "preparedBrowserCases": 22,
+  "browserCaseScope": "18 width/language/motion combinations plus People/Finance 320/390 visibility after real advance-week job completion; NOT RUN.",
+  "workflow": "Separate path-filtered tc-job-start-outcome workflow; PR built server, main exact-file-hash-gated two host contexts/artifacts. Existing ci.yml/gates unchanged. Not run.",
+  "sourceDeltaBytes": 11852,
+  "builtFingerprints": [
+    {
+      "path": "games/tc-sim/js/app.js",
+      "sha256": "93142193f352b3584f7d5b3a58867928a12095831bd4204d88d782823457f345"
+    },
+    {
+      "path": "games/tc-sim/styles.css",
+      "sha256": "134497f6c9dde56e192bfdd5fcb7a41f4b34a0c8d6760bce5324ca8f8fe90b39"
+    },
+    {
+      "path": "games/tc-sim/js/job-start-outcome.js",
+      "sha256": "47fe74924c558f227bb569886fc41e20af78fa69ce062280972173f6a47fab14"
+    },
+    {
+      "path": "games/tc-sim/js/job-start-outcome-ui.js",
+      "sha256": "86d50e27fe842bd6163f97275cfa6b2dfde28346fc8489c11513784a7f8adf39"
+    }
   ]
 }

@@ -1,0 +1,18 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
+import { resolve } from "node:path";
+import { checkedOutcomeOrigin, productionOrigins, verifyOutcomeBuild } from "./tc-sim-job-start-target.mjs";
+test("fixture origins are exact and explicit; a generic external-host override cannot authorize writes", () => {
+  assert.equal(checkedOutcomeOrigin("http://127.0.0.1:4567"), "http://127.0.0.1:4567");
+  for (const origin of productionOrigins) { assert.equal(checkedOutcomeOrigin(origin, true), origin); assert.throws(() => checkedOutcomeOrigin(origin)); }
+  for (const value of ["https://www.tariklab.com.evil.test", "https://tariklab.com", "https://www.tariklab.com:123", "https://u:p@www.tariklab.com", "https://www.tariklab.com/path", "https://www.tariklab.com?x=1", "file:///tmp/test"]) assert.throws(() => checkedOutcomeOrigin(value, true));
+});
+test("all four exact built fingerprints gate the browser; a stale asset, HTTP error or redirect fails closed", async () => {
+  const origin=productionOrigins[0],root=resolve("public");
+  const read=async(url,options)=>{assert.equal(options.redirect,"error");return new Response(await readFile(resolve(root,"."+new URL(url).pathname)));};
+  assert.equal((await verifyOutcomeBuild(origin,root,read)).length,4);
+  await assert.rejects(verifyOutcomeBuild(origin,root,async()=>new Response("stale")), /exact candidate/);
+  await assert.rejects(verifyOutcomeBuild(origin,root,async()=>new Response("missing",{status:404})), /asset status/);
+  await assert.rejects(verifyOutcomeBuild(origin,root,async()=>{throw new Error("redirect denied");}), /redirect denied/);
+});
