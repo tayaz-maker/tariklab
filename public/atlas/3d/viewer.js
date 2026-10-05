@@ -8,6 +8,8 @@ export async function createViewer(stage, manifest, onPick, onProgress) {
   });
   renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
   renderer.outputColorSpace = T.SRGBColorSpace;
+  renderer.toneMapping = T.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 0.96;
   renderer.setClearColor(0xeef0ed, 0);
   renderer.domElement.setAttribute("aria-label", "BodyParts3D göğüs ve karın modeli");
   const scene = new T.Scene(),
@@ -17,19 +19,19 @@ export async function createViewer(stage, manifest, onPick, onProgress) {
   controls.minDistance = 0.12;
   controls.maxDistance = 4;
   controls.target.set(0, 1.17, 0.11);
-  scene.add(new T.HemisphereLight(0xffffff, 0x77847b, 2.5));
+  scene.add(new T.HemisphereLight(0xfff5e8, 0x514749, 1.05));
   for (const [p, intensity] of [
-    [[1, 2, 3], 3],
-    [[-2, 1, 0], 1.5],
-    [[0, 2, -3], 2],
+    [[1.5, 2.4, 2.8], 1.55],
+    [[-2, 0.8, 0.4], 0.42],
+    [[0, 1.8, -2.2], 0.78],
   ]) {
-    const light = new T.DirectionalLight(0xfff7e9, intensity);
+    const light = new T.DirectionalLight(0xfff5e9, intensity);
     light.position.set(...p);
     scene.add(light);
   }
   const meshes = [],
     materials = [],
-    palette = { iskelet: 0xd7cfb3, organ: 0xad6458, kas: 0xb77e68 };
+    palette = { iskelet: 0xd5c4a1, organ: 0xb85f54, kas: 0xa9534b };
   let selected = null,
     isolated = false,
     amount = 0,
@@ -139,7 +141,7 @@ export async function createViewer(stage, manifest, onPick, onProgress) {
                 : palette[s.system];
         const material = new T.MeshStandardMaterial({
           color,
-          roughness: 0.65,
+          roughness: 0.78,
           metalness: 0,
           side: T.DoubleSide,
         });

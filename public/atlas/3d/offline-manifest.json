@@ -1,6 +1,6 @@
 {
-  "version": "fa7e88b9f28e309e33f7af0a",
-  "bytes": 7071744,
+  "version": "c7f7892ecf2fb0e39a93483b",
+  "bytes": 7071994,
   "files": [
     {
       "path": "app.js",
@@ -79,8 +79,8 @@
     },
     {
       "path": "styles.css",
-      "bytes": 5675,
-      "sha256": "06ff51edb20fa2a0e22c63a378230d5a96ee3e152bf7942a51e100829471a53c"
+      "bytes": 5814,
+      "sha256": "a912df8e8335ff6ec6448eaea48abd13ccf8989f72c89e02683808a8a5305356"
     },
     {
       "path": "vendor/OrbitControls.js",
@@ -104,8 +104,8 @@
     },
     {
       "path": "viewer.js",
-      "bytes": 10192,
-      "sha256": "5283b1f4e814c1db3e4f7203adb302acc47bb3e2dc9515a6720acd60d29b3150"
+      "bytes": 10303,
+      "sha256": "57f7d3b464809dc4778746993f3578f5c83e2f4bc930015ae957718e214c7520"
     }
   ]
 }
