@@ -45,3 +45,5 @@ Cloud Browser yerel file protokolünü güvenlik politikasıyla reddetti; bu yol
 GitHub `darbe-art-proof` işi 6 gerçekviewport/motion vakası üretir; sonuç gelmeden PASS yazılmaz. Offline etkileşim testi açık paket içindir; oyunun offline/PWA/save kabulü değildir.
 
 Yerel production build (`npm run build`) başarılı; migrate komutu DATABASE_URL olmadığı için beklenen PGLite fallback yolunu bildirdi. Uygulama dosyaları değişmedi.
+
+İlk browser koşusu `37247244015`: altı gerçek viewport/motion ekranı üretildi; ek sandbox iframe kontrolünde Playwright'ın `serviceWorkers:block` init script'i `navigator.serviceWorker` getter'ında SecurityError üretti. Ürün/çizim kaynaklı değildi; upstream paket kodunda satır51294–51297 ile eşleştirildi. Iframe sandbox sınırı korunur. Taze context, yalnız iki HTML belgesini sunan server/route allowlist, sıfır gerçek worker/registration ve sıfır pageerror kapısı kullanılır; hata filtrelenmez. Düzeltmenin yeni CI sonucu beklenir.

@@ -137,6 +137,7 @@ async function keyboardMode(view, key, expectedMode) {
 }
 
 function verifyNoErrors(entry) {
+  assert.deepEqual(entry.serviceWorkers, [], 'No service workers in proof context');
   assert.deepEqual(entry.console, [], 'No console output in static proof');
   assert.deepEqual(entry.pageErrors, [], 'No page errors');
   assert.deepEqual(entry.externalRequests, [], 'No external network requests');
@@ -185,10 +186,16 @@ try {
       const key = `${width}-${reducedMotion}`;
       activeCase = {key, width, reducedMotion, status: 'running', states: [], console: [], pageErrors: [], externalRequests: [], unexpectedRequests: [], requestFailures: [], httpErrors: [], requests: []};
       report.cases.push(activeCase);
-      context = await browser.newContext({viewport: {width, height: 960}, reducedMotion, serviceWorkers: 'block'});
+      // Playwright's serviceWorkers:block injects a navigator.serviceWorker getter
+      // into every frame, which throws in our intentionally opaque sandbox srcdoc.
+      // Keep that sandbox intact. Fresh contexts, document-only HTTP routing and
+      // zero actual workers/registrations prove this static package stays worker-free.
+      context = await browser.newContext({viewport: {width, height: 960}, reducedMotion});
       context.setDefaultTimeout(15000);
       context.setDefaultNavigationTimeout(20000);
       const entry = activeCase;
+      entry.serviceWorkers = [];
+      context.on('serviceworker', worker => entry.serviceWorkers.push(worker.url()));
       await context.route('**/*', async route => {
         const request = route.request(), url = request.url();
         if (url.startsWith('data:') || url.startsWith('blob:')) { await route.continue(); return; }
@@ -207,6 +214,8 @@ try {
       page.on('response', response => { if (response.status() >= 400) entry.httpErrors.push({url: response.url(), status: response.status()}); });
       await page.goto(origin + '/index.html', {waitUntil: 'load'});
       await page.locator('[data-proof-card]').last().waitFor();
+      entry.workerRegistrations = await page.evaluate(async () => (await navigator.serviceWorker.getRegistrations()).length);
+      assert.equal(entry.workerRegistrations, 0, 'Fresh static proof has no worker registration');
       entry.keyboard = [];
       for (const mode of modes) {
         if (mode === 'old') {

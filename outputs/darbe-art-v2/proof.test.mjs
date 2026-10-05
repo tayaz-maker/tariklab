@@ -63,7 +63,7 @@ test('proof leaves every original DARBE asset, rule, save, dimension and shared 
 test('standalone proof keeps network/media absent and clearly marks the approval boundary', () => {
   for (const path of ['index.html', 'review.html']) {
     const html = read(`outputs/darbe-art-v2/${path}`).toString();
-    assert.doesNotMatch(html, /<(?:link|script|img)\b[^>]*(?:src|href)=["']https?:|<(?:audio|video)\b|\b(?:localStorage|sessionStorage|indexedDB|AudioContext|vibrate)\s*[.(]/i);
+    assert.doesNotMatch(html, /<(?:link|script|img)\b[^>]*(?:src|href)=["']https?:|<(?:audio|video)\b|\b(?:localStorage|sessionStorage|indexedDB|AudioContext|vibrate|serviceWorker)\s*[.(]/i);
     assert.match(html, /300/);
     assert.ok(Buffer.byteLength(html) < 650000, `${path}: proof package budget`);
   }
