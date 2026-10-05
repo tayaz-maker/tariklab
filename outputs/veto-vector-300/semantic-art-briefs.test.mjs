@@ -52,10 +52,31 @@ test('preparation cannot masquerade as completed, approved or tested production 
     assert.equal(entry.reviewStatus,entry.unresolved?'SEMANTIC_REVIEW_REQUIRED':'ASSISTANT_BRIEF_ONLY_NOT_ART_APPROVAL');
   }
   assert.deepEqual(saved.coverage.unresolvedIds,saved.cards.filter(e=>e.unresolved).map(e=>e.id));
-  assert.equal(saved.coverage.unresolvedIds.length,13);
+  assert.equal(saved.coverage.unresolvedIds.length,3);
   assert.equal(saved.constraints.noImageGeneration,true);
   assert.equal(saved.constraints.noRasterPlate,true);
   assert.deepEqual(saved.constraints.intrinsicArtDimensions,[576,384]);
+});
+
+test('13 source-grounding records keep exact evidence and separate10bounded interpretations from3real ambiguities',()=>{
+  const records=saved.cards.filter(e=>e.sourceGrounding);
+  assert.equal(records.length,13);
+  assert.deepEqual(saved.coverage.sourceGrounding.reviewedIds,records.map(e=>e.id));
+  assert.equal(saved.coverage.sourceGrounding.sourceBoundedCount,10);
+  assert.equal(saved.coverage.sourceGrounding.unresolvedCount,3);
+  assert.equal(saved.coverage.sourceGrounding.artApprovedCount,0);
+  assert.deepEqual(saved.coverage.unresolvedIds,['SND-017','SND-046','SND-132']);
+  for(const entry of records){
+    const g=entry.sourceGrounding;
+    assert.deepEqual(g.evidence,{name:entry.source.name,kind:entry.source.kind,subtype:entry.source.subtype,effectText:entry.source.text});
+    assert.equal(g.disposition,entry.unresolved?'UNRESOLVED_SOURCE_AMBIGUITY':'SOURCE_BOUNDED_NOT_ART_APPROVED');
+    for(const key of ['sourceFacts','visualInterpretation','notImpliedBySource'])assert.ok(g[key].length>30,`${entry.id}:${key}`);
+    assert.ok(g.retainedConstraints.length>=2,entry.id);
+    assert.equal(entry.implementationStatus,'PLANNED_NOT_DRAWN');
+  }
+  // The exact undefined term remains untouched; the brief must not silently rewrite the card.
+  assert.ok(saved.cards.find(e=>e.id==='SND-017').source.text.includes('“Sandık” yemini'));
+  assert.equal(source.some(c=>c.name==='Sandık Yemini'),false);
 });
 
 test('manifest regenerates byte-for-byte without random scene assignments',()=>{

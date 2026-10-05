@@ -60,16 +60,16 @@
     "uniqueSubjectActions": 300,
     "uniqueSettings": 300,
     "sceneClasses": {
-      "action": 36,
+      "action": 35,
       "character": 133,
       "event": 45,
       "institution": 19,
       "location": 7,
-      "object": 60
+      "object": 61
     },
     "compositions": {
       "aerial-fiction": 1,
-      "close-action": 35,
+      "close-action": 34,
       "crowd": 8,
       "door-framing": 7,
       "environment": 14,
@@ -82,27 +82,37 @@
       "over-shoulder": 19,
       "portrait": 3,
       "side-profile": 9,
-      "still-life": 26,
+      "still-life": 27,
       "three-person": 13,
       "top-down": 22,
       "triptych-depth": 1,
       "two-shot": 24,
       "wide-diagonal": 22
     },
+    "sourceGrounding": {
+      "reviewedIds": [
+        "SND-017",
+        "SND-042",
+        "SND-046",
+        "SND-049",
+        "SND-070",
+        "SND-084",
+        "SND-118",
+        "SND-121",
+        "SND-124",
+        "SND-127",
+        "SND-132",
+        "SND-199",
+        "SND-262"
+      ],
+      "sourceBoundedCount": 10,
+      "unresolvedCount": 3,
+      "artApprovedCount": 0
+    },
     "unresolvedIds": [
       "SND-017",
-      "SND-042",
       "SND-046",
-      "SND-049",
-      "SND-070",
-      "SND-084",
-      "SND-118",
-      "SND-121",
-      "SND-124",
-      "SND-127",
-      "SND-132",
-      "SND-199",
-      "SND-262"
+      "SND-132"
     ]
   },
   "cards": [
@@ -628,10 +638,28 @@
         "description": "Küçük Sandık kadrosunu devreye alma; kaynak metindeki yemin sözcüğü değiştirilmez",
         "mechanicalAuthority": "source.text"
       },
+      "sourceGrounding": {
+        "expectedName": "Teşkilatçı",
+        "disposition": "UNRESOLVED_SOURCE_AMBIGUITY",
+        "sourceFacts": "Unit/effect card. On summon, the exact text calls one “Sandık yemini” from hand or deck, level3 or below.",
+        "visualInterpretation": "An organizer welcoming a new volunteer is an authored recruitment metaphor.",
+        "notImpliedBySource": "The text does not prove that yemini means kadro, a pledge, or a ritual. Do not repair the rule through art.",
+        "retainedConstraints": [
+          "Preserve the exact typo or term pending a separate rule/content decision.",
+          "No oath text, religious ritual or invented card type."
+        ],
+        "evidence": {
+          "name": "Teşkilatçı",
+          "kind": "unit",
+          "subtype": "effect",
+          "effectText": "Çağrıldığında 1 “Sandık” yemini özel çağır (el veya deste, Kademe 3 veya altı)."
+        },
+        "authority": "Canonical card text only; not a runtime-rule test or rendered-art review"
+      },
       "implementationStatus": "PLANNED_NOT_DRAWN",
       "qualityGate": "BLOCKED_BY_FAILED_VECTOR_REALISM_PROBE",
       "reviewStatus": "SEMANTIC_REVIEW_REQUIRED",
-      "unresolved": "Source uses “Sandık yemini”; retain exact rule text. Proposed visual uses role recruitment, but final art reviewer must confirm no misleading pledge/ritual depiction."
+      "unresolved": "The source says “Sandık yemini”, without defining “yemini” as a card, kind or subtype. Do not silently correct it to kadro or claim the intended referent is verified. Recruitment remains a provisional visual interpretation."
     },
     {
       "id": "SND-018",
@@ -1403,10 +1431,29 @@
         "description": "Karşılıklı kadro kaybı yalnız görevden çekilme metaforu; askerî simge yok",
         "mechanicalAuthority": "source.text"
       },
+      "sourceGrounding": {
+        "expectedName": "Emekli Paşa",
+        "disposition": "SOURCE_BOUNDED_NOT_ART_APPROVED",
+        "sourceFacts": "Unit/effect title denotes a retired rank-holder. The effect triggers when this card is destroyed in battle and makes the opponent destroy one unit.",
+        "visualInterpretation": "A retired civilian leaves his desk while an opposing working position empties; this is a nonviolent role-loss metaphor.",
+        "notImpliedBySource": "The source supplies no face, real person, uniform, insignia, historical event or physical violence requirement.",
+        "retainedConstraints": [
+          "Civilian adult clothing only; no uniform or rank badge.",
+          "Do not show injury, death or a recognisable historical person.",
+          "Retirement and two work positions must remain readable without extra text."
+        ],
+        "evidence": {
+          "name": "Emekli Paşa",
+          "kind": "unit",
+          "subtype": "effect",
+          "effectText": "Savaşta yok olursa rakip 1 kadro yok eder."
+        },
+        "authority": "Canonical card text only; not a runtime-rule test or rendered-art review"
+      },
       "implementationStatus": "PLANNED_NOT_DRAWN",
       "qualityGate": "BLOCKED_BY_FAILED_VECTOR_REALISM_PROBE",
-      "reviewStatus": "SEMANTIC_REVIEW_REQUIRED",
-      "unresolved": "Title evokes a military rank. Civilian retired adult only; no uniform, rank badge or real-person resemblance. Final composition review required."
+      "reviewStatus": "ASSISTANT_BRIEF_ONLY_NOT_ART_APPROVAL",
+      "unresolved": null
     },
     {
       "id": "SND-043",
@@ -1527,10 +1574,28 @@
         "description": "Bir kez dayanabilen kurumsal süreklilik metaforu",
         "mechanicalAuthority": "source.text"
       },
+      "sourceGrounding": {
+        "expectedName": "Eski Devlet",
+        "disposition": "UNRESOLVED_SOURCE_AMBIGUITY",
+        "sourceFacts": "Unit/effect card with once-per-turn protection from battle destruction.",
+        "visualInterpretation": "An old civic doorway remaining standing proposes durability and continuity.",
+        "notImpliedBySource": "No literal person, institution, era, regime, building or political identity is specified.",
+        "retainedConstraints": [
+          "Keep the doorway marked as provisional metaphor.",
+          "No real institution, historical identity, national boundary or emblem."
+        ],
+        "evidence": {
+          "name": "Eski Devlet",
+          "kind": "unit",
+          "subtype": "effect",
+          "effectText": "1 turda 1 kez savaşta yok olmaz."
+        },
+        "authority": "Canonical card text only; not a runtime-rule test or rendered-art review"
+      },
       "implementationStatus": "PLANNED_NOT_DRAWN",
       "qualityGate": "BLOCKED_BY_FAILED_VECTOR_REALISM_PROBE",
       "reviewStatus": "SEMANTIC_REVIEW_REQUIRED",
-      "unresolved": "Abstract title does not define a literal institution. Proposed old civic doorway is a metaphor, not factual historical content."
+      "unresolved": "The source defines a once-per-turn battle-survival effect but does not identify the entity meant by “Eski Devlet”. The civic doorway remains an unconfirmed metaphor, not an established literal subject."
     },
     {
       "id": "SND-047",
@@ -1620,10 +1685,29 @@
         "description": "Tuzak açılmasına bir tur gecikme; gerçek mahkeme iddiası yok",
         "mechanicalAuthority": "source.text"
       },
+      "sourceGrounding": {
+        "expectedName": "Yargı Lobisi",
+        "disposition": "SOURCE_BOUNDED_NOT_ART_APPROVED",
+        "sourceFacts": "Unit/effect card delays opposing trap activation by one additional turn after setting; the source explicitly writes gecikme +1.",
+        "visualInterpretation": "Moving a meeting file to the next waiting compartment represents delay.",
+        "notImpliedBySource": "The game effect does not establish a factual allegation about any real court, corruption or institution.",
+        "retainedConstraints": [
+          "Fictional civilian waiting area only.",
+          "No real court logo, robe, emblem, accused person or corruption scene.",
+          "Do not replace exact timing text with extra in-art rules."
+        ],
+        "evidence": {
+          "name": "Yargı Lobisi",
+          "kind": "unit",
+          "subtype": "effect",
+          "effectText": "Rakip tuzakları setlendiği turdan 1 tur sonra açılabilir (gecikme +1)."
+        },
+        "authority": "Canonical card text only; not a runtime-rule test or rendered-art review"
+      },
       "implementationStatus": "PLANNED_NOT_DRAWN",
       "qualityGate": "BLOCKED_BY_FAILED_VECTOR_REALISM_PROBE",
-      "reviewStatus": "SEMANTIC_REVIEW_REQUIRED",
-      "unresolved": "Do not imply a real judiciary is corrupt; entirely fictional civilian scheduling metaphor needs content review."
+      "reviewStatus": "ASSISTANT_BRIEF_ONLY_NOT_ART_APPROVAL",
+      "unresolved": null
     },
     {
       "id": "SND-050",
@@ -2271,10 +2355,28 @@
         "description": "Üç kadronun birleşmesiyle doğrudan erişim; ulusal simge yok",
         "mechanicalAuthority": "source.text"
       },
+      "sourceGrounding": {
+        "expectedName": "Milli Liste",
+        "disposition": "SOURCE_BOUNDED_NOT_ART_APPROVED",
+        "sourceFacts": "Unit/fusion card whose effect text specifies three units and permission to attack directly.",
+        "visualInterpretation": "Three separate civilian work groups join beside an open route.",
+        "notImpliedBySource": "No actual nation, country border, flag, political party or slogan is named.",
+        "retainedConstraints": [
+          "Exactly three contributing groups as composition cue, not new rules.",
+          "No national or party symbols; no propaganda lettering."
+        ],
+        "evidence": {
+          "name": "Milli Liste",
+          "kind": "unit",
+          "subtype": "fusion",
+          "effectText": "3 Kadro. Doğrudan saldırabilir."
+        },
+        "authority": "Canonical card text only; not a runtime-rule test or rendered-art review"
+      },
       "implementationStatus": "PLANNED_NOT_DRAWN",
       "qualityGate": "BLOCKED_BY_FAILED_VECTOR_REALISM_PROBE",
-      "reviewStatus": "SEMANTIC_REVIEW_REQUIRED",
-      "unresolved": "National-sounding title must not acquire a flag, country boundary or propaganda emblem."
+      "reviewStatus": "ASSISTANT_BRIEF_ONLY_NOT_ART_APPROVAL",
+      "unresolved": null
     },
     {
       "id": "SND-071",
@@ -2705,10 +2807,28 @@
         "description": "Eş kademede karşılıklı görev değişimi; patlama yok",
         "mechanicalAuthority": "source.text"
       },
+      "sourceGrounding": {
+        "expectedName": "Transfer Bombası",
+        "disposition": "SOURCE_BOUNDED_NOT_ART_APPROVED",
+        "sourceFacts": "Normal spell sends one opposing level4-or-lower unit to discarded cards and special-summons one own unit of the same level from hand.",
+        "visualInterpretation": "One working position empties while an equal-height replacement is prepared on the other side.",
+        "notImpliedBySource": "The specified effect is a role exchange, not detonation, area damage or destruction of a physical place.",
+        "retainedConstraints": [
+          "No explosive, weapon, blast or injury.",
+          "Equal level is only a visual correspondence; preserve exact rule text outside art."
+        ],
+        "evidence": {
+          "name": "Transfer Bombası",
+          "kind": "spell",
+          "subtype": "normal",
+          "effectText": "Rakibin 1 Kademe 4 veya altı kadrosunu Atılan Kartlar’a gönder, aynı kademede 1 kendi kadronu özel çağır (elden)."
+        },
+        "authority": "Canonical card text only; not a runtime-rule test or rendered-art review"
+      },
       "implementationStatus": "PLANNED_NOT_DRAWN",
       "qualityGate": "BLOCKED_BY_FAILED_VECTOR_REALISM_PROBE",
-      "reviewStatus": "SEMANTIC_REVIEW_REQUIRED",
-      "unresolved": "Bombası is idiomatic transfer news. No literal explosive or violence; keep role exchange legible."
+      "reviewStatus": "ASSISTANT_BRIEF_ONLY_NOT_ART_APPROVAL",
+      "unresolved": null
     },
     {
       "id": "SND-085",
@@ -3759,10 +3879,28 @@
         "description": "Hedef seçilmeye karşı koruma; silahlı konvoy veya üniforma yok",
         "mechanicalAuthority": "source.text"
       },
+      "sourceGrounding": {
+        "expectedName": "Koruma Konvoyu",
+        "disposition": "SOURCE_BOUNDED_NOT_ART_APPROVED",
+        "sourceFacts": "Equip spell prevents the equipped unit from being targeted by an opposing effect.",
+        "visualInterpretation": "Unbranded civilian transport brings its passenger into a sheltered entrance.",
+        "notImpliedBySource": "Target protection does not grant blanket invulnerability, battle survival or an armed escort.",
+        "retainedConstraints": [
+          "Civilian unbranded vehicles; no armed guards, uniforms or weapons.",
+          "Rain shelter is a visual protection metaphor, not a new weather mechanic."
+        ],
+        "evidence": {
+          "name": "Koruma Konvoyu",
+          "kind": "spell",
+          "subtype": "equip",
+          "effectText": "Donanan kadro rakip efektle hedef alınamaz."
+        },
+        "authority": "Canonical card text only; not a runtime-rule test or rendered-art review"
+      },
       "implementationStatus": "PLANNED_NOT_DRAWN",
       "qualityGate": "BLOCKED_BY_FAILED_VECTOR_REALISM_PROBE",
-      "reviewStatus": "SEMANTIC_REVIEW_REQUIRED",
-      "unresolved": "Civilian transport protection only; no armed convoy, uniforms or copied vehicle brand."
+      "reviewStatus": "ASSISTANT_BRIEF_ONLY_NOT_ART_APPROVAL",
+      "unresolved": null
     },
     {
       "id": "SND-119",
@@ -3852,10 +3990,28 @@
         "description": "Kapalı kadroya geçmiş kayıt üzerinden müdahale; marka veya tweet metni yok",
         "mechanicalAuthority": "source.text"
       },
+      "sourceGrounding": {
+        "expectedName": "Eski Tweet",
+        "disposition": "SOURCE_BOUNDED_NOT_ART_APPROVED",
+        "sourceFacts": "Normal trap targeting a yüzüstü unit for destruction; the exact state wording stays in source.text.",
+        "visualInterpretation": "An older unbranded device rests beside a closed case file; no content is shown.",
+        "notImpliedBySource": "No actual post, author, platform interface, quotation or real allegation is supplied.",
+        "retainedConstraints": [
+          "Keep immutable title; never invent a tweet or quote in the illustration.",
+          "No platform logo, copied UI, readable screen or identifiable person."
+        ],
+        "evidence": {
+          "name": "Eski Tweet",
+          "kind": "trap",
+          "subtype": "normal",
+          "effectText": "Hedef yüzüstü kadroyu yok et."
+        },
+        "authority": "Canonical card text only; not a runtime-rule test or rendered-art review"
+      },
       "implementationStatus": "PLANNED_NOT_DRAWN",
       "qualityGate": "BLOCKED_BY_FAILED_VECTOR_REALISM_PROBE",
-      "reviewStatus": "SEMANTIC_REVIEW_REQUIRED",
-      "unresolved": "Tweet title is immutable; art contains no platform logo, copied interface, real post or lettering."
+      "reviewStatus": "ASSISTANT_BRIEF_ONLY_NOT_ART_APPROVAL",
+      "unresolved": null
     },
     {
       "id": "SND-122",
@@ -3936,19 +4092,37 @@
         "textEn": "1 unit’s ATK becomes 0 this turn."
       },
       "sourceRecordSha256": "c824a6516a14143be79965cadc0566ae95afbd1724eb37093f78ff56cd7322c5",
-      "sceneClass": "action",
-      "subjectAction": "İki mühürsüz zarf arasındaki kuşkulu aktarım kontrol masasında durdurulur",
+      "sceneClass": "object",
+      "subjectAction": "Kapalı iddia dosyası boş inceleme tepsisinde bekler; hiçbir para aktarımı veya suçlanan kişi görünmez",
       "setting": "kurgusal etik inceleme gişesi",
-      "composition": "close-action",
+      "composition": "still-life",
       "effectRelationship": {
         "kind": "visual_metaphor_not_rule_rewrite",
-        "description": "Hedefin geçici güç kaybı; gerçek kişi hakkında iddia yok",
+        "description": "İddianın o turluk güç etkisi; rüşvetin gerçekleştiği resmedilmez",
         "mechanicalAuthority": "source.text"
+      },
+      "sourceGrounding": {
+        "expectedName": "Rüşvet İddiası",
+        "disposition": "SOURCE_BOUNDED_NOT_ART_APPROVED",
+        "sourceFacts": "Normal trap makes the target unit ATK0 for this turn. The title explicitly says an allegation, not an established act.",
+        "visualInterpretation": "A sealed allegation file waits for review, with no payment, exchange or accused face shown.",
+        "notImpliedBySource": "The source does not establish guilt, a completed bribe, permanent power loss or a real case.",
+        "retainedConstraints": [
+          "Show only a pending fictional file; no money handover.",
+          "No identifiable accused person, verdict text or factual corruption claim."
+        ],
+        "evidence": {
+          "name": "Rüşvet İddiası",
+          "kind": "trap",
+          "subtype": "normal",
+          "effectText": "Hedef kadro ATK 0, bu tur."
+        },
+        "authority": "Canonical card text only; not a runtime-rule test or rendered-art review"
       },
       "implementationStatus": "PLANNED_NOT_DRAWN",
       "qualityGate": "BLOCKED_BY_FAILED_VECTOR_REALISM_PROBE",
-      "reviewStatus": "SEMANTIC_REVIEW_REQUIRED",
-      "unresolved": "Allegation is a fictional game title. No identifiable accused person or factual corruption claim."
+      "reviewStatus": "ASSISTANT_BRIEF_ONLY_NOT_ART_APPROVAL",
+      "unresolved": null
     },
     {
       "id": "SND-125",
@@ -4038,10 +4212,29 @@
         "description": "Tartışma evresinin atlanması; saldırı görüntüsü veya yaralı yok",
         "mechanicalAuthority": "source.text"
       },
+      "sourceGrounding": {
+        "expectedName": "Mitinğe Saldırı",
+        "disposition": "SOURCE_BOUNDED_NOT_ART_APPROVED",
+        "sourceFacts": "Normal trap activates at the start of the Debate Phase, skips that phase and goes to Move2.",
+        "visualInterpretation": "An empty civic speaking platform is closed for an interrupted session.",
+        "notImpliedBySource": "The specified rule does not require depiction of an attacker, injury, weapon, damaged building or historical event.",
+        "retainedConstraints": [
+          "Show interruption aftermath only: empty and physically unharmed setting.",
+          "No attack, injured person, weapon or real incident reference.",
+          "Do not imply the whole turn is skipped."
+        ],
+        "evidence": {
+          "name": "Mitinğe Saldırı",
+          "kind": "trap",
+          "subtype": "normal",
+          "effectText": "Tartışma Aşaması başında etkinleşir: bu evre olmaz, Hamle 2’ye geçilir."
+        },
+        "authority": "Canonical card text only; not a runtime-rule test or rendered-art review"
+      },
       "implementationStatus": "PLANNED_NOT_DRAWN",
       "qualityGate": "BLOCKED_BY_FAILED_VECTOR_REALISM_PROBE",
-      "reviewStatus": "SEMANTIC_REVIEW_REQUIRED",
-      "unresolved": "Depict the postponed empty civic event only. No attack, injury, weapons or real incident reference."
+      "reviewStatus": "ASSISTANT_BRIEF_ONLY_NOT_ART_APPROVAL",
+      "unresolved": null
     },
     {
       "id": "SND-128",
@@ -4193,10 +4386,28 @@
         "description": "Rastgele el kaybı; kaynağın kimliği uydurulmaz",
         "mechanicalAuthority": "source.text"
       },
+      "sourceGrounding": {
+        "expectedName": "Kaynaklar",
+        "disposition": "UNRESOLVED_SOURCE_AMBIGUITY",
+        "sourceFacts": "Normal trap causes the opponent to discard one random hand card.",
+        "visualInterpretation": "One closed envelope separated from mixed papers proposes a lost option.",
+        "notImpliedBySource": "Source identity and even the meaning of sources are unspecified. Intentional anonymity, an informant, financing or evidence collection cannot be asserted.",
+        "retainedConstraints": [
+          "Provisional anonymous object only.",
+          "No invented source identity, journalist, payment or factual disclosure."
+        ],
+        "evidence": {
+          "name": "Kaynaklar",
+          "kind": "trap",
+          "subtype": "normal",
+          "effectText": "Rakip 1 rastgele el kartını atar."
+        },
+        "authority": "Canonical card text only; not a runtime-rule test or rendered-art review"
+      },
       "implementationStatus": "PLANNED_NOT_DRAWN",
       "qualityGate": "BLOCKED_BY_FAILED_VECTOR_REALISM_PROBE",
       "reviewStatus": "SEMANTIC_REVIEW_REQUIRED",
-      "unresolved": "Sources are intentionally unidentified; no invented source identity or factual claim."
+      "unresolved": "The title “Kaynaklar” and random opposing-hand discard effect do not say whether sources are people, records, funding or something else. An anonymous envelope is provisional; intentional anonymity cannot be inferred."
     },
     {
       "id": "SND-133",
@@ -6270,10 +6481,29 @@
         "description": "Giriş katkısıyla güç ve küçük Kurum kaydı dönüşü",
         "mechanicalAuthority": "source.text"
       },
+      "sourceGrounding": {
+        "expectedName": "İdari Yargıç",
+        "disposition": "SOURCE_BOUNDED_NOT_ART_APPROVED",
+        "sourceFacts": "Unit/effect card requires one tribute to enter, gains200ATK per summon tribute, and on battle destruction returns one level3-or-lower Kurum unit from discarded cards to hand.",
+        "visualInterpretation": "A civilian legal worker reviews handed-over files and keeps an older institutional file aside.",
+        "notImpliedBySource": "The source specifies no actual court, official robe, badge, judgement, real jurisdiction or judicial outcome.",
+        "retainedConstraints": [
+          "Retain title exactly while using fictional civilian attire.",
+          "No court insignia or claim of institutional endorsement.",
+          "File handover illustrates tribute abstractly; no human sacrifice."
+        ],
+        "evidence": {
+          "name": "İdari Yargıç",
+          "kind": "unit",
+          "subtype": "effect",
+          "effectText": "Sahaya sürmek için 1 adak gerekir. Her çağrı fedası için 200 ATK kazanır. Savaşta yok olduğunda Atılan Kartlar’dan kademe 3 veya altı 1 Kurum birimini eline al."
+        },
+        "authority": "Canonical card text only; not a runtime-rule test or rendered-art review"
+      },
       "implementationStatus": "PLANNED_NOT_DRAWN",
       "qualityGate": "BLOCKED_BY_FAILED_VECTOR_REALISM_PROBE",
-      "reviewStatus": "SEMANTIC_REVIEW_REQUIRED",
-      "unresolved": "Civilian legal analyst silhouette, not official robe, real court badge or institutional endorsement."
+      "reviewStatus": "ASSISTANT_BRIEF_ONLY_NOT_ART_APPROVAL",
+      "unresolved": null
     },
     {
       "id": "SND-200",
@@ -8223,10 +8453,28 @@
         "description": "Lojistik koşuluyla geçici kontrol; ses veya autoplay yok",
         "mechanicalAuthority": "source.text"
       },
+      "sourceGrounding": {
+        "expectedName": "Ses Kontrolü",
+        "disposition": "SOURCE_BOUNDED_NOT_ART_APPROVED",
+        "sourceFacts": "Normal spell costs1550OP, temporarily takes an opposing face-up level4-or-lower unit for this turn, and requires an own Lojistik unit plus an empty unit slot.",
+        "visualInterpretation": "A technician temporarily takes responsibility for an unbranded sound desk from another team.",
+        "notImpliedBySource": "The card title does not create permission or a requirement for audio playback, microphone access or autoplay.",
+        "retainedConstraints": [
+          "Static silent art only; no media files or audio API.",
+          "Technical equipment must be unbranded; no invented control duration or permanent transfer."
+        ],
+        "evidence": {
+          "name": "Ses Kontrolü",
+          "kind": "spell",
+          "subtype": "normal",
+          "effectText": "1550 OP öde; rakibin açık kademe 4 veya altı 1 biriminin kontrolünü bu tur al. Bir Lojistik birimin ve boş birim bölgen bulunmalı."
+        },
+        "authority": "Canonical card text only; not a runtime-rule test or rendered-art review"
+      },
       "implementationStatus": "PLANNED_NOT_DRAWN",
       "qualityGate": "BLOCKED_BY_FAILED_VECTOR_REALISM_PROBE",
-      "reviewStatus": "SEMANTIC_REVIEW_REQUIRED",
-      "unresolved": "Sound-check scene must remain a static silent illustration; no audio functionality implied."
+      "reviewStatus": "ASSISTANT_BRIEF_ONLY_NOT_ART_APPROVAL",
+      "unresolved": null
     },
     {
       "id": "SND-263",

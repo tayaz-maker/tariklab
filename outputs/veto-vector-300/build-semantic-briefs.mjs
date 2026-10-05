@@ -132,7 +132,7 @@ const authoredRows = String.raw`
 121|object|Eski telefon boş ekranıyla kapalı dosyanın üzerine bırakılır|sosyal medya kayıt inceleme sehpası|still-life|Kapalı kadroya geçmiş kayıt üzerinden müdahale; marka veya tweet metni yok
 122|object|İşaretsiz diploma kâğıdı iki farklı doku nedeniyle büyüteç altında incelenir|belge doğrulama tezgâhı|macro|Yüksek kademeli etkilerin kalıcı durdurulması; gerçek diploma kopyası yok
 123|object|Sade kayıt cihazı kapatılan kampanya klasörünün yanında bulunur|sivil inceleme çekmecesi|still-life|Kampanya etkinleşmesini iptal; gerçek ses kaydı yok
-124|action|İki mühürsüz zarf arasındaki kuşkulu aktarım kontrol masasında durdurulur|kurgusal etik inceleme gişesi|close-action|Hedefin geçici güç kaybı; gerçek kişi hakkında iddia yok
+124|object|Kapalı iddia dosyası boş inceleme tepsisinde bekler; hiçbir para aktarımı veya suçlanan kişi görünmez|kurgusal etik inceleme gişesi|still-life|İddianın o turluk güç etkisi; rüşvetin gerçekleştiği resmedilmez
 125|institution|Aynı aileden yetişkinler işletme masasındaki iki azalan malzeme tepsisini inceler|markasız aile işletmesi ofisi|group|İki tarafın eşit olmayan kaynak kaybı
 126|event|Sivil denetçiler kapalı bütün evrak raflarını birlikte incelemeye boşaltır|seçim işlem deposu|wide-diagonal|Her iki tarafın kapalı desteklerinin kaldırılması
 127|event|Boş sivil toplanma alanında yarıda bırakılmış konuşma platformu güvenle kapatılır|dağılmış ama hasarsız forum meydanı|environment|Tartışma evresinin atlanması; saldırı görüntüsü veya yaralı yok
@@ -312,19 +312,105 @@ const authoredRows = String.raw`
 `.trim().split('\n').map(row => row.split('|'));
 
 const unresolved = {
-  'SND-017': 'Source uses “Sandık yemini”; retain exact rule text. Proposed visual uses role recruitment, but final art reviewer must confirm no misleading pledge/ritual depiction.',
-  'SND-042': 'Title evokes a military rank. Civilian retired adult only; no uniform, rank badge or real-person resemblance. Final composition review required.',
-  'SND-046': 'Abstract title does not define a literal institution. Proposed old civic doorway is a metaphor, not factual historical content.',
-  'SND-049': 'Do not imply a real judiciary is corrupt; entirely fictional civilian scheduling metaphor needs content review.',
-  'SND-070': 'National-sounding title must not acquire a flag, country boundary or propaganda emblem.',
-  'SND-084': 'Bombası is idiomatic transfer news. No literal explosive or violence; keep role exchange legible.',
-  'SND-118': 'Civilian transport protection only; no armed convoy, uniforms or copied vehicle brand.',
-  'SND-121': 'Tweet title is immutable; art contains no platform logo, copied interface, real post or lettering.',
-  'SND-124': 'Allegation is a fictional game title. No identifiable accused person or factual corruption claim.',
-  'SND-127': 'Depict the postponed empty civic event only. No attack, injury, weapons or real incident reference.',
-  'SND-132': 'Sources are intentionally unidentified; no invented source identity or factual claim.',
-  'SND-199': 'Civilian legal analyst silhouette, not official robe, real court badge or institutional endorsement.',
-  'SND-262': 'Sound-check scene must remain a static silent illustration; no audio functionality implied.'
+  'SND-017': 'The source says “Sandık yemini”, without defining “yemini” as a card, kind or subtype. Do not silently correct it to kadro or claim the intended referent is verified. Recruitment remains a provisional visual interpretation.',
+  'SND-046': 'The source defines a once-per-turn battle-survival effect but does not identify the entity meant by “Eski Devlet”. The civic doorway remains an unconfirmed metaphor, not an established literal subject.',
+  'SND-132': 'The title “Kaynaklar” and random opposing-hand discard effect do not say whether sources are people, records, funding or something else. An anonymous envelope is provisional; intentional anonymity cannot be inferred.'
+};
+
+// B4/B8 source-only recheck of the 13 original interpretation flags.
+// SOURCE_BOUNDED means the cited source settles the narrow meaning, NOT that art is approved.
+const grounding = {
+  'SND-017': {
+    expectedName:'Teşkilatçı',disposition:'UNRESOLVED_SOURCE_AMBIGUITY',
+    sourceFacts:'Unit/effect card. On summon, the exact text calls one “Sandık yemini” from hand or deck, level3 or below.',
+    visualInterpretation:'An organizer welcoming a new volunteer is an authored recruitment metaphor.',
+    notImpliedBySource:'The text does not prove that yemini means kadro, a pledge, or a ritual. Do not repair the rule through art.',
+    retainedConstraints:['Preserve the exact typo or term pending a separate rule/content decision.','No oath text, religious ritual or invented card type.']
+  },
+  'SND-042': {
+    expectedName:'Emekli Paşa',disposition:'SOURCE_BOUNDED_NOT_ART_APPROVED',
+    sourceFacts:'Unit/effect title denotes a retired rank-holder. The effect triggers when this card is destroyed in battle and makes the opponent destroy one unit.',
+    visualInterpretation:'A retired civilian leaves his desk while an opposing working position empties; this is a nonviolent role-loss metaphor.',
+    notImpliedBySource:'The source supplies no face, real person, uniform, insignia, historical event or physical violence requirement.',
+    retainedConstraints:['Civilian adult clothing only; no uniform or rank badge.','Do not show injury, death or a recognisable historical person.','Retirement and two work positions must remain readable without extra text.']
+  },
+  'SND-046': {
+    expectedName:'Eski Devlet',disposition:'UNRESOLVED_SOURCE_AMBIGUITY',
+    sourceFacts:'Unit/effect card with once-per-turn protection from battle destruction.',
+    visualInterpretation:'An old civic doorway remaining standing proposes durability and continuity.',
+    notImpliedBySource:'No literal person, institution, era, regime, building or political identity is specified.',
+    retainedConstraints:['Keep the doorway marked as provisional metaphor.','No real institution, historical identity, national boundary or emblem.']
+  },
+  'SND-049': {
+    expectedName:'Yargı Lobisi',disposition:'SOURCE_BOUNDED_NOT_ART_APPROVED',
+    sourceFacts:'Unit/effect card delays opposing trap activation by one additional turn after setting; the source explicitly writes gecikme +1.',
+    visualInterpretation:'Moving a meeting file to the next waiting compartment represents delay.',
+    notImpliedBySource:'The game effect does not establish a factual allegation about any real court, corruption or institution.',
+    retainedConstraints:['Fictional civilian waiting area only.','No real court logo, robe, emblem, accused person or corruption scene.','Do not replace exact timing text with extra in-art rules.']
+  },
+  'SND-070': {
+    expectedName:'Milli Liste',disposition:'SOURCE_BOUNDED_NOT_ART_APPROVED',
+    sourceFacts:'Unit/fusion card whose effect text specifies three units and permission to attack directly.',
+    visualInterpretation:'Three separate civilian work groups join beside an open route.',
+    notImpliedBySource:'No actual nation, country border, flag, political party or slogan is named.',
+    retainedConstraints:['Exactly three contributing groups as composition cue, not new rules.','No national or party symbols; no propaganda lettering.']
+  },
+  'SND-084': {
+    expectedName:'Transfer Bombası',disposition:'SOURCE_BOUNDED_NOT_ART_APPROVED',
+    sourceFacts:'Normal spell sends one opposing level4-or-lower unit to discarded cards and special-summons one own unit of the same level from hand.',
+    visualInterpretation:'One working position empties while an equal-height replacement is prepared on the other side.',
+    notImpliedBySource:'The specified effect is a role exchange, not detonation, area damage or destruction of a physical place.',
+    retainedConstraints:['No explosive, weapon, blast or injury.','Equal level is only a visual correspondence; preserve exact rule text outside art.']
+  },
+  'SND-118': {
+    expectedName:'Koruma Konvoyu',disposition:'SOURCE_BOUNDED_NOT_ART_APPROVED',
+    sourceFacts:'Equip spell prevents the equipped unit from being targeted by an opposing effect.',
+    visualInterpretation:'Unbranded civilian transport brings its passenger into a sheltered entrance.',
+    notImpliedBySource:'Target protection does not grant blanket invulnerability, battle survival or an armed escort.',
+    retainedConstraints:['Civilian unbranded vehicles; no armed guards, uniforms or weapons.','Rain shelter is a visual protection metaphor, not a new weather mechanic.']
+  },
+  'SND-121': {
+    expectedName:'Eski Tweet',disposition:'SOURCE_BOUNDED_NOT_ART_APPROVED',
+    sourceFacts:'Normal trap targeting a yüzüstü unit for destruction; the exact state wording stays in source.text.',
+    visualInterpretation:'An older unbranded device rests beside a closed case file; no content is shown.',
+    notImpliedBySource:'No actual post, author, platform interface, quotation or real allegation is supplied.',
+    retainedConstraints:['Keep immutable title; never invent a tweet or quote in the illustration.','No platform logo, copied UI, readable screen or identifiable person.']
+  },
+  'SND-124': {
+    expectedName:'Rüşvet İddiası',disposition:'SOURCE_BOUNDED_NOT_ART_APPROVED',
+    sourceFacts:'Normal trap makes the target unit ATK0 for this turn. The title explicitly says an allegation, not an established act.',
+    visualInterpretation:'A sealed allegation file waits for review, with no payment, exchange or accused face shown.',
+    notImpliedBySource:'The source does not establish guilt, a completed bribe, permanent power loss or a real case.',
+    retainedConstraints:['Show only a pending fictional file; no money handover.','No identifiable accused person, verdict text or factual corruption claim.']
+  },
+  'SND-127': {
+    expectedName:'Mitinğe Saldırı',disposition:'SOURCE_BOUNDED_NOT_ART_APPROVED',
+    sourceFacts:'Normal trap activates at the start of the Debate Phase, skips that phase and goes to Move2.',
+    visualInterpretation:'An empty civic speaking platform is closed for an interrupted session.',
+    notImpliedBySource:'The specified rule does not require depiction of an attacker, injury, weapon, damaged building or historical event.',
+    retainedConstraints:['Show interruption aftermath only: empty and physically unharmed setting.','No attack, injured person, weapon or real incident reference.','Do not imply the whole turn is skipped.']
+  },
+  'SND-132': {
+    expectedName:'Kaynaklar',disposition:'UNRESOLVED_SOURCE_AMBIGUITY',
+    sourceFacts:'Normal trap causes the opponent to discard one random hand card.',
+    visualInterpretation:'One closed envelope separated from mixed papers proposes a lost option.',
+    notImpliedBySource:'Source identity and even the meaning of sources are unspecified. Intentional anonymity, an informant, financing or evidence collection cannot be asserted.',
+    retainedConstraints:['Provisional anonymous object only.','No invented source identity, journalist, payment or factual disclosure.']
+  },
+  'SND-199': {
+    expectedName:'İdari Yargıç',disposition:'SOURCE_BOUNDED_NOT_ART_APPROVED',
+    sourceFacts:'Unit/effect card requires one tribute to enter, gains200ATK per summon tribute, and on battle destruction returns one level3-or-lower Kurum unit from discarded cards to hand.',
+    visualInterpretation:'A civilian legal worker reviews handed-over files and keeps an older institutional file aside.',
+    notImpliedBySource:'The source specifies no actual court, official robe, badge, judgement, real jurisdiction or judicial outcome.',
+    retainedConstraints:['Retain title exactly while using fictional civilian attire.','No court insignia or claim of institutional endorsement.','File handover illustrates tribute abstractly; no human sacrifice.']
+  },
+  'SND-262': {
+    expectedName:'Ses Kontrolü',disposition:'SOURCE_BOUNDED_NOT_ART_APPROVED',
+    sourceFacts:'Normal spell costs1550OP, temporarily takes an opposing face-up level4-or-lower unit for this turn, and requires an own Lojistik unit plus an empty unit slot.',
+    visualInterpretation:'A technician temporarily takes responsibility for an unbranded sound desk from another team.',
+    notImpliedBySource:'The card title does not create permission or a requirement for audio playback, microphone access or autoplay.',
+    retainedConstraints:['Static silent art only; no media files or audio API.','Technical equipment must be unbranded; no invented control duration or permanent transfer.']
+  }
 };
 
 export function buildManifest() {
@@ -339,12 +425,14 @@ export function buildManifest() {
     const row=byId.get(source.id);assert.ok(row,`Missing authored scene for ${source.id}`);
     const [sceneClass,subjectAction,setting,composition,effectRelationship]=row;
     assert.equal(row.length,5);
+    if(grounding[source.id])assert.equal(source.name,grounding[source.id].expectedName,'Grounding record no longer matches canonical title.');
     return {
       id:source.id,
       source, // Exact original object: names, types, effects, stats, localization and deck metadata stay intact.
       sourceRecordSha256:digest(JSON.stringify(source)),
       sceneClass,subjectAction,setting,composition,
       effectRelationship:{kind:'visual_metaphor_not_rule_rewrite',description:effectRelationship,mechanicalAuthority:'source.text'},
+      ...(grounding[source.id]?{sourceGrounding:{...grounding[source.id],evidence:{name:source.name,kind:source.kind,subtype:source.subtype,effectText:source.text},authority:'Canonical card text only; not a runtime-rule test or rendered-art review'}}:{}),
       implementationStatus:'PLANNED_NOT_DRAWN',
       qualityGate:'BLOCKED_BY_FAILED_VECTOR_REALISM_PROBE',
       reviewStatus:unresolved[source.id]?'SEMANTIC_REVIEW_REQUIRED':'ASSISTANT_BRIEF_ONLY_NOT_ART_APPROVAL',
@@ -359,7 +447,7 @@ export function buildManifest() {
     constraints:{artMode:'Original SVG/vector/layered rendering only',noRasterPlate:true,noImageGeneration:true,noExternalAssets:true,noTrace:true,noVisibleLettersOrNumbers:true,noExtraFlavorText:true,noRealPersonOrInstitution:true,noFlagsLogosUniformsOrWeapons:true,noViolence:true,adultsOnly:true,noAudio:true,mechanicsUnchanged:true,cardAndArtDimensionsUnchanged:true,intrinsicArtDimensions:[576,384],preserveLocalizationAccessibility:true},
     visualDirection:{palette:['cream','forest green','warm wood','restrained red'],lighting:'Coherent window/daylight for most scenes; scene-required night/studio lighting stays restrained.',characterDiversity:'Distinct fictional adult identities and anatomically credible hands/faces; identities must be designed per scene, never reuse one face with a wardrobe change.',compositionPolicy:'Composition labels are planning categories, not reusable plate templates. Every scene retains its explicit subject, action, setting and effect relation.',nonnumericEffects:'Art suggests actions and trade-offs; all exact costs, timings and rewards remain solely in unchanged source/UI text.'},
     production:{completedCards:0,publishedCards:0,approvedCards:0,browserTested:false,offlineTested:false,saveTested:false,PR:null,gate:'Do not scale failed SND-001 probe or claim these briefs are completed cards.',futurePipeline:'Replacing only public WebP is insufficient: approved final art must update scripts/duel-art-packs and truthful manifests with offline/version and immutable-data regression evidence.'},
-    coverage:{entries:entries.length,uniqueIds:new Set(entries.map(e=>e.id)).size,uniqueSubjectActions:new Set(entries.map(e=>e.subjectAction)).size,uniqueSettings:new Set(entries.map(e=>e.setting)).size,sceneClasses:countBy('sceneClass'),compositions:countBy('composition'),unresolvedIds:Object.keys(unresolved)},
+    coverage:{entries:entries.length,uniqueIds:new Set(entries.map(e=>e.id)).size,uniqueSubjectActions:new Set(entries.map(e=>e.subjectAction)).size,uniqueSettings:new Set(entries.map(e=>e.setting)).size,sceneClasses:countBy('sceneClass'),compositions:countBy('composition'),sourceGrounding:{reviewedIds:Object.keys(grounding),sourceBoundedCount:Object.values(grounding).filter(e=>e.disposition==='SOURCE_BOUNDED_NOT_ART_APPROVED').length,unresolvedCount:Object.keys(unresolved).length,artApprovedCount:0},unresolvedIds:Object.keys(unresolved)},
     cards:entries
   };
 }
