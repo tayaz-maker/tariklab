@@ -172,3 +172,26 @@ PR #101 remains Terra's responsibility. Novella remains **LATER**.
 - Kanıt: final360 intake'inde artifact `11317874879`, low-memory/DPR/statik retention ve Racon PNG/performance sınırları; DARBE sınırları ayrı kaynak notunda, kural testi/teşhisi yok.
 - Risk: yerel Chromium SIGSEGV, fiziksel GPU yok; main browser+production süre bütçesi ayrıca ölçülecek. PL ve anatomi insan kapıları açık.
 - Sonraki: iki güncel head green → #110 merge/iki-host → #111 main rebase/yeni CI/merge/iki-host; Wave2–4/anatomi kodu henüz başlamadı.
+
+### 2026-10-05 — #110 merge / #111 main rebase checkpoint
+- Branch/PR: #110 `astra/wave1-decision-traces` / head `fea0d0c`; #111 `astra/map-static-cache` / head `2011a59aeced3600d46363bb6c24708673e49052`.
+- Merge SHA: #110 `562831dba3b16be2a0bc8b2aec2e613eb1b80f45`, normal GitHub merge; protection bypass yok.
+- Gerçek CI: #110 8/8 + Vercel SUCCESS; #111 eski `9c47c0d` 9/9 + Vercel SUCCESS, 126 route ölçümü tamam/hatasız.
+- Rebase: #111 12 commit güncel main üzerine; tree `5b2a64a013ba032b744be255d13b51f0bff9e0db` önceki yeşil tree ile aynı; eski head backup ref'te.
+- Production: #110 iki-host smoke henüz kapanmadı; #111 yeni CI kapısı, merge edilmedi.
+- Ayrı kullanıcı değişikliği: DARBE 300 görsel yenilemesi onay öncesi10 kartlık proof'a ayrıldı; engine/save/data/ölçü/a11y korunur, uygulama paketi henüz değişmez.
+- Değişen kayıtlar: final360 intake ve Wave4 DARBE boundary; eski görseli koru talimatı güncellendi, DRB237–240 ayrı P1 kalır.
+- Risk: fiziksel GPU/PL ana dil/anatomi uzmanı açık; main production süresi yeni koşuda ölçülecek.
+- Sonraki: #110 iki-host kanıtı + #111 yeni CI → #111 merge/production; DARBE proof kullanıcı incelemesi, onay olmadan300 yayılmaz.
+
+### 2026-10-05 — DARBE stil örneği ve production blocker checkpoint
+- Hedef/oyuncu değeri: kartın gerçek etki türünü özgün sivil arşiv sahnesinden ayırt etmek; 300 yayılımı kullanıcı onayı bekler.
+- Branch/PR: `astra/darbe-art-direction-proof` / #112; head `f541bcfc0a571b2ad2dd3d9aa1c047343e76ed70`, taslak ve merge edilmedi.
+- Değişiklik: 10 SVG/generator/manifest, standalone karşılaştırma, 651 dosya hash koruması, hedefli browser workflow; oyun/save/engine/kart ölçüsü değişmedi.
+- Yerel test/build PASS; art CI `37247459967` SUCCESS, artifact `11319492846`: 6/6 viewport-motion, sıfır console/overflow/worker, 25 screenshot. Genel #112 CI henüz pending.
+- #110 merge SHA `562831dba3b16be2a0bc8b2aec2e613eb1b80f45`; main run `37246439763` production FAIL: Workers HAN1440 reload `net::ERR_FAILED`; artifact `11319313487`.
+- Production geçen kapsam: Çete iki host 17/17; Wave1 www 9/9; campaign www PASS. Workers Wave1 ve sonraki duel production kapalı değil; fiziksel GPU iddiası yok.
+- #111 head `2011a59aeced3600d46363bb6c24708673e49052`: build/route SUCCESS, campaign pending; main production blocker nedeniyle merge yok.
+- Repro adayı: Workers index.html HTTP307 → oyun kökü doğrulandı; redirected HTML cache yanıtı kontrollü yerel fixture ile ayrıştırılacak. Kör retry veya SW bypass yok.
+- Kayıt: final360 intake, Wave4 DARBE boundary ve `docs/evidence/2026-10-05-darbe-proof-release.json`; DRB-237–240 ayrı P1, PL/anatomi insan kapıları açık.
+- Sonraki: dar HAN offline redirect repro/fix → green release kapıları; DARBE stil onayından önce 300 karta yayma. Novella/#78/#79/SON KÖY WIP değişmedi.

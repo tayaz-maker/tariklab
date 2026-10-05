@@ -1,6 +1,6 @@
 # TarikLab — final 360° inceleme intake'i ve yayın kapıları
 
-Tarih: **2026-10-05 (Türkiye)**. Sahip: **Astra — inceleme, dar düzeltme ve release kapanışının tamamı**. Bu belge yalnız gelecekteki kabul checklist'idir; ürün incelemesi, anatomi A keşfi, repro, uzman incelemesi veya production testi başlatılmış değildir. Yeni kaynak planı/özellik de bu hazırlıkta denetlenmez.
+Tarih: **2026-10-05 (Türkiye)**. Sahip: **Astra — inceleme, dar düzeltme ve release kapanışının tamamı**. Bu belge final 360° için gelecekteki kabul checklist'idir; final inceleme ve anatomi A keşfi başlamadı. Ayrı release/repro kanıtları aşağıdaki tarihli checkpoint'lerde belirtilir. Yeni kaynak planı/özellik de bu hazırlıkta denetlenmez.
 
 Dokümantasyon branch'i: `astra/review-release-gates`. Fresh fetch ile alınan taban: `b4ebc2babe7c754493d84421051c9531fc09215e` (`origin/main`). Bu SHA gelecekteki birleşik release'in incelenmiş SHA'sı değildir. Hazırlık yalnız bu dosyadır; kayıt altına alınması review'ün başladığı veya geçtiği anlamına gelmez.
 
@@ -140,7 +140,7 @@ Test kaynakları: `hanedanian-map-pixi/atlas-scheduler/offline`, `ihtilal-basin-
 
 | No / kapsam | Gelecekteki somut doğrulama ve değişiklik sınırı | Durum |
 | --- | --- | --- |
-| 1 — DARBE-H! / Wave 4 | Kaynak sınır notu: `outputs/ASTRA_WAVE4_DARBE_BOUNDARY.md` (test/teşhis yapılmadı). Mevcut **300 özgün/prosedürel SVG kart** ve ölçüleri korunur. Yalnız mevcut state'ten türeyen sessiz sonuç anı ve masa/eldeki kart/arşiv için hafif erişilebilir katman; reduced motion, skip, okunabilir metin. Kart verisi/denge/deste/save/ortak duel engine değişmez. Gerçek kişi/kurum/parti/askerî sembol, şiddet estetiği, dış asset ve kopya UI yok. DRB kaydı aşağıda ayrı | LATER |
+| 1 — DARBE-H! / Wave 4 | Güncellenmiş sınır: `outputs/ASTRA_WAVE4_DARBE_BOUNDARY.md`; 300 karta yayılım stil onayına bağlıdır. **Güncel kullanıcı talimatı:** 300 SVG kartın görsel tasarımı yenilenecek; önce 8–12 temsil kartı ve desktop/mobile stil onayı, sonra ayrı uygulama PR'ı. Kart verisi/denge/deste/save/ortak duel engine/kart ölçüsü/erişilebilir metin korunur. Her sahne kart türü/etkisi/serisiyle anlamlı ve ayrı; sivil arşiv/karar/belge/iz/sonuç dili, yetişkin ayrıntısız sivil figür olabilir. GETT/VETO layout/palet/çerçeve/ikon/sahne kopyalanmaz. Sessiz sonuç anı ve masa katmanı ayrı gerçek state geri bildirimi; reduced motion/skip okunur kalır. Gerçek kişi/kurum/parti/askerî sembol, şiddet estetiği, dış asset ve kopya UI yok. DRB kaydı aşağıda ayrı | LATER |
 | 2 — VETO-H! / GETT-OH! / DARBE-H! | 320/390 px el-masa akışı, focus/restore, reduced motion, legacy save, kart yüzleri ve sessizlik gerçek browser'da test edilir. Yeni kapsamda ortak duel engine'e dokunulmaz; oyun-özel veri sınırı korunur. Gerekli kural düzeltmesi görsel PR'a karıştırılmaz | LATER |
 | 3 — HANEDANIAN / İHTİLÂL / Racon / TC SIM: DEVLET / TC SIM / JİTEM / Kıyı Eşiği | Güncel Pixi/SVG/DOM/Canvas durumu doğrulanır; 1440/390/320 px, context loss, resize, pan/zoom, ekran geçişi, offline, save ve overlay test edilir. Haritanın gerçek karara etkisi incelenir; baştan “dekoratif” veya “uygulanamaz” varsayılmaz. Eksik karar yüzeyi açık backlog veya kanıtlı P1 gerekçesiyle kaydedilir | LATER |
 | 4 — TC SIM başlangıçları | Günümüz, **1999-04-18**, **1980/1984/1988** başlangıçlarının her biri sabit seed ile **2026-01-01 son akışına kadar** test edilir. Determinizm, gecikmiş etkiler, legacy `tc-sim-save`, save/reload, olay-bazlı kaynaklar ve üç genişlik doğrulanır. Olgular dengeli/kaynaklı; propaganda veya belirsiz iddiayı kesinleştirme yok | LATER |
@@ -209,3 +209,20 @@ Her **sistem, etiket ve açıklama** ayrı kimlikle izlenir: kaynak künyesi/ba�
 - Önce kanıtlı dar **P0/P1**: kritik güvenlik/veri kaybı/genel kullanılamama veya ana akış/save/erişim engeli. Önce repro, sonra ilgili regresyon testi, ayrı dar PR ve tekrar doğrulama. P2 yalnız somut kullanıcı değeri varsa ele alınır; redesign/yeni özellik ayrı backlog, öncelik kapsam açmak için yükseltilmez.
 - Astra release dahil tam sahipliktedir. Başka ajana zorunlu devir yoktur. Kırmızı CI için yalnız ilgili repro/fix/checkpoint yapılır; CI/deploy polling, uzun sleep veya bekleme döngüsü kurulmaz. Kırmızı/pending zorunlu kontrollerle merge olmaz.
 - İnceleme başlayınca birleşik hedef SHA, kesin rota listesi, koşul kapanış kanıtı, sorumlu ve başlangıç zamanı kaydedilir. PASS yalnız ilgili yerel/CI/iki-host gerçek browser ve gerekiyorsa insan kanıtlarıyla verilir. Anatomi A için ayrı #110/#111 başlangıç kaydı tutulur.
+
+### 2026-10-05 — güncel release checkpoint
+
+#110 head `fea0d0c`: 8/8 check + Vercel status SUCCESS; #111 head `9c47c0d`: 9/9 + Vercel SUCCESS.
+Normal korumalı #110 merge SHA **`562831dba3b16be2a0bc8b2aec2e613eb1b80f45`**. Production henüz kapatılmadı.
+#111 onaylanan ağacı değişmeden bu main'e 12 commit rebase edildi; yeni head **`2011a59aeced3600d46363bb6c24708673e49052`**, base main.
+Ağaç `5b2a64a013ba032b744be255d13b51f0bff9e0db` eski yeşil head ile eş; yeni CI ve #110 iki-host kanıtı yine zorunlu.
+DARBE talimat güncellemesi yalnız ayrı proof branch'ine alındı; 300 uygulama onayı ve DRB P1 birbirinden bağımsız.
+
+### 2026-10-05 00:33 UTC — yeni kanıt, review hâlâ başlamadı
+
+- #110 main run `37246439763`: core/campaign SUCCESS; browser-regression ve aggregate build FAIL. Timeout değil: Workers HANEDANIAN1440 save sonrası reload `net::ERR_FAILED`, `scripts/wave1-outcome-browser.mjs:82`, artifact `11319313487`.
+- Çete production www/workers 17/17 ve Wave1 www 9/9 PASS. Workers Wave1 hiçbir tam senaryoyu kapatmadı; ardından duel production SKIPPED. #109'un iki-host Çete kanıtı var; genel release/final360 PASS sonucu çıkarılmaz.
+- Workers `index.html` HEAD yanıtı gerçek307, Location oyun kökü; cache'de redirected HTML adayı kontrollü yerel fixture ile araştırılacak. Cloud Browser reload hata protokolüne yönelince URL politikası reddetti; o tarayıcıda tekrar/alternatif protokol denemesi yok. Mevcut www kampanya oturumu eski tam paketini koruyor; kaynak SW tasarımı yükseltmeyi açık oyun istemcileri kapanana dek bekletiyor, tek başına yeni regresyon diye sınıflandırılmadı.
+- #111 `2011a59` build+route SUCCESS, campaign pending; release blocker varken merge yok. #110'un önceki yeşil PR CI'si bu yeni production arızasını kapatmaz.
+- DARBE güncellenmiş talimat için ayrı taslak #112 `f541bcf`: 10 özgün sahne, 25.758 B; 651 ürün dosyası korunur. Hedefli6/6 browser CI SUCCESS (`37247459967`, artifact `11319492846`), tüm genel CI sonucu henüz yok. Üretim düello/save/offline testlerinin yerine geçmez; 300 kart uygulaması kullanıcı stil onayı bekler.
+- DRB-237–240 ayrı P1 doğrulama kaydı değişmedi. Kanıt JSON'u: `docs/evidence/2026-10-05-darbe-proof-release.json`.

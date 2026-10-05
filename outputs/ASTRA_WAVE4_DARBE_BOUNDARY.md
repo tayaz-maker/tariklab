@@ -1,12 +1,12 @@
-# DARBE-H Wave 4 sınır notu — yalnız kaynak keşfi
-Kaynak: #111 `de4c416`; pending CI sırasında okundu. Ürün kodu/test/teşhis değişmedi; bu bir release PASS değildir.
-- Oyuncu değeri: Oyuncu tamamladığı masa kararının gerçekleşmiş baskı/kaynak ve saha etkisini, kart kazanımı uydurulmadan okuyabilir.
-- `public/games/darbe-h/assets/card-art/manifest.json`: mevcut 300 özgün SVG, 240×160; kimlikler ve çizimler korunur.
-- Legacy `assets/cards/` + `assets/art-manifest.json`: 300 adet 400×560 yüz; silme/yeniden üretme veya ölçü değişikliği yok.
-- Köken: `scripts/build-darbe-h-card-art.mjs`, `scripts/darbe-h-card-art/{compose,motifs}.mjs`; yeni katman yalnız kod/SVG/CSS, dış asset yok.
-- Değişmezler: `darbe-h/{source-cards.json,designs.js,decks.json}`, `duel-core/save.js` anahtar `tariklab.darbe-h.duel`/backup/v1/checksum; mekanik/save hesabı değişmez.
-- Ortak `duel-core/{rules,actions,effects,battle,summoning,model}.js` ve kart/slot ölçülerinin sahibi `duel-core/{table,design}.css` korunur.
-- Mevcut UI girişi `darbe-h/app.js` → `startApp(...,{cardFace})`; `card-face.js` SVG yüzlerini kullanır. Yeni iş oyuna özgü sunum sınırında kalmalıdır.
-- Gerçek before/after: `duel-core/app.js::command`, başarılı `dispatchPresented` sonrası `prev/result.state`; `telemetry.js::recordAction` gerçek KP farkı/yeni log örneğidir. Bunlar yeni hook veya ortak engine değişikliği yetkisi değildir.
-- `animateTransition` başarılı komutta, load yalnız render; `lastRevision` tekrar filtresi mevcut. Outcome bir kez, sessiz, kapatılabilir, reduced-motion statik; reload tetiklemez.
-- DRB-237–240: `docs/darbe-h/{README.md,FINAL_VERIFICATION_II.md}`, `designs.js` 237–240 ve `summoning.js::specialPlans`; belgeler eski sınırlama diyor. Gerçek repro henüz yok; final review'de P1 kaydı doğrulanacak, görsel PR'da çözülmeyecek.
+# DARBE-H Wave 4 — güncellenmiş görsel kapsam, 2026-10-05
+- Son kullanıcı talimatı önceki “300 SVG kart görselini koru” sınırını değiştirdi: 300 görsel tamamen yeniden tasarlanacak.
+- Kart verisi, denge, deste, save, shared duel engine, dış kart ölçüleri ve erişilebilir metin aynen korunur.
+- Önce `astra/darbe-art-direction-proof` üzerinde #112 (`f541bcf`) ile 10 temsil kart; desktop/mobile stil incelemesi ve kullanıcı onayı, ardından ayrı dar uygulama PR'ında 300 karta yayılım.
+- Her SVG kart türü/etkisi/serisiyle anlamlı bağ kuran ayrı kompozisyon; seed değiştirilmiş stok motif yeterli değildir.
+- Özgün sivil arşiv/karar/belge/iz/sonuç dili; yetişkin, ayrıntısız yüzlü sivil figür olabilir. Gerçek kişi/kurum/parti/amblem/üniforma/askerî sembol/şiddet yok.
+- GETT-OH!/VETO-H! yalnız hiyerarşi, okunurluk ve çeşitlilik kalitesi için referans; layout/çerçeve/ikon/palet/sahne kopyası yok.
+- Sessiz, hafif kod SVG/vektör; dış asset, AI plaka veya CDN yok. Başlık/efekt rastgele görsel yazıyla yinelenmez.
+- İlk proof canlı/public pakete bağlanmaz; eski görseller yalnız karşılaştırma için açıkça etiketlenir. Bu aşamada ürün ve ortak motor dosyaları byte-identical kalır.
+- 300 uygulama kapısı: ID/manifest eşleşmesi, tüm yeni sahneler, eski çizim/pack/cache kalıntısı yokluğu, boyut bütçesi, provenance ve offline sürümü; kaynak/route/build kanıtı olmadan silme yok.
+- 320/390 kart okunurluğu, kontrast/renk dışı işaret, klavye/ekran okuyucu, save/reload ve düello regresyonu yeni üretim paketinde ayrıca gerekir; proof bu testlerin yerine geçmez.
+- DRB-237–240 tetik kaydı ayrı P1 kural işi; gerçek repro/doğrulama final review'de, görsel yenilemeyle kapatılmaz. #110/#111 release zinciriyle ortak dosya çakışması açılmaz.
