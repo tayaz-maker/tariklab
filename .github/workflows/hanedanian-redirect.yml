@@ -5,10 +5,18 @@ on:
     paths:
       - public/games/hanedanian/**
       - scripts/hanedanian-redirect-browser.mjs
+      - scripts/hanedanian-release-smoke.mjs
       - scripts/hanedanian-redirect-transport.mjs
       - scripts/hanedanian-redirect-transport.test.mjs
       - scripts/hanedanian-offline.test.mjs
       - scripts/offline-sw-plugin.mjs
+      - .github/workflows/hanedanian-redirect.yml
+  push:
+    branches: [main]
+    paths:
+      - public/games/hanedanian/**
+      - scripts/hanedanian-redirect-browser.mjs
+      - scripts/hanedanian-release-smoke.mjs
       - .github/workflows/hanedanian-redirect.yml
   workflow_dispatch:
 
@@ -39,8 +47,26 @@ jobs:
       - name: Real local HTTP307 baseline failure and fixed online/offline reload
         timeout-minutes: 3
         run: node scripts/hanedanian-redirect-browser.mjs
+      - name: Exact candidate on Workers preview (1440, 390, 320)
+        if: github.event_name == 'pull_request' && github.head_ref == 'astra/han-offline-redirect-fix'
+        timeout-minutes: 3
+        run: |
+          worker_sha="$(sha256sum .output/public/games/hanedanian/sw.js | cut -d ' ' -f 1)"
+          node scripts/hanedanian-release-smoke.mjs --base-url https://astra-han-offline-redirect-fix-tariklab.tayaz29.workers.dev --expected-worker-sha "$worker_sha"
+      - name: Exact released worker on both production hosts (1440, 390, 320)
+        if: github.ref == 'refs/heads/main'
+        timeout-minutes: 5
+        run: |
+          worker_sha="$(sha256sum .output/public/games/hanedanian/sw.js | cut -d ' ' -f 1)"
+          node scripts/hanedanian-release-smoke.mjs --base-url https://www.tariklab.com --expected-worker-sha "$worker_sha"
+          node scripts/hanedanian-release-smoke.mjs --base-url https://tariklab.tayaz29.workers.dev --expected-worker-sha "$worker_sha"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: hanedanian-redirect
           path: ${{ runner.temp }}/screenshots/hanedanian-redirect
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: hanedanian-hosted-release
+          path: ${{ runner.temp }}/screenshots/han-release-*

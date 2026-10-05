@@ -16,11 +16,18 @@ const root = resolve('.output/public');
 const proofRoot = resolve(process.env.RUNNER_TEMP || '/workspace', 'screenshots');
 const out = checkedOutputPath(resolve(proofRoot, 'hanedanian-redirect'), [proofRoot]);
 const digest = bytes => createHash('sha256').update(bytes).digest('hex');
-const baselineWorker = execFileSync('git', ['show', `${BASELINE}:public/games/hanedanian/sw.js`]);
+const archivedWorker = execFileSync('git', ['show', `${BASELINE}:public/games/hanedanian/sw.js`]);
+// Minimize only the install input to one real HTML response. The immutable
+// worker's fetch handler and redirect behavior stay byte-identical. Full old
+// install stalls before navigation (three recorded runs); that separate body
+// consumption regression is covered by the deterministic offline unit gate.
+const oldFiles = /const FILES = \[\s*[^]*?\]\.map\(\(p\) => ROOT \+ p\)\.concat\('\/games\/shared\/outcome-runtime\.js'\);/;
+assert.equal([...archivedWorker.toString().matchAll(new RegExp(oldFiles.source,'g'))].length,1,'single known baseline package declaration');
+const baselineWorker = Buffer.from(archivedWorker.toString().replace(oldFiles, 'const FILES = [ROOT + "index.html"];'));
 const fixedWorker = await readFile(resolve(root, 'games/hanedanian/sw.js'));
 const expectedHTML = await readFile(resolve(root, 'games/hanedanian/index.html'));
 const mime = {'.js':'text/javascript','.html':'text/html; charset=utf-8','.css':'text/css','.svg':'image/svg+xml','.webmanifest':'application/manifest+json','.json':'application/json','.png':'image/png','.webp':'image/webp','.ico':'image/x-icon'};
-const report = {baseline: BASELINE, scope:'Local canonical-redirect fixture; no production browser requests', transport:'gzip for textual responses when Accept-Encoding permits; identical for baseline and fixed', fixtureDeviation:'The static build has no SSR portal index: / and /cete-savaslari retain measured 404s in both cases. This experiment changes transport only; it is not full-site production parity.', cases:[], errors:[]};
+const report = {baseline: BASELINE, archivedWorkerSHA256:digest(archivedWorker), baselineMinimization:'Only FILES is reduced to real index.html; original fetch handler untouched. Candidate must install all19 assets.', scope:'Local canonical-redirect fixture; no production browser requests', transport:'gzip for textual responses when Accept-Encoding permits; identical for baseline and fixed', fixtureDeviation:'The static build has no SSR portal index: / and /cete-savaslari retain measured 404s in both cases. This experiment changes transport only; it is not full-site production parity.', cases:[], errors:[]};
 let browser;
 
 async function exportState(page) {
@@ -121,6 +128,7 @@ async function runCase(label, worker) {
     await page.waitForFunction(() => navigator.serviceWorker.controller?.scriptURL.endsWith('/games/hanedanian/sw.js') && navigator.serviceWorker.controller.state === 'activated', null, {timeout:30000});
     entry.beforeReload = await snapshot(page);
     assert.equal(entry.beforeReload.packages.length, 1, 'one atomically installed game version');
+    assert.equal(entry.beforeReload.packages[0].files, label === 'baseline' ? 1 : 19, 'minimal old redirect case versus complete fixed game package');
     const cached = entry.beforeReload.packages[0].html;
     assert.equal(cached.sha256, digest(expectedHTML), 'exact real HTML bytes cached');
     assert.equal(cached.status, 200);
@@ -133,7 +141,7 @@ async function runCase(label, worker) {
     try { await page.reload(); } catch(error) { navigationError = String(error); }
     entry.reloadError = navigationError || null;
     if (label === 'baseline') {
-      assert.match(navigationError || '', /net::ERR_FAILED/, 'unchanged baseline must reproduce the reported navigation failure');
+      assert.match(navigationError || '', /net::ERR_FAILED/, 'minimized original redirect handler must reproduce the reported navigation failure');
       assert.ok(entry.requestFailures.some(r => r.document && r.error === 'net::ERR_FAILED'), 'browser reports a real failed document request');
       entry.status = 'expected-baseline-failure';
       return;
