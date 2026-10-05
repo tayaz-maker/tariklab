@@ -59,6 +59,7 @@ const UI = {
   offlineError: L('Offline paket henüz hazır değil. Bağlantı açıkken yeniden dene.', 'The offline package is not ready yet. Try again while connected.', 'Pakiet offline nie jest jeszcze gotowy. Spróbuj ponownie z połączeniem.'),
   retry: L('Yeniden dene', 'Retry', 'Spróbuj ponownie'),
   privacy: L('Sessiz · Dış asset yok · Sağlık verisi toplanmaz', 'Silent · No external assets · No health data collected', 'Bez dźwięku · Bez zasobów zewnętrznych · Bez zbierania danych zdrowotnych'),
+  threeD: L('3D anatomi modelini keşfet ↗', 'Explore the 3D anatomy model ↗', 'Poznaj model anatomii 3D ↗'),
   productError: L('Öğrenme içeriği doğrulanamadı. Sayfayı yenileyebilirsin; oyun kayıtların değiştirilmedi.', 'The learning content could not be validated. You can reload the page; game saves were not changed.', 'Nie udało się zweryfikować treści edukacyjnej. Możesz odświeżyć stronę; zapisy gier nie zostały zmienione.'),
 };
 
@@ -110,7 +111,7 @@ function buildShell() {
   })));
   refs.languages = languages;
   refs.title = $('h1'); refs.subtitle = localized('p', 'subtitle', { class: 'subtitle' });
-  const header = $('header', { class: 'atlas-header' }, $('div', {}, $('div', { class: 'brand-line' }, $('a', { href: '/' }, 'TARIKLAB'), localized('span', 'edition', { class: 'edition' })), refs.title, refs.subtitle), $('div', { class: 'header-tools' }, languages, sourceToggle));
+  const header = $('header', { class: 'atlas-header' }, $('div', {}, $('div', { class: 'brand-line' }, $('a', { href: '/' }, 'TARIKLAB'), localized('span', 'edition', { class: 'edition' })), refs.title, refs.subtitle), $('div', { class: 'header-tools' }, $('a', { class: 'atlas-3d-link', href: '/atlas/3d/' }, copy('threeD')), languages, sourceToggle));
   refs.education = $('p', { id: 'education-note' }); refs.draft = $('p', { id: 'draft-note', 'data-review': 'NOT_REVIEWED' });
   const educational = $('aside', { class: 'education-strip' }, $('div', {}, refs.education, refs.draft), localized('span', 'draft', { class: 'draft-badge' }));
   const segmented = (field, values) => $('div', { class: 'segmented', role: 'group' }, values.map(value => localized('button', value, { type: 'button', [`data-${field}`]: value, onclick: () => dispatch({ type: field === 'variant' ? 'set-variant' : 'set-view', value }) })));

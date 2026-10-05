@@ -103,9 +103,12 @@ export function PortalHome() {
         <h2 id="learning-products" className="text-xs font-medium uppercase tracking-[0.2em] text-muted">
           {t("portal.learning", "Öğrenme")}
         </h2>
-        <a href="/atlas/yapi/" className="mt-2 flex min-h-11 flex-wrap items-center justify-between gap-2 rounded py-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-danger">
-          <span className="font-semibold">{t("portal.atlasTitle", "Beden Katmanları — İnsan Anatomisi")}</span>
-          <span className="text-sm text-muted">{t("portal.atlasPreview", "İlk öğrenme sürümü · Uzman incelemesi bekliyor")} →</span>
+        <a href="/atlas/3d/" className="mt-2 flex min-h-11 flex-wrap items-center justify-between gap-2 rounded py-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-danger">
+          <span className="font-semibold">{t("portal.atlasTitle", "İnsan Anatomisi Atlası · 3D")}</span>
+          <span className="text-sm text-muted">{t("portal.atlasPreview", "Etkileşimli 3D önizleme · Uzman incelemesi bekliyor")} →</span>
+        </a>
+        <a href="/atlas/yapi/" className="inline-flex min-h-11 items-center rounded py-2 text-sm text-muted underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-danger">
+          {t("portal.atlas2d", "Hafif 2D atlası aç")}
         </a>
       </section>
       <section aria-labelledby="active-games">

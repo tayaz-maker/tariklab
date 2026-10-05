@@ -34,6 +34,16 @@ Append after a meaningful website change to a game or shared brand/content. Skip
 
 ## Entries
 
+### 2026-10-05 — Anatomy Atlas 3D entry + rendering polish
+- Web change: The portal's primary learning link now opens the source-bound 3D anatomy preview; the lightweight 2D atlas remains available as an explicit alternative. Both atlas surfaces cross-link. 3D materials, lighting and desktop canvas scale were tuned without inventing or altering anatomical geometry.
+- Content: no; existing nine male-reference thorax/abdomen groups and expert-review caveats remain explicit.
+- Artwork: no new artwork; source meshes remain unchanged.
+- Gameplay/rules: no.
+- UI/presentation: yes — clearer route hierarchy, larger responsive 3D workspace, warmer material separation and controlled highlights.
+- Shared-content source: no.
+- Native follow-up: no — this is web-specific navigation and rendering.
+- Commits: pending
+
 ### 2026-10-05 — Kıyı Eşiği v1 save recovery (candidate, not released)
 - Web change: malformed v1 saves are rejected before legal/render consumers; a valid backup opens without writing. Unreadable primary/backup bytes are retained before replacement; quota or a full recovery area blocks persistence with a calm TR/EN/PL status.
 - Content/artwork/gameplay/rules: no. Key `tariklab.kiyi-esigi.v1`, schema 1, formulas and serialized reachable state remain unchanged; renderer, card surfaces and dependencies untouched.

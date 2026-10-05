@@ -68,6 +68,7 @@ try {
     const diagnostics = monitor(page, origin); activeDiagnostics = diagnostics;
     await page.goto(`${origin}/`, { waitUntil: "networkidle" });
     assert.equal(new URL(page.url()).origin, origin);
+    await page.locator('a[href="/atlas/3d/"]').first().waitFor({ state: "visible" });
     await page.locator('a[href="/atlas/yapi/"]').first().waitFor({ state: "visible" });
     assert.equal(diagnostics.requests.filter(url => /\/atlas\/|pixi|webgl/i.test(new URL(url).pathname)).length, 0, "portal must not download atlas, Pixi or WebGL assets");
     const dimensions = await page.evaluate(() => ({ viewport: document.documentElement.clientWidth, scroll: document.documentElement.scrollWidth }));
