@@ -3,16 +3,36 @@ name: tc-job-start-outcome
 on:
   pull_request:
     paths:
-      - public/games/tc-sim/js/app.js
-      - public/games/tc-sim/js/job-start-outcome*.js
+      - public/games/tc-sim/js/**
+      - public/games/tc-sim/index.html
+      - public/games/shared/management-desk.*
+      - public/games/shared/compact-navigation.*
+      - public/i18n/**
+      - public/sw.js
+      - public/favicon.ico
+      - scripts/offline-sw-plugin.mjs
+      - scripts/static-game-server.mjs
+      - scripts/static-game-server.test.mjs
+      - package.json
+      - package-lock.json
       - public/games/tc-sim/styles.css
       - scripts/tc-sim-job-start-*.mjs
       - .github/workflows/tc-job-start-outcome.yml
   push:
     branches: [main]
     paths:
-      - public/games/tc-sim/js/app.js
-      - public/games/tc-sim/js/job-start-outcome*.js
+      - public/games/tc-sim/js/**
+      - public/games/tc-sim/index.html
+      - public/games/shared/management-desk.*
+      - public/games/shared/compact-navigation.*
+      - public/i18n/**
+      - public/sw.js
+      - public/favicon.ico
+      - scripts/offline-sw-plugin.mjs
+      - scripts/static-game-server.mjs
+      - scripts/static-game-server.test.mjs
+      - package.json
+      - package-lock.json
       - public/games/tc-sim/styles.css
       - scripts/tc-sim-job-start-*.mjs
       - .github/workflows/tc-job-start-outcome.yml
@@ -42,6 +62,12 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
+      - name: Fetch the exact TC static baseline
+        if: matrix.label == 'built'
+        run: git fetch --no-tags --depth=1 origin 9e50404c0573e1cf9e2dd7e623c9c8bd98b95e56
+      - name: Pinned archive, import closure and fail-closed regressions
+        if: matrix.label == 'built'
+        run: node --test scripts/tc-sim-job-start-baseline.test.mjs
       - name: Targeted outcome, origin and safe-server regressions
         run: node --test scripts/tc-sim-job-start-outcome.test.mjs scripts/tc-sim-job-start-target.test.mjs scripts/tc-sim-weekly-feedback.test.mjs scripts/tc-sim-lifetime-ui.test.mjs scripts/static-game-server.test.mjs
       - run: npm run build
@@ -53,6 +79,9 @@ jobs:
           else
             npx playwright install --with-deps chromium --only-shell
           fi
+      - name: Same-browser cold static baseline and candidate comparison
+        if: matrix.label == 'built'
+        run: node scripts/tc-sim-job-start-performance.mjs
       - name: Built candidate — 18 matrix cases and 4 mobile hidden-panel regressions
         if: matrix.label == 'built'
         run: node scripts/tc-sim-job-start-outcome-browser.mjs --serve .output/public --label built
@@ -67,3 +96,8 @@ jobs:
         with:
           name: tc-job-start-outcome-${{ matrix.label }}
           path: ${{ runner.temp }}/screenshots/tc-job-start-outcome/${{ matrix.label }}
+      - uses: actions/upload-artifact@v4
+        if: always() && matrix.label == 'built'
+        with:
+          name: tc-job-start-outcome-performance
+          path: ${{ runner.temp }}/screenshots/tc-job-start-outcome/performance

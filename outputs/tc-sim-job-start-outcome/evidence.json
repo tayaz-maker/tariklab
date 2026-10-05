@@ -2,8 +2,9 @@
   "status": "IMPLEMENTED_LOCAL_CHECKPOINT_NOT_MERGE_READY",
   "base": "9e50404c0573e1cf9e2dd7e623c9c8bd98b95e56",
   "tests": {
-    "passed": 26,
-    "failed": 0
+    "passed": 43,
+    "failed": 0,
+    "scope": "31 outcome/cache/baseline/lifetime/weekly/server tests plus 12 frozen-content and decision-network integration tests; root full-suite result tracked separately."
   },
   "syntax": "PASS",
   "lint": "0 errors; 2 pre-existing app unused-import warnings",
@@ -164,9 +165,9 @@
     {
       "path": "public/games/tc-sim/js/app.js",
       "beforeBytes": 100278,
-      "afterBytes": 101723,
-      "rawDelta": 1445,
-      "gzipAfterBytes": 27536
+      "afterBytes": 101725,
+      "rawDelta": 1447,
+      "gzipAfterBytes": 27530
     },
     {
       "path": "public/games/tc-sim/styles.css",
@@ -204,11 +205,11 @@
   "preparedBrowserCases": 22,
   "browserCaseScope": "18 width/language/motion combinations plus People/Finance 320/390 visibility after real advance-week job completion; NOT RUN.",
   "workflow": "Separate path-filtered tc-job-start-outcome workflow; PR built server, main exact-file-hash-gated two host contexts/artifacts. Existing ci.yml/gates unchanged. Not run.",
-  "sourceDeltaBytes": 11852,
+  "sourceDeltaBytes": 11854,
   "builtFingerprints": [
     {
       "path": "games/tc-sim/js/app.js",
-      "sha256": "93142193f352b3584f7d5b3a58867928a12095831bd4204d88d782823457f345"
+      "sha256": "282669c4da5c3cda1d0df04eae4cea03bf523f8052473116dafda9295134e958"
     },
     {
       "path": "games/tc-sim/styles.css",
@@ -222,5 +223,15 @@
       "path": "games/tc-sim/js/job-start-outcome-ui.js",
       "sha256": "86d50e27fe842bd6163f97275cfa6b2dfde28346fc8489c11513784a7f8adf39"
     }
-  ]
+  ],
+  "preparedPerformance": {
+    "status": "NOT_RUN_BROWSER",
+    "scope": "Same Chromium process, paired identical fresh contexts and viewport, HTTP cache disabled, service workers blocked; static uncompressed localhost only, not production TLS. 1440/390/320 entry and continued screenshots plus request/transfer/FCP and capture-phase Continue to visible week-panel plus two rAFs.",
+    "baselineCommit": "9e50404c0573e1cf9e2dd7e623c9c8bd98b95e56",
+    "verifiedBaselineFiles": 71,
+    "baselineArchiveSha256": "dd974d29ddfa122a008137ded58441dd49eb3d9f794ab3a5f289b501708a675e",
+    "verifiedCandidateSourceEqualsBuiltFiles": 73,
+    "staticByteVerification": "PASS; real immutable archive and current production static output verified locally. Baseline app build is unnecessary for these byte-identical standalone route files."
+  },
+  "cacheContract": "New two import URLs, fingerprint URLs and exact offline cache expectations use ?v=10, preserving the existing TC production graph gate."
 }

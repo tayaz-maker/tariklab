@@ -28,7 +28,7 @@ try {
   fingerprints = await verifyOutcomeBuild(origin, values["expected-root"] || values.serve);
   const url = `${origin}/games/tc-sim/index.html`;
   const key = "tariklab::tc-sim:1";
-  const modules = ["job-start-outcome.js", "job-start-outcome-ui.js"].map(name => `${origin}/games/tc-sim/js/${name}?v=1`);
+  const modules = ["job-start-outcome.js", "job-start-outcome-ui.js"].map(name => `${origin}/games/tc-sim/js/${name}?v=10`);
   browser = await chromium.launch({ headless: true, executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || undefined, args: ["--no-sandbox"] });
   const saveFacts = state => ({ version: state.meta.saveVersion, jobId: state.career.jobId,
     pendingJob: state.career.pendingJob, cash: state.finances.balance, energy: state.health.energy,
@@ -93,6 +93,8 @@ try {
     assert.equal(await moment.isVisible(), true, "result must be visible on the selected view");
     assert.equal(await moment.evaluate(el => el.parentElement.classList.contains("workspace") && !el.closest(".management-inspector, .management-deck, [hidden], [inert]")), true, "result must stay outside hidden inspectors/ledgers");
     assert.equal(await moment.getAttribute("role"), "status");
+    assert.equal(await page.evaluate(() => window.tlabI18n.getLang()), language, "actual UI language matches the matrix");
+    assert.equal(await moment.locator(".job-start-moment__head strong").textContent(), {tr:"İŞ BAŞLADI",en:"JOB STARTED",pl:"PRACA ROZPOCZĘTA"}[language], "actual outcome heading is translated");
     await dimensions();
     const close = moment.locator("[data-outcome-close]");
     assert.equal(await close.evaluate(el => document.activeElement === el), false, "moment must not steal focus");

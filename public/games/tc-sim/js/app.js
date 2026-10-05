@@ -1,5 +1,5 @@
-import { snapshotJobStart, buildJobStartOutcome } from "./job-start-outcome.js?v=1";
-import { renderJobStartOutcome, bindJobStartOutcome, jobOutcomeText } from "./job-start-outcome-ui.js?v=1";
+import { snapshotJobStart, buildJobStartOutcome } from "./job-start-outcome.js?v=10";
+import { renderJobStartOutcome, bindJobStartOutcome, jobOutcomeText } from "./job-start-outcome-ui.js?v=10";
 import { compactNavigation } from "../../shared/compact-navigation.js";
 import { arrangeLifeDesk } from "./desk.js?v=10";
 import { adultChildSummary, adultEventContext, continueGeneration } from "./lifetime.js?v=10";
