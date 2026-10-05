@@ -538,3 +538,17 @@ PR #101 remains Terra's responsibility. Novella remains **LATER**.
 - D1–D5 genel OPEN; #114 brace CLOSED; PL gövde/anadil, gerçek eski save, tam SW kohortu ve fizikselGPU OPEN. E1 route/source planı var, foundation NOT IMPLEMENTED/uzman atanmamış.
 - F NOT STARTED: kalan ürünler ve Grok production release sonrası kanıtlı rapor/sınıflandırma; rapor sonrası geniş fix görevi kullanıcıda. Novella/#78/#79/SON KÖY WIP korunuyor.
 - Sonraki: current-main green → Kıyı tek C1/C3 upgrade'i; release JSON'ları `docs/evidence/2026-10-05-{tc-week-control-i18n,kiyi-save-recovery}-release.json`.
+
+
+### 2026-10-05 13:55 UTC — E1–E3 Atlas first implementation checkpoint
+- Branch `astra/anatomy-foundation`, base `686cdf92057eda1c803d20cd631a1769ee8f6855`; Atlas PR/head/CI/merge/production not yet published. #122 documentation checkpoint merged; #121 main37314184406 SUCCESS supersedes earlier pending notes.
+- E1 player/learner value: a learner can select a body structure, compare adult front/back layers, and connect approximate location with a sourced function while seeing the drawing's limits.
+- E1 implemented: separate `/atlas/yapi/`, female/male, surface/skeleton/six-organ layers,13 structure labels, TR/EN/PL, search, zoom/pan, three-stop exploration and keyboard-accessible DOM equivalents; cached original SVG, no WebGL dependency.
+- E2/E3: first learning DRAFT, all content/geometry NOT_REVIEWED; educational/no-medical-advice and scope notes visible online/offline. Independent anatomy expert and native PL review remain unassigned; no clinical/complete/GPU claim.
+- Local:52 Atlas target PASS; full suite1,874 PASS/1 existing opt-in skip; typecheck/lint/build PASS. Incremental build stale-geometry mismatch reproduced and fixed with one-snapshot runtime emission; actual HTTP14-file fingerprint PASS. Final layout/browser acceptance remains pending CI.
+- Browser local blocker: preview's Wrangler fails at `uv_interface_addresses`; earlier Chromium environment crashes are not retried. Dedicated CI exercises real preview,320/390/1440×TR/EN/PL, clipping/resize, offline and portal isolation; no gate relaxed.
+- D3 boundary: new Atlas scoped worker only; existing game saves/cache untouched, sentinel regression only. New save-recovery/migration and deep old-game-cache work DEFERRED by user.
+- B1–B10: Grok art / Opus#123 loading+manifest+cache integration; zero overlapping files, duel-core/theme-meta.js and card-art/release-gate surfaces untouched. #112/preparation branches preserved.
+- C1–C3: Kıyı visual branch remains preserved/deferred, no implementation; other noncard scene/map work resumes only after Atlas production proof. A1–A3/#113/#111 already CLOSED, not reopened; Novella/#78/#79 untouched.
+- F: final360 review explicitly transferred to another agent by user; removed from Astra task list. Historical review entries are superseded; no report preparation in this checkpoint.
+- Next: exact-head CI + real browser screenshots → protected merge → exact package/two-host production proof; only then next noncard product wave.

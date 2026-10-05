@@ -1,0 +1,85 @@
+name: atlas-foundation
+
+on:
+  pull_request:
+    paths:
+      - public/atlas/**
+      - src/routes/index.tsx
+      - src/components/portal/portal-home.tsx
+      - src/lib/i18n.ts
+      - public/credits.html
+      - scripts/atlas*.mjs
+      - scripts/static-game-server*.mjs
+      - scripts/offline-sw-plugin.mjs
+      - public/sw.js
+      - vite.config.ts
+      - package.json
+      - package-lock.json
+      - .github/workflows/atlas-foundation.yml
+  push:
+    branches: [main]
+    paths:
+      - public/atlas/**
+      - src/routes/index.tsx
+      - src/components/portal/portal-home.tsx
+      - src/lib/i18n.ts
+      - public/credits.html
+      - scripts/atlas*.mjs
+      - scripts/static-game-server*.mjs
+      - scripts/offline-sw-plugin.mjs
+      - public/sw.js
+      - vite.config.ts
+      - package.json
+      - package-lock.json
+      - .github/workflows/atlas-foundation.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+concurrency:
+  group: atlas-foundation-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  atlas-browser:
+    name: Atlas foundation / ${{ matrix.label }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(github.ref == 'refs/heads/main' && '[{"label":"www","origin":"https://www.tariklab.com"},{"label":"workers","origin":"https://tariklab.tayaz29.workers.dev"}]' || '[{"label":"built","origin":""}]') }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Content, model, package and fail-closed target regressions
+        run: node --test scripts/atlas*.test.mjs scripts/static-game-server.test.mjs
+      - run: npm run build
+      - name: Chromium
+        run: |
+          browser_path="$(command -v google-chrome || command -v chromium || true)"
+          if [ -n "$browser_path" ]; then
+            echo "PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=$browser_path" >> "$GITHUB_ENV"
+          else
+            npx playwright install --with-deps chromium --only-shell
+          fi
+      - name: Built foundation — nine viewport/language cases, offline and portal isolation
+        if: matrix.label == 'built'
+        run: node scripts/atlas-browser.mjs --serve .output/public --label built
+      - name: Exact released foundation — isolated browser on allowlisted host
+        if: matrix.label != 'built'
+        env:
+          ATLAS_ORIGIN: ${{ matrix.origin }}
+          ATLAS_LABEL: ${{ matrix.label }}
+        run: node scripts/atlas-browser.mjs --base-url "$ATLAS_ORIGIN" --production --expected-root .output/public --label "$ATLAS_LABEL"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: atlas-foundation-${{ matrix.label }}
+          path: ${{ runner.temp }}/screenshots/atlas-foundation/${{ matrix.label }}

@@ -578,3 +578,11 @@ Chromium must pass before integration.
 - #121 merge9b4e169: exact-head9/9+Vercel; built37/37, www+Workers37/37 each, five hashes and148 measurements/host; save backup/raw retention/quota/warm offline proof. Main37314184406 still pending; own #120 main superseded/cancelled.
 - First production runs rejected exact old assets before deployment; only failed jobs rerun after successful deployments. No gate/timeout/hash relaxation. Exact artifact/result/screenshot digests in release JSONs.
 - B11 natural50matches/6,342actions produced no target summon/activation opportunity; not activation-resolution acceptance. P1/affected-old-save boundary open. E1/C1/C3 handoffs are discovery, not implementation; F remains unstarted until product+Grok releases, then report/classify only.
+
+
+## 2026-10-05 — E1 Atlas foundation isolated implementation
+- Separate static learning product `/atlas/yapi/` with original bounded SVG, content/source schema,13 broad structures, adult variants, front/back, layers/search/zoom and three-stop lesson. Portal/Resources add plain links; no game catalog/engine/save/card content changes. Native remains paused.
+- TR/EN/PL draft copy, educational/accuracy/scope notices and per-field factual sources travel in one verified offline package. Independent expert and native Polish review are not performed; this is not a complete or clinically validated atlas.
+- Atlas-only worker/build emission follows the root offline plugin so portal precache excludes Atlas. Hash/body regression closes stale incremental geometry; own package never edits root/card caches. Opus#123 file intersection is empty.
+- Local52 Atlas tests/full1,874 PASS+1 existing skip/typecheck/build; actual HTTP package integrity checked. Real browser/CI/two-host production are still required and will be recorded at release, not inferred from unit evidence.
+- User priority: Atlas first; no new save-recovery work. Grok/Opus card surfaces stay external-owned. Final360 site review transferred to another agent and removed from this workstream.

@@ -99,6 +99,15 @@ export function PortalHome() {
         </div>
         <LanguageToggle />
       </header>
+      <section aria-labelledby="learning-products" className="mb-8 rounded-lg border border-border bg-surface/70 p-4 sm:p-5">
+        <h2 id="learning-products" className="text-xs font-medium uppercase tracking-[0.2em] text-muted">
+          {t("portal.learning", "Öğrenme")}
+        </h2>
+        <a href="/atlas/yapi/" className="mt-2 flex min-h-11 flex-wrap items-center justify-between gap-2 rounded py-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-danger">
+          <span className="font-semibold">{t("portal.atlasTitle", "Beden Katmanları — İnsan Anatomisi")}</span>
+          <span className="text-sm text-muted">{t("portal.atlasPreview", "İlk öğrenme sürümü · Uzman incelemesi bekliyor")} →</span>
+        </a>
+      </section>
       <section aria-labelledby="active-games">
         <div className="mb-5 flex items-end justify-between gap-3">
           <h1

@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "product": "atlas-foundation",
+  "route": "/atlas/yapi/",
+  "viewports": [1440, 390, 320],
+  "variants": ["female", "male"],
+  "views": ["front", "back"],
+  "checks": ["structure-selection", "keyboard", "reduced-motion", "offline-reload", "silent", "sources-and-review-status"],
+  "contentScope": "Foundation learning draft: surface, skeleton and selected major organs; not a complete or clinically definitive atlas.",
+  "independentExpertReview": "required-not-completed",
+  "clinicalAdvice": false
+}
