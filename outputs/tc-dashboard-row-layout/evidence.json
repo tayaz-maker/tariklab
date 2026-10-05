@@ -1,0 +1,365 @@
+{
+  "status": "LOCAL_GATES_PASS_BROWSER_CI_PENDING",
+  "base": "539df6ee8cd3fe1e56b4a7833bffcc8953765488",
+  "branch": "astra/tc-dashboard-row-layout",
+  "finding": "P1 confirmed by parent production DOM: residual two-column named areas remain after management desk moves panels.",
+  "parentProductionDOM": {
+    "scope": "Parent observed www 1363×936 new empty/default game; source readout supplied to this agent, not a new browser run here.",
+    "dashboardWidth": 737.609375,
+    "computedColumns": "57.6094px 672px",
+    "areas": "\"week right\" \"history cases\"",
+    "rightColumnWidth": 57.609375,
+    "rightColumnRow": "right",
+    "inboxTitleWidth": 7.609375,
+    "inboxTitleHeight": 200.0625,
+    "keyPeopleTitleHeight": 236.4375
+  },
+  "fix": "Only TC styles clear named areas and direct child placement inside .game-frame .management-workspace .dashboard-grid. No shared CSS/JS or app/state changes.",
+  "targetTests": {
+    "pass": 29,
+    "fail": 0
+  },
+  "build": "PASS; existing migration skips without DATABASE_URL",
+  "typecheck": "PASS",
+  "syntaxAndLint": "PASS",
+  "browser": "NOT RUN; no browser launch/network browser in this block",
+  "baselineProof": "Prepared: same Chromium process, isolated local candidate app with exact previous stylesheet. Must reproduce narrow, >3-line title geometry and fail the same readability guard. Existing fixed baseline/performance and all 22 outcome cases retained.",
+  "candidateProof": "Prepared: actual computed columns/areas/rects/title width and line-height before/after decision, 320 resize and offline reload at original 1440/390/320; screenshots and failure DOM persisted.",
+  "sourceBudget": {
+    "beforeBytes": 29594,
+    "afterBytes": 29918,
+    "rawDelta": 324,
+    "beforeGzipBytes": 6029,
+    "afterGzipBytes": 6141,
+    "beforeSHA256": "134497f6c9dde56e192bfdd5fcb7a41f4b34a0c8d6760bce5324ca8f8fe90b39",
+    "afterSHA256": "bb68040c160b80cfe3438f0ebb217bfd5b07a7e13a6c72247b4e22dd43014aae",
+    "builtCSSMatchesSource": true,
+    "routeTransfer": "NOT MEASURED",
+    "cssOnlyColdEntryComparison": "Prepared, NOT RUN: paired old/current CSS same-browser TR1440 fresh-context ResourceTiming totals; the separate 9e50404 performance baseline also includes C1 and is not this fix-specific delta."
+  },
+  "protectedSourceFiles": [
+    {
+      "path": "public/games/shared/classics-ux.css",
+      "sha256": "a929898aea6fe2381c3f7c37524aa9423d18e07e50cb095f826e88a112cad120"
+    },
+    {
+      "path": "public/games/shared/compact-navigation.css",
+      "sha256": "64a6bd41d9ae3d0782b1a8d7549d7ab62c920368e1cbb531274697eefe9bb0da"
+    },
+    {
+      "path": "public/games/shared/compact-navigation.js",
+      "sha256": "82eda0b29330dc81bb95805ea1e65b3a6167119b19972231a8224d9f58d8b62f"
+    },
+    {
+      "path": "public/games/shared/depth-framework.js",
+      "sha256": "76bd11136d1aa441a349c7f1008d804ffa7bd90cb82ffb05fdb726d6422eb92e"
+    },
+    {
+      "path": "public/games/shared/management-desk.css",
+      "sha256": "da7919ac73806cb6cbc69b3bde0bd4d35c527c80c68d282e5646e4cd1bcf2a3a"
+    },
+    {
+      "path": "public/games/shared/management-desk.js",
+      "sha256": "fc7ae6f8a0d39465dc07c4c549c84d2edeec4c4bcc8f707750b5cf771a3607d9"
+    },
+    {
+      "path": "public/games/shared/outcome-runtime.js",
+      "sha256": "ec543a44aa824bc37ed799148c6abecb6077e3310ba23e1dd53080f9273380f4"
+    },
+    {
+      "path": "public/games/shared/pixi-adapter.js",
+      "sha256": "bf4eebb4533aee15ae9997e97e2167774ae1b6ee5b1f1d838448293fe79fc010"
+    },
+    {
+      "path": "public/games/tc-sim/index.html",
+      "sha256": "73ee855c58cfde7e1beebc39b9b99383d8404afdc68c852d2c1da7ce3f9cd637"
+    },
+    {
+      "path": "public/games/tc-sim/js/adult-life-events.js",
+      "sha256": "0b89756301795fcd3a176c2d8e4da7f6456b47fbd9e2e3cee17a5e5d03a19fe0"
+    },
+    {
+      "path": "public/games/tc-sim/js/app.js",
+      "sha256": "282669c4da5c3cda1d0df04eae4cea03bf523f8052473116dafda9295134e958"
+    },
+    {
+      "path": "public/games/tc-sim/js/body-events.js",
+      "sha256": "e6fb084d6fb805af0ab18c61450cb035d7118a9c7ac4da886e96ca249dde0c40"
+    },
+    {
+      "path": "public/games/tc-sim/js/body-systems.js",
+      "sha256": "33e75f96f1dc29849abafa17bb247f95d057944c72656e6fad3e87a2abd196f7"
+    },
+    {
+      "path": "public/games/tc-sim/js/calendar.js",
+      "sha256": "258f8d0d16296ba3dee1a4516a5313fcf8dd89f704390232b18978898187cbda"
+    },
+    {
+      "path": "public/games/tc-sim/js/catalog.js",
+      "sha256": "de4efbb7219f72dd0cc78f497669e49df164c0a29b311db84f6add658e2d7df8"
+    },
+    {
+      "path": "public/games/tc-sim/js/decision-network.js",
+      "sha256": "872ea67f3d799534f38f1e0b57dff716d1fd7070f35a3b77c9a3e2865ee873bb"
+    },
+    {
+      "path": "public/games/tc-sim/js/depth-events.js",
+      "sha256": "98742aeba5302275a74931b398486262ad1640f38af49721294f60e8de6ab044"
+    },
+    {
+      "path": "public/games/tc-sim/js/depth2-events.js",
+      "sha256": "7d1a341e95331510b6f69032b1a4f1ece6350c98cea7fc7df972b2d600b34030"
+    },
+    {
+      "path": "public/games/tc-sim/js/depth2-systems.js",
+      "sha256": "4c3f63c182b378f726cbdf5771044d8dccd514f5b74f1e90c81c60a561bced45"
+    },
+    {
+      "path": "public/games/tc-sim/js/depth3-events.js",
+      "sha256": "9c1f0feebe580a608bf6c80e97e28433b885ba418440f00a86fede00aacd2df3"
+    },
+    {
+      "path": "public/games/tc-sim/js/depth3-systems.js",
+      "sha256": "d24f81fcc9c4c8e78705312baac9199a24cc17c573914ef3a50d9ba1a88bf742"
+    },
+    {
+      "path": "public/games/tc-sim/js/desk.js",
+      "sha256": "35a103998f32a9666b292e309f3e9a507067940c08f8f5f24efcca8ca88241bb"
+    },
+    {
+      "path": "public/games/tc-sim/js/education.js",
+      "sha256": "19846a1c47592ebf688484ec2d043234e983ebbbca9541f20c466d4320d78c48"
+    },
+    {
+      "path": "public/games/tc-sim/js/eras.js",
+      "sha256": "4ec1d0dd7a57ee1272dca5b9589548903cf43b46faf5d0c5ae871aff82bf15b1"
+    },
+    {
+      "path": "public/games/tc-sim/js/events.js",
+      "sha256": "6c477034dd3a26797cbbd3e0b3a603e4d5c3ccfcdd0ffcf694f53410caa88ec7"
+    },
+    {
+      "path": "public/games/tc-sim/js/expansion-events.js",
+      "sha256": "ebd2c3ec5c650a8949a4e5cb9758489edb4e20504c672fb3970992ae0a8791bb"
+    },
+    {
+      "path": "public/games/tc-sim/js/help.js",
+      "sha256": "7ddf55ef7baa5e1c93ab75620db0f36f9a31d9028c057bf09d705fec8b880c4a"
+    },
+    {
+      "path": "public/games/tc-sim/js/historical-scenarios.js",
+      "sha256": "b19e6da08d2b3709a14dde31531887baf3258be8b7aef790b75100ca9d7081ba"
+    },
+    {
+      "path": "public/games/tc-sim/js/household.js",
+      "sha256": "656e635f4633bab3d8d953c7b4ec610ad31c72e855415c04ef6c32d72315460a"
+    },
+    {
+      "path": "public/games/tc-sim/js/job-start-outcome-ui.js",
+      "sha256": "86d50e27fe842bd6163f97275cfa6b2dfde28346fc8489c11513784a7f8adf39"
+    },
+    {
+      "path": "public/games/tc-sim/js/job-start-outcome.js",
+      "sha256": "47fe74924c558f227bb569886fc41e20af78fa69ce062280972173f6a47fab14"
+    },
+    {
+      "path": "public/games/tc-sim/js/life-content.js",
+      "sha256": "5ffe3519ef033dbaaf1e98b7c906bde01fd2f88f91aba05d006e1543ac1e1426"
+    },
+    {
+      "path": "public/games/tc-sim/js/life-depth.js",
+      "sha256": "24d87393b866da8d364a36e9bde13cc484a510660b8b90e41a135c6039e6a90d"
+    },
+    {
+      "path": "public/games/tc-sim/js/life-echo-events.js",
+      "sha256": "6afab3213ab70f3ee343a981c362b9da960e48fb8bd1562f63eb6d136def862d"
+    },
+    {
+      "path": "public/games/tc-sim/js/life.js",
+      "sha256": "126d6ab2624ad5525af5c76f5f38e65d7f6b9f75669d7e3184add945d2021e03"
+    },
+    {
+      "path": "public/games/tc-sim/js/lifetime-ui.js",
+      "sha256": "6a2b0e7888b9a574516fea4acad987ff59a258fb07cc0dd090945486783d5665"
+    },
+    {
+      "path": "public/games/tc-sim/js/lifetime.js",
+      "sha256": "cbd168e52e3247c3f3488443d6d959e82d7fb66a23a7c03c2ede5cad020216d5"
+    },
+    {
+      "path": "public/games/tc-sim/js/navigation.js",
+      "sha256": "27a4aa4a7f3621ea54db5d87321cfa2fbf5c5bb027a500d7ae68e37b1559e982"
+    },
+    {
+      "path": "public/games/tc-sim/js/network.js",
+      "sha256": "d84b00d4e8aded99f5bf68a41122d67696e3d5b13b365fb412e7820dc63bb2f9"
+    },
+    {
+      "path": "public/games/tc-sim/js/parenthood.js",
+      "sha256": "4cffaddc24904884f10819f1f3834d17fb131a9622b021e12cef2bf3993cf83c"
+    },
+    {
+      "path": "public/games/tc-sim/js/realism-events.js",
+      "sha256": "5c53b9e2c41a62f9786d04e13333e32c36f62c9b9d106444e1b17ee55c783b2e"
+    },
+    {
+      "path": "public/games/tc-sim/js/save.js",
+      "sha256": "ede73ef5c5838db632f81a08e6bbd807a4149ba6270e8acb369684473402bd8f"
+    },
+    {
+      "path": "public/games/tc-sim/js/social.js",
+      "sha256": "3f810daa48ac9048d0b058c6691d8b83318656063fd3b13312a67ed0d6bf824f"
+    },
+    {
+      "path": "public/games/tc-sim/js/state.js",
+      "sha256": "02750dbe7ffd1e2b39b8894a2acb1d2b70e5617c10686cc7264033ea2f3f6986"
+    },
+    {
+      "path": "public/games/tc-sim/js/time.js",
+      "sha256": "d683005a020b0fa1ceda661d644768747c5dfc6eb8b318a7b071169462c0a2ab"
+    },
+    {
+      "path": "public/games/tc-sim/js/wealth.js",
+      "sha256": "e3abb83814145eda2ee9e9469343507e645d08e8211cd671b86bc87aaf20f9da"
+    },
+    {
+      "path": "public/games/tc-sim/js/weekly-feedback.js",
+      "sha256": "d00937d91648e6b3c1062b3f8358ac1a6510c72977f819b8f173e9b880c2fe64"
+    },
+    {
+      "path": "public/i18n/boot.js",
+      "sha256": "7144da658c38c0e728e636961c14d8768496d8b7b1a7206d7023318d2b07393f"
+    },
+    {
+      "path": "public/i18n/deep-en-final.js",
+      "sha256": "9849b645b890dcc77cf85220c2928daf33bf75673361b6a76719cacd0fc3e894"
+    },
+    {
+      "path": "public/i18n/deep-en.js",
+      "sha256": "c4d6360006cd61780751535ed45a601cf6c446c2ffd59cbe9199c004b40fd899"
+    },
+    {
+      "path": "public/i18n/expansion-en.js",
+      "sha256": "1821a78483dea763c3910c2e449a42c8c6ad63bec82e936df302288a4873b3c4"
+    },
+    {
+      "path": "public/i18n/pl-body.js",
+      "sha256": "5751281807f9654465bfc80d114f8a25f04c1412c6fc1064cf1fb158b86280ad"
+    },
+    {
+      "path": "public/i18n/pl/amiral-batti.json",
+      "sha256": "2c7b35f0ce5f07e052fc8cb00495b11bce0e73ee31a73999a5e693fadaeea1e0"
+    },
+    {
+      "path": "public/i18n/pl/apartman.json",
+      "sha256": "3b2b74955f357c8497334fe61b37318388c8991742a8cdf12653a379bba024fc"
+    },
+    {
+      "path": "public/i18n/pl/bukucu.json",
+      "sha256": "64931c2726d2020a8367031927bfc506365c2d31b4d751af65e47313754f8556"
+    },
+    {
+      "path": "public/i18n/pl/darbe-h.json",
+      "sha256": "69f96bc58239cba5275c4c114a7b20a922d17b90a2e014341c4eb0ee3798a0cb"
+    },
+    {
+      "path": "public/i18n/pl/esik.json",
+      "sha256": "2040005899bb82911fe1238f15da978e1a67308159161d447e246da1dbaac9a6"
+    },
+    {
+      "path": "public/i18n/pl/gett-oh.json",
+      "sha256": "facf72f8cd2b6495ca0b4c7434c232a80aea7247a09356d6125bcc2298b77efc"
+    },
+    {
+      "path": "public/i18n/pl/hanedanian.json",
+      "sha256": "e2edca930acb850b394db4ee7c71308b49b5e9acf623983881415248f7974746"
+    },
+    {
+      "path": "public/i18n/pl/ihtilal.json",
+      "sha256": "6bbddd2fc12eb61d62bb4fd1c1eed4c4a0bf55d89d84694c7ab50ad58a8937d7"
+    },
+    {
+      "path": "public/i18n/pl/kayip-telefon.json",
+      "sha256": "a388c7af9790b5200242de3f15139f6d5bb643948bf55d8e210501ebd8672396"
+    },
+    {
+      "path": "public/i18n/pl/labirent.json",
+      "sha256": "a4c5ff7b79ddf8b612b1402227ae67094ea28058649164f7ec80ba0bc387581a"
+    },
+    {
+      "path": "public/i18n/pl/peg-solitaire.json",
+      "sha256": "025c2e5da4615a2ef480e45a0e167fb255ccc57f5204f2bf323be55e4231c217"
+    },
+    {
+      "path": "public/i18n/pl/racon.json",
+      "sha256": "0230027b2bb79b9ae60a07bbd0be5e40acb6e48cc2136735f61af355d3782d4a"
+    },
+    {
+      "path": "public/i18n/pl/satranc.json",
+      "sha256": "5b8ee16a231afdf042240e1c947562f59acf83d524c4da513a71077e30c5d517"
+    },
+    {
+      "path": "public/i18n/pl/son-100-gun.json",
+      "sha256": "4c83497506872e3ddf638f7c7248c779932304f84f7f26130939f2cb92f284e5"
+    },
+    {
+      "path": "public/i18n/pl/son-kasaba.json",
+      "sha256": "4b66f288e33787a716c4b97c8e55e64948bacc98f7f7a008f0620d942b673234"
+    },
+    {
+      "path": "public/i18n/pl/tc-sim-devlet.json",
+      "sha256": "3e694b2bf129a0df1cce09c550fb350c28f70067e56f349a91de9ff1efffd4d1"
+    },
+    {
+      "path": "public/i18n/pl/tc-sim.json",
+      "sha256": "979092c728480cfaf6b2551e5947e56e08592c5aaf44b195c037a8e0f1d628a4"
+    },
+    {
+      "path": "public/i18n/pl/veto-h.json",
+      "sha256": "ed3fb760792554d8b3f6de177ee1cc70d6cee9d278607aa04fe2dd7e25088fd0"
+    },
+    {
+      "path": "public/i18n/tlab-i18n.js",
+      "sha256": "6c45d456eaed7f0d2c9d4a85d0abd549f33d03f0bf266f6e897ef58cf7e1982d"
+    }
+  ],
+  "assetsAdded": 0,
+  "openGates": [
+    "Actual old-CSS failing browser proof and candidate22-case DOM/screenshots",
+    "Final exact-head full CI",
+    "Two-host exact-hash production proof"
+  ],
+  "mergedMain": "23fb636cbfb0c30ad86fb52467982785e1e298b5",
+  "rootReview": {
+    "status": "PASS",
+    "method": "Root source/diff review; separate peer agent unavailable (model capacity).",
+    "fixes": [
+      "Baseline uses same ready-job fixture and real start choice as candidate.",
+      "ResourceTiming guard rejects missing/negative/non-finite byte values.",
+      "Removed redundant source-regex implementation mirror; actual geometry fail/accept and browser baseline gates remain."
+    ]
+  },
+  "fullSuite": {
+    "commit": "e8cd318825f2b8cb8b9e070c82187c7d9f86ec21",
+    "applicationTree": "Unchanged by subsequent test-support-only corrections",
+    "node": {
+      "tests": 1744,
+      "pass": 1743,
+      "fail": 0,
+      "skip": 1
+    },
+    "typescript": {
+      "tests": 61,
+      "pass": 61,
+      "fail": 0
+    },
+    "skip": "Existing opt-in DARBE long closure matrix",
+    "logSHA256": "b7bd9936bfba3a5288a45c46517c68b5eb17f212fe71f3b47a409b1f64e09580"
+  },
+  "finalTargetedTests": {
+    "pass": 15,
+    "fail": 0,
+    "logSHA256": "a1d1f7b4c873a6fb4d65757070787c3aa8ddad4e87786362a653093dc511088b",
+    "scope": "Final layout/outcome/target/management guard tests after same-fixture and measurement corrections; final exact-head full CI remains required."
+  }
+}
