@@ -1,0 +1,11 @@
+const VERSION='__VERSION__';
+const FILES=__FILES__;
+const CACHE='tariklab-atlas-3d-'+VERSION;
+const ROOT='/atlas/3d/';
+const digest=async bytes=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes)),b=>b.toString(16).padStart(2,'0')).join('');
+async function valid(response,file){if(!response||response.status!==200)return false;const bytes=await response.clone().arrayBuffer();return bytes.byteLength===file.bytes&&await digest(bytes)===file.sha256;}
+self.addEventListener('install',event=>event.waitUntil((async()=>{try{const cache=await caches.open(CACHE);for(const file of FILES){const response=await fetch(ROOT+file.path,{cache:'reload'});if(!await valid(response,file))throw new Error('Incomplete or corrupted Atlas 3D package');const safe=new Response(await response.arrayBuffer(),{status:200,headers:response.headers});await cache.put(ROOT+file.path,safe);}}catch(error){await caches.delete(CACHE);throw error;}})()));
+self.addEventListener('activate',event=>event.waitUntil(self.clients.claim()));
+// No forced activation or deletion of other versions: open tabs keep their cohort.
+self.addEventListener('fetch',event=>{const url=new URL(event.request.url);if(event.request.method!=='GET'||url.origin!==location.origin||!url.pathname.startsWith(ROOT))return;let relative=url.pathname.slice(ROOT.length);if(!relative)relative='index.html';const file=FILES.find(f=>f.path===relative);if(!file)return;event.respondWith((async()=>{const cache=await caches.open(CACHE),response=await cache.match(ROOT+file.path);if(await valid(response,file))return response;const fresh=await fetch(event.request);if(!await valid(fresh,file))throw new Error('Atlas 3D cohort mismatch');const safe=new Response(await fresh.arrayBuffer(),{status:200,headers:fresh.headers});await cache.put(ROOT+file.path,safe.clone());return safe;})());});
+self.addEventListener('message',event=>{if(event.data!=='verify')return;event.waitUntil((async()=>{const cache=await caches.open(CACHE);let ready=true;for(const file of FILES)if(!await valid(await cache.match(ROOT+file.path),file)){ready=false;break;}event.ports[0]?.postMessage({ready,version:VERSION});})());});

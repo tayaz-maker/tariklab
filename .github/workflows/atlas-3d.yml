@@ -1,0 +1,41 @@
+name: atlas-3d-proof
+on:
+  pull_request:
+    paths:
+      - public/atlas/3d/**
+      - assets/atlas-3d/**
+      - vite.config.ts
+      - scripts/atlas-3d*
+      - .github/workflows/atlas-3d.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - run: node --test scripts/atlas-3d.test.mjs
+      - name: Build the actual site
+        run: npm run build
+      - name: Verify emitted proof package
+        run: |
+          diff -qr --exclude=.gitignore public/atlas/3d .output/public/atlas/3d
+      - name: Real Chromium with software WebGL
+        run: |
+          npx playwright install --with-deps chromium --only-shell
+          python3 -m http.server 8096 --bind 127.0.0.1 --directory .output/public > /tmp/atlas-3d-server.log 2>&1 &
+          node scripts/atlas-3d-browser.mjs
+        env:
+          ATLAS3D_OUT: /tmp/atlas-3d-evidence
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: atlas-3d-proof
+          path: /tmp/atlas-3d-evidence
