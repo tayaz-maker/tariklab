@@ -17,10 +17,27 @@ h1 { font-family: Palatino, Georgia, serif; font-size: clamp(2rem, 6vw, 3rem); }
 .fault { border-left: 3px solid #d7a15a; padding-left: 8px; }
 .line-active { stroke: #e7d7a8; }
 .line-idle { stroke: #6d7c74; }
+.coast-moment { position: relative; isolation: isolate; overflow: hidden; display: grid; grid-template-columns: minmax(210px, 42%) minmax(0, 1fr); min-height: 210px; border: 1px solid #566963; border-radius: 14px; background: #16221e; box-shadow: 0 18px 42px #050b0a66; }
+.coast-moment-scene { position: relative; overflow: hidden; min-height: 210px; background: linear-gradient(160deg, #14242a, #39565b); }
+.coast-moment-photo { display: block; width: 100%; height: 100%; min-height: 210px; object-fit: cover; object-position: center; }
+.coast-moment-period .coast-moment-photo, .coast-moment-wait .coast-moment-photo { filter: saturate(.72) brightness(.78); }
+.coast-moment-copy { position: relative; z-index: 1; display: grid; align-content: center; gap: 12px; padding: clamp(16px, 3vw, 30px); }
+.moment-heading { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.coast-moment-copy h2 { color: #f5dfac; font: 600 clamp(1.25rem, 3vw, 2rem)/1.16 Palatino, Georgia, serif; }
+.coast-moment-copy p { max-width: 46ch; color: #d7e0d3; }
+.moment-close { min-width: 44px; min-height: 44px; border: 1px solid #8ba19a; border-radius: 50%; color: #fff3d8; background: #172d2b; font-size: 1.5rem; cursor: pointer; }
+.moment-metrics { display: flex; flex-wrap: wrap; gap: 7px; }
+.moment-metric { padding: 6px 9px; border: 1px solid #758780; border-radius: 5px; background: #10231fee; font-variant-numeric: tabular-nums; }
+.moment-metric.gain { border-color: #a7c298; } .moment-metric.loss { border-color: #d4a16d; }
+.moment-delay { font-size: .88rem; }
+@media (prefers-reduced-motion: no-preference) { .coast-moment { animation: coast-reveal .35s ease-out both; } @keyframes coast-reveal { from { opacity: .55; transform: translateY(6px); } to { opacity: 1; transform: none; } } }
 @media (min-width: 900px) {
   .layout { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(240px, .8fr) minmax(220px, .7fr); gap: 12px; align-items: start; }
 }
 @media (max-width: 720px) {
+  .coast-moment { grid-template-columns: 1fr; }
+  .coast-moment-scene { min-height: 150px; max-height: 150px; }
+  .coast-moment-photo { min-height: 150px; }
   .meters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .layout { display: flex; flex-direction: column; }
   .build { position: sticky; bottom: 0; background: #101614f2; padding: 8px 0 max(8px, env(safe-area-inset-bottom)); max-height: 46vh; overflow: auto; }

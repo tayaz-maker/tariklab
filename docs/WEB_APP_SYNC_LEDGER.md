@@ -609,3 +609,9 @@ Chromium must pass before integration.
 - PR #127 merged to main as `56ff6008a992761d6bb657d50dadc3b87ae5bd23`. Corrected exact-head `atlas-3d-proof` run `37381434543` and `atlas-foundation` run `37381434562` passed; the broader `ci` run `37381434466` was still in progress at this checkpoint and is not called green here.
 - Both `www.tariklab.com` and `tariklab.tayaz29.workers.dev` served byte-identical `app.js`, `unified.css`, expansion manifest, `sw.js` and a sampled female geometry file with a fresh versioned request. The earlier unversioned 404 during deployment was stale edge state; a fresh request returned 200 on both hosts.
 - Real Chrome at 390px opened the published female 3D model (11 visible selected groups), switched to female 2D, had no page error or horizontal overflow on both hosts. This verifies the narrow release surface, not complete anatomical accuracy or a final 360-degree site audit.
+
+### 2026-10-06 — Kıyı Eşiği cinematic outcome candidate (not released)
+- The first game-specific non-card visual follow-up adds a decision result card driven only by committed resource/trust/risk/access deltas, the real fault state and existing delayed-effect queue. It is transient presentation, never saved, and cannot award a forecast as a result.
+- Two original, text-free AI-generated coastal backgrounds are optional/lazy loaded after a decision. Together they are 435,463 B on disk; no image is requested by the menu. The existing Pixi/SVG map, save key and rules remain unchanged. Failed image load falls back to a CSS surface.
+- Provenance, hashes, prompts, provider terms and limitations are recorded in `docs/ip/esik-outcome-art.md` and `ASSET_REGISTER.csv`. This is not a legal guarantee or a real geography claim.
+- Local Node outcome tests 2/2 and real Chrome 320/390/1440 link-result smoke passed without page errors or horizontal overflow. PR CI and both-host production are still required before calling this wave released.

@@ -3,6 +3,7 @@ import { loadCoastSave, saveCoastSave } from "./save-store.js?save=2";
 import { buildMapRenderModel } from "./map-model.js";
 import { supportsPixi } from "../shared/pixi-adapter.js";
 import { mountCoastPixi } from "./map-pixi.js";
+import { buildCoastOutcome } from "./outcome-moment.js";
 
 const root = document.querySelector("#app");
 if (window.self !== window.top) document.documentElement.classList.add("embedded");
@@ -30,6 +31,9 @@ const COPY = {
     bagla: "Bağla",
     rampa: "Rampa ekle",
     again: "Yeni kıyı",
+    moment: { link: "Eşik bağlandı", ramp: "Geçiş düzeltildi", period: "Dönem kapandı", wait: "Kıyı bir dönem bekledi" },
+    measured: "Bu kararın gerçek sonucu", delayed: "Gecikmiş etki sonraki dönem kapanışında hesaplanır.", closeMoment: "Sonucu kapat",
+    outcomeFault: "Geçiş hâlâ kopuk; haritadaki açık eşik sonraki dönemde risk yaratır.", outcomeClear: "Bu karardan sonra hat üzerinde açık geçiş hatası yok.",
     endings: {
       surekli: "Eşikler birbirine bağlı. Erişim koptuğu yer kalmadı.",
       mahalle: "Kıyı tam değil ama mahalle rampayla yürüyor. Tam hat başka bir bedel isterdi.",
@@ -55,6 +59,9 @@ const COPY = {
     bagla: "Link",
     rampa: "Add a ramp",
     again: "New coast",
+    moment: { link: "Threshold linked", ramp: "Passage repaired", period: "Period closed", wait: "The coast waited one period" },
+    measured: "Measured result of this decision", delayed: "Delayed effects settle at the next period close.", closeMoment: "Close result",
+    outcomeFault: "The route still has a broken passage; the open threshold raises risk next period.", outcomeClear: "The route has no open passage fault after this choice.",
     endings: {
       surekli: "The thresholds hold together. No break remains.",
       mahalle: "The coast is not complete, but the neighbourhood can walk it. A full route would have cost something else.",
@@ -67,6 +74,7 @@ const t = () => COPY[lang()] || COPY.tr;
 let screen = "menu";
 let state = null;
 let saveStatus = "";
+let outcome = null;
 // The existing Polish body overlay handles the rest of this game. Keep new
 // recovery messages complete in all three languages without shared changes.
 const SAVE_COPY = {
@@ -124,10 +132,36 @@ function persist() {
 }
 
 function play(move) {
+  const before = state;
   state = apply(state, move);
+  outcome = buildCoastOutcome(before, state, move);
   if (state.phase === "end") screen = "report";
   persist();
   render();
+}
+
+function outcomeScene(model) {
+  const scene = $("div", { class: `coast-moment-scene terrain-${model.terrain}`, "aria-hidden": "true" });
+  scene.append($("img", { class: "coast-moment-photo", src: model.kind === "ramp" ? "./assets/coast-threshold-v1.jpg" : "./assets/coast-link-v1.jpg", alt: "", loading: "lazy", decoding: "async", width: "1024", height: "683", onerror: (event) => event.currentTarget.remove() }));
+  return scene;
+}
+
+function renderOutcome(model, c) {
+  if (!model) return null;
+  const metric = (key, label) => {
+    const delta = model.deltas[key];
+    return $("span", { class: `moment-metric ${delta > 0 ? "gain" : delta < 0 ? "loss" : "level"}` }, `${label} ${delta > 0 ? "+" : ""}${delta}`);
+  };
+  return $("aside", { class: `coast-moment coast-moment-${model.kind}`, "aria-label": c.measured, role: "status" },
+    outcomeScene(model),
+    $("div", { class: "coast-moment-copy" },
+      $("div", { class: "moment-heading" }, $("p", { class: "kicker" }, `${c.period} ${model.period}`), $("button", { class: "moment-close", type: "button", "aria-label": c.closeMoment, onclick: () => { outcome = null; render(); } }, "×")),
+      $("h2", {}, `${c.moment[model.kind]}${model.nodeName ? ` · ${model.nodeName[lang()]}` : ""}`),
+      $("p", {}, model.fault ? c.outcomeFault : c.outcomeClear),
+      $("div", { class: "moment-metrics" }, metric("resource", c.resource), metric("trust", c.trust), metric("risk", c.risk), metric("access", c.access)),
+      model.delayed ? $("p", { class: "moment-delay" }, c.delayed) : null,
+    ),
+  );
 }
 
 // Both renderers below (SVG here, PixiJS in map-pixi.js) consume the same
@@ -266,6 +300,7 @@ function render() {
         const loaded = loadCoastSave(saveStorage());
         state = loaded.state && loaded.state.phase !== "end" ? loaded.state : createCoast(loaded.status === "unavailable" ? 4 : Date.now() % 100000);
         saveStatus = loaded.status;
+        outcome = null;
         screen = "play";
         render();
       } }, c.open),
@@ -294,7 +329,8 @@ function render() {
       $("section", { class: "build", "aria-label": c.build }, $("h2", {}, c.build), ...moves),
       $("section", { class: "problem" }, $("h2", {}, c.problem), $("p", { class: "fault" }, reason)),
     ),
-    screen === "report" ? $("section", { class: "report" }, $("h2", {}, c.endings[state.ending] || state.ending), $("button", { class: "primary", type: "button", onclick: () => { state = createCoast(state.seed + 1); screen = "play"; persist(); render(); } }, c.again)) : null,
+    renderOutcome(outcome, c),
+    screen === "report" ? $("section", { class: "report" }, $("h2", {}, c.endings[state.ending] || state.ending), $("button", { class: "primary", type: "button", onclick: () => { state = createCoast(state.seed + 1); screen = "play"; outcome = null; persist(); render(); } }, c.again)) : null,
   ));
 }
 
