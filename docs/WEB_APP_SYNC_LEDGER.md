@@ -549,3 +549,10 @@ Chromium must pass before integration.
 - Documentation checkpoint only; verified A1–A3/#113/#111 remain merged with two-host proof; main be160c95/full CI37282054896 SUCCESS. #116–119 immutable release evidence is retained.
 - B3 exact approved targets recovered and visually inspected privately; reference pixels are not copied into web/canonical/native repos or used as asset material. Reference emblems, people, lettering and compositions are excluded.
 - New art acceptance remains0/900. B10 pack/cohort validation and separate game-specific procedural surface work are in progress, not production. Latest user prioritizes B; unrelated local TC i18n b32a4dd is preserved/deferred. Native remains paused.
+
+
+### 2026-10-05 — Grok card-art ownership handoff (documentation only)
+- User assigned VETO/GETT/DARBE 900-card art/frame/generator/assets to Grok; Astra retains later immutable-data/engine/save/quality/release review and non-card scope. No new art or production output in this checkpoint.
+- `docs/GROK_CARD_ART_HANDOFF.md` links exact published 300×3 semantic drafts, source hashes, canonical/shared-art sync, private references and build/manifest/offline acceptance. All 17 preparation tests passed; no art approval or human/GPU test claim.
+- Shared-content repository remains `tayaz-maker/tariklab-content`; native paused. Existing #112 and preparation/probe branches preserved; old-source differences/GETT alias and pack overwrite risks explicitly retained.
+- A1–A3 and TC #117/#119 are already released; current main `be160c95` and CI/two-host evidence cited in handoff. Final 360 report is gated on remaining products plus Grok production releases; no autonomous broad post-report fix wave.

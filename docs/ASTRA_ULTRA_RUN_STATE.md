@@ -1,6 +1,6 @@
 # Astra Ultra — game-by-game run state
 
-Updated: 2026-10-05 (UTC). Owner: Astra, including implementation, normal protected merges and two-host release verification under the latest A–F contract. Earlier Terra / Sol / Luna handoffs below are historical; the latest dated checkpoint governs current status. No red/pending merge or CI bypass.
+Updated: 2026-10-05 (UTC). Owner: Astra for non-card implementation, normal protected merges and two-host verification. The 2026-10-05 ownership split assigns all 900 card illustrations/frames/generators/assets to Grok; Astra retains later invariant/quality/release review. Earlier Terra / Sol / Luna handoffs below are historical; the latest dated checkpoint governs current status. No red/pending merge or CI bypass.
 
 ## 1. HANEDANIAN — living relief atlas
 
@@ -499,3 +499,15 @@ PR #101 remains Terra's responsibility. Novella remains **LATER**.
 - C1 KISMİ (#117/#119 kanıtlı); C2/C3 OPEN; D2 yerel `astra/tc-week-control-i18n` b32a4dd korunuyor/DEFERRED, PR/CI/production yok.
 - D1–D4/genelD5 OPEN; brace #114 CLOSED; D6 Novella/#78/#79/SON KÖY WIP korunuyor; E1 NOT IMPLEMENTED/E2 taslak/E3 insan kapıları; F NOT STARTED.
 - Sonraki: B7 gerçekçilik eşiği → oyun başına300 kart/B10 → bağımsız CI/iki-host release. Referans erişimi sanat onayı değildir.
+
+
+### 2026-10-05 12:15 UTC — user ownership split / Grok handoff
+- Branch `astra/grok-card-handoff`, base `be160c95`; docs-only checkpoint, no art/frame/generator/runtime/engine/save changes; PR/CI/merge/production not run for this docs-only handoff.
+- B1–B10 production ownership transferred to Grok; Astra stops conflicting art commits/PRs and retains invariant/quality/release review. Replacement art remains 0/900 accepted.
+- Handoff: `docs/GROK_CARD_ART_HANDOFF.md`; three immutable remote branches, exact source hashes/IDs, 300×3 existing briefs, private-reference IDs, source/transport/provenance/budget/offline acceptance.
+- Validation: source 300 unique IDs/game; all remote preparation trees match local; semantic tests VETO6/6 + GETT5/5 + DARBE6/6 PASS. No new browser/production/art-acceptance claim.
+- A1–A3 CLOSED: #113 `375b837` → #111 `a534289`; TC #117/#119 released, main `be160c95`; main CI37282054896 and two-host production37282054880 SUCCESS. Earlier pending entries are historical.
+- B11: #118 valid UI fixtures NOT REPRODUCED; natural-match/affected-old-save boundary stays open, no artwork-based rule closure.
+- C1–C3/D1–D5/E remain Astra scope; card cache integration must coordinate with Grok. #112, source/preparation branches and rejected studies preserved; local cohort pipeline `ecfbf29` deferred/unwired.
+- D6: Novella LATER, closed #78/#79 and stale branches untouched; PL native, anatomy expert and physical GPU remain honest human requirements.
+- F: only after all product work and Grok releases reach production; report/classify evidence, then stop broad fixes unless separately tasked. Next: root reviews/publishes this narrow handoff and resumes non-card work.
