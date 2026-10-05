@@ -221,3 +221,29 @@ PR #101 remains Terra's responsibility. Novella remains **LATER**.
 - C1–C3/D1–D6: kalan outcome/map, offline/save/perf/security işleri açık; Novella, #78/#79 ve SON KÖY WIP korunur. Hiçbir toplu DONE yok.
 - E1–E3/F: Atlas foundation ve final360 başlamadı; PL ana dil/anatomi uzmanı/fiziksel GPU insan kapıları açık. Tüm madde sahipleri final360 sözleşme tablosunda.
 - Sonraki: exact preview + tüm CI → normal #113 merge → iki-host 320/390/1440 gerçek production kanıtı → A2; yanlış SHA/kırmızı CI bypass edilmez.
+
+
+### 2026-10-05 02:42 UTC — A1/A3 production closure, A2 rebase
+- A1/A3: PR #113 normal merge `375b83752df3d5e16c960797cf99634af0405d31`; head `cac09e1` üzerinde9/9 check + Vercel SUCCESS, bypass yok.
+- A1 production: run37256148798/job111593543370 SUCCESS; www+Workers ×1440/390/320 =6/6, her vakada2 gerçek reload, gerçek farm save/queue/seed/paused-clock korunması.
+- A1 kanıt: worker SHA256 `8f44b24062a076d29b4d771f940f31f713d4685f8a1c1fd33ef43bfaa2811d39`;19/19 paket; console/page/HTTP/network errors0, overflow0.
+- A1 artifact11322886877:24 screenshot+6 trace+2results;33.774.583B,32MiB yerel transfer sınırını aştı. Production assertion/log kanıtı var; bu görüntüler yerelde incelendi denmez.
+- A2: #111 güncel375b837 üzerine yerel rebase edildi; ledger'ın iki tarihsel eki korundu. Yeni head `eb5913d97ffe387033b315c1560ee25a691f263d` push edildi; fresh CI run37256926906/37256926916/37256926899, merge yok.
+- A2 yerel: cache/traffic/deadline/surface/offline/redirect hedefli68/68 PASS, lint ve production build PASS. Kanıt upload'ları host başına bölünüyor, hiçbir test kapısı gevşemiyor.
+- B1–B10: yeni kabul0/900; üç prosedürel insan sahnesi kalite FAIL, yayılım/public değişiklik yok. B11 gerçek engine fixture21/21 PASS; bildirilen browser/eski-save P1 henüz doğrulanmadı.
+- C1–C3/D1–D6: kalan işler açık; C3 kaynak matrisi hazırlanıyor. D5 ayrı #114, head `316355d72153e1804a906f3e2d5d62f2cd349577`:14/14 RED→GREEN/build/lint/typecheck PASS; fresh CI bekliyor, merge yok.
+- E1–E3/F: Atlas ve final360 başlamadı; PL/anatomi/physicalGPU insan kapıları açık. Novella/#78/#79 ve SON KÖY WIP korunur.
+- Sonraki: A2 freshCI→normalmerge→iki-host production; D5 bağımsız dar PR. Büyük yeni ürün dalgası açılmadı.
+
+
+### 2026-10-05 03:16 UTC — A2 merge checkpoint
+- A1/A3 CLOSED: #113 merge375b837, iki-host6/6 gerçek saved-game reload kanıtı; main CI SUCCESS.
+- A2: #111 head `eb5913d97ffe387033b315c1560ee25a691f263d` üzerinde10/10 checks+Vercel SUCCESS; normal merge `a534289490f502f68e12d91803fbc3883de7d790`, bypass yok.
+- A2/D4: 68 local hedefli test/build/lint PASS; route63×2 ve Wave1 built13 browser PASS. Portal9request/~172.4KB, oyun/Pixi isteği0.
+- A2 production: bu merge'in iki-host smoke sonucu henüz yok; deploy/production beklerken yeni kapsam başlamadı.
+- A2 açık kanıt: Racon320/390 fullPage map capture621/730px; baseline da aynı, kullanıcı-scroll kusuru henüz kanıtlanmadı. AyrıP1 doğrulama, örtülmedi.
+- D5: #114 `316355d` üç dosyalık dev dependency fix, local14/14 PASS; fresh CI pending, merge yok.
+- B1–B10:0/900 kabul;300×3 semantic brief hazırlığı üretim sanatı değildir. B11 engine21/21 karşı kanıt; özgülbrowser/eski-saveP1 açık.
+- C1–C3/D1–D4:7harita/20rota kaynak matrisi tamamlandı, runtimegenelPASS değil; offline kohortlar/ağırlık/geri kalan visual işi açık.
+- E1–E3/F: Atlas/final360 başlamadı; PL/anatomi/fizikselGPU insan kapıları açık; D6Novella/#78/#79/SON KÖY WIP korunur.
+- Sonraki: A2 exactproduction→D5gatedrelease; kart kalite eşiği düşürülmez.

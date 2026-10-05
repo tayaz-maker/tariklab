@@ -1,0 +1,1171 @@
+{
+  "baseline": "562831dba3b16be2a0bc8b2aec2e613eb1b80f45",
+  "startedAt": "2026-10-05T02:32:50.878Z",
+  "scope": "DRB-237..240 actual engine preconditions, special summon, activated effect, resumable choice and negative controls; no browser/production/AI-frequency conclusion.",
+  "protectedSHA256": {
+    "public/games/darbe-h/decks.json": "71efd17ee75255dfd3fd3f35ac6bd1cead7955006fbf07fa63aae33d65a9f333",
+    "public/games/darbe-h/designs.js": "76bdba01683f4a43768e65f8501210b25b2b9ec4376e04f58061576ae3731768",
+    "public/games/darbe-h/source-cards.json": "222916020ef176ced6ad72d4c61038bf045757e7ae9d7a6bfa6d8f99c657f3f9",
+    "public/games/duel-core/actions.js": "ad9415fbf6cb38436a114e3c65f95770dce459b310263a0817b0b3faffbbfa8d",
+    "public/games/duel-core/ai.js": "a53d66e8abdefd7cf6d159f5953534b862890d16a07d1701ada0437c978f7533",
+    "public/games/duel-core/analyzer.js": "279d3c57ffeff6230f8f47b0895c1b5b77cb4241c062d3e56e7259019e95a6a7",
+    "public/games/duel-core/app.js": "391a5117f25a4c843f815ff96463392df475bdc926b972c992f659343e6e3c36",
+    "public/games/duel-core/battle.js": "3634e8369d3910007cfece05d887592a85d8c3deaf0d306f7498bda461759f4b",
+    "public/games/duel-core/card-data.js": "684802780655365b6b5bc61cae533910a37386b991e1e372f011bee463c15905",
+    "public/games/duel-core/card-dsl.js": "7b0618e416f3a1ca1f423ffb9b4bb5d7b74f8df1b38ed947c9e439be656e3c72",
+    "public/games/duel-core/combat-rules.js": "d6e5634f1cd83b4f2cad14deff53d20cd51b1ee8fda036275f95b28cfc1518c8",
+    "public/games/duel-core/deckgen.js": "0409d52696eee0ce1fe4a1ae32012f2daf7608e9506825e3093a8befdbcb5590",
+    "public/games/duel-core/decks.js": "781e8c35a8a984b0823abb5235fd6237854fbb100bd0f79a24a75fd9b3332d74",
+    "public/games/duel-core/design.css": "54ae9a410e7c257817dd09d143556e23083f47f71986d95ecb9b7909059865ca",
+    "public/games/duel-core/effects.js": "bf59be5d52a120b683362eed0c1facae5a36f47cd050710c48f1c71c4c533768",
+    "public/games/duel-core/explain.js": "7db522d9cc309f2bfe62f2530cbb1b9f84c5899cd4ba89cf21b1d6c5feedb775",
+    "public/games/duel-core/flow-copy.js": "f2fc4427f5cc7223386cffb5f3a5f334196f50322da5a734a56c104dac4f5428",
+    "public/games/duel-core/help-duel.js": "a64faee705e1d05f98a0c935abb295d885a990b21ae3b3e4453ab303987736b4",
+    "public/games/duel-core/identities.js": "6597172b8c823f557752e6e45faf9e59781aeddf3dbbe7a9724bc983210c3441",
+    "public/games/duel-core/labels-pl.js": "83a71c0532fff56accdbaba048759d913b3930abc49fe14bcd7fdfb4a0c18110",
+    "public/games/duel-core/labels.js": "fb54055fc5b65460de9d2a88848ded74f7298e26dbd3985bade26e0315e522b4",
+    "public/games/duel-core/match-ux.js": "f44e7941f210527ed3298e7fe8dc0ce1b201bb290759448efb322a3e719983a5",
+    "public/games/duel-core/model.js": "4f7c6f9a51bae0518d78a39b49cd034e5b75bc2b2242f225c0b1d95d1fe247d1",
+    "public/games/duel-core/modifiers.js": "499cde455c115a7a98bf0fed2c663020c0c66d0f0687f66f5ab4714637525c25",
+    "public/games/duel-core/onboarding.js": "1bcace64fa6807b42b1c1fd0cb9fbb4355dfe1426b6f6482a87d78cd26c40419",
+    "public/games/duel-core/operations.js": "a8dcf4921626dedb66a420f89c8d4c541f213132dd23c8c1cc152be68b362230",
+    "public/games/duel-core/prefs.js": "c1d11a7ee4c5f6c50a70c4466623f356495ac9c01a579438386b1473464629d1",
+    "public/games/duel-core/presentation.js": "bc78a80b53123201d8c7a05c89f47dac53636f04a823d1dfa5b8c440e9efec55",
+    "public/games/duel-core/projection.js": "828d64621840140913ddaf0a1189f6c3a80d104dff021c279fdf66e251cf45d1",
+    "public/games/duel-core/random.js": "af7e3bc5b9ca4bdeacc50cae0b16017868db5309820efa8c1c9f4f29a4ad9112",
+    "public/games/duel-core/rejections.js": "d2ae535f9ea6fef383592d474be1baa404a45f37c4da8e9b851718c54d526c0c",
+    "public/games/duel-core/relationships.js": "3324a0bbe669550ccc35df4295464d3da5de131f59db7af56e8c770faa8ba7c6",
+    "public/games/duel-core/render-safe.js": "1ec2fdb30c6c4ec74f59b99350b6ac8a586fa0a5ead1249c8a36b180e1b95e9e",
+    "public/games/duel-core/rules.js": "7dae4ed48e75923584dc6376f32645319c5e1dde711c07001d50bb9646398ffa",
+    "public/games/duel-core/save.js": "800d06689d14ef07b796b8cf71848f38c79aaa519244e198d13d396fb729e5dc",
+    "public/games/duel-core/selection.js": "5b5c14ccb1a80dad924ab83b2fbb45e064126cd3786c87eb5c3c37120c60d2ca",
+    "public/games/duel-core/setup-flow.js": "f7f0e7194c36c1e4dff91a87c4efae952251c6e46aa74a8d2ee87151a9e30789",
+    "public/games/duel-core/summoning.js": "0bba60830bffa018d1e040fbb4a22477d3f0097002bff6ec246294db02d81501",
+    "public/games/duel-core/table.css": "29aabab71233cb3c5db274196e7b3c71c59c0f61100edf8c7998867947f2ad59",
+    "public/games/duel-core/targeting.js": "848f240c621e4b25c294996feec488b2cca967f18d6dcb912c37175e094a9de4",
+    "public/games/duel-core/telemetry.js": "539e43837581ce2427c5fa4b1274bc2c277d7957c0829e25bc536518a9c4606f",
+    "public/games/duel-core/theme-meta.js": "bff94e90d79df18a4e7c7ab9e7913ec48912dd6b870d0a94a6efdd6982873d60",
+    "public/games/duel-core/timing.js": "6a3cc0b51b5653483d31df86b23b136735bbcd439585537b3fec6d1f47ee15c6"
+  },
+  "cases": [
+    {
+      "id": "DRB-237",
+      "name": "Telex Kurulu",
+      "sourceText": "Yedek heyet: sahadaki 1 Telex ve 1 Muhtıra görevlisi malzeme. Turda bir: 900 KP öde; rakibin 1 açık destek kartını eline gönder.",
+      "definition": {
+        "materials": {
+          "series": [
+            "Telex",
+            "Muhtira"
+          ],
+          "zones": [
+            "units"
+          ]
+        },
+        "costs": [
+          {
+            "op": "points",
+            "amount": -900,
+            "opponent": false
+          }
+        ],
+        "effects": [
+          {
+            "op": "select",
+            "key": "support",
+            "selector": {
+              "owner": "opponent",
+              "zones": "support",
+              "face": "up"
+            },
+            "count": 1,
+            "chooser": "own"
+          },
+          {
+            "op": "move",
+            "to": "hand",
+            "count": 1,
+            "reason": "effect"
+          }
+        ],
+        "triggers": []
+      },
+      "fixtureFile": "DRB-237-fixture.json",
+      "fixtureSHA256": "9f1f0cfde669c71bc4abbe93f4ffe70e20c1000af71e29a4ed4d6ba21e005e04",
+      "initial": {
+        "seed": 9,
+        "turn": 3,
+        "phase": "main1",
+        "active": 0,
+        "revision": 0,
+        "points": [
+          8000,
+          8000
+        ],
+        "boss": {
+          "uid": "fixture:1",
+          "id": "DRB-237",
+          "location": {
+            "player": 0,
+            "zone": "auxiliary",
+            "index": 4
+          },
+          "face": "down",
+          "used": {}
+        },
+        "target": {
+          "uid": "fixture:4",
+          "id": "DRB-097",
+          "location": {
+            "player": 1,
+            "zone": "support",
+            "index": 0
+          },
+          "face": "up"
+        },
+        "choice": null,
+        "pending": null,
+        "result": null
+      },
+      "materialDefinitions": [
+        "DRB-005",
+        "DRB-006"
+      ],
+      "specialAction": {
+        "type": "special",
+        "card": "fixture:1",
+        "materials": [
+          "fixture:2",
+          "fixture:3"
+        ],
+        "discount": false,
+        "player": 0,
+        "revision": 0
+      },
+      "activation": {
+        "type": "activate",
+        "card": "fixture:1",
+        "player": 0,
+        "revision": 1,
+        "targets": []
+      },
+      "choiceBeforeReload": {
+        "player": 0,
+        "source": "fixture:1",
+        "key": "support",
+        "ids": [
+          "fixture:4"
+        ],
+        "count": 1,
+        "jobId": 1
+      },
+      "choose": {
+        "type": "choose",
+        "targets": [
+          "fixture:4"
+        ],
+        "player": 0,
+        "revision": 2
+      },
+      "actualCost": 900,
+      "after": {
+        "seed": 9,
+        "turn": 3,
+        "phase": "main1",
+        "active": 0,
+        "revision": 3,
+        "points": [
+          7100,
+          8000
+        ],
+        "boss": {
+          "uid": "fixture:1",
+          "id": "DRB-237",
+          "location": {
+            "player": 0,
+            "zone": "units",
+            "index": 0
+          },
+          "face": "up",
+          "used": {
+            "activate": 3,
+            "duelActivated": true
+          }
+        },
+        "target": {
+          "uid": "fixture:4",
+          "id": "DRB-097",
+          "location": {
+            "player": 1,
+            "zone": "hand",
+            "index": 0
+          },
+          "face": "up"
+        },
+        "choice": null,
+        "pending": null,
+        "result": null
+      },
+      "status": "expected-effect-observed",
+      "log": [
+        {
+          "revision": 0,
+          "turn": 1,
+          "player": 0,
+          "event": "draw",
+          "count": 1
+        },
+        {
+          "revision": 0,
+          "turn": 1,
+          "player": 1,
+          "event": "draw",
+          "count": 1
+        },
+        {
+          "revision": 0,
+          "turn": 1,
+          "player": 0,
+          "event": "draw",
+          "count": 1
+        },
+        {
+          "revision": 0,
+          "turn": 1,
+          "player": 1,
+          "event": "draw",
+          "count": 1
+        },
+        {
+          "revision": 0,
+          "turn": 1,
+          "player": 0,
+          "event": "draw",
+          "count": 1
+        },
+        {
+          "revision": 0,
+          "turn": 1,
+          "player": 1,
+          "event": "draw",
+          "count": 1
+        },
+        {
+          "revision": 0,
+          "turn": 1,
+          "player": 0,
+          "event": "draw",
+          "count": 1
+        },
+        {
+          "revision": 0,
+          "turn": 1,
+          "player": 1,
+          "event": "draw",
+          "count": 1
+        },
+        {
+          "revision": 0,
+          "turn": 1,
+          "player": 0,
+          "event": "draw",
+          "count": 1
+        },
+        {
+          "revision": 0,
+          "turn": 1,
+          "player": 1,
+          "event": "draw",
+          "count": 1
+        },
+        {
+          "revision": 0,
+          "turn": 1,
+          "player": 0,
+          "event": "start",
+          "first": 0
+        },
+        {
+          "revision": 1,
+          "turn": 3,
+          "player": 0,
+          "event": "move",
+          "uid": "fixture:2",
+          "from": "units",
+          "to": "grave",
+          "reason": "material"
+        },
+        {
+          "revision": 1,
+          "turn": 3,
+          "player": 0,
+          "event": "move",
+          "uid": "fixture:3",
+          "from": "units",
+          "to": "grave",
+          "reason": "material"
+        },
+        {
+          "revision": 1,
+          "turn": 3,
+          "player": 0,
+          "event": "move",
+          "uid": "fixture:1",
+          "from": "auxiliary",
+          "to": "units",
+          "reason": "special"
+        },
+        {
+          "revision": 3,
+          "turn": 3,
+          "player": 1,
+          "event": "move",
+          "uid": "fixture:4",
+          "from": "support",
+          "to": "hand",
+          "reason": "effect"
+        }
+      ]
+    },
+    {
+      "id": "DRB-238",
+      "name": "Zeyil Masası",
+      "sourceText": "Yedek heyet: sahadaki 1 Zeyil ve 1 Brifing görevlisi malzeme. Turda bir: 1000 KP öde; rakibin 1 açık destek kartını eline gönder.",
+      "definition": {
+        "materials": {
+          "series": [
+            "Zeyil",
+            "Brifing"
+          ],
+          "zones": [
+            "units"
+          ]
+        },
+        "costs": [
+          {
+            "op": "points",
+            "amount": -1000,
+            "opponent": false
+          }
+        ],
+        "effects": [
+          {
+            "op": "select",
+            "key": "support",
+            "selector": {
+              "owner": "opponent",
+              "zones": "support",
+              "face": "up"
+            },
+            "count": 1,
+            "chooser": "own"
+          },
+          {
+            "op": "move",
+            "to": "hand",
+            "count": 1,
+            "reason": "effect"
+          }
+        ],
+        "triggers": []
+      },
+      "fixtureFile": "DRB-238-fixture.json",
+      "fixtureSHA256": "a6510a2fa88250d17e6aa3e0c51a906d6bee7c78431ccb0843df41f8515a514f",
+      "initial": {
+        "seed": 9,
+        "turn": 3,
+        "phase": "main1",
+        "active": 0,
+        "revision": 0,
+        "points": [
+          8000,
+          8000
+        ],
+        "boss": {
+          "uid": "fixture:21",
+          "id": "DRB-238",
+          "location": {
+            "player": 0,
+            "zone": "auxiliary",
+            "index": 4
+          },
+          "face": "down",
+          "used": {}
+        },
+        "target": {
+          "uid": "fixture:24",
+          "id": "DRB-097",
+          "location": {
+            "player": 1,
+            "zone": "support",
+            "index": 0
+          },
+          "face": "up"
+        },
+        "choice": null,
+        "pending": null,
+        "result": null
+      },
+      "materialDefinitions": [
+        "DRB-007",
+        "DRB-008"
+      ],
+      "specialAction": {
+        "type": "special",
+        "card": "fixture:21",
+        "materials": [
+          "fixture:22",
+          "fixture:23"
+        ],
+        "discount": false,
+        "player": 0,
+        "revision": 0
+      },
+      "activation": {
+        "type": "activate",
+        "card": "fixture:21",
+        "player": 0,
+        "revision": 1,
+        "targets": []
+      },
+      "choiceBeforeReload": {
+        "player": 0,
+        "source": "fixture:21",
+        "key": "support",
+        "ids": [
+          "fixture:24"
+        ],
+        "count": 1,
+        "jobId": 1
+      },
+      "choose": {
+        "type": "choose",
+        "targets": [
+          "fixture:24"
+        ],
+        "player": 0,
+        "revision": 2
+      },
+      "actualCost": 1000,
+      "after": {
+        "seed": 9,
+        "turn": 3,
+        "phase": "main1",
+        "active": 0,
+        "revision": 3,
+        "points": [
+          7000,
+          8000
+        ],
+        "boss": {
+          "uid": "fixture:21",
+          "id": "DRB-238",
+          "location": {
+            "player": 0,
+            "zone": "units",
+            "index": 0
+          },
+          "face": "up",
+          "used": {
+            "activate": 3,
+            "duelActivated": true
+          }
+        },
+        "target": {
+          "uid": "fixture:24",
+          "id": "DRB-097",
+          "location": {
+            "player": 1,
+            "zone": "hand",
+            "index": 0
+          },
+          "face": "up"
+        },
+        "choice": null,
+        "pending": null,
+        "result": null
+      },
+      "status": "expected-effect-observed",
+      "log": [
+        {
+          "revision": 0,
+          "turn": 1,
+          "player": 0,
+          "event": "draw",
+          "count": 1
+        },
+        {
+          "revision": 0,
+          "turn": 1,
+          "player": 1,
+          "event": "draw",
+          "count": 1
+        },
+        {
+          "revision": 0,
+          "turn": 1,
+          "player": 0,
+          "event": "draw",
+          "count": 1
+        },
+        {
+          "revision": 0,
+          "turn": 1,
+          "player": 1,
+          "event": "draw",
+          "count": 1
+        },
+        {
+          "revision": 0,
+          "turn": 1,
+          "player": 0,
+          "event": "draw",
+          "count": 1
+        },
+        {
+          "revision": 0,
+          "turn": 1,
+          "player": 1,
+          "event": "draw",
+          "count": 1
+        },
+        {
+          "revision": 0,
+          "turn": 1,
+          "player": 0,
+          "event": "draw",
+          "count": 1
+        },
+        {
+          "revision": 0,
+          "turn": 1,
+          "player": 1,
+          "event": "draw",
+          "count": 1
+        },
+        {
+          "revision": 0,
+          "turn": 1,
+          "player": 0,
+          "event": "draw",
+          "count": 1
+        },
+        {
+          "revision": 0,
+          "turn": 1,
+          "player": 1,
+          "event": "draw",
+          "count": 1
+        },
+        {
+          "revision": 0,
+          "turn": 1,
+          "player": 0,
+          "event": "start",
+          "first": 0
+        },
+        {
+          "revision": 1,
+          "turn": 3,
+          "player": 0,
+          "event": "move",
+          "uid": "fixture:22",
+          "from": "units",
+          "to": "grave",
+          "reason": "material"
+        },
+        {
+          "revision": 1,
+          "turn": 3,
+          "player": 0,
+          "event": "move",
+          "uid": "fixture:23",
+          "from": "units",
+          "to": "grave",
+          "reason": "material"
+        },
+        {
+          "revision": 1,
+          "turn": 3,
+          "player": 0,
+          "event": "move",
+          "uid": "fixture:21",
+          "from": "auxiliary",
+          "to": "units",
+          "reason": "special"
+        },
+        {
+          "revision": 3,
+          "turn": 3,
+          "player": 1,
+          "event": "move",
+          "uid": "fixture:24",
+          "from": "support",
+          "to": "hand",
+          "reason": "effect"
+        }
+      ]
+    },
+    {
+      "id": "DRB-239",
+      "name": "Arşiv Kurulu",
+      "sourceText": "Yedek heyet: sahadaki 1 Kabine ve 1 Arşiv görevlisi malzeme. Turda bir: 1100 KP öde; rakibin 1 açık destek kartını eline gönder.",
+      "definition": {
+        "materials": {
+          "series": [
+            "Kabine",
+            "Arsiv"
+          ],
+          "zones": [
+            "units"
+          ]
+        },
+        "costs": [
+          {
+            "op": "points",
+            "amount": -1100,
+            "opponent": false
+          }
+        ],
+        "effects": [
+          {
+            "op": "select",
+            "key": "support",
+            "selector": {
+              "owner": "opponent",
+              "zones": "support",
+              "face": "up"
+            },
+            "count": 1,
+            "chooser": "own"
+          },
+          {
+            "op": "move",
+            "to": "hand",
+            "count": 1,
+            "reason": "effect"
+          }
+        ],
+        "triggers": []
+      },
+      "fixtureFile": "DRB-239-fixture.json",
+      "fixtureSHA256": "2c0797dd0448aef5fccd8eba30f165a1c8855ee01e2445aae34184991186ebc1",
+      "initial": {
+        "seed": 9,
+        "turn": 3,
+        "phase": "main1",
+        "active": 0,
+        "revision": 0,
+        "points": [
+          8000,
+          8000
+        ],
+        "boss": {
+          "uid": "fixture:41",
+          "id": "DRB-239",
+          "location": {
+            "player": 0,
+            "zone": "auxiliary",
+            "index": 4
+          },
+          "face": "down",
+          "used": {}
+        },
+        "target": {
+          "uid": "fixture:44",
+          "id": "DRB-097",
+          "location": {
+            "player": 1,
+            "zone": "support",
+            "index": 0
+          },
+          "face": "up"
+        },
+        "choice": null,
+        "pending": null,
+        "result": null
+      },
+      "materialDefinitions": [
+        "DRB-009",
+        "DRB-010"
+      ],
+      "specialAction": {
+        "type": "special",
+        "card": "fixture:41",
+        "materials": [
+          "fixture:42",
+          "fixture:43"
+        ],
+        "discount": false,
+        "player": 0,
+        "revision": 0
+      },
+      "activation": {
+        "type": "activate",
+        "card": "fixture:41",
+        "player": 0,
+        "revision": 1,
+        "targets": []
+      },
+      "choiceBeforeReload": {
+        "player": 0,
+        "source": "fixture:41",
+        "key": "support",
+        "ids": [
+          "fixture:44"
+        ],
+        "count": 1,
+        "jobId": 1
+      },
+      "choose": {
+        "type": "choose",
+        "targets": [
+          "fixture:44"
+        ],
+        "player": 0,
+        "revision": 2
+      },
+      "actualCost": 1100,
+      "after": {
+        "seed": 9,
+        "turn": 3,
+        "phase": "main1",
+        "active": 0,
+        "revision": 3,
+        "points": [
+          6900,
+          8000
+        ],
+        "boss": {
+          "uid": "fixture:41",
+          "id": "DRB-239",
+          "location": {
+            "player": 0,
+            "zone": "units",
+            "index": 0
+          },
+          "face": "up",
+          "used": {
+            "activate": 3,
+            "duelActivated": true
+          }
+        },
+        "target": {
+          "uid": "fixture:44",
+          "id": "DRB-097",
+          "location": {
+            "player": 1,
+            "zone": "hand",
+            "index": 0
+          },
+          "face": "up"
+        },
+        "choice": null,
+        "pending": null,
+        "result": null
+      },
+      "status": "expected-effect-observed",
+      "log": [
+        {
+          "revision": 0,
+          "turn": 1,
+          "player": 0,
+          "event": "draw",
+          "count": 1
+        },
+        {
+          "revision": 0,
+          "turn": 1,
+          "player": 1,
+          "event": "draw",
+          "count": 1
+        },
+        {
+          "revision": 0,
+          "turn": 1,
+          "player": 0,
+          "event": "draw",
+          "count": 1
+        },
+        {
+          "revision": 0,
+          "turn": 1,
+          "player": 1,
+          "event": "draw",
+          "count": 1
+        },
+        {
+          "revision": 0,
+          "turn": 1,
+          "player": 0,
+          "event": "draw",
+          "count": 1
+        },
+        {
+          "revision": 0,
+          "turn": 1,
+          "player": 1,
+          "event": "draw",
+          "count": 1
+        },
+        {
+          "revision": 0,
+          "turn": 1,
+          "player": 0,
+          "event": "draw",
+          "count": 1
+        },
+        {
+          "revision": 0,
+          "turn": 1,
+          "player": 1,
+          "event": "draw",
+          "count": 1
+        },
+        {
+          "revision": 0,
+          "turn": 1,
+          "player": 0,
+          "event": "draw",
+          "count": 1
+        },
+        {
+          "revision": 0,
+          "turn": 1,
+          "player": 1,
+          "event": "draw",
+          "count": 1
+        },
+        {
+          "revision": 0,
+          "turn": 1,
+          "player": 0,
+          "event": "start",
+          "first": 0
+        },
+        {
+          "revision": 1,
+          "turn": 3,
+          "player": 0,
+          "event": "move",
+          "uid": "fixture:42",
+          "from": "units",
+          "to": "grave",
+          "reason": "material"
+        },
+        {
+          "revision": 1,
+          "turn": 3,
+          "player": 0,
+          "event": "move",
+          "uid": "fixture:43",
+          "from": "units",
+          "to": "grave",
+          "reason": "material"
+        },
+        {
+          "revision": 1,
+          "turn": 3,
+          "player": 0,
+          "event": "move",
+          "uid": "fixture:41",
+          "from": "auxiliary",
+          "to": "units",
+          "reason": "special"
+        },
+        {
+          "revision": 3,
+          "turn": 3,
+          "player": 1,
+          "event": "move",
+          "uid": "fixture:44",
+          "from": "support",
+          "to": "hand",
+          "reason": "effect"
+        }
+      ]
+    },
+    {
+      "id": "DRB-240",
+      "name": "Yazı Heyeti",
+      "sourceText": "Yedek heyet: sahadaki 1 Tebligat ve 1 Meşruiyet görevlisi malzeme. Turda bir: 1200 KP öde; rakibin 1 açık destek kartını eline gönder.",
+      "definition": {
+        "materials": {
+          "series": [
+            "Tebligat",
+            "Mesruiyet"
+          ],
+          "zones": [
+            "units"
+          ]
+        },
+        "costs": [
+          {
+            "op": "points",
+            "amount": -1200,
+            "opponent": false
+          }
+        ],
+        "effects": [
+          {
+            "op": "select",
+            "key": "support",
+            "selector": {
+              "owner": "opponent",
+              "zones": "support",
+              "face": "up"
+            },
+            "count": 1,
+            "chooser": "own"
+          },
+          {
+            "op": "move",
+            "to": "hand",
+            "count": 1,
+            "reason": "effect"
+          }
+        ],
+        "triggers": []
+      },
+      "fixtureFile": "DRB-240-fixture.json",
+      "fixtureSHA256": "3a72b999beeda1682550728fd3342ba23a982a1bf96fa848a9b0ffdbcf1286f5",
+      "initial": {
+        "seed": 9,
+        "turn": 3,
+        "phase": "main1",
+        "active": 0,
+        "revision": 0,
+        "points": [
+          8000,
+          8000
+        ],
+        "boss": {
+          "uid": "fixture:61",
+          "id": "DRB-240",
+          "location": {
+            "player": 0,
+            "zone": "auxiliary",
+            "index": 4
+          },
+          "face": "down",
+          "used": {}
+        },
+        "target": {
+          "uid": "fixture:64",
+          "id": "DRB-097",
+          "location": {
+            "player": 1,
+            "zone": "support",
+            "index": 0
+          },
+          "face": "up"
+        },
+        "choice": null,
+        "pending": null,
+        "result": null
+      },
+      "materialDefinitions": [
+        "DRB-011",
+        "DRB-012"
+      ],
+      "specialAction": {
+        "type": "special",
+        "card": "fixture:61",
+        "materials": [
+          "fixture:62",
+          "fixture:63"
+        ],
+        "discount": false,
+        "player": 0,
+        "revision": 0
+      },
+      "activation": {
+        "type": "activate",
+        "card": "fixture:61",
+        "player": 0,
+        "revision": 1,
+        "targets": []
+      },
+      "choiceBeforeReload": {
+        "player": 0,
+        "source": "fixture:61",
+        "key": "support",
+        "ids": [
+          "fixture:64"
+        ],
+        "count": 1,
+        "jobId": 1
+      },
+      "choose": {
+        "type": "choose",
+        "targets": [
+          "fixture:64"
+        ],
+        "player": 0,
+        "revision": 2
+      },
+      "actualCost": 1200,
+      "after": {
+        "seed": 9,
+        "turn": 3,
+        "phase": "main1",
+        "active": 0,
+        "revision": 3,
+        "points": [
+          6800,
+          8000
+        ],
+        "boss": {
+          "uid": "fixture:61",
+          "id": "DRB-240",
+          "location": {
+            "player": 0,
+            "zone": "units",
+            "index": 0
+          },
+          "face": "up",
+          "used": {
+            "activate": 3,
+            "duelActivated": true
+          }
+        },
+        "target": {
+          "uid": "fixture:64",
+          "id": "DRB-097",
+          "location": {
+            "player": 1,
+            "zone": "hand",
+            "index": 0
+          },
+          "face": "up"
+        },
+        "choice": null,
+        "pending": null,
+        "result": null
+      },
+      "status": "expected-effect-observed",
+      "log": [
+        {
+          "revision": 0,
+          "turn": 1,
+          "player": 0,
+          "event": "draw",
+          "count": 1
+        },
+        {
+          "revision": 0,
+          "turn": 1,
+          "player": 1,
+          "event": "draw",
+          "count": 1
+        },
+        {
+          "revision": 0,
+          "turn": 1,
+          "player": 0,
+          "event": "draw",
+          "count": 1
+        },
+        {
+          "revision": 0,
+          "turn": 1,
+          "player": 1,
+          "event": "draw",
+          "count": 1
+        },
+        {
+          "revision": 0,
+          "turn": 1,
+          "player": 0,
+          "event": "draw",
+          "count": 1
+        },
+        {
+          "revision": 0,
+          "turn": 1,
+          "player": 1,
+          "event": "draw",
+          "count": 1
+        },
+        {
+          "revision": 0,
+          "turn": 1,
+          "player": 0,
+          "event": "draw",
+          "count": 1
+        },
+        {
+          "revision": 0,
+          "turn": 1,
+          "player": 1,
+          "event": "draw",
+          "count": 1
+        },
+        {
+          "revision": 0,
+          "turn": 1,
+          "player": 0,
+          "event": "draw",
+          "count": 1
+        },
+        {
+          "revision": 0,
+          "turn": 1,
+          "player": 1,
+          "event": "draw",
+          "count": 1
+        },
+        {
+          "revision": 0,
+          "turn": 1,
+          "player": 0,
+          "event": "start",
+          "first": 0
+        },
+        {
+          "revision": 1,
+          "turn": 3,
+          "player": 0,
+          "event": "move",
+          "uid": "fixture:62",
+          "from": "units",
+          "to": "grave",
+          "reason": "material"
+        },
+        {
+          "revision": 1,
+          "turn": 3,
+          "player": 0,
+          "event": "move",
+          "uid": "fixture:63",
+          "from": "units",
+          "to": "grave",
+          "reason": "material"
+        },
+        {
+          "revision": 1,
+          "turn": 3,
+          "player": 0,
+          "event": "move",
+          "uid": "fixture:61",
+          "from": "auxiliary",
+          "to": "units",
+          "reason": "special"
+        },
+        {
+          "revision": 3,
+          "turn": 3,
+          "player": 1,
+          "event": "move",
+          "uid": "fixture:64",
+          "from": "support",
+          "to": "hand",
+          "reason": "effect"
+        }
+      ]
+    }
+  ],
+  "finishedAt": "2026-10-05T02:32:51.152Z",
+  "protectedFilesUnchanged": true,
+  "verdict": "NOT_REPRODUCED_IN_VALID_ENGINE_FIXTURES"
+}

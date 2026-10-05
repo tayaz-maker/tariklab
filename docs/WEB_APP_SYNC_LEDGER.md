@@ -473,3 +473,12 @@ Chromium must pass before integration.
 - PR #113, head `cac09e1341e6dbfd72ee41298557f88052ddf8c9`: redirected cached HTML is normalized; all mandatory download bodies finish before atomic package writes. No gameplay, save, shared content/artwork or native changes.
 - Local targeted23/23, lint and build PASS. Real Chromium reproduces the minimal old redirect failure and passes patched 19-file online/offline save reload. Workers preview1440/390/320 passes exact-worker/two-reload/zero-error checks, artifact `11321769395`; preview is not production evidence.
 - General CI and normal gated merge/two-host production closure remain pending. #111 is blocked until A1 closes. Native remains paused; B7 excludes generated raster trials from production.
+
+
+## 2026-10-05 — A1/A3 closed; A2 and D5 independent release heads
+
+- #113 merged normally as `375b83752df3d5e16c960797cf99634af0405d31`; exact head had9/9 checks plus Vercel SUCCESS. Main CI37256148777 also SUCCESS. Dedicated production run37256148798/job111593543370 passed www+Workers ×1440/390/320, two real reloads each, actual farm queue/seed/paused-clock save preservation,19/19 cached package, console/page/HTTP/network errors and horizontal overflow0.
+- Artifact11322886877 contains24 screenshots/six traces/two results;33,774,583B exceeds32MiB local transfer limit. Browser assertions/logs are verified; these production pixels were not locally inspected. Physical GPU remains unverified.
+- #111 rebased onto repaired main; head `eb5913d97ffe387033b315c1560ee25a691f263d`. Local68 targeted tests, lint and production build PASS. Fresh CI pending; no merge. Original map code unchanged from prior tested head; only fixture description and per-host artifact splitting changed in verification support.
+- D5 #114 head `316355d72153e1804a906f3e2d5d62f2cd349577`: isolated three-file brace-expansion lock/consumer regression/evidence patch. Baseline2 PASS/12 FAIL → patched14/14 PASS; build/typecheck/lint/IP gates PASS. Fresh CI required. Shared run-state/ledger kept here to avoid overlap with #111. No application, save, gameplay, NOTICE or native change.
+- B1–B10 accepted new art remains0/900; failed original vector probes are isolated outside production. B11 legal engine fixtures21/21 pass; reported browser/legacy-save P1 remains unconfirmed. C–F work and independent human gates remain open.

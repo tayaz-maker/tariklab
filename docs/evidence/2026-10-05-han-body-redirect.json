@@ -1,7 +1,7 @@
 {
   "contract": "A1/A3",
-  "recordedAt": "2026-10-05T02:13:00Z",
-  "mainSHA": "562831dba3b16be2a0bc8b2aec2e613eb1b80f45",
+  "recordedAt": "2026-10-05T03:08:00Z",
+  "mainSHA": "375b83752df3d5e16c960797cf99634af0405d31",
   "pr": 113,
   "headSHA": "cac09e1341e6dbfd72ee41298557f88052ddf8c9",
   "treeSHA": "8392027e96aaeec548fc3251d5391f7158ba8429",
@@ -46,7 +46,49 @@
     "workerSHA256": "8f44b24062a076d29b4d771f940f31f713d4685f8a1c1fd33ef43bfaa2811d39",
     "vercelPreview": "Authenticated connector denied access; protection unchanged; no preview browser proof"
   },
-  "production": "NOT VERIFIED for patch",
-  "merged": false,
-  "A2": "BLOCKED"
+  "production": {
+    "status": "PASS",
+    "run": 37256148798,
+    "job": 111593543370,
+    "artifact": 11322886877,
+    "artifactBytes": 33774583,
+    "artifactDigestFromGitHub": "403297e1ce46563c3bb3cfd2110e4b861603fff5943911c20ad9d9d168ec5445",
+    "hosts": [
+      "https://www.tariklab.com",
+      "https://tariklab.tayaz29.workers.dev"
+    ],
+    "widths": [
+      1440,
+      390,
+      320
+    ],
+    "casesPassed": 6,
+    "reloadsPerCase": 2,
+    "workerSHA256": "8f44b24062a076d29b4d771f940f31f713d4685f8a1c1fd33ef43bfaa2811d39",
+    "package": "hanedanian-package-b6c1b7a0476f423a",
+    "consolePageHttpNetworkErrors": 0,
+    "horizontalOverflow": 0,
+    "evidence": "Real Chromium assertions plus 24 screenshots, six traces and two results.json uploaded. Artifact exceeds32MiB executor transfer limit, so production screenshots were not locally inspected in this checkpoint; preview screenshots were inspected. No physicalGPU claim."
+  },
+  "merged": true,
+  "A2": {
+    "pr": 111,
+    "headSHA": "eb5913d97ffe387033b315c1560ee25a691f263d",
+    "baseSHA": "375b83752df3d5e16c960797cf99634af0405d31",
+    "local": "68/68 targeted, lint, production build PASS",
+    "CI": "fresh runs pending",
+    "merged": false
+  },
+  "mergeSHA": "375b83752df3d5e16c960797cf99634af0405d31",
+  "preMergeGate": {
+    "listedChecks": "9/9 SUCCESS",
+    "Vercel": "SUCCESS",
+    "normalMerge": true,
+    "expectedHeadSHA": "cac09e1341e6dbfd72ee41298557f88052ddf8c9"
+  },
+  "baselineMainSHA": "562831dba3b16be2a0bc8b2aec2e613eb1b80f45",
+  "mainCI": {
+    "run": 37256148777,
+    "conclusion": "success"
+  }
 }

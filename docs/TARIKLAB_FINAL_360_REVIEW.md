@@ -270,13 +270,13 @@ Yayın sırası bağlayıcı: #110 hotfix → iki-host gerçek production kanıt
 
 Bu bölüm önceki çelişen kapsam, stil ve onay notlarının üstündedir. Kullanıcının tekrar onayı gerekmez. Her oyunda 300, üç oyunda toplam 900 kart zorunludur; örnek veya pilot DONE değildir. **B7: AI plaka ve fotogerçekçi dış asset yok; özgün prosedürel SVG, vektör veya katmanlı render kullanılacak.** Önceki raster talimatıyla üretilen denemeler git dışında **SUPERSEDED** olarak işaretlendi; production'a eklenmedi ve yeni işte kullanılmayacak. Kabul edilmiş yeni prosedürel production kartı **0/900**. Mevcut prototip metadata'sı ve UI'sı tek başına kabul edilmiş kart sanatı değildir. Reddedilmiş #112 geometrik proof yayılmayacak. Kurmaca yetişkin görsellerde doğru anatomi, ışık, perspektif, materyal ve anlamsal sahne çeşitliliği kalite kapısıdır; yüz, oda veya poz yalnız renk değiştirilerek çoğaltılamaz.
 
-**Güncel A1 checkpoint:** #113 head `cac09e1341e6dbfd72ee41298557f88052ddf8c9`; hedefli unit **23/23 PASS**, build ve lint **PASS**. Browser ve CI **PENDING**; iki-host production kabulü kapanmadı. **A2 / #111 BLOCKED** kalır. Yerel test sonucu browser veya production kanıtı yerine geçmez.
+**Güncel checkpoint — 2026-10-05 03:10 UTC:** A1/A3 **CLOSED**; #113 merge `375b83752df3d5e16c960797cf99634af0405d31`, main full CI `37256148777` **SUCCESS**, production run `37256148798` iki host × üç genişlik **6/6 PASS**. A2/#111 head `eb5913d`, bu main üzerine güncellendi; 68 hedefli test, build/lint **PASS**, campaign CI **PENDING**, merge yok. B11 motor fixture'ları **21/21 PASS / NOT REPRODUCED**; browser/özgül eski-save P1 kaydı açık. D5 yerel RED/GREEN sonrası **14/14 PASS**, build/lint/typecheck PASS; #114 head `316355d`, lockfile/test/kaynak kanıtı olmak üzere üç dosya, fresh CI **PENDING**. Önceki tarihli checkpoint'ler tarihsel kanıttır; bu güncel durum ve aşağıdaki tabloyla çelişen eski pending/P0-açık satırları güncel kabul sayılmaz.
 
 | Madde | Durum / kapsam | Owner / PR | Somut kapanış kapısı |
 | --- | --- | --- | --- |
-| A1 | P0 AÇIK — Workers HAN reload; www'deki önceki Wave 1 9/9 sonucu tek başına kapanış değil | Astra / #113 | www + Workers üzerinde 1440/390/320 gerçek reload/save; console/404/overflow, screenshot ve SW/build SHA |
-| A2 | BLOCKED — #111 head `2011a59` green, ancak merge yok | Astra / #111 | A1 kapanışı → güncel main'e rebase → tüm CI green → merge ve iki-host production |
-| A3 | Önceki browser repro FAIL; güncel browser ve CI PENDING, iki-host kabulü eksik | Astra / #113, başka hotfix PR yok | Kanıtlı dar kaynak düzeltmesi; hata gizleme veya gate bypass yok |
+| A1 | CLOSED — #113 merge `375b837`; main CI `37256148777` SUCCESS; iki-host production `37256148798` 6/6 PASS | Astra / #113 merged | www + Workers ×1440/390/320 gerçek iki reload/save, exact SW/19 dosya ve temiz hata/overflow assertion'ları; tam eski-cache kohortu D3'te açık |
+| A2 | MERGED / PRODUCTION PENDING — #111 `a534289`; exact head `eb5913d` 10/10 checks+Vercel SUCCESS; yerel68/build/lint PASS | Astra / #111 | Güncel head'de tüm CI green → merge → iki-host production; yerel sonuç bu kapıları kapatmaz |
+| A3 | CLOSED — dar HAN düzeltmesi aynı A1 merge/iki-host kanıtıyla kapandı; main full CI SUCCESS | Astra / #113 merged | Kapanış yalnız repro edilen reload kapsamıdır; genel lifecycle/offline upgrade ve fiziksel GPU kabulü değildir |
 | B1 | DEVAM — 900 kart / 12 pilot ID doğrulandı; 60 çekirdek dosya için hash koruması hazır; gameplay değişmedi | Astra / ayrı oyun PR'ları henüz yok | Kart verisi, motor, save, i18n, a11y, ölçü ve etkileşim semantiği değişmez |
 | B2 | LATER — frame ve ana illüstrasyon yenilemesi tamam değil | Astra / ayrı VETO, GETT, DARBE PR'ları | Aktif eski ilkel veya belirsiz asset kalıntısı yok; referans, build ve offline kontrolleri |
 | B3 | DEVAM — kullanıcının üç referansı yalnız kalite yönü için | Astra | Kompozisyon, kişi, yazı veya logo türetme ve kopyalama yok |
@@ -287,7 +287,7 @@ Bu bölüm önceki çelişen kapsam, stil ve onay notlarının üstündedir. Kul
 | B8 | DEVAM — mevcut kart metni korunur | Astra | Sanata slogan, motto, flavour text, tabela veya rastgele UI metni gömülmez |
 | B9 | LATER — üç frame üretime girmedi | Astra | Bağımsız kimlik; 320/390'da isim, yıldız, görsel ve ATK/DEF okunur; ölçü ve UI davranışı sabit |
 | B10 | LATER — oyun başına 300/300 manifest, bütçe, offline ve düello kabulünün hiçbiri kapanmadı | Astra / her oyun için ayrı PR | ID/asset/provenance ve kalıntı kontrolü; üç genişlikte browser; klavye, reduced motion, ekran okuyucu, save ve 24 düello testi |
-| B11 | P1 — DRB-237–240 kullanıcı bildirimi; gerçek repro henüz yok | Astra / ayrı kural kapsamlı PR yok | Gerçek tetik testi; kanıtlı, güçlü testli düzeltme veya doğrulanmadığının açık kaydı |
+| B11 | P1 AÇIK — DRB-237–240 gerçek motor fixture'ları 21/21 PASS, NOT REPRODUCED; browser/özgül eski save henüz doğrulanmadı | Astra / ayrı kural PR'ı yok | UI/özgül save repro'su; motor karşı kanıtı kullanıcı kaydını veya browser kapısını kapatmaz; sanat PR'ından ayrı |
 | C1 | LATER/KISMİ — Çete/Wave 1 kanıtı var; 12 oyun bütünsel olarak tamam değil | Astra / mevcut #109/#110; diğer PR'lar yok | Oyuna özgü gerçek state sonucu; sessiz, kısa, atlanabilir, erişilebilir ve anlamlı sahne |
 | C2 | LATER — kalan oyunların sinematik/gerçekçi görsel kalite kapısı açık | Astra | Oyun dünyasına özgü doğru ışık, katman ve malzeme; çocuk estetiği, ikon kolajı veya renk değiştirerek kopyalama yok |
 | C3 | LATER/KISMİ — #111 çalışması tüm yüzeyler için uygulanabilirlik kararı yerine geçmez | Astra / #111 | Yedi yüzeyde fallback, context loss, resize, pan/zoom, üç genişlik, offline ve save; Racon/TC SIM/JITEM için kanıtlı DONE/P1/N-A |
@@ -295,14 +295,14 @@ Bu bölüm önceki çelişen kapsam, stil ve onay notlarının üstündedir. Kul
 | D2 | LATER + İNSAN | Astra; PL ana dil inceleyicisi atanmadı | TR/EN/PL gövde ve UI metni, encoding ve taşma; PL için bağımsız dil kalitesi incelemesi |
 | D3 | LATER — tüm offline rotalar ve upgrade matrisi açık | Astra | SW/cache sürümleri, yeni asset'ler, eski save/migration, bozuk kayıt ve online dönüş |
 | D4 | LATER — tüm asset, repo ve git ağırlığı denetimi açık | Astra / #111 kısmi ölçüm | Rota başına byte/istek/FMP/lazy ölçümü, portal asset izolasyonu ve ölçülmüş tablo; referans taraması olmadan silme yok |
-| D5 | AÇIK — dev/high bulgusu yeniden doğrulandı; dar güncelleme yapılmadı | Astra / dar security PR yok | Advisory, bağımlılık zinciri, NOTICE, provenance, CSP/harici script ve statik path kontrolü; gizli bilgi maskelenir |
+| D5 | PENDING — dar RED/GREEN yerelde 14/14 PASS; build/lint/typecheck PASS; #114 head `316355d` fresh CI sürüyor | Astra / #114; lockfile/test/kaynak kanıtı üç dosya | Güncel CI → merge/release; bu bağımlılık düzeltmesi genel CSP/provenance/statik-path güvenlik denetiminin yerine geçmez; audit komutu NOT RUN kaydı korunur |
 | D6 | LATER/KORUNDU — Novella, #78/#79 ve eski dallar açılmadı | Astra | Yetkisiz yeniden açma veya merge yok; SON KÖY WIP açıkça DEFERRED |
 | E1 | LATER/BAŞLAMADI — Atlas foundation PR'ı yok | Astra | Ayrı offline ürün; özgün klinik 2.5D yetişkin varyantları, iskelet ve büyük organlar; dış fotoğraf, model veya CDN yok |
 | E2 | LATER/BAŞLAMADI | Astra + bağımsız uzman | Eğitim amaçlı/tıbbi tavsiye değildir notu; kaynak URL'si, tarih ve review durumu; uzman olmadan tam/klinik kesinlik iddiası yok; ek sistemler LATER |
 | E3 | İNSAN/DONANIM-GEREKLİ | Atanacak anatomi uzmanı ve fiziksel GPU testçisi; koordinasyon Astra | Gerçek insan ve donanım inceleme kaydı; model veya SwiftShader bu kapıyı kapatmaz |
 | F | LATER/BAŞLAMADI — bu belge intake/checkpoint | Astra | Son merge/deploy sonrasında bütün rota × viewport × dil için A–G; gerçek kanıt, SHA ve PR; dar P0/P1 düzeltmeleri |
 
-Her PR sırası: yerel gate → CI → merge → iki hostta gerçek production doğrulaması → status. A1 kanıtlanmadan #111 veya kart production yayını yok. En geç 60–75 dakikada anlamlı checkpoint bırakılır; beklerken yalnız bağımsız işler yapılır, boş polling yok. Bütün maddeleri kapsayan nihai kapanış henüz yapılmadı.
+Her PR sırası: yerel gate → CI → merge → iki hostta gerçek production doğrulaması → status. A1 kanıtı kapandı; #111 ve kartlar kendi güncel CI/production kapıları kapanmadan yayımlanmış sayılmaz. En geç 60–75 dakikada anlamlı checkpoint bırakılır; beklerken yalnız bağımsız işler yapılır, boş polling yok. Bütün maddeleri kapsayan nihai kapanış henüz yapılmadı.
 
 
 ### A1/A3 doğrulanmış tarayıcı sonucu — 2026-10-05 02:14 UTC
@@ -337,3 +337,82 @@ Resmi kaynaklar, 2026-10-05 kontrolü: [GHSA-6j4f-fj2g-mc7p](https://github.com/
 | B6/B7 `astra/darbe-cinematic-vector-300` | DRB-001; yalnız yerel checkpoint `d6dec0c2e1ea307f7a7b02678046d468b909d622` | 55.181 B; yüz oranları stilize, saç mekanik, el-kâğıt teması ikna edici değil | FAIL, 0/300 |
 
 Aynı başarısız çizim yaklaşımını 900 karta çoğaltmak kabul şartını karşılamaz. Bir sonraki teknik seçenek özgün katmanlı geometri ve malzeme render için ayrı ölçülmüş kalite denemesidir; henüz uygulanmış veya başarılı sayılmaz. B1–B11 kapsamı açık ve owner Astra; eski düşük kaliteli sanatın kaldırılması ancak onay ölçütlerini karşılayan 300'lük oyun paketi ve B10 regresyonlarıyla yapılacak.
+
+
+### B11 — gerçek motor karşı kanıtı, 2026-10-05
+
+`outputs/darbe-rule-repro/repro.test.mjs` ile **21/21 PASS**; 43 korunan production dosyası baseline `562831d` ile aynı ve testten sonra değişmedi. DRB-237/238/239/240 doğru sahadaki seri malzemeleriyle gerçek `legalActions`/`dispatch` üzerinden çağrılıp aktive oldu; hedef seçimi sırasında save/reload sonrası rakibin açık DRB-097 desteği sahibinin eline döndü, gerçek KP bedelleri900/1000/1100/1200. Kapalı hedef, eksik KP, eldeki malzeme ve ikinci aktivasyon doğru reddedildi. Sentetik fixture kurulduğu açık; baştan oynanmış maç iddiası yok.
+
+**NOT_REPRODUCED_IN_VALID_ENGINE_FIXTURES**. Bu sonuç kullanıcı P1 bildirimini kapatmaz: browser etkileşimi veya özgül eski save hâlâ incelenmedi. `triggers: []` tek başına hata değildir; bu kartların açıklanan etkileri aktive edilen `costs → select → move` yolunda. Ayrı kural düzeltmesi için önce gerçek başarısız UI/save repro gerekir. Kart sanatından bağımsız; oyun kodu değişmedi. Kaynak test + sonuç JSON'u sürümlenir; dört sentetik fixture komutla yeniden üretilir.
+
+### D5 — dar düzeltme yerel kabulü, 2026-10-05
+
+Ayrı `astra/security-brace-expansion` dalı; yerel HEAD `ace1faef469bbf85557876ee557bda60d57ebe16`, tree `484600e12f490fa0dbc10e64bafc2126a8c8a39f`. İki lock düğümünde yalnız altı alan değişti. Eski kurulum2 normal PASS/12 advisory FAIL (8 stack overflow,4 bounded timeout); yeni1.1.21/5.0.12 kurulum14/14 PASS/3.05s. Build/typecheck/lint PASS;59 mevcut lint uyarısı; IP3/3 ve55 NOTICE girdisi birebir aynı. Henüz PR/push/CI/merge/production yok; D5 tamam sayılmaz.
+
+`npm audit --json --package-lock-only` otomatik onay denetiminde bağımlılık metadata aktarımı nedeniyle reddedildi ve **NOT RUN** olarak kaldı. Yeniden deneme/aşma yapılmadı. Güvenli alternatif doğrulama resmi advisory + gerçek yüklü consumer zinciri + sınırlı yerel RED/GREEN testidir; genel güvenlik temizliği iddiası değildir.
+
+
+### A1/A3 kapanış — 2026-10-05 02:42 UTC
+
+#113 normal merge **375b83752df3d5e16c960797cf99634af0405d31**, önce9/9 listed check + Vercel SUCCESS. [Production run37256148798](https://github.com/tayaz-maker/tariklab/actions/runs/37256148798), job111593543370: **www + Workers ×1440/390/320 =6/6 PASS**, her vakada iki gerçek reload; gerçek farm kuyruğu/seed/duraklatılmış saat korunur. Exact SW `8f44b24062a076d29b4d771f940f31f713d4685f8a1c1fd33ef43bfaa2811d39`,19/19 dosya; console/page/HTTP/network errors ve overflow0.
+
+Artifact11322886877 (GitHub digest403297e1ce46563c3bb3cfd2110e4b861603fff5943911c20ad9d9d168ec5445)24 screenshot,6 trace,2results içerir.33.774.583B artifact32MiB yerel transfer limitini geçti: üretim screenshotları yerelde incelendi diye yazılmaz; gerçek browser assert/log sonucu doğrulandı. #111'in zaten gerekli freshCI turunda yalnız kanıt paketlemesi host başına bölünecek; testler/assertion/timeoutlar aynen korunur. A1/A3 scope kapandı; genel eski-cache/upgrade matrisi D3 olarak açık. #111 A2 artık rebase/freshCI aşamasında; merge henüz yok.
+
+### C3 / D3 — kaynak envanteri ve açık kanıtlar, 2026-10-05
+
+Kaynak: main `375b83752df3d5e16c960797cf99634af0405d31`. Owner **Astra**; bu envanter için **PR yok**. Aşağıdaki satırlar **LATER — kaynak envanteri / runtime NOT RUN**: mevcut test dosyasının bulunması testin bu turda çalıştığı veya ilgili davranışın geçtiği anlamına gelmez. Önceki tarihli A1/A3 kanıtının kapsamı genişletilmedi; #111'in ayrı kabulü, final **F** incelemesi, PL ana dil, bağımsız anatomi uzmanı ve fiziksel GPU kapıları açık kalır.
+
+#### C3 — yedi karar yüzeyinin uygulanabilirliği
+
+Kaynak yolları aksi belirtilmedikçe `public/games/` altındadır. Her yüzeyde 1440/390/320, ekran geçişi, resize, klavye/focus, reduced motion, offline/save ve mevcut pan/zoom davranışının kanıtı gerekir; olmayan mekânsal özellik sırf checklist için eklenmez. Pixi varlığı tek başına fayda veya kabul kanıtı değildir.
+
+| Yüzey | Mevcut karar bağlantısı ve renderer | Açık kanıt / sınıflandırma |
+| --- | --- | --- |
+| HANEDANIAN | `hanedanian/app.js → map-factory.js → map.js / map-pixi.js / map-dom.js`; Canvas-first, lazy Pixi arazi + Canvas overlay, DOM/SVG; dünya/bölge/yakın görünüm, pan/pinch/wheel/klavye/minimap | Uygulanabilir. Kaynakta context loss sonrası kamera koruyan Canvas, ResizeObserver ve RAF/texture/listener cleanup yolları var; gerçek GPU ve tam lifecycle matrisi açık. A1 altı production reload vakası ayrı kapsam; iki-deploy eski/yeni-client upgrade kanıtı değil. `hanedanian-map-pixi`, `hanedanian-atlas-scheduler`, `hanedanian-offline`, `hanedanian-save` test kaynakları mevcut. |
+| İHTİLÂL | `ihtilal/solo-app.js → basin-map.js`; 7 havza/9 bağ, kapasite ve 1–2 dönem temel gecikme/ek yayılım; aynı modelden SVG/Pixi, sabit ağ seçimi; serbest pan/zoom yok | Uygulanabilir. Kaynakta context loss→SVG, menü/pagehide destroy; `ihtilal-basin-network`, `ihtilal-ui-lifecycle`, `wave1-outcome-browser` testleri var. #111 statik işaret/low-memory/DPR değişikliği bu main kaydında tamam sayılmaz. |
+| Racon | `racon/index.html → network.js / map-model.js / map-view.js`; altı sokak 2×3/3×2, gerçek emir/kontrol/güven/baskı/varış; SVG/Pixi, serbest kamera yok | Uygulanabilir ve karar yüzeyi kaynakta uygulanmış. Context loss→SVG, resize/async guard, menü/BFCache cleanup yolları; `racon-map-consequences`, `racon-map-browser`, `wave1-outcome-browser` kaynakları var. Cold/warm offline ve kohort paritesi açık; 390/320 screenshot boşluğu aşağıda P1 doğrulama açığıdır. |
+| TC SIM: DEVLET | `tc-sim-devlet/maps.js / maps-pixi.js`; bölge önceliği ve diplomasi bedel/sonuçları; SVG/Pixi | Uygulanabilir; **sözleşme çakışması açık**: `maps.js` gerçek kıyı/sınır referanslı Türkiye geometrisini açıkça tarif ediyor, mevcut görev gerçek harita kullanımını dışlıyor. Bu kaynak olgusu kapanmış uygunluk değildir; karar semantiğini koruyan özgün şema için backlog/ayrı dar kapsam gerekir. `devlet-maps`, `devlet-map-pixi`, `devlet-map-transition-browser` kaynakları var; repaint/lifecycle ve save/offline kabulü açık. |
+| TC SIM | `tc-sim/js/decision-network.js`, `weekly-feedback.js` ve `app.js`; DOM LifeMap, gerçek zaman bedeli/taahhüt/ihmal/hafta ve NPC sonuçları; Pixi yok | Karar-ağ/zaman yüzeyi uygulanabilir; atlas için otomatik dekoratif/N-A kararı yok. Kamera/WebGL context loss mevcut DOM renderer'a uygulanmaz. `tc-sim-decision-network`, `tc-sim-weekly-feedback` kaynakları var; save/browser lifecycle/perf ve gerçek akışta eksik karar açıklaması backlog'u açık; P1 için repro gerekir. |
+| JITEM: Derin Ağ | Canonical upstream `0c1fc08`: `GameApp → NodeGraph → AtlasSurface → atlas-pixi`; plan önizlemesi→gerçek execute, aynı SVG/Pixi modeli, focus crop/full view; serbest pan yok; `jitem-derin-ag/SOURCE.json` | Uygulanabilir. `scripts/jitem-integration.test.mjs` entegrasyon/provenance kaynağıdır. Devralınan upstream context-loss kanıtında resize/remount canvas kaldırıldıktan sonra yapılmış: aktif Pixi resize/remount döngüsü kanıtlanmış sayılmaz. Vendor paritesi, hidden/redraw/low-memory/offline kohortları açık. |
+| Kıyı Eşiği | `esik/app.js → map-model.js / map-pixi.js`; kopuk erişim nedeni ve dönem kararı; ortak modelden SVG/lazy Pixi | Uygulanabilir. `mountCoastPixi.update()` her güncellemede `removeChildren()` + yeni nesneler oluşturuyor; ayrılan nesnelerin destroy'u ve app düzeyinde context-loss/destroy entegrasyonu açık. Async unmount/visibility/düşük bellek kabulü yok; bellek sızıntısı runtime repro'su değil: **P1 doğrulama adayı / lifecycle backlog**. `scripts/esik.test.mjs` ve `pixi-adapter` test kaynakları var. |
+
+`docs/TARIKLAB_PIXIJS_MAP_STATUS.md` içindeki Racon/JITEM **NOT STARTED** satırları mevcut render yollarıyla çelişen tarihsel kayıtlardır; güncel uygulanamazlık kararı olarak kullanılmaz. Bu ekte o belge veya oyun kodu değiştirilmedi.
+
+**Racon P1 doğrulama açığı — capture genişliği:** A2 run `37256926906`, [artifact 11323562016](https://github.com/tayaz-maker/tariklab/actions/runs/37256926906/artifacts/11323562016), ZIP SHA-256 `af785b6b96b63eb500a9e85bd1602089175380c679f08b65b609e7775f8cda6f`. `evidence-a2-eb5913d/wave1/{before,source,built}/racon-390-pixi-map.png` her fazda **730×844**, `racon-320-svg-map.png` **621×844**; label viewport genişliğiyle uyuşmuyor. Root/stage DOM before/outcome kontrolleri 390/320, fakat map-layer değişimi noktasında layout assertion yok. Offscreen `.side` drawer full-page sınırına katkı adayıdır; henüz kullanıcı yatay kaydırma/hit-test kusuru veya kök neden kanıtı değildir. Baseline'da aynı olduğundan #111 regresyonu sayılmaz; bütün aşamalar için sıfır overflow iddiası da çıkarılamaz. Owner Astra, dar viewport/gerçek scroll/hit-test doğrulaması bekliyor, yeni PR yok.
+
+#### D3 — yirmi canlı rota / offline ve save envanteri
+
+Rotalar `src/lib/games.ts` kataloğundan alınmıştır. **Kök-NF**: kök worker altında navigation/modül network-first, yalnız önceden alınmış yanıt offline fallback olabilir; tam oyun precache garantisi değildir. **Kök-SWR**: navigation network-first, oyun JS/CSS/art asset'leri stale-while-revalidate; aynı garanti sınırı geçerlidir. Tablo test adları `scripts/` altındadır; `.test.mjs`/browser dosyaları **bu turda çalıştırılmadı**. Legacy/backup boşluğu “envanterde özel kanıt bulunmadı” demektir, kesin veri kaybı teşhisi değildir.
+
+| # / canlı rota | Offline kapsamı | Save / legacy / bozulma için mevcut kaynak ve açık boşluk |
+| --- | --- | --- |
+| 1 `/cete-savaslari` | Kök shell + build sırasında eklenen bundle'lar | `src/game/closure.test.ts` slot/bozuk load atomikliği; `cete-outcome-browser.mjs` legacy fixture. Ayrı backup ve eski→yeni deployment kohortu açık. |
+| 2 `/oyna/hanedanian` | Kendi scoped worker'ı; content-hash, gövde/MIME doğrulanan atomik paket; Pixi/opsiyonel PL body paket dışında, 2D fallback | `hanedanian-save.test.mjs` corruption/önceki kayıt/future schema/journal/quota; `hanedanian-offline.test.mjs`, `hanedanian-browser.mjs`, `hanedanian-redirect-browser.mjs`. Legacy HAN export'u migration kanıtı değildir; açık eski client + yeni deploy aktivasyonu ayrıca gerekli. |
+| 3 `/oyna/racon` | Kök-SWR; `MODULE_GAME_PATHS` içinde Racon prefix'i yok | `racon-final.test.mjs` malformed primary→backup/eski save; `racon-save-validation`, `racon-network` kaynakları. Deployment/cache upgrade browser kanıtı açık. |
+| 4 `/oyna/tc-sim` | Kök-NF | `tc-sim-core` roundtrip/primary-backup/eski migration; `tc-sim-hardening`, `tlab-save-slots`, `historical-scenarios`, `tc-sim-historical-browser`. Legacy `tc-sim-save` ile cache upgrade birleşimi açık. |
+| 5 `/games/bukucu/index.html` | Kendi `smb-shell-v13` worker'ı: beş entry precache, HTML çift fallback, anında aktivasyon/asset SWR | `closure-shared-slots.test.mjs` gerçek slot roundtrip/migrate/loadRaw kaynağı; özel legacy/corrupt-backup browser ve iki-deploy kanıtı açık. Save anahtarı bu envanterde tahmin edilmedi. |
+| 6 `/oyna/labirent` | Kök-NF | `tlab-labirent` testleri; özel legacy/backup ve offline upgrade kanıtı açık. |
+| 7 `/oyna/peg-solitaire` | Kök-NF | `tlab-tek-tas` testleri; özel legacy/backup ve offline upgrade kanıtı açık. |
+| 8 `/oyna/satranc` | Kök-NF | `tlab-satranc` ve AI testleri; özel legacy/backup ve offline upgrade kanıtı açık. |
+| 9 `/oyna/amiral-batti` | Kök-NF | `amiral-batti.test.mjs` snapshot/reload kararlılığı; özel legacy/backup ve offline upgrade kanıtı açık. |
+| 10 `/oyna/apartman` | Kök-NF | `life-town-save` backup/quota/slot testinin doğrudan fixture'ı; `racon-apartman-content` v1 migration. Eski cache ile gerçek browser birleşimi açık. |
+| 11 `/oyna/kayip-telefon` | Kök-NF | `wave3-kayip-deduction` v1/foreign/corrupt; `wave3-kayip-content` mid-case save. Ortak backup runtime'ı var; Apartman fixture'ı bu rota için browser backup kanıtı değildir. |
+| 12 `/oyna/son-100-gun` | Kök-NF | Güncel POV `tariklab.son100.pov.v1`; `son100-pov` replay/tamper/version. Eski next-wave kayıtları korunuyor, dönüştürülmüş sayılmaz; `pov-app.js` doğrudan slot read/write yolunda özel backup kanıtı açık. |
+| 13 `/oyna/tc-sim-devlet` | Kök-NF | `next-wave-sprint1` save-normalize ve `next-wave-start-flow`; özel eski fixture/corrupt-backup ve cache upgrade browser kanıtı açık. |
+| 14 `/oyna/son-koy-manager` | Kök-NF; alias `/oyna/son-kasaba`, iç save kimliği `son-kasaba` | `son-kasaba` invalid/pending/slot; `wave2-depth` v1 idempotent migration. Ortak backup runtime'ı route-specific browser/upgrade kanıtı yerine geçmez; korunmuş atlas WIP bu kaynağa dahil değil. |
+| 15 `/oyna/veto-h` | Kök-NF; tam 300 kart paketi precache değil | `duel-expansion` eski payload + sonraki draw/actions; `fixtures/duel/veto-h-old-save.json`, `duel-acceptance` backup/quota; `duel-production.mjs` legacy browser kapsamına dahil. Aynı-ID yeni sanat kohortu açık. |
+| 16 `/oyna/gett-oh` | Kök-NF; tam 300 kart paketi precache değil | `duel-expansion`, `fixtures/duel/gett-oh-old-save.json`, `duel-acceptance`; `duel-production.mjs` legacy browser kapsamına dahil. Art-pack build zinciri ve aynı-ID yeni sanat kohortu açık. |
+| 17 `/oyna/ihtilal` | Kök-NF | `ihtilal-basin-network` eski solo-v1; `ihtilal-ui-lifecycle` corrupt backup; `ihtilal-ultra-browser` backup fixture. Solo/diğer entry ayrımı ve deployment/cache upgrade birleşimi açık. |
+| 18 `/oyna/darbe-h` | Kök-NF; tam 300 kart paketi precache değil | `duel-expansion`, `fixtures/duel/darbe-h-old-save.json`, `duel-acceptance`; mevcut `duel-production.mjs` legacy loop'u yalnız VETO/GETT içeriyor. DARBE legacy browser ve aynı-ID yeni sanat kohortu açık. |
+| 19 `/oyna/jitem-derin-ag` | Kök-NF | `jitem-integration` canonical SOURCE `0c1fc08`, `jitem-derin-ag-v3` / schema 5 kaydı; upstream executable migration/backup test kanıtı ayrıca bağlanmalı. Yerel integration testi bu davranışları kanıtlamaz. |
+| 20 `/oyna/esik` | Kök-SWR; `MODULE_GAME_PATHS` içinde esik prefix'i yok | `esik.test.mjs` roundtrip/foreign save; özel eski fixture/backup ve offline upgrade kanıtı açık. |
+
+Kök worker kaynakları `public/sw.js`, `scripts/offline-sw-plugin.mjs`, `src/components/game/offline-ready.tsx`: sabit `cete-offline-v5`, shell/bundle precache; oyun ağaçları topluca precache edilmiyor. Install `addAll` hatasını yutup `skipWaiting` yapabiliyor; readiness UI'sı cache bütünlüğünü denetlemiyor. Kayıt Çete entry'sinden (HAN ayrıca kök/scoped, Bük kendi worker'ı) yapılıyor; yalnız portal ziyaretiyle bütün oyunların offline hazır olduğu kanıtlanmış değil. Bunlar **P1 doğrulama adayları / D3 backlog**; bu turda kesintili kurulum veya veri kaybı repro'su yok. `offline-sw-plugin.test.mjs` bundle injection, `tc-sim-production-cache.test.mjs` kaynak route sırası kontrolleri gerçek upgrade browser kanıtı değildir.
+
+**300/300 × üç oyun cache kapısı:** `duel-core/theme-meta.js` kart sanatını sabit `/games/${theme}/assets/cards/${card.id}.${ext}` URL'sinden alıyor; hash/query veya atomik sanat kohortu yok. Kök network-first başarılı yanıtı aynı URL cache'ine yazar, ağ hatasında eski yanıtı döndürebilir; deploy/worker değişimi tek başına 900 sanat URL'sini precache veya invalidate etmez. Bu kaynak davranışı gözlenmiş production kusuru diye sunulmaz. Eski SW+eski sanat A → yeni deploy/sanat B, aynı-ID hash, kesintili kurulum/eviction, offline→online dönüş ve eski save fixture'larının birlikte browser doğrulaması **LATER**, owner Astra, PR yok. Üç 300'lük sanat kabulü bu kapı kapanmadan DONE sayılamaz.
+
+Ayrı ölçüm kaydı: [`docs/evidence/2026-10-05-map-cache-ci.json`](evidence/2026-10-05-map-cache-ci.json), 63 before + 63 after HTTP socket rota ölçümü ve 13 Wave1 vakası/artifact hash ilişkisini tutar. Bu kayıt yeni production, eski açık browser sekmesi veya D3 eski-cache upgrade deneyi yapılmış olduğu anlamına gelmez.
+
+
+### A2 merge checkpoint — 2026-10-05 03:16 UTC
+#111 normal merge `a534289490f502f68e12d91803fbc3883de7d790`; exact head `eb5913d` üzerinde10/10 listed check + Vercel SUCCESS. A1/A3 kapanışı sonrası sıralı yayın yapıldı. İki-host production henüz PENDING; bu kayıt final360 başlangıcı veya tamamlanması değildir. Racon capture boyutu doğrulama açığı yukarıda korunur.
