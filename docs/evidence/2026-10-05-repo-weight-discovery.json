@@ -1,0 +1,517 @@
+{
+  "contract": "D4",
+  "status": "DISCOVERY_ONLY_NOT_APPLIED",
+  "inventoryBranch": "astra/repo-weight-discovery",
+  "inventoryCommit": "1580d3ed89bee1ae211dcc140c7445e2ccc9965a",
+  "base": "9e50404c0573e1cf9e2dd7e623c9c8bd98b95e56",
+  "owner": "Astra",
+  "independentVerification": "49/49 original Git blobs and output hashes/size/decoded RGBA matched; single-frame VP8L lossless. Sources had no ICC/EXIF, so metadata transport not exercised.",
+  "limits": [
+    "No repository image/reference changed.",
+    "No route transfer, browser, build or Git-history/pack savings claim.",
+    "Encoder options and elapsed time are initial-run observations, not independently rerun.",
+    "Reference/build/route proof required before any application."
+  ],
+  "trial": {
+    "base": "9e50404c0573e1cf9e2dd7e623c9c8bd98b95e56",
+    "status": "MEASURED_ONLY_NOT_APPLIED",
+    "scope": "Tracked screenshots only; no runtime assets changed, no files removed, no history rewrite. Savings are working-tree/head payload potential, not Git pack or route-transfer savings.",
+    "method": "Pillow lossless WebP method6 exact; decoded RGBA bytes identical for each source; copied ICC/EXIF when present.",
+    "count": 49,
+    "beforeBytes": 26511759,
+    "afterBytes": 20394024,
+    "seconds": 25.218,
+    "rows": [
+      {
+        "path": "screenshots/01-age.png",
+        "gitBlob": "19c7f675af4bac958811013544cad78a8a5c9a98",
+        "width": 1280,
+        "height": 800,
+        "before": 770375,
+        "after": 400144,
+        "RGBAIdentical": true,
+        "candidateSHA256": "229efff6946fab52cfe8bf231c3df223c5738e8e0288d861da39f79ca87ac726"
+      },
+      {
+        "path": "screenshots/02-create.png",
+        "gitBlob": "b89b2fb828c15766f464b919e3fbf3f5d8be34db",
+        "width": 1280,
+        "height": 800,
+        "before": 794332,
+        "after": 438804,
+        "RGBAIdentical": true,
+        "candidateSHA256": "7dcb74d449a1f2bf240f81b07224f721d0bf60669eb08af2d59b0466de3d5501"
+      },
+      {
+        "path": "screenshots/03-game.png",
+        "gitBlob": "9e78def8588ab62071671a1b0896b2a78fca4d6d",
+        "width": 1280,
+        "height": 800,
+        "before": 849936,
+        "after": 768752,
+        "RGBAIdentical": true,
+        "candidateSHA256": "6d0c10db329fae2480713a1d6a47ab0cf81e68781972463308333a3bd3011bf6"
+      },
+      {
+        "path": "screenshots/04-job.png",
+        "gitBlob": "6975184558a3ecc943a67a2d57c2b5d9a4d4f301",
+        "width": 1280,
+        "height": 800,
+        "before": 412869,
+        "after": 194194,
+        "RGBAIdentical": true,
+        "candidateSHA256": "2ba2b5b56022aff65d85bca51aa21f607d6cded72b57e5f9b720ce102b2f178e"
+      },
+      {
+        "path": "screenshots/05-shop.png",
+        "gitBlob": "04df3756338159ec7ebabf4a37bba8c57293496c",
+        "width": 1280,
+        "height": 800,
+        "before": 838794,
+        "after": 756030,
+        "RGBAIdentical": true,
+        "candidateSHA256": "b772e074571b1f188156eef8f1ab25daf3953923e325cf183e30ec124331d2fe"
+      },
+      {
+        "path": "screenshots/06-street.png",
+        "gitBlob": "9f694e751651983b47054d163453a3081ea5331b",
+        "width": 1280,
+        "height": 800,
+        "before": 840753,
+        "after": 756522,
+        "RGBAIdentical": true,
+        "candidateSHA256": "ddf64523a18e719a81e8e3051b7607b0cd06416273a0a650d16501c473d44a51"
+      },
+      {
+        "path": "screenshots/07-estate.png",
+        "gitBlob": "09f0b7fc6199bd4df869421c1ac68618293ea276",
+        "width": 1280,
+        "height": 800,
+        "before": 854280,
+        "after": 764140,
+        "RGBAIdentical": true,
+        "candidateSHA256": "5cd0632a5495f16b217585d07a5711595e4edff7b725bf2b26f3f3c79a9f6c41"
+      },
+      {
+        "path": "screenshots/08-clinic.png",
+        "gitBlob": "4d846118abf5462aa1c3a54aab8d6016e31fcee7",
+        "width": 1280,
+        "height": 800,
+        "before": 817925,
+        "after": 465880,
+        "RGBAIdentical": true,
+        "candidateSHA256": "835a3c69359c167a7fbbe381a5f17ce03ee5b72b65f7ab7d86d47d5f38ea2bfe"
+      },
+      {
+        "path": "screenshots/09-mobile-game.png",
+        "gitBlob": "3ab2e589b6d09beaa66ac1f1ec689f1fa7ee5816",
+        "width": 390,
+        "height": 844,
+        "before": 322390,
+        "after": 170582,
+        "RGBAIdentical": true,
+        "candidateSHA256": "0c455f68eb453fcecf2a2abbd23eb1e355e1e7159585cc85ad9b59445c641be3"
+      },
+      {
+        "path": "screenshots/10-desktop-game.png",
+        "gitBlob": "d62df3b6b1b896924c4ddc768c0ad2aee6cd8aad",
+        "width": 1280,
+        "height": 800,
+        "before": 849830,
+        "after": 768724,
+        "RGBAIdentical": true,
+        "candidateSHA256": "49e5743313f21ef4572258e9236ed1a68ed95d066a3fe002f897f2251dcc5795"
+      },
+      {
+        "path": "screenshots/11-mobile-game.png",
+        "gitBlob": "42ccc10d5d40215fcbd85bdb52da2fcf858e5de6",
+        "width": 390,
+        "height": 844,
+        "before": 367387,
+        "after": 290964,
+        "RGBAIdentical": true,
+        "candidateSHA256": "e7e863a6478c5f6752dd3c24ff2634dec71406f8ddb15891559adfb8ab7d49c8"
+      },
+      {
+        "path": "screenshots/12-mobile-shop.png",
+        "gitBlob": "859ebdd6749dc0b25e1f04c08e7f0ced4992833b",
+        "width": 390,
+        "height": 844,
+        "before": 354581,
+        "after": 277800,
+        "RGBAIdentical": true,
+        "candidateSHA256": "60911466b567d5c0e003259ecf84b18cc445c1659a9c6a41aa5bebd01af5bc09"
+      },
+      {
+        "path": "screenshots/13-mobile-street.png",
+        "gitBlob": "f9d36bc0f1bf0d1373504a553c5d4dd6d921a221",
+        "width": 390,
+        "height": 844,
+        "before": 357897,
+        "after": 282576,
+        "RGBAIdentical": true,
+        "candidateSHA256": "03cbd53e7cde4ff29b8d655b3418fea6db2f0634794e53c6edf4fdd53cfa036f"
+      },
+      {
+        "path": "screenshots/app-builder-built-mobile.png",
+        "gitBlob": "e11bf474914104fa217e261b99a50e146490ef47",
+        "width": 390,
+        "height": 844,
+        "before": 336798,
+        "after": 271660,
+        "RGBAIdentical": true,
+        "candidateSHA256": "5b302d55ea39a8bbdd84012ba671d005b3c6c65cf2f9f90751811dc501764866"
+      },
+      {
+        "path": "screenshots/app-builder-built.png",
+        "gitBlob": "79b99fbfa690b0bc2446e29a81be8e81d1e75530",
+        "width": 1280,
+        "height": 800,
+        "before": 753569,
+        "after": 693848,
+        "RGBAIdentical": true,
+        "candidateSHA256": "1f8708f23a97295c394d307d5ac1edda5d9f0b6bf30a5a9231fd62f87c7383ae"
+      },
+      {
+        "path": "screenshots/app-builder-preview-mobile.png",
+        "gitBlob": "e11bf474914104fa217e261b99a50e146490ef47",
+        "width": 390,
+        "height": 844,
+        "before": 336798,
+        "after": 271660,
+        "RGBAIdentical": true,
+        "candidateSHA256": "5b302d55ea39a8bbdd84012ba671d005b3c6c65cf2f9f90751811dc501764866"
+      },
+      {
+        "path": "screenshots/app-builder-preview.png",
+        "gitBlob": "79b99fbfa690b0bc2446e29a81be8e81d1e75530",
+        "width": 1280,
+        "height": 800,
+        "before": 753569,
+        "after": 693848,
+        "RGBAIdentical": true,
+        "candidateSHA256": "1f8708f23a97295c394d307d5ac1edda5d9f0b6bf30a5a9231fd62f87c7383ae"
+      },
+      {
+        "path": "screenshots/ben-mobile.png",
+        "gitBlob": "38879afb744e3fac8b6b749cb440e5a04bae3bda",
+        "width": 390,
+        "height": 844,
+        "before": 310896,
+        "after": 250270,
+        "RGBAIdentical": true,
+        "candidateSHA256": "fb426393b014f1a0b9288549f35faebb5a63ddbb418e9761cfb37b3422d890be"
+      },
+      {
+        "path": "screenshots/boot-fixed.png",
+        "gitBlob": "a120b06c0106879bb920ce2e666b45c7e6f582cb",
+        "width": 1280,
+        "height": 800,
+        "before": 874532,
+        "after": 793208,
+        "RGBAIdentical": true,
+        "candidateSHA256": "941d7d1bf0809054be55389d2ccf42b6b7e3b3114d62a404a99288ae87653e2c"
+      },
+      {
+        "path": "screenshots/clock-desktop.png",
+        "gitBlob": "1e81edaa3b566b40472012b3369bd1dcd28de964",
+        "width": 1280,
+        "height": 800,
+        "before": 870848,
+        "after": 788460,
+        "RGBAIdentical": true,
+        "candidateSHA256": "1c1b02513614b86a4f02585cb6c140daeb9c1546433f53e926ef745130e08f65"
+      },
+      {
+        "path": "screenshots/clock-mobile.png",
+        "gitBlob": "862a9e9cd413b493f43c16e6c7fd49931d7fdf18",
+        "width": 390,
+        "height": 844,
+        "before": 367276,
+        "after": 294624,
+        "RGBAIdentical": true,
+        "candidateSHA256": "135063d149ebde12752299a8561a0d55521f667764f444c14a59fb3aa88c6279"
+      },
+      {
+        "path": "screenshots/create-eyup.png",
+        "gitBlob": "a856b4bdf3ec592587fe368d76cc1a85d8859257",
+        "width": 1280,
+        "height": 800,
+        "before": 804051,
+        "after": 727658,
+        "RGBAIdentical": true,
+        "candidateSHA256": "d4511255e84b33d375d74ae7fd3b26e6b522476223bebcfa7bb2a97cf59f9a19"
+      },
+      {
+        "path": "screenshots/devlet-pixi/desktop-foreign-selected.png",
+        "gitBlob": "87397b4c2fd1cb97d35e997b578746df827db1ea",
+        "width": 1400,
+        "height": 900,
+        "before": 108429,
+        "after": 49888,
+        "RGBAIdentical": true,
+        "candidateSHA256": "05d1ec1e6624e8fea20ec41afa0077afc38dc8ac33947fd2189bad47ac3a2d2f"
+      },
+      {
+        "path": "screenshots/devlet-pixi/desktop-foreign.png",
+        "gitBlob": "f66ee8fafd883cff16d96bef5f840b033cc70779",
+        "width": 1400,
+        "height": 900,
+        "before": 111710,
+        "after": 55170,
+        "RGBAIdentical": true,
+        "candidateSHA256": "96e35add1626710c7453890c716c21bc3edea84b0e55e7d08add42bc5a4ffe2b"
+      },
+      {
+        "path": "screenshots/devlet-pixi/desktop-home.png",
+        "gitBlob": "9f455ed53447c2726fb0a1602682d14815b898b0",
+        "width": 1400,
+        "height": 900,
+        "before": 120844,
+        "after": 60414,
+        "RGBAIdentical": true,
+        "candidateSHA256": "a55bf4afbc4796fc0c8038360bd86baf8bb11970553889240e67b9a4fbf52f6b"
+      },
+      {
+        "path": "screenshots/devlet-pixi/desktop-regions-selected.png",
+        "gitBlob": "8afa9fed67b0a3995bccadb1bbbf01583c2f7ec6",
+        "width": 1400,
+        "height": 900,
+        "before": 146070,
+        "after": 76876,
+        "RGBAIdentical": true,
+        "candidateSHA256": "2fe71e9cdbd47db6b2c3e10a0e888bbe31255e82cb2391bcd3beb795f542c610"
+      },
+      {
+        "path": "screenshots/devlet-pixi/desktop-regions.png",
+        "gitBlob": "030c9265f5e9d4c45ee0defd2e94ab92a2348705",
+        "width": 1400,
+        "height": 900,
+        "before": 137615,
+        "after": 75848,
+        "RGBAIdentical": true,
+        "candidateSHA256": "d4032431cfb47e081ecf1874a5693c7696c5e72a5520c17b7e02a96c6b7e38e5"
+      },
+      {
+        "path": "screenshots/devlet-pixi/mobile-foreign-selected.png",
+        "gitBlob": "897b3f07a40a68faca3dbd055a0b0f7e6e8975af",
+        "width": 390,
+        "height": 844,
+        "before": 58211,
+        "after": 30098,
+        "RGBAIdentical": true,
+        "candidateSHA256": "7677fa0a8fa1a8ce864fea5449c5dc94a1abe2008283753d7f14c271784b81ed"
+      },
+      {
+        "path": "screenshots/devlet-pixi/mobile-foreign.png",
+        "gitBlob": "f57480c3280cf4b807cec36263f656393691737b",
+        "width": 390,
+        "height": 844,
+        "before": 65605,
+        "after": 37946,
+        "RGBAIdentical": true,
+        "candidateSHA256": "36bc7740b90502a179caf96cda7371f0f71cb56c7bbe69ce937d200b40b94be3"
+      },
+      {
+        "path": "screenshots/devlet-pixi/mobile-home.png",
+        "gitBlob": "f4e4fa208195c912be6487c3b2f4d16090c75e67",
+        "width": 390,
+        "height": 844,
+        "before": 75014,
+        "after": 44132,
+        "RGBAIdentical": true,
+        "candidateSHA256": "6feab9c9bd50c52dcbcdd0c89ec578feba88e5bd87c0d13ac897b927005e4f4d"
+      },
+      {
+        "path": "screenshots/devlet-pixi/mobile-regions-selected.png",
+        "gitBlob": "9d9193fb02af208a1b2102220836e728ced4591e",
+        "width": 390,
+        "height": 844,
+        "before": 58031,
+        "after": 32342,
+        "RGBAIdentical": true,
+        "candidateSHA256": "b96d4295006b453cde2d2009ac679446b481c9a7423df0b88ffe1ba8e62ffaa3"
+      },
+      {
+        "path": "screenshots/devlet-pixi/mobile-regions.png",
+        "gitBlob": "9f3ef2ed1fa8957d391d7f60ff8c7188de171e79",
+        "width": 390,
+        "height": 844,
+        "before": 69779,
+        "after": 40532,
+        "RGBAIdentical": true,
+        "candidateSHA256": "c19e3fdca9bf2dcc6254cba059c985b18948cd8489f3dc401893a746939062b3"
+      },
+      {
+        "path": "screenshots/emniyet-hayat.png",
+        "gitBlob": "e0085cece532b3bef0783a5c118ef68c3bd8518a",
+        "width": 1280,
+        "height": 3093,
+        "before": 1157562,
+        "after": 980360,
+        "RGBAIdentical": true,
+        "candidateSHA256": "252f164ca56ace08cd49290a0d284a671a1444b7ca3cc00c6f2d6e756f7ec93a"
+      },
+      {
+        "path": "screenshots/hanedanian-pixi/desktop-fallback.png",
+        "gitBlob": "d95fa91b9ef34c434847e10105e7972c9024f4e6",
+        "width": 1400,
+        "height": 900,
+        "before": 638116,
+        "after": 465576,
+        "RGBAIdentical": true,
+        "candidateSHA256": "db645a4c4aaa4b338a7b37c689842fbe20bb4b697c1f6b42f56808fd50abcd83"
+      },
+      {
+        "path": "screenshots/hanedanian-pixi/desktop-pixi-1500ms.png",
+        "gitBlob": "1235aafb053165b6aecd831324fbc897525db0ad",
+        "width": 1400,
+        "height": 900,
+        "before": 633257,
+        "after": 466734,
+        "RGBAIdentical": true,
+        "candidateSHA256": "5de1c276d82cd65dcc33789102a6b5568f1c58f8c98aec416c8edaff5030a379"
+      },
+      {
+        "path": "screenshots/hanedanian-pixi/desktop-pixi.png",
+        "gitBlob": "b1a946858a82a7dcd7cc562cddbf3bbd4139d553",
+        "width": 1400,
+        "height": 900,
+        "before": 643603,
+        "after": 473080,
+        "RGBAIdentical": true,
+        "candidateSHA256": "3a0be356096fac505cbdc38abe08044017ec8db1028fbb7d3d60a3f6f9e03fb4"
+      },
+      {
+        "path": "screenshots/hanedanian-pixi/mobile-pixi.png",
+        "gitBlob": "719fe10fd396648370fc6e7fca3c26fcefa5f763",
+        "width": 390,
+        "height": 844,
+        "before": 168437,
+        "after": 116558,
+        "RGBAIdentical": true,
+        "candidateSHA256": "7ce5b33b5127fec2df063915edfa4db6a8f5e68499bbff7554395875ddff3670"
+      },
+      {
+        "path": "screenshots/hanedanian-pixi/terrain-only.png",
+        "gitBlob": "4adeb245de54cba445928e6e4988a5af54b0123e",
+        "width": 860,
+        "height": 755,
+        "before": 405267,
+        "after": 281668,
+        "RGBAIdentical": true,
+        "candidateSHA256": "6bc723f6184e2256752baf1a7db29dfba01c7dea2ee29039e1131df34bcf674e"
+      },
+      {
+        "path": "screenshots/hayat-desktop.png",
+        "gitBlob": "cb75c6756cb8c3eeeb89da32af5b0a642c8a53e7",
+        "width": 1280,
+        "height": 800,
+        "before": 878637,
+        "after": 502582,
+        "RGBAIdentical": true,
+        "candidateSHA256": "5325e8401e798b9dfcc2c5eef1b6d6ac768fc228ab95c120e4fdea615fdd9bd7"
+      },
+      {
+        "path": "screenshots/hayat-mobile.png",
+        "gitBlob": "cce0a403d946bb4943779b836479be37eabba17a",
+        "width": 390,
+        "height": 844,
+        "before": 345886,
+        "after": 271540,
+        "RGBAIdentical": true,
+        "candidateSHA256": "f847e16dd837d5978423d29f633fe244d2829e869b49a8f179f7d5aad20f72be"
+      },
+      {
+        "path": "screenshots/hayat-nss.png",
+        "gitBlob": "d99076b7c576ace6ff0b81fd0501afd63d0deb44",
+        "width": 1280,
+        "height": 800,
+        "before": 879904,
+        "after": 503300,
+        "RGBAIdentical": true,
+        "candidateSHA256": "b74a829fa4a61195a61fa148be174b3712e32aaa23dee1586f705de46e726408"
+      },
+      {
+        "path": "screenshots/hud-chips.png",
+        "gitBlob": "ef7747a8ae9baed081cd6ec16dec55f03ff481da",
+        "width": 1280,
+        "height": 800,
+        "before": 836585,
+        "after": 751736,
+        "RGBAIdentical": true,
+        "candidateSHA256": "8ff7a1ef04f337b4db72cd2cbc7738c0a020643b523f7a10929a32e0f61b9ebf"
+      },
+      {
+        "path": "screenshots/hud-mobile.png",
+        "gitBlob": "970c7fcd9e5adddab4b8537dbc04fed5a52b060b",
+        "width": 390,
+        "height": 844,
+        "before": 328625,
+        "after": 257966,
+        "RGBAIdentical": true,
+        "candidateSHA256": "4c89418048311f54f5d8eae9901089d24f8545ed3075690c836814e6d9b7cf13"
+      },
+      {
+        "path": "screenshots/no-age-gate.png",
+        "gitBlob": "3714edcebe7d8968d270092e78a069c2603a7cd2",
+        "width": 1280,
+        "height": 800,
+        "before": 854699,
+        "after": 777512,
+        "RGBAIdentical": true,
+        "candidateSHA256": "357eb63aaa107af94296585870d92e50b18c60fc60f67531b2146c85cdfad885"
+      },
+      {
+        "path": "screenshots/no-dialog.png",
+        "gitBlob": "a59a980e6deb7bc33831d6ef7d37dcff8bb4af94",
+        "width": 1280,
+        "height": 800,
+        "before": 891012,
+        "after": 801208,
+        "RGBAIdentical": true,
+        "candidateSHA256": "3558ed5fcdeb9a89faa366efbe114d579997926c0158f2809cb6589cc45e4627"
+      },
+      {
+        "path": "screenshots/shop-modern.png",
+        "gitBlob": "9652e7c99086c4355621951874c0f2ffd2b44aad",
+        "width": 1280,
+        "height": 800,
+        "before": 914086,
+        "after": 523096,
+        "RGBAIdentical": true,
+        "candidateSHA256": "51df2391a96b9a410e83631740738ca01ac979f52cdf123057a6652ce48d1d66"
+      },
+      {
+        "path": "screenshots/systems-mobile.png",
+        "gitBlob": "cce0a403d946bb4943779b836479be37eabba17a",
+        "width": 390,
+        "height": 844,
+        "before": 345886,
+        "after": 271540,
+        "RGBAIdentical": true,
+        "candidateSHA256": "f847e16dd837d5978423d29f633fe244d2829e869b49a8f179f7d5aad20f72be"
+      },
+      {
+        "path": "screenshots/systems-street.png",
+        "gitBlob": "f90b8e6acda09c93fa73a37accbca2d4b131c41c",
+        "width": 1280,
+        "height": 800,
+        "before": 897826,
+        "after": 804178,
+        "RGBAIdentical": true,
+        "candidateSHA256": "08a726503ff7a5b49778f7d91f5ecb6746c81f559c5128630e90c0c137945137"
+      },
+      {
+        "path": "screenshots/systems.png",
+        "gitBlob": "d1fa60c1ea848097cfe90c7f4ed6003d5d0e6f20",
+        "width": 1280,
+        "height": 800,
+        "before": 901377,
+        "after": 521796,
+        "RGBAIdentical": true,
+        "candidateSHA256": "adb19e32253a8f612b3479b9531712a9a29b0f4be0609415a15a4d2fcdb762d7"
+      }
+    ]
+  }
+}

@@ -1502,3 +1502,22 @@ html.embedded .start-wrap .start-exit {
   .historical-result-grid { grid-template-columns: 1fr; }
   .historical-choice { min-height: 54px; }
 }
+
+/* Job-start outcome: one finite trace between actual choice and future schedule.
+   Original CSS only; no assets, canvas, ticker, sound or persistent game state. */
+.job-start-moment { position: relative; padding: 16px; border: 1px solid var(--line); border-inline-start: 3px solid var(--accent); border-radius: var(--radius); background: var(--surface); color: var(--text); text-align: start; }
+.job-start-moment__head { display: flex; align-items: start; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+.job-start-moment__head strong { color: var(--accent); letter-spacing: .08em; font-size: .82rem; }
+.job-start-moment__head p { margin: 4px 0 12px; }
+.job-start-moment [data-outcome-close] { min-height: 44px; flex-shrink: 0; }
+.job-start-moment__periods { display: grid; grid-template-columns: 1fr 1.4fr; gap: 16px; }
+.job-start-moment__periods > div { min-width: 0; border-block-start: 1px solid var(--line); padding-block-start: 12px; }
+.job-start-moment__periods p { margin: 8px 0; line-height: 1.5; }
+.job-start-moment__periods small { display: block; color: var(--muted); line-height: 1.5; }
+.job-start-moment.is-emphasized .job-start-moment__periods > div { animation: tc-job-start-trace 2s ease-out 1; }
+@keyframes tc-job-start-trace { from { border-block-start-color: var(--accent); } to { border-block-start-color: var(--line); } }
+@media (max-width: 600px) { .job-start-moment__periods { grid-template-columns: 1fr; gap: 12px; } .job-start-moment { padding: 12px; } }
+@media (prefers-reduced-motion: reduce) { .job-start-moment.is-emphasized .job-start-moment__periods > div { animation: none; } }
+.job-start-moment.is-settled { border-inline-start-color: var(--line); }
+.job-start-moment summary { min-height: 44px; padding-block: 12px; cursor: pointer; color: var(--accent); }
+.job-start-moment summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }

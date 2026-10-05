@@ -1,0 +1,586 @@
+{
+  "contract": [
+    "B11",
+    "B9",
+    "B10",
+    "F"
+  ],
+  "owner": "Astra",
+  "pr": 118,
+  "head": "40ab0da50158dcf498f6c3d86c637e6032b62440",
+  "status": "PR_GENERAL_CI_PENDING",
+  "merge": null,
+  "production": "NOT_RUN",
+  "local": {
+    "targetedTests": 17,
+    "build": "PASS",
+    "syntaxLintYAML": "PASS"
+  },
+  "browser": {
+    "status": "PASS",
+    "run": 37275391033,
+    "job": 111651159333,
+    "artifact": 11329952049,
+    "zipSHA256": "c5b41bcf401cb562d4e42dde3f9e87f2367109ea63d21acab3fb9b23a2fe17e4",
+    "cases": 12,
+    "runtimeDataFingerprints": 50,
+    "origin": "http://127.0.0.1:8097",
+    "screenshots": 84,
+    "summary": [
+      {
+        "id": "DRB-237",
+        "width": 1440,
+        "status": "PASS",
+        "errors": [],
+        "final": {
+          "name": "after-reloaded",
+          "revision": 3,
+          "points": [
+            7100,
+            8000
+          ],
+          "boss": {
+            "player": 0,
+            "zone": "units",
+            "index": 0
+          },
+          "target": {
+            "player": 1,
+            "zone": "hand",
+            "index": 0
+          },
+          "materials": [
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 0
+            },
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 1
+            }
+          ],
+          "choice": null,
+          "pending": null,
+          "overflow": {
+            "viewport": 1440,
+            "scroll": 1440
+          },
+          "actualOrigin": "http://127.0.0.1:8097",
+          "actualURL": "http://127.0.0.1:8097/games/darbe-h/"
+        }
+      },
+      {
+        "id": "DRB-238",
+        "width": 1440,
+        "status": "PASS",
+        "errors": [],
+        "final": {
+          "name": "after-reloaded",
+          "revision": 3,
+          "points": [
+            7000,
+            8000
+          ],
+          "boss": {
+            "player": 0,
+            "zone": "units",
+            "index": 0
+          },
+          "target": {
+            "player": 1,
+            "zone": "hand",
+            "index": 0
+          },
+          "materials": [
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 0
+            },
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 1
+            }
+          ],
+          "choice": null,
+          "pending": null,
+          "overflow": {
+            "viewport": 1440,
+            "scroll": 1440
+          },
+          "actualOrigin": "http://127.0.0.1:8097",
+          "actualURL": "http://127.0.0.1:8097/games/darbe-h/"
+        }
+      },
+      {
+        "id": "DRB-239",
+        "width": 1440,
+        "status": "PASS",
+        "errors": [],
+        "final": {
+          "name": "after-reloaded",
+          "revision": 3,
+          "points": [
+            6900,
+            8000
+          ],
+          "boss": {
+            "player": 0,
+            "zone": "units",
+            "index": 0
+          },
+          "target": {
+            "player": 1,
+            "zone": "hand",
+            "index": 0
+          },
+          "materials": [
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 0
+            },
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 1
+            }
+          ],
+          "choice": null,
+          "pending": null,
+          "overflow": {
+            "viewport": 1440,
+            "scroll": 1440
+          },
+          "actualOrigin": "http://127.0.0.1:8097",
+          "actualURL": "http://127.0.0.1:8097/games/darbe-h/"
+        }
+      },
+      {
+        "id": "DRB-240",
+        "width": 1440,
+        "status": "PASS",
+        "errors": [],
+        "final": {
+          "name": "after-reloaded",
+          "revision": 3,
+          "points": [
+            6800,
+            8000
+          ],
+          "boss": {
+            "player": 0,
+            "zone": "units",
+            "index": 0
+          },
+          "target": {
+            "player": 1,
+            "zone": "hand",
+            "index": 0
+          },
+          "materials": [
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 0
+            },
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 1
+            }
+          ],
+          "choice": null,
+          "pending": null,
+          "overflow": {
+            "viewport": 1440,
+            "scroll": 1440
+          },
+          "actualOrigin": "http://127.0.0.1:8097",
+          "actualURL": "http://127.0.0.1:8097/games/darbe-h/"
+        }
+      },
+      {
+        "id": "DRB-237",
+        "width": 390,
+        "status": "PASS",
+        "errors": [],
+        "final": {
+          "name": "after-reloaded",
+          "revision": 3,
+          "points": [
+            7100,
+            8000
+          ],
+          "boss": {
+            "player": 0,
+            "zone": "units",
+            "index": 0
+          },
+          "target": {
+            "player": 1,
+            "zone": "hand",
+            "index": 0
+          },
+          "materials": [
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 0
+            },
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 1
+            }
+          ],
+          "choice": null,
+          "pending": null,
+          "overflow": {
+            "viewport": 390,
+            "scroll": 390
+          },
+          "actualOrigin": "http://127.0.0.1:8097",
+          "actualURL": "http://127.0.0.1:8097/games/darbe-h/"
+        }
+      },
+      {
+        "id": "DRB-238",
+        "width": 390,
+        "status": "PASS",
+        "errors": [],
+        "final": {
+          "name": "after-reloaded",
+          "revision": 3,
+          "points": [
+            7000,
+            8000
+          ],
+          "boss": {
+            "player": 0,
+            "zone": "units",
+            "index": 0
+          },
+          "target": {
+            "player": 1,
+            "zone": "hand",
+            "index": 0
+          },
+          "materials": [
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 0
+            },
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 1
+            }
+          ],
+          "choice": null,
+          "pending": null,
+          "overflow": {
+            "viewport": 390,
+            "scroll": 390
+          },
+          "actualOrigin": "http://127.0.0.1:8097",
+          "actualURL": "http://127.0.0.1:8097/games/darbe-h/"
+        }
+      },
+      {
+        "id": "DRB-239",
+        "width": 390,
+        "status": "PASS",
+        "errors": [],
+        "final": {
+          "name": "after-reloaded",
+          "revision": 3,
+          "points": [
+            6900,
+            8000
+          ],
+          "boss": {
+            "player": 0,
+            "zone": "units",
+            "index": 0
+          },
+          "target": {
+            "player": 1,
+            "zone": "hand",
+            "index": 0
+          },
+          "materials": [
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 0
+            },
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 1
+            }
+          ],
+          "choice": null,
+          "pending": null,
+          "overflow": {
+            "viewport": 390,
+            "scroll": 390
+          },
+          "actualOrigin": "http://127.0.0.1:8097",
+          "actualURL": "http://127.0.0.1:8097/games/darbe-h/"
+        }
+      },
+      {
+        "id": "DRB-240",
+        "width": 390,
+        "status": "PASS",
+        "errors": [],
+        "final": {
+          "name": "after-reloaded",
+          "revision": 3,
+          "points": [
+            6800,
+            8000
+          ],
+          "boss": {
+            "player": 0,
+            "zone": "units",
+            "index": 0
+          },
+          "target": {
+            "player": 1,
+            "zone": "hand",
+            "index": 0
+          },
+          "materials": [
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 0
+            },
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 1
+            }
+          ],
+          "choice": null,
+          "pending": null,
+          "overflow": {
+            "viewport": 390,
+            "scroll": 390
+          },
+          "actualOrigin": "http://127.0.0.1:8097",
+          "actualURL": "http://127.0.0.1:8097/games/darbe-h/"
+        }
+      },
+      {
+        "id": "DRB-237",
+        "width": 320,
+        "status": "PASS",
+        "errors": [],
+        "final": {
+          "name": "after-reloaded",
+          "revision": 3,
+          "points": [
+            7100,
+            8000
+          ],
+          "boss": {
+            "player": 0,
+            "zone": "units",
+            "index": 0
+          },
+          "target": {
+            "player": 1,
+            "zone": "hand",
+            "index": 0
+          },
+          "materials": [
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 0
+            },
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 1
+            }
+          ],
+          "choice": null,
+          "pending": null,
+          "overflow": {
+            "viewport": 320,
+            "scroll": 320
+          },
+          "actualOrigin": "http://127.0.0.1:8097",
+          "actualURL": "http://127.0.0.1:8097/games/darbe-h/"
+        }
+      },
+      {
+        "id": "DRB-238",
+        "width": 320,
+        "status": "PASS",
+        "errors": [],
+        "final": {
+          "name": "after-reloaded",
+          "revision": 3,
+          "points": [
+            7000,
+            8000
+          ],
+          "boss": {
+            "player": 0,
+            "zone": "units",
+            "index": 0
+          },
+          "target": {
+            "player": 1,
+            "zone": "hand",
+            "index": 0
+          },
+          "materials": [
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 0
+            },
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 1
+            }
+          ],
+          "choice": null,
+          "pending": null,
+          "overflow": {
+            "viewport": 320,
+            "scroll": 320
+          },
+          "actualOrigin": "http://127.0.0.1:8097",
+          "actualURL": "http://127.0.0.1:8097/games/darbe-h/"
+        }
+      },
+      {
+        "id": "DRB-239",
+        "width": 320,
+        "status": "PASS",
+        "errors": [],
+        "final": {
+          "name": "after-reloaded",
+          "revision": 3,
+          "points": [
+            6900,
+            8000
+          ],
+          "boss": {
+            "player": 0,
+            "zone": "units",
+            "index": 0
+          },
+          "target": {
+            "player": 1,
+            "zone": "hand",
+            "index": 0
+          },
+          "materials": [
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 0
+            },
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 1
+            }
+          ],
+          "choice": null,
+          "pending": null,
+          "overflow": {
+            "viewport": 320,
+            "scroll": 320
+          },
+          "actualOrigin": "http://127.0.0.1:8097",
+          "actualURL": "http://127.0.0.1:8097/games/darbe-h/"
+        }
+      },
+      {
+        "id": "DRB-240",
+        "width": 320,
+        "status": "PASS",
+        "errors": [],
+        "final": {
+          "name": "after-reloaded",
+          "revision": 3,
+          "points": [
+            6800,
+            8000
+          ],
+          "boss": {
+            "player": 0,
+            "zone": "units",
+            "index": 0
+          },
+          "target": {
+            "player": 1,
+            "zone": "hand",
+            "index": 0
+          },
+          "materials": [
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 0
+            },
+            {
+              "player": 0,
+              "zone": "grave",
+              "index": 1
+            }
+          ],
+          "choice": null,
+          "pending": null,
+          "overflow": {
+            "viewport": 320,
+            "scroll": 320
+          },
+          "actualOrigin": "http://127.0.0.1:8097",
+          "actualURL": "http://127.0.0.1:8097/games/darbe-h/"
+        }
+      }
+    ]
+  },
+  "result": "NOT_REPRODUCED_IN_VALID_UI_FIXTURES",
+  "limitations": [
+    "Synthetic legal persistent saves; not the unavailable affected real-user save.",
+    "Natural-match reachability and AI usage not established.",
+    "No game-rule, engine, artwork, card-data or save-format change.",
+    "Existing 320px board labels/stats cramped: overflow0 does not establish readability.",
+    "Accepted redesigned art remains 0/900."
+  ],
+  "screenshotsOpened": [
+    {
+      "path": "DRB-237-1440/choice.png",
+      "sha256": "d464a28a9358d250412bf8b5505e71cd276ee0f93c049e0e17160fb184ffd7f1"
+    },
+    {
+      "path": "DRB-238-320/after-reloaded.png",
+      "sha256": "8a49344b71cbee3517abb4d24df4c6d7a7e055eed773af07baf741c3515a76c2"
+    },
+    {
+      "path": "DRB-239-390/after-reloaded.png",
+      "sha256": "043f6d534fd4fc05a22deaf14c13cc087dcaeed1ca89e9ae5f8f79416eed988c"
+    },
+    {
+      "path": "DRB-240-1440/after-reloaded.png",
+      "sha256": "1f5960426b68ca985f202328912bc15efda17cb97bc3d77e24b513317bd0a36b"
+    }
+  ]
+}

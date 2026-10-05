@@ -44,7 +44,15 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
     .filter(f => f.endsWith(".js") && !["app.js", "desk.js", "historical-scenarios.js"].includes(f))
     .map(f => `public/games/tc-sim/js/${f}`)
     .concat(["public/games/next-wave.js", "public/games/next-wave/devlet-data.js", "public/games/next-wave/devlet-sim.js", "public/games/next-wave/shared/runtime.js", "public/games/tc-sim-devlet/presentation.js"]).sort();
-  assert.equal(files.length, 38);
+  // The job-start moment adds two presentation-only modules. Preserve the
+  // exact previous 38-file digest and also pin the expanded inventory below.
+  const outcomeFiles = ["public/games/tc-sim/js/job-start-outcome.js", "public/games/tc-sim/js/job-start-outcome-ui.js"];
+  assert.equal(files.length, 40);
+  const previous = files.filter(file => !outcomeFiles.includes(file));
+  assert.equal(previous.length, 38);
+  const previousHash = createHash("sha256");
+  for (const file of previous) previousHash.update(file).update(readFileSync(file));
+  assert.equal(previousHash.digest("hex"), "049055e59558ff160f1326fcf16d72432d6695027acba75e0518ec031645f4ed");
   const hash = createHash("sha256");
   for (const file of files) hash.update(file).update(readFileSync(file));
   // Re-pinned for the DEVLET maps PR: next-wave.js (geo dispatch + month
@@ -60,7 +68,8 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // save version and simulation stay the previous baseline.
   // 2026-09-30: authorized shared save-panel DOM positioning only.
   // Slot writes, overwrite confirmation, engine/content and schemas unchanged.
-  assert.equal(hash.digest("hex"), "049055e59558ff160f1326fcf16d72432d6695027acba75e0518ec031645f4ed");
+  // 2026-10-05: add only the pure job-start render model and accessible UI.
+  assert.equal(hash.digest("hex"), "baac66ba9c2e3e8c66c71c12d9f810940c9ac03b21e43222dddff3301aea5bf1");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);

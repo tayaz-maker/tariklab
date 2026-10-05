@@ -1,0 +1,149 @@
+// Prepared healthy-browser CI gate; local execution has not been claimed.
+import assert from "node:assert/strict";
+import { mkdirSync, writeFileSync } from "node:fs";
+import { resolve } from "node:path";
+import { parseArgs } from "node:util";
+import { chromium } from "playwright";
+import { readyJobStartState, pendingJobStartState } from "./tc-sim-job-start-fixture.mjs";
+import { createStaticGameServer } from "./static-game-server.mjs";
+import { checkedOutcomeOrigin, verifyOutcomeBuild } from "./tc-sim-job-start-target.mjs";
+const { values } = parseArgs({ options: {
+  serve: { type: "string" }, "base-url": { type: "string" }, production: { type: "boolean", default: false },
+  "expected-root": { type: "string" }, label: { type: "string", default: "built" },
+} });
+assert.ok(/^[a-z0-9-]+$/.test(values.label), "safe artifact label required");
+assert.ok(Boolean(values.serve) !== Boolean(values["base-url"]), "choose --serve or --base-url");
+assert.ok(!values["base-url"] || values["expected-root"], "hosted checks require expected built files");
+assert.ok(!values.production || (!values.serve && values["expected-root"]), "production requires expected built files");
+const out = resolve(process.env.RUNNER_TEMP || "/workspace", "screenshots/tc-job-start-outcome", values.label);
+mkdirSync(out, { recursive: true });
+let server, browser, origin, fingerprints = [], failure = null;
+const rows = [];
+try {
+  if (values.serve) {
+    server = createStaticGameServer(values.serve);
+    await new Promise((done, reject) => { server.once("error", reject); server.listen(0, "127.0.0.1", done); });
+    origin = checkedOutcomeOrigin(`http://127.0.0.1:${server.address().port}`);
+  } else origin = checkedOutcomeOrigin(values["base-url"], values.production);
+  fingerprints = await verifyOutcomeBuild(origin, values["expected-root"] || values.serve);
+  const url = `${origin}/games/tc-sim/index.html`;
+  const key = "tariklab::tc-sim:1";
+  const modules = ["job-start-outcome.js", "job-start-outcome-ui.js"].map(name => `${origin}/games/tc-sim/js/${name}?v=10`);
+  browser = await chromium.launch({ headless: true, executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || undefined, args: ["--no-sandbox"] });
+  const saveFacts = state => ({ version: state.meta.saveVersion, jobId: state.career.jobId,
+    pendingJob: state.career.pendingJob, cash: state.finances.balance, energy: state.health.energy,
+    stress: state.health.stress, week: state.time.absoluteWeek });
+  const cases = ["tr", "en", "pl"].flatMap(language => [1440, 390, 320].flatMap(width => [false, true].map(reduced => ({ language, width, reduced, view: "dashboard" }))));
+  for (const view of ["people", "finance"]) for (const width of [390, 320]) cases.push({ language: "tr", width, reduced: false, view });
+  for (const {language, width, reduced, view} of cases) {
+    const context = await browser.newContext({ viewport: { width, height: width === 1440 ? 900 : 844 }, reducedMotion: reduced ? "reduce" : "no-preference" });
+    const page = await context.newPage(), errors = [], external = [];
+    const assertTargetOrigin = () => assert.equal(new URL(page.url()).origin, origin, "navigation must remain at the authorized origin");
+    page.on("pageerror", error => errors.push(error.message));
+    page.on("console", message => { if (message.type() === "error") errors.push(message.text()); });
+    page.on("response", response => { if (response.status() >= 400) errors.push(`${response.status()} ${response.url()}`); });
+    page.on("request", request => { if (/^https?:/.test(request.url()) && new URL(request.url()).origin !== origin) external.push(request.url()); });
+    await context.addInitScript(({ state, language, key, origin }) => {
+      if (location.origin !== origin) return;
+      if (!localStorage.getItem("tc-job-fixture-seeded")) {
+        localStorage.setItem(key, JSON.stringify(state));
+        localStorage.setItem("tariklab::tc-sim:active", "1");
+        localStorage.setItem("tc-job-fixture-seeded", "1");
+      }
+      localStorage.setItem("tariklab.language", language);
+    }, { state: view === "dashboard" ? readyJobStartState() : pendingJobStartState(), language, key, origin });
+    const dimensions = async () => {
+      const d = await page.evaluate(() => ({ viewport: document.documentElement.clientWidth, scroll: document.documentElement.scrollWidth }));
+      assert.ok(d.scroll <= d.viewport, JSON.stringify(d));
+    };
+    await page.goto(url, { waitUntil: "networkidle" }); assertTargetOrigin();
+    const coldEntry = await page.evaluate(() => ({ navigation: performance.getEntriesByType("navigation").map(r => ({ duration:r.duration,transferSize:r.transferSize })), paint: performance.getEntriesByType("paint").map(r => ({name:r.name,startTime:r.startTime})), resources:performance.getEntriesByType("resource").map(r=>({name:r.name,transferSize:r.transferSize,encodedBodySize:r.encodedBodySize})) }));
+    // Control + warm, then verify exact new module URLs in a real SW cache.
+    await page.evaluate(async () => { await navigator.serviceWorker.register("/sw.js"); await navigator.serviceWorker.ready; });
+    await page.reload({ waitUntil: "networkidle" }); assertTargetOrigin();
+    await page.waitForFunction(() => Boolean(navigator.serviceWorker.controller));
+    // Cache writes are asynchronous in the existing root worker; wait for the
+    // observable entries rather than assuming network-idle completed the writes.
+    await page.waitForFunction(async expected => {
+      const urls = new Set();
+      for (const name of await caches.keys()) for (const request of await (await caches.open(name)).keys()) urls.add(request.url);
+      return expected.every(url => urls.has(url));
+    }, modules, { timeout: 5000 });
+    const cached = await page.evaluate(async expected => {
+      const urls = new Set();
+      for (const name of await caches.keys()) for (const request of await (await caches.open(name)).keys()) urls.add(request.url);
+      return expected.map(url => ({ url, cached: urls.has(url) }));
+    }, modules);
+    assert.ok(cached.every(item => item.cached), `missing offline modules: ${JSON.stringify(cached)}`);
+    await page.locator("#continue-game").click();
+    const navigate = async nextView => {
+      const target = page.locator(`[data-view="${nextView}"]`).first();
+      if (!(await target.isVisible())) await page.locator(".side-nav .nav-more").click();
+      await target.click();
+    };
+    if (view !== "dashboard") {
+      await navigate(view);
+      await page.locator("#advance-week").click();
+    }
+    const stem = `${view}-${language}-${width}-${reduced ? "reduced" : "motion"}`;
+    await page.screenshot({ path: `${out}/${stem}-before.png`, fullPage: true });
+    await page.locator('[data-event-choice="start"]').click();
+    const moment = page.locator("[data-job-start-moment]");
+    assert.equal(await moment.count(), 1);
+    assert.equal(await moment.isVisible(), true, "result must be visible on the selected view");
+    assert.equal(await moment.evaluate(el => el.parentElement.classList.contains("workspace") && !el.closest(".management-inspector, .management-deck, [hidden], [inert]")), true, "result must stay outside hidden inspectors/ledgers");
+    assert.equal(await moment.getAttribute("role"), "status");
+    assert.equal(await page.evaluate(() => window.tlabI18n.getLang()), language, "actual UI language matches the matrix");
+    assert.equal(await moment.locator(".job-start-moment__head strong").textContent(), {tr:"İŞ BAŞLADI",en:"JOB STARTED",pl:"PRACA ROZPOCZĘTA"}[language], "actual outcome heading is translated");
+    await dimensions();
+    const close = moment.locator("[data-outcome-close]");
+    assert.equal(await close.evaluate(el => document.activeElement === el), false, "moment must not steal focus");
+    if (reduced) assert.equal(await moment.locator(".job-start-moment__periods > div").first().evaluate(el => getComputedStyle(el).animationName), "none");
+    await page.screenshot({ path: `${out}/${stem}-after.png`, fullPage: true });
+    if (!reduced && width === 390) await page.waitForFunction(() => document.querySelector("[data-job-start-moment]").classList.contains("is-settled"), null, { timeout: 4000 });
+    await close.focus(); await close.press("Escape");
+    assert.equal(await close.getAttribute("aria-pressed"), "true");
+    assert.equal(await close.evaluate(el => document.activeElement === el), true, "close preserves keyboard focus");
+    assert.equal(await moment.getAttribute("aria-live"), "off");
+    await moment.locator("summary").click(); await dimensions();
+    await page.setViewportSize({ width: 320, height: 844 }); await dimensions();
+    await page.locator("#save-game").click();
+    assert.equal(await page.locator("[data-job-start-moment][role=status]").count(), 0, "save does not reannounce");
+    const saved = await page.evaluate(key => JSON.parse(localStorage.getItem(key)), key);
+    assert.equal(saved.career.jobId, "market"); assert.equal(saved.career.pendingJob, null);
+    const resources = await page.evaluate(() => performance.getEntriesByType("resource").map(r => ({ name: r.name, transferSize: r.transferSize, encodedBodySize: r.encodedBodySize })));
+    await context.setOffline(true); await page.reload({ waitUntil: "networkidle" }); assertTargetOrigin();
+    await page.locator("#continue-game").click();
+    assert.equal(await page.locator("[data-job-start-moment]").count(), 0, "offline reload must not replay");
+    await page.locator("#save-game").click();
+    const offlineSaved = await page.evaluate(key => JSON.parse(localStorage.getItem(key)), key);
+    assert.deepEqual(saveFacts(offlineSaved), saveFacts(saved), "offline loaded game retains actual saved values");
+    await dimensions();
+    // Synthetic v1 fixture, not an archived historical save: offline migration and no replay.
+    await page.evaluate(({ saved, key }) => {
+      saved.meta.saveVersion = 1;
+      localStorage.removeItem(key); localStorage.removeItem(key + ":bak");
+      localStorage.removeItem("tariklab::tc-sim:legacy-migrated");
+      localStorage.removeItem("tc-sim-save-backup");
+      localStorage.setItem("tc-sim-save", JSON.stringify(saved));
+    }, { saved, key });
+    await page.reload({ waitUntil: "networkidle" }); assertTargetOrigin(); await page.locator("#continue-game").click();
+    await page.locator("#save-game").click();
+    const migrated = await page.evaluate(key => JSON.parse(localStorage.getItem(key)), key);
+    assert.equal(migrated.meta.saveVersion, 6);
+    assert.deepEqual(saveFacts(migrated), saveFacts(saved), "synthetic v1 retains job, money and body after explicit save");
+    assert.equal(await page.locator("[data-job-start-moment]").count(), 0);
+    await dimensions();
+    await context.setOffline(false);
+    await navigate("career"); await navigate("dashboard");
+    assert.equal(await page.locator("[data-job-start-moment]").count(), 0);
+    assert.deepEqual(errors, []); assert.deepEqual(external, []);
+    rows.push({ language, width, reduced, view, coldEntry, status: "PASS", cached, resources, offlineSaveFacts: saveFacts(offlineSaved), syntheticV1SaveFacts: saveFacts(migrated) });
+    await context.close();
+  }
+} catch (error) { failure = error.stack || String(error); throw error; }
+finally {
+  await browser?.close();
+  if (server) await new Promise(done => server.close(done));
+  writeFileSync(`${out}/results.json`, JSON.stringify({ origin, fingerprints, status: failure ? "FAIL" : "PASS", failure, expectedCases: 22, rows, performance: "Candidate cold entry only; before/after comparison remains unmeasured." }, null, 2) + "\n");
+}

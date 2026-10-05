@@ -436,3 +436,16 @@ PR #101 remains Terra's responsibility. Novella remains **LATER**.
 - D1/D2/D4 OPEN; D3 mixed art-cache P1 remains, DEVLET six synthetic cases did not reproduce data loss; D5 brace #114 CLOSED/general security OPEN; D6 Novella/#78/#79/SON KÖY WIP preserved.
 - E1 NOT IMPLEMENTED; E2 four factual-source drafts/not expert-reviewed; E3 physical GPU/PL/anatomy human gates OPEN; F NOT STARTED.
 - Evidence/next: [JSON](evidence/2026-10-05-b10-readiness-checkpoint.json); finish the narrow TC visibility/browser/offline gates; B7 quality threshold remains unmet, no900-card completion claim.
+
+
+## 2026-10-05 07:24 UTC — C1/B11 release checkpoint
+- Owner/branch: Astra; `astra/b10-production-checkpoint`; main #117 `539df6ee8cd3fe1e56b4a7833bffcc8953765488`; no status-only PR.
+- A1–A3 CLOSED: #113 `375b837` → #111 `a534289`; prior exact-head CI/two-host reload proof retained.
+- C1 partial: #117 actual job-start now/future result merged after9/9+Vercel; local1800 PASS/1 existing opt-in skip; built22/22 PASS; no rule/save change.
+- C1 production run37276537798: first attempt stopped before browser on exact old-main hash; both deployments subsequently SUCCESS; failed-only attempt2 running, production NOT ACCEPTED yet.
+- B11: #118 head `40ab0da`;17 local, built12/12 actual UI PASS; general CI campaign-browser pending, no merge; P1 allegation NOT_REPRODUCED_IN_VALID_UI_FIXTURES, natural-match/affected user save open.
+- B1–B10 OPEN: accepted art0/900; existing cramped320 board text remains; no rejected asset rollout, no 300-card completion claim.
+- C2/C3 OPEN; D2 TC mixed body translation and desktop narrow Inbox labels recorded as intake, not fixed or final-reviewed; source/DOM follow-up pending.
+- D1–D4/general D5 OPEN; D4 inventory `1580d3e`,49 PNG lossless trial −6,117,735 B decoded-RGBA equal, NOT APPLIED/no route or history savings claim; D5 brace #114 CLOSED.
+- D6 Novella/#78/#79/SON KÖY WIP preserved; E1 foundation NOT IMPLEMENTED, E2 drafts not reviewed, E3 PL/anatomy/physical-GPU human gates OPEN; F NOT STARTED.
+- Evidence/next: [TC](evidence/2026-10-05-tc-job-start-release.json), [B11](evidence/2026-10-05-darbe-b11-release.json), [D4](evidence/2026-10-05-repo-weight-discovery.json); finish real two-host proof, then #118 only all-green normal merge.

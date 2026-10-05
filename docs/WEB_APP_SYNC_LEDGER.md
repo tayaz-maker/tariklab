@@ -522,3 +522,8 @@ Chromium must pass before integration.
 ### 2026-10-05 — #116 proof release closed
 - Normal merge `9e50404c0573e1cf9e2dd7e623c9c8bd98b95e56`; exact-head8/8+Vercel and own main37270312084 SUCCESS. www+Workers each24 duel UI scenarios, VETO/GETT300-card archives and unchanged legacy saves; actual origins/11 hashes checked;8 production PNGs opened, artifact11328870080 digest verified.
 - Test/evidence-only change; application, artwork/content and native output unchanged. Native remains paused. Full900-card redesign, offline upgrade and human gates stay open; see B10 checkpoint JSON for scoped evidence.
+### 2026-10-05 — TC SIM job-start outcome (unreleased branch checkpoint)
+- Web change: actual next-week job completion separates immediate cash/focus deltas from prospective salary/workload in one visible result panel outside collapsed inspectors/ledgers; silent 2 s CSS emphasis, static reduced motion and focus-preserving close.
+- Content: presentation copy only (TR/EN/PL draft); Artwork: original CSS only; Gameplay/rules/save: no; UI/presentation: yes; Shared-content source: no new external asset.
+- Native follow-up: yes, only after web release; native remains paused. Browser/offline/build transfer gates and PL native review remain open; no release claim.
+- Commits: branch `astra/tc-sim-job-start-outcome`, based on `9e50404`; see `outputs/tc-sim-job-start-outcome/CHECKPOINT.md` in this checkpoint.
