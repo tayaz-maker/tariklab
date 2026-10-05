@@ -119,6 +119,8 @@
       <h1>Kaynaklar</h1>
       <p class="kicker">TarikLab · oyunlar ve teknik yapı</p>
 
+      <h2>Öğrenme ürünleri</h2>
+      <p><a href="/atlas/yapi/#sources">Beden Katmanları — İnsan Anatomisi</a>: kaynaklı ilk öğrenme önizlemesi. Çizimler özgün SVG geometrisidir; anatomik içerik ve çizimler bağımsız uzman tarafından henüz incelenmedi. Eğitim amaçlıdır; kişisel tıbbi tavsiye, tanı veya tedavi aracı değildir. Her yapı için kaynak tarihi ve inceleme durumu ürünün kaynaklar alanında bulunur.</p>
       <h2>Katalog</h2>
       <p>TarikLab'da 18 oyun oynanabilir; 1 dosya hazırlanıyor.</p>
       <ul class="catalog" data-live-count="20" data-soon-count="0">
@@ -359,6 +361,9 @@
             }
             if (s.note) html += "<p>" + s.note + "</p>";
           });
+          html += locale === "pl"
+            ? '<h2>Produkty edukacyjne</h2><p><a href="/atlas/yapi/#sources">Warstwy Ciała — Anatomia człowieka</a>: pierwszy podgląd edukacyjny ze źródłami i oryginalną geometrią SVG. Treść i ilustracje nie zostały jeszcze niezależnie sprawdzone przez eksperta. Produkt nie służy do porad medycznych, diagnozy ani leczenia. Daty źródeł i status recenzji są dostępne w produkcie.</p>'
+            : '<h2>Learning products</h2><p><a href="/atlas/yapi/#sources">Body Layers — Human Anatomy</a>: a first sourced learning preview with original SVG geometry. Content and drawings have not yet had independent expert review. For education, not personal medical advice, diagnosis or treatment. Source dates and review status are available in the product.</p>';
           html += '<p class="legal">' + C.legal + "</p>";
           main.innerHTML = html;
           main.setAttribute("data-en", "1");

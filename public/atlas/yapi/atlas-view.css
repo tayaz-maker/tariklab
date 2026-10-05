@@ -1,0 +1,65 @@
+.atlas-view {
+  --atlas-view-selection: #b77a22;
+  position: relative;
+  isolation: isolate;
+  contain: layout paint style;
+  inline-size: 100%;
+  min-inline-size: 0;
+  max-inline-size: 30rem;
+  max-block-size: 52rem;
+  aspect-ratio: 420 / 780;
+  margin-inline: auto;
+  overflow: hidden;
+  overflow: clip;
+}
+
+.atlas-view .atlas-view__svg {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  min-inline-size: 0;
+  overflow: hidden;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.atlas-view .atlas-view__structure {
+  pointer-events: none;
+}
+
+.atlas-view .atlas-view__structure[data-id] {
+  cursor: pointer;
+  pointer-events: visiblePainted;
+}
+
+.atlas-view .atlas-view__structure[data-selected="true"] {
+  stroke-linejoin: round;
+}
+
+/* No transitions, animation, filters or perpetual rendering: changes are static.
+   The SVG remains a pointer supplement to the accessible DOM structure list. */
+@media (prefers-reduced-motion: reduce) {
+  .atlas-view,
+  .atlas-view * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+@media (max-width: 390px) {
+  .atlas-view {
+    max-inline-size: 100%;
+    max-block-size: 40rem;
+  }
+}
+
+@media (forced-colors: active) {
+  .atlas-view {
+    --atlas-view-selection: Highlight;
+  }
+
+  .atlas-view .atlas-view__structure {
+    forced-color-adjust: none;
+  }
+}
