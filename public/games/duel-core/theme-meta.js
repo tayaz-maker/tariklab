@@ -3,6 +3,8 @@
  * Unknown themes keep the historical GETT-OH! fallback so VETO/GETT
  * binaries that treated "not veto-h" as GETT do not change.
  */
+import { resolveCardArt } from "./art-release.js";
+
 export const SIBLING_THEMES = ["veto-h", "gett-oh", "darbe-h"];
 export const LEGACY_SHARED_THEMES = ["veto-h", "gett-oh"];
 
@@ -208,13 +210,7 @@ export function identityPatch(theme, deckId, extra = {}) {
 }
 
 export function cardArt(theme, card) {
-  const meta = themeMeta(theme);
-  const ext = meta.art.kind === "svg" ? "svg" : "webp";
-  return {
-    src: `/games/${theme}/assets/cards/${card.id}.${ext}`,
-    width: meta.art.width,
-    height: meta.art.height,
-  };
+  return resolveCardArt(theme, card, themeMeta(theme).art);
 }
 
 export function pickLang(value, lang) {

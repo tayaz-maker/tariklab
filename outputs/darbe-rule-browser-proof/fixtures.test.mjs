@@ -22,6 +22,6 @@ for (const spec of CASES) {
     assert.ok(rejection(bad, fixture.special));
   });
 }
-test('all duel production file inventories and blobs remain identical to 9e50404', () => {
+test('duel production stays pinned to 9e50404 except the exact inactive art gate blobs', () => {
   assert.ok(verifyProductionUnchanged(repo) > 600);
 });

@@ -16,6 +16,8 @@
     "check:auth": "node scripts/check-auth-invariant.mjs",
     "test": "node --test 'scripts/**/*.test.mjs' && node --experimental-strip-types --import ./scripts/ts-alias.mjs --test src/lib/app-data/app-data.test.ts src/lib/auth/gate-identity.test.ts src/lib/auth/preview-secret.test.ts src/game/formulas.test.ts src/game/clock.test.ts src/game/closure.test.ts src/game/outcome-moment.test.ts src/lib/save-slots.test.ts",
     "lint": "eslint .",
+    "art:gate": "node scripts/card-art-gate/validate.mjs",
+    "art:gallery": "node scripts/card-art-gate/gallery.mjs",
     "format": "prettier --write .",
     "predev": "node scripts/duel-art-unpack.mjs",
     "pretest": "node scripts/duel-art-unpack.mjs",

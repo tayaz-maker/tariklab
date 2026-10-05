@@ -16,3 +16,7 @@ dist/
 /public/games/gett-oh/assets/cards/
 /public/games/veto-h/assets/atmosphere.webp
 /public/games/gett-oh/assets/atmosphere.webp
+
+# Card-art gate reports and QA galleries are regenerated from a pack, never committed.
+/artifacts/card-art-gate/
+/artifacts/card-art-gallery/
