@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { waitForVisibleHandArt } from "./duel-visible-art.mjs";
+import { assertSameOrigin } from "./duel-origin-proof.mjs";
 
 // The identical archive/legacy/manifest/capture flow runs locally in CI and on production.
 export async function duelLegacyArtProof(browser, origin, theme, out) {
@@ -19,7 +20,18 @@ export async function duelLegacyArtProof(browser, origin, theme, out) {
     const errors = [];
     page.on("pageerror", (error) => errors.push(error.message));
     await page.goto(`${origin}/oyna/${theme}`, { waitUntil: "networkidle" });
+    assertSameOrigin(page.url(), origin, `${theme} legacy page`);
     const game = page.frameLocator("iframe");
+    const verifyOrigins = async () => ({
+      page: assertSameOrigin(page.url(), origin, `${theme} legacy page`),
+      frame: assertSameOrigin(
+        await game.locator("body").evaluate(() => location.href),
+        origin,
+        `${theme} legacy iframe`,
+      ),
+    });
+    await game.getByRole("button", { name: "Kart Arşivi · 300", exact: true }).waitFor();
+    await verifyOrigins();
     await game.getByRole("button", { name: "Kart Arşivi · 300", exact: true }).click();
     assert.equal(await game.locator(".archive-head span").innerText(), "300 / 300");
     await game.locator(".filters input").fill(theme === "veto-h" ? "SND-300" : "RCN-300");
@@ -77,11 +89,13 @@ export async function duelLegacyArtProof(browser, origin, theme, out) {
       expected: expectedHand,
       minVisible: expectedHand.length,
     });
+    const desktopOrigins = await verifyOrigins();
     await page.screenshot({ path: `${out}/${theme}-legacy-desktop.png`, fullPage: true });
     await page.setViewportSize({ width: 390, height: 844 });
     const mobileArt = await waitForVisibleHandArt(game.locator(".hand-row"), {
       expected: expectedHand,
     });
+    const mobileOrigins = await verifyOrigins();
     await page.screenshot({ path: `${out}/${theme}-legacy-mobile.png`, fullPage: true });
     assert.equal(await page.evaluate((key) => localStorage.getItem(key), key), raw);
     assert.deepEqual(errors, []);
@@ -89,6 +103,7 @@ export async function duelLegacyArtProof(browser, origin, theme, out) {
       theme,
       archive: 300,
       expansionArt: true,
+      actualOrigins: { desktop: desktopOrigins, mobile: mobileOrigins },
       restoredHandArt: { desktop: desktopArt, mobile: mobileArt },
       legacySaveUnchanged: true,
       errors,

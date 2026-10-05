@@ -4,6 +4,7 @@ import { createHash } from "node:crypto";
 import { chromium } from "playwright";
 import { duelScenarios } from "./duel-browser-scenarios.mjs";
 import { duelLegacyArtProof } from "./duel-legacy-art-proof.mjs";
+import { assertSameOrigin } from "./duel-origin-proof.mjs";
 
 const hosts = [
   { label: "www", origin: "https://www.tariklab.com" },
@@ -28,11 +29,19 @@ async function verifyAssets(origin) {
   for (let attempt = 0; attempt < 60; attempt++) {
     mismatch = [];
     for (const path of paths) {
+      let response;
       try {
-        const response = await fetch(`${origin}/${path}`, {
+        response = await fetch(`${origin}/${path}`, {
           signal: AbortSignal.timeout(10000),
           cache: "no-store",
         });
+      } catch {
+        mismatch.push(path);
+        continue;
+      }
+      // A different deployment is not a retryable missing asset or valid host proof.
+      assertSameOrigin(response.url, origin, `asset ${path}`);
+      try {
         if (!response.ok || hash(Buffer.from(await response.arrayBuffer())) !== expected.get(path))
           mismatch.push(path);
       } catch {
