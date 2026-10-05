@@ -11,6 +11,10 @@ B1–B10 sanat üretimi Grok'a devredildi; Astra bu generator/frame/asset/card-a
 
 **F başlama kapısı:** bütün kalan ürünler ve Grok kart release'leri production'a çıktıktan sonra final360 yapılır. Çıktı kanıtlı bulgu raporu/sınıflandırmasıdır; rapor sonrasında geniş düzeltme dalgası kendiliğinden başlamaz, kullanıcı ayrı görev verecektir. Bu arada mevcut dar P0/P1 release engelleri çözülebilir. Fiziksel GPU/PL anadil/anatomi uzmanı insan gereksinimleri model/CI ile kapanmaz.
 
+## 2026-10-05 12:40 UTC — candidate evidence, final review NOT STARTED
+
+D2 #120 `f1cc533`: local1,807 PASS/1 existing skip, built22/22+88 localized-control records, six hashes and three inspected screenshots; shared CI pending, not merged/production. EN/PL mixed body text and native-PL review remain open. D3 #121 `7ea1ba7`: Kıyı malformed-v1/backup/raw-retention/old-cache fix, local1,823 PASS/1 existing skip and28 target PASS;37 browser cases/CI/two-host gate pending. E1 route/offline plan is at `outputs/anatomy-foundation/E1_ROUTE_OFFLINE_HANDOFF.md`, discovery-only; no foundation or expert acceptance. These are intake/release checkpoints, not final360 PASS rows.
+
 ## Nihai tek kaynak sözleşme — 2026-10-05 01:56 UTC
 
 Bu sözleşmenin kapsam/kalite koşulları sürer; üretim sahipliği ve final rapor sonrası sınır için yukarıdaki yeni kullanıcı iş bölümü üstündür. Kullanıcının tekrar onayı gerekmez. Her oyunda 300, üç oyunda toplam 900 kart zorunludur; örnek veya pilot DONE değildir. **B7: AI plaka ve fotogerçekçi dış asset yok; özgün prosedürel SVG, vektör veya katmanlı render kullanılacak.** Önceki raster talimatıyla üretilen denemeler git dışında **SUPERSEDED** olarak işaretlendi; production'a eklenmedi ve yeni işte kullanılmayacak. Kabul edilmiş yeni prosedürel production kartı **0/900**. Mevcut prototip metadata'sı ve UI'sı tek başına kabul edilmiş kart sanatı değildir. Reddedilmiş #112 geometrik proof yayılmayacak. Kurmaca yetişkin görsellerde doğru anatomi, ışık, perspektif, materyal ve anlamsal sahne çeşitliliği kalite kapısıdır; yüz, oda veya poz yalnız renk değiştirilerek çoğaltılamaz.

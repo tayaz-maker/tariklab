@@ -511,3 +511,16 @@ PR #101 remains Terra's responsibility. Novella remains **LATER**.
 - C1–C3/D1–D5/E remain Astra scope; card cache integration must coordinate with Grok. #112, source/preparation branches and rejected studies preserved; local cohort pipeline `ecfbf29` deferred/unwired.
 - D6: Novella LATER, closed #78/#79 and stale branches untouched; PL native, anatomy expert and physical GPU remain honest human requirements.
 - F: only after all product work and Grok releases reach production; report/classify evidence, then stop broad fixes unless separately tasked. Next: root reviews/publishes this narrow handoff and resumes non-card work.
+
+
+### 2026-10-05 12:40 UTC — D2/D3 candidate checkpoint; Grok owns B1–B10
+- A1–A3 CLOSED: main `be160c95`; #113/#111 and #119 release runs remain verified green, not reopened.
+- B1–B10: Grok handoff published `3bc44fb`; 900 semantic briefs/protected sources retained, no new Astra art/frame/generator/asset changes.
+- D2: #120 `f1cc533`, `astra/tc-week-control-i18n`; local 1,807 PASS/1 existing skip; built browser22/22 +88 localized-control measurements PASS, artifact11345097869; root inspected EN390, PL320 and TR1440 screenshots.
+- D2 CI: build-core/TC built/Workers/Vercel green; shared browser and campaign-browser pending. No merge/production claim for #120.
+- D3: #121 `7ea1ba7`, `astra/kiyi-save-hotfix`; missing-ramps crash and unsafe old-cache validator reproduced, valid backup/raw retention/quota path fixed; schema/rules/art/renderers unchanged.
+- D3 local:28 target PASS; full1,823 PASS/1 existing skip; build/typecheck/lint PASS. First root build had only transient rsync-tmp ENOENT; unchanged retry passed. CI/built browser now running; no merge/production.
+- D3 boundary:37 actual browser cases required; completely offline old HTML remains old until reconnect; no archived-user/Pixi/physical-GPU/native-PL acceptance claim.
+- E1:48-line route/offline handoff saved; isolated static product proposed, not implemented. Geometry/source gaps and hash-bound independent anatomy review remain open.
+- F NOT STARTED: waits for remaining products and Grok production art; report/classify only, no automatic broad post-report fixes.
+- Next: finish both green release gates and exact two-host proof; then Kıyı's one state-derived continuity/outcome upgrade. Novella/#78/#79 untouched.
