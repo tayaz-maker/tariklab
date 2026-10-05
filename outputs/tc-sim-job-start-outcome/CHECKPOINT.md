@@ -1,0 +1,12 @@
+# C1 TC SIM — local implementation checkpoint, NOT MERGE READY
+- Goal/value: the actual next-week job-start choice separates its real immediate cost from future salary and weekly workload, in the existing result panel.
+- Branch: `astra/tc-sim-job-start-outcome`; base `9e50404c0573e1cf9e2dd7e623c9c8bd98b95e56`; this commit is the checkpoint (no PR/CI/merge/production).
+- Trigger: matching pending case + actual job change, cleared pending, successful start choice and matching event-history occurrence; zero new cash/focus reward is explicit.
+- UI: original 2 s CSS trace, close/Escape without focus moves, readable text retained, compact native details, one result narration, static reduced motion and no save/reload replay.
+- Gates run: 22 targeted tests PASS; JS syntax PASS; lint 0 errors / 2 pre-existing unused imports; `git diff --check` PASS.
+- Exact state and normalized save hashes plus all unchanged TC data/mechanics files and raw/gzip source sizes: `evidence.json` (existing wall-clock `meta.updatedAt` alone excluded from save-hash comparison).
+- New assets: none; original CSS/text only, no external downloads/CDN, audio, canvas or WebGL. Save key/schema, accounting, historical data, other games and #116 are unchanged.
+- Browser/build/production/offline/route-transfer proof: NOT RUN; known Chrome SIGSEGV environment was not retried. Source gzip sizes are not measured route transfer.
+- Prepared gate: serve the built app, then `RUN_TC_JOB_START_BROWSER=1 TC_JOB_START_BASE_URL=http://127.0.0.1:8084 node scripts/tc-sim-job-start-outcome-browser.mjs`.
+- Driver covers 320/390/1440 × TR/EN/PL × reduced/normal motion, screenshots, focus/close, console/overflow, resize, save/reload, exact SW module cache URLs, offline/synthetic-v1 saved-value parity and replay zero.
+- Next: root review, healthy-browser gate and measured built transfer; PL translation remains author draft requiring native review. C1 is not DONE and this is not C2/cinematic scope.
