@@ -487,3 +487,28 @@ Chromium must pass before integration.
 - İHTİLÂL/Racon retain base geometry and separate decision overlays, skip unchanged framebuffer resize, coalesce hidden updates, and choose same-model SVG under explicit memory/pixel budgets. No rule/content/save/asset changes.
 - Instrumented actual renderers, paired 320/390/1440 screenshots/costs and all-live-route cold costs cover this scope. Inventory: `docs/MAP_PERFORMANCE_ASSET_AUDIT.md`; implementation/evidence contract: `docs/MAP_STATIC_CACHE_CHECKPOINT.md`. No asset deletion or claim of unmeasured network savings.
 - Native paused; same presentation-only cache policy is a later parity task. Novella LATER; SON KÖY WIP untouched.
+
+
+
+## 2026-10-05 — A1 HANEDANIAN release repair candidate
+
+- PR #113, head `cac09e1341e6dbfd72ee41298557f88052ddf8c9`: redirected cached HTML is normalized; all mandatory download bodies finish before atomic package writes. No gameplay, save, shared content/artwork or native changes.
+- Local targeted23/23, lint and build PASS. Real Chromium reproduces the minimal old redirect failure and passes patched 19-file online/offline save reload. Workers preview1440/390/320 passes exact-worker/two-reload/zero-error checks, artifact `11321769395`; preview is not production evidence.
+- General CI and normal gated merge/two-host production closure remain pending. #111 is blocked until A1 closes. Native remains paused; B7 excludes generated raster trials from production.
+
+
+## 2026-10-05 — A1/A3 closed; A2 and D5 independent release heads
+
+- #113 merged normally as `375b83752df3d5e16c960797cf99634af0405d31`; exact head had9/9 checks plus Vercel SUCCESS. Main CI37256148777 also SUCCESS. Dedicated production run37256148798/job111593543370 passed www+Workers ×1440/390/320, two real reloads each, actual farm queue/seed/paused-clock save preservation,19/19 cached package, console/page/HTTP/network errors and horizontal overflow0.
+- Artifact11322886877 contains24 screenshots/six traces/two results;33,774,583B exceeds32MiB local transfer limit. Browser assertions/logs are verified; these production pixels were not locally inspected. Physical GPU remains unverified.
+- #111 rebased onto repaired main; head `eb5913d97ffe387033b315c1560ee25a691f263d`. Local68 targeted tests, lint and production build PASS. Fresh CI pending; no merge. Original map code unchanged from prior tested head; only fixture description and per-host artifact splitting changed in verification support.
+- D5 #114 head `316355d72153e1804a906f3e2d5d62f2cd349577`: isolated three-file brace-expansion lock/consumer regression/evidence patch. Baseline2 PASS/12 FAIL → patched14/14 PASS; build/typecheck/lint/IP gates PASS. Fresh CI required. Shared run-state/ledger kept here to avoid overlap with #111. No application, save, gameplay, NOTICE or native change.
+- B1–B10 accepted new art remains0/900; failed original vector probes are isolated outside production. B11 legal engine fixtures21/21 pass; reported browser/legacy-save P1 remains unconfirmed. C–F work and independent human gates remain open.
+
+
+## 2026-10-05 — A2 production closed, D5 dependency release
+
+- A2 #111 merged `a534289490f502f68e12d91803fbc3883de7d790`; exact-head10/10 checks plus Vercel SUCCESS; main run37258787799 SUCCESS. Browser job111601394043 passed Wave1 thirteen cases and Çete seventeen cases on each public host, and VETO/GETT legacy saves/300-card archives. Dedicated HAN run37258787888 passed six two-reload/save cases across both hosts and1440/390/320.
+- HAN host-split artifacts11323133708/11322919338 were downloaded, digest-verified and six reload-2 screenshots inspected. Full evidence/limits: `docs/evidence/2026-10-05-a2-han-production.json`. Large production Wave1 artifact11323759638 exceeded32MiB local tool limit; CI assertions/logs verified, not locally inspected pixels. Racon mobile fullPage capture discrepancy stays open; physical GPU/full old-cache cohort are not claimed.
+- D5 #114 exact head316355d passed8/8 checks plus Vercel and merged normally as `0383d24dce3e45fc1db16773da8b3a135bf51b6e`. Only development lockfile, real-consumer regression and source evidence changed; no app/native/save/rule/NOTICE change. Main run37260245958 SUCCESS: both hosts passed Wave1 13/13 and Çete 17/17; VETO/GETT archives/legacy saves and24 deterministic UI scenarios passed. Workers/Vercel deployment checks for this exact merge SHA were SUCCESS. `npm audit` was not run after automatic approval review rejected metadata export; no bypass or broad security-clean claim.
+- B1–B10 remain0/900 accepted art; three300-card semantic preparation branches are drafts, not release PRs. E anatomy discovery is documented separately; foundation and final360 have not started. No new visual scope merged.

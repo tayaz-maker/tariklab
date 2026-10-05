@@ -1,0 +1,128 @@
+{
+  "date": "2026-10-05T00:52:00Z",
+  "owner": "Astra",
+  "scope": "Release checkpoint and DARBE style proof; not final360 acceptance",
+  "main": {
+    "pr": 110,
+    "mergeSha": "562831dba3b16be2a0bc8b2aec2e613eb1b80f45",
+    "run": 37246439763,
+    "conclusion": "failure",
+    "job": 111565191391,
+    "artifact": 11319313487,
+    "failure": "Workers HANEDANIAN1440 page.reload net::ERR_FAILED at wave1-outcome-browser.mjs:82",
+    "productionPassed": {
+      "cete": {
+        "www": 17,
+        "workers": 17
+      },
+      "wave1": {
+        "www": 9
+      }
+    },
+    "notPassed": [
+      "Workers Wave1",
+      "subsequent duel production"
+    ],
+    "redirectObservation": {
+      "method": "HEAD",
+      "url": "https://tariklab.tayaz29.workers.dev/games/hanedanian/index.html",
+      "status": 307,
+      "location": "/games/hanedanian/",
+      "date": "2026-10-05T00:31:09Z"
+    },
+    "causeStatus": "Redirect-response hypothesis supported by native HTTP regression; full browser reproduction/repair acceptance blocked before reload, not proven"
+  },
+  "map": {
+    "pr": 111,
+    "head": "2011a59aeced3600d46363bb6c24708673e49052",
+    "merged": false,
+    "build": "success",
+    "route": "success",
+    "campaign": "success",
+    "blocker": "#110 Workers production reload failure; #113 browser fixture not accepted",
+    "checks": "9/9 success",
+    "vercel": "success"
+  },
+  "darbe": {
+    "pr": 112,
+    "branch": "astra/darbe-art-direction-proof",
+    "head": "f541bcfc0a571b2ad2dd3d9aa1c047343e76ed70",
+    "draft": true,
+    "merged": false,
+    "run": 37247459967,
+    "job": 111568055317,
+    "artifact": 11319492846,
+    "artifactDigest": "25393067c0ba7d20ec04bdf66813deb54ff24c86621b6ca3635179aea843649b",
+    "proofBrowser": "success",
+    "cases": 6,
+    "widths": [
+      320,
+      390,
+      1440
+    ],
+    "motion": [
+      "reduce",
+      "no-preference"
+    ],
+    "screenshots": 25,
+    "errors": 0,
+    "overflow": 0,
+    "workerRegistrations": 0,
+    "svgBytes": 25758,
+    "maxSVGBytes": 3144,
+    "protectedFiles": 651,
+    "localTests": "5/5",
+    "build": "pass",
+    "generalCI": "pending",
+    "nextGate": "User approval before a separate 300-card implementation PR",
+    "limits": [
+      "Not product save/duel/PWA acceptance",
+      "Not human review",
+      "DRB-237–240 still separate unverified P1"
+    ]
+  },
+  "humanGates": [
+    "Physical GPU not tested",
+    "PL native review not performed",
+    "Independent anatomy expert review not performed"
+  ],
+  "repair": {
+    "pr": 113,
+    "branch": "astra/han-offline-redirect-fix",
+    "head": "2a59e4de1033084c5d06015208d132ac56db6ab0",
+    "draft": true,
+    "merged": false,
+    "local": "17/17 offline/version tests, scoped ESLint, typecheck and build pass",
+    "generalCI": "pending at 00:51Z",
+    "targetedBrowser": "failure",
+    "run": 37248756789,
+    "job": 111571847240,
+    "artifact": 11320051287,
+    "artifactDigest": "d99d13c78295a563ecddff2595213e7a5a62dd06cb98c54df5215b3680bbb795",
+    "attempts": 2,
+    "failure": "Baseline scoped worker not activated within unchanged 30s; fixed case never ran",
+    "observed": {
+      "rootSW": "activated",
+      "gameSW": "installing",
+      "gameCache": [],
+      "cacheKeys": [
+        "cete-offline-v5"
+      ],
+      "workerErrors": [],
+      "initialPrecache": "index.html307/followed200, style.css200, app.js200 finished; no remaining game package requests observed",
+      "rootShell": "/ and /cete-savaslari returned404 in static-only fixture",
+      "telemetryLimit": "Recorded HTTP headers are empty; server finish does not establish browser response-body consumption"
+    },
+    "limits": [
+      "No successful baseline ERR_FAILED reproduction",
+      "No browser proof candidate fixes production",
+      "No third speculative patch/retry; user two-failure limit"
+    ],
+    "nextMeasurementOptions": [
+      "Compare fixture with actual local preview/SSR responses for portal shell instead of static-only404; do not infer that404 caused install stall",
+      "Inspect per-asset fetch/body completion in an isolated minimal worker fixture with no unrelated portal shell",
+      "Then compare baseline/fixed identical HTTP307 navigation and real save/offline reload",
+      "Only after accepted browser proof and all CI green: merge narrow repair, two-host production, rebase/recheck #111"
+    ]
+  }
+}

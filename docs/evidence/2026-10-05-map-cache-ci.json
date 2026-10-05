@@ -1,0 +1,1451 @@
+{
+  "contract": [
+    "A2",
+    "D4"
+  ],
+  "headSHA": "eb5913d97ffe387033b315c1560ee25a691f263d",
+  "baseSHA": "375b83752df3d5e16c960797cf99634af0405d31",
+  "measurementBaselineSHA": "53534e2f9526ad80ce296952c212fa44aaa0ada1",
+  "recordedAt": "2026-10-05T03:12:00Z",
+  "production": {
+    "mergeSHA": "a534289490f502f68e12d91803fbc3883de7d790",
+    "mainRun": 37258787799,
+    "mainConclusion": "success",
+    "browserJob": 111601394043,
+    "wave1CasesPerHost": 13,
+    "wave1Artifact": 11323759638,
+    "wave1ArtifactLocalPixelReview": false,
+    "wave1ArtifactNotDownloadedReason": "47,021,215 bytes exceeds 32MiB tool limit",
+    "hanEvidence": "2026-10-05-a2-han-production.json"
+  },
+  "routeRun": 37256926899,
+  "routeArtifact": 11322559671,
+  "routeArtifactLocallyVerifiedSHA256": "56ffec043025f001474406025c8766aff4fff2beaa1ec964f4ed1ae078227a99",
+  "routeMeasurement": "actual forwarder HTTP socket bytes: headers+encoded body+chunk framing; excludes TLS/TCP; includes SW requests; not production latency",
+  "before": [
+    {
+      "route": "portal",
+      "width": 1440,
+      "firstReadableMs": 737,
+      "transferBytes": 172421,
+      "requestCount": 9,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "cete-savaslari",
+      "width": 1440,
+      "firstReadableMs": 199,
+      "transferBytes": 225537,
+      "requestCount": 12,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "hanedanian",
+      "width": 1440,
+      "firstReadableMs": 391,
+      "transferBytes": 696568,
+      "requestCount": 87,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "racon",
+      "width": 1440,
+      "firstReadableMs": 323,
+      "transferBytes": 407235,
+      "requestCount": 22,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "tc-sim",
+      "width": 1440,
+      "firstReadableMs": 463,
+      "transferBytes": 562792,
+      "requestCount": 56,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "bukucu",
+      "width": 1440,
+      "firstReadableMs": 172,
+      "transferBytes": 127042,
+      "requestCount": 15,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "labirent",
+      "width": 1440,
+      "firstReadableMs": 284,
+      "transferBytes": 273819,
+      "requestCount": 19,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "peg-solitaire",
+      "width": 1440,
+      "firstReadableMs": 270,
+      "transferBytes": 270955,
+      "requestCount": 19,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "satranc",
+      "width": 1440,
+      "firstReadableMs": 292,
+      "transferBytes": 280944,
+      "requestCount": 22,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "amiral-batti",
+      "width": 1440,
+      "firstReadableMs": 257,
+      "transferBytes": 271516,
+      "requestCount": 20,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "apartman",
+      "width": 1440,
+      "firstReadableMs": 298,
+      "transferBytes": 515924,
+      "requestCount": 37,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "kayip-telefon",
+      "width": 1440,
+      "firstReadableMs": 308,
+      "transferBytes": 513553,
+      "requestCount": 35,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "son-100-gun",
+      "width": 1440,
+      "firstReadableMs": 254,
+      "transferBytes": 233449,
+      "requestCount": 16,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "tc-sim-devlet",
+      "width": 1440,
+      "firstReadableMs": 313,
+      "transferBytes": 559883,
+      "requestCount": 43,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "son-kasaba",
+      "width": 1440,
+      "firstReadableMs": 313,
+      "transferBytes": 511309,
+      "requestCount": 38,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "veto-h",
+      "width": 1440,
+      "firstReadableMs": 335,
+      "transferBytes": 347641,
+      "requestCount": 57,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "gett-oh",
+      "width": 1440,
+      "firstReadableMs": 331,
+      "transferBytes": 344297,
+      "requestCount": 57,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "ihtilal",
+      "width": 1440,
+      "firstReadableMs": 254,
+      "transferBytes": 206702,
+      "requestCount": 19,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "darbe-h",
+      "width": 1440,
+      "firstReadableMs": 328,
+      "transferBytes": 343861,
+      "requestCount": 58,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "jitem-derin-ag",
+      "width": 1440,
+      "firstReadableMs": 388,
+      "transferBytes": 396895,
+      "requestCount": 13,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "esik",
+      "width": 1440,
+      "firstReadableMs": 225,
+      "transferBytes": 188339,
+      "requestCount": 17,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "portal",
+      "width": 390,
+      "firstReadableMs": 173,
+      "transferBytes": 172422,
+      "requestCount": 9,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "cete-savaslari",
+      "width": 390,
+      "firstReadableMs": 196,
+      "transferBytes": 225552,
+      "requestCount": 12,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "hanedanian",
+      "width": 390,
+      "firstReadableMs": 250,
+      "transferBytes": 696546,
+      "requestCount": 87,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "racon",
+      "width": 390,
+      "firstReadableMs": 262,
+      "transferBytes": 407255,
+      "requestCount": 22,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "tc-sim",
+      "width": 390,
+      "firstReadableMs": 348,
+      "transferBytes": 562786,
+      "requestCount": 56,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "bukucu",
+      "width": 390,
+      "firstReadableMs": 149,
+      "transferBytes": 127025,
+      "requestCount": 15,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "labirent",
+      "width": 390,
+      "firstReadableMs": 241,
+      "transferBytes": 273814,
+      "requestCount": 19,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "peg-solitaire",
+      "width": 390,
+      "firstReadableMs": 245,
+      "transferBytes": 270953,
+      "requestCount": 19,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "satranc",
+      "width": 390,
+      "firstReadableMs": 269,
+      "transferBytes": 280938,
+      "requestCount": 22,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "amiral-batti",
+      "width": 390,
+      "firstReadableMs": 241,
+      "transferBytes": 271497,
+      "requestCount": 20,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "apartman",
+      "width": 390,
+      "firstReadableMs": 306,
+      "transferBytes": 515944,
+      "requestCount": 37,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "kayip-telefon",
+      "width": 390,
+      "firstReadableMs": 283,
+      "transferBytes": 513577,
+      "requestCount": 35,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "son-100-gun",
+      "width": 390,
+      "firstReadableMs": 260,
+      "transferBytes": 233460,
+      "requestCount": 16,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "tc-sim-devlet",
+      "width": 390,
+      "firstReadableMs": 314,
+      "transferBytes": 559851,
+      "requestCount": 43,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "son-kasaba",
+      "width": 390,
+      "firstReadableMs": 304,
+      "transferBytes": 511297,
+      "requestCount": 38,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "veto-h",
+      "width": 390,
+      "firstReadableMs": 338,
+      "transferBytes": 347664,
+      "requestCount": 57,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "gett-oh",
+      "width": 390,
+      "firstReadableMs": 357,
+      "transferBytes": 344286,
+      "requestCount": 57,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "ihtilal",
+      "width": 390,
+      "firstReadableMs": 240,
+      "transferBytes": 206684,
+      "requestCount": 19,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "darbe-h",
+      "width": 390,
+      "firstReadableMs": 347,
+      "transferBytes": 343855,
+      "requestCount": 58,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "jitem-derin-ag",
+      "width": 390,
+      "firstReadableMs": 292,
+      "transferBytes": 396913,
+      "requestCount": 13,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "esik",
+      "width": 390,
+      "firstReadableMs": 230,
+      "transferBytes": 188369,
+      "requestCount": 17,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "portal",
+      "width": 320,
+      "firstReadableMs": 183,
+      "transferBytes": 172409,
+      "requestCount": 9,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "cete-savaslari",
+      "width": 320,
+      "firstReadableMs": 197,
+      "transferBytes": 225555,
+      "requestCount": 12,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "hanedanian",
+      "width": 320,
+      "firstReadableMs": 272,
+      "transferBytes": 696478,
+      "requestCount": 87,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "racon",
+      "width": 320,
+      "firstReadableMs": 277,
+      "transferBytes": 407222,
+      "requestCount": 22,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "tc-sim",
+      "width": 320,
+      "firstReadableMs": 408,
+      "transferBytes": 562812,
+      "requestCount": 56,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "bukucu",
+      "width": 320,
+      "firstReadableMs": 152,
+      "transferBytes": 127031,
+      "requestCount": 15,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "labirent",
+      "width": 320,
+      "firstReadableMs": 247,
+      "transferBytes": 273792,
+      "requestCount": 19,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "peg-solitaire",
+      "width": 320,
+      "firstReadableMs": 242,
+      "transferBytes": 270955,
+      "requestCount": 19,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "satranc",
+      "width": 320,
+      "firstReadableMs": 262,
+      "transferBytes": 280938,
+      "requestCount": 22,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "amiral-batti",
+      "width": 320,
+      "firstReadableMs": 253,
+      "transferBytes": 271502,
+      "requestCount": 20,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "apartman",
+      "width": 320,
+      "firstReadableMs": 297,
+      "transferBytes": 515921,
+      "requestCount": 37,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "kayip-telefon",
+      "width": 320,
+      "firstReadableMs": 295,
+      "transferBytes": 513570,
+      "requestCount": 35,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "son-100-gun",
+      "width": 320,
+      "firstReadableMs": 236,
+      "transferBytes": 233462,
+      "requestCount": 16,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "tc-sim-devlet",
+      "width": 320,
+      "firstReadableMs": 328,
+      "transferBytes": 559849,
+      "requestCount": 43,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "son-kasaba",
+      "width": 320,
+      "firstReadableMs": 281,
+      "transferBytes": 511303,
+      "requestCount": 38,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "veto-h",
+      "width": 320,
+      "firstReadableMs": 325,
+      "transferBytes": 347569,
+      "requestCount": 57,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "gett-oh",
+      "width": 320,
+      "firstReadableMs": 345,
+      "transferBytes": 344333,
+      "requestCount": 57,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "ihtilal",
+      "width": 320,
+      "firstReadableMs": 251,
+      "transferBytes": 206709,
+      "requestCount": 19,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "darbe-h",
+      "width": 320,
+      "firstReadableMs": 413,
+      "transferBytes": 343866,
+      "requestCount": 58,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "jitem-derin-ag",
+      "width": 320,
+      "firstReadableMs": 266,
+      "transferBytes": 396906,
+      "requestCount": 13,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "esik",
+      "width": 320,
+      "firstReadableMs": 223,
+      "transferBytes": 188321,
+      "requestCount": 17,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    }
+  ],
+  "after": [
+    {
+      "route": "portal",
+      "width": 1440,
+      "firstReadableMs": 218,
+      "transferBytes": 172414,
+      "requestCount": 9,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "cete-savaslari",
+      "width": 1440,
+      "firstReadableMs": 226,
+      "transferBytes": 225531,
+      "requestCount": 12,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "hanedanian",
+      "width": 1440,
+      "firstReadableMs": 318,
+      "transferBytes": 696813,
+      "requestCount": 87,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "racon",
+      "width": 1440,
+      "firstReadableMs": 296,
+      "transferBytes": 408850,
+      "requestCount": 22,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "tc-sim",
+      "width": 1440,
+      "firstReadableMs": 390,
+      "transferBytes": 562807,
+      "requestCount": 56,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "bukucu",
+      "width": 1440,
+      "firstReadableMs": 163,
+      "transferBytes": 127343,
+      "requestCount": 16,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "labirent",
+      "width": 1440,
+      "firstReadableMs": 256,
+      "transferBytes": 273827,
+      "requestCount": 19,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "peg-solitaire",
+      "width": 1440,
+      "firstReadableMs": 257,
+      "transferBytes": 270974,
+      "requestCount": 19,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "satranc",
+      "width": 1440,
+      "firstReadableMs": 288,
+      "transferBytes": 280934,
+      "requestCount": 22,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "amiral-batti",
+      "width": 1440,
+      "firstReadableMs": 257,
+      "transferBytes": 271497,
+      "requestCount": 20,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "apartman",
+      "width": 1440,
+      "firstReadableMs": 331,
+      "transferBytes": 515920,
+      "requestCount": 37,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "kayip-telefon",
+      "width": 1440,
+      "firstReadableMs": 321,
+      "transferBytes": 513578,
+      "requestCount": 35,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "son-100-gun",
+      "width": 1440,
+      "firstReadableMs": 249,
+      "transferBytes": 233455,
+      "requestCount": 16,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "tc-sim-devlet",
+      "width": 1440,
+      "firstReadableMs": 312,
+      "transferBytes": 559884,
+      "requestCount": 43,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "son-kasaba",
+      "width": 1440,
+      "firstReadableMs": 342,
+      "transferBytes": 511338,
+      "requestCount": 38,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "veto-h",
+      "width": 1440,
+      "firstReadableMs": 372,
+      "transferBytes": 347663,
+      "requestCount": 57,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "gett-oh",
+      "width": 1440,
+      "firstReadableMs": 369,
+      "transferBytes": 344299,
+      "requestCount": 57,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "ihtilal",
+      "width": 1440,
+      "firstReadableMs": 240,
+      "transferBytes": 207455,
+      "requestCount": 19,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "darbe-h",
+      "width": 1440,
+      "firstReadableMs": 322,
+      "transferBytes": 343857,
+      "requestCount": 58,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "jitem-derin-ag",
+      "width": 1440,
+      "firstReadableMs": 304,
+      "transferBytes": 396900,
+      "requestCount": 13,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "esik",
+      "width": 1440,
+      "firstReadableMs": 242,
+      "transferBytes": 188374,
+      "requestCount": 17,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "portal",
+      "width": 390,
+      "firstReadableMs": 192,
+      "transferBytes": 172412,
+      "requestCount": 9,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "cete-savaslari",
+      "width": 390,
+      "firstReadableMs": 190,
+      "transferBytes": 225551,
+      "requestCount": 12,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "hanedanian",
+      "width": 390,
+      "firstReadableMs": 244,
+      "transferBytes": 696776,
+      "requestCount": 87,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "racon",
+      "width": 390,
+      "firstReadableMs": 258,
+      "transferBytes": 408874,
+      "requestCount": 22,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "tc-sim",
+      "width": 390,
+      "firstReadableMs": 321,
+      "transferBytes": 562813,
+      "requestCount": 56,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "bukucu",
+      "width": 390,
+      "firstReadableMs": 137,
+      "transferBytes": 127327,
+      "requestCount": 16,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "labirent",
+      "width": 390,
+      "firstReadableMs": 246,
+      "transferBytes": 273828,
+      "requestCount": 19,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "peg-solitaire",
+      "width": 390,
+      "firstReadableMs": 237,
+      "transferBytes": 270955,
+      "requestCount": 19,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "satranc",
+      "width": 390,
+      "firstReadableMs": 269,
+      "transferBytes": 280939,
+      "requestCount": 22,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "amiral-batti",
+      "width": 390,
+      "firstReadableMs": 238,
+      "transferBytes": 271502,
+      "requestCount": 20,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "apartman",
+      "width": 390,
+      "firstReadableMs": 292,
+      "transferBytes": 515897,
+      "requestCount": 37,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "kayip-telefon",
+      "width": 390,
+      "firstReadableMs": 287,
+      "transferBytes": 513529,
+      "requestCount": 35,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "son-100-gun",
+      "width": 390,
+      "firstReadableMs": 221,
+      "transferBytes": 233447,
+      "requestCount": 16,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "tc-sim-devlet",
+      "width": 390,
+      "firstReadableMs": 319,
+      "transferBytes": 559848,
+      "requestCount": 43,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "son-kasaba",
+      "width": 390,
+      "firstReadableMs": 299,
+      "transferBytes": 511310,
+      "requestCount": 38,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "veto-h",
+      "width": 390,
+      "firstReadableMs": 349,
+      "transferBytes": 347627,
+      "requestCount": 57,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "gett-oh",
+      "width": 390,
+      "firstReadableMs": 339,
+      "transferBytes": 344304,
+      "requestCount": 57,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "ihtilal",
+      "width": 390,
+      "firstReadableMs": 242,
+      "transferBytes": 207468,
+      "requestCount": 19,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "darbe-h",
+      "width": 390,
+      "firstReadableMs": 334,
+      "transferBytes": 343893,
+      "requestCount": 58,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "jitem-derin-ag",
+      "width": 390,
+      "firstReadableMs": 263,
+      "transferBytes": 396914,
+      "requestCount": 13,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "esik",
+      "width": 390,
+      "firstReadableMs": 238,
+      "transferBytes": 188368,
+      "requestCount": 17,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "portal",
+      "width": 320,
+      "firstReadableMs": 184,
+      "transferBytes": 172408,
+      "requestCount": 9,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "cete-savaslari",
+      "width": 320,
+      "firstReadableMs": 197,
+      "transferBytes": 225560,
+      "requestCount": 12,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "hanedanian",
+      "width": 320,
+      "firstReadableMs": 254,
+      "transferBytes": 696804,
+      "requestCount": 87,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "racon",
+      "width": 320,
+      "firstReadableMs": 279,
+      "transferBytes": 408868,
+      "requestCount": 22,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "tc-sim",
+      "width": 320,
+      "firstReadableMs": 366,
+      "transferBytes": 562818,
+      "requestCount": 56,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "bukucu",
+      "width": 320,
+      "firstReadableMs": 145,
+      "transferBytes": 127338,
+      "requestCount": 16,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "labirent",
+      "width": 320,
+      "firstReadableMs": 262,
+      "transferBytes": 273802,
+      "requestCount": 19,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "peg-solitaire",
+      "width": 320,
+      "firstReadableMs": 257,
+      "transferBytes": 270985,
+      "requestCount": 19,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "satranc",
+      "width": 320,
+      "firstReadableMs": 249,
+      "transferBytes": 280934,
+      "requestCount": 22,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "amiral-batti",
+      "width": 320,
+      "firstReadableMs": 243,
+      "transferBytes": 271485,
+      "requestCount": 20,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "apartman",
+      "width": 320,
+      "firstReadableMs": 293,
+      "transferBytes": 515903,
+      "requestCount": 37,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "kayip-telefon",
+      "width": 320,
+      "firstReadableMs": 290,
+      "transferBytes": 513548,
+      "requestCount": 35,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "son-100-gun",
+      "width": 320,
+      "firstReadableMs": 245,
+      "transferBytes": 233424,
+      "requestCount": 16,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "tc-sim-devlet",
+      "width": 320,
+      "firstReadableMs": 316,
+      "transferBytes": 559915,
+      "requestCount": 43,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "son-kasaba",
+      "width": 320,
+      "firstReadableMs": 297,
+      "transferBytes": 511304,
+      "requestCount": 38,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "veto-h",
+      "width": 320,
+      "firstReadableMs": 332,
+      "transferBytes": 347619,
+      "requestCount": 57,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "gett-oh",
+      "width": 320,
+      "firstReadableMs": 340,
+      "transferBytes": 344303,
+      "requestCount": 57,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "ihtilal",
+      "width": 320,
+      "firstReadableMs": 249,
+      "transferBytes": 207458,
+      "requestCount": 19,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "darbe-h",
+      "width": 320,
+      "firstReadableMs": 326,
+      "transferBytes": 343857,
+      "requestCount": 58,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "jitem-derin-ag",
+      "width": 320,
+      "firstReadableMs": 282,
+      "transferBytes": 396882,
+      "requestCount": 13,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "route": "esik",
+      "width": 320,
+      "firstReadableMs": 242,
+      "transferBytes": 188357,
+      "requestCount": 17,
+      "pixiBodyBytes": 0,
+      "overflow": 0,
+      "errors": []
+    }
+  ],
+  "portalGameRequests": [
+    {
+      "width": 1440,
+      "gameRequests": [],
+      "pixiBodyBytes": 0
+    },
+    {
+      "width": 390,
+      "gameRequests": [],
+      "pixiBodyBytes": 0
+    },
+    {
+      "width": 320,
+      "gameRequests": [],
+      "pixiBodyBytes": 0
+    }
+  ],
+  "wave1Run": 37256926906,
+  "wave1Artifact": 11323562016,
+  "wave1ArtifactLocallyVerifiedSHA256": "af785b6b96b63eb500a9e85bd1602089175380c679f08b65b609e7775f8cda6f",
+  "wave1BrowserScenarios": 13,
+  "wave1Errors": [],
+  "selectionBefore": [
+    {
+      "tag": "ihtilal-1440-pixi",
+      "interaction": {
+        "selectionUpdates": 12,
+        "removedBaseMarks": 84,
+        "medianRenderMs": 1.3
+      }
+    },
+    {
+      "tag": "ihtilal-390-pixi",
+      "interaction": {
+        "selectionUpdates": 12,
+        "removedBaseMarks": 168,
+        "medianRenderMs": 1.8
+      }
+    },
+    {
+      "tag": "ihtilal-320-svg",
+      "interaction": {
+        "selectionUpdates": 12,
+        "removedBaseMarks": 161,
+        "medianRenderMs": 0.6
+      }
+    },
+    {
+      "tag": "racon-1440-pixi",
+      "interaction": {
+        "selectionUpdates": 12,
+        "removedBaseMarks": 384,
+        "medianRenderMs": 2.3
+      }
+    },
+    {
+      "tag": "racon-390-pixi",
+      "interaction": {
+        "selectionUpdates": 12,
+        "removedBaseMarks": 228,
+        "medianRenderMs": 2.1
+      }
+    },
+    {
+      "tag": "racon-320-svg",
+      "interaction": {
+        "selectionUpdates": 12,
+        "removedBaseMarks": 228,
+        "medianRenderMs": 0.5
+      }
+    }
+  ],
+  "selectionAfter": [
+    {
+      "tag": "ihtilal-1440-pixi",
+      "interaction": {
+        "selectionUpdates": 12,
+        "removedBaseMarks": 0,
+        "medianRenderMs": 0.6
+      }
+    },
+    {
+      "tag": "ihtilal-390-pixi",
+      "interaction": {
+        "selectionUpdates": 12,
+        "removedBaseMarks": 0,
+        "medianRenderMs": 0.5
+      }
+    },
+    {
+      "tag": "ihtilal-320-svg",
+      "interaction": {
+        "selectionUpdates": 12,
+        "removedBaseMarks": 0,
+        "medianRenderMs": 0.5
+      }
+    },
+    {
+      "tag": "ihtilal-390-svg-low-memory",
+      "interaction": {
+        "selectionUpdates": 12,
+        "removedBaseMarks": 0,
+        "medianRenderMs": 0.5
+      }
+    },
+    {
+      "tag": "ihtilal-1440-svg-pixel-budget",
+      "interaction": {
+        "selectionUpdates": 12,
+        "removedBaseMarks": 0,
+        "medianRenderMs": 0.5
+      }
+    },
+    {
+      "tag": "racon-1440-pixi",
+      "interaction": {
+        "selectionUpdates": 12,
+        "removedBaseMarks": 0,
+        "medianRenderMs": 0.9
+      }
+    },
+    {
+      "tag": "racon-390-pixi",
+      "interaction": {
+        "selectionUpdates": 12,
+        "removedBaseMarks": 0,
+        "medianRenderMs": 0.9
+      }
+    },
+    {
+      "tag": "racon-320-svg",
+      "interaction": {
+        "selectionUpdates": 12,
+        "removedBaseMarks": 0,
+        "medianRenderMs": 0.5
+      }
+    },
+    {
+      "tag": "racon-390-svg-low-memory",
+      "interaction": {
+        "selectionUpdates": 12,
+        "removedBaseMarks": 0,
+        "medianRenderMs": 0.2
+      }
+    },
+    {
+      "tag": "racon-1440-svg-pixel-budget",
+      "interaction": {
+        "selectionUpdates": 12,
+        "removedBaseMarks": 0,
+        "medianRenderMs": 0.2
+      }
+    }
+  ],
+  "limitations": [
+    "Exact-head CI all green, normal merge a534289 completed; main run37258787799 SUCCESS with Wave1 production13/13 on each host. Dedicated HAN run37258787888 passed6/6; see sibling a2-han-production evidence.",
+    "Times are single built-browser runs, not distribution or universal speedup claims. Synchronous renderer timing is not GPU completion. No physical GPU validation.",
+    "Racon fullPage map screenshots have730px width at390 and621px at320 in baseline/source/built equally. Root/stage widths pass at before/outcome/resize checkpoints; map-layer snapshot has no contemporaneous layout assertion. Existing capture/overflow discrepancy is P1 verification gap, not asserted fixed or a new #111 regression."
+  ],
+  "merged": true,
+  "mergeSHA": "a534289490f502f68e12d91803fbc3883de7d790",
+  "CI": "10/10 listed checks SUCCESS plus Vercel SUCCESS"
+}
