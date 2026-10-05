@@ -8,6 +8,7 @@ import {createHash} from 'node:crypto';
 import {resolve, extname, sep} from 'node:path';
 import {chromium} from 'playwright';
 import {checkedOutputPath} from './browser-guard.mjs';
+import {sendFixtureResponse} from './hanedanian-redirect-transport.mjs';
 
 const BASELINE = '562831dba3b16be2a0bc8b2aec2e613eb1b80f45';
 const GAME = '/games/hanedanian/';
@@ -19,7 +20,7 @@ const baselineWorker = execFileSync('git', ['show', `${BASELINE}:public/games/ha
 const fixedWorker = await readFile(resolve(root, 'games/hanedanian/sw.js'));
 const expectedHTML = await readFile(resolve(root, 'games/hanedanian/index.html'));
 const mime = {'.js':'text/javascript','.html':'text/html; charset=utf-8','.css':'text/css','.svg':'image/svg+xml','.webmanifest':'application/manifest+json','.json':'application/json','.png':'image/png','.webp':'image/webp','.ico':'image/x-icon'};
-const report = {baseline: BASELINE, scope:'Local canonical-redirect fixture; no production browser requests', cases:[], errors:[]};
+const report = {baseline: BASELINE, scope:'Local canonical-redirect fixture; no production browser requests', transport:'gzip for textual responses when Accept-Encoding permits; identical for baseline and fixed', fixtureDeviation:'The static build has no SSR portal index: / and /cete-savaslari retain measured 404s in both cases. This experiment changes transport only; it is not full-site production parity.', cases:[], errors:[]};
 let browser;
 
 async function exportState(page) {
@@ -61,7 +62,7 @@ async function runCase(label, worker) {
   const entry = {label, workerSHA256:digest(worker), requests:[], console:[], pageErrors:[], requestFailures:[], navigations:[], workerErrors:[], workerVersions:[], workerRegistrations:[], browserLog:[], status:'running'};
   report.cases.push(entry);
   const server = createServer(async (req,res) => {
-    const request = {path:req.url, method:req.method, startedAt:new Date().toISOString()};
+    const request = {path:req.url, method:req.method, requestHeaders:{acceptEncoding:req.headers['accept-encoding'] || null, cacheControl:req.headers['cache-control'] || null, destination:req.headers['sec-fetch-dest'] || null}, startedAt:new Date().toISOString()};
     entry.requests.push(request);
     res.once('finish', () => Object.assign(request, {status:res.statusCode, headers:res.getHeaders(), finishedAt:new Date().toISOString()}));
     res.once('close', () => {request.responseFinished = res.writableFinished;});
@@ -70,15 +71,16 @@ async function runCase(label, worker) {
       const url = new URL(req.url, 'http://127.0.0.1');
       request.path = url.pathname;
       if (url.pathname === GAME + 'index.html') {
-        res.writeHead(307, {location:GAME, 'cache-control':'no-store'}).end(); return;
+        sendFixtureResponse(req,res,{status:307,headers:{location:GAME,'cache-control':'no-store'}},request); return;
       }
-      // Root worker precaches the portal's SPA route; serve its real built shell.
+      // Keep the prior SSR-shell deviation measured: static output has no portal
+      // index. Do not invent shell HTML or change a second experimental variable.
       const path = url.pathname === '/cete-savaslari' ? '/index.html' : decodeURIComponent(url.pathname);
       const file = resolve(root, '.' + (path.endsWith('/') ? path + 'index.html' : path));
-      if (!file.startsWith(root + sep)) { res.writeHead(403).end(); return; }
+      if (!file.startsWith(root + sep)) { sendFixtureResponse(req,res,{status:403},request); return; }
       const body = path === GAME + 'sw.js' ? worker : await readFile(file);
-      res.writeHead(200, {'content-type':mime[extname(file)] || 'application/octet-stream', 'cache-control':'no-store', 'content-length':body.length, 'x-redirect-fixture':'real-game'}).end(body);
-    } catch(error) {request.error = error.stack || String(error);res.writeHead(error.code === 'ENOENT' ? 404 : 500).end();}
+      sendFixtureResponse(req,res,{headers:{'content-type':mime[extname(file)] || 'application/octet-stream','cache-control':'no-store','x-redirect-fixture':'real-game'},body},request);
+    } catch(error) {request.error = error.stack || String(error);sendFixtureResponse(req,res,{status:error.code === 'ENOENT' ? 404 : 500},request);}
   });
   let context, page;
   try {

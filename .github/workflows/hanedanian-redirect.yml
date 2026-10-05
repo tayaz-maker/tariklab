@@ -5,6 +5,8 @@ on:
     paths:
       - public/games/hanedanian/**
       - scripts/hanedanian-redirect-browser.mjs
+      - scripts/hanedanian-redirect-transport.mjs
+      - scripts/hanedanian-redirect-transport.test.mjs
       - scripts/hanedanian-offline.test.mjs
       - scripts/offline-sw-plugin.mjs
       - .github/workflows/hanedanian-redirect.yml
@@ -22,7 +24,7 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Atomic offline package unit regressions
-        run: node --test scripts/hanedanian-offline.test.mjs scripts/offline-sw-plugin.test.mjs
+        run: node --test scripts/hanedanian-offline.test.mjs scripts/offline-sw-plugin.test.mjs scripts/hanedanian-redirect-transport.test.mjs
       - run: npm run build
       - name: Fetch immutable failing worker only
         run: git fetch --no-tags --depth=1 origin 562831dba3b16be2a0bc8b2aec2e613eb1b80f45
