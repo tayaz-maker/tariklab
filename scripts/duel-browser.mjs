@@ -3,6 +3,8 @@ import { spawn } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { chromium } from "playwright";
 import { duelScenarios } from "./duel-browser-scenarios.mjs";
+import { runVisibleArtFixtures } from "./duel-visible-art-browser.mjs";
+import { duelLegacyArtProof } from "./duel-legacy-art-proof.mjs";
 const origin = "http://127.0.0.1:8082";
 const out = `${process.env.RUNNER_TEMP || "/workspace"}/screenshots/duel`;
 mkdirSync(out, { recursive: true });
@@ -29,6 +31,14 @@ try {
     executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || undefined,
     args: ["--no-sandbox"],
   });
+  writeFileSync(
+    `${out}/visible-art-readiness.json`,
+    JSON.stringify(await runVisibleArtFixtures(browser), null, 2),
+  );
+  const legacyArt = [];
+  for (const theme of ["veto-h", "gett-oh"])
+    legacyArt.push(await duelLegacyArtProof(browser, origin, theme, out));
+  writeFileSync(`${out}/legacy-art-readiness.json`, JSON.stringify(legacyArt, null, 2));
   for (const theme of (process.env.DUEL_THEMES || "veto-h,gett-oh,darbe-h").split(","))
     for (const lang of ["tr", "en"]) {
       const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });

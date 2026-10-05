@@ -397,3 +397,16 @@ PR #101 remains Terra's responsibility. Novella remains **LATER**.
 - C1–C3/D1–D4: kalan outcome/görsel/map/offline/eski-save/perf işleri açık; Racon mobil capture farkı ayrıcaP1 doğrulama, tüm-sahne overflow0 iddiası yok.
 - D6/E1–E3/F: Novella/#78/#79/SONKÖYWIP korunur; E keşif belgelendi, foundation/final360 başlamadı; PL/anatomi/fizikselGPU insan kapıları açık.
 - Sonraki: Bu dar kanıt PR'ı kendi CI/release kapısından geçecek; B7 sanat kalitesi blocker, ölçülü red kaydı korunuyor,300/900 çoğaltma yok.
+
+
+### 2026-10-05 05:02 UTC — B10 bounded evidence fix checkpoint
+- Branch `astra/duel-visible-art-readiness`; implementation commit `13cc3dc11a817b5a064ad4d7cdfc288ac4eff231`; source scripts unchanged by rebase. PR/CI pending.
+- Player value: restored hand art must really be visible before screenshot evidence can pass; missing/failed/placeholder images cannot count as success.
+- B10: fixture UID + manifest URL/dimensions, viewport clipping, bounded decode and paint; identical actual-app legacy flow runs in local CI and production. No game/data/engine/save/art edits.
+- Local gate:28/28 target tests, changed-script lint/typecheck/production build PASS; migrate skipped by existing no-DATABASE_URL contract. Local Chromium SIGSEGV before fixture; no browser PASS claim.
+- A1–A3/D5 scoped CLOSED: #113375b837, #111a534289, #1140383d24. Evidence #115 merged `dfbab3f15b74df5336fecf9f7d4247184cbb9222`; its main37264953158 SUCCESS, two-host Wave1 13'er/Çete17'şer.
+- #115 artifact11325843219 digest verified; six production screenshots opened. C3 Racon390/320 fullPage730/621px gap remains; no blanket overflow/GPU claim.
+- B1–B9/B10 art:0/900 accepted. B7 geometry and separate SND-011 object candidates rejected; source/metrics retained on isolated branches, no rollout. B11 engine21/21 NOT REPRODUCED; browser/old-save P1 open.
+- C1–C3/D1–D4/rest of D5 open; TC/DEVLET source-only outcome handoff is not implementation. D6 Novella/#78/#79/SONKÖY WIP preserved.
+- E1–E3/F: discovery only; foundation and final360 not started; PL native language/anatomy expert/physical GPU human gates open.
+- Next: exact-head CI actual browser fixture+legacy proof → normal merge only if fully green → fresh two-host production; no CI or timeout bypass.

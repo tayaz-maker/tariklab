@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { fixture, place, act } from "./duel-fixture.mjs";
 import { pools } from "./duel-pools.mjs";
 import { serialize } from "../public/games/duel-core/save.js";
+import { assertSameOrigin } from "./duel-origin-proof.mjs";
 
 // Seeded saved positions exercise visible controls, never private browser APIs.
 export async function duelScenarios(browser, origin) {
@@ -19,6 +20,7 @@ export async function duelScenarios(browser, origin) {
       async function load(s) {
         const raw = serialize(s);
         await page.goto(origin);
+        assertSameOrigin(page.url(), origin, `${theme}/${lang} fixture page`);
         await page.evaluate(
           ({ key, raw, lang }) => {
             localStorage.setItem(key, raw);
@@ -27,6 +29,7 @@ export async function duelScenarios(browser, origin) {
           { key, raw, lang },
         );
         await page.goto(`${origin}/games/${theme}/index.html`);
+        assertSameOrigin(page.url(), origin, `${theme}/${lang} scenario game`);
         await page.getByRole("button", { name: tr ? "Devam Et" : "Continue", exact: true }).click();
         await page.locator(".duel-table").waitFor();
       }
