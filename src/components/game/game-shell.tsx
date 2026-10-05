@@ -86,6 +86,7 @@ export function GameShell({
   onAccount?: (tab?: "giris" | "kayit" | "unuttum" | "sifre") => void;
 }) {
   const player = useGame((s) => s.player);
+  const activeSlot = useGame((s) => s.activeSlot);
   const logs = useGame((s) => s.logs);
   const claimDaily = useGame((s) => s.claimDaily);
   const search = useSearch({ from: "/cete-savaslari" });
@@ -257,13 +258,14 @@ export function GameShell({
           `.game-shell main` rule in styles.css, which is where it is wanted.
         */}
         <main
+          tabIndex={-1}
           className="min-w-0 flex-1 px-4 py-5 pb-[calc(7rem+env(safe-area-inset-bottom))] md:px-6 md:pb-8"
           onTouchStart={onTouchStart}
           onTouchEnd={onTouchEnd}
         >
           <Suspense fallback={<div className="h-40 rounded-2xl bg-surface" />}>
             {tab === "ben" ? <MePanel player={player} /> : null}
-            {tab === "icraat" ? <JobsPanel player={player} /> : null}
+            {tab === "icraat" ? <JobsPanel key={activeSlot} player={player} /> : null}
             {tab === "tezgah" ? <ShopPanel player={player} /> : null}
             {tab === "emlak" ? <EstatePanel player={player} /> : null}
             {tab === "sokak" ? <StreetPanel player={player} /> : null}

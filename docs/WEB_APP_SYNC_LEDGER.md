@@ -466,3 +466,14 @@ Chromium must pass before integration.
 - Both production hosts matched all Racon/JITEM/TC SIM game files (6/31/38). Per-host browser acceptance: 34 Racon checks, four JITEM restore/renderer scenarios, ten TC SIM starts/legacy/reload/delayed/final scenarios at 1440/390; no console errors or horizontal overflow. Durable hashes/results and screenshot artifact links: `docs/evidence/2026-10-04-release.json`.
 - Shared security release: exact React Start 1.168.60 and transitive server-core 1.169.39; npm 10-compatible lock and version-only notices regenerated. No protection bypass or game redesign. JITEM remains upstream #21 `0c1fc08`, key `jitem-derin-ag-v3`, schema 5; source content/rules retained.
 - Native remains paused. Test-only production proof branch stays outside main; physical GPU, lint dependency advisory and existing TC SIM lower-card layout limits are recorded in closure/status. Novella LATER; separate SON KÖY WIP untouched.
+
+### 2026-10-04 — Çete Savaşları / silent outcome moments
+- Explicit completed jobs project actual before/after state into a pure deterministic receipt; first success, closed contract, multi-crew operation or five-level threshold only. Ordinary actions, save load and clock ticks do not announce.
+- Original CSS/SVG night blocks, ledger and connection traces; existing palette/fonts, no assets/audio/canvas. 2.2s visual, close/Escape, focus/hover pause, static reduced-motion, polite persistent announcement.
+- Cash, reputation, pressure, net energy, crew commitment and newly set/extended reaction clocks come from the engine. No invented trust score or guaranteed future reward. Existing save key/schema 15 and all engine rules unchanged.
+- Native standalone parity: presentation-only adapter/component to port later; native remains paused. CI verifies canonical legacy-save restore, focus, repetition, responsive geometry and deployed bundle evidence.
+
+### 2026-10-04 — Wave 1 decision traces and permanent state artwork
+- HANEDANIAN sealed order/queue progress; İHTİLÂL measured basin record/metric level; Racon street commitment/door-light-pressure marks. Separate game vocabularies/layouts, shared transient lifecycle only.
+- Rules/content/save schemas remain unchanged. The only offline infrastructure change includes HANEDANIAN's new shared presentation dependency in its atomic package and content hash.
+- Original-source register and paired before/after evidence contract: `docs/WAVE1_OUTCOME_ASSETS.md`. Native remains paused; no external assets or audio. Novella LATER; SON KÖY WIP untouched.

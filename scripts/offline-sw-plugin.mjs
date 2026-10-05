@@ -57,6 +57,9 @@ export function offlineSwPlugin() {
           .filter((name) => name !== "sw.js")
           .map((name) => [name, readFileSync(join(gameDir, name))]),
       );
+      // The receipt lifecycle is a mandatory offline dependency of this game.
+      // Its bytes must invalidate the atomic package along with local modules.
+      files['../shared/outcome-runtime.js'] = readFileSync(join(gameDir, '../shared/outcome-runtime.js'));
       const gameWorker = versionGameWorker(readFileSync(join(gameDir, "sw.js"), "utf8"), files);
       this.emitFile({ type: "asset", fileName: "games/hanedanian/sw.js", source: gameWorker });
     },

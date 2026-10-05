@@ -28,7 +28,7 @@ jobs:
           BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
           HEAD: ${{ github.sha }}
         run: node scripts/ci-changes.mjs "$BASE" "$HEAD"
-  build:
+  build-core:
     needs: changes
     runs-on: ubuntu-latest
     timeout-minutes: 25
@@ -46,6 +46,18 @@ jobs:
       - run: npm run typecheck
       - run: npm run lint
       - run: npm run build
+  browser-regression:
+    needs: changes
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - run: npm run build
       - name: Install Chromium for responsive regression
         timeout-minutes: 5
         run: |
@@ -55,6 +67,22 @@ jobs:
           else
             npx playwright install --with-deps chromium --only-shell
           fi
+      - name: Wave 1 decisions, state traces and paired evidence
+        if: needs.changes.outputs.campaign == 'true' || needs.changes.outputs.full == 'true'
+        timeout-minutes: 8
+        run: |
+          git fetch --no-tags --depth=1 origin b4ebc2babe7c754493d84421051c9531fc09215e
+          mkdir -p "$RUNNER_TEMP/wave1-before"
+          git archive b4ebc2babe7c754493d84421051c9531fc09215e public | tar -x -C "$RUNNER_TEMP/wave1-before"
+          node scripts/wave1-outcome-browser.mjs --serve "$RUNNER_TEMP/wave1-before/public" --baseline --label before
+          node scripts/wave1-outcome-browser.mjs --serve public --label source
+          node scripts/wave1-outcome-browser.mjs --serve .output/public --label built
+      - name: Cete outcome moments (1440/390/320, motion, save and focus)
+        if: needs.changes.outputs.full == 'true'
+        timeout-minutes: 5
+        run: |
+          node --experimental-strip-types --import ./scripts/ts-alias.mjs scripts/cete-outcome-browser.mjs
+          CETE_BUILD=1 CETE_LABEL=built node --experimental-strip-types --import ./scripts/ts-alias.mjs scripts/cete-outcome-browser.mjs
       - name: Duel archive, save and 2.5D responsive regression
         if: needs.changes.outputs.duel == 'true'
         timeout-minutes: 5
@@ -79,6 +107,34 @@ jobs:
         if: needs.changes.outputs.full == 'true'
         timeout-minutes: 10
         run: node scripts/tc-sim-historical-browser.mjs
+      - name: Cete outcome production smoke (both hosts)
+        if: github.ref == 'refs/heads/main'
+        timeout-minutes: 5
+        env:
+          BROWSER_ALLOW_EXTERNAL_HOST: '1'
+        run: |
+          CETE_BASE=https://www.tariklab.com CETE_LABEL=www node --experimental-strip-types --import ./scripts/ts-alias.mjs scripts/cete-outcome-browser.mjs
+          CETE_BASE=https://tariklab.tayaz29.workers.dev CETE_LABEL=workers node --experimental-strip-types --import ./scripts/ts-alias.mjs scripts/cete-outcome-browser.mjs
+      - name: Wave 1 production proof (both hosts)
+        if: github.ref == 'refs/heads/main'
+        timeout-minutes: 6
+        env:
+          BROWSER_ALLOW_EXTERNAL_HOST: '1'
+        run: |
+          WAVE1_BASE=https://www.tariklab.com node scripts/wave1-outcome-browser.mjs --label www
+          WAVE1_BASE=https://tariklab.tayaz29.workers.dev node scripts/wave1-outcome-browser.mjs --label workers
+      - name: Upload Wave 1 outcome evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wave1-outcome
+          path: ${{ runner.temp }}/screenshots/wave1-outcome
+      - name: Upload Cete outcome evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cete-outcome
+          path: ${{ runner.temp }}/screenshots/cete-outcome
       - name: Upload responsive evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -101,6 +157,20 @@ jobs:
         with:
           name: duel-production
           path: ${{ runner.temp }}/screenshots/duel-production
+  build:
+    if: ${{ always() }}
+    needs: [changes, build-core, browser-regression]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Require every build dependency to succeed
+        env:
+          NEEDS_JSON: ${{ toJSON(needs) }}
+        run: node scripts/ci-required-gate.mjs
   campaign-browser:
     needs: changes
     runs-on: ubuntu-latest

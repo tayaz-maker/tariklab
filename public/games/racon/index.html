@@ -515,6 +515,16 @@ html,body{font-size:14px}
 .rm-key{font-size:11px;color:var(--ink-dim)}.rm-arrivals,.rm-forecast{padding:10px 0;border-top:1px solid var(--line);margin-top:10px}.rm-arrivals summary,.rm-forecast summary{cursor:pointer;min-height:44px;display:flex;align-items:center;font-size:13px}.rm-arrivals li,.rm-forecast li{font-size:12px;overflow-wrap:anywhere}.rm-directions .acts{display:flex;flex-wrap:wrap}.rm-directions .btn{min-height:44px;font-size:12px;white-space:normal}.rm-layout .ag-panel{min-width:0}.rm-layout .ag-dl>div{grid-template-columns:78px minmax(0,1fr)}.rm-layout .ag-k{min-height:64px}.rm-layout .ag-kararlar{grid-template-columns:repeat(2,minmax(0,1fr))}
 @media(min-width:1100px){.rm-layout{grid-template-columns:minmax(0,1.2fr) minmax(310px,1fr)}.rm-chart{position:sticky;top:12px}}
 @media(max-width:390px){.rm-node b{font-size:12px}.rm-node .rm-metric{font-size:11px}.rm-node .rm-order,.rm-node .rm-wave{font-size:10px}.rm-layout .ag-dl>div{grid-template-columns:66px minmax(0,1fr)}}
+
+/* Inline commitment receipt: a quiet street ledger, never a blocking scene. */
+.rc-receipt-host:empty{display:none}.rc-receipt{margin:0 0 16px;padding:16px;border:1px solid var(--accent);border-left:4px solid var(--respect);background:var(--bg);color:var(--ink);font-variant-numeric:tabular-nums;animation:rc-receipt-enter 180ms ease-out both}
+.rc-receipt-head{display:flex;align-items:start;justify-content:space-between;gap:8px}.rc-receipt-head>div{min-width:0}.rc-receipt-kicker{font-size:10px;letter-spacing:.12em;color:var(--accent)}.rc-receipt-title{font-size:18px;line-height:1.3;margin:4px 0 8px;overflow-wrap:anywhere}.rc-receipt-close{min-width:44px;min-height:44px;background:transparent;color:var(--ink-dim);border:1px solid var(--line);font:inherit;cursor:pointer;flex:none}.rc-receipt-close:focus-visible{outline:2px solid var(--accent);outline-offset:2px}.rc-receipt-cost{display:block;font-size:17px;color:var(--accent)}
+.rc-receipt-district{display:flex;align-items:end;gap:6px;height:30px;margin:8px 0;border-bottom:1px solid var(--line)}.rc-receipt-block{position:relative;display:block;width:36px;height:23px;border:1px solid var(--line);background:var(--surface)}.rc-receipt-block:nth-child(even){height:29px}.rc-receipt-block:before{content:"";position:absolute;left:8px;top:6px;width:6px;height:8px;background:var(--line)}.rc-receipt-block[data-lit=true]:before{background:var(--respect)}.rc-receipt-block[data-pressure=true]{border-bottom:3px solid var(--danger)}
+.rc-receipt-traces{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;font-size:12px}.rc-receipt-track{display:block;position:relative;height:6px;background:var(--surface-2);margin-top:4px}.rc-receipt-track i{display:block;position:absolute;left:0;top:0;height:6px;max-width:100%}.rc-receipt-before{background:var(--ink-dim);opacity:.45}.rc-receipt-after{height:3px!important;top:3px!important;background:var(--respect)}.rc-receipt-track.pressure .rc-receipt-after{background:var(--danger)}
+.rc-receipt-changes{margin:10px 0;font-size:13px;overflow-wrap:anywhere}.rc-receipt-pending{margin:10px 0 2px;padding-top:8px;border-top:1px dashed var(--line);font-size:13px;font-weight:600}.rc-receipt-note{font-size:12px;color:var(--ink-dim);margin:3px 0;overflow-wrap:anywhere}
+@keyframes rc-receipt-enter{from{opacity:.3;transform:translateY(5px)}to{opacity:1;transform:none}}
+@media(max-width:390px){.rc-receipt{padding:12px}.rc-receipt-title{font-size:16px}.rc-receipt-district{height:24px}.rc-receipt-block{height:18px}.rc-receipt-block:nth-child(even){height:23px}.rc-receipt-block:nth-child(n+4){display:none}.rc-receipt-traces{gap:8px}}
+@media(prefers-reduced-motion:reduce){.rc-receipt{animation:none}.rc-receipt-block:nth-child(n+4){display:none}}
 </style>
 <script src="/i18n/pl-body.js" data-game="racon" defer></script>
 </head>
@@ -672,6 +682,8 @@ html,body{font-size:14px}
 <script src="network.js"></script>
 <script src="map-model.js"></script>
 <script src="map-view.js"></script>
+<script src="../shared/outcome-runtime.js"></script>
+<script src="outcome-moment.js"></script>
 <script>
 (function () {
   "use strict";
@@ -1763,6 +1775,7 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
     });
   }
   function blank(lakap) {
+    clearRaconOutcome(true);
     var s = canonical();
     s.lakap = lakap || "Adsız";
     /* Testte sabitlenebilsin diye: window.__raconSeedSabit varsa o kullanılır.
@@ -1933,6 +1946,7 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
     } catch (e) { return null; }
   }
   function loadSave() {
+    clearRaconOutcome(true);
     UI.loadErr = "";
     var raw = null, bak = null;
     try { raw = localStorage.getItem(KEY); } catch (e) {}
@@ -1960,6 +1974,7 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
     var json = fromB64(lines.slice(1).join(""));
     var o = JSON.parse(json);
     if(!validSave(o)) throw new Error("Kayıt alanları bozuk.");
+    clearRaconOutcome(true);
     S = migrate(o);
   }
 
@@ -4474,6 +4489,7 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
     if (!S.lig.hedefler.length) S.lig.hedefler = hedefKur(S.lig.sezon);
   }
   function enterPlay() {
+    clearRaconOutcome(true);
     ligGuvence();
     rivalGuvence();
     UI.mode = "play";
@@ -4933,11 +4949,11 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
       '<div class="acts">' + tut + '<button type="button" class="btn ghost" data-act="nav" data-id="isler">Bu sokakta iş planla</button></div>' +
       (logs ? '<h4 class="ag-sub">Ağ defteri</h4><ul class="ag-log">' + logs + "</ul>" : "") +
       "</section>";
-    var model = window.RaconMapModel.model(S, {selected:sel.id,layer:UI.agLayer,kind:UI.agKind,target:UI.agTarget});
+    var model = window.RaconMapModel.model(S, {selected:sel.id,layer:UI.agLayer,kind:UI.agKind,target:UI.agTarget,reduced:!!window.matchMedia?.("(prefers-reduced-motion: reduce)").matches});
     var layers = [["control","Kontrol"],["trust","Güven"],["risk","Risk"],["resource","Kaynak"],["favor","İyilik"]].map(function(l){return '<button type="button" class="btn ghost" data-act="rm-layer" data-id="'+l[0]+'" aria-pressed="'+(model.layer===l[0])+'">'+l[1]+'</button>';}).join('');
     var arrivals = model.nodes.flatMap(function(n){return n.incoming.map(function(p){return '<li>'+esc(Ag.NAMES[p.from])+' → '+esc(n.name)+' · '+esc(Ag.ORDERS[p.kind].ad)+' · '+p.left+' kapanış sonra '+agFx(Ag.waveFx(p,streetBy(p.to)))+'</li>';});}).join('');
     var rehearsal = model.next.streets.map(function(n){return '<li><b>'+esc(Ag.NAMES[n.id])+'</b> · baskı '+n.heat+' ('+(n.heatDelta>=0?'+':'')+n.heatDelta+') · güven '+Math.round(n.trust)+' ('+(n.trustDelta>=0?'+':'')+n.trustDelta+')</li>';}).join('');
-    var chart = '<section class="rm-chart"><h3>AVLU DEFTERİ <span>H'+S.week+'</span></h3><p class="dim">Altı kurgusal sokak · G: güven, B: baskı. Bağdaki sayı sevkten sonraki ağ kapanışıdır; çift sayı iki yönün süresidir.</p><div class="rm-layers" role="group" aria-label="Harita katmanı">'+layers+'</div><div id="rm-map-host">'+map+'</div><p class="rm-key">Kesik sınır / rakip · ◇ fırsat · ok / yoldaki iz · altın / seçilen karar</p><div class="acts"><button type="button" class="btn primary" data-act="rm-plan">'+esc(sel.ad)+' · kararları aç</button><button type="button" class="btn ghost" data-act="rm-light">Hafif harita</button></div><details class="rm-arrivals" open><summary>Yoldaki etkiler · '+model.nodes.reduce(function(n,s){return n+s.incoming.length;},0)+'</summary><ul class="ag-log">'+(arrivals||'<li>Henüz sevk edilmiş etki yok.</li>')+'</ul></details><details class="rm-forecast"><summary>Sıradaki ağ kapanışı · ₺'+model.next.income+' yatırım geliri</summary><p class="dim">Yalnız sokak ısınması, aktif emirler ve yoldaki izler. Rakip hamleleri ve diğer haftalık olaylar bu prova dışında.</p><ul class="ag-log">'+rehearsal+'</ul></details></section>';
+    var chart = '<section class="rm-chart"><h3>AVLU DEFTERİ <span>H'+S.week+'</span></h3><p class="dim">Altı kurgusal sokak · G: güven, B: baskı. Bağdaki sayı sevkten sonraki ağ kapanışıdır; çift sayı iki yönün süresidir.</p><div class="rm-layers" role="group" aria-label="Harita katmanı">'+layers+'</div><div id="rm-map-host">'+map+'</div><p class="rm-key">Kapı ve ışıklar / güven · alt iz / baskı · plaka / süren emir. Kesik sınır / rakip · ◇ fırsat · ok / yoldaki iz · altın / seçilen karar</p><div class="acts"><button type="button" class="btn primary" data-act="rm-plan">'+esc(sel.ad)+' · kararları aç</button><button type="button" class="btn ghost" data-act="rm-light">Hafif harita</button></div><details class="rm-arrivals" open><summary>Yoldaki etkiler · '+model.nodes.reduce(function(n,s){return n+s.incoming.length;},0)+'</summary><ul class="ag-log">'+(arrivals||'<li>Henüz sevk edilmiş etki yok.</li>')+'</ul></details><details class="rm-forecast"><summary>Sıradaki ağ kapanışı · ₺'+model.next.income+' yatırım geliri</summary><p class="dim">Yalnız sokak ısınması, aktif emirler ve yoldaki izler. Rakip hamleleri ve diğer haftalık olaylar bu prova dışında.</p><ul class="ag-log">'+rehearsal+'</ul></details></section>';
     return '<div class="ag rm-layout">' + chart + panel + "</div>" + drawKose();
   }
   function drawKose() {
@@ -5341,19 +5357,49 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
   }
 
   var raconMapView = null;
+  var raconOutcome = null, raconOutcomeHost = null, raconOutcomeWorld = null, raconOutcomeContext = "";
+  function clearRaconOutcome(reset) {
+    if (raconOutcome) {
+      if (reset) { raconOutcome.destroy(); raconOutcome=null; raconOutcomeHost?.remove(); raconOutcomeHost=null; }
+      else raconOutcome.clear();
+    }
+    raconOutcomeWorld = null;
+    raconOutcomeContext = "";
+  }
+  function outcomeContext() { return S ? [UI.mode,S.screen,S.week,S.day,UI.rnd ? "randevu" : "",UI.sahne ? "scene" : "",S.flags?.oyunSonu || ""].join(":") : ""; }
+  function showRaconOutcome(model, origin) {
+    if (!model || !window.TarikOutcome || !window.RaconOutcome || S?.screen !== "harita" || UI.mode !== "play") return;
+    if (!raconOutcome) {
+      raconOutcomeHost = document.createElement("div");
+      raconOutcomeHost.className = "rc-receipt-host";
+      raconOutcomeHost.id = "rc-receipt-host";
+      raconOutcome = window.TarikOutcome.create({
+        host: function(){return raconOutcomeHost;},
+        render: window.RaconOutcome.render,
+        fallbackFocus: function(){return document.querySelector(".ag-panel");}
+      });
+    }
+    document.querySelector(".ag-panel")?.prepend(raconOutcomeHost);
+    raconOutcomeWorld = S;
+    raconOutcomeContext = outcomeContext();
+    raconOutcome.show(model, {origin:origin});
+    raconOutcomeHost.scrollIntoView({block:"nearest"});
+  }
   function destroyRaconMap() { if(raconMapView){raconMapView.destroy();raconMapView=null;} }
   function refreshRaconMap() {
     var host=document.getElementById("rm-map-host");
     if (!window.RaconMapView || !host || !S || S.screen!=="harita" || UI.mode!=="play" || UI.rnd || S.flags.oyunSonu) { destroyRaconMap(); return; }
     if(!raconMapView)raconMapView=window.RaconMapView.create();
     host.replaceChildren(raconMapView.element);
-    raconMapView.update(window.RaconMapModel.model(S,{selected:UI.streetId||S.streetHome,layer:UI.agLayer,kind:UI.agKind,target:UI.agTarget,narrow:raconMapView.narrow}));
+    raconMapView.update(window.RaconMapModel.model(S,{selected:UI.streetId||S.streetHome,layer:UI.agLayer,kind:UI.agKind,target:UI.agTarget,narrow:raconMapView.narrow,reduced:!!window.matchMedia?.("(prefers-reduced-motion: reduce)").matches}));
     if(UI.agLight)raconMapView.fallback();else raconMapView.start();
   }
   window.addEventListener("racon-map-resize", function(){ if(raconMapView) refreshRaconMap(); });
-  window.addEventListener("pagehide", destroyRaconMap);
+  window.addEventListener("pagehide", function(){destroyRaconMap();if(raconOutcome)raconOutcome.destroy();raconOutcome=null;raconOutcomeHost=null;clearRaconOutcome();});
   window.addEventListener("pageshow", function(e){if(e.persisted)refreshRaconMap();});
   function drawStage() {
+    if (raconOutcomeWorld && (raconOutcomeWorld !== S || raconOutcomeContext !== outcomeContext())) clearRaconOutcome(raconOutcomeWorld !== S);
+    if (raconOutcomeHost) raconOutcomeHost.remove();
     if(raconMapView)raconMapView.element.remove();
     if (!S) { document.getElementById("stage").innerHTML = ""; return; }
     if (S.flags && S.flags.oyunSonu) {
@@ -5369,6 +5415,7 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
     }
     if (UI.rnd) { document.getElementById("stage").innerHTML = drawRandevuSahne(); return; }
     document.getElementById("stage").innerHTML = screenHtml();
+    if (raconOutcomeHost && raconOutcomeWorld === S) document.querySelector(".ag-panel")?.prepend(raconOutcomeHost);
   }
   /* Ekran gövdesi — DOM'a dokunmaz, testten de çağrılabilir. */
   function screenHtml() {
@@ -5436,6 +5483,7 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
   }
 
   function act(code, payload) {
+    clearRaconOutcome();
     payload=payload||{};
     var reason=actionReason(code,payload);
     if(reason){feedback(reason);return;}
@@ -6117,13 +6165,17 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
       return;
     }
     if (code === "ag") {
+      var outcomeBefore = window.RaconOutcome?.snapshot(S), outcomeOrigin = document.activeElement;
+      var outcomeOrder = {street:payload.id,kind:payload.kind,target:UI.agTarget || null}, outcomeModel = null;
       if (window.RaconAg.start(S, payload.id, payload.kind, agApi(), UI.agTarget)) {
         UI.agKind = null;
         recalcSaygi();
         recalcDosya();
+        outcomeModel = window.RaconOutcome?.buildOutcomeMoment(outcomeBefore, window.RaconOutcome.snapshot(S), outcomeOrder);
         persist();
       }
       render();
+      showRaconOutcome(outcomeModel, outcomeOrigin);
       return;
     }
     if (code === "cal") {

@@ -25,10 +25,25 @@ function fill(value,layer) {
   const danger=(layer==='strain'||layer==='tension')?value:100-value;
   return danger>=65?'#744333':danger>=45?'#5d5340':'#384f4c';
 }
+/** Selected metric as a literal bottom-up 0–100 fill, shared by SVG and Pixi. */
+export function basinMetricBand(shape,value) {
+  const amount=Math.max(0,Math.min(100,Number(value)||0));
+  const minY=Math.min(...shape.map(p=>p[1])),maxY=Math.max(...shape.map(p=>p[1]));
+  const level=maxY-(maxY-minY)*amount/100,polygon=[],crossings=[];
+  for(let i=0;i<shape.length;i++) {
+    const p=shape[i],q=shape[(i+1)%shape.length];
+    if(p[1]>=level)polygon.push([...p]);
+    if((p[1]>=level)!==(q[1]>=level)) {
+      const x=p[0]+(q[0]-p[0])*(level-p[1])/(q[1]-p[1]);
+      polygon.push([x,level]);crossings.push([x,level]);
+    }
+  }
+  return {value:amount,fraction:amount/100,level,shape:amount===0?[]:polygon,trace:crossings.sort((a,b)=>a[0]-b[0])};
+}
 export function basinRenderModel(state,{layer='strain',lang='tr',plan=null}={}) {
   const affected=new Set(plan?.regional?.filter(r=>Object.values(r.delta).some(Boolean)).map(r=>r.id)||[]);
   return {layer,lang,period:state.period,
-    regions:REGIONS.map(r=>{const live=state.regions.find(v=>v.id===r.id);return {...r,shape:SHAPES.get(r.id),value:live[layer],color:fill(live[layer],layer),selected:r.id===state.selected,risk:spillRisk(live),affected:affected.has(r.id)};}),
+    regions:REGIONS.map(r=>{const live=state.regions.find(v=>v.id===r.id);return {...r,shape:SHAPES.get(r.id),band:basinMetricBand(SHAPES.get(r.id),live[layer]),value:live[layer],color:fill(live[layer],layer),selected:r.id===state.selected,risk:spillRisk(live),affected:affected.has(r.id)};}),
     links:ROUTES.map(r=>{const mode=state.network.links.find(l=>l.id===r.id).mode,pulses=state.network.pulses.filter(p=>p.via===r.id);
       return {...r,from:pointMap.get(r.a),to:pointMap.get(r.b),mode,delay:r.delay+(mode==='buffered'?1:0),active:r.a===state.selected||r.b===state.selected,
         forward:pulses.some(p=>p.from===r.a),backward:pulses.some(p=>p.from===r.b),pulses:pulses.length,due:pulses.length?Math.min(...pulses.map(p=>p.due)):null,
@@ -47,8 +62,8 @@ export function createBasinMap(onSelect) {
     const g=layer;g.clear();
     for(const r of model.regions) {
       g.poly(r.shape.flat()).fill(Number.parseInt(r.color.slice(1),16)).stroke({color:r.selected?0xefcb87:0x78664c,width:r.selected?2:1});
-      const [cx,cy]=center(r.shape);
-      for(const factor of [.66,.82])g.poly(r.shape.flatMap(([x,y])=>[cx+(x-cx)*factor,cy+(y-cy)*factor])).stroke({color:0xc2b18e,width:.5,alpha:.18});
+      if(r.band.shape.length>=3)g.poly(r.band.shape.flat()).fill({color:0xc2b18e,alpha:.19});
+      if(r.band.trace.length>=2)g.moveTo(...r.band.trace[0]).lineTo(...r.band.trace.at(-1)).stroke({color:0xefcb87,width:1,alpha:.65});
     }
     scene.render();
   }
@@ -73,8 +88,8 @@ export function createBasinMap(onSelect) {
     svg.replaceChildren();svg.setAttribute('aria-label',next.lang==='tr'?'İHTİLÂL havzaları, bağlantılar ve yoldaki etkiler':'İHTİLÂL basins, routes and effects in transit');
     for(const r of model.regions) {
       const group=node('g');const polygon=node('polygon',{points:r.shape.map(p=>p.join(',')).join(' '),fill:r.color,class:'basin-fill',stroke:r.selected?'#efcb87':'#78664c','stroke-width':r.selected?2:1});group.append(polygon);
-      const [cx,cy]=center(r.shape);
-      for(const factor of [.66,.82])group.append(node('polygon',{points:r.shape.map(([x,y])=>`${cx+(x-cx)*factor},${cy+(y-cy)*factor}`).join(' '),fill:'none',stroke:'#c2b18e','stroke-width':.5,opacity:.18,class:'basin-contour'}));
+      if(r.band.shape.length>=3)group.append(node('polygon',{points:r.band.shape.map(p=>p.join(',')).join(' '),fill:'#c2b18e',opacity:.19,class:'basin-metric-band','data-metric-value':r.band.value}));
+      if(r.band.trace.length>=2)group.append(node('polyline',{points:r.band.trace.map(p=>p.join(',')).join(' '),fill:'none',stroke:'#efcb87','stroke-width':1,opacity:.65,class:'basin-state-trace'}));
       svg.append(group);
     }
     for(const route of model.links) {

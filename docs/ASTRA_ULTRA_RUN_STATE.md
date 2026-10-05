@@ -125,3 +125,62 @@ PR #101 remains Terra's responsibility. Novella remains **LATER**.
 - Kanıt: `docs/evidence/2026-10-04-release.json`; test-only branch `astra/closure-production-proof`, main'e merge edilmez.
 - Açık risk: fiziksel GPU yok; lint zincirinde bir high `brace-expansion`; TC SIM mevcut alt-kart darlığı. Save key/schema/içerik korunur.
 - Sonraki adım: bu üç yayın kapalı; yeni kapsam açma. SON KÖY WIP korunuyor; Novella LATER.
+
+### 2026-10-04 — Çete Savaşları / outcome moment checkpoint
+- Hedef: önemli icraatın gerçek sonucu için sessiz 2.2 saniyelik soyut sonuç kartı.
+- Oyuncu değeri: nakit/itibar/baskı değişimini, ekip bağını ve gecikmiş tepki zamanını birlikte okuyabilir.
+- Branch: `astra/cete-outcome-moments`; taban SHA: `b4ebc2babe7c754493d84421051c9531fc09215e`.
+- Kaynak: TarikLab `src/game` + React JobsPanel; vendor/upstream kopyası yok.
+- Dosyalar: saf model/test, outcome component/CSS, JobsPanel çağrısı, browser testi ve CI adımı.
+- Kayıt: `cete-savaslari-save-v1`, schema 15, slot ve hesap kuralları değişmedi; görsel durum kayda yazılmaz.
+- Eşik: ilk başarı, sözleşme kapanışı, çok üyeli operasyon, her 5 seviye; 64 anahtarlı tekrar filtresi ve 2.5 sn burst sınırı.
+- Test: baseline 19/19; model + gerçek store eylemi 7/7; typecheck/lint/build PASS; tam suite 1673 PASS, 1 mevcut isteğe bağlı skip.
+- Browser: önizlemede gerçek karar/odak PASS; kurulum ipucu örtüşmesi düzeltildi. CI'da dev + built çıktı, TR/EN × 1440/390/320 × motion/reduced; üretimde iki host aynı test.
+- Açık risk: yerel Chromium SIGSEGV; browser sonuçları/CI yeşil olmadan merge edilmeyecek.
+- Sonraki adım: CI kanıtı, merge, iki host production; başka ürün yok, Novella LATER.
+
+### 2026-10-04 — Dalga 1 / karar izleri checkpoint
+- Hedef: HANEDANIAN, İHTİLÂL ve Racon'da gerçek karar sonucu + kalıcı durum işaretleri.
+- Oyuncu değeri: ödediği bedeli, taahhüdün zamanını ve haritada biriken güven/baskı/iş ilerlemesini okuyabilir.
+- Branch: `astra/wave1-decision-traces`; kod SHA: `2287786007c2dd920fab31f388a61e27569c25ed`.
+- Dosyalar: üç saf model/özel UI/harita izi; ortak geçici lifecycle; Han offline paketi; test/CI/provenance kayıtları.
+- Sözleşme: hesap, içerik, RNG, save key/schema değişmedi; görsel durum kayda yazılmaz.
+- Test: hedefli model 17/17, offline/version 19/19, TS 61/61; typecheck/lint/build PASS.
+- Tam suite: JS 1617 PASS, 12 test-harness FAIL, 1 mevcut skip; gerçek runtime yüklenerek aynı 12/12 hedefli test PASS.
+- Browser/performans: 1440/390/320 before/source/built ve iki host CI adımları hazır; gerçek sonuç henüz bekleniyor.
+- Açık risk: yerel Chromium SIGSEGV; CI browser yeşil olmadan merge/production başarısı iddia edilmeyecek.
+- Sonraki adım: dar Dalga 1 PR/CI; #109 kapanışı; ölçülmüş performans ve asset referans temizliği ayrı PR.
+
+### 2026-10-05 — #110/#111 CI kök hata checkpoint
+- Hedef: yalnız Wave 1 baseline/browser CI sunucusu; yeni ürün/görsel kapsamı yok.
+- Branch: `astra/wave1-decision-traces`; fix SHA: `48372bd1856fb71e3c97de2fe11fea9beb6afe42`.
+- Kesin hata: run `37232890491`, job `111526171921`, `wave1-outcome-browser.mjs:16:449` → `ERR_HTTP_HEADERS_SENT`.
+- CI önceki head: JS 1629 PASS/1 skip + TS 61 PASS; typecheck/lint/production build PASS; yalnız browser baseline kırmızı.
+- Repro: eksik dosyada `writeHead(200)` sonrası ENOENT, ikinci `writeHead(404)` çöküyordu.
+- Fix: dosya başlıktan önce okunur; kontrollü 400/403/404; baseline archive İHTİLÂL'in kök `/favicon.svg` bağımlılığını içerir.
+- Test: gerçek HTTP/eksik dosya sonrası devam + entry asset/archive kapsamı 2/2 PASS; değişen JS ESLint ve production build PASS (DB yok: migrate doğru skip).
+- Browser: yerel Chromium sayfa açılmadan SIGSEGV; yeni CI head'i çalışmadan browser PASS/merge iddia edilmez.
+- Sonraki adım: #110 browser kanıtı, sonra #111 düzeltmeyi devralıp CI; kırmızı merge yok; anatomi A keşfi bu kapıdan sonra.
+
+### 2026-10-05 — baseline worker bağımlılığı checkpoint
+- Hedef: aynı #110 baseline paketinin eksik kök worker dosyasını tamamlama; oyun kodu değişmedi.
+- Branch: `astra/wave1-decision-traces`; fix SHA: `22524cd4791ba365324bc136d351c0c79f5bea39`.
+- Kanıt: run `37237784746`, job `111540300782`; HTTP headers çökmesi yok, Han 1440 console iki worker-script 404 ile FAIL.
+- Kök: gerçek Han boot `navigator.serviceWorker.register('/sw.js')` çağırıyor; eski archive kök worker'ı içermiyordu (repro: old false / fixed true).
+- Fix: aynı sabit baseline SHA'nın tam `public` ağacı; worker ve statik bağımlılıklar birlikte, hata/console kapıları aynen korunur.
+- Test: HTTP ve entry/gerçek worker registration/archive 2/2 PASS; ESLint ve production build PASS; DB yoksa migrate doğru skip.
+- Açık risk: yerel Chromium SIGSEGV sürüyor; ilgili browser yeni CI'da tekrar doğrulanacak, fiziksel GPU kanıtı yok.
+- Sonraki adım: #110 browser PASS olmadan #111 merge yok; #111 bounded ölçüm teşhisi hazır; anatomi ve 360 review başlamadı.
+
+### 2026-10-05 — ortak CI bütçesi checkpoint
+- Hedef: #111 gerçek 25 dakika job iptalini test kapsamını azaltmadan gidermek; aynı workflow #110 main geçişini de korur.
+- Branch/PR: `astra/wave1-decision-traces` #110 → `astra/map-static-cache` #111; ortak fix SHA `889cd133de67f46c5a7081dfee9203f1b6f06fbb`.
+- Kanıt: #111 `fec5f66`, run `37241690632` / job `111551601225`: “The job has exceeded the maximum execution time of 25m0s”; assertion FAIL yok.
+- Önce: 1673 JS + 61 TS PASS/1 eski skip; stress/type/lint/build, Wave1, Çete, duel, DEVLET ve sitewide PASS; TC SIM adımı toplam job süresinde iptal.
+- Fix: core/browser ayrı 25 dakika; required `build` always aggregate, bütün needs yalnız exact success ise PASS; cancelled/skipped/missing FAIL.
+- Korunan: baseline SHA'ları, komutlar, routing/cache/concurrency, browser matrisleri, step timeout'ları ve main production adımları; ürün/save/dependency değişmedi.
+- Yerel: 20/20 gate+HTTP/archive regression, scoped ESLint ve production build PASS; migration DATABASE_URL yokken doğru skip.
+- #111 ölçüm: run `37241690633`, artifact `11317803281`, 63 before + 63 after PASS; worker response metadata eksikliği gerçek HTTP200/1260 B/finished kaydıyla doğrulandı.
+- CI/merge/production: yeni ortak head'ler henüz CI doğrulanmadı; #110/#111 merge edilmedi; production PASS iddiası yok.
+- Açık risk: local Chromium SIGSEGV/fiziksel GPU yok; main browser+production toplam süre bütçesi gerçek main koşusunda ayrıca doğrulanmalı.
+- Sonraki: #111 ortak fix üstüne rebase; ikisi güncel head green → #110 merge/smoke → #111 main rebase/CI/merge/smoke; yeni ürün dalgası bekler.

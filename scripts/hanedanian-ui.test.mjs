@@ -11,6 +11,7 @@ import * as data from '../public/games/hanedanian/data.js';
 import * as world from '../public/games/hanedanian/world.js';
 import * as orders from '../public/games/hanedanian/orders.js';
 import * as mapintel from '../public/games/hanedanian/mapintel.js';
+import * as outcomes from '../public/games/hanedanian/outcome-moment.js';
 import { MAP_LAYERS } from '../public/games/hanedanian/map.js';
 import { encodeSave, decodeSave } from '../public/games/hanedanian/save.js';
 
@@ -41,7 +42,9 @@ function createHarness() {
     get innerHTML() { return this._html; }
     setAttribute(key, value) { this.attributes[key] = value; }
     getAttribute(key) { return this.attributes[key] ?? null; }
+    hasAttribute(key) { return Object.hasOwn(this.attributes,key); }
     addEventListener(name, callback) { (this.listeners[name] ||= []).push(callback); }
+    removeEventListener(name, callback) { this.listeners[name]=(this.listeners[name]||[]).filter(fn=>fn!==callback); }
     contains(target) { return target === this; }
     closest(selector) { return selector === 'button' && this.tagName === 'BUTTON' ? this : selector === 'form' ? this.form ?? null : null; }
     showModal() { this.open = true; }
@@ -60,6 +63,7 @@ function createHarness() {
     createElement: () => new Node(),
     querySelectorAll: selector => selector === '[data-view]' ? views : selector === '[data-speed]' ? speeds : [],
     addEventListener(name, callback) { (documentListeners[name] ||= []).push(callback); },
+    removeEventListener(name, callback) { documentListeners[name]=(documentListeners[name]||[]).filter(fn=>fn!==callback); },
   };
   class FakeSaveManager {
     constructor() { this.slots = {}; this.error = null; this.saveCalls = []; this.loaded = null; this.journal = null; this.lastSavedAt = null; this.available = true; }
@@ -108,15 +112,17 @@ function createHarness() {
     return map;
   };
   class FakeFormData { constructor(form) { this.values = form.values; } get(key) { return this.values[key] ?? null; } }
-  const window = { addEventListener(name, callback) { (windowListeners[name] ||= []).push(callback); } };
+  const window = { addEventListener(name, callback) { (windowListeners[name] ||= []).push(callback); },
+    matchMedia:()=>({matches:false,addEventListener(){},removeEventListener(){}}),setTimeout:()=>1,clearTimeout(){} };
   const context = vm.createContext({
-    ...engine, ...campaign, ...data, ...world, ...orders, ...mapintel, MAP_LAYERS, SaveManager: FakeSaveManager, createMap,
+    ...engine, ...campaign, ...data, ...world, ...orders, ...mapintel, ...outcomes, MAP_LAYERS, SaveManager: FakeSaveManager, createMap,
     getLang: () => 'tr', translate: value => String(value ?? ''), installLanguage: () => {},
     document, window, navigator: {}, console, FormData: FakeFormData,
     requestAnimationFrame: () => 0, setTimeout: (fn, ms) => { if (typeof fn === "function" && !ms) queueMicrotask(fn); return 1; }, clearTimeout: () => {},
-    Blob, URL, MessageChannel, structuredClone,
+    Blob, URL, MessageChannel, structuredClone, queueMicrotask, performance,
   });
-  let source = app.replace(/^import\s+[\s\S]*?\s+from\s+["'][^"']+["'];\s*/gm, '');
+  vm.runInContext(readFileSync(new URL('../public/games/shared/outcome-runtime.js',import.meta.url),'utf8'),context);
+  let source = app.replace(/^import\s+["'][^"']+["'];\s*/gm, '').replace(/^import\s+[\s\S]*?\s+from\s+["'][^"']+["'];\s*/gm, '');
   const bootCall = source.lastIndexOf('\nboot().catch(');
   assert.ok(bootCall > 0, 'real app must retain its final boot invocation');
   source = source.slice(0, bootCall);
