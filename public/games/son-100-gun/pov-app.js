@@ -621,7 +621,10 @@ function outcomeBlock(log) {
         .join("")}</ul>`
     : "";
   return `<section class="outcome" aria-labelledby="out-h" tabindex="-1" id="outcome">
-    <h2 id="out-h">${esc(t.period(log.day, log.day + log.close.span - 1))} · ${esc(fill(tx(c.title), s, log.target))}</h2>
+    <div class="outcome-stage">
+      <img src="./100-days-desk-v1.jpg" width="1200" height="800" alt="" loading="lazy" decoding="async" fetchpriority="low">
+      <div class="outcome-stage-title"><span>${esc(t.period(log.day, log.day + log.close.span - 1))}</span><h2 id="out-h">${esc(fill(tx(c.title), s, log.target))}</h2></div>
+    </div>
     <p class="out-choice">${esc(fill(tx(o.label), s, log.target))}${log.outcome ? ` — ${esc(log.outcome === "win" ? t.win : t.lose)}` : ""}</p>
     ${text ? `<p class="out-text">${esc(fill(text, s, log.target))}</p>` : ""}
     <p><span class="lbl">${esc(t.decision)}</span> ${chips(log.choiceFx, s)}</p>
@@ -753,6 +756,7 @@ function renderEnd() {
   return `<div class="pov pov-end">
     ${topBar()}
     <main class="ending">
+      <div class="end-scene" aria-hidden="true"><img src="./100-days-desk-v1.jpg" width="1200" height="800" alt="" loading="lazy" decoding="async" fetchpriority="low"></div>
       <p class="kicker">${esc(e.early ? t.early(e.day) : t.full)}</p>
       <h1 id="end-h" tabindex="-1">${esc(tx(def.title))}</h1>
       <p class="lede">${esc(fill(tx(def.text), s, null))}</p>

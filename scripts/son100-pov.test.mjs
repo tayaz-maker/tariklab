@@ -283,7 +283,7 @@ test("saves: new namespace, replay-based restore, tamper and version safety", ()
   assert.deepEqual(a, b, "deterministic from the seed");
 });
 
-test("page wiring: new app, shared language, embedded chrome rules, silent and red-free", () => {
+test("page wiring: new app, shared language, lazy result art, silent and red-free", () => {
   const html = read("public/games/son-100-gun/index.html");
   assert.match(html, /\.\/pov-app\.js/);
   assert.match(html, /\.\/pov\.css/);
@@ -304,8 +304,11 @@ test("page wiring: new app, shared language, embedded chrome rules, silent and r
   for (const f of ["pov.js", "pov-data.js", "pov-app.js", "pov.css"]) {
     const src = read(`public/games/son-100-gun/${f}`);
     assert.doesNotMatch(src, /AudioContext|new Audio|\.mp3|\.ogg|\.wav|speechSynthesis/, f);
-    assert.doesNotMatch(src, /url\(|\.png|\.jpe?g|\.webp/, `${f} loads an image`);
+    if (f !== "pov-app.js") assert.doesNotMatch(src, /url\(|\.png|\.jpe?g|\.webp/, `${f} loads an image`);
   }
+  assert.equal((app.match(/100-days-desk-v1\.jpg/g) || []).length, 2, "result and ending reuse one asset");
+  assert.doesNotMatch(app.replaceAll("100-days-desk-v1.jpg", ""), /url\(|\.png|\.jpe?g|\.webp/, "no other image is added");
+  assert.match(app, /loading="lazy" decoding="async" fetchpriority="low"/, "outcome art is not an opening-screen request");
   const css = read("public/games/son-100-gun/pov.css").replace(/\/\*[\s\S]*?\*\//g, "");
   assert.doesNotMatch(css, /\bred\b|crimson|#f00\b|#ff0000|#c0392b|#e74c3c/i, "no alarm red");
   for (const stage of ["ogle", "ikindi", "aksam", "gece"])
