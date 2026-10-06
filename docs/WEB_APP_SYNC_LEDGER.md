@@ -616,3 +616,13 @@ Chromium must pass before integration.
 - Added larger but bounded weekly decision capacity, top-level inbox/calendar/bank/relationships/body access, readable full-size desk panels and first-step guidance. Added adult consensual intimacy choices, delayed fictional pregnancy branch into the existing parenthood chain, engagement, wedding costs and variable gifts, repayable bank credit, era-gated small businesses and goods, and a schematic body/commute view. No explicit sexual scene or adult content involving minors.
 - Existing three abstract city zones gain district-style labels and a commute diagram. Real city/mahalle names were not fabricated because job, housing and commute data do not support distinct city economies yet. Licensed brands were not introduced; goods use descriptive generic names.
 - Local targeted 54-test suite, typecheck and Chrome 320/390/1440 smoke are release-candidate evidence only. Full CI, merge, production and the separate non-card game visual backlog remain open.
+
+
+## 2026-10-06 — TC SIM shared visual palette
+- Unified TC SIM base/desk surfaces, text, borders, selected rows and gold focus via shared CSS tokens; other games retain fallback colors. Existing layout/content/engine unchanged by this pass.
+- Build and typecheck PASS; targeted core/screens/responsive/expansion tests 35/35 PASS. Browser smoke BLOCKED: available Chromium exits with SIGSEGV before a page opens.
+- Scope limitation: this checkout has 13 navigation views and lacks the separately rendered inbox visible in the supplied screenshot; full current-production coverage is not claimed. Earlier working-tree changes remain uncommitted and preserved.
+
+### 2026-10-06 — palette release transfer from preserved 3069d4f
+- Original commit is local-only and absent from main/#131. Applied only its two CSS deltas to the current main lineage; retained all newer content, mechanics and every earlier ledger entry. The conflicting root palette uses the explicitly requested 3069d4f values. No #131 changes are included.
+- Infrastructure is a separate parent PR. Fresh TC + DEVLET responsive/historical and unit/build gates must pass before product merge. Previous source-checkout validation above is historical evidence, not current release proof.

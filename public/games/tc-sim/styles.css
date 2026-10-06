@@ -1,18 +1,28 @@
 :root {
   color-scheme: dark;
-  --bg: #1a1e1b;
-  --surface: #232b26;
-  --surface-2: #2d3830;
-  --surface-3: #39483c;
-  --line: #526258;
-  --text: #f5f1e8;
-  --muted: #c1c8be;
-  --accent: #e7bd78;
-  --accent-ink: #2a2419;
+  --bg: #0d1314;
+  --surface: #151d20;
+  --surface-2: #252d26;
+  --surface-3: #303b32;
+  --line: #384540;
+  --text: #e7ece8;
+  --muted: #a7b2ad;
+  --accent: #d3ae69;
+  --accent-ink: #241b0f;
   --good: #77c99a;
   --danger: #df7a73;
-  --radius: 8px;
-  --nav: 196px;
+  --tone: var(--surface-2);
+  /* Shared desk and ordinary panels consume the same TC SIM palette. */
+  --tc-desk-bg: var(--bg);
+  --tc-desk-surface: var(--surface);
+  --tc-desk-line: var(--line);
+  --tc-desk-muted: var(--muted);
+  --tc-desk-text: var(--text);
+  --tc-desk-selected: #203038;
+  --tc-desk-selected-line: #829eaa;
+  --tc-desk-focus: var(--accent);
+  --radius: 7px;
+  --nav: 164px;
   font-family:
     Inter,
     ui-sans-serif,
@@ -436,7 +446,7 @@ select:focus-visible {
   height: 5px;
   overflow: hidden;
   border-radius: 3px;
-  background: #0b0f10;
+  background: var(--bg);
 }
 .body-row i b,
 .relation-wrap i span {
