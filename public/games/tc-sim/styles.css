@@ -1734,6 +1734,8 @@ html.embedded .start-wrap .start-exit {
   cursor: pointer;
 }
 .first-steps summary span, .period-economy summary span, .life-depth-panel summary span, .people-panel summary span { color: var(--muted); font-size: .72rem; font-weight: 400; }
+.life-depth-panel summary h2, .people-panel summary h2 { display: inline; margin: 0; font-size: .9rem; }
+.people-panel summary .panel-head { flex: 1; align-items: center; margin: 0; }
 .first-steps[open] summary, .period-economy[open] summary, .life-depth-panel[open] summary, .people-panel[open] summary { border-bottom: 1px solid var(--line); margin-bottom: 10px; }
 .first-steps p { margin: 7px 0; color: var(--muted); font-size: .8rem; }
 .period-economy { display: block; border-left: 1px solid var(--line); }
