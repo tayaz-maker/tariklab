@@ -13,7 +13,7 @@ import {validateRequiredNeeds} from './ci-required-gate.mjs';
 const require = createRequire(import.meta.url);
 const yaml = require('js-yaml');
 const workflow = yaml.load(readFileSync(new URL('../.github/workflows/ci.yml', import.meta.url), 'utf8'));
-const requiredJobs = ['changes', 'build-core', 'browser-regression'];
+const requiredJobs = ['changes', 'build-core', 'browser-regression', 'campaign-browser', 'campaign-balance'];
 const successfulNeeds = () => Object.fromEntries(requiredJobs.map(job => [job, {result: 'success'}]));
 
 test('all mandatory and additional declared dependencies must succeed', () => {
@@ -78,12 +78,12 @@ test('build-core preserves all original commands, order and budgets', () => {
     'runs-on': 'ubuntu-latest',
     'timeout-minutes': 25,
     steps: [
-      ...bootstrap,
-      {run: 'npm test'},
-      {name: 'Duel deterministic stress (500 per theme)', 'timeout-minutes': 5, run: 'node scripts/duel-stress.mjs 500'},
-      {run: 'npm run typecheck'},
-      {run: 'npm run lint'},
-      {run: 'npm run build'},
+      ...bootstrap.map(step => step.uses === 'actions/checkout@v4' ? step : {...step, if: "needs.changes.outputs.docs != 'true'"}),
+      {run: 'npm test', if: "needs.changes.outputs.docs != 'true'"},
+      {name: 'Duel deterministic stress (500 per theme)', if: "needs.changes.outputs.duel == 'true'", 'timeout-minutes': 5, run: 'node scripts/duel-stress.mjs 500'},
+      {run: 'npm run typecheck', if: "needs.changes.outputs.docs != 'true'"},
+      {run: 'npm run lint', if: "needs.changes.outputs.docs != 'true'"},
+      {run: 'npm run build', if: "needs.changes.outputs.docs != 'true'"},
     ],
   });
 });
@@ -121,7 +121,8 @@ const originalBrowserSteps = [
 test('browser-regression builds independently and preserves every original browser step', () => {
   const {steps, ...job} = workflow.jobs['browser-regression'];
   assert.deepEqual(job, {needs: 'changes', 'runs-on': 'ubuntu-latest', 'timeout-minutes': 25});
-  assert.deepEqual(steps.slice(0, 4), [...bootstrap, {run: 'npm run build'}]);
+  const browserNeeded = "needs.changes.outputs.browser == 'true' || github.ref == 'refs/heads/main'";
+  assert.deepEqual(steps.slice(0, 4), [...bootstrap, {run: 'npm run build'}].map(step => step.uses === 'actions/checkout@v4' ? step : {...step, if: browserNeeded}));
   assert.deepEqual(steps.slice(4).map(step => step.name), originalBrowserSteps.map(([name]) => name));
   for (const [index, [name, expected]] of originalBrowserSteps.entries()) {
     let step = steps[index + 4];
@@ -133,6 +134,16 @@ test('browser-regression builds independently and preserves every original brows
       assert.equal(pins[0], pins[1], 'fetch and archive must use the same baseline');
       assert.ok(['b4ebc2babe7c754493d84421051c9531fc09215e', '53534e2f9526ad80ce296952c212fa44aaa0ada1'].includes(pins[0]));
       step = {...step, run: step.run.replaceAll(pins[0], '53534e2f9526ad80ce296952c212fa44aaa0ada1')};
+    }
+    if (name === 'Install Chromium for responsive regression') {
+      assert.equal(step.if, browserNeeded);
+      const {if: condition, ...original} = step;
+      void condition;
+      step = original;
+    }
+    if (name.startsWith('TC SIM historical starts')) {
+      assert.equal(step.if, "needs.changes.outputs.tc == 'true'");
+      step = {...step, if: "needs.changes.outputs.full == 'true'"};
     }
     assert.equal(digest(step), expected, `${name}: original step contract changed`);
   }
@@ -159,20 +170,37 @@ test('the required build gate always runs and checks every mandatory dependency'
 test('workflow triggers, concurrency, path routing and campaign jobs remain unchanged', () => {
   assert.equal(workflow.name, 'ci');
   assert.deepEqual(workflow.on, {push: {branches: ['main']}, pull_request: null});
-  assert.deepEqual(workflow.concurrency, {group: 'ci-${{ github.event.pull_request.number || github.ref }}', 'cancel-in-progress': true});
+  assert.deepEqual(workflow.concurrency, {group: 'ci-${{ github.event.pull_request.number || github.ref }}', 'cancel-in-progress': "${{ github.event_name == 'pull_request' }}"});
   for (const [job, expected] of Object.entries({
     changes: 'a9c282f51a5ef948511f69d2cc5b66864617a5d726810885d4ce40a9ae5fc323',
     'campaign-browser': 'a0af9ca6adc88a356e6133e0784f4f13dbaedfc70f8f8cb02a3a056344903080',
     'campaign-balance': '82e6883e6184615877525146f93ff027cbd72c87afe1762bcf1b9db24134c483',
   })) {
-    assert.equal(digest(workflow.jobs[job]), expected, `${job}: original job contract changed`);
+    const value = structuredClone(workflow.jobs[job]);
+    if (job === 'changes') {
+      assert.equal(value.outputs.docs, '${{ steps.route.outputs.docs }}');
+      assert.equal(value.outputs.tc, '${{ steps.route.outputs.tc }}');
+      delete value.outputs.docs;
+      delete value.outputs.tc;
+      const patch = value.steps.splice(1, 1)[0];
+      assert.equal(patch.run, 'git diff --check "$BASE...$HEAD"');
+    }
+    if (job === 'campaign-browser') {
+      for (const step of value.steps) {
+        if (step.uses === 'actions/setup-node@v4' || step.run === 'npm ci' || step.name === 'Install Chromium') {
+          assert.equal(step.if, "needs.changes.outputs.campaign == 'true' || github.ref == 'refs/heads/main'");
+          delete step.if;
+        }
+      }
+    }
+    assert.equal(digest(value), expected, `${job}: original job contract changed`);
   }
 });
 
 test('a workflow-only change selects the full CI matrix through the routing CLI', async t => {
   const fixture = await mkdtemp(join(tmpdir(), 'ci-workflow-routing-'));
   t.after(() => rm(fixture, {recursive: true, force: true}));
-  await writeFile(join(fixture, 'git'), "#!/bin/sh\nprintf '%s\\n' '.github/workflows/ci.yml'\n", {mode: 0o755});
+  await writeFile(join(fixture, 'git'), "#!/bin/sh\nprintf '%s\\0' '.github/workflows/ci.yml'\n", {mode: 0o755});
   const output = join(fixture, 'github-output');
   const script = fileURLToPath(new URL('./ci-changes.mjs', import.meta.url));
   const child = spawnSync(process.execPath, [script, 'baseline', 'head'], {
@@ -184,7 +212,7 @@ test('a workflow-only change selects the full CI matrix through the routing CLI'
   assert.equal(child.status, 0, child.stderr);
   assert.deepEqual(Object.fromEntries(child.stdout.trim().split('\n').map(line => line.split('='))), {
     full: 'true', docs: 'false', routes: '', browser: 'true',
-    devlet: 'true', duel: 'true', campaign: 'true', balance: 'true',
+    tc: 'true', devlet: 'true', duel: 'true', campaign: 'true', balance: 'true',
   });
   assert.equal(readFileSync(output, 'utf8'), child.stdout);
 });
