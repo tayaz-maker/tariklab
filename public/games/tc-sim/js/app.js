@@ -620,7 +620,7 @@ function renderInbox() {
 }
 
 function renderNav() {
-  return NAVIGATION_ITEMS.map(
+  return NAVIGATION_ITEMS.filter(({ view }) => view !== "inbox").map(
     ({ label, view }) =>
       `<button type="button" class="nav-item ${view === activeView ? "is-active" : ""}" ${view ? `data-view="${view}"${view === activeView ? ' aria-current="page"' : ""}` : 'disabled aria-disabled="true"'}><span class="nav-mark"></span><span>${label}</span></button>`,
   ).join("");
@@ -700,11 +700,11 @@ function renderEconomyContext() {
   const observed = Math.min(2025, year);
   const job = getJobById(state.career.jobId);
   const home = getHomeById(state.household.homeId);
-  return `<section class="panel period-economy" aria-label="Dönem ekonomisi">
+  return `<details class="panel period-economy" aria-label="Dönem ekonomisi"><summary>Dönem ekonomisi · ${year} <span>Ayrıntılar ve kaynaklar</span></summary><div class="period-economy-content">
     <div><p class="eyebrow">DÖNEM EKONOMİSİ · ${year}</p><h2>Paranın o yıldaki yüzü</h2><p>${escapeText(periodEconomyNote(year))}</p></div>
     <dl><div><dt>İş geliri</dt><dd>${money(job?.salary || 0)}</dd></div><div><dt>Konut gideri</dt><dd>${money(home.monthlyCost)}</dd></div><div><dt>Haftalık temel sepet</dt><dd>${money(MARKET.grocery.cost)}</dd></div></dl>
     <p class="economy-source">${observed} yıllık TÜFE · <a href="${ECONOMY_SOURCE.cpi}" target="_blank" rel="noopener noreferrer">endeks kaynağı</a> · <a href="${ECONOMY_SOURCE.wage}" target="_blank" rel="noopener noreferrer">2025 ücret kalibrasyonu</a> · <a href="${ECONOMY_SOURCE.redenomination}" target="_blank" rel="noopener noreferrer">TL/YTL değişimi</a></p>
-  </section>`;
+  </div></details>`;
 }
 
 function renderDashboard() {
@@ -722,7 +722,7 @@ function renderDashboard() {
     ? getPerson(state, state.social.currentPartnerNpcId)
     : null;
   return `<div class="workspace-head"><div><p class="eyebrow">ANA SAYFA</p><h1>Hayat merkezi</h1></div>${renderWeekControl()}</div>
-    <section class="panel first-steps"><p class="eyebrow">İLK BAKIŞTA</p><h2>Bugün ne yapmalıyım?</h2><div><p><b>1 · Bir karar seç.</b> Kartın altında zaman, para ve enerji etkisini gör.</p><p><b>2 · Önemli gelişmeye bak.</b> Gelen kutusu ve bekleyen sonuçlar üst menüde.</p><p><b>3 · Haftayı bitir.</b> Hepsini doldurman gerekmez; ay sonunda gelir ve gider otomatik işler.</p></div></section>
+    <details class="panel first-steps"><summary>Nasıl ilerlerim? <span>Üç kısa adım</span></summary><div><p><b>1 · Bir karar seç.</b> Kartın altında zaman, para ve enerji etkisini gör.</p><p><b>2 · Önemli gelişmeye bak.</b> Gelen kutusu ve bekleyen sonuçlar menüde.</p><p><b>3 · Haftayı bitir.</b> Hepsini doldurman gerekmez; ay sonunda gelir ve gider otomatik işler.</p></div></details>
     ${renderParenthoodContext()}
     ${renderEconomyContext()}
     <section class="overview-grid" aria-label="Hayat özeti">
@@ -731,12 +731,12 @@ function renderDashboard() {
       <article class="body-panel"><p>BEDEN</p><div class="body-row"><span>Enerji</span><i><b style="width:${state.health.energy}%"></b></i><strong>${state.health.energy}</strong></div><div class="body-row stress"><span>Stres</span><i><b style="width:${state.health.stress}%"></b></i><strong>${state.health.stress}</strong></div><div class="body-row"><span>Sağlık</span><i><b style="width:${state.health.health}%"></b></i><strong>${state.health.health}</strong></div><small class="body-note">${escapeText(bodyRiskText())}</small></article>
       <article class="metric-panel"><p>SOSYAL</p><strong>${partner ? escapeText(partner.name) : "Sevgili yok"}</strong><span>${socialCases.length} açık sosyal mesele</span><small>${escapeText(RELATIONSHIP_STAGES[getRelationshipStage(state, "mehmet")])}: Mehmet</small></article>
     </section>
-    <section class="panel life-depth-panel"><div class="panel-head"><div><p class="eyebrow">YAŞAM HARİTASI</p><h2>${depth.phase === "opening" ? "Kuruluş dönemi" : depth.phase === "midgame" ? "Yön ve yük dönemi" : "Miras dönemi"}</h2></div><span>${depth.goals.length} hedef</span></div>
+    <details class="panel life-depth-panel"><summary><h2>Yaşam haritası · ${depth.phase === "opening" ? "Kuruluş dönemi" : depth.phase === "midgame" ? "Yön ve yük dönemi" : "Miras dönemi"}</h2><span>${depth.goals.length} hedef</span></summary>
       <div class="overview-grid">${Object.values(depth.arcs).filter((arc) => arc.stage !== "start" || arc.unresolvedIssue).slice(0, 6).map((arc) => `<article class="metric-panel"><p>${escapeText(LIFE_ARC_LABELS[arc.id][0].toUpperCase())}</p><strong>${escapeText({ development: "Gelişiyor", tension: "Gerilim", crisis: "Kriz", turning: "Kırılma", outcome: "Sonuç", start: "Başlangıç" }[arc.stage])}</strong><small>${escapeText(arc.unresolvedIssue || arc.opportunities[0] || "Süreç açık")}</small></article>`).join("")}</div>
       <div class="detail-summary"><div><span>Nakit güvenliği</span><strong>${Math.round(causalEconomy.safety)}/100</strong></div><div><span>Zaman baskısı</span><strong>${Math.round(causalEconomy.timePressure)}/100</strong></div><div><span>Borç</span><strong>${money(causalEconomy.debt)}</strong></div></div>
       <div class="history">${depth.goals.map((goal) => `<p class="open-case"><b>${escapeText(goal.label)}</b><span>${Math.round(goal.progress)}%</span></p>`).join("") || `<p class="empty">Şu anda ayrı bir orta vadeli hedef yok.</p>`}</div>
       ${depth.echoes.length ? `<p class="context-note">Son yankı: ${escapeText(depth.echoes.at(-1).text)}</p>` : ""}
-    </section>
+    </details>
     <div class="dashboard-grid">
       <section class="panel week-panel"><div class="panel-head"><div><p class="eyebrow">BU HAFTA</p><h2>Zamanını nasıl kullandın?</h2></div><span>${remaining} odak kaldı</span></div><p class="decision-context">Her seçim zaman, enerji, para veya ilişki bedeli taşır. Haftayı doldurmak zorunda değilsin; yorgunluk ve ertelenen işler sonraki haftaya yansır.</p>${weekPlanHtml.top}<div class="decisions">${getAvailableDecisions(
         state,
@@ -748,7 +748,7 @@ function renderDashboard() {
         .join(
           "",
         )}</div>${weekPlanHtml.more}${renderResult("Bu haftanın kararlarını ver veya zamanı ilerlet.")} </section>
-      <aside class="right-column"><section class="panel agenda-panel"><div class="panel-head"><div><p class="eyebrow">GÜNDEM</p><h2>Gelen kutusu</h2></div></div>${renderAgenda()}</section><section class="panel people-panel"><div class="panel-head"><div><p class="eyebrow">İLİŞKİLER</p><h2>Önemli kişiler</h2></div><span>/ 100</span></div><div class="people">${renderPeople()}</div></section></aside>
+      <aside class="right-column"><section class="panel agenda-panel"><div class="panel-head"><div><p class="eyebrow">GÜNDEM</p><h2>Gelen kutusu</h2></div></div>${renderAgenda()}</section><details class="panel people-panel"><summary><div class="panel-head"><h2>Önemli kişiler</h2><span>İlişkileri göster</span></div></summary><div class="people">${renderPeople()}</div></details></aside>
       <section class="panel history-panel"><div class="panel-head"><div><p class="eyebrow">GEÇMİŞ</p><h2>Son hayat kayıtları</h2></div><span>${state.memories.length}</span></div><div class="history">${renderMemories()}</div></section>
       <section class="panel cases-panel"><div class="panel-head"><div><p class="eyebrow">AÇIK MESELELER</p><h2>Bekleyen sonuçlar</h2></div><span>${activeCases.length}</span></div>${activeCases.length ? activeCases.map((item) => `<p class="open-case"><b>${escapeText(openCaseLabel(item))}</b><span>${Math.max(0, item.dueWeek - state.time.absoluteWeek)} hafta kaldı</span></p>`).join("") : `<p class="empty">Şu anda açık dosya yok.</p>`}<div class="year-file"><span>Yıl dosyası</span>${renderYearHistory()}</div></section>
     </div>`;
@@ -1341,14 +1341,13 @@ function render() {
       <header class="game-topbar">
         <div class="game-brand"><strong>TC SIM</strong><span>Bir hayat, bin küçük karar</span></div>
         <div class="top-meta"><span><b>${escapeText(state.player.name)}</b> · ${state.player.age}</span><span>${state.time.year} / ${state.time.month}. ay / H${state.time.weekOfMonth}</span><span class="top-money">${money(state.finances.balance)}</span></div>
-        <nav class="top-shortcuts" aria-label="Hızlı erişim"><button class="button button-quiet" data-view="inbox"${activeView === "inbox" ? ' aria-current="page"' : ""}>Gelen kutusu <b>${getPlayerVisibleOpenCases(state).filter((item) => item.status !== "resolved").length}</b></button><button class="button button-quiet" data-view="calendar"${activeView === "calendar" ? ' aria-current="page"' : ""}>Takvim</button><button class="button button-quiet" data-view="finance"${activeView === "finance" ? ' aria-current="page"' : ""}>Banka</button><button class="button button-quiet" data-view="relationships"${activeView === "relationships" ? ' aria-current="page"' : ""}>İlişkiler</button><button class="button button-quiet" data-view="body"${activeView === "body" ? ' aria-current="page"' : ""}>Beden</button></nav>
+        <button class="button button-quiet inbox-shortcut" data-view="inbox"${activeView === "inbox" ? ' aria-current="page"' : ""}>Gelen kutusu <b>${getPlayerVisibleOpenCases(state).filter((item) => item.status !== "resolved").length}</b></button>
         <div class="save-area"><span class="save-status" role="status">${escapeText(saveStatus)}</span><span class="slot-mini">Slot ${getActiveSlot(localStorage)}</span><button class="button button-quiet" id="help-open" aria-haspopup="dialog">? Nasıl Oynanır</button><button class="button button-quiet" id="save-game">Kaydet</button><button class="button button-quiet" id="main-menu">Ana Menü</button><button class="button button-quiet button-danger" id="new-game">Yeni oyun</button></div>
       </header>
       <div class="game-body">
         <nav class="side-nav" aria-label="Oyun bölümleri">${terminal ? "Yaşam raporu" : renderNav()}</nav>
         <section class="workspace">${workspace}</section>
       </div>
-    ${terminal ? "" : renderDeskLedger()}
     ${renderEvent()}
       ${helpOpen ? renderHelpModal() : ""}
       <footer class="game-footer">© 2026 TarikLab. Tüm hakları saklıdır.<br>Oyun tasarımı ve özgün içerik: Tarık Halil Ayaz.</footer>

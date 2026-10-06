@@ -1,4 +1,4 @@
-import { managementDesk, managementDeck } from "../../shared/management-desk.js";
+import { managementDesk } from "../../shared/management-desk.js";
 
 // Display translations for labels exposed by the new compact desk. Canonical
 // event/catalog text and persisted records remain unchanged.
@@ -146,10 +146,10 @@ export function arrangeLifeDesk(view, text) {
     // amounts and cost basis. No fictitious running balance is reconstructed.
     history.push(...panels.filter(panel => panel.querySelector(".history")));
   }
-  managementDeck(layout, history, text("KAYIT / HESAP DÖKÜMÜ", "RECORD / ACCOUNT LEDGER"));
+  // Keep records beside their own section instead of adding a second bottom menu.
   // These surfaces are intentionally full-size, readable workspaces. A card
   // index hid the body diagram and forced a second tap for banking or family.
-  const fullViews = new Set(["dashboard", "inbox", "body", "finance", "home", "market", "relationships"]);
+  const fullViews = new Set(["dashboard", "inbox", "body", "finance", "home", "market", "relationships", "character", "calendar", "career", "education", "people", "history", "yearbook"]);
   if (!fullViews.has(view)) managementDesk({ workspace, layout, key: `life:${view}`, selector: selectors[view] || ".panel", text, searchSelector: view === "people" ? ".person-select" : undefined, openInitially: view === "people" && openPerson, returnFocusSelector: view === "people" ? ".person-select.is-current" : undefined });
   openPerson = false;
 }
