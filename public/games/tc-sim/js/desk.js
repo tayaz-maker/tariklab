@@ -149,7 +149,7 @@ export function arrangeLifeDesk(view, text) {
   managementDeck(layout, history, text("KAYIT / HESAP DÖKÜMÜ", "RECORD / ACCOUNT LEDGER"));
   // These surfaces are intentionally full-size, readable workspaces. A card
   // index hid the body diagram and forced a second tap for banking or family.
-  const fullViews = new Set(["dashboard", "inbox", "body", "finance", "home", "market", "relationships"]);
+  const fullViews = new Set(["dashboard", "inbox", "body", "finance", "home", "market", "relationships", "character", "calendar", "career", "education", "people", "history", "yearbook"]);
   if (!fullViews.has(view)) managementDesk({ workspace, layout, key: `life:${view}`, selector: selectors[view] || ".panel", text, searchSelector: view === "people" ? ".person-select" : undefined, openInitially: view === "people" && openPerson, returnFocusSelector: view === "people" ? ".person-select.is-current" : undefined });
   openPerson = false;
 }
