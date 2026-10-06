@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { SAVE_VERSION, addNpcMemory, createNewGame, validateState } from "../public/games/tc-sim/js/state.js";
 import { loadGame, saveGame } from "../public/games/tc-sim/js/save.js";
+import { processIntimacyFollowup } from "../public/games/tc-sim/js/intimacy.js";
 import {
   activateNextEvent,
   getEventDefinition,
@@ -169,7 +170,7 @@ test("3D.12 ikinci partner engellenir", () => {
   assert.equal(canBecomePartner(state, "elif"), false);
 });
 
-test("3D.13 yetişkin bayrakları yalnız elif bağlamında set edilir, çocuk state'i üretilmez", () => {
+test("3D.13 yetişkin bayrakları yalnız elif bağlamında set edilir, gecikmeli sonuç işlenir", () => {
   const state = fresh();
   state.events.active = { eventId: "elif_alone_at_home", occurrenceId: "test-3d13" };
   assert.equal(resolveEvent(state, "unprotected").ok, true);
@@ -177,9 +178,10 @@ test("3D.13 yetişkin bayrakları yalnız elif bağlamında set edilir, çocuk s
   assert.equal(state.flags.sleptWithAnne, undefined);
   assert.equal(state.children, undefined);
   const morning = state.openCases.find((c) => c.eventId === "elif_morning_after");
-  const fear = state.openCases.find((c) => c.eventId === "pregnancy_scare");
+  const followup = state.flags.intimacyFollowup;
   assert.ok(morning);
-  assert.ok(fear);
+  assert.equal(followup.partnerId, "elif");
+  assert.equal(followup.dueWeek, state.time.absoluteWeek + 4);
 
   state.time.absoluteWeek = morning.dueWeek;
   processDueOpenCases(state);
@@ -188,13 +190,9 @@ test("3D.13 yetişkin bayrakları yalnız elif bağlamında set edilir, çocuk s
   resolveEvent(state, "talk");
   drain(state);
 
-  state.time.absoluteWeek = fear.dueWeek;
-  processDueOpenCases(state);
-  activateNextEvent(state);
-  assert.equal(state.events.active.eventId, "pregnancy_scare");
-  assert.equal(resolveEvent(state, "test").ok, true);
-  assert.equal(state.flags.pregnancyFear, false);
-  assert.equal(state.openCases.find((c) => c.id === fear.id).status, "resolved");
+  state.time.absoluteWeek = followup.dueWeek;
+  assert.match(processIntimacyFollowup(state), /Gebelik/);
+  assert.equal(state.flags.intimacyFollowup, undefined);
   assert.equal(state.children, undefined);
 });
 
@@ -311,15 +309,15 @@ test("Senaryo B: referans sözü → gecikme → sonuç (CHN-03)", () => {
   assert.equal(state.openCases.find((c) => c.id === negFollowup.id).status, "resolved");
 });
 
-test("Senaryo C: yetişkin ilişki → gecikmeli endişe → sonlu çözüm (CHN-08)", () => {
+test("Senaryo C: yetişkin ilişki → gecikmeli sonuç → sonlu çözüm (CHN-08)", () => {
   const state = fresh();
   state.events.active = { eventId: "elif_alone_at_home", occurrenceId: "c1" };
   assert.equal(resolveEvent(state, "unprotected").ok, true);
   assert.equal(state.flags.sleptWithElif, true);
   const morning = state.openCases.find((c) => c.eventId === "elif_morning_after");
-  const fear = state.openCases.find((c) => c.eventId === "pregnancy_scare");
+  const followup = state.flags.intimacyFollowup;
   assert.ok(morning);
-  assert.ok(fear);
+  assert.equal(followup.partnerId, "elif");
 
   state.time.absoluteWeek = morning.dueWeek;
   processDueOpenCases(state);
@@ -328,13 +326,9 @@ test("Senaryo C: yetişkin ilişki → gecikmeli endişe → sonlu çözüm (CHN
   assert.equal(resolveEvent(state, "talk").ok, true);
   assert.equal(state.flags.talkedAboutElif, true);
 
-  state.time.absoluteWeek = fear.dueWeek;
-  processDueOpenCases(state);
-  activateNextEvent(state);
-  assert.equal(state.events.active.eventId, "pregnancy_scare");
-  assert.equal(resolveEvent(state, "test").ok, true);
-  assert.equal(state.flags.pregnancyFear, false);
-  assert.equal(state.openCases.find((c) => c.id === fear.id).status, "resolved");
+  state.time.absoluteWeek = followup.dueWeek;
+  assert.match(processIntimacyFollowup(state), /Gebelik/);
+  assert.equal(state.flags.intimacyFollowup, undefined);
   assert.equal(state.children, undefined);
 });
 

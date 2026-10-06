@@ -56,7 +56,7 @@ test("3A.1 contextual kararlar yalnız doğru durumda görünür ve zaman bütç
   assert.equal(applyDecision(state, "quiet-evening").ok, true);
   assert.equal(applyDecision(state, "rest").ok, true);
   assert.equal(applyDecision(state, "overtime").ok, true);
-  state.weekly.used = 6;
+  state.weekly.used = 7;
   assert.equal(applyDecision(state, "exercise").ok, false);
 });
 

@@ -91,7 +91,7 @@ import { LIFE_ARC_LABELS, LIFE_DEPTH_EVENTS, economyCausality, refreshLifeArcs }
 import { DOMAIN_LABEL, STREAK_PAYOFF, decisionTags, weekPlan } from "./decision-network.js?v=10";
 import { actorVoiceLine } from "./life-content.js?v=10";
 import { chooseEightiesStartYear, HISTORICAL_END_DATE, resolveScenarioChoice } from "./historical-scenarios.js?v=10";
-import { ECONOMY_SOURCE, economyYear, formatPeriodMoney, periodEconomyNote } from "./period-economy.js?v=11";
+import { ECONOMY_SOURCE, economyYear, formatPeriodMoney, periodEconomyNote } from "./period-economy.js?v=10";
 
 const app = document.querySelector("#app");
 

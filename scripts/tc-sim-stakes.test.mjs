@@ -3,7 +3,6 @@ import assert from "node:assert/strict";
 import {
   CRITICAL_HEALTH,
   SAVE_VERSION,
-  WEEKLY_ACTIVITY_LIMIT,
   createNewGame,
   getWeeklyActivityLimit,
   isCriticalHealth,
@@ -129,13 +128,13 @@ test("dinlenme kararı stres seviyesine göre enerji verir", () => {
 
 test("kritik sağlıkta haftalık karar hakkı düşer, toparlanınca geri gelir", () => {
   const state = fresh();
-  assert.equal(getWeeklyActivityLimit(state), WEEKLY_ACTIVITY_LIMIT);
+  assert.equal(getWeeklyActivityLimit(state), 7);
   state.health.health = CRITICAL_HEALTH;
   assert.equal(isCriticalHealth(state), true);
   assert.equal(getWeeklyActivityLimit(state), 3);
   state.health.health = CRITICAL_HEALTH + 10;
   assert.equal(isCriticalHealth(state), false);
-  assert.equal(getWeeklyActivityLimit(state), WEEKLY_ACTIVITY_LIMIT);
+  assert.equal(getWeeklyActivityLimit(state), 7);
 });
 
 test("sağlık 0 olan oyuncu sağlıklı oyuncu gibi davranamaz", () => {

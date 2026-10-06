@@ -12,10 +12,14 @@ const week=s=>{s.time.absoluteWeek++;s.weekly={used:0,selectedIds:[]};};
 beforeEach(()=>{globalThis.window={tlabI18n:{getLang:()=>"tr",phrase:v=>v}};});
 afterEach(()=>{delete globalThis.window;});
 
-test("all 53 Market rows retain real previews; mapped ownership survives normalization",()=>{
-  assert.equal(Object.keys(MARKET).length,53);
+test("all 57 Market rows retain real previews; mapped ownership survives normalization",()=>{
+  assert.equal(Object.keys(MARKET).length,57);
   for(const id of Object.keys(MARKET)) {
-    const s=game();const p=marketPreview(s,id);assert.ok(Number.isFinite(p.energy));
+    const s=game();
+    // Period products must be tested in a year when they actually exist.
+    if (MARKET[id].until && s.time.year > MARKET[id].until) s.time.year=MARKET[id].until;
+    if (MARKET[id].since && s.time.year < MARKET[id].since) s.time.year=MARKET[id].since;
+    const p=marketPreview(s,id);assert.ok(Number.isFinite(p.energy));
     const result=spendLifestyle(s,id);assert.equal(result.ok,true,id);
     assert.equal(result.effects.cash,s.finances.balance-1000000);
     if(MARKET_OWNERSHIP[id]){
@@ -35,7 +39,7 @@ test("purchase validation, stale clicks, cooldown and focus cost cannot double-a
   assert.equal(spendLifestyle(s,"coffee").ok,false);assert.equal(JSON.stringify(s),saved);
   week(s);assert.equal(spendLifestyle(s,"coffee").ok,false);
   assert.equal(spendLifestyle(s,"vacation").ok,true);assert.equal(spendLifestyle(s,"cafe").ok,true);
-  s.weekly.used=6;assert.equal(spendLifestyle(s,"restaurant").ok,false);
+  s.weekly.used=7;assert.equal(spendLifestyle(s,"restaurant").ok,false);
 });
 test("owned recovery is capped and once per week, upkeep once per month, no cash creation",()=>{
   const s=game();spendLifestyle(s,"bike");week(s);buyDurable(s,"bed");week(s);

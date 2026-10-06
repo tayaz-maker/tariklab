@@ -561,7 +561,7 @@
           '<a href="/cete-savaslari">Çete Savaşları</a> · LIVE — Build a crew, run missions and hold turf under police and rival pressure.',
           '<a href="/oyna/hanedanian">HANEDANIAN</a> · LIVE — Build settlements, secure resources and lead a dynasty across a seeded strategy map; single-player and offline-first.',
           '<a href="/oyna/racon">Racon Manager</a> · LIVE — Narrative management shaped by relationships, decisions and delayed consequences.',
-          '<a href="/oyna/tc-sim">TC SIM</a> · LIVE — Allocate six weekly time-and-focus blocks across work, education, family, friends, relationships and recovery. Some choices return as Long Shadows years later.',
+          '<a href="/oyna/tc-sim">TC SIM</a> · LIVE — Allocate seven weekly time-and-focus blocks across work, education, family, friends, relationships and recovery (eight without standing commitments, three during critical health). Some choices return as Long Shadows years later.',
           '<a href="/games/bukucu/index.html">Son Mahalle Bükücü</a> · LIVE — A neighborhood board game of dice, deeds, auctions and trades.',
           '<a href="/oyna/labirent">Labirent</a> · LIVE — Find the exit through a newly generated maze.',
           '<a href="/oyna/peg-solitaire">Tek Taş</a> · LIVE — Use legal jumps to leave one piece on the board.',

@@ -30,7 +30,7 @@ test("her ana gezinme öğesinin gerçek, geçerli bir görünümü vardır", ()
     assert.notEqual(item.view, null, `${item.label} hâlâ devre dışı`);
     assert.equal(getNavigationTarget(item.view), item.view, `${item.label} hedefi geçersiz`);
   }
-  assert.equal(NAVIGATION_ITEMS.length, 13);
+  assert.equal(NAVIGATION_ITEMS.length, 14);
 });
 
 test("TAKVİM yalnız oyuncunun bildiği yükümlülük türlerini döner", () => {
