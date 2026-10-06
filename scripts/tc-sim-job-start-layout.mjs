@@ -3,14 +3,15 @@ import assert from "node:assert/strict";
 // Read-only DOM evidence; no styles, game state, focus or scroll are changed.
 export async function captureDashboardLayout(page) {
   return page.evaluate(() => {
-    const grid=document.querySelector(".management-workspace > .dashboard-grid");
+    const grid=document.querySelector(".management-workspace > .dashboard-grid, .workspace > .dashboard-grid");
     if(!grid)return null;
     const rect=el=>{const r=el.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height};};
     const gridStyle=getComputedStyle(grid),right=grid.querySelector(":scope > .right-column");
     const rightStyle=right&&getComputedStyle(right);
-    const rows=right?[...right.querySelectorAll(":scope > .desk-row")]:[];
-    return {viewport:{width:innerWidth,height:innerHeight},grid:{...rect(grid),columns:gridStyle.gridTemplateColumns,areas:gridStyle.gridTemplateAreas},right:right&&{...rect(right),row:rightStyle.gridRow,column:rightStyle.gridColumn},titles:rows.map(row=>{
-      const title=row.querySelector(".desk-row-title"),style=title&&getComputedStyle(title);
+    const layoutVersion=grid.closest(".management-workspace")?1:2;
+    const rows=right?[...right.querySelectorAll(layoutVersion===1?":scope > .desk-row":":scope > .panel")]:[];
+    return {layoutVersion,viewport:{width:innerWidth,height:innerHeight},grid:{...rect(grid),columns:gridStyle.gridTemplateColumns,areas:gridStyle.gridTemplateAreas},right:right&&{...rect(right),row:rightStyle.gridRow,column:rightStyle.gridColumn},titles:rows.map(row=>{
+      const title=row.querySelector(layoutVersion===1?".desk-row-title":".panel-head h2"),style=title&&getComputedStyle(title);
       if(!title)return {row:rect(row),missing:true};
       const r=rect(title),lineHeight=parseFloat(style.lineHeight);
       return {text:title.textContent.trim(),...r,row:rect(row),fontSize:parseFloat(style.fontSize),lineHeight,lineCount:r.height/lineHeight,overflowWrap:style.overflowWrap};
@@ -20,6 +21,17 @@ export async function captureDashboardLayout(page) {
 
 export function assertReadableDashboardLayout(value) {
   assert.ok(value?.grid && value.right,"dashboard and inbox/people column must exist");
+  if(value.layoutVersion===2){
+    assert.ok(value.right.width>=Math.min(220,value.grid.width-2),"inbox/people column is too narrow");
+    assert.equal(value.titles.length,2,"both inbox and key-people panels must be measured");
+    for(const title of value.titles){
+      assert.ok(title.text && !title.missing,"panel needs its visible title");
+      assert.ok(title.width>=Math.min(110,title.row.width-48),`title is too narrow: ${title.text}`);
+      assert.ok(Number.isFinite(title.lineHeight)&&title.lineHeight>0,"actual line height required");
+      assert.ok(title.lineCount<=2.1,`title wraps into an unreadable column: ${title.text}`);
+    }
+    return value;
+  }
   assert.equal(value.grid.areas,"none","dashboard must not retain the moved panels' named areas");
   assert.equal(value.right.row,"auto","right-column must not retain named row placement");
   assert.ok(value.grid.width>0 && value.right.width>=value.grid.width-2,"inbox/people column must use the dashboard width");
