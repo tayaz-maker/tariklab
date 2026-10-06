@@ -1752,7 +1752,7 @@ html.embedded .start-wrap .start-exit {
 @media (max-width: 820px) {
   .game-frame > .game-topbar { padding: 8px 11px; }
   .game-body { display: block; }
-  .game-frame .side-nav.compact-nav { position: static; max-width: 100%; border-right: 0; border-bottom: 1px solid var(--line); }
+  .game-frame .side-nav.compact-nav { position: static; z-index: auto; max-width: 100%; border-right: 0; border-bottom: 1px solid var(--line); }
   .nav-item { width: auto; min-width: 0; flex: 0 0 auto; min-height: 44px; padding: 0 12px; border-left: 0; border-bottom: 2px solid transparent; white-space: nowrap; }
   .nav-item.is-active { border-left: 0; border-bottom-color: var(--accent); }
   .workspace { padding: 12px; }
