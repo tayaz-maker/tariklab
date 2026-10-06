@@ -12,7 +12,10 @@ export async function deskLanguageSwitch(page, surface, lang, setup = false) {
       await surface.locator('#new-game-form button[type="submit"]').filter({ hasText: next === "en" ? "New life" : "Bu slota" }).waitFor();
       assert.deepEqual(await fields(), draft, "Language switch erased setup draft");
     } else {
-      await surface.locator(".desk-search-label").filter({ hasText: next === "en" ? "Search this section" : "Bu bölümde ara" }).waitFor();
+      if (await surface.locator(".desk-search-label").count())
+        await surface.locator(".desk-search-label").filter({ hasText: next === "en" ? "Search this section" : "Bu bölümde ara" }).waitFor();
+      else
+        await surface.locator("#advance-week").filter({ hasText: next === "en" ? "Review the week" : "Haftayı değerlendir" }).waitFor();
     }
     assert.equal(await snapshot(), before, "Language switch mutated game storage");
   }

@@ -13,7 +13,7 @@ export async function captureDashboardLayout(page) {
     return {layoutVersion,viewport:{width:innerWidth,height:innerHeight},grid:{...rect(grid),columns:gridStyle.gridTemplateColumns,areas:gridStyle.gridTemplateAreas},right:right&&{...rect(right),row:rightStyle.gridRow,column:rightStyle.gridColumn},titles:rows.map(row=>{
       const title=row.querySelector(layoutVersion===1?".desk-row-title":".panel-head h2"),style=title&&getComputedStyle(title);
       if(!title)return {row:rect(row),missing:true};
-      const r=rect(title),lineHeight=parseFloat(style.lineHeight);
+      const r=rect(title),lineHeight=style.lineHeight==="normal"?parseFloat(style.fontSize)*1.2:parseFloat(style.lineHeight);
       return {text:title.textContent.trim(),...r,row:rect(row),fontSize:parseFloat(style.fontSize),lineHeight,lineCount:r.height/lineHeight,overflowWrap:style.overflowWrap};
     })};
   });
