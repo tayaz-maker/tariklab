@@ -1722,7 +1722,7 @@ html.embedded .start-wrap .start-exit {
 .detail-summary strong { margin-top: 4px; font-size: .86rem; }
 .context-note { background: transparent; border-left: 0; padding: 0; }
 .first-steps, .period-economy { margin-bottom: 10px; }
-.first-steps summary, .period-economy summary {
+.first-steps summary, .period-economy summary, .life-depth-panel summary, .people-panel summary {
   min-height: 34px;
   display: flex;
   align-items: center;
@@ -1733,8 +1733,8 @@ html.embedded .start-wrap .start-exit {
   font-weight: 700;
   cursor: pointer;
 }
-.first-steps summary span, .period-economy summary span { color: var(--muted); font-size: .72rem; font-weight: 400; }
-.first-steps[open] summary, .period-economy[open] summary { border-bottom: 1px solid var(--line); margin-bottom: 10px; }
+.first-steps summary span, .period-economy summary span, .life-depth-panel summary span, .people-panel summary span { color: var(--muted); font-size: .72rem; font-weight: 400; }
+.first-steps[open] summary, .period-economy[open] summary, .life-depth-panel[open] summary, .people-panel[open] summary { border-bottom: 1px solid var(--line); margin-bottom: 10px; }
 .first-steps p { margin: 7px 0; color: var(--muted); font-size: .8rem; }
 .period-economy { display: block; border-left: 1px solid var(--line); }
 .period-economy-content { display: grid; grid-template-columns: minmax(200px, 1fr) minmax(0, 1.5fr); gap: 12px; }
