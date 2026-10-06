@@ -620,7 +620,7 @@ function renderInbox() {
 }
 
 function renderNav() {
-  return NAVIGATION_ITEMS.map(
+  return NAVIGATION_ITEMS.filter(({ view }) => view !== "inbox").map(
     ({ label, view }) =>
       `<button type="button" class="nav-item ${view === activeView ? "is-active" : ""}" ${view ? `data-view="${view}"${view === activeView ? ' aria-current="page"' : ""}` : 'disabled aria-disabled="true"'}><span class="nav-mark"></span><span>${label}</span></button>`,
   ).join("");
@@ -700,11 +700,11 @@ function renderEconomyContext() {
   const observed = Math.min(2025, year);
   const job = getJobById(state.career.jobId);
   const home = getHomeById(state.household.homeId);
-  return `<section class="panel period-economy" aria-label="Dönem ekonomisi">
+  return `<details class="panel period-economy" aria-label="Dönem ekonomisi"><summary>Dönem ekonomisi · ${year} <span>Ayrıntılar ve kaynaklar</span></summary><div class="period-economy-content">
     <div><p class="eyebrow">DÖNEM EKONOMİSİ · ${year}</p><h2>Paranın o yıldaki yüzü</h2><p>${escapeText(periodEconomyNote(year))}</p></div>
     <dl><div><dt>İş geliri</dt><dd>${money(job?.salary || 0)}</dd></div><div><dt>Konut gideri</dt><dd>${money(home.monthlyCost)}</dd></div><div><dt>Haftalık temel sepet</dt><dd>${money(MARKET.grocery.cost)}</dd></div></dl>
     <p class="economy-source">${observed} yıllık TÜFE · <a href="${ECONOMY_SOURCE.cpi}" target="_blank" rel="noopener noreferrer">endeks kaynağı</a> · <a href="${ECONOMY_SOURCE.wage}" target="_blank" rel="noopener noreferrer">2025 ücret kalibrasyonu</a> · <a href="${ECONOMY_SOURCE.redenomination}" target="_blank" rel="noopener noreferrer">TL/YTL değişimi</a></p>
-  </section>`;
+  </div></details>`;
 }
 
 function renderDashboard() {
@@ -722,7 +722,7 @@ function renderDashboard() {
     ? getPerson(state, state.social.currentPartnerNpcId)
     : null;
   return `<div class="workspace-head"><div><p class="eyebrow">ANA SAYFA</p><h1>Hayat merkezi</h1></div>${renderWeekControl()}</div>
-    <section class="panel first-steps"><p class="eyebrow">İLK BAKIŞTA</p><h2>Bugün ne yapmalıyım?</h2><div><p><b>1 · Bir karar seç.</b> Kartın altında zaman, para ve enerji etkisini gör.</p><p><b>2 · Önemli gelişmeye bak.</b> Gelen kutusu ve bekleyen sonuçlar üst menüde.</p><p><b>3 · Haftayı bitir.</b> Hepsini doldurman gerekmez; ay sonunda gelir ve gider otomatik işler.</p></div></section>
+    <details class="panel first-steps"><summary>Nasıl ilerlerim? <span>Üç kısa adım</span></summary><div><p><b>1 · Bir karar seç.</b> Kartın altında zaman, para ve enerji etkisini gör.</p><p><b>2 · Önemli gelişmeye bak.</b> Gelen kutusu ve bekleyen sonuçlar menüde.</p><p><b>3 · Haftayı bitir.</b> Hepsini doldurman gerekmez; ay sonunda gelir ve gider otomatik işler.</p></div></details>
     ${renderParenthoodContext()}
     ${renderEconomyContext()}
     <section class="overview-grid" aria-label="Hayat özeti">
@@ -1341,7 +1341,7 @@ function render() {
       <header class="game-topbar">
         <div class="game-brand"><strong>TC SIM</strong><span>Bir hayat, bin küçük karar</span></div>
         <div class="top-meta"><span><b>${escapeText(state.player.name)}</b> · ${state.player.age}</span><span>${state.time.year} / ${state.time.month}. ay / H${state.time.weekOfMonth}</span><span class="top-money">${money(state.finances.balance)}</span></div>
-        <nav class="top-shortcuts" aria-label="Hızlı erişim"><button class="button button-quiet" data-view="inbox"${activeView === "inbox" ? ' aria-current="page"' : ""}>Gelen kutusu <b>${getPlayerVisibleOpenCases(state).filter((item) => item.status !== "resolved").length}</b></button><button class="button button-quiet" data-view="calendar"${activeView === "calendar" ? ' aria-current="page"' : ""}>Takvim</button><button class="button button-quiet" data-view="finance"${activeView === "finance" ? ' aria-current="page"' : ""}>Banka</button><button class="button button-quiet" data-view="relationships"${activeView === "relationships" ? ' aria-current="page"' : ""}>İlişkiler</button><button class="button button-quiet" data-view="body"${activeView === "body" ? ' aria-current="page"' : ""}>Beden</button></nav>
+        <button class="button button-quiet inbox-shortcut" data-view="inbox"${activeView === "inbox" ? ' aria-current="page"' : ""}>Gelen kutusu <b>${getPlayerVisibleOpenCases(state).filter((item) => item.status !== "resolved").length}</b></button>
         <div class="save-area"><span class="save-status" role="status">${escapeText(saveStatus)}</span><span class="slot-mini">Slot ${getActiveSlot(localStorage)}</span><button class="button button-quiet" id="help-open" aria-haspopup="dialog">? Nasıl Oynanır</button><button class="button button-quiet" id="save-game">Kaydet</button><button class="button button-quiet" id="main-menu">Ana Menü</button><button class="button button-quiet button-danger" id="new-game">Yeni oyun</button></div>
       </header>
       <div class="game-body">
