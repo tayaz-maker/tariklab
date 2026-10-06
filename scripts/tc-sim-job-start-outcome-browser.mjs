@@ -5,7 +5,6 @@ import { resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { chromium } from "playwright";
 import { captureDashboardLayout, assertReadableDashboardLayout, summarizeLayoutEntryCost } from "./tc-sim-job-start-layout.mjs";
-import { provePreviousDashboardStyles } from "./tc-sim-job-start-layout-baseline.mjs";
 import { readyJobStartState, pendingJobStartState } from "./tc-sim-job-start-fixture.mjs";
 import { createStaticGameServer } from "./static-game-server.mjs";
 import { checkedOutcomeOrigin, verifyOutcomeBuild } from "./tc-sim-job-start-target.mjs";
@@ -32,7 +31,9 @@ try {
   const key = "tariklab::tc-sim:1";
   const modules = ["job-start-outcome.js", "job-start-outcome-ui.js"].map(name => `${origin}/games/tc-sim/js/${name}?v=10`);
   browser = await chromium.launch({ headless: true, executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || undefined, args: ["--no-sandbox"] });
-  if (values.serve) layoutBaseline = await provePreviousDashboardStyles(browser, values.serve, out);
+  // The original CSS-only counterfactual targeted the retired dashboard DOM.
+  // The life-era redesign changes that DOM, so it cannot be compared against
+  // the old stylesheet. Keep all current-layout and 22 browser-case gates.
   const saveFacts = state => ({ version: state.meta.saveVersion, jobId: state.career.jobId,
     pendingJob: state.career.pendingJob, cash: state.finances.balance, energy: state.health.energy,
     stress: state.health.stress, week: state.time.absoluteWeek });
