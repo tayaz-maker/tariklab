@@ -9,6 +9,8 @@ import {
 } from "./wealth.js?v=10";
 import { renderLifetimeTerminal, renderLineage } from "./lifetime-ui.js?v=10";
 import { parenthoodSummary } from "./parenthood.js?v=10";
+import { chooseIntimacy, intimacyAvailability } from "./intimacy.js?v=10";
+import { BUSINESS_TYPES, CREDIT_OFFERS, businessAvailability, closeBusiness, creditAvailability, repayCredit, startBusiness, takeCredit } from "./bank-business.js?v=10";
 import { getHouseholdSummary } from "./household.js?v=10";
 import {
   WEEKS_PER_MONTH,
@@ -89,6 +91,7 @@ import { LIFE_ARC_LABELS, LIFE_DEPTH_EVENTS, economyCausality, refreshLifeArcs }
 import { DOMAIN_LABEL, STREAK_PAYOFF, decisionTags, weekPlan } from "./decision-network.js?v=10";
 import { actorVoiceLine } from "./life-content.js?v=10";
 import { chooseEightiesStartYear, HISTORICAL_END_DATE, resolveScenarioChoice } from "./historical-scenarios.js?v=10";
+import { ECONOMY_SOURCE, economyYear, formatPeriodMoney, periodEconomyNote } from "./period-economy.js?v=10";
 
 const app = document.querySelector("#app");
 
@@ -136,14 +139,21 @@ function freshScenarioSeed() {
   return values[0] || (Date.now() >>> 0) || 1;
 }
 
-const money = (value) =>
-  new Intl.NumberFormat("tr-TR", {
-    style: "currency",
-    currency: "TRY",
-    maximumFractionDigits: 0,
+const money = (value) => state?.world?.scenario
+  ? formatPeriodMoney(value, economyYear(state))
+  : new Intl.NumberFormat("tr-TR", {
+    style: "currency", currency: "TRY", maximumFractionDigits: 0,
   }).format(value);
+function periodText(value) {
+  const raw = String(value);
+  if (!state?.world?.scenario) return raw;
+  return raw.replace(/₺\s?([\d.,]+)/g, (original, digits) => {
+    const amount = Number(digits.replace(/\./g, "").replace(",", "."));
+    return Number.isFinite(amount) ? formatPeriodMoney(amount, economyYear(state)) : original;
+  });
+}
 const escapeText = (value) =>
-  String(value).replace(
+  periodText(value).replace(
     /[&<>'"]/g,
     (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[char],
   );
@@ -282,7 +292,7 @@ function startScreen(loadResult) {
         <p class="eyebrow">TARIKLAB · HAYAT SİMÜLASYONU</p>
         <h1 id="start-title">TC SIM</h1>
         <p class="tagline">18 yaşında, İstanbul'da aile evinde başlayan küçük bir hayat.</p>
-        <p>Her hafta yalnız iki önemli karar verebilirsin: kariyer, eğitim, ilişkiler, para — hepsi birbirini besliyor, hepsi yıllarca sürüyor.</p>
+        <p>Bir haftada 7–8 zaman bloğun var: iş, eğitim, aşk, aile, para ve biraz da kendine ayırdığın vakit. Her şeye yetişmek zorunda değilsin; hayat yaptığın küçük tercihlerin toplamı.</p>
         <div class="slot-row" role="group" aria-label="Kayıt yerleri">${slots
           .map(
             (item) =>
@@ -325,7 +335,7 @@ function startScreen(loadResult) {
             .map(([id, label]) => `<option value="${id}">${escapeText(label)}</option>`)
             .join("")}</select></label>
           <label>Askerlik durumu<select name="militaryApplicable"><option value="false">Bu yaşamda yükümlülük yok</option><option value="true">Yükümlülük var</option></select></label>
-          <label>Başlangıç<select name="eraId"><option value="present_day">Günümüz · mevcut başlangıç</option><option value="1999-04-18">18 Nisan 1999 · 1 Ocak 2026'ya kadar</option><option value="1980s">1980'lerden seed'li başlangıç · 1 Ocak 2026'ya kadar</option></select></label>
+          <label>Başlangıç<select name="eraId"><option value="present_day">Günümüz · serbest yaşam</option><option value="1999-04-18">18 Nisan 1999 · 1 Ocak 2030'a kadar</option><option value="1980s">1980'lerden seed'li başlangıç · 1 Ocak 2030'a kadar</option></select></label>
           <label id="scenario-seed-wrap">Tekrar üretim seed'i<input name="scenarioSeed" type="number" min="1" max="4294967295" value="${freshScenarioSeed()}" inputmode="numeric" /><small id="scenario-preview">Seed aynı kaldığında 1980'ler başlangıcı da aynı kalır.</small></label>
         <div class="row">
           <button class="button button-quiet" type="button" id="back-to-intro">← Geri</button>
@@ -377,13 +387,13 @@ function startScreen(loadResult) {
     if (seedLabel) seedLabel.hidden = era !== "1980s";
     const year = chooseEightiesStartYear(seed);
     preview.textContent = era === "1980s"
-      ? language === "en" ? `Seeded start: ${year}. Period decisions continue through 1 January 2026.`
-        : language === "pl" ? `Start z seedem: ${year}. Decyzje trwają do 1 stycznia 2026.`
-          : `Bu seed ile başlangıç: ${year}. Dönem kararları 1 Ocak 2026'ya kadar sürer.`
+      ? language === "en" ? `Seeded start: ${year}. Period decisions continue through 1 January 2030; years after 2025 are fictional.`
+        : language === "pl" ? `Start z seedem: ${year}. Decyzje trwają do 1 stycznia 2030; lata po 2025 są fikcyjne.`
+          : `Bu seed ile başlangıç: ${year}. Dönem kararları 1 Ocak 2030'a kadar sürer; 2025 sonrası kurgudur.`
       : era === "1999-04-18"
-        ? language === "en" ? "Fixed start: 18 April 1999. End date: 1 January 2026."
-          : language === "pl" ? "Stały start: 18 kwietnia 1999. Data końcowa: 1 stycznia 2026."
-            : "Sabit başlangıç: 18 Nisan 1999. Hedef: 1 Ocak 2026."
+        ? language === "en" ? "Fixed start: 18 April 1999. End date: 1 January 2030; years after 2025 are fictional."
+          : language === "pl" ? "Stały start: 18 kwietnia 1999. Koniec: 1 stycznia 2030; lata po 2025 są fikcyjne."
+            : "Sabit başlangıç: 18 Nisan 1999. Hedef: 1 Ocak 2030; 2025 sonrası kurgudur."
         : language === "en" ? "The present-day option keeps the existing start and save behavior."
           : language === "pl" ? "Współczesny wariant zachowuje obecny start i zapis gry."
             : "Günümüz seçeneği mevcut başlangıç ve kayıt davranışını korur.";
@@ -487,6 +497,17 @@ function renderHouseholdContext() {
   return `<p class="context-note">${escapeText(context.partnerName)} · ${escapeText(context.status)} · ${escapeText(context.residence)}${context.space ? `<br>${escapeText(context.space)}` : ""}${context.familyPlanning ? `<br>${escapeText(context.familyPlanning)}` : ""}</p>${renderParenthoodContext()}`;
 }
 
+function renderAdultChoices() {
+  const partner = state.social.currentPartnerNpcId && getPerson(state, state.social.currentPartnerNpcId);
+  if (!partner || state.player.age < 18) return "";
+  const choices = [
+    ["talk", "Sınırları ve korunmayı konuş", "Seks zorunlu değil; ikinizin de isteği ve sınırları önce gelir."],
+    ["condom", "Kondomla seks", "Karşılıklı rıza · kondom gideri · yakınlık ve güven."],
+    ["without_condom", "Kondomsuz seks", "Karşılıklı rıza · gebelik olasılığı; sonucu dört hafta sonra öğrenirsin."],
+  ];
+  return `<section class="panel adult-choice-panel"><div class="panel-head"><div><p class="eyebrow">YETİŞKİN HAYATI · 18+</p><h2>${escapeText(partner.name)} ile yakınlık</h2></div></div><p>Bu kararlar açık yetişkin ilişkisinde, karşılıklı rıza ve güven olduğunda kullanılabilir. Yakınlık istememek de geçerli bir seçimdir.</p><div class="adult-choice-grid">${choices.map(([id, title, detail]) => { const availability = intimacyAvailability(state, id); return `<button class="button decision" data-intimacy-choice="${id}" ${availability.ok ? "" : "disabled"} title="${escapeText(availability.reason || "")}"><strong>${escapeText(title)}</strong><small>${escapeText(detail)}</small></button>`; }).join("")}</div><p class="context-note">Gebelik dalı oyunun kurgu mekaniğidir; gerçek korunma etkinliği veya sağlık tavsiyesi değildir.</p></section>`;
+}
+
 function renderRelationshipsOverview() {
   const partner = state.social.currentPartnerNpcId
     ? getPerson(state, state.social.currentPartnerNpcId)
@@ -512,6 +533,7 @@ function renderRelationshipsOverview() {
       <div><span>Açık sosyal mesele</span><strong>${obligationCount}</strong></div>
     </section>
     ${renderHouseholdContext()}
+    ${renderAdultChoices()}
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">ÖNEMLİ BAĞLAR</p><h2>Kişiler</h2></div></div><div class="overview-grid">${state.people
       .map(
         (person) =>
@@ -591,6 +613,12 @@ function renderAgenda() {
   return `<p class="agenda-title">Sakin başlangıç</p><p>Hayatın ilk kararlarını vermek için bu haftayı kullan.</p><span class="agenda-status">Gündem açık</span>`;
 }
 
+function renderInbox() {
+  const cases = getPlayerVisibleOpenCases(state).filter((item) => item.status !== "resolved");
+  const recent = state.memories.slice(-8).reverse();
+  return `<div class="workspace-head"><div><p class="eyebrow">GELEN KUTUSU</p><h1>Şimdi ne oluyor?</h1><p class="context-note">Önce bekleyen kararlar; sonra yakın zamanda olanlar. Bir bildirime yetişmek için ekran araman gerekmiyor.</p></div>${renderWeekControl()}</div><div class="inbox-layout"><section class="panel"><div class="panel-head"><div><p class="eyebrow">ÖNCELİK</p><h2>Bu haftanın gündemi</h2></div></div>${renderAgenda()}${state.events.active ? `<p class="context-note">Açık olay seçimleri ekranda görünüyor; karar vermeden hafta ilerlemez.</p>` : ""}</section><section class="panel"><div class="panel-head"><div><p class="eyebrow">YAKLAŞAN</p><h2>Bekleyen sonuçlar</h2></div><span>${cases.length}</span></div>${cases.length ? cases.map((item) => `<p class="open-case"><b>${escapeText(openCaseLabel(item))}</b><span>${escapeText(weeksAheadLabel(item.dueWeek || state.time.absoluteWeek))}</span></p>`).join("") : `<p class="empty">Şimdilik bekleyen mesele yok. Haftalık kararlarını rahatça verebilirsin.</p>`}</section><section class="panel"><div class="panel-head"><div><p class="eyebrow">SON YAŞANANLAR</p><h2>Hayat akışı</h2></div></div>${recent.length ? recent.map((memory) => `<p class="memory">${escapeText(memory.text)} <small>· ${memory.year}</small></p>`).join("") : `<p class="empty">İlk adımını attığında burada hikâyen oluşacak.</p>`}</section></div>`;
+}
+
 function renderNav() {
   return NAVIGATION_ITEMS.map(
     ({ label, view }) =>
@@ -604,7 +632,7 @@ function lifeLabel(value) {
 
 function bodyRiskText() {
   if (isCriticalHealth(state))
-    return "Sağlığın kritik: bu hafta yalnız bir karar verebilirsin ve ek mesaiye kalkışamazsın. Dinlen ve toparlan.";
+    return "Sağlığın kritik: bu hafta en fazla üç hafif işe zaman ayırabilirsin; ek mesai güvenli değil. Dinlen ve toparlan.";
   if (state.health.energy <= 45 && getCommuteLoad(state.household.homeId, state.career.jobId) >= 2)
     return "Düşük enerji, yüksek ulaşım yüküyle birlikte yol yorgunluğu olayını açabilir.";
   if (state.health.stress >= 70) return "Yüksek stres yorgunluk uyarısı doğurabilir.";
@@ -666,6 +694,19 @@ function renderDecisionTags(decisionId) {
     .join("")}</span>`;
 }
 
+function renderEconomyContext() {
+  if (!state.world.scenario) return "";
+  const year = economyYear(state);
+  const observed = Math.min(2025, year);
+  const job = getJobById(state.career.jobId);
+  const home = getHomeById(state.household.homeId);
+  return `<section class="panel period-economy" aria-label="Dönem ekonomisi">
+    <div><p class="eyebrow">DÖNEM EKONOMİSİ · ${year}</p><h2>Paranın o yıldaki yüzü</h2><p>${escapeText(periodEconomyNote(year))}</p></div>
+    <dl><div><dt>İş geliri</dt><dd>${money(job?.salary || 0)}</dd></div><div><dt>Konut gideri</dt><dd>${money(home.monthlyCost)}</dd></div><div><dt>Haftalık temel sepet</dt><dd>${money(MARKET.grocery.cost)}</dd></div></dl>
+    <p class="economy-source">${observed} yıllık TÜFE · <a href="${ECONOMY_SOURCE.cpi}" target="_blank" rel="noopener noreferrer">endeks kaynağı</a> · <a href="${ECONOMY_SOURCE.wage}" target="_blank" rel="noopener noreferrer">2025 ücret kalibrasyonu</a> · <a href="${ECONOMY_SOURCE.redenomination}" target="_blank" rel="noopener noreferrer">TL/YTL değişimi</a></p>
+  </section>`;
+}
+
 function renderDashboard() {
   const depth = refreshLifeArcs(state);
   const causalEconomy = economyCausality(state);
@@ -681,7 +722,9 @@ function renderDashboard() {
     ? getPerson(state, state.social.currentPartnerNpcId)
     : null;
   return `<div class="workspace-head"><div><p class="eyebrow">ANA SAYFA</p><h1>Hayat merkezi</h1></div>${renderWeekControl()}</div>
+    <section class="panel first-steps"><p class="eyebrow">İLK BAKIŞTA</p><h2>Bugün ne yapmalıyım?</h2><div><p><b>1 · Bir karar seç.</b> Kartın altında zaman, para ve enerji etkisini gör.</p><p><b>2 · Önemli gelişmeye bak.</b> Gelen kutusu ve bekleyen sonuçlar üst menüde.</p><p><b>3 · Haftayı bitir.</b> Hepsini doldurman gerekmez; ay sonunda gelir ve gider otomatik işler.</p></div></section>
     ${renderParenthoodContext()}
+    ${renderEconomyContext()}
     <section class="overview-grid" aria-label="Hayat özeti">
       <article class="profile-panel"><p class="panel-kicker">KARAKTER</p><h2>${escapeText(state.player.name)}</h2><p>${escapeText(state.player.profile)} · İstanbul · ${escapeText(getEraById(state.world.eraId).title)}</p><dl><div><dt>Yaşam dönemi</dt><dd>${escapeText(getPlayerLifeStage(state).label)}</dd></div><div><dt>Yaşam yeri</dt><dd>${escapeText(home.title)}</dd></div><div><dt>İş</dt><dd>${escapeText(state.career.retirement?.status === "retired" ? "Emekli" : job?.title || "İşsiz")}</dd></div><div><dt>Ulaşım yükü</dt><dd>${escapeText(currentCommuteExplanation().label)}</dd></div></dl></article>
       <article class="metric-panel"><p>FİNANS</p><strong>${money(state.finances.balance)}</strong><span>Aylık ${money(monthly.income)} gelir · ${money(monthly.expenses)} gider</span><small>Ay sonu tahmini: ${money(projectedBalance)}</small></article>
@@ -730,7 +773,7 @@ function renderCareer() {
     <section class="detail-summary panel"><div><span>Çalışma durumu</span><strong>${retired ? "Emekli" : active ? escapeText(active.title) : "İşsiz"}</strong><small>${retired ? `${money(state.career.retirement.monthlyIncome)} aylık gelir` : escapeText(getPlayerLifeStage(state).label)}</small></div><div><span>Aylık maaş</span><strong>${money(active?.salary || 0)}</strong></div><div><span>İş yükü</span><strong>${lifeLabel(active?.load || 0)}</strong></div><div><span>Güvence</span><strong>${active?.security || "—"}</strong></div><div><span>Emeklilik</span><strong>${retired ? "Tamamlandı" : retirement.eligible ? "Karar verilebilir" : "Henüz uygun değil"}</strong><small>${retired ? `H${state.career.retirement.retiredWeek}` : retirement.eligible ? `Tahmini gelir ${money(getRetirementIncomePreview(state))}` : escapeText(retirement.reason)}</small></div><div><span>${escapeText(home.title)} ulaşımı</span><strong>${escapeText(getCommuteExplanation(home.id, active?.id || null).label)}</strong><small>${escapeText(getCommuteExplanation(home.id, active?.id || null).detail)}</small></div></section>
     <section class="detail-summary panel"><div><span>İş alanı</span><strong>${escapeText(experience.familyLabel)}</strong></div><div><span>Alan deneyimi</span><strong>${experience.weeks} hafta</strong><small>${experience.months} ay</small></div><div><span>Kariyer bandı</span><strong>${escapeText(experience.band.label)}</strong></div><div><span>İş performansı</span><strong>${state.career.performance}</strong><small>${state.career.weeksInRole} hafta bu rolde</small></div><div><span>Eğitim seviyesi</span><strong>${escapeText(getEducationLevelLabel(state.education.level))}</strong><small>${state.education.fields.length ? escapeText(state.education.fields.map((field) => getFieldLabel(field)).join(" · ")) : "Alan yok"}</small></div></section>
     ${state.career.pendingJob ? `<p class="result">${escapeText(getJobById(state.career.pendingJob.jobId).title)} başlangıcı ${Math.max(0, state.career.pendingJob.startWeek - state.time.absoluteWeek)} hafta sonra.</p>` : ""}
-    <section class="panel"><div class="panel-head"><div><p class="eyebrow">FIRSATLAR</p><h2>İş teklifleri</h2></div></div><div class="option-grid">${JOBS.map(
+    <section class="panel"><div class="panel-head"><div><p class="eyebrow">FIRSATLAR</p><h2>İş teklifleri</h2></div></div><p class="context-note">Yalnız içinde bulunduğun yılda var olan iş alanları gösterilir. Uygun olmayan teklifin altında hangi becerinin eksik olduğu yazılıdır.</p><div class="option-grid">${JOBS.filter((job) => !job.since || state.time.year >= job.since).map(
       (job) => {
         const commute = getCommuteExplanation(home.id, job.id);
         const isCurrent = state.career.jobId === job.id;
@@ -831,10 +874,12 @@ function renderHomes() {
   const housing = getMonthlySummary(state).housingBreakdown;
   const owned = state.wealth.properties.filter((property) => property.occupancy === "owner");
   const rentals = state.wealth.properties.filter((property) => property.occupancy !== "owner");
+  const currentZone = getHomeById(state.household.homeId).zone;
   return `<div class="workspace-head"><div><p class="eyebrow">EV</p><h1>Konut yönetimi</h1></div>${renderWeekControl()}</div>
     ${renderHouseholdContext()}
     <section class="detail-summary panel"><div><span>Aktif konut</span><strong>${escapeText(getHomeById(state.household.homeId).title)}</strong></div><div><span>Aylık maliyet</span><strong>${money(housing.total)}</strong>${housing.partnerContribution ? `<small>Ortak gider +${money(housing.householdExtra)} · Partner payı −${money(housing.partnerContribution)}</small>` : ""}${housing.familyContribution ? `<small>Konut ${money(housing.base)} · Aile katkısı ${money(housing.familyContribution)}</small>` : ""}</div><div><span>Çalışma yeri</span><strong>${escapeText(state.career.retirement?.status === "retired" ? "Emekli" : activeJob?.title || "İşsiz")}</strong></div><div><span>Ulaşım yükü</span><strong>${escapeText(activeCommute.label)}</strong><small>${escapeText(activeCommute.detail)}</small></div></section>
     <p class="context-note">${escapeText(PRIVACY_CONTEXT)}</p>
+    <section class="panel district-panel"><div class="panel-head"><div><p class="eyebrow">YAŞAM HARİTASI</p><h2>Ev, iş ve yol</h2></div></div><p class="context-note">Bu şema gerçek bir şehir haritası değil; evinle işinin üç bölge arasındaki ulaşım bedelini gösterir. Daha fazla gerçek şehir eklemek, iş ve kira dengesi kurulmadan yanıltıcı olur.</p><div class="district-route">${[1, 2, 3].map((zone) => `<div class="district-stop ${zone === currentZone ? "is-home" : ""} ${zone === activeJob?.zone ? "is-work" : ""}"><span>0${zone}</span><strong>${escapeText(HOMES.find((home) => home.zone === zone)?.district || "Bölge")}</strong><small>${zone === currentZone ? "● Evin" : ""}${zone === activeJob?.zone ? `${zone === currentZone ? " · " : ""}◆ İşin` : ""}</small></div>`).join("")}</div><p class="context-note">${escapeText(activeCommute.detail)}</p></section>
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">MÜLKİYET</p><h2>Konut varlıkların</h2></div><span>${owned.length + rentals.length}</span></div><p class="context-note">${owned.length ? "Bu evin sahibi sensin; katalog kirası yerine bakım ve varsa konut borcu ödüyorsun." : "Mevcut konut aile veya kiralama düzeninde."}${rentals.length ? ` · ${rentals.length} yatırım mülkü: ${rentals.filter((property) => property.occupancy === "rental").length} kirada.` : ""}</p><button class="button button-quiet" data-view="finance">Alım, satış ve borçları PARA ekranında yönet</button></section>
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">SEÇENEKLER</p><h2>Konut alternatifleri</h2></div></div><div class="option-grid">${HOMES.map(
       (home) => {
@@ -847,7 +892,7 @@ function renderHomes() {
           state.weekly.used >= getWeeklyActivityLimit(state) ||
           state.events.active;
         const commute = getCommuteExplanation(home.id, state.career.jobId, state);
-        return `<article class="option-card ${current ? "is-current" : ""}"><div><p class="panel-kicker">${current ? "MEVCUT EV" : "KONUT"}</p><h3>${escapeText(home.title)}</h3></div><dl><div><dt>Mahremiyet</dt><dd>${lifeLabel(home.privacy)}</dd></div><div><dt>Aylık maliyet</dt><dd>${money(home.monthlyCost)}</dd></div><div><dt>İşe ulaşım</dt><dd>${escapeText(commute.label)}</dd></div><div><dt>Haftalık ulaşım</dt><dd>${escapeText(commute.detail)}</dd></div><div><dt>Taşınma</dt><dd>${money(cost)}</dd></div></dl><button class="button" data-move-home="${home.id}" ${disabled ? "disabled" : ""}>${current ? "Burada yaşıyorsun" : affordable ? "Taşın" : "Para yetersiz"}</button></article>`;
+        return `<article class="option-card ${current ? "is-current" : ""}"><div><p class="panel-kicker">${current ? "MEVCUT EV" : "KONUT"} · ${escapeText(home.district)}</p><h3>${escapeText(home.title)}</h3></div><dl><div><dt>Mahremiyet</dt><dd>${lifeLabel(home.privacy)}</dd></div><div><dt>Aylık maliyet</dt><dd>${money(home.monthlyCost)}</dd></div><div><dt>İşe ulaşım</dt><dd>${escapeText(commute.label)}</dd></div><div><dt>Haftalık ulaşım</dt><dd>${escapeText(commute.detail)}</dd></div><div><dt>Taşınma</dt><dd>${money(cost)}</dd></div></dl><button class="button" data-move-home="${home.id}" ${disabled ? "disabled" : ""}>${current ? "Burada yaşıyorsun" : affordable ? "Taşın" : "Para yetersiz"}</button></article>`;
       },
     ).join(
       "",
@@ -903,6 +948,8 @@ function renderFinance() {
       )
       .join("")}</div></section>
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">TÜKETİM</p><h2>Market</h2></div><span>ayrı ekran</span></div><p class="context-note">Günlük harcama, gece hayatı, hediye ve riskli alışveriş MARKET ekranında.</p><button class="button button-quiet" data-view="market">Market'e geç</button></section>
+    <section class="panel bank-panel"><div class="panel-head"><div><p class="eyebrow">BANKA</p><h2>Kredi ve geri ödeme</h2></div></div><p class="context-note">Kredi gelir değildir: bugün nakit verir, gelecek aylara zorunlu ödeme yazar. Tutar ve toplam geri ödeme oyun içi varsayımdır; tarihsel banka teklifi değildir.</p><div class="wealth-grid">${Object.entries(CREDIT_OFFERS).map(([id, offer]) => { const check = creditAvailability(state, id); return `<button class="button decision" data-credit="${id}" ${check.ok ? "" : "disabled"} title="${escapeText(check.reason || "")}"><strong>${escapeText(offer.label)}</strong><small>Bugün ${money(offer.cash)} · ${offer.months} ay × ${money(Math.ceil(offer.total / offer.months))} · toplam ${money(offer.total)}${check.reason ? ` · ${escapeText(check.reason)}` : ""}</small></button>`; }).join("")}</div><button class="button button-quiet" data-repay-credit="1" ${state.wealth.debts.some((debt) => debt.type === "personal") ? "" : "disabled"}>İhtiyaç kredisini erken kapat</button></section>
+    <section class="panel business-panel"><div class="panel-head"><div><p class="eyebrow">KENDİ İŞİN</p><h2>Küçük işletme kur</h2></div></div><p class="context-note">Sektör döneme göre açılır. Geçmişteki bir sektörün popüler olması garanti kazanç değildir; aylık ciro, gider, yorgunluk ve zarar ihtimali birlikte işler.</p>${state.flags.business ? `<p class="open-case"><b>${escapeText(BUSINESS_TYPES[state.flags.business.id]?.label || "İşletme")}</b><span>${state.flags.business.months} ay açık · ay sonunda kâr veya zarar</span></p><button class="button button-quiet" data-close-business="1">İşletmeyi kapat</button>` : `<div class="wealth-grid">${Object.entries(BUSINESS_TYPES).map(([id, type]) => { const check = businessAvailability(state, id); return `<button class="button decision" data-business="${id}" ${check.ok ? "" : "disabled"} title="${escapeText(check.reason || "")}"><strong>${escapeText(type.label)}</strong><small>${type.since} sonrası · kuruluş ${money(type.startup)} · aylık sonuç değişken${check.reason ? ` · ${escapeText(check.reason)}` : ""}</small></button>`; }).join("")}</div>`}</section>
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">ABONELİKLER</p><h2>Düzenli hizmetler</h2></div><span>${state.wealth.subscriptions.length}</span></div><div class="wealth-grid">${Object.entries(
       SUBSCRIPTIONS,
     )
@@ -994,9 +1041,11 @@ function renderBody() {
   return `<div class="workspace-head"><div><p class="eyebrow">BEDEN</p><h1>Fiziksel ve zihinsel durum</h1></div>${renderWeekControl()}</div>
     <section class="panel body-panel">
       <p>GENEL DURUM</p>
+      <div class="body-overview"><div class="body-visual" role="img" aria-label="Beden durumu: sağlık ${state.health.health}, enerji ${state.health.energy}, stres ${state.health.stress} puan. Eğitsel durum simgesi; anatomik atlas değildir."><svg viewBox="0 0 180 250" aria-hidden="true" focusable="false"><defs><linearGradient id="body-fill" x2="0" y2="1"><stop stop-color="#e1a783"/><stop offset="1" stop-color="#ad725f"/></linearGradient></defs><circle cx="90" cy="32" r="21" fill="url(#body-fill)"/><path d="M62 58 Q90 49 118 58 L126 132 Q105 149 90 143 Q75 149 54 132 Z" fill="url(#body-fill)"/><path d="M62 65 L43 134 L50 141 L69 95 M118 65 L137 134 L130 141 L111 95" fill="none" stroke="#c58a70" stroke-width="14" stroke-linecap="round"/><path d="M72 139 L65 225 M108 139 L115 225" fill="none" stroke="#b47b68" stroke-width="19" stroke-linecap="round"/><path d="M68 223 L52 235 M112 223 L128 235" fill="none" stroke="#b47b68" stroke-width="12" stroke-linecap="round"/><circle cx="97" cy="86" r="10" fill="${state.health.health <= 30 ? "#df7a73" : "#d65565"}" stroke="#f4c8b0" stroke-width="3"/><path d="M90 154 Q94 168 90 190" fill="none" stroke="#f0c6a5" stroke-width="3" opacity=".65"/></svg><div class="body-visual__caption">${state.health.health <= 30 ? "Toparlanma öncelikli" : state.health.stress >= 70 ? "Baskı birikiyor" : "Günlük denge"}</div></div><div class="body-metrics">
       <div class="body-row"><span>Enerji</span><i><b style="width:${state.health.energy}%"></b></i><strong>${state.health.energy}</strong></div>
       <div class="body-row stress"><span>Stres</span><i><b style="width:${state.health.stress}%"></b></i><strong>${state.health.stress}</strong></div>
       <div class="body-row"><span>Sağlık</span><i><b style="width:${state.health.health}%"></b></i><strong>${state.health.health}</strong></div>
+      <p class="context-note">Bu görsel oyun içi enerji/stres durumunu anlatır; tıbbi teşhis ya da anatomi çizimi değildir.</p></div></div>
       <small class="body-note">${escapeText(bodyRiskText())}</small>
       <p class="panel-kicker">BİLİNEN DURUMLAR</p>
       <div class="known-conditions">${
@@ -1251,7 +1300,7 @@ function renderScenarioPanel() {
   if (scenario.pendingEvent) {
     const event = scenario.pendingEvent;
     const citations = event.sources?.length ? `<p class="historical-citations">Kaynak: ${event.sources.map((source) => `<span><a href="${escapeText(source.url)}" target="_blank" rel="noopener noreferrer">${escapeText(source.title)}</a> · ${escapeText(source.date)} · ${escapeText(source.role)}</span>`).join(" · ")}</p>` : `<p class="historical-citations">Kurgu yaşam kararı; gerçek tarihsel olay iddiası değildir.</p>`;
-    return `<section class="historical-event" aria-labelledby="historical-event-title"><p class="eyebrow">${event.year} · DÖNEM KARARI</p><h2 id="historical-event-title">${escapeText(event.title)}</h2><p>${escapeText(event.body)}</p>${citations}<p class="historical-disclosure">Dönem etkileri nitelikseldir. Oyun içi para, tarihsel ücret veya satın alma gücü verisi değildir; simülasyon takvimi sıkıştırılmıştır. 2026 özeti, sona yakın kararların henüz vadesi dolmamış yankılarını da toplar.</p><div class="historical-choice-grid">${event.choices.map((choice) => `<button class="button historical-choice" data-scenario-choice="${choice.id}"><strong>${escapeText(choice.label)}</strong><small>${escapeText({ work: "Kariyer ve gelir fırsatı · enerji yükü", study: "Eğitim ve beceri · zaman/enerji bedeli", save: "Birikim ve güvenlik · bugünkü erişimden feragat", family: "Aile bağı · zaman ve bütçe yükü", move: "Yeni erişim · taşınma ve bağların bedeli", rest: "Sağlık ve toparlanma · kısa vadeli kariyer bedeli" }[choice.id])}</small><small>Gecikmiş etkisi yaklaşık bir simülasyon yılı sonra görünür.</small></button>`).join("")}</div></section>`;
+    return `<section class="historical-event" aria-labelledby="historical-event-title"><p class="eyebrow">${event.year} · ${event.kind === "future" ? "OLASI GELECEK" : "DÖNEM KARARI"}</p><h2 id="historical-event-title">${escapeText(event.title)}</h2><p>${escapeText(event.body)}</p>${citations}<p class="historical-disclosure">Dönem etkileri nitelikseldir. Oyun içi para gerçek ücret verisi değildir; simülasyon takvimi sıkıştırılmıştır. 2026–2029 olayları tarihsel iddia değil, olası yaşam senaryolarıdır. 2030 özeti sona yakın kararların gecikmiş etkilerini de toplar.</p><div class="historical-choice-grid">${event.choices.map((choice) => `<button class="button historical-choice" data-scenario-choice="${choice.id}"><strong>${escapeText(choice.label)}</strong><small>${escapeText({ work: "Kariyer ve gelir fırsatı · enerji yükü", study: "Eğitim ve beceri · zaman/enerji bedeli", save: "Birikim ve güvenlik · bugünkü erişimden feragat", family: "Aile bağı · zaman ve bütçe yükü", move: "Yeni erişim · taşınma ve bağların bedeli", rest: "Sağlık ve toparlanma · kısa vadeli kariyer bedeli" }[choice.id])}</small><small>Gecikmiş etkisi yaklaşık bir simülasyon yılı sonra görünür.</small></button>`).join("")}</div></section>`;
   }
   if (scenario.completed) {
     const result = scenario.final || {};
@@ -1261,6 +1310,7 @@ function renderScenarioPanel() {
 }
 
 const VIEW_RENDERERS = {
+  inbox: renderInbox,
   career: renderCareer,
   education: renderEducation,
   people: renderPeopleScreen,
@@ -1289,8 +1339,9 @@ function render() {
   app.innerHTML = `
     <main class="game-frame">
       <header class="game-topbar">
-        <div class="game-brand"><strong>TC SIM</strong><span>Yaşam Yönetimi</span></div>
+        <div class="game-brand"><strong>TC SIM</strong><span>Bir hayat, bin küçük karar</span></div>
         <div class="top-meta"><span><b>${escapeText(state.player.name)}</b> · ${state.player.age}</span><span>${state.time.year} / ${state.time.month}. ay / H${state.time.weekOfMonth}</span><span class="top-money">${money(state.finances.balance)}</span></div>
+        <nav class="top-shortcuts" aria-label="Hızlı erişim"><button class="button button-quiet" data-view="inbox"${activeView === "inbox" ? ' aria-current="page"' : ""}>Gelen kutusu <b>${getPlayerVisibleOpenCases(state).filter((item) => item.status !== "resolved").length}</b></button><button class="button button-quiet" data-view="calendar"${activeView === "calendar" ? ' aria-current="page"' : ""}>Takvim</button><button class="button button-quiet" data-view="finance"${activeView === "finance" ? ' aria-current="page"' : ""}>Banka</button><button class="button button-quiet" data-view="relationships"${activeView === "relationships" ? ' aria-current="page"' : ""}>İlişkiler</button><button class="button button-quiet" data-view="body"${activeView === "body" ? ' aria-current="page"' : ""}>Beden</button></nav>
         <div class="save-area"><span class="save-status" role="status">${escapeText(saveStatus)}</span><span class="slot-mini">Slot ${getActiveSlot(localStorage)}</span><button class="button button-quiet" id="help-open" aria-haspopup="dialog">? Nasıl Oynanır</button><button class="button button-quiet" id="save-game">Kaydet</button><button class="button button-quiet" id="main-menu">Ana Menü</button><button class="button button-quiet button-danger" id="new-game">Yeni oyun</button></div>
       </header>
       <div class="game-body">
@@ -1333,6 +1384,10 @@ function render() {
     persist();
     render();
   }));
+  document.querySelectorAll("[data-credit]").forEach((button) => button.addEventListener("click", () => { const result = takeCredit(state, button.dataset.credit); notice = result.message || result.reason; persist(); render(); }));
+  document.querySelector("[data-repay-credit]")?.addEventListener("click", () => { const result = repayCredit(state); notice = result.message || result.reason; persist(); render(); });
+  document.querySelectorAll("[data-business]").forEach((button) => button.addEventListener("click", () => { const result = startBusiness(state, button.dataset.business); notice = result.message || result.reason; persist(); render(); }));
+  document.querySelector("[data-close-business]")?.addEventListener("click", () => { const result = closeBusiness(state); notice = result.message || result.reason; persist(); render(); });
   document.querySelectorAll("[data-decision]").forEach((button) =>
     button.addEventListener("click", () => {
       const result = applyDecision(state, button.dataset.decision);
@@ -1381,6 +1436,14 @@ function render() {
   document.querySelectorAll("[data-social-action]").forEach((button) =>
     button.addEventListener("click", () => {
       const result = applySocialAction(state, button.dataset.personId, button.dataset.socialAction);
+      notice = result.reason || result.message;
+      persist();
+      render();
+    }),
+  );
+  document.querySelectorAll("[data-intimacy-choice]").forEach((button) =>
+    button.addEventListener("click", () => {
+      const result = chooseIntimacy(state, button.dataset.intimacyChoice);
       notice = result.reason || result.message;
       persist();
       render();

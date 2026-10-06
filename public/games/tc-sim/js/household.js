@@ -151,7 +151,8 @@ export function householdChoiceAvailability(state, definition, choice, sourceCas
     if (!home || home.id === "family") return { ok: false, reason: "İki kişilik bağımsız bir yaşam alanı seç." };
     if (state.finances.balance < (state.household.homeId === home.id ? 0 : home.moveCost)) return { ok: false, reason: "Taşınma bütçesi yetersiz." };
   }
-  if (definition.id === "marriage_commitment" && (!living(state) || state.household.union.marriedSince || !stablePartner(state) || state.finances.balance < MARRIAGE_COST)) return { ok: false, reason: "İlişki, ortak ev veya ₺6.000 hazırlık bütçesi şu anda uygun değil. Erteleyebilirsin." };
+  if (definition.id === "marriage_discussion" && choice.id === "engage" && state.finances.balance < 1500) return { ok: false, reason: "Söz/nişan hazırlığı için bütçe yetersiz." };
+  if (definition.id === "marriage_commitment" && (!living(state) || state.household.union.marriedSince || !stablePartner(state) || state.finances.balance < (choice.id === "wedding" ? MARRIAGE_COST + 14000 : MARRIAGE_COST))) return { ok: false, reason: "İlişki, ortak ev veya seçilen hazırlığın bütçesi uygun değil. Erteleyebilirsin." };
   return { ok: true };
 }
 
@@ -236,9 +237,18 @@ export function resolveHouseholdChoice(state, definition, choiceId, sourceCase) 
     }
   } else if (id === "marriage_discussion") {
     schedule(state, "marriage", 4);
-    milestone(state, "marriage_plan", `${person.name} ile evlilik kararını ve hazırlık bütçesini görüşmek üzere sözleştiniz.`);
+    if (choiceId === "engage") {
+      transact(state, -1500, "Söz ve nişan hazırlığı", "household");
+      milestone(state, "engagement", `${person.name} ile söz/nişan yaptınız; aile beklentileri ve evlilik bütçesi konuşuldu.`);
+    } else milestone(state, "marriage_plan", `${person.name} ile evlilik kararını ve hazırlık bütçesini görüşmek üzere sözleştiniz.`);
   } else if (id === "marriage_commitment") {
     transact(state, -MARRIAGE_COST, "Ortak evlilik hazırlığı", "household");
+    if (choiceId === "wedding") {
+      transact(state, -14000, "Düğün salonu, yemek ve hazırlık", "household");
+      const gifts = state.player.background.social === "broad" ? 11000 : state.player.background.family === "supportive" ? 8500 : 6000;
+      transact(state, gifts, "Düğün takı ve zarf gelirleri", "household");
+      addMemory(state, `Düğün takıları ${gifts.toLocaleString("tr-TR")} oyun birimi getirdi; salon ve hazırlık giderleri ayrı işlendi.`, "important");
+    }
     state.household.union.marriedSince = state.time.absoluteWeek;
     milestone(state, "marriage", `${person.name} ile evlendin.`);
     applyRelationshipDelta(state, person.id, { trust: 4, tension: -3 });
@@ -265,6 +275,6 @@ export const HOUSEHOLD_EVENTS = [
   definition("cohabitation_move", "Ortak ev kararı", "İki kişilik düzeni kuracağınız evi seçin. Taşınma masrafı bir kez, paylaşılan giderler ay sonunda işlenir.", () => false, [option("cancel", "Planı ertele"), option("shared", "Paylaşımlı ev · taşınma ₺2.400"), option("studio", "Stüdyo · taşınma ₺5.200")]),
   definition("household_adjustment", "Aynı ev, ayrı ihtiyaçlar", "Giderler, ev işleri ve kişisel alan için ortak zaman ayırmak gerekiyor. Bu görüşme iş, eğitim ve dinlenmeyle aynı haftalık zamanı kullanır.", () => false, [option("skip", "Bu hafta zaman ayıramıyorum"), option("coordinate", "Sorumlulukları konuş · bir aktivite"), option("separate_homes", "İlişkiyi sürdür, ayrı evlerde yaşa · bir aktivite")]),
   definition("household_family_visit", "Aile evine anlatmak", "Ortak yaşam kararınızı Anne'yle konuşabilir, beklentileri ve sınırları açıklayabilirsiniz. Paylaşmazsan kendiliğinden öğrenmez.", () => false, [option("private", "Şimdilik aramızda kalsın"), option("tell", "Anne'yle konuş · bir aktivite")]),
-  definition("marriage_discussion", "Evliliği konuşmak", "Ortak düzeniniz oturuyor. Evlilik ayrı bir karar; ilişkiyi bu biçimde sürdürmek de geçerli.", (state) => canDiscussHousehold(state, "marriage"), [option("later", "Mevcut ilişki biçimini sürdür"), option("plan", "Evliliği planla · bir aktivite")]),
-  definition("marriage_commitment", "Ortak karar", "Birlikte hazırladığınız plan için son karar sizin. Sade hazırlık bütçesi ₺6.000; karar otomatik alınmaz.", () => false, [option("cancel", "Evliliği ertele"), option("confirm", "Birlikte evlenmeye karar ver · bir aktivite")]),
+  definition("marriage_discussion", "Evliliği konuşmak", "Ortak düzeniniz oturuyor. Evlilik ayrı bir karar; ilişkiyi bu biçimde sürdürmek de geçerli. İstersen önce söz/nişan yapıp ailelerle hazırlığı konuşabilirsin.", (state) => canDiscussHousehold(state, "marriage"), [option("later", "Mevcut ilişki biçimini sürdür"), option("plan", "Evliliği sade biçimde planla · bir aktivite"), option("engage", "Söz/nişan yap · hazırlık gideri 1.500 · bir aktivite")]),
+  definition("marriage_commitment", "Ortak karar", "Evliliğin biçimini birlikte seçin. Sade hazırlık 6.000; düğün ek 14.000. Düğün takıları gelir getirebilir ama gideri garanti karşılamaz.", () => false, [option("cancel", "Evliliği ertele"), option("confirm", "Sade evlilik · 6.000 · bir aktivite"), option("wedding", "Düğün yap · 20.000 brüt gider, takı geliri · bir aktivite")]),
 ];

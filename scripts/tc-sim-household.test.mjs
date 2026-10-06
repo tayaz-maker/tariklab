@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { createNewGame, normalizeEducationCareer, validateState } from "../public/games/tc-sim/js/state.js";
+import { createNewGame, getWeeklyActivityLimit, normalizeEducationCareer, validateState } from "../public/games/tc-sim/js/state.js";
 import { becomePartner, setRomanticInterest, getRelationship, applySocialAction, canUseSocialAction } from "../public/games/tc-sim/js/social.js";
 import { getHouseholdSummary, getHouseholdFinance, canDiscussHousehold, processHouseholdCases, HOUSEHOLD_HISTORY_LIMIT, neutralUnion, canReconcile } from "../public/games/tc-sim/js/household.js";
 import { getEventDefinition, resolveEvent, activateNextEvent, getEventChoiceAvailability } from "../public/games/tc-sim/js/events.js";
@@ -72,7 +72,7 @@ test("calendar conflict cannot bypass activity scarcity; refusal remains availab
   const state = establishHome(couple());
   const plan = state.openCases.find((item) => item.payload?.kind === "adjustment" && item.status !== "resolved");
   state.time.absoluteWeek = plan.dueWeek;
-  state.weekly.used = 6;
+  state.weekly.used = getWeeklyActivityLimit(state);
   state.weekly.selectedIds = ["rest", "exercise"];
   state.events.active = { eventId: plan.eventId, occurrenceId: "conflict", sourceCaseId: plan.id };
   const before = structuredClone(state);

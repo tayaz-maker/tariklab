@@ -69,7 +69,7 @@ export const JOBS = [
   { id: "factory", title: "Fabrika işçisi", family: "uretim", salary: 12400, load: 3, energy: -8, stress: 5, security: "Orta", zone: 3, terms: { probationWeeks: 8, review: "Vardiya disiplini" } },
   { id: "electrician", title: "Elektrikçi çırağı", family: "hizmet", salary: 11800, load: 3, energy: -7, stress: 4, security: "Düşük", zone: 2, terms: { probationWeeks: 6, review: "Saha" } },
   { id: "hairdresser", title: "Kuaför kalfası", family: "hizmet", salary: 10800, load: 2, energy: -5, stress: 3, security: "Düşük", zone: 2, terms: { probationWeeks: 6, review: "Müşteri" } },
-  { id: "callcenter", title: "Çağrı merkezi", family: "hizmet", salary: 10600, load: 2, energy: -4, stress: 7, security: "Düşük", zone: 2, terms: { probationWeeks: 4, review: "Hedef" } },
+  { id: "callcenter", title: "Çağrı merkezi", family: "hizmet", salary: 10600, load: 2, energy: -4, stress: 7, security: "Düşük", zone: 2, since: 1995, terms: { probationWeeks: 4, review: "Hedef" } },
   { id: "cashier_big", title: "Zincir kasa sorumlusu", family: "hizmet", salary: 11400, load: 2, energy: -5, stress: 4, security: "Orta", zone: 1, requiredExperienceWeeks: 16, terms: { probationWeeks: 8, review: "Kasa" } },
   { id: "taxi", title: "Taksi şoförü", family: "lojistik", salary: 14000, load: 3, energy: -8, stress: 6, security: "Düşük", zone: 3, terms: { probationWeeks: 4, review: "Rota" } },
   { id: "warehouse", title: "Depo elemanı", family: "lojistik", salary: 11600, load: 3, energy: -7, stress: 4, security: "Orta", zone: 3, terms: { probationWeeks: 6, review: "Sevkiyat" } },
@@ -84,8 +84,8 @@ export const JOBS = [
   { id: "bank_teller", title: "Banka gişe", family: "ofis", salary: 15600, load: 2, energy: -4, stress: 5, security: "Yüksek", zone: 2, requiredEducation: "onlisans", requiredField: "business", terms: { probationWeeks: 10, review: "Gişe" } },
   { id: "hr_asst", title: "İK asistanı", family: "ofis", salary: 15000, load: 2, energy: -3, stress: 4, security: "Orta", zone: 2, requiredField: "business", terms: { probationWeeks: 8, review: "İşe alım" } },
   { id: "designer_jr", title: "Grafik tasarım asistanı", family: "medya", salary: 14200, load: 2, energy: -4, stress: 5, security: "Düşük", zone: 2, requiredField: "creative", terms: { probationWeeks: 8, review: "Teslim" } },
-  { id: "dev_jr", title: "Yazılım stajyer / junior", family: "ofis", salary: 16800, load: 3, energy: -5, stress: 6, security: "Orta", zone: 2, requiredField: "technical", terms: { probationWeeks: 12, review: "Kod" } },
-  { id: "support_it", title: "BT destek", family: "hizmet", salary: 14600, load: 2, energy: -4, stress: 5, security: "Orta", zone: 2, requiredField: "technical", terms: { probationWeeks: 8, review: "Ticket" } },
+  { id: "dev_jr", title: "Yazılım stajyer / junior", family: "ofis", salary: 16800, load: 3, energy: -5, stress: 6, security: "Orta", zone: 2, since: 1990, requiredField: "technical", terms: { probationWeeks: 12, review: "Kod" } },
+  { id: "support_it", title: "BT destek", family: "hizmet", salary: 14600, load: 2, energy: -4, stress: 5, security: "Orta", zone: 2, since: 1990, requiredField: "technical", terms: { probationWeeks: 8, review: "Ticket" } },
   { id: "media_runner", title: "Medya asistanı", family: "medya", salary: 12800, load: 3, energy: -6, stress: 5, security: "Düşük", zone: 2, terms: { probationWeeks: 6, review: "Set" } },
   { id: "club_staff", title: "Gece kulübü çalışanı", family: "eglence", salary: 12000, load: 3, energy: -9, stress: 5, security: "Düşük", zone: 3, terms: { probationWeeks: 4, review: "Gece" } },
   { id: "musician_gig", title: "Sahne müzisyeni", family: "eglence", salary: 11000, load: 3, energy: -8, stress: 4, security: "Düşük", zone: 3, requiredField: "creative", terms: { probationWeeks: 2, review: "Sahne" } },
@@ -94,7 +94,7 @@ export const JOBS = [
   { id: "nurse", title: "Hemşire", family: "saglik", salary: 17600, load: 3, energy: -7, stress: 6, security: "Yüksek", zone: 2, requiredEducation: "onlisans", requiredField: "health", terms: { probationWeeks: 12, review: "Servis" } },
   { id: "teacher", title: "Öğretmen", family: "egitim", salary: 16800, load: 2, energy: -5, stress: 5, security: "Yüksek", zone: 1, requiredEducation: "lisans", requiredField: "education", terms: { probationWeeks: 12, review: "Sınıf" } },
   { id: "engineer", title: "Mühendis", family: "uretim", salary: 22000, load: 3, energy: -5, stress: 6, security: "Orta", zone: 2, requiredEducation: "lisans", requiredField: "technical", requiredExperienceWeeks: 24, terms: { probationWeeks: 12, review: "Proje" } },
-  { id: "developer", title: "Yazılımcı", family: "ofis", salary: 24000, load: 3, energy: -5, stress: 6, security: "Orta", zone: 2, requiredEducation: "lisans", requiredField: "technical", requiredExperienceWeeks: 24, terms: { probationWeeks: 12, review: "Sprint" } },
+  { id: "developer", title: "Yazılımcı", family: "ofis", salary: 24000, load: 3, energy: -5, stress: 6, security: "Orta", zone: 2, since: 1990, requiredEducation: "lisans", requiredField: "technical", requiredExperienceWeeks: 24, terms: { probationWeeks: 12, review: "Proje" } },
   { id: "accountant", title: "Muhasebeci", family: "ofis", salary: 18800, load: 2, energy: -4, stress: 6, security: "Orta", zone: 2, requiredEducation: "lisans", requiredField: "business", requiredExperienceWeeks: 24, terms: { probationWeeks: 10, review: "Dönem sonu" } },
   { id: "banker", title: "Banka uzmanı", family: "ofis", salary: 21000, load: 3, energy: -4, stress: 6, security: "Yüksek", zone: 2, requiredEducation: "lisans", requiredField: "business", requiredExperienceWeeks: 24, terms: { probationWeeks: 12, review: "Portföy" } },
   { id: "sales_lead", title: "Satış sorumlusu", family: "ticaret", salary: 19600, load: 3, energy: -5, stress: 7, security: "Düşük", zone: 2, requiredExperienceWeeks: 24, terms: { probationWeeks: 8, review: "Ciro" } },
@@ -119,11 +119,12 @@ export const JOBS = [
 ];
 
 export const HOMES = [
-  { id: "family", title: "Aile Yanında", monthlyCost: 1500, privacy: 1, zone: 1, moveCost: 600 },
-  { id: "shared", title: "Paylaşımlı Ev", monthlyCost: 4200, privacy: 2, zone: 2, moveCost: 2400 },
+  { id: "family", title: "Aile Yanında", district: "Yerleşim çevresi", monthlyCost: 1500, privacy: 1, zone: 1, moveCost: 600 },
+  { id: "shared", title: "Paylaşımlı Ev", district: "Merkez aksı", monthlyCost: 4200, privacy: 2, zone: 2, moveCost: 2400 },
   {
     id: "studio",
     title: "Tek Başına Stüdyo",
+    district: "Dış ring",
     monthlyCost: 7600,
     privacy: 3,
     zone: 3,

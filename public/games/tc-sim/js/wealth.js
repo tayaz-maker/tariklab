@@ -15,12 +15,12 @@ export const WEALTH_LIMITS = {
 export const CASH_FLOOR = -10000;
 export const CASH_ARREARS_CAP = 300000;
 export const SUBSCRIPTIONS = {
-  streaming: { label: "Film ve dizi", monthly: 180 },
-  music: { label: "Müzik", monthly: 90 },
+  streaming: { label: "Çevrimiçi film-dizi üyeliği", monthly: 180, since: 2007 },
+  music: { label: "Çevrimiçi müzik üyeliği", monthly: 90, since: 2008 },
   gym: { label: "Spor salonu", monthly: 650 },
   hobby: { label: "Hobi kulübü", monthly: 420 },
   cleaning: { label: "Ev temizliği", monthly: 900 },
-  dating: { label: "Tanışma uygulaması", monthly: 240 },
+  dating: { label: "Tanışma uygulaması", monthly: 240, since: 2009 },
 };
 export const DURABLES = {
   phone: { label: "Standart telefon", price: 9000, resale: 0.42 },
@@ -170,16 +170,20 @@ export const SPENDING = {
 
 export const MARKET = {
   ...SPENDING,
-  grocery: { label: "Haftalık market", cost: 900, energy: 2, stress: -1, category: "Günlük" },
-  phone_plan: { label: "Telefon / internet faturası", cost: 650, energy: 0, stress: -1, category: "Günlük" },
-  cheap_clothes: { label: "Ucuz kıyafet", cost: 800, energy: -2, stress: -1, category: "Giyim / Statü" },
-  status_shoes: { label: "Marka ayakkabı", cost: 4800, energy: -3, stress: -4, category: "Giyim / Statü" },
+  grocery: { label: "Haftalık temel gıda sepeti", cost: 900, energy: 2, stress: -1, category: "Günlük" },
+  phone_plan: { label: "Cep telefonu ve veri faturası", cost: 650, energy: 0, stress: -1, category: "Günlük", since: 1994 },
+  cheap_clothes: { label: "Mevsimlik gündelik kıyafet", cost: 800, energy: -2, stress: -1, category: "Giyim / Statü" },
+  status_shoes: { label: "Deri günlük ayakkabı", cost: 4800, energy: -3, stress: -4, category: "Giyim / Statü" },
   luxury_watch: { label: "Saat / aksesuar", cost: 12000, energy: -2, stress: -3, category: "Giyim / Statü" },
-  new_phone: { label: "Yeni telefon", cost: 18000, energy: -2, stress: -4, category: "Teknoloji" },
-  laptop: { label: "Dizüstü bilgisayar", cost: 22000, energy: -3, stress: -3, category: "Teknoloji" },
-  headphones: { label: "Kulaklık", cost: 2500, energy: 1, stress: -3, category: "Teknoloji" },
+  new_phone: { label: "Akıllı telefon, orta sınıf", cost: 18000, energy: -2, stress: -4, category: "Teknoloji", since: 2008 },
+  feature_phone: { label: "Tuşlu cep telefonu", cost: 8500, energy: -2, stress: -2, category: "Teknoloji", since: 1994 },
+  laptop: { label: "Günlük iş için dizüstü bilgisayar", cost: 22000, energy: -3, stress: -3, category: "Teknoloji", since: 1990 },
+  headphones: { label: "Kablolu kulaklık", cost: 2500, energy: 1, stress: -3, category: "Teknoloji" },
+  cassette: { label: "Kaset ve küçük müzikçalar", cost: 950, energy: -1, stress: -3, category: "Dönem kültürü", until: 2004 },
+  newspaper: { label: "Günlük gazete ve dergi", cost: 120, energy: -1, stress: -2, category: "Dönem kültürü" },
+  internet_cafe_hour: { label: "İnternet kafe saatleri", cost: 300, energy: -3, stress: -3, category: "Dönem kültürü", since: 1996 },
   furniture: { label: "Mobilya parçası", cost: 4500, energy: -5, stress: -3, category: "Ev" },
-  appliance: { label: "Küçük beyaz eşya", cost: 3800, energy: 2, stress: -2, category: "Ev" },
+  appliance: { label: "Ev için küçük mutfak cihazı", cost: 3800, energy: 2, stress: -2, category: "Ev" },
   bike: { label: "Bisiklet", cost: 6500, energy: -4, stress: -5, category: "Ulaşım" },
   scooter: { label: "İkinci el motor", cost: 28000, energy: -5, stress: -4, category: "Ulaşım" },
   car_service: { label: "Araç bakım / lastik", cost: 3200, energy: -4, stress: -2, category: "Ulaşım" },
@@ -190,7 +194,7 @@ export const MARKET = {
   restaurant: { label: "Restoran gecesi", cost: 1800, energy: -4, stress: -6, category: "Eğlence" },
   club_night: { label: "Kulüp gecesi", cost: 2400, energy: -16, stress: -6, category: "Yetişkin / Gece", adult: true },
   heavy_drink: { label: "Ağır içki gecesi", cost: 1600, energy: -18, stress: -4, category: "Yetişkin / Gece", adult: true, risk: "alcohol" },
-  cannabis: { label: "Esrar (yasa dışı)", cost: 900, energy: 2, stress: -8, category: "Riskli / Yasadışı", adult: true, risk: "illegal" },
+  cannabis: { label: "Yasa dışı esrar alımı", cost: 900, energy: 2, stress: -8, category: "Riskli / Yasadışı", adult: true, risk: "illegal" },
   betting: { label: "Yasa dışı bahis", cost: 1200, energy: -3, stress: 4, category: "Riskli / Yasadışı", adult: true, risk: "gambling" },
   casino: { label: "Kumar masası", cost: 3500, energy: -8, stress: 6, category: "Riskli / Yasadışı", adult: true, risk: "gambling" },
   escort: { label: "Ücretli yetişkin hizmet", cost: 4500, energy: -6, stress: -5, category: "Yetişkin / Gece", adult: true, risk: "sexwork" },
@@ -203,9 +207,13 @@ export const MARKET = {
 const integer = (v, fallback = 0) => (Number.isFinite(v) ? Math.max(0, Math.round(v)) : fallback);
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const tr = (a, b) => globalThis.window?.tlabI18n?.contentLang?.() === "en" ? b : a;
+export const marketAvailableInYear = (state, item) => (!item.since || state.time.year >= item.since) && (!item.until || state.time.year <= item.until);
+const marketUnavailableReason = (state, item) => item.since && state.time.year < item.since
+  ? `${item.since} öncesinde bu ürün/hizmet yok.`
+  : `${item.until} sonrasında bu dönem ürünü artık satılmıyor.`;
 export const economyText = tr;
 const tl = (n) => `₺${Math.round(n).toLocaleString("tr-TR")}`;
-export const MARKET_OWNERSHIP = { new_phone: "phone", laptop: "computer", headphones: "headphones", furniture: "furniture", appliance: "appliance", bike: "bike", scooter: "scooter", luxury_watch: "luxury_watch" };
+export const MARKET_OWNERSHIP = { new_phone: "phone", feature_phone: "phone", laptop: "computer", headphones: "headphones", furniture: "furniture", appliance: "appliance", bike: "bike", scooter: "scooter", luxury_watch: "luxury_watch" };
 const care = { dentist: 5, private_clinic: 3, therapy: 2, gym_drop: 2, sports: 2 };
 export function durableBenefit(id) {
   const descriptions = {
@@ -449,12 +457,18 @@ function ledger(state, amount, reason, category = "wealth") {
     state.finances.ledger.splice(0, state.finances.ledger.length - 120);
 }
 function weekly(state, id) {
-  const capacity = state.health?.health <= 15 ? 3 : 6;
+  const capacity = wealthWeeklyCapacity(state);
   if (state.lifetime?.death) return "Bu yaşam tamamlandı.";
   if (state.events.active) return "Önce açık olayı sonuçlandır.";
   if (state.weekly.used >= capacity) return "Bu haftanın zaman ve odak bütçesi doldu.";
   if (state.weekly.selectedIds.includes(id)) return "Bu hafta zaten yapıldı.";
   return null;
+}
+function wealthWeeklyCapacity(state) {
+  if (state.health?.health <= 15) return 3;
+  const hasCommitment = Boolean(state.career?.jobId || state.education?.active ||
+    state.parenthood?.children?.some((child) => state.time.absoluteWeek - child.bornWeek < 18 * 48));
+  return hasCommitment ? 7 : 8;
 }
 function mark(state, id, cost = 1) {
   state.weekly.used += cost;
@@ -482,25 +496,31 @@ export function spendLifestyle(state, id) {
   normalizeWealth(state);
   const x = MARKET[id] || SPENDING[id];
   if (!x) return { ok: false, reason: "Harcama geçersiz." };
+  if (!marketAvailableInYear(state, x)) return { ok: false, reason: marketUnavailableReason(state, x) };
   const action = `wealth-spend:${id}`,
     blocked = weekly(state, action);
   if (blocked) return { ok: false, reason: blocked };
   const time = x.time || 1;
-  if (state.weekly.used + time > (state.health?.health <= 15 ? 3 : 6))
+  if (state.weekly.used + time > wealthWeeklyCapacity(state))
     return { ok: false, reason: "Bu deneyim için haftanın kalan zamanı yetmiyor." };
   if (state.finances.balance < x.cost) return { ok: false, reason: "Yeterli paran yok." };
   const last = state.wealth.cooldowns[id] || 0;
   if (last && state.time.absoluteWeek - last < 4)
     return { ok: false, reason: "Bu deneyimi yeniden planlamak için biraz beklemelisin." };
   const preview = marketPreview(state, id);
-  if (preview.durable && state.wealth.durables.some(d => d.id === preview.durable)) return { ok: false, reason: tr("Bu eşya zaten sende; ikinci bir fayda birikmez.", "You already own this item; benefits do not stack.") };
-  if (preview.durable && state.wealth.durables.length >= WEALTH_LIMITS.durables) return { ok: false, reason: tr("Eşya sınırına ulaştın.", "Owned item limit reached.") };
+  const prior = preview.durable && state.wealth.durables.find(d => d.id === preview.durable);
+  const phoneUpgrade = id === "new_phone" && prior?.id === "phone" && prior.price <= 9000;
+  if (prior && !phoneUpgrade) return { ok: false, reason: tr("Bu eşya zaten sende; ikinci bir fayda birikmez.", "You already own this item; benefits do not stack.") };
+  if (preview.durable && !prior && state.wealth.durables.length >= WEALTH_LIMITS.durables) return { ok: false, reason: tr("Eşya sınırına ulaştın.", "Owned item limit reached.") };
   const before = { cash: state.finances.balance, ...state.health };
   ledger(state, -x.cost, x.label, "market");
   state.health.energy = clamp(state.health.energy + preview.energy, 0, 100);
   state.health.stress = clamp(state.health.stress + preview.stress, 0, 100);
   state.health.health = clamp(state.health.health + preview.health, 0, 100);
-  if (preview.durable) state.wealth.durables.push({ id: preview.durable, price: x.cost, acquiredWeek: state.time.absoluteWeek });
+  if (preview.durable) {
+    if (phoneUpgrade) state.wealth.durables = state.wealth.durables.filter((item) => item !== prior);
+    state.wealth.durables.push({ id: preview.durable, price: x.cost, acquiredWeek: state.time.absoluteWeek });
+  }
   if (x.risk === "alcohol") {
     state.flags.alcoholWeeks = (state.flags.alcoholWeeks || 0) + 1;
   }
@@ -544,6 +564,7 @@ export function toggleSubscription(state, id) {
   normalizeWealth(state);
   const x = SUBSCRIPTIONS[id];
   if (!x) return { ok: false, reason: "Abonelik geçersiz." };
+  if (!marketAvailableInYear(state, x)) return { ok: false, reason: marketUnavailableReason(state, x) };
   const i = state.wealth.subscriptions.findIndex((s) => s.id === id);
   if (i >= 0) {
     state.wealth.subscriptions.splice(i, 1);
@@ -792,7 +813,7 @@ export function processWealthMonthEnd(state) {
   for (const d of [...w.debts]) {
     const pay = Math.min(d.principal, d.monthlyPayment);
     if (pay) {
-      ledger(state, -pay, `${d.type === "mortgage" ? "Konut" : "Araç"} borcu ödemesi`, "debt");
+      ledger(state, -pay, `${d.type === "mortgage" ? "Konut" : d.type === "vehicle" ? "Araç" : "Banka kredisi"} borcu ödemesi`, "debt");
       d.principal -= pay;
     }
     if (!d.principal) w.debts = w.debts.filter((x) => x !== d);
@@ -838,7 +859,7 @@ export function netWorth(state) {
 export function getWealthActionAvailability(state, action, value) {
   normalizeWealth(state);
   const w = state.wealth;
-  const weekBlocked = (id, time = 1) => weekly(state, id) || (state.weekly.used + time > (state.health?.health <= 15 ? 3 : 6) ? "Bu işlem için haftanın kalan zamanı yetmiyor." : null);
+  const weekBlocked = (id, time = 1) => weekly(state, id) || (state.weekly.used + time > wealthWeeklyCapacity(state) ? "Bu işlem için haftanın kalan zamanı yetmiyor." : null);
   if (action === "lifestyle") {
     if (!TIERS[value]) return { ok: false, reason: "Yaşam standardı geçersiz." };
     if (w.lifestyle === value) return { ok: false, reason: "Bu düzende yaşıyorsun." };
@@ -849,15 +870,19 @@ export function getWealthActionAvailability(state, action, value) {
   }
   if (action === "spend") {
     const item = MARKET[value] || SPENDING[value]; if (!item) return { ok: false, reason: "Harcama geçersiz." };
+    if (!marketAvailableInYear(state, item)) return { ok: false, reason: marketUnavailableReason(state, item) };
     const durable = MARKET_OWNERSHIP[value];
-    if (durable && w.durables.some(d => d.id === durable)) return { ok: false, reason: tr("Bu eşya zaten sende.", "You already own this item.") };
-    if (durable && w.durables.length >= WEALTH_LIMITS.durables) return { ok: false, reason: tr("Eşya sınırına ulaştın.", "Owned item limit reached.") };
+    const prior = durable && w.durables.find(d => d.id === durable);
+    const phoneUpgrade = value === "new_phone" && prior?.id === "phone" && prior.price <= 9000;
+    if (prior && !phoneUpgrade) return { ok: false, reason: tr("Bu eşya zaten sende.", "You already own this item.") };
+    if (durable && !prior && w.durables.length >= WEALTH_LIMITS.durables) return { ok: false, reason: tr("Eşya sınırına ulaştın.", "Owned item limit reached.") };
     const blocked = weekBlocked(`wealth-spend:${value}`, item.time || 1); if (blocked) return { ok: false, reason: blocked };
     const last = w.cooldowns[value] || 0; if (last && state.time.absoluteWeek - last < 4) return { ok: false, reason: "Bu deneyimi yeniden planlamak için biraz beklemelisin." };
     return state.finances.balance < item.cost ? { ok: false, reason: `Bu işlem için ₺${item.cost.toLocaleString("tr-TR")} gerekiyor.` } : { ok: true };
   }
   if (action === "subscription") {
     const item = SUBSCRIPTIONS[value]; if (!item) return { ok: false, reason: "Abonelik geçersiz." };
+    if (!marketAvailableInYear(state, item)) return { ok: false, reason: marketUnavailableReason(state, item) };
     if (w.subscriptions.some(entry => entry.id === value)) return { ok: true };
     if (w.subscriptions.length >= WEALTH_LIMITS.subscriptions) return { ok: false, reason: "Abonelik sınırına ulaştın." };
     return state.finances.balance < item.monthly ? { ok: false, reason: `İlk dönem için ₺${item.monthly.toLocaleString("tr-TR")} gerekiyor.` } : { ok: true };

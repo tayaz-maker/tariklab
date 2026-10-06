@@ -172,6 +172,22 @@ export function canRequestParentPlanning(state) {
 }
 export function requestParentPlanning(state) { schedule(state, "planning", 1); }
 export function requestCareBudget(state) { schedule(state, "budget", 1); }
+/** A known, unplanned pregnancy uses the same preparation/birth chain as planned parenthood. */
+export function beginUnplannedPregnancy(state, otherParentId) {
+  if (state.parenthood.pregnancy || !state.people.some((person) => person.id === otherParentId)) return false;
+  const pregnancy = {
+    id: `pregnancy-${state.time.absoluteWeek}`,
+    startWeek: state.time.absoluteWeek,
+    phase: "known",
+    carrier: "partner",
+    otherParentId,
+  };
+  state.parenthood.pregnancy = pregnancy;
+  record(state, "pregnancy", "Beklenmedik gebelik haberi geldi; sağlık, bütçe ve bakım kararlarını birlikte konuşmanız gerekiyor.", otherParentId);
+  schedule(state, "preparation", 8, { pregnancyId: pregnancy.id });
+  schedule(state, "birth", 36, { pregnancyId: pregnancy.id });
+  return true;
+}
 export function processParenthoodWeek(state) {
   if (state.lifetime?.death) return;
   const p = state.parenthood;

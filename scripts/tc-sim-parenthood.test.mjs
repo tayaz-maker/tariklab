@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { createNewGame, normalizeEducationCareer, validateState } from "../public/games/tc-sim/js/state.js";
+import { createNewGame, getWeeklyActivityLimit, normalizeEducationCareer, validateState } from "../public/games/tc-sim/js/state.js";
 import { setRomanticInterest, becomePartner, getRelationship } from "../public/games/tc-sim/js/social.js";
 import { advanceWeek, applyDecision, canApplyDecision } from "../public/games/tc-sim/js/time.js";
 import { getEventDefinition, resolveEvent, getEventChoiceAvailability } from "../public/games/tc-sim/js/events.js";
@@ -96,7 +96,7 @@ test('P04 unmet care consumes recovery and gates overtime until actual care; edu
  assert.ok(getWeeklyLifeLoad(s).energy<ordinaryLoad.energy);
  assert.doesNotMatch(canApplyDecision(s,'overtime').reason || '',/bakım/);
  assert.equal(applyDecision(s,'rest').ok,true);settleHouseholdEvents(s);
- s.weekly.used=6;
+ s.weekly.used=getWeeklyActivityLimit(s);
  assert.equal(canApplyDecision(s,'exercise').ok,false);
  tick(s);assert.equal(s.parenthood.missedCareWeeks,0);assert.ok(s.education.active.progressPoints>0);
 });

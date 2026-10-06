@@ -2,14 +2,15 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { HELP_SECTIONS, renderHelpModal } from "../public/games/tc-sim/js/help.js";
 
-test("yardım içeriği gerçek mekaniklere göre dokuz bölüm taşır", () => {
-  assert.equal(HELP_SECTIONS.length, 9);
+test("yardım içeriği gerçek mekaniklere göre on bölüm taşır", () => {
+  assert.equal(HELP_SECTIONS.length, 10);
   const titles = HELP_SECTIONS.map((s) => s.title);
   assert.deepEqual(titles, [
     "Amaç",
     "Haftalık döngü",
     "Kontroller",
     "İş ve finans",
+    "Tarihsel rota ve yetişkin hayatı",
     "İlerleme ve göstergeler",
     "Risk ve sonuçlar",
     "Kayıt",
@@ -23,7 +24,8 @@ test("yardım içeriği gerçek mekaniklere göre dokuz bölüm taşır", () => 
 
 test("haftalık döngü metni gerçek karar hakkı sayısını yansıtır", () => {
   const cycle = HELP_SECTIONS.find((s) => s.title === "Haftalık döngü");
-  assert.match(cycle.body, /6 zaman\/odak bloğu/);
+  assert.match(cycle.body, /7 zaman\/odak bloğun/);
+  assert.match(cycle.body, /8, sağlığın kritikse 3/);
 });
 
 test("wealth/emeklilik/miras içeriği gerçek sistemleri adlandırır", () => {

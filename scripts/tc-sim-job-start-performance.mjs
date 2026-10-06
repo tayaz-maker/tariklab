@@ -38,7 +38,7 @@ try {
         document.querySelector("#continue-game").addEventListener("click",()=>{
           const start=performance.now();
           const observer=new MutationObserver(check);
-          function check(){const el=document.querySelector(".workspace .week-panel");if(!el||!el.getClientRects().length)return;const r=el.getBoundingClientRect();if(r.bottom<=0||r.top>=innerHeight)return;observer.disconnect();requestAnimationFrame(()=>requestAnimationFrame(()=>{window.__tcContinueMetric={clickedAt:start,visibleAt:performance.now(),elapsed:performance.now()-start};}));}
+          function check(){const el=document.querySelector(".workspace .workspace-head");if(!el||!el.getClientRects().length)return;const r=el.getBoundingClientRect();if(r.bottom<=0||r.top>=innerHeight)return;observer.disconnect();requestAnimationFrame(()=>requestAnimationFrame(()=>{window.__tcContinueMetric={clickedAt:start,visibleAt:performance.now(),elapsed:performance.now()-start};}));}
           observer.observe(document.querySelector("#app"),{childList:true,subtree:true});check();
         },{once:true,capture:true});
       });

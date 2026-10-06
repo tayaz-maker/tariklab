@@ -24,7 +24,7 @@ export const SAVE_VERSION = 6;
 export const WEEKS_PER_MONTH = 4;
 export const MONTHS_PER_YEAR = 12;
 /** Haftanın kullanılabilir zaman/odak blokları. Eski kayıtların `used` alanı korunur. */
-export const WEEKLY_ACTIVITY_LIMIT = 6;
+export const WEEKLY_ACTIVITY_LIMIT = 8;
 /** Bu eşiğin altında beden kendini taşıyamaz: haftalık odak bütçesi düşer. */
 export const CRITICAL_HEALTH = 15;
 export const CRITICAL_HEALTH_ACTIVITY_LIMIT = 3;
@@ -37,7 +37,11 @@ export const CRITICAL_HEALTH_ACTIVITY_LIMIT = 3;
 export function getWeeklyActivityLimit(state) {
   const health = state?.health?.health;
   if (Number.isFinite(health) && health <= CRITICAL_HEALTH) return CRITICAL_HEALTH_ACTIVITY_LIMIT;
-  return WEEKLY_ACTIVITY_LIMIT;
+  const jobLoad = getJobById(state?.career?.jobId)?.load || 0;
+  const hasStandingCommitment = jobLoad > 0 || Boolean(state?.education?.active)
+    || Boolean(state?.parenthood?.children?.some((child) =>
+      Number.isInteger(child.bornWeek) && (state.time?.absoluteWeek || 1) - child.bornWeek < 18 * 48));
+  return hasStandingCommitment ? 7 : WEEKLY_ACTIVITY_LIMIT;
 }
 
 export const isCriticalHealth = (state) =>

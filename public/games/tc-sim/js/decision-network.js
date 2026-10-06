@@ -34,6 +34,9 @@ export const DECISION_LINKS = {
   "parent-plan": { iliski: 1, arcs: ["family"] },
   "parent-budget": { para: 1, iliski: 1, arcs: ["family", "finance"] },
   "parent-care": { iliski: 1, enerji: -1, arcs: ["family"] },
+  "partner-evening": { para: -1, iliski: 1, enerji: -1, arcs: ["relationship"] },
+  "home-routine": { para: -1, enerji: -1, arcs: ["housing", "health"] },
+  "practice-skill": { enerji: -1, arcs: ["career", "education"] },
 };
 
 // Taahhüt: aynı hedefe art arda üç hafta zaman ayırmak bir kez karşılık verir.
