@@ -24,6 +24,12 @@ export function classifyChanges(files) {
   const routes = new Set();
   let full = !files.length;
   for (const file of files) {
+    // This stylesheet has exactly two consumers, guarded by ci-changes.test.mjs.
+    if (file === "public/games/shared/management-desk.css") {
+      routes.add("tc-sim");
+      routes.add("tc-sim-devlet");
+      continue;
+    }
     if (shared.test(file)) {
       full = true;
       continue;
@@ -36,7 +42,8 @@ export function classifyChanges(files) {
       }
     if (!found && !isDocumentation(file)) full = true;
   }
-  if (routes.size !== 1) full ||= routes.size > 1;
+  const managementPair = routes.size === 2 && routes.has("tc-sim") && routes.has("tc-sim-devlet");
+  if (!managementPair && routes.size !== 1) full ||= routes.size > 1;
   const only = full ? "" : [...routes].join(",");
   const values = {
     full: String(full),
