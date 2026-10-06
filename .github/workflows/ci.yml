@@ -7,12 +7,14 @@ on:
 
 concurrency:
   group: ci-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   changes:
     runs-on: ubuntu-latest
     outputs:
+      docs: ${{ steps.route.outputs.docs }}
+      tc: ${{ steps.route.outputs.tc }}
       full: ${{ steps.route.outputs.full }}
       browser: ${{ steps.route.outputs.browser }}
       routes: ${{ steps.route.outputs.routes }}
@@ -23,6 +25,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with: { fetch-depth: 0 }
+      - name: Validate changed patch
+        env:
+          BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+          HEAD: ${{ github.sha }}
+        run: git diff --check "$BASE...$HEAD"
       - id: route
         env:
           BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
@@ -35,17 +42,24 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
+        if: needs.changes.outputs.docs != 'true'
         with:
           node-version: "22"
           cache: npm
       - run: npm ci
+        if: needs.changes.outputs.docs != 'true'
       - run: npm test
+        if: needs.changes.outputs.docs != 'true'
       - name: Duel deterministic stress (500 per theme)
+        if: needs.changes.outputs.duel == 'true'
         timeout-minutes: 5
         run: node scripts/duel-stress.mjs 500
       - run: npm run typecheck
+        if: needs.changes.outputs.docs != 'true'
       - run: npm run lint
+        if: needs.changes.outputs.docs != 'true'
       - run: npm run build
+        if: needs.changes.outputs.docs != 'true'
   browser-regression:
     needs: changes
     runs-on: ubuntu-latest
@@ -53,12 +67,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
+        if: needs.changes.outputs.browser == 'true' || github.ref == 'refs/heads/main'
         with:
           node-version: "22"
           cache: npm
       - run: npm ci
+        if: needs.changes.outputs.browser == 'true' || github.ref == 'refs/heads/main'
       - run: npm run build
+        if: needs.changes.outputs.browser == 'true' || github.ref == 'refs/heads/main'
       - name: Install Chromium for responsive regression
+        if: needs.changes.outputs.browser == 'true' || github.ref == 'refs/heads/main'
         timeout-minutes: 5
         run: |
           browser_path="$(command -v google-chrome || command -v chromium || true)"
@@ -104,7 +122,7 @@ jobs:
         env:
           SITEWIDE_ROUTE_IDS: ${{ needs.changes.outputs.routes }}
       - name: TC SIM historical starts (1440, 390, 320 px; save, reload and 2026)
-        if: needs.changes.outputs.full == 'true'
+        if: needs.changes.outputs.tc == 'true'
         timeout-minutes: 10
         run: node scripts/tc-sim-historical-browser.mjs
       - name: Cete outcome production smoke (both hosts)
@@ -159,7 +177,7 @@ jobs:
           path: ${{ runner.temp }}/screenshots/duel-production
   build:
     if: ${{ always() }}
-    needs: [changes, build-core, browser-regression]
+    needs: [changes, build-core, browser-regression, campaign-browser, campaign-balance]
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -178,11 +196,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
+        if: needs.changes.outputs.campaign == 'true' || github.ref == 'refs/heads/main'
         with:
           node-version: "22"
           cache: npm
       - run: npm ci
+        if: needs.changes.outputs.campaign == 'true' || github.ref == 'refs/heads/main'
       - name: Install Chromium
+        if: needs.changes.outputs.campaign == 'true' || github.ref == 'refs/heads/main'
         run: |
           browser_path="$(command -v google-chrome || command -v chromium || true)"
           if [ -n "$browser_path" ]; then

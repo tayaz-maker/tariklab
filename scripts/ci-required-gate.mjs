@@ -1,7 +1,7 @@
 import {resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
 
-const requiredJobs = ['changes', 'build-core', 'browser-regression'];
+const requiredJobs = ['changes', 'build-core', 'browser-regression', 'campaign-browser', 'campaign-balance'];
 
 export function validateRequiredNeeds(needs) {
   if (!needs || typeof needs !== 'object' || Array.isArray(needs)) {
