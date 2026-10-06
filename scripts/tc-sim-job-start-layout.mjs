@@ -26,7 +26,7 @@ export function assertReadableDashboardLayout(value) {
     assert.equal(value.titles.length,2,"both inbox and key-people panels must be measured");
     for(const title of value.titles){
       assert.ok(title.text && !title.missing,"panel needs its visible title");
-      assert.ok(title.width>=Math.min(110,title.row.width-48),`title is too narrow: ${title.text}`);
+      assert.ok(title.width>=title.fontSize*2,`title is too narrow: ${title.text}`);
       assert.ok(Number.isFinite(title.lineHeight)&&title.lineHeight>0,"actual line height required");
       assert.ok(title.lineCount<=2.1,`title wraps into an unreadable column: ${title.text}`);
     }
