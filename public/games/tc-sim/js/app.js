@@ -1348,7 +1348,6 @@ function render() {
         <nav class="side-nav" aria-label="Oyun bölümleri">${terminal ? "Yaşam raporu" : renderNav()}</nav>
         <section class="workspace">${workspace}</section>
       </div>
-    ${terminal ? "" : renderDeskLedger()}
     ${renderEvent()}
       ${helpOpen ? renderHelpModal() : ""}
       <footer class="game-footer">© 2026 TarikLab. Tüm hakları saklıdır.<br>Oyun tasarımı ve özgün içerik: Tarık Halil Ayaz.</footer>
