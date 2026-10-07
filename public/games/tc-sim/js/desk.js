@@ -150,6 +150,21 @@ export function arrangeLifeDesk(view, text) {
   // These surfaces are intentionally full-size, readable workspaces. A card
   // index hid the body diagram and forced a second tap for banking or family.
   const fullViews = new Set(["dashboard", "inbox", "body", "finance", "home", "market", "relationships"]);
-  if (!fullViews.has(view)) managementDesk({ workspace, layout, key: `life:${view}`, selector: selectors[view] || ".panel", text, searchSelector: view === "people" ? ".person-select" : undefined, openInitially: view === "people" && openPerson, returnFocusSelector: view === "people" ? ".person-select.is-current" : undefined });
+  // The full-width header and scenario stay outside the optional detail split.
+  // Only rendered nodes move; original listeners, content and actions survive.
+  layout.classList.add("tc-page-shell");
+  const regions = document.createElement("div");
+  regions.className = "tc-page-regions";
+  const main = document.createElement("div");
+  main.className = "tc-page-main";
+  const head = workspace.querySelector(".workspace-head");
+  const bodyNodes = head ? [...workspace.childNodes].slice([...workspace.childNodes].indexOf(head) + 1) : [...workspace.childNodes];
+  main.append(...bodyNodes);
+  regions.append(main);
+  workspace.append(regions);
+  if (!fullViews.has(view)) managementDesk({ workspace: main, layout: regions, key: `life:${view}`, selector: selectors[view] || ".panel", text, searchSelector: view === "people" ? ".person-select" : undefined, openInitially: view === "people" && openPerson, returnFocusSelector: view === "people" ? ".person-select.is-current" : undefined });
+  // Shared desk supplies selection/search/dialog behaviour, never TC's shell.
+  regions.classList.remove("management-layout");
+  main.classList.remove("management-workspace");
   openPerson = false;
 }

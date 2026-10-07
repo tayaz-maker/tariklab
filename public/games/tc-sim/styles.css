@@ -1645,3 +1645,28 @@ html.embedded .start-wrap .start-exit {
 .job-start-moment.is-settled { border-inline-start-color: var(--line); }
 .job-start-moment summary { min-height: 44px; padding-block: 12px; cursor: pointer; color: var(--accent); }
 .job-start-moment summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+
+/* Canonical TC page shell: every menu retains the wide inbox geometry.
+   The optional inspector belongs to the content, never the global layout. */
+.tc-page-shell { --tc-page-gap: 14px; --tc-detail-width: 320px; }
+.tc-page-regions { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--tc-page-gap); align-items: start; }
+.tc-page-regions:has(> .management-inspector) { grid-template-columns: minmax(0, 1fr) var(--tc-detail-width); }
+.tc-page-regions > * { min-width: 0; }
+.tc-page-main .desk-row { display: grid; grid-template-columns: minmax(0,1fr) 16px; text-align: left; width: 100%; min-width: 0; min-height: 60px; padding: 14px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); color: var(--text); box-shadow: none; gap: 4px 8px; cursor: pointer; }
+.tc-page-main .desk-row[aria-expanded=true], .tc-page-main .desk-row:hover { border-color: var(--tc-desk-selected-line); background: var(--tc-desk-selected); }
+.tc-page-main .option-grid { grid-template-columns: 1fr; gap: var(--tc-page-gap); }
+.tc-page-main .detail-summary { grid-template-columns: repeat(3,minmax(0,1fr)); }
+.tc-page-main .social-layout { display: block; }
+.tc-page-main .dashboard-grid { grid-template-areas: none; }
+.tc-page-main .dashboard-grid > * { grid-area: auto; }
+.tc-page-regions .management-inspector { --desk-line: var(--line); --desk-muted: var(--muted); top: 14px; max-height: calc(100dvh - 28px); padding: 14px; border: 1px solid var(--line); border-radius: var(--radius); }
+.tc-page-regions .management-inspector :is(.panel,.card,.report-card,.option-card,.wealth-card) { border-radius: var(--radius); padding: 14px; }
+.tc-page-shell [hidden] { display: none !important; }
+.tc-page-shell :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 1100px) and (min-width: 901px) { .tc-page-shell { --tc-detail-width: 270px; } }
+@media (max-width: 900px) {
+  .tc-page-regions:has(> .management-inspector) { grid-template-columns: minmax(0,1fr); }
+  .tc-page-regions .management-inspector.is-open { max-height: 100dvh; border-radius: 0; top: 0; }
+}
+@media (max-width: 820px) { .tc-page-main .detail-summary { grid-template-columns: repeat(2,minmax(0,1fr)); } }

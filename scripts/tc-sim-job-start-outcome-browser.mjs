@@ -19,7 +19,7 @@ assert.ok(!values.production || (!values.serve && values["expected-root"]), "pro
 const out = resolve(process.env.RUNNER_TEMP || "/workspace", "screenshots/tc-job-start-outcome", values.label);
 mkdirSync(out, { recursive: true });
 let server, browser, origin, fingerprints = [], layoutBaseline = null, layoutCostComparison = null, failure = null;
-const rows = [], layoutMeasurements = [], controlMeasurements = [];
+const rows = [], layoutMeasurements = [], controlMeasurements = [], shellMeasurements = [];
 try {
   if (values.serve) {
     server = createStaticGameServer(values.serve);
@@ -188,6 +188,34 @@ try {
     await context.setOffline(false);
     await navigate("career"); await navigate("dashboard");
     assert.equal(await page.locator("[data-job-start-moment]").count(), 0);
+    if (language === "tr" && !reduced && view === "dashboard") {
+      const storageBefore = await page.evaluate(() => JSON.stringify(Object.fromEntries(Object.entries(localStorage))));
+      let shellBaseline;
+      for (const menu of ["dashboard", "inbox", "character", "calendar", "finance", "market", "career", "education", "people", "relationships", "home", "body", "history", "yearbook"]) {
+        await navigate(menu);
+        await page.evaluate(() => window.scrollTo(0, 0));
+        const geometry = await page.evaluate(() => {
+          const box = selector => {
+            const node = document.querySelector(selector), rect = node.getBoundingClientRect();
+            return { x: rect.x, y: rect.y, width: rect.width, height: rect.height };
+          };
+          return { header: box(".game-topbar"), sidebar: box(".side-nav"), workspace: box(".workspace"), heading: box(".workspace-head h1"), regions: box(".tc-page-regions"),
+            headingFont: getComputedStyle(document.querySelector(".workspace-head h1")).fontSize,
+            overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+            inspector: document.querySelector(".management-inspector") ? box(".management-inspector") : null };
+        });
+        shellMeasurements.push({ width, menu, ...geometry });
+        shellBaseline ||= geometry;
+        for (const [region, dimensions] of Object.entries({ header: ["x", "y", "width", "height"], sidebar: ["x", "width"], workspace: ["x", "y", "width"], heading: ["x", "y"], regions: ["x", "width"] }))
+          for (const dimension of dimensions) assert.ok(Math.abs(geometry[region][dimension] - shellBaseline[region][dimension]) <= 1, `${width}/${menu}: ${region}.${dimension} shifted`);
+        assert.equal(geometry.headingFont, shellBaseline.headingFont, `${menu}: heading hierarchy shifted`);
+        assert.ok(geometry.overflow <= 1, `${width}/${menu}: horizontal overflow`);
+        if (width === 1440 && geometry.inspector) assert.equal(geometry.inspector.width, 320, `${menu}: canonical detail width`);
+        await page.screenshot({ path: `${out}/shell-${width}-${menu}.png`, fullPage: false });
+      }
+      assert.equal(await page.evaluate(() => JSON.stringify(Object.fromEntries(Object.entries(localStorage)))), storageBefore, "Shell navigation must not mutate save data");
+      await navigate("dashboard");
+    }
     assert.deepEqual(errors, []); assert.deepEqual(external, []);
     rows.push({ language, width, reduced, view, dashboardLayout, localizedControls, coldEntry, status: "PASS", cached, resources, offlineSaveFacts: saveFacts(offlineSaved), syntheticV1SaveFacts: saveFacts(migrated) });
     await context.close();
@@ -202,5 +230,5 @@ try {
 finally {
   await browser?.close();
   if (server) await new Promise(done => server.close(done));
-  writeFileSync(`${out}/results.json`, JSON.stringify({ origin, fingerprints, layoutBaseline, layoutCostComparison, layoutMeasurements, controlMeasurements, status: failure ? "FAIL" : "PASS", failure, expectedCases: 22, rows, performance: "Candidate cold entry only; before/after comparison remains unmeasured." }, null, 2) + "\n");
+  writeFileSync(`${out}/results.json`, JSON.stringify({ origin, fingerprints, layoutBaseline, layoutCostComparison, layoutMeasurements, controlMeasurements, shellMeasurements, status: failure ? "FAIL" : "PASS", failure, expectedCases: 22, rows, performance: "Candidate cold entry only; before/after comparison remains unmeasured." }, null, 2) + "\n");
 }

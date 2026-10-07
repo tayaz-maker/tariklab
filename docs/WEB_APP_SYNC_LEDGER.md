@@ -626,3 +626,12 @@ Chromium must pass before integration.
 ### 2026-10-06 — palette release transfer from preserved 3069d4f
 - Original commit is local-only and absent from main/#131. Applied only its two CSS deltas to the current main lineage; retained all newer content, mechanics and every earlier ledger entry. The conflicting root palette uses the explicitly requested 3069d4f values. No #131 changes are included.
 - Infrastructure is a separate parent PR. Fresh TC + DEVLET responsive/historical and unit/build gates must pass before product merge. Previous source-checkout validation above is historical evidence, not current release proof.
+
+
+## 2026-10-07 — TC SIM canonical page shell
+
+- Cause: `arrangeLifeDesk` applied shared management-layout/workspace classes only to seven list/detail views. Their global `:has(.management-layout)` CSS also changed the header, sidebar, width, padding and typography; full views kept a different shell.
+- All fourteen menus now use the existing wide TC frame, header, navigation and workspace. Scenario/status and page heading remain full width. A common `tc-page-regions` contains main content and an optional 320px detail region (270px at narrow desktop); mobile retains the existing detail dialog behaviour.
+- Shared desk selection, filtering and original action nodes are retained inside the content region. No palette values, game content, mechanics, persistence or navigation destinations changed. TC SIM DEVLET and shared CSS/JS are untouched.
+- Browser release gate now records/snapshots all fourteen menus at 1440/390/320, compares header/sidebar/workspace/heading geometry and checks overflow and unchanged storage. Exact-release fingerprint gate additionally verifies desk.js. Existing action, localization, offline and responsive gates remain enabled.
+- Validation: local build and typecheck passed. Actual browser and production results are recorded in the associated PR; merge is conditional on passing checks.
