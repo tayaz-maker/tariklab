@@ -45,7 +45,7 @@ try {
       await page.locator("#continue-game").click();await page.waitForFunction(()=>Boolean(window.__tcContinueMetric));
       await page.screenshot({path:join(out,`${label}-${width}-continued.png`)});
       const metrics=await page.evaluate(()=>({continueRender:window.__tcContinueMetric,paint:performance.getEntriesByType("paint").map(e=>({name:e.name,startTime:e.startTime})),navigation:performance.getEntriesByType("navigation").map(e=>({transferSize:e.transferSize,encodedBodySize:e.encodedBodySize,duration:e.duration})),resources:performance.getEntriesByType("resource").map(e=>({name:e.name,transferSize:e.transferSize,encodedBodySize:e.encodedBodySize})),overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth,controller:Boolean(navigator.serviceWorker.controller)}));
-      assert.equal(metrics.overflow,0);assert.equal(metrics.controller,false);assert.deepEqual(errors,[]);
+      assert.ok(metrics.overflow<=0,"No horizontal overflow (reserved native scrollbar space may make the delta negative)");assert.equal(metrics.controller,false);assert.deepEqual(errors,[]);
       const fcp=metrics.paint.find(e=>e.name==="first-contentful-paint")?.startTime;assert.ok(fcp>0,"actual FCP entry required");
       report.cases.push({label,width,status:"PASS",requestCount:requests.length,transferBytes:[...metrics.navigation,...metrics.resources].reduce((n,e)=>n+e.transferSize,0),fcpMs:fcp,continueToVisiblePlusTwoRafMs:metrics.continueRender.elapsed,metrics,requests});
     } finally {await context.close();server.closeAllConnections();await new Promise(done=>server.close(done));server=null;}

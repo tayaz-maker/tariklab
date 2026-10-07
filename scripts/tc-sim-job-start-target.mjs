@@ -3,7 +3,7 @@ import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 export const productionOrigins = ["https://www.tariklab.com", "https://tariklab.tayaz29.workers.dev"];
-export const fingerprintPaths = ["/games/tc-sim/js/app.js?v=10", "/games/tc-sim/styles.css?v=10", "/games/tc-sim/js/job-start-outcome.js?v=10", "/games/tc-sim/js/job-start-outcome-ui.js?v=10", "/i18n/expansion-en.js", "/i18n/pl/tc-sim.json"];
+export const fingerprintPaths = ["/games/tc-sim/js/desk.js?v=10", "/games/tc-sim/js/app.js?v=10", "/games/tc-sim/styles.css?v=10", "/games/tc-sim/js/job-start-outcome.js?v=10", "/games/tc-sim/js/job-start-outcome-ui.js?v=10", "/i18n/expansion-en.js", "/i18n/pl/tc-sim.json"];
 export function checkedOutcomeOrigin(base, production = false) {
   const url = new URL(base);
   assert.ok(!url.username && !url.password && url.pathname === "/" && !url.search && !url.hash, "base must be a plain origin");
