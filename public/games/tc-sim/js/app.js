@@ -91,7 +91,7 @@ import { renderHelpModal } from "./help.js?v=10";
 import { LIFE_ARC_LABELS, LIFE_DEPTH_EVENTS, economyCausality, refreshLifeArcs } from "./life-depth.js?v=10";
 import { DOMAIN_LABEL, STREAK_PAYOFF, decisionTags, weekPlan } from "./decision-network.js?v=10";
 import { actorVoiceLine } from "./life-content.js?v=10";
-import { chooseEightiesStartYear, HISTORICAL_END_DATE, resolveScenarioChoice } from "./historical-scenarios.js?v=10";
+import { chooseEightiesStartYear, HISTORICAL_STARTS, HISTORICAL_END_DATE, resolveScenarioChoice } from "./historical-scenarios.js?v=10";
 import { ECONOMY_SOURCE, economyYear, formatPeriodMoney, periodEconomyNote, periodContext, WAGE_HISTORY_SOURCE } from "./period-economy.js?v=10";
 
 const app = document.querySelector("#app");
@@ -332,8 +332,8 @@ function startScreen(loadResult) {
             .map(([id, label]) => `<option value="${id}">${escapeText(label)}</option>`)
             .join("")}</select></label>
           <label>Askerlik durumu<select name="militaryApplicable"><option value="false">Bu yaşamda yükümlülük yok</option><option value="true">Yükümlülük var</option></select></label>
-          <label>Başlangıç<select name="eraId"><option value="present_day">Günümüz · serbest yaşam</option><option value="1999-04-18">18 Nisan 1999 · 1 Ocak 2030'a kadar</option><option value="1980s">1980'lerden seed'li başlangıç · 1 Ocak 2030'a kadar</option></select></label>
-          <label id="scenario-seed-wrap">Tekrar üretim seed'i<input name="scenarioSeed" type="number" min="1" max="4294967295" value="${freshScenarioSeed()}" inputmode="numeric" /><small id="scenario-preview">Seed aynı kaldığında 1980'ler başlangıcı da aynı kalır.</small></label>
+          <label>Başlangıç<select name="eraId">${HISTORICAL_STARTS.filter(start => start.playable).map(start => `<option value="${start.id}">${escapeText(start.title)} · ${start.endDate ? "1 Ocak 2030'a kadar" : "serbest yaşam"}</option>`).join("")}</select></label>
+          <label id="scenario-seed-wrap">Tekrar üretim seed'i<input name="scenarioSeed" type="number" min="1" max="4294967295" value="${freshScenarioSeed()}" inputmode="numeric" /></label><p class="context-note" id="scenario-preview">Başlangıç dönemini seç.</p>
         <div class="row">
           <button class="button button-quiet" type="button" id="back-to-intro">← Geri</button>
           <button class="button button-primary" type="submit">Bu slota yeni hayat</button>
@@ -387,6 +387,10 @@ function startScreen(loadResult) {
       ? language === "en" ? `Seeded start: ${year}. Period decisions continue through 1 January 2030; years after 2025 are fictional.`
         : language === "pl" ? `Start z seedem: ${year}. Decyzje trwają do 1 stycznia 2030; lata po 2025 są fikcyjne.`
           : `Bu seed ile başlangıç: ${year}. Dönem kararları 1 Ocak 2030'a kadar sürer; 2025 sonrası kurgudur.`
+      : era === "2017-04-18"
+        ? language === "en" ? "18 April 2017: age 18, born 18 April 1999. Through 1 January 2030."
+          : language === "pl" ? "18 kwietnia 2017: 18 lat, data urodzenia 18 kwietnia 1999. Do 1 stycznia 2030."
+            : "18 Nisan 2017: 18 yaşındasın; doğum tarihin 18 Nisan 1999. Hedef: 1 Ocak 2030."
       : era === "1999-04-18"
         ? language === "en" ? "Fixed start: 18 April 1999. End date: 1 January 2030; years after 2025 are fictional."
           : language === "pl" ? "Stały start: 18 kwietnia 1999. Koniec: 1 stycznia 2030; lata po 2025 są fikcyjne."

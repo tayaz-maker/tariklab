@@ -244,3 +244,22 @@ test("wealth controls never look enabled when money, time, cooldown or ownership
   const coffee=ui.root.elements.find(e=>e.dataset.wealthAction==="spend"&&e.dataset.wealthValue==="coffee");
   assert.equal(coffee.disabled,true); assert.match(coffee.attrs.title,/gerekiyor/);
 });
+
+
+test("normal creation screen exposes the canonical 2017 option and its real submit saves age/date", async () => {
+  const ui = await mount(createNewGame());
+  ui.click(ui.document.querySelector("#main-menu"));
+  ui.click(ui.document.querySelector("#show-creation-form"));
+  const select = ui.root.innerHTML.match(/<select name="eraId">([\s\S]*?)<\/select>/)[1];
+  for (const id of ["present_day", "1999-04-18", "2017-04-18", "1980s"]) assert.ok(select.includes(`value="${id}"`), id);
+  const OriginalFormData = globalThis.FormData;
+  globalThis.FormData = class { get(key) { return ({ name: "2017 QA", eraId: "2017-04-18", profile: "balanced" })[key] || null; } };
+  try {
+    const form = ui.document.querySelector("#new-game-form");
+    form.listeners.submit({ preventDefault() {}, currentTarget: form });
+  } finally { globalThis.FormData = OriginalFormData; }
+  assert.equal(ui.saved().time.date, "2017-04-18");
+  assert.equal(ui.saved().player.birthDate, "1999-04-18");
+  assert.equal(ui.saved().player.age, 18);
+  assert.ok(ui.root.innerHTML.includes("18 Nisan 2017"));
+});
