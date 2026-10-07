@@ -408,6 +408,7 @@ function processMonthEnd(state) {
     transact(state, summary.retirementIncome, "Aylık emeklilik geliri", "income");
   if (summary.otherIncome) transact(state, summary.otherIncome, "Diğer düzenli gelir", "income");
   transact(state, -summary.housing, "Aylık konut gideri", "housing");
+  if(summary.transport)transact(state,-summary.transport,"Aylık işe ulaşım gideri","expense");
   if (summary.otherExpenses)
     transact(state, -summary.otherExpenses, "Diğer düzenli gider", "expense");
   if (summary.parenting)
@@ -470,6 +471,7 @@ function closeYear(state, endedYear) {
     },
     health: getBodyYearSummary(state),
     housing: {
+      ...(state.household.location?{city:state.player.city,districtId:state.household.location.districtId}:{}),
       homeId: state.household.homeId,
       livingWithFamily: state.household.livingWithFamily,
     },

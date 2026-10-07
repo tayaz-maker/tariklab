@@ -169,7 +169,7 @@ export function applyDepth3Resolution(state, definition, choiceId, sourceCase = 
     applyRelationshipDelta(state, "selin", { closeness: 2, trust: 2, tension: -1 });
   }
   if (id === "housing_move_followup") {
-    const movedAway = sourceCase?.payload?.fromHomeId === "family" && sourceCase?.payload?.toHomeId !== "family";
+    const movedAway = sourceCase?.payload?.intercity || (sourceCase?.payload?.fromHomeId === "family" && sourceCase?.payload?.toHomeId !== "family");
     if (movedAway) {
       const good = choiceId === "make_time";
       applyRelationshipDelta(state, "anne", good ? { trust: 2, tension: -1 } : { trust: -1, tension: 2 });

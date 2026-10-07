@@ -1,3 +1,4 @@
+import {normalizeLocation,getDistrict} from './locations.js?v=10';
 import { syncGameDate } from "./game-date.js?v=10";
 import { normalizeLifetime, validateLifetime } from "./lifetime.js?v=10";
 import { neutralWealth, normalizeWealth, validateWealth } from "./wealth.js?v=10";
@@ -833,6 +834,7 @@ export function normalizeEducationCareer(state) {
   };
   normalizeSocialState(state);
   normalizeHousehold(state);
+  normalizeLocation(state);
   normalizeParenthood(state);
   normalizeWealth(state);
   normalizeLifetime(state);
@@ -934,6 +936,7 @@ export function validateState(state) {
   )
     errors.push("Eğitim kaydı geçersiz");
   if (!state.household || !getHomeById(state.household.homeId)) errors.push("Konut kaydı geçersiz");
+  if(state.household?.location && (!getDistrict(state.household.location.districtId) || state.household.homeId === "family" || !Number.isInteger(state.household.location.lastMoveWeek))) errors.push("Konum kaydı geçersiz");
   if (state.household?.union && (
     ["cohabitingSince", "marriedSince", "separatedSince"].some((key) => state.household.union[key] != null && (!Number.isInteger(state.household.union[key]) || state.household.union[key] < 1 || state.household.union[key] > state.time.absoluteWeek)) ||
     (state.household.union.separatedSince && (!state.household.union.marriedSince || state.household.union.cohabitingSince)) ||

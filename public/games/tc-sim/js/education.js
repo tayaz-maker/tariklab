@@ -1,3 +1,4 @@
+import {locationEducationLoad} from './locations.js?v=10';
 export const EDUCATION_LEVEL_RANKS = { lise: 1, onlisans: 2, lisans: 3 };
 
 export const EDUCATION_LEVEL_LABELS = {
@@ -331,7 +332,9 @@ export function getCareerBand(weeks) {
 export function getEducationWeeklyLoad(state) {
   const active = state?.education?.active;
   if (!active) return { energy: 0, stress: 0, load: 0 };
-  return getPathIntensityLoad(getPathById(active.pathId), active.intensity);
+  const base=getPathIntensityLoad(getPathById(active.pathId), active.intensity);
+  const travel=locationEducationLoad(state);
+  return {...base,load:base.load+travel,energy:base.energy-travel*2,stress:base.stress+travel};
 }
 
 export function getEducationProgress(state) {
@@ -347,7 +350,7 @@ export function getEducationProgress(state) {
     targetPoints: path.targetPoints,
     percent: Math.min(100, Math.round((active.progressPoints / path.targetPoints) * 100)),
     remainingWeeks: gain > 0 ? Math.ceil(remainingPoints / gain) : 0,
-    weeklyLoad: getPathIntensityLoad(path, active.intensity),
+    weeklyLoad: getEducationWeeklyLoad(state),
   };
 }
 

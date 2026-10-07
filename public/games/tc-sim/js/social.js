@@ -1,3 +1,4 @@
+import {socialTravel,districtProfile} from './locations.js?v=10';
 import {
   addMemory,
   addNpcMemory,
@@ -186,10 +187,12 @@ export function canUseSocialAction(state, personId, actionId) {
   if (state.lifetime?.death || state.people.find(p => p.id === personId)?.deceased) return { ok: false, reason: "Bu kişiyle artık yeni bir eylem yapılamaz." };
   const person = getPerson(state, personId);
   const relationship = getRelationship(state, personId);
-  const action = ACTIONS[actionId];
+  const baseAction = ACTIONS[actionId];
+  const travel=actionId==="meet"?socialTravel(state,personId):{cost:0,slots:0};
+  const action=baseAction?{...baseAction,cost:baseAction.cost+travel.cost}:null;
   if (!person || !relationship || !action) return { ok: false, reason: "Sosyal işlem geçersiz." };
   if (state.events.active) return { ok: false, reason: "Önce açık olayı sonuçlandır." };
-  if (state.weekly.used >= getWeeklyActivityLimit(state))
+  if (state.weekly.used + 1 + travel.slots > getWeeklyActivityLimit(state))
     return {
       ok: false,
       reason: isCriticalHealth(state)
@@ -208,12 +211,12 @@ export function canUseSocialAction(state, personId, actionId) {
     return { ok: false, reason: "Bu kişiye verilmiş açık bir söz yok." };
   if (actionId === "advance_romance" && !canBecomePartner(state, personId))
     return { ok: false, reason: "İlişki henüz sevgililiğe hazır değil." };
-  return { ok: true, action, decisionId };
+  return { ok: true, action, decisionId,slots:1+travel.slots };
 }
 
 export function getAvailableSocialActions(state, personId) {
   return Object.entries(ACTIONS)
-    .map(([id, action]) => ({ id, ...action, availability: canUseSocialAction(state, personId, id) }))
+    .map(([id, action]) => {const t=id==="meet"?socialTravel(state,personId):{cost:0,slots:0};return {id,...action,detail:action.detail+(t.cost?` · yol ₺${t.cost} · ${1+t.slots} zaman`:""),availability:canUseSocialAction(state,personId,id)};})
     .filter((action) => {
       if (["repair", "fulfill_promise", "advance_romance"].includes(action.id))
         return action.availability.ok;
@@ -227,7 +230,7 @@ export function applySocialAction(state, personId, actionId) {
   const person = getPerson(state, personId);
   if (check.action.cost) transact(state, -check.action.cost, `${person.name}: ${check.action.title}`, "social");
   if (actionId === "meet") {
-    applyRelationshipDelta(state, personId, { closeness: 6, trust: 2, tension: -2 });
+    applyRelationshipDelta(state, personId, { closeness: Math.round(6*districtProfile(state).social), trust: 2, tension: -2 });
     adjustHealth(state, { energy: -6, stress: -3 });
     addNpcMemory(state, personId, "Birlikte vakit geçirdik.", "met");
   } else if (actionId === "confide") {
@@ -251,7 +254,7 @@ export function applySocialAction(state, personId, actionId) {
   if (["meet", "confide", "help", "repair"].includes(actionId)) adjustTendency(state, "sociability", 1);
   if (actionId === "help" || actionId === "fulfill_promise") adjustTendency(state, "discipline", 1);
   if (actionId === "meet") adjustTendency(state, "frugality", -1);
-  state.weekly.used += 1;
+  state.weekly.used += check.slots;
   state.weekly.selectedIds.push(check.decisionId);
   state.social.engaged = true;
   return { ok: true, message: `${person.name}: ${check.action.title} tamamlandı.` };

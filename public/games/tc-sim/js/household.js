@@ -1,3 +1,4 @@
+import {locationCosts} from './locations.js?v=10';
 import { normalizeWedding, weddingRecord, ensureWedding, familyMeetingContext, weddingFundingAvailability, settleWeddingBudget, householdChoiceCost } from "./wedding-planning.js?v=10";
 import { addMemory, addNpcMemory, appendCapped, getWeeklyActivityLimit, transact } from "./state.js?v=10";
 import { getPerson, getRelationship, applyRelationshipDelta, markMeaningfulContact, isAdultRomanceParticipant } from "./social.js?v=10";
@@ -183,7 +184,8 @@ export function householdChoiceAvailability(state, definition, choice, sourceCas
     if (living(state) || !stablePartner(state)) return { ok: false, reason: "Taşınmadan önce ilişkinizdeki belirsizliği konuşmalısınız." };
     const home = getHomeById(choice.id);
     if (!home || home.id === "family") return { ok: false, reason: "İki kişilik bağımsız bir yaşam alanı seç." };
-    if (state.finances.balance < (state.household.homeId === home.id ? 0 : home.moveCost)) return { ok: false, reason: "Taşınma bütçesi yetersiz." };
+    if(state.household.homeId !== home.id && (state.household.location?.lastMoveWeek===state.time.absoluteWeek||state.weekly.selectedIds.includes("move-location"))) return {ok:false,reason:"Bu hafta zaten taşındın; aynı evde birlikte yaşamayı seçebilir veya erteleyebilirsin."};
+    if (state.finances.balance < (state.household.homeId === home.id ? 0 : Math.round(home.moveCost*locationCosts(state).rent))) return { ok: false, reason: "Taşınma bütçesi yetersiz." };
   }
   const cost = householdChoiceCost(state, definition.id, choice.id);
   if (definition.id !== "marriage_commitment" && state.finances.balance < cost) return { ok: false, reason: "Bu hazırlık için bütçe yetersiz; daha sade seçeneği tercih edebilirsin." };

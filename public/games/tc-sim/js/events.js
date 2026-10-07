@@ -11,7 +11,7 @@ import {
   transact,
   updateRelationship,
 } from "./state.js?v=10";
-import { completePendingJob, getCommuteLoad, getJobById, getMonthlyHousingCost } from "./life.js?v=10";
+import { completePendingJob, getEffectiveCommuteLoad, getJobById, getMonthlyHousingCost } from "./life.js?v=10";
 import { getPathById, isEligibleForJob } from "./education.js?v=10";
 import {
   applyRelationshipDelta,
@@ -597,7 +597,7 @@ export const EVENT_DEFINITIONS = [
     title: "Servis ve ayak",
     text: "Minibüs dolu, aktarma kaçtı. İşe on dakika kala duraktasın; ter ve çanta omzunda.",
     condition: (state) =>
-      getCommuteLoad(state.household.homeId, state.career.jobId) >= 2 && state.health.energy <= 45,
+      getEffectiveCommuteLoad(state) >= 2 && state.health.energy <= 45,
     choices: [
       {
         id: "early",

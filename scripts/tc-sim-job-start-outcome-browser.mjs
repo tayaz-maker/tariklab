@@ -1,3 +1,4 @@
+import {cityFixture} from './tc-sim-city-fixture.mjs';
 import { marriageFixture } from "./tc-sim-marriage-fixture.mjs";
 // Prepared healthy-browser CI gate; local execution has not been claimed.
 import assert from "node:assert/strict";
@@ -284,6 +285,24 @@ try {
     rows.push({view:"marriage",width:1440,status:"PASS",familiesMet:saved.household.wedding.familiesMet});
     await context.close();
   }
+  // Location explorer uses the existing EV view; navigation itself must not mutate a save.
+  {
+    const context=await browser.newContext({viewport:{width:1440,height:900}}),page=await context.newPage(),errors=[];
+    page.on('pageerror',e=>errors.push(e.message));
+    await context.addInitScript(({state,key,origin})=>{if(location.origin!==origin||localStorage.getItem('city-fixture-seeded'))return;localStorage.setItem(key,JSON.stringify(state));localStorage.setItem('tariklab::tc-sim:active','1');localStorage.setItem('tariklab.language','tr');localStorage.setItem('city-fixture-seeded','1');},{state:cityFixture(),key,origin});
+    await page.goto(url,{waitUntil:'networkidle'});await page.locator('#continue-game').click();await page.locator('.side-nav [data-view="home"]').click();
+    const before=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
+    await page.locator('[data-location-city="ankara"]').click();await page.locator('[data-location-select="batikent"]').click();
+    assert.ok((await page.locator('.location-panel').textContent()).includes('Mevcut işin bu şehirde'));
+    assert.deepEqual(await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key),before);
+    await page.locator('[data-location-city="istanbul"]').click();await page.locator('[data-location-select="avcilar"]').click();
+    await page.locator('[data-location-move="avcilar"][data-location-home="shared"]').click();
+    const saved=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);assert.equal(saved.household.location.districtId,'avcilar');assert.ok(saved.finances.balance<before.finances.balance);
+    await page.reload({waitUntil:'networkidle'});await page.locator('#continue-game').click();await page.locator('.side-nav [data-view="home"]').click();
+    assert.equal(await page.locator('[data-location-select="avcilar"]').getAttribute('aria-pressed'),'true');
+    assert.ok((await page.locator('.location-panel').textContent()).includes('EVİN'));assert.deepEqual(errors,[]);
+    await page.screenshot({path:`${out}/city-interaction-1440.png`,fullPage:false});rows.push({view:'city',width:1440,status:'PASS'});await context.close();
+  }
   if (layoutBaseline) {
     const sample=rows.find(row=>row.language==="tr"&&row.width===1440&&!row.reduced&&row.view==="dashboard");
     assert.ok(sample,"matching candidate entry sample required");
@@ -294,5 +313,5 @@ try {
 finally {
   await browser?.close();
   if (server) await new Promise(done => server.close(done));
-  writeFileSync(`${out}/results.json`, JSON.stringify({ origin, fingerprints, layoutBaseline, layoutCostComparison, layoutMeasurements, controlMeasurements, shellMeasurements, status: failure ? "FAIL" : "PASS", failure, expectedCases: 23, rows, performance: "Candidate cold entry only; before/after comparison remains unmeasured." }, null, 2) + "\n");
+  writeFileSync(`${out}/results.json`, JSON.stringify({ origin, fingerprints, layoutBaseline, layoutCostComparison, layoutMeasurements, controlMeasurements, shellMeasurements, status: failure ? "FAIL" : "PASS", failure, expectedCases: 24, rows, performance: "Candidate cold entry only; before/after comparison remains unmeasured." }, null, 2) + "\n");
 }
