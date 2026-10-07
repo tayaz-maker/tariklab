@@ -40,6 +40,9 @@
   --tc-space-xl: 24px;
   --tc-control-height: 40px;
   --tc-panel-padding: var(--tc-space-lg);
+  /* Overlays must clear compact navigation (12) and the record inspector (100). */
+  --tc-layer-event: 110;
+  --tc-layer-help: 120;
   --radius: 7px;
   --nav: 164px;
   font-family:
@@ -906,7 +909,7 @@ select {
 .event-backdrop {
   position: fixed;
   inset: 0;
-  z-index: 10;
+  z-index: var(--tc-layer-event);
   display: grid;
   place-items: center;
   padding: 20px;
@@ -955,7 +958,7 @@ select {
 .help-backdrop {
   position: fixed;
   inset: 0;
-  z-index: 11;
+  z-index: var(--tc-layer-help);
   display: grid;
   place-items: center;
   padding: 20px;
