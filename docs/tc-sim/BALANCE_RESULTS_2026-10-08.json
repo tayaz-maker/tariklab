@@ -1,0 +1,453 @@
+{
+  "units": "Indexed game budget units, not nominal historical TL. 48 decision weeks/year.",
+  "adults": {
+    "career-focused": {
+      "weeks": 521,
+      "final": {
+        "jobId": "technician",
+        "jobTitle": "Teknik Servis Uzmanı",
+        "salary": 15500,
+        "performance": 100,
+        "balance": 891480,
+        "savingsMultiple": 6.633,
+        "annualBaselineCost": 134400,
+        "costIndex": 1.4,
+        "home": "shared",
+        "educationLevel": "lise",
+        "fields": [
+          "technical"
+        ]
+      },
+      "valid": true
+    },
+    "balanced": {
+      "weeks": 521,
+      "final": {
+        "jobId": "office",
+        "jobTitle": "Ofis Asistanı",
+        "salary": 12800,
+        "performance": 100,
+        "balance": 398970,
+        "savingsMultiple": 2.969,
+        "annualBaselineCost": 134400,
+        "costIndex": 1.4,
+        "home": "shared",
+        "educationLevel": "lise",
+        "fields": []
+      },
+      "valid": true
+    },
+    "financially-strained": {
+      "weeks": 521,
+      "final": {
+        "jobId": "market",
+        "jobTitle": "Market Çalışanı",
+        "salary": 9000,
+        "performance": 100,
+        "balance": -10600,
+        "savingsMultiple": -0.079,
+        "annualBaselineCost": 134400,
+        "costIndex": 1.4,
+        "home": "shared",
+        "educationLevel": "lise",
+        "fields": []
+      },
+      "valid": true
+    },
+    "education-career": {
+      "weeks": 521,
+      "final": {
+        "jobId": "specialist",
+        "jobTitle": "Kurumsal Uzman Yardımcısı",
+        "salary": 19000,
+        "performance": 100,
+        "balance": 856930,
+        "savingsMultiple": 6.376,
+        "annualBaselineCost": 134400,
+        "costIndex": 1.4,
+        "home": "shared",
+        "educationLevel": "lisans",
+        "fields": [
+          "business"
+        ]
+      },
+      "valid": true
+    }
+  },
+  "family": {
+    "weeks": 521,
+    "birthWeek": 123,
+    "valid": true,
+    "openParentingCases": 0
+  },
+  "entrepreneurs": [
+    {
+      "seed": 41,
+      "eraId": "2017-04-18",
+      "weeks": 480,
+      "employed": false,
+      "reservePolicy": true,
+      "checkpoints": {
+        "144": 30973,
+        "240": 49182,
+        "480": 59696
+      },
+      "capital": 30000,
+      "initial": 30000,
+      "finalWorth": 59696,
+      "balance": 56196,
+      "arrears": 0,
+      "minCash": 2576,
+      "peakLevel": 1,
+      "successfulGrowth": 0,
+      "lossMonths": 0,
+      "business": "repair",
+      "health": {
+        "energy": 94,
+        "stress": 5,
+        "health": 100
+      },
+      "employees": 0,
+      "lastResult": {
+        "date": "2027-04-04",
+        "revenue": 18570,
+        "expenses": 9528,
+        "net": 9042,
+        "supply": 4643,
+        "wages": 0,
+        "rent": 2100,
+        "operations": 525,
+        "interest": 0,
+        "principal": 0,
+        "tax": 2260
+      },
+      "valid": true
+    },
+    {
+      "seed": 41,
+      "eraId": "2017-04-18",
+      "weeks": 480,
+      "employed": false,
+      "reservePolicy": true,
+      "checkpoints": {
+        "144": 460580,
+        "240": 788323,
+        "480": 2026609
+      },
+      "capital": 500000,
+      "initial": 500000,
+      "finalWorth": 2026609,
+      "balance": 1914609,
+      "arrears": 0,
+      "minCash": 321459,
+      "peakLevel": 6,
+      "successfulGrowth": 5,
+      "lossMonths": 38,
+      "business": "repair",
+      "health": {
+        "energy": 86,
+        "stress": 0,
+        "health": 100
+      },
+      "employees": 31,
+      "lastResult": {
+        "date": "2027-04-04",
+        "revenue": 521835,
+        "expenses": 472254,
+        "net": 49581,
+        "supply": 130459,
+        "wages": 279000,
+        "rent": 33600,
+        "operations": 16800,
+        "interest": 0,
+        "principal": 0,
+        "tax": 12395
+      },
+      "valid": true
+    },
+    {
+      "seed": 73,
+      "eraId": "2017-04-18",
+      "weeks": 480,
+      "employed": false,
+      "reservePolicy": true,
+      "checkpoints": {
+        "144": 19423,
+        "240": 34322,
+        "480": 17234
+      },
+      "capital": 30000,
+      "initial": 30000,
+      "finalWorth": 17234,
+      "balance": 13734,
+      "arrears": 0,
+      "minCash": 108,
+      "peakLevel": 1,
+      "successfulGrowth": 0,
+      "lossMonths": 1,
+      "business": "repair",
+      "health": {
+        "energy": 86,
+        "stress": 0,
+        "health": 100
+      },
+      "employees": 0,
+      "lastResult": {
+        "date": "2027-04-04",
+        "revenue": 26096,
+        "expenses": 12538,
+        "net": 13558,
+        "supply": 6524,
+        "wages": 0,
+        "rent": 2100,
+        "operations": 525,
+        "interest": 0,
+        "principal": 0,
+        "tax": 3389
+      },
+      "valid": true
+    },
+    {
+      "seed": 73,
+      "eraId": "2017-04-18",
+      "weeks": 480,
+      "employed": false,
+      "reservePolicy": true,
+      "checkpoints": {
+        "144": 510511,
+        "240": 640053,
+        "480": 1649206
+      },
+      "capital": 500000,
+      "initial": 500000,
+      "finalWorth": 1649206,
+      "balance": 1593206,
+      "arrears": 0,
+      "minCash": 306771,
+      "peakLevel": 5,
+      "successfulGrowth": 4,
+      "lossMonths": 47,
+      "business": "repair",
+      "health": {
+        "energy": 94,
+        "stress": 5,
+        "health": 100
+      },
+      "employees": 15,
+      "lastResult": {
+        "date": "2027-04-04",
+        "revenue": 388570,
+        "expenses": 285587,
+        "net": 102983,
+        "supply": 97143,
+        "wages": 135000,
+        "rent": 19298,
+        "operations": 8400,
+        "interest": 0,
+        "principal": 0,
+        "tax": 25746
+      },
+      "valid": true
+    }
+  ],
+  "historical": [
+    {
+      "seed": 41,
+      "eraId": "1999-04-18",
+      "weeks": 480,
+      "employed": false,
+      "reservePolicy": true,
+      "checkpoints": {
+        "144": 37717,
+        "240": 69021,
+        "480": 54611
+      },
+      "capital": 30000,
+      "initial": 30000,
+      "finalWorth": 54611,
+      "balance": 51111,
+      "arrears": 0,
+      "minCash": 6545,
+      "peakLevel": 1,
+      "successfulGrowth": 0,
+      "lossMonths": 3,
+      "business": "repair",
+      "health": {
+        "energy": 86,
+        "stress": 0,
+        "health": 100
+      },
+      "employees": 0,
+      "lastResult": {
+        "date": "2009-04-04",
+        "revenue": 17024,
+        "expenses": 8910,
+        "net": 8114,
+        "supply": 4256,
+        "wages": 0,
+        "rent": 2100,
+        "operations": 525,
+        "interest": 0,
+        "principal": 0,
+        "tax": 2029
+      },
+      "valid": true
+    }
+  ],
+  "funded": [
+    {
+      "seed": 17,
+      "eraId": "2017-04-18",
+      "weeks": 480,
+      "employed": false,
+      "reservePolicy": true,
+      "checkpoints": {
+        "144": 1119700,
+        "240": 2513975,
+        "480": 2796531
+      },
+      "capital": 5000000,
+      "initial": 5000000,
+      "finalWorth": 2796531,
+      "balance": 2572531,
+      "arrears": 0,
+      "minCash": -527371,
+      "peakLevel": 7,
+      "successfulGrowth": 6,
+      "lossMonths": 53,
+      "business": "repair",
+      "health": {
+        "energy": 94,
+        "stress": 5,
+        "health": 100
+      },
+      "employees": 63,
+      "lastResult": {
+        "date": "2027-04-04",
+        "revenue": 1561903,
+        "expenses": 1152042,
+        "net": 409861,
+        "supply": 390476,
+        "wages": 567000,
+        "rent": 58501,
+        "operations": 33600,
+        "interest": 0,
+        "principal": 0,
+        "tax": 102465
+      },
+      "valid": true
+    },
+    {
+      "seed": 73,
+      "eraId": "2017-04-18",
+      "weeks": 480,
+      "employed": false,
+      "reservePolicy": true,
+      "checkpoints": {
+        "144": 2833411,
+        "240": 4520065,
+        "480": 10011575
+      },
+      "capital": 5000000,
+      "initial": 5000000,
+      "finalWorth": 10011575,
+      "balance": 9787575,
+      "arrears": 0,
+      "minCash": 1166125,
+      "peakLevel": 7,
+      "successfulGrowth": 6,
+      "lossMonths": 55,
+      "business": "repair",
+      "health": {
+        "energy": 94,
+        "stress": 5,
+        "health": 100
+      },
+      "employees": 63,
+      "lastResult": {
+        "date": "2027-04-04",
+        "revenue": 1496359,
+        "expenses": 1125825,
+        "net": 370534,
+        "supply": 374090,
+        "wages": 567000,
+        "rent": 58501,
+        "operations": 33600,
+        "interest": 0,
+        "principal": 0,
+        "tax": 92634
+      },
+      "valid": true
+    }
+  ],
+  "workerFounder": {
+    "seed": 41,
+    "eraId": "2017-04-18",
+    "weeks": 480,
+    "employed": true,
+    "reservePolicy": true,
+    "checkpoints": {
+      "144": 549418,
+      "240": 1280794,
+      "480": 8082092
+    },
+    "capital": 30000,
+    "initial": 30000,
+    "finalWorth": 8082092,
+    "balance": 7858092,
+    "arrears": 0,
+    "minCash": 15850,
+    "peakLevel": 7,
+    "successfulGrowth": 6,
+    "lossMonths": 31,
+    "business": "repair",
+    "health": {
+      "energy": 84,
+      "stress": 8,
+      "health": 100
+    },
+    "employees": 63,
+    "lastResult": {
+      "date": "2027-04-04",
+      "revenue": 1146767,
+      "expenses": 985988,
+      "net": 160779,
+      "supply": 286692,
+      "wages": 567000,
+      "rent": 58501,
+      "operations": 33600,
+      "interest": 0,
+      "principal": 0,
+      "tax": 40195
+    },
+    "valid": true
+  },
+  "rushed": {
+    "seed": 73,
+    "eraId": "2017-04-18",
+    "weeks": 480,
+    "employed": false,
+    "reservePolicy": false,
+    "checkpoints": {
+      "144": -584661,
+      "240": -786781,
+      "480": -1359501
+    },
+    "capital": 500000,
+    "initial": 500000,
+    "finalWorth": -1359501,
+    "balance": -1059501,
+    "arrears": 300000,
+    "minCash": -1059501,
+    "peakLevel": 5,
+    "successfulGrowth": 4,
+    "lossMonths": 13,
+    "business": null,
+    "health": {
+      "energy": 86,
+      "stress": 0,
+      "health": 100
+    },
+    "valid": true
+  }
+}

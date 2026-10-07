@@ -237,13 +237,13 @@ test("8. ay ve yıl dönümü gelir/gider/eğitim ücretini tam bir kez işler",
   assert.equal(validateState(state).ok, true);
 });
 
-test("9. haftalık zaman bütçesi her hafta sıfırlanır ve altıyı aşmaz", () => {
+test("9. taşınma iki zaman kullanır, aynı hafta tekrarlanmaz ve hafta sıfırlanır", () => {
   const state = fresh();
   state.finances.balance = 100000;
   assert.equal(moveHome(state, "studio").ok, true);
-  assert.equal(moveHome(state, "shared").ok, true);
+  assert.equal(moveHome(state, "shared").ok, false);
   assert.equal(state.weekly.used, 2);
-  assert.equal(moveHome(state, "family").ok, true);
+  assert.equal(moveHome(state, "family").ok, false);
   state.weekly.used = 6;
   assert.equal(moveHome(state, "studio").ok, false);
   runWeeks(state, 1);

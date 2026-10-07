@@ -690,3 +690,9 @@ Optional family/isteme, delayed engagement preparation, civil/small/hall wedding
 - All menus and 431 event definitions audited; existing authored voice retained. Methodology remains available in details.
 - Engines, saves, event effects, canonical shell/styles and other games unchanged. Validation and boundaries recorded in `tc-sim/GAMEPLAY_LANGUAGE_2026-10-07.md`.
 - USER VISUAL QA PENDING. Stop after release; no weekly decision balance wave.
+
+## 2026-10-08 — TC SIM gameplay balance / dashboard final pass
+- #137–143 preserved; main/production 3b6130f verified before work.
+- Debt-cap conversion no longer creates unrecorded money. Business owner production and minimum workshop rent balanced in existing settlement. Large decisions consume 2–3 existing time slots; repeat gates enforced.
+- Dashboard keeps last-week feedback and places long-term metrics in details; actual city label fixed. No CSS/shell/save-schema or other-game changes.
+- Reproducible long-game matrix, exploit tests and evidence: `tc-sim/BALANCE_FINAL_2026-10-08.md` and `BALANCE_RESULTS_2026-10-08.json`. Visual/gameplay acceptance USER PENDING; no next wave.
