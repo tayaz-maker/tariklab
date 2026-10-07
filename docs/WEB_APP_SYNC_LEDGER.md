@@ -663,3 +663,12 @@ General CI later exposed three stale inventory/count fixtures and a genuine migr
 - Existing business engine gains capacity/employees, separated operating expenses, secured credit, paid restructuring, downsizing and debt-aware liquidation/bankruptcy. Net worth includes business equipment less debt.
 - First broad suite: 495/496 PASS; sole archive fixture failure was unstaged new imports, corrected by adding the new files to the index. New exchange/growth cases 7/7 PASS including actual save migration, era restrictions, anti-roundtrip, repeated monthly settlement and insolvency. Final targeted verification follows before release.
 - Local Chromium executable absent: INFRA BLOCKED, no test/assertion removed. Production visual acceptance stays with user; no body visualization work.
+
+## 2026-10-07 — TC SIM body visualization
+
+- Verified baseline main `42a9a76b2f30c1eec3b29ceff898427048784bcd` (#139) and matching Vercel production READY before work.
+- BEDEN-only presentation: lightweight adult-proportioned SVG front/back, six keyboard/touch selectable regions, global health/energy/stress hierarchy, player-known active/managed/chronic/resolved conditions, and the existing rest/exercise/conditional body-care actions.
+- No regional diagnosis inferred: engine exposes no localized injuries or sleep/fitness scores. Gold means selection, not pathology. Hidden conditions and exposure counters never enter the visual model. UI selection is ephemeral and does not write saves.
+- Body Engine, formulas, save schema and #139 economy sources unchanged. #135/#136 canonical shell, typography tokens and palette retained; no audio/native/Atlas changes.
+- Mapping, hidden-state invariance, selection/keyboard, actual app action equivalence, legacy/current save regressions and existing body gameplay: 37/37 PASS. Build and typecheck PASS. Existing targeted browser gate extended with all six regions, SVG keyboard selection, front/back, unchanged save and 1440/390/320 geometry checks.
+- Local Chromium download returned a truncated archive (INFRA); CI browser evidence required before closure. Production visual acceptance remains USER PENDING; final comprehensive mobile QA deferred.
