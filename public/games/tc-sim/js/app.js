@@ -1595,13 +1595,17 @@ window.addEventListener?.("keydown", (event) => {
 render();
 
 
+function exchangeRateLabel(value) {
+ const year=economyYear(state), nominal=value*(year<2005?1e6:1);
+ return new Intl.NumberFormat('tr-TR',{maximumFractionDigits:year<2005?2:6}).format(nominal)+' '+(year<2005?'TL (eski)':year<2009?'YTL':'TL');
+}
 function renderExchange() {
  const positions=exchangePortfolio(state);
  return `<section class="panel"><div class="panel-head"><div><p class="eyebrow">DÖVİZ VE ALTIN</p><h2>Büro ve portföy</h2></div></div><p class="context-note">Gösterge kur işlem fiyatı değildir. Son kaynaklı kur taşınır; büro makası ve %0,2 ücret oyun varsayımıdır. Altın: önceki tamamlanmış ayın ons ortalaması × USD kuru × saf gram / 31,1034768. Kaynak ufkundan sonrası açıkça kurgu senaryodur.</p><div class="wealth-grid">${Object.entries(EXCHANGE_ASSETS).filter(([id,a])=>id!=='DEM'||state.time.date<'2002-01-01'||positions.some(p=>p.id===id)).map(([id,a])=>{
  const q=exchangeQuote(state,id),p=positions.find(p=>p.id===id);
  if(!q)return `<article class="wealth-card"><strong>${escapeText(a.label)}</strong><small>Bu tarihte doğrulanmış fiyat bulunmuyor; işlem kapalı.</small></article>`;
  const button=side=>{const check=exchangeAvailability(state,id,side,a.step);return `<button class="button button-quiet" data-exchange="${id}" data-side="${side}" data-quantity="${a.step}" ${check.ok?'':'disabled'} title="${escapeText(check.reason||'')}">${a.step} ${side==='buy'?'al':'sat'}</button>`;};
- return `<article class="wealth-card"><strong>${escapeText(a.label)}</strong><small>${q.future?'KURGU SENARYO · ':''}Kaynak: ${q.sourceDate}${q.goldMonth?' · Altın ayı '+q.goldMonth:''}</small><p>1 birim gösterge: ${money(q.reference/q.unit)}<br>Büro alış: ${money(q.bid)} · satış: ${money(q.ask)}</p><small>TL bakiyenin alış karşılığı: ${Math.max(0,state.finances.balance/(q.ask*(1+q.fee))).toLocaleString('tr-TR',{maximumFractionDigits:2})}</small><p>Miktar ${p?.quantity||0} · Maliyet ${money(p?.basis||0)}<br>Net değer ${money(p?.value||0)} · K/Z ${money(p?.profit||0)}</p>${!q.available?`<small>${escapeText(q.reason)}</small>`:''}<div class="wealth-actions">${button('buy')}${button('sell')}</div></article>`;
+ return `<article class="wealth-card"><strong>${escapeText(a.label)}</strong><small>${q.future?'KURGU SENARYO · ':''}Kaynak: ${q.sourceDate}${q.goldMonth?' · Altın ayı '+q.goldMonth:''}</small><p>1 birim gösterge: ${exchangeRateLabel(q.reference)}<br>Büro alış: ${exchangeRateLabel(q.bid*q.unit)} · satış: ${exchangeRateLabel(q.ask*q.unit)}</p><small>TL bakiyenin alış karşılığı: ${Math.max(0,state.finances.balance/(q.ask*(1+q.fee))).toLocaleString('tr-TR',{maximumFractionDigits:2})}</small><p>Miktar ${p?.quantity||0} · Maliyet ${money(p?.basis||0)}<br>Net değer ${money(p?.value||0)} · K/Z ${money(p?.profit||0)}</p>${!q.available?`<small>${escapeText(q.reason)}</small>`:''}<div class="wealth-actions">${button('buy')}${button('sell')}</div></article>`;
  }).join('')}</div><details><summary>Son işlemler ve fiyat yöntemi</summary><p>TCMB gösterge ve efektif kur bültenleri; Dünya Bankası Pink Sheet altın; Darphane ziynet saf gramları. Kaynaklar çeyreklik örneklenmiştir, günlük seri değildir. 2002 sonrası eski mark satışı 1 EUR = 1,95583 DEM sabit paritesiyle hesaplanır. Tarihsel popülerlik istatistiği iddiası yok; ana dövizlerde daha dar oyun makası uygulanır.</p>${(state.wealth.exchange?.history||[]).slice(-12).reverse().map(r=>`<p>${escapeText(r.date)} · ${escapeText(r.id)} · ${r.quantity} ${r.side==='buy'?'alış':'satış'} · ${money(r.cash)} · Gerçekleşmiş K/Z ${money(r.realized)}</p>`).join('')}</details></section>`;
 }
 function renderBusinessManagement(){
