@@ -684,3 +684,9 @@ Optional family/isteme, delayed engagement preparation, civil/small/hall wedding
 - EV konum şeması, dönemsel kira/ulaşım, iş erişimi, eğitim yükü, sosyal ziyaret ve mevcut işletme yerel maliyetleri ortak locations helper üzerinden bağlandı.
 - Eski saves seçimsiz bütçeyi korur; taşınma haftalık/finansal kapıları, borç ve ortak ev korunur. Kaynak/varsayım ayrımı CITY_LIFE_2026-10-07.md içinde.
 - Audio kapalı; canonical shell, #140 body ve #141 wedding akışı korunur. Native/Godot işi açılmadı.
+
+## 2026-10-07 — TC SIM gameplay language and notifications
+- #142 exact main/production READY verified. Natural Turkish labels, shared read-only decision feedback, known-case urgency and same-week notice deduplication added.
+- All menus and 431 event definitions audited; existing authored voice retained. Methodology remains available in details.
+- Engines, saves, event effects, canonical shell/styles and other games unchanged. Validation and boundaries recorded in `tc-sim/GAMEPLAY_LANGUAGE_2026-10-07.md`.
+- USER VISUAL QA PENDING. Stop after release; no weekly decision balance wave.

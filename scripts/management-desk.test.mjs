@@ -53,7 +53,8 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // dated wage budgets and five period market entries; unrelated files stay pinned.
   // Authorized marriage wave: wedding-planning helper + existing household/social/parenting integration.
   // Authorized city wave integrates one geography helper into existing life engines.
-  assert.equal(files.length, 48);
+  // Authorized language wave adds a read-only presentation helper; engines unchanged.
+  assert.equal(files.length, 49);
   const hash = createHash("sha256");
   for (const file of files) hash.update(file).update(readFileSync(file));
   // Re-pinned for the DEVLET maps PR: next-wave.js (geo dispatch + month
@@ -70,7 +71,7 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // 2026-09-30: authorized shared save-panel DOM positioning only.
   // Slot writes, overwrite confirmation, engine/content and schemas unchanged.
   // 2026-10-06: authorized TC SIM life/era content and simulation expansion.
-  assert.equal(hash.digest("hex"), "35f0a95d1d9c47913e8ab215c634557248a9469b3baded7e655a185b20ff22ec");
+  assert.equal(hash.digest("hex"), "2e3abbe60f3679ad9e7b179b2472e90f66ea0b2112438852edd556b2a34f81f0");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);

@@ -1,3 +1,4 @@
+import {gameplayText,inboxCases,recentNotices,snapshotDecision,decisionFeedback} from './gameplay-language.js?v=10';
 import {DISTRICTS,CITIES,currentDistrict,districtProfile,locationCosts,locationJobDelay,locationMoveQuote,getDistrict} from './locations.js?v=10';
 import {moveLocation,locationMoveAvailability,returnToFamilyArea} from './life.js?v=10';
 import { weddingQuote, weddingRecord, weddingPeriod, householdChoiceCost } from "./wedding-planning.js?v=10";
@@ -166,8 +167,13 @@ const escapeText = (value) =>
 
 const outcomeText = (tr, en) => jobOutcomeText(window.tlabI18n?.getLang?.() || "tr", tr, en);
 
+function presentDecision(action){
+ const before=snapshotDecision(state),result=action();
+ return {...result,message:decisionFeedback(before,state,result,money)};
+}
+
 function renderResult(fallback = "") {
-  return jobStartOutcome ? "" : `<p class="result" role="status">${escapeText(notice || fallback)}</p>`;
+  return jobStartOutcome ? "" : `<p class="result" role="status">${escapeText(gameplayText(notice || fallback))}</p>`;
 }
 
 function renderJobResult() {
@@ -252,7 +258,7 @@ function describeWeeklyChange(change) {
       return `${name} sana daha ${change.direction === "up" ? "çok" : "az"} güveniyor.`;
     return `${name} ile aranda gerilim ${change.direction === "up" ? "arttı" : "azaldı"}.`;
   }
-  if (change.kind === "obligation") return `Yeni yükümlülük: ${openCaseLabel(change.case)}`;
+  if (change.kind === "obligation") return `Yeni bir mesele: ${openCaseLabel(change.case)}`;
   if (change.kind === "housing") return `Yaşam yerin değişti: ${getHomeById(change.homeId).title}`;
   return "";
 }
@@ -265,7 +271,8 @@ function weeksAgoLabel(week) {
 }
 
 function weeksAheadLabel(week) {
-  const diff = Math.max(0, week - state.time.absoluteWeek);
+  const diff = week - state.time.absoluteWeek;
+  if(diff<0)return `${-diff} haftadır bekliyor`;
   if (diff === 0) return "Bu hafta";
   if (diff === 1) return "1 hafta içinde";
   return `${diff} hafta içinde`;
@@ -482,14 +489,14 @@ function renderPeopleScreen() {
   const voiceNote = voice ? `<p class="context-note person-voice">${escapeText(voice)}</p>` : "";
   return `<div class="workspace-head"><div><p class="eyebrow">KİŞİLER</p><h1>Sosyal çevre</h1></div>${renderWeekControl()}</div>
     <div class="social-layout"><section class="panel people-directory"><div class="panel-head"><div><p class="eyebrow">ÇEVRE</p><h2>Önemli kişiler</h2></div><span>${state.people.length}</span></div>${state.people.map((person) => `<button class="person-select ${person.id === selected.id ? "is-current" : ""}" data-person="${person.id}"><span><strong>${escapeText(person.name)}</strong><small>${escapeText(SOCIAL_ROLE_LABELS[person.roleId])}</small></span><b>${escapeText(personStageLabel(person.id))}</b></button>`).join("")}</section>
-    <section class="panel person-detail"><div class="panel-head"><div><p class="eyebrow">KİŞİ DOSYASI</p><h2>${escapeText(selected.name)}</h2></div><span>${escapeText(stage)}</span></div><p class="context-note">${escapeText(SOCIAL_ROLE_LABELS[selected.roleId])} · Son anlamlı temas ${weeksSinceContact(selected)} hafta önce${openCase ? ` · ${Math.max(0, openCase.dueWeek - state.time.absoluteWeek)} hafta içinde açık söz` : ""}</p>${voiceNote}<p class="context-note">${escapeText(getSocialDistanceContext(state, selected.id))}</p>${selected.id === state.social.currentPartnerNpcId ? renderHouseholdContext() : ""}${milestone ? `<p class="context-note">Bilinen gelişme: ${escapeText(milestone.text)}</p>` : ""}${getRelationshipContext(
+    <section class="panel person-detail"><div class="panel-head"><div><p class="eyebrow">KİŞİ DOSYASI</p><h2>${escapeText(selected.name)}</h2></div><span>${escapeText(stage)}</span></div><p class="context-note">${escapeText(SOCIAL_ROLE_LABELS[selected.roleId])} · Son görüşmeniz ${weeksSinceContact(selected)===0?"bu hafta":weeksSinceContact(selected)+" hafta önce"}${openCase ? ` · ${Math.max(0, openCase.dueWeek - state.time.absoluteWeek)} hafta içinde açık söz` : ""}</p>${voiceNote}<p class="context-note">${escapeText(getSocialDistanceContext(state, selected.id))}</p>${selected.id === state.social.currentPartnerNpcId ? renderHouseholdContext() : ""}${milestone ? `<p class="context-note">Bilinen gelişme: ${escapeText(milestone.text)}</p>` : ""}${getRelationshipContext(
       state,
       selected.id,
     )
       .map((note) => `<p class="context-note">${escapeText(note)}</p>`)
       .join(
         "",
-      )}${renderRelationshipMetrics(selected)}<div class="social-actions">${actions.map((action) => `<button class="button decision" data-social-action="${action.id}" data-person-id="${selected.id}" ${action.availability.ok ? "" : "disabled"} title="${escapeText(action.availability.reason || "")}"><strong>${escapeText(action.title)}</strong><small>${escapeText(action.detail)}</small></button>`).join("")}</div><div class="person-memories"><p class="panel-kicker">SON ÖNEMLİ ANILAR</p>${memories.length ? memories.map((memory) => `<p><span>${memory.year}</span>${escapeText(memory.text)}</p>`).join("") : `<p class="empty">Henüz ortak bir anı yok.</p>`}</div>${renderResult("Bir sosyal etkileşim haftalık zaman ve odak kullanır.")} </section></div>`;
+      )}${renderRelationshipMetrics(selected)}<div class="social-actions">${actions.map((action) => `<button class="button decision" data-social-action="${action.id}" data-person-id="${selected.id}" ${action.availability.ok ? "" : "disabled"} title="${escapeText(action.availability.reason || "")}"><strong>${escapeText(action.title)}</strong><small>${escapeText(action.detail)}</small></button>`).join("")}</div><div class="person-memories"><p class="panel-kicker">SON ÖNEMLİ ANILAR</p>${memories.length ? memories.map((memory) => `<p><span>${memory.year}</span>${escapeText(gameplayText(memory.text))}</p>`).join("") : `<p class="empty">Henüz ortak bir anı yok.</p>`}</div>${renderResult("Bir sosyal etkileşim haftalık zaman ve odak kullanır.")} </section></div>`;
 }
 
 function renderParenthoodContext() {
@@ -572,7 +579,7 @@ function renderRelationshipsOverview() {
         ? recentDevelopments
             .map(
               ({ person, memory }) =>
-                `<div class="memory"><strong>${escapeText(person.name)}</strong> · ${escapeText(memory.text)}</div>`,
+                `<div class="memory"><strong>${escapeText(person.name)}</strong> · ${escapeText(gameplayText(memory.text))}</div>`,
             )
             .join("")
         : `<p class="empty">Henüz kayda değer bir gelişme yok.</p>`
@@ -613,7 +620,7 @@ function renderMemories() {
     ? items
         .map(
           (memory) =>
-            `<div class="memory"><strong>${memory.year}</strong> · ${escapeText(memory.text)}</div>`,
+            `<div class="memory"><strong>${memory.year}</strong> · ${escapeText(gameplayText(memory.text))}</div>`,
         )
         .join("")
     : `<p class="empty">Henüz önemli bir geçmiş oluşmadı.</p>`;
@@ -629,10 +636,10 @@ function renderAgenda() {
   const active = state.events.active ? getEventDefinition(state.events.active.eventId) : null;
   const latestMemory = state.memories.at(-1);
   if (active) {
-    return `<p class="agenda-title">${escapeText(active.title)}</p><p>${escapeText(active.text)}</p><span class="agenda-status">Kararın bekleniyor</span>`;
+    return `<p class="agenda-title">${escapeText(eventTitle(active))}</p><p>Bu konuda karar vermen gerekiyor. Açık olayın seçeneklerini okuyup sana uygun olanı seç.</p><span class="agenda-status">Önce bu karar</span>`;
   }
   if (notice) {
-    return `<p class="agenda-title">Son gelişme</p><p>${escapeText(notice)}</p><span class="agenda-status">${escapeText(gameDateLabel(state))} · ${state.time.weekOfMonth}. hafta</span>`;
+    return `<p class="agenda-title">Son gelişme</p><p>${escapeText(gameplayText(notice))}</p><span class="agenda-status">${escapeText(gameDateLabel(state))} · ${state.time.weekOfMonth}. hafta</span>`;
   }
   if (latestMemory) {
     return `<p class="agenda-title">Hayat kaydı</p><p>${escapeText(latestMemory.text)}</p><span class="agenda-status">${latestMemory.year}</span>`;
@@ -641,9 +648,9 @@ function renderAgenda() {
 }
 
 function renderInbox() {
-  const cases = getPlayerVisibleOpenCases(state).filter((item) => item.status !== "resolved");
-  const recent = state.memories.slice(-8).reverse();
-  return `<div class="workspace-head"><div><p class="eyebrow">GELEN KUTUSU</p><h1>Şimdi ne oluyor?</h1><p class="context-note">Önce bekleyen kararlar; sonra yakın zamanda olanlar. Bir bildirime yetişmek için ekran araman gerekmiyor.</p></div>${renderWeekControl()}</div><div class="inbox-layout"><section class="panel"><div class="panel-head"><div><p class="eyebrow">ÖNCELİK</p><h2>Bu haftanın gündemi</h2></div></div>${renderAgenda()}${state.events.active ? `<p class="context-note">Açık olay seçimleri ekranda görünüyor; karar vermeden hafta ilerlemez.</p>` : ""}</section><section class="panel"><div class="panel-head"><div><p class="eyebrow">YAKLAŞAN</p><h2>Bekleyen sonuçlar</h2></div><span>${cases.length}</span></div>${cases.length ? cases.map((item) => `<p class="open-case"><b>${escapeText(openCaseLabel(item))}</b><span>${escapeText(weeksAheadLabel(item.dueWeek || state.time.absoluteWeek))}</span></p>`).join("") : `<p class="empty">Şimdilik bekleyen mesele yok. Haftalık kararlarını rahatça verebilirsin.</p>`}</section><section class="panel"><div class="panel-head"><div><p class="eyebrow">SON YAŞANANLAR</p><h2>Hayat akışı</h2></div></div>${recent.length ? recent.map((memory) => `<p class="memory">${escapeText(memory.text)} <small>· ${memory.year}</small></p>`).join("") : `<p class="empty">İlk adımını attığında burada hikâyen oluşacak.</p>`}</section></div>`;
+  const cases = inboxCases(state);
+  const recent = recentNotices(state,[!state.events.active&&!notice?state.memories.at(-1)?.text:null,notice]);
+  return `<div class="workspace-head"><div><p class="eyebrow">GELEN KUTUSU</p><h1>Şimdi ne oluyor?</h1><p class="context-note">Önce bekleyen kararlar; sonra yakın zamanda olanlar. Bir bildirime yetişmek için ekran araman gerekmiyor.</p></div>${renderWeekControl()}</div><div class="inbox-layout"><section class="panel"><div class="panel-head"><div><p class="eyebrow">ÖNCELİK</p><h2>Bu haftanın gündemi</h2></div></div>${renderAgenda()}${state.events.active ? `<p class="context-note">Açık olay seçimleri ekranda görünüyor; karar vermeden hafta ilerlemez.</p>` : ""}</section><section class="panel"><div class="panel-head"><div><p class="eyebrow">YAKLAŞAN</p><h2>Bekleyen sonuçlar</h2></div><span>${cases.length}</span></div>${cases.length ? cases.map(({item,label,next}) => `<p class="open-case"><b>${escapeText(label)} · ${escapeText(openCaseLabel(item))}</b><span>${escapeText(next)}</span></p>`).join("") : `<p class="empty">Şimdilik bekleyen mesele yok. Haftalık kararlarını rahatça verebilirsin.</p>`}</section><section class="panel"><div class="panel-head"><div><p class="eyebrow">SON YAŞANANLAR</p><h2>Hayat akışı</h2></div></div>${recent.length ? recent.map((memory) => `<p class="memory">${escapeText(gameplayText(memory.text))} <small>· ${memory.year}</small></p>`).join("") : `<p class="empty">İlk adımını attığında burada hikâyen oluşacak.</p>`}</section></div>`;
 }
 
 function renderNav() {
@@ -795,7 +802,7 @@ function renderCareer() {
   const home = getHomeById(state.household.homeId);
   const experience = experienceSummary();
   return `<div class="workspace-head"><div><p class="eyebrow">İŞ</p><h1>Çalışma hayatı</h1></div>${renderWeekControl()}</div>
-    <section class="detail-summary panel"><div><span>Çalışma durumu</span><strong>${retired ? "Emekli" : active ? escapeText(active.title) : "İşsiz"}</strong><small>${retired ? `${money(state.career.retirement.monthlyIncome)} aylık gelir` : escapeText(getPlayerLifeStage(state).label)}</small></div><div><span>Aylık maaş</span><strong>${money(active?.salary || 0)}</strong></div><div><span>İş yükü</span><strong>${lifeLabel(active?.load || 0)}</strong></div><div><span>Güvence</span><strong>${active?.security || "—"}</strong></div><div><span>Emeklilik</span><strong>${retired ? "Tamamlandı" : retirement.eligible ? "Karar verilebilir" : "Henüz uygun değil"}</strong><small>${retired ? `H${state.career.retirement.retiredWeek}` : retirement.eligible ? `Tahmini gelir ${money(getRetirementIncomePreview(state))}` : escapeText(retirement.reason)}</small></div><div><span>${escapeText(home.title)} ulaşımı</span><strong>${escapeText(getCommuteExplanation(home.id, active?.id || null).label)}</strong><small>${escapeText(getCommuteExplanation(home.id, active?.id || null).detail)}</small></div></section>
+    <section class="detail-summary panel"><div><span>Çalışma durumu</span><strong>${retired ? "Emekli" : active ? escapeText(eventTitle(active)) : "İşsiz"}</strong><small>${retired ? `${money(state.career.retirement.monthlyIncome)} aylık gelir` : escapeText(getPlayerLifeStage(state).label)}</small></div><div><span>Aylık maaş</span><strong>${money(active?.salary || 0)}</strong></div><div><span>İş yükü</span><strong>${lifeLabel(active?.load || 0)}</strong></div><div><span>Güvence</span><strong>${active?.security || "—"}</strong></div><div><span>Emeklilik</span><strong>${retired ? "Tamamlandı" : retirement.eligible ? "Karar verilebilir" : "Henüz uygun değil"}</strong><small>${retired ? `H${state.career.retirement.retiredWeek}` : retirement.eligible ? `Tahmini gelir ${money(getRetirementIncomePreview(state))}` : escapeText(retirement.reason)}</small></div><div><span>${escapeText(home.title)} ulaşımı</span><strong>${escapeText(getCommuteExplanation(home.id, active?.id || null).label)}</strong><small>${escapeText(getCommuteExplanation(home.id, active?.id || null).detail)}</small></div></section>
     <section class="detail-summary panel"><div><span>İş alanı</span><strong>${escapeText(experience.familyLabel)}</strong></div><div><span>Alan deneyimi</span><strong>${experience.weeks} hafta</strong><small>${experience.months} ay</small></div><div><span>Kariyer bandı</span><strong>${escapeText(experience.band.label)}</strong></div><div><span>İş performansı</span><strong>${state.career.performance}</strong><small>${state.career.weeksInRole} hafta bu rolde</small></div><div><span>Eğitim seviyesi</span><strong>${escapeText(getEducationLevelLabel(state.education.level))}</strong><small>${state.education.fields.length ? escapeText(state.education.fields.map((field) => getFieldLabel(field)).join(" · ")) : "Alan yok"}</small></div></section>
     ${state.career.pendingJob ? `<p class="result">${escapeText(getJobById(state.career.pendingJob.jobId).title)} başlangıcı ${Math.max(0, state.career.pendingJob.startWeek - state.time.absoluteWeek)} hafta sonra.</p>` : ""}
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">FIRSATLAR</p><h2>İş teklifleri</h2></div></div><p class="context-note">Yalnız içinde bulunduğun yılda var olan iş alanları gösterilir. Uygun olmayan teklifin altında hangi becerinin eksik olduğu yazılıdır.</p><div class="option-grid">${JOBS.filter((job) => !job.since || state.time.year >= job.since).map(
@@ -911,7 +918,7 @@ function renderHomes() {
   const owned = state.wealth.properties.filter((property) => property.occupancy === "owner");
   const rentals = state.wealth.properties.filter((property) => property.occupancy !== "owner");
 
-  return `<div class="workspace-head"><div><p class="eyebrow">EV</p><h1>Konut yönetimi</h1></div>${renderWeekControl()}</div>
+  return `<div class="workspace-head"><div><p class="eyebrow">EV</p><h1>Evin ve yaşadığın yer</h1></div>${renderWeekControl()}</div>
     ${renderHouseholdContext()}
     <section class="detail-summary panel"><div><span>Aktif konut</span><strong>${escapeText(getHomeById(state.household.homeId).title)}</strong></div><div><span>Aylık maliyet</span><strong>${money(housing.total)}</strong>${housing.partnerContribution ? `<small>Ortak gider +${money(housing.householdExtra)} · Partner payı −${money(housing.partnerContribution)}</small>` : ""}${housing.familyContribution ? `<small>Konut ${money(housing.base)} · Aile katkısı ${money(housing.familyContribution)}</small>` : ""}</div><div><span>Çalışma yeri</span><strong>${escapeText(state.career.retirement?.status === "retired" ? "Emekli" : activeJob?.title || "İşsiz")}</strong></div><div><span>Ulaşım yükü</span><strong>${escapeText(activeCommute.label)}</strong><small>${escapeText(activeCommute.detail)}</small></div></section>
     <p class="context-note">${escapeText(PRIVACY_CONTEXT)}</p>
@@ -1031,7 +1038,7 @@ function renderFinance() {
             .join("")
     }</div></section>
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">GAYRİMENKUL</p><h2>Ev ve kiralık mülk</h2></div><span>${state.wealth.properties.length}/3</span></div><p class="context-note">Oturulan evde kira durur; bakım ve varsa konut borcu işler. Kiralık mülk düzenli gelir ve gider yaratır.</p><div class="wealth-grid">${[...state.wealth.properties.flatMap((p) => [wealthButton("property-sell", p.id, p.occupancy === "owner" ? "Oturulan evi sat" : "Yatırım mülkünü sat", `Değer ${money(p.currentValue)}`), ...(p.occupancy === "owner" ? [] : [wealthButton(p.occupancy === "rental" ? "property-vacant" : "property-rent", p.id, p.occupancy === "rental" ? "Boş bırak" : "Kiraya ver", p.occupancy === "rental" ? "Kira geliri durur" : "Aylık kira geliri başlar")])]), wealthButton("property-owner", "cash", "Oturulan ev al", money(480000), state.finances.balance < 480000 || state.wealth.properties.some((p) => p.occupancy === "owner")), wealthButton("property-owner", "mortgage", "Oturulan ev · konut borcu", "%30 peşinat", state.finances.balance < 144000 || state.wealth.properties.some((p) => p.occupancy === "owner")), wealthButton("property-rental", "cash", "Kiralık mülk al", money(420000), state.finances.balance < 420000 || state.wealth.properties.some((p) => p.occupancy === "rental")), wealthButton("property-rental", "mortgage", "Kiralık mülk · konut borcu", "%30 peşinat", state.finances.balance < 126000 || state.wealth.properties.some((p) => p.occupancy === "rental"))].join("")}</div></section>
-    <section class="panel"><div class="panel-head"><div><p class="eyebrow">BORÇLAR</p><h2>Varlığa bağlı yükümlülükler</h2></div><span>${money(worth.debt)}</span></div>${state.wealth.debts.length ? state.wealth.debts.map((d) => `<p class="open-case"><b>${d.type === "mortgage" ? "Konut borcu" : d.type === "vehicle" ? "Araç borcu" : "Kişisel borç"}</b><span>${money(d.principal)} · aylık ${money(Math.min(d.principal, d.monthlyPayment))}</span></p>`).join("") : `<p class="empty">Varlığa bağlı borç yok.</p>`}</section>
+    <section class="panel"><div class="panel-head"><div><p class="eyebrow">BORÇLAR</p><h2>Ödemen gereken borçlar</h2></div><span>${money(worth.debt)}</span></div>${state.wealth.debts.length ? state.wealth.debts.map((d) => `<p class="open-case"><b>${d.type === "mortgage" ? "Konut borcu" : d.type === "vehicle" ? "Araç borcu" : "Kişisel borç"}</b><span>${money(d.principal)} · aylık ${money(Math.min(d.principal, d.monthlyPayment))}</span></p>`).join("") : `<p class="empty">Varlığa bağlı borç yok.</p>`}</section>
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">ALACAKLAR</p><h2>Sana borçlu olanlar</h2></div><span>${owedToPlayer.length}</span></div>${owedToPlayer.length ? owedToPlayer.map((item) => `<p class="open-case"><b>${escapeText(item.name)}</b><span>${money(item.amount)}</span></p>`).join("") : `<p class="empty">Şu anda kimsenin sana borcu yok.</p>`}</section>
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">İŞLEMLER</p><h2>Son işlemler</h2></div><span>${state.finances.ledger.length}</span></div><div class="history">${ledger.length ? ledger.map((entry) => `<div class="memory"><strong>${entry.amount >= 0 ? "+" : ""}${money(entry.amount)}</strong> · ${escapeText(entry.reason)} · <span>${escapeText(weeksAgoLabel(entry.week))}</span></div>`).join("") : `<p class="empty">Henüz bir işlem kaydı yok.</p>`}</div>${renderResult("Varlıklar piyasa değeriyle, borçlar kalan anaparayla gösterilir.")} </section>`;
 }
@@ -1049,7 +1056,7 @@ function renderMarket() {
     if (!groups[cat]) groups[cat] = [];
     groups[cat].push([id, item]);
   }
-  return `<div class="workspace-head"><div><p class="eyebrow">MARKET</p><h1>Ürün, hizmet ve deneyim</h1></div>${renderWeekControl()}</div>
+  return `<div class="workspace-head"><div><p class="eyebrow">MARKET</p><h1>İhtiyaçların ve kendine ayırdıkların</h1></div>${renderWeekControl()}</div>
     <p class="context-note">${escapeText(periodContext(state).label)}. Temel yaşam gideri aylık bütçede; buradaki alışverişler ek tüketimdir.</p>
     ${Object.entries(groups)
       .map(
@@ -1063,7 +1070,7 @@ function renderMarket() {
       DURABLES,
     )
       .filter(([id]) => ["bed", "office", "entertainment"].includes(id))
-      .map(([id, item]) => wealthButton("durable", id, item.label, `${money(item.price)} · ${durableBenefit(id)} · ${economyText("1 karar; tek sahiplik", "1 decision; single ownership")}`, state.finances.balance < item.price))
+      .map(([id, item]) => wealthButton("durable", id, item.label, `${money(item.price)} · ${durableBenefit(id)} · ${economyText("1 zaman; bir kez alınabilir", "1 decision; single ownership")}`, state.finances.balance < item.price))
       .join("")}</div></section>
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">Ulaşım</p><h2>Araç</h2></div></div><div class="wealth-grid">${
       state.wealth.vehicle
@@ -1225,7 +1232,7 @@ function renderCharacter() {
       <div><span>İlişki durumu</span><strong>${partner ? `${escapeText(partner.name)} · ${escapeText(getHouseholdSummary(state).status)}` : "Sevgili yok"}</strong><small>En yakın: ${escapeText(closest.name)}</small></div>
       <div><span>Beden</span><strong>Enerji ${state.health.energy}</strong><small>Stres ${state.health.stress} · Sağlık ${state.health.health}</small></div>
     </section>
-    <section class="panel"><div class="panel-head"><div><p class="eyebrow">ARKA PLAN</p><h2>Hayatının başlangıç koşulları</h2></div></div>
+    <section class="panel"><div class="panel-head"><div><p class="eyebrow">NEREDEN GELİYORSUN?</p><h2>Hayata başladığın yer</h2></div></div>
       <p class="context-note">${escapeText(BACKGROUND_OPTIONS.family[background.family] || "Destekleyici aile")} · ${escapeText(BACKGROUND_OPTIONS.economic[background.economic] || "Mütevazı başlangıç")} · ${escapeText(BACKGROUND_OPTIONS.education[background.education] || "Genel lise")} · ${escapeText(BACKGROUND_OPTIONS.social[background.social] || "Yakın çevre")}</p>
       <div class="detail-summary">${tendencyRows.map(([key, label]) => `<div><span>${label}</span><strong>${escapeText(getTendencyLabel(key, state.player.tendencies?.[key] ?? 50))}</strong><small>${state.player.tendencies?.[key] ?? 50}/100</small></div>`).join("")}</div>
     </section>
@@ -1260,7 +1267,7 @@ function renderCalendar() {
     (state.military?.applicable && state.military.status === "pending" && state.military.dueWeek
       ? 1
       : 0);
-  return `<div class="workspace-head"><div><p class="eyebrow">TAKVİM</p><h1>Bilinen yükümlülükler</h1></div>${renderWeekControl()}</div>
+  return `<div class="workspace-head"><div><p class="eyebrow">TAKVİM</p><h1>Yaklaşan işler ve randevular</h1></div>${renderWeekControl()}</div>
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">AY SONU</p><h2>Düzenli tahsilat</h2></div></div><p class="context-note">${weeksLeftInMonth} hafta sonra ay kapanır: ${money(monthly.income)} gelir, ${money(monthly.expenses)} gider işlenecek.</p></section>
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">BİLİNEN İŞLER</p><h2>Yaklaşan tarihler</h2></div><span>${itemCount}</span></div>${
       itemCount
@@ -1304,16 +1311,16 @@ function phraseText(value) {
  */
 function eventTitle(definition) {
   if (window.tlabI18n?.contentLang?.() === "en" && definition.en?.title) return definition.en.title;
-  return phraseText(definition.title);
+  return gameplayText(phraseText(definition.title));
 }
 function eventBody(definition) {
   if (window.tlabI18n?.contentLang?.() === "en" && definition.en?.text) return definition.en.text;
-  return phraseText(definition.text);
+  return gameplayText(phraseText(definition.text));
 }
 function eventChoiceLabel(definition, choice) {
   if (window.tlabI18n?.contentLang?.() === "en" && definition.en?.choices?.[choice.id])
     return definition.en.choices[choice.id];
-  return phraseText(choice.label);
+  return gameplayText(phraseText(choice.label));
 }
 
 function householdChoiceDescription(definition, choice) {
@@ -1346,13 +1353,13 @@ function renderScenarioPanel() {
   if (scenario.pendingEvent) {
     const event = scenario.pendingEvent;
     const citations = event.sources?.length ? `<p class="historical-citations">Kaynak: ${event.sources.map((source) => `<span><a href="${escapeText(source.url)}" target="_blank" rel="noopener noreferrer">${escapeText(source.title)}</a> · ${escapeText(source.date)} · ${escapeText(source.role)}</span>`).join(" · ")}</p>` : `<p class="historical-citations">Kurgu yaşam kararı; gerçek tarihsel olay iddiası değildir.</p>`;
-    return `<section class="historical-event" aria-labelledby="historical-event-title"><p class="eyebrow">${event.year} · ${event.kind === "future" ? "OLASI GELECEK" : "DÖNEM KARARI"}</p><h2 id="historical-event-title">${escapeText(event.title)}</h2><p>${escapeText(event.body)}</p>${citations}<p class="historical-disclosure">Dönem etkileri nitelikseldir. Oyun içi para gerçek ücret verisi değildir; simülasyon takvimi sıkıştırılmıştır. 2026–2029 olayları tarihsel iddia değil, olası yaşam senaryolarıdır. 2030 özeti sona yakın kararların gecikmiş etkilerini de toplar.</p><div class="historical-choice-grid">${event.choices.map((choice) => `<button class="button historical-choice" data-scenario-choice="${choice.id}"><strong>${escapeText(choice.label)}</strong><small>${escapeText({ work: "Kariyer ve gelir fırsatı · enerji yükü", study: "Eğitim ve beceri · zaman/enerji bedeli", save: "Birikim ve güvenlik · bugünkü erişimden feragat", family: "Aile bağı · zaman ve bütçe yükü", move: "Yeni erişim · taşınma ve bağların bedeli", rest: "Sağlık ve toparlanma · kısa vadeli kariyer bedeli" }[choice.id])}</small><small>Gecikmiş etkisi yaklaşık bir simülasyon yılı sonra görünür.</small></button>`).join("")}</div></section>`;
+    return `<section class="historical-event" aria-labelledby="historical-event-title"><p class="eyebrow">${event.year} · ${event.kind === "future" ? "OLASI GELECEK" : "HAYATINDA BİR KARAR"}</p><h2 id="historical-event-title">${escapeText(event.title)}</h2><p>${escapeText(event.body)}</p>${citations}<details><summary>Bu dönem nasıl yorumlanıyor?</summary><p class="historical-disclosure">Dönem etkileri nitelikseldir. Oyun içi para gerçek ücret verisi değildir; simülasyon takvimi sıkıştırılmıştır. 2026–2029 olayları tarihsel iddia değil, olası yaşam senaryolarıdır. 2030 özeti sona yakın kararların gecikmiş etkilerini de toplar.</p></details><div class="historical-choice-grid">${event.choices.map((choice) => `<button class="button historical-choice" data-scenario-choice="${choice.id}"><strong>${escapeText(choice.label)}</strong><small>${escapeText({ work: "Kariyer ve gelir fırsatı · enerji yükü", study: "Eğitim ve beceri · zaman/enerji bedeli", save: "Birikim ve güvenlik · bugünkü erişimden feragat", family: "Aile bağı · zaman ve bütçe yükü", move: "Yeni erişim · taşınma ve bağların bedeli", rest: "Sağlık ve toparlanma · kısa vadeli kariyer bedeli" }[choice.id])}</small><small>Bu kararın sonraki etkilerini yaklaşık bir yıl içinde görebilirsin.</small></button>`).join("")}</div></section>`;
   }
   if (scenario.completed) {
     const result = scenario.final || {};
-    return `<section class="historical-result" aria-labelledby="historical-result-title"><p class="eyebrow">TARİHSEL ROTA TAMAMLANDI · ${HISTORICAL_END_DATE}</p><h2 id="historical-result-title">${escapeText(result.summary || "Yaşam rotası tamamlandı.")}</h2><div class="historical-result-grid"><span>Dönem kararları <b>${result.decisions || 0}</b></span><span>Gecikmiş sonuçlar <b>${result.delayedEchoes || 0}</b></span><span>Birikim <b>${money(result.balance || 0)}</b></span><span>Sağlık <b>${result.health || 0}/100</b></span><span>Kariyer <b>${result.career || 0}/100</b></span><span>Aile bağı <b>${result.family || 0}/100</b></span></div><p class="context-note">Bu, oyun içi yaşam özeti ve kurgu kararlarının sonucudur; resmî tarih simülasyonu değildir.</p></section>`;
+    return `<section class="historical-result" aria-labelledby="historical-result-title"><p class="eyebrow">BU HAYATIN ÖZETİ · ${HISTORICAL_END_DATE}</p><h2 id="historical-result-title">${escapeText(result.summary || "Yaşam rotası tamamlandı.")}</h2><div class="historical-result-grid"><span>Dönem kararları <b>${result.decisions || 0}</b></span><span>Gecikmiş sonuçlar <b>${result.delayedEchoes || 0}</b></span><span>Birikim <b>${money(result.balance || 0)}</b></span><span>Sağlık <b>${result.health || 0}/100</b></span><span>Kariyer <b>${result.career || 0}/100</b></span><span>Aile bağı <b>${result.family || 0}/100</b></span></div><p class="context-note">Bu, oyun içi yaşam özeti ve kurgu kararlarının sonucudur; resmî tarih simülasyonu değildir.</p></section>`;
   }
-  return `<section class="historical-strip"><span><b>${escapeText(scenario.pack.title)}</b> · ${escapeText(scenario.currentDate)} → ${HISTORICAL_END_DATE}</span><span>${scenario.history.length} dönem kararı işlendi</span></section>`;
+  return `<section class="historical-strip"><span><b>${escapeText(gameplayText(scenario.pack.title))}</b> · ${escapeText(scenario.currentDate)} → ${HISTORICAL_END_DATE}</span><span>${scenario.history.length} karar hikâyene eklendi</span></section>`;
 }
 
 const VIEW_RENDERERS = {
@@ -1415,7 +1422,7 @@ function render() {
   compactNavigation(document.querySelector(".side-nav"), confirmText("Diğer bölümler", "More sections"));
 
   document.querySelectorAll("[data-scenario-choice]").forEach((button) => button.addEventListener("click", () => {
-    const result = resolveScenarioChoice(state, button.dataset.scenarioChoice);
+    const result = presentDecision(() => resolveScenarioChoice(state, button.dataset.scenarioChoice));
     notice = result.message;
     persist();
     render();
@@ -1430,20 +1437,20 @@ function render() {
     render();
   }));
   document.querySelectorAll("[data-wealth-action]").forEach((button) => button.addEventListener("click", () => {
-    const result = applyWealthAction(state, button.dataset.wealthAction, button.dataset.wealthValue);
+    const result = presentDecision(() => applyWealthAction(state, button.dataset.wealthAction, button.dataset.wealthValue));
     notice = result.message || result.reason;
     persist();
     render();
   }));
-  document.querySelectorAll("[data-credit]").forEach((button) => button.addEventListener("click", () => { const result = takeCredit(state, button.dataset.credit); notice = result.message || result.reason; persist(); render(); }));
-  document.querySelector("[data-repay-credit]")?.addEventListener("click", () => { const result = repayCredit(state); notice = result.message || result.reason; persist(); render(); });
-  document.querySelectorAll('[data-business-manage]').forEach(button=>button.addEventListener('click',()=>{const result=manageBusiness(state,button.dataset.businessManage);notice=result.message||result.reason;persist();render();}));
-  document.querySelectorAll('[data-exchange]').forEach(button=>button.addEventListener('click',()=>{const result=tradeExchange(state,button.dataset.exchange,button.dataset.side,Number(button.dataset.quantity));notice=result.message||result.reason;persist();render();}));
-  document.querySelectorAll("[data-business]").forEach((button) => button.addEventListener("click", () => { const result = startBusiness(state, button.dataset.business); notice = result.message || result.reason; persist(); render(); }));
-  document.querySelector("[data-close-business]")?.addEventListener("click", () => { const result = closeBusiness(state); notice = result.message || result.reason; persist(); render(); });
+  document.querySelectorAll("[data-credit]").forEach((button) => button.addEventListener("click", () => { const result = presentDecision(() => takeCredit(state, button.dataset.credit)); notice = result.message || result.reason; persist(); render(); }));
+  document.querySelector("[data-repay-credit]")?.addEventListener("click", () => { const result = presentDecision(() => repayCredit(state)); notice = result.message || result.reason; persist(); render(); });
+  document.querySelectorAll('[data-business-manage]').forEach(button=>button.addEventListener('click',()=>{const result=presentDecision(() => manageBusiness(state,button.dataset.businessManage));notice=result.message||result.reason;persist();render();}));
+  document.querySelectorAll('[data-exchange]').forEach(button=>button.addEventListener('click',()=>{const result=presentDecision(() => tradeExchange(state,button.dataset.exchange,button.dataset.side,Number(button.dataset.quantity)));notice=result.message||result.reason;persist();render();}));
+  document.querySelectorAll("[data-business]").forEach((button) => button.addEventListener("click", () => { const result = presentDecision(() => startBusiness(state, button.dataset.business)); notice = result.message || result.reason; persist(); render(); }));
+  document.querySelector("[data-close-business]")?.addEventListener("click", () => { const result = presentDecision(() => closeBusiness(state)); notice = result.message || result.reason; persist(); render(); });
   document.querySelectorAll("[data-decision]").forEach((button) =>
     button.addEventListener("click", () => {
-      const result = applyDecision(state, button.dataset.decision);
+      const result = presentDecision(() => applyDecision(state, button.dataset.decision));
       notice = result.reason || result.message;
       persist();
       render();
@@ -1488,7 +1495,7 @@ function render() {
   });
   document.querySelectorAll("[data-social-action]").forEach((button) =>
     button.addEventListener("click", () => {
-      const result = applySocialAction(state, button.dataset.personId, button.dataset.socialAction);
+      const result = presentDecision(() => applySocialAction(state, button.dataset.personId, button.dataset.socialAction));
       notice = result.reason || result.message;
       persist();
       render();
@@ -1501,7 +1508,7 @@ function render() {
   }));
   document.querySelectorAll("[data-intimacy-choice]").forEach((button) =>
     button.addEventListener("click", () => {
-      const result = chooseIntimacy(state, button.dataset.intimacyChoice);
+      const result = presentDecision(() => chooseIntimacy(state, button.dataset.intimacyChoice));
       notice = result.reason || result.message;
       persist();
       render();
@@ -1509,7 +1516,7 @@ function render() {
   );
   document.querySelectorAll("[data-job-offer]").forEach((button) =>
     button.addEventListener("click", () => {
-      const result = acceptJobOffer(state, button.dataset.jobOffer);
+      const result = presentDecision(() => acceptJobOffer(state, button.dataset.jobOffer));
       notice = result.reason || result.message;
       persist();
       render();
@@ -1517,7 +1524,7 @@ function render() {
   );
   document.querySelectorAll("[data-enroll]").forEach((button) =>
     button.addEventListener("click", () => {
-      const result = enrollEducation(state, button.dataset.enroll, button.dataset.intensity);
+      const result = presentDecision(() => enrollEducation(state, button.dataset.enroll, button.dataset.intensity));
       notice = result.reason || result.message;
       persist();
       render();
@@ -1525,24 +1532,24 @@ function render() {
   );
   document.querySelector("#stop-education")?.addEventListener("click", () => {
     if (!window.confirm(confirmText("Eğitimi bırakırsan biriken ilerleme silinir. Devam edilsin mi?", "Quitting the program erases your accumulated progress. Continue?"))) return;
-    const result = stopEducation(state);
+    const result = presentDecision(() => stopEducation(state));
     notice = result.reason || result.message;
     persist();
     render();
   });
   document.querySelector("#quit-job")?.addEventListener("click", () => {
-    const result = quitJob(state);
+    const result = presentDecision(() => quitJob(state));
     notice = result.reason || result.message;
     persist();
     render();
   });
   document.querySelectorAll('[data-location-city]').forEach(b=>b.addEventListener('click',()=>{selectedDistrictId=DISTRICTS.find(d=>d.city===b.dataset.locationCity).id;render();}));
   document.querySelectorAll('[data-location-select]').forEach(b=>b.addEventListener('click',()=>{selectedDistrictId=b.dataset.locationSelect;render();}));
-  document.querySelectorAll('[data-location-move]').forEach(b=>b.addEventListener('click',()=>{const r=moveLocation(state,b.dataset.locationMove,b.dataset.locationHome);notice=r.reason||r.message;persist();render();}));
-  document.querySelector('#return-family-area')?.addEventListener('click',()=>{const r=returnToFamilyArea(state);notice=r.reason||r.message;persist();render();});
+  document.querySelectorAll('[data-location-move]').forEach(b=>b.addEventListener('click',()=>{const r=presentDecision(() => moveLocation(state,b.dataset.locationMove,b.dataset.locationHome));notice=r.reason||r.message;persist();render();}));
+  document.querySelector('#return-family-area')?.addEventListener('click',()=>{const r=presentDecision(() => returnToFamilyArea(state));notice=r.reason||r.message;persist();render();});
   document.querySelectorAll("[data-move-home]").forEach((button) =>
     button.addEventListener("click", () => {
-      const result = moveHome(state, button.dataset.moveHome);
+      const result = presentDecision(() => moveHome(state, button.dataset.moveHome));
       notice = result.reason || result.message;
       persist();
       render();
@@ -1551,7 +1558,7 @@ function render() {
   document.querySelectorAll("[data-event-choice]").forEach((button) =>
     button.addEventListener("click", () => {
       const before = snapshotJobStart(state);
-      const result = resolveEvent(state, button.dataset.eventChoice);
+      const result = presentDecision(() => resolveEvent(state, button.dataset.eventChoice));
       notice = result.message;
       jobStartOutcome = buildJobStartOutcome(before, state, result, button.dataset.eventChoice);
       jobOutcomeNotice = notice;
@@ -1657,12 +1664,12 @@ function exchangeRateLabel(value) {
 }
 function renderExchange() {
  const positions=exchangePortfolio(state);
- return `<section class="panel"><div class="panel-head"><div><p class="eyebrow">DÖVİZ VE ALTIN</p><h2>Büro ve portföy</h2></div></div><p class="context-note">Gösterge kur işlem fiyatı değildir. Son kaynaklı kur taşınır; büro makası ve %0,2 ücret oyun varsayımıdır. Altın: önceki tamamlanmış ayın ons ortalaması × USD kuru × saf gram / 31,1034768. Kaynak ufkundan sonrası açıkça kurgu senaryodur.</p><div class="wealth-grid">${Object.entries(EXCHANGE_ASSETS).filter(([id,a])=>id!=='DEM'||state.time.date<'2002-01-01'||positions.some(p=>p.id===id)).map(([id,a])=>{
+ return `<section class="panel"><div class="panel-head"><div><p class="eyebrow">DÖVİZ VE ALTIN</p><h2>Büro ve portföy</h2></div></div><p class="context-note">Alırken büro satış fiyatını, satarken büro alış fiyatını kullanırsın. İşlem ücreti toplam tutara dahildir; fiyat değişince varlıklarının değeri de değişir.</p><details><summary>Kur, altın ve işlem fiyatı nasıl hesaplanır?</summary><p class="context-note">Gösterge kur işlem fiyatı değildir. Son kaynaklı kur taşınır; büro makası ve %0,2 ücret oyun varsayımıdır. Altın: önceki tamamlanmış ayın ons ortalaması × USD kuru × saf gram / 31,1034768. Kaynak ufkundan sonrası açıkça kurgu senaryodur.</p></details><div class="wealth-grid">${Object.entries(EXCHANGE_ASSETS).filter(([id,a])=>id!=='DEM'||state.time.date<'2002-01-01'||positions.some(p=>p.id===id)).map(([id,a])=>{
  const q=exchangeQuote(state,id),p=positions.find(p=>p.id===id);
  if(!q)return `<article class="wealth-card"><strong>${escapeText(a.label)}</strong><small>Bu tarihte doğrulanmış fiyat bulunmuyor; işlem kapalı.</small></article>`;
  const button=side=>{const check=exchangeAvailability(state,id,side,a.step);return `<button class="button button-quiet" data-exchange="${id}" data-side="${side}" data-quantity="${a.step}" ${check.ok?'':'disabled'} title="${escapeText(check.reason||'')}">${a.step} ${side==='buy'?'al':'sat'}</button>`;};
- return `<article class="wealth-card"><strong>${escapeText(a.label)}</strong><small>${q.future?'KURGU SENARYO · ':''}Kaynak: ${q.sourceDate}${q.goldMonth?' · Altın ayı '+q.goldMonth:''}</small><p>1 birim gösterge: ${exchangeRateLabel(q.reference)}<br>Büro alış: ${exchangeRateLabel(q.bid*q.unit)} · satış: ${exchangeRateLabel(q.ask*q.unit)}</p><small>TL bakiyenin alış karşılığı: ${Math.max(0,state.finances.balance/(q.ask*(1+q.fee))).toLocaleString('tr-TR',{maximumFractionDigits:2})}</small><p>Miktar ${p?.quantity||0} · Maliyet ${money(p?.basis||0)}<br>Net değer ${money(p?.value||0)} · K/Z ${money(p?.profit||0)}</p>${!q.available?`<small>${escapeText(q.reason)}</small>`:''}<div class="wealth-actions">${button('buy')}${button('sell')}</div></article>`;
- }).join('')}</div><details><summary>Son işlemler ve fiyat yöntemi</summary><p>TCMB gösterge ve efektif kur bültenleri; Dünya Bankası Pink Sheet altın; Darphane ziynet saf gramları. Kaynaklar çeyreklik örneklenmiştir, günlük seri değildir. 2002 sonrası eski mark satışı 1 EUR = 1,95583 DEM sabit paritesiyle hesaplanır. Tarihsel popülerlik istatistiği iddiası yok; ana dövizlerde daha dar oyun makası uygulanır.</p>${(state.wealth.exchange?.history||[]).slice(-12).reverse().map(r=>`<p>${escapeText(r.date)} · ${escapeText(r.id)} · ${r.quantity} ${r.side==='buy'?'alış':r.side==='gift'?'hediye':'satış'} · ${money(r.cash)} · Gerçekleşmiş K/Z ${money(r.realized)}</p>`).join('')}</details></section>`;
+ return `<article class="wealth-card"><strong>${escapeText(a.label)}</strong><small>${q.future?'KURGU SENARYO · ':''}Kaynak: ${q.sourceDate}${q.goldMonth?' · Altın ayı '+q.goldMonth:''}</small><p>1 birim gösterge: ${exchangeRateLabel(q.reference)}<br>Büro alış: ${exchangeRateLabel(q.bid*q.unit)} · satış: ${exchangeRateLabel(q.ask*q.unit)}</p><small>TL bakiyenin alış karşılığı: ${Math.max(0,state.finances.balance/(q.ask*(1+q.fee))).toLocaleString('tr-TR',{maximumFractionDigits:2})}</small><p>Miktar ${p?.quantity||0} · Maliyet ${money(p?.basis||0)}<br>Net değer ${money(p?.value||0)} · Kâr/zarar ${money(p?.profit||0)}</p>${!q.available?`<small>${escapeText(q.reason)}</small>`:''}<div class="wealth-actions">${button('buy')}${button('sell')}</div></article>`;
+ }).join('')}</div><details><summary>Son işlemler ve fiyat yöntemi</summary><p>TCMB gösterge ve efektif kur bültenleri; Dünya Bankası Pink Sheet altın; Darphane ziynet saf gramları. Kaynaklar çeyreklik örneklenmiştir, günlük seri değildir. 2002 sonrası eski mark satışı 1 EUR = 1,95583 DEM sabit paritesiyle hesaplanır. Tarihsel popülerlik istatistiği iddiası yok; ana dövizlerde daha dar oyun makası uygulanır.</p>${(state.wealth.exchange?.history||[]).slice(-12).reverse().map(r=>`<p>${escapeText(r.date)} · ${escapeText(r.id)} · ${r.quantity} ${r.side==='buy'?'alış':r.side==='gift'?'hediye':'satış'} · ${money(r.cash)} · Satıştan doğan kâr/zarar ${money(r.realized)}</p>`).join('')}</details></section>`;
 }
 function renderBusinessManagement(){
  const b=state.flags.business,r=b.lastResult;
