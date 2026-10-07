@@ -1,3 +1,4 @@
+import { renderBodyVisual, bindBodyVisual } from "./body-visual.js?v=10";
 import { EXCHANGE_ASSETS, exchangeQuote, exchangePortfolio, exchangeAvailability, tradeExchange } from './exchange.js?v=10';
 import { gameDateLabel } from "./game-date.js?v=10";
 import { snapshotJobStart, buildJobStartOutcome } from "./job-start-outcome.js?v=10";
@@ -123,6 +124,8 @@ let jobOutcomeEmphasis = false;
 let jobOutcomeSettled = false;
 let saveStatus = "";
 let activeView = "dashboard";
+// Ephemeral presentation state; never added to game state or saves.
+let selectedBodyRegion = "chest";
 let selectedPersonId = "mehmet";
 // Haftanın başındaki durum. Yalnız bu oturumda, bellekte tutulur; save'e yazılmaz.
 let weekStartSnapshot = null;
@@ -1043,22 +1046,15 @@ function renderBody() {
   const commute = currentCommuteExplanation();
   const educationProgress = getEducationProgress(state);
   return `<div class="workspace-head"><div><p class="eyebrow">BEDEN</p><h1>Fiziksel ve zihinsel durum</h1></div>${renderWeekControl()}</div>
-    <section class="panel body-panel">
-      <p>GENEL DURUM</p>
-      <div class="body-overview"><div class="body-visual" role="img" aria-label="Beden durumu: sağlık ${state.health.health}, enerji ${state.health.energy}, stres ${state.health.stress} puan. Eğitsel durum simgesi; anatomik atlas değildir."><svg viewBox="0 0 180 250" aria-hidden="true" focusable="false"><defs><linearGradient id="body-fill" x2="0" y2="1"><stop stop-color="#e1a783"/><stop offset="1" stop-color="#ad725f"/></linearGradient></defs><circle cx="90" cy="32" r="21" fill="url(#body-fill)"/><path d="M62 58 Q90 49 118 58 L126 132 Q105 149 90 143 Q75 149 54 132 Z" fill="url(#body-fill)"/><path d="M62 65 L43 134 L50 141 L69 95 M118 65 L137 134 L130 141 L111 95" fill="none" stroke="#c58a70" stroke-width="14" stroke-linecap="round"/><path d="M72 139 L65 225 M108 139 L115 225" fill="none" stroke="#b47b68" stroke-width="19" stroke-linecap="round"/><path d="M68 223 L52 235 M112 223 L128 235" fill="none" stroke="#b47b68" stroke-width="12" stroke-linecap="round"/><circle cx="97" cy="86" r="10" fill="${state.health.health <= 30 ? "#df7a73" : "#d65565"}" stroke="#f4c8b0" stroke-width="3"/><path d="M90 154 Q94 168 90 190" fill="none" stroke="#f0c6a5" stroke-width="3" opacity=".65"/></svg><div class="body-visual__caption">${state.health.health <= 30 ? "Toparlanma öncelikli" : state.health.stress >= 70 ? "Baskı birikiyor" : "Günlük denge"}</div></div><div class="body-metrics">
-      <div class="body-row"><span>Enerji</span><i><b style="width:${state.health.energy}%"></b></i><strong>${state.health.energy}</strong></div>
-      <div class="body-row stress"><span>Stres</span><i><b style="width:${state.health.stress}%"></b></i><strong>${state.health.stress}</strong></div>
-      <div class="body-row"><span>Sağlık</span><i><b style="width:${state.health.health}%"></b></i><strong>${state.health.health}</strong></div>
-      <p class="context-note">Bu görsel oyun içi enerji/stres durumunu anlatır; tıbbi teşhis ya da anatomi çizimi değildir.</p></div></div>
-      <small class="body-note">${escapeText(bodyRiskText())}</small>
-      <p class="panel-kicker">BİLİNEN DURUMLAR</p>
-      <div class="known-conditions">${
-        getKnownBodyConditions(state)
-          .map((c) => `<p>${escapeText(c.name)} — ${escapeText(c.outcome)}.</p>`)
-          .join("") || `<p class="empty">Bilinen kalıcı bir durum yok.</p>`
-      }</div>
-      ${state.body?.warningAvailable || getKnownBodyConditions(state).length ? `<small class="body-note">${escapeText(getBodyCareContext(state))}</small>` : ""}
-    </section>
+    ${renderBodyVisual(state, {
+      selected: selectedBodyRegion,
+      risk: bodyRiskText(),
+      care: state.body?.warningAvailable || getKnownBodyConditions(state).length ? getBodyCareContext(state) : "",
+      actions: getAvailableDecisions(state).filter(decision => ["rest", "exercise", "body-care"].includes(decision.id)).map(decision => {
+        const check = canApplyDecision(state, decision.id);
+        return `<button class="button decision" data-decision="${decision.id}" ${check.ok ? "" : "disabled"} title="${escapeText(check.reason || "")}"><strong>${escapeText(decision.title)}</strong><small>${escapeText(decision.detail)}</small>${renderDecisionTags(decision.id)}${!check.ok ? `<small>${escapeText(check.reason)}</small>` : ""}</button>`;
+      }).join(""),
+    })}
     <section class="detail-summary panel">
       <div><span>İş yükü</span><strong>${escapeText(lifeLabel(job?.load || 0))}</strong></div>
       <div><span>Ulaşım yükü</span><strong>${escapeText(commute.label)}</strong><small>${escapeText(commute.detail)}</small></div>
@@ -1359,6 +1355,11 @@ function render() {
     </main>`;
   jobOutcomeFresh = false;
   jobOutcomeEmphasis = false;
+  bindBodyVisual(document, region => {
+    selectedBodyRegion = region;
+    render();
+    document.querySelector(`#body-region-${region}`)?.focus?.({ preventScroll: true });
+  });
   bindJobStartOutcome(app, () => { jobOutcomeEmphasis = false; jobOutcomeSettled = true; }, outcomeText);
   applyLangPhrases();
   if (!terminal) {

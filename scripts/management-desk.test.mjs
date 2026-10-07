@@ -39,6 +39,7 @@ import { deskEnglish } from "../public/games/tc-sim/js/desk.js";
 // kotasını tüketmez.
 // Refresh the frozen TC SIM baseline for this authorized historical-start core;
 // unrelated content and DEVLET assets remain guarded by the same digest.
+// 2026-10-07 authorized body presentation adds body-visual.js only; existing engines remain byte-identical.
 // 2026-10-07 authorized exchange/business extension adds exchange.js and updates wealth/bank-business.
 test("frozen baseline: historical-start-agnostic content and simulation sources stay unchanged", () => {
   const files = readdirSync("public/games/tc-sim/js")
@@ -50,7 +51,7 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // changes still need a conscious product decision.
   // 2026-10-07 authorized historical economy/date wave adds game-date.js,
   // dated wage budgets and five period market entries; unrelated files stay pinned.
-  assert.equal(files.length, 45);
+  assert.equal(files.length, 46);
   const hash = createHash("sha256");
   for (const file of files) hash.update(file).update(readFileSync(file));
   // Re-pinned for the DEVLET maps PR: next-wave.js (geo dispatch + month
@@ -67,7 +68,7 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // 2026-09-30: authorized shared save-panel DOM positioning only.
   // Slot writes, overwrite confirmation, engine/content and schemas unchanged.
   // 2026-10-06: authorized TC SIM life/era content and simulation expansion.
-  assert.equal(hash.digest("hex"), "747459d5a90125143adf2964c1358ea933a2f9bbd4e74440d41a640187c119e9");
+  assert.equal(hash.digest("hex"), "7d40805119edd76cf98f04ccdfb8554bb6fdb7573698de3c9f0bc61d6511fb37");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);

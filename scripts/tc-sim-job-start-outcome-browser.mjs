@@ -214,6 +214,24 @@ try {
         assert.ok(geometry.overflow <= 1, `${width}/${menu}: horizontal overflow`);
         if (width === 1440 && geometry.inspector) assert.equal(geometry.inspector.width, 320, `${menu}: canonical detail width`);
         await page.screenshot({ path: `${out}/shell-${width}-${menu}.png`, fullPage: false });
+        if (menu === "body") {
+          for (const [id, label] of [["head","Baş"],["chest","Göğüs"],["abdomen","Karın"],["back","Sırt"],["arms","Kollar"],["legs","Bacaklar"]]) {
+            await page.locator(`#body-region-${id}`).click();
+            assert.equal(await page.locator("#tc-body-region-title").textContent(), label);
+            assert.equal(await page.locator(`#body-region-${id}`).getAttribute("aria-pressed"), "true");
+          }
+          await page.locator('.tc-body-figure [data-body-region="head"]').focus();
+          await page.keyboard.press("Enter");
+          assert.equal(await page.locator("#tc-body-region-title").textContent(), "Baş");
+          await page.locator("#body-region-back").click();
+          assert.match(await page.locator(".tc-body-figure").getAttribute("aria-label"), /Arkadan/);
+          await page.locator("#body-region-chest").click();
+          assert.equal(await page.locator('.tc-body-actions [data-decision="rest"]').count(), 1);
+          assert.equal(await page.locator('.tc-body-actions [data-decision="exercise"]').count(), 1);
+          assert.equal(await page.evaluate(() => JSON.stringify(Object.fromEntries(Object.entries(localStorage)))), storageBefore, "Body selection never writes a save");
+          await page.evaluate(() => window.scrollTo(0, 0));
+          await page.screenshot({ path: `${out}/body-interaction-${width}.png`, fullPage: true });
+        }
         if (width === 1440 && menu === "career") {
           await page.locator(".desk-row").last().click();
           const detailBox = await page.locator(".management-inspector").boundingBox();
