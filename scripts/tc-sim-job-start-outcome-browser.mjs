@@ -200,6 +200,7 @@ try {
             return { x: rect.x, y: rect.y, width: rect.width, height: rect.height };
           };
           return { header: box(".game-topbar"), sidebar: box(".side-nav"), workspace: box(".workspace"), heading: box(".workspace-head h1"), regions: box(".tc-page-regions"),
+            scrollbarGutter: getComputedStyle(document.documentElement).scrollbarGutter,
             headingFont: getComputedStyle(document.querySelector(".workspace-head h1")).fontSize,
             overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
             inspector: document.querySelector(".management-inspector") ? box(".management-inspector") : null };
@@ -208,6 +209,7 @@ try {
         shellBaseline ||= geometry;
         for (const [region, dimensions] of Object.entries({ header: ["x", "y", "width", "height"], sidebar: ["x", "width"], workspace: ["x", "y", "width"], heading: ["x", "y"], regions: ["x", "width"] }))
           for (const dimension of dimensions) assert.ok(Math.abs(geometry[region][dimension] - shellBaseline[region][dimension]) <= 1, `${width}/${menu}: ${region}.${dimension} shifted`);
+        if (width === 1440) assert.equal(geometry.scrollbarGutter, "stable", "Desktop reserves native scrollbar space even on short menus");
         assert.equal(geometry.headingFont, shellBaseline.headingFont, `${menu}: heading hierarchy shifted`);
         assert.ok(geometry.overflow <= 1, `${width}/${menu}: horizontal overflow`);
         if (width === 1440 && geometry.inspector) assert.equal(geometry.inspector.width, 320, `${menu}: canonical detail width`);

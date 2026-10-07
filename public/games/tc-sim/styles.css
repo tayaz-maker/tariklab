@@ -1670,3 +1670,6 @@ html.embedded .start-wrap .start-exit {
   .tc-page-regions .management-inspector.is-open { max-height: 100dvh; border-radius: 0; top: 0; }
 }
 @media (max-width: 820px) { .tc-page-main:has(.desk-row) .detail-summary { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+
+/* Reserve the native scrollbar on short desktop menus as well as long ones. */
+@media (min-width: 821px) { html:has(.tc-page-shell) { scrollbar-gutter: stable; } }
