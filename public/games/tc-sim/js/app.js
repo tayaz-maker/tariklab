@@ -1,3 +1,4 @@
+import { EXCHANGE_ASSETS, exchangeQuote, exchangePortfolio, exchangeAvailability, tradeExchange } from './exchange.js?v=10';
 import { gameDateLabel } from "./game-date.js?v=10";
 import { snapshotJobStart, buildJobStartOutcome } from "./job-start-outcome.js?v=10";
 import { renderJobStartOutcome, bindJobStartOutcome, jobOutcomeText } from "./job-start-outcome-ui.js?v=10";
@@ -11,7 +12,7 @@ import {
 import { renderLifetimeTerminal, renderLineage } from "./lifetime-ui.js?v=10";
 import { parenthoodSummary } from "./parenthood.js?v=10";
 import { chooseIntimacy, intimacyAvailability } from "./intimacy.js?v=10";
-import { BUSINESS_TYPES, CREDIT_OFFERS, creditOffer, businessAvailability, closeBusiness, creditAvailability, repayCredit, startBusiness, takeCredit } from "./bank-business.js?v=10";
+import { BUSINESS_TYPES, CREDIT_OFFERS, normalizeBusiness, manageBusiness, creditOffer, businessAvailability, closeBusiness, creditAvailability, repayCredit, startBusiness, takeCredit } from "./bank-business.js?v=10";
 import { getHouseholdSummary } from "./household.js?v=10";
 import {
   WEEKS_PER_MONTH,
@@ -905,6 +906,7 @@ function getFriendLoanAmount() {
 }
 
 function renderFinance() {
+  normalizeBusiness(state);
   const monthly = getMonthlySummary(state);
   const worth = netWorth(state);
   const projectedBalance = state.finances.balance + monthly.income - monthly.expenses;
@@ -928,7 +930,7 @@ function renderFinance() {
   };
   return `<div class="workspace-head"><div><p class="eyebrow">FİNANS</p><h1>Mali durum ve net servet</h1></div>${renderWeekControl()}</div>
     <section class="detail-summary panel wealth-summary">
-      <div><span>Bakiye</span><strong>${money(state.finances.balance)}</strong></div><div><span>Net servet</span><strong>${money(worth.total)}</strong><small>Nakit ${money(worth.cash)} · Yatırım ${money(worth.investments)} · Gayrimenkul ${money(worth.property)} · Araç/eşya ${money(worth.vehicle + worth.durables)} · Borç −${money(worth.debt)}</small></div>
+      <div><span>Bakiye</span><strong>${money(state.finances.balance)}</strong></div><div><span>Net servet</span><strong>${money(worth.total)}</strong><small>Nakit ${money(worth.cash)} · Yatırım ${money(worth.investments)} · Gayrimenkul ${money(worth.property)} · Araç/eşya ${money(worth.vehicle + worth.durables)} · İşletme (tasfiye) ${money(worth.business)} · Borç −${money(worth.debt)}</small></div>
       <div><span>Aylık gelir</span><strong>${money(monthly.income)}</strong><small>Maaş ${money(monthly.salary)}${monthly.retirementIncome ? ` · Emeklilik ${money(monthly.retirementIncome)}` : ""}${monthly.wealth.income ? ` · Kira ${money(monthly.wealth.income)}` : ""}</small></div>
       <div><span>Aylık gider</span><strong>${money(monthly.expenses)}</strong><small>Konut ${money(monthly.housing)} · Yaşam/varlık ${money(monthly.wealth.expenses)} · Diğer ${money(monthly.otherExpenses)}${monthly.parenting ? ` · Çocuk ${money(monthly.parenting)}` : ""}</small></div>
       <div><span>Ay sonu tahmini</span><strong>${money(projectedBalance)}</strong></div>
@@ -948,7 +950,8 @@ function renderFinance() {
       .join("")}</div></section>
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">TÜKETİM</p><h2>Market</h2></div><span>ayrı ekran</span></div><p class="context-note">Günlük harcama, gece hayatı, hediye ve riskli alışveriş MARKET ekranında.</p><button class="button button-quiet" data-view="market">Market'e geç</button></section>
     <section class="panel bank-panel"><div class="panel-head"><div><p class="eyebrow">BANKA</p><h2>Kredi ve geri ödeme</h2></div></div><p class="context-note">Kredi gelir değildir: bugün nakit verir, gelecek aylara zorunlu ödeme yazar. Tutar ve toplam geri ödeme oyun içi varsayımdır; tarihsel banka teklifi değildir.</p><div class="wealth-grid">${Object.keys(CREDIT_OFFERS).map((id) => { const offer = creditOffer(state, id); const check = creditAvailability(state, id); return `<button class="button decision" data-credit="${id}" ${check.ok ? "" : "disabled"} title="${escapeText(check.reason || "")}"><strong>${escapeText(offer.label)}</strong><small>Bugün ${money(offer.cash)} · ${offer.months} ay × ${money(Math.ceil(offer.total / offer.months))} · toplam ${money(offer.total)}${check.reason ? ` · ${escapeText(check.reason)}` : ""}</small></button>`; }).join("")}</div><button class="button button-quiet" data-repay-credit="1" ${state.wealth.debts.some((debt) => debt.type === "personal") ? "" : "disabled"}>İhtiyaç kredisini erken kapat</button></section>
-    <section class="panel business-panel"><div class="panel-head"><div><p class="eyebrow">KENDİ İŞİN</p><h2>Küçük işletme kur</h2></div></div><p class="context-note">Sektör döneme göre açılır. Geçmişteki bir sektörün popüler olması garanti kazanç değildir; aylık ciro, gider, yorgunluk ve zarar ihtimali birlikte işler.</p>${state.flags.business ? `<p class="open-case"><b>${escapeText(BUSINESS_TYPES[state.flags.business.id]?.label || "İşletme")}</b><span>${state.flags.business.months} ay açık · ay sonunda kâr veya zarar</span></p><button class="button button-quiet" data-close-business="1">İşletmeyi kapat</button>` : `<div class="wealth-grid">${Object.entries(BUSINESS_TYPES).filter(([, type]) => economyYear(state) >= type.since).map(([id, type]) => { const check = businessAvailability(state, id); return `<button class="button decision" data-business="${id}" ${check.ok ? "" : "disabled"} title="${escapeText(check.reason || "")}"><strong>${escapeText(type.label)}</strong><small>${type.since} sonrası · kuruluş ${money(type.startup)} · aylık sonuç değişken${check.reason ? ` · ${escapeText(check.reason)}` : ""}</small></button>`; }).join("")}</div>`}</section>
+    ${renderExchange()}
+    <section class="panel business-panel"><div class="panel-head"><div><p class="eyebrow">KENDİ İŞİN</p><h2>Küçük işletme kur</h2></div></div><p class="context-note">Sektör döneme göre açılır. Geçmişteki bir sektörün popüler olması garanti kazanç değildir; aylık ciro, gider, yorgunluk ve zarar ihtimali birlikte işler.</p>${state.flags.business ? `<p class="open-case"><b>${escapeText(BUSINESS_TYPES[state.flags.business.id]?.label || "İşletme")}</b><span>${state.flags.business.months} ay açık · Ölçek ${state.flags.business.level}/10 · ${state.flags.business.employees} çalışan · Borç ${money(state.flags.business.debt)}</span></p>${renderBusinessManagement()}<button class="button button-quiet" data-close-business="1">İşletmeyi sat / kapat (ekipman %25, borç düşülür)</button>` : `<div class="wealth-grid">${Object.entries(BUSINESS_TYPES).filter(([, type]) => economyYear(state) >= type.since).map(([id, type]) => { const check = businessAvailability(state, id); return `<button class="button decision" data-business="${id}" ${check.ok ? "" : "disabled"} title="${escapeText(check.reason || "")}"><strong>${escapeText(type.label)}</strong><small>${type.since} sonrası · kuruluş ${money(type.startup)} · aylık sonuç değişken${check.reason ? ` · ${escapeText(check.reason)}` : ""}</small></button>`; }).join("")}</div>`}</section>
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">ABONELİKLER</p><h2>Düzenli hizmetler</h2></div><span>${state.wealth.subscriptions.length}</span></div><div class="wealth-grid">${Object.entries(
       SUBSCRIPTIONS,
     )
@@ -1387,6 +1390,8 @@ function render() {
   }));
   document.querySelectorAll("[data-credit]").forEach((button) => button.addEventListener("click", () => { const result = takeCredit(state, button.dataset.credit); notice = result.message || result.reason; persist(); render(); }));
   document.querySelector("[data-repay-credit]")?.addEventListener("click", () => { const result = repayCredit(state); notice = result.message || result.reason; persist(); render(); });
+  document.querySelectorAll('[data-business-manage]').forEach(button=>button.addEventListener('click',()=>{const result=manageBusiness(state,button.dataset.businessManage);notice=result.message||result.reason;persist();render();}));
+  document.querySelectorAll('[data-exchange]').forEach(button=>button.addEventListener('click',()=>{const result=tradeExchange(state,button.dataset.exchange,button.dataset.side,Number(button.dataset.quantity));notice=result.message||result.reason;persist();render();}));
   document.querySelectorAll("[data-business]").forEach((button) => button.addEventListener("click", () => { const result = startBusiness(state, button.dataset.business); notice = result.message || result.reason; persist(); render(); }));
   document.querySelector("[data-close-business]")?.addEventListener("click", () => { const result = closeBusiness(state); notice = result.message || result.reason; persist(); render(); });
   document.querySelectorAll("[data-decision]").forEach((button) =>
@@ -1588,3 +1593,18 @@ window.addEventListener?.("keydown", (event) => {
 });
 
 render();
+
+
+function renderExchange() {
+ const positions=exchangePortfolio(state);
+ return `<section class="panel"><div class="panel-head"><div><p class="eyebrow">DÖVİZ VE ALTIN</p><h2>Büro ve portföy</h2></div></div><p class="context-note">Gösterge kur işlem fiyatı değildir. Son kaynaklı kur taşınır; büro makası ve %0,2 ücret oyun varsayımıdır. Altın: önceki tamamlanmış ayın ons ortalaması × USD kuru × saf gram / 31,1034768. Kaynak ufkundan sonrası açıkça kurgu senaryodur.</p><div class="wealth-grid">${Object.entries(EXCHANGE_ASSETS).filter(([id,a])=>id!=='DEM'||state.time.date<'2002-01-01'||positions.some(p=>p.id===id)).map(([id,a])=>{
+ const q=exchangeQuote(state,id),p=positions.find(p=>p.id===id);
+ if(!q)return `<article class="wealth-card"><strong>${escapeText(a.label)}</strong><small>Bu tarihte doğrulanmış fiyat bulunmuyor; işlem kapalı.</small></article>`;
+ const button=side=>{const check=exchangeAvailability(state,id,side,a.step);return `<button class="button button-quiet" data-exchange="${id}" data-side="${side}" data-quantity="${a.step}" ${check.ok?'':'disabled'} title="${escapeText(check.reason||'')}">${a.step} ${side==='buy'?'al':'sat'}</button>`;};
+ return `<article class="wealth-card"><strong>${escapeText(a.label)}</strong><small>${q.future?'KURGU SENARYO · ':''}Kaynak: ${q.sourceDate}${q.goldMonth?' · Altın ayı '+q.goldMonth:''}</small><p>1 birim gösterge: ${money(q.reference/q.unit)}<br>Büro alış: ${money(q.bid)} · satış: ${money(q.ask)}</p><small>TL bakiyenin alış karşılığı: ${Math.max(0,state.finances.balance/(q.ask*(1+q.fee))).toLocaleString('tr-TR',{maximumFractionDigits:2})}</small><p>Miktar ${p?.quantity||0} · Maliyet ${money(p?.basis||0)}<br>Net değer ${money(p?.value||0)} · K/Z ${money(p?.profit||0)}</p>${!q.available?`<small>${escapeText(q.reason)}</small>`:''}<div class="wealth-actions">${button('buy')}${button('sell')}</div></article>`;
+ }).join('')}</div><details><summary>Son işlemler ve fiyat yöntemi</summary><p>TCMB gösterge ve efektif kur bültenleri; Dünya Bankası Pink Sheet altın; Darphane ziynet saf gramları. Kaynaklar çeyreklik örneklenmiştir, günlük seri değildir. 2002 sonrası eski mark satışı 1 EUR = 1,95583 DEM sabit paritesiyle hesaplanır. Tarihsel popülerlik istatistiği iddiası yok; ana dövizlerde daha dar oyun makası uygulanır.</p>${(state.wealth.exchange?.history||[]).slice(-12).reverse().map(r=>`<p>${escapeText(r.date)} · ${escapeText(r.id)} · ${r.quantity} ${r.side==='buy'?'alış':'satış'} · ${money(r.cash)} · Gerçekleşmiş K/Z ${money(r.realized)}</p>`).join('')}</details></section>`;
+}
+function renderBusinessManagement(){
+ const b=state.flags.business,r=b.lastResult;
+ return `${r?`<p>Ciro ${money(r.revenue)} · Tedarik ${money(r.supply||0)} · Ücret ${money(r.wages||0)} · Kira ${money(r.rent||0)} · Operasyon ${money(r.operations||0)} · Faiz ${money(r.interest||0)} · Vergi ${money(r.tax||0)} · Anapara ${money(r.principal||0)} · Net ${money(r.net)}</p>`:''}<p class="context-note">Gider oranları ve kriz etkileri simülasyondur; tarihsel şirket bilançosu veya vergi tarifesi değildir. Altı ardışık zarar ayı ve nakit açığı iflasa yol açabilir.</p><div class="wealth-actions">${[['expand',`Kapasiteyi büyüt · ${money(BUSINESS_TYPES[b.id].startup*2**(b.level-1))}`],['hire',`Çalışan al · ${money(9000)} giriş + aylık ücret`],['shrink','Küçül'],['loan','İşletme kredisi'],['restructure','Borcu yapılandır (+%8)']].map(([id,label])=>`<button class="button button-quiet" data-business-manage="${id}">${label}</button>`).join('')}</div>`;
+}

@@ -654,3 +654,12 @@ Base #135/#136 UI accepted at 7f7da9e57e0f004082bb3d1a7a09ff0d5ba3f98d, preserve
 PR137 smoke caught a hardcoded creation select that omitted the working 2017 scenario. The form now derives options from HISTORICAL_STARTS, displays the period description outside the seed-only field, and has a real app-render/submit/save regression for the 2017 date and birthday. Existing saves are untouched.
 
 General CI later exposed three stale inventory/count fixtures and a genuine migration idempotence ordering issue: life phase normalized before canonical age. Canonical date now precedes phase normalization; existing no-op reload invariant is retained. Authorized economy source hash and 62-item catalogue fixtures are refreshed, not disabled. General browser-regression reproduced the known PGLite/server-startup infra error.
+
+## 2026-10-07 — TC SIM exchange, gold and business growth
+
+- Base main 6fe1fac (#137/#138). #135/#136 shell, styles, navigation preserved.
+- 114 TCMB dated quarterly/exact-start bulletins, 345 World Bank gold months, source URLs/hashes and explicit methodology. EUR cash gate/DEM conversion, eight active currencies, four gold weight options.
+- Existing wealth/save ledger gains quantity/cost/value/P&L and capped history. Synchronous integer-cash buy/sell with fee/spread, no over-selling, no future historical observations. Existing abstract portfolios remain untouched.
+- Existing business engine gains capacity/employees, separated operating expenses, secured credit, paid restructuring, downsizing and debt-aware liquidation/bankruptcy. Net worth includes business equipment less debt.
+- First broad suite: 495/496 PASS; sole archive fixture failure was unstaged new imports, corrected by adding the new files to the index. New exchange/growth cases 7/7 PASS including actual save migration, era restrictions, anti-roundtrip, repeated monthly settlement and insolvency. Final targeted verification follows before release.
+- Local Chromium executable absent: INFRA BLOCKED, no test/assertion removed. Production visual acceptance stays with user; no body visualization work.
