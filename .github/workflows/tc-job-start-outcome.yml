@@ -71,7 +71,7 @@ jobs:
         if: matrix.label == 'built'
         run: node --test scripts/tc-sim-job-start-baseline.test.mjs
       - name: Targeted outcome, origin and safe-server regressions
-        run: node --test scripts/tc-sim-body-visual.test.mjs scripts/tc-sim-depth-4.test.mjs scripts/tc-sim-job-start-outcome.test.mjs scripts/tc-sim-job-start-target.test.mjs scripts/tc-sim-job-start-i18n.test.mjs scripts/tc-sim-job-start-layout.test.mjs scripts/tc-sim-weekly-feedback.test.mjs scripts/tc-sim-lifetime-ui.test.mjs scripts/static-game-server.test.mjs
+        run: node --test scripts/tc-sim-marriage-depth.test.mjs scripts/tc-sim-household.test.mjs scripts/tc-sim-parenthood.test.mjs scripts/tc-sim-intimacy.test.mjs scripts/tc-sim-body-visual.test.mjs scripts/tc-sim-depth-4.test.mjs scripts/tc-sim-job-start-outcome.test.mjs scripts/tc-sim-job-start-target.test.mjs scripts/tc-sim-job-start-i18n.test.mjs scripts/tc-sim-job-start-layout.test.mjs scripts/tc-sim-weekly-feedback.test.mjs scripts/tc-sim-lifetime-ui.test.mjs scripts/static-game-server.test.mjs
       - run: npm run build
       - name: Chromium
         run: |

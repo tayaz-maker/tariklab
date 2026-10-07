@@ -1,3 +1,4 @@
+import { weddingQuote, weddingRecord, weddingPeriod, householdChoiceCost } from "./wedding-planning.js?v=10";
 import { renderBodyVisual, bindBodyVisual } from "./body-visual.js?v=10";
 import { EXCHANGE_ASSETS, exchangeQuote, exchangePortfolio, exchangeAvailability, tradeExchange } from './exchange.js?v=10';
 import { gameDateLabel } from "./game-date.js?v=10";
@@ -14,7 +15,7 @@ import { renderLifetimeTerminal, renderLineage } from "./lifetime-ui.js?v=10";
 import { parenthoodSummary } from "./parenthood.js?v=10";
 import { chooseIntimacy, intimacyAvailability } from "./intimacy.js?v=10";
 import { BUSINESS_TYPES, CREDIT_OFFERS, normalizeBusiness, manageBusiness, creditOffer, businessAvailability, closeBusiness, creditAvailability, repayCredit, startBusiness, takeCredit } from "./bank-business.js?v=10";
-import { getHouseholdSummary } from "./household.js?v=10";
+import { getHouseholdSummary, getHouseholdFinance, HOUSEHOLD_CONVERSATIONS, householdConversationAvailable } from "./household.js?v=10";
 import {
   WEEKS_PER_MONTH,
   BACKGROUND_OPTIONS,
@@ -30,6 +31,7 @@ import { snapshotWeekState, summarizeWeek } from "./weekly-feedback.js?v=10";
 import {
   getChoiceEffectSummary,
   getEventDefinition,
+  requestHouseholdConversation,
   getEventChoiceAvailability,
   resolveEvent,
 } from "./events.js?v=10";
@@ -193,6 +195,8 @@ function openCaseLabel(item) {
         cohabitation: "Ortak ev kararı",
         adjustment: "Ev sorumluluklarını görüşme",
         marriage: "Evlilik kararı",
+        engagement: "Nişan hazırlığı",
+        honeymoon: "Balayı kararı",
         family: "Aileyle ortak yaşam görüşmesi",
         settlement: "Ayrılık sonrası görüşme",
         planning: "Ortak niyetleri görüşme",
@@ -502,6 +506,20 @@ function renderHouseholdContext() {
   return `<p class="context-note">${escapeText(context.partnerName)} · ${escapeText(context.status)} · ${escapeText(context.residence)}${context.space ? `<br>${escapeText(context.space)}` : ""}${context.familyPlanning ? `<br>${escapeText(context.familyPlanning)}` : ""}</p>${renderParenthoodContext()}`;
 }
 
+function renderMarriagePlanning() {
+  if (!state.social.currentPartnerNpcId) return "";
+  const record = weddingRecord(state), union = state.household.union;
+  const familyLabels = { support: "Destekliyor", reserved: "Temkinli", objection: "Çekinceleri var" };
+  const shared = getHouseholdFinance(state);
+  const debt = state.wealth?.debts?.find(item => item.id === record?.loanId);
+  const conversations = HOUSEHOLD_CONVERSATIONS.filter(item => householdConversationAvailable(state, item.id));
+  const planning = !union.marriedSince ? `<details><summary>Evlilik bütçesini karşılaştır</summary><p class="context-note">${escapeText(weddingPeriod(state).text)} Tutarlar dönem ölçeğindeki oyun bütçesidir; gerçek bir mekân teklifi değildir.</p><div class="option-grid">${["confirm", "community", "wedding", "financed"].map(style => {
+    const q = weddingQuote(state, style);
+    return `<article class="option-card"><h3>${q.label}</h3><p>${q.guests ? `${q.guests} davetli` : "Düğün zorunlu değil"}</p>${q.lines.filter(item => item.amount).map(item => `<p>${item.label}: <strong>${money(item.amount)}</strong></p>`).join("")}<p>Toplam ${money(q.gross)} · Aile katkısı ${money(q.familyContribution)}</p><p>Peşin ihtiyaç: <strong>${money(q.cashNeeded)}</strong></p>${q.credit ? `<p>Kredi ${money(q.credit.cash)}; toplam geri ödeme ${money(q.credit.total)}, ${q.credit.months} ay × ${money(Math.ceil(q.credit.total / q.credit.months))}. Bankanın gelir koşulları geçerlidir.</p>` : ""}<small>Takı ve nakit hediyesi önceden bütçeye sayılmaz.</small></article>`;
+  }).join("")}</div></details>` : "";
+  return `<section class="panel"><div class="panel-head"><div><p class="eyebrow">BİRLİKTE HAYAT</p><h2>İkinizin planı</h2></div></div>${record?.familiesMet ? `<p>Ailen: ${familyLabels[record.familyView]} · Partnerinin ailesi: ${familyLabels[record.partnerFamilyView]}. Son karar ikinize ait.</p>` : `<p>Ailelerle tanışma isteğe bağlı. Nikâh için düğün yapmak veya önceden birlikte yaşamak şart değil.</p>`}${record?.settledWeek ? `<p>Evlilik hazırlığı ${money(record.gross)} · Aile desteği ${money(record.familyContribution)} · Nakit hediye ${money(record.cashGift)}${record.goldGift ? ` · ${record.goldGift} çeyrek altın Finans portföyünde` : ""}.</p>` : ""}${union.cohabitingSince ? `<p>Ortak ev: aylık ek gider ${money(shared.householdExtra)}, partner katkısı ${money(shared.partnerContribution)}.</p>` : ""}${debt ? `<p>Düğün için kullanılan kredinin kalan borcu ${money(debt.principal)}; aylık taksit ${money(Math.min(debt.principal,debt.monthlyPayment))}. Ayrılık borcu silmez.</p>` : ""}<div class="social-actions">${conversations.map(item => `<button class="button decision" data-household-conversation="${item.id}"><strong>${item.label}</strong><small>Görüşmeyi aç; kararın maliyetini görüp seç.</small></button>`).join("")}</div>${planning}</section>`;
+}
+
 function renderAdultChoices() {
   const partner = state.social.currentPartnerNpcId && getPerson(state, state.social.currentPartnerNpcId);
   if (!partner || state.player.age < 18) return "";
@@ -538,6 +556,7 @@ function renderRelationshipsOverview() {
       <div><span>Açık sosyal mesele</span><strong>${obligationCount}</strong></div>
     </section>
     ${renderHouseholdContext()}
+    ${renderMarriagePlanning()}
     ${renderAdultChoices()}
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">ÖNEMLİ BAĞLAR</p><h2>Kişiler</h2></div></div><div class="overview-grid">${state.people
       .map(
@@ -1283,6 +1302,18 @@ function eventChoiceLabel(definition, choice) {
   return phraseText(choice.label);
 }
 
+function householdChoiceDescription(definition, choice) {
+  if (!definition.household) return "";
+  const availability = getEventChoiceAvailability(state, choice.id);
+  if (!availability.ok) return availability.reason;
+  if (definition.id === "marriage_commitment" && choice.id !== "cancel") {
+    const q = weddingQuote(state, choice.id);
+    return q ? `Hazırlık ${money(q.gross)} · aile desteği ${money(q.familyContribution)} · peşin ${money(q.cashNeeded)}.${q.credit ? ` Kredi toplam ${money(q.credit.total)}, ${q.credit.months} ay × ${money(Math.ceil(q.credit.total/q.credit.months))}.` : ""} Takı garanti değil; altın Finans portföyünde kalır.` : "";
+  }
+  const cost = householdChoiceCost(state, definition.id, choice.id);
+  return cost ? `Hazırlık gideri ${money(cost)} · haftandan bir aktivite.` : "";
+}
+
 function renderEvent() {
   if (!state.events.active) return "";
   const base = getEventDefinition(state.events.active.eventId);
@@ -1291,7 +1322,7 @@ function renderEvent() {
   const eventContext = adultEventContext(state);
   const definition = base && { ...base, text: eventContext ? `${base.text} ${eventContext}` : base.text };
   if (!definition) return "";
-  return `<div class="event-backdrop" role="presentation"><section class="event-card" role="dialog" aria-modal="true" aria-labelledby="event-title"><h2 id="event-title">${escapeText(eventTitle(definition))}</h2><p>${escapeText(eventBody(definition))}</p>${getBodyEventContext(state, definition) ? `<p>${escapeText(phraseText(getBodyEventContext(state, definition)))}</p>` : ""}<div class="event-choices">${definition.choices.map((choice) => `<button class="button event-choice" data-event-choice="${choice.id}" ${getEventChoiceAvailability(state, choice.id).ok ? "" : "disabled"} title="${escapeText(phraseText(getEventChoiceAvailability(state, choice.id).reason || ""))}"><strong>${escapeText(eventChoiceLabel(definition, choice))}</strong><small>${escapeText(phraseText(getChoiceEffectSummary(choice)))}</small></button>`).join("")}</div></section></div>`;
+  return `<div class="event-backdrop" role="presentation"><section class="event-card" role="dialog" aria-modal="true" aria-labelledby="event-title"><h2 id="event-title">${escapeText(eventTitle(definition))}</h2><p>${escapeText(eventBody(definition))}</p>${getBodyEventContext(state, definition) ? `<p>${escapeText(phraseText(getBodyEventContext(state, definition)))}</p>` : ""}<div class="event-choices">${definition.choices.map((choice) => `<button class="button event-choice" data-event-choice="${choice.id}" ${getEventChoiceAvailability(state, choice.id).ok ? "" : "disabled"} title="${escapeText(phraseText(getEventChoiceAvailability(state, choice.id).reason || ""))}"><strong>${escapeText(eventChoiceLabel(definition, choice))}</strong><small>${escapeText(householdChoiceDescription(definition, choice) || phraseText(getChoiceEffectSummary(choice)))}</small></button>`).join("")}</div></section></div>`;
 }
 
 function renderScenarioPanel() {
@@ -1448,6 +1479,11 @@ function render() {
       render();
     }),
   );
+  document.querySelectorAll("[data-household-conversation]").forEach(button => button.addEventListener("click", () => {
+    const result = requestHouseholdConversation(state, button.dataset.householdConversation);
+    notice = result.message;
+    persist(); render();
+  }));
   document.querySelectorAll("[data-intimacy-choice]").forEach((button) =>
     button.addEventListener("click", () => {
       const result = chooseIntimacy(state, button.dataset.intimacyChoice);
@@ -1607,7 +1643,7 @@ function renderExchange() {
  if(!q)return `<article class="wealth-card"><strong>${escapeText(a.label)}</strong><small>Bu tarihte doğrulanmış fiyat bulunmuyor; işlem kapalı.</small></article>`;
  const button=side=>{const check=exchangeAvailability(state,id,side,a.step);return `<button class="button button-quiet" data-exchange="${id}" data-side="${side}" data-quantity="${a.step}" ${check.ok?'':'disabled'} title="${escapeText(check.reason||'')}">${a.step} ${side==='buy'?'al':'sat'}</button>`;};
  return `<article class="wealth-card"><strong>${escapeText(a.label)}</strong><small>${q.future?'KURGU SENARYO · ':''}Kaynak: ${q.sourceDate}${q.goldMonth?' · Altın ayı '+q.goldMonth:''}</small><p>1 birim gösterge: ${exchangeRateLabel(q.reference)}<br>Büro alış: ${exchangeRateLabel(q.bid*q.unit)} · satış: ${exchangeRateLabel(q.ask*q.unit)}</p><small>TL bakiyenin alış karşılığı: ${Math.max(0,state.finances.balance/(q.ask*(1+q.fee))).toLocaleString('tr-TR',{maximumFractionDigits:2})}</small><p>Miktar ${p?.quantity||0} · Maliyet ${money(p?.basis||0)}<br>Net değer ${money(p?.value||0)} · K/Z ${money(p?.profit||0)}</p>${!q.available?`<small>${escapeText(q.reason)}</small>`:''}<div class="wealth-actions">${button('buy')}${button('sell')}</div></article>`;
- }).join('')}</div><details><summary>Son işlemler ve fiyat yöntemi</summary><p>TCMB gösterge ve efektif kur bültenleri; Dünya Bankası Pink Sheet altın; Darphane ziynet saf gramları. Kaynaklar çeyreklik örneklenmiştir, günlük seri değildir. 2002 sonrası eski mark satışı 1 EUR = 1,95583 DEM sabit paritesiyle hesaplanır. Tarihsel popülerlik istatistiği iddiası yok; ana dövizlerde daha dar oyun makası uygulanır.</p>${(state.wealth.exchange?.history||[]).slice(-12).reverse().map(r=>`<p>${escapeText(r.date)} · ${escapeText(r.id)} · ${r.quantity} ${r.side==='buy'?'alış':'satış'} · ${money(r.cash)} · Gerçekleşmiş K/Z ${money(r.realized)}</p>`).join('')}</details></section>`;
+ }).join('')}</div><details><summary>Son işlemler ve fiyat yöntemi</summary><p>TCMB gösterge ve efektif kur bültenleri; Dünya Bankası Pink Sheet altın; Darphane ziynet saf gramları. Kaynaklar çeyreklik örneklenmiştir, günlük seri değildir. 2002 sonrası eski mark satışı 1 EUR = 1,95583 DEM sabit paritesiyle hesaplanır. Tarihsel popülerlik istatistiği iddiası yok; ana dövizlerde daha dar oyun makası uygulanır.</p>${(state.wealth.exchange?.history||[]).slice(-12).reverse().map(r=>`<p>${escapeText(r.date)} · ${escapeText(r.id)} · ${r.quantity} ${r.side==='buy'?'alış':r.side==='gift'?'hediye':'satış'} · ${money(r.cash)} · Gerçekleşmiş K/Z ${money(r.realized)}</p>`).join('')}</details></section>`;
 }
 function renderBusinessManagement(){
  const b=state.flags.business,r=b.lastResult;

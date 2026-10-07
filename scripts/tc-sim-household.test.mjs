@@ -1,3 +1,4 @@
+import { weddingQuote } from "../public/games/tc-sim/js/wedding-planning.js";
 import test from "node:test";
 import assert from "node:assert/strict";
 import { createNewGame, getWeeklyActivityLimit, normalizeEducationCareer, validateState } from "../public/games/tc-sim/js/state.js";
@@ -115,7 +116,8 @@ test("marriage plan and decision revalidate trust, money and identity before cha
   assert.ok(plan);
   state.time.absoluteWeek = plan.dueWeek;
   state.weekly = { used: 0, selectedIds: [] };
-  state.finances.balance = 5999;
+  const weddingCost = weddingQuote(state, "confirm").gross;
+  state.finances.balance = weddingCost - 1;
   state.events.active = { eventId: plan.eventId, occurrenceId: "marriage-budget", sourceCaseId: plan.id };
   const before = structuredClone(state);
   assert.equal(resolveEvent(state, "confirm").ok, false);
@@ -126,12 +128,12 @@ test("marriage plan and decision revalidate trust, money and identity before cha
   assert.equal(state.finances.balance, 8000);
   state.people.find((person) => person.id === "elif").social.trust = 80;
   assert.equal(resolveEvent(state, "confirm").ok, true);
-  assert.equal(state.finances.balance, 2000);
+  assert.equal(state.finances.balance, 8000 - weddingCost);
   assert.ok(state.household.union.marriedSince);
   const history = structuredClone(state.household.history);
   assert.equal(select(state, "marriage_commitment", "confirm", plan.id).ok, false);
   assert.deepEqual(state.household.history, history);
-  assert.equal(state.finances.balance, 2000);
+  assert.equal(state.finances.balance, 8000 - weddingCost);
   assert.equal(state.finances.ledger.filter((item) => item.reason === "Ortak evlilik hazırlığı").length, 1);
 });
 
