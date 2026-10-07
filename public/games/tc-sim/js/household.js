@@ -1,5 +1,6 @@
+import { normalizeWedding, weddingRecord, ensureWedding, familyMeetingContext, weddingFundingAvailability, settleWeddingBudget, householdChoiceCost } from "./wedding-planning.js?v=10";
 import { addMemory, addNpcMemory, appendCapped, getWeeklyActivityLimit, transact } from "./state.js?v=10";
-import { getPerson, getRelationship, applyRelationshipDelta, markMeaningfulContact } from "./social.js?v=10";
+import { getPerson, getRelationship, applyRelationshipDelta, markMeaningfulContact, isAdultRomanceParticipant } from "./social.js?v=10";
 import { getHomeById, relocateHome, getMonthlySummary } from "./life.js?v=10";
 import { createSecret, transferSecret, isSecretKnownTo } from "./depth2-systems.js?v=10";
 
@@ -10,6 +11,8 @@ export function neutralUnion() {
   return { cohabitingSince: null, marriedSince: null, separatedSince: null, reconciled: false, familyPlan: null };
 }
 export const HOUSEHOLD_CHAINS = Object.freeze({
+  engagement: { id: "CHN-S07", eventId: "engagement_preparation" },
+  honeymoon: { id: "CHN-S08", eventId: "household_honeymoon" },
   cohabitation: { id: "CHN-S01", eventId: "cohabitation_move" },
   adjustment: { id: "CHN-S02", eventId: "household_adjustment" },
   marriage: { id: "CHN-S03", eventId: "marriage_commitment" },
@@ -21,6 +24,7 @@ export const HOUSEHOLD_CHAINS = Object.freeze({
 export function normalizeHousehold(state) {
   const household = state.household;
   if (!household) return;
+  normalizeWedding(state);
   const raw = household.union || {};
   const week = (value) => Number.isInteger(value) && value >= 1 && value <= state.time.absoluteWeek ? value : null;
   const hasPartner = Boolean(state.social?.currentPartnerNpcId);
@@ -48,15 +52,22 @@ function stablePartner(state) {
   return relationship && relationship.closeness >= 68 && relationship.trust >= 62 && relationship.tension <= 35;
 }
 export function canDiscussHousehold(state, kind) {
-  if (!partner(state) || pending(state, kind)) return false;
+  if (!isAdultRomanceParticipant(state, state.social?.currentPartnerNpcId) || !partner(state) || pending(state, kind)) return false;
   if (kind === "separation") return Boolean(state.household.union.marriedSince && !state.household.union.separatedSince && (getRelationship(state, partner(state).id).tension >= 50 || getRelationship(state, partner(state).id).trust < 40));
-  if (kind === "planning") return Boolean(state.household.union.marriedSince && !state.household.union.separatedSince && !state.household.union.familyPlan);
+  if (kind === "planning") return Boolean((state.household.union.marriedSince || living(state)) && !state.household.union.separatedSince && !state.household.union.familyPlan);
   if (state.household.union.separatedSince) return false;
+  if (["marriage", "families"].includes(kind) && state.weekly.selectedIds.some(id => CEREMONIES.has(id.replace("household:", "")))) return false;
   if (kind === "cohabitation") {
     const started = partner(state).memories.find((item) => item.type === "became_partner");
     return !living(state) && stablePartner(state) && state.time.absoluteWeek - (started?.week || 1) >= 4;
   }
-  if (kind === "marriage") return living(state) && !state.household.union.marriedSince && stablePartner(state) && state.time.absoluteWeek - state.household.union.cohabitingSince >= 8;
+  if (kind === "breakup") return !state.household.union.marriedSince;
+  if (kind === "families") return !state.household.union.marriedSince && stablePartner(state) && !weddingRecord(state)?.familiesMet;
+  if (kind === "marriage") {
+    const started = partner(state).memories.find(item => item.type === "became_partner");
+    return !state.household.union.marriedSince && !pending(state, "engagement") && stablePartner(state) &&
+      (living(state) ? state.time.absoluteWeek - state.household.union.cohabitingSince >= 8 : state.time.absoluteWeek - (started?.week || 1) >= 8);
+  }
   return false;
 }
 
@@ -65,7 +76,7 @@ export function getHouseholdSummary(state) {
   const cohabiting = living(state);
   return {
     partnerName: person?.name || null,
-    status: state.household.union?.separatedSince && person ? "Ayrı yaşıyor · evli" : state.household.union?.marriedSince && person ? "Evli" : person ? "Sevgili" : "Partner yok",
+    status: state.household.union?.separatedSince && person ? "Ayrı yaşıyor · evli" : state.household.union?.marriedSince && person ? "Evli" : weddingRecord(state)?.engagedSince && person ? "Nişanlı" : person ? "Sevgili" : "Partner yok",
     residence: cohabiting ? "Birlikte yaşıyorsunuz" : "Ayrı yaşam düzeni",
     familyPlanning: state.household.union?.familyPlan ? `Sen: ${FAMILY_INTENTS[state.household.union.familyPlan.intent]} · Partnerin: ${FAMILY_INTENTS[state.household.union.familyPlan.response]}` : "",
     space: cohabiting && state.household.homeId === "shared" ? "Paylaşımlı evde ortak alan ve mahremiyet için anlaşmanız gerekiyor." : cohabiting ? "Kendi evinizde giderleri ve sorumlulukları paylaşıyorsunuz." : "",
@@ -115,6 +126,10 @@ export function processHouseholdCases(state) {
   if (partner(state) && state.household.union.separatedSince &&
     state.time.absoluteWeek >= state.household.union.separatedSince + 6 &&
     state.time.absoluteWeek >= (state.events.cooldowns.separation_review || 0)) schedule(state, "settlement", 2);
+  const record = weddingRecord(state);
+  if (living(state) && record?.settledWeek && state.time.absoluteWeek >= (record.lastReview || record.settledWeek) + 48) {
+    if (schedule(state, "adjustment", 2)) record.lastReview = state.time.absoluteWeek;
+  }
   const relationship = partner(state) && getRelationship(state, state.social.currentPartnerNpcId);
   if (living(state) && state.time.absoluteWeek >= state.household.union.cohabitingSince + 12 &&
     state.time.absoluteWeek >= (state.events.cooldowns.household_adjustment || 0) &&
@@ -123,6 +138,19 @@ export function processHouseholdCases(state) {
   }
 }
 
+const CEREMONIES = new Set(["household_families", "marriage_discussion", "engagement_preparation", "marriage_commitment", "household_honeymoon"]);
+export const HOUSEHOLD_CONVERSATIONS = Object.freeze([
+  { id: "relationship_breakup", kind: "breakup", label: "İlişkiyi bitirmeyi konuş" },
+  { id: "household_families", kind: "families", label: "Ailelerle tanışmayı konuş" },
+  { id: "marriage_discussion", kind: "marriage", label: "Evlilik teklifini konuş" },
+  { id: "cohabitation_discussion", kind: "cohabitation", label: "Ortak ev planını konuş" },
+  { id: "family_intent_discussion", kind: "planning", label: "Çocuk konusundaki niyetini konuş" },
+  { id: "separation_discussion", kind: "separation", label: "Ayrı yaşamayı konuş" },
+]);
+export function householdConversationAvailable(state, id) {
+  const item = HOUSEHOLD_CONVERSATIONS.find(item => item.id === id);
+  return Boolean(item && !state.events.active && !state.lifetime?.death && state.time.absoluteWeek >= (state.events.cooldowns[id] || 0) && canDiscussHousehold(state, item.kind));
+}
 function useTime(state, id) {
   state.weekly.used += 1;
   state.weekly.selectedIds.push(`household:${id}`);
@@ -132,8 +160,14 @@ function useTime(state, id) {
 export function householdChoiceAvailability(state, definition, choice, sourceCase) {
   if (definition.id === "move_in_with_elif" && choice.id !== "look") return { ok: true };
   if (["later", "cancel", "skip", "private"].includes(choice.id)) return { ok: true };
-  if (!partner(state) || (sourceCase && sourceCase.payload?.personId !== state.social.currentPartnerNpcId)) return { ok: false, reason: "Bu planın partner bağlamı değişti." };
+  if (state.lifetime?.death || !isAdultRomanceParticipant(state, state.social?.currentPartnerNpcId) || !partner(state) || (sourceCase && sourceCase.payload?.personId !== state.social.currentPartnerNpcId)) return { ok: false, reason: "Bu planın partner bağlamı değişti." };
   if (sourceCase && (sourceCase.eventId !== definition.id || state.time.absoluteWeek < sourceCase.dueWeek)) return { ok: false, reason: "Bu planın görüşme zamanı henüz gelmedi." };
+  if (CEREMONIES.has(definition.id) && state.weekly.selectedIds.some(id => CEREMONIES.has(id.replace("household:", "")))) return { ok: false, reason: "Bu hafta bir hazırlık kararı aldınız. Sonraki adım için gelecek haftaya zaman bırakın." };
+  if (definition.id === "relationship_breakup" && !canDiscussHousehold(state, "breakup")) return { ok: false, reason: "Evliysen ayrı yaşam ve boşanma görüşmesini kullanmalısın." };
+  if (definition.id === "household_families" && !canDiscussHousehold(state, "families")) return { ok: false, reason: "Aile görüşmesi için ilişkiniz hazır değil veya bu görüşme zaten yapıldı." };
+  if (["engagement_preparation", "household_honeymoon"].includes(definition.id) && (!sourceCase || sourceCase.status === "resolved" || state.household.union.separatedSince)) return { ok: false, reason: "Bu hazırlığın geçerli bir ortak planı yok." };
+  if (definition.id === "engagement_preparation" && (!weddingRecord(state)?.engagedSince || weddingRecord(state)?.prepared || state.household.union.marriedSince)) return { ok: false, reason: "Açık bir nişan hazırlığı yok." };
+  if (definition.id === "household_honeymoon" && (!state.household.union.marriedSince || weddingRecord(state)?.honeymoon)) return { ok: false, reason: "Bu balayı planı artık geçerli değil." };
   if (state.weekly.used >= getWeeklyActivityLimit(state)) return { ok: false, reason: "Bu görüşme bir haftalık aktivite ister; bu haftanın zamanı doldu. Erteleyebilirsin." };
   if (definition.id === "separation_discussion" && !canDiscussHousehold(state, "separation")) return { ok: false, reason: "Ayrılık görüşmesi için çözülmemiş ciddi bir ilişki sorunu yok." };
   if (definition.id === "family_intent_discussion" && !canDiscussHousehold(state, "planning")) return { ok: false, reason: "Bu niyet görüşmesi için ilişki bağlamı değişti." };
@@ -151,8 +185,12 @@ export function householdChoiceAvailability(state, definition, choice, sourceCas
     if (!home || home.id === "family") return { ok: false, reason: "İki kişilik bağımsız bir yaşam alanı seç." };
     if (state.finances.balance < (state.household.homeId === home.id ? 0 : home.moveCost)) return { ok: false, reason: "Taşınma bütçesi yetersiz." };
   }
-  if (definition.id === "marriage_discussion" && choice.id === "engage" && state.finances.balance < 1500) return { ok: false, reason: "Söz/nişan hazırlığı için bütçe yetersiz." };
-  if (definition.id === "marriage_commitment" && (!living(state) || state.household.union.marriedSince || !stablePartner(state) || state.finances.balance < (choice.id === "wedding" ? MARRIAGE_COST + 14000 : MARRIAGE_COST))) return { ok: false, reason: "İlişki, ortak ev veya seçilen hazırlığın bütçesi uygun değil. Erteleyebilirsin." };
+  const cost = householdChoiceCost(state, definition.id, choice.id);
+  if (definition.id !== "marriage_commitment" && state.finances.balance < cost) return { ok: false, reason: "Bu hazırlık için bütçe yetersiz; daha sade seçeneği tercih edebilirsin." };
+  if (definition.id === "marriage_commitment") {
+    if (state.household.union.marriedSince || state.household.union.separatedSince || weddingRecord(state)?.settledWeek || !stablePartner(state)) return { ok: false, reason: "Ortak karar veya güven koşulları uygun değil. Erteleyebilirsin." };
+    return weddingFundingAvailability(state, choice.id);
+  }
   return { ok: true };
 }
 
@@ -169,7 +207,11 @@ export function resolveHouseholdChoice(state, definition, choiceId, sourceCase) 
     return;
   }
   if (choiceId !== "private") useTime(state, id);
-  if (id === "separation_discussion") {
+  if (id === "relationship_breakup") {
+    milestone(state, "breakup", `${person.name} ile ilişkinizi bitirdiniz; hazırlık giderleri geri gelmedi, varsa borçlar sürüyor.`);
+    state.social.currentPartnerNpcId = null; person.social.romanceStatus = "none";
+    state.household.union = neutralUnion(); state.household.wedding = null;
+  } else if (id === "separation_discussion") {
     state.household.union.separatedSince = state.time.absoluteWeek;
     state.household.union.cohabitingSince = null;
     milestone(state, "separation", `${person.name} ile ayrı yaşamaya başladınız; evlilik henüz bitmedi. Mevcut evin giderleri artık sende.`);
@@ -188,6 +230,7 @@ export function resolveHouseholdChoice(state, definition, choiceId, sourceCase) 
       state.social.currentPartnerNpcId = null;
       person.social.romanceStatus = "none";
       state.household.union = neutralUnion();
+      state.household.wedding = null;
     }
   } else if (id === "family_intent_discussion") {
     const relationship = getRelationship(state, person.id);
@@ -235,26 +278,53 @@ export function resolveHouseholdChoice(state, definition, choiceId, sourceCase) 
         milestone(state, "family_boundaries", "Ortak evinle aile evinin beklentilerini Anne'yle konuştun.");
       }
     }
-  } else if (id === "marriage_discussion") {
-    schedule(state, "marriage", 4);
-    if (choiceId === "engage") {
-      transact(state, -1500, "Söz ve nişan hazırlığı", "household");
-      milestone(state, "engagement", `${person.name} ile söz/nişan yaptınız; aile beklentileri ve evlilik bütçesi konuşuldu.`);
-    } else milestone(state, "marriage_plan", `${person.name} ile evlilik kararını ve hazırlık bütçesini görüşmek üzere sözleştiniz.`);
-  } else if (id === "marriage_commitment") {
-    transact(state, -MARRIAGE_COST, "Ortak evlilik hazırlığı", "household");
-    if (choiceId === "wedding") {
-      transact(state, -14000, "Düğün salonu, yemek ve hazırlık", "household");
-      const gifts = state.player.background.social === "broad" ? 11000 : state.player.background.family === "supportive" ? 8500 : 6000;
-      transact(state, gifts, "Düğün takı ve zarf gelirleri", "household");
-      addMemory(state, `Düğün takıları ${gifts.toLocaleString("tr-TR")} oyun birimi getirdi; salon ve hazırlık giderleri ayrı işlendi.`, "important");
+  } else if (id === "household_families") {
+    const r = ensureWedding(state), views = familyMeetingContext(state);
+    Object.assign(r, { familiesMet: state.time.absoluteWeek, familyView: views.own, partnerFamilyView: views.partner, tradition: choiceId === "isteme" ? "isteme" : "informal" });
+    const cost = householdChoiceCost(state, id, choiceId);
+    if (cost) transact(state, -cost, "İsteme / söz ziyareti ikramı", "household");
+    const objection = views.own === "objection" || views.partner === "objection";
+    applyRelationshipDelta(state, person.id, { trust: 2, tension: objection ? 2 : -2 });
+    for (const familyId of ["anne", "baba"]) {
+      applyRelationshipDelta(state, familyId, { trust: 2, tension: objection ? 3 : -2 });
+      addNpcMemory(state, familyId, objection ? "Evlilik hazırlığını ve çekincelerimizi konuştuk; son karar çiftin." : "Evlilik hazırlıklarını ve destek sınırlarımızı konuştuk.", "marriage_families");
     }
+    milestone(state, "families_meet", `${person.name} ile ${choiceId === "isteme" ? "isteme/söz ziyareti" : "aile tanışması"} yaptınız. ${objection ? "Ailelerden çekince geldi; bu, evliliği veto etmez." : "Beklentiler ve maddi katkı sınırları konuşuldu."}`);
+  } else if (id === "marriage_discussion") {
+    const r = ensureWedding(state);
+    if (choiceId === "engage") {
+      transact(state, -householdChoiceCost(state, id, choiceId), "Söz ve nişan hazırlığı", "household");
+      r.engagedSince = state.time.absoluteWeek;
+      milestone(state, "engagement", `${person.name} ile evlilik teklifini karşılıklı kabul edip söz/nişan yaptınız; yüzük ve hazırlık bütçesi ayrıldı.`);
+      schedule(state, "engagement", 2);
+    } else {
+      milestone(state, "marriage_plan", `${person.name} ile sade evlilik teklifini karşılıklı kabul ettiniz; tören zorunlu değil.`);
+      schedule(state, "marriage", 4);
+    }
+  } else if (id === "engagement_preparation") {
+    const r = ensureWedding(state); r.prepared = true;
+    const cost = householdChoiceCost(state, id, choiceId);
+    if (cost) transact(state, -cost, "Nişan daveti ve hazırlık", "household");
+    applyRelationshipDelta(state, person.id, { trust: 2 });
+    milestone(state, "engagement_preparation", choiceId === "expanded" ? "Nişan için yakınları davet edip ek hazırlık bütçesi ayırdınız." : "Nişanı küçük tuttunuz; yüzük ve temel hazırlıkla yetindiniz, beklentilere birlikte sınır koydunuz.");
+    schedule(state, "marriage", 2);
+  } else if (id === "marriage_commitment") {
+    settleWeddingBudget(state, choiceId);
     state.household.union.marriedSince = state.time.absoluteWeek;
-    milestone(state, "marriage", `${person.name} ile evlendin.`);
+    milestone(state, "marriage", `${person.name} ile evlendin. ${state.household.union.cohabitingSince ? "Ortak bütçeniz sürüyor." : "Nikâh için önceden birlikte yaşamak gerekmedi; ortak ev planınız ayrıca yapılabilir."}`);
     applyRelationshipDelta(state, person.id, { trust: 4, tension: -3 });
     const secret = createSecret(state, { id: `marriage-${state.time.absoluteWeek}`, summary: "Evlilik kararınız", type: "household", knownBy: ["player", person.id], sourceEvent: id });
     schedule(state, "family", 3, { secretId: secret.id });
+    schedule(state, "honeymoon", 2);
+    if (living(state)) schedule(state, "adjustment", 8);
+  } else if (id === "household_honeymoon") {
+    const r = ensureWedding(state); r.honeymoon = state.time.absoluteWeek;
+    const cost = householdChoiceCost(state, id, choiceId);
+    if (cost) transact(state, -cost, "Kısa balayı", "household");
+    applyRelationshipDelta(state, person.id, { closeness: 2, tension: -2 });
+    milestone(state, "honeymoon", choiceId === "trip" ? "Bütçenize uygun kısa bir balayına çıktınız." : "Balayını uzakta aramadınız; evde birlikte sakin bir zaman ayırdınız.");
   }
+
 }
 
 export function canReconcile(state) {
@@ -267,6 +337,10 @@ export function canReconcile(state) {
 const option = (id, label) => ({ id, label, effects: {} });
 const definition = (id, title, text, condition, choices, cooldownWeeks = 24) => ({ id, title, text, condition, choices, repeat: "cooldown", cooldownWeeks, household: true, validateChoice: householdChoiceAvailability });
 export const HOUSEHOLD_EVENTS = [
+  definition("relationship_breakup", "İlişkinin geleceği", "Birlikte devam etmek istemiyorsan bunu açıkça söyleyebilirsin. Nişan evlilik değildir; ayrılık ortak geçmişi veya alınmış borcu silmez.", () => false, [option("later", "Şimdi karar verme"), option("end", "İlişkiyi bitir · bir aktivite")]),
+  definition("household_families", "Ailelerle aynı sofrada", "İsterseniz gündelik bir tanışma, isterseniz isteme/söz ziyareti yapın. Ailelerin desteği, çekincesi ve bütçesi farklı olabilir; karar ikinize ait. Aile onayı evliliğin şartı değildir.", () => false, [option("later", "Tanışmayı sonraya bırak"), option("informal", "Bir çay sofrasında tanışın"), option("isteme", "İsteme / söz ziyareti yapın")]),
+  definition("engagement_preparation", "Nişanı nasıl yapalım?", "Yüzük için bütçe ayırdınız. Kalabalık bir davet şart değil; çeyiz, yeni ev ve düğün için de kaynak gerekecek. Aile beklentilerini birbirinize yüklemeden konuşun.", () => false, [option("cancel", "Hazırlığı ertele"), option("modest", "Küçük tutalım; yeni eve kaynak kalsın"), option("expanded", "Yakınları davet edip hazırlığı genişletelim")]),
+  definition("household_honeymoon", "İkinize kalan zaman", "Evliliğin ilk haftalarında dinlenmek ve birlikte vakit geçirmek de bir ihtiyaç. Yolculuk zorunlu değil; yeni bütçenize göre karar verin.", () => false, [option("later", "Şimdi zaman ayıramıyoruz"), option("home", "Evde sakin birkaç gün geçirelim"), option("trip", "Kısa bir balayına çıkalım")]),
   definition("separation_discussion", "Bir süre ayrı yaşamak", "Çözülmemiş gerilim ortak hayatı zorluyor. Ayrı yaşamak evliliği kendiliğinden bitirmez. Mevcut ev sende kalır; partner katkısı sona erer.", (state) => canDiscussHousehold(state, "separation"), [option("later", "Şimdilik karar alma"), option("separate", "Ayrı yaşamaya başla · bir aktivite")]),
   definition("separation_review", "Ayrı geçen haftalardan sonra", "Evliliği sürdürmek veya bitirmek açık bir karar ister. Barışmak geçmişi silmez. Henüz hazır değilsen ayrı yaşamayı sürdürebilirsin.", () => false, [option("private", "Ayrı yaşamayı sürdür"), option("reconcile", "Ortak yaşama yeniden şans ver · bir aktivite"), option("divorce", "Boşanma kararını kesinleştir · bir aktivite")]),
   definition("family_intent_discussion", "Çocuk fikrine bakışınız", "İstek, zamanlama ve mevcut sorumluluklar aynı şey değil. Partnerinin bugünkü yanıtı ortak düzenin ve bütçenin hazır olup olmadığına bağlı; senin niyetin farklı olabilir.", (state) => canDiscussHousehold(state, "planning"), [option("later", "Şimdi konuşma"), ...Object.entries(FAMILY_INTENTS).map(([id, text]) => option(id, `${text} · bir aktivite`))]),
@@ -275,6 +349,6 @@ export const HOUSEHOLD_EVENTS = [
   definition("cohabitation_move", "Ortak ev kararı", "İki kişilik düzeni kuracağınız evi seçin. Taşınma masrafı bir kez, paylaşılan giderler ay sonunda işlenir.", () => false, [option("cancel", "Planı ertele"), option("shared", "Paylaşımlı ev · taşınma ₺2.400"), option("studio", "Stüdyo · taşınma ₺5.200")]),
   definition("household_adjustment", "Aynı ev, ayrı ihtiyaçlar", "Giderler, ev işleri ve kişisel alan için ortak zaman ayırmak gerekiyor. Bu görüşme iş, eğitim ve dinlenmeyle aynı haftalık zamanı kullanır.", () => false, [option("skip", "Bu hafta zaman ayıramıyorum"), option("coordinate", "Sorumlulukları konuş · bir aktivite"), option("separate_homes", "İlişkiyi sürdür, ayrı evlerde yaşa · bir aktivite")]),
   definition("household_family_visit", "Aile evine anlatmak", "Ortak yaşam kararınızı Anne'yle konuşabilir, beklentileri ve sınırları açıklayabilirsiniz. Paylaşmazsan kendiliğinden öğrenmez.", () => false, [option("private", "Şimdilik aramızda kalsın"), option("tell", "Anne'yle konuş · bir aktivite")]),
-  definition("marriage_discussion", "Evliliği konuşmak", "Ortak düzeniniz oturuyor. Evlilik ayrı bir karar; ilişkiyi bu biçimde sürdürmek de geçerli. İstersen önce söz/nişan yapıp ailelerle hazırlığı konuşabilirsin.", (state) => canDiscussHousehold(state, "marriage"), [option("later", "Mevcut ilişki biçimini sürdür"), option("plan", "Evliliği sade biçimde planla · bir aktivite"), option("engage", "Söz/nişan yap · hazırlık gideri 1.500 · bir aktivite")]),
-  definition("marriage_commitment", "Ortak karar", "Evliliğin biçimini birlikte seçin. Sade hazırlık 6.000; düğün ek 14.000. Düğün takıları gelir getirebilir ama gideri garanti karşılamaz.", () => false, [option("cancel", "Evliliği ertele"), option("confirm", "Sade evlilik · 6.000 · bir aktivite"), option("wedding", "Düğün yap · 20.000 brüt gider, takı geliri · bir aktivite")]),
+  definition("marriage_discussion", "Evliliği konuşmak", "Birbirinize güveniniz var. Evlilik ayrı bir karar; ilişkiyi bu biçimde sürdürmek de geçerli. İstersen önce söz/nişan yapıp ailelerle hazırlığı konuşabilirsin.", (state) => canDiscussHousehold(state, "marriage"), [option("later", "Mevcut ilişki biçimini sürdür"), option("plan", "Evliliği sade biçimde planla · bir aktivite"), option("engage", "Teklifi kabul edip söz/nişan yap · bir aktivite")]),
+  definition("marriage_commitment", "Ortak karar", "Nikâh, kutlama ve ortak ev ayrı tercihlerdir. Maliyet ve peşin ihtiyaç aşağıda dönem parasıyla gösterilir. Aile katkısı yalnız görüşülmüş destekten gelir; takı henüz harcanabilir gelir değildir.", () => false, [option("cancel", "Evliliği ertele"), option("confirm", "Sade nikâh · bir aktivite"), option("community", "Yakın çevreyle kutla · bir aktivite"), option("wedding", "Salon düğünü · bir aktivite"), option("financed", "İhtiyaç kredisiyle salon düğünü · iki aktivite")]),
 ];

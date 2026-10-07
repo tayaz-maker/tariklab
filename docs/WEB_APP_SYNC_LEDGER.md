@@ -672,3 +672,9 @@ General CI later exposed three stale inventory/count fixtures and a genuine migr
 - Body Engine, formulas, save schema and #139 economy sources unchanged. #135/#136 canonical shell, typography tokens and palette retained; no audio/native/Atlas changes.
 - Mapping, hidden-state invariance, selection/keyboard, actual app action equivalence, legacy/current save regressions and existing body gameplay: 37/37 PASS. Build and typecheck PASS. Existing targeted browser gate extended with all six regions, SVG keyboard selection, front/back, unchanged save and 1440/390/320 geometry checks.
 - Local Chromium download returned a truncated archive (INFRA); CI browser evidence required before closure. Production visual acceptance remains USER PENDING; final comprehensive mobile QA deferred.
+
+## 2026-10-07 — TC SIM Turkish life and marriage depth
+
+Baseline #140 main `f895560d62a360695f71a0d37e052cd9e898c269` and matching production READY verified. Existing relationship/household/parenthood systems audited DONE/PARTIAL/MISSING in `docs/tc-sim/TURKISH_LIFE_MARRIAGE_2026-10-07.md`.
+
+Optional family/isteme, delayed engagement preparation, civil/small/hall wedding alternatives, existing bank-funded wedding, actual quarter-gold gifts, honeymoon and yearly shared-budget reflection extend the existing household event chain. Existing consent/adult, protection budget and pending follow-up gates strengthened. Old saves do not receive invented marriage history. Economy and Body Engine sources, shell/style and other games unchanged. Targeted scenarios 45/45 PASS; full TC, build/typecheck and targeted browser gate required before release. USER VISUAL QA PENDING; no city/neighborhood wave.

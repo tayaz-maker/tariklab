@@ -1,5 +1,5 @@
 import { addMemory, addNpcMemory, appendCapped, adjustHealth, getWeeklyActivityLimit, transact } from "./state.js?v=10";
-import { getRelationship, applyRelationshipDelta } from "./social.js?v=10";
+import { getRelationship, applyRelationshipDelta, isAdultRomanceParticipant } from "./social.js?v=10";
 import { getMonthlySummary, relocateHome, getHomeById } from "./life.js?v=10";
 import { createSecret, transferSecret, isSecretKnownTo, resolveSecret } from "./depth2-systems.js?v=10";
 
@@ -131,7 +131,7 @@ export function planningAlignment(state) {
   return plan.intent === plan.response ? "Şimdilik bekleme konusunda ortak görüş" : "Niyet veya zamanlama farklı";
 }
 function familyContext(state) {
-  return Boolean(state.social.currentPartnerNpcId && state.household.union?.cohabitingSince && !state.household.union.separatedSince && state.household.union.familyPlan);
+  return Boolean(isAdultRomanceParticipant(state, state.social.currentPartnerNpcId) && state.social.currentPartnerNpcId && state.household.union?.cohabitingSince && !state.household.union.separatedSince && state.household.union.familyPlan);
 }
 export function canTryParenthood(state) {
   if (state.lifetime?.death) return false;
@@ -174,7 +174,7 @@ export function requestParentPlanning(state) { schedule(state, "planning", 1); }
 export function requestCareBudget(state) { schedule(state, "budget", 1); }
 /** A known, unplanned pregnancy uses the same preparation/birth chain as planned parenthood. */
 export function beginUnplannedPregnancy(state, otherParentId) {
-  if (state.parenthood.pregnancy || !state.people.some((person) => person.id === otherParentId)) return false;
+  if (state.parenthood.pregnancy || !isAdultRomanceParticipant(state, otherParentId)) return false;
   const pregnancy = {
     id: `pregnancy-${state.time.absoluteWeek}`,
     startWeek: state.time.absoluteWeek,

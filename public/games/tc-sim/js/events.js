@@ -1,6 +1,6 @@
 import { LIFETIME_EVENTS, resolveAdultChoice } from "./lifetime.js?v=10";
 import { PARENTING_EVENTS, resolveParentChoice, processParenthoodCases } from "./parenthood.js?v=10";
-import { HOUSEHOLD_EVENTS, resolveHouseholdChoice, processHouseholdCases, canDiscussHousehold, householdChoiceAvailability } from "./household.js?v=10";
+import { HOUSEHOLD_EVENTS, resolveHouseholdChoice, processHouseholdCases, canDiscussHousehold, householdChoiceAvailability, householdConversationAvailable } from "./household.js?v=10";
 import {
   addEventHistory,
   addCareerHistory,
@@ -1463,6 +1463,13 @@ function isEligible(state, definition) {
   )
     return false;
   return definition.condition(state);
+}
+
+export function requestHouseholdConversation(state, eventId) {
+  if (!householdConversationAvailable(state, eventId)) return { ok: false, message: "Bu görüşme için koşullar henüz uygun değil; açık kararını veya hazırlık süresini tamamla." };
+  enqueueEvent(state, eventId);
+  activateNextEvent(state);
+  return { ok: true, message: "Bu kararı birlikte konuşun." };
 }
 
 export function enqueueEvent(state, eventId, sourceCaseId = null) {

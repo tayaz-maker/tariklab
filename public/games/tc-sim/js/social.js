@@ -136,12 +136,20 @@ export function resolveSocialObligation(state, personId, success) {
   return true;
 }
 
+// Elif is the original authored adult peer; expanded cast members carry age.
+// An explicit underage/unknown imported character never inherits that fallback.
+export function isAdultRomanceParticipant(state, personId) {
+  const person = getPerson(state, personId);
+  const adult = person?.age === undefined ? personId === "elif" : Number.isFinite(person.age) && person.age >= 18;
+  return Boolean(state.player.age >= 18 && !state.lifetime?.death && person && !person.deceased && adult && person.roleId !== "family" && person.tags?.includes("romance_available"));
+}
+
 export function setRomanticInterest(state, personId) {
   const person = getPerson(state, personId);
-  if (!person || person.roleId === "family" || !person.tags.includes("romance_available"))
+  if (!isAdultRomanceParticipant(state, personId))
     return false;
   if (person.social.romanceStatus !== "none") return false;
-  if (state.household.history?.some((entry) => entry.kind === "divorce" && entry.personId === personId && state.time.absoluteWeek - entry.week < 24)) return false;
+  if (state.household.history?.some((entry) => ["divorce", "breakup"].includes(entry.kind) && entry.personId === personId && state.time.absoluteWeek - entry.week < 24)) return false;
   person.social.romanceStatus = "interest";
   addNpcMemory(state, personId, "Aramızdaki romantik ihtimali açıkça konuştuk.", "romance_started");
   addMemory(state, `${person.name} ile aranda romantik bir ilgi oluştu.`, "important");
@@ -153,6 +161,7 @@ export function canBecomePartner(state, personId) {
   const relationship = getRelationship(state, personId);
   if (!person || !relationship) return false;
   return (
+    isAdultRomanceParticipant(state, personId) &&
     !state.social.currentPartnerNpcId &&
     person.roleId !== "family" &&
     person.tags.includes("romance_available") &&

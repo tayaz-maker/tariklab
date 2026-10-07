@@ -1,5 +1,5 @@
 import { addMemory, addNpcMemory, adjustHealth, getWeeklyActivityLimit, transact } from "./state.js?v=10";
-import { applyRelationshipDelta, getPerson, getRelationship, markMeaningfulContact } from "./social.js?v=10";
+import { applyRelationshipDelta, getPerson, getRelationship, markMeaningfulContact, isAdultRomanceParticipant } from "./social.js?v=10";
 import { beginUnplannedPregnancy } from "./parenthood.js?v=10";
 
 const CHOICES = Object.freeze(["talk", "condom", "without_condom"]);
@@ -8,17 +8,18 @@ export function intimacyAvailability(state, choiceId) {
   if (!CHOICES.includes(choiceId)) return { ok: false, reason: "Geçersiz seçim." };
   if (state.lifetime?.death || state.events.active) return { ok: false, reason: "Önce açık olayı bitir." };
   const partnerId = state.social.currentPartnerNpcId;
-  const partner = getPerson(state, partnerId);
   const relationship = partnerId && getRelationship(state, partnerId);
   // The only romance-eligible authored character is Elif. Never infer adulthood
   // for arbitrary people imported by an old or modified save.
-  if (state.player.age < 18 || partnerId !== "elif" || !partner || partner.deceased)
+  if (!isAdultRomanceParticipant(state, partnerId) || partnerId !== "elif" || state.household.union?.separatedSince)
     return { ok: false, reason: "Bu seçenek yalnız yetişkin, karşılıklı rızaya dayalı ilişkide açılır." };
   if (relationship.romanceStatus !== "partner" || relationship.trust < 55 || relationship.tension > 40)
     return { ok: false, reason: "Önce güveni ve karşılıklı isteği konuşun." };
   if (state.weekly.used >= getWeeklyActivityLimit(state)) return { ok: false, reason: "Bu hafta zaman kalmadı." };
   if (state.weekly.selectedIds.some((id) => id.startsWith("intimacy:")))
     return { ok: false, reason: "Bu haftanın yakınlık kararı verildi." };
+  if (choiceId === "condom" && state.finances.balance < 120) return { ok: false, reason: "Korunma gideri için bütçe yetersiz; konuşma seçeneği ücretsiz." };
+  if (choiceId === "without_condom" && state.flags.intimacyFollowup) return { ok: false, reason: "Önce önceki yakınlığın takip görüşmesini tamamlayın." };
   return { ok: true };
 }
 

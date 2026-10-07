@@ -1,3 +1,4 @@
+import { marriageFixture } from "./tc-sim-marriage-fixture.mjs";
 // Prepared healthy-browser CI gate; local execution has not been claimed.
 import assert from "node:assert/strict";
 import { mkdirSync, writeFileSync } from "node:fs";
@@ -253,6 +254,36 @@ try {
     rows.push({ language, width, reduced, view, dashboardLayout, localizedControls, coldEntry, status: "PASS", cached, resources, offlineSaveFacts: saveFacts(offlineSaved), syntheticV1SaveFacts: saveFacts(migrated) });
     await context.close();
   }
+  // Isolated synthetic household save: UI entry, costs, real event dispatch and persistence.
+  {
+    const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+    const page = await context.newPage(), errors = [];
+    page.on("pageerror", error => errors.push(error.message));
+    await context.addInitScript(({state,key,origin}) => {
+      if (location.origin !== origin || localStorage.getItem("marriage-fixture-seeded")) return;
+      localStorage.setItem(key, JSON.stringify(state)); localStorage.setItem("tariklab::tc-sim:active", "1");
+      localStorage.setItem("tariklab.language", "tr");localStorage.setItem("marriage-fixture-seeded", "1");
+    }, {state:marriageFixture(),key,origin});
+    await page.goto(url, {waitUntil:"networkidle"});
+    await page.locator("#continue-game").click();
+    await page.locator('.side-nav [data-view="relationships"]').click();
+    await page.getByText("Evlilik bütçesini karşılaştır", {exact:true}).click();
+    assert.ok((await page.locator(".option-card").allTextContents()).some(text=>text.includes("toplam geri ödeme")));
+    await page.locator('[data-household-conversation="household_families"]').click();
+    assert.equal(await page.locator("#event-title").textContent(), "Ailelerle aynı sofrada");
+    await page.locator('[data-event-choice="informal"]').click();
+    const saved = await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
+    assert.ok(saved.household.wedding.familiesMet);
+    assert.equal(saved.household.union.marriedSince,null);
+    assert.ok(saved.weekly.selectedIds.includes("household:household_families"));
+    await page.reload({waitUntil:"networkidle"});await page.locator("#continue-game").click();
+    const loaded=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
+    assert.deepEqual(loaded.household.wedding,saved.household.wedding);
+    assert.deepEqual(errors,[]);
+    await page.screenshot({path:`${out}/marriage-interaction-1440.png`,fullPage:false});
+    rows.push({view:"marriage",width:1440,status:"PASS",familiesMet:saved.household.wedding.familiesMet});
+    await context.close();
+  }
   if (layoutBaseline) {
     const sample=rows.find(row=>row.language==="tr"&&row.width===1440&&!row.reduced&&row.view==="dashboard");
     assert.ok(sample,"matching candidate entry sample required");
@@ -263,5 +294,5 @@ try {
 finally {
   await browser?.close();
   if (server) await new Promise(done => server.close(done));
-  writeFileSync(`${out}/results.json`, JSON.stringify({ origin, fingerprints, layoutBaseline, layoutCostComparison, layoutMeasurements, controlMeasurements, shellMeasurements, status: failure ? "FAIL" : "PASS", failure, expectedCases: 22, rows, performance: "Candidate cold entry only; before/after comparison remains unmeasured." }, null, 2) + "\n");
+  writeFileSync(`${out}/results.json`, JSON.stringify({ origin, fingerprints, layoutBaseline, layoutCostComparison, layoutMeasurements, controlMeasurements, shellMeasurements, status: failure ? "FAIL" : "PASS", failure, expectedCases: 23, rows, performance: "Candidate cold entry only; before/after comparison remains unmeasured." }, null, 2) + "\n");
 }
