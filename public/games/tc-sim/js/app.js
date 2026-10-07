@@ -1,16 +1,17 @@
+import { gameDateLabel } from "./game-date.js?v=10";
 import { snapshotJobStart, buildJobStartOutcome } from "./job-start-outcome.js?v=10";
 import { renderJobStartOutcome, bindJobStartOutcome, jobOutcomeText } from "./job-start-outcome-ui.js?v=10";
 import { compactNavigation } from "../../shared/compact-navigation.js";
 import { arrangeLifeDesk } from "./desk.js?v=10";
 import { adultChildSummary, adultEventContext, continueGeneration } from "./lifetime.js?v=10";
 import {
-  LIFESTYLE_TIERS, SUBSCRIPTIONS, DURABLES, VEHICLES, INVESTMENTS, MARKET,
+  LIFESTYLE_TIERS, SUBSCRIPTIONS, DURABLES, VEHICLES, INVESTMENTS, MARKET, marketAvailableInYear,
   getWealthActionAvailability, applyWealthAction, netWorth, marketEffectText, durableBenefit, investmentPL, economyText,
 } from "./wealth.js?v=10";
 import { renderLifetimeTerminal, renderLineage } from "./lifetime-ui.js?v=10";
 import { parenthoodSummary } from "./parenthood.js?v=10";
 import { chooseIntimacy, intimacyAvailability } from "./intimacy.js?v=10";
-import { BUSINESS_TYPES, CREDIT_OFFERS, businessAvailability, closeBusiness, creditAvailability, repayCredit, startBusiness, takeCredit } from "./bank-business.js?v=10";
+import { BUSINESS_TYPES, CREDIT_OFFERS, creditOffer, businessAvailability, closeBusiness, creditAvailability, repayCredit, startBusiness, takeCredit } from "./bank-business.js?v=10";
 import { getHouseholdSummary } from "./household.js?v=10";
 import {
   WEEKS_PER_MONTH,
@@ -91,7 +92,7 @@ import { LIFE_ARC_LABELS, LIFE_DEPTH_EVENTS, economyCausality, refreshLifeArcs }
 import { DOMAIN_LABEL, STREAK_PAYOFF, decisionTags, weekPlan } from "./decision-network.js?v=10";
 import { actorVoiceLine } from "./life-content.js?v=10";
 import { chooseEightiesStartYear, HISTORICAL_END_DATE, resolveScenarioChoice } from "./historical-scenarios.js?v=10";
-import { ECONOMY_SOURCE, economyYear, formatPeriodMoney, periodEconomyNote } from "./period-economy.js?v=10";
+import { ECONOMY_SOURCE, economyYear, formatPeriodMoney, periodEconomyNote, periodContext, WAGE_HISTORY_SOURCE } from "./period-economy.js?v=10";
 
 const app = document.querySelector("#app");
 
@@ -139,17 +140,13 @@ function freshScenarioSeed() {
   return values[0] || (Date.now() >>> 0) || 1;
 }
 
-const money = (value) => state?.world?.scenario
-  ? formatPeriodMoney(value, economyYear(state))
-  : new Intl.NumberFormat("tr-TR", {
-    style: "currency", currency: "TRY", maximumFractionDigits: 0,
-  }).format(value);
+const money = (value) => formatPeriodMoney(value, economyYear(state), state?.time?.date);
 function periodText(value) {
   const raw = String(value);
-  if (!state?.world?.scenario) return raw;
-  return raw.replace(/₺\s?([\d.,]+)/g, (original, digits) => {
+  if (!state) return raw;
+  return raw.replace(/₺\s?(-?[\d.,]+)/g, (original, digits) => {
     const amount = Number(digits.replace(/\./g, "").replace(",", "."));
-    return Number.isFinite(amount) ? formatPeriodMoney(amount, economyYear(state)) : original;
+    return Number.isFinite(amount) ? formatPeriodMoney(amount, economyYear(state), state.time.date) : original;
   });
 }
 const escapeText = (value) =>
@@ -299,7 +296,7 @@ function startScreen(loadResult) {
               `<button class="button button-quiet slot-btn ${item.slot === active ? "is-current" : ""}" data-slot="${item.slot}">Slot ${item.slot}${item.empty ? " · boş" : ` · ${escapeText(item.name || "kayıt")}`}</button>`,
           )
           .join("")}</div>
-        ${loadResult.ok ? `<div class="continue-box"><strong>${escapeText(loadResult.state.player.name)} · ${loadResult.state.time.year}, ${loadResult.state.time.month}. ay</strong><button class="button button-primary" id="continue-game">Slot ${active} devam</button></div>` : `<p class="result">${escapeText(loadResult.message)}</p>`}
+        ${loadResult.ok ? `<div class="continue-box"><strong>${escapeText(loadResult.state.player.name)} · ${escapeText(gameDateLabel(loadResult.state))}</strong><button class="button button-primary" id="continue-game">Slot ${active} devam</button></div>` : `<p class="result">${escapeText(loadResult.message)}</p>`}
         <button class="button button-primary" type="button" id="show-creation-form">Hayatını Başlat</button>`;
   const formMarkup = `
         <p class="eyebrow">TC SIM</p>
@@ -605,7 +602,7 @@ function renderAgenda() {
     return `<p class="agenda-title">${escapeText(active.title)}</p><p>${escapeText(active.text)}</p><span class="agenda-status">Kararın bekleniyor</span>`;
   }
   if (notice) {
-    return `<p class="agenda-title">Son gelişme</p><p>${escapeText(notice)}</p><span class="agenda-status">${state.time.year} · ${state.time.month}. ay · ${state.time.weekOfMonth}. hafta</span>`;
+    return `<p class="agenda-title">Son gelişme</p><p>${escapeText(notice)}</p><span class="agenda-status">${escapeText(gameDateLabel(state))} · ${state.time.weekOfMonth}. hafta</span>`;
   }
   if (latestMemory) {
     return `<p class="agenda-title">Hayat kaydı</p><p>${escapeText(latestMemory.text)}</p><span class="agenda-status">${latestMemory.year}</span>`;
@@ -695,15 +692,13 @@ function renderDecisionTags(decisionId) {
 }
 
 function renderEconomyContext() {
-  if (!state.world.scenario) return "";
   const year = economyYear(state);
   const observed = Math.min(2025, year);
-  const job = getJobById(state.career.jobId);
-  const home = getHomeById(state.household.homeId);
+  const monthly = getMonthlySummary(state);
   return `<section class="panel period-economy" aria-label="Dönem ekonomisi">
-    <div><p class="eyebrow">DÖNEM EKONOMİSİ · ${year}</p><h2>Paranın o yıldaki yüzü</h2><p>${escapeText(periodEconomyNote(year))}</p></div>
-    <dl><div><dt>İş geliri</dt><dd>${money(job?.salary || 0)}</dd></div><div><dt>Konut gideri</dt><dd>${money(home.monthlyCost)}</dd></div><div><dt>Haftalık temel sepet</dt><dd>${money(MARKET.grocery.cost)}</dd></div></dl>
-    <p class="economy-source">${observed} yıllık TÜFE · <a href="${ECONOMY_SOURCE.cpi}" target="_blank" rel="noopener noreferrer">endeks kaynağı</a> · <a href="${ECONOMY_SOURCE.wage}" target="_blank" rel="noopener noreferrer">2025 ücret kalibrasyonu</a> · <a href="${ECONOMY_SOURCE.redenomination}" target="_blank" rel="noopener noreferrer">TL/YTL değişimi</a></p>
+    <div><p class="eyebrow">DÖNEM EKONOMİSİ · ${year}</p><h2>Paranın o yıldaki yüzü</h2><p>${escapeText(periodContext(state).label)}</p></div>
+    <dl><div><dt>İş geliri</dt><dd>${money(monthly.income)}</dd></div><div><dt>Konut gideri</dt><dd>${money(monthly.housing)}</dd></div><div><dt>Ek gıda alışverişi</dt><dd>${money(MARKET.grocery.cost)}</dd></div></dl>
+    <details><summary>Ekonomi ve takvim nasıl çalışır?</summary><p>${escapeText(periodEconomyNote(year))} Ayda dört karar haftası vardır; son hafta ayın kalan günlerini kapsar. Temel tüketim aylık bütçeye dahildir. Market ek harcamadır. Doğum tarihin: ${escapeText(state.player.birthDate)}.</p><p class="economy-source">${observed} yıllık TÜFE · <a href="${ECONOMY_SOURCE.cpi}" target="_blank" rel="noopener noreferrer">endeks kaynağı</a> · <a href="${WAGE_HISTORY_SOURCE}" target="_blank" rel="noopener noreferrer">dönem ücret serisi</a> · <a href="${ECONOMY_SOURCE.redenomination}" target="_blank" rel="noopener noreferrer">TL/YTL değişimi</a></p></details>
   </section>`;
 }
 
@@ -948,11 +943,12 @@ function renderFinance() {
       )
       .join("")}</div></section>
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">TÜKETİM</p><h2>Market</h2></div><span>ayrı ekran</span></div><p class="context-note">Günlük harcama, gece hayatı, hediye ve riskli alışveriş MARKET ekranında.</p><button class="button button-quiet" data-view="market">Market'e geç</button></section>
-    <section class="panel bank-panel"><div class="panel-head"><div><p class="eyebrow">BANKA</p><h2>Kredi ve geri ödeme</h2></div></div><p class="context-note">Kredi gelir değildir: bugün nakit verir, gelecek aylara zorunlu ödeme yazar. Tutar ve toplam geri ödeme oyun içi varsayımdır; tarihsel banka teklifi değildir.</p><div class="wealth-grid">${Object.entries(CREDIT_OFFERS).map(([id, offer]) => { const check = creditAvailability(state, id); return `<button class="button decision" data-credit="${id}" ${check.ok ? "" : "disabled"} title="${escapeText(check.reason || "")}"><strong>${escapeText(offer.label)}</strong><small>Bugün ${money(offer.cash)} · ${offer.months} ay × ${money(Math.ceil(offer.total / offer.months))} · toplam ${money(offer.total)}${check.reason ? ` · ${escapeText(check.reason)}` : ""}</small></button>`; }).join("")}</div><button class="button button-quiet" data-repay-credit="1" ${state.wealth.debts.some((debt) => debt.type === "personal") ? "" : "disabled"}>İhtiyaç kredisini erken kapat</button></section>
-    <section class="panel business-panel"><div class="panel-head"><div><p class="eyebrow">KENDİ İŞİN</p><h2>Küçük işletme kur</h2></div></div><p class="context-note">Sektör döneme göre açılır. Geçmişteki bir sektörün popüler olması garanti kazanç değildir; aylık ciro, gider, yorgunluk ve zarar ihtimali birlikte işler.</p>${state.flags.business ? `<p class="open-case"><b>${escapeText(BUSINESS_TYPES[state.flags.business.id]?.label || "İşletme")}</b><span>${state.flags.business.months} ay açık · ay sonunda kâr veya zarar</span></p><button class="button button-quiet" data-close-business="1">İşletmeyi kapat</button>` : `<div class="wealth-grid">${Object.entries(BUSINESS_TYPES).map(([id, type]) => { const check = businessAvailability(state, id); return `<button class="button decision" data-business="${id}" ${check.ok ? "" : "disabled"} title="${escapeText(check.reason || "")}"><strong>${escapeText(type.label)}</strong><small>${type.since} sonrası · kuruluş ${money(type.startup)} · aylık sonuç değişken${check.reason ? ` · ${escapeText(check.reason)}` : ""}</small></button>`; }).join("")}</div>`}</section>
+    <section class="panel bank-panel"><div class="panel-head"><div><p class="eyebrow">BANKA</p><h2>Kredi ve geri ödeme</h2></div></div><p class="context-note">Kredi gelir değildir: bugün nakit verir, gelecek aylara zorunlu ödeme yazar. Tutar ve toplam geri ödeme oyun içi varsayımdır; tarihsel banka teklifi değildir.</p><div class="wealth-grid">${Object.keys(CREDIT_OFFERS).map((id) => { const offer = creditOffer(state, id); const check = creditAvailability(state, id); return `<button class="button decision" data-credit="${id}" ${check.ok ? "" : "disabled"} title="${escapeText(check.reason || "")}"><strong>${escapeText(offer.label)}</strong><small>Bugün ${money(offer.cash)} · ${offer.months} ay × ${money(Math.ceil(offer.total / offer.months))} · toplam ${money(offer.total)}${check.reason ? ` · ${escapeText(check.reason)}` : ""}</small></button>`; }).join("")}</div><button class="button button-quiet" data-repay-credit="1" ${state.wealth.debts.some((debt) => debt.type === "personal") ? "" : "disabled"}>İhtiyaç kredisini erken kapat</button></section>
+    <section class="panel business-panel"><div class="panel-head"><div><p class="eyebrow">KENDİ İŞİN</p><h2>Küçük işletme kur</h2></div></div><p class="context-note">Sektör döneme göre açılır. Geçmişteki bir sektörün popüler olması garanti kazanç değildir; aylık ciro, gider, yorgunluk ve zarar ihtimali birlikte işler.</p>${state.flags.business ? `<p class="open-case"><b>${escapeText(BUSINESS_TYPES[state.flags.business.id]?.label || "İşletme")}</b><span>${state.flags.business.months} ay açık · ay sonunda kâr veya zarar</span></p><button class="button button-quiet" data-close-business="1">İşletmeyi kapat</button>` : `<div class="wealth-grid">${Object.entries(BUSINESS_TYPES).filter(([, type]) => economyYear(state) >= type.since).map(([id, type]) => { const check = businessAvailability(state, id); return `<button class="button decision" data-business="${id}" ${check.ok ? "" : "disabled"} title="${escapeText(check.reason || "")}"><strong>${escapeText(type.label)}</strong><small>${type.since} sonrası · kuruluş ${money(type.startup)} · aylık sonuç değişken${check.reason ? ` · ${escapeText(check.reason)}` : ""}</small></button>`; }).join("")}</div>`}</section>
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">ABONELİKLER</p><h2>Düzenli hizmetler</h2></div><span>${state.wealth.subscriptions.length}</span></div><div class="wealth-grid">${Object.entries(
       SUBSCRIPTIONS,
     )
+      .filter(([id, item]) => marketAvailableInYear(state, item) || state.wealth.subscriptions.some(x => x.id === id))
       .map(([id, item]) => {
         const active = state.wealth.subscriptions.some((x) => x.id === id);
         return wealthButton(
@@ -1005,12 +1001,13 @@ function renderMarket() {
   };
   const groups = {};
   for (const [id, item] of Object.entries(MARKET)) {
+    if (!marketAvailableInYear(state, item)) continue;
     const cat = item.category || "Diğer";
     if (!groups[cat]) groups[cat] = [];
     groups[cat].push([id, item]);
   }
   return `<div class="workspace-head"><div><p class="eyebrow">MARKET</p><h1>Ürün, hizmet ve deneyim</h1></div>${renderWeekControl()}</div>
-    <p class="context-note">Tüketim burada. Finans yalnız kasa, borç ve yatırımdır. Riskli alışveriş yasal market gibi durmaz.</p>
+    <p class="context-note">${escapeText(periodContext(state).label)}. Temel yaşam gideri aylık bütçede; buradaki alışverişler ek tüketimdir.</p>
     ${Object.entries(groups)
       .map(
         ([cat, rows]) =>
@@ -1181,7 +1178,7 @@ function renderCharacter() {
   return `<div class="workspace-head"><div><p class="eyebrow">BEN</p><h1>${escapeText(state.player.name)}</h1></div>${renderWeekControl()}</div>
     <section class="detail-summary panel">
       <div><span>Yaş</span><strong>${state.player.age}</strong><small>${escapeText(state.player.profile)}</small></div>
-      <div><span>Tarih</span><strong>${state.time.year} · ${state.time.month}. ay</strong><small>H${state.time.weekOfMonth} · ${escapeText(getEraById(state.world.eraId).title)}</small></div>
+      <div><span>Tarih</span><strong>${escapeText(gameDateLabel(state))}</strong><small>H${state.time.weekOfMonth} · ${escapeText(getEraById(state.world.eraId).title)}</small></div>
       <div><span>Şehir</span><strong>${escapeText(state.player.city)}</strong></div>
       <div><span>Yaşam yeri</span><strong>${escapeText(home.title)}</strong><small>${home.id === "family" ? "Aileyle birlikte" : "Ayrı yaşıyor"}</small></div>
     </section>
@@ -1340,7 +1337,7 @@ function render() {
     <main class="game-frame">
       <header class="game-topbar">
         <div class="game-brand"><strong>TC SIM</strong><span>Bir hayat, bin küçük karar</span></div>
-        <div class="top-meta"><span><b>${escapeText(state.player.name)}</b> · ${state.player.age}</span><span>${state.time.year} / ${state.time.month}. ay / H${state.time.weekOfMonth}</span><span class="top-money">${money(state.finances.balance)}</span></div>
+        <div class="top-meta"><span><b>${escapeText(state.player.name)}</b> · ${state.player.age}</span><span>${escapeText(gameDateLabel(state))} · H${state.time.weekOfMonth}</span><span class="top-money">${money(state.finances.balance)}</span></div>
         <nav class="top-shortcuts" aria-label="Hızlı erişim"><button class="button button-quiet" data-view="inbox"${activeView === "inbox" ? ' aria-current="page"' : ""}>Gelen kutusu <b>${getPlayerVisibleOpenCases(state).filter((item) => item.status !== "resolved").length}</b></button><button class="button button-quiet" data-view="calendar"${activeView === "calendar" ? ' aria-current="page"' : ""}>Takvim</button><button class="button button-quiet" data-view="finance"${activeView === "finance" ? ' aria-current="page"' : ""}>Banka</button><button class="button button-quiet" data-view="relationships"${activeView === "relationships" ? ' aria-current="page"' : ""}>İlişkiler</button><button class="button button-quiet" data-view="body"${activeView === "body" ? ' aria-current="page"' : ""}>Beden</button></nav>
         <div class="save-area"><span class="save-status" role="status">${escapeText(saveStatus)}</span><span class="slot-mini">Slot ${getActiveSlot(localStorage)}</span><button class="button button-quiet" id="help-open" aria-haspopup="dialog">? Nasıl Oynanır</button><button class="button button-quiet" id="save-game">Kaydet</button><button class="button button-quiet" id="main-menu">Ana Menü</button><button class="button button-quiet button-danger" id="new-game">Yeni oyun</button></div>
       </header>

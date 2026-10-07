@@ -1,3 +1,4 @@
+import { syncGameDate } from "./game-date.js?v=10";
 import { processLifetimeWeek } from "./lifetime.js?v=10";
 import {
   needsParentCare,
@@ -548,7 +549,9 @@ export function advanceWeek(state) {
     return { ok: false, messages: ["Önce dönem kararını ver."] };
   if (state.events.active) return { ok: false, messages: ["Önce açık olayı sonuçlandır."] };
   const messages = [];
+  syncGameDate(state);
   const previousYear = state.time.year;
+  const previousMonth = state.time.month;
   const workedOvertime = state.flags.overtimeLastWeek === state.time.absoluteWeek;
 
   processParenthoodWeek(state);
@@ -561,23 +564,16 @@ export function advanceWeek(state) {
   state.time.absoluteWeek += 1;
   const intimacyResult = processIntimacyFollowup(state);
   if (intimacyResult) messages.push(intimacyResult);
-  messages.push(...processScenarioWeek(state));
-  if (Number.isInteger(state.lifetime?.bornWeek))
-    state.player.age = Math.floor((state.time.absoluteWeek - state.lifetime.bornWeek) / 48);
-  state.time.weekOfMonth += 1;
-  if (state.time.weekOfMonth > WEEKS_PER_MONTH) {
-    state.time.weekOfMonth = 1;
-    state.time.month += 1;
+  syncGameDate(state);
+  if (state.time.month !== previousMonth || state.time.year !== previousYear) {
     messages.push(processMonthEnd(state));
-    if (state.time.month > MONTHS_PER_YEAR) {
-      state.time.month = 1;
-      state.time.year += 1;
-      if (!Number.isInteger(state.lifetime?.bornWeek)) state.player.age += 1;
+    if (state.time.year !== previousYear) {
       closeYear(state, previousYear);
       state.yearlyPlan = { year: state.time.year, priorities: [], progress: {} };
-      messages.push(`${previousYear} yılı tamamlandı; yaşın ${state.player.age} oldu.`);
+      messages.push(`${previousYear} yılı tamamlandı; yaşın ${state.player.age}.`);
     }
   }
+  messages.push(...processScenarioWeek(state));
   // Olay veya haftalık karar ay kapanışını beklemeden tabanın altına indirdiyse
   // aynı güvenli temerrüt dönüşümünü uygula. Ay sonunda ikinci çağrı no-op'tur.
   processCashShortfall(state);

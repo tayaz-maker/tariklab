@@ -69,7 +69,7 @@ export const PRIVACY_CONTEXT =
 
 export const getMonthlyEmploymentIncome = (state) => getJobById(state.career.jobId)?.salary || 0;
 export function getCostOfLivingIndex(state) {
-  const years = Math.max(0, Math.floor((state.time?.absoluteWeek || 0) / 52));
+  const years = Math.max(0, (state.time?.year || 2027) - (state.meta?.startYear || state.time?.year || 2027));
   return Math.min(1.5, 1 + years * 0.04);
 }
 

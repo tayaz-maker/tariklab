@@ -53,6 +53,7 @@ test("market goods belong to their era and a later phone replaces an earlier pho
   assert.equal(spendLifestyle(state, "feature_phone").ok, true);
   assert.equal(state.wealth.durables.filter((item) => item.id === "phone").length, 1);
   state.time.year = 2010;
+  state.time.date = "2010-04-18";
   state.weekly = { used: 0, selectedIds: [] };
   assert.equal(getWealthActionAvailability(state, "spend", "new_phone").ok, true);
   assert.equal(spendLifestyle(state, "new_phone").ok, true);

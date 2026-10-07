@@ -1,3 +1,4 @@
+import { dateAtWeek, syncGameDate } from "./game-date.js?v=10";
 const clamp = (value, min = 0, max = 100) => Math.min(max, Math.max(min, Number(value) || 0));
 
 export const HISTORICAL_END_DATE = "2030-01-01";
@@ -14,6 +15,7 @@ export const HISTORICAL_SOURCES = {
 export const HISTORICAL_STARTS = [
   { id: "present_day", title: "Günümüz", startDate: null, endDate: null, playable: true },
   { id: "1999-04-18", title: "18 Nisan 1999", startDate: "1999-04-18", endDate: HISTORICAL_END_DATE, playable: true, seedRequired: false },
+  { id: "2017-04-18", title: "18 Nisan 2017", startDate: "2017-04-18", endDate: "2030-01-01", playable: true, seedRequired: false },
   { id: "1980s", title: "1980'lerden rastgele başlangıç", startDate: null, endDate: HISTORICAL_END_DATE, playable: true, seedRequired: true },
 ];
 
@@ -77,6 +79,12 @@ const PACKS = {
   },
 };
 
+PACKS["2017-04-18"] = {
+  title: "18 Nisan 2017 — yetişkinliğe ilk adım",
+  atmosphere: "18 yaşındasın. İş, eğitim ve ilk birikim kararların değişen bir dünyada ilerler.",
+  events: [[2017, "İlk bağımsız bütçe", "Gelirin, yaşam giderlerin ve eğitim planın arasında sürdürülebilir bir denge kur.", "life"], ...PACKS["1999-04-18"].events.filter(event => event[0] >= 2018)],
+};
+
 export function normalizeSeed(value) {
   const parsed = typeof value === "number" ? value : Number.parseInt(String(value), 10);
   return Number.isFinite(parsed) ? (parsed >>> 0) || 1 : 1;
@@ -92,8 +100,8 @@ export function chooseEightiesStartYear(seed) {
 export function createScenario(eraId, seed = 1) {
   if (eraId === "present_day" || !eraId) return null;
   const normalizedSeed = normalizeSeed(seed);
-  const startDate = eraId === "1980s" ? `${chooseEightiesStartYear(normalizedSeed)}-01-01` : "1999-04-18";
-  const packId = eraId === "1980s" ? "1980s" : "1999-04-18";
+  const startDate = eraId === "1980s" ? `${chooseEightiesStartYear(normalizedSeed)}-01-01` : eraId === "2017-04-18" ? "2017-04-18" : "1999-04-18";
+  const packId = eraId === "1980s" ? "1980s" : startDate;
   const scenario = {
     version: HISTORICAL_SCENARIO_VERSION,
     id: packId,
@@ -130,14 +138,10 @@ export function upgradeScenarioTo2030(state) {
   return true;
 }
 
-function weekForYear(scenario, year) {
-  return Math.max(1, (year - scenario.startYear) * 48 + 1);
-}
-
 export function scenarioAtWeek(scenario, week) {
   if (!scenario || scenario.completed) return null;
   const event = scenario.pack.events[scenario.eventCursor];
-  if (!event || week < weekForYear(scenario, event[0])) return null;
+  if (!event || Number((scenario.currentDate || dateAtWeek(scenario.startDate, week - 1)).slice(0, 4)) < event[0]) return null;
   const [year, title, body] = event;
   const [, , , kind, sourceIds = []] = event;
   return { id: `${scenario.id}-${year}-${scenario.eventCursor}`, year, title, body, kind, sourceIds, sources: sourceIds.map((id) => HISTORICAL_SOURCES[id]), choices: choices(), eventIndex: scenario.eventCursor };
@@ -180,6 +184,11 @@ export function processScenarioWeek(state) {
   const scenario = state?.world?.scenario;
   if (!scenario) return [];
   const messages = [];
+  if (!state.time.dateOrigin) {
+    state.time.dateOrigin = scenario.startDate;
+    state.time.dateOriginWeek = 1;
+  }
+  syncGameDate(state);
   for (const item of scenario.delayedEffects) {
     if (!item.applied && item.dueWeek <= state.time.absoluteWeek) {
       // Echoes are smaller than the original decision and remain deterministic.
@@ -189,9 +198,7 @@ export function processScenarioWeek(state) {
     }
   }
   if (!scenario.pendingEvent && !scenario.completed) scenario.pendingEvent = scenarioAtWeek(scenario, state.time.absoluteWeek);
-  const totalWeeks = Math.ceil((Date.parse(`${scenario.endDate}T00:00:00Z`) - Date.parse(`${scenario.startDate}T00:00:00Z`)) / (365.2425 * 86400000) * 48);
-  const elapsed = state.time.absoluteWeek - 1;
-  if (elapsed >= totalWeeks) {
+  if (state.time.date >= scenario.endDate) {
     for (const item of scenario.delayedEffects) {
       if (item.applied) continue;
       applyEffect(state, Object.fromEntries(Object.entries(item.effect).map(([key, value]) => [key, Math.trunc(value / 2)])));
@@ -206,10 +213,6 @@ export function processScenarioWeek(state) {
     state.time.year = 2030;
     if (state.yearlyPlan) state.yearlyPlan.year = 2030;
     messages.push("1 Ocak 2030: yaşam rotası tamamlandı. 2026 sonrası kurgu senaryodur.");
-  } else {
-    const start = Date.parse(`${scenario.startDate}T00:00:00Z`);
-    const end = Date.parse(`${scenario.endDate}T00:00:00Z`);
-    scenario.currentDate = new Date(start + (end - start) * (elapsed / totalWeeks)).toISOString().slice(0, 10);
   }
   return messages;
 }

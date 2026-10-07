@@ -3,6 +3,7 @@ export const PRESENT_DAY_ERA_ID = "present_day";
 export const ERAS = [
   { id: PRESENT_DAY_ERA_ID, title: "Günümüz", playable: true },
   { id: "1999-04-18", title: "18 Nisan 1999", playable: true },
+  { id: "2017-04-18", title: "18 Nisan 2017", startDate: "2017-04-18", endDate: "2030-01-01", playable: true, seedRequired: false },
   { id: "1980s", title: "1980'lerden rastgele başlangıç", playable: true },
 ];
 
