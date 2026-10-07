@@ -87,7 +87,7 @@ export function startBusiness(state, id) {
   if (!check.ok) return check;
   const type = BUSINESS_TYPES[id];
   transact(state, -type.startup, `${type.label} kuruluş ve ekipman`, "business");
-  state.flags.business = { id, startedWeek: state.time.absoluteWeek, lastMonth: -1, months: 0 };
+  state.flags.business = { id, startedWeek: state.time.absoluteWeek, lastMonth: -1, months: 0, level: 1, employees: 0, debt: 0, invested: type.startup, lossMonths: 0 };
   recordWeek(state, `business:start:${id}`);
   addMemory(state, `${type.label} açıldı. Kazanç garanti değil; aylık gider ve emek gerektiriyor.`, "important");
   return { ok: true, message: `${type.label} açıldı. İlk ay sonunda ciro ve gider sonucu görülecek.` };
@@ -99,7 +99,8 @@ export function closeBusiness(state) {
   if (usedWeek(state)) return { ok: false, reason: "Bu hafta zaman kalmadı." };
   const type = BUSINESS_TYPES[business.id];
   if (!type) return { ok: false, reason: "Eski kayıttaki işletme türü tanınmıyor; kayıt değiştirilmedi." };
-  const sale = Math.round(type.startup * 0.25);
+  normalizeBusiness(state);
+  const sale = Math.round(business.invested * 0.25) - business.debt;
   transact(state, sale, `${type.label} ikinci el ekipman satışı`, "business");
   delete state.flags.business;
   recordWeek(state, "business:close");
@@ -109,6 +110,7 @@ export function closeBusiness(state) {
 export function processBusinessMonth(state) {
   const business = state.flags.business;
   if (!business || !BUSINESS_TYPES[business.id]) return "";
+  normalizeBusiness(state);
   const month = state.time.year * 12 + state.time.month;
   if (business.lastMonth === month) return "";
   business.lastMonth = month;
@@ -126,11 +128,69 @@ export function processBusinessMonth(state) {
   const strain = state.health.energy < 30 ? 0.25 : 0;
   const debtPressure = state.finances.arrears > 0 ? 0.2 : 0;
   const ramp = business.months <= 3 ? 0.2 : 0;
-  const revenue = Math.max(0, Math.round(type.monthly * (demand + cycle + skill - strain - ramp)));
-  const expenses = Math.round(type.monthly * (0.75 + debtPressure));
+  const capacity = 2 ** (business.level - 1);
+  const staffing = Math.min(1, (business.employees + 1) / capacity);
+  const competition = Math.min(.25, (business.level - 1) * .025);
+  const crisis = [2001,2009,2018,2020].includes(context.year) ? .2 : 0;
+  const revenue = Math.max(0, Math.round((type.monthly * capacity + business.employees * 16000) * (demand + cycle + skill - strain - ramp - competition - crisis) * staffing));
+  const supply = Math.round(revenue * .25);
+  const wages = business.employees * 9000;
+  const rent = Math.round(type.monthly * .25 * capacity ** .8);
+  const operations = Math.round(type.monthly * (.25 + debtPressure) * capacity);
+  const interest = Math.ceil(business.debt * (.01 + context.uncertainty * .04));
+  const principal = Math.min(business.debt, Math.ceil(business.debt / (business.restructured ? 48 : 24)));
+  const tax = Math.round(Math.max(0, revenue-supply-wages-rent-operations-interest)*.2);
+  const expenses = supply+wages+rent+operations+interest+principal+tax;
+  business.debt -= principal;
   const net = revenue - expenses;
-  business.lastResult = { date: state.time.date, revenue, expenses, net };
+  business.lastResult = { date: state.time.date, revenue, expenses, net, supply, wages, rent, operations, interest, principal, tax };
+  business.lossMonths = net < 0 ? business.lossMonths + 1 : 0;
   transact(state, net, `${type.label} aylık ciro eksi gider`, "business");
+  if (business.lossMonths >= 6 && state.finances.balance < -5000) {
+    const liquidation = Math.round(business.invested*.15)-business.debt;
+    transact(state,liquidation,`${type.label} iflas tasfiyesi (borç dahil)`,"business");
+    state.flags.lastBusinessOutcome = {date:state.time.date,outcome:"bankrupt",id:business.id};
+    delete state.flags.business;
+    addMemory(state,`${type.label} altı zarar ayından sonra iflas etti; kalan borç kişisel bütçede.`,"important");
+  }
   adjustHealth(state, { energy: -type.effort, stress: net < 0 ? 4 : 1 });
   return `${type.label}: bu ay ${net >= 0 ? "net kazanç" : "net zarar"} ${formatPeriodMoney(Math.abs(net), economyYear(state), state.time.date)}.`;
+}
+
+
+export function normalizeBusiness(state) {
+ const b=state.flags.business;if(!b||!BUSINESS_TYPES[b.id])return null;
+ b.level=Number.isInteger(b.level)?Math.max(1,Math.min(10,b.level)):1;
+ b.employees=Number.isInteger(b.employees)?Math.max(0,Math.min(512,b.employees)):0;
+ for(const key of ['debt','lossMonths']) b[key]=Number.isFinite(b[key])?Math.max(0,b[key]):0;
+ b.invested=Number.isFinite(b.invested)?Math.max(0,b.invested):BUSINESS_TYPES[b.id].startup;
+ return b;
+}
+export function manageBusiness(state,action) {
+ const b=normalizeBusiness(state);
+ if(!b||state.lifetime?.death||state.events.active||usedWeek(state))return {ok:false,reason:'İşletme veya haftalık zaman uygun değil.'};
+ const type=BUSINESS_TYPES[b.id], capacity=2**(b.level-1);
+ if(action==='expand'){
+  const cost=type.startup*capacity;
+  if(b.level>=10||state.finances.balance<cost||b.lossMonths>=3)return {ok:false,reason:'Büyüme için sermaye ve sürdürülebilir nakit akışı gerekiyor.'};
+  transact(state,-cost,'İşletme kapasite yatırımı','business');b.invested+=cost;b.level++;
+ }else if(action==='hire'){
+  if(b.employees>=capacity-1||state.finances.balance<9000)return {ok:false,reason:'Boş kapasite ve bir aylık ücret karşılığı gerekir.'};
+  transact(state,-9000,'Çalışan işe alım ve eğitim','business');b.employees++;
+ }else if(action==='shrink'){
+  if(b.level<=1)return {ok:false,reason:'İşletme zaten en küçük ölçekte.'};
+  const equipment=type.startup*2**(b.level-2);b.level--;
+  const excess=Math.max(0,b.employees-(2**(b.level-1)-1));b.employees-=excess;
+  b.invested=Math.max(type.startup,b.invested-equipment);
+  const proceeds=Math.round(equipment*.25), repayment=Math.min(b.debt,proceeds);b.debt-=repayment;
+  transact(state,proceeds-repayment-excess*9000,'Küçülme: ekipman satışı, borç ve çalışan ayrılış maliyeti','business');
+ }else if(action==='loan'){
+  if(b.debt>0||b.months<3||b.lastResult?.net<=0||!b.lastResult)return {ok:false,reason:'İşletme kredisi için üç ay, kâr ve kapalı eski kredi gerekir.'};
+  const amount=Math.floor(b.invested*.10);b.debt=amount;b.restructured=false;transact(state,amount,'İşletme kredisi anaparası','business');
+ }else if(action==='restructure'){
+  if(!b.debt||b.restructured)return {ok:false,reason:'Yapılandırılabilir borç yok; aynı borç bir kez yapılandırılabilir.'};
+  b.debt=Math.ceil(b.debt*1.08);b.restructured=true;
+ }else return {ok:false,reason:'İşlem tanınmadı.'};
+ recordWeek(state,`business:${action}`);
+ return {ok:true,message:'İşletme kararı uygulandı; giderler aylık sonuçta izlenebilir.'};
 }

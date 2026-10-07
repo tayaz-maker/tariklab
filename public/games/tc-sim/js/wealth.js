@@ -1,3 +1,4 @@
+import { normalizeExchange, exchangePortfolio } from './exchange.js?v=10';
 import { economyYear } from "./period-economy.js?v=10";
 const TIERS = {
   modest: { label: "Mütevazı", monthly: 0 },
@@ -276,6 +277,7 @@ export function neutralWealth() {
     properties: [],
     debts: [],
     investments: [],
+    exchange: normalizeExchange(),
     cooldowns: {},
     lastProcessedMonth: null,
   };
@@ -371,6 +373,7 @@ export function normalizeWealth(state) {
     properties,
     debts,
     investments,
+    exchange: normalizeExchange(raw.exchange),
     cooldowns:
       raw.cooldowns && typeof raw.cooldowns === "object" && !Array.isArray(raw.cooldowns)
         ? Object.fromEntries(Object.entries(raw.cooldowns).filter(([, v]) => Number.isInteger(v)))
@@ -845,7 +848,7 @@ export function processWealthMonthEnd(state) {
 export function netWorth(state) {
   const w = normalizeWealth(state),
     cash = Math.round(state.finances.balance),
-    investments = w.investments.reduce((n, p) => n + p.value, 0),
+    investments = w.investments.reduce((n, p) => n + p.value, 0) + exchangePortfolio(state).reduce((n,p)=>n+p.value,0),
     property = w.properties.reduce((n, p) => n + p.currentValue, 0),
     vehicle = w.vehicle ? w.vehicle.currentValue : 0,
     durables = w.durables.reduce((n, d) => n + Math.round(d.price * DURABLES[d.id].resale), 0),
@@ -857,7 +860,8 @@ export function netWorth(state) {
     vehicle,
     durables,
     debt,
-    total: cash + investments + property + vehicle + durables - debt,
+    business: Math.round((state.flags?.business?.invested || 0)*.25) - (state.flags?.business?.debt || 0),
+    total: cash + investments + property + vehicle + durables - debt + Math.round((state.flags?.business?.invested || 0)*.25) - (state.flags?.business?.debt || 0),
   };
 }
 
