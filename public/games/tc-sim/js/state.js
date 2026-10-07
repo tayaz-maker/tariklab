@@ -1,3 +1,4 @@
+import { syncGameDate } from "./game-date.js?v=10";
 import { normalizeLifetime, validateLifetime } from "./lifetime.js?v=10";
 import { neutralWealth, normalizeWealth, validateWealth } from "./wealth.js?v=10";
 import { neutralParenthood, normalizeParenthood, validateParenthood } from "./parenthood.js?v=10";
@@ -316,6 +317,7 @@ export function createNewGame(options = {}) {
   };
   state.flags.networkMode = networkMode;
   applyFamilyStartFlags(state, familyType);
+  syncGameDate(state);
   return state;
 }
 

@@ -1,3 +1,4 @@
+import { syncGameDate } from "./game-date.js?v=10";
 import { createNewGame, addMemory, transact, clamp, adjustHealth } from "./state.js?v=10";
 import { childAge, childStage, childAcademicStanding } from "./parenthood.js?v=10";
 import { netWorth, neutralWealth } from "./wealth.js?v=10";
@@ -243,7 +244,7 @@ function scheduleAdult(state, child, kind, delay) {
 export function processLifetimeWeek(state) {
   if (isDeceased(state)) return;
   const life = normalizeLifetime(state);
-  if (life.bornWeek !== null)
+  if (life.bornWeek !== null && !state.time.date)
     state.player.age = Math.floor((state.time.absoluteWeek - life.bornWeek) / 48);
   if (state.player.age > 70) {
     const retained = new Set(
@@ -472,5 +473,6 @@ export function continueGeneration(state, childId) {
   );
   for (const key of Object.keys(state)) delete state[key];
   Object.assign(state, next);
+  syncGameDate(state);
   return { ok: true, message: `${child.name} ile yeni kuşak başladı.` };
 }

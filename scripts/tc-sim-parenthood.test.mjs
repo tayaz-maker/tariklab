@@ -1,3 +1,4 @@
+import { syncGameDate } from "../public/games/tc-sim/js/game-date.js";
 import test from "node:test";
 import assert from "node:assert/strict";
 import { createNewGame, getWeeklyActivityLimit, normalizeEducationCareer, validateState } from "../public/games/tc-sim/js/state.js";
@@ -73,7 +74,7 @@ test('hidden conception check is absent from calendar and UI does not reveal int
 
 test('child costs are derived once, first month prorated, and reload cannot add a second bill',()=>{
  let s=born(); const child=s.parenthood.children[0];
- s.time.weekOfMonth=4; child.bornWeek=s.time.absoluteWeek;
+ s.time.absoluteWeek += 4 - s.time.weekOfMonth; syncGameDate(s); child.bornWeek=s.time.absoluteWeek;
  const salary=getMonthlySummary(s).income; const finance=structuredClone(s.finances);
  for(let i=0;i<10;i++)getMonthlySummary(s); assert.deepEqual(s.finances,finance);
  s=roundtrip(s); tick(s);

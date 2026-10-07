@@ -1,3 +1,4 @@
+import { economyYear } from "./period-economy.js?v=10";
 const TIERS = {
   modest: { label: "Mütevazı", monthly: 0 },
   comfortable: { label: "Rahat", monthly: 1200 },
@@ -170,8 +171,13 @@ export const SPENDING = {
 
 export const MARKET = {
   ...SPENDING,
-  grocery: { label: "Haftalık temel gıda sepeti", cost: 900, energy: 2, stress: -1, category: "Günlük" },
-  phone_plan: { label: "Cep telefonu ve veri faturası", cost: 650, energy: 0, stress: -1, category: "Günlük", since: 1994 },
+  grocery: { label: "Ek gıda alışverişi", cost: 900, energy: 2, stress: -1, category: "Günlük" },
+  phone_plan: { label: "Cep telefonu görüşme faturası", cost: 650, energy: 0, stress: -1, category: "Günlük", since: 1994, until: 2009 },
+  mobile_data: { label: "Mobil internet ve görüşme paketi", cost: 650, energy: 0, stress: -1, category: "Bağlantı / Dijital", since: 2010 },
+  video_rental: { label: "Video kaset kiralama", cost: 220, energy: 1, stress: -5, category: "Dönem kültürü", until: 2004 },
+  dvd_rental: { label: "DVD film kiralama", cost: 220, energy: 1, stress: -5, category: "Dönem kültürü", since: 2000, until: 2013 },
+  online_film: { label: "Çevrimiçi film kiralama", cost: 220, energy: 1, stress: -5, category: "Bağlantı / Dijital", since: 2014 },
+  remote_course: { label: "Canlı çevrimiçi hobi dersi", cost: 750, energy: -5, stress: -8, category: "Bağlantı / Dijital", since: 2020 },
   cheap_clothes: { label: "Mevsimlik gündelik kıyafet", cost: 800, energy: -2, stress: -1, category: "Giyim / Statü" },
   status_shoes: { label: "Deri günlük ayakkabı", cost: 4800, energy: -3, stress: -4, category: "Giyim / Statü" },
   luxury_watch: { label: "Saat / aksesuar", cost: 12000, energy: -2, stress: -3, category: "Giyim / Statü" },
@@ -207,8 +213,8 @@ export const MARKET = {
 const integer = (v, fallback = 0) => (Number.isFinite(v) ? Math.max(0, Math.round(v)) : fallback);
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const tr = (a, b) => globalThis.window?.tlabI18n?.contentLang?.() === "en" ? b : a;
-export const marketAvailableInYear = (state, item) => (!item.since || state.time.year >= item.since) && (!item.until || state.time.year <= item.until);
-const marketUnavailableReason = (state, item) => item.since && state.time.year < item.since
+export const marketAvailableInYear = (state, item) => (!item.since || economyYear(state) >= item.since) && (!item.until || economyYear(state) <= item.until);
+const marketUnavailableReason = (state, item) => item.since && economyYear(state) < item.since
   ? `${item.since} öncesinde bu ürün/hizmet yok.`
   : `${item.until} sonrasında bu dönem ürünü artık satılmıyor.`;
 export const economyText = tr;

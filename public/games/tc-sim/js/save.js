@@ -1,3 +1,4 @@
+import { syncGameDate } from "./game-date.js?v=10";
 import { SAVE_VERSION, createNewGame, normalizeEducationCareer, validateState } from "./state.js?v=10";
 import { getHomeById, getJobById } from "./life.js?v=10";
 import { PRESENT_DAY_ERA_ID, getEraById } from "./eras.js?v=10";
@@ -168,6 +169,7 @@ export function migrateState(raw) {
     upgradeScenarioTo2030(state);
     // mergeLegacy() career nesnesini baştan kurduğu için deneyim haritası burada geri eklenir.
     state = normalizeEducationCareer(state);
+    syncGameDate(state);
     const validation = validateState(state);
     return validation.ok
       ? { ok: true, state, migrated: version !== SAVE_VERSION }

@@ -1,3 +1,4 @@
+import { syncGameDate } from "../public/games/tc-sim/js/game-date.js";
 import test from "node:test";
 import assert from "node:assert/strict";
 import { createNewGame, validateState } from "../public/games/tc-sim/js/state.js";
@@ -97,28 +98,30 @@ test("geçim gideri sürüklenmesi türetilmiş, sınırlı ve başlangıçta n�
   const s = fresh();
   assert.equal(getCostOfLivingIndex(s), 1);
   assert.equal(getMonthlySummary(s).otherExpenses, 5000);
-  s.time.absoluteWeek = 260;
+  s.time.absoluteWeek = 241;
+  syncGameDate(s);
   assert.equal(getCostOfLivingIndex(s), 1.2);
   assert.equal(getMonthlySummary(s).otherExpenses, 6000);
   s.time.absoluteWeek = 5200;
+  syncGameDate(s);
   assert.equal(getCostOfLivingIndex(s), 1.5);
 });
 
 test("eski kayıt ileri bir haftada yüklendiğinde gider sıçraması ödenebilir kalır", () => {
   // Sürüklenme yalnız absoluteWeek'ten türer; kayıtta saklanmaz. Özellik
-  // öncesi uzun bir kayıt 400. haftada yüklendiğinde indeks anında 1.28
+  // öncesi uzun bir kayıt 400. haftada yüklendiğinde indeks anında 1.32
   // olur. Sıçramanın ödenebilir olduğunu ölçerek kanıtlıyoruz.
   const s = fresh();
   s.time.absoluteWeek = 400;
   s.finances.balance = 20000;
   const loaded = roundTrip(s);
   assert.equal(loaded.time.absoluteWeek, 400);
-  assert.equal(getCostOfLivingIndex(loaded), 1.28);
+  assert.equal(getCostOfLivingIndex(loaded), 1.32);
   const summary = getMonthlySummary(loaded);
-  assert.equal(summary.otherExpenses, 6400);
-  // Sıçrama 1400 TL'dir ve olağan bir maaşın altında kalır: ay sonu net
+  assert.equal(summary.otherExpenses, 6600);
+  // Sıçrama 1600 TL'dir ve olağan bir maaşın altında kalır: ay sonu net
   // gelir hâlâ pozitif, yani eski kayıt yüklenince iflas etmez.
-  assert.equal(summary.otherExpenses - 5000, 1400);
+  assert.equal(summary.otherExpenses - 5000, 1600);
   assert.ok(summary.income - summary.expenses > 0, "eski kayıt yüklendiğinde aylık net gelir pozitif kalmalı");
   const before = loaded.finances.balance;
   tick(loaded, 4);
@@ -128,13 +131,15 @@ test("eski kayıt ileri bir haftada yüklendiğinde gider sıçraması ödenebil
 
 test("ay sonu sınırında kaydet/yükle maaşı ne çoğaltır ne siler", () => {
   const s = fresh();
-  s.time.weekOfMonth = 4;
+  s.time.absoluteWeek = 4;
+  syncGameDate(s);
   const before = s.finances.balance;
   const loaded = roundTrip(s);
   assert.equal(advanceWeek(loaded).ok, true);
   assert.equal(spent(loaded, "Aylık maaş").length, 1, "maaş tam bir kez yatmalı");
   const direct = fresh();
-  direct.time.weekOfMonth = 4;
+  direct.time.absoluteWeek = 4;
+  syncGameDate(direct);
   assert.equal(advanceWeek(direct).ok, true);
   assert.equal(spent(direct, "Aylık maaş").length, 1);
   assert.equal(loaded.finances.balance, direct.finances.balance, "kayıt/yükleme ay sonu sonucunu değiştirmemeli");

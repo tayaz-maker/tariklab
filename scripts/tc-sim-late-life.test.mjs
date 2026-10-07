@@ -1,3 +1,4 @@
+import { syncGameDate } from "../public/games/tc-sim/js/game-date.js";
 import test from "node:test";
 import assert from "node:assert/strict";
 import { createNewGame, validateState } from "../public/games/tc-sim/js/state.js";
@@ -94,6 +95,7 @@ test("36–70 yaşam evreleri türetilir ve 18–35 evresi değişmez", () => {
 test("36 sonrası maliyet devamı kabul edilmiş 1.5 endeksini bozmadan yavaş ve sınırlıdır", () => {
   const state = fresh();
   state.time.absoluteWeek = 3000;
+  syncGameDate(state);
   state.player.age = 35;
   const at35 = getMonthlySummary(state).otherExpenses;
   assert.equal(getCostOfLivingIndex(state), 1.5);
