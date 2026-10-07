@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 // Read-only DOM evidence; no styles, game state, focus or scroll are changed.
 export async function captureDashboardLayout(page) {
   return page.evaluate(() => {
-    const grid=document.querySelector(".management-workspace > .dashboard-grid, .workspace > .dashboard-grid");
+    const grid=document.querySelector(".tc-page-main > .dashboard-grid, .management-workspace > .dashboard-grid, .workspace > .dashboard-grid");
     if(!grid)return null;
     const rect=el=>{const r=el.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height};};
     const gridStyle=getComputedStyle(grid),right=grid.querySelector(":scope > .right-column");
