@@ -1649,6 +1649,7 @@ html.embedded .start-wrap .start-exit {
 
 /* Canonical TC page shell: every menu retains the wide inbox geometry.
    The optional inspector belongs to the content, never the global layout. */
+.tc-page-shell > .workspace { overflow: visible; }
 .tc-page-shell { --tc-page-gap: 14px; --tc-detail-width: 320px; }
 .tc-page-regions { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--tc-page-gap); align-items: start; }
 .tc-page-regions:has(> .management-inspector) { grid-template-columns: minmax(0, 1fr) var(--tc-detail-width); }

@@ -214,6 +214,11 @@ try {
         assert.ok(geometry.overflow <= 1, `${width}/${menu}: horizontal overflow`);
         if (width === 1440 && geometry.inspector) assert.equal(geometry.inspector.width, 320, `${menu}: canonical detail width`);
         await page.screenshot({ path: `${out}/shell-${width}-${menu}.png`, fullPage: false });
+        if (width === 1440 && menu === "career") {
+          await page.locator(".desk-row").last().click();
+          const detailBox = await page.locator(".management-inspector").boundingBox();
+          assert.ok(detailBox && detailBox.y >= 0 && detailBox.y + detailBox.height <= 901, "Detail actions remain on screen after selecting the last job");
+        }
       }
       assert.equal(await page.evaluate(() => JSON.stringify(Object.fromEntries(Object.entries(localStorage)))), storageBefore, "Shell navigation must not mutate save data");
       await navigate("dashboard");
