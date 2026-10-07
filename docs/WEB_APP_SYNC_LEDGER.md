@@ -678,3 +678,9 @@ General CI later exposed three stale inventory/count fixtures and a genuine migr
 Baseline #140 main `f895560d62a360695f71a0d37e052cd9e898c269` and matching production READY verified. Existing relationship/household/parenthood systems audited DONE/PARTIAL/MISSING in `docs/tc-sim/TURKISH_LIFE_MARRIAGE_2026-10-07.md`.
 
 Optional family/isteme, delayed engagement preparation, civil/small/hall wedding alternatives, existing bank-funded wedding, actual quarter-gold gifts, honeymoon and yearly shared-budget reflection extend the existing household event chain. Existing consent/adult, protection budget and pending follow-up gates strengthened. Old saves do not receive invented marriage history. Economy and Body Engine sources, shell/style and other games unchanged. Targeted scenarios 45/45 PASS; full TC, build/typecheck and targeted browser gate required before release. USER VISUAL QA PENDING; no city/neighborhood wave.
+
+## 2026-10-07 — TC SIM şehir ve mahalle yaşamı
+- #141 production/main doğrulandı; mevcut konut/iş/ulaşım/ekonomi motorları üzerine 3 şehir / 9 bölge eklendi.
+- EV konum şeması, dönemsel kira/ulaşım, iş erişimi, eğitim yükü, sosyal ziyaret ve mevcut işletme yerel maliyetleri ortak locations helper üzerinden bağlandı.
+- Eski saves seçimsiz bütçeyi korur; taşınma haftalık/finansal kapıları, borç ve ortak ev korunur. Kaynak/varsayım ayrımı CITY_LIFE_2026-10-07.md içinde.
+- Audio kapalı; canonical shell, #140 body ve #141 wedding akışı korunur. Native/Godot işi açılmadı.

@@ -1,8 +1,10 @@
+import {currentDistrict, locationCommute, locationCosts, locationJobDelay, locationMoveQuote, CITIES} from './locations.js?v=10';
 import { parenthoodCosts } from "./parenthood.js?v=10";
 import { getHouseholdFinance } from "./household.js?v=10";
 import {
   addCareerHistory,
   addMemory,
+  addNpcMemory,
   adjustHealth,
   getWeeklyActivityLimit,
   isCriticalHealth,
@@ -23,8 +25,7 @@ import { scheduleMoveConsequence } from "./depth3-systems.js?v=10";
 export { HOMES, JOBS, getCommuteLoad, getHomeById, getJobById } from "./catalog.js?v=10";
 
 export function getEffectiveCommuteLoad(state) {
-  const raw = getCommuteLoad(state.household.homeId, state.career.jobId);
-  return state.wealth?.vehicle ? Math.max(0, raw - 1) : raw;
+  return locationCommute(state);
 }
 
 export function getWeeklyLifeLoad(state) {
@@ -50,7 +51,7 @@ export function getCommuteExplanation(homeId, jobId, state = null) {
       stress: 0,
     };
   const rawLoad = getCommuteLoad(homeId, jobId);
-  const load = state?.wealth?.vehicle ? Math.max(0, rawLoad - 1) : rawLoad;
+  const load = state ? locationCommute(state,homeId,jobId) : rawLoad;
   const labels = ["Çok düşük", "Düşük", "Orta", "Yüksek"];
   const label = labels[Math.min(load, labels.length - 1)];
   return {
@@ -170,7 +171,7 @@ export function retireCareer(state) {
 }
 export function getMonthlyHousingBreakdown(state, options = {}) {
   const home = getHomeById(state.household.homeId);
-  const base = home?.monthlyCost || 0;
+  const base = Math.round((home?.monthlyCost || 0) * locationCosts(state).rent);
   const salary = getMonthlyEmploymentIncome(state);
   // Aile yanında yaşamak düşük maliyetli kalır; gelir yükseldikçe ev katkısı da yükselir.
   const familyContribution =
@@ -320,7 +321,7 @@ export function getMonthlySummary(state, options = {}) {
   const otherExpenses = Math.round(
     state.finances.otherMonthlyExpenses *
       getCostOfLivingIndex(state) *
-      getLateLifeCostFactor(state),
+      getLateLifeCostFactor(state) * locationCosts(state).living,
   );
   const tuition = state.education?.tuitionOwedThisMonth || 0;
   return {
@@ -331,10 +332,11 @@ export function getMonthlySummary(state, options = {}) {
     otherIncome,
     otherExpenses,
     tuition,
+    transport: locationCosts(state).transport,
     parenting: parenthoodCosts(state, options),
     wealth,
     income: salary + otherIncome + retirementIncome + wealth.income,
-    expenses: housing + otherExpenses + tuition + parenthoodCosts(state, options) + wealth.expenses,
+    expenses: housing + otherExpenses + locationCosts(state).transport + tuition + parenthoodCosts(state, options) + wealth.expenses,
   };
 }
 
@@ -371,13 +373,14 @@ export function acceptJobOffer(state, jobId) {
   const actionId = `job-offer:${jobId}`;
   const check = canUseWeeklyAction(state, actionId);
   if (!check.ok) return check;
+  const startWeek = state.time.absoluteWeek + 1 + locationJobDelay(state,job);
   const caseId = `job-start-${state.time.absoluteWeek}-${jobId}`;
-  state.career.pendingJob = { jobId, startWeek: state.time.absoluteWeek + 1, caseId };
+  state.career.pendingJob = { jobId, startWeek, caseId };
   state.openCases.push({
     id: caseId,
     type: "job-start",
     createdWeek: state.time.absoluteWeek,
-    dueWeek: state.time.absoluteWeek + 1,
+    dueWeek: startWeek,
     eventId: "job_start",
     status: "pending",
     payload: { jobId },
@@ -393,7 +396,7 @@ export function acceptJobOffer(state, jobId) {
     `${job.title} teklifini kabul ettin; başlangıç tarihini bekliyorsun.`,
     "important",
   );
-  return { ok: true, message: `${job.title} teklifi kabul edildi. İş gelecek hafta başlayacak.` };
+  return { ok: true, message: `${job.title} teklifi kabul edildi. İş ${startWeek-state.time.absoluteWeek} hafta sonra başlayacak.` };
 }
 
 export function completePendingJob(state, sourceCaseId) {
@@ -464,10 +467,14 @@ export function relocateHome(state, homeId) {
   if (homeId === "family" && state.household.union?.cohabitingSince)
     return { ok: false, reason: "Önce partnerinle ayrı evlerde yaşama kararını konuşmalısın." };
   const previousHomeId = state.household.homeId;
-  const cost = getMoveCost(homeId);
+  if (homeId === "family" && currentDistrict(state)) return {ok:false,reason:"Aile evine dönüş için konum panelindeki dönüş seçeneğini kullan."};
+  if (state.household.location?.lastMoveWeek === state.time.absoluteWeek) return {ok:false,reason:"Bu hafta zaten taşındın."};
+  if(state.weekly.selectedIds.includes('move-location'))return {ok:false,reason:'Bu hafta zaten taşındın.'};
+  const cost = Math.round(getMoveCost(homeId)*locationCosts(state).rent);
   if (state.finances.balance < cost)
     return { ok: false, reason: `Taşınmak için ₺${cost.toLocaleString("tr-TR")} gerekiyor.` };
   transact(state, -cost, `${home.title} taşınma masrafı`, "housing");
+  if(state.household.location)state.household.location.lastMoveWeek=state.time.absoluteWeek;
   state.household.homeId = homeId;
   state.household.livingWithFamily = homeId === "family";
   addMemory(state, `${home.title} konutuna taşındın.`, "important");
@@ -566,4 +573,52 @@ export function stopEducation(state) {
     ok: true,
     message: "Eğitimi bıraktın. Biriken ilerleme silindi, ödenen ücret iade edilmez.",
   };
+}
+
+
+export function locationMoveAvailability(state,districtId,homeId,returnFamily=false) {
+ const q=locationMoveQuote(state,districtId,homeId);
+ if(!q)return {ok:false,reason:'Konum veya konut bulunamadı.'};
+ const check=canUseWeeklyAction(state,'move-location');if(!check.ok)return check;
+ if(homeId==='family'&&!returnFamily)return {ok:false,reason:'Aile evi mevcut aile çevresindedir; yeni bölgede kiralık ev seç.'};
+ if(!returnFamily&&currentDistrict(state)?.id===districtId&&state.household.homeId===homeId)return {ok:false,reason:'Zaten burada yaşıyorsun.'};
+ if(state.household.location?.lastMoveWeek===state.time.absoluteWeek||state.weekly.selectedIds.some(id=>id.startsWith('move-home:')))return {ok:false,reason:'Bu hafta zaten taşındın.'};
+ if(state.weekly.used+q.slots>getWeeklyActivityLimit(state))return {ok:false,reason:`Taşınma için ${q.slots} zaman ayırmalısın.`};
+ if(state.wealth?.properties?.some(p=>p.occupancy==='owner'))return {ok:false,reason:'Önce mevcut mülkünün oturum durumunu Finans ekranında düzenle.'};
+ if(state.career.pendingJob)return {ok:false,reason:'Önce bekleyen iş başlangıcını sonuçlandır.'};
+ if(q.intercity&&state.career.jobId&&state.career.jobId!=='freelance_any')return {ok:false,reason:'Mevcut işin bu şehirde. Şehir değiştirmeden önce İş ekranından ayrılmalısın; yeni iş garanti değil.'};
+ if(q.intercity&&state.education?.active)return {ok:false,reason:'Önce mevcut eğitimini tamamla veya Eğitim ekranında bırak; program otomatik taşınmaz.'};
+ if(q.intercity&&state.flags.business)return {ok:false,reason:'İşletmen mevcut şehirde. Şehir değiştirmeden önce işletme kararını Finans ekranında ver.'};
+ if(state.finances.balance<q.cost)return {ok:false,reason:'Taşınma bütçesi yetersiz.'};
+ return {ok:true,quote:q};
+}
+export function moveLocation(state,districtId,homeId){
+ const check=locationMoveAvailability(state,districtId,homeId);if(!check.ok)return check;
+ const q=check.quote,oldHome=state.household.homeId,from=currentDistrict(state);
+ if(state.flags.business&&state.flags.business.locationId===undefined)state.flags.business.locationId=from?.id||'';
+ transact(state,-q.cost,`${CITIES[q.district.city]} / ${q.district.name} taşınması`,'housing');
+ state.household.homeId=homeId;state.household.livingWithFamily=false;
+ state.household.location={districtId,lastMoveWeek:state.time.absoluteWeek};state.player.city=CITIES[q.district.city];
+ state.weekly.used+=q.slots;state.weekly.selectedIds.push('move-location');
+ const text=`${state.player.city}, ${q.district.name}: ${q.home.title} düzenine taşındın. Eski çevrenle bağın sürüyor.`;
+ addMemory(state,text,'important');
+ for(const person of state.people.filter(p=>!p.deceased&&(p.roleId==='family'||p.id===state.social.currentPartnerNpcId)))addNpcMemory(state,person.id,text,'location_move');
+ scheduleMoveConsequence(state,oldHome,homeId);
+ const c=state.openCases.find(c=>c.id===`move-social-${state.time.absoluteWeek}`);if(c)c.payload.intercity=q.intercity;
+ adjustHealth(state,{energy:-q.slots*4,stress:q.intercity?3:1});
+ return {ok:true,message:text};
+}
+export function returnToFamilyArea(state){
+ const check=canUseWeeklyAction(state,'move-location');if(!check.ok)return check;
+ if(!currentDistrict(state))return {ok:false,reason:'Zaten mevcut aile çevresindesin.'};
+ if(state.household.union?.cohabitingSince)return {ok:false,reason:'Önce partnerinle ayrı evlerde yaşama kararını konuşmalısın.'};
+ // Apply identical city/job/property/education/cost gates before restoring the legacy family home.
+ const gate=locationMoveAvailability(state,'uskudar','family',true);if(!gate.ok)return gate;
+ const oldHome=state.household.homeId;
+ if(state.flags.business&&state.flags.business.locationId===undefined)state.flags.business.locationId=currentDistrict(state).id;
+ transact(state,-gate.quote.cost,'Aile çevresine dönüş taşınması','housing');
+ delete state.household.location;state.player.city='İstanbul';state.household.homeId='family';state.household.livingWithFamily=true;
+ state.weekly.used+=gate.quote.slots;state.weekly.selectedIds.push('move-location');
+ addMemory(state,'İstanbul’daki aile evine döndün.','important');scheduleMoveConsequence(state,oldHome,'family');
+ return {ok:true,message:'Aile evine döndün; yeni kiralama düzeni sona erdi.'};
 }

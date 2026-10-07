@@ -1,7 +1,7 @@
 /** TC SIM Wave 4 — bounded causal life arcs built on the existing simulation. */
 // catalog.js is a leaf module, so importing the commute primitive here cannot
 // create a cycle (life.js, which wraps it, reaches state.js and back again).
-import { getCommuteLoad } from "./catalog.js?v=10";
+import { locationCommute } from "./locations.js?v=10";
 
 export const LIFE_ARC_IDS = [
   "career", "education", "relationship", "family", "finance",
@@ -118,8 +118,7 @@ export function economyCausality(state) {
   // id contains "center"/"central", so that branch was dead, "shared" and
   // "studio" scored identically (making the pricier flat strictly dominated),
   // and the ordering ran backwards against the catalog's own zone field.
-  const raw = getCommuteLoad(state.household?.homeId || "family", state.career?.jobId ?? null);
-  const commute = state.wealth?.vehicle ? Math.max(0, raw - 1) : raw;
+  const commute = locationCommute(state);
   const debt = debtTotal(state);
   const balance = Number(state.finances?.balance) || 0;
   const familyLoad = (state.parenthood?.children || []).filter((x) => x.alive !== false).length;

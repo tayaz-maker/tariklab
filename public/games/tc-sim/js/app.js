@@ -1,3 +1,5 @@
+import {DISTRICTS,CITIES,currentDistrict,districtProfile,locationCosts,locationJobDelay,locationMoveQuote,getDistrict} from './locations.js?v=10';
+import {moveLocation,locationMoveAvailability,returnToFamilyArea} from './life.js?v=10';
 import { weddingQuote, weddingRecord, weddingPeriod, householdChoiceCost } from "./wedding-planning.js?v=10";
 import { renderBodyVisual, bindBodyVisual } from "./body-visual.js?v=10";
 import { EXCHANGE_ASSETS, exchangeQuote, exchangePortfolio, exchangeAvailability, tradeExchange } from './exchange.js?v=10';
@@ -48,7 +50,7 @@ import {
   JOBS,
   acceptJobOffer,
   enrollEducation,
-  getCommuteLoad,
+  getEffectiveCommuteLoad,
   getCommuteExplanation,
   getHomeById,
   getJobById,
@@ -128,6 +130,7 @@ let saveStatus = "";
 let activeView = "dashboard";
 // Ephemeral presentation state; never added to game state or saves.
 let selectedBodyRegion = "chest";
+let selectedDistrictId = null;
 let selectedPersonId = "mehmet";
 // Haftanın başındaki durum. Yalnız bu oturumda, bellekte tutulur; save'e yazılmaz.
 let weekStartSnapshot = null;
@@ -657,7 +660,7 @@ function lifeLabel(value) {
 function bodyRiskText() {
   if (isCriticalHealth(state))
     return "Sağlığın kritik: bu hafta en fazla üç hafif işe zaman ayırabilirsin; ek mesai güvenli değil. Dinlen ve toparlan.";
-  if (state.health.energy <= 45 && getCommuteLoad(state.household.homeId, state.career.jobId) >= 2)
+  if (state.health.energy <= 45 && getEffectiveCommuteLoad(state) >= 2)
     return "Düşük enerji, yüksek ulaşım yüküyle birlikte yol yorgunluğu olayını açabilir.";
   if (state.health.stress >= 70) return "Yüksek stres yorgunluk uyarısı doğurabilir.";
   if (state.health.stress >= 65 && getJobById(state.career.jobId)?.load >= 3)
@@ -832,7 +835,7 @@ function renderCareer() {
             )
             .join("")
         : `<p class="empty">Henüz bir kariyer dönüm noktası yok.</p>`
-    }</div>${renderResult("Teklif kabulü bir karar hakkı kullanır ve iş gelecek hafta başlar.")} </section>`;
+    }</div>${renderResult("Teklif kabulü bir karar hakkı kullanır. İş başlangıcı yerel erişime göre 1–2 hafta sürer; kabulden sonra Takvim’de görünür.")} </section>`;
 }
 
 function experienceSummary() {
@@ -890,31 +893,42 @@ function renderEducation() {
     )}</div>${renderResult("Eğitime kaydolmak haftalık karar hakkı kullanmaz; haftalık enerji ve stres yükü getirir.")} </section>`;
 }
 
+function renderLocationPanel(){
+ const current=currentDistrict(state),selected=getDistrict(selectedDistrictId)||current||getDistrict('uskudar');
+ const p=districtProfile(state,selected.id),preview={...state,household:{...state.household,location:{districtId:selected.id}}};
+ const job=getJobById(state.career.jobId),commute=getCommuteExplanation(state.household.homeId,state.career.jobId,preview);
+ const back=locationMoveQuote(state,'uskudar','family');
+ const cityButtons=Object.entries(CITIES).map(([id,name])=>`<button class="button button-quiet" data-location-city="${id}" aria-pressed="${selected.city===id}">${name}</button>`).join('');
+ const pins=DISTRICTS.filter(d=>d.city===selected.city).map(d=>`<button class="location-pin" style="--map-x:${d.x}%;--map-y:${d.y}%" data-location-select="${d.id}" aria-pressed="${selected.id===d.id}"><span>${escapeText(d.name)}</span>${current?.id===d.id?'<small>EVİN</small>':''}</button>`).join('');
+ const homes=HOMES.filter(h=>h.id!=='family').map(h=>{const q=locationMoveQuote(state,selected.id,h.id),check=locationMoveAvailability(state,selected.id,h.id);return `<article class="option-card"><h3>${escapeText(h.title)}</h3><dl><div><dt>Aylık konut tabanı</dt><dd>${money(Math.round(h.monthlyCost*p.rent))}</dd></div><div><dt>Tek seferlik taşınma</dt><dd>${money(q.cost)}</dd></div><div><dt>Zaman</dt><dd>${q.slots} karar</dd></div></dl><button class="button" data-location-move="${selected.id}" data-location-home="${h.id}" ${check.ok?'':'disabled'}>Bu bölgeye taşın</button>${!check.ok?`<p class="context-note">${escapeText(check.reason)}</p>`:''}</article>`;}).join('');
+ return `<section class="panel location-panel"><div class="panel-head"><div><p class="eyebrow">YAŞADIĞIN YER</p><h2>${escapeText(current?CITIES[current.city]+' · '+current.name:'İstanbul · mevcut çevren')}</h2></div></div><p class="context-note">${current?'Konumun kira, yol ve günlük bütçene yansıyor.':'Semtini seçene kadar mevcut kira ve ulaşım düzenin korunur.'} Aile ve eski arkadaş çevren İstanbul’da kalır; birlikte yaşadığın partnerin seninle taşınır.</p><div class="location-cities" role="group" aria-label="Şehir seçimi">${cityButtons}</div><div class="location-map ${selected.city==='istanbul'?'location-map--istanbul':''}" role="group" aria-label="${CITIES[selected.city]} bölge haritası">${pins}</div><p class="context-note">Ölçeksiz konum şeması · Bölgeler kendi içinde farklı sokaklar ve yaşam biçimleri barındırır.</p><div class="panel-head"><div><p class="eyebrow">${escapeText(p.kind)}</p><h3>${escapeText(selected.name)}</h3></div></div><div class="detail-summary"><div><span>İşe yol yükü</span><strong>${escapeText(commute.label)}</strong><small>${escapeText(commute.detail)}</small></div><div><span>Aylık işe ulaşım</span><strong>${money(locationCosts(preview).transport)}</strong></div><div><span>Günlük yaşam bütçesi</span><strong>${Math.round(p.living*100)} / 100</strong><small>Mevcut diğer giderlere uygulanır</small></div><div><span>Eğitim erişimi</span><strong>${p.education?'Ek yol planlaması':'Daha yakın seçenekler'}</strong><small>${p.education?'Aktif eğitim: haftada +1 yük, −2 enerji':'Ek eğitim ulaşım yükü yok'}</small></div></div><p class="context-note">${p.rail?escapeText(p.railName)+' bu tarihte açık; ulaşım yükü hesabına dahil.':'Bu tarihte bu bölge için metro indirimi yok; otobüs, yol ve varsa deniz ulaşımı esas alınıyor.'} ${job?`Mevcut mesleğinle yeni işe geçiş: ${1+locationJobDelay(preview,job)} hafta; açık iş garantisi değildir.`:'İşsizken maaş ve işe ulaşım gideri yok; İş ekranından yeni iş seçebilirsin.'} Sosyal buluşma yakınlık etkisi: ${Math.round(6*p.social)}; eski çevreye şehir dışı ziyaret ayrıca 2 zaman ve ${money(1200)} yol bedeli kullanır.</p><p class="context-note">Yerel işletme kira katsayısı ${p.rent.toFixed(2)}. Tamir/üretim, öğrenci çevresinde internet kafe veya hizmet/ticaret uyumu ciroyu etkiler; kazanç garanti değil. Mevcut işletme evle birlikte taşınmaz.</p><div class="option-grid">${homes}</div>${current?`<p class="context-note">Aile evine dönüş: ${money(back.cost)} · ${back.slots} zaman. İş, eğitim ve ortak ev koşulları geçerlidir.</p><button class="button button-quiet" id="return-family-area">İstanbul’daki aile evine dön</button>`:''}<details><summary>Konum hesabı hakkında</summary><p class="context-note">Kira, süre ve fırsat farkları dönem ekonomisine bağlı oyun varsayımlarıdır; ilan fiyatı veya gerçek yol tarifi değildir. Raylı ulaşım tarihleri kaynaklıdır. Şehir değiştirirken mevcut iş, okul ve işletme otomatik taşınmaz.</p></details>${renderResult()}</section>`;
+}
+
 function renderHomes() {
   const activeJob = getJobById(state.career.jobId);
   const activeCommute = currentCommuteExplanation();
   const housing = getMonthlySummary(state).housingBreakdown;
   const owned = state.wealth.properties.filter((property) => property.occupancy === "owner");
   const rentals = state.wealth.properties.filter((property) => property.occupancy !== "owner");
-  const currentZone = getHomeById(state.household.homeId).zone;
+
   return `<div class="workspace-head"><div><p class="eyebrow">EV</p><h1>Konut yönetimi</h1></div>${renderWeekControl()}</div>
     ${renderHouseholdContext()}
     <section class="detail-summary panel"><div><span>Aktif konut</span><strong>${escapeText(getHomeById(state.household.homeId).title)}</strong></div><div><span>Aylık maliyet</span><strong>${money(housing.total)}</strong>${housing.partnerContribution ? `<small>Ortak gider +${money(housing.householdExtra)} · Partner payı −${money(housing.partnerContribution)}</small>` : ""}${housing.familyContribution ? `<small>Konut ${money(housing.base)} · Aile katkısı ${money(housing.familyContribution)}</small>` : ""}</div><div><span>Çalışma yeri</span><strong>${escapeText(state.career.retirement?.status === "retired" ? "Emekli" : activeJob?.title || "İşsiz")}</strong></div><div><span>Ulaşım yükü</span><strong>${escapeText(activeCommute.label)}</strong><small>${escapeText(activeCommute.detail)}</small></div></section>
     <p class="context-note">${escapeText(PRIVACY_CONTEXT)}</p>
-    <section class="panel district-panel"><div class="panel-head"><div><p class="eyebrow">YAŞAM HARİTASI</p><h2>Ev, iş ve yol</h2></div></div><p class="context-note">Bu şema gerçek bir şehir haritası değil; evinle işinin üç bölge arasındaki ulaşım bedelini gösterir. Daha fazla gerçek şehir eklemek, iş ve kira dengesi kurulmadan yanıltıcı olur.</p><div class="district-route">${[1, 2, 3].map((zone) => `<div class="district-stop ${zone === currentZone ? "is-home" : ""} ${zone === activeJob?.zone ? "is-work" : ""}"><span>0${zone}</span><strong>${escapeText(HOMES.find((home) => home.zone === zone)?.district || "Bölge")}</strong><small>${zone === currentZone ? "● Evin" : ""}${zone === activeJob?.zone ? `${zone === currentZone ? " · " : ""}◆ İşin` : ""}</small></div>`).join("")}</div><p class="context-note">${escapeText(activeCommute.detail)}</p></section>
+    ${renderLocationPanel()}
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">MÜLKİYET</p><h2>Konut varlıkların</h2></div><span>${owned.length + rentals.length}</span></div><p class="context-note">${owned.length ? "Bu evin sahibi sensin; katalog kirası yerine bakım ve varsa konut borcu ödüyorsun." : "Mevcut konut aile veya kiralama düzeninde."}${rentals.length ? ` · ${rentals.length} yatırım mülkü: ${rentals.filter((property) => property.occupancy === "rental").length} kirada.` : ""}</p><button class="button button-quiet" data-view="finance">Alım, satış ve borçları PARA ekranında yönet</button></section>
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">SEÇENEKLER</p><h2>Konut alternatifleri</h2></div></div><div class="option-grid">${HOMES.map(
       (home) => {
-        const cost = getMoveCost(home.id);
+        const cost = Math.round(getMoveCost(home.id)*locationCosts(state).rent);
         const current = state.household.homeId === home.id;
         const affordable = state.finances.balance >= cost;
         const disabled =
           current ||
-          !affordable ||
+          !affordable || (home.id === "family" && currentDistrict(state)) ||
           state.weekly.used >= getWeeklyActivityLimit(state) ||
           state.events.active;
         const commute = getCommuteExplanation(home.id, state.career.jobId, state);
-        return `<article class="option-card ${current ? "is-current" : ""}"><div><p class="panel-kicker">${current ? "MEVCUT EV" : "KONUT"} · ${escapeText(home.district)}</p><h3>${escapeText(home.title)}</h3></div><dl><div><dt>Mahremiyet</dt><dd>${lifeLabel(home.privacy)}</dd></div><div><dt>Aylık maliyet</dt><dd>${money(home.monthlyCost)}</dd></div><div><dt>İşe ulaşım</dt><dd>${escapeText(commute.label)}</dd></div><div><dt>Haftalık ulaşım</dt><dd>${escapeText(commute.detail)}</dd></div><div><dt>Taşınma</dt><dd>${money(cost)}</dd></div></dl><button class="button" data-move-home="${home.id}" ${disabled ? "disabled" : ""}>${current ? "Burada yaşıyorsun" : affordable ? "Taşın" : "Para yetersiz"}</button></article>`;
+        return `<article class="option-card ${current ? "is-current" : ""}"><div><p class="panel-kicker">${current ? "MEVCUT EV" : "KONUT"} · ${escapeText(home.district)}</p><h3>${escapeText(home.title)}</h3></div><dl><div><dt>Mahremiyet</dt><dd>${lifeLabel(home.privacy)}</dd></div><div><dt>Aylık maliyet</dt><dd>${money(Math.round(home.monthlyCost*locationCosts(state).rent))}</dd></div><div><dt>İşe ulaşım</dt><dd>${escapeText(commute.label)}</dd></div><div><dt>Haftalık ulaşım</dt><dd>${escapeText(commute.detail)}</dd></div><div><dt>Taşınma</dt><dd>${money(cost)}</dd></div></dl><button class="button" data-move-home="${home.id}" ${disabled ? "disabled" : ""}>${current ? "Burada yaşıyorsun" : affordable ? "Taşın" : "Para yetersiz"}</button></article>`;
       },
     ).join(
       "",
@@ -954,7 +968,7 @@ function renderFinance() {
     <section class="detail-summary panel wealth-summary">
       <div><span>Bakiye</span><strong>${money(state.finances.balance)}</strong></div><div><span>Net servet</span><strong>${money(worth.total)}</strong><small>Nakit ${money(worth.cash)} · Yatırım ${money(worth.investments)} · Gayrimenkul ${money(worth.property)} · Araç/eşya ${money(worth.vehicle + worth.durables)} · İşletme (tasfiye) ${money(worth.business)} · Borç −${money(worth.debt)}</small></div>
       <div><span>Aylık gelir</span><strong>${money(monthly.income)}</strong><small>Maaş ${money(monthly.salary)}${monthly.retirementIncome ? ` · Emeklilik ${money(monthly.retirementIncome)}` : ""}${monthly.wealth.income ? ` · Kira ${money(monthly.wealth.income)}` : ""}</small></div>
-      <div><span>Aylık gider</span><strong>${money(monthly.expenses)}</strong><small>Konut ${money(monthly.housing)} · Yaşam/varlık ${money(monthly.wealth.expenses)} · Diğer ${money(monthly.otherExpenses)}${monthly.parenting ? ` · Çocuk ${money(monthly.parenting)}` : ""}</small></div>
+      <div><span>Aylık gider</span><strong>${money(monthly.expenses)}</strong><small>Konut ${money(monthly.housing)} · Yaşam/varlık ${money(monthly.wealth.expenses)} · Ulaşım ${money(monthly.transport)} · Diğer ${money(monthly.otherExpenses)}${monthly.parenting ? ` · Çocuk ${money(monthly.parenting)}` : ""}</small></div>
       <div><span>Ay sonu tahmini</span><strong>${money(projectedBalance)}</strong></div>
     </section>
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">YAŞAM STANDARDI</p><h2>Gündelik düzen</h2></div><span>${escapeText(LIFESTYLE_TIERS[state.wealth.lifestyle].label)}</span></div><p class="context-note">Daha yüksek standart yalnız daha fazla seçenek ve düzenli gider sağlar; mutluluk satın alınmaz.</p><div class="wealth-grid">${Object.entries(
@@ -1310,6 +1324,7 @@ function householdChoiceDescription(definition, choice) {
     const q = weddingQuote(state, choice.id);
     return q ? `Hazırlık ${money(q.gross)} · aile desteği ${money(q.familyContribution)} · peşin ${money(q.cashNeeded)}.${q.credit ? ` Kredi toplam ${money(q.credit.total)}, ${q.credit.months} ay × ${money(Math.ceil(q.credit.total/q.credit.months))}.` : ""} Takı garanti değil; altın Finans portföyünde kalır.` : "";
   }
+  if(definition.id === "cohabitation_move" && getHomeById(choice.id)) return `Taşınma ${money(state.household.homeId===choice.id?0:Math.round(getMoveCost(choice.id)*locationCosts(state).rent))} · haftandan bir aktivite.`;
   const cost = householdChoiceCost(state, definition.id, choice.id);
   return cost ? `Hazırlık gideri ${money(cost)} · haftandan bir aktivite.` : "";
 }
@@ -1521,6 +1536,10 @@ function render() {
     persist();
     render();
   });
+  document.querySelectorAll('[data-location-city]').forEach(b=>b.addEventListener('click',()=>{selectedDistrictId=DISTRICTS.find(d=>d.city===b.dataset.locationCity).id;render();}));
+  document.querySelectorAll('[data-location-select]').forEach(b=>b.addEventListener('click',()=>{selectedDistrictId=b.dataset.locationSelect;render();}));
+  document.querySelectorAll('[data-location-move]').forEach(b=>b.addEventListener('click',()=>{const r=moveLocation(state,b.dataset.locationMove,b.dataset.locationHome);notice=r.reason||r.message;persist();render();}));
+  document.querySelector('#return-family-area')?.addEventListener('click',()=>{const r=returnToFamilyArea(state);notice=r.reason||r.message;persist();render();});
   document.querySelectorAll("[data-move-home]").forEach((button) =>
     button.addEventListener("click", () => {
       const result = moveHome(state, button.dataset.moveHome);

@@ -1,3 +1,4 @@
+import {businessLocation,currentDistrict} from './locations.js?v=10';
 import { economyYear, formatPeriodMoney, periodContext } from "./period-economy.js?v=10";
 import { addMemory, adjustHealth, getWeeklyActivityLimit, transact } from "./state.js?v=10";
 import { getMonthlySummary } from "./life.js?v=10";
@@ -87,7 +88,7 @@ export function startBusiness(state, id) {
   if (!check.ok) return check;
   const type = BUSINESS_TYPES[id];
   transact(state, -type.startup, `${type.label} kuruluş ve ekipman`, "business");
-  state.flags.business = { id, startedWeek: state.time.absoluteWeek, lastMonth: -1, months: 0, level: 1, employees: 0, debt: 0, invested: type.startup, lossMonths: 0 };
+  state.flags.business = { id, locationId:currentDistrict(state)?.id||'', startedWeek: state.time.absoluteWeek, lastMonth: -1, months: 0, level: 1, employees: 0, debt: 0, invested: type.startup, lossMonths: 0 };
   recordWeek(state, `business:start:${id}`);
   addMemory(state, `${type.label} açıldı. Kazanç garanti değil; aylık gider ve emek gerektiriyor.`, "important");
   return { ok: true, message: `${type.label} açıldı. İlk ay sonunda ciro ve gider sonucu görülecek.` };
@@ -132,10 +133,11 @@ export function processBusinessMonth(state) {
   const staffing = Math.min(1, (business.employees + 1) / capacity);
   const competition = Math.min(.25, (business.level - 1) * .025);
   const crisis = [2001,2009,2018,2020].includes(context.year) ? .2 : 0;
-  const revenue = Math.max(0, Math.round((type.monthly * capacity + business.employees * 16000) * (demand + cycle + skill - strain - ramp - competition - crisis) * staffing));
+  const local=businessLocation(state);
+  const revenue = Math.max(0, Math.round((type.monthly * capacity + business.employees * 16000) * (demand + cycle + skill - strain - ramp - competition - crisis) * staffing * local.demand));
   const supply = Math.round(revenue * .25);
   const wages = business.employees * 9000;
-  const rent = Math.round(type.monthly * .25 * capacity ** .8);
+  const rent = Math.round(type.monthly * .25 * capacity ** .8 * local.rent);
   const operations = Math.round(type.monthly * (.25 + debtPressure) * capacity);
   const interest = Math.ceil(business.debt * (.01 + context.uncertainty * .04));
   const principal = Math.min(business.debt, Math.ceil(business.debt / (business.restructured ? 48 : 24)));
