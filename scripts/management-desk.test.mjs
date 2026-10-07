@@ -71,7 +71,8 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // 2026-09-30: authorized shared save-panel DOM positioning only.
   // Slot writes, overwrite confirmation, engine/content and schemas unchanged.
   // 2026-10-06: authorized TC SIM life/era content and simulation expansion.
-  assert.equal(hash.digest("hex"), "2e3abbe60f3679ad9e7b179b2472e90f66ea0b2112438852edd556b2a34f81f0");
+  // Authorized balance pass: business owner turnover/time, move time, debt overflow preservation.
+  assert.equal(hash.digest("hex"), "a5c3cdc7caa2fedcf834bd888209be1169dfb7fae8e96ba413f5098bf1431e8e");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);

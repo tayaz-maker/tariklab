@@ -58,5 +58,5 @@ export function locationMoveQuote(state,id,homeId){
  const d=getDistrict(id),home=getHomeById(homeId);if(!d||!home)return null;
  const from=currentDistrict(state),intercity=(from?.city||'istanbul')!==d.city;
  const cost=Math.round(home.moveCost*districtProfile(state,id).rent)+(intercity?6500:1400);
- return {district:d,home,intercity,cost,slots:intercity?2:1};
+ return {district:d,home,intercity,cost,slots:intercity?3:2};
 }

@@ -340,14 +340,14 @@ export function getMonthlySummary(state, options = {}) {
   };
 }
 
-function canUseWeeklyAction(state, actionId) {
+function canUseWeeklyAction(state, actionId, slots = 1) {
   if (state.lifetime?.death) return { ok: false, reason: "Bu yaşam tamamlandı." };
   if (state.events.active) return { ok: false, reason: "Önce açık olayı sonuçlandır." };
-  if (state.weekly.used >= getWeeklyActivityLimit(state))
+  if (state.weekly.used + slots > getWeeklyActivityLimit(state))
     return {
       ok: false,
       reason: isCriticalHealth(state)
-        ? "Sağlığın kritik; bu hafta yalnız bir şeye gücün yetiyor."
+        ? "Sağlığın kritik; bu karar için yeterli zamanın kalmadı."
         : "Bu haftanın aktivite hakkı bitti.",
     };
   if (state.weekly.selectedIds.includes(actionId))
@@ -355,8 +355,8 @@ function canUseWeeklyAction(state, actionId) {
   return { ok: true };
 }
 
-function markWeeklyAction(state, actionId) {
-  state.weekly.used += 1;
+function markWeeklyAction(state, actionId, slots = 1) {
+  state.weekly.used += slots;
   state.weekly.selectedIds.push(actionId);
 }
 
@@ -451,10 +451,11 @@ export function moveHome(state, homeId) {
   if (!home) return { ok: false, reason: "Konut seçeneği geçersiz." };
   if (state.household.homeId === homeId) return { ok: false, reason: "Zaten burada yaşıyorsun." };
   const actionId = `move-home:${homeId}`;
-  const check = canUseWeeklyAction(state, actionId);
+  const check = canUseWeeklyAction(state, actionId, 2);
   if (!check.ok) return check;
+  if (state.weekly.selectedIds.some(id => id.startsWith("move-home:"))) return {ok:false,reason:"Bu hafta zaten taşındın."};
   const result = relocateHome(state, homeId);
-  if (result.ok) markWeeklyAction(state, actionId);
+  if (result.ok) markWeeklyAction(state, actionId, 2);
   return result;
 }
 

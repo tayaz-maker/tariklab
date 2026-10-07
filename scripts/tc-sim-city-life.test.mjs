@@ -20,12 +20,12 @@ test('Istanbul moves charge once, affect rent/commute, preserve job and prevent 
  const after=structuredClone(s);assert.equal(moveLocation(s,'avcilar','shared').ok,false);assert.deepEqual(s,after);assert.equal(moveHome(s,'studio').ok,false);
  const expensive=getMonthlySummary(s);freshWeek(s);assert.ok(moveLocation(s,'avcilar','shared').ok);const cheap=getMonthlySummary(s);assert.equal(cheap.salary,expensive.salary);assert.ok(cheap.housing<expensive.housing);assert.ok(cheap.otherExpenses<expensive.otherExpenses);assert.ok(getEffectiveCommuteLoad(s)>0);assert.equal(s.openCases.filter(c=>c.eventId==='housing_move_followup').length,2);
 });
-test('intercity move requires resolving job/school/business, costs two actions and never deletes obligations',()=>{
+test('intercity move requires resolving job/school/business, costs three actions and never deletes obligations',()=>{
  const s=cityFixture();assert.equal(locationMoveAvailability(s,'cankaya','shared').ok,false);s.career.jobId=null;
  assert.ok(enrollEducation(s,'vocational_course','part').ok);assert.equal(locationMoveAvailability(s,'cankaya','shared').ok,false);s.education.active=null;
  assert.ok(startBusiness(s,'repair').ok);assert.equal(locationMoveAvailability(s,'cankaya','shared').ok,false);delete s.flags.business;freshWeek(s);
  const debt={id:'city-debt',type:'personal',principal:5000,monthlyPayment:500,linkedAssetId:null,startWeek:1};s.wealth.debts.push(debt);
- assert.ok(moveLocation(s,'cankaya','shared').ok);assert.equal(s.weekly.used,2);assert.equal(s.player.city,'Ankara');assert.equal(s.career.jobId,null);assert.equal(s.wealth.debts[0].principal,5000);assert.ok(s.people.find(p=>p.id==='anne').memories.some(m=>m.type==='location_move'));assert.ok(s.openCases.some(c=>c.payload?.intercity));
+ assert.ok(moveLocation(s,'cankaya','shared').ok);assert.equal(s.weekly.used,3);assert.equal(s.player.city,'Ankara');assert.equal(s.career.jobId,null);assert.equal(s.wealth.debts[0].principal,5000);assert.ok(s.people.find(p=>p.id==='anne').memories.some(m=>m.type==='location_move'));assert.ok(s.openCases.some(c=>c.payload?.intercity));
  freshWeek(s);assert.ok(returnToFamilyArea(s).ok);assert.equal(s.household.homeId,'family');assert.equal(s.player.city,'İstanbul');assert.equal(currentDistrict(s),null);assert.equal(moveLocation(s,'bornova','shared').ok,false);
 });
 test('regional job access changes actual start date, not qualification or free salary',()=>{

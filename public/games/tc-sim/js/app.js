@@ -17,7 +17,7 @@ import {
 import { renderLifetimeTerminal, renderLineage } from "./lifetime-ui.js?v=10";
 import { parenthoodSummary } from "./parenthood.js?v=10";
 import { chooseIntimacy, intimacyAvailability } from "./intimacy.js?v=10";
-import { BUSINESS_TYPES, CREDIT_OFFERS, normalizeBusiness, manageBusiness, creditOffer, businessAvailability, closeBusiness, creditAvailability, repayCredit, startBusiness, takeCredit } from "./bank-business.js?v=10";
+import { BUSINESS_TYPES, CREDIT_OFFERS, businessTimeCost, normalizeBusiness, manageBusiness, creditOffer, businessAvailability, closeBusiness, creditAvailability, repayCredit, startBusiness, takeCredit } from "./bank-business.js?v=10";
 import { getHouseholdSummary, getHouseholdFinance, HOUSEHOLD_CONVERSATIONS, householdConversationAvailable } from "./household.js?v=10";
 import {
   WEEKS_PER_MONTH,
@@ -135,6 +135,7 @@ let selectedDistrictId = null;
 let selectedPersonId = "mehmet";
 // Haftanın başındaki durum. Yalnız bu oturumda, bellekte tutulur; save'e yazılmaz.
 let weekStartSnapshot = null;
+let lastWeekFeedback = "";
 // Nasıl Oynanır modalı yalnız görüntü durumudur; save/state'e hiç yazılmaz.
 let helpOpen = false;
 let startLoadResult = null;
@@ -380,6 +381,7 @@ function startScreen(loadResult) {
     notice = loadResult.message;
     saveStatus = loadResult.source === "backup" ? "Yedekten devam ediliyor." : "Kayıt hazır.";
     weekStartSnapshot = null;
+    lastWeekFeedback = "";
     render();
   });
   document.querySelector("#show-creation-form")?.addEventListener("click", () => {
@@ -439,6 +441,7 @@ function startScreen(loadResult) {
     });
     notice = "Yeni hayat başladı.";
     weekStartSnapshot = null;
+    lastWeekFeedback = "";
     persist("İlk kayıt oluşturuldu.");
     render();
   });
@@ -755,22 +758,23 @@ function renderDashboard() {
     : null;
   return `<div class="workspace-head"><div><p class="eyebrow">ANA SAYFA</p><h1>Hayat merkezi</h1></div>${renderWeekControl()}</div>
     <section class="panel first-steps"><p class="eyebrow">İLK BAKIŞTA</p><h2>Bugün ne yapmalıyım?</h2><div><p><b>1 · Bir karar seç.</b> Kartın altında zaman, para ve enerji etkisini gör.</p><p><b>2 · Önemli gelişmeye bak.</b> Gelen kutusu ve bekleyen sonuçlar üst menüde.</p><p><b>3 · Haftayı bitir.</b> Hepsini doldurman gerekmez; ay sonunda gelir ve gider otomatik işler.</p></div></section>
+    ${lastWeekFeedback ? `<section class="panel"><p class="eyebrow">GEÇEN HAFTA</p><p>${escapeText(lastWeekFeedback)}</p></section>` : ""}
     ${renderParenthoodContext()}
     ${renderEconomyContext()}
     <section class="overview-grid" aria-label="Hayat özeti">
-      <article class="profile-panel"><p class="panel-kicker">KARAKTER</p><h2>${escapeText(state.player.name)}</h2><p>${escapeText(state.player.profile)} · İstanbul · ${escapeText(getEraById(state.world.eraId).title)}</p><dl><div><dt>Yaşam dönemi</dt><dd>${escapeText(getPlayerLifeStage(state).label)}</dd></div><div><dt>Yaşam yeri</dt><dd>${escapeText(home.title)}</dd></div><div><dt>İş</dt><dd>${escapeText(state.career.retirement?.status === "retired" ? "Emekli" : job?.title || "İşsiz")}</dd></div><div><dt>Ulaşım yükü</dt><dd>${escapeText(currentCommuteExplanation().label)}</dd></div></dl></article>
+      <article class="profile-panel"><p class="panel-kicker">KARAKTER</p><h2>${escapeText(state.player.name)}</h2><p>${escapeText(state.player.profile)} · ${escapeText(state.player.city)} · ${escapeText(getEraById(state.world.eraId).title)}</p><dl><div><dt>Yaşam dönemi</dt><dd>${escapeText(getPlayerLifeStage(state).label)}</dd></div><div><dt>Yaşam yeri</dt><dd>${escapeText(home.title)}</dd></div><div><dt>İş</dt><dd>${escapeText(state.career.retirement?.status === "retired" ? "Emekli" : job?.title || "İşsiz")}</dd></div><div><dt>Ulaşım yükü</dt><dd>${escapeText(currentCommuteExplanation().label)}</dd></div></dl></article>
       <article class="metric-panel"><p>FİNANS</p><strong>${money(state.finances.balance)}</strong><span>Aylık ${money(monthly.income)} gelir · ${money(monthly.expenses)} gider</span><small>Ay sonu tahmini: ${money(projectedBalance)}</small></article>
       <article class="body-panel"><p>BEDEN</p><div class="body-row"><span>Enerji</span><i><b style="width:${state.health.energy}%"></b></i><strong>${state.health.energy}</strong></div><div class="body-row stress"><span>Stres</span><i><b style="width:${state.health.stress}%"></b></i><strong>${state.health.stress}</strong></div><div class="body-row"><span>Sağlık</span><i><b style="width:${state.health.health}%"></b></i><strong>${state.health.health}</strong></div><small class="body-note">${escapeText(bodyRiskText())}</small></article>
       <article class="metric-panel"><p>SOSYAL</p><strong>${partner ? escapeText(partner.name) : "Sevgili yok"}</strong><span>${socialCases.length} açık sosyal mesele</span><small>${escapeText(RELATIONSHIP_STAGES[getRelationshipStage(state, "mehmet")])}: Mehmet</small></article>
     </section>
-    <section class="panel life-depth-panel"><div class="panel-head"><div><p class="eyebrow">YAŞAM HARİTASI</p><h2>${depth.phase === "opening" ? "Kuruluş dönemi" : depth.phase === "midgame" ? "Yön ve yük dönemi" : "Miras dönemi"}</h2></div><span>${depth.goals.length} hedef</span></div>
+    <section class="panel life-depth-panel"><details><summary>Hayatının uzun vadeli gidişatı</summary><div class="panel-head"><div><p class="eyebrow">YAŞAM HARİTASI</p><h2>${depth.phase === "opening" ? "Kuruluş dönemi" : depth.phase === "midgame" ? "Yön ve yük dönemi" : "Miras dönemi"}</h2></div><span>${depth.goals.length} hedef</span></div>
       <div class="overview-grid">${Object.values(depth.arcs).filter((arc) => arc.stage !== "start" || arc.unresolvedIssue).slice(0, 6).map((arc) => `<article class="metric-panel"><p>${escapeText(LIFE_ARC_LABELS[arc.id][0].toUpperCase())}</p><strong>${escapeText({ development: "Gelişiyor", tension: "Gerilim", crisis: "Kriz", turning: "Kırılma", outcome: "Sonuç", start: "Başlangıç" }[arc.stage])}</strong><small>${escapeText(arc.unresolvedIssue || arc.opportunities[0] || "Süreç açık")}</small></article>`).join("")}</div>
       <div class="detail-summary"><div><span>Nakit güvenliği</span><strong>${Math.round(causalEconomy.safety)}/100</strong></div><div><span>Zaman baskısı</span><strong>${Math.round(causalEconomy.timePressure)}/100</strong></div><div><span>Borç</span><strong>${money(causalEconomy.debt)}</strong></div></div>
       <div class="history">${depth.goals.map((goal) => `<p class="open-case"><b>${escapeText(goal.label)}</b><span>${Math.round(goal.progress)}%</span></p>`).join("") || `<p class="empty">Şu anda ayrı bir orta vadeli hedef yok.</p>`}</div>
       ${depth.echoes.length ? `<p class="context-note">Son yankı: ${escapeText(depth.echoes.at(-1).text)}</p>` : ""}
-    </section>
+    </details></section>
     <div class="dashboard-grid">
-      <section class="panel week-panel"><div class="panel-head"><div><p class="eyebrow">BU HAFTA</p><h2>Zamanını nasıl kullandın?</h2></div><span>${remaining} odak kaldı</span></div><p class="decision-context">Her seçim zaman, enerji, para veya ilişki bedeli taşır. Haftayı doldurmak zorunda değilsin; yorgunluk ve ertelenen işler sonraki haftaya yansır.</p>${weekPlanHtml.top}<div class="decisions">${getAvailableDecisions(
+      <section class="panel week-panel"><div class="panel-head"><div><p class="eyebrow">BU HAFTA</p><h2>Zamanını nasıl kullandın?</h2></div><span>${remaining} odak kaldı</span></div><p class="decision-context">Küçük kararlar 1 zaman; taşınma ve iş kurma 2, şehir değiştirme 3 zaman ister. Enerji ve para bedelleri ayrıca uygulanır. Bütün zamanı doldurmak zorunda değilsin.</p>${weekPlanHtml.top}<div class="decisions">${getAvailableDecisions(
         state,
       )
         .map((decision) => {
@@ -932,14 +936,14 @@ function renderHomes() {
         const disabled =
           current ||
           !affordable || (home.id === "family" && currentDistrict(state)) ||
-          state.weekly.used >= getWeeklyActivityLimit(state) ||
+          state.weekly.used + 2 > getWeeklyActivityLimit(state) || state.weekly.selectedIds.some(id => id.startsWith("move-home:") || id === "move-location") ||
           state.events.active;
         const commute = getCommuteExplanation(home.id, state.career.jobId, state);
         return `<article class="option-card ${current ? "is-current" : ""}"><div><p class="panel-kicker">${current ? "MEVCUT EV" : "KONUT"} · ${escapeText(home.district)}</p><h3>${escapeText(home.title)}</h3></div><dl><div><dt>Mahremiyet</dt><dd>${lifeLabel(home.privacy)}</dd></div><div><dt>Aylık maliyet</dt><dd>${money(Math.round(home.monthlyCost*locationCosts(state).rent))}</dd></div><div><dt>İşe ulaşım</dt><dd>${escapeText(commute.label)}</dd></div><div><dt>Haftalık ulaşım</dt><dd>${escapeText(commute.detail)}</dd></div><div><dt>Taşınma</dt><dd>${money(cost)}</dd></div></dl><button class="button" data-move-home="${home.id}" ${disabled ? "disabled" : ""}>${current ? "Burada yaşıyorsun" : affordable ? "Taşın" : "Para yetersiz"}</button></article>`;
       },
     ).join(
       "",
-    )}</div>${renderResult("Taşınma bir karar hakkı ve tek seferlik taşınma maliyeti kullanır.")} </section>`;
+    )}</div>${renderResult("Konut değiştirmek 2 zaman ve tek seferlik taşınma maliyeti kullanır.")} </section>`;
 }
 
 function getFriendLoanAmount() {
@@ -994,7 +998,7 @@ function renderFinance() {
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">TÜKETİM</p><h2>Market</h2></div><span>ayrı ekran</span></div><p class="context-note">Günlük harcama, gece hayatı, hediye ve riskli alışveriş MARKET ekranında.</p><button class="button button-quiet" data-view="market">Market'e geç</button></section>
     <section class="panel bank-panel"><div class="panel-head"><div><p class="eyebrow">BANKA</p><h2>Kredi ve geri ödeme</h2></div></div><p class="context-note">Kredi gelir değildir: bugün nakit verir, gelecek aylara zorunlu ödeme yazar. Tutar ve toplam geri ödeme oyun içi varsayımdır; tarihsel banka teklifi değildir.</p><div class="wealth-grid">${Object.keys(CREDIT_OFFERS).map((id) => { const offer = creditOffer(state, id); const check = creditAvailability(state, id); return `<button class="button decision" data-credit="${id}" ${check.ok ? "" : "disabled"} title="${escapeText(check.reason || "")}"><strong>${escapeText(offer.label)}</strong><small>Bugün ${money(offer.cash)} · ${offer.months} ay × ${money(Math.ceil(offer.total / offer.months))} · toplam ${money(offer.total)}${check.reason ? ` · ${escapeText(check.reason)}` : ""}</small></button>`; }).join("")}</div><button class="button button-quiet" data-repay-credit="1" ${state.wealth.debts.some((debt) => debt.type === "personal") ? "" : "disabled"}>İhtiyaç kredisini erken kapat</button></section>
     ${renderExchange()}
-    <section class="panel business-panel"><div class="panel-head"><div><p class="eyebrow">KENDİ İŞİN</p><h2>Küçük işletme kur</h2></div></div><p class="context-note">Sektör döneme göre açılır. Geçmişteki bir sektörün popüler olması garanti kazanç değildir; aylık ciro, gider, yorgunluk ve zarar ihtimali birlikte işler.</p>${state.flags.business ? `<p class="open-case"><b>${escapeText(BUSINESS_TYPES[state.flags.business.id]?.label || "İşletme")}</b><span>${state.flags.business.months} ay açık · Ölçek ${state.flags.business.level}/10 · ${state.flags.business.employees} çalışan · Borç ${money(state.flags.business.debt)}</span></p>${renderBusinessManagement()}<button class="button button-quiet" data-close-business="1">İşletmeyi sat / kapat (ekipman %25, borç düşülür)</button>` : `<div class="wealth-grid">${Object.entries(BUSINESS_TYPES).filter(([, type]) => economyYear(state) >= type.since).map(([id, type]) => { const check = businessAvailability(state, id); return `<button class="button decision" data-business="${id}" ${check.ok ? "" : "disabled"} title="${escapeText(check.reason || "")}"><strong>${escapeText(type.label)}</strong><small>${type.since} sonrası · kuruluş ${money(type.startup)} · aylık sonuç değişken${check.reason ? ` · ${escapeText(check.reason)}` : ""}</small></button>`; }).join("")}</div>`}</section>
+    <section class="panel business-panel"><div class="panel-head"><div><p class="eyebrow">KENDİ İŞİN</p><h2>Küçük işletme kur</h2></div></div><p class="context-note">Sektör döneme göre açılır. Geçmişteki bir sektörün popüler olması garanti kazanç değildir; aylık ciro, gider, yorgunluk ve zarar ihtimali birlikte işler.</p>${state.flags.business ? `<p class="open-case"><b>${escapeText(BUSINESS_TYPES[state.flags.business.id]?.label || "İşletme")}</b><span>${state.flags.business.months} ay açık · Ölçek ${state.flags.business.level}/10 · ${state.flags.business.employees} çalışan · Borç ${money(state.flags.business.debt)}</span></p>${renderBusinessManagement()}<button class="button button-quiet" data-close-business="1">İşletmeyi sat / kapat (ekipman %25, borç düşülür)</button>` : `<div class="wealth-grid">${Object.entries(BUSINESS_TYPES).filter(([, type]) => economyYear(state) >= type.since).map(([id, type]) => { const check = businessAvailability(state, id); return `<button class="button decision" data-business="${id}" ${check.ok ? "" : "disabled"} title="${escapeText(check.reason || "")}"><strong>${escapeText(type.label)}</strong><small>${type.since} sonrası · kuruluş ${money(type.startup)} · 2 zaman · aylık sonuç değişken${check.reason ? ` · ${escapeText(check.reason)}` : ""}</small></button>`; }).join("")}</div>`}</section>
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">ABONELİKLER</p><h2>Düzenli hizmetler</h2></div><span>${state.wealth.subscriptions.length}</span></div><div class="wealth-grid">${Object.entries(
       SUBSCRIPTIONS,
     )
@@ -1432,7 +1436,7 @@ function render() {
     if (!window.confirm(confirmText("Bu çocukla yeni kuşağa geçmek istiyor musun?", "Move on to this child's new generation?"))) return;
     const result = continueGeneration(state, button.dataset.successor);
     notice = result.message || result.reason;
-    if (result.ok) { activeView = "dashboard"; weekStartSnapshot = null; }
+    if (result.ok) { activeView = "dashboard"; weekStartSnapshot = null; lastWeekFeedback = ""; }
     persist();
     render();
   }));
@@ -1577,6 +1581,7 @@ function render() {
       notice = changes.length
         ? changes.map((change) => describeWeeklyChange(change)).join(" · ")
         : "Sakin bir hafta geçti.";
+      lastWeekFeedback = notice;
       weekStartSnapshot = null;
     } else {
       notice = result.messages.join(" ");
@@ -1607,6 +1612,7 @@ function render() {
     notice = "";
     saveStatus = "";
     weekStartSnapshot = null;
+    lastWeekFeedback = "";
     render();
   });
   // The root screen, reached without discarding anything: the life is saved
@@ -1616,6 +1622,7 @@ function render() {
     state = null;
     notice = "";
     weekStartSnapshot = null;
+    lastWeekFeedback = "";
     render();
   });
 }
@@ -1673,5 +1680,5 @@ function renderExchange() {
 }
 function renderBusinessManagement(){
  const b=state.flags.business,r=b.lastResult;
- return `${r?`<p>Ciro ${money(r.revenue)} · Tedarik ${money(r.supply||0)} · Ücret ${money(r.wages||0)} · Kira ${money(r.rent||0)} · Operasyon ${money(r.operations||0)} · Faiz ${money(r.interest||0)} · Vergi ${money(r.tax||0)} · Anapara ${money(r.principal||0)} · Net ${money(r.net)}</p>`:''}<p class="context-note">Gider oranları ve kriz etkileri simülasyondur; tarihsel şirket bilançosu veya vergi tarifesi değildir. Altı ardışık zarar ayı ve nakit açığı iflasa yol açabilir.</p><div class="wealth-actions">${[['expand',`Kapasiteyi büyüt · ${money(BUSINESS_TYPES[b.id].startup*2**(b.level-1))}`],['hire',`Çalışan al · ${money(9000)} giriş + aylık ücret`],['shrink','Küçül'],['loan','İşletme kredisi'],['restructure','Borcu yapılandır (+%8)']].map(([id,label])=>`<button class="button button-quiet" data-business-manage="${id}">${label}</button>`).join('')}</div>`;
+ return `${r?`<p>Ciro ${money(r.revenue)} · Tedarik ${money(r.supply||0)} · Ücret ${money(r.wages||0)} · Kira ${money(r.rent||0)} · Operasyon ${money(r.operations||0)} · Faiz ${money(r.interest||0)} · Vergi ${money(r.tax||0)} · Anapara ${money(r.principal||0)} · Net ${money(r.net)}</p>`:''}<p class="context-note">Gider oranları ve kriz etkileri simülasyondur; tarihsel şirket bilançosu veya vergi tarifesi değildir. Altı ardışık zarar ayı ve nakit açığı iflasa yol açabilir.</p><div class="wealth-actions">${[['expand',`Kapasiteyi büyüt · ${money(BUSINESS_TYPES[b.id].startup*2**(b.level-1))}`],['hire',`Çalışan al · ${money(9000)} giriş + aylık ücret`],['shrink','Küçül'],['loan','İşletme kredisi'],['restructure','Borcu yapılandır (+%8)']].map(([id,label])=>`<button class="button button-quiet" data-business-manage="${id}" ${state.events.active || state.weekly.used + businessTimeCost(id) > getWeeklyActivityLimit(state) || state.weekly.selectedIds.includes(`business:${id}`) ? "disabled" : ""}>${label} · ${businessTimeCost(id)} zaman</button>`).join('')}</div>`;
 }

@@ -54,7 +54,7 @@ test("all twelve real UI screens render with routed controls; moving/saving/week
   const move = ui.find("moveHome", "shared");
   ui.click(move);
   const moved = ui.saved();
-  assert.equal(moved.household.homeId, "shared"); assert.equal(moved.weekly.used, 1);
+  assert.equal(moved.household.homeId, "shared"); assert.equal(moved.weekly.used, 2);
   move.listeners.click(); // A stale double-click must not charge again.
   assert.equal(ui.saved().finances.balance, moved.finances.balance);
   ui.click(ui.document.querySelector("#save-game"));
@@ -62,6 +62,9 @@ test("all twelve real UI screens render with routed controls; moving/saving/week
   ui.click(ui.find("view", "dashboard"));
   ui.click(ui.document.querySelector("#advance-week"));
   assert.equal(ui.saved().time.absoluteWeek, state.time.absoluteWeek + 1);
+  assert.match(ui.root.innerHTML, /GEÇEN HAFTA/);
+  ui.click(ui.document.querySelector("#save-game"));
+  assert.match(ui.root.innerHTML, /GEÇEN HAFTA/);
   console.log("UI_CONTROL_INVENTORY", JSON.stringify(inventory));
 });
 

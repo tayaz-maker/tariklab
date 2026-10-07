@@ -404,7 +404,8 @@ export function processCashShortfall(state) {
     const converted = Math.min(room, shortfall);
     finances.arrears += converted;
     finances.distressMonths = Math.min(999, finances.distressMonths + 1);
-    ledger(state, shortfall, "Nakit açığı temerrüt borcuna aktarıldı", "debt");
+    // Credit only the amount actually recorded as debt; overflow remains owed in cash.
+    if (converted) ledger(state, converted, "Nakit açığı temerrüt borcuna aktarıldı", "debt");
     if (finances.arrears >= CASH_ARREARS_CAP) {
       state.wealth.lifestyle = "modest";
       state.wealth.subscriptions = [];

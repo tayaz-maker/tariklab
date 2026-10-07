@@ -28,9 +28,10 @@ export const BUSINESS_TYPES = Object.freeze({
   digital: { label: "Çevrimiçi küçük mağaza", since: 2014, startup: 22000, monthly: 3400, effort: 3 },
 });
 
-const usedWeek = (state) => state.weekly.used >= getWeeklyActivityLimit(state);
-function recordWeek(state, id) {
-  state.weekly.used += 1;
+export const businessTimeCost = action => ["start", "expand", "shrink"].includes(action) ? 2 : 1;
+const usedWeek = (state, slots = 1) => state.weekly.used + slots > getWeeklyActivityLimit(state);
+function recordWeek(state, id, slots = 1) {
+  state.weekly.used += slots;
   state.weekly.selectedIds.push(id);
 }
 
@@ -79,7 +80,7 @@ export function businessAvailability(state, id) {
   if (economyYear(state) < type.since) return { ok: false, reason: `${type.since} öncesinde bu iş alanı bu senaryoda yok.` };
   if (state.flags.business) return { ok: false, reason: "Önce mevcut işletmeyi kapat." };
   if (state.finances.balance < type.startup) return { ok: false, reason: "Kuruluş sermayesi yetersiz." };
-  if (state.lifetime?.death || state.events.active || usedWeek(state)) return { ok: false, reason: "Bu hafta işe başlayamazsın." };
+  if (state.lifetime?.death || state.events.active || usedWeek(state, businessTimeCost("start"))) return { ok: false, reason: "İş kurmak için bu hafta 2 zaman ayırmalısın." };
   return { ok: true };
 }
 
@@ -89,7 +90,7 @@ export function startBusiness(state, id) {
   const type = BUSINESS_TYPES[id];
   transact(state, -type.startup, `${type.label} kuruluş ve ekipman`, "business");
   state.flags.business = { id, locationId:currentDistrict(state)?.id||'', startedWeek: state.time.absoluteWeek, lastMonth: -1, months: 0, level: 1, employees: 0, debt: 0, invested: type.startup, lossMonths: 0 };
-  recordWeek(state, `business:start:${id}`);
+  recordWeek(state, `business:start:${id}`, businessTimeCost("start"));
   addMemory(state, `${type.label} açıldı. Kazanç garanti değil; aylık gider ve emek gerektiriyor.`, "important");
   return { ok: true, message: `${type.label} açıldı. İlk ay sonunda ciro ve gider sonucu görülecek.` };
 }
@@ -97,7 +98,7 @@ export function startBusiness(state, id) {
 export function closeBusiness(state) {
   const business = state.flags.business;
   if (!business) return { ok: false, reason: "Açık işletme yok." };
-  if (usedWeek(state)) return { ok: false, reason: "Bu hafta zaman kalmadı." };
+  if (state.lifetime?.death || state.events.active || usedWeek(state)) return { ok: false, reason: "Önce açık olayı bitir veya haftalık zaman ayır." };
   const type = BUSINESS_TYPES[business.id];
   if (!type) return { ok: false, reason: "Eski kayıttaki işletme türü tanınmıyor; kayıt değiştirilmedi." };
   normalizeBusiness(state);
@@ -134,10 +135,11 @@ export function processBusinessMonth(state) {
   const competition = Math.min(.25, (business.level - 1) * .025);
   const crisis = [2001,2009,2018,2020].includes(context.year) ? .2 : 0;
   const local=businessLocation(state);
-  const revenue = Math.max(0, Math.round((type.monthly * capacity + business.employees * 16000) * (demand + cycle + skill - strain - ramp - competition - crisis) * staffing * local.demand));
+  // The owner is already counted in staffing; count their productive work in turnover too.
+  const revenue = Math.max(0, Math.round((type.monthly * capacity + (business.employees + 1) * 16000) * (demand + cycle + skill - strain - ramp - competition - crisis) * staffing * local.demand));
   const supply = Math.round(revenue * .25);
   const wages = business.employees * 9000;
-  const rent = Math.round(type.monthly * .25 * capacity ** .8 * local.rent);
+  const rent = Math.round(Math.max(2100, type.monthly * .25) * capacity ** .8 * local.rent);
   const operations = Math.round(type.monthly * (.25 + debtPressure) * capacity);
   const interest = Math.ceil(business.debt * (.01 + context.uncertainty * .04));
   const principal = Math.min(business.debt, Math.ceil(business.debt / (business.restructured ? 48 : 24)));
@@ -170,7 +172,8 @@ export function normalizeBusiness(state) {
 }
 export function manageBusiness(state,action) {
  const b=normalizeBusiness(state);
- if(!b||state.lifetime?.death||state.events.active||usedWeek(state))return {ok:false,reason:'İşletme veya haftalık zaman uygun değil.'};
+ if(!b||state.lifetime?.death||state.events.active||usedWeek(state,businessTimeCost(action)))return {ok:false,reason:'İşletme veya haftalık zaman uygun değil.'};
+ if(state.weekly.selectedIds.includes(`business:${action}`))return {ok:false,reason:'Bu işletme kararını bu hafta zaten verdin.'};
  const type=BUSINESS_TYPES[b.id], capacity=2**(b.level-1);
  if(action==='expand'){
   const cost=type.startup*capacity;
@@ -193,6 +196,6 @@ export function manageBusiness(state,action) {
   if(!b.debt||b.restructured)return {ok:false,reason:'Yapılandırılabilir borç yok; aynı borç bir kez yapılandırılabilir.'};
   b.debt=Math.ceil(b.debt*1.08);b.restructured=true;
  }else return {ok:false,reason:'İşlem tanınmadı.'};
- recordWeek(state,`business:${action}`);
+ recordWeek(state,`business:${action}`,businessTimeCost(action));
  return {ok:true,message:'İşletme kararı uygulandı; giderler aylık sonuçta izlenebilir.'};
 }
