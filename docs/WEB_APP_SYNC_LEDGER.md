@@ -648,3 +648,9 @@ Chromium must pass before integration.
 ## 2026-10-07 — TC SIM historical economy and canonical date
 
 Base #135/#136 UI accepted at 7f7da9e57e0f004082bb3d1a7a09ff0d5ba3f98d, preserved. Normal 2017-04-18 start (18 years old, birth 1999-04-18); single civil date and birthday/period clock; dated Ministry net-wage budget scale, compact old TL, period-filtered consumption catalogue; existing business and credit engine gains period uncertainty/demand and skill/fatigue/arrears context. No artwork, audio, other-game or UI redesign. Model/source distinctions, migration assumptions and validation are in `docs/tc-sim/HISTORICAL_ECONOMY_2026-10-07.md`. User production acceptance pending. Native work remains paused.
+
+### Same-wave production smoke correction
+
+PR137 smoke caught a hardcoded creation select that omitted the working 2017 scenario. The form now derives options from HISTORICAL_STARTS, displays the period description outside the seed-only field, and has a real app-render/submit/save regression for the 2017 date and birthday. Existing saves are untouched.
+
+General CI later exposed three stale inventory/count fixtures and a genuine migration idempotence ordering issue: life phase normalized before canonical age. Canonical date now precedes phase normalization; existing no-op reload invariant is retained. Authorized economy source hash and 62-item catalogue fixtures are refreshed, not disabled. General browser-regression reproduced the known PGLite/server-startup infra error.

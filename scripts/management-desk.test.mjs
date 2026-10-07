@@ -47,7 +47,9 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Authorized life/era expansion adds bank-business, intimacy, and
   // period-economy. Keep the full file inventory and content pinned so later
   // changes still need a conscious product decision.
-  assert.equal(files.length, 43);
+  // 2026-10-07 authorized historical economy/date wave adds game-date.js,
+  // dated wage budgets and five period market entries; unrelated files stay pinned.
+  assert.equal(files.length, 44);
   const hash = createHash("sha256");
   for (const file of files) hash.update(file).update(readFileSync(file));
   // Re-pinned for the DEVLET maps PR: next-wave.js (geo dispatch + month
@@ -64,13 +66,13 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // 2026-09-30: authorized shared save-panel DOM positioning only.
   // Slot writes, overwrite confirmation, engine/content and schemas unchanged.
   // 2026-10-06: authorized TC SIM life/era content and simulation expansion.
-  assert.equal(hash.digest("hex"), "a14442b5a3e203e568c082fa3460bdb3526f8ef24b3acde7cd29f5f79aae0394");
+  assert.equal(hash.digest("hex"), "54bb5af081b16cb3e3a2b0042c755cbac674840a895c5b2ecb94807d1eb050c3");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);
   assert.equal(EDUCATION_PATHS.length, 18);
   assert.equal(NETWORK_CAST.length, 41); // 40 + kardeş
-  assert.equal(Object.keys(MARKET).length, 57);
+  assert.equal(Object.keys(MARKET).length, 62);
   assert.equal(POLICIES["2002"].length, 48);
   assert.equal(EVENTS["2002"].length, 62);
   assert.equal(REGIONS.length, 7);

@@ -168,8 +168,8 @@ export function migrateState(raw) {
     state = normalizeCurrentEra(state);
     upgradeScenarioTo2030(state);
     // mergeLegacy() career nesnesini baştan kurduğu için deneyim haritası burada geri eklenir.
-    state = normalizeEducationCareer(state);
     syncGameDate(state);
+    state = normalizeEducationCareer(state);
     const validation = validateState(state);
     return validation.ok
       ? { ok: true, state, migrated: version !== SAVE_VERSION }

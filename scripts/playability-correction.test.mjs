@@ -12,13 +12,14 @@ const week=s=>{s.time.absoluteWeek++;s.weekly={used:0,selectedIds:[]};};
 beforeEach(()=>{globalThis.window={tlabI18n:{getLang:()=>"tr",phrase:v=>v}};});
 afterEach(()=>{delete globalThis.window;});
 
-test("all 57 Market rows retain real previews; mapped ownership survives normalization",()=>{
-  assert.equal(Object.keys(MARKET).length,57);
+test("all 62 Market rows retain real previews; mapped ownership survives normalization",()=>{
+  assert.equal(Object.keys(MARKET).length,62);
   for(const id of Object.keys(MARKET)) {
     const s=game();
     // Period products must be tested in a year when they actually exist.
     if (MARKET[id].until && s.time.year > MARKET[id].until) s.time.year=MARKET[id].until;
     if (MARKET[id].since && s.time.year < MARKET[id].since) s.time.year=MARKET[id].since;
+    s.time.dateOrigin = `${s.time.year}-01-01`; s.time.dateOriginWeek = s.time.absoluteWeek; s.time.date = s.time.dateOrigin;
     const p=marketPreview(s,id);assert.ok(Number.isFinite(p.energy));
     const result=spendLifestyle(s,id);assert.equal(result.ok,true,id);
     assert.equal(result.effects.cash,s.finances.balance-1000000);
