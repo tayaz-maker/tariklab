@@ -297,6 +297,7 @@ try {
     assert.deepEqual(await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key),before);
     await page.locator('[data-location-city="istanbul"]').click();await page.locator('[data-location-select="avcilar"]').click();
     await page.locator('[data-location-move="avcilar"][data-location-home="shared"]').click();
+    assert.match(await page.locator('.result[role="status"]').last().textContent(),/Cüzdanın:.*Aylık konut giderin/);
     const saved=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);assert.equal(saved.household.location.districtId,'avcilar');assert.ok(saved.finances.balance<before.finances.balance);
     await page.reload({waitUntil:'networkidle'});await page.locator('#continue-game').click();await page.locator('.side-nav [data-view="home"]').click();
     assert.equal(await page.locator('[data-location-select="avcilar"]').getAttribute('aria-pressed'),'true');
