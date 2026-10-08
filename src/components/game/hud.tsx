@@ -96,10 +96,10 @@ export function Hud({
           </p>
         </div>
 
-        <div className="order-2 grid grid-cols-4 gap-x-2 gap-y-1 sm:gap-x-3 md:order-4 md:gap-3">
-          <StatBar label={en ? "Energy" : "Mermi & Takat"} value={player.energy} max={eMax} />
+        <div className="order-2 grid grid-cols-2 sm:grid-cols-4 gap-x-2 gap-y-1 sm:gap-x-3 md:order-4 md:gap-3">
+          <StatBar label={en ? "Energy" : "Enerji"} value={player.energy} max={eMax} />
           <StatBar
-            label={en ? "Stamina" : "Racon & Karizma"}
+            label={en ? "Stamina" : "Racon"}
             value={player.stamina}
             max={sMax}
             tone="muted"

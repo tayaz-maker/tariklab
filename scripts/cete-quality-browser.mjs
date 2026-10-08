@@ -20,6 +20,8 @@ try{
   const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.goto(`${base}/cete-savaslari?sekme=sokak`,{waitUntil:'networkidle'});
   await page.getByRole('heading',{name:lang==='tr'?'Semt hâkimiyeti':'District control',exact:true}).waitFor();
+  const clipped=await page.locator('.hud-header .truncate').evaluateAll(els=>els.filter(el=>el.scrollWidth>el.clientWidth).map(el=>el.textContent));
+  assert.deepEqual(clipped,[], 'resource labels remain readable');
   const before=await save(page);
   const action=page.getByRole('button',{name:lang==='tr'?/Esnafla otur/:/Visit local traders/}).first();
   await action.click();

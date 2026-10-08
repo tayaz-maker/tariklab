@@ -14,7 +14,7 @@ Baseline: origin/main and Vercel production READY at `501bc339145d1c49bdd79ce756
 - District cash scales with control gained; threshold notes remain, repeat threshold cash removed.
 - Preserve 0.05 away decay using two decimals. Attention cools by 0.5 per ten-minute game step.
 - Rival pressure responds to local control, attention and pending revenge. Free lookout/gunman and equipped armour mitigate pressure (maximum 60%); busy specialists create a defence/operations tradeoff. Hospitalized opponents exert no pressure. Pressure losses appear in the log.
-- District briefing shows actual income, pressure, opponents, home-only combat/job benefits, support and informant actions. Crew assignment/availability and betrayal risk are visible. Narrow cards/buttons wrap and share the existing surface/palette.
+- District briefing shows actual income, pressure, opponents, home-only combat/job benefits, support and informant actions. Crew assignment/availability and betrayal risk are visible. Narrow cards/buttons wrap and share the existing surface/palette. Screenshot review found the 320px title overlap and unreadable resource labels: the route title gets a mobile row, HUD uses readable two-column labels, and detailed district help is collapsible.
 
 ## Verification
 36 targeted tests pass, including 50 seeded paired two-day strategy runs, existing 20,000-tick stability, exploit reproductions and schema-15 reload. Browser gate: TR/EN × 320/360/390/430/1024/1440; all seven tabs, real support action, reload, help geometry and screenshots. CI results are the release gate; visual/gameplay production acceptance belongs to the owner.

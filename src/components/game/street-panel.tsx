@@ -8,7 +8,6 @@ import {
   CREW,
   ESNAF_COST, ESNAF_STAMINA, IHBAR_STAMINA,
   crewWageHourly, ihanetSeviye,
-  HOOD_HARAÇ,
   NEIGHBORHOODS,
   PVP_STAMINA_COST,
   TURF_STAMINA,
@@ -58,10 +57,10 @@ export function StreetPanel({ player }: { player: Player }) {
           <div><p className="text-muted">{en ? "Crew wages / hour" : "Ekip gideri / saat"}</p><p className="font-mono">{formatTRY(crewWageHourly(player))}</p></div>
           <div><p className="text-muted">{en ? "Pressure reduction" : "Baskı azaltma"}</p><p className="font-mono">%{Math.round(turfDefense(player) * 100)}</p></div>
         </div>
-        <p className="mt-3 text-xs leading-relaxed text-muted">{en ? "Control is local, not a geographical route map. Home control improves job success and attack; every district earns income. Away control loses 0.05 points each tick, before rival pressure. Police attention cuts district income at 45 and 70; it cools by 0.5 each ten-minute game step." : "Kontrol semt bazlıdır; coğrafi yol haritası değildir. Ana semtin iş başarısını ve saldırını, her semt gelirini etkiler. Yabancı semtler rakip baskısı dışında her adımda 0,05 puan aşınır. Emniyet 45 ve 70 eşiğinde semt gelirini keser; her 10 oyun dakikasında 0,5 azalır."}</p>
+        <details className="mt-3 text-xs leading-relaxed text-muted"><summary className="flex min-h-11 cursor-pointer items-center text-sm text-fg">{en ? "How district control works" : "Semt dengesi nasıl işler?"}</summary><p>{en ? "Home control improves job success and attack; every district earns income. Away control loses 0.05 points each tick, before rival pressure. Police attention cuts district income at 45 and 70; it cools by 0.5 each ten-minute game step." : "Ana semtin iş başarısını ve saldırını, her semt gelirini etkiler. Yabancı semtler rakip baskısı dışında her adımda 0,05 puan aşınır. Emniyet 45 ve 70 eşiğinde semt gelirini keser; her 10 oyun dakikasında 0,5 azalır."}</p></details>
         <ul className="mt-4 grid gap-3 xl:grid-cols-2">
           {NEIGHBORHOODS.map((n) => {
-            const pct = Math.round(player.turf[n.id] ?? 0);
+            const pct = Math.floor((player.turf[n.id] ?? 0) * 10) / 10;
             const hour = turfHourlyOf(player, n.id);
             const home = player.neighborhood === n.id;
             const local = rivals.filter(r => r.hood === n.id && r.alive && r.hospitalTicks === 0);
@@ -86,7 +85,7 @@ export function StreetPanel({ player }: { player: Player }) {
                 </div>
                 <p className="mt-1 font-mono text-xs tabular-nums text-fg">
                   {formatTRY(hour)}
-                  {en ? "/hour" : "/saat"} · {en ? "cap" : "tavan"} {formatTRY(HOOD_HARAÇ[n.id])}
+                  {en ? "/hour · net district income" : "/saat · net semt geliri"}
                 </p>
                 <p className="mt-1 text-xs text-muted">{en ? `Income bonus at 50 / 75 / 100%. ${home ? "Home: job success and attack improve with control." : "Job and attack bonuses apply only at home."}` : `Gelir bonusu: %50 / %75 / %100 kontrol. ${home ? "Ana semt: kontrol iş başarısını ve saldırıyı artırır." : "İş/saldırı bonusu yalnız ana semtte."}`}</p>
                 <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-elevated">
@@ -104,14 +103,14 @@ export function StreetPanel({ player }: { player: Player }) {
                     ? `Press the corner · ${TURF_STAMINA} racon · instant cash`
                     : `Köşeyi bas · ${TURF_STAMINA} racon · nakit haraç`}
                 </Button>
-                <p className="mt-2 text-xs leading-relaxed text-muted">{en ? "Costs racon; attention +3. Cash scales with control gained, no repeat milestone payout." : "Racon harcar; emniyet +3. Nakit, kazanılan kontrolle orantılıdır; eşik ödülü tekrar üretilmez."}</p>
+                <p className="mt-2 text-xs leading-relaxed text-muted">{en ? "Costs racon; attention +3. Cash scales with control gained." : "Racon harcar; emniyet +3. Nakit, kazanılan kontrolle orantılıdır."}</p>
                 <div className="mt-3 grid gap-2">
                   <Button variant="ghost" className="h-auto min-h-11 whitespace-normal py-2" disabled={!canAct(player) || player.stamina < ESNAF_STAMINA || player.cash < ESNAF_COST} onClick={() => sitEsnafBar(n.id)}>{en ? "Visit local traders" : "Esnafla otur"} · {formatTRY(ESNAF_COST)} · {ESNAF_STAMINA} {en ? "stamina" : "racon"}</Button>
                   <p className="text-xs text-muted">{en ? `Control +${home ? "7–11" : "4–8"}, reputation +1, health +3; no attention increase.` : `Kontrol +${home ? "7–11" : "4–8"}, itibar +1, can +3; emniyet artmaz.`}</p>
                   <Button variant="ghost" className="h-auto min-h-11 whitespace-normal py-2" disabled={!canAct(player) || player.stamina < IHBAR_STAMINA || !local.length} onClick={() => snitchHood(n.id)}>{en ? "Inform on a rival" : "Rakibi ihbar et"} · {IHBAR_STAMINA} {en ? "stamina" : "racon"}</Button>
                   <p className="text-xs text-muted">{en ? "One local rival is sidelined. Control +4, attention +10, reputation −2; revenge follows." : "Bir yerel rakip devreden çıkar. Kontrol +4, emniyet +10, itibar −2; intikam riski doğar."}</p>
                 </div>
-                <p className="mt-3 border-t border-border pt-3 text-sm text-muted">{en ? "Active rivals" : "Aktif rakip"}: {local.length} · {en ? "pressure / tick" : "baskı / adım"}: %{Math.round(pressure * 100)}</p>
+                <p className="mt-3 border-t border-border pt-3 text-sm text-muted">{en ? "Active rivals" : "Aktif rakip"}: {local.length} · {en ? "pressure / 10 min" : "baskı / 10 dk"}: %{Math.round(pressure * 100)}</p>
                 <p className="mt-1 text-xs text-muted">{local.map(r => r.name).join(" · ") || (en ? "No active rival" : "Aktif rakip yok")}</p>
               </li>
             );
