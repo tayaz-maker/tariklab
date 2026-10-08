@@ -55,7 +55,7 @@
     if (effects.rep && H.addRep) {
       Object.keys(effects.rep).forEach(function (k) { H.addRep(k, effects.rep[k]); });
     }
-    if (effects.dosya && effects.dosya > 0 && H.filePressure) H.filePressure(effects.dosya, cause || "zincir");
+    if (effects.dosya && H.filePressure) H.filePressure(effects.dosya, cause || "zincir");
     if (effects.gonul) {
       Object.keys(effects.gonul).forEach(function (id) {
         var m = H.manBy(id);
@@ -920,6 +920,7 @@
     CHAINS.forEach(function (chain) {
       var st = chainState(S, chain.id);
       if (st.status === "done" || st.status === "dead" || st.status === "active") return;
+      if ((S.depth.delayedEffects || []).some(function(e){return e.type === "chain-echo" && e.chainId === chain.id && e.status === "pending";})) return;
       if ((chain.exclusive || []).some(function (id) {
         var other = S.flags.chains[id];
         return other && (other.status === "done" || other.status === "active");
@@ -949,8 +950,17 @@
     if (UI) UI.spawnLeft = H.num(UI.spawnLeft, 1) - 1;
   }
 
+  function choiceInfo(paper, choiceId, S) {
+    var chain = paper && CHAINS.find(function(c){return c.id === paper.chainId;});
+    var node = chain && chain.stages.find(function(n){return n.id === paper.nodeId;});
+    var choice = node && node.choices.find(function(c){return c.id === choiceId;});
+    var cost = choice ? Math.max(0, -(choice.effects.cash || 0)) : 0;
+    return { choice: choice, cost: cost,
+      reason: !paper || paper.kapali ? "Bu kâğıt zaten kapandı." : !choice ? "Geçerli bir karar seç." : S.kasa < cost ? "Kasada ₺" + cost.toLocaleString("tr-TR") + " gerekli." : "" };
+  }
+
   function choose(paper, choiceId, S, H) {
-    if (!paper || !S || !H) return;
+    if (!paper || !S || !H || choiceInfo(paper, choiceId, S).reason) return false;
     ensure(S);
     var chain = CHAINS.filter(function (c) { return c.id === paper.chainId; })[0];
     if (!chain) { paper.kapali = true; paper.read = true; return; }
@@ -994,8 +1004,10 @@
       st.status = effect.next === "dead" ? "dead" : "done";
       st.stage = chain.stages.length;
     } else if (typeof effect.next === "number" && isFinite(effect.next)) {
-      st.stage = effect.next;
-      if (st.status === "active") st.status = "idle";
+      if (st.status !== "done" && st.status !== "dead" && effect.next > st.stage) {
+        st.stage = effect.next;
+        if (st.status === "active") st.status = "idle";
+      }
     }
     if (effect.echo && H && H.pushInbox) {
       var text = ECHO[effect.echo] || (chain.id + " geri döndü.");
@@ -1057,6 +1069,7 @@
     CHAINS: CHAINS,
     tick: tick,
     choose: choose,
+    choiceInfo: choiceInfo,
     resolve: resolve,
     coverage: coverage,
     summarize: summarize,
