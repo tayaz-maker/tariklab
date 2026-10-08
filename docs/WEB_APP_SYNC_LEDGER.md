@@ -704,3 +704,9 @@ Preserved PR #135–144 main `51ee5ccf5b249c7a18df7b3dba2340b8025c4c34`. TC-only
 ## 2026-10-08 — JITEM production quality
 
 Verified main/production #145 `99c7ddb94b5f32b25c7186cd76e3a15bdf2d9836`, READY. Built isolated JITEM runtime from reviewed upstream PR #22; no compiled JS edited manually. Restores existing resource/support decisions with real previews; fixes mobile event tab blocking, 1024px columns, embedded help/end scrolling, unrelated source links and refused-move feedback. Clarifies fixed historical events versus game outcomes and evidence confidence. Keeps source catalogue, artwork, schema-5 saves and production embed/locale contract. Upstream 281/281 tests, build/typecheck PASS; integration 2/2 and portal build/typecheck PASS. Browser matrix and final release evidence recorded in `docs/jitem-derin-ag/PRODUCTION_QUALITY_2026-10-08.md`. TC SIM #145 and other games unchanged. No native/audio work. Stop after JITEM production smoke; user performs visual/play acceptance.
+
+## 2026-10-08 — Çete Savaşları production quality
+- Canonical source: portal `src/game` and `src/components/game`; baseline #146 `501bc339145d1c49bdd79ce7567164a7699536ef`.
+- Fix payout/trading exploits, district decay/income accuracy; expose existing strategic district decisions and crew availability. State/save version 15 and existing assets remain.
+- Targeted regressions and responsive TR/EN browser gate added; details: `docs/CETE_PRODUCTION_QUALITY_2026-10-08.md`.
+- No TC SIM, JITEM, HANEDANIAN or native changes. Audio remains disabled.

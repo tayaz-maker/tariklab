@@ -6,15 +6,17 @@ import { Input } from "@/components/ui/input";
 import { canAct, formatTicksAsMinutes } from "@/game/clock";
 import {
   CREW,
+  ESNAF_COST, ESNAF_STAMINA, IHBAR_STAMINA,
+  crewWageHourly, ihanetSeviye,
   HOOD_HARAÇ,
   NEIGHBORHOODS,
   PVP_STAMINA_COST,
   TURF_STAMINA,
   turfHourlyOf,
   turfHaraçHourly,
-  turfPerkLine,
 } from "@/game/data";
 import { useGame } from "@/game/store";
+import { freeCrew, rivalPressure, turfDefense } from "@/game/formulas";
 import type { Player } from "@/game/types";
 import { formatTRY } from "@/lib/utils";
 
@@ -27,6 +29,8 @@ export function StreetPanel({ player }: { player: Player }) {
   const huntBounty = useGame((s) => s.huntBounty);
   const hireCrew = useGame((s) => s.hireCrew);
   const fireCrew = useGame((s) => s.fireCrew);
+  const sitEsnafBar = useGame((s) => s.sitEsnafBar);
+  const snitchHood = useGame((s) => s.snitchHood);
   const pressTurf = useGame((s) => s.pressTurf);
   const [bountyId, setBountyId] = useState<string | null>(null);
   const [amount, setAmount] = useState("5000");
@@ -40,21 +44,28 @@ export function StreetPanel({ player }: { player: Player }) {
     player.cash < bountyAmt;
 
   return (
-    <div className="space-y-8">
+    <div className="cete-street space-y-8">
       <section>
-        <h2 className="font-display text-2xl font-semibold">{en ? "Turf" : "Semt"}</h2>
+        <h2 className="font-display text-2xl font-semibold">{en ? "District control" : "Semt hâkimiyeti"}</h2>
         <p className="mt-1 text-sm text-muted">
           {en
-            ? "Press a corner, cash haraç lands instantly. Higher percentage unlocks jobs, attack and hourly income. Total haraç"
-            : "Köşeyi bas, nakit haraç anında cebine. Yüzde yükseldikçe iş, saldırı ve saatlik gelir açılır. Toplam haraç"}{" "}
+            ? "Choose fast expansion or quieter local support. Rivals contest control; free crew and armour reduce pressure. District income"
+            : "Hızlı genişleme ile sakin yerel destek arasında karar ver. Rakipler kontrolünü aşındırır; serbest ekip ve zırh baskıyı azaltır. Semt geliri"}{" "}
           <span className="font-mono text-fg">{formatTRY(totalHarac)}</span>
           {en ? "/hour." : "/saat."}
         </p>
-        <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+        <div className="mt-4 grid grid-cols-2 gap-3 rounded-xl border border-border bg-elevated p-4 text-sm">
+          <div><p className="text-muted">{en ? "Crew wages / hour" : "Ekip gideri / saat"}</p><p className="font-mono">{formatTRY(crewWageHourly(player))}</p></div>
+          <div><p className="text-muted">{en ? "Pressure reduction" : "Baskı azaltma"}</p><p className="font-mono">%{Math.round(turfDefense(player) * 100)}</p></div>
+        </div>
+        <p className="mt-3 text-xs leading-relaxed text-muted">{en ? "Control is local, not a geographical route map. Home control improves job success and attack; every district earns income. Away control loses 0.05 points each tick, before rival pressure. Police attention cuts district income at 45 and 70; it cools by 0.5 each ten-minute game step." : "Kontrol semt bazlıdır; coğrafi yol haritası değildir. Ana semtin iş başarısını ve saldırını, her semt gelirini etkiler. Yabancı semtler rakip baskısı dışında her adımda 0,05 puan aşınır. Emniyet 45 ve 70 eşiğinde semt gelirini keser; her 10 oyun dakikasında 0,5 azalır."}</p>
+        <ul className="mt-4 grid gap-3 xl:grid-cols-2">
           {NEIGHBORHOODS.map((n) => {
             const pct = Math.round(player.turf[n.id] ?? 0);
             const hour = turfHourlyOf(player, n.id);
             const home = player.neighborhood === n.id;
+            const local = rivals.filter(r => r.hood === n.id && r.alive && r.hospitalTicks === 0);
+            const pressure = 1 - local.reduce((chance, r) => chance * (1 - rivalPressure(player, r)), 1);
             return (
               <li
                 key={n.id}
@@ -77,7 +88,7 @@ export function StreetPanel({ player }: { player: Player }) {
                   {formatTRY(hour)}
                   {en ? "/hour" : "/saat"} · {en ? "cap" : "tavan"} {formatTRY(HOOD_HARAÇ[n.id])}
                 </p>
-                <p className="mt-1 text-xs text-muted">{turfPerkLine(pct)}</p>
+                <p className="mt-1 text-xs text-muted">{en ? `Income bonus at 50 / 75 / 100%. ${home ? "Home: job success and attack improve with control." : "Job and attack bonuses apply only at home."}` : `Gelir bonusu: %50 / %75 / %100 kontrol. ${home ? "Ana semt: kontrol iş başarısını ve saldırıyı artırır." : "İş/saldırı bonusu yalnız ana semtte."}`}</p>
                 <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-elevated">
                   <div
                     className="h-full rounded-full bg-accent"
@@ -85,7 +96,7 @@ export function StreetPanel({ player }: { player: Player }) {
                   />
                 </div>
                 <Button
-                  className="mt-3"
+                  className="mt-3 h-auto min-h-11 w-full whitespace-normal py-2"
                   disabled={turfBlocked || pct >= 100}
                   onClick={() => pressTurf(n.id)}
                 >
@@ -93,6 +104,15 @@ export function StreetPanel({ player }: { player: Player }) {
                     ? `Press the corner · ${TURF_STAMINA} racon · instant cash`
                     : `Köşeyi bas · ${TURF_STAMINA} racon · nakit haraç`}
                 </Button>
+                <p className="mt-2 text-xs leading-relaxed text-muted">{en ? "Costs racon; attention +3. Cash scales with control gained, no repeat milestone payout." : "Racon harcar; emniyet +3. Nakit, kazanılan kontrolle orantılıdır; eşik ödülü tekrar üretilmez."}</p>
+                <div className="mt-3 grid gap-2">
+                  <Button variant="ghost" className="h-auto min-h-11 whitespace-normal py-2" disabled={!canAct(player) || player.stamina < ESNAF_STAMINA || player.cash < ESNAF_COST} onClick={() => sitEsnafBar(n.id)}>{en ? "Visit local traders" : "Esnafla otur"} · {formatTRY(ESNAF_COST)} · {ESNAF_STAMINA} {en ? "stamina" : "racon"}</Button>
+                  <p className="text-xs text-muted">{en ? `Control +${home ? "7–11" : "4–8"}, reputation +1, health +3; no attention increase.` : `Kontrol +${home ? "7–11" : "4–8"}, itibar +1, can +3; emniyet artmaz.`}</p>
+                  <Button variant="ghost" className="h-auto min-h-11 whitespace-normal py-2" disabled={!canAct(player) || player.stamina < IHBAR_STAMINA || !local.length} onClick={() => snitchHood(n.id)}>{en ? "Inform on a rival" : "Rakibi ihbar et"} · {IHBAR_STAMINA} {en ? "stamina" : "racon"}</Button>
+                  <p className="text-xs text-muted">{en ? "One local rival is sidelined. Control +4, attention +10, reputation −2; revenge follows." : "Bir yerel rakip devreden çıkar. Kontrol +4, emniyet +10, itibar −2; intikam riski doğar."}</p>
+                </div>
+                <p className="mt-3 border-t border-border pt-3 text-sm text-muted">{en ? "Active rivals" : "Aktif rakip"}: {local.length} · {en ? "pressure / tick" : "baskı / adım"}: %{Math.round(pressure * 100)}</p>
+                <p className="mt-1 text-xs text-muted">{local.map(r => r.name).join(" · ") || (en ? "No active rival" : "Aktif rakip yok")}</p>
               </li>
             );
           })}
@@ -103,10 +123,11 @@ export function StreetPanel({ player }: { player: Player }) {
         <h2 className="font-display text-2xl font-semibold">{en ? "Crew" : "Çete"}</h2>
         <p className="mt-1 text-sm text-muted">
           {en
-            ? "Three men are enough. Wages are cut hourly; unpaid, they hit the cash box."
-            : "Üç adam yeter. Maaş saatlik kesilir; yoksa kasa yer."}
+            ? "Specialists unlock harder jobs. Busy crew cannot be dismissed; assigning lookouts or gunmen also weakens district defence."
+            : "Uzmanlar zor işleri açar. Görevdeki üye ayrılamaz; gözcü veya tetikçiyi işe göndermek semt savunmasını da azaltır."}
         </p>
-        <ul className="mt-4 grid gap-3 md:grid-cols-3">
+        <p className="mt-2 text-sm text-accent">{en ? "Available" : "Serbest"}: {freeCrew(player).length}/{player.crew.length} · {en ? "Betrayal risk (reputation)" : "İhanet riski (itibar)"}: {en ? ({ yok: "none", düşük: "low", orta: "medium", yüksek: "high" }[ihanetSeviye(player)]) : ihanetSeviye(player)}</p>
+        <ul className="mt-4 grid gap-3 xl:grid-cols-2">
           {CREW.map((c) => {
             const mine = player.crew.includes(c.id);
             const cant =
@@ -130,9 +151,10 @@ export function StreetPanel({ player }: { player: Player }) {
                   <Button
                     className="mt-3"
                     variant="ghost"
+                    disabled={(player.crewBusy[c.id] ?? 0) > 0}
                     onClick={() => fireCrew(c.id)}
                   >
-                    {en ? "Cut loose" : "Defterden sil"}
+                    {(player.crewBusy[c.id] ?? 0) > 0 ? `${en ? "On assignment" : "Görevde"} · ${formatTicksAsMinutes(player.crewBusy[c.id] ?? 0)}` : en ? "Cut loose" : "Defterden sil"}
                   </Button>
                 ) : (
                   <Button
@@ -156,7 +178,7 @@ export function StreetPanel({ player }: { player: Player }) {
             ? "Take him down. If you win, empty his pockets — the cash box stays put. If he's rich, put him on the list."
             : "Racon kes. Kazanırsan cebini boşalt — kasa durur. Zenginse sorgu odasına çek."}
         </p>
-        <ul className="mt-5 grid gap-3 lg:grid-cols-2">
+        <ul className="mt-5 grid gap-3 xl:grid-cols-2">
           {rivals.map((r) => {
             const down = r.hospitalTicks > 0;
             return (
@@ -184,6 +206,7 @@ export function StreetPanel({ player }: { player: Player }) {
                   {formatTRY(r.cash)} · {en ? "health" : "can"} {Math.max(0, r.health)}
                   {down ? ` · ${formatTicksAsMinutes(r.hospitalTicks)}` : ""}
                 </p>
+                <p className="mt-2 text-xs text-muted">{NEIGHBORHOODS.find(n => n.id === r.hood)?.name} · {en ? "Attack" : "Saldırı"} {r.attack}{r.revengeTicks > 0 ? ` · ${en ? "Revenge in" : "İntikam"} ${formatTicksAsMinutes(r.revengeTicks)}` : ""}</p>
                 <div className="mt-3 flex flex-wrap gap-2">
                   <Button
                     disabled={blocked || down}
@@ -208,8 +231,9 @@ export function StreetPanel({ player }: { player: Player }) {
                   </Button>
                 </div>
                 {bountyId === r.id ? (
-                  <div className="mt-3 flex gap-2">
+                  <div className="mt-3 flex flex-wrap gap-2">
                     <Input
+                      aria-label={en ? "Bounty amount" : "Ödül tutarı"}
                       type="number"
                       inputMode="numeric"
                       min={500}

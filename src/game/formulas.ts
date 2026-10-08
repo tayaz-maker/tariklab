@@ -1,6 +1,6 @@
 import { clamp } from "@/lib/utils";
 import { CREW_MAP, HEALTH_MAX, ITEM_MAP } from "./data";
-import type { CrewId, NeighborhoodId, Player, Risk, ShopItem } from "./types";
+import type { CrewId, NeighborhoodId, Player, Rival, Risk, ShopItem } from "./types";
 
 
 export function xpToNext(level: number) {
@@ -190,4 +190,18 @@ export function refillCaps(player: Player) {
     stamina: clamp(player.stamina, 0, sMax),
     health: clamp(player.health, 0, HEALTH_MAX),
   };
+}
+
+// Shared by the simulation and the district briefing: no hidden UI-only forecast.
+export function turfDefense(player: Player) {
+  const available = freeCrew(player);
+  return Math.min(0.6, (available.includes("gozcu") ? 0.2 : 0) +
+    (available.includes("tetik") ? 0.25 : 0) + equippedBonuses(player).def / 200);
+}
+
+export function rivalPressure(player: Player, rival: Rival) {
+  if (!rival.alive || rival.hospitalTicks > 0 || (player.turf[rival.hood] ?? 0) <= 28) return 0;
+  const stake = (player.turf[rival.hood] ?? 0) / 100;
+  return Math.min(0.18, 0.025 + stake * 0.06 + player.isi / 2000 +
+    (rival.revengeTicks > 0 ? 0.03 : 0)) * (1 - turfDefense(player));
 }
