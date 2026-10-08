@@ -1,0 +1,522 @@
+{
+  "schema": 1,
+  "status": "style-proof-only",
+  "game": "darbe-h",
+  "palette": {
+    "paper": "#f2e8d9",
+    "ink": "#202830",
+    "aubergine": "#302b37",
+    "sage": "#6a847b",
+    "clay": "#ca775b"
+  },
+  "provenance": "Original code-drawn geometry. No external art, old art generator, fonts, filters, animation or visible SVG text.",
+  "width": 240,
+  "height": 160,
+  "totalBytes": 25758,
+  "sourceCardsSha256": "222916020ef176ced6ad72d4c61038bf045757e7ae9d7a6bfa6d8f99c657f3f9",
+  "builtCardsSha256": "6281786e34562e3041eb3d5542d9e23283b4e2a82ac54a60854d54286f60dcb1",
+  "summary": {
+    "coverage": 10,
+    "width": 240,
+    "height": 160,
+    "totalBytes": 25758,
+    "maxBytes": 3144
+  },
+  "cards": {
+    "DRB-001": {
+      "bytes": 2904,
+      "sha256": "6efac2c70b6bb9689b74909d292016b0b3fb430908cfa4ff40289f9732b02ad4",
+      "concept": "Görev devri: masadan ayrılan dosya, açık hizmet kapısında yeni bir görevliyi karşılar.",
+      "mechanic": "Kâtibin kendisi arşive gider; desteden kademe 3 veya altı bir Dosya görevlisi özel çağrılır."
+    },
+    "DRB-022": {
+      "bytes": 3144,
+      "sha256": "417c5cae0c66e0dde8b810e35e7fd760eea1aa176b8bbb508da451dc3e2e9ea0",
+      "concept": "Açılan arşiv çekmecelerinin arasından çıkarılan tek rapor; yer değiştiren tasnif kartları.",
+      "mechanic": "Çağrılma 200 KP sağlar; karıştırma ayrı kullanılabilen etkidir. Çizim yeni raporu ve yeniden tasnifi ayırır."
+    },
+    "DRB-072": {
+      "bytes": 2800,
+      "sha256": "f906ed8c59aa39b81e555941734eb0320dc2f5f57d735a9738dd3efc3828f33f",
+      "concept": "İki farklı kayıt kaynağı ortak masada bir dosyaya dönüşür; bir destek dosyası iade tepsisine çekilir.",
+      "mechanic": "Kabine ve Arşiv malzemeleriyle kurulur; 900 KP karşılığında rakibin açık bir desteğini sahibinin eline gönderir."
+    },
+    "DRB-082": {
+      "bytes": 2210,
+      "sha256": "5dd8c9874b4482c3a7a4d2d06ce0c7813a06fda966191667ec7eee5dbdd1886c",
+      "concept": "Lambanın sınırlı ışığında kapanan işlem dosyası, masanın ucuna ulaşmak üzere olan kâğıdın yolunu keser.",
+      "mechanic": "İlan edilen işlemi iptal eder; çizim arşivleme ya da kart yok etme iddiası taşımaz."
+    },
+    "DRB-084": {
+      "bytes": 2786,
+      "sha256": "71b4a76e76168fa6dd6ad008d39576663e014f818dad21bad00231e2f4df9b80",
+      "concept": "Açılmış zeyil sayfası, aynı çalışma odasındaki masalar üzerinde ortak bir örtüye dönüşür.",
+      "mechanic": "Alan etkisi Karargah görevlilerine 300 ATK ve 300 DEF verir; güçlendirme tek kişiye değil ortak alana bağlıdır."
+    },
+    "DRB-091": {
+      "bytes": 2121,
+      "sha256": "49b0b0561ee1e9b1fe1aae67d06867df58d9e216ee46ab54c66818e79fbc2337",
+      "concept": "Bir dosya derin arşiv tepsisine bırakılırken diğer taraftaki çekmeceden temiz bir sayfa alınır.",
+      "mechanic": "Desteden seçilen bir kart arşive gönderilir, ardından bir kart çekilir. İki işlem birbirinden okunabilir."
+    },
+    "DRB-264": {
+      "bytes": 2951,
+      "sha256": "c01657c51b314b02d45ce40f0c815314fe553aa15561d6c29bcee7afefedcd20",
+      "concept": "Uzun ortak masa, iki ayrı toplantı grubunu bağlar; boş yere çekilmiş tek koltuğun geri dönüş izi görünür.",
+      "mechanic": "1550 KP, bir Meşruiyet görevlisi ve boş bölge gerektirir; rakibin açık kademe 4 veya altı görevlisinin kontrolü yalnız bu tur alınır."
+    },
+    "DRB-269": {
+      "bytes": 2169,
+      "sha256": "c536372906b1de7f9d0fa2e32fa6120e7994dea31b1aaaecef2072275325f5e4",
+      "concept": "Dosyaya eklenen uzun yaprak ileri uzanır, gerideki desteği açığa çıkarır; alttaki çoğaltma şeritleri diğer istasyonlara uzanır.",
+      "mechanic": "Donatılan görevli +450 ATK ve −200 DEF alır; Telex görevlilerine ayrıca +100 DEF sağlar."
+    },
+    "DRB-127": {
+      "bytes": 2192,
+      "sha256": "d52a9f4078c1f44e0562a9c53796b61637265b0fce24892d458c83759dc2b63c",
+      "concept": "Işıklı doğrulama tablasında üst üste gelmeyen iki form; yanlış suret giriş eşiğinden arşiv ağzına katlanır.",
+      "mechanic": "Motor etkisi çağrıyı iptal ederek ilgili kartı arşive yollar; görünür iptal ve arşivleme aynı sahnede ayrıdır."
+    },
+    "DRB-300": {
+      "bytes": 2481,
+      "sha256": "60377a78bf8b6e91cfe4ddac7e1482291967600890877c37789af5ab0b746a00",
+      "concept": "Boş kalan masaya uzanan karanlık, kapanan kapı eşiğinde durur; açık çekmecede yeni bir sayfa kalır.",
+      "mechanic": "Düelloda bir kez, doğrudan saldırıda 1000 KP ödenir; saldırı iptal edilir ve bir kart çekilir."
+    }
+  },
+  "scenes": [
+    {
+      "id": "DRB-001",
+      "title": "Dosya Kâtibi",
+      "concept": "Görev devri: masadan ayrılan dosya, açık hizmet kapısında yeni bir görevliyi karşılar.",
+      "composition": "Yakın yan bakış; masa, dosya ve eşik arasında tek yönlü göz hareketi.",
+      "mechanic": "Kâtibin kendisi arşive gider; desteden kademe 3 veya altı bir Dosya görevlisi özel çağrılır.",
+      "path": "scenes/DRB-001.svg",
+      "width": 240,
+      "height": 160,
+      "bytes": 2904,
+      "sha256": "6efac2c70b6bb9689b74909d292016b0b3fb430908cfa4ff40289f9732b02ad4",
+      "card": {
+        "kind": "unit",
+        "subtype": "effect",
+        "series": [
+          "Dosya"
+        ],
+        "text": "Bu kartı parafla gönder; desteden kademe 3 veya altı 1 görevli özel çağır.",
+        "effects": [
+          {
+            "op": "select",
+            "key": "unit",
+            "selector": {
+              "owner": "own",
+              "zones": [
+                "deck"
+              ],
+              "kind": "unit",
+              "series": "Dosya",
+              "maxLevel": 3
+            },
+            "count": 1,
+            "chooser": "own"
+          },
+          {
+            "op": "summon",
+            "count": 1
+          }
+        ],
+        "costs": [
+          {
+            "op": "selfMove",
+            "to": "grave",
+            "reason": "tribute"
+          }
+        ],
+        "traits": {
+          "requiresFreeZone": "units"
+        },
+        "triggers": [],
+        "response": null
+      }
+    },
+    {
+      "id": "DRB-022",
+      "title": "Arşiv Raportörü",
+      "concept": "Açılan arşiv çekmecelerinin arasından çıkarılan tek rapor; yer değiştiren tasnif kartları.",
+      "composition": "Derin arşiv koridoru; öndeki açık çekmece ile uzaktaki sivil raportör farklı ölçeklerde.",
+      "mechanic": "Çağrılma 200 KP sağlar; karıştırma ayrı kullanılabilen etkidir. Çizim yeni raporu ve yeniden tasnifi ayırır.",
+      "path": "scenes/DRB-022.svg",
+      "width": 240,
+      "height": 160,
+      "bytes": 3144,
+      "sha256": "417c5cae0c66e0dde8b810e35e7fd760eea1aa176b8bbb508da451dc3e2e9ea0",
+      "card": {
+        "kind": "unit",
+        "subtype": "effect",
+        "series": [
+          "Arsiv"
+        ],
+        "text": "Çağrılınca 200 KP; desteyi karıştırabilirsin.",
+        "effects": [
+          {
+            "op": "shuffle"
+          }
+        ],
+        "costs": [],
+        "traits": {},
+        "triggers": [
+          {
+            "event": "summon",
+            "effects": [
+              {
+                "op": "points",
+                "amount": 200,
+                "opponent": false
+              }
+            ]
+          }
+        ],
+        "response": null
+      }
+    },
+    {
+      "id": "DRB-072",
+      "title": "Yedek Kabine",
+      "concept": "İki farklı kayıt kaynağı ortak masada bir dosyaya dönüşür; bir destek dosyası iade tepsisine çekilir.",
+      "composition": "Yukarıdan oval kurul masası; birleşen iki renk, masadan dışarı çıkan tek dosya.",
+      "mechanic": "Kabine ve Arşiv malzemeleriyle kurulur; 900 KP karşılığında rakibin açık bir desteğini sahibinin eline gönderir.",
+      "path": "scenes/DRB-072.svg",
+      "width": 240,
+      "height": 160,
+      "bytes": 2800,
+      "sha256": "f906ed8c59aa39b81e555941734eb0320dc2f5f57d735a9738dd3efc3828f33f",
+      "card": {
+        "kind": "unit",
+        "subtype": "fusion",
+        "series": [
+          "Kabine",
+          "Arsiv"
+        ],
+        "text": "Yedek heyet: 1 Kabine ve 1 Arşiv görevlisi malzeme. Turda bir: 900 KP öde; rakibin 1 açık destek kartını eline gönder.",
+        "effects": [
+          {
+            "op": "select",
+            "key": "support",
+            "selector": {
+              "owner": "opponent",
+              "zones": "support",
+              "face": "up"
+            },
+            "count": 1,
+            "chooser": "own"
+          },
+          {
+            "op": "move",
+            "to": "hand",
+            "count": 1,
+            "reason": "effect"
+          }
+        ],
+        "costs": [
+          {
+            "op": "points",
+            "amount": -900,
+            "opponent": false
+          }
+        ],
+        "traits": {
+          "materials": {
+            "series": [
+              "Kabine",
+              "Arsiv"
+            ]
+          }
+        },
+        "triggers": [],
+        "response": null
+      }
+    },
+    {
+      "id": "DRB-082",
+      "title": "Gece Brifingi",
+      "concept": "Lambanın sınırlı ışığında kapanan işlem dosyası, masanın ucuna ulaşmak üzere olan kâğıdın yolunu keser.",
+      "composition": "Karanlık oda; tek lambanın ışık düzlemi ve kesilen diyagonal akış.",
+      "mechanic": "İlan edilen işlemi iptal eder; çizim arşivleme ya da kart yok etme iddiası taşımaz.",
+      "path": "scenes/DRB-082.svg",
+      "width": 240,
+      "height": 160,
+      "bytes": 2210,
+      "sha256": "5dd8c9874b4482c3a7a4d2d06ce0c7813a06fda966191667ec7eee5dbdd1886c",
+      "card": {
+        "kind": "spell",
+        "subtype": "quick",
+        "series": [
+          "Paraf"
+        ],
+        "text": "İlan edilen işlemi iptal et.",
+        "effects": [
+          {
+            "op": "negate"
+          }
+        ],
+        "costs": [],
+        "traits": {},
+        "triggers": [],
+        "response": [
+          "activate",
+          "attack",
+          "summon",
+          "special",
+          "draw",
+          "destroy",
+          "battle-start"
+        ]
+      }
+    },
+    {
+      "id": "DRB-084",
+      "title": "Zeyil Cümlesi",
+      "concept": "Açılmış zeyil sayfası, aynı çalışma odasındaki masalar üzerinde ortak bir örtüye dönüşür.",
+      "composition": "Mimari kesit; geniş katlanmış sayfanın altında üç ayrı sivil çalışma yeri.",
+      "mechanic": "Alan etkisi Karargah görevlilerine 300 ATK ve 300 DEF verir; güçlendirme tek kişiye değil ortak alana bağlıdır.",
+      "path": "scenes/DRB-084.svg",
+      "width": 240,
+      "height": 160,
+      "bytes": 2786,
+      "sha256": "71b4a76e76168fa6dd6ad008d39576663e014f818dad21bad00231e2f4df9b80",
+      "card": {
+        "kind": "spell",
+        "subtype": "field",
+        "series": [
+          "Karargah"
+        ],
+        "text": "Alan: Karargah görevliler 300/300 kazanır.",
+        "effects": [],
+        "costs": [],
+        "traits": {
+          "aura": {
+            "series": "Karargah",
+            "attack": 300,
+            "defense": 300
+          }
+        },
+        "triggers": [],
+        "response": null
+      }
+    },
+    {
+      "id": "DRB-091",
+      "title": "Dosya Devri",
+      "concept": "Bir dosya derin arşiv tepsisine bırakılırken diğer taraftaki çekmeceden temiz bir sayfa alınır.",
+      "composition": "Çapraz üst görünüş; koyu kabul tepsisi ile aydınlık çıkış çekmecesi.",
+      "mechanic": "Desteden seçilen bir kart arşive gönderilir, ardından bir kart çekilir. İki işlem birbirinden okunabilir.",
+      "path": "scenes/DRB-091.svg",
+      "width": 240,
+      "height": 160,
+      "bytes": 2121,
+      "sha256": "49b0b0561ee1e9b1fe1aae67d06867df58d9e216ee46ab54c66818e79fbc2337",
+      "card": {
+        "kind": "spell",
+        "subtype": "normal",
+        "series": [
+          "Tebligat"
+        ],
+        "text": "Desteden 1 kartı arşive gönder, 1 çek.",
+        "effects": [
+          {
+            "op": "select",
+            "key": "card",
+            "selector": {
+              "owner": "own",
+              "zones": "deck"
+            },
+            "count": 1,
+            "chooser": "own"
+          },
+          {
+            "op": "move",
+            "to": "grave",
+            "count": 1,
+            "reason": "effect"
+          },
+          {
+            "op": "draw",
+            "count": 1,
+            "opponent": false
+          }
+        ],
+        "costs": [],
+        "traits": {},
+        "triggers": [],
+        "response": null
+      }
+    },
+    {
+      "id": "DRB-264",
+      "title": "Uzun Brifing",
+      "concept": "Uzun ortak masa, iki ayrı toplantı grubunu bağlar; boş yere çekilmiş tek koltuğun geri dönüş izi görünür.",
+      "composition": "Güçlü kaçış perspektifi; taşınan koltuk ve geride kalan yer izi geçiciliği anlatır.",
+      "mechanic": "1550 KP, bir Meşruiyet görevlisi ve boş bölge gerektirir; rakibin açık kademe 4 veya altı görevlisinin kontrolü yalnız bu tur alınır.",
+      "path": "scenes/DRB-264.svg",
+      "width": 240,
+      "height": 160,
+      "bytes": 2951,
+      "sha256": "c01657c51b314b02d45ce40f0c815314fe553aa15561d6c29bcee7afefedcd20",
+      "card": {
+        "kind": "spell",
+        "subtype": "normal",
+        "series": [
+          "Mesruiyet"
+        ],
+        "text": "1550 KP öde; rakibin açık kademe 4 veya altı 1 görevlisinin kontrolünü bu tur al. Bir Meşruiyet görevlin ve boş birim bölgen bulunmalı.",
+        "effects": [
+          {
+            "op": "select",
+            "key": "borrow",
+            "selector": {
+              "owner": "opponent",
+              "zones": "units",
+              "face": "up",
+              "maxLevel": 4
+            },
+            "count": 1,
+            "chooser": "own"
+          },
+          {
+            "op": "control"
+          }
+        ],
+        "costs": [
+          {
+            "op": "points",
+            "amount": -1550,
+            "opponent": false
+          }
+        ],
+        "traits": {
+          "requiresSeries": "Mesruiyet",
+          "requiresFreeZone": "units"
+        },
+        "triggers": [],
+        "response": null
+      }
+    },
+    {
+      "id": "DRB-269",
+      "title": "Zeyil Eki",
+      "concept": "Dosyaya eklenen uzun yaprak ileri uzanır, gerideki desteği açığa çıkarır; alttaki çoğaltma şeritleri diğer istasyonlara uzanır.",
+      "composition": "Makro cilt ayrıntısı; ileri çıkan ek ile eksilen arka dayanak karşılıklı görünür.",
+      "mechanic": "Donatılan görevli +450 ATK ve −200 DEF alır; Telex görevlilerine ayrıca +100 DEF sağlar.",
+      "path": "scenes/DRB-269.svg",
+      "width": 240,
+      "height": 160,
+      "bytes": 2169,
+      "sha256": "c536372906b1de7f9d0fa2e32fa6120e7994dea31b1aaaecef2072275325f5e4",
+      "card": {
+        "kind": "spell",
+        "subtype": "equip",
+        "series": [
+          "Telex"
+        ],
+        "text": "Donatılan görevli 450 ATK kazanır ama 200 DEF kaybeder. Sahadaki Telex görevliler 100 DEF kazanır.",
+        "effects": [],
+        "costs": [],
+        "traits": {
+          "equip": {
+            "attack": 450,
+            "defense": -200
+          },
+          "aura": {
+            "series": "Telex",
+            "defense": 100
+          }
+        },
+        "triggers": [],
+        "response": null
+      }
+    },
+    {
+      "id": "DRB-127",
+      "title": "İhtar: Yanlış Suret",
+      "concept": "Işıklı doğrulama tablasında üst üste gelmeyen iki form; yanlış suret giriş eşiğinden arşiv ağzına katlanır.",
+      "composition": "Kesit yakın planı; sayfa kenarlarının uyumsuzluğu ve aşağı yönelen arşiv kanalı.",
+      "mechanic": "Motor etkisi çağrıyı iptal ederek ilgili kartı arşive yollar; görünür iptal ve arşivleme aynı sahnede ayrıdır.",
+      "path": "scenes/DRB-127.svg",
+      "width": 240,
+      "height": 160,
+      "bytes": 2192,
+      "sha256": "d52a9f4078c1f44e0562a9c53796b61637265b0fce24892d458c83759dc2b63c",
+      "card": {
+        "kind": "trap",
+        "subtype": "counter",
+        "series": [
+          "İhtar"
+        ],
+        "text": "Çağrıyı iptal et, kart arşive gider.",
+        "effects": [
+          {
+            "op": "cancelSummonToGrave"
+          }
+        ],
+        "costs": [],
+        "traits": {
+          "responseTypes": [
+            "activate"
+          ]
+        },
+        "triggers": [],
+        "response": [
+          "activate"
+        ]
+      }
+    },
+    {
+      "id": "DRB-300",
+      "title": "İhtar: Masa Boşaldı",
+      "concept": "Boş kalan masaya uzanan karanlık, kapanan kapı eşiğinde durur; açık çekmecede yeni bir sayfa kalır.",
+      "composition": "Geniş ve sessiz oda; insan yokluğu, kesilen ışık izi ve tek yeni belge.",
+      "mechanic": "Düelloda bir kez, doğrudan saldırıda 1000 KP ödenir; saldırı iptal edilir ve bir kart çekilir.",
+      "path": "scenes/DRB-300.svg",
+      "width": 240,
+      "height": 160,
+      "bytes": 2481,
+      "sha256": "60377a78bf8b6e91cfe4ddac7e1482291967600890877c37789af5ab0b746a00",
+      "card": {
+        "kind": "trap",
+        "subtype": "normal",
+        "series": [
+          "Dosya",
+          "İhtar"
+        ],
+        "text": "Düelloda bir: rakip doğrudan saldırı ilan ettiğinde 1000 KP öde; saldırıyı iptal et ve 1 kart çek.",
+        "effects": [
+          {
+            "op": "cancelAttack"
+          },
+          {
+            "op": "draw",
+            "count": 1,
+            "opponent": false
+          }
+        ],
+        "costs": [
+          {
+            "op": "points",
+            "amount": -1000,
+            "opponent": false
+          }
+        ],
+        "traits": {
+          "responseTypes": [
+            "attack"
+          ],
+          "directOnly": true,
+          "oncePerDuel": true
+        },
+        "triggers": [],
+        "response": [
+          "attack"
+        ]
+      }
+    }
+  ]
+}
