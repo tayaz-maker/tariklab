@@ -244,7 +244,7 @@ function execute(state, action, ownerId) {
     if (choice === 'study') { pay(town, { food: 120, wood: 80 }); state.dynasty.xp = Math.min(1000000, state.dynasty.xp + 80); }
     if (choice === 'mentor') state.dynasty.xp = Math.min(1000000, state.dynasty.xp + 30);
     state.dynasty.pendingEvent = null; state.dynasty.nextEvent = state.time + 4800;
-    report(state, 'dynasty', 'Varisin yolu', choice === 'marry' ? 'Umay, hanedanlar arasında yeni bağlar kurdu. Bütün ilişkiler +15.' : choice === 'study' ? 'Varis divan hocalarıyla çalıştı. Deneyim +80.' : 'Reis bilgilerini varisine aktardı. Deneyim +30.');
+    report(state, 'dynasty', 'Varisin yolu', choice === 'marry' ? `${state.dynasty.heir}, hanedanlar arasında yeni bağlar kurdu. Bütün ilişkiler +15; ateşkes veya bağlılık otomatik kurulmaz.` : choice === 'study' ? 'Varis divan hocalarıyla çalıştı. Deneyim +80.' : 'Reis bilgilerini varisine aktardı. Deneyim +30.');
     return success('Varisin kararı işlendi.');
   }
   if (action.type === 'victory') {
@@ -389,7 +389,7 @@ function resolveArmy(state, army) {
   }
   if (army.mission === 'scout') {
     const opposition = target && target.ownerId !== army.ownerId ? target.troops.scout : 0;
-    const survived = army.troops.scout * (player ? 2.5 + state.dynasty.stats.intrigue * 0.5 : 3) >= opposition;
+    const survived = army.troops.scout > 0 && army.troops.scout * (player ? 2.5 + state.dynasty.stats.intrigue * 0.5 : 3) >= opposition;
     if (player && survived) {
       state.intel[`${tile.x},${tile.y}`] = { time: state.time, ownerId: target?.ownerId || tile.poi?.ownerId || null, resources: target ? clone(target.resources) : resourceObject(), buildings: target ? clone(target.buildings) : {}, troops: target ? clone(target.troops) : troopObject() };
       state.campaign.scouting++; milestone(state, 'first-scout', 'Ufuk açıldı', 10, 15);
@@ -457,7 +457,7 @@ function resolveArmy(state, army) {
     returnArmy(state, army); return;
   }
   if (army.mission === 'attack') {
-    if (!target || atPeace(state, army.ownerId, target.ownerId)) { returnArmy(state, army); return; }
+    if (!target || combatPower(army.troops) === 0 || atPeace(state, army.ownerId, target.ownerId)) { returnArmy(state, army); return; }
     const defenderPlayer = target.ownerId === state.playerId, attackerBefore = getTroopCount(army.troops), defenderBefore = getTroopCount(target.troops);
     const offense = combatPower(army.troops) * (player ? 1 + state.dynasty.stats.warfare * 0.04 : 1);
     const wall = Math.max(0, target.buildings.wall - Math.floor(army.troops.siege / 3));
@@ -474,6 +474,9 @@ function resolveArmy(state, army) {
       const capital = ownSettlements(state, oldOwner)[0];
       if (target !== capital && army.troops.siege >= 2 && ownSettlements(state, army.ownerId).length < LIMITS.perFaction) {
         target.ownerId = army.ownerId; target.troops = troopObject(); target.queue = [];
+        // Displaced expeditions keep drawing food from their surviving capital.
+        // Their coordinates and arrival times remain unchanged.
+        for (const displaced of state.armies.filter(a => a.fromId === target.id && a.ownerId === oldOwner)) displaced.fromId = capital.id;
         for (const point of pointsFor(state, { ...target, ownerId: oldOwner })) { point.poi.ownerId = army.ownerId; }
         captured = true;
       }
@@ -557,10 +560,14 @@ function tick(state, rateCache) {
     rateCache.set(town.id, rates);
     for (const key of RESOURCE_KEYS) town.resources[key] = clamp(town.resources[key] + rates[key], 0, capacity);
     if (town.resources.food === 0 && rates.food < 0 && state.time - town.lastStarvation >= 60) {
-      const unit = UNIT_KEYS.find(key => town.troops[key] > 0);
-      if (unit) town.troops[unit]--;
+      // The home settlement feeds both its garrison and its expeditions. Moving
+      // every soldier outside must not make that army immune to starvation.
+      const pools = [town.troops, ...state.armies.filter(a => a.fromId === town.id && a.ownerId === town.ownerId).map(a => a.troops)];
+      const troops = pools.find(pool => UNIT_KEYS.some(key => pool[key] > 0));
+      const unit = troops && UNIT_KEYS.find(key => troops[key] > 0);
+      if (unit) troops[unit]--;
       town.lastStarvation = state.time; rateCache.delete(town.id);
-      if (town.ownerId === state.playerId) report(state, 'shortage', `${town.name}: iaşe daralıyor`, 'Erzak üretimi birlik bakımını karşılamıyor. Bir asker ayrıldı. Tarlayı geliştir veya başka yurttan erzak taşı.', true);
+      if (town.ownerId === state.playerId) report(state, 'shortage', `${town.name}: iaşe daralıyor`, `Erzak üretimi garnizon ve seferlerin bakımını karşılamıyor. ${troops === town.troops ? 'Garnizondan' : 'Seferden'} bir asker ayrıldı. Tarlayı geliştir, erzak taşı veya birlikleri geri çağırıp terhis et.`, true);
     }
     while (town.queue[0]?.completeAt <= state.time) {
       const item = town.queue.shift(); rateCache.delete(town.id);
@@ -583,7 +590,7 @@ function tick(state, rateCache) {
   state.armies = state.armies.filter(army => !army.remove);
   for (const faction of state.factions) if (faction.id !== state.playerId && state.time >= faction.nextThink) thinkAI(state, faction);
   if (state.time >= state.dynasty.nextEvent && !state.dynasty.pendingEvent) {
-    state.dynasty.pendingEvent = { id: nextId(state, 'event'), type: 'heir', title: 'Varis divana geliyor', text: 'Umay ilk sorumluluğunu istiyor. Mentorluk ücretsiz deneyim, eğitim daha çok deneyim, siyasi evlilik ise ilişki kazandırır.' };
+    state.dynasty.pendingEvent = { id: nextId(state, 'event'), type: 'heir', title: 'Varis divana geliyor', text: `${state.dynasty.heir} için bir görev seç. Mentorluk 30 deneyim; eğitim 120 erzak ve 80 keresteyle 80 deneyim; siyasi bağ 15 nüfuzla bütün ilişkilerde +15 sağlar.` };
     report(state, 'dynasty', 'Hanedan kararı bekliyor', 'Varisin geleceğini Hanedan bölümünde belirle. Zamanı istediğinde sürdürebilirsin.', true);
   }
   if (state.time % 60 !== 0) return;

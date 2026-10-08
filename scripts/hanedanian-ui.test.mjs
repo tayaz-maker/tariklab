@@ -378,3 +378,15 @@ test('VM UI contract: unselected inspector guidance follows the actual world and
   assert.match(h.nodes.get('inspector').innerHTML, /Yakın: seçili karonun arazi, rota ve kuruluş kararı/);
   assert.doesNotMatch(h.nodes.get('inspector').innerHTML, /Dünya: bölge seç/);
 });
+
+test('dynasty spending shows permanent effects and puts the affordable heir decision before regional goals', async () => {
+ const h=createHarness();h.state.dynasty.pendingEvent={type:'heir',title:'Varis divana geliyor',text:'Görev seç'};
+ h.state.dynasty.xp=0;h.state.settlements[0].resources.food=0;
+ await h.ui.enterGame(h.state);await h.click({view:'dynasty'});
+ let html=h.nodes.get('section-view').innerHTML;
+ assert.ok(html.indexOf('heir-decision')<html.indexOf('BÖLGESEL GELİŞİM'));
+ assert.match(html,/data-event="study" disabled/);assert.match(html,/data-dynasty="stewardship"[^>]*disabled/);
+ assert.match(html,/Sonraki seviye/);assert.match(html,/brüt üretim/);assert.match(html,/otomatik taht devri yoktur/);
+ await h.click({event:'mentor'});assert.equal(h.ui.state.dynasty.pendingEvent,null);
+ assert.equal(h.ui.state.dynasty.xp,30);assert.equal(h.ui.saves.slots.auto.state.dynasty.xp,30);
+});

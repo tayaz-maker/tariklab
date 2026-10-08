@@ -242,3 +242,55 @@ test('corrupt nested saves, malicious keys and out-of-bounds markers reject safe
   }
   const markers = copy(base); markers.settings.markers = [{ x: 1, y: 1 }]; assertValid(markers);
 });
+
+test('expedition-only armies still starve, persist losses, and cannot scout with zero scouts', () => {
+  const s = fixture({size:49, aiCount:0}), t = s.settlements[0];
+  for (const k of Object.keys(t.troops)) t.troops[k] = 0;
+  t.troops.scout = 100; t.resources.food = 0; t.buildings.farm = 0;
+  assert.equal(dispatch(s,{type:'scout',settlementId:t.id,x:0,y:0,count:100}).ok,true);
+  const a = s.armies[0], before = getRates(s,t).upkeep;
+  run(s,1);
+  assert.equal(a.troops.scout,99); assert.ok(getRates(s,t).upkeep < before);
+  assert.match(s.reports.find(r=>r.type==='shortage').text,/Seferden bir asker/);
+  const reload=copy(s); run(s,120); run(reload,120); assert.deepEqual(reload,s); assertValid(s);
+  a.troops.scout=0;
+  run(s,a.arriveAt-s.time);
+  assert.equal(s.intel['0,0'],undefined,'empty expedition cannot reveal intelligence');
+});
+
+test('capture reassigns displaced expedition upkeep to the surviving capital', () => {
+  const s=fixture(), home=s.settlements[0], enemy=s.settlements[1];
+  for(const f of s.factions) f.nextThink=99999;
+  const site=findSite(s,enemy), outpost=copy(enemy);
+  outpost.id='test-outpost';outpost.x=site.x;outpost.y=site.y;
+  s.settlements.push(outpost);
+  home.troops.siege=100; home.troops.archer=300; home.resources.food=1200;
+  assert.equal(dispatch(s,{type:'attack',settlementId:home.id,x:outpost.x,y:outpost.y,troops:{siege:100,archer:300}}).ok,true);
+  const attack=s.armies[0], displaced=copy(attack);
+  displaced.id='test-displaced';displaced.ownerId=enemy.ownerId;displaced.fromId=outpost.id;
+  displaced.from={x:outpost.x,y:outpost.y};displaced.to={x:0,y:0};displaced.mission='scout';displaced.troops=Object.fromEntries(Object.keys(home.troops).map(k=>[k,k==='scout'?50:0]));displaced.arriveAt=attack.arriveAt+1000;
+  s.armies.push(displaced);const upkeep=getRates(s,enemy).upkeep;
+  run(s,attack.arriveAt);
+  assert.equal(outpost.ownerId,'player'); assert.equal(displaced.fromId,enemy.id);
+  assert.ok(getRates(s,enemy).upkeep>upkeep);assertValid(s);
+});
+
+test('heir choices have distinct persistent costs, cannot repeat, and failed payment is atomic', () => {
+  const base=fixture();base.dynasty.heir='Alara';base.dynasty.pendingEvent={type:'heir',title:'Görev',text:'Görev seç'};
+  const mentor=copy(base),study=copy(base),marry=copy(base);
+  for(const [s,choice] of [[mentor,'mentor'],[study,'study'],[marry,'marry']]) {
+    assert.equal(dispatch(s,{type:'event',choice}).ok,true);
+    assert.equal(s.dynasty.nextEvent,s.time+4800);assert.equal(s.dynasty.pendingEvent,null);
+    const resolved=copy(s); assert.equal(dispatch(s,{type:'event',choice}).ok,false);assert.deepEqual(s,resolved);assertValid(s);
+  }
+  assert.equal(mentor.dynasty.xp,30);assert.equal(study.dynasty.xp,80);
+  assert.equal(study.settlements[0].resources.food,base.settlements[0].resources.food-120);
+  assert.equal(getFaction(marry).influence,getFaction(base).influence-15);
+  assert.equal(getFaction(marry).relations['ai-1'].score,15);
+  assert.match(marry.reports[0].text,/Alara/);
+  const rate=getRates(study,study.settlements[0]).wood;
+  assert.equal(dispatch(study,{type:'dynasty',choice:'stewardship'}).ok,true);
+  assert.ok(getRates(copy(study),study.settlements[0]).wood>rate);
+  base.settlements[0].resources.food=0;const before=copy(base);
+  assert.equal(dispatch(base,{type:'event',choice:'study'}).ok,false);assert.deepEqual(base,before);
+});

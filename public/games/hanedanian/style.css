@@ -676,8 +676,8 @@ html.tlab-embedded a[href="/"] {
   border-top: 3px solid transparent;
 }
 .navigation button[aria-current="page"] {
-  border-top-color: var(--forest);
-  color: var(--forest);
+  border-top-color: var(--ink);
+  color: var(--ink);
   font-weight: 700;
   background: #293b2c;
 }
@@ -2052,3 +2052,16 @@ body.toast-visible .section-view {
 @keyframes han-receipt-in{from{opacity:0;translate:0 5px}to{opacity:1;translate:0 0}}@keyframes han-route-register{from{stroke-dashoffset:36}to{stroke-dashoffset:0}}
 @media(max-width:430px){.han-order-receipt{right:12px;padding:11px 13px}.han-order-receipt h2{font-size:17px}.han-order-receipt svg{height:28px}.han-order-receipt .receipt-fold{opacity:.45}}
 @media(prefers-reduced-motion:reduce){.han-order-receipt,.han-order-receipt *{animation:none!important;transition:none!important}}
+
+/* Dynasty decisions use the existing parchment cards and remain reachable
+   above the campaign's long regional checklist. */
+.heir-decision { border-top: 3px solid var(--accent, #94764b); }
+.heir-options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 18px; }
+.heir-options > div { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.heir-options button { margin-top: auto; min-height: 44px; white-space: normal; }
+.dynasty-skills > div { display: block; border-top: 1px solid var(--line); padding-top: 12px; }
+.skill-heading { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.skill-heading button { min-height: 44px; flex-shrink: 0; }
+.dynasty-skills p { margin: 8px 0; }
+.dynasty-skills small { display: block; line-height: 1.5; }
+@media (max-width: 850px) { .heir-options { grid-template-columns: 1fr; } .heir-options > div + div { border-top: 1px solid var(--line); padding-top: 16px; } }

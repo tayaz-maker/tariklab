@@ -1,0 +1,37 @@
+name: hanedanian-quality
+on:
+  pull_request:
+    paths:
+      - public/games/hanedanian/**
+      - scripts/hanedanian-*.mjs
+      - .github/workflows/hanedanian-quality.yml
+  workflow_dispatch:
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: node --test scripts/hanedanian-*.test.mjs
+      - run: SEEDS=3 node scripts/hanedanian-campaign-probe.mjs
+      - run: npm run typecheck
+      - run: npm run build
+      - name: Chromium
+        run: |
+          browser_path="$(command -v google-chrome || command -v chromium || true)"
+          if [ -n "$browser_path" ]; then
+            echo "PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=$browser_path" >> "$GITHUB_ENV"
+          else
+            npx playwright install --with-deps chromium --only-shell
+          fi
+      - run: node scripts/hanedanian-quality-browser.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: hanedanian-quality
+          path: ${{ runner.temp }}/screenshots/hanedanian-quality
