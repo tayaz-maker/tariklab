@@ -407,16 +407,12 @@ export function applyTick(s: WorldSlice): WorldSlice {
       if (r.health <= 0) {
         r.health = 0;
         r.hospitalTicks = 12;
-        p.itibar += 12;
-        const payout = Math.round(r.bounty * 0.7);
-        p.cash += payout;
         r.bounty = 0;
         logs = pushLog(
           logs,
           p,
           "bounty",
-          `Ölüm listesi işledi: ${r.name} topuktan vuruldu, kliniğe kaldırıldı.`,
-          payout,
+          `Listeyi başka bir ekip tamamladı: ${r.name} kliniğe kaldırıldı. Ödül o ekibe gitti.`,
         );
       }
     }

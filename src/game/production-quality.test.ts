@@ -75,3 +75,11 @@ test('existing schema and slot reload retain new action results without migratio
  fresh(); rng(.5,()=>state().sitEsnafBar('eyup')); const p=state().player!; state().saveToSlot(1); state().loadSlot(1);
  assert.equal(state().player!.cash,p.cash); assert.equal(state().player!.turf.eyup,p.turf.eyup); assert.equal(state().version,SAVE_VERSION); assert.equal(SAVE_VERSION,15);
 });
+
+test('another crew collecting a bounty does not reward the idle player',()=>rng(0,()=>{
+ const p=player({cash:0,isi:0,itibar:30,crew:[],turf:{eyup:0,tarlabasi:0,kadikoy:0,sultangazi:0}});
+ const r={...makeRivals()[0],health:1,bounty:18000,revengeTicks:0};
+ const next=applyTick({player:p,rivals:[r],logs:[],market:MARKET_START});
+ assert.equal(next.player.cash,0);assert.equal(next.player.itibar,30);assert.equal(next.rivals[0].bounty,0);
+ assert.ok(next.logs.some(l=>l.text.includes('Ödül o ekibe')));
+}));

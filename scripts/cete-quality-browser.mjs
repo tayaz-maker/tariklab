@@ -14,6 +14,7 @@ try{
  browser=await chromium.launch({executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH||undefined,args:['--no-sandbox']});
  for(const lang of ['tr','en'])for(const width of [320,360,390,430,1024,1440]){
   const context=await browser.newContext({viewport:{width,height:900},reducedMotion:'reduce'});
+  context.setDefaultTimeout(10000);
   const fixture={version:SAVE_VERSION,state:{version:SAVE_VERSION,player:hydratePlayer({name:'Quality',neighborhood:'eyup',level:10,cash:100000,jobsDone:5,stamina:32,itibar:40,crew:['gozcu','tetik'],tutorialStep:4,streakDay:new Date().toISOString().slice(0,10),turf:{eyup:50,tarlabasi:40,kadikoy:20,sultangazi:0},eventCooldown:9999}),rivals:makeRivals(),logs:[],hiz:1,market:MARKET_START,savedAt:Date.now()}};
   await context.addInitScript(({fixture,lang})=>{if(!sessionStorage.getItem('quality-seed')){localStorage.setItem('cete-savaslari-save-v1',JSON.stringify(fixture));localStorage.setItem('cete-age-ok','1');localStorage.setItem('tariklab.language',lang);sessionStorage.setItem('quality-seed','1');}},{fixture,lang});
   const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
