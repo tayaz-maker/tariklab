@@ -696,3 +696,7 @@ Optional family/isteme, delayed engagement preparation, civil/small/hall wedding
 - Debt-cap conversion no longer creates unrecorded money. Business owner production and minimum workshop rent balanced in existing settlement. Large decisions consume 2–3 existing time slots; repeat gates enforced.
 - Dashboard keeps last-week feedback and places long-term metrics in details; actual city label fixed. No CSS/shell/save-schema or other-game changes.
 - Reproducible long-game matrix, exploit tests and evidence: `tc-sim/BALANCE_FINAL_2026-10-08.md` and `BALANCE_RESULTS_2026-10-08.json`. Visual/gameplay acceptance USER PENDING; no next wave.
+
+## 2026-10-08 — TC SIM final mobile hardening
+
+Preserved PR #135–144 main `51ee5ccf5b249c7a18df7b3dba2340b8025c4c34`. TC-only mobile CSS fixes readable header actions, 44 px controls, conditional creation fields and whole map labels. Added five-viewport browser audit to the existing fast targeted workflow. All 14 menus, detail/body/map interaction, finance/business controls, week advance and isolated save reload covered. No mechanics/content/save/native/audio changes. See `docs/tc-sim/MOBILE_FINAL_2026-10-08.md`; release evidence in PR. Production visual acceptance: user pending.
