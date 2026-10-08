@@ -714,3 +714,7 @@ Verified main/production #145 `99c7ddb94b5f32b25c7186cd76e3a15bdf2d9836`, READY.
 ## 2026-10-08 — HANEDANIAN production quality
 
 Baseline main/production #147 `74e414e991b789735b428ff0e50def21cb042cbb`. Fix expedition starvation and displaced upkeep, prevent empty expedition outcomes, expose permanent dynasty effects and paid heir choices before long campaign goals. Preserve schema-1 saves, existing map/art/campaign/AI and atomic offline packaging. Scoped engine/UI regressions, 9 long campaigns + 9 exploit policies, five-width browser gate. See `docs/hanedanian/PRODUCTION_QUALITY_2026-10-08.md`. No TC SIM, JITEM, Çete, other-game/native/audio changes. User retains live acceptance.
+
+## 2026-10-08 — Racon Manager production quality
+
+Baseline #148 main/production `a1c5123a4f979aa6a773970e0f65773b91d3ca43`. Guard paid story effects and repeat rewards, restore negative evidence, sequence delayed chapters, remove retreat bonus and captured investment recovery. Show paid choices and complete recurring cash outlook with existing design tokens. Preserve save schema, map/crew/rival mechanics, assets and portal integration. 80 targeted tests, deterministic long campaigns and five-width browser gate; see `docs/racon/PRODUCTION_QUALITY_2026-10-08.md`. No other game/native/audio changes. Owner retains live acceptance; no automatic next wave.
