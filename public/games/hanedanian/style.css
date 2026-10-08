@@ -676,8 +676,8 @@ html.tlab-embedded a[href="/"] {
   border-top: 3px solid transparent;
 }
 .navigation button[aria-current="page"] {
-  border-top-color: var(--forest);
-  color: var(--forest);
+  border-top-color: var(--ink);
+  color: var(--ink);
   font-weight: 700;
   background: #293b2c;
 }

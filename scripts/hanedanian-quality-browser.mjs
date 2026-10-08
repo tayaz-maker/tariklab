@@ -34,6 +34,13 @@ try {
   await page.locator('#welcome').waitFor({state:'hidden'});
   await page.locator('#navigation [data-view="dynasty"]').click();
   await layout(page,`${width}:dynasty`);
+  const contrast=await page.locator('#navigation [aria-current="page"]').evaluate(el=>{
+   const rgb=s=>s.match(/[0-9.]+/g).slice(0,3).map(Number);
+   const luminance=s=>rgb(s).map(n=>{n/=255;return n<=.04045?n/12.92:((n+.055)/1.055)**2.4;}).reduce((sum,n,i)=>sum+n*[.2126,.7152,.0722][i],0);
+   const css=getComputedStyle(el),a=luminance(css.color),b=luminance(css.backgroundColor);
+   return (Math.max(a,b)+.05)/(Math.min(a,b)+.05);
+  });
+  assert.ok(contrast>=4.5,`active navigation contrast ${contrast}`);
   assert.match(await page.locator('.dynasty-skills').innerText(),/45 deneyim[\s\S]*Sonraki seviye/);
   assert.ok(await page.locator('.heir-decision').isVisible());
   await page.screenshot({path:`${out}/dynasty-${width}.png`});

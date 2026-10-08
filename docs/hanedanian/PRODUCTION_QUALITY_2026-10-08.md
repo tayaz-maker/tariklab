@@ -18,6 +18,7 @@ Baseline: origin/main and Vercel production READY both `74e414e991b789735b428ff0
 - Empty scouting parties cannot produce intelligence; empty attackers cannot inflict minimum defender casualties.
 - Place pending heir decisions first. Show all three costs, outcomes, 80-game-hour recurrence, resource tradeoffs and affordability; use saved heir name instead of hardcoded Umay.
 - Show current and next permanent bonuses for all five abilities, actual XP prices, cap and disabled unaffordable spending. Keep the existing parchment/card palette and 44px controls; stack decisions on mobile.
+- Correct the selected bottom navigation text/indicator contrast; the existing dark green on dark green was unreadable. Browser gate requires at least 4.5:1.
 - No save schema/slot/envelope change. Existing build plugin hashes runtime changes into the atomic service-worker package automatically.
 
 ## Verification
