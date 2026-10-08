@@ -87,6 +87,14 @@ jobs:
       - name: Built candidate — 18 matrix cases and 4 mobile hidden-panel regressions
         if: matrix.label == 'built'
         run: node scripts/tc-sim-job-start-outcome-browser.mjs --serve .output/public --label built
+      - name: Mobile final — five viewports, all menus and gameplay controls
+        if: matrix.label == 'built'
+        run: node scripts/tc-sim-job-start-mobile.mjs .output/public
+      - uses: actions/upload-artifact@v4
+        if: always() && matrix.label == 'built'
+        with:
+          name: tc-mobile-final
+          path: ${{ runner.temp }}/screenshots/tc-mobile-final
       - name: Exact released candidate — isolated synthetic saves on allowlisted host
         if: matrix.label != 'built'
         env:
