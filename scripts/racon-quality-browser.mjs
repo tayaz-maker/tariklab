@@ -22,8 +22,7 @@ try {
   const context=await browser.newContext({viewport:{width,height:width<500?844:960},isMobile:width<500,hasTouch:width<500});
   await context.addInitScript(f=>{if(!localStorage.getItem('quality-seeded')){localStorage.setItem('tariklab::racon:1',JSON.stringify(f));localStorage.setItem('tariklab::racon:active','1');localStorage.setItem('quality-seeded','1');}},fixture);
   const page=await context.newPage();page.on('pageerror',e=>errors.push(String(e)));page.setDefaultTimeout(12000);
-  await page.goto(origin+'/games/racon/index.html');await page.screenshot({path:`${out}/menu-${width}.png`});await page.locator('#btn-devam').click();
-  await page.locator('.help-toggle').click();await page.locator('[data-act="yardim-kapat"]').click();assert.equal(await page.locator('#yardim').isVisible(),false);
+  await page.goto(origin+'/games/racon/index.html');await page.screenshot({path:`${out}/menu-${width}.png`});await page.locator('#menu-home [data-act="yardim-ac"]').click();await page.locator('[data-act="yardim-kapat"]').click();assert.equal(await page.locator('#yardim').isVisible(),false);await page.locator('#btn-devam').click();
   // Compact navigation exposes its remaining destinations through the existing toggle.
   const nav=async id=>{let b=page.locator(`.navbtn[data-id="${id}"]`);if(!await b.isVisible())await page.locator('[data-act="navdetay"]').click();await b.click();};
   for(const id of ['olaylar','takvim','adamlar','harita','isler','pazar','emlak','hayat','emniyet','husumet','kasa','siralama']){
