@@ -710,3 +710,7 @@ Verified main/production #145 `99c7ddb94b5f32b25c7186cd76e3a15bdf2d9836`, READY.
 - Fix payout/trading exploits, district decay/income accuracy; expose existing strategic district decisions and crew availability. State/save version 15 and existing assets remain.
 - Targeted regressions and responsive TR/EN browser gate added; details: `docs/CETE_PRODUCTION_QUALITY_2026-10-08.md`.
 - No TC SIM, JITEM, HANEDANIAN or native changes. Audio remains disabled.
+
+## 2026-10-08 — HANEDANIAN production quality
+
+Baseline main/production #147 `74e414e991b789735b428ff0e50def21cb042cbb`. Fix expedition starvation and displaced upkeep, prevent empty expedition outcomes, expose permanent dynasty effects and paid heir choices before long campaign goals. Preserve schema-1 saves, existing map/art/campaign/AI and atomic offline packaging. Scoped engine/UI regressions, 9 long campaigns + 9 exploit policies, five-width browser gate. See `docs/hanedanian/PRODUCTION_QUALITY_2026-10-08.md`. No TC SIM, JITEM, Çete, other-game/native/audio changes. User retains live acceptance.

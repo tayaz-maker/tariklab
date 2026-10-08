@@ -816,6 +816,27 @@ function supplyDialog(path) {
   openDialog('Bölgeler arası ikmal', `<p>Yatırım merkezini seç. Otomatik kervanlar her kaynaktan 500 güvenlik stoğu bırakır. Yeni emir eskisinin yerini alır.</p>${targets.map(t=>`<button data-supply-target="${esc(t.id)}" data-path="${path}">${esc(t.name)} · ${esc(REGION_NAMES[regionOf(state,t)])}</button>`).join('') || '<p>Önce farklı bir bölgede yerleşim kur.</p>'}`);
 }
 
+// Explain the existing permanent modifiers at the point of spending XP.
+function dynastyEffect(key, value) {
+  const percent = n => fmtRate(n);
+  return {
+    stewardship: `Bütün yurtlarda brüt üretim +%${percent(value * 2.5)}; asker iaşesi ayrıca düşülür.`,
+    warfare: `Saldırı +%${percent(value * 4)}, savunma +%${percent(value * 2.5)}, nokta seferi +%${percent(value * 3.5)}, yol hızı +%${percent(value * 2.5)}.`,
+    commerce: `Teslim edilen yükün ticaret primine +${value} yüzde puanı; toplam prim en çok %40.`,
+    diplomacy: `Elçi hediyesi ilişkiyi +${18 + value} artırır.`,
+    intrigue: `Bir gözcü ${percent(2.5 + value * 0.5)} karşı gözcüyü aşabilir; eşit güçte keşif başarılıdır.`,
+  }[key];
+}
+function heirDecisionHTML() {
+  const d = state.dynasty;
+  if (!d.pendingEvent) return '';
+  const capital = getPlayerSettlements(state)[0];
+  return `<article class="card wide heir-decision"><p class="eyebrow">BEKLEYEN HANEDAN KARARI</p><h2>${esc(d.pendingEvent.title)}</h2><p>${esc(d.heir)} için görev seç. Deneyimi kalıcı hanedan yeteneklerine yatırabilirsin. Seçimden sonra yeni karar 80 oyun saati sonra gelir.</p><div class="heir-options">
+    <div><h3>Reisin yanında yetiştir</h3><p>Kaynak harcamadan <strong>30 deneyim</strong>. Bir sonraki yetenek gelişimine hazırlan.</p><button data-event="mentor">Mentorluk · ücretsiz</button></div>
+    <div><h3>Bilgiyle güçlendir</h3><p><strong>80 deneyim</strong>. ${esc(capital.name)} deposundan 120 erzak ve 80 kereste harcanır; imar ve iaşe payını azaltır.</p><button data-event="study" ${capital.resources.food < 120 || capital.resources.wood < 80 ? 'disabled' : ''}>Eğitim · 120 erzak + 80 kereste</button></div>
+    <div><h3>Siyasi bağ kur</h3><p><strong>Bütün ilişkiler +15</strong> (en çok 100). 15 nüfuz harcanır; genişleme için daha az nüfuz kalır. Ateşkes ve bağlılık ayrıca görüşülür.</p><button data-event="marry" ${getFaction(state).influence < 15 ? 'disabled' : ''}>Siyasi bağ · 15 nüfuz</button></div>
+  </div></article>`;
+}
 function dynastyHTML() {
   const d = state.dynasty,
     campaign = getCampaign(state);
@@ -826,16 +847,16 @@ function dynastyHTML() {
       d.name,
       "Toprak, zenginlik veya siyasi bağlılık. Büyük Kurultay’a giden yolu sen seç.",
     ) +
-    `<div class="section-grid"><div class="card"><p class="eyebrow">REİS</p><h2 style="margin:8px 0">${esc(person(d.ruler))}</h2><p>Varis: ${esc(person(d.heir))} · Deneyim: ${fmt(d.xp)}</p><div class="stat-list">${Object.entries(
+    `<div class="section-grid">${heirDecisionHTML()}<div class="card"><p class="eyebrow">REİS</p><h2 style="margin:8px 0">${esc(person(d.ruler))}</h2><p>Varis: ${esc(person(d.heir))} · Deneyim: ${fmt(d.xp)}</p><p>Yetenekler bütün kampanya boyunca hanedanına katkı sağlar. Bu oyunda varis görevleri yönetilir; yaşlanma, ölüm ve otomatik taht devri yoktur.</p><div class="stat-list dynasty-skills">${Object.entries(
       d.stats || {},
     )
       .map(
         ([k, v]) =>
-          `<div><span>${esc(labels[k] || k)}</span><strong>${fmt(v)}</strong><button data-dynasty="${esc(k)}" aria-label="${esc(labels[k] || k)} geliştir">Geliştir</button></div>`,
+          `<div><div class="skill-heading"><strong>${esc(labels[k] || k)} · ${fmt(v)} / 10</strong><button data-dynasty="${esc(k)}" aria-label="${esc(labels[k] || k)} geliştir" ${v >= 10 || d.xp < 30 + v * 15 ? "disabled" : ""}>${v >= 10 ? "Ustalık" : `${30 + v * 15} deneyim`}</button></div><p>${esc(dynastyEffect(k, v))}</p>${v < 10 ? `<small>Sonraki seviye: ${esc(dynastyEffect(k, v + 1))}</small>` : ""}</div>`,
       )
       .join(
         "",
-      )}</div><p style="margin-top:12px">${(d.traits || []).map(esc).join(" · ")}</p></div><div class="card"><p class="eyebrow">KAMPANYA</p><h2 style="margin:8px 0">${esc(campaign.label)}</h2>${campaign.goals.map(goalHTML).join("")}<p style="margin-top:18px">Nüfuz; keşif, gelişim ve siyasi başarıyla kazanılır. Yeni yerleşimler ve anlaşmalar için harcanır.</p></div>${regionalSectionHTML()}${campaign.paths.map((path) => `<article class="card"><div class="card-meta"><h3>${esc(path.label)}</h3><span class="badge">Kurultay yolu</span></div>${path.requirements.map(goalHTML).join("")}<button class="primary" data-victory="${esc(path.id)}" ${path.ready ? "" : "disabled"}>${path.ready ? "Kurultayı topla" : "Koşullar hazırlanıyor"}</button></article>`).join("")}${state.campaign.victory ? `<div class="card wide"><h2>${state.campaign.victory === "defeat" ? "Hanedanın sınırı" : "Adın deftere yazıldı."}</h2><p>${esc(typeof state.campaign.victory === "string" ? state.campaign.victory : state.campaign.victory.path || "Kurultay tamamlandı")}</p><button class="primary" data-action="continue">Dünyada devam et</button><button data-action="new">Yeni kampanya</button></div>` : ""}${d.pendingEvent || state.pendingEvent ? `<div class="card wide"><h3>Varisin yolu</h3><p>Bir sonraki kuşağa nasıl bir miras bırakacaksın?</p><div class="row"><button data-event="mentor">Reisin yanında yetiştir</button><button data-event="marry">Siyasi bağ kur</button><button data-event="study">Bilgiyle güçlendir</button></div></div>` : ""}</div>`
+      )}</div><p style="margin-top:12px">${(d.traits || []).map(esc).join(" · ")}</p></div><div class="card"><p class="eyebrow">KAMPANYA</p><h2 style="margin:8px 0">${esc(campaign.label)}</h2>${campaign.goals.map(goalHTML).join("")}<p style="margin-top:18px">Nüfuz; keşif, gelişim ve siyasi başarıyla kazanılır. Yeni yerleşimler ve anlaşmalar için harcanır.</p></div>${regionalSectionHTML()}${campaign.paths.map((path) => `<article class="card"><div class="card-meta"><h3>${esc(path.label)}</h3><span class="badge">Kurultay yolu</span></div>${path.requirements.map(goalHTML).join("")}<button class="primary" data-victory="${esc(path.id)}" ${path.ready ? "" : "disabled"}>${path.ready ? "Kurultayı topla" : "Koşullar hazırlanıyor"}</button></article>`).join("")}${state.campaign.victory ? `<div class="card wide"><h2>${state.campaign.victory === "defeat" ? "Hanedanın sınırı" : "Adın deftere yazıldı."}</h2><p>${esc(typeof state.campaign.victory === "string" ? state.campaign.victory : state.campaign.victory.path || "Kurultay tamamlandı")}</p><button class="primary" data-action="continue">Dünyada devam et</button><button data-action="new">Yeni kampanya</button></div>` : ""}</div>`
   );
 }
 function render() {
