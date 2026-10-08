@@ -24,11 +24,11 @@ function CetePage() {
   const { t } = useLang();
   return (
     <div className="min-h-dvh bg-bg">
-      <div className="relative flex h-11 items-center justify-between border-b border-border px-4">
+      <div className="relative flex min-h-11 flex-wrap items-center justify-between border-b border-border px-4">
         <Link to="/" className="relative z-10 inline-flex h-11 items-center text-sm text-muted hover:text-fg">
           {t("portal.back", "← Oyunlar")}
         </Link>
-        <p className="pointer-events-none absolute inset-0 flex items-center justify-center font-display text-sm text-fg">
+        <p className="pointer-events-none order-3 w-full pb-2 text-center font-display text-sm text-fg sm:absolute sm:inset-0 sm:order-none sm:flex sm:items-center sm:justify-center sm:pb-0">
           Çete Savaşları
         </p>
         <LanguageToggle />

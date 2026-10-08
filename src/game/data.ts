@@ -1098,6 +1098,8 @@ export function turfHourlyOf(player: Player, id: NeighborhoodId) {
 	else if (pct >= 75) piece *= 1.12;
 	else if (pct >= 50) piece *= 1.08;
 	if (player.crew.includes("tahsil")) piece *= 1.15;
+	if ((player.isi ?? 0) >= 70) piece *= 0.72;
+	else if ((player.isi ?? 0) >= 45) piece *= 0.88;
 	return Math.round(piece);
 }
 export function turfPressCash(hood: NeighborhoodId, pct: number) {

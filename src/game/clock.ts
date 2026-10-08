@@ -21,6 +21,7 @@ import {
   TICK_MINUTES,
   TICKS_PER_HOUR,
   crewWageHourly,
+  hoodName,
   estateIncomeHourly,
   ihanetChancePerTick,
   koseWeekly,
@@ -30,7 +31,7 @@ import {
   walkMarket,
 } from "./data";
 import { pickWorldEvent } from "./events";
-import { energyMax, staminaMax } from "./formulas";
+import { energyMax, staminaMax, rivalPressure, turfDefense } from "./formulas";
 import type { LogEntry, Market, Player, Rival } from "./types";
 
 export function clockStamp(p: Player) {
@@ -280,6 +281,9 @@ export function applyTick(s: WorldSlice): WorldSlice {
     p.crewBusy = busy;
   }
 
+  // Time away from repeated actions lets police attention cool, as the help promises.
+  p.isi = Math.max(0, Math.round((p.isi - 0.5) * 10) / 10);
+
   p.buzz = Math.max(0, (p.buzz ?? 0) - 1);
   p.high = Math.max(0, (p.high ?? 0) - 1);
 
@@ -344,7 +348,7 @@ export function applyTick(s: WorldSlice): WorldSlice {
     if (h === p.neighborhood)
       turf[h] =
         Math.round(clamp(v + (p.crew.length ? 0.55 : 0.28), 0, 100) * 10) / 10;
-    else turf[h] = Math.round(clamp(v - 0.05, 0, 100) * 10) / 10;
+    else turf[h] = Math.round(clamp(v - 0.05, 0, 100) * 100) / 100;
   }
   p.turf = turf;
 
@@ -371,7 +375,7 @@ export function applyTick(s: WorldSlice): WorldSlice {
         if (p.durum === "serbest" && p.cash > 200) {
           const take = Math.min(
             p.cash,
-            Math.round(p.cash * 0.1) + randInt(250, 1100),
+            Math.round((p.cash * 0.1 + randInt(250, 1100)) * (1 - turfDefense(p))),
           );
           p.cash -= take;
           r.cash += take;
@@ -391,27 +395,24 @@ export function applyTick(s: WorldSlice): WorldSlice {
         }
       }
     }
-    if ((p.turf[r.hood] ?? 0) > 28 && Math.random() < 0.05) {
+    if (Math.random() < rivalPressure(p, r)) {
       p.turf = {
         ...p.turf,
-        [r.hood]: clamp((p.turf[r.hood] ?? 0) - 1.4, 0, 100),
+        [r.hood]: Math.round(clamp((p.turf[r.hood] ?? 0) - 1.4, 0, 100) * 100) / 100,
       };
+      logs = pushLog(logs, p, "turf", `${r.name} ${hoodName(r.hood)} bölgesinde baskı kurdu. Kontrol −1,4 puan. Serbest gözcü, tetikçi ve zırh baskıyı azaltır.`);
     }
     if (r.bounty > 0 && r.health > 0 && Math.random() < 0.35) {
       r.health -= randInt(18, 42);
       if (r.health <= 0) {
         r.health = 0;
         r.hospitalTicks = 12;
-        p.itibar += 12;
-        const payout = Math.round(r.bounty * 0.7);
-        p.cash += payout;
         r.bounty = 0;
         logs = pushLog(
           logs,
           p,
           "bounty",
-          `Ölüm listesi işledi: ${r.name} topuktan vuruldu, kliniğe kaldırıldı.`,
-          payout,
+          `Listeyi başka bir ekip tamamladı: ${r.name} kliniğe kaldırıldı. Ödül o ekibe gitti.`,
         );
       }
     }

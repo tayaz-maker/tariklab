@@ -29,6 +29,7 @@ import {
   ESNAF_COST,
   ESNAF_STAMINA,
   HEALTH_MAX,
+  HOOD_IDS,
   HEAT_MAX,
   HORSE_NAMES,
   HORSE_PRICE,
@@ -636,7 +637,7 @@ export const useGame = create<GameState>()(
         if (!canAct(player)) return;
         if (player.stamina < PVP_STAMINA_COST) return;
         const rival = s.rivals.find((r) => r.id === rivalId);
-        if (!rival || rival.hospitalTicks > 0) return;
+        if (!rival || !rival.alive || rival.hospitalTicks > 0) return;
 
         let next = { ...player, stamina: player.stamina - PVP_STAMINA_COST };
         const you = playerCombat(next);
@@ -653,7 +654,7 @@ export const useGame = create<GameState>()(
 
         if (win) {
           const takePct = 0.1 + Math.random() * 0.12;
-          const loot = Math.max(80, Math.round(target.cash * takePct));
+          const loot = Math.min(target.cash, Math.max(80, Math.round(target.cash * takePct)));
           target.cash -= loot;
           target.health = Math.max(0, target.health - randInt(18, 40));
           next.cash += loot;
@@ -708,6 +709,7 @@ export const useGame = create<GameState>()(
         const s = get();
         const player = s.player;
         if (!player) return;
+        if (!s.rivals.some((r) => r.id === rivalId && r.alive && r.hospitalTicks === 0)) return;
         const cash = Math.round(amount);
         if (!Number.isFinite(cash) || cash < 500) return;
         if (player.cash < cash) return;
@@ -729,6 +731,9 @@ export const useGame = create<GameState>()(
         });
       },
       huntBounty: (rivalId) => {
+        const before = get();
+        const target = before.rivals.find((r) => r.id === rivalId);
+        if (!before.player || !canAct(before.player) || before.player.stamina < PVP_STAMINA_COST || !target?.alive || target.health <= 0 || target.hospitalTicks > 0 || target.bounty <= 0) return;
         get().attackRival(rivalId);
         const after = get();
         if (!after.player) return;
@@ -873,6 +878,7 @@ export const useGame = create<GameState>()(
         });
       },
       pressTurf: (hood) => {
+        if (!HOOD_IDS.includes(hood)) return;
         const s = get();
         const player = s.player;
         if (!player) return;
@@ -883,18 +889,14 @@ export const useGame = create<GameState>()(
         const home = hood === player.neighborhood;
         const gain = (home ? 16 : 12) + Math.random() * 8;
         const after = Math.round(clamp(cur + gain, 0, 100) * 10) / 10;
-        const lootRaw = turfPressCash(hood, after);
+        const lootRaw = turfPressCash(hood, after) * Math.min(1, (after - cur) / gain);
         const loot = Math.round(lootRaw * ((player.isi ?? 0) >= 70 ? 0.7 : (player.isi ?? 0) >= 45 ? 0.85 : 1));
-        let extra = 0;
         let note = "";
         if (cur < 50 && after >= 50) {
-          extra = 1800;
           note = " Yarı semt sende — haraç şişti.";
         } else if (cur < 75 && after >= 75) {
-          extra = 2800;
           note = " Ağır el. Saldırı ve iş açıldı.";
         } else if (cur < 100 && after >= 100) {
-          extra = 5200;
           note = " Semt kapandı. Haraç +%20.";
         }
         const xpGain = home ? 6 : 4;
@@ -908,7 +910,7 @@ export const useGame = create<GameState>()(
           energy: grown.energy,
           xp: grown.xp,
           level: grown.level,
-          cash: player.cash + loot + extra,
+          cash: player.cash + loot,
           isi: clamp(player.isi + 3, 0, HEAT_MAX),
           turf: {
             ...player.turf,
@@ -926,12 +928,13 @@ export const useGame = create<GameState>()(
           next,
           "turf",
           `${name} basıldı. Kontrol %${Math.round(after)}. Haraç ${loot.toLocaleString("tr-TR")} ₺ cebine.${note}`,
-          loot + extra,
+          loot,
         );
         logs = maybeLevelNotes(next, grown.notes, logs);
         set({ player: next, logs });
       },
       snitchHood: (hood) => {
+        if (!HOOD_IDS.includes(hood)) return;
         const s = get();
         const player = s.player;
         if (!player) return;
@@ -991,6 +994,7 @@ export const useGame = create<GameState>()(
         });
       },
       sitEsnafBar: (hood) => {
+        if (!HOOD_IDS.includes(hood)) return;
         const s = get();
         const player = s.player;
         if (!player) return;
@@ -1581,13 +1585,13 @@ export const useGame = create<GameState>()(
         const player = s.player;
         if (!player || !canAct(player)) return;
         const qty = Math.floor(units * 100) / 100;
-        if (qty <= 0) return;
+        if (!Number.isFinite(qty) || qty <= 0) return;
         const market = s.market ?? MARKET_START;
         const price = market[id];
         if (!price) return;
         const have = holdingOf(player, id);
         if (dir === "al") {
-          const cost = Math.round(qty * price);
+          const cost = Math.ceil(qty * price);
           if (player.cash < cost) return;
           const next: Player = {
             ...player,
@@ -1613,7 +1617,7 @@ export const useGame = create<GameState>()(
         }
         const sell = Math.min(have, qty);
         if (sell <= 0) return;
-        const gain = Math.round(sell * price);
+        const gain = Math.floor(sell * price);
         const next: Player = {
           ...player,
           cash: player.cash + gain,
