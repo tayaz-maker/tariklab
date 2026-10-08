@@ -6,7 +6,7 @@ const read = (path) => readFileSync(new URL(`../${path}`, import.meta.url), "utf
 
 test("JITEM ships from the reviewed standalone canonical build", () => {
   const source = JSON.parse(read("public/games/jitem-derin-ag/SOURCE.json"));
-  assert.equal(source.standaloneSha, "0c1fc08db3f050ebf34e237ef4fd1018ba223293");
+  assert.equal(source.standaloneSha, "5dea7627e7873a76cd8a9c5af06ee1a9ff975735");
   assert.equal(source.saveKey, "jitem-derin-ag-v3");
   assert.equal(source.schemaVersion, 5);
   const assets = readdirSync(new URL("../public/games/jitem-derin-ag/assets/", import.meta.url));
@@ -27,7 +27,7 @@ test("JITEM ships from the reviewed standalone canonical build", () => {
   ]) assert.match(js, new RegExp(semanticId), semanticId);
   assert.match(js, /delil_zincir/);
   assert.match(js, /kismi_adalet/);
-  assert.match(js, /minmax\(360px,1\.05fr\).*minmax\(420px,1\.2fr\).*minmax\(300px,360px\)/);
+  assert.match(js, /minmax\(0,0\.9fr\).*minmax\(0,1\.15fr\).*minmax\(280px,0\.85fr\)/);
   assert.match(js, /minmax\(0,1\.65fr\).*minmax\(380px,460px\)/);
   assert.match(js, /overscroll-contain/);
   assert.doesNotMatch(js, /lg:bg-bg\/70/);
