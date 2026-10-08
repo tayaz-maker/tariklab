@@ -6,7 +6,7 @@ import { hydratePlayer, makeRivals, MARKET_START, SAVE_VERSION } from '../src/ga
 const base=process.env.CETE_BASE || 'http://127.0.0.1:8087';
 const out=`${process.env.RUNNER_TEMP || '/workspace'}/screenshots/cete-quality`;
 await mkdir(out,{recursive:true});
-const server=process.env.CETE_BASE?null:spawn('npm',['run','preview','--','--host','127.0.0.1','--port','8087'],{stdio:'inherit',detached:true});
+const server=process.env.CETE_BASE?null:spawn(process.execPath,['.output/server/index.mjs'],{stdio:'inherit',detached:true,env:{...process.env,PORT:'8087',HOST:'127.0.0.1'}});
 let browser; const results=[];
 const save=page=>page.evaluate(()=>JSON.parse(localStorage.getItem('tariklab::cete:1')).state.player);
 try{
@@ -36,6 +36,7 @@ try{
    await page.evaluate(()=>scrollTo(0,document.documentElement.scrollHeight));
    assert.ok(await nav.isVisible());
   }
+  await page.getByRole('button',{name:lang==='tr'?'Detay':'Details',exact:true}).click();
   await page.getByRole('button',{name:'Nasıl Oynanır',exact:true}).click();
   const dialog=page.getByRole('dialog');await dialog.waitFor();
   const g=await dialog.evaluate(el=>{const r=el.getBoundingClientRect();return {left:r.left,right:r.right,height:r.height};});
