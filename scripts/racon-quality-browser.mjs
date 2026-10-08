@@ -3,9 +3,10 @@ import {mkdirSync,writeFileSync} from 'node:fs';
 import {chromium} from 'playwright';
 import {createStaticGameServer} from './static-game-server.mjs';
 import {loadGame} from './racon-harness.mjs';
-const out=`${process.env.RUNNER_TEMP||'/tmp'}/screenshots/racon-quality`;
+const source=process.argv.includes('--source');
+const out=`${process.env.RUNNER_TEMP||'/workspace'}/screenshots/racon-quality/${source?'source':'build'}`;
 mkdirSync(out,{recursive:true});
-const server=createStaticGameServer('.output/public');
+const server=createStaticGameServer(source?'public':'.output/public');
 await new Promise(r=>server.listen(0,'127.0.0.1',r));
 const origin=`http://127.0.0.1:${server.address().port}`;
 const browser=await chromium.launch({executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH||undefined,args:['--no-sandbox']});
@@ -22,6 +23,7 @@ try {
   await context.addInitScript(f=>{if(!localStorage.getItem('quality-seeded')){localStorage.setItem('tariklab::racon:1',JSON.stringify(f));localStorage.setItem('tariklab::racon:active','1');localStorage.setItem('quality-seeded','1');}},fixture);
   const page=await context.newPage();page.on('pageerror',e=>errors.push(String(e)));page.setDefaultTimeout(12000);
   await page.goto(origin+'/games/racon/index.html');await page.screenshot({path:`${out}/menu-${width}.png`});await page.locator('#btn-devam').click();
+  await page.locator('.help-toggle').click();await page.locator('[data-act="yardim-kapat"]').click();assert.equal(await page.locator('#yardim').isVisible(),false);
   // Compact navigation exposes its remaining destinations through the existing toggle.
   const nav=async id=>{let b=page.locator(`.navbtn[data-id="${id}"]`);if(!await b.isVisible())await page.locator('[data-act="navdetay"]').click();await b.click();};
   for(const id of ['olaylar','takvim','adamlar','harita','isler','pazar','emlak','hayat','emniyet','husumet','kasa','siralama']){

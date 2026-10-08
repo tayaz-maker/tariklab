@@ -29,6 +29,7 @@ jobs:
           else
             npx playwright install --with-deps chromium --only-shell
           fi
+      - run: node scripts/racon-quality-browser.mjs --source
       - run: node scripts/racon-quality-browser.mjs
       - run: node scripts/racon-map-browser.mjs --serve .output/public --label build
       - uses: actions/upload-artifact@v4
