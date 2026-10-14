@@ -57,6 +57,7 @@ import {
   getHomeById,
   getJobById,
   getMonthlySummary,
+  getMonthlyEmploymentIncome,
   getMonthlyHousingBreakdown,
   getPlayerLifeStage,
   getRetirementEligibility,
@@ -809,13 +810,14 @@ function renderCareer() {
   const home = getHomeById(state.household.homeId);
   const experience = experienceSummary();
   return `<div class="workspace-head"><div><p class="eyebrow">İŞ</p><h1>Çalışma hayatı</h1></div>${renderWeekControl()}</div>
-    <section class="detail-summary panel"><div><span>Çalışma durumu</span><strong>${retired ? "Emekli" : active ? escapeText(eventTitle(active)) : "İşsiz"}</strong><small>${retired ? `${money(state.career.retirement.monthlyIncome)} aylık gelir` : escapeText(getPlayerLifeStage(state).label)}</small></div><div><span>Aylık maaş</span><strong>${money(active?.salary || 0)}</strong></div><div><span>İş yükü</span><strong>${lifeLabel(active?.load || 0)}</strong></div><div><span>Güvence</span><strong>${active?.security || "—"}</strong></div><div><span>Emeklilik</span><strong>${retired ? "Tamamlandı" : retirement.eligible ? "Karar verilebilir" : "Henüz uygun değil"}</strong><small>${retired ? `H${state.career.retirement.retiredWeek}` : retirement.eligible ? `Tahmini gelir ${money(getRetirementIncomePreview(state))}` : escapeText(retirement.reason)}</small></div><div><span>${escapeText(home.title)} ulaşımı</span><strong>${escapeText(getCommuteExplanation(home.id, active?.id || null).label)}</strong><small>${escapeText(getCommuteExplanation(home.id, active?.id || null).detail)}</small></div></section>
+    <section class="detail-summary panel"><div><span>Çalışma durumu</span><strong>${retired ? "Emekli" : active ? escapeText(eventTitle(active)) : "İşsiz"}</strong><small>${retired ? `${money(state.career.retirement.monthlyIncome)} aylık gelir` : escapeText(getPlayerLifeStage(state).label)}</small></div><div><span>Aylık maaş</span><strong>${money(active ? getMonthlyEmploymentIncome(state) : 0)}</strong>${state.flags?.pocket?.wagePct ? `<small>Zam %${state.flags.pocket.wagePct} dahil</small>` : ""}</div><div><span>İş yükü</span><strong>${lifeLabel(active?.load || 0)}</strong></div><div><span>Güvence</span><strong>${active?.security || "—"}</strong></div><div><span>Emeklilik</span><strong>${retired ? "Tamamlandı" : retirement.eligible ? "Karar verilebilir" : "Henüz uygun değil"}</strong><small>${retired ? `H${state.career.retirement.retiredWeek}` : retirement.eligible ? `Tahmini gelir ${money(getRetirementIncomePreview(state))}` : escapeText(retirement.reason)}</small></div><div><span>${escapeText(home.title)} ulaşımı</span><strong>${escapeText(getCommuteExplanation(home.id, active?.id || null).label)}</strong><small>${escapeText(getCommuteExplanation(home.id, active?.id || null).detail)}</small></div></section>
     <section class="detail-summary panel"><div><span>İş alanı</span><strong>${escapeText(experience.familyLabel)}</strong></div><div><span>Alan deneyimi</span><strong>${experience.weeks} hafta</strong><small>${experience.months} ay</small></div><div><span>Kariyer bandı</span><strong>${escapeText(experience.band.label)}</strong></div><div><span>İş performansı</span><strong>${state.career.performance}</strong><small>${state.career.weeksInRole} hafta bu rolde</small></div><div><span>Eğitim seviyesi</span><strong>${escapeText(getEducationLevelLabel(state.education.level))}</strong><small>${state.education.fields.length ? escapeText(state.education.fields.map((field) => getFieldLabel(field)).join(" · ")) : "Alan yok"}</small></div></section>
     ${state.career.pendingJob ? `<p class="result">${escapeText(getJobById(state.career.pendingJob.jobId).title)} başlangıcı ${Math.max(0, state.career.pendingJob.startWeek - state.time.absoluteWeek)} hafta sonra.</p>` : ""}
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">FIRSATLAR</p><h2>İş teklifleri</h2></div></div><p class="context-note">Yalnız içinde bulunduğun yılda var olan iş alanları gösterilir. Uygun olmayan teklifin altında hangi becerinin eksik olduğu yazılıdır.</p><div class="option-grid">${JOBS.filter((job) => !job.since || state.time.year >= job.since).map(
       (job) => {
         const commute = getCommuteExplanation(home.id, job.id);
         const isCurrent = state.career.jobId === job.id;
+        const shownPay = isCurrent ? getMonthlyEmploymentIncome(state) : job.salary;
         const eligibility = isEligibleForJob(state, job);
         const disabled =
           retired ||
@@ -834,7 +836,7 @@ function renderCareer() {
               : state.weekly.used >= getWeeklyActivityLimit(state)
                 ? "Bu haftanın aktivite hakkı bitti."
                 : "";
-        return `<article class="option-card ${isCurrent ? "is-current" : ""} ${eligibility.ok ? "" : "is-locked"}"><div><p class="panel-kicker">${isCurrent ? "AKTİF İŞ" : eligibility.ok ? "İŞ TEKLİFİ" : "KİLİTLİ"}</p><h3>${escapeText(job.title)}</h3></div><dl><div><dt>Maaş</dt><dd>${money(job.salary)}</dd></div><div><dt>Alan</dt><dd>${escapeText(JOB_FAMILY_LABELS[job.family] || job.family)}</dd></div><div><dt>İş yükü</dt><dd>${lifeLabel(job.load)}</dd></div><div><dt>Ulaşım</dt><dd>${escapeText(commute.label)}</dd></div><div><dt>Haftalık etki</dt><dd>Enerji ${job.energy + commute.energy} · Stres +${job.stress + commute.stress}</dd></div><div><dt>Güvence</dt><dd>${job.security}</dd></div><div><dt>Deneme süresi</dt><dd>${job.terms?.probationWeeks || 0} hafta · ${escapeText(job.terms?.review || "")} </dd></div><div><dt>Gereksinim</dt><dd>${escapeText(describeJobRequirements(job))}</dd></div></dl>${eligibility.ok ? "" : `<p class="context-note">${escapeText(eligibility.reason)}</p>`}<button class="button" data-job-offer="${job.id}" ${disabled ? "disabled" : ""} title="${escapeText(blockReason)}">Teklifi kabul et</button></article>`;
+        return `<article class="option-card ${isCurrent ? "is-current" : ""} ${eligibility.ok ? "" : "is-locked"}"><div><p class="panel-kicker">${isCurrent ? "AKTİF İŞ" : eligibility.ok ? "İŞ TEKLİFİ" : "KİLİTLİ"}</p><h3>${escapeText(job.title)}</h3></div><dl><div><dt>Maaş</dt><dd>${money(shownPay)}${isCurrent && state.flags?.pocket?.wagePct ? ` · zam %${state.flags.pocket.wagePct}` : ""}</dd></div><div><dt>Alan</dt><dd>${escapeText(JOB_FAMILY_LABELS[job.family] || job.family)}</dd></div><div><dt>İş yükü</dt><dd>${lifeLabel(job.load)}</dd></div><div><dt>Ulaşım</dt><dd>${escapeText(commute.label)}</dd></div><div><dt>Haftalık etki</dt><dd>Enerji ${job.energy + commute.energy} · Stres +${job.stress + commute.stress}</dd></div><div><dt>Güvence</dt><dd>${job.security}</dd></div><div><dt>Deneme süresi</dt><dd>${job.terms?.probationWeeks || 0} hafta · ${escapeText(job.terms?.review || "")} </dd></div><div><dt>Gereksinim</dt><dd>${escapeText(describeJobRequirements(job))}</dd></div></dl>${eligibility.ok ? "" : `<p class="context-note">${escapeText(eligibility.reason)}</p>`}<button class="button" data-job-offer="${job.id}" ${disabled ? "disabled" : ""} title="${escapeText(blockReason)}">Teklifi kabul et</button></article>`;
       },
     ).join(
       "",
@@ -1612,6 +1614,9 @@ function render() {
       notice = changes.length
         ? changes.map((change) => describeWeeklyChange(change)).join(" · ")
         : "Sakin bir hafta geçti.";
+      const banner = state.flags?.pocket?.banner;
+      if (banner?.text && banner.week === state.time.absoluteWeek)
+        notice = `${banner.text} ${notice}`.trim();
       lastWeekFeedback = notice;
       weekStartSnapshot = null;
     } else {
