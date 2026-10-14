@@ -54,7 +54,7 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Authorized marriage wave: wedding-planning helper + existing household/social/parenting integration.
   // Authorized city wave integrates one geography helper into existing life engines.
   // Authorized language wave adds a read-only presentation helper; engines unchanged.
-  assert.equal(files.length, 49);
+  assert.equal(files.length, 50);
   const hash = createHash("sha256");
   for (const file of files) hash.update(file).update(readFileSync(file));
   // Re-pinned for the DEVLET maps PR: next-wave.js (geo dispatch + month
@@ -75,7 +75,8 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Wave C re-pin: display labels only (help, life reasons, lifetime lifestyle, wealth names).
   // Ids, prices, SAVE_VERSION and simulation stay the previous baseline.
   // Wave C onto main: shelf categories follow the new names; Emlak view stays.
-  assert.equal(hash.digest("hex"), "3747c84ff77c38c9eb2fd97363a179ccd38e6c389834d7f8b936c01a97e01041");
+  // Semt: quarters.js adds three-neighborhood housing and corner shops. Save stays v6.
+  assert.equal(hash.digest("hex"), "f88c8f90bc50ec2762338ae80db3258de92346ec475c7e026f4169effe896d3f");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);
