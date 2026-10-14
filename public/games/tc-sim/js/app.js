@@ -190,6 +190,7 @@ function renderJobResult() {
 
 function openCaseLabel(item) {
   if (item.type === "partner-month") return "Partnerin görünmeyen ayı";
+  if (item.type === "risk-dosya") return "Polis / mahkeme dosyası";
   if (item.type === "adult-child")
     return `${state.parenthood.children.find((c) => c.id === item.payload.childId)?.name || "Yetişkin çocuk"} ile yetişkinlik görüşmesi`;
   if (item.type === "parenting-followup")
@@ -747,6 +748,11 @@ function renderEconomyContext() {
   </section>`;
 }
 
+function riskFileLine() {
+  const text = state.flags?.risk?.banner?.text;
+  return text ? `<p class="context-note">${escapeText(text)}</p>` : "";
+}
+
 function renderDashboard() {
   const depth = refreshLifeArcs(state);
   const causalEconomy = economyCausality(state);
@@ -779,7 +785,7 @@ function renderDashboard() {
       ${depth.echoes.length ? `<p class="context-note">Son yankı: ${escapeText(depth.echoes.at(-1).text)}</p>` : ""}
     </details></section>
     <div class="dashboard-grid">
-      <section class="panel week-panel"><div class="panel-head"><div><p class="eyebrow">BU HAFTA</p><h2>Zamanını nasıl kullandın?</h2></div><span>${remaining} odak kaldı</span></div><p class="decision-context">Küçük kararlar 1 zaman; taşınma ve iş kurma 2, şehir değiştirme 3 zaman ister. Enerji ve para bedelleri ayrıca uygulanır. Bütün zamanı doldurmak zorunda değilsin.</p>${partnerFileLine()}${workplaceFileNote()}${weekPlanHtml.top}<div class="decisions">${getAvailableDecisions(
+      <section class="panel week-panel"><div class="panel-head"><div><p class="eyebrow">BU HAFTA</p><h2>Zamanını nasıl kullandın?</h2></div><span>${remaining} odak kaldı</span></div><p class="decision-context">Küçük kararlar 1 zaman; taşınma ve iş kurma 2, şehir değiştirme 3 zaman ister. Enerji ve para bedelleri ayrıca uygulanır. Bütün zamanı doldurmak zorunda değilsin.</p>${partnerFileLine()}${workplaceFileNote()}${riskFileLine()}${weekPlanHtml.top}<div class="decisions">${getAvailableDecisions(
         state,
       )
         .map((decision) => {
@@ -1636,7 +1642,8 @@ function render() {
       const pocketBanner = state.flags?.pocket?.banner;
       const calendarBanner = state.flags?.calendar?.banner;
       const partnerBanner = state.flags?.partnerMonth?.banner;
-      const banners = [partnerBanner, calendarBanner, pocketBanner].filter((banner) => banner?.text && banner.week === state.time.absoluteWeek);
+      const riskBanner = state.flags?.risk?.banner;
+      const banners = [partnerBanner, riskBanner, calendarBanner, pocketBanner].filter((banner) => banner?.text && banner.week === state.time.absoluteWeek);
       if (banners.length) notice = `${banners.map((banner) => banner.text).join(" ")} ${notice}`.trim();
       lastWeekFeedback = notice;
       weekStartSnapshot = null;
