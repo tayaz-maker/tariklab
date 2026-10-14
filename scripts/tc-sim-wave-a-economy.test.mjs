@@ -54,8 +54,8 @@ test("dönem maaşı ekranda kuruş göstermez; iç kalibrasyon bozulmaz", () =>
 test("alışveriş rafları tüketimi böler; ev, araç ve eşya emlakta kalır", () => {
   assert.equal(getNavigationTarget("market"), "market");
   assert.equal(getNavigationTarget("emlak"), "emlak");
-  assert.equal(NAVIGATION_ITEMS.find((item) => item.view === "market").label, "ALIŞVERİŞ");
-  assert.equal(NAVIGATION_ITEMS.find((item) => item.view === "emlak").label, "EMLAK");
+  assert.equal(NAVIGATION_ITEMS.find((item) => item.view === "market").label, "Çarşı");
+  assert.equal(NAVIGATION_ITEMS.find((item) => item.view === "emlak").label, "Emlak");
   const state = createNewGame({ seed: 3 });
   const seen = new Map();
   for (const [id, item] of Object.entries(MARKET)) {

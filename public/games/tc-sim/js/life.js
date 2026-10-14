@@ -585,11 +585,11 @@ export function locationMoveAvailability(state,districtId,homeId,returnFamily=fa
  if(!returnFamily&&currentDistrict(state)?.id===districtId&&state.household.homeId===homeId)return {ok:false,reason:'Zaten burada yaşıyorsun.'};
  if(state.household.location?.lastMoveWeek===state.time.absoluteWeek||state.weekly.selectedIds.some(id=>id.startsWith('move-home:')))return {ok:false,reason:'Bu hafta zaten taşındın.'};
  if(state.weekly.used+q.slots>getWeeklyActivityLimit(state))return {ok:false,reason:`Taşınma için ${q.slots} zaman ayırmalısın.`};
- if(state.wealth?.properties?.some(p=>p.occupancy==='owner'))return {ok:false,reason:'Önce mevcut mülkünün oturum durumunu Finans ekranında düzenle.'};
+ if(state.wealth?.properties?.some(p=>p.occupancy==='owner'))return {ok:false,reason:'Önce mevcut mülkünün oturum durumunu Para ekranında düzenle.'};
  if(state.career.pendingJob)return {ok:false,reason:'Önce bekleyen iş başlangıcını sonuçlandır.'};
  if(q.intercity&&state.career.jobId&&state.career.jobId!=='freelance_any')return {ok:false,reason:'Mevcut işin bu şehirde. Şehir değiştirmeden önce İş ekranından ayrılmalısın; yeni iş garanti değil.'};
  if(q.intercity&&state.education?.active)return {ok:false,reason:'Önce mevcut eğitimini tamamla veya Eğitim ekranında bırak; program otomatik taşınmaz.'};
- if(q.intercity&&state.flags.business)return {ok:false,reason:'İşletmen mevcut şehirde. Şehir değiştirmeden önce işletme kararını Finans ekranında ver.'};
+ if(q.intercity&&state.flags.business)return {ok:false,reason:'İşletmen mevcut şehirde. Şehir değiştirmeden önce işletme kararını Para ekranında ver.'};
  if(state.finances.balance<q.cost)return {ok:false,reason:'Taşınma bütçesi yetersiz.'};
  return {ok:true,quote:q};
 }

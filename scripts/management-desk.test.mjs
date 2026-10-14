@@ -72,7 +72,10 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Slot writes, overwrite confirmation, engine/content and schemas unchanged.
   // 2026-10-06: authorized TC SIM life/era content and simulation expansion.
   // Authorized balance pass: business owner turnover/time, move time, debt overflow preservation.
-  assert.equal(hash.digest("hex"), "a5c3cdc7caa2fedcf834bd888209be1169dfb7fae8e96ba413f5098bf1431e8e");
+  // Wave C re-pin: display labels only (help, life reasons, lifetime lifestyle, wealth names).
+  // Ids, prices, SAVE_VERSION and simulation stay the previous baseline.
+  // Wave C onto main: shelf categories follow the new names; Emlak view stays.
+  assert.equal(hash.digest("hex"), "3747c84ff77c38c9eb2fd97363a179ccd38e6c389834d7f8b936c01a97e01041");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);
