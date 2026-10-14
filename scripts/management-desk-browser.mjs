@@ -33,7 +33,7 @@ export async function deskFlows(page, surface, id, lang, out) {
     const count = await rows.count();
     if (screen === "career") assert.equal(count, 58);
     if (screen === "education") assert.equal(count, 18);
-    if (screen === "market") assert.equal(await surface.locator('[data-wealth-action="spend"]').count(), 57);
+    if (screen === "market") assert.equal(await surface.locator('[data-wealth-action="spend"]').count(), 13);
     if (screen === "policy") assert.equal(count, 48);
     if (!count) continue;
     if (screen === "career" || screen === "education") {

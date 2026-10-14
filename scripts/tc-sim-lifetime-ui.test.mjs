@@ -219,6 +219,7 @@ test("wealth controls route through real domain state, persist, and stale clicks
   assert.equal(ui.saved().wealth.subscriptions.length, 1);
   const before = ui.saved().finances.balance;
   ui.click(ui.find("view", "market"));
+  ui.click(ui.find("view", "emlak"));
   const durable = ui.find("wealthAction", "durable");
   ui.click(durable);
   assert.equal(ui.saved().wealth.durables.length, 1);
@@ -226,7 +227,7 @@ test("wealth controls route through real domain state, persist, and stale clicks
   const charged = ui.saved().finances.balance;
   durable.listeners.click();
   assert.equal(ui.saved().finances.balance, charged);
-  ui.click(ui.find("view", "finance"));
+  ui.click(ui.find("view", "emlak"));
   const owner = ui.root.elements.find(
     (e) => e.dataset.wealthAction === "property-owner" && e.dataset.wealthValue === "cash",
   );
@@ -240,6 +241,7 @@ test("wealth controls never look enabled when money, time, cooldown or ownership
   const s=createNewGame(); s.finances.balance=100;
   const ui=await mount(s); ui.click(ui.find("view","finance"));
   const high=ui.root.elements.find(e=>e.dataset.wealthAction==="lifestyle"&&e.dataset.wealthValue==="high");
+  ui.click(ui.find("view","emlak"));
   const property=ui.root.elements.find(e=>e.dataset.wealthAction==="property-owner"&&e.dataset.wealthValue==="cash");
   assert.equal(high.disabled,true); assert.match(high.attrs.title,/gerekiyor/);
   assert.equal(property.disabled,true); assert.match(property.attrs.title,/gerekiyor/);
