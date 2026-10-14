@@ -12,6 +12,7 @@ import {
 import { processIntimacyFollowup } from "./intimacy.js?v=10";
 import { processBusinessMonth } from "./bank-business.js?v=10";
 import { processSemtWeek } from "./quarters.js?v=10";
+import { POCKET_DECISIONS, processPocketWeek } from "./pocket-income.js?v=10";
 import { getHouseholdSummary } from "./household.js?v=10";
 import {
   WEEKS_PER_MONTH,
@@ -178,7 +179,7 @@ export const DECISIONS = [
   {
     id: "exercise",
     title: "Spor yap",
-    detail: "₺150 · sağlık +4 · stres −8",
+    detail: "₺150 · sağlık +4 · stres −8 · dört hafta üst üste bir parça daha",
     apply(state) {
       transact(state, -150, "Spor gideri", "health");
       adjustHealth(state, { energy: -8, stress: -8, health: 4 });
@@ -333,6 +334,7 @@ export const DECISIONS = [
       addMemory(state, "İşinin bir ayrıntısını çalışıp becerini geliştirdin.");
     },
   },
+  ...POCKET_DECISIONS,
 ];
 
 const CORE_DECISION_IDS = new Set(["overtime", "rest", "exercise", "home-routine"]);
@@ -390,7 +392,8 @@ export function canApplyDecision(state, decisionId) {
 export function applyDecision(state, decisionId) {
   const check = canApplyDecision(state, decisionId);
   if (!check.ok) return check;
-  check.decision.apply(state);
+  const applied = check.decision.apply(state);
+  if (applied && applied.ok === false) return applied;
   recordLifeDecision(state, decisionId);
   state.flags.depth2Enabled = true;
   state.flags.depth3Enabled = true;
@@ -582,6 +585,9 @@ export function advanceWeek(state) {
   // Olay veya haftalık karar ay kapanışını beklemeden tabanın altına indirdiyse
   // aynı güvenli temerrüt dönüşümünü uygula. Ay sonunda ikinci çağrı no-op'tur.
   processCashShortfall(state);
+
+  const pocketNote = processPocketWeek(state);
+  if (pocketNote) messages.push(pocketNote);
 
   state.weekly = { used: 0, selectedIds: [] };
   if (!workedOvertime) state.flags.overtimeStreak = 0;

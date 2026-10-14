@@ -22,6 +22,7 @@ import {
 import { applySocialMaintenance } from "./social.js?v=10";
 import { scheduleMoveConsequence } from "./depth3-systems.js?v=10";
 import { clearSemtLive, liveQuarterBill } from "./quarters.js?v=10";
+import { payPromotionBonus, paySeverance, raisedSalary } from "./pocket-income.js?v=10";
 
 export { HOMES, JOBS, getCommuteLoad, getHomeById, getJobById } from "./catalog.js?v=10";
 
@@ -69,7 +70,7 @@ export function getCommuteExplanation(homeId, jobId, state = null) {
 export const PRIVACY_CONTEXT =
   "Mahremiyet şu an doğrudan stat değiştirmez; ileride aile, partner ve sosyal olaylarda bağlam sağlar.";
 
-export const getMonthlyEmploymentIncome = (state) => Math.round(Number(getJobById(state.career.jobId)?.salary) || 0);
+export const getMonthlyEmploymentIncome = (state) => raisedSalary(state);
 export function getCostOfLivingIndex(state) {
   const years = Math.max(0, (state.time?.year || 2027) - (state.meta?.startYear || state.time?.year || 2027));
   return Math.min(1.5, 1 + years * 0.04);
@@ -227,6 +228,7 @@ export function promoteCareer(state) {
   state.career.jobId = next.id;
   state.career.weeksInRole = 0;
   state.career.performance = Math.max(55, Number(state.career.performance) || 55);
+  const bonus = payPromotionBonus(state);
   addCareerHistory(state, {
     type: "promotion",
     fromJobId: previous?.id || null,
@@ -234,7 +236,7 @@ export function promoteCareer(state) {
     label: `${next.title} pozisyonuna geçtin.`,
   });
   addMemory(state, `${next.title} pozisyonuna geçtin.`, "important");
-  return { ok: true, job: next };
+  return { ok: true, job: next, message: bonus ? `${next.title} pozisyonuna geçtin. ${bonus}` : `${next.title} pozisyonuna geçtin.` };
 }
 
 /** Performans değerlendirmesinde işin devam etmesi için gereken alt sınır. */
@@ -248,6 +250,7 @@ export function endEmployment(state, { label, type = "involuntary_unemployment" 
   const oldJob = getJobById(state?.career?.jobId);
   if (!oldJob) return { ok: false, reason: "Sonlandırılacak aktif iş yok." };
   const text = label || `${oldJob.title} işini kaybettin.`;
+  paySeverance(state);
   state.career.jobId = null;
   state.career.weeksInRole = 0;
   state.flags.jobSecurityRisk = null;
@@ -430,6 +433,7 @@ export function quitJob(state) {
   const check = canUseWeeklyAction(state, "quit-job");
   if (!check.ok) return check;
   const oldJob = getJobById(state.career.jobId);
+  const severance = paySeverance(state);
   state.career.jobId = null;
   state.career.weeksInRole = 0;
   // İstifa, bekleyen iş güvenliği değerlendirmesini konusuz bırakır: olmayan
@@ -450,7 +454,7 @@ export function quitJob(state) {
   });
   markWeeklyAction(state, "quit-job");
   addMemory(state, `${oldJob.title} işinden ayrıldın.`, "important");
-  return { ok: true, message: "İşten ayrıldın; artık işsizsin." };
+  return { ok: true, message: severance ? `İşten ayrıldın. ${severance}` : "İşten ayrıldın; artık işsizsin." };
 }
 
 export function moveHome(state, homeId) {
