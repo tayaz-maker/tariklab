@@ -8,6 +8,7 @@ import { normalizePocket } from "./pocket-income.js?v=10";
 import { normalizeCalendar } from "./march-hatir.js?v=10";
 import { normalizePartnerMonth, normalizeWorkplace } from "./partner-workplace.js?v=10";
 import { normalizeRisk } from "./risk-layer.js?v=10";
+import { normalizeAskerlik } from "./askerlik.js?v=10";
 
 export const SAVE_KEY = "tc-sim-save";
 export const BACKUP_KEY = "tc-sim-save-backup";
@@ -181,6 +182,7 @@ export function migrateState(raw) {
     normalizePartnerMonth(state);
     normalizeWorkplace(state);
     normalizeRisk(state);
+    normalizeAskerlik(state);
     const validation = validateState(state);
     return validation.ok
       ? { ok: true, state, migrated: version !== SAVE_VERSION }

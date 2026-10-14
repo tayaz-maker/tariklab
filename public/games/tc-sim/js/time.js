@@ -14,6 +14,7 @@ import { processBusinessMonth } from "./bank-business.js?v=10";
 import { processSemtWeek } from "./quarters.js?v=10";
 import { POCKET_DECISIONS, processPocketWeek } from "./pocket-income.js?v=10";
 import { RISK_DECISIONS, isDetained, processRiskWeek } from "./risk-layer.js?v=10";
+import { ASKER_DECISIONS, isServing, processAskerlikWeek } from "./askerlik.js?v=10";
 import {
   MARCH_HATIR_DECISIONS,
   closeHatirWeek,
@@ -117,7 +118,7 @@ export const DECISIONS = [
     title: "Ek mesai yap",
     detail: "+₺1.250 · enerji −16 · stres +12 · aralıksız sürerse azalır",
     // Ek mesai bir işin uzantısıdır: iş yoksa mesai de yoktur.
-    contextual: (state) => state.career.jobId !== null && !isDetained(state),
+    contextual: (state) => state.career.jobId !== null && !isDetained(state) && !isServing(state),
     apply(state) {
       const streak = state.flags.overtimeStreak || 0;
       transact(state, getOvertimePay(streak), "Ek mesai", "work");
@@ -348,6 +349,7 @@ export const DECISIONS = [
   ...MARCH_HATIR_DECISIONS,
   ...PARTNER_WORK_DECISIONS,
   ...RISK_DECISIONS,
+  ...ASKER_DECISIONS,
 ];
 
 const CORE_DECISION_IDS = new Set(["overtime", "rest", "exercise", "home-routine"]);
@@ -362,6 +364,8 @@ export function canApplyDecision(state, decisionId) {
   if (state.lifetime?.death) return { ok: false, reason: "Bu yaşam tamamlandı." };
   if (isDetained(state) && decisionId !== "rest")
     return { ok: false, reason: "İçeridesin. Bu hafta yalnız dinlenme var. İş durdu." };
+  if (isServing(state) && decisionId !== "rest")
+    return { ok: false, reason: "Askerdesin. Bu hafta iş yok. Yalnız dinlenme var." };
   const decision = DECISIONS.find((item) => item.id === decisionId);
   if (!decision) return { ok: false, reason: "Karar bulunamadı." };
   if (decisionId === "parent-plan" && !decision.contextual(state))
@@ -619,6 +623,8 @@ export function advanceWeek(state) {
   if (pocketNote) messages.push(pocketNote);
   const riskNote = processRiskWeek(state);
   if (riskNote) messages.push(riskNote);
+  const askerNote = processAskerlikWeek(state);
+  if (askerNote) messages.push(askerNote);
 
   state.weekly = { used: 0, selectedIds: [] };
   if (!workedOvertime) state.flags.overtimeStreak = 0;

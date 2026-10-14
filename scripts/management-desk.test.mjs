@@ -54,7 +54,7 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Authorized marriage wave: wedding-planning helper + existing household/social/parenting integration.
   // Authorized city wave integrates one geography helper into existing life engines.
   // Authorized language wave adds a read-only presentation helper; engines unchanged.
-  assert.equal(files.length, 54);
+  assert.equal(files.length, 55);
   const hash = createHash("sha256");
   for (const file of files) hash.update(file).update(readFileSync(file));
   // Re-pinned for the DEVLET maps PR: next-wave.js (geo dispatch + month
@@ -81,7 +81,8 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Partner month + workplace notes: partner-workplace.js. Save stays v6.
   // Risk layer: risk-layer.js adds short +18 costs, dosya, and detention. Save stays v6.
   // Both layers together: partner-workplace.js and risk-layer.js. Save stays v6.
-  assert.equal(hash.digest("hex"), "fd8e88380d6a58db81838f0865f551c564dd3eee74c4db413118070ad5a765fd");
+  // Askerlik window: askerlik.js, one 18–25 interruption. Save stays v6.
+  assert.equal(hash.digest("hex"), "501e596277e11813ca79505ead6e245484b6c420fb2445807434d11da51e6713");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);

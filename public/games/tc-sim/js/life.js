@@ -25,6 +25,7 @@ import { clearSemtLive, liveQuarterBill } from "./quarters.js?v=10";
 import { payPromotionBonus, paySeverance, raisedSalary } from "./pocket-income.js?v=10";
 import { notePromotion } from "./partner-workplace.js?v=10";
 import { isDetained } from "./risk-layer.js?v=10";
+import { isServing } from "./askerlik.js?v=10";
 
 export { HOMES, JOBS, getCommuteLoad, getHomeById, getJobById } from "./catalog.js?v=10";
 
@@ -33,7 +34,7 @@ export function getEffectiveCommuteLoad(state) {
 }
 
 export function getWeeklyLifeLoad(state) {
-  const job = getJobById(state.career.jobId);
+  const job = isServing(state) ? null : getJobById(state.career.jobId);
   const commute = getEffectiveCommuteLoad(state);
   const education = getEducationWeeklyLoad(state);
   const reduced = state.flags?.lateCareerReducedLoadUntil > state.time.absoluteWeek;
@@ -72,7 +73,7 @@ export function getCommuteExplanation(homeId, jobId, state = null) {
 export const PRIVACY_CONTEXT =
   "Mahremiyet şu an doğrudan stat değiştirmez; ileride aile, partner ve sosyal olaylarda bağlam sağlar.";
 
-export const getMonthlyEmploymentIncome = (state) => (isDetained(state) ? 0 : raisedSalary(state));
+export const getMonthlyEmploymentIncome = (state) => (isDetained(state) || isServing(state) ? 0 : raisedSalary(state));
 export function getCostOfLivingIndex(state) {
   const years = Math.max(0, (state.time?.year || 2027) - (state.meta?.startYear || state.time?.year || 2027));
   return Math.min(1.5, 1 + years * 0.04);
@@ -290,7 +291,7 @@ export const clampMoneyReliefAmount = (value) =>
 export function updateCareerProgress(state) {
   const career = state.career;
   if (!career || !getJobById(career.jobId)) return false;
-  if (isDetained(state)) return false;
+  if (isDetained(state) || isServing(state)) return false;
   career.weeksInRole = Number.isInteger(career.weeksInRole) ? career.weeksInRole + 1 : 1;
   const healthyWeek = state.health.health > 40 && state.health.energy >= 35;
   const manageableStress = state.health.stress < 70;
@@ -501,6 +502,7 @@ export function relocateHome(state, homeId) {
 
 /** Biten haftanın deneyimi. Aktif iş yoksa kredi yok; bir hafta tek aileye yazar. */
 function creditWeeklyExperience(state) {
+  if (isServing(state)) return false;
   const job = getJobById(state.career.jobId);
   if (!job?.family) return false;
   // Doğrulanmış her state'te bu harita vardır; tick'in çökmesindense kendini onarır.
