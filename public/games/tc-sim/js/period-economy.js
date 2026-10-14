@@ -78,10 +78,8 @@ export function approximateNominal(gameAmount, year, date = `${year}-01-01`) {
 
 export function formatPeriodMoney(gameAmount, year, date = `${year}-01-01`) {
   const observedYear = Math.max(1980, Math.min(2025, Math.trunc(year)));
-  const amount = approximateNominal(gameAmount, observedYear, date);
-  const digits = Math.abs(amount) < 10 ? 1 : 0;
-  if (observedYear < 2005 && Math.abs(amount) >= 1_000_000) return `${new Intl.NumberFormat("tr-TR", { maximumFractionDigits: 2 }).format(amount / 1_000_000)} milyon TL (eski)`;
-  const formatted = new Intl.NumberFormat("tr-TR", { maximumFractionDigits: digits }).format(amount);
+  const amount = Math.round(approximateNominal(gameAmount, observedYear, date));
+  const formatted = new Intl.NumberFormat("tr-TR", { maximumFractionDigits: 0 }).format(amount);
   return `${formatted} ${periodCurrency(observedYear)}`;
 }
 

@@ -221,6 +221,16 @@ const marketUnavailableReason = (state, item) => item.since && economyYear(state
 export const economyText = tr;
 const tl = (n) => `₺${Math.round(n).toLocaleString("tr-TR")}`;
 export const MARKET_OWNERSHIP = { new_phone: "phone", feature_phone: "phone", laptop: "computer", headphones: "headphones", furniture: "furniture", appliance: "appliance", bike: "bike", scooter: "scooter", luxury_watch: "luxury_watch" };
+/** Alışveriş rafları. Kalıcı eşya (MARKET_OWNERSHIP) burada değil, Emlak'tadır. */
+export const MARKET_SHELVES = [
+  { id: "gunluk", label: "Günlük", categories: ["Günlük yaşam", "Günlük", "Kişisel bakım", "Ev kolaylığı", "Bağlantı / Dijital"] },
+  { id: "ev", label: "Ev ve bakım", categories: ["Ev", "Ev eğlencesi", "Sağlık / Spor", "Ulaşım"] },
+  { id: "disari", label: "Dışarı", categories: ["Eğlence", "Hobi", "Seyahat", "Dönem kültürü"] },
+  { id: "giyim", label: "Giyim ve cihaz", categories: ["Giyim / Statü", "Teknoloji"] },
+  { id: "hediye", label: "Hediye", categories: ["Hediye", "Hediyeler"] },
+  { id: "gece", label: "Gece ve risk", categories: ["18+ sosyal yaşam", "Yetişkin / Gece", "Riskli / Yasadışı"] },
+];
+export const marketShelfId = (category) => MARKET_SHELVES.find((shelf) => shelf.categories.includes(category))?.id || "diger";
 const care = { dentist: 5, private_clinic: 3, therapy: 2, gym_drop: 2, sports: 2 };
 export function durableBenefit(id) {
   const descriptions = {
@@ -791,9 +801,11 @@ export function getWealthMonthlySummary(state) {
     subscriptions = w.subscriptions.reduce((n, s) => n + SUBSCRIPTIONS[s.id].monthly, 0),
     vehicle = w.vehicle ? VEHICLES[w.vehicle.tier].monthly : 0,
     debt = w.debts.reduce((n, d) => n + Math.min(d.principal, d.monthlyPayment), 0);
+  const income = Math.round(rental);
+  const expenses = Math.round(TIERS[w.lifestyle].monthly + maintenance + subscriptions + vehicle + debt);
   return {
-    income: rental,
-    expenses: TIERS[w.lifestyle].monthly + maintenance + subscriptions + vehicle + debt,
+    income,
+    expenses,
     lifestyle: TIERS[w.lifestyle].monthly,
     subscriptions,
     vehicle,

@@ -68,7 +68,7 @@ export function getCommuteExplanation(homeId, jobId, state = null) {
 export const PRIVACY_CONTEXT =
   "Mahremiyet şu an doğrudan stat değiştirmez; ileride aile, partner ve sosyal olaylarda bağlam sağlar.";
 
-export const getMonthlyEmploymentIncome = (state) => getJobById(state.career.jobId)?.salary || 0;
+export const getMonthlyEmploymentIncome = (state) => Math.round(Number(getJobById(state.career.jobId)?.salary) || 0);
 export function getCostOfLivingIndex(state) {
   const years = Math.max(0, (state.time?.year || 2027) - (state.meta?.startYear || state.time?.year || 2027));
   return Math.min(1.5, 1 + years * 0.04);
@@ -316,7 +316,7 @@ export function getMonthlySummary(state, options = {}) {
   const housing = housingBreakdown.total;
   const wealth = getWealthMonthlySummary(state);
   const retirementIncome =
-    state.career?.retirement?.status === "retired" ? state.career.retirement.monthlyIncome : 0;
+    state.career?.retirement?.status === "retired" ? Math.round(Number(state.career.retirement.monthlyIncome) || 0) : 0;
   const otherIncome = state.finances.otherMonthlyIncome;
   const otherExpenses = Math.round(
     state.finances.otherMonthlyExpenses *
@@ -335,8 +335,8 @@ export function getMonthlySummary(state, options = {}) {
     transport: locationCosts(state).transport,
     parenting: parenthoodCosts(state, options),
     wealth,
-    income: salary + otherIncome + retirementIncome + wealth.income,
-    expenses: housing + otherExpenses + locationCosts(state).transport + tuition + parenthoodCosts(state, options) + wealth.expenses,
+    income: Math.round(salary + otherIncome + retirementIncome + wealth.income),
+    expenses: Math.round(housing + otherExpenses + locationCosts(state).transport + tuition + parenthoodCosts(state, options) + wealth.expenses),
   };
 }
 
