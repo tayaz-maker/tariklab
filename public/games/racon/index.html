@@ -1011,7 +1011,7 @@ html,body{font-size:14px}
     if (S.flags.oyunSonu && ["menu", "copy", "load", "silok", "yardim-ac", "yardim-kapat", "save", "nav", "navdetay", "side", "new-confirm", "new-cancel"].indexOf(code) < 0) return "Bu hayatın defteri kapandı.";
     if(S.flags.oyunSonu&&code==="nav")return "Bu hayat sona erdi; sonuç ve menü açık.";
     if (UI.sahne && ["job-emir", "job-tamam", "rnd-karar", "save", "yardim-ac", "yardim-kapat", "side"].indexOf(code) < 0) return "Önce açık sahneyi tamamla.";
-    if (p.id && !["inbox", "nav", "cal", "man", "street"].includes(code)) {
+    if (p.id && ["inbox", "nav", "cal", "man", "street", "semt-ac", "semt-git", "org-ata", "org-bosalt", "sehir-ac", "sehir-kapat"].indexOf(code) < 0) {
       var paper = inboxBy(p.id);
       if (paper && paper.kapali) return "Bu kâğıt zaten kapandı.";
     }
@@ -1048,6 +1048,12 @@ html,body{font-size:14px}
     if (code === "hire" && num(S.flags.amcaKonusulmuyor,0)>0) return "Amca yeniden yüz verene kadar kapı kapalı.";
     if (code === "tedavi") {var patient=manBy(p.id);if(!patient||["yarali","yorgun"].indexOf(patient.durum)<0) return "Tedavi veya dinlenme gerekmiyor.";}
     if (code === "front-sec") {if(muhtarKilit()) return "Önce muhtarın desteği gerekli.";if(S.flags.aklamaFront===p.id) return "Bu paravan zaten açık.";if(!AKLAMA_FRONT[p.id]||S.kasa<AKLAMA_FRONT[p.id].masraf) return "İlk haftanın masrafı kasada bulunmalı.";}
+    if (code === "semt-ac") { if (!stageAt("agabey")) return "Ağabey olmadan mahalle açılmaz."; var sem=semtBy(p.id); if(!sem||sem.id==="avlu") return "Bu mahalle zaten açık."; if(sem.acik) return "Bu mahalle zaten açık."; if(p.id==="esik"&&!semtBy("kuzey").acik) return "Önce Kuzey Avlu açılır."; if(ownN()<3) return "Önce Avlu Semti'nde üç sokak tut."; if(S.kasa<sem.bedel) return "Kasada ₺"+sem.bedel.toLocaleString("tr-TR")+" gerekli."; }
+    if (code === "semt-git") { var gz=semtBy(p.id); if(!gz||!gz.acik||gz.id==="avlu") return "Açık bir mahalle seç."; if(gz.visitWeek===S.week) return "Bu hafta o mahalleye gidildi."; if(S.kasa<5000) return "Kasada ₺5.000 gerekli."; }
+    if (code === "org-ata") { if(!stageAt("agabey")) return "Alt ekip ağabeylikte açılır."; if(["sokak","kasa","goz"].indexOf(p.id)<0) return "Böyle bir masa yok."; var lead=manBy(p.kind); if(!lead||lead.durum==="olu"||lead.durum==="hapis") return "Bu adam masaya oturamaz."; }
+    if (code === "org-bosalt") { if(!stageAt("agabey")) return "Alt ekip ağabeylikte açılır."; if(!ensureGenisleme().crews.some(function(c){return c.role===p.id;})) return "Bu masa zaten boş."; }
+    if (code === "sehir-ac") { var sh=ensureGenisleme().sehir; if(!stageAt("baba")) return "Şehir masası baba kademesinde açılır."; if(!acikSemtSayisi()) return "Önce bir mahalle daha aç."; if(sh.acik) return "Masa zaten açık."; if(S.kasa<25000) return "Kasada ₺25.000 gerekli."; }
+    if (code === "sehir-kapat") { if(!S.genisleme||!S.genisleme.sehir.acik) return "Açık masa yok."; }
     if (code === "kahve-turu" && S.flags.kahveHafta===S.week) return "Bu haftanın turu tamam.";
     if (code === "gozdagi" && S.flags.lastGozdagi===S.week) return "Bu hafta gözdağı verildi.";
     if (code === "adam-ara" && S.flags.aramaHafta===S.week) return "Bu hafta aradın; haftaya yenilenir.";
@@ -1502,6 +1508,102 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
       hazirlikBonus: j.hazirlikBonus ? String(j.hazirlikBonus) : undefined
     };
   }
+  var STAGE_ORDER = ["serseri", "delikanli", "kabadayi", "agabey", "baba", "aile_reisi", "hanedan"];
+  function stageAt(need) {
+    return STAGE_ORDER.indexOf(S && S.stage) >= STAGE_ORDER.indexOf(need);
+  }
+  function defaultGenisleme() {
+    return {
+      version: 1,
+      crews: [],
+      semtler: [
+        { id: "avlu", ad: "Avlu Semti", acik: true, week: 1, bedel: 0, sadakat: 100, visitWeek: 0 },
+        { id: "kuzey", ad: "Kuzey Avlu", acik: false, week: 0, bedel: 80000, sadakat: 0, visitWeek: 0 },
+        { id: "esik", ad: "Eşik Mahallesi", acik: false, week: 0, bedel: 120000, sadakat: 0, visitWeek: 0 }
+      ],
+      sehir: { acik: false, ad: "", week: 0 }
+    };
+  }
+  function migrateGenisleme(raw) {
+    var base = defaultGenisleme();
+    if (!raw || typeof raw !== "object") return base;
+    var roles = { sokak: 1, kasa: 1, goz: 1 };
+    base.crews = arr(raw.crews, []).filter(function (c) {
+      return c && roles[c.role] && typeof c.leadId === "string";
+    }).slice(0, 3).map(function (c) {
+      return { role: c.role, leadId: c.leadId };
+    });
+    arr(raw.semtler, []).forEach(function (s) {
+      var row = base.semtler.filter(function (x) { return x.id === s.id; })[0];
+      if (!row || row.id === "avlu") return;
+      row.acik = !!s.acik;
+      row.week = num(s.week, 0);
+      row.sadakat = clamp(num(s.sadakat, row.acik ? 40 : 0), 0, 100);
+      row.visitWeek = num(s.visitWeek, 0);
+    });
+    var sehir = raw.sehir && typeof raw.sehir === "object" ? raw.sehir : {};
+    base.sehir = { acik: !!sehir.acik, ad: sehir.acik ? "Uzak Terminal" : "", week: num(sehir.week, 0) };
+    return base;
+  }
+  function ensureGenisleme() {
+    if (!S.genisleme) S.genisleme = defaultGenisleme();
+    return S.genisleme;
+  }
+  function semtBy(id) {
+    return ensureGenisleme().semtler.filter(function (s) { return s.id === id; })[0];
+  }
+  function acikSemtSayisi() {
+    return ensureGenisleme().semtler.filter(function (s) { return s.id !== "avlu" && s.acik; }).length;
+  }
+  function crewOfRole(role) {
+    var row = ensureGenisleme().crews.filter(function (c) { return c.role === role; })[0];
+    if (!row) return null;
+    var man = manBy(row.leadId);
+    if (!man || man.durum === "olu" || man.durum === "hapis") return null;
+    return man;
+  }
+  function navOpen(id) {
+    if (id === "mahalleler" || id === "ekip") return stageAt("agabey");
+    if (id === "masa") return stageAt("baba");
+    return false;
+  }
+  function genislemeHafta() {
+    var g = ensureGenisleme();
+    if (crewOfRole("sokak")) {
+      var home = streetBy(S.streetHome);
+      if (home && home.sahip === "sen") home.heat = clamp(home.heat - 1, 0, 100);
+      g.semtler.forEach(function (s) { if (s.acik && s.id !== "avlu") s.sadakat = clamp(s.sadakat + 2, 0, 100); });
+    }
+    var kasaAdam = crewOfRole("kasa");
+    if (kasaAdam && S.dirtyKasa >= 800) {
+      S.dirtyKasa -= 800;
+      S.cleanKasa += 800;
+      defter("Alt ekip kasa · 800 temizlendi");
+    }
+    S.flags.gozIndirim = crewOfRole("goz") ? 1 : 0;
+    if (S.flags.gozIndirim) defter("Alt ekip göz · dosya -1");
+    g.semtler.forEach(function (s) {
+      if (!s.acik || s.id === "avlu") return;
+      if (ownN() >= 3 && s.sadakat >= 20) {
+        var pay = s.id === "esik" ? 4000 : 2500;
+        cashChange(pay, true);
+        defter(s.ad + " payı · +" + pay);
+      } else {
+        s.sadakat = clamp(s.sadakat - 4, 0, 100);
+        if (s.sadakat === 0) {
+          s.acik = false;
+          pushInbox(s.ad + " koptu.", "Sadakat bitti. Mahalle kapandı.", { href: "mahalleler" });
+        }
+      }
+    });
+    if (g.sehir.acik) {
+      cashChange(1500, true);
+      S.flags.haftaGurultu = num(S.flags.haftaGurultu, 0) + 1;
+      defter("Uzak Terminal · +1500");
+      g.semtler.forEach(function (s) { if (s.acik && s.id !== "avlu") s.sadakat = clamp(s.sadakat + 1, 0, 100); });
+    }
+    if (S.flags.gozIndirim || g.sehir.acik) recalcDosya();
+  }
   function canonStreets() {
     return [
       migrateStreet({ id: "st_fevzi", ad: "Kırık Avlu", sahip: "sen", heat: 8 }),
@@ -1569,6 +1671,7 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
       plateBook: [],
       kefiller: [],
       weekColor: "normal",
+      genisleme: defaultGenisleme(),
       depth: { version: 1, identityScores: { merhametli: 0, korkulan: 0, pragmatik: 0, paraOdakli: 0, sadik: 0, hain: 0, kontrollu: 0, fevri: 0 }, identity: "kontrollu", decisions: [], delayedEffects: [], eventDirector: { history: [], cooldowns: {} }, endHistory: [] },
       savedAt: 0,
       seed: 1,
@@ -1714,6 +1817,7 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
     if (!AKLAMA_FRONT[out.flags.aklamaFront]) out.flags.aklamaFront=null;
     out.scene = raw.scene || null;
     out.jobs.forEach(function(j){if(j.phase==="running"&&!out.scene) j.phase="idle";});
+    out.genisleme = migrateGenisleme(raw.genisleme);
     return out;
   }
   function depthRecordDecision(kind, choice, actors, consequence) {
@@ -2106,7 +2210,7 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
       sum += w;
     });
     var av = S.flags.avukatTutuldu ? 0.8 : 1;
-    S.dosya = clamp((sum + S.rep.nam * 0.05 + num(S.flags.haftaGurultu, 0)) * av + num(S.flags.toz, 0), 0, 100);
+    S.dosya = clamp((sum + S.rep.nam * 0.05 + num(S.flags.haftaGurultu, 0)) * av + num(S.flags.toz, 0) - num(S.flags.gozIndirim, 0), 0, 100);
   }
   var UZMAN_TR = { agiz: "ağız", kirici: "kırıcı", gozcu: "gözcü", hapishane_kusu: "hapishane kuşu", sofor: "şoför" };
   function uzmanKazanKontrol(m, tip) {
@@ -3587,6 +3691,11 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
       }
       return;
     }
+    if (S.stage === "agabey") {
+      if (ownN() >= 4 && S.kasa >= 200000 && S.rep.nam >= 55 && S.rep.racon >= 60 && S.dosya < 60) {
+        promote("baba", "Artık sana baba diyorlar.");
+      }
+    }
   }
   function lockOf(id) {
     return LOCKED_NAV.filter(function (n) { return n.id === id; })[0];
@@ -4331,8 +4440,15 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
       if (S.stage !== "serseri" && !num(S.flags.amcaDusur, 0)) {
         S.flags.amcaDusur = 1;
         S.flags.amcaKotu = 0;
-        var dus = { agabey: "kabadayi", kabadayi: "delikanli", delikanli: "serseri" };
-        S.stage = dus[S.stage] || "serseri";
+        var onceki = S.stage;
+        var dus = { baba: "agabey", agabey: "kabadayi", kabadayi: "delikanli", delikanli: "serseri" };
+        S.stage = dus[onceki] || "serseri";
+        if (onceki === "baba" && ensureGenisleme().sehir.acik) {
+          ensureGenisleme().sehir.acik = false;
+          ensureGenisleme().sehir.ad = "";
+          pushInbox("Uzak Terminal kapandı.", "Kademe düşünce şehir masası durdu.", { href: "husumet" });
+        }
+        if (!navOpen(S.screen) && ["mahalleler", "ekip", "masa"].indexOf(S.screen) >= 0) S.screen = "olaylar";
         S.streets.forEach(function (st) {
           if (st.sahip === "sen" && st.id !== S.streetHome) st.sahip = "bos";
         });
@@ -4409,6 +4525,7 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
       ligHafta();
       sokakEkonomi();
       agHafta();
+      genislemeHafta();
       /* 6 — RelMod expire · scout çürümesi · aklama tick */
       relModTemizle();
       scoutHaftalikCoz();
@@ -4546,17 +4663,18 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
       var dis = UI.sahne ? " disabled" : "";
       return '<button type="button" class="navbtn" data-act="nav" data-id="' + n.id + '" aria-label="' + n.label + '"' + cur + dis + ">" + ico(n.ico) + "<span>" + up(n.label) + "</span>" + dot + "</button>";
     }).join("");
-    var lock = LOCKED_NAV.map(function (n) {
+    var extra = LOCKED_NAV.filter(function (n) { return navOpen(n.id); }).map(function (n) {
       var cur = S.screen === n.id ? ' aria-current="page"' : "";
       var dis = UI.sahne ? " disabled" : "";
-      return '<button type="button" class="navbtn lock" data-act="nav" data-id="' + n.id + '" aria-label="' + n.label + '"' + cur + dis + ">" + ico("kilit") + "<span>" + up(n.label) + "</span></button>";
+      var icoName = n.id === "ekip" ? "adamlar" : n.id === "masa" ? "kasa" : "harita";
+      return '<button type="button" class="navbtn" data-act="nav" data-id="' + n.id + '" aria-label="' + n.label + '"' + cur + dis + ">" + ico(icoName) + "<span>" + up(n.label) + "</span></button>";
     }).join("");
     var kisa = navMode() === "kisa";
     var tog = '<button type="button" class="navbtn navtog" data-act="navdetay" aria-label="' +
       (kisa ? "Menüyü aç" : "Menüyü daralt") + '">' + ico(kisa ? "detay" : "kisa") +
       "<span>" + up(kisa ? "Detay" : "Kısa") + "</span></button>";
     applyNavMode();
-    document.getElementById("nav").innerHTML = tog + main;
+    document.getElementById("nav").innerHTML = tog + main + extra;
     var navEl = document.getElementById("nav");
     navEl.classList.toggle("more",
       navEl.scrollHeight > navEl.clientHeight + 4 || navEl.scrollWidth > navEl.clientWidth + 4);
@@ -5180,7 +5298,7 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
       '<button type="button" class="btn" data-act="gozdagi"' + (S.flags.lastGozdagi === S.week ? " disabled" : "") + ">Gözdağı</button>" +
       '<button type="button" class="btn" data-act="pazarlik"' + (S.kasa < 5000 ? " disabled" : "") + ">Pazarlık · ₺5.000</button>" +
       '<button type="button" class="btn danger" data-act="pusu">Pusu planla</button></div>' +
-      '<div class="hr"></div><p class="dim">Şehirler arası masa siyaseti bu sürümün kapsamında değil.</p></div>' +
+      '<div class="hr"></div><p class="dim">' + (stageAt("baba") ? (ensureGenisleme().sehir.acik ? "Uzak Terminal açık. Ayrıntı Masa ekranında." : "Şehir masası Masa ekranından açılır.") : "Şehir masası baba kademesinde açılır.") + "</p></div>" +
       (S.rivals || []).slice(1).map(function (r2) {
         var b2 = scoutBand("rival", r2.id);
         return '<div class="card"><p class="ttl">' + (b2 >= 1 ? esc(up(r2.ad)) : "BİRİ DAHA VAR") + "</p>" +
@@ -5363,6 +5481,49 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
           }).join("") + "</div>"
         : "");
   }
+  function drawMahalleler() {
+    var rows = ensureGenisleme().semtler.map(function (s) {
+      if (s.id === "avlu") {
+        return '<div class="card"><h3>' + esc(s.ad) + "</h3><p>Açık. " + ownN() + " sokak sende. Harita yine bu avlu.</p></div>";
+      }
+      var govde = s.acik
+        ? "<p>Açık · H" + s.week + " · sadakat " + s.sadakat + "</p>" + barrow("Sadakat", s.sadakat, 100, s.sadakat < 20 ? "red" : "green") +
+          '<p class="dim">Haftalık pay ' + (s.id === "esik" ? "₺4.000" : "₺2.500") + " temiz. Üç sokak ve sadakat 20 üstündeyken gelir; yoksa sadakat erir, sıfırda mahalle kapanır.</p>" +
+          '<div class="acts"><button type="button" class="btn" data-act="semt-git" data-id="' + s.id + '">Uğra · ₺5.000</button></div>'
+        : '<p class="dim">Kapalı. Açılış ₺' + s.bedel.toLocaleString("tr-TR") + ". Ağabeylik ve avluda üç sokak gerekir." +
+          (s.id === "esik" ? " Önce Kuzey Avlu." : "") + "</p>" +
+          '<div class="acts"><button type="button" class="btn primary" data-act="semt-ac" data-id="' + s.id + '">Aç · ₺' + s.bedel.toLocaleString("tr-TR") + "</button></div>";
+      return '<div class="card"><h3>' + esc(s.ad) + "</h3>" + govde + "</div>";
+    }).join("");
+    return rows + '<p class="dim">Yeni sokak eklenmez. Mahalle, avludaki altı sokağın üstünde sadakat ve pay kaydıdır.</p>';
+  }
+  function drawEkip() {
+    var g = ensureGenisleme();
+    var roles = [
+      ["sokak", "Sokak", "Ev sokağının harareti iner. Açık mahallelerin sadakati artar."],
+      ["kasa", "Kasa", "Haftada ₺800 kirli kasadan temiz kasaya geçer. Dosya artmaz."],
+      ["goz", "Göz", "Dosya formülünden her hafta bir puan düşer."]
+    ];
+    var alive = S.men.filter(function (m) { return m.durum !== "olu" && m.durum !== "hapis"; });
+    return roles.map(function (r) {
+      var assigned = g.crews.filter(function (c) { return c.role === r[0]; })[0];
+      var man = crewOfRole(r[0]);
+      var head = man ? esc(manName(man)) + " oturuyor." : (assigned ? "Koltuk boşaldı." : "Boş.");
+      var picks = alive.map(function (m) {
+        var on = assigned && assigned.leadId === m.id;
+        return '<button type="button" class="btn' + (on ? " primary" : "") + '" data-act="org-ata" data-id="' + r[0] + '" data-kind="' + esc(m.id) + '">' + esc(manName(m)) + "</button>";
+      }).join("");
+      var clear = assigned ? '<button type="button" class="btn ghost" data-act="org-bosalt" data-id="' + r[0] + '">Boşalt</button>' : "";
+      return '<div class="card"><h3>' + r[1] + "</h3><p>" + head + '</p><p class="dim">' + r[2] + '</p><div class="acts">' + picks + clear + "</div></div>";
+    }).join("") + '<p class="dim">Adam kadrodan çıkmaz, yevmiyesi değişmez. Bir adam bir masada oturur.</p>';
+  }
+  function drawMasa() {
+    var sh = ensureGenisleme().sehir;
+    var govde = sh.acik
+      ? "<p>Uzak Terminal açık · H" + sh.week + '.</p><p class="dim">Her hafta ₺1.500 temiz. Dosya gürültüsü bir puan kalınlaşır. Açık mahallelerin sadakati artar.</p><div class="acts"><button type="button" class="btn ghost" data-act="sehir-kapat">Masayı kapat</button></div>'
+      : '<p class="dim">Tek şube: Uzak Terminal. Baba kademesi, bir mahalle daha ve ₺25.000. Yeni oyun açılmaz.</p><div class="acts"><button type="button" class="btn primary" data-act="sehir-ac">Uzak Terminali aç · ₺25.000</button></div>';
+    return '<div class="card"><h3>Şehir masası</h3>' + govde + "</div>";
+  }
   function drawLocked(id) {
     var n = lockOf(id);
     var st = n ? n.stage : "Ağabey";
@@ -5446,6 +5607,9 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
     if (S.screen === "husumet") return drawHusumet();
     if (S.screen === "kasa") return drawKasa();
     if (S.screen === "siralama") return drawSiralama();
+    if (S.screen === "mahalleler") return navOpen("mahalleler") ? drawMahalleler() : drawLocked(S.screen);
+    if (S.screen === "ekip") return navOpen("ekip") ? drawEkip() : drawLocked(S.screen);
+    if (S.screen === "masa") return navOpen("masa") ? drawMasa() : drawLocked(S.screen);
     return drawLocked(S.screen);
   }
 
@@ -5626,6 +5790,64 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
       persist();
       render();
       return;
+    }
+    if (code === "semt-ac") {
+      var sem = semtBy(payload.id);
+      if (sem && !sem.acik && sem.id !== "avlu" && S.kasa >= sem.bedel) {
+        cashChange(-sem.bedel);
+        sem.acik = true;
+        sem.week = S.week;
+        sem.sadakat = 40;
+        defter(sem.ad + " açıldı · " + fmtPara(-sem.bedel));
+        pushInbox(sem.ad + " açıldı.", "Pay, sadakat durursa gelir. Üç sokak sende kalmazsa mahalle kopar.", { href: "mahalleler" });
+      }
+      persist(); render(); return;
+    }
+    if (code === "semt-git") {
+      var gz = semtBy(payload.id);
+      if (gz && gz.acik && gz.id !== "avlu" && S.kasa >= 5000 && gz.visitWeek !== S.week) {
+        cashChange(-5000);
+        gz.visitWeek = S.week;
+        gz.sadakat = clamp(gz.sadakat + 8, 0, 100);
+        defter(gz.ad + " uğrandı · " + fmtPara(-5000));
+        pushInbox(gz.ad + " uğrandı.", "Sadakat " + gz.sadakat + ".", { href: "mahalleler" });
+      }
+      persist(); render(); return;
+    }
+    if (code === "org-ata") {
+      var lead = manBy(payload.kind);
+      if (lead && lead.durum !== "olu" && lead.durum !== "hapis" && ["sokak", "kasa", "goz"].indexOf(payload.id) >= 0) {
+        var org = ensureGenisleme();
+        org.crews = org.crews.filter(function (c) { return c.role !== payload.id && c.leadId !== lead.id; });
+        org.crews.push({ role: payload.id, leadId: lead.id });
+        defter("Alt ekip · " + payload.id + " · " + manName(lead));
+      }
+      persist(); render(); return;
+    }
+    if (code === "org-bosalt") {
+      ensureGenisleme().crews = ensureGenisleme().crews.filter(function (c) { return c.role !== payload.id; });
+      defter("Alt ekip boşaldı · " + (payload.id || ""));
+      persist(); render(); return;
+    }
+    if (code === "sehir-ac") {
+      var shAc = ensureGenisleme().sehir;
+      if (!shAc.acik && S.kasa >= 25000 && acikSemtSayisi() > 0) {
+        cashChange(-25000);
+        shAc.acik = true;
+        shAc.ad = "Uzak Terminal";
+        shAc.week = S.week;
+        defter("Uzak Terminal açıldı · " + fmtPara(-25000));
+        pushInbox("Uzak Terminal açıldı.", "Haftalık ₺1.500 temiz. Dosya gürültüsü bir puan kalınlaşır.", { href: "masa" });
+      }
+      persist(); render(); return;
+    }
+    if (code === "sehir-kapat") {
+      var shK = ensureGenisleme().sehir;
+      shK.acik = false;
+      shK.ad = "";
+      defter("Uzak Terminal kapandı");
+      pushInbox("Uzak Terminal kapandı.", "Şehir payı durdu.", { href: "masa" });
+      persist(); render(); return;
     }
     if (code === "side") {
       UI.sideOpen = !UI.sideOpen;
