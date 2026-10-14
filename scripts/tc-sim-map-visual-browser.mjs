@@ -81,12 +81,18 @@ try {
     assert.match(await page.locator(".location-map").innerText(), /Sırt/);
     assert.match(await page.locator(".location-map").innerText(), /Kıyı/);
     assert.match(await page.locator(".location-map").innerText(), /Çeper/);
-    assert.doesNotMatch(await page.locator(".location-map").innerText(), /Şişli|Bayrampaşa|Avcılar|Üsküdar|Kadıköy/);
+    for (const label of ["Şişli", "Kadıköy", "Üsküdar", "Bayrampaşa", "Avcılar"]) {
+      assert.match(await page.locator(".location-map").innerText(), new RegExp(label));
+    }
+    assert.equal(await page.locator(".location-pin--mark").count(), 0);
+    assert.equal(await page.locator(".location-pin span").count(), 5);
     await page.locator('[data-location-city="ankara"]').click();
     const ankaraPlates = await page.locator(".map-plate").evaluateAll((nodes) => nodes.map((node) => node.getAttribute("src")));
     assert.deepEqual(ankaraPlates, ["./assets/map/city-ankara-west.jpg", "./assets/map/city-ankara-east.jpg"]);
     assert.match(await page.locator(".location-map").innerText(), /Batıkent/);
     assert.match(await page.locator(".location-map").innerText(), /Kızılay/);
+    assert.equal(await page.locator(".location-pin span").count(), 2);
+    assert.equal(await page.locator(".location-pin--mark").count(), 0);
     await pinsFit(page, `${name}-ankara`);
     await page.locator(".location-map").screenshot({ path: `${out}/${name}-ankara.png` });
     await page.locator('[data-location-city="izmir"]').click();
@@ -94,6 +100,8 @@ try {
     assert.deepEqual(izmirPlates, ["./assets/map/city-izmir-konak.jpg", "./assets/map/city-izmir-bornova.jpg"]);
     assert.match(await page.locator(".location-map").innerText(), /Konak/);
     assert.match(await page.locator(".location-map").innerText(), /Bornova/);
+    assert.equal(await page.locator(".location-pin span").count(), 2);
+    assert.equal(await page.locator(".location-pin--mark").count(), 0);
     await pinsFit(page, `${name}-izmir`);
     await page.locator(".location-map").screenshot({ path: `${out}/${name}-izmir.png` });
     assert.equal(await page.locator("[data-location-city]").count(), 3);

@@ -22,6 +22,9 @@ test("istanbul map art is three fictional quarters on the existing pin layout", 
   assert.match(app, /map-caption--\$\{id\}/);
   assert.match(css, /\.map-caption--ridge/);
   assert.match(app, /Sırt/);
+  assert.match(app, /<span>\$\{escapeText\(d\.name\)\}<\/span>/);
+  assert.doesNotMatch(app, /location-pin--mark/);
+  assert.doesNotMatch(css, /location-pin--mark/);
   assert.match(app, /city-ankara-west\.jpg/);
   assert.match(app, /city-izmir-konak\.jpg/);
   for (const plate of ["map-plate--ridge", "map-plate--shore", "map-plate--edge", "location-quarter"]) {

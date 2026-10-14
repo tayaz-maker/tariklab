@@ -965,10 +965,7 @@ function renderLocationPanel(){
  const back=locationMoveQuote(state,'uskudar','family');
  const cityButtons=Object.entries(CITIES).map(([id,name])=>`<button class="button button-quiet" data-location-city="${id}" aria-pressed="${selected.city===id}">${name}</button>`).join('');
  const onIstanbul = selected.city === "istanbul";
- const pins=DISTRICTS.filter(d=>d.city===selected.city).map(d=>{
-  const label = onIstanbul ? PLATE_NAME[ISTANBUL_QUARTERS[d.id]] : d.name;
-  return `<button class="location-pin${onIstanbul ? " location-pin--mark" : ""}" style="--map-x:${d.x}%;--map-y:${d.y}%" data-location-select="${d.id}" aria-pressed="${selected.id===d.id}" aria-label="${escapeText(label)}">${onIstanbul ? "" : `<span>${escapeText(d.name)}</span>`}${current?.id===d.id?'<small>EVİN</small>':''}</button>`;
- }).join('');
+ const pins=DISTRICTS.filter(d=>d.city===selected.city).map(d=>`<button class="location-pin" style="--map-x:${d.x}%;--map-y:${d.y}%" data-location-select="${d.id}" aria-pressed="${selected.id===d.id}" aria-label="${escapeText(d.name)}"><span>${escapeText(d.name)}</span>${current?.id===d.id?'<small>EVİN</small>':''}</button>`).join('');
  const quarter=ISTANBUL_QUARTERS[selected.id]||"";
  const plates=onIstanbul?["ridge","shore","edge"].map(id=>`<img class="map-plate map-plate--${id}" alt="" src="./assets/map/quarter-${id}.jpg" width="960" height="640"><span class="map-caption map-caption--${id}">${PLATE_NAME[id]}</span>`).join(""):(CITY_PLATES[selected.city]||[]).map(([id,file])=>`<img class="map-plate map-plate--${id}" alt="" src="./assets/map/${file}" width="960" height="640">`).join("");
  const quarterView=quarter?`<img class="location-quarter" alt="" src="./assets/map/quarter-${quarter}.jpg" width="960" height="640">`:CITY_QUARTER[selected.id]?`<img class="location-quarter" alt="" src="./assets/map/${CITY_QUARTER[selected.id]}" width="960" height="640">`:"";
