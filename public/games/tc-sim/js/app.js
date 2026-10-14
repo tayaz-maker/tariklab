@@ -490,7 +490,7 @@ function renderPeopleScreen() {
     .at(-1);
   const voice = actorVoiceLine(selected.id, window.tlabI18n?.contentLang?.() === "en");
   const voiceNote = voice ? `<p class="context-note person-voice">${escapeText(voice)}</p>` : "";
-  return `<div class="workspace-head"><div><p class="eyebrow">KİŞİLER</p><h1>Sosyal çevre</h1></div>${renderWeekControl()}</div>
+  return `<div class="workspace-head"><div><p class="eyebrow">İnsanlar</p><h1>Sosyal çevre</h1></div>${renderWeekControl()}</div>
     <div class="social-layout"><section class="panel people-directory"><div class="panel-head"><div><p class="eyebrow">ÇEVRE</p><h2>Önemli kişiler</h2></div><span>${state.people.length}</span></div>${state.people.map((person) => `<button class="person-select ${person.id === selected.id ? "is-current" : ""}" data-person="${person.id}"><span><strong>${escapeText(person.name)}</strong><small>${escapeText(SOCIAL_ROLE_LABELS[person.roleId])}</small></span><b>${escapeText(personStageLabel(person.id))}</b></button>`).join("")}</section>
     <section class="panel person-detail"><div class="panel-head"><div><p class="eyebrow">KİŞİ DOSYASI</p><h2>${escapeText(selected.name)}</h2></div><span>${escapeText(stage)}</span></div><p class="context-note">${escapeText(SOCIAL_ROLE_LABELS[selected.roleId])} · Son görüşmeniz ${weeksSinceContact(selected)===0?"bu hafta":weeksSinceContact(selected)+" hafta önce"}${openCase ? ` · ${Math.max(0, openCase.dueWeek - state.time.absoluteWeek)} hafta içinde açık söz` : ""}</p>${voiceNote}<p class="context-note">${escapeText(getSocialDistanceContext(state, selected.id))}</p>${selected.id === state.social.currentPartnerNpcId ? renderHouseholdContext() : ""}${milestone ? `<p class="context-note">Bilinen gelişme: ${escapeText(milestone.text)}</p>` : ""}${getRelationshipContext(
       state,
@@ -562,7 +562,7 @@ function renderRelationshipsOverview() {
     (secret) => secret.knownBy?.includes("player") && secret.status !== "resolved",
   );
 
-  return `<div class="workspace-head"><div><p class="eyebrow">AİLE / İLİŞKİLER</p><h1>Bağların</h1></div>${renderWeekControl()}</div>
+  return `<div class="workspace-head"><div><p class="eyebrow">Yakınlar</p><h1>Bağların</h1></div>${renderWeekControl()}</div>
     <section class="detail-summary panel">
       <div><span>Romantik durum</span><strong>${partner ? `${escapeText(partner.name)} · ${escapeText(getHouseholdSummary(state).status)}` : "Sevgili yok"}</strong></div>
       <div><span>İlgi isteyen ilişki</span><strong>${escapeText(attention.name)}</strong><small>${attention.social.tension >= 40 ? "Gerilim yükselmiş" : `${weeksSinceContact(attention)} haftadır anlamlı temas yok`}</small></div>
@@ -653,7 +653,7 @@ function renderAgenda() {
 function renderInbox() {
   const cases = inboxCases(state);
   const recent = recentNotices(state,[!state.events.active&&!notice?state.memories.at(-1)?.text:null,notice]);
-  return `<div class="workspace-head"><div><p class="eyebrow">GELEN KUTUSU</p><h1>Şimdi ne oluyor?</h1><p class="context-note">Önce bekleyen kararlar; sonra yakın zamanda olanlar. Bir bildirime yetişmek için ekran araman gerekmiyor.</p></div>${renderWeekControl()}</div><div class="inbox-layout"><section class="panel"><div class="panel-head"><div><p class="eyebrow">ÖNCELİK</p><h2>Bu haftanın gündemi</h2></div></div>${renderAgenda()}${state.events.active ? `<p class="context-note">Açık olay seçimleri ekranda görünüyor; karar vermeden hafta ilerlemez.</p>` : ""}</section><section class="panel"><div class="panel-head"><div><p class="eyebrow">YAKLAŞAN</p><h2>Bekleyen sonuçlar</h2></div><span>${cases.length}</span></div>${cases.length ? cases.map(({item,label,next}) => `<p class="open-case"><b>${escapeText(label)} · ${escapeText(openCaseLabel(item))}</b><span>${escapeText(next)}</span></p>`).join("") : `<p class="empty">Şimdilik bekleyen mesele yok. Haftalık kararlarını rahatça verebilirsin.</p>`}</section><section class="panel"><div class="panel-head"><div><p class="eyebrow">SON YAŞANANLAR</p><h2>Hayat akışı</h2></div></div>${recent.length ? recent.map((memory) => `<p class="memory">${escapeText(gameplayText(memory.text))} <small>· ${memory.year}</small></p>`).join("") : `<p class="empty">İlk adımını attığında burada hikâyen oluşacak.</p>`}</section></div>`;
+  return `<div class="workspace-head"><div><p class="eyebrow">Gelenler</p><h1>Şimdi ne oluyor?</h1><p class="context-note">Önce bekleyen kararlar; sonra yakın zamanda olanlar. Bir bildirime yetişmek için ekran araman gerekmiyor.</p></div>${renderWeekControl()}</div><div class="inbox-layout"><section class="panel"><div class="panel-head"><div><p class="eyebrow">ÖNCELİK</p><h2>Bu haftanın gündemi</h2></div></div>${renderAgenda()}${state.events.active ? `<p class="context-note">Açık olay seçimleri ekranda görünüyor; karar vermeden hafta ilerlemez.</p>` : ""}</section><section class="panel"><div class="panel-head"><div><p class="eyebrow">YAKLAŞAN</p><h2>Bekleyen sonuçlar</h2></div><span>${cases.length}</span></div>${cases.length ? cases.map(({item,label,next}) => `<p class="open-case"><b>${escapeText(label)} · ${escapeText(openCaseLabel(item))}</b><span>${escapeText(next)}</span></p>`).join("") : `<p class="empty">Şimdilik bekleyen mesele yok. Haftalık kararlarını rahatça verebilirsin.</p>`}</section><section class="panel"><div class="panel-head"><div><p class="eyebrow">SON YAŞANANLAR</p><h2>Hayat akışı</h2></div></div>${recent.length ? recent.map((memory) => `<p class="memory">${escapeText(gameplayText(memory.text))} <small>· ${memory.year}</small></p>`).join("") : `<p class="empty">İlk adımını attığında burada hikâyen oluşacak.</p>`}</section></div>`;
 }
 
 function renderNav() {
@@ -737,8 +737,8 @@ function renderEconomyContext() {
   const monthly = getMonthlySummary(state);
   return `<section class="panel period-economy" aria-label="Dönem ekonomisi">
     <div><p class="eyebrow">DÖNEM EKONOMİSİ · ${year}</p><h2>Paranın o yıldaki yüzü</h2><p>${escapeText(periodContext(state).label)}</p></div>
-    <dl><div><dt>İş geliri</dt><dd>${money(monthly.income)}</dd></div><div><dt>Konut gideri</dt><dd>${money(monthly.housing)}</dd></div><div><dt>Ek gıda alışverişi</dt><dd>${money(MARKET.grocery.cost)}</dd></div></dl>
-    <details><summary>Ekonomi ve takvim nasıl çalışır?</summary><p>${escapeText(periodEconomyNote(year))} Ayda dört karar haftası vardır; son hafta ayın kalan günlerini kapsar. Temel tüketim aylık bütçeye dahildir. Market ek harcamadır. Doğum tarihin: ${escapeText(state.player.birthDate)}.</p><p class="economy-source">${observed} yıllık TÜFE · <a href="${ECONOMY_SOURCE.cpi}" target="_blank" rel="noopener noreferrer">endeks kaynağı</a> · <a href="${WAGE_HISTORY_SOURCE}" target="_blank" rel="noopener noreferrer">dönem ücret serisi</a> · <a href="${ECONOMY_SOURCE.redenomination}" target="_blank" rel="noopener noreferrer">TL/YTL değişimi</a></p></details>
+    <dl><div><dt>İş geliri</dt><dd>${money(monthly.income)}</dd></div><div><dt>Konut gideri</dt><dd>${money(monthly.housing)}</dd></div><div><dt>A101 poşeti</dt><dd>${money(MARKET.grocery.cost)}</dd></div></dl>
+    <details><summary>Ekonomi ve takvim nasıl çalışır?</summary><p>${escapeText(periodEconomyNote(year))} Ayda dört karar haftası vardır; son hafta ayın kalan günlerini kapsar. Temel tüketim aylık bütçeye dahildir. Çarşı ek harcamadır. Doğum tarihin: ${escapeText(state.player.birthDate)}.</p><p class="economy-source">${observed} yıllık TÜFE · <a href="${ECONOMY_SOURCE.cpi}" target="_blank" rel="noopener noreferrer">endeks kaynağı</a> · <a href="${WAGE_HISTORY_SOURCE}" target="_blank" rel="noopener noreferrer">dönem ücret serisi</a> · <a href="${ECONOMY_SOURCE.redenomination}" target="_blank" rel="noopener noreferrer">TL/YTL değişimi</a></p></details>
   </section>`;
 }
 
@@ -756,14 +756,14 @@ function renderDashboard() {
   const partner = state.social.currentPartnerNpcId
     ? getPerson(state, state.social.currentPartnerNpcId)
     : null;
-  return `<div class="workspace-head"><div><p class="eyebrow">ANA SAYFA</p><h1>Hayat merkezi</h1></div>${renderWeekControl()}</div>
+  return `<div class="workspace-head"><div><p class="eyebrow">Bugün</p><h1>Hayatın</h1></div>${renderWeekControl()}</div>
     <section class="panel first-steps"><p class="eyebrow">İLK BAKIŞTA</p><h2>Bugün ne yapmalıyım?</h2><div><p><b>1 · Bir karar seç.</b> Kartın altında zaman, para ve enerji etkisini gör.</p><p><b>2 · Önemli gelişmeye bak.</b> Gelen kutusu ve bekleyen sonuçlar üst menüde.</p><p><b>3 · Haftayı bitir.</b> Hepsini doldurman gerekmez; ay sonunda gelir ve gider otomatik işler.</p></div></section>
     ${lastWeekFeedback ? `<section class="panel"><p class="eyebrow">GEÇEN HAFTA</p><p>${escapeText(lastWeekFeedback)}</p></section>` : ""}
     ${renderParenthoodContext()}
     ${renderEconomyContext()}
     <section class="overview-grid" aria-label="Hayat özeti">
       <article class="profile-panel"><p class="panel-kicker">KARAKTER</p><h2>${escapeText(state.player.name)}</h2><p>${escapeText(state.player.profile)} · ${escapeText(state.player.city)} · ${escapeText(getEraById(state.world.eraId).title)}</p><dl><div><dt>Yaşam dönemi</dt><dd>${escapeText(getPlayerLifeStage(state).label)}</dd></div><div><dt>Yaşam yeri</dt><dd>${escapeText(home.title)}</dd></div><div><dt>İş</dt><dd>${escapeText(state.career.retirement?.status === "retired" ? "Emekli" : job?.title || "İşsiz")}</dd></div><div><dt>Ulaşım yükü</dt><dd>${escapeText(currentCommuteExplanation().label)}</dd></div></dl></article>
-      <article class="metric-panel"><p>FİNANS</p><strong>${money(state.finances.balance)}</strong><span>Aylık ${money(monthly.income)} gelir · ${money(monthly.expenses)} gider</span><small>Ay sonu tahmini: ${money(projectedBalance)}</small></article>
+      <article class="metric-panel"><p>Para</p><strong>${money(state.finances.balance)}</strong><span>Aylık ${money(monthly.income)} gelir · ${money(monthly.expenses)} gider</span><small>Ay sonu tahmini: ${money(projectedBalance)}</small></article>
       <article class="body-panel"><p>BEDEN</p><div class="body-row"><span>Enerji</span><i><b style="width:${state.health.energy}%"></b></i><strong>${state.health.energy}</strong></div><div class="body-row stress"><span>Stres</span><i><b style="width:${state.health.stress}%"></b></i><strong>${state.health.stress}</strong></div><div class="body-row"><span>Sağlık</span><i><b style="width:${state.health.health}%"></b></i><strong>${state.health.health}</strong></div><small class="body-note">${escapeText(bodyRiskText())}</small></article>
       <article class="metric-panel"><p>SOSYAL</p><strong>${partner ? escapeText(partner.name) : "Sevgili yok"}</strong><span>${socialCases.length} açık sosyal mesele</span><small>${escapeText(RELATIONSHIP_STAGES[getRelationshipStage(state, "mehmet")])}: Mehmet</small></article>
     </section>
@@ -927,7 +927,7 @@ function renderHomes() {
     <section class="detail-summary panel"><div><span>Aktif konut</span><strong>${escapeText(getHomeById(state.household.homeId).title)}</strong></div><div><span>Aylık maliyet</span><strong>${money(housing.total)}</strong>${housing.partnerContribution ? `<small>Ortak gider +${money(housing.householdExtra)} · Partner payı −${money(housing.partnerContribution)}</small>` : ""}${housing.familyContribution ? `<small>Konut ${money(housing.base)} · Aile katkısı ${money(housing.familyContribution)}</small>` : ""}</div><div><span>Çalışma yeri</span><strong>${escapeText(state.career.retirement?.status === "retired" ? "Emekli" : activeJob?.title || "İşsiz")}</strong></div><div><span>Ulaşım yükü</span><strong>${escapeText(activeCommute.label)}</strong><small>${escapeText(activeCommute.detail)}</small></div></section>
     <p class="context-note">${escapeText(PRIVACY_CONTEXT)}</p>
     ${renderLocationPanel()}
-    <section class="panel"><div class="panel-head"><div><p class="eyebrow">MÜLKİYET</p><h2>Konut varlıkların</h2></div><span>${owned.length + rentals.length}</span></div><p class="context-note">${owned.length ? "Bu evin sahibi sensin; katalog kirası yerine bakım ve varsa konut borcu ödüyorsun." : "Mevcut konut aile veya kiralama düzeninde."}${rentals.length ? ` · ${rentals.length} yatırım mülkü: ${rentals.filter((property) => property.occupancy === "rental").length} kirada.` : ""}</p><button class="button button-quiet" data-view="finance">Alım, satış ve borçları PARA ekranında yönet</button></section>
+    <section class="panel"><div class="panel-head"><div><p class="eyebrow">MÜLKİYET</p><h2>Konut varlıkların</h2></div><span>${owned.length + rentals.length}</span></div><p class="context-note">${owned.length ? "Bu evin sahibi sensin; katalog kirası yerine bakım ve varsa konut borcu ödüyorsun." : "Mevcut konut aile veya kiralama düzeninde."}${rentals.length ? ` · ${rentals.length} yatırım mülkü: ${rentals.filter((property) => property.occupancy === "rental").length} kirada.` : ""}</p><button class="button button-quiet" data-view="finance">Alım, satış ve borçları Para ekranında yönet</button></section>
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">SEÇENEKLER</p><h2>Konut alternatifleri</h2></div></div><div class="option-grid">${HOMES.map(
       (home) => {
         const cost = Math.round(getMoveCost(home.id)*locationCosts(state).rent);
@@ -975,7 +975,7 @@ function renderFinance() {
     const reason = disabled && availability.ok ? "Bu seçenek mevcut durumda kullanılamıyor." : availability.reason || "";
     return `<button class="button decision wealth-action" data-wealth-action="${action}" data-wealth-value="${value}" ${disabled || !availability.ok ? "disabled" : ""} title="${escapeText(reason)}"><strong>${escapeText(label)}</strong><small>${escapeText(detail)}${reason ? ` · ${escapeText(reason)}` : ""}</small></button>`;
   };
-  return `<div class="workspace-head"><div><p class="eyebrow">FİNANS</p><h1>Mali durum ve net servet</h1></div>${renderWeekControl()}</div>
+  return `<div class="workspace-head"><div><p class="eyebrow">Para</p><h1>Paran ve borcun</h1></div>${renderWeekControl()}</div>
     <section class="detail-summary panel wealth-summary">
       <div><span>Bakiye</span><strong>${money(state.finances.balance)}</strong></div><div><span>Net servet</span><strong>${money(worth.total)}</strong><small>Nakit ${money(worth.cash)} · Yatırım ${money(worth.investments)} · Gayrimenkul ${money(worth.property)} · Araç/eşya ${money(worth.vehicle + worth.durables)} · İşletme (tasfiye) ${money(worth.business)} · Borç −${money(worth.debt)}</small></div>
       <div><span>Aylık gelir</span><strong>${money(monthly.income)}</strong><small>Maaş ${money(monthly.salary)}${monthly.retirementIncome ? ` · Emeklilik ${money(monthly.retirementIncome)}` : ""}${monthly.wealth.income ? ` · Kira ${money(monthly.wealth.income)}` : ""}</small></div>
@@ -995,7 +995,7 @@ function renderFinance() {
         ),
       )
       .join("")}</div></section>
-    <section class="panel"><div class="panel-head"><div><p class="eyebrow">TÜKETİM</p><h2>Market</h2></div><span>ayrı ekran</span></div><p class="context-note">Günlük harcama, gece hayatı, hediye ve riskli alışveriş MARKET ekranında.</p><button class="button button-quiet" data-view="market">Market'e geç</button></section>
+    <section class="panel"><div class="panel-head"><div><p class="eyebrow">TÜKETİM</p><h2>Çarşı</h2></div><span>ayrı ekran</span></div><p class="context-note">Kahve, gece, hediye ve riskli alışveriş Çarşı'da.</p><button class="button button-quiet" data-view="market">Çarşıya geç</button></section>
     <section class="panel bank-panel"><div class="panel-head"><div><p class="eyebrow">BANKA</p><h2>Kredi ve geri ödeme</h2></div></div><p class="context-note">Kredi gelir değildir: bugün nakit verir, gelecek aylara zorunlu ödeme yazar. Tutar ve toplam geri ödeme oyun içi varsayımdır; tarihsel banka teklifi değildir.</p><div class="wealth-grid">${Object.keys(CREDIT_OFFERS).map((id) => { const offer = creditOffer(state, id); const check = creditAvailability(state, id); return `<button class="button decision" data-credit="${id}" ${check.ok ? "" : "disabled"} title="${escapeText(check.reason || "")}"><strong>${escapeText(offer.label)}</strong><small>Bugün ${money(offer.cash)} · ${offer.months} ay × ${money(Math.ceil(offer.total / offer.months))} · toplam ${money(offer.total)}${check.reason ? ` · ${escapeText(check.reason)}` : ""}</small></button>`; }).join("")}</div><button class="button button-quiet" data-repay-credit="1" ${state.wealth.debts.some((debt) => debt.type === "personal") ? "" : "disabled"}>İhtiyaç kredisini erken kapat</button></section>
     ${renderExchange()}
     <section class="panel business-panel"><div class="panel-head"><div><p class="eyebrow">KENDİ İŞİN</p><h2>Küçük işletme kur</h2></div></div><p class="context-note">Sektör döneme göre açılır. Geçmişteki bir sektörün popüler olması garanti kazanç değildir; aylık ciro, gider, yorgunluk ve zarar ihtimali birlikte işler.</p>${state.flags.business ? `<p class="open-case"><b>${escapeText(BUSINESS_TYPES[state.flags.business.id]?.label || "İşletme")}</b><span>${state.flags.business.months} ay açık · Ölçek ${state.flags.business.level}/10 · ${state.flags.business.employees} çalışan · Borç ${money(state.flags.business.debt)}</span></p>${renderBusinessManagement()}<button class="button button-quiet" data-close-business="1">İşletmeyi sat / kapat (ekipman %25, borç düşülür)</button>` : `<div class="wealth-grid">${Object.entries(BUSINESS_TYPES).filter(([, type]) => economyYear(state) >= type.since).map(([id, type]) => { const check = businessAvailability(state, id); return `<button class="button decision" data-business="${id}" ${check.ok ? "" : "disabled"} title="${escapeText(check.reason || "")}"><strong>${escapeText(type.label)}</strong><small>${type.since} sonrası · kuruluş ${money(type.startup)} · 2 zaman · aylık sonuç değişken${check.reason ? ` · ${escapeText(check.reason)}` : ""}</small></button>`; }).join("")}</div>`}</section>
@@ -1024,7 +1024,7 @@ function renderFinance() {
         return `<article class="wealth-card"><strong>${escapeText(item.label)}</strong><small>Değer ${money(p?.value || 0)} · Maliyet ${money(p?.basis || 0)}</small><p class="investment-pl">${economyText("Gerçekleşmemiş kâr/zarar", "Unrealized P/L")}: ${money(pl.amount)} (${pl.percent.toFixed(1)}%)</p><small>${economyText("Risk", "Risk")}: ${risk} · ${economyText("Satışta %1 işlem farkı daha düşülür.", "Selling deducts a further 1% fee.")}</small><div class="wealth-actions">${wealthButton("invest-buy", id, "₺5.000 al", "İşlem farkı dahil", state.finances.balance < 5050)}${wealthButton("invest-sell", id, "₺5.000 sat", "Nakit yarat", (p?.value || 0) < 5000)}${wealthButton("invest-sell-all", id, economyText("Tümünü sat", "Sell all"), economyText("Net tutardan %1 düşülür", "A 1% fee is deducted"), !(p?.value > 0))}</div></article>`;
       })
       .join("")}</div></section>
-    <section class="panel"><h2>${economyText("Sahip olduğun eşyalar", "Owned items")}</h2>${state.wealth.durables.map(d=>`<p>${escapeText(DURABLES[d.id].label)} · ${escapeText(durableBenefit(d.id))} · ${economyText("İkinci el değeri", "Resale value")} ${money(Math.round(d.price*DURABLES[d.id].resale))}</p>${wealthButton("sell-durable",d.id,economyText("İkinci el sat", "Sell used"),economyText("1 karar; eşyanın faydası sona erer", "1 decision; ownership benefit ends"))}`).join("") || economyText("Henüz kalıcı eşya yok. Market'ten alabilirsin.", "No owned items yet. Buy them in Market.")}</section>
+    <section class="panel"><h2>${economyText("Sahip olduğun eşyalar", "Owned items")}</h2>${state.wealth.durables.map(d=>`<p>${escapeText(DURABLES[d.id].label)} · ${escapeText(durableBenefit(d.id))} · ${economyText("İkinci el değeri", "Resale value")} ${money(Math.round(d.price*DURABLES[d.id].resale))}</p>${wealthButton("sell-durable",d.id,economyText("İkinci el sat", "Sell used"),economyText("1 karar; eşyanın faydası sona erer", "1 decision; ownership benefit ends"))}`).join("") || economyText("Henüz kalıcı eşya yok. Çarşıdan alabilirsin.", "No owned items yet. Buy them on the market street.")}</section>
     <section class="panel"><h2>${economyText("Yatırım raporu", "Investment report")}</h2>${state.finances.ledger.filter(row=>row.category==="valuation").slice(-11).map(row=>`<p>${economyText("Hafta", "Week")} ${row.week}: ${escapeText(row.reason)}</p>`).join("") || economyText("İlk ay kapanışında gerçekleşmemiş değer değişimleri görünür.", "Unrealized value changes appear at the first month close.")}</section>
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">ARAÇ</p><h2>Ulaşım varlığı</h2></div><span>${state.wealth.vehicle ? escapeText(VEHICLES[state.wealth.vehicle.tier].label) : "Araç yok"}</span></div><div class="wealth-grid">${
       state.wealth.vehicle
@@ -1060,7 +1060,7 @@ function renderMarket() {
     if (!groups[cat]) groups[cat] = [];
     groups[cat].push([id, item]);
   }
-  return `<div class="workspace-head"><div><p class="eyebrow">MARKET</p><h1>İhtiyaçların ve kendine ayırdıkların</h1></div>${renderWeekControl()}</div>
+  return `<div class="workspace-head"><div><p class="eyebrow">Çarşı</p><h1>Ne alacaksın?</h1></div>${renderWeekControl()}</div>
     <p class="context-note">${escapeText(periodContext(state).label)}. Temel yaşam gideri aylık bütçede; buradaki alışverişler ek tüketimdir.</p>
     ${Object.entries(groups)
       .map(
@@ -1126,7 +1126,7 @@ function renderHistory() {
 
 function renderYearbook() {
   const years = [...state.yearlyHistory].reverse();
-  return `<div class="workspace-head"><div><p class="eyebrow">YIL DOSYASI</p><h1>Tamamlanan yıllar</h1></div>${renderWeekControl()}</div>
+  return `<div class="workspace-head"><div><p class="eyebrow">Yıl dosyası</p><h1>Tamamlanan yıllar</h1></div>${renderWeekControl()}</div>
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">YILLAR</p><h2>Yıl özetleri</h2></div><span>${years.length}</span></div>${
       years.length
         ? years
@@ -1158,7 +1158,7 @@ function renderYearbook() {
                   ? `Net servet: ${money(year.netWorth.total)} · yatırım ${money(year.netWorth.investments)} · gayrimenkul ${money(year.netWorth.property)} · borç ${money(year.netWorth.debt)}`
                   : null,
                 year.lifestyle
-                  ? `Yaşam standardı: ${LIFESTYLE_TIERS[year.lifestyle]?.label || "Mütevazı"}`
+                  ? `Yaşam standardı: ${LIFESTYLE_TIERS[year.lifestyle]?.label || "İdare eder"}`
                   : null,
                 home ? `Konut: ${home}` : null,
                 education ? `Eğitim: ${education}` : null,
@@ -1222,7 +1222,7 @@ function renderCharacter() {
     ["frugality", "Harcama"],
   ];
   const priorities = state.yearlyPlan?.year === state.time.year ? state.yearlyPlan.priorities : [];
-  return `<div class="workspace-head"><div><p class="eyebrow">BEN</p><h1>${escapeText(state.player.name)}</h1></div>${renderWeekControl()}</div>
+  return `<div class="workspace-head"><div><p class="eyebrow">Sen</p><h1>${escapeText(state.player.name)}</h1></div>${renderWeekControl()}</div>
     <section class="detail-summary panel">
       <div><span>Yaş</span><strong>${state.player.age}</strong><small>${escapeText(state.player.profile)}</small></div>
       <div><span>Tarih</span><strong>${escapeText(gameDateLabel(state))}</strong><small>H${state.time.weekOfMonth} · ${escapeText(getEraById(state.world.eraId).title)}</small></div>
@@ -1271,7 +1271,7 @@ function renderCalendar() {
     (state.military?.applicable && state.military.status === "pending" && state.military.dueWeek
       ? 1
       : 0);
-  return `<div class="workspace-head"><div><p class="eyebrow">TAKVİM</p><h1>Yaklaşan işler ve randevular</h1></div>${renderWeekControl()}</div>
+  return `<div class="workspace-head"><div><p class="eyebrow">Hafta</p><h1>Yaklaşan işler ve randevular</h1></div>${renderWeekControl()}</div>
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">AY SONU</p><h2>Düzenli tahsilat</h2></div></div><p class="context-note">${weeksLeftInMonth} hafta sonra ay kapanır: ${money(monthly.income)} gelir, ${money(monthly.expenses)} gider işlenecek.</p></section>
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">BİLİNEN İŞLER</p><h2>Yaklaşan tarihler</h2></div><span>${itemCount}</span></div>${
       itemCount

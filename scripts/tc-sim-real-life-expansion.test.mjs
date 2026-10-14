@@ -125,8 +125,8 @@ test("katalog ve eğitim genişledi", () => {
   assert.ok(EDUCATION_PATHS.length >= 15, EDUCATION_PATHS.length);
   assert.ok(Object.keys(MARKET).length >= 40);
   assert.ok(Object.keys(INVESTMENTS).length >= 10);
-  assert.ok(NAVIGATION_ITEMS.some((i) => i.label === "FİNANS"));
-  assert.ok(NAVIGATION_ITEMS.some((i) => i.label === "MARKET"));
+  assert.ok(NAVIGATION_ITEMS.some((i) => i.label === "Para"));
+  assert.ok(NAVIGATION_ITEMS.some((i) => i.label === "Çarşı"));
   assert.ok(EVENT_DEFINITIONS.some((e) => e.id === "net_referral_offer"));
 });
 
