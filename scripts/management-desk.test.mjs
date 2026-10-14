@@ -74,7 +74,8 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Authorized balance pass: business owner turnover/time, move time, debt overflow preservation.
   // Wave C re-pin: display labels only (help, life reasons, lifetime lifestyle, wealth names).
   // Ids, prices, SAVE_VERSION and simulation stay the previous baseline.
-  assert.equal(hash.digest("hex"), "aafdcbf191e571eb2704f4d217ef9af8939b57e5eafefc6ddf6f542c6149ae21");
+  // Wave C onto main: shelf categories follow the new names; Emlak view stays.
+  assert.equal(hash.digest("hex"), "3747c84ff77c38c9eb2fd97363a179ccd38e6c389834d7f8b936c01a97e01041");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);

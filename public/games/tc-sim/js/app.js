@@ -11,7 +11,7 @@ import { compactNavigation } from "../../shared/compact-navigation.js";
 import { arrangeLifeDesk } from "./desk.js?v=10";
 import { adultChildSummary, adultEventContext, continueGeneration } from "./lifetime.js?v=10";
 import {
-  LIFESTYLE_TIERS, SUBSCRIPTIONS, DURABLES, VEHICLES, INVESTMENTS, MARKET, marketAvailableInYear,
+  LIFESTYLE_TIERS, SUBSCRIPTIONS, DURABLES, VEHICLES, INVESTMENTS, MARKET, MARKET_OWNERSHIP, MARKET_SHELVES, marketShelfId, marketAvailableInYear,
   getWealthActionAvailability, applyWealthAction, netWorth, marketEffectText, durableBenefit, investmentPL, economyText,
 } from "./wealth.js?v=10";
 import { renderLifetimeTerminal, renderLineage } from "./lifetime-ui.js?v=10";
@@ -129,6 +129,8 @@ let jobOutcomeEmphasis = false;
 let jobOutcomeSettled = false;
 let saveStatus = "";
 let activeView = "dashboard";
+// Alışveriş rafı yalnız ekran durumudur; kayda yazılmaz. Eski "market" görünüm kimliği durur.
+let marketShelf = "gunluk";
 // Ephemeral presentation state; never added to game state or saves.
 let selectedBodyRegion = "chest";
 let selectedDistrictId = null;
@@ -904,6 +906,8 @@ function renderEducation() {
     )}</div>${renderResult("Eğitime kaydolmak haftalık karar hakkı kullanmaz; haftalık enerji ve stres yükü getirir.")} </section>`;
 }
 
+const ISTANBUL_QUARTERS = { sisli: "ridge", kadikoy: "shore", uskudar: "shore", bayrampasa: "edge", avcilar: "edge" };
+
 function renderLocationPanel(){
  const current=currentDistrict(state),selected=getDistrict(selectedDistrictId)||current||getDistrict('uskudar');
  const p=districtProfile(state,selected.id),preview={...state,household:{...state.household,location:{districtId:selected.id}}};
@@ -911,8 +915,11 @@ function renderLocationPanel(){
  const back=locationMoveQuote(state,'uskudar','family');
  const cityButtons=Object.entries(CITIES).map(([id,name])=>`<button class="button button-quiet" data-location-city="${id}" aria-pressed="${selected.city===id}">${name}</button>`).join('');
  const pins=DISTRICTS.filter(d=>d.city===selected.city).map(d=>`<button class="location-pin" style="--map-x:${d.x}%;--map-y:${d.y}%" data-location-select="${d.id}" aria-pressed="${selected.id===d.id}"><span>${escapeText(d.name)}</span>${current?.id===d.id?'<small>EVİN</small>':''}</button>`).join('');
+ const quarter=ISTANBUL_QUARTERS[selected.id]||"";
+ const plates=selected.city==="istanbul"?["ridge","shore","edge"].map(id=>`<img class="map-plate map-plate--${id}" alt="" src="./assets/map/quarter-${id}.jpg" width="960" height="640">`).join(""):"";
+ const quarterView=quarter?`<img class="location-quarter" alt="" src="./assets/map/quarter-${quarter}.jpg" width="960" height="640">`:"";
  const homes=HOMES.filter(h=>h.id!=='family').map(h=>{const q=locationMoveQuote(state,selected.id,h.id),check=locationMoveAvailability(state,selected.id,h.id);return `<article class="option-card"><h3>${escapeText(h.title)}</h3><dl><div><dt>Aylık konut tabanı</dt><dd>${money(Math.round(h.monthlyCost*p.rent))}</dd></div><div><dt>Tek seferlik taşınma</dt><dd>${money(q.cost)}</dd></div><div><dt>Zaman</dt><dd>${q.slots} karar</dd></div></dl><button class="button" data-location-move="${selected.id}" data-location-home="${h.id}" ${check.ok?'':'disabled'}>Bu bölgeye taşın</button>${!check.ok?`<p class="context-note">${escapeText(check.reason)}</p>`:''}</article>`;}).join('');
- return `<section class="panel location-panel"><div class="panel-head"><div><p class="eyebrow">YAŞADIĞIN YER</p><h2>${escapeText(current?CITIES[current.city]+' · '+current.name:'İstanbul · mevcut çevren')}</h2></div></div><p class="context-note">${current?'Konumun kira, yol ve günlük bütçene yansıyor.':'Semtini seçene kadar mevcut kira ve ulaşım düzenin korunur.'} Aile ve eski arkadaş çevren İstanbul’da kalır; birlikte yaşadığın partnerin seninle taşınır.</p><div class="location-cities" role="group" aria-label="Şehir seçimi">${cityButtons}</div><div class="location-map ${selected.city==='istanbul'?'location-map--istanbul':''}" role="group" aria-label="${CITIES[selected.city]} bölge haritası">${pins}</div><p class="context-note">Ölçeksiz konum şeması · Bölgeler kendi içinde farklı sokaklar ve yaşam biçimleri barındırır.</p><div class="panel-head"><div><p class="eyebrow">${escapeText(p.kind)}</p><h3>${escapeText(selected.name)}</h3></div></div><div class="detail-summary"><div><span>İşe yol yükü</span><strong>${escapeText(commute.label)}</strong><small>${escapeText(commute.detail)}</small></div><div><span>Aylık işe ulaşım</span><strong>${money(locationCosts(preview).transport)}</strong></div><div><span>Günlük yaşam bütçesi</span><strong>${Math.round(p.living*100)} / 100</strong><small>Mevcut diğer giderlere uygulanır</small></div><div><span>Eğitim erişimi</span><strong>${p.education?'Ek yol planlaması':'Daha yakın seçenekler'}</strong><small>${p.education?'Aktif eğitim: haftada +1 yük, −2 enerji':'Ek eğitim ulaşım yükü yok'}</small></div></div><p class="context-note">${p.rail?escapeText(p.railName)+' bu tarihte açık; ulaşım yükü hesabına dahil.':'Bu tarihte bu bölge için metro indirimi yok; otobüs, yol ve varsa deniz ulaşımı esas alınıyor.'} ${job?`Mevcut mesleğinle yeni işe geçiş: ${1+locationJobDelay(preview,job)} hafta; açık iş garantisi değildir.`:'İşsizken maaş ve işe ulaşım gideri yok; İş ekranından yeni iş seçebilirsin.'} Sosyal buluşma yakınlık etkisi: ${Math.round(6*p.social)}; eski çevreye şehir dışı ziyaret ayrıca 2 zaman ve ${money(1200)} yol bedeli kullanır.</p><p class="context-note">Yerel işletme kira katsayısı ${p.rent.toFixed(2)}. Tamir/üretim, öğrenci çevresinde internet kafe veya hizmet/ticaret uyumu ciroyu etkiler; kazanç garanti değil. Mevcut işletme evle birlikte taşınmaz.</p><div class="option-grid">${homes}</div>${current?`<p class="context-note">Aile evine dönüş: ${money(back.cost)} · ${back.slots} zaman. İş, eğitim ve ortak ev koşulları geçerlidir.</p><button class="button button-quiet" id="return-family-area">İstanbul’daki aile evine dön</button>`:''}<details><summary>Konum hesabı hakkında</summary><p class="context-note">Kira, süre ve fırsat farkları dönem ekonomisine bağlı oyun varsayımlarıdır; ilan fiyatı veya gerçek yol tarifi değildir. Raylı ulaşım tarihleri kaynaklıdır. Şehir değiştirirken mevcut iş, okul ve işletme otomatik taşınmaz.</p></details>${renderResult()}</section>`;
+ return `<section class="panel location-panel"><div class="panel-head"><div><p class="eyebrow">YAŞADIĞIN YER</p><h2>${escapeText(current?CITIES[current.city]+' · '+current.name:'İstanbul · mevcut çevren')}</h2></div></div><p class="context-note">${current?'Konumun kira, yol ve günlük bütçene yansıyor.':'Semtini seçene kadar mevcut kira ve ulaşım düzenin korunur.'} Aile ve eski arkadaş çevren İstanbul’da kalır; birlikte yaşadığın partnerin seninle taşınır.</p><div class="location-cities" role="group" aria-label="Şehir seçimi">${cityButtons}</div><div class="location-map ${selected.city==='istanbul'?'location-map--istanbul':''}" data-quarter="${quarter}" role="group" aria-label="${CITIES[selected.city]} bölge haritası">${plates}${pins}</div>${quarterView}<p class="context-note">Ölçeksiz konum şeması · Bölgeler kendi içinde farklı sokaklar ve yaşam biçimleri barındırır.</p><div class="panel-head"><div><p class="eyebrow">${escapeText(p.kind)}</p><h3>${escapeText(selected.name)}</h3></div></div><div class="detail-summary"><div><span>İşe yol yükü</span><strong>${escapeText(commute.label)}</strong><small>${escapeText(commute.detail)}</small></div><div><span>Aylık işe ulaşım</span><strong>${money(locationCosts(preview).transport)}</strong></div><div><span>Günlük yaşam bütçesi</span><strong>${Math.round(p.living*100)} / 100</strong><small>Mevcut diğer giderlere uygulanır</small></div><div><span>Eğitim erişimi</span><strong>${p.education?'Ek yol planlaması':'Daha yakın seçenekler'}</strong><small>${p.education?'Aktif eğitim: haftada +1 yük, −2 enerji':'Ek eğitim ulaşım yükü yok'}</small></div></div><p class="context-note">${p.rail?escapeText(p.railName)+' bu tarihte açık; ulaşım yükü hesabına dahil.':'Bu tarihte bu bölge için metro indirimi yok; otobüs, yol ve varsa deniz ulaşımı esas alınıyor.'} ${job?`Mevcut mesleğinle yeni işe geçiş: ${1+locationJobDelay(preview,job)} hafta; açık iş garantisi değildir.`:'İşsizken maaş ve işe ulaşım gideri yok; İş ekranından yeni iş seçebilirsin.'} Sosyal buluşma yakınlık etkisi: ${Math.round(6*p.social)}; eski çevreye şehir dışı ziyaret ayrıca 2 zaman ve ${money(1200)} yol bedeli kullanır.</p><p class="context-note">Yerel işletme kira katsayısı ${p.rent.toFixed(2)}. Tamir/üretim, öğrenci çevresinde internet kafe veya hizmet/ticaret uyumu ciroyu etkiler; kazanç garanti değil. Mevcut işletme evle birlikte taşınmaz.</p><div class="option-grid">${homes}</div>${current?`<p class="context-note">Aile evine dönüş: ${money(back.cost)} · ${back.slots} zaman. İş, eğitim ve ortak ev koşulları geçerlidir.</p><button class="button button-quiet" id="return-family-area">İstanbul’daki aile evine dön</button>`:''}<details><summary>Konum hesabı hakkında</summary><p class="context-note">Kira, süre ve fırsat farkları dönem ekonomisine bağlı oyun varsayımlarıdır; ilan fiyatı veya gerçek yol tarifi değildir. Raylı ulaşım tarihleri kaynaklıdır. Şehir değiştirirken mevcut iş, okul ve işletme otomatik taşınmaz.</p></details>${renderResult()}</section>`;
 }
 
 function renderHomes() {
@@ -927,7 +934,7 @@ function renderHomes() {
     <section class="detail-summary panel"><div><span>Aktif konut</span><strong>${escapeText(getHomeById(state.household.homeId).title)}</strong></div><div><span>Aylık maliyet</span><strong>${money(housing.total)}</strong>${housing.partnerContribution ? `<small>Ortak gider +${money(housing.householdExtra)} · Partner payı −${money(housing.partnerContribution)}</small>` : ""}${housing.familyContribution ? `<small>Konut ${money(housing.base)} · Aile katkısı ${money(housing.familyContribution)}</small>` : ""}</div><div><span>Çalışma yeri</span><strong>${escapeText(state.career.retirement?.status === "retired" ? "Emekli" : activeJob?.title || "İşsiz")}</strong></div><div><span>Ulaşım yükü</span><strong>${escapeText(activeCommute.label)}</strong><small>${escapeText(activeCommute.detail)}</small></div></section>
     <p class="context-note">${escapeText(PRIVACY_CONTEXT)}</p>
     ${renderLocationPanel()}
-    <section class="panel"><div class="panel-head"><div><p class="eyebrow">MÜLKİYET</p><h2>Konut varlıkların</h2></div><span>${owned.length + rentals.length}</span></div><p class="context-note">${owned.length ? "Bu evin sahibi sensin; katalog kirası yerine bakım ve varsa konut borcu ödüyorsun." : "Mevcut konut aile veya kiralama düzeninde."}${rentals.length ? ` · ${rentals.length} yatırım mülkü: ${rentals.filter((property) => property.occupancy === "rental").length} kirada.` : ""}</p><button class="button button-quiet" data-view="finance">Alım, satış ve borçları Para ekranında yönet</button></section>
+    <section class="panel"><div class="panel-head"><div><p class="eyebrow">MÜLKİYET</p><h2>Konut varlıkların</h2></div><span>${owned.length + rentals.length}</span></div><p class="context-note">${owned.length ? "Bu evin sahibi sensin; katalog kirası yerine bakım ve varsa konut borcu ödüyorsun." : "Mevcut konut aile veya kiralama düzeninde."}${rentals.length ? ` · ${rentals.length} yatırım mülkü: ${rentals.filter((property) => property.occupancy === "rental").length} kirada.` : ""}</p><button class="button button-quiet" data-view="emlak">Alım ve satışı Emlak ekranında yönet</button></section>
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">SEÇENEKLER</p><h2>Konut alternatifleri</h2></div></div><div class="option-grid">${HOMES.map(
       (home) => {
         const cost = Math.round(getMoveCost(home.id)*locationCosts(state).rent);
@@ -952,6 +959,12 @@ function getFriendLoanAmount() {
   return Number.isFinite(collect?.effects?.money) ? collect.effects.money : null;
 }
 
+function wealthButton(action, value, label, detail, disabled = false) {
+  const availability = getWealthActionAvailability(state, action, value);
+  const reason = disabled && availability.ok ? "Bu seçenek mevcut durumda kullanılamıyor." : availability.reason || "";
+  return `<button class="button decision wealth-action" data-wealth-action="${action}" data-wealth-value="${value}" ${disabled || !availability.ok ? "disabled" : ""} title="${escapeText(reason)}"><strong>${escapeText(label)}</strong><small>${escapeText(detail)}${reason ? ` · ${escapeText(reason)}` : ""}</small></button>`;
+}
+
 function renderFinance() {
   normalizeBusiness(state);
   const monthly = getMonthlySummary(state);
@@ -970,11 +983,6 @@ function renderFinance() {
     ...(friendLoan && friendLoanAmount ? [{ name: "Mehmet", amount: friendLoanAmount }] : []),
   ];
   const ledger = [...state.finances.ledger].reverse().slice(0, 40);
-  const wealthButton = (action, value, label, detail, disabled = false) => {
-    const availability = getWealthActionAvailability(state, action, value);
-    const reason = disabled && availability.ok ? "Bu seçenek mevcut durumda kullanılamıyor." : availability.reason || "";
-    return `<button class="button decision wealth-action" data-wealth-action="${action}" data-wealth-value="${value}" ${disabled || !availability.ok ? "disabled" : ""} title="${escapeText(reason)}"><strong>${escapeText(label)}</strong><small>${escapeText(detail)}${reason ? ` · ${escapeText(reason)}` : ""}</small></button>`;
-  };
   return `<div class="workspace-head"><div><p class="eyebrow">Para</p><h1>Paran ve borcun</h1></div>${renderWeekControl()}</div>
     <section class="detail-summary panel wealth-summary">
       <div><span>Bakiye</span><strong>${money(state.finances.balance)}</strong></div><div><span>Net servet</span><strong>${money(worth.total)}</strong><small>Nakit ${money(worth.cash)} · Yatırım ${money(worth.investments)} · Gayrimenkul ${money(worth.property)} · Araç/eşya ${money(worth.vehicle + worth.durables)} · İşletme (tasfiye) ${money(worth.business)} · Borç −${money(worth.debt)}</small></div>
@@ -996,6 +1004,7 @@ function renderFinance() {
       )
       .join("")}</div></section>
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">TÜKETİM</p><h2>Çarşı</h2></div><span>ayrı ekran</span></div><p class="context-note">Kahve, gece, hediye ve riskli alışveriş Çarşı'da.</p><button class="button button-quiet" data-view="market">Çarşıya geç</button></section>
+    <section class="panel"><div class="panel-head"><div><p class="eyebrow">VARLIK</p><h2>Emlak</h2></div><span>ayrı ekran</span></div><p class="context-note">Ev, araç ve kalıcı eşya Emlak'ta. Kredi borcu bu ekranda kalır.</p><button class="button button-quiet" data-view="emlak">Emlak'a geç</button></section>
     <section class="panel bank-panel"><div class="panel-head"><div><p class="eyebrow">BANKA</p><h2>Kredi ve geri ödeme</h2></div></div><p class="context-note">Kredi gelir değildir: bugün nakit verir, gelecek aylara zorunlu ödeme yazar. Tutar ve toplam geri ödeme oyun içi varsayımdır; tarihsel banka teklifi değildir.</p><div class="wealth-grid">${Object.keys(CREDIT_OFFERS).map((id) => { const offer = creditOffer(state, id); const check = creditAvailability(state, id); return `<button class="button decision" data-credit="${id}" ${check.ok ? "" : "disabled"} title="${escapeText(check.reason || "")}"><strong>${escapeText(offer.label)}</strong><small>Bugün ${money(offer.cash)} · ${offer.months} ay × ${money(Math.ceil(offer.total / offer.months))} · toplam ${money(offer.total)}${check.reason ? ` · ${escapeText(check.reason)}` : ""}</small></button>`; }).join("")}</div><button class="button button-quiet" data-repay-credit="1" ${state.wealth.debts.some((debt) => debt.type === "personal") ? "" : "disabled"}>İhtiyaç kredisini erken kapat</button></section>
     ${renderExchange()}
     <section class="panel business-panel"><div class="panel-head"><div><p class="eyebrow">KENDİ İŞİN</p><h2>Küçük işletme kur</h2></div></div><p class="context-note">Sektör döneme göre açılır. Geçmişteki bir sektörün popüler olması garanti kazanç değildir; aylık ciro, gider, yorgunluk ve zarar ihtimali birlikte işler.</p>${state.flags.business ? `<p class="open-case"><b>${escapeText(BUSINESS_TYPES[state.flags.business.id]?.label || "İşletme")}</b><span>${state.flags.business.months} ay açık · Ölçek ${state.flags.business.level}/10 · ${state.flags.business.employees} çalışan · Borç ${money(state.flags.business.debt)}</span></p>${renderBusinessManagement()}<button class="button button-quiet" data-close-business="1">İşletmeyi sat / kapat (ekipman %25, borç düşülür)</button>` : `<div class="wealth-grid">${Object.entries(BUSINESS_TYPES).filter(([, type]) => economyYear(state) >= type.since).map(([id, type]) => { const check = businessAvailability(state, id); return `<button class="button decision" data-business="${id}" ${check.ok ? "" : "disabled"} title="${escapeText(check.reason || "")}"><strong>${escapeText(type.label)}</strong><small>${type.since} sonrası · kuruluş ${money(type.startup)} · 2 zaman · aylık sonuç değişken${check.reason ? ` · ${escapeText(check.reason)}` : ""}</small></button>`; }).join("")}</div>`}</section>
@@ -1024,65 +1033,53 @@ function renderFinance() {
         return `<article class="wealth-card"><strong>${escapeText(item.label)}</strong><small>Değer ${money(p?.value || 0)} · Maliyet ${money(p?.basis || 0)}</small><p class="investment-pl">${economyText("Gerçekleşmemiş kâr/zarar", "Unrealized P/L")}: ${money(pl.amount)} (${pl.percent.toFixed(1)}%)</p><small>${economyText("Risk", "Risk")}: ${risk} · ${economyText("Satışta %1 işlem farkı daha düşülür.", "Selling deducts a further 1% fee.")}</small><div class="wealth-actions">${wealthButton("invest-buy", id, "₺5.000 al", "İşlem farkı dahil", state.finances.balance < 5050)}${wealthButton("invest-sell", id, "₺5.000 sat", "Nakit yarat", (p?.value || 0) < 5000)}${wealthButton("invest-sell-all", id, economyText("Tümünü sat", "Sell all"), economyText("Net tutardan %1 düşülür", "A 1% fee is deducted"), !(p?.value > 0))}</div></article>`;
       })
       .join("")}</div></section>
-    <section class="panel"><h2>${economyText("Sahip olduğun eşyalar", "Owned items")}</h2>${state.wealth.durables.map(d=>`<p>${escapeText(DURABLES[d.id].label)} · ${escapeText(durableBenefit(d.id))} · ${economyText("İkinci el değeri", "Resale value")} ${money(Math.round(d.price*DURABLES[d.id].resale))}</p>${wealthButton("sell-durable",d.id,economyText("İkinci el sat", "Sell used"),economyText("1 karar; eşyanın faydası sona erer", "1 decision; ownership benefit ends"))}`).join("") || economyText("Henüz kalıcı eşya yok. Çarşıdan alabilirsin.", "No owned items yet. Buy them on the market street.")}</section>
     <section class="panel"><h2>${economyText("Yatırım raporu", "Investment report")}</h2>${state.finances.ledger.filter(row=>row.category==="valuation").slice(-11).map(row=>`<p>${economyText("Hafta", "Week")} ${row.week}: ${escapeText(row.reason)}</p>`).join("") || economyText("İlk ay kapanışında gerçekleşmemiş değer değişimleri görünür.", "Unrealized value changes appear at the first month close.")}</section>
-    <section class="panel"><div class="panel-head"><div><p class="eyebrow">ARAÇ</p><h2>Ulaşım varlığı</h2></div><span>${state.wealth.vehicle ? escapeText(VEHICLES[state.wealth.vehicle.tier].label) : "Araç yok"}</span></div><div class="wealth-grid">${
-      state.wealth.vehicle
-        ? wealthButton(
-            "vehicle-sell",
-            "current",
-            "Aracı sat",
-            `Tahmini değer ${money(state.wealth.vehicle.currentValue)}`,
-          )
-        : Object.entries(VEHICLES)
-            .map(
-              ([id, item]) =>
-                `${wealthButton("vehicle-cash", id, item.label, `${money(item.price)} peşin`, state.finances.balance < item.price)}${wealthButton("vehicle-finance", id, `${item.label} · finansman`, `%35 peşinat · aylık gider ve borç`, state.finances.balance < Math.ceil(item.price * 0.35))}`,
-            )
-            .join("")
-    }</div></section>
-    <section class="panel"><div class="panel-head"><div><p class="eyebrow">GAYRİMENKUL</p><h2>Ev ve kiralık mülk</h2></div><span>${state.wealth.properties.length}/3</span></div><p class="context-note">Oturulan evde kira durur; bakım ve varsa konut borcu işler. Kiralık mülk düzenli gelir ve gider yaratır.</p><div class="wealth-grid">${[...state.wealth.properties.flatMap((p) => [wealthButton("property-sell", p.id, p.occupancy === "owner" ? "Oturulan evi sat" : "Yatırım mülkünü sat", `Değer ${money(p.currentValue)}`), ...(p.occupancy === "owner" ? [] : [wealthButton(p.occupancy === "rental" ? "property-vacant" : "property-rent", p.id, p.occupancy === "rental" ? "Boş bırak" : "Kiraya ver", p.occupancy === "rental" ? "Kira geliri durur" : "Aylık kira geliri başlar")])]), wealthButton("property-owner", "cash", "Oturulan ev al", money(480000), state.finances.balance < 480000 || state.wealth.properties.some((p) => p.occupancy === "owner")), wealthButton("property-owner", "mortgage", "Oturulan ev · konut borcu", "%30 peşinat", state.finances.balance < 144000 || state.wealth.properties.some((p) => p.occupancy === "owner")), wealthButton("property-rental", "cash", "Kiralık mülk al", money(420000), state.finances.balance < 420000 || state.wealth.properties.some((p) => p.occupancy === "rental")), wealthButton("property-rental", "mortgage", "Kiralık mülk · konut borcu", "%30 peşinat", state.finances.balance < 126000 || state.wealth.properties.some((p) => p.occupancy === "rental"))].join("")}</div></section>
-    <section class="panel"><div class="panel-head"><div><p class="eyebrow">BORÇLAR</p><h2>Ödemen gereken borçlar</h2></div><span>${money(worth.debt)}</span></div>${state.wealth.debts.length ? state.wealth.debts.map((d) => `<p class="open-case"><b>${d.type === "mortgage" ? "Konut borcu" : d.type === "vehicle" ? "Araç borcu" : "Kişisel borç"}</b><span>${money(d.principal)} · aylık ${money(Math.min(d.principal, d.monthlyPayment))}</span></p>`).join("") : `<p class="empty">Varlığa bağlı borç yok.</p>`}</section>
+    <section class="panel"><div class="panel-head"><div><p class="eyebrow">BORÇLAR</p><h2>Ödemen gereken borçlar</h2></div><span>${money(worth.debt)}</span></div>${state.wealth.debts.length ? state.wealth.debts.map((d) => `<p class="open-case"><b>${d.type === "mortgage" ? "Konut borcu" : d.type === "vehicle" ? "Araç borcu" : "Kişisel borç"}</b><span>${money(d.principal)} · aylık ${money(Math.min(d.principal, d.monthlyPayment))}</span></p>`).join("") : `<p class="empty">Varlığa bağlı borç yok.</p>`}<p class="context-note">Evi, aracı ve eşyayı satmak Emlak ekranında. Borç kaydı burada durur.</p></section>
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">ALACAKLAR</p><h2>Sana borçlu olanlar</h2></div><span>${owedToPlayer.length}</span></div>${owedToPlayer.length ? owedToPlayer.map((item) => `<p class="open-case"><b>${escapeText(item.name)}</b><span>${money(item.amount)}</span></p>`).join("") : `<p class="empty">Şu anda kimsenin sana borcu yok.</p>`}</section>
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">İŞLEMLER</p><h2>Son işlemler</h2></div><span>${state.finances.ledger.length}</span></div><div class="history">${ledger.length ? ledger.map((entry) => `<div class="memory"><strong>${entry.amount >= 0 ? "+" : ""}${money(entry.amount)}</strong> · ${escapeText(entry.reason)} · <span>${escapeText(weeksAgoLabel(entry.week))}</span></div>`).join("") : `<p class="empty">Henüz bir işlem kaydı yok.</p>`}</div>${renderResult("Varlıklar piyasa değeriyle, borçlar kalan anaparayla gösterilir.")} </section>`;
 }
 
+function renderEmlak() {
+  const ownedGoods = state.wealth.durables.map((d) => `<p>${escapeText(DURABLES[d.id].label)} · ${escapeText(durableBenefit(d.id))} · ${economyText("İkinci el değeri", "Resale value")} ${money(Math.round(d.price * DURABLES[d.id].resale))}</p>${wealthButton("sell-durable", d.id, economyText("İkinci el sat", "Sell used"), economyText("1 karar; eşyanın faydası sona erer", "1 decision; ownership benefit ends"))}`).join("");
+  const assetBuys = Object.entries(MARKET)
+    .filter(([id, item]) => MARKET_OWNERSHIP[id] && marketAvailableInYear(state, item))
+    .map(([id, item]) => wealthButton("spend", id, item.label, `${money(item.cost)} · ${marketEffectText(state, id)}`))
+    .join("");
+  const homeGoods = Object.entries(DURABLES)
+    .filter(([id]) => ["bed", "office", "entertainment"].includes(id))
+    .map(([id, item]) => wealthButton("durable", id, item.label, `${money(item.price)} · ${durableBenefit(id)} · ${economyText("1 zaman; bir kez alınabilir", "1 decision; single ownership")}`, state.finances.balance < item.price))
+    .join("");
+  const vehicles = state.wealth.vehicle
+    ? wealthButton("vehicle-sell", "current", "Aracı sat", `Tahmini değer ${money(state.wealth.vehicle.currentValue)}`)
+    : Object.entries(VEHICLES)
+        .map(([id, item]) => `${wealthButton("vehicle-cash", id, item.label, `${money(item.price)} peşin`, state.finances.balance < item.price)}${wealthButton("vehicle-finance", id, `${item.label} · finansman`, `%35 peşinat · aylık gider ve borç`, state.finances.balance < Math.ceil(item.price * 0.35))}`)
+        .join("");
+  const properties = [...state.wealth.properties.flatMap((p) => [wealthButton("property-sell", p.id, p.occupancy === "owner" ? "Oturulan evi sat" : "Yatırım mülkünü sat", `Değer ${money(p.currentValue)}`), ...(p.occupancy === "owner" ? [] : [wealthButton(p.occupancy === "rental" ? "property-vacant" : "property-rent", p.id, p.occupancy === "rental" ? "Boş bırak" : "Kiraya ver", p.occupancy === "rental" ? "Kira geliri durur" : "Aylık kira geliri başlar")])]), wealthButton("property-owner", "cash", "Oturulan ev al", money(480000), state.finances.balance < 480000 || state.wealth.properties.some((p) => p.occupancy === "owner")), wealthButton("property-owner", "mortgage", "Oturulan ev · konut borcu", "%30 peşinat", state.finances.balance < 144000 || state.wealth.properties.some((p) => p.occupancy === "owner")), wealthButton("property-rental", "cash", "Kiralık mülk al", money(420000), state.finances.balance < 420000 || state.wealth.properties.some((p) => p.occupancy === "rental")), wealthButton("property-rental", "mortgage", "Kiralık mülk · konut borcu", "%30 peşinat", state.finances.balance < 126000 || state.wealth.properties.some((p) => p.occupancy === "rental"))].join("");
+  return `<div class="workspace-head"><div><p class="eyebrow">Emlak</p><h1>Ev, araç ve mal</h1></div>${renderWeekControl()}</div>
+    <p class="context-note">Konut, araç ve kalıcı eşya burada. Nakit, kredi ve yatırım Para ekranında kalır. Günlük harcama Çarşı'dadır.</p>
+    <section class="panel"><div class="panel-head"><div><p class="eyebrow">GAYRİMENKUL</p><h2>Ev ve kiralık mülk</h2></div><span>${state.wealth.properties.length}/3</span></div><p class="context-note">Oturulan evde kira durur; bakım ve varsa konut borcu işler. Kiralık mülk düzenli gelir ve gider yaratır. Borç dökümü Finans'ta durur.</p><div class="wealth-grid">${properties}</div></section>
+    <section class="panel"><div class="panel-head"><div><p class="eyebrow">ARAÇ</p><h2>Ulaşım varlığı</h2></div><span>${state.wealth.vehicle ? escapeText(VEHICLES[state.wealth.vehicle.tier].label) : "Araç yok"}</span></div><div class="wealth-grid">${vehicles}</div></section>
+    <section class="panel"><div class="panel-head"><div><p class="eyebrow">MAL VE MÜLK</p><h2>Kalıcı eşya</h2></div><span>${state.wealth.durables.length}</span></div><div class="wealth-grid">${assetBuys}${homeGoods}</div>${ownedGoods || `<p class="empty">${economyText("Henüz kalıcı eşya yok. Çarşıdan alabilirsin.", "No owned items yet. Buy them on the market street.")}</p>`}</section>`;
+}
+
 function renderMarket() {
-  const wealthButton = (action, value, label, detail, disabled = false) => {
-    const availability = getWealthActionAvailability(state, action, value);
-    const reason = disabled && availability.ok ? "Bu seçenek mevcut durumda kullanılamıyor." : availability.reason || "";
-    return `<button class="button decision wealth-action" data-wealth-action="${action}" data-wealth-value="${value}" ${disabled || !availability.ok ? "disabled" : ""} title="${escapeText(reason)}"><strong>${escapeText(label)}</strong><small>${escapeText(detail)}${reason ? ` · ${escapeText(reason)}` : ""}</small></button>`;
-  };
   const groups = {};
   for (const [id, item] of Object.entries(MARKET)) {
-    if (!marketAvailableInYear(state, item)) continue;
+    if (MARKET_OWNERSHIP[id] || !marketAvailableInYear(state, item)) continue;
     const cat = item.category || "Diğer";
     if (!groups[cat]) groups[cat] = [];
     groups[cat].push([id, item]);
   }
+  const hasOther = Object.keys(groups).some((cat) => marketShelfId(cat) === "diger");
+  const shelves = [...MARKET_SHELVES, ...(hasOther ? [{ id: "diger", label: "Diğer" }] : [])].filter((shelf) =>
+    Object.keys(groups).some((cat) => marketShelfId(cat) === shelf.id),
+  );
+  const open = shelves.some((shelf) => shelf.id === marketShelf) ? marketShelf : shelves[0].id;
+  const visible = Object.entries(groups).filter(([cat]) => marketShelfId(cat) === open);
   return `<div class="workspace-head"><div><p class="eyebrow">Çarşı</p><h1>Ne alacaksın?</h1></div>${renderWeekControl()}</div>
-    <p class="context-note">${escapeText(periodContext(state).label)}. Temel yaşam gideri aylık bütçede; buradaki alışverişler ek tüketimdir.</p>
-    ${Object.entries(groups)
-      .map(
-        ([cat, rows]) =>
-          `<section class="panel"><div class="panel-head"><div><p class="eyebrow">KATEGORİ</p><h2>${escapeText(cat)}</h2></div><span>${rows.length}</span></div><div class="wealth-grid">${rows
-            .map(([id, item]) => wealthButton("spend", id, item.label, `${money(item.cost)} · ${marketEffectText(state, id)}`))
-            .join("")}</div></section>`,
-      )
-      .join("")}
-    <section class="panel"><div class="panel-head"><div><p class="eyebrow">EŞYA</p><h2>Kalıcı kullanım</h2></div></div><div class="wealth-grid">${Object.entries(
-      DURABLES,
-    )
-      .filter(([id]) => ["bed", "office", "entertainment"].includes(id))
-      .map(([id, item]) => wealthButton("durable", id, item.label, `${money(item.price)} · ${durableBenefit(id)} · ${economyText("1 zaman; bir kez alınabilir", "1 decision; single ownership")}`, state.finances.balance < item.price))
-      .join("")}</div></section>
-    <section class="panel"><div class="panel-head"><div><p class="eyebrow">Ulaşım</p><h2>Araç</h2></div></div><div class="wealth-grid">${
-      state.wealth.vehicle
-        ? wealthButton("vehicle-sell", "current", "Aracı sat", money(state.wealth.vehicle.currentValue))
-        : Object.entries(VEHICLES)
-            .map(([id, item]) => `${wealthButton("vehicle-cash", id, item.label, money(item.price), state.finances.balance < item.price)}${wealthButton("vehicle-finance", id, `${item.label} kredi`, "peşinatlı", state.finances.balance < Math.ceil(item.price * 0.35))}`)
-            .join("")
-    }</div></section>`;
+    <p class="context-note">${escapeText(periodContext(state).label)}. Temel yaşam gideri aylık bütçede; buradaki alışverişler ek tüketimdir. Ev, araç ve kalıcı eşya Emlak'ta.</p>
+    <div class="market-shelves" role="tablist" aria-label="Çarşı rafları">${shelves.map((shelf) => `<button type="button" class="button button-quiet${shelf.id === open ? " is-active" : ""}" data-market-shelf="${shelf.id}" aria-pressed="${shelf.id === open}">${escapeText(shelf.label)}</button>`).join("")}</div>
+    ${visible.map(([cat, rows]) => `<section class="panel"><div class="panel-head"><div><p class="eyebrow">RAF</p><h2>${escapeText(cat)}</h2></div><span>${rows.length}</span></div><div class="wealth-grid">${rows.map(([id, item]) => wealthButton("spend", id, item.label, `${money(item.cost)} · ${marketEffectText(state, id)}`)).join("")}</div></section>`).join("")}`;
 }
 
 function renderBody() {
@@ -1374,6 +1371,7 @@ const VIEW_RENDERERS = {
   relationships: renderRelationshipsOverview,
   home: renderHomes,
   finance: renderFinance,
+  emlak: renderEmlak,
   market: renderMarket,
   body: renderBody,
   history: renderHistory,
@@ -1457,6 +1455,13 @@ function render() {
       const result = presentDecision(() => applyDecision(state, button.dataset.decision));
       notice = result.reason || result.message;
       persist();
+      render();
+    }),
+  );
+  document.querySelectorAll("[data-market-shelf]").forEach((button) =>
+    button.addEventListener("click", () => {
+      marketShelf = button.dataset.marketShelf || "gunluk";
+      notice = "";
       render();
     }),
   );

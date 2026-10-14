@@ -41,11 +41,18 @@ const labels = {
   "Daha yüksek standart yalnız daha fazla seçenek ve düzenli gider sağlar; mutluluk satın alınmaz.": "A higher standard provides more options and recurring expenses; it cannot buy happiness.",
   "Kahve, gece, hediye ve riskli alışveriş Çarşı'da.": "Coffee, nights, gifts and risky buys are on the market street.",
   "Çarşıya geç": "Open the market",
+  "Emlak'a geç": "Open Property",
+  "Emlak": "Property",
   "Bugün": "Today", "Kendine bak": "Look after yourself", "Ev işi": "House work",
   "Evde akşam": "Night in", "Gece, 18+": "Night, 18+", "Kaçış": "Get away", "Dışarı": "Out",
   "Mutfak": "Groceries", "Hat ve ekran": "Line and screen", "O günün işi": "Of that time",
   "Üstün başın": "What you wear", "Cihaz": "Device", "Eve bir şey": "For the house",
   "Yol": "Getting around", "Bedenin": "Your body", "Risk, 18+": "Risk, 18+",
+  "Ev, araç ve mal": "Home, vehicle and goods",
+  "Konut, araç ve kalıcı eşya burada. Nakit, kredi ve yatırım Para ekranında kalır. Günlük harcama Çarşı'dadır.": "Housing, vehicles and owned goods are here. Cash, credit and investments stay on Money. Daily spending is on the market street.",
+  "Ev, araç ve kalıcı eşya Emlak'ta. Kredi borcu bu ekranda kalır.": "Housing, vehicles and owned goods are in Property. Credit stays on this screen.",
+  "Alım ve satışı Emlak ekranında yönet": "Buy and sell on the Property screen",
+  "Henüz kalıcı eşya yok. Çarşıdan alabilirsin.": "No owned items yet. Buy them on the market street.",
   "Market'e geç": "Open Market", "ayrı ekran": "separate screen", "Abonelikler": "Subscriptions",
   "Düzenli hizmetler": "Recurring services", "Yatırımlar": "Investments", "Sahip oldukların": "Owned assets",
   "Borçlar": "Debts", "Alacaklar": "Receivables", "İşlemler": "Transactions", "Son işlemler": "Recent transactions",
@@ -130,6 +137,7 @@ export function arrangeLifeDesk(view, text) {
     education: ".option-card",
     home: ".option-card",
     market: ".wealth-grid > button",
+    emlak: ".wealth-grid > *",
     finance: ".wealth-grid > *, .open-case",
     people: ".person-detail",
     relationships: ".panel",
@@ -155,7 +163,7 @@ export function arrangeLifeDesk(view, text) {
   managementDeck(layout, history, text("KAYIT / HESAP DÖKÜMÜ", "RECORD / ACCOUNT LEDGER"));
   // These surfaces are intentionally full-size, readable workspaces. A card
   // index hid the body diagram and forced a second tap for banking or family.
-  const fullViews = new Set(["dashboard", "inbox", "body", "finance", "home", "market", "relationships"]);
+  const fullViews = new Set(["dashboard", "inbox", "body", "finance", "emlak", "home", "market", "relationships"]);
   // The full-width header and scenario stay outside the optional detail split.
   // Only rendered nodes move; original listeners, content and actions survive.
   layout.classList.add("tc-page-shell");

@@ -221,6 +221,16 @@ const marketUnavailableReason = (state, item) => item.since && economyYear(state
 export const economyText = tr;
 const tl = (n) => `₺${Math.round(n).toLocaleString("tr-TR")}`;
 export const MARKET_OWNERSHIP = { new_phone: "phone", feature_phone: "phone", laptop: "computer", headphones: "headphones", furniture: "furniture", appliance: "appliance", bike: "bike", scooter: "scooter", luxury_watch: "luxury_watch" };
+/** Alışveriş rafları. Kalıcı eşya (MARKET_OWNERSHIP) burada değil, Emlak'tadır. */
+export const MARKET_SHELVES = [
+  { id: "gunluk", label: "Bugün", categories: ["Bugün", "Kendine bak", "Ev işi", "Mutfak", "Hat ve ekran"] },
+  { id: "ev", label: "Ev ve bakım", categories: ["Evde akşam", "Eve bir şey", "Bedenin", "Yol"] },
+  { id: "disari", label: "Dışarı", categories: ["Dışarı", "Hobi", "Kaçış", "O günün işi"] },
+  { id: "giyim", label: "Üstün başın", categories: ["Üstün başın", "Cihaz"] },
+  { id: "hediye", label: "Hediye", categories: ["Hediye"] },
+  { id: "gece", label: "Gece, 18+", categories: ["Gece, 18+", "Risk, 18+"] },
+];
+export const marketShelfId = (category) => MARKET_SHELVES.find((shelf) => shelf.categories.includes(category))?.id || "diger";
 const care = { dentist: 5, private_clinic: 3, therapy: 2, gym_drop: 2, sports: 2 };
 export function durableBenefit(id) {
   const descriptions = {
@@ -791,9 +801,11 @@ export function getWealthMonthlySummary(state) {
     subscriptions = w.subscriptions.reduce((n, s) => n + SUBSCRIPTIONS[s.id].monthly, 0),
     vehicle = w.vehicle ? VEHICLES[w.vehicle.tier].monthly : 0,
     debt = w.debts.reduce((n, d) => n + Math.min(d.principal, d.monthlyPayment), 0);
+  const income = Math.round(rental);
+  const expenses = Math.round(TIERS[w.lifestyle].monthly + maintenance + subscriptions + vehicle + debt);
   return {
-    income: rental,
-    expenses: TIERS[w.lifestyle].monthly + maintenance + subscriptions + vehicle + debt,
+    income,
+    expenses,
     lifestyle: TIERS[w.lifestyle].monthly,
     subscriptions,
     vehicle,
