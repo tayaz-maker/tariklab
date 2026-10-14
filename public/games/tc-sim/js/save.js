@@ -6,6 +6,7 @@ import { upgradeScenarioTo2030 } from "./historical-scenarios.js?v=10";
 import { normalizeSemt } from "./quarters.js?v=10";
 import { normalizePocket } from "./pocket-income.js?v=10";
 import { normalizeCalendar } from "./march-hatir.js?v=10";
+import { normalizePartnerMonth, normalizeWorkplace } from "./partner-workplace.js?v=10";
 
 export const SAVE_KEY = "tc-sim-save";
 export const BACKUP_KEY = "tc-sim-save-backup";
@@ -176,6 +177,8 @@ export function migrateState(raw) {
     normalizeSemt(state);
     normalizePocket(state);
     normalizeCalendar(state);
+    normalizePartnerMonth(state);
+    normalizeWorkplace(state);
     const validation = validateState(state);
     return validation.ok
       ? { ok: true, state, migrated: version !== SAVE_VERSION }

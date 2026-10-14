@@ -20,6 +20,7 @@ import {
   openHatirWeek,
   processMarchRent,
 } from "./march-hatir.js?v=10";
+import { PARTNER_WORK_DECISIONS, logManagerOvertime, processPartnerMonth } from "./partner-workplace.js?v=10";
 import { getHouseholdSummary } from "./household.js?v=10";
 import {
   WEEKS_PER_MONTH,
@@ -124,6 +125,7 @@ export const DECISIONS = [
       state.flags.overtimeLastWeek = state.time.absoluteWeek;
       adjustTendency(state, "risk", 1);
       adjustTendency(state, "discipline", 1);
+      logManagerOvertime(state);
     },
   },
   {
@@ -343,6 +345,7 @@ export const DECISIONS = [
   },
   ...POCKET_DECISIONS,
   ...MARCH_HATIR_DECISIONS,
+  ...PARTNER_WORK_DECISIONS,
 ];
 
 const CORE_DECISION_IDS = new Set(["overtime", "rest", "exercise", "home-routine"]);
@@ -597,6 +600,8 @@ export function advanceWeek(state) {
 
   const marchNote = processMarchRent(state);
   if (marchNote) messages.push(marchNote);
+  const partnerNote = processPartnerMonth(state);
+  if (partnerNote) messages.push(partnerNote);
   const hatirNote = openHatirWeek(state);
   if (hatirNote) messages.push(hatirNote);
   if (hatirClose) {

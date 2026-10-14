@@ -23,6 +23,7 @@ import { applySocialMaintenance } from "./social.js?v=10";
 import { scheduleMoveConsequence } from "./depth3-systems.js?v=10";
 import { clearSemtLive, liveQuarterBill } from "./quarters.js?v=10";
 import { payPromotionBonus, paySeverance, raisedSalary } from "./pocket-income.js?v=10";
+import { notePromotion } from "./partner-workplace.js?v=10";
 
 export { HOMES, JOBS, getCommuteLoad, getHomeById, getJobById } from "./catalog.js?v=10";
 
@@ -236,6 +237,7 @@ export function promoteCareer(state) {
     label: `${next.title} pozisyonuna geçtin.`,
   });
   addMemory(state, `${next.title} pozisyonuna geçtin.`, "important");
+  notePromotion(state);
   return { ok: true, job: next, message: bonus ? `${next.title} pozisyonuna geçtin. ${bonus}` : `${next.title} pozisyonuna geçtin.` };
 }
 
