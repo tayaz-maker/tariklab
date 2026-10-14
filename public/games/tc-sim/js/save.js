@@ -9,6 +9,7 @@ import { normalizeCalendar } from "./march-hatir.js?v=10";
 import { normalizePartnerMonth, normalizeWorkplace } from "./partner-workplace.js?v=10";
 import { normalizeRisk } from "./risk-layer.js?v=10";
 import { normalizeAskerlik } from "./askerlik.js?v=10";
+import { normalizeIcra } from "./icra.js?v=10";
 
 export const SAVE_KEY = "tc-sim-save";
 export const BACKUP_KEY = "tc-sim-save-backup";
@@ -183,6 +184,7 @@ export function migrateState(raw) {
     normalizeWorkplace(state);
     normalizeRisk(state);
     normalizeAskerlik(state);
+    normalizeIcra(state);
     const validation = validateState(state);
     return validation.ok
       ? { ok: true, state, migrated: version !== SAVE_VERSION }

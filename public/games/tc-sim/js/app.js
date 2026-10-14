@@ -191,6 +191,7 @@ function renderJobResult() {
 function openCaseLabel(item) {
   if (item.type === "partner-month") return "Partnerin görünmeyen ayı";
   if (item.type === "risk-dosya") return "Polis / mahkeme dosyası";
+  if (item.type === "icra") return "İcra yazısı";
   if (item.type === "adult-child")
     return `${state.parenthood.children.find((c) => c.id === item.payload.childId)?.name || "Yetişkin çocuk"} ile yetişkinlik görüşmesi`;
   if (item.type === "parenting-followup")
@@ -758,6 +759,11 @@ function askerFileLine() {
   return text ? `<p class="context-note">${escapeText(text)}</p>` : "";
 }
 
+function icraFileLine() {
+  const text = state.flags?.icra?.banner?.text;
+  return text ? `<p class="context-note">${escapeText(text)}</p>` : "";
+}
+
 function renderDashboard() {
   const depth = refreshLifeArcs(state);
   const causalEconomy = economyCausality(state);
@@ -790,7 +796,7 @@ function renderDashboard() {
       ${depth.echoes.length ? `<p class="context-note">Son yankı: ${escapeText(depth.echoes.at(-1).text)}</p>` : ""}
     </details></section>
     <div class="dashboard-grid">
-      <section class="panel week-panel"><div class="panel-head"><div><p class="eyebrow">BU HAFTA</p><h2>Zamanını nasıl kullandın?</h2></div><span>${remaining} odak kaldı</span></div><p class="decision-context">Küçük kararlar 1 zaman; taşınma ve iş kurma 2, şehir değiştirme 3 zaman ister. Enerji ve para bedelleri ayrıca uygulanır. Bütün zamanı doldurmak zorunda değilsin.</p>${partnerFileLine()}${workplaceFileNote()}${riskFileLine()}${askerFileLine()}${weekPlanHtml.top}<div class="decisions">${getAvailableDecisions(
+      <section class="panel week-panel"><div class="panel-head"><div><p class="eyebrow">BU HAFTA</p><h2>Zamanını nasıl kullandın?</h2></div><span>${remaining} odak kaldı</span></div><p class="decision-context">Küçük kararlar 1 zaman; taşınma ve iş kurma 2, şehir değiştirme 3 zaman ister. Enerji ve para bedelleri ayrıca uygulanır. Bütün zamanı doldurmak zorunda değilsin.</p>${partnerFileLine()}${workplaceFileNote()}${riskFileLine()}${askerFileLine()}${icraFileLine()}${weekPlanHtml.top}<div class="decisions">${getAvailableDecisions(
         state,
       )
         .map((decision) => {
@@ -1649,7 +1655,8 @@ function render() {
       const partnerBanner = state.flags?.partnerMonth?.banner;
       const riskBanner = state.flags?.risk?.banner;
       const askerBanner = state.flags?.askerlik?.banner;
-      const banners = [partnerBanner, riskBanner, askerBanner, calendarBanner, pocketBanner].filter((banner) => banner?.text && banner.week === state.time.absoluteWeek);
+      const icraBanner = state.flags?.icra?.banner;
+      const banners = [partnerBanner, riskBanner, askerBanner, icraBanner, calendarBanner, pocketBanner].filter((banner) => banner?.text && banner.week === state.time.absoluteWeek);
       if (banners.length) notice = `${banners.map((banner) => banner.text).join(" ")} ${notice}`.trim();
       lastWeekFeedback = notice;
       weekStartSnapshot = null;
