@@ -44,6 +44,10 @@ export const HELP_SECTIONS = [
     title: "İleri hayat: emeklilik, miras ve nesil",
     body: "60'lı yaşlardan sonra yeterli çalışma geçmişiyle emekliliği değerlendirebilirsin. Hayat sona erdiğinde bir Yaşam Raporu çıkar ve varsa yetişkin bir çocuğunla yeni bir kuşak olarak devam edebilirsin; servetin ve aile bağların bir sonraki hayata iz bırakır.",
   },
+  {
+    title: "Kaynaklar",
+    body: "Hayat kurgudur. Gözlenen sayılar sınırlıdır. 1999–2025 net asgari ücret Çalışma ve Sosyal Güvenlik Bakanlığı çizelgesindendir; 2025 net 22.104,67 TL. 1999 öncesi yıllık TÜFE, Dünya Bankası FP.CPI.TOTL (Türkiye, 2010=100, 6 Ekim 2026 indirimi): https://data.worldbank.org/indicator/FP.CPI.TOTL?locations=TR . Ücret çizelgesi: https://www.csgb.gov.tr/Media/t2qlvwrg/asgari-%C3%BCcret-net-br%C3%BCt-i%C5%9Fverene-maliyet.pdf ve https://www.csgb.gov.tr/Media/f4xjys1e/2025-asgari-%C3%BCcret_.pdf . Diğer fiyat, kira ve banka oranı aynı ücret ölçeğindeki oyun bütçesidir; ilan değildir. 2026–2030 için ücret ve fiyat tahmini yoktur. Kurlar TCMB bülteninden çeyreklik alınır (7 Ekim 2026). Altın, Dünya Bankası aylık ons verisidir: https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx . Ziynet gramı kuyumcu fiyatı değildir. Veri ufkundan sonrası kurgu diye işaretlenir. Tarihli karttaki TCMB veya Dünya Bankası bağlantısı o olayın yanında durur.",
+  },
 ];
 
 function escapeText(value) {

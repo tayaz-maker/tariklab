@@ -167,7 +167,7 @@ test("TC SIM catalog and help critical strings have EN", () => {
   for (const line of [
     "Market Çalışanı",
     "Paylaşımlı Ev",
-    "Her hafta 6 zaman/odak bloğun var (sağlığın kritikse 3'e düşer). İş, eğitim, aile ve sosyal hayat aynı bütçeyi paylaşır; haftayı erken kapatabilir, yorgunluk ve ertelenen sonuçları göze alabilirsin. Maaş, kira ve düzenli giderler ay sonunda otomatik işler.",
+    "Her hafta 7 hakkın var. Düzenli iş, okul ve çocuk bakımı yoksa 8, sağlığın kötüyse 3. İş, okul, aile, aşk ve dinlenme aynı haftayı paylaşır. Haftayı erken kapatabilirsin. Maaş, kira, kredi ve dükkân ay sonunda işler.",
     "Mütevazı",
     "Dertleş",
   ]) {
