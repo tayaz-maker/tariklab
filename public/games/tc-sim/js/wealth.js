@@ -200,11 +200,11 @@ export const MARKET = {
   gym_drop: { label: "Bir kez spor", cost: 250, energy: -6, stress: -4, category: "Bedenin" },
   restaurant: { label: "Restoranda ye", cost: 1800, energy: -4, stress: -6, category: "Dışarı" },
   club_night: { label: "Kulübe çık", cost: 2400, energy: -16, stress: -6, category: "Gece, 18+", adult: true },
-  heavy_drink: { label: "Ağır bir içki gecesi", cost: 1600, energy: -18, stress: -4, category: "Gece, 18+", adult: true, risk: "alcohol" },
-  cannabis: { label: "Yasa dışı esrar", cost: 900, energy: 2, stress: -8, category: "Risk, 18+", adult: true, risk: "illegal" },
-  betting: { label: "Yasadışı bahis", cost: 1200, energy: -3, stress: 4, category: "Risk, 18+", adult: true, risk: "gambling" },
-  casino: { label: "Kumar masası", cost: 3500, energy: -8, stress: 6, category: "Risk, 18+", adult: true, risk: "gambling" },
-  escort: { label: "Ücretli buluşma", cost: 4500, energy: -6, stress: -5, category: "Gece, 18+", adult: true, risk: "sexwork" },
+  heavy_drink: { label: "Sert içki gecesi", cost: 1600, energy: -18, stress: -4, category: "Gece, 18+", adult: true, risk: "alcohol" },
+  cannabis: { label: "Esrar", cost: 900, energy: 2, stress: -8, category: "Risk, 18+", adult: true, risk: "illegal" },
+  betting: { label: "Kaçak bahse gir", cost: 1200, energy: -3, stress: 4, category: "Risk, 18+", adult: true, risk: "gambling" },
+  casino: { label: "Kumar masasına otur", cost: 3500, energy: -8, stress: 6, category: "Risk, 18+", adult: true, risk: "gambling" },
+  escort: { label: "Parayla buluşma", cost: 4500, energy: -6, stress: -5, category: "Gece, 18+", adult: true, risk: "sexwork" },
   family_gift: { label: "Ailene bir şey al", cost: 1200, energy: -2, stress: -3, category: "Hediye" },
   partner_gift: { label: "Partnerine hediye", cost: 1800, energy: -2, stress: -4, category: "Hediye" },
   friend_gift: { label: "Arkadaşına hediye", cost: 700, energy: -2, stress: -2, category: "Hediye" },
@@ -260,7 +260,7 @@ export function marketPreview(state, id) {
 }
 export function marketEffectText(state, id) {
   const item = MARKET[id], p = marketPreview(state, id);
-  return `${p.kind} · ${tr("Karar", "Decisions")} ${item.time || 1} · ${tr("Enerji", "Energy")} ${p.energy >= 0 ? "+" : ""}${p.energy} · ${tr("Stres", "Stress")} ${p.stress >= 0 ? "+" : ""}${p.stress}${p.health ? ` · ${tr("Sağlık", "Health")} ${p.health > 0 ? "+" : ""}${p.health}` : ""}${p.durable ? ` · ${durableBenefit(p.durable)} · ${tr("Tek sahiplik; ikinci el değeri alıştan düşüktür", "Single ownership; resale value is below purchase price")}` : ""}${id.includes("gift") ? ` · ${tr("Uygun mevcut ilişkide yakınlık +3/+4", "Existing eligible relationship +3/+4")}` : ""}${item.risk ? ` · ${tr("Risk", "Risk")}: ${tr(({alcohol:"alkol geçmişi",illegal:"yasal risk +8",gambling:"bahis kaybı/kazancı; tekrar stres yaratır",sexwork:"mevcut ilişkide sadakatsizlik riski"})[item.risk],({alcohol:"alcohol history",illegal:"legal risk +8",gambling:"stake can win or be lost; repetition adds stress",sexwork:"infidelity risk in an existing relationship"})[item.risk])}` : ""}`;
+  return `${p.kind} · ${tr("Karar", "Decisions")} ${item.time || 1} · ${tr("Enerji", "Energy")} ${p.energy >= 0 ? "+" : ""}${p.energy} · ${tr("Stres", "Stress")} ${p.stress >= 0 ? "+" : ""}${p.stress}${p.health ? ` · ${tr("Sağlık", "Health")} ${p.health > 0 ? "+" : ""}${p.health}` : ""}${p.durable ? ` · ${durableBenefit(p.durable)} · ${tr("Tek sahiplik; ikinci el değeri alıştan düşüktür", "Single ownership; resale value is below purchase price")}` : ""}${id.includes("gift") ? ` · ${tr("Uygun mevcut ilişkide yakınlık +3/+4", "Existing eligible relationship +3/+4")}` : ""}${item.risk ? ` · ${tr("Risk", "Risk")}: ${tr(({alcohol:"alkol izi kalır",illegal:"yasal risk artar",gambling:"çoğu zaman az kaybedersin, ara sıra kazanırsın, büyük oynama nadir",sexwork:"mevcut ilişkide sadakat riski"})[item.risk],({alcohol:"alcohol history",illegal:"legal risk +8",gambling:"small losses are common, wins are rarer, a big swing is rare",sexwork:"infidelity risk in an existing relationship"})[item.risk])}` : ""}`;
 }
 export function processOwnedBenefits(state) {
   const w = state.wealth;
@@ -496,7 +496,7 @@ function mark(state, id, cost = 1) {
 }
 export function setLifestyle(state, id) {
   normalizeWealth(state);
-  if (!TIERS[id]) return { ok: false, reason: "Yaşam standardı geçersiz." };
+  if (!TIERS[id]) return { ok: false, reason: "Bu hayat düzeni yok." };
   if (state.wealth.lifestyle === id) return { ok: false, reason: "Bu düzende yaşıyorsun." };
   if (
     TIERS[id].monthly > TIERS[state.wealth.lifestyle].monthly &&
@@ -507,10 +507,10 @@ export function setLifestyle(state, id) {
   const increase = Math.max(0, TIERS[id].monthly - TIERS[state.wealth.lifestyle].monthly);
   if (state.finances.balance < increase)
     return { ok: false, reason: "Yeni yaşam düzenine geçiş için yeterli paran yok." };
-  if (increase) ledger(state, -increase, "Yaşam standardı geçişi", "lifestyle");
+  if (increase) ledger(state, -increase, "Hayat düzeni değişti", "lifestyle");
   state.wealth.lifestyle = id;
   state.wealth.lifestyleChangedWeek = state.time.absoluteWeek;
-  return { ok: true, message: `Yaşam standardı ${TIERS[id].label} oldu.` };
+  return { ok: true, message: `Hayat düzenin: ${TIERS[id].label}.` };
 }
 export function spendLifestyle(state, id) {
   normalizeWealth(state);
@@ -522,11 +522,11 @@ export function spendLifestyle(state, id) {
   if (blocked) return { ok: false, reason: blocked };
   const time = x.time || 1;
   if (state.weekly.used + time > wealthWeeklyCapacity(state))
-    return { ok: false, reason: "Bu deneyim için haftanın kalan zamanı yetmiyor." };
+    return { ok: false, reason: "Bu hafta buna vaktin yok." };
   if (state.finances.balance < x.cost) return { ok: false, reason: "Yeterli paran yok." };
   const last = state.wealth.cooldowns[id] || 0;
   if (last && state.time.absoluteWeek - last < 4)
-    return { ok: false, reason: "Bu deneyimi yeniden planlamak için biraz beklemelisin." };
+    return { ok: false, reason: "Bunu yeniden yapmak için biraz bekle." };
   const preview = marketPreview(state, id);
   const prior = preview.durable && state.wealth.durables.find(d => d.id === preview.durable);
   const phoneUpgrade = id === "new_phone" && prior?.id === "phone" && prior.price <= 9000;
@@ -554,7 +554,7 @@ export function spendLifestyle(state, id) {
     seed ^= seed << 13; seed ^= seed >>> 17; seed ^= seed << 5;
     state.meta.rngState = seed >>> 0 || 1;
     const roll = state.meta.rngState / 4294967296;
-    const multiplier = roll < .45 ? 0 : roll < .65 ? .5 : roll < .8 ? 1 : roll < .95 ? 2 : 5;
+    const multiplier = roll < 0.70 ? 0.5 : roll < 0.82 ? 0 : roll < 0.93 ? 2 : roll < 0.98 ? 3 : 5;
     payout = Math.round(x.cost * multiplier);
     if (payout) ledger(state, payout, tr("Bahis geri dönüşü", "Gambling payout"), "market");
     state.flags.gamblingWeeks = (state.flags.gamblingWeeks || 0) + 1;
@@ -578,7 +578,8 @@ export function spendLifestyle(state, id) {
   state.wealth.cooldowns[id] = state.time.absoluteWeek;
   mark(state, action, time);
   const effects = { cash: state.finances.balance - before.cash, energy: state.health.energy - before.energy, stress: state.health.stress - before.stress, health: state.health.health - before.health };
-  return { ok: true, effects, payout, message: `${x.label} · ${payout !== null ? `${tr("Bahis", "Stake")}: ${tl(x.cost)} · ${tr("Geri dönüş", "Payout")}: ${tl(payout)} · ` : ""}${tr("Net nakit", "Net cash")}: ${tl(effects.cash)} · ${tr("Enerji", "Energy")} ${effects.energy} · ${tr("Stres", "Stress")} ${effects.stress} · ${tr("Sağlık", "Health")} ${effects.health}${preview.durable ? ` · ${tr("Artık sende", "Now owned")}: ${durableBenefit(preview.durable)}` : ""}` };
+  const stakeNote = payout === null ? "" : payout <= 0 ? "Hepsi gitti. " : payout < x.cost ? "Az kaybettin. " : payout >= x.cost * 3 ? "Nadiren böyle gelir. " : "Bu sefer tuttu. ";
+  return { ok: true, effects, payout, message: `${x.label}. ${stakeNote}${payout !== null ? `${tr("Bahis", "Stake")}: ${tl(x.cost)} · ${tr("Geri dönüş", "Payout")}: ${tl(payout)} · ` : ""}${tr("Net", "Net")}: ${tl(effects.cash)} · ${tr("Enerji", "Energy")} ${effects.energy} · ${tr("Stres", "Stress")} ${effects.stress} · ${tr("Sağlık", "Health")} ${effects.health}${preview.durable ? ` · ${tr("Artık sende", "Now owned")}: ${durableBenefit(preview.durable)}` : ""}` };
 }
 export function toggleSubscription(state, id) {
   normalizeWealth(state);
@@ -732,7 +733,7 @@ export function buyProperty(state, kind = "owner", mortgage = false) {
   if (blocked) return { ok: false, reason: blocked };
   const id = `property-${state.time.absoluteWeek}-${kind}`,
     loanId = mortgage ? `${id}-mortgage` : null;
-  ledger(state, -down, kind === "owner" ? "Oturulan ev alımı" : "Kiralık mülk alımı", "property");
+  ledger(state, -down, kind === "owner" ? "Ev alımı" : "Kiralık ev alımı", "property");
   state.wealth.properties.push({
     id,
     homeId: "apartment",
@@ -754,7 +755,7 @@ export function buyProperty(state, kind = "owner", mortgage = false) {
       startWeek: state.time.absoluteWeek,
     });
   mark(state, "wealth-property");
-  return { ok: true, message: kind === "owner" ? "Kendi evin alındı." : "Kiralık mülk alındı." };
+  return { ok: true, message: kind === "owner" ? "Evi aldın." : "Kiraya vereceğin evi aldın." };
 }
 export function sellProperty(state, id) {
   normalizeWealth(state);
@@ -823,9 +824,9 @@ export function processWealthMonthEnd(state) {
   const subscriptionDue = w.subscriptions
     .filter((item) => item.lastBilledMonth !== month)
     .reduce((sum, item) => sum + SUBSCRIPTIONS[item.id].monthly, 0);
-  if (s.rental) ledger(state, s.rental, "Kiralık mülk geliri", "property");
+  if (s.rental) ledger(state, s.rental, "Kira geliri", "property");
   for (const [amount, label] of [
-    [s.lifestyle, "Yaşam standardı"],
+    [s.lifestyle, "Hayat düzeni"],
     [subscriptionDue, "Abonelikler"],
     [s.vehicle, "Araç giderleri"],
     [s.maintenance, tr("Varlık bakımı", "Asset upkeep")],
@@ -835,7 +836,7 @@ export function processWealthMonthEnd(state) {
   for (const d of [...w.debts]) {
     const pay = Math.min(d.principal, d.monthlyPayment);
     if (pay) {
-      ledger(state, -pay, `${d.type === "mortgage" ? "Konut" : d.type === "vehicle" ? "Araç" : "Banka kredisi"} borcu ödemesi`, "debt");
+      ledger(state, -pay, `${d.type === "mortgage" ? "Ev" : d.type === "vehicle" ? "Araç" : "Banka kredisi"} borcu ödemesi`, "debt");
       d.principal -= pay;
     }
     if (!d.principal) w.debts = w.debts.filter((x) => x !== d);
@@ -884,7 +885,7 @@ export function getWealthActionAvailability(state, action, value) {
   const w = state.wealth;
   const weekBlocked = (id, time = 1) => weekly(state, id) || (state.weekly.used + time > wealthWeeklyCapacity(state) ? "Bu işlem için haftanın kalan zamanı yetmiyor." : null);
   if (action === "lifestyle") {
-    if (!TIERS[value]) return { ok: false, reason: "Yaşam standardı geçersiz." };
+    if (!TIERS[value]) return { ok: false, reason: "Bu hayat düzeni yok." };
     if (w.lifestyle === value) return { ok: false, reason: "Bu düzende yaşıyorsun." };
     const increase = Math.max(0, TIERS[value].monthly - TIERS[w.lifestyle].monthly);
     if (increase && w.lifestyleChangedWeek && state.time.absoluteWeek - w.lifestyleChangedWeek < 12)
@@ -900,7 +901,7 @@ export function getWealthActionAvailability(state, action, value) {
     if (prior && !phoneUpgrade) return { ok: false, reason: tr("Bu eşya zaten sende.", "You already own this item.") };
     if (durable && !prior && w.durables.length >= WEALTH_LIMITS.durables) return { ok: false, reason: tr("Eşya sınırına ulaştın.", "Owned item limit reached.") };
     const blocked = weekBlocked(`wealth-spend:${value}`, item.time || 1); if (blocked) return { ok: false, reason: blocked };
-    const last = w.cooldowns[value] || 0; if (last && state.time.absoluteWeek - last < 4) return { ok: false, reason: "Bu deneyimi yeniden planlamak için biraz beklemelisin." };
+    const last = w.cooldowns[value] || 0; if (last && state.time.absoluteWeek - last < 4) return { ok: false, reason: "Bunu yeniden yapmak için biraz bekle." };
     return state.finances.balance < item.cost ? { ok: false, reason: `Bu işlem için ₺${item.cost.toLocaleString("tr-TR")} gerekiyor.` } : { ok: true };
   }
   if (action === "subscription") {

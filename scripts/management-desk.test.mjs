@@ -83,7 +83,8 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Both layers together: partner-workplace.js and risk-layer.js. Save stays v6.
   // Askerlik window: askerlik.js, one 18–25 interruption. Save stays v6.
   // Icra/haciz: icra.js. Save stays v6.
-  assert.equal(hash.digest("hex"), "5f92785defeee70181d0afe67e0bb1d860017c97d1a8826a8c9ad222a44cc2eb");
+  // Maps, everyday Turkish, and kumar odds. Save stays v6. Rent logic unchanged.
+  assert.equal(hash.digest("hex"), "dd5d32098837fa528ba9d91b8eb2d6ed8ec5e582accef7cbf609ddee4ddf6076");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);
