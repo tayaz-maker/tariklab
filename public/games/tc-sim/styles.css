@@ -1494,6 +1494,15 @@ select {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 10px;
 }
+.market-shelves {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 12px;
+}
+.market-shelves .button.is-active {
+  outline: 2px solid currentColor;
+}
 .wealth-card {
   min-width: 0;
   padding: 12px;

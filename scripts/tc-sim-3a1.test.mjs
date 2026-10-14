@@ -29,7 +29,9 @@ test("3A.1 navigation yalnız etkin ekranlara güvenilir hedef verir", () => {
   assert.equal(getNavigationTarget("finance"), "finance");
   assert.equal(getNavigationTarget("money"), null);
   assert.equal(NAVIGATION_ITEMS.find((item) => item.label === "FİNANS").view, "finance");
-  assert.equal(NAVIGATION_ITEMS.find((item) => item.label === "MARKET").view, "market");
+  assert.equal(NAVIGATION_ITEMS.find((item) => item.label === "EMLAK").view, "emlak");
+  assert.equal(NAVIGATION_ITEMS.find((item) => item.label === "ALIŞVERİŞ").view, "market");
+  assert.equal(getNavigationTarget("market"), "market");
 });
 
 test("3A.1 commute açıklaması işsiz ve aktif kombinasyonlarda hesapla uyumludur", () => {

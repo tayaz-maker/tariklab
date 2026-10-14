@@ -40,7 +40,19 @@ const labels = {
   "Yaşam standardı": "Living standard", "Gündelik düzen": "Daily routine", "Tüketim": "Consumption",
   "Daha yüksek standart yalnız daha fazla seçenek ve düzenli gider sağlar; mutluluk satın alınmaz.": "A higher standard provides more options and recurring expenses; it cannot buy happiness.",
   "Günlük harcama, gece hayatı, hediye ve riskli alışveriş MARKET ekranında.": "Daily spending, nightlife, gifts and risky purchases are on the MARKET screen.",
-  "Market'e geç": "Open Market", "ayrı ekran": "separate screen", "Abonelikler": "Subscriptions",
+  "Günlük harcama, gece hayatı, hediye ve riskli alışveriş Alışveriş ekranında. Raflar gün, dışarı, hediye ve gece diye ayrılır.": "Daily spending, nightlife, gifts and risky purchases are on Shopping, split into day, going out, gifts and night.",
+  "Market'e geç": "Open Market", "Alışverişe geç": "Open Shopping", "Emlak'a geç": "Open Property",
+  "ayrı ekran": "separate screen", "Abonelikler": "Subscriptions",
+  "ALIŞVERİŞ": "SHOPPING", "EMLAK": "PROPERTY", "Alışveriş": "Shopping",
+  "Ev, araç ve mal": "Home, vehicle and goods",
+  "Konut, araç ve kalıcı eşya burada. Nakit, kredi ve yatırım Finans'ta kalır. Günlük harcama Alışveriş'tedir.": "Housing, vehicles and owned goods are here. Cash, credit and investments stay in Finance. Daily spending is in Shopping.",
+  "Ev, araç ve kalıcı eşya Emlak ekranında alınır ve satılır. Kredi borcu bu ekranda kalır.": "Buy and sell housing, vehicles and owned goods in Property. Credit stays on this screen.",
+  "Evi, aracı ve eşyayı satmak Emlak ekranında. Borç kaydı burada durur.": "Sell the home, vehicle or goods in Property. The debt record stays here.",
+  "Alım ve satışı EMLAK ekranında yönet": "Buy and sell on the PROPERTY screen",
+  "Mal ve mülk": "Goods", "Kalıcı eşya": "Owned goods", "Henüz kalıcı eşya yok.": "No owned items yet.",
+  "Alışveriş rafları": "Shopping shelves", "Günlük": "Daily", "Ev ve bakım": "Home and upkeep",
+  "Dışarı": "Going out", "Giyim ve cihaz": "Clothes and devices", "Hediye": "Gift", "Gece ve risk": "Night and risk",
+  "RAF": "SHELF", "VARLIK": "ASSETS",
   "Düzenli hizmetler": "Recurring services", "Yatırımlar": "Investments", "Sahip oldukların": "Owned assets",
   "Borçlar": "Debts", "Alacaklar": "Receivables", "İşlemler": "Transactions", "Son işlemler": "Recent transactions",
   "Eğitim ve yeterlilik": "Education and qualifications", "Eğitim seviyesi": "Education level", "Alanlar": "Fields",
@@ -124,6 +136,7 @@ export function arrangeLifeDesk(view, text) {
     education: ".option-card",
     home: ".option-card",
     market: ".wealth-grid > button",
+    emlak: ".wealth-grid > *",
     finance: ".wealth-grid > *, .open-case",
     people: ".person-detail",
     relationships: ".panel",
@@ -149,7 +162,7 @@ export function arrangeLifeDesk(view, text) {
   managementDeck(layout, history, text("KAYIT / HESAP DÖKÜMÜ", "RECORD / ACCOUNT LEDGER"));
   // These surfaces are intentionally full-size, readable workspaces. A card
   // index hid the body diagram and forced a second tap for banking or family.
-  const fullViews = new Set(["dashboard", "inbox", "body", "finance", "home", "market", "relationships"]);
+  const fullViews = new Set(["dashboard", "inbox", "body", "finance", "emlak", "home", "market", "relationships"]);
   // The full-width header and scenario stay outside the optional detail split.
   // Only rendered nodes move; original listeners, content and actions survive.
   layout.classList.add("tc-page-shell");
