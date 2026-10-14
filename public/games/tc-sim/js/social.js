@@ -191,6 +191,12 @@ export function canUseSocialAction(state, personId, actionId) {
   const travel=actionId==="meet"?socialTravel(state,personId):{cost:0,slots:0};
   const action=baseAction?{...baseAction,cost:baseAction.cost+travel.cost}:null;
   if (!person || !relationship || !action) return { ok: false, reason: "Sosyal işlem geçersiz." };
+  if (personId === "anne" && actionId === "meet") {
+    const gap = state.flags?.calendar?.anneGapWeeks;
+    const seen = state.flags?.calendar?.anneSeenWeek || 0;
+    if (gap > 1 && state.time.absoluteWeek - seen < gap)
+      return { ok: false, reason: "Yol uzadı. Annenin ziyareti seyrekleşti." };
+  }
   if (state.events.active) return { ok: false, reason: "Önce açık olayı sonuçlandır." };
   if (state.weekly.used + 1 + travel.slots > getWeeklyActivityLimit(state))
     return {
@@ -254,6 +260,8 @@ export function applySocialAction(state, personId, actionId) {
   if (["meet", "confide", "help", "repair"].includes(actionId)) adjustTendency(state, "sociability", 1);
   if (actionId === "help" || actionId === "fulfill_promise") adjustTendency(state, "discipline", 1);
   if (actionId === "meet") adjustTendency(state, "frugality", -1);
+  if (personId === "anne" && actionId === "meet" && state.flags?.calendar?.anneGapWeeks > 1)
+    state.flags.calendar.anneSeenWeek = state.time.absoluteWeek;
   state.weekly.used += check.slots;
   state.weekly.selectedIds.push(check.decisionId);
   state.social.engaged = true;

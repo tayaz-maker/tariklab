@@ -1614,9 +1614,10 @@ function render() {
       notice = changes.length
         ? changes.map((change) => describeWeeklyChange(change)).join(" · ")
         : "Sakin bir hafta geçti.";
-      const banner = state.flags?.pocket?.banner;
-      if (banner?.text && banner.week === state.time.absoluteWeek)
-        notice = `${banner.text} ${notice}`.trim();
+      const pocketBanner = state.flags?.pocket?.banner;
+      const calendarBanner = state.flags?.calendar?.banner;
+      const banners = [calendarBanner, pocketBanner].filter((banner) => banner?.text && banner.week === state.time.absoluteWeek);
+      if (banners.length) notice = `${banners.map((banner) => banner.text).join(" ")} ${notice}`.trim();
       lastWeekFeedback = notice;
       weekStartSnapshot = null;
     } else {

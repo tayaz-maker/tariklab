@@ -76,7 +76,7 @@ const SHOP_SALT = 29;
 export { RENT_SALT, SHOP_SALT };
 
 export function emptySemt() {
-  return { holdings: [], shop: null, live: null, lastWeek: 0 };
+  return { holdings: [], shop: null, live: null, lastWeek: 0, rentYears: 0 };
 }
 
 export function listing(quarterId, unitId) {
@@ -84,6 +84,15 @@ export function listing(quarterId, unitId) {
   const row = UNITS[unitId]?.[quarterId];
   if (!quarter || !row) return null;
   return { quarter, unitId, ...row };
+}
+
+export const MARCH_STEP = Object.freeze({ sirt: 400, kiyi: 280, ceper: 160 });
+
+export function steppedRent(state, quarterId, unitId) {
+  const row = listing(quarterId, unitId);
+  if (!row) return 0;
+  const years = Math.max(0, Math.round(Number(state?.household?.semt?.rentYears) || 0));
+  return row.rent + MARCH_STEP[quarterId] * years;
 }
 
 const whole = (value, fallback = 0) => (Number.isFinite(value) ? Math.round(value) : fallback);
@@ -161,6 +170,7 @@ export function normalizeSemt(state) {
       ? { holdingId: liveHolding.id, quarterId: quarter.id, anneCost: quarter.anneCost, anneSlots: quarter.anneSlots }
       : null,
     lastWeek: Number.isInteger(raw.lastWeek) ? raw.lastWeek : 0,
+    rentYears: Math.max(0, whole(raw.rentYears)),
   };
   return state.household.semt;
 }
@@ -270,12 +280,12 @@ export function buyHolding(state, quarterId, unitId) {
   return { ok: true, message: `${offer.quarter.name} ${unitId} senin. İçine geçmek, kiraya vermek veya boş bırakmak ayrı karar.` };
 }
 
-export function rentToLive(state, quarterId, unitId) {
+export function rentToLive(state, quarterId, unitId, options = {}) {
   normalizeSemt(state);
   const offer = listing(quarterId, unitId);
   if (!offer) return { ok: false, reason: "Bu kiralık bu mahallede yok." };
   const id = keyOf(quarterId, unitId);
-  const blocked = weekFree(state, "semt:move");
+  const blocked = options.freeWeek ? null : weekFree(state, "semt:move");
   if (blocked) return { ok: false, reason: blocked };
   if (movedAlready(state)) return { ok: false, reason: "Bu hafta zaten taşındın." };
   const city = intercityBlock(state);
@@ -306,15 +316,16 @@ export function rentToLive(state, quarterId, unitId) {
     };
     state.household.semt.holdings.push(holding);
   }
+  const monthly = steppedRent(state, quarterId, unitId);
   holding.mode = "rented";
   holding.occupancy = "live";
-  holding.monthly = offer.rent;
+  holding.monthly = monthly;
   applyLive(state, holding, offer.quarter);
-  spendWeek(state, "semt:move");
+  if (!options.freeWeek) spendWeek(state, "semt:move");
   const anne = offer.quarter.anneSlots
     ? `Annenin ziyareti +${offer.quarter.anneCost} TL ve +${offer.quarter.anneSlots} karar.`
     : `Annenin ziyareti +${offer.quarter.anneCost} TL.`;
-  return { ok: true, message: `${offer.quarter.name} ${unitId} kiradasın. Aylık kira ${offer.rent} TL. ${anne}` };
+  return { ok: true, message: `${offer.quarter.name} ${unitId} kiradasın. Aylık kira ${monthly} TL. ${anne}` };
 }
 
 export function moveIntoHolding(state, id) {
@@ -553,10 +564,11 @@ export function renderSemtEmlak(state, { money, escapeText }) {
   const quarters = Object.values(QUARTERS).map((quarter) => {
     const units = UNIT_IDS.map((unitId) => {
       const offer = listing(quarter.id, unitId);
+      const rentNow = steppedRent(state, quarter.id, unitId);
       const owned = semt.holdings.find((item) => item.id === keyOf(quarter.id, unitId));
       const buyReason = owned ? "Bu daire zaten sende." : weekFree(state, `semt:buy:${owned?.id || keyOf(quarter.id, unitId)}`) || (state.finances.balance < offer.buy ? "Nakit yetmiyor." : "");
       const rentReason = owned?.mode === "owned" ? "Senin dairen; kiraya değil içine geç." : live?.id === keyOf(quarter.id, unitId) ? "Zaten burada yaşıyorsun." : weekFree(state, "semt:move") || (state.finances.balance < quarter.moveCost ? "Taşınma nakit istiyor." : "");
-      return `<article class="wealth-card"><strong>${escapeText(unitId)}</strong><small>Alım ${money(offer.buy)} · aylık kira ${money(offer.rent)} · bakım ${money(offer.upkeep)}</small><div class="wealth-actions">${button("buy", keyOf(quarter.id, unitId), "Satın al", "1 karar · boş teslim", Boolean(buyReason), escapeText(buyReason))}${button("rent", keyOf(quarter.id, unitId), "Kiraya taşın", `${money(quarter.moveCost)} · 1 karar`, Boolean(rentReason), escapeText(rentReason))}</div></article>`;
+      return `<article class="wealth-card"><strong>${escapeText(unitId)}</strong><small>Alım ${money(offer.buy)} · aylık kira ${money(rentNow)} · bakım ${money(offer.upkeep)}</small><div class="wealth-actions">${button("buy", keyOf(quarter.id, unitId), "Satın al", "1 karar · boş teslim", Boolean(buyReason), escapeText(buyReason))}${button("rent", keyOf(quarter.id, unitId), "Kiraya taşın", `${money(quarter.moveCost)} · 1 karar`, Boolean(rentReason), escapeText(rentReason))}</div></article>`;
     }).join("");
     const shops = quarter.shops.map((shopId) => {
       const type = SHOPS[shopId];

@@ -13,6 +13,13 @@ import { processIntimacyFollowup } from "./intimacy.js?v=10";
 import { processBusinessMonth } from "./bank-business.js?v=10";
 import { processSemtWeek } from "./quarters.js?v=10";
 import { POCKET_DECISIONS, processPocketWeek } from "./pocket-income.js?v=10";
+import {
+  MARCH_HATIR_DECISIONS,
+  closeHatirWeek,
+  normalizeCalendar,
+  openHatirWeek,
+  processMarchRent,
+} from "./march-hatir.js?v=10";
 import { getHouseholdSummary } from "./household.js?v=10";
 import {
   WEEKS_PER_MONTH,
@@ -335,6 +342,7 @@ export const DECISIONS = [
     },
   },
   ...POCKET_DECISIONS,
+  ...MARCH_HATIR_DECISIONS,
 ];
 
 const CORE_DECISION_IDS = new Set(["overtime", "rest", "exercise", "home-routine"]);
@@ -402,7 +410,7 @@ export function applyDecision(state, decisionId) {
   state.flags.lastDecisionId = decisionId;
   activateNextEvent(state);
   assertValidState(state);
-  return { ok: true, message: `${check.decision.title} uygulandı.` };
+  return { ok: true, message: applied?.message || `${check.decision.title} uygulandı.` };
 }
 
 function processMonthEnd(state) {
@@ -559,6 +567,7 @@ export function advanceWeek(state) {
   const previousYear = state.time.year;
   const previousMonth = state.time.month;
   const workedOvertime = state.flags.overtimeLastWeek === state.time.absoluteWeek;
+  const hatirClose = closeHatirWeek(state);
 
   processParenthoodWeek(state);
   // The week's choices close into the decision network before time moves on:
@@ -585,6 +594,17 @@ export function advanceWeek(state) {
   // Olay veya haftalık karar ay kapanışını beklemeden tabanın altına indirdiyse
   // aynı güvenli temerrüt dönüşümünü uygula. Ay sonunda ikinci çağrı no-op'tur.
   processCashShortfall(state);
+
+  const marchNote = processMarchRent(state);
+  if (marchNote) messages.push(marchNote);
+  const hatirNote = openHatirWeek(state);
+  if (hatirNote) messages.push(hatirNote);
+  if (hatirClose) {
+    const cal = normalizeCalendar(state);
+    const prior = cal.banner?.week === state.time.absoluteWeek ? cal.banner.text : "";
+    cal.banner = { week: state.time.absoluteWeek, text: prior ? `${hatirClose} ${prior}` : hatirClose };
+    messages.push(hatirClose);
+  }
 
   const pocketNote = processPocketWeek(state);
   if (pocketNote) messages.push(pocketNote);
