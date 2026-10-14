@@ -10,6 +10,7 @@ import {
 } from "./state.js?v=10";
 import { applyRelationshipDelta } from "./social.js?v=10";
 import { CAREER_RISK_PERFORMANCE, clampMoneyReliefAmount, endEmployment, getMoneyReliefAmount, promoteCareer, retireCareer } from "./life.js?v=10";
+import { hatirSentences } from "./march-hatir.js?v=10";
 
 const MAX_DEPTH2_CASES = 24;
 
@@ -139,7 +140,7 @@ export function getRelationshipContext(state, personId) {
   if (personId === "anne" && ["demanding", "strained"].includes(state.player.background?.family)) notes.push("Aile geçmişin, iş ve para kararlarında daha fazla beklenti yaratıyor.");
   if (state.secrets?.some((secret) => secret.status === "hidden" && secret.knownBy?.includes("player") && secret.relatedPeople?.includes(personId))) notes.push("Aranızda henüz paylaşılmamış bir mesele var.");
   if (state.health.stress >= 70) notes.push("Yoğunluk, bu ilişkide ayırabildiğin zamanı azaltıyor.");
-  return notes.slice(0, 2);
+  return [...hatirSentences(state, personId), ...notes].slice(0, 2);
 }
 
 /** Geri ödeme penceresi kaçırıldığında da ödenmeme sonucu işler. */

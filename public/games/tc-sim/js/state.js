@@ -280,7 +280,7 @@ export function createNewGame(options = {}) {
     },
     education: { level: "lise", fields: educationFields, active: null, tuitionOwedThisMonth: 0 },
     parenthood: neutralParenthood(),
-    household: { homeId: "family", livingWithFamily: true, union: neutralUnion(), history: [], semt: { holdings: [], shop: null, live: null, lastWeek: 0 } },
+    household: { homeId: "family", livingWithFamily: true, union: neutralUnion(), history: [], semt: { holdings: [], shop: null, live: null, lastWeek: 0, rentYears: 0 } },
     people,
     relationships,
     social: { currentPartnerNpcId: null, lastMaintenanceWeek: 0, engaged: false },
