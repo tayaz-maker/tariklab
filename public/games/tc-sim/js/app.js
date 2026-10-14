@@ -1,6 +1,7 @@
 import {gameplayText,inboxCases,recentNotices,snapshotDecision,decisionFeedback} from './gameplay-language.js?v=10';
 import {DISTRICTS,CITIES,currentDistrict,districtProfile,locationCosts,locationJobDelay,locationMoveQuote,getDistrict} from './locations.js?v=10';
 import {moveLocation,locationMoveAvailability,returnToFamilyArea} from './life.js?v=10';
+import { renderSemtEmlak, buyHolding, rentToLive, moveIntoHolding, sellHolding, leaveHoldingEmpty, letHolding, renovateHolding, openShop, tendShop, manageRentals, closeShop, sellShop } from "./quarters.js?v=10";
 import { weddingQuote, weddingRecord, weddingPeriod, householdChoiceCost } from "./wedding-planning.js?v=10";
 import { renderBodyVisual, bindBodyVisual } from "./body-visual.js?v=10";
 import { EXCHANGE_ASSETS, exchangeQuote, exchangePortfolio, exchangeAvailability, tradeExchange } from './exchange.js?v=10';
@@ -934,6 +935,7 @@ function renderHomes() {
     <section class="detail-summary panel"><div><span>Aktif konut</span><strong>${escapeText(getHomeById(state.household.homeId).title)}</strong></div><div><span>Aylık maliyet</span><strong>${money(housing.total)}</strong>${housing.partnerContribution ? `<small>Ortak gider +${money(housing.householdExtra)} · Partner payı −${money(housing.partnerContribution)}</small>` : ""}${housing.familyContribution ? `<small>Konut ${money(housing.base)} · Aile katkısı ${money(housing.familyContribution)}</small>` : ""}</div><div><span>Çalışma yeri</span><strong>${escapeText(state.career.retirement?.status === "retired" ? "Emekli" : activeJob?.title || "İşsiz")}</strong></div><div><span>Ulaşım yükü</span><strong>${escapeText(activeCommute.label)}</strong><small>${escapeText(activeCommute.detail)}</small></div></section>
     <p class="context-note">${escapeText(PRIVACY_CONTEXT)}</p>
     ${renderLocationPanel()}
+    ${renderSemtEmlak(state, { money, escapeText })}
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">MÜLKİYET</p><h2>Konut varlıkların</h2></div><span>${owned.length + rentals.length}</span></div><p class="context-note">${owned.length ? "Bu evin sahibi sensin; katalog kirası yerine bakım ve varsa konut borcu ödüyorsun." : "Mevcut konut aile veya kiralama düzeninde."}${rentals.length ? ` · ${rentals.length} yatırım mülkü: ${rentals.filter((property) => property.occupancy === "rental").length} kirada.` : ""}</p><button class="button button-quiet" data-view="emlak">Alım ve satışı Emlak ekranında yönet</button></section>
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">SEÇENEKLER</p><h2>Konut alternatifleri</h2></div></div><div class="option-grid">${HOMES.map(
       (home) => {
@@ -1564,6 +1566,30 @@ function render() {
       render();
     }),
   );
+  document.querySelectorAll("[data-semt-action]").forEach((button) => button.addEventListener("click", () => {
+    const action = button.dataset.semtAction;
+    const value = button.dataset.semtValue;
+    const [quarterId, unitOrShop] = value.split(":");
+    const run = () => {
+      if (action === "buy") return buyHolding(state, quarterId, unitOrShop);
+      if (action === "rent") return rentToLive(state, quarterId, unitOrShop);
+      if (action === "move") return moveIntoHolding(state, value);
+      if (action === "sell") return sellHolding(state, value);
+      if (action === "empty") return leaveHoldingEmpty(state, value);
+      if (action === "let") return letHolding(state, value);
+      if (action === "reno") return renovateHolding(state, value);
+      if (action === "open") return openShop(state, quarterId, unitOrShop);
+      if (action === "tend") return tendShop(state);
+      if (action === "manage") return manageRentals(state);
+      if (action === "close") return closeShop(state);
+      if (action === "sell-shop") return sellShop(state);
+      return { ok: false, reason: "Semt işlemi tanınmadı." };
+    };
+    const result = presentDecision(run);
+    notice = result.reason || result.message;
+    persist();
+    render();
+  }));
   document.querySelectorAll("[data-event-choice]").forEach((button) =>
     button.addEventListener("click", () => {
       const before = snapshotJobStart(state);

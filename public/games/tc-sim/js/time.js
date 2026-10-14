@@ -11,6 +11,7 @@ import {
 } from "./parenthood.js?v=10";
 import { processIntimacyFollowup } from "./intimacy.js?v=10";
 import { processBusinessMonth } from "./bank-business.js?v=10";
+import { processSemtWeek } from "./quarters.js?v=10";
 import { getHouseholdSummary } from "./household.js?v=10";
 import {
   WEEKS_PER_MONTH,
@@ -562,6 +563,8 @@ export function advanceWeek(state) {
   processDecisionNetworkWeek(state, state.weekly.selectedIds);
   applyWeeklyLifeLoad(state);
   processLongTermBody(state, { decisionIds: state.weekly.selectedIds });
+  const semtNote = processSemtWeek(state);
+  if (semtNote) messages.push(semtNote);
 
   state.time.absoluteWeek += 1;
   const intimacyResult = processIntimacyFollowup(state);

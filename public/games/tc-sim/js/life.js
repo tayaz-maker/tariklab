@@ -21,6 +21,7 @@ import {
 } from "./education.js?v=10";
 import { applySocialMaintenance } from "./social.js?v=10";
 import { scheduleMoveConsequence } from "./depth3-systems.js?v=10";
+import { clearSemtLive, liveQuarterBill } from "./quarters.js?v=10";
 
 export { HOMES, JOBS, getCommuteLoad, getHomeById, getJobById } from "./catalog.js?v=10";
 
@@ -313,7 +314,13 @@ export function getMonthlySummary(state, options = {}) {
         ownerOccupied: true,
       }
     : rawHousing;
-  const housing = housingBreakdown.total;
+  const quarterBill = liveQuarterBill(state);
+  const housing = quarterBill == null
+    ? housingBreakdown.total
+    : Math.max(0, housingBreakdown.total - (housingBreakdown.ownerOccupied ? 0 : housingBreakdown.base) + quarterBill);
+  const shownHousing = quarterBill == null
+    ? housingBreakdown
+    : { ...housingBreakdown, base: quarterBill, total: housing, semt: true };
   const wealth = getWealthMonthlySummary(state);
   const retirementIncome =
     state.career?.retirement?.status === "retired" ? Math.round(Number(state.career.retirement.monthlyIncome) || 0) : 0;
@@ -328,7 +335,7 @@ export function getMonthlySummary(state, options = {}) {
     salary,
     retirementIncome,
     housing,
-    housingBreakdown,
+    housingBreakdown: shownHousing,
     otherIncome,
     otherExpenses,
     tuition,
@@ -474,6 +481,7 @@ export function relocateHome(state, homeId) {
   const cost = Math.round(getMoveCost(homeId)*locationCosts(state).rent);
   if (state.finances.balance < cost)
     return { ok: false, reason: `Taşınmak için ₺${cost.toLocaleString("tr-TR")} gerekiyor.` };
+  clearSemtLive(state);
   transact(state, -cost, `${home.title} taşınma masrafı`, "housing");
   if(state.household.location)state.household.location.lastMoveWeek=state.time.absoluteWeek;
   state.household.homeId = homeId;
@@ -596,6 +604,7 @@ export function locationMoveAvailability(state,districtId,homeId,returnFamily=fa
 export function moveLocation(state,districtId,homeId){
  const check=locationMoveAvailability(state,districtId,homeId);if(!check.ok)return check;
  const q=check.quote,oldHome=state.household.homeId,from=currentDistrict(state);
+ clearSemtLive(state);
  if(state.flags.business&&state.flags.business.locationId===undefined)state.flags.business.locationId=from?.id||'';
  transact(state,-q.cost,`${CITIES[q.district.city]} / ${q.district.name} taşınması`,'housing');
  state.household.homeId=homeId;state.household.livingWithFamily=false;
@@ -616,6 +625,7 @@ export function returnToFamilyArea(state){
  // Apply identical city/job/property/education/cost gates before restoring the legacy family home.
  const gate=locationMoveAvailability(state,'uskudar','family',true);if(!gate.ok)return gate;
  const oldHome=state.household.homeId;
+ clearSemtLive(state);
  if(state.flags.business&&state.flags.business.locationId===undefined)state.flags.business.locationId=currentDistrict(state).id;
  transact(state,-gate.quote.cost,'Aile çevresine dönüş taşınması','housing');
  delete state.household.location;state.player.city='İstanbul';state.household.homeId='family';state.household.livingWithFamily=true;

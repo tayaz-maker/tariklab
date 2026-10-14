@@ -42,11 +42,20 @@ export function locationJobDelay(state,job){
  const d=currentDistrict(state);return d&&job&&job.id!=='freelance_any'&&!d.sectors.includes(job.family)?1:0;
 }
 export function locationEducationLoad(state){return state.education?.active?districtProfile(state).education:0;}
+function withAnneVisit(state, personId, base) {
+ if (personId !== "anne") return base;
+ const live = state.household?.semt?.live;
+ if (!live) return base;
+ return {
+  cost: base.cost + (Number.isInteger(live.anneCost) ? live.anneCost : 0),
+  slots: base.slots + (Number.isInteger(live.anneSlots) ? live.anneSlots : 0),
+ };
+}
 export function socialTravel(state,personId){
- const d=currentDistrict(state);if(!d)return {cost:0,slots:0};
+ const d=currentDistrict(state);if(!d)return withAnneVisit(state, personId, {cost:0,slots:0});
  if(state.social.currentPartnerNpcId===personId&&state.household.union?.cohabitingSince&&!state.household.union?.separatedSince)return {cost:0,slots:0};
  // Existing named circle remains in Istanbul. Moving never silently teleports NPCs.
- return d.city==='istanbul'?{cost:d.id==='avcilar'?180:80,slots:0}:{cost:1200,slots:1};
+ return withAnneVisit(state, personId, d.city==='istanbul'?{cost:d.id==='avcilar'?180:80,slots:0}:{cost:1200,slots:1});
 }
 export function businessLocation(state,business=state.flags.business){
  const id=business?.locationId ?? currentDistrict(state)?.id;
