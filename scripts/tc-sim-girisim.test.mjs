@@ -76,14 +76,16 @@ test("küçük esnaf ve girişim ortağı beklemeden ikinci tezgâhı açar; dö
   }
 });
 
-test("aynı tezgâh tekrar açılmaz; başka mahalledeki aynı tür açılır", () => {
+test("aynı mahallede ikinci aynı iş açılır; üçüncüsü yok", () => {
   const state = fresh();
   state.career.jobId = "startup";
   assert.equal(openShop(state, "sirt", "cafe").ok, true);
   resetWeek(state);
-  assert.match(openShop(state, "sirt", "cafe").reason, /zaten sende/);
-  assert.equal(openShop(state, "kiyi", "cafe").ok, true);
-  assert.equal(state.household.semt.shops.length, 2);
+  assert.equal(openShop(state, "sirt", "cafe").ok, true);
+  assert.equal(state.household.semt.shops.filter((shop) => shop.id === "cafe").length, 2);
+  assert.equal(state.household.semt.shops[1].n, 2);
+  resetWeek(state);
+  assert.match(openShop(state, "sirt", "cafe").reason, /iki tezgâh yeter/);
 });
 
 test("uğrama tezgâha özeldir; ihmal edilenin neti ayrı düşer, yük 400 TL", () => {
@@ -205,7 +207,7 @@ test("iki tezgâhta olaylar ayrıdır; uğramadan denetim dosya ve anne ilişkis
     if (note.includes("denetim")) singleRaid = true;
   }
   assert.equal(singleRaid, true);
-  assert.equal(single.openCases.some((item) => item.type === "esnaf-dosya"), false);
+  assert.equal(single.openCases.some((item) => item.type === "esnaf-dosya"), true);
 
   const state = fresh();
   state.career.jobId = "startup";
