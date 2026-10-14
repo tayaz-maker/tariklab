@@ -1,7 +1,7 @@
 import {gameplayText,inboxCases,recentNotices,snapshotDecision,decisionFeedback} from './gameplay-language.js?v=10';
 import {DISTRICTS,CITIES,currentDistrict,districtProfile,locationCosts,locationJobDelay,locationMoveQuote,getDistrict} from './locations.js?v=10';
 import {moveLocation,locationMoveAvailability,returnToFamilyArea} from './life.js?v=10';
-import { renderSemtEmlak, buyHolding, rentToLive, moveIntoHolding, sellHolding, leaveHoldingEmpty, letHolding, renovateHolding, openShop, tendShop, manageRentals, closeShop, sellShop } from "./quarters.js?v=10";
+import { renderSemtEmlak, buyHolding, rentToLive, moveIntoHolding, sellHolding, leaveHoldingEmpty, letHolding, renovateHolding, openShop, tendShop, manageRentals, closeShop, sellShop, hireKalfa, fireKalfa } from "./quarters.js?v=10";
 import { weddingQuote, weddingRecord, weddingPeriod, householdChoiceCost } from "./wedding-planning.js?v=10";
 import { renderBodyVisual, bindBodyVisual } from "./body-visual.js?v=10";
 import { EXCHANGE_ASSETS, exchangeQuote, exchangePortfolio, exchangeAvailability, tradeExchange } from './exchange.js?v=10';
@@ -1637,6 +1637,8 @@ function render() {
       if (action === "manage") return manageRentals(state);
       if (action === "close") return closeShop(state, value === "shop" ? undefined : value);
       if (action === "sell-shop") return sellShop(state, value === "shop" ? undefined : value);
+      if (action === "kalfa") return hireKalfa(state, value === "shop" ? undefined : value);
+      if (action === "kalfa-off") return fireKalfa(state, value === "shop" ? undefined : value);
       return { ok: false, reason: "Semt işlemi tanınmadı." };
     };
     const result = presentDecision(run);
