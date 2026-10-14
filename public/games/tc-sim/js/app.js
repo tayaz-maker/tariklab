@@ -192,6 +192,7 @@ function openCaseLabel(item) {
   if (item.type === "partner-month") return "Partnerin görünmeyen ayı";
   if (item.type === "risk-dosya") return "Polis / mahkeme dosyası";
   if (item.type === "icra") return "İcra yazısı";
+  if (item.type === "esnaf-dosya") return "Tezgâh denetim notu";
   if (item.type === "adult-child")
     return `${state.parenthood.children.find((c) => c.id === item.payload.childId)?.name || "Yetişkin çocuk"} ile yetişkinlik görüşmesi`;
   if (item.type === "parenting-followup")
@@ -872,7 +873,10 @@ function renderCareer() {
               : state.weekly.used >= getWeeklyActivityLimit(state)
                 ? "Bu haftanın aktivite hakkı bitti."
                 : "";
-        return `<article class="option-card ${isCurrent ? "is-current" : ""} ${eligibility.ok ? "" : "is-locked"}"><div><p class="panel-kicker">${isCurrent ? "AKTİF İŞ" : eligibility.ok ? "İŞ TEKLİFİ" : "KİLİTLİ"}</p><h3>${escapeText(job.title)}</h3></div><dl><div><dt>Maaş</dt><dd>${money(shownPay)}${isCurrent && state.flags?.pocket?.wagePct ? ` · zam %${state.flags.pocket.wagePct}` : ""}</dd></div><div><dt>Alan</dt><dd>${escapeText(JOB_FAMILY_LABELS[job.family] || job.family)}</dd></div><div><dt>İş yükü</dt><dd>${lifeLabel(job.load)}</dd></div><div><dt>Ulaşım</dt><dd>${escapeText(commute.label)}</dd></div><div><dt>Haftalık etki</dt><dd>Enerji ${job.energy + commute.energy} · Stres +${job.stress + commute.stress}</dd></div><div><dt>Güvence</dt><dd>${job.security}</dd></div><div><dt>Deneme süresi</dt><dd>${job.terms?.probationWeeks || 0} hafta · ${escapeText(job.terms?.review || "")} </dd></div><div><dt>Gereksinim</dt><dd>${escapeText(describeJobRequirements(job))}</dd></div></dl>${eligibility.ok ? "" : `<p class="context-note">${escapeText(eligibility.reason)}</p>`}<button class="button" data-job-offer="${job.id}" ${disabled ? "disabled" : ""} title="${escapeText(blockReason)}">Teklifi kabul et</button></article>`;
+        const ventureNote = job.id === "shop_owner" || job.id === "startup"
+          ? `<p class="context-note">Genç girişimci yolu: bu unvan mahallede ikinci ve üçüncü tezgâhın bekleme süresini kaldırır. En fazla üç tezgâh; her biri ayrı karar ister.</p>`
+          : "";
+        return `<article class="option-card ${isCurrent ? "is-current" : ""} ${eligibility.ok ? "" : "is-locked"}"><div><p class="panel-kicker">${isCurrent ? "AKTİF İŞ" : eligibility.ok ? "İŞ TEKLİFİ" : "KİLİTLİ"}</p><h3>${escapeText(job.title)}</h3></div><dl><div><dt>Maaş</dt><dd>${money(shownPay)}${isCurrent && state.flags?.pocket?.wagePct ? ` · zam %${state.flags.pocket.wagePct}` : ""}</dd></div><div><dt>Alan</dt><dd>${escapeText(JOB_FAMILY_LABELS[job.family] || job.family)}</dd></div><div><dt>İş yükü</dt><dd>${lifeLabel(job.load)}</dd></div><div><dt>Ulaşım</dt><dd>${escapeText(commute.label)}</dd></div><div><dt>Haftalık etki</dt><dd>Enerji ${job.energy + commute.energy} · Stres +${job.stress + commute.stress}</dd></div><div><dt>Güvence</dt><dd>${job.security}</dd></div><div><dt>Deneme süresi</dt><dd>${job.terms?.probationWeeks || 0} hafta · ${escapeText(job.terms?.review || "")} </dd></div><div><dt>Gereksinim</dt><dd>${escapeText(describeJobRequirements(job))}</dd></div></dl>${ventureNote}${eligibility.ok ? "" : `<p class="context-note">${escapeText(eligibility.reason)}</p>`}<button class="button" data-job-offer="${job.id}" ${disabled ? "disabled" : ""} title="${escapeText(blockReason)}">Teklifi kabul et</button></article>`;
       },
     ).join(
       "",
@@ -1629,10 +1633,10 @@ function render() {
       if (action === "let") return letHolding(state, value);
       if (action === "reno") return renovateHolding(state, value);
       if (action === "open") return openShop(state, quarterId, unitOrShop);
-      if (action === "tend") return tendShop(state);
+      if (action === "tend") return tendShop(state, value === "shop" ? undefined : value);
       if (action === "manage") return manageRentals(state);
-      if (action === "close") return closeShop(state);
-      if (action === "sell-shop") return sellShop(state);
+      if (action === "close") return closeShop(state, value === "shop" ? undefined : value);
+      if (action === "sell-shop") return sellShop(state, value === "shop" ? undefined : value);
       return { ok: false, reason: "Semt işlemi tanınmadı." };
     };
     const result = presentDecision(run);

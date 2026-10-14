@@ -85,7 +85,8 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Icra/haciz: icra.js. Save stays v6.
   // Maps, everyday Turkish, and kumar odds. Save stays v6. Rent logic unchanged.
   // Kaynaklar: help.js adds the sources section. Save stays v6.
-  assert.equal(hash.digest("hex"), "82eab6e6f7ee797de44dd144e2d6863bef36ac710299b92ac491289098678282");
+  // Girisim: quarters.js multiple stalls, inspection file, separate weeks. Save stays v6.
+  assert.equal(hash.digest("hex"), "329d82e25494cbc4e34be08d8ab729e44efc5343e08dafe560cbe50a35bec9a9");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);
