@@ -189,6 +189,7 @@ function renderJobResult() {
 }
 
 function openCaseLabel(item) {
+  if (item.type === "partner-month") return "Partnerin görünmeyen ayı";
   if (item.type === "risk-dosya") return "Polis / mahkeme dosyası";
   if (item.type === "adult-child")
     return `${state.parenthood.children.find((c) => c.id === item.payload.childId)?.name || "Yetişkin çocuk"} ile yetişkinlik görüşmesi`;
@@ -784,7 +785,7 @@ function renderDashboard() {
       ${depth.echoes.length ? `<p class="context-note">Son yankı: ${escapeText(depth.echoes.at(-1).text)}</p>` : ""}
     </details></section>
     <div class="dashboard-grid">
-      <section class="panel week-panel"><div class="panel-head"><div><p class="eyebrow">BU HAFTA</p><h2>Zamanını nasıl kullandın?</h2></div><span>${remaining} odak kaldı</span></div><p class="decision-context">Küçük kararlar 1 zaman; taşınma ve iş kurma 2, şehir değiştirme 3 zaman ister. Enerji ve para bedelleri ayrıca uygulanır. Bütün zamanı doldurmak zorunda değilsin.</p>${riskFileLine()}${weekPlanHtml.top}<div class="decisions">${getAvailableDecisions(
+      <section class="panel week-panel"><div class="panel-head"><div><p class="eyebrow">BU HAFTA</p><h2>Zamanını nasıl kullandın?</h2></div><span>${remaining} odak kaldı</span></div><p class="decision-context">Küçük kararlar 1 zaman; taşınma ve iş kurma 2, şehir değiştirme 3 zaman ister. Enerji ve para bedelleri ayrıca uygulanır. Bütün zamanı doldurmak zorunda değilsin.</p>${partnerFileLine()}${workplaceFileNote()}${riskFileLine()}${weekPlanHtml.top}<div class="decisions">${getAvailableDecisions(
         state,
       )
         .map((decision) => {
@@ -809,6 +810,23 @@ function renderDeskLedger() {
   return `<details class="management-deck life-ledger" open><summary>${confirmText("KASA / SON HAREKETLER", "CASH / RECENT TRANSACTIONS")}</summary><div class="ledger-scroll"><table><thead><tr><th>${confirmText("Zaman", "When")}</th><th>${confirmText("Açıklama", "Description")}</th><th>${confirmText("Tutar (TRY)", "Amount (TRY)")}</th></tr></thead><tbody>${entries.map(entry => `<tr><td>${escapeText(weeksAgoLabel(entry.week))}</td><td>${escapeText(entry.reason)}</td><td>${money(entry.amount)}</td></tr>`).join("") || `<tr><td colspan="3">${confirmText("Henüz işlem yok.", "No transactions yet.")}</td></tr>`}</tbody></table></div></details>`;
 }
 
+function workplaceFileNote() {
+  const book = state.flags?.workplace;
+  if (!book) return "";
+  const lines = [book.peerShifts, book.managerLog, book.notes]
+    .flatMap((list) => (Array.isArray(list) ? list : []))
+    .filter((row) => row?.text)
+    .sort((a, b) => (b.week || 0) - (a.week || 0))
+    .slice(0, 2);
+  return lines.map((row) => `<p class="context-note">${escapeText(row.text)}</p>`).join("");
+}
+
+function partnerFileLine() {
+  const pending = (state.openCases || []).some((item) => item.type === "partner-month" && item.status === "pending");
+  const text = state.flags?.partnerMonth?.banner?.text;
+  return pending && text ? `<p class="context-note">${escapeText(text)}</p>` : "";
+}
+
 function renderCareer() {
   const active = getJobById(state.career.jobId);
   const retired = state.career.retirement?.status === "retired";
@@ -819,6 +837,7 @@ function renderCareer() {
     <section class="detail-summary panel"><div><span>Çalışma durumu</span><strong>${retired ? "Emekli" : active ? escapeText(eventTitle(active)) : "İşsiz"}</strong><small>${retired ? `${money(state.career.retirement.monthlyIncome)} aylık gelir` : escapeText(getPlayerLifeStage(state).label)}</small></div><div><span>Aylık maaş</span><strong>${money(active ? getMonthlyEmploymentIncome(state) : 0)}</strong>${state.flags?.pocket?.wagePct ? `<small>Zam %${state.flags.pocket.wagePct} dahil</small>` : ""}</div><div><span>İş yükü</span><strong>${lifeLabel(active?.load || 0)}</strong></div><div><span>Güvence</span><strong>${active?.security || "—"}</strong></div><div><span>Emeklilik</span><strong>${retired ? "Tamamlandı" : retirement.eligible ? "Karar verilebilir" : "Henüz uygun değil"}</strong><small>${retired ? `H${state.career.retirement.retiredWeek}` : retirement.eligible ? `Tahmini gelir ${money(getRetirementIncomePreview(state))}` : escapeText(retirement.reason)}</small></div><div><span>${escapeText(home.title)} ulaşımı</span><strong>${escapeText(getCommuteExplanation(home.id, active?.id || null).label)}</strong><small>${escapeText(getCommuteExplanation(home.id, active?.id || null).detail)}</small></div></section>
     <section class="detail-summary panel"><div><span>İş alanı</span><strong>${escapeText(experience.familyLabel)}</strong></div><div><span>Alan deneyimi</span><strong>${experience.weeks} hafta</strong><small>${experience.months} ay</small></div><div><span>Kariyer bandı</span><strong>${escapeText(experience.band.label)}</strong></div><div><span>İş performansı</span><strong>${state.career.performance}</strong><small>${state.career.weeksInRole} hafta bu rolde</small></div><div><span>Eğitim seviyesi</span><strong>${escapeText(getEducationLevelLabel(state.education.level))}</strong><small>${state.education.fields.length ? escapeText(state.education.fields.map((field) => getFieldLabel(field)).join(" · ")) : "Alan yok"}</small></div></section>
     ${state.career.pendingJob ? `<p class="result">${escapeText(getJobById(state.career.pendingJob.jobId).title)} başlangıcı ${Math.max(0, state.career.pendingJob.startWeek - state.time.absoluteWeek)} hafta sonra.</p>` : ""}
+    ${workplaceFileNote()}
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">FIRSATLAR</p><h2>İş teklifleri</h2></div></div><p class="context-note">Yalnız içinde bulunduğun yılda var olan iş alanları gösterilir. Uygun olmayan teklifin altında hangi becerinin eksik olduğu yazılıdır.</p><div class="option-grid">${JOBS.filter((job) => !job.since || state.time.year >= job.since).map(
       (job) => {
         const commute = getCommuteExplanation(home.id, job.id);
@@ -1622,8 +1641,9 @@ function render() {
         : "Sakin bir hafta geçti.";
       const pocketBanner = state.flags?.pocket?.banner;
       const calendarBanner = state.flags?.calendar?.banner;
+      const partnerBanner = state.flags?.partnerMonth?.banner;
       const riskBanner = state.flags?.risk?.banner;
-      const banners = [riskBanner, calendarBanner, pocketBanner].filter((banner) => banner?.text && banner.week === state.time.absoluteWeek);
+      const banners = [partnerBanner, riskBanner, calendarBanner, pocketBanner].filter((banner) => banner?.text && banner.week === state.time.absoluteWeek);
       if (banners.length) notice = `${banners.map((banner) => banner.text).join(" ")} ${notice}`.trim();
       lastWeekFeedback = notice;
       weekStartSnapshot = null;

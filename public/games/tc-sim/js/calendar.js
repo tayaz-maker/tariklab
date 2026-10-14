@@ -7,7 +7,7 @@
  * oyuncuya önceden haber verilmemesi gereken bir sürprizi temsil eder.
  * Bu yüzden KNOWN_CASE_TYPES listesine hiçbir zaman eklenmez.
  */
-export const KNOWN_CASE_TYPES = ["social-obligation", "friend-loan", "depth2-followup", "favor-obligation", "depth3-followup", "health-followup", "household-followup", "parenting-followup", "adult-child", "risk-dosya"];
+export const KNOWN_CASE_TYPES = ["social-obligation", "friend-loan", "depth2-followup", "favor-obligation", "depth3-followup", "health-followup", "household-followup", "parenting-followup", "adult-child", "partner-month", "risk-dosya"];
 
 /**
  * Oyuncudan gizlenmesi gereken case türleri. Görünürlüğün tek kaynağı burasıdır;
