@@ -2,8 +2,8 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { HELP_SECTIONS, renderHelpModal } from "../public/games/tc-sim/js/help.js";
 
-test("yardım içeriği gerçek mekaniklere göre on bölüm taşır", () => {
-  assert.equal(HELP_SECTIONS.length, 10);
+test("yardım içeriği gerçek mekaniklere göre on bir bölüm taşır", () => {
+  assert.equal(HELP_SECTIONS.length, 11);
   const titles = HELP_SECTIONS.map((s) => s.title);
   assert.deepEqual(titles, [
     "Amaç",
@@ -16,6 +16,7 @@ test("yardım içeriği gerçek mekaniklere göre on bölüm taşır", () => {
     "Kayıt",
     "İlk oyun için ipuçları",
     "İleri hayat: emeklilik, miras ve nesil",
+    "Kaynaklar",
   ]);
   for (const section of HELP_SECTIONS) {
     assert.ok(section.body.length > 20, `${section.title} boş olmamalı`);
@@ -34,6 +35,11 @@ test("wealth/emeklilik/miras içeriği gerçek sistemleri adlandırır", () => {
   const late = HELP_SECTIONS.find((s) => s.title.includes("emeklilik"));
   assert.match(late.body, /Yaşam Raporu/);
   assert.match(late.body, /kuşak/);
+  const sources = HELP_SECTIONS.find((s) => s.title === "Kaynaklar");
+  assert.match(sources.body, /22\.104,67/);
+  assert.match(sources.body, /FP\.CPI\.TOTL/);
+  assert.match(sources.body, /oyun bütçesidir/);
+  assert.doesNotMatch(sources.body, /altı|6 zaman/);
 });
 
 test("renderHelpModal DOM'a dokunmadan, saf bir HTML dizesi üretir", () => {

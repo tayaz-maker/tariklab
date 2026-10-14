@@ -84,7 +84,8 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Askerlik window: askerlik.js, one 18–25 interruption. Save stays v6.
   // Icra/haciz: icra.js. Save stays v6.
   // Maps, everyday Turkish, and kumar odds. Save stays v6. Rent logic unchanged.
-  assert.equal(hash.digest("hex"), "dd5d32098837fa528ba9d91b8eb2d6ed8ec5e582accef7cbf609ddee4ddf6076");
+  // Kaynaklar: help.js adds the sources section. Save stays v6.
+  assert.equal(hash.digest("hex"), "82eab6e6f7ee797de44dd144e2d6863bef36ac710299b92ac491289098678282");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);

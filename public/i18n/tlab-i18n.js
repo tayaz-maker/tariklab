@@ -610,7 +610,7 @@
           '<a href="/cete-savaslari">Çete Savaşları</a> · LIVE — Build a crew, run missions and hold turf under police and rival pressure.',
           '<a href="/oyna/hanedanian">HANEDANIAN</a> · LIVE — Build settlements, secure resources and lead a dynasty across a seeded strategy map; single-player and offline-first.',
           '<a href="/oyna/racon">Racon Manager</a> · LIVE — Narrative management shaped by relationships, decisions and delayed consequences.',
-          '<a href="/oyna/tc-sim">TC SIM</a> · LIVE — Allocate seven weekly time-and-focus blocks across work, education, family, friends, relationships and recovery (eight without standing commitments, three during critical health). Some choices return as Long Shadows years later.',
+          '<a href="/oyna/tc-sim">TC SIM</a> · LIVE — Allocate seven weekly time-and-focus blocks across work, education, family, friends, relationships and recovery (eight without standing commitments, three during critical health). Some choices return as Long Shadows years later. From 1999 the wage scale follows the Ministry of Labour net minimum-wage schedule (2025 net TRY 22,104.67). Before 1999, annual CPI is World Bank FP.CPI.TOTL for Türkiye (2010=100). Other prices are a game budget. FX quarters are TCMB bulletins; gold is the World Bank monthly ounce series.',
           '<a href="/games/bukucu/index.html">Son Mahalle Bükücü</a> · LIVE — A neighborhood board game of dice, deeds, auctions and trades.',
           '<a href="/oyna/labirent">Labirent</a> · LIVE — Find the exit through a newly generated maze.',
           '<a href="/oyna/peg-solitaire">Tek Taş</a> · LIVE — Use legal jumps to leave one piece on the board.',
@@ -680,7 +680,7 @@
         '<a href="/cete-savaslari">Çete Savaşları</a> · LIVE — Zbuduj ekipę, prowadź zadania i utrzymuj dzielnicę pod presją policji oraz rywali.',
         '<a href="/oyna/hanedanian">HANEDANIAN</a> · LIVE — Buduj osady, zabezpieczaj zasoby i prowadź dynastię na generowanej mapie strategii.',
         '<a href="/oyna/racon">Racon Manager</a> · LIVE — Narracyjna gra menedżerska o relacjach, decyzjach i opóźnionych konsekwencjach.',
-        '<a href="/oyna/tc-sim">TC SIM</a> · LIVE — Rozdzielaj tygodniowe bloki czasu między pracę, edukację, rodzinę i odpoczynek.',
+        '<a href="/oyna/tc-sim">TC SIM</a> · LIVE — Co tydzień 7 decyzji (8 bez stałej pracy, szkoły i opieki; 3 przy złym zdrowiu). Część skutków wraca po latach. Od 1999 skala płacy to net minimalny według ministerstwa pracy; wcześniej roczny CPI (Bank Światowy). Reszta to budżet gry.',
         '<a href="/games/bukucu/index.html">Son Mahalle Bükücü</a> · LIVE — Planszowa gra dzielnicowa o kościach, aktach własności, aukcjach i wymianie.',
         '<a href="/oyna/labirent">Labirent</a> · LIVE — Znajdź wyjście z nowo wygenerowanego labiryntu.',
         '<a href="/oyna/peg-solitaire">Tek Taş</a> · LIVE — Wykonuj legalne skoki, aby zostawić jeden pionek na planszy.',
@@ -778,7 +778,7 @@
     },
     {
       title: "Work and money",
-      body: "Finance shows cash, net worth, bank credit and a small business. Credit creates future monthly payments; the business can make a profit or a loss. Historical amounts are CPI-based game approximations, not observed product prices or actual bank offers.",
+      body: "Finance shows cash, net worth, bank credit and a small business. Credit creates future monthly payments; the business can make a profit or a loss. From 1999, historical amounts use the Ministry of Labour net minimum-wage scale. Before that, they use annual CPI. They are not observed product prices or bank offers.",
     },
     {
       title: "Historical starts and adult life",
@@ -803,6 +803,10 @@
     {
       title: "Later life: retirement, inheritance, generation",
       body: "From the sixties, enough work history lets you weigh retirement. When a life ends a Life Report appears; an adult child can continue as the next generation, carrying wealth and family ties.",
+    },
+    {
+      title: "Sources",
+      body: "The life is fiction. Observed numbers are limited. The 1999–2025 net minimum wage follows the Ministry of Labour schedule; the 2025 net is TRY 22,104.67. Before 1999, annual CPI is World Bank FP.CPI.TOTL for Türkiye, 2010=100, downloaded 6 October 2026: https://data.worldbank.org/indicator/FP.CPI.TOTL?locations=TR . Wage tables: https://www.csgb.gov.tr/Media/t2qlvwrg/asgari-%C3%BCcret-net-br%C3%BCt-i%C5%9Fverene-maliyet.pdf and https://www.csgb.gov.tr/Media/f4xjys1e/2025-asgari-%C3%BCcret_.pdf . Other prices, rents and bank rates are a game budget on that wage scale, not listings. 2026–2030 wages and prices are not forecast. FX is a quarterly sample of TCMB bulletins, retrieved 7 October 2026. Gold is the World Bank monthly ounce series: https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx . Jewellery grams are not a jeweller's quote. Past the data horizon the game marks a fiction scenario. Dated cards keep their TCMB or World Bank link beside the event.",
     },
   ];
 
