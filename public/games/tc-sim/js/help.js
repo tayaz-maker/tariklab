@@ -10,7 +10,7 @@ export const HELP_SECTIONS = [
   },
   {
     title: "Haftalık döngü",
-    body: "Her hafta 7 zaman/odak bloğun var; düzenli iş, eğitim ve çocuk bakım yükü yoksa 8, sağlığın kritikse 3. İş, eğitim, aile, aşk ve dinlenme aynı bütçeyi paylaşır. Haftayı erken kapatabilirsin; maaş, kira, kredi ve işletme sonucu ay sonunda işler.",
+    body: "Her hafta 7 hakkın var. Düzenli iş, okul ve çocuk bakımı yoksa 8, sağlığın kötüyse 3. İş, okul, aile, aşk ve dinlenme aynı haftayı paylaşır. Haftayı erken kapatabilirsin. Maaş, kira, kredi ve dükkân ay sonunda işler.",
   },
   {
     title: "Kontroller",
@@ -30,7 +30,7 @@ export const HELP_SECTIONS = [
   },
   {
     title: "Risk ve sonuçlar",
-    body: "İhmal edilen sağlık karar hakkını düşürür ve iş performansını etkiler; ihmal edilen ilişkiler zamanla soğur. Kararların bazı sonuçları hemen değil, haftalar sonra bir olay, bir mesaj veya bir kira kâğıdı olarak geri döner. Kariyer, eğitim, ilişki, aile, borç, konut, çevre, statü, sağlık ve kriz aynı hayatta birbirine bağlanır — rastgele kart değil, biriktirdiğin hayat.",
+    body: "Sağlığı boşlarsan haftalık hakkın düşer ve işin etkilenir. İlişkiyi boşlarsan soğur. Bazı sonuçlar hemen değil, haftalar sonra bir olay, bir mesaj ya da bir kira kâğıdı olarak döner. İş, okul, ilişki, aile, borç, ev, çevre, sağlık ve kriz aynı hayatta birikir. Rastgele kart değil.",
   },
   {
     title: "Kayıt",
@@ -62,8 +62,8 @@ export function renderHelpModal() {
     {title: "Market street: effects and ownership", body: "Read the cost, decision time and body effects before buying. Shelves split the list. Owned goods, vehicles and housing are on Property, not here. Owned items retain their benefits across saves; buying another does not stack them. Bikes and scooters add monthly upkeep. Risky experiences can harm health, finances or relationships. Gambling shows stake, payout and net cash: losses are more likely in the long run."},
     {title: "Finance: investment profit and loss", body: "Cash is spendable money; net worth also includes assets minus debts. Investment cost basis includes the purchase fee. Unrealized P/L is current value minus basis, not cash income. Monthly reports show valuation changes. Selling deducts a 1% fee and allocates the sold share of basis to calculate realized P/L. Remaining holdings keep their proportional basis."},
   ] : [
-    {title: "Çarşı: etkiler ve sahiplik", body: "Almadan önce fiyatı, karar süresini ve bedene etkisini oku. Liste raflara ayrılır. Kalıcı eşya, araç ve ev Emlak ekranındadır. Kalıcı eşya kayıtta kalır; ikincisini almak faydayı biriktirmez. Salcano ve Mondial aylık bakım ister. Riskli seçimler sağlığı, parayı veya ilişkiyi etkiler. Kumar bahsi, dönüşü ve net nakdi ayrı gösterir; uzun vadede kayıp ağır basar."},
-    {title: "Finans: yatırım kâr ve zararı", body: "Nakit harcanabilir paradır; net servet varlıkları ve borçları da içerir. Yatırım maliyeti alış işlem farkını kapsar. Gerçekleşmemiş kâr/zarar, güncel değer eksi maliyettir; nakit gelir değildir. Ay sonu raporu değer değişimlerini gösterir. Satışta %1 işlem farkı ve satılan payın maliyeti düşülerek gerçekleşmiş sonuç hesaplanır. Kalan yatırımın orantılı maliyeti korunur."},
+    {title: "Çarşı", body: "Almadan önce fiyatı, süreyi ve bedene etkisini oku. Liste raflara ayrılır. Eşya, araba ve ev Emlak'tadır. Aldığın eşya kayıtta kalır; aynısından ikinciyi almak ek fayda vermez. Bisiklet ve motor aylık bakım ister. Riskli seçimler sağlığı, parayı ya da ilişkiyi etkiler. Kumar tutarı, dönüşü ve net parayı ayrı yazar. Çoğunlukla az kaybedersin. Kazanmak daha seyrek, büyük oynama nadirdir."},
+    {title: "Para: yatırım", body: "Nakit harcayabildiğin paradır. Servet buna malı ve borcu da katar. Yatırım maliyeti alış masrafını içerir. Henüz bozdurmadığın kâr veya zarar nakit değildir. Ay sonu değer değişimini yazar. Satışta %1 masraf düşer. Kalan payın maliyeti durur."},
   ];
   const sections = [...source, ...extra].map(
     (section) =>
