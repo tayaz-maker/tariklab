@@ -1,0 +1,44 @@
+name: darbe-art-proof
+
+on:
+  pull_request:
+    paths:
+      - outputs/darbe-art-v2/**
+      - .github/workflows/darbe-art-proof.yml
+
+concurrency:
+  group: darbe-art-proof-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  art-proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Regenerate and verify deterministic proof without changing product assets
+        run: |
+          node outputs/darbe-art-v2/proof-art.mjs
+          node outputs/darbe-art-v2/build-proof.mjs
+          git diff --exit-code
+          node --test outputs/darbe-art-v2/proof.test.mjs
+      - name: Chromium
+        run: |
+          browser_path="$(command -v google-chrome || command -v chromium || true)"
+          if [ -n "$browser_path" ]; then
+            echo "PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=$browser_path" >> "$GITHUB_ENV"
+          else
+            npx playwright install --with-deps chromium --only-shell
+          fi
+      - name: Real responsive art proof and offline interactions
+        run: node outputs/darbe-art-v2/proof-browser.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: darbe-art-proof
+          path: ${{ runner.temp }}/darbe-art-proof
