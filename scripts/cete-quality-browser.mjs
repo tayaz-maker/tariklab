@@ -10,7 +10,7 @@ const server=process.env.CETE_BASE?null:spawn(process.execPath,['.output/server/
 let browser; const results=[];
 const save=page=>page.evaluate(()=>JSON.parse(localStorage.getItem('tariklab::cete:1')).state.player);
 try{
- if(server)for(let i=0;i<120;i++){try{if((await fetch(base)).ok)break;}catch{} await new Promise(r=>setTimeout(r,250));}
+ if(server)for(let i=0;i<120;i++){try{if((await fetch(base)).ok)break;}catch{/* Server startup can refuse connections until ready. */} await new Promise(r=>setTimeout(r,250));}
  browser=await chromium.launch({executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH||undefined,args:['--no-sandbox']});
  for(const lang of ['tr','en'])for(const width of [320,360,390,430,1024,1440]){
   const context=await browser.newContext({viewport:{width,height:900},reducedMotion:'reduce'});
@@ -47,4 +47,4 @@ try{
   assert.deepEqual(errors,[]);results.push({lang,width,tabs:7,action:true,reload:true,help:true,errors});await context.close();
  }
  await writeFile(`${out}/results.json`,JSON.stringify(results,null,2));console.log(JSON.stringify(results));
-}finally{await browser?.close();if(server)try{process.kill(-server.pid,'SIGTERM');}catch{}}
+}finally{await browser?.close();if(server)try{process.kill(-server.pid,'SIGTERM');}catch{/* Server may already have exited. */}}

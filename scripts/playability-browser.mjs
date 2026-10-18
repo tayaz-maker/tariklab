@@ -47,10 +47,11 @@ export async function correctionFlows(page,surface,id,lang,out) {
     let frame=await loadFixture(page);
     await scrollNav(page,frame,"market","data-view");
     await act(frame, '[data-wealth-action="spend"][data-wealth-value="coffee"]');
+    await frame.locator('.compact-nav [data-view="emlak"]').click();
     await act(frame, '[data-wealth-action="spend"][data-wealth-value="laptop"]');
     let state=await saved(page);assert.equal(state.finances.balance,177820);assert.equal(state.wealth.durables[0].id,"computer");
     assert.equal(await frame.locator('[data-wealth-action="spend"][data-wealth-value="laptop"]').isDisabled(),true);
-    await page.screenshot({path:`${out}/market-${lang}-effects.png`,fullPage:false});
+    await page.screenshot({path:`${out}/emlak-${lang}-effects.png`,fullPage:false});
     for(const winning of [false,true]){
       let seed;
       for(let candidate=1;candidate<1000;candidate++){
@@ -59,11 +60,13 @@ export async function correctionFlows(page,surface,id,lang,out) {
       }
       assert.ok(seed);frame=await loadFixture(page,seed);
       await frame.locator('.compact-nav [data-view="market"]').click();
+      await frame.locator('[data-market-shelf="gece"]').click();
       await act(frame, '[data-wealth-action="spend"][data-wealth-value="betting"]');
       state=await saved(page);assert.equal(state.finances.balance>200000,winning);
       const cash=state.finances.balance;
       await page.reload({waitUntil:"networkidle"});frame=await (await page.locator("iframe").elementHandle()).contentFrame();
       await frame.locator("#continue-game").click();await frame.locator('.compact-nav [data-view="market"]').click();
+      await frame.locator('[data-market-shelf="gece"]').click();
       assert.equal(await frame.locator('[data-wealth-action="spend"][data-wealth-value="betting"]').isDisabled(),true);
       assert.equal((await saved(page)).finances.balance,cash);
     }
