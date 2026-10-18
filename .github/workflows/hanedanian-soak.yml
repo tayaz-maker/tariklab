@@ -1,0 +1,35 @@
+name: hanedanian-soak
+
+on:
+  schedule:
+    - cron: '17 3 * * *'
+  workflow_dispatch:
+
+jobs:
+  soak:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Install Chromium
+        run: |
+          browser_path="$(command -v google-chrome || command -v chromium || true)"
+          if [ -n "$browser_path" ]; then
+            echo "PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=$browser_path" >> "$GITHUB_ENV"
+          else
+            npx playwright install --with-deps chromium --only-shell
+          fi
+      - name: HANEDANIAN desktop, touch, offline and 20 minute soak
+        run: node scripts/hanedanian-browser.mjs
+        env:
+          HANEDANIAN_SOAK_MS: '1200000'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: hanedanian-soak
+          path: ${{ runner.temp }}/screenshots/hanedanian
