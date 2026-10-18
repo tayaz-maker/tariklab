@@ -215,7 +215,7 @@ jobs:
         if: needs.changes.outputs.campaign == 'true'
         run: node scripts/hanedanian-browser.mjs
         env:
-          HANEDANIAN_SOAK_MS: ${{ github.ref == 'refs/heads/main' && '0' || '1200000' }}
+          HANEDANIAN_SOAK_MS: '0'
       - name: IHTILAL first minute and five minute decision loop
         if: needs.changes.outputs.campaign == 'true' && !cancelled()
         run: node scripts/ihtilal-browser.mjs
