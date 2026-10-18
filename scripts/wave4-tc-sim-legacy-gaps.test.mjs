@@ -5,7 +5,7 @@ import { migrateState } from "../public/games/tc-sim/js/save.js";
 import { advanceWeek, applyDecision, canApplyDecision } from "../public/games/tc-sim/js/time.js";
 import { getEventDefinition, resolveEvent } from "../public/games/tc-sim/js/events.js";
 import { applySocialMaintenance, getRelationship } from "../public/games/tc-sim/js/social.js";
-import { CASH_ARREARS_CAP, CASH_FLOOR, processCashShortfall } from "../public/games/tc-sim/js/wealth.js";
+import { CASH_ARREARS_CAP, CASH_FLOOR, netWorth, processCashShortfall } from "../public/games/tc-sim/js/wealth.js";
 import { economyCausality, buildLifeDossier } from "../public/games/tc-sim/js/life-depth.js";
 
 const copy = (value) => JSON.parse(JSON.stringify(value));
@@ -39,16 +39,19 @@ test("monthly shortfall becomes bounded arrears and a later surplus repays it", 
   assert.ok(buildLifeDossier(state).economy.debt >= 38000);
 });
 
-test("persistent unemployment cannot send cash or arrears to negative infinity", () => {
+test("persistent unemployment retains overflow in finite cash after arrears reach the cap", () => {
   const state = createNewGame({ seed: 72 });
   state.career.jobId = null;
   state.finances.otherMonthlyExpenses = 50000;
   for (let month = 0; month < 240; month += 1) {
     state.finances.balance -= 75000;
+    const worthBeforeConversion = netWorth(state).total;
     processCashShortfall(state);
-    assert.ok(state.finances.balance >= CASH_FLOOR);
+    assert.equal(netWorth(state).total, worthBeforeConversion, "converting cash to arrears cannot forgive debt");
+    assert.ok(Number.isFinite(state.finances.balance));
     assert.ok(state.finances.arrears <= CASH_ARREARS_CAP);
   }
+  assert.ok(state.finances.balance < CASH_FLOOR, "the debt cap does not erase later mandatory losses");
   assert.equal(state.finances.arrears, CASH_ARREARS_CAP);
   assert.equal(state.wealth.lifestyle, "modest");
   assert.equal(state.flags.cashDefaultPressure, true);
@@ -73,12 +76,15 @@ test("foreign saves fail closed before normalization while valid V5/V6 stay idem
   }
   const debtHeavy = createNewGame({ seed: 90 });
   debtHeavy.finances.balance = -1457675;
+  const worthBeforeConversion = netWorth(debtHeavy).total;
   const recoveredLegacy = migrateState(copy(debtHeavy));
   assert.equal(recoveredLegacy.ok, true);
   assert.deepEqual(migrateState(copy(recoveredLegacy.state)).state, recoveredLegacy.state);
   processCashShortfall(recoveredLegacy.state);
-  assert.equal(recoveredLegacy.state.finances.balance, CASH_FLOOR);
+  assert.equal(recoveredLegacy.state.finances.balance, -1157675);
   assert.equal(recoveredLegacy.state.finances.arrears, CASH_ARREARS_CAP);
+  assert.equal(netWorth(recoveredLegacy.state).total, worthBeforeConversion);
+  assert.deepEqual(migrateState(copy(recoveredLegacy.state)).state, recoveredLegacy.state);
 });
 
 test("passive social decay has role floors and active care remains meaningfully stronger", () => {
@@ -108,7 +114,7 @@ test("passive social decay has role floors and active care remains meaningfully 
 test("40 production lives stay bounded and strategy-sensitive for 720 weeks", { timeout: 180000 }, () => {
   const strategies = ["career", "money", "family", "relationship", "education", "overtime", "debt", "debt-zero", "housing-min", "housing-quality", "social", "low-risk", "high-risk", "balanced", "adaptive", "random"];
   const outcomes = new Set(), relationBands = new Set();
-  let educationFires = 0, confrontations = 0, maxSave = 0, minCash = Infinity, maxDebt = 0;
+  let educationFires = 0, confrontations = 0, maxSave = 0, minCash = Infinity, maxDebt = 0, completed720 = 0;
   for (let run = 0; run < 40; run += 1) {
     const strategy = strategies[run % strategies.length];
     const state = createNewGame({ seed: 9000 + run });
@@ -120,7 +126,8 @@ test("40 production lives stay bounded and strategy-sensitive for 720 weeks", { 
       elif.social.romanceStatus = "partner"; elif.social.tension = 75; elif.social.trust = 45;
       state.relationships.elif = 45;
     }
-    for (let step = 0; step < 720 && !state.lifetime?.death; step += 1) {
+    let weeks = 0;
+    for (; weeks < 720 && !state.lifetime?.death; weeks += 1) {
       settle(state, strategy === "high-risk" ? "push-through" : strategy === "relationship" ? "repair" : null);
       const picks = {
         career: ["overtime", "rest"], money: ["overtime", "budget-check"], family: ["family", "rest"],
@@ -139,9 +146,11 @@ test("40 production lives stay bounded and strategy-sensitive for 720 weeks", { 
       if (state.events.active?.eventId === "life_depth_relationship_reckoning") confrontations += 1;
       minCash = Math.min(minCash, state.finances.balance);
       maxDebt = Math.max(maxDebt, economyCausality(state).debt);
-      assert.ok(state.finances.balance >= CASH_FLOOR);
+      assert.ok(Number.isFinite(state.finances.balance));
+      assert.ok(state.finances.arrears >= 0 && state.finances.arrears <= CASH_ARREARS_CAP);
       assert.equal(validateState(state).ok, true);
     }
+    if (weeks === 720) completed720 += 1;
     settle(state);
     const dossier = buildLifeDossier(state);
     outcomes.add(dossier.outcome);
@@ -156,6 +165,7 @@ test("40 production lives stay bounded and strategy-sensitive for 720 weeks", { 
   assert.ok(educationFires > 0, "education leverage is naturally reachable");
   assert.ok(confrontations > 0, "relationship confrontation is naturally reachable");
   assert.ok(maxSave < 300000, `save ${maxSave}`);
-  assert.ok(minCash >= CASH_FLOOR);
+  assert.ok(completed720 >= 2, `only ${completed720} production lives completed 720 weeks`);
+  assert.ok(Number.isFinite(minCash));
   assert.ok(maxDebt <= CASH_ARREARS_CAP + 1000000, `debt ${maxDebt}`);
 });
