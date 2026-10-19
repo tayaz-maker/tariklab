@@ -69,3 +69,21 @@ test("shared desk CSS selects both actual consumers and no campaign", () => {
     "public/games/tc-sim/index.html",
   ]);
 });
+
+test("owned TC PR scripts keep both relevant desk consumers without unrelated browsers", () => {
+  const files = ["public/games/tc-sim/js/social.js", "scripts/tc-sim-promise-reputation.test.mjs",
+    "scripts/management-desk.test.mjs", "scripts/tc-sim-job-start-outcome-browser.mjs", "public/i18n/pl/tc-sim.json"];
+  const result = classifyChanges(files, { pullRequest: true });
+  assert.equal(result.full, "false");
+  assert.equal(result.docs, "false");
+  assert.equal(result.routes, "tc-sim,tc-sim-devlet");
+  for (const key of ["browser", "tc", "devlet"]) assert.equal(result[key], "true");
+  for (const key of ["duel", "campaign", "balance"]) assert.equal(result[key], "false");
+  assert.equal(classifyChanges(files).full, "true", "main retains its original coverage");
+});
+
+test("shared translations, production helpers and unknown scripts still fail closed on PR", () => {
+  for (const path of ["public/i18n/deep-en.js", "public/i18n/pl-body.js", "scripts/ci-readiness.mjs",
+    "scripts/unowned.test.mjs", "scripts/tc-sim-devlet-balance.test.mjs", ".github/workflows/ci.yml"])
+    assert.equal(classifyChanges(["scripts/tc-sim-promise-reputation.test.mjs", path], { pullRequest: true }).full, "true", path);
+});

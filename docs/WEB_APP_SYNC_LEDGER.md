@@ -846,6 +846,14 @@ Stacked on the interest-bearing mortgage PR; independent of its amortization cal
 - Exact built-browser failure: tc-sim-job-start-outcome-browser.mjs536 attempted Body navigation while event-backdrop correctly blocked it. Domain reproduction proves care→health_warning/clinic→job_security_warning/recover→no active event, cash9450. This is a legitimate queued event, not infrastructure or a UI regression.
 - Browser scenario now asserts the chained career event, selects its real recover button and waits for modal closure before reload/navigation. No forced click, overlay removal, event reset, game-code change or skipped check. Domain/save regression protects the chain. Prepared V5/V6 overlap acceptance is included with this necessary head update, avoiding a separate CI restart.
 
+
+## 2026-10-19 — Package 3 promise-to-reputation preparation
+- Separate feat/tc-sim-promise-reputation branch from canonicale96a207. Existing social-obligation success/failure already updates NPC trust and memory, but omitted circle reputation. The exact-once resolution now calls the existing bounded reputation evidence recorder using the same source-case ID and NPC circle. No new screen, action, save field, finance or schema.
+- V5/V6 real fulfillment and deadline-event tests cover fee/trust/memory/evidence, isolated circle, save/reload and atomic refusal on replay.49/49 targeted social/depth3/frozen-source testsPASS; lint/typecheck/buildPASS. Full61-source guard retained, re-pinned solely for the approved social.js diff.
+- This is prepared, not DONE/released. Browser QA, canonical reconciliation after191/192 and mandatory CI remain required before merge. No new PR opened while current releases finish.
+
+- Prepared real Chromium TR/EN/PL×1280/390 kept/broken promise cases using the existing People action and due-event buttons; verify circle evidence, NPC memory, exact fee and no reload replay. Execution remains required; not claimedPASS.
+
 ## 2026-10-19 — Package 3 partial friend-loan accountability (prepared)
 - Separate branch from canonical52e57f0; depends on Package2/#190 closure before merge.
 - Existing 1000TL friend loan wrote lent_1000 memory, but delayed collection only accepted lent_2500. Both existing loan sizes now use the same collection/forgiveness and six-week social follow-up; no new debt ledger or save fields.
@@ -859,3 +867,13 @@ Stacked on the interest-bearing mortgage PR; independent of its amortization cal
 - Independent branch from released191 a5de48b. Proven V5/V6 defect: deceased Burak remained in getNetworkContacts and could supply a new reference/favor. Filter deceased contacts, guard new favor/opportunity creation, and suppress new Burak/Selin source offers. Existing memories, cases, favors, cash and debt are retained; no retroactive cancellation.
 - Before-fix V5/V6 tests failed with dead contact still active; after-fix47/47 social/depth3/frozen testsPASS, lint/typecheck/buildPASS. Living/dormant/circle behavior and save/reload retained.61-source guard re-pinned only for approved depth3-systems/events changes. No new save fields/UI/copy.
 - Chromium/mandatoryCI remains release gate. Ordered after192/193, with canonical reconciliation before merge. This does not claim criminal records or a statutory court simulator are complete.
+
+## 2026-10-19 — prepared PR-only TC ownership routing
+- Measured bottleneck follow-up, separate branch and no fourth PR: TC test-only files and the TC outcome harness were classified as generic scripts, causing unrelated campaign/duel browsers on PRs. Added narrow pull_request ownership exceptions; management-desk unit guard covers both TC and DEVLET, and the Polish dictionary is loaded by data-game route.
+- All npm tests still run, all required jobs/gates preserved, shared EN/i18n-runtime/workflows/unknown helpers still select full, and push/main retains the original full classification. No runtime/game/save/assets changed.
+- Real193 diff CLI comparison: PR routes TC+DEVLET, main remains full; routing/required-gate tests27/27PASS. No wall-time gain claimed before an actual completed after-run. Pending checks on existing192/193/194 must not be restarted solely for this preparation.
+
+## 2026-10-19 — CI preview and deployment readiness
+- Separate infrastructure-only branch: measured five CI runs and retained raw queue/job/step evidence in docs/ci/CI-RECOVERY-2026-10-19.{md,json}. No execution speedup claimed.
+- Exact built Wrangler preview avoids Nitro fixed10s proxy deadline; bounded real HTTP readiness detects exit. TC production browser waits for all7 candidate fingerprints before launch, retaining its original strict assertion.
+- Required job names/gates, test sets, historical/soak coverage, gameplay/UI/assets/SAVE_VERSION unchanged. Readiness/routing/required-gate tests32/32PASS; full CI and actual preview evidence remain release gates.

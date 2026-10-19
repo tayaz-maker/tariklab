@@ -1,4 +1,5 @@
 import {socialTravel,districtProfile} from './locations.js?v=10';
+import { recordReputationEvidence } from "./depth3-systems.js?v=10";
 import {
   addMemory,
   addNpcMemory,
@@ -134,6 +135,8 @@ export function resolveSocialObligation(state, personId, success) {
     addMemory(state, `${getPerson(state, personId).name}'e verdiğin sözü tutamadın.`, "important");
     addNpcMemory(state, personId, "Verdiği sözü tutmadı.", "promise_broken");
   }
+  recordReputationEvidence(state, getPerson(state, personId).circles?.[0] || "acquaintances",
+    success ? "reliable" : "unreliable", success ? 2 : -2, item.id);
   return true;
 }
 
