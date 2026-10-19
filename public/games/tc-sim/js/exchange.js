@@ -1,3 +1,4 @@
+import { recordMonthlyCash } from "./monthly-cash.js?v=10";
 import { MARKET_HISTORY } from '../data/market-history.js?v=10';
 import { approximateNominal, economyYear } from './period-economy.js?v=10';
 
@@ -73,6 +74,7 @@ export function tradeExchange(state,id,side,quantity) {
  const basis=side==='sell'?p.basis*quantity/p.quantity:check.cash;
  const delta=side==='buy'?-check.cash:check.cash;
  // One synchronous mutation, with authoritative re-quotation and integer cash rounding.
+ recordMonthlyCash(state,delta,"Exchange transaction","exchange");
  state.finances.balance+=delta;
  p.quantity+=side==='buy'?quantity:-quantity;
  p.basis=side==='buy'?p.basis+check.cash:Math.max(0,p.basis-basis);

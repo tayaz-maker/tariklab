@@ -1,3 +1,4 @@
+import { beginMonthlyCash, normalizeMonthlyCash, recordMonthlyCash } from "./monthly-cash.js?v=10";
 import {normalizeLocation,getDistrict} from './locations.js?v=10';
 import { syncGameDate } from "./game-date.js?v=10";
 import { normalizeLifetime, validateLifetime } from "./lifetime.js?v=10";
@@ -319,6 +320,8 @@ export function createNewGame(options = {}) {
   state.flags.networkMode = networkMode;
   applyFamilyStartFlags(state, familyType);
   syncGameDate(state);
+  normalizeMonthlyCash(state);
+  beginMonthlyCash(state, state.time.weekOfMonth !== 1);
   return state;
 }
 
@@ -335,6 +338,7 @@ export function transact(state, amount, reason, category = "other") {
   if (state.lifetime?.death) return;
   if (!Number.isFinite(amount)) throw new Error("Geçersiz para işlemi");
   const rounded = Math.round(amount);
+  recordMonthlyCash(state, rounded, reason, category);
   state.finances.balance += rounded;
   if (!Number.isFinite(state.finances.balance)) throw new Error("Kasa geçersiz duruma geldi");
   appendCapped(
@@ -652,6 +656,7 @@ export function normalizeEducationCareer(state) {
     arrears: Number.isFinite(finances.arrears) ? Math.max(0, Math.min(300000, Math.round(finances.arrears))) : 0,
     distressMonths: Number.isInteger(finances.distressMonths) ? Math.max(0, Math.min(999, finances.distressMonths)) : 0,
   };
+  normalizeMonthlyCash(state);
   const career = state.career && typeof state.career === "object" ? state.career : {};
   const rawRetirement =
     career.retirement && typeof career.retirement === "object" ? career.retirement : {};
