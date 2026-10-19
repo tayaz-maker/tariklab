@@ -21,6 +21,12 @@ export function normalizeRisk(state) {
     if (!row || typeof row.text !== "string") continue;
     log.push({ week: whole(row.week), kind: String(row.kind || "").slice(0, 24), text: row.text.slice(0, 220) });
   }
+  const plan = src.disengagement;
+  const now = state.time?.absoluteWeek || 1;
+  const validPlan = plan && Number.isInteger(plan.startWeek) && plan.startWeek >= 1 &&
+    Number.isInteger(plan.lastWeek) && plan.lastWeek >= plan.startWeek && plan.lastWeek <= now &&
+    Number.isInteger(plan.cleanWeeks) && plan.cleanWeeks >= 0 && plan.cleanWeeks < 13 &&
+    plan.cleanWeeks <= plan.lastWeek - plan.startWeek;
   state.flags.risk = {
     uses: Math.max(0, Math.min(12, whole(src.uses))),
     heat: Math.max(0, Math.min(6, whole(src.heat))),
@@ -29,6 +35,7 @@ export function normalizeRisk(state) {
     detainedUntil: Number.isInteger(src.detainedUntil) ? src.detainedUntil : null,
     banner,
     log: log.slice(-8),
+    ...(validPlan ? { disengagement: { startWeek: plan.startWeek, lastWeek: plan.lastWeek, cleanWeeks: plan.cleanWeeks } } : {}),
   };
   return state.flags.risk;
 }
@@ -39,6 +46,7 @@ function adult(state) {
 
 function remember(state, kind, text) {
   const book = normalizeRisk(state);
+  if (["gece", "madde", "kavga", "kolay", "gozalti"].includes(kind)) delete book.disengagement;
   book.log.push({ week: state.time.absoluteWeek, kind, text });
   book.log = book.log.slice(-8);
   book.banner = { week: state.time.absoluteWeek, text };
@@ -72,9 +80,36 @@ export function beginDetention(state, weeks, text) {
   return remember(state, "gozalti", text);
 }
 
+// Authored game policy, not a legal expungement or sentencing rule.
+export function startRiskDisengagement(state) {
+  const book = normalizeRisk(state);
+  if (!adult(state) || book.heat <= 0 || book.disengagement)
+    return { ok: false, reason: "Uzaklaşma planı şu anda başlatılamaz." };
+  book.disengagement = { startWeek: state.time.absoluteWeek, lastWeek: state.time.absoluteWeek, cleanWeeks: 0 };
+  return { ok: true, message: remember(state, "uzaklasma", "Uzaklaşma planı başladı. 13 kesintisiz risksiz hafta baskıyı bir kademe azaltır; geçmiş dosyalar ve borçlar kalır.") };
+}
+
+function processDisengagement(state, book) {
+  const plan = book.disengagement;
+  if (!plan || state.time.absoluteWeek <= plan.lastWeek) return "";
+  if (isDetained(state)) { delete book.disengagement; return ""; }
+  plan.cleanWeeks = state.time.absoluteWeek === plan.lastWeek + 1 ? plan.cleanWeeks + 1 : 0;
+  plan.lastWeek = state.time.absoluteWeek;
+  if (plan.cleanWeeks < 13) return "";
+  book.heat = Math.max(0, book.heat - 1);
+  delete book.disengagement;
+  const mother = state.people?.find(p => p.id === "anne" && !p.deceased);
+  if (mother) {
+    applyRelationshipDelta(state, "anne", { trust: 2 });
+    addNpcMemory(state, "anne", "Riskli çevreden uzaklaşmak için verdiği sözü haftalarca sürdürdü.", "risk-recovery");
+  }
+  return remember(state, "toparlanma", "13 risksiz hafta tamamlandı. Baskı bir kademe azaldı. Geçmiş dosyalar ve borçlar duruyor.");
+}
+
 export function processRiskWeek(state) {
   if (state.lifetime?.death) return "";
   const book = normalizeRisk(state);
+  const recoveryNote = processDisengagement(state, book);
   if (Number.isInteger(book.clinicDue) && state.time.absoluteWeek >= book.clinicDue) {
     book.clinicDue = null;
     adjustHealth(state, { health: -6, stress: 4 });
@@ -89,7 +124,7 @@ export function processRiskWeek(state) {
     book.banner = { week: state.time.absoluteWeek, text };
     return text;
   }
-  return "";
+  return recoveryNote;
 }
 
 export function riskNight(state) {
@@ -181,6 +216,12 @@ function slot(state, weekOfMonth, extra = true) {
 }
 
 export const RISK_DECISIONS = [
+  {
+    id: "risk-disengage", title: "Riskli çevreden uzaklaş",
+    detail: "1 haftalık karar · 13 kesintisiz risksiz hafta · baskı bir kademe azalır; dosya ve borç silinmez.",
+    contextual: state => adult(state) && (state.flags?.risk?.heat || 0) > 0 && !state.flags?.risk?.disengagement,
+    apply: startRiskDisengagement,
+  },
   {
     id: "risk-night",
     title: "Riskli gece",

@@ -17,6 +17,13 @@
     ["Ceza dosyası duruşması", "Criminal case hearing", "Posiedzenie w sprawie karnej"],
     ["Yeni işe başladın. Geçmiş karar kaydı duruyor; işe dönüş gecikmesi sona erdi.", "You started a new job. The past decision remains recorded; the return-to-work delay has ended.", "Rozpoczęto nową pracę. Zapis dawnego rozstrzygnięcia pozostaje; opóźnienie powrotu do pracy zakończyło się."],
 
+    ["Riskli çevreden uzaklaş", "Step away from risky circles", "Odejdź od ryzykownego środowiska"],
+    ["1 haftalık karar · 13 kesintisiz risksiz hafta · baskı bir kademe azalır; dosya ve borç silinmez.", "1 weekly action · 13 consecutive risk-free weeks · pressure drops one level; cases and debt remain.", "1 działanie tygodniowe · 13 kolejnych tygodni bez ryzyka · presja spada o jeden poziom; sprawy i długi pozostają."],
+    ["Uzaklaşma planı şu anda başlatılamaz.", "The disengagement plan cannot start right now.", "Nie można teraz rozpocząć planu odejścia."],
+    ["Uzaklaşma planı başladı. 13 kesintisiz risksiz hafta baskıyı bir kademe azaltır; geçmiş dosyalar ve borçlar kalır.", "Disengagement started. Thirteen consecutive risk-free weeks reduce pressure by one level; past cases and debts remain.", "Plan odejścia rozpoczęty. Trzynaście kolejnych tygodni bez ryzyka obniży presję o jeden poziom; dawne sprawy i długi pozostają."],
+    ["Riskli çevreden uzaklaşmak için verdiği sözü haftalarca sürdürdü.", "Kept the promise to step away from risky circles for weeks.", "Przez wiele tygodni dotrzymywał obietnicy odejścia od ryzykownego środowiska."],
+    ["13 risksiz hafta tamamlandı. Baskı bir kademe azaldı. Geçmiş dosyalar ve borçlar duruyor.", "Thirteen risk-free weeks completed. Pressure fell one level. Past cases and debts remain.", "Minęło trzynaście tygodni bez ryzyka. Presja spadła o jeden poziom. Dawne sprawy i długi pozostają."],
+
     ["Borç dosyasını incele", "Inspect debt evidence", "Sprawdź dokumentację długu"],
     ["1 hak · kaynak kayıt ve kalan borç · ücret yok", "1 action · source record and remaining debt · no fee", "1 działanie · dokument źródłowy i pozostały dług · bez opłaty"],
     ["Dosyaya avukat desteği al", "Get legal support for the case", "Uzyskaj pomoc prawnika w sprawie"],
