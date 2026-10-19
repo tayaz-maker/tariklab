@@ -8,11 +8,11 @@ test("fixture origins are exact and explicit; a generic external-host override c
   for (const origin of productionOrigins) { assert.equal(checkedOutcomeOrigin(origin, true), origin); assert.throws(() => checkedOutcomeOrigin(origin)); }
   for (const value of ["https://www.tariklab.com.evil.test", "https://tariklab.com", "https://www.tariklab.com:123", "https://u:p@www.tariklab.com", "https://www.tariklab.com/path", "https://www.tariklab.com?x=1", "file:///tmp/test"]) assert.throws(() => checkedOutcomeOrigin(value, true));
 });
-test("all seven exact built fingerprints gate the browser; a stale asset, HTTP error or redirect fails closed", async () => {
+test("all ten exact built fingerprints gate the browser; a stale asset, HTTP error or redirect fails closed", async () => {
   const origin=productionOrigins[0],root=resolve("public");
   const read=async(url,options)=>{assert.equal(options.redirect,"error");return new Response(await readFile(resolve(root,"."+new URL(url).pathname)));};
-  assert.deepEqual(fingerprintPaths, ["/games/tc-sim/js/desk.js?v=10", "/games/tc-sim/js/app.js?v=10", "/games/tc-sim/styles.css?v=10", "/games/tc-sim/js/job-start-outcome.js?v=10", "/games/tc-sim/js/job-start-outcome-ui.js?v=10", "/i18n/expansion-en.js", "/i18n/pl/tc-sim.json"]);
-  assert.equal((await verifyOutcomeBuild(origin,root,read)).length,7);
+  assert.deepEqual(fingerprintPaths, ["/games/tc-sim/js/desk.js?v=10", "/games/tc-sim/js/app.js?v=10", "/games/tc-sim/styles.css?v=10", "/games/tc-sim/js/job-start-outcome.js?v=10", "/games/tc-sim/js/job-start-outcome-ui.js?v=10", "/i18n/expansion-en.js", "/i18n/pl/tc-sim.json", "/games/tc-sim/js/life.js?v=10", "/games/tc-sim/js/wealth.js?v=10", "/games/tc-sim/js/locations.js?v=10"]);
+  assert.equal((await verifyOutcomeBuild(origin,root,read)).length,10);
   for (const path of fingerprintPaths) await assert.rejects(verifyOutcomeBuild(origin,root,async(url,options)=>new URL(url).pathname===path.split("?")[0] ? new Response("old translation") : read(url,options)), /exact candidate/);
   await assert.rejects(verifyOutcomeBuild(origin,root,async()=>new Response("stale")), /exact candidate/);
   await assert.rejects(verifyOutcomeBuild(origin,root,async()=>new Response("missing",{status:404})), /asset status/);
