@@ -833,3 +833,10 @@ Stacked on the interest-bearing mortgage PR; independent of its amortization cal
 
 - Proven bypass: canApplyDecision rejects non-rest activity during detention, but weekly job-offer, resignation and home-move actions still changed work, money and time. Reuse existing isDetained in canUseWeeklyAction only; no new state or rules. Event-driven relocateHome remains distinct from player moveHome; education enrollment retains its explicitly tested zero-slot design.
 - V5/V6 migration/reload/release regressions cover declined action atomicity, restored decisions and existing one/two-slot costs. Existing UI, fees, salary, loans and SAVE_VERSION6 unchanged. Full61-source guard kept, re-pinned only for this approved life.js change. Release follows #187 and #188 with canonical reconciliation and fresh mandatory CI.
+
+
+## 2026-10-19 — Package 3 partial friend-loan accountability (prepared)
+- Separate branch from canonical52e57f0; depends on Package2/#190 closure before merge.
+- Existing 1000TL friend loan wrote lent_1000 memory, but delayed collection only accepted lent_2500. Both existing loan sizes now use the same collection/forgiveness and six-week social follow-up; no new debt ledger or save fields.
+- Amount-neutral existing event copy with EN/PL mappings. Exact-once collection, saved NPC memory and follow-up tests cover both sizes. Existing reference promise/broken-promise delayed scenarios retained.
+- SAVE_VERSION6/UI/financial engine unchanged; 61-source frozen guard re-pinned only for the authorized events.js diff. Browser/required CI and canonical dependency remain release gates.

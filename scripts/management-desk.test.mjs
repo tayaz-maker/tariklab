@@ -57,6 +57,7 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Authorized Package 2: life.js pauses detained job load, commute and experience only.
   // Authorized #188: preserve #187 and exclude detained occupational exposure.
   // Authorized #189: retain #187/#188 and gate weekly detained career actions.
+  // Authorized Package 3: partial friend loans join the existing debt-memory follow-up.
   assert.equal(files.length, 61);
   const hash = createHash("sha256");
   for (const file of files) hash.update(file).update(readFileSync(file));
@@ -101,7 +102,7 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Approved bounded compulsory private-sector wage collection hook in icra.
   // Approved source-linked fine finality and bounded evidence/counsel/review hooks in icra.
   // Combined approved court/wage source with prospective service-day/pension hooks.
-  assert.equal(hash.digest("hex"), "f59ceb0e76079421f5b2f1069f920f6a801f16433bd216c780099212b0d3e624");
+  assert.equal(hash.digest("hex"), "3235aeec031f3918f9d8702795123d4e868afc9e80b152f7523807b8c916e91d");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);

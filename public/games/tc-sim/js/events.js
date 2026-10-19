@@ -1093,12 +1093,12 @@ export const EVENT_DEFINITIONS = [
     repeat: "cooldown",
     cooldownWeeks: 8,
     title: "Story'de yeni telefon",
-    text: "Mehmet'in story'sinde yeni telefon kılıfı var: \"Sana 2.500 duruyor, unutmadın herhâlde.\"",
+    text: "Mehmet'in story'sinde yeni telefon kılıfı var: \"Sana borcum duruyor, unutmadım.\"",
     condition: (state) => {
       const debt = getPersonalDebt(state, "mehmet");
       return (
         Boolean(debt) &&
-        hasNpcMemory(state, "mehmet", "lent_2500") &&
+        (hasNpcMemory(state, "mehmet", "lent_2500") || hasNpcMemory(state, "mehmet", "lent_1000")) &&
         weeksSince(state, debt.createdWeek) >= 4
       );
     },
