@@ -87,11 +87,9 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Kaynaklar: help.js adds the sources section. Save stays v6.
   // Girisim: quarters.js multiple stalls, inspection file, separate weeks. Save stays v6.
   // Tezgah ince: close/sell labels, single-stall inspection, army drop, twin cut, kalfa, icra skim. Save stays v6.
-  // D0: authorized debt conservation changes only icra.js, wealth.js and
-  // quarters.js. The other 53 protected files, inventory and digest rule stay intact.
-  // Authorized monthly cash receipt: one new module and posting/close hooks.
-  // Keep the complete inventory and all unrelated content pinned.
-  assert.equal(hash.digest("hex"), "05aeebfdf619e8fac21a1c2b5c4b61a05c23e097015fc515757786d08b6dfba5");
+  // D0 + housing retained; authorized monthly receipt adds one module and posting hooks.
+  // Preserve the full inventory and content guard.
+  assert.equal(hash.digest("hex"), "8ec3fb9a11e7a9d35defa0ebdb1acbd0f7c5b8e8f284500edb3d262b907f39ab");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);

@@ -1,4 +1,5 @@
 import { recordMonthlyCash } from "./monthly-cash.js?v=10";
+import { normalizeSemt } from "./quarters.js?v=10";
 import { normalizeExchange, exchangePortfolio } from './exchange.js?v=10';
 import { economyYear } from "./period-economy.js?v=10";
 const TIERS = {
@@ -870,10 +871,15 @@ export function processWealthMonthEnd(state) {
   return true;
 }
 export function netWorth(state) {
+  // Reuse the semt registry's validation/deduplication without mutating the
+  // live household. Rented homes are not assets; debts remain in wealth.debts.
+  const semt = normalizeSemt({ household: { semt: state.household?.semt }, time: state.time });
   const w = normalizeWealth(state),
     cash = Math.round(state.finances.balance),
     investments = w.investments.reduce((n, p) => n + p.value, 0) + exchangePortfolio(state).reduce((n,p)=>n+p.value,0),
-    property = w.properties.reduce((n, p) => n + p.currentValue, 0),
+    property = w.properties.reduce((n, p) => n + p.currentValue, 0) + semt.holdings
+      .filter(p => p.mode === "owned" && !w.properties.some(asset => asset.id === p.id))
+      .reduce((n, p) => n + integer(p.value), 0),
     vehicle = w.vehicle ? w.vehicle.currentValue : 0,
     durables = w.durables.reduce((n, d) => n + Math.round(d.price * DURABLES[d.id].resale), 0),
     debt = w.debts.reduce((n, d) => n + d.principal, 0) + Math.max(0, Number(state.finances?.arrears) || 0);

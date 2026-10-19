@@ -159,3 +159,16 @@ test("TR/EN/PL single card reports cash basis, debt subset and live remaining ri
   assert.match(app, /renderMonthlyCashCard\(state.finances.lastMonthClose/);
   assert.match(app, /formatPeriodMoney\(value, receipt.year/);
 });
+
+test("housing integration: a home purchase is cash outflow, not destroyed wealth or cash income", async () => {
+  const { buyHolding } = await import("../public/games/tc-sim/js/quarters.js");
+  const { netWorth } = await import("../public/games/tc-sim/js/wealth.js");
+  const s = game(); s.finances.balance = 600000;
+  assert.ok(buyHolding(s, "sirt", "1+1").ok);
+  const receipt = close(s);
+  assert.equal(receipt.inflow, 0);
+  assert.equal(receipt.outflow, 285000);
+  assert.equal(receipt.debtPayments, 0);
+  assert.equal(netWorth(s).property, 285000);
+  assert.equal(netWorth(s).total, 600000);
+});
