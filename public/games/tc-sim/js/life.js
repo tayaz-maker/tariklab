@@ -1,3 +1,4 @@
+import { isWorkRecovering } from "./body-systems.js?v=10";
 import { recordInsuranceWeek, fiscalSocialSummary } from "./social-insurance.js?v=10";
 import {currentDistrict, locationCommute, locationCosts, locationJobDelay, locationMoveQuote, CITIES} from './locations.js?v=10';
 import { parenthoodCosts } from "./parenthood.js?v=10";
@@ -35,8 +36,8 @@ export function getEffectiveCommuteLoad(state) {
 }
 
 export function getWeeklyLifeLoad(state) {
-  const job = isServing(state) || isDetained(state) ? null : getJobById(state.career.jobId);
-  const commute = isDetained(state) ? 0 : getEffectiveCommuteLoad(state);
+  const job = isServing(state) || isDetained(state) || isWorkRecovering(state) ? null : getJobById(state.career.jobId);
+  const commute = isDetained(state) || isWorkRecovering(state) ? 0 : getEffectiveCommuteLoad(state);
   const education = getEducationWeeklyLoad(state);
   const reduced = state.flags?.lateCareerReducedLoadUntil > state.time.absoluteWeek;
   return {
@@ -296,7 +297,7 @@ export const clampMoneyReliefAmount = (value) =>
 export function updateCareerProgress(state) {
   const career = state.career;
   if (!career || !getJobById(career.jobId)) return false;
-  if (isDetained(state) || isServing(state)) return false;
+  if (isDetained(state) || isServing(state) || isWorkRecovering(state)) return false;
   career.weeksInRole = Number.isInteger(career.weeksInRole) ? career.weeksInRole + 1 : 1;
   const healthyWeek = state.health.health > 40 && state.health.energy >= 35;
   const manageableStress = state.health.stress < 70;
@@ -508,7 +509,7 @@ export function relocateHome(state, homeId) {
 
 /** Biten haftanın deneyimi. Aktif iş yoksa kredi yok; bir hafta tek aileye yazar. */
 function creditWeeklyExperience(state) {
-  if (isServing(state) || isDetained(state)) return false;
+  if (isServing(state) || isDetained(state) || isWorkRecovering(state)) return false;
   const job = getJobById(state.career.jobId);
   if (!job?.family) return false;
   // Doğrulanmış her state'te bu harita vardır; tick'in çökmesindense kendini onarır.
@@ -559,7 +560,7 @@ export function applyWeeklyLifeLoad(state) {
     health: effects.load >= 6 && state.health.stress >= 75 ? -1 : 0,
   });
   state.flags.lastLifeLoadWeek = week;
-  recordInsuranceWeek(state, Boolean(getJobById(state.career.jobId)) && !isServing(state) && !isDetained(state) && state.career.retirement?.status !== "retired");
+  recordInsuranceWeek(state, Boolean(getJobById(state.career.jobId)) && !isServing(state) && !isDetained(state) && !isWorkRecovering(state) && state.career.retirement?.status !== "retired");
   creditWeeklyExperience(state);
   updateCareerProgress(state);
   advanceEducationProgress(state);

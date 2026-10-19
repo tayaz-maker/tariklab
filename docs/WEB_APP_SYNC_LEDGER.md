@@ -835,6 +835,17 @@ Stacked on the interest-bearing mortgage PR; independent of its amortization cal
 - V5/V6 migration/reload/release regressions cover declined action atomicity, restored decisions and existing one/two-slot costs. Existing UI, fees, salary, loans and SAVE_VERSION6 unchanged. Full61-source guard kept, re-pinned only for this approved life.js change. Release follows #187 and #188 with canonical reconciliation and fresh mandatory CI.
 
 
+## 2026-10-19 — unpublished bounded work recovery preparation
+
+- Critical health can use existing300-budget Body care to begin a two-decision-week recovery plan with modest+4 health, preserving old care effects otherwise. Existing health-warning clinic choice remains separate, costs250 and is reused by browser QA. Workload, commute, experience, career progress, overtime and observed-work coverage pause; job and existing monthly salary arrangement remain. No new premium, benefit or debt rule. This is an explicit game policy, not a legal sick-pay or medical prognosis claim.
+- Optional body.workRecovery version1(startWeek,untilWeek=start+2) persists acrossV5/V6; absent old state stays absent, unsupported/malformed/future records reject. A date alone never returns critical health to work; recovery ends only after minimum time and health above existing critical threshold. No schema/SAVE_VERSION bump. Existing education commitments and general illness/stress/health consequences remain.
+- Existing Body risk/detail slots show authoredTR/EN/PL recovery status, no new screen/style. New real advanceWeek/save/load tests and1280/390 browser scenarios prepared. This branch includes #187–189 dependencies and is not a fourth open PR. Browser execution and canonical reconciliation remain required before release.
+
+## 2026-10-19 — #190 browser fixture sequencing recovery
+
+- Exact built-browser failure: tc-sim-job-start-outcome-browser.mjs536 attempted Body navigation while event-backdrop correctly blocked it. Domain reproduction proves care→health_warning/clinic→job_security_warning/recover→no active event, cash9450. This is a legitimate queued event, not infrastructure or a UI regression.
+- Browser scenario now asserts the chained career event, selects its real recover button and waits for modal closure before reload/navigation. No forced click, overlay removal, event reset, game-code change or skipped check. Domain/save regression protects the chain. Prepared V5/V6 overlap acceptance is included with this necessary head update, avoiding a separate CI restart.
+
 ## 2026-10-19 — Package 3 partial friend-loan accountability (prepared)
 - Separate branch from canonical52e57f0; depends on Package2/#190 closure before merge.
 - Existing 1000TL friend loan wrote lent_1000 memory, but delayed collection only accepted lent_2500. Both existing loan sizes now use the same collection/forgiveness and six-week social follow-up; no new debt ledger or save fields.

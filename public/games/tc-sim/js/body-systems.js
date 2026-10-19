@@ -1,5 +1,31 @@
-import { appendCapped, addMemory } from "./state.js?v=10";
+import { appendCapped, addMemory, isCriticalHealth } from "./state.js?v=10";
 import { isDetained } from "./risk-layer.js?v=10";
+
+// Bounded game recovery plan, not a medical report or statutory sick-pay rule.
+export function validWorkRecovery(state) {
+  const r = state.body?.workRecovery;
+  return r == null || (r.version === 1 && Number.isInteger(r.startWeek) && r.startWeek >= 1
+    && r.startWeek <= state.time.absoluteWeek && r.untilWeek === r.startWeek + 2);
+}
+export function isWorkRecovering(state) {
+  const r = state.body?.workRecovery;
+  return Boolean(r && validWorkRecovery(state)
+    && (state.time.absoluteWeek < r.untilWeek || isCriticalHealth(state)));
+}
+export function beginWorkRecovery(state) {
+  if (!isCriticalHealth(state) || isWorkRecovering(state)) return false;
+  ensureBodyState(state);
+  const startWeek = state.time.absoluteWeek;
+  state.body.workRecovery = { version: 1, startWeek, untilWeek: startWeek + 2 };
+  return true;
+}
+export function workRecoverySummary(state, language = "tr") {
+  if (!isWorkRecovering(state)) return "";
+  const weeks = Math.max(0, state.body.workRecovery.untilWeek - state.time.absoluteWeek);
+  if (language === "en") return `Work recovery: ${weeks} weeks remaining. Return requires non-critical health. Job and salary arrangement remain; work experience pauses. This is a game recovery plan.`;
+  if (language === "pl") return `Powrót do pracy: pozostało ${weeks} tygodni. Powrót wymaga poprawy zdrowia powyżej stanu krytycznego. Praca i plan wypłaty pozostają; doświadczenie zawodowe nie rośnie. To model regeneracji w grze.`;
+  return `İşe dönüş: en az ${weeks} hafta. Dönüş için sağlığın kritik düzeyin üzerine çıkmalı. İşin ve maaş düzenin korunur; meslek deneyimi durur. Bu bir oyun toparlanma planıdır.`;
+}
 
 const MAX_CONDITIONS = 8;
 const EXPOSURES = ["overwork", "underRecovery", "inactivity"];
@@ -85,7 +111,7 @@ export function processLongTermBody(state, { decisionIds, decisionId = null } = 
   const decisions = decisionIds || (decisionId ? [decisionId] : []);
   const has = (id) => decisions.includes(id);
   const exposure = state.body.exposures;
-  const load = state.career?.jobId && !isDetained(state) ? 1 : 0;
+  const load = state.career?.jobId && !isDetained(state) && !isWorkRecovering(state) ? 1 : 0;
   recordBodyExposure(state, "overwork", has("overtime") || (load && state.health.stress >= 78) ? 2 + load : -1);
   recordBodyExposure(state, "underRecovery", has("rest") || state.health.energy >= 70 ? -2 : state.health.energy < 40 ? 1 : 0);
   recordBodyExposure(state, "inactivity", ["friend", "family", "partner", "exercise"].some(has) ? -1 : 1);

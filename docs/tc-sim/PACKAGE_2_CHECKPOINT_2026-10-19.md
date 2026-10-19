@@ -14,3 +14,10 @@ Canonical başlangıç1e9265f59834178ff19d813507da0b7334d818ef. Paket1 mevcut oy
 Üç küçük düzeltme ayrı davranışları korur: #187 çalışılmamış hafta yükü/deneyimi; #188 otomatik mesleki sağlık maruziyeti; bu PR oyuncunun haftalık iş/taşınma kararının mevcut gözaltı kuralını aşması. Eski kayıt alanı ve UI değiştirilmez. Eğitim, zorunlu olay taşınmaları ve mevcut sağlık zincirleri topluca engellenmez.
 
 Sonraki kesin iş: mevcut sağlık kapasitesi modelindeki süreli iş göremezlik boşluğunu, kayıt/maaş/iş güvenliği etkilerini açıkça ayıran küçük bir uygulama olarak kapatmak; tıbbi doğruluk veya yasal ücret hakkı uydurmamak. Paket2 bütünü henüz DONE değildir. Paket3'e geçiş, kalan hedeflerin testli kabulünden sonra yapılır. En fazla üç açık geliştirme PR'ı; her release yeni canonical main'e uzlaştırılıp güncel CI PASS ile yapılır. Fiziksel cihazlar kullanıcıya aittir.
+
+
+## İş göremezlik hazırlığı — release değildir
+
+Yerel feat/tc-sim-work-recovery dalı #187–189 birleşik ağacını temel alır; dördüncü PR açılmadı. Mevcut Body care kararı kritik sağlıkta en az iki karar haftası iş toparlanması başlatır. Mevcut sağlık ocağı olayı/ücreti korunur. Sağlık kritikse süre dolunca otomatik işe dönüş olmaz. Görev/maaş anlaşması korunur; gerçek çalışmaya bağlı yük, deneyim, kariyer ilerlemesi ve gözlenen çalışma sayacı durur. Bu ücret politikası bir oyun varsayımıdır; yasal rapor/SGK ödeneği veya klinik prognoz simüle edilmez. Eğitim taahhütleri ve sağlık kaynaklı genel stres/sonuçlar devam eder.
+
+Opsiyonel body.workRecovery kaydı version1 ve iki hafta sınırıyla doğrulanır; eksikV5/V6 kayıtlarına geçmiş eklenmez. Mevcut Body ekranındaTR/EN/PL durum;1280/390 browser vaka kodu hazırlanmıştır, çalıştırılmadanPASS sayılmaz. Yeni canonical main ile uzlaştırma, bütünleşik test/CI ve gerçek browser kapıları tamamlanmadan bu alanDONE veya Paket2 kapanmış değildir.
