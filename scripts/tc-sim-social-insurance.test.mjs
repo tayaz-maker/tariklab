@@ -97,5 +97,6 @@ test("unknown V5/V6 service stays zero; unsupported year/jobs do not invent days
  const s=game();s.time.year=1999;applyWeeklyLifeLoad(s);assert.equal(s.flags.socialInsurance.service.days,0);
  s.time.year=2027;s.time.absoluteWeek++;s.career.jobId="clerk_public";applyWeeklyLifeLoad(s);assert.equal(s.flags.socialInsurance.service.days,0);
  s.flags.socialInsurance.service={version:99};assert.equal(validateState(s).ok,false);
+ s.flags.socialInsurance.service={version:1,days:0,lastEmployer:null,employers:[null]};assert.equal(validateState(s).ok,false);
  for(const lang of ["tr","en","pl"]){const t=game();assert.match(renderFiscalSocialSummary(t,String,lang),/data-insurance-service/);}
 });

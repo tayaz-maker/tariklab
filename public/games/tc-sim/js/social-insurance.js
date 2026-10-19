@@ -6,8 +6,8 @@ function validService(s) {
   if (s === undefined) return true;
   return Boolean(s && s.version === 1 && Number.isSafeInteger(s.days) && s.days >= 0 &&
     (s.lastEmployer === null || employers.has(s.lastEmployer)) && Array.isArray(s.employers) && s.employers.length <= employers.size &&
+    s.employers.every(r=>r && typeof r === "object" && employers.has(r.id) && Number.isSafeInteger(r.days) && r.days >= 0) &&
     new Set(s.employers.map(r=>r.id)).size === s.employers.length &&
-    s.employers.every(r=>employers.has(r.id) && Number.isSafeInteger(r.days) && r.days >= 0) &&
     s.employers.reduce((n,r)=>n+r.days,0) === s.days);
 }
 function copyService(s) { return s === undefined ? emptyService() : validService(s) ? {...s, employers:s.employers.map(r=>({...r}))} : s; }

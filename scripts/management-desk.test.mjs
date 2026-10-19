@@ -96,7 +96,7 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Approved secured mortgage claim/settlement hooks in mortgage, wealth and icra; same inventory.
   // Approved optional wage collection in icra and actual salary posting in time; inventory unchanged.
   // Approved prospective modeled service/employer ledger and pension max-history hook.
-  assert.equal(hash.digest("hex"), "f7974e5d1442db2db1a88265cb958a64a6a8ccdb652850368ef6b3729450c402");
+  assert.equal(hash.digest("hex"), "bcf44e0bc91c81e6d07c7d3341d8d6133f74aa238133c3db4130d12e90f23ad2");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);
