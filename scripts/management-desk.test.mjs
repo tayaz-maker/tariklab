@@ -54,7 +54,7 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Authorized marriage wave: wedding-planning helper + existing household/social/parenting integration.
   // Authorized city wave integrates one geography helper into existing life engines.
   // Authorized language wave adds a read-only presentation helper; engines unchanged.
-  assert.equal(files.length, 56);
+  assert.equal(files.length, 57);
   const hash = createHash("sha256");
   for (const file of files) hash.update(file).update(readFileSync(file));
   // Re-pinned for the DEVLET maps PR: next-wave.js (geo dispatch + month
@@ -87,9 +87,11 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Kaynaklar: help.js adds the sources section. Save stays v6.
   // Girisim: quarters.js multiple stalls, inspection file, separate weeks. Save stays v6.
   // Tezgah ince: close/sell labels, single-stall inspection, army drop, twin cut, kalfa, icra skim. Save stays v6.
+  // Authorized bank-record foundation adds one source plus bank-business/state/wealth hooks.
+  // All other protected sources and full inventory remain pinned; no debt math changes.
   // D0 accounting is retained. Authorized housing valuation changes only wealth.js
   // relative to D0 main; all other 55 protected sources and inventory stay pinned.
-  assert.equal(hash.digest("hex"), "b916a37b4d4bd90717a9826df8dd1b6c7821c9284522d352fbea809c7ed72c12");
+  assert.equal(hash.digest("hex"), "cf2d049f12a2bddb4988667e41fe2f8e8cb168b45b3642132363e11e69cd4ea6");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);

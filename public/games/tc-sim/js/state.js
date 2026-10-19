@@ -1,3 +1,4 @@
+import { normalizeBankRecord } from "./bank-record.js?v=10";
 import {normalizeLocation,getDistrict} from './locations.js?v=10';
 import { syncGameDate } from "./game-date.js?v=10";
 import { normalizeLifetime, validateLifetime } from "./lifetime.js?v=10";
@@ -833,6 +834,7 @@ export function normalizeEducationCareer(state) {
     dueWeek: rawMilitary.applicable === true && Number.isInteger(rawMilitary.dueWeek) ? rawMilitary.dueWeek : null,
   };
   normalizeSocialState(state);
+  normalizeBankRecord(state);
   normalizeHousehold(state);
   normalizeLocation(state);
   normalizeParenthood(state);

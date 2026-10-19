@@ -1,3 +1,4 @@
+import { recordBankMonth, recordBankLoan } from "./bank-record.js?v=10";
 import { normalizeSemt } from "./quarters.js?v=10";
 import { normalizeExchange, exchangePortfolio } from './exchange.js?v=10';
 import { economyYear } from "./period-economy.js?v=10";
@@ -417,6 +418,7 @@ export function processCashShortfall(state) {
     finances.distressMonths = Math.min(999, finances.distressMonths + 1);
     // Credit only the amount actually recorded as debt; overflow remains owed in cash.
     if (converted) ledger(state, converted, "Nakit açığı temerrüt borcuna aktarıldı", "debt");
+    recordBankMonth(state, "default");
     if (finances.arrears >= CASH_ARREARS_CAP) {
       state.wealth.lifestyle = "modest";
       state.wealth.subscriptions = [];
@@ -845,10 +847,14 @@ export function processWealthMonthEnd(state) {
   for (const d of [...w.debts]) {
     const pay = Math.min(d.principal, d.monthlyPayment);
     if (pay) {
+      recordBankMonth(state, state.finances.balance >= pay ? "paid" : "missed");
       ledger(state, -pay, `${d.type === "mortgage" ? "Ev" : d.type === "vehicle" ? "Araç" : "Banka kredisi"} borcu ödemesi`, "debt");
       d.principal -= pay;
     }
-    if (!d.principal) w.debts = w.debts.filter((x) => x !== d);
+    if (!d.principal) {
+      if (d.type === "personal") recordBankLoan(state, "closed");
+      w.debts = w.debts.filter((x) => x !== d);
+    }
   }
   let valuation = 0;
   for (const p of w.investments) {

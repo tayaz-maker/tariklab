@@ -1,3 +1,4 @@
+import { recordBankLoan } from "./bank-record.js?v=10";
 import {businessLocation,currentDistrict} from './locations.js?v=10';
 import { economyYear, formatPeriodMoney, periodContext } from "./period-economy.js?v=10";
 import { addMemory, adjustHealth, getWeeklyActivityLimit, transact } from "./state.js?v=10";
@@ -57,6 +58,7 @@ export function takeCredit(state, id) {
   state.wealth.debts.push({ id: `bank-${state.time.absoluteWeek}`, type: "personal", principal: offer.total,
     monthlyPayment: Math.ceil(offer.total / offer.months), linkedAssetId: null, startWeek: state.time.absoluteWeek });
   transact(state, offer.cash, `${offer.label} kullandırımı`, "debt");
+  recordBankLoan(state, "opened");
   recordWeek(state, "bank:credit");
   addMemory(state, `${offer.label} alındı; aylık ödeme bütçeye girdi.`);
   return { ok: true, message: `${formatPeriodMoney(offer.cash, economyYear(state), state.time.date)} hesaba geçti; ${offer.months} ay boyunca ödeme yapılacak.` };
@@ -70,6 +72,7 @@ export function repayCredit(state) {
   if (usedWeek(state) || state.weekly.selectedIds.includes("bank:repay")) return { ok: false, reason: "Bu hafta bankaya zaman kalmadı." };
   transact(state, -debt.principal, "İhtiyaç kredisi erken kapama", "debt");
   state.wealth.debts = state.wealth.debts.filter((item) => item !== debt);
+  recordBankLoan(state, "closed");
   recordWeek(state, "bank:repay");
   return { ok: true, message: "Kredi borcu kapandı; sonraki aylık ödeme kalktı." };
 }
