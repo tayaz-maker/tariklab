@@ -853,3 +853,9 @@ Stacked on the interest-bearing mortgage PR; independent of its amortization cal
 - SAVE_VERSION6/UI/financial engine unchanged; 61-source frozen guard re-pinned only for the authorized events.js diff. Browser/required CI and canonical dependency remain release gates.
 
 - Added real Chromium TR/EN/PL×1280/390 partial-debt collection/reload/memory/follow-up assertions to the existing TC browser gate. Draft PR needed to trigger that workflow; no PASS claim before execution.
+
+
+## 2026-10-19 — Package 3 network source liveness
+- Independent branch from released191 a5de48b. Proven V5/V6 defect: deceased Burak remained in getNetworkContacts and could supply a new reference/favor. Filter deceased contacts, guard new favor/opportunity creation, and suppress new Burak/Selin source offers. Existing memories, cases, favors, cash and debt are retained; no retroactive cancellation.
+- Before-fix V5/V6 tests failed with dead contact still active; after-fix47/47 social/depth3/frozen testsPASS, lint/typecheck/buildPASS. Living/dormant/circle behavior and save/reload retained.61-source guard re-pinned only for approved depth3-systems/events changes. No new save fields/UI/copy.
+- Chromium/mandatoryCI remains release gate. Ordered after192/193, with canonical reconciliation before merge. This does not claim criminal records or a statutory court simulator are complete.
