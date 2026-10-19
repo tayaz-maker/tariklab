@@ -3,6 +3,9 @@
   const I = root.tlabI18n;
   if (!I || !I.PHRASE || !I.PHRASE_PL) return;
   const rows = [
+    ["Bildirim süresi doldu. Maaş haczi başladı; gerçekleşmiş net ücretin en çok dörtte biri borca gider. Desteklenen özel sektör işleri için oyun modeli; emekli aylığına uygulanmaz. Süreler oyun varsayımıdır.", "Notice expired. Compulsory wage collection started; at most one quarter of actual net wages pays debt. Game model for supported private-sector jobs; pensions excluded. Timings are game assumptions.", "Termin zawiadomienia minął. Rozpoczęto przymusowe potrącenia; najwyżej jedna czwarta faktycznej pensji netto spłaca dług. Model gry dla obsługiwanych etatów prywatnych; emerytury wyłączone. Terminy są założeniami gry."],
+    ["İcra: cebrî maaş haczi", "Enforcement: compulsory wage collection", "Egzekucja: przymusowe potrącenia z pensji"],
+
     ["Maaştan tahsilata bağla", "Arrange wage collection", "Ustal potrącenia z pensji"],
     ["gerçekleşmiş net maaşın yüzde 20’si · oyun varsayımı · borç silinmez", "20% of actual net salary · game assumption · debt remains", "20% faktycznej pensji netto · założenie gry · dług pozostaje"],
     ["Maaştan tahsilat için açık bildirim ve ücretli iş gerekiyor.", "Wage collection requires an open notice and a paid job.", "Potrącenia z pensji wymagają otwartego zawiadomienia i pracy zarobkowej."],

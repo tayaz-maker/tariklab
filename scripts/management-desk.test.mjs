@@ -95,7 +95,8 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Approved prospective social-insurance source + state normalization/weekly-life hooks.
   // Approved secured mortgage claim/settlement hooks in mortgage, wealth and icra; same inventory.
   // Approved optional wage collection in icra and actual salary posting in time; inventory unchanged.
-  assert.equal(hash.digest("hex"), "722175b7d6d4d28f0deaf54daec150a666ba768b8b9b02b542508f9ba10bce32");
+  // Approved bounded compulsory private-sector wage collection hook in icra.
+  assert.equal(hash.digest("hex"), "7a0180b56008e3fd6180ed1cdda0b514137aff1ea4585a6975dc0146f5431b52");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);
