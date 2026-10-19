@@ -395,6 +395,17 @@ try {
     assert.ok(bounds.s<=bounds.w);
     await page.screenshot({path:`${out}/court-review-${language}-${width}.png`});
     await page.reload({waitUntil:"networkidle"});await page.locator("#continue-game").click();
+    // The objection legitimately activates this fixture's next event. Reload
+    // preserves that modal; finish it through its real choice, not the backdrop.
+    assert.equal(reviewed.events.active.eventId,"family_late_night");
+    assert.equal(await page.locator('.event-card[role="dialog"]').isVisible(),true);
+    await page.locator('[data-event-choice="truth"]').click();
+    assert.equal(await page.locator('.event-backdrop').count(),0);
+    const afterEvent=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
+    assert.equal(afterEvent.events.history.at(-1).occurrenceId,reviewed.events.active.occurrenceId);
+    assert.equal(afterEvent.events.history.at(-1).choiceId,"truth");
+    assert.equal(afterEvent.finances.balance,reviewed.finances.balance);
+    assert.equal(afterEvent.finances.arrears,4000);
     await page.locator('.side-nav [data-view="dashboard"]').click();
     assert.equal(await page.locator('[data-decision="icra-object"]').count(),0);
     await page.locator('[data-decision="icra-pay"]').click();

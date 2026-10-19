@@ -760,3 +760,9 @@ Stacked on the interest-bearing mortgage PR; independent of its amortization cal
 - Suspend both asset seizure and actual stall withholding during review; afterward retain existing notice/installment/haciz/D0 accounting. Existing family debt behavior unchanged; no new family liquidation.
 - Optional format-1 review trace inside existing case payload; SAVE_VERSION 6 and V5/V6 notices preserved. TR/EN/PL and existing 1280/390 browser matrix extended.
 - Depends on #179 after #178. This is only the objection/review increment, not full foreclosure, criminal trial, lawyer or wage-garnishment completion. Next: secured-property loss with one conserved liability; then tax/SGK/pension connections. Salary negotiation, family financial liquidation, economic crises and new disasters remain excluded.
+
+
+### 2026-10-19 — TC SIM court browser modal regression
+- GitHub #180 TC job-start / built log (job 118073666645) failed at outcome-browser line 398: the saved family_late_night dialog legitimately intercepted dashboard navigation after an objection activated the next eligible event.
+- Test now asserts the saved occurrence, reloads with the visible dialog, chooses truth through the real event button, verifies history/cash/debt and then navigates/settles. No forced click, removed overlay, cleared event, timeout increase or game logic change.
+- Real UI regression reproduces objection → pending event → reload → choice → payment. Existing TR/EN/PL ×1280/390 assertions retained. SAVE_VERSION 6 unchanged.
