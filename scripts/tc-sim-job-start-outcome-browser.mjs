@@ -596,6 +596,23 @@ try {
       assert.equal(persistedPromise.finances.balance,resolvedPromise.finances.balance);
       assert.deepEqual(errors,[]);rows.push({view:kept?"promise-kept-reputation":"promise-broken-reputation",language,width,status:"PASS"});
     }
+    const risk=createNewGame({seed:17});risk.events.active=null;risk.events.queue=[];
+    risk.flags.risk={...risk.flags.risk,heat:2};if(risk.world?.scenario)risk.world.scenario.pendingEvent=null;
+    await page.evaluate(({state,key})=>localStorage.setItem(key,JSON.stringify(state)),{state:risk,key});
+    await page.reload({waitUntil:"networkidle"});await page.locator("#continue-game").click();
+    const disengage=page.locator('[data-decision="risk-disengage"]');
+    assert.ok((await disengage.innerText()).includes(["Riskli çevreden uzaklaş","Step away from risky circles","Odejdź od ryzykownego środowiska"][["tr","en","pl"].indexOf(language)]));
+    await disengage.click();
+    const riskSaved=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
+    assert.equal(riskSaved.weekly.used,1);assert.equal(riskSaved.flags.risk.disengagement.cleanWeeks,0);
+    assert.equal(riskSaved.finances.balance,risk.finances.balance);
+    await page.reload({waitUntil:"networkidle"});await page.locator("#continue-game").click();
+    const riskReloaded=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
+    assert.deepEqual(riskReloaded.flags.risk.disengagement,riskSaved.flags.risk.disengagement);
+    assert.equal(await page.locator('[data-decision="risk-disengage"]').count(),0);
+    const riskBounds=await page.evaluate(()=>({w:document.documentElement.clientWidth,s:document.documentElement.scrollWidth}));
+    assert.ok(riskBounds.s<=riskBounds.w);assert.deepEqual(errors,[]);
+    await page.screenshot({path:`${out}/risk-disengagement-${language}-${width}.png`});rows.push({view:"risk-disengagement",language,width,status:"PASS"});
     await context.close();
   }
   if (layoutBaseline) {

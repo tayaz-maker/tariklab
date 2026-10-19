@@ -104,7 +104,8 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Approved source-linked fine finality and bounded evidence/counsel/review hooks in icra.
   // Combined approved court/wage source with prospective service-day/pension hooks.
   // Approved Package 3: existing social promises also reach circle reputation.
-  assert.equal(hash.digest("hex"), "2f03d883387d08ae18ea1221157553b20c8345d49bc76620bcbd6dd86f062af4");
+  // Approved Package 3: bounded risk disengagement reuses the existing weekly decision and risk record.
+  assert.equal(hash.digest("hex"), "913cc5b6da703e7a4f327e3bb61f9da3dc00d89545eb303ccabaf7763c800905");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);
