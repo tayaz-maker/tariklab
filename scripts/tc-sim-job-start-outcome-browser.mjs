@@ -1,3 +1,4 @@
+import { recordBankMonth } from "../public/games/tc-sim/js/bank-record.js";
 import { createNewGame } from "../public/games/tc-sim/js/state.js";
 import { buyProperty } from "../public/games/tc-sim/js/wealth.js";
 import { mortgageText } from "../public/games/tc-sim/js/mortgage.js";
@@ -365,6 +366,17 @@ try {
     await page.reload({waitUntil:"networkidle"});await page.locator("#continue-game").click();
     const loaded = await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
     assert.equal(loaded.finances.balance,saved.finances.balance);assert.deepEqual(loaded.wealth.debts,saved.wealth.debts);
+    // Isolated historical-credit fixture: rating affects actual bank buttons,
+    // without charging cash or changing the already-running mortgage.
+    recordBankMonth(loaded,"default");
+    await page.evaluate(({state,key})=>localStorage.setItem(key,JSON.stringify(state)),{state:loaded,key});
+    await page.reload({waitUntil:"networkidle"});await page.locator("#continue-game").click();
+    const bankNav = page.locator('.side-nav [data-view="banks"]');
+    if(!(await bankNav.isVisible())) await page.locator(".side-nav .nav-more").click();
+    await bankNav.click();
+    const restricted = page.locator('[data-credit="medium"]');
+    assert.equal(await restricted.isDisabled(),true);assert.match(await restricted.getAttribute("title"),/40/);
+    assert.equal(await page.evaluate(key=>JSON.parse(localStorage.getItem(key)).finances.balance,key),saved.finances.balance);
     assert.deepEqual(errors,[]);rows.push({view:"mortgage",language,width,status:"PASS"});await context.close();
   }
   if (layoutBaseline) {

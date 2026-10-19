@@ -90,7 +90,8 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Combined bank-record/month-cash foundation preserves D0 debt and housing.
   // Approved layout-only Bankalar: navigation/help/new presentation source; engines unchanged.
   // Approved mortgage contract + wealth/month-close/credit-budget/debt-pressure hooks.
-  assert.equal(hash.digest("hex"), "38f40d49599f529acf63e4cadea7e49230e81d3d81bb1e4ffa7cf4669047a0e8");
+  // Approved read-only bank-record underwriting gates in bank-business and wealth.
+  assert.equal(hash.digest("hex"), "9004eea8f82ba741bd86ddcb5d21c4889f227b80f9598cb27548d8b1f4593b52");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);
