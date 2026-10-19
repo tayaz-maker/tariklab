@@ -293,3 +293,17 @@ test("Money/Banks own distinct controls; navigation is read-only and bank credit
   assert.match(ui.root.innerHTML, /BORÇLAR/);
   assert.doesNotMatch(ui.root.innerHTML, /data-credit=|data-repay-credit=|data-wealth-action="invest-/);
 });
+
+test("mortgage controls reuse real bank handlers and persist one extra payment in SAVE_VERSION 6", async()=>{
+ const {buyProperty}=await import("../public/games/tc-sim/js/wealth.js");
+ const s=createNewGame({seed:17});s.finances.balance=1000000;s.events.active=null;s.events.queue=[];
+ assert.ok(buyProperty(s,"owner",true).ok);s.time.absoluteWeek+=1;s.weekly={used:0,selectedIds:[]};
+ const ui=await mount(s);ui.click(ui.find("view","banks"));
+ assert.match(ui.root.innerHTML,/data-mortgage-panel/);assert.match(ui.root.innerHTML,/120 ay/);
+ const button=ui.find("wealthAction","mortgage-extra"),cash=ui.saved().finances.balance;
+ ui.click(button);assert.equal(ui.saved().wealth.debts[0].principal,331000);
+ assert.equal(ui.saved().finances.balance,cash-5000);assert.equal(ui.saved().meta.saveVersion,6);
+ button.listeners.click();assert.equal(ui.saved().finances.balance,cash-5000);
+ ui.click(ui.find("view","finance"));assert.match(ui.root.innerHTML,/BORÇLAR/);
+ assert.equal(ui.find("wealthAction","mortgage-extra"),undefined);
+});

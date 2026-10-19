@@ -1,3 +1,4 @@
+import { debtBalance } from "./mortgage.js?v=10";
 /** TC SIM Wave 4 — bounded causal life arcs built on the existing simulation. */
 // catalog.js is a leaf module, so importing the commute primitive here cannot
 // create a cycle (life.js, which wraps it, reaches state.js and back again).
@@ -105,7 +106,7 @@ function recentlyResolved(depth, prefix, week, cooldown) {
 }
 
 function debtTotal(state) {
-  const wealthDebt = Number(state.wealth?.debts?.reduce?.((sum, debt) => sum + (debt.principal || 0), 0)) || 0;
+  const wealthDebt = Number(state.wealth?.debts?.reduce?.((sum, debt) => sum + debtBalance(debt), 0)) || 0;
   const socialDebt = (state.openCases || []).filter((x) => x.status !== "resolved" && x.type === "personal-debt").reduce((sum, x) => sum + (x.payload?.amount || 0), 0);
   const arrears = Math.max(0, Number(state.finances?.arrears) || 0);
   return Math.max(0, Math.round(wealthDebt + socialDebt + arrears));
