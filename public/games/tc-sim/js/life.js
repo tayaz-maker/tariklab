@@ -361,6 +361,7 @@ export function getMonthlySummary(state, options = {}) {
 }
 
 function canUseWeeklyAction(state, actionId, slots = 1) {
+  if (isDetained(state)) return { ok: false, reason: "İçeridesin. Bu hafta yalnız dinlenme var. İş durdu." };
   if (state.lifetime?.death) return { ok: false, reason: "Bu yaşam tamamlandı." };
   if (state.events.active) return { ok: false, reason: "Önce açık olayı sonuçlandır." };
   if (state.weekly.used + slots > getWeeklyActivityLimit(state))

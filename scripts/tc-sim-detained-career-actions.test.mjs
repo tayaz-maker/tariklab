@@ -1,0 +1,20 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {createNewGame,SAVE_VERSION,validateState} from '../public/games/tc-sim/js/state.js';
+import {acceptJobOffer,quitJob,moveHome} from '../public/games/tc-sim/js/life.js';
+import {canApplyDecision} from '../public/games/tc-sim/js/time.js';
+import {migrateState,saveGame,loadGame} from '../public/games/tc-sim/js/save.js';
+const actions=[['offer',s=>acceptJobOffer(s,'waiter')],['quit',quitJob],['move',s=>moveHome(s,'shared')]];
+for(const version of [5,6])for(const [name,act] of actions)test(`V${version}: detention blocks ${name} without spending cash/time; release restores it`,()=>{
+ let s=createNewGame({seed:17});s.meta.saveVersion=version;s.finances.balance=100000;s.events.active=null;
+ const migrated=migrateState(s);assert.equal(migrated.ok,true);s=migrated.state;
+ s.flags.risk={detainedUntil:s.time.absoluteWeek+2};
+ assert.equal(canApplyDecision(s,'rest').ok,true);
+ let before=structuredClone(s);assert.equal(act(s).ok,false);assert.deepEqual(s,before);
+ const data=new Map(),storage={getItem:k=>data.get(k)??null,setItem:(k,v)=>data.set(k,v)};
+ assert.equal(saveGame(storage,s).ok,true);const loaded=loadGame(storage);assert.equal(loaded.ok,true);s=loaded.state;
+ s.time.absoluteWeek++;before=structuredClone(s);assert.equal(act(s).ok,false);assert.deepEqual(s,before);
+ s.time.absoluteWeek++;assert.equal(act(s).ok,true);
+ assert.equal(s.weekly.used,name==='move'?2:1);
+ assert.equal(validateState(s).ok,true);assert.equal(SAVE_VERSION,6);
+});
