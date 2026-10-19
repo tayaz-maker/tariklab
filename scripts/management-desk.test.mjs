@@ -97,7 +97,8 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Approved optional wage collection in icra and actual salary posting in time; inventory unchanged.
   // Approved bounded compulsory private-sector wage collection hook in icra.
   // Approved source-linked fine finality and bounded evidence/counsel/review hooks in icra.
-  assert.equal(hash.digest("hex"), "f6bc4ad4c7d9459e1287981ab02347605172cb28fae0fc83b824e7bdaa9a46eb");
+  // Combined approved court/wage source with prospective service-day/pension hooks.
+  assert.equal(hash.digest("hex"), "ed70bf557fdba14a33405986708195897762eb3822cd94e5cb0f35b0fdfe59a7");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);
