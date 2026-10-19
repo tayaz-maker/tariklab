@@ -48,6 +48,24 @@ export const VEHICLES = {
   standard: { label: "Fiat Egea 1.4 Easy", price: 360000, monthly: 5200, resale: 0.7 },
   premium: { label: "Volkswagen Passat 1.6", price: 720000, monthly: 9200, resale: 0.66 },
 };
+// Game-budget allocation, not pump prices or statutory insurance tariffs.
+// Four observed commute weeks + the fixed reserve retain the old monthly cap.
+export function vehicleOperatingCosts(state) {
+  const budget = VEHICLES[state.wealth?.vehicle?.tier]?.monthly || 0;
+  const weeklyFuel = Math.round(budget * 0.6 / 4);
+  const fixed = budget - weeklyFuel * 4;
+  const insurance = Math.round(fixed / 2);
+  return { budget, weeklyFuel, fixed, insurance, upkeep: fixed - insurance };
+}
+export function vehicleExpenseLabel(kind) {
+  const lang = globalThis.window?.tlabI18n?.getLang?.() || globalThis.window?.tlabI18n?.contentLang?.() || "tr";
+  const copy = {
+    fuel: { tr: "İşe gidiş yakıtı", en: "Work commute fuel", pl: "Paliwo na dojazd do pracy" },
+    fixed: { tr: "Araç bakım payı", en: "Vehicle upkeep allowance", pl: "Koszty utrzymania pojazdu" },
+    insurance: { tr: "Araç sigorta payı", en: "Vehicle insurance allowance", pl: "Składka ubezpieczenia pojazdu" },
+  };
+  return copy[kind]?.[lang] || copy[kind]?.en || "";
+}
 export const INVESTMENTS = {
   deposit: { label: "Mevduat", monthlyRates: [0.008, 0.009, 0.007, 0.01] },
   gold: { label: "Altın", monthlyRates: [0.018, -0.012, 0.01, 0.004, -0.006, 0.015] },
@@ -848,7 +866,7 @@ export function getWealthMonthlySummary(state) {
       .reduce((n, p) => n + p.monthlyRent, 0),
     maintenance = w.properties.reduce((n, p) => n + p.maintenance, 0) + w.durables.reduce((n,d)=>n+(d.id==="bike"?30:d.id==="scooter"?250:0),0),
     subscriptions = w.subscriptions.reduce((n, s) => n + SUBSCRIPTIONS[s.id].monthly, 0),
-    vehicle = w.vehicle ? VEHICLES[w.vehicle.tier].monthly : 0,
+    vehicle = vehicleOperatingCosts(state).budget,
     debt = w.debts.reduce((n, d) => n + mortgageDue(d), 0);
   const income = Math.round(rental);
   const expenses = Math.round(TIERS[w.lifestyle].monthly + maintenance + subscriptions + vehicle + debt);
@@ -858,6 +876,9 @@ export function getWealthMonthlySummary(state) {
     lifestyle: TIERS[w.lifestyle].monthly,
     subscriptions,
     vehicle,
+    vehicleFixed: vehicleOperatingCosts(state).fixed,
+    vehicleInsurance: vehicleOperatingCosts(state).insurance,
+    vehicleUpkeep: vehicleOperatingCosts(state).upkeep,
     maintenance,
     debt,
     rental,
@@ -873,10 +894,11 @@ export function processWealthMonthEnd(state) {
     .filter((item) => item.lastBilledMonth !== month)
     .reduce((sum, item) => sum + SUBSCRIPTIONS[item.id].monthly, 0);
   if (s.rental) ledger(state, s.rental, "Kira geliri", "property");
+  if (s.vehicleInsurance) ledger(state, -s.vehicleInsurance, vehicleExpenseLabel("insurance"), "vehicle-insurance");
   for (const [amount, label] of [
     [s.lifestyle, "Hayat düzeni"],
     [subscriptionDue, "Abonelikler"],
-    [s.vehicle, "Araç giderleri"],
+    [s.vehicleUpkeep, vehicleExpenseLabel("fixed")],
     [s.maintenance, tr("Varlık bakımı", "Asset upkeep")],
   ])
     if (amount) ledger(state, -amount, label, "lifestyle");

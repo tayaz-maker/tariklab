@@ -15,3 +15,9 @@ Canonical base: d980a14. This is preparation, not canonical Package 4 acceptance
 | Physical-device QA | UNKNOWN | User-owned |
 
 Final canonical acceptance must run after the prepared runtime changes merge, with production www/Workers and actual Chromium PASS. Do not substitute branch-local tests for canonical acceptance. New art, cards, Atlas and site asset optimization are not part of these changes.
+
+## Combined preparation checkpoint after #199 release
+
+Canonical #199 main14e50edd00eff73d479bc936844a92e0845d6129 has the exact previously tested fuel source treea6b3f7957efc9f9f1118301abc8cf1e8327cba7d. #200 was retargeted/reconciled to it without changing source treefb3232e21c2e715c146685a4741e37165b7dd285; fresh143/143 +17/17 PASS. New head309b6b58bdd62a9c8597b81f6bad5ed06b4a7cfb still requires current CI.
+
+An isolated integration combines #200 and #201, preserving both browser matrices and every ledger section; frozen hash was recomputed over the full unchanged62-source inventory. **273/273 targeted and17/17 actual long-game PASS**, including V5/V6, work/custody/stall, observed fuel, insurance accounting, monthly cash, district visibility and25 game years. Browser syntax PASS. This checkpoint is not merged, not an actual Chromium result for the combined tree, and not Package4 canonical closure. No new development PR was opened for integration.

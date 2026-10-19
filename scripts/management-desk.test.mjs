@@ -105,9 +105,11 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Combined approved court/wage source with prospective service-day/pension hooks.
   // Approved Package 3: bounded repeat-sentence custody reuses work/service gates and defers unstarted jobs.
   // Approved Package 3: source-linked verdicts, liveness, promises and bounded disengagement together.
-  // Approved regression: quarters.js uses the existing detention/final-sentence stall gate.
-  // Approved Package 4: bounded voluntary-illicit visibility reuses existing district footfall and risk threshold.
-  assert.equal(hash.digest("hex"), "84cbb8f763460f0e26bed7d748c6c40b4de9ee0ecf618039912ed37c0c618016");
+  // Approved Package 4: observed work fuel replaces the existing variable car budget; no public fare twice.
+  // Combined with #198: final-custody stall predicate remains protected.
+  // Combined insurance allocation remains inside the same vehicle budget.
+  // Combined Package 4 district visibility; retain observed fuel, insurance and custody sources.
+  assert.equal(hash.digest("hex"), "85505f723e1a5ce1ca912232228001ae2a09c4a3d53a848db5d9ac5c1d9fbb87");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);

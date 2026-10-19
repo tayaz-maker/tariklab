@@ -36,7 +36,7 @@ export function locationCommute(state,homeId=state.household?.homeId,jobId=state
  return Math.min(3,Math.floor(minutes/25));
 }
 export function locationCosts(state){
- const p=districtProfile(state);return {rent:p.rent,living:p.living,transport:currentDistrict(state)&&state.career.jobId&&state.career.jobId!=='freelance_any'?250+locationCommute(state)*180:0};
+ const p=districtProfile(state);return {rent:p.rent,living:p.living,transport:!state.wealth?.vehicle&&currentDistrict(state)&&state.career.jobId&&state.career.jobId!=='freelance_any'?250+locationCommute(state)*180:0};
 }
 export function locationJobDelay(state,job){
  const d=currentDistrict(state);return d&&job&&job.id!=='freelance_any'&&!d.sectors.includes(job.family)?1:0;
