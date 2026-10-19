@@ -1,0 +1,32 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { createNewGame, validateState, SAVE_VERSION } from '../public/games/tc-sim/js/state.js';
+import { processLongTermBody } from '../public/games/tc-sim/js/body-systems.js';
+import { migrateState, saveGame, loadGame } from '../public/games/tc-sim/js/save.js';
+
+for (const version of [5,6]) test(`V${version}: detention stress does not fabricate occupational overwork`, () => {
+  let s = createNewGame({seed:17});
+  s.meta.saveVersion=version;
+  const migrated=migrateState(s);assert.equal(migrated.ok,true);s=migrated.state;
+  s.health.stress=85;s.health.energy=80;
+  s.body.exposures.overwork=44;
+  s.flags.risk={detainedUntil:s.time.absoluteWeek+2};
+  const beforeCash=s.finances.balance;
+  processLongTermBody(s,{decisionIds:['rest']});
+  assert.equal(s.body.exposures.overwork,43);
+  assert.equal(s.openCases.some(c=>c.chainId==='CHN-H01'),false);
+  assert.equal(s.health.stress,85,'detention stress is not erased');
+  const data=new Map();const storage={getItem:k=>data.get(k)??null,setItem:(k,v)=>data.set(k,v)};
+  assert.equal(saveGame(storage,s).ok,true);
+  const loaded=loadGame(storage);assert.equal(loaded.ok,true);s=loaded.state;
+  s.time.absoluteWeek++;
+  processLongTermBody(s,{decisionIds:['rest']});
+  assert.equal(s.body.exposures.overwork,42);
+  assert.equal(s.openCases.some(c=>c.chainId==='CHN-H01'),false);
+  s.time.absoluteWeek++;
+  processLongTermBody(s,{decisionIds:[]});
+  assert.equal(s.body.exposures.overwork,45,'actual work at release restores occupational exposure');
+  assert.equal(s.openCases.filter(c=>c.chainId==='CHN-H01').length,1);
+  assert.equal(s.finances.balance,beforeCash);
+  assert.equal(validateState(s).ok,true);assert.equal(SAVE_VERSION,6);
+});

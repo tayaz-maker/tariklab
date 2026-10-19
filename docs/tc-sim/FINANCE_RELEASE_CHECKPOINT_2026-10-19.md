@@ -1,28 +1,35 @@
-# TC SIM finans release checkpoint — 2026-10-19
+# TC SIM — Paket 1 release ve Paket 2 geçiş checkpoint
 
-Canonical main: `813a0c638d563374810aae6abfca28e1484bf4da` (#181). Vercel production aynı SHA READY. Main www ve Workers gerçek browser PASS; ilk Workers eski dosya hash hatası yalnız dağıtım tamamlandıktan sonra tek job yeniden çalıştırılarak geçti. Genel main CI ayrıca tamamlanmalı.
+19 Ekim 2026. #186 squash merge: canonical `1e9265f59834178ff19d813507da0b7334d818ef`. Production aynı SHA READY. Güncel PR CI/built browser PASS üzerine merge edildi; canonical finans kabulü119/119 PASS, sıfır skip. Canonical ağaç önce707 testle doğrulanan finans ağacıyla aynı82ab69a5bde8a88c66e919ffdb19e8ffeaeb5921. **Paket 1 mevcut doğrulanmış oyun kapsamıyla kapandı.** Merge sonrası main CI ayrıca sürüyor; PASS diye sunulmaz.
 
-#182 head `79b4b78fcf8451d3ec0b992d9ff816d6616efc63` güncel main üzerinde; exact tree `d5a527f96f71184cb70eeef8222be34b9baa0ee7`. TC built gerçek browser PASS; diğer güncel zorunlu CI bekliyor, merge yapılmadı. Main entegrasyonu sonrasında 691/691 domain/entegrasyon testi, lint/typecheck/build PASS. 15×720 hafta, ayrı 1200 karar haftası/25 oyun yılı, gerçek iş kaybı→temerrüt→bildirim→konut satışı zinciri yeniden çalıştırıldı. Sonuçlar fiziksel cihaz veya tüm insan oynanış dengesi onayı değildir.
+Durumlar mevcut oyun uygulamasını değerlendirir; tam Türkiye mevzuatı simülasyonu iddiası değildir. Önceki checkpoint'lerin sonraki iş önerileri tarihsel kayıttır: ürün kararı gereği yeni finans özelliği açılmayacak.
 
-| Alan | Main / release durumu | Kanıt ve sınır |
+| Alan | Durum | Kanıt / sınır |
 |---|---|---|
-| D0 borç korunumu, 285.000 konut değerlemesi | DONE | icra/housing-net-worth regresyonları; aynı varlık/borç bir kez |
-| Gerçekleşmiş ay kartı | DONE | monthly-cash; tahmin gelir değil, borç ödemesi gider alt kümesi |
-| Sicil, kapasite, kredi uygunluğu | DONE | bank-record/credit-policy; eski geçmiş uydurulmaz |
-| Faiz/amortisman, erken ödeme, tek yapılandırma | DONE | mortgage; gerçek anapara+tahakkuk faiz korunur |
-| Temerrüt→cebrî konut satışı→eksik/fazla bedel | PARTIAL — #182 release bekliyor | mortgage-enforcement 6 vaka + gerçek zincir; yüzde 80 oyun değeri, gerçek ihale yasası değil |
-| İcra bildirimi/taksit/masraf/tahsilat | PARTIAL | D0 ve review testli; her yasal tahsilat yolu tamamlanmadı |
-| Mahkeme/itiraz | PARTIAL | Tek borç dökümü incelemesi mevcut; delil/avukat/esasa ilişkin tam dava ve geniş kanun yolu yok |
-| Cebrî maaş haczi | MISSING | Mevcut tezgâh gelir kesintisi maaş haczi değildir |
-| Maaştan ödeme düzenlemesi | PARTIAL — bağımlı küçük değişiklik hazırlanıyor | Gerçek net maaşın yüzde 20’si açık oyun varsayımı; isteğe bağlı, mahkemece zorunlu haciz değil |
-| Vergi | PARTIAL | Mevcut soyut işletme vergisi bir kez; gerçek Türkiye vergi sistemi değil |
-| SGK çalışma kaydı | DONE (oyun sayacı) | social-insurance; gözlenen uygun hafta tek kez, geçmiş bilinmiyor |
-| Yasal SGK primi/işveren bildirimi/kanuni hak kazanma | MISSING | Çalışma haftası primi veya resmî günü kanıtlamaz |
-| Mevcut emeklilik geliri ve kredi kapasitesi bağlantısı | DONE | late-life/social-insurance; net maaşa ikinci kesinti yok |
-| Yasal emeklilik ayrıntıları | PARTIAL | Mevcut soyut hak/ödeme; tam mevzuat iddiası yok |
+| D0 borç korunumu, konut/net servet | DONE | icra ve housing-net-worth regresyonları; 285.000 TL konut, kiralık dışlama, tek borç/varlık |
+| Gerçekleşmiş ay sonu muhasebesi | DONE | monthly-cash; borç ödemesi giderin alt kümesi, tahmin gerçekleşmiş gelir değil |
+| Sicil, ödeme kapasitesi, kredi uygunluğu | DONE | bank-record ve credit-policy; eski geçmiş uydurulmaz |
+| Mortgage faiz/amortisman/erken ödeme/yapılandırma | DONE | mortgage; anapara ve tahakkuk korunur |
+| Temerrüt, icra, cebrî konut satışı | DONE (oyun modeli) | mortgage-enforcement; eksik borç ve satış fazlası testli; değerleme/ihale sadeleştirilmiş |
+| Bildirim, taksit, tahsilat, dosya kapanışı | DONE (oyun modeli) | D0/icra; borç tavanı aşımında yükümlülük kaybolmaz |
+| Delil, avukat, itiraz ve karar | DONE (sınırlı oyun akışı) | court; tek ücret, ödenmiş cezanın tekrar doğmaması, canlı kalan alacak ve sınırlı yeniden inceleme |
+| Tam yasal mahkeme ve kanun yolları | PARTIAL | Esas yargılaması, tüm delil/usul/avukatlık tarifeleri ve kanun yolları simüle edilmez |
+| Cebrî maaş haczi | DONE (sınırlı oyun modeli) | wage; desteklenen özel işçi işleri, gerçek maaş/kalan borç/nakit sınırı, itiraz koruması; tüm hukuki istisnalar yok |
+| Vergi | PARTIAL | Soyut işletme vergisi testli; tam vergi mevzuatı yok |
+| Gözlenen SGK haftaları | DONE | social-insurance; tek sayım, işsizlik/gözaltı/askerlik/ölüm dışlama |
+| Modellenmiş hizmet günleri ve işveren kayıtları | DONE (sınırlı oyun modeli) | Testli 8/7/8/7 oyun dağılımı ve sınırlı iş sözleşmesi vekilleri; eski geçmiş üretilmez |
+| Yasal prim tutarı ve resmî işveren bildirimi | MISSING | Net katalog maaşı brüt kabul edilmez; ikinci maaş kesintisi yok |
+| Emeklilik hakkı/geliri ve kredi bağlantısı | DONE (soyut oyun modeli) | Eski hak korunur; deneyim ve hizmet toplanıp çift sayılmaz |
+| Tam yasal emeklilik hak kazanımı | PARTIAL | Tüm giriş tarihi, statü ve prim istisnaları modellenmez |
 
-## Paket 2 geçiş adayı
+## Kapanış kapısı
 
-Önce #182 güncel zorunlu CI PASS ile release; canonical main üzerinde bütünleşik kabul ve production doğrulaması. Maaştan tahsilat bağımlı değişikliği kendi test/CI kapısından geçmeli. Tam mahkeme ve cebrî maaş haczi için ayrı kaynak bağlantıları ve hedefli davranışlar hâlâ açık; yasal SGK sistemi eklenmeden DONE yazılmaz. Bu checkpoint ürün kapsamını ertelemez veya finansı tamamlanmış ilan etmez; Paket 2 kodu başlatılmadı.
+#186 güncel zorunlu CI ve browser PASS, squash merge, canonical kabul ve productionREADY doğrulandı. **Paket 1 mevcut doğrulanmış oyun kapsamıyla kapatıldı.** Yukarıdaki yasal sınırlamalar yeni finans geliştirmesi açma gerekçesi değildir. Merge sonrası main CI izlenmeye devam eder.
 
-Kalan risk: düşük gelir/işsizlik uzun koşuları yüksek borç biriktirebilir; korunum PASS ekonomik denge için insan kabulü değildir. Fiziksel cihazları kullanıcı doğrular. SAVE_VERSION 6, eski V5/V6, mevcut UI, üç açık PR sınırı ve kapsam dışı kararlar korunur.
+Bütünleşik kabul: D0, mortgage→temerrüt→cebrî satış, mahkeme→maaş tahsilatı→hizmet kaydı→aylık muhasebe, net maaşta ikinci kesinti olmaması, V5/V6, SAVE_VERSION6. 15 profil/tohum ×720 karar haftası ve ayrı1200 karar haftası/25 oyun yılı; 720 hafta25 yıl diye sunulmaz. TR/EN/PL ve1280/390 gerçek browser CI kapısındadır; fiziksel cihaz testi kullanıcıya aittir. Korunum testleri bütün ekonomik stratejiler için insan denge onayı değildir.
+
+## Paket 2
+
+İlk dar düzeltme #187: gözaltında maaş/SGK/kariyer dururken iş yükü, işe ulaşım ve meslek deneyiminin sürmesi. life.js mevcut gözaltı sınırını yeniden kullanır; çıkışta akış geri gelir. V5/V6 reload/çıkış ve nakit tarafsızlığı testli; birleşik709/709, lint/typecheck/build PASS. #186 kapanmadan merge edilmez.
+
+Mevcut sağlık zincirleri, tedavi/toparlanma, fazla mesai kapasitesi, eğitim yükü ve gecikmiş sonuçlar yeniden yazılmayacak. Sonraki küçük işler bu mekaniklerin kanıtlanmış boşluklarına odaklanacak. Maaş pazarlığı, aile mali tasfiye, ekonomik kriz ve yeni afet mekanikleri kapsam dışıdır.
