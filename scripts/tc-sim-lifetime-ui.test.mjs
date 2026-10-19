@@ -307,3 +307,19 @@ test("mortgage controls reuse real bank handlers and persist one extra payment i
  ui.click(ui.find("view","finance"));assert.match(ui.root.innerHTML,/BORÇLAR/);
  assert.equal(ui.find("wealthAction","mortgage-extra"),undefined);
 });
+
+
+test("court objection uses existing decision/save handlers; stale replay cannot charge twice", async()=>{
+ const {openIcraNotice}=await import("../public/games/tc-sim/js/icra.js");
+ const s=createNewGame({seed:17});s.finances.balance=20000;s.finances.arrears=4000;
+ s.events.active=null;s.events.queue=[];if(s.world?.scenario)s.world.scenario.pendingEvent=null;
+ openIcraNotice(s,{source:"temerrut",amount:4000});
+ const ui=await mount(s);const button=ui.find("decision","icra-object");ui.click(button);
+ assert.equal(ui.saved().finances.balance,19700);assert.equal(ui.saved().finances.arrears,4000);
+ assert.match(ui.root.innerHTML,/İcra: mahkeme incelemesi/);
+ button.listeners.click();assert.equal(ui.saved().finances.balance,19700);
+ assert.equal(ui.find("decision","icra-object"),undefined);
+ ui.click(ui.find("decision","icra-pay"));
+ assert.equal(ui.saved().finances.balance,15700);assert.equal(ui.saved().finances.arrears,0);
+ assert.equal(ui.saved().openCases.find(row=>row.type==="icra").payload.review.status,"settled");
+});

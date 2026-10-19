@@ -91,7 +91,8 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Approved layout-only Bankalar: navigation/help/new presentation source; engines unchanged.
   // Approved mortgage contract + wealth/month-close/credit-budget/debt-pressure hooks.
   // Approved read-only bank-record underwriting gates in bank-business and wealth.
-  assert.equal(hash.digest("hex"), "9004eea8f82ba741bd86ddcb5d21c4889f227b80f9598cb27548d8b1f4593b52");
+  // Approved icra review lifecycle and suspended stall collection; inventory unchanged.
+  assert.equal(hash.digest("hex"), "6739b88c4b22fc2a8beb41653a2e885a2e8763ba7088f694f127b8c0285a767f");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);

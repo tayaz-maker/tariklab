@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { SAVE_VERSION, createNewGame, validateState } from "../public/games/tc-sim/js/state.js";
 import { loadGame, migrateState, saveGame } from "../public/games/tc-sim/js/save.js";
 import { applyDecision, canApplyDecision, getAvailableDecisions } from "../public/games/tc-sim/js/time.js";
-import { openIcraNotice, payIcra, planIcra, processIcraWeek, runHaciz, workaroundIcra } from "../public/games/tc-sim/js/icra.js";
+import { openIcraNotice, objectIcra, recordIcraPayment, payIcra, planIcra, processIcraWeek, runHaciz, workaroundIcra } from "../public/games/tc-sim/js/icra.js";
 
 import { processCashShortfall, CASH_ARREARS_CAP } from "../public/games/tc-sim/js/wealth.js";
 import { openShop, processSemtWeek } from "../public/games/tc-sim/js/quarters.js";
@@ -315,4 +315,93 @@ test("D0: final rounded installment needs only the remaining claim", () => {
   assert.equal(state.finances.balance, 0);
   assert.equal(state.finances.arrears, 0);
   assert.equal(item.status, "resolved");
+});
+
+
+test("court review preserves debt, suspends enforcement and confirms only the live unpaid balance", () => {
+  const state = base(); state.finances.arrears = 4000;
+  const item = openIcraNotice(state, {source:"temerrut", amount:4000});
+  const before = state.finances.balance;
+  assert.ok(applyDecision(state,"icra-object").ok);
+  assert.equal(state.weekly.used,1); assert.equal(state.finances.balance,before-300);
+  assert.equal(state.finances.arrears,4000); assert.equal(item.payload.owed,4000);
+  assert.equal(item.payload.stage,"court");
+  const snapshot = JSON.stringify(state);
+  assert.equal(objectIcra(state).ok,false); assert.equal(runHaciz(state,item).ok,false);
+  assert.equal(JSON.stringify(state),snapshot);
+  state.time.absoluteWeek += 1; processIcraWeek(state);
+  assert.equal(item.payload.stage,"court");
+  state.time.absoluteWeek += 1; processIcraWeek(state);
+  assert.equal(item.payload.stage,"notice"); assert.equal(item.payload.review.status,"confirmed");
+  assert.equal(item.payload.review.confirmedOwed,4000); assert.equal(state.finances.arrears,4000);
+  const due = item.dueWeek; processIcraWeek(state); assert.equal(item.dueWeek,due);
+  assert.equal(objectIcra(state).ok,false);
+  assert.ok(planIcra(state).ok); // Existing D0 down payment/early close remains exact.
+  state.time.weekOfMonth=1; processIcraWeek(state); assert.ok(payIcra(state).ok);
+  assert.equal(state.finances.arrears,0); assert.equal(item.payload.owed,0);
+  assert.equal(validateState(state).ok,true);
+});
+
+test("court review rejects late, unaffordable and stale requests without mutations", () => {
+  for (const late of [false,true]) {
+    const state=base(); state.finances.arrears=4000;
+    const item=openIcraNotice(state,{source:"temerrut",amount:4000});
+    if(late) state.time.absoluteWeek=item.dueWeek; else state.finances.balance=299;
+    const before=JSON.stringify(state);
+    assert.equal(objectIcra(state).ok,false); assert.equal(JSON.stringify(state),before);
+  }
+});
+
+test("court pending V6 reload and legacy V5/V6 notices retain liabilities and do not replay costs", () => {
+  for (const version of [5,6]) {
+    const state=base(); state.finances.arrears=300000;
+    const item=openIcraNotice(state,{source:"temerrut",amount:300000});
+    assert.ok(workaroundIcra(state).ok);
+    delete item.payload.sourceArrears; state.meta.saveVersion=version;
+    const migration=migrateState(state); assert.ok(migration.ok);
+    const active=migration.state; assert.ok(objectIcra(active).ok);
+    const storage=new MemoryStorage(); assert.ok(saveGame(storage,active).ok);
+    const loaded=loadGame(storage); assert.ok(loaded.ok); assert.equal(SAVE_VERSION,6);
+    assert.equal(loaded.state.finances.balance,19700); assert.equal(loaded.state.finances.arrears,300000);
+    assert.equal(objectIcra(loaded.state).ok,false);
+    loaded.state.time.absoluteWeek+=2; processIcraWeek(loaded.state);
+    const file=loaded.state.openCases.find(row=>row.type==="icra");
+    assert.equal(file.payload.review.status,"confirmed");
+    loaded.state.finances.balance=0; assert.ok(runHaciz(loaded.state,file).ok);
+    assert.equal(loaded.state.finances.arrears,300000); assert.equal(loaded.state.finances.balance,-600);
+    assert.equal(validateState(loaded.state).ok,true);
+  }
+});
+
+test("payment during review settles once; partial collection cannot resurrect the original claim", () => {
+  const state=base(); state.finances.arrears=4000;
+  const item=openIcraNotice(state,{source:"temerrut",amount:4000});
+  assert.ok(objectIcra(state).ok);
+  // Same shared collection boundary used by the stall flow, not a second ledger.
+  state.finances.balance-=600; recordIcraPayment(state,item,600);
+  state.time.absoluteWeek+=2; processIcraWeek(state);
+  assert.equal(item.payload.review.confirmedOwed,3400); assert.equal(state.finances.arrears,3400);
+  assert.ok(payIcra(state).ok); assert.equal(state.finances.balance,15700);
+  const other=base(); other.finances.arrears=4000;
+  const file=openIcraNotice(other,{source:"temerrut",amount:4000});
+  assert.ok(objectIcra(other).ok); assert.ok(payIcra(other).ok);
+  assert.equal(file.payload.review.status,"settled");
+  other.time.absoluteWeek+=2; processIcraWeek(other);
+  assert.equal(other.finances.arrears,0); assert.equal(other.finances.balance,15700);
+  assert.equal(file.payload.owed,0); assert.equal(runHaciz(other,file).ok,false);
+});
+
+test("court suspension covers actual stall withholding, which resumes after judgment", () => {
+  const state=base(); state.finances.balance=900000;
+  assert.ok(openShop(state,"ceper","bakkal").ok); state.finances.arrears=4000;
+  const item=openIcraNotice(state,{source:"temerrut",amount:4000}); assert.ok(objectIcra(state).ok);
+  state.time.absoluteWeek+=1; state.household.semt.shops[0].attentionWeek=state.time.absoluteWeek;
+  const control=structuredClone(state); control.openCases=[];
+  processSemtWeek(control); processSemtWeek(state);
+  assert.equal(state.finances.balance,control.finances.balance);
+  assert.equal(item.payload.owed,4000); assert.equal(state.finances.arrears,4000);
+  state.time.absoluteWeek+=1; processIcraWeek(state);
+  state.household.semt.shops[0].attentionWeek=state.time.absoluteWeek;
+  const owed=item.payload.owed; processSemtWeek(state);
+  assert.ok(item.payload.owed<owed); assert.equal(state.finances.arrears,item.payload.owed);
 });

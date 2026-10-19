@@ -31,6 +31,26 @@
     "Aynı evde yaşamak yakın ama mahremiyeti sınırlıyor.": "Wspólne mieszkanie zbliża, ale ogranicza prywatność.",
     "Aynı evde yaşamak yakınlığı artırıyor, kişisel alanı daraltıyor.": "Wspólne mieszkanie zwiększa bliskość i zawęża przestrzeń osobistą.",
     "Aile geçmişin, iş ve para kararlarında daha fazla beklenti yaratıyor.": "Twoje pochodzenie rodzinne rodzi większe oczekiwania przy decyzjach o pracy i pieniądzach.",
-    "Neglected health makes demanding plans harder and neglected relationships cool. Some consequences return weeks later as events, a message or a rent notice, not immediately. Career, school, love, family, debt, housing, circle, status, health and crisis bind in one life — not a random card, the life you stacked.": "Zaniedbane zdrowie utrudnia wymagające plany, a zaniedbane relacje stygną. Niektóre skutki wracają po tygodniach — jako wydarzenie, wiadomość albo wezwanie do zapłaty czynszu — a nie od razu. Kariera, szkoła, miłość, rodzina, długi, mieszkanie, krąg znajomych, status, zdrowie i kryzysy splatają się w jedno życie — to nie losowa karta, tylko życie, które sam ułożyłeś."
+    "Neglected health makes demanding plans harder and neglected relationships cool. Some consequences return weeks later as events, a message or a rent notice, not immediately. Career, school, love, family, debt, housing, circle, status, health and crisis bind in one life — not a random card, the life you stacked.": "Zaniedbane zdrowie utrudnia wymagające plany, a zaniedbane relacje stygną. Niektóre skutki wracają po tygodniach — jako wydarzenie, wiadomość albo wezwanie do zapłaty czynszu — a nie od razu. Kariera, szkoła, miłość, rodzina, długi, mieszkanie, krąg znajomych, status, zdrowie i kryzysy splatają się w jedno życie — to nie losowa karta, tylko życie, które sam ułożyłeś.",
+    "Borç dökümüne itiraz et": "Zakwestionuj zestawienie długu",
+    "Dispute the debt statement": "Zakwestionuj zestawienie długu",
+    "300 TL oyun masrafı · 2 hafta inceleme · geçerli borç silinmez": "Opłata gry 300 TL · 2 tygodnie kontroli · zasadny dług pozostaje",
+    "300 TL game fee · 2-week review · valid debt remains": "Opłata gry 300 TL · 2 tygodnie kontroli · zasadny dług pozostaje",
+    "Bu dosya için yeni itiraz süresi yok.": "W tej sprawie nie można już złożyć nowego sprzeciwu.",
+    "No new objection is available for this case.": "W tej sprawie nie można już złożyć nowego sprzeciwu.",
+    "İnceleme için 300 TL oyun masrafı gerekiyor.": "Kontrola wymaga opłaty gry w wysokości 300 TL.",
+    "The review requires a 300 TL game fee.": "Kontrola wymaga opłaty gry w wysokości 300 TL.",
+    "İcra inceleme masrafı": "Opłata za kontrolę egzekucji",
+    "Enforcement review fee": "Opłata za kontrolę egzekucji",
+    "İtiraz kayda geçti. Mahkeme incelemesi 2 hafta sürer; haciz bekler, borç silinmez. Süre ve 300 TL masraf oyun kuralıdır.": "Sprzeciw złożony. Kontrola sądowa trwa 2 tygodnie; zajęcie jest wstrzymane, dług pozostaje. Czas i opłata 300 TL są zasadami gry.",
+    "Objection filed. Court review takes 2 weeks; seizure waits and debt remains. The duration and 300 TL fee are game rules.": "Sprzeciw złożony. Kontrola sądowa trwa 2 tygodnie; zajęcie jest wstrzymane, dług pozostaje. Czas i opłata 300 TL są zasadami gry.",
+    "İnceleme kapandı. Ödenmiş borç yeniden yazılmadı.": "Kontrola zakończona. Spłacony dług nie został przywrócony.",
+    "Review closed. Paid debt was not reinstated.": "Kontrola zakończona. Spłacony dług nie został przywrócony.",
+    "İnceleme bitti. Kayıtlardaki ödenmemiş {0#} TL doğrulandı. Ödeme veya taksit için 4 oyun haftası var; ikinci itiraz yok.": "Kontrola zakończona. Potwierdzono zapisany niespłacony dług {0} TL. Masz 4 tygodnie gry na spłatę lub raty; nie ma drugiego sprzeciwu.",
+    "Review complete. The recorded unpaid {0#} TL was confirmed. You have 4 game weeks to pay or arrange installments; no second objection.": "Kontrola zakończona. Potwierdzono zapisany niespłacony dług {0} TL. Masz 4 tygodnie gry na spłatę lub raty; nie ma drugiego sprzeciwu.",
+    "İnceleme bitmeden veya kapalı dosyada haciz yapılamaz.": "Zajęcie jest niedostępne podczas kontroli lub po zamknięciu sprawy.",
+    "Seizure is unavailable during review or for a closed case.": "Zajęcie jest niedostępne podczas kontroli lub po zamknięciu sprawy.",
+    "İcra: mahkeme incelemesi": "Egzekucja: kontrola sądowa",
+    "Enforcement: court review": "Egzekucja: kontrola sądowa"
   }
 }

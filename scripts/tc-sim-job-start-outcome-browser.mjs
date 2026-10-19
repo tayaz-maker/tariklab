@@ -1,3 +1,4 @@
+import { openIcraNotice } from "../public/games/tc-sim/js/icra.js";
 import { recordBankMonth } from "../public/games/tc-sim/js/bank-record.js";
 import { createNewGame } from "../public/games/tc-sim/js/state.js";
 import { buyProperty } from "../public/games/tc-sim/js/wealth.js";
@@ -377,7 +378,31 @@ try {
     const restricted = page.locator('[data-credit="medium"]');
     assert.equal(await restricted.isDisabled(),true);assert.match(await restricted.getAttribute("title"),/40/);
     assert.equal(await page.evaluate(key=>JSON.parse(localStorage.getItem(key)).finances.balance,key),saved.finances.balance);
-    assert.deepEqual(errors,[]);rows.push({view:"mortgage",language,width,status:"PASS"});await context.close();
+    assert.deepEqual(errors,[]);rows.push({view:"mortgage",language,width,status:"PASS"});
+    loaded.finances.arrears=4000; openIcraNotice(loaded,{source:"temerrut",amount:4000});
+    await page.evaluate(({state,key})=>localStorage.setItem(key,JSON.stringify(state)),{state:loaded,key});
+    await page.reload({waitUntil:"networkidle"});await page.locator("#continue-game").click();
+    await page.locator('.side-nav [data-view="dashboard"]').click();
+    const objection=page.locator('[data-decision="icra-object"]');
+    assert.ok((await objection.innerText()).includes(["Borç dökümüne itiraz et","Dispute the debt statement","Zakwestionuj zestawienie długu"][["tr","en","pl"].indexOf(language)]));
+    await objection.click();
+    const reviewed=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
+    assert.equal(reviewed.finances.balance,loaded.finances.balance-300);
+    assert.equal(reviewed.finances.arrears,4000);
+    assert.equal(reviewed.openCases.find(c=>c.type==="icra").payload.stage,"court");
+    assert.equal(await page.locator('[data-decision="icra-object"]').count(),0);
+    const bounds=await page.evaluate(()=>({w:document.documentElement.clientWidth,s:document.documentElement.scrollWidth}));
+    assert.ok(bounds.s<=bounds.w);
+    await page.screenshot({path:`${out}/court-review-${language}-${width}.png`});
+    await page.reload({waitUntil:"networkidle"});await page.locator("#continue-game").click();
+    await page.locator('.side-nav [data-view="dashboard"]').click();
+    assert.equal(await page.locator('[data-decision="icra-object"]').count(),0);
+    await page.locator('[data-decision="icra-pay"]').click();
+    const settled=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
+    assert.equal(settled.finances.balance,reviewed.finances.balance-4000);
+    assert.equal(settled.finances.arrears,0);assert.equal(settled.meta.saveVersion,6);
+    assert.equal(settled.openCases.find(c=>c.type==="icra").payload.review.status,"settled");
+    assert.deepEqual(errors,[]);rows.push({view:"court-review",language,width,status:"PASS"});await context.close();
   }
   if (layoutBaseline) {
     const sample=rows.find(row=>row.language==="tr"&&row.width===1440&&!row.reduced&&row.view==="dashboard");
