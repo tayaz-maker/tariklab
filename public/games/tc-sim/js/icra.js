@@ -1,5 +1,6 @@
 // İcra / haciz. Süreler ve inceleme masrafı oyun kuralıdır; hukuk tarifesi değildir.
 import { addMemory, addNpcMemory, adjustHealth, transact, updateRelationship } from "./state.js?v=10";
+import { getMonthlyEmploymentIncome } from "./life.js?v=10";
 import { CASH_ARREARS_CAP, DURABLES } from "./wealth.js?v=10";
 import { debtBalance, isAmortizingMortgage, mortgageStatus, settleMortgagePayment, reconcileMortgageClaims } from "./mortgage.js?v=10";
 
@@ -285,6 +286,35 @@ function reviewIcra(state, item) {
   return remember(state, `İnceleme bitti. Kayıtlardaki ödenmemiş ${owed} TL doğrulandı. Ödeme veya taksit için 4 oyun haftası var; ikinci itiraz yok.`);
 }
 
+// Voluntary game collection order, not a statutory Turkish wage attachment.
+// The existing net salary is posted in full before this debt payment.
+export function startWageCollection(state) {
+  const item = icraCase(state);
+  if (!item || item.payload.stage !== "notice" || !["temerrut", "aile"].includes(item.payload.source) || getMonthlyEmploymentIncome(state) <= 0)
+    return { ok: false, reason: "Maaştan tahsilat için açık bildirim ve ücretli iş gerekiyor." };
+  item.payload.stage = "wage";
+  item.payload.wage = { version: 1, lastMonth: null, paid: 0 };
+  return { ok: true, message: remember(state, "Maaştan tahsilat bağlandı. Bildirim süresinden sonra gerçekleşmiş net maaşın yüzde 20'si borca gider. Bu oran oyun varsayımıdır; maaş yoksa kesinti yok, borç silinmez.") };
+}
+
+export function collectWageDebt(state, salary) {
+  const item = icraCase(state);
+  if (!item || item.payload.stage !== "wage" || item.payload.wage?.version !== 1 ||
+      state.time.absoluteWeek < item.dueWeek || !Number.isSafeInteger(salary) || salary <= 0 || state.lifetime?.death) return 0;
+  const month = `${state.time.year}-${state.time.month}`;
+  if (item.payload.wage.lastMonth === month) return 0;
+  item.payload.wage.lastMonth = month;
+  const owed = Math.max(0, whole(item.payload.owed));
+  const paid = Math.min(owed, Math.floor(salary / 5), Math.max(0, whole(state.finances.balance)));
+  if (paid > 0) {
+    transact(state, -paid, "İcra maaş tahsilatı", "debt");
+    recordIcraPayment(state, item, paid);
+    item.payload.wage.paid += paid;
+  }
+  if (item.payload.owed === 0) closeCase(state, item, "paid");
+  return paid;
+}
+
 export function planIcra(state) {
   const item = icraCase(state);
   if (item?.payload.source === "mortgage")
@@ -403,6 +433,13 @@ function noticeOpen(state) {
 }
 
 export const ICRA_DECISIONS = [
+  {
+    id: "icra-wage",
+    title: "Maaştan tahsilata bağla",
+    detail: "gerçekleşmiş net maaşın yüzde 20’si · oyun varsayımı · borç silinmez",
+    contextual: state => noticeOpen(state) && ["temerrut", "aile"].includes(icraCase(state).payload.source) && getMonthlyEmploymentIncome(state) > 0,
+    apply: startWageCollection,
+  },
   {
     id: "icra-object",
     title: "Borç dökümüne itiraz et",

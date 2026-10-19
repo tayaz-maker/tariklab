@@ -784,3 +784,11 @@ Stacked on the interest-bearing mortgage PR; independent of its amortization cal
 - Existing notice/review/cash collection reused. Only linked collateral sells at an explicitly fictional 80% game value; interest-first settlement, player surplus and D0 deficiency/cap overflow conserve liabilities. Unrelated arrears stay intact. Early repayment, delinquency cure, voluntary sale or one existing restructure reconcile/withdraw the claim; no phantom future foreclosure.
 - New actual advanceWeek acceptance: 3 seeds ×5 profiles ×720 weeks, separate 1200-week/25-game-year run and actual job-loss→notice→foreclosure chain. Real choices and periodic save/load, no mid-run funding/health/event/clock resets. Failed fixture setup was corrected before reported acceptance. Not physical-device or full legal-system proof.
 - Existing TR/EN/PL ×1280/390 browser gate adds real foreclosure click/save/reload; same UI, SAVE_VERSION 6. The full court/evidence/lawyer process and statutory SGK detail remain PARTIAL/MISSING, not silently completed or deferred.
+
+
+## 2026-10-19 — TC SIM prospective wage collection (dependent on #182)
+
+- Reuse the existing icra notice, payment accounting and salary settlement. Optional existing-dashboard decision arranges collection of 20% of actually posted net wages after the notice deadline. This is an explicit fictional game arrangement, not statutory Turkish wage attachment or a complete court order.
+- No upfront fee, new tax/SGK withholding, loan forgiveness, pension attachment, cash creation or change to existing installment/foreclosure defaults. Every payment reduces the same source claim; unrelated arrears remain. One period marker inside existing case payload survives reload; SAVE_VERSION 6 and neutral V5/V6 notices preserved.
+- Existing UI/components and TR/EN/PL overlays reused; browser matrix adds arrangement click/reload and zero immediate charge at 1280/390. Domain tests cover source conservation, actual month close, exhausted cash, paused income, legacy notices and early payoff. Full court/attorney/evidence and statutory SGK remain PARTIAL; involuntary wage attachment remains distinct from this arrangement.
+- Frozen 61-source guard is consciously re-pinned only for icra/time hooks. No other game, art, atlas, site optimization or excluded mechanics changed.

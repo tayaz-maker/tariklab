@@ -3,6 +3,13 @@
   const I = root.tlabI18n;
   if (!I || !I.PHRASE || !I.PHRASE_PL) return;
   const rows = [
+    ["Maaştan tahsilata bağla", "Arrange wage collection", "Ustal potrącenia z pensji"],
+    ["gerçekleşmiş net maaşın yüzde 20’si · oyun varsayımı · borç silinmez", "20% of actual net salary · game assumption · debt remains", "20% faktycznej pensji netto · założenie gry · dług pozostaje"],
+    ["Maaştan tahsilat için açık bildirim ve ücretli iş gerekiyor.", "Wage collection requires an open notice and a paid job.", "Potrącenia z pensji wymagają otwartego zawiadomienia i pracy zarobkowej."],
+    ["Maaştan tahsilat bağlandı. Bildirim süresinden sonra gerçekleşmiş net maaşın yüzde 20'si borca gider. Bu oran oyun varsayımıdır; maaş yoksa kesinti yok, borç silinmez.", "Wage collection arranged. After the notice period, 20% of actual net salary goes toward debt. This rate is a game assumption; no salary means no deduction, and debt remains.", "Ustalono potrącenia z pensji. Po terminie zawiadomienia 20% faktycznej pensji netto spłaca dług. Stawka jest założeniem gry; bez pensji nie ma potrącenia, a dług pozostaje."],
+    ["İcra maaş tahsilatı", "Enforcement wage payment", "Spłata egzekucyjna z pensji"],
+    ["İcra: maaştan tahsilat", "Enforcement: wage collection", "Egzekucja: potrącenia z pensji"],
+
     ["haciz işler · nakit, ipotekli konut, araç, eşya", "enforcement proceeds · cash, mortgaged home, vehicle, goods", "egzekucja trwa · gotówka, dom z hipoteką, pojazd, rzeczy"],
     ["Konut kredisi için Bankalar menüsündeki yapılandırmayı kullan.", "For a home loan, use restructuring in Banks.", "Dla kredytu mieszkaniowego użyj restrukturyzacji w Bankach."],
     ["Bağlı konut kredisi bulunamadı.", "Linked home loan not found.", "Nie znaleziono powiązanego kredytu mieszkaniowego."],

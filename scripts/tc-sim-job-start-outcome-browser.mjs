@@ -398,6 +398,24 @@ try {
     await page.evaluate(({state,key})=>localStorage.setItem(key,JSON.stringify(state)),{state:loaded,key});
     await page.reload({waitUntil:"networkidle"});await page.locator("#continue-game").click();
     await page.locator('.side-nav [data-view="dashboard"]').click();
+    const wage=page.locator('[data-decision="icra-wage"]');
+    assert.ok((await wage.innerText()).includes(["Maaştan tahsilata bağla","Arrange wage collection","Ustal potrącenia z pensji"][["tr","en","pl"].indexOf(language)]));
+    await wage.click();
+    const ordered=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
+    const wageCase=ordered.openCases.find(c=>c.type==="icra"&&c.status==="pending");
+    assert.equal(wageCase.payload.stage,"wage");assert.equal(wageCase.payload.wage.paid,0);
+    assert.equal(ordered.finances.balance,loaded.finances.balance);assert.equal(ordered.finances.arrears,4000);
+    await page.reload({waitUntil:"networkidle"});await page.locator("#continue-game").click();
+    const reloadedOrder=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
+    assert.equal(reloadedOrder.openCases.find(c=>c.type==="icra"&&c.status==="pending").payload.stage,"wage");
+    const wageBounds=await page.evaluate(()=>({w:document.documentElement.clientWidth,s:document.documentElement.scrollWidth}));
+    assert.ok(wageBounds.s<=wageBounds.w);assert.deepEqual(errors,[]);
+    await page.screenshot({path:`${out}/wage-order-${language}-${width}.png`});
+    rows.push({view:"wage-order",language,width,status:"PASS"});
+    // Restore the original independent notice for the existing objection scenario.
+    await page.evaluate(({state,key})=>localStorage.setItem(key,JSON.stringify(state)),{state:loaded,key});
+    await page.reload({waitUntil:"networkidle"});await page.locator("#continue-game").click();
+    await page.locator('.side-nav [data-view="dashboard"]').click();
     const objection=page.locator('[data-decision="icra-object"]');
     assert.ok((await objection.innerText()).includes(["Borç dökümüne itiraz et","Dispute the debt statement","Zakwestionuj zestawienie długu"][["tr","en","pl"].indexOf(language)]));
     await objection.click();
