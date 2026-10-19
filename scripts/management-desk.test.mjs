@@ -54,7 +54,7 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Authorized marriage wave: wedding-planning helper + existing household/social/parenting integration.
   // Authorized city wave integrates one geography helper into existing life engines.
   // Authorized language wave adds a read-only presentation helper; engines unchanged.
-  assert.equal(files.length, 60);
+  assert.equal(files.length, 61);
   const hash = createHash("sha256");
   for (const file of files) hash.update(file).update(readFileSync(file));
   // Re-pinned for the DEVLET maps PR: next-wave.js (geo dispatch + month
@@ -92,7 +92,8 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Approved mortgage contract + wealth/month-close/credit-budget/debt-pressure hooks.
   // Approved read-only bank-record underwriting gates in bank-business and wealth.
   // Approved icra review lifecycle and suspended stall collection; inventory unchanged.
-  assert.equal(hash.digest("hex"), "6739b88c4b22fc2a8beb41653a2e885a2e8763ba7088f694f127b8c0285a767f");
+  // Approved prospective social-insurance source + state normalization/weekly-life hooks.
+  assert.equal(hash.digest("hex"), "f07b1eee90b93706e181aafdb019ecca7f6e06d1e441e4597d3980b18e171c99");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);

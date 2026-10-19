@@ -1,3 +1,4 @@
+import { recordInsuranceWeek, fiscalSocialSummary } from "./social-insurance.js?v=10";
 import {currentDistrict, locationCommute, locationCosts, locationJobDelay, locationMoveQuote, CITIES} from './locations.js?v=10';
 import { parenthoodCosts } from "./parenthood.js?v=10";
 import { getHouseholdFinance } from "./household.js?v=10";
@@ -108,6 +109,7 @@ export function getRetirementEligibility(state) {
     eligible,
     age,
     experienceWeeks,
+    socialInsurance: fiscalSocialSummary(state).insurance,
     reason: eligible
       ? "TC SIM'in soyut yaş ve çalışma geçmişi koşullarını karşılıyorsun."
       : age < 60
@@ -553,6 +555,7 @@ export function applyWeeklyLifeLoad(state) {
     health: effects.load >= 6 && state.health.stress >= 75 ? -1 : 0,
   });
   state.flags.lastLifeLoadWeek = week;
+  recordInsuranceWeek(state, Boolean(getJobById(state.career.jobId)) && !isServing(state) && !isDetained(state) && state.career.retirement?.status !== "retired");
   creditWeeklyExperience(state);
   updateCareerProgress(state);
   advanceEducationProgress(state);
