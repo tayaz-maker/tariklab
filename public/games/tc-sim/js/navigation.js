@@ -4,6 +4,7 @@ export const NAVIGATION_ITEMS = [
   { label: "Sen", view: "character" },
   { label: "Hafta", view: "calendar" },
   { label: "Para", view: "finance" },
+  { label: "Bankalar", view: "banks" },
   { label: "Emlak", view: "emlak" },
   { label: "Çarşı", view: "market" },
   { label: "İş", view: "career" },

@@ -14,9 +14,9 @@ const origin=`http://127.0.0.1:${server.address().port}`;
 const browser=await chromium.launch({executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || undefined,args:['--no-sandbox']});
 const rows=[],errors=[],interactions=[];
 let failure=null;
-const menus=['dashboard','inbox','character','calendar','finance','market','career','education','people','relationships','home','body','history','yearbook'];
+const menus=['dashboard','inbox','character','calendar','finance','banks','market','career','education','people','relationships','home','body','history','yearbook'];
 try {
- for(const width of [320,360,390,430,1440]) {
+ for(const width of [320,360,390,430,1280,1440]) {
   const context=await browser.newContext({viewport:{width,height:900},isMobile:width<500,hasTouch:width<500});
   const page=await context.newPage();
   page.on('pageerror',e=>errors.push(e.message));
@@ -99,6 +99,8 @@ try {
   await page.locator('#help-open').click();await measure('help');await page.locator('#help-close').click();
   if(await page.locator('[data-scenario-choice=rest]').count())await page.locator('[data-scenario-choice=rest]').click();
   await navigate('finance');
+  assert.equal(await page.locator('[data-exchange]').count(),0,'exchange operations belong only to Banks');
+  await navigate('banks');
   const readSave=()=>page.evaluate(()=>JSON.parse(localStorage.getItem('tariklab::tc-sim:1')));
   for(const asset of ['USD','gram']){
    await page.locator(`[data-exchange="${asset}"][data-side="buy"]`).click();
@@ -106,6 +108,7 @@ try {
    await page.locator(`[data-exchange="${asset}"][data-side="sell"]`).click();
    assert.equal((await readSave()).wealth.exchange.positions[asset]?.quantity||0,0);
   }
+  await navigate('finance');
   await page.locator('[data-business="repair"]').click();
   assert.equal((await readSave()).flags.business.id,'repair');
   await measure('business-open');

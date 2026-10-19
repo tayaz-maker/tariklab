@@ -74,7 +74,7 @@ try {
       if (headingRequired) assert.equal(await page.locator(".week-panel .panel-head h2").isVisible(), true, "translated week heading is visible");
       assert.match(localizedControls.at(-1).counter, /^\d+ \/ \d+$/, "localized HUD retains its actual usage counter");
     };
-    const cacheAssets = [...modules, `${origin}/games/tc-sim/js/bank-record.js?v=10`, `${origin}/i18n/expansion-en.js`, ...(language === "pl" ? [`${origin}/i18n/pl/tc-sim.json`] : [])];
+    const cacheAssets = [...modules, `${origin}/games/tc-sim/js/bank-record.js?v=10`, `${origin}/games/tc-sim/js/banks-presentation.js?v=10`, `${origin}/i18n/expansion-en.js`, ...(language === "pl" ? [`${origin}/i18n/pl/tc-sim.json`] : [])];
     const inspectDashboard = async phase => {
       const dom = await captureDashboardLayout(page);
       layoutMeasurements.push({ language, width, reduced, view, phase, dom });
@@ -161,13 +161,30 @@ try {
     // Read-only bank history stays localized/reachable in the existing finance
     // panel, at each matrix width and language, without writing a save.
     const bankStorageBefore = await page.evaluate(() => JSON.stringify(Object.fromEntries(Object.entries(localStorage))));
-    await navigate("finance");
+    await navigate("banks");
     const bankStatus = page.locator("[data-bank-record]");
     await bankStatus.scrollIntoViewIfNeeded();
     assert.equal(await bankStatus.isVisible(), true);
     assert.match(await bankStatus.textContent(), { tr: /Banka sicili/, en: /Bank history/, pl: /Historia bankowa/ }[language]);
     assert.match(await bankStatus.textContent(), /0–100/);
     await dimensions();
+    assert.equal(await page.locator('[data-view="banks"][aria-current="page"]').count(), 1);
+    assert.ok(await page.locator("[data-credit]").count() > 0);
+    assert.ok(await page.locator('[data-wealth-action="invest-buy"]').count() > 0);
+    if (width === 1440 && !reduced) {
+      await page.setViewportSize({ width: 1280, height: 800 });
+      await dimensions();
+      assert.equal(await bankStatus.isVisible(), true);
+      await page.screenshot({ path: `${out}/${stem}-bank-1280.png`, fullPage: true });
+      await page.setViewportSize({ width, height: 900 });
+    }
+    await navigate("finance");
+    assert.equal(await page.locator("[data-credit], [data-repay-credit], [data-exchange], [data-wealth-action^='invest-']").count(), 0, "bank transaction controls appear only in Banks");
+    assert.ok(await page.locator(".wealth-summary").count() > 0, "accounting summary remains in Money");
+    if (!(await page.locator('[data-view="banks"]').first().isVisible())) await page.locator(".side-nav .nav-more").click();
+    await page.locator('[data-view="banks"]').first().focus();
+    await page.keyboard.press("Enter");
+    assert.equal(await page.locator("[data-bank-account]").count(), 1, "bank navigation works by keyboard");
     await page.screenshot({ path: `${out}/${stem}-bank-history.png`, fullPage: true });
     assert.equal(await page.evaluate(() => JSON.stringify(Object.fromEntries(Object.entries(localStorage)))), bankStorageBefore, "bank history presentation never writes a save");
     await navigate(view);
@@ -206,7 +223,7 @@ try {
     if (language === "tr" && !reduced && view === "dashboard") {
       const storageBefore = await page.evaluate(() => JSON.stringify(Object.fromEntries(Object.entries(localStorage))));
       let shellBaseline;
-      for (const menu of ["dashboard", "inbox", "character", "calendar", "finance", "market", "career", "education", "people", "relationships", "home", "body", "history", "yearbook"]) {
+      for (const menu of ["dashboard", "inbox", "character", "calendar", "finance", "banks", "market", "career", "education", "people", "relationships", "home", "body", "history", "yearbook"]) {
         await navigate(menu);
         await page.evaluate(() => window.scrollTo(0, 0));
         const geometry = await page.evaluate(() => {

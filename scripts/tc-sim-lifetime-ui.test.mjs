@@ -213,7 +213,10 @@ test("wealth controls route through real domain state, persist, and stale clicks
   const ui = await mount(s);
   ui.click(ui.find("view", "finance"));
   assert.match(ui.root.innerHTML, /Net servet/);
+  assert.doesNotMatch(ui.root.innerHTML, /data-credit=|data-repay-credit=|data-exchange-buy=|data-wealth-action="invest-/);
+  ui.click(ui.find("view", "banks"));
   assert.match(ui.root.innerHTML, /YATIRIMLAR/);
+  ui.click(ui.find("view", "finance"));
   const subscription = ui.find("wealthAction", "subscription");
   ui.click(subscription);
   assert.equal(ui.saved().wealth.subscriptions.length, 1);
@@ -267,4 +270,26 @@ test("normal creation screen exposes the canonical 2017 option and its real subm
   assert.equal(ui.saved().player.birthDate, "1999-04-18");
   assert.equal(ui.saved().player.age, 18);
   assert.ok(ui.root.innerHTML.includes("18 Nisan 2017"));
+});
+
+// The real renderer/handlers verify that separating views cannot duplicate cash.
+test("Money/Banks own distinct controls; navigation is read-only and bank credit still posts once", async () => {
+  const s = createNewGame({ seed: 17 }); s.finances.balance = 100000; s.events.active = null; s.events.queue = [];
+  const ui = await mount(s), before = structuredClone(ui.saved());
+  for (const view of ["finance", "banks", "finance", "banks"]) {
+    ui.click(ui.find("view", view));
+    assert.deepEqual(ui.saved(), before, "navigation must not write state or fabricate accounts");
+    assert.equal(ui.root.elements.filter(e => e.dataset.credit === "small").length, view === "banks" ? 1 : 0);
+  }
+  const credit = ui.find("credit", "small");
+  ui.click(credit);
+  const posted = ui.saved();
+  assert.equal(posted.finances.balance, before.finances.balance + 12000);
+  assert.equal(posted.wealth.debts.length, 1);
+  credit.listeners.click();
+  assert.equal(ui.saved().finances.balance, posted.finances.balance);
+  assert.equal(ui.saved().wealth.debts.length, 1);
+  ui.click(ui.find("view", "finance"));
+  assert.match(ui.root.innerHTML, /BORÇLAR/);
+  assert.doesNotMatch(ui.root.innerHTML, /data-credit=|data-repay-credit=|data-wealth-action="invest-/);
 });

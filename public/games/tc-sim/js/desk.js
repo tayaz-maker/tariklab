@@ -139,6 +139,7 @@ export function arrangeLifeDesk(view, text) {
     market: ".wealth-grid > button",
     emlak: ".wealth-grid > *",
     finance: ".wealth-grid > *, .open-case",
+    banks: ".wealth-grid > *, .open-case",
     people: ".person-detail",
     relationships: ".panel",
     dashboard: ".overview-grid > article, .agenda-panel, .people-panel, .cases-panel",
@@ -163,7 +164,7 @@ export function arrangeLifeDesk(view, text) {
   managementDeck(layout, history, text("KAYIT / HESAP DÖKÜMÜ", "RECORD / ACCOUNT LEDGER"));
   // These surfaces are intentionally full-size, readable workspaces. A card
   // index hid the body diagram and forced a second tap for banking or family.
-  const fullViews = new Set(["dashboard", "inbox", "body", "finance", "emlak", "home", "market", "relationships"]);
+  const fullViews = new Set(["dashboard", "inbox", "body", "finance", "banks", "emlak", "home", "market", "relationships"]);
   // The full-width header and scenario stay outside the optional detail split.
   // Only rendered nodes move; original listeners, content and actions survive.
   layout.classList.add("tc-page-shell");
