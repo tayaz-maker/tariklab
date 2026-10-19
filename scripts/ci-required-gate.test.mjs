@@ -186,6 +186,11 @@ test('workflow triggers, concurrency, path routing and campaign jobs remain unch
       assert.equal(patch.run, 'git diff --check "$BASE...$HEAD"');
     }
     if (job === 'campaign-browser') {
+      const hanedanian = value.steps.find(step => step.run === 'node scripts/hanedanian-browser.mjs');
+      assert.deepEqual(hanedanian.env, {HANEDANIAN_SOAK_MS: '0'}, 'PR/main retain acceptance without the nightly soak');
+      // Normalize only the reviewed soak move; the original hash still guards
+      // every acceptance command, condition, timeout and evidence artifact.
+      hanedanian.env.HANEDANIAN_SOAK_MS = "${{ github.ref == 'refs/heads/main' && '0' || '1200000' }}";
       for (const step of value.steps) {
         if (step.uses === 'actions/setup-node@v4' || step.run === 'npm ci' || step.name === 'Install Chromium') {
           assert.equal(step.if, "needs.changes.outputs.campaign == 'true' || github.ref == 'refs/heads/main'");
@@ -195,6 +200,34 @@ test('workflow triggers, concurrency, path routing and campaign jobs remain unch
     }
     assert.equal(digest(value), expected, `${job}: original job contract changed`);
   }
+});
+
+test('HANEDANIAN keeps its full 20-minute soak on nightly and manual runs', () => {
+  const soak = yaml.load(readFileSync(new URL('../.github/workflows/hanedanian-soak.yml', import.meta.url), 'utf8'));
+  assert.equal(soak.name, 'hanedanian-soak');
+  assert.deepEqual(soak.on, {schedule: [{cron: '17 3 * * *'}], workflow_dispatch: null});
+  assert.deepEqual(Object.keys(soak.jobs), ['soak']);
+  const installChromium = workflow.jobs['campaign-browser'].steps.find(step => step.name === 'Install Chromium');
+  const {if: condition, ...installWithoutRouting} = installChromium;
+  void condition;
+  assert.deepEqual(soak.jobs.soak, {
+    'runs-on': 'ubuntu-latest',
+    'timeout-minutes': 35,
+    steps: [
+      ...bootstrap,
+      installWithoutRouting,
+      {
+        name: 'HANEDANIAN desktop, touch, offline and 20 minute soak',
+        run: 'node scripts/hanedanian-browser.mjs',
+        env: {HANEDANIAN_SOAK_MS: '1200000'},
+      },
+      {
+        uses: 'actions/upload-artifact@v4',
+        if: 'always()',
+        with: {name: 'hanedanian-soak', path: '${{ runner.temp }}/screenshots/hanedanian'},
+      },
+    ],
+  });
 });
 
 test('a workflow-only change selects the full CI matrix through the routing CLI', async t => {
