@@ -105,7 +105,8 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Combined approved court/wage source with prospective service-day/pension hooks.
   // Approved Package 3: bounded repeat-sentence custody reuses work/service gates and defers unstarted jobs.
   // Approved Package 3: source-linked verdicts, liveness, promises and bounded disengagement together.
-  assert.equal(hash.digest("hex"), "ac92ff5dd81b41b7bf1062ec5bef00b90001b574290236003126161e5e86381d");
+  // Approved Package 4: observed work fuel replaces the existing variable car budget; no public fare twice.
+  assert.equal(hash.digest("hex"), "902ec172aa87004ba8afbaaccc26850fc2c04606c278a4eb142135b4466d365b");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);
