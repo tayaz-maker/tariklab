@@ -1,3 +1,4 @@
+import {criminalJobDelay, markCriminalReentry} from './criminal-justice.js?v=10';
 import { isWorkRecovering } from "./body-systems.js?v=10";
 import { recordInsuranceWeek, fiscalSocialSummary } from "./social-insurance.js?v=10";
 import {currentDistrict, locationCommute, locationCosts, locationJobDelay, locationMoveQuote, CITIES} from './locations.js?v=10';
@@ -395,7 +396,7 @@ export function acceptJobOffer(state, jobId) {
   const actionId = `job-offer:${jobId}`;
   const check = canUseWeeklyAction(state, actionId);
   if (!check.ok) return check;
-  const startWeek = state.time.absoluteWeek + 1 + locationJobDelay(state,job);
+  const startWeek = state.time.absoluteWeek + 1 + locationJobDelay(state,job) + criminalJobDelay(state);
   const caseId = `job-start-${state.time.absoluteWeek}-${jobId}`;
   state.career.pendingJob = { jobId, startWeek, caseId };
   state.openCases.push({
@@ -426,6 +427,7 @@ export function completePendingJob(state, sourceCaseId) {
   const pending = state.career.pendingJob;
   if (!pending || pending.caseId !== sourceCaseId || !getJobById(pending.jobId)) return false;
   state.career.jobId = pending.jobId;
+  markCriminalReentry(state);
   state.career.pendingJob = null;
   state.career.weeksInRole = 0;
   state.career.performance = Math.max(50, Number(state.career.performance) || 50);

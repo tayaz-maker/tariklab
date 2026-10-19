@@ -1,3 +1,6 @@
+import {riskFight} from '../public/games/tc-sim/js/risk-layer.js';
+import {settleHouseholdEvents} from './tc-sim-longrun.mjs';
+import {advanceWeek} from '../public/games/tc-sim/js/time.js';
 import { createSocialObligation } from "../public/games/tc-sim/js/social.js";
 import { processDueOpenCases, activateNextEvent } from "../public/games/tc-sim/js/events.js";
 
@@ -596,6 +599,28 @@ try {
       assert.equal(persistedPromise.finances.balance,resolvedPromise.finances.balance);
       assert.deepEqual(errors,[]);rows.push({view:kept?"promise-kept-reputation":"promise-broken-reputation",language,width,status:"PASS"});
     }
+    const court=createNewGame({seed:17});court.events.active=null;court.events.queue=[];
+    if(court.world?.scenario)court.world.scenario.pendingEvent=null;
+    court.health.stress=60;court.finances.balance=20000;assert.equal(riskFight(court).ok,true);
+    court.time.absoluteWeek=5;processDueOpenCases(court);activateNextEvent(court);
+    assert.equal(court.events.active.eventId,"criminal_hearing");
+    await page.evaluate(({state,key})=>localStorage.setItem(key,JSON.stringify(state)),{state:court,key});
+    await page.reload({waitUntil:"networkidle"});await page.locator("#continue-game").click();
+    await page.locator('[data-event-choice="review"]').click();
+    const reviewed=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
+    assert.equal(reviewed.flags.criminalJustice?.records?.length||0,0);
+    for(let i=0;i<2;i++){settleHouseholdEvents(reviewed);assert.equal(advanceWeek(reviewed).ok,true);}
+    assert.equal(reviewed.events.active.eventId,"criminal_verdict");
+    await page.evaluate(({state,key})=>localStorage.setItem(key,JSON.stringify(state)),{state:reviewed,key});
+    await page.reload({waitUntil:"networkidle"});await page.locator("#continue-game").click();
+    assert.ok((await page.locator('.event-backdrop').innerText()).includes(["Kavga dosyasında kesin karar","Final decision in the fight case","Ostateczne rozstrzygnięcie w sprawie bójki"][["tr","en","pl"].indexOf(language)]));
+    await page.locator('[data-event-choice="acknowledge"]').click();
+    const decided=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
+    assert.equal(decided.flags.criminalJustice.records.length,1);assert.equal(decided.finances.balance,reviewed.finances.balance);
+    await page.reload({waitUntil:"networkidle"});await page.locator("#continue-game").click();
+    const courtReloaded=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
+    assert.equal(courtReloaded.flags.criminalJustice.records.length,1);assert.equal(courtReloaded.finances.balance,decided.finances.balance);
+    assert.deepEqual(errors,[]);await page.screenshot({path:`${out}/criminal-verdict-${language}-${width}.png`});rows.push({view:"criminal-verdict",language,width,status:"PASS"});
     await context.close();
   }
   if (layoutBaseline) {

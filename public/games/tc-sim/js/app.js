@@ -204,6 +204,7 @@ function renderIcraEvidence(item) {
 
 function openCaseLabel(item) {
   if (item.type === "partner-month") return "Partnerin görünmeyen ayı";
+  if (item.type === "criminal-hearing") return "Ceza dosyası duruşması";
   if (item.type === "risk-dosya") return "Polis / mahkeme dosyası";
   if (item.type === "icra" && item.payload?.stage === "wage") return item.payload.wage?.compulsory ? "İcra: cebrî maaş haczi" : "İcra: maaştan tahsilat";
   if (item.type === "icra") return item.payload?.stage === "court" ? "İcra: mahkeme incelemesi" : "İcra yazısı";

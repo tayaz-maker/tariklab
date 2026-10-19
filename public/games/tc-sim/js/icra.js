@@ -47,7 +47,7 @@ export function claimOf(state) {
   const debt = state.flags?.pocket?.familyDebt;
   if (debt && whole(debt.amount) >= 1000 && state.time.absoluteWeek > whole(debt.dueWeek) + GRACE)
     return { source: "aile", amount: whole(debt.amount) };
-  const fine = (state.openCases || []).find((item) => item.type === "risk-dosya" && item.status === "pending" && !item.payload?.fineEnforced && Number.isInteger(item.dueWeek) && item.dueWeek <= state.time.absoluteWeek);
+  const fine = (state.openCases || []).find((item) => item.type === "risk-dosya" && item.status === "pending" && !item.payload?.fineEnforced && (!item.payload?.justice || item.payload.justice.version !== 1 || (item.payload.justice.stage === "convicted" && item.payload.justice.final === true)) && Number.isInteger(item.dueWeek) && item.dueWeek <= state.time.absoluteWeek);
   if (fine) return { source: "ceza", amount: FINE, sourceCaseId: fine.id };
   return null;
 }
@@ -124,6 +124,8 @@ function closeCase(state, item, stage) {
   item.status = "resolved";
   item.payload.stage = stage;
   item.payload.owed = 0;
+  const source = state.openCases.find(row => row.id === item.payload.sourceCaseId);
+  if (source?.payload?.justice?.final === true && source.payload.fineEnforced) source.status = "resolved";
   normalizeIcra(state);
 }
 

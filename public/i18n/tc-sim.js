@@ -3,6 +3,20 @@
   const I = root.tlabI18n;
   if (!I || !I.PHRASE || !I.PHRASE_PL) return;
   const rows = [
+    ["Bu duruşma için açık kaynak dosyası yok.", "There is no open source case for this hearing.", "Brak otwartej sprawy źródłowej dla tego posiedzenia."],
+    ["Kaynak delil doğrulanamadı. Mahkûmiyet ve yeni ceza talebi oluşmadı.", "Source evidence could not be verified. No conviction or new fine claim was created.", "Nie potwierdzono dowodu źródłowego. Nie powstało skazanie ani nowe roszczenie z tytułu kary."],
+    ["Kavga dosyasında kesin karar çıktı. Gözaltı kaydıyla aynı şey değil.", "A final decision was issued in the fight case. This is distinct from detention.", "W sprawie bójki wydano ostateczne rozstrzygnięcie. To odrębne od zatrzymania."],
+    ["Kavga dosyasında kaynak delile dayalı kesin karar çıktı. Ceza tahsilatı mevcut icra akışında; yeni iş başlangıcı bir hafta gecikebilir.", "A final decision based on source evidence was issued in the fight case. Fine collection uses the existing enforcement process; starting a new job may take one extra week.", "W sprawie bójki wydano ostateczne rozstrzygnięcie na podstawie dowodu źródłowego. Karę pobiera istniejący proces egzekucji; rozpoczęcie nowej pracy może potrwać o tydzień dłużej."],
+    ["Kavga dosyasında duruşma", "Hearing in the fight case", "Posiedzenie w sprawie bójki"],
+    ["Bu sınırlı oyun sürecinde kaynak kavga kaydı inceleniyor. Gözaltı mahkûmiyet değildir. Ek inceleme kararı iki hafta, normal karar bir hafta sonra gelir; doğrulanmış delil yoksa mahkûmiyet oluşmaz.", "This limited game procedure examines the source fight record. Detention is not a conviction. An extra review takes two weeks; an ordinary decision takes one. Unverified evidence cannot create a conviction.", "Ten ograniczony model gry bada źródłowy zapis bójki. Zatrzymanie nie oznacza skazania. Dodatkowa kontrola trwa dwa tygodnie, zwykłe rozstrzygnięcie jeden. Niepotwierdzony dowód nie może prowadzić do skazania."],
+    ["Kaynak kayıtla karar verilmesini iste", "Request a decision on the source record", "Poproś o rozstrzygnięcie na podstawie zapisu źródłowego"],
+    ["İtiraz et ve bir ek inceleme iste", "Object and request one extra review", "Zgłoś sprzeciw i poproś o jedną dodatkową kontrolę"],
+    ["Kavga dosyasında kesin karar", "Final decision in the fight case", "Ostateczne rozstrzygnięcie w sprawie bójki"],
+    ["Kaynak olay ve varsa ek inceleme değerlendirildi. Doğrulanmış delile bağlı karar kayda geçecek. Bu, tam yasal yargılama modeli değildir; gözaltı veya borç incelemesi tek başına sabıka yaratmaz.", "The source incident and any extra review have been assessed. A decision tied to verified evidence will be recorded. This is a limited game model; detention or a debt review alone creates no criminal record.", "Oceniono zdarzenie źródłowe i ewentualną dodatkową kontrolę. Zostanie zapisane rozstrzygnięcie oparte na potwierdzonym dowodzie. To ograniczony model gry; zatrzymanie ani kontrola długu same nie tworzą karalności."],
+    ["Gerekçeli sonucu kayda geçir", "Record the reasoned outcome", "Zapisz uzasadniony wynik"],
+    ["Ceza dosyası duruşması", "Criminal case hearing", "Posiedzenie w sprawie karnej"],
+    ["Yeni işe başladın. Geçmiş karar kaydı duruyor; işe dönüş gecikmesi sona erdi.", "You started a new job. The past decision remains recorded; the return-to-work delay has ended.", "Rozpoczęto nową pracę. Zapis dawnego rozstrzygnięcia pozostaje; opóźnienie powrotu do pracy zakończyło się."],
+
     ["Borç dosyasını incele", "Inspect debt evidence", "Sprawdź dokumentację długu"],
     ["1 hak · kaynak kayıt ve kalan borç · ücret yok", "1 action · source record and remaining debt · no fee", "1 działanie · dokument źródłowy i pozostały dług · bez opłaty"],
     ["Dosyaya avukat desteği al", "Get legal support for the case", "Uzyskaj pomoc prawnika w sprawie"],
