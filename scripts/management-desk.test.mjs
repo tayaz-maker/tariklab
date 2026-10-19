@@ -58,6 +58,7 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Package 2 combined: occupational exposure also excludes detained work.
   // Combined #189: weekly career actions also honor existing detention.
   // Authorized Package 2: bounded work recovery uses existing body/life/time/state only.
+  // Authorized Package 3: existing partial friend loans join debt-memory follow-up.
   assert.equal(files.length, 61);
   const hash = createHash("sha256");
   for (const file of files) hash.update(file).update(readFileSync(file));
@@ -102,7 +103,7 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Approved bounded compulsory private-sector wage collection hook in icra.
   // Approved source-linked fine finality and bounded evidence/counsel/review hooks in icra.
   // Combined approved court/wage source with prospective service-day/pension hooks.
-  assert.equal(hash.digest("hex"), "da6735524175e126a0085c3e87e1e0f3e0ccf7f199b7ed0c461b3787cce5afcd");
+  assert.equal(hash.digest("hex"), "51faf05a9f59beb005dbdb93d6e8cea202aac6459dbb9657e77aa21c5b33c945");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);
