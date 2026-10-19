@@ -718,3 +718,7 @@ Baseline main/production #147 `74e414e991b789735b428ff0e50def21cb042cbb`. Fix ex
 ## 2026-10-08 — Racon Manager production quality
 
 Baseline #148 main/production `a1c5123a4f979aa6a773970e0f65773b91d3ca43`. Guard paid story effects and repeat rewards, restore negative evidence, sequence delayed chapters, remove retreat bonus and captured investment recovery. Show paid choices and complete recurring cash outlook with existing design tokens. Preserve save schema, map/crew/rival mechanics, assets and portal integration. 80 targeted tests, deterministic long campaigns and five-width browser gate; see `docs/racon/PRODUCTION_QUALITY_2026-10-08.md`. No other game/native/audio changes. Owner retains live acceptance; no automatic next wave.
+
+## 2026-10-19 — TC SIM owned housing valuation
+
+Independent baseline main `9851711081b4ab64ace5626dee1b1310702b1af3`, while D0 #172 is pending. Include owned semt holdings in the existing net-worth property total, using the existing semt normalizer on an isolated wrapper. Rented homes are excluded, duplicate asset IDs count once, and existing debt principal/arrears remain deducted once. No cash posting, UI, prices, new credit mechanism or save schema change; SAVE_VERSION remains 6. Re-pin the full 56-source baseline for the sole runtime change in wealth.js. Regression coverage includes the 285,000 TL purchase, sale, occupancy, mixed registries/debt and V5/V6 save/load. Merge must wait for D0, integration with updated main and fresh passing CI. Physical-device acceptance remains with the owner.
