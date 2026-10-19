@@ -1,3 +1,4 @@
+import { mortgageDue } from "./mortgage.js?v=10";
 import { recordBankLoan } from "./bank-record.js?v=10";
 import {businessLocation,currentDistrict} from './locations.js?v=10';
 import { economyYear, formatPeriodMoney, periodContext } from "./period-economy.js?v=10";
@@ -45,7 +46,7 @@ export function creditAvailability(state, id) {
   if (state.wealth.debts.length >= WEALTH_LIMITS.debts) return { ok: false, reason: "Borç sınırı dolu." };
   if (state.wealth.debts.some((debt) => debt.type === "personal")) return { ok: false, reason: "Önce mevcut ihtiyaç kredisini kapat." };
   const income = getMonthlySummary(state).income;
-  const otherPayments = state.wealth.debts.reduce((sum, debt) => sum + Math.min(debt.principal, debt.monthlyPayment), 0);
+  const otherPayments = state.wealth.debts.reduce((sum, debt) => sum + mortgageDue(debt), 0);
   if (income < 4500 || otherPayments + Math.ceil(offer.total / offer.months) > income * 0.4)
     return { ok: false, reason: "Aylık gelir, bu geri ödeme yükünü taşımıyor." };
   return { ok: true };

@@ -1,3 +1,4 @@
+import { debtBalance } from "./mortgage.js?v=10";
 // Actual cash postings, independent of the capped display ledger and forecasts.
 const sums = ["inflow", "outflow", "debtPayments", "adjustments", "count"];
 const integer = n => Number.isSafeInteger(n);
@@ -48,7 +49,7 @@ export function closeMonthlyCash(state) {
   if (!book.count) book.openingBalance = state.finances.balance;
   const closingBalance = state.finances.balance;
   const otherChange = closingBalance - book.openingBalance - book.inflow + book.outflow - book.adjustments;
-  const creditArrears = (state.wealth?.debts || []).reduce((n, d) => n + Math.max(0, Math.round(d.principal || 0)), 0) + Math.max(0, state.finances.arrears || 0);
+  const creditArrears = (state.wealth?.debts || []).reduce((n, d) => n + debtBalance(d), 0) + Math.max(0, state.finances.arrears || 0);
   state.finances.lastMonthClose = { ...copyBook(book), closingBalance, otherChange, creditArrears };
   state.finances.monthCash = null;
   beginMonthlyCash(state, false);

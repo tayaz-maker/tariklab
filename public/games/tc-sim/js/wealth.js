@@ -1,3 +1,4 @@
+import { MORTGAGE_TERMS, amortizedPayment, newMortgage, normalizeMortgage, isAmortizingMortgage, debtBalance, mortgageDue, mortgageStatus, settleMortgageMonth, settleMortgagePayment, restructureMortgage, validMortgage, mortgageText } from "./mortgage.js?v=10";
 import { recordBankMonth, recordBankLoan } from "./bank-record.js?v=10";
 
 import { recordMonthlyCash } from "./monthly-cash.js?v=10";
@@ -362,8 +363,9 @@ export function normalizeWealth(state) {
         monthlyPayment: integer(x.monthlyPayment),
         linkedAssetId: typeof x.linkedAssetId === "string" ? x.linkedAssetId : null,
         startWeek: integer(x.startWeek, now),
+        ...(x.type === "mortgage" && x.mortgage != null ? { mortgage: normalizeMortgage(x.mortgage) } : {}),
       }))
-      .filter((x) => x.principal > 0),
+      .filter((x) => debtBalance(x) > 0),
     "id",
   ).slice(0, WEALTH_LIMITS.debts);
   state.wealth = {
@@ -476,7 +478,7 @@ export function validateWealth(state) {
     return false;
   if (
     w.investments.some((x) => !INVESTMENTS[x.id] || x.value < 0 || x.basis < 0) ||
-    w.debts.some((x) => x.principal < 0) ||
+    w.debts.some((x) => x.principal < 0 || !validMortgage(x)) ||
     w.properties.some((x) => !["owner", "rental", "vacant"].includes(x.occupancy))
   )
     return false;
@@ -764,19 +766,36 @@ export function buyProperty(state, kind = "owner", mortgage = false) {
       id: loanId,
       type: "mortgage",
       principal: price - down,
-      monthlyPayment: Math.ceil((price - down) / 120),
+      monthlyPayment: amortizedPayment(price - down, MORTGAGE_TERMS.rateBps, MORTGAGE_TERMS.months),
+      mortgage: newMortgage(price - down),
       linkedAssetId: id,
       startWeek: state.time.absoluteWeek,
     });
   mark(state, "wealth-property");
   return { ok: true, message: kind === "owner" ? "Evi aldın." : "Kiraya vereceğin evi aldın." };
 }
+const mortgageLanguage = () => typeof window !== "undefined" ? window.tlabI18n?.getLang?.() || "tr" : "tr";
+export function manageMortgage(state, id, action) {
+  const check = getWealthActionAvailability(state, action, id);
+  if (!check.ok) return check;
+  const debt = state.wealth.debts.find(d => d.id === id);
+  if (action === "mortgage-restructure") restructureMortgage(debt);
+  else {
+    const due = action === "mortgage-close" ? debtBalance(debt) : Math.min(5000, debtBalance(debt));
+    const paid = settleMortgagePayment(debt, due);
+    ledger(state, -paid, mortgageText("paid", mortgageLanguage()), "debt");
+    if (!debtBalance(debt)) state.wealth.debts = state.wealth.debts.filter(d => d !== debt);
+  }
+  mark(state, `mortgage:${id}`);
+  return { ok: true, message: mortgageText(action === "mortgage-restructure" ? "changed" : "paid", mortgageLanguage()) };
+}
+
 export function sellProperty(state, id) {
   normalizeWealth(state);
   const p = state.wealth.properties.find((x) => x.id === id);
   if (!p) return { ok: false, reason: "Mülk bulunamadı." };
   const debt = state.wealth.debts.find((d) => d.id === p.mortgageId),
-    net = p.currentValue - (debt?.principal || 0);
+    net = p.currentValue - (debt ? debtBalance(debt) : 0);
   if (net < 0 && state.finances.balance < Math.abs(net))
     return {
       ok: false,
@@ -815,7 +834,7 @@ export function getWealthMonthlySummary(state) {
     maintenance = w.properties.reduce((n, p) => n + p.maintenance, 0) + w.durables.reduce((n,d)=>n+(d.id==="bike"?30:d.id==="scooter"?250:0),0),
     subscriptions = w.subscriptions.reduce((n, s) => n + SUBSCRIPTIONS[s.id].monthly, 0),
     vehicle = w.vehicle ? VEHICLES[w.vehicle.tier].monthly : 0,
-    debt = w.debts.reduce((n, d) => n + Math.min(d.principal, d.monthlyPayment), 0);
+    debt = w.debts.reduce((n, d) => n + mortgageDue(d), 0);
   const income = Math.round(rental);
   const expenses = Math.round(TIERS[w.lifestyle].monthly + maintenance + subscriptions + vehicle + debt);
   return {
@@ -848,6 +867,15 @@ export function processWealthMonthEnd(state) {
     if (amount) ledger(state, -amount, label, "lifestyle");
   for (const item of w.subscriptions) item.lastBilledMonth = month;
   for (const d of [...w.debts]) {
+    if (isAmortizingMortgage(d)) {
+      const result = settleMortgageMonth(d, Math.max(0, state.finances.balance), month);
+      if (result) {
+        if (result.payment) ledger(state, -result.payment, mortgageText("paid", mortgageLanguage()), "debt");
+        recordBankMonth(state, result.missed ? mortgageStatus(d) === "default" ? "default" : "missed" : "paid");
+      }
+      if (!debtBalance(d)) w.debts = w.debts.filter(x => x !== d);
+      continue;
+    }
     const pay = Math.min(d.principal, d.monthlyPayment);
     if (pay) {
       recordBankMonth(state, state.finances.balance >= pay ? "paid" : "missed");
@@ -889,7 +917,7 @@ export function netWorth(state) {
       .reduce((n, p) => n + integer(p.value), 0),
     vehicle = w.vehicle ? w.vehicle.currentValue : 0,
     durables = w.durables.reduce((n, d) => n + Math.round(d.price * DURABLES[d.id].resale), 0),
-    debt = w.debts.reduce((n, d) => n + d.principal, 0) + Math.max(0, Number(state.finances?.arrears) || 0);
+    debt = w.debts.reduce((n, d) => n + debtBalance(d), 0) + Math.max(0, Number(state.finances?.arrears) || 0);
   return {
     cash,
     investments,
@@ -958,6 +986,15 @@ export function getWealthActionAvailability(state, action, value) {
     const due = financed ? Math.ceil(item.price * .35) : item.price;
     return state.finances.balance < due ? { ok: false, reason: `Bu alım için ₺${due.toLocaleString("tr-TR")} gerekiyor.` } : { ok: true };
   }
+  if (["mortgage-extra", "mortgage-close", "mortgage-restructure"].includes(action)) {
+    const debt = w.debts.find(d => d.id === value && isAmortizingMortgage(d));
+    if (!debt || action === "mortgage-restructure" && (!debt.mortgage.overdue || debt.mortgage.restructures))
+      return { ok: false, reason: mortgageText("unavailable", mortgageLanguage()) };
+    const blocked = weekBlocked(`mortgage:${value}`);
+    if (blocked) return { ok: false, reason: blocked };
+    const due = action === "mortgage-close" ? debtBalance(debt) : action === "mortgage-extra" ? Math.min(5000, debtBalance(debt)) : 0;
+    return due > 0 && state.finances.balance < due ? { ok: false, reason: mortgageText("cash", mortgageLanguage()) } : { ok: true };
+  }
   if (action === "property-sell") return w.properties.some(item => item.id === value) ? { ok: true } : { ok: false, reason: "Mülk bulunamadı." };
   if (action === "property-rent" || action === "property-vacant") {
     const property = w.properties.find(item => item.id === value && item.occupancy !== "owner");
@@ -985,6 +1022,7 @@ export function applyWealthAction(state, action, value) {
     "invest-sell-all":()=>tradeInvestment(state,value,-(state.wealth.investments.find(p=>p.id===value)?.value||0)),
     lifestyle: () => setLifestyle(state, value), spend: () => spendLifestyle(state, value), subscription: () => toggleSubscription(state, value), durable: () => buyDurable(state, value),
     "invest-buy": () => tradeInvestment(state, value, 5000), "invest-sell": () => tradeInvestment(state, value, -5000), "vehicle-cash": () => buyVehicle(state, value, false), "vehicle-finance": () => buyVehicle(state, value, true),
+    "mortgage-extra": () => manageMortgage(state, value, "mortgage-extra"), "mortgage-close": () => manageMortgage(state, value, "mortgage-close"), "mortgage-restructure": () => manageMortgage(state, value, "mortgage-restructure"),
     "vehicle-sell": () => sellVehicle(state), "property-owner": () => buyProperty(state, "owner", value === "mortgage"), "property-rental": () => buyProperty(state, "rental", value === "mortgage"),
     "property-sell": () => sellProperty(state, value), "property-rent": () => setPropertyOccupancy(state, value, "rental"), "property-vacant": () => setPropertyOccupancy(state, value, "vacant"),
   };

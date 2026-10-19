@@ -1,3 +1,6 @@
+import { createNewGame } from "../public/games/tc-sim/js/state.js";
+import { buyProperty } from "../public/games/tc-sim/js/wealth.js";
+import { mortgageText } from "../public/games/tc-sim/js/mortgage.js";
 import {cityFixture} from './tc-sim-city-fixture.mjs';
 import { marriageFixture } from "./tc-sim-marriage-fixture.mjs";
 // Prepared healthy-browser CI gate; local execution has not been claimed.
@@ -334,6 +337,36 @@ try {
     assert.ok((await page.locator('.location-panel').textContent()).includes('EVİN'));assert.deepEqual(errors,[]);
     await page.screenshot({path:`${out}/city-interaction-1440.png`,fullPage:false});rows.push({view:'city',width:1440,status:'PASS'});await context.close();
   }
+  for (const language of ["tr", "en", "pl"]) for (const width of [1280, 390]) {
+    const fixture = createNewGame({seed:17}); fixture.finances.balance = 1000000;
+    fixture.events.active = null; fixture.events.queue = [];
+    assert.ok(buyProperty(fixture, "owner", true).ok);
+    fixture.time.absoluteWeek += 1; fixture.weekly = {used:0, selectedIds:[]};
+    const context = await browser.newContext({viewport:{width,height:844}}), page = await context.newPage(), errors=[];
+    page.on("pageerror", error => errors.push(error.message));
+    await context.addInitScript(({state,key,origin,language}) => {
+      if(location.origin !== origin || localStorage.getItem("mortgage-fixture")) return;
+      localStorage.setItem(key,JSON.stringify(state));localStorage.setItem("tariklab::tc-sim:active","1");
+      localStorage.setItem("tariklab.language",language);localStorage.setItem("mortgage-fixture","1");
+    }, {state:fixture,key,origin,language});
+    await page.goto(url,{waitUntil:"networkidle"});await page.locator("#continue-game").click();
+    const banks = page.locator('.side-nav [data-view="banks"]');
+    if(!(await banks.isVisible())) await page.locator(".side-nav .nav-more").click();
+    await banks.click();
+    const panel = page.locator("[data-mortgage-panel]");
+    assert.ok((await panel.innerText()).includes(mortgageText("note",language)));
+    await panel.locator('[data-wealth-action="mortgage-extra"]').click();
+    const saved = await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
+    assert.equal(saved.finances.balance,851000);assert.equal(saved.wealth.debts[0].principal,331000);
+    assert.equal(saved.wealth.debts[0].mortgage.interestAccrued,0);assert.equal(saved.meta.saveVersion,6);
+    const dimensions = await page.evaluate(()=>({width:document.documentElement.clientWidth,scroll:document.documentElement.scrollWidth}));
+    assert.ok(dimensions.scroll<=dimensions.width);
+    await panel.scrollIntoViewIfNeeded();await page.screenshot({path:`${out}/mortgage-${language}-${width}.png`});
+    await page.reload({waitUntil:"networkidle"});await page.locator("#continue-game").click();
+    const loaded = await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
+    assert.equal(loaded.finances.balance,saved.finances.balance);assert.deepEqual(loaded.wealth.debts,saved.wealth.debts);
+    assert.deepEqual(errors,[]);rows.push({view:"mortgage",language,width,status:"PASS"});await context.close();
+  }
   if (layoutBaseline) {
     const sample=rows.find(row=>row.language==="tr"&&row.width===1440&&!row.reduced&&row.view==="dashboard");
     assert.ok(sample,"matching candidate entry sample required");
@@ -344,5 +377,5 @@ try {
 finally {
   await browser?.close();
   if (server) await new Promise(done => server.close(done));
-  writeFileSync(`${out}/results.json`, JSON.stringify({ origin, fingerprints, layoutBaseline, layoutCostComparison, layoutMeasurements, controlMeasurements, shellMeasurements, status: failure ? "FAIL" : "PASS", failure, expectedCases: 24, rows, performance: "Candidate cold entry only; before/after comparison remains unmeasured." }, null, 2) + "\n");
+  writeFileSync(`${out}/results.json`, JSON.stringify({ origin, fingerprints, layoutBaseline, layoutCostComparison, layoutMeasurements, controlMeasurements, shellMeasurements, status: failure ? "FAIL" : "PASS", failure, expectedCases: 30, rows, performance: "Candidate cold entry only; before/after comparison remains unmeasured." }, null, 2) + "\n");
 }
