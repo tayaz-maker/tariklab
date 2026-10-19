@@ -58,6 +58,7 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Package 2 combined: occupational exposure also excludes detained work.
   // Combined #189: weekly career actions also honor existing detention.
   // Authorized Package 2: bounded work recovery uses existing body/life/time/state only.
+  // Authorized Package 3: existing partial friend loans join debt-memory follow-up.
   assert.equal(files.length, 61);
   const hash = createHash("sha256");
   for (const file of files) hash.update(file).update(readFileSync(file));
@@ -103,7 +104,7 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Approved source-linked fine finality and bounded evidence/counsel/review hooks in icra.
   // Combined approved court/wage source with prospective service-day/pension hooks.
   // Approved Package 3: existing social promises also reach circle reputation.
-  assert.equal(hash.digest("hex"), "c517c2ba137bb1c80fdead5cd41b4687c65f147aeace770381ab8ce2b3f2e3b5");
+  assert.equal(hash.digest("hex"), "2f03d883387d08ae18ea1221157553b20c8345d49bc76620bcbd6dd86f062af4");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);

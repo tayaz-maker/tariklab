@@ -851,3 +851,13 @@ Stacked on the interest-bearing mortgage PR; independent of its amortization cal
 - Separate feat/tc-sim-promise-reputation branch from canonicale96a207. Existing social-obligation success/failure already updates NPC trust and memory, but omitted circle reputation. The exact-once resolution now calls the existing bounded reputation evidence recorder using the same source-case ID and NPC circle. No new screen, action, save field, finance or schema.
 - V5/V6 real fulfillment and deadline-event tests cover fee/trust/memory/evidence, isolated circle, save/reload and atomic refusal on replay.49/49 targeted social/depth3/frozen-source testsPASS; lint/typecheck/buildPASS. Full61-source guard retained, re-pinned solely for the approved social.js diff.
 - This is prepared, not DONE/released. Browser QA, canonical reconciliation after191/192 and mandatory CI remain required before merge. No new PR opened while current releases finish.
+
+- Prepared real Chromium TR/EN/PL×1280/390 kept/broken promise cases using the existing People action and due-event buttons; verify circle evidence, NPC memory, exact fee and no reload replay. Execution remains required; not claimedPASS.
+
+## 2026-10-19 — Package 3 partial friend-loan accountability (prepared)
+- Separate branch from canonical52e57f0; depends on Package2/#190 closure before merge.
+- Existing 1000TL friend loan wrote lent_1000 memory, but delayed collection only accepted lent_2500. Both existing loan sizes now use the same collection/forgiveness and six-week social follow-up; no new debt ledger or save fields.
+- Amount-neutral existing event copy with EN/PL mappings. Exact-once collection, saved NPC memory and follow-up tests cover both sizes. Existing reference promise/broken-promise delayed scenarios retained.
+- SAVE_VERSION6/UI/financial engine unchanged; 61-source frozen guard re-pinned only for the authorized events.js diff. Browser/required CI and canonical dependency remain release gates.
+
+- Added real Chromium TR/EN/PL×1280/390 partial-debt collection/reload/memory/follow-up assertions to the existing TC browser gate. Draft PR needed to trigger that workflow; no PASS claim before execution.

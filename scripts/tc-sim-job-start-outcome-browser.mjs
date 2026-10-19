@@ -1,3 +1,7 @@
+import { createSocialObligation } from "../public/games/tc-sim/js/social.js";
+import { processDueOpenCases, activateNextEvent } from "../public/games/tc-sim/js/events.js";
+
+import { createPersonalDebt } from "../public/games/tc-sim/js/social.js";
 import { applyWeeklyLifeLoad } from "../public/games/tc-sim/js/life.js";
 import { openIcraNotice } from "../public/games/tc-sim/js/icra.js";
 import { recordBankMonth } from "../public/games/tc-sim/js/bank-record.js";
@@ -509,7 +513,29 @@ try {
     await page.reload({waitUntil:"networkidle"});await page.locator("#continue-game").click();
     const reloadedLoss=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
     assert.equal(reloadedLoss.finances.balance,lost.finances.balance);assert.equal(reloadedLoss.wealth.properties.length,0);
-    assert.deepEqual(errors,[]);rows.push({view:"mortgage-enforcement",language,width,status:"PASS"});await context.close();
+    assert.deepEqual(errors,[]);rows.push({view:"mortgage-enforcement",language,width,status:"PASS"});
+    const friend=createNewGame({seed:17});friend.events.queue=[];
+    friend.finances.balance-=1000;createPersonalDebt(friend,"mehmet",1000,4,"lent_1000");
+    friend.time.absoluteWeek+=4;
+    friend.events.active={eventId:"mehmet_debt_story",occurrenceId:"partial-debt-browser"};
+    const friendBalance=friend.finances.balance;
+    const friendTrust=friend.people.find(p=>p.id==="mehmet").social.trust;
+    await page.evaluate(({state,key})=>localStorage.setItem(key,JSON.stringify(state)),{state:friend,key});
+    await page.reload({waitUntil:"networkidle"});await page.locator("#continue-game").click();
+    const debtCopy={tr:"Sana borcum duruyor, unutmadım.",en:"I still owe you; I haven't forgotten.",pl:"Nadal jestem ci winien pieniądze."}[language];
+    await page.getByText(debtCopy,{exact:false}).waitFor({state:"visible"});
+    await page.locator('[data-event-choice="collect"]').click();
+    const collected=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
+    assert.equal(collected.finances.balance,friendBalance+1000);
+    assert.equal(collected.people.find(p=>p.id==="mehmet").social.trust,friendTrust);
+    assert.ok(collected.people.find(p=>p.id==="mehmet").memories.some(m=>m.type==="debt_collected"));
+    assert.equal(collected.openCases.filter(c=>c.type==="personal-debt"&&c.status!=="resolved").length,0);
+    assert.equal(collected.openCases.filter(c=>c.eventId==="debt_elif_comment").length,1);
+    await page.reload({waitUntil:"networkidle"});await page.locator("#continue-game").click();
+    assert.equal(await page.locator('[data-event-choice="collect"]').count(),0);
+    assert.equal(await page.evaluate(key=>JSON.parse(localStorage.getItem(key)).finances.balance,key),friendBalance+1000);
+    assert.deepEqual(errors,[]);rows.push({view:"partial-friend-debt",language,width,status:"PASS"});
+    await page.screenshot({path:`${out}/partial-friend-debt-${language}-${width}.png`});await context.close();
   }
   // Existing Body action, authored recovery copy, persisted state and mobile layout.
   for (const language of ["tr", "en", "pl"]) for (const width of [1280, 390]) {
@@ -545,7 +571,32 @@ try {
     assert.deepEqual(reloaded.body.workRecovery,saved.body.workRecovery);assert.equal(reloaded.finances.balance,9450);
     const bounds=await page.evaluate(()=>({w:document.documentElement.clientWidth,s:document.documentElement.scrollWidth}));
     assert.ok(bounds.s<=bounds.w);assert.deepEqual(errors,[]);
-    await page.screenshot({path:`${out}/work-recovery-${language}-${width}.png`});rows.push({view:"work-recovery",language,width,status:"PASS"});await context.close();
+    await page.screenshot({path:`${out}/work-recovery-${language}-${width}.png`});rows.push({view:"work-recovery",language,width,status:"PASS"});
+    for(const kept of [true,false]) {
+      const promise=createNewGame({seed:17});promise.events.active=null;promise.events.queue=[];promise.finances.balance=10000;
+      createSocialObligation(promise,"mehmet");
+      const promiseCase=promise.openCases.find(c=>c.type==="social-obligation");
+      if(!kept){promise.time.absoluteWeek=promiseCase.dueWeek;processDueOpenCases(promise);activateNextEvent(promise);}
+      await page.evaluate(({state,key})=>localStorage.setItem(key,JSON.stringify(state)),{state:promise,key});
+      await page.reload({waitUntil:"networkidle"});await page.locator("#continue-game").click();
+      if(kept){
+        const people=page.locator('.side-nav [data-view="people"]');
+        if(!(await people.isVisible()))await page.locator('.side-nav .nav-more').click();
+        await people.click();await page.locator('[data-person="mehmet"]').click();
+        await page.locator('[data-social-action="fulfill_promise"][data-person-id="mehmet"]').click();
+      } else await page.locator('[data-event-choice="acknowledge"]').click();
+      const resolvedPromise=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
+      const evidence=resolvedPromise.reputation.evidence.filter(e=>e.source===promiseCase.id);
+      assert.equal(evidence.length,1);assert.equal(evidence[0].circle,"friends");assert.equal(evidence[0].signal,kept?"reliable":"unreliable");
+      assert.ok(resolvedPromise.people.find(p=>p.id==="mehmet").memories.some(m=>m.type===(kept?"promise_kept":"promise_broken")));
+      assert.equal(resolvedPromise.finances.balance,kept?9700:10000);
+      await page.reload({waitUntil:"networkidle"});await page.locator("#continue-game").click();
+      const persistedPromise=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
+      assert.equal(persistedPromise.reputation.evidence.filter(e=>e.source===promiseCase.id).length,1);
+      assert.equal(persistedPromise.finances.balance,resolvedPromise.finances.balance);
+      assert.deepEqual(errors,[]);rows.push({view:kept?"promise-kept-reputation":"promise-broken-reputation",language,width,status:"PASS"});
+    }
+    await context.close();
   }
   if (layoutBaseline) {
     const sample=rows.find(row=>row.language==="tr"&&row.width===1440&&!row.reduced&&row.view==="dashboard");
