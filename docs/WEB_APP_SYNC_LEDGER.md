@@ -821,3 +821,9 @@ Stacked on the interest-bearing mortgage PR; independent of its amortization cal
 - Reuse existing detention boundary: no job energy/stress, commuting load or family experience while detained; existing education and non-work consequences remain. Salary, coverage, career progression and actual worked experience now agree. Release restores work, with existing once-per-week dedup.
 - Deterministic V5/V6 migration/reload/release tests verify cash neutrality, salary, coverage, experience and SAVE_VERSION6. No schema, UI or finance feature added. Full frozen inventory retained; only authorized life.js bytes re-pinned.
 - Finance release remains gated on #186 fresh required CI and canonical deployment; this dependent change must not merge first.
+
+
+## 2026-10-19 — Package 2 detention and occupational health
+
+- Reproduced high stress during detention taking occupational overwork44→47 and creating an overload warning despite no worked week. Reuse existing detention boundary in body-systems.js to remove only the automatic occupational contribution. General stress, under-recovery, inactivity, care, delayed cases and release-time work remain. No new health model or UI.
+- Deterministic V5/V6 migration/reload/release tests first failed on the old engine, then passed after the two-line runtime change. Cash and SAVE_VERSION6 unchanged; full frozen61-source guard retained and re-pinned only for body-systems.js. Independent from #186/#187 runtime edits; merge serialization still required.

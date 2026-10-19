@@ -55,6 +55,7 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Authorized city wave integrates one geography helper into existing life engines.
   // Authorized language wave adds a read-only presentation helper; engines unchanged.
   // Authorized Package 2: life.js pauses detained job load, commute and experience only.
+  // Authorized #188: preserve #187 and exclude detained occupational exposure.
   assert.equal(files.length, 61);
   const hash = createHash("sha256");
   for (const file of files) hash.update(file).update(readFileSync(file));
@@ -99,7 +100,7 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Approved bounded compulsory private-sector wage collection hook in icra.
   // Approved source-linked fine finality and bounded evidence/counsel/review hooks in icra.
   // Combined approved court/wage source with prospective service-day/pension hooks.
-  assert.equal(hash.digest("hex"), "ad2ec47482d1f983d22df79697923db4b7921e6c72e2950912fbcdbbf34f6768");
+  assert.equal(hash.digest("hex"), "4dc623547b604e6b741efb54eaaaf73b6a37f963b5db3d76f55d55e8c3bd2513");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);

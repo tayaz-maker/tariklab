@@ -1,4 +1,5 @@
 import { appendCapped, addMemory } from "./state.js?v=10";
+import { isDetained } from "./risk-layer.js?v=10";
 
 const MAX_CONDITIONS = 8;
 const EXPOSURES = ["overwork", "underRecovery", "inactivity"];
@@ -84,7 +85,7 @@ export function processLongTermBody(state, { decisionIds, decisionId = null } = 
   const decisions = decisionIds || (decisionId ? [decisionId] : []);
   const has = (id) => decisions.includes(id);
   const exposure = state.body.exposures;
-  const load = state.career?.jobId ? 1 : 0;
+  const load = state.career?.jobId && !isDetained(state) ? 1 : 0;
   recordBodyExposure(state, "overwork", has("overtime") || (load && state.health.stress >= 78) ? 2 + load : -1);
   recordBodyExposure(state, "underRecovery", has("rest") || state.health.energy >= 70 ? -2 : state.health.energy < 40 ? 1 : 0);
   recordBodyExposure(state, "inactivity", ["friend", "family", "partner", "exercise"].some(has) ? -1 : 1);
