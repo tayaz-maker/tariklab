@@ -1,4 +1,4 @@
-import {openCriminalHearing} from './criminal-justice.js?v=10';
+import {openCriminalHearing, isServingCriminalSentence, processCriminalSentenceWeek} from './criminal-justice.js?v=10';
 // +18 risk katmanı. Yeni ekran yok: kısa karar, dosya, hafıza.
 import { addMemory, addNpcMemory, adjustHealth, transact, updateRelationship } from "./state.js?v=10";
 import { applyRelationshipDelta } from "./social.js?v=10";
@@ -7,7 +7,7 @@ const whole = (value) => Math.round(Number(value) || 0);
 
 export function isDetained(state) {
   const until = state?.flags?.risk?.detainedUntil;
-  return Number.isInteger(until) && (state.time?.absoluteWeek || 1) < until;
+  return (Number.isInteger(until) && (state.time?.absoluteWeek || 1) < until) || isServingCriminalSentence(state);
 }
 
 export function normalizeRisk(state) {
@@ -109,6 +109,7 @@ function processDisengagement(state, book) {
 export function processRiskWeek(state) {
   if (state.lifetime?.death) return "";
   const book = normalizeRisk(state);
+  const sentenceNote = processCriminalSentenceWeek(state);
   const recoveryNote = processDisengagement(state, book);
   if (Number.isInteger(book.clinicDue) && state.time.absoluteWeek >= book.clinicDue) {
     book.clinicDue = null;
@@ -124,7 +125,7 @@ export function processRiskWeek(state) {
     book.banner = { week: state.time.absoluteWeek, text };
     return text;
   }
-  return recoveryNote;
+  return [sentenceNote, recoveryNote].filter(Boolean).join(" ");
 }
 
 export function riskNight(state) {

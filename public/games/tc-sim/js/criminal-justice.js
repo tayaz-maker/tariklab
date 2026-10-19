@@ -5,7 +5,23 @@ const now = state => state.time.absoluteWeek;
 function history(state) {
   const src=state.flags.criminalJustice;
   const records=(src?.version===1&&Array.isArray(src.records)?src.records:[]).filter(r=>r?.final===true&&r.outcome==='convicted'&&typeof r.sourceCaseId==='string'&&Number.isInteger(r.decidedWeek)&&r.decidedWeek>=1&&r.decidedWeek<=now(state)).slice(-32);
-  return state.flags.criminalJustice={version:1,records};
+  const c=src?.custody;
+  const valid=c&&typeof c.sourceCaseId==='string'&&records.some(r=>r.sourceCaseId===c.sourceCaseId)&&Number.isInteger(c.startWeek)&&c.startWeek<=now(state)&&Number.isInteger(c.untilWeek)&&c.untilWeek>c.startWeek&&c.untilWeek<=c.startWeek+4;
+  return state.flags.criminalJustice={version:1,records,...(valid?{custody:{sourceCaseId:c.sourceCaseId,startWeek:c.startWeek,untilWeek:c.untilWeek}}:{})};
+}
+export function isServingCriminalSentence(state) {
+  if(!state?.flags?.criminalJustice?.custody)return false;
+  const c=history(state).custody;
+  return Boolean(c&&now(state)<c.untilWeek);
+}
+export function processCriminalSentenceWeek(state) {
+  if(!state.flags.criminalJustice?.custody)return '';
+  const book=history(state),c=book.custody;
+  if(!c||now(state)<c.untilWeek)return '';
+  const record=book.records.find(r=>r.sourceCaseId===c.sourceCaseId);
+  record.servedWeek=now(state);delete book.custody;
+  const text='İnfaz tamamlandı. İş ve haftalık kararlar yeniden açıldı; kesin karar kaydı ve borçlar duruyor.';
+  addMemory(state,text,'important');return text;
 }
 export function criminalRecords(state) { return history(state).records; }
 export function criminalJobDelay(state) {
@@ -52,6 +68,20 @@ export function resolveCriminalChoice(state, definition, choiceId, child) {
   if(!records.some(r=>r.sourceCaseId===source.id)) {
     records.push({sourceCaseId:source.id,outcome:'convicted',final:true,decidedWeek:now(state),offence:'fight'});
     state.flags.criminalJustice.records=records.slice(-32);
+    // Authored balance policy: a repeated proven fight has two game weeks of
+    // custody. This is separate from the pre-verdict detention record.
+    if(records.length>1) {
+      const untilWeek=now(state)+2;
+      state.flags.criminalJustice.custody={sourceCaseId:source.id,startWeek:now(state),untilWeek};
+      records.at(-1).sentenceUntil=untilWeek;
+      const pending=state.career?.pendingJob;
+      const jobCase=state.openCases.find(c=>c.id===pending?.caseId&&c.eventId==='job_start'&&c.status!=='resolved');
+      if(pending&&jobCase&&pending.startWeek<untilWeek){
+        pending.startWeek=untilWeek;jobCase.dueWeek=untilWeek;jobCase.status='pending';
+        state.events.queue=state.events.queue.filter(e=>e.eventId!=='job_start'||e.sourceCaseId!==jobCase.id);
+      }
+      addMemory(state,'Tekrarlanan kesin kavga kararı: iki oyun haftası infaz. Gözaltıdan ayrı; mevcut iş ve SGK durdurma kuralları uygulanır.','important');
+    }
     const mother=state.people?.find(p=>p.id==='anne'&&!p.deceased);
     if(mother){applyRelationshipDelta(state,'anne',{trust:-4,tension:4});addNpcMemory(state,'anne','Kavga dosyasında kesin karar çıktı. Gözaltı kaydıyla aynı şey değil.','criminal-verdict');}
     addMemory(state,'Kavga dosyasında kaynak delile dayalı kesin karar çıktı. Ceza tahsilatı mevcut icra akışında; yeni iş başlangıcı bir hafta gecikebilir.','important');
@@ -59,7 +89,7 @@ export function resolveCriminalChoice(state, definition, choiceId, child) {
   return true;
 }
 export const CRIMINAL_EVENTS=[
- {id:'criminal_hearing',repeat:'repeatable',title:'Kavga dosyasında duruşma',text:'Bu sınırlı oyun sürecinde kaynak kavga kaydı inceleniyor. Gözaltı mahkûmiyet değildir. Ek inceleme kararı iki hafta, normal karar bir hafta sonra gelir; doğrulanmış delil yoksa mahkûmiyet oluşmaz.',condition:()=>false,validateChoice:criminalChoiceAvailability,choices:[
+ {id:'criminal_hearing',repeat:'repeatable',title:'Kavga dosyasında duruşma',text:'Bu sınırlı oyun sürecinde kaynak kavga kaydı inceleniyor. Gözaltı mahkûmiyet değildir. Ek inceleme kararı iki hafta, normal karar bir hafta sonra gelir; doğrulanmış delil yoksa mahkûmiyet oluşmaz. Oyundaki tekrar politikası: ikinci kesin kavga kararından itibaren iki oyun haftası infaz uygulanır.',condition:()=>false,validateChoice:criminalChoiceAvailability,choices:[
   {id:'accept',label:'Kaynak kayıtla karar verilmesini iste',effects:{}},
   {id:'review',label:'İtiraz et ve bir ek inceleme iste',effects:{}},
  ]},

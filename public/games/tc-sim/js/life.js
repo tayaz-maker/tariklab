@@ -1,4 +1,4 @@
-import {criminalJobDelay, markCriminalReentry} from './criminal-justice.js?v=10';
+import {criminalJobDelay, markCriminalReentry, isServingCriminalSentence} from './criminal-justice.js?v=10';
 import { isWorkRecovering } from "./body-systems.js?v=10";
 import { recordInsuranceWeek, fiscalSocialSummary } from "./social-insurance.js?v=10";
 import {currentDistrict, locationCommute, locationCosts, locationJobDelay, locationMoveQuote, CITIES} from './locations.js?v=10';
@@ -423,6 +423,7 @@ export function acceptJobOffer(state, jobId) {
 }
 
 export function completePendingJob(state, sourceCaseId) {
+  if (isServingCriminalSentence(state)) return false;
   if (state.lifetime?.death) return false;
   const pending = state.career.pendingJob;
   if (!pending || pending.caseId !== sourceCaseId || !getJobById(pending.jobId)) return false;
