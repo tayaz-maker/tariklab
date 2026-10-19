@@ -1,6 +1,7 @@
 // İcra / haciz. Süreler ve inceleme masrafı oyun kuralıdır; hukuk tarifesi değildir.
 import { addMemory, addNpcMemory, adjustHealth, transact, updateRelationship } from "./state.js?v=10";
 import { CASH_ARREARS_CAP, DURABLES } from "./wealth.js?v=10";
+import { debtBalance, isAmortizingMortgage, mortgageStatus, settleMortgagePayment, reconcileMortgageClaims } from "./mortgage.js?v=10";
 
 const GRACE = 4;
 const ARREARS_FLOOR = 2500;
@@ -20,7 +21,7 @@ export function normalizeIcra(state) {
   state.flags.icra = {
     watchWeek: Number.isInteger(src.watchWeek) ? src.watchWeek : null,
     frozenWeek: Number.isInteger(src.frozenWeek) ? src.frozenWeek : null,
-    seized: ["cash", "vehicle", "goods"].includes(src.seized) ? src.seized : "",
+    seized: ["cash", "vehicle", "goods", "property"].includes(src.seized) ? src.seized : "",
     banner,
   };
   return state.flags.icra;
@@ -39,6 +40,8 @@ export function icraCase(state) {
 
 export function claimOf(state) {
   const arrears = whole(state.finances?.arrears);
+  const loan = state.wealth?.debts?.find(d => isAmortizingMortgage(d) && mortgageStatus(d) === "default" && debtBalance(d) > 0);
+  if (loan) return { source: "mortgage", amount: debtBalance(loan), loanId: loan.id };
   if (arrears >= ARREARS_FLOOR) return { source: "temerrut", amount: arrears };
   const debt = state.flags?.pocket?.familyDebt;
   if (debt && whole(debt.amount) >= 1000 && state.time.absoluteWeek > whole(debt.dueWeek) + GRACE)
@@ -50,7 +53,9 @@ export function claimOf(state) {
 
 export function openIcraNotice(state, claim) {
   if (icraCase(state) || !claim || claim.amount < 1) return null;
-  const amount = whole(claim.amount);
+  const loan = claim.source === "mortgage" ? state.wealth?.debts?.find(d => d.id === claim.loanId && isAmortizingMortgage(d)) : null;
+  if (claim.source === "mortgage" && (!loan || mortgageStatus(loan) !== "default")) return null;
+  const amount = loan ? debtBalance(loan) : whole(claim.amount);
   const item = {
     id: `icra-${state.time.absoluteWeek}-${claim.source}`,
     type: "icra",
@@ -62,6 +67,7 @@ export function openIcraNotice(state, claim) {
       source: String(claim.source || "temerrut").slice(0, 16),
       amount,
       owed: amount,
+      ...(claim.source === "mortgage" ? { loanId: claim.loanId } : {}),
       ...(claim.source === "temerrut" ? { sourceArrears: Math.min(amount, whole(state.finances.arrears)) } : {}),
       playerKnown: true,
     },
@@ -81,6 +87,15 @@ function sourceArrears(state, item) {
 }
 
 export function recordIcraPayment(state, item, amount) {
+  if (item.payload.source === "mortgage") {
+    const debt = state.wealth?.debts?.find(d => d.id === item.payload.loanId);
+    if (!debt || !isAmortizingMortgage(debt)) return 0;
+    const paid = settleMortgagePayment(debt, amount);
+    item.payload.owed = debtBalance(debt);
+    if (!item.payload.owed) state.wealth.debts = state.wealth.debts.filter(d => d !== debt);
+    reconcileMortgageClaims(state);
+    return paid;
+  }
   const owed = Math.max(0, whole(item.payload.owed ?? item.payload.amount));
   const paid = Math.max(0, Math.min(owed, whole(amount)));
   const backed = sourceArrears(state, item);
@@ -138,9 +153,50 @@ function seizeGoods(state) {
   return { proceeds, id: item.id };
 }
 
+// Fictional 80% liquidation value, not a Turkish auction or legal pricing rule.
+// Only the linked collateral is sold. Deficiency transfers to existing D0
+// arrears/negative-cash storage after removing the original loan, exactly once.
+function forecloseMortgage(state, item) {
+  const debt = state.wealth.debts.find(d => d.id === item.payload.loanId);
+  if (!debt || !isAmortizingMortgage(debt)) return { ok: false, reason: "Bağlı konut kredisi bulunamadı." };
+  recordIcraPayment(state, item, takeCash(state, debtBalance(debt)));
+  if (item.status === "resolved")
+    return { ok: true, message: remember(state, "Konut kredisi gecikmesi giderildi; icra durdu, kalan kredi ve konut korunuyor.") };
+  const property = state.wealth.properties.find(p => p.id === debt.linkedAssetId && p.mortgageId === debt.id);
+  let proceeds = 0, sold = false;
+  if (debtBalance(debt) > 0 && property) {
+    sold = true;
+    proceeds = Math.max(0, whole(property.currentValue * 0.8));
+    state.wealth.properties = state.wealth.properties.filter(p => p !== property);
+    if (proceeds) transact(state, proceeds, "İpotekli konut: oyun satış bedeli", "property");
+    recordIcraPayment(state, item, takeCash(state, debtBalance(debt)));
+  }
+  const remaining = debtBalance(debt);
+  const arrears = whole(state.finances.arrears) + remaining;
+  state.finances.arrears = Math.min(CASH_ARREARS_CAP, arrears);
+  if (arrears > CASH_ARREARS_CAP) transact(state, -(arrears - CASH_ARREARS_CAP), "İcra kalan borç tavan aşımı", "debt");
+  state.wealth.debts = state.wealth.debts.filter(d => d !== debt);
+  item.payload.settlement = { propertyId: property?.id || null, proceeds, remaining,
+    originalPrincipal: debt.mortgage.originalPrincipal, principalPaid: debt.mortgage.principalPaid,
+    interestAccrued: debt.mortgage.interestAccrued, interestPaid: debt.mortgage.interestPaid };
+  closeCase(state, item, sold || remaining ? "foreclosed" : "paid");
+  const book = normalizeIcra(state);
+  book.seized = sold ? "property" : "cash";
+  book.frozenWeek = state.time.absoluteWeek;
+  if (sold) {
+    updateRelationship(state, "anne", -6);
+    addNpcMemory(state, "anne", "İcra kapına dayandı. Bunu duydum.", "icra");
+    adjustHealth(state, { stress: 6 });
+  }
+  return { ok: true, message: remember(state, "Konut icrası kapandı. Artan satış bedeli sende; ödenmeyen borç temerrüte aktarıldı. Yüzde 80 satış değeri oyun varsayımıdır. Güncel tutarlar Para ekranında.") };
+}
+
 export function runHaciz(state, item) {
   if (item.status !== "pending" || item.payload.stage === "court")
     return { ok: false, reason: "İnceleme bitmeden veya kapalı dosyada haciz yapılamaz." };
+  reconcileMortgageClaims(state);
+  if (item.status !== "pending") return { ok: false, reason: "İnceleme bitmeden veya kapalı dosyada haciz yapılamaz." };
+  if (item.payload.source === "mortgage") return forecloseMortgage(state, item);
   const book = normalizeIcra(state);
   let owed = whole(item.payload.owed ?? item.payload.amount);
   const cashPaid = takeCash(state, owed);
@@ -186,6 +242,7 @@ export function runHaciz(state, item) {
 }
 
 export function payIcra(state) {
+  reconcileMortgageClaims(state);
   const item = icraCase(state);
   if (!item) return { ok: false, reason: "Açık icra yazısı yok." };
   const owed = whole(item.payload.owed ?? item.payload.amount);
@@ -230,6 +287,8 @@ function reviewIcra(state, item) {
 
 export function planIcra(state) {
   const item = icraCase(state);
+  if (item?.payload.source === "mortgage")
+    return { ok: false, reason: "Konut kredisi için Bankalar menüsündeki yapılandırmayı kullan." };
   if (!item || item.payload.stage !== "notice") return { ok: false, reason: "Taksit yalnız ilk yazıda bağlanır." };
   const owed = whole(item.payload.owed ?? item.payload.amount);
   const now = whole(owed * 0.4);
@@ -265,6 +324,7 @@ export function ignoreIcra(state) {
 export function workaroundIcra(state) {
   const item = icraCase(state);
   if (!item || item.payload.stage !== "notice") return { ok: false, reason: "Aradan dolaşılacak yazı yok." };
+  if (item.payload.source === "mortgage") return { ok: false, reason: "Konut kredisi için Bankalar menüsündeki yapılandırmayı kullan." };
   const bump = 600;
   item.payload.amount = whole(item.payload.amount) + bump;
   item.payload.owed = whole(item.payload.owed ?? item.payload.amount) + bump;
@@ -307,6 +367,7 @@ function collectInstallment(state, item) {
 
 export function processIcraWeek(state) {
   if (state.lifetime?.death) return "";
+  reconcileMortgageClaims(state);
   const book = normalizeIcra(state);
   const item = icraCase(state);
   if (!item) {
@@ -323,7 +384,9 @@ export function processIcraWeek(state) {
     const opened = openIcraNotice(state, claim);
     book.watchWeek = null;
     if (!opened) return "";
-    return remember(state, `İcra yazısı geldi. ${opened.payload.amount} TL. Öde, taksit bağla, ya da dosya yürür.`);
+    return remember(state, opened.payload.source === "mortgage"
+      ? "Konut kredisi icra bildirimi geldi. Öde, itiraz et veya Bankalar üzerinden yapılandır. Ödenmezse bağlı konut yüzde 80 oyun değeriyle satılır; kalan borç silinmez."
+      : `İcra yazısı geldi. ${opened.payload.amount} TL. Öde, taksit bağla, ya da dosya yürür.`);
   }
   if (item.payload.stage === "court" && state.time.absoluteWeek >= item.dueWeek)
     return reviewIcra(state, item);
@@ -362,13 +425,13 @@ export const ICRA_DECISIONS = [
     id: "icra-installment",
     title: "Taksit bağla",
     detail: "yüzde 40 peşin · yüzde 10 masraf · kalan 4 ay",
-    contextual: noticeOpen,
+    contextual: state => noticeOpen(state) && icraCase(state).payload.source !== "mortgage",
     apply: planIcra,
   },
   {
     id: "icra-ignore",
     title: "Yazıyı yok say",
-    detail: "haciz işler · nakit, araç, eşya",
+    detail: "haciz işler · nakit, ipotekli konut, araç, eşya",
     contextual: noticeOpen,
     apply: ignoreIcra,
   },
@@ -376,7 +439,7 @@ export const ICRA_DECISIONS = [
     id: "icra-workaround",
     title: "Aradan dolaş",
     detail: "borç şişer · dosya kalınlaşır",
-    contextual: noticeOpen,
+    contextual: state => noticeOpen(state) && icraCase(state).payload.source !== "mortgage",
     apply: workaroundIcra,
   },
 ];

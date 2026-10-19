@@ -3,6 +3,13 @@
   const I = root.tlabI18n;
   if (!I || !I.PHRASE || !I.PHRASE_PL) return;
   const rows = [
+    ["haciz işler · nakit, ipotekli konut, araç, eşya", "enforcement proceeds · cash, mortgaged home, vehicle, goods", "egzekucja trwa · gotówka, dom z hipoteką, pojazd, rzeczy"],
+    ["Konut kredisi için Bankalar menüsündeki yapılandırmayı kullan.", "For a home loan, use restructuring in Banks.", "Dla kredytu mieszkaniowego użyj restrukturyzacji w Bankach."],
+    ["Bağlı konut kredisi bulunamadı.", "Linked home loan not found.", "Nie znaleziono powiązanego kredytu mieszkaniowego."],
+    ["Konut kredisi gecikmesi giderildi; icra durdu, kalan kredi ve konut korunuyor.", "Home-loan delinquency cured; enforcement stopped, the remaining loan and home are retained.", "Usunięto zaległość kredytu mieszkaniowego; egzekucja wstrzymana, pozostały kredyt i dom zachowane."],
+    ["İpotekli konut: oyun satış bedeli", "Mortgaged home: game sale proceeds", "Dom z hipoteką: wpływy ze sprzedaży w grze"],
+    ["Konut kredisi icra bildirimi geldi. Öde, itiraz et veya Bankalar üzerinden yapılandır. Ödenmezse bağlı konut yüzde 80 oyun değeriyle satılır; kalan borç silinmez.", "Home-loan enforcement notice received. Pay, object or restructure in Banks. If unpaid, linked collateral sells at 80% game value; remaining debt is retained.", "Otrzymano zawiadomienie o egzekucji kredytu mieszkaniowego. Spłać, złóż sprzeciw lub restrukturyzuj w Bankach. Bez spłaty zabezpieczenie jest sprzedawane za 80% wartości gry; reszta długu pozostaje."],
+    ["Konut icrası kapandı. Artan satış bedeli sende; ödenmeyen borç temerrüte aktarıldı. Yüzde 80 satış değeri oyun varsayımıdır. Güncel tutarlar Para ekranında.", "Home enforcement closed. Surplus proceeds are yours; unpaid debt moved to arrears. The 80% sale value is a game assumption. Current amounts are in Money.", "Egzekucja domu zakończona. Nadwyżka wpływów jest twoja; niespłacony dług przeniesiono do zaległości. Wartość sprzedaży 80% jest założeniem gry. Bieżące kwoty są w Finansach."],
     ["Borç dökümüne itiraz et", "Dispute the debt statement", "Zakwestionuj zestawienie długu"],
     ["300 TL oyun masrafı · 2 hafta inceleme · geçerli borç silinmez", "300 TL game fee · 2-week review · valid debt remains", "Opłata gry 300 TL · 2 tygodnie kontroli · zasadny dług pozostaje"],
     ["Bu dosya için yeni itiraz süresi yok.", "No new objection is available for this case.", "W tej sprawie nie można już złożyć nowego sprzeciwu."],

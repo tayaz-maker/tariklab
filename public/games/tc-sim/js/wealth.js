@@ -1,5 +1,5 @@
 import { getMonthlySummary } from "./life.js?v=10";
-import { MORTGAGE_TERMS, amortizedPayment, newMortgage, normalizeMortgage, isAmortizingMortgage, debtBalance, mortgageDue, mortgageStatus, settleMortgageMonth, settleMortgagePayment, restructureMortgage, validMortgage, mortgageText } from "./mortgage.js?v=10";
+import { reconcileMortgageClaims, MORTGAGE_TERMS, amortizedPayment, newMortgage, normalizeMortgage, isAmortizingMortgage, debtBalance, mortgageDue, mortgageStatus, settleMortgageMonth, settleMortgagePayment, restructureMortgage, validMortgage, mortgageText } from "./mortgage.js?v=10";
 import { recordBankMonth, recordBankLoan, bankCreditPolicy } from "./bank-record.js?v=10";
 
 import { recordMonthlyCash } from "./monthly-cash.js?v=10";
@@ -799,6 +799,7 @@ export function manageMortgage(state, id, action) {
     ledger(state, -paid, mortgageText("paid", mortgageLanguage()), "debt");
     if (!debtBalance(debt)) state.wealth.debts = state.wealth.debts.filter(d => d !== debt);
   }
+  reconcileMortgageClaims(state, action === "mortgage-restructure" ? id : null);
   mark(state, `mortgage:${id}`);
   return { ok: true, message: mortgageText(action === "mortgage-restructure" ? "changed" : "paid", mortgageLanguage()) };
 }
@@ -817,6 +818,7 @@ export function sellProperty(state, id) {
   ledger(state, net, "Mülk satışı ve borç kapama", "property");
   state.wealth.properties = state.wealth.properties.filter((x) => x !== p);
   if (debt) state.wealth.debts = state.wealth.debts.filter((d) => d !== debt);
+  reconcileMortgageClaims(state);
   return { ok: true, message: "Mülk satıldı; bağlı borç kapatıldı." };
 }
 export function setPropertyOccupancy(state, id, occupancy) {
@@ -900,6 +902,7 @@ export function processWealthMonthEnd(state) {
       w.debts = w.debts.filter((x) => x !== d);
     }
   }
+  reconcileMortgageClaims(state);
   let valuation = 0;
   for (const p of w.investments) {
     if (p.lastMonth === month) continue;
