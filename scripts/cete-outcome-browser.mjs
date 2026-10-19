@@ -6,12 +6,15 @@ import { createHash } from "node:crypto";
 import { chromium } from "playwright";
 import { hydratePlayer, makeRivals, MARKET_START, SAVE_VERSION } from "../src/game/data.ts";
 import { checkedUrl } from "./browser-guard.mjs";
+import { waitForHttp } from "./ci-readiness.mjs";
 
 const port = process.env.CETE_BUILD === "1" ? "8087" : "8086";
 const base = checkedUrl(process.env.CETE_BASE || `http://127.0.0.1:${port}`);
 const out = `${process.env.RUNNER_TEMP || "/workspace"}/screenshots/cete-outcome/${process.env.CETE_LABEL || "preview"}`;
 await mkdir(out, { recursive: true });
-const server = process.env.CETE_BASE ? null : spawn("npm", ["run", process.env.CETE_BUILD === "1" ? "preview" : "dev", "--", "--host", "127.0.0.1", "--port", port], { stdio: "inherit", detached: true });
+const server = process.env.CETE_BASE ? null : process.env.CETE_BUILD === "1"
+  ? spawn(process.execPath, ["scripts/ci-built-preview.mjs", port], { stdio: "inherit", detached: true })
+  : spawn("npm", ["run", "dev", "--", "--host", "127.0.0.1", "--port", port], { stdio: "inherit", detached: true });
 let browser;
 const results = [];
 const servedBundles = [];
@@ -19,13 +22,7 @@ const responseReads = [];
 const readSave = (page) => page.evaluate(() => JSON.parse(localStorage.getItem("tariklab::cete:1")).state.player);
 try {
   if (server) {
-    let ready = false;
-    for (let i = 0; i < 120; i++) {
-      try { ready = (await fetch(base)).ok; } catch { /* bounded startup */ }
-      if (ready) break;
-      await new Promise((r) => setTimeout(r, 250));
-    }
-    assert.ok(ready, "server startup");
+    await waitForHttp(base, { timeoutMs: 90000, stopped: () => server.exitCode !== null || server.signalCode !== null });
   }
   browser = await chromium.launch({ executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || undefined, args: ["--no-sandbox"] });
   for (const lang of ["tr", "en"]) for (const width of [1440, 390, 320]) for (const reducedMotion of ["no-preference", "reduce"]) {

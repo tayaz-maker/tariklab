@@ -861,3 +861,9 @@ Stacked on the interest-bearing mortgage PR; independent of its amortization cal
 - SAVE_VERSION6/UI/financial engine unchanged; 61-source frozen guard re-pinned only for the authorized events.js diff. Browser/required CI and canonical dependency remain release gates.
 
 - Added real Chromium TR/EN/PL×1280/390 partial-debt collection/reload/memory/follow-up assertions to the existing TC browser gate. Draft PR needed to trigger that workflow; no PASS claim before execution.
+
+
+## 2026-10-19 — CI preview and deployment readiness
+- Separate infrastructure-only branch: measured five CI runs and retained raw queue/job/step evidence in docs/ci/CI-RECOVERY-2026-10-19.{md,json}. No execution speedup claimed.
+- Exact built Wrangler preview avoids Nitro fixed10s proxy deadline; bounded real HTTP readiness detects exit. TC production browser waits for all7 candidate fingerprints before launch, retaining its original strict assertion.
+- Required job names/gates, test sets, historical/soak coverage, gameplay/UI/assets/SAVE_VERSION unchanged. Readiness/routing/required-gate tests32/32PASS; full CI and actual preview evidence remain release gates.

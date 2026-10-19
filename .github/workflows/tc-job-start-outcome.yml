@@ -17,6 +17,9 @@ on:
       - package-lock.json
       - public/games/tc-sim/styles.css
       - scripts/tc-sim-job-start-*.mjs
+      - scripts/ci-readiness*.mjs
+      - scripts/ci-built-preview.mjs
+      - scripts/ci-wait-tc-deployment.mjs
       - .github/workflows/tc-job-start-outcome.yml
   push:
     branches: [main]
@@ -35,6 +38,9 @@ on:
       - package-lock.json
       - public/games/tc-sim/styles.css
       - scripts/tc-sim-job-start-*.mjs
+      - scripts/ci-readiness*.mjs
+      - scripts/ci-built-preview.mjs
+      - scripts/ci-wait-tc-deployment.mjs
       - .github/workflows/tc-job-start-outcome.yml
   workflow_dispatch:
 
@@ -95,6 +101,12 @@ jobs:
         with:
           name: tc-mobile-final
           path: ${{ runner.temp }}/screenshots/tc-mobile-final
+      - name: Wait for exact deployed TC candidate before browser startup
+        if: matrix.label != 'built'
+        timeout-minutes: 6
+        env:
+          TC_OUTCOME_ORIGIN: ${{ matrix.origin }}
+        run: node scripts/ci-wait-tc-deployment.mjs --origin "$TC_OUTCOME_ORIGIN" --root .output/public
       - name: Exact released candidate — isolated synthetic saves on allowlisted host
         if: matrix.label != 'built'
         env:
