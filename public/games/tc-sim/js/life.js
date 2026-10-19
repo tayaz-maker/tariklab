@@ -102,13 +102,16 @@ export function getRetirementEligibility(state) {
     (sum, weeks) => sum + (Number.isFinite(weeks) ? weeks : 0),
     0,
   );
+  const serviceDays = fiscalSocialSummary(state).insurance.service?.days || 0;
+  const qualifyingWeeks = Math.max(experienceWeeks, Math.floor(serviceDays * 4 / 30));
   const eligible =
     state?.career?.retirement?.status !== "retired" &&
-    ((age >= 60 && experienceWeeks >= 480) || (age >= 65 && experienceWeeks >= 240));
+    ((age >= 60 && qualifyingWeeks >= 480) || (age >= 65 && qualifyingWeeks >= 240));
   return {
     eligible,
     age,
     experienceWeeks,
+    observedServiceDays: serviceDays,
     socialInsurance: fiscalSocialSummary(state).insurance,
     reason: eligible
       ? "TC SIM'in soyut yaş ve çalışma geçmişi koşullarını karşılıyorsun."

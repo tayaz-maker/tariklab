@@ -68,3 +68,35 @@ test("existing pension remains available to household and credit capacity withou
  assert.equal(s.flags.socialInsurance.coveredWeeks,0);
  for(const lang of ["tr","en","pl"]){const snapshot=JSON.stringify(s);const html=renderFiscalSocialSummary(s,String,lang);assert.match(html,/6000/);assert.match(html,/data-social-insurance/);assert.equal(JSON.stringify(s),snapshot);}
 });
+
+
+test("modeled service: four observed weeks give 30 days, linked contracts and no new cash deduction",()=>{
+ let s=game();s.time.year=2027;const cash=s.finances.balance;
+ for(let i=0;i<4;i++){s.time.weekOfMonth=i+1;s.time.absoluteWeek=i;applyWeeklyLifeLoad(s);}
+ assert.equal(s.flags.socialInsurance.service.days,30);assert.equal(s.flags.socialInsurance.service.employers[0].id,"market");
+ assert.equal(s.finances.balance,cash);applyWeeklyLifeLoad(s);assert.equal(s.flags.socialInsurance.service.days,30);
+ const storage=new Storage();assert.ok(saveGame(storage,s).ok);s=loadGame(storage).state;
+ applyWeeklyLifeLoad(s);assert.equal(s.flags.socialInsurance.service.days,30);
+ s.time.absoluteWeek++;s.time.weekOfMonth=1;s.career.jobId="office";applyWeeklyLifeLoad(s);
+ assert.equal(s.flags.socialInsurance.service.days,38);assert.equal(s.flags.socialInsurance.service.employers.length,2);
+ s.time.absoluteWeek++;s.career.jobId=null;applyWeeklyLifeLoad(s);assert.equal(s.flags.socialInsurance.service.days,38);
+ assert.equal(s.flags.socialInsurance.service.lastEmployer,null);assert.equal(validateState(s).ok,true);
+});
+test("service-day pension connection uses max not sum and keeps legacy earned eligibility",()=>{
+ const s=game();s.player.age=60;s.career.jobFamilyExperience={hizmet:0};
+ s.flags.socialInsurance.service={version:1,days:3600,lastEmployer:"market",employers:[{id:"market",days:3600}]};
+ assert.equal(getRetirementEligibility(s).eligible,true);assert.equal(getRetirementEligibility(s).observedServiceDays,3600);
+ s.flags.socialInsurance.service.days=1800;s.flags.socialInsurance.service.employers[0].days=1800;s.career.jobFamilyExperience.hizmet=240;
+ assert.equal(getRetirementEligibility(s).eligible,false,"two overlapping histories are not added");
+ s.career.jobFamilyExperience.hizmet=480;assert.equal(getRetirementEligibility(s).eligible,true);
+ s.flags.socialInsurance.service=undefined;assert.equal(getRetirementEligibility(s).eligible,true);
+});
+test("unknown V5/V6 service stays zero; unsupported year/jobs do not invent days; future service rejected",()=>{
+ for(const version of [5,6]){const s=game();s.meta.saveVersion=version;delete s.flags.socialInsurance.service;
+  const m=migrateState(s);assert.ok(m.ok);assert.equal(m.state.flags.socialInsurance.service.days,0);}
+ const s=game();s.time.year=1999;applyWeeklyLifeLoad(s);assert.equal(s.flags.socialInsurance.service.days,0);
+ s.time.year=2027;s.time.absoluteWeek++;s.career.jobId="clerk_public";applyWeeklyLifeLoad(s);assert.equal(s.flags.socialInsurance.service.days,0);
+ s.flags.socialInsurance.service={version:99};assert.equal(validateState(s).ok,false);
+ s.flags.socialInsurance.service={version:1,days:0,lastEmployer:null,employers:[null]};assert.equal(validateState(s).ok,false);
+ for(const lang of ["tr","en","pl"]){const t=game();assert.match(renderFiscalSocialSummary(t,String,lang),/data-insurance-service/);}
+});

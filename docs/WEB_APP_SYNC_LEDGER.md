@@ -808,6 +808,14 @@ Stacked on the interest-bearing mortgage PR; independent of its amortization cal
 - TR/EN/PL and real1280/390 UI matrix cover inspection/counsel cost/reload, existing modal resolved via real choice. Four new regressions cover repeated-fine prevention, no-charge evidence, one fee, bounded appeal/live balance, invalid decisions and V5/V6. SAVE_VERSION6 preserved; full61-source guard re-pinned only for approved icra changes.
 
 
+## 2026-10-19 — prospective modeled service days and employer records
+
+- Add optional version1 service metadata inside existing socialInsurance: observed days, last modeled contract and bounded per-job employer proxies. Supported private catalog jobs from2020 only; four decision weeks allocate8/7/8/7 days, a stated game assumption giving30 for a full modeled month. Actual official partial-month reporting is calendar-based, not this allocation. No past coverage inferred from old weeks or experience.
+- Reuse completed-week dedup/exclusions. Unsupported job/year, unemployment, detention, service and retirement add no modeled days. No premium payment or official employer filing is invented. Current net salary has no second charge.
+- Existing pension age/abstract480-or240-week criteria now accept the greater of old experience and modeled service equivalent, never their sum; old entitlements preserved. Not statutory Turkish retirement eligibility. Existing Career panel receives authored TR/EN/PL service/status/contract counts.
+- Tests cover30-day modeled month, job switch, reload, excluded work/history, future format, pension double-count prevention and three-language read-only output. Browser matrix checks actual persisted days and panel1280/390. SAVE_VERSION6 and full61-source guard retained with only approved life/social-insurance changes.
+
+
 ## 2026-10-19 — Package 2 detention and occupational health
 
 - Reproduced high stress during detention taking occupational overwork44→47 and creating an overload warning despite no worked week. Reuse existing detention boundary in body-systems.js to remove only the automatic occupational contribution. General stress, under-recovery, inactivity, care, delayed cases and release-time work remain. No new health model or UI.
