@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {createNewGame,transact,validateState,SAVE_VERSION} from "../public/games/tc-sim/js/state.js";
-import {openIcraNotice,startWageCollection,collectWageDebt,payIcra,objectIcra} from "../public/games/tc-sim/js/icra.js";
+import {openIcraNotice,startWageCollection,collectWageDebt,payIcra,objectIcra,processIcraWeek} from "../public/games/tc-sim/js/icra.js";
 import {advanceWeek} from "../public/games/tc-sim/js/time.js";
 import {getMonthlyEmploymentIncome} from "../public/games/tc-sim/js/life.js";
 import {netWorth} from "../public/games/tc-sim/js/wealth.js";
@@ -53,4 +53,34 @@ test("V5/V6 legacy notices do not acquire orders; active V6 order and early payo
  const s=game();order(s);const storage=new Storage();assert.ok(saveGame(storage,s).ok);const t=loadGame(storage).state;
  assert.equal(t.openCases[0].payload.stage,"wage");assert.ok(payIcra(t).ok);
  const snap=structuredClone(t);assert.equal(collectWageDebt(t,9000),0);assert.deepEqual(t,snap);
+});
+
+
+test("expired supported wage notice attaches compulsorily without player agreement or immediate cash charge",()=>{
+ const s=game();const f=openIcraNotice(s,{source:"temerrut",amount:4000}),cash=s.finances.balance;
+ assert.equal(f.payload.wage,undefined);processIcraWeek(s);assert.equal(f.payload.stage,"notice");
+ f.dueWeek=s.time.absoluteWeek;
+ assert.match(processIcraWeek(s),/Maaş haczi başladı/);
+ assert.equal(f.payload.wage.compulsory,true);assert.equal(f.payload.wage.paid,0);assert.equal(s.finances.balance,cash);
+ const worth=netWorth(s).total;
+ assert.equal(collectWageDebt(s,9000),2250);assert.equal(f.payload.owed,1750);
+ assert.equal(netWorth(s).total,worth);assert.equal(s.finances.arrears,7750);
+ const storage=new Storage();assert.ok(saveGame(storage,s).ok);const t=loadGame(storage).state;
+ assert.equal(t.openCases[0].payload.wage.compulsory,true);assert.equal(collectWageDebt(t,9000),0);
+ t.time.month+=1;assert.equal(collectWageDebt(t,9000),1750);assert.equal(t.finances.arrears,6000);
+ assert.equal(t.openCases[0].status,"resolved");assert.equal(validateState(t).ok,true);
+});
+test("review and renewed notice precede compulsory wage collection; no duplicated order",()=>{
+ const s=game(),f=openIcraNotice(s,{source:"temerrut",amount:4000});assert.ok(objectIcra(s).ok);
+ processIcraWeek(s);assert.equal(f.payload.stage,"court");assert.equal(collectWageDebt(s,9000),0);
+ s.time.absoluteWeek=f.dueWeek;processIcraWeek(s);assert.equal(f.payload.stage,"notice");
+ assert.equal(f.payload.wage,undefined);s.time.absoluteWeek=f.dueWeek;processIcraWeek(s);
+ const order=structuredClone(f.payload.wage);processIcraWeek(s);assert.deepEqual(f.payload.wage,order);
+});
+test("compulsory order does not attach public wages, pension, historical-era wages or unemployment",()=>{
+ const s=game(),f=openIcraNotice(s,{source:"temerrut",amount:4000});f.dueWeek=s.time.absoluteWeek;processIcraWeek(s);
+ for(const job of [null,"clerk_public"]){s.career.jobId=job;const snap=structuredClone(s);assert.equal(collectWageDebt(s,9000),0);assert.deepEqual(s,snap);}
+ s.career.jobId="market";s.time.year=1999;assert.equal(collectWageDebt(s,9000),0);s.time.year=2027;
+ s.career.retirement.status="retired";assert.equal(collectWageDebt(s,9000),0);
+ assert.equal(f.payload.owed,4000);assert.equal(s.finances.arrears,10000);
 });

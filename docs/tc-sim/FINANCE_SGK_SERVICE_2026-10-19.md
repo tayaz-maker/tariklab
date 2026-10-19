@@ -9,3 +9,10 @@ Optional socialInsurance.service version1 records prospective modeled days and b
 Pension connection: existing abstract age/480-or240-week criteria use max(old experience, floor(observed service days×4/30)), never sum. Existing entitlement preserved.3600/1800 modeled days merely match existing game-week thresholds; they are not Turkish legal contribution-day requirements. Real statutory eligibility also depends on unimplemented historical/legal facts.
 
 Status: modeled service-day/contract/progress linkage implemented, test/release pending. Statutory premium payments and complete employer reporting remain MISSING; legal retirement detail PARTIAL. Full legalSGK and finance closure are not claimed. No Package2 start. Physical devices user-owned.
+
+
+## Combined release preparation after #184
+
+Canonical main03566ddaf08bbbfeb23ebffcd1fa24848d897926 (#184). Incorporated #185 court source, preserving both ledger sections and recomputing the full61-source guard for icra plus service/life hooks. This remains a dependent preparation branch, not a canonical release.
+
+New real16-week combined regression uses actual weekly decisions for evidence/counsel/objection/one extra review, real advanceWeek until compulsory wage collection, actual monthly cash receipts, modeled service-day growth and four-weekly reload. It asserts one500 counsel fee, one300 review cost, original4000 claim equals actual wage payments plus remaining debt, no second SGK deduction and unchangedSAVE_VERSION6. Separate25-year and15×720-week scenarios remain in the complete suite. Fresh combined browser/CI and later canonical integration remain mandatory before release.

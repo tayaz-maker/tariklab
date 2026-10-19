@@ -3,6 +3,28 @@
   const I = root.tlabI18n;
   if (!I || !I.PHRASE || !I.PHRASE_PL) return;
   const rows = [
+    ["Borç dosyasını incele", "Inspect debt evidence", "Sprawdź dokumentację długu"],
+    ["1 hak · kaynak kayıt ve kalan borç · ücret yok", "1 action · source record and remaining debt · no fee", "1 działanie · dokument źródłowy i pozostały dług · bez opłaty"],
+    ["Dosyaya avukat desteği al", "Get legal support for the case", "Uzyskaj pomoc prawnika w sprawie"],
+    ["500 TL oyun ücreti · bir ek inceleme · borç affı yok", "500 TL game fee · one extra review · no debt waiver", "Opłata gry 500 TL · jedna dodatkowa kontrola · bez umorzenia długu"],
+    ["Avukatla ek inceleme iste", "Request an extra review with counsel", "Poproś o dodatkową kontrolę z prawnikiem"],
+    ["1 hak · 2 oyun haftası · tek ek inceleme", "1 action · 2 game weeks · one extra review", "1 działanie · 2 tygodnie gry · jedna dodatkowa kontrola"],
+    ["İncelenecek açık bildirim veya dava yok.", "No open notice or review to inspect.", "Brak otwartego zawiadomienia lub kontroli do sprawdzenia."],
+    ["Dosya incelendi. Kaynak borç, güncel kalan ve bağlı kayıt ayrıldı. İnceleme borcu silmez; güncel tutarlar Para ekranında.", "Case inspected. Source debt, current remainder and linked record are distinguished. Inspection does not waive debt; current amounts are in Money.", "Sprawdzono sprawę. Rozdzielono dług źródłowy, bieżące saldo i powiązany dokument. Kontrola nie umarza długu; bieżące kwoty są w Finansach."],
+    ["Avukat için önce açık dosyayı incele; destek bir kez alınır.", "Inspect the open case before hiring counsel; support is available once.", "Sprawdź otwartą sprawę przed zatrudnieniem prawnika; pomoc jest dostępna raz."],
+    ["Avukat desteği için 500 TL oyun ücreti gerekiyor.", "Legal support requires a 500 TL game fee.", "Pomoc prawna wymaga opłaty gry 500 TL."],
+    ["Avukat dosya desteği", "Legal case support", "Pomoc prawna w sprawie"],
+    ["Avukat dosyaya katıldı. 500 TL oyun ücreti ödendi; geçerli borç silinmez. İlk karardan sonra bir ek inceleme istenebilir; bu, yasal istinaf modeli değildir.", "Counsel joined the case. A 500 TL game fee was paid; valid debt remains. One extra review is available after the first decision; this is not a statutory appeal model.", "Prawnik dołączył do sprawy. Opłacono 500 TL opłaty gry; zasadny dług pozostaje. Po pierwszej decyzji dostępna jest jedna dodatkowa kontrola; nie jest to model ustawowej apelacji."],
+    ["Ek inceleme için avukat, ilk karar ve açık süre gerekiyor.", "An extra review requires counsel, the first decision and an open deadline.", "Dodatkowa kontrola wymaga prawnika, pierwszej decyzji i otwartego terminu."],
+    ["Avukatla ek inceleme açıldı. İki oyun haftası haciz bekler; kalan borç yeniden kontrol edilir. Yeni borç veya borç affı oluşmaz.", "Extra review opened with counsel. Seizure waits for two game weeks while remaining debt is checked again. No new debt or waiver is created.", "Otwarto dodatkową kontrolę z prawnikiem. Egzekucja czeka dwa tygodnie gry na ponowne sprawdzenie pozostałego długu. Nie powstaje nowy dług ani umorzenie."],
+    ["Dosya delili", "Case evidence", "Dokumentacja sprawy"],
+    ["Talep kalanı:", "Remaining claim:", "Pozostałe roszczenie:"],
+    ["İnceleme anındaki kaynak:", "Source at inspection:", "Źródło w chwili kontroli:"],
+    ["Kaynak kayıt doğrulanamadı", "Source record unverified", "Niepotwierdzony dokument źródłowy"],
+
+    ["Bildirim süresi doldu. Maaş haczi başladı; gerçekleşmiş net ücretin en çok dörtte biri borca gider. Desteklenen özel sektör işleri için oyun modeli; emekli aylığına uygulanmaz. Süreler oyun varsayımıdır.", "Notice expired. Compulsory wage collection started; at most one quarter of actual net wages pays debt. Game model for supported private-sector jobs; pensions excluded. Timings are game assumptions.", "Termin zawiadomienia minął. Rozpoczęto przymusowe potrącenia; najwyżej jedna czwarta faktycznej pensji netto spłaca dług. Model gry dla obsługiwanych etatów prywatnych; emerytury wyłączone. Terminy są założeniami gry."],
+    ["İcra: cebrî maaş haczi", "Enforcement: compulsory wage collection", "Egzekucja: przymusowe potrącenia z pensji"],
+
     ["Maaştan tahsilata bağla", "Arrange wage collection", "Ustal potrącenia z pensji"],
     ["gerçekleşmiş net maaşın yüzde 20’si · oyun varsayımı · borç silinmez", "20% of actual net salary · game assumption · debt remains", "20% faktycznej pensji netto · założenie gry · dług pozostaje"],
     ["Maaştan tahsilat için açık bildirim ve ücretli iş gerekiyor.", "Wage collection requires an open notice and a paid job.", "Potrącenia z pensji wymagają otwartego zawiadomienia i pracy zarobkowej."],
