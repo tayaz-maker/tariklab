@@ -381,7 +381,9 @@ try {
     assert.equal(await restricted.isDisabled(),true);assert.match(await restricted.getAttribute("title"),/40/);
     assert.equal(await page.evaluate(key=>JSON.parse(localStorage.getItem(key)).finances.balance,key),saved.finances.balance);
     assert.deepEqual(errors,[]);rows.push({view:"mortgage",language,width,status:"PASS"});
-    await page.locator('.side-nav [data-view="career"]').click();
+    const careerNav=page.locator('.side-nav [data-view="career"]');
+    if(!(await careerNav.isVisible())) await page.locator(".side-nav .nav-more").click();
+    await careerNav.click();
     const insurance=page.locator('[data-social-insurance]');
     assert.equal(await insurance.count(),1);
     assert.ok((await insurance.innerText()).includes(["SGK / gözlenen çalışma","Social insurance / observed work","Ubezpieczenie społeczne / zaobserwowana praca"][["tr","en","pl"].indexOf(language)]));

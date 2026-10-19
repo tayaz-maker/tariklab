@@ -773,3 +773,7 @@ Stacked on the interest-bearing mortgage PR; independent of its amortization cal
 - Existing retirement eligibility/amount rules retained for V5/V6 compatibility; eligibility report exposes observed coverage separately from legacy work experience. No new payroll deduction: net salary remains net.
 - Existing settled business tax and pension are read-only alongside coverage on the current career panel; no second tax collection or speculative profit reported. TR/EN/PL and 1280/390 browser coverage extended. SAVE_VERSION remains 6.
 - Remaining: actual employer contribution/payment/legal coverage simulation is not claimed; no real Turkish rates or eligibility claims introduced. Mortgage foreclosure/full enforcement remain separate unfinished finance scope. Excluded salary negotiation/family liquidation/new crises/disasters untouched.
+
+### 2026-10-19 — TC SIM insurance browser navigation correction
+- #181 job 118089512829 timed out at outcome-browser line 384: Career was inside the collapsed mobile More navigation after switching to Banks. It was hidden, not blocked by an event or missing from the game.
+- Use the existing visible More button before Career, matching existing Bank navigation. Keep all six TR/EN/PL ×1280/390 coverage/financial/save assertions. No force click, timeout change, UI or game engine modification.
