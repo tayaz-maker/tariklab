@@ -827,3 +827,9 @@ Stacked on the interest-bearing mortgage PR; independent of its amortization cal
 
 - Reproduced high stress during detention taking occupational overwork44→47 and creating an overload warning despite no worked week. Reuse existing detention boundary in body-systems.js to remove only the automatic occupational contribution. General stress, under-recovery, inactivity, care, delayed cases and release-time work remain. No new health model or UI.
 - Deterministic V5/V6 migration/reload/release tests first failed on the old engine, then passed after the two-line runtime change. Cash and SAVE_VERSION6 unchanged; full frozen61-source guard retained and re-pinned only for body-systems.js. Independent from #186/#187 runtime edits; merge serialization still required.
+
+
+## 2026-10-19 — Package 2 unavailable weekly career decisions
+
+- Proven bypass: canApplyDecision rejects non-rest activity during detention, but weekly job-offer, resignation and home-move actions still changed work, money and time. Reuse existing isDetained in canUseWeeklyAction only; no new state or rules. Event-driven relocateHome remains distinct from player moveHome; education enrollment retains its explicitly tested zero-slot design.
+- V5/V6 migration/reload/release regressions cover declined action atomicity, restored decisions and existing one/two-slot costs. Existing UI, fees, salary, loans and SAVE_VERSION6 unchanged. Full61-source guard kept, re-pinned only for this approved life.js change. Release follows #187 and #188 with canonical reconciliation and fresh mandatory CI.
