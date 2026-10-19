@@ -394,3 +394,28 @@ test("Senaryo E-bahane: düğün bahanesiyle geçilirse karşılık zinciri hiç
   assert.equal(resolveEvent(state, "excuse").ok, true);
   assert.equal(state.openCases.some((c) => c.eventId === "wedding_budget_reflection"), false);
 });
+
+for (const amount of [1000, 2500]) {
+  test(`partial/full friend debt ${amount}: saved memory opens the existing delayed collection once`, () => {
+    const state = fresh();
+    state.finances.balance -= amount;
+    createPersonalDebt(state, "mehmet", amount, 4, `lent_${amount}`);
+    const storage = new MemoryStorage();
+    saveGame(storage, state);
+    const loaded = loadGame(storage).state;
+    const definition = getEventDefinition("mehmet_debt_story");
+    loaded.time.absoluteWeek += 3;
+    assert.equal(definition.condition(loaded), false);
+    loaded.time.absoluteWeek += 1;
+    assert.equal(definition.condition(loaded), true);
+    const balance = loaded.finances.balance;
+    loaded.events.active = { eventId: definition.id, occurrenceId: `debt-${amount}` };
+    assert.equal(resolveEvent(loaded, "collect").ok, true);
+    assert.equal(loaded.finances.balance, balance + amount);
+    assert.equal(getPersonalDebt(loaded, "mehmet"), null);
+    assert.equal(hasNpcMemory(loaded, "mehmet", "debt_collected"), true);
+    assert.equal(loaded.openCases.filter(c => c.eventId === "debt_elif_comment").length, 1);
+    assert.equal(resolvePersonalDebt(loaded, "mehmet", { collected: true }), false);
+    assert.equal(loaded.finances.balance, balance + amount);
+  });
+}

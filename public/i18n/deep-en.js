@@ -1238,7 +1238,7 @@
   "Mehmet'e hak ver": "Side with Mehmet",
   "Mehmet'e yaz": "Text Mehmet",
   "Mehmet'in story'si: masa, çay, biri gülüyor. Sen evdesin. Yazısı yok.": "Mehmet's story: a table, tea, someone laughing. You're at home. No caption.",
-  "Mehmet'in story'sinde yeni telefon kılıfı var: \"Sana 2.500 duruyor, unutmadın herhâlde.\"": "Mehmet's story has a new phone case: \"2,500 is sitting on you, you haven't forgotten I assume.\"",
+  "Mehmet'in story'sinde yeni telefon kılıfı var: \"Sana borcum duruyor, unutmadım.\"": "Mehmet's story has a new phone case: \"I still owe you; I haven't forgotten.\"",
   "Mehmet'in verdiği isim aradı: \"Yarın 11. Gelmezsen geçersin.\" O saatte annen evde iş istiyor.": "The name Mehmet gave called: \"Tomorrow 11. If you don't come, you're out.\" At that hour your mother wants work at home.",
   "Mehmet'in yeni işvereni referansının asılsız olduğunu fark etmiş; Mehmet seni bu yüzden suçluyor.": "Mehmet's new employer found the reference was hollow; Mehmet is blaming you for it.",
   "Mehmet'le kaldım": "I stayed with Mehmet",
