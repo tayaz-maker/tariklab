@@ -53,13 +53,16 @@ export const VEHICLES = {
 export function vehicleOperatingCosts(state) {
   const budget = VEHICLES[state.wealth?.vehicle?.tier]?.monthly || 0;
   const weeklyFuel = Math.round(budget * 0.6 / 4);
-  return { budget, weeklyFuel, fixed: budget - weeklyFuel * 4 };
+  const fixed = budget - weeklyFuel * 4;
+  const insurance = Math.round(fixed / 2);
+  return { budget, weeklyFuel, fixed, insurance, upkeep: fixed - insurance };
 }
 export function vehicleExpenseLabel(kind) {
   const lang = globalThis.window?.tlabI18n?.contentLang?.() || "tr";
   const copy = {
     fuel: { tr: "İşe gidiş yakıtı", en: "Work commute fuel", pl: "Paliwo na dojazd do pracy" },
-    fixed: { tr: "Araç sabit giderleri", en: "Fixed vehicle costs", pl: "Stałe koszty pojazdu" },
+    fixed: { tr: "Araç bakım payı", en: "Vehicle upkeep allowance", pl: "Koszty utrzymania pojazdu" },
+    insurance: { tr: "Araç sigorta payı", en: "Vehicle insurance allowance", pl: "Składka ubezpieczenia pojazdu" },
   };
   return copy[kind]?.[lang] || copy[kind]?.en || "";
 }
@@ -874,6 +877,8 @@ export function getWealthMonthlySummary(state) {
     subscriptions,
     vehicle,
     vehicleFixed: vehicleOperatingCosts(state).fixed,
+    vehicleInsurance: vehicleOperatingCosts(state).insurance,
+    vehicleUpkeep: vehicleOperatingCosts(state).upkeep,
     maintenance,
     debt,
     rental,
@@ -889,10 +894,11 @@ export function processWealthMonthEnd(state) {
     .filter((item) => item.lastBilledMonth !== month)
     .reduce((sum, item) => sum + SUBSCRIPTIONS[item.id].monthly, 0);
   if (s.rental) ledger(state, s.rental, "Kira geliri", "property");
+  if (s.vehicleInsurance) ledger(state, -s.vehicleInsurance, vehicleExpenseLabel("insurance"), "vehicle-insurance");
   for (const [amount, label] of [
     [s.lifestyle, "Hayat düzeni"],
     [subscriptionDue, "Abonelikler"],
-    [s.vehicleFixed, vehicleExpenseLabel("fixed")],
+    [s.vehicleUpkeep, vehicleExpenseLabel("fixed")],
     [s.maintenance, tr("Varlık bakımı", "Asset upkeep")],
   ])
     if (amount) ledger(state, -amount, label, "lifestyle");

@@ -617,6 +617,20 @@ try {
     assert.equal(fuelReload.finances.ledger.filter(r=>r.category==="vehicle-fuel").length,1);
     assert.equal(fuelReload.finances.balance,fuelPaid.finances.balance);
     assert.deepEqual(errors,[]);rows.push({view:"vehicle-work-fuel",language,width,status:"PASS"});
+    const insuranceMonth=structuredClone(fuelReload);
+    for(let i=0;i<2;i++){settleHouseholdEvents(insuranceMonth);assert.equal(advanceWeek(insuranceMonth).ok,true);}
+    settleHouseholdEvents(insuranceMonth);
+    await page.evaluate(({state,key})=>localStorage.setItem(key,JSON.stringify(state)),{state:insuranceMonth,key});
+    await page.reload({waitUntil:"networkidle"});await page.locator("#continue-game").click();
+    await page.locator("#advance-week").click();
+    const insured=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
+    const premiums=insured.finances.ledger.filter(r=>r.category==="vehicle-insurance");
+    assert.equal(premiums.length,1);assert.equal(premiums[0].amount,-640);
+    assert.equal(premiums[0].reason,{tr:"Araç sigorta payı",en:"Vehicle insurance allowance",pl:"Składka ubezpieczenia pojazdu"}[language]);
+    await page.reload({waitUntil:"networkidle"});await page.locator("#continue-game").click();
+    const insuredReload=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
+    assert.equal(insuredReload.finances.ledger.filter(r=>r.category==="vehicle-insurance").length,1);assert.equal(insuredReload.finances.balance,insured.finances.balance);
+    assert.deepEqual(errors,[]);rows.push({view:"vehicle-insurance-month",language,width,status:"PASS"});
     const court=createNewGame({seed:17});court.events.active=null;court.events.queue=[];
     if(court.world?.scenario)court.world.scenario.pendingEvent=null;
     court.health.stress=60;court.finances.balance=20000;assert.equal(riskFight(court).ok,true);
