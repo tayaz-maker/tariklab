@@ -1,5 +1,17 @@
 {
   "tc-sim": {
+    "Maaştan tahsilata bağla": "Ustal potrącenia z pensji",
+    "Arrange wage collection": "Ustal potrącenia z pensji",
+    "gerçekleşmiş net maaşın yüzde 20’si · oyun varsayımı · borç silinmez": "20% faktycznej pensji netto · założenie gry · dług pozostaje",
+    "20% of actual net salary · game assumption · debt remains": "20% faktycznej pensji netto · założenie gry · dług pozostaje",
+    "Maaştan tahsilat için açık bildirim ve ücretli iş gerekiyor.": "Potrącenia z pensji wymagają otwartego zawiadomienia i pracy zarobkowej.",
+    "Wage collection requires an open notice and a paid job.": "Potrącenia z pensji wymagają otwartego zawiadomienia i pracy zarobkowej.",
+    "Maaştan tahsilat bağlandı. Bildirim süresinden sonra gerçekleşmiş net maaşın yüzde 20'si borca gider. Bu oran oyun varsayımıdır; maaş yoksa kesinti yok, borç silinmez.": "Ustalono potrącenia z pensji. Po terminie zawiadomienia 20% faktycznej pensji netto spłaca dług. Stawka jest założeniem gry; bez pensji nie ma potrącenia, a dług pozostaje.",
+    "Wage collection arranged. After the notice period, 20% of actual net salary goes toward debt. This rate is a game assumption; no salary means no deduction, and debt remains.": "Ustalono potrącenia z pensji. Po terminie zawiadomienia 20% faktycznej pensji netto spłaca dług. Stawka jest założeniem gry; bez pensji nie ma potrącenia, a dług pozostaje.",
+    "İcra maaş tahsilatı": "Spłata egzekucyjna z pensji",
+    "Enforcement wage payment": "Spłata egzekucyjna z pensji",
+    "İcra: maaştan tahsilat": "Egzekucja: potrącenia z pensji",
+    "Enforcement: wage collection": "Egzekucja: potrącenia z pensji",
     "Lend {0} money": "Pożycz pieniądze: {0}",
     "{0} wychodzi teraz": "{0} wychodzi teraz",
     "{0} sonra döner": "wraca za {0}",

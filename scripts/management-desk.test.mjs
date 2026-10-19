@@ -94,7 +94,8 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Approved icra review lifecycle and suspended stall collection; inventory unchanged.
   // Approved prospective social-insurance source + state normalization/weekly-life hooks.
   // Approved secured mortgage claim/settlement hooks in mortgage, wealth and icra; same inventory.
-  assert.equal(hash.digest("hex"), "046530810890304868761f10d4876e3d83cc6706d89f0614c2fa48b40b9b1a73");
+  // Approved optional wage collection in icra and actual salary posting in time; inventory unchanged.
+  assert.equal(hash.digest("hex"), "722175b7d6d4d28f0deaf54daec150a666ba768b8b9b02b542508f9ba10bce32");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);

@@ -16,7 +16,7 @@ import { processSemtWeek } from "./quarters.js?v=10";
 import { POCKET_DECISIONS, processPocketWeek } from "./pocket-income.js?v=10";
 import { RISK_DECISIONS, isDetained, processRiskWeek } from "./risk-layer.js?v=10";
 import { ASKER_DECISIONS, isServing, processAskerlikWeek } from "./askerlik.js?v=10";
-import { ICRA_DECISIONS, processIcraWeek } from "./icra.js?v=10";
+import { ICRA_DECISIONS, processIcraWeek, collectWageDebt } from "./icra.js?v=10";
 import {
   MARCH_HATIR_DECISIONS,
   closeHatirWeek,
@@ -432,7 +432,10 @@ export function applyDecision(state, decisionId) {
 
 function processMonthEnd(state) {
   const summary = getMonthlySummary(state, { closingMonth: true });
-  if (summary.salary) transact(state, summary.salary, "Aylık maaş", "income");
+  if (summary.salary) {
+    transact(state, summary.salary, "Aylık maaş", "income");
+    collectWageDebt(state, summary.salary);
+  }
   if (summary.retirementIncome)
     transact(state, summary.retirementIncome, "Aylık emeklilik geliri", "income");
   if (summary.otherIncome) transact(state, summary.otherIncome, "Diğer düzenli gelir", "income");
