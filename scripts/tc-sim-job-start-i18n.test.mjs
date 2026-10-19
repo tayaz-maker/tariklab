@@ -13,7 +13,7 @@ const expected = {
 async function load(language) {
   const context = { localStorage: { getItem: () => language, setItem() {} }, addEventListener() {}, document: undefined };
   const scripts = [...read("public/games/tc-sim/index.html").matchAll(/<script src="(\/i18n\/[^" ]+\.js)"/g)].map(match => match[1]);
-  assert.deepEqual(scripts, ["/i18n/tlab-i18n.js", "/i18n/deep-en.js", "/i18n/deep-en-final.js", "/i18n/expansion-en.js", "/i18n/pl-body.js"]);
+  assert.deepEqual(scripts, ["/i18n/tlab-i18n.js", "/i18n/deep-en.js", "/i18n/deep-en-final.js", "/i18n/expansion-en.js", "/i18n/tc-sim.js", "/i18n/pl-body.js"]);
   for (const script of scripts.slice(0, -1)) vm.runInNewContext(read(`public${script}`), context);
   context.window = context;
   context.document = { body: null, currentScript: { getAttribute: () => "tc-sim" }, addEventListener() {} };
