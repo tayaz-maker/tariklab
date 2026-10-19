@@ -297,15 +297,32 @@ export function startWageCollection(state) {
   return { ok: true, message: remember(state, "Maaştan tahsilat bağlandı. Bildirim süresinden sonra gerçekleşmiş net maaşın yüzde 20'si borca gider. Bu oran oyun varsayımıdır; maaş yoksa kesinti yok, borç silinmez.") };
 }
 
+// Modeled ordinary private-sector wage claims only. Public service, pensions,
+// self-employment, maintenance and historical pre-2003 rules are not inferred.
+const ATTACHABLE_JOBS = new Set(["market", "office", "waiter", "barista", "factory", "warehouse", "callcenter", "cashier_big", "sales_floor"]);
+function attachableWage(state) {
+  return state.time.year >= 2003 && ATTACHABLE_JOBS.has(state.career?.jobId) &&
+    state.career?.retirement?.status !== "retired";
+}
+function attachWage(state, item) {
+  // Preserve the existing surcharge/cap-overflow settlement path (D0).
+  if (item.payload.source === "temerrut" && whole(item.payload.owed) > sourceArrears(state, item)) return "";
+  if (!["temerrut", "aile"].includes(item.payload.source) || !attachableWage(state) || getMonthlyEmploymentIncome(state) <= 0) return "";
+  item.payload.stage = "wage";
+  item.payload.wage = { version: 1, lastMonth: null, paid: 0, compulsory: true };
+  return remember(state, "Bildirim süresi doldu. Maaş haczi başladı; gerçekleşmiş net ücretin en çok dörtte biri borca gider. Desteklenen özel sektör işleri için oyun modeli; emekli aylığına uygulanmaz. Süreler oyun varsayımıdır.");
+}
+
 export function collectWageDebt(state, salary) {
   const item = icraCase(state);
   if (!item || item.payload.stage !== "wage" || item.payload.wage?.version !== 1 ||
       state.time.absoluteWeek < item.dueWeek || !Number.isSafeInteger(salary) || salary <= 0 || state.lifetime?.death) return 0;
+  if (item.payload.wage.compulsory && !attachableWage(state)) return 0;
   const month = `${state.time.year}-${state.time.month}`;
   if (item.payload.wage.lastMonth === month) return 0;
   item.payload.wage.lastMonth = month;
   const owed = Math.max(0, whole(item.payload.owed));
-  const paid = Math.min(owed, Math.floor(salary / 5), Math.max(0, whole(state.finances.balance)));
+  const paid = Math.min(owed, Math.floor(salary / (item.payload.wage.compulsory ? 4 : 5)), Math.max(0, whole(state.finances.balance)));
   if (paid > 0) {
     transact(state, -paid, "İcra maaş tahsilatı", "debt");
     recordIcraPayment(state, item, paid);
@@ -421,7 +438,7 @@ export function processIcraWeek(state) {
   if (item.payload.stage === "court" && state.time.absoluteWeek >= item.dueWeek)
     return reviewIcra(state, item);
   if (item.payload.stage === "notice" && state.time.absoluteWeek >= item.dueWeek)
-    return runHaciz(state, item).message || "";
+    return attachWage(state, item) || runHaciz(state, item).message || "";
   if (item.payload.stage === "plan" && state.time.weekOfMonth === 1)
     return collectInstallment(state, item) || "";
   return "";

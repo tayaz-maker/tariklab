@@ -792,3 +792,10 @@ Stacked on the interest-bearing mortgage PR; independent of its amortization cal
 - No upfront fee, new tax/SGK withholding, loan forgiveness, pension attachment, cash creation or change to existing installment/foreclosure defaults. Every payment reduces the same source claim; unrelated arrears remain. One period marker inside existing case payload survives reload; SAVE_VERSION 6 and neutral V5/V6 notices preserved.
 - Existing UI/components and TR/EN/PL overlays reused; browser matrix adds arrangement click/reload and zero immediate charge at 1280/390. Domain tests cover source conservation, actual month close, exhausted cash, paused income, legacy notices and early payoff. Full court/attorney/evidence and statutory SGK remain PARTIAL; involuntary wage attachment remains distinct from this arrangement.
 - Frozen 61-source guard is consciously re-pinned only for icra/time hooks. No other game, art, atlas, site optimization or excluded mechanics changed.
+
+
+## 2026-10-19 — bounded compulsory wage attachment after #183
+
+- Reuse the existing wage payment writer for an automatic order after an unanswered unsecured notice expires, including the renewed period after review. Supported private wage jobs from the modeled 2003 gate use at most one quarter of actual net salary; existing voluntary20% arrangements remain unchanged. Official ÇSGB source and fictional scope/timing distinctions are retained in docs/tc-sim/FINANCE_LEGAL_GAPS_2026-10-19.md.
+- Mortgage foreclosure and surcharge/cap-overflow D0 settlement remain on their existing paths. No second salary/SGK charge, pension/public wage attachment, debt deletion, new screen or SAVE_VERSION change. Existing payload stores compulsory flag; V5/V6 notices remain loadable.
+- TR/EN/PL existing case label/banner; real browser matrix adds actual week-close automatic transition and reload at1280/390. Full61-source guard retained, re-pinned only for approved icra hook. Full court and legalSGK still not DONE.

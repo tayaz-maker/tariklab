@@ -197,7 +197,7 @@ function renderJobResult() {
 function openCaseLabel(item) {
   if (item.type === "partner-month") return "Partnerin görünmeyen ayı";
   if (item.type === "risk-dosya") return "Polis / mahkeme dosyası";
-  if (item.type === "icra" && item.payload?.stage === "wage") return "İcra: maaştan tahsilat";
+  if (item.type === "icra" && item.payload?.stage === "wage") return item.payload.wage?.compulsory ? "İcra: cebrî maaş haczi" : "İcra: maaştan tahsilat";
   if (item.type === "icra") return item.payload?.stage === "court" ? "İcra: mahkeme incelemesi" : "İcra yazısı";
   if (item.type === "esnaf-dosya") return "Tezgâh denetim notu";
   if (item.type === "adult-child")

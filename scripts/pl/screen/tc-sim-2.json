@@ -1,5 +1,9 @@
 {
   "tc-sim": {
+    "Bildirim süresi doldu. Maaş haczi başladı; gerçekleşmiş net ücretin en çok dörtte biri borca gider. Desteklenen özel sektör işleri için oyun modeli; emekli aylığına uygulanmaz. Süreler oyun varsayımıdır.": "Termin zawiadomienia minął. Rozpoczęto przymusowe potrącenia; najwyżej jedna czwarta faktycznej pensji netto spłaca dług. Model gry dla obsługiwanych etatów prywatnych; emerytury wyłączone. Terminy są założeniami gry.",
+    "Notice expired. Compulsory wage collection started; at most one quarter of actual net wages pays debt. Game model for supported private-sector jobs; pensions excluded. Timings are game assumptions.": "Termin zawiadomienia minął. Rozpoczęto przymusowe potrącenia; najwyżej jedna czwarta faktycznej pensji netto spłaca dług. Model gry dla obsługiwanych etatów prywatnych; emerytury wyłączone. Terminy są założeniami gry.",
+    "İcra: cebrî maaş haczi": "Egzekucja: przymusowe potrącenia z pensji",
+    "Enforcement: compulsory wage collection": "Egzekucja: przymusowe potrącenia z pensji",
     "Maaştan tahsilata bağla": "Ustal potrącenia z pensji",
     "Arrange wage collection": "Ustal potrącenia z pensji",
     "gerçekleşmiş net maaşın yüzde 20’si · oyun varsayımı · borç silinmez": "20% faktycznej pensji netto · założenie gry · dług pozostaje",
