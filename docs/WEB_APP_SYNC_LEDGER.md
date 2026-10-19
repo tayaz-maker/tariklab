@@ -845,3 +845,9 @@ Stacked on the interest-bearing mortgage PR; independent of its amortization cal
 
 - Exact built-browser failure: tc-sim-job-start-outcome-browser.mjs536 attempted Body navigation while event-backdrop correctly blocked it. Domain reproduction proves care→health_warning/clinic→job_security_warning/recover→no active event, cash9450. This is a legitimate queued event, not infrastructure or a UI regression.
 - Browser scenario now asserts the chained career event, selects its real recover button and waits for modal closure before reload/navigation. No forced click, overlay removal, event reset, game-code change or skipped check. Domain/save regression protects the chain. Prepared V5/V6 overlap acceptance is included with this necessary head update, avoiding a separate CI restart.
+
+
+## 2026-10-19 — CI preview and deployment readiness
+- Separate infrastructure-only branch: measured five CI runs and retained raw queue/job/step evidence in docs/ci/CI-RECOVERY-2026-10-19.{md,json}. No execution speedup claimed.
+- Exact built Wrangler preview avoids Nitro fixed10s proxy deadline; bounded real HTTP readiness detects exit. TC production browser waits for all7 candidate fingerprints before launch, retaining its original strict assertion.
+- Required job names/gates, test sets, historical/soak coverage, gameplay/UI/assets/SAVE_VERSION unchanged. Readiness/routing/required-gate tests32/32PASS; full CI and actual preview evidence remain release gates.
