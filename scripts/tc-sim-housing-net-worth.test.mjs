@@ -111,3 +111,44 @@ test("V5/V6 saves preserve existing homes, balances and debt without invented as
     assert.equal(netWorth(neutral.state).total, 600000);
   }
 });
+
+test("D0 + housing: installments, V5/V6 reload and early payoff conserve both asset and debt", async () => {
+  const { openIcraNotice, planIcra, processIcraWeek, payIcra } = await import("../public/games/tc-sim/js/icra.js");
+  for (const version of [5, 6]) {
+    const s = game();
+    s.finances.arrears = 4000;
+    const before = netWorth(s).total;
+    assert.ok(buyHolding(s, "sirt", "1+1").ok);
+    openIcraNotice(s, { source: "temerrut", amount: 4000 });
+    assert.ok(planIcra(s).ok);
+    s.time.weekOfMonth = 1;
+    processIcraWeek(s);
+    assert.equal(s.finances.arrears, 1800);
+    s.meta.saveVersion = version;
+    const migrated = migrateState(structuredClone(s));
+    assert.ok(migrated.ok);
+    assert.ok(payIcra(migrated.state).ok);
+    assert.equal(migrated.state.finances.arrears, 0);
+    assert.equal(netWorth(migrated.state).property, 285000);
+    assert.equal(netWorth(migrated.state).total, before - 240);
+    assert.equal(migrated.state.openCases.find(c => c.type === "icra").status, "resolved");
+    assert.equal(validateState(migrated.state).ok, true);
+  }
+});
+
+test("D0 + housing: enforcement cap overflow preserves the home and the full liability", async () => {
+  const { openIcraNotice, workaroundIcra, runHaciz } = await import("../public/games/tc-sim/js/icra.js");
+  const s = game();
+  assert.ok(buyHolding(s, "sirt", "1+1").ok);
+  s.finances.balance = 0;
+  s.finances.arrears = 300000;
+  const before = netWorth(s).total;
+  const file = openIcraNotice(s, { source: "temerrut", amount: 300000 });
+  assert.ok(workaroundIcra(s).ok);
+  assert.ok(runHaciz(s, file).ok);
+  assert.equal(s.finances.arrears - s.finances.balance, 300600);
+  assert.equal(netWorth(s).property, 285000);
+  assert.equal(netWorth(s).total, before - 600);
+  assert.equal(file.status, "resolved");
+  assert.equal(validateState(s).ok, true);
+});

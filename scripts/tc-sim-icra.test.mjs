@@ -3,7 +3,10 @@ import assert from "node:assert/strict";
 import { SAVE_VERSION, createNewGame, validateState } from "../public/games/tc-sim/js/state.js";
 import { loadGame, migrateState, saveGame } from "../public/games/tc-sim/js/save.js";
 import { applyDecision, canApplyDecision, getAvailableDecisions } from "../public/games/tc-sim/js/time.js";
-import { openIcraNotice, processIcraWeek } from "../public/games/tc-sim/js/icra.js";
+import { openIcraNotice, payIcra, planIcra, processIcraWeek, runHaciz, workaroundIcra } from "../public/games/tc-sim/js/icra.js";
+
+import { processCashShortfall, CASH_ARREARS_CAP } from "../public/games/tc-sim/js/wealth.js";
+import { openShop, processSemtWeek } from "../public/games/tc-sim/js/quarters.js";
 
 class MemoryStorage {
   data = new Map();
@@ -117,7 +120,199 @@ test("taksit peşinat ve masrafı tam TL yazar, sonraki ay taksit düşer", () =
   assert.match(note, /Taksit yattı/);
   assert.equal(state.finances.balance, 2560);
   assert.equal(item.payload.owed, 1800);
+  assert.equal(state.finances.arrears, 1800);
   assert.equal(Number.isInteger(state.finances.balance), true);
   assert.equal(Number.isInteger(state.finances.arrears), true);
   assert.equal(validateState(state).ok, true);
+});
+
+test("D0: down payment, installment and early payoff leave no ghost arrears", () => {
+  const state = base();
+  state.finances.balance = 5000;
+  state.finances.arrears = 4000;
+  const item = openIcraNotice(state, { source: "temerrut", amount: 4000 });
+  assert.ok(applyDecision(state, "icra-installment").ok);
+  state.time.weekOfMonth = 1;
+  processIcraWeek(state);
+  assert.equal(state.finances.arrears, 1800);
+  quiet(state);
+  assert.ok(applyDecision(state, "icra-pay").ok);
+  assert.equal(state.finances.balance, 760);
+  assert.equal(state.finances.arrears, 0);
+  assert.equal(item.payload.owed, 0);
+  assert.equal(item.status, "resolved");
+});
+
+test("D0: enforcement retains all 300600 TL including cap overflow", () => {
+  const state = base();
+  state.finances.balance = 0;
+  state.finances.arrears = 300000;
+  const item = openIcraNotice(state, { source: "temerrut", amount: 300000 });
+  assert.ok(applyDecision(state, "icra-workaround").ok);
+  assert.equal(item.payload.owed, 300600);
+  state.time.absoluteWeek = item.dueWeek;
+  processIcraWeek(state);
+  assert.equal(state.finances.arrears - state.finances.balance, 300600);
+  assert.equal(item.status, "resolved");
+  assert.equal(validateState(state).ok, true);
+});
+
+test("D0: installments and surcharge payoff preserve unrelated arrears", () => {
+  for (const surcharge of [false, true]) {
+    const state = base();
+    state.finances.arrears = 4000;
+    const item = openIcraNotice(state, { source: "temerrut", amount: 4000 });
+    state.finances.arrears += 700;
+    if (surcharge) {
+      assert.ok(workaroundIcra(state).ok);
+      assert.ok(payIcra(state).ok);
+      assert.equal(state.finances.balance, 15400);
+    } else {
+      assert.ok(planIcra(state).ok);
+      state.time.weekOfMonth = 1;
+      for (let month = 0; month < 4; month += 1) {
+        state.time.absoluteWeek += 4;
+        processIcraWeek(state);
+        assert.equal(state.finances.arrears, 700 + item.payload.owed);
+      }
+      assert.equal(state.finances.balance, 15760);
+    }
+    assert.equal(state.finances.arrears, 700);
+    assert.equal(item.status, "resolved");
+  }
+});
+
+test("D0: generic recovery collects only arrears outside the active claim", () => {
+  const state = base();
+  state.finances.balance = 5000;
+  state.finances.arrears = 4000;
+  const item = openIcraNotice(state, { source: "temerrut", amount: 4000 });
+  assert.ok(planIcra(state).ok);
+  assert.equal(processCashShortfall(state), null);
+  assert.equal(state.finances.balance, 3160);
+  state.finances.arrears += 200;
+  assert.equal(processCashShortfall(state).amount, 200);
+  assert.equal(state.finances.arrears, item.payload.owed);
+  state.time.weekOfMonth = 1;
+  processIcraWeek(state);
+  assert.equal(processCashShortfall(state), null);
+  assert.equal(state.finances.balance, 2360);
+  assert.ok(payIcra(state).ok);
+  assert.equal(state.finances.balance, 560);
+  assert.equal(state.finances.arrears, 0);
+});
+
+test("D0: seizure reconciles cash, asset proceeds and unrelated arrears", () => {
+  const state = base();
+  state.finances.balance = 400;
+  state.finances.arrears = 3700;
+  state.wealth.durables.push({ id: "phone", price: 9000, acquiredWeek: 1 });
+  const item = openIcraNotice(state, { source: "temerrut", amount: 3000 });
+  assert.ok(runHaciz(state, item).ok);
+  assert.equal(state.finances.balance, 0);
+  assert.equal(state.finances.arrears, 1410); // 700 unrelated + 710 unpaid
+  assert.equal(state.wealth.durables.length, 0);
+  assert.equal(item.status, "resolved");
+});
+
+test("D0: ceiling transfer conserves liability across sources, retries and V5/V6 reload", () => {
+  for (const source of ["temerrut", "esya"]) {
+    const state = base();
+    state.finances.balance = 0;
+    state.finances.arrears = CASH_ARREARS_CAP;
+    const amount = source === "temerrut" ? CASH_ARREARS_CAP : 600;
+    const item = openIcraNotice(state, { source, amount });
+    if (source === "temerrut") assert.ok(workaroundIcra(state).ok);
+    assert.ok(runHaciz(state, item).ok);
+    assert.equal(state.finances.arrears, CASH_ARREARS_CAP);
+    assert.equal(state.finances.balance, -600);
+    processIcraWeek(state);
+    processCashShortfall(state);
+    processCashShortfall(state);
+    assert.equal(state.finances.arrears - state.finances.balance, 300600);
+    for (const version of [5, 6]) {
+      const raw = structuredClone(state);
+      raw.meta.saveVersion = version;
+      const migrated = migrateState(raw);
+      assert.equal(migrated.ok, true);
+      assert.equal(migrated.state.meta.saveVersion, 6);
+      assert.equal(migrated.state.finances.arrears - migrated.state.finances.balance, 300600);
+      const storage = new MemoryStorage();
+      assert.equal(saveGame(storage, migrated.state).ok, true);
+      const loaded = loadGame(storage);
+      assert.equal(loaded.ok, true);
+      assert.equal(loaded.state.finances.arrears - loaded.state.finances.balance, 300600);
+    }
+  }
+});
+
+test("D0: active legacy V5/V6 plans without sourceArrears remain payable after reload", () => {
+  for (const version of [5, 6]) {
+    const original = base();
+    original.finances.balance = 5000;
+    original.finances.arrears = 4000;
+    openIcraNotice(original, { source: "temerrut", amount: 4000 });
+    assert.ok(planIcra(original).ok);
+    const raw = structuredClone(original);
+    raw.meta.saveVersion = version;
+    delete raw.openCases[0].payload.sourceArrears;
+    const migrated = migrateState(raw);
+    assert.equal(migrated.ok, true);
+    const state = migrated.state;
+    state.time.weekOfMonth = 1;
+    assert.equal(processCashShortfall(state), null);
+    processIcraWeek(state);
+    assert.equal(state.finances.arrears, 1800);
+    const storage = new MemoryStorage();
+    assert.equal(saveGame(storage, state).ok, true);
+    const loaded = loadGame(storage);
+    assert.equal(loaded.ok, true);
+    assert.equal(loaded.state.openCases[0].payload.sourceArrears, 1800);
+    assert.ok(payIcra(loaded.state).ok);
+    assert.equal(loaded.state.finances.arrears, 0);
+    assert.equal(loaded.state.finances.balance, 760);
+    assert.equal(validateState(loaded.state).ok, true);
+  }
+});
+
+test("D0: actual stall withholding reduces both claim and its source arrears", () => {
+  const state = base();
+  state.finances.balance = 900000;
+  assert.ok(openShop(state, "ceper", "bakkal").ok);
+  state.finances.arrears = 4000;
+  const item = openIcraNotice(state, { source: "temerrut", amount: 4000 });
+  state.time.absoluteWeek += 1;
+  state.household.semt.shops[0].attentionWeek = state.time.absoluteWeek;
+  const before = state.finances.balance;
+  const control = structuredClone(state);
+  control.openCases = [];
+  processSemtWeek(control);
+  const gross = control.finances.balance - before;
+  assert.ok(gross > 0);
+  const withheld = Math.round(gross * 0.1);
+  processSemtWeek(state);
+  assert.equal(state.finances.balance - before, gross - withheld);
+  assert.equal(item.payload.owed, 4000 - withheld);
+  assert.equal(state.finances.arrears, item.payload.owed);
+  assert.ok(payIcra(state).ok);
+  assert.equal(state.finances.arrears, 0);
+});
+
+test("D0: final rounded installment needs only the remaining claim", () => {
+  const state = base();
+  state.finances.arrears = 4001;
+  const item = openIcraNotice(state, { source: "temerrut", amount: 4001 });
+  assert.ok(planIcra(state).ok);
+  state.time.weekOfMonth = 1;
+  for (let month = 0; month < 3; month += 1) {
+    state.time.absoluteWeek += 4;
+    processIcraWeek(state);
+  }
+  assert.equal(item.payload.owed, 598);
+  state.finances.balance = 598;
+  state.time.absoluteWeek += 4;
+  assert.match(processIcraWeek(state), /Son taksit/);
+  assert.equal(state.finances.balance, 0);
+  assert.equal(state.finances.arrears, 0);
+  assert.equal(item.status, "resolved");
 });

@@ -87,9 +87,9 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Kaynaklar: help.js adds the sources section. Save stays v6.
   // Girisim: quarters.js multiple stalls, inspection file, separate weeks. Save stays v6.
   // Tezgah ince: close/sell labels, single-stall inspection, army drop, twin cut, kalfa, icra skim. Save stays v6.
-  // Authorized housing valuation: wealth.js includes owned semt homes once.
-  // All other 55 protected sources and the inventory/digest rule are unchanged.
-  assert.equal(hash.digest("hex"), "8ca8ad712b70019b5dfa3bd737e112374f2d35ed9c978c19c00d544d610cf7b8");
+  // D0 accounting is retained. Authorized housing valuation changes only wealth.js
+  // relative to D0 main; all other 55 protected sources and inventory stay pinned.
+  assert.equal(hash.digest("hex"), "b916a37b4d4bd90717a9826df8dd1b6c7821c9284522d352fbea809c7ed72c12");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);
