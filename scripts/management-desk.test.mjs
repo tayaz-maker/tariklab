@@ -59,7 +59,7 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Combined #189: weekly career actions also honor existing detention.
   // Authorized Package 2: bounded work recovery uses existing body/life/time/state only.
   // Authorized Package 3: existing partial friend loans join debt-memory follow-up.
-  assert.equal(files.length, 61);
+  assert.equal(files.length, 62);
   const hash = createHash("sha256");
   for (const file of files) hash.update(file).update(readFileSync(file));
   // Re-pinned for the DEVLET maps PR: next-wave.js (geo dispatch + month
@@ -103,8 +103,9 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Approved bounded compulsory private-sector wage collection hook in icra.
   // Approved source-linked fine finality and bounded evidence/counsel/review hooks in icra.
   // Combined approved court/wage source with prospective service-day/pension hooks.
-  // Approved Package 3: promise reputation, deceased-source gates and bounded risk disengagement together.
-  assert.equal(hash.digest("hex"), "0e898692718f9df79f41b477482646a24fb6153a611e6c7f48d1ccf7298b302f");
+  // Approved Package 3: bounded repeat-sentence custody reuses work/service gates and defers unstarted jobs.
+  // Approved Package 3: source-linked verdicts, liveness, promises and bounded disengagement together.
+  assert.equal(hash.digest("hex"), "ac92ff5dd81b41b7bf1062ec5bef00b90001b574290236003126161e5e86381d");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);

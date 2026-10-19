@@ -1,3 +1,4 @@
+import {CRIMINAL_EVENTS, resolveCriminalChoice} from './criminal-justice.js?v=10';
 import { LIFETIME_EVENTS, resolveAdultChoice } from "./lifetime.js?v=10";
 import { PARENTING_EVENTS, resolveParentChoice, processParenthoodCases } from "./parenthood.js?v=10";
 import { HOUSEHOLD_EVENTS, resolveHouseholdChoice, processHouseholdCases, canDiscussHousehold, householdChoiceAvailability, householdConversationAvailable } from "./household.js?v=10";
@@ -1417,6 +1418,7 @@ export const EVENT_DEFINITIONS = [
       },
     ],
   },
+  ...CRIMINAL_EVENTS,
   ...REALISM_EVENTS,
   ...ADULT_LIFE_EVENTS,
   ...DEPTH_EVENTS,
@@ -1678,6 +1680,7 @@ export function resolveEvent(state, choiceId) {
   if (definition.lifetime) resolveAdultChoice(state, choiceId, state.openCases.find(item => item.id === active.sourceCaseId));
   if (adultFollowup) scheduleSocialFollowup(state, adultFollowup);
   if (realismFollowup) scheduleSocialFollowup(state, realismFollowup);
+  resolveCriminalChoice(state, definition, choiceId, state.openCases.find(item => item.id === active.sourceCaseId));
   applyDepthResolution(state, definition, choiceId);
   applyDepth2Resolution(state, definition, choiceId, active.sourceCaseId ? state.openCases.find((item) => item.id === active.sourceCaseId) : null);
   applyDepth3Resolution(state, definition, choiceId, active.sourceCaseId ? state.openCases.find((item) => item.id === active.sourceCaseId) : null);

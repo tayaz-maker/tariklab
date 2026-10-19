@@ -1,3 +1,4 @@
+import {openCriminalHearing, isServingCriminalSentence, processCriminalSentenceWeek} from './criminal-justice.js?v=10';
 // +18 risk katmanı. Yeni ekran yok: kısa karar, dosya, hafıza.
 import { addMemory, addNpcMemory, adjustHealth, transact, updateRelationship } from "./state.js?v=10";
 import { applyRelationshipDelta } from "./social.js?v=10";
@@ -6,7 +7,7 @@ const whole = (value) => Math.round(Number(value) || 0);
 
 export function isDetained(state) {
   const until = state?.flags?.risk?.detainedUntil;
-  return Number.isInteger(until) && (state.time?.absoluteWeek || 1) < until;
+  return (Number.isInteger(until) && (state.time?.absoluteWeek || 1) < until) || isServingCriminalSentence(state);
 }
 
 export function normalizeRisk(state) {
@@ -56,14 +57,16 @@ function remember(state, kind, text) {
 function openDosya(state, kind, text) {
   const open = (state.openCases || []).filter((item) => item.type === "risk-dosya" && item.status === "pending");
   if (open.some((item) => item.payload?.kind === kind) || open.length >= 3) return false;
-  state.openCases.push({
+  const source = {
     id: `risk-${kind}-${state.time.absoluteWeek}`,
     type: "risk-dosya",
     createdWeek: state.time.absoluteWeek,
     dueWeek: state.time.absoluteWeek + 6,
     status: "pending",
     payload: { kind, text, playerKnown: true },
-  });
+  };
+  state.openCases.push(source);
+  if (kind === "kavga") openCriminalHearing(state, source);
   return true;
 }
 
@@ -106,6 +109,7 @@ function processDisengagement(state, book) {
 export function processRiskWeek(state) {
   if (state.lifetime?.death) return "";
   const book = normalizeRisk(state);
+  const sentenceNote = processCriminalSentenceWeek(state);
   const recoveryNote = processDisengagement(state, book);
   if (Number.isInteger(book.clinicDue) && state.time.absoluteWeek >= book.clinicDue) {
     book.clinicDue = null;
@@ -121,7 +125,7 @@ export function processRiskWeek(state) {
     book.banner = { week: state.time.absoluteWeek, text };
     return text;
   }
-  return recoveryNote;
+  return [sentenceNote, recoveryNote].filter(Boolean).join(" ");
 }
 
 export function riskNight(state) {
