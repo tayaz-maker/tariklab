@@ -863,6 +863,16 @@ Stacked on the interest-bearing mortgage PR; independent of its amortization cal
 - Added real Chromium TR/EN/PL×1280/390 partial-debt collection/reload/memory/follow-up assertions to the existing TC browser gate. Draft PR needed to trigger that workflow; no PASS claim before execution.
 
 
+## 2026-10-19 — Package 3 network source liveness
+- Independent branch from released191 a5de48b. Proven V5/V6 defect: deceased Burak remained in getNetworkContacts and could supply a new reference/favor. Filter deceased contacts, guard new favor/opportunity creation, and suppress new Burak/Selin source offers. Existing memories, cases, favors, cash and debt are retained; no retroactive cancellation.
+- Before-fix V5/V6 tests failed with dead contact still active; after-fix47/47 social/depth3/frozen testsPASS, lint/typecheck/buildPASS. Living/dormant/circle behavior and save/reload retained.61-source guard re-pinned only for approved depth3-systems/events changes. No new save fields/UI/copy.
+- Chromium/mandatoryCI remains release gate. Ordered after192/193, with canonical reconciliation before merge. This does not claim criminal records or a statutory court simulator are complete.
+
+## 2026-10-19 — prepared PR-only TC ownership routing
+- Measured bottleneck follow-up, separate branch and no fourth PR: TC test-only files and the TC outcome harness were classified as generic scripts, causing unrelated campaign/duel browsers on PRs. Added narrow pull_request ownership exceptions; management-desk unit guard covers both TC and DEVLET, and the Polish dictionary is loaded by data-game route.
+- All npm tests still run, all required jobs/gates preserved, shared EN/i18n-runtime/workflows/unknown helpers still select full, and push/main retains the original full classification. No runtime/game/save/assets changed.
+- Real193 diff CLI comparison: PR routes TC+DEVLET, main remains full; routing/required-gate tests27/27PASS. No wall-time gain claimed before an actual completed after-run. Pending checks on existing192/193/194 must not be restarted solely for this preparation.
+
 ## 2026-10-19 — CI preview and deployment readiness
 - Separate infrastructure-only branch: measured five CI runs and retained raw queue/job/step evidence in docs/ci/CI-RECOVERY-2026-10-19.{md,json}. No execution speedup claimed.
 - Exact built Wrangler preview avoids Nitro fixed10s proxy deadline; bounded real HTTP readiness detects exit. TC production browser waits for all7 candidate fingerprints before launch, retaining its original strict assertion.

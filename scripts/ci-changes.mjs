@@ -4,7 +4,7 @@ import { execFileSync } from "node:child_process";
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
-export function classifyChanges(files) {
+export function classifyChanges(files, { pullRequest = false } = {}) {
   const routeByPath = new Map([
     ["public/games/tc-sim-devlet/", "tc-sim-devlet"],
     ["public/games/tc-sim/", "tc-sim"],
@@ -24,6 +24,21 @@ export function classifyChanges(files) {
   const routes = new Set();
   let full = !files.length;
   for (const file of files) {
+    // Test-only TC files cannot alter other games' browser runtime. The full
+    // npm test command still runs. Main and unknown/shared paths stay conservative.
+    if (pullRequest && file === "scripts/management-desk.test.mjs") {
+      routes.add("tc-sim");
+      routes.add("tc-sim-devlet");
+      continue;
+    }
+    if (pullRequest && (
+      /^scripts\/tc-sim-(?!devlet).*\.test\.mjs$/.test(file) ||
+      file === "scripts/tc-sim-job-start-outcome-browser.mjs" ||
+      file === "public/i18n/pl/tc-sim.json"
+    )) {
+      routes.add("tc-sim");
+      continue;
+    }
     // This stylesheet has exactly two consumers, guarded by ci-changes.test.mjs.
     if (file === "public/games/shared/management-desk.css") {
       routes.add("tc-sim");
@@ -67,7 +82,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1]
   })
     .split("\0")
     .filter(Boolean);
-  const values = classifyChanges(files);
+  const values = classifyChanges(files, { pullRequest: process.env.GITHUB_EVENT_NAME === "pull_request" });
   const output =
     Object.entries(values)
       .map(([key, value]) => `${key}=${value}`)
