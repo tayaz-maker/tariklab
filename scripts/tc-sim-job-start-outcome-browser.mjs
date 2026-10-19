@@ -389,6 +389,9 @@ try {
     assert.ok((await insurance.innerText()).includes(["SGK / gözlenen çalışma","Social insurance / observed work","Ubezpieczenie społeczne / zaobserwowana praca"][["tr","en","pl"].indexOf(language)]));
     const insuredSave=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
     assert.equal(insuredSave.flags.socialInsurance.coveredWeeks,1);
+    const modeledDays=insuredSave.time.year>=2020 ? 8 : 0;
+    assert.equal(insuredSave.flags.socialInsurance.service.days,modeledDays);
+    assert.equal(await page.locator('[data-insurance-service]').count(),1);
     assert.equal(insuredSave.finances.balance,saved.finances.balance);
     const insuranceBounds=await page.evaluate(()=>({w:document.documentElement.clientWidth,s:document.documentElement.scrollWidth}));
     assert.ok(insuranceBounds.s<=insuranceBounds.w);

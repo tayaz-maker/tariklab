@@ -792,3 +792,11 @@ Stacked on the interest-bearing mortgage PR; independent of its amortization cal
 - No upfront fee, new tax/SGK withholding, loan forgiveness, pension attachment, cash creation or change to existing installment/foreclosure defaults. Every payment reduces the same source claim; unrelated arrears remain. One period marker inside existing case payload survives reload; SAVE_VERSION 6 and neutral V5/V6 notices preserved.
 - Existing UI/components and TR/EN/PL overlays reused; browser matrix adds arrangement click/reload and zero immediate charge at 1280/390. Domain tests cover source conservation, actual month close, exhausted cash, paused income, legacy notices and early payoff. Full court/attorney/evidence and statutory SGK remain PARTIAL; involuntary wage attachment remains distinct from this arrangement.
 - Frozen 61-source guard is consciously re-pinned only for icra/time hooks. No other game, art, atlas, site optimization or excluded mechanics changed.
+
+
+## 2026-10-19 — prospective modeled service days and employer records
+
+- Add optional version1 service metadata inside existing socialInsurance: observed days, last modeled contract and bounded per-job employer proxies. Supported private catalog jobs from2020 only; four decision weeks allocate8/7/8/7 days, a stated game assumption giving30 for a full modeled month. Actual official partial-month reporting is calendar-based, not this allocation. No past coverage inferred from old weeks or experience.
+- Reuse completed-week dedup/exclusions. Unsupported job/year, unemployment, detention, service and retirement add no modeled days. No premium payment or official employer filing is invented. Current net salary has no second charge.
+- Existing pension age/abstract480-or240-week criteria now accept the greater of old experience and modeled service equivalent, never their sum; old entitlements preserved. Not statutory Turkish retirement eligibility. Existing Career panel receives authored TR/EN/PL service/status/contract counts.
+- Tests cover30-day modeled month, job switch, reload, excluded work/history, future format, pension double-count prevention and three-language read-only output. Browser matrix checks actual persisted days and panel1280/390. SAVE_VERSION6 and full61-source guard retained with only approved life/social-insurance changes.
