@@ -46,3 +46,15 @@ test('recovery month credits the existing net salary once, with observed service
  assert.equal(s.finances.ledger.some(row=>row.category==='sgk'&&row.amount<0),false);
  assert.equal(isWorkRecovering(s),false);assert.equal(validateState(s).ok,true);
 });
+test('recovery browser fixture must resolve the legitimate career warning after clinic before navigation',async()=>{
+ const {resolveEvent}=await import('../public/games/tc-sim/js/events.js');
+ const s=createNewGame({seed:17});s.finances.balance=10000;s.health.health=12;s.health.energy=80;s.health.stress=30;s.events.active=null;s.events.queue=[];
+ assert.equal(applyDecision(s,'body-care').ok,true);assert.equal(s.events.active.eventId,'health_warning');
+ assert.equal(resolveEvent(s,'clinic').ok,true);assert.equal(s.finances.balance,9450);
+ assert.equal(s.events.active.eventId,'job_security_warning','clinic legitimately chains a career warning');
+ assert.equal(resolveEvent(s,'recover').ok,true);assert.equal(s.events.active,null);
+ assert.equal(s.flags.jobSecurityRecovery,true);assert.equal(s.finances.balance,9450);
+ const data=new Map(),storage={getItem:k=>data.get(k)??null,setItem:(k,v)=>data.set(k,v)};
+ assert.equal(saveGame(storage,s).ok,true);const loaded=loadGame(storage);assert.equal(loaded.ok,true);
+ assert.equal(loaded.state.events.active,null);assert.deepEqual(loaded.state.body.workRecovery,s.body.workRecovery);
+});

@@ -532,6 +532,11 @@ try {
     await page.locator('[data-event-choice="clinic"]').click();
     const afterClinic=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
     assert.equal(afterClinic.finances.balance,9450);
+    assert.equal(afterClinic.events.active?.eventId,"job_security_warning");
+    await page.locator('[data-event-choice="recover"]').click();
+    await page.locator('.event-backdrop').waitFor({state:"hidden"});
+    const settled=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
+    assert.equal(settled.events.active,null);assert.equal(settled.finances.balance,9450);
     await page.reload({waitUntil:"networkidle"});await page.locator("#continue-game").click();
     if(!(await body.isVisible()))await page.locator('.side-nav .nav-more').click();await body.click();
     const copy=["Bu bir oyun toparlanma planıdır.","This is a game recovery plan.","To model regeneracji w grze."][["tr","en","pl"].indexOf(language)];
