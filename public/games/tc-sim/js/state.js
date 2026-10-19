@@ -13,7 +13,7 @@ import {
   neutralUnion,
   FAMILY_INTENTS,
 } from "./household.js?v=10";
-import { ensureBodyState } from "./body-systems.js?v=10";
+import { ensureBodyState, validWorkRecovery } from "./body-systems.js?v=10";
 import { getHomeById, getJobById } from "./catalog.js?v=10";
 import { PRESENT_DAY_ERA_ID, getEraById } from "./eras.js?v=10";
 import { isEducationLevel, isValidActiveEducation } from "./education.js?v=10";
@@ -753,6 +753,7 @@ export function normalizeEducationCareer(state) {
     conditions: Array.isArray(rawBody.conditions)
       ? rawBody.conditions.filter((item) => item?.id).slice(-8)
       : [],
+    ...(Object.hasOwn(rawBody, "workRecovery") ? { workRecovery: rawBody.workRecovery } : {}),
     warningAcknowledged: Boolean(rawBody.warningAcknowledged),
     warningAvailable: Boolean(rawBody.warningAvailable),
   };
@@ -969,6 +970,7 @@ export function validateState(state) {
   )
     errors.push("Beden değerleri geçersiz");
   if (state.body && (
+    !validWorkRecovery(state) ||
     !["overwork", "underRecovery", "inactivity"].every((key) => Number.isFinite(state.body.exposures?.[key]) && state.body.exposures[key] >= 0 && state.body.exposures[key] <= 100) ||
     !Array.isArray(state.body.conditions) || state.body.conditions.length > 8 ||
     new Set(state.body.conditions.map((item) => item.id)).size !== state.body.conditions.length ||
