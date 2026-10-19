@@ -179,7 +179,7 @@ try {
       await page.setViewportSize({ width, height: 900 });
     }
     await navigate("finance");
-    assert.equal(await page.locator("[data-credit], [data-repay-credit], [data-exchange-buy], [data-wealth-action^='invest-']").count(), 0, "bank transaction controls appear only in Banks");
+    assert.equal(await page.locator("[data-credit], [data-repay-credit], [data-exchange], [data-wealth-action^='invest-']").count(), 0, "bank transaction controls appear only in Banks");
     assert.ok(await page.locator(".wealth-summary").count() > 0, "accounting summary remains in Money");
     if (!(await page.locator('[data-view="banks"]').first().isVisible())) await page.locator(".side-nav .nav-more").click();
     await page.locator('[data-view="banks"]').first().focus();

@@ -70,7 +70,7 @@ export async function correctionFlows(page,surface,id,lang,out) {
       assert.equal(await frame.locator('[data-wealth-action="spend"][data-wealth-value="betting"]').isDisabled(),true);
       assert.equal((await saved(page)).finances.balance,cash);
     }
-    frame=await loadFixture(page,12345,true);await frame.locator('.compact-nav [data-view="finance"]').click();
+    frame=await loadFixture(page,12345,true);await frame.locator('.compact-nav [data-view="banks"]').click();
     await act(frame, '[data-wealth-action="invest-buy"][data-wealth-value="gold"]');
     assert.equal((await saved(page)).wealth.investments[0].basis,5050);
     await frame.locator("#advance-week").click();
