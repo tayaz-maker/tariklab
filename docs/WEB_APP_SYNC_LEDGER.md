@@ -853,3 +853,9 @@ Stacked on the interest-bearing mortgage PR; independent of its amortization cal
 - SAVE_VERSION6/UI/financial engine unchanged; 61-source frozen guard re-pinned only for the authorized events.js diff. Browser/required CI and canonical dependency remain release gates.
 
 - Added real Chromium TR/EN/PL×1280/390 partial-debt collection/reload/memory/follow-up assertions to the existing TC browser gate. Draft PR needed to trigger that workflow; no PASS claim before execution.
+
+
+## 2026-10-19 — prepared PR-only TC ownership routing
+- Measured bottleneck follow-up, separate branch and no fourth PR: TC test-only files and the TC outcome harness were classified as generic scripts, causing unrelated campaign/duel browsers on PRs. Added narrow pull_request ownership exceptions; management-desk unit guard covers both TC and DEVLET, and the Polish dictionary is loaded by data-game route.
+- All npm tests still run, all required jobs/gates preserved, shared EN/i18n-runtime/workflows/unknown helpers still select full, and push/main retains the original full classification. No runtime/game/save/assets changed.
+- Real193 diff CLI comparison: PR routes TC+DEVLET, main remains full; routing/required-gate tests27/27PASS. No wall-time gain claimed before an actual completed after-run. Pending checks on existing192/193/194 must not be restarted solely for this preparation.
