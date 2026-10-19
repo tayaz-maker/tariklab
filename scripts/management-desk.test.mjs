@@ -106,7 +106,8 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Approved Package 3: bounded repeat-sentence custody reuses work/service gates and defers unstarted jobs.
   // Approved Package 3: source-linked verdicts, liveness, promises and bounded disengagement together.
   // Approved Package 4: observed work fuel replaces the existing variable car budget; no public fare twice.
-  assert.equal(hash.digest("hex"), "902ec172aa87004ba8afbaaccc26850fc2c04606c278a4eb142135b4466d365b");
+  // Combined with #198: final-custody stall predicate remains protected.
+  assert.equal(hash.digest("hex"), "f625560d3be6c15c2a637bae3eb8d8ce18286937b334a5959b28e61bb783d16c");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);
