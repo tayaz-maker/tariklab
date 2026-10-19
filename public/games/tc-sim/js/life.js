@@ -14,7 +14,7 @@ import {
   transact,
 } from "./state.js?v=10";
 import { getCommuteLoad, getHomeById, getJobById } from "./catalog.js?v=10";
-import { getWealthMonthlySummary } from "./wealth.js?v=10";
+import { getWealthMonthlySummary, vehicleOperatingCosts, vehicleExpenseLabel } from "./wealth.js?v=10";
 import {
   getEducationWeeklyLoad,
   getPathById,
@@ -564,6 +564,12 @@ export function applyWeeklyLifeLoad(state) {
   });
   state.flags.lastLifeLoadWeek = week;
   recordInsuranceWeek(state, Boolean(getJobById(state.career.jobId)) && !isServing(state) && !isDetained(state) && !isWorkRecovering(state) && state.career.retirement?.status !== "retired");
+  // Only an observed, eligible work journey consumes the variable fuel share.
+  // Existing public-transport / social-visit prices are not billed as fuel again.
+  const working = Boolean(getJobById(state.career.jobId)) && !isServing(state) && !isDetained(state) && !isWorkRecovering(state) && state.career.retirement?.status !== "retired";
+  const withoutCar = { ...state, wealth: { ...state.wealth, vehicle: null } };
+  const fuel = working && locationCommute(withoutCar) > 0 ? vehicleOperatingCosts(state).weeklyFuel : 0;
+  if (fuel) transact(state, -fuel, vehicleExpenseLabel("fuel"), "vehicle-fuel");
   creditWeeklyExperience(state);
   updateCareerProgress(state);
   advanceEducationProgress(state);
