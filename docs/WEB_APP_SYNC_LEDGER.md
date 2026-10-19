@@ -766,3 +766,10 @@ Stacked on the interest-bearing mortgage PR; independent of its amortization cal
 - GitHub #180 TC job-start / built log (job 118073666645) failed at outcome-browser line 398: the saved family_late_night dialog legitimately intercepted dashboard navigation after an objection activated the next eligible event.
 - Test now asserts the saved occurrence, reloads with the visible dialog, chooses truth through the real event button, verifies history/cash/debt and then navigates/settles. No forced click, removed overlay, cleared event, timeout increase or game logic change.
 - Real UI regression reproduces objection → pending event → reload → choice → payment. Existing TR/EN/PL ×1280/390 assertions retained. SAVE_VERSION 6 unchanged.
+
+
+### 2026-10-19 — TC SIM prospective social insurance / fiscal links
+- Optional format-1 socialInsurance tracks completed catalog wage-job weeks prospectively, once per week/reload. Jobless, retired, serving, detained or deceased lives earn no modeled coverage. No invented past contributions or statutory day conversion; this is explicitly a game record, not an SGK statement.
+- Existing retirement eligibility/amount rules retained for V5/V6 compatibility; eligibility report exposes observed coverage separately from legacy work experience. No new payroll deduction: net salary remains net.
+- Existing settled business tax and pension are read-only alongside coverage on the current career panel; no second tax collection or speculative profit reported. TR/EN/PL and 1280/390 browser coverage extended. SAVE_VERSION remains 6.
+- Remaining: actual employer contribution/payment/legal coverage simulation is not claimed; no real Turkish rates or eligibility claims introduced. Mortgage foreclosure/full enforcement remain separate unfinished finance scope. Excluded salary negotiation/family liquidation/new crises/disasters untouched.

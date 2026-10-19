@@ -1,3 +1,4 @@
+import { normalizeInsurance, validInsurance } from "./social-insurance.js?v=10";
 import { normalizeBankRecord } from "./bank-record.js?v=10";
 
 import { beginMonthlyCash, normalizeMonthlyCash, recordMonthlyCash } from "./monthly-cash.js?v=10";
@@ -323,6 +324,8 @@ export function createNewGame(options = {}) {
   applyFamilyStartFlags(state, familyType);
   syncGameDate(state);
   normalizeMonthlyCash(state);
+  state.flags ||= {};
+  state.flags.socialInsurance = normalizeInsurance(state.flags.socialInsurance);
   beginMonthlyCash(state, state.time.weekOfMonth !== 1);
   return state;
 }
@@ -840,6 +843,7 @@ export function normalizeEducationCareer(state) {
     dueWeek: rawMilitary.applicable === true && Number.isInteger(rawMilitary.dueWeek) ? rawMilitary.dueWeek : null,
   };
   normalizeSocialState(state);
+  state.flags.socialInsurance = normalizeInsurance(state.flags.socialInsurance);
   normalizeBankRecord(state);
   normalizeHousehold(state);
   normalizeLocation(state);
@@ -920,6 +924,7 @@ export function validateState(state) {
     !Array.isArray(state.career?.history)
   )
     errors.push("Kariyer ilerlemesi geçersiz");
+  if (state.flags?.socialInsurance !== undefined && !validInsurance(state.flags.socialInsurance)) errors.push("Sosyal sigorta takibi geçersiz");
   const retirement = state.career?.retirement;
   if (
     !retirement ||

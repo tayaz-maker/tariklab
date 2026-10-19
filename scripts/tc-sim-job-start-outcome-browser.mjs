@@ -1,3 +1,4 @@
+import { applyWeeklyLifeLoad } from "../public/games/tc-sim/js/life.js";
 import { openIcraNotice } from "../public/games/tc-sim/js/icra.js";
 import { recordBankMonth } from "../public/games/tc-sim/js/bank-record.js";
 import { createNewGame } from "../public/games/tc-sim/js/state.js";
@@ -342,6 +343,7 @@ try {
   for (const language of ["tr", "en", "pl"]) for (const width of [1280, 390]) {
     const fixture = createNewGame({seed:17}); fixture.finances.balance = 1000000;
     fixture.events.active = null; fixture.events.queue = [];
+    applyWeeklyLifeLoad(fixture);
     assert.ok(buyProperty(fixture, "owner", true).ok);
     fixture.time.absoluteWeek += 1; fixture.weekly = {used:0, selectedIds:[]};
     const context = await browser.newContext({viewport:{width,height:844}}), page = await context.newPage(), errors=[];
@@ -379,6 +381,17 @@ try {
     assert.equal(await restricted.isDisabled(),true);assert.match(await restricted.getAttribute("title"),/40/);
     assert.equal(await page.evaluate(key=>JSON.parse(localStorage.getItem(key)).finances.balance,key),saved.finances.balance);
     assert.deepEqual(errors,[]);rows.push({view:"mortgage",language,width,status:"PASS"});
+    await page.locator('.side-nav [data-view="career"]').click();
+    const insurance=page.locator('[data-social-insurance]');
+    assert.equal(await insurance.count(),1);
+    assert.ok((await insurance.innerText()).includes(["SGK / gözlenen çalışma","Social insurance / observed work","Ubezpieczenie społeczne / zaobserwowana praca"][["tr","en","pl"].indexOf(language)]));
+    const insuredSave=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
+    assert.equal(insuredSave.flags.socialInsurance.coveredWeeks,1);
+    assert.equal(insuredSave.finances.balance,saved.finances.balance);
+    const insuranceBounds=await page.evaluate(()=>({w:document.documentElement.clientWidth,s:document.documentElement.scrollWidth}));
+    assert.ok(insuranceBounds.s<=insuranceBounds.w);
+    await insurance.scrollIntoViewIfNeeded();await page.screenshot({path:`${out}/social-insurance-${language}-${width}.png`});
+    rows.push({view:"social-insurance",language,width,status:"PASS"});
     loaded.finances.arrears=4000; openIcraNotice(loaded,{source:"temerrut",amount:4000});
     await page.evaluate(({state,key})=>localStorage.setItem(key,JSON.stringify(state)),{state:loaded,key});
     await page.reload({waitUntil:"networkidle"});await page.locator("#continue-game").click();
