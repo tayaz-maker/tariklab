@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createNewGame} from '../public/games/tc-sim/js/state.js';
 import {openCriminalHearing,resolveCriminalChoice,criminalRecords,isServingCriminalSentence,processCriminalSentenceWeek,criminalJobDelay} from '../public/games/tc-sim/js/criminal-justice.js';
+import {openShop,tendShop} from '../public/games/tc-sim/js/quarters.js';
 import {isDetained} from '../public/games/tc-sim/js/risk-layer.js';
 import {getWeeklyLifeLoad,getMonthlyEmploymentIncome,acceptJobOffer,completePendingJob} from '../public/games/tc-sim/js/life.js';
 import {settleHouseholdEvents} from './tc-sim-longrun.mjs';
@@ -27,4 +28,12 @@ test('real custody weeks pause observed service and release restores the ordinar
  const before=s.flags.socialInsurance?.coveredWeeks||0;
  for(let i=0;i<2;i++){settleHouseholdEvents(s);assert.equal(advanceWeek(s).ok,true);s=reload(s);assert.equal(s.flags.socialInsurance?.coveredWeeks||0,before);}
  assert.equal(isServingCriminalSentence(s),false);assert.equal(criminalRecords(s).length,2);assert.ok(getMonthlyEmploymentIncome(s)>0);
+});
+
+for(const version of [5,6])test(`V${version} final custody prevents stall attendance without spending cash or a decision, then releases it`,()=>{
+ let s=createNewGame({seed:17});s.meta.saveVersion=version;s=migrateState(s).state;s.events.active=null;s.events.queue=[];s.finances.balance=900000;
+ assert.equal(openShop(s,'sirt','cafe').ok,true);verdict(s,'first-stall');verdict(s,'second-stall');s=reload(s);
+ const cash=s.finances.balance,used=s.weekly.used,attention=s.household.semt.shops[0].attentionWeek;
+ assert.equal(isServingCriminalSentence(s),true);assert.equal(tendShop(s).ok,false);assert.equal(s.finances.balance,cash);assert.equal(s.weekly.used,used);assert.equal(s.household.semt.shops[0].attentionWeek,attention);
+ s.time.absoluteWeek=s.flags.criminalJustice.custody.untilWeek;processCriminalSentenceWeek(s);s=reload(s);assert.equal(tendShop(s).ok,true);assert.equal(s.meta.saveVersion,6);
 });

@@ -1,4 +1,5 @@
 // Semt emlak + mahalle tezgâhı. Para ekranındaki servet mülkü ve büyük işletme durur.
+import { isDetained } from "./risk-layer.js?v=10";
 import { recordIcraPayment } from "./icra.js?v=10";
 import { getDistrict } from "./locations.js?v=10";
 import { scheduleMoveConsequence } from "./depth3-systems.js?v=10";
@@ -465,8 +466,7 @@ function stallLocked(state) {
   const week = state.time?.absoluteWeek || 1;
   const army = state.flags?.askerlik;
   if (army?.mode === "serving" && Number.isInteger(army.until) && week < army.until) return "Askerliktesin. Tezgâha uğrayamazsın.";
-  const until = state.flags?.risk?.detainedUntil;
-  if (Number.isInteger(until) && week < until) return "İçeridesin. Tezgâha uğrayamazsın.";
+  if (isDetained(state)) return "İçeridesin. Tezgâha uğrayamazsın.";
   return "";
 }
 
