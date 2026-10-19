@@ -1,6 +1,6 @@
 // İcra / haciz. Mahkeme simülasyonu değil: yazı, süre, sonra mal.
 import { addMemory, addNpcMemory, adjustHealth, transact, updateRelationship } from "./state.js?v=10";
-import { DURABLES } from "./wealth.js?v=10";
+import { CASH_ARREARS_CAP, DURABLES } from "./wealth.js?v=10";
 
 const GRACE = 4;
 const ARREARS_FLOOR = 2500;
@@ -60,6 +60,7 @@ export function openIcraNotice(state, claim) {
       source: String(claim.source || "temerrut").slice(0, 16),
       amount,
       owed: amount,
+      ...(claim.source === "temerrut" ? { sourceArrears: Math.min(amount, whole(state.finances.arrears)) } : {}),
       playerKnown: true,
     },
   };
@@ -67,11 +68,29 @@ export function openIcraNotice(state, claim) {
   return item;
 }
 
-function settleSource(state, item, paid) {
-  if (item.payload.source === "temerrut")
-    state.finances.arrears = Math.max(0, whole(state.finances.arrears) - paid);
-  if (item.payload.source === "aile" && paid >= item.payload.amount)
+// sourceArrears is the part of this claim already represented in finances.arrears.
+// Legacy V5/V6 cases have no field: their remaining claim is the safe fallback.
+function sourceArrears(state, item) {
+  if (item.payload.source !== "temerrut") return 0;
+  return Math.max(0, Math.min(
+    whole(state.finances.arrears),
+    whole(item.payload.sourceArrears ?? item.payload.owed ?? item.payload.amount),
+  ));
+}
+
+export function recordIcraPayment(state, item, amount) {
+  const owed = Math.max(0, whole(item.payload.owed ?? item.payload.amount));
+  const paid = Math.max(0, Math.min(owed, whole(amount)));
+  const backed = sourceArrears(state, item);
+  const settled = Math.min(backed, paid);
+  if (item.payload.source === "temerrut") {
+    state.finances.arrears -= settled;
+    item.payload.sourceArrears = backed - settled;
+  }
+  item.payload.owed = owed - paid;
+  if (item.payload.source === "aile" && item.payload.owed === 0)
     state.flags.pocket.familyDebt = null;
+  return paid;
 }
 
 function closeCase(state, item, stage) {
@@ -117,25 +136,32 @@ export function runHaciz(state, item) {
   const book = normalizeIcra(state);
   let owed = whole(item.payload.owed ?? item.payload.amount);
   const cashPaid = takeCash(state, owed);
-  owed -= cashPaid;
+  recordIcraPayment(state, item, cashPaid);
+  owed = item.payload.owed;
   let seized = cashPaid > 0 ? "cash" : "";
   if (owed > 0) {
     const sold = seizeVehicle(state);
     if (sold > 0) seized = "vehicle";
-    owed -= takeCash(state, owed);
+    recordIcraPayment(state, item, takeCash(state, owed));
+    owed = item.payload.owed;
   }
   let goodsId = "";
   if (owed > 0) {
     const goods = seizeGoods(state);
     goodsId = goods.id;
     if (goods.proceeds > 0) seized = "goods";
-    owed -= takeCash(state, owed);
+    recordIcraPayment(state, item, takeCash(state, owed));
+    owed = item.payload.owed;
   }
   owed = Math.max(0, owed);
-  if (item.payload.source === "temerrut") state.finances.arrears = Math.min(300000, owed);
-  else if (owed > 0) state.finances.arrears = Math.min(300000, whole(state.finances.arrears) + owed);
-  else settleSource(state, item, whole(item.payload.amount));
-  item.payload.owed = owed;
+  // Transfer only the unpaid claim, preserving unrelated arrears. The existing
+  // arrears ceiling limits storage, never liability: overflow stays negative cash.
+  const arrears = whole(state.finances.arrears) - sourceArrears(state, item) + owed;
+  state.finances.arrears = Math.min(CASH_ARREARS_CAP, arrears);
+  const overflow = Math.max(0, arrears - CASH_ARREARS_CAP);
+  if (overflow) transact(state, -overflow, "İcra kalan borç tavan aşımı", "debt");
+  if (item.payload.source === "aile") state.flags.pocket.familyDebt = null;
+  item.payload.sourceArrears = 0;
   book.seized = seized || "cash";
   book.frozenWeek = state.time.absoluteWeek;
   updateRelationship(state, "anne", -6);
@@ -158,7 +184,7 @@ export function payIcra(state) {
   if (state.finances.balance < owed) return { ok: false, reason: `${owed} TL yok. Yazı duruyor.` };
   const before = state.finances.balance;
   transact(state, -owed, "İcra kapanışı", "legal");
-  settleSource(state, item, owed);
+  recordIcraPayment(state, item, owed);
   closeCase(state, item, "paid");
   if (!Number.isInteger(state.finances.balance) || state.finances.balance !== before - owed)
     return { ok: false, reason: "İcra tam TL yazılmadı." };
@@ -177,8 +203,7 @@ export function planIcra(state) {
   if (state.finances.balance < dueNow) return { ok: false, reason: `${dueNow} TL peşinat yok.` };
   const before = state.finances.balance;
   transact(state, -dueNow, "İcra peşinat ve masraf", "legal");
-  if (item.payload.source === "temerrut")
-    state.finances.arrears = Math.max(0, whole(state.finances.arrears) - now);
+  recordIcraPayment(state, item, now);
   const installment = Math.ceil(rest / 4);
   item.payload.stage = "plan";
   item.payload.fee = fee;
@@ -228,17 +253,15 @@ function collectInstallment(state, item) {
     closeCase(state, item, "paid");
     return remember(state, "Taksit bitti. İcra kapandı.");
   }
-  if (state.finances.balance < part) return runHaciz(state, item).message;
-  const before = state.finances.balance;
   const pay = Math.min(part, owed);
+  if (state.finances.balance < pay) return runHaciz(state, item).message;
+  const before = state.finances.balance;
   transact(state, -pay, "İcra taksidi", "legal");
-  item.payload.owed = owed - pay;
+  recordIcraPayment(state, item, pay);
   item.payload.leftParts = Math.max(0, whole(item.payload.leftParts) - 1);
   if (!Number.isInteger(state.finances.balance) || state.finances.balance !== before - pay)
     return remember(state, "Taksit tam TL yazılmadı.");
   if (item.payload.owed <= 0) {
-    if (item.payload.source === "temerrut") state.finances.arrears = 0;
-    if (item.payload.source === "aile") state.flags.pocket.familyDebt = null;
     closeCase(state, item, "paid");
     return remember(state, "Son taksit yattı. İcra kapandı.");
   }
