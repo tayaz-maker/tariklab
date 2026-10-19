@@ -58,7 +58,7 @@ export function vehicleOperatingCosts(state) {
   return { budget, weeklyFuel, fixed, insurance, upkeep: fixed - insurance };
 }
 export function vehicleExpenseLabel(kind) {
-  const lang = globalThis.window?.tlabI18n?.contentLang?.() || "tr";
+  const lang = globalThis.window?.tlabI18n?.getLang?.() || globalThis.window?.tlabI18n?.contentLang?.() || "tr";
   const copy = {
     fuel: { tr: "İşe gidiş yakıtı", en: "Work commute fuel", pl: "Paliwo na dojazd do pracy" },
     fixed: { tr: "Araç bakım payı", en: "Vehicle upkeep allowance", pl: "Koszty utrzymania pojazdu" },

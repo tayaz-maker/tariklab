@@ -1,3 +1,4 @@
+import {openShop} from "../public/games/tc-sim/js/quarters.js";
 import {getMonthlyEmploymentIncome,getWeeklyLifeLoad} from '../public/games/tc-sim/js/life.js';
 import {riskFight} from '../public/games/tc-sim/js/risk-layer.js';
 import {settleHouseholdEvents} from './tc-sim-longrun.mjs';
@@ -633,7 +634,7 @@ try {
     assert.deepEqual(errors,[]);rows.push({view:"vehicle-insurance-month",language,width,status:"PASS"});
     const court=createNewGame({seed:17});court.events.active=null;court.events.queue=[];
     if(court.world?.scenario)court.world.scenario.pendingEvent=null;
-    court.health.stress=60;court.finances.balance=20000;assert.equal(riskFight(court).ok,true);
+    court.health.stress=60;court.finances.balance=100000;assert.equal(openShop(court,"sirt","berber").ok,true);assert.equal(riskFight(court).ok,true);
     court.time.absoluteWeek=5;processDueOpenCases(court);activateNextEvent(court);
     assert.equal(court.events.active.eventId,"criminal_hearing");
     await page.evaluate(({state,key})=>localStorage.setItem(key,JSON.stringify(state)),{state:court,key});
@@ -670,12 +671,25 @@ try {
     assert.equal(imprisoned.flags.criminalJustice.records.length,2);assert.equal(imprisoned.flags.criminalJustice.custody.untilWeek,imprisoned.time.absoluteWeek+2);
     assert.equal(getMonthlyEmploymentIncome(imprisoned),0);assert.equal(getWeeklyLifeLoad(imprisoned).load,0);
     await page.reload({waitUntil:"networkidle"});await page.locator("#continue-game").click();
+    const custodyHome=page.locator('.side-nav [data-view="home"]');
+    if(!(await custodyHome.isVisible()))await page.locator('.side-nav .nav-more').click();
+    await custodyHome.click();
+    assert.equal(await page.locator('[data-semt-action="tend"]').isDisabled(),true);
     const released=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
     const serviceBefore=imprisoned.flags.socialInsurance?.coveredWeeks||0;
     for(let i=0;i<2;i++){settleHouseholdEvents(released);assert.equal(advanceWeek(released).ok,true);}
+    settleHouseholdEvents(released); // Resolve any legitimate social follow-up before navigating after release.
     assert.equal(released.flags.criminalJustice.custody,undefined);assert.equal(released.flags.criminalJustice.records.length,2);assert.ok(getMonthlyEmploymentIncome(released)>0);assert.equal(released.flags.socialInsurance?.coveredWeeks||0,serviceBefore);
     await page.evaluate(({state,key})=>localStorage.setItem(key,JSON.stringify(state)),{state:released,key});
     await page.reload({waitUntil:"networkidle"});await page.locator("#continue-game").click();
+    const releasedHome=page.locator('.side-nav [data-view="home"]');
+    if(!(await releasedHome.isVisible()))await page.locator('.side-nav .nav-more').click();
+    await releasedHome.click();
+    assert.equal(await page.locator('[data-semt-action="tend"]').isEnabled(),true);
+    await page.locator('[data-semt-action="tend"]').click();
+    const attended=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
+    assert.equal(attended.household.semt.shops[0].attentionWeek,attended.time.absoluteWeek);
+    assert.equal(attended.finances.balance,released.finances.balance);
     assert.deepEqual(errors,[]);await page.screenshot({path:`${out}/sentence-release-${language}-${width}.png`});rows.push({view:"sentence-release",language,width,status:"PASS"});
 
     assert.deepEqual(errors,[]);await page.screenshot({path:`${out}/criminal-verdict-${language}-${width}.png`});rows.push({view:"criminal-verdict",language,width,status:"PASS"});
