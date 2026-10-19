@@ -194,6 +194,12 @@ function renderJobResult() {
   });
 }
 
+function renderIcraEvidence(item) {
+  const e=item.type==="icra" ? item.payload?.evidence : null;
+  if(!e)return "";
+  return `<span data-icra-evidence><b>Dosya delili</b> · <span>Talep kalanı:</span> ${money(item.payload.owed || 0)} · <span>İnceleme anındaki kaynak:</span> ${e.backing===null ? "<span>Kaynak kayıt doğrulanamadı</span>" : money(e.backing)}</span>`;
+}
+
 function openCaseLabel(item) {
   if (item.type === "partner-month") return "Partnerin görünmeyen ayı";
   if (item.type === "risk-dosya") return "Polis / mahkeme dosyası";
@@ -817,7 +823,7 @@ function renderDashboard() {
         )}</div>${weekPlanHtml.more}${renderResult("Bu haftanın kararlarını ver veya zamanı ilerlet.")} </section>
       <aside class="right-column"><section class="panel agenda-panel"><div class="panel-head"><div><p class="eyebrow">GÜNDEM</p><h2>Gelen kutusu</h2></div></div>${renderAgenda()}</section><section class="panel people-panel"><div class="panel-head"><div><p class="eyebrow">İLİŞKİLER</p><h2>Önemli kişiler</h2></div><span>/ 100</span></div><div class="people">${renderPeople()}</div></section></aside>
       <section class="panel history-panel"><div class="panel-head"><div><p class="eyebrow">GEÇMİŞ</p><h2>Son hayat kayıtları</h2></div><span>${state.memories.length}</span></div><div class="history">${renderMemories()}</div></section>
-      <section class="panel cases-panel"><div class="panel-head"><div><p class="eyebrow">AÇIK MESELELER</p><h2>Bekleyen sonuçlar</h2></div><span>${activeCases.length}</span></div>${activeCases.length ? activeCases.map((item) => `<p class="open-case"><b>${escapeText(openCaseLabel(item))}</b><span>${Math.max(0, item.dueWeek - state.time.absoluteWeek)} hafta kaldı</span></p>`).join("") : `<p class="empty">Şu anda açık dosya yok.</p>`}<div class="year-file"><span>Yıl dosyası</span>${renderYearHistory()}</div></section>
+      <section class="panel cases-panel"><div class="panel-head"><div><p class="eyebrow">AÇIK MESELELER</p><h2>Bekleyen sonuçlar</h2></div><span>${activeCases.length}</span></div>${activeCases.length ? activeCases.map((item) => `<p class="open-case"><b>${escapeText(openCaseLabel(item))}</b><span>${Math.max(0, item.dueWeek - state.time.absoluteWeek)} hafta kaldı</span>${renderIcraEvidence(item)}</p>`).join("") : `<p class="empty">Şu anda açık dosya yok.</p>`}<div class="year-file"><span>Yıl dosyası</span>${renderYearHistory()}</div></section>
     </div>`;
 }
 

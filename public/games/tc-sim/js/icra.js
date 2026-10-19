@@ -47,8 +47,8 @@ export function claimOf(state) {
   const debt = state.flags?.pocket?.familyDebt;
   if (debt && whole(debt.amount) >= 1000 && state.time.absoluteWeek > whole(debt.dueWeek) + GRACE)
     return { source: "aile", amount: whole(debt.amount) };
-  const fine = (state.openCases || []).find((item) => item.type === "risk-dosya" && item.status === "pending" && Number.isInteger(item.dueWeek) && item.dueWeek <= state.time.absoluteWeek);
-  if (fine) return { source: "ceza", amount: FINE };
+  const fine = (state.openCases || []).find((item) => item.type === "risk-dosya" && item.status === "pending" && !item.payload?.fineEnforced && Number.isInteger(item.dueWeek) && item.dueWeek <= state.time.absoluteWeek);
+  if (fine) return { source: "ceza", amount: FINE, sourceCaseId: fine.id };
   return null;
 }
 
@@ -69,11 +69,16 @@ export function openIcraNotice(state, claim) {
       amount,
       owed: amount,
       ...(claim.source === "mortgage" ? { loanId: claim.loanId } : {}),
+      ...(claim.source === "ceza" && claim.sourceCaseId ? { sourceCaseId: claim.sourceCaseId } : {}),
       ...(claim.source === "temerrut" ? { sourceArrears: Math.min(amount, whole(state.finances.arrears)) } : {}),
       playerKnown: true,
     },
   };
   state.openCases.push(item);
+  if (item.payload.sourceCaseId) {
+    const source = state.openCases.find(row => row.id === item.payload.sourceCaseId);
+    if (source) source.payload.fineEnforced = true;
+  }
   return item;
 }
 
@@ -257,6 +262,40 @@ export function payIcra(state) {
   return { ok: true, message: remember(state, `İcra kapandı. ${owed} TL gitti. Dosya durdu.`) };
 }
 
+// Recorded evidence is a bounded snapshot, never an invented receipt or debt waiver.
+export function inspectIcraEvidence(state) {
+  reconcileMortgageClaims(state);
+  const item = icraCase(state);
+  if (!item || !["notice", "court"].includes(item.payload.stage)) return { ok: false, reason: "İncelenecek açık bildirim veya dava yok." };
+  const owed = Math.max(0, whole(item.payload.owed));
+  const loan = item.payload.source === "mortgage" ? state.wealth?.debts?.find(d => d.id === item.payload.loanId) : null;
+  item.payload.evidence = { version: 1, week: state.time.absoluteWeek, source: item.payload.source,
+    claimed: owed, backing: loan ? debtBalance(loan) : item.payload.source === "temerrut" ? sourceArrears(state, item) : null,
+    sourceCaseId: item.payload.sourceCaseId || null };
+  return { ok: true, message: remember(state, "Dosya incelendi. Kaynak borç, güncel kalan ve bağlı kayıt ayrıldı. İnceleme borcu silmez; güncel tutarlar Para ekranında.") };
+}
+export function hireIcraCounsel(state) {
+  const item = icraCase(state);
+  if (!item || !["notice", "court"].includes(item.payload.stage) || item.payload.counsel || !item.payload.evidence)
+    return { ok: false, reason: "Avukat için önce açık dosyayı incele; destek bir kez alınır." };
+  if (state.finances.balance < 500) return { ok: false, reason: "Avukat desteği için 500 TL oyun ücreti gerekiyor." };
+  transact(state, -500, "Avukat dosya desteği", "legal");
+  item.payload.counsel = { version: 1, hiredWeek: state.time.absoluteWeek, fee: 500 };
+  return { ok: true, message: remember(state, "Avukat dosyaya katıldı. 500 TL oyun ücreti ödendi; geçerli borç silinmez. İlk karardan sonra bir ek inceleme istenebilir; bu, yasal istinaf modeli değildir.") };
+}
+export function appealIcra(state) {
+  const item = icraCase(state);
+  if (!item || item.payload.stage !== "notice" || item.payload.review?.status !== "confirmed" ||
+      !item.payload.counsel || item.payload.review.appealed || state.time.absoluteWeek >= item.dueWeek)
+    return { ok: false, reason: "Ek inceleme için avukat, ilk karar ve açık süre gerekiyor." };
+  item.payload.review.appealed = true;
+  item.payload.review.status = "pending";
+  item.payload.review.appealWeek = state.time.absoluteWeek;
+  item.payload.stage = "court";
+  item.dueWeek = state.time.absoluteWeek + REVIEW_WEEKS;
+  return { ok: true, message: remember(state, "Avukatla ek inceleme açıldı. İki oyun haftası haciz bekler; kalan borç yeniden kontrol edilir. Yeni borç veya borç affı oluşmaz.") };
+}
+
 // One review per notice. The court checks the live unpaid claim, never the
 // original amount: payments made during review cannot be resurrected.
 export function objectIcra(state) {
@@ -277,6 +316,8 @@ function reviewIcra(state, item) {
   item.payload.review.status = owed > 0 ? "confirmed" : "settled";
   item.payload.review.closedWeek = state.time.absoluteWeek;
   item.payload.review.confirmedOwed = owed;
+  item.payload.review.evidenceWeek = item.payload.evidence?.week ?? null;
+  item.payload.review.final = item.payload.review.appealed === true;
   if (owed === 0) {
     closeCase(state, item, "paid");
     return remember(state, "İnceleme kapandı. Ödenmiş borç yeniden yazılmadı.");
@@ -450,6 +491,12 @@ function noticeOpen(state) {
 }
 
 export const ICRA_DECISIONS = [
+  { id: "icra-evidence", title: "Borç dosyasını incele", detail: "1 hak · kaynak kayıt ve kalan borç · ücret yok",
+    contextual: state => { const f=icraCase(state); return Boolean(f && ["notice","court"].includes(f.payload.stage)); }, apply: inspectIcraEvidence },
+  { id: "icra-counsel", title: "Dosyaya avukat desteği al", detail: "500 TL oyun ücreti · bir ek inceleme · borç affı yok", minimumBalance: 500,
+    contextual: state => { const f=icraCase(state); return Boolean(f && ["notice","court"].includes(f.payload.stage) && f.payload.evidence && !f.payload.counsel); }, apply: hireIcraCounsel },
+  { id: "icra-appeal", title: "Avukatla ek inceleme iste", detail: "1 hak · 2 oyun haftası · tek ek inceleme",
+    contextual: state => { const f=icraCase(state); return Boolean(f && f.payload.stage==="notice" && f.payload.review?.status==="confirmed" && f.payload.counsel && !f.payload.review.appealed && state.time.absoluteWeek<f.dueWeek); }, apply: appealIcra },
   {
     id: "icra-wage",
     title: "Maaştan tahsilata bağla",

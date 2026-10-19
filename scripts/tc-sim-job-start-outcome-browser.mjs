@@ -464,6 +464,31 @@ try {
     assert.equal(settled.finances.arrears,0);assert.equal(settled.meta.saveVersion,6);
     assert.equal(settled.openCases.find(c=>c.type==="icra").payload.review.status,"settled");
     assert.deepEqual(errors,[]);rows.push({view:"court-review",language,width,status:"PASS"});
+    await page.evaluate(({state,key})=>localStorage.setItem(key,JSON.stringify(state)),{state:loaded,key});
+    await page.reload({waitUntil:"networkidle"});await page.locator("#continue-game").click();
+    await page.locator('.side-nav [data-view="dashboard"]').click();
+    const inspect=page.locator('[data-decision="icra-evidence"]');
+    assert.ok((await inspect.innerText()).includes(["Borç dosyasını incele","Inspect debt evidence","Sprawdź dokumentację długu"][["tr","en","pl"].indexOf(language)]));
+    await inspect.click();
+    const evidenceSave=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
+    assert.equal(evidenceSave.openCases.find(c=>c.type==="icra"&&c.status==="pending").payload.evidence.backing,4000);
+    assert.equal(evidenceSave.finances.balance,loaded.finances.balance);
+    assert.equal(await page.locator('[data-icra-evidence]').count(),1);
+    assert.ok((await page.locator('[data-icra-evidence]').innerText()).includes(["Dosya delili","Case evidence","Dokumentacja sprawy"][["tr","en","pl"].indexOf(language)]));
+    if(await page.locator('.event-backdrop').count()){
+      assert.equal(evidenceSave.events.active.eventId,"family_late_night");
+      await page.locator('[data-event-choice="truth"]').click();
+    }
+    await page.locator('[data-decision="icra-counsel"]').click();
+    const counselSave=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
+    assert.equal(counselSave.finances.balance,loaded.finances.balance-500);
+    assert.equal(counselSave.openCases.find(c=>c.type==="icra"&&c.status==="pending").payload.counsel.fee,500);
+    await page.reload({waitUntil:"networkidle"});await page.locator("#continue-game").click();
+    const counselReload=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
+    assert.equal(counselReload.finances.balance,counselSave.finances.balance);
+    assert.equal(await page.locator('[data-decision="icra-counsel"]').count(),0);
+    assert.deepEqual(errors,[]);rows.push({view:"court-evidence-counsel",language,width,status:"PASS"});
+    await page.screenshot({path:`${out}/court-evidence-counsel-${language}-${width}.png`});
     const forced=createNewGame({seed:17});forced.finances.balance=1000000;forced.events.active=null;forced.events.queue=[];
     assert.ok(buyProperty(forced,"owner",true).ok);
     for(let i=0;i<3;i++){forced.finances.balance=0;processWealthMonthEnd(forced);forced.time.absoluteWeek+=4;forced.weekly={used:0,selectedIds:[]};}
