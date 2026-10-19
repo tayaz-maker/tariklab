@@ -1,3 +1,4 @@
+import { recordMonthlyCash } from "./monthly-cash.js?v=10";
 import { dateAtWeek, syncGameDate } from "./game-date.js?v=10";
 const clamp = (value, min = 0, max = 100) => Math.min(max, Math.max(min, Number(value) || 0));
 
@@ -153,7 +154,7 @@ const AXES = {
     if (s.career) s.career.performance = clamp((s.career.performance || 50) + n);
     if (s.education?.active) s.education.active.progressPoints = Math.max(0, (s.education.active.progressPoints || 0) + n * 4);
   },
-  money: (s, n) => { if (s.finances) s.finances.balance += n * 150; },
+  money: (s, n) => { if (s.finances) { recordMonthlyCash(s, n * 150, "Historical scenario", "event"); s.finances.balance += n * 150; } },
   health: (s, n) => { if (s.health) s.health.health = clamp(s.health.health + n); },
   energy: (s, n) => { if (s.health) s.health.energy = clamp(s.health.energy + n); },
   stress: (s, n) => { if (s.health) s.health.stress = clamp(s.health.stress + n); },

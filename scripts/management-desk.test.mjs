@@ -54,7 +54,7 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Authorized marriage wave: wedding-planning helper + existing household/social/parenting integration.
   // Authorized city wave integrates one geography helper into existing life engines.
   // Authorized language wave adds a read-only presentation helper; engines unchanged.
-  assert.equal(files.length, 57);
+  assert.equal(files.length, 58);
   const hash = createHash("sha256");
   for (const file of files) hash.update(file).update(readFileSync(file));
   // Re-pinned for the DEVLET maps PR: next-wave.js (geo dispatch + month
@@ -87,11 +87,8 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Kaynaklar: help.js adds the sources section. Save stays v6.
   // Girisim: quarters.js multiple stalls, inspection file, separate weeks. Save stays v6.
   // Tezgah ince: close/sell labels, single-stall inspection, army drop, twin cut, kalfa, icra skim. Save stays v6.
-  // Authorized bank-record foundation adds one source plus bank-business/state/wealth hooks.
-  // All other protected sources and full inventory remain pinned; no debt math changes.
-  // D0 accounting is retained. Authorized housing valuation changes only wealth.js
-  // relative to D0 main; all other 55 protected sources and inventory stay pinned.
-  assert.equal(hash.digest("hex"), "cf2d049f12a2bddb4988667e41fe2f8e8cb168b45b3642132363e11e69cd4ea6");
+  // Combined bank-record/month-cash foundation preserves D0 debt and housing.
+  assert.equal(hash.digest("hex"), "1adc664e7a0040491fbbe84313071f41401b9476e854b734bcad3932824c225b");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);

@@ -1,4 +1,6 @@
 import { recordBankMonth, recordBankLoan } from "./bank-record.js?v=10";
+
+import { recordMonthlyCash } from "./monthly-cash.js?v=10";
 import { normalizeSemt } from "./quarters.js?v=10";
 import { normalizeExchange, exchangePortfolio } from './exchange.js?v=10';
 import { economyYear } from "./period-economy.js?v=10";
@@ -482,6 +484,7 @@ export function validateWealth(state) {
 }
 function ledger(state, amount, reason, category = "wealth") {
   amount = Math.round(amount);
+  recordMonthlyCash(state, amount, reason, category);
   state.finances.balance += amount;
   state.finances.ledger.push({ week: state.time.absoluteWeek, amount, reason, category });
   if (state.finances.ledger.length > 120)

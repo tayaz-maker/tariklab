@@ -1,4 +1,6 @@
 import { bankRecordText } from "./bank-record.js?v=10";
+
+import { renderMonthlyCashCard } from "./monthly-cash.js?v=10";
 import {gameplayText,inboxCases,recentNotices,snapshotDecision,decisionFeedback} from './gameplay-language.js?v=10';
 import {DISTRICTS,CITIES,currentDistrict,districtProfile,locationCosts,locationJobDelay,locationMoveQuote,getDistrict} from './locations.js?v=10';
 import {moveLocation,locationMoveAvailability,returnToFamilyArea} from './life.js?v=10';
@@ -781,6 +783,7 @@ function renderDashboard() {
     ? getPerson(state, state.social.currentPartnerNpcId)
     : null;
   return `<div class="workspace-head"><div><p class="eyebrow">Bugün</p><h1>Hayatın</h1></div>${renderWeekControl()}</div>
+    ${renderMonthlyCashCard(state.finances.lastMonthClose, (value, receipt) => formatPeriodMoney(value, receipt.year, `${receipt.year}-${String(receipt.month).padStart(2, "0")}-01`), remaining, document.documentElement?.lang || "tr")}
     <section class="panel first-steps"><p class="eyebrow">İLK BAKIŞTA</p><h2>Bugün ne yapmalıyım?</h2><div><p><b>1 · Bir karar seç.</b> Kartın altında zaman, para ve enerji etkisini gör.</p><p><b>2 · Önemli gelişmeye bak.</b> Gelen kutusu ve bekleyen sonuçlar üst menüde.</p><p><b>3 · Haftayı bitir.</b> Hepsini doldurman gerekmez; ay sonunda gelir ve gider otomatik işler.</p></div></section>
     ${lastWeekFeedback ? `<section class="panel"><p class="eyebrow">GEÇEN HAFTA</p><p>${escapeText(lastWeekFeedback)}</p></section>` : ""}
     ${renderParenthoodContext()}
