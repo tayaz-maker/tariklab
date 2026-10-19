@@ -106,7 +106,8 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Approved Package 3: bounded repeat-sentence custody reuses work/service gates and defers unstarted jobs.
   // Approved Package 3: source-linked verdicts, liveness, promises and bounded disengagement together.
   // Approved regression: quarters.js uses the existing detention/final-sentence stall gate.
-  assert.equal(hash.digest("hex"), "366c5689d0b1c219b9403a19b151023a9e19cd79057b32305f317d40361a5335");
+  // Approved Package 4: bounded voluntary-illicit visibility reuses existing district footfall and risk threshold.
+  assert.equal(hash.digest("hex"), "84cbb8f763460f0e26bed7d748c6c40b4de9ee0ecf618039912ed37c0c618016");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);

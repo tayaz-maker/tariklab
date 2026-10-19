@@ -1,3 +1,4 @@
+import {syncGameDate} from "../public/games/tc-sim/js/game-date.js";
 import {openShop} from "../public/games/tc-sim/js/quarters.js";
 import {getMonthlyEmploymentIncome,getWeeklyLifeLoad} from '../public/games/tc-sim/js/life.js';
 import {riskFight} from '../public/games/tc-sim/js/risk-layer.js';
@@ -601,6 +602,27 @@ try {
       assert.equal(persistedPromise.finances.balance,resolvedPromise.finances.balance);
       assert.deepEqual(errors,[]);rows.push({view:kept?"promise-kept-reputation":"promise-broken-reputation",language,width,status:"PASS"});
     }
+    const visibleRisk=createNewGame({seed:17});visibleRisk.time.absoluteWeek=9;syncGameDate(visibleRisk);
+    visibleRisk.events.active=null;visibleRisk.events.queue=[];if(visibleRisk.world?.scenario)visibleRisk.world.scenario.pendingEvent=null;
+    visibleRisk.household.homeId="studio";visibleRisk.household.location={districtId:"kadikoy",lastMoveWeek:0};
+    await page.evaluate(({state,key})=>localStorage.setItem(key,JSON.stringify(state)),{state:visibleRisk,key});
+    await page.reload({waitUntil:"networkidle"});await page.locator("#continue-game").click();
+    const riskHome=page.locator('.side-nav [data-view="home"]');
+    if(!(await riskHome.isVisible()))await page.locator('.side-nav .nav-more').click();
+    await riskHome.click();
+    const riskCopy=await page.locator('[data-location-risk]').innerText();
+    assert.ok(riskCopy.includes('+2'));
+    assert.ok(riskCopy.includes({tr:"gerçek suç oranı değildir",en:"not a real crime rate",pl:"nie rzeczywisty wskaźnik przestępczości"}[language]));
+    const districtRiskBounds=await page.evaluate(()=>({client:document.documentElement.clientWidth,scroll:document.documentElement.scrollWidth}));
+    assert.ok(districtRiskBounds.scroll<=districtRiskBounds.client+1);
+    await page.locator('.side-nav [data-view="dashboard"]').click();
+    await page.locator('[data-decision="risk-shortcut"]').click();
+    const observedRisk=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
+    assert.equal(observedRisk.flags.risk.heat,2);assert.equal(observedRisk.finances.balance,visibleRisk.finances.balance+1800);assert.equal(observedRisk.flags.criminalJustice,undefined);
+    await page.reload({waitUntil:"networkidle"});await page.locator("#continue-game").click();
+    const riskReload=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
+    assert.equal(riskReload.flags.risk.heat,2);assert.equal(riskReload.finances.balance,observedRisk.finances.balance);
+    assert.deepEqual(errors,[]);await page.screenshot({path:`${out}/district-risk-${language}-${width}.png`});rows.push({view:"district-risk-visibility",language,width,status:"PASS"});
     const court=createNewGame({seed:17});court.events.active=null;court.events.queue=[];
     if(court.world?.scenario)court.world.scenario.pendingEvent=null;
     court.health.stress=60;court.finances.balance=100000;assert.equal(openShop(court,"sirt","berber").ok,true);assert.equal(riskFight(court).ok,true);

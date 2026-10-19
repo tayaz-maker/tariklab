@@ -69,3 +69,20 @@ export function locationMoveQuote(state,id,homeId){
  const cost=Math.round(home.moveCost*districtProfile(state,id).rent)+(intercity?6500:1400);
  return {district:d,home,intercity,cost,slots:intercity?3:2};
 }
+
+// Visibility of a voluntary illicit job, not a measured district crime index.
+// Reuse the existing commercial/social footfall coefficient; living here alone
+// never creates heat, an incident, a criminal record or an extra weekly event.
+export function locationRiskProfile(state, id=currentDistrict(state)?.id) {
+ const d=getDistrict(id);
+ return { districtId:d?.id || null, heatGain:d && d.social>=1.15 ? 2 : 1 };
+}
+export function locationRiskCopy(state, language=globalThis.window?.tlabI18n?.getLang?.() || "tr", id=currentDistrict(state)?.id) {
+ const gain=locationRiskProfile(state,id).heatGain;
+ const copy={
+  tr:`Riskli iş görünürlüğü: ${gain===2?'yüksek':'standart'}. Kalabalık iş ve sosyal aksı, Kolay para kararında baskıyı +${gain} artırır; baskı 2 olduğunda sonraki deneme gözaltına gider. Burada yaşamak tek başına risk veya sabıka üretmez. Bu bir oyun varsayımıdır; gerçek suç oranı değildir.`,
+  en:`Illicit-job visibility: ${gain===2?'high':'standard'}. Commercial and social footfall adds +${gain} pressure for Easy money; at pressure 2 the next attempt leads to detention. Living here alone creates no risk or criminal record. This is a game assumption, not a real crime rate.`,
+  pl:`Widoczność nielegalnej pracy: ${gain===2?'wysoka':'standardowa'}. Ruch handlowy i towarzyski zwiększa presję przy Łatwych pieniądzach o +${gain}; przy presji 2 kolejna próba prowadzi do zatrzymania. Samo mieszkanie tutaj nie tworzy ryzyka ani karalności. To założenie gry, nie rzeczywisty wskaźnik przestępczości.`
+ };
+ return copy[language] || copy.en;
+}
