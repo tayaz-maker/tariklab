@@ -51,6 +51,20 @@
     "İnceleme bitmeden veya kapalı dosyada haciz yapılamaz.": "Zajęcie jest niedostępne podczas kontroli lub po zamknięciu sprawy.",
     "Seizure is unavailable during review or for a closed case.": "Zajęcie jest niedostępne podczas kontroli lub po zamknięciu sprawy.",
     "İcra: mahkeme incelemesi": "Egzekucja: kontrola sądowa",
-    "Enforcement: court review": "Egzekucja: kontrola sądowa"
+    "Enforcement: court review": "Egzekucja: kontrola sądowa",
+    "haciz işler · nakit, ipotekli konut, araç, eşya": "egzekucja trwa · gotówka, dom z hipoteką, pojazd, rzeczy",
+    "enforcement proceeds · cash, mortgaged home, vehicle, goods": "egzekucja trwa · gotówka, dom z hipoteką, pojazd, rzeczy",
+    "Konut kredisi için Bankalar menüsündeki yapılandırmayı kullan.": "Dla kredytu mieszkaniowego użyj restrukturyzacji w Bankach.",
+    "For a home loan, use restructuring in Banks.": "Dla kredytu mieszkaniowego użyj restrukturyzacji w Bankach.",
+    "Bağlı konut kredisi bulunamadı.": "Nie znaleziono powiązanego kredytu mieszkaniowego.",
+    "Linked home loan not found.": "Nie znaleziono powiązanego kredytu mieszkaniowego.",
+    "Konut kredisi gecikmesi giderildi; icra durdu, kalan kredi ve konut korunuyor.": "Usunięto zaległość kredytu mieszkaniowego; egzekucja wstrzymana, pozostały kredyt i dom zachowane.",
+    "Home-loan delinquency cured; enforcement stopped, the remaining loan and home are retained.": "Usunięto zaległość kredytu mieszkaniowego; egzekucja wstrzymana, pozostały kredyt i dom zachowane.",
+    "İpotekli konut: oyun satış bedeli": "Dom z hipoteką: wpływy ze sprzedaży w grze",
+    "Mortgaged home: game sale proceeds": "Dom z hipoteką: wpływy ze sprzedaży w grze",
+    "Konut kredisi icra bildirimi geldi. Öde, itiraz et veya Bankalar üzerinden yapılandır. Ödenmezse bağlı konut yüzde 80 oyun değeriyle satılır; kalan borç silinmez.": "Otrzymano zawiadomienie o egzekucji kredytu mieszkaniowego. Spłać, złóż sprzeciw lub restrukturyzuj w Bankach. Bez spłaty zabezpieczenie jest sprzedawane za 80% wartości gry; reszta długu pozostaje.",
+    "Home-loan enforcement notice received. Pay, object or restructure in Banks. If unpaid, linked collateral sells at 80% game value; remaining debt is retained.": "Otrzymano zawiadomienie o egzekucji kredytu mieszkaniowego. Spłać, złóż sprzeciw lub restrukturyzuj w Bankach. Bez spłaty zabezpieczenie jest sprzedawane za 80% wartości gry; reszta długu pozostaje.",
+    "Konut icrası kapandı. Artan satış bedeli sende; ödenmeyen borç temerrüte aktarıldı. Yüzde 80 satış değeri oyun varsayımıdır. Güncel tutarlar Para ekranında.": "Egzekucja domu zakończona. Nadwyżka wpływów jest twoja; niespłacony dług przeniesiono do zaległości. Wartość sprzedaży 80% jest założeniem gry. Bieżące kwoty są w Finansach.",
+    "Home enforcement closed. Surplus proceeds are yours; unpaid debt moved to arrears. The 80% sale value is a game assumption. Current amounts are in Money.": "Egzekucja domu zakończona. Nadwyżka wpływów jest twoja; niespłacony dług przeniesiono do zaległości. Wartość sprzedaży 80% jest założeniem gry. Bieżące kwoty są w Finansach."
   }
 }

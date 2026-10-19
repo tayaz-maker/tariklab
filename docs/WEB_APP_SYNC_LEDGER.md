@@ -777,3 +777,10 @@ Stacked on the interest-bearing mortgage PR; independent of its amortization cal
 ### 2026-10-19 — TC SIM insurance browser navigation correction
 - #181 job 118089512829 timed out at outcome-browser line 384: Career was inside the collapsed mobile More navigation after switching to Banks. It was hidden, not blocked by an event or missing from the game.
 - Use the existing visible More button before Career, matching existing Bank navigation. Keep all six TR/EN/PL ×1280/390 coverage/financial/save assertions. No force click, timeout change, UI or game engine modification.
+
+
+### 2026-10-19 — TC SIM secured mortgage enforcement + actual acceptance
+- Defaulted modern mortgages now open a claim backed by the actual loan, prioritized over recurring living-cost arrears so enforcement cannot starve. No second loan/claim liability. Legacy interest-free V5/V6 loans retain their existing terms.
+- Existing notice/review/cash collection reused. Only linked collateral sells at an explicitly fictional 80% game value; interest-first settlement, player surplus and D0 deficiency/cap overflow conserve liabilities. Unrelated arrears stay intact. Early repayment, delinquency cure, voluntary sale or one existing restructure reconcile/withdraw the claim; no phantom future foreclosure.
+- New actual advanceWeek acceptance: 3 seeds ×5 profiles ×720 weeks, separate 1200-week/25-game-year run and actual job-loss→notice→foreclosure chain. Real choices and periodic save/load, no mid-run funding/health/event/clock resets. Failed fixture setup was corrected before reported acceptance. Not physical-device or full legal-system proof.
+- Existing TR/EN/PL ×1280/390 browser gate adds real foreclosure click/save/reload; same UI, SAVE_VERSION 6. The full court/evidence/lawyer process and statutory SGK detail remain PARTIAL/MISSING, not silently completed or deferred.

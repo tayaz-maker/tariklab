@@ -2,7 +2,7 @@ import { applyWeeklyLifeLoad } from "../public/games/tc-sim/js/life.js";
 import { openIcraNotice } from "../public/games/tc-sim/js/icra.js";
 import { recordBankMonth } from "../public/games/tc-sim/js/bank-record.js";
 import { createNewGame } from "../public/games/tc-sim/js/state.js";
-import { buyProperty } from "../public/games/tc-sim/js/wealth.js";
+import { buyProperty,processWealthMonthEnd } from "../public/games/tc-sim/js/wealth.js";
 import { mortgageText } from "../public/games/tc-sim/js/mortgage.js";
 import {cityFixture} from './tc-sim-city-fixture.mjs';
 import { marriageFixture } from "./tc-sim-marriage-fixture.mjs";
@@ -428,7 +428,25 @@ try {
     assert.equal(settled.finances.balance,reviewed.finances.balance-4000);
     assert.equal(settled.finances.arrears,0);assert.equal(settled.meta.saveVersion,6);
     assert.equal(settled.openCases.find(c=>c.type==="icra").payload.review.status,"settled");
-    assert.deepEqual(errors,[]);rows.push({view:"court-review",language,width,status:"PASS"});await context.close();
+    assert.deepEqual(errors,[]);rows.push({view:"court-review",language,width,status:"PASS"});
+    const forced=createNewGame({seed:17});forced.finances.balance=1000000;forced.events.active=null;forced.events.queue=[];
+    assert.ok(buyProperty(forced,"owner",true).ok);
+    for(let i=0;i<3;i++){forced.finances.balance=0;processWealthMonthEnd(forced);forced.time.absoluteWeek+=4;forced.weekly={used:0,selectedIds:[]};}
+    forced.finances.balance=0;forced.wealth.properties[0].currentValue=100000;
+    openIcraNotice(forced,{source:"mortgage",amount:forced.wealth.debts[0].principal,loanId:forced.wealth.debts[0].id});
+    forced.finances.arrears=50000;
+    const forcedBalance=forced.wealth.debts[0].principal+forced.wealth.debts[0].mortgage.interestDue;
+    await page.evaluate(({state,key})=>localStorage.setItem(key,JSON.stringify(state)),{state:forced,key});
+    await page.reload({waitUntil:"networkidle"});await page.locator("#continue-game").click();
+    await page.locator('[data-decision="icra-ignore"]').click();
+    const lost=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
+    assert.equal(lost.wealth.properties.length,0);assert.equal(lost.wealth.debts.length,0);
+    assert.equal(lost.finances.arrears,300000);assert.equal(lost.finances.balance,-(forcedBalance-80000+50000-300000));
+    assert.equal(lost.openCases.find(c=>c.type==="icra").payload.settlement.proceeds,80000);
+    await page.reload({waitUntil:"networkidle"});await page.locator("#continue-game").click();
+    const reloadedLoss=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
+    assert.equal(reloadedLoss.finances.balance,lost.finances.balance);assert.equal(reloadedLoss.wealth.properties.length,0);
+    assert.deepEqual(errors,[]);rows.push({view:"mortgage-enforcement",language,width,status:"PASS"});await context.close();
   }
   if (layoutBaseline) {
     const sample=rows.find(row=>row.language==="tr"&&row.width===1440&&!row.reduced&&row.view==="dashboard");
