@@ -35,8 +35,8 @@ export function getEffectiveCommuteLoad(state) {
 }
 
 export function getWeeklyLifeLoad(state) {
-  const job = isServing(state) ? null : getJobById(state.career.jobId);
-  const commute = getEffectiveCommuteLoad(state);
+  const job = isServing(state) || isDetained(state) ? null : getJobById(state.career.jobId);
+  const commute = isDetained(state) ? 0 : getEffectiveCommuteLoad(state);
   const education = getEducationWeeklyLoad(state);
   const reduced = state.flags?.lateCareerReducedLoadUntil > state.time.absoluteWeek;
   return {
@@ -507,7 +507,7 @@ export function relocateHome(state, homeId) {
 
 /** Biten haftanın deneyimi. Aktif iş yoksa kredi yok; bir hafta tek aileye yazar. */
 function creditWeeklyExperience(state) {
-  if (isServing(state)) return false;
+  if (isServing(state) || isDetained(state)) return false;
   const job = getJobById(state.career.jobId);
   if (!job?.family) return false;
   // Doğrulanmış her state'te bu harita vardır; tick'in çökmesindense kendini onarır.
