@@ -806,3 +806,9 @@ Stacked on the interest-bearing mortgage PR; independent of its amortization cal
 - Existing icra decisions now offer source-record inspection (one weekly action, no money), one optional500 game-budget legal-support fee, and one two-week extra review after the first decision while the notice deadline is open. Current source debt/claim is shown in the existing cases panel with an explicitly dated snapshot label. Review uses live unpaid debt; no random waiver or second obligation. This is a bounded game review, not statutory appeal/trial completion.
 - Reproduced existing defect: paying1500 fine left the source risk file pending, allowing the identical fine to reopen. New fine claims carry sourceCaseId and mark only their fine representation as assigned; risk proceedings remain pending, any residual arrears remain collectible. Legacy source identities are not guessed.
 - TR/EN/PL and real1280/390 UI matrix cover inspection/counsel cost/reload, existing modal resolved via real choice. Four new regressions cover repeated-fine prevention, no-charge evidence, one fee, bounded appeal/live balance, invalid decisions and V5/V6. SAVE_VERSION6 preserved; full61-source guard re-pinned only for approved icra changes.
+
+
+## 2026-10-19 — Package 2 detention and occupational health
+
+- Reproduced high stress during detention taking occupational overwork44→47 and creating an overload warning despite no worked week. Reuse existing detention boundary in body-systems.js to remove only the automatic occupational contribution. General stress, under-recovery, inactivity, care, delayed cases and release-time work remain. No new health model or UI.
+- Deterministic V5/V6 migration/reload/release tests first failed on the old engine, then passed after the two-line runtime change. Cash and SAVE_VERSION6 unchanged; full frozen61-source guard retained and re-pinned only for body-systems.js. Independent from #186/#187 runtime edits; merge serialization still required.
