@@ -1,4 +1,4 @@
-// İcra / haciz. Mahkeme simülasyonu değil: yazı, süre, sonra mal.
+// İcra / haciz. Süreler ve inceleme masrafı oyun kuralıdır; hukuk tarifesi değildir.
 import { addMemory, addNpcMemory, adjustHealth, transact, updateRelationship } from "./state.js?v=10";
 import { CASH_ARREARS_CAP, DURABLES } from "./wealth.js?v=10";
 
@@ -6,6 +6,8 @@ const GRACE = 4;
 const ARREARS_FLOOR = 2500;
 const FINE = 1500;
 const FEE_RATE = 0.1;
+const REVIEW_COST = 300;
+const REVIEW_WEEKS = 2;
 
 const whole = (value) => Math.round(Number(value) || 0);
 
@@ -94,6 +96,10 @@ export function recordIcraPayment(state, item, amount) {
 }
 
 function closeCase(state, item, stage) {
+  if (item.payload.review?.status === "pending") {
+    item.payload.review.status = "settled";
+    item.payload.review.closedWeek = state.time.absoluteWeek;
+  }
   item.status = "resolved";
   item.payload.stage = stage;
   item.payload.owed = 0;
@@ -133,6 +139,8 @@ function seizeGoods(state) {
 }
 
 export function runHaciz(state, item) {
+  if (item.status !== "pending" || item.payload.stage === "court")
+    return { ok: false, reason: "İnceleme bitmeden veya kapalı dosyada haciz yapılamaz." };
   const book = normalizeIcra(state);
   let owed = whole(item.payload.owed ?? item.payload.amount);
   const cashPaid = takeCash(state, owed);
@@ -189,6 +197,35 @@ export function payIcra(state) {
   if (!Number.isInteger(state.finances.balance) || state.finances.balance !== before - owed)
     return { ok: false, reason: "İcra tam TL yazılmadı." };
   return { ok: true, message: remember(state, `İcra kapandı. ${owed} TL gitti. Dosya durdu.`) };
+}
+
+// One review per notice. The court checks the live unpaid claim, never the
+// original amount: payments made during review cannot be resurrected.
+export function objectIcra(state) {
+  const item = icraCase(state);
+  if (!item || item.payload.stage !== "notice" || item.payload.review || state.time.absoluteWeek >= item.dueWeek)
+    return { ok: false, reason: "Bu dosya için yeni itiraz süresi yok." };
+  if (state.finances.balance < REVIEW_COST)
+    return { ok: false, reason: "İnceleme için 300 TL oyun masrafı gerekiyor." };
+  transact(state, -REVIEW_COST, "İcra inceleme masrafı", "legal");
+  item.payload.review = { version: 1, status: "pending", filedWeek: state.time.absoluteWeek, cost: REVIEW_COST };
+  item.payload.stage = "court";
+  item.dueWeek = state.time.absoluteWeek + REVIEW_WEEKS;
+  return { ok: true, message: remember(state, "İtiraz kayda geçti. Mahkeme incelemesi 2 hafta sürer; haciz bekler, borç silinmez. Süre ve 300 TL masraf oyun kuralıdır.") };
+}
+
+function reviewIcra(state, item) {
+  const owed = Math.max(0, whole(item.payload.owed ?? item.payload.amount));
+  item.payload.review.status = owed > 0 ? "confirmed" : "settled";
+  item.payload.review.closedWeek = state.time.absoluteWeek;
+  item.payload.review.confirmedOwed = owed;
+  if (owed === 0) {
+    closeCase(state, item, "paid");
+    return remember(state, "İnceleme kapandı. Ödenmiş borç yeniden yazılmadı.");
+  }
+  item.payload.stage = "notice";
+  item.dueWeek = state.time.absoluteWeek + GRACE;
+  return remember(state, `İnceleme bitti. Kayıtlardaki ödenmemiş ${owed} TL doğrulandı. Ödeme veya taksit için 4 oyun haftası var; ikinci itiraz yok.`);
 }
 
 export function planIcra(state) {
@@ -288,6 +325,8 @@ export function processIcraWeek(state) {
     if (!opened) return "";
     return remember(state, `İcra yazısı geldi. ${opened.payload.amount} TL. Öde, taksit bağla, ya da dosya yürür.`);
   }
+  if (item.payload.stage === "court" && state.time.absoluteWeek >= item.dueWeek)
+    return reviewIcra(state, item);
   if (item.payload.stage === "notice" && state.time.absoluteWeek >= item.dueWeek)
     return runHaciz(state, item).message || "";
   if (item.payload.stage === "plan" && state.time.weekOfMonth === 1)
@@ -301,6 +340,17 @@ function noticeOpen(state) {
 }
 
 export const ICRA_DECISIONS = [
+  {
+    id: "icra-object",
+    title: "Borç dökümüne itiraz et",
+    detail: "300 TL oyun masrafı · 2 hafta inceleme · geçerli borç silinmez",
+    minimumBalance: REVIEW_COST,
+    contextual: (state) => {
+      const item = icraCase(state);
+      return Boolean(item && item.payload.stage === "notice" && !item.payload.review && state.time.absoluteWeek < item.dueWeek);
+    },
+    apply: objectIcra,
+  },
   {
     id: "icra-pay",
     title: "İcrayı kapat",

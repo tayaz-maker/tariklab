@@ -3,6 +3,16 @@
   const I = root.tlabI18n;
   if (!I || !I.PHRASE || !I.PHRASE_PL) return;
   const rows = [
+    ["Borç dökümüne itiraz et", "Dispute the debt statement", "Zakwestionuj zestawienie długu"],
+    ["300 TL oyun masrafı · 2 hafta inceleme · geçerli borç silinmez", "300 TL game fee · 2-week review · valid debt remains", "Opłata gry 300 TL · 2 tygodnie kontroli · zasadny dług pozostaje"],
+    ["Bu dosya için yeni itiraz süresi yok.", "No new objection is available for this case.", "W tej sprawie nie można już złożyć nowego sprzeciwu."],
+    ["İnceleme için 300 TL oyun masrafı gerekiyor.", "The review requires a 300 TL game fee.", "Kontrola wymaga opłaty gry w wysokości 300 TL."],
+    ["İcra inceleme masrafı", "Enforcement review fee", "Opłata za kontrolę egzekucji"],
+    ["İtiraz kayda geçti. Mahkeme incelemesi 2 hafta sürer; haciz bekler, borç silinmez. Süre ve 300 TL masraf oyun kuralıdır.", "Objection filed. Court review takes 2 weeks; seizure waits and debt remains. The duration and 300 TL fee are game rules.", "Sprzeciw złożony. Kontrola sądowa trwa 2 tygodnie; zajęcie jest wstrzymane, dług pozostaje. Czas i opłata 300 TL są zasadami gry."],
+    ["İnceleme kapandı. Ödenmiş borç yeniden yazılmadı.", "Review closed. Paid debt was not reinstated.", "Kontrola zakończona. Spłacony dług nie został przywrócony."],
+    ["İnceleme bitti. Kayıtlardaki ödenmemiş {0#} TL doğrulandı. Ödeme veya taksit için 4 oyun haftası var; ikinci itiraz yok.", "Review complete. The recorded unpaid {0#} TL was confirmed. You have 4 game weeks to pay or arrange installments; no second objection.", "Kontrola zakończona. Potwierdzono zapisany niespłacony dług {0#} TL. Masz 4 tygodnie gry na spłatę lub raty; nie ma drugiego sprzeciwu."],
+    ["İnceleme bitmeden veya kapalı dosyada haciz yapılamaz.", "Seizure is unavailable during review or for a closed case.", "Zajęcie jest niedostępne podczas kontroli lub po zamknięciu sprawy."],
+    ["İcra: mahkeme incelemesi", "Enforcement: court review", "Egzekucja: kontrola sądowa"],
   [
     "Riskli gece",
     "Risky night",

@@ -726,7 +726,7 @@ export function processSemtWeek(state) {
     }
     if (result.note === "denetim" && !covered) noteInspection(state, shop);
     if (net > 0) {
-      const file = (state.openCases || []).find((row) => row.type === "icra" && row.status === "pending");
+      const file = (state.openCases || []).find((row) => row.type === "icra" && row.status === "pending" && row.payload?.stage !== "court");
       const owed = Math.round(Number(file?.payload?.owed ?? file?.payload?.amount) || 0);
       const cut = file && owed > 0 ? Math.min(owed, Math.round(net * 0.1)) : 0;
       if (cut > 0) {

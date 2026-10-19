@@ -196,7 +196,7 @@ function renderJobResult() {
 function openCaseLabel(item) {
   if (item.type === "partner-month") return "Partnerin görünmeyen ayı";
   if (item.type === "risk-dosya") return "Polis / mahkeme dosyası";
-  if (item.type === "icra") return "İcra yazısı";
+  if (item.type === "icra") return item.payload?.stage === "court" ? "İcra: mahkeme incelemesi" : "İcra yazısı";
   if (item.type === "esnaf-dosya") return "Tezgâh denetim notu";
   if (item.type === "adult-child")
     return `${state.parenthood.children.find((c) => c.id === item.payload.childId)?.name || "Yetişkin çocuk"} ile yetişkinlik görüşmesi`;
