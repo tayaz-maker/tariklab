@@ -511,6 +511,42 @@ try {
     assert.equal(reloadedLoss.finances.balance,lost.finances.balance);assert.equal(reloadedLoss.wealth.properties.length,0);
     assert.deepEqual(errors,[]);rows.push({view:"mortgage-enforcement",language,width,status:"PASS"});await context.close();
   }
+  // Existing Body action, authored recovery copy, persisted state and mobile layout.
+  for (const language of ["tr", "en", "pl"]) for (const width of [1280, 390]) {
+    const state=createNewGame({seed:17});state.finances.balance=10000;
+    state.health.health=12;state.health.energy=80;state.health.stress=30;state.events.active=null;state.events.queue=[];
+    const context=await browser.newContext({viewport:{width,height:844}}),page=await context.newPage(),errors=[];
+    page.on("pageerror",e=>errors.push(e.message));
+    await context.addInitScript(({state,key,origin,language})=>{
+      if(location.origin!==origin||localStorage.getItem("work-recovery-fixture"))return;
+      localStorage.setItem(key,JSON.stringify(state));localStorage.setItem("tariklab::tc-sim:active","1");
+      localStorage.setItem("tariklab.language",language);localStorage.setItem("work-recovery-fixture","1");
+    },{state,key,origin,language});
+    await page.goto(url,{waitUntil:"networkidle"});await page.locator("#continue-game").click();
+    const body=page.locator('.side-nav [data-view="body"]');
+    if(!(await body.isVisible()))await page.locator('.side-nav .nav-more').click();
+    await body.click();await page.locator('.tc-body-actions [data-decision="body-care"]').click();
+    const saved=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
+    assert.equal(saved.finances.balance,9700);assert.equal(saved.body.workRecovery.untilWeek,saved.body.workRecovery.startWeek+2);
+    assert.equal(saved.meta.saveVersion,6);
+    await page.locator('[data-event-choice="clinic"]').click();
+    const afterClinic=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
+    assert.equal(afterClinic.finances.balance,9450);
+    assert.equal(afterClinic.events.active?.eventId,"job_security_warning");
+    await page.locator('[data-event-choice="recover"]').click();
+    await page.locator('.event-backdrop').waitFor({state:"hidden"});
+    const settled=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
+    assert.equal(settled.events.active,null);assert.equal(settled.finances.balance,9450);
+    await page.reload({waitUntil:"networkidle"});await page.locator("#continue-game").click();
+    if(!(await body.isVisible()))await page.locator('.side-nav .nav-more').click();await body.click();
+    const copy=["Bu bir oyun toparlanma planıdır.","This is a game recovery plan.","To model regeneracji w grze."][["tr","en","pl"].indexOf(language)];
+    assert.ok((await page.locator(".workspace").innerText()).includes(copy));
+    const reloaded=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
+    assert.deepEqual(reloaded.body.workRecovery,saved.body.workRecovery);assert.equal(reloaded.finances.balance,9450);
+    const bounds=await page.evaluate(()=>({w:document.documentElement.clientWidth,s:document.documentElement.scrollWidth}));
+    assert.ok(bounds.s<=bounds.w);assert.deepEqual(errors,[]);
+    await page.screenshot({path:`${out}/work-recovery-${language}-${width}.png`});rows.push({view:"work-recovery",language,width,status:"PASS"});await context.close();
+  }
   if (layoutBaseline) {
     const sample=rows.find(row=>row.language==="tr"&&row.width===1440&&!row.reduced&&row.view==="dashboard");
     assert.ok(sample,"matching candidate entry sample required");

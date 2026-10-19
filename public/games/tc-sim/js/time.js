@@ -57,7 +57,7 @@ import {
 } from "./depth3-systems.js?v=10";
 import { processLongTermBody, getBodyYearSummary, getHealthPriorityReflection } from "./body-systems.js?v=10";
 import { processNetworkWeek } from "./network.js?v=10";
-import { acknowledgeBodyWarning, manageBodyCondition } from "./body-systems.js?v=10";
+import { acknowledgeBodyWarning, manageBodyCondition, beginWorkRecovery, isWorkRecovering } from "./body-systems.js?v=10";
 
 import { getPlayerVisibleOpenCases } from "./calendar.js?v=10";
 
@@ -177,16 +177,18 @@ export const DECISIONS = [
     minimumBalance: 300,
     contextual: (state) =>
       Boolean(
+        (isCriticalHealth(state) && !isWorkRecovering(state)) ||
         state.body?.warningAvailable ||
         state.body?.conditions?.some(
           (item) => item.knownToPlayer && ["active", "chronic"].includes(item.status),
         ),
       ),
     apply(state) {
+      const recoveryStarted = beginWorkRecovery(state);
       transact(state, -300, "Beden bakımı", "health");
       if (state.body?.warningAvailable) acknowledgeBodyWarning(state);
       manageBodyCondition(state);
-      adjustHealth(state, { energy: 8, stress: -8 });
+      adjustHealth(state, { energy: 8, stress: -8, health: recoveryStarted ? 4 : 0 });
     },
   },
   {
@@ -399,7 +401,7 @@ export function canApplyDecision(state, decisionId) {
     };
   if (
     decisionId === "overtime" &&
-    (isCriticalHealth(state) ||
+    (isCriticalHealth(state) || isWorkRecovering(state) ||
       state.body?.conditions?.some(
         (c) => c.knownToPlayer && ["active", "chronic"].includes(c.status),
       ))

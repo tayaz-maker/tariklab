@@ -49,6 +49,8 @@ import { advanceWeek, applyDecision, canApplyDecision, getAvailableDecisions } f
 import { getBodyEventContext } from "./body-events.js?v=10";
 import {
   getBodyRiskSummary,
+  workRecoverySummary,
+  isWorkRecovering,
   getKnownBodyConditions,
   getBodyCareContext,
 } from "./body-systems.js?v=10";
@@ -689,6 +691,8 @@ function lifeLabel(value) {
 }
 
 function bodyRiskText() {
+  const recovery = workRecoverySummary(state, window.tlabI18n?.getLang?.() || "tr");
+  if (recovery) return recovery;
   if (isCriticalHealth(state))
     return "Sağlığın kritik: bu hafta en fazla üç hafif işe zaman ayırabilirsin; ek mesai güvenli değil. Dinlen ve toparlan.";
   if (state.health.energy <= 45 && getEffectiveCommuteLoad(state) >= 2)
@@ -1180,8 +1184,9 @@ function renderMarket() {
 }
 
 function renderBody() {
-  const job = getJobById(state.career.jobId);
-  const commute = currentCommuteExplanation();
+  const recovering = isWorkRecovering(state);
+  const job = recovering ? null : getJobById(state.career.jobId);
+  const commute = recovering ? {label: ({tr:"İşe ara verildi",en:"Work paused",pl:"Przerwa w pracy"})[window.tlabI18n?.getLang?.() || "tr"] || "Work paused", detail:""} : currentCommuteExplanation();
   const educationProgress = getEducationProgress(state);
   return `<div class="workspace-head"><div><p class="eyebrow">BEDEN</p><h1>Fiziksel ve zihinsel durum</h1></div>${renderWeekControl()}</div>
     ${renderBodyVisual(state, {

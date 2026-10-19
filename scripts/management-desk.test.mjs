@@ -55,8 +55,9 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Authorized city wave integrates one geography helper into existing life engines.
   // Authorized language wave adds a read-only presentation helper; engines unchanged.
   // Authorized Package 2: life.js pauses detained job load, commute and experience only.
-  // Authorized #188: preserve #187 and exclude detained occupational exposure.
-  // Authorized #189: retain #187/#188 and gate weekly detained career actions.
+  // Package 2 combined: occupational exposure also excludes detained work.
+  // Combined #189: weekly career actions also honor existing detention.
+  // Authorized Package 2: bounded work recovery uses existing body/life/time/state only.
   assert.equal(files.length, 61);
   const hash = createHash("sha256");
   for (const file of files) hash.update(file).update(readFileSync(file));
@@ -101,7 +102,7 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Approved bounded compulsory private-sector wage collection hook in icra.
   // Approved source-linked fine finality and bounded evidence/counsel/review hooks in icra.
   // Combined approved court/wage source with prospective service-day/pension hooks.
-  assert.equal(hash.digest("hex"), "f59ceb0e76079421f5b2f1069f920f6a801f16433bd216c780099212b0d3e624");
+  assert.equal(hash.digest("hex"), "da6735524175e126a0085c3e87e1e0f3e0ccf7f199b7ed0c461b3787cce5afcd");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);
