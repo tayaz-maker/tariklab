@@ -108,7 +108,8 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Approved Package 4: observed work fuel replaces the existing variable car budget; no public fare twice.
   // Combined with #198: final-custody stall predicate remains protected.
   // Combined insurance allocation remains inside the same vehicle budget.
-  assert.equal(hash.digest("hex"), "2dd010a41ef3192ae1fa93edf9ce5dcec222ef1f76583bc733b8386b22381323");
+  // Combined Package 4 district visibility; retain observed fuel, insurance and custody sources.
+  assert.equal(hash.digest("hex"), "85505f723e1a5ce1ca912232228001ae2a09c4a3d53a848db5d9ac5c1d9fbb87");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);

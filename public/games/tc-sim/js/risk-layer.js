@@ -1,3 +1,4 @@
+import {locationRiskProfile,locationRiskCopy} from "./locations.js?v=10";
 import {openCriminalHearing, isServingCriminalSentence, processCriminalSentenceWeek} from './criminal-justice.js?v=10';
 // +18 risk katmanı. Yeni ekran yok: kısa karar, dosya, hafıza.
 import { addMemory, addNpcMemory, adjustHealth, transact, updateRelationship } from "./state.js?v=10";
@@ -205,7 +206,8 @@ export function riskShortcut(state) {
     return { ok: true, message: text };
   }
   transact(state, 1800, "Kolay para", "legal");
-  book.heat += 1;
+  book.heat = Math.min(6, book.heat + locationRiskProfile(state).heatGain);
+  if (locationRiskProfile(state).districtId) addMemory(state, locationRiskCopy(state), "important");
   const text = book.heat >= 2
     ? "Kolay para geldi. Isı tepeye çıktı. Bir sonraki sefer geri teper."
     : "Kolay para geldi. 1800 TL. Isı arttı. Bu geri tepebilir.";
