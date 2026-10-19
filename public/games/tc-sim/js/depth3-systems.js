@@ -84,7 +84,7 @@ export function processNpcMilestones(state) {
 export function createFavor(state, { personId, direction = "player_owes", type = "help", dueWeeks = 8, sourceEvent = null } = {}) {
   ensureDepth3State(state);
   const person = getPerson(state, personId);
-  if (!person || !["player_owes", "npc_owes"].includes(direction)) return null;
+  if (!person || person.deceased || !["player_owes", "npc_owes"].includes(direction)) return null;
   const existing = state.favors.find((item) => item.personId === personId && item.direction === direction && item.type === type && item.status === "open");
   if (existing) return existing;
   if (direction === "player_owes" && state.openCases.filter((item) => ["favor-obligation", "depth3-followup"].includes(item.type) && item.status !== "resolved").length >= MAX_DEPTH3_CASES) return null;
@@ -225,7 +225,7 @@ export function syncPeerMilestones(state) {
 }
 
 export function getNetworkContacts(state, circle = null) {
-  return (state.people || []).filter((person) => !person.dormant && (!circle || person.circles?.includes(circle)));
+  return (state.people || []).filter((person) => !person.deceased && !person.dormant && (!circle || person.circles?.includes(circle)));
 }
 
 export function addCareerNetworkMemory(state, personId, text, type = "professional_reliable") {
@@ -234,6 +234,8 @@ export function addCareerNetworkMemory(state, personId, text, type = "profession
 }
 
 export function createNetworkOpportunity(state, personId, type, dueWeeks = 6) {
+  const person = getPerson(state, personId);
+  if (!person || person.deceased) return false;
   const id = `network-${type}-${personId}-${state.time.absoluteWeek}`;
   if (state.openCases.some((item) => item.id === id && item.status !== "resolved")) return false;
   if (state.openCases.filter((item) => item.type === "depth3-followup" && item.status !== "resolved").length >= MAX_DEPTH3_CASES) return false;

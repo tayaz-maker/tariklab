@@ -39,7 +39,7 @@ export const DEPTH3_EVENTS = [
   {
     id: "network_referral_offer", chainId: DEPTH3_CHAIN_REGISTRY.MILESTONE_NETWORK.id, repeat: "cooldown", cooldownWeeks: 52, depth3: true,
     title: "Bir iş bağlantısı", text: "Burak, çalıştığı ekipteki bir ihtiyacı senden söz ederek değerlendirebileceğini söylüyor.",
-    condition: (state) => state.time.absoluteWeek >= 36 && state.career.jobId !== null && !getPerson(state, "burak")?.dormant && getPerson(state, "burak")?.lifeMilestones?.some((item) => item.id === "burak-promotion") && getPerson(state, "burak")?.knownMilestones?.includes("burak-promotion") && getReputationContext(state, "professional").signal !== "unreliable" && !state.openCases.some((item) => item.payload?.networkType === "network_referral_followup" && item.status !== "resolved"),
+    condition: (state) => state.time.absoluteWeek >= 36 && state.career.jobId !== null && !getPerson(state, "burak")?.deceased && !getPerson(state, "burak")?.dormant && getPerson(state, "burak")?.lifeMilestones?.some((item) => item.id === "burak-promotion") && getPerson(state, "burak")?.knownMilestones?.includes("burak-promotion") && getReputationContext(state, "professional").signal !== "unreliable" && !state.openCases.some((item) => item.payload?.networkType === "network_referral_followup" && item.status !== "resolved"),
     choices: [
       { id: "consider", label: "Bağlantıyı değerlendir", effects: { health: { energy: -3, stress: 3 }, memory: "Burak'ın iş bağlantısını değerlendirmeye aldın." } },
       { id: "decline", label: "Şimdilik reddet", effects: { health: { stress: -1 }, memory: "Burak'ın iş bağlantısını bu kez reddettin." } },
@@ -56,7 +56,7 @@ export const DEPTH3_EVENTS = [
   {
     id: "network_housing_lead", repeat: "cooldown", cooldownWeeks: 60, depth3: true,
     title: "Taşınma için bir ipucu", text: "Selin'in kurduğu düzende boşalan bir oda için senden söz edebileceğini söylüyor.",
-    condition: (state) => state.household.homeId === "family" && state.time.absoluteWeek >= 72 && getPerson(state, "selin")?.knownMilestones?.includes("selin-moved") && !state.flags.housingLeadSeen,
+    condition: (state) => state.household.homeId === "family" && state.time.absoluteWeek >= 72 && !getPerson(state, "selin")?.deceased && getPerson(state, "selin")?.knownMilestones?.includes("selin-moved") && !state.flags.housingLeadSeen,
     choices: [
       { id: "ask", label: "Ayrıntıları sor", effects: { health: { energy: -2, stress: 2 }, memory: "Selin'in taşınma bağlantısının ayrıntılarını sordun." } },
       { id: "pass", label: "Şimdilik bekle", effects: { health: { stress: -1 }, memory: "Taşınma bağlantısını şimdilik beklettin." } },
