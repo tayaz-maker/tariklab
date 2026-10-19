@@ -1,3 +1,6 @@
+import { createSocialObligation } from "../public/games/tc-sim/js/social.js";
+import { processDueOpenCases, activateNextEvent } from "../public/games/tc-sim/js/events.js";
+
 import { createPersonalDebt } from "../public/games/tc-sim/js/social.js";
 import { applyWeeklyLifeLoad } from "../public/games/tc-sim/js/life.js";
 import { openIcraNotice } from "../public/games/tc-sim/js/icra.js";
@@ -568,7 +571,32 @@ try {
     assert.deepEqual(reloaded.body.workRecovery,saved.body.workRecovery);assert.equal(reloaded.finances.balance,9450);
     const bounds=await page.evaluate(()=>({w:document.documentElement.clientWidth,s:document.documentElement.scrollWidth}));
     assert.ok(bounds.s<=bounds.w);assert.deepEqual(errors,[]);
-    await page.screenshot({path:`${out}/work-recovery-${language}-${width}.png`});rows.push({view:"work-recovery",language,width,status:"PASS"});await context.close();
+    await page.screenshot({path:`${out}/work-recovery-${language}-${width}.png`});rows.push({view:"work-recovery",language,width,status:"PASS"});
+    for(const kept of [true,false]) {
+      const promise=createNewGame({seed:17});promise.events.active=null;promise.events.queue=[];promise.finances.balance=10000;
+      createSocialObligation(promise,"mehmet");
+      const promiseCase=promise.openCases.find(c=>c.type==="social-obligation");
+      if(!kept){promise.time.absoluteWeek=promiseCase.dueWeek;processDueOpenCases(promise);activateNextEvent(promise);}
+      await page.evaluate(({state,key})=>localStorage.setItem(key,JSON.stringify(state)),{state:promise,key});
+      await page.reload({waitUntil:"networkidle"});await page.locator("#continue-game").click();
+      if(kept){
+        const people=page.locator('.side-nav [data-view="people"]');
+        if(!(await people.isVisible()))await page.locator('.side-nav .nav-more').click();
+        await people.click();await page.locator('[data-person="mehmet"]').click();
+        await page.locator('[data-social-action="fulfill_promise"][data-person-id="mehmet"]').click();
+      } else await page.locator('[data-event-choice="acknowledge"]').click();
+      const resolvedPromise=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
+      const evidence=resolvedPromise.reputation.evidence.filter(e=>e.source===promiseCase.id);
+      assert.equal(evidence.length,1);assert.equal(evidence[0].circle,"friends");assert.equal(evidence[0].signal,kept?"reliable":"unreliable");
+      assert.ok(resolvedPromise.people.find(p=>p.id==="mehmet").memories.some(m=>m.type===(kept?"promise_kept":"promise_broken")));
+      assert.equal(resolvedPromise.finances.balance,kept?9700:10000);
+      await page.reload({waitUntil:"networkidle"});await page.locator("#continue-game").click();
+      const persistedPromise=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
+      assert.equal(persistedPromise.reputation.evidence.filter(e=>e.source===promiseCase.id).length,1);
+      assert.equal(persistedPromise.finances.balance,resolvedPromise.finances.balance);
+      assert.deepEqual(errors,[]);rows.push({view:kept?"promise-kept-reputation":"promise-broken-reputation",language,width,status:"PASS"});
+    }
+    await context.close();
   }
   if (layoutBaseline) {
     const sample=rows.find(row=>row.language==="tr"&&row.width===1440&&!row.reduced&&row.view==="dashboard");
