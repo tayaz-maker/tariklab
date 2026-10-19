@@ -1,3 +1,4 @@
+import { bankFinanceHelp } from "./banks-presentation.js?v=10";
 /**
  * Nasıl Oynanır içeriği. Saf veri/render — DOM'a dokunmaz, state okumaz,
  * hiçbir yan etki yaratmaz. `app.js` bunu bir modal içinde gösterir/gizler.
@@ -18,7 +19,7 @@ export const HELP_SECTIONS = [
   },
   {
     title: "İş ve finans",
-    body: "Para ekranında nakit, net servet, borçlar, banka kredisi ve küçük işletme var. Ev, araç ve kalıcı eşya Emlak ekranındadır. Günlük harcama Çarşı raflarındadır. Kredi bugün para verir ama aylık geri ödeme getirir; işletmenin ciro eksi gideri kâr da zarar da olabilir. Eski tarihli başlangıçlarda tutarlar dönem ölçeğiyle tam lira olarak gösterilir, doğrulanmış ürün fiyatı veya banka oranı değildir.",
+    body: bankFinanceHelp("tr"),
   },
   {
     title: "Tarihsel rota ve yetişkin hayatı",
@@ -69,7 +70,8 @@ export function renderHelpModal() {
     {title: "Çarşı", body: "Almadan önce fiyatı, süreyi ve bedene etkisini oku. Liste raflara ayrılır. Eşya, araba ve ev Emlak'tadır. Aldığın eşya kayıtta kalır; aynısından ikinciyi almak ek fayda vermez. Bisiklet ve motor aylık bakım ister. Riskli seçimler sağlığı, parayı ya da ilişkiyi etkiler. Kumar tutarı, dönüşü ve net parayı ayrı yazar. Çoğunlukla az kaybedersin. Kazanmak daha seyrek, büyük oynama nadirdir."},
     {title: "Para: yatırım", body: "Nakit harcayabildiğin paradır. Servet buna malı ve borcu da katar. Yatırım maliyeti alış masrafını içerir. Henüz bozdurmadığın kâr veya zarar nakit değildir. Ay sonu değer değişimini yazar. Satışta %1 masraf düşer. Kalan payın maliyeti durur."},
   ];
-  const sections = [...source, ...extra].map(
+  const language = I?.getLang?.() || "tr";
+  const sections = [...source, ...extra].map((section, index) => index === 3 ? { ...section, body: bankFinanceHelp(language) } : section).map(
     (section) =>
       `<section class="help-section"><h3>${escapeText(section.title)}</h3><p>${escapeText(section.body)}</p></section>`,
   ).join("");

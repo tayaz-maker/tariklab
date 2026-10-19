@@ -54,7 +54,7 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Authorized marriage wave: wedding-planning helper + existing household/social/parenting integration.
   // Authorized city wave integrates one geography helper into existing life engines.
   // Authorized language wave adds a read-only presentation helper; engines unchanged.
-  assert.equal(files.length, 58);
+  assert.equal(files.length, 59);
   const hash = createHash("sha256");
   for (const file of files) hash.update(file).update(readFileSync(file));
   // Re-pinned for the DEVLET maps PR: next-wave.js (geo dispatch + month
@@ -88,7 +88,8 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Girisim: quarters.js multiple stalls, inspection file, separate weeks. Save stays v6.
   // Tezgah ince: close/sell labels, single-stall inspection, army drop, twin cut, kalfa, icra skim. Save stays v6.
   // Combined bank-record/month-cash foundation preserves D0 debt and housing.
-  assert.equal(hash.digest("hex"), "1adc664e7a0040491fbbe84313071f41401b9476e854b734bcad3932824c225b");
+  // Approved layout-only Bankalar: navigation/help/new presentation source; engines unchanged.
+  assert.equal(hash.digest("hex"), "5e0d9df2a3093a5195df327af087fb48d5cc0073bcc11b39a746eaf3675a0754");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);

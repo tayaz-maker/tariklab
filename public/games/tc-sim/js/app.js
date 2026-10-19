@@ -1,3 +1,4 @@
+import { bankText, renderBankHistory } from "./banks-presentation.js?v=10";
 import { bankRecordText } from "./bank-record.js?v=10";
 
 import { renderMonthlyCashCard } from "./monthly-cash.js?v=10";
@@ -670,7 +671,7 @@ function renderInbox() {
 function renderNav() {
   return NAVIGATION_ITEMS.map(
     ({ label, view }) =>
-      `<button type="button" class="nav-item ${view === activeView ? "is-active" : ""}" ${view ? `data-view="${view}"${view === activeView ? ' aria-current="page"' : ""}` : 'disabled aria-disabled="true"'}><span class="nav-mark"></span><span>${label}</span></button>`,
+      `<button type="button" class="nav-item ${view === activeView ? "is-active" : ""}" ${view ? `data-view="${view}"${view === activeView ? ' aria-current="page"' : ""}` : 'disabled aria-disabled="true"'}><span class="nav-mark"></span><span>${view === "banks" ? escapeText(bankText(document.documentElement?.lang || "tr", "Bankalar", "Banks", "Banki")) : label}</span></button>`,
   ).join("");
 }
 
@@ -1044,6 +1045,8 @@ function renderFinance() {
   ];
   const ledger = [...state.finances.ledger].reverse().slice(0, 40);
   return `<div class="workspace-head"><div><p class="eyebrow">Para</p><h1>Paran ve borcun</h1></div>${renderWeekControl()}</div>
+    ${renderMonthlyCashCard(state.finances.lastMonthClose, (value, receipt) => formatPeriodMoney(value, receipt.year, `${receipt.year}-${String(receipt.month).padStart(2, "0")}-01`), Math.max(0, getWeeklyActivityLimit(state) - state.weekly.used), document.documentElement?.lang || "tr")}
+    <p class="context-note">${escapeText(bankText(document.documentElement?.lang || "tr", "Kredi ve yatırım işlemleri Bankalar'da; hesap dökümü burada.", "Loans and investment transactions are in Banks; account statements stay here.", "Kredyty i transakcje inwestycyjne są w Bankach; wyciągi pozostają tutaj."))}</p>
     <section class="detail-summary panel wealth-summary">
       <div><span>Bakiye</span><strong>${money(state.finances.balance)}</strong></div><div><span>Net servet</span><strong>${money(worth.total)}</strong><small>Nakit ${money(worth.cash)} · Yatırım ${money(worth.investments)} · Gayrimenkul ${money(worth.property)} · Araç/eşya ${money(worth.vehicle + worth.durables)} · İşletme (tasfiye) ${money(worth.business)} · Borç −${money(worth.debt)}</small></div>
       <div><span>Aylık gelir</span><strong>${money(monthly.income)}</strong><small>Maaş ${money(monthly.salary)}${monthly.retirementIncome ? ` · Emeklilik ${money(monthly.retirementIncome)}` : ""}${monthly.wealth.income ? ` · Kira ${money(monthly.wealth.income)}` : ""}</small></div>
@@ -1065,8 +1068,6 @@ function renderFinance() {
       .join("")}</div></section>
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">TÜKETİM</p><h2>Çarşı</h2></div><span>ayrı ekran</span></div><p class="context-note">Kahve, gece, hediye ve riskli alışveriş Çarşı'da.</p><button class="button button-quiet" data-view="market">Çarşıya geç</button></section>
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">VARLIK</p><h2>Emlak</h2></div><span>ayrı ekran</span></div><p class="context-note">Ev, araç ve kalıcı eşya Emlak'ta. Kredi borcu bu ekranda kalır.</p><button class="button button-quiet" data-view="emlak">Emlak'a geç</button></section>
-    <section class="panel bank-panel"><div class="panel-head"><div><p class="eyebrow">BANKA</p><h2>Kredi ve geri ödeme</h2></div></div><p class="context-note" data-bank-record>${escapeText(bankRecordText(state, document.documentElement?.lang || "tr"))}</p><p class="context-note">Kredi gelir değildir: bugün nakit verir, gelecek aylara zorunlu ödeme yazar. Tutar ve toplam geri ödeme oyun içi varsayımdır; tarihsel banka teklifi değildir.</p><div class="wealth-grid">${Object.keys(CREDIT_OFFERS).map((id) => { const offer = creditOffer(state, id); const check = creditAvailability(state, id); return `<button class="button decision" data-credit="${id}" ${check.ok ? "" : "disabled"} title="${escapeText(check.reason || "")}"><strong>${escapeText(offer.label)}</strong><small>Bugün ${money(offer.cash)} · ${offer.months} ay × ${money(Math.ceil(offer.total / offer.months))} · toplam ${money(offer.total)}${check.reason ? ` · ${escapeText(check.reason)}` : ""}</small></button>`; }).join("")}</div><button class="button button-quiet" data-repay-credit="1" ${state.wealth.debts.some((debt) => debt.type === "personal") ? "" : "disabled"}>İhtiyaç kredisini erken kapat</button></section>
-    ${renderExchange()}
     <section class="panel business-panel"><div class="panel-head"><div><p class="eyebrow">KENDİ İŞİN</p><h2>Küçük işletme kur</h2></div></div><p class="context-note">Sektör döneme göre açılır. Geçmişteki bir sektörün popüler olması garanti kazanç değildir; aylık ciro, gider, yorgunluk ve zarar ihtimali birlikte işler.</p>${state.flags.business ? `<p class="open-case"><b>${escapeText(BUSINESS_TYPES[state.flags.business.id]?.label || "İşletme")}</b><span>${state.flags.business.months} ay açık · Ölçek ${state.flags.business.level}/10 · ${state.flags.business.employees} çalışan · Borç ${money(state.flags.business.debt)}</span></p>${renderBusinessManagement()}<button class="button button-quiet" data-close-business="1">İşletmeyi sat / kapat (ekipman %25, borç düşülür)</button>` : `<div class="wealth-grid">${Object.entries(BUSINESS_TYPES).filter(([, type]) => economyYear(state) >= type.since).map(([id, type]) => { const check = businessAvailability(state, id); return `<button class="button decision" data-business="${id}" ${check.ok ? "" : "disabled"} title="${escapeText(check.reason || "")}"><strong>${escapeText(type.label)}</strong><small>${type.since} sonrası · kuruluş ${money(type.startup)} · 2 zaman · aylık sonuç değişken${check.reason ? ` · ${escapeText(check.reason)}` : ""}</small></button>`; }).join("")}</div>`}</section>
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">ABONELİKLER</p><h2>Düzenli hizmetler</h2></div><span>${state.wealth.subscriptions.length}</span></div><div class="wealth-grid">${Object.entries(
       SUBSCRIPTIONS,
@@ -1084,6 +1085,21 @@ function renderFinance() {
         );
       })
       .join("")}</div></section>
+    <section class="panel"><h2>${economyText("Yatırım raporu", "Investment report")}</h2>${state.finances.ledger.filter(row=>row.category==="valuation").slice(-11).map(row=>`<p>${economyText("Hafta", "Week")} ${row.week}: ${escapeText(row.reason)}</p>`).join("") || economyText("İlk ay kapanışında gerçekleşmemiş değer değişimleri görünür.", "Unrealized value changes appear at the first month close.")}</section>
+    <section class="panel"><div class="panel-head"><div><p class="eyebrow">BORÇLAR</p><h2>Borçların</h2></div><span>${money(worth.debt)}</span></div>${state.wealth.debts.length ? state.wealth.debts.map((d) => `<p class="open-case"><b>${d.type === "mortgage" ? "Ev borcu" : d.type === "vehicle" ? "Araç borcu" : "Kişisel borç"}</b><span>${money(d.principal)} · aylık ${money(Math.min(d.principal, d.monthlyPayment))}</span></p>`).join("") : `<p class="empty">Eve, arabaya ya da bankaya borcun yok.</p>`}<p class="context-note">Evi, arabayı ve eşyayı Emlak'tan satarsın. Borç kaydı burada durur.</p></section>
+    <section class="panel"><div class="panel-head"><div><p class="eyebrow">ALACAKLAR</p><h2>Sana borçlu olanlar</h2></div><span>${owedToPlayer.length}</span></div>${owedToPlayer.length ? owedToPlayer.map((item) => `<p class="open-case"><b>${escapeText(item.name)}</b><span>${money(item.amount)}</span></p>`).join("") : `<p class="empty">Şu anda kimsenin sana borcu yok.</p>`}</section>
+    <section class="panel"><div class="panel-head"><div><p class="eyebrow">İŞLEMLER</p><h2>Son işlemler</h2></div><span>${state.finances.ledger.length}</span></div><div class="history">${ledger.length ? ledger.map((entry) => `<div class="memory"><strong>${entry.amount >= 0 ? "+" : ""}${money(entry.amount)}</strong> · ${escapeText(entry.reason)} · <span>${escapeText(weeksAgoLabel(entry.week))}</span></div>`).join("") : `<p class="empty">Henüz bir işlem kaydı yok.</p>`}</div>${renderResult("Varlıklar piyasa değeriyle, borçlar kalan anaparayla gösterilir.")} </section>`;
+}
+
+function renderBanks() {
+  const worth = netWorth(state);
+  const lang = document.documentElement?.lang || "tr";
+  const text = (tr, en, pl) => escapeText(bankText(lang, tr, en, pl));
+  return `<div class="workspace-head"><div><p class="eyebrow">${text("Bankalar", "Banks", "Banki")}</p><h1>${text("Hesaplar, kredi ve yatırım", "Accounts, credit and investments", "Rachunki, kredyty i inwestycje")}</h1></div>${renderWeekControl()}</div>
+    <section class="detail-summary panel" data-bank-account><h2>${text("Hesap özeti", "Account overview", "Podsumowanie rachunku")}</h2><p>${text("İşlem bakiyesi", "Available transaction balance", "Dostępne środki na transakcje")}: <strong>${money(state.finances.balance)}</strong></p><p>${text("Yatırımların toplam değeri", "Total investment value", "Łączna wartość inwestycji")}: ${money(worth.investments)}</p><p class="context-note">${text("Muhasebe, borç dökümü ve ay sonu raporu Para'da.", "Accounting, debt statements and month-end reports are in Money.", "Księgowość, zestawienie długów i raporty miesięczne są w Finansach.")}</p><button class="button button-quiet" data-view="finance">${text("Para'ya geç", "Open Money", "Otwórz Finanse")}</button></section>
+    ${renderBankHistory(state.time.date || `${economyYear(state)}-01-01`, lang)}
+    <section class="panel bank-panel"><div class="panel-head"><div><p class="eyebrow">BANKA</p><h2>Kredi ve geri ödeme</h2></div></div><p class="context-note" data-bank-record>${escapeText(bankRecordText(state, document.documentElement?.lang || "tr"))}</p><p class="context-note">Kredi gelir değildir: bugün nakit verir, gelecek aylara zorunlu ödeme yazar. Tutar ve toplam geri ödeme oyun içi varsayımdır; tarihsel banka teklifi değildir.</p><div class="wealth-grid">${Object.keys(CREDIT_OFFERS).map((id) => { const offer = creditOffer(state, id); const check = creditAvailability(state, id); return `<button class="button decision" data-credit="${id}" ${check.ok ? "" : "disabled"} title="${escapeText(check.reason || "")}"><strong>${escapeText(offer.label)}</strong><small>Bugün ${money(offer.cash)} · ${offer.months} ay × ${money(Math.ceil(offer.total / offer.months))} · toplam ${money(offer.total)}${check.reason ? ` · ${escapeText(check.reason)}` : ""}</small></button>`; }).join("")}</div><button class="button button-quiet" data-repay-credit="1" ${state.wealth.debts.some((debt) => debt.type === "personal") ? "" : "disabled"}>İhtiyaç kredisini erken kapat</button></section>
+    ${renderExchange()}
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">YATIRIMLAR</p><h2>Soyut varlık sınıfları</h2></div><span>${money(worth.investments)}</span></div><p class="context-note">Değerler ay sonunda deterministik değişir. Her işlemde %1 alış/satış farkı vardır; getiri garanti değildir.</p><div class="wealth-grid">${Object.entries(
       INVESTMENTS,
     )
@@ -1093,10 +1109,7 @@ function renderFinance() {
         return `<article class="wealth-card"><strong>${escapeText(item.label)}</strong><small>Değer ${money(p?.value || 0)} · Maliyet ${money(p?.basis || 0)}</small><p class="investment-pl">${economyText("Gerçekleşmemiş kâr/zarar", "Unrealized P/L")}: ${money(pl.amount)} (${pl.percent.toFixed(1)}%)</p><small>${economyText("Risk", "Risk")}: ${risk} · ${economyText("Satışta %1 işlem farkı daha düşülür.", "Selling deducts a further 1% fee.")}</small><div class="wealth-actions">${wealthButton("invest-buy", id, "₺5.000 al", "İşlem farkı dahil", state.finances.balance < 5050)}${wealthButton("invest-sell", id, "₺5.000 sat", "Nakit yarat", (p?.value || 0) < 5000)}${wealthButton("invest-sell-all", id, economyText("Tümünü sat", "Sell all"), economyText("Net tutardan %1 düşülür", "A 1% fee is deducted"), !(p?.value > 0))}</div></article>`;
       })
       .join("")}</div></section>
-    <section class="panel"><h2>${economyText("Yatırım raporu", "Investment report")}</h2>${state.finances.ledger.filter(row=>row.category==="valuation").slice(-11).map(row=>`<p>${economyText("Hafta", "Week")} ${row.week}: ${escapeText(row.reason)}</p>`).join("") || economyText("İlk ay kapanışında gerçekleşmemiş değer değişimleri görünür.", "Unrealized value changes appear at the first month close.")}</section>
-    <section class="panel"><div class="panel-head"><div><p class="eyebrow">BORÇLAR</p><h2>Borçların</h2></div><span>${money(worth.debt)}</span></div>${state.wealth.debts.length ? state.wealth.debts.map((d) => `<p class="open-case"><b>${d.type === "mortgage" ? "Ev borcu" : d.type === "vehicle" ? "Araç borcu" : "Kişisel borç"}</b><span>${money(d.principal)} · aylık ${money(Math.min(d.principal, d.monthlyPayment))}</span></p>`).join("") : `<p class="empty">Eve, arabaya ya da bankaya borcun yok.</p>`}<p class="context-note">Evi, arabayı ve eşyayı Emlak'tan satarsın. Borç kaydı burada durur.</p></section>
-    <section class="panel"><div class="panel-head"><div><p class="eyebrow">ALACAKLAR</p><h2>Sana borçlu olanlar</h2></div><span>${owedToPlayer.length}</span></div>${owedToPlayer.length ? owedToPlayer.map((item) => `<p class="open-case"><b>${escapeText(item.name)}</b><span>${money(item.amount)}</span></p>`).join("") : `<p class="empty">Şu anda kimsenin sana borcu yok.</p>`}</section>
-    <section class="panel"><div class="panel-head"><div><p class="eyebrow">İŞLEMLER</p><h2>Son işlemler</h2></div><span>${state.finances.ledger.length}</span></div><div class="history">${ledger.length ? ledger.map((entry) => `<div class="memory"><strong>${entry.amount >= 0 ? "+" : ""}${money(entry.amount)}</strong> · ${escapeText(entry.reason)} · <span>${escapeText(weeksAgoLabel(entry.week))}</span></div>`).join("") : `<p class="empty">Henüz bir işlem kaydı yok.</p>`}</div>${renderResult("Varlıklar piyasa değeriyle, borçlar kalan anaparayla gösterilir.")} </section>`;
+`;
 }
 
 function renderEmlak() {
@@ -1431,6 +1444,7 @@ const VIEW_RENDERERS = {
   relationships: renderRelationshipsOverview,
   home: renderHomes,
   finance: renderFinance,
+  banks: renderBanks,
   emlak: renderEmlak,
   market: renderMarket,
   body: renderBody,

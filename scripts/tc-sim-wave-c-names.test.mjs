@@ -18,6 +18,7 @@ const VIEWS = [
   "character",
   "calendar",
   "finance",
+  "banks",
   "emlak",
   "market",
   "career",
