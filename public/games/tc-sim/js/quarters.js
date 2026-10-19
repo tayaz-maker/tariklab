@@ -1,4 +1,5 @@
 // Semt emlak + mahalle tezgâhı. Para ekranındaki servet mülkü ve büyük işletme durur.
+import { recordIcraPayment } from "./icra.js?v=10";
 import { getDistrict } from "./locations.js?v=10";
 import { scheduleMoveConsequence } from "./depth3-systems.js?v=10";
 import {
@@ -729,7 +730,7 @@ export function processSemtWeek(state) {
       const owed = Math.round(Number(file?.payload?.owed ?? file?.payload?.amount) || 0);
       const cut = file && owed > 0 ? Math.min(owed, Math.round(net * 0.1)) : 0;
       if (cut > 0) {
-        file.payload.owed = owed - cut;
+        recordIcraPayment(state, file, cut);
         net -= cut;
         note = `${note}, haciz`;
       }

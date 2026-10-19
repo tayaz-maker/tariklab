@@ -423,9 +423,17 @@ export function processCashShortfall(state) {
     }
     return { kind: "arrears", amount: converted, arrears: finances.arrears };
   }
-  if (finances.arrears > 0 && finances.balance > 0) {
+  // An active enforcement claim owns its source arrears. Collect only other
+  // arrears here, otherwise this path and the icra installment charge twice.
+  const claim = (state.openCases || []).find((item) =>
+    item.type === "icra" && item.status === "pending" && item.payload?.source === "temerrut");
+  const reserved = claim ? Math.max(0, Math.round(Number(
+    claim.payload.sourceArrears ?? claim.payload.owed ?? claim.payload.amount,
+  ) || 0)) : 0;
+  const collectible = Math.max(0, finances.arrears - reserved);
+  if (collectible > 0 && finances.balance > 0) {
     const payment = Math.min(
-      finances.arrears,
+      collectible,
       finances.balance,
       Math.max(500, Math.min(3000, Math.round(finances.balance * 0.2))),
     );
