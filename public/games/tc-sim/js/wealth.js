@@ -1,5 +1,6 @@
+import { getMonthlySummary } from "./life.js?v=10";
 import { MORTGAGE_TERMS, amortizedPayment, newMortgage, normalizeMortgage, isAmortizingMortgage, debtBalance, mortgageDue, mortgageStatus, settleMortgageMonth, settleMortgagePayment, restructureMortgage, validMortgage, mortgageText } from "./mortgage.js?v=10";
-import { recordBankMonth, recordBankLoan } from "./bank-record.js?v=10";
+import { recordBankMonth, recordBankLoan, bankCreditPolicy } from "./bank-record.js?v=10";
 
 import { recordMonthlyCash } from "./monthly-cash.js?v=10";
 import { normalizeSemt } from "./quarters.js?v=10";
@@ -730,10 +731,22 @@ export function sellVehicle(state) {
   state.wealth.vehicle = null;
   return { ok: true, message: "Araç satıldı; bağlı borç kapatıldı." };
 }
+function mortgageEligibility(state, kind) {
+  const policy = bankCreditPolicy(state, "mortgage", mortgageLanguage());
+  if (!policy.ok) return policy;
+  const price = kind === "owner" ? 480000 : 420000;
+  const principal = price - Math.ceil(price * MORTGAGE_TERMS.downPercent / 100);
+  const installment = amortizedPayment(principal, MORTGAGE_TERMS.rateBps, MORTGAGE_TERMS.months);
+  const summary = getMonthlySummary(state);
+  // Disclosed game affordability rule, not a real lender's underwriting ratio.
+  return summary.income > 0 && summary.wealth.debt + installment <= summary.income * 0.5
+    ? {ok:true} : {ok:false,reason:mortgageText("affordability", mortgageLanguage())};
+}
 export function buyProperty(state, kind = "owner", mortgage = false) {
   normalizeWealth(state);
   if (!["owner", "rental"].includes(kind))
     return { ok: false, reason: "Konut kullanımı geçersiz." };
+  if (mortgage) { const policy = mortgageEligibility(state, kind); if (!policy.ok) return policy; }
   if (mortgage && state.wealth.debts.length >= WEALTH_LIMITS.debts)
     return { ok: false, reason: "Yeni borç için kayıt sınırına ulaştın." };
   if (
@@ -1006,6 +1019,7 @@ export function getWealthActionAvailability(state, action, value) {
   if (action === "property-owner" || action === "property-rental") {
     const kind = action === "property-owner" ? "owner" : "rental", financed = value === "mortgage";
     if (w.properties.some(item => item.occupancy === kind) || w.properties.length >= WEALTH_LIMITS.properties) return { ok: false, reason: "Bu konut türü zaten var veya mülk sınırına ulaştın." };
+    if (financed) { const policy = mortgageEligibility(state, kind); if (!policy.ok) return policy; }
     if (financed && w.debts.length >= WEALTH_LIMITS.debts) return { ok: false, reason: "Yeni borç için kayıt sınırına ulaştın." };
     const blocked = weekBlocked("wealth-property"); if (blocked) return { ok: false, reason: blocked };
     const price = kind === "owner" ? 480000 : 420000, due = financed ? Math.ceil(price * .3) : price;

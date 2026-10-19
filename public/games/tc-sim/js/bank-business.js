@@ -1,5 +1,5 @@
 import { mortgageDue } from "./mortgage.js?v=10";
-import { recordBankLoan } from "./bank-record.js?v=10";
+import { recordBankLoan, bankCreditPolicy } from "./bank-record.js?v=10";
 import {businessLocation,currentDistrict} from './locations.js?v=10';
 import { economyYear, formatPeriodMoney, periodContext } from "./period-economy.js?v=10";
 import { addMemory, adjustHealth, getWeeklyActivityLimit, transact } from "./state.js?v=10";
@@ -45,6 +45,8 @@ export function creditAvailability(state, id) {
   normalizeWealth(state);
   if (state.wealth.debts.length >= WEALTH_LIMITS.debts) return { ok: false, reason: "Borç sınırı dolu." };
   if (state.wealth.debts.some((debt) => debt.type === "personal")) return { ok: false, reason: "Önce mevcut ihtiyaç kredisini kapat." };
+  const policy = bankCreditPolicy(state, id, typeof window !== "undefined" ? window.tlabI18n?.getLang?.() || "tr" : "tr");
+  if (!policy.ok) return policy;
   const income = getMonthlySummary(state).income;
   const otherPayments = state.wealth.debts.reduce((sum, debt) => sum + mortgageDue(debt), 0);
   if (income < 4500 || otherPayments + Math.ceil(offer.total / offer.months) > income * 0.4)

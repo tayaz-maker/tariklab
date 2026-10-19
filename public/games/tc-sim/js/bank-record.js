@@ -69,14 +69,34 @@ export function bankRecordText(state, language = "tr") {
   const texts = {
     tr: ["Banka sicili", "Henüz gözlenen işlem yok; eski kayıtlardan geçmiş ödeme çıkarılmaz.",
       "Oyun kredi puanı", "zamanında ödeme dönemi", "nakitle karşılanamayan ödeme dönemi", "temerrüt dönemi",
-      "0–100 oyun göstergesidir; gerçek bir kredi notu değildir. Şimdilik kredi koşullarını değiştirmez."],
+      "0–100 oyun göstergesidir; gerçek bir kredi notu değildir. Yeni kredi kararı, gelir ve mevcut borç yüküyle birlikte değerlendirilir."],
     en: ["Bank history", "No observed transactions yet; past payments are not inferred from old saves.",
       "Game credit score", "funded payment periods", "unfunded payment periods", "default periods",
-      "A 0–100 game indicator, not a real credit rating. It does not yet change loan terms."],
+      "A 0–100 game indicator, not a real credit rating. New borrowing is assessed together with income and existing debt commitments."],
     pl: ["Historia bankowa", "Brak zaobserwowanych transakcji; stare zapisy nie służą do odtwarzania spłat.",
       "Punktacja kredytowa w grze", "okresy spłat z pokryciem", "okresy spłat bez pokrycia", "okresy niewypłacalności",
-      "Wskaźnik gry 0–100, a nie rzeczywista ocena kredytowa. Na razie nie zmienia warunków kredytu."],
+      "Wskaźnik gry 0–100, a nie rzeczywista ocena kredytowa. Nowy kredyt ocenia się łącznie z dochodem i istniejącymi zobowiązaniami."],
   };
   const t = texts[language] || texts.tr;
   return `${t[0]} · ${r.score === null ? t[1] : `${t[2]}: ${r.score}/100 · ${r.paid} ${t[3]} · ${r.missed} ${t[4]} · ${r.default} ${t[5]}`} ${t[6]}`;
+}
+
+// Fictional underwriting policy for this game, not Findeks or bank regulation.
+// Clean legacy saves have no inferred history. A small-loan recovery path
+// remains after current arrears are cleared; loan cycling earns no score.
+export const CREDIT_GAME_MIN_SCORE = 40;
+export function bankCreditPolicy(state, offer, language = "tr") {
+  const debt = Number(state.finances?.arrears) > 0 || (state.wealth?.debts || []).some(d => d.mortgage?.overdue > 0)
+    || (state.openCases || []).some(c => c.type === "icra" && c.status === "pending" && Number(c.payload?.owed ?? c.payload?.amount) > 0);
+  const low = bankRecord(state).score;
+  const reason = debt ? {
+    tr: "Önce gecikmiş borç veya açık icra yükümlülüğünü çözmelisin.",
+    en: "Resolve overdue debt or an open enforcement liability before borrowing again.",
+    pl: "Przed kolejnym kredytem ureguluj zaległy dług lub otwarte zobowiązanie egzekucyjne.",
+  } : low !== null && low < CREDIT_GAME_MIN_SCORE && offer !== "small" ? {
+    tr: "Oyun kuralı: kredi puanı 40'ın altındayken yalnız küçük ihtiyaç kredisi değerlendirilir.",
+    en: "Game rule: below credit score 40, only the small personal loan is considered.",
+    pl: "Zasada gry: przy punktacji poniżej 40 rozpatrywany jest tylko mały kredyt gotówkowy.",
+  } : null;
+  return reason ? {ok:false,reason:reason[language] || reason.tr} : {ok:true};
 }
