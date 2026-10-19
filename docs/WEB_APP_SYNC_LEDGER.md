@@ -816,6 +816,13 @@ Stacked on the interest-bearing mortgage PR; independent of its amortization cal
 - Tests cover30-day modeled month, job switch, reload, excluded work/history, future format, pension double-count prevention and three-language read-only output. Browser matrix checks actual persisted days and panel1280/390. SAVE_VERSION6 and full61-source guard retained with only approved life/social-insurance changes.
 
 
+## 2026-10-19 — Package 2 detained work consistency (depends on #186)
+
+- Reuse existing detention boundary: no job energy/stress, commuting load or family experience while detained; existing education and non-work consequences remain. Salary, coverage, career progression and actual worked experience now agree. Release restores work, with existing once-per-week dedup.
+- Deterministic V5/V6 migration/reload/release tests verify cash neutrality, salary, coverage, experience and SAVE_VERSION6. No schema, UI or finance feature added. Full frozen inventory retained; only authorized life.js bytes re-pinned.
+- Finance release remains gated on #186 fresh required CI and canonical deployment; this dependent change must not merge first.
+
+
 ## 2026-10-19 — Package 2 detention and occupational health
 
 - Reproduced high stress during detention taking occupational overwork44→47 and creating an overload warning despite no worked week. Reuse existing detention boundary in body-systems.js to remove only the automatic occupational contribution. General stress, under-recovery, inactivity, care, delayed cases and release-time work remain. No new health model or UI.
