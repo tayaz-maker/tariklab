@@ -54,7 +54,7 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Authorized marriage wave: wedding-planning helper + existing household/social/parenting integration.
   // Authorized city wave integrates one geography helper into existing life engines.
   // Authorized language wave adds a read-only presentation helper; engines unchanged.
-  assert.equal(files.length, 56);
+  assert.equal(files.length, 57);
   const hash = createHash("sha256");
   for (const file of files) hash.update(file).update(readFileSync(file));
   // Re-pinned for the DEVLET maps PR: next-wave.js (geo dispatch + month
@@ -89,7 +89,9 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Tezgah ince: close/sell labels, single-stall inspection, army drop, twin cut, kalfa, icra skim. Save stays v6.
   // D0: authorized debt conservation changes only icra.js, wealth.js and
   // quarters.js. The other 53 protected files, inventory and digest rule stay intact.
-  assert.equal(hash.digest("hex"), "f9a36069a825689bfab0f2e11dc0bc6648c658211af0aa16ca9b7aa4cf969d30");
+  // Authorized monthly cash receipt: one new module and posting/close hooks.
+  // Keep the complete inventory and all unrelated content pinned.
+  assert.equal(hash.digest("hex"), "05aeebfdf619e8fac21a1c2b5c4b61a05c23e097015fc515757786d08b6dfba5");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);
