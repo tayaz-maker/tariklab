@@ -10,7 +10,7 @@ const source = readFileSync(new URL("../src/lib/games.ts", import.meta.url), "ut
 const catalog = source.split("export const GAMES:")[1];
 const games = [...catalog.matchAll(/slug: "([^"]+)"[\s\S]*?status: "live",\s*href: "([^"]+)"/g)]
   .map((m) => ({ slug: m[1], href: m[2] }));
-assert.equal(games.length, 18);
+assert.equal(games.length, 17);
 const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
 async function get(path) {
   const response = await fetch(new URL(path, origin), { signal: AbortSignal.timeout(30000), cache: "no-store", redirect: "manual" });

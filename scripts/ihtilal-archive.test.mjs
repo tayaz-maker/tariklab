@@ -10,12 +10,12 @@ test("archive removes the live listings in all three resource languages, preserv
   const credits = read("public/credits.html");
   assert.doesNotMatch(credits, /data-game="ihtilal"|href="\/oyna\/ihtilal"/);
   assert.doesNotMatch(credits, /data-game="esik"|href="\/oyna\/esik"/);
-  assert.match(credits, /data-live-count="18" data-soon-count="0"/);
+  assert.match(credits, /data-live-count="17" data-soon-count="0"/);
   const sandbox = { localStorage: { getItem: () => "en" } };
   vm.runInNewContext(read("public/i18n/tlab-i18n.js"), sandbox);
   for (const key of ["CREDITS_EN", "CREDITS_PL"]) {
     const items = sandbox.tlabI18n[key].sections[0].items;
-    assert.equal(items.length, 18);
+    assert.equal(items.length, 17);
     assert.ok(items.every(item => !item.includes("/oyna/ihtilal")));
     assert.ok(items.every(item => !item.includes("/oyna/esik")));
   }
