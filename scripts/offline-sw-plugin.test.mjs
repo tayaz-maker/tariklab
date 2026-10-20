@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import vm from "node:vm";
 import { injectBuildAssets, offlineSwPlugin } from "./offline-sw-plugin.mjs";
+import {retiredWorkerPaths,retirementWorker} from './retired-products.mjs';
 
 function generate(environment, bundle) {
   const emitted = [];
@@ -21,11 +22,14 @@ test("generated worker precaches the static shell and client JS/CSS on its first
     "assets/index-123.js.map": {},
     "manifest.json": {},
   });
-  assert.equal(emitted.length, 2);
+  assert.equal(emitted.length, 4);
   assert.equal(emitted[0].fileName, "sw.js");
-  assert.equal(emitted[1].fileName, "games/hanedanian/sw.js");
-  assert.match(emitted[1].source, /const VERSION = "hanedanian-package-[0-9a-f]{16}";/);
-  assert.ok(!emitted[1].source.includes('HANEDANIAN_BUILD_VERSION'));
+  const game=emitted.find(asset=>asset.fileName==='games/hanedanian/sw.js');
+  assert.ok(game);
+  assert.match(game.source, /const VERSION = "hanedanian-package-[0-9a-f]{16}";/);
+  assert.ok(!game.source.includes('HANEDANIAN_BUILD_VERSION'));
+  for(const path of retiredWorkerPaths)
+    assert.equal(emitted.find(asset=>asset.fileName===path)?.source,retirementWorker);
 
   const handlers = {};
   const cached = [];
