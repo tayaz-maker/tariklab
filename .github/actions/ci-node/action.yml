@@ -1,0 +1,19 @@
+name: Exact-lock Node dependencies
+description: Reuse only an exact OS/architecture/Node/lock cache; install on a miss.
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@v4
+      with:
+        node-version: "22"
+        cache: npm
+    - uses: actions/cache@v4
+      id: modules
+      with:
+        path: node_modules
+        key: modules-v1-${{ runner.os }}-${{ runner.arch }}-ubuntu24-node22-${{ hashFiles('package-lock.json') }}
+    - if: steps.modules.outputs.cache-hit != 'true'
+      shell: bash
+      run: npm ci
+    - shell: bash
+      run: node scripts/duel-art-unpack.mjs

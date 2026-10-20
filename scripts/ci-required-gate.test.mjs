@@ -12,8 +12,8 @@ import {validateRequiredNeeds} from './ci-required-gate.mjs';
 
 const require = createRequire(import.meta.url);
 const yaml = require('js-yaml');
-const workflow = yaml.load(readFileSync(new URL('../.github/workflows/ci.yml', import.meta.url), 'utf8'));
-const requiredJobs = ['changes', 'build-core', 'browser-regression', 'campaign-browser', 'campaign-balance'];
+const workflow = yaml.load(readFileSync(new URL('../.github/workflows/ci-full-regression.yml', import.meta.url), 'utf8'));
+const requiredJobs = ['changes', 'build-core', 'browser-regression', 'campaign-browser', 'campaign-balance', 'unit'];
 const successfulNeeds = () => Object.fromEntries(requiredJobs.map(job => [job, {result: 'success'}]));
 
 test('all mandatory and additional declared dependencies must succeed', () => {
@@ -180,24 +180,14 @@ test('the required build gate always runs and checks every mandatory dependency'
   });
 });
 
-test('workflow triggers, concurrency, path routing and campaign jobs remain unchanged', () => {
-  assert.equal(workflow.name, 'ci');
-  assert.deepEqual(workflow.on, {push: {branches: ['main']}, pull_request: null});
-  assert.deepEqual(workflow.concurrency, {group: 'ci-${{ github.event.pull_request.number || github.ref }}', 'cancel-in-progress': "${{ github.event_name == 'pull_request' }}"});
+test('full regression preserves every campaign command and runs nightly/manual', () => {
+  assert.equal(workflow.name, 'ci-full-regression');
+  assert.deepEqual(workflow.on, {schedule: [{cron: '43 2 * * *'}], workflow_dispatch: null});
   for (const [job, expected] of Object.entries({
-    changes: 'a9c282f51a5ef948511f69d2cc5b66864617a5d726810885d4ce40a9ae5fc323',
     'campaign-browser': 'a0af9ca6adc88a356e6133e0784f4f13dbaedfc70f8f8cb02a3a056344903080',
     'campaign-balance': '82e6883e6184615877525146f93ff027cbd72c87afe1762bcf1b9db24134c483',
   })) {
     const value = structuredClone(workflow.jobs[job]);
-    if (job === 'changes') {
-      assert.equal(value.outputs.docs, '${{ steps.route.outputs.docs }}');
-      assert.equal(value.outputs.tc, '${{ steps.route.outputs.tc }}');
-      delete value.outputs.docs;
-      delete value.outputs.tc;
-      const patch = value.steps.splice(1, 1)[0];
-      assert.equal(patch.run, 'git diff --check "$BASE...$HEAD"');
-    }
     if (job === 'campaign-browser') {
       const hanedanian = value.steps.find(step => step.run === 'node scripts/hanedanian-browser.mjs');
       assert.deepEqual(hanedanian.env, {HANEDANIAN_SOAK_MS: '0'}, 'PR/main retain acceptance without the nightly soak');
@@ -264,7 +254,8 @@ test('a workflow-only change selects the full CI matrix through the routing CLI'
 });
 
 test('no job or step can ignore a failure with continue-on-error', () => {
-  for (const [name, job] of Object.entries(workflow.jobs)) {
+  const ci=yaml.load(readFileSync(new URL('../.github/workflows/ci.yml', import.meta.url), 'utf8'));
+  for (const [name, job] of Object.entries({...workflow.jobs,...ci.jobs})) {
     assert.equal(Object.hasOwn(job, 'continue-on-error'), false, name);
     for (const step of job.steps ?? []) {
       assert.equal(Object.hasOwn(step, 'continue-on-error'), false, `${name}: ${step.name || step.run || step.uses}`);

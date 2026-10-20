@@ -39,13 +39,6 @@ test("mixed docs and runtime files cannot take docs fast path", () => {
   assert.equal(result.docs, "false");
   assert.equal(result.full, "true");
 });
-test("multiple game changes remain conservative", () => {
-  assert.equal(
-    classifyChanges(["public/games/tc-sim/styles.css", "public/games/hanedanian/style.css"]).full,
-    "true",
-  );
-});
-
 test("shared desk CSS selects both actual consumers and no campaign", () => {
   const result = classifyChanges([
     "public/games/shared/management-desk.css",
@@ -79,11 +72,31 @@ test("owned TC PR scripts keep both relevant desk consumers without unrelated br
   assert.equal(result.routes, "tc-sim,tc-sim-devlet");
   for (const key of ["browser", "tc", "devlet"]) assert.equal(result[key], "true");
   for (const key of ["duel", "campaign", "balance"]) assert.equal(result[key], "false");
-  assert.equal(classifyChanges(files).full, "true", "main retains its original coverage");
+  assert.equal(classifyChanges(files).full, "false", "main retains the same affected critical coverage");
 });
 
 test("shared translations, production helpers and unknown scripts still fail closed on PR", () => {
   for (const path of ["public/i18n/deep-en.js", "public/i18n/pl-body.js", "scripts/ci-readiness.mjs",
-    "scripts/unowned.test.mjs", "scripts/tc-sim-devlet-balance.test.mjs", ".github/workflows/ci.yml"])
+    "scripts/unowned.test.mjs", ".github/workflows/ci.yml"])
     assert.equal(classifyChanges(["scripts/tc-sim-promise-reputation.test.mjs", path], { pullRequest: true }).full, "true", path);
+});
+
+test('known multi-game changes select the union, unknown shared changes select all',()=>{
+  const result=classifyChanges(['public/games/tc-sim/styles.css','public/games/hanedanian/style.css']);
+  assert.equal(result.full,'false');
+  assert.equal(result.routes,'tc-sim,hanedanian');
+  for(const key of ['browser','tc','campaign','balance'])assert.equal(result[key],'true');
+  assert.equal(classifyChanges(['public/games/tc-sim/styles.css','scripts/new-shared.mjs']).full,'true');
+});
+test('duel routes use actual catalog slugs rather than an internal group id',()=>{
+  const result=classifyChanges(['public/games/duel-core/engine.js']);
+  assert.equal(result.full,'false');
+  assert.equal(result.duel,'true');
+  assert.equal(result.routes,'veto-h,gett-oh,darbe-h');
+});
+test('hosting-only changes retain common unit guards without unrelated game browsers',()=>{
+  const result=classifyChanges(['wrangler.json','scripts/cloudflare-deploy.mjs']);
+  assert.equal(result.docs,'false');
+  assert.equal(result.full,'false');
+  assert.equal(result.browser,'false');
 });
