@@ -32,6 +32,7 @@ export const HTML5_SLUGS = [
   "satranc",
   "amiral-batti",
   "racon",
+  "bukucu",
   "tc-sim",
   "apartman",
   "son-100-gun",
@@ -98,8 +99,8 @@ export const GAMES: CatalogGame[] = [
     slug: "bukucu",
     title: "Son Mahalle Bükücü",
     subtitle: "İstanbul tapusu. Semti tutan büker. Para TL.",
-    status: "live",
-    href: "/games/bukucu/index.html",
+    status: "archived",
+    href: "/oyna/bukucu",
     icon: "bukucu",
   },
   {

@@ -51,10 +51,10 @@ test("resources catalog stays aligned with the canonical game catalog", () => {
     ),
   ].map((m) => ({ slug: m[1], title: m[2], status: m[3], href: m[4] || null }));
   assert.equal(games.length, 19);
-  assert.equal(games.filter((g) => g.status === "live").length, 17);
+  assert.equal(games.filter((g) => g.status === "live").length, 16);
   assert.deepEqual(games.filter((g) => g.status === "soon").map((g) => g.slug), []);
-  assert.match(html, /data-live-count="17" data-soon-count="0"/);
-  assert.deepEqual(games.filter(g => g.status === "archived").map(g => g.slug), ["ihtilal", "esik"]);
+  assert.match(html, /data-live-count="16" data-soon-count="0"/);
+  assert.deepEqual(games.filter(g => g.status === "archived").map(g => g.slug), ["bukucu", "ihtilal", "esik"]);
   for (const game of games) {
     if (game.status === "archived") {
       assert.doesNotMatch(html, new RegExp(`data-game="${game.slug}"|href="${game.href}"`));

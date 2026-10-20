@@ -3,12 +3,12 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 import { GAME_CATEGORIES, GAMES } from "../src/lib/games.ts";
 
-test("portal categories retain all 19 routes and partition the 17 live games once", () => {
+test("portal categories retain all 19 routes and partition the 16 live games once", () => {
   const live = GAMES.filter((game) => game.status === "live");
   const listed = GAME_CATEGORIES.flatMap((category) => category.slugs);
 
-  assert.equal(live.length, 17);
-  assert.deepEqual(GAMES.filter(game => game.status === "archived").map(game => game.slug), ["ihtilal", "esik"]);
+  assert.equal(live.length, 16);
+  assert.deepEqual(GAMES.filter(game => game.status === "archived").map(game => game.slug), ["bukucu", "ihtilal", "esik"]);
   assert.equal(GAME_CATEGORIES.length, 4);
   assert.equal(new Set(listed).size, 19);
   assert.deepEqual(new Set(listed), new Set(GAMES.map((game) => game.slug)));

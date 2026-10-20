@@ -5,9 +5,9 @@ import {createHash} from 'node:crypto';
 import vm from 'node:vm';
 const read=p=>readFileSync(new URL('../'+p,import.meta.url),'utf8');
 test('coast archive excludes both retired games from all live Resources and retains both routes',()=>{
- const credits=read('public/credits.html');assert.doesNotMatch(credits,/data-game="(?:esik|ihtilal)"|href="\/oyna\/(?:esik|ihtilal)"/);assert.match(credits,/data-live-count="17"/);
+ const credits=read('public/credits.html');assert.doesNotMatch(credits,/data-game="(?:esik|ihtilal)"|href="\/oyna\/(?:esik|ihtilal)"/);assert.match(credits,/data-live-count="16"/);
  const ctx={localStorage:{getItem:()=> 'en'}};vm.runInNewContext(read('public/i18n/tlab-i18n.js'),ctx);
- for(const key of ['CREDITS_EN','CREDITS_PL']){const rows=ctx.tlabI18n[key].sections[0].items;assert.equal(rows.length,17);assert.ok(rows.every(r=>!/\/oyna\/(esik|ihtilal)/.test(r)));}
+ for(const key of ['CREDITS_EN','CREDITS_PL']){const rows=ctx.tlabI18n[key].sections[0].items;assert.equal(rows.length,16);assert.ok(rows.every(r=>!/\/oyna\/(esik|ihtilal)/.test(r)));}
  assert.match(read('src/lib/games.ts'),/slug: "esik",[^}]*status: "archived",[^}]*href: "\/oyna\/esik"/);
  assert.match(read('src/routes/oyna.$slug.tsx'),/canonical === "ihtilal" \? <Link/);
  assert.match(read('scripts/sitewide-responsive.mjs'),/await coastArchiveAcceptance\(browser/);

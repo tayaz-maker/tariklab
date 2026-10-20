@@ -664,7 +664,6 @@
           '<a href="/oyna/hanedanian">HANEDANIAN</a> · LIVE — Build settlements, secure resources and lead a dynasty across a seeded strategy map; single-player and offline-first.',
           '<a href="/oyna/racon">Racon Manager</a> · LIVE — Narrative management shaped by relationships, decisions and delayed consequences.',
           '<a href="/oyna/tc-sim">TC SIM</a> · LIVE — Allocate seven weekly time-and-focus blocks across work, education, family, friends, relationships and recovery (eight without standing commitments, three during critical health). Some choices return as Long Shadows years later. From 1999 the wage scale follows the Ministry of Labour net minimum-wage schedule (2025 net TRY 22,104.67). Before 1999, annual CPI is World Bank FP.CPI.TOTL for Türkiye (2010=100). Other prices are a game budget. FX quarters are TCMB bulletins; gold is the World Bank monthly ounce series.',
-          '<a href="/games/bukucu/index.html">Son Mahalle Bükücü</a> · LIVE — A neighborhood board game of dice, deeds, auctions and trades.',
           '<a href="/oyna/labirent">Labirent</a> · LIVE — Find the exit through a newly generated maze.',
           '<a href="/oyna/peg-solitaire">Tek Taş</a> · LIVE — Use legal jumps to leave one piece on the board.',
           '<a href="/oyna/satranc">Satranç</a> · LIVE — Chess with a local rules engine, move history and a computer opponent with distinct levels.',
@@ -684,7 +683,7 @@
         lead: "TarikLab is a collection of independent games that run directly in the browser. The portal and Çete Savaşları use React and TypeScript; the other games run as their own HTML, CSS and JavaScript applications.",
         items: [
           "Most long-running games use three local slots, kept separate on the same device. HANEDANIAN keeps an autosave, its previous version and a separate manual save, with file export/import. Original HANEDAN saves remain accessible through the legacy game. VETO-H! and GETT-OH! each autosave one active duel; reload preserves deck order, action rights and pending responses.",
-          "The portal and all 17 live games support Turkish and English; each game keeps its own voice while the outer shell owns language navigation.",
+          "The portal and all 16 live games support Turkish and English; each game keeps its own voice while the outer shell owns language navigation.",
           "Polish covers the interface and, through a translation layer, game text (story, events, cards, help); anything without a Polish translation is shown in English. The Polish text has not yet been reviewed by a native speaker.",
           "Interfaces adapt to phone, tablet and desktop while preserving each game's own visual and interaction identity.",
         ],
@@ -726,12 +725,11 @@
   const CREDITS_PL = {
     h1: "Materiały źródłowe", kicker: "TarikLab · gry i struktura techniczna", back: "← Gry",
     sections: [
-      { h: "Katalog", lead: "TarikLab ma 17 dostępnych gier.", items: [
+      { h: "Katalog", lead: "TarikLab ma 16 dostępnych gier.", items: [
         '<a href="/cete-savaslari">Çete Savaşları</a> · LIVE — Zbuduj ekipę, prowadź zadania i utrzymuj dzielnicę pod presją policji oraz rywali.',
         '<a href="/oyna/hanedanian">HANEDANIAN</a> · LIVE — Buduj osady, zabezpieczaj zasoby i prowadź dynastię na generowanej mapie strategii.',
         '<a href="/oyna/racon">Racon Manager</a> · LIVE — Narracyjna gra menedżerska o relacjach, decyzjach i opóźnionych konsekwencjach.',
         '<a href="/oyna/tc-sim">TC SIM</a> · LIVE — Co tydzień 7 decyzji (8 bez stałej pracy, szkoły i opieki; 3 przy złym zdrowiu). Część skutków wraca po latach. Od 1999 skala płacy to net minimalny według ministerstwa pracy; wcześniej roczny CPI (Bank Światowy). Reszta to budżet gry.',
-        '<a href="/games/bukucu/index.html">Son Mahalle Bükücü</a> · LIVE — Planszowa gra dzielnicowa o kościach, aktach własności, aukcjach i wymianie.',
         '<a href="/oyna/labirent">Labirent</a> · LIVE — Znajdź wyjście z nowo wygenerowanego labiryntu.',
         '<a href="/oyna/peg-solitaire">Tek Taş</a> · LIVE — Wykonuj legalne skoki, aby zostawić jeden pionek na planszy.',
         '<a href="/oyna/satranc">Satranç</a> · LIVE — Szachy z lokalnym silnikiem zasad, historią ruchów i komputerowym rywalem.',
@@ -745,7 +743,7 @@
         '<a href="/oyna/gett-oh">GETT-OH!</a> · LIVE — Pojedynek o dzielnicę i uliczną siłę: wspólny silnik, osobna pula kart i stambulska noc. Grafiki kart powstały przy użyciu narzędzi AI (zob. niżej).',
         '<a href="/oyna/jitem-derin-ag">JITEM: Derin Ağ</a> · LIVE — Jednoosobowa strategia 1986–1996 oparta na źródłowych zapisach historycznych, sieciach relacji i asymetrycznej wiedzy.',
       ]},
-      { h: "Jak to działa", lead: "TarikLab to zbiór niezależnych gier działających bezpośrednio w przeglądarce.", items: ["Portal i Çete Savaşları używają Reacta i TypeScriptu; pozostałe gry są osobnymi aplikacjami HTML, CSS i JavaScript.", "Portal i wszystkie 17 dostępnych gier obsługują turecki i angielski. Polski obejmuje interfejs oraz — przez warstwę tłumaczeń — tekst gier (fabuła, wydarzenia, karty, pomoc); tekst bez polskiego tłumaczenia pokazuje się po angielsku. Polskie teksty nie zostały jeszcze sprawdzone przez rodzimego użytkownika języka.", "Interfejsy dostosowują się do telefonu, tabletu i komputera." ]},
+      { h: "Jak to działa", lead: "TarikLab to zbiór niezależnych gier działających bezpośrednio w przeglądarce.", items: ["Portal i Çete Savaşları używają Reacta i TypeScriptu; pozostałe gry są osobnymi aplikacjami HTML, CSS i JavaScript.", "Portal i wszystkie 16 dostępnych gier obsługują turecki i angielski. Polski obejmuje interfejs oraz — przez warstwę tłumaczeń — tekst gier (fabuła, wydarzenia, karty, pomoc); tekst bez polskiego tłumaczenia pokazuje się po angielsku. Polskie teksty nie zostały jeszcze sprawdzone przez rodzimego użytkownika języka.", "Interfejsy dostosowują się do telefonu, tabletu i komputera." ]},
       { h: "Autorstwo", note: "Tarık jest synem swojej matki." },
       { h: "TLab Classics", lead: "Labirent, Tek Taş, Satranç i Amiral Battı zostały napisane od podstaw dla TarikLab.", items: ["Labirent — niezależna implementacja TarikLab.", "Tek Taş — niezależna implementacja TarikLab.", "Satranç — niezależny silnik zasad TarikLab.", "Amiral Battı — niezależna implementacja siatki i floty TarikLab."], note: "Klasyczne zasady gier są koncepcjami domeny publicznej; ta informacja dotyczy wyłącznie kodu, interfejsu i oryginalnej treści TarikLab." },
       { h: "Grafiki i łańcuch praw", lead: "Jako licencje pokazujemy tylko prawa z potwierdzonym zapisem.", items: [
