@@ -2004,7 +2004,7 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
       if (SLOT === 1) {
         try { localStorage.setItem("racon_v1", JSON.stringify(dumpSave())); } catch (e2) {}
       }
-      var status=document.getElementById("save-status"); if(status) status.textContent="Kaydedildi";
+      var status=document.getElementById("save-status"); if(status) status.textContent=raconText("Kaydedildi", "Saved");
       return true;
     } catch (e) { feedback("Kayıt yazılamadı. Yedek ekranından metni kopyalayıp sakla; bu sayfayı kapatma."); return false; }
   }
@@ -4686,6 +4686,16 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
     app.classList.toggle("nav-detay", m === "detay");
     app.classList.toggle("nav-kisa", m === "kisa");
   }
+  function raconNavLabel(n) {
+    var names = {olaylar:"Events",takvim:"Calendar",adamlar:"Crew",harita:"Map",isler:"Jobs",pazar:"Market",emlak:"Property",hayat:"Life",emniyet:"Police",husumet:"Rivalry",kasa:"Cash",siralama:"Rankings",mahalleler:"Districts",ekip:"Subcrew",aklama:"Laundering",savci:"Prosecutor",masa:"Desk",hanedan:"Dynasty"};
+    var polish = {olaylar:"Wydarzenia",takvim:"Kalendarz",adamlar:"Ekipa",harita:"Mapa",isler:"Roboty",pazar:"Targ",emlak:"Nieruchomości",hayat:"Życie",emniyet:"Policja",husumet:"Rywalizacja",kasa:"Kasa",siralama:"Ranking",mahalleler:"Dzielnice",ekip:"Podekipa",aklama:"Pranie pieniędzy",savci:"Prokurator",masa:"Biurko",hanedan:"Dynastia"};
+    if (window.tlabI18n && window.tlabI18n.getLang() === "pl") return polish[n.id] || n.label;
+    return raconText(n.label, names[n.id]);
+  }
+  function raconUpper(text) {
+    var lang = window.tlabI18n && window.tlabI18n.getLang ? window.tlabI18n.getLang() : "tr";
+    return String(text).toLocaleUpperCase(lang === "en" ? "en-US" : lang === "pl" ? "pl-PL" : "tr-TR");
+  }
   function drawNav() {
     if (!S) { document.getElementById("nav").innerHTML = ""; return; }
     var unread = S.inbox.some(function (x) { return !x.read; });
@@ -4693,18 +4703,18 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
       var cur = S.screen === n.id ? ' aria-current="page"' : "";
       var dot = n.id === "olaylar" && unread ? '<i class="dot"></i>' : "";
       var dis = UI.sahne ? " disabled" : "";
-      return '<button type="button" class="navbtn" data-act="nav" data-id="' + n.id + '" aria-label="' + n.label + '"' + cur + dis + ">" + ico(n.ico) + "<span>" + up(n.label) + "</span>" + dot + "</button>";
+      return '<button type="button" class="navbtn" data-act="nav" data-id="' + n.id + '" aria-label="' + esc(raconNavLabel(n)) + '"' + cur + dis + ">" + ico(n.ico) + "<span>" + esc(raconUpper(raconNavLabel(n))) + "</span>" + dot + "</button>";
     }).join("");
     var extra = LOCKED_NAV.filter(function (n) { return navOpen(n.id); }).map(function (n) {
       var cur = S.screen === n.id ? ' aria-current="page"' : "";
       var dis = UI.sahne ? " disabled" : "";
       var icoName = n.id === "ekip" ? "adamlar" : n.id === "masa" ? "kasa" : "harita";
-      return '<button type="button" class="navbtn" data-act="nav" data-id="' + n.id + '" aria-label="' + n.label + '"' + cur + dis + ">" + ico(icoName) + "<span>" + up(n.label) + "</span></button>";
+      return '<button type="button" class="navbtn" data-act="nav" data-id="' + n.id + '" aria-label="' + esc(raconNavLabel(n)) + '"' + cur + dis + ">" + ico(icoName) + "<span>" + esc(raconUpper(raconNavLabel(n))) + "</span></button>";
     }).join("");
     var kisa = navMode() === "kisa";
     var tog = '<button type="button" class="navbtn navtog" data-act="navdetay" aria-label="' +
-      (kisa ? "Menüyü aç" : "Menüyü daralt") + '">' + ico(kisa ? "detay" : "kisa") +
-      "<span>" + up(kisa ? "Detay" : "Kısa") + "</span></button>";
+      raconText(kisa ? "Menüyü aç" : "Menüyü daralt", kisa ? "Expand menu" : "Collapse menu") + '">' + ico(kisa ? "detay" : "kisa") +
+      "<span>" + esc(raconUpper(raconText(kisa ? "Detay" : "Kısa", kisa ? "More" : "Less"))) + "</span></button>";
     applyNavMode();
     document.getElementById("nav").innerHTML = tog + main + extra;
     var navEl = document.getElementById("nav");
@@ -4751,7 +4761,7 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
       barrow("Saygı", S.rep.saygi, 100, "green") +
       barrow("Nam", S.rep.nam, 100, "") +
       barrow("Racon", S.rep.racon, 100, raconCls) +
-      '<p class="dim">Kuşanılan: ' + esc(gear) + "</p>" +
+      '<p class="dim">' + esc(raconText("Kuşanılan:", "Equipped:")) + ' ' + esc(gear) + "</p>" +
       '<div class="card"><h3>Bu hafta</h3>' + notes + "</div>" + extra;
   }
 
@@ -4766,7 +4776,7 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
       var sel = x.id === UI.inboxId ? ' aria-selected="true"' : "";
       var unread = x.read ? "" : '<i class="unread"></i>';
       var cls = "row" + (x.read ? " read" : "");
-      return '<button type="button" class="' + cls + '" data-act="inbox" data-id="' + x.id + '"' + sel + ">" + unread + '<span class="who">' + esc(x.title) + '</span><span class="when">H' + x.week + "</span></button>";
+      return '<button type="button" class="' + cls + '" data-act="inbox" data-id="' + x.id + '"' + sel + ">" + unread + '<span class="who">' + esc(raconText(x.title)) + '</span><span class="when">H' + x.week + "</span></button>";
     }).join("");
     if (!list) list = '<p class="dim" style="padding:12px">Kâğıt yok.</p>';
     var sheet;
@@ -4878,12 +4888,12 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
       } else if (it.kind === "chain" && it.identityHint) {
         ipucu = '<p class="dim">devam · ' + esc(it.family || "zincir") + (it.identityHint ? " · " + esc(it.identityHint) : "") + "</p>";
       }
-      sheet = '<div class="card"><h3>Kâğıt</h3><p class="ttl">' + esc(it.title) + '</p><div class="hr"></div><p>' + esc(it.body) + "</p>" + ipucu + '<div class="acts">' + acts + "</div></div>";
+      sheet = '<div class="card"><h3>Kâğıt</h3><p class="ttl">' + esc(raconText(it.title)) + '</p><div class="hr"></div><p>' + esc(raconPaperBody(it.body)) + "</p>" + ipucu + '<div class="acts">' + acts + "</div></div>";
     } else {
       sheet = '<div class="card paper-empty"><span class="dim">Kâğıt seç.</span></div>';
     }
     var bugun = S.flags && S.flags.bugun
-      ? '<div class="card"><h3>Bugün</h3><p>' + esc(S.flags.bugun) + "</p></div>"
+      ? '<div class="card"><h3>Bugün</h3><p>' + esc(raconText(S.flags.bugun)) + "</p></div>"
       : "";
     return bugun + '<div class="split"><div class="list">' + list + '</div><div class="sheet">' + sheet + "</div></div>";
   }
@@ -5356,6 +5366,10 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
   function raconText(tr, en) {
     return window.tlabI18n && typeof window.tlabI18n.localize === "function" ? window.tlabI18n.localize(tr, en) : tr;
   }
+  function raconPaperBody(body) {
+    var shutter = String(body).match(/^İş durdu, (.+) gitti\. Baskın gelirse eli boş döner\.$/);
+    return raconText(body, shutter ? "Work stopped; cash change " + shutter[1] + ". A raid this week finds nothing." : undefined);
+  }
   function drawKasa() {
     var yev = yevmiyeToplami() * (bosTahtMi() ? 2 : 1);
     var investmentIncome = S.streets.reduce(function(n,st){return n + (st.sahip === "sen" ? num(st.yatirim,0) * window.RaconAg.YATIRIM_GELIR : 0);},0);
@@ -5545,22 +5559,22 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
   function drawEkip() {
     var g = ensureGenisleme();
     var roles = [
-      ["sokak", "Sokak", "Ev sokağının harareti iner. Açık mahallelerin sadakati artar."],
-      ["kasa", "Kasa", "Haftada ₺800 kirli kasadan temiz kasaya geçer. Dosya artmaz."],
-      ["goz", "Göz", "Dosya formülünden her hafta bir puan düşer."]
+      ["sokak", raconText("Sokak", "Street"), raconText("Ev sokağının harareti iner. Açık mahallelerin sadakati artar.", "Home-street heat falls. Loyalty rises in open districts.")],
+      ["kasa", raconText("Kasa", "Cash"), raconText("Haftada ₺800 kirli kasadan temiz kasaya geçer. Dosya artmaz.", "Each week ₺800 moves from dirty to clean cash. The dossier does not rise.")],
+      ["goz", raconText("Göz", "Lookout"), raconText("Dosya formülünden her hafta bir puan düşer.", "One point is deducted from the dossier formula each week.")]
     ];
     var alive = S.men.filter(canManage);
     return roles.map(function (r) {
       var assigned = g.crews.filter(function (c) { return c.role === r[0]; })[0];
       var man = crewOfRole(r[0]);
-      var head = man ? esc(manName(man)) + " oturuyor." : (assigned ? esc(raconText("Atama korunuyor; görevde değil.", "Assignment retained; currently unavailable.")) : "Boş.");
+      var head = man ? esc(manName(man)) + esc(raconText(" oturuyor.", " is seated.")) : (assigned ? esc(raconText("Atama korunuyor; görevde değil.", "Assignment retained; currently unavailable.")) : esc(raconText("Boş.", "Empty.")));
       var picks = alive.map(function (m) {
         var on = assigned && assigned.leadId === m.id;
         return '<button type="button" class="btn' + (on ? " primary" : "") + '" data-act="org-ata" data-id="' + r[0] + '" data-kind="' + esc(m.id) + '">' + esc(manName(m)) + "</button>";
       }).join("");
-      var clear = assigned ? '<button type="button" class="btn ghost" data-act="org-bosalt" data-id="' + r[0] + '">Boşalt</button>' : "";
+      var clear = assigned ? '<button type="button" class="btn ghost" data-act="org-bosalt" data-id="' + r[0] + '">' + esc(raconText("Boşalt", "Clear")) + '</button>' : "";
       return '<div class="card"><h3>' + r[1] + "</h3><p>" + head + '</p><p class="dim">' + r[2] + '</p><div class="acts">' + picks + clear + "</div></div>";
-    }).join("") + '<p class="dim">Adam kadrodan çıkmaz, yevmiyesi değişmez. Bir adam bir masada oturur.</p>';
+    }).join("") + '<p class="dim">' + esc(raconText("Adam kadrodan çıkmaz, yevmiyesi değişmez. Bir adam bir masada oturur.", "The crew member stays on the roster at the same wage. One person can hold one desk.")) + '</p>';
   }
   function drawMasa() {
     var sh = ensureGenisleme().sehir;
@@ -5715,7 +5729,7 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
       if(S.flags.personalDay!==today()){S.flags.personalDay=today();S.flags.personalUsed=0;S.flags.personalKeys=[];}
       S.flags.personalUsed++; S.flags.personalKeys.push(code+":"+(code==="hayat"?payload.id:""));
     }
-    if(code==="save"){if(writeSave()) feedback("Kayıt güncel · H"+S.week+" "+DAYS[S.day-1]);return;}
+    if(code==="save"){if(writeSave()) feedback(raconText("Kayıt güncel", "Save up to date")+" · H"+S.week+" "+DAYS[S.day-1]);return;}
     if(code==="chain-choice"){
       var paper=inboxBy(payload.id);
       if(paper&&window.RaconContent){

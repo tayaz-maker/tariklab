@@ -977,6 +977,7 @@ Share district payment eligibility with the existing cash forecast, include elig
 
 Preserve injury/absence through fatigue; gate the existing three manager roles on ready/tired status without deleting assignments. Close unavailable police/tip papers using loaded state; remove closed-contact shield/tips, keep normal raid risk and paid current-week protection. Weekly tips and visible full shutter price are once-only and atomic. Existing coefficients, indictment interval, map/UI/content/save fields remain.121 scoped tests, source/built18 locale cases each, existing source/built60 menu checks each, built map47 and old long-run suite PASS; new saves remain readable by pre-repair main. Independent stacked preparation only; A and final integration/release gates remain required.
 
+
 ## 2026-10-20 — Cloudflare independent production release
 
 Baseline main 9b5a06e349131d912baee1a7bb5ba86ced4a9b1e. Racon B production run
@@ -1025,3 +1026,19 @@ gated on live acceptance; project deletion/domain transfer require separate appr
 ### 2026-10-20 — Scoped engine loading and lossless source transport
 
 Measured unrelated DEVLET content loading in Kapı Nöbeti, Kayıp Telefon and Son Kasaba. Scope only module imports to the document's existing game id; preserve all gameplay suffix bytes and the original frozen aggregate through a narrowly pinned import-prefix provenance check. Unknown consumers and Node tools retain every engine. Compress source-only card transport packs and English extraction inventory losslessly; unpacked 600 card images, two backgrounds and generated Polish dictionaries remain identical. No save keys, schemas, mechanics, production secrets or hosting integrations change.
+
+
+## 2026-10-20 — Racon C partial checkpoint and release handoff
+Rendering-only localization and investor/high-risk longrun policies saved as unfinished C work. Extended longrun determinism PASS; full C browser/regression acceptance remains pending. See docs/checkpoints/TARIKLAB_HANDOFF_2026-10-20_1720_TR.md. No release or new merge in this checkpoint.
+
+## 2026-10-20 — Racon C language and long-run completion preparation
+
+Recovered the literal truncated source block in checkpoint bc781136 from accepted B's exact renderer; no engine behavior was reconstructed. Preserved canonical Turkish story/save data while localizing crew roles, assignment state, dynamic police papers, save status and navigation/accessible labels in TR/EN/PL. Existing global Polish label collisions are avoided with authored Racon navigation labels. A new six-cell real Chromium test assigns a manager, pays current-week protection, verifies localized dynamic paper with the original saved story, saves and reloads all gameplay bytes (only the normal wall-clock save timestamp changes). Existing 105 focused tests, source60 viewport checks, region6 and police18 checks plus extended deterministic long-run policies passed. Integration, clean built acceptance and current-head CI/production remain release gates. Native/audio/artwork and v1 saves remain unchanged.
+
+## 2026-10-20 — Racon C daily-atmosphere language closure
+
+Observed24 existing daily-atmosphere lines leaking Turkish into EN/PL. Rendering now uses the authored translations while flags.bugun and all serialized story content remain Turkish. The real manager/police language matrix verifies translated weather and unchanged canonical saved weather at390/1280 in all three languages. No procedural choice, RNG call, coefficient, UI layout, art or save format changes. Final focused124 and source6/clean-built6 language acceptance PASS; full release gates remain mandatory.
+
+## 2026-10-20 — Racon C current-main integration
+
+Integrated the existing C preparation onto current main 26ad7185a0b0c72b1721b5cb5b4b294a918acaa6, preserving A/B fixes, retired-product cleanup, scoped engine loading, lossless transport and CI/Cloudflare build reuse. Resolved the Polish dictionary against current-main shared entries; C presentation remains limited to the existing crew, navigation, papers, saves and daily atmosphere. Promote production acceptance to stage C so both hosts must also pass the TR/EN/PL language matrix. No game mechanics, coefficients, artwork or serialized saves changed. Exact-head CI, main CI/TC and two-host production receipts remain mandatory.

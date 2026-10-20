@@ -70,7 +70,7 @@ jobs:
           BROWSER_ALLOW_EXTERNAL_HOST: "1"
           RACON_BASE: ${{ matrix.origin }}
           RACON_LABEL: ${{ matrix.label }}
-          RELEASE_STAGE: b
+          RELEASE_STAGE: c
           RELEASE_MAIN: ${{ inputs.expected_sha }}
         run: npm run test:production
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
