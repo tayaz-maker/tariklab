@@ -1416,8 +1416,7 @@
   "games": [
    "hanedanian",
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -1462,8 +1461,7 @@
    "hanedanian",
    "tc-sim-devlet",
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -1886,8 +1884,7 @@
    "tc-sim-devlet",
    "son-kasaba",
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -1965,8 +1962,7 @@
    "tc-sim-devlet",
    "son-kasaba",
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -1988,8 +1984,7 @@
    "tc-sim-devlet",
    "son-kasaba",
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -2011,8 +2006,7 @@
    "tc-sim-devlet",
    "son-kasaba",
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -2044,8 +2038,7 @@
    "tc-sim-devlet",
    "son-kasaba",
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -2194,8 +2187,7 @@
    "kayip-telefon",
    "tc-sim-devlet",
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -3592,8 +3584,7 @@
    "kayip-telefon",
    "tc-sim-devlet",
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -7909,8 +7900,7 @@
    "kayip-telefon",
    "tc-sim-devlet",
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -28572,8 +28562,7 @@
    "kayip-telefon",
    "tc-sim-devlet",
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -35915,8 +35904,7 @@
    "tc-sim-devlet",
    "son-kasaba",
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -36500,8 +36488,7 @@
    "tc-sim-devlet",
    "son-kasaba",
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -36560,8 +36547,7 @@
    "tc-sim-devlet",
    "son-kasaba",
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -36601,8 +36587,7 @@
    "tc-sim-devlet",
    "son-kasaba",
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -37668,8 +37653,7 @@
    "tc-sim-devlet",
    "son-kasaba",
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -38487,8 +38471,7 @@
    "kayip-telefon",
    "son-100-gun",
    "tc-sim-devlet",
-   "son-kasaba",
-   "darbe-h"
+   "son-kasaba"
   ]
  },
  {
@@ -38813,8 +38796,7 @@
    "tc-sim-devlet",
    "son-kasaba",
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -39025,8 +39007,7 @@
    "tc-sim-devlet",
    "son-kasaba",
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -40206,8 +40187,7 @@
    "tc-sim-devlet",
    "son-kasaba",
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -40628,8 +40608,7 @@
    "tc-sim-devlet",
    "son-kasaba",
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -40805,7 +40784,7 @@
  },
  {
   "id": "960c81a818a2",
-  "en": "Most long-running games use three local slots, kept separate on the same device. HANEDANIAN keeps an autosave, its previous version and a separate manual save, with file export/import. Original HANEDAN saves remain accessible through the legacy game. VETO-H!, GETT-OH! and DARBE-H! each autosave one active duel; reload preserves deck order, action rights and pending responses.",
+  "en": "Most long-running games use three local slots, kept separate on the same device. HANEDANIAN keeps an autosave, its previous version and a separate manual save, with file export/import. Original HANEDAN saves remain accessible through the legacy game. VETO-H! and GETT-OH! each autosave one active duel; reload preserves deck order, action rights and pending responses.",
   "pattern": false,
   "games": [
    "racon",
@@ -40976,7 +40955,7 @@
  },
  {
   "id": "7098f6d44961",
-  "en": "Card pictures drawn from code: VETO-H! and GETT-OH! card art and table backgrounds come from scripts/duel-card-art, DARBE-H! card illustrations from scripts/darbe-h-card-art. The earlier AI-generated images and DARBE-H! plates were removed.",
+  "en": "Card pictures drawn from code: VETO-H! and GETT-OH! card art and table backgrounds come from scripts/duel-card-art.",
   "pattern": false,
   "games": [
    "racon",
@@ -41852,8 +41831,7 @@
    "son-100-gun",
    "veto-h",
    "gett-oh",
-   "ihtilal",
-   "darbe-h"
+   "ihtilal"
   ]
  },
  {
@@ -41863,8 +41841,7 @@
   "games": [
    "tc-sim",
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -41926,8 +41903,7 @@
    "tc-sim-devlet",
    "son-kasaba",
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -42154,8 +42130,7 @@
   "games": [
    "tc-sim",
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -42421,8 +42396,7 @@
   "games": [
    "tc-sim",
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -42658,8 +42632,7 @@
   "games": [
    "tc-sim",
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -53443,8 +53416,7 @@
    "tc-sim-devlet",
    "son-kasaba",
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -53463,8 +53435,7 @@
    "apartman",
    "kayip-telefon",
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -53557,8 +53528,7 @@
    "tc-sim-devlet",
    "son-kasaba",
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -73207,8 +73177,7 @@
   "games": [
    "kayip-telefon",
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -73600,8 +73569,7 @@
   "en": "No effect",
   "pattern": false,
   "games": [
-   "son-100-gun",
-   "darbe-h"
+   "son-100-gun"
   ]
  },
  {
@@ -73731,8 +73699,7 @@
   "games": [
    "son-100-gun",
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -74087,8 +74054,7 @@
   "games": [
    "son-100-gun",
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -85885,8 +85851,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -85895,8 +85860,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -85905,8 +85869,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -85915,8 +85878,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -85925,8 +85887,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -85935,8 +85896,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -85945,8 +85905,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -85955,8 +85914,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -85965,8 +85923,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -85975,8 +85932,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -85985,8 +85941,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -85995,8 +85950,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86005,8 +85959,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86015,8 +85968,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86025,8 +85977,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86035,8 +85986,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86045,8 +85995,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86055,8 +86004,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86065,8 +86013,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86075,8 +86022,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86085,8 +86031,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86095,8 +86040,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86105,8 +86049,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86115,8 +86058,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86125,8 +86067,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86135,8 +86076,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86145,8 +86085,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86155,8 +86094,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86165,8 +86103,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86175,8 +86112,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86185,8 +86121,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86195,8 +86130,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86205,8 +86139,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86215,8 +86148,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86225,8 +86157,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86235,8 +86166,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86245,8 +86175,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86255,8 +86184,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86265,8 +86193,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86275,8 +86202,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86285,8 +86211,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86295,8 +86220,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86305,8 +86229,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86315,8 +86238,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86325,8 +86247,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86335,8 +86256,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86345,8 +86265,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86355,8 +86274,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86365,8 +86283,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86375,8 +86292,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86385,8 +86301,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86395,8 +86310,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86405,8 +86319,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86415,8 +86328,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86425,8 +86337,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86435,8 +86346,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86445,8 +86355,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86455,8 +86364,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86465,8 +86373,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86475,8 +86382,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86485,8 +86391,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86495,8 +86400,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86505,8 +86409,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86515,8 +86418,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86525,8 +86427,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86535,8 +86436,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86545,8 +86445,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86555,8 +86454,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86565,8 +86463,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86575,8 +86472,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86585,8 +86481,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86595,8 +86490,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86605,8 +86499,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86615,8 +86508,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86625,8 +86517,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86635,8 +86526,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86645,8 +86535,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86655,8 +86544,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86665,8 +86553,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86675,8 +86562,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86685,8 +86571,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86695,8 +86580,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86705,8 +86589,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86715,8 +86598,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86725,8 +86607,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86735,8 +86616,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86745,8 +86625,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86755,8 +86634,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86765,8 +86643,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86775,8 +86652,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86785,8 +86661,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86795,8 +86670,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86805,8 +86679,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86815,8 +86688,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86825,8 +86697,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86835,8 +86706,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86845,8 +86715,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86855,8 +86724,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86865,8 +86733,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86875,8 +86742,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86885,8 +86751,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86895,8 +86760,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86905,8 +86769,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86915,8 +86778,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86925,8 +86787,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86935,8 +86796,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86945,8 +86805,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86955,8 +86814,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86965,8 +86823,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86975,8 +86832,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86985,8 +86841,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -86995,8 +86850,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87005,8 +86859,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87015,8 +86868,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87025,8 +86877,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87035,8 +86886,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87045,8 +86895,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87055,8 +86904,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87065,8 +86913,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87075,8 +86922,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87085,8 +86931,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87095,8 +86940,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87105,8 +86949,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87115,8 +86958,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87125,8 +86967,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87135,8 +86976,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87145,8 +86985,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87155,8 +86994,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87165,8 +87003,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87175,8 +87012,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87185,8 +87021,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87195,8 +87030,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87205,8 +87039,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87215,8 +87048,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87225,8 +87057,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87235,8 +87066,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87245,8 +87075,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87255,8 +87084,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87265,8 +87093,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87275,8 +87102,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87285,8 +87111,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87295,8 +87120,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87305,8 +87129,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87315,8 +87138,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87325,8 +87147,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87335,8 +87156,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87345,8 +87165,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87355,8 +87174,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87365,8 +87183,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87375,8 +87192,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87385,8 +87201,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87395,8 +87210,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87405,8 +87219,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87415,8 +87228,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87425,8 +87237,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87435,8 +87246,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87445,8 +87255,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87455,8 +87264,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87465,8 +87273,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87475,8 +87282,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87485,8 +87291,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87495,8 +87300,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87505,8 +87309,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87515,8 +87318,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87525,8 +87327,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87535,8 +87336,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87545,8 +87345,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87555,8 +87354,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87565,8 +87363,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87575,8 +87372,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87585,8 +87381,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87595,8 +87390,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87605,8 +87399,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87615,8 +87408,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87625,8 +87417,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87635,8 +87426,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87645,8 +87435,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87655,8 +87444,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87665,8 +87453,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87675,8 +87462,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87685,8 +87471,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87695,8 +87480,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87705,8 +87489,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87715,8 +87498,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87725,8 +87507,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87735,8 +87516,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87745,8 +87525,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87755,8 +87534,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87765,8 +87543,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87775,8 +87552,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87785,8 +87561,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87795,8 +87570,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87805,8 +87579,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87815,8 +87588,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87825,8 +87597,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87835,8 +87606,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87845,8 +87615,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87855,8 +87624,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87865,8 +87633,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87875,8 +87642,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87885,8 +87651,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87895,8 +87660,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87905,8 +87669,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87915,8 +87678,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87925,8 +87687,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87935,8 +87696,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87945,8 +87705,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87955,8 +87714,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87965,8 +87723,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87975,8 +87732,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87985,8 +87741,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -87995,8 +87750,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88005,8 +87759,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88015,8 +87768,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88025,8 +87777,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88035,8 +87786,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88045,8 +87795,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88055,8 +87804,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88065,8 +87813,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88075,8 +87822,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88085,8 +87831,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88095,8 +87840,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88105,8 +87849,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88115,8 +87858,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88125,8 +87867,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88135,8 +87876,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88145,8 +87885,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88155,8 +87894,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88165,8 +87903,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88175,8 +87912,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88185,8 +87921,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88195,8 +87930,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88205,8 +87939,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88215,8 +87948,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88225,8 +87957,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88235,8 +87966,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88245,8 +87975,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88255,8 +87984,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88265,8 +87993,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88275,8 +88002,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88285,8 +88011,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88295,8 +88020,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88305,8 +88029,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88315,8 +88038,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88325,8 +88047,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88335,8 +88056,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88345,8 +88065,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88355,8 +88074,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88365,8 +88083,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88375,8 +88092,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88385,8 +88101,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88395,8 +88110,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88405,8 +88119,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88415,8 +88128,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88425,8 +88137,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88435,8 +88146,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88445,8 +88155,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88455,8 +88164,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88465,8 +88173,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88475,8 +88182,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88485,8 +88191,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88495,8 +88200,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88505,8 +88209,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88515,8 +88218,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88525,8 +88227,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88535,8 +88236,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88545,8 +88245,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88555,8 +88254,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88565,8 +88263,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88575,8 +88272,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88585,8 +88281,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88595,8 +88290,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88605,8 +88299,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88615,8 +88308,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88625,8 +88317,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88635,8 +88326,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88645,8 +88335,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88655,8 +88344,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88665,8 +88353,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88675,8 +88362,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88685,8 +88371,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88695,8 +88380,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88705,8 +88389,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88715,8 +88398,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88725,8 +88407,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88735,8 +88416,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88745,8 +88425,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88755,8 +88434,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88765,8 +88443,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88775,8 +88452,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88785,8 +88461,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88795,8 +88470,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88805,8 +88479,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88815,8 +88488,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88825,8 +88497,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88835,8 +88506,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88845,8 +88515,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88855,8 +88524,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88865,8 +88533,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88875,8 +88542,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88885,8 +88551,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88895,8 +88560,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88905,8 +88569,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88915,8 +88578,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88925,8 +88587,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88935,8 +88596,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88945,8 +88605,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88955,8 +88614,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88965,8 +88623,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88975,8 +88632,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88985,8 +88641,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -88995,8 +88650,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89005,8 +88659,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89015,8 +88668,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89025,8 +88677,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89035,8 +88686,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89045,8 +88695,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89055,8 +88704,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89065,8 +88713,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89075,8 +88722,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89085,8 +88731,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89095,8 +88740,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89105,8 +88749,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89115,8 +88758,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89125,8 +88767,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89135,8 +88776,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89145,8 +88785,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89155,8 +88794,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89165,8 +88803,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89175,8 +88812,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89185,8 +88821,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89195,8 +88830,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89205,8 +88839,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89215,8 +88848,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89225,8 +88857,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89235,8 +88866,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89245,8 +88875,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89255,8 +88884,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89265,8 +88893,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89275,8 +88902,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89285,8 +88911,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89295,8 +88920,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89305,8 +88929,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89315,8 +88938,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89325,8 +88947,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89335,8 +88956,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89345,8 +88965,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89355,8 +88974,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89365,8 +88983,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89375,8 +88992,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89385,8 +89001,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89395,8 +89010,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89405,8 +89019,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89415,8 +89028,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89425,8 +89037,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89435,8 +89046,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89445,8 +89055,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89455,8 +89064,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89465,8 +89073,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89475,8 +89082,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89485,8 +89091,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89495,8 +89100,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89505,8 +89109,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89515,8 +89118,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89525,8 +89127,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89535,8 +89136,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89545,8 +89145,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89555,8 +89154,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89565,8 +89163,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89575,8 +89172,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89585,8 +89181,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89595,8 +89190,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89605,8 +89199,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89615,8 +89208,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89625,8 +89217,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89635,8 +89226,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89645,8 +89235,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89655,8 +89244,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89665,8 +89253,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89675,8 +89262,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89685,8 +89271,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89695,8 +89280,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89705,8 +89289,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89715,8 +89298,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89725,8 +89307,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89735,8 +89316,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89745,8 +89325,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89755,8 +89334,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89765,8 +89343,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89775,8 +89352,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89785,8 +89361,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89795,8 +89370,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89805,8 +89379,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89815,8 +89388,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89825,8 +89397,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89835,8 +89406,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89845,8 +89415,7 @@
   "pattern": true,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89855,8 +89424,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89865,8 +89433,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89875,8 +89442,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89885,8 +89451,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89895,8 +89460,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89905,8 +89469,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89915,8 +89478,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89925,8 +89487,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89935,8 +89496,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89945,8 +89505,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89955,8 +89514,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89965,8 +89523,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89975,8 +89532,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89985,8 +89541,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -89995,8 +89550,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90005,8 +89559,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90015,8 +89568,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90025,8 +89577,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90035,8 +89586,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90045,8 +89595,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90055,8 +89604,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90065,8 +89613,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90075,8 +89622,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90085,8 +89631,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90095,8 +89640,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90105,8 +89649,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90115,8 +89658,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90125,8 +89667,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90135,8 +89676,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90145,8 +89685,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90155,8 +89694,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90165,8 +89703,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90175,8 +89712,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90185,8 +89721,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90195,8 +89730,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90205,8 +89739,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90215,8 +89748,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90225,8 +89757,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90235,8 +89766,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90245,8 +89775,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90255,8 +89784,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90265,8 +89793,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90275,8 +89802,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90285,8 +89811,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90295,8 +89820,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90305,8 +89829,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90315,8 +89838,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90325,8 +89847,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90335,8 +89856,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90345,8 +89865,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90355,8 +89874,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90365,8 +89883,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90375,8 +89892,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90385,8 +89901,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90395,8 +89910,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90405,8 +89919,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90415,8 +89928,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90425,8 +89937,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90435,8 +89946,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90445,8 +89955,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90455,8 +89964,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90465,8 +89973,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90475,8 +89982,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90485,8 +89991,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90495,8 +90000,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90505,8 +90009,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90515,8 +90018,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90525,8 +90027,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90535,8 +90036,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90545,8 +90045,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90555,8 +90054,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90565,8 +90063,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90575,8 +90072,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90585,8 +90081,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90595,8 +90090,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90605,8 +90099,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90615,8 +90108,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90625,8 +90117,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90635,8 +90126,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90645,8 +90135,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90655,8 +90144,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90665,8 +90153,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90675,8 +90162,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90685,8 +90171,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90695,8 +90180,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90705,8 +90189,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90715,8 +90198,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90725,8 +90207,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90735,8 +90216,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90745,8 +90225,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90755,8 +90234,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90765,8 +90243,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90775,8 +90252,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90785,8 +90261,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90795,8 +90270,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90805,8 +90279,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90815,8 +90288,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90825,8 +90297,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90835,8 +90306,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90845,8 +90315,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90855,8 +90324,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90865,8 +90333,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90875,8 +90342,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90885,8 +90351,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90895,8 +90360,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90905,8 +90369,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90915,8 +90378,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90925,8 +90387,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90935,8 +90396,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90945,8 +90405,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90955,8 +90414,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90965,8 +90423,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90975,8 +90432,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90985,8 +90441,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -90995,8 +90450,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -91013,8 +90467,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -91063,8 +90516,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -91152,8 +90604,7 @@
   "en": "Gains 200 ATK for each opposing Set card.",
   "pattern": false,
   "games": [
-   "veto-h",
-   "darbe-h"
+   "veto-h"
   ]
  },
  {
@@ -92653,8 +92104,7 @@
   "pattern": false,
   "games": [
    "veto-h",
-   "gett-oh",
-   "darbe-h"
+   "gett-oh"
   ]
  },
  {
@@ -100631,3614 +100081,6 @@
   "pattern": false,
   "games": [
    "ihtilal"
-  ]
- },
- {
-  "id": "302ba2cb8bbc",
-  "en": "Yok eder",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "ea3eaceac236",
-  "en": "Destroys",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "98c7c04593b0",
-  "en": "Takes control",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "bf36d17122ae",
-  "en": "Negates",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "09b64b28fd6d",
-  "en": "Stops a summon",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "226b593a8403",
-  "en": "Stops an attack",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "59f61f68abd3",
-  "en": "Skips battle",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "3dda45f6fec0",
-  "en": "Restricts",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "ffd06810b930",
-  "en": "Draws",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "ac295eeb321f",
-  "en": "Changes power",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "1d9ec8545cf3",
-  "en": "Moves KP",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "cd941cc66ca0",
-  "en": "Looks",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "f96a4d231077",
-  "en": "Reveals",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "75c54f9b15b4",
-  "en": "Shuffles",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "c41253484d41",
-  "en": "Discards",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "a022122a2e96",
-  "en": "Makes a token",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "2ab262f44dfc",
-  "en": "Sets",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "38eefe66b6a2",
-  "en": "Lasting effect",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "adc13b873674",
-  "en": "On summon",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "ffc088681146",
-  "en": "When destroyed",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "1cd0f720b3c4",
-  "en": "When tributed",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "12da9438a625",
-  "en": "Each standby",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "22dbc78b01f0",
-  "en": "On flip",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "54a6b52f8f05",
-  "en": "From the archive",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "917b662a821b",
-  "en": "On an order",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "159a1398024c",
-  "en": "File Clerk",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "af3830fee920",
-  "en": "Tribute this card to Special Summon 1 Level 3 or lower officer from deck.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "7f4b8dbb30b9",
-  "en": "Once per turn: negate 1 notice for this turn.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "78d562023606",
-  "en": "Panel Clerk",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "b4d9f769f190",
-  "en": "When summoned, send 1 card from your deck to the archive.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "04412c60fbe8",
-  "en": "Command Clerk",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "bbba669a51bc",
-  "en": "When summoned, the opponent loses 200 KP.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "9ec7eb61e6d4",
-  "en": "When destroyed, banish 1 card from the opposing archive.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "f2a0086dbd3c",
-  "en": "Memo Clerk",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "73b4352a37d4",
-  "en": "When summoned, draw 1 card.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "eee498b0f6bc",
-  "en": "Annex Clerk",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "9a49c033bb7f",
-  "en": "When tributed, gain 200 KP.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "febe702cea71",
-  "en": "Brief Clerk",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "e004b3a4c60d",
-  "en": "While defending, cannot be attacked; if no other target, direct is allowed.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "18543f186a97",
-  "en": "Cabinet Clerk",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "e20d4210da3f",
-  "en": "When attacking an equal-level officer, deal 300 extra damage.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "434f1fadaa55",
-  "en": "Archive Clerk",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "5f059d36d45e",
-  "en": "Dispatch Clerk",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "0cc2f756c40c",
-  "en": "Create a 0/1000 Paper Seal token.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "51c2475ace00",
-  "en": "Paper Seal",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "01586b4e4b69",
-  "en": "Charter Reporter",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "cca6ffeb6a1f",
-  "en": "During Standby, draw 1 (continuous).",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "8a049a1905b3",
-  "en": "File Reporter",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "b6c52d1137b6",
-  "en": "When flipped from Set, draw 2 cards.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "03e4eb9e1262",
-  "en": "When summoned, gain 200 KP.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "7b0245d72c28",
-  "en": "Panel Reporter",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "b948839d21cb",
-  "en": "When summoned, the opponent discards 1 card.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "9316805afeea",
-  "en": "Command Reporter",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "7335a041423b",
-  "en": "Cannot be destroyed while a field order is active.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "0d660f92b4f8",
-  "en": "Memo Reporter",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "dd0d336321ce",
-  "en": "Annex Reporter",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "d3e780406743",
-  "en": "When summoned, Special Summon 1 Level 3 or lower officer from hand or deck.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "804ad54cd9d1",
-  "en": "Brief Reporter",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "964c0fc1fad4",
-  "en": "Return an opposing officer to hand.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "ba527619cfb0",
-  "en": "Cabinet Reporter",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "e8313d12c926",
-  "en": "Send this to the archive; gain 750 KP.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "b8abf569b98f",
-  "en": "Archive Reporter",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "3a7ec552d71c",
-  "en": "When summoned, gain 200 KP; you may shuffle.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "38a0a1cb0fd1",
-  "en": "Dispatch Reporter",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "5ebdd7b2f671",
-  "en": "When Normal Summoned, add 1 Tebligat officer from deck to hand.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "fe0c070c2393",
-  "en": "Charter Deputy",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "5c97071c9b6a",
-  "en": "When sent to the grave, Set 1 notice from your deck.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "0d9ba012d3a1",
-  "en": "File Deputy",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "53365281e3dd",
-  "en": "Cannot be destroyed in battle. Lose 200 KP during every Standby.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "77d586bb057e",
-  "en": "Whenever the opponent activates an order, gain 300 KP.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "8b1278d76247",
-  "en": "Panel Deputy",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "61c47464c5ac",
-  "en": "Your Quick-Play orders deal 400 additional KP damage.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "ba0fbf70827c",
-  "en": "Command Deputy",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "1c8a0047462c",
-  "en": "When destroyed, gain 350 KP.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "bd39bb68ec53",
-  "en": "Add 1 order from the archive to your hand.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "5676d1207f6f",
-  "en": "Memo Deputy",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "be23f7672cea",
-  "en": "Special Summon 1 Level 4 or lower officer from the archive.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "0cd5b877c920",
-  "en": "Annex Deputy",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "1f0d03424510",
-  "en": "Brief Deputy",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "48b7a375eb83",
-  "en": "When flipped from Set, look at 1 opposing Set card.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "bce7ed15bab5",
-  "en": "Cabinet Deputy",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "af829438b782",
-  "en": "Archive Deputy",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "aed9aaf6c04d",
-  "en": "Your face-down officers cannot be destroyed by effects until revealed.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "9132afcda07a",
-  "en": "Dispatch Deputy",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "f50d5c472de3",
-  "en": "Once per duel: banish this from grave to negate a Set notice.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "ff170eb5a289",
-  "en": "Charter Adviser",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "0093ee668deb",
-  "en": "Gains 400 ATK while you control a Set notice.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "36a418eb5665",
-  "en": "File Adviser",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "aa86329ee3d2",
-  "en": "May attack directly.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "c1af41bb283b",
-  "en": "Your officers gain 300 DEF.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "8281ab000034",
-  "en": "Panel Adviser",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "9ffeee91af17",
-  "en": "Gains 100 ATK for each officer you control.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "6d8c5ff65da9",
-  "en": "Command Adviser",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "4280c4f352f7",
-  "en": "When summoned, look at the top card; take it if it is a unit.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "8df268112842",
-  "en": "Memo Adviser",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "31d559f74187",
-  "en": "Grants 1 extra Normal Summon each turn, only for Level 3 or lower.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "d90df0ecf5e1",
-  "en": "Annex Adviser",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "41e2bf5f588b",
-  "en": "Brief Adviser",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "31fb6c369658",
-  "en": "Cabinet Adviser",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "6bbb32b326d5",
-  "en": "Archive Adviser",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "78af88bca40a",
-  "en": "When summoned, the opponent loses 300 KP.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "0e1e3b51c983",
-  "en": "Dispatch Adviser",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "917aa5253b53",
-  "en": "Charter Courier",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "2d39b7568e70",
-  "en": "File Courier",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "596f5d385748",
-  "en": "When tributed, gain 300 KP.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "0703899082da",
-  "en": "Panel Courier",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "794b0f11c3ac",
-  "en": "Command Courier",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "09d4bb838ce4",
-  "en": "Memo Courier",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "8aab8aa6a92d",
-  "en": "Annex Courier",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "13d05ada460d",
-  "en": "Brief Courier",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "341b2b845bb2",
-  "en": "When summoned, gain 100 KP.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "9b1d745e7897",
-  "en": "Cabinet Courier",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "7020e04737f0",
-  "en": "Archive Courier",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "b698d0d3dcc8",
-  "en": "Dispatch Courier",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "549cc61b8719",
-  "en": "Charter Archivist",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "9b7b15a8a78a",
-  "en": "File Archivist",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "699c8a8d8d2d",
-  "en": "Panel Archivist",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "8d61ac3a6989",
-  "en": "Send this to the archive; gain 850 KP.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "0a16978b0297",
-  "en": "Command Archivist",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "dc68bb9f243c",
-  "en": "When Normal Summoned, add 1 Telex officer from deck to hand.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "a352ef80b909",
-  "en": "Memo Archivist",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "05882b12d7e6",
-  "en": "Annex Archivist",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "effaa4bff9bb",
-  "en": "File Reserve",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "78720fa54d92",
-  "en": "Panel Reserve",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "ceb069f58866",
-  "en": "Annex Reserve",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "2484dc0df2ac",
-  "en": "Cabinet Reserve",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "5890e9cd35ff",
-  "en": "Writ Reserve",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "d1784ad6ec71",
-  "en": "Brief Setter",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "f5c2f2944147",
-  "en": "Cabinet Setter",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "3c24df3b3ab5",
-  "en": "Archive Setter",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "7f96de7dfcc4",
-  "en": "Dispatch Setter",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "23eea46e6379",
-  "en": "Charter Setter",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "d5977ae303ac",
-  "en": "File Setter",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "e3a5913c7832",
-  "en": "Gain 900 KP.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "d9de8906195e",
-  "en": "Night Briefing",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "3793149c62ae",
-  "en": "Negate the declared action.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "2ce42059f0e0",
-  "en": "Signed Order",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "f64b3d7912d0",
-  "en": "The opponent discards 1 card at random.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "9850733aaf88",
-  "en": "Addendum Sentence",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "36fda571218d",
-  "en": "Field: Karargah officers gain 300/300.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "5f570179490e",
-  "en": "Archive Call",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "11926de94ee6",
-  "en": "Add 1 officer from the archive to your hand.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "f983394195d4",
-  "en": "Panel Sitting",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "dfd5680b9011",
-  "en": "Cabinet Note",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "29765da36f4d",
-  "en": "Add 1 Zeyil officer from deck to hand.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "68d3e4fb8a6f",
-  "en": "Draw 1; if it is a notice, Set it.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "38fea2380d72",
-  "en": "Redaction Line",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "82d1ef998bba",
-  "en": "Draw 2 cards.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "6c51465e5d98",
-  "en": "Charter Clause",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "2279d21e258d",
-  "en": "Special Summon 1 Level 4 or lower officer from deck.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "b36594e5a932",
-  "en": "File Transfer",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "4ef534cadaa5",
-  "en": "Send 1 from deck to archive; draw 1.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "368999edf2fa",
-  "en": "Consult Round",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "411312abf6bd",
-  "en": "One of your officers gains 800 ATK this turn.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "c00117c52565",
-  "en": "Stamp Drop",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "0f91f1a3dbe2",
-  "en": "Move 1 banished officer to the archive.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "d94646cc503c",
-  "en": "Memo Slip",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "9a60a3f60023",
-  "en": "Destroy an opposing order.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "c0eb762ea3db",
-  "en": "Pay 600 KP; draw 2.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "526a60149ab6",
-  "en": "Cover Letter",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "0ae7e94a0bed",
-  "en": "Look at the top 3; take 2.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "6dc9b2f96bcd",
-  "en": "Annex Table",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "acfcc39220a8",
-  "en": "Your officers gain 200 ATK.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "0a13737bfd2f",
-  "en": "Agenda Item",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "6ec4fc0f567c",
-  "en": "Destroy an opposing officer.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "f51d83406d7a",
-  "en": "Short Ruling",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "9b22e904bec0",
-  "en": "Send an opposing officer to the archive.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "49abafb72485",
-  "en": "Long Rationale",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "156508b4d598",
-  "en": "The opponent loses 1000 KP.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "712c05a14e4f",
-  "en": "Sign Queue",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "2b83d4b3e77d",
-  "en": "Set 1 notice from your deck.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "e7ac267b83a9",
-  "en": "Referral Note",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "2481fcce0a80",
-  "en": "Draw 1; gain 300 KP.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "13318933dd04",
-  "en": "Dispatch Copy",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "548dd7e944dc",
-  "en": "There is no Crisis phase this turn.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "521807bdf327",
-  "en": "Reply Letter",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "2def134ded70",
-  "en": "The opponent cannot attack directly this turn.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "dc2e417b4de9",
-  "en": "Inner Circular",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "d1de02891b85",
-  "en": "Gain 800 KP.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "36a2390732da",
-  "en": "Outer Letter",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "93a564d1b2f1",
-  "en": "Record Fix",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "579d4eca8b9d",
-  "en": "Page Number",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "e1babd60fe44",
-  "en": "Footnote Order",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "10f3023783cf",
-  "en": "Header Line",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "0210d47c5785",
-  "en": "Footer Line",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "00d78009b8a7",
-  "en": "Visa Gloss",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "89e0b6f3a5ec",
-  "en": "Draft Text",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "a2c36d962ef3",
-  "en": "Final Text",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "1c3ee6c1cf86",
-  "en": "Side Protocol",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "8d8af5c2e3c8",
-  "en": "Closing Line",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "baa498824677",
-  "en": "Withdraw Note",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "815ad8c08dc8",
-  "en": "Rewrite Pass",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "c75232a073db",
-  "en": "Two Columns",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "bc03e2a79a25",
-  "en": "One Column",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "8137d03763e8",
-  "en": "Red Band",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "05fa28b25431",
-  "en": "Notice: Early Sign",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "233d3f3f7b79",
-  "en": "Destroy an opposing support card.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "8c4b003c7a61",
-  "en": "Destroy the attacking or targeted officer.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "9c0ef33b46a6",
-  "en": "Notice: Wrong Copy",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "ffcfda46dbfe",
-  "en": "Cancel the summon; the card goes to the archive.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "e290a88b483d",
-  "en": "The opponent cannot activate orders this turn.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "15532776818b",
-  "en": "Notice: Closed Archive",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "ae3edcd8726d",
-  "en": "Notice: Open Band",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "035eb1ea5ab7",
-  "en": "Cancel the attack.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "64c298de8107",
-  "en": "Notice: Double Agenda",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "61ce2e531192",
-  "en": "Destroy the source of the pending action.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "6c0fd1665295",
-  "en": "Notice: Single Sign",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "74a659a10b77",
-  "en": "Skip the Crisis phase.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "72ae6ba7a6ed",
-  "en": "Notice: Late Briefing",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "4423172fbd58",
-  "en": "Notice: Quiet Panel",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "4f8b9244d855",
-  "en": "Gain 500 KP and draw 1.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "31ccc4950162",
-  "en": "Notice: Loud Desk",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "4ab1dcb9d207",
-  "en": "The opponent discards 1 card.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "7eed5a609404",
-  "en": "Notice: Red Gloss",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "f864c002310a",
-  "en": "Negate the opponent's response.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "ca37bf3cefb7",
-  "en": "Notice: Yellow Gloss",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "d7eee9fb97e0",
-  "en": "Negate a targeted effect, or protect one destruction.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "2d3b77ec3105",
-  "en": "Notice: No Annex",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "0be728ca3325",
-  "en": "One of your officers cannot be destroyed in this battle once.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "99c32ac17e99",
-  "en": "Notice: Extra Annex",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "ce1c9f53011c",
-  "en": "The opponent loses 700 KP.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "dd2d5b7bb709",
-  "en": "Notice: Dispatch Back",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "a8382c6e64f2",
-  "en": "Notice: Charter Doubt",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "a0d92960dac2",
-  "en": "When the opponent summons an officer, gain 200 KP.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "9371fe9f672d",
-  "en": "Notice: File Drift",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "0420a96121de",
-  "en": "Notice: Queue Drift",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "c09eb4e5c819",
-  "en": "Notice: Visa Refused",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "21d722a08e85",
-  "en": "Notice: Referral Back",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "4ae9cb29fd7a",
-  "en": "Notice: Footnote Fails",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "c7244d9265f5",
-  "en": "Notice: Cover Fails",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "0c833aeb6780",
-  "en": "Notice: Record Fails",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "e63978b95eb4",
-  "en": "Indexer",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "483cf0b0ca78",
-  "en": "Protect your File line; pair this card with a follow-up.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "9d14bb10906b",
-  "en": "Folder Hand",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "07ae03f356d7",
-  "en": "Punch Hand",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "4faef627058e",
-  "en": "Gains 400 DEF while you control another File officer. When flipped, look at 1 opposing face-down support card.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "1c8232803a20",
-  "en": "Papers Hand",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "b49cddf02703",
-  "en": "File officers on the field gain 150 ATK. During your Standby Phase, lose 200 KP.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "cf26f69d5a1f",
-  "en": "Binder",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "7266f4aed907",
-  "en": "Ruler Hand",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "710e7aa59cc3",
-  "en": "Tribute this card: banish 1 Level 2 or lower officer from the opposing archive, then the opponent loses 350 KP.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "ca7d799b79b3",
-  "en": "File Chief",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "56081e26b1f5",
-  "en": "Stamp Junior",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "44eb92c21bbe",
-  "en": "Protect your Paraf line; pair this card with a follow-up.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "52b13bbca93b",
-  "en": "Visa Hand",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "174eb84b3a7b",
-  "en": "Copyist",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "e1229e3e996b",
-  "en": "Gains 600 DEF while your points are below 3100. When flipped, change 1 Paraf officer to defense.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "dddabbc69a01",
-  "en": "Level 3 or lower Paraf officers on the field gain 400 DEF. During your Standby Phase, lose 225 KP.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "f453ab3ecc04",
-  "en": "Tribute this card: Special Summon 1 Level 3 or lower Paraf officer from your archive; skip Crisis this turn.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "b293bb8082d6",
-  "en": "Stamp Master",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "f19c39dd65b9",
-  "en": "Minutes Hand",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "e90041cde9cb",
-  "en": "Protect your Panel line; pair this card with a follow-up.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "ea11972717e4",
-  "en": "Session Hand",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "0b7d37d2eaaf",
-  "en": "Once per turn: pay 400 KP; look at 1 opposing face-down card, then give 1 Panel officer 400 DEF this turn.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "ffdfa32e4412",
-  "en": "Roll Hand",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "5a2ba433a02b",
-  "en": "Gains 500 ATK while you control another Panel officer. When tributed, gain 500 KP.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "1061857dddfb",
-  "en": "Panel Junior",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "36ffbef6b85e",
-  "en": "Ruling Hand",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "25d952c230b0",
-  "en": "Voice Keeper",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "edbc830a175d",
-  "en": "Once per turn: pay 650 KP; banish 1 Level 4 or lower officer from the opposing archive, then give 1 Panel officer 200 ATK this turn.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "4f4f43b91cbf",
-  "en": "Panel Chief",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "e6dce5e7c6f8",
-  "en": "Duty Hand",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "415c991cbc67",
-  "en": "Protect your Command line; pair this card with a follow-up.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "66b1b4025c32",
-  "en": "Map Hand",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "6f5020fa04f7",
-  "en": "Desk Hand",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "8e5228d38ae0",
-  "en": "Gains 400 DEF while you control another Command officer. When flipped, look at 1 opposing face-down support card.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "e48a89967331",
-  "en": "Routing Hand",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "1caf6f79f1ff",
-  "en": "Command officers on the field gain 150 ATK. During your Standby Phase, lose 275 KP.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "0b05cab8fdff",
-  "en": "Plan Hand",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "a10514d30a23",
-  "en": "Desk Junior",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "c299ff835295",
-  "en": "Tribute this card: banish 1 Level 2 or lower officer from the opposing archive, then the opponent loses 425 KP.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "35a960cf8f8a",
-  "en": "Command Chief",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "925c616f29bd",
-  "en": "Protect your Telex line; pair this card with a follow-up.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "0f853cc99b9d",
-  "en": "Ribbon Hand",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "f7e896ee0d19",
-  "en": "Line Hand",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "4e5be5118033",
-  "en": "Gains 600 DEF while your points are below 3400. When flipped, change 1 Telex officer to defense.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "45eee3aa55d9",
-  "en": "Window Hand",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "4784d8b440f9",
-  "en": "Level 3 or lower Telex officers on the field gain 400 DEF. During your Standby Phase, lose 300 KP.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "ffd75551dd86",
-  "en": "Wire Hand",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "b16cbf1b164d",
-  "en": "Tribute this card: Special Summon 1 Level 3 or lower Telex officer from your archive; skip Crisis this turn.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "ae5126a0cad0",
-  "en": "Note Junior",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "a0f6ede05134",
-  "en": "Protect your Memo line; pair this card with a follow-up.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "4c6900bc715e",
-  "en": "Slip Hand",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "b2c16bfa51da",
-  "en": "Once per turn: pay 550 KP; look at 1 opposing face-down card, then give 1 Memo officer 400 DEF this turn.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "1bab0c0b1e02",
-  "en": "Draft Hand",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "984e31cf7bda",
-  "en": "Gains 500 ATK while you control another Memo officer. When tributed, gain 650 KP.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "3eebbdb1dfca",
-  "en": "Line Master",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "b18208f06add",
-  "en": "Memo Hand",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "e5b78887f67a",
-  "en": "Reason Hand",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "5832ff955469",
-  "en": "Once per turn: pay 800 KP; banish 1 Level 4 or lower officer from the opposing archive, then give 1 Memo officer 200 ATK this turn.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "3e9c4def8d01",
-  "en": "Memo Chief",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "bcd6886ab104",
-  "en": "Annex Junior",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "ec6a329fcdcb",
-  "en": "Protect your Annex line; pair this card with a follow-up.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "ff4bcc02dbb5",
-  "en": "Note Hand",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "8bd75c2f32d4",
-  "en": "Annex Hand",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "7cd6c5c4d36e",
-  "en": "Gains 400 DEF while you control another Annex officer. When flipped, look at 1 opposing face-down support card.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "38f9844aa37f",
-  "en": "Clause Hand",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "ee84900db544",
-  "en": "Annex officers on the field gain 150 ATK. During your Standby Phase, lose 350 KP.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "0fd23138af79",
-  "en": "Annex Tally",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "acdbb8a6a14d",
-  "en": "Annex Master",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "a33cb87a0dc8",
-  "en": "Tribute this card: banish 1 Level 2 or lower officer from the opposing archive, then the opponent loses 500 KP.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "c6bcd5e8d6b2",
-  "en": "Annex Chief",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "676eda69fd3d",
-  "en": "Agenda Junior",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "36d4c280232e",
-  "en": "Protect your Brief line; pair this card with a follow-up.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "4edbc2d9a381",
-  "en": "Brief Hand",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "64fe08af37e0",
-  "en": "Note Keeper",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "592b245b75b3",
-  "en": "Gains 600 DEF while your points are below 3700. When flipped, change 1 Brief officer to defense.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "8a08b551f4d4",
-  "en": "Query Hand",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "d01ade9d3303",
-  "en": "Level 3 or lower Brief officers on the field gain 400 DEF. During your Standby Phase, lose 375 KP.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "38dc198e8601",
-  "en": "Brief Master",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "3b698395713d",
-  "en": "Tribute this card: Special Summon 1 Level 3 or lower Brief officer from your archive; skip Crisis this turn.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "290374fe8af8",
-  "en": "Session Voice",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "a52a72fd2710",
-  "en": "Brief Chief",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "8f2a0e1bdebe",
-  "en": "Cabinet Junior",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "053a989044a4",
-  "en": "Protect your Cabinet line; pair this card with a follow-up.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "4a1b51943042",
-  "en": "Decree Hand",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "45837efe9312",
-  "en": "Once per turn: pay 700 KP; look at 1 opposing face-down card, then give 1 Cabinet officer 400 DEF this turn.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "3dddff7e9379",
-  "en": "Protocol Hand",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "63c6290f6e6c",
-  "en": "Gains 500 ATK while you control another Cabinet officer. When tributed, gain 800 KP.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "879f5e50e694",
-  "en": "Table Voice",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "62c77ac5b7df",
-  "en": "Agenda Hand",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "96d1791e59f7",
-  "en": "Cabinet Master",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "4715ac31e8c3",
-  "en": "Once per turn: pay 950 KP; banish 1 Level 4 or lower officer from the opposing archive, then give 1 Cabinet officer 200 ATK this turn.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "a7ff367a7c1a",
-  "en": "Cabinet Chief",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "56b0249d30bc",
-  "en": "Slip Junior",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "8fae4f681733",
-  "en": "Protect your Archive line; pair this card with a follow-up.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "35d7716c6f60",
-  "en": "Shelf Hand",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "f92c54c4f442",
-  "en": "Record Hand",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "24d6bf52c1af",
-  "en": "Gains 400 DEF while you control another Archive officer. When flipped, look at 1 opposing face-down support card.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "94072ad4a335",
-  "en": "Archive Junior",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "a49b0ce3aa42",
-  "en": "Archive officers on the field gain 150 ATK. During your Standby Phase, lose 425 KP.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "ec6451224538",
-  "en": "Folder Master",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "159bcbac0db7",
-  "en": "Shelf Master",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "8821b173ebe9",
-  "en": "Tribute this card: banish 1 Level 2 or lower officer from the opposing archive, then the opponent loses 575 KP.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "db8fc9486846",
-  "en": "Archive Chief",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "866e3d7da474",
-  "en": "Protect your Dispatch line; pair this card with a follow-up.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "4874a7c2ebd6",
-  "en": "Copy Hand",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "47ccdbfc9fb1",
-  "en": "Writ Hand",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "d074db896a8a",
-  "en": "Gains 600 DEF while your points are below 4000. When flipped, change 1 Dispatch officer to defense.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "bb6024104d4c",
-  "en": "Runner Hand",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "3432c17f0801",
-  "en": "Level 3 or lower Dispatch officers on the field gain 400 DEF. During your Standby Phase, lose 450 KP.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "c72f0d69ffe6",
-  "en": "Return Hand",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "fadf58ad21cb",
-  "en": "Tribute this card: Special Summon 1 Level 3 or lower Dispatch officer from your archive; skip Crisis this turn.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "f195c69b6767",
-  "en": "Dispatch Master",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "dd1f77347bcb",
-  "en": "Dispatch Chief",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "ca7d20ac1e35",
-  "en": "Gloss Junior",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "6a5dfa2cbdb3",
-  "en": "Protect your Charter line; pair this card with a follow-up.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "63ef97083cdc",
-  "en": "Form Hand",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "6de44d33217c",
-  "en": "Once per turn: pay 850 KP; look at 1 opposing face-down card, then give 1 Charter officer 400 DEF this turn.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "f0494cf912c3",
-  "en": "Grounds Hand",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "201e8292fc83",
-  "en": "Gains 500 ATK while you control another Charter officer. When tributed, gain 950 KP.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "3c7cc1039b7d",
-  "en": "Charter Junior",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "e12dd07fde19",
-  "en": "Gloss Hand",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "d81e9b302d07",
-  "en": "Form Master",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "d3d63b672605",
-  "en": "Once per turn: pay 1100 KP; banish 1 Level 4 or lower officer from the opposing archive, then give 1 Charter officer 200 ATK this turn.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "5423967094ae",
-  "en": "Charter Chief",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "aef97ac5791d",
-  "en": "Twin Panel",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "e9a17e746293",
-  "en": "Annex Board",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "133b7b8c7a17",
-  "en": "Archive Board",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "76e521868a38",
-  "en": "Writ Panel",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "e5fccea63f20",
-  "en": "Yellow Band",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "683fca2032f2",
-  "en": "Pay 400 KP; add 1 Level 4 or lower File officer from your deck to your hand, shuffle, then discard 1 card.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "c3f306eb793d",
-  "en": "Closed Copy",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "cccacf26c4d6",
-  "en": "Pay 450 KP; look at the top 2 cards of your deck, take up to 1 officer and leave the rest on top in order. You must control a Paraf officer.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "28f9bb5f21dc",
-  "en": "Open Copy",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "eae08860f99b",
-  "en": "External Note",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "bfcb83e3a6df",
-  "en": "Pay 600 KP; add 1 Level 4 or lower Telex officer from your deck to your hand, shuffle, then discard 1 card.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "e121fa8c28c1",
-  "en": "Crisis Chart",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "caeffd83740c",
-  "en": "Pay 650 KP; look at the top 3 cards of your deck, take up to 1 officer and leave the rest on top in order. You must control a Memo officer.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "d07455cea83e",
-  "en": "Tempo Note",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "b9ff8c97aaa5",
-  "en": "Field Note",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "606298c65cc2",
-  "en": "Desk Order",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "47a9cd7be267",
-  "en": "Pay 800 KP; add 1 Level 4 or lower Cabinet officer from your deck to your hand, shuffle, then discard 1 card.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "05c4b4178a18",
-  "en": "Paper Queue",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "4ffd1f3432f3",
-  "en": "Pay 850 KP; look at the top 4 cards of your deck, take up to 1 officer and leave the rest on top in order. You must control a Archive officer.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "3373a00832a7",
-  "en": "Desk Chart",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "b7281c3883ed",
-  "en": "Brief Ledger",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "ed8666261306",
-  "en": "Archive Slip",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "5c531f56ef41",
-  "en": "Pay 600 KP; Special Summon 1 Level 3 or lower File officer from your archive. Skip Crisis this turn.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "26c365ed5eb9",
-  "en": "Pay 650 KP; Set 1 notice from your archive into a support zone. You must control a Paraf officer.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "500b38b2a7e6",
-  "en": "Pay 700 KP; banish 1 officer from the opposing archive and draw 1 card. You must control a Panel officer.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "b7398180df09",
-  "en": "File Ribbon",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "e780096916c2",
-  "en": "Pay 1150 KP; take control of 1 opposing face-up Level 2 or lower officer for this turn. You need a Command officer and an empty unit zone.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "842b2b889723",
-  "en": "Missing Sign",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "1b074466a9dd",
-  "en": "Pay 800 KP; Special Summon 1 Level 3 or lower Telex officer from your archive. Skip Crisis this turn.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "f06def5cd571",
-  "en": "Pay 850 KP; Set 1 notice from your archive into a support zone. You must control a Memo officer.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "533c2c454dbd",
-  "en": "Pay 900 KP; banish 1 officer from the opposing archive and draw 1 card. You must control a Annex officer.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "e03330d4ab50",
-  "en": "Late Dispatch",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "24f7ed9bb309",
-  "en": "Pay 1350 KP; take control of 1 opposing face-up Level 3 or lower officer for this turn. You need a Brief officer and an empty unit zone.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "114367ee01b0",
-  "en": "Empty Agenda",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "d540d53bf8ae",
-  "en": "Pay 1000 KP; Special Summon 1 Level 3 or lower Cabinet officer from your archive. Skip Crisis this turn.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "cdf90caaba80",
-  "en": "Full Agenda",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "e10c873ba750",
-  "en": "Pay 1050 KP; Set 1 notice from your archive into a support zone. You must control a Archive officer.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "a327c29c26e3",
-  "en": "Short Briefing",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "2e1ab64b085b",
-  "en": "Pay 1100 KP; banish 1 officer from the opposing archive and draw 1 card. You must control a Dispatch officer.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "d62823b7f74c",
-  "en": "Long Briefing",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "caf616e8e01f",
-  "en": "Pay 1550 KP; take control of 1 opposing face-up Level 4 or lower officer for this turn. You need a Charter officer and an empty unit zone.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "ec1aaf96fcc4",
-  "en": "Quiet Panel",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "0716dfd1d528",
-  "en": "The equipped officer gains 300 DEF. File officers on the field gain 150 ATK.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "ec69c90b46b0",
-  "en": "Noisy Cabinet",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "8e7e7de0a7a3",
-  "en": "Archive Door",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "9fc43d71ecba",
-  "en": "The equipped officer gains 300 DEF. Level 3 or lower Panel officers on the field gain 200 ATK.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "ed117f6322af",
-  "en": "File Spine",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "97c4b860b8d7",
-  "en": "The equipped officer gains 375 DEF. Command officers on the field gain 150 ATK.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "5d19a23507a9",
-  "en": "Annex Extra",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "889630e2ce98",
-  "en": "Notice Text",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "5d2a48e10524",
-  "en": "The equipped officer gains 300 DEF. Level 3 or lower Memo officers on the field gain 275 ATK.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "1a0e8c3709ea",
-  "en": "Redaction Trace",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "83c8f83b1479",
-  "en": "The equipped officer gains 450 DEF. Annex officers on the field gain 150 ATK.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "f0b0ec963e40",
-  "en": "Charter Gloss",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "3d6b37942e4d",
-  "en": "The equipped officer gains 525 ATK but loses 200 DEF. Brief officers on the field gain 100 DEF.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "dc6ff3f545e8",
-  "en": "Command Note",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "3145fa554b3a",
-  "en": "The equipped officer gains 300 DEF. Level 3 or lower Cabinet officers on the field gain 350 ATK.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "91c88cb57913",
-  "en": "The equipped officer gains 525 DEF. Archive officers on the field gain 150 ATK.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "a8e17e2353a9",
-  "en": "The equipped officer gains 600 ATK but loses 200 DEF. Dispatch officers on the field gain 100 DEF.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "b030f536e54d",
-  "en": "Notice: Copy Mismatch",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "d4f8e49ddae7",
-  "en": "Notice: Stamp Mismatch",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "8419db026c89",
-  "en": "Notice: Off Agenda",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "456a3d3c8523",
-  "en": "Notice: Interim Line",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "ba4e33cb8977",
-  "en": "Notice: Not Final",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "d4b28d9c821a",
-  "en": "Notice: Draft Remains",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "3800e95ef2bd",
-  "en": "Notice: Taken Final",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "625c1667a568",
-  "en": "Notice: Inner Circular",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "b42ef4593ba0",
-  "en": "Notice: No Outer Leak",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "2b06ce99e72a",
-  "en": "Notice: Brief Cancel",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "2d10fdce716a",
-  "en": "Notice: Cabinet Delay",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "d73f862b72eb",
-  "en": "Notice: Command Quiet",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "2dd49ca48aba",
-  "en": "Notice: Archive Locked",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "491b458ce3c9",
-  "en": "When the opponent activates a support card: pay 750 KP; negate the activation, then give 1 File officer 300 DEF this turn.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "4f711cd5b386",
-  "en": "Notice: Hard Redact",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "7c2b13ac869c",
-  "en": "When the opponent activates a support card: pay 800 KP; negate the activation, then give 1 Paraf officer 300 DEF this turn.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "1df989c5a143",
-  "en": "When the opponent activates a support card: pay 850 KP; negate the activation, then give 1 Panel officer 300 DEF this turn.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "9f0bc6586629",
-  "en": "Notice: Sign Chain",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "f253e06ed88d",
-  "en": "When the opponent activates a support card: pay 900 KP; negate the activation, then give 1 Command officer 300 DEF this turn.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "b3142d8525ba",
-  "en": "When the opponent activates a support card: pay 950 KP; negate the activation, then give 1 Telex officer 300 DEF this turn.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "18f48931f4bf",
-  "en": "Notice: Annex Table",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "c841c95e477b",
-  "en": "When the opponent activates a support card: pay 1000 KP; negate the activation, then give 1 Memo officer 300 DEF this turn.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "cd48325382a0",
-  "en": "Notice: Two Columns",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "2b980a4caeaf",
-  "en": "When the opponent activates a support card: pay 1050 KP; negate the activation, then give 1 Annex officer 300 DEF this turn.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "a96306fc5711",
-  "en": "Notice: One Column",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "d07c6cb623dd",
-  "en": "When the opponent activates a support card: pay 1100 KP; negate the activation, then give 1 Brief officer 300 DEF this turn.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "25fbdd3fca26",
-  "en": "Notice: Closed Copy",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "dc7006116bcc",
-  "en": "When the opponent activates a support card: pay 1150 KP; negate the activation, then give 1 Cabinet officer 300 DEF this turn.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "d9ff00caf8dc",
-  "en": "Notice: Open Copy",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "27ebccfc7651",
-  "en": "When the opponent activates a support card: pay 1200 KP; negate the activation, then give 1 Archive officer 300 DEF this turn.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "43d47b546f75",
-  "en": "Notice: Crisis Chart",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "a13e84d519ba",
-  "en": "When the opponent activates a support card: pay 1250 KP; negate the activation, then give 1 Dispatch officer 300 DEF this turn.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "6bb131a3a4fc",
-  "en": "Notice: Broken Tempo",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "909cec908357",
-  "en": "When the opponent activates a support card: pay 1300 KP; negate the activation, then give 1 Charter officer 300 DEF this turn.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "2120c4ea9a2f",
-  "en": "Notice: Desk Emptied",
-  "pattern": false,
-  "games": [
-   "darbe-h"
-  ]
- },
- {
-  "id": "a4ee8f2fa0bc",
-  "en": "Once per duel: when the opponent declares a direct attack, pay 1000 KP; cancel the attack and draw 1 card.",
-  "pattern": false,
-  "games": [
-   "darbe-h"
   ]
  },
  {

@@ -16,7 +16,7 @@
 /**
  * The two nouns the match rail borrows from the theme. The rail used to print
  * VETO-H!'s "Atılan Kartlar" and the shared "adak" for every sibling, so a
- * DARBE-H! match narrated its own Arşiv as a campaign discard pile. Callers
+ * sibling match narrated its archive as a campaign discard pile. Callers
  * pass `words`; the defaults are what the frozen siblings already print, so
  * VETO-H! and GETT-OH! output is unchanged.
  */

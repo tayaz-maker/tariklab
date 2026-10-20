@@ -6,6 +6,7 @@ import { readFileSync, readdirSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { retiredWorkerPaths, retirementWorker } from './retired-products.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const SW_PATH = join(ROOT, "public/sw.js");
@@ -51,6 +52,10 @@ export function offlineSwPlugin() {
         .map((n) => `/${n.replace(/^\/+/, "")}`);
       const source = injectBuildAssets(readFileSync(SW_PATH, "utf8"), assets);
       this.emitFile({ type: "asset", fileName: "sw.js", source });
+      // Let existing installations retire their own scope without clearing any
+      // game cache or user save. These contain no Atlas application assets.
+      for (const fileName of retiredWorkerPaths)
+        this.emitFile({ type: "asset", fileName, source: retirementWorker });
       const gameDir = join(ROOT, "public/games/hanedanian");
       const files = Object.fromEntries(
         readdirSync(gameDir)

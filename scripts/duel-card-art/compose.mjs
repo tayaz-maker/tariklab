@@ -6,7 +6,7 @@
 //   emphasis <- level (spotlight and scale), kind (traps add a warning cue)
 // A per-card seed only nudges placement, light and colour so no two cards
 // match. Figures are featureless silhouettes: never portraits of anyone.
-import * as D from "../darbe-h-card-art/motifs.mjs";
+import * as D from "./primitives.mjs";
 import * as M from "./motifs.mjs";
 
 const { P, g, tr } = D;

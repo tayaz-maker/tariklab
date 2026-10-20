@@ -1,7 +1,7 @@
 /**
  * Card-art release pointer. A theme switches to new art only as one atomic,
  * fully accepted 300/300 release; until then the production art stays live
- * (code-drawn VETO/GETT WebP, DARBE SVG) and no deck ever mixes old and new.
+ * (code-drawn VETO/GETT WebP) and no deck ever mixes old and new.
  *
  * Release files live under an immutable, content-addressed directory
  * (/games/<theme>/assets/card-art-releases/<id>/<CARD>.webp, id = hash of all
@@ -18,7 +18,6 @@ export const RELEASE_CARD_COUNT = 300;
 export const ART_RELEASES = Object.freeze({
   "veto-h": null,
   "gett-oh": null,
-  "darbe-h": null,
 });
 
 const RELEASE_ID = /^r[0-9a-f]{12}$/;

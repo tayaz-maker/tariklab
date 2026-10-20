@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { chromium } from "playwright";
+import {duelPolishSmoke} from "./duel-polish-browser.mjs";
 import { duelScenarios } from "./duel-browser-scenarios.mjs";
 import { runVisibleArtFixtures } from "./duel-visible-art-browser.mjs";
 import { duelLegacyArtProof } from "./duel-legacy-art-proof.mjs";
@@ -39,7 +40,7 @@ try {
   for (const theme of ["veto-h", "gett-oh"])
     legacyArt.push(await duelLegacyArtProof(browser, origin, theme, out));
   writeFileSync(`${out}/legacy-art-readiness.json`, JSON.stringify(legacyArt, null, 2));
-  for (const theme of (process.env.DUEL_THEMES || "veto-h,gett-oh,darbe-h").split(","))
+  for (const theme of (process.env.DUEL_THEMES || "veto-h,gett-oh").split(","))
     for (const lang of ["tr", "en"]) {
       const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
       await context.addInitScript(
@@ -47,9 +48,7 @@ try {
         lang,
       );
       const page = await context.newPage();
-      // DARBE-H! card faces show one plate per card from assets/card-art/;
-      // the other themes keep duel-core's catalog art in assets/cards/.
-      const artPath = theme === "darbe-h" ? "/assets/card-art/" : "/assets/cards/";
+      const artPath = "/assets/cards/";
       const artRequests = new Set();
       page.on("request", (r) => {
         if (r.url().includes(artPath)) artRequests.add(r.url());
@@ -138,8 +137,6 @@ try {
             `${theme}/${lang}/${stage}/${width}: ${JSON.stringify(d)}`,
           );
           if (stage === "board") {
-            if (theme === "darbe-h" && [390, 1280, 1920].includes(width))
-              await page.screenshot({ path: `${out}/${theme}-${lang}-board-${width}x${height}.png`, fullPage: true });
             // The duel board is one complete two-sided object: opponent half,
             // phase divider and player half all visible together with no
             // internal vertical scroll, the hand under it and the turn
@@ -230,9 +227,7 @@ try {
       // from the manifest rather than pinning a constant that goes stale the
       // next time the art is regenerated.
       const artWidth =
-        theme === "darbe-h"
-          ? JSON.parse(readFileSync("public/games/darbe-h/assets/card-art/manifest.json", "utf8")).summary.width
-          : JSON.parse(readFileSync(`public/games/${theme}/assets/art-manifest.json`, "utf8")).summary.dimensions[0];
+        JSON.parse(readFileSync(`public/games/${theme}/assets/art-manifest.json`, "utf8")).summary.dimensions[0];
       assert.equal(
         await page
           .locator(".archive-grid img")
@@ -254,7 +249,7 @@ try {
         await nextPage.click();
       }
       assert.equal(ids.size, 300);
-      await page.locator(".filters input").fill(theme === "veto-h" ? "SND-001" : theme === "gett-oh" ? "RCN-001" : "DRB-001");
+      await page.locator(".filters input").fill(theme === "veto-h" ? "SND-001" : "RCN-001");
       assert.equal(await page.locator(".archive-grid .playing-card").count(), 1);
       await page.locator(".filters input").fill("");
       await page.locator(".filters select").first().selectOption("trap");
@@ -472,13 +467,12 @@ try {
       await page.setViewportSize({ width: 1440, height: 1000 });
       await page.locator(".hand-row .playing-card").first().click();
       await page.locator(".inspector .effect-text").waitFor();
-      const shot = await page.screenshot({
+      await page.screenshot({
         path: `${out}/${theme}-${lang}-desktop.jpg`,
         type: "jpeg",
         quality: 65,
         fullPage: true,
       });
-      if (lang === "tr") console.log(`DUEL_SCREENSHOT ${theme} ${shot.toString("base64")}`);
       const before = await page.evaluate((k) => localStorage.getItem(k), key);
       await page.reload({ waitUntil: "networkidle" });
       assert.equal(await page.evaluate((k) => localStorage.getItem(k), key), before);
@@ -486,14 +480,12 @@ try {
       await page.setViewportSize({ width: 390, height: 844 });
       await page.locator(".hand-row .playing-card").first().click();
       assert.ok(await page.locator("dialog").isVisible());
-      const mobileShot = await page.screenshot({
+      await page.screenshot({
         path: `${out}/${theme}-${lang}-mobile.jpg`,
         type: "jpeg",
         quality: 65,
         fullPage: true,
       });
-      if (lang === "tr")
-        console.log(`DUEL_SCREENSHOT ${theme}-mobile ${mobileShot.toString("base64")}`);
       await page.getByRole("button", { name: labels.close, exact: true }).click();
       await page.getByRole("button", { name: labels.help, exact: true }).click();
       assert.ok(await page.locator("dialog p").first().innerText());
@@ -525,6 +517,7 @@ try {
       );
       await context.close();
     }
+  await duelPolishSmoke(browser, origin, out);
   await duelScenarios(browser, origin);
   assert.deepEqual(errors, []);
   writeFileSync(`${out}/results.json`, JSON.stringify(metrics, null, 2));

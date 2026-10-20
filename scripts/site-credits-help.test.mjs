@@ -50,10 +50,10 @@ test("resources catalog stays aligned with the canonical game catalog", () => {
       /\{\s*slug: "([^"]+)",[\s\S]*?title: "([^"]+)",[\s\S]*?status: "(live|soon|archived)",[\s\S]*?href: (?:"([^"]+)"|null),[\s\S]*?\}/g,
     ),
   ].map((m) => ({ slug: m[1], title: m[2], status: m[3], href: m[4] || null }));
-  assert.equal(games.length, 20);
-  assert.equal(games.filter((g) => g.status === "live").length, 18);
+  assert.equal(games.length, 19);
+  assert.equal(games.filter((g) => g.status === "live").length, 17);
   assert.deepEqual(games.filter((g) => g.status === "soon").map((g) => g.slug), []);
-  assert.match(html, /data-live-count="18" data-soon-count="0"/);
+  assert.match(html, /data-live-count="17" data-soon-count="0"/);
   assert.deepEqual(games.filter(g => g.status === "archived").map(g => g.slug), ["ihtilal", "esik"]);
   for (const game of games) {
     if (game.status === "archived") {
@@ -199,7 +199,7 @@ test("resources show only verified licences and record how every card picture is
   }
   assert.match(tr, /data-chain="verified"/);
   assert.match(tr, /data-chain="review"/);
-  assert.match(tr, /Kodla çizilen kart görselleri[^\n]*duel-card-art[^\n]*darbe-h-card-art/);
+  assert.match(tr, /Kodla çizilen kart görselleri[^\n]*duel-card-art/);
   // No AI card art is left to disclose, and nothing is left pending.
   for (const text of [tr, i18n]) assert.doesNotMatch(text, /provenance pending|Yapay zekâ ile üretilmiş görseller|AI-generated images:|Obrazy wygenerowane przez AI:/);
   assert.match(tr, /Kodla yeniden çizilen görseller[^\n]*render-original-art/);

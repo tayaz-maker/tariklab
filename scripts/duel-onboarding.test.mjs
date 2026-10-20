@@ -17,7 +17,7 @@ const NULLISH =
 const words = { unit: "Kadro", battle: "Tartışma" };
 
 test("the guide stays short and every step says something", () => {
-  for (const theme of ["veto-h", "gett-oh", "darbe-h"])
+  for (const theme of ["veto-h", "gett-oh"])
     for (const lang of ["tr", "en"]) {
       const steps = onboardingSteps(theme, lang, words);
       assert.ok(steps.length >= 5 && steps.length <= 8, `${theme}/${lang}: ${steps.length} steps`);
@@ -100,12 +100,10 @@ test("VETO-H! and GETT-OH! first-duel guides do not share a seen flag", () => {
   markOnboardingSeen(storage, "veto-h");
   assert.equal(onboardingSeen(storage, "veto-h"), true);
   assert.equal(onboardingSeen(storage, "gett-oh"), false);
-  assert.equal(onboardingSeen(storage, "darbe-h"), false);
   markOnboardingSeen(storage, "gett-oh");
   resetOnboarding(storage, "veto-h");
   assert.equal(onboardingSeen(storage, "veto-h"), false);
   assert.equal(onboardingSeen(storage, "gett-oh"), true);
-  assert.equal(onboardingSeen(storage, "darbe-h"), false);
 });
 
 test("legacy onboarding migrates once and reset sentinel stays theme-local", () => {
@@ -120,9 +118,7 @@ test("legacy onboarding migrates once and reset sentinel stays theme-local", () 
   resetOnboarding(storage, "veto-h");
   assert.equal(onboardingSeen(storage, "veto-h"), false);
   assert.equal(onboardingSeen(storage, "gett-oh"), true);
-  assert.equal(onboardingSeen(storage, "darbe-h"), false, "DARBE never inherits shared onboarding");
   assert.equal(mem.get("tariklab.gett-oh.onboarding.v1"), "done");
   mem.delete(ONBOARDING_KEY);
   assert.equal(onboardingSeen(storage, "gett-oh"), true, "migrated state survives legacy deletion");
-  assert.equal(onboardingSeen(storage, "darbe-h"), false);
 });

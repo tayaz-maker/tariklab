@@ -72,27 +72,6 @@ body[data-theme="gett-oh"] {
   --frame-edge: #8a5f3a;
   --radius-table: 48px;
 }
-body[data-theme="darbe-h"] {
-  /* DARBE-H!: briefing room — ink navy, telex amber, cool grey paper,
-     stamp crimson used only as warning. Not İHTİLAL cream, not VETO green. */
-  --background: #121820;
-  --surface: #1a2433;
-  --surface-raised: #243044;
-  --table: #1e2a38;
-  --foreground: #e8dcc4;
-  --muted: #b7c0c9;
-  --brass: #c4a574;
-  --accent: #7a93a8;
-  --red: #c17a72;
-  --paper: #d8dde4;
-  --ink: #121820;
-  --line: #c4a5743a;
-  --frame-edge: #8a6a3a;
-  --radius-table: 8px;
-  background:
-    radial-gradient(1200px 700px at 50% 0%, #243044cc, #121820f2),
-    repeating-linear-gradient(180deg, #1a243300 0 22px, #c4a5740d 22px 23px);
-}
 body {
   padding-bottom: 0;
   color: var(--foreground);
@@ -1455,38 +1434,6 @@ body[data-theme="veto-h"] .duel-table {
 }
 body[data-theme="gett-oh"] .duel-table {
   background-image: radial-gradient(circle at 50% 42%, #e2a75c14 0%, transparent 62%);
-}
-body[data-theme="darbe-h"] .duel-table {
-  background-image:
-    radial-gradient(circle at 50% 42%, #c4a57414 0%, transparent 62%),
-    repeating-linear-gradient(180deg, transparent 0 11px, #c4a57412 11px 12px);
-}
-body[data-theme="darbe-h"] .playing-card.face-down {
-  background:
-    repeating-linear-gradient(90deg, #1a2433 0 6px, #243044 6px 7px),
-    repeating-linear-gradient(0deg, #121820 0 10px, #1a2433 10px 11px);
-  border-color: #8a6a3a;
-}
-/* DARBE-H! card art is editorial illustration composed for a 400x560 (5:7)
-   portrait frame. On small hand cards the shared layout gives .card-art only
-   the leftover space after the name/stat rows, which on a ~120px-wide card
-   collapsed to a landscape sliver: object-fit:cover then cropped away most
-   of each illustration's vertical composition, so every card showed the
-   same generic paper-and-stamp band regardless of its real scene. Widening
-   the hand card (more absolute pixels, same text chrome) restores enough
-   vertical room for the art to actually read; object-position keeps the
-   crop biased toward where each composition's identifying prop sits rather
-   than a blind centre-crop. VETO-H!/GETT-OH! keep the shared --hand-width. */
-body[data-theme="darbe-h"] {
-  --hand-width: clamp(150px, calc(158px * var(--card-scale, 1)), 210px);
-}
-body[data-theme="darbe-h"] .card-art img {
-  object-position: center 38%;
-}
-@media (max-width: 760px) {
-  body[data-theme="darbe-h"] {
-    --hand-width: clamp(138px, calc(144px * var(--card-scale, 1)), 190px);
-  }
 }
 
 .interactive-brief {

@@ -85,43 +85,6 @@ export const DECK_COPY = {
       },
     },
   },
-  "darbe-h": {
-    muhtira: {
-      name: { tr: "Muhtıra", en: "Memorandum" },
-      blurb: {
-        tr: "İhtarları setle, acele eden masayı boz. Yavaş başlar, geç kilitlersin.",
-        en: "Set notices and spoil the hurried desk. Slow to start, late to lock.",
-      },
-    },
-    tebligat: {
-      name: { tr: "Tebligat", en: "Dispatch" },
-      blurb: {
-        tr: "Telex erken düşer. Doğrudan baskı ve tempo; boş saha seni geç yener.",
-        en: "The telex lands early. Direct pressure and tempo; an empty field beats you late.",
-      },
-    },
-    karargah: {
-      name: { tr: "Karargâh", en: "Command Post" },
-      blurb: {
-        tr: "Heyeti kalabalık tut. Orta saha ve paraflı çağrı.",
-        en: "Keep the panel crowded. Mid-board presence and signed summons.",
-      },
-    },
-    istisare: {
-      name: { tr: "İstişare", en: "Consultation" },
-      blurb: {
-        tr: "Brifing uzar, kart akar. Uzun krize oyna.",
-        en: "The briefing runs long and cards flow. Play the long crisis.",
-      },
-    },
-    zeyilname: {
-      name: { tr: "Zeyilname", en: "Addendum" },
-      blurb: {
-        tr: "Arşiv konuşur. Mezarlıktan dönüş ve son zeyil.",
-        en: "The archive speaks. Grave returns and a last addendum.",
-      },
-    },
-  },
 };
 
 export function deckIds(theme) {

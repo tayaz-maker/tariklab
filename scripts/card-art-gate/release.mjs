@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Promote ONE game's art pack to an atomic, content-addressed release.
 //
-//   node scripts/card-art-gate/release.mjs --pack <dir> --game darbe-h --signoff <qa.json> [--write]
+//   node scripts/card-art-gate/release.mjs --pack <dir> --game veto-h --signoff <qa.json> [--write]
 //
 // Refuses unless: the gate reports 300/300 manifest-pass with no pack errors,
 // and a human visual-QA sign-off ({ game, releaseId, verdict: "PASS",

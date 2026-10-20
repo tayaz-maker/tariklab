@@ -47,7 +47,7 @@ In the table below, “native app” for Çete Savaşları means a first-party R
 | VETO-H! | `veto-h` | `/oyna/veto-h` | [docs/veto-h/](veto-h/README.md) | `public/games/veto-h/` | Shares the duel engine with GETT-OH! (see Shared Systems). |
 | GETT-OH! | `gett-oh` | `/oyna/gett-oh` | [docs/gett-oh/](gett-oh/README.md) | `public/games/gett-oh/` | Shares the duel engine with VETO-H! (see Shared Systems). |
 | İhtilâl | `ihtilal` | `/oyna/ihtilal` | [docs/ihtilal/](ihtilal/README.md) | `public/games/ihtilal/` | Original Kalem Masası ruleset. `/ihtilal` redirects here. |
-| DARBE-H! | `darbe-h` | `/oyna/darbe-h` | [docs/darbe-h/](darbe-h/README.md) | `public/games/darbe-h/` | Third duel sibling. Shared engine, own 300-card pool. |
+| DARBE-H! | `darbe-h` | `/oyna/darbe-h` | docs/darbe-h/ (retired) | `public/games/darbe-h/` | Third duel sibling. Shared engine, own 300-card pool. |
 
 ## Coming Soon
 
@@ -94,3 +94,5 @@ None. The catalog currently has no coming-soon titles.
 - **Web ↔ native ledger.** Meaningful website changes go in
   [WEB_APP_SYNC_LEDGER.md](WEB_APP_SYNC_LEDGER.md) in the same change. Native
   follow-up is later; do not block the website on it.
+
+Atlas and DARBE-H! are retired. Their application assets and exclusive tooling have been removed; shared duel/Pixi/map/save infrastructure remains active.
