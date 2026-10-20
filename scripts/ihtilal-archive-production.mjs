@@ -21,10 +21,12 @@ const rows = [];
 for (const { path, sha256 } of expected) {
   const url = origin + "/" + path.slice("public/".length);
   let response = await fetch(url, { redirect: "manual", cache: "no-store", signal: AbortSignal.timeout(15000) });
-  if (path.endsWith("/index.html") && response.status === 307) {
-    const directory = url.slice(0, -"index.html".length);
-    assert.equal(new URL(response.headers.get("location"), response.url).href, directory);
-    response = await fetch(directory, { redirect: "error", cache: "no-store", signal: AbortSignal.timeout(15000) });
+  if ([301, 302, 307, 308].includes(response.status) && path.endsWith(".html")) {
+    const canonical = new URL(response.headers.get("location"), response.url);
+    const allowed = [url.replace(/index\.html$/, ""), url.replace(/\.html$/, "")];
+    assert.equal(canonical.origin, origin);
+    assert.ok(allowed.includes(canonical.href), `${path}: only the host's canonical HTML redirect is allowed`);
+    response = await fetch(canonical, { redirect: "error", cache: "no-store", signal: AbortSignal.timeout(15000) });
   }
   assert.equal(response.status, 200, path);
   assert.equal(new URL(response.url).origin, origin);
