@@ -1,14 +1,16 @@
 import assert from "node:assert/strict";
 import { readFileSync, readdirSync } from "node:fs";
 import test from "node:test";
+import { createHash } from "node:crypto";
 
 const read = (path) => readFileSync(new URL(`../${path}`, import.meta.url), "utf8");
 
 test("JITEM ships from the reviewed standalone canonical build", () => {
   const source = JSON.parse(read("public/games/jitem-derin-ag/SOURCE.json"));
-  assert.equal(source.standaloneSha, "63c21bca89050d1f3ac9982dd515073a256743b8");
+  assert.equal(source.standaloneSha, "3e8131c1a7f1f1ae43b9090ffc42a05d551c43a8");
   assert.equal(source.saveKey, "jitem-derin-ag-v3");
   assert.equal(source.schemaVersion, 5);
+  assert.equal(source.runtimeSha256, createHash("sha256").update(read("public/games/jitem-derin-ag/assets/runtime.js")).digest("hex"), "runtime bytes match the exact upstream build receipt");
   const assets = readdirSync(new URL("../public/games/jitem-derin-ag/assets/", import.meta.url));
   const js = assets.filter((name) => name.endsWith(".js")).map((name) => read(`public/games/jitem-derin-ag/assets/${name}`)).join("\n");
   assert.match(js, /jitem-derin-ag-v3/);
