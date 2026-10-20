@@ -1,0 +1,26 @@
+import assert from 'node:assert/strict';
+import {mkdirSync,writeFileSync} from 'node:fs';
+import {chromium} from 'playwright';
+import {createStaticGameServer} from './static-game-server.mjs';
+import {loadGame} from './racon-harness.mjs';
+const source=process.argv.includes('--source');
+const out=`${process.env.RUNNER_TEMP||'/workspace'}/screenshots/racon-region/${source?'source':'built'}`;mkdirSync(out,{recursive:true});
+const h=loadGame();h.ev('blank("Bölge");enterPlay();S.stage="baba";S.kasa=50000;cashNormalize(S);S.streets.forEach(function(s,i){s.sahip=i<3?"sen":"bos";});semtBy("kuzey").acik=true;semtBy("kuzey").sadakat=40;S.genisleme.sehir.acik=true;S.streets[0].yatirim=2;S.streets[3].sahip="rakip";S.streets[3].heat=100;S.streets[3].terorMahalle=68;S.rivals[0].husumet=100;terorSadakatTick();writeSave();');
+const fixture=h.localStorage.getItem('tariklab::racon:1');const sealId=h.ev('S.inbox.find(function(p){return p.title.indexOf("Mühür:")===0;}).id');
+const server=createStaticGameServer(source?'public':'.output/public');await new Promise(r=>server.listen(0,'127.0.0.1',r));const origin=process.env.RACON_BASE||`http://127.0.0.1:${server.address().port}`;
+const browser=await chromium.launch({headless:true,executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH||undefined,args:['--no-sandbox']});const rows=[];
+try{for(const lang of ['tr','en','pl'])for(const width of [390,1280]){
+ const context=await browser.newContext({viewport:{width,height:844}});const errors=[];
+ await context.addInitScript(({lang,fixture})=>{localStorage.setItem('tariklab.language',lang);if(!localStorage.getItem('region-seeded')){localStorage.setItem('tariklab::racon:1',fixture);localStorage.setItem('tariklab::racon:active','1');localStorage.setItem('region-seeded','1');}},{lang,fixture});
+ const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});await page.goto(origin+'/games/racon/index.html',{waitUntil:'networkidle'});await page.locator('#btn-devam').click();
+ const nav=async id=>{const b=page.locator(`.navbtn[data-id="${id}"]`);if(!await b.isVisible())await page.locator('[data-act="navdetay"]').click();await b.click();};
+ await nav('kasa');const expected={tr:'Mevcut koşullarla haftalık düzenli akış',en:'Weekly recurring flow at current conditions',pl:'Tygodniowy przepływ przy obecnych warunkach'}[lang];
+ await page.locator('.cash-outlook').filter({hasText:expected}).waitFor();
+ assert.match(await page.locator('.cash-outlook').innerText(),/4.000/);assert.match(await page.locator('.cash-outlook').innerText(),/1.200/);
+ const saved=()=>page.evaluate(()=>JSON.parse(localStorage.getItem('tariklab::racon:1')));const initial=await saved();
+ await page.screenshot({path:`${out}/cash-${lang}-${width}.png`});await nav('olaylar');await page.locator(`[data-act="inbox"][data-id="${sealId}"]`).click();
+ const warning={tr:'Terör yükseldi. Bu sokakta iş planı bu hafta kilitli.',en:'Terror rose. Job planning on this street is locked this week.',pl:'Wzrósł terror. Planowanie robót na tej ulicy jest zablokowane w tym tygodniu.'}[lang];
+ await page.getByText(warning,{exact:true}).waitFor();assert.equal((await saved()).inbox.find(p=>p.id===sealId).body,'Terör yükseldi. Bu sokakta iş planı bu hafta kilitli.');
+ await page.reload({waitUntil:'networkidle'});await page.locator('#btn-devam').click();const loaded=await saved();for(const key of ['seed','week','day','kasa','cleanKasa','dirtyKasa'])assert.equal(loaded[key],initial[key],key);
+ assert.deepEqual(loaded.genisleme,initial.genisleme);assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));assert.deepEqual(errors,[]);rows.push({lang,width,status:'PASS'});await context.close();
+}}finally{writeFileSync(`${out}/results.json`,JSON.stringify(rows,null,2));await browser.close();await new Promise(r=>server.close(r));}console.log(JSON.stringify({source,rows}));
