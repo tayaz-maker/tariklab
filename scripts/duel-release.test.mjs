@@ -274,7 +274,7 @@ for (const theme of THEMES) {
 
 test("every playable catalog game ships teaching content", () => {
   const catalog = readFileSync("src/lib/games.ts", "utf8");
-  const slugs = [...catalog.matchAll(/slug: "([^"]+)",[\s\S]*?status: "(live|soon)"/g)]
+  const slugs = [...catalog.matchAll(/slug: "([^"]+)",[^}]*?status: "(live|soon|archived)"/g)]
     .filter((m) => m[2] === "live")
     .map((m) => m[1]);
   assert.ok(slugs.length >= 16, `catalog parse found only ${slugs.length} live games`);

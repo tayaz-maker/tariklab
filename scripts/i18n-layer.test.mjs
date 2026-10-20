@@ -157,8 +157,8 @@ test("credits English pack exists and Amiral Battı stays credited", () => {
   assert.match(I.CREDITS_EN.legal, /All rights reserved/);
 });
 
-test("credits Polish pack exposes 20 live games and preserves the personal note", () => {
-  assert.match(JSON.stringify(I.CREDITS_PL), /20 dostępnych gier/);
+test("credits Polish pack exposes 19 live games and preserves the personal note", () => {
+  assert.match(JSON.stringify(I.CREDITS_PL), /19 dostępnych gier/);
   assert.match(JSON.stringify(I.CREDITS_PL), /JITEM: Derin Ağ/);
   assert.match(JSON.stringify(I.CREDITS_PL), /Tarık jest synem swojej matki\./);
   assert.doesNotMatch(JSON.stringify(I.CREDITS_PL), /Tarık Halil Ayaz/);
@@ -177,7 +177,7 @@ test("global selector and JITEM shell carry PL without a gameplay write", () => 
 
 test("service worker versions i18n assets", () => {
   const sw = read("public/sw.js");
-  assert.match(sw, /cete-offline-v5/);
+  assert.match(sw, /cete-offline-v6/);
   assert.match(sw, /\/i18n\/deep-en\.js/);
   assert.match(sw, /\/i18n\/deep-en-final\.js/);
   assert.match(sw, /\/i18n\//);

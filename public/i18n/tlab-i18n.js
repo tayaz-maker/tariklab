@@ -603,7 +603,7 @@
     sections: [
       {
         h: "Catalog",
-        lead: "TarikLab has 20 playable games.",
+        lead: "TarikLab has 19 games in the live catalog.",
         items: [
           '<a href="/cete-savaslari">Çete Savaşları</a> · LIVE — Build a crew, run missions and hold turf under police and rival pressure.',
           '<a href="/oyna/hanedanian">HANEDANIAN</a> · LIVE — Build settlements, secure resources and lead a dynasty across a seeded strategy map; single-player and offline-first.',
@@ -621,7 +621,6 @@
           '<a href="/oyna/son-koy-manager">SON KÖY MANAGER</a> · LIVE — Spend changing field capacity and action effort across water, energy, migration, production and trust over 24 months.',
           '<a href="/oyna/veto-h">VETO-H!</a> · LIVE — A 300-card election and campaign duel with a seeded 40-card deck, a computer opponent and a pregame Card Archive. Card art was made with AI tools (see below).',
           '<a href="/oyna/gett-oh">GETT-OH!</a> · LIVE — A 300-card neighborhood and street-power duel: the same deterministic engine, a separate card pool and an Istanbul-night table. Card art was made with AI tools (see below).',
-          '<a href="/oyna/ihtilal">İhtilâl</a> · LIVE — A one-seat desk: load, trust, information and tension are tied together across fictional basins; choose between short relief and a delayed load.',
           '<a href="/oyna/darbe-h">DARBE-H!</a> · LIVE — A fictional Extraordinary Desk duel of officers, orders and notices: the shared duel engine, a separate 300-card pool and crisis points. Plate art was made with AI tools (see below).',
           '<a href="/oyna/jitem-derin-ag">JITEM: Derin Ağ</a> · LIVE — A single-player strategy game set across 1986–1996, built around sourced historical records, relationship networks, asymmetric knowledge and institutional behavior.',
           '<a href="/oyna/esik">Kıyı Eşiği</a> · LIVE — A fictional coast. Link a pier, stair, ramp, tunnel mouth and bridge joint. A broken threshold says why.',
@@ -632,7 +631,7 @@
         lead: "TarikLab is a collection of independent games that run directly in the browser. The portal and Çete Savaşları use React and TypeScript; the other games run as their own HTML, CSS and JavaScript applications.",
         items: [
           "Most long-running games use three local slots, kept separate on the same device. HANEDANIAN keeps an autosave, its previous version and a separate manual save, with file export/import. Original HANEDAN saves remain accessible through the legacy game. VETO-H!, GETT-OH! and DARBE-H! each autosave one active duel; reload preserves deck order, action rights and pending responses.",
-          "The portal and all 20 live games support Turkish and English; each game keeps its own voice while the outer shell owns language navigation.",
+          "The portal and all 19 live games support Turkish and English; each game keeps its own voice while the outer shell owns language navigation.",
           "Polish covers the interface and, through a translation layer, game text (story, events, cards, help); anything without a Polish translation is shown in English. The Polish text has not yet been reviewed by a native speaker.",
           "Interfaces adapt to phone, tablet and desktop while preserving each game's own visual and interaction identity.",
         ],
@@ -674,7 +673,7 @@
   const CREDITS_PL = {
     h1: "Materiały źródłowe", kicker: "TarikLab · gry i struktura techniczna", back: "← Gry",
     sections: [
-      { h: "Katalog", lead: "TarikLab ma 20 dostępnych gier.", items: [
+      { h: "Katalog", lead: "TarikLab ma 19 dostępnych gier.", items: [
         '<a href="/cete-savaslari">Çete Savaşları</a> · LIVE — Zbuduj ekipę, prowadź zadania i utrzymuj dzielnicę pod presją policji oraz rywali.',
         '<a href="/oyna/hanedanian">HANEDANIAN</a> · LIVE — Buduj osady, zabezpieczaj zasoby i prowadź dynastię na generowanej mapie strategii.',
         '<a href="/oyna/racon">Racon Manager</a> · LIVE — Narracyjna gra menedżerska o relacjach, decyzjach i opóźnionych konsekwencjach.',
@@ -691,12 +690,11 @@
         '<a href="/oyna/son-koy-manager">SON KÖY MANAGER</a> · LIVE — Przez 24 miesiące rozdzielaj zdolność działania między wodę, energię, migrację i zaufanie.',
         '<a href="/oyna/veto-h">VETO-H!</a> · LIVE — Pojedynek wyborczy i kampanijny na 300 kart z talią 40 kart. Grafiki kart powstały przy użyciu narzędzi AI (zob. niżej).',
         '<a href="/oyna/gett-oh">GETT-OH!</a> · LIVE — Pojedynek o dzielnicę i uliczną siłę: wspólny silnik, osobna pula kart i stambulska noc. Grafiki kart powstały przy użyciu narzędzi AI (zob. niżej).',
-        '<a href="/oyna/ihtilal">İHTİLÂL</a> · LIVE — Biurko dla jednej osoby: obciążenie, zaufanie, informacja i napięcie w fikcyjnych dorzeczach; wybór między krótką ulgą a odroczonym ciężarem.',
         '<a href="/oyna/darbe-h">DARBE-H!</a> · LIVE — Fikcyjny pojedynek nadzwyczajnego biurka z oddzielną pulą 300 kart. Grafiki plansz powstały przy użyciu narzędzi AI (zob. niżej).',
         '<a href="/oyna/jitem-derin-ag">JITEM: Derin Ağ</a> · LIVE — Jednoosobowa strategia 1986–1996 oparta na źródłowych zapisach historycznych, sieciach relacji i asymetrycznej wiedzy.',
         '<a href="/oyna/esik">Kıyı Eşiği</a> · LIVE — Wymyślone wybrzeże. Nabrzeże, schody, rampa, wylot tunelu i przęsło mostu. Przerwany próg mówi dlaczego.',
       ]},
-      { h: "Jak to działa", lead: "TarikLab to zbiór niezależnych gier działających bezpośrednio w przeglądarce.", items: ["Portal i Çete Savaşları używają Reacta i TypeScriptu; pozostałe gry są osobnymi aplikacjami HTML, CSS i JavaScript.", "Portal i wszystkie 20 dostępnych gier obsługują turecki i angielski. Polski obejmuje interfejs oraz — przez warstwę tłumaczeń — tekst gier (fabuła, wydarzenia, karty, pomoc); tekst bez polskiego tłumaczenia pokazuje się po angielsku. Polskie teksty nie zostały jeszcze sprawdzone przez rodzimego użytkownika języka.", "Interfejsy dostosowują się do telefonu, tabletu i komputera." ]},
+      { h: "Jak to działa", lead: "TarikLab to zbiór niezależnych gier działających bezpośrednio w przeglądarce.", items: ["Portal i Çete Savaşları używają Reacta i TypeScriptu; pozostałe gry są osobnymi aplikacjami HTML, CSS i JavaScript.", "Portal i wszystkie 19 dostępnych gier obsługują turecki i angielski. Polski obejmuje interfejs oraz — przez warstwę tłumaczeń — tekst gier (fabuła, wydarzenia, karty, pomoc); tekst bez polskiego tłumaczenia pokazuje się po angielsku. Polskie teksty nie zostały jeszcze sprawdzone przez rodzimego użytkownika języka.", "Interfejsy dostosowują się do telefonu, tabletu i komputera." ]},
       { h: "Autorstwo", note: "Tarık jest synem swojej matki." },
       { h: "TLab Classics", lead: "Labirent, Tek Taş, Satranç i Amiral Battı zostały napisane od podstaw dla TarikLab.", items: ["Labirent — niezależna implementacja TarikLab.", "Tek Taş — niezależna implementacja TarikLab.", "Satranç — niezależny silnik zasad TarikLab.", "Amiral Battı — niezależna implementacja siatki i floty TarikLab."], note: "Klasyczne zasady gier są koncepcjami domeny publicznej; ta informacja dotyczy wyłącznie kodu, interfejsu i oryginalnej treści TarikLab." },
       { h: "Grafiki i łańcuch praw", lead: "Jako licencje pokazujemy tylko prawa z potwierdzonym zapisem.", items: [
