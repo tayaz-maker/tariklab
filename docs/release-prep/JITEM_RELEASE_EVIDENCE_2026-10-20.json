@@ -1,0 +1,273 @@
+{
+  "standalone": {
+    "pr": 26,
+    "canonical": "37c5416e7a49b2ecc998f0d1071a7484d6e508c0",
+    "testedHead": "2657665d6a5574ffb6ae106bb5db054e6453fa05",
+    "ciRun": 39414832356,
+    "tests": {
+      "passed": 288,
+      "failed": 0,
+      "skipped": 0
+    },
+    "chromium": {
+      "atlas": 7,
+      "product": 8,
+      "support": 12
+    }
+  },
+  "product": {
+    "pr": 205,
+    "canonical": "cfa6d8c25652b33093ecc8734e6e8ae262d98dfe",
+    "testedHead": "418b859abc4ddfaf57224b1a1079f33c4e7ba833",
+    "ciRun": 39415805136,
+    "tests": {
+      "passed": 2245,
+      "failed": 0,
+      "existingSkipped": 1
+    },
+    "changedGeneratedFiles": [
+      "assets/runtime.js"
+    ],
+    "mainCiRun": 39417501337,
+    "mainCiStatus": "IN_PROGRESS"
+  },
+  "www": {
+    "vercelDeployment": "dpl_CdXxz9U5oMd9aX1Ap8gzTKXgGvaH",
+    "vercelStatus": "READY",
+    "hashes": {
+      "checkedAt": "2026-10-20T11:49:46Z",
+      "origin": "https://www.tariklab.com/games/jitem-derin-ag/",
+      "canonical": "cfa6d8c25652b33093ecc8734e6e8ae262d98dfe",
+      "standaloneSha": "37c5416e7a49b2ecc998f0d1071a7484d6e508c0",
+      "pass": true,
+      "matches": 31,
+      "total": 31,
+      "rows": [
+        {
+          "path": "SOURCE.json",
+          "status": 200,
+          "sha256": "dd6b0d5d3d539c6c716bf036ef09443e046906185b0db25e41867ff03ccdee7d",
+          "match": true
+        },
+        {
+          "path": "__grok/icon-180.png",
+          "status": 200,
+          "sha256": "3cf5d17d294b51c6cca6c86070309b88554b7ad702b0412e8e2709a01990bc8a",
+          "match": true
+        },
+        {
+          "path": "__grok/install/assets/homescreen/glass-puzzle.svg",
+          "status": 200,
+          "sha256": "a677c9356c23d1e699559ddbffac97cd135c2782cd893fb34f3738f6d11bee17",
+          "match": true
+        },
+        {
+          "path": "__grok/install/assets/homescreen/glass-share.svg",
+          "status": 200,
+          "sha256": "efad1b4b507a68c1f1af4aad2c93e8c24076224aa593da86677697f543d026d6",
+          "match": true
+        },
+        {
+          "path": "__grok/install/assets/homescreen/logo-grok.svg",
+          "status": 200,
+          "sha256": "0654e3e59cce69856f38525cbfe4ab3a9ef52d4b64c8532dd0bc1a3f34fcb5b1",
+          "match": true
+        },
+        {
+          "path": "__grok/install/assets/homescreen/ob-ipad.png",
+          "status": 200,
+          "sha256": "4c9b09a4660c662b394597d551a04124293b0e37a7a7c72271dd2948c4499a14",
+          "match": true
+        },
+        {
+          "path": "__grok/install/assets/homescreen/ob-phone.png",
+          "status": 200,
+          "sha256": "80e0a5ede614d9b920c67d7cb79c80a79134687b1fc9f560384e896a88e302db",
+          "match": true
+        },
+        {
+          "path": "__grok/install/assets/homescreen/plus.svg",
+          "status": 200,
+          "sha256": "c2c94be46aa2c3c2fda95d7c6f2fc6d0b656d1f5847828d5d95b5a81a6f4f20d",
+          "match": true
+        },
+        {
+          "path": "__grok/install/styles.css",
+          "status": 200,
+          "sha256": "7e8e881302f58e54a9c07e7be395692d3de20fdaa27ce358531cc8dcca472cb6",
+          "match": true
+        },
+        {
+          "path": "assets/BufferResource-5Lhx2wWa.js",
+          "status": 200,
+          "sha256": "ff092643370d2d2b9ac13783815103f1a25ba4750a382750c0ceeecd2f224f7d",
+          "match": true
+        },
+        {
+          "path": "assets/CanvasRenderer-DSklI2pD.js",
+          "status": 200,
+          "sha256": "55abe8ecd80bd5cb549e838e657c6630b4af43c15fd70e0c75948d5e7de5ac19",
+          "match": true
+        },
+        {
+          "path": "assets/Geometry-DWxeac-G.js",
+          "status": 200,
+          "sha256": "02a2a39400fa88a40a4a899c9c4be8990edf3304444ac75c2956ebdaeaaf3307",
+          "match": true
+        },
+        {
+          "path": "assets/RenderTargetSystem-Bd4dlm9e.js",
+          "status": 200,
+          "sha256": "70abea61b63e3895838566602b2522098608ed96d67bfebc58fa7f70f31942f4",
+          "match": true
+        },
+        {
+          "path": "assets/WebGLRenderer-CHTKhrxb.js",
+          "status": 200,
+          "sha256": "820f3b3f3aa0579541615a46cb089946a3c4976749a29276160819a9154bffc9",
+          "match": true
+        },
+        {
+          "path": "assets/WebGPURenderer--WNXb8Aa.js",
+          "status": 200,
+          "sha256": "c0dd2e6ad3af450a4d72a5ef445593c98aa4412dcae0bd9535661cf38a223797",
+          "match": true
+        },
+        {
+          "path": "assets/atlas-pixi-Dilx3yA8.js",
+          "status": 200,
+          "sha256": "6c2a303be0fb91f6e95e3fcb1bae96d846a4af46129bb3b9445dd546422d68c2",
+          "match": true
+        },
+        {
+          "path": "assets/browserAll-C2Mk01om.js",
+          "status": 200,
+          "sha256": "947fdbd1d231d632cdbfe85f06657281a14d566908b235be96cad2ce95fcfa46",
+          "match": true
+        },
+        {
+          "path": "assets/canvasUtils-BqmlzUgB.js",
+          "status": 200,
+          "sha256": "59dc9b7f173043801593f1b6bf7d126710cae9df61989902fe9a2cedc83d3081",
+          "match": true
+        },
+        {
+          "path": "assets/getTextureBatchBindGroup-DuEkjIZ8.js",
+          "status": 200,
+          "sha256": "4bda14165c8c90015b7e397048a4a9c1d6da4c257548fbc942e2444c295db7c4",
+          "match": true
+        },
+        {
+          "path": "assets/init-Cz6bzehy.js",
+          "status": 200,
+          "sha256": "b1ed7596675370c5f4b5011b91295e469e1c2e08610b0bfb2a3fb1cf2514a2aa",
+          "match": true
+        },
+        {
+          "path": "assets/init-w6whaPur.js",
+          "status": 200,
+          "sha256": "bc86230b0416e72e7549f108d25475c7cfffa4db5e3e633a6d2c20ffcbda610b",
+          "match": true
+        },
+        {
+          "path": "assets/integration-TF9RduP9.css",
+          "status": 200,
+          "sha256": "296c51f61752a2687927a7f1e8c30e9e55686753e9c5395894764b49c7429a81",
+          "match": true
+        },
+        {
+          "path": "assets/lib-DttBULyp.js",
+          "status": 200,
+          "sha256": "d9e7ee574e75057711080162bc9af3a0c83e697ca8922ac19cebcec0d7a4cf86",
+          "match": true
+        },
+        {
+          "path": "assets/runtime.js",
+          "status": 200,
+          "sha256": "cab531fa229d9050171a7f8e3fda9034a0b9b3a089bbb63903d7cea97d1a6453",
+          "match": true
+        },
+        {
+          "path": "assets/webworkerAll-BKbgqR6g.js",
+          "status": 200,
+          "sha256": "366565810a4415c6020c754cbd8d710aba1314a368f4a8f37bd9be22e28616f1",
+          "match": true
+        },
+        {
+          "path": "favicon.svg",
+          "status": 200,
+          "sha256": "353e2959be8823683350a182b03f7517c786f0d02905d5edcd4399c766cbc93c",
+          "match": true
+        },
+        {
+          "path": "images/map.jpg",
+          "status": 200,
+          "sha256": "c4720b4b1116057fee75343a6afda6aff25885d892cb00e19c92a14783f4afa2",
+          "match": true
+        },
+        {
+          "path": "images/office.jpg",
+          "status": 200,
+          "sha256": "205ce133a42b659d6da04da6cf0223c78e3069f6419649f871894ca5c7ef2e09",
+          "match": true
+        },
+        {
+          "path": "index.html",
+          "status": 200,
+          "sha256": "72ae08ac3a49fda2617f54c74a606e339189d6943e2f221546dac890ace23a3a",
+          "match": true
+        },
+        {
+          "path": "og.jpg",
+          "status": 200,
+          "sha256": "df615907916a0e54e0671af2d60dccbe7d85dadba1d3ddd9770388dd0e717a4f",
+          "match": true
+        },
+        {
+          "path": "x-banner.jpg",
+          "status": 200,
+          "sha256": "fd52e0644d7b3748aa1a03b4974b088f62835deee7e17908ca8c0c9335e9003f",
+          "match": true
+        }
+      ]
+    },
+    "chromium": {
+      "run": 39416117487,
+      "attempt": 2,
+      "artifact": 12261129789,
+      "memory": 12,
+      "support": 12,
+      "product": 8,
+      "status": "PASS"
+    },
+    "capacityStatus": "PASS",
+    "capacity": {
+      "run": 39418135120,
+      "cases": 4,
+      "scope": "TR/EN × 390/1280; source-exact resource vectors; zero capacity refuses new collect; next period and reload",
+      "artifact": 12262920538
+    }
+  },
+  "workers": {
+    "build": "PASS",
+    "buildUrl": "https://dash.cloudflare.com/1c23838a8ed57b3cabd47e117b6ebb62/workers/services/view/tariklab/production/builds/c30aa7b5-d59f-4689-94f9-98c9d6bf0dba",
+    "access": "Browser entry rendered at 200; runner manual SOURCE/runtime/CSS 200; index.html 307 to same-host directory. Local direct HTTP static requests return 403.",
+    "browserRegression": "PASS",
+    "canonicalDirectoryIndex": "index.html uses 307 to /games/jitem-derin-ag/; proof hashes the canonical directory response without cross-origin redirect",
+    "chromium": {
+      "run": 39418137917,
+      "artifact": 12263265195,
+      "memory": 12,
+      "support": 12,
+      "product": 8,
+      "status": "PASS",
+      "origin": "https://tariklab.tayaz29.workers.dev",
+      "canonicalHtmlPath": "/games/jitem-derin-ag/",
+      "metadataNote": "The shared memory-proof template retains a stale footer saying Workers not certified; its actual origin field, executed Workers workflow URLs, exact hash assertions and 32 passing rows establish this run scope. This release evidence records the executed scope."
+    }
+  },
+  "prepBranch": "prep/archive-inventory-20261020",
+  "astraHandoff": "NOT_RECEIVED_NOT_ACCEPTED_NO_TRANSFER_CODE",
+  "updatedAt": "2026-10-20T11:55:38Z",
+  "physicalDeviceAcceptance": "USER_OWNED_NOT_RUN"
+}

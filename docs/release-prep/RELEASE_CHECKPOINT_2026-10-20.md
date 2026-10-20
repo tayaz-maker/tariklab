@@ -1,27 +1,29 @@
-# JITEM release checkpoint — 2026-10-20
+# JITEM release checkpoint — 20 October 2026
 
-## Confirmed
-- JITEM #26 squash merged: 37c5416e7a49b2ecc998f0d1071a7484d6e508c0.
-- Tested head: 2657665d6a5574ffb6ae106bb5db054e6453fa05; exact same tree 46e716106437a435b39f7c5f775a525e1ee8deed as merged main.
-- 288/288 tests, lint/typecheck/build PASS; 7 atlas + 8 product + 12 support Chromium cases. Run 39414832356, artifact 12261440776, desktop/mobile screenshots reviewed.
-- TarikLab #205: release/jitem-support-payoff-20261020; head 418b859abc4ddfaf57224b1a1079f33c4e7ba833; base 27beb9c1827ba893916aceb173c9109cf503d0d4.
-- Build changes only runtime.js among generated files. 30 built game files byte-identical to copied product tree; SOURCE.json is the 31st receipt. Local integration tests 2/2 PASS.
-- #205 Vercel status and Workers Builds PASS. CI 39415805136 still in progress at 11:42 UTC: changes/campaign-browser/campaign-balance success; build-core npm test and browser-regression still running. DO NOT MERGE while pending or failed.
-- Existing other development PRs: TarikLab #131 and #112. No additional development PR was opened; total remains 3 including #205.
+JITEM #26 and TarikLab #205 are squash merged. Do not reapply or merge them again.
 
-## Exact next steps
-1. Fetch fresh #205 head/base/main and all checks. If all current-head CI PASS, squash merge using expected head 418b859abc4ddfaf57224b1a1079f33c4e7ba833.
-2. Record new TarikLab canonical SHA, CI, Vercel, Workers.
-3. Verify live SOURCE.json and full 31-file SHA-256 manifest against merged build.
-4. Production Chromium QA branches (test code only, no PRs or runtime changes):
-   - qa/release26-production-proof-20261020, run 39416117487: exact www hashes, 12 relationship-memory + 12 support positive/negative control + 8 product cases; separate Workers Chromium access classification.
-   - qa/release26-capacity-proof-20261020, run 39416469968: 4 TR/EN × 390/1280 cases; exact resource vectors, exhaust capacity, blocked extra collection, next period, reload.
-   Both runs are bounded waiting for exact live SOURCE SHA. If readiness times out before #205 release, rerun only the failed jobs after deployment. Do not mistake readiness timeout for game regression.
-5. Inspect actual results and mobile/desktop screenshots; retain Workers access as separate from gameplay.
-6. Save final evidence and updated independent prep branch against canonical main.
+| Repository | Canonical main | Reviewed/tested head | Gate |
+|---|---|---|---|
+| jitem-derin-ag | `37c5416e7a49b2ecc998f0d1071a7484d6e508c0` | `2657665d6a5574ffb6ae106bb5db054e6453fa05` | 288/288, lint/typecheck/build; 7 atlas + 8 product + 12 support Chromium PASS, run 39414832356 |
+| tariklab | `cfa6d8c25652b33093ecc8734e6e8ae262d98dfe` | `418b859abc4ddfaf57224b1a1079f33c4e7ba833` | All current-head checks PASS before merge, run 39415805136; 2245 tests pass, zero failures, one pre-existing skipped test |
 
-## Access observations
-www SOURCE currently still #25 (1171d15...). www credits.html 200 and both IHTILAL/esik LIVE links preserved. www /oyna/esik and /oyna/ihtilal HTTP 200. Workers shell returned HTTP 200 from one request, but Workers static SOURCE.json returned HTTP 403 from another. Workers browser/gameplay is NOT certified. Do not weaken protections.
+Candidate and canonical trees are identical for each release. Only JITEM generated runtime.js changed; SOURCE.json receipt, integration pin and docs accompany it. No game UI, source catalogue, schema/key, archive removal or foreign-system transplant.
 
-## Independent preparation
-prep/archive-inventory-20261020 (remote tip d043075ecf2f61f5cb14eb48e29789f1245971aa) holds safe plan plus file inventory (15 esik, 29 ihtilal, 24 racon source/test files). Further local docs add portal Resources linkage and text-reference candidates. No game removal. Existing old transfer-gate document is not approval of Astra's incoming handoff. No transfer code until that handoff is accepted; do not write Astra branches.
+## Production acceptance
+
+- www Vercel deployment `dpl_CdXxz9U5oMd9aX1Ap8gzTKXgGvaH`: READY, production, canonical SHA and www alias confirmed through Vercel API.
+- www full manifest: 31/31 SHA-256 matches. Runtime: `cab531fa229d9050171a7f8e3fda9034a0b9b3a089bbb63903d7cea97d1a6453`.
+- www real Chromium: 12 relationship-memory + 12 stale/valid support + 8 product = 32 PASS, run 39416117487 attempt 2, artifact 12261129789. Capacity/source-exact resource/next-period/reload: 4 PASS, run 39418135120, artifact 12262920538. TR/EN, phone/desktop. Screenshots visually reviewed.
+- Workers main build PASS: `c30aa7b5-d59f-4689-94f9-98c9d6bf0dba`. Real Workers origin source/runtime/CSS available at 200 from GitHub runner. index.html is a same-origin 307 alias to `/games/jitem-derin-ag/`; canonical directory HTML hash matches. 12 memory + 12 support + 8 product = 32 Chromium PASS, run 39418137917, artifact 12263265195. Direct HTTP static requests from the local work environment still return 403; that observation is distinct from verified runner/browser game regression. No protection changed.
+- Shared memory-proof artifact footer has stale www/Workers wording; the origin field, Workers workflow destinations and actual 32 result rows establish executed Workers scope. Final evidence JSON records this explicitly.
+- Physical device acceptance remains with the user.
+
+Full manifest and live hash rows: `JITEM_RELEASE_MANIFEST_2026-10-20.json`, `JITEM_RELEASE_EVIDENCE_2026-10-20.json`.
+
+## Main CI and next action
+
+Post-merge main CI 39417501337 was still in progress at the latest record; do not describe it as PASS. It is a new run on an identical reviewed tree and includes main-only production checks. No further merge was made while pending. Recheck its final result when continuing; investigate any real failure without weakening tests.
+
+Independent inventory/plan remains on `prep/archive-inventory-20261020`, now reconciled with this canonical main. Kiyi Esigi and IHTILAL remain live, including Resources links. Racon mechanics/files inventoried. No retirement ref, removal, transfer or save reset was performed. Open pre-existing development PRs remain #131 and #112; the limit of three was preserved.
+
+Astra's new handoff has not been received/accepted in this execution. Existing old transfer-gate docs are not that approval. Next implementation gate: accept the handoff against the canonical SHAs, specify exact nonoverlapping files and behavioural acceptance, then start a separate scoped change. Do not touch Astra branches. Physical acceptance belongs to the user.

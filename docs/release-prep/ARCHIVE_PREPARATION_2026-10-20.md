@@ -14,6 +14,8 @@ Silmesiz plan: (1) Son canlı main, dosya hashleri, kaynak/lisans ve kayıt söz
 
 ## İHTİLÂL canlı bağlantılar
 
+Portal Kaynaklar düğmesi `src/components/portal/portal-home.tsx` içinden `/credits.html` sayfasına gider. 20 Ekim doğrulamasında www `/oyna/esik` ve `/oyna/ihtilal` HTTP 200 döndürdü; bu yalnız erişim kanıtıdır, oyun kabulü değildir.
+
 `src/lib/games.ts`: dossier kategorisi, HTML5 slug `ihtilal`, LIVE `/oyna/ihtilal`. `src/routes/ihtilal.tsx` eski `/ihtilal` URL'sini `/oyna/ihtilal` adresine yönlendirir. HTML5 kabuk `/games/ihtilal/index.html` açar. `public/credits.html`: `data-game="ihtilal" data-status="live" data-route="/oyna/ihtilal"`, metin ve bağlantı korunur. `public/sw.js` app-shell listesinde `/games/ihtilal/` vardır. Üretilmiş routeTree, katalog lokalizasyonu ve portal ikonu da korunur. Kaynak belgeleri `docs/ihtilal`, `docs/ip/ihtilal-*`, ilgili test/browser betikleri ve fixture'lar arşiv kapsamına alınmalıdır.
 
 Bu bağlantılar kaynak koddan doğrulandı; canlı HTTP/tarayıcı sonucu release kanıtında ayrıca işaretlenir. Eski `docs/jitem-derin-ag/IHTILAL_TRANSFER_GATE_2026-10-20.md` teknik referanstır; Astra'nın yeni handoff'unun kabulü yerine geçmez.

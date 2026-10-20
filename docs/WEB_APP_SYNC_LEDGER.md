@@ -936,3 +936,7 @@ Upstream PR #24 merged at 3e8131c1a7f1f1ae43b9090ffc42a05d551c43a8. Exact clean-
 ## 2026-10-20 — JITEM historical actor liveness sync
 
 Upstream #25 merged at 1171d15aff54a2758c46c514455bb2795014572f. New build from this clean SHA adds only the existing dead-actor guard to the generated memory loop; other generated assets remain byte-identical. Existing history, faction knowledge, source-backed delayed events, save key/schema and visual design remain preserved. Source tests 285/285, lint/typecheck/build PASS; real Chromium atlas 7/7 + product 8/8 PASS, run 39408656535. SOURCE/runtime receipt and product integration tests bind the exact SHA. This product sync depends on #203; reconcile with its merged main and require current-head CI before merge. IHTILAL is not archived/unpublished.
+
+## 2026-10-20 — JITEM support payoff eligibility sync
+
+Upstream #26 squash merged as 37c5416e7a49b2ecc998f0d1071a7484d6e508c0 after 288/288 tests, lint/typecheck/build and Chromium 7 atlas + 8 product + 12 support payoff cases PASS on head 2657665d6a5574ffb6ae106bb5db054e6453fa05 (run 39414832356, artifact 12261440776). Built from that merged source with lockfile-matched installed dependencies. Only runtime.js differs among generated assets. SOURCE receipt and integration pin updated; schema 5, save key, visuals, content, routes and shell preserved. Product release and live semantic acceptance require current-head CI and post-merge verification. No IHTILAL/Kiyi removal or transfer code.
