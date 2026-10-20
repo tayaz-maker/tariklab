@@ -65,14 +65,15 @@
       "production": "Await combined ADAPT sync; product remains #26 canonical"
     }
   ],
-  "next": "Controlled TarikLab sync, full current-head CI, then exact-origin production acceptance",
+  "next": "Verify Vercel/Workers deployment, run both-origin 72-case ADAPT production acceptance, then archive PR",
   "productSync": {
     "pr": 206,
     "head": "50daf937dc372d1d0f8a2a2f4a5e86e6c5051567",
     "ci": 39424499359,
-    "status": "AWAIT_REQUIRED_CI",
+    "status": "MERGED_AWAIT_PRODUCTION",
     "runtimeSha256": "31deba68d1bcc5cd7cef9c813bd033a11b3cc1a40c95fee3c74918a998ad18f4",
-    "manifestFiles": 31
+    "manifestFiles": 31,
+    "canonical": "a31c85940f1fa5e54b68ca4887dfdc5631a072ff"
   },
   "archivePreparation": {
     "branch": "archive/ihtilal-retirement-20261020",
