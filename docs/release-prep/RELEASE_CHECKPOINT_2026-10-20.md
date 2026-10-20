@@ -22,8 +22,8 @@ Full manifest and live hash rows: `JITEM_RELEASE_MANIFEST_2026-10-20.json`, `JIT
 
 ## Main CI and next action
 
-Post-merge main CI 39417501337 was still in progress at the latest record; do not describe it as PASS. It is a new run on an identical reviewed tree and includes main-only production checks. No further merge was made while pending. Recheck its final result when continuing; investigate any real failure without weakening tests.
+Post-merge main CI [39417501337](https://github.com/tayaz-maker/tariklab/actions/runs/39417501337) completed SUCCESS on canonical cfa6d8c25652b33093ecc8734e6e8ae262d98dfe; all six jobs PASS. JITEM #26 production acceptance is CLOSED in the documented www 36 / Workers 32 / 31-hash scope.
 
 Independent inventory/plan remains on `prep/archive-inventory-20261020`, now reconciled with this canonical main. Kiyi Esigi and IHTILAL remain live, including Resources links. Racon mechanics/files inventoried. No retirement ref, removal, transfer or save reset was performed. Open pre-existing development PRs remain #131 and #112; the limit of three was preserved.
 
-Astra's new handoff has not been received/accepted in this execution. Existing old transfer-gate docs are not that approval. Next implementation gate: accept the handoff against the canonical SHAs, specify exact nonoverlapping files and behavioural acceptance, then start a separate scoped change. Do not touch Astra branches. Physical acceptance belongs to the user.
+Astra's detailed handoff including section 8 was found and read; the three ADAPT contracts were checked against current JITEM 37c5416 and initially remain PARTIAL. ADAPT 1 is prepared in JITEM #27, gated on exact-head Chromium CI. ADAPT 2 and 3 follow in sequence; no direct TRANSFER. The latest user archive authorization applies only after all three acceptance/release gates. Kiyi Esigi sources and Astra's Racon workspace remain untouched. Physical acceptance belongs to the user.
