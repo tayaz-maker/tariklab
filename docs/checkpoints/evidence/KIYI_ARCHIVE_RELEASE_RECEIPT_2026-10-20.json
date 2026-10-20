@@ -1,0 +1,372 @@
+{
+  "canonicalMain": "272c5ea08340de09e777ee60a03b0ccd4da96632",
+  "pr": 210,
+  "archiveRef": "archive/kiyi-esigi-pre-retirement-20261020",
+  "archiveRefSha": "2472042f3e97d21c2cbf64fa47588505a972d369",
+  "productionRun": 39444737065,
+  "proofSha": "d84263f87f5ba59f575d6211ec3396e74d8a781a",
+  "production": "PASS",
+  "mainCiRun": 39443993564,
+  "mainCiOwner": "user; monitoring delegated at18:09 Europe/Istanbul",
+  "physicalDeviceQa": "UNKNOWN",
+  "hosts": {
+    "www": {
+      "artifactId": 12276215180,
+      "artifactSha256": "23602c4d9f4b07fc7339f11f936b548bd921c54aaa96cb792e53f03915a52438",
+      "origin": "https://www.tariklab.com",
+      "canonicalMain": "272c5ea08340de09e777ee60a03b0ccd4da96632",
+      "archiveRef": "archive/kiyi-esigi-pre-retirement-20261020",
+      "hashes": [
+        {
+          "file": "public/games/esik/app.js",
+          "bytes": 14427,
+          "sha256": "d2921715a7b07ed596d1262c83cb74429bdfc20f63a672435d5d0e4f7fcd6d5d"
+        },
+        {
+          "file": "public/games/esik/index.html",
+          "bytes": 438,
+          "sha256": "279729ee17fe47535affc557dbf2347e6f54ec09f3f2bf0b9f706f6624595c14"
+        },
+        {
+          "file": "public/games/esik/map-model.js",
+          "bytes": 1210,
+          "sha256": "8de7ccf22f21e2d80556a39bf290cd0959fefb1edb4aa60fcd4a3015b9007549"
+        },
+        {
+          "file": "public/games/esik/map-pixi.js",
+          "bytes": 5095,
+          "sha256": "e5aec4d556959bbbd41f9964cb72f3aef2f4743f7840e6d63af1dc846621ebfb"
+        },
+        {
+          "file": "public/games/esik/save-store.js",
+          "bytes": 2803,
+          "sha256": "a7f86375a2ba9e89da4a6fbd8a453e24bc9e7f2ae77e96f84016572d74ef5b8f"
+        },
+        {
+          "file": "public/games/esik/sim.js",
+          "bytes": 8476,
+          "sha256": "c74eb2f2c157161e4154bb278ecab5819e3f8ae95de520eeeeab053c1a576a47"
+        },
+        {
+          "file": "public/games/esik/style.css",
+          "bytes": 1723,
+          "sha256": "f553cdcad734810ac6ca342840e268a162d194ef6202a20f8ebdcf12ee8a1943"
+        },
+        {
+          "file": "public/games/shared/pixi-adapter.js",
+          "bytes": 6139,
+          "sha256": "bf4eebb4533aee15ae9997e97e2167774ae1b6ee5b1f1d838448293fe79fc010"
+        },
+        {
+          "file": "public/i18n/pl-body.js",
+          "bytes": 7127,
+          "sha256": "5751281807f9654465bfc80d114f8a25f04c1412c6fc1064cf1fb158b86280ad"
+        },
+        {
+          "file": "public/i18n/pl/esik.json",
+          "bytes": 3743,
+          "sha256": "2040005899bb82911fe1238f15da978e1a67308159161d447e246da1dbaac9a6"
+        },
+        {
+          "file": "public/vendor/pixi/pixi-8.21.0.min.mjs",
+          "bytes": 828971,
+          "sha256": "2f69e90f5b1980e6ea244bacfb3fa1eb457e16ddcb0a602b694642658956f2ef"
+        },
+        {
+          "file": "public/credits.html",
+          "bytes": 18688,
+          "sha256": "14a8f7116f22ecec403bacc44490d9f9fc729e0d693a7ecf75ae4c7d0ec49b6a"
+        },
+        {
+          "file": "public/i18n/tlab-i18n.js",
+          "bytes": 62149,
+          "sha256": "c934e6656d0558fddeb5781c69001dc8fb4f4ca0c1c67cbcb5ef185d125ec6ac"
+        },
+        {
+          "file": "public/sw.js",
+          "bytes": 5072,
+          "sha256": "1937332e5844f1c9faa7ab437b1f7aa69e271335b61f98b8e52e5a9ad8188a9b"
+        },
+        {
+          "file": "public/games/jitem-derin-ag/SOURCE.json",
+          "bytes": 615,
+          "sha256": "edc6a2e327fd10d43c36d8187577911e327097360abbf27f34277a66eb6678a0"
+        },
+        {
+          "file": "public/games/jitem-derin-ag/assets/runtime.js",
+          "bytes": 604966,
+          "sha256": "31deba68d1bcc5cd7cef9c813bd033a11b3cc1a40c95fee3c74918a998ad18f4"
+        }
+      ],
+      "coast": [
+        {
+          "lang": "tr",
+          "width": 1280,
+          "status": "PASS",
+          "origin": "https://www.tariklab.com",
+          "recoverySlots": 8
+        },
+        {
+          "lang": "tr",
+          "width": 390,
+          "status": "PASS",
+          "origin": "https://www.tariklab.com",
+          "recoverySlots": 8
+        },
+        {
+          "lang": "en",
+          "width": 1280,
+          "status": "PASS",
+          "origin": "https://www.tariklab.com",
+          "recoverySlots": 8
+        },
+        {
+          "lang": "en",
+          "width": 390,
+          "status": "PASS",
+          "origin": "https://www.tariklab.com",
+          "recoverySlots": 8
+        },
+        {
+          "lang": "pl",
+          "width": 1280,
+          "status": "PASS",
+          "origin": "https://www.tariklab.com",
+          "recoverySlots": 8
+        },
+        {
+          "lang": "pl",
+          "width": 390,
+          "status": "PASS",
+          "origin": "https://www.tariklab.com",
+          "recoverySlots": 8
+        }
+      ],
+      "ihtilal": [
+        {
+          "lang": "tr",
+          "width": 1280,
+          "status": "PASS",
+          "origin": "https://www.tariklab.com",
+          "legacySaveKeys": 8
+        },
+        {
+          "lang": "tr",
+          "width": 390,
+          "status": "PASS",
+          "origin": "https://www.tariklab.com",
+          "legacySaveKeys": 8
+        },
+        {
+          "lang": "en",
+          "width": 1280,
+          "status": "PASS",
+          "origin": "https://www.tariklab.com",
+          "legacySaveKeys": 8
+        },
+        {
+          "lang": "en",
+          "width": 390,
+          "status": "PASS",
+          "origin": "https://www.tariklab.com",
+          "legacySaveKeys": 8
+        },
+        {
+          "lang": "pl",
+          "width": 1280,
+          "status": "PASS",
+          "origin": "https://www.tariklab.com",
+          "legacySaveKeys": 8
+        },
+        {
+          "lang": "pl",
+          "width": 390,
+          "status": "PASS",
+          "origin": "https://www.tariklab.com",
+          "legacySaveKeys": 8
+        }
+      ],
+      "jitem": "PASS",
+      "sitemap": "PASS"
+    },
+    "workers": {
+      "artifactId": 12276420113,
+      "artifactSha256": "e6ba4770f44344d35c3e3a04897c3162808e9d05c5ed608600df1c5615739a5d",
+      "origin": "https://tariklab.tayaz29.workers.dev",
+      "canonicalMain": "272c5ea08340de09e777ee60a03b0ccd4da96632",
+      "archiveRef": "archive/kiyi-esigi-pre-retirement-20261020",
+      "hashes": [
+        {
+          "file": "public/games/esik/app.js",
+          "bytes": 14427,
+          "sha256": "d2921715a7b07ed596d1262c83cb74429bdfc20f63a672435d5d0e4f7fcd6d5d"
+        },
+        {
+          "file": "public/games/esik/index.html",
+          "bytes": 438,
+          "sha256": "279729ee17fe47535affc557dbf2347e6f54ec09f3f2bf0b9f706f6624595c14"
+        },
+        {
+          "file": "public/games/esik/map-model.js",
+          "bytes": 1210,
+          "sha256": "8de7ccf22f21e2d80556a39bf290cd0959fefb1edb4aa60fcd4a3015b9007549"
+        },
+        {
+          "file": "public/games/esik/map-pixi.js",
+          "bytes": 5095,
+          "sha256": "e5aec4d556959bbbd41f9964cb72f3aef2f4743f7840e6d63af1dc846621ebfb"
+        },
+        {
+          "file": "public/games/esik/save-store.js",
+          "bytes": 2803,
+          "sha256": "a7f86375a2ba9e89da4a6fbd8a453e24bc9e7f2ae77e96f84016572d74ef5b8f"
+        },
+        {
+          "file": "public/games/esik/sim.js",
+          "bytes": 8476,
+          "sha256": "c74eb2f2c157161e4154bb278ecab5819e3f8ae95de520eeeeab053c1a576a47"
+        },
+        {
+          "file": "public/games/esik/style.css",
+          "bytes": 1723,
+          "sha256": "f553cdcad734810ac6ca342840e268a162d194ef6202a20f8ebdcf12ee8a1943"
+        },
+        {
+          "file": "public/games/shared/pixi-adapter.js",
+          "bytes": 6139,
+          "sha256": "bf4eebb4533aee15ae9997e97e2167774ae1b6ee5b1f1d838448293fe79fc010"
+        },
+        {
+          "file": "public/i18n/pl-body.js",
+          "bytes": 7127,
+          "sha256": "5751281807f9654465bfc80d114f8a25f04c1412c6fc1064cf1fb158b86280ad"
+        },
+        {
+          "file": "public/i18n/pl/esik.json",
+          "bytes": 3743,
+          "sha256": "2040005899bb82911fe1238f15da978e1a67308159161d447e246da1dbaac9a6"
+        },
+        {
+          "file": "public/vendor/pixi/pixi-8.21.0.min.mjs",
+          "bytes": 828971,
+          "sha256": "2f69e90f5b1980e6ea244bacfb3fa1eb457e16ddcb0a602b694642658956f2ef"
+        },
+        {
+          "file": "public/credits.html",
+          "bytes": 18688,
+          "sha256": "14a8f7116f22ecec403bacc44490d9f9fc729e0d693a7ecf75ae4c7d0ec49b6a"
+        },
+        {
+          "file": "public/i18n/tlab-i18n.js",
+          "bytes": 62149,
+          "sha256": "c934e6656d0558fddeb5781c69001dc8fb4f4ca0c1c67cbcb5ef185d125ec6ac"
+        },
+        {
+          "file": "public/sw.js",
+          "bytes": 5072,
+          "sha256": "1937332e5844f1c9faa7ab437b1f7aa69e271335b61f98b8e52e5a9ad8188a9b"
+        },
+        {
+          "file": "public/games/jitem-derin-ag/SOURCE.json",
+          "bytes": 615,
+          "sha256": "edc6a2e327fd10d43c36d8187577911e327097360abbf27f34277a66eb6678a0"
+        },
+        {
+          "file": "public/games/jitem-derin-ag/assets/runtime.js",
+          "bytes": 604966,
+          "sha256": "31deba68d1bcc5cd7cef9c813bd033a11b3cc1a40c95fee3c74918a998ad18f4"
+        }
+      ],
+      "coast": [
+        {
+          "lang": "tr",
+          "width": 1280,
+          "status": "PASS",
+          "origin": "https://tariklab.tayaz29.workers.dev",
+          "recoverySlots": 8
+        },
+        {
+          "lang": "tr",
+          "width": 390,
+          "status": "PASS",
+          "origin": "https://tariklab.tayaz29.workers.dev",
+          "recoverySlots": 8
+        },
+        {
+          "lang": "en",
+          "width": 1280,
+          "status": "PASS",
+          "origin": "https://tariklab.tayaz29.workers.dev",
+          "recoverySlots": 8
+        },
+        {
+          "lang": "en",
+          "width": 390,
+          "status": "PASS",
+          "origin": "https://tariklab.tayaz29.workers.dev",
+          "recoverySlots": 8
+        },
+        {
+          "lang": "pl",
+          "width": 1280,
+          "status": "PASS",
+          "origin": "https://tariklab.tayaz29.workers.dev",
+          "recoverySlots": 8
+        },
+        {
+          "lang": "pl",
+          "width": 390,
+          "status": "PASS",
+          "origin": "https://tariklab.tayaz29.workers.dev",
+          "recoverySlots": 8
+        }
+      ],
+      "ihtilal": [
+        {
+          "lang": "tr",
+          "width": 1280,
+          "status": "PASS",
+          "origin": "https://tariklab.tayaz29.workers.dev",
+          "legacySaveKeys": 8
+        },
+        {
+          "lang": "tr",
+          "width": 390,
+          "status": "PASS",
+          "origin": "https://tariklab.tayaz29.workers.dev",
+          "legacySaveKeys": 8
+        },
+        {
+          "lang": "en",
+          "width": 1280,
+          "status": "PASS",
+          "origin": "https://tariklab.tayaz29.workers.dev",
+          "legacySaveKeys": 8
+        },
+        {
+          "lang": "en",
+          "width": 390,
+          "status": "PASS",
+          "origin": "https://tariklab.tayaz29.workers.dev",
+          "legacySaveKeys": 8
+        },
+        {
+          "lang": "pl",
+          "width": 1280,
+          "status": "PASS",
+          "origin": "https://tariklab.tayaz29.workers.dev",
+          "legacySaveKeys": 8
+        },
+        {
+          "lang": "pl",
+          "width": 390,
+          "status": "PASS",
+          "origin": "https://tariklab.tayaz29.workers.dev",
+          "legacySaveKeys": 8
+        }
+      ],
+      "jitem": "PASS",
+      "sitemap": "PASS"
+    }
+  }
+}

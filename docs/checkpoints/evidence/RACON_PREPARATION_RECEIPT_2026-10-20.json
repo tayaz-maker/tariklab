@@ -1,0 +1,2730 @@
+{
+  "status": "PREPARATION_PASS_NOT_RELEASED",
+  "aPr": 211,
+  "aHead": "c1aa3e6acd804fecf8bab9626cdfded33dfe4374",
+  "bPr": 212,
+  "bHead": "d914d4145c5904e456799a8115be7bb6206cc2f0",
+  "cPr": 213,
+  "cHead": "e66a59e9e3a79c2f6383be9e2539b993ea924a7e",
+  "finalCTree": "6de5ef32710ed31860b319f18b78ec278e4588df",
+  "fullIntegratedBase": {
+    "passed": 2335,
+    "failed": 0,
+    "existingConditionalSkip": 1,
+    "logSha256": "e76bff5a0f60a93211857689ca1897b240abebb669dae4ec783f2b270b41d07d"
+  },
+  "finalFocused": {
+    "passed": 124,
+    "failed": 0,
+    "skipped": 0
+  },
+  "sourceLanguage": {
+    "chromium": "153.0.8010.0",
+    "rows": [
+      {
+        "lang": "tr",
+        "width": 390,
+        "status": "PASS",
+        "origin": "http://127.0.0.1:45365",
+        "canonicalStoryPreserved": true,
+        "assignmentAndCashReload": true
+      },
+      {
+        "lang": "tr",
+        "width": 1280,
+        "status": "PASS",
+        "origin": "http://127.0.0.1:45365",
+        "canonicalStoryPreserved": true,
+        "assignmentAndCashReload": true
+      },
+      {
+        "lang": "en",
+        "width": 390,
+        "status": "PASS",
+        "origin": "http://127.0.0.1:45365",
+        "canonicalStoryPreserved": true,
+        "assignmentAndCashReload": true
+      },
+      {
+        "lang": "en",
+        "width": 1280,
+        "status": "PASS",
+        "origin": "http://127.0.0.1:45365",
+        "canonicalStoryPreserved": true,
+        "assignmentAndCashReload": true
+      },
+      {
+        "lang": "pl",
+        "width": 390,
+        "status": "PASS",
+        "origin": "http://127.0.0.1:45365",
+        "canonicalStoryPreserved": true,
+        "assignmentAndCashReload": true
+      },
+      {
+        "lang": "pl",
+        "width": 1280,
+        "status": "PASS",
+        "origin": "http://127.0.0.1:45365",
+        "canonicalStoryPreserved": true,
+        "assignmentAndCashReload": true
+      }
+    ]
+  },
+  "builtLanguage": {
+    "chromium": "153.0.8010.0",
+    "rows": [
+      {
+        "lang": "tr",
+        "width": 390,
+        "status": "PASS",
+        "origin": "http://127.0.0.1:45955",
+        "canonicalStoryPreserved": true,
+        "assignmentAndCashReload": true
+      },
+      {
+        "lang": "tr",
+        "width": 1280,
+        "status": "PASS",
+        "origin": "http://127.0.0.1:45955",
+        "canonicalStoryPreserved": true,
+        "assignmentAndCashReload": true
+      },
+      {
+        "lang": "en",
+        "width": 390,
+        "status": "PASS",
+        "origin": "http://127.0.0.1:45955",
+        "canonicalStoryPreserved": true,
+        "assignmentAndCashReload": true
+      },
+      {
+        "lang": "en",
+        "width": 1280,
+        "status": "PASS",
+        "origin": "http://127.0.0.1:45955",
+        "canonicalStoryPreserved": true,
+        "assignmentAndCashReload": true
+      },
+      {
+        "lang": "pl",
+        "width": 390,
+        "status": "PASS",
+        "origin": "http://127.0.0.1:45955",
+        "canonicalStoryPreserved": true,
+        "assignmentAndCashReload": true
+      },
+      {
+        "lang": "pl",
+        "width": 1280,
+        "status": "PASS",
+        "origin": "http://127.0.0.1:45955",
+        "canonicalStoryPreserved": true,
+        "assignmentAndCashReload": true
+      }
+    ]
+  },
+  "deterministicLongrun": {
+    "scenarios": [
+      {
+        "kind": "balanced",
+        "seed": 4242,
+        "initialFixture": "natural",
+        "jobs": 164,
+        "appointments": 25,
+        "actions": {
+          "purchases": 0,
+          "investments": 0,
+          "expansions": 0,
+          "defences": 0,
+          "hires": 0
+        },
+        "progression": {
+          "invested": 0,
+          "lostStreets": 7,
+          "injured": 0,
+          "dead": 0,
+          "cleanIncomeHigh": 153030
+        },
+        "max": {
+          "jobs": 41,
+          "inbox": 226,
+          "calendar": 28,
+          "evidence": 88,
+          "history": 240,
+          "peopleMods": 20,
+          "men": 2,
+          "dosya": 100
+        },
+        "checkpoints": [
+          {
+            "week": 5,
+            "kasa": 97082,
+            "stage": "kabadayi",
+            "own": 6,
+            "dosya": 29.65
+          },
+          {
+            "week": 9,
+            "kasa": 182322,
+            "stage": "agabey",
+            "own": 6,
+            "dosya": 65.7
+          },
+          {
+            "week": 13,
+            "kasa": 150407,
+            "stage": "agabey",
+            "own": 6,
+            "dosya": 88.7
+          },
+          {
+            "week": 17,
+            "kasa": 106060,
+            "stage": "agabey",
+            "own": 6,
+            "dosya": 4.75
+          },
+          {
+            "week": 21,
+            "kasa": 190731,
+            "stage": "agabey",
+            "own": 6,
+            "dosya": 46.75
+          },
+          {
+            "week": 25,
+            "kasa": 185148,
+            "stage": "agabey",
+            "own": 6,
+            "dosya": 83.6
+          },
+          {
+            "week": 29,
+            "kasa": 63392,
+            "stage": "agabey",
+            "own": 6,
+            "dosya": 100
+          },
+          {
+            "week": 33,
+            "kasa": 14816,
+            "stage": "agabey",
+            "own": 6,
+            "dosya": 100
+          },
+          {
+            "week": 37,
+            "kasa": 21125,
+            "stage": "agabey",
+            "own": 6,
+            "dosya": 4.15
+          },
+          {
+            "week": 41,
+            "kasa": 105772,
+            "stage": "agabey",
+            "own": 6,
+            "dosya": 39.5
+          },
+          {
+            "week": 45,
+            "kasa": 197826,
+            "stage": "agabey",
+            "own": 6,
+            "dosya": 78.5
+          },
+          {
+            "week": 49,
+            "kasa": 22325,
+            "stage": "agabey",
+            "own": 6,
+            "dosya": 100
+          },
+          {
+            "week": 53,
+            "kasa": 12458,
+            "stage": "agabey",
+            "own": 6,
+            "dosya": 100
+          },
+          {
+            "week": 57,
+            "kasa": 11494,
+            "stage": "agabey",
+            "own": 6,
+            "dosya": 3
+          },
+          {
+            "week": 61,
+            "kasa": 87148,
+            "stage": "agabey",
+            "own": 6,
+            "dosya": 47.45
+          },
+          {
+            "week": 65,
+            "kasa": 92254,
+            "stage": "agabey",
+            "own": 6,
+            "dosya": 100
+          },
+          {
+            "week": 69,
+            "kasa": 30663,
+            "stage": "agabey",
+            "own": 6,
+            "dosya": 100
+          },
+          {
+            "week": 73,
+            "kasa": 5151,
+            "stage": "agabey",
+            "own": 6,
+            "dosya": 100
+          },
+          {
+            "week": 77,
+            "kasa": 11534,
+            "stage": "agabey",
+            "own": 6,
+            "dosya": 3.95
+          },
+          {
+            "week": 81,
+            "kasa": 71884,
+            "stage": "agabey",
+            "own": 6,
+            "dosya": 63.5
+          },
+          {
+            "week": 85,
+            "kasa": 15382,
+            "stage": "agabey",
+            "own": 6,
+            "dosya": 100
+          },
+          {
+            "week": 89,
+            "kasa": 27861,
+            "stage": "agabey",
+            "own": 6,
+            "dosya": 100
+          },
+          {
+            "week": 93,
+            "kasa": 6666,
+            "stage": "agabey",
+            "own": 6,
+            "dosya": 100
+          },
+          {
+            "week": 97,
+            "kasa": 16311,
+            "stage": "agabey",
+            "own": 6,
+            "dosya": 15
+          },
+          {
+            "week": 101,
+            "kasa": 71462,
+            "stage": "agabey",
+            "own": 6,
+            "dosya": 93
+          },
+          {
+            "week": 105,
+            "kasa": 13216,
+            "stage": "kabadayi",
+            "own": 1,
+            "dosya": 100
+          }
+        ],
+        "final": {
+          "week": 105,
+          "day": 3,
+          "stage": "kabadayi",
+          "kasa": 4056,
+          "clean": 4056,
+          "dirty": 0,
+          "dosya": 100,
+          "crew": [
+            {
+              "id": "m_sabri",
+              "status": "yorgun"
+            }
+          ],
+          "own": 3,
+          "end": "",
+          "seed": 28235418577450
+        }
+      },
+      {
+        "kind": "aggressive",
+        "seed": 4242,
+        "initialFixture": "natural",
+        "jobs": 58,
+        "appointments": 8,
+        "actions": {
+          "purchases": 0,
+          "investments": 0,
+          "expansions": 0,
+          "defences": 0,
+          "hires": 0
+        },
+        "progression": {
+          "invested": 0,
+          "lostStreets": 1,
+          "injured": 0,
+          "dead": 1,
+          "cleanIncomeHigh": 132052
+        },
+        "max": {
+          "jobs": 41,
+          "inbox": 217,
+          "calendar": 17,
+          "evidence": 68,
+          "history": 240,
+          "peopleMods": 24,
+          "men": 2,
+          "dosya": 100
+        },
+        "checkpoints": [
+          {
+            "week": 5,
+            "kasa": 95854,
+            "stage": "delikanli",
+            "own": 6,
+            "dosya": 29.7
+          },
+          {
+            "week": 9,
+            "kasa": 197102,
+            "stage": "kabadayi",
+            "own": 6,
+            "dosya": 72.55
+          },
+          {
+            "week": 13,
+            "kasa": 121086,
+            "stage": "kabadayi",
+            "own": 6,
+            "dosya": 13.45
+          },
+          {
+            "week": 17,
+            "kasa": 228476,
+            "stage": "kabadayi",
+            "own": 5,
+            "dosya": 52.5
+          },
+          {
+            "week": 21,
+            "kasa": 234783,
+            "stage": "kabadayi",
+            "own": 6,
+            "dosya": 83.65
+          },
+          {
+            "week": 25,
+            "kasa": 56978,
+            "stage": "kabadayi",
+            "own": 6,
+            "dosya": 92.9
+          },
+          {
+            "week": 29,
+            "kasa": 9096,
+            "stage": "kabadayi",
+            "own": 6,
+            "dosya": 100
+          }
+        ],
+        "final": {
+          "week": 32,
+          "day": 1,
+          "stage": "kabadayi",
+          "kasa": 6817,
+          "clean": 6817,
+          "dirty": 0,
+          "dosya": 3.55,
+          "crew": [
+            {
+              "id": "m_hasan",
+              "status": "olu"
+            }
+          ],
+          "own": 6,
+          "end": "hanedan",
+          "seed": 8582717403960
+        }
+      },
+      {
+        "kind": "passive",
+        "seed": 4242,
+        "initialFixture": "natural",
+        "jobs": 1,
+        "appointments": 12,
+        "actions": {
+          "purchases": 0,
+          "investments": 0,
+          "expansions": 0,
+          "defences": 0,
+          "hires": 0
+        },
+        "progression": {
+          "invested": 0,
+          "lostStreets": 1,
+          "injured": 0,
+          "dead": 2,
+          "cleanIncomeHigh": 56191
+        },
+        "max": {
+          "jobs": 1,
+          "inbox": 179,
+          "calendar": 12,
+          "evidence": 9,
+          "history": 175,
+          "peopleMods": 1,
+          "men": 2,
+          "dosya": 34.3
+        },
+        "checkpoints": [
+          {
+            "week": 5,
+            "kasa": 16574,
+            "stage": "serseri",
+            "own": 1,
+            "dosya": 14
+          },
+          {
+            "week": 9,
+            "kasa": 15438,
+            "stage": "serseri",
+            "own": 1,
+            "dosya": 22
+          },
+          {
+            "week": 13,
+            "kasa": 12843,
+            "stage": "serseri",
+            "own": 1,
+            "dosya": 24
+          },
+          {
+            "week": 17,
+            "kasa": 25427,
+            "stage": "serseri",
+            "own": 2,
+            "dosya": 29
+          },
+          {
+            "week": 21,
+            "kasa": 31251,
+            "stage": "serseri",
+            "own": 2,
+            "dosya": 25
+          },
+          {
+            "week": 25,
+            "kasa": 36691,
+            "stage": "serseri",
+            "own": 2,
+            "dosya": 25
+          },
+          {
+            "week": 29,
+            "kasa": 41891,
+            "stage": "serseri",
+            "own": 2,
+            "dosya": 22
+          },
+          {
+            "week": 33,
+            "kasa": 47091,
+            "stage": "serseri",
+            "own": 2,
+            "dosya": 21
+          },
+          {
+            "week": 37,
+            "kasa": 52291,
+            "stage": "serseri",
+            "own": 2,
+            "dosya": 23
+          }
+        ],
+        "final": {
+          "week": 40,
+          "day": 1,
+          "stage": "serseri",
+          "kasa": 56191,
+          "clean": 56191,
+          "dirty": 0,
+          "dosya": 24,
+          "crew": [
+            {
+              "id": "m_hasan",
+              "status": "olu"
+            },
+            {
+              "id": "m_sabri",
+              "status": "olu"
+            }
+          ],
+          "own": 1,
+          "end": "amca",
+          "seed": 6888519026935
+        }
+      }
+    ],
+    "stress": [
+      {
+        "seed": 9127,
+        "final": {
+          "week": 53,
+          "day": 2,
+          "stage": "baba",
+          "kasa": 8369,
+          "clean": 8369,
+          "dirty": 0,
+          "dosya": 100,
+          "crew": [],
+          "own": 6,
+          "end": "",
+          "seed": 13577397380896
+        },
+        "max": {
+          "jobs": 41,
+          "inbox": 223,
+          "calendar": 24,
+          "evidence": 77,
+          "history": 240,
+          "peopleMods": 15,
+          "men": 2,
+          "dosya": 100
+        }
+      },
+      {
+        "seed": 18254,
+        "final": {
+          "week": 53,
+          "day": 2,
+          "stage": "delikanli",
+          "kasa": 23280,
+          "clean": 23280,
+          "dirty": 0,
+          "dosya": 66,
+          "crew": [
+            {
+              "id": "m_hasan",
+              "status": "olu"
+            },
+            {
+              "id": "m_sabri",
+              "status": "olu"
+            }
+          ],
+          "own": 5,
+          "end": "",
+          "seed": 12875907683644
+        },
+        "max": {
+          "jobs": 41,
+          "inbox": 200,
+          "calendar": 21,
+          "evidence": 63,
+          "history": 240,
+          "peopleMods": 24,
+          "men": 2,
+          "dosya": 100
+        }
+      },
+      {
+        "seed": 27381,
+        "final": {
+          "week": 53,
+          "day": 2,
+          "stage": "baba",
+          "kasa": 6552,
+          "clean": 6552,
+          "dirty": 0,
+          "dosya": 100,
+          "crew": [
+            {
+              "id": "m_sabri",
+              "status": "hapis"
+            }
+          ],
+          "own": 6,
+          "end": "",
+          "seed": 14321013119228
+        },
+        "max": {
+          "jobs": 41,
+          "inbox": 226,
+          "calendar": 26,
+          "evidence": 81,
+          "history": 240,
+          "peopleMods": 18,
+          "men": 2,
+          "dosya": 100
+        }
+      },
+      {
+        "seed": 36508,
+        "final": {
+          "week": 48,
+          "day": 1,
+          "stage": "agabey",
+          "kasa": 6551,
+          "clean": 6551,
+          "dirty": 0,
+          "dosya": 100,
+          "crew": [
+            {
+              "id": "m_sabri",
+              "status": "olu"
+            }
+          ],
+          "own": 4,
+          "end": "hanedan",
+          "seed": 11980272019341
+        },
+        "max": {
+          "jobs": 41,
+          "inbox": 222,
+          "calendar": 25,
+          "evidence": 83,
+          "history": 240,
+          "peopleMods": 24,
+          "men": 2,
+          "dosya": 100
+        }
+      },
+      {
+        "seed": 45635,
+        "final": {
+          "week": 53,
+          "day": 2,
+          "stage": "kabadayi",
+          "kasa": 11950,
+          "clean": 11950,
+          "dirty": 0,
+          "dosya": 98.9,
+          "crew": [
+            {
+              "id": "m_hasan",
+              "status": "hapis"
+            },
+            {
+              "id": "m_sabri",
+              "status": "hapis"
+            }
+          ],
+          "own": 6,
+          "end": "",
+          "seed": 14967555869471
+        },
+        "max": {
+          "jobs": 41,
+          "inbox": 219,
+          "calendar": 19,
+          "evidence": 67,
+          "history": 240,
+          "peopleMods": 21,
+          "men": 2,
+          "dosya": 100
+        }
+      },
+      {
+        "seed": 54762,
+        "final": {
+          "week": 53,
+          "day": 2,
+          "stage": "delikanli",
+          "kasa": 12995,
+          "clean": 12995,
+          "dirty": 0,
+          "dosya": 34.05,
+          "crew": [
+            {
+              "id": "m_sabri",
+              "status": "olu"
+            }
+          ],
+          "own": 2,
+          "end": "",
+          "seed": 12668940783283
+        },
+        "max": {
+          "jobs": 41,
+          "inbox": 210,
+          "calendar": 23,
+          "evidence": 88,
+          "history": 240,
+          "peopleMods": 24,
+          "men": 2,
+          "dosya": 100
+        }
+      },
+      {
+        "seed": 63889,
+        "final": {
+          "week": 53,
+          "day": 2,
+          "stage": "delikanli",
+          "kasa": 9205,
+          "clean": 9205,
+          "dirty": 0,
+          "dosya": 7,
+          "crew": [
+            {
+              "id": "m_hasan",
+              "status": "hapis"
+            },
+            {
+              "id": "m_sabri",
+              "status": "hapis"
+            }
+          ],
+          "own": 6,
+          "end": "",
+          "seed": 13377756762041
+        },
+        "max": {
+          "jobs": 41,
+          "inbox": 217,
+          "calendar": 27,
+          "evidence": 93,
+          "history": 240,
+          "peopleMods": 18,
+          "men": 2,
+          "dosya": 100
+        }
+      },
+      {
+        "seed": 73016,
+        "final": {
+          "week": 53,
+          "day": 2,
+          "stage": "kabadayi",
+          "kasa": 24740,
+          "clean": 19015,
+          "dirty": 5725,
+          "dosya": 47,
+          "crew": [
+            {
+              "id": "m_sabri",
+              "status": "olu"
+            }
+          ],
+          "own": 6,
+          "end": "",
+          "seed": 13636007550801
+        },
+        "max": {
+          "jobs": 41,
+          "inbox": 224,
+          "calendar": 28,
+          "evidence": 75,
+          "history": 240,
+          "peopleMods": 24,
+          "men": 2,
+          "dosya": 100
+        }
+      },
+      {
+        "seed": 82143,
+        "final": {
+          "week": 53,
+          "day": 2,
+          "stage": "kabadayi",
+          "kasa": 8466,
+          "clean": 8466,
+          "dirty": 0,
+          "dosya": 100,
+          "crew": [],
+          "own": 5,
+          "end": "",
+          "seed": 13042580236516
+        },
+        "max": {
+          "jobs": 41,
+          "inbox": 209,
+          "calendar": 20,
+          "evidence": 69,
+          "history": 240,
+          "peopleMods": 18,
+          "men": 2,
+          "dosya": 100
+        }
+      },
+      {
+        "seed": 91270,
+        "final": {
+          "week": 53,
+          "day": 2,
+          "stage": "kabadayi",
+          "kasa": 10548,
+          "clean": 10548,
+          "dirty": 0,
+          "dosya": 3,
+          "crew": [
+            {
+              "id": "m_hasan",
+              "status": "olu"
+            },
+            {
+              "id": "m_sabri",
+              "status": "olu"
+            }
+          ],
+          "own": 5,
+          "end": "",
+          "seed": 14302697524987
+        },
+        "max": {
+          "jobs": 41,
+          "inbox": 207,
+          "calendar": 18,
+          "evidence": 77,
+          "history": 240,
+          "peopleMods": 24,
+          "men": 2,
+          "dosya": 100
+        }
+      },
+      {
+        "seed": 100397,
+        "final": {
+          "week": 53,
+          "day": 2,
+          "stage": "agabey",
+          "kasa": 28933,
+          "clean": 11092,
+          "dirty": 17841,
+          "dosya": 42.3,
+          "crew": [
+            {
+              "id": "m_hasan",
+              "status": "hazir"
+            }
+          ],
+          "own": 6,
+          "end": "",
+          "seed": 14145182874196
+        },
+        "max": {
+          "jobs": 41,
+          "inbox": 230,
+          "calendar": 27,
+          "evidence": 76,
+          "history": 240,
+          "peopleMods": 19,
+          "men": 2,
+          "dosya": 100
+        }
+      },
+      {
+        "seed": 109524,
+        "final": {
+          "week": 53,
+          "day": 2,
+          "stage": "delikanli",
+          "kasa": 15551,
+          "clean": 15551,
+          "dirty": 0,
+          "dosya": 65.05,
+          "crew": [
+            {
+              "id": "m_hasan",
+              "status": "olu"
+            }
+          ],
+          "own": 2,
+          "end": "",
+          "seed": 11802610208496
+        },
+        "max": {
+          "jobs": 37,
+          "inbox": 211,
+          "calendar": 22,
+          "evidence": 67,
+          "history": 240,
+          "peopleMods": 24,
+          "men": 2,
+          "dosya": 100
+        }
+      }
+    ],
+    "added": [
+      {
+        "kind": "investor",
+        "seed": 7001,
+        "initialFixture": "advanced-investor",
+        "jobs": 87,
+        "appointments": 13,
+        "actions": {
+          "purchases": 9,
+          "investments": 12,
+          "expansions": 3,
+          "defences": 0,
+          "hires": 0
+        },
+        "progression": {
+          "invested": 12,
+          "lostStreets": 6,
+          "injured": 0,
+          "dead": 2,
+          "cleanIncomeHigh": 4624072
+        },
+        "max": {
+          "jobs": 41,
+          "inbox": 205,
+          "calendar": 16,
+          "evidence": 58,
+          "history": 240,
+          "peopleMods": 17,
+          "men": 2,
+          "dosya": 89.6
+        },
+        "checkpoints": [
+          {
+            "week": 5,
+            "kasa": 44346,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 19.5
+          },
+          {
+            "week": 9,
+            "kasa": 136330,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 43.05
+          },
+          {
+            "week": 13,
+            "kasa": 159809,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 63.5
+          },
+          {
+            "week": 17,
+            "kasa": 125602,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 86.95
+          },
+          {
+            "week": 21,
+            "kasa": 54707,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 22.15
+          },
+          {
+            "week": 25,
+            "kasa": 229499,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 46.35
+          },
+          {
+            "week": 29,
+            "kasa": 122395,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 64
+          },
+          {
+            "week": 33,
+            "kasa": 259492,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 78.35
+          },
+          {
+            "week": 37,
+            "kasa": 282882,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 72.05
+          },
+          {
+            "week": 41,
+            "kasa": 439956,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 64.65
+          },
+          {
+            "week": 45,
+            "kasa": 630970,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 52.5
+          },
+          {
+            "week": 49,
+            "kasa": 95786,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 38
+          },
+          {
+            "week": 53,
+            "kasa": 394602,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 33.5
+          },
+          {
+            "week": 57,
+            "kasa": 686018,
+            "stage": "baba",
+            "own": 5,
+            "dosya": 28
+          },
+          {
+            "week": 61,
+            "kasa": 977434,
+            "stage": "baba",
+            "own": 5,
+            "dosya": 27
+          },
+          {
+            "week": 65,
+            "kasa": 396850,
+            "stage": "baba",
+            "own": 5,
+            "dosya": 27
+          },
+          {
+            "week": 69,
+            "kasa": 832266,
+            "stage": "baba",
+            "own": 5,
+            "dosya": 25
+          },
+          {
+            "week": 73,
+            "kasa": 1267682,
+            "stage": "baba",
+            "own": 5,
+            "dosya": 25
+          },
+          {
+            "week": 77,
+            "kasa": 1703098,
+            "stage": "baba",
+            "own": 5,
+            "dosya": 26
+          },
+          {
+            "week": 81,
+            "kasa": 2118138,
+            "stage": "agabey",
+            "own": 4,
+            "dosya": 23
+          },
+          {
+            "week": 85,
+            "kasa": 2539802,
+            "stage": "agabey",
+            "own": 4,
+            "dosya": 22
+          },
+          {
+            "week": 89,
+            "kasa": 2961466,
+            "stage": "agabey",
+            "own": 4,
+            "dosya": 23
+          },
+          {
+            "week": 93,
+            "kasa": 3381280,
+            "stage": "agabey",
+            "own": 3,
+            "dosya": 22
+          },
+          {
+            "week": 97,
+            "kasa": 3795544,
+            "stage": "agabey",
+            "own": 3,
+            "dosya": 21
+          },
+          {
+            "week": 101,
+            "kasa": 4209808,
+            "stage": "agabey",
+            "own": 3,
+            "dosya": 21
+          },
+          {
+            "week": 105,
+            "kasa": 4624072,
+            "stage": "agabey",
+            "own": 3,
+            "dosya": 22
+          }
+        ],
+        "final": {
+          "week": 105,
+          "day": 3,
+          "stage": "agabey",
+          "kasa": 4624072,
+          "clean": 4624072,
+          "dirty": 0,
+          "dosya": 22,
+          "crew": [
+            {
+              "id": "m_hasan",
+              "status": "olu"
+            },
+            {
+              "id": "m_sabri",
+              "status": "olu"
+            }
+          ],
+          "own": 3,
+          "end": "",
+          "seed": 23205938857711
+        }
+      },
+      {
+        "kind": "investor",
+        "seed": 14009,
+        "initialFixture": "advanced-investor",
+        "jobs": 116,
+        "appointments": 21,
+        "actions": {
+          "purchases": 9,
+          "investments": 12,
+          "expansions": 3,
+          "defences": 0,
+          "hires": 0
+        },
+        "progression": {
+          "invested": 12,
+          "lostStreets": 0,
+          "injured": 0,
+          "dead": 2,
+          "cleanIncomeHigh": 4661240
+        },
+        "max": {
+          "jobs": 41,
+          "inbox": 214,
+          "calendar": 19,
+          "evidence": 66,
+          "history": 240,
+          "peopleMods": 23,
+          "men": 2,
+          "dosya": 100
+        },
+        "checkpoints": [
+          {
+            "week": 5,
+            "kasa": 64012,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 24.4
+          },
+          {
+            "week": 9,
+            "kasa": 48154,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 49.5
+          },
+          {
+            "week": 13,
+            "kasa": 170958,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 65.8
+          },
+          {
+            "week": 17,
+            "kasa": 114994,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 79.6
+          },
+          {
+            "week": 21,
+            "kasa": 179371,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 12.35
+          },
+          {
+            "week": 25,
+            "kasa": 205264,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 42.75
+          },
+          {
+            "week": 29,
+            "kasa": 160449,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 71.2
+          },
+          {
+            "week": 33,
+            "kasa": 212546,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 91.75
+          },
+          {
+            "week": 37,
+            "kasa": 163528,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 92.65
+          },
+          {
+            "week": 41,
+            "kasa": 210985,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 6.2
+          },
+          {
+            "week": 45,
+            "kasa": 454579,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 30.65
+          },
+          {
+            "week": 49,
+            "kasa": 680766,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 56.7
+          },
+          {
+            "week": 53,
+            "kasa": 244632,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 66.8
+          },
+          {
+            "week": 57,
+            "kasa": 543448,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 57.2
+          },
+          {
+            "week": 61,
+            "kasa": 842264,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 44
+          },
+          {
+            "week": 65,
+            "kasa": 233080,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 31.2
+          },
+          {
+            "week": 69,
+            "kasa": 675896,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 28.9
+          },
+          {
+            "week": 73,
+            "kasa": 1118712,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 30.1
+          },
+          {
+            "week": 77,
+            "kasa": 1561528,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 30
+          },
+          {
+            "week": 81,
+            "kasa": 2004344,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 29
+          },
+          {
+            "week": 85,
+            "kasa": 2447160,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 28
+          },
+          {
+            "week": 89,
+            "kasa": 2889976,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 27
+          },
+          {
+            "week": 93,
+            "kasa": 3332792,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 23
+          },
+          {
+            "week": 97,
+            "kasa": 3775608,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 27
+          },
+          {
+            "week": 101,
+            "kasa": 4218424,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 27
+          },
+          {
+            "week": 105,
+            "kasa": 4661240,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 29
+          }
+        ],
+        "final": {
+          "week": 105,
+          "day": 3,
+          "stage": "baba",
+          "kasa": 4661240,
+          "clean": 4661240,
+          "dirty": 0,
+          "dosya": 29,
+          "crew": [
+            {
+              "id": "m_hasan",
+              "status": "olu"
+            },
+            {
+              "id": "m_sabri",
+              "status": "olu"
+            }
+          ],
+          "own": 6,
+          "end": "",
+          "seed": 24815885214346
+        }
+      },
+      {
+        "kind": "investor",
+        "seed": 21013,
+        "initialFixture": "advanced-investor",
+        "jobs": 68,
+        "appointments": 9,
+        "actions": {
+          "purchases": 9,
+          "investments": 12,
+          "expansions": 3,
+          "defences": 0,
+          "hires": 0
+        },
+        "progression": {
+          "invested": 12,
+          "lostStreets": 7,
+          "injured": 1,
+          "dead": 2,
+          "cleanIncomeHigh": 1031806
+        },
+        "max": {
+          "jobs": 41,
+          "inbox": 199,
+          "calendar": 16,
+          "evidence": 69,
+          "history": 240,
+          "peopleMods": 15,
+          "men": 2,
+          "dosya": 100
+        },
+        "checkpoints": [
+          {
+            "week": 5,
+            "kasa": 45532,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 37.4
+          },
+          {
+            "week": 9,
+            "kasa": 94879,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 89.1
+          },
+          {
+            "week": 13,
+            "kasa": 161266,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 36.45
+          },
+          {
+            "week": 17,
+            "kasa": 133721,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 71.35
+          },
+          {
+            "week": 21,
+            "kasa": 107577,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 91.95
+          },
+          {
+            "week": 25,
+            "kasa": 96766,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 99.85
+          },
+          {
+            "week": 29,
+            "kasa": 64063,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 100
+          },
+          {
+            "week": 33,
+            "kasa": 153015,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 26.35
+          },
+          {
+            "week": 37,
+            "kasa": 142345,
+            "stage": "baba",
+            "own": 6,
+            "dosya": 72.2
+          },
+          {
+            "week": 41,
+            "kasa": 85262,
+            "stage": "baba",
+            "own": 5,
+            "dosya": 65.5
+          },
+          {
+            "week": 45,
+            "kasa": 208614,
+            "stage": "baba",
+            "own": 5,
+            "dosya": 51.5
+          },
+          {
+            "week": 49,
+            "kasa": 331966,
+            "stage": "baba",
+            "own": 5,
+            "dosya": 40.5
+          },
+          {
+            "week": 53,
+            "kasa": 191318,
+            "stage": "agabey",
+            "own": 1,
+            "dosya": 24.5
+          },
+          {
+            "week": 57,
+            "kasa": 307150,
+            "stage": "agabey",
+            "own": 2,
+            "dosya": 22
+          },
+          {
+            "week": 61,
+            "kasa": 431982,
+            "stage": "agabey",
+            "own": 2,
+            "dosya": 21
+          },
+          {
+            "week": 65,
+            "kasa": 556814,
+            "stage": "agabey",
+            "own": 2,
+            "dosya": 23
+          },
+          {
+            "week": 69,
+            "kasa": 681646,
+            "stage": "agabey",
+            "own": 2,
+            "dosya": 24
+          },
+          {
+            "week": 73,
+            "kasa": 84478,
+            "stage": "agabey",
+            "own": 2,
+            "dosya": 25
+          },
+          {
+            "week": 77,
+            "kasa": 321310,
+            "stage": "agabey",
+            "own": 2,
+            "dosya": 26
+          },
+          {
+            "week": 81,
+            "kasa": 558142,
+            "stage": "agabey",
+            "own": 2,
+            "dosya": 24
+          },
+          {
+            "week": 85,
+            "kasa": 794974,
+            "stage": "agabey",
+            "own": 2,
+            "dosya": 22
+          },
+          {
+            "week": 89,
+            "kasa": 1031806,
+            "stage": "agabey",
+            "own": 2,
+            "dosya": 25
+          }
+        ],
+        "final": {
+          "week": 92,
+          "day": 1,
+          "stage": "agabey",
+          "kasa": 337430,
+          "clean": 337430,
+          "dirty": 0,
+          "dosya": 26,
+          "crew": [
+            {
+              "id": "m_hasan",
+              "status": "olu"
+            },
+            {
+              "id": "m_sabri",
+              "status": "olu"
+            }
+          ],
+          "own": 1,
+          "end": "amca",
+          "seed": 19355987532797
+        }
+      },
+      {
+        "kind": "high-risk",
+        "seed": 7001,
+        "initialFixture": "natural",
+        "jobs": 17,
+        "appointments": 2,
+        "actions": {
+          "purchases": 0,
+          "investments": 0,
+          "expansions": 0,
+          "defences": 5,
+          "hires": 3
+        },
+        "progression": {
+          "invested": 0,
+          "lostStreets": 1,
+          "injured": 0,
+          "dead": 5,
+          "cleanIncomeHigh": 17016
+        },
+        "max": {
+          "jobs": 17,
+          "inbox": 195,
+          "calendar": 19,
+          "evidence": 48,
+          "history": 154,
+          "peopleMods": 4,
+          "men": 5,
+          "dosya": 100
+        },
+        "checkpoints": [
+          {
+            "week": 5,
+            "kasa": 6488,
+            "stage": "delikanli",
+            "own": 5,
+            "dosya": 37.15
+          },
+          {
+            "week": 9,
+            "kasa": 16714,
+            "stage": "delikanli",
+            "own": 6,
+            "dosya": 99.25
+          },
+          {
+            "week": 13,
+            "kasa": 7677,
+            "stage": "delikanli",
+            "own": 6,
+            "dosya": 100
+          }
+        ],
+        "final": {
+          "week": 15,
+          "day": 1,
+          "stage": "delikanli",
+          "kasa": 6451,
+          "clean": 6451,
+          "dirty": 0,
+          "dosya": 100,
+          "crew": [
+            {
+              "id": "m_hasan",
+              "status": "olu"
+            },
+            {
+              "id": "m_sabri",
+              "status": "olu"
+            },
+            {
+              "id": "m_riza",
+              "status": "olu"
+            },
+            {
+              "id": "m_cevdet",
+              "status": "olu"
+            },
+            {
+              "id": "m_zeki",
+              "status": "olu"
+            }
+          ],
+          "own": 5,
+          "end": "hanedan",
+          "seed": 3899403622878
+        }
+      },
+      {
+        "kind": "high-risk",
+        "seed": 14009,
+        "initialFixture": "natural",
+        "jobs": 28,
+        "appointments": 2,
+        "actions": {
+          "purchases": 0,
+          "investments": 0,
+          "expansions": 0,
+          "defences": 9,
+          "hires": 1
+        },
+        "progression": {
+          "invested": 0,
+          "lostStreets": 1,
+          "injured": 0,
+          "dead": 3,
+          "cleanIncomeHigh": 34337
+        },
+        "max": {
+          "jobs": 29,
+          "inbox": 184,
+          "calendar": 17,
+          "evidence": 78,
+          "history": 171,
+          "peopleMods": 15,
+          "men": 3,
+          "dosya": 100
+        },
+        "checkpoints": [
+          {
+            "week": 5,
+            "kasa": 12109,
+            "stage": "delikanli",
+            "own": 6,
+            "dosya": 44.4
+          },
+          {
+            "week": 9,
+            "kasa": 45018,
+            "stage": "delikanli",
+            "own": 6,
+            "dosya": 100
+          },
+          {
+            "week": 13,
+            "kasa": 13255,
+            "stage": "delikanli",
+            "own": 6,
+            "dosya": 100
+          },
+          {
+            "week": 17,
+            "kasa": 5518,
+            "stage": "delikanli",
+            "own": 5,
+            "dosya": 100
+          }
+        ],
+        "final": {
+          "week": 19,
+          "day": 1,
+          "stage": "delikanli",
+          "kasa": 6735,
+          "clean": 6735,
+          "dirty": 0,
+          "dosya": 100,
+          "crew": [
+            {
+              "id": "m_hasan",
+              "status": "olu"
+            },
+            {
+              "id": "m_sabri",
+              "status": "olu"
+            },
+            {
+              "id": "m_riza",
+              "status": "olu"
+            }
+          ],
+          "own": 5,
+          "end": "hanedan",
+          "seed": 5219962581059
+        }
+      },
+      {
+        "kind": "high-risk",
+        "seed": 21013,
+        "initialFixture": "natural",
+        "jobs": 18,
+        "appointments": 3,
+        "actions": {
+          "purchases": 0,
+          "investments": 0,
+          "expansions": 0,
+          "defences": 19,
+          "hires": 2
+        },
+        "progression": {
+          "invested": 0,
+          "lostStreets": 5,
+          "injured": 0,
+          "dead": 4,
+          "cleanIncomeHigh": 22372
+        },
+        "max": {
+          "jobs": 19,
+          "inbox": 214,
+          "calendar": 23,
+          "evidence": 60,
+          "history": 240,
+          "peopleMods": 5,
+          "men": 4,
+          "dosya": 100
+        },
+        "checkpoints": [
+          {
+            "week": 5,
+            "kasa": 27034,
+            "stage": "delikanli",
+            "own": 6,
+            "dosya": 91.85
+          },
+          {
+            "week": 9,
+            "kasa": 17092,
+            "stage": "delikanli",
+            "own": 6,
+            "dosya": 55.9
+          },
+          {
+            "week": 13,
+            "kasa": 22372,
+            "stage": "delikanli",
+            "own": 6,
+            "dosya": 93.85
+          },
+          {
+            "week": 17,
+            "kasa": 9694,
+            "stage": "delikanli",
+            "own": 6,
+            "dosya": 100
+          },
+          {
+            "week": 21,
+            "kasa": 9340,
+            "stage": "delikanli",
+            "own": 6,
+            "dosya": 100
+          },
+          {
+            "week": 25,
+            "kasa": 8178,
+            "stage": "delikanli",
+            "own": 6,
+            "dosya": 100
+          },
+          {
+            "week": 29,
+            "kasa": 14321,
+            "stage": "delikanli",
+            "own": 6,
+            "dosya": 36
+          },
+          {
+            "week": 33,
+            "kasa": 18615,
+            "stage": "delikanli",
+            "own": 6,
+            "dosya": 91
+          },
+          {
+            "week": 37,
+            "kasa": 7903,
+            "stage": "delikanli",
+            "own": 6,
+            "dosya": 100
+          },
+          {
+            "week": 41,
+            "kasa": 10126,
+            "stage": "delikanli",
+            "own": 6,
+            "dosya": 100
+          },
+          {
+            "week": 45,
+            "kasa": 14584,
+            "stage": "delikanli",
+            "own": 6,
+            "dosya": 100
+          },
+          {
+            "week": 49,
+            "kasa": 16098,
+            "stage": "delikanli",
+            "own": 6,
+            "dosya": 64
+          },
+          {
+            "week": 53,
+            "kasa": 12293,
+            "stage": "serseri",
+            "own": 1,
+            "dosya": 100
+          }
+        ],
+        "final": {
+          "week": 56,
+          "day": 1,
+          "stage": "serseri",
+          "kasa": 3012,
+          "clean": 3012,
+          "dirty": 0,
+          "dosya": 100,
+          "crew": [
+            {
+              "id": "m_hasan",
+              "status": "olu"
+            },
+            {
+              "id": "m_sabri",
+              "status": "olu"
+            },
+            {
+              "id": "m_riza",
+              "status": "olu"
+            },
+            {
+              "id": "m_cevdet",
+              "status": "olu"
+            }
+          ],
+          "own": 3,
+          "end": "hanedan",
+          "seed": 12203723033032
+        }
+      }
+    ],
+    "determinism": "PASS"
+  },
+  "ciOwner": "user",
+  "physicalDeviceQa": "UNKNOWN",
+  "builtRegionIntegratedBase": [
+    {
+      "lang": "tr",
+      "width": 390,
+      "status": "PASS"
+    },
+    {
+      "lang": "tr",
+      "width": 1280,
+      "status": "PASS"
+    },
+    {
+      "lang": "en",
+      "width": 390,
+      "status": "PASS"
+    },
+    {
+      "lang": "en",
+      "width": 1280,
+      "status": "PASS"
+    },
+    {
+      "lang": "pl",
+      "width": 390,
+      "status": "PASS"
+    },
+    {
+      "lang": "pl",
+      "width": 1280,
+      "status": "PASS"
+    }
+  ],
+  "builtCrewPoliceIntegratedBase": [
+    {
+      "lang": "tr",
+      "width": 390,
+      "kind": "poor",
+      "status": "PASS"
+    },
+    {
+      "lang": "tr",
+      "width": 390,
+      "kind": "rich",
+      "status": "PASS"
+    },
+    {
+      "lang": "tr",
+      "width": 390,
+      "kind": "manager",
+      "status": "PASS"
+    },
+    {
+      "lang": "tr",
+      "width": 1280,
+      "kind": "poor",
+      "status": "PASS"
+    },
+    {
+      "lang": "tr",
+      "width": 1280,
+      "kind": "rich",
+      "status": "PASS"
+    },
+    {
+      "lang": "tr",
+      "width": 1280,
+      "kind": "manager",
+      "status": "PASS"
+    },
+    {
+      "lang": "en",
+      "width": 390,
+      "kind": "poor",
+      "status": "PASS"
+    },
+    {
+      "lang": "en",
+      "width": 390,
+      "kind": "rich",
+      "status": "PASS"
+    },
+    {
+      "lang": "en",
+      "width": 390,
+      "kind": "manager",
+      "status": "PASS"
+    },
+    {
+      "lang": "en",
+      "width": 1280,
+      "kind": "poor",
+      "status": "PASS"
+    },
+    {
+      "lang": "en",
+      "width": 1280,
+      "kind": "rich",
+      "status": "PASS"
+    },
+    {
+      "lang": "en",
+      "width": 1280,
+      "kind": "manager",
+      "status": "PASS"
+    },
+    {
+      "lang": "pl",
+      "width": 390,
+      "kind": "poor",
+      "status": "PASS"
+    },
+    {
+      "lang": "pl",
+      "width": 390,
+      "kind": "rich",
+      "status": "PASS"
+    },
+    {
+      "lang": "pl",
+      "width": 390,
+      "kind": "manager",
+      "status": "PASS"
+    },
+    {
+      "lang": "pl",
+      "width": 1280,
+      "kind": "poor",
+      "status": "PASS"
+    },
+    {
+      "lang": "pl",
+      "width": 1280,
+      "kind": "rich",
+      "status": "PASS"
+    },
+    {
+      "lang": "pl",
+      "width": 1280,
+      "kind": "manager",
+      "status": "PASS"
+    }
+  ],
+  "builtMapIntegratedBase": {
+    "results": [
+      {
+        "scenario": "pixi-1440",
+        "phase": "startup",
+        "ms": 511.58932100000004
+      },
+      {
+        "scenario": "pixi-1440",
+        "phase": "open",
+        "width": 1440,
+        "scroll": 1440,
+        "stageWidth": 1010,
+        "stageScroll": 1010,
+        "nodes": 6,
+        "canvas": 1,
+        "renderer": "pixi",
+        "renderMs": 61.9,
+        "small": 0,
+        "clipped": 0
+      },
+      {
+        "scenario": "pixi-1440",
+        "phase": "focused-decision",
+        "width": 1440,
+        "scroll": 1440,
+        "stageWidth": 1010,
+        "stageScroll": 1010,
+        "nodes": 6,
+        "canvas": 1,
+        "renderer": "pixi",
+        "renderMs": 2.7,
+        "small": 0,
+        "clipped": 0
+      },
+      {
+        "scenario": "pixi-1440",
+        "phase": "weekly-step",
+        "width": 1440,
+        "scroll": 1440,
+        "stageWidth": 1010,
+        "stageScroll": 1010,
+        "nodes": 6,
+        "canvas": 1,
+        "renderer": "pixi",
+        "renderMs": 20.1,
+        "small": 0,
+        "clipped": 0
+      },
+      {
+        "scenario": "pixi-1440",
+        "phase": "landscape",
+        "width": 720,
+        "scroll": 720,
+        "stageWidth": 720,
+        "stageScroll": 720,
+        "nodes": 6,
+        "canvas": 1,
+        "renderer": "pixi",
+        "renderMs": 20.1,
+        "small": 0,
+        "clipped": 0
+      },
+      {
+        "scenario": "pixi-1440",
+        "phase": "actual-context-loss",
+        "width": 1440,
+        "scroll": 1440,
+        "stageWidth": 1010,
+        "stageScroll": 1010,
+        "nodes": 6,
+        "canvas": 0,
+        "renderer": "svg",
+        "renderMs": 34,
+        "small": 0,
+        "clipped": 0
+      },
+      {
+        "scenario": "pixi-1440",
+        "phase": "lightweight",
+        "width": 1440,
+        "scroll": 1440,
+        "stageWidth": 1010,
+        "stageScroll": 1010,
+        "nodes": 6,
+        "canvas": 0,
+        "renderer": "svg",
+        "renderMs": 34,
+        "small": 0,
+        "clipped": 0
+      },
+      {
+        "scenario": "pixi-1440",
+        "phase": "bfcache",
+        "width": 1440,
+        "scroll": 1440,
+        "stageWidth": 1010,
+        "stageScroll": 1010,
+        "nodes": 6,
+        "canvas": 0,
+        "renderer": "svg",
+        "renderMs": 1.6,
+        "small": 0,
+        "clipped": 0
+      },
+      {
+        "scenario": "svg-1440",
+        "phase": "startup",
+        "ms": 285.4711290000005
+      },
+      {
+        "scenario": "svg-1440",
+        "phase": "open",
+        "width": 1440,
+        "scroll": 1440,
+        "stageWidth": 1010,
+        "stageScroll": 1010,
+        "nodes": 6,
+        "canvas": 0,
+        "renderer": "svg",
+        "renderMs": 5.8,
+        "small": 0,
+        "clipped": 0
+      },
+      {
+        "scenario": "svg-1440",
+        "phase": "focused-decision",
+        "width": 1440,
+        "scroll": 1440,
+        "stageWidth": 1010,
+        "stageScroll": 1010,
+        "nodes": 6,
+        "canvas": 0,
+        "renderer": "svg",
+        "renderMs": 1.4,
+        "small": 0,
+        "clipped": 0
+      },
+      {
+        "scenario": "svg-1440",
+        "phase": "weekly-step",
+        "width": 1440,
+        "scroll": 1440,
+        "stageWidth": 1010,
+        "stageScroll": 1010,
+        "nodes": 6,
+        "canvas": 0,
+        "renderer": "svg",
+        "renderMs": 1.7,
+        "small": 0,
+        "clipped": 0
+      },
+      {
+        "scenario": "svg-1440",
+        "phase": "landscape",
+        "width": 720,
+        "scroll": 720,
+        "stageWidth": 720,
+        "stageScroll": 720,
+        "nodes": 6,
+        "canvas": 0,
+        "renderer": "svg",
+        "renderMs": 1.7,
+        "small": 0,
+        "clipped": 0
+      },
+      {
+        "scenario": "svg-1440",
+        "phase": "lightweight",
+        "width": 1440,
+        "scroll": 1440,
+        "stageWidth": 1010,
+        "stageScroll": 1010,
+        "nodes": 6,
+        "canvas": 0,
+        "renderer": "svg",
+        "renderMs": 1.9,
+        "small": 0,
+        "clipped": 0
+      },
+      {
+        "scenario": "svg-1440",
+        "phase": "bfcache",
+        "width": 1440,
+        "scroll": 1440,
+        "stageWidth": 1010,
+        "stageScroll": 1010,
+        "nodes": 6,
+        "canvas": 0,
+        "renderer": "svg",
+        "renderMs": 2.1,
+        "small": 0,
+        "clipped": 0
+      },
+      {
+        "scenario": "pixi-390",
+        "phase": "startup",
+        "ms": 369.6602389999998
+      },
+      {
+        "scenario": "pixi-390",
+        "phase": "open",
+        "width": 390,
+        "scroll": 390,
+        "stageWidth": 390,
+        "stageScroll": 390,
+        "nodes": 6,
+        "canvas": 1,
+        "renderer": "pixi",
+        "renderMs": 32.5,
+        "small": 0,
+        "clipped": 0
+      },
+      {
+        "scenario": "pixi-390",
+        "phase": "focused-decision",
+        "width": 390,
+        "scroll": 390,
+        "stageWidth": 390,
+        "stageScroll": 390,
+        "nodes": 6,
+        "canvas": 1,
+        "renderer": "pixi",
+        "renderMs": 2.5,
+        "small": 0,
+        "clipped": 0
+      },
+      {
+        "scenario": "pixi-390",
+        "phase": "weekly-step",
+        "width": 390,
+        "scroll": 390,
+        "stageWidth": 390,
+        "stageScroll": 390,
+        "nodes": 6,
+        "canvas": 1,
+        "renderer": "pixi",
+        "renderMs": 2.5,
+        "small": 0,
+        "clipped": 0
+      },
+      {
+        "scenario": "pixi-390",
+        "phase": "landscape",
+        "width": 720,
+        "scroll": 720,
+        "stageWidth": 720,
+        "stageScroll": 720,
+        "nodes": 6,
+        "canvas": 1,
+        "renderer": "pixi",
+        "renderMs": 7.9,
+        "small": 0,
+        "clipped": 0
+      },
+      {
+        "scenario": "pixi-390",
+        "phase": "actual-context-loss",
+        "width": 390,
+        "scroll": 390,
+        "stageWidth": 390,
+        "stageScroll": 390,
+        "nodes": 6,
+        "canvas": 0,
+        "renderer": "svg",
+        "renderMs": 22.2,
+        "small": 0,
+        "clipped": 0
+      },
+      {
+        "scenario": "pixi-390",
+        "phase": "lightweight",
+        "width": 390,
+        "scroll": 390,
+        "stageWidth": 390,
+        "stageScroll": 390,
+        "nodes": 6,
+        "canvas": 0,
+        "renderer": "svg",
+        "renderMs": 22.2,
+        "small": 0,
+        "clipped": 0
+      },
+      {
+        "scenario": "pixi-390",
+        "phase": "bfcache",
+        "width": 390,
+        "scroll": 390,
+        "stageWidth": 390,
+        "stageScroll": 390,
+        "nodes": 6,
+        "canvas": 0,
+        "renderer": "svg",
+        "renderMs": 1.2,
+        "small": 0,
+        "clipped": 0
+      },
+      {
+        "scenario": "svg-390",
+        "phase": "startup",
+        "ms": 227.27544599999965
+      },
+      {
+        "scenario": "svg-390",
+        "phase": "open",
+        "width": 390,
+        "scroll": 390,
+        "stageWidth": 390,
+        "stageScroll": 390,
+        "nodes": 6,
+        "canvas": 0,
+        "renderer": "svg",
+        "renderMs": 5.5,
+        "small": 0,
+        "clipped": 0
+      },
+      {
+        "scenario": "svg-390",
+        "phase": "focused-decision",
+        "width": 390,
+        "scroll": 390,
+        "stageWidth": 390,
+        "stageScroll": 390,
+        "nodes": 6,
+        "canvas": 0,
+        "renderer": "svg",
+        "renderMs": 1.2,
+        "small": 0,
+        "clipped": 0
+      },
+      {
+        "scenario": "svg-390",
+        "phase": "weekly-step",
+        "width": 390,
+        "scroll": 390,
+        "stageWidth": 390,
+        "stageScroll": 390,
+        "nodes": 6,
+        "canvas": 0,
+        "renderer": "svg",
+        "renderMs": 1.3,
+        "small": 0,
+        "clipped": 0
+      },
+      {
+        "scenario": "svg-390",
+        "phase": "landscape",
+        "width": 720,
+        "scroll": 720,
+        "stageWidth": 720,
+        "stageScroll": 720,
+        "nodes": 6,
+        "canvas": 0,
+        "renderer": "svg",
+        "renderMs": 3.2,
+        "small": 0,
+        "clipped": 0
+      },
+      {
+        "scenario": "svg-390",
+        "phase": "lightweight",
+        "width": 390,
+        "scroll": 390,
+        "stageWidth": 390,
+        "stageScroll": 390,
+        "nodes": 6,
+        "canvas": 0,
+        "renderer": "svg",
+        "renderMs": 1.8,
+        "small": 0,
+        "clipped": 0
+      },
+      {
+        "scenario": "svg-390",
+        "phase": "bfcache",
+        "width": 390,
+        "scroll": 390,
+        "stageWidth": 390,
+        "stageScroll": 390,
+        "nodes": 6,
+        "canvas": 0,
+        "renderer": "svg",
+        "renderMs": 1.3,
+        "small": 0,
+        "clipped": 0
+      },
+      {
+        "scenario": "pixi-320",
+        "phase": "startup",
+        "ms": 417.6501050000006
+      },
+      {
+        "scenario": "pixi-320",
+        "phase": "open",
+        "width": 320,
+        "scroll": 320,
+        "stageWidth": 320,
+        "stageScroll": 320,
+        "nodes": 6,
+        "canvas": 1,
+        "renderer": "pixi",
+        "renderMs": 28.5,
+        "small": 0,
+        "clipped": 0
+      },
+      {
+        "scenario": "pixi-320",
+        "phase": "focused-decision",
+        "width": 320,
+        "scroll": 320,
+        "stageWidth": 320,
+        "stageScroll": 320,
+        "nodes": 6,
+        "canvas": 1,
+        "renderer": "pixi",
+        "renderMs": 2.7,
+        "small": 0,
+        "clipped": 0
+      },
+      {
+        "scenario": "pixi-320",
+        "phase": "weekly-step",
+        "width": 320,
+        "scroll": 320,
+        "stageWidth": 320,
+        "stageScroll": 320,
+        "nodes": 6,
+        "canvas": 1,
+        "renderer": "pixi",
+        "renderMs": 19.9,
+        "small": 0,
+        "clipped": 0
+      },
+      {
+        "scenario": "pixi-320",
+        "phase": "landscape",
+        "width": 720,
+        "scroll": 720,
+        "stageWidth": 720,
+        "stageScroll": 720,
+        "nodes": 6,
+        "canvas": 1,
+        "renderer": "pixi",
+        "renderMs": 19.9,
+        "small": 0,
+        "clipped": 0
+      },
+      {
+        "scenario": "pixi-320",
+        "phase": "actual-context-loss",
+        "width": 320,
+        "scroll": 320,
+        "stageWidth": 320,
+        "stageScroll": 320,
+        "nodes": 6,
+        "canvas": 0,
+        "renderer": "svg",
+        "renderMs": 16.2,
+        "small": 0,
+        "clipped": 0
+      },
+      {
+        "scenario": "pixi-320",
+        "phase": "lightweight",
+        "width": 320,
+        "scroll": 320,
+        "stageWidth": 320,
+        "stageScroll": 320,
+        "nodes": 6,
+        "canvas": 0,
+        "renderer": "svg",
+        "renderMs": 16.2,
+        "small": 0,
+        "clipped": 0
+      },
+      {
+        "scenario": "pixi-320",
+        "phase": "bfcache",
+        "width": 320,
+        "scroll": 320,
+        "stageWidth": 320,
+        "stageScroll": 320,
+        "nodes": 6,
+        "canvas": 0,
+        "renderer": "svg",
+        "renderMs": 1.6,
+        "small": 0,
+        "clipped": 0
+      },
+      {
+        "scenario": "svg-320",
+        "phase": "startup",
+        "ms": 236.34938799999873
+      },
+      {
+        "scenario": "svg-320",
+        "phase": "open",
+        "width": 320,
+        "scroll": 320,
+        "stageWidth": 320,
+        "stageScroll": 320,
+        "nodes": 6,
+        "canvas": 0,
+        "renderer": "svg",
+        "renderMs": 4.9,
+        "small": 0,
+        "clipped": 0
+      },
+      {
+        "scenario": "svg-320",
+        "phase": "focused-decision",
+        "width": 320,
+        "scroll": 320,
+        "stageWidth": 320,
+        "stageScroll": 320,
+        "nodes": 6,
+        "canvas": 0,
+        "renderer": "svg",
+        "renderMs": 1.4,
+        "small": 0,
+        "clipped": 0
+      },
+      {
+        "scenario": "svg-320",
+        "phase": "weekly-step",
+        "width": 320,
+        "scroll": 320,
+        "stageWidth": 320,
+        "stageScroll": 320,
+        "nodes": 6,
+        "canvas": 0,
+        "renderer": "svg",
+        "renderMs": 1.2,
+        "small": 0,
+        "clipped": 0
+      },
+      {
+        "scenario": "svg-320",
+        "phase": "landscape",
+        "width": 720,
+        "scroll": 720,
+        "stageWidth": 720,
+        "stageScroll": 720,
+        "nodes": 6,
+        "canvas": 0,
+        "renderer": "svg",
+        "renderMs": 3.1,
+        "small": 0,
+        "clipped": 0
+      },
+      {
+        "scenario": "svg-320",
+        "phase": "lightweight",
+        "width": 320,
+        "scroll": 320,
+        "stageWidth": 320,
+        "stageScroll": 320,
+        "nodes": 6,
+        "canvas": 0,
+        "renderer": "svg",
+        "renderMs": 1.8,
+        "small": 0,
+        "clipped": 0
+      },
+      {
+        "scenario": "svg-320",
+        "phase": "bfcache",
+        "width": 320,
+        "scroll": 320,
+        "stageWidth": 320,
+        "stageScroll": 320,
+        "nodes": 6,
+        "canvas": 0,
+        "renderer": "svg",
+        "renderMs": 1.3,
+        "small": 0,
+        "clipped": 0
+      },
+      {
+        "scenario": "new-game",
+        "phase": "first-map",
+        "width": 390,
+        "scroll": 390,
+        "stageWidth": 390,
+        "stageScroll": 390,
+        "nodes": 6,
+        "canvas": 0,
+        "renderer": "svg",
+        "renderMs": 5.3,
+        "small": 0,
+        "clipped": 0
+      },
+      {
+        "scenario": "late-init",
+        "phase": "cancel-and-reopen",
+        "width": 390,
+        "scroll": 390,
+        "stageWidth": 390,
+        "stageScroll": 390,
+        "nodes": 6,
+        "canvas": 1,
+        "renderer": "pixi",
+        "renderMs": 19.3,
+        "small": 0,
+        "clipped": 0
+      }
+    ],
+    "errors": []
+  }
+}
