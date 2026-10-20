@@ -65,7 +65,7 @@
       "production": "Accepted on www and Workers with 72/72 Chromium and 31/31 hashes per origin"
     }
   ],
-  "next": "Archive #207 exact-head CI and TR/EN/PL Chromium acceptance; then squash merge and deployed both-origin verification",
+  "next": "Wait for a new user resume instruction; then verify #207 current-head CI and six archive Chromium cases before any merge",
   "productSync": {
     "pr": 206,
     "head": "50daf937dc372d1d0f8a2a2f4a5e86e6c5051567",
@@ -83,11 +83,16 @@
       "build": "8530727e-a690-41a6-b063-84a4eeb7000d",
       "status": "PASS",
       "sha": "a31c85940f1fa5e54b68ca4887dfdc5631a072ff"
+    },
+    "mainCI": {
+      "run": 39426638358,
+      "status": "PASS",
+      "allSixJobs": true
     }
   },
   "archivePreparation": {
     "branch": "archive/ihtilal-retirement-20261020",
-    "status": "PR_REQUIRED_CI_RUNNING",
+    "status": "PAUSED_DRAFT_NOT_MERGED",
     "retainedFiles": 47,
     "unchangedIhtilalSourceFiles": 18,
     "chromiumCasesPrepared": 6,
@@ -95,7 +100,28 @@
     "archiveRef": "archive/ihtilal-pre-retirement-20261020",
     "verifiedRefSha": "a31c85940f1fa5e54b68ca4887dfdc5631a072ff",
     "pr": 207,
-    "head": "7dac1eb6acc807389e0f56ff5adaaa3f045d963d"
+    "head": "7dac1eb6acc807389e0f56ff5adaaa3f045d963d",
+    "ciRuns": [
+      {
+        "id": 39427804883,
+        "name": "esik-save-recovery"
+      },
+      {
+        "id": 39427804790,
+        "name": "atlas-foundation"
+      },
+      {
+        "id": 39427804819,
+        "name": "ci"
+      },
+      {
+        "id": 39427804631,
+        "name": "tc-job-start-outcome"
+      }
+    ],
+    "ciRun": 39427804819,
+    "lastObservedBrowser": "in_progress: Responsive and interaction regression",
+    "autoMerge": false
   },
   "productionQA": {
     "branch": "qa/adapt-production-20261020",
@@ -129,5 +155,7 @@
         "artifact": 12266182758
       }
     }
-  }
+  },
+  "programStatus": "STOPPED_BY_USER",
+  "stopRequestedAt": "2026-10-20T16:18:46+03:00"
 }
