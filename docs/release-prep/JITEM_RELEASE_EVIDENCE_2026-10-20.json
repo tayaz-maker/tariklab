@@ -29,7 +29,8 @@
       "assets/runtime.js"
     ],
     "mainCiRun": 39417501337,
-    "mainCiStatus": "IN_PROGRESS"
+    "mainCiStatus": "PASS",
+    "mainCiConclusion": "success"
   },
   "www": {
     "vercelDeployment": "dpl_CdXxz9U5oMd9aX1Ap8gzTKXgGvaH",
@@ -267,7 +268,12 @@
     }
   },
   "prepBranch": "prep/archive-inventory-20261020",
-  "astraHandoff": "NOT_RECEIVED_NOT_ACCEPTED_NO_TRANSFER_CODE",
+  "astraHandoff": "ACCEPTED_SECTION_8_ADAPT_1_PR_27",
   "updatedAt": "2026-10-20T11:55:38Z",
-  "physicalDeviceAcceptance": "USER_OWNED_NOT_RUN"
+  "physicalDeviceAcceptance": "USER_OWNED_NOT_RUN",
+  "productionClosure": {
+    "status": "CLOSED",
+    "run": 39417501337,
+    "canonical": "cfa6d8c25652b33093ecc8734e6e8ae262d98dfe"
+  }
 }
