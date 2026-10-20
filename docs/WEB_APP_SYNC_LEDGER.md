@@ -964,3 +964,7 @@ Share district payment eligibility with the existing cash forecast, include elig
 ## 2026-10-20 — Racon B preparation
 
 Preserve injury/absence through fatigue; gate the existing three manager roles on ready/tired status without deleting assignments. Close unavailable police/tip papers using loaded state; remove closed-contact shield/tips, keep normal raid risk and paid current-week protection. Weekly tips and visible full shutter price are once-only and atomic. Existing coefficients, indictment interval, map/UI/content/save fields remain.121 scoped tests, source/built18 locale cases each, existing source/built60 menu checks each, built map47 and old long-run suite PASS; new saves remain readable by pre-repair main. Independent stacked preparation only; A and final integration/release gates remain required.
+
+
+## 2026-10-20 — Racon C partial checkpoint and release handoff
+Rendering-only localization and investor/high-risk longrun policies saved as unfinished C work. Extended longrun determinism PASS; full C browser/regression acceptance remains pending. See docs/checkpoints/TARIKLAB_HANDOFF_2026-10-20_1720_TR.md. No release or new merge in this checkpoint.

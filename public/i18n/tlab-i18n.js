@@ -90,6 +90,9 @@
   };
 
   const PHRASE = {
+    "Kırık Avlu ağzında durdun. Heat ince ince yürüdü.": "You stood at the mouth of Kırık Avlu. Heat crept up.",
+    "Kepenk indi.": "Shutters closed.",
+    "Kayıt yazılamadı. Yedek ekranından metni kopyalayıp sakla; bu sayfayı kapatma.": "The save could not be written. Copy and keep the text from the backup screen; keep this page open.",
     "Etkin polis teması ve açık komiser kâğıdı gerekli.": "An active police contact and an open officer paper are required.",
     "Bu haftaya ait açık tüyo ve etkin polis teması gerekli.": "An open tip for this week and an active police contact are required.",
     "Bu hafta kepenk zaten indirildi.": "The shutters have already been closed this week.",

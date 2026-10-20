@@ -3,6 +3,6 @@
   "sourceArchiveSha": "a31c85940f1fa5e54b68ca4887dfdc5631a072ff",
   "path": "public/games/racon/index.html",
   "originalSha256": "aa8e7fba1b2ce993a0d837b7c795f6b64e87e123c426f3f3d78b3f630ab0068b",
-  "currentSha256": "54cd349858188a361af07b84f02a79b4e3479ac24112d1b639258c8e07bf3e38",
-  "change": "Racon B: crew availability and police contact/tip atomicity; original source remains in the named archive."
+  "currentSha256": "834dc61c6a440035738903ec5ea263bc1a24bc74a7bd345ef7d10b29eb6e6bbf",
+  "change": "Racon C: render-only language closure, original source and persisted canonical story unchanged."
 }
