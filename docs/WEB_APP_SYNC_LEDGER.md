@@ -972,3 +972,7 @@ Retain the original coast runtime, map model/Pixi fallback, validated v1 saves, 
 ## 2026-10-20 — Racon A preparation
 
 Share district payment eligibility with the existing cash forecast, include eligible district/city shares and project street-manager loyalty before district pay. Existing amounts/order/costs unchanged; dirty-to-clean transfer remains excluded from income. A newly raised seal survives to the next weekly closing, preserves prepared jobs and still permits withdrawal. Same existing card, source/UI/map/save contract; new render copy gets TR/EN and scoped PL entries. 91 Racon +19 i18n tests, source/build60 existing browser checks each PASS. Independent preparation only; post-Wave1/Kiyi reconciliation, new locale/long-run and exact-head CI remain gates. No native/audio/card work.
+
+## 2026-10-20 — Racon B preparation
+
+Preserve injury/absence through fatigue; gate the existing three manager roles on ready/tired status without deleting assignments. Close unavailable police/tip papers using loaded state; remove closed-contact shield/tips, keep normal raid risk and paid current-week protection. Weekly tips and visible full shutter price are once-only and atomic. Existing coefficients, indictment interval, map/UI/content/save fields remain.121 scoped tests, source/built18 locale cases each, existing source/built60 menu checks each, built map47 and old long-run suite PASS; new saves remain readable by pre-repair main. Independent stacked preparation only; A and final integration/release gates remain required.

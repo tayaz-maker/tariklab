@@ -78,6 +78,16 @@
     "Gelir ₺{0} · gider ₺{1} · net {2}": "Przychód ₺{0} · wydatki ₺{1} · netto {2}",
     "Investment income ₺{0} · district/city share ₺{1}; expenses include wages, active lawyer and front. Job earnings, one-off payments and raid losses are excluded. Income changes with control and street pressure.": "Dochód z inwestycji ₺{0} · udział dzielnicy/miasta ₺{1}; wydatki obejmują dniówki, aktywnego prawnika i przykrywkę. Zyski z robót, jednorazowe wpłaty i straty z nalotów są pominięte. Dochód zmienia się wraz z kontrolą i presją ulicy.",
     "Terör yükseldi. Bu sokakta iş planı bu hafta kilitli.": "Wzrósł terror. Planowanie robót na tej ulicy jest zablokowane w tym tygodniu.",
-    "Terror rose. Job planning on this street is locked this week.": "Wzrósł terror. Planowanie robót na tej ulicy jest zablokowane w tym tygodniu."
+    "Terror rose. Job planning on this street is locked this week.": "Wzrósł terror. Planowanie robót na tej ulicy jest zablokowane w tym tygodniu.",
+    "Etkin polis teması ve açık komiser kâğıdı gerekli.": "Wymagany jest aktywny kontakt policyjny i otwarte pismo komisarza.",
+    "An active police contact and an open officer paper are required.": "Wymagany jest aktywny kontakt policyjny i otwarte pismo komisarza.",
+    "Bu haftaya ait açık tüyo ve etkin polis teması gerekli.": "Wymagana jest otwarta wskazówka na ten tydzień i aktywny kontakt policyjny.",
+    "An open tip for this week and an active police contact are required.": "Wymagana jest otwarta wskazówka na ten tydzień i aktywny kontakt policyjny.",
+    "Bu hafta kepenk zaten indirildi.": "W tym tygodniu okiennice zostały już zamknięte.",
+    "The shutters have already been closed this week.": "W tym tygodniu okiennice zostały już zamknięte.",
+    "Atama korunuyor; görevde değil.": "Przydział zachowany; obecnie niedostępny.",
+    "Assignment retained; currently unavailable.": "Przydział zachowany; obecnie niedostępny.",
+    "Kepenk indir · ₺{0}": "Zamknij okiennice · ₺{0}",
+    "Close shutters · ₺{0}": "Zamknij okiennice · ₺{0}"
   }
 }

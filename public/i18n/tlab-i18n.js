@@ -90,6 +90,10 @@
   };
 
   const PHRASE = {
+    "Etkin polis teması ve açık komiser kâğıdı gerekli.": "An active police contact and an open officer paper are required.",
+    "Bu haftaya ait açık tüyo ve etkin polis teması gerekli.": "An open tip for this week and an active police contact are required.",
+    "Bu hafta kepenk zaten indirildi.": "The shutters have already been closed this week.",
+    "Atama korunuyor; görevde değil.": "Assignment retained; currently unavailable.",
     "Terör yükseldi. Bu sokakta iş planı bu hafta kilitli.": "Terror rose. Job planning on this street is locked this week.",
     "← Oyunlar": "← Games",
     Oyunlar: "Games",
