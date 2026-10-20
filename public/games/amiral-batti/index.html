@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Amiral Battı | TLab</title>
     <link rel="stylesheet" href="./styles.css" />
+    <style>#place-bar[hidden] { display: none; }</style>
     <script src="/i18n/tlab-i18n.js"></script>
     <script src="/i18n/deep-en.js"></script>
     <script src="/i18n/deep-en-final.js"></script>
@@ -35,7 +36,7 @@
         <label>Mod
           <select id="mode">
             <option value="cpu" selected>Bilgisayara karşı</option>
-            <option value="hotseat">Sırayla (aynı cihaz)</option>
+            <option id="hotseat-option" value="hotseat" disabled data-i18n-skip>Sırayla — kullanılamıyor</option>
           </select>
         </label>
         <button type="button" id="new">Yeni oyun</button>

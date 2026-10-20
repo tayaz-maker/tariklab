@@ -186,6 +186,11 @@ export function ensurePhoneState(s) {
   s.flags = s.flags && typeof s.flags === "object" ? s.flags : {};
   s.flags.ending = Object.hasOwn(ENDINGS, s.flags.ending) ? s.flags.ending : null;
   s.ui = Object.assign({ app: "messages", screen: "Mesajlar", caseTab: "evidence", linkFrom: null }, s.ui || {});
+  // UI pointers are recoverable: never let a damaged selection crash the
+  // renderer or expose a locked app, and preserve the case's earned progress.
+  if (!APPS.includes(s.ui.app) || !s.unlockedApps.includes(s.ui.app)) s.ui.app = "messages";
+  if (!["evidence", "theory", "timeline"].includes(s.ui.caseTab)) s.ui.caseTab = "evidence";
+  if (!s.discoveredItems.includes(s.ui.linkFrom)) s.ui.linkFrom = null;
   updateDeductions(s);
   return s;
 }

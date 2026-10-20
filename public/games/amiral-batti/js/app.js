@@ -6,6 +6,7 @@ import {
   SIZE,
   DIFFICULTIES,
   createMatch,
+  validateMatch,
   placeShip,
   removeShip,
   rotateDir,
@@ -29,10 +30,38 @@ let state = null;
 let selected = FLEET[0].id;
 let dir = "h";
 let hover = null;
+let loadIssue = null;
+
+const SAVE_COPY = {
+  tr: {
+    invalid: "Kayıt açılamadı; mevcut veri korundu. Yeni oyun düğmesiyle yeni bir bilgisayar oyunu başlatıp bu kaydın üzerine yazabilirsin.",
+    hotseat: "Sırayla oyun şu anda kullanılamıyor. Kaydın korundu. Yeni oyun düğmesi yeni bir bilgisayar oyunuyla bu kaydın üzerine yazar.",
+    unavailable: "Kayıt alanına erişilemiyor. Tarayıcı izinlerini kontrol et veya Yeni oyun ile devam et; ilerleme kaydedilemeyebilir.",
+    option: "Sırayla — kullanılamıyor",
+  },
+  en: {
+    invalid: "This save could not be opened; its data was kept. New game starts a new CPU game and replaces this save.",
+    hotseat: "Hotseat is currently unavailable. Your save was kept. New game starts a new CPU game and replaces this save.",
+    unavailable: "Save storage is unavailable. Check browser permissions or choose New game; progress may not be saved.",
+    option: "Hotseat — unavailable",
+  },
+  pl: {
+    invalid: "Nie można otworzyć zapisu; dane zostały zachowane. Nowa gra rozpocznie grę z komputerem i zastąpi ten zapis.",
+    hotseat: "Hotseat jest obecnie niedostępny. Zapis został zachowany. Nowa gra rozpocznie grę z komputerem i zastąpi ten zapis.",
+    unavailable: "Pamięć zapisu jest niedostępna. Sprawdź uprawnienia przeglądarki lub wybierz Nowa gra; postęp może nie zostać zapisany.",
+    option: "Hotseat — niedostępny",
+  },
+};
+function saveCopy(name) {
+  const lang = window.tlabI18n?.getLang?.() || "tr";
+  return (SAVE_COPY[lang] || SAVE_COPY.tr)[name];
+}
 
 function loadStats() {
   try {
-    return JSON.parse(localStorage.getItem(STATS)) || { win: 0, loss: 0 };
+    const raw = JSON.parse(localStorage.getItem(STATS));
+    const count = (value) => Number.isSafeInteger(value) && value >= 0 ? value : 0;
+    return { win: count(raw?.win), loss: count(raw?.loss) };
   } catch {
     return { win: 0, loss: 0 };
   }
@@ -52,14 +81,26 @@ function persist() {
   }
 }
 function resume() {
+  state = null;
+  loadIssue = null;
+  let stored;
   try {
-    const raw = JSON.parse(localStorage.getItem(STORE));
-    if (raw && raw.version === 1 && raw.phase) {
+    stored = localStorage.getItem(STORE);
+  } catch {
+    loadIssue = "unavailable";
+    return false;
+  }
+  if (stored === null) return false;
+  try {
+    const raw = JSON.parse(stored);
+    if (!validateMatch(raw)) loadIssue = "invalid";
+    else if (raw.mode === "hotseat") loadIssue = "hotseat";
+    else {
       state = raw;
       return true;
     }
   } catch {
-    /* ignore */
+    loadIssue = "invalid";
   }
   return false;
 }
@@ -69,11 +110,13 @@ function seedNow() {
 }
 
 function newGame() {
-  const difficulty = $("diff").value;
-  const mode = $("mode").value;
-  state = createMatch({ seed: seedNow(), difficulty, mode });
+  const difficulty = DIFFICULTIES.includes($("diff").value) ? $("diff").value : "orta";
+  state = createMatch({ seed: seedNow(), difficulty, mode: "cpu" });
+  loadIssue = null;
+  $("mode").value = "cpu";
   selected = FLEET[0].id;
   dir = "h";
+  hover = null;
   persist();
   render();
 }
@@ -133,9 +176,17 @@ function boardHtml(kind) {
 
 function render() {
   if (!state) {
+    $("status").setAttribute("data-i18n-skip", "");
+    $("status").textContent = saveCopy(loadIssue || "invalid");
+    $("place-bar").hidden = true;
+    $("place-note").hidden = true;
+    $("fleet-line").innerHTML = "";
+    $("play-hint").textContent = "";
+    $("log").innerHTML = "";
     $("arena").innerHTML = `<p class='muted'>${P("Yeni oyun başlat.")}</p>`;
     return;
   }
+  $("status").removeAttribute("data-i18n-skip");
   const phaseLabel =
     state.phase === "place"
       ? P("Yerleşim")
@@ -273,15 +324,18 @@ function bind() {
 }
 
 function boot() {
+  $("hotseat-option").disabled = true;
+  $("hotseat-option").textContent = saveCopy("option");
+  $("mode").value = "cpu";
   if (!resume()) {
-    state = createMatch({ seed: 1, difficulty: "orta" });
+    if (!loadIssue) state = createMatch({ seed: 1, difficulty: "orta" });
   } else {
     $("diff").value = DIFFICULTIES.includes(state.difficulty) ? state.difficulty : "orta";
     $("mode").value = state.mode === "hotseat" ? "hotseat" : "cpu";
   }
   bind();
   render();
-  if (state.turn === "cpu" && state.phase === "play" && !state.winner) setTimeout(cpuTurn, 200);
+  if (state?.turn === "cpu" && state.phase === "play" && !state.winner) setTimeout(cpuTurn, 200);
 }
 
 if (typeof window !== "undefined") window.addEventListener("DOMContentLoaded", boot);

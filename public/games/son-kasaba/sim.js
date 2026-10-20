@@ -368,8 +368,8 @@ export function validateTown(s) {
     (s.capacityUsed ?? s.used.length * 2) < 0 ||
     (s.capacityUsed ?? s.used.length * 2) > (s.capacityMax || BASE_CAPACITY) + STRETCH_MAX ||
     new Set(s.used).size !== s.used.length ||
-    s.events.length > 45 ||
-    s.seenEvents.length > 45 ||
+    s.events.length > EVENTS.length ||
+    s.seenEvents.length > EVENTS.length ||
     s.pending.length > 80 ||
     s.history.length > 100 ||
     s.coalitions.length > 10
