@@ -90,6 +90,7 @@
   };
 
   const PHRASE = {
+    "Terör yükseldi. Bu sokakta iş planı bu hafta kilitli.": "Terror rose. Job planning on this street is locked this week.",
     "← Oyunlar": "← Games",
     Oyunlar: "Games",
     "Oyun Laboratuvarı": "Game Lab",
