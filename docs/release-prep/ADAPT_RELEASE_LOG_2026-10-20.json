@@ -43,7 +43,27 @@
         "due": 20
       },
       "production": "Await combined ADAPT sync; product remains #26 canonical"
+    },
+    {
+      "group": 3,
+      "status": "DONE_SOURCE_ACCEPTED",
+      "pr": 29,
+      "canonical": "e1d5bf742d012ef9355f7d822fa31bc896cd7c8d",
+      "head": "8b84ddfd4053e5356e5dee5a7f5005ad23473ba4",
+      "ci": 39423394167,
+      "artifact": 12264883127,
+      "testsPassed": 307,
+      "chromium": {
+        "atlas": 7,
+        "product": 8,
+        "support": 12,
+        "save": 4,
+        "due": 20,
+        "rumor": 12
+      },
+      "balanceCampaigns": 400,
+      "production": "Await combined ADAPT sync; product remains #26 canonical"
     }
   ],
-  "next": "ADAPT 3 exact-head acceptance, then controlled TarikLab sync"
+  "next": "Controlled TarikLab sync, full current-head CI, then exact-origin production acceptance"
 }
