@@ -1001,3 +1001,11 @@ gated on live acceptance; project deletion/domain transfer require separate appr
 - Split the same browser commands into eight independent suites. Preserve every command, original path condition, timeout and evidence upload; isolate artifact names per suite. The required build gate still rejects any failed, skipped or cancelled dependency.
 - No gameplay, save, card, asset, dependency or release-guard change. General CI optimization follows production acceptance.
 - Align TC push trigger with the unchanged release guard: every main SHA must produce its own push-event TC result, including CI-only changes. PR path routing stays unchanged.
+
+
+## 2026-10-20 — Exact-main release and CI execution reuse
+
+- PR #215 merged as `2a1dd2b9d4632a3ee7e09861cfc697d27dcf03ee`; its push CI and TC both succeeded. Existing Cloudflare Worker `tariklab` published version `bae61bc1-017e-45b9-804d-4bf625ec586c` using `npm run deploy:cloudflare`. Two-host production acceptance run: https://github.com/tayaz-maker/tariklab/actions/runs/39483289751 .
+- Measured full main CI before optimization: 12m45s, including 9m06s npm test and 2m28s deterministic duel stress. All 2277 Node tests and 61 TS cases passed (one existing skip).
+- Build once with exact run/SHA artifacts; exact lock/OS/architecture/Node dependency cache; four critical unit shards and fail-closed affected-game routing. Preserve source browser/save/mobile commands and the strict mandatory aggregate. Full original regression, exhaustive populations and 500/theme stress remain nightly/manual. Production regressions execute after deployment against both hosts with the successful exact-main build artifact.
+- Workers Builds waits within a finite budget for its own main CI/TC; failed, stale, missing-at-timeout or unavailable checks still refuse publication. No game mechanics, save format, assets, dependencies or secrets changed. Native remains paused.

@@ -1,25 +1,6 @@
 name: tc-job-start-outcome
 "on":
-  pull_request:
-    paths:
-      - public/games/tc-sim/js/**
-      - public/games/tc-sim/index.html
-      - public/games/shared/management-desk.*
-      - public/games/shared/compact-navigation.*
-      - public/i18n/**
-      - public/sw.js
-      - public/favicon.ico
-      - scripts/offline-sw-plugin.mjs
-      - scripts/static-game-server.mjs
-      - scripts/static-game-server.test.mjs
-      - package.json
-      - package-lock.json
-      - public/games/tc-sim/styles.css
-      - scripts/tc-sim-job-start-*.mjs
-      - scripts/ci-readiness*.mjs
-      - scripts/ci-built-preview.mjs
-      - scripts/ci-wait-tc-deployment.mjs
-      - .github/workflows/tc-job-start-outcome.yml
+  pull_request: null
   push:
     branches:
       - main
@@ -32,32 +13,45 @@ concurrency:
 jobs:
   outcome-browser:
     name: TC job-start / ${{ matrix.label }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:
-        include: ${{ fromJSON(github.ref == 'refs/heads/main' && '[{"label":"www","origin":"https://www.tariklab.com"},{"label":"workers","origin":"https://tariklab.tayaz29.workers.dev"}]' || '[{"label":"built","origin":""}]') }}
+        include:
+          - label: built
+            origin: ""
     steps:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-          cache: npm
-      - run: npm ci
+          fetch-depth: 2
+      - uses: ./.github/actions/ci-node
+      - id: scope
+        name: Fail-closed TC change scope
+        env:
+          BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+          HEAD: ${{ github.sha }}
+        run: |-
+          base="$BASE"
+          if [ -z "$base" ] || [ "$base" = 0000000000000000000000000000000000000000 ]; then base=HEAD^; fi
+          git cat-file -e "$base^{commit}" || git fetch --no-tags --depth=1 origin "$base"
+          node scripts/ci-changes.mjs "$base" "$HEAD"
+      - name: Critical routing and release guard regressions
+        run: node --test scripts/ci-changes.test.mjs scripts/cloudflare-deploy.test.mjs
       - name: Fetch the exact TC static baseline
-        if: matrix.label == 'built'
+        if: steps.scope.outputs.tc == 'true' && (matrix.label == 'built')
         run: |
           git fetch --no-tags --depth=1 origin 9e50404c0573e1cf9e2dd7e623c9c8bd98b95e56
           git fetch --no-tags --depth=1 origin 539df6ee8cd3fe1e56b4a7833bffcc8953765488
       - name: Pinned archive, import closure and fail-closed regressions
-        if: matrix.label == 'built'
+        if: steps.scope.outputs.tc == 'true' && (matrix.label == 'built')
         run: node --test scripts/tc-sim-job-start-baseline.test.mjs
       - name: Targeted outcome, origin and safe-server regressions
         run: node --test scripts/tc-sim-balance-final.test.mjs scripts/tc-sim-gameplay-language.test.mjs scripts/tc-sim-city-life.test.mjs scripts/tc-sim-marriage-depth.test.mjs scripts/tc-sim-household.test.mjs scripts/tc-sim-parenthood.test.mjs scripts/tc-sim-intimacy.test.mjs scripts/tc-sim-body-visual.test.mjs scripts/tc-sim-depth-4.test.mjs scripts/tc-sim-job-start-outcome.test.mjs scripts/tc-sim-job-start-target.test.mjs scripts/tc-sim-job-start-i18n.test.mjs scripts/tc-sim-job-start-layout.test.mjs scripts/tc-sim-weekly-feedback.test.mjs scripts/tc-sim-lifetime-ui.test.mjs scripts/static-game-server.test.mjs
+        if: steps.scope.outputs.tc == 'true'
       - run: npm run build
+        if: steps.scope.outputs.tc == 'true'
       - name: Chromium
         run: |
           browser_path="$(command -v google-chrome || command -v chromium || true)"
@@ -66,39 +60,28 @@ jobs:
           else
             npx playwright install --with-deps chromium --only-shell
           fi
+        if: steps.scope.outputs.tc == 'true'
       - name: Same-browser cold static baseline and candidate comparison
-        if: matrix.label == 'built'
+        if: steps.scope.outputs.tc == 'true' && (matrix.label == 'built')
         run: node scripts/tc-sim-job-start-performance.mjs
       - name: Built candidate — 18 matrix cases and 4 mobile hidden-panel regressions
-        if: matrix.label == 'built'
+        if: steps.scope.outputs.tc == 'true' && (matrix.label == 'built')
         run: node scripts/tc-sim-job-start-outcome-browser.mjs --serve .output/public --label built
       - name: Mobile final — five viewports, all menus and gameplay controls
-        if: matrix.label == 'built'
+        if: steps.scope.outputs.tc == 'true' && (matrix.label == 'built')
         run: node scripts/tc-sim-job-start-mobile.mjs .output/public
       - uses: actions/upload-artifact@v4
-        if: always() && matrix.label == 'built'
+        if: always() && steps.scope.outputs.tc == 'true'
         with:
           name: tc-mobile-final
           path: ${{ runner.temp }}/screenshots/tc-mobile-final
-      - name: Wait for exact deployed TC candidate before browser startup
-        if: matrix.label != 'built'
-        timeout-minutes: 6
-        env:
-          TC_OUTCOME_ORIGIN: ${{ matrix.origin }}
-        run: node scripts/ci-wait-tc-deployment.mjs --origin "$TC_OUTCOME_ORIGIN" --root .output/public
-      - name: Exact released candidate — isolated synthetic saves on allowlisted host
-        if: matrix.label != 'built'
-        env:
-          TC_OUTCOME_ORIGIN: ${{ matrix.origin }}
-          TC_OUTCOME_LABEL: ${{ matrix.label }}
-        run: node scripts/tc-sim-job-start-outcome-browser.mjs --base-url "$TC_OUTCOME_ORIGIN" --production --expected-root .output/public --label "$TC_OUTCOME_LABEL"
       - uses: actions/upload-artifact@v4
-        if: always()
+        if: always() && steps.scope.outputs.tc == 'true'
         with:
           name: tc-job-start-outcome-${{ matrix.label }}
           path: ${{ runner.temp }}/screenshots/tc-job-start-outcome/${{ matrix.label }}
       - uses: actions/upload-artifact@v4
-        if: always() && matrix.label == 'built'
+        if: always() && steps.scope.outputs.tc == 'true'
         with:
           name: tc-job-start-outcome-performance
           path: ${{ runner.temp }}/screenshots/tc-job-start-outcome/performance

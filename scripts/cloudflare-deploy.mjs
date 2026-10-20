@@ -1,4 +1,6 @@
 import assert from 'node:assert/strict';
+import {setTimeout as delay} from 'node:timers/promises';
+import {waitForRelease} from './release-wait.mjs';
 import {execFileSync, spawnSync} from 'node:child_process';
 import {readFileSync} from 'node:fs';
 import {pathToFileURL} from 'node:url';
@@ -37,7 +39,12 @@ async function deploy() {
   assert.equal(config.keep_vars, true, 'Preserve existing dashboard variables');
   assert.ok(config.compatibility_flags.includes('nodejs_compat'));
   const [main, runs] = await Promise.all([github('branches/main'), github(`actions/runs?head_sha=${sha}&event=push&per_page=100`)]);
-  requireRelease({sha, main:main.commit.sha, runs:runs.workflow_runs});
+  if (process.env.WORKERS_CI_BRANCH === 'main') {
+    await waitForRelease({sha, main:main.commit.sha, runs:runs.workflow_runs,
+      read:github, verify:requireRelease, delay});
+  } else {
+    requireRelease({sha, main:main.commit.sha, runs:runs.workflow_runs});
+  }
   // Re-read main immediately before handing credentials to Wrangler. Native
   // Workers Builds supplies Wrangler authentication; never extract its token.
   assert.equal((await github('branches/main')).commit.sha, sha, 'Main moved during verification');
