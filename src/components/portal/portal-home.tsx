@@ -67,7 +67,7 @@ function GameCard({ game, featured = false }: { game: CatalogGame; featured?: bo
 export function PortalHome() {
   const { t } = useLang();
   const active = GAMES.filter((g) => g.status === "live");
-  const soon = GAMES.filter((g) => g.status !== "live");
+  const soon = GAMES.filter((g) => g.status === "soon");
   const categoryTitle = (id: GameCategory) =>
     t(
       `portal.category.${id}`,

@@ -1,0 +1,225 @@
+{
+  "archiveRef": "archive/ihtilal-pre-retirement-20261020",
+  "preRetirementSha": "a31c85940f1fa5e54b68ca4887dfdc5631a072ff",
+  "status": "ARCHIVE_REFERENCE_VERIFIED",
+  "retainedFiles": [
+    {
+      "path": "docs/ip/ASSET_REGISTER.csv",
+      "sha256": "ea0e6e3b6418c076156464458b2102976a0363ae3e32585e5db258413a6f611a"
+    },
+    {
+      "path": "docs/ip/ihtilal-originality-review.md",
+      "sha256": "ffef708ef5c469db739ea8e93905f9574981e74fcc4cadb668d9e2eb3a9fc163"
+    },
+    {
+      "path": "docs/ip/ihtilal-source-ledger.md",
+      "sha256": "f1934e5c2e7a65b806ea5e1f9178caa546ce4d5ab40e3e7275391357da7c9ad1"
+    },
+    {
+      "path": "public/games/esik/app.js",
+      "sha256": "d2921715a7b07ed596d1262c83cb74429bdfc20f63a672435d5d0e4f7fcd6d5d"
+    },
+    {
+      "path": "public/games/esik/index.html",
+      "sha256": "279729ee17fe47535affc557dbf2347e6f54ec09f3f2bf0b9f706f6624595c14"
+    },
+    {
+      "path": "public/games/esik/map-model.js",
+      "sha256": "8de7ccf22f21e2d80556a39bf290cd0959fefb1edb4aa60fcd4a3015b9007549"
+    },
+    {
+      "path": "public/games/esik/map-pixi.js",
+      "sha256": "e5aec4d556959bbbd41f9964cb72f3aef2f4743f7840e6d63af1dc846621ebfb"
+    },
+    {
+      "path": "public/games/esik/save-store.js",
+      "sha256": "a7f86375a2ba9e89da4a6fbd8a453e24bc9e7f2ae77e96f84016572d74ef5b8f"
+    },
+    {
+      "path": "public/games/esik/sim.js",
+      "sha256": "c74eb2f2c157161e4154bb278ecab5819e3f8ae95de520eeeeab053c1a576a47"
+    },
+    {
+      "path": "public/games/esik/style.css",
+      "sha256": "f553cdcad734810ac6ca342840e268a162d194ef6202a20f8ebdcf12ee8a1943"
+    },
+    {
+      "path": "public/games/ihtilal/ai.js",
+      "sha256": "4eb61986ecf6f0745f490fcc22a0f64011222d09881f417750cf65c2bcd848ce"
+    },
+    {
+      "path": "public/games/ihtilal/app.js",
+      "sha256": "75be90745c77244ced68548c6b59a17adf2d2e40a333224fd5d5038ccc9161c6"
+    },
+    {
+      "path": "public/games/ihtilal/basin-map.js",
+      "sha256": "03f1b603e117ed8d6c6d4dbbaaf5640bb884bb9e82d18af26064c5ca656648c1"
+    },
+    {
+      "path": "public/games/ihtilal/basin-network.js",
+      "sha256": "0684784cea376bd79752b3feb7f53b670d7ad098d2c0f9922a9af96226bbf17f"
+    },
+    {
+      "path": "public/games/ihtilal/briefing.js",
+      "sha256": "3e74f7c7b90832f83cef8fe73091df65d9fbcce457450b5062e8700ec334c630"
+    },
+    {
+      "path": "public/games/ihtilal/cards.js",
+      "sha256": "5991dde317a1192f92ff6ae6cf5363a412174833aa4e2c0c2fb0523672ba8226"
+    },
+    {
+      "path": "public/games/ihtilal/copy.js",
+      "sha256": "e9e25df1a93daccf2e58d5d3bfa7e324a1950b1c477a9e5ea443fb1d93dc07c9"
+    },
+    {
+      "path": "public/games/ihtilal/decks.js",
+      "sha256": "b11317912efe272561d82b4f2b40b30c6d733b065ba43245425dd055bb441c57"
+    },
+    {
+      "path": "public/games/ihtilal/engine.js",
+      "sha256": "22d4d4bc034970276844c0929841729840c2c2ff7fec96a0f55c89cc6afff7d4"
+    },
+    {
+      "path": "public/games/ihtilal/index.html",
+      "sha256": "58c8686dedfe2c2e969274ed955d2e0346ec0de3d68bd6f3fce1f9493df68154"
+    },
+    {
+      "path": "public/games/ihtilal/outcome-moment.js",
+      "sha256": "d3afd6a8bdb1f9af4453e4eea12f2a5187724a24ef52f19444b5fdeb09792fd4"
+    },
+    {
+      "path": "public/games/ihtilal/report.js",
+      "sha256": "4da81450a8373c424ab51c8f8b203c486a128ea24d7b090f49314bd694645178"
+    },
+    {
+      "path": "public/games/ihtilal/rng.js",
+      "sha256": "32ada9ce32925f32cbc06ad407740446566cebeeb593ad1c4d044bc837524805"
+    },
+    {
+      "path": "public/games/ihtilal/save.js",
+      "sha256": "3a0f61ff29b50468f4d6b0d906f8a86b85d962d161af3c4b9805c93695bf0e31"
+    },
+    {
+      "path": "public/games/ihtilal/solo-app.js",
+      "sha256": "c1792e892524efd3b82a8adcddb63ebd3e4dc85a4d7b18c4e2bcb688a6d1c3c3"
+    },
+    {
+      "path": "public/games/ihtilal/solo.css",
+      "sha256": "c711d19d935e7446d4609f6c41e745b6ebc11c1fce6e8ff77b39997e95f9d5ab"
+    },
+    {
+      "path": "public/games/ihtilal/solo.js",
+      "sha256": "626b30419ccb461319971ada08dd2fe8bbfaf89d1801f57215be6b4ca35fcd6f"
+    },
+    {
+      "path": "public/games/ihtilal/style.css",
+      "sha256": "310723c61e980276284c0718e06b793f038aab48c217022ae83dce2c345c461b"
+    },
+    {
+      "path": "public/games/racon/content.js",
+      "sha256": "b1ed9d8079d3b71b9f703d35b804fc9d576749a608953a2e9939b1979583485b"
+    },
+    {
+      "path": "public/games/racon/index.html",
+      "sha256": "aa8e7fba1b2ce993a0d837b7c795f6b64e87e123c426f3f3d78b3f630ab0068b"
+    },
+    {
+      "path": "public/games/racon/layout-check.html",
+      "sha256": "014cd8cf7acee64195f8bc05bccb812fdfdef7cc24d4b871daff51b0477593a0"
+    },
+    {
+      "path": "public/games/racon/map-model.js",
+      "sha256": "f18680c885b404449a81c582921806e09c9d688da4422324cc5d4c3a3a4327e9"
+    },
+    {
+      "path": "public/games/racon/map-view.js",
+      "sha256": "8c57b8443cd94b26479433bca54ee5f0cf60d2b467392b6fcd949b2137a28216"
+    },
+    {
+      "path": "public/games/racon/network.js",
+      "sha256": "51fb6c9cc5927e76eeb0c208e22c4ffa8591935d11f899af7f8be5a8a4e96f26"
+    },
+    {
+      "path": "public/games/racon/outcome-moment.js",
+      "sha256": "8c3dd7dcd3109f6fbff55719cec255bb16294407f5400144c169c1a68604d484"
+    },
+    {
+      "path": "public/games/shared/classics-ux.css",
+      "sha256": "a929898aea6fe2381c3f7c37524aa9423d18e07e50cb095f826e88a112cad120"
+    },
+    {
+      "path": "public/games/shared/compact-navigation.css",
+      "sha256": "64a6bd41d9ae3d0782b1a8d7549d7ab62c920368e1cbb531274697eefe9bb0da"
+    },
+    {
+      "path": "public/games/shared/compact-navigation.js",
+      "sha256": "82eda0b29330dc81bb95805ea1e65b3a6167119b19972231a8224d9f58d8b62f"
+    },
+    {
+      "path": "public/games/shared/depth-framework.js",
+      "sha256": "76bd11136d1aa441a349c7f1008d804ffa7bd90cb82ffb05fdb726d6422eb92e"
+    },
+    {
+      "path": "public/games/shared/management-desk.css",
+      "sha256": "b9e4c737270afd363f73497adf84670fc03adf453a8894d4bbddc21923e81169"
+    },
+    {
+      "path": "public/games/shared/management-desk.js",
+      "sha256": "fc7ae6f8a0d39465dc07c4c549c84d2edeec4c4bcc8f707750b5cf771a3607d9"
+    },
+    {
+      "path": "public/games/shared/outcome-runtime.js",
+      "sha256": "ec543a44aa824bc37ed799148c6abecb6077e3310ba23e1dd53080f9273380f4"
+    },
+    {
+      "path": "public/games/shared/pixi-adapter.js",
+      "sha256": "bf4eebb4533aee15ae9997e97e2167774ae1b6ee5b1f1d838448293fe79fc010"
+    },
+    {
+      "path": "public/i18n/boot.js",
+      "sha256": "7144da658c38c0e728e636961c14d8768496d8b7b1a7206d7023318d2b07393f"
+    },
+    {
+      "path": "public/i18n/pl-body.js",
+      "sha256": "5751281807f9654465bfc80d114f8a25f04c1412c6fc1064cf1fb158b86280ad"
+    },
+    {
+      "path": "public/i18n/pl/ihtilal.json",
+      "sha256": "6bbddd2fc12eb61d62bb4fd1c1eed4c4a0bf55d89d84694c7ab50ad58a8937d7"
+    },
+    {
+      "path": "public/vendor/pixi/pixi-8.21.0.min.mjs",
+      "sha256": "2f69e90f5b1980e6ea244bacfb3fa1eb457e16ddcb0a602b694642658956f2ef"
+    }
+  ],
+  "jitem": {
+    "standaloneSha": "e1d5bf742d012ef9355f7d822fa31bc896cd7c8d",
+    "productSyncPr": 206,
+    "runtimeSha256": "31deba68d1bcc5cd7cef9c813bd033a11b3cc1a40c95fee3c74918a998ad18f4",
+    "manifestFiles": 31
+  },
+  "archiveReference": {
+    "verifiedSha": "a31c85940f1fa5e54b68ca4887dfdc5631a072ff",
+    "verification": "GitHub GET git/ref/heads/archive/ihtilal-pre-retirement-20261020 read back after exact-SHA creation"
+  },
+  "productAcceptance": {
+    "status": "PASS",
+    "canonical": "a31c85940f1fa5e54b68ca4887dfdc5631a072ff",
+    "source": "e1d5bf742d012ef9355f7d822fa31bc896cd7c8d",
+    "runtimeSha256": "31deba68d1bcc5cd7cef9c813bd033a11b3cc1a40c95fee3c74918a998ad18f4",
+    "workflowRun": 39426926311,
+    "testedHead": "b4e7d82f0c282f695218cdb63094f497604d12f3",
+    "origins": {
+      "https://www.tariklab.com": {
+        "chromiumCases": 72,
+        "manifestFiles": 31,
+        "artifact": 12265808619
+      },
+      "https://tariklab.tayaz29.workers.dev": {
+        "chromiumCases": 72,
+        "manifestFiles": 31,
+        "artifact": 12266182758
+      }
+    }
+  }
+}

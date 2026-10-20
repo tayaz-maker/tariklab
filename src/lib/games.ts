@@ -2,7 +2,7 @@ export type CatalogGame = {
   slug: string;
   title: string;
   subtitle: string;
-  status: "live" | "soon";
+  status: "live" | "soon" | "archived";
   href: string | null;
   icon: string;
 };
@@ -195,7 +195,7 @@ export const GAMES: CatalogGame[] = [
     slug: "ihtilal",
     title: "İhtilâl",
     subtitle: "Hüküm yazılır. Arşiv unutmaz.",
-    status: "live",
+    status: "archived",
     href: "/oyna/ihtilal",
     icon: "ihtilal",
   },

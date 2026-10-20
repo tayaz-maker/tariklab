@@ -1,8 +1,10 @@
+> Archive status (2026-10-20): İHTİLÂL is retained for existing saves and historical reference at `/ihtilal` → `/oyna/ihtilal`. It is removed from the live catalog and Resources after acceptance of the three JITEM ADAPT groups. Source, shared dependencies, original card engine and all save namespaces remain intact. See [ARCHIVE_2026-10-20.md](ARCHIVE_2026-10-20.md) for the immutable pre-retirement reference and hash manifest.
+
 # İhtilâl
 
 > Hüküm yazılır. Arşiv unutmaz.
 
-## What is this game?
+## Historical card engine
 
 An original TarikLab institutional card game. Two Kalem sit on a fictional
 republic's Extraordinary File Board and drop files onto five desks. Desks lock.
@@ -13,7 +15,7 @@ This is **not** a digitization of the 2015 physical board game İhtilâl
 
 ## Status
 
-**LIVE.** Canonical play is `/oyna/ihtilal`. `/ihtilal` redirects there.
+**ARCHIVED.** `/oyna/ihtilal` retains the solo basin game for existing saves, with an archive notice. `/ihtilal` redirects there. The card engine described below is preserved historical source and does not replace the solo runtime.
 
 ## Runtime
 

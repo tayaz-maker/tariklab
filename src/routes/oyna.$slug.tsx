@@ -4,6 +4,12 @@ import { LanguageToggle } from "@/components/portal/language-toggle";
 import { GAMES, canonicalPlaySlug, isHtml5Slug } from "@/lib/games";
 import { catalogEntry, useLang } from "@/lib/i18n";
 
+const ARCHIVE_COPY = {
+  tr: { text: "Arşiv sürümü. Mevcut kayıtlarınla oynamaya devam edebilirsin.", link: "JITEM: Derin Ağ’a git" },
+  en: { text: "Archived version. You can keep playing with your existing progress.", link: "Go to JITEM: Derin Ağ" },
+  pl: { text: "Wersja archiwalna. Możesz kontynuować grę z dotychczasowymi zapisami.", link: "Przejdź do JITEM: Derin Ağ" },
+};
+
 const BY_SLUG = new Map(GAMES.map((g) => [g.slug, g]));
 
 export const Route = createFileRoute("/oyna/$slug")({
@@ -17,7 +23,10 @@ export const Route = createFileRoute("/oyna/$slug")({
   head: ({ params }) => {
     const g = BY_SLUG.get(canonicalPlaySlug(params.slug));
     return {
-      meta: [{ title: `${g?.title ?? "Oyun"} | TLab` }],
+      meta: [
+        { title: `${g?.title ?? "Oyun"} | TLab` },
+        ...(g?.status === "archived" ? [{ name: "robots", content: "noindex, follow" }] : []),
+      ],
     };
   },
   component: Html5Play,
@@ -64,6 +73,14 @@ function Html5Play() {
         </p>
         <LanguageToggle className="[&_button]:py-0.5" />
       </div>
+      {g?.status === "archived" ? (
+        <aside data-game-archive={canonical} aria-label={title} className="shrink-0 border-b border-border bg-surface px-3 py-2 text-xs text-muted">
+          <p>{ARCHIVE_COPY[lang].text}</p>
+          <Link to="/oyna/$slug" params={{ slug: "jitem-derin-ag" }} className="mt-1 inline-flex min-h-11 items-center underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-danger">
+            {ARCHIVE_COPY[lang].link}
+          </Link>
+        </aside>
+      ) : null}
       <iframe
         ref={frameRef}
         key={canonical}

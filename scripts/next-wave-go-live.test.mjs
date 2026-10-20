@@ -5,7 +5,7 @@ import test from "node:test";
 const read = (path) => readFileSync(new URL(`../${path}`, import.meta.url), "utf8");
 const games = read("src/lib/games.ts");
 const catalogEntries = [
-  ...games.matchAll(/\{\s*slug: "([^"]+)",[\s\S]*?status: "(live|soon)",[\s\S]*?\}/g),
+  ...games.matchAll(/\{\s*slug: "([^"]+)",[\s\S]*?status: "(live|soon|archived)",[\s\S]*?\}/g),
 ].map((match) => ({ slug: match[1], status: match[2] }));
 
 function catalogBlock(slug) {
@@ -33,11 +33,11 @@ test("all five Next Wave games are live and resolve to playable catalog routes",
   }
 });
 
-test("İhtilâl is live on the HTML5 play route and keeps /ihtilal as a redirect", () => {
+test("İhtilâl is archived on the HTML5 play route and keeps /ihtilal as a redirect", () => {
   assert.equal((games.match(/status: "soon"/g) ?? []).length, 0);
   assert.match(catalogBlock("jitem-derin-ag"), /status: "live"[\s\S]*?href: "\/oyna\/jitem-derin-ag"/);
   const block = catalogBlock("ihtilal");
-  assert.match(block, /status: "live"/);
+  assert.match(block, /status: "archived"/);
   assert.match(block, /href: "\/oyna\/ihtilal"/);
   assert.match(
     games.slice(games.indexOf("export const HTML5_SLUGS"), games.indexOf("] as const")),
@@ -99,6 +99,7 @@ test("DEVLET release copy reflects the live multi-period runtime without changin
   assert.match(staticI18n, /A multi-era state simulation/);
   assert.doesNotMatch(staticI18n, /2002[–-]05 core/);
   assert.equal(catalogEntries.length, 20);
-  assert.equal(catalogEntries.filter((game) => game.status === "live").length, 20);
+  assert.deepEqual(catalogEntries.filter((game) => game.status === "archived").map((game) => game.slug), ["ihtilal"]);
+  assert.equal(catalogEntries.filter((game) => game.status === "live").length, 19);
   assert.deepEqual(catalogEntries.filter((game) => game.status === "soon").map((game) => game.slug), []);
 });

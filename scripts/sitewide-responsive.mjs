@@ -5,6 +5,7 @@ import assert from "node:assert/strict";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { spawn } from "node:child_process";
 import { chromium } from "playwright";
+import { archiveAcceptance } from "./ihtilal-archive-browser.mjs";
 import { townBrowser } from "./son-kasaba-browser.mjs";
 import { correctionFlows } from "./playability-browser.mjs";
 import { deskFlows, deskLanguageSwitch } from "./management-desk-browser.mjs";
@@ -14,9 +15,9 @@ const out = `${process.env.RUNNER_TEMP || "/workspace"}/screenshots/tariklab-ux`
 mkdirSync(out, { recursive: true });
 const catalog = readFileSync("src/lib/games.ts", "utf8").split("export const GAMES:")[1];
 const routes = [
-  ...catalog.matchAll(/slug: "([^"]+)"[\s\S]*?status: "live",\s*href: "([^"]+)"/g),
+  ...catalog.matchAll(/slug: "([^"]+)"[^}]*?status: "live",\s*href: "([^"]+)"/g),
 ].map((match) => ({ id: match[1], href: match[2] }));
-assert.equal(routes.length, 20);
+assert.equal(routes.length, 19);
 const requestedRoutes = new Set((process.env.SITEWIDE_ROUTE_IDS || "").split(",").filter(Boolean));
 const browserRoutes = requestedRoutes.size
   ? routes.filter((route) => requestedRoutes.has(route.id))
@@ -69,6 +70,7 @@ try {
     executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || undefined,
     args: ["--no-sandbox"],
   });
+  await archiveAcceptance(browser, origin, `${out}/ihtilal-archive`);
   for (const lang of ["tr", "en"]) {
     for (const route of [
       { id: "portal", href: "/" },
