@@ -1,0 +1,53 @@
+name: wave1-decision-acceptance
+on:
+  pull_request:
+    paths:
+      - public/games/next-wave.js
+      - public/games/next-wave/devlet-*.js
+      - public/games/tc-sim-devlet/**
+      - scripts/wave1-decision-*.mjs
+      - scripts/wave1-bukucu-browser.mjs
+      - scripts/bukucu-qa.mjs
+      - public/games/bukucu/**
+      - .github/workflows/wave1-decision-acceptance.yml
+  push:
+    branches: [main]
+    paths:
+      - public/games/next-wave.js
+      - public/games/next-wave/devlet-*.js
+      - public/games/tc-sim-devlet/**
+      - scripts/wave1-decision-*.mjs
+      - scripts/wave1-bukucu-browser.mjs
+      - scripts/bukucu-qa.mjs
+      - public/games/bukucu/**
+      - .github/workflows/wave1-decision-acceptance.yml
+permissions:
+  contents: read
+jobs:
+  acceptance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22', cache: npm}
+      - run: npm ci
+      - run: node --test scripts/wave1-decision-repair.test.mjs scripts/devlet*.test.mjs scripts/wave5-tc-sim-devlet*.test.mjs scripts/racon-apartman-content.test.mjs scripts/next-wave*.test.mjs
+      - run: npm run build
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium --only-shell
+      - name: Source and built decisions, saves and reloads (TR/EN/PL, 390/1280)
+        run: |
+          node scripts/wave1-decision-browser.mjs --serve public --label source
+          node scripts/wave1-decision-browser.mjs --serve .output/public --label built
+      - name: Bukucu real slot, legacy migration, rule scenarios and four complete play modes
+        run: |
+          node scripts/wave1-bukucu-browser.mjs source public
+          node scripts/wave1-bukucu-browser.mjs built .output/public
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: wave1-decision-acceptance
+          path: |
+            ${{ runner.temp }}/screenshots/wave1-decision
+            ${{ runner.temp }}/screenshots/wave1-bukucu

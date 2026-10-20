@@ -213,6 +213,7 @@ export function beginDecisionMonth(s) {
 }
 
 export function applyPolicy(s, policyId) {
+  if (s.flags?.campaignEnd) return s;
   ensureDevletDepth(s);
   const stamp = beginDecisionMonth(s);
   const pool = policiesOf(s.eraId);
@@ -316,11 +317,11 @@ function maybeTransition(s) {
 }
 
 export function tickDevlet(s) {
-  ensureDevletDepth(s);
   // A finished run is terminal. Without this the 2002–2005 slice (and every
   // other era horizon) kept ticking forever — 600 advances put the "2002-2005"
   // scenario in 2052 — and the campaign-end report could never settle.
   if (s.flags?.campaignEnd) return s;
+  ensureDevletDepth(s);
   s.time.month += 1;
   if (s.time.month > 12) {
     s.time.month = 1;
@@ -371,7 +372,7 @@ export function tickDevlet(s) {
     40,
   );
   s.actual.treasury = clamp(
-    (s.actual.treasury || 50) - (pending ? pending.cost : 1) + rate * 3,
+    (s.actual.treasury ?? 50) - (pending ? pending.cost : 1) + rate * 3,
     0,
     220,
   );
