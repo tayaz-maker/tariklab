@@ -15,6 +15,14 @@ export const CARD_ART_GATE_BLOBS = Object.freeze({
   'public/games/duel-core/art-release.js': 'a77455d26bec58b9d2fcd0422790a24304879919',
   'public/games/duel-core/theme-meta.js': '3d913cc18ef218f932a77e864643d91bd60f1f3e',
 });
+// Hosting-only exception, reviewed in PR #214. These exact blobs add pinned
+// Wrangler and two release scripts; all 499 existing lock entries are unchanged
+// except the root devDependency declaration. See cloudflare-lock-provenance.json.
+// No gameplay path or wildcard is exempted, and future dependency edits fail closed.
+export const CLOUDFLARE_DEPLOYMENT_BLOBS = Object.freeze({
+  'package.json': '35823d9419f9111c2943076a5848d9cddcad5751',
+  'package-lock.json': '4d83d0b1ded5e92b162fc7e09d9871c14f22b5b7',
+});
 export function verifyProductionUnchanged(repo, base = BASE, paths = PROTECTED) {
   const git = args => execFileSync('git', args, { cwd: repo, encoding: 'utf8', maxBuffer: 4 * 1024 * 1024 });
   const entries = git(['ls-tree', '-r', base, '--', ...paths]).trim().split('\n').map(line => {
@@ -22,7 +30,7 @@ export function verifyProductionUnchanged(repo, base = BASE, paths = PROTECTED) 
     return { path, blob: metadata.split(' ')[2] };
   });
   assert.ok(entries.length > 0 && entries.every(row => row.path), 'empty protected inventory');
-  const approved = base === BASE && paths === PROTECTED ? CARD_ART_GATE_BLOBS : {};
+  const approved = base === BASE && paths === PROTECTED ? { ...CARD_ART_GATE_BLOBS, ...CLOUDFLARE_DEPLOYMENT_BLOBS } : {};
   const current = git(['ls-files', '--cached', '--others', '--exclude-standard', '--', ...paths])
     .trim().split('\n').sort();
   const expected = [...new Set([...entries.map(row => row.path), ...Object.keys(approved)])].sort();
