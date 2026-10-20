@@ -1,0 +1,97 @@
+{
+  "candidate": "133dbbd1912b91f651d474f2e14331e31d7becfe",
+  "hosts": [
+    {
+      "origin": "https://www.tariklab.com",
+      "count": 10,
+      "rows": [
+        {
+          "path": "/games/tc-sim/js/desk.js?v=10",
+          "sha256": "42d07772d467e3066a7bbd4d0916a3b23f1d76cb8a0656105db5c6cbc819a095"
+        },
+        {
+          "path": "/games/tc-sim/js/app.js?v=10",
+          "sha256": "b564edc01bef762bc993a3740e3c89a739201e1e5904d3f2c7441c875d49d34e"
+        },
+        {
+          "path": "/games/tc-sim/styles.css?v=10",
+          "sha256": "6667c005a30d239e28bf30616974ec3104424083bc3ce5961cad7b9563da06fe"
+        },
+        {
+          "path": "/games/tc-sim/js/job-start-outcome.js?v=10",
+          "sha256": "47fe74924c558f227bb569886fc41e20af78fa69ce062280972173f6a47fab14"
+        },
+        {
+          "path": "/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+          "sha256": "86d50e27fe842bd6163f97275cfa6b2dfde28346fc8489c11513784a7f8adf39"
+        },
+        {
+          "path": "/i18n/expansion-en.js",
+          "sha256": "d022fc2494136f10cc62fb282eb3040e360d00d6c3a73012e68c2b06dc84958f"
+        },
+        {
+          "path": "/i18n/pl/tc-sim.json",
+          "sha256": "5a50b3597fefe3e7f554afe26680c37d1f3ac2dde35fb7e985a317013fc28cbc"
+        },
+        {
+          "path": "/games/tc-sim/js/life.js?v=10",
+          "sha256": "f0b6dc4e303d09327769635257fb4ec9649663b91b43569ff95a1b23610ee801"
+        },
+        {
+          "path": "/games/tc-sim/js/wealth.js?v=10",
+          "sha256": "d459201cb4de35c5d0ed2309b1808f4586d9a81d3de45938404a3695dc2ec939"
+        },
+        {
+          "path": "/games/tc-sim/js/locations.js?v=10",
+          "sha256": "546b393fd1a4798444ddc3debe3dd2483773d4dacc6d11dbf77b9d6cf808e464"
+        }
+      ]
+    },
+    {
+      "origin": "https://tariklab.tayaz29.workers.dev",
+      "count": 10,
+      "rows": [
+        {
+          "path": "/games/tc-sim/js/desk.js?v=10",
+          "sha256": "42d07772d467e3066a7bbd4d0916a3b23f1d76cb8a0656105db5c6cbc819a095"
+        },
+        {
+          "path": "/games/tc-sim/js/app.js?v=10",
+          "sha256": "b564edc01bef762bc993a3740e3c89a739201e1e5904d3f2c7441c875d49d34e"
+        },
+        {
+          "path": "/games/tc-sim/styles.css?v=10",
+          "sha256": "6667c005a30d239e28bf30616974ec3104424083bc3ce5961cad7b9563da06fe"
+        },
+        {
+          "path": "/games/tc-sim/js/job-start-outcome.js?v=10",
+          "sha256": "47fe74924c558f227bb569886fc41e20af78fa69ce062280972173f6a47fab14"
+        },
+        {
+          "path": "/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+          "sha256": "86d50e27fe842bd6163f97275cfa6b2dfde28346fc8489c11513784a7f8adf39"
+        },
+        {
+          "path": "/i18n/expansion-en.js",
+          "sha256": "d022fc2494136f10cc62fb282eb3040e360d00d6c3a73012e68c2b06dc84958f"
+        },
+        {
+          "path": "/i18n/pl/tc-sim.json",
+          "sha256": "5a50b3597fefe3e7f554afe26680c37d1f3ac2dde35fb7e985a317013fc28cbc"
+        },
+        {
+          "path": "/games/tc-sim/js/life.js?v=10",
+          "sha256": "f0b6dc4e303d09327769635257fb4ec9649663b91b43569ff95a1b23610ee801"
+        },
+        {
+          "path": "/games/tc-sim/js/wealth.js?v=10",
+          "sha256": "d459201cb4de35c5d0ed2309b1808f4586d9a81d3de45938404a3695dc2ec939"
+        },
+        {
+          "path": "/games/tc-sim/js/locations.js?v=10",
+          "sha256": "546b393fd1a4798444ddc3debe3dd2483773d4dacc6d11dbf77b9d6cf808e464"
+        }
+      ]
+    }
+  ]
+}

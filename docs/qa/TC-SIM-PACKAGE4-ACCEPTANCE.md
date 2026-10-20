@@ -1,23 +1,21 @@
-# TC SIM Package 4 acceptance preparation
+# TC SIM Package 4 canonical acceptance
 
-Canonical base: d980a14. This is preparation, not canonical Package 4 acceptance or DONE. Release order: #199 work fuel → #200 insurance allowance → district visibility, with current-head required CI and reconciliation after each merge.
+Candidate: `133dbbd1912b91f651d474f2e14331e31d7becfe`
+Source tree: `d4b5f47835dc30e66f2a54dbac5030575b46acf5`
+Checkpoint date: 2026-10-20 UTC. Status: **automated domain acceptance PASS; final CI/production Chromium gates PENDING**. Package 4 is not declared DONE while those gates run.
 
-| Goal | Existing or prepared evidence | Gate / boundary |
+| Area | Canonical evidence | Status |
 |---|---|---|
-| Rent, sector demand, commute, moving and mother visits | Existing41/41 city tests; locations/quarters/life | Preserve, do not rebuild |
-| Ankara/İzmir and map coordinates | Two existing pins each; existing map tests | Keep zoom/pan/click/navigation |
-| Observed work fuel | #199;135 targeted +17 long-game on reconciled source | Actual four work weeks + fixed reserve equal existing budget; no duplicate public fare |
-| Insurance premium accounting | #200;143 targeted +17 long-game | Within existing reserve; claims/indemnity/real policy coverage NOT implemented |
-| Voluntary illicit visibility by district | Independent district branch;204 targeted +17 long-game | Real Chromium TR/EN/PL1280/390, explanations and reload required; not a crime-rate model |
-| Weekly time and energy | Existing life, education, work-recovery and decision-budget tests | No new micro-management or free decisions |
-| Life history and goals | Existing memories/yearbook/life-depth; existing depth acceptance | Reuse bounded chronological records and derived goals |
-| Saves / finance | V5/V6, SAVE_VERSION6, long finance timelines | No duplicate effects, integer TL and debt/asset conservation |
-| Physical-device QA | UNKNOWN | User-owned |
+| District visibility and voluntary illicit risk | district-risk, risk-layer, map/semt tests; bounded +1/+2 authored game rule; residence alone creates no offence | PASS |
+| Fuel, insurance premium, commute | vehicle-fuel, vehicle-insurance, wealth, monthly cash and work-recovery tests; observed travel only, no duplicate fare/premium | PASS |
+| Moving, mother visits, maps | Existing location, quarters, map and city acceptance preserved | PASS |
+| Life history, goals, weekly time and recovery | Existing depth-2/depth-4, education, decision and life tests | PASS |
+| V5/V6, SAVE_VERSION 6, save/reload and finance | Full canonical TC suite, frozen 62-source guard and long-game acceptance | PASS |
+| www / Workers released assets | Exact SHA-256 matches for all 10 guarded files on each host, including life.js, wealth.js and locations.js | PASS |
+| TR/EN/PL × 1280/390 Chromium, offline reload | Canonical production workflow 39402406277 still running at checkpoint | PENDING |
+| Main required CI | Workflow 39402406300 still running at checkpoint | PENDING |
+| Physical devices | User-owned acceptance | UNKNOWN |
 
-Final canonical acceptance must run after the prepared runtime changes merge, with production www/Workers and actual Chromium PASS. Do not substitute branch-local tests for canonical acceptance. New art, cards, Atlas and site asset optimization are not part of these changes.
+Canonical local command: `node --test scripts/tc-sim*.test.mjs scripts/management-desk.test.mjs scripts/ci-readiness.test.mjs scripts/ci-browser-routing.test.mjs`: **785/785 PASS**, zero failed/cancelled/skipped; 51.57 seconds. This includes 17 long-game tests; do not add them again to the total. Lint, typecheck and build PASS. No runtime, save, UI, map or asset changes were made for this acceptance.
 
-## Combined preparation checkpoint after #199 release
-
-Canonical #199 main14e50edd00eff73d479bc936844a92e0845d6129 has the exact previously tested fuel source treea6b3f7957efc9f9f1118301abc8cf1e8327cba7d. #200 was retargeted/reconciled to it without changing source treefb3232e21c2e715c146685a4741e37165b7dd285; fresh143/143 +17/17 PASS. New head309b6b58bdd62a9c8597b81f6bad5ed06b4a7cfb still requires current CI.
-
-An isolated integration combines #200 and #201, preserving both browser matrices and every ledger section; frozen hash was recomputed over the full unchanged62-source inventory. **273/273 targeted and17/17 actual long-game PASS**, including V5/V6, work/custody/stall, observed fuel, insurance accounting, monthly cash, district visibility and25 game years. Browser syntax PASS. This checkpoint is not merged, not an actual Chromium result for the combined tree, and not Package4 canonical closure. No new development PR was opened for integration.
+Boundary: insurance premiums are game-budget accounting. Damage, claims, indemnity and real policy coverage are **not implemented**. No real district crime-rate or full statutory law/SGK simulation is claimed.
