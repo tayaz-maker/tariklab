@@ -1,5 +1,6 @@
+import { gunzipSync } from "node:zlib";
 // Builds public/i18n/pl/<game>.json from the extracted English strings
-// (scripts/pl/source/en-strings.json) and the Polish translations
+// (scripts/pl/source/en-strings.json.gz) and the Polish translations
 // (scripts/pl/translations/*.json, id -> Polish). A translation is used only
 // while its English source is unchanged (ids are hashes of the English text).
 // scripts/pl/screen/*.json add text seen on screen that the extractor cannot
@@ -9,7 +10,7 @@
 import { mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 
 const ROOT = new URL("../../", import.meta.url);
-const rows = JSON.parse(readFileSync(new URL("scripts/pl/source/en-strings.json", ROOT), "utf8"));
+const rows = JSON.parse(gunzipSync(readFileSync(new URL("scripts/pl/source/en-strings.json.gz", ROOT))).toString("utf8"));
 const games = JSON.parse(readFileSync(new URL("scripts/pl/games.json", ROOT), "utf8"));
 const dir = new URL("scripts/pl/translations/", ROOT);
 const pl = {};

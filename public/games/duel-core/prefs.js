@@ -27,7 +27,7 @@ export function loadSettings(storage, theme) {
   try {
     const themed = theme ? storage.getItem(settingsKey(theme)) : null;
     // Unthemed reads and VETO/GETT may still hydrate from the historical shared
-    // key. DARBE-H! and any later sibling must not.
+    // key. Any later sibling must not.
     const allowLegacy = !theme || LEGACY_SHARED_THEMES.includes(theme);
     const legacy = themed || !allowLegacy ? null : storage.getItem(SETTINGS_KEY);
     const raw = themed || legacy;

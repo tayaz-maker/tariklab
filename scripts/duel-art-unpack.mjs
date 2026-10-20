@@ -1,3 +1,4 @@
+import { gunzipSync } from "node:zlib";
 import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { dirname, resolve } from "node:path";
@@ -6,9 +7,9 @@ import { dirname, resolve } from "node:path";
 const folder = "scripts/duel-art-packs";
 if (existsSync(folder))
   for (const file of readdirSync(folder)
-    .filter((n) => n.endsWith(".json"))
+    .filter((n) => n.endsWith(".json.gz"))
     .sort()) {
-    const pack = JSON.parse(readFileSync(`${folder}/${file}`, "utf8"));
+    const pack = JSON.parse(gunzipSync(readFileSync(`${folder}/${file}`)).toString("utf8"));
     for (const art of pack.assets) {
       if (
         !/^public\/games\/(veto-h|gett-oh)\/assets\/(cards\/(SND|RCN)-\d{3}|atmosphere)\.webp$/.test(

@@ -4,7 +4,7 @@
 //   npm run art:gate -- --pack <extracted-dir | pack.zip> [--out <dir>] [--decode auto|on|off]
 //
 // Writes <out>/card-art-gate.json and <out>/card-art-gate.md and prints the
-// "VETO x/300; GETT y/300; DARBE z/300" line. Exit code is 0 only when all
+// "VETO x/300; GETT y/300" line. Exit code is 0 only when all
 // three games reach 300/300 manifest-pass (still pending human visual QA).
 import {
   mkdtempSync,

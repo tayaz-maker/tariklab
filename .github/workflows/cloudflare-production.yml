@@ -1,0 +1,178 @@
+name: Cloudflare production acceptance
+"on":
+  workflow_dispatch:
+    inputs:
+      expected_sha:
+        description: Exact published main SHA
+        required: true
+        type: string
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: cloudflare-production-acceptance
+  cancel-in-progress: false
+jobs:
+  production:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: www
+            origin: https://www.tariklab.com
+          - label: workers
+            origin: https://tariklab.tayaz29.workers.dev
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ inputs.expected_sha }}
+          persist-credentials: false
+      - name: Require current main and successful CI
+        env:
+          EXPECTED_SHA: ${{ inputs.expected_sha }}
+        run: |
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import {requireRelease} from './scripts/cloudflare-deploy.mjs';
+          const sha=process.env.EXPECTED_SHA;
+          assert.match(sha,/^[a-f0-9]{40}$/);
+          const base='https://api.github.com/repos/tayaz-maker/tariklab/';
+          const read=async path=>{const r=await fetch(base+path);assert.equal(r.status,200);return r.json();};
+          const [main,runs]=await Promise.all([read('branches/main'),read(`actions/runs?head_sha=${sha}&event=push&per_page=100`)]);
+          requireRelease({sha,main:main.commit.sha,runs:runs.workflow_runs});
+                    const {appendFileSync}=await import('node:fs');
+                    const ci=runs.workflow_runs.filter(r=>r.path==='.github/workflows/ci.yml'&&r.head_sha===sha&&r.event==='push'&&r.head_branch==='main').sort((a,b)=>b.id-a.id)[0];
+                    appendFileSync(process.env.GITHUB_ENV,'CI_RUN_ID='+ci.id+'\n');
+          NODE
+      - uses: ./.github/actions/ci-node
+      - uses: actions/download-artifact@v4
+        with:
+          name: ci-build
+          path: ${{ runner.temp }}/ci-build
+          run-id: ${{ env.CI_RUN_ID }}
+          github-token: ${{ github.token }}
+      - name: Verify exact-main build artifact
+        run: |-
+          tar -xzf "$RUNNER_TEMP/ci-build/build.tgz"
+          test "$(cat .ci-build-sha)" = "$(git rev-parse HEAD)"
+      - name: Chromium
+        run: |-
+          browser_path="$(command -v google-chrome || command -v chromium || true)"
+          if [ -n "$browser_path" ]; then
+            echo "PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=$browser_path" >> "$GITHUB_ENV"
+          else
+            npx playwright install --with-deps chromium --only-shell
+          fi
+      - name: Exact deployed bytes, anonymous SSR, crew, police and portal saves
+        env:
+          BROWSER_ALLOW_EXTERNAL_HOST: "1"
+          RACON_BASE: ${{ matrix.origin }}
+          RACON_LABEL: ${{ matrix.label }}
+          RELEASE_STAGE: c
+          RELEASE_MAIN: ${{ inputs.expected_sha }}
+        run: npm run test:production
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: cloudflare-production-${{ matrix.label }}
+          path: ${{ runner.temp }}/screenshots
+  post-release:
+    needs: production
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        suite:
+          - cete
+          - wave1
+          - duel
+          - campaign
+          - tc
+          - esik
+    env:
+      BROWSER_ALLOW_EXTERNAL_HOST: "1"
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ inputs.expected_sha }}
+          persist-credentials: false
+      - name: Require current main and successful CI
+        env:
+          EXPECTED_SHA: ${{ inputs.expected_sha }}
+        run: |
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import {requireRelease} from './scripts/cloudflare-deploy.mjs';
+          const sha=process.env.EXPECTED_SHA;
+          assert.match(sha,/^[a-f0-9]{40}$/);
+          const base='https://api.github.com/repos/tayaz-maker/tariklab/';
+          const read=async path=>{const r=await fetch(base+path);assert.equal(r.status,200);return r.json();};
+          const [main,runs]=await Promise.all([read('branches/main'),read(`actions/runs?head_sha=${sha}&event=push&per_page=100`)]);
+          requireRelease({sha,main:main.commit.sha,runs:runs.workflow_runs});
+                    const {appendFileSync}=await import('node:fs');
+                    const ci=runs.workflow_runs.filter(r=>r.path==='.github/workflows/ci.yml'&&r.head_sha===sha&&r.event==='push'&&r.head_branch==='main').sort((a,b)=>b.id-a.id)[0];
+                    appendFileSync(process.env.GITHUB_ENV,'CI_RUN_ID='+ci.id+'\n');
+          NODE
+      - uses: ./.github/actions/ci-node
+      - uses: actions/download-artifact@v4
+        with:
+          name: ci-build
+          path: ${{ runner.temp }}/ci-build
+          run-id: ${{ env.CI_RUN_ID }}
+          github-token: ${{ github.token }}
+      - name: Verify exact-main build artifact
+        run: |-
+          tar -xzf "$RUNNER_TEMP/ci-build/build.tgz"
+          test "$(cat .ci-build-sha)" = "$(git rev-parse HEAD)"
+      - name: Chromium
+        run: |-
+          browser_path="$(command -v google-chrome || command -v chromium || true)"
+          if [ -n "$browser_path" ]; then
+            echo "PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=$browser_path" >> "$GITHUB_ENV"
+          else
+            npx playwright install --with-deps chromium --only-shell
+          fi
+      - name: cete — both deployed hosts
+        if: matrix.suite == 'cete'
+        run: |-
+          for label in www workers; do
+            if [ "$label" = www ]; then origin=https://www.tariklab.com; else origin=https://tariklab.tayaz29.workers.dev; fi
+            CETE_BASE="$origin" CETE_LABEL="$label" node --experimental-strip-types --import ./scripts/ts-alias.mjs scripts/cete-outcome-browser.mjs
+          done
+      - name: wave1 — both deployed hosts
+        if: matrix.suite == 'wave1'
+        run: |-
+          for label in www workers; do
+            if [ "$label" = www ]; then origin=https://www.tariklab.com; else origin=https://tariklab.tayaz29.workers.dev; fi
+            WAVE1_BASE="$origin" node scripts/wave1-outcome-browser.mjs --label "$label"
+          done
+      - name: tc — both deployed hosts
+        if: matrix.suite == 'tc'
+        run: |-
+          for label in www workers; do
+            if [ "$label" = www ]; then origin=https://www.tariklab.com; else origin=https://tariklab.tayaz29.workers.dev; fi
+            TC_OUTCOME_ORIGIN="$origin" TC_OUTCOME_LABEL="$label" node scripts/tc-sim-job-start-outcome-browser.mjs --base-url "$origin" --production --expected-root .output/public --label "$label"
+          done
+      - name: esik — both deployed hosts
+        if: matrix.suite == 'esik'
+        run: |-
+          git fetch --no-tags --depth=1 origin be160c95eb5283e5ed2ce8bf139ef7aa714d329d
+          for label in www workers; do
+            if [ "$label" = www ]; then origin=https://www.tariklab.com; else origin=https://tariklab.tayaz29.workers.dev; fi
+            ESIK_SAVE_ORIGIN="$origin" ESIK_SAVE_LABEL="$label" node scripts/esik-save-browser.mjs --base-url "$origin" --production --expected-root .output/public --label "$label"
+          done
+      - name: duel — exact assets and legacy saves
+        if: matrix.suite == 'duel'
+        run: node scripts/duel-production.mjs
+      - name: campaign — exact files and Chromium
+        if: matrix.suite == 'campaign'
+        run: node scripts/campaign-production.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: post-release-${{ matrix.suite }}
+          path: ${{ runner.temp }}/screenshots
+          retention-days: 7

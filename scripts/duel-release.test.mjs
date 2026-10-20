@@ -298,7 +298,6 @@ test("every playable catalog game ships teaching content", () => {
     "son-kasaba": ["public/games/son-kasaba/help.js"],
     "veto-h": ["public/games/duel-core/help-duel.js"],
     "gett-oh": ["public/games/duel-core/help-duel.js"],
-    "darbe-h": ["public/games/duel-core/help-duel.js"],
     ihtilal: ["public/games/ihtilal/copy.js"],
     "jitem-derin-ag": ["public/games/jitem-derin-ag/assets/runtime.js"],
   };

@@ -63,19 +63,7 @@ test("İhtilâl play runtime is original and not a duel-core reskin", () => {
   assert.match(read("public/games/ihtilal/index.html"), /app\.js/);
 });
 
-test("DARBE-H! is live on the HTML5 play route as a duel-core sibling", () => {
-  const block = catalogBlock("darbe-h");
-  assert.match(block, /status: "live"/);
-  assert.match(block, /href: "\/oyna\/darbe-h"/);
-  assert.match(
-    games.slice(games.indexOf("export const HTML5_SLUGS"), games.indexOf("] as const")),
-    /"darbe-h"/,
-  );
-  assert.ok(existsSync(new URL("../public/games/darbe-h/index.html", import.meta.url)));
-  const app = read("public/games/darbe-h/app.js");
-  assert.match(app, /startApp\("darbe-h"/);
-  assert.doesNotMatch(app, /startApp\("veto-h"|startApp\("gett-oh"/);
-});
+
 
 test("DEVLET release copy reflects the live multi-period runtime without changing identity", () => {
   const block = catalogBlock("tc-sim-devlet");
@@ -98,8 +86,8 @@ test("DEVLET release copy reflects the live multi-period runtime without changin
   const staticI18n = read("public/i18n/tlab-i18n.js");
   assert.match(staticI18n, /A multi-era state simulation/);
   assert.doesNotMatch(staticI18n, /2002[–-]05 core/);
-  assert.equal(catalogEntries.length, 20);
+  assert.equal(catalogEntries.length, 19);
   assert.deepEqual(catalogEntries.filter((game) => game.status === "archived").map((game) => game.slug), ["ihtilal", "esik"]);
-  assert.equal(catalogEntries.filter((game) => game.status === "live").length, 18);
+  assert.equal(catalogEntries.filter((game) => game.status === "live").length, 17);
   assert.deepEqual(catalogEntries.filter((game) => game.status === "soon").map((game) => game.slug), []);
 });

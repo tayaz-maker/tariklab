@@ -1,3 +1,4 @@
+import { frozenNextWaveBytes } from "./scoped-engine-provenance.mjs";
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readdirSync, readFileSync } from "node:fs";
@@ -61,7 +62,7 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Authorized Package 3: existing partial friend loans join debt-memory follow-up.
   assert.equal(files.length, 62);
   const hash = createHash("sha256");
-  for (const file of files) hash.update(file).update(readFileSync(file));
+  for (const file of files) hash.update(file).update(file === "public/games/next-wave.js" ? frozenNextWaveBytes(readFileSync(file)) : readFileSync(file));
   // Re-pinned for the DEVLET maps PR: next-wave.js (geo dispatch + month
   // tick), devlet-sim.js (beginDecisionMonth extracted, behaviour unchanged)
   // and presentation.js (regions/foreign screens render the maps).

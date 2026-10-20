@@ -90,6 +90,19 @@
   };
 
   const PHRASE = {
+    "Kâğıt": "Paper",
+    "Kâğıt yok.": "No papers.",
+    "Kâğıt seç.": "Select a paper.",
+    "Okundu, kaldır": "Read; file away",
+    "Ağza bırak": "Spread the word",
+    "Mahalle duruyor.": "The neighbourhood holds.",
+    "Sokak seni gördü.": "The street noticed you.",
+    "DOSYA": "DOSSIER",
+    "Korku": "Fear",
+    "Nam": "Renown",
+    "BU HAFTA": "THIS WEEK",
+    "Kuşanılan:": "Equipped:",
+    "Kayıt güncel": "Save up to date",
     "Hava kurşun. Kırık Avlu toz içinde.": "The sky is leaden. Dust covers Kırık Avlu.",
     "Yağmur ince. Kepenkler erken indi.": "Light rain falls. The shutters closed early.",
     "Pazar günü kalabalık. Çarşamba konuşuyor.": "It is crowded on Sunday. Çarşamba is talking.",
@@ -448,6 +461,19 @@
   // Deliberately short, global-safe DOM replacements only. Narrative game copy
   // remains Turkish until its own localization pass.
   const PHRASE_PL = {
+    "Kâğıt": "Dokument",
+    "Kâğıt yok.": "Brak dokumentów.",
+    "Kâğıt seç.": "Wybierz dokument.",
+    "Okundu, kaldır": "Przeczytane, usuń",
+    "Ağza bırak": "Puść wieść w obieg",
+    "Mahalle duruyor.": "Dzielnica trwa.",
+    "Sokak seni gördü.": "Ulica cię zauważyła.",
+    "DOSYA": "TECZKA",
+    "Korku": "Strach",
+    "Nam": "Rozgłos",
+    "BU HAFTA": "W TYM TYGODNIU",
+    "Kuşanılan:": "Wyposażenie:",
+    "Kayıt güncel": "Zapis aktualny",
     "← Oyunlar": "← Gry", Oyunlar: "Gry", "Oyun Laboratuvarı": "Laboratorium gier",
     Yakında: "Wkrótce", oynanabilir: "dostępne", Kaynaklar: "Materiały źródłowe",
     Kaydet: "Zapisz", Yükle: "Wczytaj", Sil: "Usuń", "Yeni oyun": "Nowa gra",
@@ -592,7 +618,6 @@
       subtitle: "Istanbul at night. Field your crew and play your street power.",
     },
     ihtilal: { title: "İhtilâl", subtitle: "The ruling is written. The archive does not forget." },
-    "darbe-h": { title: "DARBE-H!", subtitle: "The telex lands. The desk decides." },
     "jitem-derin-ag": {
       title: "JITEM: Derin Ağ",
       subtitle: "1986–1996. Files don't stay buried. The network grows.",
@@ -622,7 +647,6 @@
     "veto-h": { title: "VETO-H!", subtitle: "Noc wyborcza. Buduj kampanię i odpowiadaj na ruchy rywala." },
     "gett-oh": { title: "GETT-OH!", subtitle: "Stambuł nocą. Wystaw ekipę i rozegraj swoją uliczną siłę." },
     ihtilal: { title: "İHTİLÂL", subtitle: "Wyrok jest pisany. Archiwum nie zapomina." },
-    "darbe-h": { title: "DARBE-H!", subtitle: "Nadchodzi teleks. Biurko podejmuje decyzję." },
     "jitem-derin-ag": { title: "JITEM: Derin Ağ", subtitle: "1986–1996. Akta nie pozostają pogrzebane. Sieć rośnie." },
     esik: { title: "Kıyı Eşiği", subtitle: "Wymyślone wybrzeże: nabrzeża, schody, rampy i przęsło mostu. Przerwany próg mówi dlaczego." },
   };
@@ -653,7 +677,6 @@
           '<a href="/oyna/son-koy-manager">SON KÖY MANAGER</a> · LIVE — Spend changing field capacity and action effort across water, energy, migration, production and trust over 24 months.',
           '<a href="/oyna/veto-h">VETO-H!</a> · LIVE — A 300-card election and campaign duel with a seeded 40-card deck, a computer opponent and a pregame Card Archive. Card art was made with AI tools (see below).',
           '<a href="/oyna/gett-oh">GETT-OH!</a> · LIVE — A 300-card neighborhood and street-power duel: the same deterministic engine, a separate card pool and an Istanbul-night table. Card art was made with AI tools (see below).',
-          '<a href="/oyna/darbe-h">DARBE-H!</a> · LIVE — A fictional Extraordinary Desk duel of officers, orders and notices: the shared duel engine, a separate 300-card pool and crisis points. Plate art was made with AI tools (see below).',
           '<a href="/oyna/jitem-derin-ag">JITEM: Derin Ağ</a> · LIVE — A single-player strategy game set across 1986–1996, built around sourced historical records, relationship networks, asymmetric knowledge and institutional behavior.',
         ],
       },
@@ -661,8 +684,8 @@
         h: "How it works",
         lead: "TarikLab is a collection of independent games that run directly in the browser. The portal and Çete Savaşları use React and TypeScript; the other games run as their own HTML, CSS and JavaScript applications.",
         items: [
-          "Most long-running games use three local slots, kept separate on the same device. HANEDANIAN keeps an autosave, its previous version and a separate manual save, with file export/import. Original HANEDAN saves remain accessible through the legacy game. VETO-H!, GETT-OH! and DARBE-H! each autosave one active duel; reload preserves deck order, action rights and pending responses.",
-          "The portal and all 18 live games support Turkish and English; each game keeps its own voice while the outer shell owns language navigation.",
+          "Most long-running games use three local slots, kept separate on the same device. HANEDANIAN keeps an autosave, its previous version and a separate manual save, with file export/import. Original HANEDAN saves remain accessible through the legacy game. VETO-H! and GETT-OH! each autosave one active duel; reload preserves deck order, action rights and pending responses.",
+          "The portal and all 17 live games support Turkish and English; each game keeps its own voice while the outer shell owns language navigation.",
           "Polish covers the interface and, through a translation layer, game text (story, events, cards, help); anything without a Polish translation is shown in English. The Polish text has not yet been reviewed by a native speaker.",
           "Interfaces adapt to phone, tablet and desktop while preserving each game's own visual and interaction identity.",
         ],
@@ -688,7 +711,7 @@
         items: [
           "Code-drawn visuals (game emblems, the T monogram, icons, seed-generated maps, DEVLET region outlines): TarikLab, all rights reserved.",
           "No font files, audio files or third-party map data are used.",
-          "Card pictures drawn from code: VETO-H! and GETT-OH! card art and table backgrounds come from scripts/duel-card-art, DARBE-H! card illustrations from scripts/darbe-h-card-art. The earlier AI-generated images and DARBE-H! plates were removed.",
+          "Card pictures drawn from code: VETO-H! and GETT-OH! card art and table backgrounds come from scripts/duel-card-art.",
           "Images redrawn from code: the portal share images, the JITEM: Derin Ağ images and the portal background are produced by scripts/ip/render-original-art.mjs and CSS; the older files whose creator was not recorded were removed. The Son Mahalle Bükücü icon was replaced with a code-drawn SVG.",
         ],
       },
@@ -704,7 +727,7 @@
   const CREDITS_PL = {
     h1: "Materiały źródłowe", kicker: "TarikLab · gry i struktura techniczna", back: "← Gry",
     sections: [
-      { h: "Katalog", lead: "TarikLab ma 18 dostępnych gier.", items: [
+      { h: "Katalog", lead: "TarikLab ma 17 dostępnych gier.", items: [
         '<a href="/cete-savaslari">Çete Savaşları</a> · LIVE — Zbuduj ekipę, prowadź zadania i utrzymuj dzielnicę pod presją policji oraz rywali.',
         '<a href="/oyna/hanedanian">HANEDANIAN</a> · LIVE — Buduj osady, zabezpieczaj zasoby i prowadź dynastię na generowanej mapie strategii.',
         '<a href="/oyna/racon">Racon Manager</a> · LIVE — Narracyjna gra menedżerska o relacjach, decyzjach i opóźnionych konsekwencjach.',
@@ -721,16 +744,15 @@
         '<a href="/oyna/son-koy-manager">SON KÖY MANAGER</a> · LIVE — Przez 24 miesiące rozdzielaj zdolność działania między wodę, energię, migrację i zaufanie.',
         '<a href="/oyna/veto-h">VETO-H!</a> · LIVE — Pojedynek wyborczy i kampanijny na 300 kart z talią 40 kart. Grafiki kart powstały przy użyciu narzędzi AI (zob. niżej).',
         '<a href="/oyna/gett-oh">GETT-OH!</a> · LIVE — Pojedynek o dzielnicę i uliczną siłę: wspólny silnik, osobna pula kart i stambulska noc. Grafiki kart powstały przy użyciu narzędzi AI (zob. niżej).',
-        '<a href="/oyna/darbe-h">DARBE-H!</a> · LIVE — Fikcyjny pojedynek nadzwyczajnego biurka z oddzielną pulą 300 kart. Grafiki plansz powstały przy użyciu narzędzi AI (zob. niżej).',
         '<a href="/oyna/jitem-derin-ag">JITEM: Derin Ağ</a> · LIVE — Jednoosobowa strategia 1986–1996 oparta na źródłowych zapisach historycznych, sieciach relacji i asymetrycznej wiedzy.',
       ]},
-      { h: "Jak to działa", lead: "TarikLab to zbiór niezależnych gier działających bezpośrednio w przeglądarce.", items: ["Portal i Çete Savaşları używają Reacta i TypeScriptu; pozostałe gry są osobnymi aplikacjami HTML, CSS i JavaScript.", "Portal i wszystkie 18 dostępnych gier obsługują turecki i angielski. Polski obejmuje interfejs oraz — przez warstwę tłumaczeń — tekst gier (fabuła, wydarzenia, karty, pomoc); tekst bez polskiego tłumaczenia pokazuje się po angielsku. Polskie teksty nie zostały jeszcze sprawdzone przez rodzimego użytkownika języka.", "Interfejsy dostosowują się do telefonu, tabletu i komputera." ]},
+      { h: "Jak to działa", lead: "TarikLab to zbiór niezależnych gier działających bezpośrednio w przeglądarce.", items: ["Portal i Çete Savaşları używają Reacta i TypeScriptu; pozostałe gry są osobnymi aplikacjami HTML, CSS i JavaScript.", "Portal i wszystkie 17 dostępnych gier obsługują turecki i angielski. Polski obejmuje interfejs oraz — przez warstwę tłumaczeń — tekst gier (fabuła, wydarzenia, karty, pomoc); tekst bez polskiego tłumaczenia pokazuje się po angielsku. Polskie teksty nie zostały jeszcze sprawdzone przez rodzimego użytkownika języka.", "Interfejsy dostosowują się do telefonu, tabletu i komputera." ]},
       { h: "Autorstwo", note: "Tarık jest synem swojej matki." },
       { h: "TLab Classics", lead: "Labirent, Tek Taş, Satranç i Amiral Battı zostały napisane od podstaw dla TarikLab.", items: ["Labirent — niezależna implementacja TarikLab.", "Tek Taş — niezależna implementacja TarikLab.", "Satranç — niezależny silnik zasad TarikLab.", "Amiral Battı — niezależna implementacja siatki i floty TarikLab."], note: "Klasyczne zasady gier są koncepcjami domeny publicznej; ta informacja dotyczy wyłącznie kodu, interfejsu i oryginalnej treści TarikLab." },
       { h: "Grafiki i łańcuch praw", lead: "Jako licencje pokazujemy tylko prawa z potwierdzonym zapisem.", items: [
         "Grafiki rysowane kodem (emblematy gier, monogram T, ikony, mapy generowane z ziarna, obrysy regionów DEVLET): TarikLab, wszelkie prawa zastrzeżone.",
         "Nie używamy plików czcionek, plików dźwiękowych ani zewnętrznych danych map.",
-        "Grafiki kart rysowane kodem: grafiki kart i tła stołu VETO-H! i GETT-OH! powstają w scripts/duel-card-art, ilustracje kart DARBE-H! w scripts/darbe-h-card-art. Wcześniejsze obrazy wygenerowane przez AI i plansze DARBE-H! zostały usunięte.",
+        "Grafiki kart rysowane kodem: grafiki kart i tła stołu VETO-H! i GETT-OH! powstają w scripts/duel-card-art.",
         "Obrazy narysowane na nowo kodem: grafiki udostępniania portalu, grafiki JITEM: Derin Ağ i tło portalu powstają w scripts/ip/render-original-art.mjs i CSS; starsze pliki bez zapisanego autora zostały usunięte. Ikona Son Mahalle Bükücü została zastąpiona SVG narysowanym kodem.",
       ]},
       { h: "Komponenty zewnętrzne", lead: "Główne komponenty zewnętrzne portalu i Çete Savaşları: React, TanStack Router, Zustand, Radix UI, Lucide i Zod. Prawa do nich należą do ich właścicieli. Infrastruktura renderowania mapy: PixiJS (MIT, wersja 8.21.0) rysuje mapę Kıyı Eşiği; przeglądarka bez WebGL wraca do własnej mapy SVG gry, żaden gracz nie jest wykluczony. 55 pakietów wysyłanych do przeglądarki ma potwierdzone licencje: 52 MIT, 1 Apache-2.0, 1 ISC, 1 0BSD. Lista pakietów środowiska JITEM: Derin Ağ nie została jeszcze wygenerowana." },

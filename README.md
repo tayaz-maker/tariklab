@@ -29,11 +29,11 @@ Değer yazma; isimler:
 - `BETTER_AUTH_SECRET` — oturum imzası
 - `VITE_AUTH_ENABLED` — hesap kapısı
 
-Oyun hesabı Supabase üzerindedir (`VITE_SUPABASE_URL` / publishable key, istemci).
+Oyun hesabı Supabase üzerindedir. URL ve publishable key `src/lib/supabase.ts` içindedir; service-role key istemciye verilmez.
 
 ## Yayın
 
-GitHub `main` → Vercel. Force-push kapalı tutulmalı (`OPS.md`).
+GitHub `main` → Cloudflare Workers + Static Assets (`tariklab`). Yayın, aynı SHA için CI PASS kontrolünden sonra mevcut Workers Builds bağlantısıyla yapılır. `npm run deploy:cloudflare`; ayrıntılar `OPS.md`. Force-push kapalı tutulmalı.
 
 ## Oyun
 

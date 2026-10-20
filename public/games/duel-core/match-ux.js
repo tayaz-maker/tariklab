@@ -1,5 +1,5 @@
 import { AI_PROFILES } from "./ai.js";
-import { COMMAND_DESKS, NEIGHBORHOODS } from "./identities.js";
+import { NEIGHBORHOODS } from "./identities.js";
 import { electionShare, formatAnalysis, opGraphSvg } from "./analyzer.js";
 import { DEFAULT_SETTINGS, mostUsedAi } from "./prefs.js";
 import { reasonLabel } from "./relationships.js";
@@ -20,7 +20,7 @@ export function applyDisplay(settings, theme) {
   document.body.dataset.identity = identity || "";
   const meta = themeMeta(theme);
   if (meta.hoodAccent) {
-    const table = theme === "gett-oh" ? NEIGHBORHOODS : theme === "darbe-h" ? COMMAND_DESKS : null;
+    const table = theme === "gett-oh" ? NEIGHBORHOODS : null;
     const row = table?.[settings[meta.identityKey]];
     if (row?.accent) root.style.setProperty("--hood-accent", row.accent);
   }
@@ -151,11 +151,7 @@ export function relatedBlock($, t, lang, rows, onOpen, theme = "veto-h", onMore 
       ? lang === "en"
         ? "Campaign Combos"
         : "Kampanya Komboları"
-      : theme === "darbe-h"
-        ? lang === "en"
-          ? "Crisis Combos"
-          : "Kriz Komboları"
-        : lang === "en"
+      : lang === "en"
           ? "Table Combos"
           : "Masa Komboları";
   return [

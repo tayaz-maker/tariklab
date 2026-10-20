@@ -22,7 +22,7 @@ const slots = (s) =>
     .join(",");
 
 test("every covered game loads the Polish body layer with its own dictionary", () => {
-  assert.ok(games.length >= 18, "covered games");
+  assert.ok(games.length >= 17, "covered games");
   for (const game of games) {
     const html = read(`public/games/${game}/index.html`);
     assert.match(

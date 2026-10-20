@@ -1377,15 +1377,9 @@ body[data-theme="gett-oh"] {
     linear-gradient(#100c08e0, #0b0908bb),
     url("/games/gett-oh/assets/atmosphere.webp") center/cover fixed;
 }
-body[data-theme="darbe-h"] {
-  background:
-    radial-gradient(1200px 700px at 50% 0%, #243044cc, #121820f2),
-    repeating-linear-gradient(180deg, #1a243300 0 22px, #c4a5740d 22px 23px);
-}
 @media (max-width: 760px) {
   body[data-theme="veto-h"],
-  body[data-theme="gett-oh"],
-  body[data-theme="darbe-h"] {
+  body[data-theme="gett-oh"] {
     background-attachment: scroll;
   }
 }

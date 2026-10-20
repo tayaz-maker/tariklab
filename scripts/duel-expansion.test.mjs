@@ -315,7 +315,7 @@ for (const [theme, pool] of Object.entries(pools)) {
 }
 
 test("expansion traps retain the legacy Scandal/Tip-off/Notice search identity", () => {
-  const trapSeries = { "veto-h": "Skandal", "gett-oh": "İhbar", "darbe-h": "İhtar" };
+  const trapSeries = { "veto-h": "Skandal", "gett-oh": "İhbar" };
   for (const [theme, pool] of Object.entries(pools))
     for (const c of pool.slice(150).filter((c) => c.kind === "trap"))
       assert.ok(c.series.includes(trapSeries[theme]), `${c.id} series=${c.series}`);

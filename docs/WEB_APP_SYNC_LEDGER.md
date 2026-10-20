@@ -978,6 +978,56 @@ Share district payment eligibility with the existing cash forecast, include elig
 Preserve injury/absence through fatigue; gate the existing three manager roles on ready/tired status without deleting assignments. Close unavailable police/tip papers using loaded state; remove closed-contact shield/tips, keep normal raid risk and paid current-week protection. Weekly tips and visible full shutter price are once-only and atomic. Existing coefficients, indictment interval, map/UI/content/save fields remain.121 scoped tests, source/built18 locale cases each, existing source/built60 menu checks each, built map47 and old long-run suite PASS; new saves remain readable by pre-repair main. Independent stacked preparation only; A and final integration/release gates remain required.
 
 
+## 2026-10-20 — Cloudflare independent production release
+
+Baseline main 9b5a06e349131d912baee1a7bb5ba86ced4a9b1e. Racon B production run
+39466070754 failed exact index.html bytes because active Worker 1a0557a0 still
+served A; verified main candidate de08ead6 was uploaded, not promoted. Main CI
+39462047238 and TC 39462047566 PASS; candidate acceptance 39464279187 PASS.
+Pin Wrangler, declare the existing Worker/domain/runtime configuration, preserve
+dashboard secrets/variables, and gate production publication on exact current
+main CI. Add reusable two-host acceptance with unchanged byte/gameplay checks.
+No game engine, save format, art, audio or native changes. Vercel cleanup remains
+gated on live acceptance; project deletion/domain transfer require separate approval.
+
+### 2026-10-20 — PR #214 DARBE dependency provenance
+
+- Pin only the exact reviewed package/package-lock blobs for Wrangler 4.151.3 and the two Cloudflare release commands. All protected gameplay files and inventory remain pinned to the immutable DARBE baseline.
+- Machine-readable provenance records the 85 added tooling lock entries; every existing non-root lock entry remains byte-equivalent after JSON parsing. No game, save, art, audio or native content changed.
+- Release still requires exact-head CI and exact-main CI/TC plus both-host production acceptance. Local 127.0.0.1 EPERM failures are environment restrictions, not a test PASS.
+
+### 2026-10-20 — Release CI timeout repair
+
+- Main a082c67 CI run 39475014254 exceeded the 25-minute serial browser budget during deployed Duel verification; prior steps and TC passed.
+- Split the same browser commands into eight independent suites. Preserve every command, original path condition, timeout and evidence upload; isolate artifact names per suite. The required build gate still rejects any failed, skipped or cancelled dependency.
+- No gameplay, save, card, asset, dependency or release-guard change. General CI optimization follows production acceptance.
+- Align TC push trigger with the unchanged release guard: every main SHA must produce its own push-event TC result, including CI-only changes. PR path routing stays unchanged.
+
+
+## 2026-10-20 — Exact-main release and CI execution reuse
+
+- PR #215 merged as `2a1dd2b9d4632a3ee7e09861cfc697d27dcf03ee`; its push CI and TC both succeeded. Existing Cloudflare Worker `tariklab` published version `bae61bc1-017e-45b9-804d-4bf625ec586c` using `npm run deploy:cloudflare`. Two-host production acceptance run: https://github.com/tayaz-maker/tariklab/actions/runs/39483289751 .
+- Measured full main CI before optimization: 12m45s, including 9m06s npm test and 2m28s deterministic duel stress. All 2277 Node tests and 61 TS cases passed (one existing skip).
+- Build once with exact run/SHA artifacts; exact lock/OS/architecture/Node dependency cache; four critical unit shards and fail-closed affected-game routing. Preserve source browser/save/mobile commands and the strict mandatory aggregate. Full original regression, exhaustive populations and 500/theme stress remain nightly/manual. Production regressions execute after deployment against both hosts with the successful exact-main build artifact.
+- Workers Builds waits within a finite budget for its own main CI/TC; failed, stale, missing-at-timeout or unavailable checks still refuse publication. No game mechanics, save format, assets, dependencies or secrets changed. Native remains paused.
+
+
+## 2026-10-20 — Retire Anatomy Atlas and DARBE-H!
+
+- CI PR #216 merged as `1bec07db9b0825d3c898ab6d8014d165f90d12f3`. Its exact-head CI passed in 5m37s (previous measured main: 12m45s); TC passed in 7m24s, ESIK and Workers preview passed. Main CI/TC also passed. A Cloudflare main build failed while fetching Git, before install/build/deploy; a safe retry was initiated without changing guards.
+- Removed Anatomy Atlas models, compressed transport chunks, data, offline packages, UI/catalog/credits links, dedicated tools/tests/workflows and DARBE-H!'s 300-card application, illustrations, definitions, fixtures, production proof tools and exclusive documentation. Removed stale game entries from shared translation inventories. Historical mixed-game audit prose remains; dead Markdown links are retired.
+- Protected VETO-H!/GETT-OH! card definitions/images and shared rules/actions/effects/save modules byte-for-byte. Moved their imported SVG primitives from the retired source directory to `scripts/duel-card-art/primitives.mjs`; preserved the HANEDANIAN portion of the mixed art QA tool. PixiJS, JITEM's texture atlas and HANEDANIAN map/atlas scheduler remain. No dependency proved exclusive to the removed products.
+- Two tiny generated offline-worker tombstones unregister only the old Atlas scopes and navigate those clients home. They never delete any cache/save data. The root worker refuses retired product URLs before runtime-cache fallback. Legacy save keys/settings remain untouched.
+- Validation: typecheck, build, lint (zero errors), retirement-scope tests, shared engine/art/save tests, real HTTP redirect guards, 144 duel viewport checks, 24 deterministic gameplay scenarios and four additional PL desktop/mobile art/save/reload cases. Native remains paused.
+
+- Further reference audit: removed 52 historical root screenshots (26,514,223 bytes), three unreferenced image-generation artifacts (1,410,687 bytes) and the unreferenced standalone HTML prototype (43,003 bytes). No runtime/build/CI input reads these files; screenshot tools generate their own outputs. Ignore those generated output directories to prevent regrowth. Retain ambiguous uploaded `attachments/image.png`, active art packs, common guides and audit prose.
+- Updated the offline plugin test to expect its two explicit retirement tombstones while retaining every original shell/HANEDANIAN assertion; the redirect regression initially found this emission-inventory mismatch.
+
+### 2026-10-20 — Scoped engine loading and lossless source transport
+
+Measured unrelated DEVLET content loading in Kapı Nöbeti, Kayıp Telefon and Son Kasaba. Scope only module imports to the document's existing game id; preserve all gameplay suffix bytes and the original frozen aggregate through a narrowly pinned import-prefix provenance check. Unknown consumers and Node tools retain every engine. Compress source-only card transport packs and English extraction inventory losslessly; unpacked 600 card images, two backgrounds and generated Polish dictionaries remain identical. No save keys, schemas, mechanics, production secrets or hosting integrations change.
+
+
 ## 2026-10-20 — Racon C partial checkpoint and release handoff
 Rendering-only localization and investor/high-risk longrun policies saved as unfinished C work. Extended longrun determinism PASS; full C browser/regression acceptance remains pending. See docs/checkpoints/TARIKLAB_HANDOFF_2026-10-20_1720_TR.md. No release or new merge in this checkpoint.
 
@@ -988,3 +1038,7 @@ Recovered the literal truncated source block in checkpoint bc781136 from accepte
 ## 2026-10-20 — Racon C daily-atmosphere language closure
 
 Observed24 existing daily-atmosphere lines leaking Turkish into EN/PL. Rendering now uses the authored translations while flags.bugun and all serialized story content remain Turkish. The real manager/police language matrix verifies translated weather and unchanged canonical saved weather at390/1280 in all three languages. No procedural choice, RNG call, coefficient, UI layout, art or save format changes. Final focused124 and source6/clean-built6 language acceptance PASS; full release gates remain mandatory.
+
+## 2026-10-20 — Racon C current-main integration
+
+Integrated the existing C preparation onto current main 26ad7185a0b0c72b1721b5cb5b4b294a918acaa6, preserving A/B fixes, retired-product cleanup, scoped engine loading, lossless transport and CI/Cloudflare build reuse. Resolved the Polish dictionary against current-main shared entries; C presentation remains limited to the existing crew, navigation, papers, saves and daily atmosphere. Promote production acceptance to stage C so both hosts must also pass the TR/EN/PL language matrix. No game mechanics, coefficients, artwork or serialized saves changed. Exact-head CI, main CI/TC and two-host production receipts remain mandatory.

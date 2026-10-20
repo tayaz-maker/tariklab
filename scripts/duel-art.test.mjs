@@ -1,3 +1,4 @@
+import { gunzipSync } from "node:zlib";
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
@@ -29,8 +30,8 @@ for(const theme of ['veto-h','gett-oh'])test(`${theme}: all card arts are unique
 
 test('source transport packs reproduce all 600 accepted card images and two backgrounds',()=>{
  const paths=new Set();
- for(const filename of readdirSync('scripts/duel-art-packs').filter(n=>n.endsWith('.json'))){
-  const pack=JSON.parse(readFileSync(`scripts/duel-art-packs/${filename}`,'utf8'));
+ for(const filename of readdirSync('scripts/duel-art-packs').filter(n=>n.endsWith('.json.gz'))){
+  const pack=JSON.parse(gunzipSync(readFileSync(`scripts/duel-art-packs/${filename}`)).toString('utf8'));
   for(const asset of pack.assets){
    assert.ok(!paths.has(asset.path),`Duplicate packed asset: ${asset.path}`);paths.add(asset.path);
    const packed=Buffer.from(asset.base64,'base64');

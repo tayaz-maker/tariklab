@@ -78,8 +78,12 @@ try {
       await page.locator('.paper .ttl, .card .ttl').filter({hasText: copy[lang].title}).waitFor();
       assert.match(await page.locator('#stage').innerText(), copy[lang].body);
       assert.match(paper.body, /^İş durdu, .* gitti\. Baskın gelirse eli boş döner\.$/);
+      await page.getByRole('heading', {name: {tr:'Kâğıt',en:'Paper',pl:'Dokument'}[lang], exact:true}).waitFor();
+      await page.getByRole('button', {name: {tr:'Okundu, kaldır',en:'Read; file away',pl:'Przeczytane, usuń'}[lang], exact:true}).waitFor();
+      await page.getByRole('button', {name: {tr:'Ağza bırak',en:'Spread the word',pl:'Puść wieść w obieg'}[lang], exact:true}).waitFor();
       await page.locator('[data-act="save"]').click();
       assert.equal(await page.locator('#save-status').textContent(), copy[lang].saved);
+      assert.ok((await page.locator('#feedback').innerText()).includes({tr:'Kayıt güncel',en:'Save up to date',pl:'Zapis aktualny'}[lang]));
       const beforeReload = await saved();
       await page.screenshot({path: `${out}/paper-${lang}-${width}.png`});
       await page.reload({waitUntil: 'networkidle'});

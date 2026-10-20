@@ -1,8 +1,8 @@
 // Extra drawing vocabulary for the VETO-H! and GETT-OH! card illustrations.
-// Flat SVG fragments drawn only with the active palette (P from the DARBE-H!
-// motif set, swapped per theme by compose.mjs). No text, no logos, no real
+// Flat SVG fragments drawn only with the active palette (P from the shared
+// primitives, swapped per theme by compose.mjs). No text, no logos, no real
 // people, places or party symbols: every shape is written here by hand.
-import { P, g, tr } from "../darbe-h-card-art/motifs.mjs";
+import { P, g, tr } from "./primitives.mjs";
 
 const f = (n) => (Math.round(n * 10) / 10).toString();
 export const stroke = (c = P.ink, w = 1.6) =>

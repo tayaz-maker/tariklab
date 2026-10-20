@@ -97,85 +97,14 @@ export const NEIGHBORHOODS = {
   },
 };
 
-export const COMMAND_DESKS = {
-  muhtira: {
-    tr: {
-      name: "Muhtıra",
-      blurb: "Kâğıt önce durur. İhtarlar setlenir; acele eden masa kendi zeyilini unutur.",
-    },
-    en: {
-      name: "Memorandum",
-      blurb: "Paper holds first. Notices are set; the hurried desk forgets its own addendum.",
-    },
-    accent: "#8a4a32",
-    aiBias: "trapper",
-    series: ["Muhtira", "Ihtar", "Redaksiyon"],
-  },
-  tebligat: {
-    tr: {
-      name: "Tebligat",
-      blurb: "Telex erken düşer. Tempo senin; boş masa seni geç yener.",
-    },
-    en: {
-      name: "Dispatch",
-      blurb: "The telex lands early. Tempo is yours; an empty desk beats you late.",
-    },
-    accent: "#c4a574",
-    aiBias: "aggressive",
-    series: ["Tebligat", "Telex", "Dosya"],
-  },
-  karargah: {
-    tr: {
-      name: "Karargâh",
-      blurb: "Heyet kalabalık tutulur. Orta saha, paraflı çağrı; İstişare seni yorar.",
-    },
-    en: {
-      name: "Command Post",
-      blurb: "Keep the panel crowded. Mid-board, signed summons; Consultation outlasts you.",
-    },
-    accent: "#6b7bb8",
-    aiBias: "controlled",
-    series: ["Karargah", "Kabine", "Heyet"],
-  },
-  istisare: {
-    tr: {
-      name: "İstişare",
-      blurb: "Brifing uzar, kart akar. Uzun kriz; Tebligat seni erken keser.",
-    },
-    en: {
-      name: "Consultation",
-      blurb: "The briefing runs long and cards flow. A long crisis; Dispatch cuts you early.",
-    },
-    accent: "#3d6a6a",
-    aiBias: "patient",
-    series: ["Brifing", "Paraf", "Arsiv"],
-  },
-  zeyilname: {
-    tr: {
-      name: "Zeyilname",
-      blurb: "Arşiv konuşur. Mezarlıktan dönüş; Muhtıra seni setlerde boğar.",
-    },
-    en: {
-      name: "Addendum",
-      blurb: "The archive speaks. Returns from file; Memorandum drowns you in sets.",
-    },
-    accent: "#5a4a3a",
-    aiBias: "gambler",
-    series: ["Zeyil", "Arsiv", "Mesruiyet"],
-  },
-};
-
 export function campaignStyleIds() {
   return Object.keys(CAMPAIGN_STYLES);
 }
 export function neighborhoodIds() {
   return Object.keys(NEIGHBORHOODS);
 }
-export function commandDeskIds() {
-  return Object.keys(COMMAND_DESKS);
-}
 export function identityLabel(kind, id, lang) {
   const table =
-    kind === "campaign" ? CAMPAIGN_STYLES : kind === "desk" ? COMMAND_DESKS : NEIGHBORHOODS;
+    kind === "campaign" ? CAMPAIGN_STYLES : NEIGHBORHOODS;
   return table[id]?.[lang === "en" ? "en" : "tr"] || table[id]?.tr || { name: "—", blurb: "" };
 }

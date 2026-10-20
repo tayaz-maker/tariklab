@@ -4761,7 +4761,7 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
       barrow("Saygı", S.rep.saygi, 100, "green") +
       barrow("Nam", S.rep.nam, 100, "") +
       barrow("Racon", S.rep.racon, 100, raconCls) +
-      '<p class="dim">Kuşanılan: ' + esc(gear) + "</p>" +
+      '<p class="dim">' + esc(raconText("Kuşanılan:", "Equipped:")) + ' ' + esc(gear) + "</p>" +
       '<div class="card"><h3>Bu hafta</h3>' + notes + "</div>" + extra;
   }
 
@@ -5729,7 +5729,7 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
       if(S.flags.personalDay!==today()){S.flags.personalDay=today();S.flags.personalUsed=0;S.flags.personalKeys=[];}
       S.flags.personalUsed++; S.flags.personalKeys.push(code+":"+(code==="hayat"?payload.id:""));
     }
-    if(code==="save"){if(writeSave()) feedback("Kayıt güncel · H"+S.week+" "+DAYS[S.day-1]);return;}
+    if(code==="save"){if(writeSave()) feedback(raconText("Kayıt güncel", "Save up to date")+" · H"+S.week+" "+DAYS[S.day-1]);return;}
     if(code==="chain-choice"){
       var paper=inboxBy(payload.id);
       if(paper&&window.RaconContent){
