@@ -35,6 +35,7 @@ const UI = {
     del: "Sil",
     delAsk: "Bu kayıt silinsin mi?",
     delYes: "Evet, sil",
+    delFailed: "Kayıt silinemedi. Kayıt yerinde duruyor; yeniden deneyebilirsin.",
     cancel: "Vazgeç",
     newGame: "Yeni yüz gün",
     how: "Nasıl oynanır",
@@ -57,7 +58,10 @@ const UI = {
     left: (n) => `${n} gün kaldı`,
     save: "Kayıt",
     saveNote: (n, d) =>
-      `Kayıt ${n}. Her karardan sonra kendiliğinden kaydedilir. Son kayıt: gün ${d}.`,
+      `Kayıt ${n}. Son kayıt: gün ${d}.`,
+    unsavedNote: (n) => `Kayıt ${n}. Bu oyun henüz kaydedilmedi.`,
+    saveFailed: "Kayıt başarısız. Son ilerleme yalnız bu açık sayfada; sayfadan ayrılmadan tekrar kaydet.",
+    retrySave: "Tekrar kaydet",
     toMenu: "Kayıtlara dön",
     period: (a, b) => (a === b ? `Gün ${a}` : `Gün ${a}–${b}`),
     deskNote: "Bu dönem tek karar. Seçmediğin durumlar bekler; bazıları bedel yazar.",
@@ -142,6 +146,7 @@ const UI = {
     del: "Delete",
     delAsk: "Delete this save?",
     delYes: "Yes, delete",
+    delFailed: "Could not delete the save. It is still there; you can try again.",
     cancel: "Cancel",
     newGame: "New hundred days",
     how: "How it plays",
@@ -163,7 +168,10 @@ const UI = {
     day: "Day",
     left: (n) => `${n} days left`,
     save: "Save",
-    saveNote: (n, d) => `Save ${n}. Saved automatically after each decision. Last saved: day ${d}.`,
+    saveNote: (n, d) => `Save ${n}. Last saved: day ${d}.`,
+    unsavedNote: (n) => `Save ${n}. This game has not been saved yet.`,
+    saveFailed: "Save failed. Latest progress is only on this open page; retry before leaving.",
+    retrySave: "Retry save",
     toMenu: "Back to saves",
     period: (a, b) => (a === b ? `Day ${a}` : `Days ${a}–${b}`),
     deskNote: "One decision this period. What you pass over waits; some of it costs you.",
@@ -251,6 +259,7 @@ const UI_PL = {
   del: "Usuń",
   delAsk: "Usunąć ten zapis?",
   delYes: "Tak, usuń",
+  delFailed: "Nie udało się usunąć zapisu. Nadal istnieje; możesz spróbować ponownie.",
   cancel: "Anuluj",
   newGame: "Nowe sto dni",
   how: "Jak się gra",
@@ -270,6 +279,10 @@ const UI_PL = {
   day: "Dzień",
   left: (n) => `Zostało dni: ${n}`,
   save: "Zapis",
+  saveNote: (n, d) => `Zapis ${n}. Ostatni zapis: dzień ${d}.`,
+  unsavedNote: (n) => `Zapis ${n}. Ta gra nie została jeszcze zapisana.`,
+  saveFailed: "Zapis nie powiódł się. Ostatnie postępy są tylko na tej otwartej stronie; ponów zapis przed wyjściem.",
+  retrySave: "Ponów zapis",
   toMenu: "Wróć do zapisów",
   period: (a, b) => (a === b ? `Dzień ${a}` : `Dni ${a}–${b}`),
   deskNote: "Jedna decyzja w tym okresie. To, co pominiesz, czeka; część z tego kosztuje.",
@@ -329,6 +342,10 @@ let sel = null;
 let setup = { scenario: null, slot: 1 };
 let askDelete = null;
 let focusAfter = null;
+// Storage feedback belongs to the current session, not the replay save format.
+let lastSavedDay = null;
+let saveFailed = false;
+let deleteFailed = null;
 
 const key = (n) => `${G.SAVE_PREFIX}.slot${n}`;
 function readSlot(n) {
@@ -342,15 +359,17 @@ function readSlot(n) {
 function writeSlot(n, s) {
   try {
     localStorage.setItem(key(n), G.serialize(s));
+    return true;
   } catch {
-    /* private mode: play continues unsaved */
+    return false;
   }
 }
 function deleteSlot(n) {
   try {
     localStorage.removeItem(key(n));
+    return true;
   } catch {
-    /* ignore */
+    return false;
   }
 }
 function legacyCount() {
@@ -409,7 +428,11 @@ function light(day) {
 }
 
 function persist() {
-  if (game) writeSlot(slot, game);
+  if (!game) return false;
+  const saved = writeSlot(slot, game);
+  saveFailed = !saved;
+  if (saved) lastSavedDay = game.day;
+  return saved;
 }
 
 // ——— Screens ———
@@ -430,7 +453,7 @@ function renderMenu() {
       }
       const actions =
         askDelete === n
-          ? `<p class="slot-ask" role="alert">${esc(t.delAsk)}</p>
+          ? `<p class="slot-ask" role="alert">${esc(deleteFailed === n ? t.delFailed : t.delAsk)}</p>
              <div class="slot-actions"><button type="button" data-del-yes="${n}">${esc(t.delYes)}</button>
              <button type="button" data-del-no>${esc(t.cancel)}</button></div>`
           : s
@@ -495,10 +518,11 @@ function renderSetup() {
 
 function saveMenu() {
   const t = u();
-  return `<details class="save-menu">
+  return `<details class="save-menu"${saveFailed ? " open" : ""}>
     <summary>${esc(t.save)}</summary>
     <div class="save-popover">
-      <p>${esc(t.saveNote(slot, game.day))}</p>
+      <p>${esc(lastSavedDay === null ? t.unsavedNote(slot) : t.saveNote(slot, lastSavedDay))}</p>
+      ${saveFailed ? `<p role="alert">${esc(t.saveFailed)}</p><button type="button" data-save-retry>${esc(t.retrySave)}</button>` : ""}
       <button type="button" data-go="menu">${esc(t.toMenu)}</button>
     </div>
   </details>`;
@@ -799,6 +823,8 @@ function openSlot(n) {
   if (!s) return;
   slot = n;
   game = s;
+  lastSavedDay = s.day;
+  saveFailed = false;
   sel = null;
   view = "game";
   focusAfter = s.ending ? "#end-h" : "#desk-h";
@@ -813,6 +839,7 @@ root.addEventListener("click", (event) => {
     setup = { scenario: null, slot: el.id === "end-new" ? slot : free || 1 };
     view = "setup";
     askDelete = null;
+    deleteFailed = null;
     focusAfter = "h1";
   } else if (d.go === "menu") {
     view = "menu";
@@ -822,13 +849,21 @@ root.addEventListener("click", (event) => {
     openSlot(Number(d.load));
   } else if (d.del) {
     askDelete = Number(d.del);
+    deleteFailed = null;
     focusAfter = `[data-del-yes="${d.del}"]`;
   } else if (d.delYes) {
-    deleteSlot(Number(d.delYes));
-    askDelete = null;
-    focusAfter = "#menu-new";
+    const n = Number(d.delYes);
+    if (deleteSlot(n)) {
+      askDelete = null;
+      deleteFailed = null;
+      focusAfter = "#menu-new";
+    } else {
+      deleteFailed = n;
+      focusAfter = `[data-del-yes="${n}"]`;
+    }
   } else if ("delNo" in d) {
     askDelete = null;
+    deleteFailed = null;
     focusAfter = "#menu-new";
   } else if (d.scenario) {
     setup.scenario = d.scenario;
@@ -841,10 +876,15 @@ root.addEventListener("click", (event) => {
     slot = setup.slot;
     const seed = (Date.now() ^ Math.floor(Math.random() * 0x7fffffff)) >>> 0;
     game = G.createGame(setup.scenario, seed);
+    lastSavedDay = null;
     persist();
     sel = null;
     view = "game";
     focusAfter = "#desk-h";
+  } else if ("saveRetry" in d) {
+    // Retry storage only: the decision has already advanced the in-memory run.
+    persist();
+    focusAfter = saveFailed ? "[data-save-retry]" : ".save-menu > summary";
   } else if (d.card && d.opt) {
     sel =
       sel && sel.card === d.card && sel.option === d.opt ? null : { card: d.card, option: d.opt };

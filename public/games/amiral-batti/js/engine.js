@@ -161,6 +161,80 @@ export function createMatch({ seed = 1, difficulty = "orta", mode = "cpu" } = {}
   };
 }
 
+// Check persisted v1 data before rendering or letting the CPU consume it.
+// Validation does not migrate, repair or mutate an existing match.
+export function validateMatch(state) {
+  const record = (value) => value !== null && typeof value === "object" && !Array.isArray(value);
+  const coordinate = (r, c) => Number.isInteger(r) && Number.isInteger(c) && inBounds(r, c);
+  const cellKey = (value) => typeof value === "string" && /^[0-9],[0-9]$/.test(value);
+  if (!record(state) || state.version !== 1 || !Number.isInteger(state.seed) || state.seed < 0 || state.seed > 0xffffffff) return false;
+  if (!DIFFICULTIES.includes(state.difficulty) || !["cpu", "hotseat"].includes(state.mode)) return false;
+  if (!["place", "play", "over"].includes(state.phase) || !["player", "cpu", "enemy"].includes(state.turn)) return false;
+  if (![null, "player", "cpu"].includes(state.winner)) return false;
+  if (state.turn !== "player" && state.turn !== (state.mode === "cpu" ? "cpu" : "enemy")) return false;
+
+  function validFleet(ships, complete) {
+    if (!Array.isArray(ships) || ships.length > FLEET.length || (complete && ships.length !== FLEET.length)) return false;
+    const ids = new Set();
+    const occupied = new Set();
+    for (const ship of ships) {
+      if (!record(ship)) return false;
+      const spec = FLEET.find((f) => f.id === ship.id);
+      if (!spec || ids.has(ship.id) || ship.len !== spec.len || typeof ship.name !== "string" || !["h", "v"].includes(ship.dir)) return false;
+      if (!Array.isArray(ship.cells) || ship.cells.length !== spec.len || !Array.isArray(ship.hits)) return false;
+      const cells = new Set();
+      for (let i = 0; i < ship.cells.length; i += 1) {
+        const cell = ship.cells[i];
+        if (!Array.isArray(cell) || cell.length !== 2 || !coordinate(...cell)) return false;
+        const [r, c] = cell;
+        if (i && (r !== ship.cells[0][0] + (ship.dir === "v" ? i : 0) || c !== ship.cells[0][1] + (ship.dir === "h" ? i : 0))) return false;
+        const k = key(r, c);
+        if (occupied.has(k)) return false;
+        occupied.add(k);
+        cells.add(k);
+      }
+      if (ship.hits.some((hit) => !cellKey(hit) || !cells.has(hit)) || new Set(ship.hits).size !== ship.hits.length) return false;
+      if (ship.sunk !== undefined && (typeof ship.sunk !== "boolean" || ship.sunk !== (ship.hits.length === spec.len))) return false;
+      ids.add(ship.id);
+    }
+    return true;
+  }
+  if (!validFleet(state.playerShips, state.phase !== "place") || !validFleet(state.enemyShips, true)) return false;
+
+  function validShots(shots, ships) {
+    if (!record(shots)) return false;
+    const occupied = occupancy(ships);
+    const hits = new Set(ships.flatMap((s) => s.hits));
+    for (const [k, result] of Object.entries(shots)) {
+      if (!cellKey(k) || !["hit", "miss"].includes(result)) return false;
+      if ((result === "hit") !== occupied.has(k) || (result === "hit") !== hits.has(k)) return false;
+    }
+    return [...hits].every((k) => shots[k] === "hit");
+  }
+  if (!validShots(state.playerShots, state.enemyShips) || !validShots(state.enemyShots, state.playerShips)) return false;
+  if (!Array.isArray(state.log) || state.log.length !== Object.keys(state.playerShots).length + Object.keys(state.enemyShots).length) return false;
+  const logged = new Set();
+  for (const entry of state.log) {
+    if (!record(entry) || !["player", "cpu"].includes(entry.who) || !coordinate(entry.r, entry.c)) return false;
+    if (!["miss", "hit", "sunk"].includes(entry.result)) return false;
+    const shots = entry.who === "player" ? state.playerShots : state.enemyShots;
+    const k = key(entry.r, entry.c);
+    if (shots[k] !== (entry.result === "miss" ? "miss" : "hit") || logged.has(entry.who + k)) return false;
+    if (entry.result === "sunk") {
+      const ships = entry.who === "player" ? state.enemyShips : state.playerShips;
+      if (!ships.some((s) => s.id === entry.sunk && s.hits.length === s.len && s.hits.includes(k))) return false;
+    } else if (entry.sunk !== null) return false;
+    logged.add(entry.who + k);
+  }
+  if (state.phase === "place") return state.turn === "player" && state.winner === null && state.log.length === 0;
+  const playerLost = allSunk(state.playerShips);
+  const enemyLost = allSunk(state.enemyShips);
+  if (state.phase === "play") return state.winner === null && !playerLost && !enemyLost;
+  return state.winner === "player"
+    ? enemyLost && !playerLost && state.turn === "player"
+    : state.winner === "cpu" && playerLost && !enemyLost && state.turn !== "player";
+}
+
 export function startMatch(state) {
   if (!fleetComplete(state.playerShips)) return { ok: false, reason: "Filo eksik." };
   if (!fleetComplete(state.enemyShips)) return { ok: false, reason: "Rakip filo kurulamadı." };
