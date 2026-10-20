@@ -22,9 +22,7 @@ export const implementationRate = (s) => {
 
 // A page loads only its own engine data. Node/tools and unknown consumers retain
 // the complete synchronous API after module evaluation. Gameplay below is frozen.
-const pageGame = typeof document === "undefined" ? "" : document.body?.dataset.game;
-const scopedGame = new Set(["apartman", "kayip-telefon", "son-100-gun", "tc-sim-devlet", "son-kasaba"]).has(pageGame) ? pageGame : "";
-const loadGame = (owner, load) => !scopedGame || scopedGame === owner ? load() : Promise.resolve({});
+import { loadGame } from "./shared/scoped-engine-loader.js";
 const [
   { applyGeoTick, setRegionFocus, applyDiplomacy },
   { SYSTEMS, RESIDENTS, ISSUES, ISSUE_TEMPLATES, MEETINGS, PROPOSALS },
