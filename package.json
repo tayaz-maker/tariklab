@@ -21,7 +21,9 @@
     "format": "prettier --write .",
     "predev": "node scripts/duel-art-unpack.mjs",
     "pretest": "node scripts/duel-art-unpack.mjs",
-    "prebuild": "node scripts/duel-art-unpack.mjs"
+    "prebuild": "node scripts/duel-art-unpack.mjs",
+    "deploy:cloudflare": "node scripts/cloudflare-deploy.mjs",
+    "test:production": "node scripts/racon-release-production.mjs"
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.5.4",
@@ -98,6 +100,7 @@
     "prettier": "^3.4.0",
     "typescript": "^5.7.0",
     "typescript-eslint": "^8.56.1",
-    "vite": "^8.2.0"
+    "vite": "^8.2.0",
+    "wrangler": "4.151.3"
   }
 }

@@ -976,3 +976,21 @@ Share district payment eligibility with the existing cash forecast, include elig
 ## 2026-10-20 — Racon B preparation
 
 Preserve injury/absence through fatigue; gate the existing three manager roles on ready/tired status without deleting assignments. Close unavailable police/tip papers using loaded state; remove closed-contact shield/tips, keep normal raid risk and paid current-week protection. Weekly tips and visible full shutter price are once-only and atomic. Existing coefficients, indictment interval, map/UI/content/save fields remain.121 scoped tests, source/built18 locale cases each, existing source/built60 menu checks each, built map47 and old long-run suite PASS; new saves remain readable by pre-repair main. Independent stacked preparation only; A and final integration/release gates remain required.
+
+## 2026-10-20 — Cloudflare independent production release
+
+Baseline main 9b5a06e349131d912baee1a7bb5ba86ced4a9b1e. Racon B production run
+39466070754 failed exact index.html bytes because active Worker 1a0557a0 still
+served A; verified main candidate de08ead6 was uploaded, not promoted. Main CI
+39462047238 and TC 39462047566 PASS; candidate acceptance 39464279187 PASS.
+Pin Wrangler, declare the existing Worker/domain/runtime configuration, preserve
+dashboard secrets/variables, and gate production publication on exact current
+main CI. Add reusable two-host acceptance with unchanged byte/gameplay checks.
+No game engine, save format, art, audio or native changes. Vercel cleanup remains
+gated on live acceptance; project deletion/domain transfer require separate approval.
+
+### 2026-10-20 — PR #214 DARBE dependency provenance
+
+- Pin only the exact reviewed package/package-lock blobs for Wrangler 4.151.3 and the two Cloudflare release commands. All protected gameplay files and inventory remain pinned to the immutable DARBE baseline.
+- Machine-readable provenance records the 85 added tooling lock entries; every existing non-root lock entry remains byte-equivalent after JSON parsing. No game, save, art, audio or native content changed.
+- Release still requires exact-head CI and exact-main CI/TC plus both-host production acceptance. Local 127.0.0.1 EPERM failures are environment restrictions, not a test PASS.

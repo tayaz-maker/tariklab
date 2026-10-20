@@ -22,6 +22,6 @@ for (const spec of CASES) {
     assert.ok(rejection(bad, fixture.special));
   });
 }
-test('duel production stays pinned to 9e50404 except the exact inactive art gate blobs', () => {
+test('duel production stays pinned to 9e50404 except exact reviewed inactive art and Cloudflare tooling blobs', () => {
   assert.ok(verifyProductionUnchanged(repo) > 600);
 });

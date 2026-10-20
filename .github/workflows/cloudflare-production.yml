@@ -1,0 +1,61 @@
+name: Cloudflare production acceptance
+on:
+  workflow_dispatch:
+    inputs:
+      expected_sha:
+        description: Exact published main SHA
+        required: true
+        type: string
+permissions:
+  contents: read
+concurrency:
+  group: cloudflare-production-acceptance
+  cancel-in-progress: false
+jobs:
+  production:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: www
+            origin: https://www.tariklab.com
+          - label: workers
+            origin: https://tariklab.tayaz29.workers.dev
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ inputs.expected_sha }}
+          persist-credentials: false
+      - name: Require current main and successful CI
+        env:
+          EXPECTED_SHA: ${{ inputs.expected_sha }}
+        run: |
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import {requireRelease} from './scripts/cloudflare-deploy.mjs';
+          const sha=process.env.EXPECTED_SHA;
+          assert.match(sha,/^[a-f0-9]{40}$/);
+          const base='https://api.github.com/repos/tayaz-maker/tariklab/';
+          const read=async path=>{const r=await fetch(base+path);assert.equal(r.status,200);return r.json();};
+          const [main,runs]=await Promise.all([read('branches/main'),read(`actions/runs?head_sha=${sha}&event=push&per_page=100`)]);
+          requireRelease({sha,main:main.commit.sha,runs:runs.workflow_runs});
+          NODE
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with: {node-version: '22', cache: npm}
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium --only-shell
+      - name: Exact deployed bytes, anonymous SSR, crew, police and portal saves
+        env:
+          BROWSER_ALLOW_EXTERNAL_HOST: '1'
+          RACON_BASE: ${{ matrix.origin }}
+          RACON_LABEL: ${{ matrix.label }}
+          RELEASE_STAGE: b
+          RELEASE_MAIN: ${{ inputs.expected_sha }}
+        run: npm run test:production
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: cloudflare-production-${{ matrix.label }}
+          path: ${{ runner.temp }}/screenshots
