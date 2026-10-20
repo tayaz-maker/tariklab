@@ -1,0 +1,26 @@
+name: Cloudflare offline diagnostic
+on:
+  push:
+    branches: [qa/cloudflare-offline-diagnostic-20261020]
+permissions: {contents: read}
+jobs:
+  offline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    strategy:
+      fail-fast: false
+      matrix:
+        origin: [https://www.tariklab.com, https://tariklab.tayaz29.workers.dev]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22', cache: npm}
+      - run: npm ci
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium --only-shell
+      - run: node scripts/tc-migration-diagnostic.mjs --base-url ${{ matrix.origin }} --production --expected-root .output/public --label diagnostic
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: offline-${{ strategy.job-index }}
+          path: ${{ runner.temp }}/screenshots/tc-job-start-outcome
