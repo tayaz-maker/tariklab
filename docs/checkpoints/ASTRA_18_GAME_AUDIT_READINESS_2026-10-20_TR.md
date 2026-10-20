@@ -12,7 +12,7 @@ Bu belge denetim girdisidir; bütün mekaniklerin kusursuz olduğu veya insan/fi
 
 ## Ortak production kanıtı ve sınırlar
 
-Cloudflare Worker main15ca52a: 70 kesin dosya hash’i, TR/EN/PL × 390/1280 için 108 canlı rota, altışar İHTİLÂL/Kıyı kayıt-hamle-reload kabulü; orijinal Wave 1 dört oyunda 24 bozuk-save/depolama hatası senaryosu ve TC SIM orijinal suite 126 kayıt PASS (Workers artifact12281001981). www RUM/offline düzeltmesi sonrası final kabul ayrıca kaydedilecek. 108 rota testi giriş/render/taşma/console/asset/dil tercihi kontrolüdür; 108 tam oyun veya yüzde100 çeviri korpusu sertifikası değildir.
+Cloudflare Worker main15ca52a: 70 kesin dosya hash’i, TR/EN/PL × 390/1280 için 108 canlı rota, altışar İHTİLÂL/Kıyı kayıt-hamle-reload kabulü; orijinal Wave 1 dört oyunda 24 bozuk-save/depolama hatası senaryosu ve TC SIM orijinal suite 126 kayıt PASS (Workers artifact12281001981). www RUM/offline yapılandırma düzeltmesi sonrası aynı koşu39454897150 final SUCCESS; her iki origin de aynı Worker sürümünü sunar. 108 rota testi giriş/render/taşma/console/asset/dil tercihi kontrolüdür; 108 tam oyun veya yüzde100 çeviri korpusu sertifikası değildir.
 
 Fiziksel cihaz kabulü UNKNOWN / kullanıcıya ait. Kaynakta test bulunması mevcut testin yeniden koşulduğu anlamına gelmez; her bulgu exact SHA, komut, fixture ve FAIL→PASS kanıtıyla ayrılmalıdır.
 
@@ -23,7 +23,7 @@ Fiziksel cihaz kabulü UNKNOWN / kullanıcıya ait. Kaynakta test bulunması mev
 - Rota: `/cete-savaslari`; kaynak: `src/game; src/components`.
 - Mevcut döngü: Semt, itibar, nakit ve zaman yönetimi.
 - Korunan iş/kanıt: Formül/saat/final/outcome ve gerçek eylem-kayıt akışları.
-- Kaynakta bulunan kontrol dosyaları: Ortak testler ve standalone kanıtları üzerinden doğrula; yeni doğrulama varsayma..
+- Kaynakta bulunan kontrol dosyaları: `src/game/formulas.test.ts`, `src/game/clock.test.ts`, `src/game/closure.test.ts`, `src/game/outcome-moment.test.ts`, `src/game/production-quality.test.ts`, `scripts/cete-quality-browser.mjs`, `scripts/cete-outcome-browser.mjs`.
 - Denetle: gerçek başlangıç→anlamlı karar→save→reload; bozuk/eksik/eski sürüm kaydı ve quota/storage exception; doğal final ve çıkmazlar; ekonomi/denge; TR/EN/PL; 390/1280; deterministik uzun oyun.
 - Eksik/hatalı mekanikler: henüz kapsamlı kaynak denetimiyle belirlenmedi. Bulguyu istekten veya eski audit metninden uydurma; mevcut kodla yeniden üret.
 - Öncelik: doğrulanmış veri kaybı/kilitlenme P0; oynanış, ekonomi veya anlam bozan dil hatası P1; ikincil görsel/metin/ergonomi P2. Belirsizlik issue değil, denetim sorusudur.

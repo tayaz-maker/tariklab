@@ -1,0 +1,406 @@
+{
+  "origin": "https://www.tariklab.com",
+  "canonicalMain": "15ca52a07e504c7244556bd377012b842d998bf6",
+  "browser": "151.0.7922.34",
+  "hashes": [
+    {
+      "file": "credits.html",
+      "sha256": "14a8f7116f22ecec403bacc44490d9f9fc729e0d693a7ecf75ae4c7d0ec49b6a",
+      "bytes": 18688
+    },
+    {
+      "file": "sitemap.xml",
+      "sha256": "b9edf58c95119b609a5ef5b1941c8b50aa49ed5781224d3eb795e0c85b93cdd3",
+      "bytes": 1391
+    },
+    {
+      "file": "i18n/tlab-i18n.js",
+      "sha256": "2e194bc4c17930f5802c131afc6f8dc03cfaee0783fd78a08fa9683078c61595",
+      "bytes": 62279
+    },
+    {
+      "file": "games/jitem-derin-ag/SOURCE.json",
+      "sha256": "edc6a2e327fd10d43c36d8187577911e327097360abbf27f34277a66eb6678a0",
+      "bytes": 615
+    },
+    {
+      "file": "games/racon/content.js",
+      "sha256": "b1ed9d8079d3b71b9f703d35b804fc9d576749a608953a2e9939b1979583485b",
+      "bytes": 99016
+    },
+    {
+      "file": "games/racon/index.html",
+      "sha256": "a0e16d7557b8f9cf5af8a2961edf14eed5060370bf75f29acf012e36bdeb1e4b",
+      "bytes": 394692
+    },
+    {
+      "file": "games/racon/layout-check.html",
+      "sha256": "014cd8cf7acee64195f8bc05bccb812fdfdef7cc24d4b871daff51b0477593a0",
+      "bytes": 2936
+    },
+    {
+      "file": "games/racon/map-model.js",
+      "sha256": "f18680c885b404449a81c582921806e09c9d688da4422324cc5d4c3a3a4327e9",
+      "bytes": 7724
+    },
+    {
+      "file": "games/racon/map-view.js",
+      "sha256": "8c57b8443cd94b26479433bca54ee5f0cf60d2b467392b6fcd949b2137a28216",
+      "bytes": 18741
+    },
+    {
+      "file": "games/racon/network.js",
+      "sha256": "51fb6c9cc5927e76eeb0c208e22c4ffa8591935d11f899af7f8be5a8a4e96f26",
+      "bytes": 22214
+    },
+    {
+      "file": "games/racon/outcome-moment.js",
+      "sha256": "8c3dd7dcd3109f6fbff55719cec255bb16294407f5400144c169c1a68604d484",
+      "bytes": 7288
+    },
+    {
+      "file": "games/hanedanian/app.js",
+      "sha256": "4ddeb5e3a0b3b2c0e44d4b9665e4aa40c27d1767458740c39368e78fc11af243",
+      "bytes": 88783
+    },
+    {
+      "file": "games/hanedanian/campaign.js",
+      "sha256": "0b5c95c171f40fb4783222b0fcc21766f9e3bcf94fb76702121d16093bf29dfe",
+      "bytes": 12171
+    },
+    {
+      "file": "games/hanedanian/data.js",
+      "sha256": "f4ddff41ae4fabb3f4a0d4f3ebdc6554fa2cba901f8c71d5e9f106b858e02f4e",
+      "bytes": 6879
+    },
+    {
+      "file": "games/hanedanian/engine.js",
+      "sha256": "c29c65c02258fe67aea722d1f14ee8d07cd722db6c5a8d236510ed1fa9d673f8",
+      "bytes": 64344
+    },
+    {
+      "file": "games/hanedanian/i18n.js",
+      "sha256": "2ea2d536709ba18fa67f615bc6cf215821c2708a2b6ac21a8e8ca52479c46a08",
+      "bytes": 16859
+    },
+    {
+      "file": "games/hanedanian/index.html",
+      "sha256": "871f31aed7b6649d2590a0394a6a36be76ccdc0c8c15333bc068138b4e3dd8d4",
+      "bytes": 7543
+    },
+    {
+      "file": "games/hanedanian/map-dom.js",
+      "sha256": "c042a7252404110b65f54780453f276dad310c0e1068cf531482bf1b2dcc5564",
+      "bytes": 8534
+    },
+    {
+      "file": "games/hanedanian/map-factory.js",
+      "sha256": "be35254615e23327e67648fe0955e4d04bcec5f80c53e260d3f2f28a42461821",
+      "bytes": 6236
+    },
+    {
+      "file": "games/hanedanian/map-pixi.js",
+      "sha256": "ea6468d1f12c6a87c0269d86ce7ab9ef41bcb73c368a8223ca03f3bfbf011af0",
+      "bytes": 9261
+    },
+    {
+      "file": "games/hanedanian/map.js",
+      "sha256": "1c9533d10096bf5d8ec09c53ca2ed4e6df4c342abe461f49acda737a944d9b0a",
+      "bytes": 89147
+    },
+    {
+      "file": "games/hanedanian/mapintel.js",
+      "sha256": "e8b0e121e40513b2985cf354e2768e227ae7f436ffaf81d1d4d36f8c0ca957c7",
+      "bytes": 16226
+    },
+    {
+      "file": "games/hanedanian/orders.js",
+      "sha256": "3af45ed46f15f62a3e34ed5b5b1053ef7e0b691d4ac09945e5fc08c752586764",
+      "bytes": 5066
+    },
+    {
+      "file": "games/hanedanian/outcome-moment.js",
+      "sha256": "399c2bd16ef206045e0ae7280a403947a9a80f4460a4a8fef8609c117b3fe924",
+      "bytes": 3048
+    },
+    {
+      "file": "games/hanedanian/save.js",
+      "sha256": "ecef13cc81589c9964c2e56bbb662c220990f2162f679f3d20dbf8cdd758342d",
+      "bytes": 18465
+    },
+    {
+      "file": "games/hanedanian/style.css",
+      "sha256": "e14cd0bea44eb6a49d7ff44a8f63edc5d712f05cd95506f92c1666926e23c10e",
+      "bytes": 43390
+    },
+    {
+      "file": "games/hanedanian/sw.js",
+      "sha256": "733a265c6a5903a87376ce55a29ef703a8d05fb828836352ad21dac6ae6d0fa5",
+      "bytes": 4042
+    },
+    {
+      "file": "games/hanedanian/world.js",
+      "sha256": "7bc67b7a0a4f6e30fc45b270b79c1225268827b1e080d585f4071f00cf78df8a",
+      "bytes": 4029
+    },
+    {
+      "file": "games/ihtilal/ai.js",
+      "sha256": "4eb61986ecf6f0745f490fcc22a0f64011222d09881f417750cf65c2bcd848ce",
+      "bytes": 4660
+    },
+    {
+      "file": "games/ihtilal/app.js",
+      "sha256": "75be90745c77244ced68548c6b59a17adf2d2e40a333224fd5d5038ccc9161c6",
+      "bytes": 31991
+    },
+    {
+      "file": "games/ihtilal/basin-map.js",
+      "sha256": "03f1b603e117ed8d6c6d4dbbaaf5640bb884bb9e82d18af26064c5ca656648c1",
+      "bytes": 12852
+    },
+    {
+      "file": "games/ihtilal/basin-network.js",
+      "sha256": "0684784cea376bd79752b3feb7f53b670d7ad098d2c0f9922a9af96226bbf17f",
+      "bytes": 6848
+    },
+    {
+      "file": "games/ihtilal/briefing.js",
+      "sha256": "3e74f7c7b90832f83cef8fe73091df65d9fbcce457450b5062e8700ec334c630",
+      "bytes": 3494
+    },
+    {
+      "file": "games/ihtilal/cards.js",
+      "sha256": "5991dde317a1192f92ff6ae6cf5363a412174833aa4e2c0c2fb0523672ba8226",
+      "bytes": 150515
+    },
+    {
+      "file": "games/ihtilal/copy.js",
+      "sha256": "e9e25df1a93daccf2e58d5d3bfa7e324a1950b1c477a9e5ea443fb1d93dc07c9",
+      "bytes": 19686
+    },
+    {
+      "file": "games/ihtilal/decks.js",
+      "sha256": "b11317912efe272561d82b4f2b40b30c6d733b065ba43245425dd055bb441c57",
+      "bytes": 4543
+    },
+    {
+      "file": "games/ihtilal/engine.js",
+      "sha256": "22d4d4bc034970276844c0929841729840c2c2ff7fec96a0f55c89cc6afff7d4",
+      "bytes": 26803
+    },
+    {
+      "file": "games/ihtilal/index.html",
+      "sha256": "58c8686dedfe2c2e969274ed955d2e0346ec0de3d68bd6f3fce1f9493df68154",
+      "bytes": 646
+    },
+    {
+      "file": "games/ihtilal/outcome-moment.js",
+      "sha256": "d3afd6a8bdb1f9af4453e4eea12f2a5187724a24ef52f19444b5fdeb09792fd4",
+      "bytes": 5832
+    },
+    {
+      "file": "games/ihtilal/report.js",
+      "sha256": "4da81450a8373c424ab51c8f8b203c486a128ea24d7b090f49314bd694645178",
+      "bytes": 4861
+    },
+    {
+      "file": "games/ihtilal/rng.js",
+      "sha256": "32ada9ce32925f32cbc06ad407740446566cebeeb593ad1c4d044bc837524805",
+      "bytes": 819
+    },
+    {
+      "file": "games/ihtilal/save.js",
+      "sha256": "3a0f61ff29b50468f4d6b0d906f8a86b85d962d161af3c4b9805c93695bf0e31",
+      "bytes": 3087
+    },
+    {
+      "file": "games/ihtilal/solo-app.js",
+      "sha256": "c1792e892524efd3b82a8adcddb63ebd3e4dc85a4d7b18c4e2bcb688a6d1c3c3",
+      "bytes": 25991
+    },
+    {
+      "file": "games/ihtilal/solo.css",
+      "sha256": "c711d19d935e7446d4609f6c41e745b6ebc11c1fce6e8ff77b39997e95f9d5ab",
+      "bytes": 10253
+    },
+    {
+      "file": "games/ihtilal/solo.js",
+      "sha256": "626b30419ccb461319971ada08dd2fe8bbfaf89d1801f57215be6b4ca35fcd6f",
+      "bytes": 11979
+    },
+    {
+      "file": "games/ihtilal/style.css",
+      "sha256": "310723c61e980276284c0718e06b793f038aab48c217022ae83dce2c345c461b",
+      "bytes": 15207
+    },
+    {
+      "file": "games/esik/app.js",
+      "sha256": "d2921715a7b07ed596d1262c83cb74429bdfc20f63a672435d5d0e4f7fcd6d5d",
+      "bytes": 14427
+    },
+    {
+      "file": "games/esik/index.html",
+      "sha256": "279729ee17fe47535affc557dbf2347e6f54ec09f3f2bf0b9f706f6624595c14",
+      "bytes": 438
+    },
+    {
+      "file": "games/esik/map-model.js",
+      "sha256": "8de7ccf22f21e2d80556a39bf290cd0959fefb1edb4aa60fcd4a3015b9007549",
+      "bytes": 1210
+    },
+    {
+      "file": "games/esik/map-pixi.js",
+      "sha256": "e5aec4d556959bbbd41f9964cb72f3aef2f4743f7840e6d63af1dc846621ebfb",
+      "bytes": 5095
+    },
+    {
+      "file": "games/esik/save-store.js",
+      "sha256": "a7f86375a2ba9e89da4a6fbd8a453e24bc9e7f2ae77e96f84016572d74ef5b8f",
+      "bytes": 2803
+    },
+    {
+      "file": "games/esik/sim.js",
+      "sha256": "c74eb2f2c157161e4154bb278ecab5819e3f8ae95de520eeeeab053c1a576a47",
+      "bytes": 8476
+    },
+    {
+      "file": "games/esik/style.css",
+      "sha256": "f553cdcad734810ac6ca342840e268a162d194ef6202a20f8ebdcf12ee8a1943",
+      "bytes": 1723
+    },
+    {
+      "file": "games/jitem-derin-ag/assets/BufferResource-5Lhx2wWa.js",
+      "sha256": "ff092643370d2d2b9ac13783815103f1a25ba4750a382750c0ceeecd2f224f7d",
+      "bytes": 11025
+    },
+    {
+      "file": "games/jitem-derin-ag/assets/CanvasRenderer-DSklI2pD.js",
+      "sha256": "55abe8ecd80bd5cb549e838e657c6630b4af43c15fd70e0c75948d5e7de5ac19",
+      "bytes": 66
+    },
+    {
+      "file": "games/jitem-derin-ag/assets/Geometry-DWxeac-G.js",
+      "sha256": "02a2a39400fa88a40a4a899c9c4be8990edf3304444ac75c2956ebdaeaaf3307",
+      "bytes": 110129
+    },
+    {
+      "file": "games/jitem-derin-ag/assets/RenderTargetSystem-Bd4dlm9e.js",
+      "sha256": "70abea61b63e3895838566602b2522098608ed96d67bfebc58fa7f70f31942f4",
+      "bytes": 78588
+    },
+    {
+      "file": "games/jitem-derin-ag/assets/WebGLRenderer-CHTKhrxb.js",
+      "sha256": "820f3b3f3aa0579541615a46cb089946a3c4976749a29276160819a9154bffc9",
+      "bytes": 65
+    },
+    {
+      "file": "games/jitem-derin-ag/assets/WebGPURenderer--WNXb8Aa.js",
+      "sha256": "c0dd2e6ad3af450a4d72a5ef445593c98aa4412dcae0bd9535661cf38a223797",
+      "bytes": 66
+    },
+    {
+      "file": "games/jitem-derin-ag/assets/atlas-pixi-Dilx3yA8.js",
+      "sha256": "6c2a303be0fb91f6e95e3fcb1bae96d846a4af46129bb3b9445dd546422d68c2",
+      "bytes": 2524
+    },
+    {
+      "file": "games/jitem-derin-ag/assets/browserAll-C2Mk01om.js",
+      "sha256": "947fdbd1d231d632cdbfe85f06657281a14d566908b235be96cad2ce95fcfa46",
+      "bytes": 42763
+    },
+    {
+      "file": "games/jitem-derin-ag/assets/canvasUtils-BqmlzUgB.js",
+      "sha256": "59dc9b7f173043801593f1b6bf7d126710cae9df61989902fe9a2cedc83d3081",
+      "bytes": 6056
+    },
+    {
+      "file": "games/jitem-derin-ag/assets/getTextureBatchBindGroup-DuEkjIZ8.js",
+      "sha256": "4bda14165c8c90015b7e397048a4a9c1d6da4c257548fbc942e2444c295db7c4",
+      "bytes": 342
+    },
+    {
+      "file": "games/jitem-derin-ag/assets/init-Cz6bzehy.js",
+      "sha256": "b1ed7596675370c5f4b5011b91295e469e1c2e08610b0bfb2a3fb1cf2514a2aa",
+      "bytes": 24835
+    },
+    {
+      "file": "games/jitem-derin-ag/assets/init-w6whaPur.js",
+      "sha256": "bc86230b0416e72e7549f108d25475c7cfffa4db5e3e633a6d2c20ffcbda610b",
+      "bytes": 15805
+    },
+    {
+      "file": "games/jitem-derin-ag/assets/integration-TF9RduP9.css",
+      "sha256": "296c51f61752a2687927a7f1e8c30e9e55686753e9c5395894764b49c7429a81",
+      "bytes": 36713
+    },
+    {
+      "file": "games/jitem-derin-ag/assets/lib-DttBULyp.js",
+      "sha256": "d9e7ee574e75057711080162bc9af3a0c83e697ca8922ac19cebcec0d7a4cf86",
+      "bytes": 212758
+    },
+    {
+      "file": "games/jitem-derin-ag/assets/runtime.js",
+      "sha256": "31deba68d1bcc5cd7cef9c813bd033a11b3cc1a40c95fee3c74918a998ad18f4",
+      "bytes": 604966
+    },
+    {
+      "file": "games/jitem-derin-ag/assets/webworkerAll-BKbgqR6g.js",
+      "sha256": "366565810a4415c6020c754cbd8d710aba1314a368f4a8f37bd9be22e28616f1",
+      "bytes": 54
+    },
+    {
+      "file": "sw.js",
+      "sha256": "1937332e5844f1c9faa7ab437b1f7aa69e271335b61f98b8e52e5a9ad8188a9b",
+      "bytes": 5072
+    }
+  ],
+  "routeCases": 108,
+  "archiveCases": 6,
+  "coastCases": 6,
+  "tcStatus": "PASS",
+  "tcRows": 126,
+  "tcFingerprints": [
+    {
+      "path": "/games/tc-sim/js/desk.js?v=10",
+      "sha256": "42d07772d467e3066a7bbd4d0916a3b23f1d76cb8a0656105db5c6cbc819a095"
+    },
+    {
+      "path": "/games/tc-sim/js/app.js?v=10",
+      "sha256": "b564edc01bef762bc993a3740e3c89a739201e1e5904d3f2c7441c875d49d34e"
+    },
+    {
+      "path": "/games/tc-sim/styles.css?v=10",
+      "sha256": "6667c005a30d239e28bf30616974ec3104424083bc3ce5961cad7b9563da06fe"
+    },
+    {
+      "path": "/games/tc-sim/js/job-start-outcome.js?v=10",
+      "sha256": "47fe74924c558f227bb569886fc41e20af78fa69ce062280972173f6a47fab14"
+    },
+    {
+      "path": "/games/tc-sim/js/job-start-outcome-ui.js?v=10",
+      "sha256": "86d50e27fe842bd6163f97275cfa6b2dfde28346fc8489c11513784a7f8adf39"
+    },
+    {
+      "path": "/i18n/expansion-en.js",
+      "sha256": "d022fc2494136f10cc62fb282eb3040e360d00d6c3a73012e68c2b06dc84958f"
+    },
+    {
+      "path": "/i18n/pl/tc-sim.json",
+      "sha256": "5a50b3597fefe3e7f554afe26680c37d1f3ac2dde35fb7e985a317013fc28cbc"
+    },
+    {
+      "path": "/games/tc-sim/js/life.js?v=10",
+      "sha256": "f0b6dc4e303d09327769635257fb4ec9649663b91b43569ff95a1b23610ee801"
+    },
+    {
+      "path": "/games/tc-sim/js/wealth.js?v=10",
+      "sha256": "d459201cb4de35c5d0ed2309b1808f4586d9a81d3de45938404a3695dc2ec939"
+    },
+    {
+      "path": "/games/tc-sim/js/locations.js?v=10",
+      "sha256": "546b393fd1a4798444ddc3debe3dd2483773d4dacc6d11dbf77b9d6cf808e464"
+    }
+  ],
+  "artifactId": 12280299752,
+  "zipSha256": "498d24037ed2383ccf4fb8ddd1cc8c5f9e4eab74092f2d263f0ee52dd9deeb4d"
+}

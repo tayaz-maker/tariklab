@@ -968,3 +968,8 @@ Prepared checkpoint 5a6fc1a after save repairs: legitimate zero treasury survive
 ## 2026-10-20 — Kiyi Esigi archive preparation
 
 Retain the original coast runtime, map model/Pixi fallback, validated v1 saves, bounded corrupt recovery and source provenance. Catalogue status becomes archived, live Resources entries retire in TR/EN/PL, existing routes stay playable with the localized archive notice; the unrelated JITEM link remains specific to IHTILAL. Portal cache v7 retires stale active navigation without changing localStorage or game caches. Separate six-case coast Chromium acceptance preserves primary/backup/recovery and action/reload; existing IHTILAL and coast recovery gates remain. Release depends on both Wave 1 merges and final archive-reference/production verification; no source deletion or game rewrite.
+
+
+## 2026-10-20 — Cloudflare canonical production / Racon A closure
+
+Existing tariklab Worker and Git integration retained. After exact Worker acceptance, www moved from Vercel CNAME to the Worker custom domain; apex now Cloudflare308→HTTPS www with path/query retained, Always Use HTTPS enabled. RUM auto-injection disabled to resolve demonstrated offline telemetry console errors, without game or assertion changes. Native builds upload candidates; production promotion is gated by mandatory main CI and exact-host acceptance. Migration39454897150 final SUCCESS on both names of one Worker:70 hashes,108 routes, archived save/action/reload, Wave1 corrupt-save/storage-fault24 and TC126 rows per origin. Full details and rollback values in the Cloudflare checkpoint/release policy. Vercel retained as legacy, quota FAILURE visible. No native/Godot, art, save-format or completed TC/JITEM redevelopment.
