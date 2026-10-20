@@ -1000,3 +1000,4 @@ gated on live acceptance; project deletion/domain transfer require separate appr
 - Main a082c67 CI run 39475014254 exceeded the 25-minute serial browser budget during deployed Duel verification; prior steps and TC passed.
 - Split the same browser commands into eight independent suites. Preserve every command, original path condition, timeout and evidence upload; isolate artifact names per suite. The required build gate still rejects any failed, skipped or cancelled dependency.
 - No gameplay, save, card, asset, dependency or release-guard change. General CI optimization follows production acceptance.
+- Align TC push trigger with the unchanged release guard: every main SHA must produce its own push-event TC result, including CI-only changes. PR path routing stays unchanged.

@@ -1,3 +1,5 @@
+import {readFileSync} from 'node:fs';
+import {createRequire} from 'node:module';
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {requireRelease} from './cloudflare-deploy.mjs';
@@ -14,4 +16,10 @@ test('pending, failed, superseded and unrelated runs cannot authorize a deploy',
     assert.throws(() => requireRelease({sha, main:sha, runs:[{...runs[0], ...patch}, runs[1]]}));
   }
   assert.throws(() => requireRelease({sha, main:sha, runs:[...runs, {...runs[0], id:99, conclusion:'failure'}]}), /must PASS/);
+});
+
+test('every main push supplies the exact-SHA TC workflow required by publication', () => {
+  const yaml = createRequire(import.meta.url)('js-yaml');
+  const workflow = yaml.load(readFileSync(new URL('../.github/workflows/tc-job-start-outcome.yml', import.meta.url), 'utf8'));
+  assert.deepEqual(workflow.on.push, {branches: ['main']});
 });
