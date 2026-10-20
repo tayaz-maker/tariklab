@@ -1,5 +1,5 @@
 export const VERSION = 1;
-import { applyGeoTick, setRegionFocus, applyDiplomacy } from "./next-wave/devlet-geo.js";
+
 import "./shared/depth-framework.js";
 export const seeds = (n) => {
   let x = n >>> 0;
@@ -20,68 +20,32 @@ export const implementationRate = (s) => {
   return clamp(cap);
 };
 
-import {
-  SYSTEMS,
-  RESIDENTS,
-  ISSUES,
-  ISSUE_TEMPLATES,
-  MEETINGS,
-  PROPOSALS,
-} from "./next-wave/apartman-data.js";
-import {
-  tickApartmanChains,
-  applyApartmanEventChoice,
-  resolveApartmanChainEffect,
-  summarizeApartmanRun,
-} from "./next-wave/apartman-chains.js";
-import {
-  SCENARIOS,
-  MILESTONES,
-  ACTIONS as A100,
-  EVENTS as SON_EVENTS,
-} from "./next-wave/son100-data.js";
-import { applySonAction, sonAdvanceDay, applySonScenario, ensureSonState, validateSonState } from "./next-wave/son100-sim.js";
-import { APPS, CONTACTS, DISCOVERABLES, ENDINGS } from "./next-wave/kayip-data.js";
-import {
-  createPhoneState,
-  ensurePhoneState,
-  validatePhoneState,
-  discoverEvidence,
-  linkEvidence,
-  togglePin,
-  setTheory,
-  setDecision,
-  finishCase,
-  newCaseSeed,
-  availableEvidence,
-  evidenceNodes,
-  evidenceSpec,
-  phoneThreads,
-  FACTS as PHONE_FACTS,
-  THEORIES as PHONE_THEORIES,
-  SIDE_SECRETS as PHONE_SIDE_SECRETS,
-  DECISIONS as PHONE_DECISIONS,
-} from "./next-wave/kayip-deduction.js";
-import { PERIODS, POLICIES_2002, POLICIES } from "./next-wave/devlet-data.js";
-import {
-  hydrateDevlet,
-  applyPolicy as devletPolicyApply,
-  tickDevlet,
-  tickDevletN,
-  applyDoctrine,
-  finiteState,
-  ensureDevletDepth,
-  validateDevletDepth,
-  DOCTRINES,
-  ALT_PRESETS,
-  GUNUMUZ_BASELINE,
-} from "./next-wave/devlet-sim.js";
-import {
-  applyContentChoice as devletContentChoice,
-  settleDevletContent,
-  overlayCadres,
-  devletContentBag,
-} from "./next-wave/devlet-content.js";
+// A page loads only its own engine data. Node/tools and unknown consumers retain
+// the complete synchronous API after module evaluation. Gameplay below is frozen.
+import { loadGame } from "./shared/scoped-engine-loader.js";
+const [
+  { applyGeoTick, setRegionFocus, applyDiplomacy },
+  { SYSTEMS, RESIDENTS, ISSUES, ISSUE_TEMPLATES, MEETINGS, PROPOSALS },
+  { tickApartmanChains, applyApartmanEventChoice, resolveApartmanChainEffect, summarizeApartmanRun },
+  { SCENARIOS, MILESTONES, ACTIONS: A100, EVENTS: SON_EVENTS },
+  { applySonAction, sonAdvanceDay, applySonScenario, ensureSonState, validateSonState },
+  { APPS, CONTACTS, DISCOVERABLES, ENDINGS },
+  { createPhoneState, ensurePhoneState, validatePhoneState, discoverEvidence, linkEvidence, togglePin, setTheory, setDecision, finishCase, newCaseSeed, availableEvidence, evidenceNodes, evidenceSpec, phoneThreads, FACTS: PHONE_FACTS, THEORIES: PHONE_THEORIES, SIDE_SECRETS: PHONE_SIDE_SECRETS, DECISIONS: PHONE_DECISIONS },
+  { PERIODS, POLICIES_2002, POLICIES },
+  { hydrateDevlet, applyPolicy: devletPolicyApply, tickDevlet, tickDevletN, applyDoctrine, finiteState, ensureDevletDepth, validateDevletDepth, DOCTRINES, ALT_PRESETS, GUNUMUZ_BASELINE },
+  { applyContentChoice: devletContentChoice, settleDevletContent, overlayCadres, devletContentBag },
+] = await Promise.all([
+  loadGame("tc-sim-devlet", () => import("./next-wave/devlet-geo.js")),
+  loadGame("apartman", () => import("./next-wave/apartman-data.js")),
+  loadGame("apartman", () => import("./next-wave/apartman-chains.js")),
+  loadGame("son-100-gun", () => import("./next-wave/son100-data.js")),
+  loadGame("son-100-gun", () => import("./next-wave/son100-sim.js")),
+  loadGame("kayip-telefon", () => import("./next-wave/kayip-data.js")),
+  loadGame("kayip-telefon", () => import("./next-wave/kayip-deduction.js")),
+  loadGame("tc-sim-devlet", () => import("./next-wave/devlet-data.js")),
+  loadGame("tc-sim-devlet", () => import("./next-wave/devlet-sim.js")),
+  loadGame("tc-sim-devlet", () => import("./next-wave/devlet-content.js")),
+]);
 
 function pushHist(s, row) {
   s.history = (s.history || []).concat(row).slice(-80);

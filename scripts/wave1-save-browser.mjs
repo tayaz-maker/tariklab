@@ -1,3 +1,4 @@
+import { verifyScopedEngineLoads } from "./scoped-engine-browser.mjs";
 // Wave 1 save repairs: real Chromium controls, storage faults, and reloads.
 import assert from "node:assert/strict";
 import { mkdir, writeFile } from "node:fs/promises";
@@ -245,6 +246,7 @@ try {
     executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || undefined,
     args: ["--no-sandbox", "--disable-dev-shm-usage"],
   });
+  await verifyScopedEngineLoads(browser, base);
   for (const language of ["tr", "en", "pl"]) for (const width of [390, 1280]) {
     for (const [game, fixture, check] of [
       ["son-kasaba", { [keys.town]: JSON.stringify(townSave) }, townCase],
