@@ -1,0 +1,72 @@
+[
+  {
+    "file": "public/games/racon/content.js",
+    "bytes": 99016,
+    "sha256": "b1ed9d8079d3b71b9f703d35b804fc9d576749a608953a2e9939b1979583485b"
+  },
+  {
+    "file": "public/games/racon/index.html",
+    "bytes": 396379,
+    "sha256": "54cd349858188a361af07b84f02a79b4e3479ac24112d1b639258c8e07bf3e38"
+  },
+  {
+    "file": "public/games/racon/layout-check.html",
+    "bytes": 2936,
+    "sha256": "014cd8cf7acee64195f8bc05bccb812fdfdef7cc24d4b871daff51b0477593a0"
+  },
+  {
+    "file": "public/games/racon/map-model.js",
+    "bytes": 7724,
+    "sha256": "f18680c885b404449a81c582921806e09c9d688da4422324cc5d4c3a3a4327e9"
+  },
+  {
+    "file": "public/games/racon/map-view.js",
+    "bytes": 18741,
+    "sha256": "8c57b8443cd94b26479433bca54ee5f0cf60d2b467392b6fcd949b2137a28216"
+  },
+  {
+    "file": "public/games/racon/network.js",
+    "bytes": 22214,
+    "sha256": "51fb6c9cc5927e76eeb0c208e22c4ffa8591935d11f899af7f8be5a8a4e96f26"
+  },
+  {
+    "file": "public/games/racon/outcome-moment.js",
+    "bytes": 7288,
+    "sha256": "8c3dd7dcd3109f6fbff55719cec255bb16294407f5400144c169c1a68604d484"
+  },
+  {
+    "file": "public/i18n/tlab-i18n.js",
+    "bytes": 62731,
+    "sha256": "3231fbbac3c04260dc6ca1ab78c37a74c937e76e119f304c011f17cb4f74cdea"
+  },
+  {
+    "file": "public/i18n/pl/racon.json",
+    "bytes": 176772,
+    "sha256": "0e6e42a0efaf7e4f282c595591496eba0a785c945e0924bf07b54ac5f3994937"
+  },
+  {
+    "file": "public/i18n/pl-body.js",
+    "bytes": 7127,
+    "sha256": "5751281807f9654465bfc80d114f8a25f04c1412c6fc1064cf1fb158b86280ad"
+  },
+  {
+    "file": "public/i18n/boot.js",
+    "bytes": 1350,
+    "sha256": "7144da658c38c0e728e636961c14d8768496d8b7b1a7206d7023318d2b07393f"
+  },
+  {
+    "file": "public/games/shared/depth-framework.js",
+    "bytes": 3737,
+    "sha256": "76bd11136d1aa441a349c7f1008d804ffa7bd90cb82ffb05fdb726d6422eb92e"
+  },
+  {
+    "file": "public/games/shared/pixi-adapter.js",
+    "bytes": 6139,
+    "sha256": "bf4eebb4533aee15ae9997e97e2167774ae1b6ee5b1f1d838448293fe79fc010"
+  },
+  {
+    "file": "public/vendor/pixi/pixi-8.21.0.min.mjs",
+    "bytes": 828971,
+    "sha256": "2f69e90f5b1980e6ea244bacfb3fa1eb457e16ddcb0a602b694642658956f2ef"
+  }
+]
