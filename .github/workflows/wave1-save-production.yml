@@ -1,0 +1,41 @@
+name: Wave1 save production acceptance
+on:
+  push:
+    branches: [qa/wave1-save-production-20261020]
+permissions:
+  contents: read
+jobs:
+  production:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: www
+            origin: https://www.tariklab.com
+          - label: workers
+            origin: https://tariklab.tayaz29.workers.dev
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22', cache: npm}
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium --only-shell
+      - name: Exact deployed runtime hashes and actual save/reload, storage failures and portal acceptance
+        env:
+          BROWSER_ALLOW_EXTERNAL_HOST: '1'
+          WAVE1_SAVE_BASE: ${{ matrix.origin }}
+          PORTAL_BASE: ${{ matrix.origin }}
+        run: |
+          node scripts/wave1-save-production-hashes.mjs
+          node scripts/wave1-save-production.mjs --serve public --label '${{ matrix.label }}'
+          node scripts/wave1-save-portal-production.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: wave1-save-${{ matrix.label }}
+          path: |
+            ${{ runner.temp }}/screenshots/wave1-save-production
+            ${{ runner.temp }}/screenshots/wave1-save
+            ${{ runner.temp }}/screenshots/portal-wave1
