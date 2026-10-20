@@ -150,7 +150,7 @@ const blank = (over = {}) => ({
 const tiles = (map) => Array.from({ length: 40 }, (_, i) => (i in map ? map[i] : -1));
 const nums = (map, fill = 0) => Array.from({ length: 40 }, (_, i) => (i in map ? map[i] : fill));
 
-async function fresh(browser, seed = 20260831, fast = true) {
+async function fresh(browser, seed = 20260831, fast = true, legacyState = null) {
   const ctx = await browser.newContext({
     viewport: { width: 390, height: 844 },
     deviceScaleFactor: 2,
@@ -163,6 +163,14 @@ async function fresh(browser, seed = 20260831, fast = true) {
     if (m.type() === "error") errors.push("console: " + m.text());
   });
   await page.addInitScript(initScript(seed, fast));
+  // Legacy migration is tested only on a new context, before its first game boot.
+  if (legacyState) {
+    await page.addInitScript((state) => {
+      if (localStorage.getItem("tariklab::bukucu:legacy-migrated") === null) {
+        localStorage.setItem("smb.v1", JSON.stringify(state));
+      }
+    }, legacyState);
+  }
   await page.goto(TARGET, { waitUntil: "domcontentloaded" });
   await page.waitForSelector("#menu button");
   return { ctx, page, errors };
@@ -171,16 +179,34 @@ async function fresh(browser, seed = 20260831, fast = true) {
 /** Kayıtlı durumu yazıp "Devam et" ile o duruma girer. */
 async function resume(page, state) {
   await page.evaluate((s) => {
-    localStorage.setItem("smb.v1", JSON.stringify(s));
-    location.reload();
+    localStorage.setItem("tariklab::bukucu:1", JSON.stringify(s));
+    localStorage.setItem("tariklab::bukucu:active", "1");
   }, state);
-  await page.waitForTimeout(150);
-  await page.evaluate(() => document.querySelector('#menu button[data-act="cont"]')?.click());
+  await page.reload({ waitUntil: "domcontentloaded" });
+  await page.waitForSelector('#menu button[data-act="cont"]', { timeout: 5000 });
+  await page.evaluate((expected) => {
+    const button = document.querySelector('#menu button[data-act="cont"]');
+    if (!button || button.disabled) throw new Error("Fixture: Continue is unavailable");
+    const raw = localStorage.getItem("tariklab::bukucu:1");
+    if (localStorage.getItem("tariklab::bukucu:active") !== "1" || raw !== JSON.stringify(expected)) {
+      throw new Error("Fixture: slot 1 was not restored before Continue");
+    }
+    button.click();
+    const loaded = JSON.parse(localStorage.getItem("tariklab::bukucu:1"));
+    if (document.getElementById("app").style.visibility !== "visible") {
+      throw new Error("Fixture: Continue did not open the game");
+    }
+    for (const key of Object.keys(expected)) {
+      if (JSON.stringify(loaded?.[key]) !== JSON.stringify(expected[key])) {
+        throw new Error("Fixture: Continue loaded a different " + key);
+      }
+    }
+  }, state);
   await page.waitForTimeout(150);
 }
 const snap = (page) =>
   page.evaluate(() => ({
-    S: JSON.parse(localStorage.getItem("smb.v1")),
+    S: JSON.parse(localStorage.getItem("tariklab::bukucu:1")),
     acts: [...document.querySelectorAll("#acts button")].map((b) => ({
       a: b.getAttribute("data-act"),
       t: b.textContent,
@@ -203,16 +229,41 @@ const tap = (page, act) =>
 /* ------------------------------------------------------------------ */
 
 async function scenarios(browser) {
+  /* Eski kayıt yalnız ilk açılıştan önce ekilir; normal fixture migration flag'ini silmez. */
+  {
+    const state = blank({ cash: [1234, 876], pos: [1, 0], wait: "buy", focus: 1 });
+    const { ctx, page } = await fresh(browser, 20260831, true, state);
+    await page.waitForSelector('#menu button[data-act="cont"]', { timeout: 5000 });
+    await page.evaluate((expected) => {
+      if (localStorage.getItem("tariklab::bukucu:legacy-migrated") !== "1" ||
+          localStorage.getItem("tariklab::bukucu:active") !== "1" ||
+          localStorage.getItem("tariklab::bukucu:1") !== JSON.stringify(expected)) {
+        throw new Error("Legacy fixture did not migrate to slot 1 on first boot");
+      }
+      const button = document.querySelector('#menu button[data-act="cont"]');
+      if (!button || button.disabled) throw new Error("Legacy fixture: Continue is unavailable");
+      button.click();
+      if (document.getElementById("app").style.visibility !== "visible") {
+        throw new Error("Legacy fixture: Continue did not open the game");
+      }
+    }, state);
+    const { S } = await snap(page);
+    if (JSON.stringify(S.cash) !== JSON.stringify(state.cash) || S.wait !== state.wait) {
+      fail("save/legacy", "ilk açılıştaki eski kayıt korunmadı");
+    } else pass("save/legacy ilk açılışta slot 1'e taşındı");
+    await ctx.close();
+  }
+
   /* Nezaret: çift atmak seni çıkarır ama ikinci bir zar hakkı vermez. */
   {
     const { ctx, page } = await fresh(browser);
-    await page.addInitScript(
-      `(function(){ var q=[0.5,0.5,0.5,0.5]; var i=0; Math.random=function(){ return q[i++ % q.length]; };})();`,
-    );
-    await resume(page, blank({ pos: [10, 0], jail: [1, 0], wait: "jail" }));
+    // The game's persisted RNG, not Math.random, controls loaded-game dice.
+    await resume(page, blank({ pos: [10, 0], jail: [1, 0], wait: "jail", rng: 5 }));
     await tap(page, "roll");
     await page.waitForTimeout(700);
     const { S } = await snap(page);
+    if (S.dice[0] !== 5 || S.dice[1] !== 5)
+      fail("nezaret/cift-fixture", "rng=5 için beklenen zar 5/5 değil: " + S.dice.join("/"));
     if (S.extra)
       fail("nezaret/cift", "çift atınca fazladan tur veriliyor (Monopoly kuralında yok)");
     else pass("nezaret/cift ekstra tur vermiyor");
@@ -223,16 +274,15 @@ async function scenarios(browser) {
   /* Nezaret: üçüncü hak yandığında 50 TL kefalet alınır. */
   {
     const { ctx, page } = await fresh(browser);
-    await page.addInitScript(
-      `(function(){ var q=[0.0,0.9]; var i=0; Math.random=function(){ return q[i++ % q.length]; };})();`,
-    );
     await resume(
       page,
-      blank({ pos: [10, 0], jail: [1, 0], miss: [2, 0], wait: "jail", cash: [1000, 1500] }),
+      blank({ pos: [10, 0], jail: [1, 0], miss: [2, 0], wait: "jail", cash: [1000, 1500], rng: 193731 }),
     );
     await tap(page, "roll");
     await page.waitForTimeout(900);
     const { S } = await snap(page);
+    if (S.dice[0] !== 4 || S.dice[1] !== 5)
+      fail("nezaret/ucuncu-fixture", "rng=193731 için beklenen zar 4/5 değil: " + S.dice.join("/"));
     if (S.cash[0] > 950)
       fail("nezaret/ucuncu", `kefalet alınmadı (kasa ${S.cash[0]}, beklenen ≤950)`);
     else pass("nezaret/ucuncu hakta 50 TL kefalet");
@@ -463,6 +513,7 @@ async function scenarios(browser) {
         t,
         foot: !!foot,
         sticky: foot ? getComputedStyle(foot).position : "",
+        balance: foot?.querySelector(".bal")?.textContent || "",
         w: widths,
         colW: cols ? [...cols.children].map((c) => Math.round(c.getBoundingClientRect().width)) : [],
       };
@@ -478,7 +529,8 @@ async function scenarios(browser) {
     if (ui.colW.length === 2 && Math.abs(ui.colW[0] - ui.colW[1]) > 8)
       fail("takas/kolon", "eşit olmayan kolon " + ui.colW.join("/"));
     else pass("takas/eşit kolon");
-    if (!/veriyorsun/.test(ui.t)) fail("takas/denge", "denge satırı yok");
+    if (!/^.+ 0 TL veriyor; .+ 0 TL veriyor$/.test(ui.balance))
+      fail("takas/denge", "iki tarafın sıfır bedelli denge satırı yok: " + ui.balance);
     else pass("takas/denge satırı");
     await ctx.close();
   }
@@ -506,8 +558,8 @@ async function scenarios(browser) {
     const got = await page.evaluate(() => ({
       log: document.getElementById("log").textContent,
       sheet: document.getElementById("sheet").textContent,
-      wait: JSON.parse(localStorage.getItem("smb.v1") || "{}").wait,
-      ctr: (JSON.parse(localStorage.getItem("smb.v1") || "{}").trade || {}).ctr,
+      wait: JSON.parse(localStorage.getItem("tariklab::bukucu:1") || "{}").wait,
+      ctr: (JSON.parse(localStorage.getItem("tariklab::bukucu:1") || "{}").trade || {}).ctr,
     }));
     if (!/karşı teklif/i.test(got.log + got.sheet))
       fail("naci/karsi", "karşı teklif yok: " + got.log + " / " + got.sheet.slice(0, 120));
@@ -515,7 +567,7 @@ async function scenarios(browser) {
     if (got.wait !== "offer") fail("naci/karsi", "wait offer değil: " + got.wait);
     await tap(page, "tno");
     await page.waitForTimeout(80);
-    const after = await page.evaluate(() => JSON.parse(localStorage.getItem("smb.v1")));
+    const after = await page.evaluate(() => JSON.parse(localStorage.getItem("tariklab::bukucu:1")));
     if (after.trade) fail("naci/karsi", "ret sonrası trade duruyor");
     else pass("naci/karşı teklif tek tur");
     await ctx.close();
@@ -535,14 +587,14 @@ async function scenarios(browser) {
     );
     await tap(page, "gec");
     await page.waitForTimeout(80);
-    let S = await page.evaluate(() => JSON.parse(localStorage.getItem("smb.v1")));
+    let S = await page.evaluate(() => JSON.parse(localStorage.getItem("tariklab::bukucu:1")));
     if (S.wait !== "auc") fail("artirma", "geç sonrası wait auc değil: " + S.wait);
     else pass("artirma/geç açtı");
     await tap(page, "aup");
     await page.waitForTimeout(80);
     await tap(page, "aun");
     await page.waitForTimeout(80);
-    S = await page.evaluate(() => JSON.parse(localStorage.getItem("smb.v1")));
+    S = await page.evaluate(() => JSON.parse(localStorage.getItem("tariklab::bukucu:1")));
     if (S.own[1] < 0) fail("artirma", "artıran tapuyu almadı own=" + S.own[1]);
     else if (S.cash[S.own[1]] !== 1490)
       fail("artirma", "10 TL kesilmedi kasa=" + S.cash[S.own[1]]);
@@ -568,7 +620,7 @@ async function scenarios(browser) {
     await page.waitForTimeout(50);
     await tap(page, "aun");
     await page.waitForTimeout(50);
-    const S = await page.evaluate(() => JSON.parse(localStorage.getItem("smb.v1")));
+    const S = await page.evaluate(() => JSON.parse(localStorage.getItem("tariklab::bukucu:1")));
     if (S.own[1] !== -1) fail("artirma/banka", "tapu satıldı own=" + S.own[1]);
     else pass("artirma/kimse yok bankada");
     await ctx.close();
@@ -616,7 +668,7 @@ async function scenarios(browser) {
     await page.waitForTimeout(80);
     const after = await page.evaluate(() => ({
       handoff: document.getElementById("app").classList.contains("handoff"),
-      wait: JSON.parse(localStorage.getItem("smb.v1")).wait,
+      wait: JSON.parse(localStorage.getItem("tariklab::bukucu:1")).wait,
     }));
     if (after.handoff) fail("devir", "Hazırım sonrası hâlâ bulanık");
     else if (after.wait !== "roll" && after.wait !== "jail")
@@ -724,8 +776,8 @@ async function fuzz(browser, mode, seed, maxSteps) {
       while (steps++ < maxSteps) {
         let S = null;
         try {
-          S = JSON.parse(localStorage.getItem("smb.v1"));
-        } catch (e) {
+          S = JSON.parse(localStorage.getItem("tariklab::bukucu:1"));
+        } catch {
           /* yeni oyun */
         }
         if (S) {
@@ -766,8 +818,8 @@ async function fuzz(browser, mode, seed, maxSteps) {
       }
       let S = null;
       try {
-        S = JSON.parse(localStorage.getItem("smb.v1"));
-      } catch (e) {
+        S = JSON.parse(localStorage.getItem("tariklab::bukucu:1"));
+      } catch {
         /* yok */
       }
       return {
