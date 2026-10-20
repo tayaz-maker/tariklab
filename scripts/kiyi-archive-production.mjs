@@ -13,7 +13,10 @@ const files=[...manifest.retainedFiles.map(f=>f.path).filter(p=>p.startsWith('pu
 const hashes=[];
 for(const file of files){
  const response=await fetch(origin+'/'+file.slice(7));assert.equal(response.status,200,file);
- const served=Buffer.from(await response.arrayBuffer()),source=await readFile(file);
+ // The build plugin inserts the exact compiled asset list into the service worker.
+ // Compare that file to the same-commit build output, retaining exact byte equality.
+ const expectedFile=file==='public/sw.js'?'.output/public/sw.js':file;
+ const served=Buffer.from(await response.arrayBuffer()),source=await readFile(expectedFile);
  assert.ok(served.equals(source),'deployed bytes: '+file);
  hashes.push({file,bytes:served.length,sha256:createHash('sha256').update(served).digest('hex')});
 }
