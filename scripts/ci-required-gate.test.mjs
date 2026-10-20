@@ -121,13 +121,24 @@ const originalBrowserSteps = [
 ];
 
 test('browser-regression builds independently and preserves every original browser step', () => {
-  const {steps, ...job} = workflow.jobs['browser-regression'];
+  const {steps, strategy, ...job} = workflow.jobs['browser-regression'];
+  assert.deepEqual(strategy, {"fail-fast": false, matrix: {suite: ["wave1-save", "wave1-outcome", "cete", "duel", "devlet", "responsive", "tc", "production"]}});
   assert.deepEqual(job, {needs: 'changes', 'runs-on': 'ubuntu-latest', 'timeout-minutes': 25});
   const browserNeeded = "needs.changes.outputs.browser == 'true' || github.ref == 'refs/heads/main'";
   assert.deepEqual(steps.slice(0, 4), [...bootstrap, {run: 'npm run build'}].map(step => step.uses === 'actions/checkout@v4' ? step : {...step, if: browserNeeded}));
   assert.deepEqual(steps.slice(4).map(step => step.name), originalBrowserSteps.map(([name]) => name));
   for (const [index, [name, expected]] of originalBrowserSteps.entries()) {
-    let step = steps[index + 4];
+    let step = structuredClone(steps[index + 4]);
+    if (name !== 'Install Chromium for responsive regression') {
+      const wrapped = step.if.match(/^\((matrix\.suite == '[a-z0-9-]+'(?: \|\| matrix\.suite == '[a-z0-9-]+')*)\) && \((.*)\)$/);
+      assert.ok(wrapped, name + ': must select an explicit matrix suite and retain the original condition');
+      step.if = wrapped[2];
+      if (step.uses === 'actions/upload-artifact@v4') {
+        const suffix = '-' + String.fromCharCode(36) + '{{ matrix.suite }}';
+        assert.ok(step.with.name.endsWith(suffix), 'matrix artifacts must be unique');
+        step.with.name = step.with.name.slice(0, -suffix.length);
+      }
+    }
     if (name === 'Wave 1 decisions, state traces and paired evidence') {
       // #110 measures Wave 1 against main; stacked #111 measures the map cache
       // against pre-cache Wave 1. Keep both reviewed pins and all other fields.
