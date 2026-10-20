@@ -1,0 +1,267 @@
+{
+  "scripts/duel-art-packs/gett-oh-17.json": {
+    "sha256": "9f2cd7681374a6e02ad391abc61476379dd6515bc9e0f5ced16c46e6d3863495",
+    "before": 159837,
+    "after": 120362
+  },
+  "scripts/duel-art-packs/veto-h-08.json": {
+    "sha256": "d5c5afb2af245fe7dea139cf8c2aa08df4928809ed7f88a324407993590eeff7",
+    "before": 286105,
+    "after": 216041
+  },
+  "scripts/duel-art-packs/gett-oh-01.json": {
+    "sha256": "f3ed568a0aa2c82c677e67dbca5e62e99f8d58269f87f24295c36feb30ccdb6e",
+    "before": 148585,
+    "after": 111830
+  },
+  "scripts/duel-art-packs/veto-h-24.json": {
+    "sha256": "abfa98b72356a9fc023397c37ea818a2214e1d6800b4c1e40dea395aeb1def60",
+    "before": 226473,
+    "after": 170885
+  },
+  "scripts/duel-art-packs/veto-h-04.json": {
+    "sha256": "b62009abd5e74cf45d48c2d1188c4cc379c717073d2ed02e2e3dc438e01f0054",
+    "before": 261841,
+    "after": 197693
+  },
+  "scripts/duel-art-packs/veto-h-12.json": {
+    "sha256": "637232cbc1851a99937c9f19b2249a0f268c07c358777aed094b5ee3808b69f4",
+    "before": 238453,
+    "after": 179928
+  },
+  "scripts/duel-art-packs/gett-oh-21.json": {
+    "sha256": "5ad9439f1109cfc1488d795da6871d8667655b7e15d5fad9f0783a95ffe34a29",
+    "before": 153041,
+    "after": 115217
+  },
+  "scripts/duel-art-packs/gett-oh-20.json": {
+    "sha256": "356690fedde23fe5bd6d84298b5ddaab5209726e1b6abe42bbfc61d40295b00b",
+    "before": 172341,
+    "after": 129881
+  },
+  "scripts/duel-art-packs/veto-h-13.json": {
+    "sha256": "8c7cb397543dd0139ec70056cca946f53fac060d597e012dae027829e5de4721",
+    "before": 218257,
+    "after": 164626
+  },
+  "scripts/duel-art-packs/veto-h-05.json": {
+    "sha256": "9125c752a660655104e4049b0a212211c4e18572d783fd032d90f4d4a3ca006a",
+    "before": 245745,
+    "after": 185484
+  },
+  "scripts/duel-art-packs/veto-h-25.json": {
+    "sha256": "28e46e97fad97f9fa4003788881e09afcbf90fe7931c49ebafadfde415794d3f",
+    "before": 224993,
+    "after": 169769
+  },
+  "scripts/duel-art-packs/veto-h-09.json": {
+    "sha256": "e511a457ed92084450de3f532552a306b3ea1c28ac0f62aebc41b907f27620b5",
+    "before": 289021,
+    "after": 218191
+  },
+  "scripts/duel-art-packs/gett-oh-16.json": {
+    "sha256": "4ecaf85f0848edc13684d1d4e2a2b142a9e64281ca2bc6c82cac6a630c98ee57",
+    "before": 164685,
+    "after": 124036
+  },
+  "scripts/duel-art-packs/veto-h-02.json": {
+    "sha256": "179221e687e8e33c696459e1aa81b49870c44bee848c3eca477182c0f1ae5b16",
+    "before": 214893,
+    "after": 162074
+  },
+  "scripts/duel-art-packs/veto-h-14.json": {
+    "sha256": "9ffb93fbcd4fa50d54f5acdb33b64053abb5bcd99706d650b7287ce212d53540",
+    "before": 236001,
+    "after": 178089
+  },
+  "scripts/duel-art-packs/gett-oh-11.json": {
+    "sha256": "86962aeaf0fcd8da08ce857f6d5b0a9645932ac303779cd351645930a75883d6",
+    "before": 143377,
+    "after": 107877
+  },
+  "scripts/duel-art-packs/veto-h-18.json": {
+    "sha256": "b900c85a84ed9f6b72aa0fff88d446d079683f1224e3350cdd4e596a3d7c5998",
+    "before": 246353,
+    "after": 185951
+  },
+  "scripts/duel-art-packs/gett-oh-07.json": {
+    "sha256": "f2c3b2c83dc17c2e2f1a047a92b7f04e48ad3ad1d0f78c20433edf44877dff94",
+    "before": 181793,
+    "after": 137027
+  },
+  "scripts/duel-art-packs/veto-h-22.json": {
+    "sha256": "7c305391e7683d1c0093b6f271201b506d03d6f22d52fc13caadbffe00d9fd96",
+    "before": 218829,
+    "after": 165077
+  },
+  "scripts/duel-art-packs/veto-h-23.json": {
+    "sha256": "43c4f0913c732f5c13717aeb5c3ef6f87ed5043ed45582cbae6ab72e6a3df38b",
+    "before": 230089,
+    "after": 173627
+  },
+  "scripts/duel-art-packs/gett-oh-06.json": {
+    "sha256": "40d885d41fa351149192cce0eb914ecdbb4419d3ee964d51140c2000cbdd4eb4",
+    "before": 174281,
+    "after": 131309
+  },
+  "scripts/duel-art-packs/veto-h-19.json": {
+    "sha256": "fc17dbda627a07ca93a92437e46c2bf5173ef305372ed42b53767ea133400c37",
+    "before": 247173,
+    "after": 186577
+  },
+  "scripts/duel-art-packs/gett-oh-10.json": {
+    "sha256": "fa74c2b4de65c39b333880ae5baafb44af9aa680ef230ee6cb115754cd416790",
+    "before": 151669,
+    "after": 114157
+  },
+  "scripts/duel-art-packs/gett-oh-26.json": {
+    "sha256": "1dde4b85232618dc2a9d66d7e892b811f1f99d9c28068d412c51b03de914b004",
+    "before": 18816,
+    "after": 12364
+  },
+  "scripts/duel-art-packs/veto-h-15.json": {
+    "sha256": "c45f79d15eae2f8cfaa45c4aaea0babbae85f1ad6b073f2d3450c668cad03584",
+    "before": 239973,
+    "after": 181127
+  },
+  "scripts/duel-art-packs/veto-h-03.json": {
+    "sha256": "b7d949c568836ca9dd103824f179ba77799910579244c8e5b04c3358c0a89568",
+    "before": 240813,
+    "after": 181804
+  },
+  "scripts/duel-art-packs/gett-oh-25.json": {
+    "sha256": "97f9a2abcacba00d4f57a77e45f8c2706b6fdb0a1f76bb7c1adb0aeda617104a",
+    "before": 151993,
+    "after": 114432
+  },
+  "scripts/duel-art-packs/gett-oh-09.json": {
+    "sha256": "5055dd0a3e7a972391f6e8caeef7535e6d8c0fb89a0456a86b125c6fa088868b",
+    "before": 155149,
+    "after": 116808
+  },
+  "scripts/duel-art-packs/veto-h-16.json": {
+    "sha256": "404d4831ca23a1e8d89ea9afac7b2964ec412358b0e72e1e9939091a6c4757d7",
+    "before": 242793,
+    "after": 183276
+  },
+  "scripts/duel-art-packs/veto-h-20.json": {
+    "sha256": "238ed81ec08b5b29d037f660030c0b06cd22831e08d4cc6f1cce07908730be3f",
+    "before": 235673,
+    "after": 177847
+  },
+  "scripts/duel-art-packs/gett-oh-05.json": {
+    "sha256": "2ba585817fce7f5009cfce95ab7c4031b75fa6076a0179de751e695565b48894",
+    "before": 168177,
+    "after": 126699
+  },
+  "scripts/duel-art-packs/gett-oh-13.json": {
+    "sha256": "2b1520e069bb65069545d7dcfc6e125a376c99d763b77eeabc1bbb47e3917fd6",
+    "before": 135721,
+    "after": 102068
+  },
+  "scripts/duel-art-packs/gett-oh-12.json": {
+    "sha256": "8bcc58688230a47399800673703709494335b63c844da940b300d15fc63f8160",
+    "before": 124577,
+    "after": 93631
+  },
+  "scripts/duel-art-packs/gett-oh-04.json": {
+    "sha256": "7fa6c6f1a3bff84ded02d89445da9bfde3ec4ebf56c2e5ba86505794dc6ad1a5",
+    "before": 170869,
+    "after": 128709
+  },
+  "scripts/duel-art-packs/veto-h-21.json": {
+    "sha256": "bf2c0f5f049bcb330aa386b7fe45dbb41a3cd1c4d3cb5c61a9d33ff7c11a33ad",
+    "before": 225101,
+    "after": 169868
+  },
+  "scripts/duel-art-packs/veto-h-01.json": {
+    "sha256": "3a03899d8518d4494088c54062c916237214889339fe88a75a03a37e6237e390",
+    "before": 221465,
+    "after": 167097
+  },
+  "scripts/duel-art-packs/veto-h-17.json": {
+    "sha256": "a5d0afb41c41e6774ebce3ab1d38ecbaae388582fa4acbfef1a2ccd0c96d50c2",
+    "before": 217097,
+    "after": 163789
+  },
+  "scripts/duel-art-packs/gett-oh-08.json": {
+    "sha256": "987f44313a49ebb0f0baa0b66361957cabc43655a59d737f7eee87acb4cc78d8",
+    "before": 154813,
+    "after": 116590
+  },
+  "scripts/duel-art-packs/gett-oh-24.json": {
+    "sha256": "d0357a9dad6278517728fa6054628baf024d54cc5abda5cb96438498d408e560",
+    "before": 150721,
+    "after": 113460
+  },
+  "scripts/duel-art-packs/veto-h-26.json": {
+    "sha256": "8c5a662d9a032c23441e177f51aae31f32c0bafe25ef846fab32be680d3327fc",
+    "before": 26463,
+    "after": 18444
+  },
+  "scripts/duel-art-packs/gett-oh-03.json": {
+    "sha256": "5af51a035e2c08c9747e310925ee9bed7f1073eaf6dc30152f97897904e7f257",
+    "before": 162821,
+    "after": 122626
+  },
+  "scripts/duel-art-packs/gett-oh-15.json": {
+    "sha256": "fccd42fc35e682f70333a279b5171d256e3b77d57f7931d52fe2b0cba0fa1458",
+    "before": 156169,
+    "after": 117580
+  },
+  "scripts/duel-art-packs/gett-oh-23.json": {
+    "sha256": "3a29155081af2d04e493f54c1eaa04bb6b05a7ab903a2687ade7115d9ec91c55",
+    "before": 160673,
+    "after": 121002
+  },
+  "scripts/duel-art-packs/veto-h-10.json": {
+    "sha256": "249f552670c9abee1e56496c141b40bafd4f9cad7f18a67f88ddb196a04d678c",
+    "before": 288257,
+    "after": 217643
+  },
+  "scripts/duel-art-packs/veto-h-06.json": {
+    "sha256": "524e144cd3f79a7f15a1433272703ea997a69cad29233cd24b591e0de5746283",
+    "before": 241641,
+    "after": 182401
+  },
+  "scripts/duel-art-packs/gett-oh-19.json": {
+    "sha256": "0e2f8defde17739e74c05091185ad780599ce9a13e5b2180aaf09613b41c3d1c",
+    "before": 156945,
+    "after": 118197
+  },
+  "scripts/duel-art-packs/gett-oh-18.json": {
+    "sha256": "7f1e3f67e3a2ce0ff847205b2df9e4d580e9ebea1aadb12c549b89b1b061ce4e",
+    "before": 144141,
+    "after": 108478
+  },
+  "scripts/duel-art-packs/veto-h-07.json": {
+    "sha256": "3ae040cd7fff43d4eff85b4c24850286a85bda2e70c3707fc48df46897efb087",
+    "before": 267373,
+    "after": 201894
+  },
+  "scripts/duel-art-packs/veto-h-11.json": {
+    "sha256": "d4948ef67fd1d621720ca4a449705087813f6c97da33cd1b815ff2b6647bdee8",
+    "before": 232833,
+    "after": 175698
+  },
+  "scripts/duel-art-packs/gett-oh-22.json": {
+    "sha256": "03da3ecf1a3c62eb28f1ddbd4b2f34bab9541730cd8f8b9eb0aa8019b2e35c34",
+    "before": 150741,
+    "after": 113496
+  },
+  "scripts/duel-art-packs/gett-oh-14.json": {
+    "sha256": "b07141ac43ab26e4e2085748eff9aa27be128118e46587315d47fd4aa63a15ec",
+    "before": 156201,
+    "after": 117602
+  },
+  "scripts/duel-art-packs/gett-oh-02.json": {
+    "sha256": "4aece12c6c9d7560c3a058c86569864d25d17f002eb33c94d57979708123d676",
+    "before": 152449,
+    "after": 114735
+  },
+  "scripts/pl/source/en-strings.json": {
+    "sha256": "d4b701f7208711ad90383d1ad54af8009cb059966b21c41f94f92b272ee3b80b",
+    "before": 1659229,
+    "after": 243287
+  }
+}

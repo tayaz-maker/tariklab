@@ -1,9 +1,10 @@
+import { gzipSync } from "node:zlib";
 // Collects the English text every TarikLab game can show, so it can be given a
 // Polish translation. Reads exactly the files each game page loads
 // (scripts/pl/games.json), parses JS with acorn and walks JSON, and keeps
 // string literals that read as English prose or labels. Template literals
 // become patterns: `Draw ${n} cards` -> "Draw {0} cards".
-// Output: scripts/pl/source/en-strings.json  [{ id, en, pattern, games }]
+// Output: scripts/pl/source/en-strings.json.gz  [{ id, en, pattern, games }]
 // Usage: node scripts/pl/extract-en.mjs
 import { createHash } from "node:crypto";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
@@ -153,8 +154,8 @@ const rows = [...byEn.values()]
   .map(({ order: _order, ...r }) => r);
 mkdirSync(new URL("scripts/pl/source/", ROOT), { recursive: true });
 writeFileSync(
-  new URL("scripts/pl/source/en-strings.json", ROOT),
-  JSON.stringify(rows, null, 1) + "\n",
+  new URL("scripts/pl/source/en-strings.json.gz", ROOT),
+  gzipSync(JSON.stringify(rows, null, 1) + "\n", { level: 9 }),
 );
 const words = rows.reduce((n, r) => n + r.en.split(/\s+/).length, 0);
 console.log(

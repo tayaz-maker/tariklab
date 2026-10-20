@@ -1,6 +1,7 @@
+import { gzipSync } from "node:zlib";
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { createHash } from "node:crypto";
-// Lossless source packaging; generated WebP outputs are served directly by Vite/Vercel.
+// Lossless source packaging; generated WebP outputs are served directly by the asset server.
 mkdirSync("scripts/duel-art-packs", { recursive: true });
 for (const theme of ["veto-h", "gett-oh"].filter(
   (t) => !process.argv[2] || t === process.argv[2],
@@ -18,8 +19,8 @@ for (const theme of ["veto-h", "gett-oh"].filter(
       };
     });
     writeFileSync(
-      `scripts/duel-art-packs/${theme}-${String(i / 12 + 1).padStart(2, "0")}.json`,
-      JSON.stringify({ version: 1, assets }) + "\n",
+      `scripts/duel-art-packs/${theme}-${String(i / 12 + 1).padStart(2, "0")}.json.gz`,
+      gzipSync(JSON.stringify({ version: 1, assets }) + "\n", { level: 9 }),
     );
   }
 }

@@ -1021,3 +1021,7 @@ gated on live acceptance; project deletion/domain transfer require separate appr
 
 - Further reference audit: removed 52 historical root screenshots (26,514,223 bytes), three unreferenced image-generation artifacts (1,410,687 bytes) and the unreferenced standalone HTML prototype (43,003 bytes). No runtime/build/CI input reads these files; screenshot tools generate their own outputs. Ignore those generated output directories to prevent regrowth. Retain ambiguous uploaded `attachments/image.png`, active art packs, common guides and audit prose.
 - Updated the offline plugin test to expect its two explicit retirement tombstones while retaining every original shell/HANEDANIAN assertion; the redirect regression initially found this emission-inventory mismatch.
+
+### 2026-10-20 — Scoped engine loading and lossless source transport
+
+Measured unrelated DEVLET content loading in Kapı Nöbeti, Kayıp Telefon and Son Kasaba. Scope only module imports to the document's existing game id; preserve all gameplay suffix bytes and the original frozen aggregate through a narrowly pinned import-prefix provenance check. Unknown consumers and Node tools retain every engine. Compress source-only card transport packs and English extraction inventory losslessly; unpacked 600 card images, two backgrounds and generated Polish dictionaries remain identical. No save keys, schemas, mechanics, production secrets or hosting integrations change.
