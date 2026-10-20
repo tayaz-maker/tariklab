@@ -464,7 +464,6 @@
     "Kâğıt": "Dokument",
     "Kâğıt yok.": "Brak dokumentów.",
     "Kâğıt seç.": "Wybierz dokument.",
-    "Okundu, kaldır": "Przeczytane, usuń",
     "Ağza bırak": "Puść wieść w obieg",
     "Mahalle duruyor.": "Dzielnica trwa.",
     "Sokak seni gördü.": "Ulica cię zauważyła.",
