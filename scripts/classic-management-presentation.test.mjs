@@ -30,3 +30,11 @@ test('observed lift incident is translated only for display',()=>{
  assert.ok(managementLabel(body,'pl').startsWith('Sevim utknęła'));
  assert.equal(managementLabel(body,'tr'),body);
 });
+
+test('observed Polish apartment metrics and priced issue copy do not fall back to English',()=>{
+ const expected={'Aidat borcu':'Zaległości',Bina:'Budynek',Güven:'Zaufanie',tahmini:'szacunek','gecikme riski':'ryzyko zwłoki','ortak alan':'część wspólna','2. kat kolon sızıntısı':'Przeciek w pionie na 2. piętrze'};
+ for(const [source,polish] of Object.entries(expected)){
+  assert.equal(managementLabel(source,'pl'),polish);assert.equal(managementLabel(source,'tr'),source);
+ }
+ assert.equal(managementLabel('2. kat kolon sızıntısı','en'),'2nd-floor column leak');
+});

@@ -17,6 +17,8 @@ const EN = new Map(Object.entries({
   "TOPRAK · YOL · HANEDAN": "LAND · ROAD · DYNASTY",
   "Kayıt hazırlanıyor": "Preparing save",
   "Yerel kayıt hazır": "Local save ready",
+  "Kurtarılan kampanyayı aç": "Open recovered campaign",
+  "Son kapanış kaydın kurtarıldı. Kalıcı kayıt için yeniden kaydet.": "Your last session was recovered. Save again to keep a permanent copy.",
   "Kısa oyun rehberi": "Quick game guide",
   "Kayıtlar ve oyun menüsü": "Saves and game menu",
   "Menü": "Menu",
@@ -63,6 +65,8 @@ const EN = new Map(Object.entries({
   "Kayıtlar okunuyor…": "Reading saves…", "Eski HANEDAN kayıtların mı var?": "Have old HANEDAN saves?",
   "Yeni strateji kampanyası farklı kurallar kullanır. Eski oyunun ve kayıtların korunuyor; oradan devam edebilir veya yedeğini alabilirsin.": "The new strategy campaign uses different rules. Your old game and saves remain available to continue or export.",
   "Eski kayıtları aç →": "Open old saves →", "Oyunlara dön": "Back to games", "Pencereyi kapat": "Close window",
+  "ERZAK": "FOOD", "KERESTE": "TIMBER", "TAŞ": "STONE", "DEMİR": "IRON", "NÜFUZ": "INFLUENCE",
+  "Hedefler →": "Goals →",
   "Erzak": "Food", "Kereste": "Timber", "Taş": "Stone", "Demir": "Iron", "Nüfuz": "Influence",
   "Bereketli ova": "Fertile plain", "Sedir ormanı": "Cedar forest", "Taşlık dağ": "Rocky mountain", "Demir sırtı": "Iron ridge", "Nehir vadisi": "River valley", "Kervan yolu": "Caravan road", "Dağ geçidi": "Mountain pass", "Kıraç yamaç": "Arid slope", "Bozkır": "Steppe",
   "Serin yayla": "Cool highland", "Kızıl damar": "Red vein", "Kadim sedirlik": "Ancient cedar grove", "Beyaz taş ocağı": "White quarry", "Yedi Kapı Hanı": "Seven Gates Inn", "Kilit geçit": "Key pass", "Gözetleme tepesi": "Watch hill", "Sessiz divan": "Silent council",
@@ -113,9 +117,13 @@ const EN = new Map(Object.entries({
 
 // Polish interface labels keyed by the Turkish source; used only for PL readers.
 const PL_SOURCE = {
+  "ERZAK": "ŻYWNOŚĆ", "KERESTE": "DREWNO", "TAŞ": "KAMIEŃ", "DEMİR": "ŻELAZO", "NÜFUZ": "WPŁYWY",
+  "Hedefler →": "Cele →",
   "TOPRAK · YOL · HANEDAN": "ZIEMIA · DROGA · DYNASTIA",
   "Kayıt hazırlanıyor": "Przygotowywanie zapisu",
   "Yerel kayıt hazır": "Zapis lokalny gotowy",
+  "Kurtarılan kampanyayı aç": "Otwórz odzyskaną kampanię",
+  "Son kapanış kaydın kurtarıldı. Kalıcı kayıt için yeniden kaydet.": "Odzyskano zapis z ostatniego zamknięcia gry. Zapisz ponownie, aby zachować go na stałe.",
   "Kısa oyun rehberi": "Krótki przewodnik",
   "Kayıtlar ve oyun menüsü": "Zapisy i menu gry",
   "Menü": "Menu",

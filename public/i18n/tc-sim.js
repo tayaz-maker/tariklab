@@ -3,6 +3,16 @@
   const I = root.tlabI18n;
   if (!I || !I.PHRASE || !I.PHRASE_PL) return;
   const rows = [
+    ["Bir haftada 7–8 zaman bloğun var: iş, eğitim, aşk, aile, para ve biraz da kendine ayırdığın vakit. Her şeye yetişmek zorunda değilsin; hayat yaptığın küçük tercihlerin toplamı.", "You have 7–8 blocks of time each week: work, study, love, family, money and a little time for yourself. You do not have to fit everything in; life is the sum of your small choices.", "W każdym tygodniu masz 7–8 bloków czasu: na pracę, naukę, miłość, rodzinę, pieniądze i trochę czasu dla siebie. Nie musisz zdążyć ze wszystkim; twoje życie jest sumą drobnych wyborów."],
+    ["Beden", "Body", "Ciało"],
+    ["Sen", "You", "Ty"],
+    ["Çarşı", "Market street", "Targ"],
+    ["İş", "Work", "Praca"],
+    ["İnsanlar", "People", "Ludzie"],
+    ["Yakınlar", "Your people", "Bliscy"],
+    ["Ev", "Home", "Dom"],
+    ["Yıl dosyası", "Year file", "Teczka roku"],
+
     ["GEÇEN HAFTA", "LAST WEEK", "OSTATNI TYDZIEŃ"],
     ["Yeni işin başlıyor: İşe başla", "Your new job is starting: start work", "Zaczyna się nowa praca: rozpocznij pracę"],
     ["Enerji: {0#} → {1#} · Stres: {2#} → {3#}", "Energy: {0#} → {1#} · Stress: {2#} → {3#}", "Energia: {0#} → {1#} · Stres: {2#} → {3#}"],

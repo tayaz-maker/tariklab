@@ -10,10 +10,11 @@ import {
   loc,
   helpPanel,
   savePanel,
-  text as t,
+  text as baseText,
 } from "../next-wave/shared/runtime.js";
 
 const root = document.body;
+const t = (tr, en) => managementLabel(tr, window.tlabI18n?.getLang?.() || 'tr', value => baseText(value, en));
 const displayLabel = value => managementLabel(value, window.tlabI18n?.getLang?.() || 'tr', loc);
 const money = (n) => new Intl.NumberFormat("tr-TR").format(Math.round(n));
 let view = "menu";
@@ -77,7 +78,7 @@ function issueCard(issue, state) {
   const prepared = (state.flags.prepared || []).includes(issue.id);
   const focused = state.flags.focusIssue === issue.id;
   return `<button type="button" class="issue ${focused ? "is-focus" : ""}" data-issue="${h(issue.id)}">
-    <strong>${h(loc(issue.title || issue.type))}</strong>
+    <strong>${h(displayLabel(issue.title || issue.type))}</strong>
     <small>${h(systemLabel(issue.system, state.building.parts, loc, t))} · ${t("tahmini", "estimate")} ₺${money((issue.severity || 1) * 550)} · ${t("gecikme riski", "delay risk")} ${issue.severity || 1}/4</small>
     <small>${people.length ? h(people.join(" · ")) : t("Duyuru kutusundan geldi", "Filed through the notice box")} ${prepared ? `· ✓ ${t("hazırlandı", "prepared")}` : ""}</small>
   </button>`;
@@ -147,7 +148,7 @@ function draw(session) {
         `<p>${t("Açık mesele yok; haftayı kapatabilirsin.", "No open issue; you can close the week.")}</p>`
       }</div>
         ${open.length > visible.length ? `<p class="muted">${open.length - visible.length} ${t("mesele defterde bekliyor; masa yalnız üçünü gösterir.", "issues stay in the ledger; the desk shows only three.")}</p>` : ""}
-        ${focus ? `<div class="desk-actions"><button type="button" data-prepare="${h(focus.id)}" ${(state.flags.prepared || []).includes(focus.id) || (state.flags.prepared || []).length >= 2 ? "disabled" : ""}>${t("Dosyayı hazırla", "Prepare file")} · ${(state.flags.prepared || []).length}/2</button><span class="muted">${t("Toplantı gündemi", "Meeting agenda")}: ${h(loc(focus.title))}</span></div>` : ""}</section>
+        ${focus ? `<div class="desk-actions"><button type="button" data-prepare="${h(focus.id)}" ${(state.flags.prepared || []).includes(focus.id) || (state.flags.prepared || []).length >= 2 ? "disabled" : ""}>${t("Dosyayı hazırla", "Prepare file")} · ${(state.flags.prepared || []).length}/2</button><span class="muted">${t("Toplantı gündemi", "Meeting agenda")}: ${h(displayLabel(focus.title))}</span></div>` : ""}</section>
       <aside class="card notice-board" data-pane="people"><p class="eyebrow">${t("GÜVEN VE BORÇ", "TRUST AND DEBT")}</p><p class="muted">${t("İttifak", "Alliances")}: ${h((state.politics?.alliances || []).map((id) => allianceLabel(id, t)).join(", ") || "—")} · ${t("Muhalefet", "Opposition")}: ${state.politics?.opposition?.length || 0}</p><div class="resident-list">${(residents.length ? residents : state.residents.slice(0, 5)).map((resident) => `<div class="resident"><strong>${h(resident.name)}</strong> · ${t("güven", "trust")} ${resident.trust}<br>${h(displayLabel(resident.personality))} · ${h(displayLabel(resident.interest))}${resident.pays === false ? ` · ${t("aidat gecikmiş", "dues late")}` : ""}${resident.memories?.length ? `<br>${t("Hatırlıyor", "Remembers")}: ${h(memoryLabel(resident.memories.at(-1), loc, t))}` : ""}</div>`).join("")}</div></aside></section>
     ${state.lastMeeting ? `<section class="card vote-result"><strong>${t("Son oylama", "Last vote")}: ${state.lastMeeting.yes}-${state.lastMeeting.no}</strong> · ${state.lastMeeting.accepted ? t("Kabul", "Passed") : t("Ret", "Rejected")} · ${h(loc(PROPOSALS.find((p) => p.id === state.lastMeeting.proposal)?.label || state.lastMeeting.proposal))}</section>` : ""}
     ${

@@ -1,13 +1,8 @@
 import { useEffect, useState } from "react";
+import { registerOfflineWorker } from "@/lib/offline-worker";
 import { Button } from "@/components/ui/button";
 
 const DISMISS_KEY = "cete-install-dismissed";
-
-function isSandboxHost() {
-  if (typeof window === "undefined") return true;
-  const h = window.location.hostname;
-  return h.endsWith(".grok-sandbox.com") || h.endsWith(".grok.me");
-}
 
 function isIos() {
   if (typeof navigator === "undefined") return false;
@@ -44,12 +39,8 @@ export function OfflineReady() {
   }, []);
 
   useEffect(() => {
-    if (!import.meta.env.PROD) return;
-    if (isSandboxHost()) return;
-    if (!("serviceWorker" in navigator)) return;
-    void navigator.serviceWorker
-      .register("/sw.js")
-      .then((reg) => {
+    void registerOfflineWorker()
+      ?.then((reg) => {
         setReady(Boolean(reg.active || reg.waiting || reg.installing));
         void prefetchGameChunks();
       })
@@ -86,9 +77,7 @@ export function OfflineReady() {
   }
 
   if (!hint || isStandalone()) {
-    return ready ? (
-      <p className="sr-only">Çevrimdışı kopya hazır.</p>
-    ) : null;
+    return ready ? <p className="sr-only">Çevrimdışı kopya hazır.</p> : null;
   }
 
   return (

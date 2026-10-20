@@ -21,3 +21,7 @@ Local evidence is under the task workspace `work/tc-quality-evidence/`; test log
 No economy, debt, career, family or map defect was reproduced in this audit. No new feature or balance change is justified by these results. Existing product backlog items, such as the broader long-game savings curve and complete mobile information architecture, remain product decisions rather than newly discovered release failures. The limited game finance/legal/SGK model is not a full real-world legal simulation.
 
 Physical device testing belongs to the owner. The integrated PR still requires its current-head checks, built-tree browser acceptance, and subsequent exact-main two-host Cloudflare release checks. The parent integrates the required WEB_APP_SYNC_LEDGER entry to avoid conflicting parallel edits.
+
+## Dictionary regeneration closure
+
+The final TC Polish translations now have authored generator inputs in scripts/pl/screen/zz-tc-sim-quality.json. This also preserves46 previously shipped TC phrases that had no generator input. The isolated dictionary rebuild retains every exact translation and every effective first-match pattern; the sole duplicate pattern is removed without changing its effective translation. A regression regenerates only the TC dictionary in a temporary tree and requires byte equality with the shipped artifact, without changing other games' dictionaries. No other game's generator output is rewritten.

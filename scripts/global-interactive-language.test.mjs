@@ -25,7 +25,7 @@ test("current action-economy copy replaces retired hard caps", async () => {
   for (const stale of ["Two actions a day", "Two decisions a month", "Each week you have 2 decisions", "currently plays in Turkish", "politika kotasını", "Keep one building running"]) {
     assert.equal(copy.includes(stale), false, `stale production copy: ${stale}`);
   }
-  for (const current of ["seven weekly time-and-focus blocks", "governing capacity", "two, four or ten-block", "17 live games support Turkish and English"]) {
+  for (const current of ["seven weekly time-and-focus blocks", "governing capacity", "two, four or ten-block", "16 live games support Turkish and English"]) {
     assert.ok(copy.toLowerCase().includes(current.toLowerCase()), `missing current mechanic copy: ${current}`);
   }
 });

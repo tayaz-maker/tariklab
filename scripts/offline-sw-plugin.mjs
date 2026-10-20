@@ -65,6 +65,10 @@ export function offlineSwPlugin() {
       // The receipt lifecycle is a mandatory offline dependency of this game.
       // Its bytes must invalidate the atomic package along with local modules.
       files['../shared/outcome-runtime.js'] = readFileSync(join(gameDir, '../shared/outcome-runtime.js'));
+      // Locale and capability-loader requests are made by the scoped worker's
+      // clients, so the root worker cannot supply these from its own cache.
+      for (const path of ['i18n/pl-body.js', 'i18n/pl/hanedanian.json', 'games/shared/pixi-adapter.js', 'vendor/pixi/pixi-8.21.0.min.mjs'])
+        files['/' + path] = readFileSync(join(ROOT, 'public', path));
       const gameWorker = versionGameWorker(readFileSync(join(gameDir, "sw.js"), "utf8"), files);
       this.emitFile({ type: "asset", fileName: "games/hanedanian/sw.js", source: gameWorker });
     },

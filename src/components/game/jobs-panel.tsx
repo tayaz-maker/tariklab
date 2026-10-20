@@ -18,7 +18,7 @@ function riskVariant(risk: Risk) {
 }
 
 export function JobsPanel({ player }: { player: Player }) {
-  const { lang, phrase } = useLang();
+  const { lang, phrase, t } = useLang();
   const en = lang !== "tr";
   const doJob = useGame((s) => s.doJob);
   const [moment, setMoment] = useState<OutcomeMoment | null>(null);
@@ -40,7 +40,7 @@ export function JobsPanel({ player }: { player: Player }) {
       {contract ? (
         <section className="rounded-2xl bg-surface p-4 shadow-[0_0_0_1px_color-mix(in_oklab,var(--color-accent)_35%,transparent)]">
           <p className="text-[0.7rem] font-medium tracking-[0.22em] text-accent uppercase">
-            {en ? "Contract" : "Sözleşme"} · {contract.npc}
+            {t("cete.jobs.contract", "Sözleşme")} · {contract.npc}
           </p>
           <p className="mt-2 text-sm text-fg">{phrase(contract.text)}</p>
           <p className="mt-2 font-mono text-xs tabular-nums text-muted">
@@ -56,7 +56,7 @@ export function JobsPanel({ player }: { player: Player }) {
       {JOB_TIERS.map((tier) => (
         <section key={tier.tier}>
           <p className="text-[0.7rem] font-medium tracking-[0.22em] text-muted uppercase">
-            {en ? "Tier" : "Kademe"} {tier.tier}
+            {t("cete.jobs.tier", "Kademe")} {tier.tier}
           </p>
           <h2 className="mt-1 font-display text-2xl font-semibold">
             {phrase(tier.title)}
@@ -85,23 +85,23 @@ export function JobsPanel({ player }: { player: Player }) {
                       {phrase(m.name)}
                     </h3>
                     <div className="flex gap-1.5">
-                      {marked ? <Badge variant="ok">{en ? "Contract" : "Sözleşme"}</Badge> : null}
-                      <Badge variant={riskVariant(m.risk)}>{en ? ({Düşük: "Low", Orta: "Medium", Yüksek: "High", "Çok Yüksek": "Very high", Kritik: "Critical"}[m.risk]) : m.risk}</Badge>
+                      {marked ? <Badge variant="ok">{t("cete.jobs.contract", "Sözleşme")}</Badge> : null}
+                      <Badge variant={riskVariant(m.risk)}>{t(`cete.risk.${m.risk}`, m.risk)}</Badge>
                     </div>
                   </div>
                   <p className="mt-2 text-sm text-muted">{phrase(m.desc)}</p>
                   <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 font-mono text-xs tabular-nums text-subtle">
-                    <span>{en ? "Energy" : "Mermi"} {cost}</span>
+                    <span>{t("cete.jobs.energy", "Mermi")} {cost}</span>
                     <span>
                       {formatTRY(m.rewardCashMin)}–{formatTRY(m.rewardCashMax)}
                     </span>
                     <span>+{m.xpGain} XP</span>
-                    <span>{en ? "Chance" : "Şans"} %{chance}</span>
-                    {crewNeed ? <span>{crewNeed} {en ? "crew" : "adam"}</span> : null}
+                    <span>{t("cete.jobs.chance", "Şans")} %{chance}</span>
+                    {crewNeed ? <span>{crewNeed} {t("cete.jobs.crew", "adam")}</span> : null}
                   </div>
                   {missing.length > 0 ? (
                     <p className="mt-2 text-xs text-warn">
-                      {en ? "Required:" : "Gerekli:"}{" "}
+                      {t("cete.jobs.required", "Gerekli:")}{" "}
                       {missing.map((id) => phrase(ITEM_MAP[id]?.name ?? id)).join(", ")}
                     </p>
                   ) : null}
@@ -111,7 +111,7 @@ export function JobsPanel({ player }: { player: Player }) {
                     disabled={disabled}
                     onClick={() => completeJob(m.id)}
                   >
-                    {en ? "Take job" : "İcraata çık"}
+                    {t("cete.jobs.take", "İcraata çık")}
                   </Button>
                 </li>
               );

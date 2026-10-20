@@ -21,7 +21,13 @@ const FILES = [
   "save.js",
   "icon.svg",
   "manifest.webmanifest",
-].map((p) => ROOT + p).concat('/games/shared/outcome-runtime.js');
+].map((p) => ROOT + p).concat(
+  '/games/shared/outcome-runtime.js',
+  '/i18n/pl-body.js',
+  '/i18n/pl/hanedanian.json',
+  '/games/shared/pixi-adapter.js',
+  '/vendor/pixi/pixi-8.21.0.min.mjs',
+);
 self.addEventListener("install", (event) => {
   event.waitUntil(
     (async () => {
@@ -30,13 +36,15 @@ self.addEventListener("install", (event) => {
           const response = await fetch(new Request(path, { cache: "reload" }));
           if (!response.ok) throw new Error(`Game package incomplete: ${path}`);
           const contentType = response.headers.get("content-type") || "";
-          const expected = path.endsWith(".js")
+          const expected = /\.m?js$/.test(path)
             ? /javascript/
             : path.endsWith(".css")
               ? /text\/css/
               : path.endsWith(".svg")
                 ? /image\/svg\+xml/
-                : path.endsWith(".webmanifest")
+                : path.endsWith(".json")
+                  ? /application\/json/
+                  : path.endsWith(".webmanifest")
                   ? /(?:manifest\+json|application\/json)/
                   : /text\/html/;
           if (!expected.test(contentType)) throw new Error(`Invalid game module: ${path}`);

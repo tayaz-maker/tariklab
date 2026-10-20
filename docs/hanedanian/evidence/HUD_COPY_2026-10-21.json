@@ -1,0 +1,36 @@
+{
+  "cases": [
+    {
+      "width": 320,
+      "locale": "pl",
+      "labels": [
+        "ŻYWNOŚĆ",
+        "DREWNO",
+        "KAMIEŃ",
+        "ŻELAZO",
+        "WPŁYWY"
+      ],
+      "goals": "Cele →",
+      "goalsAction": true,
+      "status": "PASS"
+    },
+    {
+      "width": 1440,
+      "locale": "pl",
+      "labels": [
+        "ŻYWNOŚĆ",
+        "DREWNO",
+        "KAMIEŃ",
+        "ŻELAZO",
+        "WPŁYWY"
+      ],
+      "goals": "Cele →",
+      "goalsAction": true,
+      "status": "PASS"
+    }
+  ],
+  "unit": "6/6 PASS",
+  "build": "PASS",
+  "scopedLint": "PASS",
+  "workerVersion": "hanedanian-package-88bd2cc5af6988c7"
+}

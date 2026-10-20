@@ -65,6 +65,17 @@ try {
           expected.slice(0, 3),
           { timeout: 15000 },
         );
+        if (language === "pl") {
+          const more = page.locator(".nav-more");
+          const expand = await more.isVisible() && await more.getAttribute("aria-expanded") === "false";
+          if (expand) await more.click();
+          await page.waitForFunction(() => {
+            const text = document.body.innerText;
+            return ["Targ", "Praca", "Ludzie", "Bliscy", "Teczka roku", "Spotkaj się z: Mehmet", "Prognoza na koniec miesiąca:"].every(label => text.includes(label));
+          });
+          assert.doesNotMatch(await page.locator("body").innerText(), /\bMeet Mehmet\b|Month-end projection:|\bMarket street\b|\bYear file\b/);
+          if (expand) await more.click();
+        }
         for (const selector of [
           ".first-steps",
           ".period-economy > div",
@@ -114,6 +125,7 @@ try {
         ),
       );
       const saved = await page.evaluate(() => localStorage.getItem("tariklab::tc-sim:1"));
+      writeFileSync(`${out}/${language}-${width}.txt`, await page.locator("body").innerText());
       await page.screenshot({ path: `${out}/${language}-${width}.png`, fullPage: true });
       console.log("reloading", language, width);
       await page.reload({ waitUntil: "networkidle" });

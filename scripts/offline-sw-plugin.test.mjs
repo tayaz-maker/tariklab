@@ -1,7 +1,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import vm from "node:vm";
-import { injectBuildAssets, offlineSwPlugin } from "./offline-sw-plugin.mjs";
+import {readFileSync,readdirSync} from "node:fs";
+import { injectBuildAssets, offlineSwPlugin, versionGameWorker } from "./offline-sw-plugin.mjs";
 import {retiredWorkerPaths,retirementWorker} from './retired-products.mjs';
 
 function generate(environment, bundle) {
@@ -61,4 +62,20 @@ test("server output is never injected into the browser service worker", () => {
 test("missing or duplicated injection marker fails instead of silently shipping an incomplete cache", () => {
   assert.throws(() => injectBuildAssets("const BUILD_ASSETS = [];", []), /exactly one/);
   assert.throws(() => injectBuildAssets("/* TARIKLAB_BUILD_ASSETS */ []\n/* TARIKLAB_BUILD_ASSETS */ []", []), /exactly one/);
+});
+
+
+test("HANEDANIAN package version includes locale and capability-loader closure bytes", () => {
+  const gameDir = new URL('../public/games/hanedanian/', import.meta.url);
+  const source = readFileSync(new URL('sw.js', gameDir), 'utf8');
+  const files = Object.fromEntries(readdirSync(gameDir).filter(name => name !== 'sw.js').map(name => [name, readFileSync(new URL(name, gameDir))]));
+  files['../shared/outcome-runtime.js'] = readFileSync(new URL('../shared/outcome-runtime.js', gameDir));
+  const shared = ['/i18n/pl-body.js', '/i18n/pl/hanedanian.json', '/games/shared/pixi-adapter.js', '/vendor/pixi/pixi-8.21.0.min.mjs'];
+  for (const path of shared) files[path] = readFileSync(new URL('../public' + path, import.meta.url));
+  const generated = generate('client', {'assets/client.js': {}}).find(asset => asset.fileName === 'games/hanedanian/sw.js').source;
+  assert.equal(generated, versionGameWorker(source, files), 'generator must bind every runtime closure byte');
+  for (const path of shared) {
+    const changed = {...files, [path]: Buffer.concat([files[path], Buffer.from('changed-byte')])};
+    assert.notEqual(versionGameWorker(source, changed), generated, `package would mix changed ${path}`);
+  }
 });

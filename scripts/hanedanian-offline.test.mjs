@@ -11,21 +11,19 @@ const origin = 'https://tariklab.example';
 const root = '/games/hanedanian/';
 const gameDirectory = new URL('../public/games/hanedanian/', import.meta.url);
 const workerSource = readFileSync(new URL('sw.js', gameDirectory), 'utf8');
-const contentType = path => path.endsWith('.js') ? 'text/javascript; charset=utf-8'
+const contentType = path => /\.m?js$/.test(path) ? 'text/javascript; charset=utf-8'
   : path.endsWith('.css') ? 'text/css; charset=utf-8'
   : path.endsWith('.html') || path.endsWith('/') ? 'text/html; charset=utf-8'
   : path.endsWith('.svg') ? 'image/svg+xml'
+  : path.endsWith('.json') ? 'application/json'
   : path.endsWith('.webmanifest') ? 'application/manifest+json'
   : 'application/octet-stream';
-// Optional online-only layers outside the package. The game runs without them
-// (a deferred script that fails offline changes nothing); the worker never caches
-// them, so they are not part of the package graph.
-// pixi-adapter.js is the shared PixiJS capability-probe/loader map-pixi.js
-// imports: offline (or any environment where its dynamic import fails)
-// resolves to null and map-factory.js keeps the Canvas 2D StrategyMap that
-// already ships in this package -- see docs/TARIKLAB_PIXIJS_MAP_STATUS.md.
-const optionalShared = new Set(['/i18n/pl-body.js', '/games/shared/pixi-adapter.js']);
-const packagedShared = new Set(['/games/shared/outcome-runtime.js']);
+// Runtime URLs assembled dynamically by the locale and Pixi loaders.
+const dynamicDependencies = {
+  '/i18n/pl-body.js': ['/i18n/pl/hanedanian.json'],
+  '/games/shared/pixi-adapter.js': ['/vendor/pixi/pixi-8.21.0.min.mjs'],
+};
+const packagedShared = new Set(['/games/shared/outcome-runtime.js', ...Object.keys(dynamicDependencies), ...Object.values(dynamicDependencies).flat()]);
 const localAsset = path => new URL('../public' + path, import.meta.url);
 const pathOf = request => new URL(typeof request === 'string' ? request : request.url, origin).pathname;
 
@@ -99,11 +97,13 @@ function dependencyGraph() {
     found.add(path);
     const local = localAsset(path);
     assert.ok(existsSync(local), `Missing local package dependency: ${path}`);
-    const source = readFileSync(local, 'utf8'), links = [];
+    const source = readFileSync(local, 'utf8'), links = [...(dynamicDependencies[path] || [])];
     if (path.endsWith('.html')) for (const match of source.matchAll(/<(?:script|link)\b[^>]*\b(?:src|href)=["']([^"']+)["']/g)) links.push(match[1]);
-    if (path.endsWith('.js')) {
-      for (const match of source.matchAll(/\b(?:import|export)\s+(?:[^;]*?\s+from\s+)?["']([^"']+)["']/g)) links.push(match[1]);
-      for (const match of source.matchAll(/\bimport\s*\(\s*["']([^"']+)["']\s*\)/g)) links.push(match[1]);
+    if (/\.m?js$/.test(path)) {
+      // JSDoc type imports (for example import("pixi.js")) are not runtime dependencies.
+      const moduleSource = source.replace(/\/\*\*[^]*?\*\//g, '');
+      for (const match of moduleSource.matchAll(/\b(?:import|export)\s+(?:[^;]*?\s+from\s+)?["']([^"']+)["']/g)) links.push(match[1]);
+      for (const match of moduleSource.matchAll(/\bimport\s*\(\s*["']([^"']+)["']\s*\)/g)) links.push(match[1]);
     }
     if (path.endsWith('.css')) for (const match of source.matchAll(/url\(\s*["']?([^)'"\s]+)["']?\s*\)/g)) links.push(match[1]);
     if (path.endsWith('.webmanifest')) {
@@ -113,7 +113,6 @@ function dependencyGraph() {
     for (const link of links) {
       if (!link || link.startsWith('data:') || link.startsWith('#')) continue;
       const url = new URL(link, origin + path);
-      if (optionalShared.has(url.pathname)) continue;
       assert.equal(url.origin, origin, `Offline game unexpectedly depends on a remote asset: ${link}`);
       assert.ok(url.pathname.startsWith(root) || packagedShared.has(url.pathname), `Game dependency falls outside its scoped package: ${link}`);
       pending.push(url.pathname);
@@ -128,12 +127,8 @@ test('standalone package contains the complete real HTML/module/CSS/manifest dep
   assert.deepEqual([...worker.files].sort(), [...graph].sort());
   for (const path of worker.files) assert.ok(existsSync(localAsset(path)), `Cached asset missing on disk: ${path}`);
   assert.ok(!worker.files.includes(root + 'sw.js'), 'Worker must update through its own lifecycle, not cache itself');
-  for (const path of optionalShared) assert.ok(!worker.files.includes(path), `Optional layer must stay out of the package: ${path}`);
-  const html = readFileSync(new URL('index.html', gameDirectory), 'utf8');
-  for (const path of optionalShared) {
-    const tag = html.match(new RegExp(`<script[^>]*src="${path.replace(/[.]/g, '\\.')}"[^>]*>`));
-    if (tag) assert.match(tag[0], /\bdefer\b/, `Optional layer must not block the game: ${path}`);
-  }
+  for (const path of packagedShared) assert.ok(worker.files.includes(path), `Runtime closure missing from atomic package: ${path}`);
+  assert.equal(worker.files.length, 23, 'Complete game, locale and renderer-loader closure');
 });
 
 test('install fetches and caches all assets with reload policy, but never forces an upgrade on an open game', async () => {

@@ -11,7 +11,7 @@ const GAME = '/games/hanedanian/';
 const FILES = ['index.html', 'style.css', 'app.js', 'data.js', 'world.js', 'engine.js',
   'campaign.js', 'i18n.js', 'map.js', 'map-pixi.js', 'map-factory.js', 'map-dom.js',
   'mapintel.js', 'orders.js', 'outcome-moment.js', 'save.js', 'icon.svg',
-  'manifest.webmanifest'].map(name => GAME + name).concat('/games/shared/outcome-runtime.js');
+  'manifest.webmanifest'].map(name => GAME + name).concat('/games/shared/outcome-runtime.js', '/i18n/pl-body.js', '/i18n/pl/hanedanian.json', '/games/shared/pixi-adapter.js', '/vendor/pixi/pixi-8.21.0.min.mjs');
 const sha256 = bytes => createHash('sha256').update(bytes).digest('hex');
 const args = process.argv.slice(2);
 const options = {};
@@ -36,7 +36,7 @@ const expectedSHA = options['--expected-worker-sha'].toLowerCase();
 const proofRoot = resolve(process.env.RUNNER_TEMP || '/workspace', 'screenshots');
 const out = checkedOutputPath(resolve(options['--output-dir'] || resolve(proofRoot, `han-release-${target.hostname}`)), [proofRoot]);
 const report = { startedAt: new Date().toISOString(), origin, expectedWorkerSHA256: expectedSHA,
-  scope: 'Three fresh contexts: real campaign/farm/manual save/export/two reloads, exact worker and complete 19-file package. No offline claim or physical GPU claim.',
+  scope: 'Three fresh contexts: real campaign/farm/manual save/export/two reloads, exact worker and complete 23-file package. No offline claim or physical GPU claim.',
   status: 'running', browserVersion: null, cases: [], errors: [] };
 let browser;
 
@@ -93,7 +93,7 @@ async function checkpoint(page, entry, label) {
   assert.equal(state.finalURL, entry.initialCanonicalURL, `${label}: host's initial canonical navigation URL is preserved`);
   assert.equal(state.horizontalOverflow, 0, `${label}: no horizontal overflow`);
   assert.deepEqual(state.package.keys, [entry.buildVersion], `${label}: one exact game package`);
-  assert.equal(state.package.files.length, 19, `${label}: complete package`);
+  assert.equal(state.package.files.length, 23, `${label}: complete package`);
   assert.deepEqual(state.package.missing, [], `${label}: all package paths present`);
   assert.equal(state.package.html.status, 200, `${label}: cached HTML status`);
   assert.match(state.package.html.contentType || '', /text\/html/i, `${label}: cached HTML content type`);

@@ -33,6 +33,13 @@ export function systemLabel(id, parts, localize, text) {
 }
 
 const DISPLAY_LABELS = {
+  'Aidat borcu': ['Arrears', 'Zaległości'],
+  Bina: ['Building', 'Budynek'],
+  Güven: ['Confidence', 'Zaufanie'],
+  tahmini: ['estimate', 'szacunek'],
+  'gecikme riski': ['delay risk', 'ryzyko zwłoki'],
+  'ortak alan': ['common area', 'część wspólna'],
+  '2. kat kolon sızıntısı': ['2nd-floor column leak', 'Przeciek w pionie na 2. piętrze'],
   bakım: ['maintenance', 'utrzymanie'],
   'Asansör kat arasında': ['Lift stuck between floors', 'Winda między piętrami'],
   "Sevim içeride kalmış, on dakika. Ses hâlâ var. Elif 'periyodik kontrol tarihi geçmiş olabilir' diyor.": ["Sevim has been stuck inside for ten minutes. You can still hear her. Elif says the periodic inspection may be overdue.", 'Sevim utknęła w środku, dziesięć minut. Wciąż ją słychać. Elif mówi: „termin przeglądu okresowego mógł minąć”.'],

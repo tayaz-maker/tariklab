@@ -37,8 +37,7 @@ export function Hud({
   player: Player;
   onAccount?: (tab?: "giris" | "kayit" | "unuttum" | "sifre") => void;
 }) {
-  const { lang } = useLang();
-  const en = lang !== "tr";
+  const { t } = useLang();
   const [detailOpen, setDetailOpen] = useState(false);
   const hiz = useGame((s) => s.hiz);
   const toggleHiz = useGame((s) => s.toggleHiz);
@@ -53,6 +52,7 @@ export function Hud({
     Math.max(1, player.gun - (player.seasonGun || 1) + 1),
   );
   const yatirim = portfolioTRY(player, market);
+  const clock = formatClock(player).replace(/^GÜN/, t("cete.hud.day", "GÜN"));
   const loadout =
     [
       player.equippedWeapon ? ITEM_MAP[player.equippedWeapon]?.name : null,
@@ -67,7 +67,7 @@ export function Hud({
       player.horse ? player.horse.name : null,
     ]
       .filter(Boolean)
-      .join(" · ") || "Üstün boş, elinde şişe bile yok.";
+      .join(" · ") || t("cete.hud.emptyLoadout", "Üstün boş, elinde şişe bile yok.");
 
   return (
     <header className="hud-header sticky top-0 z-30 border-b border-border bg-bg/95 px-3 py-2 backdrop-blur md:px-4">
@@ -83,11 +83,11 @@ export function Hud({
             <p className="font-display text-xl leading-none font-semibold tracking-tight md:text-2xl">
               {player.name}
               <span className="ml-2 text-base font-medium text-fg md:text-lg">
-                {lakap(player.level)}
+                {t(`cete.rank.${lakap(player.level)}`, lakap(player.level))}
               </span>
             </p>
             <p className="mt-1 font-mono text-xs tabular-nums text-accent md:hidden">
-              {formatClock(player)}
+              {clock}
             </p>
             <p className="mt-1 hidden text-sm text-fg md:block">{loadout}</p>
           </div>
@@ -97,16 +97,16 @@ export function Hud({
         </div>
 
         <div className="order-2 grid grid-cols-2 sm:grid-cols-4 gap-x-2 gap-y-1 sm:gap-x-3 md:order-4 md:gap-3">
-          <StatBar label={en ? "Energy" : "Enerji"} value={player.energy} max={eMax} />
+          <StatBar label={t("cete.hud.energy", "Enerji")} value={player.energy} max={eMax} />
           <StatBar
-            label={en ? "Stamina" : "Racon"}
+            label={t("cete.hud.stamina", "Racon")}
             value={player.stamina}
             max={sMax}
             tone="muted"
           />
-          <StatBar label={en ? "Health" : "Can"} value={player.health} max={100} tone="danger" />
+          <StatBar label={t("cete.hud.health", "Can")} value={player.health} max={100} tone="danger" />
           <StatBar
-            label={en ? "Heat" : "Emniyet"}
+            label={t("cete.hud.heat", "Emniyet")}
             value={player.isi}
             max={HEAT_MAX}
             tone={player.isi >= 45 ? "danger" : "muted"}
@@ -131,10 +131,10 @@ export function Hud({
         <div className="order-4 flex flex-wrap items-center gap-2 md:order-3">
           <SaveSlotsPanel />
           <Button variant="ghost" className={CTRL_BTN} onClick={toggleHiz}>
-            {en ? "Speed" : "Hız"} ×{hiz}
+            {t("cete.hud.speed", "Hız")} ×{hiz}
           </Button>
           <Button variant="ghost" className={CTRL_BTN} onClick={skipHour}>
-            {en ? "Pass 1 hour" : "1 saat geçir"}
+            {t("cete.hud.passHour", "1 saat geçir")}
           </Button>
           <Button
             variant="ghost"
@@ -142,7 +142,7 @@ export function Hud({
             aria-expanded={detailOpen}
             onClick={() => setDetailOpen((v) => !v)}
           >
-            {en ? "Details" : "Detay"}
+            {t("cete.hud.details", "Detay")}
             <ChevronDown
               className={cn(
                 "transition-transform duration-[var(--motion-quick)]",
@@ -163,20 +163,20 @@ export function Hud({
         >
           <p className="text-sm text-fg md:hidden">{loadout}</p>
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-            <Chip label={en ? "District" : "Semt"} value={HOOD[player.neighborhood]} />
+            <Chip label={t("cete.hud.district", "Semt")} value={HOOD[player.neighborhood]} />
             <Chip
-              label={en ? "Rank" : "Kıdem"}
+              label={t("cete.hud.rank", "Kıdem")}
               value={`${player.level} · ${player.xp}/${xpToNext(player.level)} XP`}
             />
             <Chip
-              label={en ? "Season" : "Sezon"}
-              value={`${dayInSeason}/${SEASON_DAYS} · ${Math.round(player.seasonScore)} skor`}
+              label={t("cete.hud.season", "Sezon")}
+              value={`${dayInSeason}/${SEASON_DAYS} · ${Math.round(player.seasonScore)} ${t("cete.hud.score", "skor")}`}
             />
-            <Chip label={en ? "Time" : "Saat"} value={formatClock(player)} accent />
-            <Chip label={en ? "Bank" : "Kasa"} value={formatTRY(player.bank)} />
-            <Chip label={en ? "Investments" : "Yatırım"} value={formatTRY(yatirim)} />
-            <Chip label={en ? "Reputation" : "İtibar"} value={`${Math.round(player.itibar)}`} />
-            <Chip label={en ? "Bribe fund" : "Rüşvet"} value={formatTRY(player.rusvet)} />
+            <Chip label={t("cete.hud.time", "Saat")} value={clock} accent />
+            <Chip label={t("cete.hud.bank", "Kasa")} value={formatTRY(player.bank)} />
+            <Chip label={t("cete.hud.investments", "Yatırım")} value={formatTRY(yatirim)} />
+            <Chip label={t("cete.hud.reputation", "İtibar")} value={`${Math.round(player.itibar)}`} />
+            <Chip label={t("cete.hud.bribe", "Rüşvet")} value={formatTRY(player.rusvet)} />
           </div>
           <div className="flex flex-wrap items-center gap-3">
             <HelpPanel triggerClassName={CTRL_BTN} />

@@ -1,0 +1,398 @@
+{
+  "sourceMain": "007ce1e310e6ce8feee49154fae18769d03928b6",
+  "archiveRef": "archive/bukucu-pre-retirement-20261021",
+  "format": "tar.xz",
+  "compression": "LZMA2 preset 9 extreme",
+  "path": "archives/retired-games-2026-10-21.tar.xz",
+  "sha256": "758d50f96cd9ce79a51bea900155b1c6c2aa19976a9f0bce78b4fb163f00f2fa",
+  "sourceBytes": 5018304,
+  "tarBytes": 5089280,
+  "compressedBytes": 677052,
+  "files": [
+    {
+      "path": "docs/bukucu/GROK-PROMPT.md",
+      "bytes": 15961,
+      "sha256": "07b067cf2fb36729ecafe9d02d67628ffa07bf7a7eec7696946e3bc713aa6ea9"
+    },
+    {
+      "path": "docs/bukucu/RAPOR.md",
+      "bytes": 21160,
+      "sha256": "7e367b6e5d94335124c997bb203862fcacaeab5e4f855fdd777f0ca600869619"
+    },
+    {
+      "path": "docs/esik/ARCHIVE_2026-10-20.md",
+      "bytes": 2205,
+      "sha256": "90b59201a9088f216842b5b9f13e350a7d0a2141fdda53c886bb52d82704d205"
+    },
+    {
+      "path": "docs/esik/ARCHIVE_MANIFEST_2026-10-20.json",
+      "bytes": 2087,
+      "sha256": "cc69bdf9739590de5205a505892f68b989099d6e5f54c2584245b78331d0c31e"
+    },
+    {
+      "path": "docs/ihtilal/ARCHIVE_2026-10-20.md",
+      "bytes": 4634,
+      "sha256": "cd8885eae0df1ab624c0df0ebd3dbee3e3f369bc3c71b3d4eff99a00c7dc252f"
+    },
+    {
+      "path": "docs/ihtilal/ARCHIVE_MANIFEST_2026-10-20.json",
+      "bytes": 8111,
+      "sha256": "7bf2f326d0978d8574e782c0a6c31b3028b8b7275ee3f76f9043ceaea2ac303f"
+    },
+    {
+      "path": "docs/ihtilal/FINAL_UPGRADE_AUDIT.md",
+      "bytes": 8872,
+      "sha256": "a394b8084e0dae13cb047dbe4716b413ab9656a1f22cac1727ada686f2d717a3"
+    },
+    {
+      "path": "docs/ihtilal/README.md",
+      "bytes": 4149,
+      "sha256": "94e692eca943efe0c025eabe038ec8a17ea1b263bcea632fdfe887bf73c31044"
+    },
+    {
+      "path": "docs/ip/ASSET_REGISTER.csv",
+      "bytes": 13128,
+      "sha256": "ea0e6e3b6418c076156464458b2102976a0363ae3e32585e5db258413a6f611a"
+    },
+    {
+      "path": "docs/ip/bukucu-silence.md",
+      "bytes": 466,
+      "sha256": "6191b6f6fe249d9edaedaf0f9f85f5923fdbbdfa2ff0a9cb0e93bdde2144082c"
+    },
+    {
+      "path": "docs/ip/esik-source.md",
+      "bytes": 922,
+      "sha256": "4f7d9f9b73470e7b924bbbd589bb3985edaa4b651d9920df7edd77996399b45f"
+    },
+    {
+      "path": "docs/ip/ihtilal-originality-review.md",
+      "bytes": 1224,
+      "sha256": "ffef708ef5c469db739ea8e93905f9574981e74fcc4cadb668d9e2eb3a9fc163"
+    },
+    {
+      "path": "docs/ip/ihtilal-source-ledger.md",
+      "bytes": 1316,
+      "sha256": "f1934e5c2e7a65b806ea5e1f9178caa546ce4d5ab40e3e7275391357da7c9ad1"
+    },
+    {
+      "path": "public/games/bukucu/icon.svg",
+      "bytes": 424,
+      "sha256": "d6e9ddb170c21b7cf7bb963b3e9625382dbda9993411577797fe7804d3eb0d9e"
+    },
+    {
+      "path": "public/games/bukucu/index.html",
+      "bytes": 122907,
+      "sha256": "de2ac10ab9a5e10265463e715d1d15eca3b25270b3255ff0fdf6ab449d28c1e3"
+    },
+    {
+      "path": "public/games/bukucu/manifest.webmanifest",
+      "bytes": 401,
+      "sha256": "7a7f38767c034ad73c583ca984143e5f6574e244f0a9306deef01e9600325f1a"
+    },
+    {
+      "path": "public/games/bukucu/sw.js",
+      "bytes": 2602,
+      "sha256": "4dcab68953e7f4144cd5b1faa551b96f63496d53532a5c174c7dc276ca4f95e6"
+    },
+    {
+      "path": "public/games/esik/app.js",
+      "bytes": 14427,
+      "sha256": "d2921715a7b07ed596d1262c83cb74429bdfc20f63a672435d5d0e4f7fcd6d5d"
+    },
+    {
+      "path": "public/games/esik/index.html",
+      "bytes": 438,
+      "sha256": "279729ee17fe47535affc557dbf2347e6f54ec09f3f2bf0b9f706f6624595c14"
+    },
+    {
+      "path": "public/games/esik/map-model.js",
+      "bytes": 1210,
+      "sha256": "8de7ccf22f21e2d80556a39bf290cd0959fefb1edb4aa60fcd4a3015b9007549"
+    },
+    {
+      "path": "public/games/esik/map-pixi.js",
+      "bytes": 5095,
+      "sha256": "e5aec4d556959bbbd41f9964cb72f3aef2f4743f7840e6d63af1dc846621ebfb"
+    },
+    {
+      "path": "public/games/esik/save-store.js",
+      "bytes": 2803,
+      "sha256": "a7f86375a2ba9e89da4a6fbd8a453e24bc9e7f2ae77e96f84016572d74ef5b8f"
+    },
+    {
+      "path": "public/games/esik/sim.js",
+      "bytes": 8476,
+      "sha256": "c74eb2f2c157161e4154bb278ecab5819e3f8ae95de520eeeeab053c1a576a47"
+    },
+    {
+      "path": "public/games/esik/style.css",
+      "bytes": 1723,
+      "sha256": "f553cdcad734810ac6ca342840e268a162d194ef6202a20f8ebdcf12ee8a1943"
+    },
+    {
+      "path": "public/games/ihtilal/ai.js",
+      "bytes": 4660,
+      "sha256": "4eb61986ecf6f0745f490fcc22a0f64011222d09881f417750cf65c2bcd848ce"
+    },
+    {
+      "path": "public/games/ihtilal/app.js",
+      "bytes": 31991,
+      "sha256": "75be90745c77244ced68548c6b59a17adf2d2e40a333224fd5d5038ccc9161c6"
+    },
+    {
+      "path": "public/games/ihtilal/basin-map.js",
+      "bytes": 12852,
+      "sha256": "03f1b603e117ed8d6c6d4dbbaaf5640bb884bb9e82d18af26064c5ca656648c1"
+    },
+    {
+      "path": "public/games/ihtilal/basin-network.js",
+      "bytes": 6848,
+      "sha256": "0684784cea376bd79752b3feb7f53b670d7ad098d2c0f9922a9af96226bbf17f"
+    },
+    {
+      "path": "public/games/ihtilal/briefing.js",
+      "bytes": 3494,
+      "sha256": "3e74f7c7b90832f83cef8fe73091df65d9fbcce457450b5062e8700ec334c630"
+    },
+    {
+      "path": "public/games/ihtilal/cards.js",
+      "bytes": 150515,
+      "sha256": "5991dde317a1192f92ff6ae6cf5363a412174833aa4e2c0c2fb0523672ba8226"
+    },
+    {
+      "path": "public/games/ihtilal/copy.js",
+      "bytes": 19686,
+      "sha256": "e9e25df1a93daccf2e58d5d3bfa7e324a1950b1c477a9e5ea443fb1d93dc07c9"
+    },
+    {
+      "path": "public/games/ihtilal/decks.js",
+      "bytes": 4543,
+      "sha256": "b11317912efe272561d82b4f2b40b30c6d733b065ba43245425dd055bb441c57"
+    },
+    {
+      "path": "public/games/ihtilal/engine.js",
+      "bytes": 26803,
+      "sha256": "22d4d4bc034970276844c0929841729840c2c2ff7fec96a0f55c89cc6afff7d4"
+    },
+    {
+      "path": "public/games/ihtilal/index.html",
+      "bytes": 646,
+      "sha256": "58c8686dedfe2c2e969274ed955d2e0346ec0de3d68bd6f3fce1f9493df68154"
+    },
+    {
+      "path": "public/games/ihtilal/outcome-moment.js",
+      "bytes": 5832,
+      "sha256": "d3afd6a8bdb1f9af4453e4eea12f2a5187724a24ef52f19444b5fdeb09792fd4"
+    },
+    {
+      "path": "public/games/ihtilal/report.js",
+      "bytes": 4861,
+      "sha256": "4da81450a8373c424ab51c8f8b203c486a128ea24d7b090f49314bd694645178"
+    },
+    {
+      "path": "public/games/ihtilal/rng.js",
+      "bytes": 819,
+      "sha256": "32ada9ce32925f32cbc06ad407740446566cebeeb593ad1c4d044bc837524805"
+    },
+    {
+      "path": "public/games/ihtilal/save.js",
+      "bytes": 3087,
+      "sha256": "3a0f61ff29b50468f4d6b0d906f8a86b85d962d161af3c4b9805c93695bf0e31"
+    },
+    {
+      "path": "public/games/ihtilal/solo-app.js",
+      "bytes": 25991,
+      "sha256": "c1792e892524efd3b82a8adcddb63ebd3e4dc85a4d7b18c4e2bcb688a6d1c3c3"
+    },
+    {
+      "path": "public/games/ihtilal/solo.css",
+      "bytes": 10253,
+      "sha256": "c711d19d935e7446d4609f6c41e745b6ebc11c1fce6e8ff77b39997e95f9d5ab"
+    },
+    {
+      "path": "public/games/ihtilal/solo.js",
+      "bytes": 11979,
+      "sha256": "626b30419ccb461319971ada08dd2fe8bbfaf89d1801f57215be6b4ca35fcd6f"
+    },
+    {
+      "path": "public/games/ihtilal/style.css",
+      "bytes": 15207,
+      "sha256": "310723c61e980276284c0718e06b793f038aab48c217022ae83dce2c345c461b"
+    },
+    {
+      "path": "public/games/shared/classics-ux.css",
+      "bytes": 2171,
+      "sha256": "a929898aea6fe2381c3f7c37524aa9423d18e07e50cb095f826e88a112cad120"
+    },
+    {
+      "path": "public/games/shared/compact-navigation.css",
+      "bytes": 1624,
+      "sha256": "64a6bd41d9ae3d0782b1a8d7549d7ab62c920368e1cbb531274697eefe9bb0da"
+    },
+    {
+      "path": "public/games/shared/compact-navigation.js",
+      "bytes": 2635,
+      "sha256": "82eda0b29330dc81bb95805ea1e65b3a6167119b19972231a8224d9f58d8b62f"
+    },
+    {
+      "path": "public/games/shared/depth-framework.js",
+      "bytes": 3737,
+      "sha256": "76bd11136d1aa441a349c7f1008d804ffa7bd90cb82ffb05fdb726d6422eb92e"
+    },
+    {
+      "path": "public/games/shared/management-desk.css",
+      "bytes": 11670,
+      "sha256": "b9e4c737270afd363f73497adf84670fc03adf453a8894d4bbddc21923e81169"
+    },
+    {
+      "path": "public/games/shared/management-desk.js",
+      "bytes": 7871,
+      "sha256": "fc7ae6f8a0d39465dc07c4c549c84d2edeec4c4bcc8f707750b5cf771a3607d9"
+    },
+    {
+      "path": "public/games/shared/outcome-runtime.js",
+      "bytes": 3796,
+      "sha256": "ec543a44aa824bc37ed799148c6abecb6077e3310ba23e1dd53080f9273380f4"
+    },
+    {
+      "path": "public/games/shared/pixi-adapter.js",
+      "bytes": 6139,
+      "sha256": "bf4eebb4533aee15ae9997e97e2167774ae1b6ee5b1f1d838448293fe79fc010"
+    },
+    {
+      "path": "public/games/shared/scoped-engine-loader.js",
+      "bytes": 398,
+      "sha256": "b4c9fc1edc1fd133ab8031607fc4fc435c815658b0d949aef9b314df4685ba3e"
+    },
+    {
+      "path": "public/i18n/boot.js",
+      "bytes": 1350,
+      "sha256": "7144da658c38c0e728e636961c14d8768496d8b7b1a7206d7023318d2b07393f"
+    },
+    {
+      "path": "public/i18n/deep-en-final.js",
+      "bytes": 47033,
+      "sha256": "0f596641a9c6584ed18d7477da2deed589afa07e2ed33b452144d091d33fb988"
+    },
+    {
+      "path": "public/i18n/deep-en.js",
+      "bytes": 112552,
+      "sha256": "924ce2854ae02400f3fd37914076bfce3072422b04f425ba89e29f7d0b4e7ae3"
+    },
+    {
+      "path": "public/i18n/expansion-en.js",
+      "bytes": 25986,
+      "sha256": "d022fc2494136f10cc62fb282eb3040e360d00d6c3a73012e68c2b06dc84958f"
+    },
+    {
+      "path": "public/i18n/pl-body.js",
+      "bytes": 7127,
+      "sha256": "5751281807f9654465bfc80d114f8a25f04c1412c6fc1064cf1fb158b86280ad"
+    },
+    {
+      "path": "public/i18n/pl/amiral-batti.json",
+      "bytes": 168499,
+      "sha256": "bcc0b7e865626f4f401dd9bfd81ea4707d1bd8fdb70f096759405b98a0d2a112"
+    },
+    {
+      "path": "public/i18n/pl/apartman.json",
+      "bytes": 423207,
+      "sha256": "31d565faa3a7a1f9340cb45de46f7f81e4633b6620477502c7d55f728c81498b"
+    },
+    {
+      "path": "public/i18n/pl/bukucu.json",
+      "bytes": 183055,
+      "sha256": "6d18cdcc07dc44e494efd0fff7dae6f105c96ec944c355c62c660b3b892e007b"
+    },
+    {
+      "path": "public/i18n/pl/darbe-h.json",
+      "bytes": 88639,
+      "sha256": "69f96bc58239cba5275c4c114a7b20a922d17b90a2e014341c4eb0ee3798a0cb"
+    },
+    {
+      "path": "public/i18n/pl/esik.json",
+      "bytes": 3743,
+      "sha256": "2040005899bb82911fe1238f15da978e1a67308159161d447e246da1dbaac9a6"
+    },
+    {
+      "path": "public/i18n/pl/gett-oh.json",
+      "bytes": 101222,
+      "sha256": "facf72f8cd2b6495ca0b4c7434c232a80aea7247a09356d6125bcc2298b77efc"
+    },
+    {
+      "path": "public/i18n/pl/hanedanian.json",
+      "bytes": 26145,
+      "sha256": "e2edca930acb850b394db4ee7c71308b49b5e9acf623983881415248f7974746"
+    },
+    {
+      "path": "public/i18n/pl/ihtilal.json",
+      "bytes": 4458,
+      "sha256": "6bbddd2fc12eb61d62bb4fd1c1eed4c4a0bf55d89d84694c7ab50ad58a8937d7"
+    },
+    {
+      "path": "public/i18n/pl/kayip-telefon.json",
+      "bytes": 367621,
+      "sha256": "e85581403aff954f2b2e5c159dca45ecabc95472e92e4786e86aacdfefcdaa28"
+    },
+    {
+      "path": "public/i18n/pl/labirent.json",
+      "bytes": 167289,
+      "sha256": "bdda04761510270e5b77f490ed221f4c67765258a044f8242e5bec0323dc490a"
+    },
+    {
+      "path": "public/i18n/pl/peg-solitaire.json",
+      "bytes": 167572,
+      "sha256": "bc826e3c1e4839f6ef41c6f7f7fdbff299510e862b2b6c671d74ede9a2583ce5"
+    },
+    {
+      "path": "public/i18n/pl/racon.json",
+      "bytes": 185533,
+      "sha256": "4d204876ee686c25d2dbc4086fe91df56a9a870755aca3c3696a861e4fb7cc2f"
+    },
+    {
+      "path": "public/i18n/pl/satranc.json",
+      "bytes": 171880,
+      "sha256": "b3a34541650787da476a35460e34d447ef9170ca2a2e6c4c28587b74d03a67b5"
+    },
+    {
+      "path": "public/i18n/pl/son-100-gun.json",
+      "bytes": 55970,
+      "sha256": "82f5bd04c2e20006c222ce07be8343f66fab7e3c319e7f1f6f783f5c669aa08d"
+    },
+    {
+      "path": "public/i18n/pl/son-kasaba.json",
+      "bytes": 292271,
+      "sha256": "8aa1446405aa90f3f12ef5be9831c0b01b7ab56dcecd2a22c5d5f03be19347e6"
+    },
+    {
+      "path": "public/i18n/pl/tc-sim-devlet.json",
+      "bytes": 404990,
+      "sha256": "4aacb936cce50449754ee9af7f3c1ae7d5dd248b566a7c1874a8de1c4691faf1"
+    },
+    {
+      "path": "public/i18n/pl/tc-sim.json",
+      "bytes": 331809,
+      "sha256": "3d4c5ca5600c6d23d7f5fb8f67e18a4eb381085fb984a6f8ab631633e287cc79"
+    },
+    {
+      "path": "public/i18n/pl/veto-h.json",
+      "bytes": 118209,
+      "sha256": "ed3fb760792554d8b3f6de177ee1cc70d6cee9d278607aa04fe2dd7e25088fd0"
+    },
+    {
+      "path": "public/i18n/tc-sim.js",
+      "bytes": 42635,
+      "sha256": "753cf283ee3b12aabfc32e360e78fc0d9aff0a73cb5ab74048247d6047714808"
+    },
+    {
+      "path": "public/i18n/tlab-i18n.js",
+      "bytes": 65689,
+      "sha256": "7d9937e0dd9a469a1cc6a03021939907f7471e9d34d97201caabb039ba601d5c"
+    },
+    {
+      "path": "public/vendor/pixi/pixi-8.21.0.min.mjs",
+      "bytes": 828971,
+      "sha256": "2f69e90f5b1980e6ea244bacfb3fa1eb457e16ddcb0a602b694642658956f2ef"
+    }
+  ]
+}

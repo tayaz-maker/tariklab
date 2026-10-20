@@ -106,18 +106,40 @@ self.addEventListener("fetch", (event) => {
   event.respondWith(networkFirst(req));
 });
 
+// A retained cache entry may have been written by an older worker before
+// navigation responses were normalized. Preserve its payload and HTTP metadata,
+// but do not return redirect history to a request with redirect mode "manual".
+function navigationResponse(req, response) {
+  if (req.mode !== "navigate" || !response.redirected) return response;
+  return new Response(response.body, {
+    status: response.status, statusText: response.statusText, headers: response.headers,
+  });
+}
+
 async function networkFirst(req) {
   const cache = await caches.open(CACHE);
   try {
     const fresh = await fetch(req);
-    if (fresh && fresh.ok) cache.put(req, fresh.clone());
+    if (fresh && fresh.ok) {
+      const cached = navigationResponse(req, fresh.clone());
+      // Cache persistence is optional; a full cache must not hide fresh HTML.
+      await cache.put(req, cached).catch(() => undefined);
+    }
     return fresh;
   } catch {
     const hit = await cache.match(req);
-    if (hit) return hit;
+    if (hit) return navigationResponse(req, hit);
     if (req.mode === "navigate") {
+      // Cloudflare canonicalizes game index.html URLs to their directory. Its
+      // redirect may be followed outside this fetch handler, caching that URL.
+      const canonical = new URL(req.url);
+      if (canonical.pathname.startsWith("/games/") && canonical.pathname.endsWith("/index.html")) {
+        canonical.pathname = canonical.pathname.slice(0, -"index.html".length);
+        const game = await cache.match(canonical.href);
+        if (game) return navigationResponse(req, game);
+      }
       const home = await cache.match("/");
-      if (home) return home;
+      if (home) return navigationResponse(req, home);
     }
     return new Response("Çevrimdışı", {
       status: 503,
