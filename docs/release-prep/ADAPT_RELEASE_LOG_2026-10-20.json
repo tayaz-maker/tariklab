@@ -65,7 +65,7 @@
       "production": "Accepted on www and Workers with 72/72 Chromium and 31/31 hashes per origin"
     }
   ],
-  "next": "Publish separate IHTILAL retirement PR; require full current-head CI and archive Chromium PASS",
+  "next": "Archive #207 exact-head CI and TR/EN/PL Chromium acceptance; then squash merge and deployed both-origin verification",
   "productSync": {
     "pr": 206,
     "head": "50daf937dc372d1d0f8a2a2f4a5e86e6c5051567",
@@ -87,13 +87,15 @@
   },
   "archivePreparation": {
     "branch": "archive/ihtilal-retirement-20261020",
-    "status": "READY_FOR_SEPARATE_CI_PR",
+    "status": "PR_REQUIRED_CI_RUNNING",
     "retainedFiles": 47,
     "unchangedIhtilalSourceFiles": 18,
     "chromiumCasesPrepared": 6,
     "productionRetirement": false,
     "archiveRef": "archive/ihtilal-pre-retirement-20261020",
-    "verifiedRefSha": "a31c85940f1fa5e54b68ca4887dfdc5631a072ff"
+    "verifiedRefSha": "a31c85940f1fa5e54b68ca4887dfdc5631a072ff",
+    "pr": 207,
+    "head": "7dac1eb6acc807389e0f56ff5adaaa3f045d963d"
   },
   "productionQA": {
     "branch": "qa/adapt-production-20261020",
