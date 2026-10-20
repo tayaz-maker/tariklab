@@ -1,14 +1,12 @@
 name: ci
-
-on:
+"on":
   push:
-    branches: [main]
-  pull_request:
-
+    branches:
+      - main
+  pull_request: null
 concurrency:
   group: ci-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
-
 jobs:
   changes:
     runs-on: ubuntu-latest
@@ -24,7 +22,8 @@ jobs:
       balance: ${{ steps.route.outputs.balance }}
     steps:
       - uses: actions/checkout@v4
-        with: { fetch-depth: 0 }
+        with:
+          fetch-depth: 0
       - name: Validate changed patch
         env:
           BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
@@ -86,19 +85,19 @@ jobs:
             npx playwright install --with-deps chromium --only-shell
           fi
       - name: Wave 1 save repairs in source and built games (TR/EN/PL, 390/1280)
-        if: needs.changes.outputs.full == 'true'
+        if: (matrix.suite == 'wave1-save') && (needs.changes.outputs.full == 'true')
         timeout-minutes: 5
         run: |
           node scripts/wave1-save-browser.mjs --serve public --label source
           node scripts/wave1-save-browser.mjs --serve .output/public --label built
       - name: Upload Wave 1 save repair evidence
-        if: always()
+        if: (matrix.suite == 'wave1-save') && (always())
         uses: actions/upload-artifact@v4
         with:
-          name: wave1-save-repair
+          name: wave1-save-repair-${{ matrix.suite }}
           path: ${{ runner.temp }}/screenshots/wave1-save
       - name: Wave 1 decisions, state traces and paired evidence
-        if: needs.changes.outputs.campaign == 'true' || needs.changes.outputs.full == 'true'
+        if: (matrix.suite == 'wave1-outcome') && (needs.changes.outputs.campaign == 'true' || needs.changes.outputs.full == 'true')
         timeout-minutes: 8
         run: |
           git fetch --no-tags --depth=1 origin 53534e2f9526ad80ce296952c212fa44aaa0ada1
@@ -108,88 +107,105 @@ jobs:
           node scripts/wave1-outcome-browser.mjs --serve public --label source
           node scripts/wave1-outcome-browser.mjs --serve .output/public --label built
       - name: Cete outcome moments (1440/390/320, motion, save and focus)
-        if: needs.changes.outputs.full == 'true'
+        if: (matrix.suite == 'cete') && (needs.changes.outputs.full == 'true')
         timeout-minutes: 5
         run: |
           node --experimental-strip-types --import ./scripts/ts-alias.mjs scripts/cete-outcome-browser.mjs
           CETE_BUILD=1 CETE_LABEL=built node --experimental-strip-types --import ./scripts/ts-alias.mjs scripts/cete-outcome-browser.mjs
       - name: Duel archive, save and 2.5D responsive regression
-        if: needs.changes.outputs.duel == 'true'
+        if: (matrix.suite == 'duel') && (needs.changes.outputs.duel == 'true')
         timeout-minutes: 5
         run: node scripts/duel-browser.mjs
       - name: DEVLET map transition mobile regression
-        if: needs.changes.outputs.devlet == 'true'
+        if: (matrix.suite == 'devlet') && (needs.changes.outputs.devlet == 'true')
         timeout-minutes: 5
         run: node scripts/devlet-map-transition-browser.mjs
       - name: Upload duel evidence
-        if: always()
+        if: (matrix.suite == 'duel') && (always())
         uses: actions/upload-artifact@v4
         with:
-          name: duel-responsive
+          name: duel-responsive-${{ matrix.suite }}
           path: ${{ runner.temp }}/screenshots/duel
       - name: Responsive and interaction regression (TR/EN, 16 live routes)
-        if: needs.changes.outputs.browser == 'true'
+        if: (matrix.suite == 'responsive') && (needs.changes.outputs.browser == 'true')
         timeout-minutes: 10
         run: node scripts/sitewide-responsive.mjs
         env:
           SITEWIDE_ROUTE_IDS: ${{ needs.changes.outputs.routes }}
       - name: TC SIM historical starts (1440, 390, 320 px; save, reload and 2026)
-        if: needs.changes.outputs.tc == 'true'
+        if: (matrix.suite == 'tc') && (needs.changes.outputs.tc == 'true')
         timeout-minutes: 10
         run: node scripts/tc-sim-historical-browser.mjs
       - name: Cete outcome production smoke (both hosts)
-        if: github.ref == 'refs/heads/main'
+        if: (matrix.suite == 'production') && (github.ref == 'refs/heads/main')
         timeout-minutes: 5
         env:
-          BROWSER_ALLOW_EXTERNAL_HOST: '1'
+          BROWSER_ALLOW_EXTERNAL_HOST: "1"
         run: |
           CETE_BASE=https://www.tariklab.com CETE_LABEL=www node --experimental-strip-types --import ./scripts/ts-alias.mjs scripts/cete-outcome-browser.mjs
           CETE_BASE=https://tariklab.tayaz29.workers.dev CETE_LABEL=workers node --experimental-strip-types --import ./scripts/ts-alias.mjs scripts/cete-outcome-browser.mjs
       - name: Wave 1 production proof (both hosts)
-        if: github.ref == 'refs/heads/main'
+        if: (matrix.suite == 'production') && (github.ref == 'refs/heads/main')
         timeout-minutes: 6
         env:
-          BROWSER_ALLOW_EXTERNAL_HOST: '1'
+          BROWSER_ALLOW_EXTERNAL_HOST: "1"
         run: |
           WAVE1_BASE=https://www.tariklab.com node scripts/wave1-outcome-browser.mjs --label www
           WAVE1_BASE=https://tariklab.tayaz29.workers.dev node scripts/wave1-outcome-browser.mjs --label workers
       - name: Upload Wave 1 outcome evidence
-        if: always()
+        if: (matrix.suite == 'wave1-outcome' || matrix.suite == 'production') && (always())
         uses: actions/upload-artifact@v4
         with:
-          name: wave1-outcome
+          name: wave1-outcome-${{ matrix.suite }}
           path: ${{ runner.temp }}/screenshots/wave1-outcome
       - name: Upload Cete outcome evidence
-        if: always()
+        if: (matrix.suite == 'cete' || matrix.suite == 'production') && (always())
         uses: actions/upload-artifact@v4
         with:
-          name: cete-outcome
+          name: cete-outcome-${{ matrix.suite }}
           path: ${{ runner.temp }}/screenshots/cete-outcome
       - name: Upload responsive evidence
-        if: always()
+        if: (matrix.suite == 'responsive') && (always())
         uses: actions/upload-artifact@v4
         with:
-          name: sitewide-responsive
+          name: sitewide-responsive-${{ matrix.suite }}
           path: ${{ runner.temp }}/screenshots/tariklab-ux
       - name: Upload TC SIM historical evidence
-        if: always()
+        if: (matrix.suite == 'tc') && (always())
         uses: actions/upload-artifact@v4
         with:
-          name: tc-sim-historical-responsive
+          name: tc-sim-historical-responsive-${{ matrix.suite }}
           path: ${{ runner.temp }}/screenshots/tc-sim-historical
       - name: Verify deployed duel assets, archives and legacy saves
-        if: github.ref == 'refs/heads/main'
+        if: (matrix.suite == 'production') && (github.ref == 'refs/heads/main')
         timeout-minutes: 8
         run: node scripts/duel-production.mjs
       - name: Upload production duel evidence
-        if: always() && github.ref == 'refs/heads/main'
+        if: (matrix.suite == 'production') && (always() && github.ref == 'refs/heads/main')
         uses: actions/upload-artifact@v4
         with:
-          name: duel-production
+          name: duel-production-${{ matrix.suite }}
           path: ${{ runner.temp }}/screenshots/duel-production
+    strategy:
+      fail-fast: false
+      matrix:
+        suite:
+          - wave1-save
+          - wave1-outcome
+          - cete
+          - duel
+          - devlet
+          - responsive
+          - tc
+          - production
   build:
     if: ${{ always() }}
-    needs: [changes, build-core, browser-regression, campaign-browser, campaign-balance]
+    needs:
+      - changes
+      - build-core
+      - browser-regression
+      - campaign-browser
+      - campaign-balance
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -227,7 +243,7 @@ jobs:
         if: needs.changes.outputs.campaign == 'true'
         run: node scripts/hanedanian-browser.mjs
         env:
-          HANEDANIAN_SOAK_MS: '0'
+          HANEDANIAN_SOAK_MS: "0"
       - name: IHTILAL first minute and five minute decision loop
         if: needs.changes.outputs.campaign == 'true' && !cancelled()
         run: node scripts/ihtilal-browser.mjs

@@ -1,6 +1,5 @@
 name: tc-job-start-outcome
-
-on:
+"on":
   pull_request:
     paths:
       - public/games/tc-sim/js/**
@@ -22,34 +21,14 @@ on:
       - scripts/ci-wait-tc-deployment.mjs
       - .github/workflows/tc-job-start-outcome.yml
   push:
-    branches: [main]
-    paths:
-      - public/games/tc-sim/js/**
-      - public/games/tc-sim/index.html
-      - public/games/shared/management-desk.*
-      - public/games/shared/compact-navigation.*
-      - public/i18n/**
-      - public/sw.js
-      - public/favicon.ico
-      - scripts/offline-sw-plugin.mjs
-      - scripts/static-game-server.mjs
-      - scripts/static-game-server.test.mjs
-      - package.json
-      - package-lock.json
-      - public/games/tc-sim/styles.css
-      - scripts/tc-sim-job-start-*.mjs
-      - scripts/ci-readiness*.mjs
-      - scripts/ci-built-preview.mjs
-      - scripts/ci-wait-tc-deployment.mjs
-      - .github/workflows/tc-job-start-outcome.yml
-  workflow_dispatch:
-
+    branches:
+      - main
+  workflow_dispatch: null
 permissions:
   contents: read
 concurrency:
   group: tc-job-start-outcome-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
-
 jobs:
   outcome-browser:
     name: TC job-start / ${{ matrix.label }}
@@ -65,7 +44,7 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: "22"
           cache: npm
       - run: npm ci
       - name: Fetch the exact TC static baseline

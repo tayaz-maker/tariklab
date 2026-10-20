@@ -994,3 +994,10 @@ gated on live acceptance; project deletion/domain transfer require separate appr
 - Pin only the exact reviewed package/package-lock blobs for Wrangler 4.151.3 and the two Cloudflare release commands. All protected gameplay files and inventory remain pinned to the immutable DARBE baseline.
 - Machine-readable provenance records the 85 added tooling lock entries; every existing non-root lock entry remains byte-equivalent after JSON parsing. No game, save, art, audio or native content changed.
 - Release still requires exact-head CI and exact-main CI/TC plus both-host production acceptance. Local 127.0.0.1 EPERM failures are environment restrictions, not a test PASS.
+
+### 2026-10-20 — Release CI timeout repair
+
+- Main a082c67 CI run 39475014254 exceeded the 25-minute serial browser budget during deployed Duel verification; prior steps and TC passed.
+- Split the same browser commands into eight independent suites. Preserve every command, original path condition, timeout and evidence upload; isolate artifact names per suite. The required build gate still rejects any failed, skipped or cancelled dependency.
+- No gameplay, save, card, asset, dependency or release-guard change. General CI optimization follows production acceptance.
+- Align TC push trigger with the unchanged release guard: every main SHA must produce its own push-event TC result, including CI-only changes. PR path routing stays unchanged.
