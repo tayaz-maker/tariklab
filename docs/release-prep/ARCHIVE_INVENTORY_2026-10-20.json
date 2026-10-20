@@ -1,0 +1,352 @@
+{
+  "baseline": "27beb9c1827ba893916aceb173c9109cf503d0d4",
+  "status": "PREPARATION_ONLY_NO_REMOVAL",
+  "groups": {
+    "esik": [
+      {
+        "path": "public/games/esik/app.js",
+        "bytes": 14427,
+        "sha256": "d2921715a7b07ed596d1262c83cb74429bdfc20f63a672435d5d0e4f7fcd6d5d"
+      },
+      {
+        "path": "public/games/esik/index.html",
+        "bytes": 438,
+        "sha256": "279729ee17fe47535affc557dbf2347e6f54ec09f3f2bf0b9f706f6624595c14"
+      },
+      {
+        "path": "public/games/esik/map-model.js",
+        "bytes": 1210,
+        "sha256": "8de7ccf22f21e2d80556a39bf290cd0959fefb1edb4aa60fcd4a3015b9007549"
+      },
+      {
+        "path": "public/games/esik/map-pixi.js",
+        "bytes": 5095,
+        "sha256": "e5aec4d556959bbbd41f9964cb72f3aef2f4743f7840e6d63af1dc846621ebfb"
+      },
+      {
+        "path": "public/games/esik/save-store.js",
+        "bytes": 2803,
+        "sha256": "a7f86375a2ba9e89da4a6fbd8a453e24bc9e7f2ae77e96f84016572d74ef5b8f"
+      },
+      {
+        "path": "public/games/esik/sim.js",
+        "bytes": 8476,
+        "sha256": "c74eb2f2c157161e4154bb278ecab5819e3f8ae95de520eeeeab053c1a576a47"
+      },
+      {
+        "path": "public/games/esik/style.css",
+        "bytes": 1723,
+        "sha256": "f553cdcad734810ac6ca342840e268a162d194ef6202a20f8ebdcf12ee8a1943"
+      },
+      {
+        "path": "scripts/esik-save-browser.mjs",
+        "bytes": 17692,
+        "sha256": "0d8f78ba4274850004ddcb077ec4e64622640ebb688af66ec89ddec3a5aa2fd2"
+      },
+      {
+        "path": "scripts/esik-save-store.test.mjs",
+        "bytes": 5618,
+        "sha256": "46d504c79bdd88c2b6fcbb6ec2dc7154ac08716fd7f07c9aa283ace5a951f9c0"
+      },
+      {
+        "path": "scripts/esik-save-target.mjs",
+        "bytes": 2738,
+        "sha256": "255b2dd089d9da3271667fcc8a55576098f5bce512053867cc9eb0ad989be75a"
+      },
+      {
+        "path": "scripts/esik-save-target.test.mjs",
+        "bytes": 2593,
+        "sha256": "23fc1807a203f4bb0ae2dfb43e8a8ff8e2de5e51fd77f3faee9a833f16d9b021"
+      },
+      {
+        "path": "scripts/esik-save-upgrade.test.mjs",
+        "bytes": 8316,
+        "sha256": "42af9dcee3fd9fb6a2b67041c3040151a70097ebd824c36bcb4b5b273492fec7"
+      },
+      {
+        "path": "scripts/esik-save-validation.test.mjs",
+        "bytes": 3285,
+        "sha256": "b6572b34cd88ab0a345b97408b6dc0ec911dd43acc0e0c8fcfb1342483e4f127"
+      },
+      {
+        "path": "scripts/esik.test.mjs",
+        "bytes": 4250,
+        "sha256": "7a24e8e1a00de3ed27df147bd733d1ebbdf2d774cbe7422263395d37e07e381d"
+      },
+      {
+        "path": "scripts/pl/screen/esik.json",
+        "bytes": 192,
+        "sha256": "8802528357e1b46ed52ca553e8b4c53e78f53f6f2c0f78ffd4bbf6701244cfcb"
+      }
+    ],
+    "ihtilal": [
+      {
+        "path": "public/games/ihtilal/ai.js",
+        "bytes": 4660,
+        "sha256": "4eb61986ecf6f0745f490fcc22a0f64011222d09881f417750cf65c2bcd848ce"
+      },
+      {
+        "path": "public/games/ihtilal/app.js",
+        "bytes": 31991,
+        "sha256": "75be90745c77244ced68548c6b59a17adf2d2e40a333224fd5d5038ccc9161c6"
+      },
+      {
+        "path": "public/games/ihtilal/basin-map.js",
+        "bytes": 12852,
+        "sha256": "03f1b603e117ed8d6c6d4dbbaaf5640bb884bb9e82d18af26064c5ca656648c1"
+      },
+      {
+        "path": "public/games/ihtilal/basin-network.js",
+        "bytes": 6848,
+        "sha256": "0684784cea376bd79752b3feb7f53b670d7ad098d2c0f9922a9af96226bbf17f"
+      },
+      {
+        "path": "public/games/ihtilal/briefing.js",
+        "bytes": 3494,
+        "sha256": "3e74f7c7b90832f83cef8fe73091df65d9fbcce457450b5062e8700ec334c630"
+      },
+      {
+        "path": "public/games/ihtilal/cards.js",
+        "bytes": 150515,
+        "sha256": "5991dde317a1192f92ff6ae6cf5363a412174833aa4e2c0c2fb0523672ba8226"
+      },
+      {
+        "path": "public/games/ihtilal/copy.js",
+        "bytes": 19686,
+        "sha256": "e9e25df1a93daccf2e58d5d3bfa7e324a1950b1c477a9e5ea443fb1d93dc07c9"
+      },
+      {
+        "path": "public/games/ihtilal/decks.js",
+        "bytes": 4543,
+        "sha256": "b11317912efe272561d82b4f2b40b30c6d733b065ba43245425dd055bb441c57"
+      },
+      {
+        "path": "public/games/ihtilal/engine.js",
+        "bytes": 26803,
+        "sha256": "22d4d4bc034970276844c0929841729840c2c2ff7fec96a0f55c89cc6afff7d4"
+      },
+      {
+        "path": "public/games/ihtilal/index.html",
+        "bytes": 646,
+        "sha256": "58c8686dedfe2c2e969274ed955d2e0346ec0de3d68bd6f3fce1f9493df68154"
+      },
+      {
+        "path": "public/games/ihtilal/outcome-moment.js",
+        "bytes": 5832,
+        "sha256": "d3afd6a8bdb1f9af4453e4eea12f2a5187724a24ef52f19444b5fdeb09792fd4"
+      },
+      {
+        "path": "public/games/ihtilal/report.js",
+        "bytes": 4861,
+        "sha256": "4da81450a8373c424ab51c8f8b203c486a128ea24d7b090f49314bd694645178"
+      },
+      {
+        "path": "public/games/ihtilal/rng.js",
+        "bytes": 819,
+        "sha256": "32ada9ce32925f32cbc06ad407740446566cebeeb593ad1c4d044bc837524805"
+      },
+      {
+        "path": "public/games/ihtilal/save.js",
+        "bytes": 3087,
+        "sha256": "3a0f61ff29b50468f4d6b0d906f8a86b85d962d161af3c4b9805c93695bf0e31"
+      },
+      {
+        "path": "public/games/ihtilal/solo-app.js",
+        "bytes": 25991,
+        "sha256": "c1792e892524efd3b82a8adcddb63ebd3e4dc85a4d7b18c4e2bcb688a6d1c3c3"
+      },
+      {
+        "path": "public/games/ihtilal/solo.css",
+        "bytes": 10253,
+        "sha256": "c711d19d935e7446d4609f6c41e745b6ebc11c1fce6e8ff77b39997e95f9d5ab"
+      },
+      {
+        "path": "public/games/ihtilal/solo.js",
+        "bytes": 11979,
+        "sha256": "626b30419ccb461319971ada08dd2fe8bbfaf89d1801f57215be6b4ca35fcd6f"
+      },
+      {
+        "path": "public/games/ihtilal/style.css",
+        "bytes": 15207,
+        "sha256": "310723c61e980276284c0718e06b793f038aab48c217022ae83dce2c345c461b"
+      },
+      {
+        "path": "scripts/build-ihtilal-cards.py",
+        "bytes": 47878,
+        "sha256": "aa6ba96351e3cd0e6f08efb8e1593da2ff9f94907f3e06146facb2d76aaece46"
+      },
+      {
+        "path": "scripts/fixtures/ihtilal-solo-v1.json",
+        "bytes": 6555,
+        "sha256": "fbf8cff440a0b06f1c0b6f4f01f4853a3d616d8f85370ada802fdbf866d8961c"
+      },
+      {
+        "path": "scripts/ihtilal-balance.test.mjs",
+        "bytes": 4059,
+        "sha256": "c79da0a45676611e2346074fa734311031917f5bed35ea27a683a108f3319f74"
+      },
+      {
+        "path": "scripts/ihtilal-basin-network.test.mjs",
+        "bytes": 8358,
+        "sha256": "01ad33ea42aa3e54b7bd0596a46550e1ee550ad7a5850907b1c823f1aee4d0c5"
+      },
+      {
+        "path": "scripts/ihtilal-briefing.test.mjs",
+        "bytes": 6151,
+        "sha256": "fa85b14aa104ae04e4abf0bf58db71ff7f2d101cc2274d0169e3151552b22a4c"
+      },
+      {
+        "path": "scripts/ihtilal-browser.mjs",
+        "bytes": 3723,
+        "sha256": "4dc2356789032ef8c156c77699435dd2e8ef9e69d9ecaaed89dad5b001361a90"
+      },
+      {
+        "path": "scripts/ihtilal-outcome.test.mjs",
+        "bytes": 5854,
+        "sha256": "96e5f62f3c614166474dfdc7c33522d52263f48d0c3bc36d8c7c3e5949328a79"
+      },
+      {
+        "path": "scripts/ihtilal-solo.test.mjs",
+        "bytes": 2654,
+        "sha256": "5bd0cca9422b52461902bd05912df1e3012bb2f27e5d0a89d6c66af5c9381094"
+      },
+      {
+        "path": "scripts/ihtilal-ui-lifecycle.test.mjs",
+        "bytes": 15838,
+        "sha256": "d661ae8c2af993587fe79dead56368dcc5b4d06800b95985bc3217140cdab2f8"
+      },
+      {
+        "path": "scripts/ihtilal-ultra-browser.mjs",
+        "bytes": 9689,
+        "sha256": "2aed861eb2788e450529530305ba6c2b5db7003574428b3fadc653a8cf828014"
+      },
+      {
+        "path": "scripts/ihtilal.test.mjs",
+        "bytes": 12482,
+        "sha256": "c845950273d1809c7d3077ad6716cc403446db619adb13bfa371f7a642656519"
+      }
+    ],
+    "racon": [
+      {
+        "path": "public/games/racon/content.js",
+        "bytes": 99016,
+        "sha256": "b1ed9d8079d3b71b9f703d35b804fc9d576749a608953a2e9939b1979583485b"
+      },
+      {
+        "path": "public/games/racon/index.html",
+        "bytes": 393287,
+        "sha256": "aa8e7fba1b2ce993a0d837b7c795f6b64e87e123c426f3f3d78b3f630ab0068b"
+      },
+      {
+        "path": "public/games/racon/layout-check.html",
+        "bytes": 2936,
+        "sha256": "014cd8cf7acee64195f8bc05bccb812fdfdef7cc24d4b871daff51b0477593a0"
+      },
+      {
+        "path": "public/games/racon/map-model.js",
+        "bytes": 7724,
+        "sha256": "f18680c885b404449a81c582921806e09c9d688da4422324cc5d4c3a3a4327e9"
+      },
+      {
+        "path": "public/games/racon/map-view.js",
+        "bytes": 18741,
+        "sha256": "8c57b8443cd94b26479433bca54ee5f0cf60d2b467392b6fcd949b2137a28216"
+      },
+      {
+        "path": "public/games/racon/network.js",
+        "bytes": 22214,
+        "sha256": "51fb6c9cc5927e76eeb0c208e22c4ffa8591935d11f899af7f8be5a8a4e96f26"
+      },
+      {
+        "path": "public/games/racon/outcome-moment.js",
+        "bytes": 7288,
+        "sha256": "8c3dd7dcd3109f6fbff55719cec255bb16294407f5400144c169c1a68604d484"
+      },
+      {
+        "path": "scripts/pl/screen/racon.json",
+        "bytes": 9573,
+        "sha256": "92615ce8666d8e37b4196e669b2e4553256de52bd87246e8b816fd2667398c8a"
+      },
+      {
+        "path": "scripts/racon-apartman-content.test.mjs",
+        "bytes": 23342,
+        "sha256": "ca71f4bce7dfa091d2e6fcf066049cad987bac9316338990afbfa6181175abaa"
+      },
+      {
+        "path": "scripts/racon-audit.mjs",
+        "bytes": 18095,
+        "sha256": "c98c56a1634c4f94fa1a777146c1e53fab4ccae4aaf2afe896da419b261e413e"
+      },
+      {
+        "path": "scripts/racon-deferred.test.mjs",
+        "bytes": 8412,
+        "sha256": "85de53809f5b2909637313eb4db23e4005fbdd38967dbea43db45c2c57f57b0e"
+      },
+      {
+        "path": "scripts/racon-final.test.mjs",
+        "bytes": 10235,
+        "sha256": "802700d937e9df92e7642561cf15ede4f48db2337dab1b20d52be03fad74e451"
+      },
+      {
+        "path": "scripts/racon-harness.mjs",
+        "bytes": 3214,
+        "sha256": "d620bc99221b9bb223959619483862a7916456790163abc989b377e3d3ad38a7"
+      },
+      {
+        "path": "scripts/racon-longrun.mjs",
+        "bytes": 4996,
+        "sha256": "7e207822af7afc3a789c5247d90bca8b3b87fe12902776f6cb6cc2a5f88f16b0"
+      },
+      {
+        "path": "scripts/racon-map-browser.mjs",
+        "bytes": 13239,
+        "sha256": "e6f6e9662dbf5d67ba120823436ce79717a37a81de01a3a6e8c232b527a670a7"
+      },
+      {
+        "path": "scripts/racon-map-consequences.test.mjs",
+        "bytes": 8470,
+        "sha256": "b8245b1b7edc9f1163eca24456d2fa4425303f9d073198f4d57a36a09c0ca764"
+      },
+      {
+        "path": "scripts/racon-network.test.mjs",
+        "bytes": 10345,
+        "sha256": "7fcaa559ba76809fda07c9d0e2c56db30faf4e472f74c8afb4a46af1c4ee673a"
+      },
+      {
+        "path": "scripts/racon-outcome.test.mjs",
+        "bytes": 6311,
+        "sha256": "3d6acad5641c6395fbd663ff5756b12283c1ef49c60017dee8580107aa774229"
+      },
+      {
+        "path": "scripts/racon-overdue-closure.test.mjs",
+        "bytes": 2774,
+        "sha256": "62a1c624c969d2405268a99701cc6fcd3d333f57a37de54906c0e8876c51545b"
+      },
+      {
+        "path": "scripts/racon-qa.mjs",
+        "bytes": 32067,
+        "sha256": "6e025b6cc4f2b9b494c1eb6a0c2d995206affbeb09b0bd36c61da1f71ed7d07a"
+      },
+      {
+        "path": "scripts/racon-quality-browser.mjs",
+        "bytes": 4235,
+        "sha256": "a961fa2041f77a23bdfba9f237a3b9de9135f8c1c92bb94c8899c879989fe222"
+      },
+      {
+        "path": "scripts/racon-quality.test.mjs",
+        "bytes": 4854,
+        "sha256": "443392925b335916d2acad0c7615b53d1ab9c55eef8c782c4c9177e496717ce5"
+      },
+      {
+        "path": "scripts/racon-save-validation.test.mjs",
+        "bytes": 1650,
+        "sha256": "499e205a81f644d941917ea9d73c792cff8884670d219ea2438fc801c86694c4"
+      },
+      {
+        "path": "scripts/racon-sim.mjs",
+        "bytes": 2214,
+        "sha256": "1de00f0a8fff8f834fa190e0370f3077b3083aeeecd4f86a3be7cd7afc6f77d6"
+      }
+    ]
+  }
+}
