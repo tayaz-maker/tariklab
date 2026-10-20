@@ -1,0 +1,9 @@
+# IHTILAL archive release receipt — 2026-10-20
+
+PR #207 squash merged at 7c0643c65aa376fc292786b0303feb56a8082ec1, from exact head 7dac1eb6acc807389e0f56ff5adaaa3f045d963d after all 11 check runs and Vercel status succeeded. JITEM ADAPT #27–29 and product #206 remained unchanged. The named pre-retirement archive ref remains a31c85940f1fa5e54b68ca4887dfdc5631a072ff; 47 preserved source/dependency/provenance files passed local SHA-256 checks.
+
+Both production origins passed dedicated run 39431588007 on QA head fe5f380f4693422bbe8c7bfcd99e4748ba3849a7: www artifact 12267648661; Workers artifact 12267603960. Each has 78 exact file hashes (retained public sources, 31 JITEM files, Resources/i18n/sitemap) and six Chromium TR/EN/PL × 390/1280 archive scenarios. Portal and Resources exclude IHTILAL; original redirect and archived iframe work; ten seeded save values survive navigation, solo progress resumes and reloads, eight historical card keys remain unchanged. The QA correction permits only same-origin canonical HTML redirects and still requires exact content hashes. No production runtime change was needed for that correction.
+
+Main workflow 39430886505 completed SUCCESS: changes, build-core, browser-regression, campaign-browser, campaign-balance and final build gate all PASS. Dedicated Atlas, Kiyi save recovery and TC job-start production checks also PASS. The archive release is closed. Vercel GitHub status and Workers build succeeded at the canonical SHA. Direct Vercel connector inspection returned scope 403; no independent Vercel API READY claim is made. Physical device QA remains user-owned.
+
+Old PR #131 was reviewed and closed without merge: its conflicted three-file TC SIM interface patch removes current ledger/navigation surfaces and overrides the accepted release palette/layout. Historical commits remain; no current finance fix is withheld. Frozen card draft #112 stays open and excluded.

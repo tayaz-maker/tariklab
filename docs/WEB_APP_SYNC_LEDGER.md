@@ -960,3 +960,7 @@ Archive acceptance adds six real Chromium TR/EN/PL desktop/mobile cases and a st
 ## 2026-10-20 — Wave 1 save repair integration
 
 Integrated tested checkpoint aa490ba onto post-archive canonical 7c0643c65aa376fc292786b0303feb56a8082ec1 without conflicts. SON KOY accepts legitimate long histories; SON 100 GUN reports actual storage success and retries without repeating decisions; KAYIP TELEFON repairs recoverable UI pointers; AMIRAL BATTI validates nested saves and preserves invalid raw data. Existing save keys and formats remain. BUKUCU QA retains real-slot and saved-RNG fixtures; its runtime is unchanged. Added source and clean-built TR/EN/PL x 390/1280 save acceptance to required browser CI. No native/audio/card work. Exact-head CI and post-merge production acceptance are separate gates.
+
+## 2026-10-20 — Wave 1 decision repair integration
+
+Prepared checkpoint 5a6fc1a after save repairs: legitimate zero treasury survives DEVLET ticks, terminal actions remain no-op, Kapı Nöbeti uses the focused issue's system and consumes follow-up effects once. Existing fields/keys/schema, visuals, content and completed TC SIM remain. Targeted159/159 and Chromium source42/42 plus clean-built42/42 passed after the IHTILAL archive integration. Dedicated source/build workflow adds acceptance without reducing existing CI budgets. The runner now writes inside RUNNER_TEMP on CI. Final reconciliation with merged save main, exact-head CI, portal and production proof remain gates. IHTILAL production receipt is recorded separately.

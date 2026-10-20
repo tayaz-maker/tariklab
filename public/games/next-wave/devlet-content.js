@@ -3611,6 +3611,7 @@ export function scheduleContent(state, spec, extraMeta = {}) {
 }
 
 export function applyContentChoice(state, eventId, choiceId) {
+  if (state.flags?.campaignEnd) return false;
   const definition = EVENT_BY_ID.get(eventId);
   if (!definition?.devletContent) return false;
   const choiceRow = definition.choices.find((row) => row.id === choiceId) || definition.choices[0];
@@ -3653,6 +3654,7 @@ export function applyContentChoice(state, eventId, choiceId) {
 }
 
 export function settleDevletContent(state) {
+  if (state.flags?.campaignEnd) return false;
   const active = state.flags?.contentActive;
   if (!active?.eventId) return false;
   const definition = EVENT_BY_ID.get(active.eventId);

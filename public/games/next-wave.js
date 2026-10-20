@@ -378,7 +378,8 @@ function applyApartmanProposal(s, proposal, meetingType) {
     const targetSys =
       proposal.id === "raise-dues"
         ? null
-        : s.issues.find((i) => i.status === "acik" && i.system)?.system || "asansor";
+        : (s.issues.find((i) => i.id === s.flags.focusIssue && i.status === "acik" && i.system)
+          || s.issues.find((i) => i.status === "acik" && i.system))?.system || "asansor";
     const part = targetSys && s.building.parts.find((p) => p.id === targetSys);
     if (part) part.condition = clamp(part.condition + (proposal.condition || 0));
     if (proposal.id === "cheap-patch") {
@@ -399,12 +400,12 @@ function applyApartmanProposal(s, proposal, meetingType) {
           ? { ...i, status: "kapali" }
           : i,
       );
-      globalThis.TarikLabDepth.schedule(s, { id: `investment-${s.week}`, type: "investment-return", dueTurn: s.week + 4, cause: proposal.id });
+      globalThis.TarikLabDepth.schedule(s, { id: `investment-${s.week}`, type: "investment-return", dueTurn: s.week + 4, system: targetSys, cause: proposal.id });
     }
     if (proposal.id === "wait") globalThis.TarikLabDepth.schedule(s, { id: `neglect-${s.week}`, type: "neglect", dueTurn: s.week + 2, issue: s.flags.focusIssue, cause: proposal.id });
     if (proposal.id === "cheap-patch") {
       s.issues = s.issues.map((i) =>
-        i.status === "acik" && i.system === "asansor" ? { ...i, status: "kapali" } : i,
+        i.status === "acik" && i.system === targetSys ? { ...i, status: "kapali" } : i,
       );
     }
     s.openCases.push({
@@ -490,7 +491,8 @@ function tickApartman(s) {
     pushHist(s, { type: "callback", text: "Üst üste aidat artışı ödemeyi durdurdu." });
   }
   for (const c of s.openCases.slice()) {
-    if (typeof c.due === "number" && c.due <= s.week) {
+    // Legacy unmarked cases are pending; "due" already records consumption.
+    if ((!c.status || c.status === "open") && typeof c.due === "number" && c.due <= s.week) {
       c.status = "due";
       const el = s.residents.find((r) => !r.pays);
       if (el) el.satisfaction = clamp(el.satisfaction - 6);
@@ -580,6 +582,10 @@ function devletAdvance(s) {
 export function applyAction(id, s, action) {
   if (!s) return null;
   if (typeof action !== "string") return s;
+  // Explicit scenario selection starts a new run. Every current-run decision
+  // must stop before settlement, including the final month's active dossier.
+  if (id === "tc-sim-devlet" && s.flags?.campaignEnd &&
+      !/^(era:|campaign:|alt:)/.test(action)) return s;
   if (id === "apartman" && s.runSummary) return s;
   if (id === "apartman" && action.startsWith("focus:")) {
     const issueId = action.slice(6);
