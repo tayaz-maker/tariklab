@@ -940,3 +940,10 @@ Upstream #25 merged at 1171d15aff54a2758c46c514455bb2795014572f. New build from 
 ## 2026-10-20 — JITEM support payoff eligibility sync
 
 Upstream #26 squash merged as 37c5416e7a49b2ecc998f0d1071a7484d6e508c0 after 288/288 tests, lint/typecheck/build and Chromium 7 atlas + 8 product + 12 support payoff cases PASS on head 2657665d6a5574ffb6ae106bb5db054e6453fa05 (run 39414832356, artifact 12261440776). Built from that merged source with lockfile-matched installed dependencies. Only runtime.js differs among generated assets. SOURCE receipt and integration pin updated; schema 5, save key, visuals, content, routes and shell preserved. Product release and live semantic acceptance require current-head CI and post-merge verification. No IHTILAL/Kiyi removal or transfer code.
+
+
+## 2026-10-20 — JITEM three ADAPT groups
+
+Standalone #27 (2a07f673fff67779326ec38fa561d59c3850dae4), #28 (042e5f489ad35dc29d723595e681a87d185181d6) and #29 (e1d5bf742d012ef9355f7d822fa31bc896cd7c8d) passed their exact-head CI and squash merged. They add only validated plan saves with previous valid backup, deterministic simultaneous due outcomes and unavailable personal-contact handling, and existing relationship risk in the existing ally rumor roll. No engine replacement, new saved-state fields, visuals, content or portal layout changes. Final upstream: 307 tests, lint/typecheck/build and 63 real Chromium cases PASS (run 39423394167, artifact 12264883127).
+
+The unchanged embed builder changes only runtime.js among 30 generated files. SOURCE.json and integration source pin bind the runtime to merged source; save jitem-derin-ag-v3/schema 5 remain. Prior #26 production close is recorded separately: TarikLab main cfa6d8c run 39417501337 fully PASS, www 36/36, Workers 32/32, both 31/31 hashes. This sync still requires its own current-head CI, merge and production evidence. IHTILAL remains live until all three ADAPT groups are accepted in production; Kiyi Esigi/Racon sources untouched.
