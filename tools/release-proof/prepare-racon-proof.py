@@ -34,6 +34,7 @@ jobs:
       - run: npx playwright install --with-deps chromium --only-shell
       - name: Exact deployed files and real manager decisions and portal save/reload
         env:
+          BROWSER_ALLOW_EXTERNAL_HOST: '1'
           RACON_BASE: ${{ matrix.origin }}
           RACON_LABEL: ${{ matrix.label }}
           RELEASE_STAGE: @STAGE@

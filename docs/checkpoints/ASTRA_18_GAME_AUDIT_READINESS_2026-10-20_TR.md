@@ -1,6 +1,6 @@
 # Astra Pro — 18 canlı oyun için kaynak temelli kalite denetimi hazırlığı
 
-Bu belge denetim girdisidir; bütün mekaniklerin kusursuz olduğu veya insan/fiziksel cihaz kabulü anlamına gelmez. Canlı envanter `src/lib/games.ts` kaynağından çıkarıldı. Kaynak tabanı 15ca52a07e504c7244556bd377012b842d998bf6; Racon B/C henüz kabul kapılarına tabidir.
+Bu belge denetim girdisidir; bütün mekaniklerin kusursuz olduğu veya insan/fiziksel cihaz kabulü anlamına gelmez. Canlı envanter `src/lib/games.ts` kaynağından çıkarıldı. Envanter kaynak tabanı A main 15ca52a07e504c7244556bd377012b842d998bf6; güncel canonical main B 9b5a06e349131d912baee1a7bb5ba86ced4a9b1e. B bu tur Racon ve eklemeli çeviri kapsamıyla birleşti; staging kabulü PASS, production terfisi henüz yapılmadı. C #213 yeni head 8a9f2d3ea961e2c5ebe9de4e5a708b13e2e6d831 ile aynı main üzerine uzlaştırıldı ve main’e retarget edildi; taslak ve merge edilmedi. CI takibini kullanıcı üstlenmiştir. Release sınırları RACON_B_C_RELEASE_PROGRESS_2026-10-20_TR.md içindedir.
 
 ## Korunacak temel
 
@@ -219,3 +219,39 @@ Her oyunda: exact commit ve kaynak yolu; mevcut mekanik; kanıtlanmış hata vey
 - Kart oyunları: `scripts/duel-stress.mjs`; ortak motor/tema başına deterministik stres. Sanat programını mekanik denetim bahanesiyle yeniden başlatma.
 - Racon: `scripts/racon-longrun.mjs`. C investor/high-risk profillerindeki ileri yatırımcı fixture'ı açıkça sentetiktir; doğal kariyer başarısı diye raporlama.
 - JITEM gerçek kaynak incelemesi minified TarikLab embed'iyle sınırlanmamalı. Standalone `tayaz-maker/jitem-derin-ag` main `e1d5bf742d012ef9355f7d822fa31bc896cd7c8d` yeniden doğrulandı. Bu kaynak ağacında `src/game/engine.ts`, `src/game/sim/engine.test.ts`, `src/game/sim/knowledge.test.ts`, `src/game/sim/save.ts`, `scripts/save-recovery.test.ts`, `scripts/save-reliability-browser.ts`, `scripts/plan-targeting.test.ts`, `scripts/operations-depth.test.ts`, `src/game/i18n/i18n.test.ts` var. ADAPT1 belgesi `docs/ADAPT_1_SAVE_RELIABILITY_2026-10-20.md`. Bu liste kaynak keşfidir; bu tur standalone testlerinin yeniden çalıştırıldığı iddia edilmez. Standalone merge'i kendiliğinden TarikLab runtime'a geçmez; SOURCE.json ve runtime SHA birlikte eşlenir.
+
+
+## Kayıt sözleşmesi: oyuna göre kabul beklentisi
+
+Aşağıdaki ayrım kaynak okumasıdır; yeni test PASS iddiası değildir. Her oyuna zorunlu aktif-maç save özelliği varsaymak yanlış bulgu üretir. Oyun tasarımında bulunmayan kayıt özelliği, kaybolan mevcut kullanıcı kaydıyla aynı sınıfta raporlanmaz.
+
+| Oyun/grup | Kaynakta mevcut sözleşme | Denetimde odak |
+| --- | --- | --- |
+| Çete Savaşları | `src/game/data.ts`: SAVE_VERSION15; legacy `cete-savaslari-save-v1`; aktif üç slot `tariklab::cete:*` | Legacy→slot geçişi, kardeş slot izolasyonu, pending persist ve Supabase opsiyonel sync |
+| HANEDANIAN | `save.js`: `tariklab-hanedanian` IndexedDB ve envelope version1; `tariklab::hanedanian:emergency:v1` journal | IDB son snapshot ile acil journal zaman sırası, eski HANEDAN kaydını silmeme, offline reload |
+| Racon | `index.html`: `tariklab::racon:{1..3}`, `:bak`, `:active`; legacy `racon_v1` ve `racon_v1_bak` | B/C UI düzeltmelerinin RNG/serialized state'i değiştirmemesi; yüklenen state üzerinden hafta süreleri |
+| TC SIM | `js/state.js` version6; `js/save.js` üç slot ve `:bak`; legacy `tc-sim-save`/`tc-sim-save-backup` | V5/V6 ve historical migration, mevcut beş paket korunarak back-up ve slot izolasyonu |
+| Bükücü | `index.html`: üç `tariklab::bukucu:*` slot; legacy `smb.v1` | Bir kez migration, aktif slot tercihi, RNG determinism, bozuk kayıt sonrası açık kullanıcı seçimi |
+| Labirent | `js/app.js`: `tlab.labirent.v1` yalnız zorluğa göre en iyi hamle/süre | Bozuk rekorun oyunu açılmaz yapmaması; aynı kodun çözülebilirliği. Aktif koşu reload devamı mevcut sözleşme değil |
+| Tek Taş | `js/app.js`: `tlab.tektas.v1` yalnız en iyi kalan taş/hamle/merkez sonucu | Bozuk rekor ve geçersiz sayıları güvenle ele alma; aktif tahtanın kalıcılığı varsayılmaz |
+| Satranç | `js/app.js`/rules/AI akışı aktif maç için localStorage/IndexedDB/sessionStorage kullanmıyor | Yasal hamle, geri al, promotion ve eski AI worker yanıtının iptali; kalıcı maç eklemek ayrı özellik kararı |
+| Amiral Battı | `js/app.js`: `tariklab.amiral-batti.match` ve `.stats`; normalize edilen win/loss; geçersiz/hotseat kayıt korunur | Geçersiz nested match, sahte CPU bilgisi, hotseat için açık unavailable metni; storage-write hatası kullanıcıya ne gösteriyor kaynakla incele |
+| Kapı Nöbeti / Kayıp Telefon / DEVLET / Son Köy | `next-wave/shared/runtime.js`: `tariklab.nextwave.{id}.slot{1..3}`, `.backup` ve `.active`; Son Köy storage id'si `son-kasaba` | Her oyunun kendi normalizer'ı, backup yalnız aynı slot, doğru storage id; DEVLET v2 ve sıfır hazine; bitiş sonrası mutasyon |
+| Son100 POV | `son-100-gun/pov.js`: `tariklab.son100.pov.v1.slot{n}`; eski next-wave kayıtları yeni POV kaydı diye okunmaz | Namespace ayrımı, seçim replay, storage retry'nin günü/eylemi ikinci kez tüketmemesi |
+| VETO / GETT / DARBE | `duel-core/save.js`: `tariklab.{theme}.duel`, `.backup`; checksum envelope version1 ve theme validation | Çapraz tema yüklemesini reddetme, catalog save'e yazılmaması, geçerli previous backup, bozuk primary recovery |
+| JITEM | Standalone `src/game/sim/save.ts` ve ADAPT1 save-reliability kaynakları; embed SOURCE eşlemesi | Minified embed'den save formatı tahmin etme; standalone sözleşme ve migration/recovery testini exact runtime ile eşle |
+
+Ortak runtime'ın `language()` fonksiyonu (`public/games/next-wave/shared/runtime.js`) EN/PL için EN içerik katmanını seçer; `tlabI18n.localize` varsa son metin yerelleştirmesini ona verir. Bu, bütün PL içeriklerin tamamlandığı anlamına gelmez. Korpus incelemesi görünür son DOM metnini ve authored PL sözlüğünü birlikte değerlendirmelidir.
+
+
+## Racon C uzun oyun kapsamı için doğru okuma
+
+C'nin `racon-longrun.mjs` sürümü: balanced/aggressive/passive üç doğal başlangıcı seed4242 ile730 gün ve birebir tekrar;12 balanced/aggressive seed için365 gün; investor/high-risk için üçer seed7001/14009/21013,730 gün ve birebir tekrar kullanır. Investor `advanced-investor` başlangıcı baba statüsü,220.000 kasa ve üç sahip olunan sokakla açıkça sentetiktir. Sonraki yatırım/satın alma/genişleme/koruma/iş işlemleri production action yollarından geçer. High-risk doğal başlangıçtır. Cash toplamı,0..100 dosya/heat, günün ilerlemesi, sahnede takılmama, bounded geçmiş/kuyruklar ve28 günlük save/reload kontrolü vardır. Bu kapsam yeni head kalite workflow'unda doğrulanmadan PASS diye aktarılamaz; doğal yatırımcı kariyerinin tamamlandığını göstermez.
+
+
+## Son hazırlık güncellemesi
+
+B candidate `de08ead6` / build `3d3e844d-9f54-46f9-88aa-cb92bd01d8b1`, exact main9b5a06e: staging kabul39464279187 PASS. 14source hash,6region,18crew/police,6portal save/reload ve anonim auth endpoint200/null. Bu candidate kanıtıdır; www veya workers production adresinin B sürümüne geçtiği iddia edilmez. B/C için kullanılan yeni guard flag yalnız açıkça izin verilen gerçek/candidate origin'e yöneltmeyi açar; oyun assert/time-out'ları değiştirilmez. B görsel kanıtında hâlâ legacy TR metinleri vardır; C kapsamı veya sonraki kaynak denetimi olarak ayrılmalıdır. Tam PL/EN korpus PASS iddiası yoktur.
+
+
+B actual production proof39466070754 iki origin'de Racon index source parity nedeniyle FAIL: staging kabulü production kabulü yerine geçmez. C #213 draft/newhead8a9f2d3 olarak korunur. Tarayıcı transport ve native promotion build engeli son release checkpoint'inde açıkça kayıtlıdır. Genel CI takibi kullanıcıya devredildiğinden sonraki sonuçlar bu raporda varsayılmamıştır.

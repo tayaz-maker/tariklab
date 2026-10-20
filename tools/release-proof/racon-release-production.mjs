@@ -9,6 +9,11 @@ assert.ok(['https://www.tariklab.com','https://tariklab.tayaz29.workers.dev'].in
 assert.ok(['a','b','c'].includes(stage));
 const out=`${process.env.RUNNER_TEMP||'/workspace'}/screenshots/racon-production`;await mkdir(out,{recursive:true});
 const files=[...(await readdir('public/games/racon')).map(f=>'public/games/racon/'+f),'public/i18n/tlab-i18n.js','public/i18n/pl/racon.json','public/i18n/pl-body.js','public/i18n/boot.js','public/games/shared/depth-framework.js','public/games/shared/pixi-adapter.js','public/vendor/pixi/pixi-8.21.0.min.mjs'];
+// Public anonymous endpoint only: no credentials, cookies or user data.
+const anonymousResponse=await fetch(origin+'/api/auth/get-session');
+assert.equal(anonymousResponse.status,200,'SSR auth middleware is reachable');
+assert.equal(await anonymousResponse.json(),null,'anonymous request remains unauthenticated');
+const anonymousAuth={path:'/api/auth/get-session',status:200,anonymous:true};
 const hashes=[];
 for(const file of files){
  const response=await fetch(origin+'/'+file.slice(7));assert.equal(response.status,200,file);
@@ -49,5 +54,5 @@ try{for(const lang of ['tr','en','pl'])for(const width of [390,1280]){
  }finally{await context.close();}
 }}finally{await browser.close();}
 assert.equal(portal.length,6);
-await writeFile(out+'/receipt.json',JSON.stringify({origin,stage,canonicalMain:process.env.RELEASE_MAIN,hashes,portal,regionCases:6,crewCases:stage==='a'?0:18,languageCases:stage==='c'?6:0,status:'PASS'},null,2));
+await writeFile(out+'/receipt.json',JSON.stringify({origin,stage,canonicalMain:process.env.RELEASE_MAIN,anonymousAuth,hashes,portal,regionCases:6,crewCases:stage==='a'?0:18,languageCases:stage==='c'?6:0,status:'PASS'},null,2));
 console.log(JSON.stringify({origin,stage,hashes:hashes.length,portal:6,region:6,crew:stage==='a'?0:18,language:stage==='c'?6:0,status:'PASS'}));
