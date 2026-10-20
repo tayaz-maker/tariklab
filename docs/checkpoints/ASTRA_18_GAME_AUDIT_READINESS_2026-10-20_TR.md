@@ -207,3 +207,15 @@ Fiziksel cihaz kabulü UNKNOWN / kullanıcıya ait. Kaynakta test bulunması mev
 ## Astra teslim biçimi
 
 Her oyunda: exact commit ve kaynak yolu; mevcut mekanik; kanıtlanmış hata veya eksik mekanik; tetikleyici/fixture; beklenen-gerçek sonuç; kullanıcı/save etkisi; test/Chromium kanıtı; P0/P1/P2; dar düzeltme önerisi; korunacak geçmiş iş. Bulgu olmayan alanı PASS diye doldurma. Önce kaynak denetimi ve rapor; ayrı yetki olmadan büyük geliştirme veya refactor başlatma.
+
+
+## Mevcut uzun koşu ve standalone kaynak yönlendirmesi
+
+- Node22, npm ci, npm test, typecheck, lint ve production build temel kapılardır. Test dosyasının bulunması mevcut head'de koşulduğu anlamına gelmez.
+- HANEDANIAN: `scripts/hanedanian-campaign-probe.mjs`; `.github/workflows/hanedanian-soak.yml` mevcut orijinal browser driver'ını `HANEDANIAN_SOAK_MS=1200000` ile20 dakika çalıştırır. Yeni migration kabulü bu20 dakika soak'un yeniden koşulduğu iddiası değildir.
+- TC SIM: `scripts/tc-sim-longrun.mjs`; tamamlanmış beş paket release'inin25 yıllık/beş profilli kanıtı korunur. Kontrolsüz yeni ekonomi veya hayat sistemi ekleme.
+- DEVLET: `scripts/wave5-tc-sim-devlet-core-longrun.mjs`, `scripts/wave5-tc-sim-devlet-longrun.mjs`, `scripts/wave5-tc-sim-devlet-final-longrun.mjs`.
+- Son Mahalle Bükücü: `scripts/strategy-longrun.mjs` ve Wave1 gerçek slot satın alma/reload proof'u; eski RNG fixture'ını gerçek runtime hatası sanma.
+- Kart oyunları: `scripts/duel-stress.mjs`; ortak motor/tema başına deterministik stres. Sanat programını mekanik denetim bahanesiyle yeniden başlatma.
+- Racon: `scripts/racon-longrun.mjs`. C investor/high-risk profillerindeki ileri yatırımcı fixture'ı açıkça sentetiktir; doğal kariyer başarısı diye raporlama.
+- JITEM gerçek kaynak incelemesi minified TarikLab embed'iyle sınırlanmamalı. Standalone `tayaz-maker/jitem-derin-ag` main `e1d5bf742d012ef9355f7d822fa31bc896cd7c8d` yeniden doğrulandı. Bu kaynak ağacında `src/game/engine.ts`, `src/game/sim/engine.test.ts`, `src/game/sim/knowledge.test.ts`, `src/game/sim/save.ts`, `scripts/save-recovery.test.ts`, `scripts/save-reliability-browser.ts`, `scripts/plan-targeting.test.ts`, `scripts/operations-depth.test.ts`, `src/game/i18n/i18n.test.ts` var. ADAPT1 belgesi `docs/ADAPT_1_SAVE_RELIABILITY_2026-10-20.md`. Bu liste kaynak keşfidir; bu tur standalone testlerinin yeniden çalıştırıldığı iddia edilmez. Standalone merge'i kendiliğinden TarikLab runtime'a geçmez; SOURCE.json ve runtime SHA birlikte eşlenir.
