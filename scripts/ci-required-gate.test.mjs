@@ -101,6 +101,8 @@ function digest(value) {
 // including run text, if, env, timeout, action version and artifact paths.
 const originalBrowserSteps = [
   ['Install Chromium for responsive regression', '9bfc2290b4992f52fcdcdfe886c5290ae621e89580654a540ca01200839ff4d2'],
+  ['Wave 1 save repairs in source and built games (TR/EN/PL, 390/1280)', '51dd717c06296d8edb52f9be567b3848ac4e4fc11a8ab1a3926db47440dfe35d'],
+  ['Upload Wave 1 save repair evidence', '0bc72cf61e81bf9a63711f3b2f76741fe620c3ee1e6cfbc30957fb3af6854023'],
   ['Wave 1 decisions, state traces and paired evidence', 'b55df5f005cbaa7ed2ae773ee566a96eeb2faf27ff85c08515898c1c2ce0c11a'],
   ['Cete outcome moments (1440/390/320, motion, save and focus)', 'b07dfa73c06b948d0d3cc29a6a67a1811273907783814cf768e5a1b3778ef0cd'],
   ['Duel archive, save and 2.5D responsive regression', '4a4cb68a1633221df7eb929840fff436ef72c3ca1e20302fab07131dcd4618fe'],
