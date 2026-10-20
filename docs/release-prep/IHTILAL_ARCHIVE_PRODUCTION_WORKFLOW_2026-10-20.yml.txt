@@ -1,0 +1,36 @@
+name: IHTILAL archive production acceptance
+on:
+  push:
+    branches: [qa/ihtilal-archive-production-20261020]
+permissions:
+  contents: read
+jobs:
+  production:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: www
+            origin: https://www.tariklab.com
+          - label: workers
+            origin: https://tariklab.tayaz29.workers.dev
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Install real Chromium
+        run: npx playwright install --with-deps chromium --only-shell
+      - name: Exact retained-source and JITEM hashes, archive routes and save continuation
+        env:
+          ARCHIVE_BROWSER_OUT: ${{ runner.temp }}/archive-proof
+        run: node scripts/ihtilal-archive-production.mjs '${{ matrix.origin }}'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ihtilal-archive-${{ matrix.label }}
+          path: ${{ runner.temp }}/archive-proof
