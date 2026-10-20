@@ -1,0 +1,2125 @@
+{
+  "canonicalMain": "2472042f3e97d21c2cbf64fa47588505a972d369",
+  "pr": 209,
+  "proofBranch": "qa/wave1-decision-production-20261020",
+  "proofSha": "08203b2588ce454ebc225eb6d6f31dd77b25399a",
+  "productionRun": 39441728264,
+  "mainCiRun": 39440135652,
+  "mainCi": "PASS",
+  "physicalDeviceQa": "UNKNOWN",
+  "hosts": {
+    "www": {
+      "origin": "https://www.tariklab.com",
+      "artifactId": 12273587976,
+      "artifactSha256": "b8fc3c7b63c77d4b4d4fd4fbba07d7ed4f78b2a4bbf018bf29c7d5b7cf4dd794",
+      "chromium": "151.0.7922.34",
+      "fileHashes": [
+        {
+          "file": "games/next-wave.js",
+          "bytes": 32331,
+          "sha256": "cf87cd35e2ae437e8b74eb322b9bcbf7a98f73bee3d6d810415d5d576a23e52e"
+        },
+        {
+          "file": "games/next-wave/devlet-content.js",
+          "bytes": 347630,
+          "sha256": "f76694c59138dcd4264d22ac5cee4714bc49185a13c615c26f7c51800c0100a5"
+        },
+        {
+          "file": "games/next-wave/devlet-depth.js",
+          "bytes": 49189,
+          "sha256": "da3a129037f479b7886f72e6ea7079f5c29b481409f304a84e2fa8d0e0da7d48"
+        },
+        {
+          "file": "games/next-wave/devlet-sim.js",
+          "bytes": 22090,
+          "sha256": "c72b735241d7b125d75bc8dc209d4d9efafbdcfeb374355633450346ee369a1e"
+        },
+        {
+          "file": "games/tc-sim-devlet/presentation.js",
+          "bytes": 26610,
+          "sha256": "db18d291cd944c9bcb5979b3d67ee818ba5285d94cb2fa90269fb33a515d9e84"
+        },
+        {
+          "file": "games/tc-sim-devlet/index.html",
+          "bytes": 828,
+          "sha256": "82ee2ab73d0ff037a77895ea81d5dd60855f2be3b29bc675e7a338523f9bbfef"
+        },
+        {
+          "file": "games/apartman/index.html",
+          "bytes": 687,
+          "sha256": "05621feeec4e43796be6b2dcf93247daab4d9a508d0998a0e00cb2bd02eb2f38"
+        },
+        {
+          "file": "games/bukucu/index.html",
+          "bytes": 122907,
+          "sha256": "de2ac10ab9a5e10265463e715d1d15eca3b25270b3255ff0fdf6ab449d28c1e3"
+        },
+        {
+          "file": "i18n/tlab-i18n.js",
+          "bytes": 62494,
+          "sha256": "6e049325b1c1f461a3f60233c642ab9df1dd9072aaf38030c015008d98e4ac86"
+        },
+        {
+          "file": "i18n/boot.js",
+          "bytes": 1350,
+          "sha256": "7144da658c38c0e728e636961c14d8768496d8b7b1a7206d7023318d2b07393f"
+        },
+        {
+          "file": "i18n/pl-body.js",
+          "bytes": 7127,
+          "sha256": "5751281807f9654465bfc80d114f8a25f04c1412c6fc1064cf1fb158b86280ad"
+        },
+        {
+          "file": "i18n/pl/tc-sim-devlet.json",
+          "bytes": 405270,
+          "sha256": "3e694b2bf129a0df1cce09c550fb350c28f70067e56f349a91de9ff1efffd4d1"
+        },
+        {
+          "file": "i18n/pl/apartman.json",
+          "bytes": 423487,
+          "sha256": "3b2b74955f357c8497334fe61b37318388c8991742a8cdf12653a379bba024fc"
+        },
+        {
+          "file": "i18n/pl/bukucu.json",
+          "bytes": 183335,
+          "sha256": "64931c2726d2020a8367031927bfc506365c2d31b4d751af65e47313754f8556"
+        }
+      ],
+      "decisionCases": [
+        {
+          "tag": "tr-1280-devlet-zero-treasury",
+          "ok": true,
+          "treasuryBefore": 0,
+          "treasuryAfter": 0,
+          "turn": 2,
+          "saveReload": true,
+          "layout": {
+            "width": 1280,
+            "documentWidth": 1280,
+            "mainWidth": 1280,
+            "mainScroll": 1280
+          },
+          "errors": [],
+          "screenshot": "tr-1280-devlet-zero-treasury.png"
+        },
+        {
+          "tag": "tr-1280-devlet-terminal",
+          "ok": true,
+          "terminalTurn": 48,
+          "dossier": "dc_gv_inherit2",
+          "finalStateUnchanged": true,
+          "saveReload": true,
+          "layout": {
+            "width": 1280,
+            "documentWidth": 1280,
+            "mainWidth": 1280,
+            "mainScroll": 1280
+          },
+          "errors": [],
+          "screenshot": "tr-1280-devlet-terminal.png"
+        },
+        {
+          "tag": "tr-1280-apartman-su-cheap-patch",
+          "ok": true,
+          "issue": "i5",
+          "system": "su",
+          "proposal": "cheap-patch",
+          "partBefore": 55,
+          "partAfter": 60,
+          "saveReload": true,
+          "layout": {
+            "width": 1280,
+            "documentWidth": 1280,
+            "mainWidth": 1280,
+            "mainScroll": 1280
+          },
+          "errors": [],
+          "screenshot": "tr-1280-apartman-su-cheap-patch.png"
+        },
+        {
+          "tag": "tr-1280-apartman-su-durable-maintenance",
+          "ok": true,
+          "issue": "i5",
+          "system": "su",
+          "proposal": "durable-maintenance",
+          "partBefore": 55,
+          "partAfter": 67,
+          "saveReload": true,
+          "layout": {
+            "width": 1280,
+            "documentWidth": 1280,
+            "mainWidth": 1280,
+            "mainScroll": 1280
+          },
+          "errors": [],
+          "screenshot": "tr-1280-apartman-su-durable-maintenance.png"
+        },
+        {
+          "tag": "tr-1280-apartman-cati-cheap-patch",
+          "ok": true,
+          "issue": "i4",
+          "system": "cati",
+          "proposal": "cheap-patch",
+          "partBefore": 61,
+          "partAfter": 66,
+          "saveReload": true,
+          "layout": {
+            "width": 1280,
+            "documentWidth": 1280,
+            "mainWidth": 1280,
+            "mainScroll": 1280
+          },
+          "errors": [],
+          "screenshot": "tr-1280-apartman-cati-cheap-patch.png"
+        },
+        {
+          "tag": "tr-1280-apartman-cati-durable-maintenance",
+          "ok": true,
+          "issue": "i4",
+          "system": "cati",
+          "proposal": "durable-maintenance",
+          "partBefore": 61,
+          "partAfter": 73,
+          "saveReload": true,
+          "layout": {
+            "width": 1280,
+            "documentWidth": 1280,
+            "mainWidth": 1280,
+            "mainScroll": 1280
+          },
+          "errors": [],
+          "screenshot": "tr-1280-apartman-cati-durable-maintenance.png"
+        },
+        {
+          "tag": "tr-1280-apartman-followup-once",
+          "ok": true,
+          "affected": "r2",
+          "differences": [
+            {
+              "week": 2,
+              "satisfactionDelta": -6
+            },
+            {
+              "week": 3,
+              "satisfactionDelta": -6
+            },
+            {
+              "week": 4,
+              "satisfactionDelta": -6
+            }
+          ],
+          "saveReloadAfterEachWeek": true,
+          "layout": {
+            "width": 1280,
+            "documentWidth": 1280,
+            "mainWidth": 1280,
+            "mainScroll": 1280
+          },
+          "errors": [],
+          "screenshot": "tr-1280-apartman-followup-once-case.png"
+        },
+        {
+          "tag": "tr-390-devlet-zero-treasury",
+          "ok": true,
+          "treasuryBefore": 0,
+          "treasuryAfter": 0,
+          "turn": 2,
+          "saveReload": true,
+          "layout": {
+            "width": 390,
+            "documentWidth": 390,
+            "mainWidth": 390,
+            "mainScroll": 390
+          },
+          "errors": [],
+          "screenshot": "tr-390-devlet-zero-treasury.png"
+        },
+        {
+          "tag": "tr-390-devlet-terminal",
+          "ok": true,
+          "terminalTurn": 48,
+          "dossier": "dc_gv_inherit2",
+          "finalStateUnchanged": true,
+          "saveReload": true,
+          "layout": {
+            "width": 390,
+            "documentWidth": 390,
+            "mainWidth": 390,
+            "mainScroll": 390
+          },
+          "errors": [],
+          "screenshot": "tr-390-devlet-terminal.png"
+        },
+        {
+          "tag": "tr-390-apartman-su-cheap-patch",
+          "ok": true,
+          "issue": "i5",
+          "system": "su",
+          "proposal": "cheap-patch",
+          "partBefore": 55,
+          "partAfter": 60,
+          "saveReload": true,
+          "layout": {
+            "width": 390,
+            "documentWidth": 390,
+            "mainWidth": 390,
+            "mainScroll": 390
+          },
+          "errors": [],
+          "screenshot": "tr-390-apartman-su-cheap-patch.png"
+        },
+        {
+          "tag": "tr-390-apartman-su-durable-maintenance",
+          "ok": true,
+          "issue": "i5",
+          "system": "su",
+          "proposal": "durable-maintenance",
+          "partBefore": 55,
+          "partAfter": 67,
+          "saveReload": true,
+          "layout": {
+            "width": 390,
+            "documentWidth": 390,
+            "mainWidth": 390,
+            "mainScroll": 390
+          },
+          "errors": [],
+          "screenshot": "tr-390-apartman-su-durable-maintenance.png"
+        },
+        {
+          "tag": "tr-390-apartman-cati-cheap-patch",
+          "ok": true,
+          "issue": "i4",
+          "system": "cati",
+          "proposal": "cheap-patch",
+          "partBefore": 61,
+          "partAfter": 66,
+          "saveReload": true,
+          "layout": {
+            "width": 390,
+            "documentWidth": 390,
+            "mainWidth": 390,
+            "mainScroll": 390
+          },
+          "errors": [],
+          "screenshot": "tr-390-apartman-cati-cheap-patch.png"
+        },
+        {
+          "tag": "tr-390-apartman-cati-durable-maintenance",
+          "ok": true,
+          "issue": "i4",
+          "system": "cati",
+          "proposal": "durable-maintenance",
+          "partBefore": 61,
+          "partAfter": 73,
+          "saveReload": true,
+          "layout": {
+            "width": 390,
+            "documentWidth": 390,
+            "mainWidth": 390,
+            "mainScroll": 390
+          },
+          "errors": [],
+          "screenshot": "tr-390-apartman-cati-durable-maintenance.png"
+        },
+        {
+          "tag": "tr-390-apartman-followup-once",
+          "ok": true,
+          "affected": "r2",
+          "differences": [
+            {
+              "week": 2,
+              "satisfactionDelta": -6
+            },
+            {
+              "week": 3,
+              "satisfactionDelta": -6
+            },
+            {
+              "week": 4,
+              "satisfactionDelta": -6
+            }
+          ],
+          "saveReloadAfterEachWeek": true,
+          "layout": {
+            "width": 390,
+            "documentWidth": 390,
+            "mainWidth": 390,
+            "mainScroll": 390
+          },
+          "errors": [],
+          "screenshot": "tr-390-apartman-followup-once-case.png"
+        },
+        {
+          "tag": "en-1280-devlet-zero-treasury",
+          "ok": true,
+          "treasuryBefore": 0,
+          "treasuryAfter": 0,
+          "turn": 2,
+          "saveReload": true,
+          "layout": {
+            "width": 1280,
+            "documentWidth": 1280,
+            "mainWidth": 1280,
+            "mainScroll": 1280
+          },
+          "errors": [],
+          "screenshot": "en-1280-devlet-zero-treasury.png"
+        },
+        {
+          "tag": "en-1280-devlet-terminal",
+          "ok": true,
+          "terminalTurn": 48,
+          "dossier": "dc_gv_inherit2",
+          "finalStateUnchanged": true,
+          "saveReload": true,
+          "layout": {
+            "width": 1280,
+            "documentWidth": 1280,
+            "mainWidth": 1280,
+            "mainScroll": 1280
+          },
+          "errors": [],
+          "screenshot": "en-1280-devlet-terminal.png"
+        },
+        {
+          "tag": "en-1280-apartman-su-cheap-patch",
+          "ok": true,
+          "issue": "i5",
+          "system": "su",
+          "proposal": "cheap-patch",
+          "partBefore": 55,
+          "partAfter": 60,
+          "saveReload": true,
+          "layout": {
+            "width": 1280,
+            "documentWidth": 1280,
+            "mainWidth": 1280,
+            "mainScroll": 1280
+          },
+          "errors": [],
+          "screenshot": "en-1280-apartman-su-cheap-patch.png"
+        },
+        {
+          "tag": "en-1280-apartman-su-durable-maintenance",
+          "ok": true,
+          "issue": "i5",
+          "system": "su",
+          "proposal": "durable-maintenance",
+          "partBefore": 55,
+          "partAfter": 67,
+          "saveReload": true,
+          "layout": {
+            "width": 1280,
+            "documentWidth": 1280,
+            "mainWidth": 1280,
+            "mainScroll": 1280
+          },
+          "errors": [],
+          "screenshot": "en-1280-apartman-su-durable-maintenance.png"
+        },
+        {
+          "tag": "en-1280-apartman-cati-cheap-patch",
+          "ok": true,
+          "issue": "i4",
+          "system": "cati",
+          "proposal": "cheap-patch",
+          "partBefore": 61,
+          "partAfter": 66,
+          "saveReload": true,
+          "layout": {
+            "width": 1280,
+            "documentWidth": 1280,
+            "mainWidth": 1280,
+            "mainScroll": 1280
+          },
+          "errors": [],
+          "screenshot": "en-1280-apartman-cati-cheap-patch.png"
+        },
+        {
+          "tag": "en-1280-apartman-cati-durable-maintenance",
+          "ok": true,
+          "issue": "i4",
+          "system": "cati",
+          "proposal": "durable-maintenance",
+          "partBefore": 61,
+          "partAfter": 73,
+          "saveReload": true,
+          "layout": {
+            "width": 1280,
+            "documentWidth": 1280,
+            "mainWidth": 1280,
+            "mainScroll": 1280
+          },
+          "errors": [],
+          "screenshot": "en-1280-apartman-cati-durable-maintenance.png"
+        },
+        {
+          "tag": "en-1280-apartman-followup-once",
+          "ok": true,
+          "affected": "r2",
+          "differences": [
+            {
+              "week": 2,
+              "satisfactionDelta": -6
+            },
+            {
+              "week": 3,
+              "satisfactionDelta": -6
+            },
+            {
+              "week": 4,
+              "satisfactionDelta": -6
+            }
+          ],
+          "saveReloadAfterEachWeek": true,
+          "layout": {
+            "width": 1280,
+            "documentWidth": 1280,
+            "mainWidth": 1280,
+            "mainScroll": 1280
+          },
+          "errors": [],
+          "screenshot": "en-1280-apartman-followup-once-case.png"
+        },
+        {
+          "tag": "en-390-devlet-zero-treasury",
+          "ok": true,
+          "treasuryBefore": 0,
+          "treasuryAfter": 0,
+          "turn": 2,
+          "saveReload": true,
+          "layout": {
+            "width": 390,
+            "documentWidth": 390,
+            "mainWidth": 390,
+            "mainScroll": 390
+          },
+          "errors": [],
+          "screenshot": "en-390-devlet-zero-treasury.png"
+        },
+        {
+          "tag": "en-390-devlet-terminal",
+          "ok": true,
+          "terminalTurn": 48,
+          "dossier": "dc_gv_inherit2",
+          "finalStateUnchanged": true,
+          "saveReload": true,
+          "layout": {
+            "width": 390,
+            "documentWidth": 390,
+            "mainWidth": 390,
+            "mainScroll": 390
+          },
+          "errors": [],
+          "screenshot": "en-390-devlet-terminal.png"
+        },
+        {
+          "tag": "en-390-apartman-su-cheap-patch",
+          "ok": true,
+          "issue": "i5",
+          "system": "su",
+          "proposal": "cheap-patch",
+          "partBefore": 55,
+          "partAfter": 60,
+          "saveReload": true,
+          "layout": {
+            "width": 390,
+            "documentWidth": 390,
+            "mainWidth": 390,
+            "mainScroll": 390
+          },
+          "errors": [],
+          "screenshot": "en-390-apartman-su-cheap-patch.png"
+        },
+        {
+          "tag": "en-390-apartman-su-durable-maintenance",
+          "ok": true,
+          "issue": "i5",
+          "system": "su",
+          "proposal": "durable-maintenance",
+          "partBefore": 55,
+          "partAfter": 67,
+          "saveReload": true,
+          "layout": {
+            "width": 390,
+            "documentWidth": 390,
+            "mainWidth": 390,
+            "mainScroll": 390
+          },
+          "errors": [],
+          "screenshot": "en-390-apartman-su-durable-maintenance.png"
+        },
+        {
+          "tag": "en-390-apartman-cati-cheap-patch",
+          "ok": true,
+          "issue": "i4",
+          "system": "cati",
+          "proposal": "cheap-patch",
+          "partBefore": 61,
+          "partAfter": 66,
+          "saveReload": true,
+          "layout": {
+            "width": 390,
+            "documentWidth": 390,
+            "mainWidth": 390,
+            "mainScroll": 390
+          },
+          "errors": [],
+          "screenshot": "en-390-apartman-cati-cheap-patch.png"
+        },
+        {
+          "tag": "en-390-apartman-cati-durable-maintenance",
+          "ok": true,
+          "issue": "i4",
+          "system": "cati",
+          "proposal": "durable-maintenance",
+          "partBefore": 61,
+          "partAfter": 73,
+          "saveReload": true,
+          "layout": {
+            "width": 390,
+            "documentWidth": 390,
+            "mainWidth": 390,
+            "mainScroll": 390
+          },
+          "errors": [],
+          "screenshot": "en-390-apartman-cati-durable-maintenance.png"
+        },
+        {
+          "tag": "en-390-apartman-followup-once",
+          "ok": true,
+          "affected": "r2",
+          "differences": [
+            {
+              "week": 2,
+              "satisfactionDelta": -6
+            },
+            {
+              "week": 3,
+              "satisfactionDelta": -6
+            },
+            {
+              "week": 4,
+              "satisfactionDelta": -6
+            }
+          ],
+          "saveReloadAfterEachWeek": true,
+          "layout": {
+            "width": 390,
+            "documentWidth": 390,
+            "mainWidth": 390,
+            "mainScroll": 390
+          },
+          "errors": [],
+          "screenshot": "en-390-apartman-followup-once-case.png"
+        },
+        {
+          "tag": "pl-1280-devlet-zero-treasury",
+          "ok": true,
+          "treasuryBefore": 0,
+          "treasuryAfter": 0,
+          "turn": 2,
+          "saveReload": true,
+          "layout": {
+            "width": 1280,
+            "documentWidth": 1280,
+            "mainWidth": 1280,
+            "mainScroll": 1280
+          },
+          "errors": [],
+          "screenshot": "pl-1280-devlet-zero-treasury.png"
+        },
+        {
+          "tag": "pl-1280-devlet-terminal",
+          "ok": true,
+          "terminalTurn": 48,
+          "dossier": "dc_gv_inherit2",
+          "finalStateUnchanged": true,
+          "saveReload": true,
+          "layout": {
+            "width": 1280,
+            "documentWidth": 1280,
+            "mainWidth": 1280,
+            "mainScroll": 1280
+          },
+          "errors": [],
+          "screenshot": "pl-1280-devlet-terminal.png"
+        },
+        {
+          "tag": "pl-1280-apartman-su-cheap-patch",
+          "ok": true,
+          "issue": "i5",
+          "system": "su",
+          "proposal": "cheap-patch",
+          "partBefore": 55,
+          "partAfter": 60,
+          "saveReload": true,
+          "layout": {
+            "width": 1280,
+            "documentWidth": 1280,
+            "mainWidth": 1280,
+            "mainScroll": 1280
+          },
+          "errors": [],
+          "screenshot": "pl-1280-apartman-su-cheap-patch.png"
+        },
+        {
+          "tag": "pl-1280-apartman-su-durable-maintenance",
+          "ok": true,
+          "issue": "i5",
+          "system": "su",
+          "proposal": "durable-maintenance",
+          "partBefore": 55,
+          "partAfter": 67,
+          "saveReload": true,
+          "layout": {
+            "width": 1280,
+            "documentWidth": 1280,
+            "mainWidth": 1280,
+            "mainScroll": 1280
+          },
+          "errors": [],
+          "screenshot": "pl-1280-apartman-su-durable-maintenance.png"
+        },
+        {
+          "tag": "pl-1280-apartman-cati-cheap-patch",
+          "ok": true,
+          "issue": "i4",
+          "system": "cati",
+          "proposal": "cheap-patch",
+          "partBefore": 61,
+          "partAfter": 66,
+          "saveReload": true,
+          "layout": {
+            "width": 1280,
+            "documentWidth": 1280,
+            "mainWidth": 1280,
+            "mainScroll": 1280
+          },
+          "errors": [],
+          "screenshot": "pl-1280-apartman-cati-cheap-patch.png"
+        },
+        {
+          "tag": "pl-1280-apartman-cati-durable-maintenance",
+          "ok": true,
+          "issue": "i4",
+          "system": "cati",
+          "proposal": "durable-maintenance",
+          "partBefore": 61,
+          "partAfter": 73,
+          "saveReload": true,
+          "layout": {
+            "width": 1280,
+            "documentWidth": 1280,
+            "mainWidth": 1280,
+            "mainScroll": 1280
+          },
+          "errors": [],
+          "screenshot": "pl-1280-apartman-cati-durable-maintenance.png"
+        },
+        {
+          "tag": "pl-1280-apartman-followup-once",
+          "ok": true,
+          "affected": "r2",
+          "differences": [
+            {
+              "week": 2,
+              "satisfactionDelta": -6
+            },
+            {
+              "week": 3,
+              "satisfactionDelta": -6
+            },
+            {
+              "week": 4,
+              "satisfactionDelta": -6
+            }
+          ],
+          "saveReloadAfterEachWeek": true,
+          "layout": {
+            "width": 1280,
+            "documentWidth": 1280,
+            "mainWidth": 1280,
+            "mainScroll": 1280
+          },
+          "errors": [],
+          "screenshot": "pl-1280-apartman-followup-once-case.png"
+        },
+        {
+          "tag": "pl-390-devlet-zero-treasury",
+          "ok": true,
+          "treasuryBefore": 0,
+          "treasuryAfter": 0,
+          "turn": 2,
+          "saveReload": true,
+          "layout": {
+            "width": 390,
+            "documentWidth": 390,
+            "mainWidth": 390,
+            "mainScroll": 390
+          },
+          "errors": [],
+          "screenshot": "pl-390-devlet-zero-treasury.png"
+        },
+        {
+          "tag": "pl-390-devlet-terminal",
+          "ok": true,
+          "terminalTurn": 48,
+          "dossier": "dc_gv_inherit2",
+          "finalStateUnchanged": true,
+          "saveReload": true,
+          "layout": {
+            "width": 390,
+            "documentWidth": 390,
+            "mainWidth": 390,
+            "mainScroll": 390
+          },
+          "errors": [],
+          "screenshot": "pl-390-devlet-terminal.png"
+        },
+        {
+          "tag": "pl-390-apartman-su-cheap-patch",
+          "ok": true,
+          "issue": "i5",
+          "system": "su",
+          "proposal": "cheap-patch",
+          "partBefore": 55,
+          "partAfter": 60,
+          "saveReload": true,
+          "layout": {
+            "width": 390,
+            "documentWidth": 390,
+            "mainWidth": 390,
+            "mainScroll": 390
+          },
+          "errors": [],
+          "screenshot": "pl-390-apartman-su-cheap-patch.png"
+        },
+        {
+          "tag": "pl-390-apartman-su-durable-maintenance",
+          "ok": true,
+          "issue": "i5",
+          "system": "su",
+          "proposal": "durable-maintenance",
+          "partBefore": 55,
+          "partAfter": 67,
+          "saveReload": true,
+          "layout": {
+            "width": 390,
+            "documentWidth": 390,
+            "mainWidth": 390,
+            "mainScroll": 390
+          },
+          "errors": [],
+          "screenshot": "pl-390-apartman-su-durable-maintenance.png"
+        },
+        {
+          "tag": "pl-390-apartman-cati-cheap-patch",
+          "ok": true,
+          "issue": "i4",
+          "system": "cati",
+          "proposal": "cheap-patch",
+          "partBefore": 61,
+          "partAfter": 66,
+          "saveReload": true,
+          "layout": {
+            "width": 390,
+            "documentWidth": 390,
+            "mainWidth": 390,
+            "mainScroll": 390
+          },
+          "errors": [],
+          "screenshot": "pl-390-apartman-cati-cheap-patch.png"
+        },
+        {
+          "tag": "pl-390-apartman-cati-durable-maintenance",
+          "ok": true,
+          "issue": "i4",
+          "system": "cati",
+          "proposal": "durable-maintenance",
+          "partBefore": 61,
+          "partAfter": 73,
+          "saveReload": true,
+          "layout": {
+            "width": 390,
+            "documentWidth": 390,
+            "mainWidth": 390,
+            "mainScroll": 390
+          },
+          "errors": [],
+          "screenshot": "pl-390-apartman-cati-durable-maintenance.png"
+        },
+        {
+          "tag": "pl-390-apartman-followup-once",
+          "ok": true,
+          "affected": "r2",
+          "differences": [
+            {
+              "week": 2,
+              "satisfactionDelta": -6
+            },
+            {
+              "week": 3,
+              "satisfactionDelta": -6
+            },
+            {
+              "week": 4,
+              "satisfactionDelta": -6
+            }
+          ],
+          "saveReloadAfterEachWeek": true,
+          "layout": {
+            "width": 390,
+            "documentWidth": 390,
+            "mainWidth": 390,
+            "mainScroll": 390
+          },
+          "errors": [],
+          "screenshot": "pl-390-apartman-followup-once-case.png"
+        }
+      ],
+      "bukucu": {
+        "status": "PASS",
+        "chromium": "151.0.7922.34",
+        "root": "/home/runner/work/tariklab/tariklab/public",
+        "fullSuite": true,
+        "cells": [
+          {
+            "label": "www",
+            "lang": "tr",
+            "viewport": {
+              "width": 390,
+              "height": 844
+            },
+            "cash": [
+              261,
+              987
+            ],
+            "propertyOwner": 0,
+            "runtimeErrors": [],
+            "horizontalOverflow": false,
+            "screenshot": "/home/runner/work/_temp/screenshots/wave1-bukucu/bukucu-www-tr-390.png"
+          },
+          {
+            "label": "www",
+            "lang": "tr",
+            "viewport": {
+              "width": 1280,
+              "height": 844
+            },
+            "cash": [
+              261,
+              987
+            ],
+            "propertyOwner": 0,
+            "runtimeErrors": [],
+            "horizontalOverflow": false,
+            "screenshot": "/home/runner/work/_temp/screenshots/wave1-bukucu/bukucu-www-tr-1280.png"
+          },
+          {
+            "label": "www",
+            "lang": "en",
+            "viewport": {
+              "width": 390,
+              "height": 844
+            },
+            "cash": [
+              261,
+              987
+            ],
+            "propertyOwner": 0,
+            "runtimeErrors": [],
+            "horizontalOverflow": false,
+            "screenshot": "/home/runner/work/_temp/screenshots/wave1-bukucu/bukucu-www-en-390.png"
+          },
+          {
+            "label": "www",
+            "lang": "en",
+            "viewport": {
+              "width": 1280,
+              "height": 844
+            },
+            "cash": [
+              261,
+              987
+            ],
+            "propertyOwner": 0,
+            "runtimeErrors": [],
+            "horizontalOverflow": false,
+            "screenshot": "/home/runner/work/_temp/screenshots/wave1-bukucu/bukucu-www-en-1280.png"
+          },
+          {
+            "label": "www",
+            "lang": "pl",
+            "viewport": {
+              "width": 390,
+              "height": 844
+            },
+            "cash": [
+              261,
+              987
+            ],
+            "propertyOwner": 0,
+            "runtimeErrors": [],
+            "horizontalOverflow": false,
+            "screenshot": "/home/runner/work/_temp/screenshots/wave1-bukucu/bukucu-www-pl-390.png"
+          },
+          {
+            "label": "www",
+            "lang": "pl",
+            "viewport": {
+              "width": 1280,
+              "height": 844
+            },
+            "cash": [
+              261,
+              987
+            ],
+            "propertyOwner": 0,
+            "runtimeErrors": [],
+            "horizontalOverflow": false,
+            "screenshot": "/home/runner/work/_temp/screenshots/wave1-bukucu/bukucu-www-pl-1280.png"
+          }
+        ]
+      },
+      "portal": {
+        "origin": "https://www.tariklab.com",
+        "rows": [
+          {
+            "game": "apartman",
+            "lang": "tr",
+            "width": 390,
+            "status": "PASS"
+          },
+          {
+            "game": "tc-sim-devlet",
+            "lang": "tr",
+            "width": 390,
+            "status": "PASS"
+          },
+          {
+            "game": "apartman",
+            "lang": "tr",
+            "width": 1280,
+            "status": "PASS"
+          },
+          {
+            "game": "tc-sim-devlet",
+            "lang": "tr",
+            "width": 1280,
+            "status": "PASS"
+          },
+          {
+            "game": "apartman",
+            "lang": "en",
+            "width": 390,
+            "status": "PASS"
+          },
+          {
+            "game": "tc-sim-devlet",
+            "lang": "en",
+            "width": 390,
+            "status": "PASS"
+          },
+          {
+            "game": "apartman",
+            "lang": "en",
+            "width": 1280,
+            "status": "PASS"
+          },
+          {
+            "game": "tc-sim-devlet",
+            "lang": "en",
+            "width": 1280,
+            "status": "PASS"
+          },
+          {
+            "game": "apartman",
+            "lang": "pl",
+            "width": 390,
+            "status": "PASS"
+          },
+          {
+            "game": "tc-sim-devlet",
+            "lang": "pl",
+            "width": 390,
+            "status": "PASS"
+          },
+          {
+            "game": "apartman",
+            "lang": "pl",
+            "width": 1280,
+            "status": "PASS"
+          },
+          {
+            "game": "tc-sim-devlet",
+            "lang": "pl",
+            "width": 1280,
+            "status": "PASS"
+          }
+        ]
+      }
+    },
+    "workers": {
+      "origin": "https://tariklab.tayaz29.workers.dev",
+      "artifactId": 12273627536,
+      "artifactSha256": "0ca1137afed89a34ae85a326128dda0172c1265979494e21382a631c75267e9c",
+      "chromium": "151.0.7922.34",
+      "fileHashes": [
+        {
+          "file": "games/next-wave.js",
+          "bytes": 32331,
+          "sha256": "cf87cd35e2ae437e8b74eb322b9bcbf7a98f73bee3d6d810415d5d576a23e52e"
+        },
+        {
+          "file": "games/next-wave/devlet-content.js",
+          "bytes": 347630,
+          "sha256": "f76694c59138dcd4264d22ac5cee4714bc49185a13c615c26f7c51800c0100a5"
+        },
+        {
+          "file": "games/next-wave/devlet-depth.js",
+          "bytes": 49189,
+          "sha256": "da3a129037f479b7886f72e6ea7079f5c29b481409f304a84e2fa8d0e0da7d48"
+        },
+        {
+          "file": "games/next-wave/devlet-sim.js",
+          "bytes": 22090,
+          "sha256": "c72b735241d7b125d75bc8dc209d4d9efafbdcfeb374355633450346ee369a1e"
+        },
+        {
+          "file": "games/tc-sim-devlet/presentation.js",
+          "bytes": 26610,
+          "sha256": "db18d291cd944c9bcb5979b3d67ee818ba5285d94cb2fa90269fb33a515d9e84"
+        },
+        {
+          "file": "games/tc-sim-devlet/index.html",
+          "bytes": 828,
+          "sha256": "82ee2ab73d0ff037a77895ea81d5dd60855f2be3b29bc675e7a338523f9bbfef"
+        },
+        {
+          "file": "games/apartman/index.html",
+          "bytes": 687,
+          "sha256": "05621feeec4e43796be6b2dcf93247daab4d9a508d0998a0e00cb2bd02eb2f38"
+        },
+        {
+          "file": "games/bukucu/index.html",
+          "bytes": 122907,
+          "sha256": "de2ac10ab9a5e10265463e715d1d15eca3b25270b3255ff0fdf6ab449d28c1e3"
+        },
+        {
+          "file": "i18n/tlab-i18n.js",
+          "bytes": 62494,
+          "sha256": "6e049325b1c1f461a3f60233c642ab9df1dd9072aaf38030c015008d98e4ac86"
+        },
+        {
+          "file": "i18n/boot.js",
+          "bytes": 1350,
+          "sha256": "7144da658c38c0e728e636961c14d8768496d8b7b1a7206d7023318d2b07393f"
+        },
+        {
+          "file": "i18n/pl-body.js",
+          "bytes": 7127,
+          "sha256": "5751281807f9654465bfc80d114f8a25f04c1412c6fc1064cf1fb158b86280ad"
+        },
+        {
+          "file": "i18n/pl/tc-sim-devlet.json",
+          "bytes": 405270,
+          "sha256": "3e694b2bf129a0df1cce09c550fb350c28f70067e56f349a91de9ff1efffd4d1"
+        },
+        {
+          "file": "i18n/pl/apartman.json",
+          "bytes": 423487,
+          "sha256": "3b2b74955f357c8497334fe61b37318388c8991742a8cdf12653a379bba024fc"
+        },
+        {
+          "file": "i18n/pl/bukucu.json",
+          "bytes": 183335,
+          "sha256": "64931c2726d2020a8367031927bfc506365c2d31b4d751af65e47313754f8556"
+        }
+      ],
+      "decisionCases": [
+        {
+          "tag": "tr-1280-devlet-zero-treasury",
+          "ok": true,
+          "treasuryBefore": 0,
+          "treasuryAfter": 0,
+          "turn": 2,
+          "saveReload": true,
+          "layout": {
+            "width": 1280,
+            "documentWidth": 1280,
+            "mainWidth": 1280,
+            "mainScroll": 1280
+          },
+          "errors": [],
+          "screenshot": "tr-1280-devlet-zero-treasury.png"
+        },
+        {
+          "tag": "tr-1280-devlet-terminal",
+          "ok": true,
+          "terminalTurn": 48,
+          "dossier": "dc_gv_inherit2",
+          "finalStateUnchanged": true,
+          "saveReload": true,
+          "layout": {
+            "width": 1280,
+            "documentWidth": 1280,
+            "mainWidth": 1280,
+            "mainScroll": 1280
+          },
+          "errors": [],
+          "screenshot": "tr-1280-devlet-terminal.png"
+        },
+        {
+          "tag": "tr-1280-apartman-su-cheap-patch",
+          "ok": true,
+          "issue": "i5",
+          "system": "su",
+          "proposal": "cheap-patch",
+          "partBefore": 55,
+          "partAfter": 60,
+          "saveReload": true,
+          "layout": {
+            "width": 1280,
+            "documentWidth": 1280,
+            "mainWidth": 1280,
+            "mainScroll": 1280
+          },
+          "errors": [],
+          "screenshot": "tr-1280-apartman-su-cheap-patch.png"
+        },
+        {
+          "tag": "tr-1280-apartman-su-durable-maintenance",
+          "ok": true,
+          "issue": "i5",
+          "system": "su",
+          "proposal": "durable-maintenance",
+          "partBefore": 55,
+          "partAfter": 67,
+          "saveReload": true,
+          "layout": {
+            "width": 1280,
+            "documentWidth": 1280,
+            "mainWidth": 1280,
+            "mainScroll": 1280
+          },
+          "errors": [],
+          "screenshot": "tr-1280-apartman-su-durable-maintenance.png"
+        },
+        {
+          "tag": "tr-1280-apartman-cati-cheap-patch",
+          "ok": true,
+          "issue": "i4",
+          "system": "cati",
+          "proposal": "cheap-patch",
+          "partBefore": 61,
+          "partAfter": 66,
+          "saveReload": true,
+          "layout": {
+            "width": 1280,
+            "documentWidth": 1280,
+            "mainWidth": 1280,
+            "mainScroll": 1280
+          },
+          "errors": [],
+          "screenshot": "tr-1280-apartman-cati-cheap-patch.png"
+        },
+        {
+          "tag": "tr-1280-apartman-cati-durable-maintenance",
+          "ok": true,
+          "issue": "i4",
+          "system": "cati",
+          "proposal": "durable-maintenance",
+          "partBefore": 61,
+          "partAfter": 73,
+          "saveReload": true,
+          "layout": {
+            "width": 1280,
+            "documentWidth": 1280,
+            "mainWidth": 1280,
+            "mainScroll": 1280
+          },
+          "errors": [],
+          "screenshot": "tr-1280-apartman-cati-durable-maintenance.png"
+        },
+        {
+          "tag": "tr-1280-apartman-followup-once",
+          "ok": true,
+          "affected": "r2",
+          "differences": [
+            {
+              "week": 2,
+              "satisfactionDelta": -6
+            },
+            {
+              "week": 3,
+              "satisfactionDelta": -6
+            },
+            {
+              "week": 4,
+              "satisfactionDelta": -6
+            }
+          ],
+          "saveReloadAfterEachWeek": true,
+          "layout": {
+            "width": 1280,
+            "documentWidth": 1280,
+            "mainWidth": 1280,
+            "mainScroll": 1280
+          },
+          "errors": [],
+          "screenshot": "tr-1280-apartman-followup-once-case.png"
+        },
+        {
+          "tag": "tr-390-devlet-zero-treasury",
+          "ok": true,
+          "treasuryBefore": 0,
+          "treasuryAfter": 0,
+          "turn": 2,
+          "saveReload": true,
+          "layout": {
+            "width": 390,
+            "documentWidth": 390,
+            "mainWidth": 390,
+            "mainScroll": 390
+          },
+          "errors": [],
+          "screenshot": "tr-390-devlet-zero-treasury.png"
+        },
+        {
+          "tag": "tr-390-devlet-terminal",
+          "ok": true,
+          "terminalTurn": 48,
+          "dossier": "dc_gv_inherit2",
+          "finalStateUnchanged": true,
+          "saveReload": true,
+          "layout": {
+            "width": 390,
+            "documentWidth": 390,
+            "mainWidth": 390,
+            "mainScroll": 390
+          },
+          "errors": [],
+          "screenshot": "tr-390-devlet-terminal.png"
+        },
+        {
+          "tag": "tr-390-apartman-su-cheap-patch",
+          "ok": true,
+          "issue": "i5",
+          "system": "su",
+          "proposal": "cheap-patch",
+          "partBefore": 55,
+          "partAfter": 60,
+          "saveReload": true,
+          "layout": {
+            "width": 390,
+            "documentWidth": 390,
+            "mainWidth": 390,
+            "mainScroll": 390
+          },
+          "errors": [],
+          "screenshot": "tr-390-apartman-su-cheap-patch.png"
+        },
+        {
+          "tag": "tr-390-apartman-su-durable-maintenance",
+          "ok": true,
+          "issue": "i5",
+          "system": "su",
+          "proposal": "durable-maintenance",
+          "partBefore": 55,
+          "partAfter": 67,
+          "saveReload": true,
+          "layout": {
+            "width": 390,
+            "documentWidth": 390,
+            "mainWidth": 390,
+            "mainScroll": 390
+          },
+          "errors": [],
+          "screenshot": "tr-390-apartman-su-durable-maintenance.png"
+        },
+        {
+          "tag": "tr-390-apartman-cati-cheap-patch",
+          "ok": true,
+          "issue": "i4",
+          "system": "cati",
+          "proposal": "cheap-patch",
+          "partBefore": 61,
+          "partAfter": 66,
+          "saveReload": true,
+          "layout": {
+            "width": 390,
+            "documentWidth": 390,
+            "mainWidth": 390,
+            "mainScroll": 390
+          },
+          "errors": [],
+          "screenshot": "tr-390-apartman-cati-cheap-patch.png"
+        },
+        {
+          "tag": "tr-390-apartman-cati-durable-maintenance",
+          "ok": true,
+          "issue": "i4",
+          "system": "cati",
+          "proposal": "durable-maintenance",
+          "partBefore": 61,
+          "partAfter": 73,
+          "saveReload": true,
+          "layout": {
+            "width": 390,
+            "documentWidth": 390,
+            "mainWidth": 390,
+            "mainScroll": 390
+          },
+          "errors": [],
+          "screenshot": "tr-390-apartman-cati-durable-maintenance.png"
+        },
+        {
+          "tag": "tr-390-apartman-followup-once",
+          "ok": true,
+          "affected": "r2",
+          "differences": [
+            {
+              "week": 2,
+              "satisfactionDelta": -6
+            },
+            {
+              "week": 3,
+              "satisfactionDelta": -6
+            },
+            {
+              "week": 4,
+              "satisfactionDelta": -6
+            }
+          ],
+          "saveReloadAfterEachWeek": true,
+          "layout": {
+            "width": 390,
+            "documentWidth": 390,
+            "mainWidth": 390,
+            "mainScroll": 390
+          },
+          "errors": [],
+          "screenshot": "tr-390-apartman-followup-once-case.png"
+        },
+        {
+          "tag": "en-1280-devlet-zero-treasury",
+          "ok": true,
+          "treasuryBefore": 0,
+          "treasuryAfter": 0,
+          "turn": 2,
+          "saveReload": true,
+          "layout": {
+            "width": 1280,
+            "documentWidth": 1280,
+            "mainWidth": 1280,
+            "mainScroll": 1280
+          },
+          "errors": [],
+          "screenshot": "en-1280-devlet-zero-treasury.png"
+        },
+        {
+          "tag": "en-1280-devlet-terminal",
+          "ok": true,
+          "terminalTurn": 48,
+          "dossier": "dc_gv_inherit2",
+          "finalStateUnchanged": true,
+          "saveReload": true,
+          "layout": {
+            "width": 1280,
+            "documentWidth": 1280,
+            "mainWidth": 1280,
+            "mainScroll": 1280
+          },
+          "errors": [],
+          "screenshot": "en-1280-devlet-terminal.png"
+        },
+        {
+          "tag": "en-1280-apartman-su-cheap-patch",
+          "ok": true,
+          "issue": "i5",
+          "system": "su",
+          "proposal": "cheap-patch",
+          "partBefore": 55,
+          "partAfter": 60,
+          "saveReload": true,
+          "layout": {
+            "width": 1280,
+            "documentWidth": 1280,
+            "mainWidth": 1280,
+            "mainScroll": 1280
+          },
+          "errors": [],
+          "screenshot": "en-1280-apartman-su-cheap-patch.png"
+        },
+        {
+          "tag": "en-1280-apartman-su-durable-maintenance",
+          "ok": true,
+          "issue": "i5",
+          "system": "su",
+          "proposal": "durable-maintenance",
+          "partBefore": 55,
+          "partAfter": 67,
+          "saveReload": true,
+          "layout": {
+            "width": 1280,
+            "documentWidth": 1280,
+            "mainWidth": 1280,
+            "mainScroll": 1280
+          },
+          "errors": [],
+          "screenshot": "en-1280-apartman-su-durable-maintenance.png"
+        },
+        {
+          "tag": "en-1280-apartman-cati-cheap-patch",
+          "ok": true,
+          "issue": "i4",
+          "system": "cati",
+          "proposal": "cheap-patch",
+          "partBefore": 61,
+          "partAfter": 66,
+          "saveReload": true,
+          "layout": {
+            "width": 1280,
+            "documentWidth": 1280,
+            "mainWidth": 1280,
+            "mainScroll": 1280
+          },
+          "errors": [],
+          "screenshot": "en-1280-apartman-cati-cheap-patch.png"
+        },
+        {
+          "tag": "en-1280-apartman-cati-durable-maintenance",
+          "ok": true,
+          "issue": "i4",
+          "system": "cati",
+          "proposal": "durable-maintenance",
+          "partBefore": 61,
+          "partAfter": 73,
+          "saveReload": true,
+          "layout": {
+            "width": 1280,
+            "documentWidth": 1280,
+            "mainWidth": 1280,
+            "mainScroll": 1280
+          },
+          "errors": [],
+          "screenshot": "en-1280-apartman-cati-durable-maintenance.png"
+        },
+        {
+          "tag": "en-1280-apartman-followup-once",
+          "ok": true,
+          "affected": "r2",
+          "differences": [
+            {
+              "week": 2,
+              "satisfactionDelta": -6
+            },
+            {
+              "week": 3,
+              "satisfactionDelta": -6
+            },
+            {
+              "week": 4,
+              "satisfactionDelta": -6
+            }
+          ],
+          "saveReloadAfterEachWeek": true,
+          "layout": {
+            "width": 1280,
+            "documentWidth": 1280,
+            "mainWidth": 1280,
+            "mainScroll": 1280
+          },
+          "errors": [],
+          "screenshot": "en-1280-apartman-followup-once-case.png"
+        },
+        {
+          "tag": "en-390-devlet-zero-treasury",
+          "ok": true,
+          "treasuryBefore": 0,
+          "treasuryAfter": 0,
+          "turn": 2,
+          "saveReload": true,
+          "layout": {
+            "width": 390,
+            "documentWidth": 390,
+            "mainWidth": 390,
+            "mainScroll": 390
+          },
+          "errors": [],
+          "screenshot": "en-390-devlet-zero-treasury.png"
+        },
+        {
+          "tag": "en-390-devlet-terminal",
+          "ok": true,
+          "terminalTurn": 48,
+          "dossier": "dc_gv_inherit2",
+          "finalStateUnchanged": true,
+          "saveReload": true,
+          "layout": {
+            "width": 390,
+            "documentWidth": 390,
+            "mainWidth": 390,
+            "mainScroll": 390
+          },
+          "errors": [],
+          "screenshot": "en-390-devlet-terminal.png"
+        },
+        {
+          "tag": "en-390-apartman-su-cheap-patch",
+          "ok": true,
+          "issue": "i5",
+          "system": "su",
+          "proposal": "cheap-patch",
+          "partBefore": 55,
+          "partAfter": 60,
+          "saveReload": true,
+          "layout": {
+            "width": 390,
+            "documentWidth": 390,
+            "mainWidth": 390,
+            "mainScroll": 390
+          },
+          "errors": [],
+          "screenshot": "en-390-apartman-su-cheap-patch.png"
+        },
+        {
+          "tag": "en-390-apartman-su-durable-maintenance",
+          "ok": true,
+          "issue": "i5",
+          "system": "su",
+          "proposal": "durable-maintenance",
+          "partBefore": 55,
+          "partAfter": 67,
+          "saveReload": true,
+          "layout": {
+            "width": 390,
+            "documentWidth": 390,
+            "mainWidth": 390,
+            "mainScroll": 390
+          },
+          "errors": [],
+          "screenshot": "en-390-apartman-su-durable-maintenance.png"
+        },
+        {
+          "tag": "en-390-apartman-cati-cheap-patch",
+          "ok": true,
+          "issue": "i4",
+          "system": "cati",
+          "proposal": "cheap-patch",
+          "partBefore": 61,
+          "partAfter": 66,
+          "saveReload": true,
+          "layout": {
+            "width": 390,
+            "documentWidth": 390,
+            "mainWidth": 390,
+            "mainScroll": 390
+          },
+          "errors": [],
+          "screenshot": "en-390-apartman-cati-cheap-patch.png"
+        },
+        {
+          "tag": "en-390-apartman-cati-durable-maintenance",
+          "ok": true,
+          "issue": "i4",
+          "system": "cati",
+          "proposal": "durable-maintenance",
+          "partBefore": 61,
+          "partAfter": 73,
+          "saveReload": true,
+          "layout": {
+            "width": 390,
+            "documentWidth": 390,
+            "mainWidth": 390,
+            "mainScroll": 390
+          },
+          "errors": [],
+          "screenshot": "en-390-apartman-cati-durable-maintenance.png"
+        },
+        {
+          "tag": "en-390-apartman-followup-once",
+          "ok": true,
+          "affected": "r2",
+          "differences": [
+            {
+              "week": 2,
+              "satisfactionDelta": -6
+            },
+            {
+              "week": 3,
+              "satisfactionDelta": -6
+            },
+            {
+              "week": 4,
+              "satisfactionDelta": -6
+            }
+          ],
+          "saveReloadAfterEachWeek": true,
+          "layout": {
+            "width": 390,
+            "documentWidth": 390,
+            "mainWidth": 390,
+            "mainScroll": 390
+          },
+          "errors": [],
+          "screenshot": "en-390-apartman-followup-once-case.png"
+        },
+        {
+          "tag": "pl-1280-devlet-zero-treasury",
+          "ok": true,
+          "treasuryBefore": 0,
+          "treasuryAfter": 0,
+          "turn": 2,
+          "saveReload": true,
+          "layout": {
+            "width": 1280,
+            "documentWidth": 1280,
+            "mainWidth": 1280,
+            "mainScroll": 1280
+          },
+          "errors": [],
+          "screenshot": "pl-1280-devlet-zero-treasury.png"
+        },
+        {
+          "tag": "pl-1280-devlet-terminal",
+          "ok": true,
+          "terminalTurn": 48,
+          "dossier": "dc_gv_inherit2",
+          "finalStateUnchanged": true,
+          "saveReload": true,
+          "layout": {
+            "width": 1280,
+            "documentWidth": 1280,
+            "mainWidth": 1280,
+            "mainScroll": 1280
+          },
+          "errors": [],
+          "screenshot": "pl-1280-devlet-terminal.png"
+        },
+        {
+          "tag": "pl-1280-apartman-su-cheap-patch",
+          "ok": true,
+          "issue": "i5",
+          "system": "su",
+          "proposal": "cheap-patch",
+          "partBefore": 55,
+          "partAfter": 60,
+          "saveReload": true,
+          "layout": {
+            "width": 1280,
+            "documentWidth": 1280,
+            "mainWidth": 1280,
+            "mainScroll": 1280
+          },
+          "errors": [],
+          "screenshot": "pl-1280-apartman-su-cheap-patch.png"
+        },
+        {
+          "tag": "pl-1280-apartman-su-durable-maintenance",
+          "ok": true,
+          "issue": "i5",
+          "system": "su",
+          "proposal": "durable-maintenance",
+          "partBefore": 55,
+          "partAfter": 67,
+          "saveReload": true,
+          "layout": {
+            "width": 1280,
+            "documentWidth": 1280,
+            "mainWidth": 1280,
+            "mainScroll": 1280
+          },
+          "errors": [],
+          "screenshot": "pl-1280-apartman-su-durable-maintenance.png"
+        },
+        {
+          "tag": "pl-1280-apartman-cati-cheap-patch",
+          "ok": true,
+          "issue": "i4",
+          "system": "cati",
+          "proposal": "cheap-patch",
+          "partBefore": 61,
+          "partAfter": 66,
+          "saveReload": true,
+          "layout": {
+            "width": 1280,
+            "documentWidth": 1280,
+            "mainWidth": 1280,
+            "mainScroll": 1280
+          },
+          "errors": [],
+          "screenshot": "pl-1280-apartman-cati-cheap-patch.png"
+        },
+        {
+          "tag": "pl-1280-apartman-cati-durable-maintenance",
+          "ok": true,
+          "issue": "i4",
+          "system": "cati",
+          "proposal": "durable-maintenance",
+          "partBefore": 61,
+          "partAfter": 73,
+          "saveReload": true,
+          "layout": {
+            "width": 1280,
+            "documentWidth": 1280,
+            "mainWidth": 1280,
+            "mainScroll": 1280
+          },
+          "errors": [],
+          "screenshot": "pl-1280-apartman-cati-durable-maintenance.png"
+        },
+        {
+          "tag": "pl-1280-apartman-followup-once",
+          "ok": true,
+          "affected": "r2",
+          "differences": [
+            {
+              "week": 2,
+              "satisfactionDelta": -6
+            },
+            {
+              "week": 3,
+              "satisfactionDelta": -6
+            },
+            {
+              "week": 4,
+              "satisfactionDelta": -6
+            }
+          ],
+          "saveReloadAfterEachWeek": true,
+          "layout": {
+            "width": 1280,
+            "documentWidth": 1280,
+            "mainWidth": 1280,
+            "mainScroll": 1280
+          },
+          "errors": [],
+          "screenshot": "pl-1280-apartman-followup-once-case.png"
+        },
+        {
+          "tag": "pl-390-devlet-zero-treasury",
+          "ok": true,
+          "treasuryBefore": 0,
+          "treasuryAfter": 0,
+          "turn": 2,
+          "saveReload": true,
+          "layout": {
+            "width": 390,
+            "documentWidth": 390,
+            "mainWidth": 390,
+            "mainScroll": 390
+          },
+          "errors": [],
+          "screenshot": "pl-390-devlet-zero-treasury.png"
+        },
+        {
+          "tag": "pl-390-devlet-terminal",
+          "ok": true,
+          "terminalTurn": 48,
+          "dossier": "dc_gv_inherit2",
+          "finalStateUnchanged": true,
+          "saveReload": true,
+          "layout": {
+            "width": 390,
+            "documentWidth": 390,
+            "mainWidth": 390,
+            "mainScroll": 390
+          },
+          "errors": [],
+          "screenshot": "pl-390-devlet-terminal.png"
+        },
+        {
+          "tag": "pl-390-apartman-su-cheap-patch",
+          "ok": true,
+          "issue": "i5",
+          "system": "su",
+          "proposal": "cheap-patch",
+          "partBefore": 55,
+          "partAfter": 60,
+          "saveReload": true,
+          "layout": {
+            "width": 390,
+            "documentWidth": 390,
+            "mainWidth": 390,
+            "mainScroll": 390
+          },
+          "errors": [],
+          "screenshot": "pl-390-apartman-su-cheap-patch.png"
+        },
+        {
+          "tag": "pl-390-apartman-su-durable-maintenance",
+          "ok": true,
+          "issue": "i5",
+          "system": "su",
+          "proposal": "durable-maintenance",
+          "partBefore": 55,
+          "partAfter": 67,
+          "saveReload": true,
+          "layout": {
+            "width": 390,
+            "documentWidth": 390,
+            "mainWidth": 390,
+            "mainScroll": 390
+          },
+          "errors": [],
+          "screenshot": "pl-390-apartman-su-durable-maintenance.png"
+        },
+        {
+          "tag": "pl-390-apartman-cati-cheap-patch",
+          "ok": true,
+          "issue": "i4",
+          "system": "cati",
+          "proposal": "cheap-patch",
+          "partBefore": 61,
+          "partAfter": 66,
+          "saveReload": true,
+          "layout": {
+            "width": 390,
+            "documentWidth": 390,
+            "mainWidth": 390,
+            "mainScroll": 390
+          },
+          "errors": [],
+          "screenshot": "pl-390-apartman-cati-cheap-patch.png"
+        },
+        {
+          "tag": "pl-390-apartman-cati-durable-maintenance",
+          "ok": true,
+          "issue": "i4",
+          "system": "cati",
+          "proposal": "durable-maintenance",
+          "partBefore": 61,
+          "partAfter": 73,
+          "saveReload": true,
+          "layout": {
+            "width": 390,
+            "documentWidth": 390,
+            "mainWidth": 390,
+            "mainScroll": 390
+          },
+          "errors": [],
+          "screenshot": "pl-390-apartman-cati-durable-maintenance.png"
+        },
+        {
+          "tag": "pl-390-apartman-followup-once",
+          "ok": true,
+          "affected": "r2",
+          "differences": [
+            {
+              "week": 2,
+              "satisfactionDelta": -6
+            },
+            {
+              "week": 3,
+              "satisfactionDelta": -6
+            },
+            {
+              "week": 4,
+              "satisfactionDelta": -6
+            }
+          ],
+          "saveReloadAfterEachWeek": true,
+          "layout": {
+            "width": 390,
+            "documentWidth": 390,
+            "mainWidth": 390,
+            "mainScroll": 390
+          },
+          "errors": [],
+          "screenshot": "pl-390-apartman-followup-once-case.png"
+        }
+      ],
+      "bukucu": {
+        "status": "PASS",
+        "chromium": "151.0.7922.34",
+        "root": "/home/runner/work/tariklab/tariklab/public",
+        "fullSuite": true,
+        "cells": [
+          {
+            "label": "workers",
+            "lang": "tr",
+            "viewport": {
+              "width": 390,
+              "height": 844
+            },
+            "cash": [
+              261,
+              987
+            ],
+            "propertyOwner": 0,
+            "runtimeErrors": [],
+            "horizontalOverflow": false,
+            "screenshot": "/home/runner/work/_temp/screenshots/wave1-bukucu/bukucu-workers-tr-390.png"
+          },
+          {
+            "label": "workers",
+            "lang": "tr",
+            "viewport": {
+              "width": 1280,
+              "height": 844
+            },
+            "cash": [
+              261,
+              987
+            ],
+            "propertyOwner": 0,
+            "runtimeErrors": [],
+            "horizontalOverflow": false,
+            "screenshot": "/home/runner/work/_temp/screenshots/wave1-bukucu/bukucu-workers-tr-1280.png"
+          },
+          {
+            "label": "workers",
+            "lang": "en",
+            "viewport": {
+              "width": 390,
+              "height": 844
+            },
+            "cash": [
+              261,
+              987
+            ],
+            "propertyOwner": 0,
+            "runtimeErrors": [],
+            "horizontalOverflow": false,
+            "screenshot": "/home/runner/work/_temp/screenshots/wave1-bukucu/bukucu-workers-en-390.png"
+          },
+          {
+            "label": "workers",
+            "lang": "en",
+            "viewport": {
+              "width": 1280,
+              "height": 844
+            },
+            "cash": [
+              261,
+              987
+            ],
+            "propertyOwner": 0,
+            "runtimeErrors": [],
+            "horizontalOverflow": false,
+            "screenshot": "/home/runner/work/_temp/screenshots/wave1-bukucu/bukucu-workers-en-1280.png"
+          },
+          {
+            "label": "workers",
+            "lang": "pl",
+            "viewport": {
+              "width": 390,
+              "height": 844
+            },
+            "cash": [
+              261,
+              987
+            ],
+            "propertyOwner": 0,
+            "runtimeErrors": [],
+            "horizontalOverflow": false,
+            "screenshot": "/home/runner/work/_temp/screenshots/wave1-bukucu/bukucu-workers-pl-390.png"
+          },
+          {
+            "label": "workers",
+            "lang": "pl",
+            "viewport": {
+              "width": 1280,
+              "height": 844
+            },
+            "cash": [
+              261,
+              987
+            ],
+            "propertyOwner": 0,
+            "runtimeErrors": [],
+            "horizontalOverflow": false,
+            "screenshot": "/home/runner/work/_temp/screenshots/wave1-bukucu/bukucu-workers-pl-1280.png"
+          }
+        ]
+      },
+      "portal": {
+        "origin": "https://tariklab.tayaz29.workers.dev",
+        "rows": [
+          {
+            "game": "apartman",
+            "lang": "tr",
+            "width": 390,
+            "status": "PASS"
+          },
+          {
+            "game": "tc-sim-devlet",
+            "lang": "tr",
+            "width": 390,
+            "status": "PASS"
+          },
+          {
+            "game": "apartman",
+            "lang": "tr",
+            "width": 1280,
+            "status": "PASS"
+          },
+          {
+            "game": "tc-sim-devlet",
+            "lang": "tr",
+            "width": 1280,
+            "status": "PASS"
+          },
+          {
+            "game": "apartman",
+            "lang": "en",
+            "width": 390,
+            "status": "PASS"
+          },
+          {
+            "game": "tc-sim-devlet",
+            "lang": "en",
+            "width": 390,
+            "status": "PASS"
+          },
+          {
+            "game": "apartman",
+            "lang": "en",
+            "width": 1280,
+            "status": "PASS"
+          },
+          {
+            "game": "tc-sim-devlet",
+            "lang": "en",
+            "width": 1280,
+            "status": "PASS"
+          },
+          {
+            "game": "apartman",
+            "lang": "pl",
+            "width": 390,
+            "status": "PASS"
+          },
+          {
+            "game": "tc-sim-devlet",
+            "lang": "pl",
+            "width": 390,
+            "status": "PASS"
+          },
+          {
+            "game": "apartman",
+            "lang": "pl",
+            "width": 1280,
+            "status": "PASS"
+          },
+          {
+            "game": "tc-sim-devlet",
+            "lang": "pl",
+            "width": 1280,
+            "status": "PASS"
+          }
+        ]
+      }
+    }
+  },
+  "status": "RELEASE_COMPLETE",
+  "preMergeMainCi": 39435358096,
+  "prCi": 39437407260,
+  "prAcceptance": 39437407237,
+  "postMergeAcceptance": 39440135674,
+  "deployedHostAcceptance": "PASS",
+  "localProxyNote": "Initial sandbox production attempts hit transport-only navigation timeouts. Unmodified eight-second acceptance then passed completely from GitHub-hosted Chromium on both actual origins."
+}
