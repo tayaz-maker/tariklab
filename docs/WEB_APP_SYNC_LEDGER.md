@@ -1042,3 +1042,7 @@ Observed24 existing daily-atmosphere lines leaking Turkish into EN/PL. Rendering
 ## 2026-10-20 — Racon C current-main integration
 
 Integrated the existing C preparation onto current main 26ad7185a0b0c72b1721b5cb5b4b294a918acaa6, preserving A/B fixes, retired-product cleanup, scoped engine loading, lossless transport and CI/Cloudflare build reuse. Resolved the Polish dictionary against current-main shared entries; C presentation remains limited to the existing crew, navigation, papers, saves and daily atmosphere. Promote production acceptance to stage C so both hosts must also pass the TR/EN/PL language matrix. No game mechanics, coefficients, artwork or serialized saves changed. Exact-head CI, main CI/TC and two-host production receipts remain mandatory.
+
+## 2026-10-21 — Bükücü archive and lossless source package
+
+Move Son Mahalle Bükücü from the active catalog and TR/EN/PL Resources to the existing archive route contract. Preserve its original source and all slot/legacy save bytes; old bookmarks remain a recovery entry, never a live catalog item. Preserve İHTİLÂL and Kıyı Eşiği archive manifests and sources. Add a deterministic extreme-LZMA2 tar archive outside public/, containing original game files, localizations, provenance and shared dependencies with a complete SHA-256 inventory and restoration instructions. Retain runtime copies needed by existing archival saves and strict historical tests; no archive package is deployed. No shared gameplay, artwork, audio, save schema or CI/release guard changes.
