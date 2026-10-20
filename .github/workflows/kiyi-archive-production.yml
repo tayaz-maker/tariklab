@@ -1,0 +1,34 @@
+name: Kiyi archive production acceptance
+on:
+  push:
+    branches: [qa/kiyi-archive-release-20261020]
+permissions:
+  contents: read
+jobs:
+  production:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: www
+            origin: https://www.tariklab.com
+          - label: workers
+            origin: https://tariklab.tayaz29.workers.dev
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22', cache: npm}
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium --only-shell
+      - name: Preserved sources, legacy saves, archived routes and JITEM continuity
+        env:
+          ARCHIVE_BASE: ${{ matrix.origin }}
+          RELEASE_MAIN: 272c5ea08340de09e777ee60a03b0ccd4da96632
+        run: node scripts/kiyi-archive-production.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kiyi-archive-production-${{ matrix.label }}
+          path: ${{ runner.temp }}/screenshots/kiyi-production
