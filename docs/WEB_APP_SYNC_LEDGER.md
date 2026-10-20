@@ -931,3 +931,8 @@ Small CI-only repair adds life.js, wealth.js and locations.js to exact candidate
 ## 2026-10-20 — JITEM prior-help/betrayal source sync
 
 Upstream PR #24 merged at 3e8131c1a7f1f1ae43b9090ffc42a05d551c43a8. Exact clean-checkout integration build changes only assets/runtime.js; SOURCE.json pins that commit and the SHA-256 receipt. Existing actor help remains one-shot but no longer suppresses a later betrayal's existing talk/leak consequence. Upstream 283/283 tests, lint/typecheck/build and real Chromium atlas 7/7 + product 8/8 PASS (run 39406612540). Existing key jitem-derin-ag-v3/schema 5, visuals, sources and shell preserved. Product integration requires its own current-head CI PASS and post-merge production hash verification. IHTILAL stays live pending verified transfer and archive gates; no source or user saves removed.
+
+
+## 2026-10-20 — JITEM historical actor liveness sync
+
+Upstream #25 merged at 1171d15aff54a2758c46c514455bb2795014572f. New build from this clean SHA adds only the existing dead-actor guard to the generated memory loop; other generated assets remain byte-identical. Existing history, faction knowledge, source-backed delayed events, save key/schema and visual design remain preserved. Source tests 285/285, lint/typecheck/build PASS; real Chromium atlas 7/7 + product 8/8 PASS, run 39408656535. SOURCE/runtime receipt and product integration tests bind the exact SHA. This product sync depends on #203; reconcile with its merged main and require current-head CI before merge. IHTILAL is not archived/unpublished.

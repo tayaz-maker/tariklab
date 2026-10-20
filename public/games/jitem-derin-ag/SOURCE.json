@@ -1,10 +1,10 @@
 {
   "repository": "https://github.com/tayaz-maker/jitem-derin-ag",
-  "standaloneSha": "3e8131c1a7f1f1ae43b9090ffc42a05d551c43a8",
-  "previousStandaloneSha": "63c21bca89050d1f3ac9982dd515073a256743b8",
+  "standaloneSha": "1171d15aff54a2758c46c514455bb2795014572f",
+  "previousStandaloneSha": "3e8131c1a7f1f1ae43b9090ffc42a05d551c43a8",
   "saveKey": "jitem-derin-ag-v3",
   "schemaVersion": 5,
   "build": "node scripts/build-jitem-embed.mjs <jitem-derin-ag checkout at standaloneSha, after npm ci> public/games/jitem-derin-ag",
   "integration": "Isolated static runtime built from the standalone source with ?embed=1; TarikLab owns global navigation and locale.",
-  "runtimeSha256": "a9dda883e9e49d615e773e4861c9f6cf8641115f7274ca4bf8b6dde9eaca3f85"
+  "runtimeSha256": "3658b08b7a2c377d4780a3ef37416a1d523f4ef02387bde873e4df35e622e7d9"
 }
