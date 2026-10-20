@@ -964,3 +964,7 @@ Integrated tested checkpoint aa490ba onto post-archive canonical 7c0643c65aa376f
 ## 2026-10-20 — Wave 1 decision repair integration
 
 Prepared checkpoint 5a6fc1a after save repairs: legitimate zero treasury survives DEVLET ticks, terminal actions remain no-op, Kapı Nöbeti uses the focused issue's system and consumes follow-up effects once. Existing fields/keys/schema, visuals, content and completed TC SIM remain. Targeted159/159 and Chromium source42/42 plus clean-built42/42 passed after the IHTILAL archive integration. Dedicated source/build workflow adds acceptance without reducing existing CI budgets. The runner now writes inside RUNNER_TEMP on CI. Final reconciliation with merged save main, exact-head CI, portal and production proof remain gates. IHTILAL production receipt is recorded separately.
+
+## 2026-10-20 — Kiyi Esigi archive preparation
+
+Retain the original coast runtime, map model/Pixi fallback, validated v1 saves, bounded corrupt recovery and source provenance. Catalogue status becomes archived, live Resources entries retire in TR/EN/PL, existing routes stay playable with the localized archive notice; the unrelated JITEM link remains specific to IHTILAL. Portal cache v7 retires stale active navigation without changing localStorage or game caches. Separate six-case coast Chromium acceptance preserves primary/backup/recovery and action/reload; existing IHTILAL and coast recovery gates remain. Release depends on both Wave 1 merges and final archive-reference/production verification; no source deletion or game rewrite.

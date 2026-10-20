@@ -219,7 +219,7 @@ export const GAMES: CatalogGame[] = [
     slug: "esik",
     title: "Kıyı Eşiği",
     subtitle: "Kurgusal kıyıda rıhtım, merdiven, rampa ve köprü. Kopuk erişimin nedeni yazılır.",
-    status: "live",
+    status: "archived",
     href: "/oyna/esik",
     icon: "esik",
   },

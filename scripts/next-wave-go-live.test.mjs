@@ -99,7 +99,7 @@ test("DEVLET release copy reflects the live multi-period runtime without changin
   assert.match(staticI18n, /A multi-era state simulation/);
   assert.doesNotMatch(staticI18n, /2002[–-]05 core/);
   assert.equal(catalogEntries.length, 20);
-  assert.deepEqual(catalogEntries.filter((game) => game.status === "archived").map((game) => game.slug), ["ihtilal"]);
-  assert.equal(catalogEntries.filter((game) => game.status === "live").length, 19);
+  assert.deepEqual(catalogEntries.filter((game) => game.status === "archived").map((game) => game.slug), ["ihtilal", "esik"]);
+  assert.equal(catalogEntries.filter((game) => game.status === "live").length, 18);
   assert.deepEqual(catalogEntries.filter((game) => game.status === "soon").map((game) => game.slug), []);
 });

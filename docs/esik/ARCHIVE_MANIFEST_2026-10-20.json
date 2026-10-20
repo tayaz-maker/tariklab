@@ -1,0 +1,61 @@
+{
+  "status": "ARCHIVE_REF_VERIFIED",
+  "archiveRef": "archive/kiyi-esigi-pre-retirement-20261020",
+  "preRetirementSha": "2472042f3e97d21c2cbf64fa47588505a972d369",
+  "saveContract": {
+    "primary": "tariklab.kiyi-esigi.v1",
+    "backup": "tariklab.kiyi-esigi.v1.backup",
+    "recoveryPrefix": "tariklab.kiyi-esigi.v1.corrupt.",
+    "recoverySlots": 8
+  },
+  "retainedFiles": [
+    {
+      "path": "docs/ip/esik-source.md",
+      "sha256": "4f7d9f9b73470e7b924bbbd589bb3985edaa4b651d9920df7edd77996399b45f"
+    },
+    {
+      "path": "public/games/esik/app.js",
+      "sha256": "d2921715a7b07ed596d1262c83cb74429bdfc20f63a672435d5d0e4f7fcd6d5d"
+    },
+    {
+      "path": "public/games/esik/index.html",
+      "sha256": "279729ee17fe47535affc557dbf2347e6f54ec09f3f2bf0b9f706f6624595c14"
+    },
+    {
+      "path": "public/games/esik/map-model.js",
+      "sha256": "8de7ccf22f21e2d80556a39bf290cd0959fefb1edb4aa60fcd4a3015b9007549"
+    },
+    {
+      "path": "public/games/esik/map-pixi.js",
+      "sha256": "e5aec4d556959bbbd41f9964cb72f3aef2f4743f7840e6d63af1dc846621ebfb"
+    },
+    {
+      "path": "public/games/esik/save-store.js",
+      "sha256": "a7f86375a2ba9e89da4a6fbd8a453e24bc9e7f2ae77e96f84016572d74ef5b8f"
+    },
+    {
+      "path": "public/games/esik/sim.js",
+      "sha256": "c74eb2f2c157161e4154bb278ecab5819e3f8ae95de520eeeeab053c1a576a47"
+    },
+    {
+      "path": "public/games/esik/style.css",
+      "sha256": "f553cdcad734810ac6ca342840e268a162d194ef6202a20f8ebdcf12ee8a1943"
+    },
+    {
+      "path": "public/games/shared/pixi-adapter.js",
+      "sha256": "bf4eebb4533aee15ae9997e97e2167774ae1b6ee5b1f1d838448293fe79fc010"
+    },
+    {
+      "path": "public/i18n/pl-body.js",
+      "sha256": "5751281807f9654465bfc80d114f8a25f04c1412c6fc1064cf1fb158b86280ad"
+    },
+    {
+      "path": "public/i18n/pl/esik.json",
+      "sha256": "2040005899bb82911fe1238f15da978e1a67308159161d447e246da1dbaac9a6"
+    },
+    {
+      "path": "public/vendor/pixi/pixi-8.21.0.min.mjs",
+      "sha256": "2f69e90f5b1980e6ea244bacfb3fa1eb457e16ddcb0a602b694642658956f2ef"
+    }
+  ]
+}
