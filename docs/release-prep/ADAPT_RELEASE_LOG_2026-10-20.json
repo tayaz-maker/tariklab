@@ -1,0 +1,31 @@
+{
+  "sourceBaseline": "37c5416e7a49b2ecc998f0d1071a7484d6e508c0",
+  "productBaseline": "cfa6d8c25652b33093ecc8734e6e8ae262d98dfe",
+  "production26": {
+    "status": "CLOSED",
+    "ci": 39417501337,
+    "www": 36,
+    "workers": 32,
+    "liveHashes": 31
+  },
+  "groups": [
+    {
+      "group": 1,
+      "status": "DONE_SOURCE_ACCEPTED",
+      "pr": 27,
+      "canonical": "2a07f673fff67779326ec38fa561d59c3850dae4",
+      "head": "ae1b18d751b2ad9ec6fcfd741fabb7f16f34becd",
+      "ci": 39420170785,
+      "artifact": 12262774437,
+      "testsPassed": 293,
+      "chromium": {
+        "atlas": 7,
+        "product": 8,
+        "support": 12,
+        "save": 4
+      },
+      "production": "Await combined ADAPT sync; product remains #26 canonical"
+    }
+  ],
+  "next": "ADAPT 2 current-source Chromium and CI; no archive before all three source/product gates"
+}
