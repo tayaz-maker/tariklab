@@ -76,9 +76,9 @@ function Html5Play() {
       {g?.status === "archived" ? (
         <aside data-game-archive={canonical} aria-label={title} className="shrink-0 border-b border-border bg-surface px-3 py-2 text-xs text-muted">
           <p>{ARCHIVE_COPY[lang].text}</p>
-          <Link to="/oyna/$slug" params={{ slug: "jitem-derin-ag" }} className="mt-1 inline-flex min-h-11 items-center underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-danger">
+          {canonical === "ihtilal" ? <Link to="/oyna/$slug" params={{ slug: "jitem-derin-ag" }} className="mt-1 inline-flex min-h-11 items-center underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-danger">
             {ARCHIVE_COPY[lang].link}
-          </Link>
+          </Link> : null}
         </aside>
       ) : null}
       <iframe

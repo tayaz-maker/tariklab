@@ -960,3 +960,7 @@ Archive acceptance adds six real Chromium TR/EN/PL desktop/mobile cases and a st
 ## 2026-10-20 — Wave 1 save repair integration
 
 Integrated tested checkpoint aa490ba onto post-archive canonical 7c0643c65aa376fc292786b0303feb56a8082ec1 without conflicts. SON KOY accepts legitimate long histories; SON 100 GUN reports actual storage success and retries without repeating decisions; KAYIP TELEFON repairs recoverable UI pointers; AMIRAL BATTI validates nested saves and preserves invalid raw data. Existing save keys and formats remain. BUKUCU QA retains real-slot and saved-RNG fixtures; its runtime is unchanged. Added source and clean-built TR/EN/PL x 390/1280 save acceptance to required browser CI. No native/audio/card work. Exact-head CI and post-merge production acceptance are separate gates.
+
+## 2026-10-20 — Kiyi Esigi archive preparation
+
+Retain the original coast runtime, map model/Pixi fallback, validated v1 saves, bounded corrupt recovery and source provenance. Catalogue status becomes archived, live Resources entries retire in TR/EN/PL, existing routes stay playable with the localized archive notice; the unrelated JITEM link remains specific to IHTILAL. Portal cache v7 retires stale active navigation without changing localStorage or game caches. Separate six-case coast Chromium acceptance preserves primary/backup/recovery and action/reload; existing IHTILAL and coast recovery gates remain. Release depends on both Wave 1 merges and final archive-reference/production verification; no source deletion or game rewrite.
