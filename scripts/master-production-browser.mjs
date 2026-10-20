@@ -109,7 +109,7 @@ async function preparePlayable(page,game){
   if(await frame.locator('[data-action="resume"]').isVisible())await frame.locator('[data-action="resume"]').click();
  }else if(['veto-h','gett-oh'].includes(game)){
   const lang=await page.evaluate(()=>localStorage.getItem('tariklab.language'));
-  await frame.getByRole('button',{name:{tr:'Devam',en:'Continue',pl:'Kontynuuj'}[lang],exact:true}).click();await frame.locator('.duel-table').waitFor();
+  await frame.getByRole('button',{name:{tr:'Devam Et',en:'Continue',pl:'Kontynuuj'}[lang],exact:true}).click();await frame.locator('.duel-table').waitFor();
  }else if(game==='tc-sim'){
   await frame.locator('#show-creation-form').click();await frame.locator('#new-game-form input[name="name"]').fill('Master QA');
   await frame.locator('#new-game-form button[type="submit"]').click();await frame.locator('#advance-week').waitFor();
@@ -160,7 +160,7 @@ async function entryProof(context,page,game){
 try{
  for(const route of routes)for(const lang of languages)for(const width of widths){
   const tag=`${route.id}-${lang}-${width}`,errors=[],assetChecks=[],reads=[],requestFailures=[];
-  let phase='online';
+  let phase='online';const verificationFetches=new Set(),browserBodyReads=[];
   const duelSave=['veto-h','gett-oh'].includes(route.id)?await readFile(`scripts/fixtures/duel/${route.id}-old-save.json`,'utf8'):null;
   const context=await browser.newContext({viewport:{width,height:width===1440?900:844},serviceWorkers:mode==='source'?'block':'allow'});
   await context.addInitScript(({lang,duelSave,game})=>{localStorage.setItem('tariklab.language',lang);localStorage.setItem('cete-age-ok','1');if(duelSave&&!localStorage.getItem(`tariklab.${game}.duel`))localStorage.setItem(`tariklab.${game}.duel`,duelSave);},{lang,duelSave,game:route.id});
@@ -169,11 +169,22 @@ try{
   page.on('requestfailed',request=>{if(new URL(request.url()).origin===origin)requestFailures.push({phase,url:request.url(),error:request.failure()?.errorText});});
   page.on('console',m=>{if(m.type()==='error')errors.push({phase,type:'console',message:m.text()});});
   page.on('response',response=>{const url=new URL(response.url());if(url.origin!==origin)return;
+   if(verificationFetches.has(url.href))return; // The initiating response is verified with these fetched bytes below.
    if(response.status()>=400)errors.push({phase,type:'HTTP',message:`${response.status()}: ${url.pathname}`});
    if(response.status()!==200||! /\.(?:js|mjs|css|json|webp|svg|png|ico|woff2?|webmanifest|html)$/.test(url.pathname))return;
    if(mode==='source'&&!/^\/(?:games|i18n|brand|__grok)\//.test(url.pathname))return;
    const currentPhase=phase;
-   reads.push((async()=>{try{const expected=await readFile(acceptedAssetPath(expectedRoot,url.pathname)),bytes=await response.body();assert.equal(digest(bytes),digest(expected),`accepted bytes mismatch: ${url.pathname}`);hashes.set(url.pathname,digest(expected));assetChecks.push(url.pathname);}catch(error){errors.push({phase:currentPhase,type:'asset',message:`${url.pathname}: ${error.message}`});}})());
+   reads.push((async()=>{try{const expectedRead=readFile(acceptedAssetPath(expectedRoot,url.pathname));
+    let bytes;
+    try{bytes=await response.body();}catch(error){
+     if(!/No resource with given identifier|navigated away/.test(error.message))throw error;
+     // Chromium may discard the CDP body handle for SW-cached images. Read the
+     // same URL through the real browser/SW and retain the identical hash gate.
+     await page.waitForLoadState('networkidle');verificationFetches.add(url.href);
+     try{bytes=Buffer.from(await page.evaluate(async({href,type})=>{if(new URL(href).origin!==location.origin)throw new Error('asset fetch origin mismatch');const response=await fetch(href);if(response.status!==200||response.url!==href)throw new Error(`asset fetch identity/status mismatch: ${response.status} ${response.url}`);if(!type||response.headers.get('content-type')!==type)throw new Error(`asset fetch content-type mismatch: ${href}`);return [...new Uint8Array(await response.arrayBuffer())];},{href:url.href,type:response.headers()['content-type']}));browserBodyReads.push({path:url.pathname,reason:error.message});}
+     finally{verificationFetches.delete(url.href);}
+    }
+    const expected=await expectedRead;assert.equal(digest(bytes),digest(expected),`accepted bytes mismatch: ${url.pathname}`);hashes.set(url.pathname,digest(expected));assetChecks.push(url.pathname);}catch(error){errors.push({phase:currentPhase,type:'asset',message:`${url.pathname}: ${error.message}`});}})());
   });
   const row={game:route.id,lang,width,href:route.href,ok:false};
   try{
@@ -193,6 +204,10 @@ try{
      }
      await page.waitForFunction(()=>Boolean(navigator.serviceWorker?.controller),null,{timeout:15000});
      await page.evaluate(()=>navigator.serviceWorker.ready.then(()=>true));
+     // Starting/resuming a game requests additional card images. Their response
+     // bodies must be hashed while the owning document still exists.
+     await page.waitForLoadState('networkidle');await finishAssetReads(reads);
+     assert.deepEqual(errors,[]);assert.deepEqual(requestFailures,[]);
      await page.reload({waitUntil:'networkidle'});await visible(page,route.id);
      proof.before=await saves(page,route.id);proof.nonemptySave=Object.keys(proof.before).length>0;
      proof.savePolicy=assertPreparedSave(route.id,proof.before);
@@ -213,7 +228,7 @@ try{
     offline.push(proof);
    }
   }catch(error){row.error=error.message;}finally{
-   await finishAssetReads(reads);row.assets=[...new Set(assetChecks)];row.errors=errors;row.requestFailures=requestFailures;
+   await finishAssetReads(reads);row.assets=[...new Set(assetChecks)];row.browserBodyReads=browserBodyReads;row.browserBodyReadCount=browserBodyReads.length;row.errors=errors;row.requestFailures=requestFailures;
    if(errors.some(error=>error.phase==='online')||requestFailures.some(error=>error.phase==='online'))row.ok=false;
    results.push(row);await context.close();
    await writeFile(`${out}/progress.json`,JSON.stringify({mode,label,sha,origin,results,offline},null,2));
