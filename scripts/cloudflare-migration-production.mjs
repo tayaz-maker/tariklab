@@ -20,8 +20,8 @@ for(const folder of ['racon','hanedanian','ihtilal','esik','jitem-derin-ag/asset
 const hashes=[];
 for(const file of files){
  const response=await fetch(origin+'/'+file);assert.equal(response.status,200,file);
- const served=Buffer.from(await response.arrayBuffer()),source=await readFile('public/'+file);
- assert.ok(served.equals(source),'exact source bytes: '+file);
+ const served=Buffer.from(await response.arrayBuffer()),source=await readFile('.output/public/'+file);
+ assert.ok(served.equals(source),'exact same-commit compiled bytes: '+file);
  hashes.push({file,sha256:digest(served),bytes:served.length});
 }
 const sw=await fetch(origin+'/sw.js');assert.equal(sw.status,200);
