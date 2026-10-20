@@ -4893,7 +4893,7 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
       sheet = '<div class="card paper-empty"><span class="dim">Kâğıt seç.</span></div>';
     }
     var bugun = S.flags && S.flags.bugun
-      ? '<div class="card"><h3>Bugün</h3><p>' + esc(S.flags.bugun) + "</p></div>"
+      ? '<div class="card"><h3>Bugün</h3><p>' + esc(raconText(S.flags.bugun)) + "</p></div>"
       : "";
     return bugun + '<div class="split"><div class="list">' + list + '</div><div class="sheet">' + sheet + "</div></div>";
   }

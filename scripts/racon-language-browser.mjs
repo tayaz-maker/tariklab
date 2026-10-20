@@ -11,6 +11,8 @@ const out = `${process.env.RUNNER_TEMP || '/workspace'}/screenshots/racon-langua
 mkdirSync(out, {recursive: true});
 const h = loadGame();
 h.ev('blank("Dil");enterPlay();S.stage="baba";S.week=6;S.kasa=10000;cashNormalize(S);S.komiser={ad:"Komiser Test",baglilik:50,risk:10,acgoz:40,kilitli:false};S.flags.cavusKapali=0;S.dosya=80;S.inbox.unshift({id:"language-tip",kind:"tuyo",week:6,title:"Tüyo",body:"Bu hafta kapıyı çalarlar.",kapali:false,read:false});S.inbox.unshift({id:"language-story",week:6,title:"Sokak seni gördü.",body:"Kırık Avlu ağzında durdun. Heat ince ince yürüdü.",read:false});writeSave();');
+const weather = "Sis Haliç'ten yürüdü. Son Kepenk görünmüyor.";
+h.ev(`S.flags.bugun=${JSON.stringify(weather)};writeSave();`);
 const fixture = h.localStorage.getItem('tariklab::racon:1');
 const server = process.env.RACON_BASE ? null : createStaticGameServer(source ? 'public' : '.output/public');
 if (server) await new Promise(r => server.listen(0, '127.0.0.1', r));
@@ -61,6 +63,9 @@ try {
       await page.getByRole('button', {name: copy[lang].clear, exact: true}).waitFor();
       await page.screenshot({path: `${out}/crew-${lang}-${width}.png`});
       await nav('olaylar');
+      const localizedWeather = {tr: weather, en: 'Fog rolled in from Haliç. Son Kepenk is out of sight.', pl: 'Od Haliç nadciągnęła mgła. Son Kepenk zniknął z pola widzenia.'}[lang];
+      await page.getByText(localizedWeather, {exact: true}).waitFor();
+      assert.equal((await saved()).flags.bugun, weather);
       await page.locator('[data-act="inbox"][data-id="language-story"]').click();
       await page.getByText(copy[lang].story, {exact: true}).waitFor();
       await page.locator('[data-act="inbox"][data-id="language-tip"]').click();
