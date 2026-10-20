@@ -54,7 +54,7 @@ test("production readiness rejects stale content until every candidate fingerpri
       ...c, intervalMs: 1000, timeoutMs: 5000,
       request: async () => new Response(++count === 1 ? "stale" : "candidate"),
     });
-    assert.equal(count, 8); // one rejected attempt, then all seven exact hashes
+    assert.equal(count, fingerprintPaths.length + 1); // one rejected attempt, then every exact hash
     assert.equal(c.now(), 1000);
     await assert.rejects(waitForTcDeployment("https://example.com", root), /base|origin|synthetic/);
   } finally { await rm(root, { recursive: true, force: true }); }

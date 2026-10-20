@@ -920,3 +920,9 @@ Reuse the existing district social/commercial-footfall coefficient and existing 
 ### Package 4 combined acceptance preparation after #199
 
 #199 released as14e50edd00eff73d479bc936844a92e0845d6129; source exactly matches the integrated fuel tree. #200 retargeted to main with canonical parent; source unchanged,143/143 +17/17 rechecked. Separate integration merges insurance and district visibility, retaining all Chromium scenarios and ledger entries;273/273 targeted +17/17 long-game PASS. Canonical/production closure still requires current-head CI and sequential release. Integration is a checkpoint branch, not another open PR. Claims/indemnity and physical QA remain explicitly outside DONE claims.
+
+## 2026-10-19 — Production finance fingerprint coverage recovery
+
+Canonical #199 www browser39334966484 job118342038736 failed at22:31:06 UTC: expected one actual fuel row, observed zero. Workers job118342038894 passed. Vercel production dpl_CH2TSqwgxKXwnpVSs78WVQFaugP1 for14e50ed became READY only at22:32:31.616 UTC, after the failed browser assertion. All original7 fingerprint assets are byte-identical between d980a14 and14e50ed, so the readiness gate could accept the previous deployment while life/wealth/location finance modules were stale. Current www/Workers life.js and wealth.js match canonical bytes. Retried only the failed completed www job once after this proof; no gameplay patch or forced click.
+
+Small CI-only repair adds life.js, wealth.js and locations.js to exact candidate fingerprints (7→10). Strict origin/HTTP/redirect/hash checks, bounded readiness, all browser scenarios, main full regression and required job names remain unchanged. The stale-asset loop now verifies each added module; readiness request count derives from the full path list plus the rejected attempt. No tests removed/skipped; no speed gain claimed. Seven targeted CI tests PASS; lint/typecheck/build are PR gates. No game, save or asset optimization changes.
