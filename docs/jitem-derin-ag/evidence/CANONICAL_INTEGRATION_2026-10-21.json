@@ -1,0 +1,271 @@
+{
+  "date": "2026-10-21",
+  "upstreamMerge": "006c7e73af0f2bf4fa208ae3a46556bf903f5e33",
+  "upstreamReviewedHead": "696d14fd4dcf5b0d7e6da55e002086c2517a16ef",
+  "upstreamTree": "8af44852e1405ded48c8e360069696761403b5f2",
+  "upstreamCi": {
+    "run": 39501126952,
+    "status": "success"
+  },
+  "portalBase": "f7da2f1854a0ab04cef571ca5537e6d9011ea942",
+  "runtimeSha256": "687d785f05eb69153811815b41e7060b33d96e3d771a37b00047bcc4852e0ee3",
+  "generatedFilesExact": 30,
+  "sourceAndBuildHashMatrixEqual": true,
+  "sourceCases": [
+    {
+      "lang": "tr",
+      "width": 390,
+      "locale": "tr",
+      "decision": true,
+      "saveReload": true,
+      "languageSwitch": true,
+      "errors": [],
+      "status": "PASS"
+    },
+    {
+      "lang": "tr",
+      "width": 1280,
+      "locale": "tr",
+      "decision": true,
+      "saveReload": true,
+      "languageSwitch": true,
+      "errors": [],
+      "status": "PASS"
+    },
+    {
+      "lang": "en",
+      "width": 390,
+      "locale": "en",
+      "decision": true,
+      "saveReload": true,
+      "languageSwitch": true,
+      "errors": [],
+      "status": "PASS"
+    },
+    {
+      "lang": "en",
+      "width": 1280,
+      "locale": "en",
+      "decision": true,
+      "saveReload": true,
+      "languageSwitch": true,
+      "errors": [],
+      "status": "PASS"
+    },
+    {
+      "lang": "pl",
+      "width": 390,
+      "locale": "en",
+      "decision": true,
+      "saveReload": true,
+      "languageSwitch": true,
+      "errors": [],
+      "status": "PASS"
+    },
+    {
+      "lang": "pl",
+      "width": 1280,
+      "locale": "en",
+      "decision": true,
+      "saveReload": true,
+      "languageSwitch": true,
+      "errors": [],
+      "status": "PASS"
+    }
+  ],
+  "productionBuildCases": [
+    {
+      "lang": "tr",
+      "width": 390,
+      "locale": "tr",
+      "decision": true,
+      "saveReload": true,
+      "languageSwitch": true,
+      "errors": [],
+      "status": "PASS"
+    },
+    {
+      "lang": "tr",
+      "width": 1280,
+      "locale": "tr",
+      "decision": true,
+      "saveReload": true,
+      "languageSwitch": true,
+      "errors": [],
+      "status": "PASS"
+    },
+    {
+      "lang": "en",
+      "width": 390,
+      "locale": "en",
+      "decision": true,
+      "saveReload": true,
+      "languageSwitch": true,
+      "errors": [],
+      "status": "PASS"
+    },
+    {
+      "lang": "en",
+      "width": 1280,
+      "locale": "en",
+      "decision": true,
+      "saveReload": true,
+      "languageSwitch": true,
+      "errors": [],
+      "status": "PASS"
+    },
+    {
+      "lang": "pl",
+      "width": 390,
+      "locale": "en",
+      "decision": true,
+      "saveReload": true,
+      "languageSwitch": true,
+      "errors": [],
+      "status": "PASS"
+    },
+    {
+      "lang": "pl",
+      "width": 1280,
+      "locale": "en",
+      "decision": true,
+      "saveReload": true,
+      "languageSwitch": true,
+      "errors": [],
+      "status": "PASS"
+    }
+  ],
+  "fileHashes": [
+    {
+      "path": "/games/jitem-derin-ag/SOURCE.json",
+      "sha256": "c3a7851b8cf7678d738b7ba660c7ffeaa634f1dc62af68061a2d085d33180c14"
+    },
+    {
+      "path": "/games/jitem-derin-ag/__grok/icon-180.png",
+      "sha256": "3cf5d17d294b51c6cca6c86070309b88554b7ad702b0412e8e2709a01990bc8a"
+    },
+    {
+      "path": "/games/jitem-derin-ag/__grok/install/assets/homescreen/glass-puzzle.svg",
+      "sha256": "a677c9356c23d1e699559ddbffac97cd135c2782cd893fb34f3738f6d11bee17"
+    },
+    {
+      "path": "/games/jitem-derin-ag/__grok/install/assets/homescreen/glass-share.svg",
+      "sha256": "efad1b4b507a68c1f1af4aad2c93e8c24076224aa593da86677697f543d026d6"
+    },
+    {
+      "path": "/games/jitem-derin-ag/__grok/install/assets/homescreen/logo-grok.svg",
+      "sha256": "0654e3e59cce69856f38525cbfe4ab3a9ef52d4b64c8532dd0bc1a3f34fcb5b1"
+    },
+    {
+      "path": "/games/jitem-derin-ag/__grok/install/assets/homescreen/ob-ipad.png",
+      "sha256": "4c9b09a4660c662b394597d551a04124293b0e37a7a7c72271dd2948c4499a14"
+    },
+    {
+      "path": "/games/jitem-derin-ag/__grok/install/assets/homescreen/ob-phone.png",
+      "sha256": "80e0a5ede614d9b920c67d7cb79c80a79134687b1fc9f560384e896a88e302db"
+    },
+    {
+      "path": "/games/jitem-derin-ag/__grok/install/assets/homescreen/plus.svg",
+      "sha256": "c2c94be46aa2c3c2fda95d7c6f2fc6d0b656d1f5847828d5d95b5a81a6f4f20d"
+    },
+    {
+      "path": "/games/jitem-derin-ag/__grok/install/styles.css",
+      "sha256": "7e8e881302f58e54a9c07e7be395692d3de20fdaa27ce358531cc8dcca472cb6"
+    },
+    {
+      "path": "/games/jitem-derin-ag/assets/BufferResource-5Lhx2wWa.js",
+      "sha256": "ff092643370d2d2b9ac13783815103f1a25ba4750a382750c0ceeecd2f224f7d"
+    },
+    {
+      "path": "/games/jitem-derin-ag/assets/CanvasRenderer-DSklI2pD.js",
+      "sha256": "55abe8ecd80bd5cb549e838e657c6630b4af43c15fd70e0c75948d5e7de5ac19"
+    },
+    {
+      "path": "/games/jitem-derin-ag/assets/Geometry-DWxeac-G.js",
+      "sha256": "02a2a39400fa88a40a4a899c9c4be8990edf3304444ac75c2956ebdaeaaf3307"
+    },
+    {
+      "path": "/games/jitem-derin-ag/assets/RenderTargetSystem-Bd4dlm9e.js",
+      "sha256": "70abea61b63e3895838566602b2522098608ed96d67bfebc58fa7f70f31942f4"
+    },
+    {
+      "path": "/games/jitem-derin-ag/assets/WebGLRenderer-CHTKhrxb.js",
+      "sha256": "820f3b3f3aa0579541615a46cb089946a3c4976749a29276160819a9154bffc9"
+    },
+    {
+      "path": "/games/jitem-derin-ag/assets/WebGPURenderer--WNXb8Aa.js",
+      "sha256": "c0dd2e6ad3af450a4d72a5ef445593c98aa4412dcae0bd9535661cf38a223797"
+    },
+    {
+      "path": "/games/jitem-derin-ag/assets/atlas-pixi-Dilx3yA8.js",
+      "sha256": "6c2a303be0fb91f6e95e3fcb1bae96d846a4af46129bb3b9445dd546422d68c2"
+    },
+    {
+      "path": "/games/jitem-derin-ag/assets/browserAll-C2Mk01om.js",
+      "sha256": "947fdbd1d231d632cdbfe85f06657281a14d566908b235be96cad2ce95fcfa46"
+    },
+    {
+      "path": "/games/jitem-derin-ag/assets/canvasUtils-BqmlzUgB.js",
+      "sha256": "59dc9b7f173043801593f1b6bf7d126710cae9df61989902fe9a2cedc83d3081"
+    },
+    {
+      "path": "/games/jitem-derin-ag/assets/getTextureBatchBindGroup-DuEkjIZ8.js",
+      "sha256": "4bda14165c8c90015b7e397048a4a9c1d6da4c257548fbc942e2444c295db7c4"
+    },
+    {
+      "path": "/games/jitem-derin-ag/assets/init-Cz6bzehy.js",
+      "sha256": "b1ed7596675370c5f4b5011b91295e469e1c2e08610b0bfb2a3fb1cf2514a2aa"
+    },
+    {
+      "path": "/games/jitem-derin-ag/assets/init-w6whaPur.js",
+      "sha256": "bc86230b0416e72e7549f108d25475c7cfffa4db5e3e633a6d2c20ffcbda610b"
+    },
+    {
+      "path": "/games/jitem-derin-ag/assets/integration-TF9RduP9.css",
+      "sha256": "296c51f61752a2687927a7f1e8c30e9e55686753e9c5395894764b49c7429a81"
+    },
+    {
+      "path": "/games/jitem-derin-ag/assets/lib-DttBULyp.js",
+      "sha256": "d9e7ee574e75057711080162bc9af3a0c83e697ca8922ac19cebcec0d7a4cf86"
+    },
+    {
+      "path": "/games/jitem-derin-ag/assets/runtime.js",
+      "sha256": "687d785f05eb69153811815b41e7060b33d96e3d771a37b00047bcc4852e0ee3"
+    },
+    {
+      "path": "/games/jitem-derin-ag/assets/webworkerAll-BKbgqR6g.js",
+      "sha256": "366565810a4415c6020c754cbd8d710aba1314a368f4a8f37bd9be22e28616f1"
+    },
+    {
+      "path": "/games/jitem-derin-ag/favicon.svg",
+      "sha256": "353e2959be8823683350a182b03f7517c786f0d02905d5edcd4399c766cbc93c"
+    },
+    {
+      "path": "/games/jitem-derin-ag/images/map.jpg",
+      "sha256": "c4720b4b1116057fee75343a6afda6aff25885d892cb00e19c92a14783f4afa2"
+    },
+    {
+      "path": "/games/jitem-derin-ag/images/office.jpg",
+      "sha256": "205ce133a42b659d6da04da6cf0223c78e3069f6419649f871894ca5c7ef2e09"
+    },
+    {
+      "path": "/games/jitem-derin-ag/index.html",
+      "sha256": "72ae08ac3a49fda2617f54c74a606e339189d6943e2f221546dac890ace23a3a"
+    },
+    {
+      "path": "/games/jitem-derin-ag/og.jpg",
+      "sha256": "df615907916a0e54e0671af2d60dccbe7d85dadba1d3ddd9770388dd0e717a4f"
+    },
+    {
+      "path": "/games/jitem-derin-ag/x-banner.jpg",
+      "sha256": "fd52e0644d7b3748aa1a03b4974b088f62835deee7e17908ca8c0c9335e9003f"
+    }
+  ],
+  "portalChecks": {
+    "integration": "2/2 PASS",
+    "typecheck": "PASS",
+    "build": "PASS",
+    "scopedLint": "PASS"
+  },
+  "scope": "Local source and Cloudflare production-build preview; source PL shell deliberately uses existing English JITEM iframe fallback. Exact-head portal CI and production hosts are separate release gates."
+}
