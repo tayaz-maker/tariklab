@@ -37,10 +37,10 @@ export async function archiveAcceptance(browser, origin, out) {
         await page.goto(origin + "/", { waitUntil: "networkidle" });
         await page.locator("#active-games").waitFor();
         assert.equal(await page.locator('a[href*="ihtilal"]').count(), 0);
-        assert.equal(await page.locator('a[href="/oyna/esik"]').count(), 1);
+        assert.equal(await page.locator('a[href="/oyna/esik"]').count(), 0);
         await page.goto(origin + "/credits.html", { waitUntil: "networkidle" });
         assert.equal(await page.locator('a[href*="ihtilal"], [data-game="ihtilal"]').count(), 0);
-        assert.ok(await page.locator('a[href="/oyna/esik"]').count());
+        assert.equal(await page.locator('a[href="/oyna/esik"]').count(), 0);
         await page.goto(origin + "/ihtilal", { waitUntil: "networkidle" });
         await page.waitForURL("**/oyna/ihtilal");
         assert.equal(new URL(page.url()).origin, origin, "archive redirect stays on the certified origin");

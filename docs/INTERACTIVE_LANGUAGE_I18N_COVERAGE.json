@@ -21,7 +21,7 @@
     {"id":"ihtilal","status":"archived","tr":"complete","en":"complete","model":"preview → action → result → why","pl":"body","plNote":"PL: interface plus hints, endings and basin text through the body-translation layer."},
     {"id":"darbe-h","tr":"complete","en":"complete","model":"structured card brief + legality reason + duel log","pl":"body","plNote":"PL: duel table plus card text, series names, theme copy, help and analysis through the body-translation layer."},
     {"id":"jitem-derin-ag","tr":"complete","en":"complete","model":"knowledge-aware action preview + evidence grade + causal dossier","pl":"english-fallback","plNote":"No Polish. Vendored runtime with its own TR/EN switch; the /oyna play route sends English to Polish readers. The standalone /games URL keeps the game's own switch."},
-    {"id":"esik","tr":"complete","en":"complete","model":"threshold cost, access fault and delayed risk","pl":"body","plNote":"PL: route copy through the body-translation layer (the game shows its English text to PL readers, translated to Polish)."}
+    {"id":"esik","status":"archived","tr":"complete","en":"complete","model":"threshold cost, access fault and delayed risk","pl":"body","plNote":"PL: route copy through the body-translation layer (the game shows its English text to PL readers, translated to Polish)."}
   ],
   "surfaces": {"portal":"complete","resources":"complete"},
   "intentionalUntranslated": [

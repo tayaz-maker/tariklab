@@ -5,6 +5,7 @@ import assert from "node:assert/strict";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { spawn } from "node:child_process";
 import { chromium } from "playwright";
+import { coastArchiveAcceptance } from "./esik-archive-browser.mjs";
 import { archiveAcceptance } from "./ihtilal-archive-browser.mjs";
 import { townBrowser } from "./son-kasaba-browser.mjs";
 import { correctionFlows } from "./playability-browser.mjs";
@@ -17,7 +18,7 @@ const catalog = readFileSync("src/lib/games.ts", "utf8").split("export const GAM
 const routes = [
   ...catalog.matchAll(/slug: "([^"]+)"[^}]*?status: "live",\s*href: "([^"]+)"/g),
 ].map((match) => ({ id: match[1], href: match[2] }));
-assert.equal(routes.length, 19);
+assert.equal(routes.length, 18);
 const requestedRoutes = new Set((process.env.SITEWIDE_ROUTE_IDS || "").split(",").filter(Boolean));
 const browserRoutes = requestedRoutes.size
   ? routes.filter((route) => requestedRoutes.has(route.id))
@@ -71,6 +72,7 @@ try {
     args: ["--no-sandbox"],
   });
   await archiveAcceptance(browser, origin, `${out}/ihtilal-archive`);
+  await coastArchiveAcceptance(browser, origin, `${out}/coast-archive`);
   for (const lang of ["tr", "en"]) {
     for (const route of [
       { id: "portal", href: "/" },
