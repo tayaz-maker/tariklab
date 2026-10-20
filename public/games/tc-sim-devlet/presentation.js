@@ -174,7 +174,7 @@ export function contentCard(s) {
   const text = t(def.text, def.en?.text || def.text);
   const buttons = (def.choices || []).map((row) => {
     const label = t(row.label, def.en?.choices?.[row.id] || row.en || row.label);
-    return `<button type="button" class="decision content-choice" data-content="${h(def.id)}:${h(row.id)}"><strong>${h(label)}</strong><small>${h(row.risk || "")}</small></button>`;
+    return `<button type="button" class="decision content-choice" data-content="${h(def.id)}:${h(row.id)}" ${s.flags?.campaignEnd ? "disabled" : ""}><strong>${h(label)}</strong><small>${h(row.risk || "")}</small></button>`;
   }).join("");
   return `<section class="card content-dossier" role="region"><p class="eyebrow">${t("DEVLET DOSYASI", "STATE DOSSIER")}</p><h2>${h(title)}</h2><p>${h(text)}</p><div class="decision-grid">${buttons}</div><small>${t("Bu dosya aylık iki politika kararını tüketmez. Seçmezsen ay ilerleyince ilk yol izlenir.", "This file does not use the two monthly policy slots. If you skip it, the first path is taken when the month advances.")}</small></section>`;
 }
