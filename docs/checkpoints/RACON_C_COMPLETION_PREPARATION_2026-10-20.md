@@ -1,0 +1,9 @@
+# Racon C completion preparation
+
+The supplied bc781136 checkpoint contained a literal source truncation replacing 271 existing renderer lines; JavaScript could not parse. The missing segment was restored byte-for-byte from B (0c4679c), keeping C's intended rendering-only edits. The previously stored C currentSha256 matched the recovered intended source before the separately observed navigation fix. The immutable IHTILAL source manifest remains unchanged; the reviewed runtime continuity hash tracks the final source.
+
+Canonical story, coefficients, save fields/keys/version and manager mechanics remain unchanged. C closes crew/assignment/save/police-paper language presentation and the observed untranslated navigation labels. Original GTA-inspired design and artwork are preserved. The browser test covers TR/EN/PL ×390/1280, visible real controls, cash/assignment/paper save and reload, errors and overflow. Only savedAt is expected to change on an ordinary resume; every gameplay field is compared.
+
+Extended longrun executes original balanced/aggressive/passive profiles, 12 seeded lives and three seeds each for investor/high-risk profiles; exact repeated results PASS. The advanced-investor fixture is explicitly marked as a configured high-stage start, not claimed as natural progression. No economy coefficient was adjusted.
+
+Pre-integration: 105 Racon/archive tests PASS; original region6, police18 and layout60 source cases PASS. Completion still requires integrated full regression, source/build language and old suites, exact-head required CI, A then B release completion, and two-host production receipt. Do not merge this preparation directly.

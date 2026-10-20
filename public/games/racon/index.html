@@ -4686,6 +4686,16 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
     app.classList.toggle("nav-detay", m === "detay");
     app.classList.toggle("nav-kisa", m === "kisa");
   }
+  function raconNavLabel(n) {
+    var names = {olaylar:"Events",takvim:"Calendar",adamlar:"Crew",harita:"Map",isler:"Jobs",pazar:"Market",emlak:"Property",hayat:"Life",emniyet:"Police",husumet:"Rivalry",kasa:"Cash",siralama:"Rankings",mahalleler:"Districts",ekip:"Subcrew",aklama:"Laundering",savci:"Prosecutor",masa:"Desk",hanedan:"Dynasty"};
+    var polish = {olaylar:"Wydarzenia",takvim:"Kalendarz",adamlar:"Ekipa",harita:"Mapa",isler:"Roboty",pazar:"Targ",emlak:"Nieruchomości",hayat:"Życie",emniyet:"Policja",husumet:"Rywalizacja",kasa:"Kasa",siralama:"Ranking",mahalleler:"Dzielnice",ekip:"Podekipa",aklama:"Pranie pieniędzy",savci:"Prokurator",masa:"Biurko",hanedan:"Dynastia"};
+    if (window.tlabI18n && window.tlabI18n.getLang() === "pl") return polish[n.id] || n.label;
+    return raconText(n.label, names[n.id]);
+  }
+  function raconUpper(text) {
+    var lang = window.tlabI18n && window.tlabI18n.getLang ? window.tlabI18n.getLang() : "tr";
+    return String(text).toLocaleUpperCase(lang === "en" ? "en-US" : lang === "pl" ? "pl-PL" : "tr-TR");
+  }
   function drawNav() {
     if (!S) { document.getElementById("nav").innerHTML = ""; return; }
     var unread = S.inbox.some(function (x) { return !x.read; });
@@ -4693,18 +4703,18 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
       var cur = S.screen === n.id ? ' aria-current="page"' : "";
       var dot = n.id === "olaylar" && unread ? '<i class="dot"></i>' : "";
       var dis = UI.sahne ? " disabled" : "";
-      return '<button type="button" class="navbtn" data-act="nav" data-id="' + n.id + '" aria-label="' + n.label + '"' + cur + dis + ">" + ico(n.ico) + "<span>" + up(n.label) + "</span>" + dot + "</button>";
+      return '<button type="button" class="navbtn" data-act="nav" data-id="' + n.id + '" aria-label="' + esc(raconNavLabel(n)) + '"' + cur + dis + ">" + ico(n.ico) + "<span>" + esc(raconUpper(raconNavLabel(n))) + "</span>" + dot + "</button>";
     }).join("");
     var extra = LOCKED_NAV.filter(function (n) { return navOpen(n.id); }).map(function (n) {
       var cur = S.screen === n.id ? ' aria-current="page"' : "";
       var dis = UI.sahne ? " disabled" : "";
       var icoName = n.id === "ekip" ? "adamlar" : n.id === "masa" ? "kasa" : "harita";
-      return '<button type="button" class="navbtn" data-act="nav" data-id="' + n.id + '" aria-label="' + n.label + '"' + cur + dis + ">" + ico(icoName) + "<span>" + up(n.label) + "</span></button>";
+      return '<button type="button" class="navbtn" data-act="nav" data-id="' + n.id + '" aria-label="' + esc(raconNavLabel(n)) + '"' + cur + dis + ">" + ico(icoName) + "<span>" + esc(raconUpper(raconNavLabel(n))) + "</span></button>";
     }).join("");
     var kisa = navMode() === "kisa";
     var tog = '<button type="button" class="navbtn navtog" data-act="navdetay" aria-label="' +
-      (kisa ? "Menüyü aç" : "Menüyü daralt") + '">' + ico(kisa ? "detay" : "kisa") +
-      "<span>" + up(kisa ? "Detay" : "Kısa") + "</span></button>";
+      raconText(kisa ? "Menüyü aç" : "Menüyü daralt", kisa ? "Expand menu" : "Collapse menu") + '">' + ico(kisa ? "detay" : "kisa") +
+      "<span>" + esc(raconUpper(raconText(kisa ? "Detay" : "Kısa", kisa ? "More" : "Less"))) + "</span></button>";
     applyNavMode();
     document.getElementById("nav").innerHTML = tog + main + extra;
     var navEl = document.getElementById("nav");
@@ -5057,7 +5067,277 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
     var komsu = (sel.komsular || []).map(function (kid) {
       var k = streetBy(kid);
       if (!k) return "";
-      var kind = sel.sahip === "sen" && k.sahip === "sen" ? "hat"…6430 tokens truncated… "") + ">Gözdağı</button>" +
+      var kind = sel.sahip === "sen" && k.sahip === "sen" ? "hat" : (sel.sahip === "sen" && k.sahip === "rakip") || (sel.sahip === "rakip" && k.sahip === "sen") ? "sinir" : "yol";
+      return '<li><button type="button" class="linkbtn" data-act="street" data-id="' + k.id + '">' + esc(k.ad) + "</button> · " + AG_SAHIP[k.sahip] + ' <span class="dim">' + AG_BAG[kind] + "</span></li>";
+    }).join("");
+    var cap = Ag.capacity(S);
+    var karar = g.karar
+      ? '<p class="ag-running"><b>' + esc(Ag.ORDERS[g.karar.kind].ad) + "</b> sürüyor · " + g.karar.left + " hafta kaldı.</p>"
+      : "";
+    var dolu = !g.karar && ag.orders.length >= cap;
+    var ortak = g.karar ? "" : dolu ? "Ekip dolu: yeni sokak kararı için süren bir kararın bitmesini bekle." : "";
+    var kararlar = g.karar ? "" : Ag.KIND.map(function (k) {
+      var why = dolu ? "" : Ag.reason(S, sel.id, k);
+      var o = Ag.ORDERS[k];
+      var on = UI.agKind === k;
+      return '<button type="button" class="btn ag-k' + (on ? " on" : "") + '" data-act="ag-sec" data-id="' + sel.id + '" data-kind="' + k + '" aria-pressed="' + on + '"' + (why ? ' aria-describedby="agw-' + k + '"' : "") + ">" +
+        "<b>" + esc(o.ad) + "</b>" + '<span class="dim">' + (o.cost ? "₺" + o.cost.toLocaleString("tr-TR") : "Bedelsiz") + " · " + o.weeks + " hafta</span>" +
+        (why ? '<span class="ag-why" id="agw-' + k + '">' + esc(why) + "</span>" : "") + "</button>";
+    }).join("");
+    var pv = UI.agKind ? Ag.preview(S, sel.id, UI.agKind, UI.agTarget) : null;
+    var plan = "";
+    if (pv) {
+      var direction = '<div class="rm-directions"><b>Yayılım yönü</b><div class="acts"><button type="button" class="btn ghost" data-act="ag-target" data-id="" aria-pressed="'+(!UI.agTarget)+'">Tüm komşular</button>' + (sel.komsular || []).map(function(id){ var st=streetBy(id); if(!st || (pv.kind==="koru" && st.sahip!=="sen"))return "";return '<button type="button" class="btn ghost" data-act="ag-target" data-id="'+esc(id)+'" aria-pressed="'+(UI.agTarget===id)+'">'+esc(st.ad)+' · +₺250</button>'; }).join("") + '</div><p class="dim">Tek komşu: iki kat komşu etkisi, diğerlerine yayılmaz. Yoldaki izler yön değiştirmez. Varışta baskı 60+ ise güven etkisi yarıya iner.</p></div>';
+      var spread = pv.spread.map(function(p){return '<li>'+esc(window.RaconAg.NAMES[p.to])+' · ilk varış '+p.first+' kapanış sonra · '+agFx(p.fx)+(p.repeat>1?' · '+p.repeat+' haftalık sevk':'')+'</li>';}).join('');
+      plan = '<div class="ag-plan">' +
+        '<p class="ag-niyet">' + esc(pv.niyet) + "</p>" + direction +
+        '<dl class="ag-dl">' +
+        "<div><dt>Bedel</dt><dd>" + (pv.cost ? "₺" + pv.cost.toLocaleString("tr-TR") : "Yok") + "</dd></div>" +
+        "<div><dt>Şimdi</dt><dd>" + (agFx(pv.now) || '<span class="dim">Görünür etki yok</span>') + "</dd></div>" +
+        "<div><dt>Her hafta · " + pv.weeks + "</dt><dd>" + (agFx(pv.weekly) || '<span class="dim">Görünür etki yok</span>') + "</dd></div>" +
+        "<div><dt>Sonunda</dt><dd>" + (agFx(pv.end) || '<span class="dim">Görünür etki yok</span>') + "</dd></div>" +
+        '<div><dt>Komşu varışı</dt><dd><ul class="ag-komsu">'+(spread || '<li>Bu yönde etkilenen komşu yok.</li>')+'</ul><small>Kontrol şimdi aynı kalırsa bu süreler geçerli; sevk anındaki kontrol yol süresini belirler.</small></dd></div>' +
+        "</dl>" +
+        (pv.extra ? '<p class="dim">' + esc(pv.extra) + "</p>" : "") +
+        (pv.end.dosya ? '<p class="dim">Dosya izi delil hesabına girer; avukat ve mevcut eskime kuralı geçerlidir.</p>' : "") +
+        '<div class="acts"><button type="button" class="btn primary" data-act="ag" data-id="' + sel.id + '" data-kind="' + pv.kind + '"' + (pv.reason ? " disabled" : "") + ">Kararı ver · " + esc(pv.ad) + "</button></div>" +
+        (pv.reason ? '<p class="minus">' + esc(pv.reason) + "</p>" : "") +
+        "</div>";
+    }
+    var tut = sel.sahip === "bos"
+      ? '<button type="button" class="btn" data-act="tut" data-id="' + sel.id + '"' + (S.kasa < 4500 ? " disabled" : "") + ">Tut · ₺4.500</button>"
+      : "";
+    var logs = ag.log.slice(-4).reverse().map(function (l) { return "<li>H" + l.week + " · " + esc(l.text) + "</li>"; }).join("");
+    var panel = '<section class="card ag-panel" tabindex="-1" aria-labelledby="ag-h">' +
+      '<h3 id="ag-h">' + esc(up(sel.ad)) + "</h3>" +
+      '<p class="dim">' + esc(STREET_NOTE[sel.id] || "") + "</p>" +
+      '<dl class="ag-dl">' + dl + "</dl>" +
+      (komsu ? '<h4 class="ag-sub">Bağlı ağ</h4><ul class="ag-komsu">' + komsu + "</ul>" : "") +
+      '<h4 class="ag-sub">Karar</h4>' + karar +
+      '<p class="dim">Süren sokak kararları ' + ag.orders.length + "/" + cap + ". Her sokakta bir karar sürer.</p>" +
+      (ortak ? '<p class="minus">' + esc(ortak) + "</p>" : "") +
+      (kararlar ? '<div class="ag-kararlar">' + kararlar + "</div>" : "") + (g.karar ? "" : plan) +
+      '<div class="acts">' + tut + '<button type="button" class="btn ghost" data-act="nav" data-id="isler">Bu sokakta iş planla</button></div>' +
+      (logs ? '<h4 class="ag-sub">Ağ defteri</h4><ul class="ag-log">' + logs + "</ul>" : "") +
+      "</section>";
+    var model = window.RaconMapModel.model(S, {selected:sel.id,layer:UI.agLayer,kind:UI.agKind,target:UI.agTarget,reduced:!!window.matchMedia?.("(prefers-reduced-motion: reduce)").matches});
+    var layers = [["control","Kontrol"],["trust","Güven"],["risk","Risk"],["resource","Kaynak"],["favor","İyilik"]].map(function(l){return '<button type="button" class="btn ghost" data-act="rm-layer" data-id="'+l[0]+'" aria-pressed="'+(model.layer===l[0])+'">'+l[1]+'</button>';}).join('');
+    var arrivals = model.nodes.flatMap(function(n){return n.incoming.map(function(p){return '<li>'+esc(Ag.NAMES[p.from])+' → '+esc(n.name)+' · '+esc(Ag.ORDERS[p.kind].ad)+' · '+p.left+' kapanış sonra '+agFx(Ag.waveFx(p,streetBy(p.to)))+'</li>';});}).join('');
+    var rehearsal = model.next.streets.map(function(n){return '<li><b>'+esc(Ag.NAMES[n.id])+'</b> · baskı '+n.heat+' ('+(n.heatDelta>=0?'+':'')+n.heatDelta+') · güven '+Math.round(n.trust)+' ('+(n.trustDelta>=0?'+':'')+n.trustDelta+')</li>';}).join('');
+    var chart = '<section class="rm-chart"><h3>AVLU DEFTERİ <span>H'+S.week+'</span></h3><p class="dim">Altı kurgusal sokak · G: güven, B: baskı. Bağdaki sayı sevkten sonraki ağ kapanışıdır; çift sayı iki yönün süresidir.</p><div class="rm-layers" role="group" aria-label="Harita katmanı">'+layers+'</div><div id="rm-map-host">'+map+'</div><p class="rm-key">Kapı ve ışıklar / güven · alt iz / baskı · plaka / süren emir. Kesik sınır / rakip · ◇ fırsat · ok / yoldaki iz · altın / seçilen karar</p><div class="acts"><button type="button" class="btn primary" data-act="rm-plan">'+esc(sel.ad)+' · kararları aç</button><button type="button" class="btn ghost" data-act="rm-light">Hafif harita</button></div><details class="rm-arrivals" open><summary>Yoldaki etkiler · '+model.nodes.reduce(function(n,s){return n+s.incoming.length;},0)+'</summary><ul class="ag-log">'+(arrivals||'<li>Henüz sevk edilmiş etki yok.</li>')+'</ul></details><details class="rm-forecast"><summary>Sıradaki ağ kapanışı · ₺'+model.next.income+' yatırım geliri</summary><p class="dim">Yalnız sokak ısınması, aktif emirler ve yoldaki izler. Rakip hamleleri ve diğer haftalık olaylar bu prova dışında.</p><ul class="ag-log">'+rehearsal+'</ul></details></section>';
+    return '<div class="ag rm-layout">' + chart + panel + "</div>" + drawKose();
+  }
+  function drawKose() {
+    var lvl = num(S.kose, 0);
+    var cur = lvl ? KOSE[lvl - 1] : null;
+    var next = KOSE[lvl] || null;
+    var body = cur
+      ? "<p>Şimdi: <b>" + esc(cur.ad) + "</b> · haftalık ₺" + cur.hafta.toLocaleString("tr-TR") + "</p>"
+      : '<p class="dim">Köşe yok. Kavşak boş.</p>';
+    var btn = next
+      ? '<button type="button" class="btn" data-act="kose"' + (S.kasa < next.fiyat ? " disabled" : "") + ">" + (lvl ? "Büyüt" : "Tut") + " · " + esc(next.ad) + " · ₺" + next.fiyat.toLocaleString("tr-TR") + "</button>"
+      : '<p class="dim">Semt hattı sende.</p>';
+    return '<div class="card"><h3>Köşe</h3>' + body + "<p class=\"dim\">" + esc((next || cur || KOSE[0]).desc) + "</p><div class=\"acts\">" + btn + "</div></div>";
+  }
+
+  function drawSahne() {
+    var j = jobBy(UI.jobId);
+    if (!j) return '<p class="dim">İş yok.</p>';
+    var steps = jobSteps(j.kind);
+    var bar = steps.map(function (s, i) {
+      var cls = i < j.tickIndex ? "done" : i === j.tickIndex ? "on" : "";
+      return "<b class=\"" + cls + "\">" + STEP_TR[s] + "</b>";
+    }).join("");
+    var log = '<div class="log">' + UI.jobLog.map(function (ln) {
+      if (ln.charAt(0) === "§") return '<p class="lg-adim">' + esc(ln.slice(1)) + "</p>";
+      if (ln.charAt(0) === "»") return '<p class="lg-emir">' + esc(ln.slice(1)) + "</p>";
+      return "<p>" + esc(ln) + "</p>";
+    }).join("") + "</div>";
+    if (UI.jobDone && UI.jobSummary) {
+      var rows = UI.jobSummary.rows.map(function (r) {
+        var cls = r.good ? "plus" : r.bad ? "minus" : "";
+        return "<p>" + esc(r.k) + ' <span class="' + cls + '">' + esc(r.v) + "</span></p>";
+      }).join("");
+      return '<div class="scene"><div class="card sum"><p class="ttl">' + esc(UI.jobSummary.title) + "</p>" + rows +
+        '<div class="acts"><button type="button" class="btn primary" data-act="job-tamam">Tamam</button></div></div></div>';
+    }
+    var acts = "";
+    var step = steps[j.tickIndex];
+    if (UI.jobWait && step === "yaklasma" && j.okulBekliyor) {
+      acts = '<p class="dim">Okul çıkışı. Ne yapacaksın?</p><div class="emirler">' +
+        '<button type="button" class="btn danger emir" data-act="job-emir" data-id="devam"><b>Devam et</b><span class="ne">İşi sürdür. Racon düşer.</span></button>' +
+        '<button type="button" class="btn emir" data-act="job-emir" data-id="cekil"><b>Çekil</b><span class="ne">İşi bırak. Para yok, saygı artar.</span></button>' +
+        "</div>";
+    } else if (UI.jobWait && (step === "temas" || step === "tepki")) {
+      var emirler = [
+        { id: "sessiz", ad: "Sessiz", not: "Para şansı korunur; nüfuz yavaş büyür.", risk: "Para Orta · Emniyet Düşük · Ekip Düşük" },
+        { id: "sikistir", ad: "Sıkıştır", not: "Korku büyür; saygı ve esnaf tavrı aşınabilir.", risk: "Para Orta · Emniyet Orta · Ekip Orta" },
+        { id: "cekil", ad: "Çekil", not: "Bugünkü paradan vazgeç; ileride saygı kazanabilirsin.", risk: "Para Yüksek · Emniyet Düşük · Ekip Düşük" },
+        { id: "ates", ad: "Ateş", not: "Tanık, dosya ve ekip yankısı gecikmeli gelir.", risk: "Para Orta · Emniyet Yüksek · Ekip Yüksek" }
+      ];
+      acts = '<p class="identity-line">Racon kimliği: <b>' + esc((S.depth && S.depth.identity) || "kontrollu") + '</b> · Adamların önemli emirleri hatırlar.</p><p class="dim">Talimat · ne seçersen ne olur</p><div class="emirler">' +
+        emirler.map(function (e) {
+          return '<button type="button" class="btn emir' + (e.id === "ates" ? " danger" : "") +
+            '" data-act="job-emir" data-id="' + e.id + '"><b>' + e.ad + "</b>" +
+            '<span class="ne">' + esc(e.not) + "</span>" +
+            '<span class="riskline">' + esc(e.risk) + '</span><span class="sayi">' + esc(emirYazi(j.kind, e.id)) + "</span></button>";
+        }).join("") + "</div>";
+    } else if (UI.jobWait) {
+      acts = '<div class="acts"><button type="button" class="btn primary" data-act="job-emir" data-id="devam">Devam</button></div>';
+    }
+    return '<div class="scene"><div class="steps">' + bar + "</div>" + log + acts + "</div>";
+  }
+
+  function drawIsler() {
+    if (UI.sahne) return drawSahne();
+    var live = S.men.filter(function (m) { return availableMan(m); });
+    var checks = live.map(function (m) {
+      var on = !UI.planMen || UI.planMen.indexOf(m.id) >= 0;
+      return '<label class="chk"><input type="checkbox" data-man="' + m.id + '"' + (on ? " checked" : "") + "> " + esc(manName(m)) + "</label>";
+    }).join("");
+    var q = S.jobs.filter(function (j) { return j.phase !== "done"; }).map(function (j) {
+      var st = streetBy(j.streetId);
+      var heavy = j.kind === "bakkal_soygunu" || j.kind === "kuyum" || j.kind === "kacak_mal";
+      var bakkalBlock = heavy && (j.assigned || []).length < 3;
+      var ready = j.prepLeft <= 0 && !bakkalBlock;
+      var right = bakkalBlock
+        ? '<span class="dim">3 adam gerek</span>'
+        : ready
+          ? '<button type="button" class="btn" data-act="sahne" data-id="' + j.id + '">İş günü</button>'
+          : '<span class="dim">' + (j.prepLeft === 1 ? "çay · son laf (1 tur)" : "keşif · laf · çay (" + j.prepLeft + " tur)") + "</span>";
+      var hazirlikSec = (!ready && !bakkalBlock && !j.hazirlikSecim)
+        ? '<div class="acts">' + ["cay", "laf", "kesif"].map(function (t) {
+            return '<button type="button" class="btn ghost" data-act="job-hazirlik" data-id="' + j.id + '" data-tip="' + t + '">' +
+              ({ cay: "Çay", laf: "Laf", kesif: "Keşif" }[t]) + "</button>";
+          }).join("") + "</div>"
+        : "";
+      return '<div class="qrow"><div class="grow">' + esc(JOB_TR[j.kind] || j.kind) + " · " + esc(st ? st.ad : "") + " · " + (ready ? "hazır" : "hazırlık") + "</div>" + right + hazirlikSec + '<button class="btn ghost" data-act="job-cancel" data-id="'+j.id+'">Planı iptal et</button></div>';
+    }).join("");
+    if (!q) q = '<p class="dim">Kuyruk boş.</p>';
+    var kind = UI.planKind || "tahsilat";
+    var opts = S.streets.map(function (s) {
+      var sel = s.id === UI.planStreet ? " selected" : "";
+      return "<option value=\"" + s.id + "\"" + sel + ">" + esc(s.ad) + "</option>";
+    }).join("");
+    var kinds = ["tahsilat", "kepenk", "tek_arac", "esnaf_koruma", "tombala", "gazino_kapi", "insaat_harac", "bakkal_soygunu", "kuyum", "kacak_mal"].map(function (k) {
+      return "<option value=\"" + k + "\"" + (k === kind ? " selected" : "") + ">" + esc(JOB_TR[k]) + "</option>";
+    }).join("");
+    var pStreet = UI.planStreet || (S.streets[0] && S.streets[0].id);
+    var es = esnafOf(pStreet);
+    var esRel = es ? personRelHesap(es) : 0;
+    var esTxt = !es ? "" : esRel < -10
+      ? '<p class="minus">' + esc(es.ad) + " unutmuyor. (rel " + esRel + ")</p>"
+      : esRel < 0
+        ? '<p class="dim">' + esc(es.ad) + " küskün. (rel " + esRel + ")</p>"
+        : '<p class="dim">' + esc(es.ad) + " normal. (rel " + esRel + ")</p>";
+    return '<div class="card"><h3>Plan</h3><div class="plan">' +
+      '<select id="job-street" aria-label="Sokak">' + opts + "</select>" +
+      '<select id="job-kind" aria-label="İş türü">' + kinds + "</select>" +
+      '<button type="button" class="btn primary" data-act="planla">Planla</button></div>' +
+      esTxt +
+      '<p class="dim">Adam seç</p><div class="acts">' + (checks || '<span class="dim">Müsait adam yok; ekip görevli veya dinleniyor.</span>') + "</div>" +
+      '<p class="dim">' + expectWords(kind) + "</p></div>" +
+      '<div class="card"><h3>Kuyruk</h3>' + q + "</div>";
+  }
+
+  function drawIyilik() {
+    var berber = personBy("p_berber"), kapici = personBy("p_kapici"), kahveci = personBy("p_kahveci");
+    var kahveDisabled = num(S.flags.kahveHafta, 0) === S.week;
+    var satir = [berber, kapici, kahveci].map(function (p) {
+      return '<div class="led"><span>' + esc(p.ad) + " · " + esc(ROL_PERSON[p.kind] || p.kind) + '</span><span class="amt">' + p.favor + "/3</span></div>";
+    }).join("");
+    return '<div class="card"><h3>İyilik</h3>' + satir +
+      '<div class="acts">' +
+      '<button type="button" class="btn" data-act="kahve-turu"' + (kahveDisabled ? " disabled" : "") + ">Kahve turu (kahveci +1)</button>" +
+      '<button type="button" class="btn" data-act="kucuk-kasa"' + (S.kasa < 500 ? " disabled" : "") + ">Küçük kasa · ₺500 (berber +1)</button>" +
+      "</div>" +
+      '<div class="hr"></div><p class="dim">Harcama</p><div class="acts">' +
+      '<button type="button" class="btn" data-act="iyilik-tanistir"' + (!S.flags.cavusTanisik && kapici.favor >= 1 ? "" : S.flags.cavusTanisik ? " disabled" : " disabled") + ">Tanıştır (kapıcı)</button>" +
+      '<button type="button" class="btn" data-act="iyilik-sozle"' + (berber.favor < 1 ? " disabled" : "") + ">İyi söz (berber)</button>" +
+      '<button type="button" class="btn" data-act="iyilik-ihbar"' + (kapici.favor < 1 ? " disabled" : "") + ">İhbar etme (kapıcı)</button>" +
+      '<button type="button" class="btn" data-act="iyilik-kesif"' + (kahveci.favor < 1 ? " disabled" : "") + ">Keşif +1 (kahveci)</button>" +
+      "</div></div>";
+  }
+  function drawEmniyet() {
+    var rows = S.evidence.map(function (e) {
+      var st = streetBy(e.streetId);
+      var age = S.week - e.week;
+      var fade = age >= 16 ? " age16" : age >= 8 ? " read" : "";
+      var tanikActs = e.kind === "tanik" ? '<div class="acts">' +
+        '<button type="button" class="btn" data-act="tanik-korkut" data-id="' + e.id + '">Korkut</button>' +
+        '<button type="button" class="btn" data-act="tanik-satinal" data-id="' + e.id + '"' + (S.dirtyKasa < 3000 ? " disabled" : "") + ">Satın al</button>" +
+        '<button type="button" class="btn ghost" data-act="tanik-uzaklastir" data-id="' + e.id + '"' + (S.kasa < 1500 ? " disabled" : "") + ">Uzaklaştır</button></div>" : "";
+      return '<div class="row' + fade + '" style="cursor:default"><span class="who">' + esc(KIND_TR[e.kind] || e.kind) + " · " + esc(st ? st.ad : "") + " · H" + e.week + " · ağırlık " + e.weight + "</span>" + tanikActs + "</div>";
+    }).join("");
+    if (!rows) rows = '<p class="dim">Delil yok.</p>';
+    var warn = "";
+    if (S.dosya >= 75) warn = '<p class="minus">Sivil araç mahallede.</p>';
+    else if (S.dosya >= 40) warn = '<p style="color:var(--heat)">Karakol sivil sordu.</p>';
+    var barCls = S.dosya >= 75 ? "red" : S.dosya >= 40 ? "heat" : "";
+    return '<div class="card file-big"><h3>Dosya</h3>' + barrow("Dosya", S.dosya, 100, barCls) + '<p class="num">' + Math.round(S.dosya) + "%</p>" + warn + "</div>" +
+      '<div class="card"><h3>Delil</h3>' + rows + "</div>" +
+      '<div class="card"><h3>Zarf</h3><p class="dim">' + (S.flags.cavusTanisik ? "Karakol tanıdığı. ₺2.500, bir delil solar." : "Kimseyi tanımıyorsun. Önce tanıştır.") + '</p><div class="acts"><button type="button" class="btn" data-act="zarf"' + (!S.flags.cavusTanisik || S.kasa < 2500 || !S.evidence.length ? " disabled" : "") + ">Zarf bırak · ₺2.500</button></div></div>" +
+      drawIyilik() +
+      (function () {
+        var av = personBy("p_avukat");
+        if (!av) return "";
+        var tut = !!S.flags.avukatTutuldu;
+        return '<div class="card"><h3>' + esc(av.ad) + '</h3><p class="dim">' +
+          (tut ? "Tutuldun. Fezleke yavaşlıyor." : "Fezleke hızını keser, kasa yer, racon'a dokunmaz.") + "</p>" +
+          '<div class="acts"><button type="button" class="btn" data-act="avukat-tut"' +
+          (tut || S.kasa < 6000 ? " disabled" : "") + ">Tut · ₺6.000/hafta</button>" +
+          (tut ? '<button type="button" class="btn ghost" data-act="avukat-birak">Bırak</button>' : "") +
+          "</div></div>";
+      })() +
+      (function () {
+        var mu = personBy("p_muhtar");
+        if (!mu) return "";
+        var destekli = S.flags.muhtarDestek && S.week < num(S.flags.muhtarDue, 0) + 12;
+        return '<div class="card"><h3>' + esc(mu.ad) + '</h3><p class="dim">' +
+          (destekli ? "Muhtar yanında. Tapu, dernek işleri açık." : "Muhtarsız kilit. Tapu, dernek işleri kapalı.") + "</p>" +
+          (destekli ? "" : '<div class="acts">' +
+            '<button type="button" class="btn" data-act="muhtar-destek"' + (S.kasa < 3000 ? " disabled" : "") + ">Destekle · ₺3.000</button>" +
+            '<button type="button" class="btn ghost" data-act="muhtar-korkut">Korkut</button></div>') +
+          "</div>";
+      })() +
+      (S.komiser && S.komiser.kilitli
+        ? '<div class="card"><p class="ttl">' + esc(up(S.komiser.ad)) + '</p><p class="minus">Bu kapı kapandı.</p></div>'
+        : S.flags.cavusKapali
+          ? '<div class="card"><p class="dim">Karakolda kimseyi tanımıyorsun. Bu kapı kapandı.</p></div>'
+          : S.komiser
+            ? '<div class="card"><h3>' + esc(S.komiser.ad) + "</h3>" +
+              barrow("Bağlılık", S.komiser.baglilik, 100, S.komiser.baglilik >= 45 ? "green" : "") +
+              barrow("Gözü üstünde", S.komiser.risk, 100, S.komiser.risk >= 60 ? "red" : "heat") +
+              '<p class="dim">Açgözlülük ' + S.komiser.acgoz + " · zarf istediğinde kâğıt gelir.</p></div>"
+            : '<div class="card"><h3>Karakol</h3><p class="dim">Henüz isim yok. Dosya 35\'i geçince biri sorar.</p></div>') +
+      '<div class="card"><h3>Baskın riski</h3>' + barrow("Risk", Math.min(100, Math.round(baskinRiski() * 4)), 100, baskinRiski() > 6 ? "red" : "heat") +
+      '<p class="dim">' + (baskinRiski() <= 0 ? "Şimdilik kapı çalmaz." : "Dosya yükseldi. Kapı çalabilir.") + "</p></div>" +
+      '<p class="dim">Ayrıntılı savcılık sistemi bu sürümün kapsamında değil.</p>';
+  }
+
+  function drawHusumet() {
+    var r = S.rivals[0];
+    if (!r) return '<div class="card"><p class="dim">Rakip yok.</p></div>';
+    var rBand = scoutBand("rival", r.id);
+    var held = rBand >= 1 ? ((r.streetsClaimed || []).map(function (id) {
+      var st = streetBy(id);
+      return st ? st.ad : id;
+    }).join(", ") || "—") : "bilinmiyor";
+    var ev = rivalLastEvents();
+    var son = ev.length
+      ? ev.map(function (e) {
+          return "<p>" + esc(e.title) + ' <span class="dim">H' + e.week + (e.day ? "·" + DAYS[e.day - 1] : "") + "</span></p>";
+        }).join("")
+      : '<p class="dim">Son: —</p>';
+    var gizli = rBand >= 3 ? '<p class="dim">Zaafı: ' + esc(r.agresiflik > 60 ? "sabırsız, erken hamle yapar" : "temkinli, önce sözle çözmeye çalışır") + "</p>" : "";
+    return '<div class="card"><p class="ttl">' + (rBand >= 1 ? esc(up(r.ad)) : "BİRİ VAR") + "</p>" +
+      "<p>Durum: <b>" + esc(up(BAND_TR[r.band] || r.band)) + "</b></p>" +
+      '<p class="dim">Keşif: ' + esc(SCOUT_KELIME[rBand]) + "</p>" +
+      '<p class="dim">Tuttukları: ' + esc(held) + "</p>" +
+      barrow("Husumet", num(r.husumet, 0), 100, "red") + gizli +
+      '<div class="hr"></div>' + (rBand >= 1 ? son : "") +
+      '<div class="acts">' +
+      '<button type="button" class="btn" data-act="gozdagi"' + (S.flags.lastGozdagi === S.week ? " disabled" : "") + ">Gözdağı</button>" +
       '<button type="button" class="btn" data-act="pazarlik"' + (S.kasa < 5000 ? " disabled" : "") + ">Pazarlık · ₺5.000</button>" +
       '<button type="button" class="btn danger" data-act="pusu">Pusu planla</button></div>' +
       '<div class="hr"></div><p class="dim">' + (stageAt("baba") ? (ensureGenisleme().sehir.acik ? "Uzak Terminal açık. Ayrıntı Masa ekranında." : "Şehir masası Masa ekranından açılır.") : "Şehir masası baba kademesinde açılır.") + "</p></div>" +
