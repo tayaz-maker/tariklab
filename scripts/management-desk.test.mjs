@@ -109,7 +109,11 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Combined with #198: final-custody stall predicate remains protected.
   // Combined insurance allocation remains inside the same vehicle budget.
   // Combined Package 4 district visibility; retain observed fuel, insurance and custody sources.
-  assert.equal(hash.digest("hex"), "85505f723e1a5ce1ca912232228001ae2a09c4a3d53a848db5d9ac5c1d9fbb87");
+  // Wave1 decision repair: approved zero-safe DEVLET treasury, terminal guards,
+  // focused Apartman repair target and once-only follow-up settlement. No new
+  // coefficients/content/schema. 159 focused tests and 42 source +42 built
+  // Chromium cases cover the reviewed behavior; every other source stays pinned.
+  assert.equal(hash.digest("hex"), "a220308eefbed3ef2861f2d20027ce10c7c9c800c86db9fa67ed8ab32ec285b7");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);
