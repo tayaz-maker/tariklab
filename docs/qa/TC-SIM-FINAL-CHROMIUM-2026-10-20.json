@@ -1,0 +1,1582 @@
+{
+  "candidate": "133dbbd1912b91f651d474f2e14331e31d7becfe",
+  "workflow": 39402406277,
+  "attempt": 1,
+  "conclusion": "success",
+  "hosts": [
+    {
+      "origin": "https://www.tariklab.com",
+      "artifact_id": 12256451607,
+      "status": "PASS",
+      "failure": null,
+      "case_count": 126,
+      "fingerprint_count": 10,
+      "offline_save_rows": 22,
+      "cases": [
+        {
+          "view": "dashboard",
+          "language": "tr",
+          "width": 1440,
+          "reduced": false,
+          "status": "PASS"
+        },
+        {
+          "view": "dashboard",
+          "language": "tr",
+          "width": 1440,
+          "reduced": true,
+          "status": "PASS"
+        },
+        {
+          "view": "dashboard",
+          "language": "tr",
+          "width": 390,
+          "reduced": false,
+          "status": "PASS"
+        },
+        {
+          "view": "dashboard",
+          "language": "tr",
+          "width": 390,
+          "reduced": true,
+          "status": "PASS"
+        },
+        {
+          "view": "dashboard",
+          "language": "tr",
+          "width": 320,
+          "reduced": false,
+          "status": "PASS"
+        },
+        {
+          "view": "dashboard",
+          "language": "tr",
+          "width": 320,
+          "reduced": true,
+          "status": "PASS"
+        },
+        {
+          "view": "dashboard",
+          "language": "en",
+          "width": 1440,
+          "reduced": false,
+          "status": "PASS"
+        },
+        {
+          "view": "dashboard",
+          "language": "en",
+          "width": 1440,
+          "reduced": true,
+          "status": "PASS"
+        },
+        {
+          "view": "dashboard",
+          "language": "en",
+          "width": 390,
+          "reduced": false,
+          "status": "PASS"
+        },
+        {
+          "view": "dashboard",
+          "language": "en",
+          "width": 390,
+          "reduced": true,
+          "status": "PASS"
+        },
+        {
+          "view": "dashboard",
+          "language": "en",
+          "width": 320,
+          "reduced": false,
+          "status": "PASS"
+        },
+        {
+          "view": "dashboard",
+          "language": "en",
+          "width": 320,
+          "reduced": true,
+          "status": "PASS"
+        },
+        {
+          "view": "dashboard",
+          "language": "pl",
+          "width": 1440,
+          "reduced": false,
+          "status": "PASS"
+        },
+        {
+          "view": "dashboard",
+          "language": "pl",
+          "width": 1440,
+          "reduced": true,
+          "status": "PASS"
+        },
+        {
+          "view": "dashboard",
+          "language": "pl",
+          "width": 390,
+          "reduced": false,
+          "status": "PASS"
+        },
+        {
+          "view": "dashboard",
+          "language": "pl",
+          "width": 390,
+          "reduced": true,
+          "status": "PASS"
+        },
+        {
+          "view": "dashboard",
+          "language": "pl",
+          "width": 320,
+          "reduced": false,
+          "status": "PASS"
+        },
+        {
+          "view": "dashboard",
+          "language": "pl",
+          "width": 320,
+          "reduced": true,
+          "status": "PASS"
+        },
+        {
+          "view": "people",
+          "language": "tr",
+          "width": 390,
+          "reduced": false,
+          "status": "PASS"
+        },
+        {
+          "view": "people",
+          "language": "tr",
+          "width": 320,
+          "reduced": false,
+          "status": "PASS"
+        },
+        {
+          "view": "finance",
+          "language": "tr",
+          "width": 390,
+          "reduced": false,
+          "status": "PASS"
+        },
+        {
+          "view": "finance",
+          "language": "tr",
+          "width": 320,
+          "reduced": false,
+          "status": "PASS"
+        },
+        {
+          "view": "marriage",
+          "width": 1440,
+          "status": "PASS"
+        },
+        {
+          "view": "city",
+          "width": 1440,
+          "status": "PASS"
+        },
+        {
+          "view": "mortgage",
+          "language": "tr",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "social-insurance",
+          "language": "tr",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "wage-order",
+          "language": "tr",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "compulsory-wage",
+          "language": "tr",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "court-review",
+          "language": "tr",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "court-evidence-counsel",
+          "language": "tr",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "mortgage-enforcement",
+          "language": "tr",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "partial-friend-debt",
+          "language": "tr",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "mortgage",
+          "language": "tr",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "social-insurance",
+          "language": "tr",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "wage-order",
+          "language": "tr",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "compulsory-wage",
+          "language": "tr",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "court-review",
+          "language": "tr",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "court-evidence-counsel",
+          "language": "tr",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "mortgage-enforcement",
+          "language": "tr",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "partial-friend-debt",
+          "language": "tr",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "mortgage",
+          "language": "en",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "social-insurance",
+          "language": "en",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "wage-order",
+          "language": "en",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "compulsory-wage",
+          "language": "en",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "court-review",
+          "language": "en",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "court-evidence-counsel",
+          "language": "en",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "mortgage-enforcement",
+          "language": "en",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "partial-friend-debt",
+          "language": "en",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "mortgage",
+          "language": "en",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "social-insurance",
+          "language": "en",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "wage-order",
+          "language": "en",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "compulsory-wage",
+          "language": "en",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "court-review",
+          "language": "en",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "court-evidence-counsel",
+          "language": "en",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "mortgage-enforcement",
+          "language": "en",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "partial-friend-debt",
+          "language": "en",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "mortgage",
+          "language": "pl",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "social-insurance",
+          "language": "pl",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "wage-order",
+          "language": "pl",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "compulsory-wage",
+          "language": "pl",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "court-review",
+          "language": "pl",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "court-evidence-counsel",
+          "language": "pl",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "mortgage-enforcement",
+          "language": "pl",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "partial-friend-debt",
+          "language": "pl",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "mortgage",
+          "language": "pl",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "social-insurance",
+          "language": "pl",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "wage-order",
+          "language": "pl",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "compulsory-wage",
+          "language": "pl",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "court-review",
+          "language": "pl",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "court-evidence-counsel",
+          "language": "pl",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "mortgage-enforcement",
+          "language": "pl",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "partial-friend-debt",
+          "language": "pl",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "work-recovery",
+          "language": "tr",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "promise-kept-reputation",
+          "language": "tr",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "promise-broken-reputation",
+          "language": "tr",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "vehicle-work-fuel",
+          "language": "tr",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "vehicle-insurance-month",
+          "language": "tr",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "district-risk-visibility",
+          "language": "tr",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "sentence-release",
+          "language": "tr",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "criminal-verdict",
+          "language": "tr",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "risk-disengagement",
+          "language": "tr",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "work-recovery",
+          "language": "tr",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "promise-kept-reputation",
+          "language": "tr",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "promise-broken-reputation",
+          "language": "tr",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "vehicle-work-fuel",
+          "language": "tr",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "vehicle-insurance-month",
+          "language": "tr",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "district-risk-visibility",
+          "language": "tr",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "sentence-release",
+          "language": "tr",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "criminal-verdict",
+          "language": "tr",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "risk-disengagement",
+          "language": "tr",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "work-recovery",
+          "language": "en",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "promise-kept-reputation",
+          "language": "en",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "promise-broken-reputation",
+          "language": "en",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "vehicle-work-fuel",
+          "language": "en",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "vehicle-insurance-month",
+          "language": "en",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "district-risk-visibility",
+          "language": "en",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "sentence-release",
+          "language": "en",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "criminal-verdict",
+          "language": "en",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "risk-disengagement",
+          "language": "en",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "work-recovery",
+          "language": "en",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "promise-kept-reputation",
+          "language": "en",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "promise-broken-reputation",
+          "language": "en",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "vehicle-work-fuel",
+          "language": "en",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "vehicle-insurance-month",
+          "language": "en",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "district-risk-visibility",
+          "language": "en",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "sentence-release",
+          "language": "en",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "criminal-verdict",
+          "language": "en",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "risk-disengagement",
+          "language": "en",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "work-recovery",
+          "language": "pl",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "promise-kept-reputation",
+          "language": "pl",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "promise-broken-reputation",
+          "language": "pl",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "vehicle-work-fuel",
+          "language": "pl",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "vehicle-insurance-month",
+          "language": "pl",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "district-risk-visibility",
+          "language": "pl",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "sentence-release",
+          "language": "pl",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "criminal-verdict",
+          "language": "pl",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "risk-disengagement",
+          "language": "pl",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "work-recovery",
+          "language": "pl",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "promise-kept-reputation",
+          "language": "pl",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "promise-broken-reputation",
+          "language": "pl",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "vehicle-work-fuel",
+          "language": "pl",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "vehicle-insurance-month",
+          "language": "pl",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "district-risk-visibility",
+          "language": "pl",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "sentence-release",
+          "language": "pl",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "criminal-verdict",
+          "language": "pl",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "risk-disengagement",
+          "language": "pl",
+          "width": 390,
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "origin": "https://tariklab.tayaz29.workers.dev",
+      "artifact_id": 12255461641,
+      "status": "PASS",
+      "failure": null,
+      "case_count": 126,
+      "fingerprint_count": 10,
+      "offline_save_rows": 22,
+      "cases": [
+        {
+          "view": "dashboard",
+          "language": "tr",
+          "width": 1440,
+          "reduced": false,
+          "status": "PASS"
+        },
+        {
+          "view": "dashboard",
+          "language": "tr",
+          "width": 1440,
+          "reduced": true,
+          "status": "PASS"
+        },
+        {
+          "view": "dashboard",
+          "language": "tr",
+          "width": 390,
+          "reduced": false,
+          "status": "PASS"
+        },
+        {
+          "view": "dashboard",
+          "language": "tr",
+          "width": 390,
+          "reduced": true,
+          "status": "PASS"
+        },
+        {
+          "view": "dashboard",
+          "language": "tr",
+          "width": 320,
+          "reduced": false,
+          "status": "PASS"
+        },
+        {
+          "view": "dashboard",
+          "language": "tr",
+          "width": 320,
+          "reduced": true,
+          "status": "PASS"
+        },
+        {
+          "view": "dashboard",
+          "language": "en",
+          "width": 1440,
+          "reduced": false,
+          "status": "PASS"
+        },
+        {
+          "view": "dashboard",
+          "language": "en",
+          "width": 1440,
+          "reduced": true,
+          "status": "PASS"
+        },
+        {
+          "view": "dashboard",
+          "language": "en",
+          "width": 390,
+          "reduced": false,
+          "status": "PASS"
+        },
+        {
+          "view": "dashboard",
+          "language": "en",
+          "width": 390,
+          "reduced": true,
+          "status": "PASS"
+        },
+        {
+          "view": "dashboard",
+          "language": "en",
+          "width": 320,
+          "reduced": false,
+          "status": "PASS"
+        },
+        {
+          "view": "dashboard",
+          "language": "en",
+          "width": 320,
+          "reduced": true,
+          "status": "PASS"
+        },
+        {
+          "view": "dashboard",
+          "language": "pl",
+          "width": 1440,
+          "reduced": false,
+          "status": "PASS"
+        },
+        {
+          "view": "dashboard",
+          "language": "pl",
+          "width": 1440,
+          "reduced": true,
+          "status": "PASS"
+        },
+        {
+          "view": "dashboard",
+          "language": "pl",
+          "width": 390,
+          "reduced": false,
+          "status": "PASS"
+        },
+        {
+          "view": "dashboard",
+          "language": "pl",
+          "width": 390,
+          "reduced": true,
+          "status": "PASS"
+        },
+        {
+          "view": "dashboard",
+          "language": "pl",
+          "width": 320,
+          "reduced": false,
+          "status": "PASS"
+        },
+        {
+          "view": "dashboard",
+          "language": "pl",
+          "width": 320,
+          "reduced": true,
+          "status": "PASS"
+        },
+        {
+          "view": "people",
+          "language": "tr",
+          "width": 390,
+          "reduced": false,
+          "status": "PASS"
+        },
+        {
+          "view": "people",
+          "language": "tr",
+          "width": 320,
+          "reduced": false,
+          "status": "PASS"
+        },
+        {
+          "view": "finance",
+          "language": "tr",
+          "width": 390,
+          "reduced": false,
+          "status": "PASS"
+        },
+        {
+          "view": "finance",
+          "language": "tr",
+          "width": 320,
+          "reduced": false,
+          "status": "PASS"
+        },
+        {
+          "view": "marriage",
+          "width": 1440,
+          "status": "PASS"
+        },
+        {
+          "view": "city",
+          "width": 1440,
+          "status": "PASS"
+        },
+        {
+          "view": "mortgage",
+          "language": "tr",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "social-insurance",
+          "language": "tr",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "wage-order",
+          "language": "tr",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "compulsory-wage",
+          "language": "tr",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "court-review",
+          "language": "tr",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "court-evidence-counsel",
+          "language": "tr",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "mortgage-enforcement",
+          "language": "tr",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "partial-friend-debt",
+          "language": "tr",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "mortgage",
+          "language": "tr",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "social-insurance",
+          "language": "tr",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "wage-order",
+          "language": "tr",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "compulsory-wage",
+          "language": "tr",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "court-review",
+          "language": "tr",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "court-evidence-counsel",
+          "language": "tr",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "mortgage-enforcement",
+          "language": "tr",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "partial-friend-debt",
+          "language": "tr",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "mortgage",
+          "language": "en",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "social-insurance",
+          "language": "en",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "wage-order",
+          "language": "en",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "compulsory-wage",
+          "language": "en",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "court-review",
+          "language": "en",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "court-evidence-counsel",
+          "language": "en",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "mortgage-enforcement",
+          "language": "en",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "partial-friend-debt",
+          "language": "en",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "mortgage",
+          "language": "en",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "social-insurance",
+          "language": "en",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "wage-order",
+          "language": "en",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "compulsory-wage",
+          "language": "en",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "court-review",
+          "language": "en",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "court-evidence-counsel",
+          "language": "en",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "mortgage-enforcement",
+          "language": "en",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "partial-friend-debt",
+          "language": "en",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "mortgage",
+          "language": "pl",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "social-insurance",
+          "language": "pl",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "wage-order",
+          "language": "pl",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "compulsory-wage",
+          "language": "pl",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "court-review",
+          "language": "pl",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "court-evidence-counsel",
+          "language": "pl",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "mortgage-enforcement",
+          "language": "pl",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "partial-friend-debt",
+          "language": "pl",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "mortgage",
+          "language": "pl",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "social-insurance",
+          "language": "pl",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "wage-order",
+          "language": "pl",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "compulsory-wage",
+          "language": "pl",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "court-review",
+          "language": "pl",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "court-evidence-counsel",
+          "language": "pl",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "mortgage-enforcement",
+          "language": "pl",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "partial-friend-debt",
+          "language": "pl",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "work-recovery",
+          "language": "tr",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "promise-kept-reputation",
+          "language": "tr",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "promise-broken-reputation",
+          "language": "tr",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "vehicle-work-fuel",
+          "language": "tr",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "vehicle-insurance-month",
+          "language": "tr",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "district-risk-visibility",
+          "language": "tr",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "sentence-release",
+          "language": "tr",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "criminal-verdict",
+          "language": "tr",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "risk-disengagement",
+          "language": "tr",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "work-recovery",
+          "language": "tr",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "promise-kept-reputation",
+          "language": "tr",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "promise-broken-reputation",
+          "language": "tr",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "vehicle-work-fuel",
+          "language": "tr",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "vehicle-insurance-month",
+          "language": "tr",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "district-risk-visibility",
+          "language": "tr",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "sentence-release",
+          "language": "tr",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "criminal-verdict",
+          "language": "tr",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "risk-disengagement",
+          "language": "tr",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "work-recovery",
+          "language": "en",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "promise-kept-reputation",
+          "language": "en",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "promise-broken-reputation",
+          "language": "en",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "vehicle-work-fuel",
+          "language": "en",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "vehicle-insurance-month",
+          "language": "en",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "district-risk-visibility",
+          "language": "en",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "sentence-release",
+          "language": "en",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "criminal-verdict",
+          "language": "en",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "risk-disengagement",
+          "language": "en",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "work-recovery",
+          "language": "en",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "promise-kept-reputation",
+          "language": "en",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "promise-broken-reputation",
+          "language": "en",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "vehicle-work-fuel",
+          "language": "en",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "vehicle-insurance-month",
+          "language": "en",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "district-risk-visibility",
+          "language": "en",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "sentence-release",
+          "language": "en",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "criminal-verdict",
+          "language": "en",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "risk-disengagement",
+          "language": "en",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "work-recovery",
+          "language": "pl",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "promise-kept-reputation",
+          "language": "pl",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "promise-broken-reputation",
+          "language": "pl",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "vehicle-work-fuel",
+          "language": "pl",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "vehicle-insurance-month",
+          "language": "pl",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "district-risk-visibility",
+          "language": "pl",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "sentence-release",
+          "language": "pl",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "criminal-verdict",
+          "language": "pl",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "risk-disengagement",
+          "language": "pl",
+          "width": 1280,
+          "status": "PASS"
+        },
+        {
+          "view": "work-recovery",
+          "language": "pl",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "promise-kept-reputation",
+          "language": "pl",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "promise-broken-reputation",
+          "language": "pl",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "vehicle-work-fuel",
+          "language": "pl",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "vehicle-insurance-month",
+          "language": "pl",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "district-risk-visibility",
+          "language": "pl",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "sentence-release",
+          "language": "pl",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "criminal-verdict",
+          "language": "pl",
+          "width": 390,
+          "status": "PASS"
+        },
+        {
+          "view": "risk-disengagement",
+          "language": "pl",
+          "width": 390,
+          "status": "PASS"
+        }
+      ]
+    }
+  ]
+}
