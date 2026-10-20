@@ -1,0 +1,253 @@
+{
+  "canonicalMain": "15ca52a07e504c7244556bd377012b842d998bf6",
+  "status": "BLOCKED",
+  "observedAt": "2026-10-20T18:35:00+03:00",
+  "ci": [
+    {
+      "id": 39448854353,
+      "status": "in_progress",
+      "conclusion": null,
+      "head": "15ca52a07e504c7244556bd377012b842d998bf6"
+    },
+    {
+      "id": 39448854330,
+      "status": "in_progress",
+      "conclusion": null,
+      "head": "15ca52a07e504c7244556bd377012b842d998bf6"
+    }
+  ],
+  "vercel": [
+    {
+      "url": "https://api.github.com/repos/tayaz-maker/tariklab/statuses/15ca52a07e504c7244556bd377012b842d998bf6",
+      "avatar_url": "https://avatars.githubusercontent.com/in/8329?v=4",
+      "id": 56801013843,
+      "node_id": "SC_kwDOUB9yl88AAAANOZqwUw",
+      "state": "failure",
+      "description": "Deployment rate limited — retry in 24 hours.",
+      "target_url": "https://vercel.com/cete-d532?upgradeToPro=build-rate-limit",
+      "context": "Vercel",
+      "created_at": "2026-10-20T15:29:19Z",
+      "updated_at": "2026-10-20T15:29:19Z"
+    }
+  ],
+  "productionPreflight": [
+    {
+      "host": "https://www.tariklab.com",
+      "file": "public/games/racon/map-view.js",
+      "sourceSha256": "8c57b8443cd94b26479433bca54ee5f0cf60d2b467392b6fcd949b2137a28216",
+      "status": 200,
+      "servedSha256": "8c57b8443cd94b26479433bca54ee5f0cf60d2b467392b6fcd949b2137a28216",
+      "matches": true
+    },
+    {
+      "host": "https://www.tariklab.com",
+      "file": "public/games/racon/network.js",
+      "sourceSha256": "51fb6c9cc5927e76eeb0c208e22c4ffa8591935d11f899af7f8be5a8a4e96f26",
+      "status": 200,
+      "servedSha256": "51fb6c9cc5927e76eeb0c208e22c4ffa8591935d11f899af7f8be5a8a4e96f26",
+      "matches": true
+    },
+    {
+      "host": "https://www.tariklab.com",
+      "file": "public/games/racon/index.html",
+      "sourceSha256": "a0e16d7557b8f9cf5af8a2961edf14eed5060370bf75f29acf012e36bdeb1e4b",
+      "status": 200,
+      "servedSha256": "aa8e7fba1b2ce993a0d837b7c795f6b64e87e123c426f3f3d78b3f630ab0068b",
+      "matches": false,
+      "matchesPreviousMain": true
+    },
+    {
+      "host": "https://www.tariklab.com",
+      "file": "public/games/racon/content.js",
+      "sourceSha256": "b1ed9d8079d3b71b9f703d35b804fc9d576749a608953a2e9939b1979583485b",
+      "status": 200,
+      "servedSha256": "b1ed9d8079d3b71b9f703d35b804fc9d576749a608953a2e9939b1979583485b",
+      "matches": true
+    },
+    {
+      "host": "https://www.tariklab.com",
+      "file": "public/games/racon/map-model.js",
+      "sourceSha256": "f18680c885b404449a81c582921806e09c9d688da4422324cc5d4c3a3a4327e9",
+      "status": 200,
+      "servedSha256": "f18680c885b404449a81c582921806e09c9d688da4422324cc5d4c3a3a4327e9",
+      "matches": true
+    },
+    {
+      "host": "https://www.tariklab.com",
+      "file": "public/games/racon/outcome-moment.js",
+      "sourceSha256": "8c3dd7dcd3109f6fbff55719cec255bb16294407f5400144c169c1a68604d484",
+      "status": 200,
+      "servedSha256": "8c3dd7dcd3109f6fbff55719cec255bb16294407f5400144c169c1a68604d484",
+      "matches": true
+    },
+    {
+      "host": "https://www.tariklab.com",
+      "file": "public/games/racon/layout-check.html",
+      "sourceSha256": "014cd8cf7acee64195f8bc05bccb812fdfdef7cc24d4b871daff51b0477593a0",
+      "status": 200,
+      "servedSha256": "014cd8cf7acee64195f8bc05bccb812fdfdef7cc24d4b871daff51b0477593a0",
+      "matches": true
+    },
+    {
+      "host": "https://www.tariklab.com",
+      "file": "public/i18n/tlab-i18n.js",
+      "sourceSha256": "2e194bc4c17930f5802c131afc6f8dc03cfaee0783fd78a08fa9683078c61595",
+      "status": 200,
+      "servedSha256": "c934e6656d0558fddeb5781c69001dc8fb4f4ca0c1c67cbcb5ef185d125ec6ac",
+      "matches": false,
+      "matchesPreviousMain": true
+    },
+    {
+      "host": "https://www.tariklab.com",
+      "file": "public/i18n/pl/racon.json",
+      "sourceSha256": "20d77979481f32bee1ec02e5d13abde59be06e32dda4f04887e9d25df5ffca59",
+      "status": 200,
+      "servedSha256": "0230027b2bb79b9ae60a07bbd0be5e40acb6e48cc2136735f61af355d3782d4a",
+      "matches": false,
+      "matchesPreviousMain": true
+    },
+    {
+      "host": "https://www.tariklab.com",
+      "file": "public/i18n/pl-body.js",
+      "sourceSha256": "5751281807f9654465bfc80d114f8a25f04c1412c6fc1064cf1fb158b86280ad",
+      "status": 200,
+      "servedSha256": "5751281807f9654465bfc80d114f8a25f04c1412c6fc1064cf1fb158b86280ad",
+      "matches": true
+    },
+    {
+      "host": "https://www.tariklab.com",
+      "file": "public/i18n/boot.js",
+      "sourceSha256": "7144da658c38c0e728e636961c14d8768496d8b7b1a7206d7023318d2b07393f",
+      "status": 200,
+      "servedSha256": "7144da658c38c0e728e636961c14d8768496d8b7b1a7206d7023318d2b07393f",
+      "matches": true
+    },
+    {
+      "host": "https://www.tariklab.com",
+      "file": "public/games/shared/depth-framework.js",
+      "sourceSha256": "76bd11136d1aa441a349c7f1008d804ffa7bd90cb82ffb05fdb726d6422eb92e",
+      "status": 200,
+      "servedSha256": "76bd11136d1aa441a349c7f1008d804ffa7bd90cb82ffb05fdb726d6422eb92e",
+      "matches": true
+    },
+    {
+      "host": "https://www.tariklab.com",
+      "file": "public/games/shared/pixi-adapter.js",
+      "sourceSha256": "bf4eebb4533aee15ae9997e97e2167774ae1b6ee5b1f1d838448293fe79fc010",
+      "status": 200,
+      "servedSha256": "bf4eebb4533aee15ae9997e97e2167774ae1b6ee5b1f1d838448293fe79fc010",
+      "matches": true
+    },
+    {
+      "host": "https://www.tariklab.com",
+      "file": "public/vendor/pixi/pixi-8.21.0.min.mjs",
+      "sourceSha256": "2f69e90f5b1980e6ea244bacfb3fa1eb457e16ddcb0a602b694642658956f2ef",
+      "status": 200,
+      "servedSha256": "2f69e90f5b1980e6ea244bacfb3fa1eb457e16ddcb0a602b694642658956f2ef",
+      "matches": true
+    },
+    {
+      "host": "https://tariklab.tayaz29.workers.dev",
+      "file": "public/games/racon/map-view.js",
+      "sourceSha256": "8c57b8443cd94b26479433bca54ee5f0cf60d2b467392b6fcd949b2137a28216",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "host": "https://tariklab.tayaz29.workers.dev",
+      "file": "public/games/racon/network.js",
+      "sourceSha256": "51fb6c9cc5927e76eeb0c208e22c4ffa8591935d11f899af7f8be5a8a4e96f26",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "host": "https://tariklab.tayaz29.workers.dev",
+      "file": "public/games/racon/index.html",
+      "sourceSha256": "a0e16d7557b8f9cf5af8a2961edf14eed5060370bf75f29acf012e36bdeb1e4b",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "host": "https://tariklab.tayaz29.workers.dev",
+      "file": "public/games/racon/content.js",
+      "sourceSha256": "b1ed9d8079d3b71b9f703d35b804fc9d576749a608953a2e9939b1979583485b",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "host": "https://tariklab.tayaz29.workers.dev",
+      "file": "public/games/racon/map-model.js",
+      "sourceSha256": "f18680c885b404449a81c582921806e09c9d688da4422324cc5d4c3a3a4327e9",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "host": "https://tariklab.tayaz29.workers.dev",
+      "file": "public/games/racon/outcome-moment.js",
+      "sourceSha256": "8c3dd7dcd3109f6fbff55719cec255bb16294407f5400144c169c1a68604d484",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "host": "https://tariklab.tayaz29.workers.dev",
+      "file": "public/games/racon/layout-check.html",
+      "sourceSha256": "014cd8cf7acee64195f8bc05bccb812fdfdef7cc24d4b871daff51b0477593a0",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "host": "https://tariklab.tayaz29.workers.dev",
+      "file": "public/i18n/tlab-i18n.js",
+      "sourceSha256": "2e194bc4c17930f5802c131afc6f8dc03cfaee0783fd78a08fa9683078c61595",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "host": "https://tariklab.tayaz29.workers.dev",
+      "file": "public/i18n/pl/racon.json",
+      "sourceSha256": "20d77979481f32bee1ec02e5d13abde59be06e32dda4f04887e9d25df5ffca59",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "host": "https://tariklab.tayaz29.workers.dev",
+      "file": "public/i18n/pl-body.js",
+      "sourceSha256": "5751281807f9654465bfc80d114f8a25f04c1412c6fc1064cf1fb158b86280ad",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "host": "https://tariklab.tayaz29.workers.dev",
+      "file": "public/i18n/boot.js",
+      "sourceSha256": "7144da658c38c0e728e636961c14d8768496d8b7b1a7206d7023318d2b07393f",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "host": "https://tariklab.tayaz29.workers.dev",
+      "file": "public/games/shared/depth-framework.js",
+      "sourceSha256": "76bd11136d1aa441a349c7f1008d804ffa7bd90cb82ffb05fdb726d6422eb92e",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "host": "https://tariklab.tayaz29.workers.dev",
+      "file": "public/games/shared/pixi-adapter.js",
+      "sourceSha256": "bf4eebb4533aee15ae9997e97e2167774ae1b6ee5b1f1d838448293fe79fc010",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "host": "https://tariklab.tayaz29.workers.dev",
+      "file": "public/vendor/pixi/pixi-8.21.0.min.mjs",
+      "sourceSha256": "2f69e90f5b1980e6ea244bacfb3fa1eb457e16ddcb0a602b694642658956f2ef",
+      "error": "HTTP Error 403: Forbidden"
+    }
+  ],
+  "productionChromium": "NOT_RUN_GATE_PENDING",
+  "proofCommit": "7457e2aa71069199f1d1c86933fa5e529eb8f616",
+  "b": {
+    "tree": "4523c43260e07bea267154f94a744e68ee640f90",
+    "targeted": {
+      "pass": 102,
+      "fail": 0,
+      "skip": 0
+    },
+    "typecheck": "PASS",
+    "build": "PASS",
+    "sourceChromium": 18,
+    "builtChromium": 18,
+    "release": "NOT_RELEASED"
+  },
+  "rollback": {
+    "previousMain": "272c5ea08340de09e777ee60a03b0ccd4da96632",
+    "performed": false
+  }
+}
