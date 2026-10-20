@@ -1584,8 +1584,8 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
     if (S.flags.gozIndirim) defter("Alt ekip göz · dosya -1");
     g.semtler.forEach(function (s) {
       if (!s.acik || s.id === "avlu") return;
-      if (ownN() >= 3 && s.sadakat >= 20) {
-        var pay = s.id === "esik" ? 4000 : 2500;
+      var pay = districtWeeklyPay(s, ownN(), s.sadakat);
+      if (pay) {
         cashChange(pay, true);
         defter(s.ad + " payı · +" + pay);
       } else {
@@ -2531,6 +2531,7 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
       if (st.dikey) st.heat = clamp(st.heat + 1, 0, 100);
     });
     S.streets.forEach(function (st) {
+      if (st.muhurLeft > 0) st.muhurLeft -= 1;
       var terorHedef = clamp(num(st.heat, 0) * 0.6 + (st.sahip === "rakip" ? hus * 0.3 : 0), 0, 100);
       var terorOnce = num(st.terorMahalle, 0);
       st.terorMahalle = clamp(terorOnce + (terorHedef > terorOnce ? 4 : -3), 0, 100);
@@ -2539,7 +2540,7 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
       st.sadakatMahalle = clamp(sadakatOnce + (sadakatHedef > sadakatOnce ? 2 : -2), 0, 100);
       if (st.terorMahalle >= 70 && terorOnce < 70) {
         st.muhurLeft = 1;
-        pushInbox("Mühür: " + st.ad + ".", "Terör yükseldi. Bu sokakta iş planı bu tur kilitli.");
+        pushInbox("Mühür: " + st.ad + ".", "Terör yükseldi. Bu sokakta iş planı bu hafta kilitli.");
       }
       if (st.terorMahalle >= 60 && !st.sivilUyari) {
         st.sivilUyari = true;
@@ -2547,7 +2548,6 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
       } else if (st.terorMahalle < 50) {
         st.sivilUyari = false;
       }
-      if (st.muhurLeft > 0) st.muhurLeft -= 1;
       if (st.sahip === "sen") {
         var gozcuVar = S.men.some(function (m) { return m.rol === "gozcu" && m.durum !== "olu"; });
         var ihbarSans = clamp(st.terorMahalle / 300 - st.sadakatMahalle / 500, 0, 0.15) * (gozcuVar ? 0.5 : 1);
@@ -5317,11 +5317,24 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
       })();
   }
 
+  function districtWeeklyPay(district, ownedCount, loyalty) {
+    if (!district.acik || district.id === "avlu" || ownedCount < 3 || loyalty < 20) return 0;
+    return district.id === "esik" ? 4000 : 2500;
+  }
+  function raconText(tr, en) {
+    return window.tlabI18n && typeof window.tlabI18n.localize === "function" ? window.tlabI18n.localize(tr, en) : tr;
+  }
   function drawKasa() {
     var yev = yevmiyeToplami() * (bosTahtMi() ? 2 : 1);
     var investmentIncome = S.streets.reduce(function(n,st){return n + (st.sahip === "sen" ? num(st.yatirim,0) * window.RaconAg.YATIRIM_GELIR : 0);},0);
     var fixedCost = yev + (S.flags.avukatTutuldu ? 6000 : 0) + (S.flags.aklamaFront ? AKLAMA_FRONT[S.flags.aklamaFront].masraf : 0);
-    var recurring = weeklyPassive() + investmentIncome;
+    var expansion = ensureGenisleme();
+    var managerBonus = crewOfRole("sokak") ? 2 : 0;
+    var districtIncome = expansion.semtler.reduce(function (sum, district) {
+      return sum + districtWeeklyPay(district, ownN(), clamp(district.sadakat + managerBonus, 0, 100));
+    }, 0);
+    var cityIncome = expansion.sehir.acik ? 1500 : 0;
+    var recurring = weeklyPassive() + investmentIncome + districtIncome + cityIncome;
     var rows = S.defter.slice(-8).reverse().map(function (line) {
       var i = line.lastIndexOf(" · ");
       var amt = i >= 0 ? line.slice(i + 3) : "";
@@ -5346,7 +5359,7 @@ var ROL_PERSON = { berber: "berber", kapici: "kapıcı", kahveci: "kahveci" };
     var dirty = num(S.dirtyKasa, 0), clean = num(S.cleanKasa, 0);
     var tasti = dirty > num(S.aklamaKapasite, 0) + (S.flags.aklamaFront ? AKLAMA_FRONT[S.flags.aklamaFront].kapasite : 0);
     return '<div class="card"><h3>Kasa</h3><p class="kasa-big">₺' + S.kasa.toLocaleString("tr-TR") + '</p><p class="dim">Haftalık yevmiye ₺' + yev.toLocaleString("tr-TR") + " · kira/köşe/sokak ₺" + weeklyPassive().toLocaleString("tr-TR") + (S.debt ? " · borç ₺" + S.debt.toLocaleString("tr-TR") : "") + "</p>" +
-      '<div class="cash-outlook"><p><b>Haftalık düzenli akış</b></p><p>Gelir ₺' + recurring.toLocaleString('tr-TR') + ' · gider ₺' + fixedCost.toLocaleString('tr-TR') + ' · net ' + fmtPara(recurring-fixedCost) + '</p><p class="dim">Yatırım geliri ₺' + investmentIncome.toLocaleString('tr-TR') + '; giderlere yevmiye, açık avukat ve paravan dahildir. İş kazancı, tek seferlik ödemeler ve baskın kayıpları hariç. Kontrol ve sokak baskısı değişirse gelir de değişir.</p></div>' +
+      '<div class="cash-outlook"><p><b>' + esc(raconText("Mevcut koşullarla haftalık düzenli akış", "Weekly recurring flow at current conditions")) + '</b></p><p>' + esc(raconText('Gelir ₺' + recurring.toLocaleString('tr-TR') + ' · gider ₺' + fixedCost.toLocaleString('tr-TR') + ' · net ' + fmtPara(recurring-fixedCost), 'Income ₺' + recurring.toLocaleString('tr-TR') + ' · expenses ₺' + fixedCost.toLocaleString('tr-TR') + ' · net ' + fmtPara(recurring-fixedCost))) + '</p><p class="dim">' + esc(raconText('Yatırım geliri ₺' + investmentIncome.toLocaleString('tr-TR') + ' · semt/şehir payı ₺' + (districtIncome+cityIncome).toLocaleString('tr-TR') + '; giderlere yevmiye, açık avukat ve paravan dahildir. İş kazancı, tek seferlik ödemeler ve baskın kayıpları hariç. Kontrol ve sokak baskısı değişirse gelir de değişir.', 'Investment income ₺' + investmentIncome.toLocaleString('tr-TR') + ' · district/city share ₺' + (districtIncome+cityIncome).toLocaleString('tr-TR') + '; expenses include wages, active lawyer and front. Job earnings, one-off payments and raid losses are excluded. Income changes with control and street pressure.')) + '</p></div>' +
       '<div class="split2col"><div><p class="dim">KİRLİ</p><p class="num">₺' + dirty.toLocaleString("tr-TR") + "</p></div>" +
       '<div><p class="dim">TEMİZ</p><p class="num">₺' + clean.toLocaleString("tr-TR") + "</p></div></div>" +
       '<p class="dim">Aklama kapasitesi haftada ₺' + num(S.aklamaKapasite, 0).toLocaleString("tr-TR") +

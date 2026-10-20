@@ -968,3 +968,7 @@ Prepared checkpoint 5a6fc1a after save repairs: legitimate zero treasury survive
 ## 2026-10-20 — Kiyi Esigi archive preparation
 
 Retain the original coast runtime, map model/Pixi fallback, validated v1 saves, bounded corrupt recovery and source provenance. Catalogue status becomes archived, live Resources entries retire in TR/EN/PL, existing routes stay playable with the localized archive notice; the unrelated JITEM link remains specific to IHTILAL. Portal cache v7 retires stale active navigation without changing localStorage or game caches. Separate six-case coast Chromium acceptance preserves primary/backup/recovery and action/reload; existing IHTILAL and coast recovery gates remain. Release depends on both Wave 1 merges and final archive-reference/production verification; no source deletion or game rewrite.
+
+## 2026-10-20 — Racon A preparation
+
+Share district payment eligibility with the existing cash forecast, include eligible district/city shares and project street-manager loyalty before district pay. Existing amounts/order/costs unchanged; dirty-to-clean transfer remains excluded from income. A newly raised seal survives to the next weekly closing, preserves prepared jobs and still permits withdrawal. Same existing card, source/UI/map/save contract; new render copy gets TR/EN and scoped PL entries. 91 Racon +19 i18n tests, source/build60 existing browser checks each PASS. Independent preparation only; post-Wave1/Kiyi reconciliation, new locale/long-run and exact-head CI remain gates. No native/audio/card work.

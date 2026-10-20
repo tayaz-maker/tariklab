@@ -1,0 +1,7 @@
+# Racon A preparation — economy and region
+
+Prepared from canonical 7c0643c after reading the existing Racon GTA-manager handoff. No alternate architecture or visual rewrite. Four focused tests first reproduced three failures: omitted district/city forecast, transfer accounting display and seal immediately lost. The repair keeps the weekly manager/district/city order, shares pure district eligibility with the payment path, projects only manager loyalty before payment and retains city loyalty after payment. Existing pay/cost coefficients stay unchanged. An 800 dirty-to-clean transfer remains a transfer. New seal persists until next closing; existing plan/network guards, withdrawal exception and prepared jobs remain.
+
+Validation: 91 Racon tests and 19 i18n tests PASS; source and fresh-build existing real Chromium suite each60 menu/viewport checks PASS, zero errors (320/360/390/430/1440). The new forecast is render-only TR/EN with scoped PL overlay entries; stored seal paper remains canonical Turkish. New-copy source and built TR/EN/PL x390/1280 browser cases each6/6 PASS, including the localized weekly seal warning and canonical Turkish saved paper. Long-run and integrated current-head CI remain required before release. Existing source/UI/palette/map/save kind/keys are preserved.
+
+A precedes B crew/police fixes, then C language/long-run acceptance. Wave1 release and Kiyi archive retain priority. This checkpoint is preparation, not a merged/deployed game.

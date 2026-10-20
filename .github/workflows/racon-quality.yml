@@ -4,6 +4,9 @@ on:
     paths:
       - public/games/racon/**
       - scripts/racon-*.mjs
+      - public/i18n/pl/racon.json
+      - scripts/pl/screen/racon.json
+      - public/i18n/tlab-i18n.js
       - .github/workflows/racon-quality.yml
   workflow_dispatch:
 jobs:
@@ -32,6 +35,8 @@ jobs:
       - run: node scripts/racon-quality-browser.mjs --source
       - run: node scripts/racon-quality-browser.mjs
       - run: node scripts/racon-map-browser.mjs --serve .output/public --label build
+      - run: node scripts/racon-region-browser.mjs --source
+      - run: node scripts/racon-region-browser.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
