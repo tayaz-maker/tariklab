@@ -1,0 +1,43 @@
+name: Wave1 decision production acceptance
+on:
+  push:
+    branches: [qa/wave1-decision-production-20261020]
+permissions:
+  contents: read
+jobs:
+  production:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: www
+            origin: https://www.tariklab.com
+          - label: workers
+            origin: https://tariklab.tayaz29.workers.dev
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22', cache: npm}
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium --only-shell
+      - name: Exact deployed files and live game decisions, save and reload
+        env:
+          BROWSER_ALLOW_EXTERNAL_HOST: '1'
+          WAVE1_BASE: ${{ matrix.origin }}
+          PORTAL_BASE: ${{ matrix.origin }}
+        run: |
+          node scripts/wave1-decision-production-hashes.mjs
+          node scripts/wave1-decision-browser.mjs --label '${{ matrix.label }}'
+          node scripts/wave1-bukucu-production.mjs '${{ matrix.label }}' public
+          node scripts/wave1-decision-portal-production.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: wave1-decision-production-${{ matrix.label }}
+          path: |
+            ${{ runner.temp }}/screenshots/wave1-decision
+            ${{ runner.temp }}/screenshots/wave1-bukucu
+            ${{ runner.temp }}/screenshots/wave1-decision-production
+            ${{ runner.temp }}/screenshots/portal-wave1-decision
