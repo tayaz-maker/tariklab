@@ -1,0 +1,39 @@
+name: Racon B exact main candidate acceptance
+on:
+  push:
+    branches: [qa/racon-b-staging-20261020]
+permissions:
+  contents: read
+jobs:
+  production:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: candidate
+            origin: https://de08ead6-tariklab.tayaz29.workers.dev
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22', cache: npm}
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium --only-shell
+      - name: Exact deployed files and real manager decisions and portal save/reload
+        env:
+          BROWSER_ALLOW_EXTERNAL_HOST: '1'
+          RACON_BASE: ${{ matrix.origin }}
+          RACON_LABEL: ${{ matrix.label }}
+          RELEASE_STAGE: b
+          RELEASE_MAIN: 9b5a06e349131d912baee1a7bb5ba86ced4a9b1e
+        run: node scripts/racon-release-production.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: racon-b-candidate-${{ matrix.label }}
+          path: |
+            ${{ runner.temp }}/screenshots/racon-production
+            ${{ runner.temp }}/screenshots/racon-region
+            ${{ runner.temp }}/screenshots/racon-crew-police
+            ${{ runner.temp }}/screenshots/racon-language
