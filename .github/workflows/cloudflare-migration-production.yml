@@ -1,0 +1,44 @@
+name: Cloudflare migration production acceptance
+on:
+  push:
+    branches: [qa/cloudflare-migration-20261020]
+permissions:
+  contents: read
+jobs:
+  production:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: www
+            origin: https://www.tariklab.com
+          - label: workers
+            origin: https://tariklab.tayaz29.workers.dev
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22', cache: npm}
+      - run: npm ci
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium --only-shell
+      - name: Exact deployed sources, compiled SW, 18 live routes and archives
+        env:
+          MIGRATION_ORIGIN: ${{ matrix.origin }}
+          RELEASE_MAIN: 15ca52a07e504c7244556bd377012b842d998bf6
+        run: node scripts/cloudflare-migration-production.mjs
+      - name: Original Wave 1 save, corrupt-save and storage-fault scenarios on actual host
+        env:
+          MIGRATION_ORIGIN: ${{ matrix.origin }}
+        run: node scripts/wave1-save-production.mjs --label ${{ matrix.label }}
+      - name: Original TC real offline, migration, localized controls and reload
+        run: node scripts/tc-sim-job-start-outcome-browser.mjs --base-url ${{ matrix.origin }} --production --expected-root .output/public --label ${{ matrix.label }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cloudflare-migration-${{ matrix.label }}
+          path: |
+            ${{ runner.temp }}/screenshots/cloudflare-migration
+            ${{ runner.temp }}/screenshots/wave1-save
+            ${{ runner.temp }}/screenshots/tc-job-start-outcome
