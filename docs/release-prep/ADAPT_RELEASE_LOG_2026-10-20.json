@@ -25,7 +25,25 @@
         "save": 4
       },
       "production": "Await combined ADAPT sync; product remains #26 canonical"
+    },
+    {
+      "group": 2,
+      "status": "DONE_SOURCE_ACCEPTED",
+      "pr": 28,
+      "canonical": "042e5f489ad35dc29d723595e681a87d185181d6",
+      "head": "ce8a89f4ae80dacdf148b4cc1880098d1fade58c",
+      "ci": 39421711722,
+      "artifact": 12264375976,
+      "testsPassed": 298,
+      "chromium": {
+        "atlas": 7,
+        "product": 8,
+        "support": 12,
+        "save": 4,
+        "due": 20
+      },
+      "production": "Await combined ADAPT sync; product remains #26 canonical"
     }
   ],
-  "next": "ADAPT 2 current-source Chromium and CI; no archive before all three source/product gates"
+  "next": "ADAPT 3 exact-head acceptance, then controlled TarikLab sync"
 }
