@@ -19,12 +19,6 @@ export const GAMES = Object.freeze({
     height: 300,
     sourceSha256: "e385808c632851e5110e47950af4c33f33e6f9784ca235ca7d70c5a1e6dd99a3",
   },
-  "darbe-h": {
-    prefix: "DRB",
-    width: 400,
-    height: 560,
-    sourceSha256: "222916020ef176ced6ad72d4c61038bf045757e7ae9d7a6bfa6d8f99c657f3f9",
-  },
 });
 
 export const CARDS_PER_GAME = 300;

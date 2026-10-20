@@ -11,8 +11,8 @@ export const EXTENDED_NAMES = [
 export function owner(file) {
   if (/^(?:wave5-tc-sim-devlet|tc-sim-devlet)/.test(file)) return 'tc-sim-devlet';
   if (/^(?:tc-sim|wave4-tc-sim)/.test(file)) return 'tc-sim';
-  if (/^(?:duel|darbe-h|veto-h|gett-oh)/.test(file)) return 'duel';
-  for (const id of ['racon','hanedanian','ihtilal','esik','atlas','cete'])
+  if (/^(?:duel|veto-h|gett-oh)/.test(file)) return 'duel';
+  for (const id of ['racon','hanedanian','ihtilal','esik','cete'])
     if (file.startsWith(id+'-') || file === id+'.test.mjs') return id;
   return null; // Unowned/shared tests are always critical, never silently omitted.
 }
@@ -20,7 +20,7 @@ export function plan(files,{full=true,routes=[],shard=0,shards=4}={}) {
   if (!Number.isInteger(shard)||!Number.isInteger(shards)||shards<1||shard<0||shard>=shards)
     throw new Error('Invalid unit shard');
   const selected=new Set(routes);
-  if(['veto-h','gett-oh','darbe-h'].some(id=>selected.has(id)))selected.add('duel');
+  if(['veto-h','gett-oh'].some(id=>selected.has(id)))selected.add('duel');
   if(selected.has('cete-savaslari'))selected.add('cete');
   return [...files].sort().filter(file => {
     const game=owner(file);

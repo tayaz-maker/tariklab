@@ -92,7 +92,6 @@ const html = `<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta n
 header{max-width:1400px;margin:0 auto 16px}h1{font-size:20px;margin:0 0 6px}p{color:var(--mut);margin:4px 0}
 section{max-width:1400px;margin:0 auto 32px}h2{font-size:16px;border-bottom:1px solid var(--line);padding-bottom:6px}
 .grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr))}
-.g-darbe-h{grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr))}
 .tile{margin:0;background:var(--card);border:1px solid var(--line);border-radius:8px;overflow:hidden}
 .tile img{display:block;width:100%;height:auto}.tile.rejected{border-color:var(--bad)}
 figcaption{padding:8px;display:grid;gap:4px}.tag{color:var(--mut);font-size:12px}.gate{font-size:12px;color:var(--mut)}.rejected .gate{color:var(--bad)}

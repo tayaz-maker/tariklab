@@ -5,7 +5,7 @@
  */
 import { resolveCardArt } from "./art-release.js";
 
-export const SIBLING_THEMES = ["veto-h", "gett-oh", "darbe-h"];
+export const SIBLING_THEMES = ["veto-h", "gett-oh"];
 export const LEGACY_SHARED_THEMES = ["veto-h", "gett-oh"];
 
 const VETO_LABELS = {
@@ -47,28 +47,6 @@ const GETT_LABELS = {
     trap: "Tip-off",
     battle: "Clash",
     auxiliary: "Alliance",
-    "end-main": "End Turn",
-    "set-field": "Set Field",
-  },
-};
-
-const DARBE_LABELS = {
-  tr: {
-    unit: "Görevli",
-    spell: "Emirname",
-    trap: "İhtar",
-    battle: "Kriz",
-    auxiliary: "Yedek Heyet",
-    grave: "Arşiv",
-    "end-main": "Turu Bitir",
-    "set-field": "Alanı Set Et",
-  },
-  en: {
-    unit: "Officer",
-    spell: "Order",
-    trap: "Notice",
-    battle: "Crisis",
-    auxiliary: "Reserve Panel",
     "end-main": "End Turn",
     "set-field": "Set Field",
   },
@@ -154,45 +132,6 @@ export const THEME_META = {
     activateSpell: { tr: "Raconu Aç", en: "Play Racon" },
     recordFile: { tr: "Gece dosyası", en: "Night File" },
     flowCopy: FLOW_COPY_DEFAULT,
-  },
-  "darbe-h": {
-    name: "DARBE-H!",
-    point: "KP",
-    pointLong: { tr: "Kriz Puanı", en: "Crisis Points" },
-    identityKey: "commandDesk",
-    defaultIdentity: "muhtira",
-    prefix: "DRB",
-    trapSeries: "İhtar",
-    fileLabelKey: "crisisFile",
-    starLabelKey: "crisisMove",
-    turnLabelKey: "deskTurn",
-    resultLabelKey: "postMatch",
-    workLabelKey: "matchStar",
-    showElectionShare: false,
-    showHardestWorker: false,
-    hoodAccent: true,
-    art: { kind: "svg", width: 400, height: 560 },
-    eyebrow: { tr: "OLAĞANÜSTÜ MASA · KART DÜELLOSU", en: "EXTRAORDINARY DESK · CARD DUEL" },
-    labels: DARBE_LABELS,
-    deckHeading: { tr: "Kriz Destesi", en: "Crisis Deck" },
-    deckIntro: {
-      tr: "Burada oynayacağın 40 kartlık desteyi seçiyorsun. Her masa farklı bir kart listesidir.",
-      en: "You are choosing the 40-card deck you will play. Each desk is a different card list.",
-    },
-    battleEnter: { tr: "Krize Geç", en: "Enter Crisis" },
-    battleEnd: { tr: "Krizi Bitir", en: "End Crisis" },
-    tributeSummon: { tr: "Paraf ile Çağır", en: "Summon by Initial" },
-    normalSummon: { tr: "Masaya Al", en: "Seat at the Desk" },
-    setVerb: { tr: "Set Et", en: "Set" },
-    directAttack: { tr: "Açık Tebligat", en: "Open Dispatch" },
-    unitAttack: { tr: "Krize Sok", en: "Press the Crisis" },
-    activateTrap: { tr: "İhtarı Aç", en: "Open the Notice" },
-    activateSpell: { tr: "Emirnameyi Oku", en: "Read the Order" },
-    recordFile: { tr: "Kriz dosyası", en: "Crisis File" },
-    flowCopy: {
-      graveTo: { tr: "Arşiv’e", en: "the archive" },
-      tribute: { tr: "paraf", en: "a countersignature" },
-    },
   },
 };
 

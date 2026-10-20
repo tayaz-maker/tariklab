@@ -29,18 +29,7 @@ const GETT = {
   tribute: { tr: "feda", en: "tribute" },
 };
 
-const DARBE = {
-  point: "KP",
-  pointLong: { tr: "Kriz Puanı", en: "Crisis Points" },
-  unit: { tr: "Görevli", en: "Officer" },
-  spell: { tr: "Emirname", en: "Order" },
-  trap: { tr: "İhtar", en: "Notice" },
-  battle: { tr: "Kriz", en: "Crisis" },
-  deck: { tr: "Kriz Destesi", en: "Crisis Deck" },
-  tribute: { tr: "paraf", en: "initial" },
-};
-
-const HELP_VOCAB = { "veto-h": VETO, "gett-oh": GETT, "darbe-h": DARBE };
+const HELP_VOCAB = { "veto-h": VETO, "gett-oh": GETT };
 
 const pick = (value, lang) => (lang === "en" ? value.en : value.tr);
 

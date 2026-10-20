@@ -1,5 +1,5 @@
-// Card-art release gate: validator logic, atomic release pointer, DARBE
-// SVG→WebP migration path and old/new art cache separation. Uses small synthetic
+// Card-art release gate: validator logic, atomic release pointer, GETT
+// accepted-release path and old/new art cache separation. Uses small synthetic
 // packs only; the real Grok pack is validated with `npm run art:gate`.
 import assert from "node:assert/strict";
 import test from "node:test";
@@ -111,13 +111,13 @@ test("canonical source-cards.json hashes are unchanged (card data is not part of
 });
 
 test("parseWebp reads real dimensions and rejects truncated / non-WebP bytes", () => {
-  assert.deepEqual(parseWebp(fakeWebp(400, 560)), {
+  assert.deepEqual(parseWebp(fakeWebp(400, 300)), {
     ok: true,
     codec: "VP8L",
     width: 400,
-    height: 560,
+    height: 300,
   });
-  assert.equal(parseWebp(fakeWebp(400, 560).subarray(0, 25)).ok, false);
+  assert.equal(parseWebp(fakeWebp(400, 300).subarray(0, 25)).ok, false);
   assert.equal(
     parseWebp(Buffer.from("<svg xmlns='http://www.w3.org/2000/svg'></svg>".padEnd(40))).ok,
     false,
@@ -131,11 +131,11 @@ test("parseWebp reads real dimensions and rejects truncated / non-WebP bytes", (
 });
 
 test("a full, clean 300/300 pack reaches READY_FOR_VISUAL_QA, never ACCEPTED", () => {
-  const r = gate(makePack("darbe-h", 300), "darbe-h");
-  assert.equal(r.games["darbe-h"].manifestPass, 300);
-  assert.equal(r.games["darbe-h"].releaseGate, "READY_FOR_VISUAL_QA");
-  assert.equal(r.games["darbe-h"].visualQa, "PENDING");
-  assert.equal(r.line, "DARBE 300/300");
+  const r = gate(makePack("gett-oh", 300), "gett-oh");
+  assert.equal(r.games["gett-oh"].manifestPass, 300);
+  assert.equal(r.games["gett-oh"].releaseGate, "READY_FOR_VISUAL_QA");
+  assert.equal(r.games["gett-oh"].visualQa, "PENDING");
+  assert.equal(r.line, "GETT 300/300");
 });
 
 test("a partial pack is BLOCKED and lists every missing id", () => {
@@ -180,7 +180,7 @@ test("every rejection carries a reason: size, provenance, name swap, duplicate b
 });
 
 test("byte size is never a quality signal: a clean pack of tiny files still reaches only manifest-pass with visual QA PENDING", () => {
-  const r = gate(makePack("darbe-h", 300), "darbe-h").games["darbe-h"];
+  const r = gate(makePack("gett-oh", 300), "gett-oh").games["gett-oh"];
   assert.equal(r.under8KB, 300);
   assert.equal(r.manifestPass, 300);
   assert.equal(r.visualQa, "PENDING");
@@ -189,22 +189,22 @@ test("byte size is never a quality signal: a clean pack of tiny files still reac
 test("release.mjs refuses partial packs and missing / mismatched visual-QA sign-off", () => {
   const partial = planRelease({
     repoRoot,
-    packRoot: makePack("darbe-h", 159),
-    game: "darbe-h",
+    packRoot: makePack("gett-oh", 159),
+    game: "gett-oh",
     signoff: null,
   });
   assert.equal(partial.ok, false);
   assert.match(partial.reason, /159\/300/);
-  const full = makePack("darbe-h", 300);
-  const noQa = planRelease({ repoRoot, packRoot: full, game: "darbe-h", signoff: null });
+  const full = makePack("gett-oh", 300);
+  const noQa = planRelease({ repoRoot, packRoot: full, game: "gett-oh", signoff: null });
   assert.equal(noQa.ok, false);
   assert.match(noQa.releaseId, /^r[0-9a-f]{12}$/);
   const wrong = planRelease({
     repoRoot,
     packRoot: full,
-    game: "darbe-h",
+    game: "gett-oh",
     signoff: {
-      game: "darbe-h",
+      game: "gett-oh",
       releaseId: "r000000000000",
       verdict: "PASS",
       reviewer: "x",
@@ -215,9 +215,9 @@ test("release.mjs refuses partial packs and missing / mismatched visual-QA sign-
   const ok = planRelease({
     repoRoot,
     packRoot: full,
-    game: "darbe-h",
+    game: "gett-oh",
     signoff: {
-      game: "darbe-h",
+      game: "gett-oh",
       releaseId: noQa.releaseId,
       verdict: "PASS",
       reviewer: "x",
@@ -231,7 +231,7 @@ test("release.mjs refuses partial packs and missing / mismatched visual-QA sign-
     count: 300,
     kind: "webp",
     width: 400,
-    height: 560,
+    height: 300,
   });
   assert.equal(Object.keys(ok.manifest.cards).length, 300);
 });
@@ -248,50 +248,47 @@ test("release id is content-addressed: changing one image changes every URL of t
 });
 
 test("production keeps legacy art until a release is accepted: no theme has a release pointer yet", () => {
-  assert.deepEqual(ART_RELEASES, { "veto-h": null, "gett-oh": null, "darbe-h": null });
-  const card = { id: "DRB-001" };
-  assert.equal(cardArt("darbe-h", card).src, "/games/darbe-h/assets/cards/DRB-001.svg");
+  assert.deepEqual(ART_RELEASES, { "veto-h": null, "gett-oh": null });
   assert.equal(cardArt("veto-h", { id: "SND-001" }).src, "/games/veto-h/assets/cards/SND-001.webp");
   assert.equal(
     cardArt("gett-oh", { id: "RCN-001" }).src,
     "/games/gett-oh/assets/cards/RCN-001.webp",
   );
-  assert.equal(themeMeta("darbe-h").art.kind, "svg");
 });
 
-test("DARBE SVG→WebP switch happens only as one accepted 300/300 release, in a new content-addressed directory", () => {
-  const art = themeMeta("darbe-h").art;
+test("GETT WebP release switch happens only as one accepted 300/300 release, in a new content-addressed directory", () => {
+  const art = themeMeta("gett-oh").art;
   const accepted = {
-    "darbe-h": {
+    "gett-oh": {
       id: "r0123456789ab",
       status: "accepted",
       count: 300,
       kind: "webp",
       width: 400,
-      height: 560,
+      height: 300,
     },
   };
-  const served = resolveCardArt("darbe-h", { id: "DRB-042" }, art, accepted);
+  const served = resolveCardArt("gett-oh", { id: "RCN-042" }, art, accepted);
   assert.deepEqual(served, {
-    src: "/games/darbe-h/assets/card-art-releases/r0123456789ab/DRB-042.webp",
+    src: "/games/gett-oh/assets/card-art-releases/r0123456789ab/RCN-042.webp",
     width: 400,
-    height: 560,
+    height: 300,
   });
   // A new URL never equals any legacy URL, so per-URL SW cache entries cannot mix old and new bytes.
-  assert.notEqual(served.src, resolveCardArt("darbe-h", { id: "DRB-042" }, art, {}).src);
+  assert.notEqual(served.src, resolveCardArt("gett-oh", { id: "RCN-042" }, art, {}).src);
   for (const bad of [
-    { ...accepted["darbe-h"], count: 159 },
-    { ...accepted["darbe-h"], status: "pending" },
-    { ...accepted["darbe-h"], id: "latest" },
-    { ...accepted["darbe-h"], kind: "svg" },
+    { ...accepted["gett-oh"], count: 159 },
+    { ...accepted["gett-oh"], status: "pending" },
+    { ...accepted["gett-oh"], id: "latest" },
+    { ...accepted["gett-oh"], kind: "svg" },
   ]) {
-    assert.equal(acceptedRelease("darbe-h", { "darbe-h": bad }), null);
+    assert.equal(acceptedRelease("gett-oh", { "gett-oh": bad }), null);
     assert.equal(
-      resolveCardArt("darbe-h", { id: "DRB-042" }, art, { "darbe-h": bad }).src,
-      "/games/darbe-h/assets/cards/DRB-042.svg",
+      resolveCardArt("gett-oh", { id: "RCN-042" }, art, { "gett-oh": bad }).src,
+      "/games/gett-oh/assets/cards/RCN-042.webp",
     );
   }
-  // Other themes are unaffected by a DARBE release.
+  // Other themes are unaffected by a GETT release.
   assert.equal(
     resolveCardArt("veto-h", { id: "SND-001" }, themeMeta("veto-h").art, accepted).src,
     "/games/veto-h/assets/cards/SND-001.webp",
@@ -300,17 +297,17 @@ test("DARBE SVG→WebP switch happens only as one accepted 300/300 release, in a
 
 test("setPointer flips exactly one theme entry in art-release.js", () => {
   const src = readFileSync(join(repoRoot, "public/games/duel-core/art-release.js"), "utf8");
-  const next = setPointer(src, "darbe-h", {
+  const next = setPointer(src, "gett-oh", {
     id: "r0123456789ab",
     status: "accepted",
     count: 300,
     kind: "webp",
     width: 400,
-    height: 560,
+    height: 300,
   });
-  assert.match(next, /"darbe-h": \{id: "r0123456789ab"/);
+  assert.match(next, /"gett-oh": \{id: "r0123456789ab"/);
   assert.match(next, /"veto-h": null,/);
-  assert.match(next, /"gett-oh": null,/);
+  assert.match(next, /"gett-oh": \{id: "r0123456789ab"/);
 });
 
 test("any committed release directory is complete: 300 files matching its manifest, and the pointer names it", () => {
@@ -340,7 +337,7 @@ test("any committed release directory is complete: 300 files matching its manife
   }
 });
 
-test("the offline precache never lists card art and cards load lazily, so opening the portal does not download 900 images", () => {
+test("the offline precache never lists card art and cards load lazily, so opening the portal does not download 600 images", () => {
   const sw = readFileSync(join(repoRoot, "public/sw.js"), "utf8");
   const shell = sw.match(/const SHELL = (\[[^\]]*\])/)[1];
   assert.doesNotMatch(shell, /games|cards|card-art/);

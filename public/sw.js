@@ -66,7 +66,6 @@ const MODULE_GAME_PATHS = [
   "/games/son-kasaba/",
   "/games/ihtilal/",
   "/games/hanedanian/",
-  "/games/darbe-h/",
   "/games/jitem-derin-ag/",
   "/i18n/",
 ];
@@ -86,6 +85,11 @@ self.addEventListener("fetch", (event) => {
   }
   if (url.origin !== self.location.origin) return;
   if (bypass(url)) return;
+  // Retired products must not fall back to old runtime cache entries.
+  if (url.pathname.startsWith("/games/darbe-h/") || url.pathname.startsWith("/atlas/")) {
+    event.respondWith(Promise.resolve(new Response("Bu ürün kaldırıldı", {status: 410})));
+    return;
+  }
 
   if (req.mode === "navigate") {
     event.respondWith(networkFirst(req));

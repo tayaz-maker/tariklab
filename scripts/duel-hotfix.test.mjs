@@ -17,7 +17,7 @@ const catalog = readFileSync("src/lib/games.ts", "utf8");
 const html5List = catalog.match(/export const HTML5_SLUGS = \[([\s\S]*?)\] as const/);
 assert.ok(html5List, "canonical HTML5 game list must be readable");
 const HTML5_SLUGS = [...html5List[1].matchAll(/"([^"]+)"/g)].map((match) => match[1]);
-assert.equal(HTML5_SLUGS.length, 18, "all current HTML5 games must be checked");
+assert.equal(HTML5_SLUGS.length, 17, "all current HTML5 games must be checked");
 
 test("text guards never turn a missing value into words on screen", () => {
   for (const empty of [null, undefined, NaN, Infinity, {}, [], false, true, () => {}]) {
@@ -100,7 +100,6 @@ function extraSources(slug) {
     "son-100-gun": ["public/games/son-100-gun/pov-app.js"],
     "veto-h": ["public/games/duel-core/app.js"],
     "gett-oh": ["public/games/duel-core/app.js"],
-    "darbe-h": ["public/games/duel-core/app.js"],
     ihtilal: ["public/games/ihtilal/app.js"],
   }[slug] || [];
 }

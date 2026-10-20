@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readFileSync, mkdirSync, writeFileSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { chromium } from "playwright";
+import {duelPolishSmoke} from "./duel-polish-browser.mjs";
 import { duelScenarios } from "./duel-browser-scenarios.mjs";
 import { duelLegacyArtProof } from "./duel-legacy-art-proof.mjs";
 import { assertSameOrigin } from "./duel-origin-proof.mjs";
@@ -15,6 +16,7 @@ const paths = [
   "games/duel-core/app.js",
   "games/duel-core/presentation.js",
   "games/duel-core/table.css",
+  ...["theme-meta.js","card-data.js","decks.js","help-duel.js","identities.js","match-ux.js","design.css","flow-copy.js","art-release.js"].map(file=>`games/duel-core/${file}`),
   ...["veto-h", "gett-oh"].flatMap((theme) => [
     `games/${theme}/source-cards.json`,
     `games/${theme}/expansion.js`,
@@ -69,6 +71,7 @@ try {
     const restored = [];
     for (const theme of ["veto-h", "gett-oh"])
       restored.push(await duelLegacyArtProof(browser, origin, theme, hostOut));
+    await duelPolishSmoke(browser, origin, hostOut);
     await duelScenarios(browser, origin);
     const result = {
       sha: process.env.GITHUB_SHA,

@@ -92,7 +92,7 @@ test('duel routes use actual catalog slugs rather than an internal group id',()=
   const result=classifyChanges(['public/games/duel-core/engine.js']);
   assert.equal(result.full,'false');
   assert.equal(result.duel,'true');
-  assert.equal(result.routes,'veto-h,gett-oh,darbe-h');
+  assert.equal(result.routes,'veto-h,gett-oh');
 });
 test('hosting-only changes retain common unit guards without unrelated game browsers',()=>{
   const result=classifyChanges(['wrangler.json','scripts/cloudflare-deploy.mjs']);

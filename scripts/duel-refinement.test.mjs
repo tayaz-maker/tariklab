@@ -11,7 +11,7 @@ import { pools } from "./duel-pools.mjs";
 import { createDuel, dispatch } from "../public/games/duel-core/rules.js";
 import { legalActions } from "../public/games/duel-core/actions.js";
 import { publicView } from "../public/games/duel-core/projection.js";
-import { CAMPAIGN_STYLES, COMMAND_DESKS, NEIGHBORHOODS } from "../public/games/duel-core/identities.js";
+import { CAMPAIGN_STYLES, NEIGHBORHOODS } from "../public/games/duel-core/identities.js";
 
 test("label keys stay bilingual", () => {
   assert.deepEqual(Object.keys(labels.tr).sort(), Object.keys(labels.en).sort());
@@ -164,7 +164,6 @@ test("VETO-H! and GETT-OH! settings stay on isolated keys with a shared-key fall
   legacyMem.set(SETTINGS_KEY, JSON.stringify({ uiScale: 90, aiProfile: "gambler" }));
   assert.equal(loadSettings(fresh, "veto-h").uiScale, 110, "migrated theme no longer follows shared changes");
   assert.equal(JSON.parse(legacyMem.get("tariklab.veto-h.settings.v1")).uiScale, 110);
-  assert.equal(loadSettings(fresh, "darbe-h").uiScale, 100, "DARBE never reads shared duel settings");
 });
 
 test("identities exist without stat fields", () => {
@@ -176,13 +175,6 @@ test("identities exist without stat fields", () => {
   for (const id of Object.keys(NEIGHBORHOODS)) {
     assert.ok(NEIGHBORHOODS[id].accent);
     assert.ok(AI_PROFILE_IDS.includes(NEIGHBORHOODS[id].aiBias));
-  }
-  for (const id of Object.keys(COMMAND_DESKS)) {
-    assert.ok(COMMAND_DESKS[id].tr.name);
-    assert.ok(COMMAND_DESKS[id].en.name);
-    assert.ok(COMMAND_DESKS[id].accent);
-    assert.ok(AI_PROFILE_IDS.includes(COMMAND_DESKS[id].aiBias));
-    assert.equal(COMMAND_DESKS[id].attack, undefined);
   }
 });
 

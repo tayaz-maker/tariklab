@@ -21,8 +21,8 @@ export const GAME_CATEGORIES: ReadonlyArray<{ id: GameCategory; slugs: readonly 
   { id: "life", slugs: ["tc-sim", "apartman", "son-kasaba", "son-100-gun"] },
   // Read the record, connect the evidence, decide.
   { id: "dossier", slugs: ["kayip-telefon", "ihtilal", "jitem-derin-ag"] },
-  // Short table sessions: the three card duels and the four classic board and puzzle games.
-  { id: "tabletop", slugs: ["veto-h", "gett-oh", "darbe-h", "satranc", "amiral-batti", "peg-solitaire", "labirent"] },
+  // Short table sessions: the two card duels and the four classic board and puzzle games.
+  { id: "tabletop", slugs: ["veto-h", "gett-oh", "satranc", "amiral-batti", "peg-solitaire", "labirent"] },
 ];
 
 export const HTML5_SLUGS = [
@@ -41,7 +41,6 @@ export const HTML5_SLUGS = [
   "veto-h",
   "gett-oh",
   "ihtilal",
-  "darbe-h",
   "jitem-derin-ag",
   "esik",
 ] as const;
@@ -198,14 +197,6 @@ export const GAMES: CatalogGame[] = [
     status: "archived",
     href: "/oyna/ihtilal",
     icon: "ihtilal",
-  },
-  {
-    slug: "darbe-h",
-    title: "DARBE-H!",
-    subtitle: "Telex düşer. Masa karar verir.",
-    status: "live",
-    href: "/oyna/darbe-h",
-    icon: "darbe-h",
   },
   {
     slug: "jitem-derin-ag",

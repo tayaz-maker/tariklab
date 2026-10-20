@@ -5,7 +5,7 @@ import {pathToFileURL} from 'node:url';
 const games=['tc-sim-devlet','tc-sim','hanedanian','ihtilal','racon','esik','bukucu',
   'labirent','peg-solitaire','satranc','amiral-batti','apartman','kayip-telefon',
   'son-100-gun','son-kasaba','jitem-derin-ag'];
-const duel=['duel-core','veto-h','gett-oh','darbe-h'];
+const duel=['duel-core','veto-h','gett-oh'];
 export function classifyChanges(files) {
   const documentation=f=>/^(docs\/|(?:README|LICENSE)(?:\.(?:md|txt))?$)/.test(f)||/^(?:[^/]+|outputs\/.+)\.md$/.test(f);
   const routes=new Set();let full=files.length===0;
@@ -26,7 +26,7 @@ export function classifyChanges(files) {
     if(game){routes.add(duel.includes(game)?'duel':game);continue;}
     full=true;
   }
-  const ids=full?[]:[...routes].flatMap(id=>id==='duel'?['veto-h','gett-oh','darbe-h']:[id]);
+  const ids=full?[]:[...routes].flatMap(id=>id==='duel'?['veto-h','gett-oh']:[id]);
   return {full:String(full),docs:String(files.length>0&&files.every(documentation)),routes:ids.join(','),
     browser:String(full||routes.size>0),tc:String(full||routes.has('tc-sim')),
     devlet:String(full||routes.has('tc-sim-devlet')),duel:String(full||routes.has('duel')),

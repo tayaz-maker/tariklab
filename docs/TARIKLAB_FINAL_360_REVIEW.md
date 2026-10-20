@@ -133,7 +133,7 @@ Genel durum **LATER — önkoşul bekliyor / NOT REVIEWED**. Kanıt toplanmadı�
 
 ## Ayrı başlangıç kapıları
 
-- **Anatomi A keşfi:** A1/A2 kapanışı sonrasında tamamlandı; [kaynak/rota handoff](ANATOMY_FOUNDATION_DISCOVERY.md). Foundation, uzman incelemesi ve release kabulü değildir.
+- **Anatomi A keşfi:** A1/A2 kapanışı sonrasında tamamlandı; kaynak/rota handoff (retired). Foundation, uzman incelemesi ve release kabulü değildir.
 - **Final 360° inceleme:** tüm mevcut ürün/visual/performance/anatomy foundation işleri merge edilip production kanıtıyla kapandıktan sonra başlar. Anatomi A keşfi ile bu kapı birleştirilmez.
 
 Aşağıdaki PR ve çalışma notları kullanıcının devir kayıtlarıdır; bu hazırlıkta yeniden sorgulanmamış ve kapanmış kabul edilmemiştir.
@@ -510,7 +510,7 @@ Bağlı GitHub connector ile exact-tree eşleşmesi ve branch readback doğrulan
 
 
 ### E1/E2 keşif bağlantısı — uygulama başlamadı
-[ANATOMY_FOUNDATION_DISCOVERY.md](ANATOMY_FOUNDATION_DISCOVERY.md): ayrı offline rota/namespace, kaynak-tarih-review şeması, ilk kapsam/bütçe/test kapıları ve sınırlı ad kullanımı kontrolü. Bu bir uygulama, uzman incelemesi veya marka uygunluğu kabulü değildir. E1/E2 foundation, E3 insan kapıları ve F hâlâ açık. Kullanıcıdan yeni yetki veya stil onayı gerekmez.
+ANATOMY_FOUNDATION_DISCOVERY.md (retired): ayrı offline rota/namespace, kaynak-tarih-review şeması, ilk kapsam/bütçe/test kapıları ve sınırlı ad kullanımı kontrolü. Bu bir uygulama, uzman incelemesi veya marka uygunluğu kabulü değildir. E1/E2 foundation, E3 insan kapıları ve F hâlâ açık. Kullanıcıdan yeni yetki veya stil onayı gerekmez.
 
 
 ### A2 iki-host production kapanışı — 2026-10-05
@@ -553,7 +553,7 @@ B7 ölçülü ret kaynakları kalıcı ayrı [astra/darbe-geometry-export-probe]
 
 ### E2 / D3 / B7 — bounded independent preparation, 2026-10-05
 
-E2 additional official-source note: [`astra/anatomy-skeleton-brain-stomach-sources`,2e5a5df](https://github.com/tayaz-maker/tariklab/blob/2e5a5df07b118459827f87dbece808b79d9e354c/outputs/anatomy-foundation/E2_SKELETON_BRAIN_STOMACH_SOURCE_DISCOVERY.md). NIH/NCI skeleton groups/CNS and the existing NIDDK stomach sections support limited original factual drafts. Missing source update dates are null, not substituted with access dates. All records remain not-reviewed/releaseEligible:false; no geometry, product or expert acceptance. E1 remains NOT IMPLEMENTED.
+E2 additional official-source note: `astra/anatomy-skeleton-brain-stomach-sources`,2e5a5df (retired). NIH/NCI skeleton groups/CNS and the existing NIDDK stomach sections support limited original factual drafts. Missing source update dates are null, not substituted with access dates. All records remain not-reviewed/releaseEligible:false; no geometry, product or expert acceptance. E1 remains NOT IMPLEMENTED.
 
 D3 source review reconfirmed the unchanged root worker hash962b1d0e and previously recorded OLD300→NEW1→offline mixed cohort. One downloaded B image cannot establish a300/300 offline B package. Minimum next bounded contract: per-game immutable art identity/hash manifests; retain a verified complete A cohort while an explicitly requested single-game B package stages; activate only after300/300 verification. No900-image cold precache, silent cross-cohort substitution, save mutation or unverified legacy cache adoption. This is a design/repro boundary, not a fix or browser PASS.
 
