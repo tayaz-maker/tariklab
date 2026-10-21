@@ -79,10 +79,13 @@ try {
    if(menu==='home'){
     const pins=await page.locator('[data-location-select]').evaluateAll(ns=>ns.map(n=>n.dataset.locationSelect));
     for(const id of pins){
+     const legacy=page.locator('.region-map-legacy');
+     if(await legacy.locator(`[data-location-select="${id}"]`).count() && await legacy.getAttribute('open')===null)
+      await legacy.locator('summary').click();
      await page.locator(`[data-location-select="${id}"]`).click();
      assert.equal(await page.locator(`[data-location-select="${id}"]`).getAttribute('aria-pressed'),'true');
     }
-    await page.locator('.location-map').scrollIntoViewIfNeeded();
+    await page.locator('.region-map').scrollIntoViewIfNeeded();
     await page.screenshot({path:`${out}/${width}-city-map.png`});
    }
    if(menu==='body'){
