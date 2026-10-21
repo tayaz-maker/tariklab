@@ -185,6 +185,12 @@ function setRelation(state, a, b, update) {
   Object.assign(getFaction(state, a).relations[b], update);
   Object.assign(getFaction(state, b).relations[a], update);
 }
+function rememberRelation(state, a, b, kind) {
+  for(const [from,to] of [[a,b],[b,a]]) {
+    const rel=relation(state,from,to);
+    rel.history=[...(rel.history||[]),{time:state.time,kind,actorId:a}].slice(-8);
+  }
+}
 export function getMilitaryPower(state, ownerId) {
   return ownSettlements(state, ownerId).reduce((sum, town) => sum + combatPower(town.troops, 'attack'), 0) + state.armies.filter(a => a.ownerId === ownerId).reduce((sum, army) => sum + combatPower(army.troops, 'attack'), 0);
 }
@@ -224,6 +230,7 @@ function execute(state, action, ownerId) {
       setRelation(state, ownerId, other.id, { truceUntil: state.time + 1000000 });
       if (player) milestone(state, `vasal:${other.id}`, `${other.name} sancağı bağlandı`, 30, 40);
     } else return fail('Diplomasi kararı geçersiz.');
+    rememberRelation(state,ownerId,other.id,action.mode);
     if (player) report(state, 'diplomacy', `${other.name}: ${action.mode === 'gift' ? 'elçi kabul edildi' : action.mode === 'truce' ? 'ateşkes' : 'bağlılık'}`, action.mode === 'truce' ? '2400 oyun dakikası boyunca karşılıklı saldırı durur. Yoldaki kuvvetler de ateşkese uyar.' : 'İlişki ve anlaşma durumu Divan panelinde güncellendi.');
     return success('Diplomasi kararı uygulandı.');
   }
@@ -240,7 +247,7 @@ function execute(state, action, ownerId) {
     const choice = action.choice, town = getPlayerSettlements(state)[0];
     if (choice === 'marry' && getFaction(state).influence < 15) return fail('Siyasi evlilik için 15 nüfuz gerekiyor.');
     if (choice === 'study' && !afford(town, { food: 120, wood: 80 })) return fail('Eğitim için 120 erzak ve 80 kereste gerekiyor.');
-    if (choice === 'marry') { influence(state, state.playerId, -15); for (const other of state.factions.filter(f => f.id !== state.playerId)) setRelation(state, state.playerId, other.id, { score: Math.min(100, relation(state, state.playerId, other.id).score + 15) }); }
+    if (choice === 'marry') { influence(state, state.playerId, -15); for (const other of state.factions.filter(f => f.id !== state.playerId)) { setRelation(state, state.playerId, other.id, { score: Math.min(100, relation(state, state.playerId, other.id).score + 15) }); rememberRelation(state,state.playerId,other.id,'bond'); } }
     if (choice === 'study') { pay(town, { food: 120, wood: 80 }); state.dynasty.xp = Math.min(1000000, state.dynasty.xp + 80); }
     if (choice === 'mentor') state.dynasty.xp = Math.min(1000000, state.dynasty.xp + 30);
     state.dynasty.pendingEvent = null; state.dynasty.nextEvent = state.time + 4800;
@@ -419,6 +426,14 @@ function resolveArmy(state, army) {
   if (army.mission === 'trade') {
     if (target && target.id === army.targetId && friendly(state, army.ownerId, target.ownerId)) {
       const delivered = RESOURCE_KEYS.reduce((sum, key) => sum + Math.min(army.cargo[key], Math.max(0, getCapacity(target) - target.resources[key])), 0);
+      const aid=target.resources.food<500 && Math.min(army.cargo.food,Math.max(0,getCapacity(target)-target.resources.food))>=100;
+      if(target.ownerId!==army.ownerId && delivered>=100) {
+        const rel=relation(state,army.ownerId,target.ownerId);
+        if(state.time-(rel.lastAidAt??-720)>=720) {
+          setRelation(state,army.ownerId,target.ownerId,{lastAidAt:state.time,score:Math.min(100,rel.score+(rel.score<75?(aid?3:1):0))});
+          rememberRelation(state,army.ownerId,target.ownerId,aid?'aid':'trade');
+        }
+      }
       addResources(target, army.cargo);
       const home = state.settlements.find(town => town.id === army.fromId), commerce = player ? state.dynasty.stats.commerce : 1;
       const han = home && pointsFor(state, home).some(t => t.poi.type === 'caravanserai') ? 0.1 : 0;
@@ -451,6 +466,9 @@ function resolveArmy(state, army) {
     const won = power > guard;
     casualties(army.troops, won ? Math.min(0.4, guard / power * 0.3) : 0.7);
     if (won) {
+      if(tile.poi.ownerId && tile.poi.ownerId!==army.ownerId) {
+        const old=tile.poi.ownerId;setRelation(state,army.ownerId,old,{score:Math.max(-100,relation(state,army.ownerId,old).score-10)});rememberRelation(state,army.ownerId,old,'claim');
+      }
       tile.poi.ownerId = army.ownerId; tile.poi.settlementId = home.id;
       if (player) milestone(state, `poi:${tile.poi.id}`, `${POIS[tile.poi.type].label} bağlandı`, tile.poi.type === 'ruins' ? 15 : 8, 20);
     }
@@ -485,6 +503,7 @@ function resolveArmy(state, army) {
       if (player) { if (defense >= 1200) ensureProgression(state).rivals[oldOwner] = Math.max(progressOf(state).rivals[oldOwner] || 0, Math.floor(defense)); state.campaign.battlesWon++; milestone(state, captured ? `conquest:${target.id}` : 'first-battle', captured ? 'Yeni sancak' : 'İlk zafer', captured ? 15 : 12, 30); }
     }
     setRelation(state, army.ownerId, oldOwner, { score: Math.max(-100, relation(state, army.ownerId, oldOwner).score - 15) });
+    rememberRelation(state,army.ownerId,oldOwner,'war');
     if (player || defenderPlayer) report(state, 'battle', `${target.name}: ${captured ? 'sancak değişti' : won ? 'akın sonuçlandı' : 'savunma kazandı'}`,
       `Saldırı ${Math.round(offense)} / savunma ${Math.round(defense)}. Saldıran kaybı ${attackerBefore - getTroopCount(army.troops)}; savunan kaybı ${defenderBefore - getTroopCount(target.troops)}. ${captured ? 'Yerleşim ele geçirildi.' : 'Başkentler ele geçirilemez; sefer yağma ve kayıp üretir.'}`, defenderPlayer);
     returnArmy(state, army);
@@ -518,7 +537,9 @@ function thinkAI(state, faction) {
   faction.nextThink = state.time + 105 + Math.floor(random(state) * 80);
   const rivals = state.settlements.filter(other => other.ownerId !== faction.id && !atPeace(state, faction.id, other.ownerId));
   rivals.sort((a,b)=>{
-    const value=t=>{const intel=aiKnowledge(state,faction,t);return (intel?combatPower(intel.troops,'defense'):5000)+distance(town,t)*(profile?.distance??30);};
+    const value=t=>{const intel=aiKnowledge(state,faction,t);const rel=relation(state,faction.id,t.ownerId), recent=(rel.history||[]).filter(e=>state.time-e.time<=2400);
+      const memory=recent.some(e=>['war','claim'].includes(e.kind))?-60:recent.some(e=>['aid','trade','truce','vasal','bond'].includes(e.kind))?60:0;
+      return (intel?combatPower(intel.troops,'defense'):5000)+distance(town,t)*(profile?.distance??30)+rel.score*(faction.archetype==='merchant'?6:faction.archetype==='opportunist'?2:4)+memory;};
     return value(a)-value(b)||a.id.localeCompare(b.id);
   });
   const target=rivals[0], known=target&&aiKnowledge(state,faction,target);
@@ -690,6 +711,8 @@ function inspectState(state) {
   for (const faction of factions) if (plain(faction?.relations)) for (const id of factionIds) if (id !== faction.id) {
     const rel = faction.relations[id];
     check(plain(rel) && integer(rel.score, -100, 100) && integer(rel.truceUntil, 0, LIMITS.time + 1000000) && typeof rel.vasal === 'boolean', 'İlişki kaydı geçersiz.');
+    if(rel?.lastAidAt!==undefined) check(integer(rel.lastAidAt,0,state.time),'Yardım saati geçersiz.');
+    if(rel?.history!==undefined) check(Array.isArray(rel.history)&&rel.history.length<=8&&rel.history.every(e=>plain(e)&&integer(e.time,0,state.time)&&['gift','truce','vasal','bond','war','claim','trade','aid'].includes(e.kind)&&[faction.id,id].includes(e.actorId)),'İlişki hafızası geçersiz.');
   }
   const towns = Array.isArray(state.settlements) ? state.settlements : [];
   check(towns.length >= 1 && towns.length <= LIMITS.settlements, 'Yerleşim sayısı geçersiz.');
