@@ -1,3 +1,4 @@
+import { useLang } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 import { useGame } from "@/game/store";
 
@@ -9,6 +10,7 @@ const STEPS = [
 ];
 
 export function TutorialTips() {
+  const { t } = useLang();
   const player = useGame((s) => s.player);
   const skip = useGame((s) => s.skipTutorial);
   const step = player?.tutorialStep ?? 0;
@@ -18,10 +20,10 @@ export function TutorialTips() {
       <div className="flex items-start justify-between gap-3 rounded-xl bg-elevated px-3 py-2 text-sm">
         <p className="text-fg">
           <span className="text-muted">{step + 1}/4 · </span>
-          {STEPS[step]}
+          {t(`cete.tutorial.step${step + 1}`, STEPS[step])}
         </p>
         <Button variant="ghost" size="sm" onClick={skip}>
-          Atla
+          {t("cete.tutorial.skip", "Atla")}
         </Button>
       </div>
     </div>

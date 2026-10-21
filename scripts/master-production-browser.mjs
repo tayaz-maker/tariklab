@@ -41,6 +41,7 @@ async function gameSurface(page,game){
 }
 async function visible(page,game){
  const surface=await gameSurface(page,game);
+ if(game==='cete-savaslari')await page.locator('.game-shell .hud-header, #cete-player-name').first().waitFor({state:'visible'});
  await surface.waitForFunction(()=>document.body?.innerText.trim().length>20,null,{timeout:20000});
  if(game!=='cete-savaslari')assert.ok(gamePathMatches(surface.url(),origin,game),`wrong game surface: ${surface.url()}`);
  const view=await surface.evaluate(()=>({text:document.body.innerText.trim().slice(0,220),length:document.body.innerText.trim().length,width:document.documentElement.clientWidth,scroll:document.documentElement.scrollWidth,title:document.title,documentLanguage:document.documentElement.lang}));
@@ -176,12 +177,12 @@ try{
    const currentPhase=phase;
    reads.push((async()=>{try{const expectedRead=readFile(acceptedAssetPath(expectedRoot,url.pathname));
     let bytes;
-    try{bytes=await response.body();}catch(error){
+    try{let timer;try{bytes=await Promise.race([response.body(),new Promise((_,reject)=>{timer=setTimeout(()=>reject(new Error(`response body read timed out: ${url.pathname}`)),20000);})]);}finally{clearTimeout(timer);}}catch(error){
      if(!/No resource with given identifier|navigated away/.test(error.message))throw error;
      // Chromium may discard the CDP body handle for SW-cached images. Read the
      // same URL through the real browser/SW and retain the identical hash gate.
      await page.waitForLoadState('networkidle');verificationFetches.add(url.href);
-     try{bytes=Buffer.from(await page.evaluate(async({href,type})=>{if(new URL(href).origin!==location.origin)throw new Error('asset fetch origin mismatch');const response=await fetch(href);if(response.status!==200||response.url!==href)throw new Error(`asset fetch identity/status mismatch: ${response.status} ${response.url}`);if(!type||response.headers.get('content-type')!==type)throw new Error(`asset fetch content-type mismatch: ${href}`);return [...new Uint8Array(await response.arrayBuffer())];},{href:url.href,type:response.headers()['content-type']}));browserBodyReads.push({path:url.pathname,reason:error.message});}
+     try{bytes=Buffer.from(await page.evaluate(async({href,type})=>{if(new URL(href).origin!==location.origin)throw new Error('asset fetch origin mismatch');const response=await fetch(href,{signal:AbortSignal.timeout(20000)});if(response.status!==200||response.url!==href)throw new Error(`asset fetch identity/status mismatch: ${response.status} ${response.url}`);if(!type||response.headers.get('content-type')!==type)throw new Error(`asset fetch content-type mismatch: ${href}`);return [...new Uint8Array(await response.arrayBuffer())];},{href:url.href,type:response.headers()['content-type']}));browserBodyReads.push({path:url.pathname,reason:error.message});}
      finally{verificationFetches.delete(url.href);}
     }
     const expected=await expectedRead;assert.equal(digest(bytes),digest(expected),`accepted bytes mismatch: ${url.pathname}`);hashes.set(url.pathname,digest(expected));assetChecks.push(url.pathname);}catch(error){errors.push({phase:currentPhase,type:'asset',message:`${url.pathname}: ${error.message}`});}})());
@@ -209,13 +210,16 @@ try{
      await page.waitForLoadState('networkidle');await finishAssetReads(reads);
      assert.deepEqual(errors,[]);assert.deepEqual(requestFailures,[]);
      await page.reload({waitUntil:'networkidle'});await visible(page,route.id);
+     if(route.id==='cete-savaslari'){await page.locator('.game-shell .hud-header').getByText('Master QA',{exact:false}).waitFor();proof.warmGameplayLanguage=await gameplayLanguageProof(page,route.id,lang);}
      proof.before=await saves(page,route.id);proof.nonemptySave=Object.keys(proof.before).length>0;
      proof.savePolicy=assertPreparedSave(route.id,proof.before);
      proof.savePolicy=['satranc','peg-solitaire','labirent'].includes(route.id)?'no resumable match; existing best-score state only':'existing persisted progress';
      await finishAssetReads(reads);assert.deepEqual(errors,[]);assert.deepEqual(requestFailures,[]);
      phase='offline';await context.setOffline(true);
      const response=await page.reload({waitUntil:'load',timeout:25000});assert.equal(response.status(),200);
-     proof.render=await visible(page,route.id);assert.equal(new URL(page.url()).origin,origin);
+     proof.render=await visible(page,route.id);
+     if(route.id==='cete-savaslari'){await page.locator('.game-shell .hud-header').getByText('Master QA',{exact:false}).waitFor();proof.offlineGameplayLanguage=await gameplayLanguageProof(page,route.id,lang);}
+     assert.equal(new URL(page.url()).origin,origin);
      proof.language=await page.evaluate(()=>({document:document.documentElement.lang,selected:localStorage.getItem('tariklab.language')}));assert.equal(proof.language.document,lang);assert.equal(proof.language.selected,lang);
      proof.after=await saves(page,route.id);assertSavedProgress(proof.before,proof.after);
      await finishAssetReads(reads);assert.deepEqual(errors,[]);assert.deepEqual(requestFailures,[]);
