@@ -167,9 +167,9 @@ export function bindLifeShell(root, view, language = "tr", storage = window.loca
     if (!panel.dataset.uiPanel) panel.dataset.uiPanel = `${view}:${panel.querySelector("summary")?.textContent.trim() || index}`;
     const key = panel.dataset.uiPanel;
     if (typeof preferences.panels?.[key] === "boolean") panel.open = preferences.panels[key];
-    panel.querySelector("summary")?.addEventListener("click", () => {
+    panel.querySelector("summary")?.addEventListener("click", event => {
       if (!panel.isConnected || panel.dataset.searchOpen === "true") return;
-      writePreference(storage, { panels: Object.fromEntries(Object.entries({ ...readPreferences(storage).panels, [key]: !panel.open }).slice(-160)) });
+      writePreference(storage, { panels: Object.fromEntries(Object.entries({ ...readPreferences(storage).panels, [key]: event.defaultPrevented ? panel.open : !panel.open }).slice(-160)) });
     });
   });
   root.querySelector(".first-steps > .eyebrow")?.insertAdjacentHTML("afterbegin", uiIcon("light"));

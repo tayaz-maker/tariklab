@@ -67,13 +67,14 @@ try{
   // Keyboard, drawer focus containment, Escape, remembered category state.
   const toggle=page.locator('.nav-more');await toggle.click();
   if(width<=820){assert.equal(await page.locator('.workspace').evaluate(el=>el.inert),true);await toggle.focus();await page.keyboard.press('Shift+Tab');assert.equal(await page.evaluate(()=>document.querySelector('.side-nav').contains(document.activeElement)),true);await page.keyboard.press('Escape');assert.equal(await toggle.getAttribute('aria-expanded'),'false');assert.equal(await toggle.evaluate(el=>el===document.activeElement),true);}
-  else{assert.equal((await geometry(page)).workspace.x,64);await page.screenshot({path:`${out}/${language}-${width}-collapsed.png`});await toggle.click();}
+  else{assert.equal((await geometry(page)).workspace.x,64);await page.screenshot({path:`${out}/${language}-${width}-collapsed.png`});await page.locator('[data-ui-panel="navigation:0"] > summary').click();assert.equal(await toggle.getAttribute('aria-expanded'),'true');assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('tariklab.tc-sim.ui.v2')).panels['navigation:0']),true,'opening a category from icon mode persists its actual open state');}
   if(width<=820)await toggle.click();
   const group=page.locator('[data-ui-panel="navigation:0"]');const wasOpen=await group.getAttribute('open')!==null;await group.locator('summary').click();
   await page.reload();await page.locator('#continue-game').click();assert.equal(await page.locator('[data-ui-panel="navigation:0"]').getAttribute('open')!==null,!wasOpen);
   if(width<=820)await page.locator('.nav-more').click();
   await page.locator('.life-nav-search input').fill({tr:'Bankalar',en:'Banks',pl:'Banki'}[language]);assert.equal(await page.locator('.side-nav [data-view]:visible').count(),1);await page.locator('.life-nav-search input').fill('');
   await page.locator('[data-ui-jump="help"]').click();await page.locator('.help-card').waitFor();assert.equal(await page.locator('.workspace').evaluate(el=>el.inert),true);await page.screenshot({path:`${out}/${language}-${width}-help.png`});await page.keyboard.press('Escape');assert.equal(await page.locator('.help-card').count(),0);
+  for(const locale of ['tr','en','pl']){await page.locator(`[data-language="${locale}"]`).click();assert.equal(await page.locator(`[data-language="${locale}"]`).getAttribute('aria-pressed'),'true');assert.ok((await geometry(page)).overflow<=0,'switching language preserves viewport layout');}
   assert.equal(await page.evaluate(()=>localStorage.getItem('tariklab::tc-sim:1')),rawSave);assert.deepEqual(errors,[]);
   report.interaction.push({language,width,keyboard:true,escape:true,drawer:true,categoriesRemembered:true,search:true,saveUnchanged:true,status:'PASS'});
   console.log(`${language}/${width}: 16 views + interactions PASS`);await context.close();
