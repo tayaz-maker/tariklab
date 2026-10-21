@@ -267,6 +267,7 @@ test("reconciliation needs actual relationship repair, delay and one chance; ela
   assert.equal(canReconcile(state), false);
   // Direct social actions are real scarce weekly decisions, not time-only repair.
   assert.equal(resolveEvent(state, "private").ok, true);
+  settleHouseholdEvents(state);
   for (let i = 0; i < 8 && !canReconcile(state); i += 1) {
     assert.equal(advanceWeek(state).ok, true); settleHouseholdEvents(state);
     const action = canUseSocialAction(state, "elif", "repair").ok ? "repair" : "confide";

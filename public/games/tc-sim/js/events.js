@@ -44,6 +44,19 @@ import { LIFE_ECHO_EVENTS, LIFE_ECHO_CALLBACK_EVENTS, applyLifeEchoResolution, e
 import { LIFE_DEPTH_EVENTS, applyLifeDepthResolution } from "./life-depth.js?v=10";
 import { LIFE_CONTENT_EVENTS, applyLifeContentResolution } from "./life-content.js?v=10";
 
+// Reuse durable seen/cooldown memory: a story needs a new, player-known
+// development after its last resolution, not merely another elapsed cooldown.
+function freshStoryContext(state, eventId, personId, types) {
+  const person = state.people.find((p) => p.id === personId);
+  if (!person || person.deceased || person.available === false) return false;
+  if (!state.events.seen.includes(eventId)) return true;
+  const definition = getEventDefinition(eventId);
+  const lastWeek = (state.events.cooldowns[eventId] || 0) - definition.cooldownWeeks;
+  return person.lifeMilestones?.some((m) =>
+    types.includes(m.type) && m.week > Math.max(0, lastWeek) &&
+    person.knownMilestones?.includes(m.id));
+}
+
 const canTakeJob = (state, jobId) =>
   state.career.jobId !== jobId &&
   !state.career.pendingJob &&
@@ -689,7 +702,8 @@ export const EVENT_DEFINITIONS = [
     condition: (state) =>
       isFriendOrBetter(state, "mehmet") &&
       getRelationship(state, "mehmet").trust >= 45 &&
-      state.time.absoluteWeek >= 5,
+      state.time.absoluteWeek >= 5 &&
+      freshStoryContext(state, "night_call_mehmet", "mehmet", ["career", "relationship", "help"]),
     choices: [
       {
         id: "go",
@@ -720,7 +734,8 @@ export const EVENT_DEFINITIONS = [
     cooldownWeeks: 20,
     title: "Taşınma günü",
     text: "Mehmet taşınıyor: \"Öğlen kamyonet geliyor, iki saat yeter.\"",
-    condition: (state) => isFriendOrBetter(state, "mehmet") && state.time.absoluteWeek >= 8,
+    condition: (state) => isFriendOrBetter(state, "mehmet") && state.time.absoluteWeek >= 8 &&
+      freshStoryContext(state, "moving_help_mehmet", "mehmet", ["housing"]),
     choices: [
       {
         id: "help",
@@ -918,7 +933,8 @@ export const EVENT_DEFINITIONS = [
     cooldownWeeks: 20,
     title: "01:10'da nerede kaldın",
     text: "Annen gece uyanmış, kapıda seni bekliyor: \"Nerede kaldın?\"",
-    condition: (state) => state.household.homeId === "family" && state.time.absoluteWeek >= 2,
+    condition: (state) => state.household.homeId === "family" && state.player.age < 30 && state.time.absoluteWeek >= 2 &&
+      freshStoryContext(state, "family_late_night", "anne", ["family", "housing"]),
     choices: [
       {
         id: "lie",

@@ -39,12 +39,16 @@ class MemoryStorage {
 
 const fresh = () => createNewGame({ name: "Test", seed: 42, now: "2027-01-01T00:00:00.000Z" });
 const settleEvent = (state, preferred = null) => {
-  if (!state.events.active) return;
+  let guard = 0;
+  while (state.events.active) {
+  assert.ok(++guard < 80, "event queue settles");
   const definition = getEventDefinition(state.events.active.eventId);
   const choice =
     preferred ||
     (state.events.active.eventId === "loan_repayment" ? "collect" : definition.choices[0].id);
-  resolveEvent(state, choice);
+  assert.ok(resolveEvent(state, choice).ok);
+  preferred = null;
+  }
 };
 
 test("1. yeni oyun geçerli state oluşturur", () => assert.equal(validateState(fresh()).ok, true));
