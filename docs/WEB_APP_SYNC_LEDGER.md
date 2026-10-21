@@ -1168,3 +1168,10 @@ Existing job/outcome acceptance passed all 126 browser cases across resumed segm
 - Targeted education, focus and existing education/career tests: 45 PASS. No screen/layout, bank, region, save version, other game, hosting or deployment change. Native paused; audio disabled.
 
 - Integration preparation #230: compared with main `243d636485be382811ab8ef33329e57119dafb5d`; cumulative order #230. Preserve prior package behavior, tests and ledger; no merge/deployment or CI polling. Source fingerprints recalculated from this exact stage.
+
+### 2026-10-21 — TC SIM Phase 2: persistent savings intention and honest story promises
+- Confirmed Phase 0 B02/B05 on current main. The deposit option now creates a bounded, persistent savings goal without taking money or inventing a bank asset; its progress reads wallet/personal deposits. Existing surviving goal notes migrate narrowly, without retrospective refunds.
+- Credit-limit and late-clinic choices explicitly describe plans rather than a completed limit change/confirmed appointment, in TR/EN. Existing choices, consequences and stories remain.
+- Validation: 21 targeted content/life-depth/promise tests PASS, including V5/V6 round-trip, refresh persistence, stale resolution, bank/wallet/net-worth conservation and truthful intentions. No layout/new screen, banking rewrite, other game or deployment changes. Native paused; audio disabled.
+
+- Integration preparation #231: compared with main `243d636485be382811ab8ef33329e57119dafb5d`; cumulative order #230 → #231. Preserve prior package behavior, tests and ledger; no merge/deployment or CI polling. Source fingerprints recalculated from this exact stage.

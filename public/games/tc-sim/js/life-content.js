@@ -2455,13 +2455,14 @@ const EXTRA_CALLBACKS = [
   },
   {
     id: "lc_goal_housing",
+    arc: "housing",
     tags: ["housing", "goal"],
     title: "Depozito zarfı",
     text: "Zarfın üzerinde 'ev' yazıyor. İçinde henüz ev yok. Birikim, adres değil.",
     enTitle: "The deposit envelope",
     enText: "The envelope says 'home.' There is no home in it yet. Saving is not an address.",
     choices: [
-      choice("save", "Bu ay ekle", "Add this month", "Nakit kilitlenir", { money: -1200, reason: "Depozito zarfı", health: { stress: 2 }, memory: "Depozito zarfına ekledin." }, { goal: "Depozito zarfı" }),
+      choice("save", "Birikim hedefi belirle", "Set a savings goal", "Hedef notu; para ayrılmaz", { health: { stress: 2 }, memory: "Depozito için birikim hedefi belirledin; henüz para ayırmadın." }, { goal: "Depozito için 10.000 TL biriktir" }),
       choice("spend", "Bu ay dokunma", "Leave it this month", "Esneklik", {}, {}),
     ],
   },
@@ -2516,12 +2517,12 @@ const EXTRA_CALLBACKS = [
   {
     id: "lc_credit_limit",
     tags: ["finance", "economy", "delayed"],
-    title: "Limit arttı, tebrik",
-    text: "Banka tebrik ediyor. Tebrik, tuzak gibi duruyor. Asgari yine küçük.",
-    enTitle: "The limit went up, congratulations",
-    enText: "The bank is congratulating you. Congratulations look like a trap. The minimum is still small.",
+    title: "Limit teklifi",
+    text: "Banka daha yüksek limitli bir kart öneriyor. Teklif, tuzak gibi duruyor. Henüz hesabında bir değişiklik yok.",
+    enTitle: "A credit limit offer",
+    enText: "The bank offers a card with a higher limit. The offer looks like a trap. Nothing has changed on your account yet.",
     choices: [
-      choice("refuse", "Limiti düşür", "Cut the limit", "Disiplin; esneklik kaçar", { health: { stress: 2 }, memory: "Kart limitini kendin kestin." }, {}),
+      choice("refuse", "Limit düşürmeyi planla", "Plan to lower the limit", "Niyet; limit henüz değişmez", { health: { stress: 2 }, memory: "Kart limitini düşürmeyi planladın; limit henüz değişmedi." }, {}),
       choice("keep", "Tebriği yut", "Swallow the congratulations", "Nefes; faiz kapısı", { health: { stress: 3 } }, {}),
     ],
   },
@@ -2763,7 +2764,7 @@ const EXTRA_CALLBACKS = [
     enTitle: "An appointment in three months",
     enText: "The system says 'the nearest.' The nearest is winter. Winter is walking. Walking is as much work as the appointment.",
     choices: [
-      choice("take", "Al, yaz", "Take it, write it down", "Bakım", { health: { stress: 2 }, memory: "Üç ay sonraki randevuyu aldın." }, {}),
+      choice("take", "Randevu aramayı planla", "Plan to seek an appointment", "Niyet; randevu kesinleşmez", { health: { stress: 2 }, memory: "Üç ay sonrası için randevu aramayı planladın; henüz randevu almadın." }, {}),
       choice("wait", "Bu kış idare", "Manage this winter", "Erteleme", { health: { stress: 3 } }, {}),
     ],
   },
@@ -2922,13 +2923,14 @@ export function applyLifeContentResolution(state, definition, choiceId) {
       status: "open",
     }), 8));
   }
-  if (choice.goal && depth.goals.length < 6) {
-    depth.goals = unique(cap(depth.goals.concat({
+  if (choice.goal) {
+    depth.contentGoals = unique(cap(depth.contentGoals.concat({
       id: `lc-goal:${definition.id}`,
       arc: definition.arc || "housing",
       label: choice.goal,
-      progress: 20,
-    }), 6));
+      progress: 0,
+    }), 2));
+    depth.goals = unique(depth.contentGoals.concat(depth.goals)).slice(0, 6);
   }
   store.once[`seen:${definition.id}`] = state.time.absoluteWeek;
   if (definition.organic) {
