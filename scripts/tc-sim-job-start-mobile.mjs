@@ -1,3 +1,4 @@
+import {NAVIGATION_ITEMS} from "../public/games/tc-sim/js/navigation.js";
 import {navigateTc} from './tc-sim-browser-navigation.mjs';
 // Browser-only responsive audit. Fixtures live in isolated contexts; never touch player saves.
 import assert from 'node:assert/strict';
@@ -15,7 +16,7 @@ const origin=`http://127.0.0.1:${server.address().port}`;
 const browser=await chromium.launch({executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || undefined,args:['--no-sandbox']});
 const rows=[],errors=[],interactions=[];
 let failure=null;
-const menus=['dashboard','inbox','character','calendar','finance','banks','emlak','market','career','education','people','relationships','home','body','history','yearbook'];
+const menus=NAVIGATION_ITEMS.map(item=>item.view);
 try {
  for(const width of [320,360,390,430,1280,1440]) {
   const context=await browser.newContext({viewport:{width,height:900},isMobile:width<500,hasTouch:width<500});
@@ -37,7 +38,7 @@ try {
     const describe=n=>({tag:n.tagName,id:n.id,class:n.className,text:n.textContent.trim().slice(0,80)});
     const controls=[...document.querySelectorAll('button,input,select,summary,a[href]')].filter(visible);
     return {overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth,
-     smallTargets:controls.filter(n=>{const r=n.getBoundingClientRect();return r.height<43||r.width<24;}).map(n=>({...describe(n),height:n.getBoundingClientRect().height})),
+     smallTargets:controls.filter(n=>{const target=n.matches('input[type="checkbox"],input[type="radio"]') ? n.closest("label") || n : n;const r=target.getBoundingClientRect();return r.height<43||r.width<24;}).map(n=>({...describe(n),height:n.getBoundingClientRect().height})),
      clipped:controls.filter(n=>n.scrollWidth>n.clientWidth+2 && getComputedStyle(n).overflowX!=='visible' && n.tagName!=='SELECT').map(describe),
      smallInputs:controls.filter(n=>/INPUT|SELECT/.test(n.tagName)&&getComputedStyle(n).fontSize.replace('px','')<16).map(describe)};
    });
@@ -73,7 +74,7 @@ try {
     }
     if(width<901)await page.locator('.inspector-close').click();
    }
-   if(menu==='home'){
+   if(menu==='city'){
     const pins=await page.locator('[data-location-select]').evaluateAll(ns=>ns.map(n=>n.dataset.locationSelect));
     for(const id of pins){
      await page.locator(`[data-location-select="${id}"]`).click();

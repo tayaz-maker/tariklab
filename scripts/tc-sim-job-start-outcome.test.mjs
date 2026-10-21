@@ -110,7 +110,7 @@ test("actual app choice renders one result, save rerender is not live, reload ne
   try{
     for (const view of ["people", "finance"]) {
       const other=await mount(readyJobStartState());other.click("[data-view]",view);other.click("[data-event-choice]");
-      assert.match(other.root.innerHTML, /<section class="workspace"><section class="result job-start-moment/);
+      assert.match(other.root.innerHTML, /<section class="workspace"[^>]*><section class="result job-start-moment/);
       assert.equal((other.root.innerHTML.match(/data-job-start-moment/g)||[]).length,1);
       assert.doesNotMatch(other.root.innerHTML, /<p class="result" role="status">/);
     }
