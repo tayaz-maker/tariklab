@@ -48,11 +48,11 @@ jobs:
         if: steps.scope.outputs.tc == 'true' && (matrix.label == 'built')
         run: node --test scripts/tc-sim-job-start-baseline.test.mjs
       - name: Targeted outcome, origin and safe-server regressions
-        run: node --test scripts/tc-sim-balance-final.test.mjs scripts/tc-sim-gameplay-language.test.mjs scripts/tc-sim-city-life.test.mjs scripts/tc-sim-marriage-depth.test.mjs scripts/tc-sim-household.test.mjs scripts/tc-sim-parenthood.test.mjs scripts/tc-sim-intimacy.test.mjs scripts/tc-sim-body-visual.test.mjs scripts/tc-sim-depth-4.test.mjs scripts/tc-sim-job-start-outcome.test.mjs scripts/tc-sim-job-start-target.test.mjs scripts/tc-sim-job-start-i18n.test.mjs scripts/tc-sim-job-start-layout.test.mjs scripts/tc-sim-weekly-feedback.test.mjs scripts/tc-sim-lifetime-ui.test.mjs scripts/static-game-server.test.mjs
+        run: node --test scripts/tc-sim-balance-final.test.mjs scripts/tc-sim-gameplay-language.test.mjs scripts/tc-sim-city-life.test.mjs scripts/tc-sim-marriage-depth.test.mjs scripts/tc-sim-household.test.mjs scripts/tc-sim-parenthood.test.mjs scripts/tc-sim-intimacy.test.mjs scripts/tc-sim-body-visual.test.mjs scripts/tc-sim-depth-4.test.mjs scripts/tc-sim-job-start-outcome.test.mjs scripts/tc-sim-job-start-target.test.mjs scripts/tc-sim-2-regions-target.test.mjs scripts/tc-sim-job-start-i18n.test.mjs scripts/tc-sim-job-start-layout.test.mjs scripts/tc-sim-weekly-feedback.test.mjs scripts/tc-sim-lifetime-ui.test.mjs scripts/static-game-server.test.mjs
         if: steps.scope.outputs.tc == 'true'
       - name: TC SIM 2.0 banking — migration, conservation, arrears and estate
         if: steps.scope.outputs.tc == 'true'
-        run: node --test scripts/tc-sim-2-banking.test.mjs scripts/tc-sim-2-estate.test.mjs scripts/tc-sim-monthly-cash.test.mjs scripts/tc-sim-bank-business.test.mjs scripts/tc-sim-credit-policy.test.mjs scripts/tc-sim-mortgage-enforcement.test.mjs
+        run: node --test scripts/tc-sim-2-banking.test.mjs scripts/tc-sim-2-banking-target.test.mjs scripts/tc-sim-2-estate.test.mjs scripts/tc-sim-monthly-cash.test.mjs scripts/tc-sim-bank-business.test.mjs scripts/tc-sim-credit-policy.test.mjs scripts/tc-sim-mortgage-enforcement.test.mjs
       - run: npm run build
         if: steps.scope.outputs.tc == 'true'
       - name: Chromium
@@ -70,12 +70,23 @@ jobs:
       - name: Built candidate — 18 matrix cases and 4 mobile hidden-panel regressions
         if: steps.scope.outputs.tc == 'true' && (matrix.label == 'built')
         run: node scripts/tc-sim-job-start-outcome-browser.mjs --serve .output/public --label built
+      - name: TC SIM 2.0 navigation, preferences and status
+        if: steps.scope.outputs.tc == 'true' && (matrix.label == 'built')
+        run: node scripts/tc-sim-2-ux-browser.mjs .output/public built
+      - name: TC SIM 2 regions — 23 destinations, four viewports and three languages
+        if: steps.scope.outputs.tc == 'true' && (matrix.label == 'built')
+        run: node scripts/tc-sim-2-regions-browser.mjs --serve .output/public --expected-sha "${{ github.sha }}" --out "${{ runner.temp }}/screenshots/tc-sim-2-regions"
       - name: Built banking — 12 language and viewport cases with exact assets
         if: steps.scope.outputs.tc == 'true' && (matrix.label == 'built')
         run: node scripts/tc-sim-2-banking-browser.mjs --serve .output/public --label built --out "$RUNNER_TEMP/screenshots/tc-sim-2-banking/built"
       - name: Mobile final — five viewports, all menus and gameplay controls
         if: steps.scope.outputs.tc == 'true' && (matrix.label == 'built')
         run: node scripts/tc-sim-job-start-mobile.mjs .output/public
+      - uses: actions/upload-artifact@v4
+        if: always() && steps.scope.outputs.tc == 'true'
+        with:
+          name: tc-sim-2-regions-${{ matrix.label }}
+          path: ${{ runner.temp }}/screenshots/tc-sim-2-regions
       - uses: actions/upload-artifact@v4
         if: always() && steps.scope.outputs.tc == 'true'
         with:

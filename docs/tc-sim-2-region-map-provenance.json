@@ -1,0 +1,268 @@
+{
+  "maps": {
+    "version": 1,
+    "created": "2026-10-21",
+    "generator": "Built-in image_gen.imagegen (not CLI)",
+    "projection": "Stylized oblique north-up illustration; marker x/y are percentages of un-cropped image dimensions, not geographic coordinates.",
+    "labeling": "No text baked into assets. Overlay exact region labels in accessible HTML. Use object-fit:contain with original 3:2 aspect ratio; do not cover/crop.",
+    "geographyScope": "Relative region positions, shoreline connectivity and local iconic landmarks visually reviewed. Illustrative game map; not street-level or survey-accurate cartography.",
+    "references": {
+      "istanbul": [
+        "https://cbsakademi.ibb.gov.tr/proje/sehir-haritasi",
+        "https://sehirharitasiapi.ibb.gov.tr/"
+      ],
+      "ankara": [
+        "https://kentrehberi.ankara.bel.tr/",
+        "https://www.ego.gov.tr/sayfa/1075/rayli-sistem",
+        "https://www.ego.gov.tr/tr/sss"
+      ],
+      "izmir": [
+        "https://kentrehberi.izmir.bel.tr/izmirkentrehberi/",
+        "https://www.izmir.bel.tr/YuklenenDosyalar/NazimImarPlani/3623987_30166.pdf"
+      ]
+    },
+    "visualReview": {
+      "istanbul": [
+        "European bank on left; Asian bank on right.",
+        "Golden Horn branches northwest within Europe; Galata Tower and Beyoğlu north, Fatih south; short bridges only over Golden Horn.",
+        "One suspension Bosphorus bridge north of Beşiktaş, south of Bebek.",
+        "Bebek marker on European coastal land north of Beşiktaş.",
+        "Ümraniye marker east/inland of Üsküdar on Asian land.",
+        "Kadıköy southeast of Üsküdar; no southern Marmara bridge.",
+        "Removed disconnected lower-left land wedge in targeted refinement."
+      ],
+      "ankara": [
+        "Ulus identifiable as historic core north of modern Kızılay.",
+        "Keçiören further north; Yenimahalle northwest; Etimesgut west; Mamak east.",
+        "Bahçelievler west of Kızılay and south/southwest of Anıtkabir; Çankaya south with Atakule.",
+        "Inland geography; no invented coastal water."
+      ],
+      "izmir": [
+        "Gulf opens west; northern and southern land join only around eastern head.",
+        "No bridge or causeway spans any part of gulf; southern coastal road entirely on continuous land.",
+        "Karşıyaka north coast; Bornova northeast inland.",
+        "Alsancak east/southeast coast, Konak further south; Buca southeast inland.",
+        "Göztepe south coast west of Konak; Balçova further southwest."
+      ]
+    },
+    "cities": {
+      "istanbul": {
+        "asset": "tc-sim-2-istanbul.webp",
+        "width": 1536,
+        "height": 1024,
+        "regions": [
+          {
+            "key": "sisli",
+            "name": "Şişli–Mecidiyeköy",
+            "x": 23,
+            "y": 15
+          },
+          {
+            "key": "fatih",
+            "name": "Fatih",
+            "x": 20,
+            "y": 68
+          },
+          {
+            "key": "besiktas",
+            "name": "Beşiktaş",
+            "x": 44,
+            "y": 32
+          },
+          {
+            "key": "beyoglu",
+            "name": "Beyoğlu",
+            "x": 29,
+            "y": 40
+          },
+          {
+            "key": "kadikoy",
+            "name": "Kadıköy",
+            "x": 84,
+            "y": 83
+          },
+          {
+            "key": "uskudar",
+            "name": "Üsküdar",
+            "x": 77,
+            "y": 54
+          },
+          {
+            "key": "umraniye",
+            "name": "Ümraniye",
+            "x": 91,
+            "y": 34
+          },
+          {
+            "key": "bebek",
+            "name": "Bebek",
+            "x": 51,
+            "y": 12
+          }
+        ]
+      },
+      "ankara": {
+        "asset": "tc-sim-2-ankara.webp",
+        "width": 1536,
+        "height": 1024,
+        "regions": [
+          {
+            "key": "yenimahalle",
+            "name": "Yenimahalle",
+            "x": 28,
+            "y": 22
+          },
+          {
+            "key": "etimesgut",
+            "name": "Etimesgut",
+            "x": 12,
+            "y": 42
+          },
+          {
+            "key": "kizilay",
+            "name": "Kızılay",
+            "x": 55,
+            "y": 53
+          },
+          {
+            "key": "bahcelievler",
+            "name": "Bahçelievler",
+            "x": 34,
+            "y": 49
+          },
+          {
+            "key": "ulus",
+            "name": "Ulus",
+            "x": 57,
+            "y": 28
+          },
+          {
+            "key": "kecioren",
+            "name": "Keçiören",
+            "x": 68,
+            "y": 14
+          },
+          {
+            "key": "cankaya",
+            "name": "Çankaya",
+            "x": 68,
+            "y": 80
+          },
+          {
+            "key": "mamak",
+            "name": "Mamak",
+            "x": 88,
+            "y": 49
+          }
+        ]
+      },
+      "izmir": {
+        "asset": "tc-sim-2-izmir.webp",
+        "width": 1536,
+        "height": 1024,
+        "regions": [
+          {
+            "key": "karsiyaka",
+            "name": "Karşıyaka",
+            "x": 35,
+            "y": 20
+          },
+          {
+            "key": "bornova",
+            "name": "Bornova",
+            "x": 89,
+            "y": 22
+          },
+          {
+            "key": "alsancak",
+            "name": "Alsancak",
+            "x": 84,
+            "y": 36
+          },
+          {
+            "key": "konak",
+            "name": "Konak",
+            "x": 84,
+            "y": 56
+          },
+          {
+            "key": "buca",
+            "name": "Buca",
+            "x": 91,
+            "y": 83
+          },
+          {
+            "key": "goztepe",
+            "name": "Göztepe",
+            "x": 49,
+            "y": 78
+          },
+          {
+            "key": "balcova",
+            "name": "Balçova",
+            "x": 20,
+            "y": 84
+          }
+        ]
+      }
+    }
+  },
+  "optimization": {
+    "istanbul": {
+      "format": "webp",
+      "width": 1536,
+      "height": 1024,
+      "channels": 3,
+      "premultiplied": false,
+      "hasAlpha": false,
+      "size": 419326,
+      "sourceBytes": 3155023,
+      "optimizedBytes": 419326,
+      "sha256": "02b579fa0a60af243a09bf9012cd61eff9307a443d818f9219f31565a39d574e"
+    },
+    "ankara": {
+      "format": "webp",
+      "width": 1536,
+      "height": 1024,
+      "channels": 3,
+      "premultiplied": false,
+      "hasAlpha": false,
+      "size": 721686,
+      "sourceBytes": 4105414,
+      "optimizedBytes": 721686,
+      "sha256": "85999ae77098b2b3b1cdc51d8f64b4fda712d95c392fa42aa3ac5ec9a885cbf0"
+    },
+    "izmir": {
+      "format": "webp",
+      "width": 1536,
+      "height": 1024,
+      "channels": 3,
+      "premultiplied": false,
+      "hasAlpha": false,
+      "size": 561972,
+      "sourceBytes": 3556519,
+      "optimizedBytes": 561972,
+      "sha256": "e130026cf2d41933f1de904f0e7b35f598956708582e728a16698cd119a7163e"
+    }
+  },
+  "generation": {
+    "initial": {
+      "istanbul": "Use case: precise-object-edit\nAsset type: final web game illustrated city map, label-free base for eight interactive region buttons.\nInput image 1 is the user's original Istanbul illustration, the edit target and mandatory visual style reference.\nPrimary request: redraw this artwork in exactly its rich, warm comic-book/isometric painterly city-map language while correcting Istanbul's geographic topology and extending the visible Asian inland neighborhood area. Keep dense terracotta-roof buildings, green hills, blue water, ferries, recognizable skyline and bright daylight. Landscape 1536x1024.\nComposition: a geographically plausible north-up oblique map, viewed from high above from the south. North is the top, west the left, east the right. Bosphorus is a continuous blue north-south water corridor centrally, connecting open Marmara water at the bottom to the upper edge; European shore LEFT, Asian shore RIGHT. Clearly separate land from water. The Golden Horn is a narrower west/northwest-running inlet on the European side only, between Fatih south of it and Beyoglu north of it. Galata bridges cross ONLY this narrow Golden Horn. One suspension Bosphorus bridge crosses between European Ortakoy and Asian Beylerbeyi, around the upper middle of the image. Do not add any bridge across the southern Marmara water.\nMandatory distinct land areas for later labels: Sisli-Mecidiyekoy inland in the upper LEFT west of the Bosphorus; Bebek is a small European waterfront cove ABOVE/north of the suspension bridge; Besiktas is a European waterfront town BELOW/south of this bridge; Beyoglu is European land north of Golden Horn and southwest of Besiktas; Fatih is southwest historic European peninsula below Golden Horn; Uskudar is on the Asian waterfront opposite Besiktas and northeast of Fatih; Umraniye must have plenty of visible inhabited inland terrain well EAST/right of Uskudar, no coastline; Kadikoy is Asian waterfront southeast/below Uskudar on Marmara. Leave space for those eight distinct region overlays; no region labels baked in.\nPlace Galata Tower on Beyoglu land north of Golden Horn. Maiden's Tower is a tiny island immediately off the Uskudar shore, NOT in the middle of the Marmara. Historic domes in Fatih, mixed office and residential inland Umraniye, verdant Bebek coast.\nRemove ALL existing text, nameplates, labels, signage, letters and logos. No frame, no watermark, no symbols, no north arrow. This is an illustrative game map, not a photorealistic view, but water connectivity and relative land-region positions must be correct.",
+      "ankara": "Use case: precise-object-edit\nAsset type: final web game illustrated city map, label-free base for eight interactive region buttons.\nInput image 1 is the user's original Ankara illustration, the edit target and mandatory visual style reference.\nPrimary request: revise the supplied Ankara image in the SAME rich comic-book/isometric painterly visual language, dense terracotta roofs and warm Anatolian tan hills, green tree-lined streets, blue sky and bright daytime. Landscape 1536x1024. Do not replace it with a flat schematic.\nComposition: coherent north-up oblique city panorama from high above the south, north at top, west left, east right. Make the historic Ulus core visually distinct in upper center, NORTH of central Kizilay, with compact historical blocks and Ankara Castle on a rocky hill just east of Ulus. Do NOT put castle in Kizilay. Keçioren is further NORTH behind Ulus, upper center-right; Yenimahalle is northwest at upper left; Etimesgut is far WEST at mid/left edge; Bahcelievler is west of Kizilay, center-left, with Anitkabir nearby east/northeast of it; Kizilay is central a little below middle, dense modern center with a tree-lined boulevard; Cankaya is SOUTH below Kizilay with the Atakule tower; Mamak is EAST on right, southeast of Ulus. Provide visible separated land areas for all eight later interactive labels: Yenimahalle, Etimesgut, Bahcelievler, Ulus, Kizilay, Kecioren, Cankaya, Mamak.\nCorrect an excessive highway-centric look into plausible connected avenues and neighborhoods while preserving artwork identity. Inland city: no coast, harbor, sea or large invented lake. Hills ring the horizon. Keep landmarks stylized and plausibly placed.\nRemove ALL existing text, nameplates, labels, signage, letters and logos. No labels baked into the artwork, no frames, no watermark or north arrow. All area names will be overlaid accessibly in the game.",
+      "izmir": "Use case: precise-object-edit\nAsset type: final web game illustrated city map, label-free base for seven interactive region buttons.\nInput image 1 is the user's original Izmir illustration, the edit target and mandatory visual style reference.\nPrimary request: substantially correct the land and water geography of the supplied Izmir image while keeping the SAME rich comic-book/isometric painterly illustration style, warm orange-roof city blocks, green hills and palms, vivid blue sea, ferries and bright daytime light. Landscape 1536x1024. This must be a real visual geographic correction, not just removing labels.\nComposition: clear north-up oblique map from high above south, north at TOP, west LEFT, east RIGHT. The inner Gulf of Izmir is a wide uninterrupted roughly horizontal bay OPEN to the WEST/LEFT edge and CLOSED at its EAST/RIGHT inner end. NORTH shoreline runs across the upper part, SOUTH shoreline across lower part; they join around the eastern/right end only. Gulf should visually read as an east-west bay, never a north-south Bosphorus-like strait. NO invented island or isolated western peninsula in the foreground, no detached southwest land, NO road/rail bridges or causeways across any part of the gulf, absolutely NO sea-crossing bridge. Southern land from Balcova via Goztepe to Konak is CONTINUOUS solid land, connected by coastal road ON LAND.\nVisible region areas for later labels: Karsiyaka along the NORTH coast in upper center-left; Bornova well inland to the NORTHEAST/east of the bay head at upper RIGHT; Alsancak on the southeast/east shore around right-middle, with a small port nearby; Konak on the south-east coast below and SOUTH of Alsancak with its clock tower by the shore; Goztepe on the SOUTH shore west/LEFT of Konak at lower middle; Balcova farther WEST/LEFT and a little SOUTH of Goztepe at bottom-left, with hills behind; Buca entirely INLAND southeast/RIGHT of Konak in lower right, not on the waterfront. Correct continuous topography and relative neighborhood positions. No empty outline map; retain detailed illustrated neighborhoods.\nRemove ALL existing text, nameplates, labels, signage, letters and logos. No baked-in text, frame, watermark or compass. Keep seven distinct regions comfortably spaced for accessible game overlays."
+    },
+    "refinement": {
+      "istanbul": "Use case: precise-object-edit. Input image 1 is the approved revised Istanbul city map. Make ONE targeted correction only: remove the small disconnected green land wedge in the extreme BOTTOM LEFT corner (the bottom approximately 8% of height and left approximately 17% of width) and replace that wedge with continuous blue Marmara sea matching nearby water brushwork. There should be only open water in that bottom-left corner. Keep EVERYTHING ELSE exactly unchanged: all other coastlines, historic Fatih peninsula, Golden Horn, bridges, all buildings, skyline, boats, Maiden's Tower, colors, composition, landscape dimensions, linework. Do not move objects, do not add labels, do not change the rest of the image. Preserve label-free state."
+    },
+    "inputFiles": [
+      "İstanbul Boğazı Şehir Haritası.png",
+      "Ankara’nın Renkli Şehir Panoraması.png",
+      "İzmir Körfezi ve Renkli İlçe Haritası.png"
+    ],
+    "selectedGeneratedFiles": {
+      "istanbul": "exec-c2fc70a5-f4fe-490f-8f24-d0d194f32c19.png",
+      "ankara": "exec-62d99d25-d032-4de4-8ae2-af3e7e1e2ae7.png",
+      "izmir": "exec-f3fcbd8f-3c62-4270-ba24-6b49e34255e4.png"
+    }
+  }
+}

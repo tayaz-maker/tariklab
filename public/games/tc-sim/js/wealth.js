@@ -816,7 +816,9 @@ export function manageMortgage(state, id, action) {
   if (action === "mortgage-restructure") restructureMortgage(debt);
   else {
     const due = action === "mortgage-close" ? debtBalance(debt) : Math.min(5000, debtBalance(debt));
+    const interestPaid = debt.mortgage.interestPaid;
     const paid = settleMortgagePayment(debt, due);
+    recordMonthlyDetail(state, "interestPaid", debt.mortgage.interestPaid - interestPaid);
     ledger(state, -paid, mortgageText("paid", mortgageLanguage()), "debt");
     if (!debtBalance(debt)) state.wealth.debts = state.wealth.debts.filter(d => d !== debt);
   }
@@ -837,6 +839,7 @@ export function sellProperty(state, id) {
       reason: "Satışın konut borcunu kapatması için nakit farkını karşılayamıyorsun.",
     };
   ledger(state, net, "Mülk satışı ve borç kapama", "property");
+  if (debt && isAmortizingMortgage(debt)) recordMonthlyDetail(state, "interestPaid", debt.mortgage.interestDue);
   state.wealth.properties = state.wealth.properties.filter((x) => x !== p);
   if (debt) state.wealth.debts = state.wealth.debts.filter((d) => d !== debt);
   reconcileMortgageClaims(state);

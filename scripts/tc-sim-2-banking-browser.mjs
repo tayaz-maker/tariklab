@@ -14,6 +14,7 @@ import { createNewGame, validateState } from "../public/games/tc-sim/js/state.js
 import { netWorth } from "../public/games/tc-sim/js/wealth.js";
 import { createStaticGameServer } from "./static-game-server.mjs";
 import { checkedOutcomeOrigin } from "./tc-sim-job-start-target.mjs";
+import { BANK_FINGERPRINT_PATHS, requireBankCurrentMain, verifyBankCandidate } from "./tc-sim-2-banking-target.mjs";
 
 const { chromium } = await import("playwright").catch(() => import(new URL("../../tariklab/node_modules/playwright/index.mjs", import.meta.url)));
 const { values } = parseArgs({ options: {
@@ -34,14 +35,11 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const out = resolve(values.out || resolve(root, "work/tc-sim-2-banking-browser", values.label));
 mkdirSync(out, { recursive: true });
 const expectedRoot = resolve(values["expected-root"] || values.serve);
-const assetPaths = ["bank.css", "styles.css", ...[
-  "app", "state", "save", "wealth", "bank-accounts", "bank-actions", "bank-cards", "bank-ui",
-  "bank-business", "bank-record", "banks-presentation", "mortgage", "icra", "monthly-cash", "time",
-].map(name => `js/${name}.js`)].map(path => `/games/tc-sim/${path}?v=10`);
+const assetPaths = BANK_FINGERPRINT_PATHS;
 const sha = bytes => createHash("sha256").update(bytes).digest("hex");
 const expected = new Map(assetPaths.map(path => [path, sha(readFileSync(resolve(expectedRoot, `.${path.split("?")[0]}`)))]));
 const rows = [], fingerprints = [], observed = new Set(), responseChecks = [], responseFailures = [];
-let browser, server, origin, failure = null;
+let browser, server, origin, mainBefore, mainAfter, gitVerifiedAssets = [], failure = null;
 const saveKey = "tariklab::tc-sim:1";
 const initial = () => {
   const state = createNewGame({ name: "Banka kabul", seed: 17, now: "2026-10-21T00:00:00.000Z" });
@@ -98,9 +96,9 @@ async function submitAmount(page, action, bank, amount, keyboard = false, target
 async function checkLayout(page, phase) {
   const metrics = await page.evaluate(() => {
     const root = document.documentElement;
-    const controls = [...document.querySelectorAll("[data-bank-accounts] input:not([type=hidden]), [data-bank-accounts] select, [data-bank-accounts] button")]
+    const controls = [...document.querySelectorAll("[data-bank-accounts] input:not([type=hidden]), [data-bank-accounts] select, [data-bank-accounts] textarea, [data-bank-accounts] button")]
       .filter(el => el.getClientRects().length).map(el => ({ tag: el.tagName, name: el.name || el.textContent.trim().slice(0, 70), height: el.getBoundingClientRect().height,
-        width: el.getBoundingClientRect().width, left: el.getBoundingClientRect().left, right: el.getBoundingClientRect().right,
+        width: el.getBoundingClientRect().width, left: el.getBoundingClientRect().left, right: el.getBoundingClientRect().right, fontSize: parseFloat(getComputedStyle(el).fontSize),
         labeled: el.tagName === "BUTTON" ? Boolean(el.textContent.trim()) : Boolean(el.labels?.length || el.getAttribute("aria-label")) }));
     return { width: root.clientWidth, overflow: root.scrollWidth - root.clientWidth, controls };
   });
@@ -110,10 +108,13 @@ async function checkLayout(page, phase) {
     assert.ok(c.labeled, `${phase}: unlabeled ${c.tag}/${c.name}`);
     assert.ok(c.height >= 43, `${phase}: short touch target ${c.tag}/${c.name}: ${c.height}`);
     assert.ok(c.left >= -1 && c.right <= metrics.width + 1, `${phase}: clipped ${c.tag}/${c.name}`);
+    if (metrics.width <= 820 && c.tag !== "BUTTON") assert.ok(c.fontSize >= 16, `${phase}: mobile input zoom risk ${c.tag}/${c.name}: ${c.fontSize}px`);
   }
   return { overflow: metrics.overflow, visibleControls: metrics.controls.length };
 }
 try {
+  if (values.production) mainBefore = await requireBankCurrentMain(values["expected-sha"]);
+  if (values["expected-sha"]) gitVerifiedAssets = await verifyBankCandidate(expectedRoot, values["expected-sha"]);
   if (values.serve) {
     server = createStaticGameServer(expectedRoot);
     await new Promise((done, reject) => { server.once("error", reject); server.listen(0, "127.0.0.1", done); });
@@ -207,12 +208,14 @@ try {
   await Promise.all(responseChecks);
   assert.deepEqual(responseFailures, [], "Every browser response must match the exact expected file.");
   for (const path of expected.keys()) assert.ok(observed.has(path), `Fingerprint was not also loaded by the browser: ${path}`);
+  if (values.production) mainAfter = await requireBankCurrentMain(values["expected-sha"]);
 } catch (error) { failure = error.stack || String(error); }
 finally {
   await Promise.allSettled(responseChecks);
   if (browser) await browser.close();
   if (server) await new Promise(resolve => server.close(resolve));
   const report = { status: failure ? "FAIL" : "PASS", label: values.label, origin, expectedMain: values["expected-sha"] || null,
+    mainBefore, mainAfter, gitVerifiedAssets,
     expectedCases: languages.length * widths.length, completedCases: rows.filter(r => r.status === "PASS").length,
     fingerprints, browserVerifiedAssets: [...observed], rows, failure };
   writeFileSync(resolve(out, "results.json"), JSON.stringify(report, null, 2) + "\n");

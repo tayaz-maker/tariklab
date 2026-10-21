@@ -14,4 +14,5 @@
 .bank-history li > span { flex: 1 1 60%; overflow-wrap: anywhere; }
 .bank-history li > small { flex-basis: 100%; }
 .bank-accounts :focus-visible { outline: 3px solid var(--accent, #1b5f65); outline-offset: 3px; }
+@media (max-width: 820px) { .bank-accounts .bank-form input, .bank-accounts .bank-form select, .bank-accounts .bank-form textarea { font-size: 16px; } }
 @media (max-width: 480px) { .bank-form-grid { grid-template-columns: minmax(0, 1fr); gap: 0; } }

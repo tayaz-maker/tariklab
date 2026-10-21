@@ -3,6 +3,7 @@ import { addMemory, addNpcMemory, adjustHealth, transact, updateRelationship } f
 import { getMonthlyEmploymentIncome } from "./life.js?v=10";
 import { CASH_ARREARS_CAP, DURABLES } from "./wealth.js?v=10";
 import { fundWalletFromAccount } from "./bank-accounts.js?v=10";
+import { recordMonthlyDetail } from "./monthly-cash.js?v=10";
 import { debtBalance, isAmortizingMortgage, mortgageStatus, settleMortgagePayment, reconcileMortgageClaims } from "./mortgage.js?v=10";
 
 const GRACE = 4;
@@ -97,7 +98,9 @@ export function recordIcraPayment(state, item, amount) {
   if (item.payload.source === "mortgage") {
     const debt = state.wealth?.debts?.find(d => d.id === item.payload.loanId);
     if (!debt || !isAmortizingMortgage(debt)) return 0;
+    const interestPaid = debt.mortgage.interestPaid;
     const paid = settleMortgagePayment(debt, amount);
+    recordMonthlyDetail(state, "interestPaid", debt.mortgage.interestPaid - interestPaid);
     item.payload.owed = debtBalance(debt);
     if (!item.payload.owed) state.wealth.debts = state.wealth.debts.filter(d => d !== debt);
     reconcileMortgageClaims(state);

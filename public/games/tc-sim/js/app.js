@@ -6,8 +6,9 @@ import { renderBankAccounts, bindBankAccounts, bankActionMessage } from "./bank-
 
 import { captureMonthlyWealth, renderMonthlyCashCard } from "./monthly-cash.js?v=10";
 import {gameplayText,inboxCases,recentNotices,snapshotDecision,decisionFeedback} from './gameplay-language.js?v=10';
-import {DISTRICTS,CITIES,currentDistrict,districtProfile,locationCosts,locationJobDelay,locationMoveQuote,getDistrict,locationRiskCopy} from './locations.js?v=10';
+import {DISTRICTS,PLAYABLE_REGIONS,CITIES,currentDistrict,districtProfile,locationCosts,locationJobDelay,locationMoveQuote,getDistrict,locationRiskCopy,socialTravel} from './locations.js?v=10';
 import {moveLocation,locationMoveAvailability,returnToFamilyArea} from './life.js?v=10';
+import {renderRegionMap} from './region-map.js?v=10';
 import { renderSemtEmlak, buyHolding, rentToLive, moveIntoHolding, sellHolding, leaveHoldingEmpty, letHolding, renovateHolding, openShop, tendShop, manageRentals, closeShop, sellShop, hireKalfa, fireKalfa } from "./quarters.js?v=10";
 import { weddingQuote, weddingRecord, weddingPeriod, householdChoiceCost } from "./wedding-planning.js?v=10";
 import { renderBodyVisual, bindBodyVisual } from "./body-visual.js?v=10";
@@ -15,7 +16,8 @@ import { EXCHANGE_ASSETS, exchangeQuote, exchangePortfolio, exchangeAvailability
 import { gameDateLabel } from "./game-date.js?v=10";
 import { snapshotJobStart, buildJobStartOutcome } from "./job-start-outcome.js?v=10";
 import { renderJobStartOutcome, bindJobStartOutcome, jobOutcomeText } from "./job-start-outcome-ui.js?v=10";
-import { compactNavigation } from "../../shared/compact-navigation.js";
+import { bindLifeShell, restoreLastView } from "./ui-shell.js?v=10";
+import { renderLifeStatus } from "./status-panel.js?v=10";
 import { arrangeLifeDesk } from "./desk.js?v=10";
 import { adultChildSummary, adultEventContext, continueGeneration } from "./lifetime.js?v=10";
 import {
@@ -404,6 +406,7 @@ function startScreen(loadResult) {
 
   document.querySelector("#continue-game")?.addEventListener("click", () => {
     state = loadResult.state;
+    activeView = restoreLastView(localStorage, getNavigationTarget);
     notice = loadResult.message;
     saveStatus = loadResult.source === "backup" ? "Yedekten devam ediliyor." : "Kayıt hazır.";
     weekStartSnapshot = null;
@@ -971,32 +974,24 @@ function renderEducation() {
     )}</div>${renderResult("Eğitime kaydolmak haftalık karar hakkı kullanmaz; haftalık enerji ve stres yükü getirir.")} </section>`;
 }
 
-const ISTANBUL_QUARTERS = { sisli: "ridge", kadikoy: "shore", uskudar: "shore", bayrampasa: "edge", avcilar: "edge" };
 const PLATE_NAME = { ridge: "Sırt", shore: "Kıyı", edge: "Çeper" };
 const CITY_PLATES = {
   ankara: [["ankara-west", "city-ankara-west.jpg"], ["ankara-east", "city-ankara-east.jpg"]],
   izmir: [["izmir-west", "city-izmir-konak.jpg"], ["izmir-east", "city-izmir-bornova.jpg"]],
 };
-const CITY_QUARTER = {
-  cankaya: "city-ankara-east.jpg",
-  batikent: "city-ankara-west.jpg",
-  konak: "city-izmir-konak.jpg",
-  bornova: "city-izmir-bornova.jpg",
-};
+
 
 function renderLocationPanel(){
  const current=currentDistrict(state),selected=getDistrict(selectedDistrictId)||current||getDistrict('uskudar');
- const p=districtProfile(state,selected.id),preview={...state,household:{...state.household,location:{districtId:selected.id}}};
+ const p=districtProfile(state,selected.id),preview={...state,household:{...state.household,location:{districtId:selected.id},semt:{...state.household.semt,live:null}}};
+ const familyTravel=socialTravel(preview,'anne');
  const job=getJobById(state.career.jobId),commute=getCommuteExplanation(state.household.homeId,state.career.jobId,preview);
  const back=locationMoveQuote(state,'uskudar','family');
  const cityButtons=Object.entries(CITIES).map(([id,name])=>`<button class="button button-quiet" data-location-city="${id}" aria-pressed="${selected.city===id}">${name}</button>`).join('');
- const onIstanbul = selected.city === "istanbul";
- const pins=DISTRICTS.filter(d=>d.city===selected.city).map(d=>`<button class="location-pin" style="--map-x:${d.x}%;--map-y:${d.y}%" data-location-select="${d.id}" aria-pressed="${selected.id===d.id}" aria-label="${escapeText(d.name)}"><span>${escapeText(d.name)}</span>${current?.id===d.id?'<small>EVİN</small>':''}</button>`).join('');
- const quarter=ISTANBUL_QUARTERS[selected.id]||"";
- const plates=onIstanbul?["ridge","shore","edge"].map(id=>`<img class="map-plate map-plate--${id}" alt="" src="./assets/map/quarter-${id}.jpg" width="960" height="640"><span class="map-caption map-caption--${id}">${PLATE_NAME[id]}</span>`).join(""):(CITY_PLATES[selected.city]||[]).map(([id,file])=>`<img class="map-plate map-plate--${id}" alt="" src="./assets/map/${file}" width="960" height="640">`).join("");
- const quarterView=quarter?`<img class="location-quarter" alt="" src="./assets/map/quarter-${quarter}.jpg" width="960" height="640">`:CITY_QUARTER[selected.id]?`<img class="location-quarter" alt="" src="./assets/map/${CITY_QUARTER[selected.id]}" width="960" height="640">`:"";
+ const legacyImages=selected.city==='istanbul' ? ["ridge","shore","edge"].map(id=>[PLATE_NAME[id],`quarter-${id}.jpg`]) : (CITY_PLATES[selected.city]||[]).map(([,file])=>[CITIES[selected.city],file]);
+ const legacyArt=`<details class="region-legacy-art"><summary>Önceki mahalle çizimleri</summary><div class="region-legacy-gallery">${legacyImages.map(([name,file])=>`<figure><img src="./assets/map/${file}" loading="lazy" decoding="async" width="960" height="640" alt="${escapeText(name)} kurgusal mahalle çizimi"><figcaption>${escapeText(name)} · kurgusal mahalle</figcaption></figure>`).join('')}</div></details>`;
  const homes=HOMES.filter(h=>h.id!=='family').map(h=>{const q=locationMoveQuote(state,selected.id,h.id),check=locationMoveAvailability(state,selected.id,h.id);return `<article class="option-card"><h3>${escapeText(h.title)}</h3><dl><div><dt>Aylık konut tabanı</dt><dd>${money(Math.round(h.monthlyCost*p.rent))}</dd></div><div><dt>Tek seferlik taşınma</dt><dd>${money(q.cost)}</dd></div><div><dt>Zaman</dt><dd>${q.slots} karar</dd></div></dl><button class="button" data-location-move="${selected.id}" data-location-home="${h.id}" ${check.ok?'':'disabled'}>Bu bölgeye taşın</button>${!check.ok?`<p class="context-note">${escapeText(check.reason)}</p>`:''}</article>`;}).join('');
- return `<section class="panel location-panel"><div class="panel-head"><div><p class="eyebrow">YAŞADIĞIN YER</p><h2>${escapeText(current?CITIES[current.city]+' · '+current.name:'İstanbul · mevcut çevren')}</h2></div></div><p class="context-note">${current?'Konumun kira, yol ve günlük bütçene yansıyor.':'Semtini seçene kadar mevcut kira ve ulaşım düzenin korunur.'} Aile ve eski arkadaş çevren İstanbul’da kalır; birlikte yaşadığın partnerin seninle taşınır.</p><div class="location-cities" role="group" aria-label="Şehir seçimi">${cityButtons}</div><div class="location-map location-map--${selected.city}" data-quarter="${quarter}" role="group" aria-label="${CITIES[selected.city]} bölge haritası">${plates}${pins}</div>${quarterView}<p class="context-note">Ölçeksiz konum şeması · Bölgeler kendi içinde farklı sokaklar ve yaşam biçimleri barındırır.</p><div class="panel-head"><div><p class="eyebrow">${escapeText(p.kind)}</p><h3>${escapeText(selected.name)}</h3></div></div><div class="detail-summary"><div><span>İşe yol yükü</span><strong>${escapeText(commute.label)}</strong><small>${escapeText(commute.detail)}</small></div><div><span>Aylık işe ulaşım</span><strong>${money(locationCosts(preview).transport)}</strong></div><div><span>Günlük yaşam bütçesi</span><strong>${Math.round(p.living*100)} / 100</strong><small>Mevcut diğer giderlere uygulanır</small></div><div><span>Eğitim erişimi</span><strong>${p.education?'Ek yol planlaması':'Daha yakın seçenekler'}</strong><small>${p.education?'Aktif eğitim: haftada +1 yük, −2 enerji':'Ek eğitim ulaşım yükü yok'}</small></div></div><p class="context-note">${p.rail?escapeText(p.railName)+' bu tarihte açık; ulaşım yükü hesabına dahil.':'Bu tarihte bu bölge için metro indirimi yok; otobüs, yol ve varsa deniz ulaşımı esas alınıyor.'} ${job?`Mevcut mesleğinle yeni işe geçiş: ${1+locationJobDelay(preview,job)} hafta; açık iş garantisi değildir.`:'İşsizken maaş ve işe ulaşım gideri yok; İş ekranından yeni iş seçebilirsin.'} Sosyal buluşma yakınlık etkisi: ${Math.round(6*p.social)}; eski çevreye şehir dışı ziyaret ayrıca 2 zaman ve ${money(1200)} yol bedeli kullanır.</p><p class="context-note">Yerel işletme kira katsayısı ${p.rent.toFixed(2)}. Tamir/üretim, öğrenci çevresinde internet kafe veya hizmet/ticaret uyumu ciroyu etkiler; kazanç garanti değil. Mevcut işletme evle birlikte taşınmaz.</p><p class="context-note" data-location-risk>${escapeText(locationRiskCopy(preview,window.tlabI18n?.getLang?.() || "tr",selected.id))}</p><div class="option-grid">${homes}</div>${current?`<p class="context-note">Aile evine dönüş: ${money(back.cost)} · ${back.slots} zaman. İş, eğitim ve ortak ev koşulları geçerlidir.</p><button class="button button-quiet" id="return-family-area">İstanbul’daki aile evine dön</button>`:''}<details><summary>Konum hesabı hakkında</summary><p class="context-note">Kira, süre ve fırsat farkları dönem ekonomisine bağlı oyun varsayımlarıdır; ilan fiyatı veya gerçek yol tarifi değildir. Raylı ulaşım tarihleri kaynaklıdır. Şehir değiştirirken mevcut iş, okul ve işletme otomatik taşınmaz.</p></details>${renderResult()}</section>`;
+ return `<section class="panel location-panel"><div class="panel-head"><div><p class="eyebrow">YAŞADIĞIN YER</p><h2>${escapeText(current?CITIES[current.city]+' · '+current.name:'İstanbul · mevcut çevren')}</h2></div></div><p class="context-note">${current?'Konumun kira, yol ve günlük bütçene yansıyor.':'Semtini seçene kadar mevcut kira ve ulaşım düzenin korunur.'} Aile ve eski arkadaş çevren İstanbul’da kalır; birlikte yaşadığın partnerin seninle taşınır.</p><div class="location-cities" role="group" aria-label="Şehir seçimi">${cityButtons}</div>${renderRegionMap(state,selected,{escapeText})}${legacyArt}<div class="panel-head"><div><p class="eyebrow">${escapeText(p.kind)}</p><h3>${escapeText(selected.name)}</h3></div></div><div class="detail-summary"><div><span>İşe yol yükü</span><strong>${escapeText(commute.label)}</strong><small>${escapeText(commute.detail)}</small></div><div><span>Aylık işe ulaşım</span><strong>${money(locationCosts(preview).transport)}</strong></div><div><span>Günlük yaşam bütçesi</span><strong>${Math.round(p.living*100)} / 100</strong><small>Mevcut diğer giderlere uygulanır</small></div><div><span>Eğitim erişimi</span><strong>${p.education?'Ek yol planlaması':'Daha yakın seçenekler'}</strong><small>${p.education?'Aktif eğitim: haftada +1 yük, −2 enerji':'Ek eğitim ulaşım yükü yok'}</small></div></div><p class="context-note">${p.rail?escapeText(p.railName)+' bu tarihte açık; ulaşım yükü hesabına dahil.':'Bu tarihte bu bölge için metro indirimi yok; otobüs, yol ve varsa deniz ulaşımı esas alınıyor.'} ${job?`Mevcut mesleğinle yeni işe geçiş: ${1+locationJobDelay(preview,job)} hafta; açık iş garantisi değildir.`:'İşsizken maaş ve işe ulaşım gideri yok; İş ekranından yeni iş seçebilirsin.'} Sosyal buluşma yakınlık etkisi: ${Math.round(6*p.social)}; eski çevreyle buluşma ${1+familyTravel.slots} karar ve ${money(familyTravel.cost)} yol bedeli kullanır (buluşmanın kendi harcaması ayrıca).</p><p class="context-note">Yerel işletme kira katsayısı ${p.rent.toFixed(2)}. Tamir/üretim, öğrenci çevresinde internet kafe veya hizmet/ticaret uyumu ciroyu etkiler; kazanç garanti değil. Mevcut işletme evle birlikte taşınmaz.</p><p class="context-note" data-location-risk>${escapeText(locationRiskCopy(preview,window.tlabI18n?.getLang?.() || "tr",selected.id))}</p><div class="option-grid">${homes}</div>${current?`<p class="context-note">Aile evine dönüş: ${money(back.cost)} · ${back.slots} zaman. İş, eğitim ve ortak ev koşulları geçerlidir.</p><button class="button button-quiet" id="return-family-area">İstanbul’daki aile evine dön</button>`:''}<details><summary>Konum hesabı hakkında</summary><p class="context-note">Kira, süre ve fırsat farkları dönem ekonomisine bağlı oyun varsayımlarıdır; ilan fiyatı veya gerçek yol tarifi değildir. Raylı ulaşım tarihleri kaynaklıdır. Şehir değiştirirken mevcut iş, okul ve işletme otomatik taşınmaz.</p></details>${renderResult()}</section>`;
 }
 
 function renderHomes() {
@@ -1011,7 +1006,7 @@ function renderHomes() {
     <section class="detail-summary panel"><div><span>Aktif konut</span><strong>${escapeText(getHomeById(state.household.homeId).title)}</strong></div><div><span>Aylık maliyet</span><strong>${money(housing.total)}</strong>${housing.partnerContribution ? `<small>Ortak gider +${money(housing.householdExtra)} · Partner payı −${money(housing.partnerContribution)}</small>` : ""}${housing.familyContribution ? `<small>Konut ${money(housing.base)} · Aile katkısı ${money(housing.familyContribution)}</small>` : ""}</div><div><span>Çalışma yeri</span><strong>${escapeText(state.career.retirement?.status === "retired" ? "Emekli" : activeJob?.title || "İşsiz")}</strong></div><div><span>Ulaşım yükü</span><strong>${escapeText(activeCommute.label)}</strong><small>${escapeText(activeCommute.detail)}</small></div></section>
     <p class="context-note">${escapeText(PRIVACY_CONTEXT)}</p>
     ${renderLocationPanel()}
-    ${renderSemtEmlak(state, { money, escapeText })}
+    ${renderSemtEmlak(state, { money, escapeText, regionId:(getDistrict(selectedDistrictId)||currentDistrict(state)||getDistrict("uskudar")).id })}
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">MÜLKİYET</p><h2>Evlerin</h2></div><span>${owned.length + rentals.length}</span></div><p class="context-note">${owned.length ? "Bu ev senin. Katalog kirası yerine bakım ve varsa ev borcu ödüyorsun." : "Şu an aile evindesin ya da kiradasın."}${rentals.length ? ` · ${rentals.length} kiralık ev: ${rentals.filter((property) => property.occupancy === "rental").length} dolu.` : ""}</p><button class="button button-quiet" data-view="emlak">Alıp satmak Emlak'ta</button></section>
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">SEÇENEKLER</p><h2>Konut alternatifleri</h2></div></div><div class="option-grid">${HOMES.map(
       (home) => {
@@ -1504,9 +1499,10 @@ function render() {
       <header class="game-topbar">
         <div class="game-brand"><strong>TC SIM</strong><span>Bir hayat, bin küçük karar</span></div>
         <div class="top-meta"><span><b>${escapeText(state.player.name)}</b> · ${state.player.age}</span><span>${escapeText(gameDateLabel(state))} · H${state.time.weekOfMonth}</span><span class="top-money">${money(state.finances.balance)}</span></div>
-        <nav class="top-shortcuts" aria-label="Hızlı erişim"><button class="button button-quiet" data-view="inbox"${activeView === "inbox" ? ' aria-current="page"' : ""}>Gelen kutusu <b>${getPlayerVisibleOpenCases(state).filter((item) => item.status !== "resolved").length}</b></button><button class="button button-quiet" data-view="calendar"${activeView === "calendar" ? ' aria-current="page"' : ""}>Takvim</button><button class="button button-quiet" data-view="finance"${activeView === "finance" ? ' aria-current="page"' : ""}>Banka</button><button class="button button-quiet" data-view="relationships"${activeView === "relationships" ? ' aria-current="page"' : ""}>İlişkiler</button><button class="button button-quiet" data-view="body"${activeView === "body" ? ' aria-current="page"' : ""}>Beden</button></nav>
+        <nav class="top-shortcuts" aria-label="Hızlı erişim"><button class="button button-quiet" data-view="inbox"${activeView === "inbox" ? ' aria-current="page"' : ""}>Gelen kutusu <b>${getPlayerVisibleOpenCases(state).filter((item) => item.status !== "resolved").length}</b></button><button class="button button-quiet" data-view="calendar"${activeView === "calendar" ? ' aria-current="page"' : ""}>Takvim</button><button class="button button-quiet" data-view="banks"${activeView === "banks" ? ' aria-current="page"' : ""}>Bankalar</button><button class="button button-quiet" data-view="relationships"${activeView === "relationships" ? ' aria-current="page"' : ""}>İlişkiler</button><button class="button button-quiet" data-view="body"${activeView === "body" ? ' aria-current="page"' : ""}>Beden</button></nav>
         <div class="save-area"><span class="save-status" role="status">${escapeText(saveStatus)}</span><span class="slot-mini">Slot ${getActiveSlot(localStorage)}</span><button class="button button-quiet" id="help-open" aria-haspopup="dialog">? Nasıl Oynanır</button><button class="button button-quiet" id="save-game">Kaydet</button><button class="button button-quiet" id="main-menu">Ana Menü</button><button class="button button-quiet button-danger" id="new-game">Yeni oyun</button></div>
       </header>
+      ${renderLifeStatus(state, { worth: netWorth(state), remaining: Math.max(0, getWeeklyActivityLimit(state) - state.weekly.used), money, language: window.tlabI18n?.getLang?.() || "tr" })}
       <div class="game-body">
         <nav class="side-nav" aria-label="Oyun bölümleri">${terminal ? "Yaşam raporu" : renderNav()}</nav>
         <section class="workspace">${workspace}</section>
@@ -1536,7 +1532,7 @@ function render() {
     arrangeLifeDesk(activeView, confirmText);
     applyLangPhrases();
   }
-  compactNavigation(document.querySelector(".side-nav"), confirmText("Diğer bölümler", "More sections"));
+  bindLifeShell(app, activeView, window.tlabI18n?.getLang?.() || "tr", localStorage);
 
   document.querySelectorAll("[data-scenario-choice]").forEach((button) => button.addEventListener("click", () => {
     const result = presentDecision(() => resolveScenarioChoice(state, button.dataset.scenarioChoice));
@@ -1667,8 +1663,8 @@ function render() {
     persist();
     render();
   });
-  document.querySelectorAll('[data-location-city]').forEach(b=>b.addEventListener('click',()=>{selectedDistrictId=DISTRICTS.find(d=>d.city===b.dataset.locationCity).id;render();}));
-  document.querySelectorAll('[data-location-select]').forEach(b=>b.addEventListener('click',()=>{selectedDistrictId=b.dataset.locationSelect;render();}));
+  document.querySelectorAll('[data-location-city]').forEach(b=>b.addEventListener('click',()=>{selectedDistrictId=PLAYABLE_REGIONS.find(d=>d.city===b.dataset.locationCity).id;render();document.querySelector(`[data-location-city="${b.dataset.locationCity}"]`)?.focus({preventScroll:true});}));
+  document.querySelectorAll('[data-location-select]').forEach(b=>b.addEventListener('click',()=>{selectedDistrictId=b.dataset.locationSelect;render();document.querySelector(`[data-location-select="${selectedDistrictId}"]`)?.focus({preventScroll:true});}));
   document.querySelectorAll('[data-location-move]').forEach(b=>b.addEventListener('click',()=>{const r=presentDecision(() => moveLocation(state,b.dataset.locationMove,b.dataset.locationHome));notice=r.reason||r.message;persist();render();}));
   document.querySelector('#return-family-area')?.addEventListener('click',()=>{const r=presentDecision(() => returnToFamilyArea(state));notice=r.reason||r.message;persist();render();});
   document.querySelectorAll("[data-move-home]").forEach((button) =>

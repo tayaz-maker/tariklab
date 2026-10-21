@@ -2,14 +2,16 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { createNewGame, validateState, SAVE_VERSION } from "../public/games/tc-sim/js/state.js";
 import { deserializeState, migrateState, saveGame, loadGame } from "../public/games/tc-sim/js/save.js";
-import { bankAccount, bankCard, bankTotals, normalizeBanking, validBanking } from "../public/games/tc-sim/js/bank-accounts.js";
+import { bankAccount, bankCard, bankTotals, validBanking } from "../public/games/tc-sim/js/bank-accounts.js";
 import { applyBankAction, cardLimitAvailable } from "../public/games/tc-sim/js/bank-actions.js";
 import { processBankCardsMonth } from "../public/games/tc-sim/js/bank-cards.js";
 import { bankCreditPolicy } from "../public/games/tc-sim/js/bank-record.js";
 import { transact } from "../public/games/tc-sim/js/state.js";
-import { netWorth, normalizeWealth, processWealthMonthEnd, CASH_ARREARS_CAP } from "../public/games/tc-sim/js/wealth.js";
+import { netWorth, processWealthMonthEnd, buyProperty, manageMortgage, sellProperty, CASH_ARREARS_CAP } from "../public/games/tc-sim/js/wealth.js";
 import { startBusiness, closeBusiness, processBusinessMonth } from "../public/games/tc-sim/js/bank-business.js";
-import { openIcraNotice, runHaciz } from "../public/games/tc-sim/js/icra.js";
+import { claimOf, openIcraNotice, runHaciz, payIcra } from "../public/games/tc-sim/js/icra.js";
+import { debtBalance } from "../public/games/tc-sim/js/mortgage.js";
+import { beginMonthlyCash, closeMonthlyCash } from "../public/games/tc-sim/js/monthly-cash.js";
 import { renderBankAccounts } from "../public/games/tc-sim/js/bank-ui.js";
 
 const fresh = () => createNewGame({ seed: 17, now: "2026-10-21T00:00:00.000Z" });
@@ -225,7 +227,7 @@ test("bank UI is read-only with labeled forms, actual commands and localized hea
     const html = renderBankAccounts(s, n => String(n), lang);
     assert.match(html, /data-bank-form/); assert.match(html, /inputmode="numeric"/);
     assert.match(html, /name="revision"/); assert.match(html, /name="action" value="deposit"/);
-    assert.equal((html.match(/<label for=/g) || []).length, (html.match(/id="bank[^\"]+"/g) || []).length);
+    assert.equal((html.match(/<label for=/g) || []).length, (html.match(/id="bank[^"]+"/g) || []).length);
   }
   assert.deepEqual(s, before); assert.equal(bankAccount(s, id()).balance, 0);
 });
@@ -313,4 +315,69 @@ test("wallet overflow rejects the entire transfer without rounding away bank fun
   s.finances.balance = Number.MAX_SAFE_INTEGER; const before = structuredClone(s);
   assert.equal(act(s, "withdraw", { amount: 1 }).ok, false);
   assert.deepEqual(s, before);
+});
+
+function unpaidMortgage(months = 1) {
+  const s = fresh(); s.finances.balance = 1000000;
+  assert.equal(buyProperty(s, "owner", true).ok, true);
+  for (let month = 0; month < months; month++) {
+    s.finances.balance = 0; processWealthMonthEnd(s);
+    s.time.absoluteWeek += 4; s.weekly = { used: 0, selectedIds: [] };
+  }
+  return s;
+}
+function openReceipt(s) { s.finances.monthCash = null; beginMonthlyCash(s, false, netWorth(s)); }
+function closeReceipt(s) {
+  s.time.month += 1;
+  const r = closeMonthlyCash(s, netWorth(s));
+  assert.equal(r.otherChange, 0);
+  assert.equal(r.closingBalance - r.openingBalance, r.inflow - r.outflow + r.adjustments);
+  assert.deepEqual(reload(s).finances.lastMonthClose, r);
+  return r;
+}
+
+test("legacy mortgage extra, payoff and sale report paid interest once without duplicate cash outflows", () => {
+  for (const action of ["mortgage-extra", "mortgage-close", "sale"]) {
+    const s = unpaidMortgage(), loanId = s.wealth.debts[0].id, propertyId = s.wealth.properties[0].id;
+    const interest = s.wealth.debts[0].mortgage.interestDue, owed = debtBalance(s.wealth.debts[0]), value = s.wealth.properties[0].currentValue;
+    s.finances.balance = 500000; openReceipt(s); const worth = netWorth(s).total;
+    const execute = () => action === "sale" ? sellProperty(s, propertyId) : manageMortgage(s, loanId, action);
+    assert.equal(execute().ok, true); assert.equal(netWorth(s).total, worth);
+    assert.equal(s.finances.monthCash.breakdown.interestPaid, interest);
+    const unchanged = structuredClone(s); assert.equal(execute().ok, false); assert.deepEqual(s, unchanged);
+    const r = closeReceipt(s);
+    assert.equal(r.breakdown.interestPaid, interest);
+    assert.equal(r.closingWorth - r.openingWorth, 0);
+    assert.equal(r.outflow, action === "sale" ? 0 : action === "mortgage-extra" ? 5000 : owed);
+    assert.equal(r.inflow, action === "sale" ? value - owed : 0);
+  }
+});
+
+test("mortgage enforcement reports only collected interest, preserving unpaid deficiency and single settlement", () => {
+  for (const method of ["pay", "sale", "partial-sale"]) {
+    const s = unpaidMortgage(3), interest = s.wealth.debts[0].mortgage.interestDue;
+    s.finances.balance = method === "pay" ? 500000 : 0;
+    if (method === "partial-sale") s.wealth.properties[0].currentValue = 1000;
+    const value = s.wealth.properties[0].currentValue, expected = method === "partial-sale" ? 800 : interest;
+    const item = openIcraNotice(s, claimOf(s)); openReceipt(s); const worth = netWorth(s).total;
+    const execute = () => method === "pay" ? payIcra(s) : runHaciz(s, item);
+    assert.equal(execute().ok, true);
+    assert.equal(s.finances.monthCash.breakdown.interestPaid, expected);
+    assert.equal(netWorth(s).total, worth - (method === "pay" ? 0 : value - Math.round(value * .8)));
+    const unchanged = structuredClone(s); assert.equal(execute().ok, false); assert.deepEqual(s, unchanged);
+    assert.equal(closeReceipt(s).breakdown.interestPaid, expected);
+  }
+});
+
+test("bank-linked mortgage repayment retains one interest detail after legacy reporting coverage", () => {
+  const s = funded(1000000); act(s, "deposit", { amount: 144000 });
+  assert.equal(act(s, "loan", { product: "mortgage" }).ok, true);
+  s.finances.balance = 0; processWealthMonthEnd(s);
+  s.time.absoluteWeek += 4; s.weekly = { used: 0, selectedIds: [] };
+  const loanId = s.wealth.debts[0].id, interest = s.wealth.debts[0].mortgage.interestDue;
+  s.finances.balance = 10000; openReceipt(s); const worth = netWorth(s).total;
+  assert.equal(act(s, "deposit", { amount: 5000 }).ok, true);
+  assert.equal(act(s, "repay", { debtId: loanId, amount: 5000 }).ok, true);
+  assert.equal(netWorth(s).total, worth);
+  const r = closeReceipt(s); assert.equal(r.breakdown.interestPaid, interest); assert.equal(r.outflow, 5000);
 });
