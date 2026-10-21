@@ -67,6 +67,9 @@ jobs:
       - name: Built candidate — 18 matrix cases and 4 mobile hidden-panel regressions
         if: steps.scope.outputs.tc == 'true' && (matrix.label == 'built')
         run: node scripts/tc-sim-job-start-outcome-browser.mjs --serve .output/public --label built
+      - name: TC SIM 2.0 navigation, preferences and status
+        if: steps.scope.outputs.tc == 'true' && (matrix.label == 'built')
+        run: node scripts/tc-sim-2-ux-browser.mjs .output/public built
       - name: TC SIM 2 regions — 23 destinations, four viewports and three languages
         if: steps.scope.outputs.tc == 'true' && (matrix.label == 'built')
         run: node scripts/tc-sim-2-regions-browser.mjs --serve .output/public --expected-sha "${{ github.sha }}" --out "${{ runner.temp }}/screenshots/tc-sim-2-regions"

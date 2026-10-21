@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 
 export async function deskLanguageSwitch(page, surface, lang, setup = false) {
   const snapshot = () => page.evaluate(() => JSON.stringify(Object.fromEntries(
-    Object.entries(localStorage).filter(([key]) => key !== "tariklab.language"))));
+    Object.entries(localStorage).filter(([key]) => key !== "tariklab.language" && key !== "tariklab.tc-sim.ui.v2"))));
   const before = await snapshot();
   const fields = () => surface.locator("#new-game-form [name]").evaluateAll(nodes => nodes.map(node => [node.name, node.value]));
   const draft = setup ? await fields() : null;
@@ -25,7 +25,7 @@ export async function deskFlows(page, surface, id, lang, out) {
   if (!["tc-sim", "tc-sim-devlet"].includes(id)) return;
   const attr = id === "tc-sim" ? "data-view" : "data-screen";
   const targets = id === "tc-sim" ? ["career", "education", "market", "finance", "people", "body", "dashboard"] : ["policy", "institutions", "foreign", "regions", "society", "economy", "home"];
-  const before = await page.evaluate(() => JSON.stringify(Object.fromEntries(Object.entries(localStorage))));
+  const before = await page.evaluate(() => JSON.stringify(Object.fromEntries(Object.entries(localStorage).filter(([key]) => key !== "tariklab.tc-sim.ui.v2"))));
   for (const screen of targets) {
     await page.setViewportSize({ width: 1440, height: 900 });
     await surface.locator(`.compact-nav [${attr}="${screen}"]`).click();
@@ -85,7 +85,7 @@ export async function deskFlows(page, surface, id, lang, out) {
       }
     }
   }
-  const after = await page.evaluate(() => JSON.stringify(Object.fromEntries(Object.entries(localStorage))));
+  const after = await page.evaluate(() => JSON.stringify(Object.fromEntries(Object.entries(localStorage).filter(([key]) => key !== "tariklab.tc-sim.ui.v2"))));
   assert.equal(after, before, `${id}: selecting/filtering/navigating/resizing changed save data`);
   await deskLanguageSwitch(page, surface, lang);
 }

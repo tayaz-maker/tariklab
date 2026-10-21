@@ -60,7 +60,7 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Combined #189: weekly career actions also honor existing detention.
   // Authorized Package 2: bounded work recovery uses existing body/life/time/state only.
   // Authorized Package 3: existing partial friend loans join debt-memory follow-up.
-  assert.equal(files.length, 65);
+  assert.equal(files.length, 67);
   const hash = createHash("sha256");
   for (const file of files) hash.update(file).update(file === "public/games/next-wave.js" ? frozenNextWaveBytes(readFileSync(file)) : readFileSync(file));
   // Re-pinned for the DEVLET maps PR: next-wave.js (geo dispatch + month
@@ -114,8 +114,9 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // focused Apartman repair target and once-only follow-up settlement. No new
   // coefficients/content/schema. 159 focused tests and 42 source +42 built
   // Chromium cases cover the reviewed behavior; every other source stays pinned.
-  // Authorized TC SIM 2.0 region model and map renderer; unrelated content stays pinned.
-  assert.equal(hash.digest("hex"), "08160144012820468ffab82077d562a249cc36acead8790e9797351e4d73a84e");
+  // TC SIM 2.0 A+C: authorized UI preferences/status, region model and map renderer.
+  // Unrelated content stays pinned.
+  assert.equal(hash.digest("hex"), "5f8d17d5c4b973c7b1cfaec44d4fa189d8588c6dca0cb07c2cfde76d4b1cd901");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);

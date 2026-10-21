@@ -176,7 +176,7 @@ try {
     assert.equal(await page.locator("[data-job-start-moment][role=status]").count(), 0, "save does not reannounce");
     // Read-only bank history stays localized/reachable in the existing finance
     // panel, at each matrix width and language, without writing a save.
-    const bankStorageBefore = await page.evaluate(() => JSON.stringify(Object.fromEntries(Object.entries(localStorage))));
+    const bankStorageBefore = await page.evaluate(() => JSON.stringify(Object.fromEntries(Object.entries(localStorage).filter(([key]) => key !== "tariklab.tc-sim.ui.v2"))));
     await navigate("banks");
     const bankStatus = page.locator("[data-bank-record]");
     await bankStatus.scrollIntoViewIfNeeded();
@@ -184,7 +184,7 @@ try {
     assert.match(await bankStatus.textContent(), { tr: /Banka sicili/, en: /Bank history/, pl: /Historia bankowa/ }[language]);
     assert.match(await bankStatus.textContent(), /0–100/);
     await dimensions();
-    assert.equal(await page.locator('[data-view="banks"][aria-current="page"]').count(), 1);
+    assert.equal(await page.locator('.side-nav [data-view="banks"][aria-current="page"]').count(), 1);
     assert.ok(await page.locator("[data-credit]").count() > 0);
     assert.ok(await page.locator('[data-wealth-action="invest-buy"]').count() > 0);
     if (width === 1440 && !reduced) {
@@ -202,7 +202,7 @@ try {
     await page.keyboard.press("Enter");
     assert.equal(await page.locator("[data-bank-account]").count(), 1, "bank navigation works by keyboard");
     await page.screenshot({ path: `${out}/${stem}-bank-history.png`, fullPage: true });
-    assert.equal(await page.evaluate(() => JSON.stringify(Object.fromEntries(Object.entries(localStorage)))), bankStorageBefore, "bank history presentation never writes a save");
+    assert.equal(await page.evaluate(() => JSON.stringify(Object.fromEntries(Object.entries(localStorage).filter(([key]) => key !== "tariklab.tc-sim.ui.v2")))), bankStorageBefore, "bank history presentation never writes a save");
     await navigate(view);
     const saved = await page.evaluate(key => JSON.parse(localStorage.getItem(key)), key);
     assert.equal(saved.career.jobId, "market"); assert.equal(saved.career.pendingJob, null);
@@ -237,7 +237,7 @@ try {
     await navigate("career"); await navigate("dashboard");
     assert.equal(await page.locator("[data-job-start-moment]").count(), 0);
     if (language === "tr" && !reduced && view === "dashboard") {
-      const storageBefore = await page.evaluate(() => JSON.stringify(Object.fromEntries(Object.entries(localStorage))));
+      const storageBefore = await page.evaluate(() => JSON.stringify(Object.fromEntries(Object.entries(localStorage).filter(([key]) => key !== "tariklab.tc-sim.ui.v2"))));
       let shellBaseline;
       for (const menu of ["dashboard", "inbox", "character", "calendar", "finance", "banks", "market", "career", "education", "people", "relationships", "home", "body", "history", "yearbook"]) {
         await navigate(menu);
@@ -276,7 +276,7 @@ try {
           await page.locator("#body-region-chest").click();
           assert.equal(await page.locator('.tc-body-actions [data-decision="rest"]').count(), 1);
           assert.equal(await page.locator('.tc-body-actions [data-decision="exercise"]').count(), 1);
-          assert.equal(await page.evaluate(() => JSON.stringify(Object.fromEntries(Object.entries(localStorage)))), storageBefore, "Body selection never writes a save");
+          assert.equal(await page.evaluate(() => JSON.stringify(Object.fromEntries(Object.entries(localStorage).filter(([key]) => key !== "tariklab.tc-sim.ui.v2")))), storageBefore, "Body selection never writes a save");
           await page.evaluate(() => window.scrollTo(0, 0));
           await page.screenshot({ path: `${out}/body-interaction-${width}.png`, fullPage: true });
         }
@@ -294,7 +294,7 @@ try {
           await page.screenshot({ path: `${out}/shell-${width}-career-detail.png`, fullPage: false });
         }
       }
-      assert.equal(await page.evaluate(() => JSON.stringify(Object.fromEntries(Object.entries(localStorage)))), storageBefore, "Shell navigation must not mutate save data");
+      assert.equal(await page.evaluate(() => JSON.stringify(Object.fromEntries(Object.entries(localStorage).filter(([key]) => key !== "tariklab.tc-sim.ui.v2")))), storageBefore, "Shell navigation must not mutate save data");
       await navigate("dashboard");
     }
     assert.deepEqual(errors, []); assert.deepEqual(external, []);
@@ -338,10 +338,14 @@ try {
     await context.addInitScript(({state,key,origin})=>{if(location.origin!==origin||localStorage.getItem('city-fixture-seeded'))return;localStorage.setItem(key,JSON.stringify(state));localStorage.setItem('tariklab::tc-sim:active','1');localStorage.setItem('tariklab.language','tr');localStorage.setItem('city-fixture-seeded','1');},{state:cityFixture(),key,origin});
     await page.goto(url,{waitUntil:'networkidle'});await page.locator('#continue-game').click();await page.locator('.side-nav [data-view="home"]').click();
     const before=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
-    await page.locator('[data-location-city="ankara"]').click();await page.locator('[data-location-select="batikent"]').click();
+    await page.locator('[data-location-city="ankara"]').click();
+    await page.locator('.region-map-legacy summary').click();
+    await page.locator('[data-location-select="batikent"]').click();
     assert.ok((await page.locator('.location-panel').textContent()).includes('Mevcut işin bu şehirde'));
     assert.deepEqual(await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key),before);
-    await page.locator('[data-location-city="istanbul"]').click();await page.locator('[data-location-select="avcilar"]').click();
+    await page.locator('[data-location-city="istanbul"]').click();
+    await page.locator('.region-map-legacy summary').click();
+    await page.locator('[data-location-select="avcilar"]').click();
     await page.locator('[data-location-move="avcilar"][data-location-home="shared"]').click();
     assert.match(await page.locator('.result[role="status"]').last().textContent(),/Cüzdanın:.*Aylık konut giderin/);
     const saved=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);assert.equal(saved.household.location.districtId,'avcilar');assert.equal(saved.weekly.used-before.weekly.used,2);assert.ok(saved.finances.balance<before.finances.balance);
