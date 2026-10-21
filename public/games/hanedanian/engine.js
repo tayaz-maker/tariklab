@@ -1,4 +1,4 @@
-import { campaignStatus, campaignCommand, emptyProgression, ensureProgression, progressOf, regionOf, completeProjects, progressionValid, PROJECT_QUOTAS } from './campaign.js';
+import { recordChronicle, victorySummary, campaignStatus, campaignCommand, emptyProgression, ensureProgression, progressOf, regionOf, completeProjects, progressionValid, PROJECT_QUOTAS } from './campaign.js';
 import { SCHEMA_VERSION, RESOURCES, TERRAINS, POIS, BUILDINGS, UNITS, FACTION_PRESETS, VICTORY_PATHS, LIMITS, resourceObject, troopObject } from './data.js';
 import { generateWorld, getTile, distance, sampleRoute, hashSeed, randomStream } from './world.js';
 
@@ -64,6 +64,7 @@ function milestone(state, key, title, amount = 8, xp = 10) {
   state.campaign.milestones.push(key);
   influence(state, state.playerId, amount);
   state.dynasty.xp = Math.min(1000000, state.dynasty.xp + xp);
+  if (!key.startsWith('trade:') && !key.startsWith('build:')) recordChronicle(state,key,key.startsWith('settled:')?'settlement':key.startsWith('vasal:')?'diplomacy':'strategy',title,`Nüfuz +${amount}; deneyim +${xp}.`);
   report(state, 'milestone', title, `Hanedanınız ${amount} nüfuz ve ${xp} deneyim kazandı.`);
 }
 function makeTown(state, ownerId, x, y, name, initial = false) {
@@ -100,6 +101,7 @@ export function createGame({ seed = 'TL-SEDIR-49', size = 49, aiCount = 8, dynas
     state.settlements.push(makeTown(state, id, x, y, `${name} Yurdu`, true));
   }
   for (const a of state.factions) for (const b of state.factions) if (a !== b) a.relations[b.id] = { score: 0, truceUntil: 0, vasal: false };
+  recordChronicle(state,'foundation','foundation','İlk ocak',`${state.dynasty.name}: Yazhisar kuruldu. ${state.factions.length-1} rakip hanedan.`);
   report(state, 'welcome', 'Bir yurt, bir hanedan', 'Önce tarlayı geliştir; sonra yakın yaylaya gözcü gönder. Kaynaklar yerleşiminde birikir. Harita üzerinden yeni yurtlar ve ticaret ağı kur. Zamanı sen başlatırsın.');
   return state;
 }
@@ -190,6 +192,9 @@ function rememberRelation(state, a, b, kind) {
     const rel=relation(state,from,to);
     rel.history=[...(rel.history||[]),{time:state.time,kind,actorId:a}].slice(-8);
   }
+  if(a===state.playerId||b===state.playerId) {
+    if(['truce','vasal'].includes(kind)) recordChronicle(state,`${kind}:${a}:${b}:${state.time}`,'diplomacy',kind==='truce'?'Ateşkes imzalandı':'Siyasi bağlılık',`${getFaction(state,a).name} · ${getFaction(state,b).name}`);
+  }
 }
 export function getMilitaryPower(state, ownerId) {
   return ownSettlements(state, ownerId).reduce((sum, town) => sum + combatPower(town.troops, 'attack'), 0) + state.armies.filter(a => a.ownerId === ownerId).reduce((sum, army) => sum + combatPower(army.troops, 'attack'), 0);
@@ -257,7 +262,10 @@ function execute(state, action, ownerId) {
   if (action.type === 'victory') {
     const path = getCampaign(state).paths.find(item => item.id === action.path);
     if (!path?.ready || state.campaign.victory) return fail('Kurultay koşulları henüz tamamlanmadı.');
+    const campaign=getCampaign(state);
+    state.campaign.victoryFacts={path:action.path,time:state.time,towns:getPlayerSettlements(state).length,regions:campaign.regions.filter(r=>r.towns.some(t=>t.buildings.hall>=2)).length,connections:campaign.connections,points:campaign.points,battles:state.campaign.battlesWon,vasals:campaign.vasals};
     state.campaign.victory = action.path; state.paused = true;
+    recordChronicle(state,'victory','victory','Büyük Kurultay toplandı',victorySummary(state));
     report(state, 'victory', 'Büyük Kurultay toplandı', `${path.label} yolu tamamlandı. Hanedanının öyküsünü serbest devam modunda sürdürebilirsin.`, true);
     return success('Kurultay zaferinizi tanıdı.');
   }
@@ -504,6 +512,7 @@ function resolveArmy(state, army) {
     }
     setRelation(state, army.ownerId, oldOwner, { score: Math.max(-100, relation(state, army.ownerId, oldOwner).score - 15) });
     rememberRelation(state,army.ownerId,oldOwner,'war');
+    if((player||defenderPlayer)&&(captured||defense>=1200)) recordChronicle(state,`battle:${army.id}`,defenderPlayer&&captured?'loss':'battle',`${target.name}: ${captured?'sancak değişti':won?'meydan kazanıldı':'savunma kazandı'}`,`${getFaction(state,army.ownerId).name} / ${getFaction(state,oldOwner).name}; saldırı ${Math.round(offense)}, savunma ${Math.round(defense)}; kayıp ${attackerBefore-getTroopCount(army.troops)} / ${defenderBefore-getTroopCount(target.troops)}.`);
     if (player || defenderPlayer) report(state, 'battle', `${target.name}: ${captured ? 'sancak değişti' : won ? 'akın sonuçlandı' : 'savunma kazandı'}`,
       `Saldırı ${Math.round(offense)} / savunma ${Math.round(defense)}. Saldıran kaybı ${attackerBefore - getTroopCount(army.troops)}; savunan kaybı ${defenderBefore - getTroopCount(target.troops)}. ${captured ? 'Yerleşim ele geçirildi.' : 'Başkentler ele geçirilemez; sefer yağma ve kayıp üretir.'}`, defenderPlayer);
     returnArmy(state, army);
@@ -786,6 +795,14 @@ function inspectState(state) {
   if (plain(dynasty) && dynasty.pendingEvent !== null) check(plain(dynasty.pendingEvent) && dynasty.pendingEvent.type === 'heir' && boundedString(dynasty.pendingEvent.title, 200) && boundedString(dynasty.pendingEvent.text, 1000), 'Varis olayı geçersiz.');
   const campaign = state.campaign;
   check(plain(campaign) && integer(campaign.stage, 1, 5) && (campaign.victory === null || Object.hasOwn(VICTORY_PATHS, campaign.victory)) && typeof campaign.continued === 'boolean' && Array.isArray(campaign.milestones) && campaign.milestones.length <= 5000 && campaign.milestones.every(item => boundedString(item, 100)) && Number.isFinite(campaign.tradeVolume) && campaign.tradeVolume >= 0 && campaign.tradeVolume <= 100000000 && integer(campaign.battlesWon, 0, 100000000) && integer(campaign.scouting, 0, 100000000) && integer(campaign.buildingsCompleted, 0, 100000000), 'Kampanya ilerlemesi geçersiz.');
+  if(campaign?.chronicle!==undefined) {
+    const entries=campaign.chronicle;
+    check(Array.isArray(entries)&&entries.length<=64&&new Set(entries.map(e=>e?.key)).size===entries.length&&entries.every(e=>plain(e)&&boundedString(e.key,100)&&e.key.length>0&&integer(e.time,0,state.time)&&['foundation','settlement','strategy','battle','loss','diplomacy','victory'].includes(e.type)&&boundedString(e.title,200)&&boundedString(e.text,1000)),'Kampanya hafızası geçersiz.');
+  }
+  if(campaign?.victoryFacts!==undefined) {
+    const f=campaign.victoryFacts;
+    check(plain(f)&&Object.hasOwn(VICTORY_PATHS,f.path)&&f.path===campaign.victory&&integer(f.time,0,state.time)&&['towns','regions','connections','points','battles','vasals'].every(k=>integer(f[k],0,100000000)),'Zafer özeti geçersiz.');
+  }
   check(progressionValid(state), 'Bölgesel kampanya kaydı geçersiz.');
   return { ok: errors.length === 0, errors };
 }

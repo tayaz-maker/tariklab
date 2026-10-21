@@ -66,6 +66,24 @@ export function campaignStatus(state, base) {
   ];
   return { ...base, stage, label: ['Kuruluş','Yerel Güç','Bölgesel Güç','Büyük Hanedan','Endgame'][stage-1], goals: goals[stage-1], paths: result, regions, connections, projectLevels };
 }
+// Important outcomes share the existing campaign archive, not the routine report ring.
+export function recordChronicle(state, key, type, title, text) {
+  const entries=state.campaign.chronicle ||= [];
+  if(entries.some(e=>e.key===key)) return;
+  entries.push({key,time:state.time,type,title:title.slice(0,200),text:text.slice(0,1000)});
+  if(entries.length>64) {
+    const first=new Set(['foundation','victory',...['settlement','battle','loss','diplomacy'].map(t=>entries.find(e=>e.type===t)?.key)]);
+    const index=entries.findIndex(e=>!first.has(e.key)&&!e.key.startsWith('first-'));
+    entries.splice(index<0?1:index,1);
+  }
+}
+export function victorySummary(state, lang='tr') {
+  const f=state.campaign.victoryFacts;
+  if(!f) return lang==='tr'?'Bu eski kayıtta tarihli zafer koşulları bulunmuyor.':'This older save has no dated victory snapshot.';
+  const label=lang==='tr'?VICTORY_PATHS[f.path]:{wealth:'Wealth',dominion:'Dominion',dynasty:'Politics'}[f.path];
+  return lang==='tr'?`${label} yolu: ${f.towns} yurt, ${f.regions} gelişmiş bölge ve ${f.connections} ikmal hattı. ${f.points} stratejik nokta, ${f.battles} meydan zaferi, ${f.vasals} bağlı hanedan. Zafer ${f.time}. oyun dakikasında tanındı.`:
+    `${label}: ${f.towns} settlements, ${f.regions} developed regions and ${f.connections} supply links. ${f.points} strategic points, ${f.battles} battlefield victories, ${f.vasals} vassal houses. Victory recognized at game minute ${f.time}.`;
+}
 // Called only after engine ownership/cost guards. Failed commands leave state untouched.
 export function campaignCommand(state, action, town) {
   const p = progressOf(state), path = action.path, faction = state.factions.find(f => f.id === state.playerId);
@@ -122,6 +140,7 @@ export function completeProjects(state) {
       const faction = state.factions.find(f=>f.id===state.playerId);
       faction.influence = Math.min(9999, faction.influence + 55);
       state.dynasty.xp = Math.min(1000000, state.dynasty.xp + 60);
+      recordChronicle(state,`charter-${id}-${project.level}`,'strategy','Bölgesel yatırım tamamlandı',`${REGION_NAMES[regionOf(state,town)]}: ${VICTORY_PATHS[id.split(':')[0]]} ${project.level}. aşama.`);
       state.reports.unshift({id:`charter-${id}-${project.level}`,time:state.time,type:'campaign',title:'Bölgesel yatırım tamamlandı',text:`${REGION_NAMES[regionOf(state,town)]}: ${VICTORY_PATHS[id.split(':')[0]]} ${project.level}. aşama. Nüfuz +55, deneyim +60.`,critical:false});
       state.reports.length=Math.min(state.reports.length,180);
     }
