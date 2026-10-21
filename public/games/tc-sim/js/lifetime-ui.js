@@ -8,6 +8,12 @@ const escape = (value) =>
     (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c],
   );
 const money = (value) => `₺${Number(value || 0).toLocaleString("tr-TR")}`;
+const estateLabels = {
+  tr: { bank: "banka hesapları", businessValue: "işletme tasfiye değeri", businessDebt: "ticari borç (yükümlülüklere dahil)" },
+  en: { bank: "bank accounts", businessValue: "business liquidation value", businessDebt: "business debt (included in obligations)" },
+  pl: { bank: "rachunki bankowe", businessValue: "wartość likwidacyjna firmy", businessDebt: "dług firmy (ujęty w zobowiązaniach)" },
+};
+const estateLabel = key => (estateLabels[typeof window !== "undefined" ? window.tlabI18n?.getLang?.() || "tr" : "tr"] || estateLabels.tr)[key];
 export function renderLifeReport(report) {
   if (!report) return "";
   return `<article class="panel"><h2>${escape(report.name)} — Yaşam raporu</h2>
@@ -29,7 +35,7 @@ export function renderLifeReport(report) {
     ${report.memories.map((m) => `<p>${escape(m.year)} · ${escape(m.text)}</p>`).join("")}
     <h3>Son yıl dosyaları</h3>${report.years.map((y) => `<p>${escape(y.year)} · yıl sonu ${money(y.endingBalance)} · ${y.career?.retirementStatus === "retired" ? "emekli" : escape(getJobById(y.career?.jobId)?.title || "aktif iş yok")}</p>`).join("")}
     <h3>Mal ve miras</h3><p>Hayat düzeni: ${escape({ modest: "İdare eder", comfortable: "Rahat", comfort: "Evi düzgün", high: "Gösterişli" }[report.wealth?.lifestyle] || "İdare eder")}.</p>
-    <p>Nakit ${money(report.estate.cash)}${Number.isFinite(report.estate.investments) ? ` · yatırımlar ${money(report.estate.investments)} · gayrimenkul ${money(report.estate.property)} · araç/eşya ${money((report.estate.vehicle || 0) + (report.estate.durables || 0))}` : ""} · kayıtlı yükümlülükler ${money(report.estate.obligations)} · dağıtılabilir ${money(report.estate.net)}.</p>
+    <p>Nakit ${money(report.estate.cash)}${Number.isFinite(report.estate.bank) ? ` · ${estateLabel("bank")} ${money(report.estate.bank)}` : ""}${Number.isFinite(report.estate.investments) ? ` · yatırımlar ${money(report.estate.investments)} · gayrimenkul ${money(report.estate.property)} · araç/eşya ${money((report.estate.vehicle || 0) + (report.estate.durables || 0))}` : ""}${Number.isFinite(report.estate.businessValue) ? ` · ${estateLabel("businessValue")} ${money(report.estate.businessValue)} · ${estateLabel("businessDebt")} ${money(report.estate.businessDebt)}` : ""} · kayıtlı yükümlülükler ${money(report.estate.obligations)} · dağıtılabilir ${money(report.estate.net)}.</p>
     <p>TC SIM'in basitleştirilmiş paylaşımıdır; hukuk hesabı değildir. Negatif bakiye çocuklara borç olarak yüklenmez.</p>
     ${report.lifeDossier ? `<h3>HAYAT DOSYASI</h3><p><strong>${escape({ balanced: "Dengeli hayat", "successful-but-alone": "Başarılı ama yalnız", "simple-with-strong-bonds": "Sade ve güçlü bağlar", "financially-secure": "Maddi güvenlik", "wealthy-but-burned-out": "Varlıklı ama tükenmiş", "burned-out": "Tükenmiş hayat", "debt-burdened": "Borç yüküyle kapanan hayat" }[report.lifeDossier.outcome] || report.lifeDossier.outcome)}</strong> · ${escape(report.lifeDossier.phase)}</p><p>Kariyer ${escape(report.lifeDossier.career.stage)} · aile ${escape(report.lifeDossier.family.stage)} · ilişki ${escape(report.lifeDossier.relationships.stage)} · sağlık ${escape(report.lifeDossier.health.stage)}.</p>${report.lifeDossier.traces.map((trace) => `<p>${escape(trace.text)}</p>`).join("")}` : ""}
     ${report.estate.shares.map((s) => `<p>${escape(s.name)}: ${money(s.amount)}</p>`).join("")}

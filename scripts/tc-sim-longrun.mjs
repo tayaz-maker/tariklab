@@ -194,8 +194,11 @@ function run(weeks, seed) {
     check(state.events.history.length <= 200, "event geçmişi sınırı aşıldı");
     check(state.yearlyHistory.length <= 80, "yıl dosyası sınırı aşıldı");
 
-    // 3D: openCases patlamaz, borç tutarları sınırlı ve negatif olmaz, tekrar yok.
-    check(state.openCases.length <= 50, "openCases sınırsız büyüyor");
+    // Pending/triggered cases are live obligations; resolved cases are retained history.
+    // The >70 lifetime pruning boundary has its own retention tests. A later
+    // event resolution or death may legitimately add closed cases this week.
+    const activeOpenCases = state.openCases.filter((item) => item.status !== "resolved");
+    check(activeOpenCases.length <= 50, "aktif openCases sınırı aşıldı");
     const caseIds = new Set();
     for (const item of state.openCases) {
       check(!caseIds.has(item.id), `tekrar eden openCase id: ${item.id}`);

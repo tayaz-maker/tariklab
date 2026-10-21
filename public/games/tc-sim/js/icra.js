@@ -2,6 +2,8 @@
 import { addMemory, addNpcMemory, adjustHealth, transact, updateRelationship } from "./state.js?v=10";
 import { getMonthlyEmploymentIncome } from "./life.js?v=10";
 import { CASH_ARREARS_CAP, DURABLES } from "./wealth.js?v=10";
+import { fundWalletFromAccount } from "./bank-accounts.js?v=10";
+import { recordMonthlyDetail } from "./monthly-cash.js?v=10";
 import { debtBalance, isAmortizingMortgage, mortgageStatus, settleMortgagePayment, reconcileMortgageClaims } from "./mortgage.js?v=10";
 
 const GRACE = 4;
@@ -96,7 +98,9 @@ export function recordIcraPayment(state, item, amount) {
   if (item.payload.source === "mortgage") {
     const debt = state.wealth?.debts?.find(d => d.id === item.payload.loanId);
     if (!debt || !isAmortizingMortgage(debt)) return 0;
+    const interestPaid = debt.mortgage.interestPaid;
     const paid = settleMortgagePayment(debt, amount);
+    recordMonthlyDetail(state, "interestPaid", debt.mortgage.interestPaid - interestPaid);
     item.payload.owed = debtBalance(debt);
     if (!item.payload.owed) state.wealth.debts = state.wealth.debts.filter(d => d !== debt);
     reconcileMortgageClaims(state);
@@ -131,8 +135,19 @@ function closeCase(state, item, stage) {
 
 function takeCash(state, owed) {
   const cash = Math.max(0, whole(state.finances.balance));
-  const paid = Math.min(owed, cash);
+  let paid = Math.min(owed, cash);
   if (paid > 0) transact(state, -paid, "İcra tahsilatı", "legal");
+  // All accounts belong to this character (including their sole trader).
+  // Depositing cash cannot hide it from the existing enforcement engine.
+  for (const account of state.finances.banking?.accounts || []) {
+    const missing = Math.max(0, owed - paid);
+    if (!missing) break;
+    if (!account.closed) {
+      const collected = fundWalletFromAccount(state, account.id, missing, transact, "İcra tahsilatı için hesaptan aktarım");
+      if (collected) transact(state, -collected, "İcra banka hesabı tahsilatı", "legal");
+      paid += collected;
+    }
+  }
   return paid;
 }
 

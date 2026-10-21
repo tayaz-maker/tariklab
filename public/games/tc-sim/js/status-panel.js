@@ -1,16 +1,19 @@
-import { mortgageDue } from "./mortgage.js?v=10";
+import { isAmortizingMortgage, mortgageDue } from "./mortgage.js?v=10";
+import { bankTotals } from "./bank-accounts.js?v=10";
 const labels = {
   tr: ["Nakit", "Banka toplamı", "Net servet", "Aylık borç / gecikme", "Sağlık / enerji", "Kalan karar", "Gün / hafta", "Durum özeti"],
   en: ["Cash", "Bank total", "Net worth", "Monthly debt / overdue", "Health / energy", "Decisions left", "Date / week", "Status overview"],
   pl: ["Gotówka", "Suma w bankach", "Majątek netto", "Dług miesięczny / zaległy", "Zdrowie / energia", "Pozostałe decyzje", "Data / tydzień", "Podsumowanie stanu"],
 };
 export function statusFacts(state, worth, remaining) {
+  const banks = bankTotals(state), debts = state.wealth?.debts || [];
   return {
     cash: state.finances.balance,
     bank: worth.bank || 0,
     wealth: worth.total,
-    due: (state.wealth?.debts || []).reduce((sum, debt) => sum + mortgageDue(debt), 0),
-    arrears: Math.max(0, state.finances.arrears || 0),
+    due: debts.reduce((sum, debt) => sum + mortgageDue(debt), 0) + banks.minimumDue,
+    arrears: Math.max(0, state.finances.arrears || 0) + banks.overdue
+      + debts.filter(isAmortizingMortgage).reduce((sum, debt) => sum + debt.mortgage.overdue, 0),
     health: state.health.health, energy: state.health.energy,
     remaining: Math.max(0, remaining), date: state.time.date, week: state.time.weekOfMonth,
   };

@@ -1,8 +1,10 @@
 import { getMonthlySummary } from "./life.js?v=10";
 import { reconcileMortgageClaims, MORTGAGE_TERMS, amortizedPayment, newMortgage, normalizeMortgage, isAmortizingMortgage, debtBalance, mortgageDue, mortgageStatus, settleMortgageMonth, settleMortgagePayment, restructureMortgage, validMortgage, mortgageText } from "./mortgage.js?v=10";
 import { recordBankMonth, recordBankLoan, bankCreditPolicy } from "./bank-record.js?v=10";
+import { bankTotals, fundWalletFromAccount, linkedAccountBalance } from "./bank-accounts.js?v=10";
+import { processBankCardsMonth } from "./bank-cards.js?v=10";
 
-import { recordMonthlyCash } from "./monthly-cash.js?v=10";
+import { recordMonthlyCash, recordMonthlyDetail } from "./monthly-cash.js?v=10";
 import { normalizeSemt } from "./quarters.js?v=10";
 import { normalizeExchange, exchangePortfolio } from './exchange.js?v=10';
 import { economyYear } from "./period-economy.js?v=10";
@@ -382,6 +384,7 @@ export function normalizeWealth(state) {
         monthlyPayment: integer(x.monthlyPayment),
         linkedAssetId: typeof x.linkedAssetId === "string" ? x.linkedAssetId : null,
         startWeek: integer(x.startWeek, now),
+        ...(typeof x.accountId === "string" && typeof x.bankId === "string" ? { accountId: x.accountId, bankId: x.bankId } : {}),
         ...(x.type === "mortgage" && x.mortgage != null ? { mortgage: normalizeMortgage(x.mortgage) } : {}),
       }))
       .filter((x) => debtBalance(x) > 0),
@@ -813,7 +816,9 @@ export function manageMortgage(state, id, action) {
   if (action === "mortgage-restructure") restructureMortgage(debt);
   else {
     const due = action === "mortgage-close" ? debtBalance(debt) : Math.min(5000, debtBalance(debt));
+    const interestPaid = debt.mortgage.interestPaid;
     const paid = settleMortgagePayment(debt, due);
+    recordMonthlyDetail(state, "interestPaid", debt.mortgage.interestPaid - interestPaid);
     ledger(state, -paid, mortgageText("paid", mortgageLanguage()), "debt");
     if (!debtBalance(debt)) state.wealth.debts = state.wealth.debts.filter(d => d !== debt);
   }
@@ -834,6 +839,7 @@ export function sellProperty(state, id) {
       reason: "Satışın konut borcunu kapatması için nakit farkını karşılayamıyorsun.",
     };
   ledger(state, net, "Mülk satışı ve borç kapama", "property");
+  if (debt && isAmortizingMortgage(debt)) recordMonthlyDetail(state, "interestPaid", debt.mortgage.interestDue);
   state.wealth.properties = state.wealth.properties.filter((x) => x !== p);
   if (debt) state.wealth.debts = state.wealth.debts.filter((d) => d !== debt);
   reconcileMortgageClaims(state);
@@ -867,7 +873,7 @@ export function getWealthMonthlySummary(state) {
     maintenance = w.properties.reduce((n, p) => n + p.maintenance, 0) + w.durables.reduce((n,d)=>n+(d.id==="bike"?30:d.id==="scooter"?250:0),0),
     subscriptions = w.subscriptions.reduce((n, s) => n + SUBSCRIPTIONS[s.id].monthly, 0),
     vehicle = vehicleOperatingCosts(state).budget,
-    debt = w.debts.reduce((n, d) => n + mortgageDue(d), 0);
+    debt = w.debts.reduce((n, d) => n + mortgageDue(d), 0) + bankTotals(state).minimumDue;
   const income = Math.round(rental);
   const expenses = Math.round(TIERS[w.lifestyle].monthly + maintenance + subscriptions + vehicle + debt);
   return {
@@ -905,8 +911,13 @@ export function processWealthMonthEnd(state) {
   for (const item of w.subscriptions) item.lastBilledMonth = month;
   for (const d of [...w.debts]) {
     if (isAmortizingMortgage(d)) {
-      const result = settleMortgageMonth(d, Math.max(0, state.finances.balance), month);
+      const accountFunds = linkedAccountBalance(state, d);
+      const interestPaid = d.mortgage.interestPaid;
+      const result = settleMortgageMonth(d, Math.max(0, state.finances.balance) + accountFunds, month);
       if (result) {
+        recordMonthlyDetail(state, "interestAccrued", result.interest);
+        recordMonthlyDetail(state, "interestPaid", d.mortgage.interestPaid - interestPaid);
+        fundWalletFromAccount(state, d.accountId, result.payment, ledger, "Konut taksiti için hesaptan aktarım");
         if (result.payment) ledger(state, -result.payment, mortgageText("paid", mortgageLanguage()), "debt");
         recordBankMonth(state, result.missed ? mortgageStatus(d) === "default" ? "default" : "missed" : "paid");
       }
@@ -915,7 +926,9 @@ export function processWealthMonthEnd(state) {
     }
     const pay = Math.min(d.principal, d.monthlyPayment);
     if (pay) {
-      recordBankMonth(state, state.finances.balance >= pay ? "paid" : "missed");
+      const funded = Math.max(0, state.finances.balance) + linkedAccountBalance(state, d) >= pay;
+      fundWalletFromAccount(state, d.accountId, pay, ledger, "Kredi taksiti için hesaptan aktarım");
+      recordBankMonth(state, funded ? "paid" : "missed");
       ledger(state, -pay, `${d.type === "mortgage" ? "Ev" : d.type === "vehicle" ? "Araç" : "Banka kredisi"} borcu ödemesi`, "debt");
       d.principal -= pay;
     }
@@ -925,6 +938,7 @@ export function processWealthMonthEnd(state) {
     }
   }
   reconcileMortgageClaims(state);
+  processBankCardsMonth(state, month, ledger, CASH_ARREARS_CAP);
   let valuation = 0;
   for (const p of w.investments) {
     if (p.lastMonth === month) continue;
@@ -955,16 +969,18 @@ export function netWorth(state) {
       .reduce((n, p) => n + integer(p.value), 0),
     vehicle = w.vehicle ? w.vehicle.currentValue : 0,
     durables = w.durables.reduce((n, d) => n + Math.round(d.price * DURABLES[d.id].resale), 0),
-    debt = w.debts.reduce((n, d) => n + debtBalance(d), 0) + Math.max(0, Number(state.finances?.arrears) || 0);
+    debt = w.debts.reduce((n, d) => n + debtBalance(d), 0) + Math.max(0, Number(state.finances?.arrears) || 0) + bankTotals(state).cardDebt,
+    bank = bankTotals(state).total;
   return {
     cash,
+    bank,
     investments,
     property,
     vehicle,
     durables,
     debt,
     business: Math.round((state.flags?.business?.invested || 0)*.25) - (state.flags?.business?.debt || 0),
-    total: cash + investments + property + vehicle + durables - debt + Math.round((state.flags?.business?.invested || 0)*.25) - (state.flags?.business?.debt || 0),
+    total: cash + bank + investments + property + vehicle + durables - debt + Math.round((state.flags?.business?.invested || 0)*.25) - (state.flags?.business?.debt || 0),
   };
 }
 

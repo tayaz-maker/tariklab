@@ -37,9 +37,12 @@ export async function verifyRegionBuild(origin,directory,{expectedSha=null,repos
  const rows=await verifyOutcomeBuild(origin,directory,request);
  for(const path of REGION_FINGERPRINT_PATHS){
   const expected=digest(await readFile(resolve(directory,'.'+path.split('?')[0])));
-  const response=await request(origin+path,{redirect:'error',cache:'no-store',signal:AbortSignal.timeout(15000)});
+  // Cloudflare serves the document at its canonical directory URL. Keep the
+  // immutable source filename for hashing and reject every network redirect.
+  const requestPath=path==='/games/tc-sim/index.html'?'/games/tc-sim/':path;
+  const response=await request(origin+requestPath,{redirect:'error',cache:'no-store',signal:AbortSignal.timeout(15000)});
   assert.equal(response.status,200,`region asset status: ${path}`);const bytes=Buffer.from(await response.arrayBuffer()),actual=digest(bytes);
-  assert.equal(actual,expected,`deployed region asset is not the exact candidate: ${path}`);rows.push({path,bytes:bytes.length,sha256:actual});
+  assert.equal(actual,expected,`deployed region asset is not the exact candidate: ${path}`);rows.push({path,requestPath,bytes:bytes.length,sha256:actual});
  }
  return rows;
 }

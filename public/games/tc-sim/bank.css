@@ -1,0 +1,18 @@
+.bank-accounts { min-width: 0; }
+.bank-totals { display: flex; flex-wrap: wrap; gap: 12px 24px; margin: 16px 0; }
+.bank-account-card { border-top: 1px solid var(--line, #c9c2b5); padding: 16px 0; min-width: 0; }
+.bank-account-card > summary { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: space-between; cursor: pointer; min-height: 44px; align-items: center; }
+.bank-account-card summary, .bank-products summary, .bank-history summary { cursor: pointer; padding: 10px 0; }
+.bank-form { display: flex; flex-wrap: wrap; align-items: end; gap: 8px; margin: 12px 0; min-width: 0; }
+.bank-form label { flex-basis: 100%; font-size: .9em; }
+.bank-accounts .bank-form input, .bank-accounts .bank-form select { min-width: 0; width: 100%; max-width: 100%; min-height: 44px; border: 1px solid var(--line, #c9c2b5); border-radius: 6px; background: var(--paper, #fffdf7); color: var(--ink, #262c32); padding: 8px; font: inherit; }
+.bank-accounts .bank-form button { min-height: 44px; white-space: normal; }
+.bank-form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.bank-card-statement, .bank-loan { padding: 12px; border: 1px solid var(--line, #c9c2b5); border-radius: 6px; margin: 12px 0; }
+.bank-history ol { list-style: none; padding: 0; max-height: 320px; overflow: auto; }
+.bank-history li { display: flex; flex-wrap: wrap; gap: 6px 12px; border-top: 1px solid var(--line, #c9c2b5); padding: 10px 0; }
+.bank-history li > span { flex: 1 1 60%; overflow-wrap: anywhere; }
+.bank-history li > small { flex-basis: 100%; }
+.bank-accounts :focus-visible { outline: 3px solid var(--accent, #1b5f65); outline-offset: 3px; }
+@media (max-width: 820px) { .bank-accounts .bank-form input, .bank-accounts .bank-form select, .bank-accounts .bank-form textarea { font-size: 16px; } }
+@media (max-width: 480px) { .bank-form-grid { grid-template-columns: minmax(0, 1fr); gap: 0; } }

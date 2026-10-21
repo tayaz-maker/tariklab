@@ -2,8 +2,9 @@ import { renderFiscalSocialSummary } from "./social-insurance.js?v=10";
 import { MORTGAGE_TERMS, amortizedPayment, isAmortizingMortgage, debtBalance, mortgageDue, mortgageStatus, mortgageText } from "./mortgage.js?v=10";
 import { bankText, renderBankHistory } from "./banks-presentation.js?v=10";
 import { bankRecordText } from "./bank-record.js?v=10";
+import { renderBankAccounts, bindBankAccounts, bankActionMessage } from "./bank-ui.js?v=10";
 
-import { renderMonthlyCashCard } from "./monthly-cash.js?v=10";
+import { captureMonthlyWealth, renderMonthlyCashCard } from "./monthly-cash.js?v=10";
 import {gameplayText,inboxCases,recentNotices,snapshotDecision,decisionFeedback} from './gameplay-language.js?v=10';
 import {DISTRICTS,PLAYABLE_REGIONS,CITIES,currentDistrict,districtProfile,locationCosts,locationJobDelay,locationMoveQuote,getDistrict,locationRiskCopy,socialTravel} from './locations.js?v=10';
 import {moveLocation,locationMoveAvailability,returnToFamilyArea} from './life.js?v=10';
@@ -183,6 +184,7 @@ const escapeText = (value) =>
 const outcomeText = (tr, en) => jobOutcomeText(window.tlabI18n?.getLang?.() || "tr", tr, en);
 
 function presentDecision(action){
+ captureMonthlyWealth(state, netWorth(state));
  const before=snapshotDecision(state),result=action();
  return {...result,message:decisionFeedback(before,state,result,money)};
 }
@@ -1058,7 +1060,7 @@ function renderFinance() {
     ${renderMonthlyCashCard(state.finances.lastMonthClose, (value, receipt) => formatPeriodMoney(value, receipt.year, `${receipt.year}-${String(receipt.month).padStart(2, "0")}-01`), Math.max(0, getWeeklyActivityLimit(state) - state.weekly.used), document.documentElement?.lang || "tr")}
     <p class="context-note">${escapeText(bankText(document.documentElement?.lang || "tr", "Kredi ve yatırım işlemleri Bankalar'da; hesap dökümü burada.", "Loans and investment transactions are in Banks; account statements stay here.", "Kredyty i transakcje inwestycyjne są w Bankach; wyciągi pozostają tutaj."))}</p>
     <section class="detail-summary panel wealth-summary">
-      <div><span>Bakiye</span><strong>${money(state.finances.balance)}</strong></div><div><span>Net servet</span><strong>${money(worth.total)}</strong><small>Nakit ${money(worth.cash)} · Yatırım ${money(worth.investments)} · Gayrimenkul ${money(worth.property)} · Araç/eşya ${money(worth.vehicle + worth.durables)} · İşletme (tasfiye) ${money(worth.business)} · Borç −${money(worth.debt)}</small></div>
+      <div><span>Bakiye</span><strong>${money(state.finances.balance)}</strong></div><div><span>Net servet</span><strong>${money(worth.total)}</strong><small>Nakit ${money(worth.cash)} · ${bankText(document.documentElement?.lang || "tr", "Banka", "Bank", "Bank")}: ${money(worth.bank || 0)} · Yatırım ${money(worth.investments)} · Gayrimenkul ${money(worth.property)} · Araç/eşya ${money(worth.vehicle + worth.durables)} · İşletme (tasfiye) ${money(worth.business)} · Borç −${money(worth.debt)}</small></div>
       <div><span>Aylık gelir</span><strong>${money(monthly.income)}</strong><small>Maaş ${money(monthly.salary)}${monthly.retirementIncome ? ` · Emeklilik ${money(monthly.retirementIncome)}` : ""}${monthly.wealth.income ? ` · Kira ${money(monthly.wealth.income)}` : ""}</small></div>
       <div><span>Aylık gider</span><strong>${money(monthly.expenses)}</strong><small>Konut ${money(monthly.housing)} · Yaşam/varlık ${money(monthly.wealth.expenses)} · Ulaşım ${money(monthly.transport)} · Diğer ${money(monthly.otherExpenses)}${monthly.parenting ? ` · Çocuk ${money(monthly.parenting)}` : ""}</small></div>
       <div><span>Ay sonu tahmini</span><strong>${money(projectedBalance)}</strong></div>
@@ -1096,7 +1098,7 @@ function renderFinance() {
       })
       .join("")}</div></section>
     <section class="panel"><h2>${economyText("Yatırım raporu", "Investment report")}</h2>${state.finances.ledger.filter(row=>row.category==="valuation").slice(-11).map(row=>`<p>${economyText("Hafta", "Week")} ${row.week}: ${escapeText(row.reason)}</p>`).join("") || economyText("İlk ay kapanışında gerçekleşmemiş değer değişimleri görünür.", "Unrealized value changes appear at the first month close.")}</section>
-    <section class="panel"><div class="panel-head"><div><p class="eyebrow">BORÇLAR</p><h2>Borçların</h2></div><span>${money(worth.debt)}</span></div>${state.wealth.debts.length ? state.wealth.debts.map((d) => `<p class="open-case"><b>${d.type === "mortgage" ? "Ev borcu" : d.type === "vehicle" ? "Araç borcu" : "Kişisel borç"}</b><span>${money(debtBalance(d))} · aylık ${money(mortgageDue(d))}</span></p>`).join("") : `<p class="empty">Eve, arabaya ya da bankaya borcun yok.</p>`}<p class="context-note">Evi, arabayı ve eşyayı Emlak'tan satarsın. Borç kaydı burada durur.</p></section>
+    <section class="panel"><div class="panel-head"><div><p class="eyebrow">BORÇLAR</p><h2>Borçların</h2></div><span>${money(worth.debt)}</span></div>${state.wealth.debts.length ? state.wealth.debts.map((d) => `<p class="open-case"><b>${d.type === "mortgage" ? "Ev borcu" : d.type === "vehicle" ? "Araç borcu" : "Kişisel borç"}</b><span>${money(debtBalance(d))} · aylık ${money(mortgageDue(d))}</span></p>`).join("") : `<p class="empty">${bankText(document.documentElement?.lang || "tr", "Konut, araç veya ihtiyaç kredin yok.", "No home, vehicle or personal loans.", "Brak kredytów mieszkaniowych, samochodowych lub osobistych.")}</p>`}${(state.finances.banking?.cards || []).filter(c => c.balance > 0).map(c => `<p class="open-case"><b>${bankText(document.documentElement?.lang || "tr", "Kart borcu", "Card debt", "Dług karty")}</b><span>${money(c.balance)} · ${bankText(document.documentElement?.lang || "tr", "Asgari / gecikme", "Minimum / overdue", "Minimum / zaległość")}: ${money(c.minimumDue)} / ${money(c.overdue)}</span></p>`).join("")}<p class="context-note">Evi, arabayı ve eşyayı Emlak'tan satarsın. Borç kaydı burada durur.</p></section>
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">ALACAKLAR</p><h2>Sana borçlu olanlar</h2></div><span>${owedToPlayer.length}</span></div>${owedToPlayer.length ? owedToPlayer.map((item) => `<p class="open-case"><b>${escapeText(item.name)}</b><span>${money(item.amount)}</span></p>`).join("") : `<p class="empty">Şu anda kimsenin sana borcu yok.</p>`}</section>
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">İŞLEMLER</p><h2>Son işlemler</h2></div><span>${state.finances.ledger.length}</span></div><div class="history">${ledger.length ? ledger.map((entry) => `<div class="memory"><strong>${entry.amount >= 0 ? "+" : ""}${money(entry.amount)}</strong> · ${escapeText(entry.reason)} · <span>${escapeText(weeksAgoLabel(entry.week))}</span></div>`).join("") : `<p class="empty">Henüz bir işlem kaydı yok.</p>`}</div>${renderResult("Varlıklar piyasa değeriyle, borçlar kalan anaparayla gösterilir.")} </section>`;
 }
@@ -1114,7 +1116,9 @@ function renderBanks() {
   const text = (tr, en, pl) => escapeText(bankText(lang, tr, en, pl));
   return `<div class="workspace-head"><div><p class="eyebrow">${text("Bankalar", "Banks", "Banki")}</p><h1>${text("Hesaplar, kredi ve yatırım", "Accounts, credit and investments", "Rachunki, kredyty i inwestycje")}</h1></div>${renderWeekControl()}</div>
     <section class="detail-summary panel" data-bank-account><h2>${text("Hesap özeti", "Account overview", "Podsumowanie rachunku")}</h2><p>${text("İşlem bakiyesi", "Available transaction balance", "Dostępne środki na transakcje")}: <strong>${money(state.finances.balance)}</strong></p><p>${text("Yatırımların toplam değeri", "Total investment value", "Łączna wartość inwestycji")}: ${money(worth.investments)}</p><p class="context-note">${text("Muhasebe, borç dökümü ve ay sonu raporu Para'da.", "Accounting, debt statements and month-end reports are in Money.", "Księgowość, zestawienie długów i raporty miesięczne są w Finansach.")}</p><button class="button button-quiet" data-view="finance">${text("Para'ya geç", "Open Money", "Otwórz Finanse")}</button></section>
-    ${renderBankHistory(state.time.date || `${economyYear(state)}-01-01`, lang)}
+    ${renderResult()}
+    ${renderBankAccounts(state, money, lang)}
+    <details class="panel bank-directory"><summary>${text("Bankaların geçmişi ve resmî kaynaklar", "Bank history and official sources", "Historia banków i oficjalne źródła")}</summary>${renderBankHistory(state.time.date || `${economyYear(state)}-01-01`, lang)}</details>
     <section class="panel bank-panel"><div class="panel-head"><div><p class="eyebrow">BANKA</p><h2>Kredi ve geri ödeme</h2></div></div><p class="context-note" data-bank-record>${escapeText(bankRecordText(state, document.documentElement?.lang || "tr"))}</p><p class="context-note">Kredi gelir değildir: bugün nakit verir, gelecek aylara zorunlu ödeme yazar. Tutar ve toplam geri ödeme oyun içi varsayımdır; tarihsel banka teklifi değildir.</p><div class="wealth-grid">${Object.keys(CREDIT_OFFERS).map((id) => { const offer = creditOffer(state, id); const check = creditAvailability(state, id); return `<button class="button decision" data-credit="${id}" ${check.ok ? "" : "disabled"} title="${escapeText(check.reason || "")}"><strong>${escapeText(offer.label)}</strong><small>Bugün ${money(offer.cash)} · ${offer.months} ay × ${money(Math.ceil(offer.total / offer.months))} · toplam ${money(offer.total)}${check.reason ? ` · ${escapeText(check.reason)}` : ""}</small></button>`; }).join("")}</div><button class="button button-quiet" data-repay-credit="1" ${state.wealth.debts.some((debt) => debt.type === "personal") ? "" : "disabled"}>İhtiyaç kredisini erken kapat</button></section>
     ${renderMortgages()}
     ${renderExchange()}
@@ -1495,7 +1499,7 @@ function render() {
       <header class="game-topbar">
         <div class="game-brand"><strong>TC SIM</strong><span>Bir hayat, bin küçük karar</span></div>
         <div class="top-meta"><span><b>${escapeText(state.player.name)}</b> · ${state.player.age}</span><span>${escapeText(gameDateLabel(state))} · H${state.time.weekOfMonth}</span><span class="top-money">${money(state.finances.balance)}</span></div>
-        <nav class="top-shortcuts" aria-label="Hızlı erişim"><button class="button button-quiet" data-view="inbox"${activeView === "inbox" ? ' aria-current="page"' : ""}>Gelen kutusu <b>${getPlayerVisibleOpenCases(state).filter((item) => item.status !== "resolved").length}</b></button><button class="button button-quiet" data-view="calendar"${activeView === "calendar" ? ' aria-current="page"' : ""}>Takvim</button><button class="button button-quiet" data-view="banks"${activeView === "banks" ? ' aria-current="page"' : ""}>Bankalar</button><button class="button button-quiet" data-view="relationships"${activeView === "relationships" ? ' aria-current="page"' : ""}>İlişkiler</button><button class="button button-quiet" data-view="body"${activeView === "body" ? ' aria-current="page"' : ""}>Beden</button></nav>
+        <nav class="top-shortcuts" aria-label="Hızlı erişim"><button class="button button-quiet" data-view="inbox"${activeView === "inbox" ? ' aria-current="page"' : ""}>Gelen kutusu <b>${getPlayerVisibleOpenCases(state).filter((item) => item.status !== "resolved").length}</b></button><button class="button button-quiet" data-view="calendar"${activeView === "calendar" ? ' aria-current="page"' : ""}>Takvim</button><button class="button button-quiet" data-view="banks"${activeView === "banks" ? ' aria-current="page"' : ""}>${escapeText(bankText(document.documentElement?.lang || "tr", "Bankalar", "Banks", "Banki"))}</button><button class="button button-quiet" data-view="relationships"${activeView === "relationships" ? ' aria-current="page"' : ""}>İlişkiler</button><button class="button button-quiet" data-view="body"${activeView === "body" ? ' aria-current="page"' : ""}>Beden</button></nav>
         <div class="save-area"><span class="save-status" role="status">${escapeText(saveStatus)}</span><span class="slot-mini">Slot ${getActiveSlot(localStorage)}</span><button class="button button-quiet" id="help-open" aria-haspopup="dialog">? Nasıl Oynanır</button><button class="button button-quiet" id="save-game">Kaydet</button><button class="button button-quiet" id="main-menu">Ana Menü</button><button class="button button-quiet button-danger" id="new-game">Yeni oyun</button></div>
       </header>
       ${renderLifeStatus(state, { worth: netWorth(state), remaining: Math.max(0, getWeeklyActivityLimit(state) - state.weekly.used), money, language: window.tlabI18n?.getLang?.() || "tr" })}
@@ -1510,6 +1514,13 @@ function render() {
     </main>`;
   jobOutcomeFresh = false;
   jobOutcomeEmphasis = false;
+  bindBankAccounts(document, { getState: () => state, onResult: (result) => {
+    const focusId = document.activeElement?.id;
+    notice = bankActionMessage(result, document.documentElement?.lang || "tr");
+    if (result.ok) persist();
+    render();
+    (document.getElementById(focusId) || document.querySelector(".bank-open button"))?.focus?.({ preventScroll: true });
+  } });
   bindBodyVisual(document, region => {
     selectedBodyRegion = region;
     render();

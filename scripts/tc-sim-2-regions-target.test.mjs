@@ -7,7 +7,7 @@ import {resolve,dirname,join} from 'node:path';
 import {productionOrigins,fingerprintPaths} from './tc-sim-job-start-target.mjs';
 import {REGION_FINGERPRINT_PATHS,checkedRegionTarget,requireRegionCurrentMain,verifyRegionBuild} from './tc-sim-2-regions-target.mjs';
 const root=resolve('public'),sha=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
-const read=async(url,options)=>{assert.equal(options.redirect,'error');assert.equal(options.cache,'no-store');return new Response(await readFile(resolve(root,'.'+new URL(url).pathname)));};
+const read=async(url,options)=>{assert.equal(options.redirect,'error');assert.equal(options.cache,'no-store');const path=new URL(url).pathname;return new Response(await readFile(resolve(root,'.'+(path.endsWith('/')?path+'index.html':path))));};
 test('regional hosted fixture accepts only both authorized plain origins and requires build plus exact SHA',()=>{
  assert.equal(checkedRegionTarget({}).serve,'public');
  for(const origin of productionOrigins)assert.equal(checkedRegionTarget({'base-url':origin,'expected-root':root,'expected-sha':sha}).origin,origin);
@@ -19,6 +19,8 @@ test('regional hosted fixture accepts only both authorized plain origins and req
 test('regional fingerprint covers immutable SHA, all new modules and all three artwork files',async()=>{
  const rows=await verifyRegionBuild(productionOrigins[0],root,{expectedSha:sha,request:read});
  assert.equal(rows.length,fingerprintPaths.length+REGION_FINGERPRINT_PATHS.length);
+ assert.equal(rows.find(row=>row.path==='/games/tc-sim/index.html').requestPath,'/games/tc-sim/');
+ await assert.rejects(verifyRegionBuild(productionOrigins[0],root,{request:async(url,options)=>new URL(url).pathname==='/games/tc-sim/'?new Response('stale HTML'):read(url,options)}),/exact candidate/);
  for(const city of ['istanbul','ankara','izmir'])assert.ok(rows.some(row=>row.path.endsWith(`tc-sim-2-${city}.webp`)));
  await assert.rejects(verifyRegionBuild(productionOrigins[0],root,{request:async(url,options)=>url.includes('region-map-data.js')?new Response('stale coordinate data'):read(url,options)}),/exact candidate/);
  await assert.rejects(verifyRegionBuild(productionOrigins[0],root,{request:async(url,options)=>url.includes('tc-sim-2-izmir.webp')?new Response('missing',{status:404}):read(url,options)}),/region asset status/);
