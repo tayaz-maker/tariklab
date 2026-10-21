@@ -339,12 +339,14 @@ try {
     await page.goto(url,{waitUntil:'networkidle'});await page.locator('#continue-game').click();await page.locator('.side-nav [data-view="home"]').click();
     const before=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
     await page.locator('[data-location-city="ankara"]').click();
-    await page.locator('.region-map-legacy summary').click();
+    if (await page.locator('.region-map-legacy').getAttribute('open') === null)
+      await page.locator('.region-map-legacy summary').click();
     await page.locator('[data-location-select="batikent"]').click();
     assert.ok((await page.locator('.location-panel').textContent()).includes('Mevcut işin bu şehirde'));
     assert.deepEqual(await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key),before);
     await page.locator('[data-location-city="istanbul"]').click();
-    await page.locator('.region-map-legacy summary').click();
+    if (await page.locator('.region-map-legacy').getAttribute('open') === null)
+      await page.locator('.region-map-legacy summary').click();
     await page.locator('[data-location-select="avcilar"]').click();
     await page.locator('[data-location-move="avcilar"][data-location-home="shared"]').click();
     assert.match(await page.locator('.result[role="status"]').last().textContent(),/Cüzdanın:.*Aylık konut giderin/);
