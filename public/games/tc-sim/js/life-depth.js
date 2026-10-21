@@ -41,7 +41,7 @@ export function neutralLifeDepth(state) {
     version: 1,
     phase: getLifePhase(state),
     arcs: Object.fromEntries(LIFE_ARC_IDS.map((id) => [id, baseArc(id)])),
-    goals: [], opportunities: [], pendingEffects: [], resolvedEffects: [],
+    goals: [], contentGoals: [], opportunities: [], pendingEffects: [], resolvedEffects: [],
     echoes: [], arcHistory: [], decisionHistory: [], dossier: null,
   };
 }
@@ -64,6 +64,8 @@ export function ensureLifeDepthState(state) {
   const normalized = {
     version: 1, phase: getLifePhase(state), arcs,
     goals: unique(bounded(raw.goals, 6)).filter((x) => x?.id && typeof x.label === "string"),
+    // Preserve explicit content intentions independently of derived opportunities.
+    contentGoals: unique(bounded(raw.contentGoals || (raw.goals || []).filter((x) => x?.id?.startsWith("lc-goal:")), 2)).filter((x) => x?.id === "lc-goal:lc_goal_housing" && typeof x.label === "string").map((x) => ({ ...x, arc: "housing" })),
     opportunities: unique(bounded(raw.opportunities, 8)).filter((x) => x?.id),
     pendingEffects: unique(bounded(raw.pendingEffects, 12)).filter((x) => x?.id && Number.isInteger(x.dueWeek) && x.dueWeek >= 1 && x.status === "pending"),
     resolvedEffects: [...new Set(bounded(raw.resolvedEffects, 32).filter((x) => typeof x === "string"))],
@@ -141,7 +143,10 @@ function deriveGoals(state) {
   const partner = state.social?.currentPartnerNpcId && state.people.find((x) => x.id === state.social.currentPartnerNpcId);
   if (partner?.social?.tension >= 35) goals.push({ id: "repair-relationship", arc: "relationship", label: "İlişkide biriken gerilimi konuş", progress: cap(100 - partner.social.tension) });
   if (state.education.active) goals.push({ id: "complete-education", arc: "education", label: "Başladığın eğitimi tamamla", progress: getEducationProgress(state)?.percent || 0 });
-  d.goals = goals.slice(0, 4);
+  for (const goal of d.contentGoals) {
+    if (goal.id === "lc-goal:lc_goal_housing") goal.progress = cap((state.finances.balance + bankTotals(state).personal) / 100);
+  }
+  d.goals = d.contentGoals.concat(goals.slice(0, 4));
 }
 
 function updateArc(arc, score, risk, opportunity) {
