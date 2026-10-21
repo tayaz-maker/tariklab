@@ -14,8 +14,8 @@ import { EXCHANGE_ASSETS, exchangeQuote, exchangePortfolio, exchangeAvailability
 import { gameDateLabel } from "./game-date.js?v=10";
 import { snapshotJobStart, buildJobStartOutcome } from "./job-start-outcome.js?v=10";
 import { renderJobStartOutcome, bindJobStartOutcome, jobOutcomeText } from "./job-start-outcome-ui.js?v=10";
-import { bindLifeShell, restoreLastView } from "./ui-shell.js";
-import { renderLifeStatus } from "./status-panel.js";
+import { bindLifeShell, restoreLastView } from "./ui-shell.js?v=10";
+import { renderLifeStatus } from "./status-panel.js?v=10";
 import { arrangeLifeDesk } from "./desk.js?v=10";
 import { adultChildSummary, adultEventContext, continueGeneration } from "./lifetime.js?v=10";
 import {
