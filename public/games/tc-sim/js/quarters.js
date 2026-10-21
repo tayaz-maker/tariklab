@@ -1,7 +1,7 @@
 // Semt emlak + mahalle tezgâhı. Para ekranındaki servet mülkü ve büyük işletme durur.
 import { isDetained } from "./risk-layer.js?v=10";
 import { recordIcraPayment } from "./icra.js?v=10";
-import { getDistrict } from "./locations.js?v=10";
+import { CITIES, PLAYABLE_REGIONS, currentDistrict, districtProfile, getDistrict, locationMoveQuote, regionAffordability, socialTravel } from "./locations.js?v=10";
 import { scheduleMoveConsequence } from "./depth3-systems.js?v=10";
 import {
   addMemory,
@@ -12,7 +12,7 @@ import {
   updateRelationship,
 } from "./state.js?v=10";
 
-export const QUARTERS = Object.freeze({
+const LEGACY_QUARTERS = {
   sirt: {
     id: "sirt",
     name: "Sırt",
@@ -43,9 +43,14 @@ export const QUARTERS = Object.freeze({
     moveCost: 1400,
     shops: ["bakkal", "lokanta", "berber", "ps"],
   },
-});
+};
 
-export const UNITS = Object.freeze({
+export const QUARTERS = Object.freeze({ ...LEGACY_QUARTERS, ...Object.fromEntries(PLAYABLE_REGIONS.map(d => [d.id, {
+ id: d.id, name: d.name, character: d.local, districtId: d.id, regional: true,
+ anneCost: 0, anneSlots: 0, moveCost: 2800, shops: d.shops,
+}])) });
+
+const LEGACY_UNITS = {
   "1+1": {
     sirt: { buy: 285000, rent: 6200, upkeep: 500 },
     kiyi: { buy: 240000, rent: 5200, upkeep: 420 },
@@ -61,7 +66,14 @@ export const UNITS = Object.freeze({
     kiyi: { buy: 600000, rent: 10800, upkeep: 920 },
     ceper: { buy: 375000, rent: 6800, upkeep: 620 },
   },
-});
+};
+export const UNITS = Object.freeze(Object.fromEntries(Object.entries(LEGACY_UNITS).map(([unitId, rows], index) => [unitId, Object.freeze({ ...rows,
+ ...Object.fromEntries(PLAYABLE_REGIONS.map(d => [d.id, {
+  buy: Math.round([240000,390000,600000][index]*(d.purchase || d.rent)),
+  rent: Math.round([5200,7900,10800][index]*d.rent),
+  upkeep: Math.round([420,680,920][index]*(d.upkeep || 1)),
+ }])),
+})])));
 
 export const SHOPS = Object.freeze({
   cafe: { label: "Kahve dükkânı", startup: 28000, weeklyIn: 1800, weeklyOut: 900, neglect: 0.55, since: 1980 },
@@ -84,17 +96,24 @@ export function emptySemt() {
   return { holdings: [], shop: null, live: null, lastWeek: 0, rentYears: 0 };
 }
 
-export function listing(quarterId, unitId) {
+export function listing(quarterId, unitId, state = null) {
   const quarter = QUARTERS[quarterId];
   const row = UNITS[unitId]?.[quarterId];
   if (!quarter || !row) return null;
-  return { quarter, unitId, ...row };
+  if (!quarter.regional || !state) return { quarter, unitId, ...row };
+  const profile = districtProfile(state, quarter.districtId);
+  const district = getDistrict(quarter.districtId);
+  return { quarter, unitId,
+    buy: Math.round(row.buy * profile.purchase / district.purchase),
+    rent: Math.round(row.rent * profile.rent / district.rent),
+    upkeep: row.upkeep,
+  };
 }
 
-export const MARCH_STEP = Object.freeze({ sirt: 400, kiyi: 280, ceper: 160 });
+export const MARCH_STEP = Object.freeze({ sirt: 400, kiyi: 280, ceper: 160, ...Object.fromEntries(PLAYABLE_REGIONS.map(d => [d.id, Math.round(260*d.rent)])) });
 
 export function steppedRent(state, quarterId, unitId) {
-  const row = listing(quarterId, unitId);
+  const row = listing(quarterId, unitId, state);
   if (!row) return 0;
   const years = Math.max(0, Math.round(Number(state?.household?.semt?.rentYears) || 0));
   return row.rent + MARCH_STEP[quarterId] * years;
@@ -193,17 +212,17 @@ export function normalizeSemt(state) {
   return state.household.semt;
 }
 
-function weekFree(state, id) {
+function weekFree(state, id, slots = 1) {
   if (state.lifetime?.death) return "Bu yaşam tamamlandı.";
   if (state.events?.active) return "Önce açık olayı sonuçlandır.";
   if (state.weekly.selectedIds.includes(id)) return "Bu hafta zaten yaptın.";
-  if (state.weekly.used + 1 > getWeeklyActivityLimit(state))
+  if (state.weekly.used + slots > getWeeklyActivityLimit(state))
     return "Bu haftanın karar hakkı doldu. İşin ya da diğer kararların yeri kapattı.";
   return null;
 }
 
-function spendWeek(state, id) {
-  state.weekly.used += 1;
+function spendWeek(state, id, slots = 1) {
+  state.weekly.used += slots;
   state.weekly.selectedIds.push(id);
 }
 
@@ -212,13 +231,16 @@ function movedAlready(state) {
   return state.weekly.selectedIds.some((id) => id === "move-location" || id === "semt:move" || String(id).startsWith("move-home:"));
 }
 
-function intercityBlock(state) {
+function intercityBlock(state, quarter) {
   const from = getDistrict(state.household.location?.districtId);
   const fromCity = from?.city || "istanbul";
-  if (fromCity === "istanbul") return null;
+  const targetCity = getDistrict(quarter.districtId)?.city || "istanbul";
+  if (quarter.regional && state.wealth?.properties?.some(p => p.occupancy === "owner")) return "Önce mevcut mülkünün oturum durumunu Para ekranında düzenle.";
+  if (quarter.regional && state.career?.pendingJob) return "Önce bekleyen iş başlangıcını sonuçlandır.";
+  if (fromCity === targetCity) return null;
   if (state.career?.pendingJob) return "Önce bekleyen iş başlangıcını sonuçlandır.";
   if (state.career?.jobId && state.career.jobId !== "freelance_any")
-    return "Mevcut işin başka şehirde. Sırta, kıyıya veya çepere geçmeden önce İş ekranından ayrılmalısın.";
+    return "Mevcut işin başka şehirde. Şehir değiştirmeden önce İş ekranından ayrılmalısın.";
   if (state.education?.active) return "Önce mevcut eğitimini tamamla veya bırak; program mahalleyle birlikte taşınmaz.";
   if (state.flags?.business) return "Büyük işletmen başka şehirde. Önce Para ekranından kapat.";
   return null;
@@ -235,10 +257,13 @@ function settlePreviousLive(semt, nextId) {
 
 function applyLive(state, holding, quarter) {
   const previous = state.household.homeId;
+  const from = currentDistrict(state);
+  const intercity = (from?.city || "istanbul") !== getDistrict(quarter.districtId).city;
+  if (state.flags.business && state.flags.business.locationId === undefined) state.flags.business.locationId = from?.id || "";
   state.household.homeId = homeForUnit(holding.unitId);
   state.household.livingWithFamily = false;
   state.household.location = { districtId: quarter.districtId, lastMoveWeek: state.time.absoluteWeek };
-  state.player.city = "İstanbul";
+  state.player.city = CITIES[getDistrict(quarter.districtId).city];
   state.household.semt.live = {
     holdingId: holding.id,
     quarterId: quarter.id,
@@ -249,6 +274,8 @@ function applyLive(state, holding, quarter) {
   addMemory(state, text, "important");
   addNpcMemory(state, "anne", text, "location_move");
   scheduleMoveConsequence(state, previous, state.household.homeId);
+  const consequence = state.openCases.find(c => c.id === `move-social-${state.time.absoluteWeek}`);
+  if (consequence) consequence.payload.intercity = intercity;
   const job = Boolean(state.career?.jobId);
   adjustHealth(state, { energy: job ? -6 : -4, stress: job ? 3 : 1 });
 }
@@ -272,7 +299,7 @@ export function liveQuarterBill(state) {
 
 export function buyHolding(state, quarterId, unitId) {
   normalizeSemt(state);
-  const offer = listing(quarterId, unitId);
+  const offer = listing(quarterId, unitId, state);
   if (!offer) return { ok: false, reason: "Bu daire bu mahallede yok." };
   const id = keyOf(quarterId, unitId);
   const blocked = weekFree(state, `semt:buy:${id}`);
@@ -298,15 +325,22 @@ export function buyHolding(state, quarterId, unitId) {
   return { ok: true, message: `${offer.quarter.name} ${unitId} senin. İçine geçmek, kiraya vermek veya boş bırakmak ayrı karar.` };
 }
 
+export function quarterMoveQuote(state, quarterId, unitId) {
+  const quarter = QUARTERS[quarterId];
+  if (!quarter) return null;
+  return quarter.regional ? locationMoveQuote(state, quarter.districtId, homeForUnit(unitId)) : {cost:quarter.moveCost,slots:1};
+}
+
 export function rentToLive(state, quarterId, unitId, options = {}) {
   normalizeSemt(state);
-  const offer = listing(quarterId, unitId);
+  const offer = listing(quarterId, unitId, state);
   if (!offer) return { ok: false, reason: "Bu kiralık bu mahallede yok." };
   const id = keyOf(quarterId, unitId);
-  const blocked = options.freeWeek ? null : weekFree(state, "semt:move");
+  const quote = quarterMoveQuote(state, quarterId, unitId);
+  const blocked = options.freeWeek ? null : weekFree(state, "semt:move", quote.slots);
   if (blocked) return { ok: false, reason: blocked };
   if (movedAlready(state)) return { ok: false, reason: "Bu hafta zaten taşındın." };
-  const city = intercityBlock(state);
+  const city = intercityBlock(state, offer.quarter);
   if (city) return { ok: false, reason: city };
   if (state.household.semt.holdings.some((item) => item.id === id && item.mode === "owned"))
     return { ok: false, reason: "Bu daire senin; kiraya değil, içine geç." };
@@ -314,8 +348,8 @@ export function rentToLive(state, quarterId, unitId, options = {}) {
   const kept = state.household.semt.holdings.filter((item) => item.id === id || item.mode === "owned");
   if (!kept.some((item) => item.id === id) && kept.length >= MAX_HOLDINGS)
     return { ok: false, reason: "Daire sınırın dolu." };
-  if (state.finances.balance < offer.quarter.moveCost) return { ok: false, reason: "Taşınma nakit istiyor." };
-  transact(state, -offer.quarter.moveCost, `${offer.quarter.name} kiralık taşınma`, "semt");
+  if (state.finances.balance < quote.cost) return { ok: false, reason: "Taşınma nakit istiyor." };
+  transact(state, -quote.cost, `${offer.quarter.name} kiralık taşınma`, "semt");
   settlePreviousLive(state.household.semt, id);
   let holding = state.household.semt.holdings.find((item) => item.id === id);
   if (!holding) {
@@ -339,10 +373,11 @@ export function rentToLive(state, quarterId, unitId, options = {}) {
   holding.occupancy = "live";
   holding.monthly = monthly;
   applyLive(state, holding, offer.quarter);
-  if (!options.freeWeek) spendWeek(state, "semt:move");
-  const anne = offer.quarter.anneSlots
-    ? `Annenin ziyareti +${offer.quarter.anneCost} TL ve +${offer.quarter.anneSlots} karar.`
-    : `Annenin ziyareti +${offer.quarter.anneCost} TL.`;
+  if (!options.freeWeek) spendWeek(state, "semt:move", quote.slots);
+  const visit = offer.quarter.regional ? socialTravel(state, "anne") : {cost: offer.quarter.anneCost, slots: offer.quarter.anneSlots};
+  const anne = visit.slots
+    ? `Annenin ziyareti +${visit.cost} TL ve +${visit.slots} karar.`
+    : `Annenin ziyareti +${visit.cost} TL.`;
   return { ok: true, message: `${offer.quarter.name} ${unitId} kiradasın. Aylık kira ${monthly} TL. ${anne}` };
 }
 
@@ -353,18 +388,19 @@ export function moveIntoHolding(state, id) {
   if (holding.occupancy === "rentout") return { ok: false, reason: "Kiracı varken içine geçemezsin. Önce boşalt." };
   if (holding.occupancy === "live") return { ok: false, reason: "Zaten burada yaşıyorsun." };
   const quarter = QUARTERS[holding.quarterId];
-  const blocked = weekFree(state, "semt:move");
+  const quote = quarterMoveQuote(state, holding.quarterId, holding.unitId);
+  const blocked = weekFree(state, "semt:move", quote.slots);
   if (blocked) return { ok: false, reason: blocked };
   if (movedAlready(state)) return { ok: false, reason: "Bu hafta zaten taşındın." };
-  const city = intercityBlock(state);
+  const city = intercityBlock(state, quarter);
   if (city) return { ok: false, reason: city };
-  if (state.finances.balance < quarter.moveCost) return { ok: false, reason: "Taşınma nakit istiyor." };
-  transact(state, -quarter.moveCost, `${quarter.name} ${holding.unitId} taşınma`, "semt");
+  if (state.finances.balance < quote.cost) return { ok: false, reason: "Taşınma nakit istiyor." };
+  transact(state, -quote.cost, `${quarter.name} ${holding.unitId} taşınma`, "semt");
   settlePreviousLive(state.household.semt, id);
   holding.occupancy = "live";
   applyLive(state, holding, quarter);
-  spendWeek(state, "semt:move");
-  return { ok: true, message: `${quarter.name} ${holding.unitId} içine geçtin. Bir karar hakkı gitti.` };
+  spendWeek(state, "semt:move", quote.slots);
+  return { ok: true, message: `${quarter.name} ${holding.unitId} içine geçtin. ${quote.slots} karar hakkı gitti.` };
 }
 
 export function sellHolding(state, id) {
@@ -500,9 +536,21 @@ function entrepreneurBlock(state, shops) {
   return null;
 }
 
+export function regionalShopTerms(state, quarterId, shopId) {
+  const type = SHOPS[shopId], quarter = QUARTERS[quarterId];
+  if (!type || !quarter) return null;
+  if (!quarter.regional) return type;
+  const p = districtProfile(state, quarter.districtId);
+  const match = shopId === "ps" || shopId === "kirtasiye" ? p.sectors.includes("egitim") : shopId === "lokanta" || shopId === "cafe" ? p.sectors.includes("yemeicme") : p.sectors.includes("hizmet") || p.sectors.includes("ticaret");
+  return { ...type, startup: Math.round(type.startup*(.6+.4*p.rent)),
+    weeklyIn: Math.round(type.weeklyIn*p.customers*(match?1.08:1)),
+    weeklyOut: Math.round(type.weeklyOut*(.5*p.rent+.5*p.living)),
+  };
+}
+
 function shopAllowed(state, quarterId, shopId) {
   const quarter = QUARTERS[quarterId];
-  const type = SHOPS[shopId];
+  const type = regionalShopTerms(state, quarterId, shopId);
   if (!quarter || !type || !quarter.shops.includes(shopId)) return { ok: false, reason: "Bu tezgâh bu mahallenin işi değil." };
   if ((state.time?.year || 0) < type.since) return { ok: false, reason: `${type.label} bu yılda yok.` };
   return { ok: true, quarter, type };
@@ -558,6 +606,14 @@ export function openShop(state, quarterId, shopId) {
   };
 }
 
+export function shopVisitQuote(state, shop) {
+  const quarter = QUARTERS[shop?.quarterId];
+  if (!quarter?.regional) return {cost:0,slots:1};
+  const from = currentDistrict(state), to = getDistrict(quarter.districtId);
+  const intercity = (from?.city || "istanbul") !== to.city;
+  return {cost: intercity ? 1200 : from?.id === to.id ? 0 : 80, slots: intercity ? 2 : 1};
+}
+
 export function tendShop(state, key) {
   normalizeSemt(state);
   const shop = pickShop(state, key);
@@ -565,10 +621,13 @@ export function tendShop(state, key) {
   if (shop.kalfa) return { ok: false, reason: "Kalfa bakıyor. Uğraman gerekmez." };
   const locked = stallLocked(state);
   if (locked) return { ok: false, reason: locked };
-  const blocked = weekFree(state, `semt:tend:${shopKey(shop)}`);
+  const visit = shopVisitQuote(state, shop);
+  const blocked = weekFree(state, `semt:tend:${shopKey(shop)}`, visit.slots);
   if (blocked) return { ok: false, reason: blocked };
+  if (state.finances.balance < visit.cost) return {ok:false,reason:"Tezgâh ziyaretinin yol bütçesi yetmiyor."};
+  if (visit.cost) transact(state, -visit.cost, `${QUARTERS[shop.quarterId].name} tezgâhına yol`, "semt");
   shop.attentionWeek = state.time.absoluteWeek;
-  spendWeek(state, `semt:tend:${shopKey(shop)}`);
+  spendWeek(state, `semt:tend:${shopKey(shop)}`, visit.slots);
   if (state.career?.jobId) adjustHealth(state, { energy: -3, stress: 2 });
   const label = SHOPS[shop.id].label;
   return { ok: true, message: state.career?.jobId ? `${label} tezgâhına baktın. İşin de vardı; hak ve enerji bölündü.` : `${label} tezgâhına baktın. Bu haftanın cirosu düşmez.` };
@@ -697,7 +756,7 @@ export function processSemtWeek(state) {
   }
   (semt.shops || []).forEach((shop, index) => {
     if (shop.openedWeek === week) return;
-    const type = SHOPS[shop.id];
+    const type = regionalShopTerms(state, shop.quarterId, shop.id);
     const locked = Boolean(stallLocked(state));
     const visit = !locked && shop.attentionWeek === week;
     let kalfaPaid = false;
@@ -746,21 +805,24 @@ function button(action, value, label, detail, disabled, reason) {
   return `<button class="button decision wealth-action" data-semt-action="${action}" data-semt-value="${value}"${disabled ? " disabled" : ""}${title}><strong>${label}</strong><small>${detail}${reason ? ` · ${reason}` : ""}</small></button>`;
 }
 
-export function renderSemtEmlak(state, { money, escapeText }) {
+export function renderSemtEmlak(state, { money, escapeText, regionId = currentDistrict(state)?.id || "sisli" }) {
   const semt = normalizeSemt(state);
   const held = semt.shops || [];
   const live = semt.holdings.find((item) => item.occupancy === "live");
-  const quarters = Object.values(QUARTERS).map((quarter) => {
+  const selected = QUARTERS[regionId]?.regional ? regionId : null;
+  const quarters = [...(selected ? [QUARTERS[selected]] : []), ...Object.values(LEGACY_QUARTERS)].map((quarter) => {
     const units = UNIT_IDS.map((unitId) => {
-      const offer = listing(quarter.id, unitId);
+      const offer = listing(quarter.id, unitId, state);
+      const move = quarterMoveQuote(state, quarter.id, unitId);
+      const affordability = regionAffordability(state, offer.rent, offer.buy);
       const rentNow = steppedRent(state, quarter.id, unitId);
       const owned = semt.holdings.find((item) => item.id === keyOf(quarter.id, unitId));
       const buyReason = owned ? "Bu daire zaten sende." : weekFree(state, `semt:buy:${owned?.id || keyOf(quarter.id, unitId)}`) || (state.finances.balance < offer.buy ? "Nakit yetmiyor." : "");
-      const rentReason = owned?.mode === "owned" ? "Senin dairen; kiraya değil içine geç." : live?.id === keyOf(quarter.id, unitId) ? "Zaten burada yaşıyorsun." : weekFree(state, "semt:move") || (state.finances.balance < quarter.moveCost ? "Taşınma nakit istiyor." : "");
-      return `<article class="wealth-card"><strong>${escapeText(unitId)}</strong><small>Alım ${money(offer.buy)} · aylık kira ${money(rentNow)} · bakım ${money(offer.upkeep)}</small><div class="wealth-actions">${button("buy", keyOf(quarter.id, unitId), "Satın al", "1 karar · boş teslim", Boolean(buyReason), escapeText(buyReason))}${button("rent", keyOf(quarter.id, unitId), "Kiraya taşın", `${money(quarter.moveCost)} · 1 karar`, Boolean(rentReason), escapeText(rentReason))}</div></article>`;
+      const rentReason = owned?.mode === "owned" ? "Senin dairen; kiraya değil içine geç." : live?.id === keyOf(quarter.id, unitId) ? "Zaten burada yaşıyorsun." : intercityBlock(state, quarter) || weekFree(state, "semt:move", move.slots) || (state.finances.balance < move.cost ? "Taşınma nakit istiyor." : "");
+      return `<article class="wealth-card"><strong>${escapeText(unitId)}</strong><small>Alım ${money(offer.buy)} · aylık kira ${money(rentNow)} · bakım ${money(offer.upkeep)}</small>${quarter.regional ? `<small>${affordability.rentShare === null ? "Düzenli iş geliri yok; kira için birikim gerekir." : `Kira / kişisel düzenli gelir: %${Math.round(affordability.rentShare*100)} · alım ${affordability.purchaseMonths.toFixed(1)} aylık gelir`}</small>` : ""}<div class="wealth-actions">${button("buy", keyOf(quarter.id, unitId), "Satın al", "1 karar · boş teslim", Boolean(buyReason), escapeText(buyReason))}${button("rent", keyOf(quarter.id, unitId), "Kiraya taşın", `${money(move.cost)} · ${move.slots} karar`, Boolean(rentReason), escapeText(rentReason))}</div></article>`;
     }).join("");
     const shops = quarter.shops.map((shopId) => {
-      const type = SHOPS[shopId];
+      const type = regionalShopTerms(state, quarter.id, shopId);
       const early = (state.time?.year || 0) < type.since;
       const twins = held.filter((shop) => shop.quarterId === quarter.id && shop.id === shopId).length;
       const gate = entrepreneurBlock(state, held);
@@ -769,18 +831,19 @@ export function renderSemtEmlak(state, { money, escapeText }) {
       const openDetail = twins === 1 ? "aynı iş, ciro ikisinde de düşer" : "1 karar · uğramazsan ciro düşer";
       return `<article class="wealth-card"><strong>${escapeText(type.label)}</strong><small>Açılış ${money(type.startup)} · haftalık ciro ${money(type.weeklyIn)} / gider ${money(type.weeklyOut)}</small><div class="wealth-actions">${button("open", `${quarter.id}:${shopId}`, openLabel, openDetail, Boolean(reason), escapeText(reason))}</div></article>`;
     }).join("");
-    return `<article class="semt-quarter"><div class="panel-head"><div><p class="eyebrow">${escapeText(quarter.name.toLocaleUpperCase("tr"))}</p><h3>${escapeText(quarter.name)}</h3></div></div><p class="context-note">${escapeText(quarter.character)} Annenin ziyaretine +${money(quarter.anneCost)}${quarter.anneSlots ? ` ve +${quarter.anneSlots} karar` : ""}.</p><div class="wealth-grid">${units}${shops}</div></article>`;
+    return `<details class="semt-quarter"${quarter.regional ? " open" : ""}><summary>${escapeText(quarter.name)}${quarter.regional ? " · oynanabilir bölge" : " · kurgusal mahalle"}</summary><div class="panel-head"><div><p class="eyebrow">${escapeText(quarter.name.toLocaleUpperCase("tr"))}</p><h3>${escapeText(quarter.name)}</h3></div></div><p class="context-note">${escapeText(quarter.character)}${quarter.regional ? "" : ` Annenin ziyaretine +${money(quarter.anneCost)}${quarter.anneSlots ? ` ve +${quarter.anneSlots} karar` : ""}.`}</p><div class="wealth-grid">${units}${shops}</div></details>`;
   }).join("");
   const holdings = semt.holdings.map((item) => {
     const quarter = QUARTERS[item.quarterId];
+    const move = quarterMoveQuote(state, item.quarterId, item.unitId);
     const status = item.occupancy === "live" ? "içinde yaşıyorsun" : item.occupancy === "rentout" ? "kirada" : "boş";
-    const moveReason = item.occupancy === "live" ? "Zaten burada." : item.occupancy === "rentout" ? "Önce boşalt." : weekFree(state, "semt:move") || "";
+    const moveReason = item.occupancy === "live" ? "Zaten burada." : item.occupancy === "rentout" ? "Önce boşalt." : intercityBlock(state, quarter) || weekFree(state, "semt:move", move.slots) || (state.finances.balance < move.cost ? "Taşınma bütçesi yetmiyor." : "");
     const letReason = item.mode !== "owned" ? "Kiralık sözleşme kiraya verilmez." : item.occupancy === "live" ? "Önce çık." : item.occupancy === "rentout" ? "Zaten kirada." : weekFree(state, `semt:let:${item.id}`) || "";
     const emptyReason = item.mode !== "owned" || item.occupancy !== "rentout" ? (item.occupancy === "live" ? "Önce başka kapıya geç." : "Kiradaki daire boşaltılır.") : weekFree(state, `semt:empty:${item.id}`) || "";
     const sellReason = item.mode !== "owned" ? "Kiralık satılmaz." : item.occupancy === "live" ? "Önce çık." : weekFree(state, `semt:sell:${item.id}`) || "";
     const renoCost = Math.round(item.price * 0.08);
     const renoReason = item.mode !== "owned" ? "Kiralığa tadilat yok." : item.renovated ? "Tadilat yapıldı." : weekFree(state, `semt:reno:${item.id}`) || (state.finances.balance < renoCost ? "Nakit yetmiyor." : "");
-    return `<article class="wealth-card"><strong>${escapeText(quarter.name)} ${escapeText(item.unitId)}</strong><small>${item.mode === "owned" ? "mülk" : "kiralık"} · ${status} · değer ${money(item.value)} · aylık ${money(item.mode === "owned" && item.occupancy === "live" ? item.upkeep : item.monthly)}</small><div class="wealth-actions">${button("move", item.id, "İçine geç", `${money(quarter.moveCost)} · 1 karar`, Boolean(moveReason), escapeText(moveReason))}${button("let", item.id, "Kiraya ver", "boş hafta ve arıza var", Boolean(letReason), escapeText(letReason))}${button("empty", item.id, "Boş bırak", "kira durur", Boolean(emptyReason), escapeText(emptyReason))}${button("sell", item.id, "Sat", money(item.value), Boolean(sellReason), escapeText(sellReason))}${button("reno", item.id, "Ufak tadilat", money(renoCost), Boolean(renoReason), escapeText(renoReason))}</div></article>`;
+    return `<article class="wealth-card"><strong>${escapeText(quarter.name)} ${escapeText(item.unitId)}</strong><small>${item.mode === "owned" ? "mülk" : "kiralık"} · ${status} · değer ${money(item.value)} · aylık ${money(item.mode === "owned" && item.occupancy === "live" ? item.upkeep : item.monthly)}</small><div class="wealth-actions">${button("move", item.id, "İçine geç", `${money(move.cost)} · ${move.slots} karar`, Boolean(moveReason), escapeText(moveReason))}${button("let", item.id, "Kiraya ver", "boş hafta ve arıza var", Boolean(letReason), escapeText(letReason))}${button("empty", item.id, "Boş bırak", "kira durur", Boolean(emptyReason), escapeText(emptyReason))}${button("sell", item.id, "Sat", money(item.value), Boolean(sellReason), escapeText(sellReason))}${button("reno", item.id, "Ufak tadilat", money(renoCost), Boolean(renoReason), escapeText(renoReason))}</div></article>`;
   }).join("");
   const shopCards = held.map((shop) => {
     const key = shopKey(shop);
@@ -790,10 +853,11 @@ export function renderSemtEmlak(state, { money, escapeText }) {
     const closeId = `semt:close:${key}`;
     const sellId = `semt:sell-shop:${key}`;
     const kalfaId = shop.kalfa ? `semt:kalfa-off:${key}` : `semt:kalfa:${key}`;
-    const tendReason = shop.kalfa ? "Kalfa bakıyor." : locked || weekFree(state, tendId) || "";
+    const visit = shopVisitQuote(state, shop);
+    const tendReason = shop.kalfa ? "Kalfa bakıyor." : locked || weekFree(state, tendId, visit.slots) || (state.finances.balance < visit.cost ? "Yol bütçesi yetmiyor." : "");
     const status = shop.kalfa ? "Kalfa bakıyor. Uğraman gerekmez." : tended ? "Bu hafta uğradın." : locked || "Bu hafta uğramadın; bu tezgâhın cirosu kendi düşer.";
     const twin = shop.n === 2 ? " · ikinci" : "";
-    return `<article class="wealth-card"><strong>${escapeText(SHOPS[shop.id].label)}${twin} · ${escapeText(QUARTERS[shop.quarterId].name)}</strong><small>${escapeText(status)}</small><div class="wealth-actions">${button("tend", key, "Bu hafta uğra", state.career?.jobId ? "işin varken enerji de gider" : "1 karar", Boolean(tendReason), escapeText(tendReason))}${button(shop.kalfa ? "kalfa-off" : "kalfa", key, shop.kalfa ? "Kalfayı çıkar" : "Kalfa tut", shop.kalfa ? "uğrama yine sana düşer" : `${money(KALFA_WAGE)} / hafta`, Boolean(weekFree(state, kalfaId)), escapeText(weekFree(state, kalfaId) || ""))}${button("close", key, "Kapat", money(Math.round(shop.startup * 0.3)), Boolean(weekFree(state, closeId)), escapeText(weekFree(state, closeId) || ""))}${button("sell-shop", key, "Sat", money(shopProceeds(shop, tended)), Boolean(weekFree(state, sellId)), escapeText(weekFree(state, sellId) || ""))}</div></article>`;
+    return `<article class="wealth-card"><strong>${escapeText(SHOPS[shop.id].label)}${twin} · ${escapeText(QUARTERS[shop.quarterId].name)}</strong><small>${escapeText(status)}</small><div class="wealth-actions">${button("tend", key, "Bu hafta uğra", `${visit.slots} karar${visit.cost ? ` · yol ${money(visit.cost)}` : ""}${state.career?.jobId ? " · enerji de gider" : ""}`, Boolean(tendReason), escapeText(tendReason))}${button(shop.kalfa ? "kalfa-off" : "kalfa", key, shop.kalfa ? "Kalfayı çıkar" : "Kalfa tut", shop.kalfa ? "uğrama yine sana düşer" : `${money(KALFA_WAGE)} / hafta`, Boolean(weekFree(state, kalfaId)), escapeText(weekFree(state, kalfaId) || ""))}${button("close", key, "Kapat", money(Math.round(shop.startup * 0.3)), Boolean(weekFree(state, closeId)), escapeText(weekFree(state, closeId) || ""))}${button("sell-shop", key, "Sat", money(shopProceeds(shop, tended)), Boolean(weekFree(state, sellId)), escapeText(weekFree(state, sellId) || ""))}</div></article>`;
   }).join("");
   const venture = titledVenture(state)
     ? state.career.jobId === "shop_owner"
@@ -806,5 +870,5 @@ export function renderSemtEmlak(state, { money, escapeText }) {
     ? `<div class="wealth-grid">${shopCards}</div>`
     : `<p class="context-note">Açık mahalle tezgâhın yok. Para ekranındaki büyük işletme bundan ayrı durur.</p>`;
   const manageReason = semt.holdings.some((item) => item.occupancy === "rentout") ? weekFree(state, "semt:manage") || "" : "Kiradaki dairen yok.";
-  return `<section class="panel semt-emlak" id="semt-emlak"><div class="panel-head"><div><p class="eyebrow">SEMT</p><h2>Emlak ve mahalle tezgâhı</h2></div><span>${escapeText(live ? `${QUARTERS[live.quarterId].name} ${live.unitId}` : "aile evi")}</span></div><p class="context-note">Üç kurgusal mahalle: Sırt, Kıyı, Çeper. Ankara ve İzmir de seçilebilir. Alım, taşınma ve tezgâh birer haftalık hak yer; işin varsa aynı hak bölünür. Para tam liradır.</p><div class="semt-quarters">${quarters}</div><div class="panel-head"><div><p class="eyebrow">SENİN</p><h3>Dairelerin</h3></div></div>${holdings ? `<div class="wealth-grid">${holdings}</div>` : `<p class="context-note">Henüz daire yok.</p>`}<div class="wealth-actions">${button("manage", "rent", "Kiraları yokla", "boş haftayı azaltır", Boolean(manageReason), escapeText(manageReason))}</div><div class="panel-head"><div><p class="eyebrow">GENÇ GİRİŞİMCİ</p><h3>Mahalle işi</h3></div></div><p class="context-note">Bir tezgâh herkese açık. İkinci tezgâh için dört hafta dükkân tut ya da İş'ten küçük esnaf / girişim ortağı ol. Üçten fazlası yok. Açık tezgâhı kapatabilir veya satabilirsin. Her uğrama ayrı karar hakkı yer. Uğramadığın tezgâhın cirosu kendi düşer; askerlik ve tutuklamada da düşer. Uğramadığın denetim tek tezgâhta da kısa dosya açar. Aynı mahallede aynı işin ikincisi ikisinin de cirosunu düşürür. Kalfa küçük maaşla uğramayı kaldırır. ${escapeText(venture)}</p>${shopBlock}</section>`;
+  return `<section class="panel semt-emlak" id="semt-emlak"><div class="panel-head"><div><p class="eyebrow">SEMT</p><h2>Emlak ve mahalle tezgâhı</h2></div><span>${escapeText(live ? `${QUARTERS[live.quarterId].name} ${live.unitId}` : "aile evi")}</span></div><p class="context-note">Haritada seçtiğin oynanabilir bölgenin daireleri ve işleri burada. Sırt, Kıyı, Çeper ve eski sözleşmeler korunur. Bölge taşınması şehir içinde 2, şehirler arasında 3 karar; alım ve tezgâh 1 karar. Fiyatlar dönem ücret ölçeğindeki oyun bütçesidir; ilan fiyatı değildir.</p><div class="semt-quarters">${quarters}</div><div class="panel-head"><div><p class="eyebrow">SENİN</p><h3>Dairelerin</h3></div></div>${holdings ? `<div class="wealth-grid">${holdings}</div>` : `<p class="context-note">Henüz daire yok.</p>`}<div class="wealth-actions">${button("manage", "rent", "Kiraları yokla", "boş haftayı azaltır", Boolean(manageReason), escapeText(manageReason))}</div><div class="panel-head"><div><p class="eyebrow">GENÇ GİRİŞİMCİ</p><h3>Mahalle işi</h3></div></div><p class="context-note">Bir tezgâh herkese açık. İkinci tezgâh için dört hafta dükkân tut ya da İş'ten küçük esnaf / girişim ortağı ol. Üçten fazlası yok. Açık tezgâhı kapatabilir veya satabilirsin. Her uğrama ayrı karar hakkı yer. Uğramadığın tezgâhın cirosu kendi düşer; askerlik ve tutuklamada da düşer. Uğramadığın denetim tek tezgâhta da kısa dosya açar. Aynı mahallede aynı işin ikincisi ikisinin de cirosunu düşürür. Kalfa küçük maaşla uğramayı kaldırır. ${escapeText(venture)}</p>${shopBlock}</section>`;
 }
