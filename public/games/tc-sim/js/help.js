@@ -1,4 +1,4 @@
-import { bankFinanceHelp } from "./banks-presentation.js?v=10";
+import { bankFinanceHelp, bankText } from "./banks-presentation.js?v=10";
 /**
  * Nasıl Oynanır içeriği. Saf veri/render — DOM'a dokunmaz, state okumaz,
  * hiçbir yan etki yaratmaz. `app.js` bunu bir modal içinde gösterir/gizler.
@@ -15,7 +15,7 @@ export const HELP_SECTIONS = [
   },
   {
     title: "Kontroller",
-    body: "Üst şeritten Gelenler, Hafta, Para, Yakınlar ve Beden'e doğrudan geçersin. Alışveriş Çarşı'da, ev ve araç Emlak'tadır. Diğer bölümler aşağıdaki menüdedir. Gelenler bekleyen kararları ve son gelişmeleri tek yerde toplar; açık olay bitmeden hafta ilerlemez.",
+    body: "Sol menüden her bölümün kendi ekranına geçersin. Haftalık kararlar Zaman / Odak ekranında, konut Ev ekranında, semt seçimi Şehir Haritası ekranında; araç ve kalıcı eşya ayrı ekrandadır. Gelenler bekleyen kararları ve son gelişmeleri tek yerde toplar; açık olay bitmeden hafta ilerlemez.",
   },
   {
     title: "İş ve finans",
@@ -71,7 +71,14 @@ export function renderHelpModal() {
     {title: "Para: yatırım", body: "Nakit harcayabildiğin paradır. Servet buna malı ve borcu da katar. Yatırım maliyeti alış masrafını içerir. Henüz bozdurmadığın kâr veya zarar nakit değildir. Ay sonu değer değişimini yazar. Satışta %1 masraf düşer. Kalan payın maliyeti durur."},
   ];
   const language = I?.getLang?.() || "tr";
-  const sections = [...source, ...extra].map((section, index) => index === 3 ? { ...section, body: bankFinanceHelp(language) } : section).map(
+  const controls = bankText(language,
+    "Sol menü her bölümün kendi ekranını açar. Zaman / Odak haftalık kararları, Ev konut ve taşınmayı, Şehir Haritası 23 semtin seçimini içerir. Para bütçe, borç ve işletmeleri; Bankalar hesap, kredi, kart ve yatırımları tutar. Çarşı tüketim, Araç ve Eşya kalıcı varlıklar içindir. Geri/ileri ve #screen bağlantıları kullanılabilir.",
+    "Each menu opens its own screen. Time / Focus contains weekly decisions; Home handles housing and moving; City Map selects all 23 districts. Money holds budgets, debts and businesses; Banks holds accounts, loans, cards and investments. Market handles consumption; Vehicles and Goods handles owned assets. Back/forward and #screen links are supported.",
+    "Każda pozycja menu otwiera własny ekran. Czas / Skupienie zawiera decyzje tygodnia, Dom obsługuje mieszkania i przeprowadzki, a Mapa miasta wybór 23 dzielnic. Finanse obejmują budżet, długi i firmy; Banki rachunki, kredyty, karty i inwestycje. Sklep służy konsumpcji, a Pojazdy i Przedmioty zakupom trwałym. Działają Wstecz/Dalej i linki #screen.");
+  extra[0] = {...extra[0], body: language === "pl"
+    ? "Przed zakupem sprawdź cenę, czas i wpływ na zdrowie. Lista jest podzielona na półki. Mieszkania są w Domu, a pojazdy i trwałe przedmioty w osobnej sekcji. Przedmioty i ich korzyści pozostają w zapisie; kolejny taki sam zakup nie zwiększa korzyści. Rower i skuter wymagają miesięcznego utrzymania. Ryzykowne doświadczenia mogą zaszkodzić zdrowiu, finansom lub relacjom. Hazard pokazuje stawkę, wypłatę i wynik netto. W dłuższym okresie straty są bardziej prawdopodobne; duże wygrane zdarzają się rzadko."
+    : extra[0].body.replace("Owned goods, vehicles and housing are on Property, not here.", "Housing is on Home; vehicles and durables are on Vehicles and Goods.").replace("Eşya, araba ve ev Emlak'tadır.", "Konut Ev ekranında; araç ve eşya Araç ve Eşya ekranındadır.")};
+  const sections = [...source, ...extra].map((section,index)=> index === 2 ? {...section, body:controls} : section).map((section, index) => index === 3 ? { ...section, body: bankFinanceHelp(language) } : section).map(
     (section) =>
       `<section class="help-section"><h3>${escapeText(section.title)}</h3><p>${escapeText(section.body)}</p></section>`,
   ).join("");

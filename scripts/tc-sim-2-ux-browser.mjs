@@ -1,3 +1,6 @@
+import {NAVIGATION_ITEMS} from '../public/games/tc-sim/js/navigation.js';
+import {assertMenuScreen} from './tc-sim-menu-contract.mjs';
+import {navigateTc} from './tc-sim-browser-navigation.mjs';
 import assert from 'node:assert/strict';
 import {mkdirSync,writeFileSync} from 'node:fs';
 import {resolve} from 'node:path';
@@ -31,14 +34,18 @@ try {for(const language of ['tr','en','pl']) for(const width of [320,390,1280,14
  await page.locator('.life-nav-search input').fill(language==='pl'?'Banki':language==='en'?'Banks':'Bankalar');
  assert.equal(await page.locator('.nav-secondary [data-view]:visible').count(),1);
  await page.locator('.life-nav-search input').fill('');
- await page.locator('[data-ui-panel="navigation:6"] > summary').click();
- await page.locator('.life-nav-remember input').check();
+ await navigateTc(page,'settings');
+ await page.locator('[data-remember-screen]').check();
+ if(width<=820)await page.locator('.nav-more').click();
+ if(await page.locator('[data-ui-panel="navigation:0"]').getAttribute('open')===null)await page.locator('[data-ui-panel="navigation:0"] > summary').click();
  await page.locator('.side-nav [data-view="banks"]').click();await page.locator('.workspace-head h1').waitFor();
  assert.equal(await page.evaluate(()=>document.activeElement===document.querySelector('.workspace-head h1')),true);
  await page.reload();await page.locator('#continue-game').click();await page.locator('.side-nav [data-view="banks"].is-active').waitFor({state:'attached'});
- if(width<=820)await page.locator('.side-nav .nav-more').click();
- await page.locator('.life-nav-remember input').uncheck();
- await page.locator('.side-nav [data-view="dashboard"]').click();
+ await navigateTc(page,'settings');
+ await page.locator('[data-remember-screen]').uncheck();
+ // All original screens plus the five separated presentation routes share one contract.
+ for(const {view} of NAVIGATION_ITEMS){await navigateTc(page,view);await assertMenuScreen(page,view,language);}
+ await navigateTc(page,'dashboard');
  const metrics=await page.evaluate(()=>({overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth,bytes:performance.getEntriesByType('resource').reduce((s,r)=>s+r.transferSize,0),requests:performance.getEntriesByType('resource').length}));
  // A reserved classic scrollbar can make scrollWidth smaller than clientWidth.
  assert.ok(metrics.overflow<=0,'no content extends beyond the viewport');assert.deepEqual(errors,[]);assert.equal(await page.evaluate(()=>localStorage.getItem('tariklab::tc-sim:1')),saved,'UI never rewrites game saves');

@@ -1,3 +1,4 @@
+import {navigateTc} from './tc-sim-browser-navigation.mjs';
 import assert from "node:assert/strict";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { spawn } from "node:child_process";
@@ -79,6 +80,8 @@ try {
           if (start.id === "present_day") {
             assert.equal(saved.world.eraId, "present_day", "the current-day start remains unchanged");
             assert.equal(saved.world.scenario, undefined);
+            await navigateTc(page, 'decisions');
+            assert.equal(await page.locator('.workspace').getAttribute('data-screen'),'decisions');
             await page.locator('[data-decision]:not([disabled])').first().click();
             await page.reload({ waitUntil: "networkidle" });
             saved = await page.evaluate((key) => JSON.parse(localStorage.getItem(key)), storageKey);

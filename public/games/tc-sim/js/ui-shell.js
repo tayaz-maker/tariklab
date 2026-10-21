@@ -1,3 +1,4 @@
+import { NAVIGATION_GROUPS } from "./navigation.js?v=10";
 import { uiIcon } from "./ui-icons.js?v=10";
 // Preferences are presentation-only and never enter a life save or its backup.
 const KEY = "tariklab.tc-sim.ui.v2";
@@ -14,9 +15,9 @@ export function writePreference(storage, patch) {
   try { storage.setItem(KEY, JSON.stringify({ ...readPreferences(storage), ...patch })); } catch { /* Storage denial must not prevent playing. */ }
 }
 const copy = {
-  tr: { collapse: "Menüyü daralt", expand: "Menüyü genişlet", search: "Bölüm ara", remember: "Son ekranı hatırla", empty: "Eşleşen bölüm yok", offline: "Çevrimdışı · Bu cihazdaki kayıtla oynuyorsun.", groups: ["Para ve Yaşam", "İlişkiler", "Beden ve Sağlık", "Eğitim ve Kariyer", "Şehir ve Harita", "Kararlar", "Ayarlar"], time: "Zaman / Odak", goals: "Hedefler", save: "Kayıt", help: "Nasıl Oynanır", work: "İş ve Gelir", map: "Şehir haritası", family: "Aile ve yakınlar", decisions: "Haftalık kararlar", cases: "Bekleyen sonuçlar", close: "Menüyü kapat" },
-  en: { collapse: "Collapse menu", expand: "Expand menu", search: "Find a section", remember: "Remember last screen", empty: "No matching section", offline: "Offline · Playing with the save on this device.", groups: ["Money and Living", "Relationships", "Body and Health", "Education and Career", "City and Map", "Decisions", "Settings"], time: "Time / Focus", goals: "Goals", save: "Saves", help: "How to Play", work: "Work and Income", map: "City map", family: "Family and loved ones", decisions: "Weekly decisions", cases: "Pending outcomes", close: "Close menu" },
-  pl: { collapse: "Zwiń menu", expand: "Rozwiń menu", search: "Znajdź sekcję", remember: "Zapamiętaj ostatni ekran", empty: "Brak pasującej sekcji", offline: "Offline · Gra korzysta z zapisu na tym urządzeniu.", groups: ["Finanse i Życie", "Relacje", "Ciało i Zdrowie", "Edukacja i Kariera", "Miasto i Mapa", "Decyzje", "Ustawienia"], time: "Czas / Skupienie", goals: "Cele", save: "Zapisy", help: "Jak grać", work: "Praca i Dochody", map: "Mapa miasta", family: "Rodzina i bliscy", decisions: "Decyzje tygodnia", cases: "Oczekujące wyniki", close: "Zamknij menu" },
+  tr: { collapse: "Menüyü daralt", expand: "Menüyü genişlet", search: "Bölüm ara", remember: "Son ekranı hatırla", empty: "Eşleşen bölüm yok", offline: "Çevrimdışı · Bu cihazdaki kayıtla oynuyorsun.", groups: ["Para ve Yaşam", "İlişkiler ve Aile", "Beden ve Sağlık", "İş ve Gelişim", "Şehir ve Yaşam Alanı", "Kararlar ve Olaylar", "Ayarlar ve Yardım"], time: "Zaman / Odak", goals: "Hedefler", save: "Kayıt", help: "Nasıl Oynanır", work: "İş ve Gelir", map: "Şehir haritası", family: "Aile ve yakınlar", decisions: "Haftalık kararlar", cases: "Bekleyen sonuçlar", close: "Menüyü kapat" },
+  en: { collapse: "Collapse menu", expand: "Expand menu", search: "Find a section", remember: "Remember last screen", empty: "No matching section", offline: "Offline · Playing with the save on this device.", groups: ["Money and Living", "Relationships and Family", "Body and Health", "Work and Development", "City and Living Area", "Decisions and Events", "Settings and Help"], time: "Time / Focus", goals: "Goals", save: "Saves", help: "How to Play", work: "Work and Income", map: "City map", family: "Family and loved ones", decisions: "Weekly decisions", cases: "Pending outcomes", close: "Close menu" },
+  pl: { collapse: "Zwiń menu", expand: "Rozwiń menu", search: "Znajdź sekcję", remember: "Zapamiętaj ostatni ekran", empty: "Brak pasującej sekcji", offline: "Offline · Gra korzysta z zapisu na tym urządzeniu.", groups: ["Finanse i Życie", "Relacje i Rodzina", "Ciało i Zdrowie", "Praca i Rozwój", "Miasto i Okolica", "Decyzje i Wydarzenia", "Ustawienia i Pomoc"], time: "Czas / Skupienie", goals: "Cele", save: "Zapisy", help: "Jak grać", work: "Praca i Dochody", map: "Mapa miasta", family: "Rodzina i bliscy", decisions: "Decyzje tygodnia", cases: "Oczekujące wyniki", close: "Zamknij menu" },
 };
 export function restoreLastView(storage, valid) {
   const p = readPreferences(storage);
@@ -40,7 +41,9 @@ export function bindLifeShell(root, view, language = "tr", storage = window.loca
   buttons.forEach(button => {
     button.querySelector(".nav-mark")?.remove();
     button.lastElementChild?.classList.add("nav-label");
-    button.title = button.textContent.trim(); addIcon(button, button.dataset.view);
+    const names = {tr:{emlak:"Araç ve Eşya",home:"Ev ve Emlak",decisions:l.time,goals:l.goals,saves:l.save,settings:"Ayarlar"},en:{dashboard:"Today",inbox:"Inbox",character:"You",calendar:"Week / Calendar",finance:"Money",banks:"Banks",emlak:"Vehicles and Goods",market:"Market",career:l.work,education:"Education",people:"Social Circle",relationships:l.family,home:"Home and Property",city:l.map,decisions:l.time,goals:l.goals,saves:l.save,settings:"Settings",body:"Body",history:"History",yearbook:"Yearbook"},pl:{dashboard:"Dzisiaj",inbox:"Odebrane",character:"Ty",calendar:"Tydzień / Kalendarz",finance:"Finanse",banks:"Banki",emlak:"Pojazdy i Przedmioty",market:"Sklep",career:l.work,education:"Edukacja",people:"Znajomi",relationships:l.family,home:"Dom i Nieruchomości",city:l.map,decisions:l.time,goals:l.goals,saves:l.save,settings:"Ustawienia",body:"Ciało",history:"Historia",yearbook:"Rocznik"}};
+    if (names[language]?.[button.dataset.view]) button.querySelector(".nav-label").textContent = names[language][button.dataset.view];
+    button.title = button.textContent.trim(); addIcon(button, button.dataset.view === "saves" ? "save" : button.dataset.view);
   });
   // Move the existing controls, keeping their original action handlers intact.
   const toolbar = element("div", "game-toolbar"), actions = element("div", "game-actions");
@@ -63,41 +66,26 @@ export function bindLifeShell(root, view, language = "tr", storage = window.loca
   toggle.type = "button"; toggle.setAttribute("aria-controls", "life-navigation-body"); addIcon(toggle, "menu");
   const content = element("div", "nav-secondary"); content.id = "life-navigation-body";
   const primary = element("div", "nav-primary");
-  const makeLink = (label, icon, target, selector) => {
-    const button = element("button", "nav-item"); button.type = "button"; button.title = label;
-    addIcon(button, icon); button.append(element("span", "nav-label", label));
-    button.dataset.uiJump = icon;
-    button.addEventListener("click", () => {
-      if (target === "help") { returnToHelp = "nav"; doc.querySelector("#help-open")?.click(); return; }
-      if (target === "save") { doc.querySelector("#main-menu")?.click(); return; }
-      const destination = buttons.find(b => b.dataset.view === target); destination?.click();
-      const panel = doc.querySelector(selector || ".workspace-head h1");
-      if (panel) {
-        const details = panel.matches("details") ? panel : panel.querySelector("details");
-        if (details) details.open = true;
-        panel.scrollIntoView({ block: "start", behavior: "instant" }); panel.tabIndex = -1; panel.focus({ preventScroll: true });
-      }
-      if (selector) {
-        doc.querySelectorAll(".side-nav .is-active").forEach(el => { el.classList.remove("is-active"); el.removeAttribute("aria-current"); });
-        const selected = doc.querySelector(`[data-ui-jump="${icon}"]`); selected?.classList.add("is-active"); selected?.setAttribute("aria-current", "location");
-      }
-    });
-    return button;
+  const makeHelp = () => {
+    const button = element("button", "nav-item"); button.type = "button"; button.title = l.help; button.dataset.uiJump = "help";
+    addIcon(button,"help"); button.append(element("span","nav-label",l.help));
+    button.addEventListener("click", () => { returnToHelp = "nav"; doc.querySelector("#help-open")?.click(); }); return button;
   };
   for (const id of ["dashboard", "inbox", "character", "calendar"]) primary.append(buttons.find(b => b.dataset.view === id));
   const inboxBadge = shortcuts?.querySelector('[data-view="inbox"] b')?.cloneNode(true);
   if (inboxBadge) { inboxBadge.classList.add("nav-badge"); primary.querySelector('[data-view="inbox"]').append(inboxBadge); }
-  const time = makeLink(l.time, "time", "dashboard", ".week-panel");
-  const timeBadge = element("b", "nav-badge", week?.querySelector("b")?.textContent); time.append(timeBadge); primary.append(time);
-  primary.append(makeLink(l.goals, "goals", "dashboard", ".life-depth-panel"), makeLink(l.save, "save", "save"), makeLink(l.help, "help", "help"));
+  const time = buttons.find(b => b.dataset.view === "decisions");
+  time.append(element("b", "nav-badge", week?.querySelector("b")?.textContent));
+  primary.append(time, buttons.find(b=>b.dataset.view === "goals"), buttons.find(b=>b.dataset.view === "saves"), makeHelp());
   content.append(primary);
   const groupIcons = ["finance", "relationships", "body", "education", "city", "decisions", "settings"];
-  const groupViews = [["finance", "banks", "emlak", "market", "career"], ["people", "relationships"], ["body"], ["education"], ["home"], ["history", "yearbook"], []];
+  const groupViews = NAVIGATION_GROUPS;
   const groups = [];
   groupViews.forEach((ids, index) => {
     const group = element("details", "nav-category"); group.dataset.uiPanel = `navigation:${index}`;
     group.open = preferences.panels?.[group.dataset.uiPanel] ?? (index === 0 || ids.includes(view));
     const summary = element("summary"); summary.title = l.groups[index]; addIcon(summary, groupIcons[index]); summary.append(element("span", "nav-label", l.groups[index])); summary.insertAdjacentHTML("beforeend", uiIcon("chevron"));
+    summary.classList.toggle("is-current-category", ids.includes(view));
     group.append(summary);
     ids.forEach(id => {
       const button = buttons.find(b => b.dataset.view === id);
@@ -105,13 +93,11 @@ export function bindLifeShell(root, view, language = "tr", storage = window.loca
       if (id === "relationships") { button.querySelector(".nav-label").textContent = l.family; button.title = l.family; }
       group.append(button);
     });
-    if (index === 4) group.append(makeLink(l.map, "city", "home", ".location-panel"));
-    if (index === 5) group.append(makeLink(l.decisions, "decisions", "dashboard", ".week-panel"), makeLink(l.cases, "remaining", "inbox"));
+
     groups.push(group); content.append(group);
   });
-  const remember = element("label", "life-nav-remember"), checkbox = element("input"); checkbox.type = "checkbox"; checkbox.checked = preferences.remember === true;
-  checkbox.addEventListener("change", () => writePreference(storage, { remember: checkbox.checked, lastView: view }));
-  remember.append(checkbox, doc.createTextNode(l.remember)); groups[6].append(remember);
+  const checkbox = root.querySelector("[data-remember-screen]");
+  if (checkbox) { checkbox.checked = preferences.remember === true; checkbox.addEventListener("change", () => writePreference(storage, { remember: checkbox.checked, lastView: view })); }
   const searchLabel = element("label", "life-nav-search");
   const search = element("input"); search.type = "search"; search.autocomplete = "off"; search.placeholder = l.search; search.setAttribute("aria-label", l.search); addIcon(searchLabel, "search"); searchLabel.append(search); content.append(searchLabel);
   const empty = element("p", "empty", l.empty); empty.hidden = true; content.append(empty);
@@ -164,7 +150,7 @@ export function bindLifeShell(root, view, language = "tr", storage = window.loca
     queueMicrotask(() => { const heading = doc.querySelector(".workspace-head h1"); if (heading) { heading.tabIndex = -1; heading.focus({ preventScroll: true }); } });
   });
   root.querySelectorAll("details").forEach((panel, index) => {
-    if (!panel.dataset.uiPanel) panel.dataset.uiPanel = `${view}:${panel.querySelector("summary")?.textContent.trim() || index}`;
+    if (!panel.dataset.uiPanel) panel.dataset.uiPanel = `${view}:detail:${panel.closest("[data-game-bank-account]")?.dataset.gameBankAccount || ""}:${panel.className}:${index}`;
     const key = panel.dataset.uiPanel;
     if (typeof preferences.panels?.[key] === "boolean") panel.open = preferences.panels[key];
     panel.querySelector("summary")?.addEventListener("click", event => {

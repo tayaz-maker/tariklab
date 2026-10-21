@@ -1,3 +1,4 @@
+import {navigateTc, revealTcNavigation} from './tc-sim-browser-navigation.mjs';
 import assert from "node:assert/strict";
 import { createNewGame } from "../public/games/tc-sim/js/state.js";
 import { saveGame } from "../public/games/tc-sim/js/save.js";
@@ -27,6 +28,7 @@ async function act(frame, selector) {
 }
 async function scrollNav(page,frame,screen,attribute) {
   await page.setViewportSize({width:1440,height:900});
+  if(attribute === "data-view") await revealTcNavigation(frame,screen);
   await frame.locator(`.compact-nav [${attribute}="${screen}"]`).click();
   const actual=await frame.evaluate(()=>{
     const owner=document.scrollingElement;owner.scrollTop=1100;
@@ -45,9 +47,12 @@ export async function correctionFlows(page,surface,id,lang,out) {
   await page.setViewportSize({width:1440,height:900});
   if(id==="tc-sim"){
     let frame=await loadFixture(page);
-    await scrollNav(page,frame,"market","data-view");
+    // Compact Market fits within a short page. Career has 58 real rows:
+    // exercise long scrolling there without lowering the 500px sticky-nav guard.
+    await scrollNav(page,frame,"career","data-view");
+    await navigateTc(frame,"market");
     await act(frame, '[data-wealth-action="spend"][data-wealth-value="coffee"]');
-    await frame.locator('.compact-nav [data-view="emlak"]').click();
+    await navigateTc(frame,"emlak");
     await act(frame, '[data-wealth-action="spend"][data-wealth-value="laptop"]');
     let state=await saved(page);assert.equal(state.finances.balance,177820);assert.equal(state.wealth.durables[0].id,"computer");
     assert.equal(await frame.locator('[data-wealth-action="spend"][data-wealth-value="laptop"]').isDisabled(),true);
@@ -59,18 +64,18 @@ export async function correctionFlows(page,surface,id,lang,out) {
         const r=spendLifestyle(s,"betting");if((r.effects.cash>0)===winning){seed=candidate*7919;break;}
       }
       assert.ok(seed);frame=await loadFixture(page,seed);
-      await frame.locator('.compact-nav [data-view="market"]').click();
+      await navigateTc(frame,"market");
       await frame.locator('[data-market-shelf="gece"]').click();
       await act(frame, '[data-wealth-action="spend"][data-wealth-value="betting"]');
       state=await saved(page);assert.equal(state.finances.balance>200000,winning);
       const cash=state.finances.balance;
       await page.reload({waitUntil:"networkidle"});frame=await (await page.locator("iframe").elementHandle()).contentFrame();
-      await frame.locator("#continue-game").click();await frame.locator('.compact-nav [data-view="market"]').click();
+      await frame.locator("#continue-game").click();await navigateTc(frame,"market");
       await frame.locator('[data-market-shelf="gece"]').click();
       assert.equal(await frame.locator('[data-wealth-action="spend"][data-wealth-value="betting"]').isDisabled(),true);
       assert.equal((await saved(page)).finances.balance,cash);
     }
-    frame=await loadFixture(page,12345,true);await frame.locator('.compact-nav [data-view="banks"]').click();
+    frame=await loadFixture(page,12345,true);await navigateTc(frame,"banks");
     await act(frame, '[data-wealth-action="invest-buy"][data-wealth-value="gold"]');
     assert.equal((await saved(page)).wealth.investments[0].basis,5050);
     await frame.locator("#advance-week").click();

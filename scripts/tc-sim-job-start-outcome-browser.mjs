@@ -67,7 +67,9 @@ try {
       pl: { button: "Podsumuj tydzień", time: "Czas / uwaga", heading: "Jak wykorzystałeś swój czas?" },
     }[language];
     const inspectControls = async phase => {
-      const headingRequired = view === "dashboard" || phase.includes("reload");
+      // The weekly form now has its own canonical screen; every locale is checked
+      // there by the shared menu contract in the CI UX gate.
+      const headingRequired = await page.locator('.workspace[data-screen="decisions"]').count() > 0;
       const capture = () => {
         const time = document.querySelector(".week-control > span");
         return { language: window.tlabI18n.getLang(), button: document.querySelector("#advance-week")?.textContent.trim(),
@@ -96,7 +98,8 @@ try {
       const dom = await captureDashboardLayout(page);
       layoutMeasurements.push({ language, width, reduced, view, phase, dom });
       if (dom) dashboardLayout.push({ phase, ...assertReadableDashboardLayout(dom) });
-      else assert.ok(view !== "dashboard" && !phase.includes("reload"), `dashboard missing during ${phase}`);
+      else assert.notEqual(view, "dashboard", `dashboard missing during ${phase}`);
+      assert.equal(await page.locator(".workspace").getAttribute("data-screen"),view,"reload retains the requested canonical screen");
     };
     const assertTargetOrigin = () => assert.equal(new URL(page.url()).origin, origin, "navigation must remain at the authorized origin");
     page.on("pageerror", error => errors.push(error.message));
@@ -328,25 +331,27 @@ try {
     rows.push({view:"marriage",width:1440,status:"PASS",familiesMet:saved.household.wedding.familiesMet});
     await context.close();
   }
-  // Location explorer uses the existing EV view; navigation itself must not mutate a save.
+  // Location explorer owns the separate city view; navigation itself must not mutate a save.
   {
     const context=await browser.newContext({viewport:{width:1440,height:900}}),page=await context.newPage(),errors=[];
     page.on('pageerror',e=>errors.push(e.message));
     await context.addInitScript(({state,key,origin})=>{if(location.origin!==origin||localStorage.getItem('city-fixture-seeded'))return;localStorage.setItem(key,JSON.stringify(state));localStorage.setItem('tariklab::tc-sim:active','1');localStorage.setItem('tariklab.language','tr');localStorage.setItem('city-fixture-seeded','1');},{state:cityFixture(),key,origin});
-    await page.goto(url,{waitUntil:'networkidle'});await page.locator('#continue-game').click();await navigateTc(page, 'home');
+    await page.goto(url,{waitUntil:'networkidle'});await page.locator('#continue-game').click();await navigateTc(page, 'city');
     const before=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
     await page.locator('[data-location-city="ankara"]').click();
     await page.locator('[data-location-select="yenimahalle"]').click();
-    assert.ok((await page.locator('.location-panel').textContent()).includes('Mevcut işin bu şehirde'));
+    assert.equal(await page.locator('[data-location-select="yenimahalle"]').getAttribute('aria-pressed'),'true');
     assert.deepEqual(await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key),before);
     await page.locator('[data-location-city="istanbul"]').click();
     await page.locator('[data-location-select="fatih"]').click();
+    await navigateTc(page,'home');
     await page.locator('[data-location-move="fatih"][data-location-home="shared"]').click();
     assert.match(await page.locator('.result[role="status"]').last().textContent(),/Cüzdanın:.*Aylık konut giderin/);
     const saved=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);assert.equal(saved.household.location.districtId,'fatih');assert.equal(saved.weekly.used-before.weekly.used,2);assert.ok(saved.finances.balance<before.finances.balance);
     await page.reload({waitUntil:'networkidle'});await page.locator('#continue-game').click();await navigateTc(page, 'home');
-    assert.equal(await page.locator('[data-location-select="fatih"]').getAttribute('aria-pressed'),'true');
-    assert.ok((await page.locator('.location-panel').textContent()).includes('EVİN'));assert.deepEqual(errors,[]);
+    assert.equal(await page.locator('.region-map').count(),0);
+    assert.ok((await page.locator('.location-panel').textContent()).includes('Fatih'));
+    await navigateTc(page,'city');assert.ok((await page.locator('.location-panel').textContent()).includes('EVİN'));assert.deepEqual(errors,[]);
     await page.screenshot({path:`${out}/city-interaction-1440.png`,fullPage:false});rows.push({view:'city',width:1440,status:'PASS'});await context.close();
   }
   for (const language of ["tr", "en", "pl"]) for (const width of [1280, 390]) {
@@ -363,9 +368,7 @@ try {
       localStorage.setItem("tariklab.language",language);localStorage.setItem("mortgage-fixture","1");
     }, {state:fixture,key,origin,language});
     await page.goto(url,{waitUntil:"networkidle"});await page.locator("#continue-game").click();
-    const banks = page.locator('.side-nav [data-view="banks"]');
-    await revealTcNavigation(page, "banks");
-    await banks.click();
+    await navigateTc(page,"home");
     const panel = page.locator("[data-mortgage-panel]");
     assert.ok((await panel.innerText()).includes(mortgageText("note",language)));
     await panel.locator('[data-wealth-action="mortgage-extra"]').click();
@@ -409,7 +412,7 @@ try {
     loaded.finances.arrears=4000; openIcraNotice(loaded,{source:"temerrut",amount:4000});
     await page.evaluate(({state,key})=>localStorage.setItem(key,JSON.stringify(state)),{state:loaded,key});
     await page.reload({waitUntil:"networkidle"});await page.locator("#continue-game").click();
-    await navigateTc(page, 'dashboard');
+    await navigateTc(page, 'decisions');
     const wage=page.locator('[data-decision="icra-wage"]');
     assert.ok((await wage.innerText()).includes(["Maaştan tahsilata bağla","Arrange wage collection","Ustal potrącenia z pensji"][["tr","en","pl"].indexOf(language)]));
     await wage.click();
@@ -427,7 +430,7 @@ try {
     // Restore the original independent notice for the existing objection scenario.
     await page.evaluate(({state,key})=>localStorage.setItem(key,JSON.stringify(state)),{state:loaded,key});
     await page.reload({waitUntil:"networkidle"});await page.locator("#continue-game").click();
-    await navigateTc(page, 'dashboard');
+    await navigateTc(page, 'decisions');
     const automatic=structuredClone(loaded);
     automatic.openCases.find(c=>c.type==="icra"&&c.status==="pending").dueWeek=automatic.time.absoluteWeek+1;
     await page.evaluate(({state,key})=>localStorage.setItem(key,JSON.stringify(state)),{state:automatic,key});
@@ -444,7 +447,7 @@ try {
     await page.screenshot({path:`${out}/compulsory-wage-${language}-${width}.png`});
     await page.evaluate(({state,key})=>localStorage.setItem(key,JSON.stringify(state)),{state:loaded,key});
     await page.reload({waitUntil:"networkidle"});await page.locator("#continue-game").click();
-    await navigateTc(page, 'dashboard');
+    await navigateTc(page, 'decisions');
     const objection=page.locator('[data-decision="icra-object"]');
     assert.ok((await objection.innerText()).includes(["Borç dökümüne itiraz et","Dispute the debt statement","Zakwestionuj zestawienie długu"][["tr","en","pl"].indexOf(language)]));
     await objection.click();
@@ -468,7 +471,7 @@ try {
     assert.equal(afterEvent.events.history.at(-1).choiceId,"truth");
     assert.equal(afterEvent.finances.balance,reviewed.finances.balance);
     assert.equal(afterEvent.finances.arrears,4000);
-    await navigateTc(page, 'dashboard');
+    await navigateTc(page, 'decisions');
     assert.equal(await page.locator('[data-decision="icra-object"]').count(),0);
     await page.locator('[data-decision="icra-pay"]').click();
     const settled=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
@@ -478,19 +481,22 @@ try {
     assert.deepEqual(errors,[]);rows.push({view:"court-review",language,width,status:"PASS"});
     await page.evaluate(({state,key})=>localStorage.setItem(key,JSON.stringify(state)),{state:loaded,key});
     await page.reload({waitUntil:"networkidle"});await page.locator("#continue-game").click();
-    await navigateTc(page, 'dashboard');
+    await navigateTc(page, 'decisions');
     const inspect=page.locator('[data-decision="icra-evidence"]');
     assert.ok((await inspect.innerText()).includes(["Borç dosyasını incele","Inspect debt evidence","Sprawdź dokumentację długu"][["tr","en","pl"].indexOf(language)]));
     await inspect.click();
     const evidenceSave=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
     assert.equal(evidenceSave.openCases.find(c=>c.type==="icra"&&c.status==="pending").payload.evidence.backing,4000);
     assert.equal(evidenceSave.finances.balance,loaded.finances.balance);
-    assert.equal(await page.locator('[data-icra-evidence]').count(),1);
-    assert.ok((await page.locator('[data-icra-evidence]').innerText()).includes(["Dosya delili","Case evidence","Dokumentacja sprawy"][["tr","en","pl"].indexOf(language)]));
     if(await page.locator('.event-backdrop').count()){
       assert.equal(evidenceSave.events.active.eventId,"family_late_night");
       await page.locator('[data-event-choice="truth"]').click();
     }
+    // Read the single case-evidence summary on Today, then return to its action screen.
+    await navigateTc(page,'dashboard');
+    assert.equal(await page.locator('[data-icra-evidence]').count(),1);
+    assert.ok((await page.locator('[data-icra-evidence]').innerText()).includes(["Dosya delili","Case evidence","Dokumentacja sprawy"][["tr","en","pl"].indexOf(language)]));
+    await navigateTc(page,'decisions');
     await page.locator('[data-decision="icra-counsel"]').click();
     const counselSave=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
     assert.equal(counselSave.finances.balance,loaded.finances.balance-500);
@@ -645,7 +651,7 @@ try {
     assert.ok(riskCopy.includes({tr:"gerçek suç oranı değildir",en:"not a real crime rate",pl:"nie rzeczywisty wskaźnik przestępczości"}[language]));
     const districtRiskBounds=await page.evaluate(()=>({client:document.documentElement.clientWidth,scroll:document.documentElement.scrollWidth}));
     assert.ok(districtRiskBounds.scroll<=districtRiskBounds.client+1);
-    await navigateTc(page, 'dashboard');
+    await navigateTc(page, 'decisions');
     await page.locator('[data-decision="risk-shortcut"]').click();
     const observedRisk=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
     assert.equal(observedRisk.flags.risk.heat,2);assert.equal(observedRisk.finances.balance,visibleRisk.finances.balance+1800);assert.equal(observedRisk.flags.criminalJustice,undefined);
@@ -692,8 +698,8 @@ try {
     assert.equal(imprisoned.flags.criminalJustice.records.length,2);assert.equal(imprisoned.flags.criminalJustice.custody.untilWeek,imprisoned.time.absoluteWeek+2);
     assert.equal(getMonthlyEmploymentIncome(imprisoned),0);assert.equal(getWeeklyLifeLoad(imprisoned).load,0);
     await page.reload({waitUntil:"networkidle"});await page.locator("#continue-game").click();
-    const custodyHome=page.locator('.side-nav [data-view="home"]');
-    await revealTcNavigation(page, "home");
+    const custodyHome=page.locator('.side-nav [data-view="finance"]');
+    await revealTcNavigation(page, "finance");
     await custodyHome.click();
     assert.equal(await page.locator('[data-semt-action="tend"]').isDisabled(),true);
     const released=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
@@ -703,8 +709,8 @@ try {
     assert.equal(released.flags.criminalJustice.custody,undefined);assert.equal(released.flags.criminalJustice.records.length,2);assert.ok(getMonthlyEmploymentIncome(released)>0);assert.equal(released.flags.socialInsurance?.coveredWeeks||0,serviceBefore);
     await page.evaluate(({state,key})=>localStorage.setItem(key,JSON.stringify(state)),{state:released,key});
     await page.reload({waitUntil:"networkidle"});await page.locator("#continue-game").click();
-    const releasedHome=page.locator('.side-nav [data-view="home"]');
-    await revealTcNavigation(page, "home");
+    const releasedHome=page.locator('.side-nav [data-view="finance"]');
+    await revealTcNavigation(page, "finance");
     await releasedHome.click();
     assert.equal(await page.locator('[data-semt-action="tend"]').isEnabled(),true);
     await page.locator('[data-semt-action="tend"]').click();
@@ -719,6 +725,7 @@ try {
     risk.flags.risk={...risk.flags.risk,heat:2};if(risk.world?.scenario)risk.world.scenario.pendingEvent=null;
     await page.evaluate(({state,key})=>localStorage.setItem(key,JSON.stringify(state)),{state:risk,key});
     await page.reload({waitUntil:"networkidle"});await page.locator("#continue-game").click();
+    await navigateTc(page,'decisions');
     const disengage=page.locator('[data-decision="risk-disengage"]');
     assert.ok((await disengage.innerText()).includes(["Riskli çevreden uzaklaş","Step away from risky circles","Odejdź od ryzykownego środowiska"][["tr","en","pl"].indexOf(language)]));
     await disengage.click();

@@ -38,7 +38,7 @@ async function mount(state) {
   return { root, storage, document, click, find: (key, value) => root.elements.find(e => e.dataset[key] === value), saved: () => loadGame(storage).state };
 }
 
-test("all twelve real UI screens render with routed controls; moving/saving/week actions persist once", async () => {
+test("all canonical UI screens render with routed controls; moving/saving/week actions persist once", async () => {
   const state = createNewGame({ now: "2027-01-01T00:00:00Z" }); state.finances.balance = 50000;
   const ui = await mount(state);
   const inventory = {};
@@ -158,7 +158,7 @@ test("calendar, relationship and Body controls use real state and persist feedba
   assert.equal(ui.saved().weekly.used, 1);
 
   const health = ui.saved().health.health;
-  ui.click(ui.find("view", "dashboard"));
+  ui.click(ui.find("view", "decisions"));
   ui.click(ui.find("decision", "exercise"));
   assert.ok(ui.saved().health.health >= health);
   assert.equal(ui.saved().weekly.used, 2);
@@ -230,7 +230,7 @@ test("wealth controls route through real domain state, persist, and stale clicks
   const charged = ui.saved().finances.balance;
   durable.listeners.click();
   assert.equal(ui.saved().finances.balance, charged);
-  ui.click(ui.find("view", "emlak"));
+  ui.click(ui.find("view", "home"));
   const owner = ui.root.elements.find(
     (e) => e.dataset.wealthAction === "property-owner" && e.dataset.wealthValue === "cash",
   );
@@ -244,7 +244,7 @@ test("wealth controls never look enabled when money, time, cooldown or ownership
   const s=createNewGame(); s.finances.balance=100;
   const ui=await mount(s); ui.click(ui.find("view","finance"));
   const high=ui.root.elements.find(e=>e.dataset.wealthAction==="lifestyle"&&e.dataset.wealthValue==="high");
-  ui.click(ui.find("view","emlak"));
+  ui.click(ui.find("view","home"));
   const property=ui.root.elements.find(e=>e.dataset.wealthAction==="property-owner"&&e.dataset.wealthValue==="cash");
   assert.equal(high.disabled,true); assert.match(high.attrs.title,/gerekiyor/);
   assert.equal(property.disabled,true); assert.match(property.attrs.title,/gerekiyor/);
@@ -298,7 +298,7 @@ test("mortgage controls reuse real bank handlers and persist one extra payment i
  const {buyProperty}=await import("../public/games/tc-sim/js/wealth.js");
  const s=createNewGame({seed:17});s.finances.balance=1000000;s.events.active=null;s.events.queue=[];
  assert.ok(buyProperty(s,"owner",true).ok);s.time.absoluteWeek+=1;s.weekly={used:0,selectedIds:[]};
- const ui=await mount(s);ui.click(ui.find("view","banks"));
+ const ui=await mount(s);ui.click(ui.find("view","home"));
  assert.match(ui.root.innerHTML,/data-mortgage-panel/);assert.match(ui.root.innerHTML,/120 ay/);
  const button=ui.find("wealthAction","mortgage-extra"),cash=ui.saved().finances.balance;
  ui.click(button);assert.equal(ui.saved().wealth.debts[0].principal,331000);
@@ -314,7 +314,7 @@ test("court objection uses existing decision/save handlers; stale replay cannot 
  const s=createNewGame({seed:17});s.finances.balance=20000;s.finances.arrears=4000;s.time.absoluteWeek=2;
  s.events.active=null;s.events.queue=[];if(s.world?.scenario)s.world.scenario.pendingEvent=null;
  openIcraNotice(s,{source:"temerrut",amount:4000});
- let ui=await mount(s);const button=ui.find("decision","icra-object");ui.click(button);
+ let ui=await mount(s);ui.click(ui.find("view","decisions"));const button=ui.find("decision","icra-object");ui.click(button);
  assert.equal(ui.saved().finances.balance,19700);assert.equal(ui.saved().finances.arrears,4000);
  assert.match(ui.root.innerHTML,/İcra: mahkeme incelemesi/);
  button.listeners.click();assert.equal(ui.saved().finances.balance,19700);
@@ -324,7 +324,7 @@ test("court objection uses existing decision/save handlers; stale replay cannot 
  ui.click(ui.find("eventChoice","truth"));assert.doesNotMatch(ui.root.innerHTML,/event-backdrop/);
  assert.equal(ui.saved().events.history.at(-1).occurrenceId,pending.events.active.occurrenceId);
  assert.equal(ui.saved().finances.balance,19700);assert.equal(ui.saved().finances.arrears,4000);
- ui.click(ui.find("decision","icra-pay"));
+ ui.click(ui.find("view","decisions"));ui.click(ui.find("decision","icra-pay"));
  assert.equal(ui.saved().finances.balance,15700);assert.equal(ui.saved().finances.arrears,0);
  assert.equal(ui.saved().openCases.find(row=>row.type==="icra").payload.review.status,"settled");
 });

@@ -60,7 +60,7 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Combined #189: weekly career actions also honor existing detention.
   // Authorized Package 2: bounded work recovery uses existing body/life/time/state only.
   // Authorized Package 3: existing partial friend loans join debt-memory follow-up.
-  assert.equal(files.length, 72);
+  assert.equal(files.length, 73);
   const hash = createHash("sha256");
   for (const file of files) hash.update(file).update(file === "public/games/next-wave.js" ? frozenNextWaveBytes(readFileSync(file)) : readFileSync(file));
   // Re-pinned for the DEVLET maps PR: next-wave.js (geo dispatch + month
@@ -117,8 +117,9 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // TC SIM 2.0 A+B+C: authorized UI preferences/status, banking/receipts, regions and maps.
   // Unrelated content stays pinned.
   // Authorized reference UI: shared shell/status/map presentation and static ui-icons.js.
-  // All economy, simulation, content, region IDs and V5/V6 save engines stay byte-identical.
-  assert.equal(hash.digest("hex"), "f541c7b450b5d58a43f7ef50dfae8d75486618f72ea4650ee770e72e8c948180");
+  // Authorized menu ownership: navigation/shell/drafts and quarters render-only projection.
+  // tc-sim-menu.test.mjs separately pins all engine bytes (quarters before its UI renderer).
+  assert.equal(hash.digest("hex"), "88d7bde516d1fef2c1cba9dc6416941e1c015ea6a9cc79ca241be5150a4b6758");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);

@@ -16,7 +16,7 @@ assert.notEqual(Boolean(values.serve),Boolean(values['base-url']));
 const out=resolve(values.out,values.label);mkdirSync(out,{recursive:true});
 const languages=values.languages.split(','),widths=values.widths.split(',').map(Number);
 assert.ok(languages.every(l=>['tr','en','pl'].includes(l))&&widths.every(w=>[320,390,768,1280,1440,1586,1920].includes(w)));
-const report={status:'RUNNING',views:16,languages,widths,rows:[],interaction:[],fingerprints:[]};
+const report={status:'RUNNING',views:NAVIGATION_ITEMS.length,languages,widths,rows:[],interaction:[],fingerprints:[]};
 const digest=bytes=>createHash('sha256').update(bytes).digest('hex');
 let server,browser,origin=values['base-url']?checkedOutcomeOrigin(values['base-url'],true):null;
 const seed=createNewGame({name:'T',seed:37,eraId:'2017-04-18'});seed.world.scenario.pendingEvent=null;
@@ -77,7 +77,7 @@ try{
   for(const locale of ['tr','en','pl']){await page.locator(`[data-language="${locale}"]`).click();assert.equal(await page.locator(`[data-language="${locale}"]`).getAttribute('aria-pressed'),'true');assert.ok((await geometry(page)).overflow<=0,'switching language preserves viewport layout');}
   assert.equal(await page.evaluate(()=>localStorage.getItem('tariklab::tc-sim:1')),rawSave);assert.deepEqual(errors,[]);
   report.interaction.push({language,width,keyboard:true,escape:true,drawer:true,categoriesRemembered:true,search:true,saveUnchanged:true,status:'PASS'});
-  console.log(`${language}/${width}: 16 views + interactions PASS`);await context.close();
+  console.log(`${language}/${width}: ${NAVIGATION_ITEMS.length} views + interactions PASS`);await context.close();
  }
  if(values['expected-sha'])report.mainAfter=await mainSha();report.status='PASS';
 }catch(error){report.status='FAIL';report.error=error.stack;throw error;}finally{writeFileSync(`${out}/acceptance.json`,JSON.stringify(report,null,2)+'\n');await browser?.close();server?.close();}

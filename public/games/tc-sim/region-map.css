@@ -28,8 +28,3 @@
  .region-map-leaders { display: block; }
 }
 @media (prefers-reduced-motion: reduce) { .region-map-label { transition: none; } }
-.region-legacy-art summary { min-height: 44px; padding: 12px 8px; cursor: pointer; }
-.region-legacy-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 12px; }
-.region-legacy-gallery figure { min-width: 0; margin: 0; }
-.region-legacy-gallery img { display: block; width: 100%; height: auto; border-radius: var(--radius); }
-.region-legacy-gallery figcaption { padding: 8px 0; font-size: .8rem; color: var(--muted); }

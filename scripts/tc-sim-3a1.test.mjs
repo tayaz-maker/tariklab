@@ -29,7 +29,7 @@ test("3A.1 navigation yalnız etkin ekranlara güvenilir hedef verir", () => {
   assert.equal(getNavigationTarget("finance"), "finance");
   assert.equal(getNavigationTarget("money"), null);
   assert.equal(NAVIGATION_ITEMS.find((item) => item.label === "Para").view, "finance");
-  assert.equal(NAVIGATION_ITEMS.find((item) => item.label === "Emlak").view, "emlak");
+  assert.deepEqual(NAVIGATION_ITEMS.find((item) => item.view === "emlak"), { label: "Araç ve Eşya", view: "emlak" });
   assert.equal(NAVIGATION_ITEMS.find((item) => item.label === "Çarşı").view, "market");
   assert.equal(getNavigationTarget("market"), "market");
   assert.equal(getNavigationTarget("emlak"), "emlak");
