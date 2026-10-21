@@ -73,7 +73,7 @@ try {
   report.moves.push({region:d.id,city:d.city,cost:quote.cost,decisions:quote.slots,monthly,saveVersion:6,reloadNoReplay:true,status:'PASS'});console.log(`region move ${d.id}: PASS`);await context.close();
  }
  for(const id of ['avcilar','bayrampasa','batikent']){
-  const context=await browser.newContext({viewport:{width:390,height:900},serviceWorkers:'block'}),page=await context.newPage(),fixture=cityFixture();fixture.household.location={...fixture.household.location,districtId:id};
+  const context=await browser.newContext({viewport:{width:390,height:900},serviceWorkers:'block'}),page=await context.newPage(),fixture=cityFixture();fixture.household.homeId='shared';fixture.household.location={districtId:id,lastMoveWeek:0};
   await context.addInitScript(({fixture,origin})=>{if(location.origin!==origin||localStorage.getItem('legacy-map-seeded'))return;localStorage.setItem('tariklab::tc-sim:1',JSON.stringify(fixture));localStorage.setItem('tariklab::tc-sim:active','1');localStorage.setItem('tariklab.language','tr');localStorage.setItem('legacy-map-seeded','1');},{fixture,origin});
   await page.goto(`${origin}/games/tc-sim/index.html`);await page.locator('#continue-game').click();await openHome(page);const saved=await page.evaluate(()=>localStorage.getItem('tariklab::tc-sim:1'));
   assert.ok(await page.locator('.region-map-earlier-home').isVisible());assert.equal(await page.locator(`[data-location-select="${id}"]`).count(),0);assert.equal(await page.locator(`[data-location-move="${id}"]`).count(),2);
