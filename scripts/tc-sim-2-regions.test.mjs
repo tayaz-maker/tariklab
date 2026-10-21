@@ -89,3 +89,15 @@ test('map image anchors contain all 23 regions once, preserve coasts and use opt
  const a=REGION_MAPS.ankara.positions;assert.ok(a.ulus[1]<a.kizilay[1]);assert.ok(a.etimesgut[0]<a.kizilay[0]);assert.ok(a.mamak[0]>a.kizilay[0]);
  const z=REGION_MAPS.izmir.positions;assert.ok(z.karsiyaka[1]<z.konak[1]);assert.ok(z.buca[0]>z.konak[0]);assert.ok(z.goztepe[0]<z.konak[0]);assert.ok(z.balcova[0]<z.goztepe[0]);
 });
+
+test('legacy locations retain the current-home marker without rewriting their saved district',async()=>{
+ const {renderRegionMap}=await import('../public/games/tc-sim/js/region-map.js');
+ for(const id of ['avcilar','bayrampasa','batikent']){
+  const s=fresh();s.household.location={...s.household.location,districtId:id};
+  const before=JSON.stringify(s),d=DISTRICTS.find(region=>region.id===id);
+  const html=renderRegionMap(s,d,{escapeText:String});
+  assert.ok(html.includes(`${d.name} <small>EVİN</small></button>`));
+  assert.equal((html.match(/<small>EVİN<\/small>/g)||[]).length,1);
+  assert.equal(JSON.stringify(s),before);
+ }
+});

@@ -116,7 +116,7 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Chromium cases cover the reviewed behavior; every other source stays pinned.
   // TC SIM 2.0 A+C: authorized UI preferences/status, region model and map renderer.
   // Unrelated content stays pinned.
-  assert.equal(hash.digest("hex"), "5f8d17d5c4b973c7b1cfaec44d4fa189d8588c6dca0cb07c2cfde76d4b1cd901");
+  assert.equal(hash.digest("hex"), "9e54f22103cdf37edd0970bf20a25a08174bc283f45b59b5053662f3e20170f8");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);
