@@ -18,6 +18,14 @@ try {for(const language of ['tr','en','pl']) for(const width of [320,390,1280,14
  const ready=Date.now()-start;const saved=await page.evaluate(()=>localStorage.getItem('tariklab::tc-sim:1'));
  assert.equal(await page.locator('.life-status dd').count(),7);
  const toggle=page.locator('.side-nav .nav-more');
+ if(width===1440){
+  await page.setViewportSize({width:390,height:900});
+  await page.waitForFunction(()=>document.querySelector('.side-nav .nav-more').getAttribute('aria-expanded')==='false');
+  await toggle.click();assert.equal(await toggle.getAttribute('aria-expanded'),'true');
+  await toggle.press('Escape');assert.equal(await toggle.getAttribute('aria-expanded'),'false');
+  await page.setViewportSize({width,height:900});
+  await page.waitForFunction(()=>document.querySelector('.side-nav .nav-more').getAttribute('aria-expanded')==='true');
+ }
  if(width>820){const before=await page.locator('.workspace').boundingBox();await toggle.click();const after=await page.locator('.workspace').boundingBox();assert.ok(after.width>before.width);await toggle.click()}else await toggle.click();
  const group=page.locator('[data-ui-panel="navigation:0"]');await group.locator('summary').click();assert.equal(await group.getAttribute('open'),null);await group.locator('summary').click();
  await page.locator('.life-nav-search input').fill(language==='pl'?'Banki':language==='en'?'Banks':'Bankalar');
@@ -30,7 +38,7 @@ try {for(const language of ['tr','en','pl']) for(const width of [320,390,1280,14
  if(width<=820)await page.locator('.side-nav .nav-more').click();
  await page.locator('.life-nav-remember input').uncheck();
  await page.locator('.side-nav [data-view="dashboard"]').click();
- const metrics=await page.evaluate(()=>({overflow:document.documentElement.scrollWidth-innerWidth,bytes:performance.getEntriesByType('resource').reduce((s,r)=>s+r.transferSize,0),requests:performance.getEntriesByType('resource').length}));
+ const metrics=await page.evaluate(()=>({overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth,bytes:performance.getEntriesByType('resource').reduce((s,r)=>s+r.transferSize,0),requests:performance.getEntriesByType('resource').length}));
  assert.equal(metrics.overflow,0);assert.deepEqual(errors,[]);assert.equal(await page.evaluate(()=>localStorage.getItem('tariklab::tc-sim:1')),saved,'UI never rewrites game saves');
  if(language==='tr')await page.screenshot({path:`${out}/${width}.png`,fullPage:true});
  rows.push({language,width,ready,...metrics,status:'PASS'});await context.close();

@@ -24,8 +24,10 @@ export function restoreLastView(storage, valid) {
   return p.remember && valid(p.lastView) ? p.lastView : "dashboard";
 }
 
+let disposeBreakpoint = () => {};
 export function bindLifeShell(root, view, language = "tr", storage = window.localStorage) {
   if (!root?.querySelector) return;
+  disposeBreakpoint();
   const l = copy[language] || copy.tr, preferences = readPreferences(storage);
   writePreference(storage, { lastView: view });
   const nav = root.querySelector(".side-nav"), body = root.querySelector(".game-body");
@@ -52,15 +54,20 @@ export function bindLifeShell(root, view, language = "tr", storage = window.loca
   checkbox.addEventListener("change", () => writePreference(storage, { remember: checkbox.checked, lastView: view }));
   remember.append(checkbox, doc.createTextNode(l[8])); content.append(remember);
   nav.append(toggle, content);
-  const mobile = window.matchMedia("(max-width: 820px)").matches;
+  const breakpoint = window.matchMedia("(max-width: 820px)");
+  let mobile = breakpoint.matches;
   let open = mobile ? false : !preferences.collapsed;
   function setOpen(next) {
     open = next;
+    nav.dataset.layout = mobile ? "mobile" : "desktop";
     nav.classList.toggle("is-expanded", next); body.classList.toggle("life-nav-collapsed", !next && !mobile);
     toggle.setAttribute("aria-expanded", String(next)); toggle.textContent = mobile ? l[0] : next ? l[1] : l[2];
     content.hidden = !next;
   }
   setOpen(open);
+  const resizeNavigation = event => { mobile = event.matches; setOpen(mobile ? false : !readPreferences(storage).collapsed); };
+  breakpoint.addEventListener("change", resizeNavigation);
+  disposeBreakpoint = () => breakpoint.removeEventListener("change", resizeNavigation);
   toggle.addEventListener("click", () => { setOpen(!open); if (!mobile) writePreference(storage, { collapsed: !open }); });
   search.addEventListener("input", () => {
     const query = search.value.trim().toLocaleLowerCase(language);

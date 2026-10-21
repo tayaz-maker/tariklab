@@ -274,6 +274,8 @@ try {
         if (["tc-sim", "tc-sim-devlet", "son-kasaba"].includes(route.id)) {
           await page.setViewportSize({ width: 390, height: 844 });
           const nav = surface.locator(".compact-nav");
+          // Wait for the TC shell's media-query change before interacting.
+          if (route.id === "tc-sim") await surface.waitForFunction(() => document.querySelector(".life-navigation")?.dataset.layout === "mobile");
           const more = nav.locator(".nav-more");
           await more.click();
           assert.equal(await more.getAttribute("aria-expanded"), "true");
@@ -285,6 +287,7 @@ try {
             .evaluateAll((nodes, attr) => nodes.map((node) => node.getAttribute(attr)), attribute);
           for (const destination of destinations) {
             await page.setViewportSize({ width: 390, height: 844 });
+            if (route.id === "tc-sim") await surface.waitForFunction(() => document.querySelector(".life-navigation")?.dataset.layout === "mobile");
             const target = nav.locator(`[${attribute}="${destination}"]`);
             if (!(await target.isVisible())) await more.click();
             await target.click();

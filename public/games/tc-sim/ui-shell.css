@@ -16,6 +16,7 @@
 .life-status dd small { font-size: .7rem; }
 .life-navigation :focus-visible, .life-status :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 @media (min-width: 821px) {
+  .life-navigation .nav-secondary { max-height: 40dvh; overflow-y: auto; overscroll-behavior: contain; }
   .game-body.life-nav-collapsed { --nav: 112px; }
   .life-nav-collapsed .side-nav { padding-inline: 6px; }
   .life-nav-collapsed .nav-item { padding-inline: 4px; }
