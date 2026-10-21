@@ -14,7 +14,8 @@ import { EXCHANGE_ASSETS, exchangeQuote, exchangePortfolio, exchangeAvailability
 import { gameDateLabel } from "./game-date.js?v=10";
 import { snapshotJobStart, buildJobStartOutcome } from "./job-start-outcome.js?v=10";
 import { renderJobStartOutcome, bindJobStartOutcome, jobOutcomeText } from "./job-start-outcome-ui.js?v=10";
-import { compactNavigation } from "../../shared/compact-navigation.js";
+import { bindLifeShell, restoreLastView } from "./ui-shell.js?v=10";
+import { renderLifeStatus } from "./status-panel.js?v=10";
 import { arrangeLifeDesk } from "./desk.js?v=10";
 import { adultChildSummary, adultEventContext, continueGeneration } from "./lifetime.js?v=10";
 import {
@@ -402,6 +403,7 @@ function startScreen(loadResult) {
 
   document.querySelector("#continue-game")?.addEventListener("click", () => {
     state = loadResult.state;
+    activeView = restoreLastView(localStorage, getNavigationTarget);
     notice = loadResult.message;
     saveStatus = loadResult.source === "backup" ? "Yedekten devam ediliyor." : "Kayıt hazır.";
     weekStartSnapshot = null;
@@ -1500,9 +1502,10 @@ function render() {
       <header class="game-topbar">
         <div class="game-brand"><strong>TC SIM</strong><span>Bir hayat, bin küçük karar</span></div>
         <div class="top-meta"><span><b>${escapeText(state.player.name)}</b> · ${state.player.age}</span><span>${escapeText(gameDateLabel(state))} · H${state.time.weekOfMonth}</span><span class="top-money">${money(state.finances.balance)}</span></div>
-        <nav class="top-shortcuts" aria-label="Hızlı erişim"><button class="button button-quiet" data-view="inbox"${activeView === "inbox" ? ' aria-current="page"' : ""}>Gelen kutusu <b>${getPlayerVisibleOpenCases(state).filter((item) => item.status !== "resolved").length}</b></button><button class="button button-quiet" data-view="calendar"${activeView === "calendar" ? ' aria-current="page"' : ""}>Takvim</button><button class="button button-quiet" data-view="finance"${activeView === "finance" ? ' aria-current="page"' : ""}>Banka</button><button class="button button-quiet" data-view="relationships"${activeView === "relationships" ? ' aria-current="page"' : ""}>İlişkiler</button><button class="button button-quiet" data-view="body"${activeView === "body" ? ' aria-current="page"' : ""}>Beden</button></nav>
+        <nav class="top-shortcuts" aria-label="Hızlı erişim"><button class="button button-quiet" data-view="inbox"${activeView === "inbox" ? ' aria-current="page"' : ""}>Gelen kutusu <b>${getPlayerVisibleOpenCases(state).filter((item) => item.status !== "resolved").length}</b></button><button class="button button-quiet" data-view="calendar"${activeView === "calendar" ? ' aria-current="page"' : ""}>Takvim</button><button class="button button-quiet" data-view="banks"${activeView === "banks" ? ' aria-current="page"' : ""}>Bankalar</button><button class="button button-quiet" data-view="relationships"${activeView === "relationships" ? ' aria-current="page"' : ""}>İlişkiler</button><button class="button button-quiet" data-view="body"${activeView === "body" ? ' aria-current="page"' : ""}>Beden</button></nav>
         <div class="save-area"><span class="save-status" role="status">${escapeText(saveStatus)}</span><span class="slot-mini">Slot ${getActiveSlot(localStorage)}</span><button class="button button-quiet" id="help-open" aria-haspopup="dialog">? Nasıl Oynanır</button><button class="button button-quiet" id="save-game">Kaydet</button><button class="button button-quiet" id="main-menu">Ana Menü</button><button class="button button-quiet button-danger" id="new-game">Yeni oyun</button></div>
       </header>
+      ${renderLifeStatus(state, { worth: netWorth(state), remaining: Math.max(0, getWeeklyActivityLimit(state) - state.weekly.used), money, language: window.tlabI18n?.getLang?.() || "tr" })}
       <div class="game-body">
         <nav class="side-nav" aria-label="Oyun bölümleri">${terminal ? "Yaşam raporu" : renderNav()}</nav>
         <section class="workspace">${workspace}</section>
@@ -1525,7 +1528,7 @@ function render() {
     arrangeLifeDesk(activeView, confirmText);
     applyLangPhrases();
   }
-  compactNavigation(document.querySelector(".side-nav"), confirmText("Diğer bölümler", "More sections"));
+  bindLifeShell(app, activeView, window.tlabI18n?.getLang?.() || "tr", localStorage);
 
   document.querySelectorAll("[data-scenario-choice]").forEach((button) => button.addEventListener("click", () => {
     const result = presentDecision(() => resolveScenarioChoice(state, button.dataset.scenarioChoice));

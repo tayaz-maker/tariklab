@@ -67,6 +67,9 @@ jobs:
       - name: Built candidate — 18 matrix cases and 4 mobile hidden-panel regressions
         if: steps.scope.outputs.tc == 'true' && (matrix.label == 'built')
         run: node scripts/tc-sim-job-start-outcome-browser.mjs --serve .output/public --label built
+      - name: TC SIM 2.0 navigation, preferences and status
+        if: steps.scope.outputs.tc == 'true' && (matrix.label == 'built')
+        run: node scripts/tc-sim-2-ux-browser.mjs .output/public built
       - name: Mobile final — five viewports, all menus and gameplay controls
         if: steps.scope.outputs.tc == 'true' && (matrix.label == 'built')
         run: node scripts/tc-sim-job-start-mobile.mjs .output/public
