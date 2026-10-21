@@ -25,6 +25,7 @@ export function restoreLastView(storage, valid) {
 }
 
 export function bindLifeShell(root, view, language = "tr", storage = window.localStorage) {
+  if (!root?.querySelector) return;
   const l = copy[language] || copy.tr, preferences = readPreferences(storage);
   writePreference(storage, { lastView: view });
   const nav = root.querySelector(".side-nav"), body = root.querySelector(".game-body");
