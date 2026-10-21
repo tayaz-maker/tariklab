@@ -1,3 +1,4 @@
+import { recordNpcMilestone } from "./depth3-systems.js?v=10";
 /** Aile türü, çevre modu ve seyrek NPC grafiği. Varsayılan hayat değişmez. */
 
 export const FAMILY_TYPES = {
@@ -317,12 +318,24 @@ export function applyFamilyStartFlags(state, familyType) {
   return state;
 }
 
+// Old network records stored display text where consumers expect an ID.
+// Convert only an unambiguous exact match on this person's network milestones.
+export function normalizeNetworkMilestoneKnowledge(person) {
+  const milestones = person.lifeMilestones || [];
+  return [...new Set((person.knownMilestones || []).filter((x) => typeof x === "string").map((value) => {
+    if (milestones.some((m) => m.id === value)) return value;
+    const matches = milestones.filter((m) => m.id?.startsWith(`net-${person.id}-`) && m.text === value);
+    return matches.length === 1 ? matches[0].id : value;
+  }))].slice(-12);
+}
+
 export function processNetworkWeek(state) {
-  const extras = (state.people || []).filter((p) => !CORE_IDS.includes(p.id) && p.available !== false);
+  const extras = (state.people || []).filter((p) => !CORE_IDS.includes(p.id) && p.available !== false && !p.deceased);
   if (!extras.length) return false;
   const week = state.time.absoluteWeek;
-  if (week % 16 !== 0) return false;
-  const idx = week % extras.length;
+  if (week % 16 !== 0 || state.flags.lastNetworkWeek === week) return false;
+  for (const p of extras) p.knownMilestones = normalizeNetworkMilestoneKnowledge(p);
+  const idx = (Math.floor(week / 16) - 1) % extras.length;
   const person = extras[idx];
   if (!person || person.lifeMilestones?.some((m) => m.id === `net-${person.id}-${week}`)) return false;
   const roll = week % 7;
@@ -336,10 +349,14 @@ export function processNetworkWeek(state) {
     { type: "contact", text: `${person.name} bir süreliğine şehir dışına çıktı.`, concern: "away" },
   ];
   const pick = patches[roll];
-  person.lifeState = { ...(person.lifeState || {}), ...pick };
-  person.lifeMilestones = [...(person.lifeMilestones || []), { id: `net-${person.id}-${week}`, week, text: pick.text }].slice(-12);
-  if ((state.relationships[person.id] || 0) >= 40) {
-    person.knownMilestones = [...new Set([...(person.knownMilestones || []), pick.text])].slice(-12);
+  const { type, text, ...statePatch } = pick;
+  const changed = recordNpcMilestone(state, person.id, {
+    id: `net-${person.id}-${week}`, type, text, statePatch,
+    playerKnown: (state.relationships[person.id] || 0) >= 40,
+  });
+  if (changed) {
+    person.knownMilestones = person.knownMilestones.slice(-12);
+    state.flags.lastNetworkWeek = week;
   }
-  return true;
+  return changed;
 }

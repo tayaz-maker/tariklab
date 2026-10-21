@@ -1183,3 +1183,10 @@ Existing job/outcome acceptance passed all 126 browser cases across resumed segm
 - CI follow-up: retained the full management-desk aggregate pin for the authorized story bytes, and per-file engine/UI pins. Two old fixtures assumed resolving one event left no newly eligible organic event: drain real pending choices before advancing the calendar/reconciliation loop. All original year/age/relationship assertions remain. Focused core/household/context/menu/management checks: 42 PASS.
 
 - Integration preparation #232: compared with main `243d636485be382811ab8ef33329e57119dafb5d`; cumulative order #230 → #231 → #232. Preserve prior package behavior, tests and ledger; no merge/deployment or CI polling. Source fingerprints recalculated from this exact stage.
+
+### 2026-10-21 — TC SIM Phase 4: NPC milestone identity and fair rotation
+- Confirmed Phase 0 B04: text instead of milestone IDs and calendar-week modulo starving the second single/tight NPC. Network updates now use recordNpcMilestone, typed state patches and known IDs. Tick ordinal rotates the current available living roster; a bounded last-week flag prevents repeat ticks after reload.
+- V5/V6 normalization maps old known text only to a unique exact network milestone on the same person. Unknown/ambiguous text reveals nothing; no secret or relationship is fabricated. Existing memory bounds remain.
+- Validation: targeted NPC/depth3/liveness tests PASS across 4 families × 3 network modes, complete roster rotation, same-tick/reload idempotence, safe legacy knowledge, known vs hidden yearbook entries, and unavailable/deceased actors. No UI/layout, banking, regions, other game, merge or deployment change. Native paused; audio disabled.
+
+- Integration preparation #233: compared with main `243d636485be382811ab8ef33329e57119dafb5d`; cumulative order #230 → #231 → #232 → #233. Preserve prior package behavior, tests and ledger; no merge/deployment or CI polling. Source fingerprints recalculated from this exact stage.
