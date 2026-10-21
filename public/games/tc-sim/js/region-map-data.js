@@ -1,4 +1,6 @@
-// Visually reviewed full-image label anchors. Keep the original 3:2 aspect ratio.
+// Geographic anchors reviewed against municipal references; this artwork is not georectified.
+// Compact label positions avoid touch-target collisions; leaders retain the same geographic anchor.
+// Sources and the projection limitations are documented in docs/TC_SIM_REFERENCE_UI_ACCEPTANCE.md.
 export const REGION_MAPS = Object.freeze({
   "istanbul": {
     "file": "tc-sim-2-istanbul.webp",
@@ -9,36 +11,70 @@ export const REGION_MAPS = Object.freeze({
     "alt": "İstanbul: Avrupa yakası solda, Anadolu yakası sağda; Haliç Avrupa yakasının içinde, Boğaz kuzey güney yönünde.",
     "positions": {
       "sisli": [
-        23,
-        15
+        25,
+        17
       ],
       "fatih": [
-        20,
-        68
+        24,
+        69
       ],
       "besiktas": [
-        44,
-        32
+        57,
+        34
       ],
       "beyoglu": [
-        29,
-        40
+        31,
+        44
       ],
       "kadikoy": [
-        84,
-        83
+        83,
+        82
       ],
       "uskudar": [
-        77,
+        72,
         54
       ],
       "umraniye": [
-        91,
-        34
+        89,
+        37
       ],
       "bebek": [
-        51,
+        61.5,
         12
+      ]
+    },
+    "compactPositions": {
+      "sisli": [
+        16,
+        18
+      ],
+      "fatih": [
+        26,
+        82
+      ],
+      "besiktas": [
+        50,
+        44
+      ],
+      "beyoglu": [
+        16,
+        50
+      ],
+      "kadikoy": [
+        84,
+        84
+      ],
+      "uskudar": [
+        84,
+        52
+      ],
+      "umraniye": [
+        84,
+        20
+      ],
+      "bebek": [
+        50,
+        13
       ]
     }
   },
@@ -82,6 +118,40 @@ export const REGION_MAPS = Object.freeze({
         88,
         49
       ]
+    },
+    "compactPositions": {
+      "yenimahalle": [
+        17,
+        14
+      ],
+      "etimesgut": [
+        17,
+        44
+      ],
+      "kizilay": [
+        50,
+        50
+      ],
+      "bahcelievler": [
+        17,
+        76
+      ],
+      "ulus": [
+        50,
+        14
+      ],
+      "kecioren": [
+        83,
+        14
+      ],
+      "cankaya": [
+        60,
+        85
+      ],
+      "mamak": [
+        84,
+        50
+      ]
     }
   },
   "izmir": {
@@ -94,19 +164,19 @@ export const REGION_MAPS = Object.freeze({
     "positions": {
       "karsiyaka": [
         35,
-        20
+        22
       ],
       "bornova": [
         89,
         22
       ],
       "alsancak": [
-        84,
-        36
+        76,
+        34
       ],
       "konak": [
-        84,
-        56
+        77,
+        52
       ],
       "buca": [
         91,
@@ -119,6 +189,36 @@ export const REGION_MAPS = Object.freeze({
       "balcova": [
         20,
         84
+      ]
+    },
+    "compactPositions": {
+      "karsiyaka": [
+        20,
+        15
+      ],
+      "bornova": [
+        84,
+        15
+      ],
+      "alsancak": [
+        56,
+        41
+      ],
+      "konak": [
+        84,
+        51
+      ],
+      "buca": [
+        84,
+        84
+      ],
+      "goztepe": [
+        50,
+        82
+      ],
+      "balcova": [
+        16,
+        82
       ]
     }
   }

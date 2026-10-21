@@ -83,7 +83,7 @@ test('map image anchors contain all 23 regions once, preserve coasts and use opt
   assert.equal(map.width/map.height,1.5);for(const point of Object.values(map.positions))assert.ok(point.every(v=>v>5&&v<95));
   const file=readFileSync(new URL(`../public/games/tc-sim/assets/map/${map.file}`,import.meta.url));assert.ok(file.length<750000);assert.equal(file.toString('utf8',8,12),'WEBP');
   const html=renderRegionMap(fresh(),regions[0],{escapeText:String});assert.equal((html.match(/<img /g)||[]).length,1);assert.ok(html.includes('loading="lazy"'));assert.equal((html.match(/class="region-map-label"/g)||[]).length,regions.length);
-  for(const d of regions)assert.equal((html.match(new RegExp(`<span>${d.name}</span>`,'g'))||[]).length,1);
+  for(const d of regions)assert.equal((html.replaceAll('<wbr>','').match(new RegExp(`<span>${d.name}</span>`,'g'))||[]).length,1);
  }
  const i=REGION_MAPS.istanbul.positions;assert.ok(i.umraniye[0]>i.uskudar[0]);assert.ok(i.bebek[1]<i.besiktas[1]);assert.ok(i.bebek[0]<i.uskudar[0]);
  const a=REGION_MAPS.ankara.positions;assert.ok(a.ulus[1]<a.kizilay[1]);assert.ok(a.etimesgut[0]<a.kizilay[0]);assert.ok(a.mamak[0]>a.kizilay[0]);
@@ -96,8 +96,31 @@ test('legacy locations retain the current-home marker without rewriting their sa
   const s=fresh();s.household.location={...s.household.location,districtId:id};
   const before=JSON.stringify(s),d=DISTRICTS.find(region=>region.id===id);
   const html=renderRegionMap(s,d,{escapeText:String});
-  assert.ok(html.includes(`${d.name} <small>EVİN</small></button>`));
-  assert.equal((html.match(/<small>EVİN<\/small>/g)||[]).length,1);
+  assert.ok(html.includes(`EVİN: ${d.name}`));
+  assert.equal((html.match(/region-map-earlier-home/g)||[]).length,1);
+  assert.ok(!html.includes('region-map-legacy'));
+  assert.ok(!html.includes(`data-location-select="${id}"`));
   assert.equal(JSON.stringify(s),before);
  }
+});
+
+
+test('direct map labels have one selector per region, no numbers/list, stable IDs and responsive geographic leaders',async()=>{
+ const {REGION_MAPS}=await import('../public/games/tc-sim/js/region-map-data.js');
+ const {renderRegionMap}=await import('../public/games/tc-sim/js/region-map.js');
+ for(const [city,map] of Object.entries(REGION_MAPS)){
+  const regions=PLAYABLE_REGIONS.filter(d=>d.city===city);
+  assert.deepEqual(Object.keys(map.compactPositions),regions.map(d=>d.id));
+  const s=fresh(),before=JSON.stringify(s),html=renderRegionMap(s,regions[0],{escapeText:String});
+  assert.doesNotMatch(html,/region-map-(dot|number|legacy)/);
+  assert.equal((html.match(/data-location-select=/g)||[]).length,regions.length);
+  assert.equal((html.match(/<line /g)||[]).length,regions.length);
+  assert.match(html,/aria-controls="region-selection-info"/);
+  for(const point of Object.values(map.compactPositions))assert.ok(point.every(v=>v>=10&&v<=90));
+  assert.equal(JSON.stringify(s),before);
+ }
+ const i=REGION_MAPS.istanbul.positions;
+ assert.ok(i.bebek[0]>55&&i.bebek[0]<62,'Bebek is on the illustrated European shore, not the inland old anchor');
+ assert.ok(i.umraniye[0]>i.uskudar[0]+12,'Ümraniye remains inland east of Üsküdar');
+ assert.ok(i.sisli[0]<i.bebek[0]&&i.sisli[1]>i.bebek[1]);
 });

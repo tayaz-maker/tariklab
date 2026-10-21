@@ -336,20 +336,16 @@ try {
     await page.goto(url,{waitUntil:'networkidle'});await page.locator('#continue-game').click();await navigateTc(page, 'home');
     const before=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
     await page.locator('[data-location-city="ankara"]').click();
-    if (await page.locator('.region-map-legacy').getAttribute('open') === null)
-      await page.locator('.region-map-legacy summary').click();
-    await page.locator('[data-location-select="batikent"]').click();
+    await page.locator('[data-location-select="yenimahalle"]').click();
     assert.ok((await page.locator('.location-panel').textContent()).includes('Mevcut işin bu şehirde'));
     assert.deepEqual(await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key),before);
     await page.locator('[data-location-city="istanbul"]').click();
-    if (await page.locator('.region-map-legacy').getAttribute('open') === null)
-      await page.locator('.region-map-legacy summary').click();
-    await page.locator('[data-location-select="avcilar"]').click();
-    await page.locator('[data-location-move="avcilar"][data-location-home="shared"]').click();
+    await page.locator('[data-location-select="fatih"]').click();
+    await page.locator('[data-location-move="fatih"][data-location-home="shared"]').click();
     assert.match(await page.locator('.result[role="status"]').last().textContent(),/Cüzdanın:.*Aylık konut giderin/);
-    const saved=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);assert.equal(saved.household.location.districtId,'avcilar');assert.equal(saved.weekly.used-before.weekly.used,2);assert.ok(saved.finances.balance<before.finances.balance);
+    const saved=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);assert.equal(saved.household.location.districtId,'fatih');assert.equal(saved.weekly.used-before.weekly.used,2);assert.ok(saved.finances.balance<before.finances.balance);
     await page.reload({waitUntil:'networkidle'});await page.locator('#continue-game').click();await navigateTc(page, 'home');
-    assert.equal(await page.locator('[data-location-select="avcilar"]').getAttribute('aria-pressed'),'true');
+    assert.equal(await page.locator('[data-location-select="fatih"]').getAttribute('aria-pressed'),'true');
     assert.ok((await page.locator('.location-panel').textContent()).includes('EVİN'));assert.deepEqual(errors,[]);
     await page.screenshot({path:`${out}/city-interaction-1440.png`,fullPage:false});rows.push({view:'city',width:1440,status:'PASS'});await context.close();
   }
