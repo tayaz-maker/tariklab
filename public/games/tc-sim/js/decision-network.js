@@ -118,7 +118,10 @@ export function ensureDecisionNetwork(state) {
 /** The goal the week plan leans on: the life-depth goal with the lowest progress. */
 export function currentGoal(state) {
   const depth = refreshLifeArcs(state);
-  const goals = [...(depth.goals || [])].sort((a, b) => a.progress - b.progress);
+  if (state.yearlyPlan?.freeLife === true) return null;
+  const selected = (depth.goals || []).filter((g) => g.priority);
+  const candidates = selected.length ? selected.filter((g) => g.progress < 100) : depth.goals || [];
+  const goals = [...candidates].sort((a, b) => a.progress - b.progress);
   return goals[0] || null;
 }
 

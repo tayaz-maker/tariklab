@@ -60,7 +60,7 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Combined #189: weekly career actions also honor existing detention.
   // Authorized Package 2: bounded work recovery uses existing body/life/time/state only.
   // Authorized Package 3: existing partial friend loans join debt-memory follow-up.
-  assert.equal(files.length, 73);
+  assert.equal(files.length, 74);
   const hash = createHash("sha256");
   for (const file of files) hash.update(file).update(file === "public/games/next-wave.js" ? frozenNextWaveBytes(readFileSync(file)) : readFileSync(file));
   // Re-pinned for the DEVLET maps PR: next-wave.js (geo dispatch + month
@@ -120,7 +120,7 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Authorized menu ownership: navigation/shell/drafts and quarters render-only projection.
   // tc-sim-menu.test.mjs separately pins all engine bytes (quarters before its UI renderer).
   // Authorized Phase 0 gameplay package; all unrelated files retain their bytes.
-  assert.equal(hash.digest("hex"), "133219c898a99974070752ff10f4e8db635ca24ce45255a92249607f8aaf8ca4");
+  assert.equal(hash.digest("hex"), "77c6e16fbd45b13a2e2fb1f12c319578c4f09bd7e30974e1f996533289bde26a");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);
