@@ -18,8 +18,7 @@ function riskVariant(risk: Risk) {
 }
 
 export function JobsPanel({ player }: { player: Player }) {
-  const { lang, phrase, t } = useLang();
-  const en = lang !== "tr";
+  const { phrase, t } = useLang();
   const doJob = useGame((s) => s.doJob);
   const [moment, setMoment] = useState<OutcomeMoment | null>(null);
   const [gate] = useState(createMomentGate);
@@ -44,13 +43,13 @@ export function JobsPanel({ player }: { player: Player }) {
           </p>
           <p className="mt-2 text-sm text-fg">{phrase(contract.text)}</p>
           <p className="mt-2 font-mono text-xs tabular-nums text-muted">
-            {en ? `Complete the marked job for a ${formatTRY(contract.bonus)} bonus. Expires tomorrow.` : `İcraatı bitir, +${formatTRY(contract.bonus)} bonus. Yarın biter.`}
+            {t("cete.jobs.bonusDeadline", "İcraatı bitir, +{bonus} bonus. Yarın biter.", { bonus: formatTRY(contract.bonus) })}
           </p>
         </section>
       ) : null}
       {player.jobsDone < 3 ? (
         <p className="text-sm text-muted">
-          {en ? "Start with the first low-risk job. Recruit a free crew member for riskier jobs. Pass time to recover energy." : "Çaylak defteri: önce pavyon çıkışı, sonra tombala. Mermi yetmezse saati geçir."}
+          {t("cete.jobs.starterHelp", "Çaylak defteri: önce pavyon çıkışı, sonra tombala. Mermi yetmezse saati geçir.")}
         </p>
       ) : null}
       {JOB_TIERS.map((tier) => (
@@ -105,7 +104,7 @@ export function JobsPanel({ player }: { player: Player }) {
                       {missing.map((id) => phrase(ITEM_MAP[id]?.name ?? id)).join(", ")}
                     </p>
                   ) : null}
-                  {crewNote ? <p className="mt-2 text-xs text-warn">{en ? `Requires ${crewNeed} available crew. Busy crew cannot join.` : crewNote}</p> : null}
+                  {crewNote ? <p className="mt-2 text-xs text-warn">{t("cete.jobs.crewUnavailable", crewNote, { count: crewNeed })}</p> : null}
                   <Button
                     className="mt-4"
                     disabled={disabled}

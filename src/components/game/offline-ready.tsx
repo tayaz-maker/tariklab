@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { registerOfflineWorker } from "@/lib/offline-worker";
+import { useLang } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 
 const DISMISS_KEY = "cete-install-dismissed";
@@ -18,6 +19,7 @@ function isStandalone() {
 }
 
 export function OfflineReady() {
+  const { t } = useLang();
   const [ready, setReady] = useState(false);
   const [offline, setOffline] = useState(
     typeof navigator !== "undefined" ? !navigator.onLine : false,
@@ -71,22 +73,22 @@ export function OfflineReady() {
   if (offline) {
     return (
       <p className="pointer-events-none fixed top-3 left-1/2 z-40 -translate-x-1/2 rounded-full bg-elevated px-3 py-1 text-[0.7rem] tracking-wide text-accent">
-        Çevrimdışı · kayıt yerelde
+        {t("cete.offline.badge", "Çevrimdışı · kayıt yerelde")}
       </p>
     );
   }
 
   if (!hint || isStandalone()) {
-    return ready ? <p className="sr-only">Çevrimdışı kopya hazır.</p> : null;
+    return ready ? <p className="sr-only">{t("cete.offline.ready", "Çevrimdışı kopya hazır.")}</p> : null;
   }
 
   return (
     <div className="fixed right-3 bottom-20 z-40 max-w-[16rem] rounded-xl bg-surface p-3 text-xs text-fg shadow-[0_0_0_1px_rgba(239,232,222,0.12)] md:bottom-4">
-      <p className="font-medium">Ana ekrana ekle</p>
+      <p className="font-medium">{t("cete.offline.installTitle", "Ana ekrana ekle")}</p>
       <p className="mt-1 text-muted">
         {isIos()
-          ? "Paylaş → Ana Ekrana Ekle. Sonra netsiz açılır."
-          : "Kur, bir kez online aç, sonra uçak modunda oyna."}
+          ? t("cete.offline.iosHint", "Paylaş → Ana Ekrana Ekle. Sonra netsiz açılır.")
+          : t("cete.offline.installHint", "Kur, bir kez online aç, sonra uçak modunda oyna.")}
       </p>
       <div className="mt-2 flex gap-2">
         {installEvent ? (
@@ -97,7 +99,7 @@ export function OfflineReady() {
               setHint(false);
             }}
           >
-            Kur
+            {t("cete.offline.install", "Kur")}
           </Button>
         ) : null}
         <Button
@@ -108,7 +110,7 @@ export function OfflineReady() {
             setHint(false);
           }}
         >
-          Tamam
+          {t("cete.offline.dismiss", "Tamam")}
         </Button>
       </div>
     </div>
