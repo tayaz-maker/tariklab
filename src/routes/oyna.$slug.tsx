@@ -5,9 +5,18 @@ import { GAMES, canonicalPlaySlug, isHtml5Slug } from "@/lib/games";
 import { catalogEntry, useLang } from "@/lib/i18n";
 
 const ARCHIVE_COPY = {
-  tr: { text: "Arşiv sürümü. Mevcut kayıtlarınla oynamaya devam edebilirsin.", link: "JITEM: Derin Ağ’a git" },
-  en: { text: "Archived version. You can keep playing with your existing progress.", link: "Go to JITEM: Derin Ağ" },
-  pl: { text: "Wersja archiwalna. Możesz kontynuować grę z dotychczasowymi zapisami.", link: "Przejdź do JITEM: Derin Ağ" },
+  tr: {
+    text: "Arşiv sürümü. Mevcut kayıtlarınla oynamaya devam edebilirsin.",
+    link: "JITEM: Derin Ağ’a git",
+  },
+  en: {
+    text: "Archived version. You can keep playing with your existing progress.",
+    link: "Go to JITEM: Derin Ağ",
+  },
+  pl: {
+    text: "Wersja archiwalna. Możesz kontynuować grę z dotychczasowymi zapisami.",
+    link: "Przejdź do JITEM: Derin Ağ",
+  },
 };
 
 const BY_SLUG = new Map(GAMES.map((g) => [g.slug, g]));
@@ -40,6 +49,7 @@ function Html5Play() {
   const frameRef = useRef<HTMLIFrameElement>(null);
   const [initialLang] = useState(lang);
   const isJitem = canonical === "jitem-derin-ag";
+  const isTcSim = canonical === "tc-sim";
   const title = g ? catalogEntry(lang, g.slug, g).title : "Oyun";
   // JITEM's embedded runtime currently owns TR/EN content only. Keep the shell
   // Polish, but send its deterministic existing English fallback to the iframe.
@@ -59,26 +69,38 @@ function Html5Play() {
 
   return (
     <div className="flex h-dvh min-h-0 flex-col bg-bg">
-      <div className="relative z-50 flex h-8 shrink-0 items-center justify-between gap-2 border-b border-border bg-bg/95 px-2.5 backdrop-blur sm:px-3">
-        <Link
-          to="/"
-          aria-label={t("portal.back", "Oyunlara dön")}
-          className="relative z-10 inline-flex h-8 items-center gap-1 text-xs font-medium text-muted hover:text-fg focus-visible:outline-2 focus-visible:outline-danger"
-        >
-          <span aria-hidden="true">←</span>
-          <span className="hidden sm:inline">{t("portal.back", "Oyunlar")}</span>
-        </Link>
-        <p className="pointer-events-none absolute inset-0 hidden items-center justify-center px-32 text-center font-display text-xs tracking-wide text-fg sm:flex">
-          {title}
-        </p>
-        <LanguageToggle className="[&_button]:py-0.5" />
-      </div>
+      {!isTcSim && (
+        <div className="relative z-50 flex h-8 shrink-0 items-center justify-between gap-2 border-b border-border bg-bg/95 px-2.5 backdrop-blur sm:px-3">
+          <Link
+            to="/"
+            aria-label={t("portal.back", "Oyunlara dön")}
+            className="relative z-10 inline-flex h-8 items-center gap-1 text-xs font-medium text-muted hover:text-fg focus-visible:outline-2 focus-visible:outline-danger"
+          >
+            <span aria-hidden="true">←</span>
+            <span className="hidden sm:inline">{t("portal.back", "Oyunlar")}</span>
+          </Link>
+          <p className="pointer-events-none absolute inset-0 hidden items-center justify-center px-32 text-center font-display text-xs tracking-wide text-fg sm:flex">
+            {title}
+          </p>
+          <LanguageToggle className="[&_button]:py-0.5" />
+        </div>
+      )}
       {g?.status === "archived" ? (
-        <aside data-game-archive={canonical} aria-label={title} className="shrink-0 border-b border-border bg-surface px-3 py-2 text-xs text-muted">
+        <aside
+          data-game-archive={canonical}
+          aria-label={title}
+          className="shrink-0 border-b border-border bg-surface px-3 py-2 text-xs text-muted"
+        >
           <p>{ARCHIVE_COPY[lang].text}</p>
-          {canonical === "ihtilal" ? <Link to="/oyna/$slug" params={{ slug: "jitem-derin-ag" }} className="mt-1 inline-flex min-h-11 items-center underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-danger">
-            {ARCHIVE_COPY[lang].link}
-          </Link> : null}
+          {canonical === "ihtilal" ? (
+            <Link
+              to="/oyna/$slug"
+              params={{ slug: "jitem-derin-ag" }}
+              className="mt-1 inline-flex min-h-11 items-center underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-danger"
+            >
+              {ARCHIVE_COPY[lang].link}
+            </Link>
+          ) : null}
         </aside>
       ) : null}
       <iframe

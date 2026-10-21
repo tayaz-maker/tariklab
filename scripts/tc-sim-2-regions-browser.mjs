@@ -1,3 +1,4 @@
+import {navigateTc} from './tc-sim-browser-navigation.mjs';
 import assert from 'node:assert/strict';
 import {mkdirSync,writeFileSync} from 'node:fs';
 import {resolve} from 'node:path';
@@ -13,7 +14,7 @@ const {values}=parseArgs({options:{serve:{type:'string'},'base-url':{type:'strin
 const target=checkedRegionTarget(values),out=resolve(values.out);mkdirSync(out,{recursive:true});
 let server,browser,origin=target.origin;
 const report={status:'RUNNING',expectedSha:target.expectedSha,scope:'Whole TC SIM app, actual region/city clicks and saved game in fresh isolated browser contexts; screenshots visually reviewed separately. Geography claims limited to illustrated relative positions.',fingerprints:[],cases:[],moves:[]};
-async function openHome(page){const button=page.locator('.side-nav [data-view="home"]');if(!await button.isVisible()){const more=page.locator('.side-nav .nav-more');if(await more.isVisible())await more.click();else {const details=button.locator('xpath=ancestor::details[1]');if(await details.count())await details.locator('summary').click();}}await button.click();await page.locator('.region-map').waitFor();}
+async function openHome(page){await navigateTc(page,'home');await page.locator('.region-map').waitFor();}
 async function layout(page,label){const result=await page.evaluate(()=>{const bounds=[...document.querySelectorAll('.region-map-label')].map(el=>{const r=el.getBoundingClientRect();return {text:el.textContent,x:r.x,y:r.y,w:r.width,h:r.height}});return {overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth,small:bounds.filter(b=>b.w<44||b.h<44),overlap:bounds.flatMap((a,i)=>bounds.slice(i+1).filter(b=>a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y).map(b=>[a.text,b.text]))}});assert.ok(result.overflow<=1,`${label} overflow ${result.overflow}`);assert.deepEqual(result.small,[],`${label} tap targets`);assert.deepEqual(result.overlap,[],`${label} labels overlap`);}
 try {
  if(target.hosted)report.mainBefore=await requireRegionCurrentMain(target.expectedSha);

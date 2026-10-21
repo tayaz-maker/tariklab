@@ -16,7 +16,7 @@ import { EXCHANGE_ASSETS, exchangeQuote, exchangePortfolio, exchangeAvailability
 import { gameDateLabel } from "./game-date.js?v=10";
 import { snapshotJobStart, buildJobStartOutcome } from "./job-start-outcome.js?v=10";
 import { renderJobStartOutcome, bindJobStartOutcome, jobOutcomeText } from "./job-start-outcome-ui.js?v=10";
-import { bindLifeShell, restoreLastView } from "./ui-shell.js?v=10";
+import { bindLifeShell, restoreLastView, resetLifeShell } from "./ui-shell.js?v=10";
 import { renderLifeStatus } from "./status-panel.js?v=10";
 import { arrangeLifeDesk } from "./desk.js?v=10";
 import { adultChildSummary, adultEventContext, continueGeneration } from "./lifetime.js?v=10";
@@ -329,6 +329,9 @@ function persist(message = "Otomatik kaydedildi.") {
 }
 
 function startScreen(loadResult) {
+  resetLifeShell();
+  const languageHost = document.querySelector("#tc-sim-language");
+  if (languageHost) languageHost.hidden = window.self !== window.top;
   startLoadResult = loadResult;
   const slots = listSlots(localStorage);
   const active = getActiveSlot(localStorage);
@@ -1498,7 +1501,7 @@ function render() {
     <main class="game-frame">
       <header class="game-topbar">
         <div class="game-brand"><strong>TC SIM</strong><span>Bir hayat, bin küçük karar</span></div>
-        <div class="top-meta"><span><b>${escapeText(state.player.name)}</b> · ${state.player.age}</span><span>${escapeText(gameDateLabel(state))} · H${state.time.weekOfMonth}</span><span class="top-money">${money(state.finances.balance)}</span></div>
+        <div class="top-meta"><span data-meta="calendar">${escapeText(gameDateLabel(state))} · H${state.time.weekOfMonth}</span><span data-meta="character"><b>${escapeText(state.player.name)}</b> · ${state.player.age}</span><span data-meta="location">${escapeText(currentDistrict(state) ? `${CITIES[currentDistrict(state).city]} / ${currentDistrict(state).name}` : state.player.city)}</span><span class="top-money" data-meta="cash">${money(state.finances.balance)}</span></div>
         <nav class="top-shortcuts" aria-label="Hızlı erişim"><button class="button button-quiet" data-view="inbox"${activeView === "inbox" ? ' aria-current="page"' : ""}>Gelen kutusu <b>${getPlayerVisibleOpenCases(state).filter((item) => item.status !== "resolved").length}</b></button><button class="button button-quiet" data-view="calendar"${activeView === "calendar" ? ' aria-current="page"' : ""}>Takvim</button><button class="button button-quiet" data-view="banks"${activeView === "banks" ? ' aria-current="page"' : ""}>${escapeText(bankText(document.documentElement?.lang || "tr", "Bankalar", "Banks", "Banki"))}</button><button class="button button-quiet" data-view="relationships"${activeView === "relationships" ? ' aria-current="page"' : ""}>İlişkiler</button><button class="button button-quiet" data-view="body"${activeView === "body" ? ' aria-current="page"' : ""}>Beden</button></nav>
         <div class="save-area"><span class="save-status" role="status">${escapeText(saveStatus)}</span><span class="slot-mini">Slot ${getActiveSlot(localStorage)}</span><button class="button button-quiet" id="help-open" aria-haspopup="dialog">? Nasıl Oynanır</button><button class="button button-quiet" id="save-game">Kaydet</button><button class="button button-quiet" id="main-menu">Ana Menü</button><button class="button button-quiet button-danger" id="new-game">Yeni oyun</button></div>
       </header>

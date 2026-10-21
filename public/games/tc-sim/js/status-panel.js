@@ -1,3 +1,4 @@
+import { uiIcon } from "./ui-icons.js?v=10";
 import { isAmortizingMortgage, mortgageDue } from "./mortgage.js?v=10";
 import { bankTotals } from "./bank-accounts.js?v=10";
 const labels = {
@@ -22,5 +23,5 @@ export function renderLifeStatus(state, { worth, remaining, money, language = "t
   const l = labels[language] || labels.tr, f = statusFacts(state, worth, remaining);
   const rows = [[l[6], `${f.date} · ${f.week}`], [l[0], money(f.cash)], [l[1], money(f.bank)],
     [l[2], money(f.wealth)], [l[3], `${money(f.due)} / ${money(f.arrears)}`], [l[4], `${f.health} / ${f.energy}`], [l[5], f.remaining]];
-  return `<dl class="life-status" aria-label="${l[7]}">${rows.map(([label, value]) => `<div><dt>${label}</dt><dd>${value}</dd></div>`).join("")}</dl>`;
+  return `<dl class="life-status" aria-label="${l[7]}">${rows.map(([label, value], index) => `<div>${uiIcon(["calendar", "cash", "banks", "wealth", "debt", "health", "remaining"][index])}<dt>${label}</dt><dd>${value}</dd></div>`).join("")}</dl>`;
 }
