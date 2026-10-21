@@ -338,10 +338,16 @@ try {
     await context.addInitScript(({state,key,origin})=>{if(location.origin!==origin||localStorage.getItem('city-fixture-seeded'))return;localStorage.setItem(key,JSON.stringify(state));localStorage.setItem('tariklab::tc-sim:active','1');localStorage.setItem('tariklab.language','tr');localStorage.setItem('city-fixture-seeded','1');},{state:cityFixture(),key,origin});
     await page.goto(url,{waitUntil:'networkidle'});await page.locator('#continue-game').click();await page.locator('.side-nav [data-view="home"]').click();
     const before=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
-    await page.locator('[data-location-city="ankara"]').click();await page.locator('[data-location-select="batikent"]').click();
+    await page.locator('[data-location-city="ankara"]').click();
+    if (await page.locator('.region-map-legacy').getAttribute('open') === null)
+      await page.locator('.region-map-legacy summary').click();
+    await page.locator('[data-location-select="batikent"]').click();
     assert.ok((await page.locator('.location-panel').textContent()).includes('Mevcut işin bu şehirde'));
     assert.deepEqual(await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key),before);
-    await page.locator('[data-location-city="istanbul"]').click();await page.locator('[data-location-select="avcilar"]').click();
+    await page.locator('[data-location-city="istanbul"]').click();
+    if (await page.locator('.region-map-legacy').getAttribute('open') === null)
+      await page.locator('.region-map-legacy summary').click();
+    await page.locator('[data-location-select="avcilar"]').click();
     await page.locator('[data-location-move="avcilar"][data-location-home="shared"]').click();
     assert.match(await page.locator('.result[role="status"]').last().textContent(),/Cüzdanın:.*Aylık konut giderin/);
     const saved=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);assert.equal(saved.household.location.districtId,'avcilar');assert.equal(saved.weekly.used-before.weekly.used,2);assert.ok(saved.finances.balance<before.finances.balance);

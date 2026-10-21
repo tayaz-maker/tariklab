@@ -1,0 +1,29 @@
+/* TC SIM's existing paper/ink tokens keep the illustrated city part of the desk. */
+.region-map { margin: 0; min-width: 0; }
+.region-map-canvas { position: relative; isolation: isolate; }
+.region-map-art { position: relative; overflow: hidden; border: 1px solid var(--line, #c8c0b0); border-radius: var(--radius, 10px); background: var(--paper, #f4eedf); }
+.region-map-art img { display: block; width: 100%; height: auto; }
+.region-map-labels { position: absolute; inset: 0; pointer-events: none; }
+.region-map-label { position: absolute; left: var(--region-x); top: var(--region-y); transform: translate(-50%, -50%); display: flex; align-items: center; justify-content: center; gap: 4px; min-height: 44px; width: max-content; max-width: 26%; white-space: nowrap; padding: 6px 10px; border: 2px solid var(--ink, #182c36); border-radius: 6px; background: var(--paper, #fff7e8); color: var(--ink, #182c36); box-shadow: 0 2px 4px #0003; font-size: clamp(12px, 1.2vw, 17px); line-height: 1.15; font-family: inherit; font-weight: 700; text-align: center; cursor: pointer; pointer-events: auto; overflow-wrap: anywhere; }
+.region-map-label[aria-pressed="true"] { background: var(--ink, #182c36); color: var(--paper, #fff7e8); border-color: var(--paper, #fff7e8); outline: 2px solid var(--ink, #182c36); z-index: 1; }
+.region-map-label:focus-visible { outline: 3px solid var(--accent, #b34525); outline-offset: 3px; z-index: 2; }
+.region-map-label small { display: inline-block; padding: 2px; font-size: .65em; }
+.region-map-north { position: absolute; right: 6px; top: 6px; padding: 4px; font-size: .75rem; line-height: 1; border-radius: 4px; background: var(--paper, #fff7e8); color: var(--ink, #182c36); font-weight: 800; }
+.region-map-dot,.region-map-number { display: none; }
+.region-map figcaption { padding: 8px 0; color: var(--muted, #52616a); font-size: .8rem; line-height: 1.5; }
+.region-map-legacy { margin: 8px 0 16px; }
+.region-map-legacy summary,.semt-quarter>summary { min-height: 44px; padding: 12px 8px; cursor: pointer; font-weight: 700; }
+.region-map-canvas { container-type: inline-size; }
+@media (max-width: 760px) {
+ .region-map-labels { position: static; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; padding: 12px 0 0; }
+ .region-map-label { position: static; transform: none; max-width: none; width: 100%; white-space: normal; min-height: 48px; padding: 8px; font-size: .85rem; box-shadow: none; justify-content: flex-start; text-align: left; }
+ .region-map-number { display: inline-grid; place-items: center; flex-shrink: 0; width: 24px; height: 24px; border: 1px solid currentColor; border-radius: 50%; }
+ .region-map-dot { display: grid; place-items: center; position: absolute; left: var(--region-x); top: var(--region-y); transform: translate(-50%, -50%); min-width: 24px; min-height: 24px; border: 2px solid var(--ink, #182c36); border-radius: 50%; background: var(--paper, #fff7e8); color: var(--ink, #182c36); font-size: .8rem; font-weight: 800; }
+}
+@media (prefers-reduced-motion: reduce) { .region-map-label { transition: none; } }
+
+.region-legacy-art summary { min-height: 44px; padding: 12px 8px; cursor: pointer; }
+.region-legacy-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 12px; }
+.region-legacy-gallery figure { min-width: 0; margin: 0; }
+.region-legacy-gallery img { display: block; width: 100%; height: auto; border-radius: var(--radius); }
+.region-legacy-gallery figcaption { padding: 8px 0; font-size: .8rem; color: var(--muted); }
