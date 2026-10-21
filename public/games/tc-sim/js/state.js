@@ -1,11 +1,12 @@
 import { normalizeInsurance, validInsurance } from "./social-insurance.js?v=10";
 import { normalizeBankRecord } from "./bank-record.js?v=10";
+import { normalizeBanking, validBanking } from "./bank-accounts.js?v=10";
 
 import { beginMonthlyCash, normalizeMonthlyCash, recordMonthlyCash } from "./monthly-cash.js?v=10";
 import {normalizeLocation,getDistrict} from './locations.js?v=10';
 import { syncGameDate } from "./game-date.js?v=10";
 import { normalizeLifetime, validateLifetime } from "./lifetime.js?v=10";
-import { neutralWealth, normalizeWealth, validateWealth } from "./wealth.js?v=10";
+import { neutralWealth, normalizeWealth, validateWealth, netWorth } from "./wealth.js?v=10";
 import { neutralParenthood, normalizeParenthood, validateParenthood } from "./parenthood.js?v=10";
 import {
   normalizeHousehold,
@@ -260,6 +261,7 @@ export function createNewGame(options = {}) {
     wealth: neutralWealth(),
     finances: {
       balance: profile.balance + economicBalance,
+      banking: { version: 1, revision: 0, accounts: [], cards: [] },
       otherMonthlyIncome: 0,
       otherMonthlyExpenses: 5000,
       arrears: 0,
@@ -326,7 +328,7 @@ export function createNewGame(options = {}) {
   normalizeMonthlyCash(state);
   state.flags ||= {};
   state.flags.socialInsurance = normalizeInsurance(state.flags.socialInsurance);
-  beginMonthlyCash(state, state.time.weekOfMonth !== 1);
+  beginMonthlyCash(state, state.time.weekOfMonth !== 1, netWorth(state));
   return state;
 }
 
@@ -846,6 +848,7 @@ export function normalizeEducationCareer(state) {
   normalizeSocialState(state);
   state.flags.socialInsurance = normalizeInsurance(state.flags.socialInsurance);
   normalizeBankRecord(state);
+  normalizeBanking(state);
   normalizeHousehold(state);
   normalizeLocation(state);
   normalizeParenthood(state);
@@ -863,6 +866,7 @@ export function validateState(state) {
   if (state.meta?.saveVersion !== SAVE_VERSION) errors.push("Save sürümü geçersiz");
   if (!validateLifetime(state)) errors.push("Yaşam ve kuşak kaydı geçersiz");
   if (!validateWealth(state)) errors.push("Servet kaydı geçersiz");
+  if (!validBanking(state)) errors.push("Banka hesabı kaydı geçersiz");
   if (!validateLifeDepthState(state)) errors.push("Yaşam arkları geçersiz");
   if (
     !state.player ||

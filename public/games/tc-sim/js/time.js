@@ -1,4 +1,4 @@
-import { beginMonthlyCash, closeMonthlyCash } from "./monthly-cash.js?v=10";
+import { beginMonthlyCash, closeMonthlyCash, captureMonthlyWealth } from "./monthly-cash.js?v=10";
 import { syncGameDate } from "./game-date.js?v=10";
 import { processLifetimeWeek } from "./lifetime.js?v=10";
 import {
@@ -457,7 +457,7 @@ function processMonthEnd(state) {
   processWealthMonthEnd(state);
   const businessResult = processBusinessMonth(state);
   processCashShortfall(state);
-  closeMonthlyCash(state);
+  closeMonthlyCash(state, netWorth(state));
   return `Ay sonu işlemleri tamamlandı.${businessResult ? ` ${businessResult}` : ""}`;
 }
 
@@ -588,6 +588,7 @@ export function advanceWeek(state) {
   const messages = [];
   syncGameDate(state);
   beginMonthlyCash(state);
+  captureMonthlyWealth(state, netWorth(state));
   const previousYear = state.time.year;
   const previousMonth = state.time.month;
   const workedOvertime = state.flags.overtimeLastWeek === state.time.absoluteWeek;

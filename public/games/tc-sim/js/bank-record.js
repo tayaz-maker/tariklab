@@ -87,6 +87,7 @@ export function bankRecordText(state, language = "tr") {
 export const CREDIT_GAME_MIN_SCORE = 40;
 export function bankCreditPolicy(state, offer, language = "tr") {
   const debt = Number(state.finances?.arrears) > 0 || (state.wealth?.debts || []).some(d => d.mortgage?.overdue > 0)
+    || (state.finances?.banking?.cards || []).some(c => c.overdue > 0)
     || (state.openCases || []).some(c => c.type === "icra" && c.status === "pending" && Number(c.payload?.owed ?? c.payload?.amount) > 0);
   const low = bankRecord(state).score;
   const reason = debt ? {

@@ -5,6 +5,8 @@ import { economyYear, formatPeriodMoney, periodContext } from "./period-economy.
 import { addMemory, adjustHealth, getWeeklyActivityLimit, transact } from "./state.js?v=10";
 import { getMonthlySummary } from "./life.js?v=10";
 import { normalizeWealth, WEALTH_LIMITS } from "./wealth.js?v=10";
+import { bankAccount, bankPost, bankTotals, fundWalletFromAccount, settleCommercialAccounts } from "./bank-accounts.js?v=10";
+import { recordMonthlyDetail } from "./monthly-cash.js?v=10";
 
 export const CREDIT_OFFERS = Object.freeze({
   small: { label: "Kısa vadeli ihtiyaç kredisi", cash: 12000, months: 12, total: 14400 },
@@ -48,7 +50,7 @@ export function creditAvailability(state, id) {
   const policy = bankCreditPolicy(state, id, typeof window !== "undefined" ? window.tlabI18n?.getLang?.() || "tr" : "tr");
   if (!policy.ok) return policy;
   const income = getMonthlySummary(state).income;
-  const otherPayments = state.wealth.debts.reduce((sum, debt) => sum + mortgageDue(debt), 0);
+  const otherPayments = state.wealth.debts.reduce((sum, debt) => sum + mortgageDue(debt), 0) + bankTotals(state).minimumDue;
   if (income < 4500 || otherPayments + Math.ceil(offer.total / offer.months) > income * 0.4)
     return { ok: false, reason: "Aylık gelir, bu geri ödeme yükünü taşımıyor." };
   return { ok: true };
@@ -61,6 +63,7 @@ export function takeCredit(state, id) {
   state.wealth.debts.push({ id: `bank-${state.time.absoluteWeek}`, type: "personal", principal: offer.total,
     monthlyPayment: Math.ceil(offer.total / offer.months), linkedAssetId: null, startWeek: state.time.absoluteWeek });
   transact(state, offer.cash, `${offer.label} kullandırımı`, "debt");
+  recordMonthlyDetail(state, "interestAccrued", offer.total - offer.cash);
   recordBankLoan(state, "opened");
   recordWeek(state, "bank:credit");
   addMemory(state, `${offer.label} alındı; aylık ödeme bütçeye girdi.`);
@@ -109,6 +112,7 @@ export function closeBusiness(state) {
   if (!type) return { ok: false, reason: "Eski kayıttaki işletme türü tanınmıyor; kayıt değiştirilmedi." };
   normalizeBusiness(state);
   const sale = Math.round(business.invested * 0.25) - business.debt;
+  settleCommercialAccounts(state, transact);
   transact(state, sale, `${type.label} ikinci el ekipman satışı`, "business");
   delete state.flags.business;
   recordWeek(state, "business:close");
@@ -154,10 +158,20 @@ export function processBusinessMonth(state) {
   business.debt -= principal;
   const net = revenue - expenses;
   business.lastResult = { date: state.time.date, revenue, expenses, net, supply, wages, rent, operations, interest, principal, tax };
+  recordMonthlyDetail(state, "taxIncluded", tax);
+  recordMonthlyDetail(state, "businessInterest", interest);
+  recordMonthlyDetail(state, "businessPrincipal", principal);
   business.lossMonths = net < 0 ? business.lossMonths + 1 : 0;
+  const account = bankAccount(state, business.bankAccountId);
+  if (account && net < 0) fundWalletFromAccount(state, account.id, -net, transact, "İşletme giderleri için hesaptan aktarım");
   transact(state, net, `${type.label} aylık ciro eksi gider`, "business");
+  if (account && net > 0) {
+    transact(state, -net, "İşletme kazancı → ticari hesap", "bank-transfer");
+    bankPost(state, account.id, net, "İşletme aylık net kazancı → ticari hesap", "bank-transfer");
+  }
   if (business.lossMonths >= 6 && state.finances.balance < -5000) {
     const liquidation = Math.round(business.invested*.15)-business.debt;
+    settleCommercialAccounts(state, transact);
     transact(state,liquidation,`${type.label} iflas tasfiyesi (borç dahil)`,"business");
     state.flags.lastBusinessOutcome = {date:state.time.date,outcome:"bankrupt",id:business.id};
     delete state.flags.business;

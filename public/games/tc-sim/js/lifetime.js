@@ -2,6 +2,7 @@ import { syncGameDate } from "./game-date.js?v=10";
 import { createNewGame, addMemory, transact, clamp, adjustHealth } from "./state.js?v=10";
 import { childAge, childStage, childAcademicStanding } from "./parenthood.js?v=10";
 import { netWorth, neutralWealth } from "./wealth.js?v=10";
+import { beginMonthlyCash } from "./monthly-cash.js?v=10";
 
 export const LIFE_REPORT_LIMIT = 8;
 export const CLOSED_LIFE_CASE_LIMIT = 128;
@@ -73,6 +74,14 @@ export function validateLifetime(state) {
 function validEstate(e) {
   if (!e?.settled || !Array.isArray(e.shares) || e.shares.length > 8) return false;
   const gross = Number.isSafeInteger(e.gross) ? e.gross : e.cash;
+  // Old settled reports have no bank field: preserve their historical totals.
+  // New reports include all owned deposit accounts exactly once.
+  const businessFields = Object.hasOwn(e, "businessValue") || Object.hasOwn(e, "businessDebt");
+  if (businessFields && (![e.businessValue, e.businessDebt].every(n => Number.isSafeInteger(n) && n >= 0) ||
+      !Number.isSafeInteger(e.debt) || e.obligations < e.debt + e.businessDebt)) return false;
+  if (Object.hasOwn(e, "bank") && (!Number.isSafeInteger(e.bank) || e.bank < 0 ||
+      ![e.investments, e.property, e.vehicle, e.durables].every(Number.isSafeInteger) ||
+      gross !== e.cash + e.bank + e.investments + e.property + e.vehicle + e.durables + (e.businessValue || 0))) return false;
   return (
     [e.cash, gross, e.obligations, e.net, e.unallocated].every(Number.isSafeInteger) &&
     e.obligations >= 0 &&
@@ -119,12 +128,16 @@ export function estateSnapshot(state) {
     .filter((c) => c.status !== "resolved" && c.payload?.kind === "money_relief")
     .reduce((sum, c) => sum + Math.max(0, Number(c.payload.amount) || 0), 0);
   const worth = netWorth(state);
+  // Use the same sole-trader liquidation value and liability as netWorth.
+  // Commercial-account deposits are already in worth.bank, not equipment.
+  const businessValue = Math.round((state.flags?.business?.invested || 0) * .25);
+  const businessDebt = state.flags?.business?.debt || 0;
   const obligations =
     relief +
     (state.education.tuitionOwedThisMonth || 0) +
     (state.parenthood.careOwedThisMonth || 0) +
-    worth.debt;
-  const gross = worth.cash + worth.investments + worth.property + worth.vehicle + worth.durables;
+    worth.debt + businessDebt;
+  const gross = worth.cash + worth.bank + worth.investments + worth.property + worth.vehicle + worth.durables + businessValue;
   const net = Math.max(0, gross - obligations);
   const heirs = state.parenthood.children
     .filter((c) => c.alive !== false)
@@ -134,6 +147,9 @@ export function estateSnapshot(state) {
   return {
     settled: true,
     cash: worth.cash,
+    bank: worth.bank,
+    businessValue,
+    businessDebt,
     investments: worth.investments,
     property: worth.property,
     vehicle: worth.vehicle,
@@ -474,5 +490,9 @@ export function continueGeneration(state, childId) {
   for (const key of Object.keys(state)) delete state[key];
   Object.assign(state, next);
   syncGameDate(state);
+  // createNewGame observed the default starter cash/date. The successor starts
+  // with only the settled inheritance and the inherited calendar instead.
+  state.finances.monthCash = null;
+  beginMonthlyCash(state, state.time.weekOfMonth !== 1, netWorth(state));
   return { ok: true, message: `${child.name} ile yeni kuşak başladı.` };
 }
