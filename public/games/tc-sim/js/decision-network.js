@@ -1,3 +1,4 @@
+import { advanceEducationProgress } from "./life.js?v=10";
 // Karar ağı: haftalık seçimleri zaman, para, ilişki, enerji ve uzun vadeli
 // hedef tek bir ağda birbirine bağlar. Taahhüt ve ihmal sonraki haftalara taşınır.
 // Saf fonksiyonlar; DOM yok. Durum `state.decisionNetwork` altında tutulur ve
@@ -77,10 +78,7 @@ const PAYOFF = {
   },
   education: {
     text: "Üç haftalık odak eğitimi hızlandırdı.",
-    apply: (s) => {
-      if (s.education?.active)
-        s.education.active.progress = Math.min(100, (s.education.active.progress || 0) + 4);
-    },
+    apply: (s) => advanceEducationProgress(s, 4),
   },
   relationship: {
     text: "Üç hafta süren ilgi ilişkideki gerilimi azalttı.",
@@ -104,6 +102,7 @@ export function ensureDecisionNetwork(state) {
   const net = state.decisionNetwork;
   const week = int(state.time?.absoluteWeek, 0);
   const tended = net.tended && typeof net.tended === "object" ? net.tended : {};
+  net.lastProcessedWeek = Number.isInteger(net.lastProcessedWeek) ? Math.min(week, net.lastProcessedWeek) : -1;
   net.goalId = typeof net.goalId === "string" ? net.goalId : null;
   net.streak = Math.max(0, Math.min(STREAK_PAYOFF, int(net.streak, 0)));
   net.nextPayoff = Math.max(0, Math.min(week + PAYOFF_COOLDOWN, int(net.nextPayoff, 0)));
@@ -112,7 +111,7 @@ export function ensureDecisionNetwork(state) {
     ? net.chain.filter((x) => x && typeof x.text === "string" && Number.isInteger(x.week)).slice(-8)
     : [];
   for (const key of Object.keys(net))
-    if (!["goalId", "streak", "nextPayoff", "tended", "chain"].includes(key)) delete net[key];
+    if (!["goalId", "streak", "nextPayoff", "tended", "chain", "lastProcessedWeek"].includes(key)) delete net[key];
   return net;
 }
 
@@ -175,6 +174,8 @@ function push(state, text) {
 export function processDecisionNetworkWeek(state, selectedIds = []) {
   const net = ensureDecisionNetwork(state);
   const week = state.time.absoluteWeek;
+  if (net.lastProcessedWeek === week) return { fed: false, streak: net.streak, effects: [] };
+  net.lastProcessedWeek = week;
   for (const id of selectedIds) {
     const link = DECISION_LINKS[id];
     if (!link) continue;

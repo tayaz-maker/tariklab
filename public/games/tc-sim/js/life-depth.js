@@ -1,3 +1,4 @@
+import { getEducationProgress } from "./education.js?v=10";
 import { bankTotals } from "./bank-accounts.js?v=10";
 import { debtBalance } from "./mortgage.js?v=10";
 /** TC SIM Wave 4 — bounded causal life arcs built on the existing simulation. */
@@ -139,7 +140,7 @@ function deriveGoals(state) {
   if (state.household.homeId === "family" && state.player.age >= 23) goals.push({ id: "housing-step", arc: "housing", label: "Sürdürülebilir bir konut adımı hazırla", progress: cap(state.finances.balance / 100) });
   const partner = state.social?.currentPartnerNpcId && state.people.find((x) => x.id === state.social.currentPartnerNpcId);
   if (partner?.social?.tension >= 35) goals.push({ id: "repair-relationship", arc: "relationship", label: "İlişkide biriken gerilimi konuş", progress: cap(100 - partner.social.tension) });
-  if (state.education.active) goals.push({ id: "complete-education", arc: "education", label: "Başladığın eğitimi tamamla", progress: cap(state.education.active.progress || 0) });
+  if (state.education.active) goals.push({ id: "complete-education", arc: "education", label: "Başladığın eğitimi tamamla", progress: getEducationProgress(state)?.percent || 0 });
   d.goals = goals.slice(0, 4);
 }
 
@@ -157,7 +158,7 @@ export function refreshLifeArcs(state) {
   const partner = state.social?.currentPartnerNpcId && state.people.find((x) => x.id === state.social.currentPartnerNpcId);
   const career = (state.career?.jobId ? 15 : -35) + (state.career?.performance - 50) + Math.min(30, (state.career?.weeksInRole || 0) / 4);
   updateArc(d.arcs.career, career, "Performans ve tükenme baskısı", "İş çevresinden yeni rol");
-  updateArc(d.arcs.education, state.education?.active ? 25 + (state.education.active.progress || 0) / 2 : state.education?.level === "lise" ? -5 : 55, "Eğitim yarım kalabilir", "Eğitimin kariyere çevrilmesi");
+  updateArc(d.arcs.education, state.education?.active ? 25 + (getEducationProgress(state)?.percent || 0) / 2 : state.education?.level === "lise" ? -5 : 55, "Eğitim yarım kalabilir", "Eğitimin kariyere çevrilmesi");
   updateArc(d.arcs.relationship, partner ? partner.social.trust - partner.social.tension : avgRel - 45, "Yakınlık ihmal ediliyor", "Ortak gelecek kararı");
   updateArc(d.arcs.family, avgRel - 40 + (state.parenthood?.children?.length || 0) * 8, "Aile sorumlulukları birikiyor", "Aile desteğinin geri dönüşü");
   updateArc(d.arcs.finance, eco.safety - 45, "Borç ve zorunlu gider baskısı", "Birikimin yeni seçenek açması");
