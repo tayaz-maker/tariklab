@@ -1,0 +1,44 @@
+{
+  "cases": [
+    {
+      "lang": "tr",
+      "button": "Kurtarılan kampanyayı aç",
+      "warning": "Son kapanış kaydın kurtarıldı. Kalıcı kayıt için yeniden kaydet.",
+      "manualSha256": "7fd5e56d6bf6bccdbfb27398f972b61a95c8e247caff9d243d1ab64d1eed2f40",
+      "recoveryClick": true,
+      "offline": true,
+      "saveUnchanged": true,
+      "errors": [],
+      "failures": [],
+      "status": "PASS"
+    },
+    {
+      "lang": "en",
+      "button": "Open recovered campaign",
+      "warning": "Your last session was recovered. Save again to keep a permanent copy.",
+      "manualSha256": "14f5f036a0dacced75ca23b2908207b65f7067fa81b4ca05dcbba9da2af8853a",
+      "recoveryClick": true,
+      "offline": true,
+      "saveUnchanged": true,
+      "errors": [],
+      "failures": [],
+      "status": "PASS"
+    },
+    {
+      "lang": "pl",
+      "button": "Otwórz odzyskaną kampanię",
+      "warning": "Odzyskano zapis z ostatniego zamknięcia gry. Zapisz ponownie, aby zachować go na stałe.",
+      "manualSha256": "1a22576ec8f75711199c2d61892721aba016272d9feb40574f51efa84f04924b",
+      "recoveryClick": true,
+      "offline": true,
+      "saveUnchanged": true,
+      "errors": [],
+      "failures": [],
+      "status": "PASS"
+    }
+  ],
+  "build": "PASS",
+  "scopedLint": "PASS",
+  "copyAndGeneratorUnit": "5/5 PASS",
+  "workerVersion": "hanedanian-package-4c3b6fbe04bb8a64"
+}

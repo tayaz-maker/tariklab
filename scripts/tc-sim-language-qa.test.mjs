@@ -63,3 +63,15 @@ test("attributes and help use TC overlay; other game documents never load it", a
   assert.equal(JSON.stringify(state), before); assert.equal(SAVE_VERSION, 6);
   assert.doesNotMatch(read("public/games/hanedanian/index.html"), /i18n\/tc-sim\.js/);
 });
+
+test("the actual intro time-budget paragraph reaches EN and Polish presentation APIs", async () => {
+  const match = read("public/games/tc-sim/js/app.js").match(/class="tagline">[^<]+<\/p>\s*<p>([^<]+)<\/p>/u);
+  assert.ok(match, "the authored intro paragraph must be inspected");
+  for (const language of ["en", "pl"]) {
+    const context = await load(language);
+    const translated = context.tlabI18n.phrase(match[1]);
+    assert.notEqual(translated, match[1], `${language} intro must not leak Turkish`);
+    assert.match(translated, /7–8/u, "the existing weekly time budget stays intact");
+    if (language === "pl") assert.equal(context.tlabPlBody.translate(match[1]), translated);
+  }
+});

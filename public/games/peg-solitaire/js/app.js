@@ -1,3 +1,4 @@
+import { resultLabel, scoreCopy } from './presentation.js';
 /**
  * Tek Taş — TLab Edition · arayüz katmanı.
  * TarikLab özgün uygulaması. Kurallar `solitaire.js` içinde.
@@ -18,6 +19,8 @@ import {
   suggestMove,
   undoMove,
 } from "./solitaire.js?v=1";
+
+const language = () => window.tlabI18n?.getLang?.() || 'tr';
 
 const STORAGE_KEY = "tlab.tektas.v1";
 const STEP = 10;
@@ -67,7 +70,7 @@ function renderBest() {
   const best = readBest();
   el("stat-best").textContent = best ? String(best.remaining) : "—";
   el("best-line").textContent = best
-    ? `En iyin: ${best.remaining} taş kaldı · ${best.moves} hamle${best.center ? " · merkezde" : ""}`
+    ? scoreCopy("best", best, language())
     : "Henüz kayıtlı bir derecen yok.";
 }
 
@@ -184,14 +187,14 @@ function checkEnd() {
   }
   renderBest();
 
-  el("result-grade").textContent = status.grade;
-  el("result-note").textContent = better ? `${status.note} Yeni kişisel rekor.` : status.note;
+  el("result-grade").textContent = resultLabel(status.grade, language());
+  el("result-note").textContent = scoreCopy("note", { ...status, better }, language());
   el("result-pegs").textContent = String(status.remaining);
   el("result-moves").textContent = String(game.moves);
   setStatus(
     status.reason === "solved"
-      ? `Tek taş kaldı — ${status.grade}.`
-      : `Hamle kalmadı — ${status.remaining} taş, ${status.grade}.`,
+      ? language() === "pl" ? `Pozostał jeden pionek — ${resultLabel(status.grade, language())}.` : language() === "en" ? `One peg remains — ${resultLabel(status.grade, language())}.` : `Tek taş kaldı — ${status.grade}.`
+      : scoreCopy("terminal", status, language()),
   );
   if (typeof dialog.showModal === "function") dialog.showModal();
 }

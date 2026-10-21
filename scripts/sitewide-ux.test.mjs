@@ -120,7 +120,8 @@ test("mobile navigation has bounded expanded scrolling and does not hide desktop
 
 test("new UI module graph and every Next Wave shell use fresh online assets, with offline fallback", async () => {
   const handlers = {}, network = [], cached = [];
-  const cache = { put() {}, async match(req) { cached.push(req.url); return "offline"; } };
+  // The real Cache API always returns a Promise, including successful writes.
+  const cache = { async put() {}, async match(req) { cached.push(req.url); return "offline"; } };
   const context = vm.createContext({
     self: { location: { origin: "https://www.tariklab.com" }, addEventListener(name, fn) { handlers[name] = fn; } },
     URL, Response, caches: { async open() { return cache; } },

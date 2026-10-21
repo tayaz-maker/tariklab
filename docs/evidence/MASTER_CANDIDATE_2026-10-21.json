@@ -1,0 +1,158 @@
+{
+  "date": "2026-10-21",
+  "status": "PASS",
+  "scope": "Integrated candidate acceptance; final main CI and two-host release remain mandatory",
+  "sourceProductCommit": "7946724",
+  "publishedCandidate": "f7142d9c7e90b9b194bfcf1eb164ded86c80d03c",
+  "source": {
+    "cells": 96,
+    "passed": 96,
+    "hashes": 237
+  },
+  "built": {
+    "cells": 96,
+    "passed": 96,
+    "offline": 32,
+    "offlinePassed": 32,
+    "exactAssetHashes": 269
+  },
+  "method": "Reuse the 14 successful games from full built run; replace only two duel rows after strict harness label/CDP-body transport correction. Product bytes unchanged; original failure receipt retained. This is a composed complete matrix, not a false all-green claim for the first run.",
+  "games": [
+    {
+      "id": "amiral-batti",
+      "render": 6,
+      "offline": 2,
+      "status": "PASS",
+      "nonemptySaveExpected": true
+    },
+    {
+      "id": "apartman",
+      "render": 6,
+      "offline": 2,
+      "status": "PASS",
+      "nonemptySaveExpected": true
+    },
+    {
+      "id": "cete-savaslari",
+      "render": 6,
+      "offline": 2,
+      "status": "PASS",
+      "nonemptySaveExpected": true
+    },
+    {
+      "id": "gett-oh",
+      "render": 6,
+      "offline": 2,
+      "status": "PASS",
+      "nonemptySaveExpected": true
+    },
+    {
+      "id": "hanedanian",
+      "render": 6,
+      "offline": 2,
+      "status": "PASS",
+      "nonemptySaveExpected": true
+    },
+    {
+      "id": "jitem-derin-ag",
+      "render": 6,
+      "offline": 2,
+      "status": "PASS",
+      "nonemptySaveExpected": true
+    },
+    {
+      "id": "kayip-telefon",
+      "render": 6,
+      "offline": 2,
+      "status": "PASS",
+      "nonemptySaveExpected": true
+    },
+    {
+      "id": "labirent",
+      "render": 6,
+      "offline": 2,
+      "status": "PASS",
+      "nonemptySaveExpected": false
+    },
+    {
+      "id": "peg-solitaire",
+      "render": 6,
+      "offline": 2,
+      "status": "PASS",
+      "nonemptySaveExpected": false
+    },
+    {
+      "id": "racon",
+      "render": 6,
+      "offline": 2,
+      "status": "PASS",
+      "nonemptySaveExpected": true
+    },
+    {
+      "id": "satranc",
+      "render": 6,
+      "offline": 2,
+      "status": "PASS",
+      "nonemptySaveExpected": false
+    },
+    {
+      "id": "son-100-gun",
+      "render": 6,
+      "offline": 2,
+      "status": "PASS",
+      "nonemptySaveExpected": true
+    },
+    {
+      "id": "son-kasaba",
+      "render": 6,
+      "offline": 2,
+      "status": "PASS",
+      "nonemptySaveExpected": true
+    },
+    {
+      "id": "tc-sim",
+      "render": 6,
+      "offline": 2,
+      "status": "PASS",
+      "nonemptySaveExpected": true
+    },
+    {
+      "id": "tc-sim-devlet",
+      "render": 6,
+      "offline": 2,
+      "status": "PASS",
+      "nonemptySaveExpected": true
+    },
+    {
+      "id": "veto-h",
+      "render": 6,
+      "offline": 2,
+      "status": "PASS",
+      "nonemptySaveExpected": true
+    }
+  ],
+  "receipts": [
+    {
+      "path": "../master-final-evidence/screenshots/master-production/integrated-built/results.json",
+      "sha256": "fc7228c1c3b8d3c6da4994a6bc8654841e8e699876f82d320ec96fe81e22dc99"
+    },
+    {
+      "path": "../master-final-evidence/screenshots/master-production/integrated-built-duel-final/results.json",
+      "sha256": "4784d1509efab64566deda7af2f38ddb5e98f4120fefcda4eaf3aee2af9d9dbb"
+    },
+    {
+      "path": "work/screenshots/master-production/integrated-source/results.json",
+      "sha256": "2e1e60664c2d9231e938635408285b9d80e1f9ef5845b012153094f9b8f34346"
+    }
+  ],
+  "limits": [
+    "Physical devices not tested",
+    "Real-user login/recovery/SMTP delivery not tested",
+    "JITEM PL shell uses EN game fallback",
+    "Generic language gate certifies selected authored labels, not every narrative sentence"
+  ],
+  "backlog": [
+    "GETT-OH RCN-083 generic fusion opening-balance/feel review remains a protected medium-risk product task",
+    "TC long-game goal/balance and richer relationship explanations remain optional product polish"
+  ]
+}

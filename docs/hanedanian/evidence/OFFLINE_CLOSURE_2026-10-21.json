@@ -1,0 +1,157 @@
+{
+  "base": "f7da2f1854a0ab04cef571ca5537e6d9011ea942",
+  "packageFiles": 23,
+  "summary": {
+    "cells": 6,
+    "passed": 6,
+    "offlinePassed": 2,
+    "offlineExpected": 2,
+    "offlineStatus": "required"
+  },
+  "offline": [
+    {
+      "lang": "tr",
+      "ok": true,
+      "errors": [],
+      "requestFailures": [],
+      "saveHashes": {
+        "before": {
+          "idb:hanedanian:manual": "14d717bd59846ab024c268a3fb9931f432c5ceabadef2e390eb42bbefad8b258"
+        },
+        "after": {
+          "idb:hanedanian:manual": "14d717bd59846ab024c268a3fb9931f432c5ceabadef2e390eb42bbefad8b258"
+        }
+      },
+      "language": {
+        "document": "tr",
+        "selected": "tr"
+      },
+      "render": {
+        "surface": "http://127.0.0.1:18210/games/hanedanian/index.html",
+        "text": "H.\n?\nMenü\nYeni bir çağ\nⅡ\n1×\n4×\n12×\nYERYÜZÜ DEFTERİ / 01\nH\n\nBir ocak yak.\nBir yol aç.\nBir iz bırak.\n\nANADOLU'DAN ESİNLENEN ÖZGÜN BİR DÜNYA\n\nTARIKLAB · TEK OYUNCULU STRATEJİ\n\nHANEDANIAN\n\nToprak bir başlangıç.\nHanedan, verd",
+        "length": 672,
+        "width": 390,
+        "scroll": 390,
+        "title": "HANEDANIAN — TarikLab",
+        "documentLanguage": "tr"
+      },
+      "frames": [
+        {
+          "url": "http://127.0.0.1:18210/oyna/hanedanian",
+          "text": "←\nTR\nEN\nPL",
+          "controller": "http://127.0.0.1:18210/sw.js",
+          "registrations": [
+            {
+              "scope": "http://127.0.0.1:18210/",
+              "active": "http://127.0.0.1:18210/sw.js"
+            },
+            {
+              "scope": "http://127.0.0.1:18210/games/hanedanian/",
+              "active": "http://127.0.0.1:18210/games/hanedanian/sw.js"
+            }
+          ],
+          "caches": [
+            "cete-offline-v7",
+            "hanedanian-package-daddde142adfc5ce"
+          ]
+        },
+        {
+          "url": "http://127.0.0.1:18210/games/hanedanian/index.html",
+          "text": "H.\n?\nMenü\nYeni bir çağ\nⅡ\n1×\n4×\n12×\nYERYÜZÜ DEFTERİ / 01\nH\n\nBir ocak yak.\nBir yol aç.\nBir iz bırak.\n\nANADOLU'DAN ESİNLENEN ÖZGÜN BİR DÜNYA\n\nTARIKLAB · TEK OYUNCULU STRATEJİ\n\nHANEDAN",
+          "controller": "http://127.0.0.1:18210/games/hanedanian/sw.js",
+          "registrations": [
+            {
+              "scope": "http://127.0.0.1:18210/",
+              "active": "http://127.0.0.1:18210/sw.js"
+            },
+            {
+              "scope": "http://127.0.0.1:18210/games/hanedanian/",
+              "active": "http://127.0.0.1:18210/games/hanedanian/sw.js"
+            }
+          ],
+          "caches": [
+            "cete-offline-v7",
+            "hanedanian-package-daddde142adfc5ce"
+          ]
+        }
+      ]
+    },
+    {
+      "lang": "pl",
+      "ok": true,
+      "errors": [],
+      "requestFailures": [],
+      "saveHashes": {
+        "before": {
+          "idb:hanedanian:manual": "6f1b335de2aa0aa40cbb6191f855f03f5aa24b1cdf605a2103ecf76e8b6c87ef"
+        },
+        "after": {
+          "idb:hanedanian:manual": "6f1b335de2aa0aa40cbb6191f855f03f5aa24b1cdf605a2103ecf76e8b6c87ef"
+        }
+      },
+      "language": {
+        "document": "pl",
+        "selected": "pl"
+      },
+      "render": {
+        "surface": "http://127.0.0.1:18210/games/hanedanian/index.html",
+        "text": "H.\n?\nMenu\nNowa epoka\nⅡ\n1×\n4×\n12×\nKSIĘGA ŚWIATA / 01\nH\n\nRozpal ognisko.\nOtwórz drogę.\nZostaw ślad.\n\nORYGINALNY ŚWIAT INSPIROWANY ANATOLIĄ\n\nTARIKLAB · SINGLE-PLAYER STRATEGY\n\nHANEDANIAN\n\nZiemia to dopiero początek.\nTwoje d",
+        "length": 673,
+        "width": 390,
+        "scroll": 390,
+        "title": "HANEDANIAN — TarikLab",
+        "documentLanguage": "pl"
+      },
+      "frames": [
+        {
+          "url": "http://127.0.0.1:18210/oyna/hanedanian",
+          "text": "←\nTR\nEN\nPL",
+          "controller": "http://127.0.0.1:18210/sw.js",
+          "registrations": [
+            {
+              "scope": "http://127.0.0.1:18210/",
+              "active": "http://127.0.0.1:18210/sw.js"
+            },
+            {
+              "scope": "http://127.0.0.1:18210/games/hanedanian/",
+              "active": "http://127.0.0.1:18210/games/hanedanian/sw.js"
+            }
+          ],
+          "caches": [
+            "cete-offline-v7",
+            "hanedanian-package-daddde142adfc5ce"
+          ]
+        },
+        {
+          "url": "http://127.0.0.1:18210/games/hanedanian/index.html",
+          "text": "H.\n?\nMenu\nNowa epoka\nⅡ\n1×\n4×\n12×\nKSIĘGA ŚWIATA / 01\nH\n\nRozpal ognisko.\nOtwórz drogę.\nZostaw ślad.\n\nORYGINALNY ŚWIAT INSPIROWANY ANATOLIĄ\n\nTARIKLAB · SINGLE-PLAYER STRATEGY\n\nHANEDAN",
+          "controller": "http://127.0.0.1:18210/games/hanedanian/sw.js",
+          "registrations": [
+            {
+              "scope": "http://127.0.0.1:18210/",
+              "active": "http://127.0.0.1:18210/sw.js"
+            },
+            {
+              "scope": "http://127.0.0.1:18210/games/hanedanian/",
+              "active": "http://127.0.0.1:18210/games/hanedanian/sw.js"
+            }
+          ],
+          "caches": [
+            "cete-offline-v7",
+            "hanedanian-package-daddde142adfc5ce"
+          ]
+        }
+      ]
+    }
+  ],
+  "workerSha256": "ce8196477bed8a91e39b8a2aad5bbcb14e129b15410274ed05f48dbd7e938e9b",
+  "sourceAssetsUnchanged": true,
+  "checks": {
+    "closureAndGeneratorUnit": "20/20 PASS",
+    "redirectTransport": "4/4 PASS",
+    "nativeRedirectBrowser": "expected baseline failure / fixed PASS",
+    "build": "PASS",
+    "typecheck": "PASS",
+    "scopedLint": "PASS"
+  }
+}

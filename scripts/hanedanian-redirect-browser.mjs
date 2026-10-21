@@ -26,8 +26,8 @@ assert.equal([...archivedWorker.toString().matchAll(new RegExp(oldFiles.source,'
 const baselineWorker = Buffer.from(archivedWorker.toString().replace(oldFiles, 'const FILES = [ROOT + "index.html"];'));
 const fixedWorker = await readFile(resolve(root, 'games/hanedanian/sw.js'));
 const expectedHTML = await readFile(resolve(root, 'games/hanedanian/index.html'));
-const mime = {'.js':'text/javascript','.html':'text/html; charset=utf-8','.css':'text/css','.svg':'image/svg+xml','.webmanifest':'application/manifest+json','.json':'application/json','.png':'image/png','.webp':'image/webp','.ico':'image/x-icon'};
-const report = {baseline: BASELINE, archivedWorkerSHA256:digest(archivedWorker), baselineMinimization:'Only FILES is reduced to real index.html; original fetch handler untouched. Candidate must install all19 assets.', scope:'Local canonical-redirect fixture; no production browser requests', transport:'gzip for textual responses when Accept-Encoding permits; identical for baseline and fixed', fixtureDeviation:'The static build has no SSR portal index: / and /cete-savaslari retain measured 404s in both cases. Both cases retain the same transport and SSR-shell deviation; baseline input minimization is recorded separately. This is not full-site production parity.', cases:[], errors:[]};
+const mime = {'.js':'text/javascript','.mjs':'text/javascript','.html':'text/html; charset=utf-8','.css':'text/css','.svg':'image/svg+xml','.webmanifest':'application/manifest+json','.json':'application/json','.png':'image/png','.webp':'image/webp','.ico':'image/x-icon'};
+const report = {baseline: BASELINE, archivedWorkerSHA256:digest(archivedWorker), baselineMinimization:'Only FILES is reduced to real index.html; original fetch handler untouched. Candidate must install all23 assets.', scope:'Local canonical-redirect fixture; no production browser requests', transport:'gzip for textual responses when Accept-Encoding permits; identical for baseline and fixed', fixtureDeviation:'The static build has no SSR portal index: / and /cete-savaslari retain measured 404s in both cases. Both cases retain the same transport and SSR-shell deviation; baseline input minimization is recorded separately. This is not full-site production parity.', cases:[], errors:[]};
 let browser;
 
 async function exportState(page) {
@@ -128,7 +128,7 @@ async function runCase(label, worker) {
     await page.waitForFunction(() => navigator.serviceWorker.controller?.scriptURL.endsWith('/games/hanedanian/sw.js') && navigator.serviceWorker.controller.state === 'activated', null, {timeout:30000});
     entry.beforeReload = await snapshot(page);
     assert.equal(entry.beforeReload.packages.length, 1, 'one atomically installed game version');
-    assert.equal(entry.beforeReload.packages[0].files, label === 'baseline' ? 1 : 19, 'minimal old redirect case versus complete fixed game package');
+    assert.equal(entry.beforeReload.packages[0].files, label === 'baseline' ? 1 : 23, 'minimal old redirect case versus complete fixed game package');
     const cached = entry.beforeReload.packages[0].html;
     assert.equal(cached.sha256, digest(expectedHTML), 'exact real HTML bytes cached');
     assert.equal(cached.status, 200);
@@ -158,9 +158,9 @@ async function runCase(label, worker) {
     entry.offlineReload = true;
     assert.ok(entry.navigations.at(-1).fromServiceWorker, 'offline reload uses installed cache');
     assert.deepEqual(entry.pageErrors, [], 'no uncaught game errors');
-    // The optional translation layer may be unavailable offline; navigation and
-    // every mandatory game package response must still succeed.
-    assert.equal(entry.requestFailures.filter(r => r.document || r.url.includes(GAME)).length, 0, 'no game package or navigation failures');
+    // Locale/renderer-loader closure now belongs to the same atomic package.
+    const runtimePaths = ['/i18n/pl-body.js', '/i18n/pl/hanedanian.json', '/games/shared/pixi-adapter.js', '/vendor/pixi/pixi-8.21.0.min.mjs'];
+    assert.equal(entry.requestFailures.filter(r => r.document || r.url.includes(GAME) || runtimePaths.some(path => r.url.includes(path))).length, 0, 'no game package, locale, renderer or navigation failures');
     await page.screenshot({path:resolve(out, `${label}-offline.png`)});
     entry.offlineNetworkDisabled = await page.evaluate(async () => {try {await fetch('/__uncached_redirect_probe__');return false;}catch{return true;}});
     assert.equal(entry.offlineNetworkDisabled, true, 'uncached network really fails');

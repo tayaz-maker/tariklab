@@ -10,6 +10,7 @@ import { coastArchiveAcceptance } from "./esik-archive-browser.mjs";
 import { archiveAcceptance } from "./ihtilal-archive-browser.mjs";
 import { townBrowser } from "./son-kasaba-browser.mjs";
 import { correctionFlows } from "./playability-browser.mjs";
+import { rootOfflineRegistrationCI } from "./root-offline-registration-browser.mjs";
 import { deskFlows, deskLanguageSwitch } from "./management-desk-browser.mjs";
 
 const origin = "http://127.0.0.1:8081";
@@ -345,3 +346,7 @@ try {
 }
 console.log(JSON.stringify({ checks: results.length, errors }, null, 2));
 assert.equal(errors.length, 0, "responsive/interaction regression failed");
+
+// Production registration is intentionally disabled in Vite dev. Verify the
+// same root lifecycle against the existing compiled Worker as well.
+await rootOfflineRegistrationCI(`${out}/root-offline`);
