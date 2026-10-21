@@ -160,6 +160,7 @@ try {
       await page.goto(`${origin}/games/tc-sim/index.html`, { waitUntil: "networkidle" });
       assert.equal(new URL(page.url()).origin, origin);
       await page.locator("#continue-game").click();
+      assert.equal(await page.locator('.top-shortcuts [data-view="banks"]').textContent(), {tr:"Bankalar",en:"Banks",pl:"Banki"}[language], "bank shortcut uses the selected language");
       await navigateToBanks(page);
       const readyMs = Math.round(performance.now() - started);
       const heading = { tr: "Banka hesapların", en: "Your bank accounts", pl: "Twoje rachunki bankowe" }[language];
