@@ -269,7 +269,7 @@ function execute(state, action, ownerId) {
   }
   const town = state.settlements.find(item => item.id === action.settlementId && item.ownerId === ownerId);
   if (!town) return fail('Kendi yerleşimlerinden birini seç.');
-  if (player && ['specialize','project','contribute','supplyOrder','cancelSupply'].includes(action.type)) return campaignCommand(state, action, town);
+  if (player && ['specialize','project','contribute','supplyOrder','cancelSupply','localContributionOrder'].includes(action.type)) return campaignCommand(state, action, town);
   if (action.type === 'build') {
     if (!Object.hasOwn(BUILDINGS, action.building)) return fail('Bina türü geçersiz.');
     const def = BUILDINGS[action.building], level = town.buildings[action.building] + town.queue.filter(item => item.kind === 'build' && item.building === action.building).length;
@@ -594,6 +594,9 @@ function tick(state, rateCache) {
     report(state, 'dynasty', 'Hanedan kararı bekliyor', 'Varisin geleceğini Hanedan bölümünde belirle. Zamanı istediğinde sürdürebilirsin.', true);
   }
   if (state.time % 60 !== 0) return;
+  for (const [id, project] of Object.entries(progressOf(state).projects)) {
+    if (project.active && project.autoContribute) execute(state, {type:'contribute', settlementId:project.townId, path:id.split(':')[0]}, state.playerId);
+  }
   completeProjects(state);
   for (const [id, order] of Object.entries(progressOf(state).supply)) {
     const town = state.settlements.find(t=>t.id===id && t.ownerId===state.playerId);

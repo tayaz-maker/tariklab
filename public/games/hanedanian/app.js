@@ -797,7 +797,7 @@ function regionalHTML() {
   const town = activeTown(), p = progressOf(state), region = regionOf(state, town);
   return `<article class="card wide"><p class="eyebrow">BÖLGESEL GELİŞİM</p><h3>${esc(town.name)} · ${esc(REGION_NAMES[region])}</h3><p>Her aşamanın dört kaynak maliyeti vardır: yarısı yerel katkı, yarısı başka bölgeden ikmal. Yük yatırımda tüketilir; aynı malı dolaştırarak zafer kazanılmaz.</p><div class="row">${Object.entries(SPECIALIZATIONS).map(([key,label])=>`<button data-specialty="${key}" ${p.specializations[town.id]===key?'disabled':''}>${esc(label)}</button>`).join('')}</div>${p.supply[town.id]?'<button data-cancel-supply="true">İkmal emrini durdur</button>':''}<p>Uzmanlık: konak 2 ve her kaynaktan 180. İaşe +%30 erzak / −%15 demir; üretim +%15 malzeme / −%20 erzak. Diğer merkezler ilgili yatırımı açar.</p></article>` + ['wealth','dominion','dynasty'].map(path=>{
     const info = projectRequirements(state,town,path), project=p.projects[`${path}:${region}`];
-    return `<article class="card"><h3>${esc({wealth:'Ekonomik',dominion:'Askeri',dynasty:'Siyasi'}[path])} bölge · ${info.level}/3</h3>${info.requirements.map(goalHTML).join('')}${project?.active?`<p>Her kaynak için yerel katkı: ${fmt(project.paid)} / ${fmt(PROJECT_QUOTAS[project.level])}<br>İthal ikmal: ${fmt(project.imported)} / ${fmt(PROJECT_QUOTAS[project.level])}</p><button data-contribute="${path}">Yerel katkı yap (500 stok korunur)</button>`:`<button data-project="${path}" ${info.level>=3?'disabled':''}>${info.level>=3?'Bölge tamamlandı':'Yatırım fermanı · 15 nüfuz'}</button>`}<p>Final ikmali: ${fmt(p.finales[path]?.[region]||0)} / 12.000 (her kaynak). Diğer yol koşulları tamamlanınca ikmal hatları finali besler.</p><button data-supply-setup="${path}">Bu yurttan ikmal hattı kur</button></article>`;
+    return `<article class="card"><h3>${esc({wealth:'Ekonomik',dominion:'Askeri',dynasty:'Siyasi'}[path])} bölge · ${info.level}/3</h3>${info.requirements.map(goalHTML).join('')}${project?.active?`<p>Her kaynak için yerel katkı: ${fmt(project.paid)} / ${fmt(PROJECT_QUOTAS[project.level])}<br>İthal ikmal: ${fmt(project.imported)} / ${fmt(PROJECT_QUOTAS[project.level])}</p><button data-contribute="${path}">${project.autoContribute?"Yerel katkı · sürüyor":"Yerel katkı · 500 stok"}</button>`:`<button data-project="${path}" ${info.level>=3?'disabled':''}>${info.level>=3?'Bölge tamamlandı':'Yatırım fermanı · 15 nüfuz'}</button>`}<p>Final ikmali: ${fmt(p.finales[path]?.[region]||0)} / 12.000 (her kaynak). Diğer yol koşulları tamamlanınca ikmal hatları finali besler.</p><button data-supply-setup="${path}">Bu yurttan ikmal hattı kur</button></article>`;
   }).join('');
 }
 // Regional specialization only pays off once a second settlement exists to
@@ -1133,6 +1133,16 @@ document.addEventListener("click", async (event) => {
   if (b.dataset.cancelSupply) { doAction({type:'cancelSupply',settlementId:activeTown().id}); return; }
   if (b.dataset.demobilize) { demobilizeDialog(b.dataset.demobilize); return; }
   if (b.dataset.specialty) { doAction({type:'specialize',settlementId:activeTown().id,specialty:b.dataset.specialty}); return; }
+  if (b.dataset.localContribution) {
+    const result=doAction({type:b.dataset.localContribution==='once'?'contribute':'localContributionOrder',settlementId:activeTown().id,path:b.dataset.path,enabled:b.dataset.localContribution==='start'});
+    if(result?.ok) closeDialog();
+    return;
+  }
+  if (b.dataset.contribute) {
+    const path=b.dataset.contribute, project=progressOf(state).projects[`${path}:${regionOf(state,activeTown())}`];
+    openDialog('Yerel katkı', `<p>Her katkı en fazla 1.500/kaynak ayırır; her kaynaktan 500 stok korunur. Otomatik emir her oyun saatinde aynı bedelle çalışır, yalnız bu yatırım aşaması içindir. Zaman duruyorsa katkı da bekler.</p><div class="row"><button data-local-contribution="once" data-path="${path}">Bir kez katkı yap</button><button data-local-contribution="${project?.autoContribute?'stop':'start'}" data-path="${path}">${project?.autoContribute?'Otomatik katkıyı durdur':'Saatlik katkıyı sürdür'}</button></div>`);
+    return;
+  }
   if (b.dataset.project || b.dataset.contribute) { doAction({type:b.dataset.project?'project':'contribute',settlementId:activeTown().id,path:b.dataset.project||b.dataset.contribute}); return; }
   if (b.dataset.supplySetup) { supplyDialog(b.dataset.supplySetup); return; }
   if (b.dataset.supplyTarget) { doAction({type:'supplyOrder',settlementId:activeTown().id,targetId:b.dataset.supplyTarget,path:b.dataset.path}); return; }
