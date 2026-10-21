@@ -8,7 +8,7 @@ function fixture(){const s=createGame({seed:'AI-CONQUEST',size:17,aiCount:1});s.
 test('AI buys siege through the real queue, travels and captures only the side settlement',()=>{
  const s=fixture(),capital=s.settlements[0],side=s.settlements[2],ai=s.settlements[1];advance(s,1);assert.ok(ai.queue.some(q=>q.unit==='siege'&&q.count===2));assert.equal(ai.troops.siege,0);assert.ok(ai.resources.wood<4000);const launches=[];const seen=new Set();
  for(let i=0;i<2500&&side.ownerId==='player';i++){advance(s,1);for(const a of s.armies)if(a.mission==='attack'&&!seen.has(a.id)){seen.add(a.id);launches.push(structuredClone(a));}}
- assert.equal(side.ownerId,'ai-1',JSON.stringify({launches,ai:ai.troops,queue:ai.queue,intel:s.factions[1].intel,armies:s.armies,terrain:s.world.tiles[ai.y*17+ai.x].terrain}));assert.equal(capital.ownerId,'player');assert.ok(launches.some(a=>a.troops.siege>=4&&a.arriveAt>a.departAt));assert.ok(validateState(s).ok);
+ assert.equal(side.ownerId,'ai-1',JSON.stringify({launches,ai:ai.troops,queue:ai.queue,intel:s.factions[1].intel,armies:s.armies,terrain:s.world.tiles[ai.y*17+ai.x].terrain}));assert.equal(capital.ownerId,'player');assert.ok(s.campaign.chronicle.some(e=>e.type==='loss'&&e.title.includes(side.name)));assert.ok(launches.some(a=>a.troops.siege>=4&&a.arriveAt>a.departAt));assert.ok(validateState(s).ok);
 });
 test('unknown or stale garrisons cannot be used to start an AI attack',()=>{
  for(const mode of ['missing','stale']){const s=fixture(),ai=s.settlements[1];ai.troops.siege=4;if(mode==='missing')delete s.factions[1].intel;else Object.values(s.factions[1].intel)[0].time=0;advance(s,1);assert.equal(s.armies.some(a=>a.mission==='attack'),false);}

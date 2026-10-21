@@ -1,4 +1,4 @@
-import { progressOf, regionOf, REGION_NAMES, SPECIALIZATIONS, PROJECT_QUOTAS, projectRequirements } from "./campaign.js";
+import { victorySummary, progressOf, regionOf, REGION_NAMES, SPECIALIZATIONS, PROJECT_QUOTAS, projectRequirements } from "./campaign.js";
 import {
   createGame,
   advance,
@@ -782,7 +782,7 @@ function councilHTML() {
     ) +
     `<div class="tabs-inline"><button class="${councilTab === "reports" ? "active" : ""}" data-council="reports">Raporlar</button><button class="${councilTab === "diplomacy" ? "active" : ""}" data-council="diplomacy">Hanedanlar</button></div>` +
     (councilTab === "reports"
-      ? `<div class="card">${state.reports.map((r) => `<article class="report ${r.critical ? "critical" : ""}"><small>${gameDate(r.time)} · ${esc(reportTypeLabel(r.type))}</small><h3>${esc(r.title)}</h3><p>${esc(r.text)}</p></article>`).join("") || "<p>İlk kararını verdiğinde sonuçları burada göreceksin.</p>"}</div>`
+      ? `<div class="card"><details><summary>${esc('Hanedan hafızası')} · ${state.campaign.chronicle?.length||0}</summary>${(state.campaign.chronicle||[]).map(e=>`<article class="report"><small>${gameDate(e.time)}</small><h3>${esc(e.title)}</h3><p>${esc(e.text)}</p></article>`).join('')||`<p>${esc('Bu eski kayıtta önceki olayların tarihleri bulunmuyor.')}</p>`}</details>${state.reports.map((r) => `<article class="report ${r.critical ? "critical" : ""}"><small>${gameDate(r.time)} · ${esc(reportTypeLabel(r.type))}</small><h3>${esc(r.title)}</h3><p>${esc(r.text)}</p></article>`).join("") || "<p>İlk kararını verdiğinde sonuçları burada göreceksin.</p>"}</div>`
       : `<div class="section-grid">${state.factions
           .filter((f) => f.id !== state.playerId)
           .map((f) => {
@@ -856,7 +856,7 @@ function dynastyHTML() {
       )
       .join(
         "",
-      )}</div><p style="margin-top:12px">${(d.traits || []).map(esc).join(" · ")}</p></div><div class="card"><p class="eyebrow">KAMPANYA</p><h2 style="margin:8px 0">${esc(campaign.label)}</h2>${campaign.goals.map(goalHTML).join("")}<p style="margin-top:18px">Nüfuz; keşif, gelişim ve siyasi başarıyla kazanılır. Yeni yerleşimler ve anlaşmalar için harcanır.</p></div>${regionalSectionHTML()}${campaign.paths.map((path) => `<article class="card"><div class="card-meta"><h3>${esc(path.label)}</h3><span class="badge">Kurultay yolu</span></div>${path.requirements.map(goalHTML).join("")}<button class="primary" data-victory="${esc(path.id)}" ${path.ready ? "" : "disabled"}>${path.ready ? "Kurultayı topla" : "Koşullar hazırlanıyor"}</button></article>`).join("")}${state.campaign.victory ? `<div class="card wide"><h2>${state.campaign.victory === "defeat" ? "Hanedanın sınırı" : "Adın deftere yazıldı."}</h2><p>${esc(typeof state.campaign.victory === "string" ? state.campaign.victory : state.campaign.victory.path || "Kurultay tamamlandı")}</p><button class="primary" data-action="continue">Dünyada devam et</button><button data-action="new">Yeni kampanya</button></div>` : ""}</div>`
+      )}</div><p style="margin-top:12px">${(d.traits || []).map(esc).join(" · ")}</p></div><div class="card"><p class="eyebrow">KAMPANYA</p><h2 style="margin:8px 0">${esc(campaign.label)}</h2>${campaign.goals.map(goalHTML).join("")}<p style="margin-top:18px">Nüfuz; keşif, gelişim ve siyasi başarıyla kazanılır. Yeni yerleşimler ve anlaşmalar için harcanır.</p></div>${regionalSectionHTML()}${campaign.paths.map((path) => `<article class="card"><div class="card-meta"><h3>${esc(path.label)}</h3><span class="badge">Kurultay yolu</span></div>${path.requirements.map(goalHTML).join("")}<button class="primary" data-victory="${esc(path.id)}" ${path.ready ? "" : "disabled"}>${path.ready ? "Kurultayı topla" : "Koşullar hazırlanıyor"}</button></article>`).join("")}${state.campaign.victory ? `<div class="card wide"><h2>${state.campaign.victory === "defeat" ? "Hanedanın sınırı" : "Adın deftere yazıldı."}</h2><p>${esc(victorySummary(state,getLang()))}</p><button class="primary" data-action="continue">Dünyada devam et</button><button data-action="new">Yeni kampanya</button></div>` : ""}</div>`
   );
 }
 function render() {
@@ -1232,7 +1232,7 @@ document.addEventListener("click", async (event) => {
       setView("dynasty");
       openDialog(
         "Büyük Kurultay",
-        `<div class="note"><h2>Bir hanedan, bir miras.</h2><p>${esc(result.message)}</p></div><button class="primary" data-action="continue">Dünyada devam et</button>`,
+        `<div class="note"><h2>Bir hanedan, bir miras.</h2><p>${esc(victorySummary(state,getLang()))}</p></div><button class="primary" data-action="continue">Dünyada devam et</button>`,
       );
     }
     return;
