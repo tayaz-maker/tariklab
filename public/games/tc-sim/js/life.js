@@ -533,7 +533,7 @@ function completeEducation(state, path) {
   addMemory(state, `${path.displayName} eğitimini tamamladın.`, "important");
 }
 
-function advanceEducationProgress(state) {
+export function advanceEducationProgress(state, bonusPoints = null) {
   const active = state.education.active;
   if (!active) return false;
   const path = getPathById(active.pathId);
@@ -541,7 +541,9 @@ function advanceEducationProgress(state) {
     state.education.active = null;
     return false;
   }
-  active.progressPoints += getWeeklyProgressGain(active.intensity);
+  // Focus bonuses share the same tuition and graduation path as a normal week.
+  const gain = bonusPoints === null ? getWeeklyProgressGain(active.intensity) : Math.max(0, Math.min(4, Number(bonusPoints) || 0));
+  active.progressPoints += gain;
   // O ay doğan borç ay içinde yalnız artabilir: pahalı programı bırakıp ucuza
   // geçerek borcu düşürmek engellenir. Ay sonunda tahsil edilip sıfırlanır.
   state.education.tuitionOwedThisMonth = Math.max(
