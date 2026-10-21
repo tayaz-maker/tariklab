@@ -39,7 +39,8 @@ try {for(const language of ['tr','en','pl']) for(const width of [320,390,1280,14
  await page.locator('.life-nav-remember input').uncheck();
  await page.locator('.side-nav [data-view="dashboard"]').click();
  const metrics=await page.evaluate(()=>({overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth,bytes:performance.getEntriesByType('resource').reduce((s,r)=>s+r.transferSize,0),requests:performance.getEntriesByType('resource').length}));
- assert.equal(metrics.overflow,0);assert.deepEqual(errors,[]);assert.equal(await page.evaluate(()=>localStorage.getItem('tariklab::tc-sim:1')),saved,'UI never rewrites game saves');
+ // A reserved classic scrollbar can make scrollWidth smaller than clientWidth.
+ assert.ok(metrics.overflow<=0,'no content extends beyond the viewport');assert.deepEqual(errors,[]);assert.equal(await page.evaluate(()=>localStorage.getItem('tariklab::tc-sim:1')),saved,'UI never rewrites game saves');
  if(language==='tr')await page.screenshot({path:`${out}/${width}.png`,fullPage:true});
  rows.push({language,width,ready,...metrics,status:'PASS'});await context.close();
  }} finally {await browser.close();server.close()}
