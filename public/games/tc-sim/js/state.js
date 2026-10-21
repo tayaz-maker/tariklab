@@ -23,6 +23,7 @@ import {
   resolveFamilyType,
   resolveNetworkMode,
   selectNetworkPeople,
+  normalizeNetworkMilestoneKnowledge,
 } from "./network.js?v=10";
 import { ensureLifeDepthState, neutralLifeDepth, validateLifeDepthState } from "./life-depth.js?v=10";
 import { createScenario } from "./historical-scenarios.js?v=10";
@@ -555,7 +556,7 @@ export function normalizeSocialState(state) {
         concern: typeof source.lifeState?.concern === "string" ? source.lifeState.concern : null,
       },
       lifeMilestones: Array.isArray(source.lifeMilestones) ? source.lifeMilestones.slice(-12) : [],
-      knownMilestones: Array.isArray(source.knownMilestones) ? [...new Set(source.knownMilestones.filter((value) => typeof value === "string"))].slice(-12) : [],
+      knownMilestones: normalizeNetworkMilestoneKnowledge({ ...source, id: fallback.id }),
       available: source.available !== false,
       romanceEligible: source.romanceEligible === true && roleId !== "family",
       possibleFavors: Array.isArray(source.possibleFavors) ? source.possibleFavors.slice(0, 6) : [],

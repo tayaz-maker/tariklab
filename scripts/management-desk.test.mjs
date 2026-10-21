@@ -120,7 +120,7 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Authorized menu ownership: navigation/shell/drafts and quarters render-only projection.
   // tc-sim-menu.test.mjs separately pins all engine bytes (quarters before its UI renderer).
   // Authorized Phase 0 gameplay package; all unrelated files retain their bytes.
-  assert.equal(hash.digest("hex"), "513ba3c8d8f80f2d6576d7481b5ed084100c8e1822b7bd892f39a9b6dd209f6c");
+  assert.equal(hash.digest("hex"), "133219c898a99974070752ff10f4e8db635ca24ce45255a92249607f8aaf8ca4");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);
