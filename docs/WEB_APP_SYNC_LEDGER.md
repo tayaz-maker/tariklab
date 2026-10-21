@@ -1202,3 +1202,11 @@ Existing job/outcome acceptance passed all 126 browser cases across resumed segm
 ### 2026-10-21 — HANEDANIAN Phase 1: optional hourly local contributions
 - Confirmed local Phase 0 C01 against main 401122f. Existing region button offers one paid contribution or a cancellable hourly order for the current phase. Same 1,500-per-resource cap, 500 reserve, quotas, game clock and guarded command; no free resources or new screen/CSS.
 - Optional project boolean round-trips in schema 1; missing flag stays manual. Targeted local contribution/progression/save/UI: 43 PASS. Audio disabled; native paused. No other game, CI, merge or deployment change.
+
+### 2026-10-21 — HANEDANIAN Phase 2: four existing AI priorities
+- Reused the existing thinkAI/execute loop. Merchant, expansionist, opportunist and ambitious now differ in paid development, troop mix/size, trade/truce propensity, expansion site choice and target distance; fortress/raider and eight-rival world remain.
+- 24 focused personality/core tests PASS: all four controlled identities differ, exact common costs are paid, eight-rival save/reload and chunked simulation are deterministic. No schema, map, CSS, other game or CI change. Based on Phase 1 #235; no merge/deployment.
+
+- Integration review: score candidate sites once against the existing point cache; identical ordering/RNG, avoiding repeated full-world scans during AI decisions.
+
+- Exact-head CI follow-up: the original legal acceptance bot failed TL-CAMPAIGN-1/dominion by ignoring incoming attack warnings. Move the existing later-stage paid-truce reaction into this owning personality stage; only the network policy reacts through guarded diplomacy, without injecting resources/treaties or relaxing victory assertions. The single failing seed now wins at 40,560 game minutes with all requirements satisfied, finite economy and no early victory. Later conquest-stage rechartering remains separate.
