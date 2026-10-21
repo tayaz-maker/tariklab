@@ -14,7 +14,7 @@
   "public/games/tc-sim/js/calendar.js": "e766adb0093d6881cb33d2657357f12b89317d7829ec1f5467f973aa35715243",
   "public/games/tc-sim/js/catalog.js": "a305d4930119ca7c4600fe25f3c999ec5495e47815afd64cac142a9f7af79f30",
   "public/games/tc-sim/js/criminal-justice.js": "89a754378c2dffa4520185859dbefcd187845e4c558f28df98ac789afbcfb593",
-  "public/games/tc-sim/js/decision-network.js": "ad8129389c3d5bf153c0243e2a4923d5d26772ae2e2fade1fa47b656e04ddf54",
+  "public/games/tc-sim/js/decision-network.js": "2b1b637b9f4259cecfa8acdc2ba395139816a4f4bfdec23b8e700216c6dd4710",
   "public/games/tc-sim/js/depth-events.js": "98742aeba5302275a74931b398486262ad1640f38af49721294f60e8de6ab044",
   "public/games/tc-sim/js/depth2-events.js": "7d1a341e95331510b6f69032b1a4f1ece6350c98cea7fc7df972b2d600b34030",
   "public/games/tc-sim/js/depth2-systems.js": "40b3ff7a753e16bd594ef11ba2e0b85f3d08085d769503015067fb10713d8348",
@@ -34,7 +34,7 @@
   "public/games/tc-sim/js/job-start-outcome-ui.js": "86d50e27fe842bd6163f97275cfa6b2dfde28346fc8489c11513784a7f8adf39",
   "public/games/tc-sim/js/job-start-outcome.js": "47fe74924c558f227bb569886fc41e20af78fa69ce062280972173f6a47fab14",
   "public/games/tc-sim/js/life-content.js": "73f2dc92c159e96b9e58bc45d45b1806339576c3e173886f33855c8827faec42",
-  "public/games/tc-sim/js/life-depth.js": "f6ebb6e63676884622f9d2dca004d5df88a5455cbf338b824293014d34722d40",
+  "public/games/tc-sim/js/life-depth.js": "1a0e3724266fd95f51ff4412d250e4601aa322c35b66f4dc53b84e65d8b33453",
   "public/games/tc-sim/js/life-echo-events.js": "6afab3213ab70f3ee343a981c362b9da960e48fb8bd1562f63eb6d136def862d",
   "public/games/tc-sim/js/life.js": "f25a7dc65ea04ad27831a3b5000184961d9c7e2be678291286d3dedbfb26ecab",
   "public/games/tc-sim/js/lifetime-ui.js": "919f482b2d4c509eddf60a1fc483868404dbecaa57d180c114c495f4266fcb34",
@@ -57,7 +57,7 @@
   "public/games/tc-sim/js/save.js": "9b9b49f1eac9546eff49750c877392bb9ea9096c7c62f3cb4c4dcb3f9bc07e86",
   "public/games/tc-sim/js/social-insurance.js": "d2bd51335350e74b75cff41f0a5dd7811bb00ec34371cefb9bd1228da71ddbb0",
   "public/games/tc-sim/js/social.js": "7971aeae0522bdf6109f755d006f5a5b36d5edf76f65db42f6936d0845028e13",
-  "public/games/tc-sim/js/state.js": "b7e74f7e78cec291a0cd2cb054af7188726e5d775444a90c18665ea127b0cc7e",
+  "public/games/tc-sim/js/state.js": "7f78f6fbf64f580a3348b8a497baf8d086c4c6142e42b9a2b3b77e2d90253ef6",
   "public/games/tc-sim/js/status-panel.js": "09f468494729aaf44ec0dd6a8bf6f594954dba43b0c51e5363108cf6db5d540d",
   "public/games/tc-sim/js/time.js": "ca03004502dc912248b45d8a867635629594d610427451749df1875ef0db5b5c",
   "public/games/tc-sim/js/ui-icons.js": "d833c1d6b74d6de6fa4bcb621a5e27788bff04f9245bde6ae8b0ad2accbe1c02",
@@ -67,5 +67,6 @@
   "public/games/tc-sim/styles.css": "6667c005a30d239e28bf30616974ec3104424083bc3ce5961cad7b9563da06fe",
   "public/games/tc-sim/ui-shell.css": "cd8791e2a442d99a04864dd151cc52711c442c4ea81d4ca0d00c8e4305ec3584",
   "public/games/tc-sim/js/ui-shell.js": "88ed7be8e610dd8b9ef45b028ee350f086c59cd60e74cab8a6a0e8f66e91fa21",
-  "public/games/tc-sim/js/navigation.js": "1baf82a51e97b416a4c70efdc6a63966c1915467dccac2be15851d5c9018b44e"
+  "public/games/tc-sim/js/navigation.js": "1baf82a51e97b416a4c70efdc6a63966c1915467dccac2be15851d5c9018b44e",
+  "public/games/tc-sim/js/yearly-goals.js": "dbbcfd193710f5f8a43651b7535639657c916ba8e8da1be4c6e86227f27597b4"
 }

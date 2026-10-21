@@ -1,3 +1,4 @@
+import { yearlyGoals } from "./yearly-goals.js?v=10";
 import { getEducationProgress } from "./education.js?v=10";
 import { bankTotals } from "./bank-accounts.js?v=10";
 import { debtBalance } from "./mortgage.js?v=10";
@@ -136,10 +137,10 @@ export function economyCausality(state) {
 }
 
 function deriveGoals(state) {
-  const d = ensureLifeDepthState(state), eco = economyCausality(state), goals = [];
+  const d = ensureLifeDepthState(state), eco = economyCausality(state), goals = yearlyGoals(state, eco.debt);
   if (eco.debt > 0 || state.finances.balance < 2500) goals.push({ id: "stabilize-finance", arc: "finance", label: "Borç ve nakit baskısını azalt", progress: eco.debt ? cap(100 - eco.debt / 100) : cap(state.finances.balance / 40) });
   if (state.career.jobId && state.career.performance < 70) goals.push({ id: "prepare-promotion", arc: "career", label: "Performans ve çevreyle terfiye hazırlan", progress: cap(state.career.performance) });
-  if (state.household.homeId === "family" && state.player.age >= 23) goals.push({ id: "housing-step", arc: "housing", label: "Sürdürülebilir bir konut adımı hazırla", progress: cap(state.finances.balance / 100) });
+  if (state.household.homeId === "family" && state.player.age >= 23) goals.push({ id: "housing-step", arc: "housing", label: "Sürdürülebilir bir konut adımı hazırla", progress: cap(state.finances.balance / 200, 0, 50) });
   const partner = state.social?.currentPartnerNpcId && state.people.find((x) => x.id === state.social.currentPartnerNpcId);
   if (partner?.social?.tension >= 35) goals.push({ id: "repair-relationship", arc: "relationship", label: "İlişkide biriken gerilimi konuş", progress: cap(100 - partner.social.tension) });
   if (state.education.active) goals.push({ id: "complete-education", arc: "education", label: "Başladığın eğitimi tamamla", progress: getEducationProgress(state)?.percent || 0 });

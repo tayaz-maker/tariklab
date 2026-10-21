@@ -123,10 +123,17 @@ export const PRIORITY_OPTIONS = {
 
 export function setYearlyPriorities(state, priorities) {
   if (!state?.yearlyPlan || !Array.isArray(priorities)) return false;
+  const before = JSON.stringify(state.yearlyPlan.priorities);
+  state.yearlyPlan.year = state.time.year;
   state.yearlyPlan.priorities = priorities
     .filter((id) => Object.hasOwn(PRIORITY_OPTIONS, id))
     .filter((id, index, list) => list.indexOf(id) === index)
     .slice(0, 2);
+  state.yearlyPlan.freeLife = state.yearlyPlan.priorities.length === 0;
+  if (before !== JSON.stringify(state.yearlyPlan.priorities) && state.decisionNetwork) {
+    state.decisionNetwork.goalId = null;
+    state.decisionNetwork.streak = 0;
+  }
   return true;
 }
 
@@ -742,6 +749,7 @@ export function normalizeEducationCareer(state) {
       ? rawPlan.priorities.filter((id) => Object.hasOwn(PRIORITY_OPTIONS, id)).slice(0, 2)
       : [],
     progress: rawPlan.progress && typeof rawPlan.progress === "object" ? rawPlan.progress : {},
+    freeLife: rawPlan.freeLife === true && !(rawPlan.priorities || []).length,
   };
   const rawBody = state.body && typeof state.body === "object" ? state.body : {};
   const rawExposures =
