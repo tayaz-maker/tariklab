@@ -1,3 +1,4 @@
+import {navigateTc} from './tc-sim-browser-navigation.mjs';
 // Browser-only responsive audit. Fixtures live in isolated contexts; never touch player saves.
 import assert from 'node:assert/strict';
 import {mkdirSync, writeFileSync} from 'node:fs';
@@ -14,7 +15,7 @@ const origin=`http://127.0.0.1:${server.address().port}`;
 const browser=await chromium.launch({executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || undefined,args:['--no-sandbox']});
 const rows=[],errors=[],interactions=[];
 let failure=null;
-const menus=['dashboard','inbox','character','calendar','finance','banks','market','career','education','people','relationships','home','body','history','yearbook'];
+const menus=['dashboard','inbox','character','calendar','finance','banks','emlak','market','career','education','people','relationships','home','body','history','yearbook'];
 try {
  for(const width of [320,360,390,430,1280,1440]) {
   const context=await browser.newContext({viewport:{width,height:900},isMobile:width<500,hasTouch:width<500});
@@ -57,11 +58,7 @@ try {
   }
   await page.locator('#back-to-intro').click();
   await page.locator('#continue-game').click();
-  const navigate=async menu=>{
-   const target=page.locator(`.side-nav [data-view="${menu}"]`);
-   if(!await target.isVisible())await page.locator('.side-nav .nav-more').click();
-   await target.click();
-  };
+  const navigate=menu=>navigateTc(page,menu);
   const saved=await page.evaluate(()=>localStorage.getItem('tariklab::tc-sim:1'));
   for(const menu of menus){
    await navigate(menu);
@@ -79,9 +76,6 @@ try {
    if(menu==='home'){
     const pins=await page.locator('[data-location-select]').evaluateAll(ns=>ns.map(n=>n.dataset.locationSelect));
     for(const id of pins){
-     const legacy=page.locator('.region-map-legacy');
-     if(await legacy.locator(`[data-location-select="${id}"]`).count() && await legacy.getAttribute('open')===null)
-      await legacy.locator('summary').click();
      await page.locator(`[data-location-select="${id}"]`).click();
      assert.equal(await page.locator(`[data-location-select="${id}"]`).getAttribute('aria-pressed'),'true');
     }

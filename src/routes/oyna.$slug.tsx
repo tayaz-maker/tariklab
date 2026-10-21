@@ -40,6 +40,7 @@ function Html5Play() {
   const frameRef = useRef<HTMLIFrameElement>(null);
   const [initialLang] = useState(lang);
   const isJitem = canonical === "jitem-derin-ag";
+  const isTcSim = canonical === "tc-sim";
   const title = g ? catalogEntry(lang, g.slug, g).title : "Oyun";
   // JITEM's embedded runtime currently owns TR/EN content only. Keep the shell
   // Polish, but send its deterministic existing English fallback to the iframe.
@@ -59,6 +60,7 @@ function Html5Play() {
 
   return (
     <div className="flex h-dvh min-h-0 flex-col bg-bg">
+      {!isTcSim && (
       <div className="relative z-50 flex h-8 shrink-0 items-center justify-between gap-2 border-b border-border bg-bg/95 px-2.5 backdrop-blur sm:px-3">
         <Link
           to="/"
@@ -73,6 +75,7 @@ function Html5Play() {
         </p>
         <LanguageToggle className="[&_button]:py-0.5" />
       </div>
+      )}
       {g?.status === "archived" ? (
         <aside data-game-archive={canonical} aria-label={title} className="shrink-0 border-b border-border bg-surface px-3 py-2 text-xs text-muted">
           <p>{ARCHIVE_COPY[lang].text}</p>

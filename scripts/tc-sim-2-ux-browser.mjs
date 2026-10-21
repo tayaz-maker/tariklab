@@ -31,6 +31,7 @@ try {for(const language of ['tr','en','pl']) for(const width of [320,390,1280,14
  await page.locator('.life-nav-search input').fill(language==='pl'?'Banki':language==='en'?'Banks':'Bankalar');
  assert.equal(await page.locator('.nav-secondary [data-view]:visible').count(),1);
  await page.locator('.life-nav-search input').fill('');
+ await page.locator('[data-ui-panel="navigation:6"] > summary').click();
  await page.locator('.life-nav-remember input').check();
  await page.locator('.side-nav [data-view="banks"]').click();await page.locator('.workspace-head h1').waitFor();
  assert.equal(await page.evaluate(()=>document.activeElement===document.querySelector('.workspace-head h1')),true);
