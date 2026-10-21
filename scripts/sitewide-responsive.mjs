@@ -1,3 +1,4 @@
+import {revealTcNavigation} from './tc-sim-browser-navigation.mjs';
 // Real Chromium layout/interaction regression against the Vite runtime.
 // Production compilation remains a separate CI gate; deployed assets are smoked separately.
 // Run in CI where the browser binary is installed; no emulated DOM or skipped tests.
@@ -171,7 +172,7 @@ try {
           surface = await (await iframe.elementHandle()).contentFrame();
           await surface.waitForFunction(() => document.body.innerText.trim().length > 20);
           const duplicateChrome = await surface
-            .locator('a[href="/"], .masthead-exit, .start-exit, [data-lang-host], .tlab-lang')
+            .locator(route.id === 'tc-sim' ? 'a[href="/"], .masthead-exit, .start-exit, [data-lang-host]' : 'a[href="/"], .masthead-exit, .start-exit, [data-lang-host], .tlab-lang')
             .evaluateAll(
               (nodes) =>
                 nodes.filter((node) => {
@@ -289,7 +290,8 @@ try {
             await page.setViewportSize({ width: 390, height: 844 });
             if (route.id === "tc-sim") await surface.waitForFunction(() => document.querySelector(".life-navigation")?.dataset.layout === "mobile");
             const target = nav.locator(`[${attribute}="${destination}"]`);
-            if (!(await target.isVisible())) await more.click();
+            if (route.id === "tc-sim") await revealTcNavigation(surface, destination);
+            else if (!(await target.isVisible())) await more.click();
             await target.click();
             if (["tc-sim", "tc-sim-devlet"].includes(route.id))
               assert.equal(

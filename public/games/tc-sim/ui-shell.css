@@ -314,3 +314,8 @@ html.life-nav-open, html.life-nav-open body { overflow: hidden; }
 .game-frame :is(.bank-feedback, .bank-notice, .result):empty { display: none; }
 .game-frame .body-visual { background: radial-gradient(circle at 50% 35%, var(--surface-3), var(--surface)); }
 @media (max-width: 820px) { .period-economy summary { min-height: 44px; display: flex; align-items: center; } }
+/* TC owns language access on its title/setup screen as well as during play. */
+#tc-sim-language:not([hidden]) { display: flex; justify-content: flex-end; min-height: 52px; padding: 4px 12px; border-bottom: 1px solid var(--line); }
+html.tlab-embedded #tc-sim-language .tlab-lang { display: inline-flex !important; }
+#tc-sim-language .tlab-lang-switch { border-color: var(--line); }
+#tc-sim-language .tlab-lang-switch button { min-width: 44px; min-height: 44px; font-size: 13px; }

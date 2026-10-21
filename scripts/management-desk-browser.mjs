@@ -1,3 +1,4 @@
+import {revealTcNavigation} from './tc-sim-browser-navigation.mjs';
 import assert from "node:assert/strict";
 
 export async function deskLanguageSwitch(page, surface, lang, setup = false) {
@@ -7,7 +8,8 @@ export async function deskLanguageSwitch(page, surface, lang, setup = false) {
   const fields = () => surface.locator("#new-game-form [name]").evaluateAll(nodes => nodes.map(node => [node.name, node.value]));
   const draft = setup ? await fields() : null;
   for (const next of [lang === "tr" ? "en" : "tr", lang]) {
-    await page.getByRole("button", { name: next.toUpperCase(), exact: true }).click();
+    const languageSurface = await surface.locator("#tc-sim-language").count() ? surface : page;
+    await languageSurface.getByRole("button", { name: next.toUpperCase(), exact: true }).click();
     if (setup) {
       await surface.locator('#new-game-form button[type="submit"]').filter({ hasText: next === "en" ? "New life" : "Bu slota" }).waitFor();
       assert.deepEqual(await fields(), draft, "Language switch erased setup draft");
@@ -28,6 +30,7 @@ export async function deskFlows(page, surface, id, lang, out) {
   const before = await page.evaluate(() => JSON.stringify(Object.fromEntries(Object.entries(localStorage).filter(([key]) => key !== "tariklab.tc-sim.ui.v2"))));
   for (const screen of targets) {
     await page.setViewportSize({ width: 1440, height: 900 });
+    if (id === "tc-sim") await revealTcNavigation(surface, screen);
     await surface.locator(`.compact-nav [${attr}="${screen}"]`).click();
     const rows = surface.locator(".desk-row");
     const count = await rows.count();

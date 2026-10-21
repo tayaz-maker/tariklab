@@ -331,7 +331,7 @@ function persist(message = "Otomatik kaydedildi.") {
 function startScreen(loadResult) {
   resetLifeShell();
   const languageHost = document.querySelector("#tc-sim-language");
-  if (languageHost) languageHost.hidden = window.self !== window.top;
+  if (languageHost) languageHost.hidden = false;
   startLoadResult = loadResult;
   const slots = listSlots(localStorage);
   const active = getActiveSlot(localStorage);
@@ -1780,11 +1780,11 @@ function render() {
   });
 }
 
-// Keep the standalone language control outside the rebuilt app. Embedded play
-// uses the portal toggle; this replaces the static-page boot/reload handler.
+// Keep title/setup language controls outside the rebuilt app, in both portal
+// and standalone play. The in-game shell owns its matching language switch.
 window.tlabI18n?.applyHtmlLang?.();
 const languageHost = document.querySelector("#tc-sim-language");
-if (languageHost && window.self === window.top) {
+if (languageHost) {
   languageHost.hidden = false;
   window.tlabI18n?.mountLangToggle?.(languageHost);
 }
