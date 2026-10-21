@@ -97,7 +97,16 @@ export function runCampaign(seed, path, {limit=100000, policy='network', snapsho
       if(path==='dynasty' && rel.score>=60) order({type:'diplomacy',mode:'vasal',factionId:f.id});
       
     }
-    s.paused=false; advance(s,120);
+    s.paused=false;
+    // The legal policy now responds to actual attack warnings instead of ignoring
+    // the same critical pauses a human receives. No resources or treaties are injected.
+    for(let minute=0;minute<120;minute++) {
+      if(policy==='network') for(const a of s.armies.filter(a=>a.ownerId!=='player'&&a.mission==='attack'&&!a.returning&&s.settlements.some(t=>t.ownerId==='player'&&t.x===a.to.x&&t.y===a.to.y))) {
+        const t=s.settlements.find(t=>t.x===a.to.x&&t.y===a.to.y);
+        if(combatPower(a.troops)>combatPower(t.troops,'defense') && getFaction(s,a.ownerId).relations.player.truceUntil<=s.time) order({type:'diplomacy',mode:'truce',factionId:a.ownerId});
+      }
+      advance(s,1);
+    }
     const c=getCampaign(s);
     if(c.stage!==lastStage){log.stages.push({stage:c.stage,time:s.time});lastStage=c.stage;}
     if(c.paths.some(x=>x.ready)&&s.time<36000)log.early=true;

@@ -498,15 +498,22 @@ export function getCampaign(state) {
   return campaignStatus(state, { points, vasals, peaceful, wealth, power, influenceNow });
 }
 
+// Existing personalities select priorities; every choice still passes execute.
+const AI_PRIORITIES = {
+  merchant: {building:'market',level:4,force:0.85,trade:0.75,attack:0.18,expand:1100,towns:5,distance:40,truce:0.65},
+  expansionist: {building:'hall',level:3,force:1,trade:0.35,attack:0.3,expand:600,towns:7,distance:30,truce:0.45},
+  opportunist: {building:'barracks',level:3,force:1.05,trade:0.3,attack:0.45,expand:1000,towns:6,distance:20,truce:0.2},
+  ambitious: {building:'hall',level:4,force:1.2,trade:0.4,attack:0.5,expand:700,towns:7,distance:24,truce:0.25},
+};
 function thinkAI(state, faction) {
-  const towns = ownSettlements(state, faction.id);
+  const towns = ownSettlements(state, faction.id), profile = AI_PRIORITIES[faction.archetype];
   if (!towns.length) return;
   const town = towns[Math.floor(random(state) * towns.length)], actions = (type, extras) => execute(state, { type, settlementId: town.id, ...extras }, faction.id);
   faction.nextThink = state.time + 105 + Math.floor(random(state) * 80);
   const incoming = state.armies.some(a => !a.returning && a.mission === 'attack' && a.ownerId !== faction.id && a.to.x === town.x && a.to.y === town.y);
   if (incoming) {
     const attacker = state.armies.find(a => a.mission === 'attack' && a.to.x === town.x && a.to.y === town.y && a.ownerId !== faction.id);
-    if (faction.influence >= 12 && random(state) < 0.3) execute(state, { type: 'diplomacy', mode: 'truce', factionId: attacker.ownerId }, faction.id);
+    if (faction.influence >= 12 && random(state) < (profile?.truce ?? 0.3)) execute(state, { type: 'diplomacy', mode: 'truce', factionId: attacker.ownerId }, faction.id);
     actions('train', { unit: 'spear', count: 5 }); actions('build', { building: 'wall' });
   }
   // All development uses the same costs and queues as the player. No free resources.
@@ -517,21 +524,29 @@ function thinkAI(state, faction) {
   if (state.time > 900 && town.buildings.barracks < 3 && random(state) < 0.25) building = 'barracks';
   if (faction.archetype === 'fortress' && town.buildings.wall < 4 && random(state) < 0.3) building = 'wall';
   if (town.buildings.hall < 5 && faction.influence < 40 && town.queue.length < 2) building = 'hall';
+  if (profile && state.time > 900 && rates.food >= 0.4 && !RESOURCE_KEYS.some(key=>town.resources[key]>getCapacity(town)*0.85) && town.buildings[profile.building] < profile.level) building=profile.building;
   if (town.queue.length < 2) actions('build', { building });
-  const troopLimit = 55 + Math.min(110, state.time / 70);
+  const troopLimit = (55 + Math.min(110, state.time / 70)) * (profile?.force ?? 1);
   if (getTroopCount(town.troops) < troopLimit && town.queue.length < 3 && rates.food > 0.2) {
-    const unit = town.troops.scout < 3 ? 'scout' : town.buildings.barracks >= 3 && faction.archetype === 'raider' ? 'rider' : town.buildings.barracks >= 2 && random(state) > 0.5 ? 'archer' : 'spear';
+    const unit = town.troops.scout < 3 ? 'scout' : town.buildings.barracks >= 3 && ['raider','ambitious'].includes(faction.archetype) ? 'rider' : town.buildings.barracks >= 2 && (['merchant','opportunist'].includes(faction.archetype) || faction.archetype!=='expansionist' && random(state) > 0.5) ? 'archer' : 'spear';
     actions('train', { unit, count: 3 + Math.floor(random(state) * 4) });
   }
-  if (state.time > 800 && towns.length < Math.min(7, 1 + Math.floor(state.time / 1000)) && !state.armies.some(a => a.ownerId === faction.id && a.mission === 'expand')) {
+  if (state.time > (profile?.expand ?? 800) && towns.length < Math.min(profile?.towns ?? 7, 1 + Math.floor(state.time / (faction.archetype==='expansionist'?800:1000))) && !state.armies.some(a => a.ownerId === faction.id && a.mission === 'expand')) {
     const candidates = state.world.tiles.filter(tile => !tile.poi && distance(tile, town) >= 3 && distance(tile, town) <= 8 && state.settlements.every(other => distance(tile, other) >= 3));
-    if (candidates.length) { const site = candidates[Math.floor(random(state) * candidates.length)]; actions('expand', { x: site.x, y: site.y }); }
+    if (profile) {
+      const scores=new Map(candidates.map(z=>[z,siteValue(z)]));
+      function siteValue(z) {
+      return (TERRAINS[z.terrain].rates[0]*4) + (faction.archetype==='merchant' && ['road','valley'].includes(z.terrain)?8:0) + (faction.archetype==='expansionist' && !towns.some(t=>regionOf(state,t)===regionOf(state,z))?10:0) + (faction.archetype==='ambitious'?worldPoints(state).filter(p=>distance(p,z)<=7).length*2:0) - distance(town,z)*0.2;
+      }
+      candidates.sort((a,b)=>scores.get(b)-scores.get(a)||a.y-b.y||a.x-b.x);
+    }
+    if (candidates.length) { const site = candidates[Math.floor(random(state) * (profile?Math.min(5,candidates.length):candidates.length))]; actions('expand', { x: site.x, y: site.y }); }
   }
   if (state.time > 300 && pointsFor(state, town).length < 2 && random(state) < 0.35) {
     const point = state.world.tiles.find(tile => tile.poi && !tile.poi.ownerId && distance(town, tile) <= 7);
     if (point) actions('claim', { x: point.x, y: point.y, troops: { militia: Math.floor(town.troops.militia * 0.6), spear: Math.floor(town.troops.spear * 0.4) } });
   }
-  if (towns.length > 1 && random(state) < 0.4) {
+  if (towns.length > 1 && random(state) < (profile?.trade ?? 0.4)) {
     if (!town.buildings.market) actions('build', { building: 'market' });
     else {
       const target = towns.find(t => t !== town && t.resources.food < town.resources.food);
@@ -539,13 +554,13 @@ function thinkAI(state, faction) {
     }
   }
   const rivals = state.settlements.filter(other => other.ownerId !== faction.id && !atPeace(state, faction.id, other.ownerId));
-  rivals.sort((a, b) => (combatPower(a.troops, 'defense') + distance(town, a) * 30) - (combatPower(b.troops, 'defense') + distance(town, b) * 30));
+  rivals.sort((a, b) => (combatPower(a.troops, 'defense') + distance(town, a) * (profile?.distance ?? 30)) - (combatPower(b.troops, 'defense') + distance(town, b) * (profile?.distance ?? 30)));
   const target = rivals[0];
   if (target && state.time > 450 && town.troops.scout && random(state) < 0.3 && !state.armies.some(a => a.fromId === town.id && a.mission === 'scout')) actions('scout', { x: target.x, y: target.y, count: 1 });
   if (target && state.time > 2400 && (target.ownerId !== state.playerId || state.time > 3600) && distance(town, target) < 20 && !state.armies.some(a => a.ownerId === faction.id && a.mission === 'attack')) {
     const troops = Object.fromEntries(UNIT_KEYS.map(key => [key, key === 'scout' ? 0 : Math.floor(town.troops[key] * 0.55)]));
     const defense = Math.max(15, combatPower(target.troops, 'defense')) * (1 + target.buildings.wall * 0.15) * TERRAINS[getTile(state.world, target.x, target.y).terrain].defense;
-    if (combatPower(troops) > defense * 1.3 && random(state) < (faction.archetype === 'raider' ? 0.7 : 0.3)) actions('attack', { x: target.x, y: target.y, troops });
+    if (combatPower(troops) > defense * 1.3 && random(state) < (profile?.attack ?? (faction.archetype === 'raider' ? 0.7 : 0.3))) actions('attack', { x: target.x, y: target.y, troops });
   }
   for (const army of state.armies.filter(a => a.ownerId === faction.id && a.mission === 'attack' && !a.returning)) {
     const opponent = getSettlementAt(state, army.to.x, army.to.y);
