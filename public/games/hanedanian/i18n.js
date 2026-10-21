@@ -14,6 +14,7 @@ export const pick = (tr, en) => (getLang() === "en" ? PL.get(tr) ?? plOf(en) : t
 const plOf = (en) => (reader() === "pl" ? PL_EN.get(en) ?? en : en);
 
 const EN = new Map(Object.entries({
+  "Merkezi taşı · 15 nüfuz": "Relocate centre · 15 influence",
   "Yerel katkı": "Local contribution",
   "Yerel katkı · sürüyor": "Local contribution \u00b7 running",
   "Yerel katkı · 500 stok": "Local contribution \u00b7 500 reserve",

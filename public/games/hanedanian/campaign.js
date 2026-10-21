@@ -21,16 +21,16 @@ export function regionalStatus(state) {
 }
 export function projectRequirements(state, town, path) {
   const p = progressOf(state), region = regionOf(state, town), project = p.projects[`${path}:${region}`];
-  const level = project?.level || 0, local = regionalStatus(state)[region];
+  const level = project?.level || 0, requiredLevel = Math.min(2,level), local = regionalStatus(state)[region];
   const scout = state.intel[`${town.x},${town.y}`] || Object.entries(state.intel).some(([k]) => { const [x,y] = k.split(',').map(Number); return regionOf(state, {x,y}) === region; });
   if (path === 'dynasty') local.points = state.world.tiles.filter(t=>t.poi && regionOf(state,t)===region && (t.poi.ownerId===state.playerId || state.factions.find(f=>f.id===t.poi.ownerId)?.relations[state.playerId]?.vasal));
   const special = path === 'wealth' ? 'exchange' : path === 'dominion' ? 'fortress' : 'court';
   return { region, level, quota: PROJECT_QUOTAS[level], requirements: [
-    req('Konak', town.buildings.hall, 2 + level * 2),
-    req(path === 'dominion' ? 'Talimgâh' : 'Kervan avlusu', town.buildings[path === 'dominion' ? 'barracks' : 'market'], 2 + level * 2),
-    req('Depolar', town.buildings.warehouse, 3 + level * 2),
+    req('Konak', town.buildings.hall, 2 + requiredLevel * 2),
+    req(path === 'dominion' ? 'Talimgâh' : 'Kervan avlusu', town.buildings[path === 'dominion' ? 'barracks' : 'market'], 2 + requiredLevel * 2),
+    req('Depolar', town.buildings.warehouse, 3 + requiredLevel * 2),
     req('Bölgesel keşif', scout ? 1 : 0, 1),
-    req('Bölgede bağlı stratejik nokta', local.points.length, 1 + (level === 2 ? 1 : 0)),
+    req('Bölgede bağlı stratejik nokta', local.points.length, 1 + (requiredLevel === 2 ? 1 : 0)),
     req(SPECIALIZATIONS[special], local.specialties.has(special) ? 1 : 0, 1),
   ] };
 }
@@ -81,10 +81,11 @@ export function campaignCommand(state, action, town) {
   if (!paths.includes(path)) return fail('Geçerli bir Kurultay yolu seç.');
   const info = projectRequirements(state, town, path), id = `${path}:${info.region}`;
   if (action.type === 'project') {
-    if (p.projects[id]?.active || info.level >= 3 || !info.requirements.every(r => r.done)) return fail('Önce bölgesel yatırımın yapı, keşif, nokta ve uzmanlık koşullarını tamamla.');
+    const existing=p.projects[id], relocate=existing&&!state.settlements.some(t=>t.id===existing.townId&&t.ownerId===state.playerId);
+    if ((!relocate && (existing?.active || info.level >= 3)) || !info.requirements.every(r => r.done)) return fail('Önce bölgesel yatırımın yapı, keşif, nokta ve uzmanlık koşullarını tamamla.');
     if (faction.influence < 15) return fail('Yatırım fermanı 15 nüfuz ister.');
     faction.influence -= 15;
-    ensureProgression(state).projects[id] = {level:info.level,active:true,townId:town.id,paid:0,imported:0};
+    ensureProgression(state).projects[id] = relocate ? {...existing,townId:town.id,autoContribute:false} : {level:info.level,active:true,townId:town.id,paid:0,imported:0};
     return {ok:true,message:'Bölgesel yatırım açıldı. Yerel katkı ve farklı bölgeden ikmal gerekir.'};
   }
   if (action.type === 'localContributionOrder') {
