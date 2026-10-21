@@ -7,6 +7,17 @@ import {pathToFileURL} from 'node:url';
 
 const repository = 'tayaz-maker/tariklab';
 
+export function requireBuildIdentity({sha, branch, commit}) {
+  assert.match(sha, /^[a-f0-9]{40}$/, 'Git HEAD must be a full release SHA');
+  assert.equal(branch, 'main', 'Only main can publish production; branches use wrangler versions upload');
+  // Deploy Hooks supply the selected branch literal here (observed: "main").
+  // HEAD is the immutable candidate; requireRelease still binds it to GitHub
+  // main and successful exact-SHA CI/TC, followed by the final main recheck.
+  if (commit && commit !== 'main') {
+    assert.equal(commit, sha, 'Cloudflare build commit does not match Git HEAD');
+  }
+}
+
 export function requireRelease({sha, main, runs}) {
   assert.match(sha, /^[a-f0-9]{40}$/, 'A full release SHA is required');
   assert.equal(sha, main, 'Main moved; refuse a stale production release');
@@ -37,8 +48,7 @@ async function github(path) {
 async function deploy() {
   const sha = execFileSync('git', ['rev-parse', 'HEAD'], {encoding:'utf8'}).trim();
   const branch = process.env.WORKERS_CI_BRANCH || execFileSync('git', ['branch', '--show-current'], {encoding:'utf8'}).trim();
-  assert.equal(branch, 'main', 'Only main can publish production; branches use wrangler versions upload');
-  if (process.env.WORKERS_CI_COMMIT_SHA) assert.equal(process.env.WORKERS_CI_COMMIT_SHA, sha);
+  requireBuildIdentity({sha, branch, commit:process.env.WORKERS_CI_COMMIT_SHA});
   const config = JSON.parse(readFileSync('.output/server/wrangler.json', 'utf8'));
   assert.equal(config.name, 'tariklab');
   assert.equal(config.assets.binding, 'ASSETS');
