@@ -87,6 +87,12 @@ export function campaignCommand(state, action, town) {
     ensureProgression(state).projects[id] = {level:info.level,active:true,townId:town.id,paid:0,imported:0};
     return {ok:true,message:'Bölgesel yatırım açıldı. Yerel katkı ve farklı bölgeden ikmal gerekir.'};
   }
+  if (action.type === 'localContributionOrder') {
+    const project = p.projects[id];
+    if (!project?.active || project.townId !== town.id || typeof action.enabled !== 'boolean') return fail('Bu yerleşimde etkin yatırım ve geçerli katkı emri gerekiyor.');
+    project.autoContribute = action.enabled;
+    return {ok:true,message:action.enabled ? 'Yerel katkı her oyun saatinde mevcut bedel ve 500 güvenlik stoğuyla sürer. İstediğinde durdurabilirsin.' : 'Otomatik yerel katkı durduruldu.'};
+  }
   if (action.type === 'contribute') {
     const project = p.projects[id];
     if (!project?.active || project.townId !== town.id) return fail('Bu yerleşimde etkin bir bölgesel yatırım yok.');
@@ -128,7 +134,7 @@ export function progressionValid(state) {
   if (!object(p)||p.version!==2||!['specializations','projects','logistics','rivals','finales','supply'].every(k=>object(p[k])&&Object.keys(p[k]).length<=200)) return false;
   const ids=new Set(state.settlements.map(t=>t.id));
   return Object.entries(p.specializations).every(([id,x])=>ids.has(id)&&Object.hasOwn(SPECIALIZATIONS,x)) &&
-    Object.entries(p.projects).every(([id,x])=>/^(wealth|dominion|dynasty):[0-8]$/.test(id)&&object(x)&&ids.has(x.townId)&&n(x.level,3)&&typeof x.active==='boolean'&&(!x.active||x.level<3)&&n(x.paid,56000)&&n(x.imported,56000)) &&
+    Object.entries(p.projects).every(([id,x])=>/^(wealth|dominion|dynasty):[0-8]$/.test(id)&&object(x)&&ids.has(x.townId)&&n(x.level,3)&&typeof x.active==='boolean'&&(!x.active||x.level<3)&&n(x.paid,56000)&&n(x.imported,56000)&&(x.autoContribute===undefined||typeof x.autoContribute==='boolean')) &&
     Object.values(p.logistics).every(x=>object(x)&&ids.has(x.from)&&ids.has(x.to)&&n(x.delivered,100000000)) &&
     Object.entries(p.rivals).every(([id,x])=>state.factions.some(f=>f.id===id&&id!==state.playerId)&&n(x,1000000)) &&
     Object.entries(p.supply).every(([id,x])=>ids.has(id)&&object(x)&&ids.has(x.targetId)&&paths.includes(x.path)) &&

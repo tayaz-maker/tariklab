@@ -14,6 +14,17 @@ export const pick = (tr, en) => (getLang() === "en" ? PL.get(tr) ?? plOf(en) : t
 const plOf = (en) => (reader() === "pl" ? PL_EN.get(en) ?? en : en);
 
 const EN = new Map(Object.entries({
+  "Yerel katkı": "Local contribution",
+  "Yerel katkı · sürüyor": "Local contribution \u00b7 running",
+  "Yerel katkı · 500 stok": "Local contribution \u00b7 500 reserve",
+  "Bir kez katkı yap": "Contribute once",
+  "Otomatik katkıyı durdur": "Stop automatic contribution",
+  "Saatlik katkıyı sürdür": "Continue hourly contributions",
+  "Her katkı en fazla 1.500/kaynak ayırır; her kaynaktan 500 stok korunur. Otomatik emir her oyun saatinde aynı bedelle çalışır, yalnız bu yatırım aşaması içindir. Zaman duruyorsa katkı da bekler.": "Each contribution spends up to 1,500 of each resource, keeping a 500 reserve. The automatic order uses the same cost each game hour for this project phase only. Contributions wait while time is paused.",
+  "Yerel katkı her oyun saatinde mevcut bedel ve 500 güvenlik stoğuyla sürer. İstediğinde durdurabilirsin.": "Local contributions continue each game hour at the existing cost, keeping a 500 reserve. You can stop the order.",
+  "Otomatik yerel katkı durduruldu.": "Automatic local contributions stopped.",
+  "Bu yerleşimde etkin yatırım ve geçerli katkı emri gerekiyor.": "This settlement needs an active project and a valid contribution order.",
+
   "TOPRAK · YOL · HANEDAN": "LAND · ROAD · DYNASTY",
   "Kayıt hazırlanıyor": "Preparing save",
   "Yerel kayıt hazır": "Local save ready",

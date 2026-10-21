@@ -1198,3 +1198,7 @@ Existing job/outcome acceptance passed all 126 browser cases across resumed segm
 - Validation: 26 targeted annual-goal/network/expansion/menu tests PASS; scoped lint 0 errors (4 existing warnings). Package 5 is reviewed after packages 1/2 and verified together locally before handoff. No bank/mortgage/enforcement rewrite, region, other game, merge or deployment change. Native paused; audio disabled.
 
 - Integration preparation #234: compared with main `243d636485be382811ab8ef33329e57119dafb5d`; cumulative order #230 → #231 → #232 → #233 → #234. Preserve prior package behavior, tests and ledger; no merge/deployment or CI polling. Source fingerprints recalculated from this exact stage.
+
+### 2026-10-21 — HANEDANIAN Phase 1: optional hourly local contributions
+- Confirmed local Phase 0 C01 against main 401122f. Existing region button offers one paid contribution or a cancellable hourly order for the current phase. Same 1,500-per-resource cap, 500 reserve, quotas, game clock and guarded command; no free resources or new screen/CSS.
+- Optional project boolean round-trips in schema 1; missing flag stays manual. Targeted local contribution/progression/save/UI: 43 PASS. Audio disabled; native paused. No other game, CI, merge or deployment change.
