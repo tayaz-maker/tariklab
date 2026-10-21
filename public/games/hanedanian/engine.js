@@ -390,10 +390,11 @@ function resolveArmy(state, army) {
   if (army.mission === 'scout') {
     const opposition = target && target.ownerId !== army.ownerId ? target.troops.scout : 0;
     const survived = army.troops.scout > 0 && army.troops.scout * (player ? 2.5 + state.dynasty.stats.intrigue * 0.5 : 3) >= opposition;
-    if (player && survived) {
-      state.intel[`${tile.x},${tile.y}`] = { time: state.time, ownerId: target?.ownerId || tile.poi?.ownerId || null, resources: target ? clone(target.resources) : resourceObject(), buildings: target ? clone(target.buildings) : {}, troops: target ? clone(target.troops) : troopObject() };
-      state.campaign.scouting++; milestone(state, 'first-scout', 'Ufuk açıldı', 10, 15);
-      report(state, 'scout', `${target?.name || `${tile.x}, ${tile.y}`}: istihbarat geldi`, target ? 'Birlik, depo ve yapı bilgileri doğrulandı. 360 oyun dakikasından sonra rapor eski sayılır.' : 'Arazi ve stratejik nokta araştırıldı. Nokta korumasını harita bilgi panelinden karşılaştır.');
+    if (survived) {
+      const intelligence = player ? state.intel : (getFaction(state, army.ownerId).intel ||= {});
+      intelligence[`${tile.x},${tile.y}`] = { time: state.time, ownerId: target?.ownerId || tile.poi?.ownerId || null, resources: target ? clone(target.resources) : resourceObject(), buildings: target ? clone(target.buildings) : {}, troops: target ? clone(target.troops) : troopObject() };
+      if (player) { state.campaign.scouting++; milestone(state, 'first-scout', 'Ufuk açıldı', 10, 15);
+      report(state, 'scout', `${target?.name || `${tile.x}, ${tile.y}`}: istihbarat geldi`, target ? 'Birlik, depo ve yapı bilgileri doğrulandı. 360 oyun dakikasından sonra rapor eski sayılır.' : 'Arazi ve stratejik nokta araştırıldı. Nokta korumasını harita bilgi panelinden karşılaştır.'); }
     } else if (player) report(state, 'scout', 'Gözcüler yakalandı', 'Hedefteki karşı gözcüler seferi durdurdu. Daha kalabalık bir gözcü birliği gönder.');
     if (!survived) army.troops.scout = 0;
     returnArmy(state, army); return;
@@ -479,6 +480,7 @@ function resolveArmy(state, army) {
         for (const displaced of state.armies.filter(a => a.fromId === target.id && a.ownerId === oldOwner)) displaced.fromId = capital.id;
         for (const point of pointsFor(state, { ...target, ownerId: oldOwner })) { point.poi.ownerId = army.ownerId; }
         captured = true;
+        if(!player) getFaction(state,army.ownerId).lastConquestAt=state.time;
       }
       if (player) { if (defense >= 1200) ensureProgression(state).rivals[oldOwner] = Math.max(progressOf(state).rivals[oldOwner] || 0, Math.floor(defense)); state.campaign.battlesWon++; milestone(state, captured ? `conquest:${target.id}` : 'first-battle', captured ? 'Yeni sancak' : 'İlk zafer', captured ? 15 : 12, 30); }
     }
@@ -505,11 +507,25 @@ const AI_PRIORITIES = {
   opportunist: {building:'barracks',level:3,force:1.05,trade:0.3,attack:0.45,expand:1000,towns:6,distance:20,truce:0.2},
   ambitious: {building:'hall',level:4,force:1.2,trade:0.4,attack:0.5,expand:700,towns:7,distance:24,truce:0.25},
 };
+function aiKnowledge(state, faction, town) {
+  const intel=faction.intel?.[`${town.x},${town.y}`];
+  return intel?.ownerId===town.ownerId && state.time-intel.time<=360 ? intel : null;
+}
 function thinkAI(state, faction) {
   const towns = ownSettlements(state, faction.id), profile = AI_PRIORITIES[faction.archetype];
   if (!towns.length) return;
   const town = towns[Math.floor(random(state) * towns.length)], actions = (type, extras) => execute(state, { type, settlementId: town.id, ...extras }, faction.id);
   faction.nextThink = state.time + 105 + Math.floor(random(state) * 80);
+  const rivals = state.settlements.filter(other => other.ownerId !== faction.id && !atPeace(state, faction.id, other.ownerId));
+  rivals.sort((a,b)=>{
+    const value=t=>{const intel=aiKnowledge(state,faction,t);return (intel?combatPower(intel.troops,'defense'):5000)+distance(town,t)*(profile?.distance??30);};
+    return value(a)-value(b)||a.id.localeCompare(b.id);
+  });
+  const target=rivals[0], known=target&&aiKnowledge(state,faction,target);
+  const sideTarget=target&&target!==ownSettlements(state,target.ownerId)[0];
+  const conquest=sideTarget && towns.length<7 && state.time>6000 && state.time-(faction.lastConquestAt??-6000)>=6000 && known && distance(town,target)<20;
+  const siegeBase=towns.find(t=>t.troops.siege||t.queue.some(q=>q.unit==='siege')) || towns.find(t=>state.armies.some(a=>a.ownerId===faction.id&&a.fromId===t.id&&a.troops.siege)) || towns[0];
+  const siegeTotal=towns.reduce((n,t)=>n+t.troops.siege+t.queue.filter(q=>q.unit==='siege').reduce((k,q)=>k+q.count,0),0)+state.armies.filter(a=>a.ownerId===faction.id).reduce((n,a)=>n+a.troops.siege,0);
   const incoming = state.armies.some(a => !a.returning && a.mission === 'attack' && a.ownerId !== faction.id && a.to.x === town.x && a.to.y === town.y);
   if (incoming) {
     const attacker = state.armies.find(a => a.mission === 'attack' && a.to.x === town.x && a.to.y === town.y && a.ownerId !== faction.id);
@@ -526,12 +542,16 @@ function thinkAI(state, faction) {
   if (town.buildings.hall < 5 && faction.influence < 40 && town.queue.length < 2) building = 'hall';
   if (profile && state.time > 900 && rates.food >= 0.4 && !RESOURCE_KEYS.some(key=>town.resources[key]>getCapacity(town)*0.85) && town.buildings[profile.building] < profile.level) building=profile.building;
   if (town.queue.length < 2) actions('build', { building });
+  if (conquest && town===siegeBase && siegeTotal<6 && rates.food>0.6 && town.resources.food>600 && town.queue.length<2) {
+    if(town.buildings.barracks<4 && !town.queue.some(q=>q.building==='barracks')) actions('build',{building:'barracks'});
+    else if(town.buildings.barracks>=4 && town.troops.siege<4 && !town.queue.some(q=>q.unit==='siege')) actions('train',{unit:'siege',count:Math.min(2,4-town.troops.siege,6-siegeTotal)});
+  }
   const troopLimit = (55 + Math.min(110, state.time / 70)) * (profile?.force ?? 1);
   if (getTroopCount(town.troops) < troopLimit && town.queue.length < 3 && rates.food > 0.2) {
     const unit = town.troops.scout < 3 ? 'scout' : town.buildings.barracks >= 3 && ['raider','ambitious'].includes(faction.archetype) ? 'rider' : town.buildings.barracks >= 2 && (['merchant','opportunist'].includes(faction.archetype) || faction.archetype!=='expansionist' && random(state) > 0.5) ? 'archer' : 'spear';
     actions('train', { unit, count: 3 + Math.floor(random(state) * 4) });
   }
-  if (state.time > (profile?.expand ?? 800) && towns.length < Math.min(profile?.towns ?? 7, 1 + Math.floor(state.time / (faction.archetype==='expansionist'?800:1000))) && !state.armies.some(a => a.ownerId === faction.id && a.mission === 'expand')) {
+  if (state.time > (profile?.expand ?? 800) && towns.length < Math.min(profile?.towns ?? 7, 1 + Math.floor(state.time / (faction.archetype==='expansionist'?800:1000))) && !state.armies.some(a => a.ownerId === faction.id && (a.mission === 'expand' || a.mission==='attack'&&!a.returning&&a.troops.siege>0))) {
     const candidates = state.world.tiles.filter(tile => !tile.poi && distance(tile, town) >= 3 && distance(tile, town) <= 8 && state.settlements.every(other => distance(tile, other) >= 3));
     if (profile) {
       const scores=new Map(candidates.map(z=>[z,siteValue(z)]));
@@ -553,18 +573,17 @@ function thinkAI(state, faction) {
       if (target && town.resources.food > 180) actions('trade', { targetId: target.id, cargo: { food: Math.min(150, Math.floor(town.resources.food / 3)) } });
     }
   }
-  const rivals = state.settlements.filter(other => other.ownerId !== faction.id && !atPeace(state, faction.id, other.ownerId));
-  rivals.sort((a, b) => (combatPower(a.troops, 'defense') + distance(town, a) * (profile?.distance ?? 30)) - (combatPower(b.troops, 'defense') + distance(town, b) * (profile?.distance ?? 30)));
-  const target = rivals[0];
-  if (target && state.time > 450 && town.troops.scout && random(state) < 0.3 && !state.armies.some(a => a.fromId === town.id && a.mission === 'scout')) actions('scout', { x: target.x, y: target.y, count: 1 });
-  if (target && state.time > 2400 && (target.ownerId !== state.playerId || state.time > 3600) && distance(town, target) < 20 && !state.armies.some(a => a.ownerId === faction.id && a.mission === 'attack')) {
-    const troops = Object.fromEntries(UNIT_KEYS.map(key => [key, key === 'scout' ? 0 : Math.floor(town.troops[key] * 0.55)]));
-    const defense = Math.max(15, combatPower(target.troops, 'defense')) * (1 + target.buildings.wall * 0.15) * TERRAINS[getTile(state.world, target.x, target.y).terrain].defense;
-    if (combatPower(troops) > defense * 1.3 && random(state) < (profile?.attack ?? (faction.archetype === 'raider' ? 0.7 : 0.3))) actions('attack', { x: target.x, y: target.y, troops });
+  if (target && state.time > 450 && town.troops.scout && random(state) < 0.3 && !state.armies.some(a => a.fromId === town.id && a.mission === 'scout')) actions('scout', { x: target.x, y: target.y, count: Math.min(4,town.troops.scout) });
+  if (target && known && state.time > 2400 && (target.ownerId !== state.playerId || state.time > 3600) && distance(town, target) < 20 && state.time-(faction.lastAttackAt??-720)>=720 && (!conquest || town.troops.siege>=4) && !state.armies.some(a => a.ownerId === faction.id && a.mission === 'attack')) {
+    const reserved=towns.length+state.armies.filter(a=>a.ownerId===faction.id&&a.mission==='expand'&&!a.returning).length;
+    const canTake=conquest&&reserved<7;
+    const troops = Object.fromEntries(UNIT_KEYS.map(key => [key, key === 'scout' ? 0 : key === 'siege' ? (sideTarget&&!canTake?0:Math.min(6,town.troops.siege)) : Math.floor(town.troops[key] * 0.55)]));
+    const defense = Math.max(15, combatPower(known.troops, 'defense')) * (1 + Math.max(0,known.buildings.wall-Math.floor(troops.siege/3)) * 0.15) * TERRAINS[getTile(state.world, target.x, target.y).terrain].defense;
+    if (combatPower(troops) > defense * 1.3 && random(state) < (profile?.attack ?? (faction.archetype === 'raider' ? 0.7 : 0.3))) { const launched=actions('attack', { x: target.x, y: target.y, troops }); if(launched.ok) faction.lastAttackAt=state.time; }
   }
   for (const army of state.armies.filter(a => a.ownerId === faction.id && a.mission === 'attack' && !a.returning)) {
     const opponent = getSettlementAt(state, army.to.x, army.to.y);
-    if (opponent && combatPower(opponent.troops, 'defense') > combatPower(army.troops) * 1.8) execute(state, { type: 'recall', armyId: army.id }, faction.id);
+    if (opponent && aiKnowledge(state,faction,opponent) && combatPower(aiKnowledge(state,faction,opponent).troops, 'defense') > combatPower(army.troops) * 1.8) execute(state, { type: 'recall', armyId: army.id }, faction.id);
   }
 }
 
@@ -727,6 +746,17 @@ function inspectState(state) {
   for (const [key, intel] of Object.entries(plain(state.intel) ? state.intel : {})) {
     const [x, y] = key.split(',').map(Number);
     check(getTile(world, x, y) && plain(intel) && integer(intel.time, 0, state.time) && (intel.ownerId === null || factionIds.has(intel.ownerId)) && counts(intel.resources, RESOURCE_KEYS, LIMITS.resource) && counts(intel.troops, UNIT_KEYS, LIMITS.troops, true) && plain(intel.buildings), 'İstihbarat kaydı geçersiz.');
+  }
+  for(const faction of factions) {
+    if(faction.lastConquestAt!==undefined) check(integer(faction.lastConquestAt,0,state.time),'AI fetih saati geçersiz.');
+    if(faction.lastAttackAt!==undefined) check(integer(faction.lastAttackAt,0,state.time),'AI sefer saati geçersiz.');
+    if(faction.intel!==undefined) {
+      check(plain(faction.intel)&&Object.keys(faction.intel).length<=world.tiles.length,'AI istihbaratı geçersiz.');
+      for(const [key,intel] of Object.entries(plain(faction.intel)?faction.intel:{})) {
+        const [x,y]=key.split(',').map(Number);
+        check(getTile(world,x,y)&&plain(intel)&&integer(intel.time,0,state.time)&&(intel.ownerId===null||factionIds.has(intel.ownerId))&&counts(intel.resources,RESOURCE_KEYS,LIMITS.resource)&&counts(intel.troops,UNIT_KEYS,LIMITS.troops,true)&&plain(intel.buildings)&&Object.entries(intel.buildings).every(([b,n])=>Object.hasOwn(BUILDINGS,b)&&integer(n,0,BUILDINGS[b].maxLevel)),'AI keşif kaydı geçersiz.');
+      }
+    }
   }
   const dynasty = state.dynasty;
   check(plain(dynasty) && boundedString(dynasty.name, 80) && boundedString(dynasty.ruler, 80) && boundedString(dynasty.heir, 80) && integer(dynasty.xp, 0, 1000000) && counts(dynasty.stats, ['stewardship', 'warfare', 'commerce', 'diplomacy', 'intrigue'], 10, true) && Array.isArray(dynasty.traits) && dynasty.traits.length <= 8 && dynasty.traits.every(trait => boundedString(trait, 80)) && integer(dynasty.nextEvent, 0, LIMITS.time + 4800) && integer(dynasty.generation, 1, 1000), 'Hanedan gelişimi geçersiz.');

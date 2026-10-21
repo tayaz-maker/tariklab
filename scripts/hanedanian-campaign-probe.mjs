@@ -69,7 +69,7 @@ export function runCampaign(seed, path, {limit=100000, policy='network', snapsho
       }
       if(anchor && policy==='network') {
         const pr=p.projects[`${path}:${r}`];
-        if(!pr?.active && (pr?.level||0)<3 && projectRequirements(s,t,path).requirements.every(x=>x.done)) send(t,'project',{path});
+        if((pr&&!s.settlements.some(t=>t.id===pr.townId&&t.ownerId==='player') || !pr?.active && (pr?.level||0)<3) && projectRequirements(s,t,path).requirements.every(x=>x.done)) send(t,'project',{path});
         if(pr?.active && t.queue.length<2) send(t,'contribute',{path});
         const next=[...group.values()].filter(q=>regionOf(s,q)!==r).sort((a,b)=>distance(t,a)-distance(t,b));
         // A deterministic ring ensures every region receives imports, not only the nearest hub.
