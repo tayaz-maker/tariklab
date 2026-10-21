@@ -95,7 +95,10 @@ try {
   }
   assert.equal(await page.evaluate(()=>localStorage.getItem('tariklab::tc-sim:1')),saved,'navigation/selection never mutates the save');
   await page.locator('#help-open').click();await measure('help');await page.locator('#help-close').click();
-  if(await page.locator('[data-scenario-choice=rest]').count())await page.locator('[data-scenario-choice=rest]').click();
+  // Historical choices belong to Decisions, not the last screen in the menu audit.
+  await navigate('decisions');
+  await page.locator('[data-scenario-choice=rest]').click();
+  assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('tariklab::tc-sim:1')).world.scenario.pendingEvent),null,'resolve the pending historical choice before advancing the week');
   await navigate('finance');
   assert.equal(await page.locator('[data-exchange]').count(),0,'exchange operations belong only to Banks');
   await navigate('banks');
