@@ -20,11 +20,17 @@ export function requireRelease({sha, main, runs}) {
 }
 
 async function github(path) {
+  // Workers Builds' Cloudflare token does not authenticate GitHub API requests.
+  const token = process.env.GITHUB_TOKEN?.trim();
+  const headers = {'Accept':'application/vnd.github+json', 'User-Agent':'TarikLab-Cloudflare-release'};
+  if (token) headers.Authorization = `Bearer ${token}`;
   const response = await fetch(`https://api.github.com/repos/${repository}/${path}`, {
-    headers: {'Accept':'application/vnd.github+json', 'User-Agent':'TarikLab-Cloudflare-release'},
+    headers,
     signal: AbortSignal.timeout(20000),
   });
-  assert.equal(response.status, 200, 'Public GitHub release guard unavailable; fail closed');
+  const hint = token ? 'check GITHUB_TOKEN validity, repository read permissions and API limits'
+    : 'configure a repository-scoped GITHUB_TOKEN secret in Cloudflare Builds (Contents: read, Actions: read)';
+  assert.equal(response.status, 200, `GitHub release guard HTTP ${response.status} for ${path}; ${hint}; fail closed`);
   return response.json();
 }
 
