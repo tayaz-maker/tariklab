@@ -7,7 +7,7 @@ const read = (path) => readFileSync(new URL(`../${path}`, import.meta.url), "utf
 
 test("JITEM ships from the reviewed standalone canonical build", () => {
   const source = JSON.parse(read("public/games/jitem-derin-ag/SOURCE.json"));
-  assert.equal(source.standaloneSha, "006c7e73af0f2bf4fa208ae3a46556bf903f5e33");
+  assert.equal(source.standaloneSha, "2ac157f5c467b34a3f5886ac7db5f048944fd660");
   assert.equal(source.candidateStatus, undefined, "production integration must not retain a pending upstream candidate receipt");
   assert.equal(source.saveKey, "jitem-derin-ag-v3");
   assert.equal(source.schemaVersion, 5);
