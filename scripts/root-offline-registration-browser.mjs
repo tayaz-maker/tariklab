@@ -66,7 +66,8 @@ export async function rootOfflineRegistrationBrowser({
       controller: navigator.serviceWorker.controller?.scriptURL,
     }));
   try {
-    for (const slug of ["racon", "peg-solitaire"])
+    // Keep both vanilla and ES-module offline coverage on currently shipped games.
+    for (const slug of ["racon", "son-kasaba"])
       for (const lang of ["tr", "en", "pl"])
         for (const width of [1280, 390]) {
           console.log(slug, lang, width);
@@ -118,6 +119,11 @@ export async function rootOfflineRegistrationBrowser({
             await frame.locator('[data-act="origin"][data-id="koy"]').click();
             await frame.locator('[data-act="night"][data-id="kahve"]').click();
             assert.ok(await frame.evaluate(() => localStorage.getItem("tariklab::racon:1")));
+          } else {
+            await frame.locator("#menu-new").click();
+            await frame.locator("#confirm-start").click();
+            await frame.locator("#town-advance").waitFor();
+            assert.equal(await frame.evaluate(() => JSON.parse(localStorage.getItem("tariklab.nextwave.son-kasaba.slot1")).month), 1);
           }
           const saved = await facts(page);
           await page.reload({ waitUntil: "networkidle" });
@@ -139,11 +145,11 @@ export async function rootOfflineRegistrationBrowser({
             { timeout: 15000 },
           );
           const onlineText = await frame.locator("body").innerText();
-          const heading = slug === "peg-solitaire" ? ".title" : "#menu-home";
+          const heading = slug === "son-kasaba" ? ".front-menu__heading" : "#menu-home";
           const onlineHeading = await frame.locator(heading).innerText();
           const onlineLabel =
-            slug === "peg-solitaire"
-              ? await frame.locator("#stat-pegs").textContent()
+            slug === "son-kasaba"
+              ? await frame.locator("#menu-continue").textContent()
               : await frame.locator("#btn-devam").textContent();
           assert.deepEqual(
             (await facts(page)).storage,
@@ -190,8 +196,8 @@ export async function rootOfflineRegistrationBrowser({
             await frame.waitForFunction(() => window.tlabPlBody?.translate("Save") !== null);
           assert.equal(await frame.evaluate(() => localStorage.getItem("tariklab.language")), lang);
           const offlineLabel =
-            slug === "peg-solitaire"
-              ? await frame.locator("#stat-pegs").textContent()
+            slug === "son-kasaba"
+              ? await frame.locator("#menu-continue").textContent()
               : await frame.locator("#btn-devam").textContent();
           assert.equal(offlineLabel, onlineLabel);
           const body = await frame.locator("body").innerText();
@@ -212,10 +218,10 @@ export async function rootOfflineRegistrationBrowser({
             "offline reload preserves all existing saves",
           );
           assert.equal((await facts(page)).sentinel, "keep-existing-cache");
-          if (slug === "peg-solitaire") {
-            await frame.locator('[data-row="3"][data-col="1"][data-kind="peg"]').click();
-            await frame.locator('[data-row="3"][data-col="3"][data-kind="target"]').click();
-            assert.equal(await frame.locator("#stat-pegs").textContent(), "31");
+          if (slug === "son-kasaba") {
+            await frame.locator("#menu-continue").click();
+            await frame.locator("#town-advance").click();
+            assert.equal(await frame.evaluate(() => JSON.parse(localStorage.getItem("tariklab.nextwave.son-kasaba.slot1")).month), 2);
           } else {
             await frame.locator("#btn-devam").click();
             assert.equal(await frame.locator("#btn-ilerlet").isVisible(), true);

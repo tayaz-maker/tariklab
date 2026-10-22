@@ -1,14 +1,21 @@
 // Same-origin retirement and save-preservation acceptance against dev or built preview.
 import assert from 'node:assert/strict';
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
+import { spawn } from 'node:child_process';
+import { waitForHttp } from './ci-readiness.mjs';
 import { chromium } from 'playwright';
 import { archivedGameSlugs } from './legacy-game-inventory.mjs';
-const origin = process.env.ARCHIVE_B_ORIGIN || 'http://127.0.0.1:8081';
-const out = resolve(process.env.RUNNER_TEMP || '/workspace', 'screenshots/archive-b');
+export async function legacyGamesArchiveBrowser({ origin = process.env.ARCHIVE_B_ORIGIN || 'http://127.0.0.1:8081', out = resolve(process.env.RUNNER_TEMP || '/workspace', 'screenshots/archive-b') } = {}) {
 mkdirSync(out, { recursive: true });
 const saves = Object.fromEntries(archivedGameSlugs.flatMap(slug => [1, 2, 3].map(slot => [`tariklab.nextwave.${slug}.slot${slot}`, JSON.stringify({ id: slug, slot, archived: 'unchanged' })])));
 for (const key of ['tariklab.nextwave.tc-sim-devlet.active','tariklab.nextwave.kayip-telefon.backup','tariklab.son100.pov.v1.slot1','tlab.labirent.v1','tlab.tektas.v1','tariklab.chess.save','tariklab.amiral-batti.match','tariklab.amiral-batti.stats','tariklab.veto-h.duel','tariklab.veto-h.duel.backup','tariklab.gett-oh.duel','tariklab.gett-oh.duel.backup']) saves[key] = '{"existing":"keep byte for byte"}';
+// Preserve the same real legacy duel fixtures that the old art proof resumed.
+for (const theme of ['veto-h', 'gett-oh']) {
+  saves[`tariklab.${theme}.duel`] = readFileSync(`scripts/fixtures/duel/${theme}-old-save.json`, 'utf8');
+  saves[`tariklab.${theme}.duel.backup`] = saves[`tariklab.${theme}.duel`];
+}
 const browser = await chromium.launch({ headless: true, executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || undefined });
 const results = [];
 try {
@@ -23,6 +30,11 @@ try {
     }, { saves, lang });
     const page = await context.newPage(), errors = [];
     page.on('pageerror', error => errors.push(error.message));
+    page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
+    page.on('response', response => {
+      if (response.url().startsWith(origin + '/') && response.status() >= 400)
+        errors.push(`${response.status()}: ${response.url()}`);
+    });
     await page.goto(origin, { waitUntil: 'networkidle' });
     assert.equal(await page.locator('#category-tabletop, #category-dossier').count(), 0);
     for (const slug of archivedGameSlugs) {
@@ -54,3 +66,25 @@ try {
 }
 assert.equal(results.length,6);
 console.log(JSON.stringify({ status:'PASS',cells:6,results,out }));
+
+return results;
+}
+
+// Exercise the shipping Worker, not the historical game files retained in public/.
+export async function legacyGamesArchiveCI(out) {
+  const port = '8107';
+  const origin = `http://127.0.0.1:${port}`;
+  const server = spawn(process.execPath, ['scripts/ci-built-preview.mjs', port], {
+    stdio: 'inherit', detached: true,
+  });
+  try {
+    await waitForHttp(origin, { timeoutMs: 90000,
+      stopped: () => server.exitCode !== null || server.signalCode !== null });
+    return await legacyGamesArchiveBrowser({ origin, out });
+  } finally {
+    try { process.kill(-server.pid, 'SIGTERM'); } catch { /* already stopped */ }
+  }
+}
+
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href)
+  await legacyGamesArchiveBrowser();
