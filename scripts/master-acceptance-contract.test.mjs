@@ -31,15 +31,15 @@ test('limited language diagnostics cannot silently expand or duplicate a release
 });
 
 test('authored aliases include legacy scores and exact management/duel namespaces only',()=>{
- const cases=[['peg-solitaire','tlab.tektas.v1'],['labirent','tlab.labirent.v1'],['kayip-telefon','tariklab.nextwave.kayip-telefon.slot1'],['tc-sim-devlet','tariklab.nextwave.tc-sim-devlet.slot2'],['son-100-gun','tariklab.son100.pov.v1.slot1'],['gett-oh','tariklab.gett-oh.duel'],['veto-h','tariklab.veto-h.duel'],['jitem-derin-ag','jitem-derin-ag-v3'],['tc-sim','tariklab::tc-sim:1']];
+ const cases=[['peg-solitaire','tlab.tektas.v1'],['labirent','tlab.labirent.v1'],['kayip-telefon','tariklab.nextwave.kayip-telefon.slot1'],['tc-sim-devlet','tariklab.nextwave.tc-sim-devlet.slot2'],['son-100-gun','tariklab.son100.pov.v1.slot1'],['gett-oh','tariklab.gett-oh.duel'],['veto-h','tariklab.veto-h.duel'],['tc-sim','tariklab::tc-sim:1']];
  for(const [game,key] of cases){
   const evidence=readSaveEvidence(game,{[key]:'{"day":4}',[game+'-settings']:'{"day":8}',['unrelated-'+key]:'{"day":9}'});
   assert.deepEqual(Object.keys(evidence),[key]);assert.doesNotThrow(()=>assertPreparedSave(game,evidence));
  }
 });
 test('resumable games cannot pass on missing, null, malformed, backup-only or preferences saves',()=>{
- for(const entries of [{},{'jitem-derin-ag-v3':'null'},{'jitem-derin-ag-v3':'{}'},{'jitem-derin-ag-v3':'invalid'},{'jitem-derin-ag-v3:bak':'{"day":4}'},{'jitem-derin-ag-settings':'{"day":4}'}])assert.throws(()=>assertPreparedSave('jitem-derin-ag',readSaveEvidence('jitem-derin-ag',entries)));
- assert.deepEqual(Object.keys(readSaveEvidence('jitem-derin-ag',{'jitem-derin-ag-v3':'{"day":4}','jitem-derin-ag-v3:bak':'{"day":3}'})),['jitem-derin-ag-v3','jitem-derin-ag-v3:bak']);
+ for(const entries of [{},{'tariklab.gett-oh.duel':'null'},{'tariklab.gett-oh.duel':'{}'},{'tariklab.gett-oh.duel':'invalid'},{'tariklab.gett-oh.duel.backup':'{"day":4}'},{'gett-oh-settings':'{"day":4}'}])assert.throws(()=>assertPreparedSave('gett-oh',readSaveEvidence('gett-oh',entries)));
+ assert.deepEqual(Object.keys(readSaveEvidence('gett-oh',{'tariklab.gett-oh.duel':'{"day":4}','tariklab.gett-oh.duel.backup':'{"day":3}'})),['tariklab.gett-oh.duel','tariklab.gett-oh.duel.backup']);
  for(const game of ['peg-solitaire','labirent','satranc'])assert.equal(assertPreparedSave(game,{}).required,false);
  assert.throws(()=>readSaveEvidence('unknown-game',{}));
 });

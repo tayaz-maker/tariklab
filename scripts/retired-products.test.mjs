@@ -13,7 +13,7 @@ test('only two complete card games remain reachable; removed applications are ab
   for(const path of ['public/atlas','public/games/darbe-h','assets/atlas-3d'])assert.equal(existsSync(path),false,path);
   const catalog=readFileSync('src/lib/games.ts','utf8');
   assert.doesNotMatch(catalog,/darbe-h|\/atlas\//);
-  for(const path of ['public/vendor/pixi','public/games/jitem-derin-ag/assets/atlas-pixi-Dilx3yA8.js','scripts/hanedanian-atlas-scheduler.test.mjs'])assert.ok(existsSync(path),path);
+  for(const path of ['public/vendor/pixi','public/games/shared/pixi-adapter.js','scripts/hanedanian-atlas-scheduler.test.mjs'])assert.ok(existsSync(path),path);
 });
 
 test('old offline installations retire only their own scope, retaining caches and saves',async()=>{

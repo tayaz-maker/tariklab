@@ -46,7 +46,7 @@ export async function archiveAcceptance(browser, origin, out) {
         assert.equal(new URL(page.url()).origin, origin, "archive redirect stays on the certified origin");
         const banner = page.locator('[data-game-archive="ihtilal"]');
         await banner.waitFor(); assert.ok((await banner.innerText()).includes(COPY[lang].banner));
-        assert.equal(await banner.locator('a[href="/oyna/jitem-derin-ag"]').count(), 1);
+        assert.equal(await banner.locator('a[href="/"]').count(), 1);
         assert.equal(await page.locator('meta[name="robots"]').getAttribute("content"), "noindex, follow");
         const saved = await page.evaluate(keys => Object.fromEntries(keys.map(k => [k, localStorage.getItem(k)])), Object.keys(saves));
         assert.deepEqual(saved, saves, "navigation and archive shell preserve every existing save byte");

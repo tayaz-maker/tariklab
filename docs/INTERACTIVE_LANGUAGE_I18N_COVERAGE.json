@@ -146,14 +146,6 @@
       "plNote": "PL: interface plus hints, endings and basin text through the body-translation layer."
     },
     {
-      "id": "jitem-derin-ag",
-      "tr": "complete",
-      "en": "complete",
-      "model": "knowledge-aware action preview + evidence grade + causal dossier",
-      "pl": "english-fallback",
-      "plNote": "No Polish. Vendored runtime with its own TR/EN switch; the /oyna play route sends English to Polish readers. The standalone /games URL keeps the game's own switch."
-    },
-    {
       "id": "esik",
       "status": "archived",
       "tr": "complete",

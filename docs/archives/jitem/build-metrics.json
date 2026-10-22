@@ -1,0 +1,18 @@
+{
+  "baselineCommit": "03bc9f4762233d395436cc22325e0c79f5cd4686",
+  "before": {
+    "publicBytes": 22340972,
+    "serverBytes": 5379008,
+    "jitemBytes": 1586600
+  },
+  "after": {
+    "publicBytes": 20733776,
+    "serverBytes": 5368642
+  },
+  "publicSavingsBytes": 1607196,
+  "totalBuildSavingsBytes": 1617562,
+  "otherGameAndVendorFilesUnchanged": 324,
+  "jitemProductionFiles": [
+    "games/jitem-derin-ag/index.html"
+  ]
+}

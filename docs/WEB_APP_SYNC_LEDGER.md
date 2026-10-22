@@ -1246,3 +1246,7 @@ Existing job/outcome acceptance passed all 126 browser cases across resumed segm
 - Upstream #34 and #35 merged at `c09fd1a0c4c1ba586e0383d569a959c623162ca7`; clean checkout, own-lock `npm ci`, existing `scripts/build-jitem-embed.mjs`.
 - Only the generated JITEM runtime changes: role-correct TR/EN T1–T3 hints and decision-record-based final explanations. SOURCE.json and the integration assertion pin the exact merged SHA and runtime digest. CSS/assets, schema 5, atlas, ending selection and mechanics remain unchanged.
 - TC-2 #241 and TC-1 #242 are already merged; this sync does not reapply their changes. HANEDANIAN and other games are unchanged. Final publication remains gated on exact-main CI/TC through the existing release guard.
+
+## 2026-10-22 — JITEM permanent retirement
+
+Removed JITEM from the live TR/EN/PL catalogue and production asset tree. Old play URLs return to the catalogue. Same-origin save values (primary, backup, legacy; schema 5) remain untouched. Shared HANEDANIAN/Pixi and TC SIM modules remain byte-identical. Exact standalone/portal recovery sources and SHA-256 manifest are retained in `docs/archives/jitem/`; native/Godot work remains paused. Merge and Cloudflare publication are coordinated separately after required CI passes.

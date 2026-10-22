@@ -41,7 +41,7 @@ In the table below, “native app” for Çete Savaşları means a first-party R
 | Kıyı Eşiği | `esik` | `/oyna/esik` | [docs/ip/esik-source.md](ip/esik-source.md) | `public/games/esik/` | Fictional coast of thresholds. Save key `tariklab.kiyi-esigi.v1`. |
 | Kayıp Telefon | `kayip-telefon` | `/oyna/kayip-telefon` | [docs/kayip-telefon/](kayip-telefon/00_PRODUCT_IDENTITY.md) | `public/games/kayip-telefon/` | |
 | Son 100 Gün | `son-100-gun` | `/oyna/son-100-gun` | [docs/son-100-gun/](son-100-gun/00_PRODUCT_IDENTITY.md) | `public/games/son-100-gun/` | Reuses the Life Sim engine family (see Shared Systems). |
-| JITEM: Derin Ağ | `jitem-derin-ag` | Sealed teaser | [docs/jitem-derin-ag/](jitem-derin-ag/00_PRODUCT_IDENTITY.md) | Not integrated | Coming soon; catalog card intentionally has no route. |
+| JITEM: Derin Ağ | `jitem-derin-ag` | Permanently retired | [Recovery archive](archives/jitem/README.md) | Removed | Existing saves retained; old play route returns to catalogue. |
 | TC SIM: DEVLET | `tc-sim-devlet` | `/oyna/tc-sim-devlet` | [docs/tc-sim-devlet/](tc-sim-devlet/TC_SIM_DEVLET_MASTER.md) | `public/games/tc-sim-devlet/` | |
 | SON KÖY MANAGER | `son-kasaba` | `/oyna/son-koy-manager` | [docs/son-kasaba/](son-kasaba/IMPLEMENTATION.md) | `public/games/son-kasaba/` | Canonical play route `/oyna/son-koy-manager`; `/oyna/son-kasaba` remains an alias. Save id stays `son-kasaba`. |
 | VETO-H! | `veto-h` | `/oyna/veto-h` | [docs/veto-h/](veto-h/README.md) | `public/games/veto-h/` | Shares the duel engine with GETT-OH! (see Shared Systems). |

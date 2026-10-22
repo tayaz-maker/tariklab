@@ -114,11 +114,6 @@ async function preparePlayable(page,game){
  }else if(game==='tc-sim'){
   await frame.locator('#show-creation-form').click();await frame.locator('#new-game-form input[name="name"]').fill('Master QA');
   await frame.locator('#new-game-form button[type="submit"]').click();await frame.locator('#advance-week').waitFor();
- }else if(game==='jitem-derin-ag'){
-  // Re-resolve the authored iframe if the wrapper reconciles its language fallback.
-  const liveFrame=page.frameLocator('iframe');
-  await liveFrame.locator('.start-screen-shell button').filter({hasText:/Field line|Saha hattı/}).click();
-  await liveFrame.locator('article:visible button').first().click();
  }else if(game==='satranc'){
   await frame.locator('#mode').selectOption('two');await frame.locator('#setup-form button[type="submit"]').click();
  }else if(game==='amiral-batti'){

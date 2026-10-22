@@ -51,7 +51,7 @@ test("EN dictionary covers required portal and common keys", () => {
 
 test("catalog EN covers every current public game slug", () => {
   const slugs = [...read("src/lib/games.ts").matchAll(/slug: "([^"]+)"/g)].map((match) => match[1]);
-  assert.equal(slugs.length, 19);
+  assert.equal(slugs.length, 18);
   for (const slug of slugs) {
     assert.ok(I.CATALOG_EN[slug], slug);
     assert.ok(I.CATALOG_EN[slug].subtitle.length > 8, slug);
@@ -64,7 +64,7 @@ test("catalog PL covers every current public game slug without changing brands",
     assert.ok(I.CATALOG_PL[slug], slug);
     assert.ok(I.CATALOG_PL[slug].subtitle.length > 8, slug);
   }
-  for (const brand of ["HANEDANIAN", "VETO-H!", "GETT-OH!", "JITEM: Derin Ağ", "İHTİLÂL", "TC SIM", "TC SIM: DEVLET", "Racon Manager", "SON KÖY MANAGER"]) {
+  for (const brand of ["HANEDANIAN", "VETO-H!", "GETT-OH!", "İHTİLÂL", "TC SIM", "TC SIM: DEVLET", "Racon Manager", "SON KÖY MANAGER"]) {
     assert.ok(JSON.stringify(I.CATALOG_PL).includes(brand), brand);
   }
 });
@@ -102,7 +102,6 @@ test("PL uses the shared preference key and has deterministic safe fallbacks", (
   assert.equal(I.t("portal.sources", "Kaynaklar"), "Materiały źródłowe");
   assert.equal(I.phrase("Kaydet"), "Zapisz");
   assert.equal(I.phrase("___missing_phrase___"), "___missing_phrase___");
-  assert.equal(I.catalogEntry("jitem-derin-ag", "JITEM: Derin Ağ", "x").title, "JITEM: Derin Ağ");
   I.setLang("tr");
 });
 
@@ -157,21 +156,19 @@ test("credits English pack exists and Amiral Battı stays credited", () => {
   assert.match(I.CREDITS_EN.legal, /All rights reserved/);
 });
 
-test("credits Polish pack exposes 16 live games and preserves the personal note", () => {
-  assert.match(JSON.stringify(I.CREDITS_PL), /16 dostępnych gier/);
-  assert.match(JSON.stringify(I.CREDITS_PL), /JITEM: Derin Ağ/);
+test("credits Polish pack exposes 15 live games and preserves the personal note", () => {
+  assert.match(JSON.stringify(I.CREDITS_PL), /15 dostępnych gier/);
+  assert.doesNotMatch(JSON.stringify(I.CREDITS_PL), /JITEM: Derin Ağ/);
   assert.match(JSON.stringify(I.CREDITS_PL), /Tarık jest synem swojej matki\./);
   assert.doesNotMatch(JSON.stringify(I.CREDITS_PL), /Tarık Halil Ayaz/);
   assert.match(read("public/credits.html"), /CREDITS_PL/);
 });
 
-test("global selector and JITEM shell carry PL without a gameplay write", () => {
+test("global selector and retained shell carry PL without a gameplay write", () => {
   const selector = read("src/components/portal/language-toggle.tsx");
   const shell = read("src/routes/oyna.$slug.tsx");
   assert.match(selector, /setLang\("pl"\)/);
   assert.match(selector, />\s*PL\s*</);
-  assert.match(shell, /const jitemLocale = lang === "pl" \? "en" : lang/);
-  assert.match(shell, /locale: jitemLocale/);
   assert.doesNotMatch(shell, /localStorage|Math\.random|save/i);
 });
 

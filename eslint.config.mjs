@@ -15,7 +15,6 @@ export default tseslint.config(
       ".nitro/**",
       "node_modules/**",
       "src/routeTree.gen.ts",
-      "public/games/jitem-derin-ag/assets/**",
       "public/vendor/**",
       "public/atlas/3d/vendor/**",
     ],

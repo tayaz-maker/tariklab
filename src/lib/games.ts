@@ -20,7 +20,7 @@ export const GAME_CATEGORIES: ReadonlyArray<{ id: GameCategory; slugs: readonly 
   // One life, one building, one village, one hundred days: running people over time.
   { id: "life", slugs: ["tc-sim", "apartman", "son-kasaba", "son-100-gun"] },
   // Read the record, connect the evidence, decide.
-  { id: "dossier", slugs: ["kayip-telefon", "ihtilal", "jitem-derin-ag"] },
+  { id: "dossier", slugs: ["kayip-telefon", "ihtilal"] },
   // Short table sessions: the two card duels and the four classic board and puzzle games.
   { id: "tabletop", slugs: ["veto-h", "gett-oh", "satranc", "amiral-batti", "peg-solitaire", "labirent"] },
 ];
@@ -42,7 +42,6 @@ export const HTML5_SLUGS = [
   "veto-h",
   "gett-oh",
   "ihtilal",
-  "jitem-derin-ag",
   "esik",
 ] as const;
 
@@ -198,14 +197,6 @@ export const GAMES: CatalogGame[] = [
     status: "archived",
     href: "/oyna/ihtilal",
     icon: "ihtilal",
-  },
-  {
-    slug: "jitem-derin-ag",
-    title: "JITEM: Derin Ağ",
-    subtitle: "1986–1996. Dosyalar susmaz. Ağ büyür.",
-    status: "live",
-    href: "/oyna/jitem-derin-ag",
-    icon: "jitem",
   },
   {
     slug: "esik",
