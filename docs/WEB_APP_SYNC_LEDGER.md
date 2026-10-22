@@ -1239,3 +1239,10 @@ Existing job/outcome acceptance passed all 126 browser cases across resumed segm
 - The existing three-week child relationship commitment now accepts actual parent-care rather than mother calls or pregnancy/budget planning. Its one +3 trust / −2 tension bonus goes to a living resident care-dependent child; ties use weakest trust then stable ID, without multiplying by child count.
 - Generic mother-family payoffs, real child relationship choices, the 12-week cooldown, one-time processing and relationship bounds are preserved. No action, NPC, target or save field added.
 - Targeted coverage exercises three production weeks, partial-streak V5/V6 reload, target changes, actual reconciliation, economy equality and recipient/boundary guards. No visual/layout, HANEDANIAN, JITEM, CI or hosting change. Native remains paused; audio disabled.
+
+
+## 2026-10-22 — JITEM final polish canonical portal sync
+
+- Upstream #34 and #35 merged at `c09fd1a0c4c1ba586e0383d569a959c623162ca7`; clean checkout, own-lock `npm ci`, existing `scripts/build-jitem-embed.mjs`.
+- Only the generated JITEM runtime changes: role-correct TR/EN T1–T3 hints and decision-record-based final explanations. SOURCE.json and the integration assertion pin the exact merged SHA and runtime digest. CSS/assets, schema 5, atlas, ending selection and mechanics remain unchanged.
+- TC-2 #241 and TC-1 #242 are already merged; this sync does not reapply their changes. HANEDANIAN and other games are unchanged. Final publication remains gated on exact-main CI/TC through the existing release guard.
