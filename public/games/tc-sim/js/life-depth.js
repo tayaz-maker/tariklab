@@ -270,7 +270,12 @@ export function applyLifeDepthResolution(state, definition, choiceId) {
   d.opportunities = unique(bounded(d.opportunities, 8)); refreshLifeArcs(state); return true;
 }
 
-export function buildLifeDossier(state) {
+function createLifeDossier(source) {
+  // Assess personal liquidity only in this read model. The live economy,
+  // wallet, commercial funds, debt payments and estate are unchanged.
+  const state = structuredClone(source);
+  const cash = state.finances.balance;
+  state.finances.balance += bankTotals(state).personal;
   const d = refreshLifeArcs(state), eco = economyCausality(state);
   const avgRelationship = Object.values(state.relationships || {}).reduce((a, b, _, xs) => a + b / Math.max(1, xs.length), 0);
   const career = d.arcs.career.momentum, family = d.arcs.family.momentum, health = d.arcs.health.momentum;
@@ -291,20 +296,35 @@ export function buildLifeDossier(state) {
     education: { level: state.education.level, active: state.education.active?.pathId || null, stage: d.arcs.education.stage },
     relationships: { average: Math.round(avgRelationship), partnerId: state.social.currentPartnerNpcId, stage: d.arcs.relationship.stage },
     family: { children: state.parenthood?.children?.length || 0, stage: d.arcs.family.stage },
-    economy: { balance: Math.round(state.finances.balance), debt: eco.debt, safety: eco.safety, housing: state.household.homeId },
+    economy: { balance: Math.round(cash), debt: eco.debt, safety: eco.safety, housing: state.household.homeId },
     health: { ...state.health, stage: d.arcs.health.stage },
     achievements: LIFE_ARC_IDS.filter((id) => d.arcs[id].stage === "outcome"),
     regrets: LIFE_ARC_IDS.filter((id) => ["tension", "crisis"].includes(d.arcs[id].stage)),
     actorOutcomes: (state.people || []).slice(0, 12).map((x) => ({ id: x.id, trust: x.social?.trust || 0, tension: x.social?.tension || 0, lastMemory: x.memories?.at(-1)?.text || null })),
     traces,
   };
+  ensureLifeDepthState(source).dossier = d.dossier;
   return d.dossier;
 }
 
-export function attachLifeDossier(state) {
-  const dossier = buildLifeDossier(state);
-  const report = state.lifetime?.reports?.find((x) => x.id === state.lifetime?.death?.reportId);
-  if (report) report.lifeDossier = structuredClone(dossier);
+export function buildLifeDossier(state) {
+  // Completed lives are historical records, including legacy records with
+  // no dossier. Loading or reading them must never generate a new verdict.
+  if (state.lifetime?.death)
+    return state.lifetime.reports.find((r) => r.id === state.lifetime.death.reportId)?.lifeDossier ?? null;
+  return createLifeDossier(state);
+}
+
+export function attachLifeDossier(state, closingReport) {
+  if (!closingReport || closingReport.lifeDossier) return buildLifeDossier(state);
+  // Only the new report handed over by the terminal week is eligible. Its
+  // snapshots precede cleanup of the active job and education programme.
+  const view = structuredClone(state);
+  view.career = structuredClone(closingReport.career);
+  view.education = structuredClone(closingReport.education);
+  const dossier = createLifeDossier(view);
+  ensureLifeDepthState(state).dossier = dossier;
+  closingReport.lifeDossier = structuredClone(dossier);
   return dossier;
 }
 

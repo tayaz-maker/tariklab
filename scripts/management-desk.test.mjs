@@ -120,7 +120,8 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // Authorized menu ownership: navigation/shell/drafts and quarters render-only projection.
   // tc-sim-menu.test.mjs separately pins all engine bytes (quarters before its UI renderer).
   // Authorized Phase 0 gameplay package; all unrelated files retain their bytes.
-  assert.equal(hash.digest("hex"), "77c6e16fbd45b13a2e2fb1f12c319578c4f09bd7e30974e1f996533289bde26a");
+  // Astra TC-2: authorized final-dossier read model and terminal snapshot handoff only.
+  assert.equal(hash.digest("hex"), "302c26a4e5149313d016d371f1c6a37e71c0846f91a9fee535ba7e5a1544cc72");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);
