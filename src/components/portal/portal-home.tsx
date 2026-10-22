@@ -118,6 +118,7 @@ export function PortalHome() {
               .filter((game): game is CatalogGame => Boolean(game));
             // Keep new catalogue entries visible until their category is assigned.
             if(category.id === "strategy") games.push(...active.filter(game => !GAME_CATEGORIES.some(c=>c.slugs.includes(game.slug))));
+            if (games.length === 0) return null;
             return (
               <section key={category.id} aria-labelledby={`category-${category.id}`}>
                 <h2

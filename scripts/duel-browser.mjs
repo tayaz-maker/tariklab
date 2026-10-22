@@ -6,6 +6,15 @@ import {duelPolishSmoke} from "./duel-polish-browser.mjs";
 import { duelScenarios } from "./duel-browser-scenarios.mjs";
 import { runVisibleArtFixtures } from "./duel-visible-art-browser.mjs";
 import { duelLegacyArtProof } from "./duel-legacy-art-proof.mjs";
+import { archivedGameSlugs } from "./legacy-game-inventory.mjs";
+import { legacyGamesArchiveCI } from "./legacy-games-b-browser.mjs";
+
+// The required duel gate now verifies retirement, same-origin redirects, absence
+// of shipped runtimes and unchanged saves. Historical gameplay below is not
+// executed for archived games.
+if (["veto-h", "gett-oh"].every(slug => archivedGameSlugs.includes(slug))) {
+  await legacyGamesArchiveCI(`${process.env.RUNNER_TEMP || "/workspace"}/screenshots/duel`);
+} else {
 const origin = "http://127.0.0.1:8082";
 const out = `${process.env.RUNNER_TEMP || "/workspace"}/screenshots/duel`;
 mkdirSync(out, { recursive: true });
@@ -525,4 +534,6 @@ try {
 } finally {
   await browser?.close();
   server.kill("SIGTERM");
+}
+
 }

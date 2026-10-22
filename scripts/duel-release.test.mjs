@@ -277,7 +277,7 @@ test("every playable catalog game ships teaching content", () => {
   const slugs = [...catalog.matchAll(/slug: "([^"]+)",[^}]*?status: "(live|soon|archived)"/g)]
     .filter((m) => m[2] === "live")
     .map((m) => m[1]);
-  assert.ok(slugs.length === 15, `catalog parse found only ${slugs.length} live games`);
+  assert.ok(slugs.length === 6, `catalog parse found only ${slugs.length} live games`);
 
   // Where each game's player-facing teaching content lives.
   const sources = {

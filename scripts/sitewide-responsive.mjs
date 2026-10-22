@@ -21,7 +21,7 @@ const catalog = readFileSync("src/lib/games.ts", "utf8").split("export const GAM
 const routes = [
   ...catalog.matchAll(/slug: "([^"]+)"[^}]*?status: "live",\s*href: "([^"]+)"/g),
 ].map((match) => ({ id: match[1], href: match[2] }));
-assert.equal(routes.length, 15);
+assert.equal(routes.length, 6);
 const requestedRoutes = new Set((process.env.SITEWIDE_ROUTE_IDS || "").split(",").filter(Boolean));
 const browserRoutes = requestedRoutes.size
   ? routes.filter((route) => requestedRoutes.has(route.id))

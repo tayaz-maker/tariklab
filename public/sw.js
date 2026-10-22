@@ -1,7 +1,7 @@
 /* Çete Savaşları — kalıcı çevrimdışı.
  * İlk online ziyarette kabuk + asset cache'lenir. Sonra uçak modu çalışır.
  */
-const CACHE = "cete-offline-v7";
+const CACHE = "cete-offline-v8";
 const BUILD_ASSETS = /* TARIKLAB_BUILD_ASSETS */ [];
 const SHELL = ["/", "/cete-savaslari", "/favicon.svg", "/manifest.webmanifest", "/i18n/tlab-i18n.js", "/i18n/deep-en.js", "/i18n/deep-en-final.js", "/i18n/boot.js", "/credits.html"].concat(BUILD_ASSETS);
 
@@ -31,6 +31,8 @@ self.addEventListener("activate", (event) => {
 });
 
 function isRetiredJitem(url) {
+  const archived = ["tc-sim-devlet", "kayip-telefon", "son-100-gun", "veto-h", "gett-oh", "satranc", "amiral-batti", "peg-solitaire", "labirent"];
+  if (archived.some(slug => url.pathname === `/oyna/${slug}` || url.pathname === `/oyna/${slug}/` || url.pathname === `/games/${slug}` || url.pathname.startsWith(`/games/${slug}/`))) return true;
   return url.pathname === "/oyna/jitem-derin-ag" || url.pathname === "/oyna/jitem-derin-ag/" ||
     url.pathname === "/games/jitem-derin-ag" || url.pathname.startsWith("/games/jitem-derin-ag/");
 }
@@ -95,7 +97,7 @@ self.addEventListener("fetch", (event) => {
   if (isRetiredJitem(url)) {
     event.respondWith(req.mode === "navigate"
       ? Response.redirect(new URL("/", self.location.origin).href, 302)
-      : Promise.resolve(new Response("JITEM: Derin Ağ kaldırıldı", {status: 410})));
+      : Promise.resolve(new Response("Bu oyun arşivlendi", {status: 410})));
     return;
   }
   // Retired products must not fall back to old runtime cache entries.

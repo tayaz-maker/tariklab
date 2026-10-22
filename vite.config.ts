@@ -12,6 +12,8 @@ import { grokPwaPlugin } from "./scripts/grok-pwa-plugin.mjs";
 import { appEnvPlugin } from "./scripts/app-env-plugin.mjs";
 // @ts-expect-error JS plugin alongside the TS vite config
 import { offlineSwPlugin } from "./scripts/offline-sw-plugin.mjs";
+// @ts-expect-error JS build helper alongside the TS config
+import { archivedGameSlugs, legacyGamesArchivePlugin } from "./scripts/legacy-games-b.mjs";
 import { isMigrationFile } from "./scripts/migration-plan.mjs";
 
 /** The files `src/lib/db.ts` globs — same directory, same non-recursive scope. */
@@ -249,6 +251,7 @@ export default defineConfig(({ command, isPreview }) => ({
   },
   resolve: { tsconfigPaths: true },
   plugins: [
+    legacyGamesArchivePlugin(),
     pgliteBootstrapPlugin(),
     // Before tanstackStart so /auth/popup never falls through to the SPA.
     authPopupPlugin(),
@@ -264,6 +267,7 @@ export default defineConfig(({ command, isPreview }) => ({
     ...(command === "build" || isPreview
       ? [
           nitro({
+            publicAssets: [{ dir: "public", ignore: archivedGameSlugs.map((slug: string) => `public/games/${slug}/**`) }],
             // This app is hosted on Cloudflare Workers (`npx wrangler deploy`),
             // not Vercel. The template shipped `preset: "vercel"`, which emits
             // `.vercel/output` and NO `.wrangler/deploy/config.json` — so

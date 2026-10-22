@@ -1,0 +1,86 @@
+{
+  "sourceCommit": "02d22c0f46969aac3b86a616d671a7e7aeb517ae",
+  "archive": "archives/legacy-games-b-2026-10-22/source.tar.xz",
+  "archiveSha256": "1e6ea5d736929b7a6dc7749a0ec92510bdc31b1459cd862f6502aaf43c0bd43d",
+  "archiveFiles": 1450,
+  "restoredAndVerifiedFiles": 1450,
+  "protectedSourceFiles": 192,
+  "productionStaticBytes": {
+    "before": 20727678,
+    "after": 11951983,
+    "totalReduction": 8775695,
+    "removedOwnedFiles": 8779396,
+    "replacementTombstones": 3672,
+    "ownedReduction": 8775724
+  },
+  "validation": {
+    "build": "PASS (Cloudflare-module, local only)",
+    "typecheck": "PASS",
+    "lint": "PASS (0 errors; 62 existing warnings)",
+    "npmTest": {
+      "javascriptPassed": 2381,
+      "typescriptPassed": 61,
+      "failed": 0,
+      "skipped": 0
+    },
+    "archiveTests": {
+      "passed": 5,
+      "failed": 0
+    },
+    "archiveBrowser": {
+      "cells": 6,
+      "languages": [
+        "tr",
+        "en",
+        "pl"
+      ],
+      "widths": [
+        390,
+        1440
+      ],
+      "gamesPerCell": 9,
+      "savedValuesPerCell": 39,
+      "errors": []
+    },
+    "tcSimBuiltBrowser": {
+      "cases": 12,
+      "errors": []
+    },
+    "hanedanianBuiltBrowser": {
+      "checks": 20,
+      "errors": []
+    },
+    "sonKoyBuiltSaveBrowser": {
+      "cells": 6,
+      "failed": 0
+    },
+    "scopedEngineLoads": [
+      "apartman: 2 owned modules",
+      "son-kasaba: no next-wave engine modules"
+    ],
+    "portalRender": {
+      "devAndBuild": true,
+      "widths": [
+        390,
+        1440
+      ],
+      "visualInspection": "PASS",
+      "consoleErrors": []
+    }
+  },
+  "boundaries": {
+    "originalTcSimModified": false,
+    "hanedanianModified": false,
+    "tcSim25DRepoAccessed": false,
+    "ciOrCloudflareSecurityModified": false,
+    "userDataDeleted": false,
+    "merged": false,
+    "deployed": false
+  },
+  "limits": [
+    "Static file sizes are uncompressed build artifacts, not live network measurements.",
+    "Local preview emits existing PGLite bootstrap Invalid URL warning; tested game/portal routes return and render successfully.",
+    "No real user save payload was collected; browser preservation checks use sentinels at existing namespaces.",
+    "GitHub checks must be assessed on the exact PR head before separately coordinated merge/deployment."
+  ]
+}

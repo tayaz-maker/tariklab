@@ -1250,3 +1250,25 @@ Existing job/outcome acceptance passed all 126 browser cases across resumed segm
 ## 2026-10-22 — JITEM permanent retirement
 
 Removed JITEM from the live TR/EN/PL catalogue and production asset tree. Old play URLs return to the catalogue. Same-origin save values (primary, backup, legacy; schema 5) remain untouched. Shared HANEDANIAN/Pixi and TC SIM modules remain byte-identical. Exact standalone/portal recovery sources and SHA-256 manifest are retained in `docs/archives/jitem/`; native/Godot work remains paused. Merge and Cloudflare publication are coordinated separately after required CI passes.
+
+## 2026-10-22 — Görev B: dokuz eski oyunun güvenli arşivleme adayı
+
+TC SIM: DEVLET, Kayıp Telefon, Son 100 Gün ve koddan doğrulanan altı Kart & Masa
+oyunu aktif katalog/Resources/sitemap'ten çıkarıldı. Production public-assets
+paketinde yalnız dokuz özel klasör hariç tutulur; kaynaklar ve ortak modüller
+korunur. 1.450 dosyalık kalıcı arşiv, SHA-256 manifesti ve kurtarma talimatı:
+`docs/archive/LEGACY_GAMES_B_2026-10-22.md`. Orijinal TC SIM ve HANEDANIAN
+kaynakları byte-identical; kullanıcı kayıtları yerinde. Native/Godot duraklatılmış,
+ses kapalı. CI/Cloudflare güvenlik kontrolleri aynı; merge/deployment yapılmadı.
+
+## 2026-10-22 — PR #245: arşiv sonrası CI beklentilerinin düzeltilmesi
+
+`5e2e8d7` üzerindeki başarısız loglar: duel işi kaldırılan `/oyna/veto-h`
+iframe'inde Kart Arşivi bekliyordu; responsive işinin 870 kontrolü geçti,
+ardından root-offline alt testi kaldırılan Tek Taş iframe'ini bekledi.
+Üst build gate'i yalnız bu bağımlılıkların failure sonucunu doğru biçimde reddetti.
+Duel zorunlu işi artık aynı build üzerinde arşiv/yönlendirme/410 ve eski gerçek
+kayıt fixture'larının korunmasını doğrular. Offline testindeki iki oyun ve 12
+TR/EN/PL × ekran hücresi korunur; Tek Taş yerine yayındaki Son Köy ile gerçek
+oyun eylemi, kayıt, cache ve dil kontrolleri çalışır. Required gate/workflow'lar,
+oyun kodu, kalıcı arşiv ve manifest değişmez; merge/deployment yapılmaz.

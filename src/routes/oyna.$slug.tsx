@@ -1,3 +1,4 @@
+import { archivedGameSlugs } from "../../scripts/legacy-game-inventory.mjs";
 import { createFileRoute, Link, notFound, redirect } from "@tanstack/react-router";
 import { LanguageToggle } from "@/components/portal/language-toggle";
 import { GAMES, canonicalPlaySlug, isHtml5Slug } from "@/lib/games";
@@ -16,6 +17,7 @@ export const Route = createFileRoute("/oyna/$slug")({
   beforeLoad: ({ params }) => {
     const canonical = canonicalPlaySlug(params.slug);
     if (canonical === "jitem-derin-ag") throw redirect({ to: "/", replace: true });
+    if (archivedGameSlugs.includes(canonical)) throw redirect({ to: "/", replace: true });
     if (!isHtml5Slug(canonical) || !BY_SLUG.has(canonical)) {
       throw notFound();
     }

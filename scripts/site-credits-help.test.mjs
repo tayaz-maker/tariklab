@@ -51,10 +51,10 @@ test("resources catalog stays aligned with the canonical game catalog", () => {
     ),
   ].map((m) => ({ slug: m[1], title: m[2], status: m[3], href: m[4] || null }));
   assert.equal(games.length, 18);
-  assert.equal(games.filter((g) => g.status === "live").length, 15);
+  assert.equal(games.filter((g) => g.status === "live").length, 6);
   assert.deepEqual(games.filter((g) => g.status === "soon").map((g) => g.slug), []);
-  assert.match(html, /data-live-count="15" data-soon-count="0"/);
-  assert.deepEqual(games.filter(g => g.status === "archived").map(g => g.slug), ["bukucu", "ihtilal", "esik"]);
+  assert.match(html, /data-live-count="6" data-soon-count="0"/);
+  assert.equal(games.filter(g => g.status === "archived").length, 12);
   for (const game of games) {
     if (game.status === "archived") {
       assert.doesNotMatch(html, new RegExp(`data-game="${game.slug}"|href="${game.href}"`));
@@ -78,7 +78,6 @@ test("resources describes current products and technical contract in both langua
   const tr = read("public/credits.html");
   const en = read("public/i18n/tlab-i18n.js");
   for (const term of [
-    "Tek kişilik yaşam oyunu",
     "Uzun Gölge",
     "üç yerel slot",
     "Türkçe ve İngilizce",
@@ -86,7 +85,6 @@ test("resources describes current products and technical contract in both langua
   ])
     assert.match(tr, new RegExp(term));
   for (const term of [
-    "A one-seat life game",
     "Long Shadows",
     "three local slots",
     "Turkish and English",
