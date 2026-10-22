@@ -5,6 +5,7 @@ import { advanceEducationProgress } from "./life.js?v=10";
 // eski kayıtlarda boş başlar.
 import { adjustHealth, updateRelationship } from "./state.js?v=10";
 import { applyRelationshipDelta } from "./social.js?v=10";
+import { childAge } from "./parenthood.js?v=10";
 import { economyCausality, refreshLifeArcs } from "./life-depth.js?v=10";
 
 export const DOMAINS = ["zaman", "para", "iliski", "enerji", "hedef"];
@@ -66,7 +67,18 @@ const PAYOFF = {
   },
   family: {
     text: "Üç hafta aileye ayrılan zaman güven bıraktı.",
-    apply: (s) => applyRelationshipDelta(s, "anne", { trust: 3, tension: -2 }),
+    apply: (s, goal) => {
+      if (!isChildGoal(goal)) return applyRelationshipDelta(s, "anne", { trust: 3, tension: -2 });
+      // Care is a household action. Spend the existing single bonus on the
+      // care-dependent child with the weakest trust; never multiply by count.
+      const child = (s.parenthood?.children || [])
+        .filter((c) => c.alive !== false && c.livesWithPlayer && childAge(s, c) < 6)
+        .sort((a, b) => a.relationship.trust - b.relationship.trust || a.id.localeCompare(b.id))[0];
+      if (child) {
+        child.relationship.trust = Math.min(100, child.relationship.trust + 3);
+        child.relationship.tension = Math.max(0, child.relationship.tension - 2);
+      }
+    },
   },
   social: {
     text: "Üç hafta süren ilgi dostlukta güven bıraktı.",
@@ -125,7 +137,13 @@ export function currentGoal(state) {
   return goals[0] || null;
 }
 
+const isChildGoal = (goal) => goal?.id === "yearly-relationship" && goal.arc === "family";
+
 export function feedsGoal(decisionId, goal) {
+  // Planning a pregnancy, discussing a budget or calling mother is not time
+  // spent caring for an existing child. Other relationship choices already
+  // change the child's real bond and therefore its yearly goal progress.
+  if (isChildGoal(goal)) return decisionId === "parent-care";
   return Boolean(goal && DECISION_LINKS[decisionId]?.arcs.includes(goal.arc));
 }
 
@@ -194,7 +212,7 @@ export function processDecisionNetworkWeek(state, selectedIds = []) {
     if (net.streak >= STREAK_PAYOFF && week >= net.nextPayoff) {
       const payoff = PAYOFF[goal.arc];
       if (payoff) {
-        payoff.apply(state);
+        payoff.apply(state, goal);
         push(state, payoff.text);
       }
       net.streak = 0;

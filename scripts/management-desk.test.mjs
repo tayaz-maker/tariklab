@@ -121,7 +121,8 @@ test("frozen baseline: historical-start-agnostic content and simulation sources 
   // tc-sim-menu.test.mjs separately pins all engine bytes (quarters before its UI renderer).
   // Authorized Phase 0 gameplay package; all unrelated files retain their bytes.
   // Astra TC-2: authorized final-dossier read model and terminal snapshot handoff only.
-  assert.equal(hash.digest("hex"), "302c26a4e5149313d016d371f1c6a37e71c0846f91a9fee535ba7e5a1544cc72");
+  // Astra TC-1: compose the child-care payoff with the accepted TC-2 sources.
+  assert.equal(hash.digest("hex"), "e73b39d6afeb31b65b583ad96522e3b9cc6965ea8e6502d531c9623d48e3921b");
 });
 test("accepted content counts remain intact", () => {
   assert.equal(JOBS.length, 58);
