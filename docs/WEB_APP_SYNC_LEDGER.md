@@ -1234,3 +1234,8 @@ Existing job/outcome acceptance passed all 126 browser cases across resumed segm
 - New terminal dossiers read the existing report career/education snapshots after active-state cleanup. Existing archived or missing legacy dossiers are read without rewriting/backfilling.
 - Dossier-only financial assessment includes wallet plus personal deposits; commercial funds, property and unused credit stay outside liquidity. Live economy, estate, inheritance and succession are unchanged.
 - Targeted regressions cover terminal snapshot, own-account transfers, debt, excluded assets and V5/V6 archive roundtrips. No UI/layout, save-format, HANEDANIAN, JITEM, CI or hosting changes. Native remains paused; audio disabled.
+
+### 2026-10-22 — Astra TC-1: child-goal care payoff
+- The existing three-week child relationship commitment now accepts actual parent-care rather than mother calls or pregnancy/budget planning. Its one +3 trust / −2 tension bonus goes to a living resident care-dependent child; ties use weakest trust then stable ID, without multiplying by child count.
+- Generic mother-family payoffs, real child relationship choices, the 12-week cooldown, one-time processing and relationship bounds are preserved. No action, NPC, target or save field added.
+- Targeted coverage exercises three production weeks, partial-streak V5/V6 reload, target changes, actual reconciliation, economy equality and recipient/boundary guards. No visual/layout, HANEDANIAN, JITEM, CI or hosting change. Native remains paused; audio disabled.
