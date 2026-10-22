@@ -10,7 +10,7 @@ test('all three archives leave active discovery while original Bukucu remains re
  assert.doesNotMatch(read('public/credits.html'),/data-game="bukucu"|href="\/games\/bukucu/);
  assert.doesNotMatch(read('public/sitemap.xml'),/bukucu|\/ihtilal<|\/esik</);
  const ctx={localStorage:{getItem:()=> 'en'}};vm.runInNewContext(read('public/i18n/tlab-i18n.js'),ctx);
- for(const key of ['CREDITS_EN','CREDITS_PL']){const rows=ctx.tlabI18n[key].sections[0].items;assert.equal(rows.length,15);assert.ok(rows.every(r=>!/bukucu|\/oyna\/(ihtilal|esik)/i.test(r)));}
+ for(const key of ['CREDITS_EN','CREDITS_PL']){const rows=ctx.tlabI18n[key].sections[0].items;assert.equal(rows.length,6);assert.ok(rows.every(r=>!/bukucu|\/oyna\/(ihtilal|esik)/i.test(r)));}
  const m=JSON.parse(read('archives/MANIFEST.json'));
  for(const f of m.files.filter(f=>f.path.startsWith('public/games/bukucu/')||f.path.startsWith('public/games/ihtilal/')||f.path.startsWith('public/games/esik/')))
   assert.equal(createHash('sha256').update(readFileSync(f.path)).digest('hex'),f.sha256,f.path);

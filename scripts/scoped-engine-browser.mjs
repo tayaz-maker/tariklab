@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict';
-export async function verifyScopedEngineLoads(browser,base){
+export async function verifyScopedEngineLoads(browser,base,excluded=[]){
  // The current Son 100 Gun POV page has its own engine and never loads next-wave.
  const owners={'apartman':'apartman-','kayip-telefon':'kayip-','son-100-gun':null,'tc-sim-devlet':'devlet-','son-kasaba':null};
  const results=[];
- for(const [game,owner] of Object.entries(owners)){
+ for(const [game,owner] of Object.entries(owners).filter(([game])=>!excluded.includes(game))){
   const context=await browser.newContext({viewport:{width:390,height:844},serviceWorkers:'block'});
   try{
    const page=await context.newPage(),loaded=[],errors=[];

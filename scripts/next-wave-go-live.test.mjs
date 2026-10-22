@@ -16,10 +16,10 @@ function catalogBlock(slug) {
   return games.slice(start, end === -1 ? games.length : end);
 }
 
-test("all five Next Wave games are live and resolve to playable catalog routes", () => {
+test("Next Wave sources remain recoverable and only Apartman stays live", () => {
   for (const slug of ["apartman", "son-100-gun", "kayip-telefon", "tc-sim-devlet"]) {
     const block = catalogBlock(slug);
-    assert.match(block, /status: "live"/);
+    assert.match(block, slug === "apartman" ? /status: "live"/ : /status: "archived"/);
     assert.match(block, new RegExp(`href: "/oyna/${slug}"`));
     assert.ok(existsSync(new URL(`../public/games/${slug}/index.html`, import.meta.url)));
   }
@@ -65,10 +65,10 @@ test("İhtilâl play runtime is original and not a duel-core reskin", () => {
 
 
 
-test("DEVLET release copy reflects the live multi-period runtime without changing identity", () => {
+test("DEVLET archive preserves the multi-period runtime identity", () => {
   const block = catalogBlock("tc-sim-devlet");
   assert.match(block, /title: "TC SIM: DEVLET"/);
-  assert.match(block, /status: "live"/);
+  assert.match(block, /status: "archived"/);
   assert.match(block, /href: "\/oyna\/tc-sim-devlet"/);
   assert.match(block, /Çok dönemli devlet simülasyonu/);
   assert.match(block, /1923'ten 2030'a/);
@@ -87,7 +87,7 @@ test("DEVLET release copy reflects the live multi-period runtime without changin
   assert.match(staticI18n, /A multi-era state simulation/);
   assert.doesNotMatch(staticI18n, /2002[–-]05 core/);
   assert.equal(catalogEntries.length, 18);
-  assert.deepEqual(catalogEntries.filter((game) => game.status === "archived").map((game) => game.slug), ["bukucu", "ihtilal", "esik"]);
-  assert.equal(catalogEntries.filter((game) => game.status === "live").length, 15);
+  assert.equal(catalogEntries.filter((game) => game.status === "archived").length, 12);
+  assert.equal(catalogEntries.filter((game) => game.status === "live").length, 6);
   assert.deepEqual(catalogEntries.filter((game) => game.status === "soon").map((game) => game.slug), []);
 });

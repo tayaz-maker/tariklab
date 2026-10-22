@@ -1,3 +1,4 @@
+import { archivedGameSlugs } from "./legacy-game-inventory.mjs";
 import { verifyScopedEngineLoads } from "./scoped-engine-browser.mjs";
 // Wave 1 save repairs: real Chromium controls, storage faults, and reloads.
 import assert from "node:assert/strict";
@@ -15,7 +16,9 @@ const label = arg("--label", "source");
 const proofRoot = resolve(process.env.RUNNER_TEMP || "/workspace", "screenshots");
 const out = checkedOutputPath(resolve(proofRoot, "wave1-save", label), [proofRoot]);
 await mkdir(out, { recursive: true });
-const moduleAt = (file) => import(pathToFileURL(resolve(root, "games", file)).href);
+// Historical fixtures remain available from source; retired runtimes do not ship.
+const shipping = root !== resolve("public");
+const moduleAt = (file) => import(pathToFileURL(resolve(shipping && archivedGameSlugs.some(slug => file.startsWith(slug + "/")) ? "public" : root, "games", file)).href);
 const [Town, TownData, Phone, Pov, Naval] = await Promise.all([
   moduleAt("son-kasaba/sim.js"), moduleAt("son-kasaba/data.js"),
   moduleAt("next-wave.js"), moduleAt("son-100-gun/pov.js"),
@@ -246,14 +249,14 @@ try {
     executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || undefined,
     args: ["--no-sandbox", "--disable-dev-shm-usage"],
   });
-  await verifyScopedEngineLoads(browser, base);
+  await verifyScopedEngineLoads(browser, base, shipping ? archivedGameSlugs : []);
   for (const language of ["tr", "en", "pl"]) for (const width of [390, 1280]) {
     for (const [game, fixture, check] of [
       ["son-kasaba", { [keys.town]: JSON.stringify(townSave) }, townCase],
       ["kayip-telefon", { [keys.phone]: JSON.stringify(phoneSave) }, phoneCase],
       ["son-100-gun", {}, povCase],
       ["amiral-batti", { [keys.naval]: '{"version":1,"phase":"place"}' }, navalCase],
-    ]) {
+    ].filter(([game]) => !shipping || !archivedGameSlugs.includes(game))) {
       const tag = `${game}-${language}-${width}`;
       const context = await browser.newContext({ viewport: { width, height: 900 },
         isMobile: width === 390, hasTouch: width === 390, reducedMotion: "reduce" });
@@ -291,6 +294,6 @@ try {
   await browser?.close();
   await new Promise((done) => server.close(done));
 }
-assert.equal(results.length, 24, "all four games must run in all six language/viewport cells");
+assert.equal(results.length, shipping ? 6 : 24, "all shipped games must run in all six language/viewport cells");
 assert.equal(results.filter((result) => !result.ok).length, 0, "see results.json for failed browser cells");
 console.log(JSON.stringify({ label, cells: results.length, passed: results.filter((result) => result.ok).length, out }));

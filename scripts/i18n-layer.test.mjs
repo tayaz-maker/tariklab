@@ -174,7 +174,7 @@ test("global selector and retained shell carry PL without a gameplay write", () 
 
 test("service worker versions i18n assets", () => {
   const sw = read("public/sw.js");
-  assert.match(sw, /cete-offline-v7/);
+  assert.match(sw, /cete-offline-v8/);
   assert.match(sw, /\/i18n\/deep-en\.js/);
   assert.match(sw, /\/i18n\/deep-en-final\.js/);
   assert.match(sw, /\/i18n\//);

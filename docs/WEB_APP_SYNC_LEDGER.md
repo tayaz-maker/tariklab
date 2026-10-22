@@ -1250,3 +1250,13 @@ Existing job/outcome acceptance passed all 126 browser cases across resumed segm
 ## 2026-10-22 — JITEM permanent retirement
 
 Removed JITEM from the live TR/EN/PL catalogue and production asset tree. Old play URLs return to the catalogue. Same-origin save values (primary, backup, legacy; schema 5) remain untouched. Shared HANEDANIAN/Pixi and TC SIM modules remain byte-identical. Exact standalone/portal recovery sources and SHA-256 manifest are retained in `docs/archives/jitem/`; native/Godot work remains paused. Merge and Cloudflare publication are coordinated separately after required CI passes.
+
+## 2026-10-22 — Görev B: dokuz eski oyunun güvenli arşivleme adayı
+
+TC SIM: DEVLET, Kayıp Telefon, Son 100 Gün ve koddan doğrulanan altı Kart & Masa
+oyunu aktif katalog/Resources/sitemap'ten çıkarıldı. Production public-assets
+paketinde yalnız dokuz özel klasör hariç tutulur; kaynaklar ve ortak modüller
+korunur. 1.450 dosyalık kalıcı arşiv, SHA-256 manifesti ve kurtarma talimatı:
+`docs/archive/LEGACY_GAMES_B_2026-10-22.md`. Orijinal TC SIM ve HANEDANIAN
+kaynakları byte-identical; kullanıcı kayıtları yerinde. Native/Godot duraklatılmış,
+ses kapalı. CI/Cloudflare güvenlik kontrolleri aynı; merge/deployment yapılmadı.
