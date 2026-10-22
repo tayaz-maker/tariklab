@@ -18,15 +18,22 @@ self.addEventListener("activate", (event) => {
   event.waitUntil(
     (async () => {
       const keys = await caches.keys();
-      await Promise.all(
-        keys
-          .filter((k) => k.startsWith("cete-offline-") && k !== CACHE)
-          .map((k) => caches.delete(k)),
-      );
+      for (const key of keys.filter((key) => key.startsWith("cete-offline-"))) {
+        const cache = await caches.open(key);
+        for (const request of await cache.keys()) {
+          const url = new URL(request.url);
+          if (url.origin === self.location.origin && isRetiredJitem(url)) await cache.delete(request);
+        }
+      }
       await self.clients.claim();
     })(),
   );
 });
+
+function isRetiredJitem(url) {
+  return url.pathname === "/oyna/jitem-derin-ag" || url.pathname === "/oyna/jitem-derin-ag/" ||
+    url.pathname === "/games/jitem-derin-ag" || url.pathname.startsWith("/games/jitem-derin-ag/");
+}
 
 function bypass(url) {
   const p = url.pathname;
@@ -66,7 +73,6 @@ const MODULE_GAME_PATHS = [
   "/games/son-kasaba/",
   "/games/ihtilal/",
   "/games/hanedanian/",
-  "/games/jitem-derin-ag/",
   "/i18n/",
 ];
 
@@ -85,6 +91,13 @@ self.addEventListener("fetch", (event) => {
   }
   if (url.origin !== self.location.origin) return;
   if (bypass(url)) return;
+  // Never revive the retired runtime or an old cached play wrapper, even offline.
+  if (isRetiredJitem(url)) {
+    event.respondWith(req.mode === "navigate"
+      ? Response.redirect(new URL("/", self.location.origin).href, 302)
+      : Promise.resolve(new Response("JITEM: Derin Ağ kaldırıldı", {status: 410})));
+    return;
+  }
   // Retired products must not fall back to old runtime cache entries.
   if (url.pathname.startsWith("/games/darbe-h/") || url.pathname.startsWith("/atlas/")) {
     event.respondWith(Promise.resolve(new Response("Bu ürün kaldırıldı", {status: 410})));

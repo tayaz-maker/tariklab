@@ -43,7 +43,6 @@ const SAVE_POLICIES = {
  hanedanian: {primary:/^idb:hanedanian:manual$/, evidence:/^idb:hanedanian:manual$/},
  'son-100-gun': {primary:/^tariklab\.son100\.pov\.v1\.slot[1-3]$/, evidence:/^(?:tariklab\.son100\.pov\.v1\.slot[1-3]|tariklab\.nextwave\.son-100-gun\.slot[1-3](?:\.backup)?)$/},
  'amiral-batti': {primary:/^tariklab\.amiral-batti\.match$/, evidence:/^tariklab\.amiral-batti\.(?:match|stats)$/},
- 'jitem-derin-ag': {primary:/^jitem-derin-ag-v3$/, evidence:/^jitem-derin-ag-v3(?::bak)?$/},
  'peg-solitaire': {primary:null,evidence:/^tlab\.tektas\.v1$/},
  labirent: {primary:null,evidence:/^tlab\.labirent\.v1$/},
  satranc: {primary:null,evidence:/$a/},

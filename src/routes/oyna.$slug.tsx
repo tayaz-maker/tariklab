@@ -1,13 +1,12 @@
-import { useEffect, useRef, useState } from "react";
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, redirect } from "@tanstack/react-router";
 import { LanguageToggle } from "@/components/portal/language-toggle";
 import { GAMES, canonicalPlaySlug, isHtml5Slug } from "@/lib/games";
 import { catalogEntry, useLang } from "@/lib/i18n";
 
 const ARCHIVE_COPY = {
-  tr: { text: "Arşiv sürümü. Mevcut kayıtlarınla oynamaya devam edebilirsin.", link: "JITEM: Derin Ağ’a git" },
-  en: { text: "Archived version. You can keep playing with your existing progress.", link: "Go to JITEM: Derin Ağ" },
-  pl: { text: "Wersja archiwalna. Możesz kontynuować grę z dotychczasowymi zapisami.", link: "Przejdź do JITEM: Derin Ağ" },
+  tr: { text: "Arşiv sürümü. Mevcut kayıtlarınla oynamaya devam edebilirsin.", link: "Oyunlara dön" },
+  en: { text: "Archived version. You can keep playing with your existing progress.", link: "Back to games" },
+  pl: { text: "Wersja archiwalna. Możesz kontynuować grę z dotychczasowymi zapisami.", link: "Powrót do gier" },
 };
 
 const BY_SLUG = new Map(GAMES.map((g) => [g.slug, g]));
@@ -16,6 +15,7 @@ export const Route = createFileRoute("/oyna/$slug")({
   ssr: false,
   beforeLoad: ({ params }) => {
     const canonical = canonicalPlaySlug(params.slug);
+    if (canonical === "jitem-derin-ag") throw redirect({ to: "/", replace: true });
     if (!isHtml5Slug(canonical) || !BY_SLUG.has(canonical)) {
       throw notFound();
     }
@@ -37,26 +37,9 @@ function Html5Play() {
   const canonical = canonicalPlaySlug(slug);
   const g = BY_SLUG.get(canonical);
   const { lang, t } = useLang();
-  const frameRef = useRef<HTMLIFrameElement>(null);
-  const [initialLang] = useState(lang);
-  const isJitem = canonical === "jitem-derin-ag";
   const isTcSim = canonical === "tc-sim";
   const title = g ? catalogEntry(lang, g.slug, g).title : "Oyun";
-  // JITEM's embedded runtime currently owns TR/EN content only. Keep the shell
-  // Polish, but send its deterministic existing English fallback to the iframe.
-  const jitemLocale = lang === "pl" ? "en" : lang;
-
-  useEffect(() => {
-    if (!isJitem) return;
-    frameRef.current?.contentWindow?.postMessage(
-      { type: "derin-ag-locale", locale: jitemLocale },
-      "*",
-    );
-  }, [isJitem, jitemLocale]);
-
-  const gameSrc = isJitem
-    ? `/games/${canonical}/index.html?embed=1&lang=${initialLang === "pl" ? "en" : initialLang}`
-    : `/games/${canonical}/index.html`;
+  const gameSrc = `/games/${canonical}/index.html`;
 
   return (
     <div className="flex h-dvh min-h-0 flex-col bg-bg">
@@ -79,25 +62,17 @@ function Html5Play() {
       {g?.status === "archived" ? (
         <aside data-game-archive={canonical} aria-label={title} className="shrink-0 border-b border-border bg-surface px-3 py-2 text-xs text-muted">
           <p>{ARCHIVE_COPY[lang].text}</p>
-          {canonical === "ihtilal" ? <Link to="/oyna/$slug" params={{ slug: "jitem-derin-ag" }} className="mt-1 inline-flex min-h-11 items-center underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-danger">
+          {canonical === "ihtilal" ? <Link to="/" className="mt-1 inline-flex min-h-11 items-center underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-danger">
             {ARCHIVE_COPY[lang].link}
           </Link> : null}
         </aside>
       ) : null}
       <iframe
-        ref={frameRef}
         key={canonical}
         title={title}
         src={gameSrc}
         className="block min-h-0 w-full flex-1 border-0 bg-bg"
         allow="fullscreen; gamepad"
-        onLoad={() => {
-          if (!isJitem) return;
-          frameRef.current?.contentWindow?.postMessage(
-            { type: "derin-ag-locale", locale: jitemLocale },
-            "*",
-          );
-        }}
       />
     </div>
   );

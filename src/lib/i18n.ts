@@ -277,10 +277,6 @@ export const CATALOG_EN: Record<string, { title: string; subtitle: string }> = {
   "veto-h": { title: "VETO-H!", subtitle: "Election night. Build your campaign and answer your rival’s move." },
   "gett-oh": { title: "GETT-OH!", subtitle: "Istanbul at night. Field your crew and play your street power." },
   ihtilal: { title: "İhtilâl", subtitle: "The ruling is written. The archive does not forget." },
-  "jitem-derin-ag": {
-    title: "JITEM: Derin Ağ",
-    subtitle: "1986–1996. Files don't stay buried. The network grows.",
-  },
   esik: {
     title: "Kıyı Eşiği",
     subtitle: "A fictional coast of piers, stairs, ramps and a bridge joint. A broken threshold says why.",
@@ -308,7 +304,6 @@ export const CATALOG_PL: Record<string, { title: string; subtitle: string }> = {
   "veto-h": { title: "VETO-H!", subtitle: "Noc wyborcza. Buduj kampanię i odpowiadaj na ruchy rywala." },
   "gett-oh": { title: "GETT-OH!", subtitle: "Stambuł nocą. Wystaw ekipę i rozegraj swoją uliczną siłę." },
   ihtilal: { title: "İHTİLÂL", subtitle: "Wyrok jest pisany. Archiwum nie zapomina." },
-  "jitem-derin-ag": { title: "JITEM: Derin Ağ", subtitle: "1986–1996. Akta nie pozostają pogrzebane. Sieć rośnie." },
   esik: { title: "Kıyı Eşiği", subtitle: "Wymyślone wybrzeże: nabrzeża, schody, rampy i przęsło mostu. Przerwany próg mówi dlaczego." },
 };
 CATALOG_PL.hanedan = CATALOG_PL.hanedanian;

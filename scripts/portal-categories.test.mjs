@@ -3,14 +3,14 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 import { GAME_CATEGORIES, GAMES } from "../src/lib/games.ts";
 
-test("portal categories retain all 19 routes and partition the 16 live games once", () => {
+test("portal categories retain all 18 routes and partition the 15 live games once", () => {
   const live = GAMES.filter((game) => game.status === "live");
   const listed = GAME_CATEGORIES.flatMap((category) => category.slugs);
 
-  assert.equal(live.length, 16);
+  assert.equal(live.length, 15);
   assert.deepEqual(GAMES.filter(game => game.status === "archived").map(game => game.slug), ["bukucu", "ihtilal", "esik"]);
   assert.equal(GAME_CATEGORIES.length, 4);
-  assert.equal(new Set(listed).size, 19);
+  assert.equal(new Set(listed).size, 18);
   assert.deepEqual(new Set(listed), new Set(GAMES.map((game) => game.slug)));
   assert.deepEqual(new Set(listed.filter(slug => live.some(game => game.slug === slug))), new Set(live.map(game => game.slug)));
 });
@@ -30,7 +30,7 @@ test("portal category headings have TR fallbacks and EN/PL catalogue translation
 test("portal categories stay balanced: at most 4, none a catch-all", () => {
   const sizes = GAME_CATEGORIES.map((category) => category.slugs.length);
   assert.ok(GAME_CATEGORIES.length <= 4);
-  assert.ok(Math.min(...sizes) >= 3, `every shelf has at least 3 games (${sizes})`);
+  assert.ok(Math.min(...sizes) >= 2, `every shelf has at least 2 retained games (${sizes})`);
   assert.ok(Math.max(...sizes) <= 7, `no shelf holds more than 7 games (${sizes})`);
   assert.ok(Math.max(...sizes) < 9, "the old 9-game strategy pile-up is gone");
 });

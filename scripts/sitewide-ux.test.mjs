@@ -140,11 +140,11 @@ test("new UI module graph and every Next Wave shell use fresh online assets, wit
   assert.equal(await vm.runInContext("networkFirst({url:'https://www.tariklab.com/games/apartman/app.js'})", context), "offline");
 });
 
-test("16 live and three archived catalog destinations and static entrypoint assets exist", () => {
+test("15 live and three archived catalog destinations and static entrypoint assets exist", () => {
   const catalog = read("src/lib/games.ts").split("export const GAMES:")[1];
-  assert.equal((catalog.match(/status: "live"/g) || []).length, 16);
+  assert.equal((catalog.match(/status: "live"/g) || []).length, 15);
   assert.equal((catalog.match(/status: "soon"/g) || []).length, 0);
-  assert.match(catalog, /slug: "jitem-derin-ag"[\s\S]*?status: "live"[\s\S]*?href: "\/oyna\/jitem-derin-ag"/);
+  assert.doesNotMatch(catalog, /slug: "jitem-derin-ag"/);
   const entries = [...catalog.matchAll(/slug: "([^"]+)"[^}]*?status: "live"/g)].map((match) => match[1]);
   for (const id of entries.filter((id) => id !== "cete-savaslari")) {
     const file = resolve(root, `public/games/${id}/index.html`);

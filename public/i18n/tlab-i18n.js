@@ -617,10 +617,6 @@
       subtitle: "Istanbul at night. Field your crew and play your street power.",
     },
     ihtilal: { title: "İhtilâl", subtitle: "The ruling is written. The archive does not forget." },
-    "jitem-derin-ag": {
-      title: "JITEM: Derin Ağ",
-      subtitle: "1986–1996. Files don't stay buried. The network grows.",
-    },
     esik: {
       title: "Kıyı Eşiği",
       subtitle: "A fictional coast of piers, stairs, ramps and a bridge joint. A broken threshold says why.",
@@ -646,7 +642,6 @@
     "veto-h": { title: "VETO-H!", subtitle: "Noc wyborcza. Buduj kampanię i odpowiadaj na ruchy rywala." },
     "gett-oh": { title: "GETT-OH!", subtitle: "Stambuł nocą. Wystaw ekipę i rozegraj swoją uliczną siłę." },
     ihtilal: { title: "İHTİLÂL", subtitle: "Wyrok jest pisany. Archiwum nie zapomina." },
-    "jitem-derin-ag": { title: "JITEM: Derin Ağ", subtitle: "1986–1996. Akta nie pozostają pogrzebane. Sieć rośnie." },
     esik: { title: "Kıyı Eşiği", subtitle: "Wymyślone wybrzeże: nabrzeża, schody, rampy i przęsło mostu. Przerwany próg mówi dlaczego." },
   };
   CATALOG_PL.hanedan = CATALOG_PL.hanedanian;
@@ -675,7 +670,6 @@
           '<a href="/oyna/son-koy-manager">SON KÖY MANAGER</a> · LIVE — Spend changing field capacity and action effort across water, energy, migration, production and trust over 24 months.',
           '<a href="/oyna/veto-h">VETO-H!</a> · LIVE — A 300-card election and campaign duel with a seeded 40-card deck, a computer opponent and a pregame Card Archive. Card art was made with AI tools (see below).',
           '<a href="/oyna/gett-oh">GETT-OH!</a> · LIVE — A 300-card neighborhood and street-power duel: the same deterministic engine, a separate card pool and an Istanbul-night table. Card art was made with AI tools (see below).',
-          '<a href="/oyna/jitem-derin-ag">JITEM: Derin Ağ</a> · LIVE — A single-player strategy game set across 1986–1996, built around sourced historical records, relationship networks, asymmetric knowledge and institutional behavior.',
         ],
       },
       {
@@ -683,7 +677,7 @@
         lead: "TarikLab is a collection of independent games that run directly in the browser. The portal and Çete Savaşları use React and TypeScript; the other games run as their own HTML, CSS and JavaScript applications.",
         items: [
           "Most long-running games use three local slots, kept separate on the same device. HANEDANIAN keeps an autosave, its previous version and a separate manual save, with file export/import. Original HANEDAN saves remain accessible through the legacy game. VETO-H! and GETT-OH! each autosave one active duel; reload preserves deck order, action rights and pending responses.",
-          "The portal and all 16 live games support Turkish and English; each game keeps its own voice while the outer shell owns language navigation.",
+          "The portal and all 15 live games support Turkish and English; each game keeps its own voice while the outer shell owns language navigation.",
           "Polish covers the interface and, through a translation layer, game text (story, events, cards, help); anything without a Polish translation is shown in English. The Polish text has not yet been reviewed by a native speaker.",
           "Interfaces adapt to phone, tablet and desktop while preserving each game's own visual and interaction identity.",
         ],
@@ -710,12 +704,12 @@
           "Code-drawn visuals (game emblems, the T monogram, icons, seed-generated maps, DEVLET region outlines): TarikLab, all rights reserved.",
           "No font files, audio files or third-party map data are used.",
           "Card pictures drawn from code: VETO-H! and GETT-OH! card art and table backgrounds come from scripts/duel-card-art.",
-          "Images redrawn from code: the portal share images, the JITEM: Derin Ağ images and the portal background are produced by scripts/ip/render-original-art.mjs and CSS; the older files whose creator was not recorded were removed. The Son Mahalle Bükücü icon was replaced with a code-drawn SVG.",
+          "Images redrawn from code: the portal share images and the portal background are produced by scripts/ip/render-original-art.mjs and CSS; the older files whose creator was not recorded were removed. The Son Mahalle Bükücü icon was replaced with a code-drawn SVG.",
         ],
       },
       {
         h: "Third-party components",
-        lead: "Principal third-party components of the portal and Çete Savaşları application: React, TanStack Router, Zustand, Radix UI, Lucide and Zod. Rights in those components belong to their owners. The note on TLab Classics' independent game logic is separate from this application stack. Map render infrastructure: PixiJS (MIT, version 8.21.0) draws Kıyı Eşiği's map; a browser without WebGL falls back to the game's own SVG map, no player is excluded. The 55 packages shipped to the browser have verified licences: 52 MIT, 1 Apache-2.0, 1 ISC, 1 0BSD. The JITEM: Derin Ağ runtime package list has not been generated yet.",
+        lead: "Principal third-party components of the portal and Çete Savaşları application: React, TanStack Router, Zustand, Radix UI, Lucide and Zod. Rights in those components belong to their owners. The note on TLab Classics' independent game logic is separate from this application stack. Map render infrastructure: PixiJS (MIT, version 8.21.0) draws Kıyı Eşiği's map; a browser without WebGL falls back to the game's own SVG map, no player is excluded. The 55 packages shipped to the browser have verified licences: 52 MIT, 1 Apache-2.0, 1 ISC, 1 0BSD.",
       },
     ],
     legal:
@@ -725,7 +719,7 @@
   const CREDITS_PL = {
     h1: "Materiały źródłowe", kicker: "TarikLab · gry i struktura techniczna", back: "← Gry",
     sections: [
-      { h: "Katalog", lead: "TarikLab ma 16 dostępnych gier.", items: [
+      { h: "Katalog", lead: "TarikLab ma 15 dostępnych gier.", items: [
         '<a href="/cete-savaslari">Çete Savaşları</a> · LIVE — Zbuduj ekipę, prowadź zadania i utrzymuj dzielnicę pod presją policji oraz rywali.',
         '<a href="/oyna/hanedanian">HANEDANIAN</a> · LIVE — Buduj osady, zabezpieczaj zasoby i prowadź dynastię na generowanej mapie strategii.',
         '<a href="/oyna/racon">Racon Manager</a> · LIVE — Narracyjna gra menedżerska o relacjach, decyzjach i opóźnionych konsekwencjach.',
@@ -741,18 +735,17 @@
         '<a href="/oyna/son-koy-manager">SON KÖY MANAGER</a> · LIVE — Przez 24 miesiące rozdzielaj zdolność działania między wodę, energię, migrację i zaufanie.',
         '<a href="/oyna/veto-h">VETO-H!</a> · LIVE — Pojedynek wyborczy i kampanijny na 300 kart z talią 40 kart. Grafiki kart powstały przy użyciu narzędzi AI (zob. niżej).',
         '<a href="/oyna/gett-oh">GETT-OH!</a> · LIVE — Pojedynek o dzielnicę i uliczną siłę: wspólny silnik, osobna pula kart i stambulska noc. Grafiki kart powstały przy użyciu narzędzi AI (zob. niżej).',
-        '<a href="/oyna/jitem-derin-ag">JITEM: Derin Ağ</a> · LIVE — Jednoosobowa strategia 1986–1996 oparta na źródłowych zapisach historycznych, sieciach relacji i asymetrycznej wiedzy.',
       ]},
-      { h: "Jak to działa", lead: "TarikLab to zbiór niezależnych gier działających bezpośrednio w przeglądarce.", items: ["Portal i Çete Savaşları używają Reacta i TypeScriptu; pozostałe gry są osobnymi aplikacjami HTML, CSS i JavaScript.", "Portal i wszystkie 16 dostępnych gier obsługują turecki i angielski. Polski obejmuje interfejs oraz — przez warstwę tłumaczeń — tekst gier (fabuła, wydarzenia, karty, pomoc); tekst bez polskiego tłumaczenia pokazuje się po angielsku. Polskie teksty nie zostały jeszcze sprawdzone przez rodzimego użytkownika języka.", "Interfejsy dostosowują się do telefonu, tabletu i komputera." ]},
+      { h: "Jak to działa", lead: "TarikLab to zbiór niezależnych gier działających bezpośrednio w przeglądarce.", items: ["Portal i Çete Savaşları używają Reacta i TypeScriptu; pozostałe gry są osobnymi aplikacjami HTML, CSS i JavaScript.", "Portal i wszystkie 15 dostępnych gier obsługują turecki i angielski. Polski obejmuje interfejs oraz — przez warstwę tłumaczeń — tekst gier (fabuła, wydarzenia, karty, pomoc); tekst bez polskiego tłumaczenia pokazuje się po angielsku. Polskie teksty nie zostały jeszcze sprawdzone przez rodzimego użytkownika języka.", "Interfejsy dostosowują się do telefonu, tabletu i komputera." ]},
       { h: "Autorstwo", note: "Tarık jest synem swojej matki." },
       { h: "TLab Classics", lead: "Labirent, Tek Taş, Satranç i Amiral Battı zostały napisane od podstaw dla TarikLab.", items: ["Labirent — niezależna implementacja TarikLab.", "Tek Taş — niezależna implementacja TarikLab.", "Satranç — niezależny silnik zasad TarikLab.", "Amiral Battı — niezależna implementacja siatki i floty TarikLab."], note: "Klasyczne zasady gier są koncepcjami domeny publicznej; ta informacja dotyczy wyłącznie kodu, interfejsu i oryginalnej treści TarikLab." },
       { h: "Grafiki i łańcuch praw", lead: "Jako licencje pokazujemy tylko prawa z potwierdzonym zapisem.", items: [
         "Grafiki rysowane kodem (emblematy gier, monogram T, ikony, mapy generowane z ziarna, obrysy regionów DEVLET): TarikLab, wszelkie prawa zastrzeżone.",
         "Nie używamy plików czcionek, plików dźwiękowych ani zewnętrznych danych map.",
         "Grafiki kart rysowane kodem: grafiki kart i tła stołu VETO-H! i GETT-OH! powstają w scripts/duel-card-art.",
-        "Obrazy narysowane na nowo kodem: grafiki udostępniania portalu, grafiki JITEM: Derin Ağ i tło portalu powstają w scripts/ip/render-original-art.mjs i CSS; starsze pliki bez zapisanego autora zostały usunięte. Ikona Son Mahalle Bükücü została zastąpiona SVG narysowanym kodem.",
+        "Obrazy narysowane na nowo kodem: grafiki udostępniania portalu i tło portalu powstają w scripts/ip/render-original-art.mjs i CSS; starsze pliki bez zapisanego autora zostały usunięte. Ikona Son Mahalle Bükücü została zastąpiona SVG narysowanym kodem.",
       ]},
-      { h: "Komponenty zewnętrzne", lead: "Główne komponenty zewnętrzne portalu i Çete Savaşları: React, TanStack Router, Zustand, Radix UI, Lucide i Zod. Prawa do nich należą do ich właścicieli. Infrastruktura renderowania mapy: PixiJS (MIT, wersja 8.21.0) rysuje mapę Kıyı Eşiği; przeglądarka bez WebGL wraca do własnej mapy SVG gry, żaden gracz nie jest wykluczony. 55 pakietów wysyłanych do przeglądarki ma potwierdzone licencje: 52 MIT, 1 Apache-2.0, 1 ISC, 1 0BSD. Lista pakietów środowiska JITEM: Derin Ağ nie została jeszcze wygenerowana." },
+      { h: "Komponenty zewnętrzne", lead: "Główne komponenty zewnętrzne portalu i Çete Savaşları: React, TanStack Router, Zustand, Radix UI, Lucide i Zod. Prawa do nich należą do ich właścicieli. Infrastruktura renderowania mapy: PixiJS (MIT, wersja 8.21.0) rysuje mapę Kıyı Eşiği; przeglądarka bez WebGL wraca do własnej mapy SVG gry, żaden gracz nie jest wykluczony. 55 pakietów wysyłanych do przeglądarki ma potwierdzone licencje: 52 MIT, 1 Apache-2.0, 1 ISC, 1 0BSD." },
     ],
     legal: "© 2026 TarikLab. Wszelkie prawa zastrzeżone. Nie zgłasza się roszczeń do klasycznych zasad gier z domeny publicznej.",
   };

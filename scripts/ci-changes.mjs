@@ -4,7 +4,7 @@ import {resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
 const games=['tc-sim-devlet','tc-sim','hanedanian','ihtilal','racon','esik','bukucu',
   'labirent','peg-solitaire','satranc','amiral-batti','apartman','kayip-telefon',
-  'son-100-gun','son-kasaba','jitem-derin-ag'];
+  'son-100-gun','son-kasaba'];
 const duel=['duel-core','veto-h','gett-oh'];
 export function classifyChanges(files) {
   const documentation=f=>/^(docs\/|(?:README|LICENSE)(?:\.(?:md|txt))?$)/.test(f)||/^(?:[^/]+|outputs\/.+)\.md$/.test(f);
