@@ -653,7 +653,7 @@ export function advanceWeek(state) {
   for (const eventId of processLifeDepthWeek(state)) enqueueEvent(state, eventId);
   processLifetimeWeek(state);
   if (state.lifetime?.death) {
-    attachLifeDossier(state);
+    attachLifeDossier(state, state.lifetime.reports.find((r) => r.id === state.lifetime.death.reportId));
     decorateLifeDossier(state);
     assertValidState(state);
     return { ok: true, messages: ["Yaşam tamamlandı. Yaşam raporu hazır."] };

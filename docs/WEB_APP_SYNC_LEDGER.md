@@ -1229,3 +1229,8 @@ Existing job/outcome acceptance passed all 126 browser cases across resumed segm
 - Combined targeted suite: 102 PASS. Build/typecheck/scoped lint PASS. Two seeds × three legal routes: 6/6 victories; passive/expansion/circular policies: 0/3 victories, finite economy, no early wins. Local contribution policy: 1,747→932 accepted player commands with 18 standing orders; quotas/costs unchanged.
 - Existing real Chromium built acceptance: 20 checks PASS across 1280/1920/360/390, map gestures, paid actions, actual SW/IDB offline reload, backup recovery and import/export. New mechanics at 390/1440 PASS: paid hourly contribution/cancel, offline manual reload, chronicle persistence and guarded victory snapshot/UI. Screenshots inspected; no new 20-minute soak or physical-device claim.
 - Based on Phase 4 #238 with prior package changes preserved. No merge or Cloudflare deployment. Native paused; audio disabled.
+
+### 2026-10-22 — Astra TC-2: factual terminal life dossier
+- New terminal dossiers read the existing report career/education snapshots after active-state cleanup. Existing archived or missing legacy dossiers are read without rewriting/backfilling.
+- Dossier-only financial assessment includes wallet plus personal deposits; commercial funds, property and unused credit stay outside liquidity. Live economy, estate, inheritance and succession are unchanged.
+- Targeted regressions cover terminal snapshot, own-account transfers, debt, excluded assets and V5/V6 archive roundtrips. No UI/layout, save-format, HANEDANIAN, JITEM, CI or hosting changes. Native remains paused; audio disabled.
