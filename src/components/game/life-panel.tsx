@@ -14,7 +14,7 @@ import {
 import { energyMax, staminaMax } from "@/game/formulas";
 import { useGame } from "@/game/store";
 import type { LifeId, Player } from "@/game/types";
-import { formatTRY } from "@/lib/utils";
+import { formatCeteMoney } from "@/game/cete-format";
 
 const ACTS: {
   id: LifeId;
@@ -65,6 +65,7 @@ const CHIPS = [250, 1000, 5000, 20000];
 
 export function LifePanel({ player }: { player: Player }) {
   const { lang } = useLang();
+  const formatTRY = (value: number) => formatCeteMoney(value, lang);
   const pl = lang === "pl";
   const live = useGame((s) => s.live);
   const gamble = useGame((s) => s.gamble);
@@ -145,7 +146,7 @@ export function LifePanel({ player }: { player: Player }) {
             <h3 className="font-display text-lg font-semibold">{pl ? PL_LIFE_ACTS[a.id]?.title ?? a.title : a.title}</h3>
             <p className="mt-1 text-sm text-muted">{pl ? PL_LIFE_ACTS[a.id]?.desc ?? a.desc : a.desc}</p>
             <p className="mt-2 font-mono text-xs tabular-nums text-subtle">
-              {pl && a.id === "okey" ? "stawka" : a.cost}
+              {pl ? (a.id === "okey" ? "stawka" : formatTRY(a.minCash)) : a.cost}
             </p>
             <Button
               className="mt-3"
@@ -237,7 +238,7 @@ export function LifePanel({ player }: { player: Player }) {
             >
               <h3 className="font-display text-lg font-semibold">{h.name}</h3>
               <p className="mt-1 font-mono text-xs tabular-nums text-subtle">
-                {h.odds.toFixed(1)}x
+                {pl ? h.odds.toLocaleString("pl-PL", { minimumFractionDigits: 1, maximumFractionDigits: 1 }) : h.odds.toFixed(1)}x
               </p>
               <Button
                 className="mt-3"

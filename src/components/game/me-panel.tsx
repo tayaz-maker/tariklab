@@ -26,7 +26,7 @@ import { ACHIEVEMENTS } from "@/game/meta";
 import { useGame } from "@/game/store";
 import type { NeighborhoodId, Player } from "@/game/types";
 import { track } from "@/lib/analytics";
-import { formatTRY } from "@/lib/utils";
+import { formatCeteMoney } from "@/game/cete-format";
 import { PL_CORNERS, PL_CREW_NAMES, PL_ESTATES, PL_ITEMS } from "@/game/cete-pl";
 
 const plAchievements: Record<string, string> = { ilk_milyon: "Pierwszy milion", is_100: "100 zleceń", semt_hepsi: "Cztery dzielnice", sezon_baba: "Ojciec Stambułu", seri_7: "Seria 7 dni" };
@@ -69,6 +69,7 @@ function loadBoard() {
 
 export function MePanel({ player }: { player: Player }) {
   const { lang, t } = useLang();
+  const formatTRY = (value: number) => formatCeteMoney(value, lang);
   const pl = lang === "pl";
   const itemName = (id: string) => pl ? PL_ITEMS[id]?.name ?? ITEM_MAP[id]?.name : ITEM_MAP[id]?.name;
   const en = lang !== "tr";
@@ -247,9 +248,9 @@ export function MePanel({ player }: { player: Player }) {
           <Cell k="Nakit" v={formatTRY(L.nakit)} />
           <Cell k="Kasa" v={formatTRY(L.kasa)} />
           <Cell k="Rüşvet" v={formatTRY(L.rusvet)} />
-          <Cell k="Altın" v={`${player.altin.toLocaleString("tr-TR")} g`} />
-          <Cell k="Dolar" v={`$${player.usd.toLocaleString("tr-TR")}`} />
-          <Cell k="USDT" v={`${player.usdt.toLocaleString("tr-TR")} ₮`} />
+          <Cell k="Altın" v={`${player.altin.toLocaleString(pl ? "pl-PL" : "tr-TR")} g`} />
+          <Cell k="Dolar" v={`$${player.usd.toLocaleString(pl ? "pl-PL" : "tr-TR")}`} />
+          <Cell k="USDT" v={`${player.usdt.toLocaleString(pl ? "pl-PL" : "tr-TR")} ₮`} />
           <Cell k="Portföy" v={formatTRY(L.port)} />
           <Cell k="Emlak değeri" v={formatTRY(L.emlakDeger)} />
           <Cell k="Köşe" v={formatTRY(L.koseDeger)} />

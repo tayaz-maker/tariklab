@@ -7,10 +7,11 @@ import { HEALTH_MAX, HOSPITAL_THRESHOLD, JAIL_TICKS } from "@/game/data";
 import { ResetLink } from "@/components/game/reset-confirm";
 import { useGame } from "@/game/store";
 import type { Player } from "@/game/types";
-import { formatTRY } from "@/lib/utils";
+import { formatCeteMoney } from "@/game/cete-format";
 
 export function ClinicPanel({ player }: { player: Player }) {
   const { lang } = useLang();
+  const formatTRY = (value: number) => formatCeteMoney(value, lang);
   const en = lang !== "tr";
   const pl = lang === "pl";
   const minutes = (ticks: number) => pl ? formatTicksAsMinutes(ticks).replace(/ dk$/, " min") : formatTicksAsMinutes(ticks);
@@ -78,6 +79,7 @@ export function ClinicPanel({ player }: { player: Player }) {
         </p>
         <div className="mt-4 flex gap-2">
           <Input
+            aria-label={pl ? "Kwota funduszu łapówek" : undefined}
             type="number"
             inputMode="numeric"
             min={100}

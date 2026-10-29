@@ -1,10 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { useGame } from "@/game/store";
-import { formatTRY } from "@/lib/utils";
+import { formatCeteMoney } from "@/game/cete-format";
 import { useLang } from "@/lib/i18n";
 
 export function SeasonModal() {
   const { lang } = useLang();
+  const formatTRY = (value: number) => formatCeteMoney(value, lang);
   const player = useGame((s) => s.player);
   const ack = useGame((s) => s.ackSeason);
   const c = player?.pendingSeasonCeremony;

@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ARMOR, LUXURY, SELL_RATE, VEHICLES, WEAPONS } from "@/game/data";
 import { useGame } from "@/game/store";
 import type { Player, ShopItem } from "@/game/types";
-import { formatTRY } from "@/lib/utils";
+import { formatCeteMoney } from "@/game/cete-format";
 import { PL_ITEMS } from "@/game/cete-pl";
 
 export function ShopPanel({ player }: { player: Player }) {
@@ -40,6 +40,7 @@ function Catalog({
   player: Player;
 }) {
   const { lang, phrase } = useLang();
+  const formatTRY = (value: number) => formatCeteMoney(value, lang);
   const en = lang !== "tr";
   const buyItem = useGame((s) => s.buyItem);
   const sellItem = useGame((s) => s.sellItem);

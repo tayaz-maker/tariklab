@@ -17,11 +17,12 @@ import {
 import { useGame } from "@/game/store";
 import { freeCrew, rivalPressure, turfDefense } from "@/game/formulas";
 import type { Player } from "@/game/types";
-import { formatTRY } from "@/lib/utils";
+import { formatCeteMoney } from "@/game/cete-format";
 import { PL_CREW, PL_CREW_NAMES, PL_RIVAL_TITLES } from "@/game/cete-pl";
 
 export function StreetPanel({ player }: { player: Player }) {
   const { lang, phrase } = useLang();
+  const formatTRY = (value: number) => formatCeteMoney(value, lang);
   const en = lang !== "tr";
   const pl = lang === "pl";
   const minutes = (ticks: number) => pl ? formatTicksAsMinutes(ticks).replace(/ dk$/, " min") : formatTicksAsMinutes(ticks);
@@ -60,7 +61,7 @@ export function StreetPanel({ player }: { player: Player }) {
         </p>
         <div className="mt-4 grid grid-cols-2 gap-3 rounded-xl border border-border bg-elevated p-4 text-sm">
           <div><p className="text-muted">{pl ? "Płace ekipy / godz." : en ? "Crew wages / hour" : "Ekip gideri / saat"}</p><p className="font-mono">{formatTRY(crewWageHourly(player))}</p></div>
-          <div><p className="text-muted">{pl ? "Zmniejszenie presji" : en ? "Pressure reduction" : "Baskı azaltma"}</p><p className="font-mono">%{Math.round(turfDefense(player) * 100)}</p></div>
+          <div><p className="text-muted">{pl ? "Zmniejszenie presji" : en ? "Pressure reduction" : "Baskı azaltma"}</p><p className="font-mono">{pl ? `${Math.round(turfDefense(player) * 100)}%` : `%${Math.round(turfDefense(player) * 100)}`}</p></div>
         </div>
         <details className="mt-3 text-xs leading-relaxed text-muted"><summary className="flex min-h-11 cursor-pointer items-center text-sm text-fg">{pl ? "Jak działa kontrola dzielnic" : en ? "How district control works" : "Semt dengesi nasıl işler?"}</summary><p>{pl ? "Kontrola własnej dzielnicy zwiększa skuteczność zleceń i atak; każda dzielnica przynosi dochód. Kontrola obcych dzielnic spada o 0,05 punktu na krok, niezależnie od presji rywali. Presja policji zmniejsza dochód przy progach 45 i 70; spada o 0,5 co 10 minut czasu gry." : en ? "Home control improves job success and attack; every district earns income. Away control loses 0.05 points each tick, before rival pressure. Police attention cuts district income at 45 and 70; it cools by 0.5 each ten-minute game step." : "Ana semtin iş başarısını ve saldırını, her semt gelirini etkiler. Yabancı semtler rakip baskısı dışında her adımda 0,05 puan aşınır. Emniyet 45 ve 70 eşiğinde semt gelirini keser; her 10 oyun dakikasında 0,5 azalır."}</p></details>
         <ul className="mt-4 grid gap-3 xl:grid-cols-2">
@@ -85,7 +86,7 @@ export function StreetPanel({ player }: { player: Player }) {
                     ) : null}
                   </h3>
                   <span className="font-mono text-sm tabular-nums text-accent">
-                    %{pct}
+                    {pl ? `${pct.toLocaleString("pl-PL")}%` : `%${pct}`}
                   </span>
                 </div>
                 <p className="mt-1 font-mono text-xs tabular-nums text-fg">
@@ -117,7 +118,7 @@ export function StreetPanel({ player }: { player: Player }) {
                   <Button variant="ghost" className="h-auto min-h-11 whitespace-normal py-2" disabled={!canAct(player) || player.stamina < IHBAR_STAMINA || !local.length} onClick={() => snitchHood(n.id)}>{pl ? "Donieś na rywala" : en ? "Inform on a rival" : "Rakibi ihbar et"} · {IHBAR_STAMINA} {pl ? "racon" : en ? "stamina" : "racon"}</Button>
                   <p className="text-xs text-muted">{pl ? "Jeden miejscowy rywal zostaje wyłączony z gry. Kontrola +4, presja policji +10, reputacja −2; grozi zemsta." : en ? "One local rival is sidelined. Control +4, attention +10, reputation −2; revenge follows." : "Bir yerel rakip devreden çıkar. Kontrol +4, emniyet +10, itibar −2; intikam riski doğar."}</p>
                 </div>
-                <p className="mt-3 border-t border-border pt-3 text-sm text-muted">{pl ? "Aktywni rywale" : en ? "Active rivals" : "Aktif rakip"}: {local.length} · {pl ? "presja / 10 min" : en ? "pressure / 10 min" : "baskı / 10 dk"}: %{Math.round(pressure * 100)}</p>
+                <p className="mt-3 border-t border-border pt-3 text-sm text-muted">{pl ? "Aktywni rywale" : en ? "Active rivals" : "Aktif rakip"}: {local.length} · {pl ? "presja / 10 min" : en ? "pressure / 10 min" : "baskı / 10 dk"}: {pl ? `${Math.round(pressure * 100)}%` : `%${Math.round(pressure * 100)}`}</p>
                 <p className="mt-1 text-xs text-muted">{local.map(r => r.name).join(" · ") || (pl ? "Brak aktywnych rywali" : en ? "No active rival" : "Aktif rakip yok")}</p>
               </li>
             );

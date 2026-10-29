@@ -25,7 +25,7 @@ try {
     await waitForHttp(base, { timeoutMs: 90000, stopped: () => server.exitCode !== null || server.signalCode !== null });
   }
   browser = await chromium.launch({ executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || undefined, args: ["--no-sandbox"] });
-  for (const lang of ["tr", "en"]) for (const width of [1440, 390, 320]) for (const reducedMotion of ["no-preference", "reduce"]) {
+  for (const lang of ["tr", "en", "pl"]) for (const width of [1440, 390, 320]) for (const reducedMotion of ["no-preference", "reduce"]) {
     const tag = `${lang}-${width}-${reducedMotion}`;
     const context = await browser.newContext({ viewport: { width, height: width === 1440 ? 900 : 844 }, reducedMotion });
     const player = hydratePlayer({ name: "Outcome Test", neighborhood: "eyup", level: 20, energy: 150, cash: 10000, jobsDone: 0, contractId: "c101", contractGun: 1, tutorialStep: 4, streakDay: "2026-10-04" });
@@ -51,7 +51,7 @@ try {
     page.on("pageerror", (e) => errors.push(e.message));
     page.on("console", (m) => { if (m.type() === "error") errors.push(m.text()); });
     await page.goto(`${base}/cete-savaslari?sekme=icraat`, { waitUntil: "networkidle" });
-    const action = page.getByRole("button", { name: lang === "tr" ? "İcraata çık" : "Take job", exact: true }).first();
+    const action = page.getByRole("button", { name: lang === "tr" ? "İcraata çık" : lang === "pl" ? "Podejmij zlecenie" : "Take job", exact: true }).first();
     await action.waitFor();
     assert.equal(await page.locator("[data-outcome-moment]").count(), 0, "load does not replay");
     await page.screenshot({ path: `${out}/${tag}-before.png` });
@@ -76,10 +76,10 @@ try {
     assert.ok(geometry.left >= 0 && geometry.right <= width && geometry.top >= 0 && geometry.bottom <= 900);
     assert.ok(geometry.scrollWidth <= geometry.clientWidth && geometry.docWidth <= width, JSON.stringify(geometry));
     assert.equal(geometry.canvas, 0);
-    assert.ok(await page.getByRole("status").filter({ hasText: lang === "tr" ? "KAYIT KAPANDI" : "RECORD CLOSED" }).count() > 0);
+    assert.ok(await page.getByRole("status").filter({ hasText: lang === "tr" ? "KAYIT KAPANDI" : lang === "pl" ? "KONTRAKT ZAMKNIĘTY" : "RECORD CLOSED" }).count() > 0);
     if (reducedMotion === "reduce") assert.equal(geometry.animations.length, 0);
     await page.screenshot({ path: `${out}/${tag}-after.png` });
-    const close = moment.getByRole("button", { name: lang === "tr" ? "Sonucu kapat" : "Close outcome" });
+    const close = moment.getByRole("button", { name: lang === "tr" ? "Sonucu kapat" : lang === "pl" ? "Zamknij wynik" : "Close outcome" });
     await close.focus();
     await page.mouse.move(0, 0);
     await page.waitForTimeout(2400);

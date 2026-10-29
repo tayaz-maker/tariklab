@@ -1288,3 +1288,7 @@ Added Polish presentation for selected existing Turkish log patterns, profile/st
 ## 2026-10-29 — Çete Polish job-result and account copy work in progress
 
 All 72 current job win/loss narrative variants have Polish render-time equivalents keyed to the existing source choices. Values, saved Turkish logs and game outcomes remain unchanged; tests verify variant alignment and numeric values, and real source Chromium completed a job and reloaded its original saved log at 390/1280. Selected other dynamic log patterns and account UI/errors also have PL copy. Unmatched legacy and dynamic logs and other screen states remain; this is not full localization or release acceptance. No deployment or game-state change.
+
+## 2026-10-29 — Çete Polish display and acceptance follow-up
+
+Extended presentation-only log translations to current game actions, seeded world events and selected historical messages, retaining original save bytes. Added Polish currency/decimal formatting and localized screen labels without changing TR/EN formatting, game rules or saves. Catalog, key, action and event tests plus real Chromium screen, conditional-state, save/reload, language and production Worker offline checks cover the cases in `docs/cete-savaslari/PL_COVERAGE_WIP.md`. Unknown custom or historical log text remains in its original language; native-speaker review and the previously intermittent missing-main root cause remain unverified. Exact-head CI and release verification remain separate requirements.

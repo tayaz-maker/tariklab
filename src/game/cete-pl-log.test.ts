@@ -10,6 +10,12 @@ test('Polish log rendering retains dynamic amounts and leaves stored text untouc
  assert.equal(source, 'Kasaya 12.345 ₺ indi. Sokak bunu gasp etmez.');
  assert.equal(polishLog('Yeni gün. 17. gün sokakta.'), 'Nowy dzień. Dzień 17 na ulicy.');
  assert.equal(polishLog('Kırık Efes Şişesi alındı.'), 'Kupiono: Rozbita butelka Efes.');
+ assert.match(polishLog('Mahalle Berberi / Tıraş kademe 1. Saatlik gelir şişti.'), /^Osiedlowy fryzjer: poziom 1/);
+ assert.match(polishLog('Pavyon gecesi: sahne ışığı, rakı, kasa eridi. Adın masalarda döndü. Cansu haber aldı, bitti.'), /Cansu się dowiedziała — to koniec związku/);
+ assert.match(polishLog('Ölüm listesi işledi: Rıza topuktan vuruldu, kliniğe kaldırıldı.'), /Rıza.*kliniki/);
+ assert.match(polishLog('Tefeci Nuri 3.000 ₺ uzattı. İki güne 4.000 ₺.'), /3\.000 ₺.*4\.000 ₺/);
+ assert.match(polishLog('Doktor sırtını sıvazladı: dikişler tuttu, kalk git. Klinikten çıktın.'), /Opuszczasz klinikę/);
+ assert.match(polishLog('İhanet. İtibar düşükken Gözcü Selim defteri emniyete sızdırdı, 1.200 ₺ ile kayboldu.'), /Czujka Selim.*1\.200 ₺/);
  assert.match(polishLog('Naci Bey aradı: Pavyon çıkışı kirlendi. Sarhoşu sen temizle, hesap bende.'), /^Naci Bey dzwoni: Pod lokalem/);
  assert.equal(polishLog('Nieznany stary wpis'), 'Nieznany stary wpis');
 });

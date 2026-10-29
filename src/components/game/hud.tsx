@@ -20,7 +20,8 @@ import {
 import { energyMax, lakap, staminaMax, xpToNext } from "@/game/formulas";
 import { useGame } from "@/game/store";
 import type { Player } from "@/game/types";
-import { cn, formatTRY } from "@/lib/utils";
+import { cn } from "@/lib/utils";
+import { formatCeteMoney } from "@/game/cete-format";
 
 /** Üç kontrol dar telefonda tek satırda kalsın; dokunma alanı h-11 kalır. */
 const CTRL_BTN = "px-3 text-xs md:px-4 md:text-sm";
@@ -39,6 +40,7 @@ export function Hud({
   onAccount?: (tab?: "giris" | "kayit" | "unuttum" | "sifre") => void;
 }) {
   const { lang, t } = useLang();
+  const formatTRY = (value: number) => formatCeteMoney(value, lang);
   const pl = lang === "pl";
   const itemName = (id: string) => pl ? PL_ITEMS[id]?.name ?? ITEM_MAP[id]?.name : ITEM_MAP[id]?.name;
   const [detailOpen, setDetailOpen] = useState(false);

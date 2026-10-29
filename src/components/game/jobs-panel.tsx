@@ -6,7 +6,7 @@ import { CONTRACT_MAP, ITEM_MAP, JOB_TIERS, jobEnergyCost } from "@/game/data";
 import { jobSuccessChance, missionCrewBlock, missionCrewNeed } from "@/game/formulas";
 import { useGame } from "@/game/store";
 import type { Player, Risk } from "@/game/types";
-import { formatTRY } from "@/lib/utils";
+import { formatCeteMoney } from "@/game/cete-format";
 import { useCallback, useState } from "react";
 import { buildOutcomeMoment, createMomentGate, type OutcomeMoment } from "@/game/outcome-moment";
 import { OutcomeMomentCard } from "./outcome-moment";
@@ -20,6 +20,7 @@ function riskVariant(risk: Risk) {
 
 export function JobsPanel({ player }: { player: Player }) {
   const { lang, phrase, t } = useLang();
+  const formatTRY = (value: number) => formatCeteMoney(value, lang);
   const doJob = useGame((s) => s.doJob);
   const [moment, setMoment] = useState<OutcomeMoment | null>(null);
   const [gate] = useState(createMomentGate);
@@ -96,8 +97,8 @@ export function JobsPanel({ player }: { player: Player }) {
                       {formatTRY(m.rewardCashMin)}–{formatTRY(m.rewardCashMax)}
                     </span>
                     <span>+{m.xpGain} XP</span>
-                    <span>{t("cete.jobs.chance", "Şans")} %{chance}</span>
-                    {crewNeed ? <span>{crewNeed} {t("cete.jobs.crew", "adam")}</span> : null}
+                    <span>{t("cete.jobs.chance", "Şans")} {lang === "pl" ? `${chance}%` : `%${chance}`}</span>
+                    {crewNeed ? <span>{lang === "pl" ? `Ekipa: ${crewNeed}` : `${crewNeed} ${t("cete.jobs.crew", "adam")}`}</span> : null}
                   </div>
                   {missing.length > 0 ? (
                     <p className="mt-2 text-xs text-warn">

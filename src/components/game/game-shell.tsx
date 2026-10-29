@@ -96,7 +96,7 @@ export function GameShell({
   const [tab, setTab] = useState<TabId>(initial);
   const [logOpen, setLogOpen] = useState(false);
   const swipe = useRef<{ x: number; y: number; fromUi: boolean } | null>(null);
-  const { lang } = useLang();
+  const { lang, t } = useLang();
   const tabText = (id: TabId, fallback: string, short: string) => {
     if (lang === "tr") return { label: fallback, short };
     const map: Record<TabId, { label: string; short: string }> = {
@@ -108,15 +108,15 @@ export function GameShell({
       hayat: { label: "Life", short: "Life" },
       klinik: { label: "Clinic", short: "Cln" },
     };
-    // Polish tab labels; panel content falls back to English.
+    // Full labels share the existing dictionary; short labels fit mobile navigation.
     const pl: Record<TabId, { label: string; short: string }> = {
-      ben: { label: "Ja", short: "Ja" },
-      icraat: { label: "Zlecenia", short: "Zlec" },
-      tezgah: { label: "Sklep", short: "Sklep" },
-      emlak: { label: "Nieruchomości", short: "Nier" },
-      sokak: { label: "Ulica", short: "Ul" },
-      hayat: { label: "Życie", short: "Życie" },
-      klinik: { label: "Klinika", short: "Klin" },
+      ben: { label: t("cete.tab.ben", "Ja"), short: "Ja" },
+      icraat: { label: t("cete.tab.icraat", "Zlecenia"), short: "Zlec" },
+      tezgah: { label: t("cete.tab.tezgah", "Sklep"), short: "Sklep" },
+      emlak: { label: t("cete.tab.emlak", "Nieruchomości"), short: "Nier" },
+      sokak: { label: t("cete.tab.sokak", "Ulica"), short: "Ul" },
+      hayat: { label: t("cete.tab.hayat", "Życie"), short: "Życie" },
+      klinik: { label: t("cete.tab.klinik", "Klinika"), short: "Klin" },
     };
     return lang === "pl" ? pl[id] : map[id];
   };

@@ -1,19 +1,17 @@
-# Çete Savaşları — Polish coverage audit (work in progress)
+# Çete Savaşları — Polish coverage and acceptance evidence
 
-The AST inventory collected string candidates across `src/components/game/` and `src/game/`. It includes identifiers, CSS and non-player text, so it is not a count of player-facing strings. This matrix is not a completion certificate. Catalog counts below refer to authored fields in the current source; character names and brands are retained where appropriate. PASS requires full behavior and language acceptance, not only matching IDs.
+The field counts below refer to the current authored catalog, not every possible player-facing sentence. Proper names and brands are retained. The terminology decisions are documented in `PL_TERMINOLOGY.md`.
 
-| Group / source | Known catalog fields | Present PL / remaining | Evidence | Status |
-| --- | ---: | --- | --- | --- |
-| Starting districts: `data.ts`, `create-character.tsx` | 8 descriptions/perks | 8 authored; proper names retained | ID coverage test; full starting flow not tested on this revision | NOT_VERIFIED |
-| Shop: `data.ts`, `shop-panel.tsx` | 56 names/descriptions | 56 authored; brands retained | ID coverage; source Chromium all 28 items at 390/1280; purchase outcomes not covered | NOT_VERIFIED |
-| Jobs: `data.ts`, `jobs-panel.tsx` | 28 names/descriptions + 3 tier names | 31 authored | ID coverage; source Chromium 14 jobs at 390/1280; 72 current win/loss narratives translated; one real job and reload checked at 390/1280 | NOT_VERIFIED |
-| Contracts: `data.ts`, `jobs-panel.tsx` | 14 descriptions | 14 authored; NPC names retained | ID coverage; runtime switching not fully checked | NOT_VERIFIED |
-| Property, assets and corners: `data.ts`, `estate-panel.tsx` | 36 name/description fields | 36 authored | ID coverage; source Chromium 12 properties at 390/1280; bank/investment transactions not covered | NOT_VERIFIED |
-| Street and crew: `street-panel.tsx`, `data.ts` | Not yet fully counted | Static PL authored; dynamic and persisted messages remain | Source Chromium initial view at 390/1280 | NOT_VERIFIED |
-| Life and relationships: `life-panel.tsx`, `data.ts` | Not yet fully counted | PL screen copy authored; dynamic outcomes remain | Source Chromium initial view at 390/1280 | NOT_VERIFIED |
-| Outcome card: `outcome-moment.tsx`, `outcome-moment.ts` | Not yet fully counted | PL rendering authored | Typecheck and existing game tests; PL outcome not browser-verified | NOT_VERIFIED |
-| Character, HUD, saves, account, help, tutorial and offline: `src/components/game/` | Not yet fully counted | Profile, save and HUD PL copy expanded; remaining fallback audit needed | Earlier PR checks only; not accepted for current head | NOT_VERIFIED |
-| Events, notifications and logs: `events.ts`, `clock.ts`, `store.ts`, `log-feed.tsx` | Not yet fully counted | Current job result variants and selected other log patterns have PL display translations; unmatched dynamic and historic messages still show their original text | Source inspection | FAIL |
-| TR/EN, full save/reload, offline and build parity | Not applicable | Final matrix outstanding | Current source catalog checks are insufficient | NOT_VERIFIED |
+| Area | Polish coverage and evidence |
+| --- | --- |
+| Neighborhoods | Eight current descriptions and perks; catalog ID checks. |
+| Shop | 56 item names/descriptions; all 28 entries rendered at mobile and desktop widths. |
+| Jobs and contracts | 31 mission/tier fields, 14 contracts and all 72 current job-result narratives; ID and value checks and a real job/reload flow. |
+| Property and investments | 36 property, asset and corner name/description fields; all 12 properties rendered at both widths and real bank transfer/reload checked. |
+| Street, crew, life, profile, clinic, season, HUD, saves and help | Polish screen copy and dynamic state labels; real Chromium initial and representative conditional states at mobile and desktop widths. |
+| Logs and world events | Render-time translation leaves the stored Turkish source unchanged. Automated checks exercise 51 real operations repeatedly and 24,000 seeded world events; selected historic messages from reachable repository history are also covered. Unknown or externally modified historical messages remain unchanged instead of inventing a translation. |
+| Outcomes | Existing Chromium outcome regression expanded to PL alongside TR/EN, including reload and narrow/mobile layouts. |
+| Keys, interpolation and display | Current literal Çete translation keys and dynamic risk/rank keys checked; job result values retained; Polish money and decimal display tested. |
+| Save, language and offline | Real browser bank transfer, named save/reload and TR→EN→PL switching; existing production Worker browser closure checks exercise service-worker offline reload and compare save hashes. |
 
-No native-speaker linguistic review has been performed. Numbers above are explicit catalog fields, not a claim of all player-facing text or zero remaining fallbacks.
+The browser and generated-event checks cover the cases described above; they do not prove every possible combination of game state or every arbitrary historic/custom save. An independent native-speaker linguistic review has not been performed. Account copy is translated, but an account-screen browser flow has not been established as reachable in the current game shell. The intermittent earlier missing-`main` selector failure did not reproduce in the current quality matrix, so its original cause is not established.

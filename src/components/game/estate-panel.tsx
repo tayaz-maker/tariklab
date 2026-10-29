@@ -21,11 +21,12 @@ import {
 } from "@/game/data";
 import { useGame } from "@/game/store";
 import type { Estate, InvestId, Player } from "@/game/types";
-import { formatTRY } from "@/lib/utils";
+import { formatCeteMoney } from "@/game/cete-format";
 import { PL_ASSETS, PL_CORNERS, PL_ESTATES } from "@/game/cete-pl";
 
 export function EstatePanel({ player }: { player: Player }) {
   const { lang } = useLang();
+  const formatTRY = (value: number) => formatCeteMoney(value, lang);
   const en = lang !== "tr";
   const pl = lang === "pl";
   const bankMove = useGame((s) => s.bankMove);
@@ -55,6 +56,7 @@ export function EstatePanel({ player }: { player: Player }) {
         </p>
         <div className="mt-4 flex flex-wrap gap-2">
           <Input
+            aria-label={pl ? "Kwota wpłaty lub wypłaty" : undefined}
             type="number"
             inputMode="numeric"
             min={100}
@@ -153,6 +155,7 @@ export function EstatePanel({ player }: { player: Player }) {
 
 function AssetCard({ id, player }: { id: InvestId; player: Player }) {
   const { lang } = useLang();
+  const formatTRY = (value: number) => formatCeteMoney(value, lang);
   const en = lang !== "tr";
   const pl = lang === "pl";
   const tradeInvest = useGame((s) => s.tradeInvest);
@@ -204,6 +207,7 @@ function AssetCard({ id, player }: { id: InvestId; player: Player }) {
 
 function KoseCard({ player }: { player: Player }) {
   const { lang } = useLang();
+  const formatTRY = (value: number) => formatCeteMoney(value, lang);
   const en = lang !== "tr";
   const pl = lang === "pl";
   const fundKose = useGame((s) => s.fundKose);
@@ -266,6 +270,7 @@ function EstateList({
   player: Player;
 }) {
   const { lang } = useLang();
+  const formatTRY = (value: number) => formatCeteMoney(value, lang);
   const en = lang !== "tr";
   const pl = lang === "pl";
   const buyEstate = useGame((s) => s.buyEstate);

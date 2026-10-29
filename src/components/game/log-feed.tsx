@@ -3,10 +3,11 @@ import { useLang } from "@/lib/i18n";
 import { polishLog } from "@/game/cete-pl-log";
 import { formatStamp } from "@/game/clock";
 import type { LogEntry } from "@/game/types";
-import { formatTRY } from "@/lib/utils";
+import { formatCeteMoney, formatPolishLogMoney } from "@/game/cete-format";
 
 export const LogFeed = memo(function LogFeed({ logs }: { logs: LogEntry[] }) {
   const { lang } = useLang();
+  const formatTRY = (value: number) => formatCeteMoney(value, lang);
   const rows = logs.slice(0, 24);
   if (!rows.length) {
     return (
@@ -26,7 +27,7 @@ export const LogFeed = memo(function LogFeed({ logs }: { logs: LogEntry[] }) {
           <p className="text-[0.65rem] tracking-[0.18em] text-subtle uppercase">
             {kindLabel(l.kind, lang === "pl")} · {formatStamp(l.at)}
           </p>
-          <p className="mt-1 text-sm leading-relaxed text-fg">{lang === "pl" ? polishLog(l.text) : l.text}</p>
+          <p className="mt-1 text-sm leading-relaxed text-fg">{lang === "pl" ? formatPolishLogMoney(polishLog(l.text)) : l.text}</p>
           {typeof l.moneyDelta === "number" && l.moneyDelta !== 0 ? (
             <p
               className={`mt-1 font-mono text-xs tabular-nums ${
