@@ -8,12 +8,13 @@ import { useGame } from "@/game/store";
 import type { NeighborhoodId } from "@/game/types";
 import { useLang } from "@/lib/i18n";
 import { cn, unlockUi } from "@/lib/utils";
+import { PL_HOODS } from "@/game/cete-pl";
 
 export function CreateCharacter() {
   const [name, setName] = useState("");
   const [hood, setHood] = useState<NeighborhoodId>("eyup");
   const activeSlot = useGame((s) => s.activeSlot) || 1;
-  const { t, phrase } = useLang();
+  const { lang, t, phrase } = useLang();
 
   useEffect(() => {
     unlockUi();
@@ -42,7 +43,7 @@ export function CreateCharacter() {
         className="mt-2"
         value={name}
         maxLength={24}
-        placeholder="Örn. Halil"
+        placeholder={lang === "pl" ? "Np. Halil" : "Örn. Halil"}
         autoComplete="off"
         autoFocus
         onChange={(e) => setName(e.target.value)}
@@ -63,9 +64,9 @@ export function CreateCharacter() {
             )}
           >
             <div className="font-display text-xl font-semibold">{n.name}</div>
-            <p className="mt-1 text-sm text-muted">{phrase(n.blurb)}</p>
+            <p className="mt-1 text-sm text-muted">{lang === "pl" ? PL_HOODS[n.id]?.blurb ?? phrase(n.blurb) : phrase(n.blurb)}</p>
             <p className="mt-3 text-xs tracking-wide text-accent uppercase">
-              {phrase(n.perk)}
+              {lang === "pl" ? PL_HOODS[n.id]?.perk ?? phrase(n.perk) : phrase(n.perk)}
             </p>
           </button>
         ))}

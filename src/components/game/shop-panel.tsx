@@ -4,6 +4,7 @@ import { ARMOR, LUXURY, SELL_RATE, VEHICLES, WEAPONS } from "@/game/data";
 import { useGame } from "@/game/store";
 import type { Player, ShopItem } from "@/game/types";
 import { formatTRY } from "@/lib/utils";
+import { PL_ITEMS } from "@/game/cete-pl";
 
 export function ShopPanel({ player }: { player: Player }) {
   const { lang } = useLang();
@@ -68,13 +69,13 @@ function Catalog({
             >
               <div className="flex items-start justify-between gap-3">
                 <h3 className="font-display text-lg font-semibold">
-                  {phrase(item.name)}
+                  {lang === "pl" ? PL_ITEMS[item.id]?.name ?? phrase(item.name) : phrase(item.name)}
                 </h3>
                 <span className="font-mono text-sm tabular-nums text-accent">
                   {item.price === 0 ? (lang === "pl" ? "Pożyczone" : en ? "Given" : "Emanet") : formatTRY(item.price)}
                 </span>
               </div>
-              <p className="mt-1 text-sm text-muted">{phrase(item.desc)}</p>
+              <p className="mt-1 text-sm text-muted">{lang === "pl" ? PL_ITEMS[item.id]?.desc ?? phrase(item.desc) : phrase(item.desc)}</p>
               <p className="mt-2 font-mono text-xs tabular-nums text-subtle">
                 {item.kind === "luxury"
                   ? `${lang === "pl" ? "Reputacja" : en ? "Reputation" : "İtibar"} +${item.itibarBonus ?? 0}`
