@@ -1272,3 +1272,7 @@ kayıt fixture'larının korunmasını doğrular. Offline testindeki iki oyun ve
 TR/EN/PL × ekran hücresi korunur; Tek Taş yerine yayındaki Son Köy ile gerçek
 oyun eylemi, kayıt, cache ve dil kontrolleri çalışır. Required gate/workflow'lar,
 oyun kodu, kalıcı arşiv ve manifest değişmez; merge/deployment yapılmaz.
+
+## 2026-10-29 — Çete Polish localization work in progress
+
+Continue draft #246 without changing game mechanics or saves. Polish clinic controls and explanations, shop controls and section headings, and the Çete disclaimer are now authored in Polish. The working terminology glossary is `docs/cete-savaslari/PL_TERMINOLOGY.md`. Shop item names/descriptions and other panels still use English or Turkish fallbacks; full Polish coverage is not claimed. The initial PR's built TR/EN Chromium quality matrix passed locally, but the earlier intermittent missing-main failure was not reproduced and its root cause remains unconfirmed. Final candidate CI, comprehensive localization, offline and full save/reload acceptance remain required.

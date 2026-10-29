@@ -11,14 +11,16 @@ export function ShopPanel({ player }: { player: Player }) {
   return (
     <div className="space-y-8">
       <p className="text-sm text-muted">
-        {en
+        {lang === "pl"
+          ? "Aktualne ceny uliczne. Kupuj i zakładaj sprzęt, a gdy zabraknie gotówki, sprzedaj go za 55% ceny."
+          : en
           ? "Current street prices. Buy, equip, or sell at 55% when cash is tight."
           : "Güncel sokak. Al, kuşan, sıkışınca yüzde 55'ine elden çıkar."}
       </p>
-      <Catalog title="Silah" enTitle="Weapon" items={WEAPONS} player={player} />
-      <Catalog title="Üst baş" enTitle="Armor" items={ARMOR} player={player} />
-      <Catalog title="Araç" enTitle="Vehicle" items={VEHICLES} player={player} />
-      <Catalog title="Lüks" enTitle="Luxury" items={LUXURY} player={player} />
+      <Catalog title="Silah" enTitle="Weapon" plTitle="Broń" items={WEAPONS} player={player} />
+      <Catalog title="Üst baş" enTitle="Armor" plTitle="Pancerz" items={ARMOR} player={player} />
+      <Catalog title="Araç" enTitle="Vehicle" plTitle="Pojazdy" items={VEHICLES} player={player} />
+      <Catalog title="Lüks" enTitle="Luxury" plTitle="Luksus" items={LUXURY} player={player} />
     </div>
   );
 }
@@ -26,11 +28,13 @@ export function ShopPanel({ player }: { player: Player }) {
 function Catalog({
   title,
   enTitle,
+  plTitle,
   items,
   player,
 }: {
   title: string;
   enTitle: string;
+  plTitle: string;
   items: ShopItem[];
   player: Player;
 }) {
@@ -51,7 +55,7 @@ function Catalog({
 
   return (
     <section>
-      <h2 className="font-display text-2xl font-semibold">{en ? enTitle : title}</h2>
+      <h2 className="font-display text-2xl font-semibold">{lang === "pl" ? plTitle : en ? enTitle : title}</h2>
       <ul className="mt-4 grid gap-3 md:grid-cols-2">
         {items.map((item) => {
           const owned = player.inventory.includes(item.id);
@@ -67,14 +71,14 @@ function Catalog({
                   {phrase(item.name)}
                 </h3>
                 <span className="font-mono text-sm tabular-nums text-accent">
-                  {item.price === 0 ? (en ? "Given" : "Emanet") : formatTRY(item.price)}
+                  {item.price === 0 ? (lang === "pl" ? "Pożyczone" : en ? "Given" : "Emanet") : formatTRY(item.price)}
                 </span>
               </div>
               <p className="mt-1 text-sm text-muted">{phrase(item.desc)}</p>
               <p className="mt-2 font-mono text-xs tabular-nums text-subtle">
                 {item.kind === "luxury"
-                  ? `${en ? "Reputation" : "İtibar"} +${item.itibarBonus ?? 0}`
-                  : `${en ? "Attack" : "Saldırı"} +${item.attackBonus} · ${en ? "defense" : "savunma"} +${item.defenseBonus}`}
+                  ? `${lang === "pl" ? "Reputacja" : en ? "Reputation" : "İtibar"} +${item.itibarBonus ?? 0}`
+                  : `${lang === "pl" ? "Atak" : en ? "Attack" : "Saldırı"} +${item.attackBonus} · ${lang === "pl" ? "obrona" : en ? "defense" : "savunma"} +${item.defenseBonus}`}
               </p>
               <div className="mt-3 flex flex-wrap gap-2">
                 {owned ? (
@@ -85,16 +89,16 @@ function Catalog({
                         onClick={() => equipItem(item.id)}
                         disabled={isOn}
                       >
-                        {isOn ? (en ? "Equipped" : "Kuşanıldı") : (en ? "Equip" : "Kuşan")}
+                        {isOn ? (lang === "pl" ? "Założone" : en ? "Equipped" : "Kuşanıldı") : (lang === "pl" ? "Załóż" : en ? "Equip" : "Kuşan")}
                       </Button>
                     ) : (
                       <span className="text-xs tracking-wide text-subtle uppercase">
-                        {en ? "yours" : "senin"}
+                        {lang === "pl" ? "twoje" : en ? "yours" : "senin"}
                       </span>
                     )}
                     {item.price > 0 ? (
                       <Button variant="ghost" onClick={() => sellItem(item.id)}>
-                        {en ? "Sell" : "Sat"} · {formatTRY(refund)}
+                        {lang === "pl" ? "Sprzedaj" : en ? "Sell" : "Sat"} · {formatTRY(refund)}
                       </Button>
                     ) : null}
                   </>
@@ -103,7 +107,7 @@ function Catalog({
                     disabled={player.cash < item.price}
                     onClick={() => buyItem(item.id)}
                   >
-                    {en ? "Buy" : "Al"}
+                    {lang === "pl" ? "Kup" : en ? "Buy" : "Al"}
                   </Button>
                 )}
               </div>
