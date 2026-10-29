@@ -48,10 +48,22 @@ const SECTIONS: { title: string; body: string }[] = [
   },
 ];
 
+const SECTIONS_PL = [
+  { title: "Cel", body: "Zacznij na ulicy, zbuduj ekipę, zdobywaj pieniądze i szacunek oraz utrzymaj swoją dzielnicę. Nie ma jednego momentu zwycięstwa: liczą się pieniądze, reputacja i przetrwanie." },
+  { title: "Jak to działa", body: "W zakładce Zlecenia bierz roboty, za zarobione pieniądze kupuj broń, pancerz i pojazdy w Sklepie, a na Ulicy przejmuj narożniki lub wywieraj presję na dzielnice. W Nieruchomościach rozwijaj punkt dilerski. Czas płynie w czasie rzeczywistym; możesz go przyspieszyć przez ×N lub przeskoczyć godzinę." },
+  { title: "Sterowanie", body: "Zakładki na dole ekranu telefonu lub po lewej stronie na komputerze prowadzą do paneli Ja, Zlecenia, Sklep, Nieruchomości, Ulica, Życie i Klinika. Ikona dziennika pokazuje ostatnie wydarzenia." },
+  { title: "Zasoby i wskaźniki", body: "Amunicja i siły oznaczają energię, racon i charyzma — wytrzymałość, zdrowie — stan postaci, a presja policji pokazuje, jak bardzo depcze ci ona po piętach. Gdy presja policji rośnie, nasilają się patrole i presja rywali. Kasę, inwestycje, reputację i fundusz łapówek znajdziesz w szczegółach." },
+  { title: "Postępy", body: "Za zlecenia zdobywasz XP i awansujesz; każda ranga ma własny przydomek. Sezon trwa 14 dni, a jego wynik rośnie wraz z postępami. Kupuj dzielnice i rozwijaj punkty, by regularnie zbierać haracz." },
+  { title: "Ryzyko i straty", body: "Jeśli zdrowie spadnie poniżej 20 lub zostaniesz złapany, trafisz do kliniki albo aresztu i przez ten czas nie wykonasz zleceń. Fundusz łapówek może skrócić pobyt w areszcie. Przy dużej presji policji gotówka, której nie wpłacisz do kasy, jest na ulicy zagrożona." },
+  { title: "Zapisy", body: "Na tym urządzeniu masz trzy miejsca zapisu. Aktywne miejsce zapisuje się automatycznie; przyciskiem zapisu na pasku możesz zmienić miejsce, zapisać ręcznie lub usunąć zapis. Po zalogowaniu postępy są dodatkowo zapisywane w chmurze. Gra jako gość pozostaje tylko na tym urządzeniu." },
+  { title: "Na początek", body: "Wykonaj kilka zleceń i nie wychodź na ulicę bez broni. Jeśli presja policji wzrośnie, przeczekaj jakiś czas. Wcześnie otwórz punkt dilerski: regularny dochód robi dużą różnicę. Wyrób sobie nawyk wpłacania gotówki do kasy." },
+  { title: "Ważna informacja", body: "To fikcja, która nie zachęca do prawdziwego hazardu, narkotyków ani przemocy. Hazard i wizyty w barze w zakładce Życie również są fikcyjnymi elementami gry." },
+];
+
 export function HelpPanel({ triggerClassName }: { triggerClassName?: string }) {
   const [open, setOpen] = useState(false);
   const { lang, t } = useLang();
-  const sections = lang !== "tr" ? CETE_HELP_EN : SECTIONS;
+  const sections = lang === "pl" ? SECTIONS_PL : lang === "en" ? CETE_HELP_EN : SECTIONS;
   const how = t("common.howTo", "Nasıl Oynanır");
   return (
     <>
@@ -60,7 +72,7 @@ export function HelpPanel({ triggerClassName }: { triggerClassName?: string }) {
         variant="ghost"
         className={triggerClassName}
         aria-haspopup="dialog"
-        aria-label="Nasıl Oynanır"
+        aria-label={how}
         onClick={() => setOpen(true)}
       >
         <HelpCircle className="size-4" />

@@ -1,4 +1,5 @@
 import { useLang } from "@/lib/i18n";
+import { PL_ITEMS } from "@/game/cete-pl";
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { SaveSlotsPanel } from "@/components/game/save-slots-panel";
@@ -19,7 +20,8 @@ import {
 import { energyMax, lakap, staminaMax, xpToNext } from "@/game/formulas";
 import { useGame } from "@/game/store";
 import type { Player } from "@/game/types";
-import { cn, formatTRY } from "@/lib/utils";
+import { cn } from "@/lib/utils";
+import { formatCeteMoney } from "@/game/cete-format";
 
 /** Üç kontrol dar telefonda tek satırda kalsın; dokunma alanı h-11 kalır. */
 const CTRL_BTN = "px-3 text-xs md:px-4 md:text-sm";
@@ -37,7 +39,10 @@ export function Hud({
   player: Player;
   onAccount?: (tab?: "giris" | "kayit" | "unuttum" | "sifre") => void;
 }) {
-  const { t } = useLang();
+  const { lang, t } = useLang();
+  const formatTRY = (value: number) => formatCeteMoney(value, lang);
+  const pl = lang === "pl";
+  const itemName = (id: string) => pl ? PL_ITEMS[id]?.name ?? ITEM_MAP[id]?.name : ITEM_MAP[id]?.name;
   const [detailOpen, setDetailOpen] = useState(false);
   const hiz = useGame((s) => s.hiz);
   const toggleHiz = useGame((s) => s.toggleHiz);
@@ -55,15 +60,15 @@ export function Hud({
   const clock = formatClock(player).replace(/^GÜN/, t("cete.hud.day", "GÜN"));
   const loadout =
     [
-      player.equippedWeapon ? ITEM_MAP[player.equippedWeapon]?.name : null,
-      player.equippedArmor ? ITEM_MAP[player.equippedArmor]?.name : null,
-      player.equippedVehicle ? ITEM_MAP[player.equippedVehicle]?.name : null,
-      player.crew.length ? `${player.crew.length} adam` : null,
+      player.equippedWeapon ? itemName(player.equippedWeapon) : null,
+      player.equippedArmor ? itemName(player.equippedArmor) : null,
+      player.equippedVehicle ? itemName(player.equippedVehicle) : null,
+      player.crew.length ? (pl ? `Ekipa: ${player.crew.length}` : `${player.crew.length} adam`) : null,
       player.married ? player.spouse : null,
       !player.married && player.girlfriend
         ? PARTNER_MAP[player.girlfriend]?.name
         : null,
-      player.kids ? `${player.kids} çocuk` : null,
+      player.kids ? (pl ? `Dzieci: ${player.kids}` : `${player.kids} çocuk`) : null,
       player.horse ? player.horse.name : null,
     ]
       .filter(Boolean)
@@ -115,7 +120,11 @@ export function Hud({
 
         {locked ? (
           <p className="order-3 text-sm text-danger md:order-5">
-            {player.durum === "nezaret"
+            {pl ? (player.durum === "nezaret"
+              ? `Jesteś w areszcie. Pozostało ${player.durumTick * 10} min — przewiń czas lub wręcz łapówkę.`
+              : player.durum === "klinik"
+                ? `Jesteś w klinice. Pozostało ${player.durumTick * 10} min. Nie możesz pracować, dopóki lekarz cię nie wypuści.`
+                : "Zdrowie poniżej 20. Potrzebujesz kliniki.") : player.durum === "nezaret"
               ? `Nezarethanedesin. ${formatTicksAsMinutes(player.durumTick)} kaldı — saati geçir veya rüşvet ver.`
               : player.durum === "klinik"
                 ? `Kliniktesin. ${formatTicksAsMinutes(player.durumTick)}. Doktor bırakana kadar iş yok.`
@@ -123,8 +132,7 @@ export function Hud({
           </p>
         ) : player.isi >= 55 ? (
           <p className="order-3 text-sm text-warn md:order-5">
-            Emniyet yüksek. Devriye ve rakip semti tarar. Kasaya yatırmadıysan
-            cebin açık.
+            {pl ? "Presja policji jest wysoka. Patrole i rywale przeczesują dzielnicę. Gotówka poza kasą jest zagrożona." : <>Emniyet yüksek. Devriye ve rakip semti tarar. Kasaya yatırmadıysan cebin açık.</>}
           </p>
         ) : null}
 

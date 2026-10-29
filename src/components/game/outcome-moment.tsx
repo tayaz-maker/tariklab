@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { describeOutcomeMoment, type OutcomeMoment } from "@/game/outcome-moment";
+import { describePolishOutcome } from "@/game/cete-pl";
+import { TICK_MINUTES } from "@/game/data";
 import { useLang } from "@/lib/i18n";
 import "./outcome-moment.css";
 
@@ -10,6 +12,7 @@ export function OutcomeMomentCard({ moment, onClose }: {
 }) {
   const { lang } = useLang();
   const en = lang !== "tr";
+  const pl = lang === "pl";
   const card = useRef<HTMLElement>(null);
   const origin = useRef<HTMLElement | null>(null);
   const [hovered, setHovered] = useState(false);
@@ -52,22 +55,22 @@ export function OutcomeMomentCard({ moment, onClose }: {
     document.addEventListener("keydown", escape);
     return () => document.removeEventListener("keydown", escape);
   }, [moment, close]);
-  const n = (value: number) => new Intl.NumberFormat(en ? "en" : "tr", { maximumFractionDigits: 1 }).format(value);
+  const n = (value: number) => new Intl.NumberFormat(pl ? "pl-PL" : en ? "en" : "tr", { maximumFractionDigits: 1 }).format(value);
   const signed = (value: number) => `${value > 0 ? "+" : ""}${n(value)}`;
-  const copy = moment ? describeOutcomeMoment(moment, en) : null;
+  const copy = moment ? pl ? describePolishOutcome(moment, TICK_MINUTES) : describeOutcomeMoment(moment, en) : null;
   const announcement = useRef("");
   if (copy) announcement.current = `${copy.summary} ${copy.crewSummary} ${copy.delaySummary}`;
   return <>
     <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">{announcement.current}</p>
     {moment ? <section ref={card} className="cete-moment" data-outcome-moment={moment.kind}
-      data-reduced-motion={reduced} aria-label={en ? "Decision outcome" : "İcraat sonucu"}
+      data-reduced-motion={reduced} aria-label={pl ? "Wynik zlecenia" : en ? "Decision outcome" : "İcraat sonucu"}
       onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
       onFocus={() => setFocused(true)} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setFocused(false); }}
       onKeyDown={(event) => { if (event.key === "Escape") { event.stopPropagation(); close(); } }}>
       <div className="cete-moment-heading">
-        <div><p className="cete-moment-eyebrow">{en ? "OUTCOME LEDGER" : "İCRAAT DEFTERİ"} · {moment.day}. {en ? "DAY" : "GÜN"}</p>
+        <div><p className="cete-moment-eyebrow">{pl ? "REJESTR WYNIKÓW" : en ? "OUTCOME LEDGER" : "İCRAAT DEFTERİ"} · {moment.day}. {pl ? "DZIEŃ" : en ? "DAY" : "GÜN"}</p>
           <h2>{copy?.title}</h2></div>
-        <button type="button" onClick={close} aria-label={en ? "Close outcome" : "Sonucu kapat"}>{en ? "Close" : "Kapat"}</button>
+        <button type="button" onClick={close} aria-label={pl ? "Zamknij wynik" : en ? "Close outcome" : "Sonucu kapat"}>{pl ? "Zamknij" : en ? "Close" : "Kapat"}</button>
       </div>
       <svg className="cete-moment-trace" viewBox="0 0 280 60" aria-hidden="true" focusable="false">
         <g className="cete-moment-links">{moment.layers.links.map((d, i) => <path key={i} d={d} />)}</g>
@@ -76,14 +79,14 @@ export function OutcomeMomentCard({ moment, onClose }: {
         <g className="cete-moment-seal"><path d="M248 39L258 33L268 39V49L258 55L248 49Z M253 44L257 48L264 40" /></g>
       </svg>
       <dl className="cete-moment-metrics">
-        <div><dt>{en ? "Cash" : "Nakit"}</dt><dd>{signed(moment.cash)} ₺</dd></div>
-        <div><dt>{en ? "Reputation" : "İtibar"}</dt><dd>{signed(moment.reputation)}</dd></div>
-        <div><dt>{en ? "Pressure" : "Baskı"}</dt><dd>{signed(moment.pressure)}</dd></div>
+        <div><dt>{pl ? "Gotówka" : en ? "Cash" : "Nakit"}</dt><dd>{signed(moment.cash)} ₺</dd></div>
+        <div><dt>{pl ? "Reputacja" : en ? "Reputation" : "İtibar"}</dt><dd>{signed(moment.reputation)}</dd></div>
+        <div><dt>{pl ? "Presja" : en ? "Pressure" : "Baskı"}</dt><dd>{signed(moment.pressure)}</dd></div>
       </dl>
-      <p className="cete-moment-energy">{en ? "Energy balance" : "Enerji bakiyesi"}: {signed(moment.energy)}</p>
+      <p className="cete-moment-energy">{pl ? "Bilans energii" : en ? "Energy balance" : "Enerji bakiyesi"}: {signed(moment.energy)}</p>
       <p className="cete-moment-detail">{copy?.crewSummary}</p>
       <p className="cete-moment-detail">{copy?.delaySummary}</p>
-      <p className="cete-moment-foot">{en ? "Snapshot at completion · clock keeps running" : "Tamamlanma anı · oyun saati ilerlemeye devam eder"}</p>
+      <p className="cete-moment-foot">{pl ? "Stan po zakończeniu · czas gry nadal płynie" : en ? "Snapshot at completion · clock keeps running" : "Tamamlanma anı · oyun saati ilerlemeye devam eder"}</p>
     </section> : null}
   </>;
 }

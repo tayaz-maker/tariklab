@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useLang } from "@/lib/i18n";
+import { PL_LIFE_ACTS, PL_PARTNERS } from "@/game/cete-pl";
 import { Button } from "@/components/ui/button";
 import { canAct } from "@/game/clock";
 import {
@@ -12,7 +14,7 @@ import {
 import { energyMax, staminaMax } from "@/game/formulas";
 import { useGame } from "@/game/store";
 import type { LifeId, Player } from "@/game/types";
-import { formatTRY } from "@/lib/utils";
+import { formatCeteMoney } from "@/game/cete-format";
 
 const ACTS: {
   id: LifeId;
@@ -62,6 +64,9 @@ const ACTS: {
 const CHIPS = [250, 1000, 5000, 20000];
 
 export function LifePanel({ player }: { player: Player }) {
+  const { lang } = useLang();
+  const formatTRY = (value: number) => formatCeteMoney(value, lang);
+  const pl = lang === "pl";
   const live = useGame((s) => s.live);
   const gamble = useGame((s) => s.gamble);
   const betRace = useGame((s) => s.betRace);
@@ -83,51 +88,49 @@ export function LifePanel({ player }: { player: Player }) {
   return (
     <div className="space-y-10">
       <section>
-        <h2 className="font-display text-2xl font-semibold">Hayat</h2>
+        <h2 className="font-display text-2xl font-semibold">{pl ? "Życie" : "Hayat"}</h2>
         <p className="mt-1 text-sm text-muted">
-          İç, oyna, evlen, kumar, at, gönül. Sokak sadece iş değil.
-          {player.buzz > 0 ? ` Sarhoşluk ${player.buzz}.` : ""}
-          {player.high > 0 ? ` Duman ${player.high}.` : ""}
+          {pl ? "Pij, graj, zakładaj rodzinę, obstawiaj wyścigi i buduj relacje. Ulica to nie tylko praca." : "İç, oyna, evlen, kumar, at, gönül. Sokak sadece iş değil."}
+          {player.buzz > 0 ? `${pl ? " Upojenie" : " Sarhoşluk"} ${player.buzz}.` : ""}
+          {player.high > 0 ? `${pl ? " Odurzenie" : " Duman"} ${player.high}.` : ""}
         </p>
         {player.married ? (
           <p className="mt-2 text-sm text-fg">
-            {player.spouse} ile evlisin
-            {player.kids ? ` · ${player.kids} çocuk` : ""}. Mekan +%5.
+            {pl ? `Małżeństwo: ${player.spouse}${player.kids ? ` · dzieci: ${player.kids}` : ""}. Dochód z lokali +5%.` : <>{player.spouse} ile evlisin{player.kids ? ` · ${player.kids} çocuk` : ""}. Mekan +%5.</>}
           </p>
         ) : gf ? (
           <p className="mt-2 text-sm text-fg">
-            Sevgili: {gf.name}. Nikâh 18.000 ₺.
+            {pl ? `Partnerka: ${gf.name}. Ślub kosztuje 18 000 ₺.` : <>Sevgili: {gf.name}. Nikâh 18.000 ₺.</>}
           </p>
         ) : (
-          <p className="mt-2 text-sm text-muted">Bekârsın.</p>
+          <p className="mt-2 text-sm text-muted">{pl ? "Nie masz partnerki." : "Bekârsın."}</p>
         )}
         {player.pendingFamily ? (
           <div className="mt-4 rounded-2xl bg-elevated p-4 shadow-[0_0_0_1px_rgba(239,232,222,0.12)]">
-            <p className="font-display text-lg font-semibold">Çocuk haberi</p>
+            <p className="font-display text-lg font-semibold">{pl ? "Wiadomość o dziecku" : "Çocuk haberi"}</p>
             <p className="mt-1 text-sm text-muted">
-              {player.pendingFamily.name} kapıda. Mahalle kulağı ince. Karar
-              senin — racon ve itibar buna göre döner.
+              {pl ? `${player.pendingFamily.name} stoi w drzwiach. W dzielnicy szybko rozchodzą się plotki. Decyzja należy do ciebie — wpłynie na racon i reputację.` : <>{player.pendingFamily.name} kapıda. Mahalle kulağı ince. Karar senin — racon ve itibar buna göre döner.</>}
             </p>
             <div className="mt-3 flex flex-wrap gap-2">
               <Button
                 disabled={blocked || (!player.married && player.cash < 18000)}
                 onClick={() => resolveFamily("evlen")}
               >
-                Karısıyla evlen
+                {pl ? "Poślub matkę dziecka" : "Karısıyla evlen"}
               </Button>
               <Button
                 variant="ghost"
                 disabled={blocked}
                 onClick={() => resolveFamily("ustlen")}
               >
-                Gizle, masrafı üstlen
+                {pl ? "Ukryj sprawę, pokryj koszty" : "Gizle, masrafı üstlen"}
               </Button>
               <Button
                 variant="ghost"
                 disabled={blocked}
                 onClick={() => resolveFamily("reddet")}
               >
-                Yoktun, duymadın
+                {pl ? "Zaprzecz wszystkiemu" : "Yoktun, duymadın"}
               </Button>
             </div>
           </div>
@@ -140,26 +143,26 @@ export function LifePanel({ player }: { player: Player }) {
             key={a.id}
             className="rounded-2xl bg-surface p-4 shadow-[0_0_0_1px_rgba(239,232,222,0.08)]"
           >
-            <h3 className="font-display text-lg font-semibold">{a.title}</h3>
-            <p className="mt-1 text-sm text-muted">{a.desc}</p>
+            <h3 className="font-display text-lg font-semibold">{pl ? PL_LIFE_ACTS[a.id]?.title ?? a.title : a.title}</h3>
+            <p className="mt-1 text-sm text-muted">{pl ? PL_LIFE_ACTS[a.id]?.desc ?? a.desc : a.desc}</p>
             <p className="mt-2 font-mono text-xs tabular-nums text-subtle">
-              {a.cost}
+              {pl ? (a.id === "okey" ? "stawka" : formatTRY(a.minCash)) : a.cost}
             </p>
             <Button
               className="mt-3"
               disabled={blocked || player.cash < a.minCash}
               onClick={() => live(a.id)}
             >
-              Yap
+              {pl ? "Wykonaj" : "Yap"}
             </Button>
           </li>
         ))}
       </ul>
 
       <section>
-        <h2 className="font-display text-2xl font-semibold">Kumarhane</h2>
+        <h2 className="font-display text-2xl font-semibold">{pl ? "Kasyno" : "Kumarhane"}</h2>
         <p className="mt-1 text-sm text-muted">
-          Rulet, blackjack, slot, kazı kazan. Masa evi biraz yer.
+          {pl ? "Ruletka, blackjack, automaty i zdrapki. Kasyno ma niewielką przewagę." : "Rulet, blackjack, slot, kazı kazan. Masa evi biraz yer."}
         </p>
         <div className="mt-3 flex flex-wrap gap-2">
           {CHIPS.map((n) => (
@@ -175,47 +178,47 @@ export function LifePanel({ player }: { player: Player }) {
         <div className="mt-4 grid gap-3 md:grid-cols-2">
           <CasinoCard
             title="Slot"
-            desc="Üç makara. Üç 7 on iki kat."
+            desc={pl ? "Trzy bębny. Trzy siódemki dają dwunastokrotność stawki." : "Üç makara. Üç 7 on iki kat."}
             disabled={noBet}
             onPlay={() => gamble("slot", chip)}
           />
           <CasinoCard
-            title="Kazı kazan"
-            desc="Çizgi ya altın ya boş."
+            title={pl ? "Zdrapka" : "Kazı kazan"}
+            desc={pl ? "Pod warstwą jest złoto albo nic." : "Çizgi ya altın ya boş."}
             disabled={noBet}
             onPlay={() => gamble("kazi", chip)}
           />
           <CasinoCard
             title="Blackjack"
-            desc="Bir el, krupiye. 21'e yakın olan alır."
+            desc={pl ? "Jedno rozdanie z krupierem. Wygrywa wynik bliższy 21." : "Bir el, krupiye. 21'e yakın olan alır."}
             disabled={noBet}
             onPlay={() => gamble("blackjack", chip)}
           />
           <div className="rounded-2xl bg-surface p-4 shadow-[0_0_0_1px_rgba(239,232,222,0.08)]">
-            <h3 className="font-display text-lg font-semibold">Rulet</h3>
+            <h3 className="font-display text-lg font-semibold">{pl ? "Ruletka" : "Rulet"}</h3>
             <p className="mt-1 text-sm text-muted">
-              Kırmızı / siyah iki kat. Tek sayı otuz beş.
+              {pl ? "Czerwone lub czarne płaci dwa razy stawkę. Jeden numer — trzydzieści pięć razy." : "Kırmızı / siyah iki kat. Tek sayı otuz beş."}
             </p>
             <div className="mt-3 flex flex-wrap gap-2">
               <Button
                 disabled={noBet}
                 onClick={() => gamble("rulet", chip, "kirmizi")}
               >
-                Kırmızı
+                {pl ? "Czerwone" : "Kırmızı"}
               </Button>
               <Button
                 variant="ghost"
                 disabled={noBet}
                 onClick={() => gamble("rulet", chip, "siyah")}
               >
-                Siyah
+                {pl ? "Czarne" : "Siyah"}
               </Button>
               <Button
                 variant="ghost"
                 disabled={noBet}
                 onClick={() => gamble("rulet", chip, "sayi")}
               >
-                Tek sayı
+                {pl ? "Jeden numer" : "Tek sayı"}
               </Button>
             </div>
           </div>
@@ -225,7 +228,7 @@ export function LifePanel({ player }: { player: Player }) {
       <section>
         <h2 className="font-display text-2xl font-semibold">Veliefendi</h2>
         <p className="mt-1 text-sm text-muted">
-          Bahis ya da kendi atın. Form düşer, çalıştırırsın.
+          {pl ? "Obstawiaj wyścigi lub kup własnego konia. Gdy jego forma spadnie, możesz go trenować." : "Bahis ya da kendi atın. Form düşer, çalıştırırsın."}
         </p>
         <ul className="mt-4 grid gap-3 md:grid-cols-2">
           {RACE_FIELD.map((h, i) => (
@@ -235,24 +238,24 @@ export function LifePanel({ player }: { player: Player }) {
             >
               <h3 className="font-display text-lg font-semibold">{h.name}</h3>
               <p className="mt-1 font-mono text-xs tabular-nums text-subtle">
-                {h.odds.toFixed(1)}x
+                {pl ? h.odds.toLocaleString("pl-PL", { minimumFractionDigits: 1, maximumFractionDigits: 1 }) : h.odds.toFixed(1)}x
               </p>
               <Button
                 className="mt-3"
                 disabled={noBet}
                 onClick={() => betRace(i, chip)}
               >
-                Bahis
+                {pl ? "Obstaw" : "Bahis"}
               </Button>
             </li>
           ))}
         </ul>
         <div className="mt-4 rounded-2xl bg-surface p-4 shadow-[0_0_0_1px_rgba(239,232,222,0.08)]">
-          <h3 className="font-display text-lg font-semibold">At sahipliği</h3>
+          <h3 className="font-display text-lg font-semibold">{pl ? "Własny koń" : "At sahipliği"}</h3>
           {player.horse ? (
             <>
               <p className="mt-1 text-sm text-muted">
-                {player.horse.name} · hız {Math.round(player.horse.speed)} · form{" "}
+                {player.horse.name} · {pl ? "prędkość" : "hız"} {Math.round(player.horse.speed)} · {pl ? "forma" : "form"}{" "}
                 {Math.round(player.horse.form)}
               </p>
               <div className="mt-3 flex flex-wrap gap-2">
@@ -262,28 +265,28 @@ export function LifePanel({ player }: { player: Player }) {
                   }
                   onClick={trainHorse}
                 >
-                  Çalıştır · {formatTRY(HORSE_TRAIN)}
+                  {pl ? "Trenuj" : "Çalıştır"} · {formatTRY(HORSE_TRAIN)}
                 </Button>
                 <Button
                   variant="ghost"
                   disabled={blocked || player.energy < 6}
                   onClick={raceHorse}
                 >
-                  Yarıştır
+                  {pl ? "Wystaw w wyścigu" : "Yarıştır"}
                 </Button>
               </div>
             </>
           ) : (
             <>
               <p className="mt-1 text-sm text-muted">
-                Bir at al, çalıştır, kupa koş.
+                {pl ? "Kup konia, trenuj go i walcz o puchar." : "Bir at al, çalıştır, kupa koş."}
               </p>
               <Button
                 className="mt-3"
                 disabled={blocked || player.cash < HORSE_PRICE}
                 onClick={buyHorse}
               >
-                At al · {formatTRY(HORSE_PRICE)}
+                {pl ? "Kup konia" : "At al"} · {formatTRY(HORSE_PRICE)}
               </Button>
             </>
           )}
@@ -291,10 +294,9 @@ export function LifePanel({ player }: { player: Player }) {
       </section>
 
       <section>
-        <h2 className="font-display text-2xl font-semibold">İlişkiler</h2>
+        <h2 className="font-display text-2xl font-semibold">{pl ? "Relacje" : "İlişkiler"}</h2>
         <p className="mt-1 text-sm text-muted">
-          Laf, hediye, randevu. Gönül 25 olunca ilişki başlat. Sevgiliyle gece
-          geçir; nikâh kartın üstünden. Pavyon soğutur.
+          {pl ? "Rozmawiaj, dawaj prezenty i umawiaj się na randki. Przy sympatii 25 możesz rozpocząć związek. Spędzaj noce z partnerką; ślub weźmiesz na jej karcie. Wizyty w lokalu ochładzają relację." : "Laf, hediye, randevu. Gönül 25 olunca ilişki başlat. Sevgiliyle gece geçir; nikâh kartın üstünden. Pavyon soğutur."}
         </p>
         <ul className="mt-4 grid gap-3 md:grid-cols-2">
           {PARTNERS.map((p) => {
@@ -310,7 +312,7 @@ export function LifePanel({ player }: { player: Player }) {
                     {p.name}
                     {isGf ? (
                       <span className="ml-2 text-sm font-medium text-accent">
-                        sevgili
+                        {pl ? "partnerka" : "sevgili"}
                       </span>
                     ) : null}
                   </h3>
@@ -319,7 +321,7 @@ export function LifePanel({ player }: { player: Player }) {
                   </span>
                 </div>
                 <p className="mt-1 text-sm text-muted">
-                  {p.title}. {p.desc}
+                  {pl ? PL_PARTNERS[p.id]?.title ?? p.title : p.title}. {pl ? PL_PARTNERS[p.id]?.desc ?? p.desc : p.desc}
                 </p>
                 <div
                   className="mt-3 h-1.5 overflow-hidden rounded-full bg-elevated"
@@ -340,14 +342,14 @@ export function LifePanel({ player }: { player: Player }) {
                     }
                     onClick={() => relate(p.id, "flort")}
                   >
-                    Laf at
+                    {pl ? "Zagadaj" : "Laf at"}
                   </Button>
                   <Button
                     variant="ghost"
                     disabled={blocked || player.cash < p.gift}
                     onClick={() => relate(p.id, "hediye")}
                   >
-                    Hediye · {formatTRY(p.gift)}
+                    {pl ? "Prezent" : "Hediye"} · {formatTRY(p.gift)}
                   </Button>
                   <Button
                     variant="ghost"
@@ -356,14 +358,14 @@ export function LifePanel({ player }: { player: Player }) {
                     }
                     onClick={() => relate(p.id, "randevu")}
                   >
-                    Randevu
+                    {pl ? "Randka" : "Randevu"}
                   </Button>
                   {!player.married && !player.girlfriend && aff >= 25 ? (
                     <Button
                       disabled={blocked}
                       onClick={() => relate(p.id, "baslat")}
                     >
-                      İlişki başlat
+                      {pl ? "Rozpocznij związek" : "İlişki başlat"}
                     </Button>
                   ) : null}
                   {isGf ? (
@@ -372,7 +374,7 @@ export function LifePanel({ player }: { player: Player }) {
                         disabled={blocked || player.stamina < 4}
                         onClick={() => relate(p.id, "gece")}
                       >
-                        Gece geçir
+                        {pl ? "Spędź noc" : "Gece geçir"}
                       </Button>
                       {!player.married ? (
                         <Button
@@ -383,7 +385,7 @@ export function LifePanel({ player }: { player: Player }) {
                           }
                           onClick={() => relate(p.id, "evlen")}
                         >
-                          Evlen
+                          {pl ? "Weź ślub" : "Evlen"}
                         </Button>
                       ) : null}
                       <Button
@@ -391,7 +393,7 @@ export function LifePanel({ player }: { player: Player }) {
                         disabled={blocked}
                         onClick={() => relate(p.id, "bitir")}
                       >
-                        Bitir
+                        {pl ? "Zakończ związek" : "Bitir"}
                       </Button>
                     </>
                   ) : null}
@@ -404,9 +406,9 @@ export function LifePanel({ player }: { player: Player }) {
 
       <section className="grid gap-3 md:grid-cols-2">
         <div className="rounded-2xl bg-surface p-4 shadow-[0_0_0_1px_rgba(239,232,222,0.08)]">
-          <h3 className="font-display text-lg font-semibold">Nikâh</h3>
+          <h3 className="font-display text-lg font-semibold">{pl ? "Ślub" : "Nikâh"}</h3>
           <p className="mt-1 text-sm text-muted">
-            Sevgilin varsa onunla. Yoksa mahalle ayarlar. Evlenince emlak şişer.
+            {pl ? "Poślub partnerkę albo pozwól dzielnicy znaleźć ci żonę. Małżeństwo zwiększa dochód z nieruchomości." : "Sevgilin varsa onunla. Yoksa mahalle ayarlar. Evlenince emlak şişer."}
           </p>
           <div className="mt-3 flex flex-wrap gap-2">
             <Button
@@ -418,7 +420,7 @@ export function LifePanel({ player }: { player: Player }) {
               }
               onClick={() => live("evlen")}
             >
-              Evlen · {formatTRY(18000)}
+              {pl ? "Weź ślub" : "Evlen"} · {formatTRY(18000)}
             </Button>
             <Button
               variant="ghost"
@@ -427,14 +429,14 @@ export function LifePanel({ player }: { player: Player }) {
               }
               onClick={() => live("bosan")}
             >
-              Boşan
+              {pl ? "Rozwiedź się" : "Boşan"}
             </Button>
           </div>
         </div>
         <div className="rounded-2xl bg-surface p-4 shadow-[0_0_0_1px_rgba(239,232,222,0.08)]">
-          <h3 className="font-display text-lg font-semibold">Çocuk</h3>
+          <h3 className="font-display text-lg font-semibold">{pl ? "Dzieci" : "Çocuk"}</h3>
           <p className="mt-1 text-sm text-muted">
-            En fazla {LIFE_KID_MAX}. Saatlik harcama artar. İtibar basar.
+            {pl ? `Maksymalnie ${LIFE_KID_MAX}. Rosną wydatki godzinowe i reputacja.` : <>En fazla {LIFE_KID_MAX}. Saatlik harcama artar. İtibar basar.</>}
           </p>
           <Button
             className="mt-3"
@@ -446,13 +448,13 @@ export function LifePanel({ player }: { player: Player }) {
             }
             onClick={() => live("cocuk")}
           >
-            Çocuk yap · {formatTRY(8000)}
+            {pl ? "Miej dziecko" : "Çocuk yap"} · {formatTRY(8000)}
           </Button>
         </div>
       </section>
 
       <p className="font-mono text-xs tabular-nums text-subtle">
-        Mermi {player.energy}/{eMax} · racon {player.stamina}/{sMax} · bahis{" "}
+        {pl ? "Energia" : "Mermi"} {player.energy}/{eMax} · racon {player.stamina}/{sMax} · {pl ? "stawka" : "bahis"}{" "}
         {formatTRY(chip)}
       </p>
     </div>
@@ -470,12 +472,13 @@ function CasinoCard({
   disabled: boolean;
   onPlay: () => void;
 }) {
+  const { lang } = useLang();
   return (
     <div className="rounded-2xl bg-surface p-4 shadow-[0_0_0_1px_rgba(239,232,222,0.08)]">
       <h3 className="font-display text-lg font-semibold">{title}</h3>
       <p className="mt-1 text-sm text-muted">{desc}</p>
       <Button className="mt-3" disabled={disabled} onClick={onPlay}>
-        Oyna
+        {lang === "pl" ? "Graj" : "Oyna"}
       </Button>
     </div>
   );

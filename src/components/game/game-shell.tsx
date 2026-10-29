@@ -96,7 +96,7 @@ export function GameShell({
   const [tab, setTab] = useState<TabId>(initial);
   const [logOpen, setLogOpen] = useState(false);
   const swipe = useRef<{ x: number; y: number; fromUi: boolean } | null>(null);
-  const { lang } = useLang();
+  const { lang, t } = useLang();
   const tabText = (id: TabId, fallback: string, short: string) => {
     if (lang === "tr") return { label: fallback, short };
     const map: Record<TabId, { label: string; short: string }> = {
@@ -108,15 +108,15 @@ export function GameShell({
       hayat: { label: "Life", short: "Life" },
       klinik: { label: "Clinic", short: "Cln" },
     };
-    // Polish tab labels; panel content falls back to English.
+    // Full labels share the existing dictionary; short labels fit mobile navigation.
     const pl: Record<TabId, { label: string; short: string }> = {
-      ben: { label: "Ja", short: "Ja" },
-      icraat: { label: "Zlecenia", short: "Zlec" },
-      tezgah: { label: "Sklep", short: "Sklep" },
-      emlak: { label: "Nieruchomości", short: "Nier" },
-      sokak: { label: "Ulica", short: "Ul" },
-      hayat: { label: "Życie", short: "Życie" },
-      klinik: { label: "Klinika", short: "Klin" },
+      ben: { label: t("cete.tab.ben", "Ja"), short: "Ja" },
+      icraat: { label: t("cete.tab.icraat", "Zlecenia"), short: "Zlec" },
+      tezgah: { label: t("cete.tab.tezgah", "Sklep"), short: "Sklep" },
+      emlak: { label: t("cete.tab.emlak", "Nieruchomości"), short: "Nier" },
+      sokak: { label: t("cete.tab.sokak", "Ulica"), short: "Ul" },
+      hayat: { label: t("cete.tab.hayat", "Życie"), short: "Życie" },
+      klinik: { label: t("cete.tab.klinik", "Klinika"), short: "Klin" },
     };
     return lang === "pl" ? pl[id] : map[id];
   };
@@ -278,7 +278,7 @@ export function GameShell({
         <aside className="hidden w-80 shrink-0 border-l border-border lg:block">
           <div className="sticky top-0 max-h-dvh overflow-y-auto p-5">
             <p className="mb-4 flex items-center gap-2 text-[0.7rem] font-medium tracking-wide text-muted uppercase">
-              <ScrollText className="size-3.5" /> Defter
+              <ScrollText className="size-3.5" /> {lang === "pl" ? "Dziennik" : "Defter"}
             </p>
             <LogFeed logs={logs} />
           </div>
@@ -288,7 +288,7 @@ export function GameShell({
       {logOpen ? (
         <button
           type="button"
-          aria-label="Defteri kapat"
+          aria-label={lang === "pl" ? "Zamknij dziennik" : "Defteri kapat"}
           onClick={() => setLogOpen(false)}
           className="fixed inset-0 z-20 bg-bg/60 lg:hidden"
         />
@@ -297,7 +297,7 @@ export function GameShell({
         type="button"
         onClick={() => setLogOpen((v) => !v)}
         className="fixed right-4 bottom-[calc(4.5rem+env(safe-area-inset-bottom))] z-30 flex size-11 items-center justify-center rounded-full bg-elevated text-fg shadow-[0_0_0_1px_rgba(239,232,222,0.12)] lg:hidden"
-        aria-label="Defter"
+        aria-label={lang === "pl" ? "Dziennik" : "Defter"}
         aria-expanded={logOpen}
       >
         <ScrollText className="size-4" />
