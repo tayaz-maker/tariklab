@@ -40,7 +40,7 @@ try{
    assert.ok(await nav.isVisible());
   }
   await page.getByRole('button',{name:lang==='tr'?'Detay':'Details',exact:true}).click();
-  await page.getByRole('button',{name:'Nasıl Oynanır',exact:true}).click();
+  await page.getByRole('button',{name:lang==='tr'?'Nasıl Oynanır':'How to Play',exact:true}).click();
   const dialog=page.getByRole('dialog');await dialog.waitFor();
   const g=await dialog.evaluate(el=>{const r=el.getBoundingClientRect();return {left:r.left,right:r.right,height:r.height};});
   assert.ok(g.left>=0&&g.right<=width&&g.height<=900);await page.keyboard.press('Escape');
