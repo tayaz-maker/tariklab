@@ -12,8 +12,8 @@ The AST inventory collected string candidates across `src/components/game/` and 
 | Street and crew: `street-panel.tsx`, `data.ts` | Not yet fully counted | Static PL authored; dynamic and persisted messages remain | Source Chromium initial view at 390/1280 | NOT_VERIFIED |
 | Life and relationships: `life-panel.tsx`, `data.ts` | Not yet fully counted | PL screen copy authored; dynamic outcomes remain | Source Chromium initial view at 390/1280 | NOT_VERIFIED |
 | Outcome card: `outcome-moment.tsx`, `outcome-moment.ts` | Not yet fully counted | PL rendering authored | Typecheck and existing game tests; PL outcome not browser-verified | NOT_VERIFIED |
-| Character, HUD, saves, account, help, tutorial and offline: `src/components/game/` | Not yet fully counted | Existing partial PL; remaining fallback audit needed | Earlier PR checks only; not accepted for current head | NOT_VERIFIED |
-| Events, notifications and logs: `events.ts`, `clock.ts`, `store.ts`, `log-feed.tsx` | Not yet fully counted | Canonical dynamic Turkish log text is still displayed | Source inspection | FAIL |
+| Character, HUD, saves, account, help, tutorial and offline: `src/components/game/` | Not yet fully counted | Profile, save and HUD PL copy expanded; remaining fallback audit needed | Earlier PR checks only; not accepted for current head | NOT_VERIFIED |
+| Events, notifications and logs: `events.ts`, `clock.ts`, `store.ts`, `log-feed.tsx` | Not yet fully counted | Some canonical log patterns now have PL display translations; unmatched dynamic and historic messages still show their original text | Source inspection | FAIL |
 | TR/EN, full save/reload, offline and build parity | Not applicable | Final matrix outstanding | Current source catalog checks are insufficient | NOT_VERIFIED |
 
 No native-speaker linguistic review has been performed. Numbers above are explicit catalog fields, not a claim of all player-facing text or zero remaining fallbacks.

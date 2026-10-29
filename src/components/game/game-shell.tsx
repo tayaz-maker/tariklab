@@ -278,7 +278,7 @@ export function GameShell({
         <aside className="hidden w-80 shrink-0 border-l border-border lg:block">
           <div className="sticky top-0 max-h-dvh overflow-y-auto p-5">
             <p className="mb-4 flex items-center gap-2 text-[0.7rem] font-medium tracking-wide text-muted uppercase">
-              <ScrollText className="size-3.5" /> Defter
+              <ScrollText className="size-3.5" /> {lang === "pl" ? "Dziennik" : "Defter"}
             </p>
             <LogFeed logs={logs} />
           </div>
@@ -288,7 +288,7 @@ export function GameShell({
       {logOpen ? (
         <button
           type="button"
-          aria-label="Defteri kapat"
+          aria-label={lang === "pl" ? "Zamknij dziennik" : "Defteri kapat"}
           onClick={() => setLogOpen(false)}
           className="fixed inset-0 z-20 bg-bg/60 lg:hidden"
         />
@@ -297,7 +297,7 @@ export function GameShell({
         type="button"
         onClick={() => setLogOpen((v) => !v)}
         className="fixed right-4 bottom-[calc(4.5rem+env(safe-area-inset-bottom))] z-30 flex size-11 items-center justify-center rounded-full bg-elevated text-fg shadow-[0_0_0_1px_rgba(239,232,222,0.12)] lg:hidden"
-        aria-label="Defter"
+        aria-label={lang === "pl" ? "Dziennik" : "Defter"}
         aria-expanded={logOpen}
       >
         <ScrollText className="size-4" />

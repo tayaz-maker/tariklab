@@ -27,6 +27,9 @@ import { useGame } from "@/game/store";
 import type { NeighborhoodId, Player } from "@/game/types";
 import { track } from "@/lib/analytics";
 import { formatTRY } from "@/lib/utils";
+import { PL_CORNERS, PL_CREW_NAMES, PL_ESTATES, PL_ITEMS } from "@/game/cete-pl";
+
+const plAchievements: Record<string, string> = { ilk_milyon: "Pierwszy milion", is_100: "100 zleceń", semt_hepsi: "Cztery dzielnice", sezon_baba: "Ojciec Stambułu", seri_7: "Seria 7 dni" };
 
 const HOOD: Record<NeighborhoodId, string> = {
   eyup: "Eyüp",
@@ -65,7 +68,9 @@ function loadBoard() {
 }
 
 export function MePanel({ player }: { player: Player }) {
-  const { lang } = useLang();
+  const { lang, t } = useLang();
+  const pl = lang === "pl";
+  const itemName = (id: string) => pl ? PL_ITEMS[id]?.name ?? ITEM_MAP[id]?.name : ITEM_MAP[id]?.name;
   const en = lang !== "tr";
   const market = useGame((s) => s.market) ?? MARKET_START;
   const logs = useGame((s) => s.logs);
@@ -78,16 +83,16 @@ export function MePanel({ player }: { player: Player }) {
     Math.max(1, player.gun - (player.seasonGun || 1) + 1),
   );
   const loadout = [
-    player.equippedWeapon ? ITEM_MAP[player.equippedWeapon]?.name : null,
-    player.equippedArmor ? ITEM_MAP[player.equippedArmor]?.name : null,
-    player.equippedVehicle ? ITEM_MAP[player.equippedVehicle]?.name : null,
+    player.equippedWeapon ? itemName(player.equippedWeapon) : null,
+    player.equippedArmor ? itemName(player.equippedArmor) : null,
+    player.equippedVehicle ? itemName(player.equippedVehicle) : null,
   ].filter(Boolean) as string[];
   const luxury = player.inventory
     .map((id) => ITEM_MAP[id])
     .filter((i) => i?.kind === "luxury")
-    .map((i) => i.name);
+    .map((i) => itemName(i.id) ?? i.name);
   const bag = player.inventory
-    .map((id) => ITEM_MAP[id]?.name)
+    .map((id) => itemName(id))
     .filter(Boolean) as string[];
   const rels = Object.entries(player.relations ?? {})
     .filter(([, v]) => v > 0)
@@ -129,46 +134,48 @@ export function MePanel({ player }: { player: Player }) {
   return (
     <div className="space-y-6">
       <section className="rounded-2xl bg-surface p-4 shadow-[0_0_0_1px_rgba(239,232,222,0.08)]">
-        <h2 className="font-display text-2xl font-semibold">{en ? "Me" : "Ben"}</h2>
+        <h2 className="font-display text-2xl font-semibold">{pl ? "Ja" : en ? "Me" : "Ben"}</h2>
         <p className="mt-1 text-sm text-muted">
-          {player.name} · {lakap(player.level)} · {HOOD[player.neighborhood]}
+          {player.name} · {pl ? t(`cete.rank.${lakap(player.level)}`, lakap(player.level)) : lakap(player.level)} · {HOOD[player.neighborhood]}
         </p>
         <p className="mt-2 text-sm text-fg">
-          {en ? "Level" : "Kıdem"} {player.level} · {player.xp}/{xpToNext(player.level)} XP ·{" "}
-          {en ? "season" : "sezon"}{" "}
-          {dayInSeason}/{SEASON_DAYS} · {Math.round(player.seasonScore)} {en ? "score" : "skor"}
+          {pl ? "Poziom" : en ? "Level" : "Kıdem"} {player.level} · {player.xp}/{xpToNext(player.level)} XP ·{" "}
+          {pl ? "sezon" : en ? "season" : "sezon"}{" "}
+          {dayInSeason}/{SEASON_DAYS} · {Math.round(player.seasonScore)} {pl ? "wynik" : en ? "score" : "skor"}
         </p>
         <p className="mt-2 text-sm text-fg">
-          {en ? "Status" : "Durum"}:{" "}
+          {pl ? "Stan" : en ? "Status" : "Durum"}:{" "}
           {player.durum === "serbest"
-            ? (en ? "free" : "serbest")
+            ? (pl ? "na wolności" : en ? "free" : "serbest")
             : player.durum === "nezaret"
-              ? `${en ? "holding cell" : "nezaret"} (${player.durumTick * 10} ${en ? "min" : "dk"})`
-              : `${en ? "clinic" : "klinik"} (${player.durumTick * 10} ${en ? "min" : "dk"})`}
+              ? `${pl ? "areszt" : en ? "holding cell" : "nezaret"} (${player.durumTick * 10} ${en ? "min" : "dk"})`
+              : `${pl ? "klinika" : en ? "clinic" : "klinik"} (${player.durumTick * 10} ${en ? "min" : "dk"})`}
         </p>
         <p className="mt-2 text-sm text-muted">
-          {en ? "Daily streak" : "Günlük seri"} {player.streak || 0}
-          {player.streak >= 7 ? (en ? " · 7-day achievement unlocked" : " · 7 günlük başarım açık") : ""} ·{" "}
-          {en ? "last saved" : "son kayıt"}{" "}
+          {pl ? "Dzienna seria" : en ? "Daily streak" : "Günlük seri"} {player.streak || 0}
+          {player.streak >= 7 ? (pl ? " · osiągnięcie za 7 dni odblokowane" : en ? " · 7-day achievement unlocked" : " · 7 günlük başarım açık") : ""} ·{" "}
+          {pl ? "ostatni zapis" : en ? "last saved" : "son kayıt"}{" "}
           {savedAt
             ? new Date(savedAt).toLocaleTimeString("tr-TR", {
                 hour: "2-digit",
                 minute: "2-digit",
               })
-            : (en ? "never" : "yok")}
+            : (pl ? "nigdy" : en ? "never" : "yok")}
         </p>
         <p className="mt-2 text-sm text-fg md:hidden">
-          {loadout.join(" · ") || (en ? "Nothing equipped" : "Üst boş")}
+          {loadout.join(" · ") || (pl ? "Brak wyposażenia" : en ? "Nothing equipped" : "Üst boş")}
         </p>
       </section>
 
       <section>
-        <h3 className="font-display text-xl font-semibold">{en ? "Rank" : "Sıra"}</h3>
+        <h3 className="font-display text-xl font-semibold">{pl ? "Ranking" : en ? "Rank" : "Sıra"}</h3>
         <p className="mt-1 text-sm text-muted">
-          {en
+          {pl
+            ? "Wynik sezonu. Tytuł za pierwsze miejsce: ojciec Stambułu."
+            : en
             ? "Season score. First place's title: father of Istanbul."
             : "Sezon skoru. Birinci unvanı: İstanbul'un babası."}
-          {rank ? ` ${en ? "You:" : "Sen:"} ${rank}.` : ""}
+          {rank ? ` ${pl ? "Ty:" : en ? "You:" : "Sen:"} ${rank}.` : ""}
         </p>
         <ol className="mt-3 space-y-1">
           {rows.slice(0, 10).map((r, i) => (
@@ -180,7 +187,7 @@ export function MePanel({ player }: { player: Player }) {
             >
               <span>
                 {i + 1}. {r.name}
-                {i === 0 ? (en ? " · father of Istanbul" : " · İstanbul'un babası") : ""}
+                {i === 0 ? (pl ? " · ojciec Stambułu" : en ? " · father of Istanbul" : " · İstanbul'un babası") : ""}
               </span>
               <span className="font-mono tabular-nums text-fg">
                 {Math.round(r.score)}
@@ -192,7 +199,7 @@ export function MePanel({ player }: { player: Player }) {
       </section>
 
       <section>
-        <h3 className="font-display text-xl font-semibold">{en ? "Achievements" : "Başarımlar"}</h3>
+        <h3 className="font-display text-xl font-semibold">{pl ? "Osiągnięcia" : en ? "Achievements" : "Başarımlar"}</h3>
         <ul className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
           {ACHIEVEMENTS.map((a) => (
             <li
@@ -201,7 +208,7 @@ export function MePanel({ player }: { player: Player }) {
                 have.has(a.id) ? "bg-elevated text-fg" : "text-muted"
               }`}
             >
-              {have.has(a.id) ? a.label : `${a.label} · ${en ? "locked" : "kilitli"}`}
+              {have.has(a.id) ? (pl ? plAchievements[a.id] ?? a.label : a.label) : `${pl ? plAchievements[a.id] ?? a.label : a.label} · ${pl ? "zablokowane" : en ? "locked" : "kilitli"}`}
             </li>
           ))}
         </ul>
@@ -212,20 +219,22 @@ export function MePanel({ player }: { player: Player }) {
             onClick={() => {
               void navigator.share?.({
                 title: "Çete Savaşları",
-                text: `${player.name} · ${[...have].length} ${en ? "achievements" : "başarım"} · ${en ? "score" : "skor"} ${Math.round(player.seasonScore)}`,
+                text: `${player.name} · ${[...have].length} ${pl ? "osiągnięć" : en ? "achievements" : "başarım"} · ${pl ? "wynik" : en ? "score" : "skor"} ${Math.round(player.seasonScore)}`,
                 url: invite || window.location.href,
               });
             }}
           >
-            {en ? "Share" : "Paylaş"}
+            {pl ? "Udostępnij" : en ? "Share" : "Paylaş"}
           </Button>
         ) : null}
       </section>
 
       <section>
-        <h3 className="font-display text-xl font-semibold">{en ? "Invite" : "Davet"}</h3>
+        <h3 className="font-display text-xl font-semibold">{pl ? "Zaproś" : en ? "Invite" : "Davet"}</h3>
         <p className="mt-2 text-sm text-muted">
-          {en
+          {pl
+            ? "Twoje imię jest kodem. Po pierwszym zleceniu oboje dostaniecie po 5 000 ₺, jednorazowo."
+            : en
             ? "Your name is your code. After the first job, both of you get ₺5,000, once."
             : "Kodun lakabın. İlk işten sonra ikinize 5.000 ₺, bir kez."}
         </p>
@@ -233,7 +242,7 @@ export function MePanel({ player }: { player: Player }) {
       </section>
 
       <section>
-        <h3 className="font-display text-xl font-semibold">Maddi</h3>
+        <h3 className="font-display text-xl font-semibold">{pl ? "Majątek" : "Maddi"}</h3>
         <ul className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3">
           <Cell k="Nakit" v={formatTRY(L.nakit)} />
           <Cell k="Kasa" v={formatTRY(L.kasa)} />
@@ -249,7 +258,7 @@ export function MePanel({ player }: { player: Player }) {
       </section>
 
       <section>
-        <h3 className="font-display text-xl font-semibold">Gelir / gider</h3>
+        <h3 className="font-display text-xl font-semibold">{pl ? "Dochody i wydatki" : "Gelir / gider"}</h3>
         <ul className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3">
           <Cell k="Emlak / saat" v={formatTRY(L.emlakSaat)} />
           <Cell k="Haraç / saat" v={formatTRY(L.haracSaat)} />
@@ -260,32 +269,32 @@ export function MePanel({ player }: { player: Player }) {
             k="Köşe / hafta"
             v={
               player.kose
-                ? `${formatTRY(L.koseHafta)} · ${koseDaysLeft(player)} gün`
-                : "yok"
+                ? `${formatTRY(L.koseHafta)} · ${koseDaysLeft(player)} ${pl ? "dni" : "gün"}`
+                : pl ? "brak" : "yok"
             }
           />
           <Cell k="Net / hafta" v={formatTRY(L.netHafta)} accent />
         </ul>
         {player.kose ? (
           <p className="mt-3 text-sm text-muted">
-            {KOSE_TIERS[player.kose - 1].name}
+            {pl ? PL_CORNERS[player.kose]?.name ?? KOSE_TIERS[player.kose - 1].name : KOSE_TIERS[player.kose - 1].name}
             {player.neighborhood === "tarlabasi" ? " · Tarlabaşı +20%" : ""}
           </p>
         ) : null}
       </section>
 
       <section>
-        <h3 className="font-display text-xl font-semibold">Manevi</h3>
+        <h3 className="font-display text-xl font-semibold">{pl ? "Stan postaci" : "Manevi"}</h3>
         <ul className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3">
           <Cell k="İtibar" v={`${Math.round(player.itibar)}`} />
           <Cell k="Emniyet" v={`${Math.round(player.isi)} / 100`} />
           <Cell
             k="Sağlık izi"
-            v={player.saglikIzi > 0 ? `${player.saglikIzi * 10} dk` : "yok"}
+            v={player.saglikIzi > 0 ? `${player.saglikIzi * 10} ${pl ? "min" : "dk"}` : pl ? "brak" : "yok"}
           />
           <Cell k="Tefeci notu" v={`${tefeciKrediNotu(player)}`} />
           <Cell k="Ortalıklık" v={`${toplamOrtalik(player)}`} />
-          <Cell k="İhanet" v={ihanetSeviye(player)} />
+          <Cell k="İhanet" v={pl ? ({yok:"brak",düşük:"niskie",orta:"średnie",yüksek:"wysokie"}[ihanetSeviye(player)]) : ihanetSeviye(player)} />
           <Cell k="Can" v={`${Math.round(player.health)} / 100`} />
           <Cell k="Mermi" v={`${Math.round(player.energy)} / ${eMax}`} />
           <Cell k="Racon" v={`${Math.round(player.stamina)} / ${sMax}`} />
@@ -293,60 +302,60 @@ export function MePanel({ player }: { player: Player }) {
             k="Aile"
             v={
               player.married
-                ? `${player.spouse ?? "evli"} · ${player.kids} çocuk`
+                ? (pl ? `${player.spouse ?? "małżeństwo"} · dzieci: ${player.kids}` : `${player.spouse ?? "evli"} · ${player.kids} çocuk`)
                 : player.girlfriend
-                  ? PARTNER_MAP[player.girlfriend]?.name ?? "sevgili"
-                  : "yalnız"
+                  ? PARTNER_MAP[player.girlfriend]?.name ?? (pl ? "partnerka" : "sevgili")
+                  : (pl ? "samotnie" : "yalnız")
             }
           />
         </ul>
         {rels.length ? (
-          <p className="mt-3 text-sm text-fg">İlişki: {rels.join(" · ")}</p>
+          <p className="mt-3 text-sm text-fg">{pl ? "Relacje" : "İlişki"}: {rels.join(" · ")}</p>
         ) : null}
         {player.horse ? (
           <p className="mt-2 text-sm text-fg">
-            At: {player.horse.name} · hız {Math.round(player.horse.speed)} · form{" "}
+            {pl ? "Koń" : "At"}: {player.horse.name} · {pl ? "prędkość" : "hız"} {Math.round(player.horse.speed)} · {pl ? "forma" : "form"}{" "}
             {Math.round(player.horse.form)}
           </p>
         ) : null}
       </section>
 
       <section>
-        <h3 className="font-display text-xl font-semibold">Sahiplik</h3>
+        <h3 className="font-display text-xl font-semibold">{pl ? "Posiadane" : "Sahiplik"}</h3>
         <p className="mt-2 text-sm text-fg">
-          Üst: {loadout.length ? loadout.join(" · ") : "boş"}
+          {pl ? "Wyposażenie" : "Üst"}: {loadout.length ? loadout.join(" · ") : pl ? "brak" : "boş"}
         </p>
         <p className="mt-2 text-sm text-muted">
-          Çanta: {bag.length ? bag.join(" · ") : "boş"}
+          {pl ? "Torba" : "Çanta"}: {bag.length ? bag.join(" · ") : pl ? "brak" : "boş"}
         </p>
         {luxury.length ? (
-          <p className="mt-2 text-sm text-fg">Lüks: {luxury.join(" · ")}</p>
+          <p className="mt-2 text-sm text-fg">{pl ? "Luksus" : "Lüks"}: {luxury.join(" · ")}</p>
         ) : null}
         <p className="mt-2 text-sm text-fg">
-          İş / konut:{" "}
+          {pl ? "Lokale / mieszkania" : "İş / konut"}:{" "}
           {player.properties.length
             ? player.properties
-                .map((id) => ESTATE_MAP[id]?.name)
+                .map((id) => pl ? PL_ESTATES[id]?.name ?? ESTATE_MAP[id]?.name : ESTATE_MAP[id]?.name)
                 .filter(Boolean)
                 .join(" · ")
-            : "yok"}
+            : pl ? "brak" : "yok"}
         </p>
         <p className="mt-2 text-sm text-fg">
-          Çete:{" "}
+          {pl ? "Ekipa" : "Çete"}:{" "}
           {player.crew.length
-            ? player.crew.map((id) => CREW_MAP[id]?.name).join(" · ")
-            : "yalnız çalışıyorsun"}
+            ? player.crew.map((id) => pl ? PL_CREW_NAMES[id] ?? CREW_MAP[id]?.name : CREW_MAP[id]?.name).join(" · ")
+            : (pl ? "pracujesz samotnie" : "yalnız çalışıyorsun")}
         </p>
         <p className="mt-2 text-sm text-fg">
-          Semt:{" "}
+          {pl ? "Dzielnice" : "Semt"}:{" "}
           {HOOD_IDS.map(
             (id) => `${hoodName(id)} ${Math.round(player.turf[id] ?? 0)}%`,
           ).join(" · ")}
         </p>
         {player.senet ? (
           <p className="mt-2 text-sm text-warn">
-            Senet {player.senet.kind === "borc" ? "borç" : "alacak"} ·{" "}
-            {player.senet.name} · {formatTRY(player.senet.amount)} · gün{" "}
+            {pl ? "Weksel" : "Senet"} {player.senet.kind === "borc" ? (pl ? "dług" : "borç") : (pl ? "należność" : "alacak")} ·{" "}
+            {player.senet.name} · {formatTRY(player.senet.amount)} · {pl ? "dzień" : "gün"}{" "}
             {player.senet.dueGun}
           </p>
         ) : null}
@@ -406,9 +415,11 @@ function Cell({
   v: string;
   accent?: boolean;
 }) {
+  const { lang } = useLang();
+  const labels: Record<string, string> = { "Nakit":"Gotówka", "Kasa":"Kasa", "Rüşvet":"Łapówki", "Altın":"Złoto", "Dolar":"Dolar", "Portföy":"Portfel", "Emlak değeri":"Wartość nieruchomości", "Köşe":"Punkt", "Toplam varlık":"Majątek razem", "Emlak / saat":"Nieruchomości / godz.", "Haraç / saat":"Haracz / godz.", "Çete maaşı / saat":"Płace ekipy / godz.", "Çocuk / saat":"Dzieci / godz.", "Net / saat":"Netto / godz.", "Köşe / hafta":"Punkt / tydzień", "Net / hafta":"Netto / tydzień", "İtibar":"Reputacja", "Emniyet":"Presja policji", "Sağlık izi":"Ślad urazu", "Tefeci notu":"Ocena lichwiarza", "Ortalıklık":"Widoczność", "İhanet":"Ryzyko zdrady", "Can":"Zdrowie", "Mermi":"Energia", "Aile":"Rodzina" };
   return (
     <li className="rounded-lg bg-elevated px-3 py-2">
-      <p className="text-xs font-medium text-muted">{k}</p>
+      <p className="text-xs font-medium text-muted">{lang === "pl" ? labels[k] ?? k : k}</p>
       <p
         className={`mt-0.5 font-mono text-sm font-medium tabular-nums ${accent ? "text-accent" : "text-fg"}`}
       >

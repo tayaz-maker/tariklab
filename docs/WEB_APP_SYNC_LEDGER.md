@@ -1280,3 +1280,7 @@ Continue draft #246 without changing game mechanics or saves. Polish clinic cont
 ## 2026-10-29 — Çete Polish catalog and screen work in progress
 
 Draft #246 continues with Polish presentation-only copy for current shop items, job tiers and missions, contracts, starting neighborhoods, property and investment catalogs, street/crew and life screens, and the outcome card. The existing Turkish game data, log payloads, mechanics and saves remain unchanged; other panels and persisted dynamic log messages still require translation and complete acceptance. Catalog coverage is checked against current IDs; local source Chromium checks render all item, mission and property names/descriptions at 390/1280 and open street/life at both widths. These checks do not establish full-screen or offline acceptance. Final-head CI and complete fallback audit remain required; do not treat this as complete localization.
+
+## 2026-10-29 — Çete Polish log and profile work in progress
+
+Added Polish presentation for selected existing Turkish log patterns, profile/status labels, save-slot dialogs and HUD/season text. Stored logs are not rewritten; unmatched historic or dynamic messages still fall back to their original text. A source Chromium check confirmed a translated bank log remains Turkish in storage after reload, and profile initial views rendered in TR/EN/PL at 390/1280 without document overflow or page errors. Comprehensive narrative coverage, full flows, offline and final-head CI remain required; this is not a complete localization.
