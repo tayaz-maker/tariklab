@@ -17,6 +17,9 @@ test('Polish log rendering retains dynamic amounts and leaves stored text untouc
  assert.match(polishLog('Doktor sırtını sıvazladı: dikişler tuttu, kalk git. Klinikten çıktın.'), /Opuszczasz klinikę/);
  assert.match(polishLog('İhanet. İtibar düşükken Gözcü Selim defteri emniyete sızdırdı, 1.200 ₺ ile kayboldu.'), /Czujka Selim.*1\.200 ₺/);
  assert.match(polishLog('Naci Bey aradı: Pavyon çıkışı kirlendi. Sarhoşu sen temizle, hesap bende.'), /^Naci Bey dzwoni: Pod lokalem/);
+ assert.match(polishLog('USDT fırladı. 31.5 → 32.7 ₺.'), /31,5 → 32,7 ₺/);
+ assert.match(polishLog('1.5 gram altın alındı. 3.000 ₺.'), /Kupiono 1,5 g złota/);
+ assert.match(polishLog('0.25 USDT satıldı. 10 ₺.'), /Sprzedano 0,25 USDT/);
  assert.equal(polishLog('Nieznany stary wpis'), 'Nieznany stary wpis');
 });
 

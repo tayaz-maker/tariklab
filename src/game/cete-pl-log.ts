@@ -30,10 +30,11 @@ function entityName(name: string): string {
  if (crew) return PL_CREW_NAMES[crew.id] ?? name;
  return name === "Mekan" ? "Lokal" : name === "Adam" ? "Członek ekipy" : name;
 }
+function polishDecimal(value: string): string { return value.replace('.', ','); }
 const patterns: Array<[RegExp, (...parts:string[])=>string]> = [
  [/^Yeni gün\. (\d+)\. gün sokakta\.$/, d=>`Nowy dzień. Dzień ${d} na ulicy.`],
  [/^Sezon kapandı\. Skor (\d+)\. Sokak unutur, sen unutma\.$/, n=>`Sezon dobiegł końca. Wynik: ${n}. Ulica zapomni, ty nie.`],
- [/^USDT (fırladı|çöktü)\. (.+) → (.+) ₺\.$/, (v,a,b)=>`USDT ${v==='fırladı'?'gwałtownie wzrósł':'gwałtownie spadł'}. ${a} → ${b} ₺.`],
+ [/^USDT (fırladı|çöktü)\. (.+) → (.+) ₺\.$/, (v,a,b)=>`USDT ${v==='fırladı'?'gwałtownie wzrósł':'gwałtownie spadł'}. ${polishDecimal(a)} → ${polishDecimal(b)} ₺.`],
  [/^Senet döndü\. (.+) (.+) ₺'yi kasaya yatırdı\.$/, (name,n)=>`Weksel spłacony. Wpłata od ${name}: ${n} ₺ do kasy.`],
  [/^Senet ödenmedi\. (.+) faizle geldi\. Emniyet yükseldi, itibar düştü\. Kalan (.+) ₺ silindi\.$/, (name,n)=>`Weksel nie został spłacony. Po pieniądze z odsetkami zgłasza się ${name}. Presja policji wzrosła, reputacja spadła. Pozostałe ${n} ₺ umorzono.`],
  [/^Borç kapatıldı\. (.+) (.+) ₺ kesti\.$/, (name,n)=>`Dług spłacony. ${name}: pobrano ${n} ₺.`],
@@ -102,8 +103,8 @@ const patterns: Array<[RegExp, (...parts:string[])=>string]> = [
  [/^Başarım: (.+)$/, achievement=>`Osiągnięcie: ${({"İlk milyon":"Pierwszy milion","100 iş":"100 zleceń","Dört semt":"Cztery dzielnice","İstanbul'un babası":"Ojciec Stambułu","7 günlük seri":"Seria 7 dni"} as Record<string,string>)[achievement] ?? achievement}`],
  [/^(.+), Çaylak olarak (.+) sokaklarına indi\. Elinde kırık bir Efes şişesi, cebin bomboş\. İş yapmadan ₺ basmaz\.$/, (name,hood)=>`${name} zaczyna jako nowicjusz na ulicach ${hood}. W ręku rozbita butelka Efes, kieszenie puste. Bez zleceń nie ma pieniędzy.`],
  [/^(.+)'e (.+) ₺ senet\. İki güne (.+) ₺ döner\.$/, (name,principal,due)=>`Weksel dla ${name}: ${principal} ₺. Za dwa dni wróci ${due} ₺.`],
- [/^(\d+(?:[.,]\d+)?) (gram altın|dolar|USDT) alındı\. (.+) ₺\.$/, (qty,label,price)=>`Kupiono ${qty} ${({"gram altın":"g złota","dolar":"dolarów","USDT":"USDT"} as Record<string,string>)[label] ?? label}. ${price} ₺.`],
- [/^(\d+(?:[.,]\d+)?) (gram altın|dolar|USDT) satıldı\. (.+) ₺\.$/, (qty,label,price)=>`Sprzedano ${qty} ${({"gram altın":"g złota","dolar":"dolarów","USDT":"USDT"} as Record<string,string>)[label] ?? label}. ${price} ₺.`],
+ [/^(\d+(?:[.,]\d+)?) (gram altın|dolar|USDT) alındı\. (.+) ₺\.$/, (qty,label,price)=>`Kupiono ${polishDecimal(qty)} ${({"gram altın":"g złota","dolar":"dolarów","USDT":"USDT"} as Record<string,string>)[label] ?? label}. ${price} ₺.`],
+ [/^(\d+(?:[.,]\d+)?) (gram altın|dolar|USDT) satıldı\. (.+) ₺\.$/, (qty,label,price)=>`Sprzedano ${polishDecimal(qty)} ${({"gram altın":"g złota","dolar":"dolarów","USDT":"USDT"} as Record<string,string>)[label] ?? label}. ${price} ₺.`],
  [/^İhanet\. İtibar düşükken (.+) defteri emniyete sızdırdı, (.+) ₺ ile kayboldu\.$/, (name,n)=>`Zdrada. Przy niskiej reputacji ${entityName(name)} przekazuje dziennik policji i znika z ${n} ₺.`],
  [/^İhanet riski tuttu\. (.+) (.+) ₺ kesti, semti ısıttı\.$/, (name,n)=>`Doszło do zdrady. ${entityName(name)} zabiera ${n} ₺ i zwraca uwagę policji na dzielnicę.`],
  [/^Veliefendi: (.+) birinci\. (.+) (tuttu|kaldı)\. ([+−].+ ₺)$/, (winner,horse,result,amount)=>`Veliefendi: wygrywa ${winner}. ${horse}: ${result==='tuttu'?'trafiony zakład':'nietrafiony zakład'}. ${amount}`],
