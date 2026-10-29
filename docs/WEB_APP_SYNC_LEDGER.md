@@ -1284,3 +1284,7 @@ Draft #246 continues with Polish presentation-only copy for current shop items, 
 ## 2026-10-29 — Çete Polish log and profile work in progress
 
 Added Polish presentation for selected existing Turkish log patterns, profile/status labels, save-slot dialogs and HUD/season text. Stored logs are not rewritten; unmatched historic or dynamic messages still fall back to their original text. A source Chromium check confirmed a translated bank log remains Turkish in storage after reload, and profile initial views rendered in TR/EN/PL at 390/1280 without document overflow or page errors. Comprehensive narrative coverage, full flows, offline and final-head CI remain required; this is not a complete localization.
+
+## 2026-10-29 — Çete Polish job-result and account copy work in progress
+
+All 72 current job win/loss narrative variants have Polish render-time equivalents keyed to the existing source choices. Values, saved Turkish logs and game outcomes remain unchanged; tests verify variant alignment and numeric values, and real source Chromium completed a job and reloaded its original saved log at 390/1280. Selected other dynamic log patterns and account UI/errors also have PL copy. Unmatched legacy and dynamic logs and other screen states remain; this is not full localization or release acceptance. No deployment or game-state change.

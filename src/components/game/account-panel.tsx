@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useLang } from "@/lib/i18n";
+import { polishAccountError, polishAccountText } from "@/game/cete-pl-account";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -30,6 +32,8 @@ async function resolveEmail(login: string): Promise<string> {
 }
 
 export function AccountPanel({ className }: { className?: string }) {
+  const { lang } = useLang();
+  const pl = lang === "pl";
   const { user, pending, verified, username } = useSupabaseUser();
   const [open, setOpen] = useState(false);
   const [signingOut, setSigningOut] = useState(false);
@@ -37,17 +41,17 @@ export function AccountPanel({ className }: { className?: string }) {
   if (pending) return null;
 
   if (user) {
-    const label = username ?? "Hesap";
+    const label = username ?? (pl ? "Konto" : "Hesap");
     return (
       <div className={cn("flex flex-wrap items-center gap-2", className)}>
         <span className="text-xs text-muted">
-          Hesap: <span className="text-fg">{label}</span>
+          {pl ? "Konto" : "Hesap"}: <span className="text-fg">{label}</span>
           {!verified ? (
-            <span className="ml-1 text-warn">· e-posta doğrulanmadı</span>
+            <span className="ml-1 text-warn">· {pl ? "e-mail niepotwierdzony" : "e-posta doğrulanmadı"}</span>
           ) : null}
         </span>
         <Button variant="ghost" size="sm" onClick={() => setOpen(true)}>
-          Hesap
+          {pl ? "Konto" : "Hesap"}
         </Button>
         <Button
           variant="ghost"
@@ -58,7 +62,7 @@ export function AccountPanel({ className }: { className?: string }) {
             void supabase.auth.signOut().finally(() => setSigningOut(false));
           }}
         >
-          {signingOut ? "Çıkılıyor…" : "Çıkış yap"}
+          {pl ? (signingOut ? "Wylogowywanie…" : "Wyloguj się") : (signingOut ? "Çıkılıyor…" : "Çıkış yap")}
         </Button>
         <AccountDialog open={open} onOpenChange={setOpen} signedIn />
       </div>
@@ -72,7 +76,7 @@ export function AccountPanel({ className }: { className?: string }) {
         className={cn("px-3 text-xs md:px-4 md:text-sm", className)}
         onClick={() => setOpen(true)}
       >
-        Hesap oluştur / Giriş yap
+        {pl ? "Utwórz konto / Zaloguj się" : "Hesap oluştur / Giriş yap"}
       </Button>
       <AccountDialog open={open} onOpenChange={setOpen} />
     </>
@@ -88,6 +92,9 @@ function AccountDialog({
   onOpenChange: (v: boolean) => void;
   signedIn?: boolean;
 }) {
+  const { lang } = useLang();
+  const pl = lang === "pl";
+  const local = (text: string) => pl ? polishAccountText(text) : text;
   const { user, verified } = useSupabaseUser();
   const [mode, setMode] = useState<"in" | "up" | "forgot" | "pw">("in");
   const [username, setUsername] = useState("");
@@ -309,23 +316,23 @@ function AccountDialog({
     >
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
+          <DialogTitle>{local(title)}</DialogTitle>
           <DialogDescription>
-            {signedIn
+            {local(signedIn
               ? "Şifre değiştir, e-postanı doğrula. Bulut kayıt doğrulanmış hesaba yazar."
               : mode === "up"
                 ? "Kullanıcı adı, e-posta ve şifre. Misafir olarak da oynarsın."
                 : mode === "forgot"
                   ? "E-postana reset linki gider."
-                  : "Lakap veya e-posta + şifre. Hesapsız da oynanır."}
+                  : "Lakap veya e-posta + şifre. Hesapsız da oynanır.")}
           </DialogDescription>
         </DialogHeader>
 
         {user && !verified ? (
           <div className="mt-3 rounded-xl bg-elevated p-3 text-sm">
-            <p className="text-warn">E-postan doğrulanmadı. Bulut kayıt kapalı.</p>
+            <p className="text-warn">{local("E-postan doğrulanmadı. Bulut kayıt kapalı.")}</p>
             <Button className="mt-2" variant="ghost" disabled={busy} onClick={() => void resend()}>
-              Doğrulama maili tekrar gönder
+              {local("Doğrulama maili tekrar gönder")}
             </Button>
           </div>
         ) : null}
@@ -340,7 +347,7 @@ function AccountDialog({
           {!signedIn && mode !== "forgot" ? (
             <div>
               <label className="block text-xs font-medium tracking-wide text-muted uppercase">
-                {mode === "in" ? "Lakap veya e-posta" : "Kullanıcı adı"}
+                {local(mode === "in" ? "Lakap veya e-posta" : "Kullanıcı adı")}
               </label>
               <Input
                 className="mt-1.5"
@@ -350,7 +357,7 @@ function AccountDialog({
                 autoCapitalize="off"
                 autoCorrect="off"
                 spellCheck={false}
-                placeholder={mode === "in" ? "Troy veya sen@mail.com" : "ör. Troy"}
+                placeholder={pl ? (mode === "in" ? "Troy lub ty@mail.com" : "np. Troy") : mode === "in" ? "Troy veya sen@mail.com" : "ör. Troy"}
                 onChange={(e) => setUsername(e.target.value)}
               />
             </div>
@@ -359,14 +366,14 @@ function AccountDialog({
           {mode === "up" || mode === "forgot" ? (
             <div>
               <label className="block text-xs font-medium tracking-wide text-muted uppercase">
-                E-posta
+                {pl ? "E-mail" : "E-posta"}
               </label>
               <Input
                 className="mt-1.5"
                 type="email"
                 value={email}
                 autoComplete="email"
-                placeholder="sen@mail.com"
+                placeholder={pl ? "ty@mail.com" : "sen@mail.com"}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
@@ -375,7 +382,7 @@ function AccountDialog({
           {mode === "pw" ? (
             <div>
               <label className="block text-xs font-medium tracking-wide text-muted uppercase">
-                Eski şifre
+                {local("Eski şifre")}
               </label>
               <Input
                 className="mt-1.5"
@@ -390,7 +397,7 @@ function AccountDialog({
           {mode !== "forgot" ? (
             <div>
               <label className="block text-xs font-medium tracking-wide text-muted uppercase">
-                {mode === "pw" ? "Yeni şifre" : "Şifre"}
+                {local(mode === "pw" ? "Yeni şifre" : "Şifre")}
               </label>
               <Input
                 className="mt-1.5"
@@ -405,7 +412,7 @@ function AccountDialog({
           {mode === "up" || mode === "pw" ? (
             <div>
               <label className="block text-xs font-medium tracking-wide text-muted uppercase">
-                Şifre (tekrar)
+                {local("Şifre (tekrar)")}
               </label>
               <Input
                 className="mt-1.5"
@@ -419,12 +426,12 @@ function AccountDialog({
 
           {mode === "up" ? (
             <p className="text-xs text-warn">
-              E-posta yoksa şifreyi unutursan hesap ve kayıt gider.
+              {local("E-posta yoksa şifreyi unutursan hesap ve kayıt gider.")}
             </p>
           ) : null}
 
-          {error ? <p className="text-sm text-danger">{error}</p> : null}
-          {ok ? <p className="text-sm text-accent">{ok}</p> : null}
+          {error ? <p className="text-sm text-danger">{pl ? polishAccountError(error) : error}</p> : null}
+          {ok ? <p className="text-sm text-accent">{local(ok)}</p> : null}
 
           <div className="mt-2 flex flex-wrap items-center justify-between gap-3">
             {!signedIn ? (
@@ -439,17 +446,17 @@ function AccountDialog({
                   setOk(null);
                 }}
               >
-                {mode === "up"
+                {local(mode === "up"
                   ? "Zaten hesabım var, giriş yapayım"
                   : mode === "forgot"
                     ? "Girişe dön"
-                    : "Hesabım yok, oluşturayım"}
+                    : "Hesabım yok, oluşturayım")}
               </button>
             ) : (
               <span />
             )}
             <Button type="submit" disabled={busy}>
-              {busy
+              {local(busy
                 ? "Bekle…"
                 : mode === "up"
                   ? "Hesap oluştur"
@@ -457,7 +464,7 @@ function AccountDialog({
                     ? "Reset linki gönder"
                     : mode === "pw"
                       ? "Şifre değiştir"
-                      : "Giriş yap"}
+                      : "Giriş yap")}
             </Button>
           </div>
           {!signedIn && mode === "in" ? (
@@ -470,7 +477,7 @@ function AccountDialog({
                 setOk(null);
               }}
             >
-              Şifremi unuttum
+              {local("Şifremi unuttum")}
             </button>
           ) : null}
         </form>

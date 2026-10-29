@@ -1,6 +1,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { polishLog } from './cete-pl-log';
+import { ALL_MISSIONS, JOB_FLAVOR } from './data';
+import { PL_JOB_FLAVOR } from './cete-pl-job-flavor';
 
 test('Polish log rendering retains dynamic amounts and leaves stored text untouched', () => {
  const source = 'Kasaya 12.345 ₺ indi. Sokak bunu gasp etmez.';
@@ -10,4 +12,19 @@ test('Polish log rendering retains dynamic amounts and leaves stored text untouc
  assert.equal(polishLog('Kırık Efes Şişesi alındı.'), 'Kupiono: Rozbita butelka Efes.');
  assert.match(polishLog('Naci Bey aradı: Pavyon çıkışı kirlendi. Sarhoşu sen temizle, hesap bende.'), /^Naci Bey dzwoni: Pod lokalem/);
  assert.equal(polishLog('Nieznany stary wpis'), 'Nieznany stary wpis');
+});
+
+test('every authored job result has a Polish counterpart and preserves outcome values', () => {
+ for (const mission of ALL_MISSIONS) for (const result of ['win', 'lose'] as const) {
+  const source = JOB_FLAVOR[mission.id][result];
+  const translated = PL_JOB_FLAVOR[mission.id][result];
+  assert.equal(translated.length, source.length, `${mission.id}/${result}`);
+  for (const flavor of source) {
+   const tail = result === 'win' ? ' +12.345 ₺. Naci Bey bonus 900 ₺. Emniyet 17.' : ' −7 can.';
+   const rendered = polishLog(`${mission.name} — ${flavor}${tail}`);
+   assert.notEqual(rendered, `${mission.name} — ${flavor}${tail}`);
+   assert.ok(rendered.includes(result === 'win' ? '12.345 ₺' : '−7'), rendered);
+   if (result === 'win') { assert.ok(rendered.includes('900 ₺')); assert.ok(rendered.includes('17')); }
+  }
+ }
 });

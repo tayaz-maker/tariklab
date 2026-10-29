@@ -1,5 +1,6 @@
-import { ALL_ITEMS, CONTRACTS, ESTATES } from "./data";
-import { PL_CONTRACTS, PL_ESTATES, PL_ITEMS } from "./cete-pl";
+import { ALL_ITEMS, ALL_MISSIONS, CONTRACTS, ESTATES, JOB_FLAVOR } from "./data";
+import { PL_CONTRACTS, PL_ESTATES, PL_ITEMS, PL_JOBS } from "./cete-pl";
+import { PL_JOB_FLAVOR } from "./cete-pl-job-flavor";
 
 /** Translate known historic Turkish log messages at render time; stored log entries remain untouched. */
 const exact: Record<string,string> = {
@@ -60,9 +61,69 @@ const patterns: Array<[RegExp, (...parts:string[])=>string]> = [
  [/^HGS kaçak, EDS yedi\. Plaka senin değil ama ceza geldi\. −(.+) ₺$/, n=>`Nieopłacony przejazd i fotoradar. Tablica nie jest twoja, ale mandat przyszedł. −${n} ₺`],
  [/^Sokak spekülasyonu: (.+) için 18\.000 ₺ konuşuluyor\. Liste ısındı\.$/, name=>`Plotki na ulicy: za ${name} mówią o 18 000 ₺. Lista się rozgrzewa.`],
  [/^Karakola kumanya \+ karton çay\. Amirin hatırını aldın\. −(.+) ₺ · \+8 rüşvet$/, n=>`Proviant i karton herbaty dla komisariatu. Zyskałeś przychylność komendanta. −${n} ₺ · fundusz łapówek +8`],
+ [/^Okey masası\. Çift 7\. \+(.+) ₺$/, n=>`Stolik do okey. Para siódemek. +${n} ₺`],
+ [/^Okey masası\. Taş gelmedi\. −(.+) ₺$/, n=>`Stolik do okey. Nie trafił się potrzebny kamień. −${n} ₺`],
+ [/^Slot (\S+) (\S+) (\S+)\. (Tuttu|Boş)\. ([+−].+ ₺)$/, (a,b,c,result,amount)=>`Automat: ${[a,b,c].map(x=>({ÜZÜM:"WINOGRONA",KIRAZ:"WIŚNIA",AT:"KOŃ"} as Record<string,string>)[x] ?? x).join(' ')}. ${result==='Tuttu'?'Wygrana':'Pusto'}. ${amount}`],
+ [/^Kazı kazan\. (Altın çizgi|Çizgi boş)\. ([+−].+ ₺)$/, (result,amount)=>`Zdrapka. ${result==='Altın çizgi'?'Złota linia':'Pusta linia'}. ${amount}`],
+ [/^Rulet (\d+)\. Sen (\d+)\. (Tek sayı tuttu|Yok)\. ([+−].+ ₺)$/, (n,guess,result,amount)=>`Ruletka: ${n}. Twój numer: ${guess}. ${result==='Tek sayı tuttu'?'Trafiony numer':'Nietrafiony'}. ${amount}`],
+ [/^Rulet (\d+) (yeşil|kırmızı|siyah)\. ([+−].+ ₺)$/, (n,color,amount)=>`Ruletka: ${n}, ${({yeşil:'zielone',kırmızı:'czerwone',siyah:'czarne'} as Record<string,string>)[color]}. ${amount}`],
+ [/^Blackjack\. 22\. Yandın\. ([+−].+ ₺)$/, amount=>`Blackjack. 22 — przekroczyłeś limit. ${amount}`],
+ [/^Blackjack\. Krupiye yandı\. ([+−].+ ₺)$/, amount=>`Blackjack. Krupier przekroczył limit. ${amount}`],
+ [/^Blackjack\. (\d+)–(\d+)\. (Masa senin|Berabere, bahis döndü|Krupiye aldı)\. ([+−].+ ₺)$/, (a,b,result,amount)=>`Blackjack. ${a}–${b}. ${{'Masa senin':'Wygrywasz','Berabere, bahis döndü':'Remis, stawka zwrócona','Krupiye aldı':'Wygrywa krupier'}[result]}. ${amount}`],
+ [/^(.+) ile gece\. Sabah ağız kokusu, gönül ısındı\.( Sabah haber: çocuk\. Kapıda üç yol var\.)?$/, (name,news)=>`Noc z ${name}. Rano nieświeży oddech, ale uczucie cieplejsze.${news?' Rano wiadomość: dziecko. Masz trzy możliwości.':''}`],
+ [/^(.+) ile nikâh\. Çocuk (\d+)\. Mahalle alkışladı, sen damat oldun, racon ağırlaştı\.$/, (name,n)=>`Ślub z ${name}. Liczba dzieci: ${n}. Dzielnica bije brawo; zostajesz panem młodym i zyskujesz racon.`],
+ [/^Gizledin\. Çocuk (\d+), masraf saatte kesilir, mahalle resmen duymadı, gayriresmen herkes biliyor\.$/, n=>`Ukrywasz sprawę. Liczba dzieci: ${n}; wydatki naliczane są co godzinę. Oficjalnie dzielnica nic nie słyszała, nieoficjalnie wszyscy wiedzą.`],
+ [/^Yoktun, duymadın, görmedin\. (.+) kapıyı çarptı\. İtibar ve racon yerlerde\.$/, name=>`Nic nie widziałeś, nic nie słyszałeś. ${name} trzasnęła drzwiami. Reputacja i racon spadły.`],
+ [/^Canın sıfırlandı\. Mafya doktorunun gizli kliniğine kaldırıldın\. Tedavi (.+) ₺ — nakitinin yüzde 15'i\.$/, n=>`Zdrowie spadło do zera. Trafiasz do tajnej kliniki mafijnego lekarza. Leczenie: ${n} ₺ — 15% twojej gotówki.`],
+ [/^(.+) referansı\. İkinize de 5\.000 ₺ — bir kez\.$/, name=>`Polecenie od ${name}. Oboje otrzymujecie jednorazowo po 5 000 ₺.`],
+ [/^(.+) yere serildi\. (.+) ₺ gasp edildi\.( Hayalet Canik tutukluk yaptı\.)?$/, (name,n,jam)=>`${name} został(a) powalony(a). Zabrano ${n} ₺.${jam?' Canik bez numeru się zaciął.':''}`],
+ [/^(.+) raconu kesti\. (.+) ₺ kaptırdın\.( Hayalet Canik tutukluk yaptı\.)?$/, (name,n,jam)=>`${name} wygrał(a) starcie. Straciłeś ${n} ₺.${jam?' Canik bez numeru się zaciął.':''}`],
+ [/^(.+) ölüm listesine yazıldı\. Ödül (.+) ₺\. Saat ilerleyince sokak mermi kusar\.$/, (name,n)=>`${name} trafia na listę. Nagroda: ${n} ₺. Z czasem ulica przejdzie do działania.`],
+ [/^Topuktan vurma emri tamam\. (.+) düştü\. Ödül (.+) ₺\.$/, (name,n)=>`Zlecenie wykonane. ${name} pada. Nagroda: ${n} ₺.`],
+ [/^(.+) basıldı\. Kontrol %(.+)\. Haraç (.+) ₺ cebine\.(.*)$/, (hood,control,cash,note)=>`Przejęto róg w ${hood}. Kontrola ${control}%. Haracz ${cash} ₺ trafia do kieszeni.${({"":"", " Yarı semt sende — haraç şişti.":" Połowa dzielnicy jest twoja — haracz wzrósł.", " Ağır el. Saldırı ve iş açıldı.":" Silna pozycja. Odblokowano atak i zlecenia.", " Semt kapandı. Haraç +%20.":" Dzielnica jest pod kontrolą. Haracz +20%."} as Record<string,string>)[note] ?? note}`],
+ [/^(.+) bölgesinde baskı kurdu\. Kontrol −1,4 puan\. Serbest gözcü, tetikçi ve zırh baskıyı azaltır\.$/, name=>`${name}: presja w dzielnicy. Kontrola −1,4 punktu. Wolna czujka, strzelec i pancerz zmniejszają presję.`],
+ [/^(.+) emniyet yüksekken semti taradı\. Cebinden (.+) ₺ kaptı\.$/, (name,n)=>`${name} przeczesuje dzielnicę przy wysokiej presji policji. Zabrano ci ${n} ₺.`],
+ [/^(.+) çalıştı\. Hız (.+), form (.+)\.$/, (name,speed,form)=>`${name}: trening zakończony. Prędkość ${speed}, forma ${form}.`],
+ [/^(.+) senin\. Veliefendi defterine yazıldı\.$/, name=>`${name} należy do ciebie. Koń wpisany do rejestru Veliefendi.`],
+ [/^(.+) birinci\. Kupa ve (.+) ₺\.$/, (name,n)=>`${name} zajmuje pierwsze miejsce. Puchar i ${n} ₺.`],
+ [/^(.+) geride kaldı\. Form düştü\.$/, name=>`${name} zostaje w tyle. Forma spada.`],
+ [/^Yeni sezon\. Unvan: (.+)\. \+(.+) ₺$/, (title,n)=>`Nowy sezon. Tytuł: ${title === "İstanbul'un babası"?'Ojciec Stambułu':title === 'Sezon bitti'?'Koniec sezonu':title}. +${n} ₺`],
+ [/^Kıdem yükseldi: (.+)$/, rank=>`Awans: ${({"Çaylak":"Nowicjusz","Köşe Başı":"Szef rogu","Mahalle Kabadayısı":"Dzielnicowy osiłek","Tetikçi":"Strzelec","Kabadayı":"Osiłek","Ağabey":"Starszy brat","Bölge Patronu":"Szef dzielnicy","Baron":"Baron","Baba":"Ojciec chrzestny"} as Record<string,string>)[rank] ?? rank}`],
+ [/^Başarım: (.+)$/, achievement=>`Osiągnięcie: ${({"İlk milyon":"Pierwszy milion","100 iş":"100 zleceń","Dört semt":"Cztery dzielnice","İstanbul'un babası":"Ojciec Stambułu","7 günlük seri":"Seria 7 dni"} as Record<string,string>)[achievement] ?? achievement}`],
+ [/^(.+), Çaylak olarak (.+) sokaklarına indi\. Elinde kırık bir Efes şişesi, cebin bomboş\. İş yapmadan ₺ basmaz\.$/, (name,hood)=>`${name} zaczyna jako nowicjusz na ulicach ${hood}. W ręku rozbita butelka Efes, kieszenie puste. Bez zleceń nie ma pieniędzy.`],
+ [/^(.+)'e (.+) ₺ senet\. İki güne (.+) ₺ döner\.$/, (name,principal,due)=>`Weksel dla ${name}: ${principal} ₺. Za dwa dni wróci ${due} ₺.`],
+ [/^(\d+(?:[.,]\d+)?) (gram altın|dolar|USDT) alındı\. (.+) ₺\.$/, (qty,label,price)=>`Kupiono ${qty} ${({"gram altın":"g złota","dolar":"dolarów","USDT":"USDT"} as Record<string,string>)[label] ?? label}. ${price} ₺.`],
+ [/^(\d+(?:[.,]\d+)?) (gram altın|dolar|USDT) satıldı\. (.+) ₺\.$/, (qty,label,price)=>`Sprzedano ${qty} ${({"gram altın":"g złota","dolar":"dolarów","USDT":"USDT"} as Record<string,string>)[label] ?? label}. ${price} ₺.`],
+ [/^İhanet\. İtibar düşükken (.+) defteri emniyete sızdırdı, (.+) ₺ ile kayboldu\.$/, (name,n)=>`Zdrada. Przy niskiej reputacji ${name} przekazał(a) dziennik policji i zniknął(a) z ${n} ₺.`],
+ [/^İhanet riski tuttu\. (.+) (.+) ₺ kesti, semti ısıttı\.$/, (name,n)=>`Doszło do zdrady. ${name} zabrał(a) ${n} ₺ i zwrócił(a) uwagę na dzielnicę.`],
+ [/^Veliefendi: (.+) birinci\. (.+) (tuttu|kaldı)\. ([+−].+ ₺)$/, (winner,horse,result,amount)=>`Veliefendi: wygrywa ${winner}. ${horse}: ${result==='tuttu'?'trafiony zakład':'nietrafiony zakład'}. ${amount}`],
+ [/^(.+) gitti\. Avukat kesti, mahalle konuştu\.$/, name=>`${name} odeszła. Adwokat pobrał opłatę, a dzielnica plotkuje.`],
 ];
 export function polishLog(text:string):string {
  if (Object.hasOwn(exact,text)) return exact[text]!;
+ for (const mission of ALL_MISSIONS) {
+  const prefix = `${mission.name} — `;
+  if (!text.startsWith(prefix)) continue;
+  const source = JOB_FLAVOR[mission.id];
+  const translated = PL_JOB_FLAVOR[mission.id];
+  if (!source || !translated || !PL_JOBS[mission.id]) break;
+  const rest = text.slice(prefix.length);
+  for (const result of ["win", "lose"] as const) {
+   for (let i = 0; i < source[result].length; i++) {
+    const flavor = source[result][i]!;
+    if (!rest.startsWith(flavor) || !translated[result][i]) continue;
+    const tail = rest.slice(flavor.length);
+    const win = /^ \+(.+) ₺\.(?: (.+) bonus (.+) ₺\.)? Emniyet (\d+)\.$/.exec(tail);
+    let ending: string | null = win ? ` +${win[1]} ₺.${win[2] ? ` Premia od ${win[2]}: ${win[3]} ₺.` : ""} Presja policji: ${win[4]}.` : null;
+    if (tail === " Yerde kaldın.") ending = " Upadasz na ziemię.";
+    if (tail === " Polis yakaladı. Bir saat nezarethane. Zarfı Klinik'ten uzatabilirsin.") ending = " Policja cię złapała. Godzina w areszcie. Łapówkę możesz wręczyć w klinice.";
+    const injury = /^ −(\d+) can\.$/.exec(tail);
+    if (injury) ending = ` Zdrowie −${injury[1]}.`;
+    if (ending !== null) return `${PL_JOBS[mission.id]!.name} — ${translated[result][i]}${ending}`;
+   }
+  }
+  break;
+ }
  for (const item of ALL_ITEMS) {
   const name = PL_ITEMS[item.id]?.name;
   if (!name) continue;

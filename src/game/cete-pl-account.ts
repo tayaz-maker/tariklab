@@ -1,0 +1,30 @@
+/** Account-panel text only; server errors and canonical messages are not changed. */
+const copy: Record<string,string> = {
+ "Hesap":"Konto", "Çıkılıyor…":"Wylogowywanie…", "Çıkış yap":"Wyloguj się", "Hesap oluştur / Giriş yap":"Utwórz konto / Zaloguj się",
+ "Hesap oluştur":"Utwórz konto", "Şifremi unuttum":"Nie pamiętam hasła", "Giriş yap":"Zaloguj się",
+ "Şifre değiştir, e-postanı doğrula. Bulut kayıt doğrulanmış hesaba yazar.":"Zmień hasło lub potwierdź e-mail. Zapis w chmurze działa dla zweryfikowanego konta.",
+ "Kullanıcı adı, e-posta ve şifre. Misafir olarak da oynarsın.":"Nazwa użytkownika, e-mail i hasło. Możesz też grać jako gość.",
+ "E-postana reset linki gider.":"Wyślemy link do zmiany hasła na twój e-mail.",
+ "Lakap veya e-posta + şifre. Hesapsız da oynanır.":"Podaj nazwę użytkownika lub e-mail i hasło. Możesz też grać bez konta.",
+ "E-postan doğrulanmadı. Bulut kayıt kapalı.":"E-mail nie został potwierdzony. Zapis w chmurze jest wyłączony.",
+ "Doğrulama maili tekrar gönder":"Wyślij e-mail potwierdzający ponownie", "Lakap veya e-posta":"Nazwa użytkownika lub e-mail", "Kullanıcı adı":"Nazwa użytkownika",
+ "Eski şifre":"Obecne hasło", "Yeni şifre":"Nowe hasło", "Şifre":"Hasło", "Şifre (tekrar)":"Powtórz hasło",
+ "E-posta yoksa şifreyi unutursan hesap ve kayıt gider.":"Bez adresu e-mail zapomnienie hasła może oznaczać utratę konta i zapisu.",
+ "Zaten hesabım var, giriş yapayım":"Mam już konto — zaloguj mnie", "Girişe dön":"Wróć do logowania", "Hesabım yok, oluşturayım":"Nie mam konta — utwórz je",
+ "Bekle…":"Czekaj…", "Reset linki gönder":"Wyślij link do resetowania", "Şifre değiştir":"Zmień hasło",
+ "Gerçek bir e-posta yok.":"Brak prawidłowego adresu e-mail.", "Doğrulama maili tekrar gitti.":"E-mail potwierdzający został wysłany ponownie.", "Mail gitmedi.":"Nie udało się wysłać e-maila.",
+ "Kullanıcı adı en az 3 karakter olmalı.":"Nazwa użytkownika musi mieć co najmniej 3 znaki.", "Kullanıcı adı en fazla 24 karakter.":"Nazwa użytkownika może mieć najwyżej 24 znaki.",
+ "Gerçek bir e-posta yaz.":"Podaj prawidłowy adres e-mail.", "Şifre en az 8 karakter olmalı.":"Hasło musi mieć co najmniej 8 znaków.", "Şifreler eşleşmiyor.":"Hasła nie są takie same.",
+ "Bu kullanıcı adı alınmış. Başka bir tane dene.":"Ta nazwa użytkownika jest zajęta. Wybierz inną.",
+ "Kayıt oldu. Doğrulama maili gitti — kutuyu kontrol et.":"Konto utworzone. Sprawdź skrzynkę i potwierdź adres e-mail.",
+ "Kayıt oldu. Mail doğrulanmadan bulut kayıt yazılmaz.":"Konto utworzone. Zapis w chmurze będzie dostępny po potwierdzeniu e-maila.",
+ "Lakap veya e-posta ve şifre lazım.":"Podaj nazwę użytkownika lub e-mail oraz hasło.", "E-posta yaz.":"Podaj adres e-mail.", "Reset linki mailde.":"Link do resetowania hasła został wysłany e-mailem.",
+ "Oturum yok.":"Nie jesteś zalogowany.", "Eski şifreyi yaz.":"Podaj obecne hasło.", "Yeni şifre en az 8 karakter.":"Nowe hasło musi mieć co najmniej 8 znaków.",
+ "Şifreler uyuşmuyor.":"Hasła nie są takie same.", "Eski şifre yanlış.":"Obecne hasło jest nieprawidłowe.", "Şifre değişti.":"Hasło zostało zmienione.",
+ "Kullanıcı adı ya da şifre yanlış.":"Nazwa użytkownika lub hasło są nieprawidłowe.", "Bilinmeyen hata.":"Nieznany błąd.", "Bu e-posta alınmış.":"Ten adres e-mail jest już zajęty.",
+ "Kullanıcı adı gerekli.":"Podaj nazwę użytkownika.", "Kullanıcı adı / e-posta veya şifre yanlış.":"Nazwa użytkownika, e-mail lub hasło są nieprawidłowe.",
+ "Önce e-postanı doğrula. Mail kutusuna bak.":"Najpierw potwierdź adres e-mail. Sprawdź skrzynkę.", "Şifre çok kısa (en az 8 karakter).":"Hasło jest za krótkie (minimum 8 znaków).",
+ "Bu hesap yok.":"Takie konto nie istnieje.", "Çok sık denendi. Biraz bekle.":"Zbyt wiele prób. Odczekaj chwilę.",
+};
+export const polishAccountText = (text: string) => copy[text] ?? text;
+export const polishAccountError = (text: string) => copy[text] ?? "Nie udało się wykonać operacji. Spróbuj ponownie.";
