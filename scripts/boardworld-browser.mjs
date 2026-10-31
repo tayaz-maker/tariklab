@@ -181,6 +181,11 @@ try {
     "engine.mjs",
     "content.mjs",
     "persistence.mjs",
+    "deep-content.mjs",
+    "deep-life.mjs",
+    "life-chains.mjs",
+    "deep-ui.mjs",
+    "deep.css",
   ]) {
     const r = await fetch(`${origin}/games/tc-sim-boardworld/${file}`);
     assert.equal(r.status, 200, file);

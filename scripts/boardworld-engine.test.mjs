@@ -459,7 +459,7 @@ test("cancelling an appointment frees the slot and does not later incur a no-sho
 test("romance needs mutual readiness and a breakup preserves the shared memories", () => {
   let state = fixture();
   state.time = 9 * 60;
-  state.location = "besiktas";
+  state.location = getNpcLocation(state, "ece");
   assert.equal(available(state, "date:ece"), false, "a stranger cannot immediately date");
   state.npcs.ece.affinity = 45;
   state.npcs.ece.trust = 32;
@@ -471,10 +471,11 @@ test("romance needs mutual readiness and a breakup preserves the shared memories
     "one date is not an established partnership",
   );
   state = perform(state, "talk:ece");
-  state = perform(state, "travel:kadikoy");
+  if (state.location !== "kadikoy") state = perform(state, "travel:kadikoy");
   state = advanceToEvening(state);
   state = perform(state, "sleep");
-  state = perform(state, "travel:besiktas");
+  state = perform(state, "wait:60");
+  state.location = getNpcLocation(state, "ece");
   state = perform(state, "date:ece");
   state = perform(state, "partner:ece");
   assert.equal(state.flags.partner, "ece");

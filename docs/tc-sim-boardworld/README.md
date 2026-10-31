@@ -6,6 +6,42 @@ The weekly TC SIM runtime and save namespace are unchanged. Native/Godot remains
 paused and sound is disabled. Prices are authored game balance, not real-time
 financial data or claims about current Turkish salaries.
 
+## Deep Life 2.0
+
+The original engine and all twelve NPCs, seven careers and twenty-eight event
+cards remain. Version 2 extends the same authoritative state with independent
+NPC budgets, goals, weekly schedules, professional changes, moving, social ties,
+explicitly learned facts and promises. Employer expectations, professional
+reputation, wage negotiation, freelance contracts and three microbusiness types
+connect time, location, relationships and money.
+
+Ten three-stage life stories connect earlier events to delayed consequences:
+shared housing maintenance, a portfolio pilot, community meals, a learning group,
+debt recovery, workplace coordination, health recovery, neighborhood change,
+relationship expectations and the first customer. Each story records its route,
+due day and permanent history. Earned project payments arrive only once after
+actual delivery; changing home or job prevents benefits from leaking to the new
+contract. Choices remain authored and do not use generated dialogue.
+
+The agenda can run one or seven days of configured routine actions through the
+same action resolver. It does not choose cards, new jobs, relationships or
+business investments. Important decisions, financial constraints and appointment
+conflicts stop the plan with an explanation. The player can inspect an action's
+resource forecast before committing; uncertain dice outcomes are not revealed.
+
+The city now exposes neighborhood service costs, specialization, customer demand
+and business overhead. Lightweight SVG/CSS architecture, a relationship network,
+an interactive agenda, story cards and compact financial panels use the actual
+simulation state. No dependency, 3D engine or audio was added.
+
+The save envelope and state are version 2, while the storage key remains
+`tariklab.boardworld.v1`. Original version-1 bytes are checksum- and schema-checked
+before migration, preserved under `tariklab.boardworld.v1.original-v1` before the
+first overwrite, and never rotated away. The ordinary `.backup` slot remains
+available for recent-turn recovery. File import/export and cross-tab updates
+continue to work; there is no cloud-save account. See
+[`DEEP_LIFE_ACCEPTANCE.md`](DEEP_LIFE_ACCEPTANCE.md) for verification of this update.
+
 ## Architecture
 
 - `content.mjs`: districts, backgrounds, jobs, homes, courses, people and conditional stories.
@@ -17,6 +53,10 @@ financial data or claims about current Turkish salaries.
 - `persistence.mjs`: separate `tariklab.boardworld.v1` primary and `.backup` keys,
   versioned checksum envelope, structural validation and bounded file import/export.
   A checksum detects accidental corruption; it is not an anti-cheat signature.
+- `deep-content.mjs` / `deep-life.mjs`: district, employer, NPC, freelance,
+  business and routine rules, isolated from browser rendering.
+- `life-chains.mjs`: ten explicit, validated three-stage life state machines.
+- `deep-ui.mjs` / `deep.css`: additional board, forecast, network and agenda views.
 
 Saving is local to the browser. File export/import transfers a life between
 browsers. Storage failures are visible and never silently reported as success.

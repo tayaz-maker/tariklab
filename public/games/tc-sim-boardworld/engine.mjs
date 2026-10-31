@@ -12,6 +12,28 @@ import {
   EVENTS,
 } from "./content.mjs";
 
+import {
+  initDeep,
+  deepDaily,
+  deepActions,
+  deepNpcLocation,
+  afterDeepAction,
+  queueBill,
+  reveal,
+  accrueDeepTime,
+  validateDeep,
+  getDeepView,
+} from "./deep-life.mjs";
+import { DISTRICT_RULES } from "./deep-content.mjs";
+import {
+  initStories,
+  tickStories,
+  storyActions,
+  getStoryView,
+  validateStories,
+} from "./life-chains.mjs";
+export { getDeepView, getStoryView };
+
 /** The only gameplay writer. No wall-clock, DOM, browser storage, or Math.random. */
 const DAY = 1440,
   MAX_MONEY = 1_000_000_000;
@@ -68,6 +90,11 @@ function spend(s, amount, label, account = "cash") {
   }
 }
 function payBill(s, amount, label, arrears = false) {
+  if (s.deep && !s.deep.finance.autoPay) {
+    queueBill(s, amount, label, arrears ? "rent" : "utilities");
+    log(s, `${label}: manuel ödeme bekliyor; yedi gün içinde öde.`);
+    return;
+  }
   const paid = Math.min(total(s), amount);
   spend(s, paid, label, "total");
   const unpaid = amount - paid;
@@ -99,6 +126,33 @@ function roll(s) {
 }
 function count(s, key, amount = 1) {
   s.flags[key] = Number(s.flags[key] || 0) + amount;
+}
+
+const API = {
+  log,
+  record,
+  memory,
+  change,
+  skill,
+  receive,
+  spend,
+  document,
+  news,
+  roll,
+  dayOf,
+  minuteOf,
+  reveal,
+};
+
+export function migrateState(value) {
+  if (!validateState(value)) throw new Error("Geçersiz Boardworld kaydı; yükseltme uygulanmadı.");
+  const s = structuredClone(value);
+  if (s.version === 2) return s;
+  s.version = 2;
+  initDeep(s);
+  initStories(s);
+  if (!validateState(s)) throw new Error("Boardworld 2.0 yükseltme doğrulaması başarısız.");
+  return s;
 }
 
 export function getClock(s) {
@@ -134,6 +188,7 @@ export function getNpcLocation(s, id) {
       Math.abs(minute - a.minute) <= 60,
   );
   if (appointment) return appointment.location;
+  if (s.deep) return deepNpcLocation(s, id);
   if (minute < 540 || minute >= 1260) return npc.home;
   if (weekend) return minute < 1080 ? npc.leisure : npc.home;
   return minute < 1020 ? npc.work : npc.leisure;
@@ -152,7 +207,7 @@ export function createGame(options = {}) {
   skills[education.skill] += education.bonus;
   const h = lookup(HOMES, scenario.home);
   const s = {
-    version: 1,
+    version: 2,
     revision: 0,
     seed,
     rng: seed,
@@ -247,6 +302,8 @@ export function createGame(options = {}) {
       `${fmt(s.debt)} TL anapara; 30 günde bir %3 faiz. Erken ödeme cezası yok.`,
     );
   log(s, "Yeni hayat başladı. Önce başlangıç kartını seç; ardından iş ve günlük düzenini kur.");
+  initDeep(s);
+  initStories(s);
   updateLocations(s);
   return s;
 }
@@ -289,16 +346,17 @@ function daily(s, previousDay) {
     if (amount) {
       const before = s.housing.arrears;
       payBill(s, amount, "Aylık kira", true);
-      if (before === s.housing.arrears) count(s, "billsPaid");
+      if (before === s.housing.arrears && s.deep?.finance.autoPay !== false) count(s, "billsPaid");
       log(s, `${fmt(amount)} TL kira vadesi işlendi.`);
     }
     s.housing.dueDay += 30;
   }
   if (day > 1 && (day - 1) % 30 === 0) {
     if (s.debt) {
-      const interest = Math.ceil(s.debt * 0.03);
+      const rate = s.deep?.finance.debtPlan ? 0.02 : 0.03;
+      const interest = Math.ceil(s.debt * rate);
       s.debt = money(s.debt + interest);
-      record(s, "30 günlük borç faizi · %3", interest, "debt");
+      record(s, `30 günlük borç faizi · %${Math.round(rate * 100)}`, interest, "debt");
       log(s, `${fmt(interest)} TL borç faizi işlendi.`);
     }
     if (s.bank) {
@@ -344,7 +402,7 @@ function daily(s, previousDay) {
     n.mood = clamp(45 + ((day * 13 + index * 7 + s.seed) % 41));
     if (day - n.lastTalkDay > 3 && day % 3 === 0) n.affinity = clamp(n.affinity - 1);
     if (day - n.lastTalkDay > 10 && day % 7 === 0) n.trust = clamp(n.trust - 1);
-    if ((day + index) % 7 === 0) {
+    if (!s.deep && (day + index) % 7 === 0) {
       const personal = [
         "İş yerinde yeni bir sorumluluk aldım.",
         "Bu hafta kendime daha çok dinlenme ayırıyorum.",
@@ -354,13 +412,15 @@ function daily(s, previousDay) {
       memory(s, npc.id, personal);
       if (n.affinity >= 25) news(s, `${npc.name}: ${personal}`);
     }
-    if (n.trust >= 50 && day % 14 === index) {
+    if (!s.deep && n.trust >= 50 && day % 14 === index) {
       memory(s, npc.id, "Güvendiğim için yeni bir tanıdığa senden söz ettim.");
       const other = NPCS[(index + 1) % NPCS.length];
       s.npcs[other.id].affinity = clamp(s.npcs[other.id].affinity + 3);
       news(s, `${npc.name}, seni ${other.name} ile aynı çevreye taşıdı.`);
     }
   }
+  deepDaily(s, API);
+  if (s.version === 2) tickStories(s, API);
   if (s.player.hunger < 20) change(s, { health: -6, stress: 5 });
   if (s.player.energy < 15) change(s, { health: -4, stress: 5 });
   if (s.player.stress > 85) change(s, { health: -4 });
@@ -382,6 +442,7 @@ function advance(s, minutes, { sleeping = false } = {}) {
       hours = elapsed / 60;
     change(s, { hunger: -hours * (sleeping ? 0.7 : 1.7), energy: sleeping ? 0 : -hours * 1.4 });
     if (!sleeping && s.player.energy < 10) change(s, { health: -hours * 0.9 });
+    accrueDeepTime(s, elapsed);
     const prior = dayOf(s);
     s.time = next;
     if (next === boundary) daily(s, prior);
@@ -665,7 +726,7 @@ function makeActions(s) {
     "45 dk; tokluk +62, sağlık +2.",
     "life",
     45,
-    Math.round(180 * s.world.priceIndex),
+    Math.round(180 * s.world.priceIndex * (s.deep ? lookup(DISTRICT_RULES, s.location).food : 1)),
     !hours(s, 7, 23) ? "Lokanta 07.00–23.00 arası açık." : "",
     (next) => {
       change(next, { hunger: 62, health: 2 });
@@ -1499,16 +1560,29 @@ function makeActions(s) {
       },
       { pay: "total" },
     );
+  if (s.version === 2) actions.push(...deepActions(s, API), ...storyActions(s, API));
   return actions;
 }
 
 export function getActions(s) {
-  return makeActions(s).map(({ run: _run, pay: _pay, sleeping: _sleeping, ...action }) => action);
+  return makeActions(s).map(({ run: _run, pay: _pay, sleeping: _sleeping, ...action }) => {
+    if (s.deep && (action.id.startsWith("travel:") || action.id.startsWith("walk:"))) {
+      const region = lookup(DISTRICT_RULES, action.id.split(":")[1]);
+      action.description += ` Semt yoğunluğu: +${Math.floor(region.socialRisk / 2)} stres.`;
+    }
+    if (s.deep && action.id === "study" && s.course) {
+      const course = lookup(COURSES, s.course.id);
+      if (course.skill === lookup(DISTRICT_RULES, s.location).skill)
+        action.description += " Bu semtin uzmanlık ağı: +1 ek beceri.";
+    }
+    return action;
+  });
 }
 export function getGoals(s) {
   const friends = Object.values(s.npcs).filter((n) => n.trust >= 50 && n.affinity >= 45).length;
   const specialist = Math.max(...Object.values(s.player.skills));
   const independent = s.housing.id === "studio" || s.housing.id === "apartment";
+  const savings = total(s) + (s.deep?.finance.reserve || 0);
   return [
     {
       id: "foundation",
@@ -1528,12 +1602,16 @@ export function getGoals(s) {
       id: "security",
       title: "Kendi ayakların üzerinde",
       description:
-        "Kendi stüdyo veya dairene taşın; borcun ve biriken kiran sıfır, toplam birikimin 15.000 TL olsun.",
-      current: Math.min(15000, total(s)),
+        "Kendi stüdyo veya dairene taşın; kişisel ve işletme borcun ile biriken kiran sıfır, toplam birikimin 15.000 TL olsun.",
+      current: Math.min(15000, savings),
       target: 15000,
       complete:
         s.achievements.includes("security") ||
-        (independent && s.debt === 0 && s.housing.arrears === 0 && total(s) >= 15000),
+        (independent &&
+          s.debt === 0 &&
+          (s.deep?.business?.arrears || 0) === 0 &&
+          s.housing.arrears === 0 &&
+          savings >= 15000),
     },
     {
       id: "circle",
@@ -1577,23 +1655,29 @@ function achievements(s) {
     }
 }
 export function resolveAction(state, actionId) {
+  const original = state;
   if (typeof actionId !== "string" || !validateState(state))
     return { state, ok: false, message: "Oyun durumu veya eylem geçersiz." };
+  if (state.version === 1) state = migrateState(state);
   const action = makeActions(state).find((a) => a.id === actionId);
   if (!action)
     return {
-      state,
+      state: original,
       ok: false,
       message: state.pendingEvents.length
         ? "Önce masadaki olay kartını çöz."
         : "Bu eylem şu anda mevcut değil.",
     };
-  if (action.disabled) return { state, ok: false, message: action.reason };
+  if (action.disabled) return { state: original, ok: false, message: action.reason };
+  if (/^schedule:run:[17]$/.test(actionId))
+    return runRoutine(state, Number(actionId.split(":")[2]));
   const s = structuredClone(state);
   s.revision++;
   spend(s, action.cost, action.label, action.pay || "cash");
   const message = action.run(s) || action.label;
   advance(s, action.minutes, { sleeping: Boolean(action.sleeping) });
+  afterDeepAction(s, actionId, state, API);
+  if (s.version === 2) tickStories(s, API);
   log(s, message);
   achievements(s);
   refreshEvents(s);
@@ -1612,7 +1696,8 @@ export function validateState(s) {
     const arr = (v, max) => Array.isArray(v) && v.length <= max;
     if (
       !obj(s) ||
-      s.version !== 1 ||
+      ![1, 2].includes(s.version) ||
+      (s.version === 1 && (Object.hasOwn(s, "deep") || Object.hasOwn(s, "stories"))) ||
       !int(s.revision, 0, 100000000) ||
       !int(s.seed, 0, 4294967295) ||
       !int(s.rng, 0, 4294967295) ||
@@ -1834,8 +1919,225 @@ export function validateState(s) {
       !s.achievements.every((id) => allowed.includes(id))
     )
       return false;
-    return true;
+    return s.version === 1 || (validateDeep(s) && validateStories(s));
   } catch {
     return false;
   }
+}
+
+/** Explicit, bounded automation: it can perform routine legal actions, never card choices. */
+export function runRoutine(original, days = 1) {
+  if (![1, 7].includes(days) || !validateState(original))
+    return { state: original, ok: false, message: "Geçersiz rutin." };
+  let s = original.version === 1 ? migrateState(original) : structuredClone(original);
+  const startDay = dayOf(s),
+    end = s.time + days * 1440,
+    trace = [];
+  let stop = "Planlanan süre tamamlandı.";
+  for (let step = 0; step < 96 && s.time < end; step++) {
+    if (s.pendingEvents.length) {
+      stop = "Yeni olay kartı kararını bekliyor.";
+      break;
+    }
+    if (Object.values(s.stories).some((story) => story.status === "active")) {
+      stop = "Bir yaşam hikâyesi önemli kararını bekliyor.";
+      break;
+    }
+    if (
+      s.deep.promises.some(
+        (p) => p.direction === "player" && p.status === "pending" && p.dueDay <= dayOf(s),
+      )
+    ) {
+      stop = "Bugün verdiğin bir yardım sözünün son günü; planı kendin düzenle.";
+      break;
+    }
+    if (s.player.health < 30) {
+      stop = "Sağlık 30’un altında; önce bakım kararını ver.";
+      break;
+    }
+    const actions = makeActions(s),
+      legal = (id) => actions.find((a) => a.id === id && !a.disabled),
+      clock = getClock(s),
+      settings = s.deep.routine.settings,
+      homeDistrict = home(s).district;
+    let candidate = null;
+    const transit = (destination) => legal(`travel:${destination}`) || legal(`walk:${destination}`);
+    if (s.player.hunger < 45)
+      candidate = legal("cook") || legal("soup") || legal("snack") || legal("eat");
+    if (!candidate && s.player.energy < 35 && clock.minute >= 480 && clock.minute < 1080)
+      candidate = legal("rest");
+    const job = s.job && lookup(JOBS, s.job.id),
+      needsWork =
+        job && settings.work && onWorkday(job, clock.day) && s.job.lastWorkDay !== clock.day;
+    if (!candidate && needsWork && clock.minute >= job.start * 60 && clock.minute < job.end * 60) {
+      candidate = s.location === job.district ? legal("work") : transit(job.district);
+      if (!candidate) {
+        stop = "Planlanan vardiya için koşullar sağlanmıyor; iş ve ihtiyaçlarını gözden geçir.";
+        break;
+      }
+    }
+    if (!candidate && needsWork && clock.minute >= job.end * 60) {
+      stop = "Bugünkü vardiyanın başlangıç saati geçti; iş planını kendin düzelt.";
+      break;
+    }
+    if (
+      !candidate &&
+      settings.study &&
+      s.course &&
+      s.course.lastStudyDay !== clock.day &&
+      clock.minute >= 480 &&
+      clock.minute < 1140
+    ) {
+      const course = lookup(COURSES, s.course.id);
+      candidate = s.location === course.district ? legal("study") : transit(course.district);
+    }
+    if (
+      !candidate &&
+      settings.shopping &&
+      (s.inventory.groceries || 0) < 2 &&
+      clock.minute >= 420 &&
+      clock.minute < 1320
+    )
+      candidate = legal("buy:groceries");
+    if (!candidate && clock.minute >= 1080) {
+      candidate = s.location === homeDistrict ? legal("sleep") : transit(homeDistrict);
+    }
+    if (!candidate && clock.minute < 480) candidate = legal("wait:60");
+    if (!candidate) candidate = legal("rest") || legal("wait:60");
+    if (!candidate) {
+      stop = "Uygulanabilir rutin eylemi kalmadı.";
+      break;
+    }
+    const appointment = s.appointments.find(
+      (a) =>
+        a.status === "scheduled" &&
+        (a.day - 1) * 1440 + a.minute >= s.time - 30 &&
+        (a.day - 1) * 1440 + a.minute - 30 <= s.time + candidate.minutes,
+    );
+    if (appointment) {
+      stop = `${lookup(NPCS, appointment.npcId).name} ile randevun yaklaşıyor. Otomasyon, randevuya katılma kararını sana bıraktı.`;
+      break;
+    }
+    if (candidate.cost > 0 && s.cash + s.bank - candidate.cost < s.deep.routine.budgetFloor) {
+      stop = `${candidate.label}: ${s.deep.routine.budgetFloor} TL bütçe tabanı aşılacak.`;
+      break;
+    }
+    if (s.time + candidate.minutes > end) {
+      stop = "Bir sonraki eylem seçilen süre sınırını aşacak; plan burada durdu.";
+      break;
+    }
+    const before = s.time,
+      result = resolveAction(s, candidate.id);
+    if (!result.ok) {
+      stop = result.message;
+      break;
+    }
+    const next = result.state,
+      financialRisk =
+        (next.cash + next.bank < s.deep.routine.budgetFloor &&
+          next.cash + next.bank < s.cash + s.bank) ||
+        next.housing.arrears > s.housing.arrears ||
+        next.debt > s.debt ||
+        next.deep.finance.bills.some(
+          (b) => b.status === "due" && !s.deep.finance.bills.some((old) => old.id === b.id),
+        ) ||
+        (s.deep.business?.status === "active" && next.deep.business?.status === "paused");
+    if (financialRisk) {
+      stop = `${candidate.label}: yaklaşan ödeme, borç veya bütçe tabanı kararını kendin vermelisin.`;
+      break;
+    }
+    s = next;
+    trace.push(candidate.id);
+    if (s.time === before) {
+      stop = "Rutin zaman ilerletmedi; güvenle durduruldu.";
+      break;
+    }
+  }
+  if (trace.length >= 96 && s.time < end)
+    stop = "Bir çalıştırmanın 96 eylemlik güvenlik sınırına ulaşıldı.";
+  s.deep.routine.lastActions = trace;
+  s.deep.routine.lastRun = startDay;
+  s.deep.routine.stopReason = stop;
+  s.revision++;
+  log(s, `Rutin: ${trace.length} eylem. ${stop}`);
+  if (!validateState(s)) throw new Error("Boardworld routine invariant failed");
+  return {
+    state: s,
+    ok: true,
+    message: `${trace.length} rutin eylemi uygulandı. ${stop}`,
+    actions: trace,
+  };
+}
+/** A pure preview on a clone; never commits resources, PRNG advancement, or NPC knowledge. */
+export function previewAction(original, id) {
+  if (!validateState(original)) return { ok: false, message: "Oyun durumu geçersiz." };
+  const before = original.version === 1 ? migrateState(original) : original;
+  const action = makeActions(before).find((a) => a.id === id);
+  if (!action || action.disabled)
+    return { ok: false, message: action?.reason || "Eylem mevcut değil." };
+  const uncertain =
+    id.startsWith("event:") &&
+    lookup(EVENTS, id.split(":")[1])?.choices.find((c) => c.id === id.split(":")[2])?.roll;
+  if (uncertain) {
+    return {
+      ok: true,
+      message: action.description,
+      minutes: action.minutes,
+      cash: action.pay === "total" ? -Math.max(0, action.cost - before.bank) : -action.cost,
+      bank: action.pay === "total" ? -Math.min(before.bank, action.cost) : 0,
+      debt: 0,
+      reserve: 0,
+      energy: 0,
+      hunger: 0,
+      stress: 0,
+      health: 0,
+      skills: [],
+      relations: [],
+      consequences: [action.description],
+      risk: "Bu kartta belirsiz sonuç var. Gösterilen kesin bedel dışında etkiler zar sonucuna bağlı; sonuç önceden açılmaz.",
+      uncertain: true,
+    };
+  }
+  const result = resolveAction(before, id);
+  if (!result.ok) return { ok: false, message: result.message };
+  const after = result.state;
+  return {
+    ok: true,
+    message: result.message,
+    minutes: after.time - before.time,
+    cash: after.cash - before.cash,
+    bank: after.bank - before.bank,
+    debt: after.debt - before.debt,
+    reserve: after.deep.finance.reserve - before.deep.finance.reserve,
+    energy: after.player.energy - before.player.energy,
+    hunger: after.player.hunger - before.player.hunger,
+    stress: after.player.stress - before.player.stress,
+    health: after.player.health - before.player.health,
+    skills: SKILLS.map((k) => ({
+      name: k.name,
+      delta: after.player.skills[k.id] - before.player.skills[k.id],
+    })).filter((k) => k.delta),
+    relations: NPCS.map((n) => ({
+      name: n.name,
+      trust: after.npcs[n.id].trust - before.npcs[n.id].trust,
+      affinity: after.npcs[n.id].affinity - before.npcs[n.id].affinity,
+    })).filter((n) => n.trust || n.affinity),
+    consequences: [
+      ...after.history
+        .filter(
+          (h) =>
+            !before.history.some(
+              (old) => old.day === h.day && old.time === h.time && old.text === h.text,
+            ),
+        )
+        .slice(-5)
+        .map((h) => h.text),
+    ],
+    risk:
+      after.pendingEvents.length && !before.pendingEvents.length
+        ? "Bu eylemin ardından yeni bir olay kartı karar bekleyecek."
+        : Object.values(after.stories).some((story) => story.status === "active")
+          ? "Bir yaşam hikâyesinde karar bekleniyor."
+          : "Belirtilen kaynak değişimleri bu oyun durumunun deterministik sonucudur.",
+  };
 }

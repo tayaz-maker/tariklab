@@ -1312,3 +1312,27 @@ TC SIM runtime is unchanged. Local evidence: `tc-sim-boardworld/LOCAL_ACCEPTANCE
 These are local checks; GitHub CI and production publication are verified separately.
 Existing Cloudflare dashboard has no deploy hooks; none was created. Native remains
 paused, sound remains disabled, and no shared artwork source was modified.
+
+## 2026-10-31 — Boardworld 2.0: Deep Life
+
+Extended the existing Boardworld state and route from main `977cd576` with twelve
+autonomous NPC lives, learned facts and promises; employer relationships and wage
+negotiation; three freelance contracts and three microbusiness models; emergency
+funds, debt plans and manual bills; district economics; and bounded daily/weekly
+routine execution through the normal resolver. Ten three-stage life chains add
+64 choices and delayed consequences tied to the original lease/job contract.
+
+The UI adds lightweight SVG/CSS neighborhood architecture, a relationship network,
+action forecasts, an interactive agenda, story progress and compact career/business
+panels. No package or heavy asset dependency was added. The initial 2,475-test base
+was rerun before changes; independent 90-day acceptance covers nine untouched
+starts and real decisions, and original production v1 saves are fixture-tested.
+Migration validates old bytes first and preserves an immutable original backup.
+See `tc-sim-boardworld/DEEP_LIFE_ACCEPTANCE.md` for reproducible acceptance details.
+
+Original TC SIM source and keys, the other games, shared artwork, Cloudflare Worker
+configuration and deployment guards remain unchanged. Native/Godot stays paused
+and audio remains disabled. Publication uses the existing Cloudflare main-branch
+Git integration, as authorized; no new hook, Worker or Vercel change is involved.
+Local tests, exact-commit GitHub CI and live production are separate verification
+steps; their release results are recorded in the PR and final evidence report.
