@@ -41,7 +41,7 @@ no hook is invented or created by this change.
 The initial release contains three İstanbul districts and three origin scenarios;
 seven careers with three tiers; twelve named NPCs; five certifying courses; four
 housing options including emergency shelter; eight inventory types; twenty-eight
-conditional event cards with fifty-eight choices; four lifetime goals and eight
+conditional event cards with fifty-seven choices; four lifetime goals and eight
 achievement IDs. The fixed city population and authored stories are deliberate;
 there is no generated dialogue service, multiplayer, cloud account dependency or
 3D engine. All game copy is Turkish; portal EN/PL entries disclose that limit.
@@ -55,7 +55,7 @@ event choices consume the saved PRNG sequence.
 
 Local acceptance includes nine legitimate 45-day runs (three origins × three
 seeds), two promotions per run, monthly settlement, solvency and health checks;
-all fifty-eight event choices; an eight-day course that unlocks a new career;
+all fifty-seven event choices; an eight-day course that unlocks a new career;
 relationship readiness, retained memories, and completed/cancelled/missed
 appointments. Five persistence tests cover exact round trips, backup recovery,
 invalid nested state, checksum/version failures and unavailable browser storage.
