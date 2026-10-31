@@ -29,8 +29,12 @@ jobs:
           fi
       - name: Real play, reload, recovery and responsive production assets
         run: node scripts/boardworld-browser.mjs --serve .output/public
+      - name: Deep Life decisions, automation, migration and responsive panels
+        run: node scripts/boardworld-deep-browser.mjs --serve .output/public
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: boardworld-browser
-          path: ${{ runner.temp }}/screenshots/boardworld
+          path: |
+            ${{ runner.temp }}/screenshots/boardworld
+            ${{ runner.temp }}/screenshots/boardworld-deep

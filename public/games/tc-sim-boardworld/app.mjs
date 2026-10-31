@@ -5,6 +5,8 @@ import {
   getClock,
   getGoals,
   getNpcLocation,
+  getDeepView,
+  previewAction,
 } from "./engine.mjs";
 import {
   DISTRICTS,
@@ -19,6 +21,21 @@ import {
   SKILLS,
   ITEMS,
 } from "./content.mjs";
+import { getStoryView } from "./life-chains.mjs";
+import {
+  renderNeighborhoodBoard,
+  renderDistrictProfile,
+  renderCareer,
+  renderFreelance,
+  renderFinance,
+  renderNpcDepth,
+  renderNetwork,
+  renderStoryCards,
+  renderStoryPrompt,
+  renderPlanning,
+  renderBusiness,
+  renderPreview,
+} from "./deep-ui.mjs";
 import { loadGame, saveGame, exportGame, importGame, SAVE_KEY } from "./persistence.mjs";
 
 const $ = (selector, root = document) => root.querySelector(selector);
@@ -56,12 +73,15 @@ const duration = (minutes) =>
       : `${minutes} dk`;
 const tabDefs = [
   ["board", "Şehir", "◈"],
+  ["plan", "Ajanda", "◷"],
   ["work", "Kariyer", "▤"],
+  ["enterprise", "İşletme", "▧"],
   ["life", "Yaşam", "⌂"],
   ["people", "Telefon", "◎"],
   ["study", "Gelişim", "↗"],
   ["wallet", "Cüzdan", "₺"],
   ["bag", "Çanta", "▱"],
+  ["stories", "Hikâyeler", "◬"],
   ["goals", "Hedefler", "◇"],
   ["log", "Günlük", "≡"],
 ];
@@ -70,6 +90,8 @@ let state = null,
   selectedDistrict = "kadikoy",
   selectedNpc = NPCS[0]?.id,
   actions = [],
+  deepView = null,
+  storyViews = [],
   lastOutcome = null,
   saveStatus = "",
   busy = false;
@@ -110,11 +132,11 @@ function meter(label, value, inverse = false) {
   return `<div class="meter ${inverse ? "inverse" : ""} ${inverse ? (v > 70 ? "low" : "") : v < 30 ? "low" : ""}"><span>${esc(label)} <b>${v}</b></span><meter min="0" max="100" value="${v}" aria-label="${esc(label)}">${v}</meter></div>`;
 }
 function renderStart() {
-  app.innerHTML = `<main class="onboarding" id="main"><section class="start-story"><a href="/" target="_top" class="back-link">← TarikLab oyunları</a><div class="edition">İSTANBUL / YAŞAM TAHTASI / 01</div><div class="brand-lockup"><span class="brand-seal">TC</span><span>SIM<span class="brand-small">BOARDWORLD</span></span></div><h1>Bu şehirde<br>bir hayatın var.</h1><p class="start-lead">İşini seç. İnsanları tanı. Bir ev kur.<br>Küçük kararların, büyük bir hikâyeye dönüşsün.</p><div class="start-board" aria-hidden="true"><span class="start-route"></span><span class="mini-place mini-one">01 <b>Şişli</b><small>Kariyer &amp; eğitim</small></span><span class="mini-place mini-two">02 <b>Beşiktaş</b><small>Sahil &amp; sosyal çevre</small></span><span class="mini-place mini-three">03 <b>Kadıköy</b><small>Yeni başlangıçlar</small><i class="player-piece"></i></span><span class="mini-water">İSTANBUL BOĞAZI</span></div><p class="start-note">Tek oyunculu · Zaman yalnızca karar verdiğinde ilerler.</p></section><section class="creation"><span class="eyebrow">KARAKTER KARTIN</span><h2>İlk sayfayı sen yaz.</h2><p class="muted">Başlangıcın koşullarını değiştirir; geleceğini belirlemez.</p><form id="create-form"><label class="field">Karakter adı<input name="name" id="character-name" autocomplete="off" minlength="2" maxlength="32" required value="Deniz" placeholder="Karakterinin adı"></label><fieldset class="scenario-list"><legend>Nereden başlıyorsun?</legend>${SCENARIOS.map((s, i) => `<label class="scenario-option"><input type="radio" name="scenario" value="${esc(s.id)}" ${i === 0 ? "checked" : ""}><span class="scenario-number">0${i + 1}</span><span><strong>${esc(title(s))}</strong><small>${esc(s.description)}</small></span><span class="radio-dot"></span></label>`).join("")}</fieldset><div class="field-row"><label class="field">Eğitim<select name="education">${EDUCATIONS.map((e) => option(e, "highschool")).join("")}</select></label><label class="field">Kişilik<select name="trait">${TRAITS.map((e) => option(e, "balanced")).join("")}</select></label></div><p class="creation-detail" id="trait-description">${esc(lookup(TRAITS, "balanced")?.description || "")}</p><button class="primary start-button" type="submit" data-testid="create-game">Hayatına başla <span aria-hidden="true">→</span></button></form><div class="start-foot"><button class="text-button" data-ui="import">Kayıt dosyası yükle</button><button class="text-button" data-ui="help">Nasıl oynanır?</button></div><p class="privacy">Kayıtların bu tarayıcıda tutulur. Cihaz değiştirmek için kayıt dosyanı indir.</p></section></main>`;
+  app.innerHTML = `<main class="onboarding" id="main"><section class="start-story"><a href="/" target="_top" class="back-link">← TarikLab oyunları</a><div class="edition">İSTANBUL / DERİN YAŞAM / 02</div><div class="brand-lockup"><span class="brand-seal">TC</span><span>SIM<span class="brand-small">BOARDWORLD</span></span></div><h1>Bu şehirde<br>bir hayatın var.</h1><p class="start-lead">İşini seç. İnsanları tanı. Bir ev kur.<br>İlişkilerin, işin ve mahallen aynı hikâyede birleşsin.</p><div class="start-board" aria-hidden="true"><span class="start-route"></span><span class="mini-place mini-one">01 <b>Şişli</b><small>Kariyer &amp; eğitim</small></span><span class="mini-place mini-two">02 <b>Beşiktaş</b><small>Sahil &amp; sosyal çevre</small></span><span class="mini-place mini-three">03 <b>Kadıköy</b><small>Yeni başlangıçlar</small><i class="player-piece"></i></span><span class="mini-water">İSTANBUL BOĞAZI</span></div><p class="start-note">Tek oyunculu · Zaman yalnızca karar verdiğinde ilerler.</p></section><section class="creation"><span class="eyebrow">KARAKTER KARTIN</span><h2>İlk sayfayı sen yaz.</h2><p class="muted">Başlangıcın koşullarını değiştirir; geleceğini belirlemez.</p><form id="create-form"><label class="field">Karakter adı<input name="name" id="character-name" autocomplete="off" minlength="2" maxlength="32" required value="Deniz" placeholder="Karakterinin adı"></label><fieldset class="scenario-list"><legend>Nereden başlıyorsun?</legend>${SCENARIOS.map((s, i) => `<label class="scenario-option"><input type="radio" name="scenario" value="${esc(s.id)}" ${i === 0 ? "checked" : ""}><span class="scenario-number">0${i + 1}</span><span><strong>${esc(title(s))}</strong><small>${esc(s.description)}</small></span><span class="radio-dot"></span></label>`).join("")}</fieldset><div class="field-row"><label class="field">Eğitim<select name="education">${EDUCATIONS.map((e) => option(e, "highschool")).join("")}</select></label><label class="field">Kişilik<select name="trait">${TRAITS.map((e) => option(e, "balanced")).join("")}</select></label></div><p class="creation-detail" id="trait-description">${esc(lookup(TRAITS, "balanced")?.description || "")}</p><button class="primary start-button" type="submit" data-testid="create-game">Hayatına başla <span aria-hidden="true">→</span></button></form><div class="start-foot"><button class="text-button" data-ui="import">Kayıt dosyası yükle</button><button class="text-button" data-ui="help">Nasıl oynanır?</button></div><p class="privacy">Kayıtların bu tarayıcıda tutulur. Cihaz değiştirmek için kayıt dosyanı indir.</p></section></main>`;
 }
 function actionCard(a, compact = false) {
   const aid = `reason-${a.id.replace(/[^a-zA-Z0-9_-]/g, "-")}`;
-  return `<article class="action-card ${a.disabled ? "unavailable" : ""} ${compact ? "compact" : ""}"><div class="action-top"><span class="action-time">◷ ${esc(duration(a.minutes))}</span>${a.cost > 0 ? `<span class="action-cost">${money(a.cost)}</span>` : a.cost < 0 ? `<span class="action-cost income">+${money(-a.cost)}</span>` : '<span class="action-cost">Ücretsiz</span>'}</div><h3>${esc(a.label)}</h3><p>${esc(a.description)}</p>${a.disabled ? `<p class="action-reason" id="${aid}">${esc(a.reason || "Şu anda uygun değil.")}</p>` : ""}<button class="${compact ? "secondary" : "action-button"}" aria-label="${esc(a.label)}" data-action="${esc(a.id)}" data-focus="action:${esc(a.id)}" ${a.disabled ? `disabled aria-describedby="${aid}"` : ""}>${a.disabled ? "Koşullar eksik" : "Seç"} <span aria-hidden="true">${a.disabled ? "·" : "→"}</span></button></article>`;
+  return `<article class="action-card ${a.disabled ? "unavailable" : ""} ${compact ? "compact" : ""}"><div class="action-top"><span class="action-time">◷ ${esc(a.id.startsWith("schedule:run:") ? "Plana bağlı" : duration(a.minutes))}</span>${a.cost > 0 ? `<span class="action-cost">${money(a.cost)}</span>` : a.cost < 0 ? `<span class="action-cost income">+${money(-a.cost)}</span>` : '<span class="action-cost">Ücretsiz</span>'}</div><h3>${esc(a.label)}</h3><p>${esc(a.description)}</p>${a.disabled ? `<p class="action-reason" id="${aid}">${esc(a.reason || "Şu anda uygun değil.")}</p>` : ""}<button class="${compact ? "secondary" : "action-button"}" aria-label="${esc(a.label)}" data-action="${esc(a.id)}" data-focus="action:${esc(a.id)}" ${a.disabled ? `disabled aria-describedby="${aid}"` : ""}>${a.disabled ? "Koşullar eksik" : "Seç"} <span aria-hidden="true">${a.disabled ? "·" : "→"}</span></button><button class="forecast-button" data-preview="${esc(a.id)}" aria-label="${esc(a.label)} için sonuç öngörüsü">Öngörüyü incele <span aria-hidden="true">↗</span></button></article>`;
 }
 function actionList(category, filter = () => true) {
   const list = actions.filter((a) => a.category === category && filter(a));
@@ -131,29 +153,24 @@ function renderEvent() {
   );
   return `<section class="event-card" aria-label="Bekleyen olay"><div class="event-heading"><span class="event-mark" aria-hidden="true">!</span><div><span class="eyebrow">OLAY KARTI · ${state.pendingEvents.length} BEKLEYEN</span><h2>${esc(title(event) || "Yeni bir karar")}</h2></div></div><p>${esc(event?.description || event?.text || "Şehir sana yeni bir seçenek sunuyor. Devam etmeden önce kararını ver.")}</p><div class="event-choices">${choices.map((a) => actionCard(a, true)).join("")}</div></section>`;
 }
-function regionTokens(id) {
-  const occupants = NPCS.filter((n) => getNpcLocation(state, n.id) === id);
-  return `<div class="token-row" aria-label="${esc(districtName(id))} bölgesindeki kişiler">${state.location === id ? `<span class="player-token" title="${esc(state.player.name)} — buradasın">${esc(initials(state.player.name))}<span class="visually-hidden">Sen</span></span>` : ""}${occupants.map((n) => `<span class="npc-token" title="${esc(title(n))}" aria-label="${esc(title(n))}">${esc(initials(title(n)))}</span>`).join("")}</div>`;
-}
 function renderBoard() {
   const district = lookup(DISTRICTS, selectedDistrict) || DISTRICTS[0];
-  const onSite = district.id === state.location;
+  const profile = deepView.districts.find((d) => d.id === district.id),
+    onSite = state.location === district.id;
   const travel = actions.filter(
     (a) => a.category === "travel" && a.id.split(":").includes(district.id),
   );
-  const currentNpcs = NPCS.filter((n) => getNpcLocation(state, n.id) === district.id);
-  return `${sectionHeader("BİR ŞEHİR, BİNLERCE İHTİMAL", "İstanbul, senin tahtan.", "Bir semti seç; yolu, insanları ve sana açılan kapıları gör.")}<div class="board-wrap"><div class="city-board" aria-label="Etkileşimli İstanbul şehir tahtası"><span class="board-topline">AVRUPA YAKASI</span><div class="waterway" aria-hidden="true"><span>İSTANBUL BOĞAZI</span></div><span class="board-route route-a" aria-hidden="true"></span><span class="board-route route-b" aria-hidden="true"></span><span class="board-route route-c" aria-hidden="true"></span><span class="route-caption rail-caption">METRO / OTOBÜS</span><span class="route-caption ferry-caption">VAPUR HATTI</span>${DISTRICTS.map((d, i) => `<div class="district-node district-${esc(d.id)} ${selectedDistrict === d.id ? "selected" : ""} ${state.location === d.id ? "current" : ""}"><button class="district-button" data-district="${esc(d.id)}" aria-pressed="${selectedDistrict === d.id}"><span class="district-index">0${i + 1}</span><span class="district-type">${i === 0 ? "MAHALLE & ATÖLYE" : i === 1 ? "SAHİL & BULUŞMALAR" : "İŞ & EĞİTİM"}</span><strong>${esc(title(d))}</strong><span class="district-status">${state.location === d.id ? "● Buradasın" : "Semti incele ↗"}</span></button>${regionTokens(d.id)}</div>`).join("")}<span class="board-bottomline">ANADOLU YAKASI</span><span class="map-legend"><i></i> Sen <b></b> Şehir sakinleri</span></div><aside class="district-detail"><span class="eyebrow">SEMT DEFTERİ</span><h3>${esc(title(district))}</h3><p>${esc(district.description)}</p>${badge(onSite ? "Şu an buradasın" : "Ulaşım gerekir", onSite ? "positive" : "")}<div class="district-facts"><span>${JOBS.filter((j) => j.district === district.id).length} kariyer kapısı</span><span>${currentNpcs.length} kişi burada</span><span>${HOMES.filter((h) => h.district === district.id).length} konut seçeneği</span></div>${onSite ? `<div class="district-shortcuts"><button class="secondary" data-tab="work">İş fırsatları ↗</button><button class="secondary" data-tab="life">Günlük ihtiyaçlar ↗</button><button class="secondary" data-tab="people">İnsanlarla tanış ↗</button></div>` : travel.map((a) => actionCard(a, true)).join("")}<p class="tiny">Yolculuk zaman ve para harcar. NPC'ler gün içinde ev, iş ve sosyal hayatları arasında hareket eder.</p></aside></div><section class="next-moves"><div class="subheading"><h3>Bugünün küçük adımları</h3><button class="text-button" data-tab="life">Tüm yaşam eylemleri →</button></div><div class="action-grid quick-grid">${
+  return `${sectionHeader("İSTANBUL / GÜNÜN OYUN TAHTASI", "Aynı şehir. Farklı ihtimaller.", "Bir semti seç. İşleri, hayat ritmini ve oraya gitmenin bedelini birlikte gör.")}<div class="world-board-layout">${renderNeighborhoodBoard({ state, districts: deepView.districts, selectedDistrict, npcs: NPCS, getLocation: getNpcLocation })}<aside class="world-district-panel ${onSite ? "" : "planning-transit"}"><span class="eyebrow">SEMT DOSYASI</span><h3>${esc(district.name)}</h3><p>${esc(profile?.summary || district.description)}</p>${badge(onSite ? "Buradasın" : "Yolculuk gerekiyor", onSite ? "positive" : "")}${renderDistrictProfile(profile)}${onSite ? `<div class="district-shortcuts"><button class="secondary" data-tab="work">İş & kariyer ↗</button><button class="secondary" data-tab="people">Bu semtin insanları ↗</button><button class="secondary" data-tab="life">Günlük yaşam ↗</button></div>` : `<div class="district-travel-options">${travel.map((a) => actionCard(a, true)).join("")}</div>`}<p class="tiny">Menülerde gezinmek zamanı ilerletmez. Her hamlenin ayrıntısını Öngörü ile inceleyebilirsin.</p></aside></div><section class="next-moves"><div class="subheading"><h3>Bugün için üç küçük adım</h3><button class="text-button" data-tab="plan">Günü planla →</button></div><div class="action-grid quick-grid">${
     actions
       .filter((a) => a.category === "life" && !a.disabled)
       .slice(0, 3)
       .map((a) => actionCard(a, true))
-      .join("") ||
-    '<p class="muted">Önce olay kartını yanıtla; ardından günlük kararlarına dönebilirsin.</p>'
+      .join("") || '<p class="muted">Bekleyen olay kararından sonra günlük hamlelerin açılacak.</p>'
   }</div></section>`;
 }
 function renderWork() {
   const job = state.job && lookup(JOBS, state.job.id);
-  return `${sectionHeader("EMEK & İLERLEME", "Bir işten, bir kariyere.", "Yeterliliklerini geliştir, başvurunu yap ve vardiyalarını planla. İşe alım koşullara bağlıdır.")}<section class="status-sheet"><div><span class="eyebrow">${job ? "MEVCUT SÖZLEŞME" : "İŞ ARAMA DURUMU"}</span><h3>${esc(job ? job.levels?.[state.job.level] || title(job) : "Yeni bir kapı aç")}</h3><p>${esc(job ? job.description : "Başvuru için ilandaki semtte ve mesai saatlerinde bulun. Eksik becerilerini Gelişim bölümünden tamamlayabilirsin.")}</p></div>${job ? `<div class="sheet-stats"><span>Seviye <b>${state.job.level + 1}</b></span><span>Vardiya <b>${state.job.shifts}</b></span><span>Performans <b>${state.job.performance}</b></span><span>Birikmiş maaş <b>${money(state.job.earned)}</b></span><span>Ödeme günü <b>${state.job.payDay}. gün</b></span></div>` : ""}</section>${actionList("work")}<details class="reference"><summary>Meslek rehberi · ${JOBS.length} seçenek</summary><div class="reference-grid">${JOBS.map((j) => `<article><h3>${esc(title(j))}</h3><span class="eyebrow">${esc(districtName(j.district))}</span><p>${esc(j.description)}</p>${j.wage ? `<p class="tiny">Temel vardiya ücreti: ${money(j.wage)}</p>` : ""}</article>`).join("")}</div></details>`;
+  return `${sectionHeader("EMEK & İLERLEME", "Bir işten, bir kariyere.", "Yeterliliklerini geliştir, başvurunu yap ve vardiyalarını planla. İşe alım koşullara bağlıdır.")}<section class="status-sheet"><div><span class="eyebrow">${job ? "MEVCUT SÖZLEŞME" : "İŞ ARAMA DURUMU"}</span><h3>${esc(job ? job.levels?.[state.job.level] || title(job) : "Yeni bir kapı aç")}</h3><p>${esc(job ? job.description : "Başvuru için ilandaki semtte ve mesai saatlerinde bulun. Eksik becerilerini Gelişim bölümünden tamamlayabilirsin.")}</p></div>${job ? `<div class="sheet-stats"><span>Seviye <b>${state.job.level + 1}</b></span><span>Vardiya <b>${state.job.shifts}</b></span><span>Performans <b>${state.job.performance}</b></span><span>Birikmiş maaş <b>${money(state.job.earned)}</b></span><span>Ödeme günü <b>${state.job.payDay}. gün</b></span></div>` : ""}</section>${renderCareer(deepView.career)}${renderFreelance(deepView.freelance)}${actionList("work")}<details class="reference"><summary>Meslek rehberi · ${JOBS.length} seçenek</summary><div class="reference-grid">${JOBS.map((j) => `<article><h3>${esc(title(j))}</h3><span class="eyebrow">${esc(districtName(j.district))}</span><p>${esc(j.description)}</p>${j.wage ? `<p class="tiny">Temel vardiya ücreti: ${money(j.wage)}</p>` : ""}</article>`).join("")}</div></details>`;
 }
 function renderLife() {
   const home = lookup(HOMES, state.housing.id);
@@ -162,29 +179,33 @@ function renderLife() {
 function renderPeople() {
   const npc = lookup(NPCS, selectedNpc) || NPCS[0];
   selectedNpc = npc.id;
+  const deepNpc = deepView.npcs.find((n) => n.id === npc.id);
   const rel = state.npcs[npc.id],
     loc = getNpcLocation(state, npc.id);
   const appointmentIds = state.appointments.filter((a) => a.npcId === npc.id).map((a) => a.id);
+  const promiseIds = deepView.promises.filter((p) => p.npcId === npc.id).map((p) => p.id);
   const theirs = actions.filter(
     (a) =>
       a.category === "social" &&
       (a.id.split(":").includes(npc.id) ||
-        appointmentIds.some((id) => a.id.split(":").includes(id))),
+        appointmentIds.some((id) => a.id.split(":").includes(id)) ||
+        promiseIds.some((id) => a.id.endsWith(`:${id}`))),
   );
   const community = actions.filter(
     (a) =>
       a.category === "social" &&
       !NPCS.some((n) => a.id.split(":").includes(n.id)) &&
-      !state.appointments.some((p) => a.id.split(":").includes(p.id)),
+      !state.appointments.some((p) => a.id.split(":").includes(p.id)) &&
+      !deepView.promises.some((p) => a.id.endsWith(`:${p.id}`)),
   );
-  return `${sectionHeader("TELEFON & SOSYAL ÇEVRE", "Kimse seni unutmaz.", "Bir görüşme, tutulan bir söz, zor bir gün. İlişkilerin ortak geçmişinizle değişir.")}<div class="people-layout"><div class="contact-list" aria-label="Kişiler">${NPCS.map(
+  return `${sectionHeader("TELEFON & SOSYAL ÇEVRE", "Kimse seni unutmaz.", "Bir görüşme, tutulan bir söz, zor bir gün. İlişkilerin ortak geçmişinizle değişir.")}${renderNetwork(deepView.npcs, state, selectedNpc)}<div class="people-layout"><div class="contact-list" aria-label="Kişiler">${NPCS.map(
     (n) => {
       const r = state.npcs[n.id];
       return `<button class="contact ${selectedNpc === n.id ? "active" : ""}" data-npc="${esc(n.id)}" aria-pressed="${selectedNpc === n.id}"><span class="contact-avatar">${esc(initials(title(n)))}</span><span><strong>${esc(title(n))}</strong><small>${esc(n.role || n.description)}</small><em>${esc(districtName(getNpcLocation(state, n.id)))}${r.romance > 0 ? " · Yakınlık" : ""}</em></span><span class="contact-score">${Math.round(r.affinity)}</span></button>`;
     },
   ).join(
     "",
-  )}</div><section class="contact-detail"><div class="profile-head"><span class="contact-avatar large">${esc(initials(title(npc)))}</span><div><span class="eyebrow">${esc(npc.role || "ŞEHİR SAKİNİ")}</span><h3>${esc(title(npc))}</h3><p>${esc(districtName(loc))} · ${loc === state.location ? "Aynı semttesiniz" : "Telefonla ulaşabilirsin"}</p></div></div><p>${esc(npc.description)}</p>${state.flags.partner === npc.id ? badge("Birliktesiniz", "positive") : ""}<div class="relationship-stats">${meter("Arkadaşlık", rel.affinity)}${meter("Güven", rel.trust)}${meter("Romantik yakınlık", rel.romance)}</div>${rel.mood !== undefined ? `<p class="tiny">Ruh hâli: ${esc(typeof rel.mood === "number" ? Math.round(rel.mood) : rel.mood)}</p>` : ""}<div class="memory-note"><span class="eyebrow">ORTAK HAFIZANIZ</span>${
+  )}</div><section class="contact-detail"><div class="profile-head" tabindex="-1"><span class="contact-avatar large">${esc(initials(title(npc)))}</span><div><span class="eyebrow">${esc(npc.role || "ŞEHİR SAKİNİ")}</span><h3>${esc(title(npc))}</h3><p>${esc(districtName(loc))} · ${loc === state.location ? "Aynı semttesiniz" : "Telefonla ulaşabilirsin"}</p></div></div><p>${esc(npc.description)}</p>${state.flags.partner === npc.id ? badge("Birliktesiniz", "positive") : ""}${renderNpcDepth(deepNpc, state)}<div class="relationship-stats">${meter("Arkadaşlık", rel.affinity)}${meter("Güven", rel.trust)}${meter("Romantik yakınlık", rel.romance)}</div>${rel.mood !== undefined ? `<p class="tiny">Ruh hâli: ${esc(typeof rel.mood === "number" ? Math.round(rel.mood) : rel.mood)}</p>` : ""}<div class="memory-note"><span class="eyebrow">ORTAK HAFIZANIZ</span>${
     rel.memories?.length
       ? `<ul>${rel.memories
           .slice(-4)
@@ -199,7 +220,7 @@ function renderStudy() {
   return `${sectionHeader("EĞİTİM & UZMANLAŞMA", "Yarınki kendine yatırım.", "Derslere katıl, becerilerini uygulayarak büyüt ve yeni mesleklerin koşullarını aç.")}<div class="skills-grid">${SKILLS.map((s) => `<div class="skill-card"><span class="eyebrow">${esc(title(s))}</span><strong>${Math.round(state.player.skills[s.id] || 0)}<small>/100</small></strong><progress max="100" value="${state.player.skills[s.id] || 0}" aria-label="${esc(title(s))}"></progress><p>${esc(s.description)}</p></div>`).join("")}</div>${course ? `<div class="status-sheet"><div><span class="eyebrow">DEVAM EDEN EĞİTİM</span><h3>${esc(title(course))}</h3><p>${state.course.sessions} ders tamamlandı. ${esc(course.description)}</p></div></div>` : ""}${actionList("education")}`;
 }
 function renderWallet() {
-  return `${sectionHeader("HESAPLAR & SORUMLULUKLAR", "Paranın bir hikâyesi var.", "Nakit ile banka bakiyesi ayrıdır. Maaş, kira, faturalar ve faiz aynı takvimde işler.")}<div class="balance-grid"><article><span>Nakit</span><strong>${money(state.cash)}</strong></article><article><span>Banka</span><strong>${money(state.bank)}</strong></article><article class="debt"><span>Kredi borcu</span><strong>${money(state.debt)}</strong></article></div>${actionList("finance")}<section class="ledger"><div class="subheading"><h3>Hesap hareketleri</h3><span class="tiny">Son ${Math.min(state.transactions.length, 30)} işlem</span></div>${
+  return `${sectionHeader("HESAPLAR & SORUMLULUKLAR", "Paranın bir hikâyesi var.", "Nakit ile banka bakiyesi ayrıdır. Maaş, kira, faturalar ve faiz aynı takvimde işler.")}<div class="balance-grid"><article><span>Nakit</span><strong>${money(state.cash)}</strong></article><article><span>Banka</span><strong>${money(state.bank)}</strong></article><article class="debt"><span>Kredi borcu</span><strong>${money(state.debt)}</strong></article></div>${renderFinance(deepView.finance)}${actionList("finance")}<section class="ledger"><div class="subheading"><h3>Hesap hareketleri</h3><span class="tiny">Son ${Math.min(state.transactions.length, 30)} işlem</span></div>${
     state.transactions.length
       ? `<div class="transaction-list">${state.transactions
           .slice(-30)
@@ -246,6 +267,15 @@ function renderGoals() {
       "",
     )}</div><div class="subheading"><h3>Kazandığın izler</h3></div><div class="achievement-list">${state.achievements.length ? state.achievements.map((a) => badge(getGoals(state).find((g) => g.id === a)?.title || achievementNames[a] || a, "positive")).join("") : '<p class="muted">Tamamladığın yaşam hedefleri burada birikecek.</p>'}</div>`;
 }
+function renderPlan() {
+  return `${sectionHeader("ZAMAN & TAHAHHÜTLER", "Günlerin birbirine bağlansın.", "İş, eğitim, alışveriş ve buluşmalarını aynı takvimde planla. Rutin, önemli kararları sana bırakır.")}${renderPlanning({ ...deepView.schedule, promises: deepView.promises }, { state, clock: getClock(state), stories: storyViews, npcs: NPCS, districtName }, actions, actionCard)}`;
+}
+function renderEnterprise() {
+  return `${sectionHeader("GİRİŞİM & MÜŞTERİLER", "Kendi masanın başına geç.", "Bir işletmenin geliri kadar yükü de gerçektir. Müşterilerin, itibarın ve sabit giderlerin aynı hesapta buluşur.")}${deepView.freelance.active ? renderFreelance(deepView.freelance) : ""}${renderBusiness(deepView.business, actions, actionCard)}`;
+}
+function renderStories() {
+  return `${sectionHeader("BAĞLANTILI YAŞAM HİKÂYELERİ", "Bir karar burada bitmez.", "Tanışmalar, iş fırsatları ve krizler birkaç gün boyunca büyür. Önceki seçimin sonraki kartı değiştirir.")}${renderStoryCards(storyViews, actions, actionCard)}`;
+}
 function renderLog() {
   return `${sectionHeader("HATIRALAR & ŞEHİR HABERLERİ", "Her kararın bir izi kalır.", "En yeni kayıt en üstte. Günlük, sonuçları ve dünyadaki değişimleri birlikte saklar.")}<div class="journal-grid"><section><h3>Senin hikâyen</h3><ol class="journal-list">${state.history
     .slice(-80)
@@ -280,13 +310,18 @@ function renderAgenda() {
     )
     .join(
       "",
-    )}</ul><button class="text-button" data-tab="people">Randevularını planla →</button></section><section class="daybook-section"><span class="eyebrow">KARAKTER KARTI</span><div class="character-summary"><span class="player-token big">${esc(initials(state.player.name))}</span><div><h3>${esc(state.player.name)}</h3><p>${esc(title(lookup(TRAITS, state.player.trait)))} · ${esc(title(lookup(EDUCATIONS, state.player.education)))}</p></div></div><div class="mini-skills">${SKILLS.map((s) => `<span>${esc(title(s))}<b>${Math.round(state.player.skills[s.id] || 0)}</b></span>`).join("")}</div><button class="text-button" data-tab="study">Kendini geliştir →</button></section><section class="daybook-section"><div class="subheading"><span class="eyebrow">SON HAMLE</span><button class="text-button" data-tab="log">Günlük ↗</button></div><p class="last-entry">${esc(state.history.at(-1)?.text || "Hayatın ilk sayfası açıldı.")}</p></section><p class="save-state" role="status">${esc(saveStatus || "Her hamleden sonra otomatik kayıt")}</p></aside>`;
+    )}</ul><button class="text-button" data-tab="plan">Ajanda & rutinler →</button></section><section class="daybook-section"><span class="eyebrow">KARAKTER KARTI</span><div class="character-summary"><span class="player-token big">${esc(initials(state.player.name))}</span><div><h3>${esc(state.player.name)}</h3><p>${esc(title(lookup(TRAITS, state.player.trait)))} · ${esc(title(lookup(EDUCATIONS, state.player.education)))}</p></div></div><div class="mini-skills">${SKILLS.map((s) => `<span>${esc(title(s))}<b>${Math.round(state.player.skills[s.id] || 0)}</b></span>`).join("")}</div><button class="text-button" data-tab="study">Kendini geliştir →</button></section><section class="daybook-section"><div class="subheading"><span class="eyebrow">SON HAMLE</span><button class="text-button" data-tab="log">Günlük ↗</button></div><p class="last-entry">${esc(state.history.at(-1)?.text || "Hayatın ilk sayfası açıldı.")}</p></section><p class="save-state" role="status">${esc(saveStatus || "Her hamleden sonra otomatik kayıt")}</p></aside>`;
 }
 function renderGame() {
   actions = getActions(state);
+  deepView = getDeepView(state);
+  storyViews = getStoryView(state);
   const clock = getClock(state),
     panels = {
       board: renderBoard,
+      plan: renderPlan,
+      enterprise: renderEnterprise,
+      stories: renderStories,
       work: renderWork,
       life: renderLife,
       people: renderPeople,
@@ -296,7 +331,7 @@ function renderGame() {
       goals: renderGoals,
       log: renderLog,
     };
-  app.innerHTML = `<div class="game-shell"><header class="topbar"><${embedded ? "span" : "a"} ${embedded ? "" : 'href="/" target="_top" aria-label="TarikLab oyunlarına dön"'} class="game-brand"><span class="brand-seal small">TC</span><span>SIM <b>BOARDWORLD</b></span></${embedded ? "span" : "a"}><div class="clock-block"><span class="eyebrow">${esc(clock.date)} · ${esc(clock.weekday)}</span><strong>${esc(clock.time)} <small>${esc(state.world.weather)}</small></strong></div><div class="top-actions"><button class="icon-button" data-ui="save" aria-label="Oyunu kaydet" title="Oyunu kaydet">↓<span>Kaydet</span></button><button class="icon-button" data-ui="menu" aria-label="Oyun menüsü" title="Oyun menüsü">☰</button></div></header><div class="resource-bar"><div class="cash-resource"><span>CEBİNDE</span><strong>${money(state.cash)}</strong><button class="text-button" data-tab="wallet">Banka ${money(state.bank)} ↗</button></div><div class="needs">${meter("Sağlık", state.player.health)}${meter("Enerji", state.player.energy)}${meter("Tokluk", state.player.hunger)}${meter("Stres", state.player.stress, true)}</div><div class="location-chip"><span class="eyebrow">KONUMUN</span><strong>${esc(districtName(state.location))}</strong></div></div><nav class="game-tabs" aria-label="Oyun bölümleri">${tabDefs.map(([id, label, icon]) => `<button data-tab="${id}" class="${tab === id ? "active" : ""}" aria-current="${tab === id ? "page" : "false"}"><span aria-hidden="true">${icon}</span>${label}${id === "people" && state.appointments.some((a) => a.status === "scheduled") ? "<i></i>" : ""}</button>`).join("")}</nav><div class="play-layout"><main id="main" class="play-main">${lastOutcome ? `<section class="outcome-strip" aria-label="Hamle sonucu"><span class="outcome-check">✓</span><div><strong>${esc(lastOutcome.message)}</strong><p>${esc(lastOutcome.delta)}</p></div><button class="icon-button" data-ui="dismiss-outcome" aria-label="Sonucu kapat">×</button></section>` : ""}${renderEvent()}${panels[tab]()}</main>${renderAgenda()}</div><footer class="game-footer"><span>TC SIM: BOARDWORLD</span><span>Kararlar sende. Hikâye şehirde.</span><button class="text-button" data-ui="help">Oyun rehberi</button></footer></div>`;
+  app.innerHTML = `<div class="game-shell"><header class="topbar"><${embedded ? "span" : "a"} ${embedded ? "" : 'href="/" target="_top" aria-label="TarikLab oyunlarına dön"'} class="game-brand"><span class="brand-seal small">TC</span><span>SIM <b>BOARDWORLD</b></span></${embedded ? "span" : "a"}><div class="clock-block"><span class="eyebrow">${esc(clock.date)} · ${esc(clock.weekday)}</span><strong>${esc(clock.time)} <small>${esc(state.world.weather)}</small></strong></div><div class="top-actions"><button class="icon-button" data-ui="save" aria-label="Oyunu kaydet" title="Oyunu kaydet">↓<span>Kaydet</span></button><button class="icon-button" data-ui="menu" aria-label="Oyun menüsü" title="Oyun menüsü">☰</button></div></header><div class="resource-bar"><div class="cash-resource"><span>CEBİNDE</span><strong>${money(state.cash)}</strong><button class="text-button" data-tab="wallet">Banka ${money(state.bank)} ↗</button></div><div class="needs">${meter("Sağlık", state.player.health)}${meter("Enerji", state.player.energy)}${meter("Tokluk", state.player.hunger)}${meter("Stres", state.player.stress, true)}</div><div class="location-chip"><span class="eyebrow">KONUMUN</span><strong>${esc(districtName(state.location))}</strong></div></div><nav class="game-tabs" aria-label="Oyun bölümleri">${tabDefs.map(([id, label, icon]) => `<button data-tab="${id}" class="${tab === id ? "active" : ""}" aria-current="${tab === id ? "page" : "false"}"><span aria-hidden="true">${icon}</span>${label}${id === "people" && state.appointments.some((a) => a.status === "scheduled") ? "<i></i>" : ""}</button>`).join("")}</nav><div class="play-layout"><main id="main" class="play-main">${lastOutcome ? `<section class="outcome-strip" aria-label="Hamle sonucu"><span class="outcome-check">✓</span><div><strong>${esc(lastOutcome.message)}</strong><p>${esc(lastOutcome.delta)}</p></div><button class="icon-button" data-ui="dismiss-outcome" aria-label="Sonucu kapat">×</button></section>` : ""}${renderEvent()}${tab !== "stories" ? renderStoryPrompt(storyViews) : ""}${panels[tab]()}</main>${renderAgenda()}</div><footer class="game-footer"><span>TC SIM: BOARDWORLD</span><span>Kararlar sende. Hikâye şehirde.</span><button class="text-button" data-ui="help">Oyun rehberi</button></footer></div>`;
 }
 function render({ focus = null } = {}) {
   const active = document.activeElement;
@@ -359,7 +394,7 @@ function openDialog(kind) {
   const content = {
     menu: `<span class="eyebrow">OYUN MASASI</span><h2 id="dialog-title">Biraz ara verebilirsin.</h2><p>Her başarılı hamlede kayıt alınır. Dosya yedeği, farklı bir cihazda da kaldığın yerden devam etmeni sağlar.</p><div class="menu-actions"><button class="primary" data-ui="save">Şimdi kaydet</button><button class="secondary" data-ui="export">Kayıt dosyasını indir</button><button class="secondary" data-ui="import">Kayıt dosyası yükle</button><button class="secondary" data-ui="help">Oyun rehberi</button><button class="text-button danger" data-ui="restart">Yeni bir hayat başlat</button></div><p class="tiny">${esc(saveStatus)}</p>`,
     restart: `<span class="eyebrow">YENİ BAŞLANGIÇ</span><h2 id="dialog-title">Yeni bir hayat?</h2><p>Yeni karakteri oluşturduğunda mevcut otomatik kaydın yerini alır. İstersen önce kayıt dosyanı indir.</p><div class="menu-actions"><button class="secondary" data-ui="export">Mevcut kaydı indir</button><button class="primary" data-ui="confirm-restart">Karakter oluşturmaya geç</button><button class="secondary" data-ui="close">Vazgeç</button></div>`,
-    help: `<span class="eyebrow">MASANIN KURALLARI</span><h2 id="dialog-title">İlk günün için bir rehber.</h2><ol class="help-steps"><li><strong>Şehri tanı.</strong> Tahtada bir semti seç. Ulaşım kartında süre ve bedeli gör; hareket etmek için kartı seç.</li><li><strong>Bir iş bul.</strong> Kariyer ekranında koşulları oku. İlanın olduğu semte git, başvur. İşe alım ve maaş, beceri ve emeğine bağlıdır.</li><li><strong>Kendine bak.</strong> Yaşam ekranından yemek, dinlenme, sağlık ve konut kararlarını ver. Tokluk ve enerji yüksek, stres düşük olduğunda işler kolaylaşır.</li><li><strong>Sözünü tut.</strong> Telefonundaki kişiler günlük rutinlerini sürdürür. Görüş, arayıp hatır sor, buluşma planla. Takvimindeki saat ve semte dikkat et.</li><li><strong>Bir yön seç.</strong> Gelişimden eğitim al, Cüzdandan hesaplarını yönet. Hedefler ilerlemeni gösterir; onları tamamlayınca da oyun sürer.</li></ol><div class="rule-note"><strong>Zaman senin elinde.</strong><p>Menülerde gezinmek zaman harcamaz. Her eylemin süre ve maliyeti kartında yazar. Bazı belirsiz karşılaşmalarda zar kullanılır; iş, ders ve maaş zar değildir.</p></div><p class="tiny">Oyun ekonomisi tasarlanmış bir simülasyondur; gerçek fiyatları veya finansal tavsiyeyi temsil etmez. Kayıt yalnızca bu tarayıcıdadır. Ses kapalıdır.</p>`,
+    help: `<span class="eyebrow">MASANIN KURALLARI</span><h2 id="dialog-title">İlk günün için bir rehber.</h2><ol class="help-steps"><li><strong>Şehri tanı.</strong> Tahtada bir semti seç. Ulaşım kartında süre ve bedeli gör; hareket etmek için kartı seç.</li><li><strong>Bir iş bul.</strong> Kariyer ekranında koşulları oku. İlanın olduğu semte git, başvur. İşe alım ve maaş, beceri ve emeğine bağlıdır.</li><li><strong>Kendine bak.</strong> Yaşam ekranından yemek, dinlenme, sağlık ve konut kararlarını ver. Tokluk ve enerji yüksek, stres düşük olduğunda işler kolaylaşır.</li><li><strong>Sözünü tut.</strong> Telefonundaki kişiler günlük rutinlerini sürdürür. Görüş, arayıp hatır sor, buluşma planla. Takvimindeki saat ve semte dikkat et.</li><li><strong>Bir yön seç.</strong> Gelişimden eğitim al, Cüzdandan hesaplarını yönet. Hedefler ilerlemeni gösterir; onları tamamlayınca da oyun sürer.</li></ol><div class="rule-note"><strong>Günü planla, sonucu önceden gör.</strong><p>Ajanda ile çalışma ve bakım rutinlerini seç. Rutin yeni olaylarda durur. Öngörü, bir kararın zamanını, hesaplarını ve risklerini açıklar. Hikâyeler bölümündeki çok aşamalı zincirler eski seçimlerini hatırlar. Telefon rehberindeki ilişki haritası, insanların birbirinden ne duyabileceğini gösterir.</p></div><div class="rule-note"><strong>Zaman senin elinde.</strong><p>Menülerde gezinmek zaman harcamaz. Her eylemin süre ve maliyeti kartında yazar. Bazı belirsiz karşılaşmalarda zar kullanılır; iş, ders ve maaş zar değildir.</p></div><p class="tiny">Oyun ekonomisi tasarlanmış bir simülasyondur; gerçek fiyatları veya finansal tavsiyeyi temsil etmez. Kayıt yalnızca bu tarayıcıdadır. Ses kapalıdır.</p>`,
   };
   dialog.innerHTML = `<div class="dialog-inner"><button class="dialog-close icon-button" data-ui="close" aria-label="Pencereyi kapat">×</button>${content[kind] || content.menu}</div>`;
   if (!dialog.open) dialog.showModal();
@@ -413,8 +448,31 @@ function handleUi(id) {
   }
 }
 document.addEventListener("click", (event) => {
+  const network = event.target.closest("[data-network-npc]");
+  if (network) {
+    selectedNpc = network.dataset.networkNpc;
+    tab = "people";
+    render();
+    $(".profile-head")?.focus({ preventScroll: true });
+    $(".profile-head")?.scrollIntoView({ block: "start" });
+    return;
+  }
   const button = event.target.closest("button");
   if (!button || button.disabled) return;
+  if (button.dataset.preview) {
+    const action = actions.find((a) => a.id === button.dataset.preview);
+    if (!action) return;
+    const forecast = previewAction(state, action.id);
+    dialog.innerHTML = `<div class="dialog-inner forecast-dialog"><button class="dialog-close icon-button" data-ui="close" aria-label="Pencereyi kapat">×</button>${renderPreview(forecast, action)}</div>`;
+    dialog.showModal();
+    return;
+  }
+  if (button.dataset.previewCommit) {
+    const id = button.dataset.previewCommit;
+    dialog.close();
+    commit(id);
+    return;
+  }
   if (button.dataset.action) {
     commit(button.dataset.action);
     return;
@@ -440,6 +498,12 @@ document.addEventListener("click", (event) => {
     return;
   }
   if (button.dataset.ui) handleUi(button.dataset.ui);
+});
+document.addEventListener("keydown", (event) => {
+  if ((event.key === "Enter" || event.key === " ") && event.target.matches("[data-network-npc]")) {
+    event.preventDefault();
+    event.target.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+  }
 });
 document.addEventListener("submit", (event) => {
   if (event.target.id !== "create-form") return;
