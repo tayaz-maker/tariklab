@@ -6,7 +6,7 @@ Bu belge, 2.0 kayıt geçişinin ve birbirine bağlı simülasyonun otomatik kab
 
 - Başlangıç: `main` commit `977cd576dc535f1e65d2e5589e8d4168a65a8e17`.
 - Değişikliklerden önce `npm test`: **2.475 geçti, 0 başarısız** (2.414 JavaScript testi ve 61 TypeScript testi).
-- Bağımsız 2.0 kayıt/kabul kontrolü: **66 geçti, 0 başarısız** — 44 Deep Life kabul testi, 22 kayıt testi.
+- Bağımsız 2.0 kayıt/kabul kontrolü: **74 geçti, 0 başarısız** — 44 Deep Life kabul testi, 30 kayıt testi.
 
 ```sh
 node --test scripts/boardworld-save.test.mjs scripts/boardworld-deep-acceptance.test.mjs
@@ -84,15 +84,21 @@ Bu kısa hedefli testlerin bir bölümü, belirli koşulu izole etmek için geç
 
 Geçişte eski alanlar `version` dışında korunur; yeni `deep` ve `stories` alanları eklenir. Geçiş saf ve tekrarlanabilir; zamanı, maaşı veya olay ödülünü yeniden işletmez. Eski checksum ve eski şema, yeni varsayılanlar uygulanmadan önce doğrulanır.
 
-Tarayıcı anahtarı değişmez:
+2.0, açık kalmış bir 1.0 sekmesinin yazamayacağı ayrı kayıt alanı kullanır. Eski anahtarlar geçiş için okunabilir kalır:
 
 | Anahtar                              | İşlev                                                                              |
 | ------------------------------------ | ---------------------------------------------------------------------------------- |
-| `tariklab.boardworld.v1`             | Ana kayıt; yeni yazımın zarf sürümü 2.                                             |
-| `tariklab.boardworld.v1.backup`      | Önceki sağlıklı kaydın dönüşümlü yedeği.                                           |
+| `tariklab.boardworld.v2`             | 2.0 ana kaydı; yeni yazımın zarf sürümü 2.                                         |
+| `tariklab.boardworld.v2.backup`      | Önceki sağlıklı 2.0 kaydın dönüşümlü yedeği.                                       |
+| `tariklab.boardworld.v1`             | Eski ana kayıt; 2.0 tarafından yalnız okunur.                                      |
+| `tariklab.boardworld.v1.backup`      | Eski dönüşümlü yedek; 2.0 tarafından yalnız okunur.                                |
 | `tariklab.boardworld.v1.original-v1` | İlk korunmuş özgün 1.0 dosyasının aynı baytları; tekrar yazılmaz veya döndürülmez. |
 
-Özgün 1.0 yedeği yazılıp geri okunarak doğrulanmadan eski ana kayıt değişmez. Dosya içe aktarma da özgün 1.0 baytlarını korur. Kota veya erişim hatası başarısız olarak bildirilir; sağlıklı kayıt silinmez. Kurtarma sırası ana kayıt → dönüşümlü yedek → özgün 1.0 yedeğidir. Son seçenek ilk korunan 1.0 anına döner; en yeni tur olduğu iddia edilmez.
+İlk eski kayıt yüklenirken, doğrulanan durum oyuncunun ilk eylemi beklenmeden ayrı 2.0 alanına yazılır. Böylece eski bir sekmenin sonraki yazımı, yeni kaydı ezemez. Geçici önizlemede eski anahtara yazılmış 2.0 zarfları da bu yolla korunur. Eski 1.0 kaynak varsa özgün yedeği önce yazılıp geri okunarak doğrulanır. Dosya içe aktarma da özgün 1.0 baytlarını korur. Kota veya erişim hatasında eski alanlar değişmez; durum belleğe alınır ve ayrı 2.0 kaydın yazılamadığı açıkça bildirilir.
+
+Kurtarma sırası sağlıklı 2.0 ana kayıt → 2.0 dönüşümlü yedek → eski ana kayıt → eski dönüşümlü yedek → özgün 1.0 yedeğidir. Eski sekmenin revizyonu daha yüksek olsa bile sağlıklı 2.0 kopyası önceliklidir. Sağlıklı 2.0 yüklemesi hiçbir kayıt yazmaz; eski alanlardaki ilgisiz bozulmalar yeni kaydı engellemez. İki 2.0 kopyası da bozuksa eski kopyanın en son 2.0 ilerlemesini içermeyebileceği açıklanır. Özgün yedek ilk korunan 1.0 anına döner; en yeni tur olduğu iddia edilmez.
+
+[Dondurulmuş 1.0 kayıt modülü](../../scripts/fixtures/boardworld/v1-persistence.mjs) üretim commit’inden alınmıştır. Yalnız doğrulayıcı import yolu, eski şemayı da kabul eden güncel motora yönlendirilmiştir; yazıcı, okuyucu, checksum ve yedekleme kodu aynıdır. Test bu tek yol değişikliğini geri alıp özgün kaynak SHA-256 değerini doğrular. Gerçek eski yazıcıyla dört yüksek revizyonlu 1.0 yazımı sonrası 2.0 ana kayıt, 2.0 yedek ve özgün yedek aynı baytlarda kalır. İlk yükleme penceresi, bozuk ana kayıtta yedek önceliği, kota hatası ve 1.0 dosyasını mevcut 2.0 hayata aktarma ayrıca sınanır.
 
 Desteklenmeyen sürüm, değiştirilmiş checksum, eksik/uygunsuz yeni alan, geçersiz hikâye geçmişi, sahte kimlik, prototip anahtarı, aşırı derin ağaç ve boyut sınırı aşımı reddedilir. Eski TC SIM anahtarları bu modül tarafından okunmaz veya yazılmaz; koruma testi ayrı eski TC örneğinin baytlarını denetler.
 

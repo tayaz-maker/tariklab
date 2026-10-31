@@ -336,7 +336,7 @@ try {
         JSON.stringify(
           await surface.evaluate(() => ({
             text: document.body.innerText,
-            save: localStorage.getItem("tariklab.boardworld.v1"),
+            save: localStorage.getItem("tariklab.boardworld.v2"),
             state: window.boardworldInspect?.(),
           })),
           null,
@@ -418,12 +418,141 @@ try {
   assert.deepEqual(await oldPage.evaluate(() => window.boardworldInspect()), migrated);
   await oldPage.locator(".game-tabs [data-tab=people]").click();
   await oldPage.screenshot({ path: `${output}/migrated-v1.png`, fullPage: true });
+  // A still-open 1.0 tab may keep writing its valid old save. Its namespace must
+  // never replace the canonical 2.0 state or rolling backup after migration.
+  const migrationInspect = () => oldPage.evaluate(() => window.boardworldInspect());
+  const migrationDrain = async () => {
+    for (let i = 0; i < 40; i++) {
+      const choice = await oldPage.evaluate(async () => {
+        const { getActions } = await import("/games/tc-sim-boardworld/engine.mjs");
+        const choices = getActions(window.boardworldInspect()).filter(
+          (a) => a.category === "event" && !a.disabled,
+        );
+        return choices.find((a) => a.cost === 0) || choices[0];
+      });
+      if (!choice) return;
+      await oldPage.locator(`[data-action="${choice.id}"]`).first().click();
+    }
+    throw new Error("Migration fixture event queue did not drain");
+  };
+  await migrationDrain();
+  await oldPage.locator('.game-tabs [data-tab="wallet"]').click();
+  await oldPage.locator('[data-action="finance:reserve:500"]').click();
+  const upgraded = await migrationInspect();
+  assert.equal(upgraded.deep.finance.reserve, migrated.deep.finance.reserve + 500);
+  const canonical = await oldPage.evaluate(async () => {
+    const { SAVE_KEY, BACKUP_KEY } = await import("/games/tc-sim-boardworld/persistence.mjs");
+    return {
+      key: SAVE_KEY,
+      backupKey: BACKUP_KEY,
+      primary: localStorage.getItem(SAVE_KEY),
+      backup: localStorage.getItem(BACKUP_KEY),
+    };
+  });
+  assert.equal(canonical.key, "tariklab.boardworld.v2");
+  assert.ok(canonical.primary && canonical.backup, "canonical 2.0 primary and backup exist");
+  await oldPage.evaluate(() => {
+    window.boardworldLegacyWriteObserved = 0;
+    window.addEventListener("storage", (event) => {
+      if (event.key === "tariklab.boardworld.v1") window.boardworldLegacyWriteObserved++;
+    });
+  });
+  const legacyWriter = await oldContext.newPage();
+  await legacyWriter.goto(origin + "/games/tc-sim-boardworld/index.html", {
+    waitUntil: "networkidle",
+  });
+  // This deliberately models the released 1.0 writer's storage output; all
+  // actual 2.0 simulation changes above and below still use real UI actions.
+  const legacyWrites = [
+    readFileSync(resolve("scripts/fixtures/boardworld/v1-fresh-restart.json"), "utf8"),
+    bytes,
+  ];
+  for (const [index, oldBytes] of legacyWrites.entries()) {
+    await legacyWriter.evaluate((value) => {
+      const previous = localStorage.getItem("tariklab.boardworld.v1");
+      localStorage.setItem("tariklab.boardworld.v1.backup", previous || value);
+      localStorage.setItem("tariklab.boardworld.v1", value);
+    }, oldBytes);
+    await oldPage.waitForFunction(
+      (count) => window.boardworldLegacyWriteObserved >= count,
+      index + 1,
+    );
+    assert.deepEqual(
+      await migrationInspect(),
+      upgraded,
+      `legacy storage event ${index + 1} cannot erase deep progress`,
+    );
+    assert.deepEqual(
+      await oldPage.evaluate(
+        ({ key, backupKey }) => ({
+          primary: localStorage.getItem(key),
+          backup: localStorage.getItem(backupKey),
+        }),
+        canonical,
+      ),
+      { primary: canonical.primary, backup: canonical.backup },
+      `legacy write ${index + 1} cannot overwrite canonical primary or backup`,
+    );
+  }
+  await oldPage.reload({ waitUntil: "networkidle" });
+  assert.deepEqual(
+    await migrationInspect(),
+    upgraded,
+    "reload prefers canonical 2.0 after legacy writer",
+  );
+  assert.equal(
+    await oldPage.evaluate(() => localStorage.getItem("tariklab.boardworld.v1.original-v1")),
+    bytes,
+    "old writer cannot overwrite immutable original migration backup",
+  );
+  await oldPage.locator('.game-tabs [data-tab="wallet"]').click();
+  await oldPage.locator('[data-action="finance:reserve:500"]').click();
+  const afterLegacy = await migrationInspect();
+  await legacyWriter.waitForFunction(
+    (revision) => window.boardworldInspect()?.revision === revision,
+    afterLegacy.revision,
+  );
+  assert.deepEqual(
+    await legacyWriter.evaluate(() => window.boardworldInspect()),
+    afterLegacy,
+    "canonical cross-tab sync remains intact after legacy write",
+  );
   results.push({
     v1Import: true,
     immutableBackup: true,
     migratedDay: Math.floor(migrated.time / 1440) + 1,
+    oldOpenTabCannotOverwriteV2: true,
+    observedLegacyWrites: 2,
+    canonicalBackupPreserved: true,
+    postLegacyCrossTab: true,
   });
   await oldContext.close();
+  // Early 2.0 candidates used the legacy key: adopt their complete envelope
+  // without remigrating or losing any deep progress, then isolate future writes.
+  const transitionalContext = await browser.newContext({ viewport: { width: 390, height: 844 } }),
+    transitionalPage = await transitionalContext.newPage();
+  await transitionalPage.goto(origin + "/games/tc-sim-boardworld/index.html", {
+    waitUntil: "networkidle",
+  });
+  await transitionalPage.evaluate(
+    (envelope) => localStorage.setItem("tariklab.boardworld.v1", envelope),
+    canonical.primary,
+  );
+  await transitionalPage.reload({ waitUntil: "networkidle" });
+  await transitionalPage.locator(".game-tabs").waitFor();
+  assert.deepEqual(
+    await transitionalPage.evaluate(() => window.boardworldInspect()),
+    upgraded,
+    "v2 envelope under legacy key adopted without loss",
+  );
+  const adopted = await transitionalPage.evaluate(() => ({
+    canonical: localStorage.getItem("tariklab.boardworld.v2"),
+    legacy: localStorage.getItem("tariklab.boardworld.v1"),
+  }));
+  assert.ok(adopted.canonical, "legacy-key v2 envelope promoted to canonical storage at load");
+  assert.equal(adopted.legacy, canonical.primary, "migration leaves legacy storage read-only");
+  results.push({ legacyKeyV2EnvelopeAdopted: true });
+  await transitionalContext.close();
   const expected = arg("--expected-root", serving || "public");
   for (const file of assetFiles) {
     const local = readFileSync(resolve(expected, "games/tc-sim-boardworld", file));

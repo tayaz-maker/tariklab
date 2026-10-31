@@ -134,22 +134,24 @@ try {
     await surface.locator("[data-ui=export]").click();
     const download = await downloading;
     await download.saveAs(`${out}/export-${width}.json`);
-    await surface
-      .locator("#import-file")
-      .setInputFiles({
-        name: "broken.json",
-        mimeType: "application/json",
-        buffer: Buffer.from("{broken"),
-      });
+    await surface.locator("#import-file").setInputFiles({
+      name: "broken.json",
+      mimeType: "application/json",
+      buffer: Buffer.from("{broken"),
+    });
     assert.deepEqual(await inspect(), saved, "bad import must leave current game intact");
     await surface.locator("#import-file").setInputFiles(`${out}/export-${width}.json`);
     assert.deepEqual(await inspect(), saved, "export/import preserves exact state");
     await surface.locator("[data-ui=menu]").click();
     await surface.locator("#menu-dialog [data-ui=save]").click();
-    const backup = await surface.evaluate(() =>
-      JSON.parse(JSON.parse(localStorage.getItem("tariklab.boardworld.v1.backup")).payload),
-    );
-    await surface.evaluate(() => localStorage.setItem("tariklab.boardworld.v1", "{broken"));
+    const backup = await surface.evaluate(async () => {
+      const { BACKUP_KEY } = await import("/games/tc-sim-boardworld/persistence.mjs");
+      return JSON.parse(JSON.parse(localStorage.getItem(BACKUP_KEY)).payload);
+    });
+    await surface.evaluate(async () => {
+      const { SAVE_KEY } = await import("/games/tc-sim-boardworld/persistence.mjs");
+      localStorage.setItem(SAVE_KEY, "{broken");
+    });
     await page.reload({ waitUntil: "networkidle" });
     surface = portal ? await (await page.locator("iframe").elementHandle()).contentFrame() : page;
     await surface.waitForFunction(() => window.boardworldInspect?.());

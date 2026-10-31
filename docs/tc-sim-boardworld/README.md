@@ -34,11 +34,13 @@ and business overhead. Lightweight SVG/CSS architecture, a relationship network,
 an interactive agenda, story cards and compact financial panels use the actual
 simulation state. No dependency, 3D engine or audio was added.
 
-The save envelope and state are version 2, while the storage key remains
-`tariklab.boardworld.v1`. Original version-1 bytes are checksum- and schema-checked
-before migration, preserved under `tariklab.boardworld.v1.original-v1` before the
-first overwrite, and never rotated away. The ordinary `.backup` slot remains
-available for recent-turn recovery. File import/export and cross-tab updates
+The save envelope and state are version 2. The canonical primary and rolling
+backup use `tariklab.boardworld.v2` and `.v2.backup`; the old `.v1` and `.v1.backup`
+slots are read-only migration sources. A still-open 1.0 tab therefore cannot
+overwrite 2.0 progress, and healthy 2.0 slots always take priority over legacy
+writes. Original version-1 bytes are checksum- and schema-checked before migration,
+preserved under `tariklab.boardworld.v1.original-v1` before the first canonical
+write, and never rotated away. File import/export and cross-tab updates
 continue to work; there is no cloud-save account. See
 [`DEEP_LIFE_ACCEPTANCE.md`](DEEP_LIFE_ACCEPTANCE.md) for verification of this update.
 
@@ -50,7 +52,7 @@ continue to work; there is no cloud-save account. See
   rent and debt. No wall-clock progression while the game is closed.
 - `app.mjs` / `style.css`: accessible responsive tabletop, character creation,
   action cards and state inspection. The view cannot award money or advance time.
-- `persistence.mjs`: separate `tariklab.boardworld.v1` primary and `.backup` keys,
+- `persistence.mjs`: separate `tariklab.boardworld.v2` primary and `.backup` keys,
   versioned checksum envelope, structural validation and bounded file import/export.
   A checksum detects accidental corruption; it is not an anti-cheat signature.
 - `deep-content.mjs` / `deep-life.mjs`: district, employer, NPC, freelance,

@@ -1328,6 +1328,9 @@ panels. No package or heavy asset dependency was added. The initial 2,475-test b
 was rerun before changes; independent 90-day acceptance covers nine untouched
 starts and real decisions, and original production v1 saves are fixture-tested.
 Migration validates old bytes first and preserves an immutable original backup.
+The new primary/rolling backup use the separate `tariklab.boardworld.v2` namespace;
+the v1 primary and backup are read-only migration sources. This protects new
+progress from still-open old clients that continue writing their v1 namespace.
 See `tc-sim-boardworld/DEEP_LIFE_ACCEPTANCE.md` for reproducible acceptance details.
 
 Original TC SIM source and keys, the other games, shared artwork, Cloudflare Worker

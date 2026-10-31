@@ -1,8 +1,10 @@
 import { migrateState, validateState } from "./engine.mjs";
 
-export const SAVE_KEY = "tariklab.boardworld.v1";
+export const SAVE_KEY = "tariklab.boardworld.v2";
 export const BACKUP_KEY = `${SAVE_KEY}.backup`;
-export const ORIGINAL_V1_BACKUP_KEY = `${SAVE_KEY}.original-v1`;
+export const LEGACY_SAVE_KEY = "tariklab.boardworld.v1";
+export const LEGACY_BACKUP_KEY = `${LEGACY_SAVE_KEY}.backup`;
+export const ORIGINAL_V1_BACKUP_KEY = `${LEGACY_SAVE_KEY}.original-v1`;
 const MAX_BYTES = 2_000_000;
 const FORMAT = "tc-sim-boardworld";
 // Keep imported 1.0 bytes outside simulation state. File import saves this exact
@@ -105,31 +107,51 @@ export function loadGame(storage) {
     const primary = storage.getItem(SAVE_KEY);
     if (primary) {
       const loaded = importGame(primary);
-      if (loaded.state) return loaded;
+      if (loaded.state && loaded.sourceVersion === 2) return { ...loaded, sourceKey: SAVE_KEY };
     }
     const backup = storage.getItem(BACKUP_KEY);
     if (backup) {
       const restored = importGame(backup);
-      if (restored.state)
+      if (restored.state && restored.sourceVersion === 2)
         return {
           ...restored,
-          message: "Ana kayıt okunamadı. Bir önceki güvenli kayıt kurtarıldı.",
+          sourceKey: BACKUP_KEY,
+          message: "Ana 2.0 kaydı okunamadı. Bir önceki güvenli 2.0 kaydı kurtarıldı.",
         };
     }
-    const originalV1 = storage.getItem(ORIGINAL_V1_BACKUP_KEY);
-    if (originalV1) {
-      const restored = importGame(originalV1);
-      if (restored.state && restored.sourceVersion === 1)
+    const fallbackKeys = [LEGACY_SAVE_KEY, LEGACY_BACKUP_KEY, ORIGINAL_V1_BACKUP_KEY];
+    let foundLegacy = false;
+    for (const key of fallbackKeys) {
+      const bytes = storage.getItem(key);
+      if (!bytes) continue;
+      foundLegacy = true;
+      const restored = importGame(bytes);
+      if (restored.state && (key !== ORIGINAL_V1_BACKUP_KEY || restored.sourceVersion === 1)) {
+        // Old open tabs can still write their v1 key. Protect a validated legacy
+        // load before returning it, including early v2 envelopes at the old key.
+        const saved = saveGame(restored.state, storage);
+        const recovery =
+          key === ORIGINAL_V1_BACKUP_KEY
+            ? "Korunan özgün 1.0 kaydın kurtarıldı ve 2.0’a taşındı."
+            : primary || backup
+              ? "2.0 ana kaydı ve yedeği okunamadı. Eski uyumlu kayıttan kurtarıldı; son 2.0 adımların bu kopyada bulunmayabilir."
+              : restored.sourceVersion === 1
+                ? "Boardworld 1.0 kaydın doğrulandı ve 2.0’a taşındı. İlerlemen korundu."
+                : "Önceki 2.0 kaydın ayrı ve korunan kayıt alanına taşındı.";
         return {
           ...restored,
-          message:
-            "Ana kayıt ve son yedek okunamadı. Korunan özgün 1.0 kaydın kurtarıldı ve 2.0’a taşındı.",
+          sourceKey: key,
+          protected: saved.ok,
+          message: saved.ok
+            ? recovery
+            : "Uyumlu kayıt doğrulandı ve belleğe yüklendi; ayrı 2.0 kaydı yazılamadı. Eski kayıtlar değiştirilmedi. İlerlemeni korumak için dosyaya aktar.",
         };
+      }
     }
     return {
       state: null,
       message:
-        primary || backup || originalV1
+        primary || backup || foundLegacy
           ? "Kayıt okunamadı. Dosyadan kurtarma yapabilir veya yeni hayat başlatabilirsin."
           : "",
     };
@@ -152,23 +174,28 @@ export function saveGame(state, storage) {
     const previousResult = previous ? importGame(previous) : null;
     const rolling = storage.getItem(BACKUP_KEY);
     const rollingResult = rolling ? importGame(rolling) : null;
+    const canonicalExists =
+      previousResult?.sourceVersion === 2 || rollingResult?.sourceVersion === 2;
+    const oldPrimary = canonicalExists ? null : storage.getItem(LEGACY_SAVE_KEY);
+    const oldBackup = canonicalExists ? null : storage.getItem(LEGACY_BACKUP_KEY);
     const legacy =
-      (previousResult?.sourceVersion === 1 && previous) ||
-      (rollingResult?.sourceVersion === 1 && rolling) ||
       importedV1.get(state) ||
-      (state.version === 1 && encode(state, 1));
+      (state.version === 1 && encode(state, 1)) ||
+      (!canonicalExists &&
+        ((oldPrimary && importGame(oldPrimary).sourceVersion === 1 && oldPrimary) ||
+          (oldBackup && importGame(oldBackup).sourceVersion === 1 && oldBackup)));
     if (legacy) {
       const original = storage.getItem(ORIGINAL_V1_BACKUP_KEY);
       if (original === null) {
-        // This write and verification must finish before either existing save
-        // slot can change. Never rotate or replace this first original record.
+        // Archive before the first canonical write. Legacy primary and rotating
+        // slots belong to old open tabs and are never written by this version.
         writeChecked(storage, ORIGINAL_V1_BACKUP_KEY, legacy);
       } else if (importGame(original).sourceVersion !== 1) {
         throw new Error("original-v1-backup-damaged");
       }
     }
     // Never replace a healthy recovery slot with corrupt bytes.
-    if (previousResult?.state) writeChecked(storage, BACKUP_KEY, previous);
+    if (previousResult?.sourceVersion === 2) writeChecked(storage, BACKUP_KEY, previous);
     writeChecked(storage, SAVE_KEY, encoded);
     return { ok: true, message: "Bu tarayıcıya kaydedildi." };
   } catch {

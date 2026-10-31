@@ -330,5 +330,11 @@
         "sleep"
       ]
     }
-  ]
+  ],
+  "persistenceFixture": {
+    "file": "v1-persistence.mjs",
+    "originalSha256": "cdfb22cdf5b9b78faddae52a58196fe5a326f2986e032c7c60ff1b67074ac8f1",
+    "originalRepositoryPath": "public/games/tc-sim-boardworld/persistence.mjs",
+    "modification": "Only the validator import path points to the current engine, which accepts the original strict v1 schema. Original writer, envelope, checksum and backup code are unchanged. Tests supply authentic version-1 fixture states."
+  }
 }
