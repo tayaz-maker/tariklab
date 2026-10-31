@@ -1,0 +1,36 @@
+name: Boardworld quality
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+concurrency:
+  group: boardworld-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+jobs:
+  boardworld:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/ci-node
+      - name: Deterministic simulation and save recovery
+        run: node --test scripts/boardworld*.test.mjs
+      - name: Production bundle
+        run: npm run build
+      - name: Chromium
+        run: |
+          browser_path="$(command -v google-chrome || command -v chromium || true)"
+          if [ -n "$browser_path" ]; then
+            echo "PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=$browser_path" >> "$GITHUB_ENV"
+          else
+            npx playwright install --with-deps chromium --only-shell
+          fi
+      - name: Real play, reload, recovery and responsive production assets
+        run: node scripts/boardworld-browser.mjs --serve .output/public
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: boardworld-browser
+          path: ${{ runner.temp }}/screenshots/boardworld

@@ -140,9 +140,9 @@ test("retained UI module graph uses fresh online assets, with offline fallback",
   assert.equal(await vm.runInContext("networkFirst({url:'https://www.tariklab.com/games/apartman/app.js'})", context), "offline");
 });
 
-test("six live and twelve archived catalog destinations and static entrypoint assets exist", () => {
+test("seven live and twelve archived catalog destinations and static entrypoint assets exist", () => {
   const catalog = read("src/lib/games.ts").split("export const GAMES:")[1];
-  assert.equal((catalog.match(/status: "live"/g) || []).length, 6);
+  assert.equal((catalog.match(/status: "live"/g) || []).length, 7);
   assert.equal((catalog.match(/status: "soon"/g) || []).length, 0);
   assert.doesNotMatch(catalog, /slug: "jitem-derin-ag"/);
   const entries = [...catalog.matchAll(/slug: "([^"]+)"[^}]*?status: "live"/g)].map((match) => match[1]);

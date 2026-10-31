@@ -86,8 +86,8 @@ test("DEVLET archive preserves the multi-period runtime identity", () => {
   const staticI18n = read("public/i18n/tlab-i18n.js");
   assert.match(staticI18n, /A multi-era state simulation/);
   assert.doesNotMatch(staticI18n, /2002[–-]05 core/);
-  assert.equal(catalogEntries.length, 18);
+  assert.equal(catalogEntries.length, 19);
   assert.equal(catalogEntries.filter((game) => game.status === "archived").length, 12);
-  assert.equal(catalogEntries.filter((game) => game.status === "live").length, 6);
+  assert.equal(catalogEntries.filter((game) => game.status === "live").length, 7);
   assert.deepEqual(catalogEntries.filter((game) => game.status === "soon").map((game) => game.slug), []);
 });

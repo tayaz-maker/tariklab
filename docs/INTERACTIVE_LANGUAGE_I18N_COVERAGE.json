@@ -41,6 +41,14 @@
       "plNote": "PL: interface plus events, people, finance panels and help through the body-translation layer. Personal names stay as written."
     },
     {
+      "id": "tc-sim-boardworld",
+      "tr": "complete",
+      "en": "turkish-only",
+      "model": "deterministic city board, action costs and persistent consequences",
+      "pl": "turkish-only",
+      "plNote": "Catalog and Resources explain in Polish that Boardworld has Turkish game text. The independent game has no Polish or English translation."
+    },
+    {
       "id": "bukucu",
       "tr": "complete",
       "en": "complete",

@@ -66,7 +66,7 @@ test("duel table: Polish labels exist only for real English keys", async () => {
   assert.match(app, /lang = reader === "en" \|\| reader === "pl" \? "en" : "tr"/);
 });
 
-test("every game's language switch sends Polish readers to English content", () => {
+test("existing translated games send untranslated Polish text to English content", () => {
   const read = (p) => readFileSync(new URL(`../public/games/${p}`, import.meta.url), "utf8");
   assert.match(
     read("next-wave/shared/runtime.js"),
@@ -100,7 +100,8 @@ test("the coverage record lists every catalogue game with a PL state", () => {
     ),
   );
   for (const g of cov.games) {
-    assert.ok(["body", "interface", "english-fallback"].includes(g.pl), `${g.id}: ${g.pl}`);
+    if (g.id === "tc-sim-boardworld") assert.equal(g.pl, "turkish-only");
+    else assert.ok(["body", "interface", "english-fallback"].includes(g.pl), `${g.id}: ${g.pl}`);
     assert.ok(typeof g.plNote === "string" && g.plNote.length > 10, g.id);
   }
 });

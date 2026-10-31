@@ -51,7 +51,7 @@ test("EN dictionary covers required portal and common keys", () => {
 
 test("catalog EN covers every current public game slug", () => {
   const slugs = [...read("src/lib/games.ts").matchAll(/slug: "([^"]+)"/g)].map((match) => match[1]);
-  assert.equal(slugs.length, 18);
+  assert.equal(slugs.length, 19);
   for (const slug of slugs) {
     assert.ok(I.CATALOG_EN[slug], slug);
     assert.ok(I.CATALOG_EN[slug].subtitle.length > 8, slug);
@@ -156,8 +156,8 @@ test("credits English pack exists and Amiral Battı stays credited", () => {
   assert.match(I.CREDITS_EN.legal, /All rights reserved/);
 });
 
-test("credits Polish pack exposes 15 live games and preserves the personal note", () => {
-  assert.match(JSON.stringify(I.CREDITS_PL), /15 dostępnych gier/);
+test("credits Polish pack exposes 7 live games and preserves the personal note", () => {
+  assert.match(JSON.stringify(I.CREDITS_PL), /7 dostępnych gier/);
   assert.doesNotMatch(JSON.stringify(I.CREDITS_PL), /JITEM: Derin Ağ/);
   assert.match(JSON.stringify(I.CREDITS_PL), /Tarık jest synem swojej matki\./);
   assert.doesNotMatch(JSON.stringify(I.CREDITS_PL), /Tarık Halil Ayaz/);

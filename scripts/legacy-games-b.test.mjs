@@ -12,7 +12,7 @@ const manifest = JSON.parse(read('archives/legacy-games-b-2026-10-22/manifest.js
 test('exact tabletop members plus three named games retire from all active discovery', () => {
   const tabletop = GAME_CATEGORIES.find(category => category.id === 'tabletop').slugs;
   assert.deepEqual(new Set(archivedGameSlugs), new Set([...tabletop, 'tc-sim-devlet', 'kayip-telefon', 'son-100-gun']));
-  assert.deepEqual(GAMES.filter(game => game.status === 'live').map(game => game.slug), ['cete-savaslari', 'hanedanian', 'racon', 'tc-sim', 'apartman', 'son-kasaba']);
+  assert.deepEqual(GAMES.filter(game => game.status === 'live').map(game => game.slug), ['cete-savaslari', 'hanedanian', 'racon', 'tc-sim', 'tc-sim-boardworld', 'apartman', 'son-kasaba']);
   const ctx = { localStorage: { getItem: () => 'en' } };
   vm.runInNewContext(read('public/i18n/tlab-i18n.js'), ctx);
   for (const slug of archivedGameSlugs) {

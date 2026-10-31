@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#172d32" />
+    <meta
+      name="description"
+      content="İstanbul'da bir hayat kur. Semtler, insanlar ve kararlarla ilerleyen tek oyunculu yaşam ve masa oyunu."
+    />
+    <title>TC SIM: Boardworld · TarikLab</title>
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Oyuna geç</a>
+    <div id="app">
+      <main class="loading" id="main">
+        <span class="brand-seal">TC</span>
+        <h1>TC SIM: Boardworld</h1>
+        <p>Şehir tahtası hazırlanıyor…</p>
+      </main>
+    </div>
+    <div id="notice" class="notice" role="status" aria-live="polite" aria-atomic="true"></div>
+    <dialog id="menu-dialog" aria-labelledby="dialog-title"></dialog>
+    <input type="file" id="import-file" accept="application/json,.json" hidden />
+    <noscript
+      >Bu oyun için JavaScript etkin olmalıdır. Karakterin ve kayıtların yalnızca tarayıcında
+      saklanır.</noscript
+    >
+    <script type="module" src="./app.mjs"></script>
+  </body>
+</html>

@@ -277,7 +277,7 @@ test("every playable catalog game ships teaching content", () => {
   const slugs = [...catalog.matchAll(/slug: "([^"]+)",[^}]*?status: "(live|soon|archived)"/g)]
     .filter((m) => m[2] === "live")
     .map((m) => m[1]);
-  assert.ok(slugs.length === 6, `catalog parse found only ${slugs.length} live games`);
+  assert.ok(slugs.length === 7, `catalog parse found only ${slugs.length} live games`);
 
   // Where each game's player-facing teaching content lives.
   const sources = {
@@ -285,6 +285,7 @@ test("every playable catalog game ships teaching content", () => {
     hanedanian: ["public/games/hanedanian/app.js"],
     racon: ["public/games/racon/index.html"],
     "tc-sim": ["public/games/tc-sim/js/help.js"],
+    "tc-sim-boardworld": ["public/games/tc-sim-boardworld/app.mjs"],
     bukucu: ["public/games/bukucu/index.html"],
     labirent: ["public/games/labirent/index.html"],
     "peg-solitaire": ["public/games/peg-solitaire/index.html"],
