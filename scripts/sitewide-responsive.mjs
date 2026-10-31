@@ -21,7 +21,7 @@ const catalog = readFileSync("src/lib/games.ts", "utf8").split("export const GAM
 const routes = [
   ...catalog.matchAll(/slug: "([^"]+)"[^}]*?status: "live",\s*href: "([^"]+)"/g),
 ].map((match) => ({ id: match[1], href: match[2] }));
-assert.equal(routes.length, 6);
+assert.equal(routes.length, 7);
 const requestedRoutes = new Set((process.env.SITEWIDE_ROUTE_IDS || "").split(",").filter(Boolean));
 const browserRoutes = requestedRoutes.size
   ? routes.filter((route) => requestedRoutes.has(route.id))
@@ -259,6 +259,11 @@ try {
           const box = await popup.boundingBox();
           assert.ok(box.width > 0 && box.height > 0);
           await save.click();
+        } else if (route.id === "tc-sim-boardworld") {
+          await surface.locator("#character-name").fill("Deniz Boardworld QA");
+          await surface.locator('[data-testid="create-game"]').click();
+          await surface.locator('[data-tab="board"]').waitFor();
+          await measure("game");
         } else if (route.id === "tc-sim") {
           const introCta = surface.locator("#show-creation-form");
           assert.ok(await introCta.isVisible(), `${route.id}/${lang}: editorial intro CTA`);

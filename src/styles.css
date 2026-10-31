@@ -118,6 +118,12 @@
   opacity: 0.55;
 }
 
+/* Boardworld owns its paper tabletop lighting; portal film overlays reduce legibility. */
+body:has(iframe[src="/games/tc-sim-boardworld/index.html"])::before,
+body:has(iframe[src="/games/tc-sim-boardworld/index.html"])::after {
+  display: none;
+}
+
 /* Approved prism/spectrum brand. Cover + position; never stretch. */
 .tlab-prism {
   background-color: #080e17;

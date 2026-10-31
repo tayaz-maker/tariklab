@@ -32,6 +32,7 @@ In the table below, “native app” for Çete Savaşları means a first-party R
 | HANEDANIAN | `hanedanian` | `/oyna/hanedanian` | [docs/hanedan/](hanedan/README.md) | `public/games/hanedanian/` | Seeded strategy map, local simulation and IndexedDB saves. `/oyna/hanedan` remains an alias; the original game remains at `/games/hanedan/legacy.html`. |
 | Racon Manager | `racon` | `/oyna/racon` | [docs/racon/](racon/SPEC-V1-ORIJINAL.md) | `public/games/racon/` | |
 | TC SIM | `tc-sim` | `/oyna/tc-sim` | [docs/tc-sim/](tc-sim/TC_SIM_MASTER.md) | `public/games/tc-sim/` | Reference engine for the "Life Sim" family (see Shared Systems). |
+| TC SIM: Boardworld | `tc-sim-boardworld` | `/oyna/tc-sim-boardworld` | [docs/tc-sim-boardworld/](tc-sim-boardworld/README.md) | `public/games/tc-sim-boardworld/` | Independent single-player board RPG in Turkish; separate simulation and save namespace from TC SIM. |
 | Son Mahalle Bükücü | `bukucu` | `/games/bukucu/index.html` | [docs/bukucu/](bukucu/RAPOR.md) | `public/games/bukucu/` | Only catalog entry routed directly to a static path rather than `/oyna/$slug`. |
 | Labirent | `labirent` | `/oyna/labirent` | [docs/tlab-classics/](tlab-classics/PROVENANCE_AND_LICENSES.md) | `public/games/labirent/` | Original TarikLab implementation; see provenance doc for what it replaced. |
 | Tek Taş | `peg-solitaire` | `/oyna/peg-solitaire` | [docs/tlab-classics/](tlab-classics/PROVENANCE_AND_LICENSES.md) | `public/games/peg-solitaire/` | Original TarikLab implementation; see provenance doc for what it replaced. |

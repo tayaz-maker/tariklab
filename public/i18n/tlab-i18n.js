@@ -580,6 +580,7 @@
     },
     racon: { title: "Racon Manager", subtitle: "Men die. The name remains." },
     "tc-sim": { title: "TC SIM", subtitle: "One life. Weekly choices, years of fallout." },
+    "tc-sim-boardworld": { title: "TC SIM: Boardworld", subtitle: "Build a life across Istanbul's city board. Game text in Turkish." },
     bukucu: {
       title: "Son Mahalle Bükücü",
       subtitle: "Istanbul title deed. Who holds the district bends it. Money in TL.",
@@ -631,6 +632,7 @@
     hanedanian: { title: "HANEDANIAN", subtitle: "Od jednej osady do wielkiej dynastii. Czytaj mapę, buduj przyszłość." },
     racon: { title: "Racon Manager", subtitle: "Ludzie umierają. Imię zostaje." },
     "tc-sim": { title: "TC SIM", subtitle: "Jedno życie. Tygodniowe wybory, lata konsekwencji." },
+    "tc-sim-boardworld": { title: "TC SIM: Boardworld", subtitle: "Ułóż życie na planszy Stambułu. Tekst gry po turecku." },
     bukucu: { title: "Son Mahalle Bükücü", subtitle: "Stambułskie akty własności. Kto trzyma dzielnicę, ten nią rządzi. Pieniądze w TL." },
     labirent: { title: "Labirent", subtitle: "Zamknięte ścieżki, jedno wyjście." }, "peg-solitaire": { title: "Tek Taş", subtitle: "Przeskakuj. Zostaw jeden pionek." },
     satranc: { title: "Satranç", subtitle: "Plansza, ruch, mat." }, "amiral-batti": { title: "Amiral Battı", subtitle: "Flota na siatce. Trafienie, pudło, zatopienie." },
@@ -653,12 +655,13 @@
     sections: [
       {
         h: "Catalog",
-        lead: "TarikLab has 18 games in the live catalog.",
+        lead: "TarikLab has 7 playable games in the live catalog.",
         items: [
           '<a href="/cete-savaslari">Çete Savaşları</a> · LIVE — Build a crew, run missions and hold turf under police and rival pressure.',
           '<a href="/oyna/hanedanian">HANEDANIAN</a> · LIVE — Build settlements, secure resources and lead a dynasty across a seeded strategy map; single-player and offline-first.',
           '<a href="/oyna/racon">Racon Manager</a> · LIVE — Narrative management shaped by relationships, decisions and delayed consequences.',
           '<a href="/oyna/tc-sim">TC SIM</a> · LIVE — Allocate seven weekly time-and-focus blocks across work, education, family, friends, relationships and recovery (eight without standing commitments, three during critical health). Some choices return as Long Shadows years later. From 1999 the wage scale follows the Ministry of Labour net minimum-wage schedule (2025 net TRY 22,104.67). Before 1999, annual CPI is World Bank FP.CPI.TOTL for Türkiye (2010=100). Other prices are a game budget. FX quarters are TCMB bulletins; gold is the World Bank monthly ounce series.',
+          '<a href="/oyna/tc-sim-boardworld">TC SIM: Boardworld</a> · LIVE — Manage time, travel, work, education, housing and relationships across three Istanbul districts. Independent board RPG with Turkish game text; prices and people are fictional.',
           '<a href="/oyna/apartman">Kapı Nöbeti</a> · LIVE — Night courtyard desk for a two, four or ten-block estate: three open decisions, maintenance debt, trust and cash.',
           '<a href="/oyna/son-koy-manager">SON KÖY MANAGER</a> · LIVE — Spend changing field capacity and action effort across water, energy, migration, production and trust over 24 months.',
         ],
@@ -668,7 +671,7 @@
         lead: "TarikLab is a collection of independent games that run directly in the browser. The portal and Çete Savaşları use React and TypeScript; the other games run as their own HTML, CSS and JavaScript applications.",
         items: [
           "Most long-running games use three local slots, kept separate on the same device. HANEDANIAN keeps an autosave, its previous version and a separate manual save, with file export/import. Original HANEDAN saves remain accessible through the legacy game. VETO-H! and GETT-OH! each autosave one active duel; reload preserves deck order, action rights and pending responses.",
-          "The portal and all 15 live games support Turkish and English; each game keeps its own voice while the outer shell owns language navigation.",
+          "The portal and the six existing games support Turkish and English; each game keeps its own voice while the outer shell owns language navigation. TC SIM: Boardworld has Turkish game text.",
           "Polish covers the interface and, through a translation layer, game text (story, events, cards, help); anything without a Polish translation is shown in English. The Polish text has not yet been reviewed by a native speaker.",
           "Interfaces adapt to phone, tablet and desktop while preserving each game's own visual and interaction identity.",
         ],
@@ -710,15 +713,16 @@
   const CREDITS_PL = {
     h1: "Materiały źródłowe", kicker: "TarikLab · gry i struktura techniczna", back: "← Gry",
     sections: [
-      { h: "Katalog", lead: "TarikLab ma 15 dostępnych gier.", items: [
+      { h: "Katalog", lead: "TarikLab ma 7 dostępnych gier.", items: [
         '<a href="/cete-savaslari">Çete Savaşları</a> · LIVE — Zbuduj ekipę, prowadź zadania i utrzymuj dzielnicę pod presją policji oraz rywali.',
         '<a href="/oyna/hanedanian">HANEDANIAN</a> · LIVE — Buduj osady, zabezpieczaj zasoby i prowadź dynastię na generowanej mapie strategii.',
         '<a href="/oyna/racon">Racon Manager</a> · LIVE — Narracyjna gra menedżerska o relacjach, decyzjach i opóźnionych konsekwencjach.',
         '<a href="/oyna/tc-sim">TC SIM</a> · LIVE — Co tydzień 7 decyzji (8 bez stałej pracy, szkoły i opieki; 3 przy złym zdrowiu). Część skutków wraca po latach. Od 1999 skala płacy to net minimalny według ministerstwa pracy; wcześniej roczny CPI (Bank Światowy). Reszta to budżet gry.',
+        '<a href="/oyna/tc-sim-boardworld">TC SIM: Boardworld</a> · LIVE — Zarządzaj czasem, podróżami, pracą, nauką, mieszkaniem i relacjami w trzech dzielnicach Stambułu. Niezależne planszowe RPG po turecku; ceny i postacie są fikcyjne.',
         '<a href="/oyna/apartman">Kapı Nöbeti</a> · LIVE — Nocne biurko dziedzińca: trzy decyzje, dług napraw, zaufanie i kasa.',
         '<a href="/oyna/son-koy-manager">SON KÖY MANAGER</a> · LIVE — Przez 24 miesiące rozdzielaj zdolność działania między wodę, energię, migrację i zaufanie.',
       ]},
-      { h: "Jak to działa", lead: "TarikLab to zbiór niezależnych gier działających bezpośrednio w przeglądarce.", items: ["Portal i Çete Savaşları używają Reacta i TypeScriptu; pozostałe gry są osobnymi aplikacjami HTML, CSS i JavaScript.", "Portal i wszystkie 15 dostępnych gier obsługują turecki i angielski. Polski obejmuje interfejs oraz — przez warstwę tłumaczeń — tekst gier (fabuła, wydarzenia, karty, pomoc); tekst bez polskiego tłumaczenia pokazuje się po angielsku. Polskie teksty nie zostały jeszcze sprawdzone przez rodzimego użytkownika języka.", "Interfejsy dostosowują się do telefonu, tabletu i komputera." ]},
+      { h: "Jak to działa", lead: "TarikLab to zbiór niezależnych gier działających bezpośrednio w przeglądarce.", items: ["Portal i Çete Savaşları używają Reacta i TypeScriptu; pozostałe gry są osobnymi aplikacjami HTML, CSS i JavaScript.", "Portal i sześć dotychczasowych gier obsługują turecki i angielski. TC SIM: Boardworld ma tekst gry po turecku. W pozostałych grach polski obejmuje interfejs oraz — przez warstwę tłumaczeń — tekst gier (fabuła, wydarzenia, karty, pomoc); tekst bez polskiego tłumaczenia pokazuje się po angielsku. Polskie teksty nie zostały jeszcze sprawdzone przez rodzimego użytkownika języka.", "Interfejsy dostosowują się do telefonu, tabletu i komputera." ]},
       { h: "Autorstwo", note: "Tarık jest synem swojej matki." },
       { h: "TLab Classics", lead: "Labirent, Tek Taş, Satranç i Amiral Battı zostały napisane od podstaw dla TarikLab.", items: ["Labirent — niezależna implementacja TarikLab.", "Tek Taş — niezależna implementacja TarikLab.", "Satranç — niezależny silnik zasad TarikLab.", "Amiral Battı — niezależna implementacja siatki i floty TarikLab."], note: "Klasyczne zasady gier są koncepcjami domeny publicznej; ta informacja dotyczy wyłącznie kodu, interfejsu i oryginalnej treści TarikLab." },
       { h: "Grafiki i łańcuch praw", lead: "Jako licencje pokazujemy tylko prawa z potwierdzonym zapisem.", items: [

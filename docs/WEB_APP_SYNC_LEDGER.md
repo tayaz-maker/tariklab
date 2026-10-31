@@ -1292,3 +1292,23 @@ All 72 current job win/loss narrative variants have Polish render-time equivalen
 ## 2026-10-29 — Çete Polish display and acceptance follow-up
 
 Extended presentation-only log translations to current game actions, seeded world events and selected historical messages, retaining original save bytes. Added Polish currency/decimal formatting and localized screen labels without changing TR/EN formatting, game rules or saves. Catalog, key, action and event tests plus real Chromium screen, conditional-state, save/reload, language and production Worker offline checks cover the cases in `docs/cete-savaslari/PL_COVERAGE_WIP.md`. Unknown custom or historical log text remains in its original language; native-speaker review and the previously intermittent missing-main root cause remain unverified. Exact-head CI and release verification remain separate requirements.
+
+## 2026-10-31 — TC SIM: Boardworld independent web game
+
+- Added the independent `/oyna/tc-sim-boardworld` catalog entry to Life & Management, Resources in TR/EN/PL, sitemap and the documentation map. Seven games are live; the twelve archived catalog entries retain their status. English and Polish discovery copy explicitly identifies Boardworld's Turkish game text.
+- Boardworld owns `public/games/tc-sim-boardworld/` and a separate save namespace. Original TC SIM files and existing game save keys are preserved. No shared artwork was changed; the portal reuses its existing life icon. Native/Godot remains paused and audio remains disabled.
+- Portal integration checks: 34 catalog, Resources and archive-preservation tests passed locally. Final engine/browser/build/CI and production acceptance are recorded separately after integration; this entry does not claim a production deployment.
+
+## 2026-10-31 — Boardworld local acceptance
+
+Independent Boardworld engine, UI and persistence completed. 2,475 repository
+tests pass, including 33 Boardworld tests; nine real-action campaigns cover 45
+complete days with two promotions, rent, payroll and interest. Typecheck and
+production build pass; lint has no errors (62 existing warnings). Real Chromium
+on the production Worker preview passes 320/390/1440 px gameplay, all nine
+panels, exact saved-state reload, export/import and corrupt-primary recovery;
+original TC SIM start/play/continue smoke also passes. Source under the old
+TC SIM runtime is unchanged. Local evidence: `tc-sim-boardworld/LOCAL_ACCEPTANCE.json`.
+These are local checks; GitHub CI and production publication are verified separately.
+Existing Cloudflare dashboard has no deploy hooks; none was created. Native remains
+paused, sound remains disabled, and no shared artwork source was modified.

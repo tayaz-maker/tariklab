@@ -18,7 +18,7 @@ export const GAME_CATEGORIES: ReadonlyArray<{ id: GameCategory; slugs: readonly 
   // Territory, turf and state power: you grow and hold something on a map.
   { id: "strategy", slugs: ["cete-savaslari", "hanedanian", "racon", "bukucu", "tc-sim-devlet", "esik"] },
   // One life, one building, one village, one hundred days: running people over time.
-  { id: "life", slugs: ["tc-sim", "apartman", "son-kasaba", "son-100-gun"] },
+  { id: "life", slugs: ["tc-sim", "tc-sim-boardworld", "apartman", "son-kasaba", "son-100-gun"] },
   // Read the record, connect the evidence, decide.
   { id: "dossier", slugs: ["kayip-telefon", "ihtilal"] },
   // Short table sessions: the two card duels and the four classic board and puzzle games.
@@ -34,6 +34,7 @@ export const HTML5_SLUGS = [
   "racon",
   "bukucu",
   "tc-sim",
+  "tc-sim-boardworld",
   "apartman",
   "son-100-gun",
   "kayip-telefon",
@@ -93,6 +94,14 @@ export const GAMES: CatalogGame[] = [
     status: "live",
     href: "/oyna/tc-sim",
     icon: "tc-sim",
+  },
+  {
+    slug: "tc-sim-boardworld",
+    title: "TC SIM: Boardworld",
+    subtitle: "İstanbul bir oyun tahtası. İşini, ilişkilerini ve kendi hayatını kur.",
+    status: "live",
+    href: "/oyna/tc-sim-boardworld",
+    icon: "hayat",
   },
   {
     slug: "bukucu",

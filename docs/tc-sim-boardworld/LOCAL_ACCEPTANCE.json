@@ -1,0 +1,68 @@
+{
+  "date": "2026-10-31",
+  "baseCommit": "e33583022696ae6552b23eccdf481fa33f9de705",
+  "localAcceptance": {
+    "npmTest": {
+      "passed": 2475,
+      "failed": 0
+    },
+    "boardworldTests": 33,
+    "typecheck": "PASS",
+    "productionBuild": "PASS",
+    "lint": {
+      "errors": 0,
+      "existingWarnings": 62
+    },
+    "productionRuntimeBrowser": [
+      {
+        "width": 1440,
+        "job": true,
+        "shift": true,
+        "travel": true,
+        "allPanels": true,
+        "saveReload": true,
+        "exportImport": true,
+        "backupRecovery": true,
+        "errors": []
+      },
+      {
+        "width": 390,
+        "job": true,
+        "shift": true,
+        "travel": true,
+        "allPanels": true,
+        "saveReload": true,
+        "exportImport": true,
+        "backupRecovery": true,
+        "errors": []
+      },
+      {
+        "width": 320,
+        "job": true,
+        "shift": true,
+        "travel": true,
+        "allPanels": true,
+        "saveReload": true,
+        "exportImport": true,
+        "backupRecovery": true,
+        "errors": []
+      },
+      {
+        "legacyTcSim": true,
+        "saveReload": true
+      }
+    ],
+    "servedModuleBytes": "Matched production build byte-for-byte",
+    "legacyTcSimSource": "Unchanged from base commit"
+  },
+  "gameSourceSha256": {
+    "app.mjs": "13cc89b8d90e1597029f66c322a0b363c522b8898fb62ae45a21c95c84da30f8",
+    "content.mjs": "d98f97bb986fe19a7dd78a165338af92dc00c6edc2330637789beb9b4a33c4d6",
+    "engine.mjs": "f480a1d4a79750bdd39280f4a79c138931c781832db005a1d541297e92a93ac9",
+    "favicon.svg": "f56714a4b795e087d52dece6b9ca5113d1a7fe9aa1cf2edb82ec5d87c46fca12",
+    "index.html": "b87e495d2cac3bbda7c9a99c9ac910ed9ca42050d8d5bef2f5513a7d2672df5a",
+    "persistence.mjs": "cdfb22cdf5b9b78faddae52a58196fe5a326f2986e032c7c60ff1b67074ac8f1",
+    "style.css": "4dc0e38cb5007f5a83259647435c4714d99800d4cda2ad0373efefe1ce11e363"
+  },
+  "deploymentHookAudit": "Existing tariklab Worker dashboard reported No deploy hooks defined; no hook created or secret exported. Local validation is not production deployment evidence."
+}
