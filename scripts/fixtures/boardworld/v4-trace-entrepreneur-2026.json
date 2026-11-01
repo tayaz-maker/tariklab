@@ -1,0 +1,10609 @@
+{
+  "options": {
+    "scenario": "restart",
+    "seed": 2026,
+    "name": "entrepreneur 4.0"
+  },
+  "style": "entrepreneur",
+  "actions": [
+    {
+      "id": "event:welcome:work"
+    },
+    {
+      "id": "event:craft-project:repair"
+    },
+    {
+      "id": "project:start:enterprise:repair:90"
+    },
+    {
+      "id": "business:start:repair"
+    },
+    {
+      "id": "life:order:leyla"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:acquire"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:acquire"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "cook"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:book-club:join"
+    },
+    {
+      "id": "business:acquire"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "life:deliver:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "story:shared-roof:repair"
+    },
+    {
+      "id": "business:acquire"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "cook"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:repair-home:fix"
+    },
+    {
+      "id": "story:debt-crossroads:disclose"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "cook"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:market:plan"
+    },
+    {
+      "id": "event:debt-letter:budget"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-1:adapt"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "story:shared-roof:inspect"
+    },
+    {
+      "id": "story:community-table:time"
+    },
+    {
+      "id": "story:debt-crossroads:buffer"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-2:commit"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-3:commit"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "story:community-table:organize"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "event:family-call:talk"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:rain:chat"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "systemic:sys-1:finish"
+    },
+    {
+      "id": "systemic:sys-4:adapt"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "story:shared-roof:record"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "life:order:leyla"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "systemic:sys-2:finish"
+    },
+    {
+      "id": "systemic:sys-5:commit"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:power-cut:read"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-3:finish"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:deliver:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "story:community-table:network"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "cook"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "cook"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:festival:volunteer"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-6:commit"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "systemic:sys-5:finish"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "story:debt-crossroads:review"
+    },
+    {
+      "id": "business:acquire"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "cook"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:rent-talk:negotiate"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "story:first-customer:practice"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-4:decline"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "systemic:sys-6:finish"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "story:first-customer:deliver"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:order:leyla"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:month:reflect"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-7:commit"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "life:deliver:leyla"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "story:first-customer:reference"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "systemic:sys-7:finish"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-8:adapt"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-9:adapt"
+    },
+    {
+      "id": "life:order:leyla"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-10:commit"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "life:deliver:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-10:finish"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-11:commit"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "systemic:sys-9:decline"
+    },
+    {
+      "id": "systemic:sys-12:commit"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "systemic:sys-8:decline"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "life:order:leyla"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-11:finish"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "life:deliver:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "lease:renew"
+    },
+    {
+      "id": "systemic:sys-12:finish"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-13:adapt"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-14:commit"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-15:commit"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-14:finish"
+    },
+    {
+      "id": "systemic:sys-16:adapt"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-15:finish"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-17:commit"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "systemic:sys-13:decline"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-17:finish"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "systemic:sys-16:decline"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-18:commit"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-19:commit"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-20:adapt"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-18:finish"
+    },
+    {
+      "id": "systemic:sys-21:commit"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-19:finish"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "systemic:sys-21:finish"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "systemic:sys-20:decline"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-22:adapt"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-23:commit"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "lease:renew"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-23:finish"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "systemic:sys-22:decline"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-24:adapt"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-25:commit"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-25:finish"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-26:commit"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "systemic:sys-24:decline"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-27:commit"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-26:finish"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-28:commit"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-27:finish"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-29:adapt"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-28:finish"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-30:adapt"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-31:commit"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "systemic:sys-29:decline"
+    },
+    {
+      "id": "systemic:sys-32:commit"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-31:finish"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "systemic:sys-30:decline"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "systemic:sys-32:finish"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "lease:renew"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-33:commit"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-34:adapt"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-35:adapt"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-33:finish"
+    },
+    {
+      "id": "systemic:sys-36:commit"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "systemic:sys-35:decline"
+    },
+    {
+      "id": "systemic:sys-37:commit"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "systemic:sys-34:decline"
+    },
+    {
+      "id": "systemic:sys-36:finish"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-37:finish"
+    },
+    {
+      "id": "systemic:sys-38:commit"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-39:commit"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "systemic:sys-38:finish"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "systemic:sys-39:finish"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-40:adapt"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-41:adapt"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "systemic:sys-40:decline"
+    },
+    {
+      "id": "systemic:sys-42:commit"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-43:commit"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "systemic:sys-42:finish"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-43:finish"
+    },
+    {
+      "id": "systemic:sys-41:decline"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-44:commit"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-45:adapt"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "lease:renew"
+    },
+    {
+      "id": "systemic:sys-44:finish"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-46:commit"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-47:commit"
+    },
+    {
+      "id": "systemic:sys-45:decline"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-46:finish"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-48:adapt"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-47:finish"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-49:commit"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-48:decline"
+    },
+    {
+      "id": "systemic:sys-50:commit"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-49:finish"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-51:adapt"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "systemic:sys-50:finish"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-52:commit"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "systemic:sys-51:decline"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-53:commit"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "systemic:sys-52:finish"
+    },
+    {
+      "id": "systemic:sys-53:finish"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-54:commit"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "systemic:sys-55:adapt"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-54:finish"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-56:adapt"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "lease:renew"
+    },
+    {
+      "id": "systemic:sys-55:decline"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "systemic:sys-56:decline"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-57:commit"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-58:commit"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-57:finish"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-58:finish"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-59:commit"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-60:adapt"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-61:commit"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-59:finish"
+    },
+    {
+      "id": "systemic:sys-62:adapt"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-61:finish"
+    },
+    {
+      "id": "systemic:sys-63:commit"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "systemic:sys-60:decline"
+    },
+    {
+      "id": "systemic:sys-64:commit"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "systemic:sys-62:decline"
+    },
+    {
+      "id": "systemic:sys-63:finish"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "systemic:sys-64:finish"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-65:commit"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-66:adapt"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-67:adapt"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "systemic:sys-65:finish"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "lease:renew"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "systemic:sys-68:commit"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    }
+  ]
+}

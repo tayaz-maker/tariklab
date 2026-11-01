@@ -98,7 +98,7 @@ export const GAMES: CatalogGame[] = [
   {
     slug: "tc-sim-boardworld",
     title: "TC SIM: Boardworld",
-    subtitle: "Boardworld 4.0: kararlarından doğan olaylar, paylaşılan evler, yaşayan komşular ve kendi günlük düzenin.",
+    subtitle: "Boardworld 5.0 Living Society: komşulardan gelen davetler, yerel ekonomi ve kararlarını öne çıkaran günlük plan.",
     status: "live",
     href: "/oyna/tc-sim-boardworld",
     icon: "hayat",

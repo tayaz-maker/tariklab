@@ -16,7 +16,8 @@ const dayOf = (s) => Math.floor(s.time / 1440) + 1;
 const funds = (s) => s.cash + s.bank;
 const lookup = (xs, id) => xs.find((x) => x.id === id);
 export function selectLifeAction(s, style, memory = {}) {
-  const actions = getActions(s).filter((a) => !a.disabled),
+  const descriptors = getActions(s),
+    actions = descriptors.filter((a) => !a.disabled),
     pick = (id) => actions.find((a) => a.id === id);
   const day = dayOf(s),
     minute = s.time % 1440;
@@ -103,8 +104,15 @@ export function selectLifeAction(s, style, memory = {}) {
       if (day >= 30 && s.job?.id === "retail" && !s.deep.career.noticeDay && pick("career:notice"))
         return pick("career:notice");
       if (day >= 37 && s.job?.id === "retail" && s.player.skills.craft >= 25) {
-        if (!s.inventory.tools && funds(s) > 6000 && fits(pick("buy:tools")))
-          return pick("buy:tools");
+        if (!s.inventory.tools && funds(s) > 6000) {
+          if (fits(pick("buy:tools"))) return pick("buy:tools");
+          // Optional social visits can spend cash without depleting the bank.
+          // Fund the intended career purchase explicitly instead of assuming
+          // the routine's small daily cash floor covers a one-off tool kit.
+          const tools = descriptors.find((a) => a.id === "buy:tools");
+          const cash = pick("withdraw:1000") || pick("withdraw:all");
+          if (tools && s.cash < tools.cost && fits(cash)) return cash;
+        }
         if (fits(pick("apply:repair"))) return pick("apply:repair");
       }
       if (fits(pick("career:negotiate"))) return pick("career:negotiate");

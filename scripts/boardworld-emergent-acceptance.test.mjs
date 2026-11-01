@@ -28,7 +28,10 @@ for (const style of ["career", "social", "entrepreneur"])
         families = new Set(),
         finishes = [],
         decisions = [],
-        checkpoints = [];
+        checkpoints = [],
+        societyOffers = new Map(),
+        receivedReports = new Set(),
+        penalizedEpisodes = new Set();
       let noGainPractice = 0,
         noGainRest = 0,
         maintenance = 0,
@@ -43,6 +46,22 @@ for (const style of ["career", "social", "entrepreneur"])
         checkpoints: [30, 90, 180, 365],
         selector: selectEmergentLifeAction,
         onAction: ({ before, state, action }) => {
+          for (const offer of state.society.offers) societyOffers.set(offer.id, offer.status);
+          for (const [receiver, facts] of Object.entries(state.society.knowledge))
+            for (const fact of facts) {
+              const episode = `${receiver}:${fact.id}`;
+              if (fact.hops > 0) receivedReports.add(episode);
+              if (fact.appliedTrust < 0) {
+                const old = before.society.knowledge[receiver]?.find((f) => f.id === fact.id);
+                if (!old || old.learnedAt !== fact.learnedAt)
+                  assert.equal(
+                    penalizedEpisodes.has(episode),
+                    false,
+                    "forgetting a bounded report cannot charge the same reputation penalty again",
+                  );
+                penalizedEpisodes.add(episode);
+              }
+            }
           normalized.add(normalizeAction(action.id));
           if (maintenanceAction.test(action.id)) maintenance++;
           if (majorDecision.test(action.id)) {
@@ -131,6 +150,12 @@ for (const style of ["career", "social", "entrepreneur"])
             practiceWithNoImmediateSkillGain: noGainPractice,
             restWithNoImmediateTargetGain: noGainRest,
             saveBytes: Buffer.byteLength(exportGame(state)),
+            societyBytes: Buffer.byteLength(JSON.stringify(state.society)),
+            autonomousOffers: societyOffers.size,
+            receivedNpcReports: receivedReports.size,
+            retainedOffers: state.society.offers.length,
+            retainedChronology: state.society.feed.length,
+            retainedKnownEdges: state.society.knownEdges.length,
             health: state.player.health,
             cash: state.cash,
             bank: state.bank,
@@ -156,6 +181,7 @@ for (const style of ["career", "social", "entrepreneur"])
         assert.equal(families.has("employment"), false);
       }
       assert.ok(result.observed.npcContacts > 100);
+      assert.ok(societyOffers.size > 0, "NPCs initiate opportunities in an actual year of play");
       assert.ok(result.observed.moved.length && result.observed.careers.length);
       assert.ok(s.life.secondary.length >= 1);
       assert.ok(Buffer.byteLength(exportGame(s)) < 500000);
@@ -191,6 +217,15 @@ for (const style of ["career", "social", "entrepreneur"])
         families: [...families],
         finishes: finishes.length,
         observed: result.observed,
+        society: {
+          autonomousOffers: societyOffers.size,
+          receivedNpcReports: receivedReports.size,
+          uniquePenalizedEpisodes: penalizedEpisodes.size,
+          outcomes: [...societyOffers.values()].reduce((counts, status) => {
+            counts[status] = (counts[status] || 0) + 1;
+            return counts;
+          }, {}),
+        },
       });
       if (process.env.BOARDWORLD_ACCEPTANCE_REPORT)
         writeFileSync(

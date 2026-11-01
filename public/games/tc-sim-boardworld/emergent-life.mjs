@@ -130,7 +130,7 @@ function seed(s, f) {
           contract: jobKey(s),
           location: j.district,
           baseline: s.job.shifts,
-          why: `${s.job.shifts} tamamlanan vardiya, ${Math.round(s.job.performance)} performans ve ${Math.round(s.player.stress)} stres; ekip ihtiyacı ${sig.career.employerNeed}.`,
+          why: `${s.job.shifts} tamamlanan vardiya, ${Math.round(s.job.performance)} performans ve ${Math.round(s.player.stress)} stres; ekip ihtiyacı ${{ balanced: "dengeli", busy: "yoğun", quiet: "sakin" }[sig.career.employerNeed] || "belirtilmedi"}.`,
         };
       break;
     case "housing":

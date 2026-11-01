@@ -1,6 +1,6 @@
 # TC SIM: Boardworld
 
-Independent Turkish-language single-player tabletop life RPG at
+Independent single-player tabletop life RPG at
 `/oyna/tc-sim-boardworld`. Source: `public/games/tc-sim-boardworld/`.
 The weekly TC SIM runtime and save namespace are unchanged. Native/Godot remains
 paused and sound is disabled. Prices are authored game balance, not real-time
@@ -163,3 +163,22 @@ The existing TC SIM is separately started, played and resumed from its own save.
 The life journal and account ledger retain the latest 160 entries; each NPC retains
 12 recent memories while relationship values, resolved events, certificates and
 achievement flags remain in the saved state. Saves stay bounded for long games.
+
+
+## 5.0 Living Society
+
+Version5 extends the existing game with bounded NPC invitations and contact-driven
+knowledge, public sourced chronology, district stock and service feedback, an
+actionable daily decision desk, revocable routine payment consent, safe needs
+batching and a sustainable-business goal. The13 existing panels and all prior
+authored content remain. Earlier sections describe the corresponding historical
+releases; their Turkish-only UI limitation is superseded by the game-local5
+TR/EN/PL presentation catalogs. Persisted original records and user names remain
+unchanged and are labeled when shown as original Turkish prose.
+
+See [architecture and rollback](BOARDWORLD_5_ARCHITECTURE.md),
+[independent baseline](BOARDWORLD_5_AUDIT.md), and
+[acceptance evidence](BOARDWORLD_5_ACCEPTANCE.md). A version number or this source
+document does not itself prove production deployment. The merged PR and final
+release evidence identify the exact merge SHA, successful CI, active Cloudflare
+version and matching live runtime files after those checks actually complete.

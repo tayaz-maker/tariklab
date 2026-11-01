@@ -1369,3 +1369,23 @@ original TC SIM runtime and keys are unchanged. The existing Cloudflare Git
 integration and exact-main guard are retained. No runtime dependency, new Worker,
 hook, Vercel, audio or native/Godot change. Exact-head acceptance/release evidence
 is recorded with the final reviewed tree; this entry alone does not claim release.
+
+## 2026-11-01 — Boardworld 5.0 Living Society
+
+Extends verified 4.0 commit c2e7f352 on feature/boardworld-living-society.
+Version5 isolates writes from older tabs and migrates authentic v1–v4 saves with
+immutable originals. Bounded society state links autonomous invitations,
+learned-only reputation, existing calendars/wallets and district stock feedback.
+The daily decision view and explicit needs batching preserve player choices;
+unchanged routine/wait blockers cannot produce repeated zero-time commands.
+Existing-payment consent is revocable and never authorizes a changed lease, new
+loan or unaffordable obligation. A sustainable-business goal complements legacy
+goals without changing their earned progress. Final local acceptance:2886 tests,
+typecheck/build, six365day lives and the responsive built-browser suites pass.
+All33 runtime assets match; matched Chrome p95 improves13–19%, while total gzip
+growth exceeds its provisional budget because of new society and language content.
+PR CI, exact-main CI and actual Cloudflare production remain separate release
+gates; their verified identifiers belong in the PR and final release evidence. Original TC SIM, portal routes,
+other games, deployment guards, dependencies, shared art, native pause and disabled
+audio policy remain unchanged. See BOARDWORLD_5_AUDIT.md and the final acceptance
+report for independently measured evidence.

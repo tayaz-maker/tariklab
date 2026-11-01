@@ -1,10 +1,11 @@
+import { money as formatMoney } from "./i18n.mjs";
 /** Public-view presentation only. Every gameplay control resolves an engine descriptor. */
 const esc = (v) =>
   String(v ?? "").replace(
     /[&<>"']/g,
     (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c],
   );
-const money = (v) => `${Math.round(Number(v) || 0).toLocaleString("tr-TR")} ₺`;
+const money = formatMoney;
 const at = (v) =>
   `${Math.floor(v / 1440) + 1}. gün · ${String(Math.floor((v % 1440) / 60)).padStart(2, "0")}:${String(v % 60).padStart(2, "0")}`;
 const names = {
@@ -38,6 +39,11 @@ const states = {
   open: "Açık",
   settled: "Hesap kapandı",
 };
+const cause = (value) =>
+  String(value || "").replace(
+    /ekip ihtiyacı (busy|quiet|balanced)/g,
+    (_, id) => `ekip ihtiyacı ${{ busy: "yoğun", quiet: "sakin", balanced: "dengeli" }[id]}`,
+  );
 const list = (values) =>
   (values || [])
     .map((v) => (typeof v === "string" ? v : v.text || v.name || v.label || ""))
@@ -67,16 +73,16 @@ export function renderSystemicEvents(view, actions, actionCard, { compact = fals
   );
   if (!live.length) return "";
   if (compact)
-    return `<section class="systemic-prompt"><span class="causal-mark" aria-hidden="true">↳</span><div><strong>${live.length} şehir gelişmesi</strong><span>${esc(live[0].title)} · ${esc(live[0].why)}</span></div><button class="secondary" data-tab="stories">Nedenini ve seçenekleri gör ↗</button></section>`;
+    return `<section class="systemic-prompt"><span class="causal-mark" aria-hidden="true">↳</span><div><strong>${live.length} şehir gelişmesi</strong><span>${esc(live[0].title)} · ${esc(cause(live[0].why))}</span></div><button class="secondary" data-tab="stories">Nedenini ve seçenekleri gör ↗</button></section>`;
   return `<section class="systemic-events" aria-label="Koşullarından doğan şehir olayları">${live
     .map(
       (e) =>
-        `<article class="systemic-card" data-systemic="${esc(e.id)}"><div class="systemic-kicker"><span>${esc(names[e.family] || "Şehir hayatı")}</span><b>${esc(states[e.status] || e.status)}</b></div><h3>${esc(e.title)}</h3><div class="causal-why"><span class="eyebrow">NEDEN ŞİMDİ?</span><p>${esc(e.why)}</p></div><div class="systemic-meta">${e.source ? `<span>Kaynak: ${esc(e.source)}</span>` : ""}${e.location ? `<span>${esc({ kadikoy: "Kadıköy", besiktas: "Beşiktaş", sisli: "Şişli" }[e.location] || e.location)}</span>` : ""}${e.deadline ? `<span>Son karar: ${esc(at(e.deadline))}</span>` : ""}${list(e.actors).length ? `<span>${list(e.actors).map(esc).join(" · ")}</span>` : ""}</div>${
+        `<article class="systemic-card" data-systemic="${esc(e.id)}"><div class="systemic-kicker"><span>${esc(names[e.family] || "Şehir hayatı")}</span><b>${esc(states[e.status] || e.status)}</b></div><h3>${esc(e.title)}</h3><div class="causal-why"><span class="eyebrow">NEDEN ŞİMDİ?</span><p>${esc(cause(e.why))}</p></div><div class="systemic-meta">${e.source ? `<span>Kaynak: ${esc(e.source)}</span>` : ""}${e.location ? `<span>${esc({ kadikoy: "Kadıköy", besiktas: "Beşiktaş", sisli: "Şişli" }[e.location] || e.location)}</span>` : ""}${e.deadline ? `<span>Son karar: ${esc(at(e.deadline))}</span>` : ""}${list(e.actors).length ? `<span>${list(e.actors).map(esc).join(" · ")}</span>` : ""}</div>${
           e.consequences?.length
             ? `<div class="causal-consequences"><span class="eyebrow">BU KARARIN İZİ</span><ul>${list(
                 e.consequences,
               )
-                .map((c) => `<li>${esc(c)}</li>`)
+                .map((c) => `<li>${esc(cause(c))}</li>`)
                 .join("")}</ul></div>`
             : ""
         }${e.parentId ? '<p class="tiny">Bu gelişme daha önceki bir kararının devamı.</p>' : ""}<div class="action-grid systemic-choices">${controls(e.actionIds, actions, actionCard)}</div></article>`,
@@ -99,7 +105,7 @@ export function renderPolicies(view, actions) {
   const policy = view?.policy || {},
     groups = new Map();
   for (const a of actions.filter(
-    (a) => a.category === "policy" && !a.id.startsWith("policy:day:"),
+    (a) => a.category === "policy" && a.id.startsWith("policy:") && !a.id.startsWith("policy:day:"),
   )) {
     const field = a.id.split(":")[1];
     if (!groups.has(field)) groups.set(field, []);
@@ -139,7 +145,10 @@ export function renderPolicies(view, actions) {
       ? `<details class="routine-trace"><summary>Son planın izi · ${view.routine.performedCount || 0} eylem</summary><p>${esc(view.routine.stopReason)}</p>${
           view.routine.lastActions?.length
             ? `<ol>${list(view.routine.lastActions)
-                .map((x) => `<li>${esc(x)}</li>`)
+                .map(
+                  (x) =>
+                    `<li>${esc(actions.find((a) => a.id === x)?.label || { sleep: "Uyu ve yeni güne geç", cook: "Evde yemek hazırla", eat: "Dışarıda yemek ye", rest: "Dinlen", work: "Vardiyada çalış", study: "Ders çalış", groceries: "Erzak al" }[x] || x)}</li>`,
+                )
                 .join("")}</ol>`
             : ""
         }${

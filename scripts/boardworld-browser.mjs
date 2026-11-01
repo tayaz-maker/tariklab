@@ -201,6 +201,15 @@ try {
     "life-content.mjs",
     "emergent-ui.mjs",
     "emergent.css",
+    "daily-flow.mjs",
+    "society-content.mjs",
+    "society-systems.mjs",
+    "society-ui.mjs",
+    "society.css",
+    "i18n.mjs",
+    "locale-keys.mjs",
+    "locale-en.mjs",
+    "locale-pl.mjs",
   ]) {
     const r = await fetch(`${origin}/games/tc-sim-boardworld/${file}`);
     assert.equal(r.status, 200, file);

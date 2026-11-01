@@ -1,7 +1,7 @@
 /** Run with node --expose-gc; measurements are observations, not machine-independent promises. */
 import { performance } from "node:perf_hooks";
 import { createHash } from "node:crypto";
-import { writeFileSync, readFileSync, readdirSync, statSync } from "node:fs";
+import { writeFileSync, readFileSync, readdirSync, statSync, mkdirSync } from "node:fs";
 import { resolve } from "node:path";
 import { gzipSync } from "node:zlib";
 import {
@@ -11,6 +11,8 @@ import {
   getAppointmentOptions,
   getEmergentView,
   getLifeView,
+  getSocietyView,
+  getDecisionView,
   resolveAction,
 } from "../public/games/tc-sim-boardworld/engine.mjs";
 import {
@@ -26,6 +28,8 @@ import {
 } from "./boardworld-emergent-scenarios.mjs";
 
 const samples = 31;
+const stateDirectory = process.env.BOARDWORLD_PERFORMANCE_STATES;
+if (stateDirectory) mkdirSync(resolve(stateDirectory), { recursive: true });
 function measure(fn) {
   for (let i = 0; i < 3; i++) fn();
   const values = [];
@@ -66,6 +70,8 @@ function methods(state) {
     getCalendarView: measure(() => getCalendarView(state)),
     getEmergentView: measure(() => getEmergentView(state)),
     getLifeView: measure(() => getLifeView(state)),
+    getSocietyView: measure(() => getSocietyView(state)),
+    getDecisionView: measure(() => getDecisionView(state)),
     getAppointmentOptions: measure(() => getAppointmentOptions(state, draft)),
     resolveAction: measure(() => resolveAction(state, action.id)),
     exportGame: measure(() => exportGame(state)),
@@ -133,6 +139,11 @@ for (const style of ["career", "social", "entrepreneur"])
         });
       },
     });
+    if (stateDirectory)
+      writeFileSync(
+        resolve(stateDirectory, `${style}-${seed}-day366.json`),
+        exportGame(life.state),
+      );
     for (const checkpoint of checkpoints) {
       checkpoint.methods = methods(importGame(checkpoint.serialized).state);
       delete checkpoint.serialized;
@@ -160,7 +171,7 @@ for (const style of ["career", "social", "entrepreneur"])
 const args = process.argv.slice(2),
   output = args.includes("--output")
     ? args[args.indexOf("--output") + 1]
-    : "../bw4-performance.json";
+    : "../bw5-performance.json";
 writeFileSync(resolve(output), JSON.stringify(report, null, 2) + "\n");
 console.log(
   JSON.stringify(
