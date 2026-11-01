@@ -258,7 +258,7 @@ const API = {
 export function migrateState(value) {
   if (!validateState(value)) throw new Error("Geçersiz Boardworld kaydı; yükseltme uygulanmadı.");
   const s = structuredClone(value);
-  if (s.version === 5) return s;
+  if (s.version === 6) return s;
   if (s.version === 1) {
     initDeep(s);
     initStories(s);
@@ -274,10 +274,13 @@ export function migrateState(value) {
     initLife(s);
     initEmergent(s);
   }
-  s.version = 5;
-  initSociety(s);
-  initFlow(s);
-  if (!validateState(s)) throw new Error("Boardworld 5.0 yükseltme doğrulaması başarısız.");
+  if (s.version < 5) {
+    s.version = 5;
+    initSociety(s);
+    initFlow(s);
+  }
+  s.version = 6;
+  if (!validateState(s)) throw new Error("Boardworld 6.0 yükseltme doğrulaması başarısız.");
   return s;
 }
 
@@ -344,7 +347,7 @@ export function createGame(options = {}) {
   skills[education.skill] += education.bonus;
   const h = lookup(HOMES, scenario.home);
   const s = {
-    version: 5,
+    version: 6,
     revision: 0,
     seed,
     rng: seed,
@@ -2013,7 +2016,7 @@ export function resolveAction(state, actionId, payload) {
   const original = state;
   if (typeof actionId !== "string" || !validateState(state))
     return { state, ok: false, message: "Oyun durumu veya eylem geçersiz." };
-  if (state.version < 5) state = migrateState(state);
+  if (state.version < 6) state = migrateState(state);
   const action =
     !state.pendingEvents.length &&
     (actionId === "calendar:propose" || actionId.startsWith("calendar:reschedule:"))
@@ -2097,7 +2100,7 @@ export function validateState(s) {
       !obj(s) ||
       Object.hasOwn(s, "_transit") ||
       Object.hasOwn(s, "_attendance") ||
-      ![1, 2, 3, 4, 5].includes(s.version) ||
+      ![1, 2, 3, 4, 5, 6].includes(s.version) ||
       (s.version < 5 && ["society", "flow"].some((k) => Object.hasOwn(s, k))) ||
       (s.version < 4 && ["life", "emergent"].some((k) => Object.hasOwn(s, k))) ||
       (s.version < 3 && ["calendar", "city", "living"].some((k) => Object.hasOwn(s, k))) ||
@@ -2349,7 +2352,7 @@ export function validateState(s) {
 export function runUntilNext(original) {
   if (!validateState(original))
     return { state: original, ok: false, message: "Geçersiz oyun durumu." };
-  let s = original.version < 5 ? migrateState(original) : structuredClone(original);
+  let s = original.version < 6 ? migrateState(original) : structuredClone(original);
   const initial = routineBlocker(s, { care: true, useRecorded: false }) || recordedStop(s, "wait");
   if (initial) return { state: original, ok: false, message: initial.reason };
   const start = s.time;
@@ -2466,7 +2469,7 @@ export function runUntilNext(original) {
 export function runCare(original) {
   if (!validateState(original))
     return { state: original, ok: false, message: "Geçersiz oyun durumu.", actions: [] };
-  let s = original.version < 5 ? migrateState(original) : structuredClone(original);
+  let s = original.version < 6 ? migrateState(original) : structuredClone(original);
   const blocker = routineBlocker(s, { care: true });
   if (blocker) return { state: original, ok: false, message: blocker.reason, actions: [] };
   const end = s.time + 480,
@@ -2614,7 +2617,7 @@ const sumFunds = (s) => s.cash + s.bank;
 export function runRoutine(original, days = 1) {
   if (![1, 7].includes(days) || !validateState(original))
     return { state: original, ok: false, message: "Geçersiz rutin." };
-  let s = original.version < 5 ? migrateState(original) : structuredClone(original);
+  let s = original.version < 6 ? migrateState(original) : structuredClone(original);
   const initialBlocker = routineBlocker(s);
   if (initialBlocker)
     return { state: original, ok: false, message: initialBlocker.reason, actions: [] };
@@ -2920,7 +2923,7 @@ export function runRoutine(original, days = 1) {
 /** A pure preview on a clone; never commits resources, PRNG advancement, or NPC knowledge. */
 export function previewAction(original, id, payload) {
   if (!validateState(original)) return { ok: false, message: "Oyun durumu geçersiz." };
-  const before = original.version < 5 ? migrateState(original) : original;
+  const before = original.version < 6 ? migrateState(original) : original;
   const action =
     !before.pendingEvents.length &&
     (id === "calendar:propose" || id.startsWith("calendar:reschedule:"))

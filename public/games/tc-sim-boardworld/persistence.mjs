@@ -1,6 +1,10 @@
+import { packSave, unpackSave } from "./save-codec.mjs";
 import { migrateState, validateState } from "./engine.mjs";
 
-export const SAVE_KEY = "tariklab.boardworld.v5";
+export const SAVE_KEY = "tariklab.boardworld.v6";
+export const LEGACY_V5_SAVE_KEY = "tariklab.boardworld.v5";
+export const LEGACY_V5_BACKUP_KEY = `${LEGACY_V5_SAVE_KEY}.backup`;
+export const ORIGINAL_V5_BACKUP_KEY = `${LEGACY_V5_SAVE_KEY}.original-v5`;
 export const BACKUP_KEY = `${SAVE_KEY}.backup`;
 export const LEGACY_V4_SAVE_KEY = "tariklab.boardworld.v4";
 export const LEGACY_V4_BACKUP_KEY = `${LEGACY_V4_SAVE_KEY}.backup`;
@@ -14,8 +18,11 @@ export const ORIGINAL_V2_BACKUP_KEY = `${LEGACY_V2_SAVE_KEY}.original-v2`;
 export const LEGACY_SAVE_KEY = "tariklab.boardworld.v1";
 export const LEGACY_BACKUP_KEY = `${LEGACY_SAVE_KEY}.backup`;
 export const ORIGINAL_V1_BACKUP_KEY = `${LEGACY_SAVE_KEY}.original-v1`;
-const CURRENT_VERSION = 5;
+const CURRENT_VERSION = 6;
 const LEGACY_SLOTS = [
+  [LEGACY_V5_SAVE_KEY, [5]],
+  [LEGACY_V5_BACKUP_KEY, [5]],
+  [ORIGINAL_V5_BACKUP_KEY, [5]],
   [LEGACY_V4_SAVE_KEY, [4]],
   [LEGACY_V4_BACKUP_KEY, [4]],
   [ORIGINAL_V4_BACKUP_KEY, [4]],
@@ -86,10 +93,10 @@ function valid(state) {
     return false;
   }
 }
-function encode(state, version) {
-  const payload = JSON.stringify(state);
+function encode(state, version, compact = false) {
+  const payload = JSON.stringify(compact ? packSave(state) : state);
   const encoded = JSON.stringify({
-    format: FORMAT,
+    format: compact ? `${FORMAT}-dictionary-1` : FORMAT,
     version,
     checksum: checksum(payload),
     payload,
@@ -105,7 +112,13 @@ export function exportGame(state) {
   // creates a different state; no result is cached across calls or mutations.
   if (current.version !== CURRENT_VERSION || (migrated && !valid(current)))
     throw new Error("Kayıt geçişi doğrulanamadı; mevcut kayıt korundu.");
-  return encode(current, CURRENT_VERSION);
+  return encode(current, CURRENT_VERSION, true);
+}
+// Compact files remain separate from the v5 browser slots until v6 migration.
+export function exportCompactGame(state) {
+  const verified = importGame(exportGame(state));
+  if (!verified.state) throw new Error("Compact export validation failed");
+  return encode(verified.state, CURRENT_VERSION, true);
 }
 function decode(text) {
   if (typeof text !== "string" || text.length > MAX_BYTES) throw new Error("size");
@@ -118,15 +131,16 @@ function decode(text) {
     !Object.keys(envelope).every((key) =>
       ["format", "version", "checksum", "payload"].includes(key),
     ) ||
-    envelope.format !== FORMAT ||
-    ![1, 2, 3, 4, CURRENT_VERSION].includes(envelope.version) ||
+    ![FORMAT, `${FORMAT}-dictionary-1`].includes(envelope.format) ||
+    ![1, 2, 3, 4, 5, CURRENT_VERSION].includes(envelope.version) ||
     typeof envelope.payload !== "string" ||
     envelope.checksum !== checksum(envelope.payload)
   )
     throw new Error("envelope");
   // Verify original bytes and original schema before any migration. A damaged
   // legacy record must never gain legitimacy from new-schema defaults.
-  const original = JSON.parse(envelope.payload);
+  const parsed = JSON.parse(envelope.payload);
+  const original = envelope.format === FORMAT ? parsed : unpackSave(parsed);
   if (!valid(original) || original.version !== envelope.version) throw new Error("state");
   const migrated = envelope.version < CURRENT_VERSION;
   const state = migrated ? migrateState(original) : original;
@@ -141,7 +155,7 @@ export function importGame(text) {
     return {
       ...result,
       message: result.migrated
-        ? `Boardworld ${result.sourceVersion}.0 kaydın doğrulandı ve 5.0’a taşındı. İlerlemen korundu.`
+        ? `Boardworld ${result.sourceVersion}.0 kaydın doğrulandı ve 6.0’a taşındı. İlerlemen korundu.`
         : "Kayıt doğrulandı ve yüklendi.",
     };
   } catch {
@@ -168,7 +182,7 @@ export function loadGame(storage) {
         return {
           ...restored,
           sourceKey: BACKUP_KEY,
-          message: "Ana 5.0 kaydı okunamadı. Bir önceki güvenli 5.0 kaydı kurtarıldı.",
+          message: "Ana 6.0 kaydı okunamadı. Bir önceki güvenli 6.0 kaydı kurtarıldı.",
         };
     }
     let foundLegacy = false;
@@ -186,18 +200,19 @@ export function loadGame(storage) {
           ORIGINAL_V2_BACKUP_KEY,
           ORIGINAL_V3_BACKUP_KEY,
           ORIGINAL_V4_BACKUP_KEY,
+          ORIGINAL_V5_BACKUP_KEY,
         ].includes(key)
-          ? `Korunan özgün ${restored.sourceVersion}.0 kaydın kurtarıldı ve 5.0’a taşındı.`
+          ? `Korunan özgün ${restored.sourceVersion}.0 kaydın kurtarıldı ve 6.0’a taşındı.`
           : primary || backup
-            ? "5.0 ana kaydı ve yedeği okunamadı. Eski uyumlu kayıttan kurtarıldı; son 5.0 adımların bu kopyada bulunmayabilir."
-            : `Boardworld ${restored.sourceVersion}.0 kaydın doğrulandı ve 5.0’a taşındı. İlerlemen korundu.`;
+            ? "6.0 ana kaydı ve yedeği okunamadı. Eski uyumlu kayıttan kurtarıldı; son 6.0 adımların bu kopyada bulunmayabilir."
+            : `Boardworld ${restored.sourceVersion}.0 kaydın doğrulandı ve 6.0’a taşındı. İlerlemen korundu.`;
         return {
           ...restored,
           sourceKey: key,
           protected: saved.ok,
           message: saved.ok
             ? recovery
-            : "Uyumlu kayıt doğrulandı ve belleğe yüklendi; ayrı 5.0 kaydı yazılamadı. Eski kayıtlar değiştirilmedi. İlerlemeni korumak için dosyaya aktar.",
+            : "Uyumlu kayıt doğrulandı ve belleğe yüklendi; ayrı 6.0 kaydı yazılamadı. Eski kayıtlar değiştirilmedi. İlerlemeni korumak için dosyaya aktar.",
         };
       }
     }
@@ -233,7 +248,7 @@ export function saveGame(state, storage) {
     const originals = new Map();
     const imported = importedLegacy.get(state);
     if (imported) originals.set(imported.version, imported.bytes);
-    else if ([1, 2, 3, 4].includes(state.version))
+    else if ([1, 2, 3, 4, 5].includes(state.version))
       originals.set(state.version, encode(state, state.version));
     if (!canonicalExists)
       for (const [key, versions] of LEGACY_SLOTS) {
@@ -252,6 +267,7 @@ export function saveGame(state, storage) {
         2: ORIGINAL_V2_BACKUP_KEY,
         3: ORIGINAL_V3_BACKUP_KEY,
         4: ORIGINAL_V4_BACKUP_KEY,
+        5: ORIGINAL_V5_BACKUP_KEY,
       }[version];
       const original = storage.getItem(key);
       if (original === null) {
