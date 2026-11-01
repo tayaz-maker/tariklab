@@ -210,6 +210,13 @@ export function getCityView(s) {
           `Lokanta çarpanı ×${rules.food}`,
           `Yerel talep ${Math.round(s.living?.markets?.[d.id]?.demand ?? 100)}%`,
         ],
+        society: s.society
+          ? {
+              ...s.society.districts[d.id].weeklyDelta,
+              foodStock: s.society.districts[d.id].foodStock,
+              materialStock: s.society.districts[d.id].materialStock,
+            }
+          : null,
         jobs: jobs.map((j) => j.id),
         homes: homes.map((h) => h.id),
         visits: s.city?.visits[d.id] || 0,

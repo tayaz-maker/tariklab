@@ -551,7 +551,7 @@ export function deepActions(s, api) {
     add(
       `deep:disclose:${n.id}`,
       `${n.name} · planlarını açıkla`,
-      "Kariyerini ve borç durumunu kendin paylaş. Bu kişi yalnızca anlattıklarını bilir; güven duyduğu çevresine aktarabilir.",
+      "Kariyerini ve borç durumunu kendin paylaş. Bu kişi yalnızca anlattıklarını bilir; bütçe bilgisi bu görüşmede özel kalır.",
       "social",
       30,
       0,

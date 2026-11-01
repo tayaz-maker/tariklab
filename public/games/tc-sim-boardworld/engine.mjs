@@ -54,6 +54,8 @@ import {
   getCalendarView,
   getAppointmentOptions,
   completeCalendarAttendance,
+  createNpcOffer,
+  reviseNpcOffer,
 } from "./calendar.mjs";
 import {
   initLiving,
@@ -95,6 +97,34 @@ import {
   practiceStatus,
 } from "./emergent-life.mjs";
 export { getLifeView, getEmergentView };
+import {
+  initSociety,
+  tickSociety,
+  nextSocietyAt,
+  societyActions,
+  adaptSocietyActions,
+  afterSocietyAction,
+  validateSociety,
+  getSocietyView,
+  societyContact,
+  societyLearn,
+  societyNpcOptions,
+  societyNpcOutcome,
+  societyNpcWork,
+} from "./society-systems.mjs";
+import {
+  initFlow,
+  validateFlow,
+  flowActions,
+  afterFlowAction,
+  routineBlocker,
+  rememberRoutineStop,
+  recordedStop,
+  authorizedSettlement,
+  settlementBoundary,
+  getDecisionView as buildDecisionView,
+} from "./daily-flow.mjs";
+export { getSocietyView };
 
 /** The only gameplay writer. No wall-clock, DOM, browser storage, or Math.random. */
 const DAY = 1440,
@@ -215,13 +245,20 @@ const API = {
   npcHousingCost,
   canNpcMove,
   getLifeWorkTerms,
+  createNpcOffer,
+  reviseNpcOffer,
+  societyContact,
+  societyLearn,
+  societyNpcOptions,
+  societyNpcOutcome,
+  societyNpcWork,
   playerPresent: (s, district) => !s._transit && s.location === district,
 };
 
 export function migrateState(value) {
   if (!validateState(value)) throw new Error("Geçersiz Boardworld kaydı; yükseltme uygulanmadı.");
   const s = structuredClone(value);
-  if (s.version === 4) return s;
+  if (s.version === 5) return s;
   if (s.version === 1) {
     initDeep(s);
     initStories(s);
@@ -232,10 +269,15 @@ export function migrateState(value) {
     initCalendar(s);
     initLiving(s);
   }
-  s.version = 4;
-  initLife(s);
-  initEmergent(s);
-  if (!validateState(s)) throw new Error("Boardworld 4.0 yükseltme doğrulaması başarısız.");
+  if (s.version < 4) {
+    s.version = 4;
+    initLife(s);
+    initEmergent(s);
+  }
+  s.version = 5;
+  initSociety(s);
+  initFlow(s);
+  if (!validateState(s)) throw new Error("Boardworld 5.0 yükseltme doğrulaması başarısız.");
   return s;
 }
 
@@ -302,7 +344,7 @@ export function createGame(options = {}) {
   skills[education.skill] += education.bonus;
   const h = lookup(HOMES, scenario.home);
   const s = {
-    version: 4,
+    version: 5,
     revision: 0,
     seed,
     rng: seed,
@@ -404,6 +446,8 @@ export function createGame(options = {}) {
   initLiving(s);
   initLife(s);
   initEmergent(s);
+  initSociety(s);
+  initFlow(s);
   updateLocations(s);
   return s;
 }
@@ -556,10 +600,12 @@ function advance(s, minutes, { sleeping = false } = {}) {
     const calendarBoundary = s.version >= 3 ? nextCalendarAt(s) : Infinity;
     const lifeBoundary = s.version >= 4 ? nextLifeAt(s) : Infinity;
     const eventBoundary = s.version >= 4 ? nextEmergentAt(s) : Infinity;
+    const societyBoundary = s.version >= 5 ? nextSocietyAt(s) : Infinity;
     const next = Math.min(
         end,
         lifeBoundary > s.time ? lifeBoundary : Infinity,
         eventBoundary > s.time ? eventBoundary : Infinity,
+        societyBoundary > s.time ? societyBoundary : Infinity,
         boundary,
         worldBoundary > s.time ? worldBoundary : Infinity,
         calendarBoundary > s.time ? calendarBoundary : Infinity,
@@ -576,6 +622,7 @@ function advance(s, minutes, { sleeping = false } = {}) {
     if (s.version >= 3) tickCalendar(s, API);
     if (s.version >= 4) {
       tickLife(s, API);
+      if (s.version >= 5) tickSociety(s, API);
       tickEmergent(s, API);
     }
   }
@@ -1762,6 +1809,17 @@ function makeActions(s) {
     actions.push(...lifeActions(s, API), ...emergentActions(s, API));
     actions = adaptEmergentActions(s, adaptLifeActions(s, actions, API), API);
   }
+  if (s.version >= 5) {
+    actions.push(...societyActions(s, API), ...flowActions(s));
+    actions = adaptSocietyActions(s, actions, API);
+    const blocker = routineBlocker(s);
+    if (blocker)
+      for (const action of actions)
+        if (/^schedule:run:[17]$/.test(action.id)) {
+          action.disabled = true;
+          action.reason = blocker.reason;
+        }
+  }
   for (const a of actions) {
     if (a.disabled) continue;
     let reason = actionCalendarConflict(s, a);
@@ -1784,23 +1842,25 @@ function makeActions(s) {
       a.reason = reason;
     }
   }
-  const nextReason = s.pendingEvents.length
-    ? "Önce olay kartını çöz."
-    : Object.values(s.stories).some((x) => x.status === "active") ||
-        s.emergent?.events.some((e) => e.status === "active")
-      ? "Bir yaşam hikâyesi kararını bekliyor."
-      : s.life?.household?.status === "notice" ||
-          ["warning", "negotiation", "notice"].includes(s.life?.lease.stage)
-        ? "Ev sözleşmesindeki bildirim için karar ver."
-        : s.deep.finance.bills.some((b) => b.status === "due")
-          ? "Ödenmesi gereken fatura için karar ver."
-          : s.deep.promises.some(
-                (p) => p.status === "pending" && p.direction === "player" && p.dueDay <= dayOf(s),
-              )
-            ? "Bugün verdiğin sözün son günü."
-            : s.player.health < 30 || s.player.energy < 15 || s.player.hunger < 20
-              ? "İhtiyaçların bakım gerektiriyor; önce yaşam eylemi seç."
-              : "";
+  const nextReason =
+    recordedStop(s, "wait")?.reason ||
+    (s.pendingEvents.length
+      ? "Önce olay kartını çöz."
+      : Object.values(s.stories).some((x) => x.status === "active") ||
+          s.emergent?.events.some((e) => e.status === "active")
+        ? "Bir yaşam hikâyesi kararını bekliyor."
+        : s.life?.household?.status === "notice" ||
+            ["warning", "negotiation", "notice"].includes(s.life?.lease.stage)
+          ? "Ev sözleşmesindeki bildirim için karar ver."
+          : s.deep.finance.bills.some((b) => b.status === "due")
+            ? "Ödenmesi gereken fatura için karar ver."
+            : s.deep.promises.some(
+                  (p) => p.status === "pending" && p.direction === "player" && p.dueDay <= dayOf(s),
+                )
+              ? "Bugün verdiğin sözün son günü."
+              : s.player.health < 30 || s.player.energy < 15 || s.player.hunger < 20
+                ? "İhtiyaçların bakım gerektiriyor; önce yaşam eylemi seç."
+                : "");
   actions.push({
     id: "calendar:next",
     label: "Sonraki önemli ana ilerle",
@@ -1839,6 +1899,12 @@ export function getIntentActions(s, { category = "", query = "", npcId = "", loc
       (!npcId || a.id.includes(npcId) || a.id.startsWith("calendar:")) &&
       (!location || !a.destination || a.destination === location),
   );
+}
+export function getDecisionView(s, options = {}) {
+  return buildDecisionView(s, {
+    actions: options.actions || getActions(s),
+    society: options.society || getSocietyView(s),
+  });
 }
 export function getGoals(s) {
   const friends = Object.values(s.npcs).filter((n) => n.trust >= 50 && n.affinity >= 45).length;
@@ -1896,6 +1962,32 @@ export function getGoals(s) {
         s.achievements.includes("mastery") ||
         (specialist >= 70 && s.flags.coursesCompleted >= 1 && Boolean(s.job && s.job.level >= 1)),
     },
+    ...(s.version >= 5
+      ? [
+          {
+            id: "sustainable-business",
+            title: "Sürdürülebilir küçük işletme",
+            description:
+              "90. güne ulaş; açık işletmende gelir tüm kaydedilmiş maliyeti ve birikmiş gideri aşsın, itibar en az 60, işletme kasası 3.000 TL ve kişisel acil fon 3.000 TL olsun. Borç ve biriken kira sıfır olmalı.",
+            current: Math.min(90, dayOf(s)),
+            target: 90,
+            complete:
+              s.achievements.includes("sustainable-business") ||
+              Boolean(
+                dayOf(s) >= 90 &&
+                s.deep.business?.status === "active" &&
+                s.deep.business.revenue >
+                  s.deep.business.costs + Math.ceil(s.deep.business.accruedOverhead) &&
+                s.deep.business.reputation >= 60 &&
+                s.deep.business.arrears === 0 &&
+                s.living.enterprise.capital >= 3000 &&
+                s.deep.finance.reserve >= 3000 &&
+                s.debt === 0 &&
+                s.housing.arrears === 0,
+              ),
+          },
+        ]
+      : []),
   ];
 }
 function achievements(s) {
@@ -1921,7 +2013,7 @@ export function resolveAction(state, actionId, payload) {
   const original = state;
   if (typeof actionId !== "string" || !validateState(state))
     return { state, ok: false, message: "Oyun durumu veya eylem geçersiz." };
-  if (state.version < 4) state = migrateState(state);
+  if (state.version < 5) state = migrateState(state);
   const action =
     !state.pendingEvents.length &&
     (actionId === "calendar:propose" || actionId.startsWith("calendar:reschedule:"))
@@ -1953,6 +2045,7 @@ export function resolveAction(state, actionId, payload) {
       message: `${action.cost} TL ${action.pay === "total" ? "toplam bakiye" : action.pay === "bank" ? "banka bakiyesi" : "nakit"} gerekir.`,
     };
   if (actionId === "calendar:next") return runUntilNext(state);
+  if (actionId === "flow:care") return runCare(state);
   if (/^schedule:run:[17]$/.test(actionId))
     return runRoutine(state, Number(actionId.split(":")[2]));
   const s = structuredClone(state);
@@ -1979,6 +2072,10 @@ export function resolveAction(state, actionId, payload) {
     afterLifeAction(s, effectiveId, state, API, action);
     afterEmergentAction(s, effectiveId, state, API, action);
   }
+  if (s.version >= 5) {
+    afterSocietyAction(s, effectiveId, state, API, action);
+    afterFlowAction(s, effectiveId, state);
+  }
   if (s.version >= 2) tickStories(s, API);
   log(s, message);
   achievements(s);
@@ -2000,7 +2097,8 @@ export function validateState(s) {
       !obj(s) ||
       Object.hasOwn(s, "_transit") ||
       Object.hasOwn(s, "_attendance") ||
-      ![1, 2, 3, 4].includes(s.version) ||
+      ![1, 2, 3, 4, 5].includes(s.version) ||
+      (s.version < 5 && ["society", "flow"].some((k) => Object.hasOwn(s, k))) ||
       (s.version < 4 && ["life", "emergent"].some((k) => Object.hasOwn(s, k))) ||
       (s.version < 3 && ["calendar", "city", "living"].some((k) => Object.hasOwn(s, k))) ||
       (s.version === 1 && (Object.hasOwn(s, "deep") || Object.hasOwn(s, "stories"))) ||
@@ -2226,6 +2324,7 @@ export function validateState(s) {
       "first-certificate",
       "partnership",
       "first-shift",
+      ...(s.version >= 5 ? ["sustainable-business"] : []),
     ];
     if (
       !arr(s.achievements, allowed.length) ||
@@ -2238,7 +2337,8 @@ export function validateState(s) {
       (validateDeep(s) &&
         validateStories(s) &&
         (s.version < 3 || (validateCity(s) && validateCalendar(s) && validateLiving(s))) &&
-        (s.version < 4 || (validateLife(s) && validateEmergent(s))))
+        (s.version < 4 || (validateLife(s) && validateEmergent(s))) &&
+        (s.version < 5 || (validateSociety(s) && validateFlow(s))))
     );
   } catch {
     return false;
@@ -2249,9 +2349,12 @@ export function validateState(s) {
 export function runUntilNext(original) {
   if (!validateState(original))
     return { state: original, ok: false, message: "Geçersiz oyun durumu." };
-  let s = original.version < 4 ? migrateState(original) : structuredClone(original);
+  let s = original.version < 5 ? migrateState(original) : structuredClone(original);
+  const initial = routineBlocker(s, { care: true, useRecorded: false }) || recordedStop(s, "wait");
+  if (initial) return { state: original, ok: false, message: initial.reason };
   const start = s.time;
-  let stop = "Bir günlük güvenli ilerleme sınırına ulaşıldı.";
+  let stop = "Bir günlük güvenli ilerleme sınırına ulaşıldı.",
+    code = "boundary";
   for (let step = 0; step < 96 && s.time < start + DAY; step++) {
     if (
       s.pendingEvents.length ||
@@ -2259,10 +2362,12 @@ export function runUntilNext(original) {
       s.emergent.events.some((e) => e.status === "active")
     ) {
       stop = "Yeni olay veya hikâye kararını bekliyor.";
+      code = "event";
       break;
     }
     if (s.deep.finance.bills.some((b) => b.status === "due")) {
       stop = "Ödenmesi gereken fatura için karar ver.";
+      code = "bill";
       break;
     }
     if (
@@ -2270,6 +2375,7 @@ export function runUntilNext(original) {
       ["warning", "negotiation", "notice"].includes(s.life.lease.stage)
     ) {
       stop = "Ev sözleşmesindeki bildirim için karar ver.";
+      code = "lease";
       break;
     }
     if (
@@ -2278,10 +2384,12 @@ export function runUntilNext(original) {
       )
     ) {
       stop = "Bugün verdiğin sözün son günü.";
+      code = "promise";
       break;
     }
     if (s.player.health < 30 || s.player.energy < 15 || s.player.hunger < 20) {
       stop = "İhtiyaçların bakım gerektiriyor; önce yaşam eylemi seç.";
+      code = "health";
       break;
     }
     let limit = Math.min(
@@ -2290,12 +2398,14 @@ export function runUntilNext(original) {
       (Math.floor(s.time / DAY) + 1) * DAY,
       nextEmergentAt(s),
       nextLifeAt(s),
+      nextSocietyAt(s),
     );
     for (const e of s.calendar.entries.filter((e) => e.status === "confirmed" && e.end > s.time)) {
       const atVenue = s.city.venue === e.venue;
       const leave = e.start - 30 - (atVenue ? 0 : travelMinutes(s, s.location, e.district) + 10);
       if (leave <= s.time) {
         limit = s.time;
+        code = "appointment";
         stop = atVenue
           ? "Taahhüdüne katılma zamanı yaklaşıyor."
           : "Takvimdeki mekâna gitme zamanı geldi.";
@@ -2310,11 +2420,12 @@ export function runUntilNext(original) {
     afterLivingAction(candidate, "wait:60", s, API);
     afterLifeAction(candidate, "wait:60", s, API);
     afterEmergentAction(candidate, "wait:60", s, API);
+    afterSocietyAction(candidate, "wait:60", s, API);
+    afterFlowAction(candidate, "wait:60", s);
     tickStories(candidate, API);
     refreshEvents(candidate);
     const risk =
-      candidate.housing.dueDay !== s.housing.dueDay ||
-      candidate.debt > s.debt ||
+      (settlementBoundary(s, candidate) && !authorizedSettlement(s, candidate)) ||
       candidate.housing.arrears > s.housing.arrears ||
       candidate.deep.finance.bills.some(
         (b) => b.status === "due" && !s.deep.finance.bills.some((old) => old.id === b.id),
@@ -2324,9 +2435,12 @@ export function runUntilNext(original) {
       (s.deep.business?.status === "active" && candidate.deep.business?.status === "paused");
     if (risk) {
       stop = "Yaklaşan ödeme, borç veya bütçe kararı öncesinde duruldu.";
+      code = "payment";
       break;
     }
     const changed =
+      s.housing.id !== candidate.housing.id ||
+      s.housing.rent !== candidate.housing.rent ||
       s.job?.id !== candidate.job?.id ||
       s.job?.hiredDay !== candidate.job?.hiredDay ||
       s.life.household?.status !== candidate.life.household?.status ||
@@ -2335,10 +2449,11 @@ export function runUntilNext(original) {
     s = candidate;
     if (changed) {
       stop = "İş, ilişki veya ev sözleşmesinin koşulları değişti; devam etmeden incele.";
+      code = "contract";
       break;
     }
   }
-  if (s.time === start) return { state: original, ok: false, message: stop };
+  rememberRoutineStop(s, code, stop, 0, !["boundary", "contract"].includes(code), "wait");
   s.revision++;
   log(s, `Zaman ilerledi: ${s.time - start} dk. ${stop}`);
   achievements(s);
@@ -2347,15 +2462,168 @@ export function runUntilNext(original) {
 }
 
 /** Explicit, bounded automation: it can perform routine legal actions, never card choices. */
+/** A deliberate, bounded needs batch; no background continuation or story choice. */
+export function runCare(original) {
+  if (!validateState(original))
+    return { state: original, ok: false, message: "Geçersiz oyun durumu.", actions: [] };
+  let s = original.version < 5 ? migrateState(original) : structuredClone(original);
+  const blocker = routineBlocker(s, { care: true });
+  if (blocker) return { state: original, ok: false, message: blocker.reason, actions: [] };
+  const end = s.time + 480,
+    trace = [];
+  let reason = "İhtiyaçların toparlandı.",
+    code = "complete",
+    blocked = false;
+  for (let step = 0; step < 8; step++) {
+    const currentBlocker = routineBlocker(s, { care: true, useRecorded: false });
+    if (currentBlocker) {
+      reason = currentBlocker.reason;
+      code = currentBlocker.code;
+      blocked = true;
+      break;
+    }
+    if (s.player.hunger > 65 && s.player.energy > 60) break;
+    const all = makeActions(s),
+      legal = (id) => all.find((a) => a.id === id && !a.disabled);
+    const policy = s.emergent.policy,
+      homeDistrict = home(s).district;
+    let action = null;
+    if (s.player.hunger <= 65) {
+      action =
+        policy.meal === "home"
+          ? legal("cook")
+          : policy.meal === "eat"
+            ? legal("eat")
+            : legal("soup") || legal("cook") || legal("snack");
+      if (!action && policy.meal === "home" && s.location !== homeDistrict)
+        action = legal((policy.commute === "free" ? "walk:" : "travel:") + homeDistrict);
+      if (
+        !action &&
+        policy.meal === "home" &&
+        !s.inventory.groceries &&
+        s.deep.routine.settings.shopping
+      )
+        action = legal("buy:groceries");
+      if (!action && policy.autoWithdraw && s.cash < 300) action = legal("withdraw:1000");
+      if (!action) {
+        reason =
+          "Seçili öğün için konum, saat, erzak veya nakit eksik. İlgili koşulu kendin değiştir.";
+        code = "meal";
+        blocked = true;
+        break;
+      }
+    } else action = legal("rest");
+    if (!action) {
+      reason = "Dinlenmenin koşulları şu anda sağlanmıyor.";
+      code = "unavailable";
+      blocked = true;
+      break;
+    }
+    if (s.time + action.minutes > end) {
+      reason = "Sekiz saatlik bakım sınırına ulaşıldı.";
+      code = "boundary";
+      break;
+    }
+    if (sumFunds(s) - action.cost < s.deep.routine.budgetFloor) {
+      reason = "İhtiyaç bakımı için korunan bütçe sınırı aşılacak.";
+      code = "budget";
+      blocked = true;
+      break;
+    }
+    if (
+      s.calendar.entries.some(
+        (e) =>
+          e.status === "confirmed" &&
+          e.end > s.time &&
+          e.start -
+            30 -
+            travelMinutes(s, s.location, e.district) -
+            (s.city.venue === e.venue ? 0 : 10) <=
+            s.time + action.minutes,
+      )
+    ) {
+      reason = "Yaklaşan randevu için ulaşım ve katılım payı ayrıldı.";
+      code = "appointment";
+      blocked = true;
+      break;
+    }
+    const result = resolveAction(s, action.id);
+    if (!result.ok) {
+      reason = result.message;
+      code = "unavailable";
+      blocked = true;
+      break;
+    }
+    const next = result.state;
+    if (
+      next.housing.arrears > s.housing.arrears ||
+      (s.deep.business &&
+        next.deep.business &&
+        (next.deep.business.arrears > s.deep.business.arrears ||
+          (s.deep.business.status === "active" && next.deep.business.status === "paused"))) ||
+      (settlementBoundary(s, next) && !authorizedSettlement(s, next)) ||
+      next.housing.rent !== s.housing.rent ||
+      next.housing.id !== s.housing.id ||
+      next.deep.finance.bills.some(
+        (b) => b.status === "due" && !s.deep.finance.bills.some((old) => old.id === b.id),
+      ) ||
+      (sumFunds(next) < s.deep.routine.budgetFloor && sumFunds(next) < sumFunds(s))
+    ) {
+      reason = "Bakım, yaklaşan ödeme veya sözleşme kararından önce durdu.";
+      code = "payment";
+      blocked = true;
+      break;
+    }
+    if (next.time <= s.time) {
+      reason = "Bakım ilerleme sağlamadı; güvenle durdu.";
+      code = "unavailable";
+      blocked = true;
+      break;
+    }
+    const changed =
+      s.job?.id !== next.job?.id ||
+      s.job?.hiredDay !== next.job?.hiredDay ||
+      s.life.household?.status !== next.life.household?.status ||
+      s.life.lease.stage !== next.life.lease.stage ||
+      s.flags.partner !== next.flags.partner;
+    s = next;
+    trace.push(action.id);
+    if (changed) {
+      reason = "İş, ilişki veya ev sözleşmesinin koşulları değişti; devam etmeden incele.";
+      code = "contract";
+      break;
+    }
+  }
+  if (trace.length === 8 && (s.player.hunger <= 65 || s.player.energy <= 60)) {
+    reason = "Sekiz eylemlik bakım sınırına ulaşıldı; kalan ihtiyaçları incele.";
+    code = "boundary";
+  }
+  rememberRoutineStop(s, code, reason, trace.length, blocked, "care");
+  s.revision++;
+  log(s, "İhtiyaç bakımı: " + trace.length + " eylem. " + reason);
+  if (!validateState(s)) throw new Error("Boardworld care invariant failed");
+  return {
+    state: s,
+    ok: true,
+    message: trace.length + " bakım eylemi uygulandı. " + reason,
+    actions: trace,
+  };
+}
+const sumFunds = (s) => s.cash + s.bank;
+
 export function runRoutine(original, days = 1) {
   if (![1, 7].includes(days) || !validateState(original))
     return { state: original, ok: false, message: "Geçersiz rutin." };
-  let s = original.version < 4 ? migrateState(original) : structuredClone(original);
+  let s = original.version < 5 ? migrateState(original) : structuredClone(original);
+  const initialBlocker = routineBlocker(s);
+  if (initialBlocker)
+    return { state: original, ok: false, message: initialBlocker.reason, actions: [] };
   const startDay = dayOf(s),
     end = s.time + days * DAY,
     trace = [],
     skipped = [];
-  let stop = "Planlanan süre tamamlandı.";
+  let stop = "Planlanan süre tamamlandı.",
+    stopCode = "complete";
   const skip = (text) => {
     if (!skipped.includes(text)) skipped.push(text);
   };
@@ -2365,18 +2633,22 @@ export function runRoutine(original, days = 1) {
       settings = s.deep.routine.settings;
     if (!policy.days[(clock.day - 1) % 7]) {
       stop = "Bugün rutin politikasında kapalı; günü kendin yönet.";
+      stopCode = "weekday";
       break;
     }
     if (s.pendingEvents.length || s.emergent.events.some((e) => e.status === "active")) {
       stop = "Yeni olay kartı kararını bekliyor; otomasyon seçimini yapmadı.";
+      stopCode = "event";
       break;
     }
     if (Object.values(s.stories).some((x) => x.status === "active")) {
       stop = "Bir yaşam hikâyesi önemli kararını bekliyor.";
+      stopCode = "story";
       break;
     }
     if (s.deep.finance.bills.some((b) => b.status === "due")) {
       stop = "Manuel ödeme bekleyen fatura var; önce bütçe kararını ver.";
+      stopCode = "bill";
       break;
     }
     if (
@@ -2385,6 +2657,7 @@ export function runRoutine(original, days = 1) {
       )
     ) {
       stop = "Bugün verdiğin bir yardım sözünün son günü; planı kendin düzenle.";
+      stopCode = "promise";
       break;
     }
     if (
@@ -2392,10 +2665,12 @@ export function runRoutine(original, days = 1) {
       ["warning", "negotiation", "notice"].includes(s.life.lease.stage)
     ) {
       stop = "Ev sözleşmesinde görüşülmesi gereken bir bildirim var.";
+      stopCode = "lease";
       break;
     }
     if (s.player.health < 30) {
       stop = "Sağlık 30’un altında; önce bakım kararını ver.";
+      stopCode = "health";
       break;
     }
     const actions = makeActions(s),
@@ -2411,6 +2686,7 @@ export function runRoutine(original, days = 1) {
     const leaveAt = needsWork ? job.start * 60 - (route?.minutes || 0) : Infinity;
     if (needsWork && clock.minute >= job.end * 60) {
       stop = "Bugünkü vardiyanın başlangıç saati geçti; iş planını kendin düzelt.";
+      stopCode = "work";
       break;
     }
     if (s.player.hunger <= 46) {
@@ -2426,6 +2702,7 @@ export function runRoutine(original, days = 1) {
         candidate = legal("buy:groceries");
       if (!candidate && policy.autoWithdraw && s.cash < 300) candidate = legal("withdraw:1000");
       if (!candidate) {
+        stopCode = "meal";
         stop =
           s.bank >= 1000 && s.cash < 300 && !policy.autoWithdraw
             ? "Öğün için nakit/erzak yetersiz, bankanda para var. Nakit çek veya plandaki Nakit çekme tercihini aç; rutin bu izni kendisi vermez."
@@ -2442,6 +2719,7 @@ export function runRoutine(original, days = 1) {
         candidate = legal("wait:15");
       if (!candidate) {
         stop = "Planlanan vardiya veya seçili ulaşım için koşullar sağlanmıyor.";
+        stopCode = "work";
         break;
       }
     }
@@ -2449,11 +2727,13 @@ export function runRoutine(original, days = 1) {
     if (!candidate && dutyDue) {
       if (!policy.householdChores) {
         stop = "Ev bakım günün geldi; otomatik bakım yetkisi vermedin.";
+        stopCode = "duty";
         break;
       }
       candidate = s.location === homeDistrict ? legal("household:chore") : transit(homeDistrict);
       if (!candidate) {
         stop = "Atanmış ev sorumluluğu için zaman, konum veya bütçe yetersiz.";
+        stopCode = "duty";
         break;
       }
     }
@@ -2536,6 +2816,7 @@ export function runRoutine(original, days = 1) {
     }
     if (!candidate) {
       stop = "Seçili politika ve zaman sınırında uygulanabilir rutin eylemi kalmadı.";
+      stopCode = "boundary";
       break;
     }
     if (
@@ -2551,35 +2832,42 @@ export function runRoutine(original, days = 1) {
       )
     ) {
       stop = "Takvimdeki taahhüdün yaklaşıyor; katılım ve yolculuk kararını kendin ver.";
+      stopCode = "appointment";
       break;
     }
     if (candidate.cost > 0 && total(s) - candidate.cost < s.deep.routine.budgetFloor) {
       stop = `${candidate.label}: ${s.deep.routine.budgetFloor} TL bütçe tabanı aşılacak.`;
+      stopCode = "budget";
       break;
     }
     if (s.time + candidate.minutes > end) {
       stop = "Bir sonraki eylem seçilen süre sınırını aşacak; plan burada durdu.";
+      stopCode = "boundary";
       break;
     }
     const result = resolveAction(s, candidate.id);
     if (!result.ok) {
       stop = result.message;
+      stopCode = "unavailable";
       break;
     }
     const next = result.state;
     if (
       (total(next) < s.deep.routine.budgetFloor && total(next) < total(s)) ||
       next.housing.arrears > s.housing.arrears ||
-      next.debt > s.debt ||
+      (settlementBoundary(s, next) && !authorizedSettlement(s, next)) ||
       next.deep.finance.bills.some(
         (b) => b.status === "due" && !s.deep.finance.bills.some((old) => old.id === b.id),
       ) ||
       (s.deep.business?.status === "active" && next.deep.business?.status === "paused")
     ) {
       stop = `${candidate.label}: yaklaşan ödeme, borç veya bütçe tabanı için karar gerekiyor.`;
+      stopCode = "payment";
       break;
     }
     const changed =
+      s.housing.id !== next.housing.id ||
+      s.housing.rent !== next.housing.rent ||
       Boolean(s.job) !== Boolean(next.job) ||
       s.job?.hiredDay !== next.job?.hiredDay ||
       s.life.household?.status !== next.life.household?.status ||
@@ -2590,15 +2878,26 @@ export function runRoutine(original, days = 1) {
     trace.push(candidate.id);
     if (changed) {
       stop = "İş, ilişki veya ev sözleşmesinin koşulları değişti; devam etmeden incele.";
+      stopCode = "contract";
       break;
     }
     if (s.time === before) {
       stop = "Rutin zaman ilerletmedi; güvenle durduruldu.";
+      stopCode = "unavailable";
       break;
     }
   }
-  if (trace.length >= 96 && s.time < end)
+  if (trace.length >= 96 && s.time < end) {
     stop = "Bir çalıştırmanın 96 eylemlik güvenlik sınırına ulaşıldı.";
+    stopCode = "boundary";
+  }
+  rememberRoutineStop(
+    s,
+    stopCode,
+    stop,
+    trace.length,
+    !["complete", "boundary", "contract"].includes(stopCode),
+  );
   s.deep.routine.lastActions = trace;
   s.deep.routine.lastRun = startDay;
   s.deep.routine.stopReason = stop;
@@ -2621,7 +2920,7 @@ export function runRoutine(original, days = 1) {
 /** A pure preview on a clone; never commits resources, PRNG advancement, or NPC knowledge. */
 export function previewAction(original, id, payload) {
   if (!validateState(original)) return { ok: false, message: "Oyun durumu geçersiz." };
-  const before = original.version < 4 ? migrateState(original) : original;
+  const before = original.version < 5 ? migrateState(original) : original;
   const action =
     !before.pendingEvents.length &&
     (id === "calendar:propose" || id.startsWith("calendar:reschedule:"))

@@ -21,6 +21,7 @@ import { NPCS, EVENTS } from "../public/games/tc-sim-boardworld/content.mjs";
 import { PROJECT_TYPES } from "../public/games/tc-sim-boardworld/world-content.mjs";
 import { travelMinutes } from "../public/games/tc-sim-boardworld/city.mjs";
 import { reveal } from "../public/games/tc-sim-boardworld/deep-life.mjs";
+import { societyContact } from "../public/games/tc-sim-boardworld/society-systems.mjs";
 const DAY = 1440;
 function fixture(options = {}) {
   const s = createGame(options);
@@ -505,6 +506,22 @@ test("NPC support from another NPC moves real cash and creates a reciprocal repa
   const edge = s.living.graph.ece.mert;
   edge.affinity = 90;
   edge.trust = 70;
+  // In v5 a private cash balance is not information Ece can act on. Mert must
+  // actually disclose his support request during a completed conversation.
+  s.deep.npcs.mert.request = { kind: "loan", sinceDay: 9, deadlineDay: 13 };
+  assert.equal(s.society.knowledge.ece.length, 0);
+  societyContact(
+    s,
+    "mert",
+    "ece",
+    { kind: "social", start: s.time - 60, end: s.time, place: "kadikoy" },
+    api,
+  );
+  assert.ok(
+    s.society.knowledge.ece.some(
+      (f) => f.id === "need:mert:9" && f.privacy === "private" && !f.disclosed,
+    ),
+  );
   const money = s.deep.npcs.ece.cash + s.deep.npcs.mert.cash,
     debt = s.deep.npcs.mert.debt;
   worldUntil(s, 8 * DAY + 21 * 60);

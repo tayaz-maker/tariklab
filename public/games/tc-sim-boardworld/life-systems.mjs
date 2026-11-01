@@ -335,6 +335,8 @@ function promote(s, role, district, api) {
   );
   return true;
 }
+const clampSocietyRent = (s, id, base) =>
+  cap(base + (s.society?.districts[id]?.weeklyDelta.rentPressure || 0), 80, 120);
 function updateDistricts(s, api) {
   for (const d of DISTRICTS) {
     const x = s.life.districts[d.id];
@@ -355,9 +357,16 @@ function updateDistricts(s, api) {
       untilDay: day(s) + 14,
       travelDelay: rules.travelDelay,
       servicePct: rules.servicePct,
-      rentPct: rules.rentPct,
+      rentPct: clampSocietyRent(s, d.id, rules.rentPct),
       demandDelta: rules.demandDelta,
-      jobDemand: Math.round(cap(45 + market.demand / 3 - pop.jobseekers / 2)),
+      jobDemand: Math.round(
+        cap(
+          45 +
+            market.demand / 3 -
+            pop.jobseekers / 2 +
+            (s.society?.districts[d.id]?.weeklyDelta.jobOpenings || 0),
+        ),
+      ),
       revision: x.revision + 1,
     });
     note(s, `${d.name}: ${rules.label}. ${rules.description}`, api);
@@ -1127,7 +1136,7 @@ function actionList(s, api) {
       add(
         "household:reconcile",
         "Ayrılma bildirimini birlikte yeniden görüş",
-        "Bakım yapılmış, gerilim30’un altında ve güven 45 olmalı; karşılıklı hazır oluş gerekir.",
+        "Bakım yapılmış, gerilim 30’un altında ve güven 45 olmalı; karşılıklı hazır oluş gerekir.",
         "household",
         45,
         0,
@@ -1174,7 +1183,7 @@ function actionList(s, api) {
     add(
       "lease:renew",
       "Kira dönemini açıkça yenile",
-      "600 TL görüşme ve kayıt gideri; yeni semt kira koşulu uygulanır ve60 gün aylık artıştan korunursun. Depozito tekrar alınmaz.",
+      "600 TL görüşme ve kayıt gideri; yeni semt kira koşulu uygulanır ve 60 gün aylık artıştan korunursun. Depozito tekrar alınmaz.",
       "household",
       60,
       600,
@@ -1197,14 +1206,14 @@ function actionList(s, api) {
         lease.stabilityUntil = d + 60;
         lease.history.push({
           day: d,
-          text: `Aylık kira ${next.housing.rent} TL olarak60 gün için yenilendi; depozito korundu.`,
+          text: `Aylık kira ${next.housing.rent} TL olarak 60 gün için yenilendi; depozito korundu.`,
         });
         lease.history = lease.history.slice(-12);
         api.document(
           next,
           `renewal-${next.revision}`,
           "Kira dönemi yenilemesi",
-          `Aynı konutta kira ${next.housing.rent} TL;${d + 60}.güne kadar aylık artış yok.`,
+          `Aynı konutta kira ${next.housing.rent} TL; ${d + 60}. güne kadar aylık artış yok.`,
         );
         return "Sözleşme yeni koşullarıyla kaydedildi.";
       },
@@ -1213,14 +1222,14 @@ function actionList(s, api) {
       add(
         "lease:plan",
         "Kira birikimi için somut plan görüş",
-        "150 TL görüşme,60 dk. Mevcut birikimin yaklaşık dörtte biri haftalık taksit olur; iki karşılanamayan taksit son bildirim aşamasına döner. Borç yeniden eklenmez.",
+        "150 TL görüşme, 60 dk. Mevcut birikimin yaklaşık dörtte biri haftalık taksit olur; iki karşılanamayan taksit son bildirim aşamasına döner. Borç yeniden eklenmez.",
         "household",
         60,
         150,
         l.plan
           ? "Zaten geçerli bir kira ödeme planın var."
           : l.lastReviewDay && d - l.lastReviewDay < 14
-            ? "Yeni bir plan için14 gün ara gerekir."
+            ? "Yeni bir plan için 14 gün ara gerekir."
             : "",
         (next) => {
           const lease = next.life.lease;
@@ -1248,7 +1257,7 @@ function actionList(s, api) {
     add(
       "career:needs",
       "İşverenin güncel ihtiyacını karşıla",
-      `${find(SKILLS, e.needSkill).name}${e.needLevel} gerekir;90 dk somut hazırlık. Performans+5, mesleki itibar+3;14 günde bir.`,
+      `${find(SKILLS, e.needSkill).name} ${e.needLevel} gerekir; 90 dk somut hazırlık. Performans +5, mesleki itibar +3; 14 günde bir.`,
       "work",
       90,
       0,
@@ -1257,7 +1266,7 @@ function actionList(s, api) {
         : s.player.skills[e.needSkill] < e.needLevel
           ? "Güncel uzmanlık eşiğini karşılamıyorsun."
           : e.lastReviewDay && d - e.lastReviewDay < 14
-            ? "İhtiyaç görüşmesinden14 gün geçmeli."
+            ? "İhtiyaç görüşmesinden 14 gün geçmeli."
             : "",
       (next) => {
         next.life.employers[j.id].lastReviewDay = d;
@@ -1270,7 +1279,7 @@ function actionList(s, api) {
     add(
       "career:workload:extended",
       "Ücret karşılığı ek çalışma yükünü kabul et",
-      `Her gerçek vardiya+60 dk,+${Math.round(j.wage * 0.15)} TL ve+5stres. İşverenin yoğun dönemi ve performans 60 gerekir; mevcut takvim vardiyaları yeniden planlanmalıdır.`,
+      `Her gerçek vardiya +60 dk, +${Math.round(j.wage * 0.15)} TL ve +5 stres. İşverenin yoğun dönemi ve performans 60 gerekir; mevcut takvim vardiyaları yeniden planlanmalıdır.`,
       "work",
       30,
       0,
@@ -1360,9 +1369,9 @@ export function adaptLifeActions(s, actions, api) {
         a.cost = newRent + target.deposit + 300;
         if (available(s) < a.cost) {
           a.disabled = true;
-          a.reason = `Yeni semt koşullarıyla${a.cost} TL gerekir.`;
+          a.reason = `Yeni semt koşullarıyla ${a.cost} TL gerekir.`;
         }
-        a.description += ` Güncel semt kira katsayısı%${rate}; yeni aylık kira ${newRent} TL.`;
+        a.description += ` Güncel semt kira katsayısı %${rate}; yeni aylık kira ${newRent} TL.`;
         a.run = (next) => {
           const text = run(next);
           next.housing.rent = newRent;
@@ -1537,7 +1546,7 @@ export function getLifeView(s) {
     employer: s.job
       ? {
           name: find(EMPLOYERS, s.job.id).name,
-          need: `${find(SKILLS, s.life.employers[s.job.id].needSkill).name}${s.life.employers[s.job.id].needLevel}`,
+          need: `${find(SKILLS, s.life.employers[s.job.id].needSkill).name} ${s.life.employers[s.job.id].needLevel}`,
           workload: { busy: "Yoğun", quiet: "Sakin", balanced: "Dengeli" }[
             s.life.employers[s.job.id].workload
           ],

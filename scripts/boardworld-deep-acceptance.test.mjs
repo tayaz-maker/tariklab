@@ -6,6 +6,7 @@ import {
   getActions,
   getClock,
   getDeepView,
+  getSocietyView,
   getNpcLocation,
   previewAction,
   resolveAction,
@@ -26,7 +27,7 @@ const legal = (state) => getActions(state).filter((action) => !action.disabled);
 const available = (state, id) => legal(state).some((action) => action.id === id);
 function sound(state) {
   assert.equal(validateState(state), true, "all interconnected state remains valid");
-  assert.equal(state.version, 4);
+  assert.equal(state.version, 5);
   for (const key of ["cash", "bank", "debt"])
     assert.ok(
       Number.isSafeInteger(state[key]) && state[key] >= 0,
@@ -94,7 +95,8 @@ function workingPolicy(state, { stories = true, work = true } = {}) {
 function initializeFixtureClock(state) {
   const legacy = structuredClone(state);
   legacy.version = 2;
-  for (const key of ["calendar", "city", "living", "emergent", "life"]) delete legacy[key];
+  for (const key of ["calendar", "city", "living", "emergent", "life", "society", "flow"])
+    delete legacy[key];
   return migrateState(legacy);
 }
 function focused(options = {}) {
@@ -719,7 +721,7 @@ test("work reputation, wage negotiation and notice survive a genuine change of e
   );
 });
 
-test("NPCs learn only disclosed facts and later hear them through actual trusted contact", () => {
+test("private disclosures stay private while a witnessed work fact travels through actual trusted contact", () => {
   let state = focused({ scenario: "restart" });
   state.time = 18 * 60 + 30;
   state = initializeFixtureClock(state);
@@ -740,19 +742,61 @@ test("NPCs learn only disclosed facts and later hear them through actual trusted
   for (const [id, npc] of Object.entries(state.deep.npcs))
     if (id !== "mert") assert.deepEqual(npc.knownFacts, [], `${id} is not omniscient`);
   reject(state, "deep:disclose:mert");
+  // Financial disclosures from older versions have no sharing consent. They
+  // remain with the intended confidant under the society privacy contract.
+  for (let turn = 0; getClock(state).day < 3 && turn < 100; turn++)
+    state = take(state, workingPolicy(state, { work: false, stories: false }).id);
+  assert.equal(
+    state.deep.npcs.ece.knownFacts.some((fact) => fact.id === "finances"),
+    false,
+  );
+
+  // A real completed shift creates a public work fact at the witnessing manager.
+  state = focused({ scenario: "restart" });
+  for (const [from, to] of [
+    ["ece", "mert"],
+    ["mert", "ece"],
+  ]) {
+    Object.assign(state.living.graph[from][to], { affinity: 90, trust: 80, lastContactAt: 0 });
+    state.living.npcs[from].social = 0;
+  }
+  state = take(state, "apply:repair");
+  state = take(state, "work");
+  const original = state.society.knowledge.mert.find((fact) => fact.topic === "work");
+  assert.ok(original, "the manager actually witnessed the player's shift");
+  assert.equal(original.privacy, "shareable");
   const afterDisclosure = state.time;
   let heard;
   for (let turn = 0; !heard && getClock(state).day < 15 && turn < 300; turn++) {
     state = take(state, workingPolicy(state, { work: false, stories: false }).id);
-    heard = state.deep.npcs.ece.knownFacts.find((fact) => fact.id === "finances");
+    heard = state.society.knowledge.ece.find((fact) => fact.id === original.id);
   }
   assert.ok(heard, "a trusted contact later shares a known fact through autonomous interaction");
-  assert.match(heard.source, /Mert/);
+  assert.equal(heard.sourceActorId, "mert");
+  assert.equal(heard.hops, 1);
+  assert.ok(heard.credibility < original.credibility);
+  assert.ok(heard.learnedAt >= afterDisclosure + 30, "contact and transmission each require time");
+  assert.equal(heard.disclosed, false, "NPC-to-NPC knowledge is not player knowledge");
+  assert.equal(
+    getSocietyView(state)
+      .profiles.find((npc) => npc.id === "ece")
+      .knownFacts.some((fact) => fact.id === original.id),
+    false,
+  );
   assert.ok(
     state.living.graph.ece.mert.lastContactAt > afterDisclosure,
     "knowledge transfer follows a real completed NPC contact",
   );
-  assert.ok(heard.day >= 2 && heard.day < 15);
+  assert.ok(heard.learnedAt < 15 * 1440);
+  for (let turn = 0; !available(state, "call:ece") && turn < 60; turn++)
+    state = take(state, workingPolicy(state, { work: false, stories: false }).id);
+  state = take(state, "call:ece");
+  assert.ok(
+    getSocietyView(state)
+      .profiles.find((npc) => npc.id === "ece")
+      .knownFacts.some((fact) => fact.id === original.id),
+    "a subsequent real conversation reveals the learned report",
+  );
 });
 
 function promiseFixture() {

@@ -24,6 +24,10 @@ import {
   getLifeWorkTerms,
   lifeSignals,
 } from "../public/games/tc-sim-boardworld/life-systems.mjs";
+import {
+  initSociety,
+  afterSocietyAction,
+} from "../public/games/tc-sim-boardworld/society-systems.mjs";
 const DAY = 1440;
 function fixture({ at = 1110, scenario = "restart" } = {}) {
   const s = createGame({ scenario, seed: 7 });
@@ -34,6 +38,7 @@ function fixture({ at = 1110, scenario = "restart" } = {}) {
   initLiving(s);
   initLife(s);
   initEmergent(s);
+  initSociety(s);
   s.cash = 20000;
   s.bank = 20000;
   return s;
@@ -93,6 +98,7 @@ function promote(s, role = "colleague") {
   } else {
     afterLifeAction(s, "business:serve", before, api);
   }
+  afterSocietyAction(s, "wait:15", before, api);
   assert.equal(validateState(s), true);
   return s;
 }
@@ -104,7 +110,7 @@ test("v3 migration adds life without rewriting legacy balances, NPCs, time or hi
     old = JSON.parse(envelope.payload),
     before = structuredClone(old),
     next = migrateState(old);
-  assert.equal(next.version, 4);
+  assert.equal(next.version, 5);
   assert.equal(validateState(next), true);
   for (const [k, v] of Object.entries(old)) if (k !== "version") assert.deepEqual(next[k], v, k);
   assert.deepEqual(old, before);
@@ -692,6 +698,7 @@ test("secondary direct disclosure updates known workplace without leaking unshar
   s = act(s, "apply:retail");
   s.flags.workDays = 3;
   afterLifeAction(s, "work", structuredClone(s), api);
+  afterSocietyAction(s, "wait:15", structuredClone(s), api);
   const id = s.life.secondary[0].id;
   assert.equal(s.life.secondary[0].context.knownWork, "kadikoy");
   while (s.time + 60 <= 1110) s = act(s, "wait:60");

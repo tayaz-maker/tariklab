@@ -1,0 +1,11384 @@
+{
+  "options": {
+    "scenario": "restart",
+    "seed": 2026,
+    "name": "social 4.0"
+  },
+  "style": "social",
+  "actions": [
+    {
+      "id": "event:welcome:work"
+    },
+    {
+      "id": "event:craft-project:repair"
+    },
+    {
+      "id": "apply:retail"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "project:start:relationship:leyla:60"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "cook"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:book-club:join"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "life:neighbor:okan"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "story:shared-roof:repair"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "cook"
+    },
+    {
+      "id": "life:neighbor:cem"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:repair-home:fix"
+    },
+    {
+      "id": "story:debt-crossroads:disclose"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "event:team-conflict:listen"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "leyla",
+        "subjectId": "",
+        "day": 6,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "calendar:accept:cal-1"
+    },
+    {
+      "id": "life:neighbor:hakan"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:talk:hakan"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "cook"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "visit:kadikoy-cafe"
+    },
+    {
+      "id": "calendar:next"
+    },
+    {
+      "id": "calendar:attend:cal-1"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:market:plan"
+    },
+    {
+      "id": "event:debt-letter:budget"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-1:adapt"
+    },
+    {
+      "id": "life:neighbor:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:overtime:accept"
+    },
+    {
+      "id": "story:shared-roof:inspect"
+    },
+    {
+      "id": "story:community-table:time"
+    },
+    {
+      "id": "story:debt-crossroads:buffer"
+    },
+    {
+      "id": "systemic:sys-2:adapt"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "household:invite:leyla:balanced"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "project:start:relationship:mert:60"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-3:commit"
+    },
+    {
+      "id": "life:friend:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:friend-help:listen"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "mert",
+        "subjectId": "",
+        "day": 11,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "life:neighbor:okan"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "story:community-table:organize"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "calendar:next"
+    },
+    {
+      "id": "calendar:attend:cal-2"
+    },
+    {
+      "id": "life:talk:hakan"
+    },
+    {
+      "id": "project:start:relationship:aylin:60"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "story:workplace-voice:discuss"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "event:family-call:talk"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:neighbor:cem"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "event:career-review:plan"
+    },
+    {
+      "id": "promote"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "life:neighbor:hakan"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:rain:chat"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "systemic:sys-1:finish"
+    },
+    {
+      "id": "systemic:sys-4:commit"
+    },
+    {
+      "id": "life:neighbor:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "story:shared-roof:record"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "aylin",
+        "subjectId": "",
+        "day": 16,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "systemic:sys-3:finish"
+    },
+    {
+      "id": "systemic:sys-2:finish"
+    },
+    {
+      "id": "systemic:sys-5:commit"
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:power-cut:read"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "snack"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "calendar:attend:cal-3"
+    },
+    {
+      "id": "systemic:sys-6:adapt"
+    },
+    {
+      "id": "life:neighbor:aylin"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "story:workplace-voice:coordinate"
+    },
+    {
+      "id": "life:neighbor:okan"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "story:community-table:network"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:friend:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "cook"
+    },
+    {
+      "id": "life:neighbor:cem"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "systemic:sys-4:finish"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "aylin",
+        "subjectId": "",
+        "day": 21,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "life:neighbor:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:festival:volunteer"
+    },
+    {
+      "id": "systemic:sys-7:commit"
+    },
+    {
+      "id": "life:friend:aylin"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "mentor:aylin"
+    },
+    {
+      "id": "cook"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "calendar:attend:cal-4"
+    },
+    {
+      "id": "systemic:sys-5:finish"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "story:debt-crossroads:review"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "mentor:aylin"
+    },
+    {
+      "id": "life:talk:hakan"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "cook"
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "story:workplace-voice:record"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "life:neighbor:okan"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:rent-talk:negotiate"
+    },
+    {
+      "id": "story:first-customer:practice"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "leyla",
+        "subjectId": "",
+        "day": 26,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "promote"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "calendar:attend:cal-5"
+    },
+    {
+      "id": "life:neighbor:aylin"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "systemic:sys-7:finish"
+    },
+    {
+      "id": "life:neighbor:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "story:first-customer:deliver"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:friend:hakan"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "mentor:aylin"
+    },
+    {
+      "id": "life:neighbor:cem"
+    },
+    {
+      "id": "systemic:sys-6:decline"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:month:reflect"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "mert",
+        "subjectId": "",
+        "day": 31,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "life:neighbor:okan"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "calendar:attend:cal-6"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:friend:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "story:first-customer:reference"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "aylin",
+        "subjectId": "",
+        "day": 36,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "systemic:sys-8:adapt"
+    },
+    {
+      "id": "life:neighbor:aylin"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "calendar:next"
+    },
+    {
+      "id": "calendar:attend:cal-7"
+    },
+    {
+      "id": "life:neighbor:cem"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-9:commit"
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "life:friend:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:okan"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "aylin",
+        "subjectId": "",
+        "day": 41,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "calendar:accept:cal-8"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "life:neighbor:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "calendar:next"
+    },
+    {
+      "id": "calendar:attend:cal-8"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-10:commit"
+    },
+    {
+      "id": "life:neighbor:aylin"
+    },
+    {
+      "id": "systemic:sys-8:finish"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-9:finish"
+    },
+    {
+      "id": "systemic:sys-11:adapt"
+    },
+    {
+      "id": "life:friend:aylin"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-12:commit"
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "leyla",
+        "subjectId": "",
+        "day": 46,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "life:talk:hakan"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "calendar:next"
+    },
+    {
+      "id": "calendar:attend:cal-9"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:friend:hakan"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-10:finish"
+    },
+    {
+      "id": "life:neighbor:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:hakan"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "life:neighbor:aylin"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "mert",
+        "subjectId": "",
+        "day": 51,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "systemic:sys-12:finish"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "life:friend:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "calendar:attend:cal-10"
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "life:friend:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:cem"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "life:neighbor:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "mert",
+        "subjectId": "",
+        "day": 56,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "life:neighbor:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "calendar:attend:cal-11"
+    },
+    {
+      "id": "systemic:sys-11:decline"
+    },
+    {
+      "id": "life:talk:hakan"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:aylin"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "life:neighbor:okan"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "aylin",
+        "subjectId": "",
+        "day": 61,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "calendar:accept:cal-12"
+    },
+    {
+      "id": "life:neighbor:cem"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "lease:renew"
+    },
+    {
+      "id": "systemic:sys-13:adapt"
+    },
+    {
+      "id": "life:neighbor:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:neighbor:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "calendar:attend:cal-12"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-14:adapt"
+    },
+    {
+      "id": "life:neighbor:derya"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "life:neighbor:aylin"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "leyla",
+        "subjectId": "",
+        "day": 66,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "systemic:sys-15:commit"
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "life:friend:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "calendar:next"
+    },
+    {
+      "id": "calendar:attend:cal-13"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:cem"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "life:neighbor:arda"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "mert",
+        "subjectId": "",
+        "day": 71,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "life:neighbor:hakan"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "systemic:sys-14:finish"
+    },
+    {
+      "id": "systemic:sys-16:commit"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "calendar:attend:cal-14"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "systemic:sys-15:finish"
+    },
+    {
+      "id": "life:neighbor:okan"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-17:commit"
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "life:neighbor:derya"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:cem"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "systemic:sys-13:decline"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "mert",
+        "subjectId": "",
+        "day": 76,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "life:neighbor:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "systemic:sys-16:finish"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:talk:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "calendar:next"
+    },
+    {
+      "id": "calendar:attend:cal-15"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:neighbor:hakan"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-17:finish"
+    },
+    {
+      "id": "systemic:sys-18:adapt"
+    },
+    {
+      "id": "life:neighbor:aylin"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "aylin",
+        "subjectId": "",
+        "day": 81,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "calendar:accept:cal-16"
+    },
+    {
+      "id": "life:neighbor:okan"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "systemic:sys-19:commit"
+    },
+    {
+      "id": "life:neighbor:cem"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "life:neighbor:derya"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:neighbor:arda"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "calendar:next"
+    },
+    {
+      "id": "calendar:attend:cal-16"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "leyla",
+        "subjectId": "",
+        "day": 86,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "life:neighbor:aylin"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "calendar:attend:cal-17"
+    },
+    {
+      "id": "life:neighbor:hakan"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "systemic:sys-19:finish"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:okan"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:cem"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "leyla",
+        "subjectId": "",
+        "day": 91,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "life:neighbor:arda"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "calendar:attend:cal-18"
+    },
+    {
+      "id": "systemic:sys-18:decline"
+    },
+    {
+      "id": "systemic:sys-20:adapt"
+    },
+    {
+      "id": "life:neighbor:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "life:neighbor:aylin"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-21:commit"
+    },
+    {
+      "id": "life:friend:mert"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "mert",
+        "subjectId": "",
+        "day": 96,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "life:neighbor:okan"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "calendar:next"
+    },
+    {
+      "id": "calendar:attend:cal-19"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:neighbor:hakan"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "life:friend:hakan"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-22:commit"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:neighbor:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "systemic:sys-20:finish"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:aylin"
+    },
+    {
+      "id": "systemic:sys-21:finish"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "aylin",
+        "subjectId": "",
+        "day": 101,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "calendar:accept:cal-20"
+    },
+    {
+      "id": "systemic:sys-23:commit"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "life:friend:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:neighbor:cem"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-22:finish"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "life:neighbor:hakan"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:talk:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "calendar:next"
+    },
+    {
+      "id": "calendar:attend:cal-20"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "leyla",
+        "subjectId": "",
+        "day": 106,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "life:talk:hakan"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "calendar:attend:cal-21"
+    },
+    {
+      "id": "systemic:sys-23:finish"
+    },
+    {
+      "id": "systemic:sys-24:adapt"
+    },
+    {
+      "id": "life:neighbor:aylin"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:friend:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:okan"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "leyla",
+        "subjectId": "",
+        "day": 111,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "life:neighbor:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:talk:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "calendar:next"
+    },
+    {
+      "id": "calendar:attend:cal-22"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:neighbor:hakan"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-25:adapt"
+    },
+    {
+      "id": "life:neighbor:aylin"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "life:friend:hakan"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "mert",
+        "subjectId": "",
+        "day": 116,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "calendar:attend:cal-23"
+    },
+    {
+      "id": "life:friend:aylin"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:cem"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:talk:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-26:adapt"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "mentor:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "aylin",
+        "subjectId": "",
+        "day": 121,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "calendar:accept:cal-24"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "systemic:sys-24:decline"
+    },
+    {
+      "id": "life:neighbor:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "lease:renew"
+    },
+    {
+      "id": "systemic:sys-27:commit"
+    },
+    {
+      "id": "life:friend:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:okan"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "life:neighbor:derya"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "calendar:attend:cal-24"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "leyla",
+        "subjectId": "",
+        "day": 127,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "systemic:sys-25:decline"
+    },
+    {
+      "id": "systemic:sys-26:finish"
+    },
+    {
+      "id": "systemic:sys-28:commit"
+    },
+    {
+      "id": "life:neighbor:cem"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "calendar:attend:cal-25"
+    },
+    {
+      "id": "systemic:sys-27:finish"
+    },
+    {
+      "id": "life:friend:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-29:commit"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:okan"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "leyla",
+        "subjectId": "",
+        "day": 132,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "life:neighbor:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "systemic:sys-28:finish"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "calendar:next"
+    },
+    {
+      "id": "calendar:attend:cal-26"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "life:neighbor:aylin"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "life:friend:aylin"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "systemic:sys-29:finish"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "mentor:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:friend:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "mert",
+        "subjectId": "",
+        "day": 137,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "calendar:next"
+    },
+    {
+      "id": "calendar:attend:cal-27"
+    },
+    {
+      "id": "life:neighbor:arda"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "life:neighbor:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:derya"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:aylin"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "aylin",
+        "subjectId": "",
+        "day": 142,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "calendar:accept:cal-28"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "systemic:sys-30:commit"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "life:friend:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "life:neighbor:cem"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:okan"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:neighbor:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:derya"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "calendar:attend:cal-28"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "leyla",
+        "subjectId": "",
+        "day": 148,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "systemic:sys-30:finish"
+    },
+    {
+      "id": "systemic:sys-31:adapt"
+    },
+    {
+      "id": "life:neighbor:arda"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "calendar:attend:cal-29"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "systemic:sys-32:adapt"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "systemic:sys-33:commit"
+    },
+    {
+      "id": "life:friend:mert"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:okan"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "leyla",
+        "subjectId": "",
+        "day": 153,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "life:neighbor:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "calendar:next"
+    },
+    {
+      "id": "calendar:attend:cal-30"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "life:neighbor:cem"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:aylin"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-31:finish"
+    },
+    {
+      "id": "systemic:sys-33:finish"
+    },
+    {
+      "id": "systemic:sys-34:adapt"
+    },
+    {
+      "id": "life:neighbor:derya"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-35:commit"
+    },
+    {
+      "id": "life:friend:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "mert",
+        "subjectId": "",
+        "day": 158,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "calendar:attend:cal-31"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "life:neighbor:okan"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:neighbor:cem"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-35:finish"
+    },
+    {
+      "id": "systemic:sys-36:commit"
+    },
+    {
+      "id": "life:neighbor:aylin"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "systemic:sys-32:decline"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "aylin",
+        "subjectId": "",
+        "day": 163,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "calendar:accept:cal-32"
+    },
+    {
+      "id": "life:friend:aylin"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:friend:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:okan"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "life:neighbor:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "systemic:sys-36:finish"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "life:neighbor:cem"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "calendar:attend:cal-32"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "leyla",
+        "subjectId": "",
+        "day": 169,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "systemic:sys-34:decline"
+    },
+    {
+      "id": "life:neighbor:aylin"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "calendar:next"
+    },
+    {
+      "id": "calendar:attend:cal-33"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:neighbor:okan"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "leyla",
+        "subjectId": "",
+        "day": 174,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "life:neighbor:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "calendar:next"
+    },
+    {
+      "id": "calendar:attend:cal-34"
+    },
+    {
+      "id": "life:neighbor:cem"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-37:adapt"
+    },
+    {
+      "id": "life:neighbor:aylin"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "life:friend:aylin"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-38:commit"
+    },
+    {
+      "id": "life:friend:mert"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "mert",
+        "subjectId": "",
+        "day": 179,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "calendar:next"
+    },
+    {
+      "id": "calendar:attend:cal-35"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "lease:renew"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "life:neighbor:hakan"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-37:finish"
+    },
+    {
+      "id": "life:neighbor:aylin"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "aylin",
+        "subjectId": "",
+        "day": 184,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "calendar:accept:cal-36"
+    },
+    {
+      "id": "systemic:sys-38:finish"
+    },
+    {
+      "id": "systemic:sys-39:adapt"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "life:friend:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-40:commit"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "life:friend:hakan"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "life:neighbor:okan"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "life:neighbor:cem"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:derya"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "calendar:attend:cal-36"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "leyla",
+        "subjectId": "",
+        "day": 190,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "systemic:sys-40:finish"
+    },
+    {
+      "id": "systemic:sys-41:commit"
+    },
+    {
+      "id": "life:neighbor:leyla"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "calendar:attend:cal-37"
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:friend:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "life:neighbor:okan"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:cem"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "leyla",
+        "subjectId": "",
+        "day": 195,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "life:neighbor:arda"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "calendar:attend:cal-38"
+    },
+    {
+      "id": "systemic:sys-41:finish"
+    },
+    {
+      "id": "life:neighbor:hakan"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:aylin"
+    },
+    {
+      "id": "systemic:sys-39:decline"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:friend:aylin"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "mert",
+        "subjectId": "",
+        "day": 200,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "life:neighbor:okan"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-42:adapt"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "calendar:next"
+    },
+    {
+      "id": "calendar:attend:cal-39"
+    },
+    {
+      "id": "life:friend:hakan"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "systemic:sys-43:commit"
+    },
+    {
+      "id": "life:neighbor:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:arda"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "systemic:sys-44:adapt"
+    },
+    {
+      "id": "life:neighbor:hakan"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "aylin",
+        "subjectId": "",
+        "day": 205,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "calendar:accept:cal-40"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "life:neighbor:aylin"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "life:friend:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "systemic:sys-43:finish"
+    },
+    {
+      "id": "systemic:sys-45:commit"
+    },
+    {
+      "id": "life:neighbor:cem"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:derya"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "life:neighbor:arda"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "calendar:attend:cal-40"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "leyla",
+        "subjectId": "",
+        "day": 211,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "systemic:sys-44:finish"
+    },
+    {
+      "id": "life:neighbor:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "calendar:attend:cal-41"
+    },
+    {
+      "id": "life:neighbor:hakan"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-46:commit"
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "life:neighbor:okan"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "systemic:sys-42:decline"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "systemic:sys-45:finish"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "life:neighbor:cem"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "leyla",
+        "subjectId": "",
+        "day": 216,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "life:neighbor:derya"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:talk:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "calendar:next"
+    },
+    {
+      "id": "calendar:attend:cal-42"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-46:finish"
+    },
+    {
+      "id": "systemic:sys-47:commit"
+    },
+    {
+      "id": "life:neighbor:aylin"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-48:adapt"
+    },
+    {
+      "id": "life:friend:aylin"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "mert",
+        "subjectId": "",
+        "day": 221,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "life:neighbor:okan"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "calendar:next"
+    },
+    {
+      "id": "calendar:attend:cal-43"
+    },
+    {
+      "id": "life:neighbor:hakan"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "life:neighbor:cem"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:arda"
+    },
+    {
+      "id": "systemic:sys-47:finish"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:aylin"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "aylin",
+        "subjectId": "",
+        "day": 226,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "calendar:accept:cal-44"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "mentor:aylin"
+    },
+    {
+      "id": "life:neighbor:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "life:friend:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:neighbor:okan"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:cem"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:neighbor:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "calendar:attend:cal-44"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "leyla",
+        "subjectId": "",
+        "day": 232,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "systemic:sys-48:decline"
+    },
+    {
+      "id": "systemic:sys-49:adapt"
+    },
+    {
+      "id": "life:neighbor:aylin"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "calendar:next"
+    },
+    {
+      "id": "calendar:attend:cal-45"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "life:neighbor:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "life:friend:hakan"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-50:commit"
+    },
+    {
+      "id": "life:neighbor:okan"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "leyla",
+        "subjectId": "",
+        "day": 237,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "life:neighbor:cem"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:talk:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "calendar:next"
+    },
+    {
+      "id": "calendar:attend:cal-46"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:aylin"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "systemic:sys-49:finish"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:friend:aylin"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-51:commit"
+    },
+    {
+      "id": "life:neighbor:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "lease:renew"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "mert",
+        "subjectId": "",
+        "day": 242,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "systemic:sys-50:finish"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "calendar:next"
+    },
+    {
+      "id": "calendar:attend:cal-47"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "life:neighbor:okan"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:cem"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "life:friend:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "systemic:sys-51:finish"
+    },
+    {
+      "id": "systemic:sys-52:adapt"
+    },
+    {
+      "id": "life:neighbor:aylin"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "aylin",
+        "subjectId": "",
+        "day": 247,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "calendar:accept:cal-48"
+    },
+    {
+      "id": "systemic:sys-53:commit"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "life:friend:mert"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:neighbor:okan"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:cem"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "life:neighbor:derya"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "calendar:next"
+    },
+    {
+      "id": "calendar:attend:cal-48"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "leyla",
+        "subjectId": "",
+        "day": 253,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "systemic:sys-53:finish"
+    },
+    {
+      "id": "life:neighbor:aylin"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "calendar:attend:cal-49"
+    },
+    {
+      "id": "systemic:sys-54:adapt"
+    },
+    {
+      "id": "life:neighbor:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "life:friend:aylin"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "life:neighbor:okan"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "leyla",
+        "subjectId": "",
+        "day": 258,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "life:neighbor:cem"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "calendar:attend:cal-50"
+    },
+    {
+      "id": "systemic:sys-52:decline"
+    },
+    {
+      "id": "life:friend:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-55:adapt"
+    },
+    {
+      "id": "life:neighbor:aylin"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "mentor:aylin"
+    },
+    {
+      "id": "life:neighbor:derya"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "systemic:sys-56:commit"
+    },
+    {
+      "id": "life:neighbor:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "mert",
+        "subjectId": "",
+        "day": 263,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "calendar:attend:cal-51"
+    },
+    {
+      "id": "life:friend:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:cem"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:arda"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "systemic:sys-55:finish"
+    },
+    {
+      "id": "systemic:sys-57:commit"
+    },
+    {
+      "id": "life:neighbor:aylin"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "systemic:sys-54:decline"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "aylin",
+        "subjectId": "",
+        "day": 268,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "calendar:accept:cal-52"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "mentor:aylin"
+    },
+    {
+      "id": "systemic:sys-56:finish"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-58:commit"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:neighbor:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:neighbor:okan"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "life:neighbor:cem"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:neighbor:arda"
+    },
+    {
+      "id": "systemic:sys-57:finish"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "calendar:next"
+    },
+    {
+      "id": "calendar:attend:cal-52"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "leyla",
+        "subjectId": "",
+        "day": 274,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "systemic:sys-58:finish"
+    },
+    {
+      "id": "life:neighbor:derya"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "calendar:attend:cal-53"
+    },
+    {
+      "id": "systemic:sys-59:commit"
+    },
+    {
+      "id": "life:friend:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "life:neighbor:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:okan"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "leyla",
+        "subjectId": "",
+        "day": 279,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "life:neighbor:cem"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "calendar:next"
+    },
+    {
+      "id": "calendar:attend:cal-54"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "life:neighbor:aylin"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:friend:aylin"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-59:finish"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "mentor:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:friend:mert"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "mert",
+        "subjectId": "",
+        "day": 284,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "calendar:next"
+    },
+    {
+      "id": "calendar:attend:cal-55"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "life:neighbor:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:arda"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-60:adapt"
+    },
+    {
+      "id": "life:neighbor:aylin"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "aylin",
+        "subjectId": "",
+        "day": 289,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "calendar:accept:cal-56"
+    },
+    {
+      "id": "systemic:sys-61:adapt"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "life:friend:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "systemic:sys-62:adapt"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:okan"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:arda"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "calendar:next"
+    },
+    {
+      "id": "calendar:attend:cal-56"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "leyla",
+        "subjectId": "",
+        "day": 295,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "systemic:sys-60:finish"
+    },
+    {
+      "id": "systemic:sys-63:commit"
+    },
+    {
+      "id": "life:neighbor:cem"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "calendar:attend:cal-57"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:friend:mert"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:okan"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "leyla",
+        "subjectId": "",
+        "day": 300,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "life:neighbor:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "calendar:attend:cal-58"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "life:neighbor:aylin"
+    },
+    {
+      "id": "systemic:sys-63:finish"
+    },
+    {
+      "id": "systemic:sys-64:commit"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "lease:renew"
+    },
+    {
+      "id": "systemic:sys-61:decline"
+    },
+    {
+      "id": "life:friend:aylin"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-65:commit"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "life:friend:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-62:decline"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "life:neighbor:hakan"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "mert",
+        "subjectId": "",
+        "day": 305,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "calendar:next"
+    },
+    {
+      "id": "calendar:attend:cal-59"
+    },
+    {
+      "id": "life:friend:hakan"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "systemic:sys-64:finish"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "life:talk:hakan"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-65:finish"
+    },
+    {
+      "id": "life:neighbor:aylin"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "aylin",
+        "subjectId": "",
+        "day": 310,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "calendar:accept:cal-60"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "mentor:aylin"
+    },
+    {
+      "id": "life:talk:hakan"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:friend:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "life:neighbor:cem"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:neighbor:derya"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "calendar:attend:cal-60"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "leyla",
+        "subjectId": "",
+        "day": 316,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "systemic:sys-66:adapt"
+    },
+    {
+      "id": "life:talk:hakan"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "calendar:next"
+    },
+    {
+      "id": "calendar:attend:cal-61"
+    },
+    {
+      "id": "life:neighbor:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "life:friend:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:neighbor:okan"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "leyla",
+        "subjectId": "",
+        "day": 321,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "life:neighbor:cem"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "calendar:attend:cal-62"
+    },
+    {
+      "id": "systemic:sys-67:commit"
+    },
+    {
+      "id": "life:neighbor:hakan"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "systemic:sys-68:commit"
+    },
+    {
+      "id": "life:neighbor:aylin"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "systemic:sys-66:finish"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-69:adapt"
+    },
+    {
+      "id": "life:friend:aylin"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:friend:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "mert",
+        "subjectId": "",
+        "day": 326,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "calendar:next"
+    },
+    {
+      "id": "calendar:attend:cal-63"
+    },
+    {
+      "id": "life:neighbor:derya"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "life:neighbor:cem"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-67:finish"
+    },
+    {
+      "id": "systemic:sys-70:commit"
+    },
+    {
+      "id": "systemic:sys-68:finish"
+    },
+    {
+      "id": "life:neighbor:hakan"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:aylin"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "aylin",
+        "subjectId": "",
+        "day": 331,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "calendar:accept:cal-64"
+    },
+    {
+      "id": "systemic:sys-71:commit"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "life:neighbor:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "life:friend:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:okan"
+    },
+    {
+      "id": "systemic:sys-70:finish"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:neighbor:arda"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "systemic:sys-72:adapt"
+    },
+    {
+      "id": "life:neighbor:hakan"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "calendar:attend:cal-64"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "leyla",
+        "subjectId": "",
+        "day": 337,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "systemic:sys-69:decline"
+    },
+    {
+      "id": "systemic:sys-71:finish"
+    },
+    {
+      "id": "life:friend:hakan"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "calendar:next"
+    },
+    {
+      "id": "calendar:attend:cal-65"
+    },
+    {
+      "id": "life:neighbor:derya"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:friend:mert"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "life:neighbor:cem"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "leyla",
+        "subjectId": "",
+        "day": 342,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "life:neighbor:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "calendar:attend:cal-66"
+    },
+    {
+      "id": "life:neighbor:aylin"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-73:adapt"
+    },
+    {
+      "id": "life:neighbor:hakan"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:friend:aylin"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "life:friend:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "mert",
+        "subjectId": "",
+        "day": 347,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "calendar:attend:cal-67"
+    },
+    {
+      "id": "life:neighbor:arda"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:leyla"
+    },
+    {
+      "id": "systemic:sys-72:decline"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:talk:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "systemic:sys-73:finish"
+    },
+    {
+      "id": "systemic:sys-74:commit"
+    },
+    {
+      "id": "life:neighbor:hakan"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "aylin",
+        "subjectId": "",
+        "day": 352,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "calendar:accept:cal-68"
+    },
+    {
+      "id": "life:neighbor:aylin"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:friend:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:neighbor:cem"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "life:neighbor:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-75:commit"
+    },
+    {
+      "id": "systemic:sys-74:finish"
+    },
+    {
+      "id": "life:neighbor:arda"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "calendar:next"
+    },
+    {
+      "id": "calendar:attend:cal-68"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "leyla",
+        "subjectId": "",
+        "day": 358,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "life:neighbor:hakan"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "calendar:attend:cal-69"
+    },
+    {
+      "id": "systemic:sys-76:adapt"
+    },
+    {
+      "id": "life:neighbor:aylin"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-77:commit"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:friend:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "life:neighbor:okan"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "lease:renew"
+    },
+    {
+      "id": "systemic:sys-75:finish"
+    },
+    {
+      "id": "life:neighbor:mert"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "mentor:mert"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "calendar:propose",
+      "payload": {
+        "kind": "meeting",
+        "npcId": "leyla",
+        "subjectId": "",
+        "day": 363,
+        "venue": "kadikoy-cafe",
+        "duration": 60,
+        "repeat": "none",
+        "minute": 1050
+      }
+    },
+    {
+      "id": "life:neighbor:leyla"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "calendar:next"
+    },
+    {
+      "id": "calendar:attend:cal-70"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "life:neighbor:cem"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "call:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "household:chore"
+    },
+    {
+      "id": "life:friend:aylin"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "call:leyla"
+    },
+    {
+      "id": "mentor:leyla"
+    },
+    {
+      "id": "talk:mert"
+    },
+    {
+      "id": "call:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "systemic:sys-77:finish"
+    },
+    {
+      "id": "life:neighbor:aylin"
+    },
+    {
+      "id": "talk:leyla"
+    },
+    {
+      "id": "sleep"
+    }
+  ]
+}

@@ -15,7 +15,14 @@ const name = (id) => by(NPCS, id)?.name || id;
 const district = (id) => by(DISTRICTS, id)?.name || id;
 const commitments = (s, id, start, end) =>
   s.calendar?.entries?.filter(
-    (e) => e.npcId === id && e.status === "confirmed" && e.start < end && start < e.end,
+    (e) =>
+      e.npcId === id &&
+      (e.status === "confirmed" ||
+        (s.version >= 5 &&
+          e.status === "counter" &&
+          s.society?.offers.some((o) => o.calendarId === e.id && o.status === "open"))) &&
+      e.start < end &&
+      start < e.end,
   ) || [];
 function market(s, id) {
   const index = DISTRICTS.findIndex((d) => d.id === id),
@@ -24,7 +31,8 @@ function market(s, id) {
   const demand = cap(
     MARKET_CYCLE[(week + index * 2 + (s.seed % 3)) % MARKET_CYCLE.length] +
       (cohort ? Math.round((cohort.employed - 90) / 3) : 0) +
-      (s.life?.districts[id]?.demandDelta || 0),
+      (s.life?.districts[id]?.demandDelta || 0) +
+      (s.society?.districts[id]?.weeklyDelta.demand || 0),
     30,
     100,
   );
@@ -368,6 +376,10 @@ function selectDecision(s, id, index, api) {
       });
     if (
       other.cash < 400 &&
+      (s.version < 5 ||
+        s.society?.knowledge[id]?.some(
+          (f) => f.id === `need:${otherId}:${other.request?.sinceDay}` && f.topic === "finance",
+        )) &&
       n.cash >= 1200 &&
       edge.trust >= 25 &&
       s.time - x.lastFavorAt >= 7 * DAY &&
@@ -381,6 +393,7 @@ function selectDecision(s, id, index, api) {
         score: 70,
       });
   }
+  if (s.version >= 5) options.push(...(api.societyNpcOptions?.(s, id) || []));
   options.sort(
     (a, b) =>
       b.score - a.score ||
@@ -397,7 +410,7 @@ function syncGraph(s, id) {
       .map(([other, e]) => [other, Math.round(e.affinity)]),
   );
 }
-function meetNpcs(s, id, otherId, api) {
+function meetNpcs(s, id, otherId, api, plan) {
   const a = s.living.graph[id][otherId],
     b = s.living.graph[otherId][id],
     person = s.deep.npcs[id],
@@ -412,23 +425,32 @@ function meetNpcs(s, id, otherId, api) {
   b.lastContactAt = s.time;
   s.living.npcs[id].social = cap(s.living.npcs[id].social + 20);
   s.living.npcs[otherId].social = cap(s.living.npcs[otherId].social + 12);
-  for (const [source, target, edge] of [
-    [person, other, a],
-    [other, person, b],
-  ])
-    if (edge.trust >= 35 && edge.conflict < 20) {
-      const fact = source.knownFacts.at(-1);
-      if (fact && !target.knownFacts.some((f) => f.id === fact.id && f.day >= fact.day))
-        api.reveal(
-          s,
-          source === person ? otherId : id,
-          fact.id,
-          fact.value,
-          `${source === person ? name(id) : name(otherId)} yüz yüze anlattı`,
-        );
-    }
+  if (s.version < 5)
+    for (const [source, target, edge] of [
+      [person, other, a],
+      [other, person, b],
+    ])
+      if (edge.trust >= 35 && edge.conflict < 20) {
+        const fact = source.knownFacts.at(-1);
+        if (fact && !target.knownFacts.some((f) => f.id === fact.id && f.day >= fact.day))
+          api.reveal(
+            s,
+            source === person ? otherId : id,
+            fact.id,
+            fact.value,
+            `${source === person ? name(id) : name(otherId)} yüz yüze anlattı`,
+          );
+      }
   syncGraph(s, id);
   syncGraph(s, otherId);
+  if (s.version >= 5)
+    api.societyContact?.(
+      s,
+      id,
+      otherId,
+      { kind: "social", start: plan.start, end: plan.end, place: plan.location },
+      api,
+    );
   const place = other.home;
   if (api.playerPresent?.(s, place))
     for (const [from, to] of [
@@ -463,6 +485,7 @@ function finish(s, id, p, api) {
   }
   if (p.kind === "work") {
     n.cash = money(n.cash + p.wage);
+    if (s.version >= 5) api.societyNpcWork?.(s, id, p.end - p.start, p.location);
     n.tenure++;
     x.energy = cap(x.energy - 28);
     x.social = cap(x.social - 3);
@@ -570,7 +593,8 @@ function finish(s, id, p, api) {
           (q) => q.kind === "visit" && q.target === id && q.start <= p.start && q.end === p.end,
         )
       )
-        meetNpcs(s, id, p.target, api);
+        if (!(s.version >= 5 && api.societyNpcOutcome?.(s, id, p, api)))
+          meetNpcs(s, id, p.target, api, p);
       break;
     case "favor": {
       const other = s.deep.npcs[p.target],
@@ -592,6 +616,14 @@ function finish(s, id, p, api) {
         edge.trust = cap(edge.trust + 6);
         reverse.trust = cap(reverse.trust + 2);
         x.lastFavorAt = s.time;
+        if (s.version >= 5)
+          api.societyContact?.(
+            s,
+            id,
+            p.target,
+            { kind: "favor", start: p.start, end: p.end, place: p.location, amount: 300 },
+            api,
+          );
         explainNpc(
           s,
           id,
@@ -611,6 +643,14 @@ function finish(s, id, p, api) {
         s.deep.npcs[p.target].cash = money(s.deep.npcs[p.target].cash + value);
         edge.owed = 0;
         edge.dueAt = 0;
+        if (s.version >= 5)
+          api.societyContact?.(
+            s,
+            id,
+            p.target,
+            { kind: "repay", start: p.start, end: p.end, place: p.location, amount: value },
+            api,
+          );
         edge.conflict = cap(edge.conflict - 6);
         s.living.graph[p.target][id].trust = cap(s.living.graph[p.target][id].trust + 5);
         explainNpc(s, id, `${name(p.target)}’e verdiği geri ödeme sözünü tuttu.`, api, p.location);

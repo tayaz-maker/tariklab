@@ -1,0 +1,7318 @@
+{
+  "options": {
+    "scenario": "restart",
+    "seed": 91373,
+    "name": "career 4.0"
+  },
+  "style": "career",
+  "actions": [
+    {
+      "id": "event:welcome:work"
+    },
+    {
+      "id": "event:craft-project:repair"
+    },
+    {
+      "id": "apply:retail"
+    },
+    {
+      "id": "life:colleague:cem"
+    },
+    {
+      "id": "project:start:qualification:craft:75"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "cook"
+    },
+    {
+      "id": "enroll:repair"
+    },
+    {
+      "id": "study"
+    },
+    {
+      "id": "life:colleague:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:book-club:join"
+    },
+    {
+      "id": "study"
+    },
+    {
+      "id": "life:colleague:okan"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "story:shared-roof:repair"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "cook"
+    },
+    {
+      "id": "study"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:repair-home:fix"
+    },
+    {
+      "id": "story:debt-crossroads:disclose"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "event:team-conflict:listen"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "study"
+    },
+    {
+      "id": "cook"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:market:plan"
+    },
+    {
+      "id": "event:debt-letter:budget"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "study"
+    },
+    {
+      "id": "systemic:sys-1:commit"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:overtime:accept"
+    },
+    {
+      "id": "story:shared-roof:inspect"
+    },
+    {
+      "id": "story:community-table:time"
+    },
+    {
+      "id": "story:debt-crossroads:buffer"
+    },
+    {
+      "id": "study"
+    },
+    {
+      "id": "event:graduation:network"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "systemic:sys-2:commit"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-3:commit"
+    },
+    {
+      "id": "life:colleague:cem"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "story:learning-circle:prepare"
+    },
+    {
+      "id": "life:colleague:okan"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "story:community-table:organize"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:showcase:present"
+    },
+    {
+      "id": "story:workplace-voice:discuss"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "event:family-call:talk"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:colleague:aylin"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "event:career-review:plan"
+    },
+    {
+      "id": "promote"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "systemic:sys-1:finish"
+    },
+    {
+      "id": "systemic:sys-4:adapt"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:rain:chat"
+    },
+    {
+      "id": "story:shared-roof:record"
+    },
+    {
+      "id": "story:learning-circle:teach"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:power-cut:read"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "systemic:sys-2:finish"
+    },
+    {
+      "id": "systemic:sys-3:finish"
+    },
+    {
+      "id": "systemic:sys-5:commit"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "story:workplace-voice:coordinate"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "story:community-table:network"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "cook"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-4:finish"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "cook"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:festival:volunteer"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-6:commit"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "story:learning-circle:reference"
+    },
+    {
+      "id": "story:debt-crossroads:review"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-7:adapt"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "systemic:sys-5:finish"
+    },
+    {
+      "id": "cook"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "story:workplace-voice:record"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:rent-talk:negotiate"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "story:first-customer:practice"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "promote"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "systemic:sys-6:finish"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "story:first-customer:deliver"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:month:reflect"
+    },
+    {
+      "id": "career:notice"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "story:first-customer:reference"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-7:decline"
+    },
+    {
+      "id": "systemic:sys-8:commit"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "apply:repair"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:colleague:arda"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "systemic:sys-9:adapt"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "systemic:sys-10:commit"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-11:commit"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "systemic:sys-9:finish"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "promote"
+    },
+    {
+      "id": "systemic:sys-10:finish"
+    },
+    {
+      "id": "systemic:sys-11:finish"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-12:commit"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:mert"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "lease:renew"
+    },
+    {
+      "id": "systemic:sys-12:finish"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "systemic:sys-13:commit"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "promote"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:colleague:mert"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "systemic:sys-13:finish"
+    },
+    {
+      "id": "systemic:sys-14:adapt"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-15:commit"
+    },
+    {
+      "id": "life:colleague:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-14:finish"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-15:finish"
+    },
+    {
+      "id": "systemic:sys-16:commit"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:mert"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-17:commit"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-18:adapt"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "systemic:sys-16:finish"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:mert"
+    },
+    {
+      "id": "career:negotiate"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-17:finish"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "systemic:sys-19:commit"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:mert"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "systemic:sys-18:decline"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "systemic:sys-19:finish"
+    },
+    {
+      "id": "systemic:sys-20:adapt"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-21:commit"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "systemic:sys-22:commit"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:colleague:mert"
+    },
+    {
+      "id": "career:negotiate"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-20:finish"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "systemic:sys-21:finish"
+    },
+    {
+      "id": "systemic:sys-22:finish"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:mert"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-23:commit"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:colleague:mert"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "systemic:sys-24:commit"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "lease:renew"
+    },
+    {
+      "id": "life:colleague:mert"
+    },
+    {
+      "id": "event:friend-help:listen"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "systemic:sys-24:finish"
+    },
+    {
+      "id": "systemic:sys-25:adapt"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "systemic:sys-23:decline"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "systemic:sys-26:commit"
+    },
+    {
+      "id": "life:colleague:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-25:finish"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "systemic:sys-26:finish"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:mert"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-27:commit"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-28:adapt"
+    },
+    {
+      "id": "life:colleague:mert"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-29:commit"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "systemic:sys-27:finish"
+    },
+    {
+      "id": "systemic:sys-30:commit"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:mert"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-29:finish"
+    },
+    {
+      "id": "systemic:sys-31:commit"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "systemic:sys-30:finish"
+    },
+    {
+      "id": "systemic:sys-32:adapt"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-28:decline"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-33:commit"
+    },
+    {
+      "id": "life:colleague:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "systemic:sys-32:finish"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-33:finish"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:mert"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "systemic:sys-31:decline"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:mert"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "systemic:sys-34:commit"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:colleague:mert"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "lease:renew"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "systemic:sys-34:finish"
+    },
+    {
+      "id": "systemic:sys-35:adapt"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-36:commit"
+    },
+    {
+      "id": "life:colleague:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-37:commit"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "systemic:sys-35:finish"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "systemic:sys-38:commit"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-36:finish"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:mert"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "systemic:sys-38:finish"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:mert"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "systemic:sys-37:decline"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-39:commit"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "systemic:sys-40:adapt"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "systemic:sys-41:commit"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:mert"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-39:finish"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "systemic:sys-41:finish"
+    },
+    {
+      "id": "systemic:sys-42:adapt"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-43:commit"
+    },
+    {
+      "id": "life:colleague:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-40:decline"
+    },
+    {
+      "id": "systemic:sys-42:finish"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-43:finish"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:mert"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-44:commit"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:mert"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "systemic:sys-45:commit"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:mert"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "systemic:sys-44:decline"
+    },
+    {
+      "id": "systemic:sys-46:commit"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "systemic:sys-45:finish"
+    },
+    {
+      "id": "systemic:sys-47:adapt"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "systemic:sys-48:commit"
+    },
+    {
+      "id": "life:colleague:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "lease:renew"
+    },
+    {
+      "id": "systemic:sys-46:finish"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-47:finish"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "systemic:sys-48:finish"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:mert"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:colleague:mert"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "systemic:sys-49:commit"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "systemic:sys-50:commit"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-51:commit"
+    },
+    {
+      "id": "life:colleague:mert"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "systemic:sys-50:finish"
+    },
+    {
+      "id": "systemic:sys-52:adapt"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-51:finish"
+    },
+    {
+      "id": "systemic:sys-53:adapt"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:colleague:mert"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "systemic:sys-49:decline"
+    },
+    {
+      "id": "systemic:sys-54:commit"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "systemic:sys-53:finish"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:mert"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "systemic:sys-54:finish"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "systemic:sys-55:commit"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "systemic:sys-52:decline"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:mert"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "systemic:sys-55:finish"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "systemic:sys-56:commit"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:mert"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-57:commit"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "systemic:sys-56:finish"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-58:adapt"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:mert"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-59:commit"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "systemic:sys-58:finish"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "lease:renew"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-59:finish"
+    },
+    {
+      "id": "life:colleague:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "systemic:sys-57:decline"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:mert"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "systemic:sys-60:commit"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:colleague:mert"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "systemic:sys-61:commit"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "systemic:sys-60:finish"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "systemic:sys-62:adapt"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-63:commit"
+    },
+    {
+      "id": "life:colleague:mert"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "systemic:sys-61:finish"
+    },
+    {
+      "id": "systemic:sys-64:adapt"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "systemic:sys-62:finish"
+    },
+    {
+      "id": "systemic:sys-65:commit"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "systemic:sys-63:finish"
+    },
+    {
+      "id": "systemic:sys-66:commit"
+    },
+    {
+      "id": "life:colleague:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "systemic:sys-66:finish"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:mert"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "systemic:sys-64:decline"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "systemic:sys-65:decline"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "systemic:sys-67:commit"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:mert"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "systemic:sys-67:finish"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-68:adapt"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:mert"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "systemic:sys-68:finish"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-69:commit"
+    },
+    {
+      "id": "life:colleague:mert"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "lease:renew"
+    },
+    {
+      "id": "life:colleague:hakan"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "systemic:sys-70:commit"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "wait:60"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "systemic:sys-69:finish"
+    },
+    {
+      "id": "life:colleague:leyla"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    }
+  ]
+}

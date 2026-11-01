@@ -37,6 +37,15 @@ const assets = [
   "emergent-life.mjs",
   "emergent-ui.mjs",
   "emergent.css",
+  "daily-flow.mjs",
+  "society-content.mjs",
+  "society-systems.mjs",
+  "society-ui.mjs",
+  "society.css",
+  "i18n.mjs",
+  "locale-keys.mjs",
+  "locale-en.mjs",
+  "locale-pl.mjs",
   "life-content.mjs",
   "life-systems.mjs",
 ];
@@ -210,7 +219,7 @@ try {
     await surface.locator("#character-name").fill("Birbirine Bağlı Hayat");
     await surface.locator("[data-testid=create-game]").click();
     await h.drain();
-    assert.equal((await h.inspect()).version, 4);
+    assert.equal((await h.inspect()).version, 5);
     await h.tab("board");
     if (await surface.locator('[data-ui="dismiss-outcome"]').count())
       await surface.locator('[data-ui="dismiss-outcome"]').click();
@@ -323,8 +332,8 @@ try {
     await h.choose(dayAction.id);
     const dayIndex = Number(dayAction.id.split(":").at(-1));
     assert.equal((await h.inspect()).emergent.policy.days[dayIndex], !priorDays[dayIndex]);
-    await surface.locator(`[data-action="${dayAction.id}"]`).focus();
-    await surface.locator(`[data-action="${dayAction.id}"]`).press("Enter");
+    await surface.locator(`.policy-days [data-action="${dayAction.id}"]`).focus();
+    await surface.locator(`.policy-days [data-action="${dayAction.id}"]`).press("Enter");
     assert.equal(
       (await h.inspect()).emergent.policy.days[dayIndex],
       priorDays[dayIndex],
@@ -366,7 +375,7 @@ try {
     assert.deepEqual(
       await reloaded.evaluate(() => window.boardworldInspect()),
       saved,
-      "v4 policy/save reload exact",
+      "v5 policy/save reload exact",
     );
     if (width === 320)
       assert.equal(
@@ -403,7 +412,7 @@ try {
   const fixture = resolve("scripts/fixtures/boardworld/v3-social-day91.json"),
     bytes = readFileSync(fixture, "utf8");
   await surface.locator("#import-file").setInputFiles(fixture);
-  await surface.waitForFunction(() => window.boardworldInspect()?.version === 4);
+  await surface.waitForFunction(() => window.boardworldInspect()?.version === 5);
   assert.equal(
     await surface.evaluate(() => localStorage.getItem("tariklab.boardworld.v3.original-v3")),
     bytes,
@@ -419,8 +428,8 @@ try {
   await h.choose(edit.id);
   const upgraded = await h.inspect(),
     canonical = await surface.evaluate(() => ({
-      primary: localStorage.getItem("tariklab.boardworld.v4"),
-      backup: localStorage.getItem("tariklab.boardworld.v4.backup"),
+      primary: localStorage.getItem("tariklab.boardworld.v5"),
+      backup: localStorage.getItem("tariklab.boardworld.v5.backup"),
     }));
   assert.ok(canonical.primary && canonical.backup);
   await surface.evaluate(() => {
@@ -444,19 +453,19 @@ try {
     assert.deepEqual(
       await h.inspect(),
       upgraded,
-      "actual stale v3 storage event preserves v4 memory",
+      "actual stale v3 storage event preserves v5 memory",
     );
     assert.deepEqual(
       await surface.evaluate(() => ({
-        primary: localStorage.getItem("tariklab.boardworld.v4"),
-        backup: localStorage.getItem("tariklab.boardworld.v4.backup"),
+        primary: localStorage.getItem("tariklab.boardworld.v5"),
+        backup: localStorage.getItem("tariklab.boardworld.v5.backup"),
       })),
       canonical,
       "stale writer preserves canonical primary and backup",
     );
   }
   await page.reload({ waitUntil: "networkidle" });
-  assert.deepEqual(await h.inspect(), upgraded, "reload still prefers v4");
+  assert.deepEqual(await h.inspect(), upgraded, "reload still prefers v5");
   const syncAction = (await h.snap()).actions.find(
     (a) => a.category === "policy" && a.id.startsWith("policy:meal:") && !a.disabled,
   );
@@ -469,7 +478,7 @@ try {
   assert.deepEqual(
     await writer.evaluate(() => window.boardworldInspect()),
     synced,
-    "current v4 cross-tab remains synchronized",
+    "current v5 cross-tab remains synchronized",
   );
   await writer.close();
   // A genuine household invitation must respect the other person's existing calendar.
@@ -577,14 +586,24 @@ try {
   await surface.evaluate(() => scrollTo(0, 0));
   await page.screenshot({ path: `${output}/causal-event-390.png`, fullPage: true });
   const beforeStop = await h.inspect();
-  await h.choose("schedule:run:1");
+  const routineAction = (await h.snap()).actions.find((a) => a.id === "schedule:run:1");
+  if (routineAction.disabled) {
+    await h.tab("plan");
+    assert.ok(await surface.locator('[data-action="schedule:run:1"]').first().isDisabled());
+    assert.match(routineAction.reason, /karar|seçim|olay/i);
+    assert.deepEqual(await h.inspect(), beforeStop, "blocked retry preserves the full state");
+  } else await h.choose("schedule:run:1");
   const stopped = await h.inspect();
   assert.equal(
     stopped.time,
     beforeStop.time,
     "routine does not choose or skip an active causal decision",
   );
-  assert.ok(stopped.emergent.routine.stopReason.length);
+  assert.ok(
+    routineAction.disabled
+      ? routineAction.reason.length
+      : stopped.emergent.routine.stopReason.length,
+  );
   const eventAction =
     (await h.snap()).actions.find(
       (a) => systemic.actionIds.includes(a.id) && !a.disabled && a.id.endsWith(":adapt"),

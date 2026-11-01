@@ -8,6 +8,10 @@ const dayOf = (t) => Math.floor(t / DAY) + 1;
 const timeLabel = (t) =>
   `${String(Math.floor((t % DAY) / 60)).padStart(2, "0")}:${String(t % 60).padStart(2, "0")}`;
 const active = (e) => e.status === "confirmed";
+const npcReserved = (s, e) =>
+  active(e) ||
+  (e.status === "counter" &&
+    s.society?.offers.some((o) => o.status === "open" && o.calendarId === e.id));
 const overlaps = (a, b, c, d) => a < d && c < b;
 const cap = (n) => Math.max(0, Math.min(100, n));
 const statusLabels = {
@@ -89,7 +93,7 @@ export function initCalendar(s) {
 }
 export function npcCommitments(s, id, start, end) {
   return (s.calendar?.entries || []).filter(
-    (e) => active(e) && e.npcId === id && overlaps(start, end, e.start, e.end),
+    (e) => npcReserved(s, e) && e.npcId === id && overlaps(start, end, e.start, e.end),
   );
 }
 export function calendarNpcLocation(s, id) {
@@ -217,9 +221,16 @@ function playerConflict(s, start, end, district, ignore = "") {
   return "";
 }
 function npcConflict(s, id, start, end, district, ignore = "") {
-  const plans = getNpcPlan(s, id, start - DAY, end + DAY) || [];
+  const planning =
+    ignore && s.society?.offers.some((o) => o.status === "open" && o.calendarId === ignore)
+      ? {
+          ...s,
+          calendar: { ...s.calendar, entries: s.calendar.entries.filter((e) => e.id !== ignore) },
+        }
+      : s;
+  const plans = getNpcPlan(planning, id, start - DAY, end + DAY) || [];
   const reservations = s.calendar.entries
-    .filter((e) => active(e) && e.npcId === id && e.id !== ignore)
+    .filter((e) => npcReserved(s, e) && e.npcId === id && e.id !== ignore)
     .map((e) => ({ start: e.start, end: e.end, location: e.district, kind: "commitment" }));
   for (const p of [...plans, ...reservations]) {
     if (overlaps(start, end, p.start, p.end)) return "Bu saatte başka bir yükümlülüğü var.";
@@ -298,6 +309,59 @@ function entryFrom(s, p, result) {
     legacy: false,
     history: [],
   };
+}
+/** NPC proposals use the same calendar validation and retain a single entry. */
+export function createNpcOffer(s, draft, _api) {
+  if (s.version < 5 || draft?.kind !== "meeting" || !s.society)
+    return { ok: false, reason: "Bu kişi için davet oluşturulamıyor." };
+  if (
+    s.calendar.entries.filter((e) => ["confirmed", "counter"].includes(e.status)).length >=
+    MAX_ACTIVE
+  )
+    return { ok: false, reason: "Takvimde açık plan sınırına ulaşıldı." };
+  const result = assess(s, draft);
+  const reason = result.reason || result.busy || result.rejected;
+  if (reason) return { ok: false, reason };
+  if (result.start < s.time + 60)
+    return { ok: false, reason: "Davetin yanıt ve yolculuk için yeterli pay bırakması gerekiyor." };
+  if ((s.deep.npcs[draft.npcId]?.cash || 0) < venueById(draft.venue).fee)
+    return { ok: false, reason: "Davet sahibi bu buluşmanın masrafını şu anda karşılayamıyor." };
+  const entry = entryFrom(s, draft, result);
+  entry.status = "counter";
+  entry.outcome = "Bu daveti karşı taraf başlattı; henüz bir söz vermedin.";
+  history(entry, s.time, entry.outcome);
+  s.calendar.entries.push(entry);
+  trim(s.calendar);
+  return { ok: true, entryId: entry.id };
+}
+
+export function reviseNpcOffer(s, calendarId, offset, _api, { dryRun = false } = {}) {
+  const entry = s.calendar.entries.find((e) => e.id === calendarId);
+  const offer = s.society?.offers.find((o) => o.calendarId === calendarId && o.status === "open");
+  if (!offer || !entry || entry.status !== "counter" || offer.revised || ![1, 2].includes(offset))
+    return { ok: false, reason: "Bu davetin yeni tarih seçeneği artık açık değil." };
+  const draft = {
+    kind: "meeting",
+    npcId: entry.npcId,
+    subjectId: "",
+    day: dayOf(entry.start) + offset,
+    minute: entry.start % DAY,
+    venue: entry.venue,
+    duration: entry.end - entry.start,
+    repeat: "none",
+  };
+  const check = assess(s, draft, entry.id);
+  const reason = check.reason || check.busy || check.rejected;
+  if (reason) return { ok: false, reason };
+  if ((s.deep.npcs[entry.npcId]?.cash || 0) < venueById(entry.venue).fee)
+    return { ok: false, reason: "Karşı tarafın buluşma bütçesi uygun değil." };
+  if (!dryRun) {
+    entry.start = check.start;
+    entry.end = check.end;
+    entry.outcome = "Yeni tarih karşı tarafa önerildi; onayını hâlâ sen vereceksin.";
+    history(entry, s.time, entry.outcome);
+  }
+  return { ok: true, entryId: entry.id };
 }
 function noFunds(s, a) {
   return (a.pay === "total" ? s.cash + s.bank : a.pay === "bank" ? s.bank : s.cash) < a.cost;

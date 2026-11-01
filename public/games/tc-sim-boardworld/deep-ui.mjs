@@ -1,10 +1,11 @@
+import { money as formatMoney, number, signed } from "./i18n.mjs";
 /** Presentation-only Boardworld 2.0 surfaces. All commands are resolved by engine.mjs. */
 const esc = (value) =>
   String(value ?? "").replace(
     /[&<>"']/g,
     (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c],
   );
-const cash = (value) => `${Math.round(Number(value) || 0).toLocaleString("tr-TR")} ₺`;
+const cash = formatMoney;
 const initials = (name) =>
   String(name)
     .split(" ")
@@ -263,7 +264,7 @@ export function renderPlanning(
     )}</div><p class="tiny">Tercihler sadece planını değiştirir. Zamanı aşağıdaki yürütme düğmeleri ilerletir. Otomatik ödemeler: <button class="inline-link" data-tab="wallet">${settings.autoPay ? "açık" : "kapalı"} ↗</button></p><fieldset class="routine-budget"><legend>Korunacak kullanılabilir bakiye</legend><p>Bir harcama bu sınırı aşacaksa rutin durur.</p><div>${budgets.map((a) => `<button class="secondary ${a.disabled ? "chosen" : ""}" data-action="${esc(a.id)}" data-focus="action:${esc(a.id)}" aria-pressed="${a.disabled}" ${a.disabled ? "disabled" : ""}>${cash(Number(a.id.split(":").at(-1)))}</button>`).join("")}</div></fieldset>${view?.stopReason ? note("SON DURMA NEDENİ", view.stopReason) : ""}${view?.lastRun ? `<p class="tiny">Son rutin: ${esc(view.lastRun)}</p>` : ""}<div class="action-grid routine-run">${run.map((a) => actionCard(a, true)).join("")}</div></section>`;
 }
 export function renderBusiness(view, actions, actionCard) {
-  return `<section class="deep-card enterprise-status" data-deep="business"><div class="deep-heading"><span class="eyebrow">KENDİ İŞİNİN HİKÂYESİ</span><h3>${esc(view?.name || "Bir müşteriden fazlası.")}</h3></div><p>${esc(view?.summary || "Sermayeni, becerini ve zamanını bir işe dönüştür. Müşteri kazanmak kadar giderleri karşılamak da senin sorumluluğunda.")}</p>${view ? `<div class="deep-stats">${stat("Müşteri", view.clients)}${stat("İşletme itibarı", view.reputation)}${stat("Toplam gelir", cash(view.revenue))}${stat("Toplam gider", cash(view.costs))}${stat("Kâr / zarar", cash(view.profit))}${stat("Haftalık sabit gider", cash(view.weeklyOverhead))}</div><p class="tiny">Durum: ${esc(view.status)} · ${esc({ kadikoy: "Kadıköy", besiktas: "Beşiktaş", sisli: "Şişli" }[view.location] || view.location)}</p>` : ""}</section><div class="action-grid enterprise-actions">${actions
+  return `<section class="deep-card enterprise-status" data-deep="business"><div class="deep-heading"><span class="eyebrow">KENDİ İŞİNİN HİKÂYESİ</span><h3>${esc(view?.name || "Bir müşteriden fazlası.")}</h3></div><p>${esc(view?.summary || "Sermayeni, becerini ve zamanını bir işe dönüştür. Müşteri kazanmak kadar giderleri karşılamak da senin sorumluluğunda.")}</p>${view ? `<div class="deep-stats">${stat("Müşteri", view.clients)}${stat("İşletme itibarı", view.reputation)}${stat("Toplam gelir", cash(view.revenue))}${stat("Toplam gider", cash(view.costs))}${stat("Kâr / zarar", cash(view.profit))}${stat("Haftalık sabit gider", cash(view.weeklyOverhead))}</div><p class="tiny">Durum: ${esc({ active: "Etkin", paused: "Duraklatıldı", closed: "Kapandı" }[view.status] || view.status)} · ${esc({ kadikoy: "Kadıköy", besiktas: "Beşiktaş", sisli: "Şişli" }[view.location] || view.location)}</p>` : ""}</section><div class="action-grid enterprise-actions">${actions
     .filter((a) => a.category === "business")
     .map((a) => actionCard(a))
     .join("")}</div>`;
@@ -274,10 +275,10 @@ export function renderPreview(forecast, action) {
     ["bank", "Banka", cash],
     ["debt", "Borç", cash],
     ["reserve", "Güvence", cash],
-    ["energy", "Enerji", String],
-    ["hunger", "Tokluk", String],
-    ["stress", "Stres", String],
-    ["health", "Sağlık", String],
+    ["energy", "Enerji", (n) => number(n, 1)],
+    ["hunger", "Tokluk", (n) => number(n, 1)],
+    ["stress", "Stres", (n) => number(n, 1)],
+    ["health", "Sağlık", (n) => number(n, 1)],
   ];
   const delta = (n, format) => `${n > 0 ? "+" : ""}${format(n)}`;
   return `<span class="eyebrow">HAMLEDEN ÖNCE</span><h2 id="dialog-title">${esc(action.label)}</h2><p class="preview-description">${esc(action.description)}</p><div class="preview-time">${forecast.ok ? `${forecast.minutes} dakika geçer` : "Önce eylemin koşullarını tamamla"}</div><div class="deep-stats">${metrics
@@ -285,8 +286,8 @@ export function renderPreview(forecast, action) {
     .map(([key, label, format]) => stat(label, delta(forecast[key], format)))
     .join("")}${(forecast.skills || [])
     .filter((x) => x.delta)
-    .map((x) => stat(x.name, delta(x.delta, String)))
+    .map((x) => stat(x.name, signed(x.delta)))
     .join(
       "",
-    )}</div>${forecast.risk ? note("BELİRSİZLİK & RİSK", forecast.risk) : ""}${forecast.consequences?.length ? `<ul class="preview-consequences">${forecast.consequences.map((c) => `<li>${esc(c)}</li>`).join("")}</ul>` : ""}${forecast.relations?.length ? `<p class="tiny">İlişkiler: ${forecast.relations.map((r) => `${esc(r.name)} · güven ${r.trust > 0 ? "+" : ""}${r.trust}, yakınlık ${r.affinity > 0 ? "+" : ""}${r.affinity}`).join(" / ")}</p>` : ""}<div class="menu-actions"><button class="primary" data-preview-commit="${esc(action.id)}" ${!forecast.ok || action.disabled ? "disabled" : ""}>Kararı uygula</button><button class="secondary" data-ui="close">Düşünmeye devam et</button></div>${!forecast.ok ? `<p class="action-reason">${esc(forecast.message)}</p>` : ""}`;
+    )}</div>${forecast.risk ? note("BELİRSİZLİK & RİSK", forecast.risk) : ""}${forecast.consequences?.length ? `<ul class="preview-consequences">${forecast.consequences.map((c) => `<li>${esc(c)}</li>`).join("")}</ul>` : ""}${forecast.relations?.length ? `<p class="tiny">İlişkiler: ${forecast.relations.map((r) => `${esc(r.name)} · güven ${signed(r.trust)}, yakınlık ${signed(r.affinity)}`).join(" / ")}</p>` : ""}<div class="menu-actions"><button class="primary" data-preview-commit="${esc(action.id)}" ${!forecast.ok || action.disabled ? "disabled" : ""}>Kararı uygula</button><button class="secondary" data-ui="close">Düşünmeye devam et</button></div>${!forecast.ok ? `<p class="action-reason">${esc(forecast.message)}</p>` : ""}`;
 }

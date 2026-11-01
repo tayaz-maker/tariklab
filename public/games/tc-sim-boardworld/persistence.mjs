@@ -1,7 +1,10 @@
 import { migrateState, validateState } from "./engine.mjs";
 
-export const SAVE_KEY = "tariklab.boardworld.v4";
+export const SAVE_KEY = "tariklab.boardworld.v5";
 export const BACKUP_KEY = `${SAVE_KEY}.backup`;
+export const LEGACY_V4_SAVE_KEY = "tariklab.boardworld.v4";
+export const LEGACY_V4_BACKUP_KEY = `${LEGACY_V4_SAVE_KEY}.backup`;
+export const ORIGINAL_V4_BACKUP_KEY = `${LEGACY_V4_SAVE_KEY}.original-v4`;
 export const LEGACY_V3_SAVE_KEY = "tariklab.boardworld.v3";
 export const LEGACY_V3_BACKUP_KEY = `${LEGACY_V3_SAVE_KEY}.backup`;
 export const ORIGINAL_V3_BACKUP_KEY = `${LEGACY_V3_SAVE_KEY}.original-v3`;
@@ -11,8 +14,11 @@ export const ORIGINAL_V2_BACKUP_KEY = `${LEGACY_V2_SAVE_KEY}.original-v2`;
 export const LEGACY_SAVE_KEY = "tariklab.boardworld.v1";
 export const LEGACY_BACKUP_KEY = `${LEGACY_SAVE_KEY}.backup`;
 export const ORIGINAL_V1_BACKUP_KEY = `${LEGACY_SAVE_KEY}.original-v1`;
-const CURRENT_VERSION = 4;
+const CURRENT_VERSION = 5;
 const LEGACY_SLOTS = [
+  [LEGACY_V4_SAVE_KEY, [4]],
+  [LEGACY_V4_BACKUP_KEY, [4]],
+  [ORIGINAL_V4_BACKUP_KEY, [4]],
   [LEGACY_V3_SAVE_KEY, [3]],
   [LEGACY_V3_BACKUP_KEY, [3]],
   [ORIGINAL_V3_BACKUP_KEY, [3]],
@@ -28,6 +34,28 @@ const FORMAT = "tc-sim-boardworld";
 // Preserve the exact imported envelope outside simulation state. The original
 // version is archived before canonical writes; migration itself stays pure.
 const importedLegacy = new WeakMap();
+// Only immutable, already-validated canonical envelope bytes are remembered.
+// No parsed state is retained. Each storage keeps at most three strings (the
+// two rolling slots and the latest write); an external change is a cache miss.
+const canonicalValidation = new WeakMap();
+function rememberCanonical(storage, bytes) {
+  let recent = canonicalValidation.get(storage);
+  if (!recent) canonicalValidation.set(storage, (recent = new Map()));
+  recent.delete(bytes);
+  recent.set(bytes, true);
+  while (recent.size > 3) recent.delete(recent.keys().next().value);
+}
+function inspectStored(storage, bytes) {
+  if (!bytes) return null;
+  if (canonicalValidation.get(storage)?.has(bytes)) {
+    rememberCanonical(storage, bytes);
+    return { sourceVersion: CURRENT_VERSION };
+  }
+  const inspected = importGame(bytes);
+  if (inspected.state && inspected.sourceVersion === CURRENT_VERSION)
+    rememberCanonical(storage, bytes);
+  return inspected;
+}
 
 // Detect accidental corruption, not a security signature: this is a local single-player save.
 function checksum(text) {
@@ -71,8 +99,11 @@ function encode(state, version) {
 }
 export function exportGame(state) {
   if (!valid(state)) throw new Error("Oyun durumu doğrulanamadı; mevcut kayıt korundu.");
-  const current = state.version < CURRENT_VERSION ? migrateState(state) : state;
-  if (current.version !== CURRENT_VERSION || !valid(current))
+  const migrated = state.version < CURRENT_VERSION;
+  const current = migrated ? migrateState(state) : state;
+  // A current state was just validated above. Validate again only when migration
+  // creates a different state; no result is cached across calls or mutations.
+  if (current.version !== CURRENT_VERSION || (migrated && !valid(current)))
     throw new Error("Kayıt geçişi doğrulanamadı; mevcut kayıt korundu.");
   return encode(current, CURRENT_VERSION);
 }
@@ -88,7 +119,7 @@ function decode(text) {
       ["format", "version", "checksum", "payload"].includes(key),
     ) ||
     envelope.format !== FORMAT ||
-    ![1, 2, 3, CURRENT_VERSION].includes(envelope.version) ||
+    ![1, 2, 3, 4, CURRENT_VERSION].includes(envelope.version) ||
     typeof envelope.payload !== "string" ||
     envelope.checksum !== checksum(envelope.payload)
   )
@@ -99,7 +130,8 @@ function decode(text) {
   if (!valid(original) || original.version !== envelope.version) throw new Error("state");
   const migrated = envelope.version < CURRENT_VERSION;
   const state = migrated ? migrateState(original) : original;
-  if (state.version !== CURRENT_VERSION || !valid(state)) throw new Error("migration");
+  if (state.version !== CURRENT_VERSION || (migrated && !valid(state)))
+    throw new Error("migration");
   if (migrated) importedLegacy.set(state, { version: envelope.version, bytes: text });
   return { state, sourceVersion: envelope.version, migrated };
 }
@@ -109,7 +141,7 @@ export function importGame(text) {
     return {
       ...result,
       message: result.migrated
-        ? `Boardworld ${result.sourceVersion}.0 kaydın doğrulandı ve 4.0’a taşındı. İlerlemen korundu.`
+        ? `Boardworld ${result.sourceVersion}.0 kaydın doğrulandı ve 5.0’a taşındı. İlerlemen korundu.`
         : "Kayıt doğrulandı ve yüklendi.",
     };
   } catch {
@@ -136,7 +168,7 @@ export function loadGame(storage) {
         return {
           ...restored,
           sourceKey: BACKUP_KEY,
-          message: "Ana 4.0 kaydı okunamadı. Bir önceki güvenli 4.0 kaydı kurtarıldı.",
+          message: "Ana 5.0 kaydı okunamadı. Bir önceki güvenli 5.0 kaydı kurtarıldı.",
         };
     }
     let foundLegacy = false;
@@ -146,25 +178,26 @@ export function loadGame(storage) {
       foundLegacy = true;
       const restored = importGame(bytes);
       if (restored.state && versions.includes(restored.sourceVersion)) {
-        // Still-open 1.0/2.0/3.0 tabs own their old keys. Promote a validated load
+        // Still-open 1.0/2.0/3.0/4.0 tabs own their old keys. Promote a validated load
         // before returning it, closing the first-load/reload overwrite window.
         const saved = saveGame(restored.state, storage);
         const recovery = [
           ORIGINAL_V1_BACKUP_KEY,
           ORIGINAL_V2_BACKUP_KEY,
           ORIGINAL_V3_BACKUP_KEY,
+          ORIGINAL_V4_BACKUP_KEY,
         ].includes(key)
-          ? `Korunan özgün ${restored.sourceVersion}.0 kaydın kurtarıldı ve 4.0’a taşındı.`
+          ? `Korunan özgün ${restored.sourceVersion}.0 kaydın kurtarıldı ve 5.0’a taşındı.`
           : primary || backup
-            ? "4.0 ana kaydı ve yedeği okunamadı. Eski uyumlu kayıttan kurtarıldı; son 4.0 adımların bu kopyada bulunmayabilir."
-            : `Boardworld ${restored.sourceVersion}.0 kaydın doğrulandı ve 4.0’a taşındı. İlerlemen korundu.`;
+            ? "5.0 ana kaydı ve yedeği okunamadı. Eski uyumlu kayıttan kurtarıldı; son 5.0 adımların bu kopyada bulunmayabilir."
+            : `Boardworld ${restored.sourceVersion}.0 kaydın doğrulandı ve 5.0’a taşındı. İlerlemen korundu.`;
         return {
           ...restored,
           sourceKey: key,
           protected: saved.ok,
           message: saved.ok
             ? recovery
-            : "Uyumlu kayıt doğrulandı ve belleğe yüklendi; ayrı 4.0 kaydı yazılamadı. Eski kayıtlar değiştirilmedi. İlerlemeni korumak için dosyaya aktar.",
+            : "Uyumlu kayıt doğrulandı ve belleğe yüklendi; ayrı 5.0 kaydı yazılamadı. Eski kayıtlar değiştirilmedi. İlerlemeni korumak için dosyaya aktar.",
         };
       }
     }
@@ -191,16 +224,16 @@ export function saveGame(state, storage) {
     storage ??= globalThis.localStorage;
     const encoded = exportGame(state);
     const previous = storage.getItem(SAVE_KEY);
-    const previousResult = previous ? importGame(previous) : null;
+    const previousResult = inspectStored(storage, previous);
     const rolling = storage.getItem(BACKUP_KEY);
-    const rollingResult = rolling ? importGame(rolling) : null;
+    const rollingResult = inspectStored(storage, rolling);
     const canonicalExists =
       previousResult?.sourceVersion === CURRENT_VERSION ||
       rollingResult?.sourceVersion === CURRENT_VERSION;
     const originals = new Map();
     const imported = importedLegacy.get(state);
     if (imported) originals.set(imported.version, imported.bytes);
-    else if ([1, 2, 3].includes(state.version))
+    else if ([1, 2, 3, 4].includes(state.version))
       originals.set(state.version, encode(state, state.version));
     if (!canonicalExists)
       for (const [key, versions] of LEGACY_SLOTS) {
@@ -218,6 +251,7 @@ export function saveGame(state, storage) {
         1: ORIGINAL_V1_BACKUP_KEY,
         2: ORIGINAL_V2_BACKUP_KEY,
         3: ORIGINAL_V3_BACKUP_KEY,
+        4: ORIGINAL_V4_BACKUP_KEY,
       }[version];
       const original = storage.getItem(key);
       if (original === null) {
@@ -230,6 +264,7 @@ export function saveGame(state, storage) {
     if (previousResult?.sourceVersion === CURRENT_VERSION)
       writeChecked(storage, BACKUP_KEY, previous);
     writeChecked(storage, SAVE_KEY, encoded);
+    rememberCanonical(storage, encoded);
     return { ok: true, message: "Bu tarayıcıya kaydedildi." };
   } catch {
     return {

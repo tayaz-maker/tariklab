@@ -1,3 +1,4 @@
+import { money as formatMoney } from "./i18n.mjs";
 /** Boardworld 3.0 presentation. Reads public views; commands belong to engine.mjs. */
 import { neighborhoodArt } from "./deep-ui.mjs";
 const esc = (v) =>
@@ -5,7 +6,7 @@ const esc = (v) =>
     /[&<>"']/g,
     (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c],
   );
-const money = (v) => `${Math.round(Number(v) || 0).toLocaleString("tr-TR")} ₺`;
+const money = formatMoney;
 const clock = (v) =>
   `${String(Math.floor((v % 1440) / 60)).padStart(2, "0")}:${String(v % 60).padStart(2, "0")}`;
 const label = (v) => (typeof v === "string" ? v : v?.label || v?.name || v?.title || "");
@@ -66,7 +67,7 @@ export function renderCityMap({
         ["confirmed", "counter"].includes(e.status) && e.district === id && e.end >= state.time,
     ).length;
   const venueCards = venues.filter((v) => v.district === selected?.id);
-  return `<section class="living-map" aria-label="Bağlantılı İstanbul oyun haritası"><div class="map-title"><div><span class="eyebrow">İSTANBUL / BAĞLANTILI ŞEHİR</span><p>Üç semt. Birbirine bağlı hayatlar.</p></div><span class="map-edition">04</span></div><div class="city-schematic"><svg class="city-connections" viewBox="0 0 900 340" aria-hidden="true"><path class="city-water" d="M570 -20C480 95 610 190 550 370L700 370C760 200 620 100 720 -20Z"/><path class="city-route-line" d="M180 90L370 245M370 245L735 195M180 90L735 195"/><path class="city-ferry-line" d="M370 245Q560 310 735 195"/><text x="607" y="70" transform="rotate(18 607 70)">BOĞAZ</text></svg>${districts
+  return `<section class="living-map" aria-label="Bağlantılı İstanbul oyun haritası"><div class="map-title"><div><span class="eyebrow">İSTANBUL / BAĞLANTILI ŞEHİR</span><p>Üç semt. Birbirine bağlı hayatlar.</p></div><span class="map-edition">05</span></div><div class="city-schematic"><svg class="city-connections" viewBox="0 0 900 340" aria-hidden="true"><path class="city-water" d="M570 -20C480 95 610 190 550 370L700 370C760 200 620 100 720 -20Z"/><path class="city-route-line" d="M180 90L370 245M370 245L735 195M180 90L735 195"/><path class="city-ferry-line" d="M370 245Q560 310 735 195"/><text x="607" y="70" transform="rotate(18 607 70)">BOĞAZ</text></svg>${districts
     .map((d) => {
       const here = state.location === d.id,
         residents = here ? npcs.filter((n) => getLocation(state, n.id) === d.id) : [],

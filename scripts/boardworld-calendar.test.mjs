@@ -60,7 +60,8 @@ function freeDraft(s, p = draft(s)) {
   throw new Error("No feasible appointment in seven days");
 }
 function entry(s) {
-  return s.calendar.entries.at(-1);
+  // These cases track player-authored plans; an autonomous invitation can arrive later.
+  return s.calendar.entries.findLast((e) => !s.society?.offers.some((o) => o.calendarId === e.id));
 }
 
 test("chosen meeting time, venue, early attendance and once-only outcome survive exact save/reload", () => {
