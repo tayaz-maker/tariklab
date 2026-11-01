@@ -48,6 +48,7 @@ export function renderCityMap({
   selectedDistrict,
   actions,
   actionCard,
+  conditions = "",
 }) {
   const districts = city.districts || [],
     venues = city.venues || [];
@@ -65,7 +66,7 @@ export function renderCityMap({
         ["confirmed", "counter"].includes(e.status) && e.district === id && e.end >= state.time,
     ).length;
   const venueCards = venues.filter((v) => v.district === selected?.id);
-  return `<section class="living-map" aria-label="Bağlantılı İstanbul oyun haritası"><div class="map-title"><div><span class="eyebrow">İSTANBUL / BAĞLANTILI ŞEHİR</span><p>Üç semt. Ortak bir takvim.</p></div><span class="map-edition">03</span></div><div class="city-schematic"><svg class="city-connections" viewBox="0 0 900 340" aria-hidden="true"><path class="city-water" d="M570 -20C480 95 610 190 550 370L700 370C760 200 620 100 720 -20Z"/><path class="city-route-line" d="M180 90L370 245M370 245L735 195M180 90L735 195"/><path class="city-ferry-line" d="M370 245Q560 310 735 195"/><text x="607" y="70" transform="rotate(18 607 70)">BOĞAZ</text></svg>${districts
+  return `<section class="living-map" aria-label="Bağlantılı İstanbul oyun haritası"><div class="map-title"><div><span class="eyebrow">İSTANBUL / BAĞLANTILI ŞEHİR</span><p>Üç semt. Birbirine bağlı hayatlar.</p></div><span class="map-edition">04</span></div><div class="city-schematic"><svg class="city-connections" viewBox="0 0 900 340" aria-hidden="true"><path class="city-water" d="M570 -20C480 95 610 190 550 370L700 370C760 200 620 100 720 -20Z"/><path class="city-route-line" d="M180 90L370 245M370 245L735 195M180 90L735 195"/><path class="city-ferry-line" d="M370 245Q560 310 735 195"/><text x="607" y="70" transform="rotate(18 607 70)">BOĞAZ</text></svg>${districts
     .map((d) => {
       const here = state.location === d.id,
         residents = here ? npcs.filter((n) => getLocation(state, n.id) === d.id) : [],
@@ -80,22 +81,46 @@ export function renderCityMap({
           "",
         )}${count ? `<button class="map-plan-marker" data-calendar-district="${esc(d.id)}" aria-label="${esc(d.name)} planlarını aç">◷ ${count}</button>` : ""}</div></article>`;
     })
+    .join("")}</div><div class="route-ribbon" aria-label="Bulunduğun semtten bağlantılar">${unique
+    .map((r) => {
+      const travel = actions.find((a) => a.id === `travel:${r.to}`);
+      return `<div class="direct-route"><button data-district="${esc(r.to)}" class="route-connection"><span>${esc(districtNames[r.from])} <b aria-hidden="true">↗</b> ${esc(districtNames[r.to])}</span><strong>${r.minutes} dk · ${money(r.cost)}</strong></button>${travel ? `<button class="route-go" data-action="${esc(travel.id)}" data-focus="action:${esc(travel.id)}" aria-label="${esc(travel.label)} · ${travel.minutes} dakika · ${money(travel.cost)}" ${travel.disabled ? "disabled" : ""}>Git →</button>` : ""}</div>`;
+    })
     .join(
       "",
-    )}</div><div class="route-ribbon" aria-label="Bulunduğun semtten bağlantılar">${unique.map((r) => `<button data-district="${esc(r.to)}" class="route-connection"><span>${esc(districtNames[r.from])} <b aria-hidden="true">↗</b> ${esc(districtNames[r.to])}</span><strong>${r.minutes} dk · ${money(r.cost)}</strong></button>`).join("")}</div><p class="map-simulation-note">Şematik oyun haritası. Süreler ve fiyatlar simülasyona aittir; canlı ulaşım verisi değildir.</p></section><section class="location-dossier"><div class="location-heading"><span class="eyebrow">SEMT DOSYASI</span><h3>${esc(selected?.name)}</h3><p>${esc(selected?.summary)}</p></div><ul class="location-advantages">${(selected?.features || []).map((f) => `<li>${esc(f)}</li>`).join("")}</ul><div class="local-venues"><div class="subheading"><h3>Mekânlar & saatler</h3><span class="tiny">${state.location === selected?.id ? "Bulunduğun semt" : "Ulaşımı da hesaba kat"}</span></div>${venueCards
-    .map((v) => {
-      const visit = actions.find((a) => a.id === `visit:${v.id}`);
-      return `<article class="venue-card ${state.city?.venue === v.id ? "at-venue" : ""}"><div><strong>${esc(v.name)}</strong><span>${esc(label(v.hours))} · <b class="${v.open ? "venue-open" : "venue-closed"}">${v.open ? "Açık" : "Kapalı"}</b></span>${state.city?.venue === v.id ? "<em>Şu anda buradasın</em>" : ""}</div>${visit ? button(visit) : ""}</article>`;
-    })
-    .join("")}</div>${
+    )}</div><p class="map-simulation-note">Şematik oyun haritası. Süreler ve fiyatlar simülasyona aittir; canlı ulaşım verisi değildir.</p></section><section class="location-dossier"><div class="location-heading"><span class="eyebrow">SEÇİLİ SEMT</span><h3>${esc(selected?.name)}</h3><p>${esc(selected?.summary)}</p></div><ul class="location-advantages">${(selected?.features || []).map((f) => `<li>${esc(f)}</li>`).join("")}</ul>${conditions}${
     state.location !== selected?.id
-      ? `<div class="route-options"><div class="subheading"><h3>Buraya nasıl gidersin?</h3></div><div class="action-grid">${routeActions.map((a) => actionCard(a, true)).join("")}</div>${destinations
+      ? `<div class="route-options"><div class="subheading"><h3>Yolunu seç</h3><span class="tiny">Süre, bedel ve takvim birlikte hesaplanır.</span></div><div class="action-grid">${routeActions.map((a) => actionCard(a, true)).join("")}</div>${destinations
           .filter((r) => r.to === selected?.id)
           .flatMap((r) => r.conflicts || [])
           .map((c) => `<p class="route-conflict">${esc(c)}</p>`)
           .join("")}</div>`
-      : `<div class="district-links"><button class="secondary" data-tab="work">Semtteki iş olanakları ↗</button><button class="secondary" data-tab="people">Çevrendeki insanlar ↗</button><button class="secondary" data-tab="life">Gündelik ihtiyaçlar ↗</button></div>`
-  }</section>`;
+      : `<div class="map-context-actions" aria-label="Bulunduğun semtte yapabileceklerin"><div class="subheading"><h3>Şimdi burada</h3><button class="text-button" data-intent-open>Diğer hamleler ↗</button></div><div class="context-action-grid">${actions
+          .filter(
+            (a) =>
+              !a.disabled &&
+              (["work", "study", "cook", "rest"].includes(a.id) ||
+                a.id.startsWith("apply:") ||
+                (a.category === "social" &&
+                  a.npcId &&
+                  npcs.some(
+                    (n) => n.id === a.npcId && getLocation(state, n.id) === state.location,
+                  ))),
+          )
+          .slice(0, 4)
+          .map(
+            (a) =>
+              `<div class="context-action"><button data-action="${esc(a.id)}" data-focus="action:${esc(a.id)}"><strong>${esc(a.label)}</strong><span>${a.minutes} dk · ${a.cost ? money(a.cost) : "Ücretsiz"}</span></button><button class="context-preview" data-preview="${esc(a.id)}" aria-label="${esc(a.label)} sonucunu önceden gör">↗</button></div>`,
+          )
+          .join("")}</div></div>`
+  }<div class="local-venues"><div class="subheading"><h3>Mekânlar & saatler</h3><span class="tiny">${state.location === selected?.id ? "Bulunduğun semt" : "Ulaşımı da hesaba kat"}</span></div><div class="venue-grid">${venueCards
+    .map((v) => {
+      const visit = actions.find((a) => a.id === `visit:${v.id}`);
+      return `<article class="venue-card ${state.city?.venue === v.id ? "at-venue" : ""}"><div><strong>${esc(v.name)}</strong><span>${esc(label(v.hours))} · <b class="${v.open ? "venue-open" : "venue-closed"}">${v.open ? "Açık" : "Kapalı"}</b></span>${state.city?.venue === v.id ? "<em>Şu anda buradasın</em>" : ""}</div>${visit ? button(visit) : ""}</article>`;
+    })
+    .join(
+      "",
+    )}</div></div><div class="district-links"><button class="secondary" data-tab="work">İş olanakları ↗</button><button class="secondary" data-tab="people">İnsanlar ↗</button><button class="secondary" data-tab="life">Gündelik ihtiyaçlar ↗</button></div></section>`;
 }
 
 function renderCalendarEntry(entry, actions) {
@@ -205,8 +230,8 @@ export const INTENTS = [
   { id: "earn", label: "Gelirimi artır", categories: ["work", "business"] },
   { id: "connect", label: "Birine zaman ayır", categories: ["social", "calendar"] },
   { id: "learn", label: "Kendimi geliştir", categories: ["education", "project"] },
-  { id: "balance", label: "Bütçemi toparla", categories: ["finance"] },
-  { id: "care", label: "Kendime bak", categories: ["life"] },
+  { id: "balance", label: "Bütçemi toparla", categories: ["finance", "household"] },
+  { id: "care", label: "Kendime bak", categories: ["life", "household"] },
   { id: "build", label: "Bir proje büyüt", categories: ["project", "business"] },
 ];
 export function renderIntentComposer({

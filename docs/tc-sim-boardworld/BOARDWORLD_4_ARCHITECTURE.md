@@ -1,0 +1,39 @@
+# Boardworld 4.0 — Emergent Life
+
+This extends the released 3.0 engine; original TC SIM and its save keys are untouched. The single state is schema4. No dependencies, paid model calls, wall-clock simulation, new Workers or deployment infrastructure were added. Prices, contracts and disputes are authored game abstractions, not current Istanbul prices or legal advice.
+
+## Boundaries and authoritative writes
+
+`resolveAction` remains the gameplay writer. It validates the input, derives a finite action descriptor, checks actual funds/location/time/prerequisites, clones, pays once, runs the action, advances the shared clock and validates the result. Rejected actions preserve input identity. Views and forecasts do not commit resources or RNG. The clock splits at midnight, NPC/calendar/life deadlines and causal follow-ups; world, financial, household and causal effects are idempotent at each boundary.
+
+`life-systems.mjs` owns persistent secondary residents, directed social contexts, roommate contracts, obligations, staged leases, employer terms and district phases. `emergent-life.mjs` owns conditional events, causal history, diminishing-return counters and explicit routine policies. The existing deep-life, story, calendar, city and living-world modules retain their responsibilities. Stable employer/home/business identities survive bounded document rotation; closing/reopening does not transfer an old contract's effects.
+
+## Decisions and causal events
+
+The twelve families are employment, housing, neighborhood, transport, education, friendship, romance, household, health, debt, enterprise and institutions. Each has two state-derived variants, multiple opening choices, a delayed follow-up, a paid recovery/closure choice and an explicit decline. Variants change actual costs, time, requirements or effects. Events arise only from eligible player/world conditions; missing employment or romance does not manufacture those events. There is at most one new instance per simulated day, three open instances, 72 retained instances and96 causal-history rows. Family cooldowns range21–60 days. Original28 cards and10 story chains remain.
+
+An instance stores its source, known actors, exact contract, location, trigger explanation, first choice, follow-up, deadline and consequences. Full completion requires intervening work, learning, care, contact, repayment or service as appropriate. Unaccepted invitations do not create broken promises. Accepted social promises can cost trust if abandoned or expired. Contract changes cancel pending old effects. Personal banking/debt choices are not broadcast to unrelated NPCs. An optional enterprise sample consumes real money and one stock; only its customer feedback uses seeded dice, with the rule visible and the result hidden in preview. Hiring, qualifications and ordinary wages remain deterministic.
+
+## Routines and diminishing returns
+
+Existing work/study/shopping switches and budget floor remain. Policies add home/frugal/restaurant meals, paid/free travel, selected practice and a one/two-session quota, bedtime, weekdays, existing-business service, assigned household chores and optional withdrawal from one's own bank. Defaults do not authorize investments or job/relationship decisions. A bounded routine resolves up to96 ordinary actions over one/seven days, stopping for active cards/stories, due bills/promises, calendar approaches, serious health, housing notices, changed contracts or budget/debt risks. Performed/skipped actions and the precise stopping reason are recorded. A bounded wait action approaches the next work, need, bed or event boundary without repeatedly choosing ineffective rest.
+
+Individual practice is limited to two sessions per skill/day and five/week; the second daily session and fourth/fifth weekly sessions have reduced gains. Above85, a matching course certificate is required. At100, a pointless practice action is unavailable. Existing legacy skills are preserved. A positively earned fractional practice gain remains visible at the100-point boundary; rounding cannot turn a legal session into zero progress. Repeated talk/calls to the same person have diminishing positive affinity/trust gains; sourced news, actual promises, conflict and meaningful meetings remain separate. Reduced gains do not silently undo old relationships.
+
+## People, households and economy
+
+Public colleague roles use separately learned work districts; hidden private changes do not alter the public relationship view. Direct contacts or actual observed shifts can update that knowledge. The12 original people retain their independent money, employment, home, plans, goals, directed relationships and learned knowledge. Up to six relevant residents from a finite nine-person catalog can be promoted out of local aggregate cohorts. Aggregate plus promoted residents stays450, and household totals stay240. Promoted people persist with bounded budgets, work/home decisions, routines, reciprocal relations and learned profiles; they are not duplicated into the original12 maps.
+
+Colleague, neighbor, friend, customer and romantic contexts have different requirements and reciprocal effects. Customer orders reserve no free income: delivery consumes stock/time and transfers the actual buyer's money into business capital. Active orders and cooldowns are bounded. Missed deliveries damage reputation, and recovery requires real settlement. Existing business service, working capital, stock, fixed overhead, loss, pause and liquidation remain.
+
+A consenting known neighbor can share the player's eligible home. Three explicit plans exchange35/40/50% of rent/utilities against different chore frequencies. The member funds a separate refundable deposit; it never becomes spendable player cash. Monthly member contributions go directly to the payee. The remaining amount is the player's actual invoice; unpaid member shares become persistent obligations. Collection and exit transfer only actual money; deposit settlement/refund happens once. Chores consume time and money for either resident. Missed responsibilities can lead to advance notice and separation. Moving requires settlement; forced lease termination reconciles the household.
+
+Lease arrears progress through warning, discussion, negotiated installments and final notice, with real debt preserved. Renewal costs money, applies the district's new-rent factor and offers60-day stability. Employer needs/workload are derived from local conditions; explicitly accepted additional work increases actual shift length, earned pay and stress. Calendar reservations include the selected duration; changing terms requires rescheduling an outdated reservation.
+
+Every14 days, bounded district phases change transit delay, service prices, new-lease prices, job demand and enterprise demand from local labor/household state. Existing paid leases are not retroactively repriced by a new neighborhood phase.
+
+## Save safety and limits
+
+The v4 canonical slot is isolated from released v1/v2/v3 writers. Migration validates original bytes, stores immutable versioned originals before promotion, and adds namespaces without retroactive rewards or time. Primary/backup, checksums, import/export, cross-tab conflicts, stale old writers, quota failures and silent-write failures are covered. The18 authentic v3 fixtures include fresh lives, checkpoints through365 days and active projects/calendar/enterprise. Saves remain local to this browser; export is the portable backup.
+
+This is a bounded authored simulation: no unrestricted generated dialogue,450 detailed agents, cloud saves, children/generations, politics, crime or real legal/market simulation. The twelve causal families intentionally reuse audited rules rather than claim unlimited narratives. Long-run acceptance and browser/device measurements are reported separately; desktop Chromium is not a low-end mobile benchmark.

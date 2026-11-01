@@ -1,15 +1,21 @@
 import { migrateState, validateState } from "./engine.mjs";
 
-export const SAVE_KEY = "tariklab.boardworld.v3";
+export const SAVE_KEY = "tariklab.boardworld.v4";
 export const BACKUP_KEY = `${SAVE_KEY}.backup`;
+export const LEGACY_V3_SAVE_KEY = "tariklab.boardworld.v3";
+export const LEGACY_V3_BACKUP_KEY = `${LEGACY_V3_SAVE_KEY}.backup`;
+export const ORIGINAL_V3_BACKUP_KEY = `${LEGACY_V3_SAVE_KEY}.original-v3`;
 export const LEGACY_V2_SAVE_KEY = "tariklab.boardworld.v2";
 export const LEGACY_V2_BACKUP_KEY = `${LEGACY_V2_SAVE_KEY}.backup`;
 export const ORIGINAL_V2_BACKUP_KEY = `${LEGACY_V2_SAVE_KEY}.original-v2`;
 export const LEGACY_SAVE_KEY = "tariklab.boardworld.v1";
 export const LEGACY_BACKUP_KEY = `${LEGACY_SAVE_KEY}.backup`;
 export const ORIGINAL_V1_BACKUP_KEY = `${LEGACY_SAVE_KEY}.original-v1`;
-const CURRENT_VERSION = 3;
+const CURRENT_VERSION = 4;
 const LEGACY_SLOTS = [
+  [LEGACY_V3_SAVE_KEY, [3]],
+  [LEGACY_V3_BACKUP_KEY, [3]],
+  [ORIGINAL_V3_BACKUP_KEY, [3]],
   [LEGACY_V2_SAVE_KEY, [2]],
   [LEGACY_V2_BACKUP_KEY, [2]],
   [ORIGINAL_V2_BACKUP_KEY, [2]],
@@ -82,7 +88,7 @@ function decode(text) {
       ["format", "version", "checksum", "payload"].includes(key),
     ) ||
     envelope.format !== FORMAT ||
-    ![1, 2, CURRENT_VERSION].includes(envelope.version) ||
+    ![1, 2, 3, CURRENT_VERSION].includes(envelope.version) ||
     typeof envelope.payload !== "string" ||
     envelope.checksum !== checksum(envelope.payload)
   )
@@ -103,7 +109,7 @@ export function importGame(text) {
     return {
       ...result,
       message: result.migrated
-        ? `Boardworld ${result.sourceVersion}.0 kaydın doğrulandı ve 3.0’a taşındı. İlerlemen korundu.`
+        ? `Boardworld ${result.sourceVersion}.0 kaydın doğrulandı ve 4.0’a taşındı. İlerlemen korundu.`
         : "Kayıt doğrulandı ve yüklendi.",
     };
   } catch {
@@ -130,7 +136,7 @@ export function loadGame(storage) {
         return {
           ...restored,
           sourceKey: BACKUP_KEY,
-          message: "Ana 3.0 kaydı okunamadı. Bir önceki güvenli 3.0 kaydı kurtarıldı.",
+          message: "Ana 4.0 kaydı okunamadı. Bir önceki güvenli 4.0 kaydı kurtarıldı.",
         };
     }
     let foundLegacy = false;
@@ -140,22 +146,25 @@ export function loadGame(storage) {
       foundLegacy = true;
       const restored = importGame(bytes);
       if (restored.state && versions.includes(restored.sourceVersion)) {
-        // Still-open 1.0/2.0 tabs own their old keys. Promote a validated load
+        // Still-open 1.0/2.0/3.0 tabs own their old keys. Promote a validated load
         // before returning it, closing the first-load/reload overwrite window.
         const saved = saveGame(restored.state, storage);
-        const recovery =
-          key === ORIGINAL_V1_BACKUP_KEY || key === ORIGINAL_V2_BACKUP_KEY
-            ? `Korunan özgün ${restored.sourceVersion}.0 kaydın kurtarıldı ve 3.0’a taşındı.`
-            : primary || backup
-              ? "3.0 ana kaydı ve yedeği okunamadı. Eski uyumlu kayıttan kurtarıldı; son 3.0 adımların bu kopyada bulunmayabilir."
-              : `Boardworld ${restored.sourceVersion}.0 kaydın doğrulandı ve 3.0’a taşındı. İlerlemen korundu.`;
+        const recovery = [
+          ORIGINAL_V1_BACKUP_KEY,
+          ORIGINAL_V2_BACKUP_KEY,
+          ORIGINAL_V3_BACKUP_KEY,
+        ].includes(key)
+          ? `Korunan özgün ${restored.sourceVersion}.0 kaydın kurtarıldı ve 4.0’a taşındı.`
+          : primary || backup
+            ? "4.0 ana kaydı ve yedeği okunamadı. Eski uyumlu kayıttan kurtarıldı; son 4.0 adımların bu kopyada bulunmayabilir."
+            : `Boardworld ${restored.sourceVersion}.0 kaydın doğrulandı ve 4.0’a taşındı. İlerlemen korundu.`;
         return {
           ...restored,
           sourceKey: key,
           protected: saved.ok,
           message: saved.ok
             ? recovery
-            : "Uyumlu kayıt doğrulandı ve belleğe yüklendi; ayrı 3.0 kaydı yazılamadı. Eski kayıtlar değiştirilmedi. İlerlemeni korumak için dosyaya aktar.",
+            : "Uyumlu kayıt doğrulandı ve belleğe yüklendi; ayrı 4.0 kaydı yazılamadı. Eski kayıtlar değiştirilmedi. İlerlemeni korumak için dosyaya aktar.",
         };
       }
     }
@@ -191,7 +200,7 @@ export function saveGame(state, storage) {
     const originals = new Map();
     const imported = importedLegacy.get(state);
     if (imported) originals.set(imported.version, imported.bytes);
-    else if ([1, 2].includes(state.version))
+    else if ([1, 2, 3].includes(state.version))
       originals.set(state.version, encode(state, state.version));
     if (!canonicalExists)
       for (const [key, versions] of LEGACY_SLOTS) {
@@ -205,7 +214,11 @@ export function saveGame(state, storage) {
           originals.set(legacy.sourceVersion, bytes);
       }
     for (const [version, bytes] of originals) {
-      const key = version === 1 ? ORIGINAL_V1_BACKUP_KEY : ORIGINAL_V2_BACKUP_KEY;
+      const key = {
+        1: ORIGINAL_V1_BACKUP_KEY,
+        2: ORIGINAL_V2_BACKUP_KEY,
+        3: ORIGINAL_V3_BACKUP_KEY,
+      }[version];
       const original = storage.getItem(key);
       if (original === null) {
         writeChecked(storage, key, bytes);

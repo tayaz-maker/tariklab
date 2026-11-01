@@ -1,0 +1,4264 @@
+{
+  "baselineCommit": "5d22f86c462e22b6fd31793b5f2a81606d9f5603",
+  "baselineTree": "c67c78f9c1a86f4fc71796c7bf3a4281381456b2",
+  "sourceUnmodified": true,
+  "gates": {
+    "npmTest": {
+      "passed": 2635,
+      "failed": 0,
+      "skipped": 0,
+      "javascript": 2574,
+      "typescript": 61,
+      "javascriptMs": 211205.826167,
+      "typescriptMs": 492.695167
+    },
+    "build": "PASS",
+    "typecheck": "PASS",
+    "lint": {
+      "errors": 0,
+      "inheritedWarnings": 62
+    },
+    "initialFailure": "Existing synthetic archive test transient spawnSync tar EPIPE with tar status0; unchanged focused2/2 and complete2635/2635 rerun PASS."
+  },
+  "browser": {
+    "methodology": "Three serial runs of unchanged production3.0 living browser script after all repository tests finished, installed Chrome on same machine. Quantiles summarize real handler timings (excludes paint/network); median of three per-run p95s, not pooled percentile. FCP is local production serve.",
+    "baseCommit": "5d22f86c462e22b6fd31793b5f2a81606d9f5603",
+    "widths": [
+      {
+        "width": 1440,
+        "samplesPerRun": [20, 20, 20],
+        "handlerP50MsMedian": 8.599999964237213,
+        "handlerP95MsMedian": 14.800000011920929,
+        "p95Runs": [15.399999976158142, 14.800000011920929, 14.5],
+        "fcpMsMedian": 44
+      },
+      {
+        "width": 390,
+        "samplesPerRun": [39, 39, 39],
+        "handlerP50MsMedian": 8.600000023841858,
+        "handlerP95MsMedian": 15.400000035762787,
+        "p95Runs": [16.099999964237213, 15.400000035762787, 15.300000011920929],
+        "fcpMsMedian": 52
+      },
+      {
+        "width": 320,
+        "samplesPerRun": [20, 20, 20],
+        "handlerP50MsMedian": 8.399999976158142,
+        "handlerP95MsMedian": 15.199999988079071,
+        "p95Runs": [15.199999988079071, 15.199999988079071, 15.300000011920929],
+        "fcpMsMedian": 48
+      }
+    ],
+    "rawGameBytes": 569636
+  },
+  "assets": [
+    {
+      "file": "app.mjs",
+      "rawBytes": 51078,
+      "gzipBytes": 16011,
+      "sha256": "ca00a2a92b441668f763c61e93d288a9a36ba8504d67a1f944d7d0fe8bbf2835"
+    },
+    {
+      "file": "calendar.mjs",
+      "rawBytes": 36023,
+      "gzipBytes": 10379,
+      "sha256": "a99ee6ec571954b8068dc786d9360347d55a3d9a2adc5131ec7f3dd8581c2147"
+    },
+    {
+      "file": "city.mjs",
+      "rawBytes": 8233,
+      "gzipBytes": 3033,
+      "sha256": "a554cf9c60926c46c870e432fac72d26298ae4ce1b08915565ba4360cc6930ad"
+    },
+    {
+      "file": "content.mjs",
+      "rawBytes": 30595,
+      "gzipBytes": 8733,
+      "sha256": "d98f97bb986fe19a7dd78a165338af92dc00c6edc2330637789beb9b4a33c4d6"
+    },
+    {
+      "file": "deep-content.mjs",
+      "rawBytes": 9109,
+      "gzipBytes": 2825,
+      "sha256": "6b28e716326078c6469d30c99c54615e930c397e0decf5699605202d4c916a88"
+    },
+    {
+      "file": "deep-life.mjs",
+      "rawBytes": 56524,
+      "gzipBytes": 16140,
+      "sha256": "1c6a75cec9b059f6eb1653a93a3386d342d781d3138ebbe5e7edbf992f027a5f"
+    },
+    {
+      "file": "deep-ui.mjs",
+      "rawBytes": 22189,
+      "gzipBytes": 7983,
+      "sha256": "21936a435672caa0afeb88e26e6dd753d80c8155c06512abe3a75d305081d562"
+    },
+    {
+      "file": "deep.css",
+      "rawBytes": 32094,
+      "gzipBytes": 5650,
+      "sha256": "48e58826603ed4b0d5e17370e1a744f870d80b36b0d84759d43663fc916ed3e1"
+    },
+    {
+      "file": "engine.mjs",
+      "rawBytes": 83513,
+      "gzipBytes": 23918,
+      "sha256": "0c591468e298289f2014efc8ffd223278c5e7a03ed0460c7fadc7d57f38f9bc0"
+    },
+    {
+      "file": "favicon.svg",
+      "rawBytes": 199,
+      "gzipBytes": 180,
+      "sha256": "f56714a4b795e087d52dece6b9ca5113d1a7fe9aa1cf2edb82ec5d87c46fca12"
+    },
+    {
+      "file": "index.html",
+      "rawBytes": 1391,
+      "gzipBytes": 721,
+      "sha256": "60fe3b30be27a61f69e7ae585fcc84db1c9500678d7e636943b921203cc69cf6"
+    },
+    {
+      "file": "life-chains.mjs",
+      "rawBytes": 45746,
+      "gzipBytes": 12078,
+      "sha256": "ed8a822df0fac3ae7a26e5e89344caf5eb209e2afca7c8bf3eebf640448fa4f5"
+    },
+    {
+      "file": "living-ui.mjs",
+      "rawBytes": 25560,
+      "gzipBytes": 8299,
+      "sha256": "b2fda6260e52cc9fcbd2459e82312ff370cfbb4667dd8204b3df0a4b24633b94"
+    },
+    {
+      "file": "living.css",
+      "rawBytes": 19568,
+      "gzipBytes": 3821,
+      "sha256": "1331992fc0dc5c917de3a3816108909a9fb8ab83263e2a3d9b77c852bcebb930"
+    },
+    {
+      "file": "persistence.mjs",
+      "rawBytes": 9139,
+      "gzipBytes": 2955,
+      "sha256": "4f5f40054c82cadaa40915b3d44a8c5b95dd48ee3c0ccf6bbe5c2fbfdb51338e"
+    },
+    {
+      "file": "style.css",
+      "rawBytes": 69594,
+      "gzipBytes": 11621,
+      "sha256": "4dc0e38cb5007f5a83259647435c4714d99800d4cda2ad0373efefe1ce11e363"
+    },
+    {
+      "file": "world-content.mjs",
+      "rawBytes": 3404,
+      "gzipBytes": 1384,
+      "sha256": "8d527a10333b51ad2e62d5c120f2b80decd3b435733bdfd69bc438b4b4b7250f"
+    },
+    {
+      "file": "world-life.mjs",
+      "rawBytes": 65677,
+      "gzipBytes": 18206,
+      "sha256": "edf5ded656c5c33a6a2fdce9d7900ed1704b3a1683e6f2857a037df2466dd0b9"
+    }
+  ],
+  "gzipGameBytes": 153937,
+  "traceMethodology": "Legal deterministic policies, 3 styles × seeds2026/91373 from disadvantaged restart. Click proxies count resolver invocations, not observed human UI clicks. Major-decision classification is explicitly the listed regular expression; automated action repetition is not itself proof of human friction. Timing intentionally excluded while repository gates run.",
+  "majorDecisionPattern": "^(event:|story:|apply:|promote$|career:notice|career:negotiate|project:|calendar:propose|calendar:accept|calendar:cancel|calendar:reschedule|business:start|business:upgrade|business:close|business:pause|enroll:|rent:)",
+  "maintenancePattern": "^(sleep|rest|work|study|exercise|eat|cook|soup|snack|wait:|walk:|travel:|practice:|withdraw:|buy:groceries)",
+  "manualLives": [
+    {
+      "style": "career",
+      "seed": 2026,
+      "checkpoints": [
+        {
+          "completeDays": 30,
+          "actualDay": 31,
+          "actions": 165,
+          "distinctActions": 48,
+          "entropyBits": 4.27273445290432,
+          "topActions": [
+            ["sleep", 30],
+            ["work", 25],
+            ["practice:craft", 19],
+            ["practice:communication", 14],
+            ["rest", 13],
+            ["soup", 8],
+            ["cook", 6],
+            ["study", 6],
+            ["exercise", 4],
+            ["promote", 2],
+            ["event:welcome:work", 1],
+            ["event:craft-project:repair", 1]
+          ],
+          "maintenanceCount": 125,
+          "maintenanceShare": 0.7575757575757576,
+          "majorDecisions": 40,
+          "actionsPerMajorDecision": 4.125,
+          "maxSameActionStreak": 4,
+          "practiceWithNoImmediateSkillGain": 11,
+          "restWithNoImmediateTargetGain": 3,
+          "socialWithNoImmediateAffinityTrustGain": 0,
+          "eventChoices": 17,
+          "distinctEventCards": 17,
+          "saveBytes": 97994,
+          "health": 100,
+          "cash": 3980,
+          "bank": 26747,
+          "debt": 12360,
+          "rentArrears": 0,
+          "skills": {
+            "communication": 97,
+            "technical": 10,
+            "craft": 100,
+            "knowledge": 39
+          },
+          "job": {
+            "id": "retail",
+            "level": 2,
+            "shifts": 25,
+            "performance": 100,
+            "earned": 3000,
+            "payDay": 36,
+            "lastWorkDay": 30,
+            "missed": 0,
+            "hiredDay": 1
+          },
+          "completedProjects": 1,
+          "completedMeetings": 0,
+          "missedMeetings": 0,
+          "business": null,
+          "enterprise": {
+            "instanceId": "",
+            "capital": 0,
+            "stock": 0,
+            "lastRestockAt": 0
+          },
+          "periodActions": 165,
+          "periodMajorDecisions": 40,
+          "periodEventChoices": 17,
+          "periodStoryChoices": 17,
+          "distinctNormalizedActions": 48
+        },
+        {
+          "completeDays": 90,
+          "actualDay": 91,
+          "actions": 490,
+          "distinctActions": 50,
+          "entropyBits": 3.4746959158579647,
+          "topActions": [
+            ["sleep", 90],
+            ["rest", 84],
+            ["practice:craft", 79],
+            ["work", 69],
+            ["practice:communication", 54],
+            ["soup", 38],
+            ["exercise", 20],
+            ["cook", 6],
+            ["study", 6],
+            ["promote", 4],
+            ["event:welcome:work", 1],
+            ["event:craft-project:repair", 1]
+          ],
+          "maintenanceCount": 446,
+          "maintenanceShare": 0.9102040816326531,
+          "majorDecisions": 44,
+          "actionsPerMajorDecision": 11.136363636363637,
+          "maxSameActionStreak": 5,
+          "practiceWithNoImmediateSkillGain": 110,
+          "restWithNoImmediateTargetGain": 15,
+          "socialWithNoImmediateAffinityTrustGain": 0,
+          "eventChoices": 17,
+          "distinctEventCards": 17,
+          "saveBytes": 117844,
+          "health": 100,
+          "cash": 3980,
+          "bank": 93475,
+          "debt": 13113,
+          "rentArrears": 0,
+          "skills": {
+            "communication": 100,
+            "technical": 10,
+            "craft": 100,
+            "knowledge": 39
+          },
+          "job": {
+            "id": "repair",
+            "level": 2,
+            "shifts": 39,
+            "performance": 100,
+            "earned": 8700,
+            "payDay": 93,
+            "lastWorkDay": 89,
+            "missed": 0,
+            "hiredDay": 37
+          },
+          "completedProjects": 1,
+          "completedMeetings": 0,
+          "missedMeetings": 0,
+          "business": null,
+          "enterprise": {
+            "instanceId": "",
+            "capital": 0,
+            "stock": 0,
+            "lastRestockAt": 0
+          },
+          "periodActions": 325,
+          "periodMajorDecisions": 4,
+          "periodEventChoices": 0,
+          "periodStoryChoices": 1,
+          "distinctNormalizedActions": 50
+        },
+        {
+          "completeDays": 180,
+          "actualDay": 181,
+          "actions": 1006,
+          "distinctActions": 50,
+          "entropyBits": 3.1322764006812203,
+          "topActions": [
+            ["rest", 206],
+            ["sleep", 180],
+            ["practice:craft", 169],
+            ["work", 134],
+            ["practice:communication", 133],
+            ["soup", 83],
+            ["exercise", 45],
+            ["cook", 6],
+            ["study", 6],
+            ["promote", 4],
+            ["event:welcome:work", 1],
+            ["event:craft-project:repair", 1]
+          ],
+          "maintenanceCount": 962,
+          "maintenanceShare": 0.9562624254473161,
+          "majorDecisions": 44,
+          "actionsPerMajorDecision": 22.863636363636363,
+          "maxSameActionStreak": 5,
+          "practiceWithNoImmediateSkillGain": 279,
+          "restWithNoImmediateTargetGain": 38,
+          "socialWithNoImmediateAffinityTrustGain": 0,
+          "eventChoices": 17,
+          "distinctEventCards": 17,
+          "saveBytes": 129476,
+          "health": 100,
+          "cash": 3980,
+          "bank": 222927,
+          "debt": 14331,
+          "rentArrears": 0,
+          "skills": {
+            "communication": 100,
+            "technical": 10,
+            "craft": 100,
+            "knowledge": 39
+          },
+          "job": {
+            "id": "repair",
+            "level": 2,
+            "shifts": 104,
+            "performance": 100,
+            "earned": 8700,
+            "payDay": 184,
+            "lastWorkDay": 180,
+            "missed": 0,
+            "hiredDay": 37
+          },
+          "completedProjects": 1,
+          "completedMeetings": 0,
+          "missedMeetings": 0,
+          "business": null,
+          "enterprise": {
+            "instanceId": "",
+            "capital": 0,
+            "stock": 0,
+            "lastRestockAt": 0
+          },
+          "periodActions": 516,
+          "periodMajorDecisions": 0,
+          "periodEventChoices": 0,
+          "periodStoryChoices": 0,
+          "distinctNormalizedActions": 50
+        },
+        {
+          "completeDays": 365,
+          "actualDay": 366,
+          "actions": 2079,
+          "distinctActions": 50,
+          "entropyBits": 2.930178498646266,
+          "topActions": [
+            ["rest", 459],
+            ["sleep", 365],
+            ["practice:craft", 354],
+            ["practice:communication", 306],
+            ["work", 265],
+            ["soup", 175],
+            ["exercise", 99],
+            ["cook", 6],
+            ["study", 6],
+            ["promote", 4],
+            ["event:welcome:work", 1],
+            ["event:craft-project:repair", 1]
+          ],
+          "maintenanceCount": 2035,
+          "maintenanceShare": 0.9788359788359788,
+          "majorDecisions": 44,
+          "actionsPerMajorDecision": 47.25,
+          "maxSameActionStreak": 5,
+          "practiceWithNoImmediateSkillGain": 637,
+          "restWithNoImmediateTargetGain": 77,
+          "socialWithNoImmediateAffinityTrustGain": 0,
+          "eventChoices": 17,
+          "distinctEventCards": 17,
+          "saveBytes": 132560,
+          "health": 100,
+          "cash": 3980,
+          "bank": 498481,
+          "debt": 17114,
+          "rentArrears": 0,
+          "skills": {
+            "communication": 100,
+            "technical": 10,
+            "craft": 100,
+            "knowledge": 39
+          },
+          "job": {
+            "id": "repair",
+            "level": 2,
+            "shifts": 235,
+            "performance": 100,
+            "earned": 0,
+            "payDay": 373,
+            "lastWorkDay": 365,
+            "missed": 0,
+            "hiredDay": 37
+          },
+          "completedProjects": 1,
+          "completedMeetings": 0,
+          "missedMeetings": 0,
+          "business": null,
+          "enterprise": {
+            "instanceId": "",
+            "capital": 0,
+            "stock": 0,
+            "lastRestockAt": 0
+          },
+          "periodActions": 1073,
+          "periodMajorDecisions": 0,
+          "periodEventChoices": 0,
+          "periodStoryChoices": 0,
+          "distinctNormalizedActions": 50
+        }
+      ]
+    },
+    {
+      "style": "career",
+      "seed": 91373,
+      "checkpoints": [
+        {
+          "completeDays": 30,
+          "actualDay": 31,
+          "actions": 165,
+          "distinctActions": 48,
+          "entropyBits": 4.27273445290432,
+          "topActions": [
+            ["sleep", 30],
+            ["work", 25],
+            ["practice:craft", 19],
+            ["practice:communication", 14],
+            ["rest", 13],
+            ["soup", 8],
+            ["cook", 6],
+            ["study", 6],
+            ["exercise", 4],
+            ["promote", 2],
+            ["event:welcome:work", 1],
+            ["event:craft-project:repair", 1]
+          ],
+          "maintenanceCount": 125,
+          "maintenanceShare": 0.7575757575757576,
+          "majorDecisions": 40,
+          "actionsPerMajorDecision": 4.125,
+          "maxSameActionStreak": 4,
+          "practiceWithNoImmediateSkillGain": 11,
+          "restWithNoImmediateTargetGain": 3,
+          "socialWithNoImmediateAffinityTrustGain": 0,
+          "eventChoices": 17,
+          "distinctEventCards": 17,
+          "saveBytes": 97393,
+          "health": 100,
+          "cash": 4780,
+          "bank": 26747,
+          "debt": 12360,
+          "rentArrears": 0,
+          "skills": {
+            "communication": 97,
+            "technical": 10,
+            "craft": 100,
+            "knowledge": 39
+          },
+          "job": {
+            "id": "retail",
+            "level": 2,
+            "shifts": 25,
+            "performance": 100,
+            "earned": 3000,
+            "payDay": 36,
+            "lastWorkDay": 30,
+            "missed": 0,
+            "hiredDay": 1
+          },
+          "completedProjects": 1,
+          "completedMeetings": 0,
+          "missedMeetings": 0,
+          "business": null,
+          "enterprise": {
+            "instanceId": "",
+            "capital": 0,
+            "stock": 0,
+            "lastRestockAt": 0
+          },
+          "periodActions": 165,
+          "periodMajorDecisions": 40,
+          "periodEventChoices": 17,
+          "periodStoryChoices": 17,
+          "distinctNormalizedActions": 48
+        },
+        {
+          "completeDays": 90,
+          "actualDay": 91,
+          "actions": 491,
+          "distinctActions": 50,
+          "entropyBits": 3.4727866330537,
+          "topActions": [
+            ["sleep", 90],
+            ["rest", 85],
+            ["practice:craft", 79],
+            ["work", 69],
+            ["practice:communication", 54],
+            ["soup", 38],
+            ["exercise", 20],
+            ["cook", 6],
+            ["study", 6],
+            ["promote", 4],
+            ["event:welcome:work", 1],
+            ["event:craft-project:repair", 1]
+          ],
+          "maintenanceCount": 447,
+          "maintenanceShare": 0.9103869653767821,
+          "majorDecisions": 44,
+          "actionsPerMajorDecision": 11.159090909090908,
+          "maxSameActionStreak": 5,
+          "practiceWithNoImmediateSkillGain": 110,
+          "restWithNoImmediateTargetGain": 18,
+          "socialWithNoImmediateAffinityTrustGain": 0,
+          "eventChoices": 17,
+          "distinctEventCards": 17,
+          "saveBytes": 118824,
+          "health": 100,
+          "cash": 4780,
+          "bank": 93475,
+          "debt": 13113,
+          "rentArrears": 0,
+          "skills": {
+            "communication": 100,
+            "technical": 10,
+            "craft": 100,
+            "knowledge": 39
+          },
+          "job": {
+            "id": "repair",
+            "level": 2,
+            "shifts": 39,
+            "performance": 100,
+            "earned": 8700,
+            "payDay": 93,
+            "lastWorkDay": 89,
+            "missed": 0,
+            "hiredDay": 37
+          },
+          "completedProjects": 1,
+          "completedMeetings": 0,
+          "missedMeetings": 0,
+          "business": null,
+          "enterprise": {
+            "instanceId": "",
+            "capital": 0,
+            "stock": 0,
+            "lastRestockAt": 0
+          },
+          "periodActions": 326,
+          "periodMajorDecisions": 4,
+          "periodEventChoices": 0,
+          "periodStoryChoices": 1,
+          "distinctNormalizedActions": 50
+        },
+        {
+          "completeDays": 180,
+          "actualDay": 181,
+          "actions": 1009,
+          "distinctActions": 50,
+          "entropyBits": 3.1338366358894936,
+          "topActions": [
+            ["rest", 202],
+            ["sleep", 180],
+            ["practice:craft", 169],
+            ["practice:communication", 140],
+            ["work", 134],
+            ["soup", 83],
+            ["exercise", 45],
+            ["cook", 6],
+            ["study", 6],
+            ["promote", 4],
+            ["event:welcome:work", 1],
+            ["event:craft-project:repair", 1]
+          ],
+          "maintenanceCount": 965,
+          "maintenanceShare": 0.956392467789891,
+          "majorDecisions": 44,
+          "actionsPerMajorDecision": 22.931818181818183,
+          "maxSameActionStreak": 5,
+          "practiceWithNoImmediateSkillGain": 286,
+          "restWithNoImmediateTargetGain": 41,
+          "socialWithNoImmediateAffinityTrustGain": 0,
+          "eventChoices": 17,
+          "distinctEventCards": 17,
+          "saveBytes": 129133,
+          "health": 100,
+          "cash": 4780,
+          "bank": 222927,
+          "debt": 14331,
+          "rentArrears": 0,
+          "skills": {
+            "communication": 100,
+            "technical": 10,
+            "craft": 100,
+            "knowledge": 39
+          },
+          "job": {
+            "id": "repair",
+            "level": 2,
+            "shifts": 104,
+            "performance": 100,
+            "earned": 8700,
+            "payDay": 184,
+            "lastWorkDay": 180,
+            "missed": 0,
+            "hiredDay": 37
+          },
+          "completedProjects": 1,
+          "completedMeetings": 0,
+          "missedMeetings": 0,
+          "business": null,
+          "enterprise": {
+            "instanceId": "",
+            "capital": 0,
+            "stock": 0,
+            "lastRestockAt": 0
+          },
+          "periodActions": 518,
+          "periodMajorDecisions": 0,
+          "periodEventChoices": 0,
+          "periodStoryChoices": 0,
+          "distinctNormalizedActions": 50
+        },
+        {
+          "completeDays": 365,
+          "actualDay": 366,
+          "actions": 2085,
+          "distinctActions": 50,
+          "entropyBits": 2.9291249584524115,
+          "topActions": [
+            ["rest", 461],
+            ["sleep", 365],
+            ["practice:craft", 354],
+            ["practice:communication", 310],
+            ["work", 265],
+            ["soup", 175],
+            ["exercise", 99],
+            ["cook", 6],
+            ["study", 6],
+            ["promote", 4],
+            ["event:welcome:work", 1],
+            ["event:craft-project:repair", 1]
+          ],
+          "maintenanceCount": 2041,
+          "maintenanceShare": 0.9788968824940047,
+          "majorDecisions": 44,
+          "actionsPerMajorDecision": 47.38636363636363,
+          "maxSameActionStreak": 5,
+          "practiceWithNoImmediateSkillGain": 641,
+          "restWithNoImmediateTargetGain": 100,
+          "socialWithNoImmediateAffinityTrustGain": 0,
+          "eventChoices": 17,
+          "distinctEventCards": 17,
+          "saveBytes": 132222,
+          "health": 100,
+          "cash": 4780,
+          "bank": 498481,
+          "debt": 17114,
+          "rentArrears": 0,
+          "skills": {
+            "communication": 100,
+            "technical": 10,
+            "craft": 100,
+            "knowledge": 39
+          },
+          "job": {
+            "id": "repair",
+            "level": 2,
+            "shifts": 235,
+            "performance": 100,
+            "earned": 0,
+            "payDay": 373,
+            "lastWorkDay": 365,
+            "missed": 0,
+            "hiredDay": 37
+          },
+          "completedProjects": 1,
+          "completedMeetings": 0,
+          "missedMeetings": 0,
+          "business": null,
+          "enterprise": {
+            "instanceId": "",
+            "capital": 0,
+            "stock": 0,
+            "lastRestockAt": 0
+          },
+          "periodActions": 1076,
+          "periodMajorDecisions": 0,
+          "periodEventChoices": 0,
+          "periodStoryChoices": 0,
+          "distinctNormalizedActions": 50
+        }
+      ]
+    },
+    {
+      "style": "social",
+      "seed": 2026,
+      "checkpoints": [
+        {
+          "completeDays": 30,
+          "actualDay": 31,
+          "actions": 290,
+          "distinctActions": 61,
+          "entropyBits": 4.768884615790293,
+          "topActions": [
+            ["sleep", 30],
+            ["talk:mert", 25],
+            ["work", 24],
+            ["talk:leyla", 21],
+            ["call:mert", 21],
+            ["call:leyla", 20],
+            ["talk:aylin", 15],
+            ["call:aylin", 14],
+            ["practice:communication", 14],
+            ["rest", 12],
+            ["soup", 9],
+            ["exercise", 8]
+          ],
+          "maintenanceCount": 104,
+          "maintenanceShare": 0.3586206896551724,
+          "majorDecisions": 43,
+          "actionsPerMajorDecision": 6.744186046511628,
+          "maxSameActionStreak": 4,
+          "practiceWithNoImmediateSkillGain": 6,
+          "restWithNoImmediateTargetGain": 2,
+          "socialWithNoImmediateAffinityTrustGain": 64,
+          "eventChoices": 16,
+          "distinctEventCards": 16,
+          "saveBytes": 102588,
+          "health": 100,
+          "cash": 4605,
+          "bank": 25240,
+          "debt": 12360,
+          "rentArrears": 0,
+          "skills": {
+            "communication": 100,
+            "technical": 10,
+            "craft": 99,
+            "knowledge": 34
+          },
+          "job": {
+            "id": "retail",
+            "level": 2,
+            "shifts": 24,
+            "performance": 100,
+            "earned": 3000,
+            "payDay": 36,
+            "lastWorkDay": 30,
+            "missed": 0,
+            "hiredDay": 1
+          },
+          "completedProjects": 3,
+          "completedMeetings": 5,
+          "missedMeetings": 0,
+          "business": null,
+          "enterprise": {
+            "instanceId": "",
+            "capital": 0,
+            "stock": 0,
+            "lastRestockAt": 0
+          },
+          "periodActions": 290,
+          "periodMajorDecisions": 43,
+          "periodEventChoices": 16,
+          "periodStoryChoices": 14,
+          "distinctNormalizedActions": 57
+        },
+        {
+          "completeDays": 90,
+          "actualDay": 91,
+          "actions": 830,
+          "distinctActions": 77,
+          "entropyBits": 4.492474887419385,
+          "topActions": [
+            ["sleep", 90],
+            ["work", 75],
+            ["talk:leyla", 67],
+            ["talk:mert", 63],
+            ["call:mert", 59],
+            ["call:leyla", 57],
+            ["talk:aylin", 46],
+            ["call:aylin", 42],
+            ["mentor:leyla", 41],
+            ["soup", 40],
+            ["rest", 38],
+            ["practice:communication", 34]
+          ],
+          "maintenanceCount": 313,
+          "maintenanceShare": 0.37710843373493974,
+          "majorDecisions": 59,
+          "actionsPerMajorDecision": 14.067796610169491,
+          "maxSameActionStreak": 4,
+          "practiceWithNoImmediateSkillGain": 26,
+          "restWithNoImmediateTargetGain": 4,
+          "socialWithNoImmediateAffinityTrustGain": 353,
+          "eventChoices": 16,
+          "distinctEventCards": 16,
+          "saveBytes": 130588,
+          "health": 100,
+          "cash": 3945,
+          "bank": 88189,
+          "debt": 13113,
+          "rentArrears": 0,
+          "skills": {
+            "communication": 100,
+            "technical": 10,
+            "craft": 100,
+            "knowledge": 34
+          },
+          "job": {
+            "id": "retail",
+            "level": 2,
+            "shifts": 75,
+            "performance": 100,
+            "earned": 7500,
+            "payDay": 92,
+            "lastWorkDay": 90,
+            "missed": 0,
+            "hiredDay": 1
+          },
+          "completedProjects": 3,
+          "completedMeetings": 17,
+          "missedMeetings": 0,
+          "business": null,
+          "enterprise": {
+            "instanceId": "",
+            "capital": 0,
+            "stock": 0,
+            "lastRestockAt": 0
+          },
+          "periodActions": 540,
+          "periodMajorDecisions": 16,
+          "periodEventChoices": 0,
+          "periodStoryChoices": 1,
+          "distinctNormalizedActions": 58
+        },
+        {
+          "completeDays": 180,
+          "actualDay": 181,
+          "actions": 1637,
+          "distinctActions": 99,
+          "entropyBits": 4.3813076347267765,
+          "topActions": [
+            ["sleep", 180],
+            ["work", 152],
+            ["talk:leyla", 131],
+            ["talk:mert", 121],
+            ["call:leyla", 114],
+            ["call:mert", 113],
+            ["talk:aylin", 98],
+            ["mentor:leyla", 93],
+            ["call:aylin", 89],
+            ["soup", 86],
+            ["rest", 77],
+            ["mentor:mert", 76]
+          ],
+          "maintenanceCount": 616,
+          "maintenanceShare": 0.37629810629199756,
+          "majorDecisions": 81,
+          "actionsPerMajorDecision": 20.209876543209877,
+          "maxSameActionStreak": 4,
+          "practiceWithNoImmediateSkillGain": 51,
+          "restWithNoImmediateTargetGain": 6,
+          "socialWithNoImmediateAffinityTrustGain": 801,
+          "eventChoices": 16,
+          "distinctEventCards": 16,
+          "saveBytes": 147339,
+          "health": 100,
+          "cash": 2955,
+          "bank": 192932,
+          "debt": 14331,
+          "rentArrears": 0,
+          "skills": {
+            "communication": 100,
+            "technical": 10,
+            "craft": 100,
+            "knowledge": 34
+          },
+          "job": {
+            "id": "retail",
+            "level": 2,
+            "shifts": 152,
+            "performance": 100,
+            "earned": 6000,
+            "payDay": 183,
+            "lastWorkDay": 180,
+            "missed": 0,
+            "hiredDay": 1
+          },
+          "completedProjects": 3,
+          "completedMeetings": 35,
+          "missedMeetings": 0,
+          "business": null,
+          "enterprise": {
+            "instanceId": "",
+            "capital": 0,
+            "stock": 0,
+            "lastRestockAt": 0
+          },
+          "periodActions": 807,
+          "periodMajorDecisions": 22,
+          "periodEventChoices": 0,
+          "periodStoryChoices": 0,
+          "distinctNormalizedActions": 58
+        },
+        {
+          "completeDays": 365,
+          "actualDay": 366,
+          "actions": 3286,
+          "distinctActions": 145,
+          "entropyBits": 4.320781729106039,
+          "topActions": [
+            ["sleep", 365],
+            ["work", 311],
+            ["talk:leyla", 264],
+            ["talk:mert", 241],
+            ["call:mert", 232],
+            ["call:leyla", 229],
+            ["talk:aylin", 203],
+            ["mentor:leyla", 197],
+            ["soup", 180],
+            ["call:aylin", 177],
+            ["mentor:mert", 158],
+            ["rest", 155]
+          ],
+          "maintenanceCount": 1236,
+          "maintenanceShare": 0.3761412051125989,
+          "majorDecisions": 127,
+          "actionsPerMajorDecision": 25.874015748031496,
+          "maxSameActionStreak": 4,
+          "practiceWithNoImmediateSkillGain": 104,
+          "restWithNoImmediateTargetGain": 11,
+          "socialWithNoImmediateAffinityTrustGain": 1714,
+          "eventChoices": 16,
+          "distinctEventCards": 16,
+          "saveBytes": 169686,
+          "health": 100,
+          "cash": 920,
+          "bank": 416136,
+          "debt": 17114,
+          "rentArrears": 0,
+          "skills": {
+            "communication": 100,
+            "technical": 10,
+            "craft": 100,
+            "knowledge": 34
+          },
+          "job": {
+            "id": "retail",
+            "level": 2,
+            "shifts": 311,
+            "performance": 100,
+            "earned": 1500,
+            "payDay": 372,
+            "lastWorkDay": 365,
+            "missed": 0,
+            "hiredDay": 1
+          },
+          "completedProjects": 3,
+          "completedMeetings": 72,
+          "missedMeetings": 0,
+          "business": null,
+          "enterprise": {
+            "instanceId": "",
+            "capital": 0,
+            "stock": 0,
+            "lastRestockAt": 0
+          },
+          "periodActions": 1649,
+          "periodMajorDecisions": 46,
+          "periodEventChoices": 0,
+          "periodStoryChoices": 0,
+          "distinctNormalizedActions": 58
+        }
+      ]
+    },
+    {
+      "style": "social",
+      "seed": 91373,
+      "checkpoints": [
+        {
+          "completeDays": 30,
+          "actualDay": 31,
+          "actions": 286,
+          "distinctActions": 61,
+          "entropyBits": 4.775965477235529,
+          "topActions": [
+            ["sleep", 30],
+            ["work", 24],
+            ["talk:mert", 23],
+            ["talk:leyla", 20],
+            ["call:leyla", 20],
+            ["call:mert", 20],
+            ["call:aylin", 16],
+            ["practice:communication", 15],
+            ["rest", 13],
+            ["talk:aylin", 12],
+            ["soup", 9],
+            ["exercise", 8]
+          ],
+          "maintenanceCount": 106,
+          "maintenanceShare": 0.3706293706293706,
+          "majorDecisions": 43,
+          "actionsPerMajorDecision": 6.651162790697675,
+          "maxSameActionStreak": 4,
+          "practiceWithNoImmediateSkillGain": 6,
+          "restWithNoImmediateTargetGain": 3,
+          "socialWithNoImmediateAffinityTrustGain": 60,
+          "eventChoices": 16,
+          "distinctEventCards": 16,
+          "saveBytes": 102211,
+          "health": 100,
+          "cash": 3905,
+          "bank": 25240,
+          "debt": 12360,
+          "rentArrears": 0,
+          "skills": {
+            "communication": 100,
+            "technical": 10,
+            "craft": 99,
+            "knowledge": 34
+          },
+          "job": {
+            "id": "retail",
+            "level": 2,
+            "shifts": 24,
+            "performance": 100,
+            "earned": 3000,
+            "payDay": 36,
+            "lastWorkDay": 30,
+            "missed": 0,
+            "hiredDay": 1
+          },
+          "completedProjects": 3,
+          "completedMeetings": 5,
+          "missedMeetings": 0,
+          "business": null,
+          "enterprise": {
+            "instanceId": "",
+            "capital": 0,
+            "stock": 0,
+            "lastRestockAt": 0
+          },
+          "periodActions": 286,
+          "periodMajorDecisions": 43,
+          "periodEventChoices": 16,
+          "periodStoryChoices": 14,
+          "distinctNormalizedActions": 57
+        },
+        {
+          "completeDays": 90,
+          "actualDay": 91,
+          "actions": 829,
+          "distinctActions": 78,
+          "entropyBits": 4.50895912973901,
+          "topActions": [
+            ["sleep", 90],
+            ["work", 75],
+            ["talk:leyla", 65],
+            ["talk:mert", 61],
+            ["call:leyla", 58],
+            ["call:mert", 57],
+            ["call:aylin", 45],
+            ["talk:aylin", 44],
+            ["mentor:leyla", 42],
+            ["soup", 40],
+            ["rest", 38],
+            ["practice:communication", 37]
+          ],
+          "maintenanceCount": 316,
+          "maintenanceShare": 0.38118214716525933,
+          "majorDecisions": 60,
+          "actionsPerMajorDecision": 13.816666666666666,
+          "maxSameActionStreak": 4,
+          "practiceWithNoImmediateSkillGain": 28,
+          "restWithNoImmediateTargetGain": 5,
+          "socialWithNoImmediateAffinityTrustGain": 348,
+          "eventChoices": 16,
+          "distinctEventCards": 16,
+          "saveBytes": 130122,
+          "health": 100,
+          "cash": 3245,
+          "bank": 88189,
+          "debt": 13113,
+          "rentArrears": 0,
+          "skills": {
+            "communication": 100,
+            "technical": 10,
+            "craft": 100,
+            "knowledge": 34
+          },
+          "job": {
+            "id": "retail",
+            "level": 2,
+            "shifts": 75,
+            "performance": 100,
+            "earned": 7500,
+            "payDay": 92,
+            "lastWorkDay": 90,
+            "missed": 0,
+            "hiredDay": 1
+          },
+          "completedProjects": 3,
+          "completedMeetings": 17,
+          "missedMeetings": 0,
+          "business": null,
+          "enterprise": {
+            "instanceId": "",
+            "capital": 0,
+            "stock": 0,
+            "lastRestockAt": 0
+          },
+          "periodActions": 543,
+          "periodMajorDecisions": 17,
+          "periodEventChoices": 0,
+          "periodStoryChoices": 1,
+          "distinctNormalizedActions": 58
+        },
+        {
+          "completeDays": 180,
+          "actualDay": 181,
+          "actions": 1619,
+          "distinctActions": 100,
+          "entropyBits": 4.386231094128088,
+          "topActions": [
+            ["sleep", 180],
+            ["work", 152],
+            ["talk:leyla", 125],
+            ["talk:mert", 118],
+            ["call:leyla", 115],
+            ["call:mert", 110],
+            ["call:aylin", 94],
+            ["mentor:leyla", 94],
+            ["talk:aylin", 91],
+            ["soup", 85],
+            ["rest", 78],
+            ["mentor:mert", 73]
+          ],
+          "maintenanceCount": 614,
+          "maintenanceShare": 0.3792464484249537,
+          "majorDecisions": 81,
+          "actionsPerMajorDecision": 19.987654320987655,
+          "maxSameActionStreak": 4,
+          "practiceWithNoImmediateSkillGain": 52,
+          "restWithNoImmediateTargetGain": 8,
+          "socialWithNoImmediateAffinityTrustGain": 784,
+          "eventChoices": 16,
+          "distinctEventCards": 16,
+          "saveBytes": 146993,
+          "health": 100,
+          "cash": 2255,
+          "bank": 192932,
+          "debt": 14331,
+          "rentArrears": 0,
+          "skills": {
+            "communication": 100,
+            "technical": 10,
+            "craft": 100,
+            "knowledge": 34
+          },
+          "job": {
+            "id": "retail",
+            "level": 2,
+            "shifts": 152,
+            "performance": 100,
+            "earned": 6000,
+            "payDay": 183,
+            "lastWorkDay": 180,
+            "missed": 0,
+            "hiredDay": 1
+          },
+          "completedProjects": 3,
+          "completedMeetings": 35,
+          "missedMeetings": 0,
+          "business": null,
+          "enterprise": {
+            "instanceId": "",
+            "capital": 0,
+            "stock": 0,
+            "lastRestockAt": 0
+          },
+          "periodActions": 790,
+          "periodMajorDecisions": 21,
+          "periodEventChoices": 0,
+          "periodStoryChoices": 0,
+          "distinctNormalizedActions": 58
+        },
+        {
+          "completeDays": 365,
+          "actualDay": 366,
+          "actions": 3228,
+          "distinctActions": 145,
+          "entropyBits": 4.317572176019189,
+          "topActions": [
+            ["sleep", 365],
+            ["work", 311],
+            ["talk:leyla", 253],
+            ["call:leyla", 235],
+            ["talk:mert", 232],
+            ["call:mert", 217],
+            ["mentor:leyla", 206],
+            ["call:aylin", 186],
+            ["soup", 180],
+            ["talk:aylin", 179],
+            ["rest", 156],
+            ["mentor:mert", 155]
+          ],
+          "maintenanceCount": 1230,
+          "maintenanceShare": 0.38104089219330856,
+          "majorDecisions": 125,
+          "actionsPerMajorDecision": 25.824,
+          "maxSameActionStreak": 4,
+          "practiceWithNoImmediateSkillGain": 102,
+          "restWithNoImmediateTargetGain": 13,
+          "socialWithNoImmediateAffinityTrustGain": 1663,
+          "eventChoices": 16,
+          "distinctEventCards": 16,
+          "saveBytes": 167931,
+          "health": 100,
+          "cash": 1330,
+          "bank": 415131,
+          "debt": 17114,
+          "rentArrears": 0,
+          "skills": {
+            "communication": 100,
+            "technical": 10,
+            "craft": 100,
+            "knowledge": 34
+          },
+          "job": {
+            "id": "retail",
+            "level": 2,
+            "shifts": 311,
+            "performance": 100,
+            "earned": 1500,
+            "payDay": 372,
+            "lastWorkDay": 365,
+            "missed": 0,
+            "hiredDay": 1
+          },
+          "completedProjects": 3,
+          "completedMeetings": 70,
+          "missedMeetings": 0,
+          "business": null,
+          "enterprise": {
+            "instanceId": "",
+            "capital": 0,
+            "stock": 0,
+            "lastRestockAt": 0
+          },
+          "periodActions": 1609,
+          "periodMajorDecisions": 44,
+          "periodEventChoices": 0,
+          "periodStoryChoices": 0,
+          "distinctNormalizedActions": 59
+        }
+      ]
+    },
+    {
+      "style": "entrepreneur",
+      "seed": 2026,
+      "checkpoints": [
+        {
+          "completeDays": 30,
+          "actualDay": 31,
+          "actions": 259,
+          "distinctActions": 39,
+          "entropyBits": 3.9799488853391733,
+          "topActions": [
+            ["rest", 50],
+            ["business:serve", 30],
+            ["sleep", 30],
+            ["freelance:work", 30],
+            ["practice:communication", 19],
+            ["exercise", 18],
+            ["freelance:accept:repair", 10],
+            ["freelance:deliver", 10],
+            ["business:stock:6", 8],
+            ["soup", 8],
+            ["business:withdraw:2000", 7],
+            ["cook", 6]
+          ],
+          "maintenanceCount": 131,
+          "maintenanceShare": 0.5057915057915058,
+          "majorDecisions": 25,
+          "actionsPerMajorDecision": 10.36,
+          "maxSameActionStreak": 4,
+          "practiceWithNoImmediateSkillGain": 0,
+          "restWithNoImmediateTargetGain": 7,
+          "socialWithNoImmediateAffinityTrustGain": 0,
+          "eventChoices": 12,
+          "distinctEventCards": 12,
+          "saveBytes": 101143,
+          "health": 100,
+          "cash": 2630,
+          "bank": 15883,
+          "debt": 12360,
+          "rentArrears": 0,
+          "skills": {
+            "communication": 69,
+            "technical": 10,
+            "craft": 100,
+            "knowledge": 31
+          },
+          "job": null,
+          "completedProjects": 1,
+          "completedMeetings": 0,
+          "missedMeetings": 0,
+          "business": {
+            "id": "repair",
+            "location": "kadikoy",
+            "status": "active",
+            "level": 1,
+            "clients": 4,
+            "reputation": 100,
+            "revenue": 19436,
+            "costs": 16190,
+            "lastServiceDay": 30,
+            "lastAcquireDay": 22,
+            "nextOverheadDay": 36,
+            "openedDay": 1,
+            "arrears": 0,
+            "accruedOverhead": 225
+          },
+          "enterprise": {
+            "instanceId": "repair:1",
+            "capital": 1506,
+            "stock": 3,
+            "lastRestockAt": 39720
+          },
+          "periodActions": 259,
+          "periodMajorDecisions": 25,
+          "periodEventChoices": 12,
+          "periodStoryChoices": 11,
+          "distinctNormalizedActions": 39
+        },
+        {
+          "completeDays": 90,
+          "actualDay": 91,
+          "actions": 804,
+          "distinctActions": 40,
+          "entropyBits": 3.5349003480111154,
+          "topActions": [
+            ["rest", 210],
+            ["business:serve", 90],
+            ["sleep", 90],
+            ["freelance:work", 90],
+            ["practice:communication", 59],
+            ["exercise", 58],
+            ["soup", 38],
+            ["business:withdraw:2000", 33],
+            ["freelance:accept:repair", 30],
+            ["freelance:deliver", 30],
+            ["business:stock:6", 27],
+            ["business:fund:2000", 11]
+          ],
+          "maintenanceCount": 461,
+          "maintenanceShare": 0.5733830845771144,
+          "majorDecisions": 26,
+          "actionsPerMajorDecision": 30.923076923076923,
+          "maxSameActionStreak": 4,
+          "practiceWithNoImmediateSkillGain": 25,
+          "restWithNoImmediateTargetGain": 31,
+          "socialWithNoImmediateAffinityTrustGain": 0,
+          "eventChoices": 12,
+          "distinctEventCards": 12,
+          "saveBytes": 126100,
+          "health": 100,
+          "cash": 2630,
+          "bank": 63219,
+          "debt": 13113,
+          "rentArrears": 0,
+          "skills": {
+            "communication": 100,
+            "technical": 10,
+            "craft": 100,
+            "knowledge": 31
+          },
+          "job": null,
+          "completedProjects": 1,
+          "completedMeetings": 0,
+          "missedMeetings": 0,
+          "business": {
+            "id": "repair",
+            "location": "kadikoy",
+            "status": "active",
+            "level": 1,
+            "clients": 4,
+            "reputation": 100,
+            "revenue": 76830,
+            "costs": 43343,
+            "lastServiceDay": 90,
+            "lastAcquireDay": 78,
+            "nextOverheadDay": 92,
+            "openedDay": 1,
+            "arrears": 0,
+            "accruedOverhead": 610.7142857142856
+          },
+          "enterprise": {
+            "instanceId": "repair:1",
+            "capital": 1150,
+            "stock": 6,
+            "lastRestockAt": 128825
+          },
+          "periodActions": 545,
+          "periodMajorDecisions": 1,
+          "periodEventChoices": 0,
+          "periodStoryChoices": 1,
+          "distinctNormalizedActions": 40
+        },
+        {
+          "completeDays": 180,
+          "actualDay": 181,
+          "actions": 1607,
+          "distinctActions": 40,
+          "entropyBits": 3.3747573663509276,
+          "topActions": [
+            ["rest", 445],
+            ["business:serve", 180],
+            ["sleep", 180],
+            ["freelance:work", 180],
+            ["practice:communication", 119],
+            ["exercise", 118],
+            ["soup", 83],
+            ["business:withdraw:2000", 69],
+            ["freelance:accept:repair", 60],
+            ["freelance:deliver", 60],
+            ["business:stock:6", 58],
+            ["business:fund:2000", 16]
+          ],
+          "maintenanceCount": 951,
+          "maintenanceShare": 0.5917859365276914,
+          "majorDecisions": 26,
+          "actionsPerMajorDecision": 61.80769230769231,
+          "maxSameActionStreak": 4,
+          "practiceWithNoImmediateSkillGain": 85,
+          "restWithNoImmediateTargetGain": 53,
+          "socialWithNoImmediateAffinityTrustGain": 0,
+          "eventChoices": 12,
+          "distinctEventCards": 12,
+          "saveBytes": 136058,
+          "health": 100,
+          "cash": 2630,
+          "bank": 142503,
+          "debt": 14331,
+          "rentArrears": 0,
+          "skills": {
+            "communication": 100,
+            "technical": 10,
+            "craft": 100,
+            "knowledge": 31
+          },
+          "job": null,
+          "completedProjects": 1,
+          "completedMeetings": 0,
+          "missedMeetings": 0,
+          "business": {
+            "id": "repair",
+            "location": "kadikoy",
+            "status": "active",
+            "level": 1,
+            "clients": 4,
+            "reputation": 100,
+            "revenue": 175738,
+            "costs": 87639,
+            "lastServiceDay": 180,
+            "lastAcquireDay": 134,
+            "nextOverheadDay": 183,
+            "openedDay": 1,
+            "arrears": 0,
+            "accruedOverhead": 514.2857142857143
+          },
+          "enterprise": {
+            "instanceId": "repair:1",
+            "capital": 2538,
+            "stock": 6,
+            "lastRestockAt": 258425
+          },
+          "periodActions": 803,
+          "periodMajorDecisions": 0,
+          "periodEventChoices": 0,
+          "periodStoryChoices": 0,
+          "distinctNormalizedActions": 40
+        },
+        {
+          "completeDays": 365,
+          "actualDay": 366,
+          "actions": 3272,
+          "distinctActions": 40,
+          "entropyBits": 3.3096192572998144,
+          "topActions": [
+            ["rest", 909],
+            ["freelance:work", 366],
+            ["business:serve", 365],
+            ["sleep", 365],
+            ["practice:communication", 242],
+            ["exercise", 241],
+            ["soup", 174],
+            ["business:withdraw:2000", 163],
+            ["freelance:accept:repair", 122],
+            ["freelance:deliver", 122],
+            ["business:stock:6", 121],
+            ["business:fund:2000", 42]
+          ],
+          "maintenanceCount": 1937,
+          "maintenanceShare": 0.5919926650366748,
+          "majorDecisions": 26,
+          "actionsPerMajorDecision": 125.84615384615384,
+          "maxSameActionStreak": 4,
+          "practiceWithNoImmediateSkillGain": 208,
+          "restWithNoImmediateTargetGain": 97,
+          "socialWithNoImmediateAffinityTrustGain": 0,
+          "eventChoices": 12,
+          "distinctEventCards": 12,
+          "saveBytes": 139448,
+          "health": 100,
+          "cash": 2630,
+          "bank": 318769,
+          "debt": 17114,
+          "rentArrears": 0,
+          "skills": {
+            "communication": 100,
+            "technical": 10,
+            "craft": 100,
+            "knowledge": 31
+          },
+          "job": null,
+          "completedProjects": 1,
+          "completedMeetings": 0,
+          "missedMeetings": 0,
+          "business": {
+            "id": "repair",
+            "location": "kadikoy",
+            "status": "active",
+            "level": 1,
+            "clients": 4,
+            "reputation": 100,
+            "revenue": 382783,
+            "costs": 177873,
+            "lastServiceDay": 365,
+            "lastAcquireDay": 190,
+            "nextOverheadDay": 372,
+            "openedDay": 1,
+            "arrears": 0,
+            "accruedOverhead": 128.57142857142858
+          },
+          "enterprise": {
+            "instanceId": "repair:1",
+            "capital": 1583,
+            "stock": 6,
+            "lastRestockAt": 524865
+          },
+          "periodActions": 1665,
+          "periodMajorDecisions": 0,
+          "periodEventChoices": 0,
+          "periodStoryChoices": 0,
+          "distinctNormalizedActions": 40
+        }
+      ]
+    },
+    {
+      "style": "entrepreneur",
+      "seed": 91373,
+      "checkpoints": [
+        {
+          "completeDays": 30,
+          "actualDay": 31,
+          "actions": 268,
+          "distinctActions": 40,
+          "entropyBits": 4.0052006603406065,
+          "topActions": [
+            ["rest", 53],
+            ["business:serve", 30],
+            ["sleep", 30],
+            ["freelance:work", 30],
+            ["practice:communication", 19],
+            ["exercise", 19],
+            ["freelance:accept:repair", 10],
+            ["freelance:deliver", 10],
+            ["business:withdraw:2000", 9],
+            ["business:stock:6", 8],
+            ["soup", 8],
+            ["cook", 6]
+          ],
+          "maintenanceCount": 135,
+          "maintenanceShare": 0.503731343283582,
+          "majorDecisions": 25,
+          "actionsPerMajorDecision": 10.72,
+          "maxSameActionStreak": 4,
+          "practiceWithNoImmediateSkillGain": 0,
+          "restWithNoImmediateTargetGain": 9,
+          "socialWithNoImmediateAffinityTrustGain": 0,
+          "eventChoices": 12,
+          "distinctEventCards": 12,
+          "saveBytes": 101026,
+          "health": 100,
+          "cash": 1930,
+          "bank": 16387,
+          "debt": 12360,
+          "rentArrears": 0,
+          "skills": {
+            "communication": 69,
+            "technical": 10,
+            "craft": 100,
+            "knowledge": 31
+          },
+          "job": null,
+          "completedProjects": 1,
+          "completedMeetings": 0,
+          "missedMeetings": 0,
+          "business": {
+            "id": "repair",
+            "location": "kadikoy",
+            "status": "active",
+            "level": 1,
+            "clients": 4,
+            "reputation": 100,
+            "revenue": 21101,
+            "costs": 16219,
+            "lastServiceDay": 30,
+            "lastAcquireDay": 16,
+            "nextOverheadDay": 36,
+            "openedDay": 1,
+            "arrears": 0,
+            "accruedOverhead": 225.00000000000003
+          },
+          "enterprise": {
+            "instanceId": "repair:1",
+            "capital": 2641,
+            "stock": 2,
+            "lastRestockAt": 39725
+          },
+          "periodActions": 268,
+          "periodMajorDecisions": 25,
+          "periodEventChoices": 12,
+          "periodStoryChoices": 11,
+          "distinctNormalizedActions": 40
+        },
+        {
+          "completeDays": 90,
+          "actualDay": 91,
+          "actions": 797,
+          "distinctActions": 41,
+          "entropyBits": 3.5537798515242094,
+          "topActions": [
+            ["rest", 203],
+            ["business:serve", 90],
+            ["sleep", 90],
+            ["freelance:work", 90],
+            ["practice:communication", 59],
+            ["exercise", 59],
+            ["soup", 38],
+            ["business:withdraw:2000", 32],
+            ["freelance:accept:repair", 30],
+            ["freelance:deliver", 30],
+            ["business:stock:6", 27],
+            ["business:fund:2000", 10]
+          ],
+          "maintenanceCount": 455,
+          "maintenanceShare": 0.5708908406524467,
+          "majorDecisions": 26,
+          "actionsPerMajorDecision": 30.653846153846153,
+          "maxSameActionStreak": 4,
+          "practiceWithNoImmediateSkillGain": 25,
+          "restWithNoImmediateTargetGain": 22,
+          "socialWithNoImmediateAffinityTrustGain": 0,
+          "eventChoices": 12,
+          "distinctEventCards": 12,
+          "saveBytes": 127025,
+          "health": 100,
+          "cash": 1930,
+          "bank": 63729,
+          "debt": 13113,
+          "rentArrears": 0,
+          "skills": {
+            "communication": 100,
+            "technical": 10,
+            "craft": 100,
+            "knowledge": 31
+          },
+          "job": null,
+          "completedProjects": 1,
+          "completedMeetings": 0,
+          "missedMeetings": 0,
+          "business": {
+            "id": "repair",
+            "location": "kadikoy",
+            "status": "active",
+            "level": 1,
+            "clients": 4,
+            "reputation": 100,
+            "revenue": 79118,
+            "costs": 43431,
+            "lastServiceDay": 90,
+            "lastAcquireDay": 71,
+            "nextOverheadDay": 92,
+            "openedDay": 1,
+            "arrears": 0,
+            "accruedOverhead": 610.7142857142857
+          },
+          "enterprise": {
+            "instanceId": "repair:1",
+            "capital": 2848,
+            "stock": 3,
+            "lastRestockAt": 125945
+          },
+          "periodActions": 529,
+          "periodMajorDecisions": 1,
+          "periodEventChoices": 0,
+          "periodStoryChoices": 1,
+          "distinctNormalizedActions": 41
+        },
+        {
+          "completeDays": 180,
+          "actualDay": 181,
+          "actions": 1610,
+          "distinctActions": 41,
+          "entropyBits": 3.4035496818823012,
+          "topActions": [
+            ["rest", 436],
+            ["business:serve", 180],
+            ["sleep", 180],
+            ["freelance:work", 180],
+            ["practice:communication", 119],
+            ["exercise", 119],
+            ["soup", 83],
+            ["business:withdraw:2000", 74],
+            ["freelance:accept:repair", 60],
+            ["freelance:deliver", 60],
+            ["business:stock:6", 56],
+            ["business:fund:2000", 23]
+          ],
+          "maintenanceCount": 943,
+          "maintenanceShare": 0.5857142857142857,
+          "majorDecisions": 26,
+          "actionsPerMajorDecision": 61.92307692307692,
+          "maxSameActionStreak": 4,
+          "practiceWithNoImmediateSkillGain": 85,
+          "restWithNoImmediateTargetGain": 47,
+          "socialWithNoImmediateAffinityTrustGain": 0,
+          "eventChoices": 12,
+          "distinctEventCards": 12,
+          "saveBytes": 135658,
+          "health": 100,
+          "cash": 1930,
+          "bank": 138990,
+          "debt": 14331,
+          "rentArrears": 0,
+          "skills": {
+            "communication": 100,
+            "technical": 10,
+            "craft": 100,
+            "knowledge": 31
+          },
+          "job": null,
+          "completedProjects": 1,
+          "completedMeetings": 0,
+          "missedMeetings": 0,
+          "business": {
+            "id": "repair",
+            "location": "kadikoy",
+            "status": "active",
+            "level": 1,
+            "clients": 3,
+            "reputation": 100,
+            "revenue": 168535,
+            "costs": 85447,
+            "lastServiceDay": 180,
+            "lastAcquireDay": 127,
+            "nextOverheadDay": 183,
+            "openedDay": 1,
+            "arrears": 0,
+            "accruedOverhead": 514.2857142857142
+          },
+          "enterprise": {
+            "instanceId": "repair:1",
+            "capital": 1025,
+            "stock": 3,
+            "lastRestockAt": 252660
+          },
+          "periodActions": 813,
+          "periodMajorDecisions": 0,
+          "periodEventChoices": 0,
+          "periodStoryChoices": 0,
+          "distinctNormalizedActions": 41
+        },
+        {
+          "completeDays": 365,
+          "actualDay": 366,
+          "actions": 3276,
+          "distinctActions": 41,
+          "entropyBits": 3.3201916003261016,
+          "topActions": [
+            ["rest", 903],
+            ["freelance:work", 366],
+            ["business:serve", 365],
+            ["sleep", 365],
+            ["practice:communication", 242],
+            ["exercise", 242],
+            ["soup", 174],
+            ["business:withdraw:2000", 167],
+            ["freelance:accept:repair", 122],
+            ["freelance:deliver", 122],
+            ["business:stock:6", 121],
+            ["business:fund:2000", 46]
+          ],
+          "maintenanceCount": 1932,
+          "maintenanceShare": 0.5897435897435898,
+          "majorDecisions": 26,
+          "actionsPerMajorDecision": 126,
+          "maxSameActionStreak": 4,
+          "practiceWithNoImmediateSkillGain": 208,
+          "restWithNoImmediateTargetGain": 90,
+          "socialWithNoImmediateAffinityTrustGain": 0,
+          "eventChoices": 12,
+          "distinctEventCards": 12,
+          "saveBytes": 139645,
+          "health": 100,
+          "cash": 1930,
+          "bank": 319156,
+          "debt": 17114,
+          "rentArrears": 0,
+          "skills": {
+            "communication": 100,
+            "technical": 10,
+            "craft": 100,
+            "knowledge": 31
+          },
+          "job": null,
+          "completedProjects": 1,
+          "completedMeetings": 0,
+          "missedMeetings": 0,
+          "business": {
+            "id": "repair",
+            "location": "kadikoy",
+            "status": "active",
+            "level": 1,
+            "clients": 4,
+            "reputation": 100,
+            "revenue": 382925,
+            "costs": 177925,
+            "lastServiceDay": 365,
+            "lastAcquireDay": 183,
+            "nextOverheadDay": 372,
+            "openedDay": 1,
+            "arrears": 0,
+            "accruedOverhead": 128.57142857142858
+          },
+          "enterprise": {
+            "instanceId": "repair:1",
+            "capital": 1165,
+            "stock": 4,
+            "lastRestockAt": 523380
+          },
+          "periodActions": 1666,
+          "periodMajorDecisions": 0,
+          "periodEventChoices": 0,
+          "periodStoryChoices": 0,
+          "distinctNormalizedActions": 41
+        }
+      ]
+    }
+  ],
+  "routine": {
+    "methodology": "Existing3.0 weekly routine retail life; public actions only. Outer commands approximate action-button activations, not measured human UI navigation. Inner executed routine actions counted separately. This is not the same workload or target as manual career-change/social/enterprise policies.",
+    "lives": [
+      {
+        "seed": 2026,
+        "checkpoints": [
+          {
+            "completeDays": 30,
+            "actualDay": 31,
+            "outerCommands": 72,
+            "routineCommands": 31,
+            "innerRoutineActions": 130,
+            "zeroTimeRoutineStops": 9,
+            "health": 100,
+            "cash": 4053,
+            "bank": 24737,
+            "debt": 12360,
+            "rentArrears": 0,
+            "job": {
+              "id": "retail",
+              "level": 2,
+              "shifts": 24,
+              "performance": 94,
+              "earned": 3000,
+              "payDay": 36,
+              "lastWorkDay": 30,
+              "missed": 0,
+              "hiredDay": 1
+            },
+            "saveBytes": 96278
+          },
+          {
+            "completeDays": 90,
+            "actualDay": 91,
+            "outerCommands": 87,
+            "routineCommands": 43,
+            "innerRoutineActions": 455,
+            "zeroTimeRoutineStops": 11,
+            "health": 100,
+            "cash": 1479,
+            "bank": 87680,
+            "debt": 13113,
+            "rentArrears": 0,
+            "job": {
+              "id": "retail",
+              "level": 2,
+              "shifts": 75,
+              "performance": 100,
+              "earned": 7500,
+              "payDay": 92,
+              "lastWorkDay": 90,
+              "missed": 0,
+              "hiredDay": 1
+            },
+            "saveBytes": 119177
+          },
+          {
+            "completeDays": 180,
+            "actualDay": 181,
+            "outerCommands": 108,
+            "routineCommands": 61,
+            "innerRoutineActions": 914,
+            "zeroTimeRoutineStops": 14,
+            "health": 100,
+            "cash": 86,
+            "bank": 192416,
+            "debt": 14331,
+            "rentArrears": 0,
+            "job": {
+              "id": "retail",
+              "level": 2,
+              "shifts": 152,
+              "performance": 100,
+              "earned": 6000,
+              "payDay": 183,
+              "lastWorkDay": 180,
+              "missed": 0,
+              "hiredDay": 1
+            },
+            "saveBytes": 127333
+          },
+          {
+            "completeDays": 365,
+            "actualDay": 366,
+            "outerCommands": 155,
+            "routineCommands": 102,
+            "innerRoutineActions": 1842,
+            "zeroTimeRoutineStops": 20,
+            "health": 100,
+            "cash": 86,
+            "bank": 415603,
+            "debt": 17114,
+            "rentArrears": 0,
+            "job": {
+              "id": "retail",
+              "level": 2,
+              "shifts": 311,
+              "performance": 100,
+              "earned": 1500,
+              "payDay": 372,
+              "lastWorkDay": 365,
+              "missed": 0,
+              "hiredDay": 1
+            },
+            "saveBytes": 131017
+          }
+        ],
+        "stopCounts": {
+          "Yeni olay kartı kararını bekliyor.": 12,
+          "Bir yaşam hikâyesi önemli kararını bekliyor.": 10,
+          "Bugünkü vardiyanın başlangıç saati geçti; iş planını kendin düzelt.": 8,
+          "Uyu · yeni güne hazırlan: yaklaşan ödeme, borç veya bütçe tabanı kararını kendin vermelisin.": 24,
+          "Bir sonraki eylem seçilen süre sınırını aşacak; plan burada durdu.": 1,
+          "Planlanan süre tamamlandı.": 47
+        }
+      },
+      {
+        "seed": 91373,
+        "checkpoints": [
+          {
+            "completeDays": 30,
+            "actualDay": 31,
+            "outerCommands": 71,
+            "routineCommands": 30,
+            "innerRoutineActions": 130,
+            "zeroTimeRoutineStops": 9,
+            "health": 100,
+            "cash": 3353,
+            "bank": 24737,
+            "debt": 12360,
+            "rentArrears": 0,
+            "job": {
+              "id": "retail",
+              "level": 2,
+              "shifts": 24,
+              "performance": 94,
+              "earned": 3000,
+              "payDay": 36,
+              "lastWorkDay": 30,
+              "missed": 0,
+              "hiredDay": 1
+            },
+            "saveBytes": 95539
+          },
+          {
+            "completeDays": 90,
+            "actualDay": 91,
+            "outerCommands": 86,
+            "routineCommands": 42,
+            "innerRoutineActions": 455,
+            "zeroTimeRoutineStops": 11,
+            "health": 100,
+            "cash": 779,
+            "bank": 87680,
+            "debt": 13113,
+            "rentArrears": 0,
+            "job": {
+              "id": "retail",
+              "level": 2,
+              "shifts": 75,
+              "performance": 100,
+              "earned": 7500,
+              "payDay": 92,
+              "lastWorkDay": 90,
+              "missed": 0,
+              "hiredDay": 1
+            },
+            "saveBytes": 119866
+          },
+          {
+            "completeDays": 180,
+            "actualDay": 181,
+            "outerCommands": 107,
+            "routineCommands": 60,
+            "innerRoutineActions": 912,
+            "zeroTimeRoutineStops": 14,
+            "health": 100,
+            "cash": 88,
+            "bank": 192416,
+            "debt": 14331,
+            "rentArrears": 0,
+            "job": {
+              "id": "retail",
+              "level": 2,
+              "shifts": 152,
+              "performance": 100,
+              "earned": 6000,
+              "payDay": 183,
+              "lastWorkDay": 180,
+              "missed": 0,
+              "hiredDay": 1
+            },
+            "saveBytes": 126830
+          },
+          {
+            "completeDays": 365,
+            "actualDay": 366,
+            "outerCommands": 154,
+            "routineCommands": 101,
+            "innerRoutineActions": 1840,
+            "zeroTimeRoutineStops": 20,
+            "health": 100,
+            "cash": 88,
+            "bank": 415603,
+            "debt": 17114,
+            "rentArrears": 0,
+            "job": {
+              "id": "retail",
+              "level": 2,
+              "shifts": 311,
+              "performance": 100,
+              "earned": 1500,
+              "payDay": 372,
+              "lastWorkDay": 365,
+              "missed": 0,
+              "hiredDay": 1
+            },
+            "saveBytes": 130870
+          }
+        ],
+        "stopCounts": {
+          "Yeni olay kartı kararını bekliyor.": 12,
+          "Bir yaşam hikâyesi önemli kararını bekliyor.": 9,
+          "Bugünkü vardiyanın başlangıç saati geçti; iş planını kendin düzelt.": 8,
+          "Uyu · yeni güne hazırlan: yaklaşan ödeme, borç veya bütçe tabanı kararını kendin vermelisin.": 24,
+          "Bir sonraki eylem seçilen süre sınırını aşacak; plan burada durdu.": 1,
+          "Planlanan süre tamamlandı.": 47
+        }
+      }
+    ]
+  },
+  "performance": {
+    "environment": {
+      "node": "v24.21.0",
+      "platform": "darwin",
+      "architecture": "arm64",
+      "gcAvailable": true,
+      "methodology": "31 samples after3 warmups per API, measured after each life so microbenchmarks do not inflate simulation time. Node wall-clock; excludes browser paint/network. Simulation timings include action selection, strict validation, input immutability checks and periodic GC. Retained heap includes the test action trace and up to4 serialized checkpoints; it is not peak memory. Compressed sizes use local gzip, not a network transfer claim."
+    },
+    "lives": [
+      {
+        "style": "career",
+        "seed": 2026,
+        "checkpoints": [
+          {
+            "day": 1,
+            "elapsedMs": 0,
+            "actions": 0,
+            "saveBytes": 37414,
+            "methods": {
+              "getActions": {
+                "samples": 31,
+                "p50Ms": 0.0016660000001138542,
+                "p95Ms": 0.002375000000029104,
+                "maxMs": 0.004791000000295753
+              },
+              "getCalendarView": {
+                "samples": 31,
+                "p50Ms": 0.8743750000003274,
+                "p95Ms": 0.91058300000077,
+                "maxMs": 0.9316250000001673
+              },
+              "getAppointmentOptions": {
+                "samples": 31,
+                "p50Ms": 0.14125000000058208,
+                "p95Ms": 0.2757920000003651,
+                "maxMs": 0.29129199999988487
+              },
+              "resolveAction": {
+                "samples": 31,
+                "p50Ms": 0.5069579999999405,
+                "p95Ms": 0.5551249999998618,
+                "maxMs": 0.5579590000006647
+              },
+              "exportGame": {
+                "samples": 31,
+                "p50Ms": 0.5251250000001164,
+                "p95Ms": 0.6184169999996811,
+                "maxMs": 0.9006250000002183
+              },
+              "importGame": {
+                "samples": 31,
+                "p50Ms": 0.5227500000000873,
+                "p95Ms": 0.5462079999997513,
+                "maxMs": 0.8569159999997282
+              },
+              "saveGame": {
+                "samples": 31,
+                "p50Ms": 1.5659999999998035,
+                "p95Ms": 1.765625,
+                "maxMs": 1.8177499999992506
+              }
+            }
+          },
+          {
+            "day": 31,
+            "completeDays": 30,
+            "elapsedMs": 392.148209,
+            "actions": 165,
+            "saveBytes": 97999,
+            "retainedHeapDeltaBytes": 6857640,
+            "methods": {
+              "getActions": {
+                "samples": 31,
+                "p50Ms": 0.3865829999995185,
+                "p95Ms": 0.4936250000000655,
+                "maxMs": 0.7774170000002414
+              },
+              "getCalendarView": {
+                "samples": 31,
+                "p50Ms": 0.8917080000001079,
+                "p95Ms": 0.9356660000003103,
+                "maxMs": 1.019458000000668
+              },
+              "getAppointmentOptions": {
+                "samples": 31,
+                "p50Ms": 0.05966600000010658,
+                "p95Ms": 0.07237499999973807,
+                "maxMs": 0.07316599999921891
+              },
+              "resolveAction": {
+                "samples": 31,
+                "p50Ms": 1.1153749999994034,
+                "p95Ms": 1.2797920000002705,
+                "maxMs": 2.413832999999613
+              },
+              "exportGame": {
+                "samples": 31,
+                "p50Ms": 1.0539579999995112,
+                "p95Ms": 1.1497090000002572,
+                "maxMs": 2.2871669999994992
+              },
+              "importGame": {
+                "samples": 31,
+                "p50Ms": 0.9515000000001237,
+                "p95Ms": 1.1116659999997864,
+                "maxMs": 1.8585830000001806
+              },
+              "saveGame": {
+                "samples": 31,
+                "p50Ms": 2.873333000000457,
+                "p95Ms": 3.2940840000001117,
+                "maxMs": 3.372207999999773
+              }
+            }
+          },
+          {
+            "day": 91,
+            "completeDays": 90,
+            "elapsedMs": 1203.7369589999998,
+            "actions": 490,
+            "saveBytes": 117849,
+            "retainedHeapDeltaBytes": 8462736,
+            "methods": {
+              "getActions": {
+                "samples": 31,
+                "p50Ms": 0.28799999999955617,
+                "p95Ms": 0.3111250000001746,
+                "maxMs": 0.32908300000053714
+              },
+              "getCalendarView": {
+                "samples": 31,
+                "p50Ms": 0.8816249999999854,
+                "p95Ms": 0.92620800000077,
+                "maxMs": 0.9334160000007614
+              },
+              "getAppointmentOptions": {
+                "samples": 31,
+                "p50Ms": 0.06183299999975134,
+                "p95Ms": 0.08058400000027177,
+                "maxMs": 1.1717090000001917
+              },
+              "resolveAction": {
+                "samples": 31,
+                "p50Ms": 1.0345420000003287,
+                "p95Ms": 1.14587500000016,
+                "maxMs": 1.7109159999999974
+              },
+              "exportGame": {
+                "samples": 31,
+                "p50Ms": 1.081083000000035,
+                "p95Ms": 1.19787499999984,
+                "maxMs": 1.4248749999997017
+              },
+              "importGame": {
+                "samples": 31,
+                "p50Ms": 1.0808749999996508,
+                "p95Ms": 1.4121250000007421,
+                "maxMs": 1.6682499999997162
+              },
+              "saveGame": {
+                "samples": 31,
+                "p50Ms": 3.2622500000006767,
+                "p95Ms": 3.6263340000004973,
+                "maxMs": 3.656082999999853
+              }
+            }
+          },
+          {
+            "day": 181,
+            "completeDays": 180,
+            "elapsedMs": 2441.192084,
+            "actions": 1006,
+            "saveBytes": 129481,
+            "retainedHeapDeltaBytes": 7879752,
+            "methods": {
+              "getActions": {
+                "samples": 31,
+                "p50Ms": 0.2517089999992095,
+                "p95Ms": 0.27374999999938154,
+                "maxMs": 0.2973329999995258
+              },
+              "getCalendarView": {
+                "samples": 31,
+                "p50Ms": 0.8876250000002983,
+                "p95Ms": 0.9417089999997188,
+                "maxMs": 0.996249999999236
+              },
+              "getAppointmentOptions": {
+                "samples": 31,
+                "p50Ms": 0.06191599999965547,
+                "p95Ms": 0.07429099999990285,
+                "maxMs": 0.08433400000012625
+              },
+              "resolveAction": {
+                "samples": 31,
+                "p50Ms": 1.030666000000565,
+                "p95Ms": 1.143750000000182,
+                "maxMs": 1.2984169999999722
+              },
+              "exportGame": {
+                "samples": 31,
+                "p50Ms": 1.1074170000001686,
+                "p95Ms": 1.2180419999995138,
+                "maxMs": 1.6060419999994338
+              },
+              "importGame": {
+                "samples": 31,
+                "p50Ms": 1.2308750000001965,
+                "p95Ms": 1.5630419999997684,
+                "maxMs": 1.5728330000001733
+              },
+              "saveGame": {
+                "samples": 31,
+                "p50Ms": 3.7530420000002778,
+                "p95Ms": 4.17712500000016,
+                "maxMs": 4.192000000000007
+              }
+            }
+          },
+          {
+            "day": 366,
+            "completeDays": 365,
+            "elapsedMs": 4918.460042000001,
+            "actions": 2079,
+            "saveBytes": 132565,
+            "retainedHeapDeltaBytes": 9377280,
+            "methods": {
+              "getActions": {
+                "samples": 31,
+                "p50Ms": 0.24458299999969313,
+                "p95Ms": 0.2777089999999589,
+                "maxMs": 0.5818340000005264
+              },
+              "getCalendarView": {
+                "samples": 31,
+                "p50Ms": 0.8804579999996349,
+                "p95Ms": 0.9095409999999902,
+                "maxMs": 0.9159159999999247
+              },
+              "getAppointmentOptions": {
+                "samples": 31,
+                "p50Ms": 0.04516700000021956,
+                "p95Ms": 0.04841599999963364,
+                "maxMs": 0.05741600000055769
+              },
+              "resolveAction": {
+                "samples": 31,
+                "p50Ms": 1.028041999999914,
+                "p95Ms": 1.0889999999999418,
+                "maxMs": 1.322374999999738
+              },
+              "exportGame": {
+                "samples": 31,
+                "p50Ms": 1.1205409999993208,
+                "p95Ms": 1.1572909999995318,
+                "maxMs": 1.6026250000004438
+              },
+              "importGame": {
+                "samples": 31,
+                "p50Ms": 1.119166999999834,
+                "p95Ms": 1.3631249999998545,
+                "maxMs": 1.4845420000001468
+              },
+              "saveGame": {
+                "samples": 31,
+                "p50Ms": 3.377875000000131,
+                "p95Ms": 3.753750000000764,
+                "maxMs": 3.760250000000269
+              }
+            }
+          }
+        ],
+        "actions": 2079,
+        "final": {
+          "health": 100,
+          "cash": 3980,
+          "bank": 498481,
+          "debt": 17114,
+          "rentArrears": 0,
+          "completedMeetings": 0,
+          "completedProjects": 1
+        },
+        "observed": {
+          "moved": ["derya", "arda"],
+          "careers": [
+            "selin",
+            "derya",
+            "emre",
+            "arda",
+            "okan",
+            "aylin",
+            "cem",
+            "leyla",
+            "ece",
+            "mert",
+            "baran",
+            "naz"
+          ],
+          "npcContacts": 2658
+        }
+      },
+      {
+        "style": "career",
+        "seed": 91373,
+        "checkpoints": [
+          {
+            "day": 1,
+            "elapsedMs": 0,
+            "actions": 0,
+            "saveBytes": 37415,
+            "methods": {
+              "getActions": {
+                "samples": 31,
+                "p50Ms": 0.0010830000010173535,
+                "p95Ms": 0.0011669999985315371,
+                "maxMs": 0.0011670000003505265
+              },
+              "getCalendarView": {
+                "samples": 31,
+                "p50Ms": 0.8605829999996786,
+                "p95Ms": 0.8965000000007421,
+                "maxMs": 1.0244999999995343
+              },
+              "getAppointmentOptions": {
+                "samples": 31,
+                "p50Ms": 0.11683400000038091,
+                "p95Ms": 0.13175000000046566,
+                "maxMs": 0.13962499999979627
+              },
+              "resolveAction": {
+                "samples": 31,
+                "p50Ms": 0.373541999999361,
+                "p95Ms": 0.4092499999987922,
+                "maxMs": 0.42237500000010186
+              },
+              "exportGame": {
+                "samples": 31,
+                "p50Ms": 0.4053750000002765,
+                "p95Ms": 0.4364580000001297,
+                "maxMs": 0.7214999999996508
+              },
+              "importGame": {
+                "samples": 31,
+                "p50Ms": 0.6571669999993901,
+                "p95Ms": 0.7134999999998399,
+                "maxMs": 0.7753329999995913
+              },
+              "saveGame": {
+                "samples": 31,
+                "p50Ms": 1.75,
+                "p95Ms": 1.7869170000012673,
+                "maxMs": 1.9578750000000582
+              }
+            }
+          },
+          {
+            "day": 31,
+            "completeDays": 30,
+            "elapsedMs": 347.32945800000016,
+            "actions": 165,
+            "saveBytes": 97398,
+            "retainedHeapDeltaBytes": 3509200,
+            "methods": {
+              "getActions": {
+                "samples": 31,
+                "p50Ms": 0.2897919999995793,
+                "p95Ms": 0.3266249999996944,
+                "maxMs": 0.7912500000002183
+              },
+              "getCalendarView": {
+                "samples": 31,
+                "p50Ms": 0.8541249999998399,
+                "p95Ms": 0.8914999999997235,
+                "maxMs": 0.9001250000001164
+              },
+              "getAppointmentOptions": {
+                "samples": 31,
+                "p50Ms": 0.06429199999911361,
+                "p95Ms": 0.0773750000007567,
+                "maxMs": 0.07866699999976845
+              },
+              "resolveAction": {
+                "samples": 31,
+                "p50Ms": 0.8980000000010477,
+                "p95Ms": 1.0103340000005119,
+                "maxMs": 2.1433750000014697
+              },
+              "exportGame": {
+                "samples": 31,
+                "p50Ms": 0.9058750000003783,
+                "p95Ms": 0.9507920000014565,
+                "maxMs": 2.030040999999983
+              },
+              "importGame": {
+                "samples": 31,
+                "p50Ms": 1.5697920000002341,
+                "p95Ms": 1.6320419999992737,
+                "maxMs": 2.102082999999766
+              },
+              "saveGame": {
+                "samples": 31,
+                "p50Ms": 4.078666000001249,
+                "p95Ms": 4.435333999999784,
+                "maxMs": 4.447833000000173
+              }
+            }
+          },
+          {
+            "day": 91,
+            "completeDays": 90,
+            "elapsedMs": 1108.6312500000004,
+            "actions": 491,
+            "saveBytes": 118829,
+            "retainedHeapDeltaBytes": 4682000,
+            "methods": {
+              "getActions": {
+                "samples": 31,
+                "p50Ms": 0.23366600000008475,
+                "p95Ms": 0.26300000000082946,
+                "maxMs": 0.26558400000067195
+              },
+              "getCalendarView": {
+                "samples": 31,
+                "p50Ms": 0.8586660000000848,
+                "p95Ms": 0.8988749999989523,
+                "maxMs": 0.9362089999995078
+              },
+              "getAppointmentOptions": {
+                "samples": 31,
+                "p50Ms": 0.07954199999949196,
+                "p95Ms": 0.09737500000119326,
+                "maxMs": 0.10466699999960838
+              },
+              "resolveAction": {
+                "samples": 31,
+                "p50Ms": 0.9461250000003929,
+                "p95Ms": 1.584167000000889,
+                "maxMs": 2.078292000000147
+              },
+              "exportGame": {
+                "samples": 31,
+                "p50Ms": 1.8444169999984297,
+                "p95Ms": 1.9315829999995913,
+                "maxMs": 2.4321249999993597
+              },
+              "importGame": {
+                "samples": 31,
+                "p50Ms": 1.8574590000007447,
+                "p95Ms": 1.9004580000000715,
+                "maxMs": 2.267250000000786
+              },
+              "saveGame": {
+                "samples": 31,
+                "p50Ms": 5.5749589999995806,
+                "p95Ms": 6.13445800000045,
+                "maxMs": 6.169207999999344
+              }
+            }
+          },
+          {
+            "day": 181,
+            "completeDays": 180,
+            "elapsedMs": 2320.041833000001,
+            "actions": 1009,
+            "saveBytes": 129138,
+            "retainedHeapDeltaBytes": 5404776,
+            "methods": {
+              "getActions": {
+                "samples": 31,
+                "p50Ms": 0.2099579999994603,
+                "p95Ms": 0.21329200000036508,
+                "maxMs": 0.2141670000000886
+              },
+              "getCalendarView": {
+                "samples": 31,
+                "p50Ms": 0.8453339999996388,
+                "p95Ms": 0.8712079999986599,
+                "maxMs": 0.8730410000007396
+              },
+              "getAppointmentOptions": {
+                "samples": 31,
+                "p50Ms": 0.08466699999917182,
+                "p95Ms": 0.10970799999995506,
+                "maxMs": 0.12604099999953178
+              },
+              "resolveAction": {
+                "samples": 31,
+                "p50Ms": 0.9660839999996824,
+                "p95Ms": 1.0440419999995356,
+                "maxMs": 1.2692919999990409
+              },
+              "exportGame": {
+                "samples": 31,
+                "p50Ms": 1.972541999999521,
+                "p95Ms": 2.298499999998967,
+                "maxMs": 2.4067080000004353
+              },
+              "importGame": {
+                "samples": 31,
+                "p50Ms": 1.971625000000131,
+                "p95Ms": 2.04175000000032,
+                "maxMs": 2.320625000000291
+              },
+              "saveGame": {
+                "samples": 31,
+                "p50Ms": 5.94287500000064,
+                "p95Ms": 6.360333000000537,
+                "maxMs": 6.366667000000234
+              }
+            }
+          },
+          {
+            "day": 366,
+            "completeDays": 365,
+            "elapsedMs": 4839.961125,
+            "actions": 2085,
+            "saveBytes": 132227,
+            "retainedHeapDeltaBytes": 5817248,
+            "methods": {
+              "getActions": {
+                "samples": 31,
+                "p50Ms": 0.21354099999916798,
+                "p95Ms": 0.2274170000000595,
+                "maxMs": 0.2349580000009155
+              },
+              "getCalendarView": {
+                "samples": 31,
+                "p50Ms": 0.8268340000013268,
+                "p95Ms": 0.8836670000000595,
+                "maxMs": 0.9503750000003492
+              },
+              "getAppointmentOptions": {
+                "samples": 31,
+                "p50Ms": 0.0562499999996362,
+                "p95Ms": 0.08595900000000256,
+                "maxMs": 0.09408399999847461
+              },
+              "resolveAction": {
+                "samples": 31,
+                "p50Ms": 0.9782500000001164,
+                "p95Ms": 1.1095000000004802,
+                "maxMs": 1.3592079999998532
+              },
+              "exportGame": {
+                "samples": 31,
+                "p50Ms": 2.008791000000201,
+                "p95Ms": 2.055958000000828,
+                "maxMs": 2.599583999999595
+              },
+              "importGame": {
+                "samples": 31,
+                "p50Ms": 2.00366700000086,
+                "p95Ms": 2.0901250000006257,
+                "maxMs": 2.3864580000008573
+              },
+              "saveGame": {
+                "samples": 31,
+                "p50Ms": 6.096832999999606,
+                "p95Ms": 6.688749999999345,
+                "maxMs": 6.840500000000247
+              }
+            }
+          }
+        ],
+        "actions": 2085,
+        "final": {
+          "health": 100,
+          "cash": 4780,
+          "bank": 498481,
+          "debt": 17114,
+          "rentArrears": 0,
+          "completedMeetings": 0,
+          "completedProjects": 1
+        },
+        "observed": {
+          "moved": ["derya", "arda"],
+          "careers": [
+            "mert",
+            "cem",
+            "aylin",
+            "okan",
+            "derya",
+            "emre",
+            "selin",
+            "leyla",
+            "ece",
+            "naz",
+            "arda",
+            "baran"
+          ],
+          "npcContacts": 2918
+        }
+      },
+      {
+        "style": "social",
+        "seed": 2026,
+        "checkpoints": [
+          {
+            "day": 1,
+            "elapsedMs": 0,
+            "actions": 0,
+            "saveBytes": 37414,
+            "methods": {
+              "getActions": {
+                "samples": 31,
+                "p50Ms": 0.001082999999198364,
+                "p95Ms": 0.0010839999995368998,
+                "maxMs": 0.0011669999985315371
+              },
+              "getCalendarView": {
+                "samples": 31,
+                "p50Ms": 0.8052080000015849,
+                "p95Ms": 0.8231250000026193,
+                "maxMs": 0.8247919999994338
+              },
+              "getAppointmentOptions": {
+                "samples": 31,
+                "p50Ms": 0.11883300000044983,
+                "p95Ms": 0.1320000000014261,
+                "maxMs": 0.13758299999972223
+              },
+              "resolveAction": {
+                "samples": 31,
+                "p50Ms": 0.3814170000005106,
+                "p95Ms": 0.4188749999993888,
+                "maxMs": 0.447041999999783
+              },
+              "exportGame": {
+                "samples": 31,
+                "p50Ms": 0.6908750000002328,
+                "p95Ms": 0.733790999998746,
+                "maxMs": 1.0539580000004207
+              },
+              "importGame": {
+                "samples": 31,
+                "p50Ms": 0.7498750000013388,
+                "p95Ms": 0.9672089999985474,
+                "maxMs": 0.987833999999566
+              },
+              "saveGame": {
+                "samples": 31,
+                "p50Ms": 2.00512499999968,
+                "p95Ms": 2.241958999999042,
+                "maxMs": 2.2681250000023283
+              }
+            }
+          },
+          {
+            "day": 31,
+            "completeDays": 30,
+            "elapsedMs": 652.088416999999,
+            "actions": 290,
+            "saveBytes": 102623,
+            "retainedHeapDeltaBytes": 3539176,
+            "methods": {
+              "getActions": {
+                "samples": 31,
+                "p50Ms": 0.3981670000030135,
+                "p95Ms": 0.49591700000019046,
+                "maxMs": 0.9195419999996375
+              },
+              "getCalendarView": {
+                "samples": 31,
+                "p50Ms": 0.8085000000028231,
+                "p95Ms": 0.8482919999987644,
+                "maxMs": 0.8652919999985897
+              },
+              "getAppointmentOptions": {
+                "samples": 31,
+                "p50Ms": 0.09208300000318559,
+                "p95Ms": 0.1274169999996957,
+                "maxMs": 0.1365829999995185
+              },
+              "resolveAction": {
+                "samples": 31,
+                "p50Ms": 1.0647500000013679,
+                "p95Ms": 1.1737919999977748,
+                "maxMs": 2.54108400000041
+              },
+              "exportGame": {
+                "samples": 31,
+                "p50Ms": 1.708582999999635,
+                "p95Ms": 2.0157499999986612,
+                "maxMs": 3.002375000000029
+              },
+              "importGame": {
+                "samples": 31,
+                "p50Ms": 1.6630829999994603,
+                "p95Ms": 1.7279170000001614,
+                "maxMs": 2.3387910000019474
+              },
+              "saveGame": {
+                "samples": 31,
+                "p50Ms": 5.029791999997542,
+                "p95Ms": 5.409082999998645,
+                "maxMs": 5.868999999998778
+              }
+            }
+          },
+          {
+            "day": 91,
+            "completeDays": 90,
+            "elapsedMs": 1984.970041999999,
+            "actions": 830,
+            "saveBytes": 130618,
+            "retainedHeapDeltaBytes": 4910280,
+            "methods": {
+              "getActions": {
+                "samples": 31,
+                "p50Ms": 0.3212920000005397,
+                "p95Ms": 0.3446670000012091,
+                "maxMs": 0.35587499999746797
+              },
+              "getCalendarView": {
+                "samples": 31,
+                "p50Ms": 0.8141250000007858,
+                "p95Ms": 0.8826250000020082,
+                "maxMs": 1.8566250000003492
+              },
+              "getAppointmentOptions": {
+                "samples": 31,
+                "p50Ms": 0.14779099999941536,
+                "p95Ms": 0.19795799999701558,
+                "maxMs": 0.20366699999794946
+              },
+              "resolveAction": {
+                "samples": 31,
+                "p50Ms": 1.1827499999999418,
+                "p95Ms": 1.2429580000025453,
+                "maxMs": 1.9542920000021695
+              },
+              "exportGame": {
+                "samples": 31,
+                "p50Ms": 2.099040999997669,
+                "p95Ms": 2.3103750000009313,
+                "maxMs": 2.5585829999981797
+              },
+              "importGame": {
+                "samples": 31,
+                "p50Ms": 2.155749999998079,
+                "p95Ms": 6.903542000000016,
+                "maxMs": 18.26629099999991
+              },
+              "saveGame": {
+                "samples": 31,
+                "p50Ms": 6.2459170000001905,
+                "p95Ms": 6.9323330000006536,
+                "maxMs": 7.659250000000611
+              }
+            }
+          },
+          {
+            "day": 181,
+            "completeDays": 180,
+            "elapsedMs": 4160.605167,
+            "actions": 1637,
+            "saveBytes": 147369,
+            "retainedHeapDeltaBytes": 5666560,
+            "methods": {
+              "getActions": {
+                "samples": 31,
+                "p50Ms": 0.31899999999950523,
+                "p95Ms": 0.3489999999983411,
+                "maxMs": 0.3594589999993332
+              },
+              "getCalendarView": {
+                "samples": 31,
+                "p50Ms": 0.8105829999985872,
+                "p95Ms": 0.8700420000022859,
+                "maxMs": 0.8734589999985474
+              },
+              "getAppointmentOptions": {
+                "samples": 31,
+                "p50Ms": 0.1867500000007567,
+                "p95Ms": 0.2223329999978887,
+                "maxMs": 0.22599999999874854
+              },
+              "resolveAction": {
+                "samples": 31,
+                "p50Ms": 1.2029160000020056,
+                "p95Ms": 1.5245839999988675,
+                "maxMs": 1.6871250000003783
+              },
+              "exportGame": {
+                "samples": 31,
+                "p50Ms": 2.279625000002852,
+                "p95Ms": 2.358833999998751,
+                "maxMs": 2.702792000000045
+              },
+              "importGame": {
+                "samples": 31,
+                "p50Ms": 2.2789169999996375,
+                "p95Ms": 2.5084999999999127,
+                "maxMs": 2.76416700000118
+              },
+              "saveGame": {
+                "samples": 31,
+                "p50Ms": 6.8804589999999735,
+                "p95Ms": 7.279749999997875,
+                "maxMs": 7.293458000000101
+              }
+            }
+          },
+          {
+            "day": 366,
+            "completeDays": 365,
+            "elapsedMs": 9099.270917,
+            "actions": 3286,
+            "saveBytes": 169721,
+            "retainedHeapDeltaBytes": 6698448,
+            "methods": {
+              "getActions": {
+                "samples": 31,
+                "p50Ms": 0.3495419999999285,
+                "p95Ms": 0.3862500000032014,
+                "maxMs": 0.4073339999995369
+              },
+              "getCalendarView": {
+                "samples": 31,
+                "p50Ms": 0.8172080000003916,
+                "p95Ms": 0.8350410000020929,
+                "maxMs": 0.8357910000013362
+              },
+              "getAppointmentOptions": {
+                "samples": 31,
+                "p50Ms": 0.23312499999883585,
+                "p95Ms": 0.2615409999998519,
+                "maxMs": 0.6066249999967113
+              },
+              "resolveAction": {
+                "samples": 31,
+                "p50Ms": 1.3379580000000715,
+                "p95Ms": 1.4391250000007858,
+                "maxMs": 1.5997080000015558
+              },
+              "exportGame": {
+                "samples": 31,
+                "p50Ms": 2.5710000000035507,
+                "p95Ms": 2.890917000000627,
+                "maxMs": 3.1228330000012647
+              },
+              "importGame": {
+                "samples": 31,
+                "p50Ms": 2.5657910000008997,
+                "p95Ms": 2.909749999998894,
+                "maxMs": 2.9776249999995343
+              },
+              "saveGame": {
+                "samples": 31,
+                "p50Ms": 7.743207999999868,
+                "p95Ms": 8.130291999998008,
+                "maxMs": 8.132000000001426
+              }
+            }
+          }
+        ],
+        "actions": 3286,
+        "final": {
+          "health": 100,
+          "cash": 920,
+          "bank": 416136,
+          "debt": 17114,
+          "rentArrears": 0,
+          "completedMeetings": 72,
+          "completedProjects": 3
+        },
+        "observed": {
+          "moved": ["derya", "arda"],
+          "careers": [
+            "derya",
+            "emre",
+            "arda",
+            "selin",
+            "okan",
+            "aylin",
+            "cem",
+            "leyla",
+            "ece",
+            "mert",
+            "baran",
+            "naz"
+          ],
+          "npcContacts": 2802
+        }
+      },
+      {
+        "style": "social",
+        "seed": 91373,
+        "checkpoints": [
+          {
+            "day": 1,
+            "elapsedMs": 0,
+            "actions": 0,
+            "saveBytes": 37415,
+            "methods": {
+              "getActions": {
+                "samples": 31,
+                "p50Ms": 0.0011250000025029294,
+                "p95Ms": 0.001207999994221609,
+                "maxMs": 0.0012080000014975667
+              },
+              "getCalendarView": {
+                "samples": 31,
+                "p50Ms": 0.7974170000015874,
+                "p95Ms": 0.8068749999947613,
+                "maxMs": 0.8153329999986454
+              },
+              "getAppointmentOptions": {
+                "samples": 31,
+                "p50Ms": 0.1013329999987036,
+                "p95Ms": 0.1181670000005397,
+                "maxMs": 0.11979200000496348
+              },
+              "resolveAction": {
+                "samples": 31,
+                "p50Ms": 0.3824590000003809,
+                "p95Ms": 0.4134169999961159,
+                "maxMs": 0.42045800000050804
+              },
+              "exportGame": {
+                "samples": 31,
+                "p50Ms": 0.6627079999962007,
+                "p95Ms": 0.7470420000026934,
+                "maxMs": 0.9816670000000158
+              },
+              "importGame": {
+                "samples": 31,
+                "p50Ms": 0.6535000000003492,
+                "p95Ms": 0.6832910000011907,
+                "maxMs": 0.6995420000021113
+              },
+              "saveGame": {
+                "samples": 31,
+                "p50Ms": 1.9851249999992433,
+                "p95Ms": 2.051291999996465,
+                "maxMs": 2.149541999999201
+              }
+            }
+          },
+          {
+            "day": 31,
+            "completeDays": 30,
+            "elapsedMs": 558.4195419999996,
+            "actions": 286,
+            "saveBytes": 102246,
+            "retainedHeapDeltaBytes": 3608352,
+            "methods": {
+              "getActions": {
+                "samples": 31,
+                "p50Ms": 0.3394999999945867,
+                "p95Ms": 0.3927089999997406,
+                "maxMs": 0.8806659999972908
+              },
+              "getCalendarView": {
+                "samples": 31,
+                "p50Ms": 0.8285420000029262,
+                "p95Ms": 0.9683329999970738,
+                "maxMs": 1.1397500000020955
+              },
+              "getAppointmentOptions": {
+                "samples": 31,
+                "p50Ms": 0.11195900000166148,
+                "p95Ms": 0.13904100000218023,
+                "maxMs": 0.19204200000240235
+              },
+              "resolveAction": {
+                "samples": 31,
+                "p50Ms": 1.0307919999977457,
+                "p95Ms": 1.2729169999947771,
+                "maxMs": 2.2520000000004075
+              },
+              "exportGame": {
+                "samples": 31,
+                "p50Ms": 1.6893750000017462,
+                "p95Ms": 1.814291000002413,
+                "maxMs": 2.901791999996931
+              },
+              "importGame": {
+                "samples": 31,
+                "p50Ms": 1.692457999997714,
+                "p95Ms": 1.7480839999989257,
+                "maxMs": 2.430999999996857
+              },
+              "saveGame": {
+                "samples": 31,
+                "p50Ms": 5.160124999994878,
+                "p95Ms": 8.458459000001312,
+                "maxMs": 9.869375000002037
+              }
+            }
+          },
+          {
+            "day": 91,
+            "completeDays": 90,
+            "elapsedMs": 1874.726042000002,
+            "actions": 829,
+            "saveBytes": 130152,
+            "retainedHeapDeltaBytes": 4503664,
+            "methods": {
+              "getActions": {
+                "samples": 31,
+                "p50Ms": 0.30375000000640284,
+                "p95Ms": 0.3340420000022277,
+                "maxMs": 0.33666700000321725
+              },
+              "getCalendarView": {
+                "samples": 31,
+                "p50Ms": 0.8098329999993439,
+                "p95Ms": 0.8408749999944121,
+                "maxMs": 0.8929579999967245
+              },
+              "getAppointmentOptions": {
+                "samples": 31,
+                "p50Ms": 0.10558299999684095,
+                "p95Ms": 0.17974999999569263,
+                "maxMs": 1.2207909999997355
+              },
+              "resolveAction": {
+                "samples": 31,
+                "p50Ms": 1.087707999999111,
+                "p95Ms": 1.1917499999981374,
+                "maxMs": 1.7298329999975977
+              },
+              "exportGame": {
+                "samples": 31,
+                "p50Ms": 2.0185420000052545,
+                "p95Ms": 2.0982919999951264,
+                "maxMs": 2.328917000006186
+              },
+              "importGame": {
+                "samples": 31,
+                "p50Ms": 2.0267499999972642,
+                "p95Ms": 2.317916999993031,
+                "maxMs": 2.491707999994105
+              },
+              "saveGame": {
+                "samples": 31,
+                "p50Ms": 6.124917000001005,
+                "p95Ms": 6.52570900000137,
+                "maxMs": 7.36945900000137
+              }
+            }
+          },
+          {
+            "day": 181,
+            "completeDays": 180,
+            "elapsedMs": 4047.941917,
+            "actions": 1619,
+            "saveBytes": 147023,
+            "retainedHeapDeltaBytes": 5303744,
+            "methods": {
+              "getActions": {
+                "samples": 31,
+                "p50Ms": 0.27508299999317387,
+                "p95Ms": 0.28074999999807915,
+                "maxMs": 0.30900000000110595
+              },
+              "getCalendarView": {
+                "samples": 31,
+                "p50Ms": 0.8180410000059055,
+                "p95Ms": 0.8339170000035665,
+                "maxMs": 0.8506659999984549
+              },
+              "getAppointmentOptions": {
+                "samples": 31,
+                "p50Ms": 0.1348329999964335,
+                "p95Ms": 0.1509169999990263,
+                "maxMs": 0.17475000000558794
+              },
+              "resolveAction": {
+                "samples": 31,
+                "p50Ms": 1.1557910000046832,
+                "p95Ms": 1.2120409999988624,
+                "maxMs": 1.5017080000034184
+              },
+              "exportGame": {
+                "samples": 31,
+                "p50Ms": 2.2496249999967404,
+                "p95Ms": 2.5938329999989946,
+                "maxMs": 2.702917000002344
+              },
+              "importGame": {
+                "samples": 31,
+                "p50Ms": 2.244582999999693,
+                "p95Ms": 2.533917000000656,
+                "maxMs": 2.6404160000020056
+              },
+              "saveGame": {
+                "samples": 31,
+                "p50Ms": 6.815167000000656,
+                "p95Ms": 7.213207999993756,
+                "maxMs": 7.392500000001746
+              }
+            }
+          },
+          {
+            "day": 366,
+            "completeDays": 365,
+            "elapsedMs": 8828.014709000003,
+            "actions": 3228,
+            "saveBytes": 167966,
+            "retainedHeapDeltaBytes": 6396264,
+            "methods": {
+              "getActions": {
+                "samples": 31,
+                "p50Ms": 0.33237499999813735,
+                "p95Ms": 0.35450000000128057,
+                "maxMs": 0.3690829999977723
+              },
+              "getCalendarView": {
+                "samples": 31,
+                "p50Ms": 0.8547919999982696,
+                "p95Ms": 0.8695420000003651,
+                "maxMs": 0.9167919999963487
+              },
+              "getAppointmentOptions": {
+                "samples": 31,
+                "p50Ms": 0.21366599999601021,
+                "p95Ms": 0.24508300000161398,
+                "maxMs": 0.25054200000158744
+              },
+              "resolveAction": {
+                "samples": 31,
+                "p50Ms": 1.3065000000060536,
+                "p95Ms": 1.5605829999985872,
+                "maxMs": 1.6263330000001588
+              },
+              "exportGame": {
+                "samples": 31,
+                "p50Ms": 2.5548330000019632,
+                "p95Ms": 2.6630000000004657,
+                "maxMs": 2.9844169999996666
+              },
+              "importGame": {
+                "samples": 31,
+                "p50Ms": 2.5405420000024606,
+                "p95Ms": 2.576207999998587,
+                "maxMs": 2.8270830000037677
+              },
+              "saveGame": {
+                "samples": 31,
+                "p50Ms": 7.713000000003376,
+                "p95Ms": 8.124833000001672,
+                "maxMs": 8.272292000001471
+              }
+            }
+          }
+        ],
+        "actions": 3228,
+        "final": {
+          "health": 100,
+          "cash": 1330,
+          "bank": 415131,
+          "debt": 17114,
+          "rentArrears": 0,
+          "completedMeetings": 70,
+          "completedProjects": 3
+        },
+        "observed": {
+          "moved": ["derya", "arda"],
+          "careers": [
+            "mert",
+            "cem",
+            "aylin",
+            "okan",
+            "derya",
+            "emre",
+            "selin",
+            "leyla",
+            "ece",
+            "naz",
+            "arda",
+            "baran"
+          ],
+          "npcContacts": 2972
+        }
+      },
+      {
+        "style": "entrepreneur",
+        "seed": 2026,
+        "checkpoints": [
+          {
+            "day": 1,
+            "elapsedMs": 0,
+            "actions": 0,
+            "saveBytes": 37414,
+            "methods": {
+              "getActions": {
+                "samples": 31,
+                "p50Ms": 0.0010419999962323345,
+                "p95Ms": 0.0011250000025029294,
+                "maxMs": 0.0011250000025029294
+              },
+              "getCalendarView": {
+                "samples": 31,
+                "p50Ms": 0.8061659999948461,
+                "p95Ms": 0.8290830000041751,
+                "maxMs": 0.8367080000025453
+              },
+              "getAppointmentOptions": {
+                "samples": 31,
+                "p50Ms": 0.10708400000294205,
+                "p95Ms": 0.12420800000109011,
+                "maxMs": 0.14799999999377178
+              },
+              "resolveAction": {
+                "samples": 31,
+                "p50Ms": 0.477707999998529,
+                "p95Ms": 0.5140000000028522,
+                "maxMs": 0.5159579999963171
+              },
+              "exportGame": {
+                "samples": 31,
+                "p50Ms": 0.7626250000030268,
+                "p95Ms": 0.7988339999938034,
+                "maxMs": 1.0625
+              },
+              "importGame": {
+                "samples": 31,
+                "p50Ms": 0.7657079999989946,
+                "p95Ms": 0.7923339999979362,
+                "maxMs": 0.7989999999990687
+              },
+              "saveGame": {
+                "samples": 31,
+                "p50Ms": 2.2884160000030533,
+                "p95Ms": 2.388416000001598,
+                "maxMs": 2.415500000002794
+              }
+            }
+          },
+          {
+            "day": 31,
+            "completeDays": 30,
+            "elapsedMs": 508.34529199999815,
+            "actions": 259,
+            "saveBytes": 101148,
+            "retainedHeapDeltaBytes": 3586544,
+            "methods": {
+              "getActions": {
+                "samples": 31,
+                "p50Ms": 0.37204100000235485,
+                "p95Ms": 0.4297500000029686,
+                "maxMs": 0.7537499999962165
+              },
+              "getCalendarView": {
+                "samples": 31,
+                "p50Ms": 0.8010830000057467,
+                "p95Ms": 0.8312079999959678,
+                "maxMs": 0.832708999994793
+              },
+              "getAppointmentOptions": {
+                "samples": 31,
+                "p50Ms": 0.06391599999915343,
+                "p95Ms": 0.0704589999950258,
+                "maxMs": 0.08766599999944447
+              },
+              "resolveAction": {
+                "samples": 31,
+                "p50Ms": 1.1339159999988624,
+                "p95Ms": 1.2738340000069002,
+                "maxMs": 2.2994159999943804
+              },
+              "exportGame": {
+                "samples": 31,
+                "p50Ms": 1.7477080000026035,
+                "p95Ms": 1.8077080000002752,
+                "maxMs": 2.939875000003667
+              },
+              "importGame": {
+                "samples": 31,
+                "p50Ms": 1.651040999997349,
+                "p95Ms": 1.81970800000272,
+                "maxMs": 2.448499999998603
+              },
+              "saveGame": {
+                "samples": 31,
+                "p50Ms": 4.948499999998603,
+                "p95Ms": 5.370208999993338,
+                "maxMs": 5.444374999999127
+              }
+            }
+          },
+          {
+            "day": 91,
+            "completeDays": 90,
+            "elapsedMs": 1756.6780839999992,
+            "actions": 804,
+            "saveBytes": 126105,
+            "retainedHeapDeltaBytes": 4503048,
+            "methods": {
+              "getActions": {
+                "samples": 31,
+                "p50Ms": 0.2779999999984284,
+                "p95Ms": 0.39083299999765586,
+                "maxMs": 1.1352920000063023
+              },
+              "getCalendarView": {
+                "samples": 31,
+                "p50Ms": 0.7916670000049635,
+                "p95Ms": 0.8098749999990105,
+                "maxMs": 0.8177920000016456
+              },
+              "getAppointmentOptions": {
+                "samples": 31,
+                "p50Ms": 0.040791999999783,
+                "p95Ms": 0.04141700000036508,
+                "maxMs": 0.04145799999969313
+              },
+              "resolveAction": {
+                "samples": 31,
+                "p50Ms": 1.079916000002413,
+                "p95Ms": 1.1416659999958938,
+                "maxMs": 2.8820840000043972
+              },
+              "exportGame": {
+                "samples": 31,
+                "p50Ms": 1.9498749999984284,
+                "p95Ms": 2.136208000003535,
+                "maxMs": 2.774834000003466
+              },
+              "importGame": {
+                "samples": 31,
+                "p50Ms": 1.9531669999996666,
+                "p95Ms": 2.3214589999988675,
+                "maxMs": 2.370999999999185
+              },
+              "saveGame": {
+                "samples": 31,
+                "p50Ms": 5.898124999999709,
+                "p95Ms": 6.323583000004874,
+                "maxMs": 6.418375000001106
+              }
+            }
+          },
+          {
+            "day": 181,
+            "completeDays": 180,
+            "elapsedMs": 3642.2312089999978,
+            "actions": 1607,
+            "saveBytes": 136063,
+            "retainedHeapDeltaBytes": 5119760,
+            "methods": {
+              "getActions": {
+                "samples": 31,
+                "p50Ms": 0.2498330000016722,
+                "p95Ms": 0.25654100000247126,
+                "maxMs": 0.2854589999988093
+              },
+              "getCalendarView": {
+                "samples": 31,
+                "p50Ms": 0.7929170000061276,
+                "p95Ms": 0.8196250000037253,
+                "maxMs": 0.8415419999946607
+              },
+              "getAppointmentOptions": {
+                "samples": 31,
+                "p50Ms": 0.03387500000098953,
+                "p95Ms": 0.03800000000046566,
+                "maxMs": 0.03904200000397395
+              },
+              "resolveAction": {
+                "samples": 31,
+                "p50Ms": 1.0461670000004233,
+                "p95Ms": 1.1101249999992433,
+                "maxMs": 1.3033750000031432
+              },
+              "exportGame": {
+                "samples": 31,
+                "p50Ms": 2.0633339999985765,
+                "p95Ms": 2.130875000002561,
+                "maxMs": 2.4419589999961318
+              },
+              "importGame": {
+                "samples": 31,
+                "p50Ms": 2.184332999997423,
+                "p95Ms": 2.5564999999987776,
+                "maxMs": 2.5904999999984284
+              },
+              "saveGame": {
+                "samples": 31,
+                "p50Ms": 6.536459000002651,
+                "p95Ms": 6.957291999999143,
+                "maxMs": 7.047292000002926
+              }
+            }
+          },
+          {
+            "day": 366,
+            "completeDays": 365,
+            "elapsedMs": 7573.339166999998,
+            "actions": 3272,
+            "saveBytes": 139453,
+            "retainedHeapDeltaBytes": 5750048,
+            "methods": {
+              "getActions": {
+                "samples": 31,
+                "p50Ms": 0.2502500000045984,
+                "p95Ms": 0.28537499999947613,
+                "maxMs": 0.6387499999982538
+              },
+              "getCalendarView": {
+                "samples": 31,
+                "p50Ms": 0.7959169999958249,
+                "p95Ms": 0.8187500000058208,
+                "maxMs": 0.8296250000057626
+              },
+              "getAppointmentOptions": {
+                "samples": 31,
+                "p50Ms": 0.039416999999957625,
+                "p95Ms": 0.04395799999474548,
+                "maxMs": 0.044291999998677056
+              },
+              "resolveAction": {
+                "samples": 31,
+                "p50Ms": 1.0252499999987776,
+                "p95Ms": 1.1383330000026035,
+                "maxMs": 1.3486249999987194
+              },
+              "exportGame": {
+                "samples": 31,
+                "p50Ms": 2.105083000002196,
+                "p95Ms": 2.1555000000007567,
+                "maxMs": 2.678583000000799
+              },
+              "importGame": {
+                "samples": 31,
+                "p50Ms": 2.1168330000000424,
+                "p95Ms": 2.4582079999963753,
+                "maxMs": 2.548500000004424
+              },
+              "saveGame": {
+                "samples": 31,
+                "p50Ms": 6.303958999997121,
+                "p95Ms": 6.745083000001614,
+                "maxMs": 6.912249999993946
+              }
+            }
+          }
+        ],
+        "actions": 3272,
+        "final": {
+          "health": 100,
+          "cash": 2630,
+          "bank": 318769,
+          "debt": 17114,
+          "rentArrears": 0,
+          "completedMeetings": 0,
+          "completedProjects": 1
+        },
+        "observed": {
+          "moved": ["derya", "arda"],
+          "careers": [
+            "selin",
+            "derya",
+            "emre",
+            "arda",
+            "okan",
+            "aylin",
+            "cem",
+            "leyla",
+            "ece",
+            "mert",
+            "baran",
+            "naz"
+          ],
+          "npcContacts": 2658
+        }
+      },
+      {
+        "style": "entrepreneur",
+        "seed": 91373,
+        "checkpoints": [
+          {
+            "day": 1,
+            "elapsedMs": 0,
+            "actions": 0,
+            "saveBytes": 37415,
+            "methods": {
+              "getActions": {
+                "samples": 31,
+                "p50Ms": 0.0010419999962323345,
+                "p95Ms": 0.0011250000025029294,
+                "maxMs": 0.0011250000025029294
+              },
+              "getCalendarView": {
+                "samples": 31,
+                "p50Ms": 0.8357499999983702,
+                "p95Ms": 0.8484580000003916,
+                "maxMs": 0.8496250000025611
+              },
+              "getAppointmentOptions": {
+                "samples": 31,
+                "p50Ms": 0.12437499999941792,
+                "p95Ms": 0.15170900000521215,
+                "maxMs": 0.15583299999707378
+              },
+              "resolveAction": {
+                "samples": 31,
+                "p50Ms": 0.38966599999548635,
+                "p95Ms": 0.4207920000044396,
+                "maxMs": 0.432290999997349
+              },
+              "exportGame": {
+                "samples": 31,
+                "p50Ms": 0.6805829999939306,
+                "p95Ms": 0.7324169999992591,
+                "maxMs": 1.0258749999993597
+              },
+              "importGame": {
+                "samples": 31,
+                "p50Ms": 0.6758340000014869,
+                "p95Ms": 0.6997920000067097,
+                "maxMs": 0.7256249999991269
+              },
+              "saveGame": {
+                "samples": 31,
+                "p50Ms": 2.0657089999949676,
+                "p95Ms": 2.095041000000492,
+                "maxMs": 2.211750000002212
+              }
+            }
+          },
+          {
+            "day": 31,
+            "completeDays": 30,
+            "elapsedMs": 529.948292000001,
+            "actions": 268,
+            "saveBytes": 101031,
+            "retainedHeapDeltaBytes": 3477848,
+            "methods": {
+              "getActions": {
+                "samples": 31,
+                "p50Ms": 0.35166600000229664,
+                "p95Ms": 0.39116700000158744,
+                "maxMs": 0.8800409999967087
+              },
+              "getCalendarView": {
+                "samples": 31,
+                "p50Ms": 0.8337079999982961,
+                "p95Ms": 0.8474590000041644,
+                "maxMs": 0.8498749999998836
+              },
+              "getAppointmentOptions": {
+                "samples": 31,
+                "p50Ms": 0.05437499999970896,
+                "p95Ms": 0.06416600000375183,
+                "maxMs": 0.08145800000056624
+              },
+              "resolveAction": {
+                "samples": 31,
+                "p50Ms": 0.9833329999964917,
+                "p95Ms": 1.077792000003683,
+                "maxMs": 2.2844589999949676
+              },
+              "exportGame": {
+                "samples": 31,
+                "p50Ms": 1.6707080000051064,
+                "p95Ms": 1.7269999999989523,
+                "maxMs": 2.7509159999972326
+              },
+              "importGame": {
+                "samples": 31,
+                "p50Ms": 1.660583000004408,
+                "p95Ms": 1.6978330000056303,
+                "maxMs": 2.186874999999418
+              },
+              "saveGame": {
+                "samples": 31,
+                "p50Ms": 5.042917000006128,
+                "p95Ms": 5.459416999998211,
+                "maxMs": 5.539083000003302
+              }
+            }
+          },
+          {
+            "day": 91,
+            "completeDays": 90,
+            "elapsedMs": 1744.737874999999,
+            "actions": 797,
+            "saveBytes": 127030,
+            "retainedHeapDeltaBytes": 4392752,
+            "methods": {
+              "getActions": {
+                "samples": 31,
+                "p50Ms": 0.29354199999943376,
+                "p95Ms": 0.3195419999974547,
+                "maxMs": 0.34587500000634464
+              },
+              "getCalendarView": {
+                "samples": 31,
+                "p50Ms": 0.8453750000044238,
+                "p95Ms": 0.8674579999933485,
+                "maxMs": 0.9477909999986878
+              },
+              "getAppointmentOptions": {
+                "samples": 31,
+                "p50Ms": 0.0290000000022701,
+                "p95Ms": 0.03691699999762932,
+                "maxMs": 0.044374999997671694
+              },
+              "resolveAction": {
+                "samples": 31,
+                "p50Ms": 1.0230000000010477,
+                "p95Ms": 1.7595000000001164,
+                "maxMs": 2.1007079999981215
+              },
+              "exportGame": {
+                "samples": 31,
+                "p50Ms": 1.9987499999988358,
+                "p95Ms": 2.0855420000007143,
+                "maxMs": 2.435457999999926
+              },
+              "importGame": {
+                "samples": 31,
+                "p50Ms": 2.000917000004847,
+                "p95Ms": 2.108542000001762,
+                "maxMs": 2.429334000000381
+              },
+              "saveGame": {
+                "samples": 31,
+                "p50Ms": 6.0228750000023865,
+                "p95Ms": 6.446625000004133,
+                "maxMs": 6.476375000005646
+              }
+            }
+          },
+          {
+            "day": 181,
+            "completeDays": 180,
+            "elapsedMs": 3650.307332999997,
+            "actions": 1610,
+            "saveBytes": 135663,
+            "retainedHeapDeltaBytes": 4868648,
+            "methods": {
+              "getActions": {
+                "samples": 31,
+                "p50Ms": 0.25279199999931734,
+                "p95Ms": 0.2598329999964335,
+                "maxMs": 0.26137500000186265
+              },
+              "getCalendarView": {
+                "samples": 31,
+                "p50Ms": 0.8323749999981374,
+                "p95Ms": 0.8702080000002752,
+                "maxMs": 0.9786659999954281
+              },
+              "getAppointmentOptions": {
+                "samples": 31,
+                "p50Ms": 0.02462500000547152,
+                "p95Ms": 0.031834000001254026,
+                "maxMs": 0.032541000000492204
+              },
+              "resolveAction": {
+                "samples": 31,
+                "p50Ms": 1.036166999998386,
+                "p95Ms": 1.1251249999986612,
+                "maxMs": 1.4736249999987194
+              },
+              "exportGame": {
+                "samples": 31,
+                "p50Ms": 2.0866249999962747,
+                "p95Ms": 2.458790999997291,
+                "maxMs": 2.5496660000062548
+              },
+              "importGame": {
+                "samples": 31,
+                "p50Ms": 2.0857920000053127,
+                "p95Ms": 2.1523749999978463,
+                "maxMs": 2.4504999999990105
+              },
+              "saveGame": {
+                "samples": 31,
+                "p50Ms": 6.346124999996391,
+                "p95Ms": 6.724416999997629,
+                "maxMs": 6.758917000006477
+              }
+            }
+          },
+          {
+            "day": 366,
+            "completeDays": 365,
+            "elapsedMs": 7595.271124999999,
+            "actions": 3276,
+            "saveBytes": 139650,
+            "retainedHeapDeltaBytes": 5418416,
+            "methods": {
+              "getActions": {
+                "samples": 31,
+                "p50Ms": 0.25945800000044983,
+                "p95Ms": 0.2842919999966398,
+                "maxMs": 0.28874999999970896
+              },
+              "getCalendarView": {
+                "samples": 31,
+                "p50Ms": 0.8394579999949201,
+                "p95Ms": 0.8607499999998254,
+                "maxMs": 0.9062080000003334
+              },
+              "getAppointmentOptions": {
+                "samples": 31,
+                "p50Ms": 0.02820899999642279,
+                "p95Ms": 0.03529100000014296,
+                "maxMs": 0.035332999999809545
+              },
+              "resolveAction": {
+                "samples": 31,
+                "p50Ms": 1.0387080000000424,
+                "p95Ms": 1.1298750000059954,
+                "maxMs": 1.425667000003159
+              },
+              "exportGame": {
+                "samples": 31,
+                "p50Ms": 2.1544170000051963,
+                "p95Ms": 2.4985410000008414,
+                "maxMs": 2.7273330000025453
+              },
+              "importGame": {
+                "samples": 31,
+                "p50Ms": 2.1345000000001164,
+                "p95Ms": 2.173084000001836,
+                "maxMs": 2.5851669999974547
+              },
+              "saveGame": {
+                "samples": 31,
+                "p50Ms": 6.466292000004614,
+                "p95Ms": 6.8995839999988675,
+                "maxMs": 6.937374999994063
+              }
+            }
+          }
+        ],
+        "actions": 3276,
+        "final": {
+          "health": 100,
+          "cash": 1930,
+          "bank": 319156,
+          "debt": 17114,
+          "rentArrears": 0,
+          "completedMeetings": 0,
+          "completedProjects": 1
+        },
+        "observed": {
+          "moved": ["derya", "arda"],
+          "careers": [
+            "mert",
+            "cem",
+            "aylin",
+            "okan",
+            "derya",
+            "emre",
+            "selin",
+            "leyla",
+            "ece",
+            "naz",
+            "arda",
+            "baran"
+          ],
+          "npcContacts": 2918
+        }
+      }
+    ]
+  },
+  "authenticV3FixtureCount": 18,
+  "uiFriction": {
+    "baseline": "5d22f86c462e22b6fd31793b5f2a81606d9f5603",
+    "method": "Real DOM clicks in fresh contexts, authoritative read-only inspection. Counts are clicks and changed select values, not action-trace commands. Auto-scroll is recorded as target distance, not claimed as human gestures.",
+    "views": [
+      {
+        "width": 1440,
+        "panel": "board",
+        "pageHeight": 2169,
+        "viewportHeight": 1000,
+        "tabs": 13,
+        "actionCards": 0,
+        "enabledActions": 5,
+        "map": {
+          "top": 633,
+          "height": 619,
+          "display": "block"
+        },
+        "firstVenue": {
+          "top": 1488,
+          "height": 72,
+          "display": "flex"
+        },
+        "routine": null,
+        "form": null,
+        "location": {
+          "top": 121,
+          "height": 39,
+          "display": "block"
+        },
+        "contacts": 0
+      },
+      {
+        "width": 1440,
+        "panel": "plan",
+        "pageHeight": 2494,
+        "viewportHeight": 1000,
+        "tabs": 13,
+        "actionCards": 2,
+        "enabledActions": 9,
+        "map": null,
+        "firstVenue": null,
+        "routine": {
+          "top": 1583,
+          "height": 793,
+          "display": "block"
+        },
+        "form": {
+          "top": 1173,
+          "height": 367,
+          "display": "block"
+        },
+        "location": {
+          "top": 121,
+          "height": 39,
+          "display": "block"
+        },
+        "contacts": 0
+      },
+      {
+        "width": 1440,
+        "panel": "people",
+        "pageHeight": 3275,
+        "viewportHeight": 1000,
+        "tabs": 13,
+        "actionCards": 11,
+        "enabledActions": 2,
+        "map": null,
+        "firstVenue": null,
+        "routine": null,
+        "form": null,
+        "location": {
+          "top": 121,
+          "height": 39,
+          "display": "block"
+        },
+        "contacts": 12
+      },
+      {
+        "width": 1440,
+        "panel": "life",
+        "pageHeight": 2959,
+        "viewportHeight": 1000,
+        "tabs": 13,
+        "actionCards": 26,
+        "enabledActions": 18,
+        "map": null,
+        "firstVenue": null,
+        "routine": null,
+        "form": null,
+        "location": {
+          "top": 121,
+          "height": 39,
+          "display": "block"
+        },
+        "contacts": 0
+      },
+      {
+        "width": 1440,
+        "panel": "projects",
+        "pageHeight": 1778,
+        "viewportHeight": 1000,
+        "tabs": 13,
+        "actionCards": 1,
+        "enabledActions": 1,
+        "map": null,
+        "firstVenue": null,
+        "routine": null,
+        "form": null,
+        "location": {
+          "top": 121,
+          "height": 39,
+          "display": "block"
+        },
+        "contacts": 0
+      },
+      {
+        "width": 390,
+        "panel": "board",
+        "pageHeight": 3896,
+        "viewportHeight": 844,
+        "tabs": 13,
+        "actionCards": 0,
+        "enabledActions": 5,
+        "map": {
+          "top": 756,
+          "height": 653,
+          "display": "block"
+        },
+        "firstVenue": {
+          "top": 1771,
+          "height": 126,
+          "display": "flex"
+        },
+        "routine": null,
+        "form": null,
+        "location": {
+          "top": 0,
+          "height": 0,
+          "display": "none"
+        },
+        "contacts": 0
+      },
+      {
+        "width": 390,
+        "panel": "plan",
+        "pageHeight": 4146,
+        "viewportHeight": 844,
+        "tabs": 13,
+        "actionCards": 2,
+        "enabledActions": 10,
+        "map": null,
+        "firstVenue": null,
+        "routine": {
+          "top": 2078,
+          "height": 1288,
+          "display": "block"
+        },
+        "form": {
+          "top": 1560,
+          "height": 480,
+          "display": "block"
+        },
+        "location": {
+          "top": 0,
+          "height": 0,
+          "display": "none"
+        },
+        "contacts": 0
+      },
+      {
+        "width": 390,
+        "panel": "people",
+        "pageHeight": 4654,
+        "viewportHeight": 844,
+        "tabs": 13,
+        "actionCards": 9,
+        "enabledActions": 0,
+        "map": null,
+        "firstVenue": null,
+        "routine": null,
+        "form": null,
+        "location": {
+          "top": 0,
+          "height": 0,
+          "display": "none"
+        },
+        "contacts": 12
+      },
+      {
+        "width": 390,
+        "panel": "life",
+        "pageHeight": 5800,
+        "viewportHeight": 844,
+        "tabs": 13,
+        "actionCards": 26,
+        "enabledActions": 12,
+        "map": null,
+        "firstVenue": null,
+        "routine": null,
+        "form": null,
+        "location": {
+          "top": 0,
+          "height": 0,
+          "display": "none"
+        },
+        "contacts": 0
+      },
+      {
+        "width": 390,
+        "panel": "projects",
+        "pageHeight": 3425,
+        "viewportHeight": 844,
+        "tabs": 13,
+        "actionCards": 1,
+        "enabledActions": 1,
+        "map": null,
+        "firstVenue": null,
+        "routine": null,
+        "form": null,
+        "location": {
+          "top": 0,
+          "height": 0,
+          "display": "none"
+        },
+        "contacts": 0
+      },
+      {
+        "width": 320,
+        "panel": "board",
+        "pageHeight": 4073,
+        "viewportHeight": 844,
+        "tabs": 13,
+        "actionCards": 0,
+        "enabledActions": 5,
+        "map": {
+          "top": 864,
+          "height": 723,
+          "display": "block"
+        },
+        "firstVenue": {
+          "top": 1949,
+          "height": 126,
+          "display": "flex"
+        },
+        "routine": null,
+        "form": null,
+        "location": {
+          "top": 0,
+          "height": 0,
+          "display": "none"
+        },
+        "contacts": 0
+      },
+      {
+        "width": 320,
+        "panel": "plan",
+        "pageHeight": 4394,
+        "viewportHeight": 844,
+        "tabs": 13,
+        "actionCards": 2,
+        "enabledActions": 9,
+        "map": null,
+        "firstVenue": null,
+        "routine": {
+          "top": 2300,
+          "height": 1368,
+          "display": "block"
+        },
+        "form": {
+          "top": 1461,
+          "height": 801,
+          "display": "block"
+        },
+        "location": {
+          "top": 0,
+          "height": 0,
+          "display": "none"
+        },
+        "contacts": 0
+      },
+      {
+        "width": 320,
+        "panel": "people",
+        "pageHeight": 5942,
+        "viewportHeight": 844,
+        "tabs": 13,
+        "actionCards": 11,
+        "enabledActions": 2,
+        "map": null,
+        "firstVenue": null,
+        "routine": null,
+        "form": null,
+        "location": {
+          "top": 0,
+          "height": 0,
+          "display": "none"
+        },
+        "contacts": 12
+      },
+      {
+        "width": 320,
+        "panel": "life",
+        "pageHeight": 8333,
+        "viewportHeight": 844,
+        "tabs": 13,
+        "actionCards": 26,
+        "enabledActions": 18,
+        "map": null,
+        "firstVenue": null,
+        "routine": null,
+        "form": null,
+        "location": {
+          "top": 0,
+          "height": 0,
+          "display": "none"
+        },
+        "contacts": 0
+      },
+      {
+        "width": 320,
+        "panel": "projects",
+        "pageHeight": 3698,
+        "viewportHeight": 844,
+        "tabs": 13,
+        "actionCards": 1,
+        "enabledActions": 1,
+        "map": null,
+        "firstVenue": null,
+        "routine": null,
+        "form": null,
+        "location": {
+          "top": 0,
+          "height": 0,
+          "display": "none"
+        },
+        "contacts": 0
+      }
+    ],
+    "journeys": [
+      {
+        "width": 390,
+        "name": "apply for available local job",
+        "clicks": 2,
+        "changes": 0
+      },
+      {
+        "width": 390,
+        "name": "travel from board to selected district",
+        "clicks": 2,
+        "changes": 0,
+        "travelButtonDocumentY": 2596
+      },
+      {
+        "width": 390,
+        "name": "inspect chosen NPC call (currently blocked)",
+        "clicks": 2,
+        "changes": 0,
+        "reason": "Leyla Tan bu sürede çalışıyor. Takvimden uygun bir saat seç."
+      },
+      {
+        "width": 390,
+        "name": "reserve personal time tomorrow (defaults for venue/duration)",
+        "clicks": 2,
+        "changes": 4
+      }
+    ]
+  }
+}

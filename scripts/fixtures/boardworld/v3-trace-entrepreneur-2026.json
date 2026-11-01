@@ -1,0 +1,9826 @@
+{
+  "options": {
+    "scenario": "restart",
+    "seed": 2026,
+    "name": "entrepreneur 3.0"
+  },
+  "style": "entrepreneur",
+  "actions": [
+    {
+      "id": "event:welcome:work"
+    },
+    {
+      "id": "event:craft-project:repair"
+    },
+    {
+      "id": "project:start:enterprise:repair:90"
+    },
+    {
+      "id": "business:start:repair"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:acquire"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:acquire"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "cook"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:book-club:join"
+    },
+    {
+      "id": "business:acquire"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "story:shared-roof:repair"
+    },
+    {
+      "id": "business:acquire"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "cook"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:repair-home:fix"
+    },
+    {
+      "id": "story:debt-crossroads:disclose"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "cook"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:market:plan"
+    },
+    {
+      "id": "event:debt-letter:budget"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "story:shared-roof:inspect"
+    },
+    {
+      "id": "story:community-table:time"
+    },
+    {
+      "id": "story:debt-crossroads:buffer"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "story:community-table:organize"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "event:family-call:talk"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:rain:chat"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "story:shared-roof:record"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:power-cut:read"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "story:community-table:network"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "cook"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:festival:volunteer"
+    },
+    {
+      "id": "cook"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "story:debt-crossroads:review"
+    },
+    {
+      "id": "business:acquire"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "cook"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:rent-talk:negotiate"
+    },
+    {
+      "id": "story:first-customer:practice"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "story:first-customer:deliver"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:month:reflect"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "story:first-customer:reference"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:acquire"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:acquire"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:acquire"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "business:fund:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "business:withdraw:2000"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "business:serve"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "business:stock:6"
+    },
+    {
+      "id": "freelance:accept:repair"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:work"
+    },
+    {
+      "id": "freelance:deliver"
+    },
+    {
+      "id": "sleep"
+    }
+  ]
+}

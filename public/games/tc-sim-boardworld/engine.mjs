@@ -67,6 +67,34 @@ import {
   getNpcPlan,
 } from "./world-life.mjs";
 export { getCityView, getCalendarView, getAppointmentOptions, getLivingView };
+import {
+  initLife,
+  tickLife,
+  nextLifeAt,
+  lifeActions,
+  adaptLifeActions,
+  afterLifeAction,
+  validateLife,
+  getLifeView,
+  getLifeWorkTerms,
+  npcHousingCost,
+  canNpcMove,
+  householdBill,
+  syncLifeHousing,
+  canEndLease,
+} from "./life-systems.mjs";
+import {
+  initEmergent,
+  tickEmergent,
+  nextEmergentAt,
+  emergentActions,
+  adaptEmergentActions,
+  afterEmergentAction,
+  validateEmergent,
+  getEmergentView,
+  practiceStatus,
+} from "./emergent-life.mjs";
+export { getLifeView, getEmergentView };
 
 /** The only gameplay writer. No wall-clock, DOM, browser storage, or Math.random. */
 const DAY = 1440,
@@ -124,6 +152,8 @@ function spend(s, amount, label, account = "cash") {
   }
 }
 function payBill(s, amount, label, arrears = false) {
+  if (s.version >= 4) amount = householdBill(s, amount, label, arrears ? "rent" : "utilities", API);
+  if (!amount) return;
   if (s.deep && !s.deep.finance.autoPay) {
     queueBill(s, amount, label, arrears ? "rent" : "utilities");
     log(s, `${label}: manuel ödeme bekliyor; yedi gün içinde öde.`);
@@ -178,23 +208,34 @@ const API = {
   reveal,
   npcCommitments,
   travelMinutes,
-  getBaseAction: (s, id) => makeBaseActions(s).find((a) => a.id === id),
+  getBaseAction: (s, id) => {
+    const a = makeBaseActions(s).find((a) => a.id === id);
+    return a && s.version >= 4 ? adaptLifeActions(s, [a], API)[0] : a;
+  },
+  npcHousingCost,
+  canNpcMove,
+  getLifeWorkTerms,
   playerPresent: (s, district) => !s._transit && s.location === district,
 };
 
 export function migrateState(value) {
   if (!validateState(value)) throw new Error("Geçersiz Boardworld kaydı; yükseltme uygulanmadı.");
   const s = structuredClone(value);
-  if (s.version === 3) return s;
+  if (s.version === 4) return s;
   if (s.version === 1) {
     initDeep(s);
     initStories(s);
   }
-  s.version = 3;
-  initCity(s);
-  initCalendar(s);
-  initLiving(s);
-  if (!validateState(s)) throw new Error("Boardworld 3.0 yükseltme doğrulaması başarısız.");
+  if (s.version < 3) {
+    s.version = 3;
+    initCity(s);
+    initCalendar(s);
+    initLiving(s);
+  }
+  s.version = 4;
+  initLife(s);
+  initEmergent(s);
+  if (!validateState(s)) throw new Error("Boardworld 4.0 yükseltme doğrulaması başarısız.");
   return s;
 }
 
@@ -221,7 +262,7 @@ export function getClock(s) {
 export function getNpcLocation(s, id) {
   const npc = lookup(NPCS, id);
   if (!npc) return null;
-  if (s.version === 3) {
+  if (s.version >= 3) {
     const booked = calendarNpcLocation(s, id);
     if (booked) return booked;
     const plan = getNpcPlan(s, id, s.time, s.time + 1).find(
@@ -261,7 +302,7 @@ export function createGame(options = {}) {
   skills[education.skill] += education.bonus;
   const h = lookup(HOMES, scenario.home);
   const s = {
-    version: 3,
+    version: 4,
     revision: 0,
     seed,
     rng: seed,
@@ -361,6 +402,8 @@ export function createGame(options = {}) {
   initCity(s);
   initCalendar(s);
   initLiving(s);
+  initLife(s);
+  initEmergent(s);
   updateLocations(s);
   return s;
 }
@@ -425,9 +468,18 @@ function daily(s, previousDay) {
       s,
       "Yeni ay: faturalar ve borç faizi hesaplandı. Kira sözleşmelerini ve finans günlüğünü kontrol et.",
     );
-    if (s.housing.rent && !s.flags.rentDiscount) s.housing.rent = money(s.housing.rent * 1.05);
+    if (
+      s.housing.rent &&
+      !s.flags.rentDiscount &&
+      !(s.version >= 4 && day < s.life.lease.stabilityUntil)
+    )
+      s.housing.rent = money(s.housing.rent * 1.05);
   }
-  if (s.housing.rent && s.housing.arrears >= s.housing.rent * 3) {
+  if (
+    s.housing.rent &&
+    s.housing.arrears >= s.housing.rent * 3 &&
+    (s.version < 4 || canEndLease(s))
+  ) {
     const deposit = Math.min(s.housing.deposit, s.housing.arrears);
     s.housing.arrears -= deposit;
     record(s, "Depozito · kira birikiminden düşüldü", -deposit, "arrears");
@@ -444,6 +496,7 @@ function daily(s, previousDay) {
       "Üç aylık kira birikimi nedeniyle oda sözleşmesi bitti. Depozito borçtan düştü; dayanışma misafirhanesinde yerin hazır.",
     );
   }
+  if (s.version >= 4) syncLifeHousing(s, API);
   if (s.flags.friendRepayDay && day >= s.flags.friendRepayDay) {
     receive(s, Number(s.flags.friendRepayAmount), "Mert · borç iadesi");
     memory(s, "mert", "Zor günümde verdiğin borcu bugün geri ödedim.");
@@ -477,7 +530,7 @@ function daily(s, previousDay) {
         news(s, `${npc.name}, seni ${other.name} ile aynı çevreye taşıdı.`);
       }
     }
-  if (s.version === 3) tickLiving(s, API);
+  if (s.version >= 3) tickLiving(s, API);
   deepDaily(s, API);
   if (s.version >= 2) tickStories(s, API);
   if (s.player.hunger < 20) change(s, { health: -6, stress: 5 });
@@ -499,10 +552,14 @@ function advance(s, minutes, { sleeping = false } = {}) {
   while (s.time < end) {
     if (++steps > 2048) throw new Error("Bounded simulation step limit");
     const boundary = (Math.floor(s.time / DAY) + 1) * DAY;
-    const worldBoundary = s.version === 3 ? nextLivingAt(s) : Infinity;
-    const calendarBoundary = s.version === 3 ? nextCalendarAt(s) : Infinity;
+    const worldBoundary = s.version >= 3 ? nextLivingAt(s) : Infinity;
+    const calendarBoundary = s.version >= 3 ? nextCalendarAt(s) : Infinity;
+    const lifeBoundary = s.version >= 4 ? nextLifeAt(s) : Infinity;
+    const eventBoundary = s.version >= 4 ? nextEmergentAt(s) : Infinity;
     const next = Math.min(
         end,
+        lifeBoundary > s.time ? lifeBoundary : Infinity,
+        eventBoundary > s.time ? eventBoundary : Infinity,
         boundary,
         worldBoundary > s.time ? worldBoundary : Infinity,
         calendarBoundary > s.time ? calendarBoundary : Infinity,
@@ -514,9 +571,13 @@ function advance(s, minutes, { sleeping = false } = {}) {
     accrueDeepTime(s, elapsed);
     const prior = dayOf(s);
     s.time = next;
-    if (s.version === 3) tickLiving(s, API);
+    if (s.version >= 3) tickLiving(s, API);
     if (next === boundary) daily(s, prior);
-    if (s.version === 3) tickCalendar(s, API);
+    if (s.version >= 3) tickCalendar(s, API);
+    if (s.version >= 4) {
+      tickLife(s, API);
+      tickEmergent(s, API);
+    }
   }
   if (s.version < 3)
     for (const appointment of s.appointments) {
@@ -993,7 +1054,7 @@ function makeBaseActions(s) {
         };
         document(
           next,
-          `lease-${next.revision}`,
+          `lease-move-${next.revision}`,
           h.name + " · sözleşme",
           `30 günlük kira ${fmt(h.rent)} TL; depozito ${fmt(h.deposit)} TL; sonraki vade gün ${d + 30}.`,
         );
@@ -1638,7 +1699,7 @@ function makeBaseActions(s) {
 
 function makeActions(s) {
   let actions = makeBaseActions(s);
-  if (s.version !== 3 || s.pendingEvents.length) return actions;
+  if (s.version < 3 || s.pendingEvents.length) return actions;
   actions = actions.filter(
     (a) =>
       !a.id.startsWith("travel:") &&
@@ -1659,7 +1720,48 @@ function makeActions(s) {
     reason: "",
     run: () => "15 dakika geçti.",
   });
+  if (s.version >= 4) {
+    const minute = minuteOf(s),
+      j = s.job && lookup(JOBS, s.job.id);
+    const untilWork =
+      j && onWorkday(j, dayOf(s)) && s.job.lastWorkDay !== dayOf(s) && j.start * 60 > minute
+        ? j.start * 60 -
+          minute -
+          (s.location === j.district ? 0 : travelMinutes(s, s.location, j.district))
+        : Infinity;
+    const untilBed =
+      s.emergent.policy.bedtime > minute ? s.emergent.policy.bedtime - minute : Infinity;
+    const minutes = Math.max(
+      1,
+      Math.floor(
+        Math.min(
+          180,
+          DAY - minute,
+          untilWork > 0 ? untilWork : Infinity,
+          untilBed,
+          Math.max(1, ((s.player.hunger - 45) * 60) / 1.7),
+          Math.max(1, ((s.player.energy - 35) * 60) / 1.4),
+          nextEmergentAt(s) - s.time,
+        ),
+      ),
+    );
+    actions.push({
+      id: "wait:routine",
+      label: "Sonraki günlük pencereye bekle",
+      description: `${minutes} dk; öğün, enerji, vardiya ve uyku penceresinden önce durur. İhtiyaçlar gerçek zamanla azalır.`,
+      category: "calendar",
+      minutes,
+      cost: 0,
+      disabled: false,
+      reason: "",
+      run: () => `${minutes} dakikalık serbest zaman geçti.`,
+    });
+  }
   actions = adaptLivingActions(s, actions, API);
+  if (s.version >= 4) {
+    actions.push(...lifeActions(s, API), ...emergentActions(s, API));
+    actions = adaptEmergentActions(s, adaptLifeActions(s, actions, API), API);
+  }
   for (const a of actions) {
     if (a.disabled) continue;
     let reason = actionCalendarConflict(s, a);
@@ -1684,9 +1786,21 @@ function makeActions(s) {
   }
   const nextReason = s.pendingEvents.length
     ? "Önce olay kartını çöz."
-    : Object.values(s.stories).some((x) => x.status === "active")
+    : Object.values(s.stories).some((x) => x.status === "active") ||
+        s.emergent?.events.some((e) => e.status === "active")
       ? "Bir yaşam hikâyesi kararını bekliyor."
-      : "";
+      : s.life?.household?.status === "notice" ||
+          ["warning", "negotiation", "notice"].includes(s.life?.lease.stage)
+        ? "Ev sözleşmesindeki bildirim için karar ver."
+        : s.deep.finance.bills.some((b) => b.status === "due")
+          ? "Ödenmesi gereken fatura için karar ver."
+          : s.deep.promises.some(
+                (p) => p.status === "pending" && p.direction === "player" && p.dueDay <= dayOf(s),
+              )
+            ? "Bugün verdiğin sözün son günü."
+            : s.player.health < 30 || s.player.energy < 15 || s.player.hunger < 20
+              ? "İhtiyaçların bakım gerektiriyor; önce yaşam eylemi seç."
+              : "";
   actions.push({
     id: "calendar:next",
     label: "Sonraki önemli ana ilerle",
@@ -1807,7 +1921,7 @@ export function resolveAction(state, actionId, payload) {
   const original = state;
   if (typeof actionId !== "string" || !validateState(state))
     return { state, ok: false, message: "Oyun durumu veya eylem geçersiz." };
-  if (state.version < 3) state = migrateState(state);
+  if (state.version < 4) state = migrateState(state);
   const action =
     !state.pendingEvents.length &&
     (actionId === "calendar:propose" || actionId.startsWith("calendar:reschedule:"))
@@ -1861,6 +1975,10 @@ export function resolveAction(state, actionId, payload) {
   const effectiveId = action.effectId || actionId;
   afterDeepAction(s, effectiveId, state, API);
   afterLivingAction(s, effectiveId, state, API, action);
+  if (s.version >= 4) {
+    afterLifeAction(s, effectiveId, state, API, action);
+    afterEmergentAction(s, effectiveId, state, API, action);
+  }
   if (s.version >= 2) tickStories(s, API);
   log(s, message);
   achievements(s);
@@ -1882,7 +2000,8 @@ export function validateState(s) {
       !obj(s) ||
       Object.hasOwn(s, "_transit") ||
       Object.hasOwn(s, "_attendance") ||
-      ![1, 2, 3].includes(s.version) ||
+      ![1, 2, 3, 4].includes(s.version) ||
+      (s.version < 4 && ["life", "emergent"].some((k) => Object.hasOwn(s, k))) ||
       (s.version < 3 && ["calendar", "city", "living"].some((k) => Object.hasOwn(s, k))) ||
       (s.version === 1 && (Object.hasOwn(s, "deep") || Object.hasOwn(s, "stories"))) ||
       !int(s.revision, 0, 100000000) ||
@@ -2092,7 +2211,8 @@ export function validateState(s) {
             "debt",
             "arrears",
             "earned",
-            ...(s.version === 3 ? ["business"] : []),
+            ...(s.version >= 3 ? ["business"] : []),
+            ...(s.version >= 4 ? ["household"] : []),
           ].includes(t.account),
       )
     )
@@ -2117,7 +2237,8 @@ export function validateState(s) {
       s.version === 1 ||
       (validateDeep(s) &&
         validateStories(s) &&
-        (s.version < 3 || (validateCity(s) && validateCalendar(s) && validateLiving(s))))
+        (s.version < 3 || (validateCity(s) && validateCalendar(s) && validateLiving(s))) &&
+        (s.version < 4 || (validateLife(s) && validateEmergent(s))))
     );
   } catch {
     return false;
@@ -2128,16 +2249,27 @@ export function validateState(s) {
 export function runUntilNext(original) {
   if (!validateState(original))
     return { state: original, ok: false, message: "Geçersiz oyun durumu." };
-  let s = original.version < 3 ? migrateState(original) : structuredClone(original);
+  let s = original.version < 4 ? migrateState(original) : structuredClone(original);
   const start = s.time;
   let stop = "Bir günlük güvenli ilerleme sınırına ulaşıldı.";
   for (let step = 0; step < 96 && s.time < start + DAY; step++) {
-    if (s.pendingEvents.length || Object.values(s.stories).some((x) => x.status === "active")) {
+    if (
+      s.pendingEvents.length ||
+      Object.values(s.stories).some((x) => x.status === "active") ||
+      s.emergent.events.some((e) => e.status === "active")
+    ) {
       stop = "Yeni olay veya hikâye kararını bekliyor.";
       break;
     }
     if (s.deep.finance.bills.some((b) => b.status === "due")) {
       stop = "Ödenmesi gereken fatura için karar ver.";
+      break;
+    }
+    if (
+      s.life.household?.status === "notice" ||
+      ["warning", "negotiation", "notice"].includes(s.life.lease.stage)
+    ) {
+      stop = "Ev sözleşmesindeki bildirim için karar ver.";
       break;
     }
     if (
@@ -2152,7 +2284,13 @@ export function runUntilNext(original) {
       stop = "İhtiyaçların bakım gerektiriyor; önce yaşam eylemi seç.";
       break;
     }
-    let limit = Math.min(start + DAY, s.time + 60);
+    let limit = Math.min(
+      start + DAY,
+      s.time + 60,
+      (Math.floor(s.time / DAY) + 1) * DAY,
+      nextEmergentAt(s),
+      nextLifeAt(s),
+    );
     for (const e of s.calendar.entries.filter((e) => e.status === "confirmed" && e.end > s.time)) {
       const atVenue = s.city.venue === e.venue;
       const leave = e.start - 30 - (atVenue ? 0 : travelMinutes(s, s.location, e.district) + 10);
@@ -2170,6 +2308,8 @@ export function runUntilNext(original) {
     advance(candidate, limit - s.time);
     afterDeepAction(candidate, "wait:60", s, API);
     afterLivingAction(candidate, "wait:60", s, API);
+    afterLifeAction(candidate, "wait:60", s, API);
+    afterEmergentAction(candidate, "wait:60", s, API);
     tickStories(candidate, API);
     refreshEvents(candidate);
     const risk =
@@ -2186,7 +2326,17 @@ export function runUntilNext(original) {
       stop = "Yaklaşan ödeme, borç veya bütçe kararı öncesinde duruldu.";
       break;
     }
+    const changed =
+      s.job?.id !== candidate.job?.id ||
+      s.job?.hiredDay !== candidate.job?.hiredDay ||
+      s.life.household?.status !== candidate.life.household?.status ||
+      s.life.lease.stage !== candidate.life.lease.stage ||
+      s.flags.partner !== candidate.flags.partner;
     s = candidate;
+    if (changed) {
+      stop = "İş, ilişki veya ev sözleşmesinin koşulları değişti; devam etmeden incele.";
+      break;
+    }
   }
   if (s.time === start) return { state: original, ok: false, message: stop };
   s.revision++;
@@ -2200,26 +2350,48 @@ export function runUntilNext(original) {
 export function runRoutine(original, days = 1) {
   if (![1, 7].includes(days) || !validateState(original))
     return { state: original, ok: false, message: "Geçersiz rutin." };
-  let s = original.version < 3 ? migrateState(original) : structuredClone(original);
+  let s = original.version < 4 ? migrateState(original) : structuredClone(original);
   const startDay = dayOf(s),
-    end = s.time + days * 1440,
-    trace = [];
+    end = s.time + days * DAY,
+    trace = [],
+    skipped = [];
   let stop = "Planlanan süre tamamlandı.";
+  const skip = (text) => {
+    if (!skipped.includes(text)) skipped.push(text);
+  };
   for (let step = 0; step < 96 && s.time < end; step++) {
-    if (s.pendingEvents.length) {
-      stop = "Yeni olay kartı kararını bekliyor.";
+    const policy = s.emergent.policy,
+      clock = getClock(s),
+      settings = s.deep.routine.settings;
+    if (!policy.days[(clock.day - 1) % 7]) {
+      stop = "Bugün rutin politikasında kapalı; günü kendin yönet.";
       break;
     }
-    if (Object.values(s.stories).some((story) => story.status === "active")) {
+    if (s.pendingEvents.length || s.emergent.events.some((e) => e.status === "active")) {
+      stop = "Yeni olay kartı kararını bekliyor; otomasyon seçimini yapmadı.";
+      break;
+    }
+    if (Object.values(s.stories).some((x) => x.status === "active")) {
       stop = "Bir yaşam hikâyesi önemli kararını bekliyor.";
+      break;
+    }
+    if (s.deep.finance.bills.some((b) => b.status === "due")) {
+      stop = "Manuel ödeme bekleyen fatura var; önce bütçe kararını ver.";
       break;
     }
     if (
       s.deep.promises.some(
-        (p) => p.direction === "player" && p.status === "pending" && p.dueDay <= dayOf(s),
+        (p) => p.direction === "player" && p.status === "pending" && p.dueDay <= clock.day,
       )
     ) {
       stop = "Bugün verdiğin bir yardım sözünün son günü; planı kendin düzenle.";
+      break;
+    }
+    if (
+      s.life.household?.status === "notice" ||
+      ["warning", "negotiation", "notice"].includes(s.life.lease.stage)
+    ) {
+      stop = "Ev sözleşmesinde görüşülmesi gereken bir bildirim var.";
       break;
     }
     if (s.player.health < 30) {
@@ -2228,28 +2400,62 @@ export function runRoutine(original, days = 1) {
     }
     const actions = makeActions(s),
       legal = (id) => actions.find((a) => a.id === id && !a.disabled),
-      clock = getClock(s),
-      settings = s.deep.routine.settings,
-      homeDistrict = home(s).district;
+      homeDistrict = home(s).district,
+      transit = (destination) =>
+        legal(`${policy.commute === "free" ? "walk" : "travel"}:${destination}`);
     let candidate = null;
-    const transit = (destination) => legal(`travel:${destination}`) || legal(`walk:${destination}`);
-    if (s.player.hunger < 45)
-      candidate = legal("cook") || legal("soup") || legal("snack") || legal("eat");
-    if (!candidate && s.player.energy < 35 && clock.minute >= 480 && clock.minute < 1080)
-      candidate = legal("rest");
     const job = s.job && lookup(JOBS, s.job.id),
       needsWork =
         job && settings.work && onWorkday(job, clock.day) && s.job.lastWorkDay !== clock.day;
-    if (!candidate && needsWork && clock.minute >= job.start * 60 && clock.minute < job.end * 60) {
-      candidate = s.location === job.district ? legal("work") : transit(job.district);
+    const route = needsWork && s.location !== job.district ? transit(job.district) : null;
+    const leaveAt = needsWork ? job.start * 60 - (route?.minutes || 0) : Infinity;
+    if (needsWork && clock.minute >= job.end * 60) {
+      stop = "Bugünkü vardiyanın başlangıç saati geçti; iş planını kendin düzelt.";
+      break;
+    }
+    if (s.player.hunger <= 46) {
+      candidate =
+        policy.meal === "home"
+          ? legal("cook")
+          : policy.meal === "eat"
+            ? legal("eat")
+            : legal("soup") || legal("cook") || legal("snack");
+      if (!candidate && policy.meal === "home" && s.location !== homeDistrict)
+        candidate = transit(homeDistrict);
+      if (!candidate && policy.meal === "home" && !s.inventory.groceries && settings.shopping)
+        candidate = legal("buy:groceries");
+      if (!candidate && policy.autoWithdraw && s.cash < 300) candidate = legal("withdraw:1000");
       if (!candidate) {
-        stop = "Planlanan vardiya için koşullar sağlanmıyor; iş ve ihtiyaçlarını gözden geçir.";
+        stop =
+          s.bank >= 1000 && s.cash < 300 && !policy.autoWithdraw
+            ? "Öğün için nakit/erzak yetersiz, bankanda para var. Nakit çek veya plandaki Nakit çekme tercihini aç; rutin bu izni kendisi vermez."
+            : "Seçili öğün politikası şu anda uygulanamıyor; yer, erzak, saat veya bütçe için karar ver.";
         break;
       }
     }
-    if (!candidate && needsWork && clock.minute >= job.end * 60) {
-      stop = "Bugünkü vardiyanın başlangıç saati geçti; iş planını kendin düzelt.";
-      break;
+    if (!candidate && s.player.energy <= 36 && clock.minute < policy.bedtime)
+      candidate = legal("rest");
+    if (!candidate && needsWork && clock.minute >= leaveAt) {
+      candidate = s.location === job.district ? legal("work") : route;
+      if (!candidate && policy.autoWithdraw && s.cash < 60) candidate = legal("withdraw:1000");
+      if (!candidate && clock.minute < job.start * 60 && s.location === job.district)
+        candidate = legal("wait:15");
+      if (!candidate) {
+        stop = "Planlanan vardiya veya seçili ulaşım için koşullar sağlanmıyor.";
+        break;
+      }
+    }
+    const dutyDue = s.life.household && clock.day >= s.life.household.playerDue;
+    if (!candidate && dutyDue) {
+      if (!policy.householdChores) {
+        stop = "Ev bakım günün geldi; otomatik bakım yetkisi vermedin.";
+        break;
+      }
+      candidate = s.location === homeDistrict ? legal("household:chore") : transit(homeDistrict);
+      if (!candidate) {
+        stop = "Atanmış ev sorumluluğu için zaman, konum veya bütçe yetersiz.";
+        break;
+      }
     }
     if (
       !candidate &&
@@ -2261,6 +2467,7 @@ export function runRoutine(original, days = 1) {
     ) {
       const course = lookup(COURSES, s.course.id);
       candidate = s.location === course.district ? legal("study") : transit(course.district);
+      if (!candidate) skip("Planlı dersin koşulları şu anda sağlanmıyor.");
     }
     if (
       !candidate &&
@@ -2270,34 +2477,83 @@ export function runRoutine(original, days = 1) {
       clock.minute < 1320
     )
       candidate = legal("buy:groceries");
-    if (!candidate && clock.minute >= 1080) {
-      candidate = s.location === homeDistrict ? legal("sleep") : transit(homeDistrict);
-    }
-    if (!candidate && clock.minute < 480) candidate = legal("wait:60");
-    if (!candidate) candidate = legal("rest") || legal("wait:60");
-    if (!candidate) {
-      stop = "Uygulanabilir rutin eylemi kalmadı.";
-      break;
-    }
-    const appointment =
-      s.version === 3
-        ? s.calendar.entries.find(
-            (e) =>
-              e.status === "confirmed" &&
-              e.end > s.time &&
-              e.start - 30 - travelMinutes(s, s.location, e.district) <= s.time + candidate.minutes,
-          )
-        : s.appointments.find(
-            (a) =>
-              a.status === "scheduled" &&
-              (a.day - 1) * 1440 + a.minute >= s.time - 30 &&
-              (a.day - 1) * 1440 + a.minute - 30 <= s.time + candidate.minutes,
+    if (!candidate && policy.practice !== "none" && clock.minute >= 540 && clock.minute < 1080) {
+      const done =
+        s.emergent.habits.day === clock.day
+          ? Object.values(s.emergent.habits.practiceDay).reduce((a, b) => a + b, 0)
+          : 0;
+      if (done < policy.practiceQuota) {
+        candidate = legal(`practice:${policy.practice}`);
+        if (!candidate)
+          skip(
+            practiceStatus(s, policy.practice).reason ||
+              "Seçili çalışma için konum veya ekipman koşulu sağlanmıyor.",
           );
-    if (appointment) {
-      stop = `Takvimdeki taahhüdün yaklaşıyor. Otomasyon, katılım ve yolculuk kararını sana bıraktı.`;
+      }
+    }
+    if (
+      !candidate &&
+      policy.businessService &&
+      s.deep.business?.status === "active" &&
+      s.deep.business.lastServiceDay !== clock.day &&
+      clock.minute >= 540 &&
+      clock.minute < 1080
+    ) {
+      candidate =
+        s.location === s.deep.business.location
+          ? legal("business:serve")
+          : transit(s.deep.business.location);
+      if (!candidate)
+        skip(
+          "İşletmede mevcut stok, müşteri veya sermaye hizmet için yeterli değil; rutin yatırım yapmaz.",
+        );
+    }
+    // Reserve the commute window before optional activities; no phantom work or hidden teleport.
+    if (
+      candidate &&
+      needsWork &&
+      clock.minute < leaveAt &&
+      clock.minute + candidate.minutes > leaveAt &&
+      !["cook", "eat", "soup", "snack", "rest"].includes(candidate.id)
+    ) {
+      skip(`${candidate.label}: yaklaşan vardiya yolculuğuna zaman bırakıldı.`);
+      candidate = null;
+    }
+    if (!candidate && clock.minute >= policy.bedtime)
+      candidate = s.location === homeDistrict ? legal("sleep") : transit(homeDistrict);
+    if (!candidate) {
+      const until = Math.min(
+        end - s.time,
+        needsWork && leaveAt > clock.minute ? leaveAt - clock.minute : Infinity,
+        clock.minute < policy.bedtime ? policy.bedtime - clock.minute : Infinity,
+      );
+      candidate =
+        until >= 1 && legal("wait:routine")?.minutes <= until
+          ? legal("wait:routine")
+          : until >= 15
+            ? legal("wait:15")
+            : null;
+    }
+    if (!candidate) {
+      stop = "Seçili politika ve zaman sınırında uygulanabilir rutin eylemi kalmadı.";
       break;
     }
-    if (candidate.cost > 0 && s.cash + s.bank - candidate.cost < s.deep.routine.budgetFloor) {
+    if (
+      s.calendar.entries.some(
+        (e) =>
+          e.status === "confirmed" &&
+          e.end > s.time &&
+          e.start -
+            30 -
+            travelMinutes(s, s.location, e.district) -
+            (s.city.venue === e.venue ? 0 : 10) <=
+            s.time + candidate.minutes,
+      )
+    ) {
+      stop = "Takvimdeki taahhüdün yaklaşıyor; katılım ve yolculuk kararını kendin ver.";
+      break;
+    }
+    if (candidate.cost > 0 && total(s) - candidate.cost < s.deep.routine.budgetFloor) {
       stop = `${candidate.label}: ${s.deep.routine.budgetFloor} TL bütçe tabanı aşılacak.`;
       break;
     }
@@ -2305,28 +2561,37 @@ export function runRoutine(original, days = 1) {
       stop = "Bir sonraki eylem seçilen süre sınırını aşacak; plan burada durdu.";
       break;
     }
-    const before = s.time,
-      result = resolveAction(s, candidate.id);
+    const result = resolveAction(s, candidate.id);
     if (!result.ok) {
       stop = result.message;
       break;
     }
-    const next = result.state,
-      financialRisk =
-        (next.cash + next.bank < s.deep.routine.budgetFloor &&
-          next.cash + next.bank < s.cash + s.bank) ||
-        next.housing.arrears > s.housing.arrears ||
-        next.debt > s.debt ||
-        next.deep.finance.bills.some(
-          (b) => b.status === "due" && !s.deep.finance.bills.some((old) => old.id === b.id),
-        ) ||
-        (s.deep.business?.status === "active" && next.deep.business?.status === "paused");
-    if (financialRisk) {
-      stop = `${candidate.label}: yaklaşan ödeme, borç veya bütçe tabanı kararını kendin vermelisin.`;
+    const next = result.state;
+    if (
+      (total(next) < s.deep.routine.budgetFloor && total(next) < total(s)) ||
+      next.housing.arrears > s.housing.arrears ||
+      next.debt > s.debt ||
+      next.deep.finance.bills.some(
+        (b) => b.status === "due" && !s.deep.finance.bills.some((old) => old.id === b.id),
+      ) ||
+      (s.deep.business?.status === "active" && next.deep.business?.status === "paused")
+    ) {
+      stop = `${candidate.label}: yaklaşan ödeme, borç veya bütçe tabanı için karar gerekiyor.`;
       break;
     }
+    const changed =
+      Boolean(s.job) !== Boolean(next.job) ||
+      s.job?.hiredDay !== next.job?.hiredDay ||
+      s.life.household?.status !== next.life.household?.status ||
+      s.life.lease.stage !== next.life.lease.stage ||
+      s.flags.partner !== next.flags.partner;
+    const before = s.time;
     s = next;
     trace.push(candidate.id);
+    if (changed) {
+      stop = "İş, ilişki veya ev sözleşmesinin koşulları değişti; devam etmeden incele.";
+      break;
+    }
     if (s.time === before) {
       stop = "Rutin zaman ilerletmedi; güvenle durduruldu.";
       break;
@@ -2337,6 +2602,12 @@ export function runRoutine(original, days = 1) {
   s.deep.routine.lastActions = trace;
   s.deep.routine.lastRun = startDay;
   s.deep.routine.stopReason = stop;
+  s.emergent.routine = {
+    stopReason: stop,
+    lastActions: trace.slice(),
+    skipped: skipped.slice(-32),
+    performedCount: trace.length,
+  };
   s.revision++;
   log(s, `Rutin: ${trace.length} eylem. ${stop}`);
   if (!validateState(s)) throw new Error("Boardworld routine invariant failed");
@@ -2350,7 +2621,7 @@ export function runRoutine(original, days = 1) {
 /** A pure preview on a clone; never commits resources, PRNG advancement, or NPC knowledge. */
 export function previewAction(original, id, payload) {
   if (!validateState(original)) return { ok: false, message: "Oyun durumu geçersiz." };
-  const before = original.version < 3 ? migrateState(original) : original;
+  const before = original.version < 4 ? migrateState(original) : original;
   const action =
     !before.pendingEvents.length &&
     (id === "calendar:propose" || id.startsWith("calendar:reschedule:"))
@@ -2359,8 +2630,9 @@ export function previewAction(original, id, payload) {
   if (!action || action.disabled)
     return { ok: false, message: action?.reason || "Eylem mevcut değil." };
   const uncertain =
-    id.startsWith("event:") &&
-    lookup(EVENTS, id.split(":")[1])?.choices.find((c) => c.id === id.split(":")[2])?.roll;
+    action.uncertain ||
+    (id.startsWith("event:") &&
+      lookup(EVENTS, id.split(":")[1])?.choices.find((c) => c.id === id.split(":")[2])?.roll);
   if (uncertain) {
     return {
       ok: true,
@@ -2419,8 +2691,14 @@ export function previewAction(original, id, payload) {
     risk:
       after.pendingEvents.length && !before.pendingEvents.length
         ? "Bu eylemin ardından yeni bir olay kartı karar bekleyecek."
-        : Object.values(after.stories).some((story) => story.status === "active")
-          ? "Bir yaşam hikâyesinde karar bekleniyor."
-          : "Belirtilen kaynak değişimleri bu oyun durumunun deterministik sonucudur.",
+        : after.emergent.events.some(
+              (e) =>
+                e.status === "active" &&
+                !before.emergent.events.some((old) => old.id === e.id && old.status === "active"),
+            )
+          ? "Bu eylemin ardından koşullarından doğan bir olay veya ertelenmiş takip kararı bekliyor."
+          : Object.values(after.stories).some((story) => story.status === "active")
+            ? "Bir yaşam hikâyesinde karar bekleniyor."
+            : "Belirtilen kaynak değişimleri bu oyun durumunun deterministik sonucudur.",
   };
 }

@@ -16,6 +16,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/ci-node
       - name: Deterministic simulation and save recovery
+        env:
+          BOARDWORLD_ACCEPTANCE_REPORT: ${{ runner.temp }}/boardworld-acceptance.json
         run: node --test scripts/boardworld*.test.mjs
       - name: Production bundle
         run: npm run build
@@ -33,11 +35,15 @@ jobs:
         run: node scripts/boardworld-deep-browser.mjs --serve .output/public
       - name: Living City calendar, routes, projects, intents and v2 migration
         run: node scripts/boardworld-living-browser.mjs --serve .output/public
+      - name: Emergent Life causal decisions, shared household, policies and v3 isolation
+        run: node scripts/boardworld-emergent-browser.mjs --serve .output/public
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: boardworld-browser
           path: |
+            ${{ runner.temp }}/boardworld-acceptance.json
             ${{ runner.temp }}/screenshots/boardworld
             ${{ runner.temp }}/screenshots/boardworld-deep
             ${{ runner.temp }}/screenshots/boardworld-living
+            ${{ runner.temp }}/screenshots/boardworld-emergent

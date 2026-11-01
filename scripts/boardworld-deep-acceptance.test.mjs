@@ -26,7 +26,7 @@ const legal = (state) => getActions(state).filter((action) => !action.disabled);
 const available = (state, id) => legal(state).some((action) => action.id === id);
 function sound(state) {
   assert.equal(validateState(state), true, "all interconnected state remains valid");
-  assert.equal(state.version, 3);
+  assert.equal(state.version, 4);
   for (const key of ["cash", "bank", "debt"])
     assert.ok(
       Number.isSafeInteger(state[key]) && state[key] >= 0,
@@ -94,7 +94,7 @@ function workingPolicy(state, { stories = true, work = true } = {}) {
 function initializeFixtureClock(state) {
   const legacy = structuredClone(state);
   legacy.version = 2;
-  for (const key of ["calendar", "city", "living"]) delete legacy[key];
+  for (const key of ["calendar", "city", "living", "emergent", "life"]) delete legacy[key];
   return migrateState(legacy);
 }
 function focused(options = {}) {
@@ -646,7 +646,7 @@ test("routine budget floor includes upcoming midnight rent and bills", () => {
   let state = focused();
   state.cash = 7000;
   state.bank = 0;
-  state.time = 29 * 1440 + 18 * 60;
+  state.time = 29 * 1440 + 23 * 60 + 45; // Isolate the financial boundary before unrelated story choices.
   state = initializeFixtureClock(state);
   state.deep.routine.budgetFloor = 3000;
   sound(state);

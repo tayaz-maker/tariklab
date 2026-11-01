@@ -29,6 +29,12 @@ const assets = [
   "world-life.mjs",
   "living-ui.mjs",
   "living.css",
+  "emergent-life.mjs",
+  "emergent-content.mjs",
+  "life-systems.mjs",
+  "life-content.mjs",
+  "emergent-ui.mjs",
+  "emergent.css",
 ];
 let browser,
   server,
@@ -233,7 +239,7 @@ try {
       return after.calendar.entries.at(-1);
     };
     await drain();
-    assert.equal((await inspect()).version, 3);
+    assert.equal((await inspect()).version, 4);
     await tab("board");
     assert.equal(await surface.locator(".city-node").count(), 3);
     assert.equal(await surface.locator(".neighborhood-select").count(), 3);
@@ -271,7 +277,7 @@ try {
       await layout(name);
     }
     await tab("board");
-    await surface.locator("[data-intent-open]").click();
+    await surface.locator(".secondary[data-intent-open]").click();
     await surface.locator("#intent-form [name=query]").fill("olmayaneylem123");
     await surface.locator("#intent-form button[type=submit]").click();
     assert.ok(
@@ -552,7 +558,7 @@ try {
   const fixture = resolve("scripts/fixtures/boardworld/v2-progressed-restart-day46.json"),
     oldBytes = readFileSync(fixture, "utf8");
   await page.locator("#import-file").setInputFiles(fixture);
-  await page.waitForFunction(() => window.boardworldInspect()?.version === 3);
+  await page.waitForFunction(() => window.boardworldInspect()?.version === 4);
   assert.equal(
     await page.evaluate(() => localStorage.getItem("tariklab.boardworld.v2.original-v2")),
     oldBytes,
@@ -572,8 +578,8 @@ try {
   await page.locator('[data-action="finance:reserve:500"]').click();
   const upgraded = await inspect();
   const canonical = await page.evaluate(() => ({
-    primary: localStorage.getItem("tariklab.boardworld.v3"),
-    backup: localStorage.getItem("tariklab.boardworld.v3.backup"),
+    primary: localStorage.getItem("tariklab.boardworld.v4"),
+    backup: localStorage.getItem("tariklab.boardworld.v4.backup"),
   }));
   assert.ok(canonical.primary && canonical.backup);
   await page.evaluate(() => {
@@ -597,18 +603,18 @@ try {
     assert.deepEqual(
       await inspect(),
       upgraded,
-      "stale open 2.0 tab cannot erase live 3.0 progress",
+      "stale open 2.0 tab cannot erase live 4.0 progress",
     );
     assert.deepEqual(
       await page.evaluate(() => ({
-        primary: localStorage.getItem("tariklab.boardworld.v3"),
-        backup: localStorage.getItem("tariklab.boardworld.v3.backup"),
+        primary: localStorage.getItem("tariklab.boardworld.v4"),
+        backup: localStorage.getItem("tariklab.boardworld.v4.backup"),
       })),
       canonical,
     );
   }
   await page.reload({ waitUntil: "networkidle" });
-  assert.deepEqual(await inspect(), upgraded, "reload prefers canonical 3.0 after stale writer");
+  assert.deepEqual(await inspect(), upgraded, "reload prefers canonical 4.0 after stale writer");
   await page.locator('.game-tabs [data-tab="wallet"]').click();
   await page.locator('[data-action="finance:reserve:500"]').click();
   const synced = await inspect();
@@ -619,7 +625,7 @@ try {
   assert.deepEqual(
     await writer.evaluate(() => window.boardworldInspect()),
     synced,
-    "current 3.0 cross-tab sync remains active",
+    "current 4.0 cross-tab sync remains active",
   );
   await page.screenshot({ path: `${output}/v2-migration.png`, fullPage: true });
   results.push({
