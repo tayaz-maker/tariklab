@@ -77,7 +77,13 @@ export function getRoute(s, from, to, mode = "transit", at = s.time) {
         ? across
           ? 150
           : 90
-        : base + (rush ? 15 : 0) + (rain ? 10 : 0);
+        : base +
+          (rush ? 15 : 0) +
+          (rain ? 10 : 0) +
+          Math.max(
+            s.life?.districts[from]?.travelDelay || 0,
+            s.life?.districts[to]?.travelDelay || 0,
+          );
   const cost =
     from === to || mode === "walk" ? 0 : pair === "kadikoy/sisli" ? 55 : across ? 45 : 35;
   const closing = mode === "walk" ? 23 * 60 : 24 * 60;
@@ -120,6 +126,13 @@ export function getRoute(s, from, to, mode = "transit", at = s.time) {
     reason,
     actionId: `${mode === "walk" ? "walk" : "travel"}:${to}`,
     conflicts,
+    districtDelay:
+      from === to || mode === "walk"
+        ? 0
+        : Math.max(
+            s.life?.districts[from]?.travelDelay || 0,
+            s.life?.districts[to]?.travelDelay || 0,
+          ),
   };
 }
 export function travelMinutes(s, from, to, at = s.time) {

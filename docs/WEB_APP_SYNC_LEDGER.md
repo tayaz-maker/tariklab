@@ -1355,3 +1355,17 @@ bytes before pure migration, and keeps immutable source-version backups. Origina
 TC SIM runtime/save keys and all portal routes remain; native/Godot and audio stay
 paused. No new dependencies, Worker, hook, Vercel or deployment-guard change.
 Validation and release evidence are recorded separately after exact-head checks.
+
+## 2026-11-01 — Boardworld4 Emergent Life
+
+Extends the existing Boardworld route/engine with12 conditional causal-event
+families and delayed outcomes, explicit daily/weekly policies, diminishing
+repetition, six capped promoted residents, reciprocal social roles, real shared
+household deposits/bills/chores/exit, staged lease decisions, employer workload
+and bounded district effects. The lightweight board now surfaces direct travel,
+contextual actions, current location/obligations, causal history and compact needs.
+Version4 preserves immutable source1/2/3 save backups and isolates old writers;
+original TC SIM runtime and keys are unchanged. The existing Cloudflare Git
+integration and exact-main guard are retained. No runtime dependency, new Worker,
+hook, Vercel, audio or native/Godot change. Exact-head acceptance/release evidence
+is recorded with the final reviewed tree; this entry alone does not claim release.

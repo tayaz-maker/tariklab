@@ -1,3 +1,5 @@
+import { initEmergent } from "../public/games/tc-sim-boardworld/emergent-life.mjs";
+import { initLife } from "../public/games/tc-sim-boardworld/life-systems.mjs";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
@@ -35,6 +37,9 @@ function act(s, id) {
 function atTime(s, at) {
   s.time = at;
   initLiving(s);
+  // These isolated finance boundaries reset derived future-event fixtures with the clock.
+  // Full acceptance advances all causal deadlines through legal actions instead.
+  initEmergent(s);
   s.calendar.lastTick = at;
   return s;
 }
@@ -54,7 +59,7 @@ test("legacy rejected actions preserve original identity and migration is pure a
   assert.equal(r.state, s);
   assert.deepEqual(s, before);
   const upgraded = migrateState(s);
-  assert.equal(upgraded.version, 3);
+  assert.equal(upgraded.version, 4);
   assert.deepEqual(s, before);
   assert.deepEqual(migrateState(upgraded), upgraded);
 });
@@ -328,6 +333,7 @@ test("financial independence counts held emergency savings without making them s
   enterprise.housing.id = "studio";
   enterprise.housing.rent = 8200;
   enterprise.housing.deposit = 8200;
+  initLife(enterprise);
   enterprise.cash = 0;
   enterprise.bank = 15100;
   enterprise.deep.business.arrears = 100;
@@ -352,6 +358,7 @@ test("financial independence counts held emergency savings without making them s
   state.housing.id = "studio";
   state.housing.rent = 8200;
   state.housing.deposit = 8200;
+  initLife(state);
   state.cash = 0;
   state.bank = 14950;
   state.deep.finance.reserve = 50;

@@ -1,3 +1,4 @@
+import { getLifeWorkTerms } from "./life-systems.mjs";
 import { NPCS, JOBS, COURSES, DISTRICTS } from "./content.mjs";
 import { VENUES, venueById, venueOpen, travelMinutes } from "./city.mjs";
 import { getNpcPlan } from "./world-life.mjs";
@@ -117,7 +118,8 @@ function fixedDuration(s, draft) {
   return draft.kind === "interview"
     ? 30
     : draft.kind === "shift"
-      ? (find(JOBS, draft.subjectId)?.hours || 0) * 60
+      ? (find(JOBS, draft.subjectId)?.hours || 0) * 60 +
+        (s.version >= 4 && s.job?.id === draft.subjectId ? getLifeWorkTerms(s).extraMinutes : 0)
       : draft.kind === "class"
         ? find(COURSES, draft.subjectId)?.minutes || 0
         : draft.duration;
@@ -539,6 +541,8 @@ function dueActions(s, api) {
     )
       why = "";
     const proxy = atStart || underlying;
+    if (e.kind === "shift" && proxy && e.end - e.start !== proxy.minutes)
+      why = "Çalışma süresi değişti; takvim vardiyasını yeni sözleşme süresiyle yeniden planla.";
     const minutes = Math.max(1, e.end - s.time);
     const action = {
       id: `calendar:attend:${e.id}`,
@@ -791,7 +795,9 @@ function subjects(s) {
             id: s.job.id,
             label: find(JOBS, s.job.id).name,
             kind: "shift",
-            duration: find(JOBS, s.job.id).hours * 60,
+            duration:
+              find(JOBS, s.job.id).hours * 60 +
+              (s.version >= 4 ? getLifeWorkTerms(s).extraMinutes : 0),
             district: find(JOBS, s.job.id).district,
           },
         ]

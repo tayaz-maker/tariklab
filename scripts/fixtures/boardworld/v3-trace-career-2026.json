@@ -1,0 +1,6247 @@
+{
+  "options": {
+    "scenario": "restart",
+    "seed": 2026,
+    "name": "career 3.0"
+  },
+  "style": "career",
+  "actions": [
+    {
+      "id": "event:welcome:work"
+    },
+    {
+      "id": "event:craft-project:repair"
+    },
+    {
+      "id": "apply:retail"
+    },
+    {
+      "id": "project:start:qualification:craft:75"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "enroll:repair"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "cook"
+    },
+    {
+      "id": "study"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:book-club:join"
+    },
+    {
+      "id": "study"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "story:shared-roof:repair"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "cook"
+    },
+    {
+      "id": "study"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:repair-home:fix"
+    },
+    {
+      "id": "story:debt-crossroads:disclose"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "event:team-conflict:listen"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "study"
+    },
+    {
+      "id": "cook"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:market:plan"
+    },
+    {
+      "id": "event:debt-letter:budget"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "study"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:overtime:accept"
+    },
+    {
+      "id": "story:shared-roof:inspect"
+    },
+    {
+      "id": "story:community-table:time"
+    },
+    {
+      "id": "story:debt-crossroads:buffer"
+    },
+    {
+      "id": "study"
+    },
+    {
+      "id": "event:graduation:network"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "story:learning-circle:prepare"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "story:community-table:organize"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:showcase:present"
+    },
+    {
+      "id": "story:workplace-voice:discuss"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "event:family-call:talk"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "event:career-review:plan"
+    },
+    {
+      "id": "promote"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:rain:chat"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "story:shared-roof:record"
+    },
+    {
+      "id": "story:learning-circle:teach"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:power-cut:read"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "story:workplace-voice:coordinate"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "story:community-table:network"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "cook"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:festival:volunteer"
+    },
+    {
+      "id": "cook"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "story:learning-circle:reference"
+    },
+    {
+      "id": "story:debt-crossroads:review"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "cook"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "story:workplace-voice:record"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:rent-talk:negotiate"
+    },
+    {
+      "id": "story:first-customer:practice"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "promote"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "story:first-customer:deliver"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "event:month:reflect"
+    },
+    {
+      "id": "career:notice"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "story:first-customer:reference"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "apply:repair"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "promote"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "promote"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "exercise"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "rest"
+    },
+    {
+      "id": "soup"
+    },
+    {
+      "id": "sleep"
+    },
+    {
+      "id": "work"
+    },
+    {
+      "id": "practice:craft"
+    },
+    {
+      "id": "practice:communication"
+    },
+    {
+      "id": "sleep"
+    }
+  ]
+}

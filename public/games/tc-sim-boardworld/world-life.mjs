@@ -23,7 +23,8 @@ function market(s, id) {
   const cohort = s.living?.population?.districts[id];
   const demand = cap(
     MARKET_CYCLE[(week + index * 2 + (s.seed % 3)) % MARKET_CYCLE.length] +
-      (cohort ? Math.round((cohort.employed - 90) / 3) : 0),
+      (cohort ? Math.round((cohort.employed - 90) / 3) : 0) +
+      (s.life?.districts[id]?.demandDelta || 0),
     30,
     100,
   );
@@ -344,7 +345,12 @@ function selectDecision(s, id, index, api) {
       location: n.work,
       score: profile.priority === "career" ? 85 : 38,
     });
-  if (profile.priority === "home" && n.savings >= 12000 && s.time - n.lastMoveDay * DAY >= 30 * DAY)
+  if (
+    (api.canNpcMove?.(s, id) ?? true) &&
+    profile.priority === "home" &&
+    n.savings >= 12000 &&
+    s.time - n.lastMoveDay * DAY >= 30 * DAY
+  )
     options.push({ kind: "move", minutes: 120, location: n.home, score: 90 });
   const contacts = Object.entries(s.living.graph[id]).sort(
     (a, b) =>
@@ -649,7 +655,8 @@ function settleDay(s, api) {
     const id = base.id,
       n = s.deep.npcs[id],
       x = s.living.npcs[id];
-    const livingCost = 180 + Math.round(n.rent / 30),
+    const livingCost =
+        api.npcHousingCost?.(s, id, 180 + Math.round(n.rent / 30)) ?? 180 + Math.round(n.rent / 30),
       paid = Math.min(livingCost, n.cash);
     n.cash -= paid;
     n.debt = money(n.debt + livingCost - paid);
@@ -1759,7 +1766,11 @@ export function validateLiving(s) {
       residents += c.employed + c.jobseekers + c.students;
       households += c.households;
     }
-    if (residents !== 450 || households !== 240) return false;
+    if (
+      residents + (s.version >= 4 ? s.life?.secondary?.length || 0 : 0) !== 450 ||
+      households !== 240
+    )
+      return false;
     const h = l.household,
       e = l.enterprise;
     if (

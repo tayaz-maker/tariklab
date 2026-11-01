@@ -427,7 +427,7 @@ test("eight actual coding lessons produce a credential and qualify a new career"
   for (let lesson = 0; lesson < 8; lesson++) {
     state = perform(state, "study");
     assert.equal(available(state, "study"), false, "a second lesson the same day is unavailable");
-    state = perform(state, "practice:knowledge");
+    if (available(state, "practice:knowledge")) state = perform(state, "practice:knowledge");
     if (state.player.hunger < 60) state = perform(state, "eat");
     if (lesson < 7) {
       // Home is still Kadıköy: attendance requires an actual round trip each day.
@@ -441,6 +441,16 @@ test("eight actual coding lessons produce a credential and qualify a new career"
   assert.ok(state.documents.some((d) => d.id === "certificate-coding"));
   assert.equal(state.flags.coursesCompleted, 1);
   assert.ok(state.player.skills.technical >= 40);
+  // The 4.0 weekly practice cap makes supporting knowledge a real preparation step.
+  for (let preparation = 0; state.player.skills.knowledge < 25 && preparation < 14; preparation++) {
+    if (available(state, "practice:knowledge")) state = perform(state, "practice:knowledge");
+    else {
+      if (state.location !== "kadikoy") state = perform(state, "travel:kadikoy");
+      state = advanceToEvening(state);
+      state = perform(state, "sleep");
+      state = perform(state, "soup");
+    }
+  }
   assert.ok(state.player.skills.knowledge >= 25);
   if (getClock(state).minute >= 17 * 60) {
     state = perform(state, "travel:kadikoy");
@@ -448,6 +458,7 @@ test("eight actual coding lessons produce a credential and qualify a new career"
     state = perform(state, "sleep");
     state = perform(state, "travel:sisli");
   }
+  if (state.location !== "sisli") state = perform(state, "travel:sisli");
   state = perform(state, "apply:developer");
   assert.equal(state.job.id, "developer");
   assert.equal(state.rng, rng, "learning and eligibility do not roll dice");

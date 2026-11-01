@@ -186,6 +186,8 @@ export function playLife({
   replay = true,
   checkpoints = [30, 90, 180],
   onCheckpoint,
+  onAction,
+  selector = selectLifeAction,
 } = {}) {
   let state = createGame({ scenario, seed, name: `${style} yaşamı` }),
     shadow = replay ? structuredClone(state) : null;
@@ -197,7 +199,7 @@ export function playLife({
   const started = performance.now();
   const captured = new Set();
   for (let turn = 0; dayOf(state) < days + 1 && turn < 7000; turn++) {
-    const action = selectLifeAction(state, style, memory);
+    const action = selector(state, style, memory);
     assert.ok(
       action,
       `no legal next action: ${scenario}/${style} day${dayOf(state)} time${state.time % 1440}`,
@@ -216,6 +218,7 @@ export function playLife({
       if (turn % 37 === 0) shadow = importGame(exportGame(shadow)).state;
       assert.deepEqual(state, shadow, `exact persisted replay turn${turn}`);
     }
+    onAction?.({ before, state, action, turn });
     actions.push({ id: action.id, ...(action.payload ? { payload: action.payload } : {}) });
     counts[action.id] = (counts[action.id] || 0) + 1;
     for (const id of Object.keys(state.deep.npcs)) {

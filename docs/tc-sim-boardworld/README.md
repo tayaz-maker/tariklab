@@ -6,6 +6,16 @@ The weekly TC SIM runtime and save namespace are unchanged. Native/Godot remains
 paused and sound is disabled. Prices are authored game balance, not real-time
 financial data or claims about current Turkish salaries.
 
+## Emergent Life 4.0
+
+The current extension adds causal event families, configurable routines, reciprocal social roles, capped secondary residents, actual shared households, staged leases and district/employer effects while preserving the3.0 foundation and all old saves.
+
+- [Baseline audit](./BOARDWORLD_4_AUDIT.md)
+- [Architecture, real mechanics and explicit limits](./BOARDWORLD_4_ARCHITECTURE.md)
+- [Integration contract](./BOARDWORLD_4_CONTRACT.md)
+- [UI, accessibility and controlled click measurements](../BOARDWORLD_4_UI.md)
+- [Independent acceptance](./BOARDWORLD_4_ACCEPTANCE.md)
+
 ## Living City 3.0
 
 Version 3 extends the existing deterministic life with a chosen-date calendar,
