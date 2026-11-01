@@ -246,7 +246,7 @@ export const CATALOG_EN: Record<string, { title: string; subtitle: string }> = {
   },
   racon: { title: "Racon Manager", subtitle: "Men die. The name remains." },
   "tc-sim": { title: "TC SIM", subtitle: "One life. Weekly choices, years of fallout." },
-  "tc-sim-boardworld": { title: "TC SIM: Boardworld", subtitle: "Deep Life 2.0: living neighbors, careers, ventures and lasting choices. Game text in Turkish." },
+  "tc-sim-boardworld": { title: "TC SIM: Boardworld", subtitle: "Boardworld 3.0: your calendar, a connected city, living neighbors and long-term projects. Game text in Turkish." },
   bukucu: {
     title: "Son Mahalle Bükücü",
     subtitle: "Istanbul title deed. Who holds the district bends it. Money in TL.",
@@ -292,7 +292,7 @@ export const CATALOG_PL: Record<string, { title: string; subtitle: string }> = {
   hanedanian: { title: "HANEDANIAN", subtitle: "Od jednej osady do wielkiej dynastii. Czytaj mapę, buduj przyszłość." },
   racon: { title: "Racon Manager", subtitle: "Ludzie umierają. Imię zostaje." },
   "tc-sim": { title: "TC SIM", subtitle: "Jedno życie. Tygodniowe wybory, lata konsekwencji." },
-  "tc-sim-boardworld": { title: "TC SIM: Boardworld", subtitle: "Deep Life 2.0: życie sąsiadów, kariery, własne firmy i trwałe skutki decyzji. Tekst gry po turecku." },
+  "tc-sim-boardworld": { title: "TC SIM: Boardworld", subtitle: "Boardworld 3.0: własny kalendarz, połączone dzielnice, życie sąsiadów i długoterminowe projekty. Tekst gry po turecku." },
   bukucu: { title: "Son Mahalle Bükücü", subtitle: "Stambułskie akty własności. Kto trzyma dzielnicę, ten nią rządzi. Pieniądze w TL." },
   labirent: { title: "Labirent", subtitle: "Zamknięte ścieżki, jedno wyjście." },
   "peg-solitaire": { title: "Tek Taş", subtitle: "Przeskakuj. Zostaw jeden pionek." },

@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { createHash } from "node:crypto";
 import * as originalV1Persistence from "./fixtures/boardworld/v1-persistence.mjs";
+import * as originalV2Persistence from "./fixtures/boardworld/v2-persistence.mjs";
 import {
   createGame,
   resolveAction,
@@ -21,6 +22,9 @@ import {
   ORIGINAL_V1_BACKUP_KEY,
   LEGACY_SAVE_KEY,
   LEGACY_BACKUP_KEY,
+  LEGACY_V2_SAVE_KEY,
+  LEGACY_V2_BACKUP_KEY,
+  ORIGINAL_V2_BACKUP_KEY,
 } from "../public/games/tc-sim-boardworld/persistence.mjs";
 const storage = () => {
   const map = new Map([["tariklab::tc-sim:1", "legacy-do-not-touch"]]);
@@ -55,7 +59,7 @@ test("unsupported, truncated and tampered files fail closed", () => {
     "{}",
     "{",
     encoded.slice(0, -8),
-    encoded.replace('"version":2', '"version":8'),
+    encoded.replace('"version":3', '"version":8'),
     encoded.replace("Deniz", "Other"),
   ])
     assert.equal(importGame(data).state, null);
@@ -76,6 +80,9 @@ const legacyFields = (state) => {
   delete result.version;
   delete result.deep;
   delete result.stories;
+  delete result.calendar;
+  delete result.city;
+  delete result.living;
   return result;
 };
 function envelopeFor(state, version = state.version) {
@@ -100,7 +107,7 @@ for (const file of fixtureFiles)
     const result = importGame(bytes);
     assert.equal(result.sourceVersion, 1);
     assert.equal(result.migrated, true);
-    assert.equal(result.state.version, 2);
+    assert.equal(result.state.version, 3);
     assert.equal(validateState(result.state), true);
     assert.deepEqual(legacyFields(result.state), legacyFields(original));
     assert.deepEqual(migrateState(original), result.state);
@@ -122,16 +129,19 @@ for (const file of fixtureFiles)
     }
   });
 
-test("new exports and canonical slots use version 2 while old compatibility keys remain readable", () => {
-  assert.equal(SAVE_KEY, "tariklab.boardworld.v2");
-  assert.equal(BACKUP_KEY, "tariklab.boardworld.v2.backup");
+test("new exports and canonical slots use version 3 while old compatibility keys remain readable", () => {
+  assert.equal(SAVE_KEY, "tariklab.boardworld.v3");
+  assert.equal(BACKUP_KEY, "tariklab.boardworld.v3.backup");
+  assert.equal(LEGACY_V2_SAVE_KEY, "tariklab.boardworld.v2");
+  assert.equal(LEGACY_V2_BACKUP_KEY, "tariklab.boardworld.v2.backup");
+  assert.equal(ORIGINAL_V2_BACKUP_KEY, "tariklab.boardworld.v2.original-v2");
   assert.equal(LEGACY_SAVE_KEY, "tariklab.boardworld.v1");
   assert.equal(LEGACY_BACKUP_KEY, "tariklab.boardworld.v1.backup");
   assert.equal(ORIGINAL_V1_BACKUP_KEY, "tariklab.boardworld.v1.original-v1");
   const state = createGame({ seed: 761 });
   const bytes = exportGame(state);
-  assert.equal(JSON.parse(bytes).version, 2);
-  assert.equal(importGame(bytes).sourceVersion, 2);
+  assert.equal(JSON.parse(bytes).version, 3);
+  assert.equal(importGame(bytes).sourceVersion, 3);
   assert.equal(importGame(bytes).migrated, false);
   assert.deepEqual(importGame(bytes).state, state);
 });
@@ -167,7 +177,7 @@ function resolveChecked(state, id) {
   return result.state;
 }
 
-test("real frozen 1.0 writer cannot destroy canonical 2.0 progress or its backup", () => {
+test("real frozen 1.0 writer cannot destroy canonical 3.0 progress or its backup", () => {
   const disk = storage();
   const oldCached = originalState(legacyFile());
   assert.equal(originalV1Persistence.saveGame(oldCached, disk).ok, true);
@@ -208,9 +218,8 @@ test("real frozen 1.0 writer cannot destroy canonical 2.0 progress or its backup
 
 test("an early 2.0 envelope at the old key is protected immediately before a stale tab can overwrite it", () => {
   const disk = storage();
-  let current = resolveChecked(createGame(), "event:welcome:work");
-  current = resolveChecked(current, "finance:reserve:500");
-  const earlyBytes = exportGame(current);
+  const earlyBytes = legacyFile("v2-progressed-restart-day46.json");
+  const current = migrateState(originalState(earlyBytes));
   const legacyBackup = legacyFile();
   disk.setItem(LEGACY_SAVE_KEY, earlyBytes);
   disk.setItem(LEGACY_BACKUP_KEY, legacyBackup);
@@ -219,7 +228,8 @@ test("an early 2.0 envelope at the old key is protected immediately before a sta
   assert.equal(loaded.sourceVersion, 2);
   assert.equal(loaded.sourceKey, LEGACY_SAVE_KEY);
   assert.deepEqual(loaded.state, current);
-  assert.equal(disk.getItem(SAVE_KEY), earlyBytes);
+  assert.deepEqual(importGame(disk.getItem(SAVE_KEY)).state, current);
+  assert.equal(disk.getItem(ORIGINAL_V2_BACKUP_KEY), earlyBytes);
   assert.equal(disk.getItem(LEGACY_SAVE_KEY), earlyBytes);
   assert.equal(disk.getItem(LEGACY_BACKUP_KEY), legacyBackup);
   assert.equal(disk.getItem(ORIGINAL_V1_BACKUP_KEY), legacyBackup);
@@ -260,7 +270,7 @@ test("two corrupt canonical slots explicitly recover an older legacy copy and pr
   const loaded = loadGame(disk);
   assert.equal(loaded.protected, true);
   assert.equal(loaded.sourceKey, LEGACY_SAVE_KEY);
-  assert.match(loaded.message, /son 2\.0 adımların bu kopyada bulunmayabilir/);
+  assert.match(loaded.message, /son 3\.0 adımların bu kopyada bulunmayabilir/);
   assert.deepEqual(loaded.state, migrateState(originalState(bytes)));
   assert.deepEqual(importGame(disk.getItem(SAVE_KEY)).state, loaded.state);
   assert.equal(disk.getItem(LEGACY_SAVE_KEY), bytes);
@@ -280,7 +290,7 @@ test("quota during canonical promotion preserves old slots and clearly reports t
   const loaded = loadGame(disk);
   assert.ok(loaded.state);
   assert.equal(loaded.protected, false);
-  assert.match(loaded.message, /ayrı 2\.0 kaydı yazılamadı/);
+  assert.match(loaded.message, /ayrı 3\.0 kaydı yazılamadı/);
   assert.equal(disk.getItem(SAVE_KEY), null);
   assert.equal(disk.getItem(LEGACY_SAVE_KEY), primary);
   assert.equal(disk.getItem(LEGACY_BACKUP_KEY), backup);
@@ -294,6 +304,9 @@ test("healthy canonical loads and later saves ignore unrelated corrupt legacy an
   disk.setItem(LEGACY_SAVE_KEY, "broken old primary");
   disk.setItem(LEGACY_BACKUP_KEY, "broken old backup");
   disk.setItem(ORIGINAL_V1_BACKUP_KEY, "broken old archive");
+  disk.setItem(LEGACY_V2_SAVE_KEY, "broken second primary");
+  disk.setItem(LEGACY_V2_BACKUP_KEY, "broken second backup");
+  disk.setItem(ORIGINAL_V2_BACKUP_KEY, "broken second archive");
   const setItem = disk.setItem;
   disk.setItem = () => {
     throw new Error("healthy read must not write");
@@ -306,9 +319,12 @@ test("healthy canonical loads and later saves ignore unrelated corrupt legacy an
   assert.equal(disk.getItem(LEGACY_SAVE_KEY), "broken old primary");
   assert.equal(disk.getItem(LEGACY_BACKUP_KEY), "broken old backup");
   assert.equal(disk.getItem(ORIGINAL_V1_BACKUP_KEY), "broken old archive");
+  assert.equal(disk.getItem(LEGACY_V2_SAVE_KEY), "broken second primary");
+  assert.equal(disk.getItem(LEGACY_V2_BACKUP_KEY), "broken second backup");
+  assert.equal(disk.getItem(ORIGINAL_V2_BACKUP_KEY), "broken second archive");
 });
 
-test("explicit v1 file import into an existing v2 life still preserves the imported original bytes", () => {
+test("explicit v1 file import into an existing v3 life still preserves the imported original bytes", () => {
   const disk = storage();
   saveGame(createGame(), disk);
   const bytes = legacyFile();
@@ -337,7 +353,7 @@ test("first 1.0 load verifies immutable original bytes and promotes without writ
   assert.deepEqual(writes, [ORIGINAL_V1_BACKUP_KEY, SAVE_KEY, BACKUP_KEY, SAVE_KEY]);
   assert.equal(disk.getItem(ORIGINAL_V1_BACKUP_KEY), bytes);
   assert.deepEqual(importGame(disk.getItem(BACKUP_KEY)).state, loaded.state);
-  assert.equal(JSON.parse(disk.getItem(SAVE_KEY)).version, 2);
+  assert.equal(JSON.parse(disk.getItem(SAVE_KEY)).version, 3);
   assert.equal(disk.map.get("tariklab::tc-sim:1"), "legacy-do-not-touch");
   assert.equal(saveGame(createGame({ seed: 1 }), disk).ok, true);
   assert.equal(saveGame(importGame(legacyFile(fixtureFiles[0])).state, disk).ok, true);
@@ -357,11 +373,11 @@ test("file import retains exact original 1.0 bytes even without a browser primar
   assert.deepEqual(loadGame(disk).state, imported.state);
 });
 
-test("legacy state export and direct save both produce validated 2.0 envelopes", () => {
+test("legacy state export and direct save both produce validated 3.0 envelopes", () => {
   const state = originalState(legacyFile());
   const before = structuredClone(state);
   const exported = exportGame(state);
-  assert.equal(JSON.parse(exported).version, 2);
+  assert.equal(JSON.parse(exported).version, 3);
   assert.deepEqual(importGame(exported).state, migrateState(state));
   const disk = storage();
   assert.equal(saveGame(state, disk).ok, true);
@@ -418,7 +434,7 @@ test("corrupt primary and rotating backup recover immutable original through mig
   assert.deepEqual(loadGame(disk).state, loaded.state);
 });
 
-test("legacy rotating recovery is archived before the first 2.0 write", () => {
+test("legacy rotating recovery is archived before the first 3.0 write", () => {
   const bytes = legacyFile();
   const disk = storage();
   disk.setItem(LEGACY_SAVE_KEY, "corrupt");
@@ -504,8 +520,13 @@ test("failed backup or primary writes retain a usable recovery record", () => {
 });
 
 test("prototype-bearing and excessively nested imported data fail closed", () => {
-  for (const version of [1, 2]) {
-    const state = version === 1 ? originalState(legacyFile()) : createGame();
+  for (const version of [1, 2, 3]) {
+    const state =
+      version === 1
+        ? originalState(legacyFile())
+        : version === 2
+          ? originalState(legacyFile("v2-fresh-restart.json"))
+          : createGame();
     state.inventory = JSON.parse('{"phone":1,"__proto__":{"polluted":true}}');
     assert.equal(importGame(envelopeFor(state)).state, null);
   }
@@ -581,7 +602,7 @@ test("2.0 malformed deep fields are rejected rather than replaced with defaults"
       state.deep.unknownField = 100;
     },
   ]) {
-    const state = createGame({ seed: 115 });
+    const state = originalState(legacyFile("v2-fresh-restart.json"));
     mutate(state);
     const before = structuredClone(state);
     assert.equal(validateState(state), false, String(mutate));
@@ -628,4 +649,255 @@ test("quota/security failures are reported without deleting valid saves", () => 
     }).state,
     null,
   );
+});
+
+const v2Provenance = JSON.parse(legacyFile("v2-provenance.json"));
+function v2Fields(state) {
+  const result = structuredClone(state);
+  for (const field of ["version", "calendar", "city", "living"]) delete result[field];
+  return result;
+}
+for (const fixture of v2Provenance.fixtures)
+  test(`real 2.0 ${fixture.file} migrates purely without losing earned history or replaying money`, () => {
+    const bytes = legacyFile(fixture.file);
+    assert.equal(createHash("sha256").update(bytes).digest("hex"), fixture.sha256);
+    const original = originalState(bytes),
+      before = structuredClone(original);
+    assert.equal(original.version, 2);
+    assert.equal(validateState(original), true);
+    const loaded = importGame(bytes);
+    assert.equal(loaded.sourceVersion, 2);
+    assert.equal(loaded.migrated, true);
+    assert.equal(loaded.state.version, 3);
+    assert.equal(validateState(loaded.state), true);
+    assert.deepEqual(v2Fields(loaded.state), v2Fields(original));
+    for (const old of original.appointments) {
+      const matches = loaded.state.calendar.entries.filter(
+        (entry) => entry.npcId === old.npcId && entry.start === (old.day - 1) * 1440 + old.minute,
+      );
+      assert.equal(matches.length, 1);
+      assert.equal(matches[0].status, old.status === "scheduled" ? "confirmed" : old.status);
+      assert.equal(matches[0].end - matches[0].start, 60);
+      assert.equal(matches[0].district, old.location);
+    }
+    assert.deepEqual(original, before);
+    assert.deepEqual(migrateState(original), loaded.state);
+    assert.deepEqual(migrateState(loaded.state), loaded.state);
+    assert.deepEqual(importGame(bytes).state, loaded.state);
+    assert.deepEqual(importGame(exportGame(loaded.state)).state, loaded.state);
+    assert.equal(getClock(loaded.state).day, fixture.day);
+    if (fixture.file.includes("progressed")) {
+      assert.ok(original.job.shifts >= 30, "progress was earned through real work");
+      assert.ok(original.transactions.length > 20);
+      assert.ok(Object.values(original.stories).some((chain) => chain.history.length));
+    }
+    const disk = storage();
+    disk.setItem(LEGACY_V2_SAVE_KEY, bytes);
+    const protectedLoad = loadGame(disk);
+    assert.equal(protectedLoad.protected, true);
+    assert.equal(disk.getItem(ORIGINAL_V2_BACKUP_KEY), bytes);
+    assert.equal(disk.getItem(LEGACY_V2_SAVE_KEY), bytes);
+    assert.deepEqual(loadGame(disk).state, loaded.state);
+  });
+
+test("v2 writer is exact production code apart from its documented engine import path", () => {
+  const source = legacyFile("v2-persistence.mjs").replace(
+    'from "../../../public/games/tc-sim-boardworld/engine.mjs";',
+    'from "./engine.mjs";',
+  );
+  const hash = createHash("sha256").update(source).digest("hex");
+  assert.equal(hash, "102f47418039047994a86639fa6d9376dd1bf689729775530f331880b1f59c7e");
+  assert.equal(hash, v2Provenance.persistenceFixture.originalSha256);
+  assert.equal(v2Provenance.commit, "467ef16e9f06ea3089f001592aa13aebd9cc069d");
+  assert.equal(originalV2Persistence.SAVE_KEY, LEGACY_V2_SAVE_KEY);
+  assert.equal(originalV2Persistence.BACKUP_KEY, LEGACY_V2_BACKUP_KEY);
+  const original = originalState(legacyFile("v2-active-appointment-day1.json"));
+  assert.deepEqual(
+    originalV2Persistence.importGame(originalV2Persistence.exportGame(original)).state,
+    original,
+  );
+  assert.equal(originalV2Persistence.importGame(exportGame(createGame())).state, null);
+});
+
+test("first v2 load is protected before any player action or still-open old tab write", () => {
+  const disk = storage(),
+    bytes = legacyFile("v2-progressed-restart-day46.json");
+  disk.setItem(LEGACY_V2_SAVE_KEY, bytes);
+  const loaded = loadGame(disk);
+  assert.equal(loaded.protected, true);
+  const canonical = disk.getItem(SAVE_KEY);
+  assert.ok(canonical);
+  const stale = originalState(legacyFile("v2-progressed-restart-day91.json"));
+  assert.equal(originalV2Persistence.saveGame(stale, disk).ok, true);
+  assert.equal(disk.getItem(SAVE_KEY), canonical);
+  assert.equal(disk.getItem(ORIGINAL_V2_BACKUP_KEY), bytes);
+  assert.deepEqual(loadGame(disk).state, loaded.state);
+});
+
+test("real still-open 1.0 and 2.0 writers cannot overwrite v3 progress, backups or UI storage key", () => {
+  const disk = storage();
+  const v1 = originalState(legacyFile());
+  const v2 = originalState(legacyFile("v2-progressed-restart-day46.json"));
+  assert.equal(originalV1Persistence.saveGame(v1, disk).ok, true);
+  assert.equal(originalV2Persistence.saveGame(v2, disk).ok, true);
+  const v2Bytes = disk.getItem(LEGACY_V2_SAVE_KEY);
+  let current = loadGame(disk).state;
+  current = resolveChecked(current, "finance:reserve:500");
+  assert.equal(saveGame(current, disk).ok, true);
+  current = resolveChecked(current, "finance:reserve:2000");
+  assert.equal(saveGame(current, disk).ok, true);
+  const protectedKeys = [SAVE_KEY, BACKUP_KEY, ORIGINAL_V1_BACKUP_KEY, ORIGINAL_V2_BACKUP_KEY];
+  const protectedBytes = protectedKeys.map((key) => disk.getItem(key));
+  assert.equal(disk.getItem(ORIGINAL_V2_BACKUP_KEY), v2Bytes);
+  assert.ok(protectedBytes.every(Boolean));
+  for (let i = 0; i < 4; i++) {
+    for (const [writer, cache] of [
+      [originalV1Persistence, v1],
+      [originalV2Persistence, v2],
+    ]) {
+      cache.revision = current.revision + 100 + i;
+      assert.equal(validateState(cache), true);
+      assert.equal(writer.saveGame(cache, disk).ok, true);
+      assert.deepEqual(
+        protectedKeys.map((key) => disk.getItem(key)),
+        protectedBytes,
+      );
+      assert.deepEqual(loadGame(disk).state, current);
+    }
+  }
+  assert.equal(current.deep.finance.reserve, 2500);
+  assert.equal(disk.getItem("tariklab::tc-sim:1"), "legacy-do-not-touch");
+});
+
+test("a canonical v3 backup has priority over any valid v2 primary or v2 immutable archive", () => {
+  const disk = storage();
+  const first = createGame({ seed: 174 }),
+    next = resolveChecked(first, "event:welcome:work");
+  saveGame(first, disk);
+  saveGame(next, disk);
+  const bytes = legacyFile("v2-progressed-restart-day91.json");
+  disk.setItem(LEGACY_V2_SAVE_KEY, bytes);
+  disk.setItem(ORIGINAL_V2_BACKUP_KEY, bytes);
+  for (const corrupt of ["damaged", bytes]) {
+    disk.setItem(SAVE_KEY, corrupt);
+    const before = new Map(disk.map),
+      loaded = loadGame(disk);
+    assert.equal(loaded.sourceKey, BACKUP_KEY);
+    assert.deepEqual(loaded.state, first);
+    assert.deepEqual(disk.map, before);
+  }
+});
+
+test("both corrupt v3 slots recover v2 backup then immutable original, never changing old storage", () => {
+  for (const source of [LEGACY_V2_BACKUP_KEY, ORIGINAL_V2_BACKUP_KEY]) {
+    const disk = storage(),
+      bytes = legacyFile("v2-active-appointment-day1.json");
+    disk.setItem(SAVE_KEY, "broken");
+    disk.setItem(BACKUP_KEY, "broken");
+    disk.setItem(LEGACY_V2_SAVE_KEY, "broken");
+    disk.setItem(source, bytes);
+    const loaded = loadGame(disk);
+    assert.equal(loaded.protected, true);
+    assert.equal(loaded.sourceKey, source);
+    assert.equal(loaded.sourceVersion, 2);
+    assert.deepEqual(loaded.state, migrateState(originalState(bytes)));
+    assert.equal(disk.getItem(source), bytes);
+    assert.equal(disk.getItem(LEGACY_V2_SAVE_KEY), "broken");
+    assert.equal(disk.getItem(ORIGINAL_V2_BACKUP_KEY), bytes);
+    assert.match(
+      loaded.message,
+      source === ORIGINAL_V2_BACKUP_KEY ? /özgün 2\.0/ : /son 3\.0 adımların/,
+    );
+  }
+});
+
+test("v2 migration is never reported protected when archive or canonical writes fail", () => {
+  for (const failKey of [ORIGINAL_V2_BACKUP_KEY, SAVE_KEY])
+    for (const silent of [false, true]) {
+      const disk = storage(),
+        bytes = legacyFile("v2-progressed-restart-day91.json");
+      disk.setItem(LEGACY_V2_SAVE_KEY, bytes);
+      const set = disk.setItem;
+      disk.setItem = (key, value) => {
+        if (key === failKey) {
+          if (silent) return;
+          throw new Error("QuotaExceededError");
+        }
+        set(key, value);
+      };
+      const loaded = loadGame(disk);
+      assert.ok(loaded.state);
+      assert.equal(loaded.protected, false);
+      assert.match(loaded.message, /ayrı 3\.0 kaydı yazılamadı/);
+      assert.equal(disk.getItem(SAVE_KEY), null);
+      assert.equal(disk.getItem(LEGACY_V2_SAVE_KEY), bytes);
+    }
+});
+
+test("v2 file import archives exact bytes and cannot silently repair a corrupt immutable archive", () => {
+  const bytes = " \n" + legacyFile("v2-fresh-graduate.json");
+  const disk = storage();
+  saveGame(createGame(), disk);
+  const imported = importGame(bytes);
+  assert.equal(saveGame(imported.state, disk).ok, true);
+  assert.equal(disk.getItem(ORIGINAL_V2_BACKUP_KEY), bytes);
+  const current = loadGame(disk).state;
+  disk.setItem(ORIGINAL_V2_BACKUP_KEY, "corrupt archive");
+  assert.equal(
+    saveGame(current, disk).ok,
+    true,
+    "ordinary canonical saves ignore unrelated old archive corruption",
+  );
+  const before = new Map(disk.map);
+  assert.equal(saveGame(importGame(bytes).state, disk).ok, false);
+  assert.deepEqual(disk.map, before, "explicit reimport cannot claim durable original protection");
+});
+
+test("legacy 2.0 appointment keeps its original timing, identity and status during calendar migration", () => {
+  const bytes = legacyFile("v2-active-appointment-day1.json");
+  const original = originalState(bytes),
+    migrated = importGame(bytes).state;
+  assert.deepEqual(migrated.appointments, original.appointments, "legacy evidence remains intact");
+  const old = original.appointments.find((entry) => entry.status === "scheduled");
+  assert.ok(old);
+  const entries = migrated.calendar.entries.filter(
+    (entry) => entry.npcId === old.npcId && entry.start === (old.day - 1) * 1440 + old.minute,
+  );
+  assert.equal(entries.length, 1, "one legacy booking produces one commitment");
+  assert.equal(entries[0].status, "confirmed");
+  assert.equal(entries[0].end - entries[0].start, 60);
+  assert.equal(entries[0].district, old.location);
+  assert.ok(entries[0].legacy);
+  assert.deepEqual(
+    migrateState(migrated),
+    migrated,
+    "second migration cannot duplicate the booking",
+  );
+});
+
+test("tampered real v2 envelopes and malformed v3 namespaces are rejected before migration defaults", () => {
+  const bytes = legacyFile("v2-active-appointment-day1.json"),
+    envelope = JSON.parse(bytes);
+  for (const invalid of [
+    { ...envelope, checksum: "00000000" },
+    { ...envelope, version: 3 },
+    { ...envelope, unexpected: true },
+  ])
+    assert.equal(importGame(JSON.stringify(invalid)).state, null);
+  for (const key of ["calendar", "city", "living"])
+    for (const bad of [null, {}, { invented: true }]) {
+      const state = createGame();
+      state[key] = bad;
+      const before = structuredClone(state);
+      assert.equal(validateState(state), false);
+      assert.throws(() => migrateState(state));
+      assert.equal(importGame(envelopeFor(state)).state, null);
+      assert.deepEqual(state, before);
+    }
+  for (const key of ["calendar", "city", "living"]) {
+    const legacy = originalState(bytes);
+    legacy[key] = {};
+    assert.equal(validateState(legacy), false, "v2 input cannot smuggle unvalidated v3 fields");
+    assert.throws(() => migrateState(legacy));
+  }
 });

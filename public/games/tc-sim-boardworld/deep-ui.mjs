@@ -216,7 +216,7 @@ export function renderStoryPrompt(stories) {
 }
 export function renderPlanning(
   view,
-  { state, clock, stories, npcs, districtName },
+  { state, clock, stories, npcs, districtName, hideTimeline = false },
   actions,
   actionCard,
 ) {
@@ -251,7 +251,8 @@ export function renderPlanning(
       entries = timeline.filter((t) => t.day === day);
     return `<article class="timeline-day ${i === 0 ? "today" : ""}"><div><b>${day}</b><span>${i === 0 ? "Bugün" : i === 1 ? "Yarın" : `${day}. gün`}</span></div><ul>${entries.length ? entries.map((e) => `<li class="${e.type}"><time>${String(Math.floor(e.time / 60)).padStart(2, "0")}:${String(e.time % 60).padStart(2, "0")}</time><button class="timeline-link" ${e.type === "story" ? 'data-tab="stories"' : `data-npc="${esc(e.npcId)}"`}>${esc(e.label)} <span aria-hidden="true">↗</span></button></li>`).join("") : '<li class="free-time">Planlanmış görüşme yok.</li>'}</ul></article>`;
   }).join("");
-  return `<section class="timeline-panel"><div class="subheading"><h3>Önündeki yedi gün</h3><span class="tiny">Randevular ve gelişmeler</span></div><div class="timeline-days">${timelineMarkup}</div></section><section class="deep-card routine-desk" data-deep="schedule"><div class="deep-heading"><span class="eyebrow">KONTROL SENDE KALIR</span><h3>Rutin kur. İstisnalarda dur.</h3></div><p>${esc(view?.summary || "Günlük düzenini belirle. Bir olay, randevu veya kaynak eksiği olduğunda rutin durur.")}</p><div class="routine-controls" aria-label="Rutin tercihleri">${controls
+  const timelineSection = `<section class="timeline-panel"><div class="subheading"><h3>Önündeki yedi gün</h3><span class="tiny">Randevular ve gelişmeler</span></div><div class="timeline-days">${timelineMarkup}</div></section>`;
+  return `${hideTimeline ? "" : timelineSection}<section class="deep-card routine-desk" data-deep="schedule"><div class="deep-heading"><span class="eyebrow">KONTROL SENDE KALIR</span><h3>Rutin kur. İstisnalarda dur.</h3></div><p>${esc(view?.summary || "Günlük düzenini belirle. Bir olay, randevu veya kaynak eksiği olduğunda rutin durur.")}</p><div class="routine-controls" aria-label="Rutin tercihleri">${controls
     .map((a) => {
       const key = a.id.split(":").at(-1),
         enabled = settings[key];

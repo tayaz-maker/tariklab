@@ -118,7 +118,7 @@ try {
       await layout(tab);
     }
     await surface.locator("[data-tab=board]").first().click();
-    await surface.locator("[data-district=besiktas]").click();
+    await surface.locator(".neighborhood-select[data-district=besiktas]").click();
     await act("travel:besiktas");
     assert.equal((await inspect()).location, "besiktas");
     await drain();
@@ -188,6 +188,13 @@ try {
     "life-chains.mjs",
     "deep-ui.mjs",
     "deep.css",
+    "favicon.svg",
+    "calendar.mjs",
+    "city.mjs",
+    "world-content.mjs",
+    "world-life.mjs",
+    "living-ui.mjs",
+    "living.css",
   ]) {
     const r = await fetch(`${origin}/games/tc-sim-boardworld/${file}`);
     assert.equal(r.status, 200, file);

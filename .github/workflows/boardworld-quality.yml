@@ -31,6 +31,8 @@ jobs:
         run: node scripts/boardworld-browser.mjs --serve .output/public
       - name: Deep Life decisions, automation, migration and responsive panels
         run: node scripts/boardworld-deep-browser.mjs --serve .output/public
+      - name: Living City calendar, routes, projects, intents and v2 migration
+        run: node scripts/boardworld-living-browser.mjs --serve .output/public
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -38,3 +40,4 @@ jobs:
           path: |
             ${{ runner.temp }}/screenshots/boardworld
             ${{ runner.temp }}/screenshots/boardworld-deep
+            ${{ runner.temp }}/screenshots/boardworld-living
