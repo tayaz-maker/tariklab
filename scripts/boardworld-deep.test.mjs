@@ -13,6 +13,8 @@ import {
   migrateState,
   validateState,
 } from "../public/games/tc-sim-boardworld/engine.mjs";
+import { initLiving } from "../public/games/tc-sim-boardworld/world-life.mjs";
+import { initCalendar } from "../public/games/tc-sim-boardworld/calendar.mjs";
 import { EVENTS } from "../public/games/tc-sim-boardworld/content.mjs";
 
 function fixture(options = {}) {
@@ -30,8 +32,14 @@ function act(s, id) {
   assert.equal(validateState(r.state), true);
   return r.state;
 }
+function atTime(s, at) {
+  s.time = at;
+  initLiving(s);
+  s.calendar.lastTick = at;
+  return s;
+}
 function tick(s, d = day(s) + 1) {
-  s.time = (d - 1) * 1440 - 30;
+  atTime(s, (d - 1) * 1440 - 30);
   return act(s, "wait:60");
 }
 const day = (s) => Math.floor(s.time / 1440) + 1;
@@ -46,7 +54,7 @@ test("legacy rejected actions preserve original identity and migration is pure a
   assert.equal(r.state, s);
   assert.deepEqual(s, before);
   const upgraded = migrateState(s);
-  assert.equal(upgraded.version, 2);
+  assert.equal(upgraded.version, 3);
   assert.deepEqual(s, before);
   assert.deepEqual(migrateState(upgraded), upgraded);
 });
@@ -76,7 +84,7 @@ test("NPCs never react to player finances they have not learned; disclosure reco
   a = tick(a, 2);
   b = tick(b, 2);
   assert.deepEqual(a.deep.npcs, b.deep.npcs, "hidden finances cannot affect NPC decisions");
-  a.time = 10 * 60 + 1440;
+  atTime(a, 18 * 60 + 1440);
   a.location = getNpcLocation(a, "baran");
   a = act(a, "deep:disclose:baran");
   assert.ok(
@@ -98,7 +106,7 @@ test("NPCs never react to player finances they have not learned; disclosure reco
 
 test("player promises change NPC resources on fulfillment and are penalized only once when missed", () => {
   let s = fixture();
-  s.time = 10 * 60;
+  atTime(s, 18 * 60);
   s.location = getNpcLocation(s, "mert");
   s.npcs.mert.affinity = 35;
   s.deep.npcs.mert.request = { kind: "help", sinceDay: 1, deadlineDay: 5 };
@@ -120,7 +128,7 @@ test("player promises change NPC resources on fulfillment and are penalized only
 
 test("NPC support arrives on its actual due day or fails for its own financial circumstances", () => {
   let s = fixture();
-  s.time = 10 * 60;
+  atTime(s, 18 * 60);
   s.location = getNpcLocation(s, "mert");
   s.npcs.mert.trust = 60;
   s = act(s, "deep:support:mert");
@@ -130,7 +138,7 @@ test("NPC support arrives on its actual due day or fails for its own financial c
   assert.equal(s.deep.promises[0].status, "kept");
   assert.equal(s.cash, before + 300);
   let failed = fixture();
-  failed.time = 10 * 60;
+  atTime(failed, 18 * 60);
   failed.location = getNpcLocation(failed, "mert");
   failed.npcs.mert.trust = 60;
   failed = act(failed, "deep:support:mert");
@@ -156,7 +164,7 @@ test("a salary negotiation raises only earned shift pay and planned notice prese
   assert.equal(s.job.earned - earned, 1100);
   s = act(s, "career:notice");
   const notice = s.deep.career.noticeDay;
-  s.time = (notice - 1) * 1440 + 9 * 60;
+  atTime(s, (notice - 1) * 1440 + 9 * 60);
   const reputation = s.deep.career.reputation,
     balance = s.bank,
     owed = s.job.earned;
@@ -223,7 +231,7 @@ test("freelance work pays only on completed delivery and expired work retains it
   s = act(s, "freelance:deliver");
   assert.equal(s.cash + s.bank, before - 350 + 1650);
   assert.equal(s.deep.freelance.completed, 1);
-  s.time = 3 * 1440 + 8 * 60;
+  atTime(s, 3 * 1440 + 8 * 60);
   s = act(s, "freelance:accept:repair");
   const cash = s.cash + s.bank;
   s = tick(s, s.deep.freelance.active.dueDay + 1);
@@ -238,6 +246,8 @@ test("microbusiness has paid acquisition, capped active service and unavoidable 
   s = act(s, "business:start:repair");
   assert.equal(s.deep.business.clients, 0);
   assert.equal(option(s, "business:serve").disabled, true);
+  s = act(s, "business:fund:2000");
+  s = act(s, "business:stock:3");
   s = act(s, "business:acquire");
   s = act(s, "business:serve");
   assert.ok(s.deep.business.revenue > 0);
@@ -265,7 +275,7 @@ test("routines respect hard time bounds and stop before rent violates the reserv
   assert.ok(r.state.time - start <= 1440);
   assert.ok(!r.actions.some((id) => id.startsWith("event:") || id.startsWith("story:")));
   s = fixture();
-  s.time = 29 * 1440 + 22 * 60;
+  atTime(s, 29 * 1440 + 22 * 60);
   s.cash = 4300;
   s.bank = 0;
   s.player.hunger = 90;
@@ -283,7 +293,7 @@ test("routines respect hard time bounds and stop before rent violates the reserv
 
 test("routines stop before an appointment and never consume a pending story decision", () => {
   let s = fixture();
-  s.time = 17 * 60;
+  atTime(s, 17 * 60);
   s.appointments = [
     {
       id: "test-meet",
@@ -294,11 +304,12 @@ test("routines stop before an appointment and never consume a pending story deci
       status: "scheduled",
     },
   ];
+  initCalendar(s);
   const r = runRoutine(s, 1);
   assert.equal(r.state.time, s.time);
-  assert.match(r.message, /randevu/);
+  assert.match(r.message, /randevu|taahhü/);
   s = fixture();
-  s.time = 3 * 1440 + 8 * 60;
+  atTime(s, 3 * 1440 + 8 * 60);
   s = act(s, "wait:60");
   const before = s.time,
     choiceHistory = JSON.stringify(s.stories);

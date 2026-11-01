@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import {
   createGame,
+  migrateState,
   getActions,
   getClock,
   getDeepView,
@@ -25,7 +26,7 @@ const legal = (state) => getActions(state).filter((action) => !action.disabled);
 const available = (state, id) => legal(state).some((action) => action.id === id);
 function sound(state) {
   assert.equal(validateState(state), true, "all interconnected state remains valid");
-  assert.equal(state.version, 2);
+  assert.equal(state.version, 3);
   for (const key of ["cash", "bank", "debt"])
     assert.ok(
       Number.isSafeInteger(state[key]) && state[key] >= 0,
@@ -87,6 +88,15 @@ function workingPolicy(state, { stories = true, work = true } = {}) {
 
 // Short focused cases may use a valid initial fixture to isolate a contract.
 // They never claim to be earned progression; endurance above always starts fresh.
+// A focused fixture may start at a later date. Initialize the new bounded
+// scheduler at that date through migration rather than leaving impossible stale
+// decision cursors. Endurance states never use this setup helper.
+function initializeFixtureClock(state) {
+  const legacy = structuredClone(state);
+  legacy.version = 2;
+  for (const key of ["calendar", "city", "living"]) delete legacy[key];
+  return migrateState(legacy);
+}
 function focused(options = {}) {
   const state = createGame({ seed: 751, ...options });
   state.pendingEvents = [];
@@ -218,6 +228,7 @@ function storyFixture() {
   // A fixture of an established adult life isolates all story prerequisites.
   // Every story decision, waiting interval and resulting effect below is real.
   state.time = 24 * 1440 + 480;
+  state = initializeFixtureClock(state);
   sound(state);
   return take(state, "wait:60");
 }
@@ -405,6 +416,7 @@ test("emergency reserves transfer real money, stay separate from spending, and c
 test("manual rent and utility invoices become real arrears once after their grace period", () => {
   let state = focused({ scenario: "newcomer" });
   state.time = 29 * 1440 + 23 * 60;
+  state = initializeFixtureClock(state);
   state.cash = 30000;
   state.bank = 0;
   state = take(state, "finance:autopay");
@@ -518,15 +530,33 @@ test("microbusiness needs capital, acquisition and labour; each service has real
   state = take(state, "business:start:repair");
   assert.equal(funds(state), 50000 - 3600);
   reject(state, "business:serve");
+  state = take(state, "business:fund:2000");
+  state = take(state, "business:stock:3");
   state = take(state, "business:acquire");
   assert.equal(state.deep.business.clients, 1);
   reject(state, "business:acquire");
-  const before = funds(state);
+  const before = funds(state),
+    capital = state.living.enterprise.capital,
+    costs = state.deep.business.costs,
+    stock = state.living.enterprise.stock;
   state = take(state, "business:serve");
   assert.ok(state.time - startTime >= 480, "setup, acquisition and service consume eight hours");
-  assert.equal(state.deep.business.revenue, 624);
-  assert.ok(state.deep.business.costs >= 3600 + 180 + 160);
-  assert.equal(funds(state) - before, 624 - 160);
+  assert.ok(
+    state.deep.business.revenue > 0 && state.deep.business.revenue < 624,
+    "current regional demand affects realized revenue",
+  );
+  assert.equal(
+    state.deep.business.costs,
+    costs + 30,
+    "previously purchased materials are not charged twice",
+  );
+  assert.equal(state.living.enterprise.stock, stock - 1);
+  assert.equal(state.living.enterprise.capital - capital, state.deep.business.revenue - 30);
+  assert.equal(
+    funds(state),
+    before,
+    "sales stay in the real business cash account until withdrawal",
+  );
   reject(state, "business:serve");
   reject(state, "business:start:digital");
   reject(state, "business:upgrade");
@@ -564,17 +594,30 @@ test("districts change actual meal prices and business economics, not just their
   const prices = {};
   const revenues = {};
   const overheads = {};
+  const demands = {};
   for (const district of DISTRICT_RULES) {
     let state = businessFixture(district.id);
     prices[district.id] = getActions(state).find((action) => action.id === "eat").cost;
     state = take(state, "business:start:repair");
     overheads[district.id] = getDeepView(state).business.weeklyOverhead;
+    demands[district.id] = state.living.markets[district.id].demand;
+    state = take(state, "business:fund:2000");
+    state = take(state, "business:stock:3");
     state = take(state, "business:acquire");
     state = take(state, "business:serve");
     revenues[district.id] = state.deep.business.revenue;
   }
   assert.ok(prices.besiktas > prices.kadikoy && prices.sisli > prices.kadikoy);
-  assert.ok(revenues.kadikoy > revenues.besiktas && revenues.kadikoy > revenues.sisli);
+  assert.equal(
+    new Set(Object.values(revenues)).size,
+    3,
+    "different local demand changes actual receipts",
+  );
+  assert.ok(revenues.kadikoy / demands.kadikoy > revenues.besiktas / demands.besiktas);
+  assert.ok(
+    revenues.kadikoy / demands.kadikoy > revenues.sisli / demands.sisli,
+    "Kadıköy retains its repair premium even when another district has higher current demand",
+  );
   assert.ok(overheads.kadikoy < overheads.besiktas && overheads.besiktas < overheads.sisli);
 });
 
@@ -604,6 +647,7 @@ test("routine budget floor includes upcoming midnight rent and bills", () => {
   state.cash = 7000;
   state.bank = 0;
   state.time = 29 * 1440 + 18 * 60;
+  state = initializeFixtureClock(state);
   state.deep.routine.budgetFloor = 3000;
   sound(state);
   const before = structuredClone(state);
@@ -675,13 +719,19 @@ test("work reputation, wage negotiation and notice survive a genuine change of e
   );
 });
 
-test("NPCs learn only disclosed facts and later hear selected information through their own ties", () => {
+test("NPCs learn only disclosed facts and later hear them through actual trusted contact", () => {
   let state = focused({ scenario: "restart" });
-  state.time = 9 * 60;
-  // Establish a nearby strong tie in a focused fixture; disclosure and all
-  // later information propagation must still happen through real actions/time.
-  state.deep.npcs.ece.work = "kadikoy";
-  state.deep.npcs.ece.ties.mert = 80;
+  state.time = 18 * 60 + 30;
+  state = initializeFixtureClock(state);
+  // Isolate a strong existing contact; no fact or contact is fabricated.
+  for (const [from, to] of [
+    ["ece", "mert"],
+    ["mert", "ece"],
+  ]) {
+    Object.assign(state.living.graph[from][to], { affinity: 90, trust: 80, lastContactAt: 0 });
+    state.living.npcs[from].social = 0;
+  }
+  state.location = getNpcLocation(state, "mert");
   sound(state);
   for (const npc of Object.values(state.deep.npcs)) assert.deepEqual(npc.knownFacts, []);
   state = take(state, "deep:disclose:mert");
@@ -690,22 +740,25 @@ test("NPCs learn only disclosed facts and later hear selected information throug
   for (const [id, npc] of Object.entries(state.deep.npcs))
     if (id !== "mert") assert.deepEqual(npc.knownFacts, [], `${id} is not omniscient`);
   reject(state, "deep:disclose:mert");
-  state = advanceToDay(state, 6, { work: false });
-  assert.equal(
-    state.deep.npcs.ece.knownFacts.length,
-    0,
-    "social propagation waits for contact rhythm",
-  );
-  state = advanceToDay(state, 7, { work: false });
-  const heard = state.deep.npcs.ece.knownFacts.find((fact) => fact.id === "finances");
-  assert.ok(heard, "a trusted nearby contact later shares a known fact");
+  const afterDisclosure = state.time;
+  let heard;
+  for (let turn = 0; !heard && getClock(state).day < 15 && turn < 300; turn++) {
+    state = take(state, workingPolicy(state, { work: false, stories: false }).id);
+    heard = state.deep.npcs.ece.knownFacts.find((fact) => fact.id === "finances");
+  }
+  assert.ok(heard, "a trusted contact later shares a known fact through autonomous interaction");
   assert.match(heard.source, /Mert/);
-  assert.equal(heard.day, 7);
+  assert.ok(
+    state.living.graph.ece.mert.lastContactAt > afterDisclosure,
+    "knowledge transfer follows a real completed NPC contact",
+  );
+  assert.ok(heard.day >= 2 && heard.day < 15);
 });
 
 function promiseFixture() {
-  const state = focused({ scenario: "restart" });
-  state.time = 9 * 60;
+  let state = focused({ scenario: "restart" });
+  state.time = 18 * 60 + 30;
+  state = initializeFixtureClock(state);
   state.cash = 10000;
   state.bank = 0;
   state.npcs.mert.affinity = 40;
@@ -748,6 +801,11 @@ test("keeping and breaking a real help promise lead to different persistent memo
 
 test("NPC support arrives on the stated day from their own budget, while an unemployed NPC can fail", () => {
   const initial = promiseFixture();
+  // A liquid employed contact can honor the promise; this is a focused setup,
+  // not a guarantee that every NPC's independent household always has money.
+  initial.deep.npcs.mert.cash = 2500;
+  initial.deep.npcs.mert.savings = 0;
+  initial.deep.npcs.mert.debt = 0;
   let supported = take(initial, "deep:support:mert");
   const promise = supported.deep.promises.at(-1);
   assert.equal(supported.bank, initial.bank);
@@ -765,10 +823,12 @@ test("NPC support arrives on the stated day from their own budget, while an unem
   assert.equal(payment.amount, 300);
   reject(supported, "deep:support:mert");
   let unemployed = promiseFixture();
-  unemployed.time = 18 * 60;
+  unemployed.time = 18 * 60 + 30;
   unemployed.deep.npcs.mert.employment = "searching";
   unemployed.deep.npcs.mert.cash = 0;
+  unemployed.deep.npcs.mert.savings = 0;
   unemployed.deep.npcs.mert.jobSearchDays = 0;
+  unemployed = initializeFixtureClock(unemployed);
   unemployed.location = getNpcLocation(unemployed, "mert");
   sound(unemployed);
   unemployed = take(unemployed, "deep:support:mert");

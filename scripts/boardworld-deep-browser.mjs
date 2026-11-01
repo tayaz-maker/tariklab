@@ -29,6 +29,12 @@ const assetFiles = [
   "deep-ui.mjs",
   "deep.css",
   "life-chains.mjs",
+  "calendar.mjs",
+  "city.mjs",
+  "world-content.mjs",
+  "world-life.mjs",
+  "living-ui.mjs",
+  "living.css",
 ];
 const performanceReport = {
   environment:
@@ -134,7 +140,9 @@ try {
       };
       if (action.category !== "event") await panel(tabs[action.category] || "board");
       if (action.category === "travel")
-        await surface.locator(`[data-district="${action.id.split(":")[1]}"]`).click();
+        await surface
+          .locator(`.neighborhood-select[data-district="${action.id.split(":")[1]}"]`)
+          .click();
       if (action.category === "social") {
         const info = await snapshot();
         const id = info.deep.npcs.find((n) => action.id.split(":").includes(n.id))?.id;
@@ -162,7 +170,7 @@ try {
       throw new Error("Event queue did not drain");
     };
     await drain();
-    assert.equal((await inspect()).version, 2);
+    assert.equal((await inspect()).version, 3);
     assert.ok((await inspect()).deep);
     await panel("board");
     assert.equal(await surface.locator(".neighborhood-art").count(), 3);
@@ -304,6 +312,12 @@ try {
       while ((await inspect()).cash < 4300) await act("withdraw:1000");
       await act("business:start:repair");
       assert.ok((await inspect()).deep.business);
+      const beforeFunding = await inspect();
+      await act("business:fund:2000");
+      const funded = await inspect();
+      assert.equal(funded.cash + funded.bank, beforeFunding.cash + beforeFunding.bank - 2000);
+      assert.equal(funded.living.enterprise.capital, 2000, "capital is a real transfer");
+      await act("business:stock:3");
       await act("business:acquire");
       const beforeService = await inspect();
       await act("business:serve");
@@ -313,7 +327,14 @@ try {
         afterService.deep.business.costs > beforeService.deep.business.costs,
         "actual material expense recorded",
       );
-      assert.ok(afterService.bank > beforeService.bank, "business receipt reaches shared bank");
+      assert.ok(
+        afterService.living.enterprise.capital > beforeService.living.enterprise.capital,
+        "business receipt reaches the operating account",
+      );
+      assert.ok(
+        afterService.living.enterprise.stock < beforeService.living.enterprise.stock,
+        "service consumes purchased stock",
+      );
       await panel("enterprise");
       await layout("operating business");
       await surface.evaluate(() => scrollTo(0, 0));
@@ -336,7 +357,7 @@ try {
         JSON.stringify(
           await surface.evaluate(() => ({
             text: document.body.innerText,
-            save: localStorage.getItem("tariklab.boardworld.v2"),
+            save: localStorage.getItem("tariklab.boardworld.v3"),
             state: window.boardworldInspect?.(),
           })),
           null,
@@ -345,7 +366,7 @@ try {
       );
       throw error;
     }
-    assert.deepEqual(await inspect(), beforeReload, "v2 deep state roundtrip");
+    assert.deepEqual(await inspect(), beforeReload, "v3 deep state roundtrip");
     const mirror = await context.newPage();
     await mirror.goto(origin + "/games/tc-sim-boardworld/index.html", { waitUntil: "networkidle" });
     await mirror.locator(".game-tabs").waitFor();
@@ -384,7 +405,7 @@ try {
     assert.deepEqual(errors, []);
     results.push({
       width,
-      version: 2,
+      version: 3,
       preview: true,
       networkKeyboard: true,
       routineSettings: true,
@@ -405,7 +426,7 @@ try {
   const fixture = resolve("scripts/fixtures/boardworld/v1-progressed-restart-day46.json"),
     bytes = readFileSync(fixture, "utf8");
   await oldPage.locator("#import-file").setInputFiles(fixture);
-  await oldPage.waitForFunction(() => window.boardworldInspect()?.version === 2);
+  await oldPage.waitForFunction(() => window.boardworldInspect()?.version === 3);
   assert.equal(
     await oldPage.evaluate(() => localStorage.getItem("tariklab.boardworld.v1.original-v1")),
     bytes,
@@ -419,7 +440,7 @@ try {
   await oldPage.locator(".game-tabs [data-tab=people]").click();
   await oldPage.screenshot({ path: `${output}/migrated-v1.png`, fullPage: true });
   // A still-open 1.0 tab may keep writing its valid old save. Its namespace must
-  // never replace the canonical 2.0 state or rolling backup after migration.
+  // never replace the canonical 3.0 state or rolling backup after migration.
   const migrationInspect = () => oldPage.evaluate(() => window.boardworldInspect());
   const migrationDrain = async () => {
     for (let i = 0; i < 40; i++) {
@@ -449,8 +470,8 @@ try {
       backup: localStorage.getItem(BACKUP_KEY),
     };
   });
-  assert.equal(canonical.key, "tariklab.boardworld.v2");
-  assert.ok(canonical.primary && canonical.backup, "canonical 2.0 primary and backup exist");
+  assert.equal(canonical.key, "tariklab.boardworld.v3");
+  assert.ok(canonical.primary && canonical.backup, "canonical 3.0 primary and backup exist");
   await oldPage.evaluate(() => {
     window.boardworldLegacyWriteObserved = 0;
     window.addEventListener("storage", (event) => {
@@ -462,7 +483,7 @@ try {
     waitUntil: "networkidle",
   });
   // This deliberately models the released 1.0 writer's storage output; all
-  // actual 2.0 simulation changes above and below still use real UI actions.
+  // actual 3.0 simulation changes above and below still use real UI actions.
   const legacyWrites = [
     readFileSync(resolve("scripts/fixtures/boardworld/v1-fresh-restart.json"), "utf8"),
     bytes,
@@ -498,7 +519,7 @@ try {
   assert.deepEqual(
     await migrationInspect(),
     upgraded,
-    "reload prefers canonical 2.0 after legacy writer",
+    "reload prefers canonical 3.0 after legacy writer",
   );
   assert.equal(
     await oldPage.evaluate(() => localStorage.getItem("tariklab.boardworld.v1.original-v1")),
@@ -521,36 +542,51 @@ try {
     v1Import: true,
     immutableBackup: true,
     migratedDay: Math.floor(migrated.time / 1440) + 1,
-    oldOpenTabCannotOverwriteV2: true,
+    oldOpenTabCannotOverwriteV3: true,
     observedLegacyWrites: 2,
     canonicalBackupPreserved: true,
     postLegacyCrossTab: true,
   });
   await oldContext.close();
-  // Early 2.0 candidates used the legacy key: adopt their complete envelope
-  // without remigrating or losing any deep progress, then isolate future writes.
+  // Early 2.0 candidates used the legacy key. Migrate a real released envelope,
+  // retaining its earned deep progress and protecting it immediately.
   const transitionalContext = await browser.newContext({ viewport: { width: 390, height: 844 } }),
     transitionalPage = await transitionalContext.newPage();
   await transitionalPage.goto(origin + "/games/tc-sim-boardworld/index.html", {
     waitUntil: "networkidle",
   });
+  const oldV2Bytes = readFileSync(
+    resolve("scripts/fixtures/boardworld/v2-progressed-restart-day46.json"),
+    "utf8",
+  );
+  const expectedV2Migration = await transitionalPage.evaluate(async (envelope) => {
+    const { importGame } = await import("/games/tc-sim-boardworld/persistence.mjs");
+    return importGame(envelope).state;
+  }, oldV2Bytes);
+  assert.ok(expectedV2Migration?.version === 3);
   await transitionalPage.evaluate(
     (envelope) => localStorage.setItem("tariklab.boardworld.v1", envelope),
-    canonical.primary,
+    oldV2Bytes,
   );
   await transitionalPage.reload({ waitUntil: "networkidle" });
   await transitionalPage.locator(".game-tabs").waitFor();
   assert.deepEqual(
     await transitionalPage.evaluate(() => window.boardworldInspect()),
-    upgraded,
-    "v2 envelope under legacy key adopted without loss",
+    expectedV2Migration,
+    "real v2 envelope under legacy key migrates without loss",
   );
   const adopted = await transitionalPage.evaluate(() => ({
-    canonical: localStorage.getItem("tariklab.boardworld.v2"),
+    canonical: localStorage.getItem("tariklab.boardworld.v3"),
     legacy: localStorage.getItem("tariklab.boardworld.v1"),
   }));
   assert.ok(adopted.canonical, "legacy-key v2 envelope promoted to canonical storage at load");
-  assert.equal(adopted.legacy, canonical.primary, "migration leaves legacy storage read-only");
+  assert.equal(adopted.legacy, oldV2Bytes, "migration leaves legacy storage read-only");
+  assert.equal(
+    await transitionalPage.evaluate(() =>
+      localStorage.getItem("tariklab.boardworld.v2.original-v2"),
+    ),
+    oldV2Bytes,
+  );
   results.push({ legacyKeyV2EnvelopeAdopted: true });
   await transitionalContext.close();
   const expected = arg("--expected-root", serving || "public");

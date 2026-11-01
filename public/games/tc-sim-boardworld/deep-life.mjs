@@ -265,7 +265,8 @@ export function deepDaily(s, api) {
   const d = day(s);
   if (!s.deep || s.deep.lastProcessedDay >= d) return;
   s.deep.lastProcessedDay = d;
-  for (const [i, n] of NPCS.entries()) settleNpc(s, n.id, i, api);
+  // Living City schedules and settles important NPCs through one authoritative clock.
+  if (s.version < 3) for (const [i, n] of NPCS.entries()) settleNpc(s, n.id, i, api);
   for (const promise of s.deep.promises) {
     if (
       promise.status !== "pending" ||

@@ -6,7 +6,46 @@ The weekly TC SIM runtime and save namespace are unchanged. Native/Godot remains
 paused and sound is disabled. Prices are authored game balance, not real-time
 financial data or claims about current Turkish salaries.
 
-## Deep Life 2.0
+## Living City 3.0
+
+Version 3 extends the existing deterministic life with a chosen-date calendar,
+twelve usable venues and connected city routes. Meetings, interviews, classes,
+shifts and personal plans reserve real time; NPC work, commute and independent
+plans constrain availability. Counterproposals, rescheduling, cancellation,
+early/late attendance and no-shows have different outcomes. A counterproposal to
+reschedule keeps the original booking until accepted. Scheduled work and lessons
+execute the existing career/education rules, with their actual durations and
+earned rewards. Weekly personal/work/class plans and bounded fast-forward share
+the authoritative clock. No automatic action chooses a consequential card.
+
+Twelve authored NPCs have bounded utility decisions, reciprocal but asymmetric
+relationships, feasible paired visits, real budgets and sourced public knowledge.
+A conserved aggregate population models background employment and moves without
+pretending every resident is a full agent. Four project families track actual
+qualification, relocation, enterprise and relationship milestones against chosen
+budgets and deadlines. Businesses now use a separate capital account and stock,
+bounded regional demand and real liquidation; portable household assets require
+maintenance. The finite intent composer discovers supported actions and explains
+unavailable alternatives; it cannot invent mechanics.
+
+The connected board, day/week calendar, project board and public NPC profiles use
+lightweight SVG/CSS. All play remains Turkish, single-player and action-driven.
+Appointments can be proposed up to fourteen days ahead; ongoing weekly plans
+generate future occurrences with a monotonic cursor. The city has three districts
+and twelve venues; there are four authored project families and three furnishings.
+Business fixed overhead is paid from personal funds; ads, stock and service costs
+use the business account, as explicitly shown in the UI.
+
+The canonical save is `tariklab.boardworld.v3` with `.v3.backup`. Version-1 and
+version-2 primary/backup slots are read-only migration sources, and exact originals
+are preserved in `.v1.original-v1` / `.v2.original-v2`. Legacy checksums and schemas
+are validated before pure migration, then immediately promoted to isolated v3
+storage. Open old tabs cannot overwrite new progress. Legacy appointment times,
+statuses, free attendance and grace semantics are retained. No cloud account is
+required. See [the gap and module contract](LIVING_CITY_CONTRACT.md) and
+[the measured 3.0 acceptance evidence](LIVING_CITY_ACCEPTANCE.md).
+
+## Deep Life 2.0 foundation (historical)
 
 The original engine and all twelve NPCs, seven careers and twenty-eight event
 cards remain. Version 2 extends the same authoritative state with independent
@@ -52,13 +91,19 @@ continue to work; there is no cloud-save account. See
   rent and debt. No wall-clock progression while the game is closed.
 - `app.mjs` / `style.css`: accessible responsive tabletop, character creation,
   action cards and state inspection. The view cannot award money or advance time.
-- `persistence.mjs`: separate `tariklab.boardworld.v2` primary and `.backup` keys,
+- `persistence.mjs`: separate `tariklab.boardworld.v3` primary and `.backup` keys,
   versioned checksum envelope, structural validation and bounded file import/export.
   A checksum detects accidental corruption; it is not an anti-cheat signature.
 - `deep-content.mjs` / `deep-life.mjs`: district, employer, NPC, freelance,
   business and routine rules, isolated from browser rendering.
 - `life-chains.mjs`: ten explicit, validated three-stage life state machines.
 - `deep-ui.mjs` / `deep.css`: additional board, forecast, network and agenda views.
+- `calendar.mjs` / `city.mjs`: validated commitments, available windows, deterministic
+  deadlines, venue access and route forecasts; no browser or wall-clock dependency.
+- `world-content.mjs` / `world-life.mjs`: bounded agents, background population,
+  projects, household and working-capital extensions.
+- `living-ui.mjs` / `living.css`: connected map, calendar forms, project controls,
+  public knowledge and finite intent discovery.
 
 Saving is local to the browser. File export/import transfers a life between
 browsers. Storage failures are visible and never silently reported as success.
@@ -78,7 +123,7 @@ served game bytes, real interactions and save/reload. CI green alone is not proo
 of deployment. The October 31, 2026 dashboard audit found no existing deploy hook;
 no hook is invented or created by this change.
 
-## Playable scope and acceptance
+## Original release scope and acceptance (historical)
 
 The initial release contains three İstanbul districts and three origin scenarios;
 seven careers with three tiers; twelve named NPCs; five certifying courses; four

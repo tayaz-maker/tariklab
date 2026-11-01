@@ -6,6 +6,7 @@ import {
   getClock,
   getGoals,
   getNpcLocation,
+  getAppointmentOptions,
   resolveAction,
   validateState,
 } from "../public/games/tc-sim-boardworld/engine.mjs";
@@ -20,6 +21,7 @@ import {
   ITEMS,
   SKILLS,
 } from "../public/games/tc-sim-boardworld/content.mjs";
+import { initLiving } from "../public/games/tc-sim-boardworld/world-life.mjs";
 
 function assertFinite(value, path = "state") {
   if (typeof value === "number") assert.ok(Number.isFinite(value), `${path} is finite`);
@@ -50,9 +52,9 @@ function assertSound(state) {
   assert.ok(DISTRICTS.some((district) => district.id === state.location));
 }
 
-function perform(state, id) {
+function perform(state, id, payload) {
   const before = structuredClone(state);
-  const result = resolveAction(state, id);
+  const result = resolveAction(state, id, payload);
   assert.deepEqual(state, before, `action ${id} does not mutate its input`);
   assert.equal(result.ok, true, `${id}: ${result.message}`);
   assertSound(result.state);
@@ -80,6 +82,56 @@ function advanceToEvening(state) {
     next = perform(next, "wait:60");
   }
   return next;
+}
+
+function boundaryClock(state, time) {
+  state.time = time;
+  state.calendar.lastTick = time;
+  initLiving(state);
+  assertSound(state);
+}
+function waitUntil(state, time) {
+  let s = state;
+  while (s.time + 60 <= time) s = perform(s, "wait:60");
+  while (s.time + 15 <= time) s = perform(s, "wait:15");
+  return s;
+}
+function bookMeeting(state) {
+  let s = state;
+  if (getClock(s).minute < 540) s = perform(s, "wait:60");
+  for (let day = getClock(s).day + 1; day <= getClock(s).day + 7; day++) {
+    const p = {
+      kind: "meeting",
+      npcId: "leyla",
+      subjectId: "",
+      day,
+      minute: 1080,
+      venue: "kadikoy-cafe",
+      duration: 60,
+      repeat: "none",
+    };
+    const slot = getAppointmentOptions(s, p).slots.find(
+      (x) => x.available && !x.counterExpected && !x.rejectionExpected,
+    );
+    if (slot) return perform(s, "calendar:propose", { ...p, minute: slot.minute });
+  }
+  throw new Error("No appointment window");
+}
+function seekSocial(state, id) {
+  let s = state;
+  const npc = id.split(":").at(-1);
+  for (let turn = 0; turn < 800; turn++) {
+    if (available(s, id)) return s;
+    const actions = getActions(s).filter((a) => !a.disabled),
+      pick = (id) => actions.find((a) => a.id === id);
+    let choice = null;
+    if (s.player.hunger < 35) choice = pick("cook") || pick("soup") || pick("snack") || pick("eat");
+    if (!choice && s.player.energy < 30) choice = pick("sleep") || pick("rest");
+    if (!choice && s.location !== getNpcLocation(s, npc))
+      choice = pick(`travel:${getNpcLocation(s, npc)}`) || pick(`walk:${getNpcLocation(s, npc)}`);
+    s = perform(s, choice?.id || "wait:15");
+  }
+  throw new Error(`No feasible social window for ${id}`);
 }
 
 test("Boardworld ships the required connected content and three distinct starts", () => {
@@ -289,7 +341,7 @@ test("cash transfers conserve money, loans conserve net worth, and repayment low
 test("payday, rent, deposit interest, debt interest and utilities settle exactly once at midnight", () => {
   let state = perform(fixture({ scenario: "restart" }), "apply:retail");
   state = perform(state, "work");
-  state.time = 29 * 1440 + 23 * 60 + 30; // Day 30, 23:30 → day 31.
+  boundaryClock(state, 29 * 1440 + 23 * 60 + 30); // Isolate day 30, 23:30 → day 31.
   state.bank = 10000;
   state.cash = 2000;
   state.job.payDay = 31;
@@ -316,7 +368,7 @@ test("unpaid rent becomes arrears, utilities become debt, and free shelter remai
   let state = fixture();
   state.cash = 0;
   state.bank = 0;
-  state.time = 29 * 1440 + 23 * 60 + 30;
+  boundaryClock(state, 29 * 1440 + 23 * 60 + 30);
   state = perform(state, "wait:60");
   assert.equal(state.housing.arrears, 4200);
   assert.equal(state.debt, 900);
@@ -402,21 +454,18 @@ test("eight actual coding lessons produce a credential and qualify a new career"
 });
 
 test("appointments reserve a real slot and punctual attendance becomes remembered trust", () => {
-  let state = fixture();
-  state = perform(state, "schedule:leyla");
-  const appointment = state.appointments[0];
-  assert.equal(appointment.day, 2);
-  assert.equal(appointment.minute, 1080);
-  assert.equal(available(state, "schedule:leyla"), false, "one pending appointment per person");
-  state.npcs.ece.affinity = 25;
-  assert.equal(available(state, "schedule:ece"), false, "overlapping calendar slot is unavailable");
+  let state = bookMeeting(fixture());
+  const appointment = state.calendar.entries[0];
+  assert.equal(appointment.status, "confirmed");
+  assert.equal(appointment.start % 30, 0);
+  state = perform(state, `visit:${appointment.venue}`);
+  state = waitUntil(state, appointment.start - 15);
   const before = state.npcs.leyla.trust;
-  state.time = 1440 + 17 * 60 + 40;
-  assert.equal(getNpcLocation(state, "leyla"), appointment.location);
-  state = perform(state, `meet:${appointment.id}`);
-  assert.equal(state.appointments[0].status, "completed");
+  assert.equal(getNpcLocation(state, "leyla"), appointment.district);
+  state = perform(state, `calendar:attend:${appointment.id}`);
+  assert.equal(state.calendar.entries[0].status, "completed");
   assert.equal(state.npcs.leyla.trust, before + 10);
-  assert.ok(state.npcs.leyla.memories.some((memory) => /zamanında/.test(memory.text)));
+  assert.ok(state.npcs.leyla.memories.some((memory) => /sözünü/.test(memory.text)));
   const completed = state.npcs.leyla.trust;
   state = perform(state, "wait:60");
   assert.equal(
@@ -427,60 +476,64 @@ test("appointments reserve a real slot and punctual attendance becomes remembere
 });
 
 test("missed appointments lose trust once and apology records responsibility without erasing history", () => {
-  let state = fixture();
-  state = perform(state, "schedule:leyla");
-  state.time = 1440 + 18 * 60 + 45;
+  let state = bookMeeting(fixture());
+  state = waitUntil(state, state.calendar.entries[0].start);
   const trust = state.npcs.leyla.trust;
   state = perform(state, "wait:60");
-  assert.equal(state.appointments[0].status, "missed");
+  assert.equal(state.calendar.entries[0].status, "missed");
   assert.equal(state.npcs.leyla.trust, trust - 12);
   assert.ok(state.npcs.leyla.memories.some((memory) => /gelmedin/.test(memory.text)));
+  state = seekSocial(state, "apologize:leyla");
+  const beforeApology = state.npcs.leyla.trust;
   state = perform(state, "apologize:leyla");
-  assert.equal(state.npcs.leyla.trust, trust - 7);
+  assert.equal(state.npcs.leyla.trust, beforeApology + 5);
   assert.ok(state.npcs.leyla.memories.some((memory) => /sorumluluk/.test(memory.text)));
   assert.ok(state.npcs.leyla.memories.some((memory) => /gelmedin/.test(memory.text)));
   state = perform(state, "wait:60");
-  assert.equal(state.npcs.leyla.trust, trust - 7);
+  assert.equal(state.npcs.leyla.trust, beforeApology + 5);
 });
 
 test("cancelling an appointment frees the slot and does not later incur a no-show penalty", () => {
-  let state = perform(fixture(), "schedule:leyla");
+  let state = bookMeeting(fixture());
+  const appointment = state.calendar.entries[0];
   const trust = state.npcs.leyla.trust;
-  state = perform(state, `cancel:${state.appointments[0].id}`);
-  assert.equal(state.appointments[0].status, "cancelled");
-  assert.equal(state.npcs.leyla.trust, trust - 2);
-  assert.equal(available(state, "schedule:leyla"), true);
-  state.time = 1440 + 19 * 60;
+  state = perform(state, `calendar:cancel:${appointment.id}`);
+  assert.equal(state.calendar.entries[0].status, "cancelled");
+  assert.equal(state.npcs.leyla.trust, trust - 1);
+  state = waitUntil(state, appointment.end);
   state = perform(state, "wait:60");
-  assert.equal(state.npcs.leyla.trust, trust - 2);
+  assert.equal(state.npcs.leyla.trust, trust - 1);
   assert.ok(state.npcs.leyla.memories.some((memory) => /iptal/.test(memory.text)));
 });
 
 test("romance needs mutual readiness and a breakup preserves the shared memories", () => {
   let state = fixture();
-  state.time = 9 * 60;
-  state.location = getNpcLocation(state, "ece");
+  state = perform(state, "wait:60");
   assert.equal(available(state, "date:ece"), false, "a stranger cannot immediately date");
   state.npcs.ece.affinity = 45;
   state.npcs.ece.trust = 32;
   const rng = state.rng;
+  state = seekSocial(state, "date:ece");
   state = perform(state, "date:ece");
   assert.equal(
     available(state, "partner:ece"),
     false,
     "one date is not an established partnership",
   );
+  state = seekSocial(state, "talk:ece");
   state = perform(state, "talk:ece");
   if (state.location !== "kadikoy") state = perform(state, "travel:kadikoy");
   state = advanceToEvening(state);
   state = perform(state, "sleep");
   state = perform(state, "wait:60");
-  state.location = getNpcLocation(state, "ece");
+  state = seekSocial(state, "date:ece");
   state = perform(state, "date:ece");
+  state = seekSocial(state, "partner:ece");
   state = perform(state, "partner:ece");
   assert.equal(state.flags.partner, "ece");
   assert.ok(state.achievements.includes("partnership"));
   assert.equal(available(state, "date:emre"), false, "the active relationship is respected");
+  state = seekSocial(state, "breakup:ece");
   state = perform(state, "breakup:ece");
   assert.equal(state.flags.partner, undefined);
   assert.equal(state.npcs.ece.romance, 0);

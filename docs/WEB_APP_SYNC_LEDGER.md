@@ -1339,3 +1339,19 @@ and audio remains disabled. Publication uses the existing Cloudflare main-branch
 Git integration, as authorized; no new hook, Worker or Vercel change is involved.
 Local tests, exact-commit GitHub CI and live production are separate verification
 steps; their release results are recorded in the PR and final evidence report.
+
+## 2026-11-01 — Boardworld 3.0: Living City
+
+Extended the existing Boardworld route and state from current main `467ef16e`.
+Added chosen-time commitments, NPC availability/counterproposals, deterministic
+calendar deadlines, connected routes and twelve venues; scheduled work/classes
+use the real existing resolver. Bounded NPC utility decisions and paired plans,
+asymmetric relationships and a conserved background population connect to markets.
+Four goal/budget/deadline project families, working capital/stock and household
+maintenance deepen existing economy and recovery paths. The UI adds a functional
+connected board, day/week calendar and finite intent discovery with actual action
+forecasts. Version 3 isolates new saves from open v1/v2 tabs, validates original
+bytes before pure migration, and keeps immutable source-version backups. Original
+TC SIM runtime/save keys and all portal routes remain; native/Godot and audio stay
+paused. No new dependencies, Worker, hook, Vercel or deployment-guard change.
+Validation and release evidence are recorded separately after exact-head checks.
