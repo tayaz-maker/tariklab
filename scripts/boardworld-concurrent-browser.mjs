@@ -88,12 +88,16 @@ try {
     context.newPage(),
     context.newPage(),
   ]);
-  await Promise.all([a, b, holder].map((p) => p.goto(url)));
-  for (const p of [a, b, holder])
+  // Foreground only initial module loading. The actual writers below still queue
+  // concurrently while a third client's transaction lock remains held.
+  for (const p of [a, b, holder]) {
+    await p.bringToFront();
+    await p.goto(url);
     await p.evaluate(async () => {
       window.p = await import("./persistence.mjs");
       window.e = await import("./engine.mjs");
     });
+  }
   const errors = [];
   for (const page of [a, b, holder]) page.on("pageerror", (e) => errors.push(e.message));
   for (let i = 0; i < Number(arg("--repeats", "50")); i++) {
