@@ -19,6 +19,7 @@ jobs:
       - name: Deterministic simulation and save recovery
         env:
           BOARDWORLD_ACCEPTANCE_REPORT: ${{ runner.temp }}/boardworld-acceptance.json
+          BOARDWORLD_GOLD_REPORT: ${{ runner.temp }}/boardworld-gold-endurance.json
         run: node --test scripts/boardworld*.test.mjs
       - name: Production bundle
         run: npm run build
@@ -48,6 +49,7 @@ jobs:
           name: boardworld-browser
           path: |
             ${{ runner.temp }}/boardworld-acceptance.json
+            ${{ runner.temp }}/boardworld-gold-endurance.json
             ${{ runner.temp }}/screenshots/boardworld
             ${{ runner.temp }}/screenshots/boardworld-deep
             ${{ runner.temp }}/screenshots/boardworld-living

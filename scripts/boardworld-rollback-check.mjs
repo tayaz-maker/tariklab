@@ -24,32 +24,71 @@ try {
   const old = await import(
     pathToFileURL(join(temp, "public/games/tc-sim-boardworld/persistence.mjs"))
   );
+  const oldEngine = await import(
+    pathToFileURL(join(temp, "public/games/tc-sim-boardworld/engine.mjs"))
+  );
   const provenance = JSON.parse(
     readFileSync("scripts/fixtures/boardworld/v6-provenance.json", "utf8"),
   );
-  for (const fixture of provenance.fixtures) {
+  const fixtures = [
+    ...provenance.fixtures.map((fixture) => ({ ...fixture, sourceVersion: 6 })),
+    { file: "v5-fresh-newcomer.json", sourceVersion: 5, pending: true },
+    { file: "v5-active-calendar.json", sourceVersion: 5 },
+    { file: "v5-social-2026-day366.json", sourceVersion: 5 },
+  ];
+  for (const fixture of fixtures) {
     const original = readFileSync(`scripts/fixtures/boardworld/${fixture.file}`, "utf8");
-    const loaded = gold.importGame(original);
-    const action = getActions(loaded.state).find((a) => resolveAction(loaded.state, a.id).ok);
-    assert.ok(action, fixture.file);
-    const result = resolveAction(loaded.state, action.id);
-    assert.ok(result.ok, fixture.file);
-    const bytes = gold.exportGame(result.state);
-    assert.deepEqual(old.importGame(bytes).state, result.state);
+    const sourceKey = fixture.sourceVersion === 6 ? gold.SAVE_KEY : gold.LEGACY_V5_SAVE_KEY;
     const map = new Map([
-      [old.SAVE_KEY, bytes],
+      [sourceKey, original],
       ["original-owner-backup", original],
+      ["tariklab::tc-sim:1", "original-TC-untouched"],
     ]);
     const storage = { getItem: (k) => map.get(k) ?? null, setItem: (k, v) => map.set(k, v) };
-    assert.deepEqual(old.loadGame(storage).state, result.state);
-    assert.ok(old.saveGame(result.state, storage).ok);
-    assert.deepEqual(gold.loadGame(storage).state, result.state);
+    const loaded = gold.loadGame(storage);
+    assert.ok(loaded.state, fixture.file);
+    // Keep a genuine unresolved event through the rollback, rather than creating
+    // a synthetic state or resolving it before the old client has loaded it.
+    if (fixture.pending) assert.ok(loaded.state.pendingEvents.length);
+    const action = fixture.pending
+      ? null
+      : getActions(loaded.state).find((a) => resolveAction(loaded.state, a.id).ok);
+    if (!fixture.pending) assert.ok(action, fixture.file);
+    const result = action
+      ? resolveAction(loaded.state, action.id)
+      : { ok: true, state: loaded.state };
+    assert.ok(result.ok, fixture.file);
+    assert.ok(gold.saveGame(result.state, storage).ok);
+    const bytes = gold.exportGame(result.state);
+    assert.deepEqual(old.importGame(bytes).state, result.state);
+    const oldLoaded = old.loadGame(storage).state;
+    assert.deepEqual(oldLoaded, result.state);
+    if (fixture.pending) assert.deepEqual(oldLoaded.pendingEvents, loaded.state.pendingEvents);
+    const oldAction = oldEngine
+      .getActions(oldLoaded)
+      .find((a) => oldEngine.resolveAction(oldLoaded, a.id).ok);
+    assert.ok(oldAction, fixture.file);
+    const oldResult = oldEngine.resolveAction(oldLoaded, oldAction.id);
+    assert.ok(oldResult.ok);
+    assert.notDeepEqual(oldResult.state, oldLoaded);
+    assert.ok(old.saveGame(oldResult.state, storage).ok);
+    assert.deepEqual(old.loadGame(storage).state, oldResult.state);
+    assert.deepEqual(gold.loadGame(storage).state, oldResult.state);
+    assert.deepEqual(gold.importGame(old.exportGame(oldResult.state)).state, oldResult.state);
     assert.equal(map.get("original-owner-backup"), original);
-    assert.deepEqual(gold.importGame(old.exportGame(result.state)).state, result.state);
+    assert.equal(map.get("tariklab::tc-sim:1"), "original-TC-untouched");
+    if (fixture.sourceVersion === 5) {
+      assert.equal(map.get(gold.LEGACY_V5_SAVE_KEY), original);
+      assert.equal(map.get(gold.ORIGINAL_V5_BACKUP_KEY), original);
+    }
     results.push({
       fixture: fixture.file,
-      action: action.id,
-      stateSha256: hash(JSON.stringify(result.state)),
+      sourceVersion: fixture.sourceVersion,
+      goldAction: action?.id ?? null,
+      released6Action: oldAction.id,
+      pendingEventPreservedAtRollback: fixture.pending === true,
+      stateSha256: hash(JSON.stringify(oldResult.state)),
+      originalSha256: hash(original),
       bytes: Buffer.byteLength(bytes),
       pass: true,
     });

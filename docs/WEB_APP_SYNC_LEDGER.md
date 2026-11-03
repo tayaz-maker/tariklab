@@ -1416,3 +1416,22 @@ Raise the existing complete regression, unit shard and Boardworld quality job bu
 - Five built Boardworld browser suites passed after a test-only Deep Life async-save wait correction; first failure retained. Native stale-writer cases passed. Original TC SIM browser matrix: 126/126 rows passed.
 - Gold p95 medians 29.0/28.0/28.1 ms fail 23.4/23.4/24.0 ms. Dependency audit also fails; an isolated upgrade cleared high/critical package findings but removed existing OAuth APIs and was not adopted.
 - No Gold PR, merge, CI acceptance or Cloudflare production deployment. Both live origins still matched released6 assets; manual owner acceptance remains not run. Final source behavior was not changed by this evidence/test-harness update.
+
+### 2026-11-03 — Gold recovery rollback verification
+
+Extend the compatibility harness to exercise a real released6 action, save/reload, and return to Gold. Nine original release fixtures include an unresolved welcome event and v5 calendar/mature migrations; assertions preserve exact legacy/archive bytes and the original TC SIM slot. This is test coverage, not a production rollback or release claim. Final integrated candidate acceptance remains pending.
+
+### 2026-11-03 — Gold recovery security release gate
+
+Require the complete dependency audit (`npm audit --audit-level=high`, including development/build dependencies) in exact-head PR/main build CI before production packaging. Audit failure blocks the existing aggregate CI and Cloudflare guard. No branch protection or hosting setting changed; dependency remediation and final acceptance remain in progress.
+
+### 2026-11-03 — Boardworld Gold dependency security and broker compatibility
+
+- Upgrade the vulnerable Better Auth/Zod/Vite/Wrangler dependency chain and source-map-js; the live all-dependency audit now has zero high/critical findings, with 14 moderate minimatch/ESLint tooling findings retained explicitly.
+- Migrate removed Better Auth OAuth APIs to social sign-in while preserving Google/X broker callback registrations, dynamic preview origins, account subject precedence, session cookies and bearer handoff. No save schema, gameplay, secrets or existing routes changed.
+- Add actual-handler protocol tests for both providers/production origins and preview, state/PKCE/replay, session/sign-out, popup handoff and pre-upgrade account/session compatibility; register in local and CI test lists. Scoped checks pass; final integrated candidate acceptance remains pending. Native remains paused and audio disabled.
+
+### 2026-11-03 — npm 10 clean-install lock compatibility
+
+- Reproduce Cloudflare's missing lru-cache11.5.3 lock rejection against the new security candidate. Add only the generated optional peer entry nested under Nitro, retaining all existing package versions and platform/libc metadata.
+- Fresh npm10.9.2/Node22.23.4 clean install passes with unchanged lock hash. No deployment, runtime, gameplay, save schema, native work or audio change; integrated CI/production acceptance remains pending.

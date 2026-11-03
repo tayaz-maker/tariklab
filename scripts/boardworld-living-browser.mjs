@@ -625,6 +625,21 @@ try {
     oldBytes,
   );
   const inspect = () => page.evaluate(() => window.boardworldInspect());
+  // A click can return before an action's Web Lock, verified save and render.
+  // Register before clicking, then wait for this exact action's completion.
+  const completeAction = async (locator, id) => {
+    await page.evaluate((expected) => {
+      window.migrationActionComplete = false;
+      const done = (event) => {
+        if (event.detail?.id !== expected) return;
+        window.removeEventListener("boardworld:action-complete", done);
+        window.migrationActionComplete = true;
+      };
+      window.addEventListener("boardworld:action-complete", done);
+    }, id);
+    await locator.click();
+    await page.waitForFunction(() => window.migrationActionComplete);
+  };
   for (let i = 0; i < 60; i++) {
     const event = await page.evaluate(async () => {
       const e = await import("/games/tc-sim-boardworld/engine.mjs");
@@ -633,11 +648,17 @@ try {
         .find((a) => a.category === "event" && !a.disabled && !a.cost);
     });
     if (!event) break;
-    await page.locator(`[data-action="${event.id}"]`).first().click();
+    await completeAction(page.locator(`[data-action="${event.id}"]`).first(), event.id);
   }
   await page.locator('.game-tabs [data-tab="wallet"]').click();
-  await page.locator('[data-action="finance:reserve:500"]').click();
+  const beforeUpgrade = await inspect();
+  await completeAction(page.locator('[data-action="finance:reserve:500"]'), "finance:reserve:500");
   const upgraded = await inspect();
+  assert.equal(
+    upgraded.revision,
+    beforeUpgrade.revision + 1,
+    "reserve action committed before stale-writer check",
+  );
   const canonical = await page.evaluate(() => ({
     primary: localStorage.getItem("tariklab.boardworld.v6"),
     backup: localStorage.getItem("tariklab.boardworld.v6.backup"),
@@ -677,8 +698,14 @@ try {
   await page.reload({ waitUntil: "networkidle" });
   assert.deepEqual(await inspect(), upgraded, "reload prefers canonical 5.0 after stale writer");
   await page.locator('.game-tabs [data-tab="wallet"]').click();
-  await page.locator('[data-action="finance:reserve:500"]').click();
+  const beforeSync = await inspect();
+  await completeAction(page.locator('[data-action="finance:reserve:500"]'), "finance:reserve:500");
   const synced = await inspect();
+  assert.equal(
+    synced.revision,
+    beforeSync.revision + 1,
+    "reserve action committed before cross-tab check",
+  );
   await writer.waitForFunction(
     (revision) => window.boardworldInspect()?.revision === revision,
     synced.revision,
