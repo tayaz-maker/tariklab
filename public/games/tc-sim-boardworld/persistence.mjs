@@ -45,6 +45,9 @@ const importedLegacy = new WeakMap();
 // No parsed state is retained. Each storage keeps at most three strings (the
 // two rolling slots and the latest write); an external change is a cache miss.
 const canonicalValidation = new WeakMap();
+// Browser transaction adapters are short-lived. Share their bounded validation
+// metadata for exact immutable bytes; never cache a head, generation or state.
+const browserCanonicalValidation = new Map();
 function rememberCanonical(storage, bytes) {
   let recent = canonicalValidation.get(storage);
   if (!recent) canonicalValidation.set(storage, (recent = new Map()));
@@ -439,6 +442,7 @@ async function browserTransaction(storage, operation, collectArchives = false) {
             const before = new Map(slots);
             const memory = memoryStorage(slots),
               put = memory.setItem;
+            canonicalValidation.set(memory, browserCanonicalValidation);
             memory.setItem = (key, bytes) => {
               dirty = true;
               put(key, bytes);

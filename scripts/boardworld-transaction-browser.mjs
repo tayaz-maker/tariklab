@@ -260,6 +260,140 @@ try {
       return { ok: false, durableSlotsUnchanged: true };
     });
   await check(
+    "warm validation cannot rotate checksum-invalid primary bytes into the backup",
+    async () => {
+      const result = await page.evaluate(async () => {
+        const loaded = await p.loadGameLocked();
+        const warm = await p.saveGameLocked(loaded.state, undefined, loaded.token);
+        if (!warm.ok) throw Error(warm.message);
+        const envelope = JSON.parse(warm.token.primary);
+        // Same checksum and decoded state, different bytes: checksum must fail.
+        envelope.payload += " ";
+        const damaged = JSON.stringify(envelope);
+        await new Promise((resolve, reject) => {
+          const request = indexedDB.open(`${p.SAVE_KEY}.transactions`, 1);
+          request.onsuccess = () => {
+            const db = request.result,
+              tx = db.transaction("state", "readwrite");
+            const store = tx.objectStore("state"),
+              get = store.get("head");
+            get.onsuccess = () => {
+              const record = get.result,
+                slots = new Map(record.slots);
+              slots.set(p.SAVE_KEY, damaged);
+              record.slots = [...slots];
+              store.put(record, "head");
+            };
+            tx.oncomplete = () => {
+              db.close();
+              resolve();
+            };
+            tx.onabort = () => {
+              db.close();
+              reject(tx.error);
+            };
+          };
+          request.onerror = () => reject(request.error);
+        });
+        const recovered = await p.loadGameLocked();
+        const candidate = next(recovered.state);
+        const repaired = await p.saveGameLocked(candidate, undefined, recovered.token);
+        return {
+          warm: warm.ok,
+          damagedRejected: p.importGame(damaged).state === null,
+          recovered: recovered.state,
+          expected: loaded.state,
+          repaired: repaired.ok,
+          backup: repaired.token?.backup,
+          healthyBytes: warm.token.primary,
+          after: (await p.loadGameLocked()).state,
+          candidate,
+        };
+      });
+      assert.equal(result.warm, true);
+      assert.equal(result.damagedRejected, true);
+      assert.deepEqual(result.recovered, result.expected);
+      assert.equal(result.repaired, true);
+      assert.equal(result.backup, result.healthyBytes);
+      assert.deepEqual(result.after, result.candidate);
+      return { changedBytesRevalidated: true, healthyBackupPreserved: true };
+    },
+  );
+  await check(
+    "warm byte validation never validates a subsequently mutated state object",
+    async () => {
+      const result = await page.evaluate(async () => {
+        const loaded = await p.loadGameLocked(),
+          state = loaded.state;
+        const warm = await p.saveGameLocked(state, undefined, loaded.token);
+        if (!warm.ok) throw Error(warm.message);
+        const before = await head(),
+          mirror = p.readSaveToken();
+        state.player.health = 101;
+        const rejected = await p.saveGameLocked(state, undefined, warm.token);
+        return {
+          ok: rejected.ok,
+          token: rejected.token,
+          before,
+          after: await head(),
+          mirror,
+          afterMirror: p.readSaveToken(),
+        };
+      });
+      assert.equal(result.ok, false);
+      assert.equal(result.token, undefined);
+      assert.deepEqual(result.after, result.before);
+      assert.deepEqual(result.afterMirror, result.mirror);
+      return { invalidLiveStateRejected: true, durableSlotsUnchanged: true };
+    },
+  );
+  await check(
+    "valid bytes from an aborted save cannot authorize a stale retry after another commit",
+    async () => {
+      const result = await page.evaluate(async () => {
+        const loaded = await p.loadGameLocked(),
+          candidate = next(loaded.state);
+        const put = IDBObjectStore.prototype.put;
+        IDBObjectStore.prototype.put = function (...args) {
+          const request = put.apply(this, args);
+          if (this.name === "state")
+            request.addEventListener("success", () => this.transaction.abort(), { once: true });
+          return request;
+        };
+        let aborted;
+        try {
+          aborted = await p.saveGameLocked(candidate, undefined, loaded.token);
+        } finally {
+          IDBObjectStore.prototype.put = put;
+        }
+        const other = e.createGame({ seed: 91373, name: "Validation Cache Writer" });
+        const winner = await p.saveGameLocked(other, undefined, loaded.token);
+        const before = await head(),
+          mirror = p.readSaveToken();
+        const rejected = await p.saveGameLocked(candidate, undefined, loaded.token);
+        return {
+          aborted: aborted.ok,
+          winner: winner.ok,
+          rejected,
+          before,
+          after: await head(),
+          mirror,
+          afterMirror: p.readSaveToken(),
+          expected: other,
+          state: (await p.loadGameLocked()).state,
+        };
+      });
+      assert.equal(result.aborted, false);
+      assert.equal(result.winner, true);
+      assert.equal(result.rejected.ok, false);
+      assert.equal(result.rejected.conflict, true);
+      assert.deepEqual(result.after, result.before);
+      assert.deepEqual(result.afterMirror, result.mirror);
+      assert.deepEqual(result.state, result.expected);
+      return { abortedBytesNotAuthority: true, staleRetryRejected: true };
+    },
+  );
+  await check(
     "localStorage mirror failure after commit: durable success, repair on reload",
     async () => {
       const result = await page.evaluate(async () => {
