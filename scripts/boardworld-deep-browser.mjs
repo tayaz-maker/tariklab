@@ -363,6 +363,9 @@ try {
     const preReloadTimings = await surface.evaluate(() => window.boardworldQaTimings);
     const beforeReload = await inspect();
     await surface.locator("[data-ui=save]").first().click();
+    await surface.waitForFunction(() =>
+      /kaydedildi/i.test(document.querySelector("#notice")?.textContent || ""),
+    );
     assert.match(await surface.locator("#notice").innerText(), /kaydedildi/i);
     await page.reload({ waitUntil: "networkidle" });
     surface = portal ? await (await page.locator("iframe").elementHandle()).contentFrame() : page;

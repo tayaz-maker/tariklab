@@ -2,7 +2,10 @@
   "schema": 1,
   "product": "Boardworld 7.0 Gold",
   "saveSchema": 6,
-  "canonicalKeys": ["tariklab.boardworld.v6", "tariklab.boardworld.v6.backup"],
+  "canonicalKeys": [
+    "tariklab.boardworld.v6",
+    "tariklab.boardworld.v6.backup"
+  ],
   "baselineCommit": "d695119186cad42c079a911a60c372f201b3b64b",
   "audit": {
     "status": "PASS",
@@ -872,5 +875,18 @@
     "harnessAttempts": "Initial attempts failed due missing bundled browser, ambiguous Save selector and invisible first action; installed Chrome and scoped selectors used for successful run."
   },
   "concurrencyScope": "Current Gold writers and migration promotions use the same origin-wide Web Lock with exact expected-byte guard. The frozen unpatched 6.0 writer does not implement this protocol and can overwrite canonical v6 slots from a stale open tab; this remains a real legacy-client limitation, not a guarantee supplied by these compatibility fixtures. Export and reload pre-Gold tabs before continuing the same life. v1-v5 writers use isolated legacy keys.",
-  "authenticTotalIncludingNativeV6": 86
+  "authenticTotalIncludingNativeV6": 86,
+  "finalProductSourceVerification": {
+    "commit": "a46f37df605285e73fb5747431c75e4b937a6c03",
+    "repositoryRegression": {
+      "javascript": 2894,
+      "typescript": 61,
+      "failures": 0,
+      "skips": 0
+    },
+    "native6FixtureCount": 6,
+    "goldToReleased6RollbackFixtures": 6,
+    "exactStatePreserved": true,
+    "runtimeFormatChanged": false
+  }
 }

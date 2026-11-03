@@ -1,10 +1,16 @@
 {
-  "phase": "pre-freeze diagnostic",
+  "phase": "verified candidate; release blocked",
   "issues": [
     {
       "id": "BW7-LATENCY",
       "status": "FAIL_RELEASE_GATE",
-      "description": "Complete click through Web Lock/save/render p95 remains above 23.4/23.4/24.0ms. Diagnostic 1440/390/320 runs: 28.2/36.1/29.0 and 27.3/27.8/26.3. Do not merge or deploy until the required matched three-run gate passes."
+      "description": "Three-run p95 medians 29.0/28.0/28.1 ms exceed 23.4/23.4/24.0 ms at 1440/390/320. Do not merge/deploy."
+    },
+    {
+      "id": "BW7-DEPENDENCIES",
+      "status": "FAIL_RELEASE_GATE",
+      "description": "npm audit --audit-level=high exits 1 (1 critical, 4 high, 17 moderate, 2 low). Magic Link/OAuth Proxy prerequisites are absent in current auth configuration, but dependency remediation is incomplete. Prepared newer dependencies clear high/critical, yet Better Auth OAuth API type compatibility fails; not adopted.",
+      "advisory": "https://github.com/advisories/GHSA-965c-763c-88jm"
     },
     {
       "id": "BW7-OLD6-TAB",
@@ -24,9 +30,14 @@
       "description": "Owner physical playtesting and entertainment assessment remain outstanding."
     },
     {
-      "id": "BW7-FINAL-MATRIX",
-      "status": "NOT_RUN",
-      "description": "Pre-freeze diagnostics are not final acceptance, PR CI or production verification."
+      "id": "BW7-LINT",
+      "status": "INHERITED",
+      "description": "62 lint warnings, zero errors. Recharts 2 and ESLint 9 deprecation/support notices remain."
+    },
+    {
+      "id": "BW7-HARNESS-LABELS",
+      "status": "LOW",
+      "description": "Some legacy browser artifact labels still say 5.0/current5 although actual native save assertions use schema 6. The migration matrix and final evidence identify schema 6 explicitly."
     }
   ]
 }

@@ -1410,3 +1410,9 @@ Raise the existing complete regression, unit shard and Boardworld quality job bu
 - Overlapped rendering with queued save locking while keeping the action busy until verified persistence; manual save avoids redundant rendering. Locale catalogs retain append-only indices and translate the saving state.
 - Added exact released6 rollback-reader verification (six fresh/mature fixtures), per-action full-completion timings and browser heap/DOM metrics. Preserved failed and discarded diagnostic runs.
 - Full completion p95 still exceeds Gold limits. No Gold merge/deploy is authorized by the acceptance gate; no simulation rules, save slots, audio or original TC SIM were changed.
+
+### 2026-11-03 — Boardworld Gold verification completed; production release blocked
+- Product source `a46f37df605285e73fb5747431c75e4b937a6c03`: 2894 JavaScript + 61 TypeScript tests passed, zero failures/skips, including all 19 persisted deterministic lives (7300 days). All action traces/counts and checkpoint save hashes match the released6 reference.
+- Five built Boardworld browser suites passed after a test-only Deep Life async-save wait correction; first failure retained. Native stale-writer cases passed. Original TC SIM browser matrix: 126/126 rows passed.
+- Gold p95 medians 29.0/28.0/28.1 ms fail 23.4/23.4/24.0 ms. Dependency audit also fails; an isolated upgrade cleared high/critical package findings but removed existing OAuth APIs and was not adopted.
+- No Gold PR, merge, CI acceptance or Cloudflare production deployment. Both live origins still matched released6 assets; manual owner acceptance remains not run. Final source behavior was not changed by this evidence/test-harness update.
