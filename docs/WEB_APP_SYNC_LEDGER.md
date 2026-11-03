@@ -1443,3 +1443,7 @@ Frozen product candidate `12b519c58b61e9de5074de5849e8a8c857f26646` passes the f
 ## Gold release blocked by concurrent-writer acceptance — 2026-11-03
 
 PR #254 is draft. The final CI writer-race assertion failed and stronger local queue/completion diagnostics reproduced two successful same-action notices instead of one rejected writer. No product fix, merge or production deploy is claimed. Initial passing tests remain historical evidence; current acceptance is BLOCKED. Social Engine branches/files are untouched.
+
+## Boardworld concurrent-save protocol fix — 2026-11-03
+
+On isolated `fix/boardworld-7-concurrent-save` from `27f2e013`, reproduce stale localStorage visibility after correctly ordered Web Lock callbacks, including two successful different-action writes with the first move lost. Make IndexedDB slot bytes plus a monotonic generation authoritative and atomic; return success only after transaction completion. Preserve v6 envelopes, legacy migration/archives, released6 compatibility copies, export-only fallback and exportable losing moves. UI action completion now reports persistence failure/conflict explicitly. Add real queued-writer/abort/migration/rollback/recovery verification; retain initial red traces and development failures. See `docs/tc-sim-boardworld/CONCURRENT_SAVE_FIX.md` and its verification manifest. This fixes the save protocol only; it does not release Gold or alter native/audio, other games or Social Engine.

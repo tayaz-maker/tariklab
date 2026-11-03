@@ -100,7 +100,10 @@ try {
   await a.reload();
   await b.reload();
   await Promise.all([a, b].map((p) => p.waitForFunction(() => window.boardworldInspect?.())));
-  assert.deepEqual(await a.evaluate(() => window.boardworldInspect()), await b.evaluate(() => window.boardworldInspect()));
+  assert.deepEqual(
+    await a.evaluate(() => window.boardworldInspect()),
+    await b.evaluate(() => window.boardworldInspect()),
+  );
   const beforeRace = await slots(a);
   await a.evaluate(() => {
     window.lockHeld = false;
@@ -113,12 +116,19 @@ try {
   for (const p of [a, b])
     await p.evaluate(() => {
       window.actionDone = false;
-      window.addEventListener("boardworld:action-complete", (event) => {
-        window.actionCompletion = { id: event.detail.id, notice: document.querySelector("#notice").textContent };
-        window.actionDone = true;
-      }, {
-        once: true,
-      });
+      window.addEventListener(
+        "boardworld:action-complete",
+        (event) => {
+          window.actionCompletion = {
+            ...event.detail,
+            notice: document.querySelector("#notice").textContent,
+          };
+          window.actionDone = true;
+        },
+        {
+          once: true,
+        },
+      );
     });
   await Promise.all([
     a.locator("[data-action]:not([disabled]):visible").first().click(),
@@ -126,18 +136,35 @@ try {
   ]);
   await a.waitForFunction(async () => {
     const { pending } = await navigator.locks.query();
-    return pending.filter((lock) => lock.name === "tariklab.boardworld.v6.transaction").length === 2;
+    return (
+      pending.filter((lock) => lock.name === "tariklab.boardworld.v6.transaction").length === 2
+    );
   });
   const held = await slots(a);
-  assert.deepEqual(held, beforeRace, "both queued writers preserve storage while the transaction lock is held");
+  assert.deepEqual(
+    held,
+    beforeRace,
+    "both queued writers preserve storage while the transaction lock is held",
+  );
   await a.evaluate(() => window.releaseHeldLock());
   await Promise.all([
     a.waitForFunction(() => window.actionDone),
     b.waitForFunction(() => window.actionDone),
   ]);
-  const completions = await Promise.all([a, b].map((p) => p.evaluate(() => window.actionCompletion)));
+  const completions = await Promise.all(
+    [a, b].map((p) => p.evaluate(() => window.actionCompletion)),
+  );
   const notices = completions.map((result) => result.notice);
-  assert.equal(notices.filter((x) => x.includes("Başka bir sekme")).length, 1, JSON.stringify(completions));
+  assert.equal(
+    notices.filter((x) => x.includes("Başka bir sekme")).length,
+    1,
+    JSON.stringify(completions),
+  );
+  assert.equal(completions.filter((x) => x.ok === true && x.saved === true).length, 1);
+  assert.equal(
+    completions.filter((x) => x.ok === false && x.saved === false && x.conflict === true).length,
+    1,
+  );
   assert.notEqual((await slots(a))[0], held[0]);
   assert.equal((await slots(a))[1], held[0]);
   results.push({

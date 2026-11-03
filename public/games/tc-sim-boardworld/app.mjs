@@ -573,6 +573,7 @@ function render({ focus = null } = {}) {
 async function commit(id, payload) {
   if (!state || busy) return;
   busy = true;
+  let completion = { id, ok: false, saved: false, conflict: false };
   try {
     const before = state,
       result = resolveAction(state, id, payload);
@@ -620,13 +621,14 @@ async function commit(id, payload) {
     saveStatus =
       saved.message || (saved.ok ? "Otomatik kaydedildi" : "Kayıt yapılamadı; dosyaya indir.");
     updateSaveStatus();
-    announce(saved.ok ? result.message : `${result.message} ${saved.message}`, !saved.ok);
-    return result;
+    completion = { id, ok: saved.ok, saved: saved.ok, conflict: saved.conflict === true };
+    announce(saved.ok ? result.message : saved.message, !saved.ok);
+    return { ...result, ...completion };
   } catch (error) {
     announce(`Hamle tamamlanamadı: ${error.message}`, true);
   } finally {
     busy = false;
-    window.dispatchEvent(new CustomEvent("boardworld:action-complete", { detail: { id } }));
+    window.dispatchEvent(new CustomEvent("boardworld:action-complete", { detail: completion }));
   }
 }
 function showLocalizedDialog() {

@@ -323,20 +323,184 @@ export function saveGame(state, storage, expectedToken) {
 export const SAVE_LOCK = "tariklab.boardworld.v6.transaction";
 const LOCK_WARNING =
   "Bu tarayıcı güvenli sekmeler arası kaydı desteklemiyor. İlerlemeni dosyaya aktar; otomatik kayıt kapalı.";
+const conflict = () => ({
+  ok: false,
+  conflict: true,
+  message:
+    "Başka bir sekme kaydı değiştirdi. Bu sekmedeki ilerlemeni dosyaya aktar, sonra sayfayı yenile.",
+});
+const SLOT_KEYS = [SAVE_KEY, BACKUP_KEY, ...LEGACY_SLOTS.map(([key]) => key)];
+const mirrorKey = (key) => key === SAVE_KEY || key === BACKUP_KEY || key.includes(".original-v");
+const memoryStorage = (slots) => ({
+  getItem: (key) => slots.get(key) ?? null,
+  setItem: (key, value) => slots.set(key, value),
+});
+async function digest(bytes) {
+  if (bytes === null) return "empty";
+  const hash = await globalThis.crypto.subtle.digest("SHA-256", new TextEncoder().encode(bytes));
+  return Array.from(new Uint8Array(hash), (b) => b.toString(16).padStart(2, "0")).join("");
+}
+// Web Locks order callbacks, but do not refresh a renderer's localStorage cache.
+// The authoritative slots AND generation therefore commit in one IDB transaction.
+// localStorage is only a released-v6 compatibility copy after that commit.
+async function browserTransaction(storage, operation, acceptExternal = false) {
+  try {
+    storage ??= globalThis.localStorage;
+  } catch {
+    /* IDB may still be readable. */
+  }
+  const db = await new Promise((resolve, reject) => {
+    const request = globalThis.indexedDB.open(`${SAVE_KEY}.transactions`, 1);
+    request.onupgradeneeded = () => {
+      request.result.createObjectStore("state");
+      request.result.createObjectStore("seen");
+    };
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+    request.onblocked = () => reject(new Error("blocked"));
+  });
+  try {
+    // Hash outside the write transaction: awaiting crypto inside it could make
+    // it inactive. The write transaction re-reads and validates this generation.
+    const observed = await new Promise((resolve, reject) => {
+      const tx = db.transaction("state"),
+        request = tx.objectStore("state").get("head");
+      tx.oncomplete = () => resolve(request.result);
+      tx.onabort = () => reject(tx.error);
+    });
+    let mirror;
+    try {
+      mirror = new Map(SLOT_KEYS.map((key) => [key, storage.getItem(key)]));
+    } catch {
+      if (!observed) throw new Error("initial-storage-unavailable");
+      mirror = new Map();
+    }
+    const primary = mirror.get(SAVE_KEY) ?? null;
+    const [mirrorHash, headHash] = await Promise.all([
+      digest(primary),
+      digest(new Map(observed?.slots).get(SAVE_KEY) ?? null),
+    ]);
+    return await new Promise((resolve, reject) => {
+      const tx = db.transaction(["state", "seen"], "readwrite", { durability: "strict" });
+      const stateStore = tx.objectStore("state"),
+        seen = tx.objectStore("seen");
+      let result, committed;
+      tx.onabort = () => reject(tx.error || new Error("aborted"));
+      tx.oncomplete = () => {
+        // A mirror failure cannot undo a committed save. A later load repairs it.
+        try {
+          if (committed)
+            for (const [key, bytes] of committed.slots)
+              if (mirrorKey(key)) {
+                if (bytes !== null) writeChecked(storage, key, bytes);
+                else if (key === SAVE_KEY || key === BACKUP_KEY) storage.removeItem(key);
+              }
+        } catch {
+          result.mirrorFailed = true;
+        }
+        resolve(result);
+      };
+      const read = stateStore.get("head");
+      read.onsuccess = () => {
+        const head = read.result;
+        if (head?.generation !== observed?.generation) {
+          result = conflict();
+          return;
+        }
+        const known = seen.get(mirrorHash);
+        known.onsuccess = () => {
+          try {
+            const slots = new Map(head?.slots ?? mirror);
+            // Fresh, previously unseen valid native bytes can come from an actual
+            // released6 rollback. Previously committed bytes are stale snapshots,
+            // never an instruction to roll the authoritative state backwards.
+            const external =
+              head &&
+              primary !== slots.get(SAVE_KEY) &&
+              !known.result &&
+              importGame(primary).sourceVersion === CURRENT_VERSION &&
+              importGame(slots.get(SAVE_KEY)).sourceVersion === CURRENT_VERSION;
+            if (external && !acceptExternal) {
+              result = conflict();
+              return;
+            }
+            if (external) {
+              slots.set(SAVE_KEY, primary);
+              const backup = mirror.get(BACKUP_KEY);
+              if (importGame(backup).sourceVersion === CURRENT_VERSION)
+                slots.set(BACKUP_KEY, backup);
+            }
+            let dirty = !head || external;
+            if (acceptExternal)
+              for (const [key, bytes] of mirror)
+                if (
+                  key.includes(".original-v") &&
+                  !slots.get(key) &&
+                  bytes &&
+                  importGame(bytes).sourceVersion === Number(key.at(-1))
+                ) {
+                  slots.set(key, bytes);
+                  dirty = true;
+                }
+            const generation = head?.generation ?? 0;
+            const before = new Map(slots);
+            const memory = memoryStorage(slots),
+              put = memory.setItem;
+            memory.setItem = (key, bytes) => {
+              dirty = true;
+              put(key, bytes);
+            };
+            result = operation(memory, generation);
+            if (result.ok === false || result.protected === false) {
+              if (result.token)
+                result.token = { ...readSaveToken(memoryStorage(before)), generation };
+              return;
+            }
+            const next = generation + (dirty ? 1 : 0);
+            if (!Number.isSafeInteger(next)) throw new Error("generation-overflow");
+            if (dirty) {
+              committed = { generation: next, slots: [...slots] };
+              stateStore.put(committed, "head");
+              // Keep only hashes of past canonical bytes, not full save histories.
+              // This prevents stale renderer caches from impersonating a rollback.
+              seen.put(true, headHash);
+              if (external) seen.put(true, mirrorHash);
+            } else committed = head;
+            if (result.token) result.token.generation = next;
+          } catch {
+            tx.abort();
+          }
+        };
+      };
+    });
+  } finally {
+    db.close();
+  }
+}
 export async function saveGameLocked(
   state,
   storage,
   expectedToken,
   locks = globalThis.navigator?.locks,
+  transact = browserTransaction,
 ) {
   if (!locks?.request) return { ok: false, message: LOCK_WARNING };
   try {
-    return await locks.request(SAVE_LOCK, () => saveGame(state, storage, expectedToken));
+    return await locks.request(SAVE_LOCK, () =>
+      transact(storage, (memory, generation) => {
+        if (expectedToken?.generation !== generation) return conflict();
+        return saveGame(state, memory, expectedToken);
+      }),
+    );
   } catch {
     return { ok: false, message: LOCK_WARNING };
   }
 }
-export async function loadGameLocked(storage, locks = globalThis.navigator?.locks) {
+export async function loadGameLocked(
+  storage,
+  locks = globalThis.navigator?.locks,
+  transact = browserTransaction,
+) {
   const read = (promote) => {
     const loaded = loadGame(storage, { promote });
     let token = null;
@@ -349,7 +513,16 @@ export async function loadGameLocked(storage, locks = globalThis.navigator?.lock
   };
   if (!locks?.request) return read(false);
   try {
-    return await locks.request(SAVE_LOCK, () => read(true));
+    return await locks.request(SAVE_LOCK, () =>
+      transact(
+        storage,
+        (memory) => {
+          const loaded = loadGame(memory);
+          return { ...loaded, token: readSaveToken(memory) };
+        },
+        true,
+      ),
+    );
   } catch {
     return read(false);
   }

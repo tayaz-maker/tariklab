@@ -42,7 +42,11 @@ jobs:
       - name: Living Society invitations, daily decisions, locales and v4 isolation
         run: node scripts/boardworld-society-browser.mjs --serve .output/public
       - name: Gold native cross-tab transaction and import races
-        run: node scripts/boardworld-stale-browser.mjs --serve .output/public
+        run: |
+          node scripts/boardworld-stale-browser.mjs --serve .output/public
+          node scripts/boardworld-concurrent-browser.mjs --serve .output/public --output "$RUNNER_TEMP/screenshots/boardworld-stale/concurrent.json"
+          node scripts/boardworld-concurrent-browser.mjs --serve .output/public --stale-cache --repeats 20 --output "$RUNNER_TEMP/screenshots/boardworld-stale/frozen-cache.json"
+          node scripts/boardworld-transaction-browser.mjs --serve .output/public --output "$RUNNER_TEMP/screenshots/boardworld-stale/transactions.json"
       - uses: actions/upload-artifact@v4
         if: always()
         with:

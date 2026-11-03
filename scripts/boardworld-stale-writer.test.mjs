@@ -26,6 +26,31 @@ const advance = (state) =>
   getActions(state)
     .map((a) => resolveAction(state, a.id))
     .find((r) => r.ok).state;
+// Unit adapter for the transaction boundary, not a localStorage fallback.
+// Actual IndexedDB commit/abort and cross-renderer races are browser-tested.
+const transactionalDisk = () => {
+  const heads = new WeakMap();
+  return async (store, operation) => {
+    const head = heads.get(store) ?? { generation: 0, slots: new Map(store.map) };
+    const slots = new Map(head.slots);
+    let dirty = !heads.has(store);
+    const memory = {
+      getItem: (k) => slots.get(k) ?? null,
+      setItem: (k, v) => {
+        dirty = true;
+        slots.set(k, v);
+      },
+    };
+    const result = operation(memory, head.generation);
+    if (result.ok === false || result.protected === false) return result;
+    const generation = head.generation + Number(dirty);
+    heads.set(store, { generation, slots });
+    store.map.clear();
+    for (const [k, v] of slots) store.map.set(k, v);
+    if (result.token) result.token.generation = generation;
+    return result;
+  };
+};
 test("suspended native writer cannot replace newer progress or rotate its backup before storage event delivery", () => {
   const store = disk();
   saveGame(createGame({ seed: 7 }), store);
@@ -99,16 +124,20 @@ test("locked transactions serialize simultaneous snapshots and migration; missin
   };
   const store = disk(),
     initial = createGame({ seed: 9 });
+  const transact = transactionalDisk();
   saveGame(initial, store);
-  const token = readSaveToken(store);
+  const { token } = await loadGameLocked(store, locks, transact);
   const results = await Promise.all([
-    saveGameLocked(advance(initial), store, token, locks),
-    saveGameLocked(initial, store, token, locks),
+    saveGameLocked(advance(initial), store, token, locks, transact),
+    saveGameLocked(initial, store, token, locks, transact),
   ]);
   assert.equal(results.filter((r) => r.ok).length, 1);
   assert.equal(results.filter((r) => r.conflict).length, 1);
-  const loaded = await loadGameLocked(store, locks);
-  assert.deepEqual(loaded.token, readSaveToken(store));
+  const loaded = await loadGameLocked(store, locks, transact);
+  assert.deepEqual(loaded.token, {
+    ...readSaveToken(store),
+    generation: results.find((r) => r.ok).token.generation,
+  });
   const before = new Map(store.map);
   assert.equal((await saveGameLocked(initial, store, loaded.token, {})).ok, false);
   assert.deepEqual(store.map, before);
@@ -140,9 +169,44 @@ test("concurrent legacy loads promote once under the lock, while unsupported bro
       return next;
     },
   };
-  const loads = await Promise.all([loadGameLocked(store, locks), loadGameLocked(store, locks)]);
+  const transact = transactionalDisk();
+  const loads = await Promise.all([
+    loadGameLocked(store, locks, transact),
+    loadGameLocked(store, locks, transact),
+  ]);
   assert.deepEqual(loads[0].state, loads[1].state);
   assert.deepEqual(loads[0].token, loads[1].token);
   assert.equal(store.getItem(ORIGINAL_V5_BACKUP_KEY), original);
   assert.equal(store.getItem(LEGACY_V5_SAVE_KEY), original);
+});
+
+test("identical no-op saves still consume a generation and reject the other writer; missing generations fail closed", async () => {
+  const { saveGameLocked, loadGameLocked } =
+    await import("../public/games/tc-sim-boardworld/persistence.mjs");
+  let queue = Promise.resolve();
+  const locks = {
+    request(_name, fn) {
+      const result = queue.then(fn);
+      queue = result.catch(() => {});
+      return result;
+    },
+  };
+  const store = disk(),
+    transact = transactionalDisk(),
+    state = createGame({ seed: 7 });
+  saveGame(state, store);
+  let loaded = await loadGameLocked(store, locks, transact);
+  assert.equal((await saveGameLocked(state, store, loaded.token, locks, transact)).ok, true);
+  loaded = await loadGameLocked(store, locks, transact);
+  assert.equal(loaded.token.primary, loaded.token.backup);
+  const results = await Promise.all([
+    saveGameLocked(state, store, loaded.token, locks, transact),
+    saveGameLocked(state, store, loaded.token, locks, transact),
+  ]);
+  assert.equal(results.filter((r) => r.ok).length, 1);
+  assert.equal(results.filter((r) => !r.ok && r.conflict).length, 1);
+  assert.equal(results.find((r) => r.ok).token.generation, loaded.token.generation + 1);
+  const before = new Map(store.map);
+  assert.equal((await saveGameLocked(state, store, undefined, locks, transact)).conflict, true);
+  assert.deepEqual(store.map, before);
 });
