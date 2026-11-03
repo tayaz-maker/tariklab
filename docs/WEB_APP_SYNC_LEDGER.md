@@ -1443,3 +1443,7 @@ Frozen product candidate `12b519c58b61e9de5074de5849e8a8c857f26646` passes the f
 ## Gold release blocked by concurrent-writer acceptance — 2026-11-03
 
 PR #254 is draft. The final CI writer-race assertion failed and stronger local queue/completion diagnostics reproduced two successful same-action notices instead of one rejected writer. No product fix, merge or production deploy is claimed. Initial passing tests remain historical evidence; current acceptance is BLOCKED. Social Engine branches/files are untouched.
+
+## Gold recovery — released6 stale-tab release guard — 2026-11-03
+
+Add a mandatory browser regression using the exact shipped6 module graph: an old tab retains a different action, writes after a successful Gold save, and a fresh Gold load must retain the complete Gold winner while the old fork remains exportable. Independent source and production-built runs against proposed fix `71006639` fail: the old fork silently replaces Gold progress. No save protocol file is modified here and PR #254 remains blocked. Fetch the immutable released6 reference explicitly in shallow CI checkouts so compatibility tests can archive the authentic source. Other games, audio, hosting settings and production remain unchanged.
