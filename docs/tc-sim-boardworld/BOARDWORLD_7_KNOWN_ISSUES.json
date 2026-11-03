@@ -1,15 +1,15 @@
 {
-  "phase": "verified candidate; release blocked",
+  "phase": "Local acceptance passed; production pending",
   "issues": [
     {
       "id": "BW7-LATENCY",
-      "status": "FAIL_RELEASE_GATE",
-      "description": "Three-run p95 medians 29.0/28.0/28.1 ms exceed 23.4/23.4/24.0 ms at 1440/390/320. Do not merge/deploy."
+      "status": "FIXED_NUMERIC_BUDGET_PASS",
+      "description": "Three-run Gold medians 21.5/21.6/21.9 ms pass fixed23.4/23.4/24.0ms budgets. All nine p95 values pass. Fresh matched5 medians16.0/15.0/15.4 and6 medians16.1/15.7/15.5 are faster; this is not a relative performance improvement claim. No production runtime optimization was added during recovery; initial loaded-machine failures are retained."
     },
     {
       "id": "BW7-DEPENDENCIES",
-      "status": "FAIL_RELEASE_GATE",
-      "description": "npm audit --audit-level=high exits 1 (1 critical, 4 high, 17 moderate, 2 low). Magic Link/OAuth Proxy prerequisites are absent in current auth configuration, but dependency remediation is incomplete. Prepared newer dependencies clear high/critical, yet Better Auth OAuth API type compatibility fails; not adopted.",
+      "status": "CRITICAL_HIGH_RESOLVED",
+      "description": "Final all-dependency npm audit:0 critical/0 high/14 moderate. Better Auth1.7.15 broker callback,account identity,PKCE,state,cookie/session compatibility covered by actual-handler tests. Fourteen moderate tooling dependency findings remain; see security report.",
       "advisory": "https://github.com/advisories/GHSA-965c-763c-88jm"
     },
     {
@@ -38,6 +38,11 @@
       "id": "BW7-HARNESS-LABELS",
       "status": "LOW",
       "description": "Some legacy browser artifact labels still say 5.0/current5 although actual native save assertions use schema 6. The migration matrix and final evidence identify schema 6 explicitly."
+    },
+    {
+      "id": "BW7-OAUTH-INFLIGHT",
+      "status": "EXPECTED_LIMITATION",
+      "description": "OAuth/account-link attempts initiated before Better Auth upgrade must be restarted. Existing valid session cookie compatibility is tested; no real owner Google/X sign-in was performed."
     }
   ]
 }

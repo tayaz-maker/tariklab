@@ -1435,3 +1435,7 @@ Require the complete dependency audit (`npm audit --audit-level=high`, including
 
 - Reproduce Cloudflare's missing lru-cache11.5.3 lock rejection against the new security candidate. Add only the generated optional peer entry nested under Nitro, retaining all existing package versions and platform/libc metadata.
 - Fresh npm10.9.2/Node22.23.4 clean install passes with unchanged lock hash. No deployment, runtime, gameplay, save schema, native work or audio change; integrated CI/production acceptance remains pending.
+
+## Boardworld 7.0 Gold recovery — 2026-11-03
+
+Frozen product candidate `12b519c58b61e9de5074de5849e8a8c857f26646` passes the fixed numeric budgets, 19-life/7300-day replay, save/rollback and browser acceptance after the generated license-notice correction. The initial full JS run had one stale-notice failure; the corrected 3-test suite and all 70 TypeScript tests pass. No runtime or test input changed after freeze. High/critical audit findings are zero; OAuth callback/account/session and npm10 compatibility are covered. Exact PR/main CI and production verification remain publication requirements. See `docs/tc-sim-boardworld/BOARDWORLD_7_GOLD_ACCEPTANCE.md` and machine-readable recovery evidence. Owner physical acceptance is separate. No 8.0–15.0 product feature is included.

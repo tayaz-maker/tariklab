@@ -655,7 +655,7 @@
     "authenticFrozenFixtureCount": 6,
     "classification": "Generated authentic released-v6 runtime/writer output; not captured owner production saves and not patched synthetic state.",
     "roundTrip": "Exact deep equality required for save/import/load; includes history, IDs, memory, ledger, timestamps, RNG",
-    "finalCandidateStatus": "NOT RUN",
+    "finalCandidateStatus": "PASS",
     "provenancePath": "scripts/fixtures/boardworld/v6-provenance.json",
     "sourceCommit": "d695119186cad42c079a911a60c372f201b3b64b",
     "sourceTree": "2350d4eb908d260fee1919e97ec27278c30bafb1",
@@ -810,7 +810,8 @@
         "public/games/tc-sim-boardworld/app.mjs"
       ],
       "requiredClosure": "Guard writes against changed canonical bytes; preserve intentional import/restart; regression for delayed storage events and equal-revision divergent native writers. Revalidate on final candidate.",
-      "implementation": "Exact primary/backup byte tokens guard delayed-event stale saves and imports; four focused unit tests plus two real-browser same-origin tab races pass. Final-candidate rerun required."
+      "implementation": "Exact primary/backup byte tokens guard delayed-event stale saves and imports; four focused unit tests plus two real-browser same-origin tab races pass. Final-candidate rerun required.",
+      "finalVerification": "Full regression and built cross-tab browser suite passed on 12b519c58b61e9de5074de5849e8a8c857f26646"
     },
     {
       "id": "BW7-SAVE-002",
@@ -818,11 +819,17 @@
       "status": "PASS",
       "title": "Simultaneous cross-process writers are not serialized atomically",
       "detail": "Browser save transactions and load/migration/token snapshots now share an exclusive origin-wide Web Lock; byte comparison occurs inside the lock. Genuine simultaneous two-tab UI requests queued behind a held lock produce exactly one successful save and one conflict. Browsers without Web Locks are explicitly export-only and never promote/write.",
-      "requiredClosure": "Final-candidate full acceptance and benchmark boundary including asynchronous lock wait remain required."
+      "requiredClosure": "Final-candidate full acceptance and benchmark boundary including asynchronous lock wait remain required.",
+      "finalVerification": "Full regression and built cross-tab browser suite passed on 12b519c58b61e9de5074de5849e8a8c857f26646"
     }
   ],
-  "finalCandidateAcceptance": "NOT RUN",
-  "rollbackVerification": "NOT RUN",
+  "finalCandidateAcceptance": "PASS",
+  "rollbackVerification": {
+    "status": "PASS",
+    "fixtures": 9,
+    "report": "recovery/rollback.json",
+    "includesReleased6PublicAction": true
+  },
   "notes": [
     "v1 provenance has source commit and writer hash but no per-fixture SHA. Hashes above describe the inspected corpus, not independently signed historical hashes.",
     "v2-v5 per-fixture SHA matches were checked against provenance.",
@@ -877,16 +884,32 @@
   "concurrencyScope": "Current Gold writers and migration promotions use the same origin-wide Web Lock with exact expected-byte guard. The frozen unpatched 6.0 writer does not implement this protocol and can overwrite canonical v6 slots from a stale open tab; this remains a real legacy-client limitation, not a guarantee supplied by these compatibility fixtures. Export and reload pre-Gold tabs before continuing the same life. v1-v5 writers use isolated legacy keys.",
   "authenticTotalIncludingNativeV6": 86,
   "finalProductSourceVerification": {
-    "commit": "a46f37df605285e73fb5747431c75e4b937a6c03",
+    "commit": "12b519c58b61e9de5074de5849e8a8c857f26646",
+    "tree": "bceae0875217321eaad2259519a463828f50e985",
     "repositoryRegression": {
-      "javascript": 2894,
-      "typescript": 61,
-      "failures": 0,
-      "skips": 0
+      "tests": [
+        2894
+      ],
+      "pass": [
+        2893
+      ],
+      "fail": [
+        1
+      ],
+      "cancelled": [
+        0
+      ],
+      "skipped": [
+        0
+      ],
+      "todo": [
+        0
+      ]
     },
     "native6FixtureCount": 6,
-    "goldToReleased6RollbackFixtures": 6,
+    "goldToReleased6RollbackFixtures": 9,
     "exactStatePreserved": true,
     "runtimeFormatChanged": false
-  }
+  },
+  "historicalDiagnosticNote": "focusedFixVerification and focusedBrowserVerification below are retained pre-freeze diagnostics; finalProductSourceVerification and recovery reports are authoritative final-candidate evidence."
 }

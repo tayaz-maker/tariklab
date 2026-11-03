@@ -1,0 +1,13 @@
+{
+  "kind": "Agent screenshot review, not owner physical acceptance",
+  "candidate": "12b519c58b61e9de5074de5849e8a8c857f26646",
+  "reviewed": [
+    "matched/gold-3/screenshots/boardworld-living/map-320.png",
+    "matched/gold-3/screenshots/boardworld-living/calendar-1440.png",
+    "matched/gold-3/screenshots/boardworld-living/calendar-390.png",
+    "final-validation/screenshots/boardworld-society/board-1440.png",
+    "final-validation/screenshots/boardworld-society/chronology-320.png"
+  ],
+  "observations": "Board, agenda controls and chronology readable within viewport; Polish controls present and preserved historical Turkish prose explicitly labeled. No newly observed layout blocker. Automated suites supply overflow/focus/motion assertions.",
+  "ownerAcceptance": "NOT RUN"
+}

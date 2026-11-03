@@ -1,6 +1,6 @@
 # Boardworld 7.0 safe rollback
 
-Status: **NOT RUN** for the final 7.0 candidate. This is the recovery procedure, not evidence that a production rollback or owner acceptance occurred. A failed Gold gate prevents merge/deployment. For a critical regression discovered after deployment, stop promotion and use the existing Cloudflare production service.
+Status: **Compatibility PASS** on frozen recovery candidate12b519c; **production rollback NOT RUN**. This is the recovery procedure, not evidence that a production rollback or owner acceptance occurred. A failed Gold gate prevents merge/deployment. For a critical regression discovered after deployment, stop promotion and use the existing Cloudflare production service.
 
 ## Known recovery baseline
 
@@ -33,4 +33,4 @@ The pre-freeze audit reproduced a native v6 stale-write race. Exact slot-byte gu
 
 The known 6.0 rollback client predates this locking protocol. A rollback restores that inherited limitation; require users to export their current life and reload other open Boardworld tabs before continuing the same life. Older native-v6 clients cannot be made to participate in the Gold locking protocol by changing only the new client. Legacy v1–v5 writers retain isolated keys. Do not claim that a rollback baseline has zero defects.
 
-Verified on product source `a46f37df605285e73fb5747431c75e4b937a6c03`: six fresh/mature released6 fixtures were progressed through Gold public actions, read and written by the exact released6 runtime, then read by Gold again with complete state equality and original bytes preserved (`node scripts/boardworld-rollback-check.mjs <report.json>`). This is compatibility verification; no production rollback or Gold deployment occurred.
+Verified on product source `12b519c58b61e9de5074de5849e8a8c857f26646`: nine authentic fixtures (six native6 plus three legacy5 cases) pass Gold action → released6 import → valid released6 action/save/reload → Gold read with full-state equality and original/TC bytes preserved. A pending welcome event is retained across rollback before its released6 resolution. See `recovery/rollback.json`. This is compatibility verification; no production rollback was executed.

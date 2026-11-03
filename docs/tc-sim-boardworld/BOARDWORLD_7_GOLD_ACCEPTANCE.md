@@ -1,29 +1,32 @@
-# Boardworld 7.0 Gold acceptance — BLOCKED, NOT RELEASED
+# Boardworld 7.0 Gold — local automated acceptance passed
 
-The product source tested is `a46f37df605285e73fb5747431c75e4b937a6c03` (tree `b9c30d3aad93533db8ef4a2ecd2df9ff11d12f8a`). Production remains released6, merge `d695119186cad42c079a911a60c372f201b3b64b`. No Gold PR, merge, CI acceptance or deployment has occurred.
+Frozen product candidate `12b519c58b61e9de5074de5849e8a8c857f26646`, tree `bceae0875217321eaad2259519a463828f50e985`. This documentation-only evidence update does not change the tested product, harnesses, dependencies or build inputs. PR/main CI and production verification remain mandatory; this document does not claim a deployment or owner approval.
 
-Gold preserves the v6 schema/slots, exact historical state and original TC SIM. Scope: byte-token checks inside Web Locks, lossless encoding allocations, production-only string sharing/bundling, stable locale indices, one calendar render, translated save status and numeric display precision.
+Gold preserves schema6, canonical and historical slots, original prose, deterministic simulation and original TC SIM. It serializes current-client save transactions, reduces lossless encoding allocations, packs shared production strings/modules, retains locale indices, avoids a duplicate calendar render and completes translated save feedback/numeric presentation. Recovery also removes high/critical dependency findings while preserving registered OAuth callback URLs, account identity and valid sessions.
 
-| Gate | Status | Measured evidence |
+| Gate | Result | Evidence |
 | --- | --- | --- |
-| Initial TR gzip ≤205874 bytes | PASS | 194150 bytes; released6 206624 |
-| All-language aggregate gzip ≤301836 bytes | PASS | 300100 bytes; released6 339407 |
-| Three-run p95 ≤23.4/23.4/24.0 ms | FAIL | Gold medians 29.0/28.0/28.1 ms at 1440/390/320; all raw runs retained |
-| Full repository regression | PASS | 2894 JavaScript + 61 TypeScript, zero failures/cancellations/skips; population studies included |
-| 18×365 + one 730-day life | PASS | 19 independently rerun lives, 7300 days, complete persisted shadow replay; action traces/counts and checkpoint save hashes match released6 |
-| Legacy/native save coverage | PASS | 80 released-writer v1–v5 fixtures + 6 generated released6 fixtures; exact state preservation; six Gold→released6→Gold rollback-reader checks |
-| Five Boardworld built browser suites | PASS after targeted harness rerun | Core/Living/Emergent/Society passed first frozen run; Deep initially read async save notice too early, then passed after awaiting its actual completion. First failure retained |
-| Current-client cross-tab safety | PASS | Stale save, asynchronous import race, simultaneous writes, no-Web-Locks export-only; zero page exceptions |
-| Original TC SIM browser matrix | PASS | 126/126 result rows, zero failure; original runtime unchanged |
-| Typecheck/lint/build/auth invariant | PASS | 62 inherited lint warnings, zero errors; dev/build auth flag agrees |
-| Dependency security audit | FAIL | 1 critical, 4 high, 17 moderate, 2 low package findings. Unadopted remediation clears high/critical but breaks two existing OAuth API types |
-| Exact PR/main CI and Cloudflare Gold deploy | NOT RUN | Blocked by acceptance failures; no bypass |
-| Owner physical acceptance | NOT RUN | Separate five-check manual script; no human acceptance claimed |
+| Initial TR gzip ≤205874 bytes | PASS | 194150; released6 206624 |
+| All-language gzip ≤301836 bytes | PASS | 300100; released6 339407 |
+| Fixed p95 ≤23.4/23.4/24.0ms | PASS | Three-run medians21.5/21.6/21.9 at1440/390/320; every individual Gold p95 passes |
+| Complete repository regression | PASS | Initial 2894 JavaScript:2893pass/1stale-license-notice failure; generated documentation correction then3/3 affected tests pass. All70 TypeScript pass. No unresolved failure, cancellation or skip; nightly/population cases included |
+| 18×365 +730-day replay | PASS |19 lives/7300days; complete persisted shadow replay; action traces/counts/checkpoint hashes match released6 |
+| Authentic save fixtures | PASS |80 released-writer v1–v5 +6 released6 fixtures; exact state preserved |
+| Gold→released6→Gold rollback | PASS |9 fixtures, including pending event and progressed legacy; actual released6 public action/save/reload |
+| Five Boardworld built browser suites | PASS |Core,Deep,Living,Emergent,Society on exact frozen candidate |
+| Concurrent/stale save safety | PASS |Gold Web Locks, delayed storage events, asynchronous import race, simultaneous saves and export-only fallback |
+| Original TC SIM | PASS |126-row built browser matrix;45 historical browser cases |
+| Portal/other games | PASS |926 responsive result rows, zero errors;6 built save cases |
+| Typecheck/lint/build/auth invariant | PASS |62 inherited warnings, zero errors |
+| All-dependency audit | PASS high/critical gate |0critical/0high;14moderate tooling lineage findings remain |
+| OAuth compatibility | PASS automated |Actual Better Auth handler tests; callback/state/PKCE, identity, session cookies, signed bearer, popup, replay/CSRF rejection; unchanged database schema |
+| Cloudflare feature preview | PASS |Candidate12b519c, build e626ca73-8543-4cf8-a15d-566672a311cb, preview3e969f40 Ready; actual npm10 clean install/build passed |
+| Exact-head PR/main CI | NOT RUN here |Must pass before production; see PR checks and final delivery artifact |
+| Production delivery/live suites | NOT RUN here |Existing Git integration only; final manifest must record actual main SHA/version and both origins |
+| Owner physical acceptance | NOT RUN |Explicitly retained by owner; five checks in manual playtest document |
 
-The game runtime did not change after the tested source was frozen. A subsequent test-only correction waits for the manual save notice before asserting/reloading; it changes no product behavior. Machine evidence distinguishes the original failed browser run from the successful rerun and identifies commands, exits and artifacts. This is not a single clean browser run or an accepted Gold release.
+Performance scope is the fixed numeric master-contract budgets. Fresh matched5 medians16.0/15.0/15.4 and6 medians16.1/15.7/15.5 are faster than Gold. Gold's safe lock/save/render completion is included, paint is excluded. This is not a relative speed-improvement claim. No game runtime optimization was introduced during recovery; the original loaded-machine failures remain retained. All nine paired version/runs were measured serially with the same Apple M2, Chrome156.0.8078.80, workload20/39/20, outside cloud-synced storage; no outliers were removed. Local gzip sums are not production network transfer. Heap snapshots have no forced GC and are not peak/retained-memory measurements.
 
-Local gzip sums include every generated module and compatibility stub; they are not Cloudflare wire transfer. Gold timing includes awaited lock/save/render and excludes paint. Historical synchronous timing alone cannot substitute for complete Gold interaction timing. Heap snapshots lack forced GC and are not peak/retained-memory measurements. Automated strategy counts do not establish entertainment value.
+Six mature saves remain401114–434998→278229–304168bytes without deleting history. Full raw performance, memory, network, save and command evidence is in the JSON reports and `recovery/`. Earlier a46f37d/b33fd13 acceptance results are historical only, not counted as these newly executed tests. The complete local JavaScript attempt was not a single clean run: its sole failure was stale seroval/zod versions in generated THIRD_PARTY_NOTICES.md. The generator changed four documentation lines; all three affected tests and the previously short-circuited70 TypeScript tests then passed. Product, simulation, dependencies and test sources did not change. Exact-head CI reruns the regression on the final documentation commit.
 
-The critical Better Auth advisory requires Magic Link, which is not enabled here; OAuth Proxy is also absent. This applicability observation does not waive the full dependency audit. The attempted 1.7 upgrade removes `genericOAuthClient` and `signInWithOAuth2`, so it was not integrated into the live authentication path.
-
-Before any future release, close both failed gates and verify the resulting candidate. Existing 6.0 tabs must export/reload before joining Gold because old JavaScript cannot participate in the new locking protocol. No new major feature, new Worker, new hosting integration or intermediate release was created.
+Existing6.0 tabs must export/reload before joining Gold; old JavaScript cannot participate in the new locking protocol. Browsers without Web Locks are explicitly export-only. In-flight OAuth/account-link flows begun before the upgrade must restart. Valid old sessions remain compatible; real owner Google/X sign-in and physical playtesting have not been performed. No new major feature, Worker or hosting integration was created. Post-Gold8/9 contracts are preparatory documentation only.

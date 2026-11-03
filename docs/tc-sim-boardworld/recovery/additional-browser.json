@@ -1,0 +1,52 @@
+{
+  "commit": "12b519c58b61e9de5074de5849e8a8c857f26646",
+  "tree": "bceae0875217321eaad2259519a463828f50e985",
+  "startedAt": "2026-11-03T16:02:05.153Z",
+  "steps": [
+    {
+      "name": "sitewide-responsive",
+      "command": [
+        "/usr/local/bin/node",
+        "scripts/sitewide-responsive.mjs"
+      ],
+      "startedAt": "2026-11-03T16:02:05.154Z",
+      "log": "/private/tmp/boardworld7-final-oj1825n2/evidence/additional-browser/sitewide-responsive.log",
+      "pid": 57505,
+      "exit": 0,
+      "signal": null,
+      "finishedAt": "2026-11-03T16:08:25.384Z"
+    },
+    {
+      "name": "original-tc-historical",
+      "command": [
+        "/usr/local/bin/node",
+        "scripts/tc-sim-historical-browser.mjs"
+      ],
+      "startedAt": "2026-11-03T16:08:25.389Z",
+      "log": "/private/tmp/boardworld7-final-oj1825n2/evidence/additional-browser/original-tc-historical.log",
+      "pid": 58948,
+      "exit": 0,
+      "signal": null,
+      "finishedAt": "2026-11-03T16:12:32.820Z"
+    },
+    {
+      "name": "other-games-built-saves",
+      "command": [
+        "/usr/local/bin/node",
+        "scripts/wave1-save-browser.mjs",
+        "--serve",
+        ".output/public",
+        "--label",
+        "gold7-recovery-built"
+      ],
+      "startedAt": "2026-11-03T16:12:32.821Z",
+      "log": "/private/tmp/boardworld7-final-oj1825n2/evidence/additional-browser/other-games-built-saves.log",
+      "pid": 59205,
+      "exit": 0,
+      "signal": null,
+      "finishedAt": "2026-11-03T16:12:50.383Z"
+    }
+  ],
+  "finishedAt": "2026-11-03T16:12:50.384Z",
+  "pass": true
+}
