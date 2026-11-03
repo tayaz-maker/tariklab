@@ -2950,4 +2950,5 @@ export default [
   "Zachowano inną kopię zapisu. Pobierz ją z menu zapisu i jawnie zaimportuj; bieżący zapis pozostał bez zmian.",
   "Zachowano inne kopie zapisu. Pobierz je i zaimportuj plik, aby wybrać jedną.",
   "Pobierz zachowaną kopię zapisu",
+  "Zapisano w tej przeglądarce. Zachowano inną kopię zapisu. Pobierz ją z menu zapisu i jawnie zaimportuj; bieżący zapis pozostał bez zmian.",
 ];

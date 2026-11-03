@@ -337,11 +337,6 @@ const memoryStorage = (slots) => ({
   getItem: (key) => slots.get(key) ?? null,
   setItem: (key, value) => slots.set(key, value),
 });
-async function digest(bytes) {
-  if (bytes === null) return "empty";
-  const hash = await globalThis.crypto.subtle.digest("SHA-256", new TextEncoder().encode(bytes));
-  return Array.from(new Uint8Array(hash), (b) => b.toString(16).padStart(2, "0")).join("");
-}
 // Web Locks order callbacks, but do not refresh a renderer's localStorage cache.
 // The authoritative slots AND generation therefore commit in one IDB transaction.
 // localStorage is only a released-v6 compatibility copy after that commit.
@@ -363,8 +358,8 @@ async function browserTransaction(storage, operation, collectArchives = false) {
   });
   let observed;
   try {
-    // Hash outside the write transaction: awaiting crypto inside it could make
-    // it inactive. The write transaction re-reads and validates this generation.
+    // Keep the last durable snapshot for a safe export-only load if the
+    // write transaction aborts. Re-read and validate its generation below.
     observed = await new Promise((resolve, reject) => {
       const tx = db.transaction("state"),
         request = tx.objectStore("state").get("head");
@@ -378,15 +373,10 @@ async function browserTransaction(storage, operation, collectArchives = false) {
       if (!observed) throw new Error("initial-storage-unavailable");
       mirror = new Map();
     }
-    const primary = mirror.get(SAVE_KEY) ?? null;
-    const [mirrorHash, headHash] = await Promise.all([
-      digest(primary),
-      digest(new Map(observed?.slots).get(SAVE_KEY) ?? null),
-    ]);
     return await new Promise((resolve, reject) => {
       const tx = db.transaction(["state", "seen"], "readwrite", { durability: "strict" });
       const stateStore = tx.objectStore("state"),
-        seen = tx.objectStore("seen");
+        recoveryStore = tx.objectStore("seen");
       let result, committed;
       tx.onabort = () => reject(tx.error || new Error("aborted"));
       tx.oncomplete = () => {
@@ -410,74 +400,71 @@ async function browserTransaction(storage, operation, collectArchives = false) {
           result = conflict();
           return;
         }
-        const known = seen.get(mirrorHash);
-        known.onsuccess = () => {
-          const copies = seen.get("recovery");
-          copies.onsuccess = () => {
-            try {
-              const slots = new Map(head?.slots ?? mirror);
-              const recoverySaves = copies.result ?? [];
-              let recovered = false;
-              // Unseen bytes prove neither ancestry nor user intent. Keep foreign
-              // copies for explicit export/import; NEVER replace the durable head.
-              if (head && primary !== slots.get(SAVE_KEY) && !known.result)
-                for (const [key, bytes] of mirror)
-                  if (
-                    mirrorKey(key) &&
-                    bytes &&
-                    bytes !== slots.get(key) &&
-                    bytes !== slots.get(SAVE_KEY) &&
-                    bytes !== slots.get(BACKUP_KEY) &&
-                    importGame(bytes).state &&
-                    !recoverySaves.some((copy) => copy.bytes === bytes)
-                  ) {
-                    recoverySaves.push({ key, bytes });
-                    recovered = true;
-                  }
-              let dirty = !head;
-              if (collectArchives)
-                for (const [key, bytes] of mirror)
-                  if (
-                    key.includes(".original-v") &&
-                    !slots.get(key) &&
-                    bytes &&
-                    importGame(bytes).sourceVersion === Number(key.at(-1))
-                  ) {
-                    slots.set(key, bytes);
-                    dirty = true;
-                  }
-              const generation = head?.generation ?? 0;
-              const before = new Map(slots);
-              const memory = memoryStorage(slots),
-                put = memory.setItem;
-              memory.setItem = (key, bytes) => {
-                dirty = true;
-                put(key, bytes);
-              };
-              result = operation(memory, generation);
-              if (result.ok === false || result.protected === false) {
-                if (result.token)
-                  result.token = { ...readSaveToken(memoryStorage(before)), generation };
-                return;
-              }
-              const next = generation + (dirty ? 1 : 0);
-              if (!Number.isSafeInteger(next)) throw new Error("generation-overflow");
-              if (dirty) {
-                committed = { generation: next, slots: [...slots] };
-                stateStore.put(committed, "head");
-                seen.put(true, headHash);
-              } else committed = head;
-              if (recovered) seen.put(recoverySaves, "recovery");
-              result.recoverySaves = recoverySaves;
-              if (recoverySaves.length && (result.ok === undefined || recovered))
-                result.message = result.ok
-                  ? `${result.message} ${RECOVERY_WARNING}`
-                  : RECOVERY_WARNING;
-              if (result.token) result.token.generation = next;
-            } catch {
-              tx.abort();
+        const copies = recoveryStore.get("recovery");
+        copies.onsuccess = () => {
+          try {
+            const slots = new Map(head?.slots ?? mirror);
+            const recoverySaves = copies.result ?? [];
+            let recovered = false;
+            // Every mirror slot is independent: a known/identical primary says
+            // nothing about its backup or original archives. Preserve all valid
+            // divergent copies before mirror repair; NEVER adopt them.
+            if (head)
+              for (const [key, bytes] of mirror)
+                if (
+                  mirrorKey(key) &&
+                  bytes &&
+                  bytes !== slots.get(key) &&
+                  bytes !== slots.get(SAVE_KEY) &&
+                  bytes !== slots.get(BACKUP_KEY) &&
+                  importGame(bytes).state &&
+                  !recoverySaves.some((copy) => copy.bytes === bytes)
+                ) {
+                  recoverySaves.push({ key, bytes });
+                  recovered = true;
+                }
+            let dirty = !head;
+            if (collectArchives)
+              for (const [key, bytes] of mirror)
+                if (
+                  key.includes(".original-v") &&
+                  !slots.get(key) &&
+                  bytes &&
+                  importGame(bytes).sourceVersion === Number(key.at(-1))
+                ) {
+                  slots.set(key, bytes);
+                  dirty = true;
+                }
+            const generation = head?.generation ?? 0;
+            const before = new Map(slots);
+            const memory = memoryStorage(slots),
+              put = memory.setItem;
+            memory.setItem = (key, bytes) => {
+              dirty = true;
+              put(key, bytes);
+            };
+            result = operation(memory, generation);
+            if (result.ok === false || result.protected === false) {
+              if (result.token)
+                result.token = { ...readSaveToken(memoryStorage(before)), generation };
+              return;
             }
-          };
+            const next = generation + (dirty ? 1 : 0);
+            if (!Number.isSafeInteger(next)) throw new Error("generation-overflow");
+            if (dirty) {
+              committed = { generation: next, slots: [...slots] };
+              stateStore.put(committed, "head");
+            } else committed = head;
+            if (recovered) recoveryStore.put(recoverySaves, "recovery");
+            result.recoverySaves = recoverySaves;
+            if (recoverySaves.length && (result.ok === undefined || recovered))
+              result.message = result.ok
+                ? `${result.message} ${RECOVERY_WARNING}`
+                : RECOVERY_WARNING;
+            if (result.token) result.token.generation = next;
+          } catch {
+            tx.abort();
+          }
         };
       };
     });

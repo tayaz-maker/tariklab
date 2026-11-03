@@ -2950,4 +2950,5 @@ export default [
   "A different save copy was preserved. Download it from the Save menu and import it explicitly; your current save was kept.",
   "Different save copies were preserved. Download them and import a file to choose one.",
   "Download preserved save copy",
+  "Saved in this browser. A different save copy was preserved. Download it from the Save menu and import it explicitly; your current save was kept.",
 ];

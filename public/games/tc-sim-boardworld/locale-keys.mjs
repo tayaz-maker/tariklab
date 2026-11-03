@@ -2950,4 +2950,5 @@ export default [
   "Farklı bir kayıt kopyası korundu. Kayıt menüsünden indirip dosyadan yükleyebilirsin; mevcut kaydın değiştirilmedi.",
   "Farklı kayıt kopyaları korundu. İndirip dosyadan yükleyebilirsin.",
   "Korunan kayıt kopyasını indir",
+  "Bu tarayıcıya kaydedildi. Farklı bir kayıt kopyası korundu. Kayıt menüsünden indirip dosyadan yükleyebilirsin; mevcut kaydın değiştirilmedi.",
 ];

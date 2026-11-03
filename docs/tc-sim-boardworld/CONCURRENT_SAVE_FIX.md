@@ -4,7 +4,12 @@ Scope: PR #254's `27f2e01370e5854ba436633c7ab9d9ac8b15a4ba`, on independent
 `fix/boardworld-7-concurrent-save`, targeting `feature/boardworld-7-gold`.
 This is a save-safety fix, not Gold release acceptance or production deployment.
 
-**Revision 2 supersedes the first delivery.** Independent released6 stale-tab review
+**Revision 3 supersedes revisions 1 and 2.** Revision 2 preserved the Gold winner
+but still gated every recovery slot on the primary being changed/unseen, so a known
+primary could hide a divergent backup. Every compatibility slot is now examined
+independently, and real EN/PL manual-save notice/HUD regressions are required.
+
+**Revision 2 superseded the first delivery.** Independent released6 stale-tab review
 proved the original `seen`/automatic-rollback inference unsafe. The previous 281
 passing cases were incomplete coverage, not evidence that old-tab safety held.
 The unchanged independent runner is now a required CI gate; see the revision-2
@@ -56,9 +61,11 @@ Inside it, `browserTransaction` uses IndexedDB database
 `tariklab.boardworld.v6.transactions`, version 1:
 
 - `state/head` holds the authoritative slot bytes and a monotonic commit generation.
-- `seen` holds identities of past canonical envelopes only to avoid redundant
-  recovery copies. Unseen bytes never imply ancestry, rollback intent or permission.
-  The same store retains validated divergent copies under a separate recovery key.
+- `seen/recovery` retains validated divergent copies, deduplicated by exact bytes.
+  Every primary, backup and original-archive slot is independently scanned. Neither
+  a known primary, identical primary nor corrupt primary can suppress the other
+  slots. Previous identity entries remain compatible but are no longer read or
+  written; no hash/history classification grants permission or skips preservation.
 - A readwrite transaction **re-reads the head after lock acquisition**, verifies
   the observed generation, then compares the caller's retained generation and
   exact primary/backup bytes. The generation is independent of simulation revision,
@@ -85,7 +92,7 @@ Inside it, `browserTransaction` uses IndexedDB database
   foreign localStorage fork. Existing healthy-backup/legacy recovery order remains.
 
 No save envelope/schema, simulation, existing locale index, dependency or unrelated
-game changes. Three recovery messages are appended in TR/EN/PL without reordering
+game changes. Four recovery messages are appended in TR/EN/PL without reordering
 existing keys.
 Raw IndexedDB is kept in this protocol module to avoid introducing a dependency
 outside the requested save-only scope. The optional transaction adapter is for
@@ -195,7 +202,11 @@ The shallow-checkout CI now fetches the immutable released6 SHA before either
 archive-based runner, and runs the independent stale-tab gate in addition to all
 previous transaction/race gates. No integration or production action is performed.
 
-### Verified revision-2 delivery
+### Historical revision-2 delivery (superseded)
+
+The following 292 cases missed the known-primary/divergent-backup sequence and the
+real manual-save combined-notice translation. They are retained as historical
+coverage, not final safety acceptance.
 
 Tested product/harness commit: `ec9fa4a3fec3b920e391eb5c41edb283a94a4c61`, tree
 `2ed766e6f52a4ccb9920b52cddc3a3b0fc8afe3d`. Subsequent delivery commits contain
@@ -235,6 +246,39 @@ No merge, production deployment, other-game or Social Engine work occurred.
 Integrated Gold performance/full acceptance and PR CI are the integration owner's
 remaining gates, not claims made by this local save-only verification.
 
+## Revision-3 independent-slot preservation
+
+A real released6 writer can save divergent B, then re-save previously committed A.
+Immediately before Gold reload, B is the valid localStorage backup. Revision 2
+skipped its entire capture loop because primary A was known. Mirror repair then
+erased B even though the Gold winner itself was preserved. The independently
+reported sequence is reproduced by `boardworld-legacy-slot-browser.mjs` against
+frozen `ec9fa4a3` without substituting the old writer.
+
+Revision 3 removes the primary/history gate completely. Every valid divergent
+primary, backup and original copy is captured independently before mirror repair.
+Exact-byte deduplication avoids duplicate downloads; current canonical bytes and
+immutable originals retain their established rules. The unused hash classification
+and new identity writes are removed; the existing IndexedDB schema stays compatible.
+No automatic adoption or CAS bypass is added.
+
+The new gate covers known, identical and corrupt primaries, a different valid
+original archive with the same primary, and actual EN/PL manual-save toast/HUD.
+Two real old writes place B in the backup before each relevant check; tests then
+assert complete Gold winner, exact preserved copy, immutable original, unchanged
+load generation and stable recovery on reload. Both language cases also discover
+a new old-client backup during a real UI manual save and retain that exact copy.
+
+The combined success+recovery message previously leaked Turkish in EN/PL because
+sentence splitting lost the full two-sentence warning key. A combined message key
+is appended at the end of all three catalogs; existing keys/indices remain intact.
+No generic translation behavior or existing notice is weakened.
+
+The retained pre-fix report and final source/built measurements are recorded in
+`recovery/concurrent-save/revision3/verification.json`. This revision remains for
+independent integration review; local save verification does not accept Gold or
+authorize merge/deploy.
+
 ## Remaining boundaries
 
 - Old released6/pre-fix code can still write its localStorage compatibility slot.
@@ -243,7 +287,7 @@ remaining gates, not claims made by this local save-only verification.
 - Intentional rollback continuation now requires explicit file selection/import;
   an unmarked legacy save cannot prove user intent. All original envelopes,
   exports, immutable archives and released6 reader/writer compatibility remain.
-- The identity and recovery-copy store grows with distinct saves/forks. Quota or
+- The recovery-copy store grows with distinct forks; no new identity ledger entries are written. Quota or
   transaction failures fail closed; the last commit and exportable data remain.
 - A compatibility-copy failure can temporarily leave released6 with an older copy;
   Gold repairs the mirror after preserving foreign bytes. The IDB head is authoritative.
