@@ -329,6 +329,8 @@ const conflict = () => ({
   message:
     "Başka bir sekme kaydı değiştirdi. Bu sekmedeki ilerlemeni dosyaya aktar, sonra sayfayı yenile.",
 });
+const RECOVERY_WARNING =
+  "Farklı bir kayıt kopyası korundu. Kayıt menüsünden indirip dosyadan yükleyebilirsin; mevcut kaydın değiştirilmedi.";
 const SLOT_KEYS = [SAVE_KEY, BACKUP_KEY, ...LEGACY_SLOTS.map(([key]) => key)];
 const mirrorKey = (key) => key === SAVE_KEY || key === BACKUP_KEY || key.includes(".original-v");
 const memoryStorage = (slots) => ({
@@ -343,7 +345,7 @@ async function digest(bytes) {
 // Web Locks order callbacks, but do not refresh a renderer's localStorage cache.
 // The authoritative slots AND generation therefore commit in one IDB transaction.
 // localStorage is only a released-v6 compatibility copy after that commit.
-async function browserTransaction(storage, operation, acceptExternal = false) {
+async function browserTransaction(storage, operation, collectArchives = false) {
   try {
     storage ??= globalThis.localStorage;
   } catch {
@@ -359,10 +361,11 @@ async function browserTransaction(storage, operation, acceptExternal = false) {
     request.onerror = () => reject(request.error);
     request.onblocked = () => reject(new Error("blocked"));
   });
+  let observed;
   try {
     // Hash outside the write transaction: awaiting crypto inside it could make
     // it inactive. The write transaction re-reads and validates this generation.
-    const observed = await new Promise((resolve, reject) => {
+    observed = await new Promise((resolve, reject) => {
       const tx = db.transaction("state"),
         request = tx.objectStore("state").get("head");
       tx.oncomplete = () => resolve(request.result);
@@ -409,70 +412,78 @@ async function browserTransaction(storage, operation, acceptExternal = false) {
         }
         const known = seen.get(mirrorHash);
         known.onsuccess = () => {
-          try {
-            const slots = new Map(head?.slots ?? mirror);
-            // Fresh, previously unseen valid native bytes can come from an actual
-            // released6 rollback. Previously committed bytes are stale snapshots,
-            // never an instruction to roll the authoritative state backwards.
-            const external =
-              head &&
-              primary !== slots.get(SAVE_KEY) &&
-              !known.result &&
-              importGame(primary).sourceVersion === CURRENT_VERSION &&
-              importGame(slots.get(SAVE_KEY)).sourceVersion === CURRENT_VERSION;
-            if (external && !acceptExternal) {
-              result = conflict();
-              return;
+          const copies = seen.get("recovery");
+          copies.onsuccess = () => {
+            try {
+              const slots = new Map(head?.slots ?? mirror);
+              const recoverySaves = copies.result ?? [];
+              let recovered = false;
+              // Unseen bytes prove neither ancestry nor user intent. Keep foreign
+              // copies for explicit export/import; NEVER replace the durable head.
+              if (head && primary !== slots.get(SAVE_KEY) && !known.result)
+                for (const [key, bytes] of mirror)
+                  if (
+                    mirrorKey(key) &&
+                    bytes &&
+                    bytes !== slots.get(key) &&
+                    bytes !== slots.get(SAVE_KEY) &&
+                    bytes !== slots.get(BACKUP_KEY) &&
+                    importGame(bytes).state &&
+                    !recoverySaves.some((copy) => copy.bytes === bytes)
+                  ) {
+                    recoverySaves.push({ key, bytes });
+                    recovered = true;
+                  }
+              let dirty = !head;
+              if (collectArchives)
+                for (const [key, bytes] of mirror)
+                  if (
+                    key.includes(".original-v") &&
+                    !slots.get(key) &&
+                    bytes &&
+                    importGame(bytes).sourceVersion === Number(key.at(-1))
+                  ) {
+                    slots.set(key, bytes);
+                    dirty = true;
+                  }
+              const generation = head?.generation ?? 0;
+              const before = new Map(slots);
+              const memory = memoryStorage(slots),
+                put = memory.setItem;
+              memory.setItem = (key, bytes) => {
+                dirty = true;
+                put(key, bytes);
+              };
+              result = operation(memory, generation);
+              if (result.ok === false || result.protected === false) {
+                if (result.token)
+                  result.token = { ...readSaveToken(memoryStorage(before)), generation };
+                return;
+              }
+              const next = generation + (dirty ? 1 : 0);
+              if (!Number.isSafeInteger(next)) throw new Error("generation-overflow");
+              if (dirty) {
+                committed = { generation: next, slots: [...slots] };
+                stateStore.put(committed, "head");
+                seen.put(true, headHash);
+              } else committed = head;
+              if (recovered) seen.put(recoverySaves, "recovery");
+              result.recoverySaves = recoverySaves;
+              if (recoverySaves.length && (result.ok === undefined || recovered))
+                result.message = result.ok
+                  ? `${result.message} ${RECOVERY_WARNING}`
+                  : RECOVERY_WARNING;
+              if (result.token) result.token.generation = next;
+            } catch {
+              tx.abort();
             }
-            if (external) {
-              slots.set(SAVE_KEY, primary);
-              const backup = mirror.get(BACKUP_KEY);
-              if (importGame(backup).sourceVersion === CURRENT_VERSION)
-                slots.set(BACKUP_KEY, backup);
-            }
-            let dirty = !head || external;
-            if (acceptExternal)
-              for (const [key, bytes] of mirror)
-                if (
-                  key.includes(".original-v") &&
-                  !slots.get(key) &&
-                  bytes &&
-                  importGame(bytes).sourceVersion === Number(key.at(-1))
-                ) {
-                  slots.set(key, bytes);
-                  dirty = true;
-                }
-            const generation = head?.generation ?? 0;
-            const before = new Map(slots);
-            const memory = memoryStorage(slots),
-              put = memory.setItem;
-            memory.setItem = (key, bytes) => {
-              dirty = true;
-              put(key, bytes);
-            };
-            result = operation(memory, generation);
-            if (result.ok === false || result.protected === false) {
-              if (result.token)
-                result.token = { ...readSaveToken(memoryStorage(before)), generation };
-              return;
-            }
-            const next = generation + (dirty ? 1 : 0);
-            if (!Number.isSafeInteger(next)) throw new Error("generation-overflow");
-            if (dirty) {
-              committed = { generation: next, slots: [...slots] };
-              stateStore.put(committed, "head");
-              // Keep only hashes of past canonical bytes, not full save histories.
-              // This prevents stale renderer caches from impersonating a rollback.
-              seen.put(true, headHash);
-              if (external) seen.put(true, mirrorHash);
-            } else committed = head;
-            if (result.token) result.token.generation = next;
-          } catch {
-            tx.abort();
-          }
+          };
         };
       };
     });
+  } catch (error) {
+    if (observed) error.snapshot = observed;
+    throw error;
   } finally {
     db.close();
   }
@@ -523,7 +534,13 @@ export async function loadGameLocked(
         true,
       ),
     );
-  } catch {
+  } catch (error) {
+    if (error.snapshot)
+      return {
+        ...loadGame(memoryStorage(new Map(error.snapshot.slots)), { promote: false }),
+        token: null,
+        message: LOCK_WARNING,
+      };
     return read(false);
   }
 }

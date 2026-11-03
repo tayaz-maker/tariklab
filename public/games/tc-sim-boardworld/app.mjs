@@ -170,9 +170,11 @@ const embedded = window.self !== window.top;
 if (embedded) document.documentElement.classList.add("embedded");
 let noticeTimer;
 let saveToken = null,
-  unsaved = false;
+  unsaved = false,
+  recoverySaves = [];
 async function saveCurrent(current, expected = saveToken) {
   const result = await saveGameLocked(current, undefined, expected);
+  recoverySaves = result.recoverySaves ?? recoverySaves;
   unsaved = !result.ok;
   if (result.ok) saveToken = result.token;
   return result;
@@ -182,6 +184,7 @@ try {
   initialLoad = await loadGameLocked();
   state = initialLoad.state;
   saveToken = initialLoad.token;
+  recoverySaves = initialLoad.recoverySaves ?? [];
   saveStatus = initialLoad.message || "";
 } catch {
   initialLoad = {
@@ -645,10 +648,26 @@ function openDialog(kind) {
     restart: `<span class="eyebrow">YENİ BAŞLANGIÇ</span><h2 id="dialog-title">Yeni bir hayat?</h2><p>Yeni karakteri oluşturduğunda mevcut otomatik kaydın yerini alır. İstersen önce kayıt dosyanı indir.</p><div class="menu-actions"><button class="secondary" data-ui="export">Mevcut kaydı indir</button><button class="primary" data-ui="confirm-restart">Karakter oluşturmaya geç</button><button class="secondary" data-ui="close">Vazgeç</button></div>`,
     help: `<span class="eyebrow">MASANIN KURALLARI</span><h2 id="dialog-title">İlk günün için bir rehber.</h2><ol class="help-steps"><li><strong>Şehri tanı.</strong> Tahtada bir semti seç. Ulaşım kartında süre ve bedeli gör; hareket etmek için kartı seç.</li><li><strong>Bir iş bul.</strong> Kariyer ekranında koşulları oku. İlanın olduğu semte git, başvur. İşe alım ve maaş, beceri ve emeğine bağlıdır.</li><li><strong>Kendine bak.</strong> Yaşam ekranından yemek, dinlenme, sağlık ve konut kararlarını ver. Tokluk ve enerji yüksek, stres düşük olduğunda işler kolaylaşır.</li><li><strong>Sözünü tut.</strong> Telefonundaki kişiler günlük rutinlerini sürdürür. Görüş, arayıp hatır sor, buluşma planla. Takvimindeki saat ve semte dikkat et.</li><li><strong>Bir yön seç.</strong> Gelişimden eğitim al, Cüzdandan hesaplarını yönet. Hedefler ilerlemeni gösterir; onları tamamlayınca da oyun sürer.</li></ol><div class="rule-note"><strong>Bir zaman öner, sonucu önceden gör.</strong><p>Ajandada kişi, gün, saat ve mekân seç. Karşı teklifleri kabul et; ulaşımı ve çakışmaları hesaba kat. Projeler gerçek eylemlerinle ilerler. Şehir tahtasındaki Hamlelerini keşfet düğmesi desteklenen seçenekleri bulur. Ajanda ile çalışma ve bakım rutinlerini seç. Rutin yeni olaylarda durur. Öngörü, bir kararın zamanını, hesaplarını ve risklerini açıklar. Hikâyeler bölümündeki çok aşamalı zincirler eski seçimlerini hatırlar. Telefon rehberindeki ilişki haritası, insanların birbirinden ne duyabileceğini gösterir.</p></div><div class="rule-note"><strong>Zaman senin elinde.</strong><p>Menülerde gezinmek zaman harcamaz. Her eylemin süre ve maliyeti kartında yazar. Bazı belirsiz karşılaşmalarda zar kullanılır; iş, ders ve maaş zar değildir.</p></div><p class="tiny">Oyun ekonomisi tasarlanmış bir simülasyondur; gerçek fiyatları veya finansal tavsiyeyi temsil etmez. Kayıt yalnızca bu tarayıcıdadır. Ses kapalıdır.</p>`,
   };
-  dialog.innerHTML = `<div class="dialog-inner"><button class="dialog-close icon-button" data-ui="close" aria-label="Pencereyi kapat">×</button>${content[kind] || content.menu}</div>`;
+  const recovery =
+    kind === "menu" && recoverySaves.length
+      ? `<p>${esc(translateText("Farklı kayıt kopyaları korundu. İndirip dosyadan yükleyebilirsin."))}</p><div class="menu-actions">${recoverySaves.map((_, index) => `<button class="secondary" data-ui="recovery:${index}">${esc(translateText("Korunan kayıt kopyasını indir"))} ${index + 1}</button>`).join("")}</div>`
+      : "";
+  dialog.innerHTML = `<div class="dialog-inner"><button class="dialog-close icon-button" data-ui="close" aria-label="Pencereyi kapat">×</button>${content[kind] || content.menu}${recovery}</div>`;
   showLocalizedDialog();
 }
 async function handleUi(id) {
+  if (id.startsWith("recovery:")) {
+    const copy = recoverySaves[Number(id.slice(9))];
+    if (!copy) return;
+    const url = URL.createObjectURL(new Blob([copy.bytes], { type: "application/json" }));
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `boardworld-recovery-${Number(id.slice(9)) + 1}.json`;
+    link.click();
+    URL.revokeObjectURL(url);
+    announce("Kayıt dosyan indirildi.");
+    return;
+  }
   if (id === "menu" || id === "restart" || id === "help" || id === "character") {
     openDialog(id);
     return;
@@ -1082,6 +1101,7 @@ window.addEventListener("storage", async (event) => {
     if (loaded.state) {
       state = loaded.state;
       saveToken = loaded.token;
+      recoverySaves = loaded.recoverySaves ?? recoverySaves;
       calendarDay = null;
       appointmentDraft = null;
       editingEntry = "";
@@ -1091,7 +1111,11 @@ window.addEventListener("storage", async (event) => {
       selectedDistrict = state.location;
       lastOutcome = null;
       render();
-      announce("Başka bir sekmedeki güncel kaydın yüklendi. Oyun aynı noktadan devam ediyor.");
+      announce(
+        loaded.recoverySaves?.length
+          ? loaded.message
+          : "Başka bir sekmedeki güncel kaydın yüklendi. Oyun aynı noktadan devam ediyor.",
+      );
     }
   } catch {
     announce("Diğer sekmenin kaydı okunamadı. Bu sekmedeki ilerlemeni dosyaya indir.", true);

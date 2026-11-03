@@ -4,6 +4,12 @@ Scope: PR #254's `27f2e01370e5854ba436633c7ab9d9ac8b15a4ba`, on independent
 `fix/boardworld-7-concurrent-save`, targeting `feature/boardworld-7-gold`.
 This is a save-safety fix, not Gold release acceptance or production deployment.
 
+**Revision 2 supersedes the first delivery.** Independent released6 stale-tab review
+proved the original `seen`/automatic-rollback inference unsafe. The previous 281
+passing cases were incomplete coverage, not evidence that old-tab safety held.
+The unchanged independent runner is now a required CI gate; see the revision-2
+verification and retained red/green reports below.
+
 ## Reproduced cause
 
 The old callback did re-read `localStorage` after acquiring the exclusive Web
@@ -50,9 +56,9 @@ Inside it, `browserTransaction` uses IndexedDB database
 `tariklab.boardworld.v6.transactions`, version 1:
 
 - `state/head` holds the authoritative slot bytes and a monotonic commit generation.
-- `seen` holds SHA-256 identities of past canonical envelopes, permitting real
-  released6 rollback writes to be recognized without mistaking a delayed, previously
-  committed localStorage snapshot for an instruction to restore old progress.
+- `seen` holds identities of past canonical envelopes only to avoid redundant
+  recovery copies. Unseen bytes never imply ancestry, rollback intent or permission.
+  The same store retains validated divergent copies under a separate recovery key.
 - A readwrite transaction **re-reads the head after lock acquisition**, verifies
   the observed generation, then compares the caller's retained generation and
   exact primary/backup bytes. The generation is independent of simulation revision,
@@ -68,12 +74,19 @@ Inside it, `browserTransaction` uses IndexedDB database
   localStorage slots for released6 readers/writers. Copy failure is reported as
   `mirrorFailed`; the authoritative save remains committed and a subsequent load
   repairs the copy. Inaccessible localStorage cannot hide a healthy authoritative save.
-- An unknown valid native6 compatibility primary is accepted on a locked load as
-  released6 rollback continuation, while a writer with an older token conflicts.
-  Corrupt authoritative primaries retain the existing healthy-backup/legacy
-  recovery priority rather than entering this rollback-continuation path.
+- Once an authoritative head exists, a valid different compatibility primary is
+  **never automatically adopted**. Unknown valid primary/backup/archive bytes are
+  durably preserved before repairing the compatibility mirror. Loads retain the
+  complete Gold winner and its generation. Users can download preserved copies
+  from the Save menu and explicitly choose one through the existing file-import
+  flow; that import uses the same retained-token CAS and backup rules.
+- If a recovery archive cannot commit, a load returns the previously read durable
+  state in export-only mode with a null write token. It cannot fall back to the
+  foreign localStorage fork. Existing healthy-backup/legacy recovery order remains.
 
-No envelope/schema, simulation, locale index, dependency or unrelated game changes.
+No save envelope/schema, simulation, existing locale index, dependency or unrelated
+game changes. Three recovery messages are appended in TR/EN/PL without reordering
+existing keys.
 Raw IndexedDB is kept in this protocol module to avoid introducing a dependency
 outside the requested save-only scope. The optional transaction adapter is for
 isolated storage unit tests; the browser/default path has no nontransactional fallback.
@@ -102,7 +115,9 @@ of a generation field when reproducing the red test; it keeps the one-winner ass
 
 The transaction browser suite uses authentic v1–v6 fixtures in all three starting
 scenarios, concurrent migration loads, and three actual actions/save/reloads through
-the exact released6 runtime before returning to Gold. It also tests native aborts
+the exact released6 runtime before returning to Gold, preserving the automatic
+Gold winner and then selecting the preserved rollback via an explicit import. It
+also tests native aborts
 before/after successful puts, compatibility-copy failure/repair, denied storage,
 primary/backup/archive recovery and unavailable Web Locks/IndexedDB.
 
@@ -113,6 +128,11 @@ those pages; the actual competing writes remain concurrent behind the held lock.
 rollback-recognition path restoring compatibility bytes instead of the required
 healthy authoritative backup. The product path was restricted to healthy native
 primaries and the original backup assertion retained.
+
+### Historical first delivery (superseded)
+
+The counts and commit below precede the independent stale-released6 failure and
+are retained as historical measurements. They do not establish current acceptance.
 
 Verified integration commit: `6c32508902726da2be89e775b789b4c892c1f59e`, tree
 `fb524eb6d0ba15092658d3cc4383d42c7d4abb17`. Product code is unchanged from
@@ -147,18 +167,49 @@ inspected and the UI runners report no console/page exceptions. These are local
 validation results; exact PR CI and integrated Gold performance acceptance remain
 separate. Historical PR #254 blocker evidence is left intact.
 
+## Released6 regression and revision-2 correction
+
+The unchanged independent `scripts/boardworld-legacy-tab-browser.mjs` is copied
+from Gold commit `117854655fc08f70ff7e0b49f59abc3d787d7b56`, SHA-256
+`9ecb44de1bd68a876b747dab73740fadb9ebd0fdcee5d7e5d53384bfccea5f0d`.
+It loads the entire exact released6 module graph and retains `v6-fresh-newcomer`
+in an old tab. Gold saves `event:welcome:work`; the old tab then really saves
+`event:welcome:learn`. A genuinely fresh Gold tab must return the complete Gold
+winner while the old fork stays exactly exportable. There is no IDB-layout
+assertion or substituted current writer in that runner.
+
+The first product (`71006639`, identical product bytes at `5a0721dc`) fails this
+test: a previously unseen stale fork is still a valid v6 envelope, and every load
+passed `acceptExternal=true`. Removing that inference is the product correction.
+A warning to close old tabs was not an acceptable substitute for winner safety.
+
+Revision 2 keeps the durable head, preserves foreign copies and provides an explicit
+menu download/file import path. All 18 migration/rollback fixtures additionally
+assert unchanged automatic state and generation before the explicit import. The
+new UI case verifies recovery-write quota abort, persistence across reload, exact
+download, no adoption on download, real file selection/import/reload, and the
+previous Gold winner retained as backup. Existing same-revision writer tests,
+abort assertions and backup-recovery expectations are retained.
+
+The shallow-checkout CI now fetches the immutable released6 SHA before either
+archive-based runner, and runs the independent stale-tab gate in addition to all
+previous transaction/race gates. No integration or production action is performed.
+
+Final revision-2 measurements and hashes are recorded in
+`recovery/concurrent-save/revision2/verification.json` after verification.
+
 ## Remaining boundaries
 
-- Already-open released6, pre-fix Gold or older JavaScript does not participate in the new protocol.
-  Export and close/reload those sessions before continuing the same life in Gold.
-  Controlled released6 rollback compatibility is covered, not arbitrary concurrent
-  writes by old or manually modified clients.
-- Restoring an envelope previously committed by Gold is indistinguishable from a
-  stale cache; use explicit file import for an intentional restore to such a state.
-- The SHA-256 identity ledger grows with distinct committed saves. Quota/transaction
-  failure fails closed and leaves the previous commit and exportable state intact.
+- Old released6/pre-fix code can still write its localStorage compatibility slot.
+  It cannot replace the authoritative Gold head. Divergent validated copies are
+  preserved for explicit recovery/import, including after a fresh Gold reload.
+- Intentional rollback continuation now requires explicit file selection/import;
+  an unmarked legacy save cannot prove user intent. All original envelopes,
+  exports, immutable archives and released6 reader/writer compatibility remain.
+- The identity and recovery-copy store grows with distinct saves/forks. Quota or
+  transaction failures fail closed; the last commit and exportable data remain.
 - A compatibility-copy failure can temporarily leave released6 with an older copy;
-  reload in Gold to repair/export before rolling back. The IDB record is authoritative.
+  Gold repairs the mirror after preserving foreign bytes. The IDB head is authoritative.
 - Browser data deletion/eviction and separate origins remain browser-storage limits.
   Automated Chrome coverage is not physical Safari/Firefox acceptance.
 - Gold's integrated performance/full-release gates remain separate. No main merge,

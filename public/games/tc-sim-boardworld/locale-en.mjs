@@ -2947,4 +2947,7 @@ export default [
   "This browser does not support safe saving across tabs. Export your progress to a file; autosave is off.",
   "ISTANBUL / CONNECTED LIVES / 07",
   "Saving…",
+  "A different save copy was preserved. Download it from the Save menu and import it explicitly; your current save was kept.",
+  "Different save copies were preserved. Download them and import a file to choose one.",
+  "Download preserved save copy",
 ];

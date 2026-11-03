@@ -115,7 +115,7 @@ try {
   for (let version = 1; version <= 6; version++)
     for (const scenario of ["newcomer", "graduate", "restart"]) {
       await check(
-        `authentic v${version}/${scenario}: transactional migration, save and exact released6 rollback`,
+        `authentic v${version}/${scenario}: transactional migration, save and explicit released6 rollback recovery`,
         async () => {
           const context = await browser.newContext();
           await context.route("**/released6/*.mjs", (route) => {
@@ -162,6 +162,16 @@ try {
                 if (!old.saveGame(continued).ok) throw Error("released6 save failed");
               }
               const returned = await p.loadGameLocked();
+              const recoveryPreserved = returned.recoverySaves.some(
+                (copy) =>
+                  JSON.stringify(p.importGame(copy.bytes).state) === JSON.stringify(continued),
+              );
+              const imported = await p.saveGameLocked(
+                p.importGame(old.exportGame(continued)).state,
+                undefined,
+                returned.token,
+              );
+              const selected = await p.loadGameLocked();
               const archived =
                 version < 6
                   ? localStorage.getItem(`tariklab.boardworld.v${version}.original-v${version}`)
@@ -174,12 +184,16 @@ try {
                 afterSave: afterSave.state,
                 oldLoaded,
                 continued,
-                returned: returned.state,
+                automatic: returned.state,
+                recoveryPreserved,
+                imported: imported.ok,
+                returned: selected.state,
                 archiveUnchanged: archived === bytes,
                 legacyUnchanged:
                   version === 6 ||
                   localStorage.getItem(`tariklab.boardworld.v${version}`) === bytes,
-                generationAdvanced: returned.token.generation > afterSave.token.generation,
+                generationUnchangedOnLoad: returned.token.generation === afterSave.token.generation,
+                generationAdvanced: selected.token.generation > afterSave.token.generation,
               };
             },
             { version, bytes, token: loads[0].token },
@@ -188,6 +202,14 @@ try {
           assert.equal(evidence.saved, true);
           assert.deepEqual(evidence.afterSave, evidence.candidate);
           assert.deepEqual(evidence.oldLoaded, evidence.candidate);
+          assert.deepEqual(
+            evidence.automatic,
+            evidence.candidate,
+            "old writes never become automatic rollback intent",
+          );
+          assert.equal(evidence.recoveryPreserved, true);
+          assert.equal(evidence.generationUnchangedOnLoad, true);
+          assert.equal(evidence.imported, true);
           assert.deepEqual(evidence.returned, evidence.continued);
           assert.equal(evidence.archiveUnchanged, true);
           assert.equal(evidence.legacyUnchanged, true);
@@ -382,6 +404,120 @@ try {
     assert.deepEqual(result, { unchanged: true, ok: false, protected: false, exportable: true });
     await context.close();
   });
+  await check(
+    "foreign fork survives reload and UI download; only explicit file import replaces the winner",
+    async () => {
+      const context = await browser.newContext();
+      await context.route("**/released6/*.mjs", (route) =>
+        route.fulfill({
+          contentType: "text/javascript",
+          body: readFileSync(
+            join(
+              temp,
+              "public/games/tc-sim-boardworld",
+              new URL(route.request().url()).pathname.split("/").at(-1),
+            ),
+          ),
+        }),
+      );
+      const old = await context.newPage();
+      await boot(old);
+      const native = readFileSync("scripts/fixtures/boardworld/v6-fresh-newcomer.json", "utf8");
+      await old.evaluate(async (bytes) => {
+        window.legacy = await import("/released6/persistence.mjs");
+        window.legacyEngine = await import("/released6/engine.mjs");
+        localStorage.setItem(legacy.SAVE_KEY, bytes);
+        window.retained = legacy.loadGame().state;
+      }, native);
+      const writer = await context.newPage();
+      await boot(writer);
+      const winner = await writer.evaluate(async () => {
+        const loaded = await p.loadGameLocked();
+        const result = e.resolveAction(loaded.state, "event:welcome:work");
+        const saved = await p.saveGameLocked(result.state, undefined, loaded.token);
+        if (!saved.ok) throw Error(saved.message);
+        return result.state;
+      });
+      const fork = await old.evaluate(() => {
+        const result = legacyEngine.resolveAction(retained, "event:welcome:learn");
+        if (!legacy.saveGame(result.state).ok) throw Error("old writer failed");
+        return result.state;
+      });
+      const denied = await writer.evaluate(async () => {
+        const put = IDBObjectStore.prototype.put;
+        IDBObjectStore.prototype.put = function (...args) {
+          if (this.name === "seen" && args[1] === "recovery")
+            throw new DOMException("quota", "QuotaExceededError");
+          return put.apply(this, args);
+        };
+        try {
+          return await p.loadGameLocked();
+        } finally {
+          IDBObjectStore.prototype.put = put;
+        }
+      });
+      assert.deepEqual(
+        denied.state,
+        winner,
+        "a failed recovery archive cannot fall back to the foreign fork",
+      );
+      assert.equal(denied.token, null, "failed recovery remains export-only");
+      const ui = await context.newPage();
+      ui.on("pageerror", (e) => errors.push(e.message));
+      await ui.goto(`${origin}/games/tc-sim-boardworld/index.html`);
+      await ui.waitForFunction(() => window.boardworldInspect?.());
+      assert.deepEqual(await ui.evaluate(() => window.boardworldInspect()), winner);
+      assert.match(await ui.locator("#notice").innerText(), /Farklı bir kayıt kopyası korundu/);
+      await ui.reload();
+      await ui.waitForFunction(() => window.boardworldInspect?.());
+      assert.deepEqual(await ui.evaluate(() => window.boardworldInspect()), winner);
+      await ui.locator("[data-ui=menu]").click();
+      const [download] = await Promise.all([
+        ui.waitForEvent("download"),
+        ui.locator('[data-ui="recovery:0"]').click(),
+      ]);
+      const recovered = readFileSync(await download.path());
+      const exported = await ui.evaluate(
+        async (bytes) => (await import("./persistence.mjs")).importGame(bytes).state,
+        recovered.toString(),
+      );
+      assert.deepEqual(exported, fork, "download contains the exact old divergent move");
+      assert.deepEqual(
+        await ui.evaluate(() => window.boardworldInspect()),
+        winner,
+        "downloading never imports",
+      );
+      await ui.locator("#import-file").setInputFiles({
+        name: "chosen-recovery.json",
+        mimeType: "application/json",
+        buffer: recovered,
+      });
+      await ui.waitForFunction(
+        (expected) => JSON.stringify(window.boardworldInspect()) === JSON.stringify(expected),
+        fork,
+      );
+      await ui.reload();
+      await ui.waitForFunction(() => window.boardworldInspect?.());
+      assert.deepEqual(
+        await ui.evaluate(() => window.boardworldInspect()),
+        fork,
+        "the selected file import survives reload",
+      );
+      const backup = await ui.evaluate(async () => {
+        const p = await import("./persistence.mjs");
+        return p.importGame((await p.loadGameLocked()).token.backup).state;
+      });
+      assert.deepEqual(backup, winner, "the replaced Gold winner remains the rolling backup");
+      await context.close();
+      return {
+        automaticWinnerPreserved: true,
+        recoveryAbortSafe: true,
+        exactUiDownload: true,
+        explicitImportPersisted: true,
+        winnerRetainedAsBackup: true,
+      };
+    },
+  );
   assert.deepEqual(errors, []);
   report.status = "PASS";
 } catch (error) {
