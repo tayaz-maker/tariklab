@@ -263,15 +263,15 @@ try {
     "warm validation cannot rotate checksum-invalid primary bytes into the backup",
     async () => {
       const result = await page.evaluate(async () => {
-        const loaded = await p.loadGameLocked();
-        const warm = await p.saveGameLocked(loaded.state, undefined, loaded.token);
+        const loaded = await window.p.loadGameLocked();
+        const warm = await window.p.saveGameLocked(loaded.state, undefined, loaded.token);
         if (!warm.ok) throw Error(warm.message);
         const envelope = JSON.parse(warm.token.primary);
         // Same checksum and decoded state, different bytes: checksum must fail.
         envelope.payload += " ";
         const damaged = JSON.stringify(envelope);
         await new Promise((resolve, reject) => {
-          const request = indexedDB.open(`${p.SAVE_KEY}.transactions`, 1);
+          const request = window.indexedDB.open(`${window.p.SAVE_KEY}.transactions`, 1);
           request.onsuccess = () => {
             const db = request.result,
               tx = db.transaction("state", "readwrite");
@@ -280,7 +280,7 @@ try {
             get.onsuccess = () => {
               const record = get.result,
                 slots = new Map(record.slots);
-              slots.set(p.SAVE_KEY, damaged);
+              slots.set(window.p.SAVE_KEY, damaged);
               record.slots = [...slots];
               store.put(record, "head");
             };
@@ -295,18 +295,18 @@ try {
           };
           request.onerror = () => reject(request.error);
         });
-        const recovered = await p.loadGameLocked();
-        const candidate = next(recovered.state);
-        const repaired = await p.saveGameLocked(candidate, undefined, recovered.token);
+        const recovered = await window.p.loadGameLocked();
+        const candidate = window.next(recovered.state);
+        const repaired = await window.p.saveGameLocked(candidate, undefined, recovered.token);
         return {
           warm: warm.ok,
-          damagedRejected: p.importGame(damaged).state === null,
+          damagedRejected: window.p.importGame(damaged).state === null,
           recovered: recovered.state,
           expected: loaded.state,
           repaired: repaired.ok,
           backup: repaired.token?.backup,
           healthyBytes: warm.token.primary,
-          after: (await p.loadGameLocked()).state,
+          after: (await window.p.loadGameLocked()).state,
           candidate,
         };
       });
@@ -323,21 +323,21 @@ try {
     "warm byte validation never validates a subsequently mutated state object",
     async () => {
       const result = await page.evaluate(async () => {
-        const loaded = await p.loadGameLocked(),
+        const loaded = await window.p.loadGameLocked(),
           state = loaded.state;
-        const warm = await p.saveGameLocked(state, undefined, loaded.token);
+        const warm = await window.p.saveGameLocked(state, undefined, loaded.token);
         if (!warm.ok) throw Error(warm.message);
-        const before = await head(),
-          mirror = p.readSaveToken();
+        const before = await window.head(),
+          mirror = window.p.readSaveToken();
         state.player.health = 101;
-        const rejected = await p.saveGameLocked(state, undefined, warm.token);
+        const rejected = await window.p.saveGameLocked(state, undefined, warm.token);
         return {
           ok: rejected.ok,
           token: rejected.token,
           before,
-          after: await head(),
+          after: await window.head(),
           mirror,
-          afterMirror: p.readSaveToken(),
+          afterMirror: window.p.readSaveToken(),
         };
       });
       assert.equal(result.ok, false);
@@ -351,10 +351,10 @@ try {
     "valid bytes from an aborted save cannot authorize a stale retry after another commit",
     async () => {
       const result = await page.evaluate(async () => {
-        const loaded = await p.loadGameLocked(),
-          candidate = next(loaded.state);
-        const put = IDBObjectStore.prototype.put;
-        IDBObjectStore.prototype.put = function (...args) {
+        const loaded = await window.p.loadGameLocked(),
+          candidate = window.next(loaded.state);
+        const put = window.IDBObjectStore.prototype.put;
+        window.IDBObjectStore.prototype.put = function (...args) {
           const request = put.apply(this, args);
           if (this.name === "state")
             request.addEventListener("success", () => this.transaction.abort(), { once: true });
@@ -362,25 +362,25 @@ try {
         };
         let aborted;
         try {
-          aborted = await p.saveGameLocked(candidate, undefined, loaded.token);
+          aborted = await window.p.saveGameLocked(candidate, undefined, loaded.token);
         } finally {
-          IDBObjectStore.prototype.put = put;
+          window.IDBObjectStore.prototype.put = put;
         }
-        const other = e.createGame({ seed: 91373, name: "Validation Cache Writer" });
-        const winner = await p.saveGameLocked(other, undefined, loaded.token);
-        const before = await head(),
-          mirror = p.readSaveToken();
-        const rejected = await p.saveGameLocked(candidate, undefined, loaded.token);
+        const other = window.e.createGame({ seed: 91373, name: "Validation Cache Writer" });
+        const winner = await window.p.saveGameLocked(other, undefined, loaded.token);
+        const before = await window.head(),
+          mirror = window.p.readSaveToken();
+        const rejected = await window.p.saveGameLocked(candidate, undefined, loaded.token);
         return {
           aborted: aborted.ok,
           winner: winner.ok,
           rejected,
           before,
-          after: await head(),
+          after: await window.head(),
           mirror,
-          afterMirror: p.readSaveToken(),
+          afterMirror: window.p.readSaveToken(),
           expected: other,
-          state: (await p.loadGameLocked()).state,
+          state: (await window.p.loadGameLocked()).state,
         };
       });
       assert.equal(result.aborted, false);

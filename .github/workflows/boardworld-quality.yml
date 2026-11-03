@@ -18,6 +18,8 @@ jobs:
       - name: Fetch immutable released6 compatibility reference
         # checkout is shallow; browser rollback tests archive this exact shipped tree.
         run: git fetch --no-tags --depth=1 origin d695119186cad42c079a911a60c372f201b3b64b
+      - name: Fetch immutable prior empty-head protocol reference
+        run: git fetch --no-tags --depth=1 origin b0c25495a7c162eb4a653e32c0d999144aefb300
       - uses: ./.github/actions/ci-node
       - name: Deterministic simulation and save recovery
         env:
@@ -54,6 +56,8 @@ jobs:
         run: node scripts/boardworld-legacy-tab-browser.mjs --serve .output/public
       - name: Every legacy backup and original remains recoverable
         run: node scripts/boardworld-legacy-slot-browser.mjs --serve .output/public
+      - name: Empty bootstrap migration and first-creation race
+        run: node scripts/boardworld-legacy-bootstrap-browser.mjs --serve .output/public
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -69,3 +73,4 @@ jobs:
             ${{ runner.temp }}/screenshots/boardworld-stale
             ${{ runner.temp }}/screenshots/boardworld-legacy-tab
             ${{ runner.temp }}/screenshots/boardworld-legacy-slot
+            ${{ runner.temp }}/screenshots/boardworld-legacy-bootstrap
