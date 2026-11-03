@@ -197,8 +197,18 @@ export function initSociety(s) {
   return s;
 }
 export function getSocietyDistrictEffects(s, id) {
+  const d = s.society?.districts[id];
+  if (s.version >= 6 && d)
+    return {
+      ...d.weeklyDelta,
+      stockPricePct: localPrice(s, d, "material"),
+      serviceDelay: Math.max(
+        d.weeklyDelta.serviceDelay,
+        Math.min(30, Math.floor(d.serviceUsed / 4) * 5),
+      ),
+    };
   return (
-    s.society?.districts[id]?.weeklyDelta || {
+    d?.weeklyDelta || {
       demand: 0,
       rentPressure: 0,
       stockPricePct: 100,
@@ -206,6 +216,72 @@ export function getSocietyDistrictEffects(s, id) {
       jobOpenings: 2,
     }
   );
+}
+function localPrice(s, district, kind) {
+  const stock = kind === "food" ? district.foodStock : district.materialStock;
+  return s.version >= 6
+    ? clamp(district.weeklyDelta.stockPricePct + Math.max(0, Math.ceil((24 - stock) / 3)), 90, 110)
+    : district.weeklyDelta.stockPricePct;
+}
+
+// A finite distributor first reallocates existing regional surplus, then
+// orders outside deliveries against actual stock and population. These are
+// goods flows, never invented income in a person's or a business's wallet.
+export function getSocietySupplyPlan(s, dueOnly = false) {
+  if (!s.society) return [];
+  const plans = DISTRICTS.filter(
+    ({ id }) => !dueOnly || s.society.districts[id].settledDay < day(s),
+  ).map(({ id }) => {
+    const d = s.society.districts[id],
+      c = s.living.population.districts[id];
+    const jobs = clamp(Math.floor((c.employed - 85) / 25), -2, 3);
+    const work = clamp(Math.floor(d.weeklyActivity.workedMinutes / 8000), 0, 3);
+    const foodOut = 16 + Math.ceil(c.households / 10);
+    const materialOut = 8 + Math.ceil(c.households / 30);
+    return {
+      id,
+      food: d.foodStock,
+      material: d.materialStock,
+      foodIn: Math.max(0, foodOut + clamp(Math.round((90 - d.foodStock) / 12), -4, 8) + jobs),
+      foodOut,
+      materialIn: Math.max(
+        0,
+        materialOut + clamp(Math.round((60 - d.materialStock) / 10), -3, 6) + jobs + work,
+      ),
+      materialOut,
+      foodTransferredIn: 0,
+      foodTransferredOut: 0,
+      materialTransferredIn: 0,
+      materialTransferredOut: 0,
+    };
+  });
+  for (const kind of ["food", "material"])
+    for (const receiver of plans
+      .filter((p) => p[kind] < 24)
+      .sort((a, b) => a[kind] - b[kind] || a.id.localeCompare(b.id))) {
+      const donor = plans
+        .filter((p) => p.id !== receiver.id && p[kind] > 80)
+        .sort((a, b) => b[kind] - a[kind] || a.id.localeCompare(b.id))[0];
+      if (!donor) continue;
+      const units = Math.min(8, 24 - receiver[kind], donor[kind] - 80);
+      donor[kind] -= units;
+      receiver[kind] += units;
+      donor[kind + "TransferredOut"] += units;
+      receiver[kind + "TransferredIn"] += units;
+    }
+  for (const p of plans) {
+    // The finite shelf also bounds actual intake. Unused delivery capacity is
+    // not counted as a delivery, and consumption cannot create negative stock.
+    for (const [kind, capacity] of [
+      ["food", 180],
+      ["material", 120],
+    ]) {
+      p[kind + "In"] = Math.min(p[kind + "In"], capacity - p[kind]);
+      p[kind + "Out"] = Math.min(p[kind + "Out"], p[kind] + p[kind + "In"]);
+      p[kind] += p[kind + "In"] - p[kind + "Out"];
+    }
+  }
+  return plans;
 }
 function trustChange(s, id, value) {
   const r = relation(s, id),
@@ -410,7 +486,7 @@ export function societyContact(s, from, to, details, api) {
 }
 export function societyNpcOptions(s, id) {
   if (!s.society || !s.npcs[id]) return [];
-  return Object.entries(s.living.graph[id])
+  const options = Object.entries(s.living.graph[id])
     .filter(
       ([other, e]) =>
         e.conflict >= 20 &&
@@ -425,6 +501,40 @@ export function societyNpcOptions(s, id) {
       minutes: 60,
       score: 82,
     }));
+  if (s.version < 6) return options;
+  const n = s.deep.npcs[id],
+    x = s.living.npcs[id];
+  // Existing scheduler reserves the full duration and travel, and existing
+  // outcome handlers remain the only owners of energy, savings and loans.
+  if (x.energy < 40)
+    options.push({ kind: "rest", minutes: 60, location: n.home, score: 130 - x.energy / 10 });
+  if (n.cash < 800 && n.savings > 0)
+    options.push({ kind: "budget", minutes: 30, location: n.home, score: 115 });
+  if (x.energy >= 40 && n.cash >= 1200 && s.time - x.lastFavorAt >= 7 * DAY)
+    for (const f of s.society.knowledge[id]) {
+      const target = f.originActorId,
+        e = edge(s, id, target),
+        reverse = edge(s, target, id);
+      if (
+        f.topic === "finance" &&
+        f.id.startsWith(`need:${target}:`) &&
+        s.npcs[target] &&
+        target !== id &&
+        f.sourceActorId === target &&
+        f.hops === 0 &&
+        s.time - f.eventAt <= 4 * DAY &&
+        e?.trust >= 25 &&
+        reverse?.owed === 0
+      )
+        options.push({
+          kind: "favor",
+          target,
+          location: actor(s, target).home,
+          minutes: 30,
+          score: 105,
+        });
+    }
+  return options;
 }
 export function societyNpcOutcome(s, id, p, api) {
   if (!s.society || p.kind !== "social") return false;
@@ -525,15 +635,27 @@ function offered(s, api) {
         relation(s, id).trust >= 15 &&
         relation(s, id).affinity >= 18,
     )
-    .sort((a, b) => (x.cooldowns[a] || 0) - (x.cooldowns[b] || 0) || a.localeCompare(b));
+    .sort((a, b) => {
+      const priority = (id) =>
+        (actor(s, id).request ? 40 : 0) +
+        Math.max(0, 70 - (s.living.npcs[id]?.social ?? relation(s, id).affinity));
+      return (
+        (s.version >= 6 ? priority(b) - priority(a) : 0) ||
+        (x.cooldowns[a] || 0) - (x.cooldowns[b] || 0) ||
+        a.localeCompare(b)
+      );
+    });
   for (const id of candidates) {
     const n = actor(s, id),
       r = relation(s, id),
       social = s.living.npcs[id]?.social ?? r.affinity;
-    if (social >= 70 || n.cash < 80) continue;
+    const cashNeeded =
+      180 + Math.round((n.rent || 0) / 30) + (venueById(`${n.home}-cafe`)?.fee || 0);
+    const contactOnly = s.version >= 6 && (n.request || n.cash < cashNeeded);
+    if ((social >= 70 && !(s.version >= 6 && n.request)) || (!contactOnly && n.cash < 80)) continue;
     let calendarId = "",
       expiresAt = s.time + 3 * DAY;
-    if (s.npcs[id]) {
+    if (s.npcs[id] && !contactOnly) {
       if (!api.createNpcOffer) continue;
       const venue = `${n.home}-cafe`;
       search: for (const offset of [1, 2, 3])
@@ -623,14 +745,24 @@ function secondaryContact(s) {
   }
 }
 function settleDistricts(s) {
+  const deliveries = s.version >= 6 ? getSocietySupplyPlan(s, true) : [];
   for (const [id, d] of Object.entries(s.society.districts)) {
     if (d.settledDay >= day(s)) continue;
     const c = s.living.population.districts[id],
       a = d.weeklyActivity;
-    const foodIn = 24 + Math.floor(c.employed / 10),
-      foodOut = 20 + Math.floor(c.households / 15),
-      materialIn = 12 + Math.floor(c.employed / 20),
-      materialOut = 10 + Math.floor(c.households / 40);
+    const delivery = deliveries.find((p) => p.id === id);
+    const foodIn = delivery
+        ? delivery.foodIn + delivery.foodTransferredIn
+        : 24 + Math.floor(c.employed / 10),
+      foodOut = delivery
+        ? delivery.foodOut + delivery.foodTransferredOut
+        : 20 + Math.floor(c.households / 15),
+      materialIn = delivery
+        ? delivery.materialIn + delivery.materialTransferredIn
+        : 12 + Math.floor(c.employed / 20),
+      materialOut = delivery
+        ? delivery.materialOut + delivery.materialTransferredOut
+        : 10 + Math.floor(c.households / 40);
     d.foodStock = clamp(d.foodStock + foodIn - foodOut, 0, 180);
     d.materialStock = clamp(d.materialStock + materialIn - materialOut, 0, 120);
     d.serviceUsed = clamp(
@@ -693,7 +825,9 @@ function settleDistricts(s) {
   }
 }
 function syncOffers(s) {
-  for (const o of s.society.offers.filter((o) => o.status === "accepted")) {
+  for (const o of s.society.offers.filter(
+    (o) => o.status === "accepted" && o.type === "meeting" && o.calendarId,
+  )) {
     const visited = new Set();
     while (!visited.has(o.calendarId)) {
       visited.add(o.calendarId);
@@ -934,7 +1068,7 @@ export function adaptSocietyActions(s, actions, api) {
   return actions.map((original) => {
     const a = { ...original },
       d = s.society.districts[s.location],
-      fx = d.weeklyDelta,
+      fx = getSocietyDistrictEffects(s, s.location),
       run = a.run;
     const meeting = /^calendar:(accept|attend):(.+)$/.exec(a.id);
     const invitation = meeting && invitationFor(s, meeting[2]);
@@ -952,7 +1086,8 @@ export function adaptSocietyActions(s, actions, api) {
         };
     }
     if (a.id === "buy:groceries") {
-      a.cost = Math.round((a.cost * fx.stockPricePct) / 100);
+      const pricePct = localPrice(s, d, "food");
+      a.cost = Math.round((a.cost * pricePct) / 100);
       const why =
         d.foodStock < 1
           ? COPY.noStock
@@ -963,8 +1098,8 @@ export function adaptSocietyActions(s, actions, api) {
         a.disabled = true;
         a.reason = why;
       }
-      a.description += ` Semt stoğu ${d.foodStock}; yerel fiyat %${fx.stockPricePct}.`;
-      a.societyCost = { stock: d.foodStock, pricePct: fx.stockPricePct, kind: "food" };
+      a.description += ` Semt stoğu ${d.foodStock}; yerel fiyat %${pricePct}.`;
+      a.societyCost = { stock: d.foodStock, pricePct, kind: "food" };
       a.run = (n) => {
         n.society.districts[s.location].foodStock--;
         return run(n);
@@ -1129,7 +1264,7 @@ export function afterSocietyAction(s, id, before, api, resolved) {
           "request",
           [contact],
           o.reason,
-          "accepted",
+          s.version >= 6 ? "contactAccepted" : "accepted",
           { labelKey: "direct", actorId: contact, credibility: 100 },
           { parentId: o.id },
         );
@@ -1155,6 +1290,7 @@ export function getSocietyView(s) {
       summary: COPY.summary,
     };
   const x = s.society,
+    supply = s.version >= 6 ? getSocietySupplyPlan(s) : [],
     offers = x.offers.filter(activeOffer).map((o) => {
       const e = s.calendar.entries.find((e) => e.id === o.calendarId);
       return {
@@ -1173,7 +1309,7 @@ export function getSocietyView(s) {
               `calendar:decline:${o.calendarId}`,
               ...(!o.revised ? [1, 2].map((d) => `society:reschedule:${o.id}:${d}`) : []),
             ]
-          : [`life:call:${o.npcId}`, `society:ack:${o.id}`],
+          : [`${s.npcs[o.npcId] ? "call" : "life:call"}:${o.npcId}`, `society:ack:${o.id}`],
       };
     });
   const network = x.knownEdges.map((e) => ({
@@ -1227,6 +1363,7 @@ export function getSocietyView(s) {
     })),
     districts: DISTRICTS.map((d) => {
       const z = x.districts[d.id];
+      const next = supply.find((p) => p.id === d.id);
       return {
         id: d.id,
         name: d.name,
@@ -1234,7 +1371,19 @@ export function getSocietyView(s) {
         materialStock: z.materialStock,
         serviceUsed: z.serviceUsed,
         validUntil: (z.settledWeek + 1) * 7 * DAY,
-        effects: { ...z.weeklyDelta },
+        effects: { ...getSocietyDistrictEffects(s, d.id) },
+        ...(s.version >= 6
+          ? {
+              foodPricePct: localPrice(s, z, "food"),
+              materialPricePct: localPrice(s, z, "material"),
+              nextDeliveryAt: day(s) * DAY,
+              nextDelivery: {
+                food: next.foodIn + next.foodTransferredIn,
+                material: next.materialIn + next.materialTransferredIn,
+              },
+              nextStock: { food: next.food, material: next.material },
+            }
+          : {}),
         why: COPY.districtWhy,
         whyKey: "districtWhy",
         history: z.history.map((h) => ({ ...h, text: COPY[h.key] })),
@@ -1392,7 +1541,7 @@ export function validateSociety(s) {
         typeof o.revised !== "boolean" ||
         (o.type === "meeting"
           ? !s.npcs[o.npcId] || !o.calendarId
-          : o.calendarId !== "" || !!s.npcs[o.npcId]) ||
+          : o.calendarId !== "" || (s.version < 6 && !!s.npcs[o.npcId])) ||
         (o.type === "meeting" && e && (e.kind !== "meeting" || e.npcId !== o.npcId)) ||
         (activeOffer(o) &&
           (o.expiresAt <= s.time ||

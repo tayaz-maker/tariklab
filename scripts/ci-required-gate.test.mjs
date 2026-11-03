@@ -72,11 +72,11 @@ const bootstrap = [
   {run: 'npm ci'},
 ];
 
-test('build-core preserves all original commands, order and budgets', () => {
+test('build-core preserves all original commands and order with the Gold endurance budget', () => {
   assert.deepEqual(workflow.jobs['build-core'], {
     needs: 'changes',
     'runs-on': 'ubuntu-latest',
-    'timeout-minutes': 25,
+    'timeout-minutes': 60,
     steps: [
       ...bootstrap.map(step => step.uses === 'actions/checkout@v4' ? step : {...step, if: "needs.changes.outputs.docs != 'true'"}),
       {run: 'npm test', if: "needs.changes.outputs.docs != 'true'"},

@@ -21,7 +21,10 @@ import { NPCS, EVENTS } from "../public/games/tc-sim-boardworld/content.mjs";
 import { PROJECT_TYPES } from "../public/games/tc-sim-boardworld/world-content.mjs";
 import { travelMinutes } from "../public/games/tc-sim-boardworld/city.mjs";
 import { reveal } from "../public/games/tc-sim-boardworld/deep-life.mjs";
-import { societyContact } from "../public/games/tc-sim-boardworld/society-systems.mjs";
+import {
+  societyContact,
+  societyNpcOptions,
+} from "../public/games/tc-sim-boardworld/society-systems.mjs";
 const DAY = 1440;
 function fixture(options = {}) {
   const s = createGame(options);
@@ -39,6 +42,7 @@ function act(s, id, payload) {
   return r.state;
 }
 const api = {
+  societyNpcOptions,
   travelMinutes,
   playerPresent: () => false,
   npcCommitments: (s, id, a, b) =>

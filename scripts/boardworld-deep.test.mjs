@@ -59,7 +59,7 @@ test("legacy rejected actions preserve original identity and migration is pure a
   assert.equal(r.state, s);
   assert.deepEqual(s, before);
   const upgraded = migrateState(s);
-  assert.equal(upgraded.version, 5);
+  assert.equal(upgraded.version, 6);
   assert.deepEqual(s, before);
   assert.deepEqual(migrateState(upgraded), upgraded);
 });

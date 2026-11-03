@@ -5,6 +5,8 @@ export const SOCIETY_COPY = {
   request: "Doğrudan iletişim isteği",
   requestWhy: "Günlük düzeninde desteğe ve konuşmaya ihtiyaç duydu; bunu kendisi bildirdi.",
   accepted: "Davet onaylandı; artık gerçek bir takvim taahhüdü.",
+  contactAccepted:
+    "İletişim isteğine gerçek görüşmeyle yanıt verildi; yeni bir ödeme veya yardım sözü oluşmadı.",
   declined: "Onaylanmamış öneri kapandı; tutulmamış söz oluşmadı.",
   expired: "Yanıt süresi doldu; geçici NPC rezervasyonu serbest kaldı.",
   contact: "Gerçek sosyal temas",

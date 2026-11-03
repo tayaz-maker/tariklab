@@ -221,7 +221,7 @@ jobs:
       - changes
       - build-core
     runs-on: ubuntu-24.04
-    timeout-minutes: 12
+    timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix:

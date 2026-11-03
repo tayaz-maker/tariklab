@@ -145,8 +145,8 @@ try {
     await surface.locator("[data-ui=menu]").click();
     await surface.locator("#menu-dialog [data-ui=save]").click();
     const backup = await surface.evaluate(async () => {
-      const { BACKUP_KEY } = await import("/games/tc-sim-boardworld/persistence.mjs");
-      return JSON.parse(JSON.parse(localStorage.getItem(BACKUP_KEY)).payload);
+      const { BACKUP_KEY, importGame } = await import("/games/tc-sim-boardworld/persistence.mjs");
+      return importGame(localStorage.getItem(BACKUP_KEY)).state;
     });
     await surface.evaluate(async () => {
       const { SAVE_KEY } = await import("/games/tc-sim-boardworld/persistence.mjs");
@@ -183,6 +183,7 @@ try {
     "engine.mjs",
     "content.mjs",
     "persistence.mjs",
+    "save-codec.mjs",
     "deep-content.mjs",
     "deep-life.mjs",
     "life-chains.mjs",

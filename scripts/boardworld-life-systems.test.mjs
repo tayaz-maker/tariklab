@@ -110,7 +110,7 @@ test("v3 migration adds life without rewriting legacy balances, NPCs, time or hi
     old = JSON.parse(envelope.payload),
     before = structuredClone(old),
     next = migrateState(old);
-  assert.equal(next.version, 5);
+  assert.equal(next.version, 6);
   assert.equal(validateState(next), true);
   for (const [k, v] of Object.entries(old)) if (k !== "version") assert.deepEqual(next[k], v, k);
   assert.deepEqual(old, before);

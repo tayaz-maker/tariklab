@@ -361,6 +361,49 @@
   display: block;
   margin-top: 5px;
 }
+.edition-four .has-market-signals .city-schematic {
+  height: 390px;
+}
+.node-market {
+  display: grid;
+  gap: 3px;
+  margin-top: 8px;
+  padding-top: 7px;
+  border-top: 1px solid var(--line);
+  font-size: 11px;
+  line-height: 1.4;
+}
+.node-market-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0 4px;
+  color: var(--muted);
+}
+.node-market-row b {
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.node-market-signal {
+  margin-top: 2px;
+  color: var(--teal);
+  font-weight: 700;
+}
+.node-market-signal.attention {
+  color: var(--coral);
+}
+.node-market-signal.commitment {
+  color: var(--ochre);
+}
+@media (max-width: 600px) {
+  .edition-four .has-market-signals .city-schematic {
+    height: auto;
+  }
+  .node-market {
+    margin-top: 6px;
+    padding-top: 5px;
+  }
+}
 @media (max-width: 600px) {
   html.embedded .edition-five .topbar {
     flex-wrap: nowrap;

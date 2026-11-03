@@ -1,4 +1,4 @@
-/** Values aligned with locale-keys.mjs; checked by boardworld-i18n.test.mjs. */
+/** Aligned game-local presentation catalog. */
 export default [
   "Şişli",
   "Beşiktaş",
@@ -1241,7 +1241,7 @@ export default [
   "Back to TarikLab games",
   "Skip to game",
   "Preparing the city board…",
-  "ISTANBUL / CONNECTED LIVES / 05",
+  "ISTANBUL / CONNECTED LIVES / 06",
   "In this city",
   "you have a life.",
   "Choose your work. Meet people. Make a home.",
@@ -2931,4 +2931,16 @@ export default [
   ". Life story completed.",
   "This week {0}",
   "team lead",
+  "Supply available",
+  "Food sold out",
+  "Materials sold out",
+  "{0} confirmed plans",
+  "Clinic +{0} min",
+  "{0} job openings",
+  "Food",
+  "Food price",
+  "100% means the base price; stock and demand change actual shopping and care conditions.",
+  "Next stock forecast",
+  "The forecast includes known deliveries and consumption; new purchases may change it.",
+  "The contact request was answered with an actual conversation; no new payment or promise of help was created.",
 ];

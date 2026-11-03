@@ -1,4 +1,4 @@
-/** Values aligned with locale-keys.mjs; checked by boardworld-i18n.test.mjs. */
+/** Aligned game-local presentation catalog. */
 export default [
   "Şişli",
   "Beşiktaş",
@@ -1241,7 +1241,7 @@ export default [
   "Wróć do gier TarikLab",
   "Przejdź do gry",
   "Przygotowywanie planszy miasta…",
-  "STAMBUŁ / POŁĄCZONE ŻYCIA / 05",
+  "STAMBUŁ / POŁĄCZONE ŻYCIA / 06",
   "W tym mieście",
   "masz swoje życie.",
   "Wybierz pracę. Poznaj ludzi. Stwórz dom.",
@@ -2931,4 +2931,16 @@ export default [
   ". Historia życia ukończona.",
   "W tym tygodniu {0}",
   "lider zespołu",
+  "Dostawy dostępne",
+  "Brak żywności",
+  "Brak materiałów",
+  "Potwierdzone plany: {0}",
+  "Przychodnia +{0} min",
+  "Oferty pracy: {0}",
+  "Żywność",
+  "Cena żywności",
+  "100% oznacza cenę podstawową; zapasy i obciążenie zmieniają rzeczywiste warunki zakupów i opieki.",
+  "Następna prognoza zapasów",
+  "Prognoza uwzględnia znane dostawy i zużycie; nowe zakupy mogą ją zmienić.",
+  "Na prośbę o kontakt odpowiedziano rzeczywistą rozmową; nie powstała nowa płatność ani obietnica pomocy.",
 ];

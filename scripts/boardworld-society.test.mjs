@@ -132,7 +132,7 @@ test("pure v4 migration preserves every old authority and initializes neutral so
   const old = JSON.parse(envelope.payload),
     before = structuredClone(old),
     next = migrateState(old);
-  assert.equal(next.version, 5);
+  assert.equal(next.version, 6);
   assert.deepEqual(old, before);
   for (const [k, v] of Object.entries(old)) if (k !== "version") assert.deepEqual(next[k], v, k);
   assert.ok(validateState(next));

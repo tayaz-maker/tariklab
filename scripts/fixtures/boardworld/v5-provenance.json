@@ -1,0 +1,430 @@
+{
+  "sourceCommit": "78ec4ee339051840037e48e80f4b07518d5a1424",
+  "sourceTree": "7c4a44d04fd7bb2109ed25b1f696678b4df06d47",
+  "sourceArchiveSha256": "2a18fd3238670c83a8476e94eab93f14476d265fd85b52e28b2db83272d1a5fc",
+  "sourceFiles": {
+    "public/games/tc-sim-boardworld/app.mjs": "f87ed09694b638169b6b0ddae872bc61b46730308ec9366f3d9dd8b1796aa470",
+    "public/games/tc-sim-boardworld/calendar.mjs": "a43906f83ac7f595263d7ac5043c3c434851afe48b7a6e694549bddd6df1babd",
+    "public/games/tc-sim-boardworld/city.mjs": "5189e9e6ae1d2845f773764fb7f248923ef2c5b1d243a4af845c94b673736071",
+    "public/games/tc-sim-boardworld/content.mjs": "d98f97bb986fe19a7dd78a165338af92dc00c6edc2330637789beb9b4a33c4d6",
+    "public/games/tc-sim-boardworld/daily-flow.mjs": "9841e089540d9a3dfbd6d9669a2f6c3489cc8f139ef759d7754d4adee07a43af",
+    "public/games/tc-sim-boardworld/deep-content.mjs": "6b28e716326078c6469d30c99c54615e930c397e0decf5699605202d4c916a88",
+    "public/games/tc-sim-boardworld/deep-life.mjs": "a5b5fe81c7507ad6af6bce0f07768dec038fe7a13f76c4bef2f1d8656e82cd87",
+    "public/games/tc-sim-boardworld/deep-ui.mjs": "3bbbbdd1a5a3cd6c9829049cfae377648761b68244b3d07e99db9a1efe095eb6",
+    "public/games/tc-sim-boardworld/deep.css": "48e58826603ed4b0d5e17370e1a744f870d80b36b0d84759d43663fc916ed3e1",
+    "public/games/tc-sim-boardworld/emergent-content.mjs": "105767bd8253b0da7872c865411660970654d3a1f13964a6c109871e5b79b354",
+    "public/games/tc-sim-boardworld/emergent-life.mjs": "f76d666edd07e3e7988b82d749ab17cf79ace49de060945dc071e9009cb5ff43",
+    "public/games/tc-sim-boardworld/emergent-ui.mjs": "8aa4684d64d525b924e3ffd025dfe86472fb2e7f492ee7de889b60958f2b5164",
+    "public/games/tc-sim-boardworld/emergent.css": "ec830fb6078c4f85446b391c7ab3b433ff90148a355a36a30ecf7c0dceb35b63",
+    "public/games/tc-sim-boardworld/engine.mjs": "9f04fa7a8ce09b02fc5da233ea4835b5e23bfc35416c5a8b88d65af4f6b7b4e9",
+    "public/games/tc-sim-boardworld/favicon.svg": "f56714a4b795e087d52dece6b9ca5113d1a7fe9aa1cf2edb82ec5d87c46fca12",
+    "public/games/tc-sim-boardworld/i18n.mjs": "22f4f2945a5732bb4dcc27de53f8b61c37ac3aff15b6042a9771d9c311fcfb8c",
+    "public/games/tc-sim-boardworld/index.html": "108af35ff3c2142a7c795dce78f6c537b7669e9d6815c80ec74c3ab0877c4e25",
+    "public/games/tc-sim-boardworld/life-chains.mjs": "ed8a822df0fac3ae7a26e5e89344caf5eb209e2afca7c8bf3eebf640448fa4f5",
+    "public/games/tc-sim-boardworld/life-content.mjs": "19f2dc162d9dafcdc6bde21bbe706aaaf40dc88c595f8a219dd0258fb79b9c2f",
+    "public/games/tc-sim-boardworld/life-systems.mjs": "64c9c987a5aef5a01019a4c65e38b3b44c0f409e83e598bea2531494c630acda",
+    "public/games/tc-sim-boardworld/living-ui.mjs": "33214b40d49dc3392d369630d779ae54dbb446eb431a86facf98d12fcf71957f",
+    "public/games/tc-sim-boardworld/living.css": "1331992fc0dc5c917de3a3816108909a9fb8ab83263e2a3d9b77c852bcebb930",
+    "public/games/tc-sim-boardworld/locale-en.mjs": "25ea31a020e31d2116077b325fee4661e3d7f00638057487e24794b97c737823",
+    "public/games/tc-sim-boardworld/locale-keys.mjs": "e261921e019dc0973afd542fc091a15e4b4f637cb63b3caca7f84c1b3ffbe62d",
+    "public/games/tc-sim-boardworld/locale-pl.mjs": "7caed944ce0c35716f5ba669c1ec294bd6a046496d8eb8f4c7582ee03b83bee4",
+    "public/games/tc-sim-boardworld/persistence.mjs": "886bdd43be096562009f8c333334fc90ddf849cfa948d1d9cb712baf7f8e0cb6",
+    "public/games/tc-sim-boardworld/society-content.mjs": "19ea38f4c79c0e8abe51eb37c02d4958d78e32bea719a8a423c791dd43cd0632",
+    "public/games/tc-sim-boardworld/society-systems.mjs": "7f61a22cb88f3b99d087662960b638f2d48d73848241371f4d9eac7e43848b28",
+    "public/games/tc-sim-boardworld/society-ui.mjs": "a97b2e6bc01c5d8dd85432db6c31aee11d223d5e4ed305be06994cdec802af4e",
+    "public/games/tc-sim-boardworld/society.css": "ed583385cdff53f164957aaa56fe45937d5e0c0955f34da895dc2c2ecaf1f702",
+    "public/games/tc-sim-boardworld/style.css": "4dc0e38cb5007f5a83259647435c4714d99800d4cda2ad0373efefe1ce11e363",
+    "public/games/tc-sim-boardworld/world-content.mjs": "8d527a10333b51ad2e62d5c120f2b80decd3b435733bdfd69bc438b4b4b7250f",
+    "public/games/tc-sim-boardworld/world-life.mjs": "1f0852d439c4f113fa90e2a4be891eabd415e8333318d7e1c66faea1dc5e34b1",
+    "scripts/boardworld-emergent-scenarios.mjs": "38206e196ef76ae0e2192a408e63b18dcff10e38285c0233215a7b92257336d6",
+    "scripts/boardworld-scenarios.mjs": "a386b49b919452445a7942ccd81776460904307b730e280539e489b01cea5579"
+  },
+  "method": "Fresh real createGame/public resolver actions through frozen5.0 modules at78ec4ee. No clock, skill, money or state patches. Timings are not performance benchmarks. Trace files contain actual public action IDs/payloads; actionCount identifies each fixture prefix.",
+  "fixtures": [
+    {
+      "file": "v5-fresh-newcomer.json",
+      "options": {
+        "scenario": "newcomer",
+        "seed": 2026,
+        "name": "Uyumluluk5.0"
+      },
+      "day": 1,
+      "revision": 0,
+      "byteLength": 58442,
+      "sha256": "f3f4ae8e608dabbf966fc2172ea3de22d14c868598322386d5db8143a549eade",
+      "actions": [],
+      "actionCount": 0
+    },
+    {
+      "file": "v5-fresh-graduate.json",
+      "options": {
+        "scenario": "graduate",
+        "seed": 2026,
+        "name": "Uyumluluk5.0"
+      },
+      "day": 1,
+      "revision": 0,
+      "byteLength": 58449,
+      "sha256": "a63bc879d3d0183ee1de5efc97a2578f3d7869862c912cb838b21cc733abf1a4",
+      "actions": [],
+      "actionCount": 0
+    },
+    {
+      "file": "v5-fresh-restart.json",
+      "options": {
+        "scenario": "restart",
+        "seed": 2026,
+        "name": "Uyumluluk5.0"
+      },
+      "day": 1,
+      "revision": 0,
+      "byteLength": 58610,
+      "sha256": "3029010f8d11bb7ad47e3fb0a7a1dc4a65a64f5ff5d60132699ea4b446c48405",
+      "actions": [],
+      "actionCount": 0
+    },
+    {
+      "file": "v5-active-project.json",
+      "options": {
+        "scenario": "restart",
+        "seed": 2026,
+        "name": "career yaşamı"
+      },
+      "day": 1,
+      "revision": 5,
+      "byteLength": 60097,
+      "sha256": "5ef2f97e0890df10e3c635f29c063111109e5534bcde5acff24f2fa64b61829b",
+      "traceFile": "v5-trace-career-2026.json",
+      "actionCount": 5,
+      "traceSha256": "012fca7821cab57a179d4646800e0225025d7ed121988976e871a9ee82c92216"
+    },
+    {
+      "file": "v5-active-invitation.json",
+      "options": {
+        "scenario": "restart",
+        "seed": 2026,
+        "name": "career yaşamı"
+      },
+      "day": 3,
+      "revision": 13,
+      "byteLength": 67925,
+      "sha256": "9c6787c54a164152e4c2314872a63b9e317971d86094a84d511e6174a5737bbb",
+      "traceFile": "v5-trace-career-2026.json",
+      "actionCount": 13,
+      "traceSha256": "012fca7821cab57a179d4646800e0225025d7ed121988976e871a9ee82c92216"
+    },
+    {
+      "file": "v5-active-calendar.json",
+      "options": {
+        "scenario": "restart",
+        "seed": 2026,
+        "name": "career yaşamı"
+      },
+      "day": 3,
+      "revision": 15,
+      "byteLength": 67151,
+      "sha256": "f7b19e0d5c6a1f5d85beb1b443acbb9317ccc55edcd047b837a63690a97862eb",
+      "traceFile": "v5-trace-career-2026.json",
+      "actionCount": 15,
+      "traceSha256": "012fca7821cab57a179d4646800e0225025d7ed121988976e871a9ee82c92216"
+    },
+    {
+      "file": "v5-active-knowledge.json",
+      "options": {
+        "scenario": "restart",
+        "seed": 2026,
+        "name": "career yaşamı"
+      },
+      "day": 4,
+      "revision": 26,
+      "byteLength": 74354,
+      "sha256": "2e8763b24540cdc25de14261fba9dad91e0fb3741e5e97d84af8fe568dcd99ce",
+      "traceFile": "v5-trace-career-2026.json",
+      "actionCount": 26,
+      "traceSha256": "012fca7821cab57a179d4646800e0225025d7ed121988976e871a9ee82c92216"
+    },
+    {
+      "file": "v5-active-causal.json",
+      "options": {
+        "scenario": "restart",
+        "seed": 2026,
+        "name": "career yaşamı"
+      },
+      "day": 7,
+      "revision": 49,
+      "byteLength": 93133,
+      "sha256": "27ca08d7b4d032380ff1869edfb92d76c0378084128079edd021275d1e2a64fd",
+      "traceFile": "v5-trace-career-2026.json",
+      "actionCount": 49,
+      "traceSha256": "012fca7821cab57a179d4646800e0225025d7ed121988976e871a9ee82c92216"
+    },
+    {
+      "file": "v5-career-2026-day31.json",
+      "options": {
+        "scenario": "restart",
+        "seed": 2026,
+        "name": "career yaşamı"
+      },
+      "day": 31,
+      "revision": 203,
+      "byteLength": 201007,
+      "sha256": "0450fc219cec1f59c19e7d77c2e1d61ca70221e6a5125b16c15a13181a79b07b",
+      "traceFile": "v5-trace-career-2026.json",
+      "actionCount": 203,
+      "traceSha256": "012fca7821cab57a179d4646800e0225025d7ed121988976e871a9ee82c92216"
+    },
+    {
+      "file": "v5-career-2026-day91.json",
+      "options": {
+        "scenario": "restart",
+        "seed": 2026,
+        "name": "career yaşamı"
+      },
+      "day": 91,
+      "revision": 631,
+      "byteLength": 308625,
+      "sha256": "ed07568ff836c9d3df8531712417a1b6fab98ccc3c3e9cc5646e69c126eebb17",
+      "traceFile": "v5-trace-career-2026.json",
+      "actionCount": 631,
+      "traceSha256": "012fca7821cab57a179d4646800e0225025d7ed121988976e871a9ee82c92216"
+    },
+    {
+      "file": "v5-career-2026-day181.json",
+      "options": {
+        "scenario": "restart",
+        "seed": 2026,
+        "name": "career yaşamı"
+      },
+      "day": 181,
+      "revision": 1273,
+      "byteLength": 357988,
+      "sha256": "4fe08b7b27914958ef1cb70628878c52241c8b8472f8ffcae7f4275e69349280",
+      "traceFile": "v5-trace-career-2026.json",
+      "actionCount": 1273,
+      "traceSha256": "012fca7821cab57a179d4646800e0225025d7ed121988976e871a9ee82c92216"
+    },
+    {
+      "file": "v5-career-2026-day366.json",
+      "options": {
+        "scenario": "restart",
+        "seed": 2026,
+        "name": "career yaşamı"
+      },
+      "day": 366,
+      "revision": 2611,
+      "byteLength": 417005,
+      "sha256": "96fbc1124221da90454e73c6d74fb086dff47ddf3f0c4750fa9e674ddbca6b7c",
+      "traceFile": "v5-trace-career-2026.json",
+      "actionCount": 2611,
+      "traceSha256": "012fca7821cab57a179d4646800e0225025d7ed121988976e871a9ee82c92216"
+    },
+    {
+      "file": "v5-career-91373-day366.json",
+      "options": {
+        "scenario": "restart",
+        "seed": 91373,
+        "name": "career yaşamı"
+      },
+      "day": 366,
+      "revision": 2631,
+      "byteLength": 418797,
+      "sha256": "42a54311370dc7e6cf88f277b8a5f98a6ab5d2d7d5503d3d990d835a0ae16de1",
+      "traceFile": "v5-trace-career-91373.json",
+      "actionCount": 2631,
+      "traceSha256": "994750f96c08e42cbc974709624c1318dc4f6fcaedf9092f75fe9cd63717fb43"
+    },
+    {
+      "file": "v5-active-household.json",
+      "options": {
+        "scenario": "restart",
+        "seed": 2026,
+        "name": "social yaşamı"
+      },
+      "day": 4,
+      "revision": 42,
+      "byteLength": 86503,
+      "sha256": "891577279cb9daaa7b02638f7c5b28cfc1402f70e46c0002bf20671cbf8d3101",
+      "traceFile": "v5-trace-social-2026.json",
+      "actionCount": 42,
+      "traceSha256": "2b7f466e832bc48bb6e16d01ba2e8ad5c67c9765e3bbce50ebe20e2f3ff312c8"
+    },
+    {
+      "file": "v5-social-2026-day31.json",
+      "options": {
+        "scenario": "restart",
+        "seed": 2026,
+        "name": "social yaşamı"
+      },
+      "day": 31,
+      "revision": 322,
+      "byteLength": 217081,
+      "sha256": "82052c98d58af81e074bbc916acb03caeeb0404e5659f5e81d418d57b92dcea2",
+      "traceFile": "v5-trace-social-2026.json",
+      "actionCount": 322,
+      "traceSha256": "2b7f466e832bc48bb6e16d01ba2e8ad5c67c9765e3bbce50ebe20e2f3ff312c8"
+    },
+    {
+      "file": "v5-social-2026-day91.json",
+      "options": {
+        "scenario": "restart",
+        "seed": 2026,
+        "name": "social yaşamı"
+      },
+      "day": 91,
+      "revision": 948,
+      "byteLength": 323786,
+      "sha256": "36c091698ac92a4f94484312d79d37ab06ce29c8446df81bd9086a41cf1642ba",
+      "traceFile": "v5-trace-social-2026.json",
+      "actionCount": 948,
+      "traceSha256": "2b7f466e832bc48bb6e16d01ba2e8ad5c67c9765e3bbce50ebe20e2f3ff312c8"
+    },
+    {
+      "file": "v5-social-2026-day181.json",
+      "options": {
+        "scenario": "restart",
+        "seed": 2026,
+        "name": "social yaşamı"
+      },
+      "day": 181,
+      "revision": 1888,
+      "byteLength": 385785,
+      "sha256": "4ce3bdea50f6bced29bd6bfe015f8226bc697f566c1225b245bd41d1a87c0922",
+      "traceFile": "v5-trace-social-2026.json",
+      "actionCount": 1888,
+      "traceSha256": "2b7f466e832bc48bb6e16d01ba2e8ad5c67c9765e3bbce50ebe20e2f3ff312c8"
+    },
+    {
+      "file": "v5-social-2026-day366.json",
+      "options": {
+        "scenario": "restart",
+        "seed": 2026,
+        "name": "social yaşamı"
+      },
+      "day": 366,
+      "revision": 3769,
+      "byteLength": 433286,
+      "sha256": "ec3428c4f0ba6e239a2ecebb82aca7b985a1b0d0068f55a99f2eacbcb2c203d5",
+      "traceFile": "v5-trace-social-2026.json",
+      "actionCount": 3769,
+      "traceSha256": "2b7f466e832bc48bb6e16d01ba2e8ad5c67c9765e3bbce50ebe20e2f3ff312c8"
+    },
+    {
+      "file": "v5-social-91373-day366.json",
+      "options": {
+        "scenario": "restart",
+        "seed": 91373,
+        "name": "social yaşamı"
+      },
+      "day": 366,
+      "revision": 3733,
+      "byteLength": 434999,
+      "sha256": "fa127d7e0c875fbf549f5c714091b5a94efec07a04855ecd624c12fdc08551a2",
+      "traceFile": "v5-trace-social-91373.json",
+      "actionCount": 3733,
+      "traceSha256": "8c64788ebcec51cd40e4c9c7250ba08a0f58b891c8da375f50981ef59e581b65"
+    },
+    {
+      "file": "v5-active-enterprise.json",
+      "options": {
+        "scenario": "restart",
+        "seed": 2026,
+        "name": "entrepreneur yaşamı"
+      },
+      "day": 1,
+      "revision": 7,
+      "byteLength": 60890,
+      "sha256": "3303e501daa0a8cde4b3e9280da111c33c8754ff8d03bb2abc7d6a2116e1732c",
+      "traceFile": "v5-trace-entrepreneur-2026.json",
+      "actionCount": 7,
+      "traceSha256": "efb3b3e549a336df2f79b42831d5d106bdb5f4146c376060a677e55502f1851f"
+    },
+    {
+      "file": "v5-entrepreneur-2026-day31.json",
+      "options": {
+        "scenario": "restart",
+        "seed": 2026,
+        "name": "entrepreneur yaşamı"
+      },
+      "day": 31,
+      "revision": 288,
+      "byteLength": 190187,
+      "sha256": "92b51f515f5f7aff2b7e038f7bc0387fca23e29af205b9e79538fed49176a383",
+      "traceFile": "v5-trace-entrepreneur-2026.json",
+      "actionCount": 288,
+      "traceSha256": "efb3b3e549a336df2f79b42831d5d106bdb5f4146c376060a677e55502f1851f"
+    },
+    {
+      "file": "v5-entrepreneur-2026-day91.json",
+      "options": {
+        "scenario": "restart",
+        "seed": 2026,
+        "name": "entrepreneur yaşamı"
+      },
+      "day": 91,
+      "revision": 889,
+      "byteLength": 281530,
+      "sha256": "82b77345e21836fd9284d6d523eb1d7105b90539882e344d3d2f95ae13cda132",
+      "traceFile": "v5-trace-entrepreneur-2026.json",
+      "actionCount": 889,
+      "traceSha256": "efb3b3e549a336df2f79b42831d5d106bdb5f4146c376060a677e55502f1851f"
+    },
+    {
+      "file": "v5-entrepreneur-2026-day181.json",
+      "options": {
+        "scenario": "restart",
+        "seed": 2026,
+        "name": "entrepreneur yaşamı"
+      },
+      "day": 181,
+      "revision": 1809,
+      "byteLength": 344617,
+      "sha256": "342df6c728c4f45ac0de1bfe1956b14aeb6a5cc106dac14ba2918510dbb73a84",
+      "traceFile": "v5-trace-entrepreneur-2026.json",
+      "actionCount": 1809,
+      "traceSha256": "efb3b3e549a336df2f79b42831d5d106bdb5f4146c376060a677e55502f1851f"
+    },
+    {
+      "file": "v5-entrepreneur-2026-day366.json",
+      "options": {
+        "scenario": "restart",
+        "seed": 2026,
+        "name": "entrepreneur yaşamı"
+      },
+      "day": 366,
+      "revision": 3706,
+      "byteLength": 401115,
+      "sha256": "89433086e297cbdb2a1bbe0803e34a4c251172d230aac72c49eeb87bf5304427",
+      "traceFile": "v5-trace-entrepreneur-2026.json",
+      "actionCount": 3706,
+      "traceSha256": "efb3b3e549a336df2f79b42831d5d106bdb5f4146c376060a677e55502f1851f"
+    },
+    {
+      "file": "v5-entrepreneur-91373-day366.json",
+      "options": {
+        "scenario": "restart",
+        "seed": 91373,
+        "name": "entrepreneur yaşamı"
+      },
+      "day": 366,
+      "revision": 3737,
+      "byteLength": 402094,
+      "sha256": "a57878ecbb4c4c13e9c99d9edae4df4dbe41b0b22c87ccb44e3411b674ad52d4",
+      "traceFile": "v5-trace-entrepreneur-91373.json",
+      "actionCount": 3737,
+      "traceSha256": "7cd9f7edafa6ca7ce611a352e793719cd6d79bf9e58b11db583fc3bac26e1ecf"
+    }
+  ],
+  "traces": {
+    "v5-trace-career-2026.json": "012fca7821cab57a179d4646800e0225025d7ed121988976e871a9ee82c92216",
+    "v5-trace-career-91373.json": "994750f96c08e42cbc974709624c1318dc4f6fcaedf9092f75fe9cd63717fb43",
+    "v5-trace-social-2026.json": "2b7f466e832bc48bb6e16d01ba2e8ad5c67c9765e3bbce50ebe20e2f3ff312c8",
+    "v5-trace-social-91373.json": "8c64788ebcec51cd40e4c9c7250ba08a0f58b891c8da375f50981ef59e581b65",
+    "v5-trace-entrepreneur-2026.json": "efb3b3e549a336df2f79b42831d5d106bdb5f4146c376060a677e55502f1851f",
+    "v5-trace-entrepreneur-91373.json": "7cd9f7edafa6ca7ce611a352e793719cd6d79bf9e58b11db583fc3bac26e1ecf"
+  },
+  "persistenceFixture": {
+    "source": "public/games/tc-sim-boardworld/persistence.mjs at78ec4ee339051840037e48e80f4b07518d5a1424",
+    "originalSha256": "886bdd43be096562009f8c333334fc90ddf849cfa948d1d9cb712baf7f8e0cb6",
+    "onlyChange": "Engine import retargeted to current engine; normalized source hash verifies every other byte. Current validateState must retain strict originalv5 schema."
+  }
+}
