@@ -79,12 +79,17 @@ function safeTree(value, depth = 0) {
   if (typeof value !== "object") return false;
   if (Array.isArray(value))
     return value.length <= 2000 && value.every((v) => safeTree(v, depth + 1));
-  return (
-    Object.keys(value).length <= 500 &&
-    Object.entries(value).every(
-      ([k, v]) => !["__proto__", "prototype", "constructor"].includes(k) && safeTree(v, depth + 1),
+  const keys = Object.keys(value);
+  if (keys.length > 500) return false;
+  for (const key of keys)
+    if (
+      key === "__proto__" ||
+      key === "prototype" ||
+      key === "constructor" ||
+      !safeTree(value[key], depth + 1)
     )
-  );
+      return false;
+  return true;
 }
 function valid(state) {
   try {
@@ -166,7 +171,7 @@ export function importGame(text) {
     };
   }
 }
-export function loadGame(storage) {
+export function loadGame(storage, { promote = true } = {}) {
   try {
     storage ??= globalThis.localStorage;
     const primary = storage.getItem(SAVE_KEY);
@@ -194,7 +199,7 @@ export function loadGame(storage) {
       if (restored.state && versions.includes(restored.sourceVersion)) {
         // Still-open 1.0/2.0/3.0/4.0 tabs own their old keys. Promote a validated load
         // before returning it, closing the first-load/reload overwrite window.
-        const saved = saveGame(restored.state, storage);
+        const saved = promote ? saveGame(restored.state, storage) : { ok: false };
         const recovery = [
           ORIGINAL_V1_BACKUP_KEY,
           ORIGINAL_V2_BACKUP_KEY,
@@ -234,13 +239,28 @@ function writeChecked(storage, key, text) {
   storage.setItem(key, text);
   if (storage.getItem(key) !== text) throw new Error("verification");
 }
-export function saveGame(state, storage) {
+// A token is exact slot bytes, not revision: imports/new lives and equal-revision
+// forks can legitimately have unrelated counters. Callers retain it across actions.
+export function readSaveToken(storage = globalThis.localStorage) {
+  return { primary: storage.getItem(SAVE_KEY), backup: storage.getItem(BACKUP_KEY) };
+}
+export function saveGame(state, storage, expectedToken) {
   try {
     storage ??= globalThis.localStorage;
     const encoded = exportGame(state);
     const previous = storage.getItem(SAVE_KEY);
-    const previousResult = inspectStored(storage, previous);
     const rolling = storage.getItem(BACKUP_KEY);
+    if (
+      expectedToken !== undefined &&
+      (!expectedToken || previous !== expectedToken.primary || rolling !== expectedToken.backup)
+    )
+      return {
+        ok: false,
+        conflict: true,
+        message:
+          "Başka bir sekme kaydı değiştirdi. Bu sekmedeki ilerlemeni dosyaya aktar, sonra sayfayı yenile.",
+      };
+    const previousResult = inspectStored(storage, previous);
     const rollingResult = inspectStored(storage, rolling);
     const canonicalExists =
       previousResult?.sourceVersion === CURRENT_VERSION ||
@@ -281,12 +301,56 @@ export function saveGame(state, storage) {
       writeChecked(storage, BACKUP_KEY, previous);
     writeChecked(storage, SAVE_KEY, encoded);
     rememberCanonical(storage, encoded);
-    return { ok: true, message: "Bu tarayıcıya kaydedildi." };
+    return {
+      ok: true,
+      token: {
+        primary: encoded,
+        backup: previousResult?.sourceVersion === CURRENT_VERSION ? previous : rolling,
+      },
+      message: "Bu tarayıcıya kaydedildi.",
+    };
   } catch {
     return {
       ok: false,
       message:
         "Otomatik kayıt yazılamadı. İlerlemeni korumak için Kayıt → Dosyaya aktar seçeneğini kullan.",
     };
+  }
+}
+
+// Every browser writer and migration promotion uses one origin-wide exclusive lock.
+// The synchronous primitives remain available for deterministic isolated storage tests.
+export const SAVE_LOCK = "tariklab.boardworld.v6.transaction";
+const LOCK_WARNING =
+  "Bu tarayıcı güvenli sekmeler arası kaydı desteklemiyor. İlerlemeni dosyaya aktar; otomatik kayıt kapalı.";
+export async function saveGameLocked(
+  state,
+  storage,
+  expectedToken,
+  locks = globalThis.navigator?.locks,
+) {
+  if (!locks?.request) return { ok: false, message: LOCK_WARNING };
+  try {
+    return await locks.request(SAVE_LOCK, () => saveGame(state, storage, expectedToken));
+  } catch {
+    return { ok: false, message: LOCK_WARNING };
+  }
+}
+export async function loadGameLocked(storage, locks = globalThis.navigator?.locks) {
+  const read = (promote) => {
+    const loaded = loadGame(storage, { promote });
+    let token = null;
+    try {
+      token = readSaveToken(storage);
+    } catch {
+      /* Preserve exportable state. */
+    }
+    return { ...loaded, token, ...(!promote ? { message: LOCK_WARNING } : {}) };
+  };
+  if (!locks?.request) return read(false);
+  try {
+    return await locks.request(SAVE_LOCK, () => read(true));
+  } catch {
+    return read(false);
   }
 }

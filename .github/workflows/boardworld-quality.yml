@@ -40,6 +40,8 @@ jobs:
         run: node scripts/boardworld-emergent-browser.mjs --serve .output/public
       - name: Living Society invitations, daily decisions, locales and v4 isolation
         run: node scripts/boardworld-society-browser.mjs --serve .output/public
+      - name: Gold native cross-tab transaction and import races
+        run: node scripts/boardworld-stale-browser.mjs --serve .output/public
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -51,3 +53,4 @@ jobs:
             ${{ runner.temp }}/screenshots/boardworld-living
             ${{ runner.temp }}/screenshots/boardworld-emergent
             ${{ runner.temp }}/screenshots/boardworld-society
+            ${{ runner.temp }}/screenshots/boardworld-stale

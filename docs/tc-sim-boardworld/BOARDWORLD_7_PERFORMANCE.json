@@ -1,0 +1,33 @@
+{
+  "phase": "pre-freeze",
+  "baseline6": {
+    "initialTrGzipBytes": 206624,
+    "allLanguageGzipBytes": 339407,
+    "p95Ms": [23.8, 24.5, 24.0]
+  },
+  "matched5ReferenceP95Ms": [23.4, 23.4, 24.0],
+  "gold": {
+    "status": "FAIL latency; diagnostic only, not final three-run acceptance",
+    "initialTrGzipBytes": 194150,
+    "allLanguageGzipBytes": 300100,
+    "source": "overlap-save build bw-runtime-43bc66d49ab558c5.mjs",
+    "fullCompletionP95RunsMs": [
+      [28.2, 36.1, 29.0],
+      [27.3, 27.8, 26.3]
+    ],
+    "viewportOrder": [1440, 390, 320],
+    "artifacts": [
+      "outputs/gold7/diagnostic-overlap-retry/screenshots/boardworld-living/result.json",
+      "outputs/gold7/diagnostic-action-timings/screenshots/boardworld-living/result.json"
+    ],
+    "discardedExperiments": [
+      "lock-before-simulation: slower and invalidated synchronous test assumptions",
+      "deferred focus: no measured gain",
+      "DOM reconciliation: insufficient gain; not adopted"
+    ],
+    "failedAttempts": [
+      "diagnostic-overlap: mobile scroll timeout; retained failure evidence; same-byte retry passed flows"
+    ]
+  },
+  "methodology": "Same Living City interaction sequence at 1440/390/320; three serial matched runs. Gold completion boundary includes Web Lock wait/save/render; historical synchronous bubble timing excludes asynchronous work and cannot serve as Gold latency. Local per-file gzip sum includes every runtime module and compatibility stub; network ResourceTiming is reported separately."
+}

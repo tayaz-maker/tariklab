@@ -5,6 +5,7 @@ import { resolve } from "node:path";
 import { createHash } from "node:crypto";
 import { chromium } from "playwright";
 import { createStaticGameServer } from "./static-game-server.mjs";
+import { generatedGameAssets } from "./boardworld-browser-assets.mjs";
 import { checkedUrl } from "./browser-guard.mjs";
 const args = process.argv.slice(2),
   arg = (name, fallback) => (args.includes(name) ? args[args.indexOf(name) + 1] : fallback);
@@ -24,7 +25,7 @@ const assetFiles = [
   "engine.mjs",
   "content.mjs",
   "persistence.mjs",
-    "save-codec.mjs",
+  "save-codec.mjs",
   "deep-content.mjs",
   "deep-life.mjs",
   "deep-ui.mjs",
@@ -54,7 +55,7 @@ const assetFiles = [
 ];
 const performanceReport = {
   environment:
-    "Headless Chromium; local source or requested origin. Click-handler duration includes simulation, rendering and synchronous save, excludes browser paint/network latency.",
+    "Headless Chromium; local source or requested origin. Synchronous-dispatch diagnostic excludes awaited Web Lock/save/render and paint; not a Gold performance gate.",
   uncompressedBytes: 0,
   assets: [],
   viewports: [],
@@ -606,7 +607,7 @@ try {
   results.push({ legacyKeyV2EnvelopeAdopted: true });
   await transitionalContext.close();
   const expected = arg("--expected-root", serving || "public");
-  for (const file of assetFiles) {
+  for (const file of [...assetFiles, ...generatedGameAssets(expected)]) {
     const local = readFileSync(resolve(expected, "games/tc-sim-boardworld", file));
     const response = await fetch(`${origin}/games/tc-sim-boardworld/${file}`);
     assert.equal(response.status, 200, file);

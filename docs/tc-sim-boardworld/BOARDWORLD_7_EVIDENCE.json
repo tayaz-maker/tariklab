@@ -1,0 +1,71 @@
+{
+  "schema": 1,
+  "phase": "implementation-diagnostics",
+  "goldAccepted": false,
+  "deployed": false,
+  "baseline": {
+    "main": "d695119186cad42c079a911a60c372f201b3b64b",
+    "mainProtected": false,
+    "productionVersion": "6b776d41-937a-4ff7-ad84-dc611c676006",
+    "productionBuild": "630f71aa-f039-4cd3-b878-995a65dc8259",
+    "trafficPercent": 100,
+    "verification": "GitHub public branch API and Cloudflare dashboard during this task"
+  },
+  "budgets": {
+    "initialTrGzipBytes": 205874,
+    "allLanguageGzipBytes": 301836,
+    "p95Ms": {
+      "1440": 23.4,
+      "390": 23.4,
+      "320": 24
+    }
+  },
+  "diagnostics": {
+    "packingAndSaveIntegration": {
+      "status": "PASS",
+      "tests": 16,
+      "failures": 0,
+      "skips": 0,
+      "finalCandidate": false
+    },
+    "releasedV6FixtureRoundTrips": {
+      "status": "PASS",
+      "tests": 7,
+      "finalCandidate": false
+    },
+    "releaseGuards": {
+      "status": "PASS",
+      "required": ["ci.yml", "tc-job-start-outcome.yml", "boardworld-quality.yml"]
+    },
+    "typecheck": "PASS before portal copy changes",
+    "lint": {
+      "status": "PASS",
+      "warnings": 62
+    },
+    "priorBuildAttempts": {
+      "status": "INTERRUPTED",
+      "reason": "duplicated node_modules 2 symlink caused Tailwind to scan stale external cache; clean isolated npm ci and removal of the extra link resolved the build"
+    },
+    "authInvariant": {
+      "status": "NOT_RUN",
+      "attemptExitCode": 2,
+      "reason": "requires running dev server"
+    },
+    "goldToReleased6Rollback": {
+      "status": "PASS",
+      "fixtures": 6,
+      "command": "node scripts/boardworld-rollback-check.mjs <output.json>",
+      "finalCandidate": false
+    }
+  },
+  "finalCandidate": null,
+  "finalRegression": "NOT_RUN",
+  "endurance19Lives": "NOT_RUN",
+  "matchedPerformance": "FAIL in diagnostics; final three-run acceptance NOT_RUN",
+  "builtBrowserSuites": "NOT_RUN",
+  "productionBrowserSuites": "NOT_RUN",
+  "pr": null,
+  "merge": null,
+  "deployment": null,
+  "ownerAcceptance": "NOT_RUN"
+}

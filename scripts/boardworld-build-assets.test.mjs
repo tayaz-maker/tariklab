@@ -16,12 +16,30 @@ test("production packing preserves every translation, template precedence and de
     assert.ok(report.after.gzipBytes < report.before.gzipBytes * 0.94);
     assert.ok(report.after.initialTrGzipBytes < report.before.initialTrGzipBytes * 0.9);
     assert.deepEqual(
-      report.after.assets.map((a) => a.file),
+      report.after.assets.map((a) => a.file).filter((f) => !f.startsWith("bw-runtime-")),
       report.before.assets.map((a) => a.file),
+    );
+    assert.equal(report.after.assets.filter((a) => a.file.startsWith("bw-runtime-")).length, 1);
+    assert.ok(report.after.gzipBytes <= 301836, `Gold aggregate gzip: ${report.after.gzipBytes}`);
+    assert.ok(
+      report.after.initialTrGzipBytes <= 205874,
+      `Gold initial TR gzip: ${report.after.initialTrGzipBytes}`,
     );
     const load = async (dir, file) =>
       (await import(pathToFileURL(resolve(dir, file)).href)).default;
     const source = resolve("public/games/tc-sim-boardworld");
+    for (const { file } of report.before.assets.filter(
+      (a) => a.file.endsWith(".mjs") && a.file !== "app.mjs",
+    )) {
+      const original = await import(pathToFileURL(resolve(source, file)).href);
+      const built = await import(pathToFileURL(resolve(directory, file)).href);
+      assert.deepEqual(Object.keys(built), Object.keys(original), `${file} public API`);
+      const content = (value) =>
+        JSON.stringify(value, (_, item) => (typeof item === "function" ? "[function]" : item));
+      for (const key of Object.keys(original))
+        if (typeof original[key] !== "function")
+          assert.equal(content(built[key]), content(original[key]), `${file}:${key} content`);
+    }
     const originalKeys = await load(source, "locale-keys.mjs"),
       packedKeys = await load(directory, "locale-keys.mjs");
     assert.deepEqual(

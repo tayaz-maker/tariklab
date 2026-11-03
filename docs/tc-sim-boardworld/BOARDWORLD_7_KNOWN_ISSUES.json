@@ -1,0 +1,32 @@
+{
+  "phase": "pre-freeze diagnostic",
+  "issues": [
+    {
+      "id": "BW7-LATENCY",
+      "status": "FAIL_RELEASE_GATE",
+      "description": "Complete click through Web Lock/save/render p95 remains above 23.4/23.4/24.0ms. Diagnostic 1440/390/320 runs: 28.2/36.1/29.0 and 27.3/27.8/26.3. Do not merge or deploy until the required matched three-run gate passes."
+    },
+    {
+      "id": "BW7-OLD6-TAB",
+      "status": "DOCUMENTED",
+      "scope": "historical unpatched 6.0 code",
+      "description": "Already-open 6.0 native tabs use the same mandated v6 keys but cannot participate in the new Web Lock protocol. Export important progress and reload or close those tabs before using Gold; current-client locking cannot retroactively fix old JavaScript.",
+      "releaseAssessment": "Must be explicitly disclosed; old-client coexistence is not covered by Gold-to-Gold serialization tests."
+    },
+    {
+      "id": "BW7-NO-WEB-LOCKS",
+      "status": "EXPECTED_LIMITATION",
+      "description": "Browsers without Web Locks load validated saves without migration writes and support offline export; autosave fails closed with a translated explanation."
+    },
+    {
+      "id": "BW7-OWNER",
+      "status": "NOT_RUN",
+      "description": "Owner physical playtesting and entertainment assessment remain outstanding."
+    },
+    {
+      "id": "BW7-FINAL-MATRIX",
+      "status": "NOT_RUN",
+      "description": "Pre-freeze diagnostics are not final acceptance, PR CI or production verification."
+    }
+  ]
+}

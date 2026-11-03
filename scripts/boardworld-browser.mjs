@@ -4,6 +4,7 @@ import { createHash } from "node:crypto";
 import { resolve } from "node:path";
 import { chromium } from "playwright";
 import { createStaticGameServer } from "./static-game-server.mjs";
+import { generatedGameAssets } from "./boardworld-browser-assets.mjs";
 import { checkedUrl } from "./browser-guard.mjs";
 const argv = process.argv.slice(2),
   arg = (name, fallback) => (argv.includes(name) ? argv[argv.indexOf(name) + 1] : fallback);
@@ -177,6 +178,7 @@ try {
   // Compare every deployed game module to this verified candidate. A portal HTTP 200 is insufficient.
   const expected = arg("--expected-root", serving || "public");
   for (const file of [
+    ...generatedGameAssets(expected),
     "index.html",
     "app.mjs",
     "style.css",

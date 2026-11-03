@@ -16,7 +16,9 @@ const output = resolve(
 mkdirSync(output, { recursive: true });
 const gamePath = "/games/tc-sim-boardworld/",
   fixture = (name) => resolve("scripts/fixtures/boardworld", name + ".json");
-const assets = readdirSync(resolve("public/games/tc-sim-boardworld"))
+const assets = readdirSync(
+  resolve(arg("--expected-root", arg("--serve", "public")), "games/tc-sim-boardworld"),
+)
   .filter((name) => /\.(mjs|css|svg|html)$/.test(name))
   .sort();
 const digest = (bytes) => createHash("sha256").update(bytes).digest("hex");

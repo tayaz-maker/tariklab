@@ -2943,4 +2943,8 @@ export default [
   "Next stock forecast",
   "The forecast includes known deliveries and consumption; new purchases may change it.",
   "The contact request was answered with an actual conversation; no new payment or promise of help was created.",
+  "Another tab changed the save. Export your progress from this tab, then reload the page.",
+  "This browser does not support safe saving across tabs. Export your progress to a file; autosave is off.",
+  "ISTANBUL / CONNECTED LIVES / 07",
+  "Saving…",
 ];
