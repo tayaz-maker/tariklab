@@ -1467,3 +1467,31 @@ Integrate reviewed save-fix PR #255 head `66bc904d` (product `b0c25495`) into Go
 ### Gold integration verification corrections — 2026-11-03
 
 The first integrated candidate `51449f8` passed build/typecheck, audit (0 high/critical), 27 auth checks, 147 save/packing/i18n cases, nine rollback fixtures and six mature round trips, but failed lint and the CI patch-format gate. Qualify 124 browser-only globals with `window` in three regression runners; assertions are unchanged. Preserve the exact six imported raw terminal logs and their recorded hashes using per-file whitespace-format attributes only; source, workflow and security/test gates are unchanged. Update rollback and owner guidance for the authoritative IndexedDB head and explicit recovery import. Rerun final acceptance on the next frozen commit; no failed result is counted as a pass.
+
+### Gold live outcome localization correction — 2026-11-03
+
+Visual review of candidate `038de709` found Turkish cash/need delta labels in newly generated EN/PL outcome strips. Translate the six existing labels while preserving already formatted amounts; retain original saved prose and catalog indices. Add signed/grouped amount regression coverage and assertions on real browser action outcomes. Eight i18n tests pass; full integrated browser and performance acceptance remain pending. Candidate `038de709` fails the fixed matched p95 budgets and late legacy arrival after an empty Gold boot; neither result is accepted or removed. Save-protocol corrections remain isolated in PR #255. No production, other-game or Social Engine change.
+
+### Boardworld save validation cache investigation — 2026-11-03
+
+Root's matched Gold measurements fail the unchanged latency gates. Phase profiling identifies repeated primary/backup decode/validation, because each transaction creates a fresh storage adapter and loses the existing WeakMap validation cache. On isolated `fix/boardworld-7-save-validation-cache`, share only the bounded three-entry exact-byte validation metadata across browser adapters. Do not cache a head, generation or parsed state; strict durability, fresh CAS, each-slot recovery, abort fallback and success-after-complete remain unchanged. Add warm-cache corruption, live-state mutation and aborted-save/stale-retry regressions. Validation and matched performance verification are pending; no timing improvement, integration or deployment is claimed by this investigation entry.
+
+### Gold cache integration verification — 2026-11-03
+
+Integrate reviewed cache candidate `843bc0c` after its 147 Node and 31 source/31 built transaction cases pass. Qualify 27 browser-global references in its added tests; normalized full AST remains identical apart from those explicit window references. The first matched diagnostic batch is interrupted after six runs because independent browser work sharply changes host load; retain every sample and do not claim timing acceptance. The empty-head legacy discovery fix and final integrated performance/CI remain outstanding. Other-game processes and branches are untouched.
+
+### Post-Gold contract alignment — 2026-11-03
+
+Align the preparation-only parallel development contract with the reviewed authoritative IndexedDB generation/slot protocol and mandatory old-client coexistence. Future branches may not treat compatibility mirrors as save authority or waive foreign-slot preservation. No 8.0–15.0 feature, branch, agent or deployment is created by this documentation correction.
+
+### Boardworld empty bootstrap and late legacy discovery — 2026-11-03
+
+Independent real-UI review found that an empty first launch committed a generation-1 all-null IDB head, permanently hiding a subsequently discovered authentic v2 save. Preserve an unclaimed empty origin until a validated life is selected or saved; recognize only the prior protocol's exact generation-1/null-canonical bookkeeping shape. Every new life claim is marked explicitly and keeps authoritative precedence even if its canonical bytes later become damaged. Quarantine divergent validated mutable legacy slots as well as canonical/original copies; never auto-adopt them over a claimed modern head. Add source/packed UI, actual prior-protocol empty-head compatibility, abort/export-only and real queued first-creation coverage without changing the existing Deep Life regression or any safety/budget assertion. The bounded exact-byte validation cache remains included; final functional verification and clean matched latency acceptance are separate requirements. No Gold/main merge or deployment is performed here.
+
+### Gold empty-origin integration — 2026-11-03
+
+Integrate reviewed product commit `3ba9630` and its seven-case bootstrap CI gate without changing protocol bytes or safety assertions. The unchanged independent runner passes all four source and four built cases, including a real prior843 empty head, exact legacy/archive bytes, complete UI state, TC preservation, save and reload. Merge browser-global qualifications with a normalized full-AST equality check. Full final commit acceptance, matched latency, main CI and live production verification remain mandatory; this integration is not a release.
+
+### Gold final candidate evidence scope — 2026-11-03
+
+Bind the new cache/bootstrap/localization implementation proofs and retained038 failures to their exact commits. Mark older performance, migration and evidence snapshots as historical; remove the obsolete claim that old-client winner overwrite is an acceptable limitation. Final release status comes from exact-head/main CI and the delivery evidence linked in PR #254; this pre-freeze documentation makes no future-test or production claim.

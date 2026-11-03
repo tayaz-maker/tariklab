@@ -842,7 +842,7 @@
       "socialEngineChange": false
     }
   ],
-  "finalCandidateAcceptance": "BLOCKED: concurrent-writer guarantee fails",
+  "finalCandidateAcceptance": "Final integrated commit gates are recorded in PR #254; earlier fixture results retain their original commit identities.",
   "rollbackVerification": {
     "status": "PASS",
     "fixtures": 9,
@@ -900,7 +900,7 @@
     "artifact": "/tmp/boardworld7-save-locks-browser.json",
     "harnessAttempts": "Initial attempts failed due missing bundled browser, ambiguous Save selector and invisible first action; installed Chrome and scoped selectors used for successful run."
   },
-  "concurrencyScope": "Current Gold writers and migration promotions use the same origin-wide Web Lock with exact expected-byte guard. The frozen unpatched 6.0 writer does not implement this protocol and can overwrite canonical v6 slots from a stale open tab; this remains a real legacy-client limitation, not a guarantee supplied by these compatibility fixtures. Export and reload pre-Gold tabs before continuing the same life. v1-v5 writers use isolated legacy keys.",
+  "concurrencyScope": "Gold uses Web Locks plus authoritative IndexedDB generation/slots and exact expected bytes. A claimed winner never adopts a foreign compatibility fork; every valid observed foreign slot is independently retained for explicit recovery. Empty origins can bootstrap a validated legacy life. Missing protection fails closed to load/export-only. Real old-client coexistence is mandatory, not a waiver.",
   "authenticTotalIncludingNativeV6": 86,
   "finalProductSourceVerification": {
     "commit": "12b519c58b61e9de5074de5849e8a8c857f26646",
@@ -930,5 +930,5 @@
     "exactStatePreserved": true,
     "runtimeFormatChanged": false
   },
-  "historicalDiagnosticNote": "focusedFixVerification and focusedBrowserVerification below are retained pre-freeze diagnostics; finalProductSourceVerification and recovery reports are authoritative final-candidate evidence."
+  "historicalDiagnosticNote": "All existing verification records retain their stated source commits; they are historical implementation evidence, not tests of a later integration. See BOARDWORLD_7_FINALIZATION.json and PR #254 for final commit gates."
 }

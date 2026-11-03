@@ -1,5 +1,5 @@
 {
-  "status": "BLOCKED — NOT MERGED OR DEPLOYED",
+  "status": "HISTORICAL_BLOCKED_CANDIDATE",
   "testedCommit": "12b519c58b61e9de5074de5849e8a8c857f26646",
   "testedTree": "bceae0875217321eaad2259519a463828f50e985",
   "branch": "feature/boardworld-7-gold",
@@ -447,5 +447,8 @@
       "productionChange": false,
       "socialEngineChange": false
     }
-  ]
+  ],
+  "snapshotScope": "Historical12b519c evidence only; superseded by subsequent safety findings. Not final integration acceptance.",
+  "currentReleaseDecisionSource": "https://github.com/tayaz-maker/tariklab/pull/254",
+  "finalizationRecord": "BOARDWORLD_7_FINALIZATION.json"
 }

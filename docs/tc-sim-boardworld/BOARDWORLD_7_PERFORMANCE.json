@@ -1,7 +1,7 @@
 {
   "commit": "12b519c58b61e9de5074de5849e8a8c857f26646",
   "tree": "bceae0875217321eaad2259519a463828f50e985",
-  "status": "PASS",
+  "status": "HISTORICAL_12b519c_MEASUREMENTS_ONLY",
   "scope": "Fixed master-contract numeric budgets only; not a claim Gold is faster than freshly measured older releases",
   "thresholds": {
     "initialTrGzipBytes": 205874,
@@ -7102,5 +7102,8 @@
         ]
       }
     ]
-  }
+  },
+  "historicalStatus": "PASS",
+  "currentReleaseDecisionSource": "https://github.com/tayaz-maker/tariklab/pull/254",
+  "finalizationRecord": "BOARDWORLD_7_FINALIZATION.json"
 }

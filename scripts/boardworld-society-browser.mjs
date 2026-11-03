@@ -155,6 +155,10 @@ try {
       }
       const after = await inspect();
       assert.ok(after.revision > before.state.revision, `${id} commits via control`);
+      if ((await surface.locator("html").getAttribute("lang")) !== "tr") {
+        const outcome = await surface.locator(".outcome-strip p").innerText();
+        assert.ok(!/(?:Nakit|Banka|Enerji|Tokluk|Sağlık) [+−-]\d/.test(outcome), outcome);
+      }
       return after;
     };
     const drain = async () => {

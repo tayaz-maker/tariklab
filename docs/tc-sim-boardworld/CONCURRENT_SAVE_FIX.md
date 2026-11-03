@@ -327,3 +327,11 @@ or authorize main/Gold merge or deployment.
   Automated Chrome coverage is not physical Safari/Firefox acceptance.
 - Gold's integrated performance/full-release gates remain separate. No main merge,
   production deployment, Social Engine branch or other-game change is part of this fix.
+
+## Empty bootstrap follow-up
+
+An empty first launch previously stored an authoritative generation-1 head with null canonical slots. A genuine v2 record arriving later under the historical v1 key remained invisible on every subsequent load, including the actual UI. The existing Deep Life browser test exposed this availability regression. The new bootstrap regression also fails against the frozen cache-only product at its second case, after preexisting v2 succeeds.
+
+An origin stays unclaimed until a validated life is loaded or saved. The prior protocol's generation-1 head with both canonical slots exactly null and no claim marker is treated as unclaimed for compatibility. New committed heads carry `claimed: true`; a claimed or nonempty/corrupt historical head always retains authority. Fresh bootstrap selection runs under the same Web Lock and strict IDB transaction; its successful promotion advances the generation, so an earlier empty-tab token conflicts. Aborted promotion keeps the authentic legacy life exportable and grants no committed generation. Valid divergent mutable legacy slots are quarantined for explicit recovery instead of silently ignored or adopted.
+
+The portable bootstrap runner covers preexisting v2, actual empty UI then v2, a real empty head produced by the immutable previous protocol graph, foreign v2 after a modern winner, damage to a claimed canonical head, aborted legacy promotion, and two independent first-life writers held in the same real Web Lock queue. The original Deep Life fixture and all existing race, recovery and rollback expectations remain unchanged. Functional results and commit identity are recorded in the follow-up handoff; no latency acceptance is inferred from these checks.

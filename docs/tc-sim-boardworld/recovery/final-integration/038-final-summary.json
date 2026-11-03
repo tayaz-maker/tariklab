@@ -1,0 +1,267 @@
+{
+  "status": "COLLECTION_COMPLETE_CANDIDATE_NOT_ACCEPTED",
+  "capturedAt": "2026-11-03T19:54:46.906054+00:00",
+  "head": "038de709cfc6385710b05f1fa743cf44e9217ce7",
+  "tree": "e15cfe2de4d5f9d180393fa2f657042334b60ae1",
+  "actualCiCheckout": "4997d58410f563d67a50e30b8c13d8e988ac410f",
+  "ciCheckoutTreeEqualsHead": true,
+  "runs": [
+    {
+      "id": 41702206321,
+      "name": "esik-save-recovery",
+      "head_sha": "038de709cfc6385710b05f1fa743cf44e9217ce7",
+      "tree": "e15cfe2de4d5f9d180393fa2f657042334b60ae1",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "pull_request",
+      "attempt": 1,
+      "url": "https://github.com/tayaz-maker/tariklab/actions/runs/41702206321",
+      "updated_at": "2026-11-03T19:23:14Z"
+    },
+    {
+      "id": 41702206685,
+      "name": "tc-job-start-outcome",
+      "head_sha": "038de709cfc6385710b05f1fa743cf44e9217ce7",
+      "tree": "e15cfe2de4d5f9d180393fa2f657042334b60ae1",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "pull_request",
+      "attempt": 1,
+      "url": "https://github.com/tayaz-maker/tariklab/actions/runs/41702206685",
+      "updated_at": "2026-11-03T19:33:10Z"
+    },
+    {
+      "id": 41702206427,
+      "name": "Boardworld quality",
+      "head_sha": "038de709cfc6385710b05f1fa743cf44e9217ce7",
+      "tree": "e15cfe2de4d5f9d180393fa2f657042334b60ae1",
+      "status": "completed",
+      "conclusion": "failure",
+      "event": "pull_request",
+      "attempt": 1,
+      "url": "https://github.com/tayaz-maker/tariklab/actions/runs/41702206427",
+      "updated_at": "2026-11-03T19:46:24Z"
+    },
+    {
+      "id": 41702206132,
+      "name": "ci",
+      "head_sha": "038de709cfc6385710b05f1fa743cf44e9217ce7",
+      "tree": "e15cfe2de4d5f9d180393fa2f657042334b60ae1",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "pull_request",
+      "attempt": 1,
+      "url": "https://github.com/tayaz-maker/tariklab/actions/runs/41702206132",
+      "updated_at": "2026-11-03T19:52:38Z"
+    }
+  ],
+  "generalCi": {
+    "jobsPassed": 16,
+    "javascriptPassed": 2893,
+    "typescriptPassed": 70,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "shards": [
+      {
+        "shard": 0,
+        "job": 126149269426,
+        "javascript": {
+          "tests": 634,
+          "pass": 634,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0
+        },
+        "typescript": {
+          "tests": 70,
+          "pass": 70,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0
+        },
+        "log": "126149269426-unit-0.log",
+        "logSha256": "23ec9231027921c319e447eb01cc4ccb34f8d0e2f4728cdb59eb5a3f3250a704"
+      },
+      {
+        "shard": 1,
+        "job": 126149269494,
+        "javascript": {
+          "tests": 823,
+          "pass": 823,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0
+        },
+        "typescript": null,
+        "log": "126149269494-unit-1.log",
+        "logSha256": "94a6b18f61d0fde89a8cc24d3e8918ca44957db0fae2b652203b3c0d306e682d"
+      },
+      {
+        "shard": 2,
+        "job": 126149269177,
+        "javascript": {
+          "tests": 867,
+          "pass": 867,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0
+        },
+        "typescript": null,
+        "log": "126149269177-unit-2.log",
+        "logSha256": "6f71a261104067e0018a8f35c870ba4af7fa610b6e44a0fd87413162a3639e7b"
+      },
+      {
+        "shard": 3,
+        "job": 126149269269,
+        "javascript": {
+          "tests": 569,
+          "pass": 569,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0
+        },
+        "typescript": null,
+        "log": "126149269269-unit-3.log",
+        "logSha256": "972134e23476b13af7ef95de08f1c47f2903902b33c5155509693f88b089c9fb"
+      }
+    ],
+    "lint": {
+      "warnings": 62,
+      "errors": 0
+    },
+    "allDependencyAudit": {
+      "high": 0,
+      "critical": 0,
+      "moderate": 14,
+      "gate": "npm audit --audit-level=high",
+      "observedResult": "success"
+    },
+    "typecheck": "success",
+    "productionBuild": "success"
+  },
+  "boardworld": {
+    "runConclusion": "failure",
+    "nodePass": 513,
+    "nodeFail": 0,
+    "coreBrowserRowsPassed": 3,
+    "deepCompleteRows": 4,
+    "deepSuiteOk": false,
+    "failure": "Timeout30000ms waiting .game-tabs at scripts/boardworld-deep-browser.mjs:592:48",
+    "laterBrowserAndRecoveryGates": "SKIPPED_AFTER_FAILURE",
+    "artifactProvenance": "boardworld-artifact-provenance.json",
+    "nineteenLives": 19,
+    "days": 7300,
+    "actions": 64064,
+    "comparisonToVerified27AndReleased6": "All19 action counts/traces, checkpoint save hashes and complete life records match except elapsedMs",
+    "comparisonEvidence": "endurance-reference-comparison.json"
+  },
+  "logs": [
+    {
+      "file": "126148105076-changes.log",
+      "bytes": 61934,
+      "sha256": "64ee1dac2fd595405d42a9aa59519eb8c281b5319f45bd77adc99574f2b6b6ee"
+    },
+    {
+      "file": "126148105901-esik.log",
+      "bytes": 104701,
+      "sha256": "76baac39f546c93ecbf9b73b060108e129abd7c9ed03f58b9703ffca9b81e0f4"
+    },
+    {
+      "file": "126148273721-build-core.log",
+      "bytes": 112538,
+      "sha256": "52721761120a0c5fb73e5d3290e126ba2f788bbaf18968835c96f8a4f27fedc9"
+    },
+    {
+      "file": "126148273774-campaign-balance.log",
+      "bytes": 117167,
+      "sha256": "0141b1876618c3cb08036eb23a2d6bc41767b36cbd6d6475cfb65fba2ebfb918"
+    },
+    {
+      "file": "126148397285-boardworld-FAILED.log",
+      "bytes": 309693,
+      "sha256": "fd327b09796e7175b856a5c378a06e4fbc5a792c61a20cc34b0a6d489ab09734"
+    },
+    {
+      "file": "126148415675-tc-built.log",
+      "bytes": 211466,
+      "sha256": "9a041d762f3943414365f09d11c451d3714ff321058333f570fcfe5cd4cc594e"
+    },
+    {
+      "file": "126149269112-campaign-browser.log",
+      "bytes": 24137,
+      "sha256": "0dbc74dabd081b28aadf1fa71676b9b872d0167bd46d9fffca6c0bfcf8e4618d"
+    },
+    {
+      "file": "126149269142-browser-regression-devlet.log",
+      "bytes": 88221,
+      "sha256": "35db873c708b57ec690e352f35991ce0b309a308d58a85814baff0b7f3434d5c"
+    },
+    {
+      "file": "126149269154-browser-regression-wave1-save.log",
+      "bytes": 26951,
+      "sha256": "4b625db51e4bb26401b6977d97882ae5856edb244c5e047bb26654380360d0a8"
+    },
+    {
+      "file": "126149269156-browser-regression-duel.log",
+      "bytes": 105151,
+      "sha256": "b8d3beb2369d4e993a11c841e7686cc29c2d44d3604b1de1b6fa8339f4f34cb4"
+    },
+    {
+      "file": "126149269161-browser-regression-tc.log",
+      "bytes": 47417,
+      "sha256": "bb6cbe4d18719409f5855f83fb4d41bead0b77783c71774ec09c9b144467c9a1"
+    },
+    {
+      "file": "126149269163-browser-regression-responsive.log",
+      "bytes": 138130,
+      "sha256": "600e18e8a1e0d235e7414c900f1f36eb7c47be987e2c64967470a8ee6ccb4327"
+    },
+    {
+      "file": "126149269171-browser-regression-wave1-outcome.log",
+      "bytes": 24936,
+      "sha256": "9de52247178c046ccdebedf91dd8b310f7ae035a99e2aad8784bc0c54c1dedb5"
+    },
+    {
+      "file": "126149269177-unit-2.log",
+      "bytes": 363647,
+      "sha256": "6f71a261104067e0018a8f35c870ba4af7fa610b6e44a0fd87413162a3639e7b"
+    },
+    {
+      "file": "126149269269-unit-3.log",
+      "bytes": 244553,
+      "sha256": "972134e23476b13af7ef95de08f1c47f2903902b33c5155509693f88b089c9fb"
+    },
+    {
+      "file": "126149269387-browser-regression-cete.log",
+      "bytes": 142066,
+      "sha256": "b5a4bb9fa70a2d8a83941996f97228b11b7b9998266b8efe282e033524e0cf31"
+    },
+    {
+      "file": "126149269426-unit-0.log",
+      "bytes": 301250,
+      "sha256": "23ec9231027921c319e447eb01cc4ccb34f8d0e2f4728cdb59eb5a3f3250a704"
+    },
+    {
+      "file": "126149269494-unit-1.log",
+      "bytes": 351040,
+      "sha256": "94a6b18f61d0fde89a8cc24d3e8918ca44957db0fae2b652203b3c0d306e682d"
+    },
+    {
+      "file": "126165910088-build.log",
+      "bytes": 13184,
+      "sha256": "e31a31645fbbcc5b7b054448c68fcf261cde5fdeb7e674a74cbdec1ff7d16b1e"
+    }
+  ],
+  "releaseAccepted": false,
+  "mainCi": "NOT_STARTED_OR_OBSERVED",
+  "productionChanges": false,
+  "ciMutations": false,
+  "limits": [
+    "Only the four existing038 PR-linked workflows were observed; no rerun/cancel/mutation was performed.",
+    "Boardworld513 tests overlap repository unit coverage and must not be added to the2893 total.",
+    "Two separately excluded extended population cases are not claimed executed by this collection.",
+    "No fresh browser, build, simulation or performance command was executed locally by this monitor.",
+    "Root separately reports038 matched performance failure and a legacy-after-empty-head availability defect; successful tests do not waive those findings."
+  ]
+}

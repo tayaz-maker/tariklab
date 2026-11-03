@@ -1,5 +1,5 @@
 {
-  "phase": "INTEGRATED FIX CANDIDATE — PENDING FINAL ACCEPTANCE",
+  "phase": "PRE-FREEZE FINDING REGISTER; final release decision is external exact-commit evidence",
   "issues": [
     {
       "status": "CORRECTED_IN_CANDIDATE_PENDING_FINAL_GATES",
@@ -23,13 +23,13 @@
     },
     {
       "id": "BW7-LATENCY",
-      "status": "HISTORICAL_RESULTS_ONLY_FINAL_TIMING_PENDING",
-      "description": "Original fixed budgets remain23.4/23.4/24.0ms at1440/390/320px. Historical12b519c three-run medians21.5/21.6/21.9 passed. Historical27f2e01 includes390px individual p95=25.1ms (exceeds23.4ms) although390px median=23.0ms passes. Fresh matched final-integration timing remains pending; no relative speed-improvement claim."
+      "status": "FAIL_ON_038_NEW_IMPLEMENTATION_AWAITS_MATCHED_ACCEPTANCE",
+      "description": "Fixed limits remain23.4/23.4/24.0ms. 038de709 medians29.6/26.9/27.8 fail. The new bounded-byte cache changes the measured product; its first batch was interrupted after6retained runs under abruptly changed host load and is not acceptance. Final clean matched evidence is required; no threshold is relaxed."
     },
     {
       "id": "BW7-DEPENDENCIES",
       "status": "HISTORICAL_CRITICAL_HIGH_RESOLVED_FINAL_AUDIT_PENDING",
-      "description": "Historical all-dependency audit reported0 critical/0 high/14 moderate. Better Auth1.7.15 actual-handler tests covered broker callback, identity, PKCE, state and cookie/session compatibility with unchanged database schema. These are prior evidence; fresh audit and auth checks on the final integration remain required.",
+      "description": "038 exact-head all-dependency audit:0critical/0high/14moderate; actual-handler broker identity/PKCE/state/session tests pass. Final integrated audit/auth checks remain mandatory. In-flight pre-upgrade OAuth flows must restart; existing valid sessions remain supported.",
       "advisory": "https://github.com/advisories/GHSA-965c-763c-88jm"
     },
     {
@@ -66,7 +66,7 @@
     {
       "id": "BW7-LINT",
       "status": "INHERITED",
-      "description": "Historical verification reported62 inherited warnings and zero errors; final integrated lint remains pending. Recharts2 and ESLint9 notices remain."
+      "description": "038 integrated lint passed with62 inherited warnings and zero errors. New browser-global qualifications preserve normalized test AST/assertions. Final integrated lint remains mandatory."
     },
     {
       "id": "BW7-HARNESS-LABELS",
@@ -77,9 +77,25 @@
       "id": "BW7-OAUTH-INFLIGHT",
       "status": "EXPECTED_LIMITATION",
       "description": "OAuth/account-link attempts initiated before Better Auth upgrade must be restarted. Existing valid session cookie compatibility is tested; no real owner Google/X sign-in was performed."
+    },
+    {
+      "id": "BW7-LATE-LEGACY-EMPTY-HEAD",
+      "severity": "high",
+      "status": "IMPLEMENTATION_CORRECTED_FINAL_INTEGRATION_GATES_REQUIRED",
+      "observedCommit": "038de709cfc6385710b05f1fa743cf44e9217ce7",
+      "ciRun": 41702206427,
+      "description": "A prior empty Gold boot hid later authenticv2 bytes and returned onboarding. Sol b2ba2ce3 (local3ba9630, same tree) keeps an empty origin unclaimed and permits only a bounded no-winner bootstrap. Independent unchanged source+built4-case checks pass; claimed winners and exact original bytes remain protected."
+    },
+    {
+      "id": "BW7-LIVE-OUTCOME-LABELS",
+      "severity": "low",
+      "status": "IMPLEMENTATION_CORRECTED_FINAL_INTEGRATION_GATES_REQUIRED",
+      "description": "Current EN/PL cash/need deltas leaked Turkish labels. The presentation-only correction at68a732b3 passed8i18n tests and all3built Society viewport/language journeys; formatted amounts and original saved prose remain unchanged."
     }
   ],
-  "productionVersion": "6.0",
+  "productionVersion": "6.0 observed before final acceptance; see PR #254 for subsequent verified deployment",
   "releaseAccepted": false,
-  "integrationEvidencePolicy": "Historical and Sol implementation results retain their original inputs. Fresh frozen-integration audit, exact-head CI, independent source/built save and locale recovery, matched timing, live delivery and owner acceptance remain pending."
+  "integrationEvidencePolicy": "This pre-freeze snapshot never certifies a future commit. Exact-head/main CI, final matched timing and live delivery must pass; physical checks remain assigned to the owner.",
+  "snapshotAt": "2026-11-03T20:04:53.517684+00:00",
+  "releaseDecisionSource": "https://github.com/tayaz-maker/tariklab/pull/254"
 }

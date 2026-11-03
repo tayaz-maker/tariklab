@@ -45,6 +45,9 @@ const importedLegacy = new WeakMap();
 // No parsed state is retained. Each storage keeps at most three strings (the
 // two rolling slots and the latest write); an external change is a cache miss.
 const canonicalValidation = new WeakMap();
+// Browser transaction adapters are short-lived. Share their bounded validation
+// metadata for exact immutable bytes; never cache a head, generation or state.
+const browserCanonicalValidation = new Map();
 function rememberCanonical(storage, bytes) {
   let recent = canonicalValidation.get(storage);
   if (!recent) canonicalValidation.set(storage, (recent = new Map()));
@@ -337,6 +340,14 @@ const memoryStorage = (slots) => ({
   getItem: (key) => slots.get(key) ?? null,
   setItem: (key, value) => slots.set(key, value),
 });
+function unclaimedHead(head) {
+  if (!head) return true;
+  // Older Gold wrote this bookkeeping record on an empty first launch.
+  // Never classify a damaged or previously claimed canonical save as empty.
+  if (head.claimed !== undefined || head.generation !== 1) return false;
+  const slots = new Map(head.slots);
+  return slots.get(SAVE_KEY) === null && slots.get(BACKUP_KEY) === null;
+}
 // Web Locks order callbacks, but do not refresh a renderer's localStorage cache.
 // The authoritative slots AND generation therefore commit in one IDB transaction.
 // localStorage is only a released-v6 compatibility copy after that commit.
@@ -403,7 +414,8 @@ async function browserTransaction(storage, operation, collectArchives = false) {
         const copies = recoveryStore.get("recovery");
         copies.onsuccess = () => {
           try {
-            const slots = new Map(head?.slots ?? mirror);
+            const bootstrap = unclaimedHead(head);
+            const slots = new Map(bootstrap ? mirror : head.slots);
             const recoverySaves = copies.result ?? [];
             let recovered = false;
             // Every mirror slot is independent: a known/identical primary says
@@ -412,7 +424,6 @@ async function browserTransaction(storage, operation, collectArchives = false) {
             if (head)
               for (const [key, bytes] of mirror)
                 if (
-                  mirrorKey(key) &&
                   bytes &&
                   bytes !== slots.get(key) &&
                   bytes !== slots.get(SAVE_KEY) &&
@@ -423,7 +434,7 @@ async function browserTransaction(storage, operation, collectArchives = false) {
                   recoverySaves.push({ key, bytes });
                   recovered = true;
                 }
-            let dirty = !head;
+            let dirty = false;
             if (collectArchives)
               for (const [key, bytes] of mirror)
                 if (
@@ -439,6 +450,7 @@ async function browserTransaction(storage, operation, collectArchives = false) {
             const before = new Map(slots);
             const memory = memoryStorage(slots),
               put = memory.setItem;
+            canonicalValidation.set(memory, browserCanonicalValidation);
             memory.setItem = (key, bytes) => {
               dirty = true;
               put(key, bytes);
@@ -449,12 +461,13 @@ async function browserTransaction(storage, operation, collectArchives = false) {
                 result.token = { ...readSaveToken(memoryStorage(before)), generation };
               return;
             }
+            if (bootstrap && result.state) dirty = true;
             const next = generation + (dirty ? 1 : 0);
             if (!Number.isSafeInteger(next)) throw new Error("generation-overflow");
             if (dirty) {
-              committed = { generation: next, slots: [...slots] };
+              committed = { generation: next, claimed: true, slots: [...slots] };
               stateStore.put(committed, "head");
-            } else committed = head;
+            } else if (!bootstrap) committed = head;
             if (recovered) recoveryStore.put(recoverySaves, "recovery");
             result.recoverySaves = recoverySaves;
             if (recoverySaves.length && (result.ok === undefined || recovered))
@@ -469,7 +482,7 @@ async function browserTransaction(storage, operation, collectArchives = false) {
       };
     });
   } catch (error) {
-    if (observed) error.snapshot = observed;
+    if (observed && !unclaimedHead(observed)) error.snapshot = observed;
     throw error;
   } finally {
     db.close();
