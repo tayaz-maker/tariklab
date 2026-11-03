@@ -103,24 +103,24 @@ try {
   for (let i = 0; i < Number(arg("--repeats", "50")); i++) {
     const mode = arg("--mode", ["same-action", "different-actions", "no-op"][i % 3]);
     const initialized = await holder.evaluate(async (seed) => {
-      const loaded = await p.loadGameLocked();
-      const state = e.createGame({ seed });
-      const created = await p.saveGameLocked(state, undefined, loaded.token);
+      const loaded = await window.p.loadGameLocked();
+      const state = window.e.createGame({ seed });
+      const created = await window.p.saveGameLocked(state, undefined, loaded.token);
       if (!created.ok) return created;
       // A legitimate manual save without a move makes both rolling slots equal.
-      return p.saveGameLocked(state, undefined, created.token);
+      return window.p.saveGameLocked(state, undefined, created.token);
     }, i + 100);
     assert.equal(initialized.ok, true);
     await Promise.all(
       [a, b].map((page, index) =>
         page.evaluate(
           async ({ mode, index }) => {
-            const loaded = await p.loadGameLocked();
+            const loaded = await window.p.loadGameLocked();
             window.snapshot = loaded;
-            const choices = e
+            const choices = window.e
               .getActions(loaded.state)
               .filter((a) => !a.disabled)
-              .map((a) => ({ id: a.id, result: e.resolveAction(loaded.state, a.id) }))
+              .map((a) => ({ id: a.id, result: window.e.resolveAction(loaded.state, a.id) }))
               .filter((a) => a.result.ok);
             window.candidate =
               mode === "no-op"
@@ -136,9 +136,9 @@ try {
     const snapshots = await Promise.all(
       [a, b].map((page) =>
         page.evaluate(() => ({
-          revision: snapshot.state.revision,
-          token: snapshot.token,
-          action: candidate.id,
+          revision: window.snapshot.state.revision,
+          token: window.snapshot.token,
+          action: window.candidate.id,
         })),
       ),
     );
@@ -150,14 +150,14 @@ try {
         // The native baseline reproduced this very visibility failure naturally.
         const native = Storage.prototype.getItem;
         Storage.prototype.getItem = function (key) {
-          if (key === p.SAVE_KEY) return snapshot.token.primary;
-          if (key === p.BACKUP_KEY) return snapshot.token.backup;
+          if (key === window.p.SAVE_KEY) return window.snapshot.token.primary;
+          if (key === window.p.BACKUP_KEY) return window.snapshot.token.backup;
           return native.call(this, key);
         };
       });
     await holder.evaluate(() => {
       window.held = false;
-      void navigator.locks.request(p.SAVE_LOCK, async () => {
+      void navigator.locks.request(window.p.SAVE_LOCK, async () => {
         window.held = true;
         await new Promise((r) => (window.release = r));
       });
@@ -167,18 +167,21 @@ try {
       [a, b].map((page) =>
         page.evaluate(() => {
           window.done = false;
-          void p.saveGameLocked(candidate.result.state, undefined, snapshot.token).then((r) => {
-            window.result = { ok: r.ok, conflict: r.conflict === true, message: r.message };
-            window.done = true;
-          });
+          void window.p
+            .saveGameLocked(window.candidate.result.state, undefined, window.snapshot.token)
+            .then((r) => {
+              window.result = { ok: r.ok, conflict: r.conflict === true, message: r.message };
+              window.done = true;
+            });
         }),
       ),
     );
     await holder.waitForFunction(
       async () =>
-        (await navigator.locks.query()).pending.filter((l) => l.name === p.SAVE_LOCK).length === 2,
+        (await navigator.locks.query()).pending.filter((l) => l.name === window.p.SAVE_LOCK)
+          .length === 2,
     );
-    const heldSlots = await holder.evaluate(() => p.readSaveToken());
+    const heldSlots = await holder.evaluate(() => window.p.readSaveToken());
     assert.deepEqual(
       heldSlots,
       { primary: snapshots[0].token.primary, backup: snapshots[0].token.backup },
@@ -191,18 +194,18 @@ try {
         page.evaluate(
           (index) => ({
             writer: index,
-            revision: snapshot.state.revision,
-            generation: snapshot.token.generation,
-            action: candidate.id,
-            ...result,
-            trace,
+            revision: window.snapshot.state.revision,
+            generation: window.snapshot.token.generation,
+            action: window.candidate.id,
+            ...window.result,
+            trace: window.trace,
           }),
           index,
         ),
       ),
     );
     const persisted = await holder.evaluate(async () => {
-      const loaded = await p.loadGameLocked();
+      const loaded = await window.p.loadGameLocked();
       return { revision: loaded.state.revision, token: loaded.token };
     });
     const record = { iteration: i + 1, mode, queuedWriters: 2, writers, persisted };
@@ -236,29 +239,30 @@ try {
         .at(-1);
       assert.ok(committed.at <= writers[winner].trace.find((x) => x.event === "completed").at);
     }
-    const expected = await [a, b][winner].evaluate(() => candidate.result.state);
+    const expected = await [a, b][winner].evaluate(() => window.candidate.result.state);
     assert.deepEqual(
-      await holder.evaluate(async () => (await p.loadGameLocked()).state),
+      await holder.evaluate(async () => (await window.p.loadGameLocked()).state),
       expected,
       "the complete winning move persists, including all history and RNG",
     );
     const loser = 1 - winner;
     const retry = await [a, b][loser].evaluate(() =>
-      p.saveGameLocked(candidate.result.state, undefined, snapshot.token),
+      window.p.saveGameLocked(window.candidate.result.state, undefined, window.snapshot.token),
     );
     assert.equal(retry.ok, false);
     assert.equal(retry.conflict, true, "an unchanged stale token never becomes writable");
     const offline = await [a, b][loser].evaluate(
       () =>
-        JSON.stringify(p.importGame(p.exportGame(candidate.result.state)).state) ===
-        JSON.stringify(candidate.result.state),
+        JSON.stringify(
+          window.p.importGame(window.p.exportGame(window.candidate.result.state)).state,
+        ) === JSON.stringify(window.candidate.result.state),
     );
     assert.equal(
       offline,
       true,
       "the losing move stays exportable without being silently discarded",
     );
-    const finalToken = await holder.evaluate(async () => (await p.loadGameLocked()).token);
+    const finalToken = await holder.evaluate(async () => (await window.p.loadGameLocked()).token);
     assert.deepEqual(
       finalToken,
       actualToken,

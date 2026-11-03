@@ -1463,3 +1463,7 @@ Independent review found a second loss path: released6 writes divergent B then k
 ## Gold final integration candidate — 2026-11-03
 
 Integrate reviewed save-fix PR #255 head `66bc904d` (product `b0c25495`) into Gold #254, preserving its exact product bytes and all independent legacy-tab, per-slot, transaction and writer-race CI gates. The released6 reference fetch remains immutable. Independent source review confirms the backup-only fork and Gold winner survive fresh-tab reload. Earlier failures remain retained; final integrated regression, matched performance, exact-head/main CI and live production checks are still mandatory. No release or owner physical acceptance is claimed. Other games and Social Engine are unchanged.
+
+### Gold integration verification corrections — 2026-11-03
+
+The first integrated candidate `51449f8` passed build/typecheck, audit (0 high/critical), 27 auth checks, 147 save/packing/i18n cases, nine rollback fixtures and six mature round trips, but failed lint and the CI patch-format gate. Qualify 124 browser-only globals with `window` in three regression runners; assertions are unchanged. Preserve the exact six imported raw terminal logs and their recorded hashes using per-file whitespace-format attributes only; source, workflow and security/test gates are unchanged. Update rollback and owner guidance for the authoritative IndexedDB head and explicit recovery import. Rerun final acceptance on the next frozen commit; no failed result is counted as a pass.

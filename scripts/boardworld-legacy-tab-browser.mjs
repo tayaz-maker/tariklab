@@ -20,7 +20,12 @@ const serving = resolve(repo, arg("--serve", "public"));
 const output = resolve(
   arg(
     "--out",
-    join(process.env.RUNNER_TEMP || tmpdir(), "screenshots", "boardworld-legacy-tab", "result.json"),
+    join(
+      process.env.RUNNER_TEMP || tmpdir(),
+      "screenshots",
+      "boardworld-legacy-tab",
+      "result.json",
+    ),
   ),
 );
 const released = "d695119186cad42c079a911a60c372f201b3b64b";
@@ -111,35 +116,37 @@ try {
   );
   report.seedSha256 = hash(seed);
   await old.evaluate((bytes) => {
-    localStorage.setItem(persistence.SAVE_KEY, bytes);
-    window.stale = persistence.loadGame().state;
+    localStorage.setItem(window.persistence.SAVE_KEY, bytes);
+    window.stale = window.persistence.loadGame().state;
   }, seed);
   const gold = await open(`/${runtime}`);
   const winner = await gold.evaluate(async () => {
-    const loaded = await persistence.loadGameLocked();
-    const action = engine.resolveAction(loaded.state, "event:welcome:work");
+    const loaded = await window.persistence.loadGameLocked();
+    const action = window.engine.resolveAction(loaded.state, "event:welcome:work");
     if (!action.ok) throw new Error(action.message);
     return {
       state: action.state,
-      saved: await persistence.saveGameLocked(action.state, undefined, loaded.token),
+      saved: await window.persistence.saveGameLocked(action.state, undefined, loaded.token),
     };
   });
   assert.equal(winner.saved.ok, true, "Gold must first save its winner successfully");
   report.checks.goldSave = true;
   const fork = await old.evaluate(() => {
-    const action = engine.resolveAction(stale, "event:welcome:learn");
+    const action = window.engine.resolveAction(window.stale, "event:welcome:learn");
     if (!action.ok) throw new Error(action.message);
     window.stale = action.state;
-    return { state: stale, saved: persistence.saveGame(stale) };
+    return { state: window.stale, saved: window.persistence.saveGame(window.stale) };
   });
   assert.equal(fork.saved.ok, true, "actual unpatched6 writer must execute its write");
   assert.notDeepEqual(fork.state, winner.state, "branches must diverge, even at equal revision");
   report.checks.released6StaleWrite = true;
   // A genuinely new current-client tab must retain the winner after that old write.
   const fresh = await open(`/${runtime}`);
-  const returned = await fresh.evaluate(async () => (await persistence.loadGameLocked()).state);
+  const returned = await fresh.evaluate(
+    async () => (await window.persistence.loadGameLocked()).state,
+  );
   const exportedFork = await old.evaluate(
-    () => persistence.importGame(persistence.exportGame(stale)).state,
+    () => window.persistence.importGame(window.persistence.exportGame(window.stale)).state,
   );
   assert.deepEqual(
     exportedFork,
