@@ -1,0 +1,39 @@
+{
+  "ok": true,
+  "origin": "http://127.0.0.1:59292",
+  "results": [
+    {
+      "width": 1440,
+      "job": true,
+      "shift": true,
+      "travel": true,
+      "allPanels": true,
+      "saveReload": true,
+      "exportImport": true,
+      "backupRecovery": true,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "job": true,
+      "shift": true,
+      "travel": true,
+      "allPanels": true,
+      "saveReload": true,
+      "exportImport": true,
+      "backupRecovery": true,
+      "errors": []
+    },
+    {
+      "width": 320,
+      "job": true,
+      "shift": true,
+      "travel": true,
+      "allPanels": true,
+      "saveReload": true,
+      "exportImport": true,
+      "backupRecovery": true,
+      "errors": []
+    }
+  ]
+}

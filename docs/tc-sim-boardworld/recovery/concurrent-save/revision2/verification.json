@@ -1,5 +1,5 @@
 {
-  "status": "PASS",
+  "status": "SUPERSEDED_BY_INDEPENDENT_SLOT_LOSS",
   "revision": 2,
   "verifiedAt": "2026-11-03T18:44:20.041798+00:00",
   "testedCommit": "ec9fa4a3fec3b920e391eb5c41edb283a94a4c61",
@@ -158,5 +158,8 @@
     "Quota/eviction and identity/recovery-store growth remain browser-storage limits; failures do not replace the authoritative head.",
     "Full Gold end-to-end CI/performance/owner physical acceptance remains for integration; no merge/deploy performed.",
     "Physical Safari/Firefox acceptance not run."
-  ]
+  ],
+  "historicalStatus": "PASS",
+  "supersededBy": "../revision3/verification.json",
+  "reason": "A known/identical primary suppressed backup/original recovery; combined manual-save notice leaked TR in EN/PL."
 }

@@ -274,10 +274,42 @@ sentence splitting lost the full two-sentence warning key. A combined message ke
 is appended at the end of all three catalogs; existing keys/indices remain intact.
 No generic translation behavior or existing notice is weakened.
 
-The retained pre-fix report and final source/built measurements are recorded in
-`recovery/concurrent-save/revision3/verification.json`. This revision remains for
-independent integration review; local save verification does not accept Gold or
-authorize merge/deploy.
+### Verified revision-3 local result
+
+Tested product/harness: `b0c25495a7c162eb4a653e32c0d999144aefb300`, tree
+`ea47604ba010b6f09807ae4d9f559c3617ba0543`. Later evidence commits change only docs.
+[Revision-3 verification](recovery/concurrent-save/revision3/verification.json)
+contains exact commands, input identity, source/built/report hashes and limits.
+
+| Revision-3 local validation | Passed | Failed |
+| --- | ---: | ---: |
+| Save/migration/codec/packing/i18n Node tests | 147 | 0 |
+| Native/frozen built writer races | 50 + 20 | 0 |
+| Source/built transaction and recovery UI | 28 + 28 | 0 |
+| Unchanged independent released6 regression, source/built | 1 + 1 | 0 |
+| Every-slot and real EN/PL UI regression, source/built | 6 + 6 | 0 |
+| Stale/import/export-only UI and responsive viewports | 5 + 3 | 0 |
+| Exact released6 rollback fixtures | 9 | 0 |
+| **Total cases** | **304** | **0** |
+
+Build/typecheck pass, zero skips. Gzip is 195,369 initial TR / 301,534 aggregate,
+within unchanged 205,874 / 301,836 limits. The same slot runner is red against
+frozen `ec9fa4a3` and green against source/built revision 3. Its SHA-256 is
+`cd73fa7b889bcd42712d6374e50192795806c3d84232d5dfe755877a1788997c`.
+The red report confirms both real released6 writes succeed, B exists in backup,
+and the Gold winner survives, but B is not retained in recovery. Green reports
+require exact foreign bytes, original archive and winner, including real manual
+UI saves. The new runner is in CI alongside the unchanged original stale-tab gate.
+
+English and Polish toast **and** save-status HUD now equal the complete catalog
+translation. Both UI cases create a new divergent backup after the current UI has
+loaded, suppress automatic reload, then save manually and assert that exact backup
+is preserved. Screenshots were inspected; no Turkish recovery text remains in
+these combined messages. The standalone recovery warnings and menu keys remain.
+
+This is a verified local save-only result, left as a draft for independent review.
+It does not accept Gold, claim full integration CI/performance/physical acceptance,
+or authorize main/Gold merge or deployment.
 
 ## Remaining boundaries
 
