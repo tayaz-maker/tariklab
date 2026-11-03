@@ -91,8 +91,17 @@ try {
   );
   assert.deepEqual(await slots(b), after);
   results.push({ case: "async file import races newer native tab save", pass: true });
+  // Isolate the writer race from automatic storage-event reloads in both tabs.
+  // The held lock must contain two queued writes before it is released; input
+  // dispatch completion alone is not evidence that both save requests queued.
+  await a.addInitScript(() => {
+    window.addEventListener("storage", (e) => e.stopImmediatePropagation(), true);
+  });
   await a.reload();
   await b.reload();
+  await Promise.all([a, b].map((p) => p.waitForFunction(() => window.boardworldInspect?.())));
+  assert.deepEqual(await a.evaluate(() => window.boardworldInspect()), await b.evaluate(() => window.boardworldInspect()));
+  const beforeRace = await slots(a);
   await a.evaluate(() => {
     window.lockHeld = false;
     void navigator.locks.request("tariklab.boardworld.v6.transaction", async () => {
@@ -104,7 +113,10 @@ try {
   for (const p of [a, b])
     await p.evaluate(() => {
       window.actionDone = false;
-      window.addEventListener("boardworld:action-complete", () => (window.actionDone = true), {
+      window.addEventListener("boardworld:action-complete", (event) => {
+        window.actionCompletion = { id: event.detail.id, notice: document.querySelector("#notice").textContent };
+        window.actionDone = true;
+      }, {
         once: true,
       });
     });
@@ -112,22 +124,27 @@ try {
     a.locator("[data-action]:not([disabled]):visible").first().click(),
     b.locator("[data-action]:not([disabled]):visible").first().click(),
   ]);
+  await a.waitForFunction(async () => {
+    const { pending } = await navigator.locks.query();
+    return pending.filter((lock) => lock.name === "tariklab.boardworld.v6.transaction").length === 2;
+  });
   const held = await slots(a);
+  assert.deepEqual(held, beforeRace, "both queued writers preserve storage while the transaction lock is held");
   await a.evaluate(() => window.releaseHeldLock());
   await Promise.all([
     a.waitForFunction(() => window.actionDone),
     b.waitForFunction(() => window.actionDone),
   ]);
-  const notices = await Promise.all([
-    a.locator("#notice").innerText(),
-    b.locator("#notice").innerText(),
-  ]);
-  assert.equal(notices.filter((x) => x.includes("Başka bir sekme")).length, 1);
+  const completions = await Promise.all([a, b].map((p) => p.evaluate(() => window.actionCompletion)));
+  const notices = completions.map((result) => result.notice);
+  assert.equal(notices.filter((x) => x.includes("Başka bir sekme")).length, 1, JSON.stringify(completions));
   assert.notEqual((await slots(a))[0], held[0]);
   assert.equal((await slots(a))[1], held[0]);
   results.push({
     case: "genuine simultaneous native UI writes queued behind held Web Lock; exactly one saves and one conflicts",
     pass: true,
+    queuedWriters: 2,
+    completions,
   });
   const unsupported = await browser.newContext();
   const u = await unsupported.newPage();

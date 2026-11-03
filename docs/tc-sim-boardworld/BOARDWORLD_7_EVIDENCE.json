@@ -1,11 +1,11 @@
 {
-  "status": "LOCAL AUTOMATED ACCEPTANCE PASSED; PR/main CI and production NOT RUN",
+  "status": "BLOCKED — NOT MERGED OR DEPLOYED",
   "testedCommit": "12b519c58b61e9de5074de5849e8a8c857f26646",
   "testedTree": "bceae0875217321eaad2259519a463828f50e985",
   "branch": "feature/boardworld-7-gold",
   "goldAccepted": false,
   "deployed": false,
-  "pr": null,
+  "pr": "https://github.com/tayaz-maker/tariklab/pull/254",
   "merge": null,
   "ownerAcceptance": "NOT RUN",
   "regressionStatistics": {
@@ -422,9 +422,30 @@
     "total": 14
   },
   "candidateUnchanged": true,
-  "ci": "NOT RUN; must pass exact PR head and exact main",
+  "ci": "FAIL: Boardworld simultaneous writer assertion; responsive browser startup failed; TC retry succeeded. No CI bypass.",
   "production": "NOT RUN; must match expected assets on both existing origins",
   "historicalEvidence": "Earlier a46f37d/b33fd13 results are retained in external evidence, not counted as this candidate acceptance",
   "performanceScope": "Fixed master-contract numeric budgets only; not a claim Gold is faster than freshly measured older releases",
-  "runtimeUnchangedSinceB33": true
+  "runtimeUnchangedSinceB33": true,
+  "releaseBlockers": [
+    {
+      "status": "BLOCKED — NOT MERGED OR DEPLOYED",
+      "severity": "high",
+      "id": "BW7-CONCURRENT-WRITER-003",
+      "observedAt": "2026-11-03T17:39:35.939548+00:00",
+      "productCommit": "12b519c58b61e9de5074de5849e8a8c857f26646",
+      "testedPrHead": "af5b3e1664d6edf0ce5391126838a92ca4aaf135",
+      "ciRun": 41678963526,
+      "ciJob": 126067147084,
+      "ciObservation": "19-life simulation and all five Boardworld browser suites passed; stale-browser simultaneous-writer assertion failed:0 conflict notices instead of1.",
+      "localReproduction": "A stronger harness suppresses storage events in both tabs, observes two pending writer locks, checks storage is unchanged while held, and captures notices at action completion. Repeat1 passed; repeat2 reproduced two successful notices for the same travel action, violating the required one-success/one-conflict guarantee.",
+      "sameActionEvidence": "stale-queue-recovery/repeat-2/run.log",
+      "differentActionControl": "Ten additional distinct-action runs passed. Actual loss of different-action progress was not reproduced in that control; this does not resolve the observed writer-serialization acceptance failure.",
+      "cause": "Not established. Cross-renderer storage visibility versus Web Lock ordering is a hypothesis, not a proven diagnosis.",
+      "fixStatus": "No product fix applied. Test observability and queue preconditions strengthened.",
+      "releaseDecision": "Do not merge or publish Gold until the save protocol passes adversarial concurrent-browser verification and final acceptance.",
+      "productionChange": false,
+      "socialEngineChange": false
+    }
+  ]
 }

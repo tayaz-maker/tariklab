@@ -1,4 +1,7 @@
-# Boardworld 7.0 Gold — local automated acceptance passed
+# Boardworld 7.0 Gold — BLOCKED, NOT RELEASED
+
+**Release blocker discovered after the initial local pass:** CI and a strengthened local two-writer test produce zero conflict notices where exactly one writer must be rejected. Both writers were observed queued behind the held lock. Product code is unchanged; the cause is not established and no fix is claimed. Distinct-action control runs passed, so actual loss of different-action progress is not claimed. PR #254 is draft; no merge/deployment occurred. See `recovery/concurrent-writer-blocker.json`. The table below records the earlier local results, not current Gold acceptance.
+
 
 Frozen product candidate `12b519c58b61e9de5074de5849e8a8c857f26646`, tree `bceae0875217321eaad2259519a463828f50e985`. This documentation-only evidence update does not change the tested product, harnesses, dependencies or build inputs. PR/main CI and production verification remain mandatory; this document does not claim a deployment or owner approval.
 
