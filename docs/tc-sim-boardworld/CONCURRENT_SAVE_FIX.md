@@ -195,8 +195,45 @@ The shallow-checkout CI now fetches the immutable released6 SHA before either
 archive-based runner, and runs the independent stale-tab gate in addition to all
 previous transaction/race gates. No integration or production action is performed.
 
-Final revision-2 measurements and hashes are recorded in
-`recovery/concurrent-save/revision2/verification.json` after verification.
+### Verified revision-2 delivery
+
+Tested product/harness commit: `ec9fa4a3fec3b920e391eb5c41edb283a94a4c61`, tree
+`2ed766e6f52a4ccb9920b52cddc3a3b0fc8afe3d`. Subsequent delivery commits contain
+only documentation/raw evidence. [Revision-2 manifest](recovery/concurrent-save/revision2/verification.json)
+records commands, source/built hashes and the exact input identity.
+
+| Revision-2 local validation | Passed | Failed |
+| --- | ---: | ---: |
+| Save/migration/codec/packing/i18n Node tests | 147 | 0 |
+| Native/frozen-cache built browser races | 50 + 20 | 0 |
+| Source/built transaction and explicit recovery cases | 28 + 28 | 0 |
+| Stale/import/export-only UI | 5 | 0 |
+| Responsive play/save/reload/recovery viewports | 3 | 0 |
+| Exact released6 rollback fixtures | 9 | 0 |
+| Unchanged independent released6 source/built regression | 1 + 1 | 0 |
+| **Total automated cases** | **292** | **0** |
+
+Build/typecheck pass, zero skipped cases. Gzip remains within unchanged budgets:
+195,540 initial TR / 301,669 all-language bytes, limits 205,874 / 301,836.
+The recovery menu was visually inspected at 1280 and 390 px; both dialog and page
+have zero horizontal overflow. The UI case also checks the exact recovered file,
+explicit import/reload and original winner as the rolling backup.
+
+The independent red/green reports use the same unchanged runner and exact released6
+graph. Before the correction, returned state matched the stale fork. Afterward,
+both source and production-built return SHA-256
+`68796095b0ad8db3402a60fa6d0f6985f82ecfcfdc0dac2f62899238e027204d`, the complete
+Gold winner. The divergent old fork
+`63fae65c685e928a928e50dc6300023d3fbafce3e290244cce02ca5bba4b3be0` remains
+exactly exportable. The independent runner asserts public state behavior and is
+not coupled to the IndexedDB record layout.
+
+All 70 queued current-client races still produce one success and one explicit
+conflict. The added foreign-copy preservation never grants overwrite permission,
+changes the durable head on load, or bypasses token checking during explicit import.
+No merge, production deployment, other-game or Social Engine work occurred.
+Integrated Gold performance/full acceptance and PR CI are the integration owner's
+remaining gates, not claims made by this local save-only verification.
 
 ## Remaining boundaries
 

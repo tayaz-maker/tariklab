@@ -1,5 +1,5 @@
 {
-  "status": "PASS",
+  "status": "SUPERSEDED_BY_RELEASED6_STALE_TAB_REGRESSION",
   "verifiedAt": "2026-11-03T18:17:18.216102+00:00",
   "repository": "tayaz-maker/tariklab",
   "branch": "fix/boardworld-7-concurrent-save",
@@ -139,5 +139,8 @@
     "Known past envelopes require explicit import for intentional restore; unknown valid released6 continuation is recognized only on locked load.",
     "Identity ledger growth and browser quota/eviction remain; failures preserve last commit and exportable state.",
     "Physical Safari/Firefox acceptance not run."
-  ]
+  ],
+  "historicalStatus": "PASS",
+  "supersededBy": "revision2/verification.json",
+  "reason": "Unseen valid v6 bytes did not prove rollback intent. Independent released6 stale-tab test failed at 5a0721dc; use revision 2."
 }
