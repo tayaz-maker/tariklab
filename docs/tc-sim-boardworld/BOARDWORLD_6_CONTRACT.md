@@ -1,9 +1,9 @@
 # ASTRA ULTRA | TC SIM BOARDWORLD 6.0
 ## GOLD PREPARATION: TEK GÖREV, KOD, TEST, MERGE, PRODUCTION
 
-**Repo:** `tayaz-maker/tariklab`  
-**Canlı oyun:** https://www.tariklab.com/oyna/tc-sim-boardworld  
-**5.0 referansı:** PR #252, merge `78ec4ee339051840037e48e80f4b07518d5a1424`  
+**Repo:** `tayaz-maker/tariklab`
+**Canlı oyun:** https://www.tariklab.com/oyna/tc-sim-boardworld
+**5.0 referansı:** PR #252, merge `78ec4ee339051840037e48e80f4b07518d5a1424`
 **Ürün hedefi:** Boardworld 5.0'dan **doğrudan 6.0** üret. 5.1/5.2 oluşturma. 6.0, 7.0 Gold Release öncesindeki son kapsamlı oynanış ve mimari geliştirme sürümüdür.
 
 ## A. Yetki ve değişmez kurallar
