@@ -1495,3 +1495,8 @@ Integrate reviewed product commit `3ba9630` and its seven-case bootstrap CI gate
 ### Gold final candidate evidence scope — 2026-11-03
 
 Bind the new cache/bootstrap/localization implementation proofs and retained038 failures to their exact commits. Mark older performance, migration and evidence snapshots as historical; remove the obsolete claim that old-client winner overwrite is an acceptable limitation. Final release status comes from exact-head/main CI and the delivery evidence linked in PR #254; this pre-freeze documentation makes no future-test or production claim.
+
+### Gold TC CI execution allowance
+
+- Gold candidate `b2876189fe4a4e32b508d93a561b10a3ad8216e8` passed its full local acceptance matrix and Boardworld CI, but TC workflow run `41709719638` attempts 1 and 2 were cancelled at the 15-minute job limit during the final mobile stage (jobs `126174297321` and `126183802834`). Both attempts remain non-passing evidence; the first successful reference run took 12m57s, showing variable total CI duration.
+- Raise only the bounded TC job timeout from 15 to 25 minutes. No test, assertion, scope guard, security gate, release guard or performance/gzip threshold is removed or relaxed. Product files and other games are unchanged. Fresh exact-head/main CI remains mandatory. Gold p95 acceptance is still blocked: the completed b287 batch measured 45.2/38.2/41.6ms under recorded external CPU contention, against unchanged23.4/23.4/24.0ms limits. No merge or production delivery is claimed.
