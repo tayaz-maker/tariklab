@@ -323,20 +323,182 @@ export function saveGame(state, storage, expectedToken) {
 export const SAVE_LOCK = "tariklab.boardworld.v6.transaction";
 const LOCK_WARNING =
   "Bu tarayıcı güvenli sekmeler arası kaydı desteklemiyor. İlerlemeni dosyaya aktar; otomatik kayıt kapalı.";
+const conflict = () => ({
+  ok: false,
+  conflict: true,
+  message:
+    "Başka bir sekme kaydı değiştirdi. Bu sekmedeki ilerlemeni dosyaya aktar, sonra sayfayı yenile.",
+});
+const RECOVERY_WARNING =
+  "Farklı bir kayıt kopyası korundu. Kayıt menüsünden indirip dosyadan yükleyebilirsin; mevcut kaydın değiştirilmedi.";
+const SLOT_KEYS = [SAVE_KEY, BACKUP_KEY, ...LEGACY_SLOTS.map(([key]) => key)];
+const mirrorKey = (key) => key === SAVE_KEY || key === BACKUP_KEY || key.includes(".original-v");
+const memoryStorage = (slots) => ({
+  getItem: (key) => slots.get(key) ?? null,
+  setItem: (key, value) => slots.set(key, value),
+});
+// Web Locks order callbacks, but do not refresh a renderer's localStorage cache.
+// The authoritative slots AND generation therefore commit in one IDB transaction.
+// localStorage is only a released-v6 compatibility copy after that commit.
+async function browserTransaction(storage, operation, collectArchives = false) {
+  try {
+    storage ??= globalThis.localStorage;
+  } catch {
+    /* IDB may still be readable. */
+  }
+  const db = await new Promise((resolve, reject) => {
+    const request = globalThis.indexedDB.open(`${SAVE_KEY}.transactions`, 1);
+    request.onupgradeneeded = () => {
+      request.result.createObjectStore("state");
+      request.result.createObjectStore("seen");
+    };
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+    request.onblocked = () => reject(new Error("blocked"));
+  });
+  let observed;
+  try {
+    // Keep the last durable snapshot for a safe export-only load if the
+    // write transaction aborts. Re-read and validate its generation below.
+    observed = await new Promise((resolve, reject) => {
+      const tx = db.transaction("state"),
+        request = tx.objectStore("state").get("head");
+      tx.oncomplete = () => resolve(request.result);
+      tx.onabort = () => reject(tx.error);
+    });
+    let mirror;
+    try {
+      mirror = new Map(SLOT_KEYS.map((key) => [key, storage.getItem(key)]));
+    } catch {
+      if (!observed) throw new Error("initial-storage-unavailable");
+      mirror = new Map();
+    }
+    return await new Promise((resolve, reject) => {
+      const tx = db.transaction(["state", "seen"], "readwrite", { durability: "strict" });
+      const stateStore = tx.objectStore("state"),
+        recoveryStore = tx.objectStore("seen");
+      let result, committed;
+      tx.onabort = () => reject(tx.error || new Error("aborted"));
+      tx.oncomplete = () => {
+        // A mirror failure cannot undo a committed save. A later load repairs it.
+        try {
+          if (committed)
+            for (const [key, bytes] of committed.slots)
+              if (mirrorKey(key)) {
+                if (bytes !== null) writeChecked(storage, key, bytes);
+                else if (key === SAVE_KEY || key === BACKUP_KEY) storage.removeItem(key);
+              }
+        } catch {
+          result.mirrorFailed = true;
+        }
+        resolve(result);
+      };
+      const read = stateStore.get("head");
+      read.onsuccess = () => {
+        const head = read.result;
+        if (head?.generation !== observed?.generation) {
+          result = conflict();
+          return;
+        }
+        const copies = recoveryStore.get("recovery");
+        copies.onsuccess = () => {
+          try {
+            const slots = new Map(head?.slots ?? mirror);
+            const recoverySaves = copies.result ?? [];
+            let recovered = false;
+            // Every mirror slot is independent: a known/identical primary says
+            // nothing about its backup or original archives. Preserve all valid
+            // divergent copies before mirror repair; NEVER adopt them.
+            if (head)
+              for (const [key, bytes] of mirror)
+                if (
+                  mirrorKey(key) &&
+                  bytes &&
+                  bytes !== slots.get(key) &&
+                  bytes !== slots.get(SAVE_KEY) &&
+                  bytes !== slots.get(BACKUP_KEY) &&
+                  importGame(bytes).state &&
+                  !recoverySaves.some((copy) => copy.bytes === bytes)
+                ) {
+                  recoverySaves.push({ key, bytes });
+                  recovered = true;
+                }
+            let dirty = !head;
+            if (collectArchives)
+              for (const [key, bytes] of mirror)
+                if (
+                  key.includes(".original-v") &&
+                  !slots.get(key) &&
+                  bytes &&
+                  importGame(bytes).sourceVersion === Number(key.at(-1))
+                ) {
+                  slots.set(key, bytes);
+                  dirty = true;
+                }
+            const generation = head?.generation ?? 0;
+            const before = new Map(slots);
+            const memory = memoryStorage(slots),
+              put = memory.setItem;
+            memory.setItem = (key, bytes) => {
+              dirty = true;
+              put(key, bytes);
+            };
+            result = operation(memory, generation);
+            if (result.ok === false || result.protected === false) {
+              if (result.token)
+                result.token = { ...readSaveToken(memoryStorage(before)), generation };
+              return;
+            }
+            const next = generation + (dirty ? 1 : 0);
+            if (!Number.isSafeInteger(next)) throw new Error("generation-overflow");
+            if (dirty) {
+              committed = { generation: next, slots: [...slots] };
+              stateStore.put(committed, "head");
+            } else committed = head;
+            if (recovered) recoveryStore.put(recoverySaves, "recovery");
+            result.recoverySaves = recoverySaves;
+            if (recoverySaves.length && (result.ok === undefined || recovered))
+              result.message = result.ok
+                ? `${result.message} ${RECOVERY_WARNING}`
+                : RECOVERY_WARNING;
+            if (result.token) result.token.generation = next;
+          } catch {
+            tx.abort();
+          }
+        };
+      };
+    });
+  } catch (error) {
+    if (observed) error.snapshot = observed;
+    throw error;
+  } finally {
+    db.close();
+  }
+}
 export async function saveGameLocked(
   state,
   storage,
   expectedToken,
   locks = globalThis.navigator?.locks,
+  transact = browserTransaction,
 ) {
   if (!locks?.request) return { ok: false, message: LOCK_WARNING };
   try {
-    return await locks.request(SAVE_LOCK, () => saveGame(state, storage, expectedToken));
+    return await locks.request(SAVE_LOCK, () =>
+      transact(storage, (memory, generation) => {
+        if (expectedToken?.generation !== generation) return conflict();
+        return saveGame(state, memory, expectedToken);
+      }),
+    );
   } catch {
     return { ok: false, message: LOCK_WARNING };
   }
 }
-export async function loadGameLocked(storage, locks = globalThis.navigator?.locks) {
+export async function loadGameLocked(
+  storage,
+  locks = globalThis.navigator?.locks,
+  transact = browserTransaction,
+) {
   const read = (promote) => {
     const loaded = loadGame(storage, { promote });
     let token = null;
@@ -349,8 +511,23 @@ export async function loadGameLocked(storage, locks = globalThis.navigator?.lock
   };
   if (!locks?.request) return read(false);
   try {
-    return await locks.request(SAVE_LOCK, () => read(true));
-  } catch {
+    return await locks.request(SAVE_LOCK, () =>
+      transact(
+        storage,
+        (memory) => {
+          const loaded = loadGame(memory);
+          return { ...loaded, token: readSaveToken(memory) };
+        },
+        true,
+      ),
+    );
+  } catch (error) {
+    if (error.snapshot)
+      return {
+        ...loadGame(memoryStorage(new Map(error.snapshot.slots)), { promote: false }),
+        token: null,
+        message: LOCK_WARNING,
+      };
     return read(false);
   }
 }

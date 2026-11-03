@@ -1,0 +1,46 @@
+{
+  "status": "PASS",
+  "origin": "http://127.0.0.1:57117",
+  "results": [
+    {
+      "case": "same-origin native tabs; storage events suppressed; stale manual save",
+      "pass": true,
+      "persistedRevision": 1,
+      "offlineExport": true
+    },
+    {
+      "case": "async file import races newer native tab save",
+      "pass": true
+    },
+    {
+      "case": "genuine simultaneous native UI writes queued behind held Web Lock; exactly one saves and one conflicts",
+      "pass": true,
+      "queuedWriters": 2,
+      "completions": [
+        {
+          "id": "travel:kadikoy",
+          "ok": false,
+          "saved": false,
+          "conflict": true,
+          "notice": "Başka bir sekme kaydı değiştirdi. Bu sekmedeki ilerlemeni dosyaya aktar, sonra sayfayı yenile."
+        },
+        {
+          "id": "travel:kadikoy",
+          "ok": true,
+          "saved": true,
+          "conflict": false,
+          "notice": "Kadıköy: yolculuk tamamlandı; 65 dk ve 45 TL."
+        }
+      ]
+    },
+    {
+      "case": "unsupported Web Locks remains export-only with explicit warning and no storage writes",
+      "pass": true
+    },
+    {
+      "case": "console/page exceptions",
+      "pass": true,
+      "count": 0
+    }
+  ]
+}

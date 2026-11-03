@@ -1,8 +1,8 @@
 {
-  "phase": "BLOCKED — NOT MERGED OR DEPLOYED",
+  "phase": "INTEGRATED FIX CANDIDATE — PENDING FINAL ACCEPTANCE",
   "issues": [
     {
-      "status": "BLOCKED — NOT MERGED OR DEPLOYED",
+      "status": "CORRECTED_IN_CANDIDATE_PENDING_FINAL_GATES",
       "severity": "high",
       "id": "BW7-CONCURRENT-WRITER-003",
       "observedAt": "2026-11-03T17:39:35.939548+00:00",
@@ -14,34 +14,49 @@
       "localReproduction": "A stronger harness suppresses storage events in both tabs, observes two pending writer locks, checks storage is unchanged while held, and captures notices at action completion. Repeat1 passed; repeat2 reproduced two successful notices for the same travel action, violating the required one-success/one-conflict guarantee.",
       "sameActionEvidence": "stale-queue-recovery/repeat-2/run.log",
       "differentActionControl": "Ten additional distinct-action runs passed. Actual loss of different-action progress was not reproduced in that control; this does not resolve the observed writer-serialization acceptance failure.",
-      "cause": "Not established. Cross-renderer storage visibility versus Web Lock ordering is a hypothesis, not a proven diagnosis.",
-      "fixStatus": "No product fix applied. Test observability and queue preconditions strengthened.",
-      "releaseDecision": "Do not merge or publish Gold until the save protocol passes adversarial concurrent-browser verification and final acceptance.",
+      "cause": "Web Locks alone did not guarantee cross-renderer localStorage visibility. The integrated candidate uses an authoritative IndexedDB head/generation and atomic transaction fencing.",
+      "fixStatus": "Integrated reviewed Sol fix through66bc904d; current-client writes compare and commit authoritative generation atomically, with explicit stale-writer conflict.",
+      "releaseDecision": "Pending independent verification and complete acceptance on the frozen integration; no merge-to-main or publication approval.",
       "productionChange": false,
-      "socialEngineChange": false
+      "socialEngineChange": false,
+      "evidenceScope": "All existing observations in this issue are historical; they are not fresh integrated acceptance."
     },
     {
       "id": "BW7-LATENCY",
-      "status": "FIXED_NUMERIC_BUDGET_PASS",
-      "description": "Three-run Gold medians 21.5/21.6/21.9 ms pass fixed23.4/23.4/24.0ms budgets. All nine p95 values pass. Fresh matched5 medians16.0/15.0/15.4 and6 medians16.1/15.7/15.5 are faster; this is not a relative performance improvement claim. No production runtime optimization was added during recovery; initial loaded-machine failures are retained."
+      "status": "HISTORICAL_RESULTS_ONLY_FINAL_TIMING_PENDING",
+      "description": "Original fixed budgets remain23.4/23.4/24.0ms at1440/390/320px. Historical12b519c three-run medians21.5/21.6/21.9 passed. Historical27f2e01 includes390px individual p95=25.1ms (exceeds23.4ms) although390px median=23.0ms passes. Fresh matched final-integration timing remains pending; no relative speed-improvement claim."
     },
     {
       "id": "BW7-DEPENDENCIES",
-      "status": "CRITICAL_HIGH_RESOLVED",
-      "description": "Final all-dependency npm audit:0 critical/0 high/14 moderate. Better Auth1.7.15 broker callback,account identity,PKCE,state,cookie/session compatibility covered by actual-handler tests. Fourteen moderate tooling dependency findings remain; see security report.",
+      "status": "HISTORICAL_CRITICAL_HIGH_RESOLVED_FINAL_AUDIT_PENDING",
+      "description": "Historical all-dependency audit reported0 critical/0 high/14 moderate. Better Auth1.7.15 actual-handler tests covered broker callback, identity, PKCE, state and cookie/session compatibility with unchanged database schema. These are prior evidence; fresh audit and auth checks on the final integration remain required.",
       "advisory": "https://github.com/advisories/GHSA-965c-763c-88jm"
     },
     {
       "id": "BW7-OLD6-TAB",
-      "status": "DOCUMENTED",
-      "scope": "historical unpatched 6.0 code",
-      "description": "Already-open 6.0 native tabs use the same mandated v6 keys but cannot participate in the new Web Lock protocol. Export important progress and reload or close those tabs before using Gold; current-client locking cannot retroactively fix old JavaScript.",
-      "releaseAssessment": "Must be explicitly disclosed; old-client coexistence is not covered by Gold-to-Gold serialization tests."
+      "status": "CORRECTED_IN_CANDIDATE_PENDING_FINAL_GATES",
+      "scope": "Already-open released6 tabs sharing the same origin and v6 compatibility slots",
+      "description": "Historical71006639/5a0721dc silently replaced a saved Gold winner with a divergent old6 fork. The integrated candidate never auto-adopts that fork: it keeps the authoritative Gold head and preserves foreign valid copies for download and explicit file import. Old6 coexistence must pass the mandatory real released6 regression; requesting users close tabs is not a waiver.",
+      "releaseAssessment": "Correction awaits fresh source/built stale-tab, exact-copy recovery, explicit import and winner-backup verification on the final integration.",
+      "severity": "critical"
+    },
+    {
+      "id": "BW7-RECOVERY-SLOTS-AND-LOCALES",
+      "severity": "high",
+      "status": "CORRECTED_IN_CANDIDATE_PENDING_FINAL_GATES",
+      "description": "Revision2 could discard a divergent backup behind a known/same primary and show untranslated Turkish in combined EN/PL manual-save feedback. Revision3 independently quarantines every valid divergent primary, backup and original slot before mirror repair and adds whole-message translations. Original archives remain immutable; downloading does not select a fork, while explicit import retains the Gold winner as backup.",
+      "implementationEvidence": "Independent b0c25495 source backup check passed eight assertions; Sol revision3 reports304 passing cases. These are implementation proofs, not final integrated acceptance.",
+      "requiredFinalEvidence": "Independent source+built backup quarantine, per-slot regression and real TR/EN/PL manual-save notice/HUD, menu, reload, exact download and explicit import."
     },
     {
       "id": "BW7-NO-WEB-LOCKS",
       "status": "EXPECTED_LIMITATION",
-      "description": "Browsers without Web Locks load validated saves without migration writes and support offline export; autosave fails closed with a translated explanation."
+      "description": "Without required Web Locks or usable IndexedDB protection, the game fails closed to validated load/export-only behavior with an explanation; failed/aborted protected writes must not report save success. Final fallback and abort cases require integrated verification."
+    },
+    {
+      "id": "BW7-LOCAL-STORAGE-BOUNDARIES",
+      "status": "EXPECTED_LIMITATIONS",
+      "description": "Browser quota, user clearing or eviction can remove local data; preserve offline exports. Recovery-copy growth has no claimed infinite capacity and can consume quota. Independent origins have independent storage and do not synchronize. Two old6 tabs still use the released unpatched writer and can collide with each other; Gold protects its own durable head and preserves foreign copies it observes, but cannot recover bytes already overwritten before observation. These boundaries do not excuse Gold silently replacing its winner or discarding a valid observed foreign slot."
     },
     {
       "id": "BW7-OWNER",
@@ -51,7 +66,7 @@
     {
       "id": "BW7-LINT",
       "status": "INHERITED",
-      "description": "62 lint warnings, zero errors. Recharts 2 and ESLint 9 deprecation/support notices remain."
+      "description": "Historical verification reported62 inherited warnings and zero errors; final integrated lint remains pending. Recharts2 and ESLint9 notices remain."
     },
     {
       "id": "BW7-HARNESS-LABELS",
@@ -63,5 +78,8 @@
       "status": "EXPECTED_LIMITATION",
       "description": "OAuth/account-link attempts initiated before Better Auth upgrade must be restarted. Existing valid session cookie compatibility is tested; no real owner Google/X sign-in was performed."
     }
-  ]
+  ],
+  "productionVersion": "6.0",
+  "releaseAccepted": false,
+  "integrationEvidencePolicy": "Historical and Sol implementation results retain their original inputs. Fresh frozen-integration audit, exact-head CI, independent source/built save and locale recovery, matched timing, live delivery and owner acceptance remain pending."
 }

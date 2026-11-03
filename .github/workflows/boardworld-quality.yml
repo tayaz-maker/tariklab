@@ -45,9 +45,15 @@ jobs:
       - name: Living Society invitations, daily decisions, locales and v4 isolation
         run: node scripts/boardworld-society-browser.mjs --serve .output/public
       - name: Gold native cross-tab transaction and import races
-        run: node scripts/boardworld-stale-browser.mjs --serve .output/public
+        run: |
+          node scripts/boardworld-stale-browser.mjs --serve .output/public
+          node scripts/boardworld-concurrent-browser.mjs --serve .output/public --output "$RUNNER_TEMP/screenshots/boardworld-stale/concurrent.json"
+          node scripts/boardworld-concurrent-browser.mjs --serve .output/public --stale-cache --repeats 20 --output "$RUNNER_TEMP/screenshots/boardworld-stale/frozen-cache.json"
+          node scripts/boardworld-transaction-browser.mjs --serve .output/public --output "$RUNNER_TEMP/screenshots/boardworld-stale/transactions.json"
       - name: Released6 stale tab cannot replace a newer Gold save
         run: node scripts/boardworld-legacy-tab-browser.mjs --serve .output/public
+      - name: Every legacy backup and original remains recoverable
+        run: node scripts/boardworld-legacy-slot-browser.mjs --serve .output/public
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -62,3 +68,4 @@ jobs:
             ${{ runner.temp }}/screenshots/boardworld-society
             ${{ runner.temp }}/screenshots/boardworld-stale
             ${{ runner.temp }}/screenshots/boardworld-legacy-tab
+            ${{ runner.temp }}/screenshots/boardworld-legacy-slot
