@@ -209,14 +209,14 @@ test("daily obligation actions refer to real unpaid bills and actual promises", 
   assert.ok(view.routine.actionIds.includes("finance:bill:flow-bill"));
   assert.ok(view.routine.actionIds.every((id) => actions.some((a) => a.id === id && !a.disabled)));
 });
-test("schema5 flow migration is neutral and malformed diagnostics are rejected", () => {
+test("v4 to current flow migration is neutral and malformed diagnostics are rejected", () => {
   const s = fixture();
   delete s.society;
   delete s.flow;
   s.version = 4;
   const old = structuredClone(s),
     v = migrateState(s);
-  assert.equal(v.version, 5);
+  assert.equal(v.version, 6);
   assert.deepEqual(s, old);
   for (const key of ["time", "rng", "cash", "bank", "debt", "living", "life", "npcs"])
     assert.deepEqual(v[key], old[key], key);

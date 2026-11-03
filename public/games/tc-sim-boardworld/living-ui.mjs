@@ -1,4 +1,4 @@
-import { money as formatMoney } from "./i18n.mjs";
+import { money as formatMoney, number, t } from "./i18n.mjs";
 /** Boardworld 3.0 presentation. Reads public views; commands belong to engine.mjs. */
 import { neighborhoodArt } from "./deep-ui.mjs";
 const esc = (v) =>
@@ -40,6 +40,34 @@ export function renderToday(view, state, actions) {
   return `<section class="today-desk" aria-label="Bugünün planı"><div><span class="eyebrow">BUGÜNÜN İPİ SENDE</span><strong>${active.length ? `${active.length} planın var` : "Gününü sen kur"}</strong><span>${active[0] ? `${esc(active[0].startLabel || clock(active[0].start))} · ${esc(active[0].title)}` : "Mekânı seç, zamanı ayır, koşulları gör."}</span></div><div class="today-next"><span class="eyebrow">SIRADAKİ ANLAMLI AN</span><strong>${esc(next?.label || "Takvimde yeni bir plan için yer var.")}</strong><span>${next ? `${next.day}. gün · ${esc(next.timeLabel)}` : "İş, eğitim ve görüşmeler aynı takvimde."}</span></div><div class="today-controls"><button class="secondary" data-tab="plan">Günü planla ↗</button>${advance ? `<button class="text-button" data-action="${esc(advance.id)}" data-focus="action:${esc(advance.id)}" ${advance.disabled ? "disabled" : ""}>${esc(advance.label)}</button>` : ""}</div></section>`;
 }
 
+/** Public market signals and the player's confirmed commitments; no private NPC state. */
+export function renderDistrictPulse(market, entries = [], time = 0) {
+  if (!market) return "";
+  const e = market.effects || {},
+    plans = entries.filter(
+      (entry) => entry.district === market.id && entry.status === "confirmed" && entry.end > time,
+    ).length;
+  let tone = "steady",
+    signal = t("Arz mevcut");
+  if (market.foodStock === 0 || market.materialStock === 0) {
+    tone = "attention";
+    signal = t(market.foodStock === 0 ? "Erzak tükendi" : "Malzeme tükendi");
+  } else if (plans) {
+    tone = "commitment";
+    signal = t("{0} onaylı plan", { 0: number(plans) });
+  } else if (e.serviceDelay > 0) {
+    tone = "attention";
+    signal = t("Sağlık +{0} dk", { 0: number(e.serviceDelay) });
+  } else if (e.jobOpenings > 0) {
+    tone = "opportunity";
+    signal = t("{0} iş fırsatı", { 0: number(e.jobOpenings) });
+  }
+  const foodIsPrice = Number.isFinite(market.foodPricePct),
+    food = foodIsPrice ? `${number(market.foodPricePct)}%` : number(market.foodStock),
+    material = market.materialPricePct ?? e.stockPricePct;
+  return `<span class="node-market" data-society="map-pulse" data-market-district="${esc(market.id)}"><span class="node-market-row"><span>${esc(t(foodIsPrice ? "Gıda" : "Erzak"))}</span><b>${esc(food)}</b></span><span class="node-market-row"><span>${esc(t("Malzeme"))}</span><b>${Number.isFinite(material) ? `${number(material)}%` : number(market.materialStock)}</b></span><span class="node-market-signal ${tone}">${esc(signal)}</span></span>`;
+}
+
 export function renderCityMap({
   state,
   city,
@@ -50,6 +78,7 @@ export function renderCityMap({
   actions,
   actionCard,
   conditions = "",
+  society = null,
 }) {
   const districts = city.districts || [],
     venues = city.venues || [];
@@ -67,12 +96,16 @@ export function renderCityMap({
         ["confirmed", "counter"].includes(e.status) && e.district === id && e.end >= state.time,
     ).length;
   const venueCards = venues.filter((v) => v.district === selected?.id);
-  return `<section class="living-map" aria-label="Bağlantılı İstanbul oyun haritası"><div class="map-title"><div><span class="eyebrow">İSTANBUL / BAĞLANTILI ŞEHİR</span><p>Üç semt. Birbirine bağlı hayatlar.</p></div><span class="map-edition">05</span></div><div class="city-schematic"><svg class="city-connections" viewBox="0 0 900 340" aria-hidden="true"><path class="city-water" d="M570 -20C480 95 610 190 550 370L700 370C760 200 620 100 720 -20Z"/><path class="city-route-line" d="M180 90L370 245M370 245L735 195M180 90L735 195"/><path class="city-ferry-line" d="M370 245Q560 310 735 195"/><text x="607" y="70" transform="rotate(18 607 70)">BOĞAZ</text></svg>${districts
+  return `<section class="living-map ${society?.districts?.length ? "has-market-signals" : ""}" aria-label="Bağlantılı İstanbul oyun haritası"><div class="map-title"><div><span class="eyebrow">İSTANBUL / BAĞLANTILI ŞEHİR</span><p>Üç semt. Birbirine bağlı hayatlar.</p></div><span class="map-edition">06</span></div><div class="city-schematic"><svg class="city-connections" viewBox="0 0 900 340" aria-hidden="true"><path class="city-water" d="M570 -20C480 95 610 190 550 370L700 370C760 200 620 100 720 -20Z"/><path class="city-route-line" d="M180 90L370 245M370 245L735 195M180 90L735 195"/><path class="city-ferry-line" d="M370 245Q560 310 735 195"/><text x="607" y="70" transform="rotate(18 607 70)">BOĞAZ</text></svg>${districts
     .map((d) => {
       const here = state.location === d.id,
         residents = here ? npcs.filter((n) => getLocation(state, n.id) === d.id) : [],
         count = tokens(d.id);
-      return `<article class="city-node node-${esc(d.id)} ${here ? "current" : ""} ${selectedDistrict === d.id ? "selected" : ""}" data-region="${esc(d.id)}"><button class="neighborhood-select" data-district="${esc(d.id)}" data-focus="district:${esc(d.id)}" aria-pressed="${selectedDistrict === d.id}">${neighborhoodArt(d.id)}<span class="node-title"><strong>${esc(d.name)}</strong>${here ? "<em>Taşın burada</em>" : ""}</span><span class="node-activity">${here ? `${residents.length} kişi` : "Gidince keşfet"} · ${venues.filter((v) => v.district === d.id && v.open).length} açık mekân${count ? ` · ${count} plan` : ""}</span></button><div class="node-tokens">${here ? `<span class="map-player" title="${esc(state.player.name)}">${esc(initials(state.player.name))}</span>` : ""}${residents
+      return `<article class="city-node node-${esc(d.id)} ${here ? "current" : ""} ${selectedDistrict === d.id ? "selected" : ""}" data-region="${esc(d.id)}"><button class="neighborhood-select" data-district="${esc(d.id)}" data-focus="district:${esc(d.id)}" aria-pressed="${selectedDistrict === d.id}">${neighborhoodArt(d.id)}<span class="node-title"><strong>${esc(d.name)}</strong>${here ? "<em>Taşın burada</em>" : ""}</span><span class="node-activity">${here ? `${residents.length} kişi` : "Gidince keşfet"} · ${venues.filter((v) => v.district === d.id && v.open).length} açık mekân${count ? ` · ${count} plan` : ""}</span>${renderDistrictPulse(
+        society?.districts?.find((market) => market.id === d.id),
+        calendar.entries,
+        state.time,
+      )}</button><div class="node-tokens">${here ? `<span class="map-player" title="${esc(state.player.name)}">${esc(initials(state.player.name))}</span>` : ""}${residents
         .slice(0, 3)
         .map(
           (n) =>

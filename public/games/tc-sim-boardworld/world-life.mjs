@@ -374,7 +374,10 @@ function selectDecision(s, id, index, api) {
         target: otherId,
         score: Math.max(10, 75 - x.social) + edge.affinity / 6,
       });
+    // V6 support is selected exclusively from the directly learned, recent
+    // needs supplied below. Private recipient balances cannot affect utility.
     if (
+      s.version < 6 &&
       other.cash < 400 &&
       (s.version < 5 ||
         s.society?.knowledge[id]?.some(

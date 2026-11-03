@@ -1,4 +1,4 @@
-/** Shared ordered presentation keys. Loaded only for EN/PL. */
+/** Aligned game-local presentation catalog. */
 export default [
   "Şişli",
   "Beşiktaş",
@@ -1241,7 +1241,7 @@ export default [
   "TarikLab oyunlarına dön",
   "Oyuna geç",
   "Şehir tahtası hazırlanıyor…",
-  "İSTANBUL / BİRBİRİNE BAĞLI HAYATLAR / 05",
+  "İSTANBUL / BİRBİRİNE BAĞLI HAYATLAR / 06",
   "Bu şehirde",
   "bir hayatın var.",
   "İşini seç. İnsanları tanı. Bir ev kur.",
@@ -2931,4 +2931,16 @@ export default [
   ". Yaşam zinciri tamamlandı.",
   "Bu hafta {0}",
   "ekip sorumlusu",
+  "Arz mevcut",
+  "Erzak tükendi",
+  "Malzeme tükendi",
+  "{0} onaylı plan",
+  "Sağlık +{0} dk",
+  "{0} iş fırsatı",
+  "Gıda",
+  "Gıda fiyatı",
+  "%100 temel fiyatı gösterir; stok ve yoğunluk gerçek alışveriş ve bakım koşullarını değiştirir.",
+  "Sıradaki stok öngörüsü",
+  "Öngörü, bilinen giriş ve tüketimi içerir; yeni alışverişlerle değişebilir.",
+  "İletişim isteğine gerçek görüşmeyle yanıt verildi; yeni bir ödeme veya yardım sözü oluşmadı.",
 ];

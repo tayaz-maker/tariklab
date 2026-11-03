@@ -11,8 +11,8 @@ concurrency:
 jobs:
   boardworld:
     runs-on: ubuntu-24.04
-    # Six replayed 365-day lives plus five browser suites exceed 15m on CI runners.
-    timeout-minutes: 30
+    # Gold Preparation adds 18 annual replays and one 730-day replay.
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/ci-node

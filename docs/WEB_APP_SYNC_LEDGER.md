@@ -1389,3 +1389,11 @@ gates; their verified identifiers belong in the PR and final release evidence. O
 other games, deployment guards, dependencies, shared art, native pause and disabled
 audio policy remain unchanged. See BOARDWORLD_5_AUDIT.md and the final acceptance
 report for independently measured evidence.
+
+## Boardworld 6.0 integration (unreleased)
+
+Isolated compact v6 saves preserve authentic v1–v5 archives. NPC needs, knowledge-constrained support and regional supply are extended; district UI signals use public state. Production build now packs only Boardworld assets after Vite, preserving URL and locale-index compatibility. Native remains paused and audio disabled. Acceptance and production deployment remain pending.
+
+## 2026-11-03 — Boardworld 6.0 release verification
+
+Raise the existing complete regression, unit shard and Boardworld quality job budgets to 60 minutes for the added 18 annual plus 730-day persisted replays. Every existing command, assertion and production release guard remains enforced. Runtime and built assets are identical to release candidate 1c531117. Exact-head CI and production delivery are still pending; this is not a release claim.

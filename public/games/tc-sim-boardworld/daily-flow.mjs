@@ -311,6 +311,11 @@ function recoveryIds(s, code, actions) {
       .filter((a) => enabled(a) && test(a.id))
       .slice(0, limit)
       .map((a) => a.id);
+  const exact = (wanted, limit = 6) =>
+    wanted
+      .filter((id, i) => wanted.indexOf(id) === i && actions.some((a) => a.id === id && enabled(a)))
+      .slice(0, limit);
+  const homeDistrict = by(HOMES, s.housing.id)?.district;
   switch (code) {
     case "event":
       return ids((id) => id.startsWith("event:") || id.startsWith("systemic:"), 6);
@@ -327,22 +332,43 @@ function recoveryIds(s, code, actions) {
     case "weekday":
       return ids((id) => id === "policy:day:" + ((day(s) - 1) % 7) || id === "flow:care");
     case "meal":
-      return ids(
-        (id) => ["cook", "soup", "eat", "snack", "buy:groceries", "withdraw:1000"].includes(id),
-        6,
-      );
+      return exact([
+        ...(s.emergent.policy.meal === "home"
+          ? [
+              "cook",
+              "travel:" + homeDistrict,
+              "walk:" + homeDistrict,
+              "buy:groceries",
+              "withdraw:1000",
+            ]
+          : s.emergent.policy.meal === "eat"
+            ? ["eat", "withdraw:1000"]
+            : ["soup", "cook", "snack"]),
+        "soup",
+        "eat",
+        "snack",
+        "policy:autoWithdraw:true",
+      ]);
     case "duty":
       return ids((id) => id === "household:chore" || id.startsWith("travel:"));
-    case "appointment":
-      return ids(
-        (id) =>
-          id.startsWith("calendar:attend:") ||
-          id.startsWith("visit:") ||
-          id.startsWith("calendar:cancel:"),
-      );
+    case "appointment": {
+      const next = s.calendar.entries
+        .filter((e) => e.status === "confirmed" && e.end > s.time)
+        .sort((a, b) => a.start - b.start || a.id.localeCompare(b.id))[0];
+      return next
+        ? exact([
+            "calendar:attend:" + next.id,
+            "visit:" + next.venue,
+            "travel:" + next.district,
+            "walk:" + next.district,
+            "calendar:cancel:" + next.id,
+          ])
+        : [];
+    }
     case "payment":
       return [
         ...ids((id) => id === "flow:payments:authorized"),
+        ...(!s.deep.finance.autoPay ? ids((id) => id === "finance:autopay", 1) : []),
         ...ids((id) => id === "sleep" || id === "wait:routine", 1),
         ...ids((id) => id.startsWith("repay:") || id === "finance:debt-plan", 2),
       ];
@@ -363,6 +389,39 @@ function recoveryIds(s, code, actions) {
     default:
       return ids((id) => id === "flow:care" || id === "sleep" || id === "wait:routine");
   }
+}
+
+// Summarize only real, retained actions. A routine never claims that choosing
+// an employer, an investment, a relationship or an event was automated.
+export function getRoutineReport(s) {
+  const trace = s.deep.routine.lastActions || [];
+  const counts = {
+    maintenance: 0,
+    work: 0,
+    education: 0,
+    enterprise: 0,
+    travel: 0,
+    waiting: 0,
+    other: 0,
+  };
+  for (const id of trace) {
+    const category =
+      /^(cook|eat|soup|snack|rest|sleep|buy:groceries|withdraw:\d+|household:chore)$/.test(id)
+        ? "maintenance"
+        : id === "work"
+          ? "work"
+          : /^(study|practice:)/.test(id)
+            ? "education"
+            : id === "business:serve"
+              ? "enterprise"
+              : /^(travel:|walk:)/.test(id)
+                ? "travel"
+                : id.startsWith("wait:")
+                  ? "waiting"
+                  : "other";
+    counts[category]++;
+  }
+  return { total: trace.length, ...counts, strategicDecisions: 0, actionIds: [...trace] };
 }
 
 export function getDecisionView(s, { actions = [], society = null } = {}) {
@@ -479,6 +538,7 @@ export function getDecisionView(s, { actions = [], society = null } = {}) {
         : enabled.filter((a) => /^schedule:run:[17]$/.test(a.id)).map((a) => a.id),
       target: blocker?.target || { tab: "plan" },
       performedCount: s.flow.stop?.performedCount || 0,
+      report: getRoutineReport(s),
     },
     goals: {
       short: "İhtiyaç ve taahhütlerini koru",

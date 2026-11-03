@@ -166,7 +166,7 @@ try {
     };
     const importFixture = async (name) => {
       await surface.locator("#import-file").setInputFiles(fixture(name));
-      await surface.waitForFunction(() => window.boardworldInspect()?.version === 5);
+      await surface.waitForFunction(() => window.boardworldInspect()?.version === 6);
       return inspect();
     };
     const layout = async (label) => {
@@ -459,8 +459,8 @@ try {
   await h.choose("flow:payments:authorized");
   const upgraded = await h.inspect(),
     canonical = await surface.evaluate(() => [
-      localStorage.getItem("tariklab.boardworld.v5"),
-      localStorage.getItem("tariklab.boardworld.v5.backup"),
+      localStorage.getItem("tariklab.boardworld.v6"),
+      localStorage.getItem("tariklab.boardworld.v6.backup"),
     ]);
   await surface.evaluate(() => {
     window.stale4Events = 0;
@@ -480,8 +480,8 @@ try {
     assert.deepEqual(await h.inspect(), upgraded);
     assert.deepEqual(
       await surface.evaluate(() => [
-        localStorage.getItem("tariklab.boardworld.v5"),
-        localStorage.getItem("tariklab.boardworld.v5.backup"),
+        localStorage.getItem("tariklab.boardworld.v6"),
+        localStorage.getItem("tariklab.boardworld.v6.backup"),
       ]),
       canonical,
     );

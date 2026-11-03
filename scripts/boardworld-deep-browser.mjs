@@ -24,6 +24,7 @@ const assetFiles = [
   "engine.mjs",
   "content.mjs",
   "persistence.mjs",
+    "save-codec.mjs",
   "deep-content.mjs",
   "deep-life.mjs",
   "deep-ui.mjs",
@@ -185,7 +186,7 @@ try {
       throw new Error("Event queue did not drain");
     };
     await drain();
-    assert.equal((await inspect()).version, 5);
+    assert.equal((await inspect()).version, 6);
     assert.ok((await inspect()).deep);
     await panel("board");
     assert.equal(await surface.locator(".neighborhood-art").count(), 3);
@@ -372,7 +373,7 @@ try {
         JSON.stringify(
           await surface.evaluate(() => ({
             text: document.body.innerText,
-            save: localStorage.getItem("tariklab.boardworld.v5"),
+            save: localStorage.getItem("tariklab.boardworld.v6"),
             state: window.boardworldInspect?.(),
           })),
           null,
@@ -420,7 +421,7 @@ try {
     assert.deepEqual(errors, []);
     results.push({
       width,
-      version: 5,
+      version: 6,
       preview: true,
       networkKeyboard: true,
       routineSettings: true,
@@ -441,7 +442,7 @@ try {
   const fixture = resolve("scripts/fixtures/boardworld/v1-progressed-restart-day46.json"),
     bytes = readFileSync(fixture, "utf8");
   await oldPage.locator("#import-file").setInputFiles(fixture);
-  await oldPage.waitForFunction(() => window.boardworldInspect()?.version === 5);
+  await oldPage.waitForFunction(() => window.boardworldInspect()?.version === 6);
   assert.equal(
     await oldPage.evaluate(() => localStorage.getItem("tariklab.boardworld.v1.original-v1")),
     bytes,
@@ -485,7 +486,7 @@ try {
       backup: localStorage.getItem(BACKUP_KEY),
     };
   });
-  assert.equal(canonical.key, "tariklab.boardworld.v5");
+  assert.equal(canonical.key, "tariklab.boardworld.v6");
   assert.ok(canonical.primary && canonical.backup, "canonical 5.0 primary and backup exist");
   await oldPage.evaluate(() => {
     window.boardworldLegacyWriteObserved = 0;
@@ -578,7 +579,7 @@ try {
     const { importGame } = await import("/games/tc-sim-boardworld/persistence.mjs");
     return importGame(envelope).state;
   }, oldV2Bytes);
-  assert.ok(expectedV2Migration?.version === 5);
+  assert.ok(expectedV2Migration?.version === 6);
   await transitionalPage.evaluate(
     (envelope) => localStorage.setItem("tariklab.boardworld.v1", envelope),
     oldV2Bytes,
@@ -591,7 +592,7 @@ try {
     "real v2 envelope under legacy key migrates without loss",
   );
   const adopted = await transitionalPage.evaluate(() => ({
-    canonical: localStorage.getItem("tariklab.boardworld.v5"),
+    canonical: localStorage.getItem("tariklab.boardworld.v6"),
     legacy: localStorage.getItem("tariklab.boardworld.v1"),
   }));
   assert.ok(adopted.canonical, "legacy-key v2 envelope promoted to canonical storage at load");

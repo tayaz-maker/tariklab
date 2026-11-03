@@ -18,6 +18,7 @@ const assets = [
   "engine.mjs",
   "content.mjs",
   "persistence.mjs",
+    "save-codec.mjs",
   "deep-content.mjs",
   "deep-life.mjs",
   "deep-ui.mjs",
@@ -248,7 +249,7 @@ try {
       return after.calendar.entries.at(-1);
     };
     await drain();
-    assert.equal((await inspect()).version, 5);
+    assert.equal((await inspect()).version, 6);
     await tab("board");
     assert.equal(await surface.locator(".city-node").count(), 3);
     assert.equal(await surface.locator(".neighborhood-select").count(), 3);
@@ -567,7 +568,7 @@ try {
   const fixture = resolve("scripts/fixtures/boardworld/v2-progressed-restart-day46.json"),
     oldBytes = readFileSync(fixture, "utf8");
   await page.locator("#import-file").setInputFiles(fixture);
-  await page.waitForFunction(() => window.boardworldInspect()?.version === 5);
+  await page.waitForFunction(() => window.boardworldInspect()?.version === 6);
   assert.equal(
     await page.evaluate(() => localStorage.getItem("tariklab.boardworld.v2.original-v2")),
     oldBytes,
@@ -587,8 +588,8 @@ try {
   await page.locator('[data-action="finance:reserve:500"]').click();
   const upgraded = await inspect();
   const canonical = await page.evaluate(() => ({
-    primary: localStorage.getItem("tariklab.boardworld.v5"),
-    backup: localStorage.getItem("tariklab.boardworld.v5.backup"),
+    primary: localStorage.getItem("tariklab.boardworld.v6"),
+    backup: localStorage.getItem("tariklab.boardworld.v6.backup"),
   }));
   assert.ok(canonical.primary && canonical.backup);
   await page.evaluate(() => {
@@ -616,8 +617,8 @@ try {
     );
     assert.deepEqual(
       await page.evaluate(() => ({
-        primary: localStorage.getItem("tariklab.boardworld.v5"),
-        backup: localStorage.getItem("tariklab.boardworld.v5.backup"),
+        primary: localStorage.getItem("tariklab.boardworld.v6"),
+        backup: localStorage.getItem("tariklab.boardworld.v6.backup"),
       })),
       canonical,
     );

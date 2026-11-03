@@ -27,7 +27,7 @@ const legal = (state) => getActions(state).filter((action) => !action.disabled);
 const available = (state, id) => legal(state).some((action) => action.id === id);
 function sound(state) {
   assert.equal(validateState(state), true, "all interconnected state remains valid");
-  assert.equal(state.version, 5);
+  assert.equal(state.version, 6);
   for (const key of ["cash", "bank", "debt"])
     assert.ok(
       Number.isSafeInteger(state[key]) && state[key] >= 0,

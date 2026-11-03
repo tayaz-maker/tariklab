@@ -22,6 +22,7 @@ const assets = [
   "engine.mjs",
   "content.mjs",
   "persistence.mjs",
+    "save-codec.mjs",
   "deep-content.mjs",
   "deep-life.mjs",
   "deep-ui.mjs",
@@ -219,7 +220,7 @@ try {
     await surface.locator("#character-name").fill("Birbirine Bağlı Hayat");
     await surface.locator("[data-testid=create-game]").click();
     await h.drain();
-    assert.equal((await h.inspect()).version, 5);
+    assert.equal((await h.inspect()).version, 6);
     await h.tab("board");
     if (await surface.locator('[data-ui="dismiss-outcome"]').count())
       await surface.locator('[data-ui="dismiss-outcome"]').click();
@@ -412,7 +413,7 @@ try {
   const fixture = resolve("scripts/fixtures/boardworld/v3-social-day91.json"),
     bytes = readFileSync(fixture, "utf8");
   await surface.locator("#import-file").setInputFiles(fixture);
-  await surface.waitForFunction(() => window.boardworldInspect()?.version === 5);
+  await surface.waitForFunction(() => window.boardworldInspect()?.version === 6);
   assert.equal(
     await surface.evaluate(() => localStorage.getItem("tariklab.boardworld.v3.original-v3")),
     bytes,
@@ -428,8 +429,8 @@ try {
   await h.choose(edit.id);
   const upgraded = await h.inspect(),
     canonical = await surface.evaluate(() => ({
-      primary: localStorage.getItem("tariklab.boardworld.v5"),
-      backup: localStorage.getItem("tariklab.boardworld.v5.backup"),
+      primary: localStorage.getItem("tariklab.boardworld.v6"),
+      backup: localStorage.getItem("tariklab.boardworld.v6.backup"),
     }));
   assert.ok(canonical.primary && canonical.backup);
   await surface.evaluate(() => {
@@ -457,8 +458,8 @@ try {
     );
     assert.deepEqual(
       await surface.evaluate(() => ({
-        primary: localStorage.getItem("tariklab.boardworld.v5"),
-        backup: localStorage.getItem("tariklab.boardworld.v5.backup"),
+        primary: localStorage.getItem("tariklab.boardworld.v6"),
+        backup: localStorage.getItem("tariklab.boardworld.v6.backup"),
       })),
       canonical,
       "stale writer preserves canonical primary and backup",
