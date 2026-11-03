@@ -114,13 +114,42 @@ rollback-recognition path restoring compatibility bytes instead of the required
 healthy authoritative backup. The product path was restricted to healthy native
 primaries and the original backup assertion retained.
 
-Final commit/test counts and commands are recorded in the accompanying verification
-manifest after exact-commit verification. Historical PR #254 blocker evidence is
-left intact and is not replaced with a blanket Gold acceptance claim.
+Verified integration commit: `6c32508902726da2be89e775b789b4c892c1f59e`, tree
+`fb524eb6d0ba15092658d3cc4383d42c7d4abb17`. Product code is unchanged from
+`71006639cd876fb8c4a1061270d5fe0df8731851`; the second commit only foregrounds
+initial public-module loading in the test harness. Final evidence commits change
+documentation/reports only. Input identities, raw reports, SHA-256 hashes and
+commands are in [verification.json](recovery/concurrent-save/verification.json).
+
+| Final validation | Passed | Failed |
+| --- | ---: | ---: |
+| Save/migration/codec/packing Node tests | 140 | 0 |
+| Natural-cache built browser races | 50 | 0 |
+| Frozen-cache built browser races | 20 | 0 |
+| Source transaction/migration/rollback/recovery cases | 27 | 0 |
+| Built transaction/migration/rollback/recovery cases | 27 | 0 |
+| Stale/import/UI/export-only cases | 5 | 0 |
+| Real play/save/reload/export/recovery viewports | 3 | 0 |
+| Exact released6 rollback fixtures | 9 | 0 |
+| **Total automated cases** | **281** | **0** |
+
+All 70 races produce 70 successful writers and 70 explicit rejected writers:
+24 same-action, 24 different-action and 22 no-op races. Two pending requests are
+verified in every race; no losing request publishes a head. The first distinct
+built race starts at generation 6: winner commits generation 7 at
+`1793729622890.6`, then reports success at `1793729622891.4`. Loser acquires at
+`1793729622892.4`, re-reads generation 7, performs no head put and returns conflict.
+The full winning state and unchanged rejected-retry token are asserted.
+
+Build and typecheck pass. Packed gzip is 195,157 initial TR / 301,104 all-language
+bytes, within unchanged 205,874 / 301,836 limits. Desktop/mobile captures were
+inspected and the UI runners report no console/page exceptions. These are local
+validation results; exact PR CI and integrated Gold performance acceptance remain
+separate. Historical PR #254 blocker evidence is left intact.
 
 ## Remaining boundaries
 
-- Already-open released6/older JavaScript does not participate in the new protocol.
+- Already-open released6, pre-fix Gold or older JavaScript does not participate in the new protocol.
   Export and close/reload those sessions before continuing the same life in Gold.
   Controlled released6 rollback compatibility is covered, not arbitrary concurrent
   writes by old or manually modified clients.
