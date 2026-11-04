@@ -1,6 +1,6 @@
 import { JUNCTIONS, signalAxis } from "../domain/traffic.ts";
 import { Application, Container, Graphics, Rectangle, Sprite, Text, Texture } from "pixi.js";
-import type { Person, Point, RenderProjection } from "../domain/types";
+import type { Person, Point, RenderProjection, Vehicle } from "../domain/types";
 import { retargetMotion, sampleMotion } from "./interpolation";
 import { cameraTranslation } from "./camera";
 import { BUILDINGS, LAND_HEIGHT, ROAD_CENTERS, isRoad, project, unproject } from "./world";
@@ -46,6 +46,7 @@ type ActorView = {
   updatedAt: number;
   duration: number;
   person?: Person;
+  vehicle?: Vehicle;
 };
 export type WorldRenderer = {
   render: (projection: RenderProjection) => void;
@@ -647,11 +648,12 @@ export async function createRenderer(
       if (near) detailed++;
       cadence.set(person.id, near ? 100 : 1000);
     }
-    const transition = (view: ActorView, target: Point, duration: number) => {
+    const transition = (view: ActorView, target: Point, duration: number, orientPerson = true) => {
       const dx = target.x - view.to.x,
         dy = target.y - view.to.y;
       if (!retargetMotion(view, target, duration, time)) return;
       view.moving = Math.hypot(target.x - view.from.x, target.y - view.from.y) > 0.001;
+      if (!orientPerson) return;
       if (Math.abs(dx) > Math.abs(dy)) view.direction = dx >= 0 ? 0 : 2;
       else view.direction = dy >= 0 ? 1 : 3;
     };
@@ -764,9 +766,8 @@ export async function createRenderer(
         };
         actors.set(vehicle.id, view);
       }
-      transition(view, target, 100);
-      view.direction = direction;
-      view.sprite.texture = paintedVehicle(frameName, vehicle.color);
+      transition(view, target, 100, false);
+      view.vehicle = vehicle;
     }
     for (const [id, v] of actors)
       if (!keep.has(id)) {
@@ -827,6 +828,20 @@ export async function createRenderer(
       const pos = sampleMotion(v, started),
         moving = pos.moving,
         p = project(pos);
+      if (v.vehicle) {
+        // Heading follows the displacement actually presented since the previous draw.
+        // The newest physics tangent can lead the interpolated position at a turn.
+        const dx = p.x - v.sprite.x,
+          dy = p.y - v.sprite.y;
+        if (Math.hypot(dx, dy) > 0.01) {
+          const worldDelta = unproject({ x: dx, y: dy });
+          v.direction = vehicleFrame(Math.atan2(worldDelta.y, worldDelta.x));
+        } else if (v.vehicle.speed <= 0) {
+          v.direction = vehicleFrame(v.vehicle.heading);
+        }
+        const variant = id.endsWith("0") ? "cargo" : "car";
+        v.sprite.texture = paintedVehicle(`${variant}-${v.direction}`, v.vehicle.color);
+      }
       v.sprite.position.set(p.x, p.y);
       v.sprite.zIndex = p.y;
       v.label.position.set(p.x, p.y - 49);

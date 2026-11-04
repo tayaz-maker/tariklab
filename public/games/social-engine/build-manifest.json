@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "sourceDigest": "b6ce934a171fad68749da539f9d32679d7da981b26c13166b72afd9489b63a76",
+  "sourceDigest": "0eb4d2a7f7ff2d8b7a176d4843ffa0985a76eb6fb83804c21f910e6af1b1d64b",
   "playableAssets": [
     {
       "file": "assets/buildings-ddad231f8cc8.png",
@@ -18,13 +18,13 @@
       "sha256": "036d21645e4f7c8a8dd37dc2c163c96620af9f3b7c2df6c1dd08e66ccebd2a9b"
     }
   ],
-  "initialPlayableBytes": 1292641,
+  "initialPlayableBytes": 1292733,
   "assets": [
     {
-      "file": "app-DryUiDjT.js",
-      "bytes": 271276,
-      "gzipBytes": 89127,
-      "sha256": "ebf756c312855aaf37c0e51bf7796466f72f8bcf998fe5746d6e9f82ab766021"
+      "file": "app-CrHKB62J.js",
+      "bytes": 271543,
+      "gzipBytes": 89216,
+      "sha256": "36d965f3dfd10cf93f2103abf22f94ba926a5288c3e97732f75c0b44ecf9db02"
     },
     {
       "file": "chunk-6YNTFqgy.js",
@@ -39,16 +39,22 @@
       "sha256": "140c218deb8e571914706014314109e5682d8a29df0dcc21c65aeecfd2e55273"
     },
     {
+      "file": "chunk-BQ8jCbnp.js",
+      "bytes": 47895,
+      "gzipBytes": 13580,
+      "sha256": "c524a78a7330986bf6587c48f9367c3a66fdb3a04bf4473dc58e29b1770efb2c"
+    },
+    {
       "file": "chunk-D2lmkui-.js",
       "bytes": 182322,
       "gzipBytes": 61637,
       "sha256": "4422f4977666a294df17f7cf9e9c3dbb45d38b681da30a6928896fc9de551614"
     },
     {
-      "file": "chunk-D3Ch6syj.js",
+      "file": "chunk-DjTLyLq0.js",
       "bytes": 17474,
       "gzipBytes": 5698,
-      "sha256": "204639c5152778125cf0cc576e99712775f00d3519aefe1ee14573272cc537f4"
+      "sha256": "5148cd11b0531e49d09974695945e9565f2cf7b81fba8954642bc2f6627beefc"
     },
     {
       "file": "chunk-DkEYDCE_.js",
@@ -75,12 +81,6 @@
       "sha256": "580ad8c58061a4dde99bde0a56905e382f0568516ee2f5b84dbfb52085709021"
     },
     {
-      "file": "chunk-m2XXkuOs.js",
-      "bytes": 47895,
-      "gzipBytes": 13578,
-      "sha256": "010102a830523c8bcf42f6188ec1fad15cdcd835ab14461b4cd33be22cceaba6"
-    },
-    {
       "file": "chunk-xyDj0jC1.js",
       "bytes": 53583,
       "gzipBytes": 14653,
@@ -89,8 +89,8 @@
     {
       "file": "index.html",
       "bytes": 3866,
-      "gzipBytes": 1494,
-      "sha256": "656f18e527037c40b63724e9445509ae56004d99a1e7812535dae9d463d9e363"
+      "gzipBytes": 1495,
+      "sha256": "05c710c2942df87a9ebc5ff0f4b93d6fe34153050ab181502661c6b1f27243dd"
     },
     {
       "file": "styles-3f7c67bfb95e.css",
@@ -105,7 +105,7 @@
       "sha256": "2039fa737bd2ca311555bb0ca0836ce54837818ebbea8551f3858c20adbc16c8"
     }
   ],
-  "totalGzipBytes": 254419,
+  "totalGzipBytes": 254511,
   "worker": "worker-Ck5m-MWe.js",
-  "entry": "app-DryUiDjT.js"
+  "entry": "app-CrHKB62J.js"
 }
