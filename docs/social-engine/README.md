@@ -2,9 +2,9 @@
 
 Current upgrade: **SOCIAL ENGINE**, set in **DARAMCIK**. See [release status](DEPLOYMENT_HOLD.md) and [PR 256](https://github.com/tayaz-maker/tariklab/pull/256). Older checkpoint descriptions below are historical.
 
-An integrated, original Kıyıyaka browser game: isometric exploration, 100 local identities and 1,000 background citizens, careers, double-entry money transfers, relationships, housing, courses, causal missions, driving, combat, evidence-based police consequences and isolated IndexedDB saves.
+An integrated, original DARAMCIK browser game: isometric exploration, 100 local identities and 1,000 background citizens, careers, double-entry money transfers, relationships, housing, courses, causal missions, driving, combat, evidence-based police consequences and isolated IndexedDB saves.
 
-**Status: development checkpoint, not Gold and not ready to merge. Production is explicitly locked by the user.** The original four specifications and all60 acceptance criteria remain unchanged. Additional contract obligations are being audited and implemented; passing a subset of tests does not waive them. Two separate human30-minute sessions and the specified reference-PC performance evidence are still required.
+**Status: development checkpoint, not Gold and not ready to merge. The owner authorized production only after all mandatory quality gates and the release lock pass.** The original four specifications and all60 acceptance criteria remain unchanged. Additional contract obligations are being audited and implemented; passing a subset of tests does not waive them. Two separate human30-minute sessions and the specified reference-PC performance evidence are still required.
 
 ## Run and verify
 

@@ -1,4 +1,5 @@
 /** v4 integration evidence. Setup uses documented public commands/QA time, tested actions use DOM. */
+import { installActionObserver, observeAction } from "./action-evidence.mjs";
 import { waitForQATicks } from "./wait-for-qa-ticks.mjs";
 import { chromium } from "playwright";
 import { windowlessRendererOptions, verifySoftwareRenderer } from "./windowless-launch.mjs";
@@ -40,6 +41,7 @@ const browser = await chromium.launch({
 });
 const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
 await context.tracing.start({ screenshots: true, snapshots: true, sources: true });
+await context.addInitScript(installActionObserver);
 const page = await context.newPage();
 page.setDefaultTimeout(8000);
 page.on("pageerror", (e) => report.errors.push(e.message));
@@ -214,26 +216,8 @@ try {
       );
       assert.equal(assault.fine, 25000, "heavy strike case uses heavy consequences");
       assert.ok(s.player.stamina < before.player.stamina, "heavy stamina");
-      // Capture the worker snapshot as soon as the actual game's command acknowledgement
-      // reaches the toast. A harness-side timer can return after the entire 600 ms dodge.
-      await page.evaluate(() => {
-        const toast = document.getElementById("toast");
-        window.__testDodgeSnapshot = new Promise((resolve, reject) => {
-          const timer = setTimeout(() => {
-            observer.disconnect();
-            reject(new Error("Actual Space command did not acknowledge a dodge"));
-          }, 6000);
-          const observer = new MutationObserver(() => {
-            if (!toast.textContent.includes("Kaçındın.")) return;
-            clearTimeout(timer);
-            observer.disconnect();
-            window.__socialEngine.state().then(resolve, reject);
-          });
-          observer.observe(toast, { childList: true, characterData: true, subtree: true });
-        });
-      });
-      await page.keyboard.press("Space");
-      s = await page.evaluate(() => window.__testDodgeSnapshot);
+      const dodge = await observeAction(page, "DODGE", () => page.keyboard.press("Space"));
+      s = dodge.state;
       assert.ok(s.flags.dodgeUntil > s.tick, "dodge active");
       assert.ok(s.flags.dodgeUntil <= s.tick + 6, "dodge has its bounded authoritative window");
       assert.ok(s.crimes.length > before.crimes.length);
@@ -242,6 +226,9 @@ try {
         victimHealth: victim.health,
         stamina: s.player.stamina,
         dodgeUntil: s.flags.dodgeUntil,
+        actionTick: s.tick,
+        actionCursor: dodge.operation.cursor,
+        commandId: dodge.command.id,
         crimeCount: s.crimes.length,
       };
     },
@@ -262,17 +249,17 @@ try {
     await wait();
     assert.ok(await page.locator("#share-rumor").isVisible());
     await page.locator("#rumor-event").selectOption(event.eventId);
-    await page.locator("#share-rumor").click();
-    await wait();
-    s = await state();
+    const rumor = await observeAction(page, "SHARE_RUMOR", () => page.locator("#share-rumor").click());
+    assert.equal(rumor.command.args.eventId, event.eventId, "actual selected DOM rumor");
+    s = rumor.state;
     const learned = Object.values(s.social.knowledge)
       .flat()
       .find(
-        (k) => k.ownerId !== "player" && k.eventId === event.eventId && k.sourceId === "player",
+        (k) => k.ownerId === rumor.command.args.npcId && k.eventId === event.eventId && k.sourceId === "player",
       );
     assert.ok(learned);
     assert.ok(learned.confidence < event.confidence);
-    return learned;
+    return { ...learned, actionTick: s.tick, actionCursor: rumor.operation.cursor, commandId: rumor.command.id };
   });
   await check(
     "custody",

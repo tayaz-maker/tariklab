@@ -109,6 +109,8 @@ for (const path of [
   "upgrade/rules8-worker/results.json",
   "upgrade/door-route/results.json",
   "upgrade/door-worker/results.json",
+  "upgrade/focus-route/results.json",
+  "upgrade/focus-worker/results.json",
   "browser-evidence/results.json",
   "ui-browser/results.json",
   "journal-browser/results.json",
@@ -231,8 +233,8 @@ for (const path of [
     !["PASS", "FAIL"].includes(d.status ?? (d.finishedAt && d.results?.length ? "PASS" : null))
   )
     continue;
-  const receiptKey = path.replace(/^upgrade\/door-(route|worker)\//,"upgrade/rules8-$1/");
-  if (path === "upgrade/door-route/results.json" && d.manifestSha256 === manifest && d.finished && Array.isArray(d.requests) && Array.isArray(d.errors))
+  const receiptKey = path.replace(/^upgrade\/(?:door|focus)-(route|worker)\//,"upgrade/rules8-$1/");
+  if (["upgrade/door-route/results.json", "upgrade/focus-route/results.json"].includes(path) && d.manifestSha256 === manifest && d.finished && Array.isArray(d.requests) && Array.isArray(d.errors))
     await capture("route-browser/results.json", raw, path, { manifestSha256: manifest });
   await capture(receiptKey, raw, path, {
     manifestSha256:

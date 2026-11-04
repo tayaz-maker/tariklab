@@ -1,0 +1,47 @@
+{
+  "scope": "Test observation only; no worker/UI/persistence runtime modifications in this follow-up. No full browser run claimed.",
+  "validation": "Three actual-runtime/wire-observer tests pass; old dodge observation reproduced after a 20-tick delay; premature rumor observation reproduced before the next actual worker tick.",
+  "deadlines": "Dodge retains its 6000ms acknowledgment budget; rumor replaces unconditional 400ms sleep with correlated acknowledgment within 6000ms, below the existing 8000ms Playwright default. No existing timeout increased.",
+  "journalFailures": [
+    {
+      "id": "burst-compaction",
+      "observed": {
+        "baseCursor": 99576,
+        "committedCursor": 99736,
+        "pendingOperations": 340,
+        "highWater": 600,
+        "failed": null
+      },
+      "interpretation": "Mailbox bounded and commits progressed; failure is residual drain latency, not data loss or limit violation. Roughly 34 normal ten-operation transactions remain.",
+      "proposedFix": "Measure append encode/hash time, IndexedDB transaction latency and event-loop lag separately; coalesce already-queued contiguous same-epoch batches up to the existing 128-operation and 64KB batch limits. Preserve cursor/hash/CAS validation and checkpoint limits. Compare identical 100000-tick scenario sequentially on one idle host; require exact final replay, <=600 mailbox, no failed writes and the unchanged 15s settle deadline."
+    },
+    {
+      "id": "tab-conflict",
+      "observed": {
+        "handle": null,
+        "pendingOperations": 88,
+        "highWater": 88,
+        "failed": null
+      },
+      "interpretation": "Fails before competing writer conflict is exercised: initial base snapshot has not armed in 15s. A stale-writer correctness failure was not observed.",
+      "proposedFix": "Measure snapshot roundtrip, encode/validation and initial full-save commit stages on same host. Coalescing tail writes will not fix this initialization bottleneck. Bound initial-save work only after stage measurements identify the cost; retain the 15s requirement."
+    },
+    {
+      "id": "fatal-tail-recovery",
+      "observed": {
+        "baseCursor": 1,
+        "committedCursor": 31,
+        "pendingOperations": 63,
+        "highWater": 93,
+        "failed": null
+      },
+      "interpretation": "Fails in setup drain before actual context loss/recovery. A recovery correctness failure was not observed. At least 30 operations committed while 63 remained.",
+      "proposedFix": "Same contiguous-batch append measurement as burst case; independently verify paused authority stops producing operations and tail drain finishes by unchanged 15s deadline. Then exercise real context loss. Do not label current evidence a context-loss failure."
+    }
+  ],
+  "limits": [
+    "No measured production latency improvement is claimed; batching proposal remains unimplemented pending isolated stage timings.",
+    "Wire evidence is full worker messages, not the projected UI snapshot. Assertions still require successful actual command IDs, exact contiguous replay and original gameplay consequences.",
+    "Native browser/host under-load scenarios were not rerun concurrently with hosted jobs."
+  ]
+}

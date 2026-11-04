@@ -20,7 +20,7 @@ http
       if (pathname === "/oyna/social-engine") {
         res.writeHead(200, { "content-type": "text/html" });
         res.end(
-          '<!doctype html><html lang="tr"><title>Social Engine isolated preview</title><style>html,body,iframe{margin:0;width:100%;height:100%;border:0;display:block}</style><iframe title="SOCIAL ENGINE" src="/games/social-engine/index.html"></iframe></html>',
+          '<!doctype html><html lang="tr"><title>SOCIAL ENGINE</title><style>html,body,iframe{margin:0;width:100%;height:100%;border:0;display:block}</style><iframe title="SOCIAL ENGINE" src="/games/social-engine/index.html"></iframe></html>',
         );
         return;
       }

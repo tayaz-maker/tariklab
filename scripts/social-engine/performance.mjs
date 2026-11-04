@@ -202,6 +202,7 @@ const allFrames = [],
   heapSamples = [],
   allLongTasks = [];
 let gameStart = 0,
+  browserStart = 0,
   lastTick = -1,
   lastCollectedSimTick = -1,
   stalledSeconds = 0;
@@ -467,6 +468,7 @@ async function sample(minute) {
       p = window.__socialEngine.projection(),
       m = window.__socialEngine.metrics();
     return {
+      browserNow: performance.now(),
       frames: probe.frames.splice(0),
       longTasks: probe.longTasks.splice(0),
       projection: {
@@ -508,7 +510,7 @@ async function sample(minute) {
   const entry = {
     minute,
     at: new Date().toISOString(),
-    elapsedMs: performance.now() - gameStart,
+    elapsedMs: raw.browserNow - browserStart,
     projection: raw.projection,
     frameMs: summary(raw.frames),
     longTaskCount: raw.longTasks.length,
@@ -593,15 +595,18 @@ try {
   const state = await page.evaluate(() => window.__socialEngine.state());
   report.build.engineVersion = state.engineVersion;
   report.seed = state.seed;
-  report.initialTick = state.tick;
   report.initialPopulation = state.npcs.length;
-  await page.evaluate(() => {
+  // Match tick and wall-clock samples in the same browser task, before heap collection.
+  const anchor = await page.evaluate(() => {
     const p = window.__sePerfProbe;
     p.frames = [];
     p.longTasks = [];
     p.last = 0;
     p.active = true;
+    return { now: performance.now(), tick: window.__socialEngine.projection().tick };
   });
+  report.initialTick = anchor.tick;
+  browserStart = anchor.now;
   gameStart = performance.now();
   report.measurementStartedAt = new Date().toISOString();
   await page.screenshot({ path: path.join(out, "start.png") });
@@ -613,7 +618,7 @@ try {
       out,
       targetMinutes,
       engineVersion: state.engineVersion,
-      initialTick: state.tick,
+      initialTick: report.initialTick,
       manifestSha256: report.build.manifestSha256,
     }),
   );

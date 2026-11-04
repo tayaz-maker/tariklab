@@ -49,6 +49,7 @@ const report = {
   errors: [],
 };
 let context, nativeBrowser, ownedProcess, page, extension, tabId;
+let launchDiagnostic = "";
 try {
   const profile = path.join(scratch, "profile");
   ownedProcess = spawn(
@@ -64,10 +65,15 @@ try {
       `--load-extension=${ext}`,
       "about:blank",
     ],
-    { stdio: "ignore" },
+    { stdio: ["ignore", "ignore", "pipe"] },
   );
+  ownedProcess.stderr.on("data", (chunk) => {
+    launchDiagnostic = (launchDiagnostic + chunk.toString()).slice(-2400);
+  });
+  ownedProcess.on("error", (error) => { launchDiagnostic = error.message; });
   let port;
   for (let attempt = 0; attempt < 100 && !port; attempt++) {
+    if (ownedProcess.exitCode !== null || ownedProcess.signalCode) break;
     try {
       port = Number(
         (await readFile(path.join(profile, "DevToolsActivePort"), "utf8")).split("\n")[0],
@@ -76,7 +82,10 @@ try {
       await new Promise((r) => setTimeout(r, 100));
     }
   }
-  if (!port) throw Error("Isolated native browser did not start");
+  if (!port) {
+    report.launchFailure = { code: ownedProcess.exitCode, signal: ownedProcess.signalCode, diagnostic: launchDiagnostic.replaceAll(scratch, "<QA-profile>") };
+    throw Error("Isolated native browser did not start: " + JSON.stringify(report.launchFailure));
+  }
   nativeBrowser = await chromium.connectOverCDP(`http://127.0.0.1:${port}`, { noDefaults: true });
   context = nativeBrowser.contexts()[0];
   context.setDefaultTimeout(15000);

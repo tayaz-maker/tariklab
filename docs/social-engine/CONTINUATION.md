@@ -1,4 +1,14 @@
-# SOCIAL ENGINE — local candidate 5 continuation
+# SOCIAL ENGINE · DARAMCIK — continuation
+
+The current isolated PR is [#256](https://github.com/tayaz-maker/tariklab/pull/256), branch `feature/social-engine-development`. Built gameplay source: `4798bdab80a17f89588f71b3eb28c0ee05a633d8`; manifest SHA-256: `80123c1a19ba729223db572de9dcfbb4b7dbb571152a1ef75e21815011b1fa5d`. The owner authorized merging and the existing Cloudflare hook only after mandatory checks and safe release serialization. Two independent human sessions are deferred; the specified physical hardware is not available on this host. Never open or focus desktop windows. Use the isolated hosted virtual display for actual native tab/zoom testing.
+
+Headless Worker smoke on the packaged site verifies the ordinary route, profile, movement, NPC history and durable restore against the current manifest. Preserve all prior raw results. The earlier HUD had two failed concurrent SwiftShader suites. Current stress requalification observes the genuine keyboard/DOM command at its authoritative worker tick. The annual replay may be attributed across UI revisions only after recalculating the SHA-256 of **every** listed simulation/codec file. Never transfer elapsed soak time between builds. Seven full-time traffic agents still lack legal food stops; see [driver behavior](upgrade/DRIVER_BREAKS.txt). Check [release conditions](DEPLOYMENT_HOLD.md) and [provider/rollback steps](upgrade/RELEASE_OPERATIONS.md) before any promotion.
+
+## Historical local checkpoint (superseded)
+
+The following archive describes the constraints and results at that earlier point, not current authorization or a player-facing release.
+
+### Local candidate 5
 
 **Runtime commit:** `bc81a02487544403d29a3d176246d651e2b60a1d`; manifest `5f6ee17a0a8c63152fb01fc2a310a26298c9c94ed5dc6682990b6bc19f9acc79`. The authoritative local feature branch lives in `work/social-engine-final`. The original `work/tariklab` is the retained C4 QA tree; `work/social-engine-next` is the earlier C5 validation tree. Neither is another Astra agent's workspace.
 
