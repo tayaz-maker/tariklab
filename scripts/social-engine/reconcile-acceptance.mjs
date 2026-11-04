@@ -735,6 +735,26 @@ required.native_zoom_and_background =
     ? stateFor(nativeRepeats.runs)
     : "UNVERIFIED";
 evidencePaths.add("native-browser/stable-repeats/summary.json");
+
+const hostedPath = "native-browser/hosted-latest.json", hosted = await read(hostedPath);
+const nativeHarnessHash = digest(await readFile("scripts/social-engine/native-browser.mjs"));
+if (hosted?.trials?.length === 3 && /^[0-9a-f]{40}$/.test(hosted.remoteHead ?? "") &&
+    /^https:\/\/github\.com\/tayaz-maker\/tariklab\/actions\/runs\/\d+\/job\/\d+$/.test(hosted.url ?? "") &&
+    hosted.trials.every((r) => fresh(r) && r.harnessSha256 === nativeHarnessHash && r.finishedAt)) {
+  evidencePaths.add(hostedPath);
+  const gates = [
+    ["native_200_percent_browser_zoom", "Native automatic browser zoom200% with real menu controls"],
+    ["headless_true_tab_visibility", "Actual background tab visibility pauses and reactivation resumes authoritative tick"],
+  ];
+  for (const [key, name] of gates) {
+    const statuses = hosted.trials.map((trial) => ({status:
+      trial.status === "FAIL" || trial.errors?.length ? "FAIL" :
+      trial.results?.find((row) => row.name === name)?.status ?? "UNVERIFIED"}));
+    required[key] = stateFor(statuses);
+  }
+  required.native_zoom_and_background = stateFor(gates.map(([key]) => ({status:required[key]})));
+}
+
 const capacity = await read("capacity-10000/results.json"),
   capacitySource = createHash("sha256");
 for (const dir of ["domain", "simulation"])

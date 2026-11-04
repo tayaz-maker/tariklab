@@ -2,7 +2,11 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { createSimulationRuntime } from "../../src/games/social-engine/worker/runtime.ts";
 import { createWorld, applyCommand } from "../../src/games/social-engine/simulation/engine.ts";
-import { replayActionEvidence, installActionObserver } from "./action-evidence.mjs";
+import {
+  replayActionEvidence,
+  installActionObserver,
+  stepRetiredWorld,
+} from "./action-evidence.mjs";
 
 function harness(save) {
   let tick;
@@ -116,5 +120,83 @@ test("passive Worker observer preserves outgoing messages and captures actual RE
     assert.equal(window.__actionWire.received[0], data);
   } finally {
     globalThis.window = originalWindow;
+  }
+});
+
+test("heavy keyboard command cost is proven at action tick after later idle regeneration erased it", () => {
+  const save = createWorld(20261103);
+  save.npcs[0].location = { ...save.player.location };
+  const h = harness(save);
+  try {
+    const command = {
+      v: 1,
+      id: "keyboard:heavy",
+      type: "ATTACK",
+      args: { npcId: save.npcs[0].id, heavy: true },
+    };
+    h.send({ type: "COMMANDS", commands: [command] });
+    for (let i = 0; i < 80; i++) h.tick();
+    h.send({ type: "SNAPSHOT_REQUEST", requestId: "regenerated" });
+    const late = h.received.at(-1).state;
+    assert.equal(
+      late.player.stamina,
+      h.baseline.state.player.stamina,
+      "old delayed stamina assertion reproduces failure after natural regeneration",
+    );
+    const action = replayActionEvidence({ ...h, sent: [command] }, "ATTACK");
+    assert.equal(action.command.args.heavy, true);
+    assert.ok(action.beforeState.player.stamina - action.state.player.stamina >= 23.5);
+    const assault = late.crimes.find((crime) => crime.victim === command.args.npcId);
+    assert.ok(assault);
+    assert.equal(assault.fine, 25000);
+    assert.ok(action.beforeState.npcs[0].health - late.npcs[0].health >= 24);
+  } finally {
+    h.close();
+  }
+});
+
+test("actual RETIRE then30 requested frozen QA steps and actual RESUME are verified by journal and FIFO snapshot", async () => {
+  const h = harness();
+  const originalWindow = globalThis.window;
+  try {
+    const retire = { v: 1, id: "button:retire", type: "RETIRE", args: {} };
+    h.send({ type: "COMMANDS", commands: [retire] });
+    h.tick();
+    h.send({ type: "SNAPSHOT_REQUEST", requestId: "retired" });
+    const action = replayActionEvidence({ ...h, sent: [retire] }, "RETIRE");
+    assert.equal(action.beforeState.progression.retired, false);
+    assert.equal(action.state.progression.retired, true);
+    let requestedSteps;
+    globalThis.window = {
+      __socialEngine: {
+        state: async () => {
+          h.send({ type: "SNAPSHOT_REQUEST", requestId: "barrier" });
+          return h.received.at(-1).state;
+        },
+        step: (count) => {
+          requestedSteps = count;
+          h.send({ type: "STEP", count });
+        },
+      },
+    };
+    const page = { evaluate: (fn, argument) => fn(argument) };
+    const frozen = await stepRetiredWorld(page, 30);
+    assert.equal(requestedSteps, 30, "original QA request is retained");
+    assert.equal(frozen.beforeTick, action.state.tick);
+    assert.equal(frozen.afterTick, action.state.tick);
+    const resume = { v: 1, id: "button:resume", type: "RESUME_CAREER", args: {} };
+    h.send({ type: "COMMANDS", commands: [resume] });
+    h.tick();
+    h.send({ type: "SNAPSHOT_REQUEST", requestId: "resumed" });
+    const resumed = replayActionEvidence({ ...h, sent: [retire, resume] }, "RESUME_CAREER");
+    assert.equal(resumed.beforeState.progression.retired, true);
+    assert.equal(resumed.state.progression.retired, false);
+    assert.equal(resumed.state.player.id, action.state.player.id);
+    assert.ok(resumed.state.tick > action.state.tick);
+    await assert.rejects(stepRetiredWorld(page, 501));
+    await assert.rejects(stepRetiredWorld(page, 30), /requires actual retirement/);
+  } finally {
+    globalThis.window = originalWindow;
+    h.close();
   }
 });

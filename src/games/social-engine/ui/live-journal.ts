@@ -1,5 +1,7 @@
 import type { WorldState } from "../domain/types.ts";
 import type { JournalBatch, JournalHandle, JournalPoint } from "../persistence/journal.ts";
+import { assertJournalBatch } from "../persistence/journal.ts";
+import { coalesceJournalPrefix } from "./journal-mailbox.ts";
 import { SaveError } from "../persistence/codec.ts";
 
 type Snapshot = { state: WorldState; point: JournalPoint };
@@ -34,6 +36,7 @@ export class LiveJournal {
   private handle: JournalHandle | null = null;
   private batches: JournalBatch[] = [];
   private gapCursor = 0;
+  private receivedPoint: JournalPoint | null = null;
   private running: Promise<void> | null = null;
   private closed = false;
   private failure: Error | null = null;
@@ -68,6 +71,20 @@ export class LiveJournal {
   }
   accept(batch: JournalBatch) {
     if (this.closed || this.failure) return;
+    try {
+      assertJournalBatch(batch);
+      if (
+        (this.handle && batch.epoch !== this.handle.epoch) ||
+        (this.receivedPoint &&
+          (batch.epoch !== this.receivedPoint.epoch ||
+            batch.fromCursor !== this.receivedPoint.cursor))
+      )
+        throw new Error("Oyun günlüğünde oturum veya sıra boşluğu var.");
+      this.receivedPoint = { epoch: batch.epoch, cursor: batch.toCursor };
+    } catch (error) {
+      this.fail(error);
+      return;
+    }
     this.batches.push(batch);
     let count = this.batches.reduce((n, b) => n + b.operations.length, 0);
     while (count > 600) {
@@ -101,9 +118,20 @@ export class LiveJournal {
       if (!this.closed && !this.failure && (this.batches.length || this.waits.length)) this.kick();
     });
   }
+  private fail(error: unknown) {
+    if (this.failure) return;
+    this.failure = error instanceof Error ? error : new Error(String(error));
+    this.batches = [];
+    this.waits.splice(0).forEach((w) => w.reject(this.failure!));
+    if (!this.closed) this.onError(this.failure);
+  }
   private async drain() {
     try {
-      while (!this.closed && (!this.handle || this.batches.length || this.waits.length)) {
+      while (
+        !this.closed &&
+        !this.failure &&
+        (!this.handle || this.batches.length || this.waits.length)
+      ) {
         const first = this.batches[0];
         if (
           !this.handle ||
@@ -114,7 +142,8 @@ export class LiveJournal {
           const waiting = this.waits.splice(0);
           try {
             const snapshot = await this.takeSnapshot();
-            if (this.closed) throw new Error("Oyun oturumu değişti.");
+            if (this.closed || this.failure)
+              throw this.failure ?? new Error("Oyun oturumu değişti.");
             this.handle = this.handle
               ? await this.repository.checkpointJournal(this.handle, snapshot.state, snapshot.point)
               : await this.repository.beginJournal(
@@ -123,6 +152,7 @@ export class LiveJournal {
                   snapshot.point,
                   this.expected,
                 );
+            if (this.failure) throw this.failure;
             this.batches = this.batches.flatMap((batch) => {
               if (batch.epoch !== snapshot.point.epoch)
                 throw new Error("Oyun günlüğü başka bir oturuma ait.");
@@ -139,9 +169,11 @@ export class LiveJournal {
           }
         } else if (first) {
           try {
-            this.handle = await this.repository.appendJournal(this.handle, first);
-            // Incoming batches may have evicted this in-flight item while IndexedDB committed.
-            if (this.batches[0] === first) this.batches.shift();
+            const merged = coalesceJournalPrefix(this.batches, this.handle.baseCursor);
+            this.handle = await this.repository.appendJournal(this.handle, merged);
+            // Overflow may evict any prefix while the merged append is in flight.
+            // Remove only batches actually covered by the successfully committed cursor.
+            this.batches = this.batches.filter((batch) => batch.toCursor > this.handle!.cursor);
           } catch (error) {
             if (error instanceof SaveError && error.code === "JOURNAL_LIMIT") {
               this.gapCursor = Math.max(this.gapCursor, first.toCursor);
@@ -152,10 +184,7 @@ export class LiveJournal {
         }
       }
     } catch (error) {
-      this.failure = error instanceof Error ? error : new Error(String(error));
-      this.batches = [];
-      this.waits.splice(0).forEach((w) => w.reject(this.failure!));
-      if (!this.closed) this.onError(this.failure);
+      this.fail(error);
     }
   }
 }

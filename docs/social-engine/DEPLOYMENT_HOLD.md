@@ -1,5 +1,9 @@
 # SOCIAL ENGINE release status
 
+**Current game: 90fc478, DARAMCIK · GOLD_BLOCKED.** Manifest e7ac6b6902a8e9e8183a565550049a1de8f39224346a164a9e52065a2c8087b5, compressed HTML/CSS/JS 248505 bytes, all 12 JS chunks reproduced. See [bounded writes and native replay](upgrade/JOURNAL_RECOVERY.md). Current built Worker smoke verified profile, district, NPC interaction, physical movement and durable reloading. Three of four concurrent software-renderer journal scenarios pass; the opening of the second tab times out before conflict behavior can be certified. Other stress scenarios, endurance, physical reference/low-end hardware, real playtests, CI and live identity keep release blocked. See the current receipt index for the manifest before interpreting a matrix. Prior build receipts below are historical; never pool elapsed time across builds.
+
+## Previous candidate evidence
+
 **GOLD_BLOCKED.** The user authorizes merge and promotion through the existing authorized Cloudflare deploy hook only after all mandatory gates pass. No further merge approval is required. [Draft PR 256](https://github.com/tayaz-maker/tariklab/pull/256) is not a verified release.
 
 SOCIAL ENGINE takes place in DARAMCIK. The frozen runtime is `0aced0368b8664300a6ff8654bac3919d34876e9`, manifest SHA-256 `1d2cb9211926fa48c9d555d5120dfd8c1ff7074fb97405a4b1b65f2fdb3e9438`. Twelve JavaScript chunks reproduced byte-for-byte; total compressed HTML/CSS/JS is 248,280 bytes. Its Worker entry and authoritative domain, persistence and simulation trees are unchanged from `2c56562`. Look up the current PR head and complete Git tree independently of this runtime commit. No production merge or deployment has been recorded.

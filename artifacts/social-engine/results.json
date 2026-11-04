@@ -1,7 +1,7 @@
 {
   "product": "SOCIAL ENGINE",
   "schemaVersion": 3,
-  "evaluatedAt": "2026-11-04T11:02:57.199Z",
+  "evaluatedAt": "2026-11-04T11:14:57.770Z",
   "source": "docs/social-engine/ACCEPTANCE_TESTS.md",
   "localScope": "Development checkout and locally served Worker or portable build. No CI or production promotion follows from this file.",
   "observation_snapshot": {
@@ -9,12 +9,6 @@
       "status": "PASS",
       "completedDays": null,
       "sourceSha256": "0ccedb58f3fe7f8b80c16d26d442ec11d941a589329aa97d462dddee7dda36a2"
-    },
-    "soak": {
-      "runId": "2026-11-04T10-50-15-398Z",
-      "status": "INTERRUPTED_OBSERVATION",
-      "elapsedMinutes": 1.00237515555,
-      "manifestSha256": "80123c1a19ba729223db572de9dcfbb4b7dbb571152a1ef75e21815011b1fa5d"
     }
   },
   "incomplete_runs": {},
@@ -22,15 +16,15 @@
   "criteria_modified": false,
   "release_decision": "BLOCKED",
   "production_status": "UNVERIFIED",
-  "branch": "experiment/social-engine-input-recovery",
-  "currentLocalCommit": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-  "runtimeManifestSha256": "80123c1a19ba729223db572de9dcfbb4b7dbb571152a1ef75e21815011b1fa5d",
-  "sourceDigest": "e0adeea8c3be156337050c58c9adaac808c6c50a6497aedd93c8d8e053e67e5f",
+  "branch": "experiment/social-engine-durable-queue",
+  "currentLocalCommit": "90fc47817bad7745638b1406b4870261d97c5b68",
+  "runtimeManifestSha256": "e7ac6b6902a8e9e8183a565550049a1de8f39224346a164a9e52065a2c8087b5",
+  "sourceDigest": "956d6d13a8d62b0bbb39309b8560bcb5cd080828fa723646f1b710f25003b20c",
   "counts": {
-    "PASS": 28,
+    "PASS": 22,
     "FAIL": 0,
     "SKIP": 0,
-    "UNVERIFIED": 32
+    "UNVERIFIED": 38
   },
   "blocking_ids": [
     "SE-003",
@@ -54,6 +48,10 @@
     "SE-036",
     "SE-037",
     "SE-038",
+    "SE-041",
+    "SE-042",
+    "SE-043",
+    "SE-044",
     "SE-045",
     "SE-046",
     "SE-047",
@@ -61,6 +59,8 @@
     "SE-049",
     "SE-050",
     "SE-051",
+    "SE-053",
+    "SE-054",
     "SE-056",
     "SE-058",
     "SE-059",
@@ -86,12 +86,12 @@
     "asset_fault_recovery": "UNVERIFIED",
     "local_real_worker_route": "UNVERIFIED",
     "bundle_and_cold_network": "UNVERIFIED",
-    "indexedDB_firefox": "PASS",
-    "indexedDB_webkit": "PASS",
+    "indexedDB_firefox": "UNVERIFIED",
+    "indexedDB_webkit": "UNVERIFIED",
     "stolen_stock_unit_invariants": "UNVERIFIED",
-    "stolen_stock_and_restitution_chromium": "PASS",
-    "stolen_stock_and_restitution_firefox": "PASS",
-    "stolen_stock_and_restitution_webkit": "PASS",
+    "stolen_stock_and_restitution_chromium": "UNVERIFIED",
+    "stolen_stock_and_restitution_firefox": "UNVERIFIED",
+    "stolen_stock_and_restitution_webkit": "UNVERIFIED",
     "cold_start_character_chromium": "UNVERIFIED",
     "cold_start_character_firefox": "UNVERIFIED",
     "cold_start_character_webkit": "UNVERIFIED",
@@ -130,7 +130,12 @@
     "asset_fault_recovery",
     "local_real_worker_route",
     "bundle_and_cold_network",
+    "indexedDB_firefox",
+    "indexedDB_webkit",
     "stolen_stock_unit_invariants",
+    "stolen_stock_and_restitution_chromium",
+    "stolen_stock_and_restitution_firefox",
+    "stolen_stock_and_restitution_webkit",
     "cold_start_character_chromium",
     "cold_start_character_firefox",
     "cold_start_character_webkit",
@@ -152,7 +157,7 @@
       "automation": "Playwright",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/current-receipts/8b6e93666e95de42f5f7b346eb50e6d0e56eb85df90ea3ccc060071591c6ad8a.json"
+        "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json"
       ],
       "seed": null,
       "environment": [],
@@ -163,7 +168,7 @@
           "status": "PASS",
           "reason": "Fresh browser opened the character menu.",
           "receipt": "browser-chromium/results.json",
-          "evidence": "artifacts/social-engine/current-receipts/8b6e93666e95de42f5f7b346eb50e6d0e56eb85df90ea3ccc060071591c6ad8a.json",
+          "evidence": "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json",
           "caseIds": [
             "SE-001"
           ],
@@ -184,7 +189,7 @@
       "automation": "E2E",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/current-receipts/8b6e93666e95de42f5f7b346eb50e6d0e56eb85df90ea3ccc060071591c6ad8a.json"
+        "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json"
       ],
       "seed": null,
       "environment": [],
@@ -195,7 +200,7 @@
           "status": "PASS",
           "reason": "New profile created the canonical player with 1,100 NPCs.",
           "receipt": "browser-chromium/results.json",
-          "evidence": "artifacts/social-engine/current-receipts/8b6e93666e95de42f5f7b346eb50e6d0e56eb85df90ea3ccc060071591c6ad8a.json",
+          "evidence": "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json",
           "caseIds": [
             "SE-002,SE-004"
           ],
@@ -252,7 +257,7 @@
       "automation": "E2E",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/current-receipts/8b6e93666e95de42f5f7b346eb50e6d0e56eb85df90ea3ccc060071591c6ad8a.json"
+        "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json"
       ],
       "seed": null,
       "environment": [],
@@ -263,7 +268,7 @@
           "status": "PASS",
           "reason": "Player name, background and appearance matched the selected values.",
           "receipt": "browser-chromium/results.json",
-          "evidence": "artifacts/social-engine/current-receipts/8b6e93666e95de42f5f7b346eb50e6d0e56eb85df90ea3ccc060071591c6ad8a.json",
+          "evidence": "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json",
           "caseIds": [
             "SE-002,SE-004"
           ],
@@ -284,7 +289,7 @@
       "automation": "E2E",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/current-receipts/8b6e93666e95de42f5f7b346eb50e6d0e56eb85df90ea3ccc060071591c6ad8a.json"
+        "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json"
       ],
       "seed": null,
       "environment": [],
@@ -295,7 +300,7 @@
           "status": "PASS",
           "reason": "Invalid name produced a form error and kept character creation open.",
           "receipt": "browser-chromium/results.json",
-          "evidence": "artifacts/social-engine/current-receipts/8b6e93666e95de42f5f7b346eb50e6d0e56eb85df90ea3ccc060071591c6ad8a.json",
+          "evidence": "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json",
           "caseIds": [
             "SE-005"
           ],
@@ -330,8 +335,8 @@
           "browser": "151.0.7922.34"
         }
       ],
-      "build_sha": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-      "duration_ms": 286.9581659999999,
+      "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+      "duration_ms": 193.8633749999999,
       "checks": [
         {
           "status": "UNVERIFIED",
@@ -343,8 +348,8 @@
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-          "duration_ms": 93.094791,
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
           "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
         },
         {
@@ -372,7 +377,7 @@
       "automation": "E2E",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/current-receipts/8b6e93666e95de42f5f7b346eb50e6d0e56eb85df90ea3ccc060071591c6ad8a.json"
+        "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json"
       ],
       "seed": null,
       "environment": [],
@@ -383,7 +388,7 @@
           "status": "PASS",
           "reason": "Physical D moved screen-right and real canvas clicks arrived within 0.2 world units.",
           "receipt": "browser-chromium/results.json",
-          "evidence": "artifacts/social-engine/current-receipts/8b6e93666e95de42f5f7b346eb50e6d0e56eb85df90ea3ccc060071591c6ad8a.json",
+          "evidence": "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json",
           "caseIds": [
             "SE-007-keyboard",
             "SE-007-click,SE-009"
@@ -414,14 +419,14 @@
       "checks": [
         {
           "status": "UNVERIFIED",
-          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 80123c1a19ba remains unverified for this check.",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest e7ac6b6902a8 remains unverified for this check.",
           "receipt": "browser-evidence/results.json",
           "evidence": "artifacts/social-engine/browser-evidence/results.json"
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 80123c1a19ba remains unverified for this check."
+      "reason": "Historical manifest 5f6ee17a0a8c. Current manifest e7ac6b6902a8 remains unverified for this check."
     },
     {
       "id": "SE-009",
@@ -433,7 +438,7 @@
       "automation": "E2E",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/current-receipts/8b6e93666e95de42f5f7b346eb50e6d0e56eb85df90ea3ccc060071591c6ad8a.json"
+        "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json"
       ],
       "seed": null,
       "environment": [],
@@ -444,7 +449,7 @@
           "status": "PASS",
           "reason": "Canvas destination matched inverse picking at both 1440×900 and 1280×720.",
           "receipt": "browser-chromium/results.json",
-          "evidence": "artifacts/social-engine/current-receipts/8b6e93666e95de42f5f7b346eb50e6d0e56eb85df90ea3ccc060071591c6ad8a.json",
+          "evidence": "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json",
           "caseIds": [
             "SE-007-click,SE-009"
           ],
@@ -475,8 +480,8 @@
           "cpu": "Apple M2"
         }
       ],
-      "build_sha": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-      "duration_ms": 6702.736375,
+      "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+      "duration_ms": null,
       "checks": [
         {
           "status": "UNVERIFIED",
@@ -488,8 +493,8 @@
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-          "duration_ms": 6702.736375,
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
           "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
         }
       ],
@@ -517,8 +522,8 @@
           "cpu": "Apple M2"
         }
       ],
-      "build_sha": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-      "duration_ms": 1904.375083,
+      "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+      "duration_ms": null,
       "checks": [
         {
           "status": "UNVERIFIED",
@@ -530,8 +535,8 @@
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-          "duration_ms": 1904.375083,
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
           "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
         }
       ],
@@ -559,8 +564,8 @@
           "cpu": "Apple M2"
         }
       ],
-      "build_sha": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-      "duration_ms": 6702.736375,
+      "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+      "duration_ms": null,
       "checks": [
         {
           "status": "UNVERIFIED",
@@ -572,8 +577,8 @@
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-          "duration_ms": 6702.736375,
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
           "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
         }
       ],
@@ -591,7 +596,7 @@
       "automation": "E2E",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/current-receipts/8b6e93666e95de42f5f7b346eb50e6d0e56eb85df90ea3ccc060071591c6ad8a.json"
+        "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json"
       ],
       "seed": null,
       "environment": [],
@@ -602,7 +607,7 @@
           "status": "PASS",
           "reason": "Market entry succeeded and an interior purchase worked.",
           "receipt": "browser-chromium/results.json",
-          "evidence": "artifacts/social-engine/current-receipts/8b6e93666e95de42f5f7b346eb50e6d0e56eb85df90ea3ccc060071591c6ad8a.json",
+          "evidence": "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json",
           "caseIds": [
             "SE-013,SE-022"
           ],
@@ -623,7 +628,7 @@
       "automation": "E2E",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/current-receipts/8b6e93666e95de42f5f7b346eb50e6d0e56eb85df90ea3ccc060071591c6ad8a.json"
+        "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json"
       ],
       "seed": null,
       "environment": [],
@@ -634,7 +639,7 @@
           "status": "PASS",
           "reason": "Exit returned the player outside within 0.1 world units of the expected door.",
           "receipt": "browser-chromium/results.json",
-          "evidence": "artifacts/social-engine/current-receipts/8b6e93666e95de42f5f7b346eb50e6d0e56eb85df90ea3ccc060071591c6ad8a.json",
+          "evidence": "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json",
           "caseIds": [
             "SE-014"
           ],
@@ -665,8 +670,8 @@
           "cpu": "Apple M2"
         }
       ],
-      "build_sha": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-      "duration_ms": 3739.470792,
+      "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+      "duration_ms": null,
       "checks": [
         {
           "status": "UNVERIFIED",
@@ -678,8 +683,8 @@
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-          "duration_ms": 3739.470792,
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
           "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
         }
       ],
@@ -697,7 +702,7 @@
       "automation": "E2E",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/current-receipts/8b6e93666e95de42f5f7b346eb50e6d0e56eb85df90ea3ccc060071591c6ad8a.json"
+        "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json"
       ],
       "seed": null,
       "environment": [],
@@ -708,7 +713,7 @@
           "status": "PASS",
           "reason": "The nearby named NPC accepted the greeting and a social edge was present.",
           "receipt": "browser-chromium/results.json",
-          "evidence": "artifacts/social-engine/current-receipts/8b6e93666e95de42f5f7b346eb50e6d0e56eb85df90ea3ccc060071591c6ad8a.json",
+          "evidence": "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json",
           "caseIds": [
             "SE-016"
           ],
@@ -739,8 +744,8 @@
           "cpu": "Apple M2"
         }
       ],
-      "build_sha": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-      "duration_ms": 1595.996166,
+      "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+      "duration_ms": null,
       "checks": [
         {
           "status": "UNVERIFIED",
@@ -752,8 +757,8 @@
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-          "duration_ms": 1595.996166,
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
           "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
         }
       ],
@@ -780,14 +785,14 @@
       "checks": [
         {
           "status": "UNVERIFIED",
-          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 80123c1a19ba remains unverified for this check.",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest e7ac6b6902a8 remains unverified for this check.",
           "receipt": "browser-evidence/results.json",
           "evidence": "artifacts/social-engine/browser-evidence/results.json"
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 80123c1a19ba remains unverified for this check."
+      "reason": "Historical manifest 5f6ee17a0a8c. Current manifest e7ac6b6902a8 remains unverified for this check."
     },
     {
       "id": "SE-019",
@@ -799,7 +804,7 @@
       "automation": "E2E",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/current-receipts/8b6e93666e95de42f5f7b346eb50e6d0e56eb85df90ea3ccc060071591c6ad8a.json"
+        "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json"
       ],
       "seed": null,
       "environment": [],
@@ -810,7 +815,7 @@
           "status": "PASS",
           "reason": "The completed retail shift raised the player balance and produced one payroll entry.",
           "receipt": "browser-chromium/results.json",
-          "evidence": "artifacts/social-engine/current-receipts/8b6e93666e95de42f5f7b346eb50e6d0e56eb85df90ea3ccc060071591c6ad8a.json",
+          "evidence": "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json",
           "caseIds": [
             "SE-019,SE-020"
           ],
@@ -841,8 +846,8 @@
           "cpu": "Apple M2"
         }
       ],
-      "build_sha": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-      "duration_ms": 5161.666875,
+      "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+      "duration_ms": null,
       "checks": [
         {
           "status": "UNVERIFIED",
@@ -854,8 +859,8 @@
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-          "duration_ms": 5161.666875,
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
           "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
         }
       ],
@@ -883,8 +888,8 @@
           "cpu": "Apple M2"
         }
       ],
-      "build_sha": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-      "duration_ms": 7564.508875,
+      "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+      "duration_ms": null,
       "checks": [
         {
           "status": "UNVERIFIED",
@@ -896,8 +901,8 @@
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-          "duration_ms": 7564.508875,
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
           "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
         }
       ],
@@ -915,7 +920,7 @@
       "automation": "Ledger",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/current-receipts/8b6e93666e95de42f5f7b346eb50e6d0e56eb85df90ea3ccc060071591c6ad8a.json"
+        "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json"
       ],
       "seed": null,
       "environment": [],
@@ -932,15 +937,15 @@
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-          "duration_ms": 70.820625,
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
           "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
         },
         {
           "status": "PASS",
           "reason": "Completed explicit browser assertion SE-022-stock-cash.",
           "receipt": "browser-chromium/results.json",
-          "evidence": "artifacts/social-engine/current-receipts/8b6e93666e95de42f5f7b346eb50e6d0e56eb85df90ea3ccc060071591c6ad8a.json",
+          "evidence": "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json",
           "assertion": "SE-022-stock-cash"
         }
       ],
@@ -968,8 +973,8 @@
           "cpu": "Apple M2"
         }
       ],
-      "build_sha": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-      "duration_ms": 70.820625,
+      "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+      "duration_ms": null,
       "checks": [
         {
           "status": "UNVERIFIED",
@@ -981,8 +986,8 @@
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-          "duration_ms": 70.820625,
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
           "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
         }
       ],
@@ -1010,8 +1015,8 @@
           "cpu": "Apple M2"
         }
       ],
-      "build_sha": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-      "duration_ms": 110414.658666,
+      "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+      "duration_ms": null,
       "checks": [
         {
           "status": "UNVERIFIED",
@@ -1023,8 +1028,8 @@
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-          "duration_ms": 110414.658666,
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
           "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
         }
       ],
@@ -1052,8 +1057,8 @@
           "cpu": "Apple M2"
         }
       ],
-      "build_sha": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-      "duration_ms": 87.131292,
+      "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+      "duration_ms": null,
       "checks": [
         {
           "status": "UNVERIFIED",
@@ -1065,8 +1070,8 @@
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-          "duration_ms": 87.131292,
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
           "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
         }
       ],
@@ -1107,8 +1112,8 @@
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-          "duration_ms": 37807.511375,
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
           "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
         },
         {
@@ -1148,8 +1153,8 @@
           "cpu": "Apple M2"
         }
       ],
-      "build_sha": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-      "duration_ms": 355.86458400000004,
+      "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+      "duration_ms": null,
       "checks": [
         {
           "status": "UNVERIFIED",
@@ -1161,8 +1166,8 @@
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-          "duration_ms": 355.86458400000004,
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
           "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
         }
       ],
@@ -1190,8 +1195,8 @@
           "cpu": "Apple M2"
         }
       ],
-      "build_sha": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-      "duration_ms": 4221.658083,
+      "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+      "duration_ms": null,
       "checks": [
         {
           "status": "UNVERIFIED",
@@ -1203,8 +1208,8 @@
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-          "duration_ms": 4221.658083,
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
           "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
         }
       ],
@@ -1222,7 +1227,7 @@
       "automation": "Scenario",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/current-receipts/8b6e93666e95de42f5f7b346eb50e6d0e56eb85df90ea3ccc060071591c6ad8a.json"
+        "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json"
       ],
       "seed": null,
       "environment": [],
@@ -1239,15 +1244,15 @@
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-          "duration_ms": 641.523958,
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
           "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
         },
         {
           "status": "PASS",
           "reason": "Assault damaged the target, created a case and triggered a wanted state.",
           "receipt": "browser-chromium/results.json",
-          "evidence": "artifacts/social-engine/current-receipts/8b6e93666e95de42f5f7b346eb50e6d0e56eb85df90ea3ccc060071591c6ad8a.json",
+          "evidence": "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json",
           "caseIds": [
             "SE-031,SE-029,SE-030"
           ],
@@ -1268,7 +1273,7 @@
       "automation": "FSM",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/current-receipts/8b6e93666e95de42f5f7b346eb50e6d0e56eb85df90ea3ccc060071591c6ad8a.json"
+        "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json"
       ],
       "seed": null,
       "environment": [],
@@ -1285,15 +1290,15 @@
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-          "duration_ms": 372.790666,
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
           "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
         },
         {
           "status": "PASS",
           "reason": "Surrender ended the active pursuit.",
           "receipt": "browser-chromium/results.json",
-          "evidence": "artifacts/social-engine/current-receipts/8b6e93666e95de42f5f7b346eb50e6d0e56eb85df90ea3ccc060071591c6ad8a.json",
+          "evidence": "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json",
           "caseIds": [
             "SE-031,SE-029,SE-030"
           ],
@@ -1314,7 +1319,7 @@
       "automation": "E2E",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/current-receipts/8b6e93666e95de42f5f7b346eb50e6d0e56eb85df90ea3ccc060071591c6ad8a.json"
+        "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json"
       ],
       "seed": null,
       "environment": [],
@@ -1331,15 +1336,15 @@
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-          "duration_ms": 365.152417,
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
           "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
         },
         {
           "status": "PASS",
           "reason": "Completed explicit browser assertion SE-031-stamina-block.",
           "receipt": "browser-chromium/results.json",
-          "evidence": "artifacts/social-engine/current-receipts/8b6e93666e95de42f5f7b346eb50e6d0e56eb85df90ea3ccc060071591c6ad8a.json",
+          "evidence": "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json",
           "assertion": "SE-031-stamina-block"
         }
       ],
@@ -1367,8 +1372,8 @@
           "cpu": "Apple M2"
         }
       ],
-      "build_sha": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-      "duration_ms": 7558.467958,
+      "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+      "duration_ms": null,
       "checks": [
         {
           "status": "UNVERIFIED",
@@ -1380,8 +1385,8 @@
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-          "duration_ms": 7558.467958,
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
           "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
         }
       ],
@@ -1399,7 +1404,7 @@
       "automation": "E2E",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/current-receipts/8b6e93666e95de42f5f7b346eb50e6d0e56eb85df90ea3ccc060071591c6ad8a.json"
+        "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json"
       ],
       "seed": null,
       "environment": [],
@@ -1410,12 +1415,12 @@
           "status": "PASS",
           "reason": "Completed explicit browser assertion SE-033-exact-position.",
           "receipt": "browser-chromium/results.json",
-          "evidence": "artifacts/social-engine/current-receipts/8b6e93666e95de42f5f7b346eb50e6d0e56eb85df90ea3ccc060071591c6ad8a.json",
+          "evidence": "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json",
           "assertion": "SE-033-exact-position"
         },
         {
           "status": "UNVERIFIED",
-          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 80123c1a19ba remains unverified for this check.",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest e7ac6b6902a8 remains unverified for this check.",
           "receipt": "browser-evidence/results.json",
           "evidence": "artifacts/social-engine/browser-evidence/results.json"
         }
@@ -1444,8 +1449,8 @@
           "cpu": "Apple M2"
         }
       ],
-      "build_sha": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-      "duration_ms": 5750.702875,
+      "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+      "duration_ms": null,
       "checks": [
         {
           "status": "UNVERIFIED",
@@ -1457,8 +1462,8 @@
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-          "duration_ms": 5750.702875,
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
           "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
         }
       ],
@@ -1476,7 +1481,7 @@
       "automation": "FSM",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/current-receipts/8b6e93666e95de42f5f7b346eb50e6d0e56eb85df90ea3ccc060071591c6ad8a.json"
+        "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json"
       ],
       "seed": null,
       "environment": [],
@@ -1493,15 +1498,15 @@
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-          "duration_ms": 176879.797458,
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
           "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
         },
         {
           "status": "PASS",
           "reason": "The second quest completion was rejected and cash stayed unchanged.",
           "receipt": "browser-chromium/results.json",
-          "evidence": "artifacts/social-engine/current-receipts/8b6e93666e95de42f5f7b346eb50e6d0e56eb85df90ea3ccc060071591c6ad8a.json",
+          "evidence": "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json",
           "caseIds": [
             "SE-035"
           ],
@@ -1532,8 +1537,8 @@
           "cpu": "Apple M2"
         }
       ],
-      "build_sha": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-      "duration_ms": 56.124167,
+      "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+      "duration_ms": null,
       "checks": [
         {
           "status": "UNVERIFIED",
@@ -1545,8 +1550,8 @@
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-          "duration_ms": 56.124167,
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
           "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
         }
       ],
@@ -1617,8 +1622,8 @@
           ]
         }
       ],
-      "build_sha": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-      "duration_ms": 1587705.077083,
+      "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+      "duration_ms": 1536106.781,
       "checks": [
         {
           "status": "UNVERIFIED",
@@ -1630,8 +1635,8 @@
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-          "duration_ms": 51598.296083,
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
           "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
         },
         {
@@ -1710,8 +1715,8 @@
           "cpu": "Apple M2"
         }
       ],
-      "build_sha": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-      "duration_ms": 51598.296083,
+      "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+      "duration_ms": null,
       "checks": [
         {
           "status": "UNVERIFIED",
@@ -1723,8 +1728,8 @@
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-          "duration_ms": 51598.296083,
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
           "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
         }
       ],
@@ -1765,8 +1770,8 @@
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-          "duration_ms": 37807.511375,
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
           "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
         },
         {
@@ -1819,8 +1824,8 @@
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "4798bdab80a17f89588f71b3eb28c0ee05a633d8",
-          "duration_ms": 37807.511375,
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
           "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
         },
         {
@@ -1848,28 +1853,28 @@
       "expected": "Sağlam kayıt korunur",
       "priority": "P0",
       "automation": "Fault",
-      "status": "PASS",
+      "status": "UNVERIFIED",
       "evidence": [
-        "artifacts/social-engine/current-receipts/38c94d7b505ba013143b01bd597331eef657b7f22c2c3766d6ff9770f71e7f08.json"
+        "artifacts/social-engine/persistence-browser/results.json"
       ],
       "seed": null,
       "environment": [
         {
           "browser": "151.0.7922.34",
-          "probeSha256": "352dc74e537c03f30a7e5310bf35126e8d8250f6fab4d0ae2f6b9a54e814802b"
+          "probeSha256": "38435187ab295928c54c77ed588254409e45e713df21d14a03bfe52eb25d48f6"
         }
       ],
       "build_sha": null,
       "duration_ms": null,
       "checks": [
         {
-          "status": "PASS",
+          "status": "UNVERIFIED",
           "reason": "closing a tab during an active write preserves the last committed state",
           "receipt": "persistence-browser/results.json",
-          "evidence": "artifacts/social-engine/current-receipts/38c94d7b505ba013143b01bd597331eef657b7f22c2c3766d6ff9770f71e7f08.json",
+          "evidence": "artifacts/social-engine/persistence-browser/results.json",
           "environment": {
             "browser": "151.0.7922.34",
-            "probeSha256": "352dc74e537c03f30a7e5310bf35126e8d8250f6fab4d0ae2f6b9a54e814802b"
+            "probeSha256": "38435187ab295928c54c77ed588254409e45e713df21d14a03bfe52eb25d48f6"
           },
           "scope": "Real browser IndexedDB with explicit corruption, quota, abort and frozen migration fixtures."
         }
@@ -1886,19 +1891,23 @@
       "expected": "Kayıp veya çoğalma yok",
       "priority": "P0",
       "automation": "E2E",
-      "status": "PASS",
+      "status": "UNVERIFIED",
       "evidence": [
-        "artifacts/social-engine/current-receipts/38c94d7b505ba013143b01bd597331eef657b7f22c2c3766d6ff9770f71e7f08.json"
+        "artifacts/social-engine/ui-browser/results.json",
+        "artifacts/social-engine/persistence-browser/results.json"
       ],
       "seed": null,
       "environment": [
         {
+          "browser": "151.0.7922.34"
+        },
+        {
           "browser": "151.0.7922.34",
-          "probeSha256": "352dc74e537c03f30a7e5310bf35126e8d8250f6fab4d0ae2f6b9a54e814802b"
+          "probeSha256": "38435187ab295928c54c77ed588254409e45e713df21d14a03bfe52eb25d48f6"
         }
       ],
       "build_sha": null,
-      "duration_ms": null,
+      "duration_ms": 41546.599709,
       "checks": [
         {
           "status": "UNVERIFIED",
@@ -1911,20 +1920,20 @@
           "duration_ms": 41546.599709
         },
         {
-          "status": "PASS",
+          "status": "UNVERIFIED",
           "reason": "export/import/copy/delete preserve world and unrelated slots",
           "receipt": "persistence-browser/results.json",
-          "evidence": "artifacts/social-engine/current-receipts/38c94d7b505ba013143b01bd597331eef657b7f22c2c3766d6ff9770f71e7f08.json",
+          "evidence": "artifacts/social-engine/persistence-browser/results.json",
           "environment": {
             "browser": "151.0.7922.34",
-            "probeSha256": "352dc74e537c03f30a7e5310bf35126e8d8250f6fab4d0ae2f6b9a54e814802b"
+            "probeSha256": "38435187ab295928c54c77ed588254409e45e713df21d14a03bfe52eb25d48f6"
           },
           "scope": "Real browser IndexedDB with explicit corruption, quota, abort and frozen migration fixtures."
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "export/import/copy/delete preserve world and unrelated slots"
+      "reason": "real save menu saves copies exports imports and deletes separate slots | export/import/copy/delete preserve world and unrelated slots"
     },
     {
       "id": "SE-043",
@@ -1934,30 +1943,31 @@
       "expected": "Veri korunur",
       "priority": "P0",
       "automation": "Migration",
-      "status": "PASS",
+      "status": "UNVERIFIED",
       "evidence": [
-        "artifacts/social-engine/current-receipts/38c94d7b505ba013143b01bd597331eef657b7f22c2c3766d6ff9770f71e7f08.json",
-        "artifacts/social-engine/current-receipts/5e5b33970ad8273b6e48fe443b575bb787904983588435be88282c970c038d59.json",
-        "artifacts/social-engine/current-receipts/243f5ff54191e065ef695ae9ce65dd77892601e6e02b329c73c8e6de7d317544.json"
+        "artifacts/social-engine/persistence-browser/results.json",
+        "artifacts/social-engine/acceptance-unit.json",
+        "artifacts/social-engine/persistence-browser-firefox/results.json",
+        "artifacts/social-engine/persistence-browser-webkit/results.json"
       ],
       "seed": null,
       "environment": [
         {
           "browser": "151.0.7922.34",
-          "probeSha256": "352dc74e537c03f30a7e5310bf35126e8d8250f6fab4d0ae2f6b9a54e814802b"
+          "probeSha256": "38435187ab295928c54c77ed588254409e45e713df21d14a03bfe52eb25d48f6"
         }
       ],
       "build_sha": null,
       "duration_ms": null,
       "checks": [
         {
-          "status": "PASS",
+          "status": "UNVERIFIED",
           "reason": "migration is atomic, retryable and retains frozen source bytes; authentic v2 save migrates through an explicit journal to schema4; authentic v3 lifecycle history migrates through explicit3-to4 journal",
           "receipt": "persistence-browser/results.json",
-          "evidence": "artifacts/social-engine/current-receipts/38c94d7b505ba013143b01bd597331eef657b7f22c2c3766d6ff9770f71e7f08.json",
+          "evidence": "artifacts/social-engine/persistence-browser/results.json",
           "environment": {
             "browser": "151.0.7922.34",
-            "probeSha256": "352dc74e537c03f30a7e5310bf35126e8d8250f6fab4d0ae2f6b9a54e814802b"
+            "probeSha256": "38435187ab295928c54c77ed588254409e45e713df21d14a03bfe52eb25d48f6"
           },
           "scope": "Real browser IndexedDB with explicit corruption, quota, abort and frozen migration fixtures."
         },
@@ -1968,27 +1978,27 @@
           "evidence": "artifacts/social-engine/acceptance-unit.json"
         },
         {
-          "status": "PASS",
+          "status": "UNVERIFIED",
           "reason": "An authentic compressed v5 snapshot and a nonempty command journal must both survive the upgrade to v6.",
           "receipt": "persistence-browser/results.json",
-          "evidence": "artifacts/social-engine/current-receipts/38c94d7b505ba013143b01bd597331eef657b7f22c2c3766d6ff9770f71e7f08.json"
+          "evidence": "artifacts/social-engine/persistence-browser/results.json"
         },
         {
-          "status": "PASS",
+          "status": "UNVERIFIED",
           "reason": "An authentic compressed v5 snapshot and a nonempty command journal must both survive the upgrade to v6.",
           "receipt": "persistence-browser-firefox/results.json",
-          "evidence": "artifacts/social-engine/current-receipts/5e5b33970ad8273b6e48fe443b575bb787904983588435be88282c970c038d59.json"
+          "evidence": "artifacts/social-engine/persistence-browser-firefox/results.json"
         },
         {
-          "status": "PASS",
+          "status": "UNVERIFIED",
           "reason": "An authentic compressed v5 snapshot and a nonempty command journal must both survive the upgrade to v6.",
           "receipt": "persistence-browser-webkit/results.json",
-          "evidence": "artifacts/social-engine/current-receipts/243f5ff54191e065ef695ae9ce65dd77892601e6e02b329c73c8e6de7d317544.json"
+          "evidence": "artifacts/social-engine/persistence-browser-webkit/results.json"
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "migration is atomic, retryable and retains frozen source bytes; authentic v2 save migrates through an explicit journal to schema4; authentic v3 lifecycle history migrates through explicit3-to4 journal | An authentic compressed v5 snapshot and a nonempty command journal must both survive the upgrade to v6. | An authentic compressed v5 snapshot and a nonempty command journal must both survive the upgrade to v6. | An authentic compressed v5 snapshot and a nonempty command journal must both survive the upgrade to v6."
+      "reason": "migration is atomic, retryable and retains frozen source bytes; authentic v2 save migrates through an explicit journal to schema4; authentic v3 lifecycle history migrates through explicit3-to4 journal | Current source-bound unit assertions were not verified for this criterion. | An authentic compressed v5 snapshot and a nonempty command journal must both survive the upgrade to v6. | An authentic compressed v5 snapshot and a nonempty command journal must both survive the upgrade to v6. | An authentic compressed v5 snapshot and a nonempty command journal must both survive the upgrade to v6."
     },
     {
       "id": "SE-044",
@@ -1998,28 +2008,28 @@
       "expected": "İdempotent",
       "priority": "P0",
       "automation": "Fault",
-      "status": "PASS",
+      "status": "UNVERIFIED",
       "evidence": [
-        "artifacts/social-engine/current-receipts/38c94d7b505ba013143b01bd597331eef657b7f22c2c3766d6ff9770f71e7f08.json"
+        "artifacts/social-engine/persistence-browser/results.json"
       ],
       "seed": null,
       "environment": [
         {
           "browser": "151.0.7922.34",
-          "probeSha256": "352dc74e537c03f30a7e5310bf35126e8d8250f6fab4d0ae2f6b9a54e814802b"
+          "probeSha256": "38435187ab295928c54c77ed588254409e45e713df21d14a03bfe52eb25d48f6"
         }
       ],
       "build_sha": null,
       "duration_ms": null,
       "checks": [
         {
-          "status": "PASS",
+          "status": "UNVERIFIED",
           "reason": "migration is atomic, retryable and retains frozen source bytes",
           "receipt": "persistence-browser/results.json",
-          "evidence": "artifacts/social-engine/current-receipts/38c94d7b505ba013143b01bd597331eef657b7f22c2c3766d6ff9770f71e7f08.json",
+          "evidence": "artifacts/social-engine/persistence-browser/results.json",
           "environment": {
             "browser": "151.0.7922.34",
-            "probeSha256": "352dc74e537c03f30a7e5310bf35126e8d8250f6fab4d0ae2f6b9a54e814802b"
+            "probeSha256": "38435187ab295928c54c77ed588254409e45e713df21d14a03bfe52eb25d48f6"
           },
           "scope": "Real browser IndexedDB with explicit corruption, quota, abort and frozen migration fixtures."
         }
@@ -2047,14 +2057,14 @@
       "checks": [
         {
           "status": "UNVERIFIED",
-          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 80123c1a19ba remains unverified for this check.",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest e7ac6b6902a8 remains unverified for this check.",
           "receipt": "v4-browser/results.json",
           "evidence": "artifacts/social-engine/v4-browser/results.json"
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 80123c1a19ba remains unverified for this check."
+      "reason": "Historical manifest 5f6ee17a0a8c. Current manifest e7ac6b6902a8 remains unverified for this check."
     },
     {
       "id": "SE-046",
@@ -2414,7 +2424,7 @@
       "automation": "Trace",
       "status": "UNVERIFIED",
       "evidence": [
-        "artifacts/social-engine/performance/2026-11-04T10-50-15-398Z/report.json"
+        "artifacts/social-engine/performance/2026-11-04T06-41-57-572Z/report.json"
       ],
       "seed": null,
       "environment": [],
@@ -2424,8 +2434,8 @@
         {
           "status": "UNVERIFIED",
           "reason": "The Apple M2 host is not the specified four-core reference PC. Its measured frame times cannot satisfy this precondition.",
-          "receipt": "performance/2026-11-04T10-50-15-398Z/report.json",
-          "evidence": "artifacts/social-engine/performance/2026-11-04T10-50-15-398Z/report.json"
+          "receipt": "performance/2026-11-04T06-41-57-572Z/report.json",
+          "evidence": "artifacts/social-engine/performance/2026-11-04T06-41-57-572Z/report.json"
         }
       ],
       "owner": "SOCIAL ENGINE QA",
@@ -2442,7 +2452,7 @@
       "automation": "Trace",
       "status": "UNVERIFIED",
       "evidence": [
-        "artifacts/social-engine/performance/2026-11-04T10-50-15-398Z/report.json"
+        "artifacts/social-engine/performance/2026-11-04T06-41-57-572Z/report.json"
       ],
       "seed": null,
       "environment": [
@@ -2474,30 +2484,30 @@
             "gpu": {
               "devices": [
                 {
-                  "vendorId": 4203,
-                  "deviceId": 0,
-                  "vendorString": "Google Inc. (Apple)",
-                  "deviceString": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Version 26.7.1 (Build 25G241))",
-                  "driverVendor": "Apple",
-                  "driverVersion": "26.7.1"
+                  "vendorId": 65535,
+                  "deviceId": 65535,
+                  "vendorString": "Google Inc. (Google)",
+                  "deviceString": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (LLVM 10.0.0) (0x0000C0DE)), SwiftShader driver-5.0.0)",
+                  "driverVendor": "SwANGLE",
+                  "driverVersion": "5.0.0"
                 }
               ],
               "auxAttributes": {
                 "amdSwitchable": false,
                 "canSupportThreadedTextureMailbox": false,
                 "directRenderingVersion": "",
-                "displayType": "ANGLE_METAL",
-                "glExtensions": "GL_AMD_performance_monitor GL_ANGLE_base_vertex_base_instance_shader_builtin GL_ANGLE_blob_cache GL_ANGLE_client_arrays GL_ANGLE_clip_cull_distance GL_ANGLE_compressed_texture_etc GL_ANGLE_depth_texture GL_ANGLE_framebuffer_blit GL_ANGLE_framebuffer_multisample GL_ANGLE_get_serialized_context_string GL_ANGLE_get_tex_level_parameter GL_ANGLE_instanced_arrays GL_ANGLE_memory_size GL_ANGLE_pack_reverse_row_order GL_ANGLE_polygon_mode GL_ANGLE_program_binary_readiness_query GL_ANGLE_program_cache_control GL_ANGLE_provoking_vertex GL_ANGLE_renderability_validation GL_ANGLE_request_extension GL_ANGLE_rgbx_internal_format GL_ANGLE_robust_client_memory GL_ANGLE_shader_pixel_local_storage GL_ANGLE_shader_pixel_local_storage_coherent GL_ANGLE_stencil_texturing GL_ANGLE_texture_compression_dxt3 GL_ANGLE_texture_compression_dxt5 GL_ANGLE_texture_multisample GL_ANGLE_translated_shader_source GL_APPLE_clip_distance GL_ARM_rgba8 GL_CHROMIUM_bind_generates_resource GL_CHROMIUM_bind_uniform_location GL_CHROMIUM_copy_texture GL_CHROMIUM_lose_context GL_EXT_base_instance GL_EXT_blend_func_extended GL_EXT_blend_minmax GL_EXT_clip_control GL_EXT_color_buffer_float GL_EXT_color_buffer_half_float GL_EXT_compressed_ETC1_RGB8_sub_texture GL_EXT_conservative_depth GL_EXT_debug_label GL_EXT_debug_marker GL_EXT_depth_clamp GL_EXT_discard_framebuffer GL_EXT_disjoint_timer_query GL_EXT_draw_buffers GL_EXT_draw_buffers_indexed GL_EXT_draw_elements_base_vertex GL_EXT_float_blend GL_EXT_frag_depth GL_EXT_instanced_arrays GL_EXT_map_buffer_range GL_EXT_multisampled_render_to_texture GL_EXT_occlusion_query_boolean GL_EXT_polygon_offset_clamp GL_EXT_pvrtc_sRGB GL_EXT_read_format_bgra GL_EXT_render_snorm GL_EXT_robustness GL_EXT_sRGB GL_EXT_shader_texture_lod GL_EXT_texture_compression_bptc GL_EXT_texture_compression_dxt1 GL_EXT_texture_compression_rgtc GL_EXT_texture_compression_s3tc_srgb GL_EXT_texture_filter_anisotropic GL_EXT_texture_format_BGRA8888 GL_EXT_texture_mirror_clamp_to_edge GL_EXT_texture_norm16 GL_EXT_texture_rg GL_EXT_texture_sRGB_R8 GL_EXT_texture_sRGB_RG8 GL_EXT_texture_shadow_lod GL_EXT_texture_storage GL_IMG_texture_compression_pvrtc GL_KHR_debug GL_KHR_parallel_shader_compile GL_KHR_robustness GL_KHR_texture_compression_astc_hdr GL_KHR_texture_compression_astc_ldr GL_KHR_texture_compression_astc_sliced_3d GL_MESA_framebuffer_flip_y GL_NV_fence GL_NV_framebuffer_blit GL_NV_pixel_buffer_object GL_NV_shader_noperspective_interpolation GL_OES_EGL_image GL_OES_EGL_sync GL_OES_compressed_EAC_R11_signed_texture GL_OES_compressed_EAC_R11_unsigned_texture GL_OES_compressed_EAC_RG11_signed_texture GL_OES_compressed_EAC_RG11_unsigned_texture GL_OES_compressed_ETC1_RGB8_texture GL_OES_compressed_ETC2_RGB8_texture GL_OES_compressed_ETC2_RGBA8_texture GL_OES_compressed_ETC2_punchthroughA_RGBA8_texture GL_OES_compressed_ETC2_punchthroughA_sRGB8_alpha_texture GL_OES_compressed_ETC2_sRGB8_alpha8_texture GL_OES_compressed_ETC2_sRGB8_texture GL_OES_depth24 GL_OES_depth32 GL_OES_depth_texture GL_OES_draw_buffers_indexed GL_OES_draw_elements_base_vertex GL_OES_element_index_uint GL_OES_fbo_render_mipmap GL_OES_get_program_binary GL_OES_mapbuffer GL_OES_packed_depth_stencil GL_OES_required_internalformat GL_OES_rgb8_rgba8 GL_OES_sample_variables GL_OES_shader_multisample_interpolation GL_OES_standard_derivatives GL_OES_surfaceless_context GL_OES_texture_3D GL_OES_texture_float GL_OES_texture_float_linear GL_OES_texture_half_float GL_OES_texture_half_float_linear GL_OES_texture_npot GL_OES_texture_stencil8 GL_OES_vertex_array_object GL_QCOM_render_shared_exponent ",
-                "glImplementationParts": "(gl=egl-angle,angle=metal)",
-                "glRenderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Version 26.7.1 (Build 25G241))",
+                "displayType": "ANGLE_SWIFTSHADER",
+                "glExtensions": "GL_AMD_performance_monitor GL_ANGLE_base_vertex_base_instance_shader_builtin GL_ANGLE_blob_cache GL_ANGLE_client_arrays GL_ANGLE_clip_cull_distance GL_ANGLE_compressed_texture_etc GL_ANGLE_copy_texture_3d GL_ANGLE_depth_texture GL_ANGLE_framebuffer_blit GL_ANGLE_framebuffer_multisample GL_ANGLE_get_image GL_ANGLE_get_serialized_context_string GL_ANGLE_get_tex_level_parameter GL_ANGLE_instanced_arrays GL_ANGLE_memory_object_flags GL_ANGLE_memory_size GL_ANGLE_multi_draw GL_ANGLE_pack_reverse_row_order GL_ANGLE_polygon_mode GL_ANGLE_program_binary_readiness_query GL_ANGLE_program_cache_control GL_ANGLE_read_only_depth_stencil_feedback_loops GL_ANGLE_relaxed_vertex_attribute_type GL_ANGLE_renderability_validation GL_ANGLE_request_extension GL_ANGLE_rgbx_internal_format GL_ANGLE_robust_client_memory GL_ANGLE_robust_fragment_shader_output GL_ANGLE_robust_resource_initialization GL_ANGLE_shader_pixel_local_storage GL_ANGLE_shader_pixel_local_storage_coherent GL_ANGLE_stencil_texturing GL_ANGLE_texture_compression_dxt3 GL_ANGLE_texture_compression_dxt5 GL_ANGLE_texture_multisample GL_ANGLE_texture_usage GL_ANGLE_translated_shader_source GL_ANGLE_vulkan_image GL_ANGLE_yuv_internal_format GL_APPLE_clip_distance GL_ARM_rgba8 GL_ARM_shader_framebuffer_fetch GL_ARM_shader_framebuffer_fetch_depth_stencil GL_CHROMIUM_bind_generates_resource GL_CHROMIUM_bind_uniform_location GL_CHROMIUM_copy_compressed_texture GL_CHROMIUM_copy_texture GL_CHROMIUM_lose_context GL_EXT_EGL_image_array GL_EXT_EGL_image_external_wrap_modes GL_EXT_EGL_image_storage GL_EXT_base_instance GL_EXT_blend_minmax GL_EXT_buffer_storage GL_EXT_clear_texture GL_EXT_clip_control GL_EXT_clip_cull_distance GL_EXT_color_buffer_float GL_EXT_color_buffer_half_float GL_EXT_compressed_ETC1_RGB8_sub_texture GL_EXT_conservative_depth GL_EXT_copy_image GL_EXT_debug_label GL_EXT_debug_marker GL_EXT_depth_clamp GL_EXT_discard_framebuffer GL_EXT_disjoint_timer_query GL_EXT_draw_buffers GL_EXT_draw_buffers_indexed GL_EXT_draw_elements_base_vertex GL_EXT_float_blend GL_EXT_frag_depth GL_EXT_instanced_arrays GL_EXT_map_buffer_range GL_EXT_memory_object GL_EXT_memory_object_fd GL_EXT_occlusion_query_boolean GL_EXT_polygon_offset_clamp GL_EXT_read_format_bgra GL_EXT_robustness GL_EXT_sRGB GL_EXT_sRGB_write_control GL_EXT_semaphore GL_EXT_separate_shader_objects GL_EXT_shader_framebuffer_fetch GL_EXT_shader_framebuffer_fetch_non_coherent GL_EXT_shader_non_constant_global_initializers GL_EXT_shader_texture_lod GL_EXT_shadow_samplers GL_EXT_texture_border_clamp GL_EXT_texture_compression_bptc GL_EXT_texture_compression_dxt1 GL_EXT_texture_compression_rgtc GL_EXT_texture_compression_s3tc_srgb GL_EXT_texture_cube_map_array GL_EXT_texture_filter_anisotropic GL_EXT_texture_format_BGRA8888 GL_EXT_texture_lod_bias GL_EXT_texture_mirror_clamp_to_edge GL_EXT_texture_rg GL_EXT_texture_sRGB_R8 GL_EXT_texture_sRGB_RG8 GL_EXT_texture_sRGB_decode GL_EXT_texture_shadow_lod GL_EXT_texture_storage GL_EXT_texture_type_2_10_10_10_REV GL_EXT_unpack_subimage GL_KHR_blend_equation_advanced GL_KHR_debug GL_KHR_robust_buffer_access_behavior GL_KHR_robustness GL_KHR_texture_compression_astc_ldr GL_NV_fence GL_NV_framebuffer_blit GL_NV_pack_subimage GL_NV_pixel_buffer_object GL_NV_polygon_mode GL_NV_read_depth GL_NV_read_depth_stencil GL_NV_read_stencil GL_NV_shader_noperspective_interpolation GL_OES_EGL_image GL_OES_EGL_image_external GL_OES_EGL_image_external_essl3 GL_OES_EGL_sync GL_OES_compressed_EAC_R11_signed_texture GL_OES_compressed_EAC_R11_unsigned_texture GL_OES_compressed_EAC_RG11_signed_texture GL_OES_compressed_EAC_RG11_unsigned_texture GL_OES_compressed_ETC1_RGB8_texture GL_OES_compressed_ETC2_RGB8_texture GL_OES_compressed_ETC2_RGBA8_texture GL_OES_compressed_ETC2_punchthroughA_RGBA8_texture GL_OES_compressed_ETC2_punchthroughA_sRGB8_alpha_texture GL_OES_compressed_ETC2_sRGB8_alpha8_texture GL_OES_compressed_ETC2_sRGB8_texture GL_OES_compressed_paletted_texture GL_OES_copy_image GL_OES_depth24 GL_OES_depth32 GL_OES_depth_texture GL_OES_depth_texture_cube_map GL_OES_draw_buffers_indexed GL_OES_draw_elements_base_vertex GL_OES_element_index_uint GL_OES_fbo_render_mipmap GL_OES_get_program_binary GL_OES_mapbuffer GL_OES_packed_depth_stencil GL_OES_required_internalformat GL_OES_rgb8_rgba8 GL_OES_sample_shading GL_OES_sample_variables GL_OES_shader_multisample_interpolation GL_OES_standard_derivatives GL_OES_surfaceless_context GL_OES_texture_3D GL_OES_texture_border_clamp GL_OES_texture_cube_map_array GL_OES_texture_float GL_OES_texture_float_linear GL_OES_texture_half_float GL_OES_texture_half_float_linear GL_OES_texture_npot GL_OES_texture_stencil8 GL_OES_texture_storage_multisample_2d_array GL_OES_vertex_array_object GL_OES_vertex_half_float GL_OES_vertex_type_10_10_10_2 GL_OVR_multiview GL_OVR_multiview2 GL_QCOM_texture_lod_bias ",
+                "glImplementationParts": "(gl=egl-angle,angle=swiftshader)",
+                "glRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (LLVM 10.0.0) (0x0000C0DE)), SwiftShader driver-5.0.0)",
                 "glResetNotificationStrategy": 33362,
-                "glVendor": "Google Inc. (Apple)",
+                "glVendor": "Google Inc. (Google)",
                 "glVersion": "OpenGL ES 3.0 (ANGLE 2.1.28222 git hash: 6dab7c7e742b)",
                 "glWsExtensions": "",
                 "glWsVendor": "",
                 "glWsVersion": "",
                 "inProcessGpu": false,
-                "initializationTime": 0.10059,
+                "initializationTime": 1.157185,
                 "isAsan": false,
                 "isClangCoverage": false,
                 "jpegDecodeAcceleratorSupported": false,
@@ -2507,40 +2517,35 @@
                 "pixelShaderVersion": "3.00",
                 "processCrashCount": 0,
                 "sandboxed": false,
-                "skiaBackendType": "GraphiteDawnMetal",
+                "skiaBackendType": "None",
                 "subpixelFontRendering": true,
                 "targetCpuBits": 64,
                 "vertexShaderVersion": "3.00",
                 "visibilityCallbackCallCount": 0
               },
               "featureStatus": {
-                "2d_canvas": "enabled",
+                "2d_canvas": "unavailable_software",
                 "direct_rendering_display_compositor": "disabled_off_ok",
-                "gpu_compositing": "enabled",
+                "gpu_compositing": "disabled_software",
                 "multiple_raster_threads": "enabled_on",
-                "opengl": "enabled_on",
-                "rasterization": "enabled",
+                "opengl": "disabled_off",
+                "rasterization": "disabled_software",
                 "raw_draw": "disabled_off_ok",
-                "skia_graphite": "enabled_on",
+                "skia_graphite": "disabled_off",
                 "trees_in_viz": "disabled_off",
-                "video_decode": "enabled",
-                "video_encode": "enabled",
-                "webgl": "enabled",
-                "webgpu": "enabled",
-                "webnn": "disabled_off"
+                "video_decode": "disabled_software",
+                "video_encode": "disabled_software",
+                "webgl": "unavailable_software",
+                "webgpu": "unavailable_software",
+                "webnn": "unavailable_software"
               },
-              "driverBugWorkarounds": [
-                "disable_2d_canvas_auto_flush",
-                "enable_webgl_timer_query_extensions",
-                "disabled_extension_GL_KHR_blend_equation_advanced",
-                "disabled_extension_GL_KHR_blend_equation_advanced_coherent"
-              ],
+              "driverBugWorkarounds": [],
               "videoDecoding": [],
               "videoEncoding": []
             },
             "modelName": "Mac",
             "modelVersion": "14.7",
-            "commandLine": "../browsers/chromium_headless_shell-1234/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --use-gl=angle --use-angle=metal --enable-gpu --user-data-dir=/var/folders/k1/zprsgklx4xqbs2wb4cq59bsr0000gn/T/playwright_chromiumdev_profile-ORhDsw --remote-debugging-pipe --no-startup-window --use-mock-keychain --allow-pre-commit-input"
+            "commandLine": "../browsers/chromium_headless_shell-1234/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/var/folders/k1/zprsgklx4xqbs2wb4cq59bsr0000gn/T/playwright_chromiumdev_profile-H8MLuj --remote-debugging-pipe --no-startup-window --use-mock-keychain --use-gl=angle --use-angle=swiftshader-webgl --allow-pre-commit-input"
           }
         }
       ],
@@ -2549,9 +2554,9 @@
       "checks": [
         {
           "status": "UNVERIFIED",
-          "reason": "60 continuous minutes required; fixed-tick cross-check: UNVERIFIED. Receipt status: INTERRUPTED_OBSERVATION.",
-          "receipt": "performance/2026-11-04T10-50-15-398Z/report.json",
-          "evidence": "artifacts/social-engine/performance/2026-11-04T10-50-15-398Z/report.json",
+          "reason": "60 continuous minutes required; fixed-tick cross-check: UNVERIFIED. Receipt status: no current completed measurement.",
+          "receipt": "performance/2026-11-04T06-41-57-572Z/report.json",
+          "evidence": "artifacts/social-engine/performance/2026-11-04T06-41-57-572Z/report.json",
           "environment": {
             "platform": "darwin",
             "release": "25.6.0",
@@ -2580,30 +2585,30 @@
               "gpu": {
                 "devices": [
                   {
-                    "vendorId": 4203,
-                    "deviceId": 0,
-                    "vendorString": "Google Inc. (Apple)",
-                    "deviceString": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Version 26.7.1 (Build 25G241))",
-                    "driverVendor": "Apple",
-                    "driverVersion": "26.7.1"
+                    "vendorId": 65535,
+                    "deviceId": 65535,
+                    "vendorString": "Google Inc. (Google)",
+                    "deviceString": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (LLVM 10.0.0) (0x0000C0DE)), SwiftShader driver-5.0.0)",
+                    "driverVendor": "SwANGLE",
+                    "driverVersion": "5.0.0"
                   }
                 ],
                 "auxAttributes": {
                   "amdSwitchable": false,
                   "canSupportThreadedTextureMailbox": false,
                   "directRenderingVersion": "",
-                  "displayType": "ANGLE_METAL",
-                  "glExtensions": "GL_AMD_performance_monitor GL_ANGLE_base_vertex_base_instance_shader_builtin GL_ANGLE_blob_cache GL_ANGLE_client_arrays GL_ANGLE_clip_cull_distance GL_ANGLE_compressed_texture_etc GL_ANGLE_depth_texture GL_ANGLE_framebuffer_blit GL_ANGLE_framebuffer_multisample GL_ANGLE_get_serialized_context_string GL_ANGLE_get_tex_level_parameter GL_ANGLE_instanced_arrays GL_ANGLE_memory_size GL_ANGLE_pack_reverse_row_order GL_ANGLE_polygon_mode GL_ANGLE_program_binary_readiness_query GL_ANGLE_program_cache_control GL_ANGLE_provoking_vertex GL_ANGLE_renderability_validation GL_ANGLE_request_extension GL_ANGLE_rgbx_internal_format GL_ANGLE_robust_client_memory GL_ANGLE_shader_pixel_local_storage GL_ANGLE_shader_pixel_local_storage_coherent GL_ANGLE_stencil_texturing GL_ANGLE_texture_compression_dxt3 GL_ANGLE_texture_compression_dxt5 GL_ANGLE_texture_multisample GL_ANGLE_translated_shader_source GL_APPLE_clip_distance GL_ARM_rgba8 GL_CHROMIUM_bind_generates_resource GL_CHROMIUM_bind_uniform_location GL_CHROMIUM_copy_texture GL_CHROMIUM_lose_context GL_EXT_base_instance GL_EXT_blend_func_extended GL_EXT_blend_minmax GL_EXT_clip_control GL_EXT_color_buffer_float GL_EXT_color_buffer_half_float GL_EXT_compressed_ETC1_RGB8_sub_texture GL_EXT_conservative_depth GL_EXT_debug_label GL_EXT_debug_marker GL_EXT_depth_clamp GL_EXT_discard_framebuffer GL_EXT_disjoint_timer_query GL_EXT_draw_buffers GL_EXT_draw_buffers_indexed GL_EXT_draw_elements_base_vertex GL_EXT_float_blend GL_EXT_frag_depth GL_EXT_instanced_arrays GL_EXT_map_buffer_range GL_EXT_multisampled_render_to_texture GL_EXT_occlusion_query_boolean GL_EXT_polygon_offset_clamp GL_EXT_pvrtc_sRGB GL_EXT_read_format_bgra GL_EXT_render_snorm GL_EXT_robustness GL_EXT_sRGB GL_EXT_shader_texture_lod GL_EXT_texture_compression_bptc GL_EXT_texture_compression_dxt1 GL_EXT_texture_compression_rgtc GL_EXT_texture_compression_s3tc_srgb GL_EXT_texture_filter_anisotropic GL_EXT_texture_format_BGRA8888 GL_EXT_texture_mirror_clamp_to_edge GL_EXT_texture_norm16 GL_EXT_texture_rg GL_EXT_texture_sRGB_R8 GL_EXT_texture_sRGB_RG8 GL_EXT_texture_shadow_lod GL_EXT_texture_storage GL_IMG_texture_compression_pvrtc GL_KHR_debug GL_KHR_parallel_shader_compile GL_KHR_robustness GL_KHR_texture_compression_astc_hdr GL_KHR_texture_compression_astc_ldr GL_KHR_texture_compression_astc_sliced_3d GL_MESA_framebuffer_flip_y GL_NV_fence GL_NV_framebuffer_blit GL_NV_pixel_buffer_object GL_NV_shader_noperspective_interpolation GL_OES_EGL_image GL_OES_EGL_sync GL_OES_compressed_EAC_R11_signed_texture GL_OES_compressed_EAC_R11_unsigned_texture GL_OES_compressed_EAC_RG11_signed_texture GL_OES_compressed_EAC_RG11_unsigned_texture GL_OES_compressed_ETC1_RGB8_texture GL_OES_compressed_ETC2_RGB8_texture GL_OES_compressed_ETC2_RGBA8_texture GL_OES_compressed_ETC2_punchthroughA_RGBA8_texture GL_OES_compressed_ETC2_punchthroughA_sRGB8_alpha_texture GL_OES_compressed_ETC2_sRGB8_alpha8_texture GL_OES_compressed_ETC2_sRGB8_texture GL_OES_depth24 GL_OES_depth32 GL_OES_depth_texture GL_OES_draw_buffers_indexed GL_OES_draw_elements_base_vertex GL_OES_element_index_uint GL_OES_fbo_render_mipmap GL_OES_get_program_binary GL_OES_mapbuffer GL_OES_packed_depth_stencil GL_OES_required_internalformat GL_OES_rgb8_rgba8 GL_OES_sample_variables GL_OES_shader_multisample_interpolation GL_OES_standard_derivatives GL_OES_surfaceless_context GL_OES_texture_3D GL_OES_texture_float GL_OES_texture_float_linear GL_OES_texture_half_float GL_OES_texture_half_float_linear GL_OES_texture_npot GL_OES_texture_stencil8 GL_OES_vertex_array_object GL_QCOM_render_shared_exponent ",
-                  "glImplementationParts": "(gl=egl-angle,angle=metal)",
-                  "glRenderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Version 26.7.1 (Build 25G241))",
+                  "displayType": "ANGLE_SWIFTSHADER",
+                  "glExtensions": "GL_AMD_performance_monitor GL_ANGLE_base_vertex_base_instance_shader_builtin GL_ANGLE_blob_cache GL_ANGLE_client_arrays GL_ANGLE_clip_cull_distance GL_ANGLE_compressed_texture_etc GL_ANGLE_copy_texture_3d GL_ANGLE_depth_texture GL_ANGLE_framebuffer_blit GL_ANGLE_framebuffer_multisample GL_ANGLE_get_image GL_ANGLE_get_serialized_context_string GL_ANGLE_get_tex_level_parameter GL_ANGLE_instanced_arrays GL_ANGLE_memory_object_flags GL_ANGLE_memory_size GL_ANGLE_multi_draw GL_ANGLE_pack_reverse_row_order GL_ANGLE_polygon_mode GL_ANGLE_program_binary_readiness_query GL_ANGLE_program_cache_control GL_ANGLE_read_only_depth_stencil_feedback_loops GL_ANGLE_relaxed_vertex_attribute_type GL_ANGLE_renderability_validation GL_ANGLE_request_extension GL_ANGLE_rgbx_internal_format GL_ANGLE_robust_client_memory GL_ANGLE_robust_fragment_shader_output GL_ANGLE_robust_resource_initialization GL_ANGLE_shader_pixel_local_storage GL_ANGLE_shader_pixel_local_storage_coherent GL_ANGLE_stencil_texturing GL_ANGLE_texture_compression_dxt3 GL_ANGLE_texture_compression_dxt5 GL_ANGLE_texture_multisample GL_ANGLE_texture_usage GL_ANGLE_translated_shader_source GL_ANGLE_vulkan_image GL_ANGLE_yuv_internal_format GL_APPLE_clip_distance GL_ARM_rgba8 GL_ARM_shader_framebuffer_fetch GL_ARM_shader_framebuffer_fetch_depth_stencil GL_CHROMIUM_bind_generates_resource GL_CHROMIUM_bind_uniform_location GL_CHROMIUM_copy_compressed_texture GL_CHROMIUM_copy_texture GL_CHROMIUM_lose_context GL_EXT_EGL_image_array GL_EXT_EGL_image_external_wrap_modes GL_EXT_EGL_image_storage GL_EXT_base_instance GL_EXT_blend_minmax GL_EXT_buffer_storage GL_EXT_clear_texture GL_EXT_clip_control GL_EXT_clip_cull_distance GL_EXT_color_buffer_float GL_EXT_color_buffer_half_float GL_EXT_compressed_ETC1_RGB8_sub_texture GL_EXT_conservative_depth GL_EXT_copy_image GL_EXT_debug_label GL_EXT_debug_marker GL_EXT_depth_clamp GL_EXT_discard_framebuffer GL_EXT_disjoint_timer_query GL_EXT_draw_buffers GL_EXT_draw_buffers_indexed GL_EXT_draw_elements_base_vertex GL_EXT_float_blend GL_EXT_frag_depth GL_EXT_instanced_arrays GL_EXT_map_buffer_range GL_EXT_memory_object GL_EXT_memory_object_fd GL_EXT_occlusion_query_boolean GL_EXT_polygon_offset_clamp GL_EXT_read_format_bgra GL_EXT_robustness GL_EXT_sRGB GL_EXT_sRGB_write_control GL_EXT_semaphore GL_EXT_separate_shader_objects GL_EXT_shader_framebuffer_fetch GL_EXT_shader_framebuffer_fetch_non_coherent GL_EXT_shader_non_constant_global_initializers GL_EXT_shader_texture_lod GL_EXT_shadow_samplers GL_EXT_texture_border_clamp GL_EXT_texture_compression_bptc GL_EXT_texture_compression_dxt1 GL_EXT_texture_compression_rgtc GL_EXT_texture_compression_s3tc_srgb GL_EXT_texture_cube_map_array GL_EXT_texture_filter_anisotropic GL_EXT_texture_format_BGRA8888 GL_EXT_texture_lod_bias GL_EXT_texture_mirror_clamp_to_edge GL_EXT_texture_rg GL_EXT_texture_sRGB_R8 GL_EXT_texture_sRGB_RG8 GL_EXT_texture_sRGB_decode GL_EXT_texture_shadow_lod GL_EXT_texture_storage GL_EXT_texture_type_2_10_10_10_REV GL_EXT_unpack_subimage GL_KHR_blend_equation_advanced GL_KHR_debug GL_KHR_robust_buffer_access_behavior GL_KHR_robustness GL_KHR_texture_compression_astc_ldr GL_NV_fence GL_NV_framebuffer_blit GL_NV_pack_subimage GL_NV_pixel_buffer_object GL_NV_polygon_mode GL_NV_read_depth GL_NV_read_depth_stencil GL_NV_read_stencil GL_NV_shader_noperspective_interpolation GL_OES_EGL_image GL_OES_EGL_image_external GL_OES_EGL_image_external_essl3 GL_OES_EGL_sync GL_OES_compressed_EAC_R11_signed_texture GL_OES_compressed_EAC_R11_unsigned_texture GL_OES_compressed_EAC_RG11_signed_texture GL_OES_compressed_EAC_RG11_unsigned_texture GL_OES_compressed_ETC1_RGB8_texture GL_OES_compressed_ETC2_RGB8_texture GL_OES_compressed_ETC2_RGBA8_texture GL_OES_compressed_ETC2_punchthroughA_RGBA8_texture GL_OES_compressed_ETC2_punchthroughA_sRGB8_alpha_texture GL_OES_compressed_ETC2_sRGB8_alpha8_texture GL_OES_compressed_ETC2_sRGB8_texture GL_OES_compressed_paletted_texture GL_OES_copy_image GL_OES_depth24 GL_OES_depth32 GL_OES_depth_texture GL_OES_depth_texture_cube_map GL_OES_draw_buffers_indexed GL_OES_draw_elements_base_vertex GL_OES_element_index_uint GL_OES_fbo_render_mipmap GL_OES_get_program_binary GL_OES_mapbuffer GL_OES_packed_depth_stencil GL_OES_required_internalformat GL_OES_rgb8_rgba8 GL_OES_sample_shading GL_OES_sample_variables GL_OES_shader_multisample_interpolation GL_OES_standard_derivatives GL_OES_surfaceless_context GL_OES_texture_3D GL_OES_texture_border_clamp GL_OES_texture_cube_map_array GL_OES_texture_float GL_OES_texture_float_linear GL_OES_texture_half_float GL_OES_texture_half_float_linear GL_OES_texture_npot GL_OES_texture_stencil8 GL_OES_texture_storage_multisample_2d_array GL_OES_vertex_array_object GL_OES_vertex_half_float GL_OES_vertex_type_10_10_10_2 GL_OVR_multiview GL_OVR_multiview2 GL_QCOM_texture_lod_bias ",
+                  "glImplementationParts": "(gl=egl-angle,angle=swiftshader)",
+                  "glRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (LLVM 10.0.0) (0x0000C0DE)), SwiftShader driver-5.0.0)",
                   "glResetNotificationStrategy": 33362,
-                  "glVendor": "Google Inc. (Apple)",
+                  "glVendor": "Google Inc. (Google)",
                   "glVersion": "OpenGL ES 3.0 (ANGLE 2.1.28222 git hash: 6dab7c7e742b)",
                   "glWsExtensions": "",
                   "glWsVendor": "",
                   "glWsVersion": "",
                   "inProcessGpu": false,
-                  "initializationTime": 0.10059,
+                  "initializationTime": 1.157185,
                   "isAsan": false,
                   "isClangCoverage": false,
                   "jpegDecodeAcceleratorSupported": false,
@@ -2613,56 +2618,47 @@
                   "pixelShaderVersion": "3.00",
                   "processCrashCount": 0,
                   "sandboxed": false,
-                  "skiaBackendType": "GraphiteDawnMetal",
+                  "skiaBackendType": "None",
                   "subpixelFontRendering": true,
                   "targetCpuBits": 64,
                   "vertexShaderVersion": "3.00",
                   "visibilityCallbackCallCount": 0
                 },
                 "featureStatus": {
-                  "2d_canvas": "enabled",
+                  "2d_canvas": "unavailable_software",
                   "direct_rendering_display_compositor": "disabled_off_ok",
-                  "gpu_compositing": "enabled",
+                  "gpu_compositing": "disabled_software",
                   "multiple_raster_threads": "enabled_on",
-                  "opengl": "enabled_on",
-                  "rasterization": "enabled",
+                  "opengl": "disabled_off",
+                  "rasterization": "disabled_software",
                   "raw_draw": "disabled_off_ok",
-                  "skia_graphite": "enabled_on",
+                  "skia_graphite": "disabled_off",
                   "trees_in_viz": "disabled_off",
-                  "video_decode": "enabled",
-                  "video_encode": "enabled",
-                  "webgl": "enabled",
-                  "webgpu": "enabled",
-                  "webnn": "disabled_off"
+                  "video_decode": "disabled_software",
+                  "video_encode": "disabled_software",
+                  "webgl": "unavailable_software",
+                  "webgpu": "unavailable_software",
+                  "webnn": "unavailable_software"
                 },
-                "driverBugWorkarounds": [
-                  "disable_2d_canvas_auto_flush",
-                  "enable_webgl_timer_query_extensions",
-                  "disabled_extension_GL_KHR_blend_equation_advanced",
-                  "disabled_extension_GL_KHR_blend_equation_advanced_coherent"
-                ],
+                "driverBugWorkarounds": [],
                 "videoDecoding": [],
                 "videoEncoding": []
               },
               "modelName": "Mac",
               "modelVersion": "14.7",
-              "commandLine": "../browsers/chromium_headless_shell-1234/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --use-gl=angle --use-angle=metal --enable-gpu --user-data-dir=/var/folders/k1/zprsgklx4xqbs2wb4cq59bsr0000gn/T/playwright_chromiumdev_profile-ORhDsw --remote-debugging-pipe --no-startup-window --use-mock-keychain --allow-pre-commit-input"
+              "commandLine": "../browsers/chromium_headless_shell-1234/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/var/folders/k1/zprsgklx4xqbs2wb4cq59bsr0000gn/T/playwright_chromiumdev_profile-H8MLuj --remote-debugging-pipe --no-startup-window --use-mock-keychain --use-gl=angle --use-angle=swiftshader-webgl --allow-pre-commit-input"
             }
           },
           "coverage": {
             "status": "UNVERIFIED",
             "requestedMinutes": 60,
-            "samples": 1,
-            "elapsedMs": 60125.10775,
-            "simulationMs": 62000,
-            "coverageRatio": 1.031183183201863,
+            "samples": 3,
+            "elapsedMs": 180361.097209,
+            "simulationMs": 180900,
+            "coverageRatio": 1.0029879103606003,
             "issues": [
               {
                 "reason": "Requested duration or minute observations missing"
-              },
-              {
-                "reason": "Fixed ticks do not corroborate elapsed observation time",
-                "coverageRatio": 1.031183183201863
               }
             ]
           },
@@ -2671,7 +2667,7 @@
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "60 continuous minutes required; fixed-tick cross-check: UNVERIFIED. Receipt status: INTERRUPTED_OBSERVATION."
+      "reason": "60 continuous minutes required; fixed-tick cross-check: UNVERIFIED. Receipt status: no current completed measurement."
     },
     {
       "id": "SE-051",
@@ -2683,7 +2679,7 @@
       "automation": "Profiler",
       "status": "UNVERIFIED",
       "evidence": [
-        "artifacts/social-engine/performance/2026-11-04T10-50-15-398Z/report.json"
+        "artifacts/social-engine/performance/2026-11-04T06-41-57-572Z/report.json"
       ],
       "seed": null,
       "environment": [
@@ -2715,30 +2711,30 @@
             "gpu": {
               "devices": [
                 {
-                  "vendorId": 4203,
-                  "deviceId": 0,
-                  "vendorString": "Google Inc. (Apple)",
-                  "deviceString": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Version 26.7.1 (Build 25G241))",
-                  "driverVendor": "Apple",
-                  "driverVersion": "26.7.1"
+                  "vendorId": 65535,
+                  "deviceId": 65535,
+                  "vendorString": "Google Inc. (Google)",
+                  "deviceString": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (LLVM 10.0.0) (0x0000C0DE)), SwiftShader driver-5.0.0)",
+                  "driverVendor": "SwANGLE",
+                  "driverVersion": "5.0.0"
                 }
               ],
               "auxAttributes": {
                 "amdSwitchable": false,
                 "canSupportThreadedTextureMailbox": false,
                 "directRenderingVersion": "",
-                "displayType": "ANGLE_METAL",
-                "glExtensions": "GL_AMD_performance_monitor GL_ANGLE_base_vertex_base_instance_shader_builtin GL_ANGLE_blob_cache GL_ANGLE_client_arrays GL_ANGLE_clip_cull_distance GL_ANGLE_compressed_texture_etc GL_ANGLE_depth_texture GL_ANGLE_framebuffer_blit GL_ANGLE_framebuffer_multisample GL_ANGLE_get_serialized_context_string GL_ANGLE_get_tex_level_parameter GL_ANGLE_instanced_arrays GL_ANGLE_memory_size GL_ANGLE_pack_reverse_row_order GL_ANGLE_polygon_mode GL_ANGLE_program_binary_readiness_query GL_ANGLE_program_cache_control GL_ANGLE_provoking_vertex GL_ANGLE_renderability_validation GL_ANGLE_request_extension GL_ANGLE_rgbx_internal_format GL_ANGLE_robust_client_memory GL_ANGLE_shader_pixel_local_storage GL_ANGLE_shader_pixel_local_storage_coherent GL_ANGLE_stencil_texturing GL_ANGLE_texture_compression_dxt3 GL_ANGLE_texture_compression_dxt5 GL_ANGLE_texture_multisample GL_ANGLE_translated_shader_source GL_APPLE_clip_distance GL_ARM_rgba8 GL_CHROMIUM_bind_generates_resource GL_CHROMIUM_bind_uniform_location GL_CHROMIUM_copy_texture GL_CHROMIUM_lose_context GL_EXT_base_instance GL_EXT_blend_func_extended GL_EXT_blend_minmax GL_EXT_clip_control GL_EXT_color_buffer_float GL_EXT_color_buffer_half_float GL_EXT_compressed_ETC1_RGB8_sub_texture GL_EXT_conservative_depth GL_EXT_debug_label GL_EXT_debug_marker GL_EXT_depth_clamp GL_EXT_discard_framebuffer GL_EXT_disjoint_timer_query GL_EXT_draw_buffers GL_EXT_draw_buffers_indexed GL_EXT_draw_elements_base_vertex GL_EXT_float_blend GL_EXT_frag_depth GL_EXT_instanced_arrays GL_EXT_map_buffer_range GL_EXT_multisampled_render_to_texture GL_EXT_occlusion_query_boolean GL_EXT_polygon_offset_clamp GL_EXT_pvrtc_sRGB GL_EXT_read_format_bgra GL_EXT_render_snorm GL_EXT_robustness GL_EXT_sRGB GL_EXT_shader_texture_lod GL_EXT_texture_compression_bptc GL_EXT_texture_compression_dxt1 GL_EXT_texture_compression_rgtc GL_EXT_texture_compression_s3tc_srgb GL_EXT_texture_filter_anisotropic GL_EXT_texture_format_BGRA8888 GL_EXT_texture_mirror_clamp_to_edge GL_EXT_texture_norm16 GL_EXT_texture_rg GL_EXT_texture_sRGB_R8 GL_EXT_texture_sRGB_RG8 GL_EXT_texture_shadow_lod GL_EXT_texture_storage GL_IMG_texture_compression_pvrtc GL_KHR_debug GL_KHR_parallel_shader_compile GL_KHR_robustness GL_KHR_texture_compression_astc_hdr GL_KHR_texture_compression_astc_ldr GL_KHR_texture_compression_astc_sliced_3d GL_MESA_framebuffer_flip_y GL_NV_fence GL_NV_framebuffer_blit GL_NV_pixel_buffer_object GL_NV_shader_noperspective_interpolation GL_OES_EGL_image GL_OES_EGL_sync GL_OES_compressed_EAC_R11_signed_texture GL_OES_compressed_EAC_R11_unsigned_texture GL_OES_compressed_EAC_RG11_signed_texture GL_OES_compressed_EAC_RG11_unsigned_texture GL_OES_compressed_ETC1_RGB8_texture GL_OES_compressed_ETC2_RGB8_texture GL_OES_compressed_ETC2_RGBA8_texture GL_OES_compressed_ETC2_punchthroughA_RGBA8_texture GL_OES_compressed_ETC2_punchthroughA_sRGB8_alpha_texture GL_OES_compressed_ETC2_sRGB8_alpha8_texture GL_OES_compressed_ETC2_sRGB8_texture GL_OES_depth24 GL_OES_depth32 GL_OES_depth_texture GL_OES_draw_buffers_indexed GL_OES_draw_elements_base_vertex GL_OES_element_index_uint GL_OES_fbo_render_mipmap GL_OES_get_program_binary GL_OES_mapbuffer GL_OES_packed_depth_stencil GL_OES_required_internalformat GL_OES_rgb8_rgba8 GL_OES_sample_variables GL_OES_shader_multisample_interpolation GL_OES_standard_derivatives GL_OES_surfaceless_context GL_OES_texture_3D GL_OES_texture_float GL_OES_texture_float_linear GL_OES_texture_half_float GL_OES_texture_half_float_linear GL_OES_texture_npot GL_OES_texture_stencil8 GL_OES_vertex_array_object GL_QCOM_render_shared_exponent ",
-                "glImplementationParts": "(gl=egl-angle,angle=metal)",
-                "glRenderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Version 26.7.1 (Build 25G241))",
+                "displayType": "ANGLE_SWIFTSHADER",
+                "glExtensions": "GL_AMD_performance_monitor GL_ANGLE_base_vertex_base_instance_shader_builtin GL_ANGLE_blob_cache GL_ANGLE_client_arrays GL_ANGLE_clip_cull_distance GL_ANGLE_compressed_texture_etc GL_ANGLE_copy_texture_3d GL_ANGLE_depth_texture GL_ANGLE_framebuffer_blit GL_ANGLE_framebuffer_multisample GL_ANGLE_get_image GL_ANGLE_get_serialized_context_string GL_ANGLE_get_tex_level_parameter GL_ANGLE_instanced_arrays GL_ANGLE_memory_object_flags GL_ANGLE_memory_size GL_ANGLE_multi_draw GL_ANGLE_pack_reverse_row_order GL_ANGLE_polygon_mode GL_ANGLE_program_binary_readiness_query GL_ANGLE_program_cache_control GL_ANGLE_read_only_depth_stencil_feedback_loops GL_ANGLE_relaxed_vertex_attribute_type GL_ANGLE_renderability_validation GL_ANGLE_request_extension GL_ANGLE_rgbx_internal_format GL_ANGLE_robust_client_memory GL_ANGLE_robust_fragment_shader_output GL_ANGLE_robust_resource_initialization GL_ANGLE_shader_pixel_local_storage GL_ANGLE_shader_pixel_local_storage_coherent GL_ANGLE_stencil_texturing GL_ANGLE_texture_compression_dxt3 GL_ANGLE_texture_compression_dxt5 GL_ANGLE_texture_multisample GL_ANGLE_texture_usage GL_ANGLE_translated_shader_source GL_ANGLE_vulkan_image GL_ANGLE_yuv_internal_format GL_APPLE_clip_distance GL_ARM_rgba8 GL_ARM_shader_framebuffer_fetch GL_ARM_shader_framebuffer_fetch_depth_stencil GL_CHROMIUM_bind_generates_resource GL_CHROMIUM_bind_uniform_location GL_CHROMIUM_copy_compressed_texture GL_CHROMIUM_copy_texture GL_CHROMIUM_lose_context GL_EXT_EGL_image_array GL_EXT_EGL_image_external_wrap_modes GL_EXT_EGL_image_storage GL_EXT_base_instance GL_EXT_blend_minmax GL_EXT_buffer_storage GL_EXT_clear_texture GL_EXT_clip_control GL_EXT_clip_cull_distance GL_EXT_color_buffer_float GL_EXT_color_buffer_half_float GL_EXT_compressed_ETC1_RGB8_sub_texture GL_EXT_conservative_depth GL_EXT_copy_image GL_EXT_debug_label GL_EXT_debug_marker GL_EXT_depth_clamp GL_EXT_discard_framebuffer GL_EXT_disjoint_timer_query GL_EXT_draw_buffers GL_EXT_draw_buffers_indexed GL_EXT_draw_elements_base_vertex GL_EXT_float_blend GL_EXT_frag_depth GL_EXT_instanced_arrays GL_EXT_map_buffer_range GL_EXT_memory_object GL_EXT_memory_object_fd GL_EXT_occlusion_query_boolean GL_EXT_polygon_offset_clamp GL_EXT_read_format_bgra GL_EXT_robustness GL_EXT_sRGB GL_EXT_sRGB_write_control GL_EXT_semaphore GL_EXT_separate_shader_objects GL_EXT_shader_framebuffer_fetch GL_EXT_shader_framebuffer_fetch_non_coherent GL_EXT_shader_non_constant_global_initializers GL_EXT_shader_texture_lod GL_EXT_shadow_samplers GL_EXT_texture_border_clamp GL_EXT_texture_compression_bptc GL_EXT_texture_compression_dxt1 GL_EXT_texture_compression_rgtc GL_EXT_texture_compression_s3tc_srgb GL_EXT_texture_cube_map_array GL_EXT_texture_filter_anisotropic GL_EXT_texture_format_BGRA8888 GL_EXT_texture_lod_bias GL_EXT_texture_mirror_clamp_to_edge GL_EXT_texture_rg GL_EXT_texture_sRGB_R8 GL_EXT_texture_sRGB_RG8 GL_EXT_texture_sRGB_decode GL_EXT_texture_shadow_lod GL_EXT_texture_storage GL_EXT_texture_type_2_10_10_10_REV GL_EXT_unpack_subimage GL_KHR_blend_equation_advanced GL_KHR_debug GL_KHR_robust_buffer_access_behavior GL_KHR_robustness GL_KHR_texture_compression_astc_ldr GL_NV_fence GL_NV_framebuffer_blit GL_NV_pack_subimage GL_NV_pixel_buffer_object GL_NV_polygon_mode GL_NV_read_depth GL_NV_read_depth_stencil GL_NV_read_stencil GL_NV_shader_noperspective_interpolation GL_OES_EGL_image GL_OES_EGL_image_external GL_OES_EGL_image_external_essl3 GL_OES_EGL_sync GL_OES_compressed_EAC_R11_signed_texture GL_OES_compressed_EAC_R11_unsigned_texture GL_OES_compressed_EAC_RG11_signed_texture GL_OES_compressed_EAC_RG11_unsigned_texture GL_OES_compressed_ETC1_RGB8_texture GL_OES_compressed_ETC2_RGB8_texture GL_OES_compressed_ETC2_RGBA8_texture GL_OES_compressed_ETC2_punchthroughA_RGBA8_texture GL_OES_compressed_ETC2_punchthroughA_sRGB8_alpha_texture GL_OES_compressed_ETC2_sRGB8_alpha8_texture GL_OES_compressed_ETC2_sRGB8_texture GL_OES_compressed_paletted_texture GL_OES_copy_image GL_OES_depth24 GL_OES_depth32 GL_OES_depth_texture GL_OES_depth_texture_cube_map GL_OES_draw_buffers_indexed GL_OES_draw_elements_base_vertex GL_OES_element_index_uint GL_OES_fbo_render_mipmap GL_OES_get_program_binary GL_OES_mapbuffer GL_OES_packed_depth_stencil GL_OES_required_internalformat GL_OES_rgb8_rgba8 GL_OES_sample_shading GL_OES_sample_variables GL_OES_shader_multisample_interpolation GL_OES_standard_derivatives GL_OES_surfaceless_context GL_OES_texture_3D GL_OES_texture_border_clamp GL_OES_texture_cube_map_array GL_OES_texture_float GL_OES_texture_float_linear GL_OES_texture_half_float GL_OES_texture_half_float_linear GL_OES_texture_npot GL_OES_texture_stencil8 GL_OES_texture_storage_multisample_2d_array GL_OES_vertex_array_object GL_OES_vertex_half_float GL_OES_vertex_type_10_10_10_2 GL_OVR_multiview GL_OVR_multiview2 GL_QCOM_texture_lod_bias ",
+                "glImplementationParts": "(gl=egl-angle,angle=swiftshader)",
+                "glRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (LLVM 10.0.0) (0x0000C0DE)), SwiftShader driver-5.0.0)",
                 "glResetNotificationStrategy": 33362,
-                "glVendor": "Google Inc. (Apple)",
+                "glVendor": "Google Inc. (Google)",
                 "glVersion": "OpenGL ES 3.0 (ANGLE 2.1.28222 git hash: 6dab7c7e742b)",
                 "glWsExtensions": "",
                 "glWsVendor": "",
                 "glWsVersion": "",
                 "inProcessGpu": false,
-                "initializationTime": 0.10059,
+                "initializationTime": 1.157185,
                 "isAsan": false,
                 "isClangCoverage": false,
                 "jpegDecodeAcceleratorSupported": false,
@@ -2748,40 +2744,35 @@
                 "pixelShaderVersion": "3.00",
                 "processCrashCount": 0,
                 "sandboxed": false,
-                "skiaBackendType": "GraphiteDawnMetal",
+                "skiaBackendType": "None",
                 "subpixelFontRendering": true,
                 "targetCpuBits": 64,
                 "vertexShaderVersion": "3.00",
                 "visibilityCallbackCallCount": 0
               },
               "featureStatus": {
-                "2d_canvas": "enabled",
+                "2d_canvas": "unavailable_software",
                 "direct_rendering_display_compositor": "disabled_off_ok",
-                "gpu_compositing": "enabled",
+                "gpu_compositing": "disabled_software",
                 "multiple_raster_threads": "enabled_on",
-                "opengl": "enabled_on",
-                "rasterization": "enabled",
+                "opengl": "disabled_off",
+                "rasterization": "disabled_software",
                 "raw_draw": "disabled_off_ok",
-                "skia_graphite": "enabled_on",
+                "skia_graphite": "disabled_off",
                 "trees_in_viz": "disabled_off",
-                "video_decode": "enabled",
-                "video_encode": "enabled",
-                "webgl": "enabled",
-                "webgpu": "enabled",
-                "webnn": "disabled_off"
+                "video_decode": "disabled_software",
+                "video_encode": "disabled_software",
+                "webgl": "unavailable_software",
+                "webgpu": "unavailable_software",
+                "webnn": "unavailable_software"
               },
-              "driverBugWorkarounds": [
-                "disable_2d_canvas_auto_flush",
-                "enable_webgl_timer_query_extensions",
-                "disabled_extension_GL_KHR_blend_equation_advanced",
-                "disabled_extension_GL_KHR_blend_equation_advanced_coherent"
-              ],
+              "driverBugWorkarounds": [],
               "videoDecoding": [],
               "videoEncoding": []
             },
             "modelName": "Mac",
             "modelVersion": "14.7",
-            "commandLine": "../browsers/chromium_headless_shell-1234/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --use-gl=angle --use-angle=metal --enable-gpu --user-data-dir=/var/folders/k1/zprsgklx4xqbs2wb4cq59bsr0000gn/T/playwright_chromiumdev_profile-ORhDsw --remote-debugging-pipe --no-startup-window --use-mock-keychain --allow-pre-commit-input"
+            "commandLine": "../browsers/chromium_headless_shell-1234/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/var/folders/k1/zprsgklx4xqbs2wb4cq59bsr0000gn/T/playwright_chromiumdev_profile-H8MLuj --remote-debugging-pipe --no-startup-window --use-mock-keychain --use-gl=angle --use-angle=swiftshader-webgl --allow-pre-commit-input"
           }
         }
       ],
@@ -2790,9 +2781,9 @@
       "checks": [
         {
           "status": "UNVERIFIED",
-          "reason": "120 continuous minutes required; fixed-tick cross-check: UNVERIFIED. Receipt status: INTERRUPTED_OBSERVATION.",
-          "receipt": "performance/2026-11-04T10-50-15-398Z/report.json",
-          "evidence": "artifacts/social-engine/performance/2026-11-04T10-50-15-398Z/report.json",
+          "reason": "120 continuous minutes required; fixed-tick cross-check: UNVERIFIED. Receipt status: no current completed measurement.",
+          "receipt": "performance/2026-11-04T06-41-57-572Z/report.json",
+          "evidence": "artifacts/social-engine/performance/2026-11-04T06-41-57-572Z/report.json",
           "environment": {
             "platform": "darwin",
             "release": "25.6.0",
@@ -2821,30 +2812,30 @@
               "gpu": {
                 "devices": [
                   {
-                    "vendorId": 4203,
-                    "deviceId": 0,
-                    "vendorString": "Google Inc. (Apple)",
-                    "deviceString": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Version 26.7.1 (Build 25G241))",
-                    "driverVendor": "Apple",
-                    "driverVersion": "26.7.1"
+                    "vendorId": 65535,
+                    "deviceId": 65535,
+                    "vendorString": "Google Inc. (Google)",
+                    "deviceString": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (LLVM 10.0.0) (0x0000C0DE)), SwiftShader driver-5.0.0)",
+                    "driverVendor": "SwANGLE",
+                    "driverVersion": "5.0.0"
                   }
                 ],
                 "auxAttributes": {
                   "amdSwitchable": false,
                   "canSupportThreadedTextureMailbox": false,
                   "directRenderingVersion": "",
-                  "displayType": "ANGLE_METAL",
-                  "glExtensions": "GL_AMD_performance_monitor GL_ANGLE_base_vertex_base_instance_shader_builtin GL_ANGLE_blob_cache GL_ANGLE_client_arrays GL_ANGLE_clip_cull_distance GL_ANGLE_compressed_texture_etc GL_ANGLE_depth_texture GL_ANGLE_framebuffer_blit GL_ANGLE_framebuffer_multisample GL_ANGLE_get_serialized_context_string GL_ANGLE_get_tex_level_parameter GL_ANGLE_instanced_arrays GL_ANGLE_memory_size GL_ANGLE_pack_reverse_row_order GL_ANGLE_polygon_mode GL_ANGLE_program_binary_readiness_query GL_ANGLE_program_cache_control GL_ANGLE_provoking_vertex GL_ANGLE_renderability_validation GL_ANGLE_request_extension GL_ANGLE_rgbx_internal_format GL_ANGLE_robust_client_memory GL_ANGLE_shader_pixel_local_storage GL_ANGLE_shader_pixel_local_storage_coherent GL_ANGLE_stencil_texturing GL_ANGLE_texture_compression_dxt3 GL_ANGLE_texture_compression_dxt5 GL_ANGLE_texture_multisample GL_ANGLE_translated_shader_source GL_APPLE_clip_distance GL_ARM_rgba8 GL_CHROMIUM_bind_generates_resource GL_CHROMIUM_bind_uniform_location GL_CHROMIUM_copy_texture GL_CHROMIUM_lose_context GL_EXT_base_instance GL_EXT_blend_func_extended GL_EXT_blend_minmax GL_EXT_clip_control GL_EXT_color_buffer_float GL_EXT_color_buffer_half_float GL_EXT_compressed_ETC1_RGB8_sub_texture GL_EXT_conservative_depth GL_EXT_debug_label GL_EXT_debug_marker GL_EXT_depth_clamp GL_EXT_discard_framebuffer GL_EXT_disjoint_timer_query GL_EXT_draw_buffers GL_EXT_draw_buffers_indexed GL_EXT_draw_elements_base_vertex GL_EXT_float_blend GL_EXT_frag_depth GL_EXT_instanced_arrays GL_EXT_map_buffer_range GL_EXT_multisampled_render_to_texture GL_EXT_occlusion_query_boolean GL_EXT_polygon_offset_clamp GL_EXT_pvrtc_sRGB GL_EXT_read_format_bgra GL_EXT_render_snorm GL_EXT_robustness GL_EXT_sRGB GL_EXT_shader_texture_lod GL_EXT_texture_compression_bptc GL_EXT_texture_compression_dxt1 GL_EXT_texture_compression_rgtc GL_EXT_texture_compression_s3tc_srgb GL_EXT_texture_filter_anisotropic GL_EXT_texture_format_BGRA8888 GL_EXT_texture_mirror_clamp_to_edge GL_EXT_texture_norm16 GL_EXT_texture_rg GL_EXT_texture_sRGB_R8 GL_EXT_texture_sRGB_RG8 GL_EXT_texture_shadow_lod GL_EXT_texture_storage GL_IMG_texture_compression_pvrtc GL_KHR_debug GL_KHR_parallel_shader_compile GL_KHR_robustness GL_KHR_texture_compression_astc_hdr GL_KHR_texture_compression_astc_ldr GL_KHR_texture_compression_astc_sliced_3d GL_MESA_framebuffer_flip_y GL_NV_fence GL_NV_framebuffer_blit GL_NV_pixel_buffer_object GL_NV_shader_noperspective_interpolation GL_OES_EGL_image GL_OES_EGL_sync GL_OES_compressed_EAC_R11_signed_texture GL_OES_compressed_EAC_R11_unsigned_texture GL_OES_compressed_EAC_RG11_signed_texture GL_OES_compressed_EAC_RG11_unsigned_texture GL_OES_compressed_ETC1_RGB8_texture GL_OES_compressed_ETC2_RGB8_texture GL_OES_compressed_ETC2_RGBA8_texture GL_OES_compressed_ETC2_punchthroughA_RGBA8_texture GL_OES_compressed_ETC2_punchthroughA_sRGB8_alpha_texture GL_OES_compressed_ETC2_sRGB8_alpha8_texture GL_OES_compressed_ETC2_sRGB8_texture GL_OES_depth24 GL_OES_depth32 GL_OES_depth_texture GL_OES_draw_buffers_indexed GL_OES_draw_elements_base_vertex GL_OES_element_index_uint GL_OES_fbo_render_mipmap GL_OES_get_program_binary GL_OES_mapbuffer GL_OES_packed_depth_stencil GL_OES_required_internalformat GL_OES_rgb8_rgba8 GL_OES_sample_variables GL_OES_shader_multisample_interpolation GL_OES_standard_derivatives GL_OES_surfaceless_context GL_OES_texture_3D GL_OES_texture_float GL_OES_texture_float_linear GL_OES_texture_half_float GL_OES_texture_half_float_linear GL_OES_texture_npot GL_OES_texture_stencil8 GL_OES_vertex_array_object GL_QCOM_render_shared_exponent ",
-                  "glImplementationParts": "(gl=egl-angle,angle=metal)",
-                  "glRenderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Version 26.7.1 (Build 25G241))",
+                  "displayType": "ANGLE_SWIFTSHADER",
+                  "glExtensions": "GL_AMD_performance_monitor GL_ANGLE_base_vertex_base_instance_shader_builtin GL_ANGLE_blob_cache GL_ANGLE_client_arrays GL_ANGLE_clip_cull_distance GL_ANGLE_compressed_texture_etc GL_ANGLE_copy_texture_3d GL_ANGLE_depth_texture GL_ANGLE_framebuffer_blit GL_ANGLE_framebuffer_multisample GL_ANGLE_get_image GL_ANGLE_get_serialized_context_string GL_ANGLE_get_tex_level_parameter GL_ANGLE_instanced_arrays GL_ANGLE_memory_object_flags GL_ANGLE_memory_size GL_ANGLE_multi_draw GL_ANGLE_pack_reverse_row_order GL_ANGLE_polygon_mode GL_ANGLE_program_binary_readiness_query GL_ANGLE_program_cache_control GL_ANGLE_read_only_depth_stencil_feedback_loops GL_ANGLE_relaxed_vertex_attribute_type GL_ANGLE_renderability_validation GL_ANGLE_request_extension GL_ANGLE_rgbx_internal_format GL_ANGLE_robust_client_memory GL_ANGLE_robust_fragment_shader_output GL_ANGLE_robust_resource_initialization GL_ANGLE_shader_pixel_local_storage GL_ANGLE_shader_pixel_local_storage_coherent GL_ANGLE_stencil_texturing GL_ANGLE_texture_compression_dxt3 GL_ANGLE_texture_compression_dxt5 GL_ANGLE_texture_multisample GL_ANGLE_texture_usage GL_ANGLE_translated_shader_source GL_ANGLE_vulkan_image GL_ANGLE_yuv_internal_format GL_APPLE_clip_distance GL_ARM_rgba8 GL_ARM_shader_framebuffer_fetch GL_ARM_shader_framebuffer_fetch_depth_stencil GL_CHROMIUM_bind_generates_resource GL_CHROMIUM_bind_uniform_location GL_CHROMIUM_copy_compressed_texture GL_CHROMIUM_copy_texture GL_CHROMIUM_lose_context GL_EXT_EGL_image_array GL_EXT_EGL_image_external_wrap_modes GL_EXT_EGL_image_storage GL_EXT_base_instance GL_EXT_blend_minmax GL_EXT_buffer_storage GL_EXT_clear_texture GL_EXT_clip_control GL_EXT_clip_cull_distance GL_EXT_color_buffer_float GL_EXT_color_buffer_half_float GL_EXT_compressed_ETC1_RGB8_sub_texture GL_EXT_conservative_depth GL_EXT_copy_image GL_EXT_debug_label GL_EXT_debug_marker GL_EXT_depth_clamp GL_EXT_discard_framebuffer GL_EXT_disjoint_timer_query GL_EXT_draw_buffers GL_EXT_draw_buffers_indexed GL_EXT_draw_elements_base_vertex GL_EXT_float_blend GL_EXT_frag_depth GL_EXT_instanced_arrays GL_EXT_map_buffer_range GL_EXT_memory_object GL_EXT_memory_object_fd GL_EXT_occlusion_query_boolean GL_EXT_polygon_offset_clamp GL_EXT_read_format_bgra GL_EXT_robustness GL_EXT_sRGB GL_EXT_sRGB_write_control GL_EXT_semaphore GL_EXT_separate_shader_objects GL_EXT_shader_framebuffer_fetch GL_EXT_shader_framebuffer_fetch_non_coherent GL_EXT_shader_non_constant_global_initializers GL_EXT_shader_texture_lod GL_EXT_shadow_samplers GL_EXT_texture_border_clamp GL_EXT_texture_compression_bptc GL_EXT_texture_compression_dxt1 GL_EXT_texture_compression_rgtc GL_EXT_texture_compression_s3tc_srgb GL_EXT_texture_cube_map_array GL_EXT_texture_filter_anisotropic GL_EXT_texture_format_BGRA8888 GL_EXT_texture_lod_bias GL_EXT_texture_mirror_clamp_to_edge GL_EXT_texture_rg GL_EXT_texture_sRGB_R8 GL_EXT_texture_sRGB_RG8 GL_EXT_texture_sRGB_decode GL_EXT_texture_shadow_lod GL_EXT_texture_storage GL_EXT_texture_type_2_10_10_10_REV GL_EXT_unpack_subimage GL_KHR_blend_equation_advanced GL_KHR_debug GL_KHR_robust_buffer_access_behavior GL_KHR_robustness GL_KHR_texture_compression_astc_ldr GL_NV_fence GL_NV_framebuffer_blit GL_NV_pack_subimage GL_NV_pixel_buffer_object GL_NV_polygon_mode GL_NV_read_depth GL_NV_read_depth_stencil GL_NV_read_stencil GL_NV_shader_noperspective_interpolation GL_OES_EGL_image GL_OES_EGL_image_external GL_OES_EGL_image_external_essl3 GL_OES_EGL_sync GL_OES_compressed_EAC_R11_signed_texture GL_OES_compressed_EAC_R11_unsigned_texture GL_OES_compressed_EAC_RG11_signed_texture GL_OES_compressed_EAC_RG11_unsigned_texture GL_OES_compressed_ETC1_RGB8_texture GL_OES_compressed_ETC2_RGB8_texture GL_OES_compressed_ETC2_RGBA8_texture GL_OES_compressed_ETC2_punchthroughA_RGBA8_texture GL_OES_compressed_ETC2_punchthroughA_sRGB8_alpha_texture GL_OES_compressed_ETC2_sRGB8_alpha8_texture GL_OES_compressed_ETC2_sRGB8_texture GL_OES_compressed_paletted_texture GL_OES_copy_image GL_OES_depth24 GL_OES_depth32 GL_OES_depth_texture GL_OES_depth_texture_cube_map GL_OES_draw_buffers_indexed GL_OES_draw_elements_base_vertex GL_OES_element_index_uint GL_OES_fbo_render_mipmap GL_OES_get_program_binary GL_OES_mapbuffer GL_OES_packed_depth_stencil GL_OES_required_internalformat GL_OES_rgb8_rgba8 GL_OES_sample_shading GL_OES_sample_variables GL_OES_shader_multisample_interpolation GL_OES_standard_derivatives GL_OES_surfaceless_context GL_OES_texture_3D GL_OES_texture_border_clamp GL_OES_texture_cube_map_array GL_OES_texture_float GL_OES_texture_float_linear GL_OES_texture_half_float GL_OES_texture_half_float_linear GL_OES_texture_npot GL_OES_texture_stencil8 GL_OES_texture_storage_multisample_2d_array GL_OES_vertex_array_object GL_OES_vertex_half_float GL_OES_vertex_type_10_10_10_2 GL_OVR_multiview GL_OVR_multiview2 GL_QCOM_texture_lod_bias ",
+                  "glImplementationParts": "(gl=egl-angle,angle=swiftshader)",
+                  "glRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (LLVM 10.0.0) (0x0000C0DE)), SwiftShader driver-5.0.0)",
                   "glResetNotificationStrategy": 33362,
-                  "glVendor": "Google Inc. (Apple)",
+                  "glVendor": "Google Inc. (Google)",
                   "glVersion": "OpenGL ES 3.0 (ANGLE 2.1.28222 git hash: 6dab7c7e742b)",
                   "glWsExtensions": "",
                   "glWsVendor": "",
                   "glWsVersion": "",
                   "inProcessGpu": false,
-                  "initializationTime": 0.10059,
+                  "initializationTime": 1.157185,
                   "isAsan": false,
                   "isClangCoverage": false,
                   "jpegDecodeAcceleratorSupported": false,
@@ -2854,56 +2845,47 @@
                   "pixelShaderVersion": "3.00",
                   "processCrashCount": 0,
                   "sandboxed": false,
-                  "skiaBackendType": "GraphiteDawnMetal",
+                  "skiaBackendType": "None",
                   "subpixelFontRendering": true,
                   "targetCpuBits": 64,
                   "vertexShaderVersion": "3.00",
                   "visibilityCallbackCallCount": 0
                 },
                 "featureStatus": {
-                  "2d_canvas": "enabled",
+                  "2d_canvas": "unavailable_software",
                   "direct_rendering_display_compositor": "disabled_off_ok",
-                  "gpu_compositing": "enabled",
+                  "gpu_compositing": "disabled_software",
                   "multiple_raster_threads": "enabled_on",
-                  "opengl": "enabled_on",
-                  "rasterization": "enabled",
+                  "opengl": "disabled_off",
+                  "rasterization": "disabled_software",
                   "raw_draw": "disabled_off_ok",
-                  "skia_graphite": "enabled_on",
+                  "skia_graphite": "disabled_off",
                   "trees_in_viz": "disabled_off",
-                  "video_decode": "enabled",
-                  "video_encode": "enabled",
-                  "webgl": "enabled",
-                  "webgpu": "enabled",
-                  "webnn": "disabled_off"
+                  "video_decode": "disabled_software",
+                  "video_encode": "disabled_software",
+                  "webgl": "unavailable_software",
+                  "webgpu": "unavailable_software",
+                  "webnn": "unavailable_software"
                 },
-                "driverBugWorkarounds": [
-                  "disable_2d_canvas_auto_flush",
-                  "enable_webgl_timer_query_extensions",
-                  "disabled_extension_GL_KHR_blend_equation_advanced",
-                  "disabled_extension_GL_KHR_blend_equation_advanced_coherent"
-                ],
+                "driverBugWorkarounds": [],
                 "videoDecoding": [],
                 "videoEncoding": []
               },
               "modelName": "Mac",
               "modelVersion": "14.7",
-              "commandLine": "../browsers/chromium_headless_shell-1234/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --use-gl=angle --use-angle=metal --enable-gpu --user-data-dir=/var/folders/k1/zprsgklx4xqbs2wb4cq59bsr0000gn/T/playwright_chromiumdev_profile-ORhDsw --remote-debugging-pipe --no-startup-window --use-mock-keychain --allow-pre-commit-input"
+              "commandLine": "../browsers/chromium_headless_shell-1234/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/var/folders/k1/zprsgklx4xqbs2wb4cq59bsr0000gn/T/playwright_chromiumdev_profile-H8MLuj --remote-debugging-pipe --no-startup-window --use-mock-keychain --use-gl=angle --use-angle=swiftshader-webgl --allow-pre-commit-input"
             }
           },
           "coverage": {
             "status": "UNVERIFIED",
             "requestedMinutes": 120,
-            "samples": 1,
-            "elapsedMs": 60125.10775,
-            "simulationMs": 62000,
-            "coverageRatio": 1.031183183201863,
+            "samples": 3,
+            "elapsedMs": 180361.097209,
+            "simulationMs": 180900,
+            "coverageRatio": 1.0029879103606003,
             "issues": [
               {
                 "reason": "Requested duration or minute observations missing"
-              },
-              {
-                "reason": "Fixed ticks do not corroborate elapsed observation time",
-                "coverageRatio": 1.031183183201863
               }
             ]
           },
@@ -2912,7 +2894,7 @@
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "120 continuous minutes required; fixed-tick cross-check: UNVERIFIED. Receipt status: INTERRUPTED_OBSERVATION."
+      "reason": "120 continuous minutes required; fixed-tick cross-check: UNVERIFIED. Receipt status: no current completed measurement."
     },
     {
       "id": "SE-052",
@@ -2924,13 +2906,13 @@
       "automation": "Playwright",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/current-receipts/8b6e93666e95de42f5f7b346eb50e6d0e56eb85df90ea3ccc060071591c6ad8a.json"
+        "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json"
       ],
       "seed": null,
       "environment": [
         {
           "browser": "151.0.7922.34",
-          "base": "http://127.0.0.1:8249"
+          "base": "http://127.0.0.1:8252"
         }
       ],
       "build_sha": null,
@@ -2940,10 +2922,10 @@
           "status": "PASS",
           "reason": "Local chromium 151.0.7922.34: 14 recorded critical-flow cases, 0 page errors.",
           "receipt": "browser-chromium/results.json",
-          "evidence": "artifacts/social-engine/current-receipts/8b6e93666e95de42f5f7b346eb50e6d0e56eb85df90ea3ccc060071591c6ad8a.json",
+          "evidence": "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json",
           "environment": {
             "browser": "151.0.7922.34",
-            "base": "http://127.0.0.1:8249"
+            "base": "http://127.0.0.1:8252"
           },
           "scope": "Isolated browser profile on the local candidate URL."
         }
@@ -2960,35 +2942,35 @@
       "expected": "Temel işlevler çalışır",
       "priority": "P1",
       "automation": "Playwright",
-      "status": "PASS",
+      "status": "UNVERIFIED",
       "evidence": [
-        "artifacts/social-engine/current-receipts/f57da721baf9878ba0040981f3499785c0cd8fa0f994089b28da2582f53384c1.json"
+        "artifacts/social-engine/browser-firefox/results.json"
       ],
       "seed": null,
       "environment": [
         {
           "browser": "153.0",
-          "base": "http://127.0.0.1:8249"
+          "base": "http://127.0.0.1:8111"
         }
       ],
       "build_sha": null,
       "duration_ms": null,
       "checks": [
         {
-          "status": "PASS",
-          "reason": "Local firefox 153.0: 14 recorded critical-flow cases, 0 page errors.",
+          "status": "UNVERIFIED",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest e7ac6b6902a8 remains unverified for this check.",
           "receipt": "browser-firefox/results.json",
-          "evidence": "artifacts/social-engine/current-receipts/f57da721baf9878ba0040981f3499785c0cd8fa0f994089b28da2582f53384c1.json",
+          "evidence": "artifacts/social-engine/browser-firefox/results.json",
           "environment": {
             "browser": "153.0",
-            "base": "http://127.0.0.1:8249"
+            "base": "http://127.0.0.1:8111"
           },
           "scope": "Isolated browser profile on the local candidate URL."
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Local firefox 153.0: 14 recorded critical-flow cases, 0 page errors."
+      "reason": "Historical manifest 5f6ee17a0a8c. Current manifest e7ac6b6902a8 remains unverified for this check."
     },
     {
       "id": "SE-054",
@@ -2998,35 +2980,35 @@
       "expected": "Temel işlevler çalışır",
       "priority": "P1",
       "automation": "Playwright",
-      "status": "PASS",
+      "status": "UNVERIFIED",
       "evidence": [
-        "artifacts/social-engine/current-receipts/a255eef641690df78bafd56374c070acd0bacb620c99d92d3d65c7dbaea942b6.json"
+        "artifacts/social-engine/browser-webkit/results.json"
       ],
       "seed": null,
       "environment": [
         {
           "browser": "26.5",
-          "base": "http://127.0.0.1:8249"
+          "base": "http://127.0.0.1:8111"
         }
       ],
       "build_sha": null,
       "duration_ms": null,
       "checks": [
         {
-          "status": "PASS",
-          "reason": "Local webkit 26.5: 14 recorded critical-flow cases, 0 page errors.",
+          "status": "UNVERIFIED",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest e7ac6b6902a8 remains unverified for this check.",
           "receipt": "browser-webkit/results.json",
-          "evidence": "artifacts/social-engine/current-receipts/a255eef641690df78bafd56374c070acd0bacb620c99d92d3d65c7dbaea942b6.json",
+          "evidence": "artifacts/social-engine/browser-webkit/results.json",
           "environment": {
             "browser": "26.5",
-            "base": "http://127.0.0.1:8249"
+            "base": "http://127.0.0.1:8111"
           },
           "scope": "Isolated browser profile on the local candidate URL."
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Local webkit 26.5: 14 recorded critical-flow cases, 0 page errors."
+      "reason": "Historical manifest 5f6ee17a0a8c. Current manifest e7ac6b6902a8 remains unverified for this check."
     },
     {
       "id": "SE-055",
@@ -3038,7 +3020,7 @@
       "automation": "E2E",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/current-receipts/8b6e93666e95de42f5f7b346eb50e6d0e56eb85df90ea3ccc060071591c6ad8a.json"
+        "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json"
       ],
       "seed": null,
       "environment": [],
@@ -3049,12 +3031,12 @@
           "status": "PASS",
           "reason": "Completed explicit browser assertion SE-055-dom-hud.",
           "receipt": "browser-chromium/results.json",
-          "evidence": "artifacts/social-engine/current-receipts/8b6e93666e95de42f5f7b346eb50e6d0e56eb85df90ea3ccc060071591c6ad8a.json",
+          "evidence": "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json",
           "assertion": "SE-055-dom-hud"
         },
         {
           "status": "UNVERIFIED",
-          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 80123c1a19ba remains unverified for this check.",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest e7ac6b6902a8 remains unverified for this check.",
           "receipt": "browser-evidence/results.json",
           "evidence": "artifacts/social-engine/browser-evidence/results.json"
         }
@@ -3082,7 +3064,7 @@
       "checks": [
         {
           "status": "UNVERIFIED",
-          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 80123c1a19ba remains unverified for this check.",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest e7ac6b6902a8 remains unverified for this check.",
           "receipt": "axe/results.json",
           "evidence": "artifacts/social-engine/axe/results.json",
           "scope": [
@@ -3093,7 +3075,7 @@
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 80123c1a19ba remains unverified for this check."
+      "reason": "Historical manifest 5f6ee17a0a8c. Current manifest e7ac6b6902a8 remains unverified for this check."
     },
     {
       "id": "SE-057",
@@ -3105,7 +3087,7 @@
       "automation": "Visual",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/current-receipts/8b6e93666e95de42f5f7b346eb50e6d0e56eb85df90ea3ccc060071591c6ad8a.json"
+        "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json"
       ],
       "seed": null,
       "environment": [],
@@ -3116,7 +3098,7 @@
           "status": "PASS",
           "reason": "No horizontal document overflow across 1280, 1920 and 390 pixel viewports.",
           "receipt": "browser-chromium/results.json",
-          "evidence": "artifacts/social-engine/current-receipts/8b6e93666e95de42f5f7b346eb50e6d0e56eb85df90ea3ccc060071591c6ad8a.json",
+          "evidence": "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json",
           "caseIds": [
             "SE-057"
           ],
@@ -3225,22 +3207,22 @@
   "evidence_manifest": [
     {
       "path": "artifacts/social-engine/acceptance-unit.json",
-      "sha256": "76b7c48151d3026fa45b8a31aaab35c37bb3f7bf8d12e944ab163211fcd4e500",
+      "sha256": "467d89c71df4b5823c071d84540973139db32e5e98f8f86b7897436920b6141b",
       "receipt": "acceptance-unit.json"
     },
     {
-      "path": "artifacts/social-engine/current-receipts/8b6e93666e95de42f5f7b346eb50e6d0e56eb85df90ea3ccc060071591c6ad8a.json",
-      "sha256": "8b6e93666e95de42f5f7b346eb50e6d0e56eb85df90ea3ccc060071591c6ad8a",
+      "path": "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json",
+      "sha256": "17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5",
       "receipt": "browser-chromium/results.json"
     },
     {
-      "path": "artifacts/social-engine/current-receipts/f57da721baf9878ba0040981f3499785c0cd8fa0f994089b28da2582f53384c1.json",
-      "sha256": "f57da721baf9878ba0040981f3499785c0cd8fa0f994089b28da2582f53384c1",
+      "path": "artifacts/social-engine/browser-firefox/results.json",
+      "sha256": "e4bdbcf07cf203afefff2b8411457c9e025f9cdb07f5bf68c5316c467972141d",
       "receipt": "browser-firefox/results.json"
     },
     {
-      "path": "artifacts/social-engine/current-receipts/a255eef641690df78bafd56374c070acd0bacb620c99d92d3d65c7dbaea942b6.json",
-      "sha256": "a255eef641690df78bafd56374c070acd0bacb620c99d92d3d65c7dbaea942b6",
+      "path": "artifacts/social-engine/browser-webkit/results.json",
+      "sha256": "d80bccf0b5c07a2b8f12b2078bc5c2824ea0abee9265748155292182f60cfd6a",
       "receipt": "browser-webkit/results.json"
     },
     {
@@ -3254,18 +3236,18 @@
       "receipt": "browser-evidence/results.json"
     },
     {
-      "path": "artifacts/social-engine/current-receipts/38c94d7b505ba013143b01bd597331eef657b7f22c2c3766d6ff9770f71e7f08.json",
-      "sha256": "38c94d7b505ba013143b01bd597331eef657b7f22c2c3766d6ff9770f71e7f08",
+      "path": "artifacts/social-engine/persistence-browser/results.json",
+      "sha256": "e76c1e1dc948aaf566961935641407d3875d5198243e362a73e357ac3fa3e4f2",
       "receipt": "persistence-browser/results.json"
     },
     {
-      "path": "artifacts/social-engine/current-receipts/5e5b33970ad8273b6e48fe443b575bb787904983588435be88282c970c038d59.json",
-      "sha256": "5e5b33970ad8273b6e48fe443b575bb787904983588435be88282c970c038d59",
+      "path": "artifacts/social-engine/persistence-browser-firefox/results.json",
+      "sha256": "f3ffa96c692206e8301c6708897959ee0bc22ed5063a7981e336d0866a291df3",
       "receipt": "persistence-browser-firefox/results.json"
     },
     {
-      "path": "artifacts/social-engine/current-receipts/243f5ff54191e065ef695ae9ce65dd77892601e6e02b329c73c8e6de7d317544.json",
-      "sha256": "243f5ff54191e065ef695ae9ce65dd77892601e6e02b329c73c8e6de7d317544",
+      "path": "artifacts/social-engine/persistence-browser-webkit/results.json",
+      "sha256": "d9f8114747e69ca937df84c9da2f89e55660f2f3c6fdd50a46f9f57d0b518625",
       "receipt": "persistence-browser-webkit/results.json"
     },
     {
@@ -3284,9 +3266,9 @@
       "receipt": "axe/results.json"
     },
     {
-      "path": "artifacts/social-engine/performance/2026-11-04T10-50-15-398Z/report.json",
-      "sha256": "f713daf8f19b6d309a9b7c11cc2a3086533c9bddd64f9b3e5014649c2b906b58",
-      "receipt": "performance/2026-11-04T10-50-15-398Z/report.json"
+      "path": "artifacts/social-engine/performance/2026-11-04T06-41-57-572Z/report.json",
+      "sha256": "0c02bd65fee2c6ba9700eecbafae56114747b20c6fc478fecc9744669e772db3",
+      "receipt": "performance/2026-11-04T06-41-57-572Z/report.json"
     },
     {
       "path": "artifacts/social-engine/deployment-verification.json",
@@ -3324,18 +3306,18 @@
       "receipt": "startup-network/results.json"
     },
     {
-      "path": "artifacts/social-engine/current-receipts/19668a19d6aab5fb731492e18cc935656c5765211eb5e239574f9d6ced3649ea.json",
-      "sha256": "19668a19d6aab5fb731492e18cc935656c5765211eb5e239574f9d6ced3649ea",
+      "path": "artifacts/social-engine/property-browser-chromium/results.json",
+      "sha256": "9858f5e6b20f012a12d641b877a07b82d4b229f45d6218b0ba098fa07f263244",
       "receipt": "property-browser-chromium/results.json"
     },
     {
-      "path": "artifacts/social-engine/current-receipts/1a0f3ad4e2966fcccc27166566116ad148d6f58bbd153755c4d51d47ffc34751.json",
-      "sha256": "1a0f3ad4e2966fcccc27166566116ad148d6f58bbd153755c4d51d47ffc34751",
+      "path": "artifacts/social-engine/property-browser-firefox/results.json",
+      "sha256": "e2d9ac49a398bfca11d119aa4f19fd20f48f737ea7484e7f92ad25c8c6b38f16",
       "receipt": "property-browser-firefox/results.json"
     },
     {
-      "path": "artifacts/social-engine/current-receipts/46bfabff98c7f0c1200f78a4d329cf8adfa94b76cef42f1180475820cd523ae5.json",
-      "sha256": "46bfabff98c7f0c1200f78a4d329cf8adfa94b76cef42f1180475820cd523ae5",
+      "path": "artifacts/social-engine/property-browser-webkit/results.json",
+      "sha256": "0b8412bf7b9d8d69b6f5e5ec6488a4fc97903b97a51c305b6806dae10a15bf1b",
       "receipt": "property-browser-webkit/results.json"
     },
     {
@@ -3374,28 +3356,28 @@
       "receipt": "late-save/results.json"
     },
     {
-      "path": "artifacts/social-engine/current-receipts/d6d4d41779d8b01a5c6d0741e8e28ff703ddbb04e8d6b8c966e5c97d616ab6f6.json",
-      "sha256": "d6d4d41779d8b01a5c6d0741e8e28ff703ddbb04e8d6b8c966e5c97d616ab6f6",
+      "path": "artifacts/social-engine/current-receipts/b9fe89882c763469eb2f4f1aabff69e7dc006463622888c47cf6d388e5e2b98e.json",
+      "sha256": "b9fe89882c763469eb2f4f1aabff69e7dc006463622888c47cf6d388e5e2b98e",
       "receipt": "upgrade/rules8-worker/results.json"
     },
     {
-      "path": "artifacts/social-engine/current-receipts/acc495ca3d6782f0d3348a13b53cd6250cc312d8961c36e00432a1088ecff838.json",
-      "sha256": "acc495ca3d6782f0d3348a13b53cd6250cc312d8961c36e00432a1088ecff838",
+      "path": "artifacts/social-engine/current-receipts/5da64fa220a330ff385f4d8b9b9ea741aa9c79439c4b5bfe81f3e0dcd4140489.json",
+      "sha256": "5da64fa220a330ff385f4d8b9b9ea741aa9c79439c4b5bfe81f3e0dcd4140489",
       "receipt": "portable-smoke/results.json"
     },
     {
-      "path": "artifacts/social-engine/current-receipts/f3fff75efbc95eca065bf50105f0a10b646bd597502c897aaa9cc5994b0dec59.json",
-      "sha256": "f3fff75efbc95eca065bf50105f0a10b646bd597502c897aaa9cc5994b0dec59",
+      "path": "artifacts/social-engine/current-receipts/c3150cc545de2597ca82faf240b9af1206c609e7ef88dad42beb1e9c1fe2d5be.json",
+      "sha256": "c3150cc545de2597ca82faf240b9af1206c609e7ef88dad42beb1e9c1fe2d5be",
       "receipt": "upgrade/legacy-display/results.json"
     },
     {
-      "path": "artifacts/social-engine/current-receipts/e34cc45dea5616a3820062d765a49b73d6abbd2da5e4ae8ae65b901ac70b140b.json",
-      "sha256": "e34cc45dea5616a3820062d765a49b73d6abbd2da5e4ae8ae65b901ac70b140b",
+      "path": "artifacts/social-engine/current-receipts/91f3693efc189b16bce2595bab122260fd20635d8a928e3ce7f32c22b8d31307.json",
+      "sha256": "91f3693efc189b16bce2595bab122260fd20635d8a928e3ce7f32c22b8d31307",
       "receipt": "upgrade/careers/results.json"
     },
     {
-      "path": "artifacts/social-engine/current-receipts/066c3f6d80a9fee82145ec9550cd78ae8d82c4d26c98e2db953597e54a51b34f.json",
-      "sha256": "066c3f6d80a9fee82145ec9550cd78ae8d82c4d26c98e2db953597e54a51b34f",
+      "path": "artifacts/social-engine/current-receipts/de921a0c36b20af4a5b2740fa16b78a8a1a8df118a82fba2e9ff1e79c4a8628e.json",
+      "sha256": "de921a0c36b20af4a5b2740fa16b78a8a1a8df118a82fba2e9ff1e79c4a8628e",
       "receipt": "under-load/v4-browser/results.json"
     },
     {
@@ -3404,8 +3386,8 @@
       "receipt": "c5-history/v4-software-raster-under-load.json"
     },
     {
-      "path": "artifacts/social-engine/current-receipts/a7c2fe1adb5ecd40bbfec7c5d180edcab94f83cace7f28696e273576c55feae8.json",
-      "sha256": "a7c2fe1adb5ecd40bbfec7c5d180edcab94f83cace7f28696e273576c55feae8",
+      "path": "artifacts/social-engine/current-receipts/ebf4780b18fc74a4fb9012590e6def50ee669bbeea82ccfe8e8621997142194e.json",
+      "sha256": "ebf4780b18fc74a4fb9012590e6def50ee669bbeea82ccfe8e8621997142194e",
       "receipt": "under-load/journal-browser/results.json"
     },
     {
@@ -3429,8 +3411,8 @@
       "receipt": "contract-gap-audit.json"
     },
     {
-      "path": "artifacts/social-engine/current-receipts/2b0c81531b00903fa514c5c36fdab5b420b6ee79658e7bc707c362b240e4f131.json",
-      "sha256": "2b0c81531b00903fa514c5c36fdab5b420b6ee79658e7bc707c362b240e4f131",
+      "path": "artifacts/social-engine/current-receipts/2842c2c7aedcb8f207f54331c6d906e2a8c2205e7703d6dd0244a0bf44d9a588.json",
+      "sha256": "2842c2c7aedcb8f207f54331c6d906e2a8c2205e7703d6dd0244a0bf44d9a588",
       "receipt": "local-legacy-suite/results.json"
     }
   ],

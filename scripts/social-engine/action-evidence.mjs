@@ -43,9 +43,17 @@ export function replayActionEvidence({ baseline, sent, received }, type) {
   assert.ok(index >= 0, "acknowledged command exists in full worker journal");
   const prefix = operations.slice(0, index + 1);
   // replayJournal checks every cursor, command, tick and final state invariant.
+  const beforeState = replayJournal(baseline.state, baseline.journal, prefix.slice(0, -1));
   const state = replayJournal(baseline.state, baseline.journal, prefix);
   const operation = operations[index];
-  return { state, command, acknowledgement, operation, replayedOperations: prefix.length };
+  return {
+    state,
+    beforeState,
+    command,
+    acknowledgement,
+    operation,
+    replayedOperations: prefix.length,
+  };
 }
 
 export async function observeAction(page, type, action) {
@@ -76,4 +84,21 @@ export async function observeAction(page, type, action) {
     return { sent: wire.sent, received: wire.received };
   });
   return replayActionEvidence({ baseline, ...evidence }, type);
+}
+
+/** A retired world intentionally cannot reach tick+count. A <=500-step QA request
+ * runs in one synchronous worker chunk; the following snapshot is its FIFO barrier. */
+export async function stepRetiredWorld(page, count) {
+  assert.ok(Number.isSafeInteger(count) && count > 0 && count <= 500);
+  return page.evaluate(async (count) => {
+    const qa = window.__socialEngine;
+    const before = await qa.state();
+    if (!before.progression.retired)
+      throw new Error("Retired-world step requires actual retirement");
+    qa.step(count);
+    const after = await qa.state();
+    if (!after.progression.retired || after.tick !== before.tick)
+      throw new Error("Actual retired worker advanced during requested QA steps");
+    return { beforeTick: before.tick, afterTick: after.tick, requestedSteps: count };
+  }, count);
 }

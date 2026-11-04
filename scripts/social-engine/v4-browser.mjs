@@ -1,5 +1,5 @@
 /** v4 integration evidence. Setup uses documented public commands/QA time, tested actions use DOM. */
-import { installActionObserver, observeAction } from "./action-evidence.mjs";
+import { installActionObserver, observeAction, stepRetiredWorld } from "./action-evidence.mjs";
 import { waitForQATicks } from "./wait-for-qa-ticks.mjs";
 import { chromium } from "playwright";
 import { windowlessRendererOptions, verifySoftwareRenderer } from "./windowless-launch.mjs";
@@ -71,13 +71,19 @@ async function fresh() {
   await page.waitForFunction(() => window.__socialEngine?.projection()?.population >= 1100);
   if (process.env.SE_QA_VERIFY_SOFTWARE === "1" && !report.softwareRenderer)
     report.softwareRenderer = await verifySoftwareRenderer(page);
+  await page.locator("#intro").waitFor({ state: "hidden" });
+  await page.locator('[data-panel="phone"]').waitFor({ state: "visible" });
 }
 async function close() {
-  if (await page.locator("#panel").isVisible()) await page.keyboard.press("Escape");
+  if (await page.locator("#panel").isVisible()) {
+    await page.keyboard.press("Escape");
+    await page.locator("#panel").waitFor({ state: "hidden" });
+  }
 }
 async function phone(tab) {
   await close();
   await page.locator('[data-panel="phone"]').click();
+  await page.getByRole("dialog", { name: "Telefon", exact: true }).waitFor({ state: "visible" });
   await page.locator(`[data-tab="${tab}"]`).click();
 }
 async function move(point, count = 1600) {
@@ -202,8 +208,11 @@ try {
     "combat",
     "Actual G heavy attack and Space dodge have authoritative consequences",
     async () => {
-      const before = await state();
-      await page.keyboard.press("KeyG");
+      const heavy = await observeAction(page, "ATTACK", () => page.keyboard.press("KeyG"));
+      assert.equal(heavy.command.args.heavy, true, "actual KeyG selected heavy attack");
+      const before = heavy.beforeState;
+      assert.ok(heavy.state.player.stamina < before.player.stamina, "heavy stamina at exact action tick");
+      assert.ok(before.player.stamina - heavy.state.player.stamina >= 23.5, "24-point heavy cost with at most one tick of natural regeneration");
       await step(8);
       let s = await state();
       const assault = s.crimes.find((c) => !before.crimes.some((old) => old.id === c.id));
@@ -215,13 +224,18 @@ try {
         "heavy damage applied to actual nearest target",
       );
       assert.equal(assault.fine, 25000, "heavy strike case uses heavy consequences");
-      assert.ok(s.player.stamina < before.player.stamina, "heavy stamina");
+      assert.equal(assault.victim, heavy.command.args.npcId, "actual keyboard-selected heavy target");
       const dodge = await observeAction(page, "DODGE", () => page.keyboard.press("Space"));
       s = dodge.state;
       assert.ok(s.flags.dodgeUntil > s.tick, "dodge active");
       assert.ok(s.flags.dodgeUntil <= s.tick + 6, "dodge has its bounded authoritative window");
       assert.ok(s.crimes.length > before.crimes.length);
       return {
+        heavyActionTick: heavy.state.tick,
+        heavyActionCursor: heavy.operation.cursor,
+        heavyCommandId: heavy.command.id,
+        heavyStaminaBefore: before.player.stamina,
+        heavyStaminaAfter: heavy.state.player.stamina,
         victimId: victim.id,
         victimHealth: victim.health,
         stamina: s.player.stamina,
@@ -240,17 +254,17 @@ try {
     let s = await state();
     const event = s.social.knowledge.player.at(-1);
     assert.ok(event);
-    assert.equal(
-      (s.social.knowledge.n0 ?? []).some((k) => k.eventId === event.eventId),
-      false,
-      "recipient does not know private career decision",
-    );
     await page.keyboard.press("KeyE");
-    await wait();
-    assert.ok(await page.locator("#share-rumor").isVisible());
+    const share = page.locator('#panel [role="dialog"] #share-rumor');
+    await share.waitFor({ state: "visible" });
+    const dialogName = await page.locator('#panel [role="dialog"]').getAttribute("aria-label");
     await page.locator("#rumor-event").selectOption(event.eventId);
     const rumor = await observeAction(page, "SHARE_RUMOR", () => page.locator("#share-rumor").click());
     assert.equal(rumor.command.args.eventId, event.eventId, "actual selected DOM rumor");
+    const recipient = rumor.beforeState.npcs.find((npc) => npc.id === rumor.command.args.npcId);
+    assert.ok(recipient, "actual DOM recipient exists in authority");
+    assert.equal(recipient.name, dialogName, "actual command addresses the displayed person dialog");
+    assert.equal((rumor.beforeState.social.knowledge[recipient.id] ?? []).some((k) => k.eventId === event.eventId), false, "actual recipient does not already know the private career decision");
     s = rumor.state;
     const learned = Object.values(s.social.knowledge)
       .flat()
@@ -289,24 +303,22 @@ try {
     async () => {
       await phone("life");
       await page.locator("[data-retirement]").click();
-      await page.locator("#retirement-confirm").click();
-      await wait();
-      const retired = await state();
+      const confirm = page.getByRole("button", { name: "Bu dönemi tamamla", exact: true });
+      await confirm.waitFor({ state: "visible" });
+      const retirement = await observeAction(page, "RETIRE", () => confirm.click());
+      const retired = retirement.state;
       assert.equal(retired.progression.retired, true);
-      // Retired worlds intentionally refuse to advance. Thirty steps fit in one worker
-      // chunk; the following FIFO snapshot observes all attempts without a wall-clock guess.
-      const stillRetired = await page.evaluate(async () => {
-        window.__socialEngine.step(30);
-        return window.__socialEngine.state();
-      });
-      assert.equal(stillRetired.tick, retired.tick);
-      assert.equal(stillRetired.progression.retired, true);
-      await page.locator("#retirement-confirm").click();
-      await wait();
-      assert.equal((await state()).progression.retired, false);
+      const frozen = await stepRetiredWorld(page, 30);
+      assert.equal(frozen.afterTick, retired.tick);
+      const resume = page.getByRole("button", { name: "Aynı hayata dön", exact: true });
+      await resume.waitFor({ state: "visible" });
+      const resumed = await observeAction(page, "RESUME_CAREER", () => resume.click());
+      assert.equal(resumed.beforeState.progression.retired, true);
+      assert.equal(resumed.state.progression.retired, false);
+      assert.equal(resumed.state.player.id, retired.player.id);
       await step(1);
       assert.ok((await state()).tick > retired.tick);
-      return { retiredAt: retired.progression.retiredAt, preservedPlayer: retired.player.id };
+      return { retiredAt: retired.progression.retiredAt, preservedPlayer: retired.player.id, retiredCommandId: retirement.command.id, resumedCommandId: resumed.command.id, frozen };
     },
   );
   await check(
