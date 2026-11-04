@@ -16,9 +16,9 @@ body,
 body {
   --ink: #ebe5d6;
   --muted: #a6b6b2;
-  --panel: #10262a;
-  --edge: #355057;
-  --gold: #efc074;
+  --panel: #182629;
+  --edge: #40575a;
+  --gold: #dfb36d;
   --danger: #f09984;
   background: #10262a;
   color: var(--ink);
@@ -146,13 +146,13 @@ small,
   text-shadow: 0 2px 6px #07191a;
 }
 .glass {
-  background: #10262aed;
-  border: 1px solid #3b555a;
-  box-shadow: 0 12px 32px #07191a33;
-  border-radius: 7px;
+  background: #152326ee;
+  border: 1px solid #52605c;
+  box-shadow: 0 8px 24px #07141655;
+  border-radius: 5px;
 }
 .vitals {
-  padding: 12px 16px;
+  padding: 9px 13px;
   min-width: 218px;
 }
 .vitals header {
@@ -198,14 +198,14 @@ small,
   bottom: 25px;
   display: grid;
   gap: 10px;
-  width: 215px;
+  width: 200px;
 }
 .minimap {
   padding: 8px;
 }
 .minimap canvas {
-  width: 197px;
-  height: 145px;
+  width: 182px;
+  height: 134px;
   display: block;
   border-radius: 3px;
 }

@@ -709,7 +709,7 @@ export async function createRenderer(
       let view = actors.get(person.id);
       const target = { x: person.location.x, y: person.location.y };
       if (!view) {
-        const s = sprite(`person-${person.appearance % 8}-0-0`, target, 0.65);
+        const s = sprite(`person-${person.appearance % 8}-0-0`, target, 0.76);
         const label = new Text({
           text: person.id === projection.player.id ? person.name : "",
           style: {
@@ -844,7 +844,7 @@ export async function createRenderer(
       }
       v.sprite.position.set(p.x, p.y);
       v.sprite.zIndex = p.y;
-      v.label.position.set(p.x, p.y - 49);
+      v.label.position.set(p.x, p.y - 56);
       v.label.zIndex = p.y + 0.1;
       if (v.person) {
         const frame = moving ? Math.floor((started + animationOffset(id)) / 135) % 4 : 0;

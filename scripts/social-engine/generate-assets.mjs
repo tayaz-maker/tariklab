@@ -110,12 +110,29 @@ const generated = await page.evaluate(
         for (let x = 0.65; x < b.w - 1.3; x += 2.05) window(x, b.h, z);
         for (let y = 0.7; y < b.h - 1.4; y += 2.4) window(b.w, y, z, true);
       }
+      // Recessed balconies and awnings give upper floors a distinct street silhouette.
+      if (b.height > 5 && index % 3 !== 0) {
+        for (let z = 3.05; z < b.height - 1; z += 2.6) {
+          for (let x = 0.65; x < b.w - 2; x += 4.1) {
+            poly([p(x, b.h, z), p(x + 1.75, b.h, z), p(x + 1.75, b.h + 0.4, z), p(x, b.h + 0.4, z)], "#d7c8a6");
+            poly([p(x, b.h + 0.4, z), p(x + 1.75, b.h + 0.4, z), p(x + 1.75, b.h + 0.4, z + 0.38), p(x, b.h + 0.4, z + 0.38)], "#405654aa");
+            for (let u = 0.2; u < 1.7; u += 0.3) {
+              const a = p(x + u, b.h + 0.4, z), d = p(x + u, b.h + 0.4, z + 0.38);
+              c.strokeStyle = "#253c3a"; c.lineWidth = 1; c.beginPath(); c.moveTo(...a); c.lineTo(...d); c.stroke();
+            }
+          }
+        }
+      }
       // Storefront glass, brass door handles and stone thresholds.
       for (let x = 0.5; x < b.w - 1.2; x += 1.7) {
         poly(
           [p(x, b.h, 0.45), p(x + 1.25, b.h, 0.45), p(x + 1.25, b.h, 2.7), p(x, b.h, 2.7)],
           "#284b49",
         );
+        // Warm shelves and merchandise behind the glass retain legibility at street scale.
+        poly([p(x + 0.12, b.h, 0.6), p(x + 1.12, b.h, 0.6), p(x + 1.12, b.h, 1.15), p(x + 0.12, b.h, 1.15)], index % 2 ? "#967758" : "#a9875c", null);
+        for (let u = 0.2; u < 1.05; u += 0.25)
+          poly([p(x + u, b.h, 1.2), p(x + u + 0.13, b.h, 1.2), p(x + u + 0.13, b.h, 1.48), p(x + u, b.h, 1.48)], index % 2 ? "#d4b87c" : "#a9b492", null);
         poly(
           [
             p(x + 0.08, b.h, 0.55),
@@ -165,7 +182,7 @@ const generated = await page.evaluate(
         }
       }
       // Roof: textured clay tile courses, ridge caps and chimney.
-      const roofRise = [0.55, 1.1, 1.4, 1.8][index % 4];
+      const roofRise = [0.12, 1.1, 1.4, 1.8][index % 4];
       const roofColors = [
         ["#ba6143", "#a64f38"],
         ["#95705a", "#795849"],
@@ -218,6 +235,13 @@ const generated = await page.evaluate(
       c.moveTo(...ridgeA);
       c.lineTo(...ridgeB);
       c.stroke();
+      if (index % 4 === 0) {
+        // A low parapet and rooftop service block distinguish flat-roof apartments.
+        poly([p(0, b.h, b.height + 0.15), p(b.w, b.h, b.height + 0.15), p(b.w, b.h, b.height + 0.48), p(0, b.h, b.height + 0.48)], "#b6a58d");
+        const rx = b.w * 0.25, ry = b.h * 0.22, rz = b.height + 0.15;
+        poly([p(rx, ry + 1.1, rz), p(rx + 1.2, ry + 1.1, rz), p(rx + 1.2, ry + 1.1, rz + 0.65), p(rx, ry + 1.1, rz + 0.65)], "#85887d");
+        poly([p(rx, ry, rz + 0.65), p(rx + 1.2, ry, rz + 0.65), p(rx + 1.2, ry + 1.1, rz + 0.65), p(rx, ry + 1.1, rz + 0.65)], "#c1bba8");
+      }
       const ch = p(b.w * 0.7, b.h * 0.3, b.height + 0.9);
       c.fillStyle = "#b6997e";
       c.fillRect(ch[0] - 6, ch[1] - 21, 12, 22);
@@ -298,10 +322,14 @@ const generated = await page.evaluate(
           c.stroke();
           c.fillStyle = palettes[appearance];
           c.beginPath();
-          c.roundRect(-10, -49, 20, 28, 5);
+          const coatWidth = appearance % 3 === 0 ? 12 : 10;
+          const coatLength = appearance % 4 === 0 ? 32 : 28;
+          c.roundRect(-coatWidth, -49, coatWidth * 2, coatLength, appearance % 2 ? 6 : 3);
           c.fill();
-          c.fillStyle = "#ffffff16";
+          c.fillStyle = "#ffffff25";
           c.fillRect(-7, -46, 3, 20);
+          if (appearance % 3 === 1) { c.fillStyle = "#253b3f"; c.fillRect(-2, -48, 4, 25); }
+          if (appearance % 4 === 2) { c.fillStyle = "#e6d7b6"; c.fillRect(-7, -39, 14, 2); }
           c.strokeStyle = palettes[appearance];
           c.lineWidth = 6;
           c.beginPath();
