@@ -14,9 +14,10 @@ import assert from "node:assert/strict";
 import { migrateState } from "../../src/games/social-engine/persistence/codec.ts";
 const sampleCount = Number(process.env.SE_LATE_SAVE_SAMPLES ?? 20);
 assert.ok(Number.isInteger(sampleCount) && sampleCount >= 3 && sampleCount <= 100);
-const file = process.env.SE_LONG_WORLD_FIXTURE || "../day180-world-v5.json.gz";
+const file = process.env.SE_LONG_WORLD_FIXTURE || new URL("./fixtures/mature-world-schema5.json.gz", import.meta.url);
 const raw = await readFile(file),
   source = JSON.parse(gunzipSync(raw));
+if (!process.env.SE_LONG_WORLD_FIXTURE) assert.equal(createHash("sha256").update(raw).digest("hex"),"e4eb58d4c2b05b8da942d7103c71f81b216021a9e4f57861b27d3d5a9629903d");
 for (const key in source.flags)
   if (/^tx(?:set|exact):/.test(key))
     source.flags[key] = writeTransactionBits(readTransactionBits(source.flags[key]));

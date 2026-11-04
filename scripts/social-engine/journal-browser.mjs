@@ -82,7 +82,9 @@ async function fresh(p, name = "Journal Kanıt") {
 }
 async function db(p) {
   return p.evaluate(async () => {
-    const opening = indexedDB.open("tariklab-social-engine", 2);
+    // Inspect the already-open game database without requesting a downgraded writer.
+    const opening = indexedDB.open("tariklab-social-engine");
+    opening.onupgradeneeded = () => opening.transaction.abort();
     const d = await new Promise((resolve, reject) => {
       opening.onsuccess = () => resolve(opening.result);
       opening.onerror = () => reject(opening.error);

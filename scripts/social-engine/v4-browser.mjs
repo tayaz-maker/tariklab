@@ -1,4 +1,5 @@
 /** v4 integration evidence. Setup uses documented public commands/QA time, tested actions use DOM. */
+import { waitForQATicks } from "./wait-for-qa-ticks.mjs";
 import { chromium } from "playwright";
 import { windowlessRendererOptions } from "./windowless-launch.mjs";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
@@ -59,10 +60,7 @@ page.on("response", (r) => {
 const state = () => page.evaluate(() => window.__socialEngine.state());
 const cmd = (type, args = {}) =>
   page.evaluate(({ type, args }) => window.__socialEngine.command(type, args), { type, args });
-const step = async (count) => {
-  await page.evaluate((n) => window.__socialEngine.step(n), count);
-  await page.waitForTimeout(200);
-};
+const step = count => waitForQATicks(page,count);
 const wait = async () => page.waitForTimeout(400);
 async function fresh() {
   await page.goto(base + "/games/social-engine/index.html?qa=1");
@@ -92,7 +90,7 @@ async function building(id) {
   const b = BUILDINGS.find((b) => b.id === id);
   await move(b.door);
   await page.keyboard.press("KeyE");
-  await wait();
+  await page.waitForFunction(id => window.__socialEngine.projection()?.player.location.scene === id,id);
   assert.equal((await state()).player.location.scene, id, "actual E entered building");
 }
 async function check(id, name, fn, { reset = true } = {}) {
@@ -306,8 +304,14 @@ try {
       await wait();
       const retired = await state();
       assert.equal(retired.progression.retired, true);
-      await step(30);
-      assert.equal((await state()).tick, retired.tick);
+      // Retired worlds intentionally refuse to advance. Thirty steps fit in one worker
+      // chunk; the following FIFO snapshot observes all attempts without a wall-clock guess.
+      const stillRetired = await page.evaluate(async () => {
+        window.__socialEngine.step(30);
+        return window.__socialEngine.state();
+      });
+      assert.equal(stillRetired.tick, retired.tick);
+      assert.equal(stillRetired.progression.retired, true);
       await page.locator("#retirement-confirm").click();
       await wait();
       assert.equal((await state()).progression.retired, false);

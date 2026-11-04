@@ -1,0 +1,54 @@
+{
+  "status": "PASS",
+  "runtimeCommit": "2c565622e124057dff40c4d5ff826d7950539f40",
+  "node": "v24.21.0",
+  "command": "node --experimental-strip-types --test-reporter=tap --test src/games/social-engine/tests/focused-acceptance.test.ts",
+  "source": {
+    "digest": "38076598ac8b835c70b2b03a8a2a1bc64fbd0d63bf0e544fa13768764cb884bf",
+    "algorithm": "scripts/social-engine/build.mjs sourceHasher: sorted runtime source paths+NUL+bytes, excluding tests/fixtures, then package-lock.json bytes",
+    "fileCount": 119,
+    "manifestSha256": "24559258aacf69fb51d649201c1fa10576f1f02edfa1eeabb38e0b557aa7b1f3"
+  },
+  "runtime": {
+    "verifiedManifestEntries": 17,
+    "verifiedBytes": 1865885,
+    "treeSha256": "ee53058263c9edf5eeed2403deca66027a36d39833e8088a54e0c884d4d330a4",
+    "treeAlgorithm": "sorted manifest asset filename+NUL+exact bytes",
+    "indexHtmlSha256": "3a43831fcac816e4ef2fcea41b93955d9e423d2d205629b26098d8854d79d187"
+  },
+  "test": {
+    "file": "src/games/social-engine/tests/focused-acceptance.test.ts",
+    "sha256": "6dc30b8e79ad0353700115e7a90b9179c0a8240c11dd8728d3b28e05e0c3e694",
+    "tapSha256": "3b9b1face57270b2bfd7149ac6f0ddef27b38ac536d86460f821e8bdbed47586",
+    "tests": 3,
+    "pass": 3,
+    "fail": 0,
+    "skipped": 0,
+    "names": [
+      "SE-017-npc-scene: a naturally moving real NPC enters another scene with one canonical location",
+      "SE-028-reputation-effects: earned reputation changes actual faction eligibility and survives save reload",
+      "SE-021-job-schedule: replacement employment owns the actual future shift clock and pay without stale prior bookings"
+    ]
+  },
+  "contracts": {
+    "file": "docs/social-engine/ACCEPTANCE_TESTS.md",
+    "sha256": "d496f0713313e5a3e1f14a75067efaee5751729a5242f20bdcae213249442772"
+  },
+  "criteria": {
+    "SE-017": {
+      "test": "SE-017-npc-scene: a naturally moving real NPC enters another scene with one canonical location",
+      "evidence": "An original n93 actor naturally walks outside then enters b-cafe in one unmodified seeded world. Player stays unchanged. Stable NPC identity, one normalized person/location authority, materialization and real codec reload are asserted."
+    },
+    "SE-028": {
+      "test": "SE-028-reputation-effects: earned reputation changes actual faction eligibility and survives save reload",
+      "evidence": "Two actual HELP conversations consume inventory and earn reputation0→3→6. Admission is rejected below5 after reload and accepted above5 after reload; real faction membership, joinedAt/change clock and influence persist through another save/reload."
+    },
+    "SE-021": {
+      "test": "SE-021-job-schedule: replacement employment owns the actual future shift clock and pay without stale prior bookings",
+      "evidence": "Replacement employment owns a new actual shift commitment with its employer,wage and future endsAt. Real simulation time proves no early payment, one correct new-employer payment at the deadline, preserved booking after reload and rejection of stale former start commands.",
+      "scope": "Active shift deadline model only. All job durations remain the actual60minutes. The game has no recurring employment calendar or future reservation planner; this test does not claim either feature."
+    }
+  },
+  "productionChanges": false,
+  "generatedAt": "2026-11-04T10:15:54.992Z"
+}

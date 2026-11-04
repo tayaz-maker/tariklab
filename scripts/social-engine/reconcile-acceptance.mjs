@@ -4,6 +4,8 @@ import { createHash } from "node:crypto";
 import { execFileSync } from "node:child_process";
 import { build } from "esbuild";
 import assert from "node:assert/strict";
+import { isDeepStrictEqual } from "node:util";
+import { resolve } from "node:path";
 import { assessSoakCoverage } from "./soak-coverage.mjs";
 import { footprintEvidence } from "./footprint-evidence.mjs";
 const root = "artifacts/social-engine/";
@@ -20,7 +22,8 @@ function evidencePath(key) {
   if (
     entry &&
     (!/^[a-f0-9]{64}$/.test(entry.sha256) ||
-      entry.path !== "current-receipts/" + entry.sha256 + ".json")
+      entry.path !==
+        "current-receipts/" + entry.sha256 + (key === "acceptance-unit.tap" ? ".tap" : ".json"))
   )
     throw Error("Invalid content-addressed receipt " + key);
   return root + (entry?.path ?? key);
@@ -112,27 +115,143 @@ const stateFor = (checks) =>
         ? "PASS"
         : "UNVERIFIED";
 const unit = await read("acceptance-unit.json");
-let unitFresh = !!unit?.sourcesUnchanged && fresh(unit) && unit.sourceFiles?.length > 0;
-for (const f of unit?.sourceFiles ?? [])
-  if (digest(await readFile(f.path).catch(() => Buffer.alloc(0))) !== f.sha256) unitFresh = false;
+const tapBytes = await readFile(evidencePath("acceptance-unit.tap")).catch(() => Buffer.alloc(0));
+const tap = tapBytes.toString("utf8");
+const parsedTests = [
+  ...tap.matchAll(/^(ok|not ok) \d+ - (.+)\n\s+---\n\s+duration_ms: ([\d.]+)/gm),
+].map((match) => ({
+  name: match[2],
+  status: match[1] === "ok" ? "PASS" : "FAIL",
+  duration_ms: Number(match[3]),
+}));
+const counts = Object.fromEntries(
+  ["tests", "pass", "fail", "cancelled", "skipped", "todo"].map((name) => [
+    name,
+    Number(tap.match(new RegExp("^# " + name + " (\\d+)$", "m"))?.[1] ?? -1),
+  ]),
+);
+let unitFresh =
+  !!unit?.sourcesUnchanged &&
+  fresh(unit) &&
+  !!unit.finishedAt &&
+  Number.isInteger(unit.exitCode) &&
+  ((unit.status === "PASS" && unit.exitCode === 0 && counts.fail === 0) ||
+    (unit.status === "FAIL" && unit.exitCode !== 0 && counts.fail > 0)) &&
+  unit.sourceFiles?.length > 0 &&
+  digest(tapBytes) === unit.tapSha256 &&
+  (!receipts["acceptance-unit.tap"] || receipts["acceptance-unit.tap"].sha256 === unit.tapSha256) &&
+  counts.tests > 0 &&
+  counts.pass + counts.fail === counts.tests &&
+  counts.pass === parsedTests.filter((test) => test.status === "PASS").length &&
+  counts.tests === parsedTests.length &&
+  ["skipped", "cancelled", "todo"].every((k) => counts[k] === 0) &&
+  isDeepStrictEqual(unit.counts, counts) &&
+  isDeepStrictEqual(unit.tests, parsedTests);
+if (unitFresh) {
+  const current = [];
+  async function verifyTree(dir) {
+    for (const entry of await readdir(dir, { withFileTypes: true })) {
+      const path = dir + "/" + entry.name;
+      if (entry.isDirectory()) await verifyTree(path);
+      else current.push({ path, sha256: digest(await readFile(path)) });
+    }
+  }
+  await verifyTree("src/games/social-engine");
+  const order = (a, b) => a.path.localeCompare(b.path);
+  unitFresh = isDeepStrictEqual(current.sort(order), [...unit.sourceFiles].sort(order));
+}
+if (unitFresh) evidencePaths.add("acceptance-unit.tap");
+// These case bindings refer to the assertions in each test body. A test label containing a row ID is insufficient.
+const unitCases = {
+  6: [
+    "SE-002 SE-004 SE-005 SE-006: one canonical adult player, validated profile and point budget",
+  ],
+  10: ["SE-010 SE-012: fixed movement swept collision and world limits resist 10000 held inputs"],
+  11: ["SE-011: obstructed target refuses movement and connected target follows valid path"],
+  12: ["SE-010 SE-012: fixed movement swept collision and world limits resist 10000 held inputs"],
+  15: [
+    "SE-014 SE-015 SE-017: 100 repeated interior transitions preserve one player and exact door",
+  ],
+  17: [
+    "shared-door departures retain one physical person and a persisted six-tick admission gap",
+    "30-person doorway crowd clears without lockstep admissions or duplicate people",
+  ],
+  20: [
+    "SE-020 SE-021: every occupation pays once, changes canonical employment, overlapping shifts rejected",
+  ],
+  22: [
+    "SE-022 SE-023: purchase atomically balances cash, stock and inventory; invalid and duplicate commands fail",
+  ],
+  23: [
+    "SE-022 SE-023: purchase atomically balances cash, stock and inventory; invalid and duplicate commands fail",
+  ],
+  24: [
+    "SE-024: principal, weekly interest and payment reconcile bank assets and player liabilities",
+  ],
+  25: ["SE-016 SE-018 SE-025 SE-027: proximity, cooldown, knowledge and social consequences"],
+  26: [
+    "SE-026 SE-038 SE-039 SE-040: canonical snapshot preserves relational/economic state and resumes identical ticks",
+  ],
+  27: [
+    "SE-016 SE-018 SE-025 SE-027: proximity, cooldown, knowledge and social consequences",
+    "SE-027 SE-029: unseen assault is not automatically known to police",
+  ],
+  29: [
+    "SE-028 SE-029 SE-030: witnessed assault produces delayed report, evidence, pursuit and exact fine",
+    "SE-027 SE-029: unseen assault is not automatically known to police",
+  ],
+  30: [
+    "SE-028 SE-029 SE-030: witnessed assault produces delayed report, evidence, pursuit and exact fine",
+  ],
+  31: [
+    "SE-031: combat windup/cooldown/stamina and block are deterministic independent of render grouping",
+  ],
+  32: [
+    "SE-032 SE-033: driven car and saved driver remain on directed lanes with collision spacing",
+    "integrated engine follows canonical curves under strict invariants, including stationary headings",
+  ],
+  34: [
+    "SE-034: at least one hundred generated missions across seeded worlds have reachable funded canonical targets",
+  ],
+  35: [
+    "SE-034 SE-035 SE-036: funded causal missions, terminal timeout and exactly once reward survive compaction",
+  ],
+  36: [
+    "SE-036 fault injection: a missing target reference times out with escrow and parcel returned once",
+  ],
+  37: ["SE-037 SE-038: 100000 actual ticks retain one location and balanced accounts"],
+  38: ["SE-037 SE-038: 100000 actual ticks retain one location and balanced accounts"],
+  39: [
+    "SE-026 SE-038 SE-039 SE-040: canonical snapshot preserves relational/economic state and resumes identical ticks",
+  ],
+  40: [
+    "SE-026 SE-038 SE-039 SE-040: canonical snapshot preserves relational/economic state and resumes identical ticks",
+  ],
+};
 for (const n of [
   6, 10, 11, 12, 15, 17, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 34, 35, 36, 37, 38, 39,
   40,
 ]) {
-  const id = `SE-${String(n).padStart(3, "0")}`;
-  const checks = unit?.tests?.filter((t) => t.name.includes(id)) ?? [];
+  const names = unitCases[n] ?? [];
+  const checks = names
+    .map((name) => parsedTests.find((test) => test.name === name))
+    .filter(Boolean);
   add(
     [n],
-    unitFresh && unit.status === "PASS" ? stateFor(checks) : "UNVERIFIED",
+    unitFresh && names.length > 0 && checks.length === names.length
+      ? stateFor(checks)
+      : "UNVERIFIED",
     "acceptance-unit.json",
-    checks.length
-      ? checks.map((c) => c.name).join("; ")
-      : "No attributable current test matched this criterion.",
+    checks.map((c) => c.name).join("; ") || "Current named test assertions were not measured.",
     {
       environment: unit?.environment,
       build_sha: unit?.build_sha,
-      duration_ms: checks.reduce((n, c) => n + c.duration_ms, 0),
-      scope: "Pure domain/property/fault tests; no human-play or browser-performance claim.",
+      duration_ms: checks.reduce((total, c) => total + c.duration_ms, 0),
+      scope:
+        "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP.",
+      ...(unitFresh && checks.length
+        ? { tapSha256: unit.tapSha256, tap: evidencePath("acceptance-unit.tap") }
+        : {}),
     },
   );
 }
@@ -268,18 +387,26 @@ for (const [engine, compatibilityId] of [
   }
 }
 const ui = await read("ui-browser/results.json");
-for (const [n, text] of [
-  [3, "double submit"],
-  [6, "invalid profile names"],
-  [42, "real save menu"],
+const uiFresh =
+  !!ui &&
+  isDeepStrictEqual(ui.manifestAtStart, manifest) &&
+  isDeepStrictEqual(ui.manifestAtEnd, manifest) &&
+  Number.isFinite(Date.parse(ui.generatedAt)) &&
+  ["PASS", "PASS_WITH_UNVERIFIED", "FAIL"].includes(ui.status) &&
+  Array.isArray(ui.results);
+for (const [n, name] of [
+  [3, "double submit creates one persistent player and preserves chosen profile"],
+  [6, "invalid profile names and excessive attribute total are rejected through real form"],
+  [42, "real save menu saves copies exports imports and deletes separate slots"],
+  [57, "1280 and 1920 viewports retain reachable readable dialog controls"],
 ]) {
-  const checks = ui?.results?.filter((c) => c.name.includes(text)) ?? [];
+  const checks = ui?.results?.filter((c) => c.name === name) ?? [];
   add(
     [n],
-    fresh(ui) ? stateFor(checks) : "UNVERIFIED",
+    uiFresh && checks.length === 1 ? stateFor(checks) : "UNVERIFIED",
     "ui-browser/results.json",
-    checks.map((c) => c.name).join("; ") || "Current UI evidence missing.",
-    { environment: { browser: ui?.browser } },
+    checks.length ? name : "Current UI evidence missing.",
+    { environment: { browser: ui?.browser }, duration_ms: checks[0]?.duration_ms },
   );
 }
 const focus = await read("browser-evidence/results.json");
@@ -488,11 +615,31 @@ const required = {
   two_human_30_minute_sessions: "UNVERIFIED",
   reference_PC: "UNVERIFIED",
   low_end_physical_hardware: "UNVERIFIED",
-  merge_authorization: "UNVERIFIED",
+  // Operator authorization is not an executable quality test. See DEPLOYMENT_HOLD:
+  // the owner permits this release only after every gate and the traffic lock pass.
   remote_PR_CI: "UNVERIFIED",
   provider_ID_SHA_live_smoke: "UNVERIFIED",
   rollback_trial: "UNVERIFIED",
 };
+for (const [key, name] of [
+  [
+    "headless_true_tab_visibility",
+    "actual background tab visibility pauses and resumes authoritative time",
+  ],
+  ["native_200_percent_browser_zoom", "Native browser zoom 200%"],
+  [
+    "keyboard_menu_visible_focus",
+    "keyboard-only pause and menu navigation keep visible focus and resume",
+  ],
+  [
+    "ui_course_certificate_office_access",
+    "earned course certificate enables office job application through real building menu",
+  ],
+]) {
+  required[key] = uiFresh
+    ? stateFor(ui.results.filter((result) => result.name === name))
+    : "UNVERIFIED";
+}
 const osEvidence = await footprintEvidence(digest(manifestBytes));
 const currentFootprints = osEvidence.samples;
 required.measured_process_footprint_600MiB = stateFor(
@@ -500,9 +647,34 @@ required.measured_process_footprint_600MiB = stateFor(
 );
 for (const path of osEvidence.paths) evidencePaths.add(path);
 const rendererLife = await read("renderer-lifecycle/results.json");
+const rendererProbe = (
+  await build({
+    stdin: {
+      contents:
+        "export {createRenderer} from './src/games/social-engine/rendering/renderer.ts'; export {Cache} from './node_modules/pixi.js/lib/assets/cache/Cache.mjs'; export {createWorld,projectWorld} from './src/games/social-engine/simulation/engine.ts';",
+      resolveDir: process.cwd(),
+      loader: "ts",
+    },
+    bundle: true,
+    format: "iife",
+    globalName: "RendererLifecycle",
+    target: "es2022",
+    write: false,
+    alias: { "pixi.js": resolve("scripts/social-engine/pixi-entry.mjs") },
+    define: {
+      SOCIAL_ATLAS_URL: JSON.stringify(
+        "/games/social-engine/" +
+          manifest.playableAssets.find((a) => a.file.endsWith(".json")).file,
+      ),
+    },
+  })
+).outputFiles[0].text;
 required.renderer_resource_teardown =
-  rendererLife?.rendererSourceSha256 ===
-  digest(await readFile("src/games/social-engine/rendering/renderer.ts"))
+  rendererLife?.probeSha256 === digest(rendererProbe) &&
+  rendererLife.rendererSourceSha256 ===
+    digest(await readFile("src/games/social-engine/rendering/renderer.ts")) &&
+  !!rendererLife.finishedAt &&
+  ["PASS", "FAIL"].includes(rendererLife.status)
     ? rendererLife.status
     : "UNVERIFIED";
 evidencePaths.add("renderer-lifecycle/results.json");

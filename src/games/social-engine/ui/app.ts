@@ -444,6 +444,14 @@ function nearby() {
     const d = Math.hypot(p.location.x - q.x, p.location.y - q.y);
     if (d <= 2.2 && (!nearest || d < nearest.d)) nearest = { kind, id, name, d };
   };
+  // At the actual threshold, a passing pedestrian must not intercept the door.
+  // Outside that small footprint the nearest person, door or vehicle still wins.
+  const portals = p.location.scene === "outside" ? BUILDINGS.map(b => ({ kind: "building", id: b.id, name: b.name, point: b.door })) :
+    [{ kind: "exit", id: "exit", name: "Sokağa çık", point: { x: 7, y: 10 } }];
+  for (const portal of portals) {
+    const d = Math.hypot(p.location.x - portal.point.x, p.location.y - portal.point.y);
+    if (d <= 0.55) return { kind: portal.kind, id: portal.id, name: portal.name, d };
+  }
   for (const n of view.npcs)
     if (n.alive && n.location.scene === p.location.scene) add("person", n.id, n.name, n.location);
   if (p.location.scene === "outside") {

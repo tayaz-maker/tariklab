@@ -4,7 +4,7 @@ import { createHash } from "node:crypto";
 import { execFileSync } from "node:child_process";
 import { readFile, writeFile, mkdir, rename, stat, realpath } from "node:fs/promises";
 import { dirname, join } from "node:path";
-import { parseArgs } from "node:util";
+import { parseArgs, isDeepStrictEqual } from "node:util";
 const { values } = parseArgs({
   options: {
     candidate: { type: "string" },
@@ -22,7 +22,9 @@ const root = "artifacts/social-engine",
   out = join(root, "current-receipts");
 const manifestPath = "public/games/social-engine/build-manifest.json";
 const sha = (bytes) => createHash("sha256").update(bytes).digest("hex");
-const manifest = sha(await readFile(manifestPath));
+const manifestBytes = await readFile(manifestPath);
+const manifest = sha(manifestBytes),
+  manifestObject = JSON.parse(manifestBytes);
 const candidateManifest = async () => sha(await readFile(join(candidate, manifestPath)));
 assert.equal(await candidateManifest(), manifest, "Different compiled game manifest");
 const completed = JSON.parse(await readFile(join(checks, "cases.json"), "utf8"));
@@ -47,7 +49,8 @@ async function atomic(path, content) {
 }
 async function capture(path, raw, source, identity) {
   const hash = sha(raw);
-  const destination = "current-receipts/" + hash + ".json";
+  const destination =
+    "current-receipts/" + hash + (path === "acceptance-unit.tap" ? ".tap" : ".json");
   await atomic(join(root, destination), raw);
   records[path] = { path: destination, sha256: hash, source, identity };
 }
@@ -106,6 +109,9 @@ for (const path of [
   "upgrade/rules8-worker/results.json",
   "browser-evidence/results.json",
   "ui-browser/results.json",
+  "journal-browser/results.json",
+  "asset-faults/results.json",
+  "renderer-lifecycle/results.json",
   "axe/results.json",
   "v4-browser/results.json",
   "acceptance-unit.json",
@@ -133,6 +139,46 @@ for (const path of [
       const previous = JSON.parse(await readFile(join(root, records[path].path), "utf8"));
       if (!(Date.parse(d.finished) > Date.parse(previous.finished))) continue;
     }
+  } else if (path === "acceptance-unit.json") {
+    if (
+      !["PASS", "FAIL"].includes(d.status) ||
+      !d.finishedAt ||
+      d.manifestSha256 !== manifest ||
+      !d.sourcesUnchanged ||
+      !Number.isInteger(d.exitCode) ||
+      !d.counts ||
+      !Array.isArray(d.tests) ||
+      d.tests.length === 0 ||
+      !d.tapSha256
+    )
+      continue;
+    let tap;
+    try {
+      tap = await bytes(join(candidate, root, "acceptance-unit.tap"));
+    } catch {
+      continue;
+    }
+    if (sha(tap) !== d.tapSha256) continue;
+    await capture("acceptance-unit.tap", tap, "acceptance-unit.tap", { manifestSha256: manifest });
+  } else if (path === "ui-browser/results.json") {
+    if (
+      !isDeepStrictEqual(d.manifestAtStart, manifestObject) ||
+      !isDeepStrictEqual(d.manifestAtEnd, manifestObject) ||
+      !Number.isFinite(Date.parse(d.generatedAt)) ||
+      !["PASS", "PASS_WITH_UNVERIFIED", "FAIL"].includes(d.status) ||
+      !d.results?.length
+    )
+      continue;
+  } else if (path === "renderer-lifecycle/results.json") {
+    if (
+      !["PASS", "FAIL"].includes(d.status) ||
+      !d.finishedAt ||
+      !d.rendererSourceSha256 ||
+      !d.probeSha256 ||
+      d.rendererSourceSha256 !==
+        sha(await bytes(join(candidate, "src/games/social-engine/rendering/renderer.ts")))
+    )
+      continue;
   } else if (path === "performance/latest.json") {
     if (!/^\d{4}-\d{2}-\d{2}T[\d-]+Z$/.test(d.runId ?? "")) continue;
     const filename = `performance/${d.runId}/report.json`;
@@ -173,7 +219,8 @@ for (const path of [
   )
     continue;
   await capture(path, raw, path, {
-    manifestSha256: d.manifestSha256 === manifest ? manifest : null,
+    manifestSha256:
+      d.manifestSha256 === manifest || path === "ui-browser/results.json" ? manifest : null,
     sourceBoundProbe: d.probeSha256 ?? d.environment?.sourceSha256 ?? null,
   });
 }

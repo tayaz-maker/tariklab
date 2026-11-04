@@ -36,6 +36,7 @@ jobs:
           node --test scripts/social-engine/check-soak-coverage.mjs
           node scripts/social-engine/collect-licenses.mjs
           node scripts/social-engine/verify-reproducible.mjs
+          node --experimental-strip-types scripts/social-engine/verify-replay-bundle.mjs
           git diff --exit-code -- public/games/social-engine
       - name: 365 days, full replay and day-180 resume
         run: node --experimental-strip-types scripts/social-engine/simulate-365.mjs
