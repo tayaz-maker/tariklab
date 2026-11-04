@@ -1,0 +1,476 @@
+{
+  "manifestAtStart": {
+    "version": 1,
+    "sourceDigest": "e00b145b918ae9fd76da6ffdaf5d9baac4c16b0ae9318058589f968117ce0b4a",
+    "playableAssets": [
+      {
+        "file": "assets/buildings-0bc5233248d9.png",
+        "bytes": 551058,
+        "sha256": "0bc5233248d938204d66a7248ac5c63392c32886bf16e6533794035dcce03450"
+      },
+      {
+        "file": "assets/people-props-430914164137.png",
+        "bytes": 171858,
+        "sha256": "430914164137b5dd5b3725cb954bc0f85c914547f5a571b0eb685d465b260142"
+      },
+      {
+        "file": "assets/atlas-1b5dff1d49d8.json",
+        "bytes": 10876,
+        "sha256": "1b5dff1d49d8321d4f40c25cd77a8a206f1fda411521480bb42b124c41f07688"
+      }
+    ],
+    "initialPlayableBytes": 978509,
+    "assets": [
+      {
+        "file": "app-RGMDWAIW.js",
+        "bytes": 129870,
+        "gzipBytes": 45940,
+        "sha256": "a250ffa373d3ed458df8027396887456348ff37c6844d9eede134edae9a56731"
+      },
+      {
+        "file": "chunk-4NAMSOGY.js",
+        "bytes": 203,
+        "gzipBytes": 134,
+        "sha256": "eaebfc1c1327a9fa17e39b86a2e9e59317372ef4a766723a82a90d4990733ef5"
+      },
+      {
+        "file": "chunk-5HTAQRFM.js",
+        "bytes": 233,
+        "gzipBytes": 144,
+        "sha256": "c57960ebcfc72aaa8b314614b30f63582ecd2d640dd8509eaf2ebe1652d25c9c"
+      },
+      {
+        "file": "chunk-7AFKKDGB.js",
+        "bytes": 69089,
+        "gzipBytes": 22675,
+        "sha256": "39dbabf308d609c8c30a6097c43ddf40a914c84263b839d935e0397b1fc9f362"
+      },
+      {
+        "file": "chunk-DD7GQO3V.js",
+        "bytes": 6083,
+        "gzipBytes": 1986,
+        "sha256": "e21375c8992904f2bee9bf11e171901994819dcdaae55a2d0d635355addbd224"
+      },
+      {
+        "file": "chunk-DTDJP34D.js",
+        "bytes": 42564,
+        "gzipBytes": 12185,
+        "sha256": "424d06bc2538e97889a70af51a78b087405c17d3fbfdcbed908b4f46b43ab357"
+      },
+      {
+        "file": "chunk-EFD5MV62.js",
+        "bytes": 72106,
+        "gzipBytes": 19583,
+        "sha256": "375e220254cdec22d070d0f9de42ef1853646abf6ac6fa6781cf5309358cfafa"
+      },
+      {
+        "file": "chunk-FOG23U6Z.js",
+        "bytes": 169,
+        "gzipBytes": 101,
+        "sha256": "468dade9ad7b33d85766c7a0b7f74a6514b2c2ab2d191606f74ffb0d2430551e"
+      },
+      {
+        "file": "chunk-FXAE45L4.js",
+        "bytes": 59276,
+        "gzipBytes": 16604,
+        "sha256": "09196e5d8c2be7ad60c5072a91f6bb015f041c84477d0bd9f19e98a3bc41287a"
+      },
+      {
+        "file": "chunk-I5OQ4SMM.js",
+        "bytes": 48221,
+        "gzipBytes": 13801,
+        "sha256": "6af49c840327fedfe69383591d448e9e8ba1dbbdda91f194f36c3807ea56808b"
+      },
+      {
+        "file": "chunk-IYZYXDYK.js",
+        "bytes": 55588,
+        "gzipBytes": 18245,
+        "sha256": "7fb57a530179d55b8b8c7f528842f3cec4890fc5b02d44ecdd4bb6b4942b3f10"
+      },
+      {
+        "file": "chunk-K4EQNGI3.js",
+        "bytes": 42879,
+        "gzipBytes": 11241,
+        "sha256": "815d3dce60eff7a50aee12de9c623464bba121f78473f3582d3baffe3615dc15"
+      },
+      {
+        "file": "chunk-LIKKPBUW.js",
+        "bytes": 340,
+        "gzipBytes": 271,
+        "sha256": "06ad2dc669e725fd5c9e0fb98abf9ca3360b22bd28f0faa10a207acada69f059"
+      },
+      {
+        "file": "chunk-LZGHOTUE.js",
+        "bytes": 39852,
+        "gzipBytes": 13002,
+        "sha256": "768aa9c7d105c7f234e8d15c0d6b7a01c6192f34b442db250a709de086252823"
+      },
+      {
+        "file": "chunk-O2LBC5EX.js",
+        "bytes": 115,
+        "gzipBytes": 104,
+        "sha256": "18e8beb3f176e66095c59fe64565d0eeca0535a62075cea762042396fba8f004"
+      },
+      {
+        "file": "chunk-O52VUYK4.js",
+        "bytes": 265,
+        "gzipBytes": 158,
+        "sha256": "97bc13affd4bf128470896464b23e296c1286c2e4afd76cb966e04b6af09dc03"
+      },
+      {
+        "file": "chunk-OBZAIJKW.js",
+        "bytes": 27003,
+        "gzipBytes": 9478,
+        "sha256": "9c3b5529d2997fba887d29d9e2e0db5847448606f6dbad1808d0f6bc2ba3458e"
+      },
+      {
+        "file": "chunk-PM5OLX5V.js",
+        "bytes": 232,
+        "gzipBytes": 144,
+        "sha256": "f53988823eeeb588082e6dd33b24201d841ff4d8f9e89c1e094f84cdc02b14ec"
+      },
+      {
+        "file": "chunk-R2OLMQZM.js",
+        "bytes": 1104,
+        "gzipBytes": 566,
+        "sha256": "c84b6291e6359966c9bfd1684faea29838d13de7f785729fefaf2bbb7aae4cf5"
+      },
+      {
+        "file": "chunk-RK22JOBD.js",
+        "bytes": 33736,
+        "gzipBytes": 11552,
+        "sha256": "dd4b1b2057bcf263aab963df5cd49a093322311d3e45b222c2f364b3a7e427d3"
+      },
+      {
+        "file": "chunk-TUT5QNTW.js",
+        "bytes": 314,
+        "gzipBytes": 190,
+        "sha256": "eeab9650cf7677dcd09dd6e670864a86714512d69d620a6ff4220c4370810f99"
+      },
+      {
+        "file": "chunk-URXYDDVR.js",
+        "bytes": 11135,
+        "gzipBytes": 2867,
+        "sha256": "3456e615d70cd27146949f3aa636632fd1d63deb449418b244ffe521080c7e24"
+      },
+      {
+        "file": "chunk-YUACKDHT.js",
+        "bytes": 27309,
+        "gzipBytes": 8160,
+        "sha256": "71441b6d7d7ef5fdb9ab056a7045351a3a48d7bad2a7764554cd6b08bfb9e1a3"
+      },
+      {
+        "file": "index.html",
+        "bytes": 3618,
+        "gzipBytes": 1395,
+        "sha256": "789f5d09dc4cee778a315519e66a5fe296481bba64cc2f95b85c8d65055f203c"
+      },
+      {
+        "file": "styles-d79ca25bd1dc.css",
+        "bytes": 11737,
+        "gzipBytes": 3040,
+        "sha256": "d79ca25bd1dcfc099703f6983a296d37b44f0f2ec96bc5fecc85e39d13bd15ce"
+      },
+      {
+        "file": "worker-3O4MYGBH.js",
+        "bytes": 90993,
+        "gzipBytes": 31151,
+        "sha256": "f67000243260dc412102954fd85261646a8f7272c4c856368a15b00bf5bd6570"
+      }
+    ],
+    "totalGzipBytes": 244717,
+    "worker": "worker-3O4MYGBH.js",
+    "entry": "app-RGMDWAIW.js"
+  },
+  "manifestAtEnd": {
+    "version": 1,
+    "sourceDigest": "e00b145b918ae9fd76da6ffdaf5d9baac4c16b0ae9318058589f968117ce0b4a",
+    "playableAssets": [
+      {
+        "file": "assets/buildings-0bc5233248d9.png",
+        "bytes": 551058,
+        "sha256": "0bc5233248d938204d66a7248ac5c63392c32886bf16e6533794035dcce03450"
+      },
+      {
+        "file": "assets/people-props-430914164137.png",
+        "bytes": 171858,
+        "sha256": "430914164137b5dd5b3725cb954bc0f85c914547f5a571b0eb685d465b260142"
+      },
+      {
+        "file": "assets/atlas-1b5dff1d49d8.json",
+        "bytes": 10876,
+        "sha256": "1b5dff1d49d8321d4f40c25cd77a8a206f1fda411521480bb42b124c41f07688"
+      }
+    ],
+    "initialPlayableBytes": 978509,
+    "assets": [
+      {
+        "file": "app-RGMDWAIW.js",
+        "bytes": 129870,
+        "gzipBytes": 45940,
+        "sha256": "a250ffa373d3ed458df8027396887456348ff37c6844d9eede134edae9a56731"
+      },
+      {
+        "file": "chunk-4NAMSOGY.js",
+        "bytes": 203,
+        "gzipBytes": 134,
+        "sha256": "eaebfc1c1327a9fa17e39b86a2e9e59317372ef4a766723a82a90d4990733ef5"
+      },
+      {
+        "file": "chunk-5HTAQRFM.js",
+        "bytes": 233,
+        "gzipBytes": 144,
+        "sha256": "c57960ebcfc72aaa8b314614b30f63582ecd2d640dd8509eaf2ebe1652d25c9c"
+      },
+      {
+        "file": "chunk-7AFKKDGB.js",
+        "bytes": 69089,
+        "gzipBytes": 22675,
+        "sha256": "39dbabf308d609c8c30a6097c43ddf40a914c84263b839d935e0397b1fc9f362"
+      },
+      {
+        "file": "chunk-DD7GQO3V.js",
+        "bytes": 6083,
+        "gzipBytes": 1986,
+        "sha256": "e21375c8992904f2bee9bf11e171901994819dcdaae55a2d0d635355addbd224"
+      },
+      {
+        "file": "chunk-DTDJP34D.js",
+        "bytes": 42564,
+        "gzipBytes": 12185,
+        "sha256": "424d06bc2538e97889a70af51a78b087405c17d3fbfdcbed908b4f46b43ab357"
+      },
+      {
+        "file": "chunk-EFD5MV62.js",
+        "bytes": 72106,
+        "gzipBytes": 19583,
+        "sha256": "375e220254cdec22d070d0f9de42ef1853646abf6ac6fa6781cf5309358cfafa"
+      },
+      {
+        "file": "chunk-FOG23U6Z.js",
+        "bytes": 169,
+        "gzipBytes": 101,
+        "sha256": "468dade9ad7b33d85766c7a0b7f74a6514b2c2ab2d191606f74ffb0d2430551e"
+      },
+      {
+        "file": "chunk-FXAE45L4.js",
+        "bytes": 59276,
+        "gzipBytes": 16604,
+        "sha256": "09196e5d8c2be7ad60c5072a91f6bb015f041c84477d0bd9f19e98a3bc41287a"
+      },
+      {
+        "file": "chunk-I5OQ4SMM.js",
+        "bytes": 48221,
+        "gzipBytes": 13801,
+        "sha256": "6af49c840327fedfe69383591d448e9e8ba1dbbdda91f194f36c3807ea56808b"
+      },
+      {
+        "file": "chunk-IYZYXDYK.js",
+        "bytes": 55588,
+        "gzipBytes": 18245,
+        "sha256": "7fb57a530179d55b8b8c7f528842f3cec4890fc5b02d44ecdd4bb6b4942b3f10"
+      },
+      {
+        "file": "chunk-K4EQNGI3.js",
+        "bytes": 42879,
+        "gzipBytes": 11241,
+        "sha256": "815d3dce60eff7a50aee12de9c623464bba121f78473f3582d3baffe3615dc15"
+      },
+      {
+        "file": "chunk-LIKKPBUW.js",
+        "bytes": 340,
+        "gzipBytes": 271,
+        "sha256": "06ad2dc669e725fd5c9e0fb98abf9ca3360b22bd28f0faa10a207acada69f059"
+      },
+      {
+        "file": "chunk-LZGHOTUE.js",
+        "bytes": 39852,
+        "gzipBytes": 13002,
+        "sha256": "768aa9c7d105c7f234e8d15c0d6b7a01c6192f34b442db250a709de086252823"
+      },
+      {
+        "file": "chunk-O2LBC5EX.js",
+        "bytes": 115,
+        "gzipBytes": 104,
+        "sha256": "18e8beb3f176e66095c59fe64565d0eeca0535a62075cea762042396fba8f004"
+      },
+      {
+        "file": "chunk-O52VUYK4.js",
+        "bytes": 265,
+        "gzipBytes": 158,
+        "sha256": "97bc13affd4bf128470896464b23e296c1286c2e4afd76cb966e04b6af09dc03"
+      },
+      {
+        "file": "chunk-OBZAIJKW.js",
+        "bytes": 27003,
+        "gzipBytes": 9478,
+        "sha256": "9c3b5529d2997fba887d29d9e2e0db5847448606f6dbad1808d0f6bc2ba3458e"
+      },
+      {
+        "file": "chunk-PM5OLX5V.js",
+        "bytes": 232,
+        "gzipBytes": 144,
+        "sha256": "f53988823eeeb588082e6dd33b24201d841ff4d8f9e89c1e094f84cdc02b14ec"
+      },
+      {
+        "file": "chunk-R2OLMQZM.js",
+        "bytes": 1104,
+        "gzipBytes": 566,
+        "sha256": "c84b6291e6359966c9bfd1684faea29838d13de7f785729fefaf2bbb7aae4cf5"
+      },
+      {
+        "file": "chunk-RK22JOBD.js",
+        "bytes": 33736,
+        "gzipBytes": 11552,
+        "sha256": "dd4b1b2057bcf263aab963df5cd49a093322311d3e45b222c2f364b3a7e427d3"
+      },
+      {
+        "file": "chunk-TUT5QNTW.js",
+        "bytes": 314,
+        "gzipBytes": 190,
+        "sha256": "eeab9650cf7677dcd09dd6e670864a86714512d69d620a6ff4220c4370810f99"
+      },
+      {
+        "file": "chunk-URXYDDVR.js",
+        "bytes": 11135,
+        "gzipBytes": 2867,
+        "sha256": "3456e615d70cd27146949f3aa636632fd1d63deb449418b244ffe521080c7e24"
+      },
+      {
+        "file": "chunk-YUACKDHT.js",
+        "bytes": 27309,
+        "gzipBytes": 8160,
+        "sha256": "71441b6d7d7ef5fdb9ab056a7045351a3a48d7bad2a7764554cd6b08bfb9e1a3"
+      },
+      {
+        "file": "index.html",
+        "bytes": 3618,
+        "gzipBytes": 1395,
+        "sha256": "789f5d09dc4cee778a315519e66a5fe296481bba64cc2f95b85c8d65055f203c"
+      },
+      {
+        "file": "styles-d79ca25bd1dc.css",
+        "bytes": 11737,
+        "gzipBytes": 3040,
+        "sha256": "d79ca25bd1dcfc099703f6983a296d37b44f0f2ec96bc5fecc85e39d13bd15ce"
+      },
+      {
+        "file": "worker-3O4MYGBH.js",
+        "bytes": 90993,
+        "gzipBytes": 31151,
+        "sha256": "f67000243260dc412102954fd85261646a8f7272c4c856368a15b00bf5bd6570"
+      }
+    ],
+    "totalGzipBytes": 244717,
+    "worker": "worker-3O4MYGBH.js",
+    "entry": "app-RGMDWAIW.js"
+  },
+  "browser": "156.0.8078.80",
+  "base": "http://127.0.0.1:8097",
+  "build_sha": "f0d209516aba9cd05315eae24cb00fff6df9dbcf",
+  "source_status": "working tree candidate",
+  "sourceHashes": {
+    "src/games/social-engine/ui/app.ts": "72ee7cf98819bfd6312563f952cfee7b86cffec896d0adbae8886438f57fe31e",
+    "src/games/social-engine/ui/styles.css": "d79ca25bd1dcfc099703f6983a296d37b44f0f2ec96bc5fecc85e39d13bd15ce",
+    "src/games/social-engine/worker/entry.ts": "5f069cddcd04a514f508280bd4237d1a7def4b2e011deae7d2fc86d6db3e2e88",
+    "src/games/social-engine/persistence/repository.ts": "f61aa99109ea1e1f0ce1c246ff89a393428529e6672b1616d3e7b49dffe73578"
+  },
+  "results": [
+    {
+      "name": "invalid profile names and excessive attribute total are rejected through real form",
+      "status": "PASS",
+      "duration_ms": 340.36950000000024
+    },
+    {
+      "name": "double submit creates one persistent player and preserves chosen profile",
+      "status": "PASS",
+      "duration_ms": 1445.7624580000006
+    },
+    {
+      "name": "keyboard-only pause and menu navigation keep visible focus and resume",
+      "status": "PASS",
+      "duration_ms": 66.89804100000038
+    },
+    {
+      "name": "HUD button keyboard focus survives periodic HUD updates",
+      "status": "PASS",
+      "duration_ms": 927.528875
+    },
+    {
+      "name": "settings inputs allow Tab and Escape, dialog focus is contained",
+      "status": "PASS",
+      "duration_ms": 68.3472499999998
+    },
+    {
+      "name": "pause stops ticks and resume advances same world",
+      "status": "PASS",
+      "duration_ms": 4427.1737920000005
+    },
+    {
+      "name": "real save menu saves copies exports imports and deletes separate slots",
+      "status": "PASS",
+      "duration_ms": 3320.6553750000003
+    },
+    {
+      "name": "remapped inventory shortcut persists and reserved keys are rejected",
+      "status": "PASS",
+      "duration_ms": 81.04433299999982
+    },
+    {
+      "name": "1280 and 1920 viewports retain reachable readable dialog controls",
+      "status": "PASS",
+      "duration_ms": 1077.2939999999999
+    },
+    {
+      "name": "200 percent UI scaling keeps settings and close action operable",
+      "status": "PASS",
+      "duration_ms": 408.4524160000001,
+      "detail": "This is the in-game 200% UI scale; native browser 200% zoom remains separate and UNVERIFIED."
+    },
+    {
+      "name": "actual background tab visibility pauses and resumes authoritative time",
+      "status": "UNVERIFIED",
+      "duration_ms": 492.9290829999991,
+      "detail": "Headless browser keeps pages visible; actual tab-hidden behavior UNVERIFIED in this environment"
+    },
+    {
+      "name": "failed save-and-return preserves the running game",
+      "status": "PASS",
+      "duration_ms": 1158.0019580000007
+    },
+    {
+      "name": "real map navigation, residence reservation, funded lease and household controls share world state",
+      "status": "PASS",
+      "duration_ms": 19869.809333000005
+    },
+    {
+      "name": "course cancellation and re-enrollment are genuine UI transitions with disclosed fees",
+      "status": "PASS",
+      "duration_ms": 32095.379457999996
+    },
+    {
+      "name": "three actual timed attended lessons produce one certificate through live controls",
+      "status": "PASS",
+      "duration_ms": 111583.429208,
+      "detail": "No clock acceleration or command hooks: three real 30-game-minute sessions plus required intervals."
+    },
+    {
+      "name": "earned course certificate enables office job application through real building menu",
+      "status": "PASS",
+      "duration_ms": 22976.128417
+    },
+    {
+      "name": "real worker uncaught exception pauses game and restart restores snapshot",
+      "status": "PASS",
+      "duration_ms": 5315.19200000001
+    },
+    {
+      "name": "Native browser zoom 200%",
+      "status": "UNVERIFIED",
+      "detail": "In-game UI scale was exercised; native browser chrome zoom is not equivalent to device or CSS emulation."
+    }
+  ],
+  "consoleErrors": [],
+  "status": "PASS_WITH_UNVERIFIED",
+  "generatedAt": "2026-11-03T18:09:07.662Z"
+}

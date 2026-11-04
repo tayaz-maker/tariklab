@@ -1,0 +1,5 @@
+{
+  "status": "FAIL",
+  "message": "Error: page.evaluate: SaveError: Bu yuvada sağlam kayıt bulunamadı. Dosyadan içe aktar veya farklı bir yuvada başla.\n    at SaveRepository.verified (http://127.0.0.1:62098/bundle.js:7008:13)\n    at async SaveRepository.restore (http://127.0.0.1:62098/bundle.js:7168:20)",
+  "consoleErrors": []
+}

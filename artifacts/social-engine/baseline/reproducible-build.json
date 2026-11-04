@@ -1,0 +1,84 @@
+{
+  "status": "PASS",
+  "checkedAt": "2026-11-04T07:20:33.171Z",
+  "manifestSha256": "5f6ee17a0a8c63152fb01fc2a310a26298c9c94ed5dc6682990b6bc19f9acc79",
+  "sourceDigest": "76ea681dff03e1aacd0b27b4d85ba5e9bf32233597210be0d596f1017f152e98",
+  "files": [
+    {
+      "file": "app-TC2ULCEA.js",
+      "sha256": "5f454a48c77ab713220ec806b55b82e20198bc3d162010b2bad766dc24cb25d3",
+      "bytes": 148372
+    },
+    {
+      "file": "worker-O6QCGRME.js",
+      "sha256": "271cf3af5043d01320f5e51fdea28fad2ad94dfb7c1e3ae95cc08a4a768091e7",
+      "bytes": 111
+    },
+    {
+      "file": "chunk-QUBRGLPF.js",
+      "sha256": "1ff7ecfcbda35480b73ef904f33e6122aacdf4e587aed5f761e2efe1ab22e712",
+      "bytes": 48211
+    },
+    {
+      "file": "chunk-UJR54KOB.js",
+      "sha256": "0927ba5a2fb6ed5236223e244be3f3c12ad1ec18d458bec37e5fc88f0a0cd43b",
+      "bytes": 72095
+    },
+    {
+      "file": "chunk-DEGAIGB7.js",
+      "sha256": "772c9936f1c1d210acf31220af13fd0e886d24d2827647021f10d9e93ae97d07",
+      "bytes": 11072
+    },
+    {
+      "file": "chunk-UEKX6HSW.js",
+      "sha256": "51d7039d05dc9f5a532e792ab841abaa8d25f894d0bc2808701f14698931d28c",
+      "bytes": 17717
+    },
+    {
+      "file": "chunk-BTG6TYWV.js",
+      "sha256": "e88e330aa3b2a3f9499aa0cbcc76ce27d75ebb15c3f348ca90d2d58fa35f04e8",
+      "bytes": 71079
+    },
+    {
+      "file": "chunk-3J7M7RHN.js",
+      "sha256": "ebf9db9ae3f4f79498500ecf398b6ff585b5ccfed707a25e570af658411fd686",
+      "bytes": 340
+    },
+    {
+      "file": "chunk-OEHB7W2C.js",
+      "sha256": "fd49916ad975bf82c9ff0bdda16a587ceb9bd028144efd200cd31d9c813f00df",
+      "bytes": 53952
+    },
+    {
+      "file": "chunk-UJG5VTAA.js",
+      "sha256": "72a234c8d6fb5a6d737c97457653afd073dad0a7aaa3b567517a908e3e667969",
+      "bytes": 143354
+    },
+    {
+      "file": "chunk-4J34XPR3.js",
+      "sha256": "215ff42af9ec320acd35a3184ebf3bfce29a6370a9b835ad5ae4e5b5aef2c687",
+      "bytes": 129
+    },
+    {
+      "file": "chunk-HTPPDZR7.js",
+      "sha256": "c82e9d0abb54d15c38ee077ce7892ee5cce13a101d43a4b555999ab3812972ab",
+      "bytes": 4055
+    },
+    {
+      "file": "chunk-CS44UROG.js",
+      "sha256": "c8a89b35b279417e528ce8647fd01fcc5e04eadb1ddb60fef9359f3fbb7fc753",
+      "bytes": 177520
+    },
+    {
+      "file": "chunk-BPQGTFEV.js",
+      "sha256": "b0cb2180d2cc22f4f5df50d5c349e3eb5d584f2e5c52d59074abd230f25e7881",
+      "bytes": 488
+    },
+    {
+      "file": "chunk-SQE76S5B.js",
+      "sha256": "11247d28c5c2fb3d976002c2b55fecb6ba19fd88153e11d2c7af5832fd6ff331",
+      "bytes": 577
+    }
+  ],
+  "scope": "Independent in-memory compilation reproduces every emitted JS byte/name, authored CSS/HTML and shipped atlas assets. No served files were changed. Full-site build and provider deployment are separate gates."
+}

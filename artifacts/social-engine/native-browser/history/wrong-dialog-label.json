@@ -1,0 +1,10 @@
+{
+  "status": "FAIL",
+  "manifestSha256": "8336134d01a703715ccc959317933b5f61f5e83ceb4ad52a97f5ff85118ac697",
+  "sourceDigest": "2ece22d16c5ec72d27e8ab3162eca17352b81f797cee24f65f0f53b7cf53d1ec",
+  "mode": "headed Chromium, separate empty profile, actual automatic tab zoom and tab activation",
+  "results": [],
+  "errors": [],
+  "reason": "locator.waitFor: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('dialog', { name: 'Envanter', exact: true }) to be visible\u001b[22m\n",
+  "finishedAt": "2026-11-03T19:08:14.552Z"
+}

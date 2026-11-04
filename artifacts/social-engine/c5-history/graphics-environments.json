@@ -1,0 +1,22 @@
+{
+  "at": "2026-11-04T07:53:16.190801+00:00",
+  "runs": {
+    "v4-browser": {
+      "passedWithRequestedBackend": "ANGLE Metal; standalone Mac headless shell",
+      "previousCondition": "Same machine, concurrent suites, headless shell default SwiftShader",
+      "passCount": 11,
+      "failedReceipt": "c5-history/v4-software-raster-under-load.json",
+      "passingReceipt": "v4-browser/results.json",
+      "passingSha256": "815aa0b7a6fab2495742dfe3b981ef1a64af29e07a225e7407f3d4cb3e96e9a7"
+    },
+    "journal-browser": {
+      "passedWithRequestedBackend": "ANGLE Metal; standalone Mac headless shell",
+      "previousCondition": "Same machine, concurrent suites, headless shell default SwiftShader",
+      "passCount": 4,
+      "failedReceipt": "c5-history/journal-software-raster-under-load.json",
+      "passingReceipt": "journal-browser/results.json",
+      "passingSha256": "f097dcd95a875fce0fc6f52535d06fd3a9d3d7c8fa90923e8e56a0fc96b495b4"
+    }
+  },
+  "dedicatedProfile": "windowless-metal/results.json"
+}

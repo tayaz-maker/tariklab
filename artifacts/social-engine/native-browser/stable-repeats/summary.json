@@ -1,0 +1,23 @@
+{
+  "status": "FAIL",
+  "runs": [
+    {
+      "run": 1,
+      "exitCode": 0,
+      "status": "PASS",
+      "manifestSha256": "7acc7343ed79d1a0f3b846544acd83ff435458f0a9b8b2d912dc4a4a274ff134"
+    },
+    {
+      "run": 2,
+      "exitCode": 1,
+      "status": "FAIL",
+      "manifestSha256": "7acc7343ed79d1a0f3b846544acd83ff435458f0a9b8b2d912dc4a4a274ff134"
+    },
+    {
+      "run": 3,
+      "exitCode": 1,
+      "status": "FAIL",
+      "manifestSha256": "7acc7343ed79d1a0f3b846544acd83ff435458f0a9b8b2d912dc4a4a274ff134"
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta name="social-engine-worker" content="./worker-O6QCGRME.js" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#10262a" />
+    <meta name="robots" content="noindex" />
+    <title>SOCIAL ENGINE — Kıyıyaka</title>
+    <link rel="stylesheet" href="./styles-1cab492a6f0a.css" />
+  </head>
+  <body>
+    <main id="game" aria-label="Social Engine">
+      <div id="world"></div>
+      <div id="hud" class="hud hidden"></div>
+      <div id="panel" class="overlay hidden"></div>
+      <div id="toast" class="toast glass hidden" role="status" aria-live="polite"></div>
+      <div id="intro" class="intro">
+        <section class="intro-art">
+          <div class="eyebrow">TarikLab · Yaşayan bir mahalle</div>
+          <h1>SOCIAL<br />ENGINE</h1>
+          <p>
+            Kıyıyaka'da herkesin bir hesabı, bir geçmişi ve yarına dair bir planı var. Senin hikâyen
+            henüz yazılmadı.
+          </p>
+        </section>
+        <form id="character" class="intro-form" method="dialog">
+          <div>
+            <p class="eyebrow">Kıyıyaka / Yeni başlangıç</p>
+            <h2>Mahalleye hoş geldin.</h2>
+          </div>
+          <div class="character-preview">
+            <div class="portrait" aria-hidden="true"></div>
+            <p>
+              Bir iş bul. İnsanları tanı.<br /><small
+                >İtibarını nasıl kazanacağın sana bağlı.</small
+              >
+            </p>
+          </div>
+          <label
+            >Karakter adı<input
+              name="name"
+              autocomplete="off"
+              maxlength="24"
+              value="Deniz"
+              required
+              aria-describedby="form-error"
+          /></label>
+          <div class="form-grid">
+            <label
+              >Geçmiş<select name="background">
+                <option value="newcomer">Yeni gelen · yeni bir sayfa</option>
+                <option value="local">Mahalleli · eski bağlar</option>
+                <option value="graduate">Mezun · öğrenme tutkusu</option>
+              </select></label
+            ><label
+              >Görünüm<select name="appearance">
+                <option value="0">Kehribar ceket</option>
+                <option value="1">Deniz mavisi</option>
+                <option value="2">Kiremit kırmızısı</option>
+                <option value="3">Adaçayı yeşili</option>
+              </select></label
+            >
+          </div>
+          <div>
+            <p class="eyebrow">Yetenek dağılımı · toplam 12 puan</p>
+            <div class="attributes">
+              <label>Fizik<input name="body" type="number" min="1" max="6" value="3" /></label
+              ><label>Zihin<input name="mind" type="number" min="1" max="6" value="3" /></label
+              ><label>Sosyal<input name="social" type="number" min="1" max="6" value="3" /></label
+              ><label
+                >Özdenetim<input name="discipline" type="number" min="1" max="6" value="3"
+              /></label>
+            </div>
+          </div>
+          <p id="form-error" class="error" role="alert"></p>
+          <p id="boot-status" role="status">Mahalle hazırlanıyor…</p>
+          <noscript>Oynamak için tarayıcıda JavaScript açık olmalı.</noscript>
+          <button class="primary" type="submit" disabled>Hikâyene başla →</button
+          ><button id="continue" type="button" disabled>Kayıtlı oyuna devam et</button>
+          <footer>
+            Yetişkin karakterler · Tek oyunculu · Kayıtlar bu tarayıcıda saklanır.<br />WASD hareket
+            · E etkileşim · M harita · Esc duraklat
+          </footer>
+        </form>
+      </div>
+    </main>
+    <script type="module" src="./app-TC2ULCEA.js"></script>
+  </body>
+</html>

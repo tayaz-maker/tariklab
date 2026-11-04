@@ -1,0 +1,163 @@
+{
+  "checks": [
+    {
+      "name": "database version1 upgrades without rewriting existing schema3 bytes",
+      "status": "PASS",
+      "duration_ms": 10.5
+    },
+    {
+      "name": "real IndexedDB state round-trip and UTF-8 profile",
+      "status": "PASS",
+      "duration_ms": 246.30000007152557
+    },
+    {
+      "name": "snapshot captured before a queued caller mutation",
+      "status": "PASS",
+      "duration_ms": 190
+    },
+    {
+      "name": "export/import/copy/delete preserve world and unrelated slots",
+      "status": "PASS",
+      "duration_ms": 773.2999999523163
+    },
+    {
+      "name": "aborted transaction preserves the last verified revision",
+      "status": "PASS",
+      "duration_ms": 219.5
+    },
+    {
+      "name": "quota exception preserves current and previous revisions",
+      "status": "PASS",
+      "duration_ms": 256.89999997615814
+    },
+    {
+      "name": "corrupt current revision falls back, quarantines and preserves prior state",
+      "status": "PASS",
+      "duration_ms": 298.60000002384186
+    },
+    {
+      "name": "future schema refuses downgrade even with a valid previous revision",
+      "status": "PASS",
+      "duration_ms": 2.600000023841858
+    },
+    {
+      "name": "independent repository instances reject stale concurrent writes",
+      "status": "PASS",
+      "duration_ms": 401.2999999523163
+    },
+    {
+      "name": "migration is atomic, retryable and retains frozen source bytes",
+      "status": "PASS",
+      "duration_ms": 859.3000000715256
+    },
+    {
+      "name": "authentic v2 save migrates through an explicit journal to schema4",
+      "status": "PASS",
+      "duration_ms": 228.29999995231628
+    },
+    {
+      "name": "authentic v3 lifecycle history migrates through explicit3-to4 journal",
+      "status": "PASS",
+      "duration_ms": 238.60000002384186
+    },
+    {
+      "name": "invalid import never overwrites a valid existing slot",
+      "status": "PASS",
+      "duration_ms": 137.39999997615814
+    },
+    {
+      "name": "twenty measured saves and loads preserve canonical state",
+      "status": "PASS",
+      "duration_ms": 5986.399999976158
+    },
+    {
+      "name": "old TC SIM, Boardworld and Racon namespace canaries stay byte-identical",
+      "status": "PASS",
+      "duration_ms": 0.5
+    },
+    {
+      "name": "durable command journal replays exact tick operations after reopening",
+      "status": "PASS",
+      "duration_ms": 489.39999997615814
+    },
+    {
+      "name": "paused commands controls and manual copy/export retain exact journal semantics",
+      "status": "PASS",
+      "duration_ms": 821.1000000238419
+    },
+    {
+      "name": "journal duplicate retry is idempotent and concurrent tail/checkpoint writes conflict",
+      "status": "PASS",
+      "duration_ms": 350.8000000715256
+    },
+    {
+      "name": "quota and aborted journal transaction preserve the whole last durable prefix",
+      "status": "PASS",
+      "duration_ms": 379.40000009536743
+    },
+    {
+      "name": "corrupt journal suffix quarantines source and replays only verified prefix",
+      "status": "PASS",
+      "duration_ms": 173.90000009536743
+    },
+    {
+      "name": "atomic checkpoint prunes covered tail and accepts only a rebased suffix",
+      "status": "PASS",
+      "duration_ms": 344.89999997615814
+    },
+    {
+      "name": "corrupt autosave baseline falls back and quarantines its incompatible journal",
+      "status": "PASS",
+      "duration_ms": 275.5
+    },
+    {
+      "name": "begin-journal CAS protects another tab tail and explicit delete removes journal records",
+      "status": "PASS",
+      "duration_ms": 568.8999999761581
+    },
+    {
+      "name": "explicit auto import/copy atomically replaces journal and retains fully replayed rollback",
+      "status": "PASS",
+      "duration_ms": 1755.5
+    },
+    {
+      "name": "authentic schema5 snapshot and nonempty journal migrate atomically without activating formerly unknown commands",
+      "status": "PASS",
+      "duration_ms": 526.5
+    },
+    {
+      "name": "close/reopen keeps the authoritative state frozen",
+      "status": "PASS",
+      "duration_ms": 324.89999997615814
+    },
+    {
+      "name": "closing a tab during an active write preserves the last committed state",
+      "status": "PASS",
+      "duration_ms": 1102.7354580000028
+    },
+    {
+      "name": "closing a tab during journal append retains exactly the last acknowledged durable prefix",
+      "status": "PASS",
+      "duration_ms": 1061.1027499999982
+    }
+  ],
+  "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "saveLoad": {
+    "samples": 20,
+    "p50_ms": 298.2000000476837,
+    "p95_ms": 356.89999997615814,
+    "max_ms": 372
+  },
+  "build_sha": "9ed66ec05fb5620a2a73aba0296b356691ac7ca9",
+  "source_status": "working tree candidate",
+  "bundle_sha256": "38435187ab295928c54c77ed588254409e45e713df21d14a03bfe52eb25d48f6",
+  "browser": "151.0.7922.34",
+  "browserKind": "chromium",
+  "consoleErrors": [],
+  "status": "PASS",
+  "timestamp": "2026-11-04T07:18:00.416Z"
+}

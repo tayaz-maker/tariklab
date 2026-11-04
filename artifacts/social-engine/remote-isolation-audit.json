@@ -1,0 +1,32 @@
+{
+  "observedAt": "2026-11-03T21:43:40.855Z",
+  "method": "Connected GitHub read-only tools",
+  "repository": "tayaz-maker/tariklab",
+  "remoteMain": {
+    "sha": "d695119186cad42c079a911a60c372f201b3b64b",
+    "url": "https://github.com/tayaz-maker/tariklab/commit/d695119186cad42c079a911a60c372f201b3b64b"
+  },
+  "socialEngineRemoteBranches": [
+    {
+      "branch": "feature/social-engine-foundation-20261103"
+    }
+  ],
+  "openPRs": [
+    {
+      "number": 254,
+      "title": "Boardworld 7.0 Gold candidate: save safety, package and locale fixes",
+      "url": "https://github.com/tayaz-maker/tariklab/pull/254",
+      "state": "open",
+      "draft": false,
+      "merged": false,
+      "head": "feature/boardworld-7-gold",
+      "headSha": "e6576b73b1ba6c490c0aecc47d9212f2a7eda593",
+      "updatedAt": "2026-11-03T21:13:29Z"
+    }
+  ],
+  "localBranch": "feature/social-engine-development",
+  "remoteMutation": false,
+  "localOnlyPerUser": true,
+  "mergeAndProduction": "SUSPENDED_BY_USER",
+  "note": "Other-agent PR254 remains open and was not modified. A PR's synthetic merge commit is not a real merge/deployment. Recheck refs before later authorized integration; no provider proof is inferred."
+}

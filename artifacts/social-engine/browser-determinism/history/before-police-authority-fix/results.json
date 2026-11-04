@@ -1,0 +1,20 @@
+{
+  "seed": 20261103,
+  "days": 365,
+  "ticks": 5256000,
+  "bundleSha256": "3286fa615a1de3b1fc7658a0f39c56b1b69d292f4e070fb7d13b4a5ef7e25349",
+  "expectedHash": "fa9d4217bf7f556b9d91b7825d214e88548b3cedee73e3c73738bb92933a77ec",
+  "expectedErrors": [],
+  "results": [
+    {
+      "browser": "chromium",
+      "version": "156.0.8078.80",
+      "status": "PASS",
+      "actualHash": "fa9d4217bf7f556b9d91b7825d214e88548b3cedee73e3c73738bb92933a77ec",
+      "errors": [],
+      "simulationMs": 674879.1999999285,
+      "elapsedMs": 676111.291208
+    }
+  ],
+  "note": "Pure simulation parity across actual JS engines; no renderer, browser FPS or UI acceptance implied."
+}

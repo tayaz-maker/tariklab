@@ -1,0 +1,10 @@
+{
+  "base": "http://127.0.0.1:8096",
+  "started": "2026-11-03T20:35:58.703Z",
+  "browser": "156.0.8078.80",
+  "errors": [],
+  "requests": [],
+  "status": "PASS",
+  "manifestSha256": "7acc7343ed79d1a0f3b846544acd83ff435458f0a9b8b2d912dc4a4a274ff134",
+  "finished": "2026-11-03T20:36:01.697Z"
+}

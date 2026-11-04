@@ -1,0 +1,1312 @@
+{
+  "startedAt": "2026-11-04T07:37:04.801Z",
+  "manifestSha256": "5f6ee17a0a8c63152fb01fc2a310a26298c9c94ed5dc6682990b6bc19f9acc79",
+  "sourceDigest": "76ea681dff03e1aacd0b27b4d85ba5e9bf32233597210be0d596f1017f152e98",
+  "setupPolicy": "Fresh isolated browser storage. Movement/time setup uses public commands and QA STEP; each claimed UI action uses actual DOM/keyboard. Family precondition is an explicitly generated validated fixture, imported through the save API, not earned gameplay.",
+  "results": [
+    {
+      "id": "travel",
+      "name": "DOM time speed and bus ticket move one authoritative player and debit fare",
+      "status": "PASS",
+      "duration_ms": 20860.871333,
+      "evidence": {
+        "trip": {
+          "id": "trip:119ae618-b01f-4cf5-b811-cd42ed307c4a:7",
+          "fromStop": "stop-market",
+          "toStop": "stop-coast",
+          "arrivalTick": 336,
+          "startedTick": 156,
+          "fare": 2500
+        },
+        "arrival": {
+          "x": 28,
+          "y": 54.5,
+          "scene": "outside"
+        },
+        "fare": 2500
+      }
+    },
+    {
+      "id": "rental",
+      "name": "DOM rental fee and escrow refund preserve money",
+      "status": "PASS",
+      "duration_ms": 22715.16175,
+      "evidence": {
+        "fee": 25000,
+        "refunded": 50000
+      }
+    },
+    {
+      "id": "club",
+      "name": "DOM legal club membership and actual thirty-minute attendance",
+      "status": "PASS",
+      "duration_ms": 17012.171917,
+      "evidence": {
+        "personId": "player",
+        "standing": 10,
+        "role": "newcomer"
+      }
+    },
+    {
+      "id": "faction",
+      "name": "DOM join and contribution transfer to owned faction treasury",
+      "status": "PASS",
+      "duration_ms": 20449.392583000008,
+      "evidence": {
+        "membership": "dock",
+        "treasury": 10000
+      }
+    },
+    {
+      "id": "combat",
+      "name": "Actual G heavy attack and Space dodge have authoritative consequences",
+      "status": "FAIL",
+      "duration_ms": 7572.059458999996,
+      "reason": "AssertionError [ERR_ASSERTION]: dodge active\n    at file:///Users/tarikayaz/Documents/Codex/2026-11-03/social-engine-1-0-autonomous-production/work/social-engine-final/scripts/social-engine/v4-browser.mjs:216:14\n    at async check (file:///Users/tarikayaz/Documents/Codex/2026-11-03/social-engine-1-0-autonomous-production/work/social-engine-final/scripts/social-engine/v4-browser.mjs:98:22)\n    at async file:///Users/tarikayaz/Documents/Codex/2026-11-03/social-engine-1-0-autonomous-production/work/social-engine-final/scripts/social-engine/v4-browser.mjs:195:3"
+    },
+    {
+      "id": "rumor",
+      "name": "DOM rumor preserves provenance and attenuates confidence",
+      "status": "PASS",
+      "duration_ms": 13659.433292000002,
+      "evidence": {
+        "eventId": "e11",
+        "ownerId": "n0",
+        "sourceId": "player",
+        "mode": "rumor",
+        "confidence": 75,
+        "salience": 50,
+        "critical": false,
+        "learnedAt": 488,
+        "lastDecayDay": 0,
+        "chain": [
+          "player",
+          "n0"
+        ]
+      }
+    },
+    {
+      "id": "custody",
+      "name": "DOM police attendance creates real custody, blocks motion, resolves one fine",
+      "status": "PASS",
+      "duration_ms": 15463.774374999994,
+      "evidence": {
+        "custody": {
+          "caseId": "case:crime:10",
+          "personId": "player",
+          "startedAt": 659,
+          "releaseAt": 689
+        },
+        "cases": [
+          {
+            "id": "case:crime:10",
+            "crimeId": "crime:10",
+            "knownSuspectId": "player",
+            "knownEvidence": [
+              "saw:n10",
+              "saw:n20",
+              "saw:n30",
+              "saw:n40",
+              "saw:n50",
+              "saw:n60",
+              "saw:n70",
+              "saw:n80",
+              "saw:n85",
+              "saw:n90"
+            ],
+            "testimonyIds": [],
+            "status": "fined",
+            "openedAt": 484,
+            "updatedAt": 689,
+            "outcome": "Tanık kaydı doğrulandı; mevcut para cezası ve borç mutabakatı uygulandı."
+          }
+        ]
+      }
+    },
+    {
+      "id": "retirement",
+      "name": "DOM retirement freezes world and explicit resume continues same career",
+      "status": "PASS",
+      "duration_ms": 25564.010083999994,
+      "evidence": {
+        "retiredAt": 491,
+        "preservedPlayer": "player"
+      }
+    },
+    {
+      "id": "family",
+      "name": "Validated marriage fixture then DOM birth and guardian change",
+      "status": "PASS",
+      "duration_ms": 38727.73708400002,
+      "evidence": {
+        "fixtureSha256": "a092113d19db832587fd8f3083a6e4435456cd6fc9558f39a651b4998e590312",
+        "childId": "born:19",
+        "guardians": [
+          "municipality"
+        ]
+      }
+    },
+    {
+      "id": "SE-045",
+      "name": "Authentic TC SIM create/save/load bytes survive real SOCIAL ENGINE startup and save",
+      "status": "PASS",
+      "duration_ms": 9792.818582999986,
+      "evidence": {
+        "schema": 6,
+        "name": "Legacy Kanıt",
+        "keyBytesAndHashes": {
+          "tariklab::tc-sim:1": {
+            "bytes": 9028,
+            "sha256": "31a9d90524f11c6a5aca1dad76065c33184b4616f8efb03c43bf3480295bfba3"
+          },
+          "tariklab::tc-sim:1:bak": {
+            "bytes": 9028,
+            "sha256": "abf989dc59244186480265390d5368992c14c8fa240d44281af632698b754fe3"
+          },
+          "tariklab::tc-sim:legacy-migrated": {
+            "bytes": 1,
+            "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+          },
+          "tc-sim-save": {
+            "bytes": 9028,
+            "sha256": "31a9d90524f11c6a5aca1dad76065c33184b4616f8efb03c43bf3480295bfba3"
+          },
+          "tc-sim-save-backup": {
+            "bytes": 9028,
+            "sha256": "abf989dc59244186480265390d5368992c14c8fa240d44281af632698b754fe3"
+          }
+        },
+        "legacyReload": {
+          "ok": true,
+          "name": "Legacy Kanıt",
+          "version": 6
+        }
+      }
+    },
+    {
+      "id": "worker-fallback",
+      "name": "An asynchronous first worker-load failure has a locked recoverable modal and local endpoint",
+      "status": "PASS",
+      "duration_ms": 7032.920333000016,
+      "evidence": {
+        "intentionalFailure": "worker script request aborted",
+        "population": 1100,
+        "profileName": "Deniz Kurtarma",
+        "location": {
+          "x": 31,
+          "y": 16,
+          "scene": "outside"
+        },
+        "alive": true
+      }
+    }
+  ],
+  "errors": [],
+  "loadedAssets": [
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/styles-1cab492a6f0a.css",
+      "sha256": "1cab492a6f0a81620e7f7d34acdcf58a9d3cabdd00cb8159f8a670c231c63fc1",
+      "bytes": 11737
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/index.html?qa=1",
+      "sha256": "218c44aa52ebbfd95399b2f99febfe88c27712bede0117574c74692cd4b0bc32",
+      "bytes": 3883
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/app-TC2ULCEA.js",
+      "sha256": "5f454a48c77ab713220ec806b55b82e20198bc3d162010b2bad766dc24cb25d3",
+      "bytes": 148372
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-BTG6TYWV.js",
+      "sha256": "e88e330aa3b2a3f9499aa0cbcc76ce27d75ebb15c3f348ca90d2d58fa35f04e8",
+      "bytes": 71079
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-3J7M7RHN.js",
+      "sha256": "ebf9db9ae3f4f79498500ecf398b6ff585b5ccfed707a25e570af658411fd686",
+      "bytes": 340
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-SQE76S5B.js",
+      "sha256": "11247d28c5c2fb3d976002c2b55fecb6ba19fd88153e11d2c7af5832fd6ff331",
+      "bytes": 577
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-CS44UROG.js",
+      "sha256": "c8a89b35b279417e528ce8647fd01fcc5e04eadb1ddb60fef9359f3fbb7fc753",
+      "bytes": 177520
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-UJG5VTAA.js",
+      "sha256": "72a234c8d6fb5a6d737c97457653afd073dad0a7aaa3b567517a908e3e667969",
+      "bytes": 143354
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-UJR54KOB.js",
+      "sha256": "0927ba5a2fb6ed5236223e244be3f3c12ad1ec18d458bec37e5fc88f0a0cd43b",
+      "bytes": 72095
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-DEGAIGB7.js",
+      "sha256": "772c9936f1c1d210acf31220af13fd0e886d24d2827647021f10d9e93ae97d07",
+      "bytes": 11072
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-OEHB7W2C.js",
+      "sha256": "fd49916ad975bf82c9ff0bdda16a587ceb9bd028144efd200cd31d9c813f00df",
+      "bytes": 53952
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/atlas-1b5dff1d49d8.json",
+      "sha256": "1b5dff1d49d8321d4f40c25cd77a8a206f1fda411521480bb42b124c41f07688",
+      "bytes": 10876
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/people-props-430914164137.png",
+      "sha256": "430914164137b5dd5b3725cb954bc0f85c914547f5a571b0eb685d465b260142",
+      "bytes": 171858
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/buildings-0bc5233248d9.png",
+      "sha256": "0bc5233248d938204d66a7248ac5c63392c32886bf16e6533794035dcce03450",
+      "bytes": 551058
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/worker-O6QCGRME.js",
+      "sha256": "271cf3af5043d01320f5e51fdea28fad2ad94dfb7c1e3ae95cc08a4a768091e7",
+      "bytes": 111
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-SQE76S5B.js",
+      "sha256": "11247d28c5c2fb3d976002c2b55fecb6ba19fd88153e11d2c7af5832fd6ff331",
+      "bytes": 577
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-CS44UROG.js",
+      "sha256": "c8a89b35b279417e528ce8647fd01fcc5e04eadb1ddb60fef9359f3fbb7fc753",
+      "bytes": 177520
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-HTPPDZR7.js",
+      "sha256": "c82e9d0abb54d15c38ee077ce7892ee5cce13a101d43a4b555999ab3812972ab",
+      "bytes": 4055
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/index.html?qa=1",
+      "sha256": "218c44aa52ebbfd95399b2f99febfe88c27712bede0117574c74692cd4b0bc32",
+      "bytes": 3883
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/styles-1cab492a6f0a.css",
+      "sha256": "1cab492a6f0a81620e7f7d34acdcf58a9d3cabdd00cb8159f8a670c231c63fc1",
+      "bytes": 11737
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/app-TC2ULCEA.js",
+      "sha256": "5f454a48c77ab713220ec806b55b82e20198bc3d162010b2bad766dc24cb25d3",
+      "bytes": 148372
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-3J7M7RHN.js",
+      "sha256": "ebf9db9ae3f4f79498500ecf398b6ff585b5ccfed707a25e570af658411fd686",
+      "bytes": 340
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-SQE76S5B.js",
+      "sha256": "11247d28c5c2fb3d976002c2b55fecb6ba19fd88153e11d2c7af5832fd6ff331",
+      "bytes": 577
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-BTG6TYWV.js",
+      "sha256": "e88e330aa3b2a3f9499aa0cbcc76ce27d75ebb15c3f348ca90d2d58fa35f04e8",
+      "bytes": 71079
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-UJG5VTAA.js",
+      "sha256": "72a234c8d6fb5a6d737c97457653afd073dad0a7aaa3b567517a908e3e667969",
+      "bytes": 143354
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-CS44UROG.js",
+      "sha256": "c8a89b35b279417e528ce8647fd01fcc5e04eadb1ddb60fef9359f3fbb7fc753",
+      "bytes": 177520
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-UJR54KOB.js",
+      "sha256": "0927ba5a2fb6ed5236223e244be3f3c12ad1ec18d458bec37e5fc88f0a0cd43b",
+      "bytes": 72095
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-DEGAIGB7.js",
+      "sha256": "772c9936f1c1d210acf31220af13fd0e886d24d2827647021f10d9e93ae97d07",
+      "bytes": 11072
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-OEHB7W2C.js",
+      "sha256": "fd49916ad975bf82c9ff0bdda16a587ceb9bd028144efd200cd31d9c813f00df",
+      "bytes": 53952
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/atlas-1b5dff1d49d8.json",
+      "sha256": "1b5dff1d49d8321d4f40c25cd77a8a206f1fda411521480bb42b124c41f07688",
+      "bytes": 10876
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/people-props-430914164137.png",
+      "sha256": "430914164137b5dd5b3725cb954bc0f85c914547f5a571b0eb685d465b260142",
+      "bytes": 171858
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/buildings-0bc5233248d9.png",
+      "sha256": "0bc5233248d938204d66a7248ac5c63392c32886bf16e6533794035dcce03450",
+      "bytes": 551058
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/worker-O6QCGRME.js",
+      "sha256": "271cf3af5043d01320f5e51fdea28fad2ad94dfb7c1e3ae95cc08a4a768091e7",
+      "bytes": 111
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-HTPPDZR7.js",
+      "sha256": "c82e9d0abb54d15c38ee077ce7892ee5cce13a101d43a4b555999ab3812972ab",
+      "bytes": 4055
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-CS44UROG.js",
+      "sha256": "c8a89b35b279417e528ce8647fd01fcc5e04eadb1ddb60fef9359f3fbb7fc753",
+      "bytes": 177520
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-SQE76S5B.js",
+      "sha256": "11247d28c5c2fb3d976002c2b55fecb6ba19fd88153e11d2c7af5832fd6ff331",
+      "bytes": 577
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/index.html?qa=1",
+      "sha256": "218c44aa52ebbfd95399b2f99febfe88c27712bede0117574c74692cd4b0bc32",
+      "bytes": 3883
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/styles-1cab492a6f0a.css",
+      "sha256": "1cab492a6f0a81620e7f7d34acdcf58a9d3cabdd00cb8159f8a670c231c63fc1",
+      "bytes": 11737
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/app-TC2ULCEA.js",
+      "sha256": "5f454a48c77ab713220ec806b55b82e20198bc3d162010b2bad766dc24cb25d3",
+      "bytes": 148372
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-3J7M7RHN.js",
+      "sha256": "ebf9db9ae3f4f79498500ecf398b6ff585b5ccfed707a25e570af658411fd686",
+      "bytes": 340
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-SQE76S5B.js",
+      "sha256": "11247d28c5c2fb3d976002c2b55fecb6ba19fd88153e11d2c7af5832fd6ff331",
+      "bytes": 577
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-BTG6TYWV.js",
+      "sha256": "e88e330aa3b2a3f9499aa0cbcc76ce27d75ebb15c3f348ca90d2d58fa35f04e8",
+      "bytes": 71079
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-UJG5VTAA.js",
+      "sha256": "72a234c8d6fb5a6d737c97457653afd073dad0a7aaa3b567517a908e3e667969",
+      "bytes": 143354
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-CS44UROG.js",
+      "sha256": "c8a89b35b279417e528ce8647fd01fcc5e04eadb1ddb60fef9359f3fbb7fc753",
+      "bytes": 177520
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-UJR54KOB.js",
+      "sha256": "0927ba5a2fb6ed5236223e244be3f3c12ad1ec18d458bec37e5fc88f0a0cd43b",
+      "bytes": 72095
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-DEGAIGB7.js",
+      "sha256": "772c9936f1c1d210acf31220af13fd0e886d24d2827647021f10d9e93ae97d07",
+      "bytes": 11072
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-OEHB7W2C.js",
+      "sha256": "fd49916ad975bf82c9ff0bdda16a587ceb9bd028144efd200cd31d9c813f00df",
+      "bytes": 53952
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/atlas-1b5dff1d49d8.json",
+      "sha256": "1b5dff1d49d8321d4f40c25cd77a8a206f1fda411521480bb42b124c41f07688",
+      "bytes": 10876
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/people-props-430914164137.png",
+      "sha256": "430914164137b5dd5b3725cb954bc0f85c914547f5a571b0eb685d465b260142",
+      "bytes": 171858
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/buildings-0bc5233248d9.png",
+      "sha256": "0bc5233248d938204d66a7248ac5c63392c32886bf16e6533794035dcce03450",
+      "bytes": 551058
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/worker-O6QCGRME.js",
+      "sha256": "271cf3af5043d01320f5e51fdea28fad2ad94dfb7c1e3ae95cc08a4a768091e7",
+      "bytes": 111
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-SQE76S5B.js",
+      "sha256": "11247d28c5c2fb3d976002c2b55fecb6ba19fd88153e11d2c7af5832fd6ff331",
+      "bytes": 577
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-HTPPDZR7.js",
+      "sha256": "c82e9d0abb54d15c38ee077ce7892ee5cce13a101d43a4b555999ab3812972ab",
+      "bytes": 4055
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-CS44UROG.js",
+      "sha256": "c8a89b35b279417e528ce8647fd01fcc5e04eadb1ddb60fef9359f3fbb7fc753",
+      "bytes": 177520
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/index.html?qa=1",
+      "sha256": "218c44aa52ebbfd95399b2f99febfe88c27712bede0117574c74692cd4b0bc32",
+      "bytes": 3883
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/styles-1cab492a6f0a.css",
+      "sha256": "1cab492a6f0a81620e7f7d34acdcf58a9d3cabdd00cb8159f8a670c231c63fc1",
+      "bytes": 11737
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/app-TC2ULCEA.js",
+      "sha256": "5f454a48c77ab713220ec806b55b82e20198bc3d162010b2bad766dc24cb25d3",
+      "bytes": 148372
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-3J7M7RHN.js",
+      "sha256": "ebf9db9ae3f4f79498500ecf398b6ff585b5ccfed707a25e570af658411fd686",
+      "bytes": 340
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-SQE76S5B.js",
+      "sha256": "11247d28c5c2fb3d976002c2b55fecb6ba19fd88153e11d2c7af5832fd6ff331",
+      "bytes": 577
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-BTG6TYWV.js",
+      "sha256": "e88e330aa3b2a3f9499aa0cbcc76ce27d75ebb15c3f348ca90d2d58fa35f04e8",
+      "bytes": 71079
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-CS44UROG.js",
+      "sha256": "c8a89b35b279417e528ce8647fd01fcc5e04eadb1ddb60fef9359f3fbb7fc753",
+      "bytes": 177520
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-UJG5VTAA.js",
+      "sha256": "72a234c8d6fb5a6d737c97457653afd073dad0a7aaa3b567517a908e3e667969",
+      "bytes": 143354
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-UJR54KOB.js",
+      "sha256": "0927ba5a2fb6ed5236223e244be3f3c12ad1ec18d458bec37e5fc88f0a0cd43b",
+      "bytes": 72095
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-DEGAIGB7.js",
+      "sha256": "772c9936f1c1d210acf31220af13fd0e886d24d2827647021f10d9e93ae97d07",
+      "bytes": 11072
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-OEHB7W2C.js",
+      "sha256": "fd49916ad975bf82c9ff0bdda16a587ceb9bd028144efd200cd31d9c813f00df",
+      "bytes": 53952
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/atlas-1b5dff1d49d8.json",
+      "sha256": "1b5dff1d49d8321d4f40c25cd77a8a206f1fda411521480bb42b124c41f07688",
+      "bytes": 10876
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/people-props-430914164137.png",
+      "sha256": "430914164137b5dd5b3725cb954bc0f85c914547f5a571b0eb685d465b260142",
+      "bytes": 171858
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/buildings-0bc5233248d9.png",
+      "sha256": "0bc5233248d938204d66a7248ac5c63392c32886bf16e6533794035dcce03450",
+      "bytes": 551058
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/worker-O6QCGRME.js",
+      "sha256": "271cf3af5043d01320f5e51fdea28fad2ad94dfb7c1e3ae95cc08a4a768091e7",
+      "bytes": 111
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-SQE76S5B.js",
+      "sha256": "11247d28c5c2fb3d976002c2b55fecb6ba19fd88153e11d2c7af5832fd6ff331",
+      "bytes": 577
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-HTPPDZR7.js",
+      "sha256": "c82e9d0abb54d15c38ee077ce7892ee5cce13a101d43a4b555999ab3812972ab",
+      "bytes": 4055
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-CS44UROG.js",
+      "sha256": "c8a89b35b279417e528ce8647fd01fcc5e04eadb1ddb60fef9359f3fbb7fc753",
+      "bytes": 177520
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/styles-1cab492a6f0a.css",
+      "sha256": "1cab492a6f0a81620e7f7d34acdcf58a9d3cabdd00cb8159f8a670c231c63fc1",
+      "bytes": 11737
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/index.html?qa=1",
+      "sha256": "218c44aa52ebbfd95399b2f99febfe88c27712bede0117574c74692cd4b0bc32",
+      "bytes": 3883
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/app-TC2ULCEA.js",
+      "sha256": "5f454a48c77ab713220ec806b55b82e20198bc3d162010b2bad766dc24cb25d3",
+      "bytes": 148372
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-3J7M7RHN.js",
+      "sha256": "ebf9db9ae3f4f79498500ecf398b6ff585b5ccfed707a25e570af658411fd686",
+      "bytes": 340
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-SQE76S5B.js",
+      "sha256": "11247d28c5c2fb3d976002c2b55fecb6ba19fd88153e11d2c7af5832fd6ff331",
+      "bytes": 577
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-BTG6TYWV.js",
+      "sha256": "e88e330aa3b2a3f9499aa0cbcc76ce27d75ebb15c3f348ca90d2d58fa35f04e8",
+      "bytes": 71079
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-UJG5VTAA.js",
+      "sha256": "72a234c8d6fb5a6d737c97457653afd073dad0a7aaa3b567517a908e3e667969",
+      "bytes": 143354
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-CS44UROG.js",
+      "sha256": "c8a89b35b279417e528ce8647fd01fcc5e04eadb1ddb60fef9359f3fbb7fc753",
+      "bytes": 177520
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-UJR54KOB.js",
+      "sha256": "0927ba5a2fb6ed5236223e244be3f3c12ad1ec18d458bec37e5fc88f0a0cd43b",
+      "bytes": 72095
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-DEGAIGB7.js",
+      "sha256": "772c9936f1c1d210acf31220af13fd0e886d24d2827647021f10d9e93ae97d07",
+      "bytes": 11072
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-OEHB7W2C.js",
+      "sha256": "fd49916ad975bf82c9ff0bdda16a587ceb9bd028144efd200cd31d9c813f00df",
+      "bytes": 53952
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/atlas-1b5dff1d49d8.json",
+      "sha256": "1b5dff1d49d8321d4f40c25cd77a8a206f1fda411521480bb42b124c41f07688",
+      "bytes": 10876
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/people-props-430914164137.png",
+      "sha256": "430914164137b5dd5b3725cb954bc0f85c914547f5a571b0eb685d465b260142",
+      "bytes": 171858
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/buildings-0bc5233248d9.png",
+      "sha256": "0bc5233248d938204d66a7248ac5c63392c32886bf16e6533794035dcce03450",
+      "bytes": 551058
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/worker-O6QCGRME.js",
+      "sha256": "271cf3af5043d01320f5e51fdea28fad2ad94dfb7c1e3ae95cc08a4a768091e7",
+      "bytes": 111
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-CS44UROG.js",
+      "sha256": "c8a89b35b279417e528ce8647fd01fcc5e04eadb1ddb60fef9359f3fbb7fc753",
+      "bytes": 177520
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-SQE76S5B.js",
+      "sha256": "11247d28c5c2fb3d976002c2b55fecb6ba19fd88153e11d2c7af5832fd6ff331",
+      "bytes": 577
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-HTPPDZR7.js",
+      "sha256": "c82e9d0abb54d15c38ee077ce7892ee5cce13a101d43a4b555999ab3812972ab",
+      "bytes": 4055
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/index.html?qa=1",
+      "sha256": "218c44aa52ebbfd95399b2f99febfe88c27712bede0117574c74692cd4b0bc32",
+      "bytes": 3883
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/styles-1cab492a6f0a.css",
+      "sha256": "1cab492a6f0a81620e7f7d34acdcf58a9d3cabdd00cb8159f8a670c231c63fc1",
+      "bytes": 11737
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/app-TC2ULCEA.js",
+      "sha256": "5f454a48c77ab713220ec806b55b82e20198bc3d162010b2bad766dc24cb25d3",
+      "bytes": 148372
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-3J7M7RHN.js",
+      "sha256": "ebf9db9ae3f4f79498500ecf398b6ff585b5ccfed707a25e570af658411fd686",
+      "bytes": 340
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-SQE76S5B.js",
+      "sha256": "11247d28c5c2fb3d976002c2b55fecb6ba19fd88153e11d2c7af5832fd6ff331",
+      "bytes": 577
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-BTG6TYWV.js",
+      "sha256": "e88e330aa3b2a3f9499aa0cbcc76ce27d75ebb15c3f348ca90d2d58fa35f04e8",
+      "bytes": 71079
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-CS44UROG.js",
+      "sha256": "c8a89b35b279417e528ce8647fd01fcc5e04eadb1ddb60fef9359f3fbb7fc753",
+      "bytes": 177520
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-UJG5VTAA.js",
+      "sha256": "72a234c8d6fb5a6d737c97457653afd073dad0a7aaa3b567517a908e3e667969",
+      "bytes": 143354
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-UJR54KOB.js",
+      "sha256": "0927ba5a2fb6ed5236223e244be3f3c12ad1ec18d458bec37e5fc88f0a0cd43b",
+      "bytes": 72095
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-DEGAIGB7.js",
+      "sha256": "772c9936f1c1d210acf31220af13fd0e886d24d2827647021f10d9e93ae97d07",
+      "bytes": 11072
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-OEHB7W2C.js",
+      "sha256": "fd49916ad975bf82c9ff0bdda16a587ceb9bd028144efd200cd31d9c813f00df",
+      "bytes": 53952
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/atlas-1b5dff1d49d8.json",
+      "sha256": "1b5dff1d49d8321d4f40c25cd77a8a206f1fda411521480bb42b124c41f07688",
+      "bytes": 10876
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/people-props-430914164137.png",
+      "sha256": "430914164137b5dd5b3725cb954bc0f85c914547f5a571b0eb685d465b260142",
+      "bytes": 171858
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/buildings-0bc5233248d9.png",
+      "sha256": "0bc5233248d938204d66a7248ac5c63392c32886bf16e6533794035dcce03450",
+      "bytes": 551058
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/worker-O6QCGRME.js",
+      "sha256": "271cf3af5043d01320f5e51fdea28fad2ad94dfb7c1e3ae95cc08a4a768091e7",
+      "bytes": 111
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-HTPPDZR7.js",
+      "sha256": "c82e9d0abb54d15c38ee077ce7892ee5cce13a101d43a4b555999ab3812972ab",
+      "bytes": 4055
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-CS44UROG.js",
+      "sha256": "c8a89b35b279417e528ce8647fd01fcc5e04eadb1ddb60fef9359f3fbb7fc753",
+      "bytes": 177520
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-SQE76S5B.js",
+      "sha256": "11247d28c5c2fb3d976002c2b55fecb6ba19fd88153e11d2c7af5832fd6ff331",
+      "bytes": 577
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/styles-1cab492a6f0a.css",
+      "sha256": "1cab492a6f0a81620e7f7d34acdcf58a9d3cabdd00cb8159f8a670c231c63fc1",
+      "bytes": 11737
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/index.html?qa=1",
+      "sha256": "218c44aa52ebbfd95399b2f99febfe88c27712bede0117574c74692cd4b0bc32",
+      "bytes": 3883
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/app-TC2ULCEA.js",
+      "sha256": "5f454a48c77ab713220ec806b55b82e20198bc3d162010b2bad766dc24cb25d3",
+      "bytes": 148372
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-3J7M7RHN.js",
+      "sha256": "ebf9db9ae3f4f79498500ecf398b6ff585b5ccfed707a25e570af658411fd686",
+      "bytes": 340
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-SQE76S5B.js",
+      "sha256": "11247d28c5c2fb3d976002c2b55fecb6ba19fd88153e11d2c7af5832fd6ff331",
+      "bytes": 577
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-BTG6TYWV.js",
+      "sha256": "e88e330aa3b2a3f9499aa0cbcc76ce27d75ebb15c3f348ca90d2d58fa35f04e8",
+      "bytes": 71079
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-CS44UROG.js",
+      "sha256": "c8a89b35b279417e528ce8647fd01fcc5e04eadb1ddb60fef9359f3fbb7fc753",
+      "bytes": 177520
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-UJG5VTAA.js",
+      "sha256": "72a234c8d6fb5a6d737c97457653afd073dad0a7aaa3b567517a908e3e667969",
+      "bytes": 143354
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-UJR54KOB.js",
+      "sha256": "0927ba5a2fb6ed5236223e244be3f3c12ad1ec18d458bec37e5fc88f0a0cd43b",
+      "bytes": 72095
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-DEGAIGB7.js",
+      "sha256": "772c9936f1c1d210acf31220af13fd0e886d24d2827647021f10d9e93ae97d07",
+      "bytes": 11072
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-OEHB7W2C.js",
+      "sha256": "fd49916ad975bf82c9ff0bdda16a587ceb9bd028144efd200cd31d9c813f00df",
+      "bytes": 53952
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/atlas-1b5dff1d49d8.json",
+      "sha256": "1b5dff1d49d8321d4f40c25cd77a8a206f1fda411521480bb42b124c41f07688",
+      "bytes": 10876
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/people-props-430914164137.png",
+      "sha256": "430914164137b5dd5b3725cb954bc0f85c914547f5a571b0eb685d465b260142",
+      "bytes": 171858
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/buildings-0bc5233248d9.png",
+      "sha256": "0bc5233248d938204d66a7248ac5c63392c32886bf16e6533794035dcce03450",
+      "bytes": 551058
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/worker-O6QCGRME.js",
+      "sha256": "271cf3af5043d01320f5e51fdea28fad2ad94dfb7c1e3ae95cc08a4a768091e7",
+      "bytes": 111
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-SQE76S5B.js",
+      "sha256": "11247d28c5c2fb3d976002c2b55fecb6ba19fd88153e11d2c7af5832fd6ff331",
+      "bytes": 577
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-HTPPDZR7.js",
+      "sha256": "c82e9d0abb54d15c38ee077ce7892ee5cce13a101d43a4b555999ab3812972ab",
+      "bytes": 4055
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-CS44UROG.js",
+      "sha256": "c8a89b35b279417e528ce8647fd01fcc5e04eadb1ddb60fef9359f3fbb7fc753",
+      "bytes": 177520
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/styles-1cab492a6f0a.css",
+      "sha256": "1cab492a6f0a81620e7f7d34acdcf58a9d3cabdd00cb8159f8a670c231c63fc1",
+      "bytes": 11737
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/index.html?qa=1",
+      "sha256": "218c44aa52ebbfd95399b2f99febfe88c27712bede0117574c74692cd4b0bc32",
+      "bytes": 3883
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/app-TC2ULCEA.js",
+      "sha256": "5f454a48c77ab713220ec806b55b82e20198bc3d162010b2bad766dc24cb25d3",
+      "bytes": 148372
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-3J7M7RHN.js",
+      "sha256": "ebf9db9ae3f4f79498500ecf398b6ff585b5ccfed707a25e570af658411fd686",
+      "bytes": 340
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-BTG6TYWV.js",
+      "sha256": "e88e330aa3b2a3f9499aa0cbcc76ce27d75ebb15c3f348ca90d2d58fa35f04e8",
+      "bytes": 71079
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-SQE76S5B.js",
+      "sha256": "11247d28c5c2fb3d976002c2b55fecb6ba19fd88153e11d2c7af5832fd6ff331",
+      "bytes": 577
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-CS44UROG.js",
+      "sha256": "c8a89b35b279417e528ce8647fd01fcc5e04eadb1ddb60fef9359f3fbb7fc753",
+      "bytes": 177520
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-UJG5VTAA.js",
+      "sha256": "72a234c8d6fb5a6d737c97457653afd073dad0a7aaa3b567517a908e3e667969",
+      "bytes": 143354
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-UJR54KOB.js",
+      "sha256": "0927ba5a2fb6ed5236223e244be3f3c12ad1ec18d458bec37e5fc88f0a0cd43b",
+      "bytes": 72095
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-DEGAIGB7.js",
+      "sha256": "772c9936f1c1d210acf31220af13fd0e886d24d2827647021f10d9e93ae97d07",
+      "bytes": 11072
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-OEHB7W2C.js",
+      "sha256": "fd49916ad975bf82c9ff0bdda16a587ceb9bd028144efd200cd31d9c813f00df",
+      "bytes": 53952
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/atlas-1b5dff1d49d8.json",
+      "sha256": "1b5dff1d49d8321d4f40c25cd77a8a206f1fda411521480bb42b124c41f07688",
+      "bytes": 10876
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/people-props-430914164137.png",
+      "sha256": "430914164137b5dd5b3725cb954bc0f85c914547f5a571b0eb685d465b260142",
+      "bytes": 171858
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/buildings-0bc5233248d9.png",
+      "sha256": "0bc5233248d938204d66a7248ac5c63392c32886bf16e6533794035dcce03450",
+      "bytes": 551058
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/worker-O6QCGRME.js",
+      "sha256": "271cf3af5043d01320f5e51fdea28fad2ad94dfb7c1e3ae95cc08a4a768091e7",
+      "bytes": 111
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-SQE76S5B.js",
+      "sha256": "11247d28c5c2fb3d976002c2b55fecb6ba19fd88153e11d2c7af5832fd6ff331",
+      "bytes": 577
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-CS44UROG.js",
+      "sha256": "c8a89b35b279417e528ce8647fd01fcc5e04eadb1ddb60fef9359f3fbb7fc753",
+      "bytes": 177520
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-HTPPDZR7.js",
+      "sha256": "c82e9d0abb54d15c38ee077ce7892ee5cce13a101d43a4b555999ab3812972ab",
+      "bytes": 4055
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/index.html?qa=1",
+      "sha256": "218c44aa52ebbfd95399b2f99febfe88c27712bede0117574c74692cd4b0bc32",
+      "bytes": 3883
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/styles-1cab492a6f0a.css",
+      "sha256": "1cab492a6f0a81620e7f7d34acdcf58a9d3cabdd00cb8159f8a670c231c63fc1",
+      "bytes": 11737
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/app-TC2ULCEA.js",
+      "sha256": "5f454a48c77ab713220ec806b55b82e20198bc3d162010b2bad766dc24cb25d3",
+      "bytes": 148372
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-BTG6TYWV.js",
+      "sha256": "e88e330aa3b2a3f9499aa0cbcc76ce27d75ebb15c3f348ca90d2d58fa35f04e8",
+      "bytes": 71079
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-3J7M7RHN.js",
+      "sha256": "ebf9db9ae3f4f79498500ecf398b6ff585b5ccfed707a25e570af658411fd686",
+      "bytes": 340
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-SQE76S5B.js",
+      "sha256": "11247d28c5c2fb3d976002c2b55fecb6ba19fd88153e11d2c7af5832fd6ff331",
+      "bytes": 577
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-UJG5VTAA.js",
+      "sha256": "72a234c8d6fb5a6d737c97457653afd073dad0a7aaa3b567517a908e3e667969",
+      "bytes": 143354
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-CS44UROG.js",
+      "sha256": "c8a89b35b279417e528ce8647fd01fcc5e04eadb1ddb60fef9359f3fbb7fc753",
+      "bytes": 177520
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-UJR54KOB.js",
+      "sha256": "0927ba5a2fb6ed5236223e244be3f3c12ad1ec18d458bec37e5fc88f0a0cd43b",
+      "bytes": 72095
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-DEGAIGB7.js",
+      "sha256": "772c9936f1c1d210acf31220af13fd0e886d24d2827647021f10d9e93ae97d07",
+      "bytes": 11072
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-OEHB7W2C.js",
+      "sha256": "fd49916ad975bf82c9ff0bdda16a587ceb9bd028144efd200cd31d9c813f00df",
+      "bytes": 53952
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/atlas-1b5dff1d49d8.json",
+      "sha256": "1b5dff1d49d8321d4f40c25cd77a8a206f1fda411521480bb42b124c41f07688",
+      "bytes": 10876
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/people-props-430914164137.png",
+      "sha256": "430914164137b5dd5b3725cb954bc0f85c914547f5a571b0eb685d465b260142",
+      "bytes": 171858
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/buildings-0bc5233248d9.png",
+      "sha256": "0bc5233248d938204d66a7248ac5c63392c32886bf16e6533794035dcce03450",
+      "bytes": 551058
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/worker-O6QCGRME.js",
+      "sha256": "271cf3af5043d01320f5e51fdea28fad2ad94dfb7c1e3ae95cc08a4a768091e7",
+      "bytes": 111
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-SQE76S5B.js",
+      "sha256": "11247d28c5c2fb3d976002c2b55fecb6ba19fd88153e11d2c7af5832fd6ff331",
+      "bytes": 577
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-HTPPDZR7.js",
+      "sha256": "c82e9d0abb54d15c38ee077ce7892ee5cce13a101d43a4b555999ab3812972ab",
+      "bytes": 4055
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-CS44UROG.js",
+      "sha256": "c8a89b35b279417e528ce8647fd01fcc5e04eadb1ddb60fef9359f3fbb7fc753",
+      "bytes": 177520
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/worker-O6QCGRME.js",
+      "sha256": "271cf3af5043d01320f5e51fdea28fad2ad94dfb7c1e3ae95cc08a4a768091e7",
+      "bytes": 111
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-SQE76S5B.js",
+      "sha256": "11247d28c5c2fb3d976002c2b55fecb6ba19fd88153e11d2c7af5832fd6ff331",
+      "bytes": 577
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-HTPPDZR7.js",
+      "sha256": "c82e9d0abb54d15c38ee077ce7892ee5cce13a101d43a4b555999ab3812972ab",
+      "bytes": 4055
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-CS44UROG.js",
+      "sha256": "c8a89b35b279417e528ce8647fd01fcc5e04eadb1ddb60fef9359f3fbb7fc753",
+      "bytes": 177520
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/index.html?qa=1",
+      "sha256": "218c44aa52ebbfd95399b2f99febfe88c27712bede0117574c74692cd4b0bc32",
+      "bytes": 3883
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/styles-1cab492a6f0a.css",
+      "sha256": "1cab492a6f0a81620e7f7d34acdcf58a9d3cabdd00cb8159f8a670c231c63fc1",
+      "bytes": 11737
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/app-TC2ULCEA.js",
+      "sha256": "5f454a48c77ab713220ec806b55b82e20198bc3d162010b2bad766dc24cb25d3",
+      "bytes": 148372
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-3J7M7RHN.js",
+      "sha256": "ebf9db9ae3f4f79498500ecf398b6ff585b5ccfed707a25e570af658411fd686",
+      "bytes": 340
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-SQE76S5B.js",
+      "sha256": "11247d28c5c2fb3d976002c2b55fecb6ba19fd88153e11d2c7af5832fd6ff331",
+      "bytes": 577
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-BTG6TYWV.js",
+      "sha256": "e88e330aa3b2a3f9499aa0cbcc76ce27d75ebb15c3f348ca90d2d58fa35f04e8",
+      "bytes": 71079
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-CS44UROG.js",
+      "sha256": "c8a89b35b279417e528ce8647fd01fcc5e04eadb1ddb60fef9359f3fbb7fc753",
+      "bytes": 177520
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-UJG5VTAA.js",
+      "sha256": "72a234c8d6fb5a6d737c97457653afd073dad0a7aaa3b567517a908e3e667969",
+      "bytes": 143354
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-UJR54KOB.js",
+      "sha256": "0927ba5a2fb6ed5236223e244be3f3c12ad1ec18d458bec37e5fc88f0a0cd43b",
+      "bytes": 72095
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-DEGAIGB7.js",
+      "sha256": "772c9936f1c1d210acf31220af13fd0e886d24d2827647021f10d9e93ae97d07",
+      "bytes": 11072
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-OEHB7W2C.js",
+      "sha256": "fd49916ad975bf82c9ff0bdda16a587ceb9bd028144efd200cd31d9c813f00df",
+      "bytes": 53952
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/atlas-1b5dff1d49d8.json",
+      "sha256": "1b5dff1d49d8321d4f40c25cd77a8a206f1fda411521480bb42b124c41f07688",
+      "bytes": 10876
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/people-props-430914164137.png",
+      "sha256": "430914164137b5dd5b3725cb954bc0f85c914547f5a571b0eb685d465b260142",
+      "bytes": 171858
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/buildings-0bc5233248d9.png",
+      "sha256": "0bc5233248d938204d66a7248ac5c63392c32886bf16e6533794035dcce03450",
+      "bytes": 551058
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/worker-O6QCGRME.js",
+      "sha256": "271cf3af5043d01320f5e51fdea28fad2ad94dfb7c1e3ae95cc08a4a768091e7",
+      "bytes": 111
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-SQE76S5B.js",
+      "sha256": "11247d28c5c2fb3d976002c2b55fecb6ba19fd88153e11d2c7af5832fd6ff331",
+      "bytes": 577
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-CS44UROG.js",
+      "sha256": "c8a89b35b279417e528ce8647fd01fcc5e04eadb1ddb60fef9359f3fbb7fc753",
+      "bytes": 177520
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-HTPPDZR7.js",
+      "sha256": "c82e9d0abb54d15c38ee077ce7892ee5cce13a101d43a4b555999ab3812972ab",
+      "bytes": 4055
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/styles-1cab492a6f0a.css",
+      "sha256": "1cab492a6f0a81620e7f7d34acdcf58a9d3cabdd00cb8159f8a670c231c63fc1",
+      "bytes": 11737
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/index.html?qa=1",
+      "sha256": "218c44aa52ebbfd95399b2f99febfe88c27712bede0117574c74692cd4b0bc32",
+      "bytes": 3883
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/app-TC2ULCEA.js",
+      "sha256": "5f454a48c77ab713220ec806b55b82e20198bc3d162010b2bad766dc24cb25d3",
+      "bytes": 148372
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-3J7M7RHN.js",
+      "sha256": "ebf9db9ae3f4f79498500ecf398b6ff585b5ccfed707a25e570af658411fd686",
+      "bytes": 340
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-SQE76S5B.js",
+      "sha256": "11247d28c5c2fb3d976002c2b55fecb6ba19fd88153e11d2c7af5832fd6ff331",
+      "bytes": 577
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-BTG6TYWV.js",
+      "sha256": "e88e330aa3b2a3f9499aa0cbcc76ce27d75ebb15c3f348ca90d2d58fa35f04e8",
+      "bytes": 71079
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-CS44UROG.js",
+      "sha256": "c8a89b35b279417e528ce8647fd01fcc5e04eadb1ddb60fef9359f3fbb7fc753",
+      "bytes": 177520
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-UJG5VTAA.js",
+      "sha256": "72a234c8d6fb5a6d737c97457653afd073dad0a7aaa3b567517a908e3e667969",
+      "bytes": 143354
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-UJR54KOB.js",
+      "sha256": "0927ba5a2fb6ed5236223e244be3f3c12ad1ec18d458bec37e5fc88f0a0cd43b",
+      "bytes": 72095
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-DEGAIGB7.js",
+      "sha256": "772c9936f1c1d210acf31220af13fd0e886d24d2827647021f10d9e93ae97d07",
+      "bytes": 11072
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-OEHB7W2C.js",
+      "sha256": "fd49916ad975bf82c9ff0bdda16a587ceb9bd028144efd200cd31d9c813f00df",
+      "bytes": 53952
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/atlas-1b5dff1d49d8.json",
+      "sha256": "1b5dff1d49d8321d4f40c25cd77a8a206f1fda411521480bb42b124c41f07688",
+      "bytes": 10876
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/people-props-430914164137.png",
+      "sha256": "430914164137b5dd5b3725cb954bc0f85c914547f5a571b0eb685d465b260142",
+      "bytes": 171858
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/buildings-0bc5233248d9.png",
+      "sha256": "0bc5233248d938204d66a7248ac5c63392c32886bf16e6533794035dcce03450",
+      "bytes": 551058
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/worker-O6QCGRME.js",
+      "sha256": "271cf3af5043d01320f5e51fdea28fad2ad94dfb7c1e3ae95cc08a4a768091e7",
+      "bytes": 111
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-HTPPDZR7.js",
+      "sha256": "c82e9d0abb54d15c38ee077ce7892ee5cce13a101d43a4b555999ab3812972ab",
+      "bytes": 4055
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-SQE76S5B.js",
+      "sha256": "11247d28c5c2fb3d976002c2b55fecb6ba19fd88153e11d2c7af5832fd6ff331",
+      "bytes": 577
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-CS44UROG.js",
+      "sha256": "c8a89b35b279417e528ce8647fd01fcc5e04eadb1ddb60fef9359f3fbb7fc753",
+      "bytes": 177520
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/index.html?qa=1",
+      "sha256": "218c44aa52ebbfd95399b2f99febfe88c27712bede0117574c74692cd4b0bc32",
+      "bytes": 3883
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/styles-1cab492a6f0a.css",
+      "sha256": "1cab492a6f0a81620e7f7d34acdcf58a9d3cabdd00cb8159f8a670c231c63fc1",
+      "bytes": 11737
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/app-TC2ULCEA.js",
+      "sha256": "5f454a48c77ab713220ec806b55b82e20198bc3d162010b2bad766dc24cb25d3",
+      "bytes": 148372
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-3J7M7RHN.js",
+      "sha256": "ebf9db9ae3f4f79498500ecf398b6ff585b5ccfed707a25e570af658411fd686",
+      "bytes": 340
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-SQE76S5B.js",
+      "sha256": "11247d28c5c2fb3d976002c2b55fecb6ba19fd88153e11d2c7af5832fd6ff331",
+      "bytes": 577
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-BTG6TYWV.js",
+      "sha256": "e88e330aa3b2a3f9499aa0cbcc76ce27d75ebb15c3f348ca90d2d58fa35f04e8",
+      "bytes": 71079
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-UJG5VTAA.js",
+      "sha256": "72a234c8d6fb5a6d737c97457653afd073dad0a7aaa3b567517a908e3e667969",
+      "bytes": 143354
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-CS44UROG.js",
+      "sha256": "c8a89b35b279417e528ce8647fd01fcc5e04eadb1ddb60fef9359f3fbb7fc753",
+      "bytes": 177520
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-UJR54KOB.js",
+      "sha256": "0927ba5a2fb6ed5236223e244be3f3c12ad1ec18d458bec37e5fc88f0a0cd43b",
+      "bytes": 72095
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-DEGAIGB7.js",
+      "sha256": "772c9936f1c1d210acf31220af13fd0e886d24d2827647021f10d9e93ae97d07",
+      "bytes": 11072
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-OEHB7W2C.js",
+      "sha256": "fd49916ad975bf82c9ff0bdda16a587ceb9bd028144efd200cd31d9c813f00df",
+      "bytes": 53952
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/atlas-1b5dff1d49d8.json",
+      "sha256": "1b5dff1d49d8321d4f40c25cd77a8a206f1fda411521480bb42b124c41f07688",
+      "bytes": 10876
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/people-props-430914164137.png",
+      "sha256": "430914164137b5dd5b3725cb954bc0f85c914547f5a571b0eb685d465b260142",
+      "bytes": 171858
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/buildings-0bc5233248d9.png",
+      "sha256": "0bc5233248d938204d66a7248ac5c63392c32886bf16e6533794035dcce03450",
+      "bytes": 551058
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/atlas-1b5dff1d49d8.json",
+      "sha256": "1b5dff1d49d8321d4f40c25cd77a8a206f1fda411521480bb42b124c41f07688",
+      "bytes": 10876
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-BPQGTFEV.js",
+      "sha256": "b0cb2180d2cc22f4f5df50d5c349e3eb5d584f2e5c52d59074abd230f25e7881",
+      "bytes": 488
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-4J34XPR3.js",
+      "sha256": "215ff42af9ec320acd35a3184ebf3bfce29a6370a9b835ad5ae4e5b5aef2c687",
+      "bytes": 129
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-HTPPDZR7.js",
+      "sha256": "c82e9d0abb54d15c38ee077ce7892ee5cce13a101d43a4b555999ab3812972ab",
+      "bytes": 4055
+    }
+  ],
+  "finishedAt": "2026-11-04T07:40:25.264Z",
+  "summary": {
+    "pass": 10,
+    "fail": 1
+  }
+}

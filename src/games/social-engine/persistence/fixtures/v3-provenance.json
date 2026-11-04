@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 3,
+  "kind": "actual schema3 lifecycle candidate snapshot",
+  "worldPayloadSha256": "d5a7253dee47c55a5bc26fdc5511c3b8d7b69e3654b520cb8a1d867958d00642",
+  "sourceEngineVersion": "1.0.0-candidate.2",
+  "seed": 20261103,
+  "population": 1100,
+  "familyPartnerships": 68
+}

@@ -1,0 +1,12 @@
+{
+  "startedAt": "2026-11-04T07:22:22.149Z",
+  "status": "FAIL",
+  "engine": "firefox",
+  "manifestSha256": "5f6ee17a0a8c63152fb01fc2a310a26298c9c94ed5dc6682990b6bc19f9acc79",
+  "checks": [
+    "Both actions wait for code; an early Enter retains the typed character without navigating."
+  ],
+  "errors": [],
+  "reason": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert.ok((await page.locator(\"#hud\").innerText()).includes(\"Ekin Deniz\"))\n\n    at file:///Users/tarikayaz/Documents/Codex/2026-11-03/social-engine-1-0-autonomous-production/work/social-engine-final/scripts/social-engine/cold-start-browser.mjs:42:10",
+  "finishedAt": "2026-11-04T07:22:32.827Z"
+}

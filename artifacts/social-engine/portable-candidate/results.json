@@ -1,0 +1,28 @@
+{
+  "status": "PASS",
+  "startedAt": "2026-11-04T07:23:26.031Z",
+  "base": "http://127.0.0.1:8113",
+  "manifestSha256": "5f6ee17a0a8c63152fb01fc2a310a26298c9c94ed5dc6682990b6bc19f9acc79",
+  "headless": true,
+  "checks": [
+    {
+      "name": "Every packaged runtime and atlas file matches the tested manifest",
+      "status": "PASS"
+    },
+    {
+      "name": "Asset whitelist rejects traversal, unsupported methods and nonpublic files",
+      "status": "PASS"
+    },
+    {
+      "name": "Portable worker, renderer, character creation and real keyboard movement",
+      "status": "PASS"
+    },
+    {
+      "name": "Actual packaged save menu roundtrip preserves identity, money and position",
+      "status": "PASS"
+    }
+  ],
+  "errors": [],
+  "browser": "151.0.7922.34",
+  "finishedAt": "2026-11-04T07:24:28.743Z"
+}

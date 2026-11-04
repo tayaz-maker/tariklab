@@ -1,0 +1,277 @@
+{
+  "runId": "2026-11-03T21-24-16-089Z",
+  "samples": [
+    {
+      "measuredAt": "2026-11-03T21:35:16.226Z",
+      "elapsedMinutes": 10.001578421533333,
+      "thresholdMinute": 10,
+      "ownerHarnessPid": 42576,
+      "pids": [
+        42584,
+        42590,
+        42591,
+        42592,
+        42595,
+        42596,
+        42597
+      ],
+      "manifestSha256": "fbe14c6260d3e7796eafe0fd4b944a52abf49ebadff4bfcc5aad4d2c7fa50027",
+      "status": "MEASURED",
+      "totalFootprintBytes": 747251048,
+      "totalFootprintMiB": 712.6341323852539,
+      "provisionalTargetMiB": 600,
+      "thresholdStatus": "FAIL",
+      "exitCode": 0,
+      "error": "",
+      "processes": [
+        {
+          "pid": 42590,
+          "name": "Google Chrome Helper (GPU)",
+          "footprintBytes": 389694808,
+          "historicalProcessPeakBytes": 455001384
+        },
+        {
+          "pid": 42597,
+          "name": "Google Chrome Helper (Renderer)",
+          "footprintBytes": 184436536,
+          "historicalProcessPeakBytes": 246056784
+        },
+        {
+          "pid": 42584,
+          "name": "Google Chrome",
+          "footprintBytes": 73172528,
+          "historicalProcessPeakBytes": 89392688
+        },
+        {
+          "pid": 42595,
+          "name": "Google Chrome Helper (Renderer)",
+          "footprintBytes": 51381640,
+          "historicalProcessPeakBytes": 65783176
+        },
+        {
+          "pid": 42596,
+          "name": "Google Chrome Helper (Renderer)",
+          "footprintBytes": 27428184,
+          "historicalProcessPeakBytes": 28345688
+        },
+        {
+          "pid": 42591,
+          "name": "Google Chrome Helper",
+          "footprintBytes": 23069704,
+          "historicalProcessPeakBytes": 23987208
+        },
+        {
+          "pid": 42592,
+          "name": "Google Chrome Helper",
+          "footprintBytes": 19727296,
+          "historicalProcessPeakBytes": 19874752
+        }
+      ],
+      "scope": "Point-in-time OS footprint of this test's headless Chrome tree, includes browser/GPU helper overhead. Not a peak, unique GPU allocation, reference PC or JS heap metric. Never sum individual historical peaks as a simultaneous peak."
+    },
+    {
+      "measuredAt": "2026-11-03T21:55:17.765Z",
+      "elapsedMinutes": 30.002943225000003,
+      "thresholdMinute": 30,
+      "ownerHarnessPid": 42576,
+      "pids": [
+        42584,
+        42590,
+        42591,
+        42592,
+        42595,
+        42596,
+        42597
+      ],
+      "manifestSha256": "fbe14c6260d3e7796eafe0fd4b944a52abf49ebadff4bfcc5aad4d2c7fa50027",
+      "status": "MEASURED",
+      "totalFootprintBytes": 802727296,
+      "totalFootprintMiB": 765.5404052734375,
+      "provisionalTargetMiB": 600,
+      "thresholdStatus": "FAIL",
+      "exitCode": 0,
+      "error": "",
+      "processes": [
+        {
+          "pid": 42590,
+          "name": "Google Chrome Helper (GPU)",
+          "footprintBytes": 410256728,
+          "historicalProcessPeakBytes": 466322824
+        },
+        {
+          "pid": 42597,
+          "name": "Google Chrome Helper (Renderer)",
+          "footprintBytes": 218810192,
+          "historicalProcessPeakBytes": 274614144
+        },
+        {
+          "pid": 42584,
+          "name": "Google Chrome",
+          "footprintBytes": 74434096,
+          "historicalProcessPeakBytes": 89933360
+        },
+        {
+          "pid": 42595,
+          "name": "Google Chrome Helper (Renderer)",
+          "footprintBytes": 51381640,
+          "historicalProcessPeakBytes": 65783176
+        },
+        {
+          "pid": 42596,
+          "name": "Google Chrome Helper (Renderer)",
+          "footprintBytes": 27428184,
+          "historicalProcessPeakBytes": 28345688
+        },
+        {
+          "pid": 42591,
+          "name": "Google Chrome Helper",
+          "footprintBytes": 23184392,
+          "historicalProcessPeakBytes": 23987208
+        },
+        {
+          "pid": 42592,
+          "name": "Google Chrome Helper",
+          "footprintBytes": 19727296,
+          "historicalProcessPeakBytes": 19874752
+        }
+      ],
+      "scope": "Point-in-time OS footprint of this test's headless Chrome tree, includes browser/GPU helper overhead. Not a peak, unique GPU allocation, reference PC or JS heap metric. Never sum individual historical peaks as a simultaneous peak."
+    },
+    {
+      "measuredAt": "2026-11-03T22:34:43.298Z",
+      "elapsedMinutes": 70.40824127778333,
+      "thresholdMinute": 60,
+      "ownerHarnessPid": 42576,
+      "pids": [
+        42584,
+        42590,
+        42591,
+        42592,
+        42595,
+        42596,
+        42597
+      ],
+      "manifestSha256": "fbe14c6260d3e7796eafe0fd4b944a52abf49ebadff4bfcc5aad4d2c7fa50027",
+      "status": "MEASURED",
+      "totalFootprintBytes": 693069208,
+      "totalFootprintMiB": 660.9623031616211,
+      "provisionalTargetMiB": 600,
+      "thresholdStatus": "FAIL",
+      "exitCode": 0,
+      "error": "",
+      "processes": [
+        {
+          "pid": 42590,
+          "name": "Google Chrome Helper (GPU)",
+          "footprintBytes": 413140312,
+          "historicalProcessPeakBytes": 466322824
+        },
+        {
+          "pid": 42597,
+          "name": "Google Chrome Helper (Renderer)",
+          "footprintBytes": 108758864,
+          "historicalProcessPeakBytes": 274614144
+        },
+        {
+          "pid": 42584,
+          "name": "Google Chrome",
+          "footprintBytes": 71599664,
+          "historicalProcessPeakBytes": 89933360
+        },
+        {
+          "pid": 42595,
+          "name": "Google Chrome Helper (Renderer)",
+          "footprintBytes": 51627424,
+          "historicalProcessPeakBytes": 65783176
+        },
+        {
+          "pid": 42596,
+          "name": "Google Chrome Helper (Renderer)",
+          "footprintBytes": 27755864,
+          "historicalProcessPeakBytes": 28345688
+        },
+        {
+          "pid": 42591,
+          "name": "Google Chrome Helper",
+          "footprintBytes": 23331848,
+          "historicalProcessPeakBytes": 23987208
+        },
+        {
+          "pid": 42592,
+          "name": "Google Chrome Helper",
+          "footprintBytes": 19907520,
+          "historicalProcessPeakBytes": 20038592
+        }
+      ],
+      "scope": "Point-in-time OS footprint of this test's headless Chrome tree, includes browser/GPU helper overhead. Not a peak, unique GPU allocation, reference PC or JS heap metric. Never sum individual historical peaks as a simultaneous peak."
+    },
+    {
+      "measuredAt": "2026-11-03T23:19:18.966Z",
+      "elapsedMinutes": 106.37482415833334,
+      "thresholdMinute": 90,
+      "ownerHarnessPid": 42576,
+      "pids": [
+        42584,
+        42590,
+        42591,
+        42592,
+        42595,
+        42596,
+        42597
+      ],
+      "manifestSha256": "fbe14c6260d3e7796eafe0fd4b944a52abf49ebadff4bfcc5aad4d2c7fa50027",
+      "status": "MEASURED",
+      "totalFootprintBytes": 697378200,
+      "totalFootprintMiB": 665.0716781616211,
+      "provisionalTargetMiB": 600,
+      "thresholdStatus": "FAIL",
+      "exitCode": 0,
+      "error": "",
+      "processes": [
+        {
+          "pid": 42590,
+          "name": "Google Chrome Helper (GPU)",
+          "footprintBytes": 416957784,
+          "historicalProcessPeakBytes": 466322824
+        },
+        {
+          "pid": 42597,
+          "name": "Google Chrome Helper (Renderer)",
+          "footprintBytes": 106907472,
+          "historicalProcessPeakBytes": 274614144
+        },
+        {
+          "pid": 42584,
+          "name": "Google Chrome",
+          "footprintBytes": 73991728,
+          "historicalProcessPeakBytes": 89933360
+        },
+        {
+          "pid": 42595,
+          "name": "Google Chrome Helper (Renderer)",
+          "footprintBytes": 51627424,
+          "historicalProcessPeakBytes": 65783176
+        },
+        {
+          "pid": 42596,
+          "name": "Google Chrome Helper (Renderer)",
+          "footprintBytes": 27755864,
+          "historicalProcessPeakBytes": 28345688
+        },
+        {
+          "pid": 42591,
+          "name": "Google Chrome Helper",
+          "footprintBytes": 23479304,
+          "historicalProcessPeakBytes": 23987208
+        },
+        {
+          "pid": 42592,
+          "name": "Google Chrome Helper",
+          "footprintBytes": 19874752,
+          "historicalProcessPeakBytes": 20038592
+        }
+      ],
+      "scope": "Point-in-time OS footprint of this test's headless Chrome tree, includes browser/GPU helper overhead. Not a peak, unique GPU allocation, reference PC or JS heap metric. Never sum individual historical peaks as a simultaneous peak."
+    }
+  ]
+}

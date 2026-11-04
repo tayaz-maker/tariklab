@@ -1,0 +1,133 @@
+name: SOCIAL ENGINE isolated quality
+on:
+  pull_request:
+    paths:
+      - "src/games/social-engine/**"
+      - "src/routes/oyna.social-engine.tsx"
+      - "public/games/social-engine/**"
+      - "scripts/social-engine*"
+      - "scripts/social-engine/**"
+      - "docs/social-engine/**"
+      - ".github/workflows/social-engine-quality.yml"
+  workflow_dispatch:
+    inputs:
+      continuous_soak:
+        description: Run two hours of continuous headless gameplay
+        type: boolean
+        default: false
+permissions:
+  contents: read
+# No deployment credentials, promotion, merge, or cancellation of other work.
+jobs:
+  simulation:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/ci-node
+      - name: Strict isolated TypeScript
+        run: npx tsc --noEmit -p src/games/social-engine/tsconfig.json
+      - name: All isolated unit, integration, migration and asset contracts
+        run: node --test scripts/social-engine-*.test.mjs
+      - name: Reproduce committed runtime exactly
+        run: |
+          node scripts/social-engine/build.mjs
+          node --test scripts/social-engine/check-soak-coverage.mjs
+          node scripts/social-engine/collect-licenses.mjs
+          node scripts/social-engine/verify-reproducible.mjs
+          git diff --exit-code -- public/games/social-engine
+      - name: 365 days, full replay and day-180 resume
+        run: node --experimental-strip-types scripts/social-engine/simulate-365.mjs
+      - name: Real prerequisites and10000citizen synthetic capacity
+        run: |
+          node --experimental-strip-types scripts/social-engine/simulate-event-reachability.mjs
+          node --expose-gc --experimental-strip-types scripts/social-engine/simulate-capacity.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: social-engine-simulation-${{ github.sha }}
+          path: |
+            artifacts/social-engine/simulation-365
+            artifacts/social-engine/event-reachability
+            artifacts/social-engine/capacity-10000
+  browsers:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit]
+    env:
+      SE_BROWSER: ${{ matrix.browser }}
+      SE_DETERMINISM_DAYS: "365"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/ci-node
+      - run: npx playwright install --with-deps ${{ matrix.browser }}
+      - name: Start isolated static game preview
+        run: |
+          node scripts/social-engine/serve.mjs > "$RUNNER_TEMP/social-preview.log" 2>&1 &
+          for attempt in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:8097/games/social-engine/build-manifest.json > /dev/null; then exit 0; fi
+            sleep 1
+          done
+          exit 1
+      - name: Slow first visit preserves typed character without a native form navigation
+        run: node scripts/social-engine/cold-start-browser.mjs
+      - name: Play integrated critical flows
+        run: node --experimental-strip-types scripts/social-engine/browser.mjs
+      - name: Real shop theft and restitution, stable HUD controls and save durability
+        run: node scripts/social-engine/property-browser.mjs
+      - name: Actual JavaScript engine 365-day parity
+        run: node --experimental-strip-types scripts/social-engine/simulate-browser.mjs
+      - name: Menu, focus, slots and failure recovery
+        if: matrix.browser == 'chromium'
+        run: node scripts/social-engine/ui-browser.mjs
+      - name: Actual IndexedDB fault injection and migration
+        run: node scripts/social-engine/persistence-browser.mjs
+      - name: Integrated society, journal and asset-failure recovery
+        if: matrix.browser == 'chromium'
+        run: |
+          node scripts/social-engine/v4-browser.mjs
+          node scripts/social-engine/journal-browser.mjs
+          node scripts/social-engine/asset-fault-browser.mjs
+          node scripts/social-engine/renderer-lifecycle-browser.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: social-engine-${{ matrix.browser }}-${{ github.sha }}
+          path: |
+            artifacts/social-engine/browser-${{ matrix.browser }}
+            artifacts/social-engine/cold-start-${{ matrix.browser }}
+            artifacts/social-engine/property-browser-${{ matrix.browser }}
+            artifacts/social-engine/browser-determinism-${{ matrix.browser }}
+            artifacts/social-engine/ui-browser
+            artifacts/social-engine/persistence-browser*
+            artifacts/social-engine/journal-browser
+            artifacts/social-engine/v4-browser
+            artifacts/social-engine/asset-faults
+            artifacts/social-engine/renderer-lifecycle
+          retention-days: 7
+
+  continuous-soak:
+    if: github.event_name == 'workflow_dispatch' && inputs.continuous_soak
+    runs-on: ubuntu-24.04
+    timeout-minutes: 155
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/ci-node
+      - run: npx playwright install --with-deps chromium
+      - name: Validate actual continuous gameplay time
+        run: |
+          node scripts/social-engine/serve.mjs > "$RUNNER_TEMP/social-soak-server.log" 2>&1 &
+          for attempt in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:8097/games/social-engine/build-manifest.json >/dev/null; then break; fi
+            sleep 1
+          done
+          node scripts/social-engine/performance.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: social-engine-continuous-soak-${{ github.sha }}
+          path: artifacts/social-engine/performance/
+          retention-days: 7

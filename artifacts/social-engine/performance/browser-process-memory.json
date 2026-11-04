@@ -1,0 +1,56 @@
+{
+  "timestamp": "2026-11-03T20:48:22.386079+00:00",
+  "method": "macOS ps RSS for descendants of the task-owned performance harness; browser processes only",
+  "measurementScope": "Point-in-time summed resident pages; shared pages can be counted more than once. Not unique physical usage, GPU allocation, a peak, or a600MiB acceptance claim.",
+  "runs": [
+    {
+      "harnessPID": 33511,
+      "browserProcessCount": 7,
+      "sumResidentKiB": 875056,
+      "processes": [
+        {
+          "pid": 33525,
+          "parent": 33511,
+          "rssKiB": 188304,
+          "kind": "browser"
+        },
+        {
+          "pid": 33531,
+          "parent": 33525,
+          "rssKiB": 116704,
+          "kind": "GPU"
+        },
+        {
+          "pid": 33532,
+          "parent": 33525,
+          "rssKiB": 82384,
+          "kind": "utility"
+        },
+        {
+          "pid": 33533,
+          "parent": 33525,
+          "rssKiB": 62736,
+          "kind": "utility"
+        },
+        {
+          "pid": 33536,
+          "parent": 33525,
+          "rssKiB": 114368,
+          "kind": "renderer"
+        },
+        {
+          "pid": 33537,
+          "parent": 33525,
+          "rssKiB": 76208,
+          "kind": "renderer"
+        },
+        {
+          "pid": 33538,
+          "parent": 33525,
+          "rssKiB": 234352,
+          "kind": "renderer"
+        }
+      ]
+    }
+  ]
+}

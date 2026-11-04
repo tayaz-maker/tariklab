@@ -1,0 +1,1392 @@
+{
+  "status": "PASS",
+  "startedAt": "2026-11-04T07:21:16.510Z",
+  "build_sha": "bc81a02487544403d29a3d176246d651e2b60a1d",
+  "manifestSha256": "5f6ee17a0a8c63152fb01fc2a310a26298c9c94ed5dc6682990b6bc19f9acc79",
+  "sourceDigest": "76ea681dff03e1aacd0b27b4d85ba5e9bf32233597210be0d596f1017f152e98",
+  "sourceFiles": [
+    {
+      "path": "src/games/social-engine/domain/content.ts",
+      "sha256": "0fca17e9bb7feb1103c75b296dca2bec9417575cb4e2c7db4da60429bf262815"
+    },
+    {
+      "path": "src/games/social-engine/domain/economy-types.ts",
+      "sha256": "e80ac98ce516af52f01635d029a9b0ec29dea3cdae39e503c632789d7777f9d0"
+    },
+    {
+      "path": "src/games/social-engine/domain/life-types.ts",
+      "sha256": "1397d18cd58111d58cfee7f0b4636ef5c731c6054d93a736306ce0f7ef36eb79"
+    },
+    {
+      "path": "src/games/social-engine/domain/mobility-types.ts",
+      "sha256": "29fc1b20d756af693aa1567683363accb8f99b07e9407f1cae18da5ccd806059"
+    },
+    {
+      "path": "src/games/social-engine/domain/progression-types.ts",
+      "sha256": "3617fe9b6a0e2b2c8e9bc79f016445acfc5a9e2d79e9211585df264e45b9ac99"
+    },
+    {
+      "path": "src/games/social-engine/domain/social-types.ts",
+      "sha256": "b5f6078fb27352aeae69907d10d0429fcdc2e840fe77438e18c5a23d30166b10"
+    },
+    {
+      "path": "src/games/social-engine/domain/traffic.ts",
+      "sha256": "2c1ff6bea90957ebe7ffa8eb885d35b438032fa73296add6bea4b1be20b8730e"
+    },
+    {
+      "path": "src/games/social-engine/domain/types.ts",
+      "sha256": "00a92821d99858ed991f83163a63a0ce68a62775bf391a2ea7190d8a45e62a2d"
+    },
+    {
+      "path": "src/games/social-engine/domain/world.ts",
+      "sha256": "d8316a30c1ce26a24cf86550b2fbb93dd25d119a5c2c5280044e5b1f1a009e44"
+    },
+    {
+      "path": "src/games/social-engine/persistence/codec.ts",
+      "sha256": "6f4a269308107c560dbb007a66cb49441e716ccc2b67019e0214b9f67964e4ef"
+    },
+    {
+      "path": "src/games/social-engine/persistence/compression.ts",
+      "sha256": "4962cf6da27fda26f85890ea2685bfa4982a5182a67824b7f4e9ccbd49d18657"
+    },
+    {
+      "path": "src/games/social-engine/persistence/fixtures/v1-provenance.json",
+      "sha256": "f96aa90fe23e8f4592da1e8db4353e36f28078690a0880d2f428d070169afbe9"
+    },
+    {
+      "path": "src/games/social-engine/persistence/fixtures/v1-world.json.gz",
+      "sha256": "f495e27c8baedd2a7e9ca3561919a84b4b07f437be083e420c919ab7dd8360b1"
+    },
+    {
+      "path": "src/games/social-engine/persistence/fixtures/v2-provenance.json",
+      "sha256": "2cc92182f5dc28b3ecf00227ea5669678be6d4ee58cb0b0a5a7ff88a89d94d94"
+    },
+    {
+      "path": "src/games/social-engine/persistence/fixtures/v2-world.json.gz",
+      "sha256": "aa490080945c2da68d8d402af4136c3508be11ff9485b273f5ad2d71af507318"
+    },
+    {
+      "path": "src/games/social-engine/persistence/fixtures/v3-provenance.json",
+      "sha256": "f1eeda1e7ea8858b1d7a3e6b59f1af4dfac88939da9b16aaa7cc0500a006e683"
+    },
+    {
+      "path": "src/games/social-engine/persistence/fixtures/v3-world.json.gz",
+      "sha256": "696bce0157f3d1fbf36668442842250d4775bf812c752dcf5bef319ca88e0997"
+    },
+    {
+      "path": "src/games/social-engine/persistence/fixtures/v4-provenance.json",
+      "sha256": "e8a8d6b71115ae274d0865c345fc2a606f99c1e147db2ab91e486569f790f3bc"
+    },
+    {
+      "path": "src/games/social-engine/persistence/fixtures/v4-world.json.gz",
+      "sha256": "44b8b065ecfe92b6f855ceea0e4f9edf0f31bef236ce17155d39e123968f9c22"
+    },
+    {
+      "path": "src/games/social-engine/persistence/fixtures/v5-auto-with-tail.json.gz",
+      "sha256": "09a996c3492320aaf0eb3caa9aa4b06b9989ca341e5d791df51e2627f8349f77"
+    },
+    {
+      "path": "src/games/social-engine/persistence/fixtures/v5-provenance.json",
+      "sha256": "caaaf8f829c743d5f21c608059a5178e8c2714cf0891e83eb9ab9de9eec23fa0"
+    },
+    {
+      "path": "src/games/social-engine/persistence/index.ts",
+      "sha256": "41c931b0b4fdbf6c689ecb833f6475810648ad6046bb2b4d05141b47568a7465"
+    },
+    {
+      "path": "src/games/social-engine/persistence/journal.ts",
+      "sha256": "61812451bfbedfcf19f0e3f97a9034d8eae1dae70c17fdcb7bc653c1357a31ab"
+    },
+    {
+      "path": "src/games/social-engine/persistence/README.md",
+      "sha256": "1b7a5e12d8e6f4d6aeed6e457e7ef26eb2e6e932d15cbf98833ed0cdc2d0f01b"
+    },
+    {
+      "path": "src/games/social-engine/persistence/records.ts",
+      "sha256": "55d0e429ba741bdbbd952ef247f689bbfab7ac12bb152d1a6b5fb2313c90f7fa"
+    },
+    {
+      "path": "src/games/social-engine/persistence/repository.ts",
+      "sha256": "be24e879f8622900e698525d8c3feab640fe759d1a6caaff3e99eedcba968496"
+    },
+    {
+      "path": "src/games/social-engine/rendering/benchmark.ts",
+      "sha256": "7d615899bf1d1e505afde99c6346823d5650dfd4c79e0981830f0a1d48099463"
+    },
+    {
+      "path": "src/games/social-engine/rendering/camera.ts",
+      "sha256": "747df923e87d51df55e129e0678dbd6968820611b1b1968aa8f3878de0fdd619"
+    },
+    {
+      "path": "src/games/social-engine/rendering/index.ts",
+      "sha256": "e9fe7c7778d9b7f404a67d5d113553fd311ae18388ab8fadce07c3bc100afe90"
+    },
+    {
+      "path": "src/games/social-engine/rendering/interpolation.ts",
+      "sha256": "00c79d6d63beece85e694fb0e06fe205b86d585a34f6c97c6040cb06acba3153"
+    },
+    {
+      "path": "src/games/social-engine/rendering/renderer.ts",
+      "sha256": "f31a826be3aafcf233dbdbfda41131a2d4880315f918138b494597067e69d8fd"
+    },
+    {
+      "path": "src/games/social-engine/rendering/world.ts",
+      "sha256": "b51cd9d0f14449871c841aaf2ded217859334d26c5d314dede12eda547c5bb9a"
+    },
+    {
+      "path": "src/games/social-engine/simulation/economy.ts",
+      "sha256": "ca44fe177f469915d6a3317ac2970cd233270bed88f3edecfc887059698785a0"
+    },
+    {
+      "path": "src/games/social-engine/simulation/engine.ts",
+      "sha256": "50ec63fb7e3ba15eae7765a32edd594a8bbffb87ab502f21ad02dbbcece280ac"
+    },
+    {
+      "path": "src/games/social-engine/simulation/events.ts",
+      "sha256": "eed1bdc018a3498a676358c2d4a5dc57e6115ba8e64f351323933513c47e0576"
+    },
+    {
+      "path": "src/games/social-engine/simulation/family.ts",
+      "sha256": "bad5b754261a843a645554cef4f5fef68fa893b82c029f305340ed93bbc60c83"
+    },
+    {
+      "path": "src/games/social-engine/simulation/justice.ts",
+      "sha256": "be085f99738b037e66a3f32aeb730cb3f39405305ee82c8abc917b4f921e6713"
+    },
+    {
+      "path": "src/games/social-engine/simulation/ledger.ts",
+      "sha256": "30780090c76ab7010da6804106f6bae9a931095b8d9ae803591fb7340b80f08b"
+    },
+    {
+      "path": "src/games/social-engine/simulation/life.ts",
+      "sha256": "a0a5b36eb19cd67ad7320d762cc3110735556aa65471a3f014d916b72cd88122"
+    },
+    {
+      "path": "src/games/social-engine/simulation/missions.ts",
+      "sha256": "ebf356683520ceb3b439c849fe64786e33acde8f12bae53eb48defc4d541b826"
+    },
+    {
+      "path": "src/games/social-engine/simulation/mobility.ts",
+      "sha256": "b25f81c7cbb69a7799cbb367bcd479bdf9db1593e4fb6e02239778cfc4907a69"
+    },
+    {
+      "path": "src/games/social-engine/simulation/population.ts",
+      "sha256": "733c9408a9683bc9ca5f60a4919a7e814ccb8228673d9ad0b85acf1c0961408f"
+    },
+    {
+      "path": "src/games/social-engine/simulation/progression.ts",
+      "sha256": "071259d0367707d23070d330814e881bbb2200a0ada5d9159f15b2221cc09602"
+    },
+    {
+      "path": "src/games/social-engine/simulation/property-crime.ts",
+      "sha256": "df939325cd787d825ade30c41509a56ef2c01511effba9e8a3b86c4bb9cb2964"
+    },
+    {
+      "path": "src/games/social-engine/simulation/random.ts",
+      "sha256": "a4030b8ce060b505ea0b1c147d699bc529c0634773d52b5d5fbfc1120a27ecbd"
+    },
+    {
+      "path": "src/games/social-engine/simulation/services.ts",
+      "sha256": "9d0878b6bdf312b448351bbc5ac2c5fd2c191013838a65f5bf8265926a16eab5"
+    },
+    {
+      "path": "src/games/social-engine/simulation/social.ts",
+      "sha256": "c702bc66741ff63ee0da809c180b2bdb9badc54394c36cec7ed6003e94b23306"
+    },
+    {
+      "path": "src/games/social-engine/simulation/society.ts",
+      "sha256": "7604c6d08fb57c17c8c1f40edcb08559fc3d38bc7e34f32f795f0ee806acb20d"
+    },
+    {
+      "path": "src/games/social-engine/simulation/traffic.ts",
+      "sha256": "33500f7bebd80162a2aa6be1ec14bc25c680673a0f145cdbaee0384db099a792"
+    },
+    {
+      "path": "src/games/social-engine/tests/adversarial.test.ts",
+      "sha256": "495cd3fdee6867331483dbbe0c26673e499e717d4f98b8b139a986c4939bc41b"
+    },
+    {
+      "path": "src/games/social-engine/tests/economy.test.ts",
+      "sha256": "3f31df85466d5d409801dad21a3dd22a2de53149c1a57f492506f7417127e957"
+    },
+    {
+      "path": "src/games/social-engine/tests/justice.test.ts",
+      "sha256": "c82a78a265d2bd4dce67c115f9e089e3b1c1407c3abffce34678224ac6974e93"
+    },
+    {
+      "path": "src/games/social-engine/tests/ledger-sparse.test.ts",
+      "sha256": "d7bc77186e603da1343009c3dbb82fbd59a064215164bf092d04b1af9acc3be8"
+    },
+    {
+      "path": "src/games/social-engine/tests/life-family.test.ts",
+      "sha256": "1bcd8ea67f1fe5f77f86a217377ea7f13a7a427947a2e0026d0db00457ec5eea"
+    },
+    {
+      "path": "src/games/social-engine/tests/life.test.ts",
+      "sha256": "48595a8090c71a8f9152c17f59321e8be4f4858cf25f4de6f93cbc940847cde0"
+    },
+    {
+      "path": "src/games/social-engine/tests/live-journal.test.ts",
+      "sha256": "d45c91a6db3c84ae025c0fd12be8b8c1bd23fdadf8bab398238e20d931ea892e"
+    },
+    {
+      "path": "src/games/social-engine/tests/local-endpoint.test.ts",
+      "sha256": "f9932b60e68749ba7fe0a8b9019fd03e6622029682689fa2afe67a31df1a06fd"
+    },
+    {
+      "path": "src/games/social-engine/tests/mobility.test.ts",
+      "sha256": "1ee8973c72e5d729ab08702002aebb020d7c2bf6f9a3829ab9cd1de8059bd3e7"
+    },
+    {
+      "path": "src/games/social-engine/tests/persistence-browser.ts",
+      "sha256": "cd06e7c7878d646134bd41ca5e115eca05103be43b6fbec79e0be18d0d6ac2b3"
+    },
+    {
+      "path": "src/games/social-engine/tests/persistence-journal.test.ts",
+      "sha256": "f5ca43f6fb46bcfaeadaa7db84e9c6f5c01e2f592ab5d412cc37d423ce00804e"
+    },
+    {
+      "path": "src/games/social-engine/tests/persistence.test.ts",
+      "sha256": "76a32383ed94beed1efacfbfa89cef621f8c6026d15de944e4e15bda7e7006ae"
+    },
+    {
+      "path": "src/games/social-engine/tests/progression.test.ts",
+      "sha256": "8c327d68940c30ef34087b540a54b8a4ed7b6e605e36611fd62f7b94172a897e"
+    },
+    {
+      "path": "src/games/social-engine/tests/property-crime.test.ts",
+      "sha256": "e675d85714bd936ccc3400fa887f4028ba24b6b3741122072e5d393439854692"
+    },
+    {
+      "path": "src/games/social-engine/tests/quest-faults.test.ts",
+      "sha256": "bbe95806ced2d0c6ef32624c7ef60ea49a1091177bd1443f4b9c4f873d7506a8"
+    },
+    {
+      "path": "src/games/social-engine/tests/record-snapshot.test.ts",
+      "sha256": "ec2c26ce60cae089c111e8b9ef801f44acbe7d4236e32b6ce9efecdf1fc21e2b"
+    },
+    {
+      "path": "src/games/social-engine/tests/recovery.test.ts",
+      "sha256": "591bceeb066c5834b690bbeca91473e0f9d6fe97a2e04e86340f26f0b54a7bc2"
+    },
+    {
+      "path": "src/games/social-engine/tests/save-queue.test.ts",
+      "sha256": "7692bfc395ca79597746001467153023dbe90a9366954c70fe2990fa40df9453"
+    },
+    {
+      "path": "src/games/social-engine/tests/services.test.ts",
+      "sha256": "93eb6264548052e0e1b26c98a4758c8f9d80129e823a7cfa5bffd500e30a8f30"
+    },
+    {
+      "path": "src/games/social-engine/tests/simulation-careers.test.ts",
+      "sha256": "67cc61d5c6beeeeaed978c58ac738ad23b3177c62e8dc79513ebdf4472895b92"
+    },
+    {
+      "path": "src/games/social-engine/tests/simulation-events.test.ts",
+      "sha256": "ddce29de32097476289b12fc1ff98b89383d09181c94f6451fc9825beac6beb3"
+    },
+    {
+      "path": "src/games/social-engine/tests/simulation.test.ts",
+      "sha256": "ffefa8b144c8204b2204420e8b3e611d9f5afd8d6f2378e3623ad74883f7c588"
+    },
+    {
+      "path": "src/games/social-engine/tests/social.test.ts",
+      "sha256": "940b9728258ce15c537c24466eedda8bb87c65bea4697d9c0032ee742de3ca0d"
+    },
+    {
+      "path": "src/games/social-engine/tests/traffic.test.ts",
+      "sha256": "8fdd479fccf613e9bfa9f7e090cde59fff595d258cf276dba87dd8cc05c0e6d5"
+    },
+    {
+      "path": "src/games/social-engine/tests/worker.test.ts",
+      "sha256": "dd2ba5239398f0ce17ebde7160e94902b9178a29acbdefbf968d54f080f3fbf1"
+    },
+    {
+      "path": "src/games/social-engine/tests/world-assets.test.ts",
+      "sha256": "abb109b07553531b85600e969169a74c31a95e02bdd82ebd4ab3d5e257b24de1"
+    },
+    {
+      "path": "src/games/social-engine/tests/world-camera.test.ts",
+      "sha256": "d69d642455ce5222537f02e8f496a995f1a782b5eccbad4b4728a46446ed9d73"
+    },
+    {
+      "path": "src/games/social-engine/tests/world-interpolation.test.ts",
+      "sha256": "9f87ea7ca48f01bbef37a703e2561ac767a43512fa6cc85256f6cfe9666cd97d"
+    },
+    {
+      "path": "src/games/social-engine/tests/world.test.ts",
+      "sha256": "2a2c42bfd851de93a215f39e7331db0a0ef2d59e171fd942c3aecba68fd9d843"
+    },
+    {
+      "path": "src/games/social-engine/tsconfig.json",
+      "sha256": "42d5fdc1d030f9511003aaf3b1bca3c7683bc4e337893d9e4f40433bb60ddbca"
+    },
+    {
+      "path": "src/games/social-engine/ui/app.ts",
+      "sha256": "9a0af68e17a456b3d45c1a1646ff849ca11b0da47c2557e1cc78babf29aa03d8"
+    },
+    {
+      "path": "src/games/social-engine/ui/index.html",
+      "sha256": "15b1852a725811060b20211b04bf578b48d7efacb2a727985fb0ae807042e7c6"
+    },
+    {
+      "path": "src/games/social-engine/ui/live-journal.ts",
+      "sha256": "47b36618d689274b0aa13d73ddb0d833bfc5100bd353c3196ecc0dcdb61e6605"
+    },
+    {
+      "path": "src/games/social-engine/ui/save-queue.ts",
+      "sha256": "a3c8a64537dc23746d32bce874086da08ed69fc45c860fac8aa19e2e17bb467e"
+    },
+    {
+      "path": "src/games/social-engine/ui/styles.css",
+      "sha256": "1cab492a6f0a81620e7f7d34acdcf58a9d3cabdd00cb8159f8a670c231c63fc1"
+    },
+    {
+      "path": "src/games/social-engine/worker/entry.ts",
+      "sha256": "9fd4a8145dff1c5976fd95053f71ca03cd40a3b93dec7be6aa1e7ef705f6decc"
+    },
+    {
+      "path": "src/games/social-engine/worker/local-endpoint.ts",
+      "sha256": "e87efaed944df3af47e31c1497104a4f64a7f9fb2b96c84548253ff4c959b23c"
+    },
+    {
+      "path": "src/games/social-engine/worker/runtime.ts",
+      "sha256": "21f1a54392c1583ebc6fe19da9e9752e76607674882ad5030ecc01850cdaf815"
+    }
+  ],
+  "environment": {
+    "node": "v24.21.0",
+    "os": "darwin 25.6.0",
+    "cpu": "Apple M2"
+  },
+  "tests": [
+    {
+      "name": "compacted monetary transaction IDs remain exactly-once after save/load",
+      "status": "PASS",
+      "duration_ms": 566.793458
+    },
+    {
+      "name": "repair delivery cannot create seven unproduced parts",
+      "status": "PASS",
+      "duration_ms": 25.376041
+    },
+    {
+      "name": "abandoning an undelivered parcel restores its reserved inventory",
+      "status": "PASS",
+      "duration_ms": 90.318667
+    },
+    {
+      "name": "joining the same faction repeatedly does not generate influence",
+      "status": "PASS",
+      "duration_ms": 40.092541
+    },
+    {
+      "name": "successful pursuit escape survives the next fixed tick",
+      "status": "PASS",
+      "duration_ms": 268.657
+    },
+    {
+      "name": "unobserved private events remain absent from player projection and unrelated memory",
+      "status": "PASS",
+      "duration_ms": 146.549209
+    },
+    {
+      "name": "prototype property names are not trainable skills",
+      "status": "PASS",
+      "duration_ms": 34.661667
+    },
+    {
+      "name": "a negative steering request at a connected junction turns left on screen",
+      "status": "PASS",
+      "duration_ms": 139.519917
+    },
+    {
+      "name": "save validator rejects dangling player vehicle ownership",
+      "status": "PASS",
+      "duration_ms": 228.483834
+    },
+    {
+      "name": "save validator rejects malformed persistent transaction tombstones",
+      "status": "PASS",
+      "duration_ms": 173.542667
+    },
+    {
+      "name": "SE-011 background workers retain departure location until actual scheduled arrival and cannot earn absent wages",
+      "status": "PASS",
+      "duration_ms": 237.645167
+    },
+    {
+      "name": "SE-019 finite wholesale inputs are paid and conserved through one-to-one real output",
+      "status": "PASS",
+      "duration_ms": 181.686167
+    },
+    {
+      "name": "SE-019 production cannot create stock without labor or business funds",
+      "status": "PASS",
+      "duration_ms": 15.462333
+    },
+    {
+      "name": "SE-019 taxes use actual sales, double-sided payment and one assessment per daily total",
+      "status": "PASS",
+      "duration_ms": 101.139125
+    },
+    {
+      "name": "SE-036 strikes require real distress and funded public works measurably constrain production",
+      "status": "PASS",
+      "duration_ms": 304.646541
+    },
+    {
+      "name": "SE-011 shopping only consumes stock when the NPC has arrived at the open market",
+      "status": "PASS",
+      "duration_ms": 115.075083
+    },
+    {
+      "name": "SE-026 economic travel, attendance, taxes and inputs resume identically through ten days including scheduled public works",
+      "status": "PASS",
+      "duration_ms": 105360.266
+    },
+    {
+      "name": "NPC fine preserves unpaid arrears exactly once instead of forgiving unavailable cash",
+      "status": "PASS",
+      "duration_ms": 641.864375
+    },
+    {
+      "name": "a pending NPC investigation closes after death without charging the completed estate",
+      "status": "PASS",
+      "duration_ms": 76.320708
+    },
+    {
+      "name": "unreported hidden offender creates no police case, identity, pursuit or projected knowledge",
+      "status": "PASS",
+      "duration_ms": 629.821667
+    },
+    {
+      "name": "unsupported false accusation is never physical evidence and review acquits without payment",
+      "status": "PASS",
+      "duration_ms": 18.755959
+    },
+    {
+      "name": "only two verified cases dispatch, backlog queues and hidden escape releases dispatch capacity",
+      "status": "PASS",
+      "duration_ms": 70.964916
+    },
+    {
+      "name": "actual voluntary custody blocks movement, survives save/resume, releases after30minutes with one supported fine",
+      "status": "PASS",
+      "duration_ms": 386.999584
+    },
+    {
+      "name": "unsupported custody ends in acquittal with no money, debt or automatic wanted level",
+      "status": "PASS",
+      "duration_ms": 255.516292
+    },
+    {
+      "name": "unsupported allegation does not overwrite known witnessed identity or erase evidence",
+      "status": "PASS",
+      "duration_ms": 32.759416
+    },
+    {
+      "name": "corrupt police knowledge, capacity and unsupported conviction fail validation",
+      "status": "PASS",
+      "duration_ms": 28.890834
+    },
+    {
+      "name": "bounded case and statement history neither reopens dismissed allegations nor blocks new reports",
+      "status": "PASS",
+      "duration_ms": 416.502333
+    },
+    {
+      "name": "weekly economy cannot bypass police capacity or forgive an NPC case's unpaid fine",
+      "status": "PASS",
+      "duration_ms": 20.41125
+    },
+    {
+      "name": "queued NPC investigations spend their own60minute dispatch interval before a fine",
+      "status": "PASS",
+      "duration_ms": 231.399584
+    },
+    {
+      "name": "every4096bit address survives dense/sparse representation without collisions or false positives",
+      "status": "PASS",
+      "duration_ms": 313.733125
+    },
+    {
+      "name": "sparse per-person tick transaction families stay compact and exact-once after ledger compaction and save reload",
+      "status": "PASS",
+      "duration_ms": 2390.575292
+    },
+    {
+      "name": "two current adult consents create one capacity-safe background child with no minted money",
+      "status": "PASS",
+      "duration_ms": 607.910834
+    },
+    {
+      "name": "birth capacity, parental cooldown, adult consent and global growth cap are enforced",
+      "status": "PASS",
+      "duration_ms": 313.5715
+    },
+    {
+      "name": "guardian decisions require an adult, preserve residency and are idempotent",
+      "status": "PASS",
+      "duration_ms": 345.181875
+    },
+    {
+      "name": "guardian care spends actual funds and consumes actual stock before improving child needs",
+      "status": "PASS",
+      "duration_ms": 198.351709
+    },
+    {
+      "name": "death retains tombstone, closes employment and social membership, pays debt before heirs",
+      "status": "PASS",
+      "duration_ms": 438.191333
+    },
+    {
+      "name": "estate insolvency records lender loss explicitly without negative money or inherited debt",
+      "status": "PASS",
+      "duration_ms": 50.696333
+    },
+    {
+      "name": "collectible estate assets block inheritance and forced purchase until a real buyer pays",
+      "status": "PASS",
+      "duration_ms": 400.333541
+    },
+    {
+      "name": "executor death cannot inherit another unresolved estate or leave a dead titleholder",
+      "status": "PASS",
+      "duration_ms": 157.600417
+    },
+    {
+      "name": "birth and debt-first estate state roundtrip preserves full references and no repeated inheritance",
+      "status": "PASS",
+      "duration_ms": 2011.474458
+    },
+    {
+      "name": "child adult roles, missing guardians and duplicate births fail invariant checks",
+      "status": "PASS",
+      "duration_ms": 92.221041
+    },
+    {
+      "name": "a child ages on elapsed birth date rather than only calendar-year boundaries",
+      "status": "PASS",
+      "duration_ms": 226.755125
+    },
+    {
+      "name": "daily demographic events reproduce identical births deaths guardians and estates for a year",
+      "status": "PASS",
+      "duration_ms": 8491.313292
+    },
+    {
+      "name": "schema4 initializes one capacity-safe primary home per household with zero new balances",
+      "status": "PASS",
+      "duration_ms": 454.2935
+    },
+    {
+      "name": "reserve then lease atomically moves one household and keeps deposits backed",
+      "status": "PASS",
+      "duration_ms": 263.196542
+    },
+    {
+      "name": "expired reservations, unavailable capacity and insufficient money preserve current residence",
+      "status": "PASS",
+      "duration_ms": 193.133375
+    },
+    {
+      "name": "property purchase transfers real money and deed; owning a home removes future rent",
+      "status": "PASS",
+      "duration_ms": 314.067542
+    },
+    {
+      "name": "owned vacant property can become primary home without charging a lease deposit",
+      "status": "PASS",
+      "duration_ms": 153.156208
+    },
+    {
+      "name": "shared budget tracks contribution rights and rent consumes shares without duplicate charge",
+      "status": "PASS",
+      "duration_ms": 557.683917
+    },
+    {
+      "name": "unpaid rent remains owed across a move and explicit repayment reconciles",
+      "status": "PASS",
+      "duration_ms": 167.0195
+    },
+    {
+      "name": "one-sided romance is rejected; mutual consent marries and separates with canonical households",
+      "status": "PASS",
+      "duration_ms": 285.029125
+    },
+    {
+      "name": "partners bring only their funded shared contribution and retain it after separation",
+      "status": "PASS",
+      "duration_ms": 403.302708
+    },
+    {
+      "name": "family ancestry cycles and underage partnerships fail invariant validation",
+      "status": "PASS",
+      "duration_ms": 75.323791
+    },
+    {
+      "name": "courses require actual attended sessions, cancel on absence and unlock a higher job",
+      "status": "PASS",
+      "duration_ms": 167.958291
+    },
+    {
+      "name": "course prerequisites, cancellation and work/training overlap reject invalid transitions",
+      "status": "PASS",
+      "duration_ms": 302.764958
+    },
+    {
+      "name": "aid is funded, low-balance gated and cannot be collected twice",
+      "status": "PASS",
+      "duration_ms": 336.311083
+    },
+    {
+      "name": "integrated fixed ticks complete a course and saved lifecycle remains equivalent",
+      "status": "PASS",
+      "duration_ms": 1936.294458
+    },
+    {
+      "name": "new-world adult family history is deterministic and legacy migration does not invent it",
+      "status": "PASS",
+      "duration_ms": 234.895042
+    },
+    {
+      "name": "a reserved owned flat is capacity-checked again when the household changes",
+      "status": "PASS",
+      "duration_ms": 264.204417
+    },
+    {
+      "name": "rent arrears retain their contractual creditor after the property is purchased",
+      "status": "PASS",
+      "duration_ms": 98.362458
+    },
+    {
+      "name": "monthly market review adjusts only vacant unreserved asking rent and keeps signed terms",
+      "status": "PASS",
+      "duration_ms": 466.516917
+    },
+    {
+      "name": "a financially distressed NPC household reserves a real affordable family home",
+      "status": "PASS",
+      "duration_ms": 162.524417
+    },
+    {
+      "name": "duplicate public housing and course commands after save do not duplicate payments or enrollment",
+      "status": "PASS",
+      "duration_ms": 1806.563583
+    },
+    {
+      "name": "forged shared-account, deed, class and certificate references fail validation",
+      "status": "PASS",
+      "duration_ms": 236.704542
+    },
+    {
+      "name": "live journal bounds a blocked IndexedDB mailbox and compacts only with an authoritative covering snapshot",
+      "status": "PASS",
+      "duration_ms": 6.13875
+    },
+    {
+      "name": "operations arriving during snapshot commit remain replayable after its exact cursor",
+      "status": "PASS",
+      "duration_ms": 0.865041
+    },
+    {
+      "name": "competing-tab CAS failure disables automatic writes without retrying ownership or claiming persistence",
+      "status": "PASS",
+      "duration_ms": 0.976833
+    },
+    {
+      "name": "disposing an old session waits for its in-flight write before a replacement can claim the slot",
+      "status": "PASS",
+      "duration_ms": 0.751916
+    },
+    {
+      "name": "crash recovery compares same-tick paused command cursors and the verified post-quarantine head",
+      "status": "PASS",
+      "duration_ms": 0.165584
+    },
+    {
+      "name": "worker-unavailable compatibility mode keeps full authority, same tick results and only reduces visible presentation",
+      "status": "PASS",
+      "duration_ms": 1406.988875
+    },
+    {
+      "name": "GD06 paid transit has real elapsed journey, one fare, valid arrival and exact resumed replay",
+      "status": "PASS",
+      "duration_ms": 1287.901
+    },
+    {
+      "name": "GD06 rental requires contract, finite fees, parked return and exact-once deposit",
+      "status": "PASS",
+      "duration_ms": 284.745458
+    },
+    {
+      "name": "GD06 parking authority rejects full lot and moving car without altering occupancy",
+      "status": "PASS",
+      "duration_ms": 185.338083
+    },
+    {
+      "name": "GD06 overdue rental fee is bounded by escrow and cannot double-charge after reload",
+      "status": "PASS",
+      "duration_ms": 3098.7205
+    },
+    {
+      "name": "GD16 seeded four weather states affect road caps and outdoor fatigue; all remain replayable",
+      "status": "PASS",
+      "duration_ms": 1837.925292
+    },
+    {
+      "name": "GD06 malformed mobility saves are rejected instead of enabling free rides or duplicate parking",
+      "status": "PASS",
+      "duration_ms": 447.531959
+    },
+    {
+      "name": "journal replays fixed ticks, paused commands and control resets into exactly the same world",
+      "status": "PASS",
+      "duration_ms": 1829.994542
+    },
+    {
+      "name": "retirement freezes valid tick operations and resume uses the actual resulting tick",
+      "status": "PASS",
+      "duration_ms": 532.014083
+    },
+    {
+      "name": "checksummed journal chain rejects payload, cursor, metadata and prior-hash tampering",
+      "status": "PASS",
+      "duration_ms": 511.498833
+    },
+    {
+      "name": "gaps and dishonest unchanged ticks fail without mutating the source snapshot",
+      "status": "PASS",
+      "duration_ms": 501.845125
+    },
+    {
+      "name": "unknown operation, unsafe JSON, invalid commands and excessive replay fail closed",
+      "status": "PASS",
+      "duration_ms": 10.516417
+    },
+    {
+      "name": "checkpoint suffix replay preserves cursor continuity without repeating covered operations",
+      "status": "PASS",
+      "duration_ms": 1039.2195
+    },
+    {
+      "name": "populated world survives canonical UTF-8 SHA-256 save round-trip",
+      "status": "PASS",
+      "duration_ms": 1944.347125
+    },
+    {
+      "name": "one hundred independent codec round-trips preserve canonical state",
+      "status": "PASS",
+      "duration_ms": 93988.512791
+    },
+    {
+      "name": "payload tampering, length mismatch and metadata disagreement fail closed",
+      "status": "PASS",
+      "duration_ms": 505.546083
+    },
+    {
+      "name": "unknown future schema is rejected with original bytes unchanged",
+      "status": "PASS",
+      "duration_ms": 655.661958
+    },
+    {
+      "name": "v1 migration reconstructs the pre-ledger checkpoint without rewriting source",
+      "status": "PASS",
+      "duration_ms": 853.916667
+    },
+    {
+      "name": "frozen v1 fixture migrates repeatably with unchanged bytes and finances",
+      "status": "PASS",
+      "duration_ms": 480.189625
+    },
+    {
+      "name": "invalid migration ledger and unsafe object trees cannot become saves",
+      "status": "PASS",
+      "duration_ms": 128.090541
+    },
+    {
+      "name": "only four SOCIAL ENGINE slots are accepted and database namespace is isolated",
+      "status": "PASS",
+      "duration_ms": 0.393042
+    },
+    {
+      "name": "invalid state cannot be encoded and malformed input cannot be imported",
+      "status": "PASS",
+      "duration_ms": 17.948584
+    },
+    {
+      "name": "actual pre-lifecycle v2 fixture upgrades to schema4 without changing money or identity",
+      "status": "PASS",
+      "duration_ms": 928.87275
+    },
+    {
+      "name": "authentic schema3 lifecycle save gains schema4 systems without rewriting financial or family history",
+      "status": "PASS",
+      "duration_ms": 1020.24
+    },
+    {
+      "name": "one daily skill allowance covers book, training and other awards and resets once per game day",
+      "status": "PASS",
+      "duration_ms": 262.188083
+    },
+    {
+      "name": "inventory has stable unique owned unit IDs and consumes exactly the removed units",
+      "status": "PASS",
+      "duration_ms": 245.121667
+    },
+    {
+      "name": "full item slots reject a new type or delivery before money or mission changes",
+      "status": "PASS",
+      "duration_ms": 222.323333
+    },
+    {
+      "name": "professional perk is earned once and adds a backed fixed wage offer bonus",
+      "status": "PASS",
+      "duration_ms": 8.947625
+    },
+    {
+      "name": "voluntary retirement preserves state, freezes time and permits explicit resume",
+      "status": "PASS",
+      "duration_ms": 299.7155
+    },
+    {
+      "name": "wanted or mid-journey player cannot discard obligations by retiring",
+      "status": "PASS",
+      "duration_ms": 26.279083
+    },
+    {
+      "name": "item IDs, skill allowance and retirement survive an authenticated save roundtrip",
+      "status": "PASS",
+      "duration_ms": 1654.606042
+    },
+    {
+      "name": "malformed skill baselines and item metadata cannot bypass daily gains or crash save validation",
+      "status": "PASS",
+      "duration_ms": 3154.01575
+    },
+    {
+      "name": "C08: one unit leaves the victim's stock, survives a save with its identity, and can be returned exactly once",
+      "status": "PASS",
+      "duration_ms": 2515.886958
+    },
+    {
+      "name": "C08: only actual observers remember theft and an unseen loss does not give police a suspect",
+      "status": "PASS",
+      "duration_ms": 55.958084
+    },
+    {
+      "name": "C08: empty stock, forged quantity, own shop, offsite and full bag cannot create goods or incidents",
+      "status": "PASS",
+      "duration_ms": 412.154625
+    },
+    {
+      "name": "C08: another unit of the same kind cannot substitute for a consumed stolen item; forged provenance is rejected",
+      "status": "PASS",
+      "duration_ms": 56.58875
+    },
+    {
+      "name": "SE-036: unavailable active delivery target closes safely; later timeout cannot loop or refund twice",
+      "status": "PASS",
+      "duration_ms": 1778.919416
+    },
+    {
+      "name": "SE-036 fault injection: a missing target reference times out with escrow and parcel returned once",
+      "status": "PASS",
+      "duration_ms": 117.554542
+    },
+    {
+      "name": "all persisted records have unique typed identity, schema and reconciliation tick; immutable profiles have one storage owner",
+      "status": "PASS",
+      "duration_ms": 1409.26075
+    },
+    {
+      "name": "authenticated but invalid references, duplicate ownership, unsupported rules and record versions fail closed",
+      "status": "PASS",
+      "duration_ms": 4289.794458
+    },
+    {
+      "name": "canonical normalized save hydration and continued ticks equal uninterrupted authority",
+      "status": "PASS",
+      "duration_ms": 7506.003916
+    },
+    {
+      "name": "compressed normalized snapshot checks canonical bytes and rejects malformed length, checksum and expansion bounds",
+      "status": "PASS",
+      "duration_ms": 1472.513125
+    },
+    {
+      "name": "C23 combined debt, unemployment, wanted status, poverty and injury have a funded legal recovery path",
+      "status": "PASS",
+      "duration_ms": 1226.883708
+    },
+    {
+      "name": "manual save waits behind active automatic write and reports success only after its own commit",
+      "status": "PASS",
+      "duration_ms": 1.754666
+    },
+    {
+      "name": "queued snapshot cannot silently save a replacement world and a failed write does not block later requests",
+      "status": "PASS",
+      "duration_ms": 0.643625
+    },
+    {
+      "name": "manual queue is bounded while explicit auto-slot clicks retain manual semantics",
+      "status": "PASS",
+      "duration_ms": 0.385875
+    },
+    {
+      "name": "opening hours reject closed purchases without money/stock loss and reopen on the fixed clock",
+      "status": "PASS",
+      "duration_ms": 2505.215917
+    },
+    {
+      "name": "bounded queue shares service capacity between NPCs and player, preserves FIFO and charges only completed purchases",
+      "status": "PASS",
+      "duration_ms": 1699.025333
+    },
+    {
+      "name": "full waiting area rejects extra identities, stale/leaving reservations expire, forged duplicate queues fail validation",
+      "status": "PASS",
+      "duration_ms": 27.695292
+    },
+    {
+      "name": "authentic schema4 migration adds empty service reservations and preserves all owned finances and simulation histories",
+      "status": "PASS",
+      "duration_ms": 359.705375
+    },
+    {
+      "name": "distress with unsold output creates a bounded real layoff, healthy businesses and repeat processing cannot fabricate unemployment",
+      "status": "PASS",
+      "duration_ms": 202.127459
+    },
+    {
+      "name": "tea and bank service hours bind actual business identities",
+      "status": "PASS",
+      "duration_ms": 1053.720375
+    },
+    {
+      "name": "meal settlements group shared queue ticks while retaining every distinct person and reject forged queue identities",
+      "status": "PASS",
+      "duration_ms": 1239.251667
+    },
+    {
+      "name": "seven-day legal progression: retail uses wages, food, training, housing and validated saves",
+      "status": "PASS",
+      "duration_ms": 23087.947333
+    },
+    {
+      "name": "seven-day legal progression: mechanic uses wages, food, training, housing and validated saves",
+      "status": "PASS",
+      "duration_ms": 19833.518583
+    },
+    {
+      "name": "seven-day legal progression: teaching uses wages, food, training, housing and validated saves",
+      "status": "PASS",
+      "duration_ms": 22622.890209
+    },
+    {
+      "name": "SE-034: at least one hundred generated missions across seeded worlds have reachable funded canonical targets",
+      "status": "PASS",
+      "duration_ms": 16548.516
+    },
+    {
+      "name": "SE-034 SE-035 SE-036: job_offer real fact prerequisite, accept/complete, decline and timeout branches",
+      "status": "PASS",
+      "duration_ms": 1967.392667
+    },
+    {
+      "name": "SE-034 SE-035 SE-036: late_wage real fact prerequisite, accept/complete, decline and timeout branches",
+      "status": "PASS",
+      "duration_ms": 1586.535958
+    },
+    {
+      "name": "SE-034 SE-035 SE-036: layoff real fact prerequisite, accept/complete, decline and timeout branches",
+      "status": "PASS",
+      "duration_ms": 971.4855
+    },
+    {
+      "name": "SE-034 SE-035 SE-036: promotion real fact prerequisite, accept/complete, decline and timeout branches",
+      "status": "PASS",
+      "duration_ms": 819.823542
+    },
+    {
+      "name": "SE-034 SE-035 SE-036: rent_rise real fact prerequisite, accept/complete, decline and timeout branches",
+      "status": "PASS",
+      "duration_ms": 1304.417583
+    },
+    {
+      "name": "SE-034 SE-035 SE-036: loan_due real fact prerequisite, accept/complete, decline and timeout branches",
+      "status": "PASS",
+      "duration_ms": 936.952917
+    },
+    {
+      "name": "SE-034 SE-035 SE-036: price_shock real fact prerequisite, accept/complete, decline and timeout branches",
+      "status": "PASS",
+      "duration_ms": 8101.385958
+    },
+    {
+      "name": "SE-034 SE-035 SE-036: shortage real fact prerequisite, accept/complete, decline and timeout branches",
+      "status": "PASS",
+      "duration_ms": 1637.406833
+    },
+    {
+      "name": "SE-034 SE-035 SE-036: delivery real fact prerequisite, accept/complete, decline and timeout branches",
+      "status": "PASS",
+      "duration_ms": 1164.704833
+    },
+    {
+      "name": "SE-034 SE-035 SE-036: vehicle_breakdown real fact prerequisite, accept/complete, decline and timeout branches",
+      "status": "PASS",
+      "duration_ms": 1096.488292
+    },
+    {
+      "name": "SE-034 SE-035 SE-036: traffic_jam real fact prerequisite, accept/complete, decline and timeout branches",
+      "status": "PASS",
+      "duration_ms": 1937.428792
+    },
+    {
+      "name": "SE-034 SE-035 SE-036: lost_item real fact prerequisite, accept/complete, decline and timeout branches",
+      "status": "PASS",
+      "duration_ms": 1555.476708
+    },
+    {
+      "name": "SE-034 SE-035 SE-036: neighbor_help real fact prerequisite, accept/complete, decline and timeout branches",
+      "status": "PASS",
+      "duration_ms": 997.957625
+    },
+    {
+      "name": "SE-034 SE-035 SE-036: friend_invite real fact prerequisite, accept/complete, decline and timeout branches",
+      "status": "PASS",
+      "duration_ms": 955.475334
+    },
+    {
+      "name": "SE-034 SE-035 SE-036: relationship_dispute real fact prerequisite, accept/complete, decline and timeout branches",
+      "status": "PASS",
+      "duration_ms": 972.222291
+    },
+    {
+      "name": "SE-034 SE-035 SE-036: scholarship real fact prerequisite, accept/complete, decline and timeout branches",
+      "status": "PASS",
+      "duration_ms": 1121.511
+    },
+    {
+      "name": "SE-034 SE-035 SE-036: neighborhood_argument real fact prerequisite, accept/complete, decline and timeout branches",
+      "status": "PASS",
+      "duration_ms": 978.797083
+    },
+    {
+      "name": "SE-034 SE-035 SE-036: witness_report real fact prerequisite, accept/complete, decline and timeout branches",
+      "status": "PASS",
+      "duration_ms": 846.255084
+    },
+    {
+      "name": "SE-034 SE-035 SE-036: police_check real fact prerequisite, accept/complete, decline and timeout branches",
+      "status": "PASS",
+      "duration_ms": 961.663834
+    },
+    {
+      "name": "SE-034 SE-035 SE-036: faction_truce real fact prerequisite, accept/complete, decline and timeout branches",
+      "status": "PASS",
+      "duration_ms": 1011.765417
+    },
+    {
+      "name": "SE-036 participant and venue reservations are exclusive and release on real decline",
+      "status": "PASS",
+      "duration_ms": 255.726208
+    },
+    {
+      "name": "SE-002 SE-004 SE-005 SE-006: one canonical adult player, validated profile and point budget",
+      "status": "PASS",
+      "duration_ms": 156.909666
+    },
+    {
+      "name": "SE-010 SE-012: fixed movement swept collision and world limits resist 10000 held inputs",
+      "status": "PASS",
+      "duration_ms": 2193.58525
+    },
+    {
+      "name": "SE-011: obstructed target refuses movement and connected target follows valid path",
+      "status": "PASS",
+      "duration_ms": 198.020375
+    },
+    {
+      "name": "SE-014 SE-015 SE-017: 100 repeated interior transitions preserve one player and exact door",
+      "status": "PASS",
+      "duration_ms": 7255.792833
+    },
+    {
+      "name": "SE-016 SE-018 SE-025 SE-027: proximity, cooldown, knowledge and social consequences",
+      "status": "PASS",
+      "duration_ms": 170.953708
+    },
+    {
+      "name": "SE-020 SE-021: every occupation pays once, changes canonical employment, overlapping shifts rejected",
+      "status": "PASS",
+      "duration_ms": 1806.554125
+    },
+    {
+      "name": "SE-022 SE-023: purchase atomically balances cash, stock and inventory; invalid and duplicate commands fail",
+      "status": "PASS",
+      "duration_ms": 226.74125
+    },
+    {
+      "name": "SE-024: principal, weekly interest and payment reconcile bank assets and player liabilities",
+      "status": "PASS",
+      "duration_ms": 16526.873875
+    },
+    {
+      "name": "SE-028 SE-029 SE-030: witnessed assault produces delayed report, evidence, pursuit and exact fine",
+      "status": "PASS",
+      "duration_ms": 98.722833
+    },
+    {
+      "name": "SE-027 SE-029: unseen assault is not automatically known to police",
+      "status": "PASS",
+      "duration_ms": 205.860625
+    },
+    {
+      "name": "SE-031: combat windup/cooldown/stamina and block are deterministic independent of render grouping",
+      "status": "PASS",
+      "duration_ms": 212.250958
+    },
+    {
+      "name": "SE-032 SE-033: driven car and saved driver remain on directed lanes with collision spacing",
+      "status": "PASS",
+      "duration_ms": 343.317
+    },
+    {
+      "name": "SE-034 SE-035 SE-036: funded causal missions, terminal timeout and exactly once reward survive compaction",
+      "status": "PASS",
+      "duration_ms": 17329.25475
+    },
+    {
+      "name": "SE-034: all twenty templates expose real preconditions and impossible loan task is rejected",
+      "status": "PASS",
+      "duration_ms": 8.277416
+    },
+    {
+      "name": "SE-026 SE-038 SE-039 SE-040: canonical snapshot preserves relational/economic state and resumes identical ticks",
+      "status": "PASS",
+      "duration_ms": 5407.225292
+    },
+    {
+      "name": "SE-037 SE-038: 100000 actual ticks retain one location and balanced accounts",
+      "status": "PASS",
+      "duration_ms": 35617.862208
+    },
+    {
+      "name": "SE-012 SE-023 SE-038: 100000 validated malformed/boundary commands never corrupt state",
+      "status": "PASS",
+      "duration_ms": 12267.5135
+    },
+    {
+      "name": "education attendance, subsistence recovery and legal business progression use shared ledger",
+      "status": "PASS",
+      "duration_ms": 375.858834
+    },
+    {
+      "name": "social initialization and migration add no money and preserve observed knowledge only",
+      "status": "PASS",
+      "duration_ms": 71.811
+    },
+    {
+      "name": "faction membership is unique, donation exact-once, service funded and territory changes gradually",
+      "status": "PASS",
+      "duration_ms": 258.739875
+    },
+    {
+      "name": "invalid social payments and unavailable service preserve every financial account and role",
+      "status": "PASS",
+      "duration_ms": 42.961042
+    },
+    {
+      "name": "betrayal cannot be farmed and leaves protected memories and a persistent distrust edge",
+      "status": "PASS",
+      "duration_ms": 2642.881041
+    },
+    {
+      "name": "rumors require known nearby source, attenuate confidence and cannot become certain or circular",
+      "status": "PASS",
+      "duration_ms": 43.126125
+    },
+    {
+      "name": "memory salience decays deterministically while critical memories survive routine churn",
+      "status": "PASS",
+      "duration_ms": 5151.570875
+    },
+    {
+      "name": "dead faction leader is replaced synchronously by one living adult and treasury is unchanged",
+      "status": "PASS",
+      "duration_ms": 13.154125
+    },
+    {
+      "name": "false testimony stays separate from evidence and can be contradicted only after reported eyewitness evidence",
+      "status": "PASS",
+      "duration_ms": 70.019708
+    },
+    {
+      "name": "study club is independent of criminal membership and requires real attendance for hierarchy",
+      "status": "PASS",
+      "duration_ms": 347.603417
+    },
+    {
+      "name": "social validator rejects duplicate leaders, forged rumor chains and underage membership",
+      "status": "PASS",
+      "duration_ms": 38.098917
+    },
+    {
+      "name": "three paid services unlock officer hierarchy; leaving cannot erase the old loyalty bond",
+      "status": "PASS",
+      "duration_ms": 276.34875
+    },
+    {
+      "name": "public rumor and statement commands validate reachability, source and station prerequisites",
+      "status": "PASS",
+      "duration_ms": 108.028792
+    },
+    {
+      "name": "concurrent course or training start cancels club attendance rather than awarding both",
+      "status": "PASS",
+      "duration_ms": 163.121042
+    },
+    {
+      "name": "malformed social containers fail closed without throwing in the save validator",
+      "status": "PASS",
+      "duration_ms": 273.923834
+    },
+    {
+      "name": "dead tombstones keep historical memories but cannot learn newly emitted events",
+      "status": "PASS",
+      "duration_ms": 9.519167
+    },
+    {
+      "name": "directed lane crossings expose deterministic signals with both directions and clearance",
+      "status": "PASS",
+      "duration_ms": 3.182625
+    },
+    {
+      "name": "red approach cannot enter, occupied junction stays reserved, admitted car may clear and pedestrians retain right of way",
+      "status": "PASS",
+      "duration_ms": 185.557583
+    },
+    {
+      "name": "cars on different lane IDs sharing physical roadway keep clearance",
+      "status": "PASS",
+      "duration_ms": 55.735584
+    },
+    {
+      "name": "integrated fixed-tick traffic stays on lanes and resumes exactly through signal cycles",
+      "status": "PASS",
+      "duration_ms": 3097.029208
+    },
+    {
+      "name": "actual driving command changes directed lane at a legal crossing and preserves one driver",
+      "status": "PASS",
+      "duration_ms": 149.333791
+    },
+    {
+      "name": "GD16 worker speeds change wall cadence while each callback advances one fixed step",
+      "status": "PASS",
+      "duration_ms": 1534.374
+    },
+    {
+      "name": "GD16 paused settings acknowledge queued commands without advancing or losing their IDs",
+      "status": "PASS",
+      "duration_ms": 197.86125
+    },
+    {
+      "name": "GD14 retirement freezes the world until a real resume command is acknowledged",
+      "status": "PASS",
+      "duration_ms": 557.914583
+    },
+    {
+      "name": "SE-038 production worker rejects accelerated STEP without explicit QA initialization",
+      "status": "PASS",
+      "duration_ms": 175.947708
+    },
+    {
+      "name": "SE-039 worker journal records tick, paused actions and control resets in exact replay order",
+      "status": "PASS",
+      "duration_ms": 2773.418583
+    },
+    {
+      "name": "SE-039 accelerated100000tick burst yields exact snapshots and preserves interleaved command order",
+      "status": "PASS",
+      "duration_ms": 83996.657792
+    },
+    {
+      "name": "original atlas frames are bounded, nonoverlapping and have consistent animation foot pivots",
+      "status": "PASS",
+      "duration_ms": 9.624959
+    },
+    {
+      "name": "exported machine-readable chunks, collision and navigation exactly match authoritative geometry",
+      "status": "PASS",
+      "duration_ms": 14.087792
+    },
+    {
+      "name": "all walkable boundary samples remain inside the safe viewport over supported zooms and viewport sizes",
+      "status": "PASS",
+      "duration_ms": 37.366208
+    },
+    {
+      "name": "interior camera preserves reachable edge actor visibility instead of using exterior bounds",
+      "status": "PASS",
+      "duration_ms": 2.543375
+    },
+    {
+      "name": "coarse movement interpolates for one second despite unchanged ten-Hz snapshots",
+      "status": "PASS",
+      "duration_ms": 1.338542
+    },
+    {
+      "name": "retargeting a changing detail tier starts at currently drawn position without a snap",
+      "status": "PASS",
+      "duration_ms": 0.370875
+    },
+    {
+      "name": "player presentation stays at the fixed one-hundred-millisecond interpolation cadence",
+      "status": "PASS",
+      "duration_ms": 0.387417
+    },
+    {
+      "name": "isometric projection has exact inverse across world and zoom-independent logical points",
+      "status": "PASS",
+      "duration_ms": 4.136042
+    },
+    {
+      "name": "all fourteen original locations have walkable and connected portals",
+      "status": "PASS",
+      "duration_ms": 232.630209
+    },
+    {
+      "name": "swept collision blocks wall tunneling and world escape",
+      "status": "PASS",
+      "duration_ms": 2.296
+    },
+    {
+      "name": "blocked or invalid destinations are rejected and no phantom interior exists",
+      "status": "PASS",
+      "duration_ms": 0.536708
+    },
+    {
+      "name": "directed traffic loops remain on connected roadway and close continuously",
+      "status": "PASS",
+      "duration_ms": 36.11725
+    }
+  ],
+  "counts": {
+    "tests": 203,
+    "pass": 203,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "sourcesUnchanged": true,
+  "tapSha256": "1ffb98d32951fc2e3afd92c2f9842f89b3c09791a78a3c6194c01b962d28a1ae",
+  "exitCode": 0,
+  "duration_ms": 118489.512917,
+  "finishedAt": "2026-11-04T07:23:15.096Z"
+}

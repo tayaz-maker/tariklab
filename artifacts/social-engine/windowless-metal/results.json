@@ -1,0 +1,84 @@
+{
+  "startedAt": "2026-11-04T07:37:23.199Z",
+  "status": "MEASURED",
+  "manifestSha256": "5f6ee17a0a8c63152fb01fc2a310a26298c9c94ed5dc6682990b6bc19f9acc79",
+  "scope": "A short headless Metal gameplay sample on this Mac. Not the reference PC, human play, dedicated GPU memory, or the long soak.",
+  "segments": [
+    {
+      "name": "Standing outside",
+      "elapsedMs": 20007.998833,
+      "tickCoverage": 0.999600218239377,
+      "actualFps": 60.02599310527459,
+      "frameMs": {
+        "count": 1201,
+        "p50": 16.69999999999891,
+        "p95": 17.30000000000291,
+        "p99": 17.600000000002183
+      },
+      "workerMs": {
+        "count": 200,
+        "p50": 0.10000002384185791,
+        "p95": 0.30000007152557373,
+        "p99": 0.3999999761581421
+      },
+      "renderPreparationMs": {
+        "p50": 0.10000002384185791,
+        "p95": 0.20000004768371582,
+        "p99": 0.30000007152557373
+      }
+    },
+    {
+      "name": "Walking east",
+      "elapsedMs": 20010.735916,
+      "tickCoverage": 0.9994634921951362,
+      "actualFps": 60.01778270631793,
+      "frameMs": {
+        "count": 1201,
+        "p50": 16.69999999999709,
+        "p95": 17,
+        "p99": 17.5
+      },
+      "workerMs": {
+        "count": 200,
+        "p50": 0.10000002384185791,
+        "p95": 0.30000007152557373,
+        "p99": 0.40000009536743164
+      },
+      "renderPreparationMs": {
+        "p50": 0.10000002384185791,
+        "p95": 0.20000004768371582,
+        "p99": 0.2999999523162842
+      }
+    },
+    {
+      "name": "Walking west",
+      "elapsedMs": 20015.349875,
+      "tickCoverage": 0.9992330948449134,
+      "actualFps": 59.35444583378786,
+      "frameMs": {
+        "count": 1188,
+        "p50": 16.69999999999709,
+        "p95": 17.099999999998545,
+        "p99": 17.599999999998545
+      },
+      "workerMs": {
+        "count": 200,
+        "p50": 0.10000002384185791,
+        "p95": 0.2999999523162842,
+        "p99": 0.3999999761581421
+      },
+      "renderPreparationMs": {
+        "p50": 0.10000002384185791,
+        "p95": 0.20000004768371582,
+        "p99": 0.2999999523162842
+      }
+    }
+  ],
+  "errors": [],
+  "browser": "151.0.7922.34",
+  "gpu": [
+    "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Version 26.7.1 (Build 25G241))"
+  ],
+  "actualRenderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Unspecified Version)",
+  "finishedAt": "2026-11-04T07:38:44.490Z"
+}

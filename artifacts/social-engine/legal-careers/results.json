@@ -1,0 +1,204 @@
+{
+  "status": "PASS",
+  "note": "Domain integration with explicit location setup; does not replace real browser movement or human playtesting.",
+  "strategies": [
+    {
+      "strategy": "retail",
+      "status": "PASS",
+      "population": 1100,
+      "finalTick": 100800,
+      "initialBalance": 125000,
+      "finalBalance": 396900,
+      "days": [
+        {
+          "day": 1,
+          "balance": 153800,
+          "cumulativeWages": 43800,
+          "skill": 22,
+          "health": 100,
+          "householdArrears": 0
+        },
+        {
+          "day": 2,
+          "balance": 191900,
+          "cumulativeWages": 96900,
+          "skill": 34,
+          "health": 100,
+          "householdArrears": 0
+        },
+        {
+          "day": 3,
+          "balance": 236300,
+          "cumulativeWages": 156300,
+          "skill": 46,
+          "health": 100,
+          "householdArrears": 0
+        },
+        {
+          "day": 4,
+          "balance": 285500,
+          "cumulativeWages": 220500,
+          "skill": 58,
+          "health": 100,
+          "householdArrears": 0
+        },
+        {
+          "day": 5,
+          "balance": 339500,
+          "cumulativeWages": 289500,
+          "skill": 70,
+          "health": 100,
+          "householdArrears": 0
+        },
+        {
+          "day": 6,
+          "balance": 398300,
+          "cumulativeWages": 363300,
+          "skill": 82,
+          "health": 100,
+          "householdArrears": 0
+        },
+        {
+          "day": 7,
+          "balance": 396900,
+          "cumulativeWages": 441900,
+          "skill": 94,
+          "health": 100,
+          "householdArrears": 0
+        }
+      ]
+    },
+    {
+      "strategy": "mechanic",
+      "status": "PASS",
+      "population": 1100,
+      "finalTick": 100800,
+      "initialBalance": 125000,
+      "finalBalance": 344254,
+      "days": [
+        {
+          "day": 1,
+          "balance": 155200,
+          "cumulativeWages": 47700,
+          "skill": 20,
+          "health": 100,
+          "householdArrears": 0
+        },
+        {
+          "day": 2,
+          "balance": 191100,
+          "cumulativeWages": 101100,
+          "skill": 34,
+          "health": 100,
+          "householdArrears": 0
+        },
+        {
+          "day": 3,
+          "balance": 234200,
+          "cumulativeWages": 161700,
+          "skill": 48,
+          "health": 100,
+          "householdArrears": 0
+        },
+        {
+          "day": 4,
+          "balance": 262507,
+          "cumulativeWages": 207507,
+          "skill": 62,
+          "health": 100,
+          "householdArrears": 0
+        },
+        {
+          "day": 5,
+          "balance": 293754,
+          "cumulativeWages": 256254,
+          "skill": 76,
+          "health": 100,
+          "householdArrears": 0
+        },
+        {
+          "day": 6,
+          "balance": 349454,
+          "cumulativeWages": 329454,
+          "skill": 90,
+          "health": 100,
+          "householdArrears": 0
+        },
+        {
+          "day": 7,
+          "balance": 344254,
+          "cumulativeWages": 406754,
+          "skill": 100,
+          "health": 100,
+          "householdArrears": 0
+        }
+      ]
+    },
+    {
+      "strategy": "teaching",
+      "status": "PASS",
+      "population": 1100,
+      "finalTick": 100800,
+      "initialBalance": 125000,
+      "finalBalance": 466700,
+      "days": [
+        {
+          "day": 1,
+          "balance": 164800,
+          "cumulativeWages": 63800,
+          "skill": 45,
+          "health": 100,
+          "householdArrears": 0
+        },
+        {
+          "day": 2,
+          "balance": 216700,
+          "cumulativeWages": 130700,
+          "skill": 54,
+          "health": 100,
+          "householdArrears": 0
+        },
+        {
+          "day": 3,
+          "balance": 274300,
+          "cumulativeWages": 203300,
+          "skill": 63,
+          "health": 100,
+          "householdArrears": 0
+        },
+        {
+          "day": 4,
+          "balance": 334600,
+          "cumulativeWages": 278600,
+          "skill": 72,
+          "health": 100,
+          "householdArrears": 0
+        },
+        {
+          "day": 5,
+          "balance": 397600,
+          "cumulativeWages": 356600,
+          "skill": 81,
+          "health": 100,
+          "householdArrears": 0
+        },
+        {
+          "day": 6,
+          "balance": 463300,
+          "cumulativeWages": 437300,
+          "skill": 90,
+          "health": 100,
+          "householdArrears": 0
+        },
+        {
+          "day": 7,
+          "balance": 466700,
+          "cumulativeWages": 520700,
+          "skill": 99,
+          "health": 100,
+          "householdArrears": 0
+        }
+      ]
+    }
+  ]
+}

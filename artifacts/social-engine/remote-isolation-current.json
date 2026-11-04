@@ -1,0 +1,17 @@
+{
+  "observedAt": "2026-11-04T07:43:10.208976+00:00",
+  "repository": "tayaz-maker/tariklab",
+  "remoteMain": "d695119186cad42c079a911a60c372f201b3b64b",
+  "branchesMatchingSocialEngine": [
+    "feature/social-engine-foundation-20261103"
+  ],
+  "otherWork": {
+    "number": 254,
+    "state": "open",
+    "merged": false
+  },
+  "remoteMutations": [],
+  "localBranch": "feature/social-engine-development",
+  "upstream": null,
+  "scope": "Read-only GitHub connector: main ref, matching branches and open parallel PR. No remote CI, deployment or release proof."
+}

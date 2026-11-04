@@ -1,0 +1,19 @@
+{
+  "scope": "Private-response diagnostic only; no human visual review",
+  "comparisons": [
+    {
+      "image": "1-no-AA.png",
+      "changedMoreThan10": 56,
+      "total": 2073600,
+      "meanMaxChannelDifference": 0.004885223765432099,
+      "max": 37
+    },
+    {
+      "image": "2-no-AA.png",
+      "changedMoreThan10": 56,
+      "total": 2073600,
+      "meanMaxChannelDifference": 0.004885223765432099,
+      "max": 37
+    }
+  ]
+}

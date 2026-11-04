@@ -1,0 +1,47 @@
+[
+  {
+    "role": "VISUAL_STYLE",
+    "path": "work/intake/Golden-Hour Istanbul Neighbourhood.png",
+    "sha256": "e456df82b1f21714ca08dac92e4c1238c7d463735fdc96a2064d9b6138b9cadb",
+    "inspected": true,
+    "inspection": "view_image",
+    "content": "Warm golden-hour coastal neighborhood, terracotta tiled roofs, aged cream/coral plaster, cobbled streets, dark wrought iron, shop awnings, greenery and amber practical lighting. Human-scale dense urban life; atmospheric realism is art direction, not required photorealistic rendering.",
+    "production_asset": false
+  },
+  {
+    "role": "GAME_UI",
+    "path": "work/intake/Karaköy Evening_ Social Engine HUD.png",
+    "sha256": "2f3242161828c98f98002e7297d36e28227d78858467efba42e8c943a0a23a09",
+    "inspected": true,
+    "inspection": "view_image",
+    "content": "Dark translucent framed HUD, pale legible text, amber mission markers, teal selection/energy, red health. Top status strip, left mission/social panels, upper-right minimap, bottom inventory and key hints, phone at right. Contains concept-only interactions and place names that must be replaced by working Kıyıyaka systems.",
+    "production_asset": false
+  },
+  {
+    "role": "WORLD_MAP",
+    "path": "work/intake/Social Engine_ Üsküdar District Map.png",
+    "sha256": "aa4e1c6918efdf978b91ce1ffe116471a4f5e91f51bb9edfbea68a4ecd7facac",
+    "inspected": true,
+    "inspection": "view_image",
+    "content": "Coastal district organized around a central park, commercial waterfront, residential interior, clinic/police/school/garage service anchors and connected main/secondary roads. Image labels and route arrows are concept references, not executable geometry or navigation data.",
+    "production_asset": false
+  },
+  {
+    "role": "CHARACTER_REFERENCE",
+    "path": "work/intake/Social Engine_ Istanbul Character Guide.png",
+    "sha256": "6da310448e562bfebfcea232dd3151cc0757e111b2f14d7dfa42dde32a122c71",
+    "inspected": true,
+    "inspection": "view_image",
+    "content": "Twelve adult archetypes with recognizable silhouettes: student, shopkeeper, taxi driver, mechanic, police officer, office worker, gang member, business owner, journalist, courier, unemployed resident and elderly neighbor. Stylized realism with modular contemporary clothing and readable colors; do not assign criminality from appearance or unemployment.",
+    "production_asset": false
+  },
+  {
+    "role": "WORLD_ASSETS",
+    "path": "work/intake/Turkish Urban Isometric Asset Sheet.png",
+    "sha256": "9f566c5b4545fe7d66d3f5b0adf0dcf4d7e882cb19c754061029a7405c61b30e",
+    "inspected": true,
+    "inspection": "view_image",
+    "content": "Modular isometric apartment facades, balconies, red tile roofs, shops, clinic, police, garage, street furniture, trees, road/crosswalk/sidewalk tiles, cars/taxis/scooters/vans/bus and walls/stairs. Sheet is a design reference with inconsistent illustrative spacing; generate actual padded atlas frames and validated footprints separately.",
+    "production_asset": false
+  }
+]

@@ -1,0 +1,177 @@
+{
+  "scope": "EXPERIMENT_ONLY; private-response MSAA/atlas overrides, not a published or acceptance-tested candidate",
+  "compactAtlas": "../atlas-experiment",
+  "startedAt": "2026-11-03T21:57:42.057Z",
+  "originalAppSha256": "798ac1ceaa6c5a0fb1ee1782aedbc6215348b99896cec32437decd3f10d21415",
+  "samples": [
+    {
+      "label": "1-no-AA",
+      "antialias": false,
+      "tick": 2020,
+      "player": {
+        "x": 6.5,
+        "y": 13.7,
+        "scene": "outside"
+      },
+      "headless": true,
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "dpr": 1
+      },
+      "errors": [],
+      "totalFootprintMiB": 614.1965866088867,
+      "processes": [
+        {
+          "name": "Google Chrome Helper (GPU)",
+          "MiB": 306.26688385009766
+        },
+        {
+          "name": "Google Chrome Helper (Renderer)",
+          "MiB": 121.82984161376953
+        },
+        {
+          "name": "Google Chrome",
+          "MiB": 77.56417083740234
+        },
+        {
+          "name": "Google Chrome Helper (Renderer)",
+          "MiB": 57.157623291015625
+        },
+        {
+          "name": "Google Chrome Helper (Renderer)",
+          "MiB": 24.344871520996094
+        },
+        {
+          "name": "Google Chrome Helper",
+          "MiB": 21.954086303710938
+        },
+        {
+          "name": "Google Chrome Helper",
+          "MiB": 18.98535919189453
+        }
+      ],
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 1368,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 18.5,
+          "p99": 20.40000009536743
+        },
+        "renderPreparationMs": {
+          "p50": 0.10000002384185791,
+          "p95": 0.20000004768371582,
+          "p99": 0.20000004768371582
+        },
+        "samples": 1368,
+        "visibleActors": 10,
+        "sceneChanges": 21,
+        "zoom": 0.9,
+        "cameraTransform": {
+          "x": 1115.52,
+          "y": 192.35199999999998,
+          "zoom": 0.9
+        },
+        "currentScene": "outside",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 63,
+          "minY": 1,
+          "maxY": 57
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "measuredAt": "2026-11-03T22:15:45.358Z"
+    },
+    {
+      "label": "2-no-AA",
+      "antialias": false,
+      "tick": 2020,
+      "player": {
+        "x": 6.5,
+        "y": 13.7,
+        "scene": "outside"
+      },
+      "headless": true,
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "dpr": 1
+      },
+      "errors": [],
+      "totalFootprintMiB": 635.7588806152344,
+      "processes": [
+        {
+          "name": "Google Chrome Helper (GPU)",
+          "MiB": 287.34498596191406
+        },
+        {
+          "name": "Google Chrome Helper (Renderer)",
+          "MiB": 173.17354583740234
+        },
+        {
+          "name": "Google Chrome",
+          "MiB": 75.72042083740234
+        },
+        {
+          "name": "Google Chrome Helper (Renderer)",
+          "MiB": 48.72007751464844
+        },
+        {
+          "name": "Google Chrome Helper (Renderer)",
+          "MiB": 24.1729736328125
+        },
+        {
+          "name": "Google Chrome Helper",
+          "MiB": 21.579086303710938
+        },
+        {
+          "name": "Google Chrome Helper",
+          "MiB": 18.90716552734375
+        }
+      ],
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 1957,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 18.399999976158142,
+          "p99": 19.899999976158142
+        },
+        "renderPreparationMs": {
+          "p50": 0.10000002384185791,
+          "p95": 0.20000004768371582,
+          "p99": 0.20000004768371582
+        },
+        "samples": 1957,
+        "visibleActors": 10,
+        "sceneChanges": 21,
+        "zoom": 0.9,
+        "cameraTransform": {
+          "x": 1115.52,
+          "y": 192.35199999999998,
+          "zoom": 0.9
+        },
+        "currentScene": "outside",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 63,
+          "minY": 1,
+          "maxY": 57
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "measuredAt": "2026-11-03T22:17:06.004Z"
+    }
+  ],
+  "finishedAt": "2026-11-03T22:17:06.092Z"
+}

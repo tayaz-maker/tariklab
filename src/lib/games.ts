@@ -18,7 +18,7 @@ export const GAME_CATEGORIES: ReadonlyArray<{ id: GameCategory; slugs: readonly 
   // Territory, turf and state power: you grow and hold something on a map.
   { id: "strategy", slugs: ["cete-savaslari", "hanedanian", "racon", "bukucu", "tc-sim-devlet", "esik"] },
   // One life, one building, one village, one hundred days: running people over time.
-  { id: "life", slugs: ["tc-sim", "tc-sim-boardworld", "apartman", "son-kasaba", "son-100-gun"] },
+  { id: "life", slugs: ["social-engine", "tc-sim", "tc-sim-boardworld", "apartman", "son-kasaba", "son-100-gun"] },
   // Read the record, connect the evidence, decide.
   { id: "dossier", slugs: ["kayip-telefon", "ihtilal"] },
   // Short table sessions: the two card duels and the four classic board and puzzle games.
@@ -63,6 +63,14 @@ export function isHtml5Slug(slug: string): slug is Html5Slug {
 }
 
 export const GAMES: CatalogGame[] = [
+  {
+    slug: "social-engine",
+    title: "SOCIAL ENGINE",
+    subtitle: "DARAMCIK’ta işini, çevreni ve nasıl bir hayat süreceğini seç.",
+    status: "live",
+    href: "/oyna/social-engine",
+    icon: "hayat",
+  },
   {
     slug: "cete-savaslari",
     title: "Çete Savaşları",

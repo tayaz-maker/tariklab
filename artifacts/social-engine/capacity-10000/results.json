@@ -1,0 +1,72 @@
+{
+  "status": "PASS",
+  "criterion": "C21 synthetic single-world capacity",
+  "productionClaim": false,
+  "sourceSha256": "5e183fdc6a64d6947a6a2a525c9373b16e39368228d8e37324f0e286c4e17fc3",
+  "environment": {
+    "os": "darwin 25.6.0",
+    "cpu": "Apple M2",
+    "node": "v24.21.0",
+    "gcAvailable": true
+  },
+  "population": 10000,
+  "localPopulation": 100,
+  "backgroundPopulation": 9900,
+  "projectedLocals": 100,
+  "days": 2,
+  "actualTicks": 28800,
+  "elapsedMs": 30150.808167,
+  "simulationTickMs": {
+    "samples": 994,
+    "p50": 0.011292000000139524,
+    "p95": 0.05754200000046694,
+    "p99": 1.4863330000007409,
+    "max": 309.61762499999986
+  },
+  "memory": {
+    "baseline": {
+      "rss": 103907328,
+      "heapTotal": 15138816,
+      "heapUsed": 9942936,
+      "external": 10355123,
+      "arrayBuffers": 145631
+    },
+    "final": {
+      "rss": 285622272,
+      "heapTotal": 202342400,
+      "heapUsed": 46129032,
+      "external": 20852248,
+      "arrayBuffers": 145631
+    },
+    "heapDelta": 36186096
+  },
+  "snapshot": {
+    "bytes": 9491234,
+    "gzipBytes": 650297,
+    "hash": "c6ae513697b2ade406b1348d4e43ea488d7301ca71f56b6706637c5be27ddf52"
+  },
+  "productionValidatorRejected": true,
+  "notes": [
+    "One authoritative world with10000 individual citizens, real households, accounts, schedules, travel and worker-independent fixed steps.",
+    "This synthetic CPU/memory benchmark is not a renderer FPS claim or production support for10000 NPCs.",
+    "Retained heap includes canonical snapshot text used for measured serialization; OS RSS includes runtime/bundler overhead."
+  ],
+  "daily": [
+    {
+      "day": 1,
+      "tick": 14400,
+      "errors": 0,
+      "people": 10000,
+      "accounts": 15031,
+      "households": 2501
+    },
+    {
+      "day": 2,
+      "tick": 28800,
+      "errors": 0,
+      "people": 10000,
+      "accounts": 15039,
+      "households": 2501
+    }
+  ]
+}

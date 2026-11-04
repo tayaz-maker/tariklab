@@ -1,0 +1,136 @@
+{
+  "status": "PASS",
+  "manifestSha256": "7acc7343ed79d1a0f3b846544acd83ff435458f0a9b8b2d912dc4a4a274ff134",
+  "sourceDigest": "4e07f6c1d9a2174cdc871e578e90740fd5841b513f011357b4e21c2913594634",
+  "mode": "headed Chromium, separate empty profile, actual automatic tab zoom and tab activation",
+  "results": [
+    {
+      "name": "Native automatic browser zoom200% with real menu controls",
+      "status": "PASS",
+      "before": {
+        "w": 1440,
+        "h": 727,
+        "dpr": 2,
+        "hidden": false
+      },
+      "after": {
+        "w": 720,
+        "h": 363,
+        "dpr": 4,
+        "hidden": false
+      },
+      "zoom": {
+        "factor": 2,
+        "settings": {
+          "defaultZoomFactor": 1,
+          "mode": "automatic",
+          "scope": "per-tab"
+        }
+      },
+      "menus": [
+        "Mahalle haritası",
+        "Çanta & karakter",
+        "Telefon",
+        "Bir nefes al"
+      ]
+    },
+    {
+      "name": "Actual background tab visibility pauses and reactivation resumes authoritative tick",
+      "status": "PASS",
+      "pausedTick": 10,
+      "afterWaitTick": 10,
+      "visibility": [
+        {
+          "hidden": true,
+          "tick": 9
+        },
+        {
+          "hidden": false,
+          "tick": 10
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "noDefaults": true,
+  "extension": {
+    "id": "ddmhmalooedibifembmbfmnedcpbmdcn",
+    "name": "SOCIAL ENGINE isolated QA"
+  },
+  "phase": "resume-ticks",
+  "visibilityProbe": {
+    "page": {
+      "w": 1440,
+      "h": 727,
+      "dpr": 2,
+      "hidden": true
+    },
+    "tabs": [
+      {
+        "id": 1676565583,
+        "active": false,
+        "windowId": 1676565582,
+        "url": "about:blank"
+      },
+      {
+        "id": 1676565584,
+        "active": false,
+        "windowId": 1676565582,
+        "url": "http://127.0.0.1:8097/games/social-engine/index.html?qa=1"
+      },
+      {
+        "id": 1676565585,
+        "active": true,
+        "windowId": 1676565582,
+        "url": "about:blank"
+      }
+    ]
+  },
+  "hiddenInterval": {
+    "startObservation": {
+      "hidden": true,
+      "events": [
+        {
+          "hidden": true,
+          "tick": 9
+        }
+      ]
+    },
+    "endObservation": {
+      "hidden": true,
+      "events": [
+        {
+          "hidden": true,
+          "tick": 9
+        }
+      ]
+    }
+  },
+  "pauseObservation": {
+    "beforeTick": 10,
+    "afterTick": 10,
+    "startObservation": {
+      "hidden": true,
+      "events": [
+        {
+          "hidden": true,
+          "tick": 9
+        }
+      ]
+    },
+    "endObservation": {
+      "hidden": true,
+      "events": [
+        {
+          "hidden": true,
+          "tick": 9
+        }
+      ]
+    }
+  },
+  "pausedTicks": [
+    10,
+    10
+  ],
+  "finishedAt": "2026-11-03T21:01:27.453Z"
+}

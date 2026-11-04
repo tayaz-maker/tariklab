@@ -1,0 +1,26 @@
+{
+  "at": "2026-11-03T21:19:31.283295+00:00",
+  "ownerHarnessPid": 33511,
+  "pids": [
+    33525,
+    33531,
+    33532,
+    33533,
+    33536,
+    33537,
+    33538
+  ],
+  "scope": "One point-in-time OS footprint of only this test's headless Chrome process tree. Not a peak, reference-device measurement or GPU allocation guarantee.",
+  "exitCode": 0,
+  "status": "MEASURED",
+  "stdout": "======================================================================\nGoogle Chrome Helper (GPU) [33531]: 64-bit    Footprint: 312 MB (16384 bytes per page)\n======================================================================\n\nAuxiliary data:\n    phys_footprint: 312 MB\n    phys_footprint_peak: 460 MB\n\n======================================================================\nGoogle Chrome Helper (Renderer) [33538]: 64-bit    Footprint: 203 MB (16384 bytes per page)\n======================================================================\n\nAuxiliary data:\n    phys_footprint: 203 MB\n    phys_footprint_peak: 252 MB\n\n======================================================================\nGoogle Chrome [33525]: 64-bit    Footprint: 70 MB (16384 bytes per page)\n======================================================================\n\nAuxiliary data:\n    phys_footprint: 70 MB\n    phys_footprint_peak: 88 MB\n\n======================================================================\nGoogle Chrome Helper (Renderer) [33536]: 64-bit    Footprint: 46 MB (16384 bytes per page)\n======================================================================\n\nAuxiliary data:\n    phys_footprint: 46 MB\n    phys_footprint_peak: 61 MB\n\n======================================================================\nGoogle Chrome Helper (Renderer) [33537]: 64-bit    Footprint: 25 MB (16384 bytes per page)\n======================================================================\n\nAuxiliary data:\n    phys_footprint: 25 MB\n    phys_footprint_peak: 25 MB\n\n======================================================================\nGoogle Chrome Helper [33532]: 64-bit    Footprint: 22 MB (16384 bytes per page)\n======================================================================\n\nAuxiliary data:\n    phys_footprint: 22 MB\n    phys_footprint_peak: 23 MB\n\n======================================================================\nGoogle Chrome Helper [33533]: 64-bit    Footprint: 19 MB (16384 bytes per page)\n======================================================================\n\nAuxiliary data:\n    phys_footprint: 19 MB\n    phys_footprint_peak: 19 MB\n\n======================================================================\nSummary Footprint: 675 MB\n======================================================================\n\n",
+  "stderr": "",
+  "manifestSha256": "7acc7343ed79d1a0f3b846544acd83ff435458f0a9b8b2d912dc4a4a274ff134",
+  "runtimeCommit": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+  "totalFootprintBytes": 707781848,
+  "totalFootprintMiB": 674.9933700561523,
+  "provisionalTargetMiB": 600,
+  "thresholdStatus": "FAIL",
+  "referenceDevice": false,
+  "attribution": "Baseline before atlas teardown fix; not current-candidate acceptance. The continuous run did not exercise renderer recreation, so the teardown fix is not credited as the cause of a process-memory improvement."
+}

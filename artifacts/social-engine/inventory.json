@@ -1,0 +1,909 @@
+{
+  "schemaVersion": 1,
+  "audit_date": "2026-11-03",
+  "repository": "tayaz-maker/tariklab",
+  "branch": "feature/social-engine-development",
+  "base_main_sha": "d695119186cad42c079a911a60c372f201b3b64b",
+  "audited_commit_sha": "762c050ead437c99901332d10078817dfc375eb1",
+  "working_tree_at_start": "clean",
+  "isolation": {
+    "directory": "/Users/tarikayaz/Documents/Codex/2026-11-03/social-engine-1-0-autonomous-production/work/tariklab",
+    "production_authorized": false,
+    "merge_authorized": false,
+    "legacy_files_read_only": true
+  },
+  "dependencies": {
+    "react": "19.2.8",
+    "vite": "8.2.2",
+    "@tanstack/react-start": "1.168.60",
+    "@tanstack/react-router": "1.170.41",
+    "pixi.js": "8.21.0",
+    "playwright": "1.62.1",
+    "typescript": "5.9.3",
+    "wrangler": "4.151.3"
+  },
+  "runtime": {
+    "node": "v24.21.0",
+    "os": "macOS-26.7.1-arm64-arm-64bit",
+    "machine": "arm64"
+  },
+  "route": {
+    "current": "src/routes/oyna.$slug.tsx",
+    "kind": "TanStack client-only iframe",
+    "catalogue": "src/lib/games.ts",
+    "proposed": "Independent exact /oyna/social-engine route with lazy game mount or isolated iframe; minimal catalogue registration only in integration phase"
+  },
+  "storage": {
+    "tc-sim": [
+      "tc-sim-save",
+      "tc-sim-save-backup",
+      "tariklab::tc-sim:{1,2,3}",
+      "tariklab::tc-sim:{1,2,3}:bak",
+      "tariklab::tc-sim:active",
+      "tariklab::tc-sim:legacy-migrated"
+    ],
+    "boardworld": [
+      "tariklab.boardworld.v6",
+      "tariklab.boardworld.v6.backup",
+      "tariklab.boardworld.v1..v5 and .backup/.original-vN"
+    ],
+    "racon": [
+      "racon_v1",
+      "racon_v1_bak",
+      "tariklab::racon:{1,2,3}",
+      "tariklab::racon:{1,2,3}:bak",
+      "tariklab::racon:active",
+      "tariklab::racon:legacy-migrated"
+    ],
+    "social-engine-proposed": "IndexedDB: tariklab-social-engine"
+  },
+  "deployment": {
+    "platform": "Cloudflare Workers",
+    "nitro_preset": "cloudflare-module",
+    "worker_name": "tariklab",
+    "domain": "www.tariklab.com",
+    "guard": "scripts/cloudflare-deploy.mjs",
+    "preview_mechanism_in_source": "wrangler versions upload (not executed)",
+    "remote_deployment_id": null,
+    "remote_deployment_status": "UNVERIFIED",
+    "automatic_production_and_merge": "FORBIDDEN by latest user instruction"
+  },
+  "baseline": {
+    "status": "PASS",
+    "scope": "targeted Node regression only; not full browser/regression acceptance",
+    "command": "node --test scripts/tc-sim-core.test.mjs scripts/tc-sim-core-integration.test.mjs scripts/boardworld-save.test.mjs scripts/boardworld-save-codec.test.mjs scripts/boardworld-payment-boundary.test.mjs scripts/racon-save-validation.test.mjs scripts/racon-network.test.mjs scripts/racon-map-consequences.test.mjs",
+    "pass": 199,
+    "fail": 0,
+    "skip": 0,
+    "duration_ms": 3247.931375,
+    "evidence": "artifacts/social-engine/baseline/targeted-node-tests.tap",
+    "build_sha": "762c050ead437c99901332d10078817dfc375eb1",
+    "full_browser": "UNVERIFIED",
+    "full_build": "UNVERIFIED"
+  },
+  "audited_files": [
+    {
+      "path": "AGENTS.md",
+      "bytes": 18297,
+      "sha256": "bf073f87da7edc3330aa5e40d959d98a06c75d7f0ac6c5abe88252436a4d394f"
+    },
+    {
+      "path": "AGENTS.project.md",
+      "bytes": 847,
+      "sha256": "249e0785e07eb2809c87922e88344680cea5014496df8f94cb1323a1e7f2978f"
+    },
+    {
+      "path": "package.json",
+      "bytes": 4104,
+      "sha256": "8e02997fbd41129987b7769356f354f49790d33940a459dc3f7eacd0699d7771"
+    },
+    {
+      "path": "package-lock.json",
+      "bytes": 323318,
+      "sha256": "0ee0edab635d7a45cd95092153a613da8964ed5ad54d7adc21db28c24684eea3"
+    },
+    {
+      "path": "tsconfig.json",
+      "bytes": 722,
+      "sha256": "8abad87a6c62322f1f4fdff02d5f3f764ea10a98c49cfafccdc288a0dced492f"
+    },
+    {
+      "path": "vite.config.ts",
+      "bytes": 11966,
+      "sha256": "b24ccc8853327c30f8f0dd41037f72505f849cf35f737a5d89158ed7a7813622"
+    },
+    {
+      "path": "wrangler.json",
+      "bytes": 336,
+      "sha256": "fc0ec3adb432547b055aeb58bf52eb04c962ced7d91e8b7bf4666af75a76bd57"
+    },
+    {
+      "path": "src/routes/oyna.$slug.tsx",
+      "bytes": 3487,
+      "sha256": "e49033dcb5b53ec6eae8a1c6731a122563e4db97914e6528516182b3b0b6fca5"
+    },
+    {
+      "path": "src/lib/games.ts",
+      "bytes": 6002,
+      "sha256": "d9722431832eb7ba561ba2d2a9d7a9a3fdb35d4c3850c8dcfbfd955261eac9b9"
+    },
+    {
+      "path": "scripts/cloudflare-deploy.mjs",
+      "bytes": 4175,
+      "sha256": "cb042ad51658514fbd2c741417f88a60fd6ff9c64d6afb6a1adb25d47e381819"
+    },
+    {
+      "path": "scripts/ci-changes.mjs",
+      "bytes": 2708,
+      "sha256": "de875174dc15af40c9d58872660a1f58cfe7184c493043a9e2d9ea3ad81e481f"
+    },
+    {
+      "path": "scripts/ci-test-plan.mjs",
+      "bytes": 2667,
+      "sha256": "28755bd45b9fca8f3d9b79b68c89289b9cb59be09cc80914fd264148145e68b7"
+    },
+    {
+      "path": "scripts/static-game-server.mjs",
+      "bytes": 1161,
+      "sha256": "8df334b4c7d496a34d50b8a2dfa9636b01221e3413797c491b94e094bbfdfe0e"
+    },
+    {
+      "path": "public/games/shared/pixi-adapter.js",
+      "bytes": 6139,
+      "sha256": "bf4eebb4533aee15ae9997e97e2167774ae1b6ee5b1f1d838448293fe79fc010"
+    },
+    {
+      "path": "public/vendor/pixi/pixi-8.21.0.min.mjs",
+      "bytes": 828971,
+      "sha256": "2f69e90f5b1980e6ea244bacfb3fa1eb457e16ddcb0a602b694642658956f2ef"
+    },
+    {
+      "path": "public/games/tc-sim/js/state.js",
+      "bytes": 47861,
+      "sha256": "7f78f6fbf64f580a3348b8a497baf8d086c4c6142e42b9a2b3b77e2d90253ef6"
+    },
+    {
+      "path": "public/games/tc-sim/js/save.js",
+      "bytes": 9987,
+      "sha256": "9b9b49f1eac9546eff49750c877392bb9ea9096c7c62f3cb4c4dcb3f9bc07e86"
+    },
+    {
+      "path": "public/games/tc-sim/js/life.js",
+      "bytes": 31406,
+      "sha256": "f25a7dc65ea04ad27831a3b5000184961d9c7e2be678291286d3dedbfb26ecab"
+    },
+    {
+      "path": "public/games/tc-sim/js/time.js",
+      "bytes": 28376,
+      "sha256": "7685a6eeeedabe4f53062d5d90ebcad52f8f66a772e739feaabb7e55e0f348c8"
+    },
+    {
+      "path": "public/games/tc-sim-boardworld/engine.mjs",
+      "bytes": 103593,
+      "sha256": "0118e642e0b6a90ca1ad0a48e5e01370c3ab36a854d95e8a9457e0c5d0e6ef7d"
+    },
+    {
+      "path": "public/games/tc-sim-boardworld/persistence.mjs",
+      "bytes": 12057,
+      "sha256": "c2417cad4eea113c1e2cb28c28383ef49e3ca7faa24d6547dc8d99756d4d3e31"
+    },
+    {
+      "path": "public/games/tc-sim-boardworld/save-codec.mjs",
+      "bytes": 2284,
+      "sha256": "ca9b6ef8ccafcd7aabc4a6980dc6dfc71c09a7b68d708f896b63d938bfcf14bd"
+    },
+    {
+      "path": "public/games/tc-sim-boardworld/daily-flow.mjs",
+      "bytes": 20628,
+      "sha256": "3bfa2f9c05b6b953799a59c51bb008f4c76b882ba70882ed00b9e82573201547"
+    },
+    {
+      "path": "public/games/tc-sim-boardworld/life-systems.mjs",
+      "bytes": 66225,
+      "sha256": "64c9c987a5aef5a01019a4c65e38b3b44c0f409e83e598bea2531494c630acda"
+    },
+    {
+      "path": "public/games/tc-sim-boardworld/society-systems.mjs",
+      "bytes": 56813,
+      "sha256": "c6522745016b49c41ba3e77b8c2a713fede513e43bc8f15728378f0ad5dd3933"
+    },
+    {
+      "path": "public/games/racon/index.html",
+      "bytes": 398524,
+      "sha256": "05e9f342b08d0afe8f84984ca866f15b405dc0446c2e81e1ac94148f806788dc"
+    },
+    {
+      "path": "public/games/racon/network.js",
+      "bytes": 22214,
+      "sha256": "51fb6c9cc5927e76eeb0c208e22c4ffa8591935d11f899af7f8be5a8a4e96f26"
+    },
+    {
+      "path": "public/games/racon/map-model.js",
+      "bytes": 7724,
+      "sha256": "f18680c885b404449a81c582921806e09c9d688da4422324cc5d4c3a3a4327e9"
+    },
+    {
+      "path": "public/games/racon/map-view.js",
+      "bytes": 18741,
+      "sha256": "8c57b8443cd94b26479433bca54ee5f0cf60d2b467392b6fcd949b2137a28216"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "bytes": 9045,
+      "sha256": "cf56b20a279724a60c0f0cb80f48edc00368943b2c86cb6851195b2fe157d76a"
+    },
+    {
+      "path": ".github/workflows/ci-full-regression.yml",
+      "bytes": 11757,
+      "sha256": "6d58890682edc24b618a2f618465060f319317fa8741a5e03506acb48329d7a4"
+    },
+    {
+      "path": ".github/workflows/boardworld-quality.yml",
+      "bytes": 2379,
+      "sha256": "ae40e96e23d5874a0b14374827f167130c564371ec70220b4a8081a780e36049"
+    },
+    {
+      "path": ".github/workflows/racon-quality.yml",
+      "bytes": 1708,
+      "sha256": "bd5eb4f9ac38e4e487d5207a69766787129dca5f4d4698d77b0022f089091472"
+    },
+    {
+      "path": ".github/workflows/tc-job-start-outcome.yml",
+      "bytes": 6229,
+      "sha256": "60a3026c2c929fb38a35e056191fb402936a102a4f7d7ab86341f3a9c5a1a5d5"
+    },
+    {
+      "path": ".github/workflows/cloudflare-production.yml",
+      "bytes": 7929,
+      "sha256": "85f9f37c9ace541a7964bfcb6ffba3926b05d67b01fccc66476d4804904dafc8"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 172,
+      "sha256": "97b17b7a1404457720bfb007f04582b4f0cbed637a412586e7a76f4d8ef423db"
+    },
+    {
+      "path": "docs/ip/THIRD_PARTY_NOTICES.md",
+      "bytes": 76439,
+      "sha256": "311c51dd8da660f9afa926ae3ee8ee049ab631bd5c31ef0aa717e5ed74d0ea0e"
+    },
+    {
+      "path": "docs/ip/ASSET_REGISTER.csv",
+      "bytes": 13128,
+      "sha256": "ea0e6e3b6418c076156464458b2102976a0363ae3e32585e5db258413a6f611a"
+    }
+  ],
+  "legacy_file_fingerprints": [
+    {
+      "path": "public/games/tc-sim/assets/map/quarter-edge.prompt.txt",
+      "bytes": 276,
+      "sha256": "29590f23a4804b6e866b0c073c5d184426ec3fb2282fbab3cb2f602c574bfa49"
+    },
+    {
+      "path": "public/games/tc-sim/assets/map/quarter-ridge.prompt.txt",
+      "bytes": 275,
+      "sha256": "cd3fbb48e28907b62d2db47c8c2ab578d42f1670fa306ceda8801edc765c150c"
+    },
+    {
+      "path": "public/games/tc-sim/assets/map/quarter-shore.prompt.txt",
+      "bytes": 267,
+      "sha256": "2ce3e53be6c1a57c0f2e18d745608c3732cd0de8678b62aaf45668d997efc7bb"
+    },
+    {
+      "path": "public/games/tc-sim/assets/map/tc-sim-2-ankara.webp",
+      "bytes": 721686,
+      "sha256": "85999ae77098b2b3b1cdc51d8f64b4fda712d95c392fa42aa3ac5ec9a885cbf0"
+    },
+    {
+      "path": "public/games/tc-sim/assets/map/tc-sim-2-istanbul.webp",
+      "bytes": 419326,
+      "sha256": "02b579fa0a60af243a09bf9012cd61eff9307a443d818f9219f31565a39d574e"
+    },
+    {
+      "path": "public/games/tc-sim/assets/map/tc-sim-2-izmir.webp",
+      "bytes": 561972,
+      "sha256": "e130026cf2d41933f1de904f0e7b35f598956708582e728a16698cd119a7163e"
+    },
+    {
+      "path": "public/games/tc-sim/bank.css",
+      "bytes": 1915,
+      "sha256": "ea24b64a4149e2da6f84642883a0f4a9210a038a82395bf7aab2ed18f14d5c13"
+    },
+    {
+      "path": "public/games/tc-sim/data/market-history.js",
+      "bytes": 92472,
+      "sha256": "74e46298fcadd0ba9e54138352624a2cf60526064d070fda60d4232539359768"
+    },
+    {
+      "path": "public/games/tc-sim/index.html",
+      "bytes": 1284,
+      "sha256": "6a5ee79059c1d642fcb0a9692169b383800aeb366424160c978d0eccb0e9e58d"
+    },
+    {
+      "path": "public/games/tc-sim/js/adult-life-events.js",
+      "bytes": 34440,
+      "sha256": "0b89756301795fcd3a176c2d8e4da7f6456b47fbd9e2e3cee17a5e5d03a19fe0"
+    },
+    {
+      "path": "public/games/tc-sim/js/app.js",
+      "bytes": 150993,
+      "sha256": "b8fd1451afb1535426bee4e55b77c14597e8236b5c3600de8e3bafb5c4243f73"
+    },
+    {
+      "path": "public/games/tc-sim/js/askerlik.js",
+      "bytes": 9006,
+      "sha256": "38a394d21866b6322177477f35c1a886ba04a668170d4fce9e49c420dfd84090"
+    },
+    {
+      "path": "public/games/tc-sim/js/bank-accounts.js",
+      "bytes": 5671,
+      "sha256": "8687a026cd732e9781dd5a7e33c94ef4b459555768dfb8f6bc8812bfbb0a4062"
+    },
+    {
+      "path": "public/games/tc-sim/js/bank-actions.js",
+      "bytes": 13380,
+      "sha256": "53ee5246472e32176110de28bd1cb6ce63054ee93e2eba761555e8a12c5192b5"
+    },
+    {
+      "path": "public/games/tc-sim/js/bank-business.js",
+      "bytes": 14567,
+      "sha256": "f96164f9516077e52bcf1eb3c39e6ea4b7001130d483e8e009cad92c0587036f"
+    },
+    {
+      "path": "public/games/tc-sim/js/bank-cards.js",
+      "bytes": 2964,
+      "sha256": "4e5e9c86653c20ecc2708ee4f918658d2bd3681c36b7dadc6383886eeb06db08"
+    },
+    {
+      "path": "public/games/tc-sim/js/bank-record.js",
+      "bytes": 6344,
+      "sha256": "19dc246579d2d83f2a22bbfae1b7e8340909692835227b41c68446998907062d"
+    },
+    {
+      "path": "public/games/tc-sim/js/bank-ui.js",
+      "bytes": 17928,
+      "sha256": "e3b87cbb496028ff1707a8e496799319f2886be8e6b1215e9f7039f5a83487c0"
+    },
+    {
+      "path": "public/games/tc-sim/js/banks-presentation.js",
+      "bytes": 5106,
+      "sha256": "2a59e9024b4471eac3d39225ceab10c5bb914367fec11f2d0bfe18a6b133a697"
+    },
+    {
+      "path": "public/games/tc-sim/js/body-events.js",
+      "bytes": 5885,
+      "sha256": "e6fb084d6fb805af0ab18c61450cb035d7118a9c7ac4da886e96ca249dde0c40"
+    },
+    {
+      "path": "public/games/tc-sim/js/body-systems.js",
+      "bytes": 11182,
+      "sha256": "dda53d1b89e80a96ae652a530323ef711ec7b4d0eef29a478e464db92cb53d11"
+    },
+    {
+      "path": "public/games/tc-sim/js/body-visual.js",
+      "bytes": 8547,
+      "sha256": "a61da13fffa5a57d33baad5c222f340d870333544126154c2004508faaae4948"
+    },
+    {
+      "path": "public/games/tc-sim/js/calendar.js",
+      "bytes": 1625,
+      "sha256": "e766adb0093d6881cb33d2657357f12b89317d7829ec1f5467f973aa35715243"
+    },
+    {
+      "path": "public/games/tc-sim/js/catalog.js",
+      "bytes": 14217,
+      "sha256": "a305d4930119ca7c4600fe25f3c999ec5495e47815afd64cac142a9f7af79f30"
+    },
+    {
+      "path": "public/games/tc-sim/js/criminal-justice.js",
+      "bytes": 7638,
+      "sha256": "89a754378c2dffa4520185859dbefcd187845e4c558f28df98ac789afbcfb593"
+    },
+    {
+      "path": "public/games/tc-sim/js/decision-network.js",
+      "bytes": 13209,
+      "sha256": "e25c17da33c9ce57a8289e49eff1708d3e74ffb7574e683f54859427b175acf8"
+    },
+    {
+      "path": "public/games/tc-sim/js/depth-events.js",
+      "bytes": 6745,
+      "sha256": "98742aeba5302275a74931b398486262ad1640f38af49721294f60e8de6ab044"
+    },
+    {
+      "path": "public/games/tc-sim/js/depth2-events.js",
+      "bytes": 15635,
+      "sha256": "7d1a341e95331510b6f69032b1a4f1ece6350c98cea7fc7df972b2d600b34030"
+    },
+    {
+      "path": "public/games/tc-sim/js/depth2-systems.js",
+      "bytes": 21365,
+      "sha256": "40b3ff7a753e16bd594ef11ba2e0b85f3d08085d769503015067fb10713d8348"
+    },
+    {
+      "path": "public/games/tc-sim/js/depth3-events.js",
+      "bytes": 12505,
+      "sha256": "b2d810472bae502304235835155b51586f4cb2517d8cb5b96c2b8c1125ab1e1b"
+    },
+    {
+      "path": "public/games/tc-sim/js/depth3-systems.js",
+      "bytes": 17029,
+      "sha256": "82d85da889165bb6b694271e2fd0fd6a77bccd5a9153200296cfb993d3469670"
+    },
+    {
+      "path": "public/games/tc-sim/js/desk.js",
+      "bytes": 15537,
+      "sha256": "3dac7221b88727bc06be1b629e5116b359277c88a5a2c2c9655b66788684bc02"
+    },
+    {
+      "path": "public/games/tc-sim/js/education.js",
+      "bytes": 13492,
+      "sha256": "e9d3bf4d079bc034f9a471697b36e424333518f1053de9109a6ccf41ef934cb3"
+    },
+    {
+      "path": "public/games/tc-sim/js/eras.js",
+      "bytes": 502,
+      "sha256": "88bc3491e1d67aab3f55d8e2012ffe7a408dd6e78f214f31efdccc3dc39d8299"
+    },
+    {
+      "path": "public/games/tc-sim/js/events.js",
+      "bytes": 64015,
+      "sha256": "49f6ec5fef1052e6df1f6593b784858a9c8284f5f4f48a8cdde1874f7a6b9283"
+    },
+    {
+      "path": "public/games/tc-sim/js/exchange.js",
+      "bytes": 5876,
+      "sha256": "4f0397af6b20a2e0a8b4f2ef8015760c91295f2ef75efde4923180be26904a4a"
+    },
+    {
+      "path": "public/games/tc-sim/js/expansion-events.js",
+      "bytes": 18611,
+      "sha256": "ebd2c3ec5c650a8949a4e5cb9758489edb4e20504c672fb3970992ae0a8791bb"
+    },
+    {
+      "path": "public/games/tc-sim/js/game-date.js",
+      "bytes": 2608,
+      "sha256": "497ce305ca69fbd474201feaf5f8eec85ec1e1a9bb839fb7ae9f639225705710"
+    },
+    {
+      "path": "public/games/tc-sim/js/gameplay-language.js",
+      "bytes": 5376,
+      "sha256": "a4227e500c8df15fa9481e6dd3dbd683566398ebb400632a55fb0af6a0d55db8"
+    },
+    {
+      "path": "public/games/tc-sim/js/help.js",
+      "bytes": 9630,
+      "sha256": "f035673dae023141742871212a41527f280242c936d143e36eff91d2cd87cdbd"
+    },
+    {
+      "path": "public/games/tc-sim/js/historical-scenarios.js",
+      "bytes": 17418,
+      "sha256": "e860a5e845f9e49f9ae6140f2de8cfac590f869302c82b73cfbce95dbdc18b60"
+    },
+    {
+      "path": "public/games/tc-sim/js/household.js",
+      "bytes": 33190,
+      "sha256": "95b51ba99c3a567681a5aa871d7671d004ff00590c6038f2964d5203745f936f"
+    },
+    {
+      "path": "public/games/tc-sim/js/icra.js",
+      "bytes": 29173,
+      "sha256": "25f4091d87ead7ca75c157145add4f73efb9d890af77ca65808e05193e09a8c6"
+    },
+    {
+      "path": "public/games/tc-sim/js/intimacy.js",
+      "bytes": 4801,
+      "sha256": "9c187394954e08466e1939ba3630c0b2f90837eba22fe9a0a569d440ed1cca50"
+    },
+    {
+      "path": "public/games/tc-sim/js/job-start-outcome-ui.js",
+      "bytes": 6129,
+      "sha256": "86d50e27fe842bd6163f97275cfa6b2dfde28346fc8489c11513784a7f8adf39"
+    },
+    {
+      "path": "public/games/tc-sim/js/job-start-outcome.js",
+      "bytes": 2371,
+      "sha256": "47fe74924c558f227bb569886fc41e20af78fa69ce062280972173f6a47fab14"
+    },
+    {
+      "path": "public/games/tc-sim/js/life-content.js",
+      "bytes": 201504,
+      "sha256": "73f2dc92c159e96b9e58bc45d45b1806339576c3e173886f33855c8827faec42"
+    },
+    {
+      "path": "public/games/tc-sim/js/life-depth.js",
+      "bytes": 23725,
+      "sha256": "b90da7f183b9edcc653d3c1a990f9071c35dd63688969d8b871ce6c9a6bf94c2"
+    },
+    {
+      "path": "public/games/tc-sim/js/life-echo-events.js",
+      "bytes": 24620,
+      "sha256": "6afab3213ab70f3ee343a981c362b9da960e48fb8bd1562f63eb6d136def862d"
+    },
+    {
+      "path": "public/games/tc-sim/js/life.js",
+      "bytes": 31406,
+      "sha256": "f25a7dc65ea04ad27831a3b5000184961d9c7e2be678291286d3dedbfb26ecab"
+    },
+    {
+      "path": "public/games/tc-sim/js/lifetime-ui.js",
+      "bytes": 6477,
+      "sha256": "919f482b2d4c509eddf60a1fc483868404dbecaa57d180c114c495f4266fcb34"
+    },
+    {
+      "path": "public/games/tc-sim/js/lifetime.js",
+      "bytes": 20270,
+      "sha256": "c5661e029dd822765723f9a4845f1190de4e050942362c76da71f52e28108310"
+    },
+    {
+      "path": "public/games/tc-sim/js/locations.js",
+      "bytes": 8966,
+      "sha256": "9ff3fcafa36ab26b74062b9bebc3c812ebfdda44f9ff50adbcf2882ffa1d3bd7"
+    },
+    {
+      "path": "public/games/tc-sim/js/march-hatir.js",
+      "bytes": 14676,
+      "sha256": "4c2c1cd30f032b066ab5a64160d85efa463bc3d8967859cbddde8d5de0c5c652"
+    },
+    {
+      "path": "public/games/tc-sim/js/monthly-cash.js",
+      "bytes": 10948,
+      "sha256": "92bb9c59c38f15fa2822b132cd85caa8390b340cb41296f62f721d0ece654735"
+    },
+    {
+      "path": "public/games/tc-sim/js/mortgage.js",
+      "bytes": 10198,
+      "sha256": "29de763ad6104909b301b519b058c66478dad04f42a9c71eb9b9bfcd3cf46785"
+    },
+    {
+      "path": "public/games/tc-sim/js/navigation.js",
+      "bytes": 3053,
+      "sha256": "1baf82a51e97b416a4c70efdc6a63966c1915467dccac2be15851d5c9018b44e"
+    },
+    {
+      "path": "public/games/tc-sim/js/network.js",
+      "bytes": 33606,
+      "sha256": "4821c120ca3994471b674b770f0c166c5576ad36a19abd2b9056b496bc0fa358"
+    },
+    {
+      "path": "public/games/tc-sim/js/parenthood.js",
+      "bytes": 47211,
+      "sha256": "455a6884979517572acaf201988a0b4acbf2633f8eb0a0497a4793d661daae13"
+    },
+    {
+      "path": "public/games/tc-sim/js/partner-workplace.js",
+      "bytes": 7740,
+      "sha256": "02885944e6d5351e0896cc6368bf60614a080281ceda853f7439c8fcc8baa98f"
+    },
+    {
+      "path": "public/games/tc-sim/js/period-economy.js",
+      "bytes": 6305,
+      "sha256": "637e8fde5fd45b39f65ffd486955db71ea9f4805771bdb8d6e60a89b51986098"
+    },
+    {
+      "path": "public/games/tc-sim/js/pocket-income.js",
+      "bytes": 22755,
+      "sha256": "e73ca628d1f0c161b7a48f2d54bd5ab50d73ad3f8e03f39b1c2cdf81136dfcfe"
+    },
+    {
+      "path": "public/games/tc-sim/js/quarters.js",
+      "bytes": 47820,
+      "sha256": "6f29623ae65925190083c964625d6f241b18c79bd67553fcc04707ff1dd73af2"
+    },
+    {
+      "path": "public/games/tc-sim/js/realism-events.js",
+      "bytes": 44611,
+      "sha256": "5c53b9e2c41a62f9786d04e13333e32c36f62c9b9d106444e1b17ee55c783b2e"
+    },
+    {
+      "path": "public/games/tc-sim/js/region-data.js",
+      "bytes": 8808,
+      "sha256": "9d077f476c4f60384c32277ca280a6a478925843d8c03b596eebb4a79d87cf48"
+    },
+    {
+      "path": "public/games/tc-sim/js/region-map-data.js",
+      "bytes": 4467,
+      "sha256": "1aed73b5a081d6ab40bd3a22f75d09b06416e502e9283bba1a6ad9ce8bf8c197"
+    },
+    {
+      "path": "public/games/tc-sim/js/region-map.js",
+      "bytes": 3560,
+      "sha256": "f83387267d35b698f1db75f629efb3f7b8c1fc7e2ac28b217d7bea86c93008d1"
+    },
+    {
+      "path": "public/games/tc-sim/js/risk-layer.js",
+      "bytes": 12108,
+      "sha256": "9b8ea2e92d70c355eebec1c2cecdb6731ad44ab00eeffc952e102fadbf5dae0f"
+    },
+    {
+      "path": "public/games/tc-sim/js/save.js",
+      "bytes": 9987,
+      "sha256": "9b9b49f1eac9546eff49750c877392bb9ea9096c7c62f3cb4c4dcb3f9bc07e86"
+    },
+    {
+      "path": "public/games/tc-sim/js/screen-drafts.js",
+      "bytes": 1466,
+      "sha256": "a1d92aeee6e3b4f3c93a5741a54c41a0105bd1dfd8ae98e9eb63cf6552d1e2d5"
+    },
+    {
+      "path": "public/games/tc-sim/js/social-insurance.js",
+      "bytes": 6669,
+      "sha256": "d2bd51335350e74b75cff41f0a5dd7811bb00ec34371cefb9bd1228da71ddbb0"
+    },
+    {
+      "path": "public/games/tc-sim/js/social.js",
+      "bytes": 16933,
+      "sha256": "7971aeae0522bdf6109f755d006f5a5b36d5edf76f65db42f6936d0845028e13"
+    },
+    {
+      "path": "public/games/tc-sim/js/state.js",
+      "bytes": 47861,
+      "sha256": "7f78f6fbf64f580a3348b8a497baf8d086c4c6142e42b9a2b3b77e2d90253ef6"
+    },
+    {
+      "path": "public/games/tc-sim/js/status-panel.js",
+      "bytes": 1937,
+      "sha256": "09f468494729aaf44ec0dd6a8bf6f594954dba43b0c51e5363108cf6db5d540d"
+    },
+    {
+      "path": "public/games/tc-sim/js/time.js",
+      "bytes": 28376,
+      "sha256": "7685a6eeeedabe4f53062d5d90ebcad52f8f66a772e739feaabb7e55e0f348c8"
+    },
+    {
+      "path": "public/games/tc-sim/js/ui-icons.js",
+      "bytes": 17525,
+      "sha256": "d833c1d6b74d6de6fa4bcb621a5e27788bff04f9245bde6ae8b0ad2accbe1c02"
+    },
+    {
+      "path": "public/games/tc-sim/js/ui-shell.js",
+      "bytes": 16545,
+      "sha256": "88ed7be8e610dd8b9ef45b028ee350f086c59cd60e74cab8a6a0e8f66e91fa21"
+    },
+    {
+      "path": "public/games/tc-sim/js/wealth.js",
+      "bytes": 61181,
+      "sha256": "87af20ec3c4fbd77dc9b6a8f0b1635259ce5073f87dfa638a6a0b861c6cabc6a"
+    },
+    {
+      "path": "public/games/tc-sim/js/wedding-planning.js",
+      "bytes": 8131,
+      "sha256": "d9a4dc82a8e1df90bceca07b8b627a07b142eda96f219dc6d330dfe8dc107235"
+    },
+    {
+      "path": "public/games/tc-sim/js/weekly-feedback.js",
+      "bytes": 3286,
+      "sha256": "d00937d91648e6b3c1062b3f8358ac1a6510c72977f819b8f173e9b880c2fe64"
+    },
+    {
+      "path": "public/games/tc-sim/js/yearly-goals.js",
+      "bytes": 3357,
+      "sha256": "dbbcfd193710f5f8a43651b7535639657c916ba8e8da1be4c6e86227f27597b4"
+    },
+    {
+      "path": "public/games/tc-sim/region-map.css",
+      "bytes": 2559,
+      "sha256": "db8d6de1ed8109e49f75224b4bb46071333f73d27ecb5fc2059c7c2be1d6a0d9"
+    },
+    {
+      "path": "public/games/tc-sim/styles.css",
+      "bytes": 58189,
+      "sha256": "6667c005a30d239e28bf30616974ec3104424083bc3ce5961cad7b9563da06fe"
+    },
+    {
+      "path": "public/games/tc-sim/ui-shell.css",
+      "bytes": 29029,
+      "sha256": "cd8791e2a442d99a04864dd151cc52711c442c4ea81d4ca0d00c8e4305ec3584"
+    },
+    {
+      "path": "public/games/tc-sim-boardworld/app.mjs",
+      "bytes": 60328,
+      "sha256": "3dac14bd55f94d0ec70571d8839748b94e61ba312314fe76ebc0e2eabe366fbf"
+    },
+    {
+      "path": "public/games/tc-sim-boardworld/calendar.mjs",
+      "bytes": 39370,
+      "sha256": "a43906f83ac7f595263d7ac5043c3c434851afe48b7a6e694549bddd6df1babd"
+    },
+    {
+      "path": "public/games/tc-sim-boardworld/city.mjs",
+      "bytes": 8865,
+      "sha256": "5189e9e6ae1d2845f773764fb7f248923ef2c5b1d243a4af845c94b673736071"
+    },
+    {
+      "path": "public/games/tc-sim-boardworld/content.mjs",
+      "bytes": 30595,
+      "sha256": "d98f97bb986fe19a7dd78a165338af92dc00c6edc2330637789beb9b4a33c4d6"
+    },
+    {
+      "path": "public/games/tc-sim-boardworld/daily-flow.mjs",
+      "bytes": 20628,
+      "sha256": "3bfa2f9c05b6b953799a59c51bb008f4c76b882ba70882ed00b9e82573201547"
+    },
+    {
+      "path": "public/games/tc-sim-boardworld/deep-content.mjs",
+      "bytes": 9109,
+      "sha256": "6b28e716326078c6469d30c99c54615e930c397e0decf5699605202d4c916a88"
+    },
+    {
+      "path": "public/games/tc-sim-boardworld/deep-life.mjs",
+      "bytes": 56530,
+      "sha256": "a5b5fe81c7507ad6af6bce0f07768dec038fe7a13f76c4bef2f1d8656e82cd87"
+    },
+    {
+      "path": "public/games/tc-sim-boardworld/deep-ui.mjs",
+      "bytes": 22283,
+      "sha256": "3bbbbdd1a5a3cd6c9829049cfae377648761b68244b3d07e99db9a1efe095eb6"
+    },
+    {
+      "path": "public/games/tc-sim-boardworld/deep.css",
+      "bytes": 32094,
+      "sha256": "48e58826603ed4b0d5e17370e1a744f870d80b36b0d84759d43663fc916ed3e1"
+    },
+    {
+      "path": "public/games/tc-sim-boardworld/emergent-content.mjs",
+      "bytes": 5638,
+      "sha256": "105767bd8253b0da7872c865411660970654d3a1f13964a6c109871e5b79b354"
+    },
+    {
+      "path": "public/games/tc-sim-boardworld/emergent-life.mjs",
+      "bytes": 49666,
+      "sha256": "f76d666edd07e3e7988b82d749ab17cf79ace49de060945dc071e9009cb5ff43"
+    },
+    {
+      "path": "public/games/tc-sim-boardworld/emergent-ui.mjs",
+      "bytes": 18491,
+      "sha256": "8aa4684d64d525b924e3ffd025dfe86472fb2e7f492ee7de889b60958f2b5164"
+    },
+    {
+      "path": "public/games/tc-sim-boardworld/emergent.css",
+      "bytes": 28358,
+      "sha256": "ec830fb6078c4f85446b391c7ab3b433ff90148a355a36a30ecf7c0dceb35b63"
+    },
+    {
+      "path": "public/games/tc-sim-boardworld/engine.mjs",
+      "bytes": 103593,
+      "sha256": "0118e642e0b6a90ca1ad0a48e5e01370c3ab36a854d95e8a9457e0c5d0e6ef7d"
+    },
+    {
+      "path": "public/games/tc-sim-boardworld/favicon.svg",
+      "bytes": 199,
+      "sha256": "f56714a4b795e087d52dece6b9ca5113d1a7fe9aa1cf2edb82ec5d87c46fca12"
+    },
+    {
+      "path": "public/games/tc-sim-boardworld/i18n.mjs",
+      "bytes": 9454,
+      "sha256": "22f4f2945a5732bb4dcc27de53f8b61c37ac3aff15b6042a9771d9c311fcfb8c"
+    },
+    {
+      "path": "public/games/tc-sim-boardworld/index.html",
+      "bytes": 1498,
+      "sha256": "c7222f4e71c252ec694144f0ff482be147689f9c64719d7e5057b7ef993195e4"
+    },
+    {
+      "path": "public/games/tc-sim-boardworld/life-chains.mjs",
+      "bytes": 45746,
+      "sha256": "ed8a822df0fac3ae7a26e5e89344caf5eb209e2afca7c8bf3eebf640448fa4f5"
+    },
+    {
+      "path": "public/games/tc-sim-boardworld/life-content.mjs",
+      "bytes": 4858,
+      "sha256": "19f2dc162d9dafcdc6bde21bbe706aaaf40dc88c595f8a219dd0258fb79b9c2f"
+    },
+    {
+      "path": "public/games/tc-sim-boardworld/life-systems.mjs",
+      "bytes": 66225,
+      "sha256": "64c9c987a5aef5a01019a4c65e38b3b44c0f409e83e598bea2531494c630acda"
+    },
+    {
+      "path": "public/games/tc-sim-boardworld/living-ui.mjs",
+      "bytes": 29039,
+      "sha256": "268e78a27068d92fd956ef7c7a6f75fab1d51b7243ab9f6d8d9072e9767f8cc0"
+    },
+    {
+      "path": "public/games/tc-sim-boardworld/living.css",
+      "bytes": 19568,
+      "sha256": "1331992fc0dc5c917de3a3816108909a9fb8ab83263e2a3d9b77c852bcebb930"
+    },
+    {
+      "path": "public/games/tc-sim-boardworld/locale-en.mjs",
+      "bytes": 137147,
+      "sha256": "2f4ed4c16453532f0fe506ec51f233f4c1c92ddd08a3fcd0d5b9bd02feff72ef"
+    },
+    {
+      "path": "public/games/tc-sim-boardworld/locale-keys.mjs",
+      "bytes": 138943,
+      "sha256": "ba87d845ff9921fc0f47e9b9395ab002bc3bad8f4178c08f4af64f7bf5df0b0a"
+    },
+    {
+      "path": "public/games/tc-sim-boardworld/locale-pl.mjs",
+      "bytes": 148042,
+      "sha256": "2cf485e77027679c2a7c41e6098336ae41b4353d8fc71d5b3c0b3e1aed25d3fd"
+    },
+    {
+      "path": "public/games/tc-sim-boardworld/persistence.mjs",
+      "bytes": 12057,
+      "sha256": "c2417cad4eea113c1e2cb28c28383ef49e3ca7faa24d6547dc8d99756d4d3e31"
+    },
+    {
+      "path": "public/games/tc-sim-boardworld/save-codec.mjs",
+      "bytes": 2284,
+      "sha256": "ca9b6ef8ccafcd7aabc4a6980dc6dfc71c09a7b68d708f896b63d938bfcf14bd"
+    },
+    {
+      "path": "public/games/tc-sim-boardworld/society-content.mjs",
+      "bytes": 4476,
+      "sha256": "4e675e3b24ec784e6f98e28276ff7fd31ad638269e7330b1cc8c505f30a274e5"
+    },
+    {
+      "path": "public/games/tc-sim-boardworld/society-systems.mjs",
+      "bytes": 56813,
+      "sha256": "c6522745016b49c41ba3e77b8c2a713fede513e43bc8f15728378f0ad5dd3933"
+    },
+    {
+      "path": "public/games/tc-sim-boardworld/society-ui.mjs",
+      "bytes": 12623,
+      "sha256": "610840844f8e4fdf9cd4eb4db38e90dc77b552dcf918f38a5ba296cf78c8f2ef"
+    },
+    {
+      "path": "public/games/tc-sim-boardworld/society.css",
+      "bytes": 7953,
+      "sha256": "20a2969486a884ef80b3468e9d3c9cace542cf5fcdb38ca649beed40047542e6"
+    },
+    {
+      "path": "public/games/tc-sim-boardworld/style.css",
+      "bytes": 69594,
+      "sha256": "4dc0e38cb5007f5a83259647435c4714d99800d4cda2ad0373efefe1ce11e363"
+    },
+    {
+      "path": "public/games/tc-sim-boardworld/world-content.mjs",
+      "bytes": 3404,
+      "sha256": "8d527a10333b51ad2e62d5c120f2b80decd3b435733bdfd69bc438b4b4b7250f"
+    },
+    {
+      "path": "public/games/tc-sim-boardworld/world-life.mjs",
+      "bytes": 67474,
+      "sha256": "bee89347469535bfb5057f296ca1cc6ed180dd1a18fc56fe0604d779488eca1f"
+    },
+    {
+      "path": "public/games/racon/content.js",
+      "bytes": 99016,
+      "sha256": "b1ed9d8079d3b71b9f703d35b804fc9d576749a608953a2e9939b1979583485b"
+    },
+    {
+      "path": "public/games/racon/index.html",
+      "bytes": 398524,
+      "sha256": "05e9f342b08d0afe8f84984ca866f15b405dc0446c2e81e1ac94148f806788dc"
+    },
+    {
+      "path": "public/games/racon/layout-check.html",
+      "bytes": 2936,
+      "sha256": "014cd8cf7acee64195f8bc05bccb812fdfdef7cc24d4b871daff51b0477593a0"
+    },
+    {
+      "path": "public/games/racon/map-model.js",
+      "bytes": 7724,
+      "sha256": "f18680c885b404449a81c582921806e09c9d688da4422324cc5d4c3a3a4327e9"
+    },
+    {
+      "path": "public/games/racon/map-view.js",
+      "bytes": 18741,
+      "sha256": "8c57b8443cd94b26479433bca54ee5f0cf60d2b467392b6fcd949b2137a28216"
+    },
+    {
+      "path": "public/games/racon/network.js",
+      "bytes": 22214,
+      "sha256": "51fb6c9cc5927e76eeb0c208e22c4ffa8591935d11f899af7f8be5a8a4e96f26"
+    },
+    {
+      "path": "public/games/racon/outcome-moment.js",
+      "bytes": 7288,
+      "sha256": "8c3dd7dcd3109f6fbff55719cec255bb16294407f5400144c169c1a68604d484"
+    }
+  ],
+  "limitations": [
+    "Historical performance evidence is not SOCIAL ENGINE evidence.",
+    "Shared art parity repository and live Cloudflare provider state not inspected by this audit.",
+    "No existing-game save namespace is authorized for SOCIAL ENGINE writes.",
+    "No current movement/traffic/navmesh engine found in the audited legacy modules."
+  ]
+}

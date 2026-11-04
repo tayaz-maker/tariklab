@@ -1,0 +1,98 @@
+{
+  "scope": "Post-run continuity audit; historical raw observations are unchanged.",
+  "runId": "2026-11-03T21-24-16-089Z",
+  "originalProcessStatus": "COMPLETED",
+  "wallMinutes": 132.59617534583333,
+  "fixedTickMinutes": 36.498333333333335,
+  "analysis": [
+    {
+      "status": "VERIFIED",
+      "requestedMinutes": 30,
+      "samples": 30,
+      "elapsedMs": 1800176.5935000002,
+      "simulationMs": 1800400,
+      "coverageRatio": 1.0001241025468315,
+      "issues": []
+    },
+    {
+      "status": "UNVERIFIED",
+      "requestedMinutes": 60,
+      "samples": 60,
+      "elapsedMs": 4179795.932958,
+      "simulationMs": 2081800,
+      "coverageRatio": 0.4980625928612574,
+      "issues": [
+        {
+          "minute": 34,
+          "intervalMs": 1103248.3862089997,
+          "advancedMs": 45000,
+          "reason": "Sampling gap without corresponding gameplay progress"
+        },
+        {
+          "minute": 54,
+          "intervalMs": 997906.140958,
+          "advancedMs": 3400,
+          "reason": "Sampling gap without corresponding gameplay progress"
+        },
+        {
+          "reason": "Fixed ticks do not corroborate elapsed observation time",
+          "coverageRatio": 0.4980625928612574
+        }
+      ]
+    },
+    {
+      "status": "UNVERIFIED",
+      "requestedMinutes": 120,
+      "samples": 116,
+      "elapsedMs": 7955732.624875,
+      "simulationMs": 2189700,
+      "coverageRatio": 0.27523549410817516,
+      "issues": [
+        {
+          "minute": 34,
+          "intervalMs": 1103248.3862089997,
+          "advancedMs": 45000,
+          "reason": "Sampling gap without corresponding gameplay progress"
+        },
+        {
+          "minute": 54,
+          "intervalMs": 997906.140958,
+          "advancedMs": 3400,
+          "reason": "Sampling gap without corresponding gameplay progress"
+        },
+        {
+          "minute": 72,
+          "intervalMs": 1052315.1063750004,
+          "advancedMs": 11800,
+          "reason": "Sampling gap without corresponding gameplay progress"
+        },
+        {
+          "minute": 86,
+          "intervalMs": 1061285.8021250004,
+          "advancedMs": 600,
+          "reason": "Sampling gap without corresponding gameplay progress"
+        },
+        {
+          "minute": 103,
+          "intervalMs": 518093.027458,
+          "advancedMs": 200,
+          "reason": "Sampling gap without corresponding gameplay progress"
+        },
+        {
+          "minute": 116,
+          "intervalMs": 1051793.9239170002,
+          "advancedMs": 43800,
+          "reason": "Sampling gap without corresponding gameplay progress"
+        },
+        {
+          "reason": "Requested duration or minute observations missing"
+        },
+        {
+          "reason": "Fixed ticks do not corroborate elapsed observation time",
+          "coverageRatio": 0.27523549410817516
+        }
+      ]
+    }
+  ],
+  "at": "2026-11-04T06:13:08.697Z"
+}

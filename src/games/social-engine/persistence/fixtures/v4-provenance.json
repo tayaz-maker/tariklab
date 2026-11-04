@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 4,
+  "engineVersion": "1.0.0-candidate.3",
+  "sourceCommit": "710f6af",
+  "seed": 20261103,
+  "tick": 900,
+  "sha256": "5c65b70a02ef40b6df529ca8b929674907fdc1bf6eb020b4b4223a0c227e4730",
+  "note": "Authentic schema4 world created by checkpoint710f6af before schema5 service queue implementation; no version backdating."
+}

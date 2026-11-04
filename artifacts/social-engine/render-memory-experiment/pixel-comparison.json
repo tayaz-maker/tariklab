@@ -1,0 +1,32 @@
+{
+  "scope": "Screenshots include cosmetic time-based graphics; A/A and B/B repeats provide context. No claim of human visual review.",
+  "results": [
+    {
+      "a": "1-AA",
+      "b": "4-AA",
+      "pixelsAbove10": 0,
+      "totalPixels": 2073600,
+      "ratio": 0,
+      "meanMaxChannelDifference": 0.0000014467592592592592,
+      "max": 3
+    },
+    {
+      "a": "2-no-AA",
+      "b": "3-no-AA",
+      "pixelsAbove10": 0,
+      "totalPixels": 2073600,
+      "ratio": 0,
+      "meanMaxChannelDifference": 0,
+      "max": 0
+    },
+    {
+      "a": "1-AA",
+      "b": "2-no-AA",
+      "pixelsAbove10": 1239,
+      "totalPixels": 2073600,
+      "ratio": 0.0005975115740740741,
+      "meanMaxChannelDifference": 0.025620659722222223,
+      "max": 101
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "status": "PASS",
+  "command": "npm test",
+  "exitCode": 0,
+  "startedAt": "2026-11-03T21:02:07.783Z",
+  "finishedAt": "2026-11-03T21:22:22.800Z",
+  "runtimeCommit": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+  "checkpointCommit": "3c0aaab2a1b476ad022baacdda0d0d8970101a8a",
+  "manifestSha256": "7acc7343ed79d1a0f3b846544acd83ff435458f0a9b8b2d912dc4a4a274ff134",
+  "counts": {
+    "tests": 2948,
+    "pass": 2948,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "duration_ms": 1175523.612584
+  },
+  "summaries": {
+    "tests": [
+      2887,
+      61
+    ],
+    "pass": [
+      2887,
+      61
+    ],
+    "fail": [
+      0,
+      0
+    ],
+    "cancelled": [
+      0,
+      0
+    ],
+    "skipped": [
+      0,
+      0
+    ],
+    "todo": [
+      0,
+      0
+    ],
+    "duration_ms": [
+      1174897.412792,
+      626.199792
+    ]
+  },
+  "tapSha256": "26a7257a54b8292e26f2c4394a5cc0da909605315318142180e55cbfce19dbf2",
+  "sourcesUnchanged": true,
+  "changedFiles": [
+    "scripts/social-engine/native-browser.mjs"
+  ],
+  "excludedChanges": [
+    "scripts/social-engine/native-browser.mjs"
+  ],
+  "excludedReason": "The separate native-window browser harness is not imported or executed by npm test. No tested source/runtime/fixture/package input changed.",
+  "inputFingerprintFile": "artifacts/social-engine/baseline/frozen-regression-inputs.json",
+  "inputFingerprintSha256": "785674e62d8daa08c32e607b3a489b3f8418fb1302b8fc7ca34693d4c0939ff9"
+}

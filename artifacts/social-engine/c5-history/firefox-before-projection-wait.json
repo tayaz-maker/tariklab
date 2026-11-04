@@ -1,0 +1,11 @@
+{
+  "status": "FAIL",
+  "browser": "firefox",
+  "version": "153.0",
+  "manifestSha256": "df134e92f88958c99e78324eac10efe35e1e4f7ee930bf540079d2832c7a6b8f",
+  "checks": [
+    "HUD controls and minimap retain DOM identity through multiple refreshes."
+  ],
+  "errors": [],
+  "reason": "locator.click: Timeout 12000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('summary').filter({ hasText: 'Ödemeden almak' })\u001b[22m\n"
+}

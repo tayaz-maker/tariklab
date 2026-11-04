@@ -1,0 +1,9 @@
+{
+  "sourceCommit": "8e4e5087b24c81a4e4a0cf889fb34da9fb574364",
+  "schema": 5,
+  "fixtureSha256": "09a996c3492320aaf0eb3caa9aa4b06b9989ca341e5d791df51e2627f8349f77",
+  "baseTick": 1200,
+  "finalTick": 1201,
+  "expectedCanonicalSha256": "02564a6231c61163dae2370298fcb9ba4277b88e4fec4ffc3c0fbddd004fd2b0",
+  "note": "Created by the unmodified candidate.4 runtime from ordinary movement/enter/use commands and its real checksummed journal encoder. An unknown command was rejected at that version."
+}

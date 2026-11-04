@@ -1,0 +1,239 @@
+{
+  "status": "PASS",
+  "manifestSha256": "67694324aa18be37a570adaefd99c428cc44b24581cd6a7ab1b95963eb2c5b45",
+  "sourceDigest": "76ea681dff03e1aacd0b27b4d85ba5e9bf32233597210be0d596f1017f152e98",
+  "environment": {
+    "browser": "151.0.7922.34",
+    "os": "darwin",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "coldContext": true
+  },
+  "errors": [],
+  "requestedFiles": [
+    "index.html",
+    "styles-1cab492a6f0a.css",
+    "app-TC2ULCEA.js",
+    "chunk-BTG6TYWV.js",
+    "chunk-3J7M7RHN.js",
+    "chunk-UJG5VTAA.js",
+    "chunk-CS44UROG.js",
+    "chunk-SQE76S5B.js",
+    "chunk-UJR54KOB.js",
+    "chunk-DEGAIGB7.js",
+    "chunk-OEHB7W2C.js",
+    "assets/atlas-1b5dff1d49d8.json",
+    "assets/buildings-0bc5233248d9.png",
+    "assets/people-props-430914164137.png",
+    "worker-O6QCGRME.js",
+    "chunk-HTPPDZR7.js"
+  ],
+  "loadedRuntime": [
+    {
+      "file": "app-TC2ULCEA.js",
+      "bytes": 148372,
+      "gzipBytes": 50110,
+      "sha256": "5f454a48c77ab713220ec806b55b82e20198bc3d162010b2bad766dc24cb25d3"
+    },
+    {
+      "file": "chunk-3J7M7RHN.js",
+      "bytes": 340,
+      "gzipBytes": 271,
+      "sha256": "ebf9db9ae3f4f79498500ecf398b6ff585b5ccfed707a25e570af658411fd686"
+    },
+    {
+      "file": "chunk-BTG6TYWV.js",
+      "bytes": 71079,
+      "gzipBytes": 21958,
+      "sha256": "e88e330aa3b2a3f9499aa0cbcc76ce27d75ebb15c3f348ca90d2d58fa35f04e8"
+    },
+    {
+      "file": "chunk-CS44UROG.js",
+      "bytes": 177520,
+      "gzipBytes": 58482,
+      "sha256": "c8a89b35b279417e528ce8647fd01fcc5e04eadb1ddb60fef9359f3fbb7fc753"
+    },
+    {
+      "file": "chunk-DEGAIGB7.js",
+      "bytes": 11072,
+      "gzipBytes": 2842,
+      "sha256": "772c9936f1c1d210acf31220af13fd0e886d24d2827647021f10d9e93ae97d07"
+    },
+    {
+      "file": "chunk-HTPPDZR7.js",
+      "bytes": 4055,
+      "gzipBytes": 1778,
+      "sha256": "c82e9d0abb54d15c38ee077ce7892ee5cce13a101d43a4b555999ab3812972ab"
+    },
+    {
+      "file": "chunk-OEHB7W2C.js",
+      "bytes": 53952,
+      "gzipBytes": 14852,
+      "sha256": "fd49916ad975bf82c9ff0bdda16a587ceb9bd028144efd200cd31d9c813f00df"
+    },
+    {
+      "file": "chunk-SQE76S5B.js",
+      "bytes": 577,
+      "gzipBytes": 361,
+      "sha256": "11247d28c5c2fb3d976002c2b55fecb6ba19fd88153e11d2c7af5832fd6ff331"
+    },
+    {
+      "file": "chunk-UJG5VTAA.js",
+      "bytes": 143354,
+      "gzipBytes": 44580,
+      "sha256": "72a234c8d6fb5a6d737c97457653afd073dad0a7aaa3b567517a908e3e667969"
+    },
+    {
+      "file": "chunk-UJR54KOB.js",
+      "bytes": 72095,
+      "gzipBytes": 19587,
+      "sha256": "0927ba5a2fb6ed5236223e244be3f3c12ad1ec18d458bec37e5fc88f0a0cd43b"
+    },
+    {
+      "file": "index.html",
+      "bytes": 3883,
+      "gzipBytes": 1511,
+      "sha256": "218c44aa52ebbfd95399b2f99febfe88c27712bede0117574c74692cd4b0bc32"
+    },
+    {
+      "file": "styles-1cab492a6f0a.css",
+      "bytes": 11737,
+      "gzipBytes": 3041,
+      "sha256": "1cab492a6f0a81620e7f7d34acdcf58a9d3cabdd00cb8159f8a670c231c63fc1"
+    },
+    {
+      "file": "worker-O6QCGRME.js",
+      "bytes": 111,
+      "gzipBytes": 99,
+      "sha256": "271cf3af5043d01320f5e51fdea28fad2ad94dfb7c1e3ae95cc08a4a768091e7"
+    }
+  ],
+  "initialJsGzipBytes": 214920,
+  "allGeneratedRuntimeGzipBytes": 239641,
+  "playableAssetBytes": 733792,
+  "timeToPlayableWithFormMs": 1272.2805,
+  "resourceTiming": [
+    {
+      "name": "styles-1cab492a6f0a.css",
+      "duration": 7.5,
+      "transferSize": 12037,
+      "encodedBodySize": 11737,
+      "decodedBodySize": 11737
+    },
+    {
+      "name": "app-TC2ULCEA.js",
+      "duration": 7.799999952316284,
+      "transferSize": 148672,
+      "encodedBodySize": 148372,
+      "decodedBodySize": 148372
+    },
+    {
+      "name": "chunk-3J7M7RHN.js",
+      "duration": 3.899999976158142,
+      "transferSize": 640,
+      "encodedBodySize": 340,
+      "decodedBodySize": 340
+    },
+    {
+      "name": "chunk-BTG6TYWV.js",
+      "duration": 3.600000023841858,
+      "transferSize": 71379,
+      "encodedBodySize": 71079,
+      "decodedBodySize": 71079
+    },
+    {
+      "name": "chunk-SQE76S5B.js",
+      "duration": 4.299999952316284,
+      "transferSize": 877,
+      "encodedBodySize": 577,
+      "decodedBodySize": 577
+    },
+    {
+      "name": "chunk-UJG5VTAA.js",
+      "duration": 4.599999904632568,
+      "transferSize": 143654,
+      "encodedBodySize": 143354,
+      "decodedBodySize": 143354
+    },
+    {
+      "name": "chunk-CS44UROG.js",
+      "duration": 5,
+      "transferSize": 177820,
+      "encodedBodySize": 177520,
+      "decodedBodySize": 177520
+    },
+    {
+      "name": "chunk-UJR54KOB.js",
+      "duration": 2,
+      "transferSize": 72395,
+      "encodedBodySize": 72095,
+      "decodedBodySize": 72095
+    },
+    {
+      "name": "chunk-DEGAIGB7.js",
+      "duration": 1.1999999284744263,
+      "transferSize": 11372,
+      "encodedBodySize": 11072,
+      "decodedBodySize": 11072
+    },
+    {
+      "name": "chunk-OEHB7W2C.js",
+      "duration": 1.2999999523162842,
+      "transferSize": 54252,
+      "encodedBodySize": 53952,
+      "decodedBodySize": 53952
+    },
+    {
+      "name": "assets/atlas-1b5dff1d49d8.json",
+      "duration": 1.2999999523162842,
+      "transferSize": 11176,
+      "encodedBodySize": 10876,
+      "decodedBodySize": 10876
+    },
+    {
+      "name": "assets/people-props-430914164137.png",
+      "duration": 3.5,
+      "transferSize": 172158,
+      "encodedBodySize": 171858,
+      "decodedBodySize": 171858
+    },
+    {
+      "name": "assets/buildings-0bc5233248d9.png",
+      "duration": 3.899999976158142,
+      "transferSize": 551358,
+      "encodedBodySize": 551058,
+      "decodedBodySize": 551058
+    },
+    {
+      "name": "worker-O6QCGRME.js",
+      "duration": -326.09999990463257,
+      "transferSize": 411,
+      "encodedBodySize": 111,
+      "decodedBodySize": 111
+    },
+    {
+      "name": "chunk-HTPPDZR7.js",
+      "duration": 1.7000000476837158,
+      "transferSize": 4355,
+      "encodedBodySize": 4055,
+      "decodedBodySize": 4055
+    },
+    {
+      "name": "chunk-SQE76S5B.js",
+      "duration": 1.100000023841858,
+      "transferSize": 877,
+      "encodedBodySize": 577,
+      "decodedBodySize": 577
+    },
+    {
+      "name": "chunk-CS44UROG.js",
+      "duration": 1.2999999523162842,
+      "transferSize": 177820,
+      "encodedBodySize": 177520,
+      "decodedBodySize": 177520
+    }
+  ],
+  "finished": "2026-11-04T07:48:15.227Z"
+}

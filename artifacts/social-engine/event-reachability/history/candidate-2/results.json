@@ -1,0 +1,4633 @@
+{
+  "status": "PASS",
+  "seed": 20261103,
+  "daysAfterInitialActions": 50,
+  "ticks": 720419,
+  "elapsedMs": 2882.095541,
+  "observed": [
+    {
+      "kind": "shortage",
+      "tick": 0,
+      "minute": 480,
+      "questId": "q2",
+      "sourceEvent": {
+        "id": "e3",
+        "tick": 0,
+        "minute": 480,
+        "kind": "shortage",
+        "text": "Rafın eksik parçası",
+        "actors": [
+          "n2"
+        ],
+        "targetId": "player",
+        "visibility": "public",
+        "witnesses": [],
+        "causeId": null
+      },
+      "issuerId": "n2",
+      "targetId": "n2",
+      "buildingId": "b-garage",
+      "escrow": 8500
+    },
+    {
+      "kind": "neighbor_help",
+      "tick": 0,
+      "minute": 480,
+      "questId": "q4",
+      "sourceEvent": {
+        "id": "e5",
+        "tick": 0,
+        "minute": 480,
+        "kind": "neighbor_help",
+        "text": "Komşunun yükü",
+        "actors": [
+          "n0"
+        ],
+        "targetId": "player",
+        "visibility": "public",
+        "witnesses": [],
+        "causeId": null
+      },
+      "issuerId": "n0",
+      "targetId": "n0",
+      "buildingId": "b-home",
+      "escrow": 4500
+    },
+    {
+      "kind": "delivery",
+      "tick": 0,
+      "minute": 480,
+      "questId": "q6",
+      "sourceEvent": {
+        "id": "e7",
+        "tick": 0,
+        "minute": 480,
+        "kind": "delivery",
+        "text": "Rıhtıma bir paket",
+        "actors": [
+          "n3"
+        ],
+        "targetId": "player",
+        "visibility": "public",
+        "witnesses": [],
+        "causeId": null
+      },
+      "issuerId": "n3",
+      "targetId": "n3",
+      "buildingId": "b-taxi",
+      "escrow": 8000
+    },
+    {
+      "kind": "job_offer",
+      "tick": 0,
+      "minute": 480,
+      "questId": "q8",
+      "sourceEvent": {
+        "id": "e9",
+        "tick": 0,
+        "minute": 480,
+        "kind": "job_offer",
+        "text": "Çarşıda bir yer açıldı",
+        "actors": [
+          "n0"
+        ],
+        "targetId": "player",
+        "visibility": "public",
+        "witnesses": [],
+        "causeId": null
+      },
+      "issuerId": "n0",
+      "targetId": "n0",
+      "buildingId": "b-market",
+      "escrow": 4000
+    },
+    {
+      "kind": "promotion",
+      "tick": 0,
+      "minute": 480,
+      "questId": "q10",
+      "sourceEvent": {
+        "id": "e11",
+        "tick": 0,
+        "minute": 480,
+        "kind": "promotion",
+        "text": "Bir adım yukarı",
+        "actors": [
+          "n4"
+        ],
+        "targetId": "player",
+        "visibility": "public",
+        "witnesses": [],
+        "causeId": null
+      },
+      "issuerId": "n4",
+      "targetId": "n4",
+      "buildingId": "b-office",
+      "escrow": 6000
+    },
+    {
+      "kind": "scholarship",
+      "tick": 0,
+      "minute": 480,
+      "questId": "q12",
+      "sourceEvent": {
+        "id": "e13",
+        "tick": 0,
+        "minute": 480,
+        "kind": "scholarship",
+        "text": "Açık ders",
+        "actors": [
+          "n6"
+        ],
+        "targetId": "player",
+        "visibility": "public",
+        "witnesses": [],
+        "causeId": null
+      },
+      "issuerId": "n6",
+      "targetId": "n6",
+      "buildingId": "b-school",
+      "escrow": 5000
+    },
+    {
+      "kind": "friend_invite",
+      "tick": 20,
+      "minute": 482,
+      "questId": "q16",
+      "sourceEvent": {
+        "id": "e17",
+        "tick": 20,
+        "minute": 482,
+        "kind": "friend_invite",
+        "text": "Bir çaylık zaman",
+        "actors": [
+          "n1"
+        ],
+        "targetId": "player",
+        "visibility": "public",
+        "witnesses": [],
+        "causeId": null
+      },
+      "issuerId": "n1",
+      "targetId": "n1",
+      "buildingId": "b-cafe",
+      "escrow": 3500
+    },
+    {
+      "kind": "relationship_dispute",
+      "tick": 60,
+      "minute": 486,
+      "questId": "q20",
+      "sourceEvent": {
+        "id": "e21",
+        "tick": 60,
+        "minute": 486,
+        "kind": "relationship_dispute",
+        "text": "Kırgın iki komşu",
+        "actors": [
+          "n9"
+        ],
+        "targetId": "player",
+        "visibility": "public",
+        "witnesses": [],
+        "causeId": null
+      },
+      "issuerId": "n9",
+      "targetId": "n9",
+      "buildingId": "b-restaurant",
+      "escrow": 6500
+    },
+    {
+      "kind": "neighborhood_argument",
+      "tick": 60,
+      "minute": 486,
+      "questId": "q22",
+      "sourceEvent": {
+        "id": "e23",
+        "tick": 60,
+        "minute": 486,
+        "kind": "neighborhood_argument",
+        "text": "Sokaktaki sesler",
+        "actors": [
+          "n0"
+        ],
+        "targetId": "player",
+        "visibility": "public",
+        "witnesses": [],
+        "causeId": null
+      },
+      "issuerId": "n0",
+      "targetId": "n0",
+      "buildingId": "b-market",
+      "escrow": 6500
+    },
+    {
+      "kind": "witness_report",
+      "tick": 180,
+      "minute": 498,
+      "questId": "q27",
+      "sourceEvent": {
+        "id": "e28",
+        "tick": 180,
+        "minute": 498,
+        "kind": "witness_report",
+        "text": "Gördüğünü söyle",
+        "actors": [
+          "n5"
+        ],
+        "targetId": "player",
+        "visibility": "public",
+        "witnesses": [],
+        "causeId": null
+      },
+      "issuerId": "n5",
+      "targetId": "n5",
+      "buildingId": "b-police",
+      "escrow": 7500
+    },
+    {
+      "kind": "police_check",
+      "tick": 180,
+      "minute": 498,
+      "questId": "q29",
+      "sourceEvent": {
+        "id": "e30",
+        "tick": 180,
+        "minute": 498,
+        "kind": "police_check",
+        "text": "Rıhtım kontrolü",
+        "actors": [
+          "n5"
+        ],
+        "targetId": "player",
+        "visibility": "public",
+        "witnesses": [],
+        "causeId": null
+      },
+      "issuerId": "n5",
+      "targetId": "n5",
+      "buildingId": "b-police",
+      "escrow": 4000
+    },
+    {
+      "kind": "loan_due",
+      "tick": 419,
+      "minute": 521,
+      "questId": "q33",
+      "sourceEvent": {
+        "id": "e34",
+        "tick": 419,
+        "minute": 521,
+        "kind": "loan_due",
+        "text": "Vadesi gelen söz",
+        "actors": [
+          "n7"
+        ],
+        "targetId": "player",
+        "visibility": "private",
+        "witnesses": [],
+        "causeId": null
+      },
+      "issuerId": "n7",
+      "targetId": "n7",
+      "buildingId": "b-bank",
+      "escrow": 5000
+    },
+    {
+      "kind": "price_shock",
+      "tick": 14819,
+      "minute": 1961,
+      "questId": "q38",
+      "sourceEvent": {
+        "id": "e39",
+        "tick": 9600,
+        "minute": 1440,
+        "kind": "price_shock",
+        "text": "Çarşıdaki dalga",
+        "actors": [
+          "n0"
+        ],
+        "targetId": "player",
+        "visibility": "public",
+        "witnesses": [],
+        "causeId": null
+      },
+      "issuerId": "n0",
+      "targetId": "n0",
+      "buildingId": "b-market",
+      "escrow": 6000
+    },
+    {
+      "kind": "late_wage",
+      "tick": 43619,
+      "minute": 4841,
+      "questId": "q90",
+      "sourceEvent": {
+        "id": "e91",
+        "tick": 39000,
+        "minute": 4380,
+        "kind": "late_wage",
+        "text": "Geciken zarf",
+        "actors": [
+          "n2"
+        ],
+        "targetId": "player",
+        "visibility": "public",
+        "witnesses": [],
+        "causeId": "e88"
+      },
+      "issuerId": "n2",
+      "targetId": "n2",
+      "buildingId": "b-garage",
+      "escrow": 6500
+    },
+    {
+      "kind": "traffic_jam",
+      "tick": 72419,
+      "minute": 7721,
+      "questId": "q149",
+      "sourceEvent": {
+        "id": "e150",
+        "tick": 67800,
+        "minute": 7260,
+        "kind": "traffic_jam",
+        "text": "Dar sokakta düğüm",
+        "actors": [
+          "n8"
+        ],
+        "targetId": "player",
+        "visibility": "public",
+        "witnesses": [],
+        "causeId": null
+      },
+      "issuerId": "n8",
+      "targetId": "n8",
+      "buildingId": "b-taxi",
+      "escrow": 5000
+    },
+    {
+      "kind": "vehicle_breakdown",
+      "tick": 72419,
+      "minute": 7721,
+      "questId": "q153",
+      "sourceEvent": {
+        "id": "e154",
+        "tick": 69000,
+        "minute": 7380,
+        "kind": "vehicle_breakdown",
+        "text": "Yolda kalan usta",
+        "actors": [
+          "n2"
+        ],
+        "targetId": "player",
+        "visibility": "public",
+        "witnesses": [],
+        "causeId": "e146"
+      },
+      "issuerId": "n2",
+      "targetId": "n2",
+      "buildingId": "b-garage",
+      "escrow": 9000
+    },
+    {
+      "kind": "lost_item",
+      "tick": 101219,
+      "minute": 10601,
+      "questId": "q210",
+      "sourceEvent": {
+        "id": "e211",
+        "tick": 95700,
+        "minute": 10050,
+        "kind": "lost_item",
+        "text": "Tezgâhta unutulan",
+        "actors": [
+          "n1"
+        ],
+        "targetId": "player",
+        "visibility": "public",
+        "witnesses": [],
+        "causeId": "e171"
+      },
+      "issuerId": "n1",
+      "targetId": "n1",
+      "buildingId": "b-cafe",
+      "escrow": 4500
+    },
+    {
+      "kind": "faction_truce",
+      "tick": 101219,
+      "minute": 10601,
+      "questId": "q223",
+      "sourceEvent": {
+        "id": "e224",
+        "tick": 101100,
+        "minute": 10590,
+        "kind": "faction_truce",
+        "text": "Aynı masaya oturmak",
+        "actors": [
+          "n9"
+        ],
+        "targetId": "player",
+        "visibility": "public",
+        "witnesses": [],
+        "causeId": null
+      },
+      "issuerId": "n9",
+      "targetId": "n9",
+      "buildingId": "b-restaurant",
+      "escrow": 10000
+    },
+    {
+      "kind": "rent_rise",
+      "tick": 101219,
+      "minute": 10601,
+      "questId": "q225",
+      "sourceEvent": {
+        "id": "e226",
+        "tick": 101219,
+        "minute": 10601,
+        "kind": "rent_rise",
+        "text": "Apartman toplantısı",
+        "actors": [
+          "n0"
+        ],
+        "targetId": "player",
+        "visibility": "public",
+        "witnesses": [],
+        "causeId": null
+      },
+      "issuerId": "n0",
+      "targetId": "n0",
+      "buildingId": "b-home",
+      "escrow": 5500
+    },
+    {
+      "kind": "layoff",
+      "tick": 720419,
+      "minute": 72521,
+      "questId": "q1528",
+      "sourceEvent": {
+        "id": "e1529",
+        "tick": 715500,
+        "minute": 72030,
+        "kind": "layoff",
+        "text": "Kapanan vardiya",
+        "actors": [
+          "n948"
+        ],
+        "targetId": "player",
+        "visibility": "public",
+        "witnesses": [],
+        "causeId": null
+      },
+      "issuerId": "n948",
+      "targetId": "n948",
+      "buildingId": "b-office",
+      "escrow": 7000
+    }
+  ],
+  "missing": [],
+  "playerCommands": [
+    {
+      "tick": 0,
+      "command": {
+        "v": 1,
+        "id": "reachability:0",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q2"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 0,
+      "command": {
+        "v": 1,
+        "id": "reachability:1",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q4"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 0,
+      "command": {
+        "v": 1,
+        "id": "reachability:2",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q6"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 0,
+      "command": {
+        "v": 1,
+        "id": "reachability:3",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q8"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 0,
+      "command": {
+        "v": 1,
+        "id": "reachability:4",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q10"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 0,
+      "command": {
+        "v": 1,
+        "id": "reachability:5",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q12"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 0,
+      "command": {
+        "v": 1,
+        "id": "reachability:6",
+        "type": "TALK",
+        "args": {
+          "npcId": "n0",
+          "topic": "greet"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Deniz Yel: Kıyıyaka’da herkesin bir hikâyesi var. Son karşılaşmalarımızı hatırlıyorum.",
+        "events": [
+          "e14"
+        ]
+      }
+    },
+    {
+      "tick": 20,
+      "command": {
+        "v": 1,
+        "id": "reachability:7",
+        "type": "TALK",
+        "args": {
+          "npcId": "n0",
+          "topic": "greet"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Deniz Yel: Kıyıyaka’da herkesin bir hikâyesi var. Son karşılaşmalarımızı hatırlıyorum.",
+        "events": [
+          "e15"
+        ]
+      }
+    },
+    {
+      "tick": 20,
+      "command": {
+        "v": 1,
+        "id": "reachability:8",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q16"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 40,
+      "command": {
+        "v": 1,
+        "id": "reachability:9",
+        "type": "TALK",
+        "args": {
+          "npcId": "n0",
+          "topic": "insult"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Deniz Yel: Böyle konuşursan aramızdaki güven kalmaz.",
+        "events": [
+          "e18"
+        ]
+      }
+    },
+    {
+      "tick": 60,
+      "command": {
+        "v": 1,
+        "id": "reachability:10",
+        "type": "TALK",
+        "args": {
+          "npcId": "n0",
+          "topic": "insult"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Deniz Yel: Böyle konuşursan aramızdaki güven kalmaz.",
+        "events": [
+          "e19"
+        ]
+      }
+    },
+    {
+      "tick": 60,
+      "command": {
+        "v": 1,
+        "id": "reachability:11",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q20"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 60,
+      "command": {
+        "v": 1,
+        "id": "reachability:12",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q22"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 60,
+      "command": {
+        "v": 1,
+        "id": "reachability:13",
+        "type": "ATTACK",
+        "args": {
+          "npcId": "n0"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Saldırı hazırlanıyor.",
+        "events": []
+      }
+    },
+    {
+      "tick": 180,
+      "command": {
+        "v": 1,
+        "id": "reachability:14",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q27"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 180,
+      "command": {
+        "v": 1,
+        "id": "reachability:15",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q29"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 180,
+      "command": {
+        "v": 1,
+        "id": "reachability:16",
+        "type": "SURRENDER",
+        "args": {}
+      },
+      "result": {
+        "ok": true,
+        "reason": "Teslim oldun; dosya sonucu kaydedildi.",
+        "events": []
+      }
+    },
+    {
+      "tick": 180,
+      "command": {
+        "v": 1,
+        "id": "reachability:17",
+        "type": "MOVE_TO",
+        "args": {
+          "x": 36,
+          "y": 49.7
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Yol belirlendi.",
+        "events": []
+      }
+    },
+    {
+      "tick": 419,
+      "command": {
+        "v": 1,
+        "id": "reachability:18",
+        "type": "BORROW",
+        "args": {
+          "amount": 20000
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Kredi hesabına geçti. Haftalık oyun faizi %1.",
+        "events": []
+      }
+    },
+    {
+      "tick": 419,
+      "command": {
+        "v": 1,
+        "id": "reachability:19",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q33"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 14819,
+      "command": {
+        "v": 1,
+        "id": "reachability:20",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q38"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 29219,
+      "command": {
+        "v": 1,
+        "id": "reachability:21",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q55"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 43619,
+      "command": {
+        "v": 1,
+        "id": "reachability:22",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q82"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 43619,
+      "command": {
+        "v": 1,
+        "id": "reachability:23",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q90"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 58019,
+      "command": {
+        "v": 1,
+        "id": "reachability:24",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q112"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 58019,
+      "command": {
+        "v": 1,
+        "id": "reachability:25",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q122"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 72419,
+      "command": {
+        "v": 1,
+        "id": "reachability:26",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q141"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 72419,
+      "command": {
+        "v": 1,
+        "id": "reachability:27",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q149"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 72419,
+      "command": {
+        "v": 1,
+        "id": "reachability:28",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q153"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 86819,
+      "command": {
+        "v": 1,
+        "id": "reachability:29",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q175"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 86819,
+      "command": {
+        "v": 1,
+        "id": "reachability:30",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q180"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 86819,
+      "command": {
+        "v": 1,
+        "id": "reachability:31",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q185"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 101219,
+      "command": {
+        "v": 1,
+        "id": "reachability:32",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q207"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 101219,
+      "command": {
+        "v": 1,
+        "id": "reachability:33",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q210"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 101219,
+      "command": {
+        "v": 1,
+        "id": "reachability:34",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q216"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 101219,
+      "command": {
+        "v": 1,
+        "id": "reachability:35",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q218"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 101219,
+      "command": {
+        "v": 1,
+        "id": "reachability:36",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q223"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 101219,
+      "command": {
+        "v": 1,
+        "id": "reachability:37",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q225"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 115619,
+      "command": {
+        "v": 1,
+        "id": "reachability:38",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q243"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 115619,
+      "command": {
+        "v": 1,
+        "id": "reachability:39",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q245"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 115619,
+      "command": {
+        "v": 1,
+        "id": "reachability:40",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q252"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 115619,
+      "command": {
+        "v": 1,
+        "id": "reachability:41",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q256"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 130019,
+      "command": {
+        "v": 1,
+        "id": "reachability:42",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q272"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 130019,
+      "command": {
+        "v": 1,
+        "id": "reachability:43",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q274"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 130019,
+      "command": {
+        "v": 1,
+        "id": "reachability:44",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q277"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 130019,
+      "command": {
+        "v": 1,
+        "id": "reachability:45",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q284"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 144419,
+      "command": {
+        "v": 1,
+        "id": "reachability:46",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q301"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 144419,
+      "command": {
+        "v": 1,
+        "id": "reachability:47",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q304"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 144419,
+      "command": {
+        "v": 1,
+        "id": "reachability:48",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q306"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 144419,
+      "command": {
+        "v": 1,
+        "id": "reachability:49",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q310"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 144419,
+      "command": {
+        "v": 1,
+        "id": "reachability:50",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q314"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 158819,
+      "command": {
+        "v": 1,
+        "id": "reachability:51",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q333"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 158819,
+      "command": {
+        "v": 1,
+        "id": "reachability:52",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q335"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 158819,
+      "command": {
+        "v": 1,
+        "id": "reachability:53",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q337"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 173219,
+      "command": {
+        "v": 1,
+        "id": "reachability:54",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q360"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 173219,
+      "command": {
+        "v": 1,
+        "id": "reachability:55",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q363"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 173219,
+      "command": {
+        "v": 1,
+        "id": "reachability:56",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q368"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 173219,
+      "command": {
+        "v": 1,
+        "id": "reachability:57",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q370"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 173219,
+      "command": {
+        "v": 1,
+        "id": "reachability:58",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q373"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 187619,
+      "command": {
+        "v": 1,
+        "id": "reachability:59",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q394"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 187619,
+      "command": {
+        "v": 1,
+        "id": "reachability:60",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q399"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 187619,
+      "command": {
+        "v": 1,
+        "id": "reachability:61",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q401"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 187619,
+      "command": {
+        "v": 1,
+        "id": "reachability:62",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q404"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 187619,
+      "command": {
+        "v": 1,
+        "id": "reachability:63",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q406"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 202019,
+      "command": {
+        "v": 1,
+        "id": "reachability:64",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q424"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 202019,
+      "command": {
+        "v": 1,
+        "id": "reachability:65",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q426"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 202019,
+      "command": {
+        "v": 1,
+        "id": "reachability:66",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q428"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 202019,
+      "command": {
+        "v": 1,
+        "id": "reachability:67",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q433"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 202019,
+      "command": {
+        "v": 1,
+        "id": "reachability:68",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q435"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 202019,
+      "command": {
+        "v": 1,
+        "id": "reachability:69",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q439"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 216419,
+      "command": {
+        "v": 1,
+        "id": "reachability:70",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q454"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 216419,
+      "command": {
+        "v": 1,
+        "id": "reachability:71",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q460"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 216419,
+      "command": {
+        "v": 1,
+        "id": "reachability:72",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q462"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 216419,
+      "command": {
+        "v": 1,
+        "id": "reachability:73",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q464"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 216419,
+      "command": {
+        "v": 1,
+        "id": "reachability:74",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q466"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 216419,
+      "command": {
+        "v": 1,
+        "id": "reachability:75",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q471"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 230819,
+      "command": {
+        "v": 1,
+        "id": "reachability:76",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q483"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 230819,
+      "command": {
+        "v": 1,
+        "id": "reachability:77",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q485"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 230819,
+      "command": {
+        "v": 1,
+        "id": "reachability:78",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q488"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 230819,
+      "command": {
+        "v": 1,
+        "id": "reachability:79",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q491"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 230819,
+      "command": {
+        "v": 1,
+        "id": "reachability:80",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q494"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 230819,
+      "command": {
+        "v": 1,
+        "id": "reachability:81",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q496"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 230819,
+      "command": {
+        "v": 1,
+        "id": "reachability:82",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q499"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 245219,
+      "command": {
+        "v": 1,
+        "id": "reachability:83",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q512"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 245219,
+      "command": {
+        "v": 1,
+        "id": "reachability:84",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q514"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 245219,
+      "command": {
+        "v": 1,
+        "id": "reachability:85",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q516"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 245219,
+      "command": {
+        "v": 1,
+        "id": "reachability:86",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q518"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 245219,
+      "command": {
+        "v": 1,
+        "id": "reachability:87",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q522"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 245219,
+      "command": {
+        "v": 1,
+        "id": "reachability:88",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q524"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 245219,
+      "command": {
+        "v": 1,
+        "id": "reachability:89",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q527"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 259619,
+      "command": {
+        "v": 1,
+        "id": "reachability:90",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q539"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 259619,
+      "command": {
+        "v": 1,
+        "id": "reachability:91",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q544"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 259619,
+      "command": {
+        "v": 1,
+        "id": "reachability:92",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q548"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 259619,
+      "command": {
+        "v": 1,
+        "id": "reachability:93",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q550"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 259619,
+      "command": {
+        "v": 1,
+        "id": "reachability:94",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q552"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 259619,
+      "command": {
+        "v": 1,
+        "id": "reachability:95",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q554"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 274019,
+      "command": {
+        "v": 1,
+        "id": "reachability:96",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q572"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 274019,
+      "command": {
+        "v": 1,
+        "id": "reachability:97",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q577"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 274019,
+      "command": {
+        "v": 1,
+        "id": "reachability:98",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q580"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 274019,
+      "command": {
+        "v": 1,
+        "id": "reachability:99",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q582"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 274019,
+      "command": {
+        "v": 1,
+        "id": "reachability:100",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q584"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 274019,
+      "command": {
+        "v": 1,
+        "id": "reachability:101",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q586"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 288419,
+      "command": {
+        "v": 1,
+        "id": "reachability:102",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q603"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 288419,
+      "command": {
+        "v": 1,
+        "id": "reachability:103",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q610"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 288419,
+      "command": {
+        "v": 1,
+        "id": "reachability:104",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q613"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 288419,
+      "command": {
+        "v": 1,
+        "id": "reachability:105",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q615"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 288419,
+      "command": {
+        "v": 1,
+        "id": "reachability:106",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q617"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 302819,
+      "command": {
+        "v": 1,
+        "id": "reachability:107",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q634"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 302819,
+      "command": {
+        "v": 1,
+        "id": "reachability:108",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q642"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 302819,
+      "command": {
+        "v": 1,
+        "id": "reachability:109",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q645"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 302819,
+      "command": {
+        "v": 1,
+        "id": "reachability:110",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q647"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 317219,
+      "command": {
+        "v": 1,
+        "id": "reachability:111",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q668"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 317219,
+      "command": {
+        "v": 1,
+        "id": "reachability:112",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q676"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 317219,
+      "command": {
+        "v": 1,
+        "id": "reachability:113",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q679"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 317219,
+      "command": {
+        "v": 1,
+        "id": "reachability:114",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q682"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 331619,
+      "command": {
+        "v": 1,
+        "id": "reachability:115",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q702"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 331619,
+      "command": {
+        "v": 1,
+        "id": "reachability:116",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q712"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 346019,
+      "command": {
+        "v": 1,
+        "id": "reachability:117",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q729"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 346019,
+      "command": {
+        "v": 1,
+        "id": "reachability:118",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q731"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 346019,
+      "command": {
+        "v": 1,
+        "id": "reachability:119",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q733"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 346019,
+      "command": {
+        "v": 1,
+        "id": "reachability:120",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q736"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 346019,
+      "command": {
+        "v": 1,
+        "id": "reachability:121",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q741"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 360419,
+      "command": {
+        "v": 1,
+        "id": "reachability:122",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q761"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 360419,
+      "command": {
+        "v": 1,
+        "id": "reachability:123",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q764"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 360419,
+      "command": {
+        "v": 1,
+        "id": "reachability:124",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q767"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 360419,
+      "command": {
+        "v": 1,
+        "id": "reachability:125",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q773"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 360419,
+      "command": {
+        "v": 1,
+        "id": "reachability:126",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q776"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 374819,
+      "command": {
+        "v": 1,
+        "id": "reachability:127",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q795"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 374819,
+      "command": {
+        "v": 1,
+        "id": "reachability:128",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q797"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 374819,
+      "command": {
+        "v": 1,
+        "id": "reachability:129",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q802"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 374819,
+      "command": {
+        "v": 1,
+        "id": "reachability:130",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q806"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 389219,
+      "command": {
+        "v": 1,
+        "id": "reachability:131",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q824"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 389219,
+      "command": {
+        "v": 1,
+        "id": "reachability:132",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q826"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 389219,
+      "command": {
+        "v": 1,
+        "id": "reachability:133",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q829"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 389219,
+      "command": {
+        "v": 1,
+        "id": "reachability:134",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q833"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 389219,
+      "command": {
+        "v": 1,
+        "id": "reachability:135",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q838"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 403619,
+      "command": {
+        "v": 1,
+        "id": "reachability:136",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q857"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 403619,
+      "command": {
+        "v": 1,
+        "id": "reachability:137",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q861"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 403619,
+      "command": {
+        "v": 1,
+        "id": "reachability:138",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q864"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 403619,
+      "command": {
+        "v": 1,
+        "id": "reachability:139",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q871"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 403619,
+      "command": {
+        "v": 1,
+        "id": "reachability:140",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q873"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 418019,
+      "command": {
+        "v": 1,
+        "id": "reachability:141",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q890"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 418019,
+      "command": {
+        "v": 1,
+        "id": "reachability:142",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q892"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 418019,
+      "command": {
+        "v": 1,
+        "id": "reachability:143",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q894"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 418019,
+      "command": {
+        "v": 1,
+        "id": "reachability:144",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q898"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 432419,
+      "command": {
+        "v": 1,
+        "id": "reachability:145",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q916"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 432419,
+      "command": {
+        "v": 1,
+        "id": "reachability:146",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q919"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 432419,
+      "command": {
+        "v": 1,
+        "id": "reachability:147",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q921"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 432419,
+      "command": {
+        "v": 1,
+        "id": "reachability:148",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q926"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 432419,
+      "command": {
+        "v": 1,
+        "id": "reachability:149",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q928"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 432419,
+      "command": {
+        "v": 1,
+        "id": "reachability:150",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q931"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 446819,
+      "command": {
+        "v": 1,
+        "id": "reachability:151",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q950"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 446819,
+      "command": {
+        "v": 1,
+        "id": "reachability:152",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q954"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 446819,
+      "command": {
+        "v": 1,
+        "id": "reachability:153",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q956"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 446819,
+      "command": {
+        "v": 1,
+        "id": "reachability:154",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q958"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 446819,
+      "command": {
+        "v": 1,
+        "id": "reachability:155",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q960"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 446819,
+      "command": {
+        "v": 1,
+        "id": "reachability:156",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q964"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 461219,
+      "command": {
+        "v": 1,
+        "id": "reachability:157",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q978"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 461219,
+      "command": {
+        "v": 1,
+        "id": "reachability:158",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q980"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 461219,
+      "command": {
+        "v": 1,
+        "id": "reachability:159",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q983"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 461219,
+      "command": {
+        "v": 1,
+        "id": "reachability:160",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q985"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 461219,
+      "command": {
+        "v": 1,
+        "id": "reachability:161",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q989"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 461219,
+      "command": {
+        "v": 1,
+        "id": "reachability:162",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q991"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 461219,
+      "command": {
+        "v": 1,
+        "id": "reachability:163",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q993"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 475619,
+      "command": {
+        "v": 1,
+        "id": "reachability:164",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1004"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 475619,
+      "command": {
+        "v": 1,
+        "id": "reachability:165",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1007"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 475619,
+      "command": {
+        "v": 1,
+        "id": "reachability:166",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1009"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 475619,
+      "command": {
+        "v": 1,
+        "id": "reachability:167",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1012"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 475619,
+      "command": {
+        "v": 1,
+        "id": "reachability:168",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1014"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 475619,
+      "command": {
+        "v": 1,
+        "id": "reachability:169",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1017"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 475619,
+      "command": {
+        "v": 1,
+        "id": "reachability:170",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1020"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 490019,
+      "command": {
+        "v": 1,
+        "id": "reachability:171",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1036"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 490019,
+      "command": {
+        "v": 1,
+        "id": "reachability:172",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1039"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 490019,
+      "command": {
+        "v": 1,
+        "id": "reachability:173",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1042"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 490019,
+      "command": {
+        "v": 1,
+        "id": "reachability:174",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1044"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 490019,
+      "command": {
+        "v": 1,
+        "id": "reachability:175",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1046"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 490019,
+      "command": {
+        "v": 1,
+        "id": "reachability:176",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1048"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 504419,
+      "command": {
+        "v": 1,
+        "id": "reachability:177",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1065"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 504419,
+      "command": {
+        "v": 1,
+        "id": "reachability:178",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1071"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 504419,
+      "command": {
+        "v": 1,
+        "id": "reachability:179",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1073"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 504419,
+      "command": {
+        "v": 1,
+        "id": "reachability:180",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1078"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 504419,
+      "command": {
+        "v": 1,
+        "id": "reachability:181",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1080"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 504419,
+      "command": {
+        "v": 1,
+        "id": "reachability:182",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1083"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 518819,
+      "command": {
+        "v": 1,
+        "id": "reachability:183",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1098"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 518819,
+      "command": {
+        "v": 1,
+        "id": "reachability:184",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1104"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 518819,
+      "command": {
+        "v": 1,
+        "id": "reachability:185",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1107"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 518819,
+      "command": {
+        "v": 1,
+        "id": "reachability:186",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1109"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 518819,
+      "command": {
+        "v": 1,
+        "id": "reachability:187",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1111"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 533219,
+      "command": {
+        "v": 1,
+        "id": "reachability:188",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1128"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 533219,
+      "command": {
+        "v": 1,
+        "id": "reachability:189",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1133"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 533219,
+      "command": {
+        "v": 1,
+        "id": "reachability:190",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1138"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 533219,
+      "command": {
+        "v": 1,
+        "id": "reachability:191",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1140"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 547619,
+      "command": {
+        "v": 1,
+        "id": "reachability:192",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1160"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 547619,
+      "command": {
+        "v": 1,
+        "id": "reachability:193",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1166"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 562019,
+      "command": {
+        "v": 1,
+        "id": "reachability:194",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1189"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 562019,
+      "command": {
+        "v": 1,
+        "id": "reachability:195",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1191"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 562019,
+      "command": {
+        "v": 1,
+        "id": "reachability:196",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1198"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 562019,
+      "command": {
+        "v": 1,
+        "id": "reachability:197",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1200"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 562019,
+      "command": {
+        "v": 1,
+        "id": "reachability:198",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1203"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 576419,
+      "command": {
+        "v": 1,
+        "id": "reachability:199",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1222"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 576419,
+      "command": {
+        "v": 1,
+        "id": "reachability:200",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1226"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 576419,
+      "command": {
+        "v": 1,
+        "id": "reachability:201",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1233"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 576419,
+      "command": {
+        "v": 1,
+        "id": "reachability:202",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1235"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 576419,
+      "command": {
+        "v": 1,
+        "id": "reachability:203",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1237"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 590819,
+      "command": {
+        "v": 1,
+        "id": "reachability:204",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1256"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 590819,
+      "command": {
+        "v": 1,
+        "id": "reachability:205",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1260"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 590819,
+      "command": {
+        "v": 1,
+        "id": "reachability:206",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1264"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 590819,
+      "command": {
+        "v": 1,
+        "id": "reachability:207",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1268"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 605219,
+      "command": {
+        "v": 1,
+        "id": "reachability:208",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1283"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 605219,
+      "command": {
+        "v": 1,
+        "id": "reachability:209",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1285"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 605219,
+      "command": {
+        "v": 1,
+        "id": "reachability:210",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1287"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 605219,
+      "command": {
+        "v": 1,
+        "id": "reachability:211",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1291"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 605219,
+      "command": {
+        "v": 1,
+        "id": "reachability:212",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1296"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 605219,
+      "command": {
+        "v": 1,
+        "id": "reachability:213",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1300"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 619619,
+      "command": {
+        "v": 1,
+        "id": "reachability:214",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1314"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 619619,
+      "command": {
+        "v": 1,
+        "id": "reachability:215",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1316"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 619619,
+      "command": {
+        "v": 1,
+        "id": "reachability:216",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1321"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 619619,
+      "command": {
+        "v": 1,
+        "id": "reachability:217",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1323"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 619619,
+      "command": {
+        "v": 1,
+        "id": "reachability:218",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1325"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 634019,
+      "command": {
+        "v": 1,
+        "id": "reachability:219",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1343"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 634019,
+      "command": {
+        "v": 1,
+        "id": "reachability:220",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1345"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 634019,
+      "command": {
+        "v": 1,
+        "id": "reachability:221",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1348"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 634019,
+      "command": {
+        "v": 1,
+        "id": "reachability:222",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1351"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 634019,
+      "command": {
+        "v": 1,
+        "id": "reachability:223",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1353"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 634019,
+      "command": {
+        "v": 1,
+        "id": "reachability:224",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1355"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 648419,
+      "command": {
+        "v": 1,
+        "id": "reachability:225",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1371"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 648419,
+      "command": {
+        "v": 1,
+        "id": "reachability:226",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1374"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 648419,
+      "command": {
+        "v": 1,
+        "id": "reachability:227",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1379"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 648419,
+      "command": {
+        "v": 1,
+        "id": "reachability:228",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1381"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 648419,
+      "command": {
+        "v": 1,
+        "id": "reachability:229",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1385"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 648419,
+      "command": {
+        "v": 1,
+        "id": "reachability:230",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1387"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 662819,
+      "command": {
+        "v": 1,
+        "id": "reachability:231",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1400"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 662819,
+      "command": {
+        "v": 1,
+        "id": "reachability:232",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1404"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 662819,
+      "command": {
+        "v": 1,
+        "id": "reachability:233",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1406"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 662819,
+      "command": {
+        "v": 1,
+        "id": "reachability:234",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1409"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 662819,
+      "command": {
+        "v": 1,
+        "id": "reachability:235",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1411"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 662819,
+      "command": {
+        "v": 1,
+        "id": "reachability:236",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1414"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 662819,
+      "command": {
+        "v": 1,
+        "id": "reachability:237",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1416"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 662819,
+      "command": {
+        "v": 1,
+        "id": "reachability:238",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1418"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 677219,
+      "command": {
+        "v": 1,
+        "id": "reachability:239",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1430"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 677219,
+      "command": {
+        "v": 1,
+        "id": "reachability:240",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1434"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 677219,
+      "command": {
+        "v": 1,
+        "id": "reachability:241",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1437"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 677219,
+      "command": {
+        "v": 1,
+        "id": "reachability:242",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1440"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 677219,
+      "command": {
+        "v": 1,
+        "id": "reachability:243",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1442"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 691619,
+      "command": {
+        "v": 1,
+        "id": "reachability:244",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1456"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 691619,
+      "command": {
+        "v": 1,
+        "id": "reachability:245",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1458"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 691619,
+      "command": {
+        "v": 1,
+        "id": "reachability:246",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1463"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 691619,
+      "command": {
+        "v": 1,
+        "id": "reachability:247",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1467"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 691619,
+      "command": {
+        "v": 1,
+        "id": "reachability:248",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1470"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 706019,
+      "command": {
+        "v": 1,
+        "id": "reachability:249",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1488"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 706019,
+      "command": {
+        "v": 1,
+        "id": "reachability:250",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1495"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 706019,
+      "command": {
+        "v": 1,
+        "id": "reachability:251",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1498"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 706019,
+      "command": {
+        "v": 1,
+        "id": "reachability:252",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1500"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 720419,
+      "command": {
+        "v": 1,
+        "id": "reachability:253",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1520"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 720419,
+      "command": {
+        "v": 1,
+        "id": "reachability:254",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1524"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 720419,
+      "command": {
+        "v": 1,
+        "id": "reachability:255",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1528"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 720419,
+      "command": {
+        "v": 1,
+        "id": "reachability:256",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1531"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 720419,
+      "command": {
+        "v": 1,
+        "id": "reachability:257",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q1535"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    }
+  ],
+  "sourceStateHash": "725118132378b2236dec4cacecf481c619e906a4f101e0ed42905b67d92d3a36",
+  "note": "All prerequisites arise from real initial profile, player commands, pathfinding and autonomous economy. Eligible templates are explicitly requested to test reachability; this is not proof that random scheduling shows all twenty in a short playthrough and is not human-playtest evidence."
+}

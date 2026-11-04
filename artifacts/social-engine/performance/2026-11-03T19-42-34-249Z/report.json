@@ -1,0 +1,480 @@
+{
+  "schemaVersion": 2,
+  "runId": "2026-11-03T19-42-34-249Z",
+  "status": "INTERRUPTED",
+  "startedAt": "2026-11-03T19:42:34.330Z",
+  "targetMinutes": 120,
+  "scenario": "Real-time mixed neighborhood play, 100 persistent local +1000 background NPCs; no time acceleration",
+  "base": "http://127.0.0.1:8097",
+  "build": {
+    "gitHead": "710f6afc611c9318ad1283a2546f79d916033fd3",
+    "dirty": true,
+    "sourceDigest": "7f297d1db169860d2dc1c203245934c9c5df345d84efa79aacab9b52944daa5c",
+    "compiledSourceDigest": "4491163ab32a687e628d4d9e54d80ffc6a121f8f5ee28637d0468d1b4e8a63b0",
+    "manifestSha256": "b2380961a7e55db933de5832cf1c95aff6264cdc3ceb8ce63e4515204b342589",
+    "harnessSha256": "07b53d1df5d731dbf453cfe6d537112ef8ad51e0e5e93656f9f64964614869f8",
+    "attribution": "Actual served asset SHA-256 hashes recorded. Worktree source digest is capture-time context; this is not a verified deployed commit.",
+    "engineVersion": "1.0.0-candidate.4"
+  },
+  "environment": {
+    "platform": "darwin",
+    "release": "25.6.0",
+    "arch": "arm64",
+    "cpus": [
+      "Apple M2",
+      "Apple M2",
+      "Apple M2",
+      "Apple M2",
+      "Apple M2",
+      "Apple M2",
+      "Apple M2",
+      "Apple M2"
+    ],
+    "logicalCpus": 8,
+    "totalMemoryBytes": 17179869184,
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "dpr": 1,
+    "headless": true,
+    "concurrentWork": "Full legacy tests,365-day simulation,build/development may contend for CPU during this run; not an isolated reference-PC result.",
+    "browser": "156.0.8078.80",
+    "systemInfo": {
+      "gpu": {
+        "devices": [
+          {
+            "vendorId": 4203,
+            "deviceId": 0,
+            "vendorString": "Google Inc. (Apple)",
+            "deviceString": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Version 26.7.1 (Build 25G241))",
+            "driverVendor": "Apple",
+            "driverVersion": "26.7.1"
+          }
+        ],
+        "auxAttributes": {
+          "amdSwitchable": false,
+          "canSupportThreadedTextureMailbox": false,
+          "directRenderingVersion": "",
+          "displayType": "ANGLE_METAL",
+          "glExtensions": "GL_AMD_performance_monitor GL_ANGLE_base_vertex_base_instance_shader_builtin GL_ANGLE_blob_cache GL_ANGLE_client_arrays GL_ANGLE_clip_cull_distance GL_ANGLE_compressed_texture_etc GL_ANGLE_depth_texture GL_ANGLE_framebuffer_blit GL_ANGLE_framebuffer_multisample GL_ANGLE_get_serialized_context_string GL_ANGLE_get_tex_level_parameter GL_ANGLE_instanced_arrays GL_ANGLE_memory_size GL_ANGLE_pack_reverse_row_order GL_ANGLE_polygon_mode GL_ANGLE_program_binary_readiness_query GL_ANGLE_program_cache_control GL_ANGLE_provoking_vertex GL_ANGLE_renderability_validation GL_ANGLE_request_extension GL_ANGLE_rgbx_internal_format GL_ANGLE_robust_client_memory GL_ANGLE_shader_pixel_local_storage GL_ANGLE_shader_pixel_local_storage_coherent GL_ANGLE_stencil_texturing GL_ANGLE_texture_compression_dxt3 GL_ANGLE_texture_compression_dxt5 GL_ANGLE_texture_multisample GL_ANGLE_translated_shader_source GL_APPLE_clip_distance GL_ARM_rgba8 GL_CHROMIUM_bind_generates_resource GL_CHROMIUM_bind_uniform_location GL_CHROMIUM_copy_texture GL_CHROMIUM_lose_context GL_EXT_base_instance GL_EXT_blend_func_extended GL_EXT_blend_minmax GL_EXT_clip_control GL_EXT_color_buffer_float GL_EXT_color_buffer_half_float GL_EXT_compressed_ETC1_RGB8_sub_texture GL_EXT_conservative_depth GL_EXT_debug_label GL_EXT_debug_marker GL_EXT_depth_clamp GL_EXT_discard_framebuffer GL_EXT_disjoint_timer_query GL_EXT_draw_buffers GL_EXT_draw_buffers_indexed GL_EXT_draw_elements_base_vertex GL_EXT_float_blend GL_EXT_frag_depth GL_EXT_instanced_arrays GL_EXT_map_buffer_range GL_EXT_multisampled_render_to_texture GL_EXT_occlusion_query_boolean GL_EXT_polygon_offset_clamp GL_EXT_pvrtc_sRGB GL_EXT_read_format_bgra GL_EXT_render_snorm GL_EXT_robustness GL_EXT_sRGB GL_EXT_shader_texture_lod GL_EXT_texture_compression_bptc GL_EXT_texture_compression_dxt1 GL_EXT_texture_compression_rgtc GL_EXT_texture_compression_s3tc_srgb GL_EXT_texture_filter_anisotropic GL_EXT_texture_format_BGRA8888 GL_EXT_texture_mirror_clamp_to_edge GL_EXT_texture_norm16 GL_EXT_texture_rg GL_EXT_texture_sRGB_R8 GL_EXT_texture_sRGB_RG8 GL_EXT_texture_shadow_lod GL_EXT_texture_storage GL_IMG_texture_compression_pvrtc GL_KHR_debug GL_KHR_parallel_shader_compile GL_KHR_robustness GL_KHR_texture_compression_astc_hdr GL_KHR_texture_compression_astc_ldr GL_KHR_texture_compression_astc_sliced_3d GL_MESA_framebuffer_flip_y GL_NV_fence GL_NV_framebuffer_blit GL_NV_pixel_buffer_object GL_NV_shader_noperspective_interpolation GL_OES_EGL_image GL_OES_EGL_sync GL_OES_compressed_ETC1_RGB8_texture GL_OES_depth24 GL_OES_depth32 GL_OES_depth_texture GL_OES_draw_buffers_indexed GL_OES_draw_elements_base_vertex GL_OES_element_index_uint GL_OES_fbo_render_mipmap GL_OES_get_program_binary GL_OES_mapbuffer GL_OES_packed_depth_stencil GL_OES_required_internalformat GL_OES_rgb8_rgba8 GL_OES_sample_variables GL_OES_shader_multisample_interpolation GL_OES_standard_derivatives GL_OES_surfaceless_context GL_OES_texture_3D GL_OES_texture_float GL_OES_texture_float_linear GL_OES_texture_half_float GL_OES_texture_half_float_linear GL_OES_texture_npot GL_OES_texture_stencil8 GL_OES_vertex_array_object GL_QCOM_render_shared_exponent ",
+          "glImplementationParts": "(gl=egl-angle,angle=metal)",
+          "glRenderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Version 26.7.1 (Build 25G241))",
+          "glResetNotificationStrategy": 33362,
+          "glVendor": "Google Inc. (Apple)",
+          "glVersion": "OpenGL ES 3.0 (ANGLE 2.1.28975 git hash: 127e783de334)",
+          "glWsExtensions": "",
+          "glWsVendor": "",
+          "glWsVersion": "",
+          "inProcessGpu": false,
+          "initializationTime": 0.039274,
+          "isAsan": false,
+          "isClangCoverage": false,
+          "jpegDecodeAcceleratorSupported": false,
+          "maxMsaaSamples": "4",
+          "optimus": false,
+          "passthroughCmdDecoder": true,
+          "pixelShaderVersion": "3.00",
+          "processCrashCount": 0,
+          "sandboxed": false,
+          "skiaBackendType": "GraphiteDawnMetal",
+          "subpixelFontRendering": true,
+          "targetCpuBits": 64,
+          "vertexShaderVersion": "3.00",
+          "visibilityCallbackCallCount": 0
+        },
+        "featureStatus": {
+          "2d_canvas": "enabled",
+          "direct_rendering_display_compositor": "disabled_off_ok",
+          "gpu_compositing": "enabled",
+          "multiple_raster_threads": "enabled_on",
+          "opengl": "enabled_on",
+          "rasterization": "enabled",
+          "raw_draw": "disabled_off_ok",
+          "skia_graphite": "enabled_on",
+          "trees_in_viz": "disabled_off",
+          "video_decode": "enabled",
+          "video_encode": "enabled",
+          "webgl": "enabled",
+          "webgpu": "enabled",
+          "webnn": "disabled_off"
+        },
+        "driverBugWorkarounds": [
+          "disable_2d_canvas_auto_flush",
+          "enable_webgl_timer_query_extensions",
+          "disabled_extension_GL_KHR_blend_equation_advanced",
+          "disabled_extension_GL_KHR_blend_equation_advanced_coherent"
+        ],
+        "videoDecoding": [],
+        "videoEncoding": []
+      },
+      "modelName": "Mac",
+      "modelVersion": "14.7",
+      "commandLine": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/var/folders/k1/zprsgklx4xqbs2wb4cq59bsr0000gn/T/playwright_chromiumdev_profile-RGEcy7 --remote-debugging-pipe --no-startup-window --noerrdialogs --flag-switches-begin --flag-switches-end --enable-unsafe-swiftshader"
+    }
+  },
+  "checkpoints": [],
+  "minuteSamples": [
+    {
+      "minute": 1,
+      "at": "2026-11-03T19:43:36.778Z",
+      "elapsedMs": 60085.868333,
+      "projection": {
+        "tick": 608,
+        "minute": 540,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3593,
+        "p50": 16.69999999999709,
+        "p95": 16.799999999995634,
+        "p99": 16.80000000000291
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 274,
+      "heap": {
+        "minute": 1.0014304118,
+        "jsHeapUsed": 7449320,
+        "jsHeapTotal": 9043968,
+        "gcMs": 10.387291999999434,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-DCCGKIQF.js",
+          "gcMs": 3.755166000002646,
+          "usedSize": 2757716,
+          "totalSize": 3407872,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 176360
+        },
+        "workerJsHeapUsed": 2757716,
+        "combinedJsHeapUsed": 10207036
+      },
+      "simMs": {
+        "count": 609,
+        "p50": 0.19999992847442627,
+        "p95": 0.3999999761581421,
+        "p99": 5
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 3633,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.600000023841858,
+          "p99": 20.799999952316284
+        },
+        "renderPreparationMs": {
+          "p50": 0.10000002384185791,
+          "p95": 0.3999999761581421,
+          "p99": 0.5
+        },
+        "samples": 3633,
+        "visibleActors": 10,
+        "sceneChanges": 1,
+        "zoom": 0.9,
+        "cameraTransform": {
+          "x": 694.3199999999999,
+          "y": 122.03999999999996,
+          "zoom": 0.9
+        },
+        "currentScene": "outside",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 63,
+          "minY": 1,
+          "maxY": 57
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 609,
+        "p50": 1,
+        "p95": 2.099853515625,
+        "p99": 12.5
+      },
+      "saveMs": {
+        "count": 1,
+        "p50": 194.10000002384186,
+        "p95": 194.10000002384186,
+        "p99": 194.10000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 2,
+      "at": "2026-11-03T19:44:36.756Z",
+      "elapsedMs": 120064.445958,
+      "projection": {
+        "tick": 1208,
+        "minute": 600,
+        "population": 1100,
+        "scene": "b-market"
+      },
+      "frameMs": {
+        "count": 3589,
+        "p50": 16.69999999999709,
+        "p95": 16.70000000001164,
+        "p99": 16.80000000000291
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 258,
+      "heap": {
+        "minute": 2.0010737867999997,
+        "jsHeapUsed": 7718532,
+        "jsHeapTotal": 8781824,
+        "gcMs": 9.776207999995677,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-DCCGKIQF.js",
+          "gcMs": 3.6252499999973224,
+          "usedSize": 2831244,
+          "totalSize": 3407872,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 176360
+        },
+        "workerJsHeapUsed": 2831244,
+        "combinedJsHeapUsed": 10549776
+      },
+      "simMs": {
+        "count": 600,
+        "p50": 0.19999992847442627,
+        "p95": 0.5999999046325684,
+        "p99": 2.899999976158142
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 7222,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.600000023841858,
+          "p99": 20.799999952316284
+        },
+        "renderPreparationMs": {
+          "p50": 0.10000002384185791,
+          "p95": 0.30000007152557373,
+          "p99": 0.40000009536743164
+        },
+        "samples": 7222,
+        "visibleActors": 11,
+        "sceneChanges": 2,
+        "zoom": 1.25,
+        "cameraTransform": {
+          "x": 930,
+          "y": 369.99999999999994,
+          "zoom": 1.25
+        },
+        "currentScene": "b-market",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 13,
+          "minY": 1,
+          "maxY": 11
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 1209,
+        "p50": 1,
+        "p95": 2.199951171875,
+        "p99": 8.5
+      },
+      "saveMs": {
+        "count": 2,
+        "p50": 194.10000002384186,
+        "p95": 194.10000002384186,
+        "p99": 194.10000002384186
+      },
+      "errors": []
+    }
+  ],
+  "actions": [
+    {
+      "minute": 0.006016700683333329,
+      "type": "TALK",
+      "args": {
+        "npcId": "n0",
+        "topic": "greet"
+      },
+      "ok": true,
+      "reason": "Deniz Yel: K\u0131y\u0131yaka\u2019da herkesin bir hik\u00e2yesi var. Son kar\u015f\u0131la\u015fmalar\u0131m\u0131z\u0131 hat\u0131rl\u0131yorum.",
+      "roundTripMs": 76.53749999999991
+    },
+    {
+      "minute": 0.007541365266666662,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 27,
+        "y": 14.7
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 2.2360839999996642
+    },
+    {
+      "minute": 1.0026209034666667,
+      "type": "ENTER",
+      "args": {
+        "buildingId": "b-market"
+      },
+      "ok": true,
+      "reason": "Bereket Market",
+      "roundTripMs": 47.333707999998296
+    },
+    {
+      "minute": 1.0043008902666668,
+      "type": "BUY",
+      "args": {
+        "businessId": "market",
+        "item": "simit",
+        "quantity": 5
+      },
+      "ok": true,
+      "reason": "Simit \u00e7antana eklendi.",
+      "roundTripMs": 100.79533399999491
+    },
+    {
+      "minute": 1.0060147263833334,
+      "type": "APPLY_JOB",
+      "args": {
+        "jobId": "retail"
+      },
+      "ok": true,
+      "reason": "\u0130\u015fe al\u0131nd\u0131n. Vardiya i\u00e7in i\u015fyerine git.",
+      "roundTripMs": 102.74737499999901
+    },
+    {
+      "minute": 1.0076683479166668,
+      "type": "START_SHIFT",
+      "args": {},
+      "ok": true,
+      "reason": "Vardiya ba\u015flad\u0131. 60 oyun dakikas\u0131 i\u015fyerinde kal; 105 TL kazanacaks\u0131n.",
+      "roundTripMs": 99.21333400000003
+    }
+  ],
+  "errors": [],
+  "loadedAssets": [
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/index.html?qa=1",
+      "status": 200,
+      "bytes": 3690,
+      "sha256": "36d721eac9a350bd9f4cd47e411ab87bb79279299bc3ce0427b422156ac5dfd3"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/styles-1cab492a6f0a.css",
+      "status": 200,
+      "bytes": 11737,
+      "sha256": "1cab492a6f0a81620e7f7d34acdcf58a9d3cabdd00cb8159f8a670c231c63fc1"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/app-U5NODFDD.js",
+      "status": 200,
+      "bytes": 151572,
+      "sha256": "d841294c7abecce7aa58417f6990cfabf14b5cd7e7bb3f825ab5aa374515ce63"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-EAKEIDGI.js",
+      "status": 200,
+      "bytes": 340,
+      "sha256": "8b875e38bde40f3e3244c40ec5c28b65e59d6693c200e6d2cc2c42ad83625cf3"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-SQE76S5B.js",
+      "status": 200,
+      "bytes": 577,
+      "sha256": "11247d28c5c2fb3d976002c2b55fecb6ba19fd88153e11d2c7af5832fd6ff331"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-XAEDCJDB.js",
+      "status": 200,
+      "bytes": 71079,
+      "sha256": "7670283a32f847fa6dd3c23213b3573fe74c6da61e9e67f45bc7416d71001242"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-WJGE2H4Q.js",
+      "status": 200,
+      "bytes": 143354,
+      "sha256": "b69fe42073b4f092e89597e5236c5e3c736ec1a637380ccd5ce927d1e0de6a1a"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-QXTJAGLY.js",
+      "status": 200,
+      "bytes": 171602,
+      "sha256": "393565632efb04c0005cb72116e186559104d995bf85265e00d95479784483e3"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-QN76WYIP.js",
+      "status": 200,
+      "bytes": 72097,
+      "sha256": "fec39c28b56b2bb61dec3f9947335fa9b5c0c96576519e1648e9567867b9cde7"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-ZTXTCBFP.js",
+      "status": 200,
+      "bytes": 11073,
+      "sha256": "5e6f8aff23d88d910db035529f577cb1008c59cc6245d4920197e7811be4bd40"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-B6HKHCRJ.js",
+      "status": 200,
+      "bytes": 53952,
+      "sha256": "ac3a15f7b3c4525ed714a78eb6ba40888b3b07d8f368485060f7bc46c39754c4"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/assets/atlas-1b5dff1d49d8.json",
+      "status": 200,
+      "bytes": 10876,
+      "sha256": "1b5dff1d49d8321d4f40c25cd77a8a206f1fda411521480bb42b124c41f07688"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/assets/people-props-430914164137.png",
+      "status": 200,
+      "bytes": 171858,
+      "sha256": "430914164137b5dd5b3725cb954bc0f85c914547f5a571b0eb685d465b260142"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/assets/buildings-0bc5233248d9.png",
+      "status": 200,
+      "bytes": 551058,
+      "sha256": "0bc5233248d938204d66a7248ac5c63392c32886bf16e6533794035dcce03450"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/worker-DCCGKIQF.js",
+      "status": 200,
+      "bytes": 111,
+      "sha256": "16c73559143729a2da82aef600b51f77636cc5d449e9fa8ff922564bc7a347a6"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-V5VNPLW5.js",
+      "status": 200,
+      "bytes": 3740,
+      "sha256": "c74ff203b651e3d9005726e4a56f1154f56ba300b6ee8aff604550a4a620aea9"
+    }
+  ],
+  "acceptance": {
+    "SE-049": "UNVERIFIED",
+    "SE-050": "UNVERIFIED",
+    "SE-051": "UNVERIFIED"
+  },
+  "limits": [
+    "macOS host is not the specified four-core reference PC.",
+    "Automated playback does not satisfy the two real human playtests.",
+    "GPU and total browser-process memory are not inferred from JS heap; page and simulation worker isolates are measured separately.",
+    "IPC transfer latency is UNVERIFIED unless instrumented by the application.",
+    "CDP garbage collection once per minute perturbs timing and is recorded."
+  ],
+  "seed": 20261103,
+  "initialTick": 1,
+  "initialPopulation": 1100,
+  "measurementStartedAt": "2026-11-03T19:42:36.693Z",
+  "elapsedMinutes": 2.0010740993,
+  "interruptionReason": "Task-owned run stopped after the day180 save-size failure; superseded by corrected sparse ledger/compressed candidate. Not a completed soak."
+}

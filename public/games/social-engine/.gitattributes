@@ -1,0 +1,2 @@
+# Generated Pixi shader template literals intentionally contain trailing spaces.
+*.js whitespace=-blank-at-eol

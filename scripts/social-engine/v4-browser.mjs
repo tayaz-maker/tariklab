@@ -1,0 +1,504 @@
+/** v4 integration evidence. Setup uses documented public commands/QA time, tested actions use DOM. */
+import { chromium } from "playwright";
+import { windowlessRendererOptions } from "./windowless-launch.mjs";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { createHash } from "node:crypto";
+import assert from "node:assert/strict";
+import {
+  createWorld,
+  applyCommand,
+  validateState,
+} from "../../src/games/social-engine/simulation/engine.ts";
+import { encodeSave } from "../../src/games/social-engine/persistence/codec.ts";
+import { BUILDINGS } from "../../src/games/social-engine/domain/world.ts";
+const base = process.env.SE_BASE || "http://127.0.0.1:8097";
+const out = "artifacts/social-engine/v4-browser";
+await mkdir(out, { recursive: true });
+const manifestBytes = await readFile("public/games/social-engine/build-manifest.json");
+const manifest = JSON.parse(manifestBytes);
+const sha = (x) => createHash("sha256").update(x).digest("hex");
+const report = {
+  startedAt: new Date().toISOString(),
+  manifestSha256: sha(manifestBytes),
+  sourceDigest: manifest.sourceDigest,
+  setupPolicy:
+    "Fresh isolated browser storage. Movement/time setup uses public commands and QA STEP; each claimed UI action uses actual DOM/keyboard. Family precondition is an explicitly generated validated fixture, imported through the save API, not earned gameplay.",
+  results: [],
+  errors: [],
+  loadedAssets: [],
+};
+await writeFile(out + "/build-manifest.json", manifestBytes);
+const browser = await chromium.launch({
+  ...windowlessRendererOptions(),
+  headless: true,
+  executablePath:
+    process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH ||
+    (process.platform === "darwin"
+      ? "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+      : chromium.executablePath()),
+});
+const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+await context.tracing.start({ screenshots: true, snapshots: true, sources: true });
+const page = await context.newPage();
+page.setDefaultTimeout(8000);
+page.on("pageerror", (e) => report.errors.push(e.message));
+const responses = [];
+page.on("response", (r) => {
+  if (r.url().includes("/games/social-engine/"))
+    responses.push(
+      (async () => {
+        try {
+          const b = await r.body();
+          report.loadedAssets.push({ url: r.url(), sha256: sha(b), bytes: b.length });
+        } catch {
+          /* no successful body evidence */
+        }
+      })(),
+    );
+});
+const state = () => page.evaluate(() => window.__socialEngine.state());
+const cmd = (type, args = {}) =>
+  page.evaluate(({ type, args }) => window.__socialEngine.command(type, args), { type, args });
+const step = async (count) => {
+  await page.evaluate((n) => window.__socialEngine.step(n), count);
+  await page.waitForTimeout(200);
+};
+const wait = async () => page.waitForTimeout(400);
+async function fresh() {
+  await page.goto(base + "/games/social-engine/index.html?qa=1");
+  await page.locator("[name=name]").fill("Deniz V4 Kanıt");
+  await page.getByRole("button", { name: "Hikâyene başla" }).click();
+  await page.waitForFunction(() => window.__socialEngine?.projection()?.population >= 1100);
+}
+async function close() {
+  if (await page.locator("#panel").isVisible()) await page.keyboard.press("Escape");
+}
+async function phone(tab) {
+  await close();
+  await page.locator('[data-panel="phone"]').click();
+  await page.locator(`[data-tab="${tab}"]`).click();
+}
+async function move(point, count = 1600) {
+  await close();
+  assert.equal((await cmd("MOVE_TO", point)).ok, true);
+  await step(count);
+  const s = await state();
+  assert.ok(
+    Math.hypot(s.player.location.x - point.x, s.player.location.y - point.y) < 0.35,
+    "setup walk arrived",
+  );
+}
+async function building(id) {
+  const b = BUILDINGS.find((b) => b.id === id);
+  await move(b.door);
+  await page.keyboard.press("KeyE");
+  await wait();
+  assert.equal((await state()).player.location.scene, id, "actual E entered building");
+}
+async function check(id, name, fn, { reset = true } = {}) {
+  const t = performance.now();
+  try {
+    if (reset) await fresh();
+    const evidence = await fn();
+    await page.screenshot({ path: `${out}/${id}.png` });
+    report.results.push({ id, name, status: "PASS", duration_ms: performance.now() - t, evidence });
+  } catch (e) {
+    report.results.push({
+      id,
+      name,
+      status: "FAIL",
+      duration_ms: performance.now() - t,
+      reason: e.stack,
+    });
+    await page.screenshot({ path: `${out}/${id}-failure.png` }).catch(() => {});
+  }
+  await writeFile(out + "/results.json", JSON.stringify(report, null, 2));
+}
+try {
+  await check(
+    "travel",
+    "DOM time speed and bus ticket move one authoritative player and debit fare",
+    async () => {
+      await phone("travel");
+      await page.locator("#time-speed").selectOption("2");
+      await wait();
+      assert.equal((await state()).mobility.speed, 2);
+      await page.locator("#time-speed").selectOption("1");
+      await wait();
+      const before = await state();
+      await page.locator('[data-ride="stop-coast"]').click();
+      await wait();
+      const trip = (await state()).mobility.trip;
+      assert.ok(trip);
+      assert.equal((await cmd("MOVE", { x: 1, y: 0 })).ok, false);
+      await step(500);
+      const after = await state();
+      assert.equal(after.mobility.trip, null);
+      assert.ok(Math.hypot(after.player.location.x - 28, after.player.location.y - 54.5) < 0.2);
+      assert.equal(before.accounts.player - after.accounts.player, 2500);
+      return { trip, arrival: after.player.location, fare: 2500 };
+    },
+  );
+  await check("rental", "DOM rental fee and escrow refund preserve money", async () => {
+    await move({ x: 31, y: 16 }, 40);
+    await phone("travel");
+    const before = await state();
+    await page.locator('[data-rental="v-rental-0"]').click();
+    await wait();
+    let s = await state();
+    assert.equal(s.mobility.rentals[0].status, "active");
+    assert.equal(before.accounts.player - s.accounts.player, 75000);
+    assert.equal(s.accounts["rental:v-rental-0"], 50000);
+    await page.locator('[data-rental="v-rental-0"]').click();
+    await wait();
+    s = await state();
+    assert.equal(s.mobility.rentals[0].status, "available");
+    assert.equal(before.accounts.player - s.accounts.player, 25000);
+    assert.equal(s.accounts["rental:v-rental-0"], 0);
+    return { fee: 25000, refunded: 50000 };
+  });
+  await check("club", "DOM legal club membership and actual thirty-minute attendance", async () => {
+    await building("b-school");
+    await phone("circles");
+    await page.locator('[data-social="CLUB_JOIN"]').click();
+    await wait();
+    assert.ok((await state()).social.club.members.find((m) => m.personId === "player"));
+    await page.locator('[data-social="CLUB_SESSION"]').click();
+    await wait();
+    assert.ok((await state()).social.club.activity);
+    await step(300);
+    const s = await state();
+    const member = s.social.club.members.find((m) => m.personId === "player");
+    assert.equal(member.standing, 10);
+    assert.equal(s.social.club.activity, null);
+    return member;
+  });
+  await check(
+    "faction",
+    "DOM join and contribution transfer to owned faction treasury",
+    async () => {
+      assert.equal((await cmd("TALK", { npcId: "n0", topic: "help" })).ok, true);
+      await step(25);
+      assert.equal((await cmd("TALK", { npcId: "n0", topic: "help" })).ok, true);
+      await phone("circles");
+      await page.locator('[data-join-faction="dock"]').click();
+      await wait();
+      let s = await state();
+      assert.ok(
+        s.social.factions.find((f) => f.id === "dock").members.find((m) => m.personId === "player"),
+      );
+      const before = s.accounts.player;
+      await page.locator('[data-social="FACTION_DONATE"]').click();
+      await wait();
+      s = await state();
+      assert.equal(before - s.accounts.player, 10000);
+      assert.equal(s.accounts["faction:dock"], 10000);
+      return { membership: s.flags.faction, treasury: s.accounts["faction:dock"] };
+    },
+  );
+  await check(
+    "combat",
+    "Actual G heavy attack and Space dodge have authoritative consequences",
+    async () => {
+      const before = await state();
+      await page.keyboard.press("KeyG");
+      await step(8);
+      let s = await state();
+      const assault = s.crimes.find((c) => !before.crimes.some((old) => old.id === c.id));
+      assert.ok(assault, "actual nearest target produced assault");
+      const victim = s.npcs.find((n) => n.id === assault.victim),
+        priorVictim = before.npcs.find((n) => n.id === assault.victim);
+      assert.ok(
+        priorVictim.health - victim.health >= 24,
+        "heavy damage applied to actual nearest target",
+      );
+      assert.equal(assault.fine, 25000, "heavy strike case uses heavy consequences");
+      assert.ok(s.player.stamina < before.player.stamina, "heavy stamina");
+      // Capture the worker snapshot as soon as the actual game's command acknowledgement
+      // reaches the toast. A harness-side timer can return after the entire 600 ms dodge.
+      await page.evaluate(() => {
+        const toast = document.getElementById("toast");
+        window.__testDodgeSnapshot = new Promise((resolve, reject) => {
+          const timer = setTimeout(() => {
+            observer.disconnect();
+            reject(new Error("Actual Space command did not acknowledge a dodge"));
+          }, 6000);
+          const observer = new MutationObserver(() => {
+            if (!toast.textContent.includes("Kaçındın.")) return;
+            clearTimeout(timer);
+            observer.disconnect();
+            window.__socialEngine.state().then(resolve, reject);
+          });
+          observer.observe(toast, { childList: true, characterData: true, subtree: true });
+        });
+      });
+      await page.keyboard.press("Space");
+      s = await page.evaluate(() => window.__testDodgeSnapshot);
+      assert.ok(s.flags.dodgeUntil > s.tick, "dodge active");
+      assert.ok(s.flags.dodgeUntil <= s.tick + 6, "dodge has its bounded authoritative window");
+      assert.ok(s.crimes.length > before.crimes.length);
+      return {
+        victimId: victim.id,
+        victimHealth: victim.health,
+        stamina: s.player.stamina,
+        dodgeUntil: s.flags.dodgeUntil,
+        crimeCount: s.crimes.length,
+      };
+    },
+  );
+  await check("rumor", "DOM rumor preserves provenance and attenuates confidence", async () => {
+    assert.equal((await cmd("RETIRE")).ok, true);
+    assert.equal((await cmd("RESUME_CAREER")).ok, true);
+    await step(1);
+    let s = await state();
+    const event = s.social.knowledge.player.at(-1);
+    assert.ok(event);
+    assert.equal(
+      (s.social.knowledge.n0 ?? []).some((k) => k.eventId === event.eventId),
+      false,
+      "recipient does not know private career decision",
+    );
+    await page.keyboard.press("KeyE");
+    await wait();
+    assert.ok(await page.locator("#share-rumor").isVisible());
+    await page.locator("#rumor-event").selectOption(event.eventId);
+    await page.locator("#share-rumor").click();
+    await wait();
+    s = await state();
+    const learned = Object.values(s.social.knowledge)
+      .flat()
+      .find(
+        (k) => k.ownerId !== "player" && k.eventId === event.eventId && k.sourceId === "player",
+      );
+    assert.ok(learned);
+    assert.ok(learned.confidence < event.confidence);
+    return learned;
+  });
+  await check(
+    "custody",
+    "DOM police attendance creates real custody, blocks motion, resolves one fine",
+    async () => {
+      assert.equal((await cmd("ATTACK", { npcId: "n0" })).ok, true);
+      await step(90);
+      await building("b-police");
+      const before = await state();
+      assert.ok(before.social.police.cases.some((c) => c.knownSuspectId === "player"));
+      await page.locator('[data-action="POLICE_ATTEND"]').first().click();
+      await wait();
+      const detained = await state();
+      assert.ok(detained.social.police.custody);
+      assert.equal((await cmd("MOVE", { x: 1, y: 0 })).ok, false);
+      await step(300);
+      const after = await state();
+      assert.equal(after.social.police.custody, null);
+      assert.ok(after.social.police.cases.some((c) => c.status === "fined"));
+      assert.ok(after.accounts.player < before.accounts.player);
+      return { custody: detained.social.police.custody, cases: after.social.police.cases };
+    },
+  );
+  await check(
+    "retirement",
+    "DOM retirement freezes world and explicit resume continues same career",
+    async () => {
+      await phone("life");
+      await page.locator("[data-retirement]").click();
+      await page.locator("#retirement-confirm").click();
+      await wait();
+      const retired = await state();
+      assert.equal(retired.progression.retired, true);
+      await step(30);
+      assert.equal((await state()).tick, retired.tick);
+      await page.locator("#retirement-confirm").click();
+      await wait();
+      assert.equal((await state()).progression.retired, false);
+      await step(1);
+      assert.ok((await state()).tick > retired.tick);
+      return { retiredAt: retired.progression.retiredAt, preservedPlayer: retired.player.id };
+    },
+  );
+  await check(
+    "family",
+    "Validated marriage fixture then DOM birth and guardian change",
+    async () => {
+      const fixture = createWorld(20261103);
+      const n = fixture.npcs[0];
+      n.age = 30;
+      n.location = { ...fixture.player.location, x: fixture.player.location.x + 0.5 };
+      n.path = [];
+      n.destination = null;
+      n.goal = "idle";
+      fixture.relations.push({
+        from: n.id,
+        to: "player",
+        trust: 90,
+        affection: 90,
+        fear: 0,
+        resentment: 0,
+        lastContact: fixture.minute,
+      });
+      for (const type of ["ASK_DATE", "PROPOSE_MARRIAGE"])
+        assert.equal(
+          applyCommand(fixture, { v: 1, id: "v4-family-" + type, type, args: { npcId: n.id } }).ok,
+          true,
+        );
+      assert.deepEqual(validateState(fixture), []);
+      const envelope = await encodeSave("slot-3", fixture);
+      const text = JSON.stringify(envelope);
+      await writeFile(out + "/family-precondition.json", text);
+      await page.evaluate(async (text) => {
+        await window.__socialEngine.import("slot-3", text);
+        await window.__socialEngine.load("slot-3");
+      }, text);
+      await wait();
+      await phone("life");
+      await page.locator('[data-family="REQUEST_CHILD"]').click();
+      await wait();
+      let s = await state();
+      assert.equal(s.life.births.length, 1);
+      const child = s.npcs.at(-1);
+      assert.equal(child.age, 0);
+      assert.equal(child.local, false);
+      assert.equal(s.accounts[child.id], 0);
+      await page.locator(`[id="guardian-${child.id}"]`).selectOption("municipality");
+      await page.locator(`[data-guardian-child="${child.id}"]`).click();
+      await wait();
+      s = await state();
+      assert.equal(
+        s.life.guardians[child.id].includes("municipality"),
+        false,
+        "institutional guardianship cannot be assigned remotely",
+      );
+      await building("b-security");
+      await phone("life");
+      await page.locator(`[id="guardian-${child.id}"]`).selectOption("municipality");
+      await page.locator(`[data-guardian-child="${child.id}"]`).click();
+      await wait();
+      s = await state();
+      assert.ok(s.life.guardians[child.id].includes("municipality"));
+      return { fixtureSha256: sha(text), childId: child.id, guardians: s.life.guardians[child.id] };
+    },
+  );
+  await check(
+    "SE-045",
+    "Authentic TC SIM create/save/load bytes survive real SOCIAL ENGINE startup and save",
+    async () => {
+      await page.goto(base + "/games/tc-sim/index.html");
+      const before = await page.evaluate(async () => {
+        const { createNewGame } = await import("/games/tc-sim/js/state.js?v=10");
+        const { saveGame, loadGame } = await import("/games/tc-sim/js/save.js?v=10");
+        const s = createNewGame({
+          name: "Legacy Kanıt",
+          seed: 20261103,
+          now: "2026-11-03T00:00:00.000Z",
+        });
+        const a = saveGame(localStorage, s);
+        if (!a.ok) throw Error(a.message);
+        const b = saveGame(localStorage, s);
+        if (!b.ok) throw Error(b.message);
+        const loaded = loadGame(localStorage);
+        if (!loaded.ok) throw Error(loaded.message);
+        return {
+          keys: Object.fromEntries(
+            Object.keys(localStorage)
+              .filter((k) => k.startsWith("tc-sim") || k.startsWith("tariklab::tc-sim:"))
+              .sort()
+              .map((k) => [k, localStorage.getItem(k)]),
+          ),
+          name: loaded.state.player.name,
+          version: loaded.state.meta.saveVersion,
+        };
+      });
+      assert.ok(Object.keys(before.keys).length >= 3);
+      await fresh();
+      assert.equal(await page.evaluate(() => window.__socialEngine.save("slot-2")), true);
+      const after = await page.evaluate(() =>
+        Object.fromEntries(
+          Object.keys(localStorage)
+            .filter((k) => k.startsWith("tc-sim") || k.startsWith("tariklab::tc-sim:"))
+            .sort()
+            .map((k) => [k, localStorage.getItem(k)]),
+        ),
+      );
+      assert.deepEqual(after, before.keys);
+      await page.goto(base + "/games/tc-sim/index.html");
+      const loaded = await page.evaluate(async () => {
+        const { loadGame } = await import("/games/tc-sim/js/save.js?v=10");
+        const r = loadGame(localStorage);
+        return { ok: r.ok, name: r.state?.player.name, version: r.state?.meta.saveVersion };
+      });
+      assert.equal(loaded.ok, true);
+      assert.equal(loaded.name, before.name);
+      assert.equal(loaded.version, before.version);
+      return {
+        schema: before.version,
+        name: before.name,
+        keyBytesAndHashes: Object.fromEntries(
+          Object.entries(before.keys).map(([k, v]) => [
+            k,
+            { bytes: Buffer.byteLength(v), sha256: sha(v) },
+          ]),
+        ),
+        legacyReload: loaded,
+      };
+    },
+  );
+  await check(
+    "worker-fallback",
+    "An asynchronous first worker-load failure has a locked recoverable modal and local endpoint",
+    async () => {
+      await page.route("**/games/social-engine/worker-*.js", (route) => route.abort("failed"));
+      try {
+        await page.goto(base + "/games/social-engine/index.html?qa=1");
+        await page.locator("[name=name]").fill("Deniz Kurtarma");
+        await page.getByRole("button", { name: "Hikâyene başla" }).click();
+        const modal = page.getByRole("alertdialog");
+        await modal.waitFor();
+        await page.keyboard.press("Escape");
+        assert.equal(await modal.isVisible(), true, "fatal modal remains locked after Escape");
+        assert.equal(
+          await page.locator("#compatibility-mode").isEnabled(),
+          true,
+          "first-start fallback available without snapshot",
+        );
+        await page.locator("#compatibility-mode").click();
+        await page.waitForFunction(() => window.__socialEngine?.projection()?.population === 1100);
+        const before = await state();
+        assert.equal(before.player.name, "Deniz Kurtarma");
+        assert.equal((await cmd("MOVE_TO", { x: 31, y: 16 })).ok, true);
+        await step(50);
+        const after = await state();
+        assert.ok(after.player.location.x > before.player.location.x + 2);
+        return {
+          intentionalFailure: "worker script request aborted",
+          population: after.npcs.length,
+          profileName: after.player.name,
+          location: after.player.location,
+          alive: true,
+        };
+      } finally {
+        await page.unroute("**/games/social-engine/worker-*.js");
+      }
+    },
+    { reset: false },
+  );
+} finally {
+  await Promise.allSettled(responses);
+  report.finishedAt = new Date().toISOString();
+  report.summary = {
+    pass: report.results.filter((r) => r.status === "PASS").length,
+    fail: report.results.filter((r) => r.status === "FAIL").length,
+  };
+  await context.tracing.stop({ path: out + "/trace.zip" });
+  await browser.close();
+  await writeFile(out + "/results.json", JSON.stringify(report, null, 2));
+  console.log(
+    JSON.stringify({
+      out,
+      summary: report.summary,
+      failures: report.results
+        .filter((r) => r.status === "FAIL")
+        .map((r) => ({ id: r.id, reason: r.reason })),
+    }),
+  );
+}
+if (report.results.some((r) => r.status === "FAIL")) process.exitCode = 1;

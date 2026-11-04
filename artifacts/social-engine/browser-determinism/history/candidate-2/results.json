@@ -1,0 +1,38 @@
+{
+  "seed": 20261103,
+  "days": 365,
+  "ticks": 5256000,
+  "bundleSha256": "f7ff7fa11634b451f883d515607a503aac9f48736a72cade214ca7ac47da2320",
+  "expectedHash": "2e125eedda1d607d99288f1f6ce33268550aa338e77d027b2870f338339af51e",
+  "expectedErrors": [],
+  "results": [
+    {
+      "browser": "chromium",
+      "version": "156.0.8078.80",
+      "status": "PASS",
+      "actualHash": "2e125eedda1d607d99288f1f6ce33268550aa338e77d027b2870f338339af51e",
+      "errors": [],
+      "simulationMs": 18697.600000023842,
+      "elapsedMs": 19773.339958
+    },
+    {
+      "browser": "firefox",
+      "version": "153.0",
+      "status": "PASS",
+      "actualHash": "2e125eedda1d607d99288f1f6ce33268550aa338e77d027b2870f338339af51e",
+      "errors": [],
+      "simulationMs": 38215,
+      "elapsedMs": 39953.704958
+    },
+    {
+      "browser": "webkit",
+      "version": "26.5",
+      "status": "PASS",
+      "actualHash": "2e125eedda1d607d99288f1f6ce33268550aa338e77d027b2870f338339af51e",
+      "errors": [],
+      "simulationMs": 20620,
+      "elapsedMs": 22547.175417000006
+    }
+  ],
+  "note": "Pure simulation parity across actual JS engines; no renderer, browser FPS or UI acceptance implied."
+}

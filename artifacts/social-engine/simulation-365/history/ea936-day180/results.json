@@ -1,0 +1,6 @@
+{
+  "status": "INTERRUPTED",
+  "completedDays": 180,
+  "hash": "490bc4dbfcc42fc3049bdc640c11d31d135f43f9bbee342bf47cafa270ad432f",
+  "reason": "Superseded by traffic/meal-identity changes after successful180day encode/decode. This is not365day proof."
+}

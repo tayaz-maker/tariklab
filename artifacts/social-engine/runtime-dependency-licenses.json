@@ -1,0 +1,54 @@
+{
+  "packages": [
+    {
+      "name": "@pixi/colord",
+      "version": "2.9.6",
+      "license": "MIT",
+      "licensePath": "scripts/social-engine/licenses/colord-MIT.txt",
+      "licenseSha256": "7613d4594ee8b6163926af3435dae61c9e3d5a27cd137bd76a543ba40002d8fc",
+      "upstream": {
+        "package": "@pixi/colord",
+        "version": "2.9.6",
+        "source": "https://github.com/omgovich/colord/blob/master/LICENSE.md",
+        "gitBlobSha": "e437003733acd123c76c2a9df0c13a6f3b02b51e",
+        "note": "Installed package declares MIT and upstream repository omgovich/colord but omits LICENSE.md from its published file allowlist. This is the upstream copyright and license notice."
+      }
+    },
+    {
+      "name": "earcut",
+      "version": "3.2.3",
+      "license": "ISC",
+      "licensePath": "node_modules/earcut/LICENSE",
+      "licenseSha256": "0b348fff56384b43dbb37593906904e56d0f9deb51eae590d4dc6d427fbf1808",
+      "upstream": null
+    },
+    {
+      "name": "parse-svg-path",
+      "version": "0.2.0",
+      "license": "MIT",
+      "licensePath": "node_modules/parse-svg-path/LICENSE",
+      "licenseSha256": "2d5ffdfe09268750ba687a149db8392038772e7f156db3a98b615a7de0cab76e",
+      "upstream": null
+    },
+    {
+      "name": "pixi.js",
+      "version": "8.21.0",
+      "license": "MIT",
+      "licensePath": "node_modules/pixi.js/LICENSE",
+      "licenseSha256": "5ce7447bc57f7349ffc48338782fbcabe613696e00712b20d66bc58e780f9473",
+      "upstream": null
+    },
+    {
+      "name": "tiny-lru",
+      "version": "11.4.7",
+      "license": "BSD-3-Clause",
+      "licensePath": "node_modules/tiny-lru/LICENSE",
+      "licenseSha256": "8106f20bacca3558946439afb5e4854333f0a9944eee1c60488aa7ac7fc8f52b",
+      "upstream": null
+    }
+  ],
+  "file": "public/games/social-engine/THIRD_PARTY_LICENSES.txt",
+  "bytes": 6040,
+  "sha256": "3d1ad6b1a99a85702a93deb69a4ebe8b8ec5ee0c237f26d315a1c66579f81102",
+  "bundledPackageCount": 5
+}

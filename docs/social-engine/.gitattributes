@@ -1,0 +1,2 @@
+# Preserve the supplied contract byte-for-byte, including Markdown hard line breaks.
+GAME_DESIGN.md whitespace=-blank-at-eol

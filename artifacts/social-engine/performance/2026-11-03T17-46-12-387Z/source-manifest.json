@@ -1,0 +1,197 @@
+[
+  {
+    "file": "src/games/social-engine/domain/content.ts",
+    "bytes": 6019,
+    "sha256": "84c9f24db709d5459a29c16457f86a4eb11657c5fbbd5a06907cd8c43ce63da7"
+  },
+  {
+    "file": "src/games/social-engine/domain/life-types.ts",
+    "bytes": 2487,
+    "sha256": "fca765fb7f9650487b241381d2ed428caa72469a63520560da696710097fc988"
+  },
+  {
+    "file": "src/games/social-engine/domain/types.ts",
+    "bytes": 4061,
+    "sha256": "e3445df52ea332f84925d7a6702f733831e5a6f4495104420a337f3cd882f11d"
+  },
+  {
+    "file": "src/games/social-engine/domain/world.ts",
+    "bytes": 7940,
+    "sha256": "120c06725c02bb4ef916c854fc408ce71dd113b77c23805c336e78b947a0a356"
+  },
+  {
+    "file": "src/games/social-engine/persistence/README.md",
+    "bytes": 3582,
+    "sha256": "e7411771b00c7c665086921d34a1b4f1ac305f2c2e2d7f1adf4f3397bc84bc40"
+  },
+  {
+    "file": "src/games/social-engine/persistence/codec.ts",
+    "bytes": 8576,
+    "sha256": "20fadb3d89a1e6fe8d35a83defe3b6daee63c1c080ebd1f29c28d2800d51401f"
+  },
+  {
+    "file": "src/games/social-engine/persistence/fixtures/v1-provenance.json",
+    "bytes": 389,
+    "sha256": "f96aa90fe23e8f4592da1e8db4353e36f28078690a0880d2f428d070169afbe9"
+  },
+  {
+    "file": "src/games/social-engine/persistence/fixtures/v1-world.json.gz",
+    "bytes": 46562,
+    "sha256": "f495e27c8baedd2a7e9ca3561919a84b4b07f437be083e420c919ab7dd8360b1"
+  },
+  {
+    "file": "src/games/social-engine/persistence/fixtures/v2-provenance.json",
+    "bytes": 258,
+    "sha256": "2cc92182f5dc28b3ecf00227ea5669678be6d4ee58cb0b0a5a7ff88a89d94d94"
+  },
+  {
+    "file": "src/games/social-engine/persistence/fixtures/v2-world.json.gz",
+    "bytes": 53085,
+    "sha256": "aa490080945c2da68d8d402af4136c3508be11ff9485b273f5ad2d71af507318"
+  },
+  {
+    "file": "src/games/social-engine/persistence/index.ts",
+    "bytes": 229,
+    "sha256": "d3ad9d33103f4dab0e97afc8f358b32db89f5b461f8d9292a1bad244ea51405a"
+  },
+  {
+    "file": "src/games/social-engine/persistence/repository.ts",
+    "bytes": 12933,
+    "sha256": "9eeb0e46e621ced073a27bf3276d9d491a14fd74ead5557c8573644e7209b4f6"
+  },
+  {
+    "file": "src/games/social-engine/rendering/benchmark.ts",
+    "bytes": 3065,
+    "sha256": "c92c9928d403eab42a0c2ce3e95a2e76eb6dad3a45900714b19a51dfa0ba0a53"
+  },
+  {
+    "file": "src/games/social-engine/rendering/index.ts",
+    "bytes": 94,
+    "sha256": "d58dc47a68f8a2f8d07f8686ccf03cf00d5128ec03d153a9536eae999e6c8eda"
+  },
+  {
+    "file": "src/games/social-engine/rendering/interpolation.ts",
+    "bytes": 1022,
+    "sha256": "444fc23bd671ba36bbec3d64f80b3e21bacd68dfbc416b6ec3890d15d6d785f7"
+  },
+  {
+    "file": "src/games/social-engine/rendering/renderer.ts",
+    "bytes": 20340,
+    "sha256": "1f9e110dc61d699ed06bf4b5aa41985896e9eccc9bfcb0276aca7fab1de83e17"
+  },
+  {
+    "file": "src/games/social-engine/rendering/world.ts",
+    "bytes": 120,
+    "sha256": "0affb3461445f052d4a490f77c977d04ea294fb735d80ba533b2b1d14316acb7"
+  },
+  {
+    "file": "src/games/social-engine/simulation/engine.ts",
+    "bytes": 47098,
+    "sha256": "21be7fd410e8a71370307a6d1bd11c19b3624bcce9016ee31d22dc9ac3eb9141"
+  },
+  {
+    "file": "src/games/social-engine/simulation/events.ts",
+    "bytes": 2028,
+    "sha256": "9e5324c1e635db852bd463365d0a87540392ee9525aa5083929348c274605842"
+  },
+  {
+    "file": "src/games/social-engine/simulation/ledger.ts",
+    "bytes": 3098,
+    "sha256": "933aebdd3de69b36524f9ee5f7ba40799d1ff426482dd901f75414cc473e6fca"
+  },
+  {
+    "file": "src/games/social-engine/simulation/life.ts",
+    "bytes": 36332,
+    "sha256": "cedbc9a5e40888606ff630838c8f8875b5809f697dbe51d5602040da850c0187"
+  },
+  {
+    "file": "src/games/social-engine/simulation/missions.ts",
+    "bytes": 8312,
+    "sha256": "d9a53a2e0583dd24e0c4cbb97f8227996801dce857b47da0b1c4e6ef2c6e1010"
+  },
+  {
+    "file": "src/games/social-engine/simulation/population.ts",
+    "bytes": 7483,
+    "sha256": "2b92a0aa6a812317b883cf00348c395741c9f4eccfe602e7e40fc0f078a5900c"
+  },
+  {
+    "file": "src/games/social-engine/simulation/random.ts",
+    "bytes": 991,
+    "sha256": "13a8cb5dd3b40f7fd75f84c6c6a0fb822b1d1ff6ed25a96a3b874a7d26dabb22"
+  },
+  {
+    "file": "src/games/social-engine/simulation/society.ts",
+    "bytes": 12722,
+    "sha256": "0e520cd1533002d62d05da3b9616dd9d3d769f757a80443d1f09e3f24e5ea7f7"
+  },
+  {
+    "file": "src/games/social-engine/tests/adversarial.test.ts",
+    "bytes": 5136,
+    "sha256": "bff582428eabb2e3a99543cbc1a6566665c4f04959940b861b11c68dda0e6bf8"
+  },
+  {
+    "file": "src/games/social-engine/tests/life.test.ts",
+    "bytes": 12393,
+    "sha256": "8a978c9cad736e3cef30a2f30d3198a4779289baeb063588f02d4cbe50172664"
+  },
+  {
+    "file": "src/games/social-engine/tests/persistence-browser.ts",
+    "bytes": 15547,
+    "sha256": "7e5f09a33f9dd60cbdf9439a379643d8606537ef1fde7cc070f40aeb481e5481"
+  },
+  {
+    "file": "src/games/social-engine/tests/persistence.test.ts",
+    "bytes": 7756,
+    "sha256": "e2ddbaec57e36900a43e05d92e94587d19b23536aa0b4dc285bac990f8c84086"
+  },
+  {
+    "file": "src/games/social-engine/tests/simulation-events.test.ts",
+    "bytes": 5903,
+    "sha256": "69569f3635bd5185cf64bc2c1dc479a95a295f4b9764ac41b242d479d5057f39"
+  },
+  {
+    "file": "src/games/social-engine/tests/simulation.test.ts",
+    "bytes": 14865,
+    "sha256": "bf268e12f8d10fd4e2ff239378823993c6bbe69bbf8ed75a89cbf816bd15798e"
+  },
+  {
+    "file": "src/games/social-engine/tests/world-assets.test.ts",
+    "bytes": 2580,
+    "sha256": "0de3cf0581bccc85d968c74cc5320c46c4697d166f5ce2935c6f1046ac44ae6e"
+  },
+  {
+    "file": "src/games/social-engine/tests/world-interpolation.test.ts",
+    "bytes": 1374,
+    "sha256": "7543145f0d3026bc47cd95200843678b1af07969371dd32ec530bef41737fb41"
+  },
+  {
+    "file": "src/games/social-engine/tests/world.test.ts",
+    "bytes": 1924,
+    "sha256": "32c4cc64bc5e48fac65d3fa355b85a25d5f1bc52d40ac310a469ea149593c045"
+  },
+  {
+    "file": "src/games/social-engine/tsconfig.json",
+    "bytes": 171,
+    "sha256": "42d5fdc1d030f9511003aaf3b1bca3c7683bc4e337893d9e4f40433bb60ddbca"
+  },
+  {
+    "file": "src/games/social-engine/ui/app.ts",
+    "bytes": 48650,
+    "sha256": "775c1aeb15d5f8ad745009917394e2d7f4d8755306843590434fc9bd8a25a882"
+  },
+  {
+    "file": "src/games/social-engine/ui/index.html",
+    "bytes": 3596,
+    "sha256": "68faf5f4f2e6bc7812d3d7d45cf5b38fabf9bdf9782a64612f6200440da37238"
+  },
+  {
+    "file": "src/games/social-engine/ui/styles.css",
+    "bytes": 11737,
+    "sha256": "d79ca25bd1dcfc099703f6983a296d37b44f0f2ec96bc5fecc85e39d13bd15ce"
+  },
+  {
+    "file": "src/games/social-engine/worker/entry.ts",
+    "bytes": 4301,
+    "sha256": "887c266deef28f462b3e556b0e2e98794a9c59249e9ed8547374be23c756e72b"
+  }
+]

@@ -1,0 +1,76 @@
+{
+  "status": "FAIL",
+  "startedAt": "2026-11-03T21:21:44.093Z",
+  "headless": true,
+  "rendererSourceSha256": "94dd462823ff413847752500c9de3d5dd0a2e82818588b9ae8dd40cd40bcd2ae",
+  "probeSha256": "25f76cfccf9c2a0ae08c04a25279e1e38fe499f48daa291702c3dbd3e92fdea3",
+  "errors": [],
+  "cycles": [
+    {
+      "cycle": 1,
+      "during": {
+        "entries": 6,
+        "aliases": 6
+      },
+      "after": {
+        "entries": 2,
+        "aliases": 2,
+        "canvases": 0
+      }
+    },
+    {
+      "cycle": 2,
+      "during": {
+        "entries": 8,
+        "aliases": 8
+      },
+      "after": {
+        "entries": 4,
+        "aliases": 4,
+        "canvases": 0
+      }
+    },
+    {
+      "cycle": 3,
+      "during": {
+        "entries": 10,
+        "aliases": 10
+      },
+      "after": {
+        "entries": 6,
+        "aliases": 6,
+        "canvases": 0
+      }
+    },
+    {
+      "cycle": 4,
+      "during": {
+        "entries": 12,
+        "aliases": 12
+      },
+      "after": {
+        "entries": 8,
+        "aliases": 8,
+        "canvases": 0
+      }
+    },
+    {
+      "cycle": 5,
+      "during": {
+        "entries": 14,
+        "aliases": 14
+      },
+      "after": {
+        "entries": 10,
+        "aliases": 10,
+        "canvases": 0
+      }
+    }
+  ],
+  "baseline": {
+    "entries": 0,
+    "aliases": 0
+  },
+  "reason": "Disposed renderer releases all owned cached atlas textures\n\n2 !== 0\n",
+  "finishedAt": "2026-11-03T21:21:45.673Z"
+}

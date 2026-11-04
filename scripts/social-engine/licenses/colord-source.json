@@ -1,0 +1,7 @@
+{
+  "package": "@pixi/colord",
+  "version": "2.9.6",
+  "source": "https://github.com/omgovich/colord/blob/master/LICENSE.md",
+  "gitBlobSha": "e437003733acd123c76c2a9df0c13a6f3b02b51e",
+  "note": "Installed package declares MIT and upstream repository omgovich/colord but omits LICENSE.md from its published file allowlist. This is the upstream copyright and license notice."
+}

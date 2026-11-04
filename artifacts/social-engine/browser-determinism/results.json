@@ -1,0 +1,38 @@
+{
+  "seed": 20261103,
+  "days": 365,
+  "ticks": 5256000,
+  "bundleSha256": "e6348505bde7ca30d2234a4af5bb4edef786b178c7928b50b2e757a6b56d4a0b",
+  "expectedHash": "fa9d4217bf7f556b9d91b7825d214e88548b3cedee73e3c73738bb92933a77ec",
+  "expectedErrors": [],
+  "results": [
+    {
+      "browser": "chromium",
+      "version": "156.0.8078.80",
+      "status": "PASS",
+      "actualHash": "fa9d4217bf7f556b9d91b7825d214e88548b3cedee73e3c73738bb92933a77ec",
+      "errors": [],
+      "simulationMs": 327519.1999999285,
+      "elapsedMs": 328723.51645800006
+    },
+    {
+      "browser": "firefox",
+      "version": "153.0",
+      "status": "PASS",
+      "actualHash": "fa9d4217bf7f556b9d91b7825d214e88548b3cedee73e3c73738bb92933a77ec",
+      "errors": [],
+      "simulationMs": 1227211,
+      "elapsedMs": 1230183.049166
+    },
+    {
+      "browser": "webkit",
+      "version": "26.5",
+      "status": "PASS",
+      "actualHash": "fa9d4217bf7f556b9d91b7825d214e88548b3cedee73e3c73738bb92933a77ec",
+      "errors": [],
+      "simulationMs": 654889,
+      "elapsedMs": 658042.418875
+    }
+  ],
+  "note": "Pure simulation parity across actual JS engines; no renderer, browser FPS or UI acceptance implied."
+}

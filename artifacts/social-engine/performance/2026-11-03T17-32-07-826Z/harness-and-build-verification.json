@@ -1,0 +1,145 @@
+{
+  "harness_sha256": "f29768f9bb0630b7524b81fa724c9cf08b01ef0fb2d02eb65d387bb7e7392123",
+  "measured_heap_scope": "main-thread JS heap only; worker, GPU and process memory UNVERIFIED",
+  "initial_loaded_assets": [
+    {
+      "file": "index.html",
+      "expected": "fa4ecd3d4e15f44ec013e4c1f537db715f2e60de1a5f1960ac6e22428c0fdd2f",
+      "loaded": "fa4ecd3d4e15f44ec013e4c1f537db715f2e60de1a5f1960ac6e22428c0fdd2f",
+      "matches": true
+    },
+    {
+      "file": "styles-15c0bbe44402.css",
+      "expected": "15c0bbe44402099a59631a03f433e49ee371c6a06233b0615af35d81d704e64c",
+      "loaded": "15c0bbe44402099a59631a03f433e49ee371c6a06233b0615af35d81d704e64c",
+      "matches": true
+    },
+    {
+      "file": "app-MBGJYWNF.js",
+      "expected": "5085942bb3f06543740c15f016d9b2ffa4b54a7b35e479edaf3267e8570c9724",
+      "loaded": "5085942bb3f06543740c15f016d9b2ffa4b54a7b35e479edaf3267e8570c9724",
+      "matches": true
+    },
+    {
+      "file": "chunk-K4EQNGI3.js",
+      "expected": "815d3dce60eff7a50aee12de9c623464bba121f78473f3582d3baffe3615dc15",
+      "loaded": "815d3dce60eff7a50aee12de9c623464bba121f78473f3582d3baffe3615dc15",
+      "matches": true
+    },
+    {
+      "file": "chunk-LZGHOTUE.js",
+      "expected": "768aa9c7d105c7f234e8d15c0d6b7a01c6192f34b442db250a709de086252823",
+      "loaded": "768aa9c7d105c7f234e8d15c0d6b7a01c6192f34b442db250a709de086252823",
+      "matches": true
+    },
+    {
+      "file": "chunk-I5OQ4SMM.js",
+      "expected": "6af49c840327fedfe69383591d448e9e8ba1dbbdda91f194f36c3807ea56808b",
+      "loaded": "6af49c840327fedfe69383591d448e9e8ba1dbbdda91f194f36c3807ea56808b",
+      "matches": true
+    },
+    {
+      "file": "chunk-URXYDDVR.js",
+      "expected": "3456e615d70cd27146949f3aa636632fd1d63deb449418b244ffe521080c7e24",
+      "loaded": "3456e615d70cd27146949f3aa636632fd1d63deb449418b244ffe521080c7e24",
+      "matches": true
+    },
+    {
+      "file": "chunk-YUACKDHT.js",
+      "expected": "71441b6d7d7ef5fdb9ab056a7045351a3a48d7bad2a7764554cd6b08bfb9e1a3",
+      "loaded": "71441b6d7d7ef5fdb9ab056a7045351a3a48d7bad2a7764554cd6b08bfb9e1a3",
+      "matches": true
+    },
+    {
+      "file": "chunk-RK22JOBD.js",
+      "expected": "dd4b1b2057bcf263aab963df5cd49a093322311d3e45b222c2f364b3a7e427d3",
+      "loaded": "dd4b1b2057bcf263aab963df5cd49a093322311d3e45b222c2f364b3a7e427d3",
+      "matches": true
+    },
+    {
+      "file": "chunk-R2OLMQZM.js",
+      "expected": "c84b6291e6359966c9bfd1684faea29838d13de7f785729fefaf2bbb7aae4cf5",
+      "loaded": "c84b6291e6359966c9bfd1684faea29838d13de7f785729fefaf2bbb7aae4cf5",
+      "matches": true
+    },
+    {
+      "file": "chunk-EFD5MV62.js",
+      "expected": "375e220254cdec22d070d0f9de42ef1853646abf6ac6fa6781cf5309358cfafa",
+      "loaded": "375e220254cdec22d070d0f9de42ef1853646abf6ac6fa6781cf5309358cfafa",
+      "matches": true
+    },
+    {
+      "file": "chunk-DD7GQO3V.js",
+      "expected": "e21375c8992904f2bee9bf11e171901994819dcdaae55a2d0d635355addbd224",
+      "loaded": "e21375c8992904f2bee9bf11e171901994819dcdaae55a2d0d635355addbd224",
+      "matches": true
+    },
+    {
+      "file": "chunk-FXAE45L4.js",
+      "expected": "09196e5d8c2be7ad60c5072a91f6bb015f041c84477d0bd9f19e98a3bc41287a",
+      "loaded": "09196e5d8c2be7ad60c5072a91f6bb015f041c84477d0bd9f19e98a3bc41287a",
+      "matches": true
+    },
+    {
+      "file": "chunk-DTDJP34D.js",
+      "expected": "424d06bc2538e97889a70af51a78b087405c17d3fbfdcbed908b4f46b43ab357",
+      "loaded": "424d06bc2538e97889a70af51a78b087405c17d3fbfdcbed908b4f46b43ab357",
+      "matches": true
+    },
+    {
+      "file": "chunk-LIKKPBUW.js",
+      "expected": "06ad2dc669e725fd5c9e0fb98abf9ca3360b22bd28f0faa10a207acada69f059",
+      "loaded": "06ad2dc669e725fd5c9e0fb98abf9ca3360b22bd28f0faa10a207acada69f059",
+      "matches": true
+    },
+    {
+      "file": "chunk-IYZYXDYK.js",
+      "expected": "7fb57a530179d55b8b8c7f528842f3cec4890fc5b02d44ecdd4bb6b4942b3f10",
+      "loaded": "7fb57a530179d55b8b8c7f528842f3cec4890fc5b02d44ecdd4bb6b4942b3f10",
+      "matches": true
+    },
+    {
+      "file": "chunk-OBZAIJKW.js",
+      "expected": "9c3b5529d2997fba887d29d9e2e0db5847448606f6dbad1808d0f6bc2ba3458e",
+      "loaded": "9c3b5529d2997fba887d29d9e2e0db5847448606f6dbad1808d0f6bc2ba3458e",
+      "matches": true
+    },
+    {
+      "file": "chunk-7AFKKDGB.js",
+      "expected": "39dbabf308d609c8c30a6097c43ddf40a914c84263b839d935e0397b1fc9f362",
+      "loaded": "39dbabf308d609c8c30a6097c43ddf40a914c84263b839d935e0397b1fc9f362",
+      "matches": true
+    },
+    {
+      "file": "chunk-4NAMSOGY.js",
+      "expected": "eaebfc1c1327a9fa17e39b86a2e9e59317372ef4a766723a82a90d4990733ef5",
+      "loaded": "eaebfc1c1327a9fa17e39b86a2e9e59317372ef4a766723a82a90d4990733ef5",
+      "matches": true
+    },
+    {
+      "file": "chunk-TUT5QNTW.js",
+      "expected": "eeab9650cf7677dcd09dd6e670864a86714512d69d620a6ff4220c4370810f99",
+      "loaded": "eeab9650cf7677dcd09dd6e670864a86714512d69d620a6ff4220c4370810f99",
+      "matches": true
+    },
+    {
+      "file": "chunk-O2LBC5EX.js",
+      "expected": "18e8beb3f176e66095c59fe64565d0eeca0535a62075cea762042396fba8f004",
+      "loaded": "18e8beb3f176e66095c59fe64565d0eeca0535a62075cea762042396fba8f004",
+      "matches": true
+    },
+    {
+      "file": "worker-6RQK3JQK.js",
+      "expected": "37bdd2c5e64713ab71174b71092529cb08e25fc67a2e7bac6479c3091b9c7482",
+      "loaded": "37bdd2c5e64713ab71174b71092529cb08e25fc67a2e7bac6479c3091b9c7482",
+      "matches": true
+    }
+  ],
+  "matches": true,
+  "missing_in_initial_load": [
+    "chunk-5HTAQRFM.js",
+    "chunk-FOG23U6Z.js",
+    "chunk-O52VUYK4.js",
+    "chunk-PM5OLX5V.js"
+  ]
+}

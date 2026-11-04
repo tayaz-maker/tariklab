@@ -1,0 +1,29 @@
+{
+  "status": "FAIL",
+  "runs": [
+    {
+      "run": 1,
+      "exitCode": 0,
+      "status": "PASS",
+      "manifestSha256": "7acc7343ed79d1a0f3b846544acd83ff435458f0a9b8b2d912dc4a4a274ff134",
+      "harnessSha256": "7aefde717a4487b3a8cd0621d390f9de7a41e09962aff6e5263b6b210a7c942c",
+      "focusEmulationDisabled": true
+    },
+    {
+      "run": 2,
+      "exitCode": 1,
+      "status": "FAIL",
+      "manifestSha256": "7acc7343ed79d1a0f3b846544acd83ff435458f0a9b8b2d912dc4a4a274ff134",
+      "harnessSha256": "7aefde717a4487b3a8cd0621d390f9de7a41e09962aff6e5263b6b210a7c942c",
+      "focusEmulationDisabled": true
+    },
+    {
+      "run": 3,
+      "exitCode": 0,
+      "status": "PASS",
+      "manifestSha256": "7acc7343ed79d1a0f3b846544acd83ff435458f0a9b8b2d912dc4a4a274ff134",
+      "harnessSha256": "7aefde717a4487b3a8cd0621d390f9de7a41e09962aff6e5263b6b210a7c942c",
+      "focusEmulationDisabled": true
+    }
+  ]
+}

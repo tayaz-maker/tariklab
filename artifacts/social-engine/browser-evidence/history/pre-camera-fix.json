@@ -1,0 +1,194 @@
+{
+  "startedAt": "2026-11-03T17:59:41.259Z",
+  "build_sha": "762c050ead437c99901332d10078817dfc375eb1",
+  "source_status": "working tree candidate; manifest identifies actual built bytes",
+  "manifestSha256": "8f6355bc10b9107d0e6e927f03e4208983d86187de55508eec8aee36dfbcd393",
+  "sourceDigest": "4b09d2e3e9566f7fce0ea24446e11b4ca27fcc518ba8b854742451e1793d5651",
+  "results": [
+    {
+      "id": "SE-008",
+      "name": "Camera keeps player visible at four traversable world edges at three zoom levels",
+      "status": "FAIL",
+      "duration_ms": 2088.876709,
+      "reason": "AssertionError [ERR_ASSERTION]: Player at {\"x\":1.4,\"y\":1.4} outside viewport at zoom 0.75: {\"x\":719.9999660759439,\"y\":-37.800000000000004}\n    at file:///Users/tarikayaz/Documents/Codex/2026-11-03/social-engine-1-0-autonomous-production/work/tariklab/scripts/social-engine/browser-evidence.mjs:44:12\n    at runNextTicks (node:internal/process/task_queues:65:5)\n    at process.processImmediate (node:internal/timers:541:9)\n    at async check (file:///Users/tarikayaz/Documents/Codex/2026-11-03/social-engine-1-0-autonomous-production/work/tariklab/scripts/social-engine/browser-evidence.mjs:25:79)\n    at async file:///Users/tarikayaz/Documents/Codex/2026-11-03/social-engine-1-0-autonomous-production/work/tariklab/scripts/social-engine/browser-evidence.mjs:31:2"
+    },
+    {
+      "id": "SE-055",
+      "name": "Visible HUD cash and needs match authoritative projection after shopping and eating",
+      "status": "FAIL",
+      "duration_ms": 632.5904999999998,
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\nfalse !== true\n\n    at file:///Users/tarikayaz/Documents/Codex/2026-11-03/social-engine-1-0-autonomous-production/work/tariklab/scripts/social-engine/browser-evidence.mjs:52:38\n    at async check (file:///Users/tarikayaz/Documents/Codex/2026-11-03/social-engine-1-0-autonomous-production/work/tariklab/scripts/social-engine/browser-evidence.mjs:25:79)\n    at async file:///Users/tarikayaz/Documents/Codex/2026-11-03/social-engine-1-0-autonomous-production/work/tariklab/scripts/social-engine/browser-evidence.mjs:49:2"
+    },
+    {
+      "id": "SE-033",
+      "name": "Driven vehicle, lane progress and player coordinates survive real IndexedDB save/load exactly",
+      "status": "PASS",
+      "duration_ms": 2183.2958340000005,
+      "evidence": {
+        "tick": 5492,
+        "location": {
+          "x": 42,
+          "y": 25.908,
+          "scene": "outside"
+        },
+        "vehicle": {
+          "id": "v0",
+          "location": {
+            "x": 42,
+            "y": 25.908,
+            "scene": "outside"
+          },
+          "heading": 1.5707963267948966,
+          "speed": 5.92,
+          "driverId": "player",
+          "lane": 0,
+          "progress": 33.908,
+          "color": 14265940
+        }
+      }
+    }
+  ],
+  "errors": [],
+  "loadedAssets": [
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/index.html?qa=1",
+      "sha256": "205a5978dc0ef9aa72b7915ac881e2eca98da8a60b244f1b92ce712c9eb35af6",
+      "bytes": 3618
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/styles-d79ca25bd1dc.css",
+      "sha256": "d79ca25bd1dcfc099703f6983a296d37b44f0f2ec96bc5fecc85e39d13bd15ce",
+      "bytes": 11737
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/app-STZKJJEL.js",
+      "sha256": "8793464af113fa1c4b12f83d4e2a136e182071efafb307bf234d5f751c9e18fa",
+      "bytes": 129669
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-K4EQNGI3.js",
+      "sha256": "815d3dce60eff7a50aee12de9c623464bba121f78473f3582d3baffe3615dc15",
+      "bytes": 42879
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-URXYDDVR.js",
+      "sha256": "3456e615d70cd27146949f3aa636632fd1d63deb449418b244ffe521080c7e24",
+      "bytes": 11135
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-I5OQ4SMM.js",
+      "sha256": "6af49c840327fedfe69383591d448e9e8ba1dbbdda91f194f36c3807ea56808b",
+      "bytes": 48221
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-LZGHOTUE.js",
+      "sha256": "768aa9c7d105c7f234e8d15c0d6b7a01c6192f34b442db250a709de086252823",
+      "bytes": 39852
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-EFD5MV62.js",
+      "sha256": "375e220254cdec22d070d0f9de42ef1853646abf6ac6fa6781cf5309358cfafa",
+      "bytes": 72106
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-YUACKDHT.js",
+      "sha256": "71441b6d7d7ef5fdb9ab056a7045351a3a48d7bad2a7764554cd6b08bfb9e1a3",
+      "bytes": 27309
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-FXAE45L4.js",
+      "sha256": "09196e5d8c2be7ad60c5072a91f6bb015f041c84477d0bd9f19e98a3bc41287a",
+      "bytes": 59276
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-DTDJP34D.js",
+      "sha256": "424d06bc2538e97889a70af51a78b087405c17d3fbfdcbed908b4f46b43ab357",
+      "bytes": 42564
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-R2OLMQZM.js",
+      "sha256": "c84b6291e6359966c9bfd1684faea29838d13de7f785729fefaf2bbb7aae4cf5",
+      "bytes": 1104
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-RK22JOBD.js",
+      "sha256": "dd4b1b2057bcf263aab963df5cd49a093322311d3e45b222c2f364b3a7e427d3",
+      "bytes": 33736
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-OBZAIJKW.js",
+      "sha256": "9c3b5529d2997fba887d29d9e2e0db5847448606f6dbad1808d0f6bc2ba3458e",
+      "bytes": 27003
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-LIKKPBUW.js",
+      "sha256": "06ad2dc669e725fd5c9e0fb98abf9ca3360b22bd28f0faa10a207acada69f059",
+      "bytes": 340
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-DD7GQO3V.js",
+      "sha256": "e21375c8992904f2bee9bf11e171901994819dcdaae55a2d0d635355addbd224",
+      "bytes": 6083
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-IYZYXDYK.js",
+      "sha256": "7fb57a530179d55b8b8c7f528842f3cec4890fc5b02d44ecdd4bb6b4942b3f10",
+      "bytes": 55588
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-7AFKKDGB.js",
+      "sha256": "39dbabf308d609c8c30a6097c43ddf40a914c84263b839d935e0397b1fc9f362",
+      "bytes": 69089
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-4NAMSOGY.js",
+      "sha256": "eaebfc1c1327a9fa17e39b86a2e9e59317372ef4a766723a82a90d4990733ef5",
+      "bytes": 203
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-TUT5QNTW.js",
+      "sha256": "eeab9650cf7677dcd09dd6e670864a86714512d69d620a6ff4220c4370810f99",
+      "bytes": 314
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-O2LBC5EX.js",
+      "sha256": "18e8beb3f176e66095c59fe64565d0eeca0535a62075cea762042396fba8f004",
+      "bytes": 115
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/assets/atlas-1b5dff1d49d8.json",
+      "sha256": "1b5dff1d49d8321d4f40c25cd77a8a206f1fda411521480bb42b124c41f07688",
+      "bytes": 10876
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/assets/people-props-430914164137.png",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/assets/buildings-0bc5233248d9.png",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/worker-3O4MYGBH.js",
+      "sha256": "f67000243260dc412102954fd85261646a8f7272c4c856368a15b00bf5bd6570",
+      "bytes": 90993
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/worker-3O4MYGBH.js",
+      "sha256": "f67000243260dc412102954fd85261646a8f7272c4c856368a15b00bf5bd6570",
+      "bytes": 90993
+    }
+  ],
+  "environment": {
+    "browser": "156.0.8078.80",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "headless": true
+  },
+  "finishedAt": "2026-11-03T17:59:47.372Z",
+  "status": "FAIL"
+}

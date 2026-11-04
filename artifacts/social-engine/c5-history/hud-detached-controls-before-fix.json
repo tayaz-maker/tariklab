@@ -1,0 +1,9 @@
+{
+  "status": "FAIL",
+  "browser": "chromium",
+  "version": "151.0.7922.34",
+  "manifestSha256": "f3e905685ad3c9b283a52f56aa365101583ed922f3ad6e41eeed43e2a3407c69",
+  "checks": [],
+  "errors": [],
+  "reason": "locator.click: Timeout 12000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-panel=\"map\"]')\u001b[22m\n\u001b[2m    8 × locator resolved to <button data-panel=\"map\">…</button>\u001b[22m\n\u001b[2m    - attempting click action\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element was detached from the DOM, retrying\u001b[22m\n\u001b[2m    - locator resolved to <button data-panel=\"map\">…</button>\u001b[22m\n"
+}

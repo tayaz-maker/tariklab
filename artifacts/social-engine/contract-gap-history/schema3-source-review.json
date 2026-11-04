@@ -1,0 +1,265 @@
+{
+  "generatedAt": "2026-11-03T18:04:56.230851+00:00",
+  "scope": "Four source contracts beyond SE-001..060; source review, not new execution or approved deferral",
+  "sourceHashes": {
+    "src/games/social-engine/simulation/engine.ts": "9f437a1fb48a770bb53653db5689922da2f0245a5276e369cb417bd917954f7a",
+    "src/games/social-engine/simulation/life.ts": "689dedae85051562606b16402c1307b1b454f0e941228f418f6376d299187499",
+    "src/games/social-engine/simulation/society.ts": "732bded159c98965c0b6cbc3c4da2e9fa5684aca5dc7a96f5db0f05eb4710842",
+    "src/games/social-engine/simulation/events.ts": "9c0400c73f5456d84e4fc0c6d65ea7a17c3ef9e3f13c405d10762e94000dc025",
+    "src/games/social-engine/domain/types.ts": "d968ab6a996c53aaac9b91bd7f707bf477ab19429bdf79aefa1ed6cedb402f2e",
+    "src/games/social-engine/domain/content.ts": "b2a42628932e88813af63686d29f46c9447be49dc04b4f18fb7abf39d74569d1",
+    "src/games/social-engine/worker/entry.ts": "5f069cddcd04a514f508280bd4237d1a7def4b2e011deae7d2fc86d6db3e2e88",
+    "src/games/social-engine/ui/app.ts": "72ee7cf98819bfd6312563f952cfee7b86cffec896d0adbae8886438f57fe31e",
+    "src/games/social-engine/persistence/repository.ts": "f61aa99109ea1e1f0ce1c246ff89a393428529e6672b1616d3e7b49dffe73578"
+  },
+  "requirements": [
+    {
+      "id": "C01",
+      "status": "FAIL",
+      "classification": "Concrete 1.0 gameplay",
+      "requirement": "Rental, paid bus stops, parking capacity, traffic signals and junction reservations",
+      "contract": "GAME_DESIGN.md:77-85; TECHNICAL_SPEC.md:26-27",
+      "implemented_and_gap": "Driving follows directed lanes and same-lane spacing; no rental agreement, transit/parking model, signal or intersection reservation.",
+      "source_evidence": "simulation/engine.ts:563-615,845-917; domain/types.ts:125-135",
+      "next_action": "Mobility module with funded fare/deposit, real capacity/reservations and tests; do not label basic driving as transit."
+    },
+    {
+      "id": "C02",
+      "status": "FAIL",
+      "classification": "Concrete 1.0 gameplay",
+      "requirement": "Clear/cloud/rain/wind weather and 0.5x/1x/2x time controls; cosmetic aging",
+      "contract": "GAME_DESIGN.md:197-205",
+      "implemented_and_gap": "Day/night tint and a fixed clock exist. No weather state or user rate command/UI; age is static. Clock ratio conflicts are already documented in ADR2.",
+      "source_evidence": "rendering/renderer.ts:714; worker/entry.ts:12-40; domain/types.ts:7-35",
+      "next_action": "Add deterministic weather and recorded speed controls preserving fixed simulation tick; distinguish cosmetic age from demographic death."
+    },
+    {
+      "id": "C03",
+      "status": "FAIL",
+      "classification": "Concrete 1.0 gameplay",
+      "requirement": "Player heavy attack and dodge controls",
+      "contract": "GAME_DESIGN.md:65-73",
+      "implemented_and_gap": "ATTACK heavy and DODGE are implemented in domain; visible keyboard/menu only offers ordinary attack, block and surrender.",
+      "source_evidence": "simulation/engine.ts:616-640; ui/app.ts:995-1006",
+      "next_action": "Expose supported actions through accessible controls and test input-to-result."
+    },
+    {
+      "id": "C04",
+      "status": "FAIL",
+      "classification": "Concrete 1.0 progression",
+      "requirement": "Daily XP ceiling, perk/unlock progression",
+      "contract": "GAME_DESIGN.md:41-49",
+      "implemented_and_gap": "Informal TRAIN capped five/day; all skills bounded100. No global daily XP accounting or perk model across books, course attendance, shifts and social interaction.",
+      "source_evidence": "simulation/engine.ts:441-450,696-707; simulation/life.ts; domain/types.ts:7-35",
+      "next_action": "Define consistent daily gain accounting without claiming TRAIN cap covers every XP source."
+    },
+    {
+      "id": "C05",
+      "status": "FAIL",
+      "classification": "Concrete 1.0 gameplay",
+      "requirement": "University lesson, club and school social hierarchy",
+      "contract": "GAME_DESIGN.md:125-133",
+      "implemented_and_gap": "Three attended courses/certificates and certificate-gated jobs exist. There is no club/university group membership or hierarchy model.",
+      "source_evidence": "simulation/life.ts; domain/life-types.ts",
+      "next_action": "Keep courses as verified; add group/hierarchy interactions or retain this as unmet, not approved deferral."
+    },
+    {
+      "id": "C06",
+      "status": "FAIL",
+      "classification": "Concrete society behavior",
+      "requirement": "Faction membership/hierarchy, one leader, treasury, rivals, heat, personal loyalty and contested territory",
+      "contract": "SOCIETY_ENGINE.md:60; GAME_DESIGN.md:137-145",
+      "implemented_and_gap": "Three influence flags, player faction and departure event exist. No Gang aggregate or NPC membership/officer/leader/treasury/rivalry state.",
+      "source_evidence": "simulation/engine.ts:793-811; simulation/society.ts; domain/types.ts",
+      "next_action": "Typed factions with real funded flows, membership invariants and consequential decisions."
+    },
+    {
+      "id": "C07",
+      "status": "FAIL",
+      "classification": "Concrete society behavior",
+      "requirement": "False witness reports, limited police knowledge/capacity, separate arrest/custody/acquittal outcomes",
+      "contract": "SOCIETY_ENGINE.md:58,114; GAME_DESIGN.md:149-157,293",
+      "implemented_and_gap": "Evidence-backed assault reports, investigating/pursuit/resolved states, fines and surrender exist. No separate police knowledge representation, false-report scenario, dispatch capacity, custody or acquittal. Detailed courtroom procedure is explicitly outside1.0; that does not establish these simpler states.",
+      "source_evidence": "domain/types.ts:136-147; simulation/engine.ts:647-660,979-1026",
+      "next_action": "Implement minimum knowledge-limited case outcomes; do not invent detailed court scope."
+    },
+    {
+      "id": "C08",
+      "status": "UNVERIFIED",
+      "classification": "Conditional integrity obligation",
+      "requirement": "Stolen item provenance and victim inventory bound",
+      "contract": "SOCIETY_ENGINE.md:58",
+      "implemented_and_gap": "No theft/stolen inventory path is implemented. Ordinary consumables are counted stacks and quest parcels have unique quest IDs. Provenance invariant cannot be claimed tested on absent theft.",
+      "source_evidence": "domain/types.ts:39-47; simulation/engine.ts:394-441,525-538",
+      "next_action": "If theft is introduced, link instance provenance and debit victim inventory. Do not count this as a passing theft system."
+    },
+    {
+      "id": "C09",
+      "status": "FAIL",
+      "classification": "Concrete society lifecycle",
+      "requirement": "Guardians, dependents, bounded births/deaths/migration, tombstones and debt-first estates/inheritance",
+      "contract": "SOCIETY_ENGINE.md:29,64,115",
+      "implemented_and_gap": "Adult marriage/separation, deterministic initial families and acyclic ancestry exist. No births/deaths/guardians/dependents or estate events. Initial population remains1100.",
+      "source_evidence": "simulation/life.ts; domain/life-types.ts; simulation/population.ts",
+      "next_action": "Extend LifeV2 under schema4, preserve original100local IDs, validate child restrictions and all estate/household references."
+    },
+    {
+      "id": "C10",
+      "status": "FAIL",
+      "classification": "Concrete society depth",
+      "requirement": "Rumor source/confidence, repeatable salience decay, critical memories and familiarity/loyalty",
+      "contract": "SOCIETY_ENGINE.md:23,48,111; GAME_DESIGN.md:161-169",
+      "implemented_and_gap": "Observer-only event IDs stored; local NPC memory48FIFO, sparse trust/affection/fear/resentment. No rumor, confidence, salience/decay or protected memory; background memories do not receive emit observer entries.",
+      "source_evidence": "simulation/events.ts:8-65; domain/types.ts:82-105",
+      "next_action": "Typed memory provenance/decay with protected critical events and tests; retain existing privacy correctness."
+    },
+    {
+      "id": "C11",
+      "status": "FAIL",
+      "classification": "Concrete routine behavior; algorithm is proposal",
+      "requirement": "Background scheduled travel arrivals, shop hours/queues, school routines and missed-work consequence",
+      "contract": "SOCIETY_ENGINE.md:31-44; TECHNICAL_SPEC.md:29-30",
+      "implemented_and_gap": "Local routines/path movement exist. Background NPCs immediately change scene at hourly updates; shop hours/queues/transit capacity absent. NPC salary is daily and does not check actual attended shift. Utility formula/min-heap are proposed mechanisms, not independently required product features.",
+      "source_evidence": "simulation/society.ts:9-118,171-193",
+      "next_action": "Model causal abstract arrivals/attendance and feasibility; choose implementation independently rather than mimic illustrative utility code."
+    },
+    {
+      "id": "C12",
+      "status": "FAIL",
+      "classification": "Concrete economy behavior",
+      "requirement": "Taxes, resource-constrained production, market demand/stock prices and district indicators",
+      "contract": "SOCIETY_ENGINE.md:52",
+      "implemented_and_gap": "Paired transfers, external trade, wage affordability, layoffs, benefits, stock replenishment and loan assets exist. Stock additions have no input consumption; weekly prices use seeded jitter; no tax schedule or derived district indicator aggregate.",
+      "source_evidence": "simulation/society.ts:132-247; simulation/ledger.ts",
+      "next_action": "Add actual necessary flows/indicators; avoid claiming a price-random-walk is stock/demand response."
+    },
+    {
+      "id": "C13",
+      "status": "FAIL",
+      "classification": "Concrete social shocks",
+      "requirement": "Bounded strikes, migration/public works and measurable district shock duration/severity",
+      "contract": "SOCIETY_ENGINE.md:64",
+      "implemented_and_gap": "Distress reduces wages/revenue; bankruptcy closes jobs; shortages and monthly vacant-rent review exist. No strike reducing output, public works or migration shock registry.",
+      "source_evidence": "simulation/society.ts:132-330; simulation/life.ts",
+      "next_action": "State-driven typed shock registry with actual consequences; preserve tested distress/closure behavior."
+    },
+    {
+      "id": "C14",
+      "status": "FAIL",
+      "classification": "Concrete mission authoring contract",
+      "requirement": "Exclusive participants AND locations, causal unresolved facts, choices/effects/fallback definitions",
+      "contract": "GAME_DESIGN.md:257-261; SOCIETY_ENGINE.md:68; TECHNICAL_SPEC.md:53-54",
+      "implemented_and_gap": "Twenty templates and branch tests, issuer lock, funded reward, cooldown and timeout exist. Location locks absent; several triggers are elapsed time or broad flags; template lacks explicit choices/effects/fallback fields, and UI does not expose DECLINE_QUEST.",
+      "source_evidence": "domain/content.ts; simulation/missions.ts:9-197; ui/app.ts:640-665",
+      "next_action": "Expose refusal; reserve genuinely exclusive participants/locations; ground missing triggers and schema fields without altering acceptance counts."
+    },
+    {
+      "id": "C15",
+      "status": "FAIL",
+      "classification": "Concrete inventory contract",
+      "requirement": "Inventory slot limit and unique item identity",
+      "contract": "GAME_DESIGN.md:185-193",
+      "implemented_and_gap": "Weight limit30 IS implemented. Stack inventory has no ordinary item instance IDs or independent slot limit; quest parcel IDs are unique.",
+      "source_evidence": "simulation/engine.ts:394-441,525-538; domain/types.ts:39-47",
+      "next_action": "Decide fungible stack IDs versus instance identity explicitly; do not report weight capacity missing."
+    },
+    {
+      "id": "C16",
+      "status": "FAIL",
+      "classification": "Concrete lifecycle option",
+      "requirement": "Voluntary retirement endpoint without mandatory game over",
+      "contract": "GAME_DESIGN.md:221-229",
+      "implemented_and_gap": "Recovery and continued play exist; there is no retirement action/state.",
+      "source_evidence": "simulation/engine.ts:289-811; ui/app.ts",
+      "next_action": "Provide reversible/explicit retirement summary semantics; no forced ending."
+    },
+    {
+      "id": "C17",
+      "status": "FAIL",
+      "classification": "Concrete recovery contract",
+      "requirement": "Replayable durable command-journal tail and corrupt-tail quarantine",
+      "contract": "SOCIETY_ENGINE.md:80-88,117",
+      "implemented_and_gap": "Atomic SHA snapshots/current+previous, quarantine, sequential migration journal exist and are tested. Journal stores migration sources only, with no durable command payload log/tail replay or sequence cursor; processed command IDs are deduplication, not replay.",
+      "source_evidence": "persistence/repository.ts:17-35,184-248,317-324; persistence/README.md",
+      "next_action": "Add bounded replay log/checkpoints with exact-once verification, or retain this explicit unmet obligation; schema names alone are not proof."
+    },
+    {
+      "id": "C18",
+      "status": "UNVERIFIED",
+      "classification": "Architecture/representation contract",
+      "requirement": "Per-object schemaVersion/updatedTick, separate rules version, immutable profile store, bounded delta projection",
+      "contract": "GAME_DESIGN.md:13-15; SOCIETY_ENGINE.md:29,82; TECHNICAL_SPEC.md:35-36,136",
+      "implemented_and_gap": "World/envelope/protocol versions exist; most objects lack per-object versions/ticks; person profile/state combined; worker sends bounded full projection called DELTA. Existing guarantees may support an ADR, but no ADR for these exact deviations currently exists.",
+      "source_evidence": "domain/types.ts; worker/entry.ts:15-20; persistence/codec.ts",
+      "next_action": "Write justified compatibility ADR or implement relevant version boundaries; do not claim exact field contract was followed."
+    },
+    {
+      "id": "C19",
+      "status": "UNVERIFIED",
+      "classification": "Proposed architecture/optimization",
+      "requirement": "Priority heap, spatial hash, hierarchical routing, route invalidation, offscreen scheduling",
+      "contract": "TECHNICAL_SPEC.md:23-30; SOCIETY_ENGINE.md:74",
+      "implemented_and_gap": "A* with collision and cached graph, fixed bounded scans and near/far update rates work. Spec mechanisms are proposed architecture; priority must be measured behavior/invariants. No evidence for every proposed internal structure.",
+      "source_evidence": "domain/world.ts; simulation/society.ts",
+      "next_action": "Document architecture choices and measured budget impact; not grounds to demand an unnecessary rewrite."
+    },
+    {
+      "id": "C20",
+      "status": "FAIL",
+      "classification": "Concrete compatibility behavior",
+      "requirement": "Reduced-fidelity main-thread worker fallback; optional-asset placeholder/retry",
+      "contract": "TECHNICAL_SPEC.md:32-33,59-69",
+      "implemented_and_gap": "Worker fault pauses/restarts verified snapshot; no main-thread simulation fallback. Atlas load uses a fatal error path rather than demonstrated optional-art placeholder/retry.",
+      "source_evidence": "ui/app.ts:190-255; rendering/renderer.ts:293-360; worker/entry.ts",
+      "next_action": "Implement bounded fallback policies or explicitly retain unmet requirements; safe worker restart is already verified."
+    },
+    {
+      "id": "C21",
+      "status": "UNVERIFIED",
+      "classification": "Concrete validation work",
+      "requirement": "10,000-NPC synthetic benchmark; 100,000 random validated commands",
+      "contract": "SOCIETY_ENGINE.md:118-120",
+      "implemented_and_gap": "100000-command seeded boundary fuzz IS implemented and PASS in final simulation log. No10k synthetic benchmark evidence found. 5000–10000 production population is a future target, but the explicit synthetic test still remains.",
+      "source_evidence": "tests/simulation.test.ts:314-343; artifacts/social-engine/simulation-tests-final.log:51",
+      "next_action": "Keep fuzz PASS; run/report10k synthetic workload without claiming10k release population."
+    },
+    {
+      "id": "C22",
+      "status": "UNVERIFIED",
+      "classification": "Concrete validation work",
+      "requirement": "Two human30-minute playtests; browser native200%zoom; real hidden tab; reference PC/low-end long soak",
+      "contract": "ACCEPTANCE_TESTS.md:184-211; TECHNICAL_SPEC.md:50-51,79-95; GAME_DESIGN.md:281",
+      "implemented_and_gap": "Automation and in-game200%scale are not human sessions or native browser zoom. Headless Chromium remains visible when backgrounded. Existing timing reports are local candidate measurements with hardware/contended-run limits.",
+      "source_evidence": "artifacts/social-engine/ui-browser/results.json; artifacts/social-engine/performance/",
+      "next_action": "Retain UNVERIFIED until actual required evidence; never substitute simulated ticks or hooks."
+    },
+    {
+      "id": "C23",
+      "status": "UNVERIFIED",
+      "classification": "Concrete integration validation",
+      "requirement": "Combined debt + job loss + wanted + health recovery; all20event branches reload; three livelihoods7days",
+      "contract": "GAME_DESIGN.md:25,37,241,263-271,281; ACCEPTANCE_TESTS.md",
+      "implemented_and_gap": "Individual aid/loan/job/crime/course and event branch tests exist. This read-only audit has not mapped every combined scenario and three7day paths to immutable exact-source evidence.",
+      "source_evidence": "tests/life.test.ts; tests/simulation-events.test.ts; artifacts/social-engine/legal-careers/",
+      "next_action": "Link exact current reports or add missing integrated scenarios; do not infer combined route from isolated tests."
+    },
+    {
+      "id": "C24",
+      "status": "UNVERIFIED",
+      "classification": "Release authorization/evidence",
+      "requirement": "Immutable preview/providerSHA/CI/rollback, production verification",
+      "contract": "ACCEPTANCE_TESTS.md:171-181,213-243; TECHNICAL_SPEC.md:76-77",
+      "implemented_and_gap": "Dedicated branch and lock respected. User suspended merge/production; production criteria are intentionally not executed. Preview/CI identity still requires exact finalcommit evidence.",
+      "source_evidence": "docs/social-engine/ISOLATION.md; artifacts/social-engine/results.json",
+      "next_action": "Continue isolated PR/preview; no merge or production without later explicit user authorization."
+    }
+  ],
+  "resolved_or_nonmandatory": [
+    "Audio disabled by explicit project instruction and ADR6; not a forgotten requested audio feature.",
+    "1,100 initial population retained; 5k–10k production capacity is a future target, distinct from specified10k synthetic test.",
+    "Detailed courtroom procedure, multiple districts, multiplayer and photorealistic3D are expressly outside1.0.",
+    "100ms fixed physics/simulation authority,24-minute game day and relation scale decisions are documented ADR2–4, not silently marked implementation failures.",
+    "Illustrative interface/folder names and proposed utility weights are not independently product acceptance requirements."
+  ],
+  "no_scope_waiver": true
+}

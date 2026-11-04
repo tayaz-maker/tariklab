@@ -1,0 +1,20 @@
+{
+  "status": "FAIL",
+  "startedAt": "2026-11-03T21:16:18.041Z",
+  "base": "http://127.0.0.1:8107",
+  "manifestSha256": "7acc7343ed79d1a0f3b846544acd83ff435458f0a9b8b2d912dc4a4a274ff134",
+  "headless": true,
+  "checks": [
+    {
+      "name": "Every packaged runtime and atlas file matches the tested manifest",
+      "status": "PASS"
+    },
+    {
+      "name": "Asset whitelist rejects traversal, unsupported methods and nonpublic files",
+      "status": "PASS"
+    }
+  ],
+  "errors": [],
+  "reason": "Expected values to be strictly equal:\n\n2 !== 1\n",
+  "finishedAt": "2026-11-03T21:16:21.330Z"
+}

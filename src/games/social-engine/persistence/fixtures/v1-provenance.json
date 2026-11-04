@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "kind": "first internal compatibility fixture; never production released",
+  "seed": 20261103,
+  "population": 1100,
+  "sourceEngineVersion": "1.0.0-candidate.1",
+  "worldPayloadSha256": "7931ed0d5b51b2d5d692cc7d43300e344c38193ca393a3adc2733455cb019fdd",
+  "removedFields": [
+    "ledgerCheckpoint",
+    "notices"
+  ],
+  "createdAt": "2026-11-03T12:00:00.000Z"
+}
