@@ -280,6 +280,7 @@ function completeMission(state: WorldState, questId: string): CommandResult {
   if (quest.kind === "vehicle_breakdown") {
     state.flags.vehicleWear = false;
     state.vehicles[2].speed = 2;
+    delete state.vehicles[2].resumeSpeed;
     p.skills.technical = clamp(p.skills.technical + 4);
   }
   if (quest.kind === "late_wage") {
@@ -670,6 +671,7 @@ function applyCommandInner(state: WorldState, command: Command): CommandResult {
       if (accessError) return fail(accessError);
       unparkVehicle(state, vehicle.id);
       vehicle.driverId = "player";
+      delete vehicle.resumeSpeed;
       p.vehicleId = vehicle.id;
       p.location = { ...vehicle.location };
       stop(state);
@@ -1454,6 +1456,8 @@ export function validateState(
         !Number.isFinite(vehicle.speed) ||
         vehicle.speed < 0 ||
         vehicle.speed > 6 ||
+        (vehicle.resumeSpeed !== undefined &&
+          (!Number.isFinite(vehicle.resumeSpeed) || vehicle.resumeSpeed <= 0 || vehicle.resumeSpeed > 6)) ||
         !Number.isFinite(vehicle.heading) ||
         !isWalkable(vehicle.location)
       )

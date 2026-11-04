@@ -1,3 +1,4 @@
+import { validateState as validateCandidate7 } from "./historical/candidate7/simulation/engine.ts";
 import { compactMealMemberships } from "../simulation/meal-migration.ts";
 import { migrateLegacyTrafficPoses } from "./historical/candidate6/simulation/traffic.ts";
 import { migrateState as migrateCandidate5 } from "./historical/candidate5/persistence/codec.ts";
@@ -123,6 +124,27 @@ export async function archivedRules7Digest(state: WorldState): Promise<string> {
   const packed = packRecords(copy);
   return sha256(canonical({ ...packed, rulesVersion: "social-engine-rules-7" }));
 }
+/** Verify a schema-6/7 -> schema-8 archive with the unchanged rules-8 contract. */
+export async function archivedRules8Digest(state: WorldState): Promise<string> {
+  const copy = structuredClone(state);
+  if (copy.schemaVersion === 6) {
+    if (copy.engineVersion !== "1.0.0-candidate.5" || validateCandidate5(copy).length)
+      throw new SaveError("INVALID_STATE", "Eski geçiş kaynağı geçersiz.");
+    migrateLegacyTrafficPoses(copy);
+    copy.schemaVersion = 7;
+    copy.engineVersion = "1.0.0-candidate.6";
+  }
+  if (copy.schemaVersion === 7) {
+    if (copy.engineVersion !== "1.0.0-candidate.6" || validateCandidate6(copy).length)
+      throw new SaveError("INVALID_STATE", "Eski geçiş kaynağı geçersiz.");
+    compactMealMemberships(copy);
+    copy.schemaVersion = 8;
+    copy.engineVersion = "1.0.0-candidate.7";
+  }
+  if (copy.schemaVersion !== 8 || copy.engineVersion !== "1.0.0-candidate.7" || validateCandidate7(copy).length)
+    throw new SaveError("INVALID_STATE", "Eski geçiş sonucu geçersiz.");
+  return sha256(canonical({ ...packRecords(copy), rulesVersion: "social-engine-rules-8" }));
+}
 /** The frozen v1 fixture predates notices and the reconciled ledger checkpoint. */
 export function migrateState(value: unknown): WorldState {
   assertJsonTree(value);
@@ -136,6 +158,7 @@ export function migrateState(value: unknown): WorldState {
     value.schemaVersion !== 5 &&
     value.schemaVersion !== 6 &&
     value.schemaVersion !== 7 &&
+    value.schemaVersion !== 8 &&
     value.schemaVersion !== SAVE_SCHEMA
   )
     throw new SaveError("UNSUPPORTED_VERSION", "Daha yeni veya bilinmeyen kayıt sürümü.");
@@ -212,6 +235,12 @@ export function migrateState(value: unknown): WorldState {
     if (copy.engineVersion !== "1.0.0-candidate.6" || validateCandidate6(copy as WorldState).length)
       throw new SaveError("INVALID_STATE", "Kaynak dünya doğrulanamadı; kayıt korundu.");
     compactMealMemberships(copy as WorldState);
+    copy.schemaVersion = 8;
+    copy.engineVersion = "1.0.0-candidate.7";
+  }
+  if (copy.schemaVersion === 8) {
+    if (copy.engineVersion !== "1.0.0-candidate.7" || validateCandidate7(copy as WorldState).length)
+      throw new SaveError("INVALID_STATE", "Kaynak dünya doğrulanamadı; kayıt korundu.");
     copy.schemaVersion = SAVE_SCHEMA;
     copy.engineVersion = ENGINE_VERSION;
   }
@@ -278,6 +307,7 @@ export async function decodeSave(value: unknown): Promise<DecodedSave> {
     value.schemaVersion !== 5 &&
     value.schemaVersion !== 6 &&
     value.schemaVersion !== 7 &&
+    value.schemaVersion !== 8 &&
     value.schemaVersion !== SAVE_SCHEMA
   )
     throw new SaveError("UNSUPPORTED_VERSION", "Bu kayıt sürümü desteklenmiyor.");
@@ -297,6 +327,7 @@ export async function decodeSave(value: unknown): Promise<DecodedSave> {
   if (
     (value.schemaVersion === 6 && value.gameVersion !== "1.0.0-candidate.5") ||
     (value.schemaVersion === 7 && value.gameVersion !== "1.0.0-candidate.6") ||
+    (value.schemaVersion === 8 && value.gameVersion !== "1.0.0-candidate.7") ||
     (value.schemaVersion === SAVE_SCHEMA && value.gameVersion !== ENGINE_VERSION)
   )
     throw new SaveError("UNSUPPORTED_VERSION", "Bilinmeyen oyun kuralları; kaynak korundu.");
@@ -313,6 +344,7 @@ export async function decodeSave(value: unknown): Promise<DecodedSave> {
     ((value.schemaVersion !== 5 &&
       value.schemaVersion !== 6 &&
       value.schemaVersion !== 7 &&
+      value.schemaVersion !== 8 &&
       value.schemaVersion !== SAVE_SCHEMA) ||
       typeof value.payloadSha256 !== "string" ||
       !/^[a-f0-9]{64}$/.test(value.payloadSha256))
@@ -347,7 +379,8 @@ export async function decodeSave(value: unknown): Promise<DecodedSave> {
   if (
     (value.schemaVersion === 6 && parsed.rulesVersion !== "social-engine-rules-6") ||
     (value.schemaVersion === 7 && parsed.rulesVersion !== "social-engine-rules-7") ||
-    (value.schemaVersion === SAVE_SCHEMA && parsed.rulesVersion !== "social-engine-rules-8")
+    (value.schemaVersion === 8 && parsed.rulesVersion !== "social-engine-rules-8") ||
+    (value.schemaVersion === SAVE_SCHEMA && parsed.rulesVersion !== "social-engine-rules-9")
   )
     throw new SaveError("UNSUPPORTED_VERSION", "Bilinmeyen kayıt kuralları; kaynak korundu.");
   let materialized = parsed;
@@ -373,7 +406,7 @@ export async function decodeSave(value: unknown): Promise<DecodedSave> {
     state,
     migrated: value.schemaVersion < SAVE_SCHEMA,
     sourceSchema: value.schemaVersion,
-    ...(value.schemaVersion <= 6 ? { sourceState: migrateCandidate5(materialized) } : value.schemaVersion === 7 ? { sourceState: materialized as WorldState } : {}),
+    ...(value.schemaVersion <= 6 ? { sourceState: migrateCandidate5(materialized) } : [7, 8].includes(Number(value.schemaVersion)) ? { sourceState: materialized as WorldState } : {}),
     source: value as SaveEnvelope,
   };
 }

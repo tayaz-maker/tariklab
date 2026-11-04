@@ -98,7 +98,7 @@ export function expectedTrafficMigration(source: WorldState): WorldState {
         : expected.npcs.find((n) => n.id === car.driverId);
     if (driver) driver.location = { ...car.location };
   }
-  expected.schemaVersion = 8;
-  expected.engineVersion = "1.0.0-candidate.7";
+  expected.schemaVersion = 9;
+  expected.engineVersion = "1.0.0-candidate.8";
   return expected;
 }

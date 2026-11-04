@@ -193,7 +193,7 @@ test("frozen real candidate5 snapshot and command/tick tail replay exactly befor
   const before = JSON.stringify(frozen);
   const decoded = await decodeSave(frozen.envelope);
   assert.equal(decoded.sourceState!.schemaVersion, 6);
-  assert.equal(decoded.state.schemaVersion, 8);
+  assert.equal(decoded.state.schemaVersion, 9);
   const point = { epoch: frozen.meta.epoch, cursor: frozen.meta.baseCursor };
   const base = await newJournalMeta(frozen.envelope, point);
   const batch = await decodeJournal(base, frozen.record);
@@ -205,7 +205,7 @@ test("frozen real candidate5 snapshot and command/tick tail replay exactly befor
   );
   assert.notEqual(
     canonicalState(expectedTrafficMigration(historical)),
-    canonicalState({ ...historical, schemaVersion: 8, engineVersion: "1.0.0-candidate.7" }),
+    canonicalState({ ...historical, schemaVersion: 9, engineVersion: "1.0.0-candidate.8" }),
     "Genuine fixture must exercise an actual legacy pose conversion",
   );
   assert.equal(JSON.stringify(frozen), before);

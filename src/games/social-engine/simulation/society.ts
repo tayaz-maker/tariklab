@@ -439,6 +439,7 @@ export function dailyEconomy(state: WorldState): void {
   if (day % 5 === 0) {
     state.flags.vehicleWear = true;
     state.vehicles[2].speed = 0;
+    delete state.vehicles[2].resumeSpeed;
     emit(state, "vehicle_breakdown", "Taksi filosunda bakım ihtiyacı oluştu.", ["n2"]);
   }
   if (day % 2 === 0) {

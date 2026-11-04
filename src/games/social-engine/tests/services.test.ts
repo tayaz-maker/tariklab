@@ -104,7 +104,7 @@ test("authentic schema4 migration adds empty service reservations and preserves 
   );
   const bytes = JSON.stringify(before),
     after = migrateState(before);
-  assert.equal(after.schemaVersion, 8);
+  assert.equal(after.schemaVersion, 9);
   assert.equal(JSON.stringify(before), bytes);
   for (const field of [
     "accounts",

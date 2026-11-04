@@ -147,11 +147,12 @@ test("GD16 seeded four weather states affect road caps and outdoor fatigue; all 
     for (let t = 0; t < 30; t++) stepWorld(s);
     assert.deepEqual(validateState(s), []);
   }
+  // Measure the clear initial road stretch before later junction/collision stops.
+  assert.ok(states[1].vehicles[0].speed < states[0].vehicles[0].speed);
+  assert.equal(states[1].vehicles[0].speed, 4.2);
   const fatigue = states.map((s) => s.player.fatigue);
   for (const s of states) advanceMinutes(s, 15);
   assert.equal(states[1].player.fatigue - fatigue[1], states[0].player.fatigue - fatigue[0] + 1);
-  assert.ok(states[1].vehicles[0].speed < states[0].vehicles[0].speed);
-  assert.equal(states[1].vehicles[0].speed, 4.2);
   const rain = states[1];
   assert.equal(act(rain, "SET_TIME_SPEED", { speed: 3 }).ok, false);
   for (const speed of [0.5, 1, 2]) {

@@ -54,3 +54,16 @@ must be measured. Until verified, no simulation or save rule change is included.
 ## Baseline tests run
 
 `node --experimental-strip-types --test src/games/social-engine/tests/traffic.test.ts src/games/social-engine/tests/traffic-geometry.test.ts src/games/social-engine/tests/npc-movement.test.ts` passed **31/31**, 0 skipped, in 24.95 s on Node 24.21.0. Several geometry and crowd tests use authored fixtures; their passing does not prove long-term real-world NPC independence, human visual acceptance, hardware performance, or journal migration after a future rules change.
+
+## Unpublished rules-9 candidate: stationary-speed correction
+
+The candidate now stores zero actual speed whenever a physical reservation or
+collision guard rejects movement, while retaining NPC resume intent separately.
+Admission resumes with bounded acceleration, including after save/load. The schema-8
+engine is frozen from the baseline with a pinned source manifest; authentic rules-8
+journal fixtures replay to their original canonical hashes before schema-9 conversion.
+No existing wallet, ledger, hunger or food stock is rewritten by this correction.
+
+The driver-hunger finding remains an independent gameplay blocker at this stage.
+A correct physical driver-break lifecycle must be integrated and accepted separately;
+this speed correction does not claim that seven permanently attached drivers can eat.

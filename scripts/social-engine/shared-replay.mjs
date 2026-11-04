@@ -9,22 +9,17 @@ import { dirname, join, relative, resolve } from "node:path";
 const prefix = "rules-initializer:";
 const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const generations = [
+  ["candidate7", "6b9447f511e6cd49d5cbf347f20a84c716a55036e9fe2c1a8e520806c9a18730"],
   ["candidate5", "35078dc1e6d5097fa7345be13961a3a83088d0e2b8cb178a0a5b5ca10cd9b520"],
   ["candidate6", "3d31faaa66e3e43a05257d6d24ed3b9a6bf40036bb74fdc644e30bd94fc5444a"],
 ];
-// The active DAG uses candidate 6 hashes except for these reviewed sources.
+// The active DAG uses candidate 7 hashes except for these reviewed sources.
 // Changing a runtime dependency opts its consumers out of sharing until reviewed.
 const activeChanges = {
-  "simulation/traffic.ts": "13f54116c00908989652b7356c487c1e602ed27da620c3a4ac683a1da4f38b70",
-  "domain/traffic.ts": "0deab9cd0b65045b4244fd990229c8c5e6424f79bcba86857ebc223d39b56585",
-  "domain/content.ts": "3defcd895ea8358661926d002ad7dd29b5dc40ed54dfa66b36eb165cb2943ab9",
-  "simulation/engine.ts": "e872cd83f8fd5ef992bc7bce1511c36d1af738a09515f791781bcb03712d2f52",
-  "simulation/ledger.ts": "1c452c4b3b03cdce566fc189c798e04efa3b0ca5497cb97d40689be1e8e711e0",
-  "simulation/meal-membership.ts":
-    "3381b57b0385727e7c434c43dc11154387e7982adc730a4a3b30a28ce91979eb",
-  "simulation/pedestrian-navigation.ts":
-    "7751da2bd9233bffe520e38a6c2d3d4f88bf91027f3c51af2a65a1c58aa51ab4",
-  "simulation/society.ts": "0319cda2d390394701b3088138c62789cd21ac5b86259d3e8c64ac07c0b00081",
+  "simulation/traffic.ts": "dfeb6b2f9d0bf40665c8c97535aea52b680c4e9023a6c334a6e8bfbb55e7ffd0",
+  "domain/content.ts": "517fd3b7cb555e8a02f613b8b2634eb6a9baa189feba14dacc11258cb2db6cd0",
+  "simulation/engine.ts": "9b7f26624d310d6f18f734c7b8562ef7eed428f0ea37945a10b4c6a6bb4a8d47",
+  "simulation/society.ts": "0754c1169980c824a105a7e8fea396d841727e7736a5e22532601c35f83ebcc5"
 };
 async function readRules(dir, expected) {
   const manifest = await readFile(join(dir, "provenance.json"));
@@ -134,7 +129,7 @@ export function sharedReplay(root) {
         const dir = join(base, "persistence/historical", generation);
         variants.push({ dir, expected: await readRules(dir, sha) });
       }
-      variants.push({ dir: base, expected: { ...variants.at(-1).expected, ...activeChanges } });
+      variants.push({ dir: base, expected: { ...variants[0].expected, ...activeChanges } });
       const candidates = new Map();
       for (const { dir, expected } of variants) {
         const known = new Map();

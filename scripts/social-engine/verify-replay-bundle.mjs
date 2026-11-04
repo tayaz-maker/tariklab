@@ -16,6 +16,7 @@ const inputs = Object.fromEntries(
     current: "simulation/engine.ts",
     candidate5: "persistence/historical/candidate5/simulation/engine.ts",
     candidate6: "persistence/historical/candidate6/simulation/engine.ts",
+    candidate7: "persistence/historical/candidate7/simulation/engine.ts",
     codec: "persistence/codec.ts",
     journal: "persistence/journal.ts",
   }).map(([name, path]) => [name, join(base, path)]),
@@ -30,7 +31,7 @@ try {
     compiled[chunk.name] = await import(pathToFileURL(join(dir, chunk.fileName)));
   const hash = (text) => createHash("sha256").update(text).digest("hex");
   const frozenReplays = {};
-  for (const name of ["v6-auto-with-tail", "v7-auto-with-tail", "v7-auto-with-driving-tail"]) {
+  for (const name of ["v6-auto-with-tail", "v7-auto-with-tail", "v7-auto-with-driving-tail", "v8-auto-with-tail"]) {
     const fixture = JSON.parse(
       gunzipSync(await readFile(join(base, "persistence/fixtures/" + name + ".json.gz"))),
     );
@@ -44,7 +45,7 @@ try {
       batch.operations,
       sourceSchema,
     );
-    const authority = sourceSchema === 6 ? compiled.candidate5 : compiled.candidate6;
+    const authority = sourceSchema === 6 ? compiled.candidate5 : sourceSchema === 7 ? compiled.candidate6 : compiled.candidate7;
     assert.deepEqual(authority.validateState(state), []);
     frozenReplays[name] = hash(authority.canonicalState(state));
     assert.equal(frozenReplays[name], fixture.expectedCanonicalSha256);
@@ -57,7 +58,7 @@ try {
   // Interleave generations so a shared module cache or incorrect dependency
   // binding is observable. Compare full authoritative states with native imports.
   const authorities = [];
-  for (const name of ["current", "candidate6", "candidate5"]) {
+  for (const name of ["current", "candidate7", "candidate6", "candidate5"]) {
     const source = await import(pathToFileURL(inputs[name]));
     for (const engine of [source, compiled[name]])
       authorities.push({ engine, state: engine.createWorld(20261104) });
@@ -77,14 +78,16 @@ try {
   assert.equal(hashes[0], hashes[1]);
   assert.equal(hashes[2], hashes[3]);
   assert.equal(hashes[4], hashes[5]);
-  assert.equal(new Set(hashes).size, 3);
+  assert.equal(hashes[6], hashes[7]);
+  assert.equal(new Set(hashes).size, 4);
   console.log(
     JSON.stringify({
       status: "PASS",
       frozenReplays,
       current: hashes[0],
-      candidate6: hashes[2],
-      candidate5: hashes[4],
+      candidate7: hashes[2],
+      candidate6: hashes[4],
+      candidate5: hashes[6],
       ticks: 640,
     }),
   );

@@ -183,11 +183,20 @@ export function advanceTraffic(state: WorldState): void {
           }
       }
     }
+    if (vehicle.driverId !== "player" && vehicle.resumeSpeed !== undefined)
+      vehicle.speed = quantize(Math.min(vehicle.resumeSpeed, vehicle.speed + 0.22));
     const step = Math.min(vehicle.speed, 6 * weatherEffects(state).speedFactor) * 0.1,
       len = laneLength(vehicle.lane),
       progress = quantize((vehicle.progress + step) % len) % len,
       position = trafficPose(vehicle.lane, progress);
-    if (!mayAdvanceVehicle(state, vehicle, position, context)) continue;
+    if (!mayAdvanceVehicle(state, vehicle, position, context)) {
+      if (vehicle.driverId !== "player" && vehicle.speed > 0)
+        vehicle.resumeSpeed ??= vehicle.speed;
+      vehicle.speed = 0;
+      continue;
+    }
+    if (vehicle.resumeSpeed !== undefined && vehicle.speed >= vehicle.resumeSpeed)
+      delete vehicle.resumeSpeed;
     if (step <= 0) continue;
     const delta = dist(vehicle.location, position);
     vehicle.heading = position.heading;
