@@ -1,5 +1,6 @@
 /** Real-time browser soak. QA STEP, clock jumps and direct state mutations are deliberately absent. */
 import { chromium } from "playwright";
+import { windowlessRendererOptions } from "./windowless-launch.mjs";
 import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import { execFileSync } from "node:child_process";
@@ -120,6 +121,7 @@ await saveReport();
 const browser = await chromium
   .launch({
     headless: true,
+    ...windowlessRendererOptions(),
     executablePath:
       process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH ||
       (process.platform === "darwin"

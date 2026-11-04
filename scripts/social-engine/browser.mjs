@@ -1,3 +1,4 @@
+import { waitForQATicks } from "./wait-for-qa-ticks.mjs";
 import { chromium, firefox, webkit } from "playwright";
 import { mkdir, writeFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
@@ -60,10 +61,7 @@ async function test(id, fn) {
 const state = () => page.evaluate(() => window.__socialEngine.state());
 const cmd = (type, args = {}) =>
   page.evaluate(({ type, args }) => window.__socialEngine.command(type, args), { type, args });
-const step = async (count) => {
-  await page.evaluate((n) => window.__socialEngine.step(n), count);
-  await page.waitForTimeout(180);
-};
+const step = (count) => waitForQATicks(page, count);
 try {
   await test("SE-001", async () => {
     await page.goto(base + "/games/social-engine/index.html?qa=1");

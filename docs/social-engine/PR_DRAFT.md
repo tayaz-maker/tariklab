@@ -1,5 +1,7 @@
 # Unpublished local PR draft
 
+Historical draft below. The active review is [PR 256](https://github.com/tayaz-maker/tariklab/pull/256); current status is [GOLD_BLOCKED](DEPLOYMENT_HOLD.md).
+
 **Add Kıyıyaka, a playable isometric district with a persistent society**
 
 A new desktop browser game runs at the feature-gated `/oyna/social-engine` route. Work, trade, property, personal relationships, theft, witnesses and police share the same deterministic world. For example, an unpaid unit leaves a real shop's stock. Its identity survives a save; returning it restores that shop's stock without erasing the case.

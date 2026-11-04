@@ -1,3 +1,4 @@
+import { waitForQATicks } from "./wait-for-qa-ticks.mjs";
 // Actual map and job controls; accelerated fixed ticks shorten the walk, not the assertions.
 import { chromium } from "playwright";
 import { readFile, writeFile, mkdir } from "node:fs/promises";
@@ -34,7 +35,7 @@ try {
     await page.waitForFunction(() => window.__socialEngine?.projection()?.population === 1100);
     await page.locator('[data-panel="map"]').click();
     await page.locator('[data-go="' + building + '"]').click();
-    await page.evaluate(() => window.__socialEngine.step(1800));
+    await waitForQATicks(page, 1800);
     const at = await page.evaluate(
       async () => (await window.__socialEngine.state()).player.location,
     );

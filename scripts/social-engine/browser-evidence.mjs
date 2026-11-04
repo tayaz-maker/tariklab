@@ -1,3 +1,4 @@
+import { waitForQATicks } from "./wait-for-qa-ticks.mjs";
 /** Focused acceptance evidence, real renderer and public command boundary. */
 import { chromium } from "playwright";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
@@ -56,10 +57,7 @@ page.on("response", (r) => {
 const state = () => page.evaluate(() => window.__socialEngine.state());
 const cmd = (type, args = {}) =>
   page.evaluate(({ type, args }) => window.__socialEngine.command(type, args), { type, args });
-const step = async (count) => {
-  await page.evaluate((n) => window.__socialEngine.step(n), count);
-  await page.waitForTimeout(150);
-};
+const step = (count) => waitForQATicks(page, count);
 async function check(id, name, fn) {
   const t = performance.now();
   try {

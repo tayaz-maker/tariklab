@@ -1,0 +1,8 @@
+{
+  "manifest": "f99509aa3dcccb828b95d91266db8b0f6d66e065e3bbd38d341195326810cb5e",
+  "checks": [
+    "retail",
+    "mechanic"
+  ],
+  "status": "PASS"
+}

@@ -1,0 +1,263 @@
+{
+  "kind": "instrumented branch build; live simulation sample followed by presentation-only synthetic crowds",
+  "sourceSha": "99d9148734a7ec81a18366f74e1bdb9c02988450",
+  "assets": {
+    "atlas.json": "78ee120c81db1e1402e6cae6388e1400d3c0ac580a536cf7d47f1f0e3831dad8",
+    "people-props.png": "d737d49cc57c2a22768c0a313be7e3c32f086afa2dec69fde4d7d28b2ba2970d",
+    "buildings.png": "ddad231f8cc88a4cdf98cfd48f8ec52e254c64afc062a7204aa510f9c9e13975"
+  },
+  "traffic": {
+    "samples": 169,
+    "comparable": 256,
+    "forward": 256,
+    "backward": 0,
+    "axisAligned": 255,
+    "axisMisaligned": 1,
+    "distinctVehicles": [
+      "v0",
+      "v1",
+      "v2",
+      "v3",
+      "v4",
+      "v5",
+      "v6",
+      "v7",
+      "v-rental-0"
+    ],
+    "frameCounts": {
+      "cargo-0": 338,
+      "car-0": 216,
+      "car-2": 151,
+      "car-6": 390,
+      "car-4": 123,
+      "car-7": 2,
+      "car-3": 2,
+      "car-5": 2
+    },
+    "examples": [
+      {
+        "id": "v1",
+        "frame": "car-0",
+        "dx": 21.088320005035314,
+        "dy": 10.544160002517629,
+        "dot": 1
+      },
+      {
+        "id": "v2",
+        "frame": "car-2",
+        "dx": -24.922560005951027,
+        "dy": 12.461280002975514,
+        "dot": 0.9999999999999999
+      },
+      {
+        "id": "v3",
+        "frame": "car-6",
+        "dx": 17.254080004119942,
+        "dy": -8.627040002059971,
+        "dot": 0.9999999999999998
+      },
+      {
+        "id": "v5",
+        "frame": "car-4",
+        "dx": -24.922560005951027,
+        "dy": -12.461280002975514,
+        "dot": 1
+      },
+      {
+        "id": "v6",
+        "frame": "car-6",
+        "dx": 17.254080004119942,
+        "dy": -8.627040002059971,
+        "dot": 0.9999999999999998
+      },
+      {
+        "id": "v7",
+        "frame": "car-0",
+        "dx": 21.08832000503537,
+        "dy": 10.544160002517629,
+        "dot": 1
+      },
+      {
+        "id": "v2",
+        "frame": "car-2",
+        "dx": -24.97247999553673,
+        "dy": 12.486239997768394,
+        "dot": 0.9999999999999999
+      },
+      {
+        "id": "v3",
+        "frame": "car-6",
+        "dx": 8.63135999794008,
+        "dy": -4.315679998969927,
+        "dot": 1
+      },
+      {
+        "id": "v5",
+        "frame": "car-4",
+        "dx": -24.97247999553673,
+        "dy": -12.48623999776828,
+        "dot": 1
+      },
+      {
+        "id": "v6",
+        "frame": "car-6",
+        "dx": 17.28863999691015,
+        "dy": -8.644319998455103,
+        "dot": 1
+      },
+      {
+        "id": "v7",
+        "frame": "car-0",
+        "dx": 21.130559996223354,
+        "dy": 10.565279998111691,
+        "dot": 1
+      },
+      {
+        "id": "v2",
+        "frame": "car-2",
+        "dx": -18.76992000446313,
+        "dy": 9.384960002231537,
+        "dot": 1
+      }
+    ],
+    "anomalies": [
+      {
+        "id": "v5",
+        "frame": "car-0",
+        "dx": 4.014480008010537,
+        "dy": 9.335040001487641,
+        "dot": 0.7641889835435594
+      }
+    ],
+    "moveCommand": {
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "events": []
+    },
+    "durationMs": 60326,
+    "finalMetrics": {
+      "renderer": "PixiJS 8.21.0 WebGL",
+      "frameCount": 335,
+      "frameMs": {
+        "p50": 170,
+        "p95": 244,
+        "p99": 596.3999999761581
+      },
+      "renderPreparationMs": {
+        "p50": 0.20000004768371582,
+        "p95": 0.3999999761581421,
+        "p99": 1.1999999284744263
+      },
+      "samples": 335,
+      "visibleActors": 85,
+      "sceneChanges": 1,
+      "zoom": 0.9,
+      "cameraTransform": {
+        "x": 683,
+        "y": 18.24000000000001,
+        "zoom": 0.9
+      },
+      "currentScene": "outside",
+      "worldBounds": {
+        "minX": 1,
+        "maxX": 63,
+        "minY": 1,
+        "maxY": 57
+      },
+      "dpr": 1,
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      }
+    }
+  },
+  "crowds": [
+    {
+      "requested": 30,
+      "synthetic": true,
+      "samples": 40,
+      "maxRealProjectionCount": 100,
+      "maxRenderableFixture": 30,
+      "note": "Renderable is a viewport-culling flag; it does not prove an unoccluded pixel count.",
+      "finalMetrics": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 80,
+        "frameMs": {
+          "p50": 170.90000009536743,
+          "p95": 248.90000009536743,
+          "p99": 725.7999999523163
+        },
+        "renderPreparationMs": {
+          "p50": 0.19999992847442627,
+          "p95": 0.30000007152557373,
+          "p99": 1.7000000476837158
+        },
+        "samples": 79,
+        "visibleActors": 38,
+        "sceneChanges": 1,
+        "zoom": 0.9,
+        "cameraTransform": {
+          "x": 445.4,
+          "y": -57.360000000000014,
+          "zoom": 0.9
+        },
+        "currentScene": "outside",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 63,
+          "minY": 1,
+          "maxY": 57
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1366,
+          "height": 768
+        }
+      }
+    },
+    {
+      "requested": 100,
+      "synthetic": true,
+      "samples": 40,
+      "maxRealProjectionCount": 100,
+      "maxRenderableFixture": 100,
+      "note": "Renderable is a viewport-culling flag; it does not prove an unoccluded pixel count.",
+      "finalMetrics": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 75,
+        "frameMs": {
+          "p50": 192.59999990463257,
+          "p95": 357,
+          "p99": 614.8000000715256
+        },
+        "renderPreparationMs": {
+          "p50": 0.2999999523162842,
+          "p95": 0.6000000238418579,
+          "p99": 1
+        },
+        "samples": 75,
+        "visibleActors": 108,
+        "sceneChanges": 1,
+        "zoom": 0.9,
+        "cameraTransform": {
+          "x": 445.4,
+          "y": -57.360000000000014,
+          "zoom": 0.9
+        },
+        "currentScene": "outside",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 63,
+          "minY": 1,
+          "maxY": 57
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1366,
+          "height": 768
+        }
+      }
+    }
+  ],
+  "errors": []
+}

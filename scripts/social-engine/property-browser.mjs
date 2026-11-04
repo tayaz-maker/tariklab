@@ -1,3 +1,4 @@
+import { waitForQATicks } from "./wait-for-qa-ticks.mjs";
 // Real shop controls and IndexedDB, no world-state mutation. Fixed QA ticks only shorten the walk.
 import { chromium, firefox, webkit } from "playwright";
 import assert from "node:assert/strict";
@@ -53,7 +54,7 @@ try {
   report.checks.push("HUD controls and minimap retain DOM identity through multiple refreshes.");
   await page.locator('[data-panel="map"]').click();
   await page.locator('[data-go="b-market"]').click();
-  await page.evaluate(() => window.__socialEngine.step(1000));
+  await waitForQATicks(page, 1000);
   const atMarket = await page.evaluate(
     async () => (await window.__socialEngine.state()).player.location,
   );
