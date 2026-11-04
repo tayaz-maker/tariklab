@@ -14,7 +14,7 @@
     "preview": "node scripts/with-app-env.mjs vite preview",
     "typecheck": "tsc --noEmit",
     "check:auth": "node scripts/check-auth-invariant.mjs",
-    "test": "node --test 'scripts/**/*.test.mjs' && node --experimental-strip-types --import ./scripts/ts-alias.mjs --test src/lib/app-data/app-data.test.ts src/lib/auth/gate-identity.test.ts src/lib/auth/preview-secret.test.ts src/game/formulas.test.ts src/game/clock.test.ts src/game/closure.test.ts src/game/outcome-moment.test.ts src/lib/save-slots.test.ts",
+    "test": "node --test 'scripts/**/*.test.mjs' && node --experimental-strip-types --import ./scripts/ts-alias.mjs --test src/lib/app-data/app-data.test.ts src/lib/auth/broker-oauth.test.ts src/lib/auth/gate-identity.test.ts src/lib/auth/preview-secret.test.ts src/game/formulas.test.ts src/game/clock.test.ts src/game/closure.test.ts src/game/outcome-moment.test.ts src/lib/save-slots.test.ts",
     "lint": "eslint .",
     "art:gate": "node scripts/card-art-gate/validate.mjs",
     "art:gallery": "node scripts/card-art-gate/gallery.mjs",
@@ -56,7 +56,7 @@
     "@tanstack/react-start": "1.168.60",
     "@tanstack/react-table": "^8.21.0",
     "@tanstack/router-plugin": "^1.168.0",
-    "better-auth": "~1.6.30",
+    "better-auth": "~1.7.15",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
@@ -78,7 +78,7 @@
     "tailwindcss": "^4.3.0",
     "tw-animate-css": "^1.3.4",
     "vaul": "^1.1.2",
-    "zod": "^4.4.0",
+    "zod": "^4.6.6",
     "zustand": "^5.0.0"
   },
   "devDependencies": {
@@ -98,9 +98,10 @@
     "nitro": "3.0.260610-beta",
     "playwright": "^1.62.0",
     "prettier": "^3.4.0",
+    "terser": "5.51.2",
     "typescript": "^5.7.0",
     "typescript-eslint": "^8.56.1",
-    "vite": "^8.2.0",
-    "wrangler": "4.151.3"
+    "vite": "^8.2.4",
+    "wrangler": "4.157.0"
   }
 }

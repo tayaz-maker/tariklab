@@ -1,0 +1,179 @@
+{
+  "status": "FAIL",
+  "released": "d695119186cad42c079a911a60c372f201b3b64b",
+  "results": [
+    {
+      "case": "authentic v1/newcomer: transactional migration, save and exact released6 rollback",
+      "pass": true,
+      "version": 1,
+      "scenario": "newcomer",
+      "released6Actions": 3,
+      "archiveUnchanged": true
+    },
+    {
+      "case": "authentic v1/graduate: transactional migration, save and exact released6 rollback",
+      "pass": true,
+      "version": 1,
+      "scenario": "graduate",
+      "released6Actions": 3,
+      "archiveUnchanged": true
+    },
+    {
+      "case": "authentic v1/restart: transactional migration, save and exact released6 rollback",
+      "pass": true,
+      "version": 1,
+      "scenario": "restart",
+      "released6Actions": 3,
+      "archiveUnchanged": true
+    },
+    {
+      "case": "authentic v2/newcomer: transactional migration, save and exact released6 rollback",
+      "pass": true,
+      "version": 2,
+      "scenario": "newcomer",
+      "released6Actions": 3,
+      "archiveUnchanged": true
+    },
+    {
+      "case": "authentic v2/graduate: transactional migration, save and exact released6 rollback",
+      "pass": true,
+      "version": 2,
+      "scenario": "graduate",
+      "released6Actions": 3,
+      "archiveUnchanged": true
+    },
+    {
+      "case": "authentic v2/restart: transactional migration, save and exact released6 rollback",
+      "pass": true,
+      "version": 2,
+      "scenario": "restart",
+      "released6Actions": 3,
+      "archiveUnchanged": true
+    },
+    {
+      "case": "authentic v3/newcomer: transactional migration, save and exact released6 rollback",
+      "pass": true,
+      "version": 3,
+      "scenario": "newcomer",
+      "released6Actions": 3,
+      "archiveUnchanged": true
+    },
+    {
+      "case": "authentic v3/graduate: transactional migration, save and exact released6 rollback",
+      "pass": true,
+      "version": 3,
+      "scenario": "graduate",
+      "released6Actions": 3,
+      "archiveUnchanged": true
+    },
+    {
+      "case": "authentic v3/restart: transactional migration, save and exact released6 rollback",
+      "pass": true,
+      "version": 3,
+      "scenario": "restart",
+      "released6Actions": 3,
+      "archiveUnchanged": true
+    },
+    {
+      "case": "authentic v4/newcomer: transactional migration, save and exact released6 rollback",
+      "pass": true,
+      "version": 4,
+      "scenario": "newcomer",
+      "released6Actions": 3,
+      "archiveUnchanged": true
+    },
+    {
+      "case": "authentic v4/graduate: transactional migration, save and exact released6 rollback",
+      "pass": true,
+      "version": 4,
+      "scenario": "graduate",
+      "released6Actions": 3,
+      "archiveUnchanged": true
+    },
+    {
+      "case": "authentic v4/restart: transactional migration, save and exact released6 rollback",
+      "pass": true,
+      "version": 4,
+      "scenario": "restart",
+      "released6Actions": 3,
+      "archiveUnchanged": true
+    },
+    {
+      "case": "authentic v5/newcomer: transactional migration, save and exact released6 rollback",
+      "pass": true,
+      "version": 5,
+      "scenario": "newcomer",
+      "released6Actions": 3,
+      "archiveUnchanged": true
+    },
+    {
+      "case": "authentic v5/graduate: transactional migration, save and exact released6 rollback",
+      "pass": true,
+      "version": 5,
+      "scenario": "graduate",
+      "released6Actions": 3,
+      "archiveUnchanged": true
+    },
+    {
+      "case": "authentic v5/restart: transactional migration, save and exact released6 rollback",
+      "pass": true,
+      "version": 5,
+      "scenario": "restart",
+      "released6Actions": 3,
+      "archiveUnchanged": true
+    },
+    {
+      "case": "authentic v6/newcomer: transactional migration, save and exact released6 rollback",
+      "pass": true,
+      "version": 6,
+      "scenario": "newcomer",
+      "released6Actions": 3,
+      "archiveUnchanged": true
+    },
+    {
+      "case": "authentic v6/graduate: transactional migration, save and exact released6 rollback",
+      "pass": true,
+      "version": 6,
+      "scenario": "graduate",
+      "released6Actions": 3,
+      "archiveUnchanged": true
+    },
+    {
+      "case": "authentic v6/restart: transactional migration, save and exact released6 rollback",
+      "pass": true,
+      "version": 6,
+      "scenario": "restart",
+      "released6Actions": 3,
+      "archiveUnchanged": true
+    },
+    {
+      "case": "IDB abort before-put: no false success or partial slots",
+      "pass": true,
+      "ok": false,
+      "durableSlotsUnchanged": true
+    },
+    {
+      "case": "IDB abort after-put-success: no false success or partial slots",
+      "pass": true,
+      "ok": false,
+      "durableSlotsUnchanged": true
+    },
+    {
+      "case": "localStorage mirror failure after commit: durable success, repair on reload",
+      "pass": true,
+      "atomicCommitPreserved": true,
+      "mirrorRepaired": true
+    },
+    {
+      "case": "unavailable IndexedDB: export-only, no localStorage fallback write",
+      "pass": true,
+      "exportable": true,
+      "localStorageUnchanged": true
+    },
+    {
+      "case": "corrupt compatibility copy cannot roll back healthy committed progress",
+      "pass": true
+    }
+  ],
+  "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n... Skipped lines\n\n  {\n    achievements: [],\n    appointments: [],\n    bank: 6500,\n    calendar: {\n      entries: [],\n+     lastTick: 975,\n-     lastTick: 495,\n      nextId: 1,\n      recurrences: [],\n      stats: {\n        cancelled: 0,\n        completed: 0,\n...\n        aylin: {\n+         cash: 2870,\n-         cash: 2960,\n          changes: [],\n          debt: 0,\n          employer: 'Kadıköy · Mahalle gönüllüsü',\n          employment: 'employed',\n          goalProgress: 0,\n...\n          savings: 5220,\n+         skill: 30,\n-         skill: 28,\n          tenure: 0,\n          ties: {\n            arda: 32,\n            baran: 37\n          },\n...\n        baran: {\n+         cash: 3080,\n-         cash: 3170,\n          changes: [],\n          debt: 0,\n          employer: 'Şişli · Banka çalışanı',\n          employment: 'employed',\n          goalProgress: 0,\n...\n          savings: 5590,\n+         skill: 34,\n-         skill: 32,\n          tenure: 0,\n          ties: {\n            ece: 38,\n            naz: 42\n          },\n...\n        ece: {\n+         cash: 1610,\n-         cash: 1700,\n          changes: [],\n          debt: 0,\n          employer: 'Beşiktaş · Kafe yöneticisi',\n          employment: 'employed',\n          goalProgress: 0,\n...\n          savings: 3000,\n+         skill: 26,\n-         skill: 24,\n          tenure: 0,\n          ties: {\n            emre: 20,\n            mert: 32\n          },\n...\n          },\n+         {\n+           at: 975,\n+           id: 'sleep'\n+         }\n        ],\n        week: 0\n      },\n      history: [],\n      initializedAt: 480,\n      lastSpawnDay: 1,\n+     lastTick: 975,\n-     lastTick: 495,\n      nextId: 1,\n      policy: {\n        autoWithdraw: false,\n        bedtime: 1320,\n        businessService: false,\n...\n      coursesCompleted: 0,\n+     lastSleepDay: 1,\n      travels: 0,\n      volunteers: 0,\n      workDays: 0\n    },\n    flow: {\n...\n      },\n+     {\n+       day: 1,\n+       text: 'Dinlendin; takvim, ödemeler ve mahalle hayatı ilerledi.',\n+       time: 975\n+     }\n    ],\n    housing: {\n      arrears: 0,\n      deposit: 4200,\n      dueDay: 31,\n...\n      },\n+     lastTickAt: 975,\n-     lastTickAt: 495,\n      markets: {\n        besiktas: {\n          activity: 54,\n          demand: 48,\n          vacancies: 5\n...\n          lastFavorAt: 0,\n+         nextDecisionAt: 1080,\n-         nextDecisionAt: 720,\n          plan: [\n            {\n              cost: 0,\n              end: 1020,\n              from: 'sisli',\n...\n          decisionDay: 1,\n+         decisions: 1,\n+         energy: 72,\n-         decisions: 0,\n-         energy: 80,\n          lastFavorAt: 0,\n+         nextDecisionAt: 1080,\n-         nextDecisionAt: 720,\n          plan: [\n            {\n              cost: 0,\n              end: 1860,\n              from: 'kadikoy',\n...\n          ],\n+         serial: 1,\n-         serial: 0,\n          social: 65\n        },\n        baran: {\n          decisionDay: 1,\n+         decisions: 1,\n+         energy: 72,\n-         decisions: 0,\n-         energy: 80,\n          lastFavorAt: 0,\n+         nextDecisionAt: 1080,\n-         nextDecisionAt: 720,\n          plan: [\n            {\n              cost: 0,\n              end: 1860,\n              from: 'sisli',\n...\n          ],\n+         serial: 1,\n-         serial: 0,\n          social: 65\n        },\n        cem: {\n          decisionDay: 1,\n          decisions: 0,\n          energy: 80,\n          lastFavorAt: 0,\n+         nextDecisionAt: 1080,\n-         nextDecisionAt: 720,\n          plan: [\n            {\n              cost: 0,\n              end: 1020,\n              from: 'kadikoy',\n...\n          lastFavorAt: 0,\n+         nextDecisionAt: 1080,\n-         nextDecisionAt: 720,\n          plan: [\n            {\n              cost: 0,\n              end: 1020,\n              from: 'sisli',\n...\n          decisionDay: 1,\n+         decisions: 1,\n+         energy: 72,\n-         decisions: 0,\n-         energy: 80,\n          lastFavorAt: 0,\n+         nextDecisionAt: 1080,\n-         nextDecisionAt: 720,\n          plan: [\n            {\n              cost: 0,\n              end: 1860,\n              from: 'besiktas',\n...\n          ],\n+         serial: 1,\n-         serial: 0,\n          social: 65\n        },\n        emre: {\n          decisionDay: 1,\n          decisions: 0,\n          energy: 80,\n          lastFavorAt: 0,\n+         nextDecisionAt: 1080,\n-         nextDecisionAt: 720,\n          plan: [\n            {\n              cost: 0,\n              end: 1020,\n              from: 'besiktas',\n...\n          lastFavorAt: 0,\n+         nextDecisionAt: 1080,\n-         nextDecisionAt: 720,\n          plan: [\n            {\n              cost: 0,\n-             end: 540,\n-             from: 'kadikoy',\n-             id: 'leyla:1:commute-out',\n-             kind: 'commute',\n-             location: 'kadikoy',\n-             start: 480,\n-             status: 'planned',\n-             target: '',\n-             to: 'sisli',\n-             wage: 0\n-           },\n-           {\n-             cost: 0,\n              end: 1020,\n              from: 'sisli',\n              id: 'leyla:1:work',\n              kind: 'work',\n              location: 'sisli',\n...\n          lastFavorAt: 0,\n+         nextDecisionAt: 1080,\n-         nextDecisionAt: 720,\n          plan: [\n            {\n              cost: 0,\n              end: 1020,\n              from: 'kadikoy',\n...\n          lastFavorAt: 0,\n+         nextDecisionAt: 1080,\n-         nextDecisionAt: 720,\n          plan: [\n            {\n              cost: 0,\n              end: 1020,\n              from: 'besiktas',\n...\n          lastFavorAt: 0,\n+         nextDecisionAt: 1080,\n-         nextDecisionAt: 720,\n          plan: [\n            {\n              cost: 0,\n              end: 1020,\n              from: 'kadikoy',\n...\n          lastFavorAt: 0,\n+         nextDecisionAt: 1080,\n-         nextDecisionAt: 720,\n          plan: [\n            {\n              cost: 0,\n-             end: 540,\n-             from: 'besiktas',\n-             id: 'selin:1:commute-out',\n-             kind: 'commute',\n-             location: 'besiktas',\n-             start: 495,\n-             status: 'planned',\n-             target: '',\n-             to: 'sisli',\n-             wage: 0\n-           },\n-           {\n-             cost: 0,\n              end: 1020,\n              from: 'sisli',\n              id: 'selin:1:work',\n              kind: 'work',\n              location: 'sisli',\n...\n        lastTalkDay: 0,\n+       location: 'sisli',\n-       location: 'kadikoy',\n        memories: [\n          {\n            day: 1,\n            text: 'İlk ayın kira ödemesini ve oda anahtarını teslim ettik.'\n          }\n...\n        lastTalkDay: 0,\n+       location: 'sisli',\n-       location: 'besiktas',\n        memories: [\n          {\n            day: 1,\n            text: 'Mahallede yeni bir yüz olduğunu duydum.'\n          }\n...\n      education: 'highschool',\n+     energy: 100,\n+     health: 98,\n+     hunger: 74.1,\n-     energy: 89.7,\n-     health: 94,\n-     hunger: 79.6,\n      name: 'Uyumluluk5.0',\n      scenario: 'newcomer',\n      skills: {\n        communication: 17,\n        craft: 17,\n...\n      },\n+     stress: 2,\n-     stress: 18,\n      trait: 'balanced'\n    },\n    resolvedEvents: [\n      'welcome'\n    ],\n+   revision: 2,\n-   revision: 1,\n    rng: 2026,\n    seed: 2026,\n    society: {\n      cooldowns: {\n        arda: 0,\n...\n      lastInitiationDay: 1,\n+     lastTick: 975,\n-     lastTick: 495,\n      nextId: 1,\n      offers: [],\n      retiredBefore: {\n        arda: {},\n        aylin: {},\n...\n    },\n+   time: 975,\n-   time: 495,\n    transactions: [],\n    version: 6,\n    world: {\n      news: [\n        {\n\n    at file:///Users/tarikayaz/Documents/Codex/2026-11-03/sol-6-1-high-boardworld-7/work/tariklab/scripts/boardworld-transaction-browser.mjs:216:12\n    at async check (file:///Users/tarikayaz/Documents/Codex/2026-11-03/sol-6-1-high-boardworld-7/work/tariklab/scripts/boardworld-transaction-browser.mjs:28:16)\n    at async file:///Users/tarikayaz/Documents/Codex/2026-11-03/sol-6-1-high-boardworld-7/work/tariklab/scripts/boardworld-transaction-browser.mjs:213:3"
+}

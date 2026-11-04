@@ -59,6 +59,33 @@ test("Boardworld rapid asynchronous language selection keeps the most recent cho
   await Promise.all([chooseLanguage("en"), chooseLanguage("pl"), chooseLanguage("tr")]);
   assert.equal(getLanguage(), "tr");
 });
+test("Boardworld live outcome deltas translate labels without reinterpreting formatted amounts", async () => {
+  for (const [lang, labels, amount] of [
+    ["tr", ["Nakit", "Banka", "Enerji", "Tokluk", "Stres", "Sağlık"], "1.234"],
+    ["en", ["Cash", "Bank", "Energy", "Fullness", "Stress", "Health"], "1,234"],
+    ["pl", ["Gotówka", "Bank", "Energia", "Sytość", "Stres", "Zdrowie"], "12\u00a0345"],
+  ]) {
+    await chooseLanguage(lang);
+    for (const [index, label] of [
+      "Nakit",
+      "Banka",
+      "Enerji",
+      "Tokluk",
+      "Stres",
+      "Sağlık",
+    ].entries()) {
+      for (const sign of ["+", "-", "−"]) {
+        const value = `${sign}${amount}${index < 2 ? " ₺" : ""}`;
+        assert.equal(translateText(`${label} ${value}`), `${labels[index]} ${value}`);
+      }
+    }
+    assert.equal(
+      translateText("Nakit -55 ₺ · Enerji -2 · Tokluk -2"),
+      `${labels[0]} -55 ₺ · ${labels[2]} -2 · ${labels[3]} -2`,
+    );
+    assert.equal(translateText("Nakit Deniz"), "Nakit Deniz", "names are not numeric deltas");
+  }
+});
 test("Boardworld habit counts and legacy cause labels use the selected presentation language", async () => {
   const legacy = Object.freeze({
     why: "39 tamamlanan vardiya, 100 performans ve 0 stres; ekip ihtiyacı busy.",

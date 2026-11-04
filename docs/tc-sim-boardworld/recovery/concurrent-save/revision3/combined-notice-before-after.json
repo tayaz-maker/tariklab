@@ -1,0 +1,15 @@
+{
+  "reference": "ec9fa4a3fec3b920e391eb5c41edb283a94a4c61",
+  "results": [
+    {
+      "language": "en",
+      "before": "Saved in this browser. Farklı bir kayıt kopyası korundu. Kayıt menüsünden indirip dosyadan yükleyebilirsin; mevcut kaydın değiştirilmedi.",
+      "after": "Saved in this browser. A different save copy was preserved. Download it from the Save menu and import it explicitly; your current save was kept."
+    },
+    {
+      "language": "pl",
+      "before": "Zapisano w tej przeglądarce. Farklı bir kayıt kopyası korundu. Kayıt menüsünden indirip dosyadan yükleyebilirsin; mevcut kaydın değiştirilmedi.",
+      "after": "Zapisano w tej przeglądarce. Zachowano inną kopię zapisu. Pobierz ją z menu zapisu i jawnie zaimportuj; bieżący zapis pozostał bez zmian."
+    }
+  ]
+}

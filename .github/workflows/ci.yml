@@ -45,6 +45,8 @@ jobs:
         if: needs.changes.outputs.docs != 'true'
       - run: npm run lint
         if: needs.changes.outputs.docs != 'true'
+      - name: Reject high and critical dependency findings
+        run: npm audit --audit-level=high
       - run: npm run build
       - name: Package exact candidate once
         run: |-

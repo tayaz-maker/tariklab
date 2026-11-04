@@ -1,0 +1,934 @@
+{
+  "schema": 1,
+  "product": "Boardworld 7.0 Gold",
+  "saveSchema": 6,
+  "canonicalKeys": [
+    "tariklab.boardworld.v6",
+    "tariklab.boardworld.v6.backup"
+  ],
+  "baselineCommit": "d695119186cad42c079a911a60c372f201b3b64b",
+  "audit": {
+    "status": "PASS",
+    "scope": "Fixture inventory and focused existing tests only; not final candidate acceptance",
+    "timestamp": "2026-11-03T11:24:21.324Z",
+    "headAtRun": "d695119186cad42c079a911a60c372f201b3b64b",
+    "treeAtRun": "2350d4eb908d260fee1919e97ec27278c30bafb1",
+    "command": "node --test scripts/boardworld-save-codec.test.mjs scripts/boardworld-save.test.mjs scripts/boardworld-v6-save.test.mjs scripts/boardworld-gold-simulation.test.mjs scripts/boardworld-gold-batch.test.mjs",
+    "exitCode": 0,
+    "tests": 143,
+    "pass": 143,
+    "fail": 0,
+    "skipped": 0,
+    "durationMs": 2901.270458,
+    "environment": {
+      "node": "v24.21.0",
+      "platform": "darwin",
+      "arch": "arm64"
+    },
+    "log": "/tmp/boardworld7-save-audit.log",
+    "evidenceLimit": "Pre-freeze diagnostic only. Integration owner must rerun against final candidate and retain final logs."
+  },
+  "authenticLegacyTotal": 80,
+  "versions": [
+    {
+      "schema": 1,
+      "classification": "original released engine/writer output, generated through public actions; not owner save data",
+      "authenticFixtureCount": 4,
+      "syntheticFixtureCount": 0,
+      "sourceCommit": "977cd576dc535f1e65d2e5589e8d4168a65a8e17",
+      "sourceTree": null,
+      "provenancePath": "scripts/fixtures/boardworld/v1-provenance.json",
+      "method": "Unmodified production engine and persistence extracted with git show; no state patching.",
+      "fixtures": [
+        {
+          "file": "scripts/fixtures/boardworld/v1-fresh-newcomer.json",
+          "day": 1,
+          "bytes": 5218,
+          "sha256": "bef862fea92ebf4cce216cdb5e71bdfd16538a1e6bab9db502b78a8f2b5ec3e7",
+          "provenanceHashPresent": false
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v1-fresh-graduate.json",
+          "day": 1,
+          "bytes": 5225,
+          "sha256": "fb00b04f0cfe3e9500edb9edc5e123c67db56bfd784c61d41c831fc0e8570441",
+          "provenanceHashPresent": false
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v1-fresh-restart.json",
+          "day": 1,
+          "bytes": 5385,
+          "sha256": "edff1e7b85a938652b0a69d3fcd8abd4bd04b5eefb70ac792092f85c68f9518b",
+          "provenanceHashPresent": false
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v1-progressed-restart-day46.json",
+          "day": 46,
+          "bytes": 30294,
+          "sha256": "5ff89e712f550c3aed83ce535fbae00734c51af5a8c02ff6ca2f28118d71ec9c",
+          "provenanceHashPresent": false
+        }
+      ]
+    },
+    {
+      "schema": 2,
+      "classification": "original released engine/writer output, generated through public actions; not owner save data",
+      "authenticFixtureCount": 13,
+      "syntheticFixtureCount": 0,
+      "sourceCommit": "467ef16e9f06ea3089f001592aa13aebd9cc069d",
+      "sourceTree": null,
+      "provenancePath": "scripts/fixtures/boardworld/v2-provenance.json",
+      "method": "Unmodified production modules extracted with git archive before any 3.0 engine changes. Every fixture uses createGame plus public resolveAction only; no state patching.",
+      "fixtures": [
+        {
+          "file": "scripts/fixtures/boardworld/v2-fresh-newcomer.json",
+          "day": 1,
+          "bytes": 14872,
+          "sha256": "8fafa0e58e2b39987783caf35ef227cabb0fb338cf4892b70ca96f9b02deb505",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v2-progressed-newcomer-day46.json",
+          "day": 46,
+          "bytes": 53199,
+          "sha256": "9ad2d406554392034abea94dc9f7bb1f6c7a09e2ec2ad1e707e0e4cae32573c3",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v2-progressed-newcomer-day91.json",
+          "day": 91,
+          "bytes": 62957,
+          "sha256": "0d08016b98d6ed3dfc9f3f32bfea6a563a4d791351f66ecdc52a6508dbd240f5",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v2-fresh-graduate.json",
+          "day": 1,
+          "bytes": 14879,
+          "sha256": "27722ea6bc42ed628f427bc480e15b489d1047d7b5654d126e0e0c6a8a93359d",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v2-progressed-graduate-day46.json",
+          "day": 46,
+          "bytes": 56028,
+          "sha256": "7f726f7aeb2586cd53cd3603ef22ec0d2eb0964cee5681ba8dea3984e6426bbe",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v2-progressed-graduate-day91.json",
+          "day": 91,
+          "bytes": 65341,
+          "sha256": "024a9c5c63b3a32f35aa8645f85f355ffafcff8d208bd5843649c93f07f62f64",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v2-fresh-restart.json",
+          "day": 1,
+          "bytes": 15040,
+          "sha256": "be065cff4b432636bcf7ba19365c65267b08265fd1d3c757c52dfb15a4c93c52",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v2-progressed-restart-day46.json",
+          "day": 46,
+          "bytes": 56615,
+          "sha256": "fbddec285b1d84ae2da86ac781ee51d954de599d0aca1b8f2aafe0498f40c4f4",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v2-progressed-restart-day91.json",
+          "day": 91,
+          "bytes": 65877,
+          "sha256": "a518db27eaa459bae274c27f729f3641044fbf93fed00ba9734e1c9364d56ca1",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v2-active-appointment-day1.json",
+          "day": 1,
+          "bytes": 15709,
+          "sha256": "de7a9dbdb3094e87bc56df9a459e22a4afa073b146a24d970bc0fe43a0554938",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v2-appointment-completed.json",
+          "day": 2,
+          "bytes": 17891,
+          "sha256": "417cde7eb409cbada5a933f7d49dc547b4494c4eec3a2db3301b315af736cbdf",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v2-appointment-cancelled.json",
+          "day": 1,
+          "bytes": 15844,
+          "sha256": "4f74592e7ff23747be706449429487fae5569a8972730b63a0d4773a794569a3",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v2-appointment-missed.json",
+          "day": 2,
+          "bytes": 17845,
+          "sha256": "91568083215e255c0330b37a919ab073b9e3cb68d4702a54dc451c495d13642f",
+          "provenanceHashPresent": true
+        }
+      ]
+    },
+    {
+      "schema": 3,
+      "classification": "original released engine/writer output, generated through public actions; not owner save data",
+      "authenticFixtureCount": 18,
+      "syntheticFixtureCount": 0,
+      "sourceCommit": "5d22f86c462e22b6fd31793b5f2a81606d9f5603",
+      "sourceTree": "c67c78f9c1a86f4fc71796c7bf3a4281381456b2",
+      "provenancePath": "scripts/fixtures/boardworld/v3-provenance.json",
+      "method": "Unmodified production modules from git archive with exact Git metadata. Every fixture uses createGame and public resolveAction only. No patched state. Trace files contain exact action IDs and payloads.",
+      "fixtures": [
+        {
+          "file": "scripts/fixtures/boardworld/v3-fresh-newcomer.json",
+          "day": 1,
+          "bytes": 37254,
+          "sha256": "d434676f23fa2ebf98ddea732ec3374d24071a50af282b443afdd75d07a495d3",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v3-fresh-graduate.json",
+          "day": 1,
+          "bytes": 37261,
+          "sha256": "14b4bde78d0c8f666f40b5f67cedfb84ed179f0bbdd97c3cebbc5ce5d09c3a29",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v3-fresh-restart.json",
+          "day": 1,
+          "bytes": 37422,
+          "sha256": "7057e7fa491d831f559b8efc4b3048af1d458759a1e2b5a665a578d2f4e0a0f9",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v3-active-project.json",
+          "day": 1,
+          "bytes": 38395,
+          "sha256": "ea665aee2a09b5d7ebe483c11e9218c58c5343eb301b9c6271297e78b472e3f3",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v3-career-day31.json",
+          "day": 31,
+          "bytes": 97994,
+          "sha256": "c791e0991c2ffdfb1e5958460ff8bb7eeb2634192de6c4d8273f59a15ecdedb0",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v3-career-day91.json",
+          "day": 91,
+          "bytes": 117844,
+          "sha256": "8ea3304ed9cd19567387aab0713624387873eff2a618383d91e992df6a645a52",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v3-career-day181.json",
+          "day": 181,
+          "bytes": 129476,
+          "sha256": "00240012f1faf38adca8e069b5b81579ea062f5af8ec8c2b97b08dfe7b3bb095",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v3-career-day366.json",
+          "day": 366,
+          "bytes": 132560,
+          "sha256": "1e3809700856570a90834d0cb6fada1756597ee135452848bed1deed7f27dfb8",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v3-active-calendar.json",
+          "day": 5,
+          "bytes": 54740,
+          "sha256": "4d01ebb8a72bbffeb0aea5476ba752ff52594b6848a664e4cf069877da97df5e",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v3-social-day31.json",
+          "day": 31,
+          "bytes": 102588,
+          "sha256": "a1372e8d3fe3631499caac5ed3e8a4dde610cbfbacb7e264e9d67909a2c44d64",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v3-social-day91.json",
+          "day": 91,
+          "bytes": 130588,
+          "sha256": "ddfeef797b238c77a5366dce10071bce90c6a96ac668ac294421311ff36535b7",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v3-social-day181.json",
+          "day": 181,
+          "bytes": 147339,
+          "sha256": "d44a34a00c7a9bfd7e12709bba82c53acc7555224f3b49390a70ebfaee586ac3",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v3-social-day366.json",
+          "day": 366,
+          "bytes": 169686,
+          "sha256": "165cd224df467bc1959185b80519b4d31e56df7816a7bf64a6ad6d09b6d57477",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v3-active-enterprise.json",
+          "day": 1,
+          "bytes": 38232,
+          "sha256": "c1d5f68e594ad8d88ea711bcf44b267c4d9673d51d94fde22f70804b4e8b70be",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v3-entrepreneur-day31.json",
+          "day": 31,
+          "bytes": 101143,
+          "sha256": "746b199b3c6fce8be9c2ed565aa00d0d8be7fe99ceb5bf2c13f836c688504fad",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v3-entrepreneur-day91.json",
+          "day": 91,
+          "bytes": 126100,
+          "sha256": "7bae43699cfce9ab682895254dd13e8fc93bcdfa90275ef126143b9e58a405e8",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v3-entrepreneur-day181.json",
+          "day": 181,
+          "bytes": 136058,
+          "sha256": "2e48de31c6c6a65371e1380204959df4b025992fe718f3a1004adf34238de47f",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v3-entrepreneur-day366.json",
+          "day": 366,
+          "bytes": 139448,
+          "sha256": "d898a9c299ba15ce2251812472966a4d255e5e33508db1858a1185a22caf67ae",
+          "provenanceHashPresent": true
+        }
+      ]
+    },
+    {
+      "schema": 4,
+      "classification": "original released engine/writer output, generated through public actions; not owner save data",
+      "authenticFixtureCount": 20,
+      "syntheticFixtureCount": 0,
+      "sourceCommit": "c2e7f352d471b819c6d955b6ff106aaf3b26226c",
+      "sourceTree": "6a83d1a4c14503e6bee5ef4a2421e2f35b80b745",
+      "provenancePath": "scripts/fixtures/boardworld/v4-provenance.json",
+      "method": "Unmodified production modules from git archive with exact Git metadata. Every fixture uses createGame and public resolveAction only. No patched state. Trace files contain exact action IDs and payloads.",
+      "fixtures": [
+        {
+          "file": "scripts/fixtures/boardworld/v4-fresh-newcomer.json",
+          "day": 1,
+          "bytes": 43877,
+          "sha256": "88e6132ed2cfd6002492ba541320516b1c17553d9a3c722ad1250d0fd61ae200",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v4-fresh-graduate.json",
+          "day": 1,
+          "bytes": 43884,
+          "sha256": "b6789e8e76e29d0008f80ea9a9b64fd79299ae81c6e47749fabf4385768dc05f",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v4-fresh-restart.json",
+          "day": 1,
+          "bytes": 44045,
+          "sha256": "7c927817faf75782b49996f54653ce6f0fa7a6e061d2e60f140f889a2396fa93",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v4-active-project.json",
+          "day": 1,
+          "bytes": 45526,
+          "sha256": "5031cbef46ee455f0620dda174c1230bfa7d83c7b12801cb480c32354ebbd9f4",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v4-active-causal.json",
+          "day": 7,
+          "bytes": 60954,
+          "sha256": "a0b4e151d631b3f1fb191c6312e66cb86e8e32043772b46469f9cf39ebce3973",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v4-career-day31.json",
+          "day": 31,
+          "bytes": 125778,
+          "sha256": "e766168b0e9d4577b6d1de264f2a061ea10ddb75ed267e8724daaa71448b2715",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v4-career-day91.json",
+          "day": 91,
+          "bytes": 177706,
+          "sha256": "5c62eb992df3bd79b1131f2ab32b92ba1b848f44b024e20633ee181e1ac8ce89",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v4-career-day181.json",
+          "day": 181,
+          "bytes": 208662,
+          "sha256": "bb8e56806f55d8e8636845c35f3ec55cb2d73e073b709de7453332404c6b86c0",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v4-career-day366.json",
+          "day": 366,
+          "bytes": 248424,
+          "sha256": "1067c168a26cbbde72576cdbdd65650e63289ec39b06c1ebbd0d7be68eb9f6b3",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v4-active-calendar.json",
+          "day": 5,
+          "bytes": 65427,
+          "sha256": "ae81692446cc38711d01e6973898e9a51e446de310f1c3edfb9b4be769d1296d",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v4-active-household.json",
+          "day": 8,
+          "bytes": 78461,
+          "sha256": "1c52f6da043a7685ab418b8ce2f94d28c578514bccd98ee663308d3b3e92bc54",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v4-social-day31.json",
+          "day": 31,
+          "bytes": 137436,
+          "sha256": "a1d8b8f1c5aabfe11f6977dd150eb750797f00f642cc691094b9874e8b80d6a9",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v4-social-day91.json",
+          "day": 91,
+          "bytes": 197833,
+          "sha256": "544597bf0ceb92f7c29c64745a923db681a8822da4080765897d88a8b96e9ba7",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v4-social-day181.json",
+          "day": 181,
+          "bytes": 236888,
+          "sha256": "31df88711dc3da6d8192518066061b01b0de378fd8ad701a5bac7807b2444462",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v4-social-day366.json",
+          "day": 366,
+          "bytes": 294877,
+          "sha256": "b9a29255c6730c93972a345468016ead8936e9c7fd0d1b7628a58c78d118ba7a",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v4-active-enterprise.json",
+          "day": 1,
+          "bytes": 45304,
+          "sha256": "485aabe7adf504133decfbadd35d784892fa2a7b99f1a8ef55a7c882ea67fc4d",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v4-entrepreneur-day31.json",
+          "day": 31,
+          "bytes": 127414,
+          "sha256": "dea67657648cad97f70997d040649494c24d6478a2a1169a6d768fbafa39d936",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v4-entrepreneur-day91.json",
+          "day": 91,
+          "bytes": 175279,
+          "sha256": "e8698c3c8c3f77aab5204f74627994e703ea56878e85f63ae23f34cbfd8cd58d",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v4-entrepreneur-day181.json",
+          "day": 181,
+          "bytes": 209304,
+          "sha256": "f9afc7a8524223c32b8b64eef57512d7717d7b6be572d3d388ab294170fcc72c",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v4-entrepreneur-day366.json",
+          "day": 366,
+          "bytes": 249080,
+          "sha256": "3c3f21b0c3d2a5fc59aebebe79ff5a91dba3674846c03e488c7a0ec710dfce91",
+          "provenanceHashPresent": true
+        }
+      ]
+    },
+    {
+      "schema": 5,
+      "classification": "original released engine/writer output, generated through public actions; not owner save data",
+      "authenticFixtureCount": 25,
+      "syntheticFixtureCount": 0,
+      "sourceCommit": "78ec4ee339051840037e48e80f4b07518d5a1424",
+      "sourceTree": "7c4a44d04fd7bb2109ed25b1f696678b4df06d47",
+      "provenancePath": "scripts/fixtures/boardworld/v5-provenance.json",
+      "method": "Fresh real createGame/public resolver actions through frozen5.0 modules at78ec4ee. No clock, skill, money or state patches. Timings are not performance benchmarks. Trace files contain actual public action IDs/payloads; actionCount identifies each fixture prefix.",
+      "fixtures": [
+        {
+          "file": "scripts/fixtures/boardworld/v5-fresh-newcomer.json",
+          "day": 1,
+          "bytes": 58442,
+          "sha256": "f3f4ae8e608dabbf966fc2172ea3de22d14c868598322386d5db8143a549eade",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v5-fresh-graduate.json",
+          "day": 1,
+          "bytes": 58449,
+          "sha256": "a63bc879d3d0183ee1de5efc97a2578f3d7869862c912cb838b21cc733abf1a4",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v5-fresh-restart.json",
+          "day": 1,
+          "bytes": 58610,
+          "sha256": "3029010f8d11bb7ad47e3fb0a7a1dc4a65a64f5ff5d60132699ea4b446c48405",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v5-active-project.json",
+          "day": 1,
+          "bytes": 60097,
+          "sha256": "5ef2f97e0890df10e3c635f29c063111109e5534bcde5acff24f2fa64b61829b",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v5-active-invitation.json",
+          "day": 3,
+          "bytes": 67925,
+          "sha256": "9c6787c54a164152e4c2314872a63b9e317971d86094a84d511e6174a5737bbb",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v5-active-calendar.json",
+          "day": 3,
+          "bytes": 67151,
+          "sha256": "f7b19e0d5c6a1f5d85beb1b443acbb9317ccc55edcd047b837a63690a97862eb",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v5-active-knowledge.json",
+          "day": 4,
+          "bytes": 74354,
+          "sha256": "2e8763b24540cdc25de14261fba9dad91e0fb3741e5e97d84af8fe568dcd99ce",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v5-active-causal.json",
+          "day": 7,
+          "bytes": 93133,
+          "sha256": "27ca08d7b4d032380ff1869edfb92d76c0378084128079edd021275d1e2a64fd",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v5-career-2026-day31.json",
+          "day": 31,
+          "bytes": 201007,
+          "sha256": "0450fc219cec1f59c19e7d77c2e1d61ca70221e6a5125b16c15a13181a79b07b",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v5-career-2026-day91.json",
+          "day": 91,
+          "bytes": 308625,
+          "sha256": "ed07568ff836c9d3df8531712417a1b6fab98ccc3c3e9cc5646e69c126eebb17",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v5-career-2026-day181.json",
+          "day": 181,
+          "bytes": 357988,
+          "sha256": "4fe08b7b27914958ef1cb70628878c52241c8b8472f8ffcae7f4275e69349280",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v5-career-2026-day366.json",
+          "day": 366,
+          "bytes": 417005,
+          "sha256": "96fbc1124221da90454e73c6d74fb086dff47ddf3f0c4750fa9e674ddbca6b7c",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v5-career-91373-day366.json",
+          "day": 366,
+          "bytes": 418797,
+          "sha256": "42a54311370dc7e6cf88f277b8a5f98a6ab5d2d7d5503d3d990d835a0ae16de1",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v5-active-household.json",
+          "day": 4,
+          "bytes": 86503,
+          "sha256": "891577279cb9daaa7b02638f7c5b28cfc1402f70e46c0002bf20671cbf8d3101",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v5-social-2026-day31.json",
+          "day": 31,
+          "bytes": 217081,
+          "sha256": "82052c98d58af81e074bbc916acb03caeeb0404e5659f5e81d418d57b92dcea2",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v5-social-2026-day91.json",
+          "day": 91,
+          "bytes": 323786,
+          "sha256": "36c091698ac92a4f94484312d79d37ab06ce29c8446df81bd9086a41cf1642ba",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v5-social-2026-day181.json",
+          "day": 181,
+          "bytes": 385785,
+          "sha256": "4ce3bdea50f6bced29bd6bfe015f8226bc697f566c1225b245bd41d1a87c0922",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v5-social-2026-day366.json",
+          "day": 366,
+          "bytes": 433286,
+          "sha256": "ec3428c4f0ba6e239a2ecebb82aca7b985a1b0d0068f55a99f2eacbcb2c203d5",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v5-social-91373-day366.json",
+          "day": 366,
+          "bytes": 434999,
+          "sha256": "fa127d7e0c875fbf549f5c714091b5a94efec07a04855ecd624c12fdc08551a2",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v5-active-enterprise.json",
+          "day": 1,
+          "bytes": 60890,
+          "sha256": "3303e501daa0a8cde4b3e9280da111c33c8754ff8d03bb2abc7d6a2116e1732c",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v5-entrepreneur-2026-day31.json",
+          "day": 31,
+          "bytes": 190187,
+          "sha256": "92b51f515f5f7aff2b7e038f7bc0387fca23e29af205b9e79538fed49176a383",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v5-entrepreneur-2026-day91.json",
+          "day": 91,
+          "bytes": 281530,
+          "sha256": "82b77345e21836fd9284d6d523eb1d7105b90539882e344d3d2f95ae13cda132",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v5-entrepreneur-2026-day181.json",
+          "day": 181,
+          "bytes": 344617,
+          "sha256": "342df6c728c4f45ac0de1bfe1956b14aeb6a5cc106dac14ba2918510dbb73a84",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v5-entrepreneur-2026-day366.json",
+          "day": 366,
+          "bytes": 401115,
+          "sha256": "89433086e297cbdb2a1bbe0803e34a4c251172d230aac72c49eeb87bf5304427",
+          "provenanceHashPresent": true
+        },
+        {
+          "file": "scripts/fixtures/boardworld/v5-entrepreneur-91373-day366.json",
+          "day": 366,
+          "bytes": 402094,
+          "sha256": "a57878ecbb4c4c13e9c99d9edae4df4dbe41b0b22c87ccb44e3411b674ad52d4",
+          "provenanceHashPresent": true
+        }
+      ]
+    }
+  ],
+  "nativeV6": {
+    "authenticFrozenFixtureCount": 6,
+    "classification": "Generated authentic released-v6 runtime/writer output; not captured owner production saves and not patched synthetic state.",
+    "roundTrip": "Exact deep equality required for save/import/load; includes history, IDs, memory, ledger, timestamps, RNG",
+    "finalCandidateStatus": "PASS",
+    "provenancePath": "scripts/fixtures/boardworld/v6-provenance.json",
+    "sourceCommit": "d695119186cad42c079a911a60c372f201b3b64b",
+    "sourceTree": "2350d4eb908d260fee1919e97ec27278c30bafb1",
+    "fixtures": [
+      {
+        "file": "v6-fresh-newcomer.json",
+        "kind": "fresh released6 createGame",
+        "options": {
+          "name": "Released6 compatibility",
+          "scenario": "newcomer",
+          "seed": 2026
+        },
+        "actions": [],
+        "version": 6,
+        "day": 1,
+        "revision": 0,
+        "byteLength": 48223,
+        "sha256": "76123258fb0f95574ab63eadc0c50054814691562211292c6c283fef1dd78a2d",
+        "stateSha256": "b16120175c516fc505b2ae0478ba01d7fca76967e26be904a235866a8928b1fb"
+      },
+      {
+        "file": "v6-fresh-graduate.json",
+        "kind": "fresh released6 createGame",
+        "options": {
+          "name": "Released6 compatibility",
+          "scenario": "graduate",
+          "seed": 2026
+        },
+        "actions": [],
+        "version": 6,
+        "day": 1,
+        "revision": 0,
+        "byteLength": 48230,
+        "sha256": "3fa1707d82b6aff0af7c7b5141b43be36b116a50aa694b15703983859f5e03d9",
+        "stateSha256": "afb1143c908d3ddbdde685f01f619fcf1600b4c77de9821fb26e0ec02d3db4b9"
+      },
+      {
+        "file": "v6-fresh-restart.json",
+        "kind": "fresh released6 createGame",
+        "options": {
+          "name": "Released6 compatibility",
+          "scenario": "restart",
+          "seed": 2026
+        },
+        "actions": [],
+        "version": 6,
+        "day": 1,
+        "revision": 0,
+        "byteLength": 48594,
+        "sha256": "0cbd3524c53005d631e23fa6e85bd281027edff70761998e915e71c11044f0c9",
+        "stateSha256": "9209b18f9296f3db25d7aa51f11233672e0ad1daff21d4c2c9b17c8a887a538a"
+      },
+      {
+        "file": "v6-mature-career-day366.json",
+        "kind": "authentic v5 day366 input promoted and advanced by frozen released6 public resolver",
+        "input": {
+          "file": "v5-career-2026-day366.json",
+          "sha256": "96fbc1124221da90454e73c6d74fb086dff47ddf3f0c4750fa9e674ddbca6b7c"
+        },
+        "actions": [
+          {
+            "id": "wait:15"
+          }
+        ],
+        "originalArchivePreserved": true,
+        "version": 6,
+        "day": 366,
+        "revision": 2612,
+        "byteLength": 288511,
+        "sha256": "8265d470af36d2ca120ff4e5cba060cd84a5b9b937556a9a933afd9daad1e353",
+        "stateSha256": "2bb4c5ca03a82ca31adc0b4b8be765ba0f2c71fa9e0fb5ffba33e7f3e5dd72b9"
+      },
+      {
+        "file": "v6-mature-social-day366.json",
+        "kind": "authentic v5 day366 input promoted and advanced by frozen released6 public resolver",
+        "input": {
+          "file": "v5-social-2026-day366.json",
+          "sha256": "ec3428c4f0ba6e239a2ecebb82aca7b985a1b0d0068f55a99f2eacbcb2c203d5"
+        },
+        "actions": [
+          {
+            "id": "wait:15"
+          }
+        ],
+        "originalArchivePreserved": true,
+        "version": 6,
+        "day": 366,
+        "revision": 3770,
+        "byteLength": 303299,
+        "sha256": "0a49c6df803eae1fa8494dbe74bbbd1158b2fb68b7ea811a4b7cb9c895b2b727",
+        "stateSha256": "761b5075cf25eee335471965d8cdfba70fc6fb6ee81c8f82665cde2532171ec8"
+      },
+      {
+        "file": "v6-mature-entrepreneur-day366.json",
+        "kind": "authentic v5 day366 input promoted and advanced by frozen released6 public resolver",
+        "input": {
+          "file": "v5-entrepreneur-2026-day366.json",
+          "sha256": "89433086e297cbdb2a1bbe0803e34a4c251172d230aac72c49eeb87bf5304427"
+        },
+        "actions": [
+          {
+            "id": "wait:15"
+          }
+        ],
+        "originalArchivePreserved": true,
+        "version": 6,
+        "day": 366,
+        "revision": 3707,
+        "byteLength": 278267,
+        "sha256": "13061e38153a33c09198fa05d95ea49e2a2cf222851674a9282b14d51c16dbc1",
+        "stateSha256": "03e3ec387448f698cc3582592eef8402029538e7aa603fb733c5b2689ff45133"
+      }
+    ],
+    "method": "Exact git archive of released merge. Fresh createGame plus released save/export; mature authentic v5 day366 fixtures loaded/promoted by released6 writer, followed by one valid public released6 resolveAction, then released6 save/export. No clock/cash/skill/state patches.",
+    "focusedVerification": {
+      "status": "PASS",
+      "command": "node --test scripts/boardworld-released-v6-save.test.mjs",
+      "exitCode": 0,
+      "tests": 7,
+      "pass": 7,
+      "fail": 0,
+      "skipped": 0,
+      "durationMs": 613.642167,
+      "candidate": "uncommitted working tree diagnostic; final exact candidate rerun required"
+    }
+  },
+  "syntheticCoverage": {
+    "classification": "Additional deliberately malformed envelopes, altered state fields, storage mocks, quota/silent-write failures and adversarial simulation scenarios; not included in authentic fixture counts",
+    "inventoryUnit": "Individual test cases; no standalone synthetic fixture corpus claimed"
+  },
+  "migrationRules": {
+    "legacy": "Validate original envelope/checksum/schema before pure idempotent migration; archive exact original bytes before canonical promotion",
+    "archiveKeys": "tariklab.boardworld.vN.original-vN for N=1..5; never rotate or overwrite",
+    "fallback": "Valid v6 primary, valid v6 backup, then supported legacy primary/backup/original; corrupted saves must not silently create a life",
+    "oldTcSim": "tariklab::tc-sim:1 is untouched"
+  },
+  "openFindings": [
+    {
+      "id": "BW7-SAVE-001",
+      "severity": "high",
+      "status": "PASS",
+      "title": "Native same-schema stale writer can overwrite newer canonical progress",
+      "reproduction": {
+        "initialRevision": 0,
+        "newerRevision": 3,
+        "newerSaveOk": true,
+        "staleSaveOk": true,
+        "reloadedRevision": 0
+      },
+      "files": [
+        "public/games/tc-sim-boardworld/persistence.mjs",
+        "public/games/tc-sim-boardworld/app.mjs"
+      ],
+      "requiredClosure": "Guard writes against changed canonical bytes; preserve intentional import/restart; regression for delayed storage events and equal-revision divergent native writers. Revalidate on final candidate.",
+      "implementation": "Exact primary/backup byte tokens guard delayed-event stale saves and imports; four focused unit tests plus two real-browser same-origin tab races pass. Final-candidate rerun required.",
+      "finalVerification": "Full regression and built cross-tab browser suite passed on 12b519c58b61e9de5074de5849e8a8c857f26646"
+    },
+    {
+      "id": "BW7-SAVE-002",
+      "severity": "high",
+      "status": "PASS",
+      "title": "Simultaneous cross-process writers are not serialized atomically",
+      "detail": "Browser save transactions and load/migration/token snapshots now share an exclusive origin-wide Web Lock; byte comparison occurs inside the lock. Genuine simultaneous two-tab UI requests queued behind a held lock produce exactly one successful save and one conflict. Browsers without Web Locks are explicitly export-only and never promote/write.",
+      "requiredClosure": "Final-candidate full acceptance and benchmark boundary including asynchronous lock wait remain required.",
+      "finalVerification": "Full regression and built cross-tab browser suite passed on 12b519c58b61e9de5074de5849e8a8c857f26646"
+    },
+    {
+      "status": "BLOCKED — NOT MERGED OR DEPLOYED",
+      "severity": "high",
+      "id": "BW7-CONCURRENT-WRITER-003",
+      "observedAt": "2026-11-03T17:39:35.939548+00:00",
+      "productCommit": "12b519c58b61e9de5074de5849e8a8c857f26646",
+      "testedPrHead": "af5b3e1664d6edf0ce5391126838a92ca4aaf135",
+      "ciRun": 41678963526,
+      "ciJob": 126067147084,
+      "ciObservation": "19-life simulation and all five Boardworld browser suites passed; stale-browser simultaneous-writer assertion failed:0 conflict notices instead of1.",
+      "localReproduction": "A stronger harness suppresses storage events in both tabs, observes two pending writer locks, checks storage is unchanged while held, and captures notices at action completion. Repeat1 passed; repeat2 reproduced two successful notices for the same travel action, violating the required one-success/one-conflict guarantee.",
+      "sameActionEvidence": "stale-queue-recovery/repeat-2/run.log",
+      "differentActionControl": "Ten additional distinct-action runs passed. Actual loss of different-action progress was not reproduced in that control; this does not resolve the observed writer-serialization acceptance failure.",
+      "cause": "Not established. Cross-renderer storage visibility versus Web Lock ordering is a hypothesis, not a proven diagnosis.",
+      "fixStatus": "No product fix applied. Test observability and queue preconditions strengthened.",
+      "releaseDecision": "Do not merge or publish Gold until the save protocol passes adversarial concurrent-browser verification and final acceptance.",
+      "productionChange": false,
+      "socialEngineChange": false
+    }
+  ],
+  "finalCandidateAcceptance": "Final integrated commit gates are recorded in PR #254; earlier fixture results retain their original commit identities.",
+  "rollbackVerification": {
+    "status": "PASS",
+    "fixtures": 9,
+    "report": "recovery/rollback.json",
+    "includesReleased6PublicAction": true
+  },
+  "notes": [
+    "v1 provenance has source commit and writer hash but no per-fixture SHA. Hashes above describe the inspected corpus, not independently signed historical hashes.",
+    "v2-v5 per-fixture SHA matches were checked against provenance.",
+    "No historical 6.0 test result is counted as new 7.0 acceptance."
+  ],
+  "focusedFixVerification": {
+    "status": "PASS",
+    "command": "node --test scripts/boardworld-stale-writer.test.mjs scripts/boardworld-save-codec.test.mjs scripts/boardworld-save.test.mjs scripts/boardworld-v6-save.test.mjs scripts/boardworld-gold-simulation.test.mjs scripts/boardworld-gold-batch.test.mjs",
+    "exitCode": 0,
+    "tests": 149,
+    "pass": 149,
+    "fail": 0,
+    "skipped": 0,
+    "durationMs": 2754.065333,
+    "log": "/tmp/boardworld7-save-locks.log",
+    "candidate": "uncommitted working tree; diagnostic only, not final acceptance"
+  },
+  "focusedBrowserVerification": {
+    "status": "PASS",
+    "candidate": "uncommitted source working tree; not final acceptance",
+    "command": "PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" node scripts/boardworld-stale-browser.mjs",
+    "equivalentRepositoryRunner": "PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" node scripts/boardworld-stale-browser.mjs",
+    "results": [
+      {
+        "case": "same-origin native tabs; storage events suppressed; stale manual save",
+        "pass": true,
+        "persistedRevision": 1,
+        "offlineExport": true
+      },
+      {
+        "case": "async file import races newer native tab save",
+        "pass": true
+      },
+      {
+        "case": "genuine simultaneous native UI writes queued behind held Web Lock; exactly one saves and one conflicts",
+        "pass": true
+      },
+      {
+        "case": "unsupported Web Locks remains export-only with explicit warning and no storage writes",
+        "pass": true
+      },
+      {
+        "case": "console/page exceptions",
+        "pass": true,
+        "count": 0
+      }
+    ],
+    "exitCode": 0,
+    "artifact": "/tmp/boardworld7-save-locks-browser.json",
+    "harnessAttempts": "Initial attempts failed due missing bundled browser, ambiguous Save selector and invisible first action; installed Chrome and scoped selectors used for successful run."
+  },
+  "concurrencyScope": "Gold uses Web Locks plus authoritative IndexedDB generation/slots and exact expected bytes. A claimed winner never adopts a foreign compatibility fork; every valid observed foreign slot is independently retained for explicit recovery. Empty origins can bootstrap a validated legacy life. Missing protection fails closed to load/export-only. Real old-client coexistence is mandatory, not a waiver.",
+  "authenticTotalIncludingNativeV6": 86,
+  "finalProductSourceVerification": {
+    "commit": "12b519c58b61e9de5074de5849e8a8c857f26646",
+    "tree": "bceae0875217321eaad2259519a463828f50e985",
+    "repositoryRegression": {
+      "tests": [
+        2894
+      ],
+      "pass": [
+        2893
+      ],
+      "fail": [
+        1
+      ],
+      "cancelled": [
+        0
+      ],
+      "skipped": [
+        0
+      ],
+      "todo": [
+        0
+      ]
+    },
+    "native6FixtureCount": 6,
+    "goldToReleased6RollbackFixtures": 9,
+    "exactStatePreserved": true,
+    "runtimeFormatChanged": false
+  },
+  "historicalDiagnosticNote": "All existing verification records retain their stated source commits; they are historical implementation evidence, not tests of a later integration. See BOARDWORLD_7_FINALIZATION.json and PR #254 for final commit gates."
+}

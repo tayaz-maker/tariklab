@@ -1,0 +1,18 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: [{"id":"travel:kadikoy","notice":"Kadıköy: yolculuk tamamlandı; 65 dk ve 45 TL."},{"id":"travel:kadikoy","notice":"Kadıköy: yolculuk tamamlandı; 65 dk ve 45 TL."}]
+
+0 !== 1
+
+    at file:///Users/tarikayaz/Documents/Codex/2026-11-03/tc-sim-boardworld-6-0-release/work/boardworld-7/scripts/boardworld-stale-browser.mjs:140:10 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 0,
+  expected: 1,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.21.0

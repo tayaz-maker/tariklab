@@ -1,0 +1,17 @@
+{
+  "observedAt": "2026-11-03T16:15:06.916772+00:00",
+  "candidate": "12b519c58b61e9de5074de5849e8a8c857f26646",
+  "build": "npm run build",
+  "versionPrefix": "3e969f40",
+  "url": "https://3e969f40-tariklab.tayaz29.workers.dev",
+  "status": "Ready",
+  "source": "Authenticated Cloudflare dashboard deployments row and build detail",
+  "environment": {
+    "node": "24.22.1",
+    "npm": "10.9.2"
+  },
+  "install": "npm clean-install --progress=false; added484packages; succeeded",
+  "publish": "npx wrangler versions upload",
+  "productionUnchanged": "6b776d41,100% traffic",
+  "productionDeploy": false
+}

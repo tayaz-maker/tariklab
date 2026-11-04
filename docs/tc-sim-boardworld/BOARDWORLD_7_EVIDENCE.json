@@ -1,0 +1,454 @@
+{
+  "status": "HISTORICAL_BLOCKED_CANDIDATE",
+  "testedCommit": "12b519c58b61e9de5074de5849e8a8c857f26646",
+  "testedTree": "bceae0875217321eaad2259519a463828f50e985",
+  "branch": "feature/boardworld-7-gold",
+  "goldAccepted": false,
+  "deployed": false,
+  "pr": "https://github.com/tayaz-maker/tariklab/pull/254",
+  "merge": null,
+  "ownerAcceptance": "NOT RUN",
+  "regressionStatistics": {
+    "tests": [
+      2894
+    ],
+    "pass": [
+      2893
+    ],
+    "fail": [
+      1
+    ],
+    "cancelled": [
+      0
+    ],
+    "skipped": [
+      0
+    ],
+    "todo": [
+      0
+    ]
+  },
+  "recoveryVerification": {
+    "commit": "12b519c58b61e9de5074de5849e8a8c857f26646",
+    "change": "diff --git a/docs/ip/THIRD_PARTY_NOTICES.md b/docs/ip/THIRD_PARTY_NOTICES.md\nindex da7e34c..e49c2b7 100644\n--- a/docs/ip/THIRD_PARTY_NOTICES.md\n+++ b/docs/ip/THIRD_PARTY_NOTICES.md\n@@ -56,7 +56,7 @@ TarikLab uses no third-party fonts (system font stacks only), no audio, and no t\n | react-remove-scroll-bar | 2.3.8 | MIT |\n | react-style-singleton | 2.2.3 | MIT |\n | scheduler | 0.27.0 | MIT |\n-| seroval | 1.6.8 | MIT |\n+| seroval | 1.7.7 | MIT |\n | seroval-plugins | 1.6.8 | MIT |\n | tailwind-merge | 3.6.0 | MIT |\n | tailwindcss | 4.3.3 | MIT |\n@@ -64,7 +64,7 @@ TarikLab uses no third-party fonts (system font stacks only), no audio, and no t\n | use-callback-ref | 1.3.3 | MIT |\n | use-sidecar | 1.1.3 | MIT |\n | use-sync-external-store | 1.6.0 | MIT |\n-| zod | 4.6.5 | MIT |\n+| zod | 4.6.7 | MIT |\n | zustand | 5.0.15 | MIT |\n \n ## @radix-ui/primitive 1.1.7\n@@ -1465,7 +1465,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\n SOFTWARE.\n ```\n \n-## seroval 1.6.8\n+## seroval 1.7.7\n \n License: MIT · Source: https://github.com/lxsmnsyc/seroval.git\n \n@@ -1652,7 +1652,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\n SOFTWARE.\n ```\n \n-## zod 4.6.5\n+## zod 4.6.7\n \n License: MIT · Source: https://github.com/colinhacks/zod.git\n \n",
+    "scope": "Documentation-only generated license version correction after full JS regression2893/2894; original failure retained. TS stage had not run because npm test uses &&.",
+    "steps": [
+      {
+        "name": "license-notices",
+        "command": [
+          "node",
+          "--test",
+          "scripts/ip-register.test.mjs"
+        ],
+        "startedAt": "2026-11-03T16:45:39.375Z",
+        "pid": 61244,
+        "exit": 0,
+        "signal": null,
+        "finishedAt": "2026-11-03T16:45:39.646Z"
+      },
+      {
+        "name": "typescript-suite",
+        "command": [
+          "node",
+          "--experimental-strip-types",
+          "--import",
+          "./scripts/ts-alias.mjs",
+          "--test",
+          "src/lib/app-data/app-data.test.ts",
+          "src/lib/auth/broker-oauth.test.ts",
+          "src/lib/auth/gate-identity.test.ts",
+          "src/lib/auth/preview-secret.test.ts",
+          "src/game/formulas.test.ts",
+          "src/game/clock.test.ts",
+          "src/game/closure.test.ts",
+          "src/game/outcome-moment.test.ts",
+          "src/lib/save-slots.test.ts"
+        ],
+        "startedAt": "2026-11-03T16:45:39.647Z",
+        "pid": 61248,
+        "exit": 0,
+        "signal": null,
+        "finishedAt": "2026-11-03T16:45:40.997Z"
+      }
+    ],
+    "pass": true
+  },
+  "typescript": {
+    "tests": 70,
+    "pass": 70,
+    "fail": 0,
+    "skipped": 0
+  },
+  "unresolvedTestFailures": 0,
+  "endurance": {
+    "annualLives": 18,
+    "days730Lives": 1,
+    "totalSimulatedDays": 7300,
+    "report": "recovery/endurance-19-lives.json",
+    "comparison": "recovery/simulation-comparison.json"
+  },
+  "commands": [
+    {
+      "name": "save-benchmark",
+      "command": [
+        "/usr/local/bin/node",
+        "--expose-gc",
+        "scripts/boardworld-v6-save-benchmark.mjs",
+        "--out",
+        "/private/tmp/boardworld7-final-oj1825n2/evidence/final-validation/save-comparison.json"
+      ],
+      "startedAt": "2026-11-03T15:55:48.892Z",
+      "log": "/private/tmp/boardworld7-final-oj1825n2/evidence/final-validation/save-benchmark.log",
+      "pid": 56537,
+      "exit": 0,
+      "signal": null,
+      "finishedAt": "2026-11-03T15:55:54.237Z"
+    },
+    {
+      "name": "rollback",
+      "command": [
+        "/usr/local/bin/node",
+        "scripts/boardworld-rollback-check.mjs",
+        "/private/tmp/boardworld7-final-oj1825n2/evidence/final-validation/rollback.json"
+      ],
+      "startedAt": "2026-11-03T15:55:54.238Z",
+      "log": "/private/tmp/boardworld7-final-oj1825n2/evidence/final-validation/rollback.log",
+      "pid": 56572,
+      "exit": 0,
+      "signal": null,
+      "finishedAt": "2026-11-03T15:55:55.190Z"
+    },
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "startedAt": "2026-11-03T15:55:55.191Z",
+      "log": "/private/tmp/boardworld7-final-oj1825n2/evidence/final-validation/typecheck.log",
+      "pid": 56596,
+      "exit": 0,
+      "signal": null,
+      "finishedAt": "2026-11-03T15:55:58.610Z"
+    },
+    {
+      "name": "lint",
+      "command": [
+        "npm",
+        "run",
+        "lint"
+      ],
+      "startedAt": "2026-11-03T15:55:58.610Z",
+      "log": "/private/tmp/boardworld7-final-oj1825n2/evidence/final-validation/lint.log",
+      "pid": 56609,
+      "exit": 0,
+      "signal": null,
+      "finishedAt": "2026-11-03T15:56:07.922Z"
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "startedAt": "2026-11-03T15:56:07.922Z",
+      "log": "/private/tmp/boardworld7-final-oj1825n2/evidence/final-validation/build.log",
+      "pid": 56622,
+      "exit": 0,
+      "signal": null,
+      "finishedAt": "2026-11-03T15:56:30.653Z"
+    },
+    {
+      "name": "dependency-audit",
+      "command": [
+        "npm",
+        "audit",
+        "--audit-level=high",
+        "--json"
+      ],
+      "startedAt": "2026-11-03T15:56:30.653Z",
+      "log": "/private/tmp/boardworld7-final-oj1825n2/evidence/final-validation/dependency-audit.log",
+      "pid": 56678,
+      "exit": 0,
+      "signal": null,
+      "finishedAt": "2026-11-03T15:56:32.272Z"
+    },
+    {
+      "name": "auth-invariant",
+      "command": [
+        "/usr/local/bin/node",
+        "scripts/check-auth-invariant.mjs",
+        "--dev-url",
+        "http://127.0.0.1:8097"
+      ],
+      "startedAt": "2026-11-03T15:56:35.324Z",
+      "log": "/private/tmp/boardworld7-final-oj1825n2/evidence/final-validation/auth-invariant.log",
+      "pid": 56706,
+      "exit": 0,
+      "signal": null,
+      "finishedAt": "2026-11-03T15:56:35.404Z"
+    },
+    {
+      "name": "full-regression",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "startedAt": "2026-11-03T16:00:38.875Z",
+      "log": "/private/tmp/boardworld7-final-oj1825n2/evidence/final-validation/full-regression.log",
+      "pid": 57300,
+      "exit": 1,
+      "signal": null,
+      "finishedAt": "2026-11-03T16:44:19.755Z"
+    },
+    {
+      "name": "boardworld-browser",
+      "command": [
+        "/usr/local/bin/node",
+        "scripts/boardworld-browser.mjs",
+        "--serve",
+        ".output/public"
+      ],
+      "startedAt": "2026-11-03T16:44:19.757Z",
+      "log": "/private/tmp/boardworld7-final-oj1825n2/evidence/final-validation/boardworld-browser.log",
+      "pid": 61083,
+      "exit": 0,
+      "signal": null,
+      "finishedAt": "2026-11-03T16:44:33.502Z"
+    },
+    {
+      "name": "boardworld-deep-browser",
+      "command": [
+        "/usr/local/bin/node",
+        "scripts/boardworld-deep-browser.mjs",
+        "--serve",
+        ".output/public"
+      ],
+      "startedAt": "2026-11-03T16:44:33.503Z",
+      "log": "/private/tmp/boardworld7-final-oj1825n2/evidence/final-validation/boardworld-deep-browser.log",
+      "pid": 61113,
+      "exit": 0,
+      "signal": null,
+      "finishedAt": "2026-11-03T16:45:01.183Z"
+    },
+    {
+      "name": "boardworld-living-browser",
+      "command": [
+        "/usr/local/bin/node",
+        "scripts/boardworld-living-browser.mjs",
+        "--serve",
+        ".output/public"
+      ],
+      "startedAt": "2026-11-03T16:45:01.184Z",
+      "log": "/private/tmp/boardworld7-final-oj1825n2/evidence/final-validation/boardworld-living-browser.log",
+      "pid": 61157,
+      "exit": 0,
+      "signal": null,
+      "finishedAt": "2026-11-03T16:45:34.999Z"
+    },
+    {
+      "name": "boardworld-emergent-browser",
+      "command": [
+        "/usr/local/bin/node",
+        "scripts/boardworld-emergent-browser.mjs",
+        "--serve",
+        ".output/public"
+      ],
+      "startedAt": "2026-11-03T16:45:34.999Z",
+      "log": "/private/tmp/boardworld7-final-oj1825n2/evidence/final-validation/boardworld-emergent-browser.log",
+      "pid": 61209,
+      "exit": 0,
+      "signal": null,
+      "finishedAt": "2026-11-03T16:46:10.371Z"
+    },
+    {
+      "name": "boardworld-society-browser",
+      "command": [
+        "/usr/local/bin/node",
+        "scripts/boardworld-society-browser.mjs",
+        "--serve",
+        ".output/public"
+      ],
+      "startedAt": "2026-11-03T16:46:10.371Z",
+      "log": "/private/tmp/boardworld7-final-oj1825n2/evidence/final-validation/boardworld-society-browser.log",
+      "pid": 61288,
+      "exit": 0,
+      "signal": null,
+      "finishedAt": "2026-11-03T16:47:15.660Z"
+    },
+    {
+      "name": "boardworld-stale-browser",
+      "command": [
+        "/usr/local/bin/node",
+        "scripts/boardworld-stale-browser.mjs",
+        "--serve",
+        ".output/public"
+      ],
+      "startedAt": "2026-11-03T16:47:15.661Z",
+      "log": "/private/tmp/boardworld7-final-oj1825n2/evidence/final-validation/boardworld-stale-browser.log",
+      "pid": 61350,
+      "exit": 0,
+      "signal": null,
+      "finishedAt": "2026-11-03T16:47:17.930Z"
+    },
+    {
+      "name": "original-tc-browser",
+      "command": [
+        "/usr/local/bin/node",
+        "scripts/tc-sim-job-start-outcome-browser.mjs",
+        "--serve",
+        ".output/public",
+        "--label",
+        "gold7-recovery-final"
+      ],
+      "startedAt": "2026-11-03T16:47:17.931Z",
+      "log": "/private/tmp/boardworld7-final-oj1825n2/evidence/final-validation/original-tc-browser.log",
+      "pid": 61373,
+      "exit": 0,
+      "signal": null,
+      "finishedAt": "2026-11-03T16:52:11.536Z"
+    }
+  ],
+  "additionalBrowserCommands": [
+    {
+      "name": "sitewide-responsive",
+      "command": [
+        "/usr/local/bin/node",
+        "scripts/sitewide-responsive.mjs"
+      ],
+      "startedAt": "2026-11-03T16:02:05.154Z",
+      "log": "/private/tmp/boardworld7-final-oj1825n2/evidence/additional-browser/sitewide-responsive.log",
+      "pid": 57505,
+      "exit": 0,
+      "signal": null,
+      "finishedAt": "2026-11-03T16:08:25.384Z"
+    },
+    {
+      "name": "original-tc-historical",
+      "command": [
+        "/usr/local/bin/node",
+        "scripts/tc-sim-historical-browser.mjs"
+      ],
+      "startedAt": "2026-11-03T16:08:25.389Z",
+      "log": "/private/tmp/boardworld7-final-oj1825n2/evidence/additional-browser/original-tc-historical.log",
+      "pid": 58948,
+      "exit": 0,
+      "signal": null,
+      "finishedAt": "2026-11-03T16:12:32.820Z"
+    },
+    {
+      "name": "other-games-built-saves",
+      "command": [
+        "/usr/local/bin/node",
+        "scripts/wave1-save-browser.mjs",
+        "--serve",
+        ".output/public",
+        "--label",
+        "gold7-recovery-built"
+      ],
+      "startedAt": "2026-11-03T16:12:32.821Z",
+      "log": "/private/tmp/boardworld7-final-oj1825n2/evidence/additional-browser/other-games-built-saves.log",
+      "pid": 59205,
+      "exit": 0,
+      "signal": null,
+      "finishedAt": "2026-11-03T16:12:50.383Z"
+    }
+  ],
+  "browserReports": [
+    {
+      "path": "final-validation/screenshots/boardworld-deep/results.json",
+      "rows": 5,
+      "ok": true,
+      "repositoryReport": "recovery/boardworld-deep-results.json",
+      "commandExit": 0
+    },
+    {
+      "path": "final-validation/screenshots/boardworld-stale/result.json",
+      "rows": 5,
+      "ok": null,
+      "repositoryReport": "recovery/boardworld-stale-result.json",
+      "commandExit": 0
+    },
+    {
+      "path": "final-validation/screenshots/boardworld-emergent/result.json",
+      "rows": 5,
+      "ok": true,
+      "repositoryReport": "recovery/boardworld-emergent-result.json",
+      "commandExit": 0
+    },
+    {
+      "path": "final-validation/screenshots/tc-job-start-outcome/gold7-recovery-final/results.json",
+      "rows": 126,
+      "ok": null,
+      "repositoryReport": "recovery/gold7-recovery-final-results.json",
+      "commandExit": 0
+    },
+    {
+      "path": "final-validation/screenshots/boardworld-society/result.json",
+      "rows": 3,
+      "ok": true,
+      "repositoryReport": "recovery/boardworld-society-result.json",
+      "commandExit": 0
+    },
+    {
+      "path": "final-validation/screenshots/boardworld/result.json",
+      "rows": 3,
+      "ok": true,
+      "repositoryReport": "recovery/boardworld-result.json",
+      "commandExit": 0
+    },
+    {
+      "path": "final-validation/screenshots/boardworld-living/result.json",
+      "rows": 4,
+      "ok": true,
+      "repositoryReport": "recovery/boardworld-living-result.json",
+      "commandExit": 0
+    }
+  ],
+  "environment": {
+    "node": "v24.21.0",
+    "platform": "darwin",
+    "arch": "arm64",
+    "chrome": "156.0.8078.80"
+  },
+  "dependencyAudit": {
+    "info": 0,
+    "low": 0,
+    "moderate": 14,
+    "high": 0,
+    "critical": 0,
+    "total": 14
+  },
+  "candidateUnchanged": true,
+  "ci": "FAIL: Boardworld simultaneous writer assertion; responsive browser startup failed; TC retry succeeded. No CI bypass.",
+  "production": "NOT RUN; must match expected assets on both existing origins",
+  "historicalEvidence": "Earlier a46f37d/b33fd13 results are retained in external evidence, not counted as this candidate acceptance",
+  "performanceScope": "Fixed master-contract numeric budgets only; not a claim Gold is faster than freshly measured older releases",
+  "runtimeUnchangedSinceB33": true,
+  "releaseBlockers": [
+    {
+      "status": "BLOCKED — NOT MERGED OR DEPLOYED",
+      "severity": "high",
+      "id": "BW7-CONCURRENT-WRITER-003",
+      "observedAt": "2026-11-03T17:39:35.939548+00:00",
+      "productCommit": "12b519c58b61e9de5074de5849e8a8c857f26646",
+      "testedPrHead": "af5b3e1664d6edf0ce5391126838a92ca4aaf135",
+      "ciRun": 41678963526,
+      "ciJob": 126067147084,
+      "ciObservation": "19-life simulation and all five Boardworld browser suites passed; stale-browser simultaneous-writer assertion failed:0 conflict notices instead of1.",
+      "localReproduction": "A stronger harness suppresses storage events in both tabs, observes two pending writer locks, checks storage is unchanged while held, and captures notices at action completion. Repeat1 passed; repeat2 reproduced two successful notices for the same travel action, violating the required one-success/one-conflict guarantee.",
+      "sameActionEvidence": "stale-queue-recovery/repeat-2/run.log",
+      "differentActionControl": "Ten additional distinct-action runs passed. Actual loss of different-action progress was not reproduced in that control; this does not resolve the observed writer-serialization acceptance failure.",
+      "cause": "Not established. Cross-renderer storage visibility versus Web Lock ordering is a hypothesis, not a proven diagnosis.",
+      "fixStatus": "No product fix applied. Test observability and queue preconditions strengthened.",
+      "releaseDecision": "Do not merge or publish Gold until the save protocol passes adversarial concurrent-browser verification and final acceptance.",
+      "productionChange": false,
+      "socialEngineChange": false
+    }
+  ],
+  "snapshotScope": "Historical12b519c evidence only; superseded by subsequent safety findings. Not final integration acceptance.",
+  "currentReleaseDecisionSource": "https://github.com/tayaz-maker/tariklab/pull/254",
+  "finalizationRecord": "BOARDWORLD_7_FINALIZATION.json"
+}

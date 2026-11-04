@@ -5,6 +5,7 @@ import { resolve } from "node:path";
 import { createHash } from "node:crypto";
 import { chromium } from "playwright";
 import { createStaticGameServer } from "./static-game-server.mjs";
+import { generatedGameAssets } from "./boardworld-browser-assets.mjs";
 import { checkedUrl } from "./browser-guard.mjs";
 const args = process.argv.slice(2);
 const arg = (name, fallback) => (args.includes(name) ? args[args.indexOf(name) + 1] : fallback);
@@ -18,7 +19,7 @@ const assets = [
   "engine.mjs",
   "content.mjs",
   "persistence.mjs",
-    "save-codec.mjs",
+  "save-codec.mjs",
   "deep-content.mjs",
   "deep-life.mjs",
   "deep-ui.mjs",
@@ -68,7 +69,10 @@ try {
     args: ["--no-sandbox"],
   });
   const assetReport = [];
-  for (const name of assets) {
+  for (const name of [
+    ...assets,
+    ...generatedGameAssets(arg("--expected-root", arg("--serve", "public"))),
+  ]) {
     const response = await fetch(origin + gamePath + name);
     assert.equal(response.status, 200, `${name} delivered`);
     const bytes = Buffer.from(await response.arrayBuffer());
@@ -88,6 +92,10 @@ try {
     });
     await context.addInitScript(() => {
       window.boardworldQaTimings = [];
+      window.boardworldQaActionTimings = [];
+      window.boardworldQaSyncTimings = [];
+      window.boardworldQaStarted = 0;
+      let activeStart = null;
       const starts = new WeakMap();
       document.addEventListener(
         "click",
@@ -96,14 +104,25 @@ try {
             event.target.closest(
               "[data-action], [data-preview-commit], [data-testid=propose-appointment]",
             )
-          )
-            starts.set(event, performance.now());
+          ) {
+            activeStart = performance.now();
+            starts.set(event, activeStart);
+            window.boardworldQaStarted++;
+          }
         },
         true,
       );
       window.addEventListener("click", (event) => {
         if (starts.has(event))
-          window.boardworldQaTimings.push(performance.now() - starts.get(event));
+          window.boardworldQaSyncTimings.push(performance.now() - starts.get(event));
+      });
+      window.addEventListener("boardworld:action-complete", (event) => {
+        if (activeStart !== null) {
+          const elapsed = performance.now() - activeStart;
+          window.boardworldQaTimings.push(elapsed);
+          window.boardworldQaActionTimings.push({ id: event.detail.id, elapsed });
+          activeStart = null;
+        }
       });
     });
     const page = (currentPage = await context.newPage());
@@ -120,6 +139,14 @@ try {
       ? await (await page.locator("iframe").elementHandle()).contentFrame()
       : page;
     await surface.locator("#create-form").waitFor();
+    const initialNetwork = await surface.evaluate(() =>
+      performance.getEntriesByType("resource").map((r) => ({
+        name: r.name,
+        transferSize: r.transferSize,
+        encodedBodySize: r.encodedBodySize,
+        decodedBodySize: r.decodedBodySize,
+      })),
+    );
     const firstPaint = await surface.evaluate(
       () => performance.getEntriesByName("first-contentful-paint")[0]?.startTime || null,
     );
@@ -523,6 +550,24 @@ try {
     const samples = (await surface.evaluate(() => window.boardworldQaTimings)).sort(
       (a, b) => a - b,
     );
+    assert.equal(
+      samples.length,
+      await surface.evaluate(() => window.boardworldQaStarted),
+      "every sampled click includes complete awaited save/render, not just synchronous dispatch",
+    );
+    const synchronousSamples = await surface.evaluate(() => window.boardworldQaSyncTimings);
+    const actionSamples = await surface.evaluate(() => window.boardworldQaActionTimings);
+    const metricsSession = await context.newCDPSession(page);
+    await metricsSession.send("Performance.enable");
+    const memoryMetrics = (await metricsSession.send("Performance.getMetrics")).metrics;
+    const memory = Object.fromEntries(
+      memoryMetrics
+        .filter(({ name }) =>
+          ["JSHeapUsedSize", "JSHeapTotalSize", "Nodes", "Documents"].includes(name),
+        )
+        .map(({ name, value }) => [name, value]),
+    );
+    await metricsSession.detach();
     await page.reload({ waitUntil: "networkidle" });
     const reloaded = args.includes("--portal")
       ? await (await page.locator("iframe").elementHandle()).contentFrame()
@@ -539,10 +584,16 @@ try {
       );
     timings.push({
       width,
+      initialNetwork,
+      memoryBeforeReload: memory,
       firstContentfulPaintMs: firstPaint,
       sampleCount: samples.length,
       handlerP50Ms: samples[Math.floor(samples.length * 0.5)] || null,
       handlerP95Ms: samples[Math.floor(samples.length * 0.95)] || null,
+      rawSamplesMs: samples,
+      actionSamples,
+      synchronousDispatchSamplesMs: synchronousSamples,
+      boundary: "capture click through action-complete after lock/save/render; excludes paint",
     });
     results.push({
       width,
@@ -574,6 +625,21 @@ try {
     oldBytes,
   );
   const inspect = () => page.evaluate(() => window.boardworldInspect());
+  // A click can return before an action's Web Lock, verified save and render.
+  // Register before clicking, then wait for this exact action's completion.
+  const completeAction = async (locator, id) => {
+    await page.evaluate((expected) => {
+      window.migrationActionComplete = false;
+      const done = (event) => {
+        if (event.detail?.id !== expected) return;
+        window.removeEventListener("boardworld:action-complete", done);
+        window.migrationActionComplete = true;
+      };
+      window.addEventListener("boardworld:action-complete", done);
+    }, id);
+    await locator.click();
+    await page.waitForFunction(() => window.migrationActionComplete);
+  };
   for (let i = 0; i < 60; i++) {
     const event = await page.evaluate(async () => {
       const e = await import("/games/tc-sim-boardworld/engine.mjs");
@@ -582,11 +648,17 @@ try {
         .find((a) => a.category === "event" && !a.disabled && !a.cost);
     });
     if (!event) break;
-    await page.locator(`[data-action="${event.id}"]`).first().click();
+    await completeAction(page.locator(`[data-action="${event.id}"]`).first(), event.id);
   }
   await page.locator('.game-tabs [data-tab="wallet"]').click();
-  await page.locator('[data-action="finance:reserve:500"]').click();
+  const beforeUpgrade = await inspect();
+  await completeAction(page.locator('[data-action="finance:reserve:500"]'), "finance:reserve:500");
   const upgraded = await inspect();
+  assert.equal(
+    upgraded.revision,
+    beforeUpgrade.revision + 1,
+    "reserve action committed before stale-writer check",
+  );
   const canonical = await page.evaluate(() => ({
     primary: localStorage.getItem("tariklab.boardworld.v6"),
     backup: localStorage.getItem("tariklab.boardworld.v6.backup"),
@@ -626,8 +698,14 @@ try {
   await page.reload({ waitUntil: "networkidle" });
   assert.deepEqual(await inspect(), upgraded, "reload prefers canonical 5.0 after stale writer");
   await page.locator('.game-tabs [data-tab="wallet"]').click();
-  await page.locator('[data-action="finance:reserve:500"]').click();
+  const beforeSync = await inspect();
+  await completeAction(page.locator('[data-action="finance:reserve:500"]'), "finance:reserve:500");
   const synced = await inspect();
+  assert.equal(
+    synced.revision,
+    beforeSync.revision + 1,
+    "reserve action committed before cross-tab check",
+  );
   await writer.waitForFunction(
     (revision) => window.boardworldInspect()?.revision === revision,
     synced.revision,
@@ -661,7 +739,7 @@ try {
           assets: assetReport,
           timings,
           caveat:
-            "Local or explicitly supplied origin; click-handler timing excludes paint and network.",
+            "Local or explicitly supplied origin; complete interaction includes Web Lock wait, save and render, excludes paint. Historical synchronous dispatch alone is not a valid Gold latency measurement.",
         },
       },
       null,
@@ -674,7 +752,11 @@ try {
     await currentPage.screenshot({ path: `${output}/failure.png`, fullPage: true }).catch(() => {});
   writeFileSync(
     `${output}/failure.json`,
-    JSON.stringify({ message: error.message, stack: error.stack, errors, results }, null, 2),
+    JSON.stringify(
+      { message: error.message, stack: error.stack, errors, results, timings },
+      null,
+      2,
+    ),
   );
   throw error;
 } finally {

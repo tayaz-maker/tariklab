@@ -1,0 +1,6 @@
+{
+  "status": "FAIL",
+  "released": "d695119186cad42c079a911a60c372f201b3b64b",
+  "results": [],
+  "error": "Error: Timed out: authentic v1/newcomer: transactional migration, save and exact released6 rollback\n    at Timeout.<anonymous> (file:///Users/tarikayaz/Documents/Codex/2026-11-03/sol-6-1-high-boardworld-7/work/tariklab/scripts/boardworld-transaction-browser.mjs:29:39)\n    at listOnTimeout (node:internal/timers:685:17)\n    at process.processTimers (node:internal/timers:618:7)"
+}

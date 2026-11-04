@@ -2943,4 +2943,12 @@ export default [
   "Następna prognoza zapasów",
   "Prognoza uwzględnia znane dostawy i zużycie; nowe zakupy mogą ją zmienić.",
   "Na prośbę o kontakt odpowiedziano rzeczywistą rozmową; nie powstała nowa płatność ani obietnica pomocy.",
+  "Inna karta zmieniła zapis. Wyeksportuj postępy z tej karty, a następnie odśwież stronę.",
+  "Ta przeglądarka nie obsługuje bezpiecznego zapisu między kartami. Wyeksportuj postępy do pliku; automatyczny zapis jest wyłączony.",
+  "STAMBUŁ / POŁĄCZONE ŻYCIA / 07",
+  "Zapisywanie…",
+  "Zachowano inną kopię zapisu. Pobierz ją z menu zapisu i jawnie zaimportuj; bieżący zapis pozostał bez zmian.",
+  "Zachowano inne kopie zapisu. Pobierz je i zaimportuj plik, aby wybrać jedną.",
+  "Pobierz zachowaną kopię zapisu",
+  "Zapisano w tej przeglądarce. Zachowano inną kopię zapisu. Pobierz ją z menu zapisu i jawnie zaimportuj; bieżący zapis pozostał bez zmian.",
 ];

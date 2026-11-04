@@ -1,0 +1,81 @@
+{
+  "command": [
+    "/usr/local/bin/node",
+    "/Users/tarikayaz/Documents/Codex/2026-11-03/tc-sim-boardworld-6-0-release/work/boardworld-7/scripts/boardworld-legacy-tab-browser.mjs",
+    "--serve",
+    ".output/public",
+    "--out",
+    "../evidence/sol-review/legacy-tab-built-regression.json"
+  ],
+  "cwd": "/private/var/folders/k1/zprsgklx4xqbs2wb4cq59bsr0000gn/T/boardworld7-parallel-84tvtxo3/sol-review",
+  "repository": "/private/var/folders/k1/zprsgklx4xqbs2wb4cq59bsr0000gn/T/boardworld7-parallel-84tvtxo3/sol-review",
+  "commit": "71006639cd876fb8c4a1061270d5fe0df8731851",
+  "tree": "21ee5c4b59559791693726a0dab241d4df9b2557",
+  "trackedDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "runnerSha256": "0e7d9a2435e89ebe9e8d95f26baf3ac1eec9661dcf453c6656828a0aa437c22e",
+  "serving": "/private/var/folders/k1/zprsgklx4xqbs2wb4cq59bsr0000gn/T/boardworld7-parallel-84tvtxo3/sol-review/.output/public",
+  "releasedCommit": "d695119186cad42c079a911a60c372f201b3b64b",
+  "releasedTree": "2350d4eb908d260fee1919e97ec27278c30bafb1",
+  "startedAt": "2026-11-03T18:26:52.071Z",
+  "environment": {
+    "node": "v24.21.0",
+    "platform": "darwin",
+    "architecture": "arm64"
+  },
+  "status": "FAIL",
+  "checks": {
+    "goldSave": true,
+    "released6StaleWrite": true,
+    "staleForkExportable": true,
+    "goldWinnerPreserved": false
+  },
+  "releasedArchiveSha256": "8ec2b346c223f6d5dead45cdadcf39d3da48344f7e6751dcd53bbb084971b0b7",
+  "servedModuleSha256": {
+    "app.mjs": "7854cc36f1b072e890d2d0d105d3f345809c95f2ce949e5bc90adf5ad8dcd8d5",
+    "bw-runtime-dbb7226e3aa07ea0.mjs": "dbb7226e3aa07ea0d72c6a95a9ee94208a783e8368231f4121a4057bf5ff34b7",
+    "calendar.mjs": "4ceacdd2382a6fecf6cead136c2534a0841326014e7c16bd0d3f089fd17e6406",
+    "city.mjs": "77f4129e62a5967610b0824e9309b940d92785b4166910ac877a29680a9a4f04",
+    "content.mjs": "0d1ff39a73ace4e4506ed93185cc5f1727ee5e4acf685fc8afc17ae2a42d5ca2",
+    "daily-flow.mjs": "e074e61de1d19d49a707f396aafbb04064a62fcd2755eb8f9401f81b3811600b",
+    "deep-content.mjs": "b3ec42be5debb3e2d20c1c489d443631560dca68f6c32640d5e852de2473778a",
+    "deep-life.mjs": "af87b64d20d74271375c7e070aba40aa86de6af884cb3e5c3be7c97a6e2c96a9",
+    "deep-ui.mjs": "4644b474eba1289e06b3b3e64474169b925659a2b4ac685bc7b7dd124700d74c",
+    "emergent-content.mjs": "f41313e6cfd9b9347cbd93119998e751445b15e4b1d1fc00afdb8386711e389c",
+    "emergent-life.mjs": "da219529699ea47c4d6d7aef827a142927c1e876fac0a76a770a5b764d514ed8",
+    "emergent-ui.mjs": "71cea17553528483f81708e830736898a27e4db8da43d7aeca3b2d96c226dba8",
+    "engine.mjs": "75d2d74151a99e8a52dfd00271e3ebee63f7d2a6bb79bf0537d280acc4e313dd",
+    "i18n.mjs": "e290405bb5c005bff44d6e743fbd7f0ee4855109d5f7b1e53bbd501a3146c9f6",
+    "life-chains.mjs": "8b05c633df3b2fd2de21c96af9458a64d90e0c61be2ed2cab7615c160384c967",
+    "life-content.mjs": "2e3b0e0eeafc00087f95900a00695869d43bfb9747eaaf746e9abdf55e40be20",
+    "life-systems.mjs": "8bdd650a26297824f94324d7e0cddb21127ae9cfaa40f4ff86da151fb72511b9",
+    "living-ui.mjs": "066d4df1428bc77adad1b3c494cb8dd3441512ed4a0263d3ce4958e53c359ef7",
+    "locale-en.mjs": "5ecb4caa63b940651a5908aa6a3815894257c3365be8c21b02590e39be56e9f6",
+    "locale-keys.mjs": "a42e30983426b5108327e97675b7b5008faf33fec24d36b5b8015207ad146c7f",
+    "locale-pl.mjs": "18818fd74c36e75cce1e7ad7abdfd15418262e1df2a1b9b5fac1c853d8eca024",
+    "persistence.mjs": "73478ddb99167bb7bb3e7f24dcfee4250a459b8221e39068c59ce46ceb04b0e4",
+    "save-codec.mjs": "fe22934d3245cc3b20a399f85741c03c90fa8da18514f2d5945fd5243d19575c",
+    "society-content.mjs": "85566caf42f3107bea690cc607a08232311d5701fb504f916ac55b4b01dcde33",
+    "society-systems.mjs": "443c32f0c7256135fc6b7b9252704cb4ed5d433b1608c626f89ecd08226e2faa",
+    "society-ui.mjs": "ebfbe8d1c4de76b7a4623834c19558ac8c3c877bea846ac020581c5029271349",
+    "world-content.mjs": "9f882a9d5ec4beba067e137b52f43e3e017b619067f6a1c0ab78e4ddb2871c18",
+    "world-life.mjs": "3af555f04c63108cf163478327dda3c09108eb19b81cf802b32eb4d5fddfe9f4"
+  },
+  "sourceModuleSha256": {
+    "engine.mjs": "0118e642e0b6a90ca1ad0a48e5e01370c3ab36a854d95e8a9457e0c5d0e6ef7d",
+    "persistence.mjs": "4fa03e6a7deeef0dbe8298500d2a55505efd4ebaaa544a7c3908ac74d0a1bbca",
+    "save-codec.mjs": "e0337c3ea7107a69c8f37a28fa3ed77ed1c449722dc3e64af48433e225955926"
+  },
+  "browser": "156.0.8078.80",
+  "seedSha256": "76123258fb0f95574ab63eadc0c50054814691562211292c6c283fef1dd78a2d",
+  "winnerStateSha256": "68796095b0ad8db3402a60fa6d0f6985f82ecfcfdc0dac2f62899238e027204d",
+  "staleForkStateSha256": "63fae65c685e928a928e50dc6300023d3fbafce3e290244cce02ca5bba4b3be0",
+  "returnedStateSha256": "63fae65c685e928a928e50dc6300023d3fbafce3e290244cce02ca5bba4b3be0",
+  "oldForkSilentlyAdopted": true,
+  "pageErrors": [],
+  "error": {
+    "name": "AssertionError",
+    "message": "New Gold load must preserve the complete Gold winner after an unpatched released6 stale write\n+ actual - expected\n... Skipped lines\n\n  {\n    achievements: [],\n    appointments: [],\n    bank: 6500,\n    calendar: {\n      entries: [],\n+     lastTick: 510,\n-     lastTick: 495,\n      nextId: 1,\n      recurrences: [],\n      stats: {\n        cancelled: 0,\n        completed: 0,\n...\n          {\n+           at: 510,\n+           id: 'event:welcome:learn'\n-           at: 495,\n-           id: 'event:welcome:work'\n          }\n        ],\n        week: 0\n      },\n      history: [],\n      initializedAt: 480,\n      lastSpawnDay: 1,\n+     lastTick: 510,\n-     lastTick: 495,\n      nextId: 1,\n      policy: {\n        autoWithdraw: false,\n        bedtime: 1320,\n        businessService: false,\n...\n        day: 1,\n+       text: 'Bir şehir, bir hayat: Önce çevreyi tanı.',\n+       time: 510\n-       text: 'Bir şehir, bir hayat: Önce iş ilanları.',\n-       time: 495\n      }\n    ],\n    housing: {\n      arrears: 0,\n      deposit: 4200,\n...\n      },\n+     lastTickAt: 510,\n-     lastTickAt: 495,\n      markets: {\n        besiktas: {\n          activity: 54,\n          demand: 48,\n          vacancies: 5\n...\n      aylin: {\n+       affinity: 18,\n-       affinity: 8,\n        lastApologyDay: 0,\n        lastCallDay: 0,\n        lastDateDay: 0,\n        lastGiftDay: 0,\n        lastMentorDay: 0,\n...\n          },\n+         {\n+           day: 1,\n+           text: 'Bir şehir, bir hayat: “Önce çevreyi tanı” kararını hatırlıyorum.'\n+         }\n        ],\n        mood: 71,\n        romance: 0,\n+       trust: 15\n-       trust: 10\n      },\n      baran: {\n        affinity: 8,\n        lastApologyDay: 0,\n        lastCallDay: 0,\n...\n      education: 'highschool',\n+     energy: 89.3,\n-     energy: 89.7,\n      health: 94,\n+     hunger: 79.2,\n-     hunger: 79.6,\n      name: 'Released6 compatibility',\n      scenario: 'newcomer',\n      skills: {\n+       communication: 15,\n-       communication: 17,\n        craft: 17,\n+       kno"
+  },
+  "finishedAt": "2026-11-03T18:26:54.388Z",
+  "exitCode": 1
+}

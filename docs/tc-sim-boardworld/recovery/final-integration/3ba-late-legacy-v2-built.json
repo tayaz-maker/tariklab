@@ -1,0 +1,133 @@
+{
+  "status": "PASS",
+  "startedAt": "2026-11-03T20:01:02.493Z",
+  "command": [
+    "/usr/local/bin/node",
+    "/private/var/folders/k1/zprsgklx4xqbs2wb4cq59bsr0000gn/T/boardworld7-parallel-84tvtxo3/late-legacy-check-v2.mjs",
+    "--repo",
+    "/private/var/folders/k1/zprsgklx4xqbs2wb4cq59bsr0000gn/T/boardworld7-parallel-84tvtxo3/bootstrap-3ba9630",
+    "--commit",
+    "3ba963028c7e5cfa2a70445a390414571dab0ac6",
+    "--serve",
+    ".output/public",
+    "--out",
+    "/private/var/folders/k1/zprsgklx4xqbs2wb4cq59bsr0000gn/T/boardworld7-parallel-84tvtxo3/evidence/sol-final-review/3ba-late-legacy-v2-built.json"
+  ],
+  "commit": "3ba963028c7e5cfa2a70445a390414571dab0ac6",
+  "tree": "d537e0cf9b7d1401325fd492e4af07f436f2b550",
+  "mode": "built",
+  "runnerSha256": "972b398a31d435c54b7aa166afa9da128113b422f0332a63748df8db3b9690b1",
+  "environment": {
+    "node": "v24.21.0",
+    "platform": "darwin",
+    "arch": "arm64",
+    "browser": "156.0.8078.80"
+  },
+  "results": [
+    {
+      "scenario": "preexisting-v2-under-v1",
+      "status": "PASS",
+      "checks": {
+        "originalLegacyBytesUnchanged": true,
+        "originalTcUnchanged": true,
+        "fullUiStateExact": true,
+        "fullLoadedStateExact": true,
+        "originalV2ArchiveExact": true,
+        "saveSucceeded": true,
+        "reloadStateExact": true
+      },
+      "pageErrors": [],
+      "expectedStateSha256": "2f6031196d90c2f150c606d61aa80ac33b0f93f20a07048ab05605a5d9179cf9",
+      "actualStateSha256": "2f6031196d90c2f150c606d61aa80ac33b0f93f20a07048ab05605a5d9179cf9"
+    },
+    {
+      "scenario": "late-v2-after-empty-head",
+      "status": "PASS",
+      "checks": {
+        "originalLegacyBytesUnchanged": true,
+        "originalTcUnchanged": true,
+        "fullUiStateExact": true,
+        "fullLoadedStateExact": true,
+        "originalV2ArchiveExact": true,
+        "saveSucceeded": true,
+        "reloadStateExact": true
+      },
+      "pageErrors": [],
+      "expectedStateSha256": "2f6031196d90c2f150c606d61aa80ac33b0f93f20a07048ab05605a5d9179cf9",
+      "actualStateSha256": "2f6031196d90c2f150c606d61aa80ac33b0f93f20a07048ab05605a5d9179cf9"
+    },
+    {
+      "scenario": "foreign-v2-after-populated-head",
+      "status": "PASS",
+      "checks": {
+        "originalLegacyBytesUnchanged": true,
+        "originalTcUnchanged": true,
+        "fullUiStateExact": true,
+        "fullLoadedStateExact": true,
+        "saveSucceeded": true,
+        "reloadStateExact": true
+      },
+      "pageErrors": [],
+      "expectedStateSha256": "c31c02390b2d21f720185bfcdc332837746239352bc30838d00d599291f0fd5b",
+      "actualStateSha256": "c31c02390b2d21f720185bfcdc332837746239352bc30838d00d599291f0fd5b"
+    },
+    {
+      "scenario": "late-v2-after-prior843-empty-head",
+      "status": "PASS",
+      "checks": {
+        "exactPrior843EmptyHeadCreated": true,
+        "originalLegacyBytesUnchanged": true,
+        "originalTcUnchanged": true,
+        "fullUiStateExact": true,
+        "fullLoadedStateExact": true,
+        "originalV2ArchiveExact": true,
+        "saveSucceeded": true,
+        "reloadStateExact": true
+      },
+      "pageErrors": [],
+      "expectedStateSha256": "2f6031196d90c2f150c606d61aa80ac33b0f93f20a07048ab05605a5d9179cf9",
+      "actualStateSha256": "2f6031196d90c2f150c606d61aa80ac33b0f93f20a07048ab05605a5d9179cf9"
+    }
+  ],
+  "priorEmptyHeadSourceCommit": "843bc0c36de611ed2b200566645aa0d614d9feaf",
+  "priorEmptyHeadSourceTree": "15dea71e8cc9763cd576a16cbefd81ef18bcce40",
+  "priorEmptyHeadArchiveSha256": "83679764ee382b8565a9f41088c79f4905a20934381c44a058a61dae9b9a7ed5",
+  "sourceArchiveSha256": "0091d9fec90a6310ebe44fb4074093d4fb4bbe5617d9155a2b06cc63185a629e",
+  "serving": "/private/var/folders/k1/zprsgklx4xqbs2wb4cq59bsr0000gn/T/boardworld7-parallel-84tvtxo3/bootstrap-3ba9630/.output/public",
+  "servedModules": {
+    "app.mjs": "559476977f4e51a65010b1f1b754ab12124df558573b778e0cb4d560f0e7f4e5",
+    "bw-runtime-cf4fe21572d63bad.mjs": "cf4fe21572d63bad1de8426e696189bcdabcb418717280e35887e3bfdbf491e0",
+    "calendar.mjs": "1a2db3867708479039af5696199bea66d9b110b843609ecc6f63a0b36d498e83",
+    "city.mjs": "5bacc0438738a92365c70bce7212420365091f548d62fa734d141d16ec7f704c",
+    "content.mjs": "15f021d59b8409d538b35cfa02b3f182c549195c65c212ce97a919e2079908b2",
+    "daily-flow.mjs": "26b0e516a5505bf89206bf053c4ea8b30b01df0567b20394d362599a50354ed2",
+    "deep-content.mjs": "2403431af8ff4a86c4d56fb885f399079d806a3f15d09d24e09f95b292bb58bc",
+    "deep-life.mjs": "cde9ef1bf816a4dc6461bbe8b0bb4761f73db4f9346c0ce8c8858e4bcc9a1173",
+    "deep-ui.mjs": "d3be0e2b3a69ece230af048edbb6a5e142d597197cfb2a3c73018aed8c42c5d0",
+    "emergent-content.mjs": "8c2196d50e1fc6486c8f85ae3af8cc526963cdf06c8909a4e06dedb20366a854",
+    "emergent-life.mjs": "8a7e1b57483ebdee8a5c547f7a08ecea56a7b840df3fe358340ea360d461b4da",
+    "emergent-ui.mjs": "9047dc8a8d381cda3fadcc2cfc200cd14b5b416b35f15be71cc9456695b028a2",
+    "engine.mjs": "efead27288ea4e8dbbb86a63fabb6a245f617dd8a76eb0c770634aa7835efbfa",
+    "i18n.mjs": "ea6c90fa51b83fcf05c2021b086ceac4904900863147bc14e07a77829c75b18b",
+    "life-chains.mjs": "bdad9140df907cfe7b9a8fddac9e745f2e887a039560942530ff80f09c1a9290",
+    "life-content.mjs": "332b04c2e7f960694e5909c02683fa5cf062bc5f8ee6494e2d10454573359017",
+    "life-systems.mjs": "99b4386130412f10e6f5c236d10712a10acdc7fad0d3e1b01467deea8486067b",
+    "living-ui.mjs": "8ad5f6eb97f27fa4c8eb134cbd971b0b95b33935aaefa4b0a8da16787a992de7",
+    "locale-en.mjs": "fab92744dc409f308c8a44170d48497015dfeed252c72bd7a345539a29858aae",
+    "locale-keys.mjs": "de1bcba057a5378e150bfaf909467757560eb2fed35506a3b9a9877620fec97b",
+    "locale-pl.mjs": "2a89615be4309dbbaf1ee22a83d2e8b06866cba2dc9808f3f9e90d59c7550c23",
+    "persistence.mjs": "e7386548db75058b91e61703ea25b826e303901184862f8ae74e56383c43f906",
+    "save-codec.mjs": "00dec147071fa05666e71c868ceab26d618dfefbe31a34cbd8459d6555a64b58",
+    "society-content.mjs": "43a1f53333d453288ad5602f873a53d9ceabfe9c8124713f4c9cc79194ce0500",
+    "society-systems.mjs": "287b5ed49919dd025f6bf88faf604a0120eebe9cdfd0a9fab39614ffaf95d0c1",
+    "society-ui.mjs": "3df39c32adabac86bec5e738d68ca075055ee4eb5262c6e2f8960a9597829407",
+    "world-content.mjs": "5b54036354edc00248fffc19c9a6623999c41d248c25f91137cf7d6a78670606",
+    "world-life.mjs": "e5211a176fd0c891f05ded89796797f6ab54770f4b2204e6eb676ed9ef33aca0"
+  },
+  "fixture": {
+    "file": "scripts/fixtures/boardworld/v2-progressed-restart-day46.json",
+    "sha256": "fbddec285b1d84ae2da86ac781ee51d954de599d0aca1b8f2aafe0498f40c4f4"
+  },
+  "finishedAt": "2026-11-03T20:01:10.811Z",
+  "exitCode": 0
+}
