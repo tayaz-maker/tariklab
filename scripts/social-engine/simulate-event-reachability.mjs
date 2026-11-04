@@ -115,28 +115,30 @@ try {
   ticks(20);
   act("TALK", { npcId: "n0", topic: "insult" });
   collect();
-  // A witnessed assault needs a real crowd. n0 has already become isolated by
-  // morning routines; visit the restaurant where adults actually congregate.
-  walk("b-restaurant");
-  act("ENTER", { buildingId: "b-restaurant" });
-  const victim = state.npcs.find((n) => n.id === "n80");
-  for (
-    let i = 0;
-    i < 500 &&
-    Math.hypot(
-      state.player.location.x - victim.location.x,
-      state.player.location.y - victim.location.y,
-    ) > 0.7;
-    i++
-  ) {
-    assert.equal(
-      victim.location.scene,
-      state.player.location.scene,
-      "Fixture victim must remain in the same reachable scene",
-    );
-    if (i % 5 === 0) act("MOVE_TO", { x: victim.location.x, y: victim.location.y });
-    stepWorld(state);
+  // An independent resident may leave any venue. Follow the current world rather
+  // than requiring one preselected person to remain in a restaurant.
+  const livingAdults = () => state.npcs.filter(n => n.local && n.alive && n.age >= 18 && n.health > 15 && !state.vehicles.some(v => v.driverId === n.id));
+  let victim;
+  for (let trip = 0; trip < 8 && !victim; trip++) {
+    const groups = new Map();
+    for (const n of livingAdults()) if (n.location.scene !== "outside")
+      groups.set(n.location.scene, (groups.get(n.location.scene) ?? 0) + 1);
+    const venue = [...groups.entries()].filter(([,n])=>n>=2).sort((a,b)=>b[1]-a[1] || (a[0]<b[0]?-1:1))[0]?.[0];
+    if (!venue) { ticks(30); continue; }
+    if (state.player.location.scene !== "outside") act("EXIT");
+    walk(venue); act("ENTER",{buildingId:venue});
+    for (let t = 0; t < 120; t++) {
+      const people = livingAdults().filter(n=>n.location.scene===venue);
+      const distance=(p,q)=>Math.hypot(p.x-q.x,p.y-q.y);
+      const target=people.filter(n=>people.some(w=>w.id!==n.id && distance(w.location,n.location)<4))
+        .sort((a,b)=>distance(a.location,state.player.location)-distance(b.location,state.player.location))[0];
+      if (!target) break;
+      if (distance(target.location,state.player.location)<0.7) { victim=target; break; }
+      if(t%5===0) act("MOVE_TO",{x:target.location.x,y:target.location.y});
+      stepWorld(state);
+    }
   }
+  assert.ok(victim,"A genuine reachable adult and independent nearby witness must be present");
   act("STOP");
   const crimeCount = state.crimes.length;
   act("ATTACK", { npcId: victim.id });

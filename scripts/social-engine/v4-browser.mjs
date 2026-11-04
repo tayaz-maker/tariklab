@@ -1,7 +1,7 @@
 /** v4 integration evidence. Setup uses documented public commands/QA time, tested actions use DOM. */
 import { waitForQATicks } from "./wait-for-qa-ticks.mjs";
 import { chromium } from "playwright";
-import { windowlessRendererOptions } from "./windowless-launch.mjs";
+import { windowlessRendererOptions, verifySoftwareRenderer } from "./windowless-launch.mjs";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import assert from "node:assert/strict";
@@ -13,7 +13,7 @@ import {
 import { encodeSave } from "../../src/games/social-engine/persistence/codec.ts";
 import { BUILDINGS } from "../../src/games/social-engine/domain/world.ts";
 const base = process.env.SE_BASE || "http://127.0.0.1:8097";
-const out = "artifacts/social-engine/v4-browser";
+const out = process.env.SE_QA_OUTPUT || "artifacts/social-engine/v4-browser";
 await mkdir(out, { recursive: true });
 const manifestBytes = await readFile("public/games/social-engine/build-manifest.json");
 const manifest = JSON.parse(manifestBytes);
@@ -67,6 +67,8 @@ async function fresh() {
   await page.locator("[name=name]").fill("Deniz V4 Kanıt");
   await page.getByRole("button", { name: "Hikâyene başla" }).click();
   await page.waitForFunction(() => window.__socialEngine?.projection()?.population >= 1100);
+  if (process.env.SE_QA_VERIFY_SOFTWARE === "1" && !report.softwareRenderer)
+    report.softwareRenderer = await verifySoftwareRenderer(page);
 }
 async function close() {
   if (await page.locator("#panel").isVisible()) await page.keyboard.press("Escape");

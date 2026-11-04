@@ -12,3 +12,19 @@ export function windowlessRendererOptions() {
     args: ["--use-gl=angle", "--use-angle=metal", "--enable-gpu"],
   };
 }
+
+// Inspect the actual game canvas instead of inferring the driver from launch flags.
+export async function verifySoftwareRenderer(page) {
+  const renderer = await page.evaluate(() => {
+    for (const canvas of document.querySelectorAll("canvas")) {
+      if (canvas.width < 300) continue;
+      const gl = canvas.getContext("webgl2") || canvas.getContext("webgl");
+      const ext = gl?.getExtension("WEBGL_debug_renderer_info");
+      if (ext) return gl.getParameter(ext.UNMASKED_RENDERER_WEBGL);
+    }
+    return null;
+  });
+  if (!/swiftshader|llvmpipe|software rasterizer/i.test(renderer ?? ""))
+    throw new Error("Software rasterizer not verified: " + renderer);
+  return renderer;
+}

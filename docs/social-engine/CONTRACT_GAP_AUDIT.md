@@ -1,6 +1,6 @@
-# Four-contract audit — schema 6
+# Four-contract audit — SOCIAL ENGINE
 
-Schema 6. Recalculated from the current isolated suite and named browser or simulation evidence; hardware, human and release gates stay separate.
+Current DARAMCIK build. Recalculated from the current isolated suite and named browser or simulation evidence; hardware, human and release gates stay separate.
 
 ## C01 — Rental, paid bus stops, parking capacity, traffic signals and junction reservations
 
@@ -190,6 +190,6 @@ Code: simulation/engine.ts; life.ts; missions.ts. Evidence: recovery.test.ts; si
 
 **UNVERIFIED** · ACCEPTANCE_TESTS.md:171-181,213-243; TECHNICAL_SPEC.md:76-77
 
-User restricted work to local commits and suspended merge/production. Actual local built route is verified by served manifest. Remote PR/CI/provider identity, final external preview and production/rollback evidence remain absent.
+The owner explicitly authorizes merge and the verified existing Cloudflare hook after all gates and release serialization. Draft PR #256 and a real local built route exist. No production traffic, live commit identity, deployment ID, or rollback trial is verified.
 
 Code: docs/social-engine/ISOLATION.md. Evidence: route-browser/results.json.

@@ -1,19 +1,19 @@
 {
   "product": "SOCIAL ENGINE",
   "schemaVersion": 3,
-  "evaluatedAt": "2026-11-04T10:34:48.165Z",
+  "evaluatedAt": "2026-11-04T10:48:53.826Z",
   "source": "docs/social-engine/ACCEPTANCE_TESTS.md",
   "localScope": "Development checkout and locally served Worker or portable build. No CI or production promotion follows from this file.",
   "observation_snapshot": {
     "year": {
       "status": "RUNNING",
-      "completedDays": 120,
+      "completedDays": 150,
       "sourceSha256": "3d33f0a2d5b40394279f00723c2d891f17886cdabfeeafcb976a2a3508454100"
     },
     "soak": {
       "runId": "2026-11-04T10-15-03-459Z",
       "status": "RUNNING",
-      "elapsedMinutes": 19.003134684733332,
+      "elapsedMinutes": 33.01898001111667,
       "manifestSha256": "1d2cb9211926fa48c9d555d5120dfd8c1ff7074fb97405a4b1b65f2fdb3e9438"
     }
   },
@@ -27,29 +27,12 @@
   "runtimeManifestSha256": "1d2cb9211926fa48c9d555d5120dfd8c1ff7074fb97405a4b1b65f2fdb3e9438",
   "sourceDigest": "bb1271dcb034ea5331a06fbf708a1ef784acb6f2810fc020622e69286b7b7f3c",
   "counts": {
-    "PASS": 34,
+    "PASS": 51,
     "FAIL": 0,
     "SKIP": 0,
-    "UNVERIFIED": 26
+    "UNVERIFIED": 9
   },
   "blocking_ids": [
-    "SE-010",
-    "SE-011",
-    "SE-012",
-    "SE-015",
-    "SE-017",
-    "SE-020",
-    "SE-021",
-    "SE-023",
-    "SE-024",
-    "SE-025",
-    "SE-027",
-    "SE-028",
-    "SE-032",
-    "SE-034",
-    "SE-036",
-    "SE-037",
-    "SE-038",
     "SE-046",
     "SE-047",
     "SE-048",
@@ -61,7 +44,7 @@
     "SE-060"
   ],
   "required_evidence_status": {
-    "isolated_unit_sources": "UNVERIFIED",
+    "isolated_unit_sources": "PASS",
     "cross_engine_365days": "UNVERIFIED",
     "two_human_30_minute_sessions": "UNVERIFIED",
     "reference_PC": "UNVERIFIED",
@@ -73,39 +56,38 @@
     "native_200_percent_browser_zoom": "UNVERIFIED",
     "keyboard_menu_visible_focus": "PASS",
     "ui_course_certificate_office_access": "PASS",
-    "measured_process_footprint_600MiB": "UNVERIFIED",
+    "measured_process_footprint_600MiB": "PASS",
     "renderer_resource_teardown": "PASS",
     "journal_recovery": "PASS",
     "integrated_lifecycle_mobility_social": "PASS",
     "asset_fault_recovery": "PASS",
-    "local_real_worker_route": "UNVERIFIED",
-    "bundle_and_cold_network": "UNVERIFIED",
+    "local_real_worker_route": "PASS",
+    "bundle_and_cold_network": "PASS",
     "indexedDB_firefox": "PASS",
     "indexedDB_webkit": "PASS",
-    "stolen_stock_unit_invariants": "UNVERIFIED",
+    "stolen_stock_unit_invariants": "PASS",
     "stolen_stock_and_restitution_chromium": "PASS",
     "stolen_stock_and_restitution_firefox": "PASS",
     "stolen_stock_and_restitution_webkit": "PASS",
     "cold_start_character_chromium": "PASS",
-    "cold_start_character_firefox": "UNVERIFIED",
-    "cold_start_character_webkit": "UNVERIFIED",
+    "cold_start_character_firefox": "PASS",
+    "cold_start_character_webkit": "PASS",
     "native_zoom_and_background": "UNVERIFIED",
-    "synthetic_10000_citizens": "UNVERIFIED",
-    "twenty_event_branches": "UNVERIFIED",
+    "synthetic_10000_citizens": "PASS",
+    "twenty_event_branches": "PASS",
     "late_save_20_roundtrips_three_engines": "PASS",
     "local_deployed_route": "PASS",
     "local_worker_smoke": "PASS",
     "local_portable_smoke": "PASS",
     "legacy_district_display": "PASS",
     "retail_and_mechanic_work_orders": "PASS",
-    "software_raster_parallel_combat_social": "UNVERIFIED",
-    "software_raster_parallel_autosave": "UNVERIFIED",
+    "software_raster_parallel_combat_social": "FAIL",
+    "software_raster_parallel_autosave": "FAIL",
     "unchanged_game_browser_regressions": "PASS",
     "full_repository_regression": "UNVERIFIED",
     "remaining_contract_obligations": "UNVERIFIED"
   },
   "blocking_additional_gates": [
-    "isolated_unit_sources",
     "cross_engine_365days",
     "two_human_30_minute_sessions",
     "reference_PC",
@@ -115,15 +97,7 @@
     "rollback_trial",
     "headless_true_tab_visibility",
     "native_200_percent_browser_zoom",
-    "measured_process_footprint_600MiB",
-    "local_real_worker_route",
-    "bundle_and_cold_network",
-    "stolen_stock_unit_invariants",
-    "cold_start_character_firefox",
-    "cold_start_character_webkit",
     "native_zoom_and_background",
-    "synthetic_10000_citizens",
-    "twenty_event_branches",
     "software_raster_parallel_combat_social",
     "software_raster_parallel_autosave",
     "full_repository_regression",
@@ -304,30 +278,38 @@
       "automation": "Property",
       "status": "PASS",
       "evidence": [
+        "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json",
         "artifacts/social-engine/current-receipts/08145ab49c5f856b6f6df61e33cb0754843f3ca3741c3d1b5959d55e09180c39.json"
       ],
       "seed": null,
       "environment": [
         {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        },
+        {
           "browser": "151.0.7922.34"
         }
       ],
-      "build_sha": null,
-      "duration_ms": 166.75016700000003,
+      "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+      "duration_ms": 307.45195900000004,
       "checks": [
         {
-          "status": "UNVERIFIED",
-          "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check.",
+          "status": "PASS",
+          "reason": "SE-002 SE-004 SE-005 SE-006: one canonical adult player, validated profile and point budget",
           "receipt": "acceptance-unit.json",
-          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "evidence": "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json",
           "environment": {
             "node": "v24.21.0",
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-          "duration_ms": 187.93175,
-          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+          "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+          "duration_ms": 140.701792,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP.",
+          "tapSha256": "5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2",
+          "tap": "artifacts/social-engine/current-receipts/5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2.tap"
         },
         {
           "status": "PASS",
@@ -342,7 +324,7 @@
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "invalid profile names and excessive attribute total are rejected through real form"
+      "reason": "SE-002 SE-004 SE-005 SE-006: one canonical adult player, validated profile and point budget | invalid profile names and excessive attribute total are rejected through real form"
     },
     {
       "id": "SE-007",
@@ -445,9 +427,9 @@
       "expected": "Duvar geçilmez",
       "priority": "P0",
       "automation": "Physics",
-      "status": "UNVERIFIED",
+      "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/acceptance-unit.json"
+        "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json"
       ],
       "seed": null,
       "environment": [
@@ -457,27 +439,29 @@
           "cpu": "Apple M2"
         }
       ],
-      "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-      "duration_ms": 8143.978167,
+      "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+      "duration_ms": 6146.333709,
       "checks": [
         {
-          "status": "UNVERIFIED",
-          "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check.",
+          "status": "PASS",
+          "reason": "SE-010 SE-012: fixed movement swept collision and world limits resist 10000 held inputs",
           "receipt": "acceptance-unit.json",
-          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "evidence": "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json",
           "environment": {
             "node": "v24.21.0",
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-          "duration_ms": 8143.978167,
-          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+          "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+          "duration_ms": 6146.333709,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP.",
+          "tapSha256": "5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2",
+          "tap": "artifacts/social-engine/current-receipts/5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2.tap"
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check."
+      "reason": "SE-010 SE-012: fixed movement swept collision and world limits resist 10000 held inputs"
     },
     {
       "id": "SE-011",
@@ -487,9 +471,9 @@
       "expected": "Geçerli rota veya ret",
       "priority": "P0",
       "automation": "Graph",
-      "status": "UNVERIFIED",
+      "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/acceptance-unit.json"
+        "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json"
       ],
       "seed": null,
       "environment": [
@@ -499,27 +483,29 @@
           "cpu": "Apple M2"
         }
       ],
-      "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-      "duration_ms": 3076.892,
+      "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+      "duration_ms": 2008.969667,
       "checks": [
         {
-          "status": "UNVERIFIED",
-          "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check.",
+          "status": "PASS",
+          "reason": "SE-011: obstructed target refuses movement and connected target follows valid path",
           "receipt": "acceptance-unit.json",
-          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "evidence": "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json",
           "environment": {
             "node": "v24.21.0",
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-          "duration_ms": 3076.892,
-          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+          "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+          "duration_ms": 2008.969667,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP.",
+          "tapSha256": "5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2",
+          "tap": "artifacts/social-engine/current-receipts/5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2.tap"
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check."
+      "reason": "SE-011: obstructed target refuses movement and connected target follows valid path"
     },
     {
       "id": "SE-012",
@@ -529,9 +515,9 @@
       "expected": "Geçersiz konum yok",
       "priority": "P0",
       "automation": "Fuzz",
-      "status": "UNVERIFIED",
+      "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/acceptance-unit.json"
+        "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json"
       ],
       "seed": null,
       "environment": [
@@ -541,27 +527,29 @@
           "cpu": "Apple M2"
         }
       ],
-      "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-      "duration_ms": 8143.978167,
+      "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+      "duration_ms": 6146.333709,
       "checks": [
         {
-          "status": "UNVERIFIED",
-          "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check.",
+          "status": "PASS",
+          "reason": "SE-010 SE-012: fixed movement swept collision and world limits resist 10000 held inputs",
           "receipt": "acceptance-unit.json",
-          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "evidence": "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json",
           "environment": {
             "node": "v24.21.0",
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-          "duration_ms": 8143.978167,
-          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+          "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+          "duration_ms": 6146.333709,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP.",
+          "tapSha256": "5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2",
+          "tap": "artifacts/social-engine/current-receipts/5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2.tap"
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check."
+      "reason": "SE-010 SE-012: fixed movement swept collision and world limits resist 10000 held inputs"
     },
     {
       "id": "SE-013",
@@ -635,9 +623,9 @@
       "expected": "Çift oyuncu yok",
       "priority": "P1",
       "automation": "Invariant",
-      "status": "UNVERIFIED",
+      "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/acceptance-unit.json"
+        "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json"
       ],
       "seed": null,
       "environment": [
@@ -647,27 +635,29 @@
           "cpu": "Apple M2"
         }
       ],
-      "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-      "duration_ms": 4829.247958,
+      "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+      "duration_ms": 3749.612583,
       "checks": [
         {
-          "status": "UNVERIFIED",
-          "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check.",
+          "status": "PASS",
+          "reason": "SE-014 SE-015 SE-017: 100 repeated interior transitions preserve one player and exact door",
           "receipt": "acceptance-unit.json",
-          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "evidence": "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json",
           "environment": {
             "node": "v24.21.0",
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-          "duration_ms": 4829.247958,
-          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+          "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+          "duration_ms": 3749.612583,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP.",
+          "tapSha256": "5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2",
+          "tap": "artifacts/social-engine/current-receipts/5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2.tap"
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check."
+      "reason": "SE-014 SE-015 SE-017: 100 repeated interior transitions preserve one player and exact door"
     },
     {
       "id": "SE-016",
@@ -709,9 +699,9 @@
       "expected": "Tek canonical konum",
       "priority": "P0",
       "automation": "Invariant",
-      "status": "UNVERIFIED",
+      "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/acceptance-unit.json"
+        "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json"
       ],
       "seed": null,
       "environment": [
@@ -721,27 +711,29 @@
           "cpu": "Apple M2"
         }
       ],
-      "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-      "duration_ms": 1259.6678339999999,
+      "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+      "duration_ms": 985.108541,
       "checks": [
         {
-          "status": "UNVERIFIED",
-          "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check.",
+          "status": "PASS",
+          "reason": "shared-door departures retain one physical person and a persisted six-tick admission gap; 30-person doorway crowd clears without lockstep admissions or duplicate people",
           "receipt": "acceptance-unit.json",
-          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "evidence": "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json",
           "environment": {
             "node": "v24.21.0",
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-          "duration_ms": 1259.6678339999999,
-          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+          "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+          "duration_ms": 985.108541,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP.",
+          "tapSha256": "5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2",
+          "tap": "artifacts/social-engine/current-receipts/5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2.tap"
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check."
+      "reason": "shared-door departures retain one physical person and a persisted six-tick admission gap; 30-person doorway crowd clears without lockstep admissions or duplicate people"
     },
     {
       "id": "SE-018",
@@ -811,9 +803,9 @@
       "expected": "Tek ödeme",
       "priority": "P0",
       "automation": "Ledger",
-      "status": "UNVERIFIED",
+      "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/acceptance-unit.json"
+        "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json"
       ],
       "seed": null,
       "environment": [
@@ -823,27 +815,29 @@
           "cpu": "Apple M2"
         }
       ],
-      "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-      "duration_ms": 5699.464917,
+      "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+      "duration_ms": 4590.934,
       "checks": [
         {
-          "status": "UNVERIFIED",
-          "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check.",
+          "status": "PASS",
+          "reason": "SE-020 SE-021: every occupation pays once, changes canonical employment, overlapping shifts rejected",
           "receipt": "acceptance-unit.json",
-          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "evidence": "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json",
           "environment": {
             "node": "v24.21.0",
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-          "duration_ms": 5699.464917,
-          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+          "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+          "duration_ms": 4590.934,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP.",
+          "tapSha256": "5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2",
+          "tap": "artifacts/social-engine/current-receipts/5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2.tap"
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check."
+      "reason": "SE-020 SE-021: every occupation pays once, changes canonical employment, overlapping shifts rejected"
     },
     {
       "id": "SE-021",
@@ -853,9 +847,9 @@
       "expected": "Takvim güncel",
       "priority": "P1",
       "automation": "Integration",
-      "status": "UNVERIFIED",
+      "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/acceptance-unit.json"
+        "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json"
       ],
       "seed": null,
       "environment": [
@@ -865,27 +859,29 @@
           "cpu": "Apple M2"
         }
       ],
-      "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-      "duration_ms": null,
+      "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+      "duration_ms": 5126.338125,
       "checks": [
         {
-          "status": "UNVERIFIED",
-          "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check.",
+          "status": "PASS",
+          "reason": "SE-021-job-schedule: replacement employment owns the actual future shift clock and pay without stale prior bookings",
           "receipt": "acceptance-unit.json",
-          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "evidence": "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json",
           "environment": {
             "node": "v24.21.0",
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-          "duration_ms": 0,
-          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+          "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+          "duration_ms": 5126.338125,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP.",
+          "tapSha256": "5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2",
+          "tap": "artifacts/social-engine/current-receipts/5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2.tap"
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check."
+      "reason": "SE-021-job-schedule: replacement employment owns the actual future shift clock and pay without stale prior bookings"
     },
     {
       "id": "SE-022",
@@ -897,26 +893,35 @@
       "automation": "Ledger",
       "status": "PASS",
       "evidence": [
+        "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json",
         "artifacts/social-engine/current-receipts/55272cf8fb084749507541a512b94d9748e5cdb3c0d7342898cec583b31e4601.json"
       ],
       "seed": null,
-      "environment": [],
-      "build_sha": null,
-      "duration_ms": null,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+      "duration_ms": 50.403666,
       "checks": [
         {
-          "status": "UNVERIFIED",
-          "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check.",
+          "status": "PASS",
+          "reason": "SE-022 SE-023: purchase atomically balances cash, stock and inventory; invalid and duplicate commands fail",
           "receipt": "acceptance-unit.json",
-          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "evidence": "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json",
           "environment": {
             "node": "v24.21.0",
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-          "duration_ms": 146.842583,
-          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+          "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+          "duration_ms": 50.403666,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP.",
+          "tapSha256": "5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2",
+          "tap": "artifacts/social-engine/current-receipts/5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2.tap"
         },
         {
           "status": "PASS",
@@ -928,7 +933,7 @@
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Completed explicit browser assertion SE-022-stock-cash."
+      "reason": "SE-022 SE-023: purchase atomically balances cash, stock and inventory; invalid and duplicate commands fail | Completed explicit browser assertion SE-022-stock-cash."
     },
     {
       "id": "SE-023",
@@ -938,9 +943,9 @@
       "expected": "Yetkisiz negatif yok",
       "priority": "P0",
       "automation": "Property",
-      "status": "UNVERIFIED",
+      "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/acceptance-unit.json"
+        "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json"
       ],
       "seed": null,
       "environment": [
@@ -950,27 +955,29 @@
           "cpu": "Apple M2"
         }
       ],
-      "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-      "duration_ms": 146.842583,
+      "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+      "duration_ms": 50.403666,
       "checks": [
         {
-          "status": "UNVERIFIED",
-          "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check.",
+          "status": "PASS",
+          "reason": "SE-022 SE-023: purchase atomically balances cash, stock and inventory; invalid and duplicate commands fail",
           "receipt": "acceptance-unit.json",
-          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "evidence": "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json",
           "environment": {
             "node": "v24.21.0",
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-          "duration_ms": 146.842583,
-          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+          "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+          "duration_ms": 50.403666,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP.",
+          "tapSha256": "5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2",
+          "tap": "artifacts/social-engine/current-receipts/5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2.tap"
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check."
+      "reason": "SE-022 SE-023: purchase atomically balances cash, stock and inventory; invalid and duplicate commands fail"
     },
     {
       "id": "SE-024",
@@ -980,9 +987,9 @@
       "expected": "Borç defteri mutabık",
       "priority": "P0",
       "automation": "Ledger",
-      "status": "UNVERIFIED",
+      "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/acceptance-unit.json"
+        "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json"
       ],
       "seed": null,
       "environment": [
@@ -992,27 +999,29 @@
           "cpu": "Apple M2"
         }
       ],
-      "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-      "duration_ms": 68999.765208,
+      "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+      "duration_ms": 54617.28275,
       "checks": [
         {
-          "status": "UNVERIFIED",
-          "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check.",
+          "status": "PASS",
+          "reason": "SE-024: principal, weekly interest and payment reconcile bank assets and player liabilities",
           "receipt": "acceptance-unit.json",
-          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "evidence": "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json",
           "environment": {
             "node": "v24.21.0",
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-          "duration_ms": 68999.765208,
-          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+          "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+          "duration_ms": 54617.28275,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP.",
+          "tapSha256": "5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2",
+          "tap": "artifacts/social-engine/current-receipts/5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2.tap"
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check."
+      "reason": "SE-024: principal, weekly interest and payment reconcile bank assets and player liabilities"
     },
     {
       "id": "SE-025",
@@ -1022,9 +1031,9 @@
       "expected": "İlişki değişir",
       "priority": "P1",
       "automation": "Simulation",
-      "status": "UNVERIFIED",
+      "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/acceptance-unit.json"
+        "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json"
       ],
       "seed": null,
       "environment": [
@@ -1034,27 +1043,29 @@
           "cpu": "Apple M2"
         }
       ],
-      "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-      "duration_ms": 136.607125,
+      "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+      "duration_ms": 62.759084,
       "checks": [
         {
-          "status": "UNVERIFIED",
-          "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check.",
+          "status": "PASS",
+          "reason": "SE-016 SE-018 SE-025 SE-027: proximity, cooldown, knowledge and social consequences",
           "receipt": "acceptance-unit.json",
-          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "evidence": "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json",
           "environment": {
             "node": "v24.21.0",
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-          "duration_ms": 136.607125,
-          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+          "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+          "duration_ms": 62.759084,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP.",
+          "tapSha256": "5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2",
+          "tap": "artifacts/social-engine/current-receipts/5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2.tap"
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check."
+      "reason": "SE-016 SE-018 SE-025 SE-027: proximity, cooldown, knowledge and social consequences"
     },
     {
       "id": "SE-026",
@@ -1066,32 +1077,40 @@
       "automation": "Roundtrip",
       "status": "PASS",
       "evidence": [
+        "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json",
         "artifacts/social-engine/current-receipts/582695cec28134c52b74b972d487985d07bf9c6be6a73b7bea3ef6397071658a.json"
       ],
       "seed": null,
       "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        },
         {
           "probeSha256": "d1a9ecb7e3f8283af0cb8e001bfe335c69c4d7b2e52ac0694ad4ce9244ca765d",
           "fixtureSha256": "9ce8527c4dfbd996344702190912c219956f17a70802f08701d0a6beecff7965",
           "worldTick": 2592000
         }
       ],
-      "build_sha": null,
-      "duration_ms": null,
+      "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+      "duration_ms": 21294.681208,
       "checks": [
         {
-          "status": "UNVERIFIED",
-          "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check.",
+          "status": "PASS",
+          "reason": "SE-026 SE-038 SE-039 SE-040: canonical snapshot preserves relational/economic state and resumes identical ticks",
           "receipt": "acceptance-unit.json",
-          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "evidence": "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json",
           "environment": {
             "node": "v24.21.0",
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-          "duration_ms": 30359.2435,
-          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+          "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+          "duration_ms": 21294.681208,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP.",
+          "tapSha256": "5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2",
+          "tap": "artifacts/social-engine/current-receipts/5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2.tap"
         },
         {
           "status": "PASS",
@@ -1108,7 +1127,7 @@
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Three browser engines each verified 20 changing mature-world canonical hashes through IndexedDB save/load, covering the complete relation graph."
+      "reason": "SE-026 SE-038 SE-039 SE-040: canonical snapshot preserves relational/economic state and resumes identical ticks | Three browser engines each verified 20 changing mature-world canonical hashes through IndexedDB save/load, covering the complete relation graph."
     },
     {
       "id": "SE-027",
@@ -1118,9 +1137,9 @@
       "expected": "Nedensiz bilgi yok",
       "priority": "P1",
       "automation": "Invariant",
-      "status": "UNVERIFIED",
+      "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/acceptance-unit.json"
+        "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json"
       ],
       "seed": null,
       "environment": [
@@ -1130,27 +1149,29 @@
           "cpu": "Apple M2"
         }
       ],
-      "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-      "duration_ms": 249.25579199999999,
+      "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+      "duration_ms": 234.708668,
       "checks": [
         {
-          "status": "UNVERIFIED",
-          "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check.",
+          "status": "PASS",
+          "reason": "SE-016 SE-018 SE-025 SE-027: proximity, cooldown, knowledge and social consequences; SE-027 SE-029: unseen assault is not automatically known to police",
           "receipt": "acceptance-unit.json",
-          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "evidence": "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json",
           "environment": {
             "node": "v24.21.0",
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-          "duration_ms": 249.25579199999999,
-          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+          "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+          "duration_ms": 234.708668,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP.",
+          "tapSha256": "5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2",
+          "tap": "artifacts/social-engine/current-receipts/5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2.tap"
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check."
+      "reason": "SE-016 SE-018 SE-025 SE-027: proximity, cooldown, knowledge and social consequences; SE-027 SE-029: unseen assault is not automatically known to police"
     },
     {
       "id": "SE-028",
@@ -1160,9 +1181,9 @@
       "expected": "Etkiler tutarlı",
       "priority": "P0",
       "automation": "Simulation",
-      "status": "UNVERIFIED",
+      "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/acceptance-unit.json"
+        "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json"
       ],
       "seed": null,
       "environment": [
@@ -1172,27 +1193,29 @@
           "cpu": "Apple M2"
         }
       ],
-      "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-      "duration_ms": null,
+      "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+      "duration_ms": 1850.497541,
       "checks": [
         {
-          "status": "UNVERIFIED",
-          "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check.",
+          "status": "PASS",
+          "reason": "SE-028-reputation-effects: earned reputation changes actual faction eligibility and survives save reload",
           "receipt": "acceptance-unit.json",
-          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "evidence": "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json",
           "environment": {
             "node": "v24.21.0",
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-          "duration_ms": 0,
-          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+          "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+          "duration_ms": 1850.497541,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP.",
+          "tapSha256": "5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2",
+          "tap": "artifacts/social-engine/current-receipts/5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2.tap"
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check."
+      "reason": "SE-028-reputation-effects: earned reputation changes actual faction eligibility and survives save reload"
     },
     {
       "id": "SE-029",
@@ -1204,26 +1227,35 @@
       "automation": "Scenario",
       "status": "PASS",
       "evidence": [
+        "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json",
         "artifacts/social-engine/current-receipts/55272cf8fb084749507541a512b94d9748e5cdb3c0d7342898cec583b31e4601.json"
       ],
       "seed": null,
-      "environment": [],
-      "build_sha": null,
-      "duration_ms": null,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+      "duration_ms": 318.42004199999997,
       "checks": [
         {
-          "status": "UNVERIFIED",
-          "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check.",
+          "status": "PASS",
+          "reason": "SE-028 SE-029 SE-030: witnessed assault produces delayed report, evidence, pursuit and exact fine; SE-027 SE-029: unseen assault is not automatically known to police",
           "receipt": "acceptance-unit.json",
-          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "evidence": "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json",
           "environment": {
             "node": "v24.21.0",
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-          "duration_ms": 234.25975,
-          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+          "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+          "duration_ms": 318.42004199999997,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP.",
+          "tapSha256": "5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2",
+          "tap": "artifacts/social-engine/current-receipts/5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2.tap"
         },
         {
           "status": "PASS",
@@ -1238,7 +1270,7 @@
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Assault damaged the target, created a case and triggered a wanted state."
+      "reason": "SE-028 SE-029 SE-030: witnessed assault produces delayed report, evidence, pursuit and exact fine; SE-027 SE-029: unseen assault is not automatically known to police | Assault damaged the target, created a case and triggered a wanted state."
     },
     {
       "id": "SE-030",
@@ -1250,26 +1282,35 @@
       "automation": "FSM",
       "status": "PASS",
       "evidence": [
+        "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json",
         "artifacts/social-engine/current-receipts/55272cf8fb084749507541a512b94d9748e5cdb3c0d7342898cec583b31e4601.json"
       ],
       "seed": null,
-      "environment": [],
-      "build_sha": null,
-      "duration_ms": null,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+      "duration_ms": 146.470458,
       "checks": [
         {
-          "status": "UNVERIFIED",
-          "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check.",
+          "status": "PASS",
+          "reason": "SE-028 SE-029 SE-030: witnessed assault produces delayed report, evidence, pursuit and exact fine",
           "receipt": "acceptance-unit.json",
-          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "evidence": "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json",
           "environment": {
             "node": "v24.21.0",
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-          "duration_ms": 121.611083,
-          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+          "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+          "duration_ms": 146.470458,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP.",
+          "tapSha256": "5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2",
+          "tap": "artifacts/social-engine/current-receipts/5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2.tap"
         },
         {
           "status": "PASS",
@@ -1284,7 +1325,7 @@
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Surrender ended the active pursuit."
+      "reason": "SE-028 SE-029 SE-030: witnessed assault produces delayed report, evidence, pursuit and exact fine | Surrender ended the active pursuit."
     },
     {
       "id": "SE-031",
@@ -1296,26 +1337,35 @@
       "automation": "E2E",
       "status": "PASS",
       "evidence": [
+        "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json",
         "artifacts/social-engine/current-receipts/55272cf8fb084749507541a512b94d9748e5cdb3c0d7342898cec583b31e4601.json"
       ],
       "seed": null,
-      "environment": [],
-      "build_sha": null,
-      "duration_ms": null,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+      "duration_ms": 123.269916,
       "checks": [
         {
-          "status": "UNVERIFIED",
-          "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check.",
+          "status": "PASS",
+          "reason": "SE-031: combat windup/cooldown/stamina and block are deterministic independent of render grouping",
           "receipt": "acceptance-unit.json",
-          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "evidence": "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json",
           "environment": {
             "node": "v24.21.0",
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-          "duration_ms": 115.33975,
-          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+          "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+          "duration_ms": 123.269916,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP.",
+          "tapSha256": "5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2",
+          "tap": "artifacts/social-engine/current-receipts/5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2.tap"
         },
         {
           "status": "PASS",
@@ -1327,7 +1377,7 @@
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Completed explicit browser assertion SE-031-stamina-block."
+      "reason": "SE-031: combat windup/cooldown/stamina and block are deterministic independent of render grouping | Completed explicit browser assertion SE-031-stamina-block."
     },
     {
       "id": "SE-032",
@@ -1337,9 +1387,9 @@
       "expected": "Yalnız sürülebilir kenarlar",
       "priority": "P0",
       "automation": "Graph",
-      "status": "UNVERIFIED",
+      "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/acceptance-unit.json"
+        "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json"
       ],
       "seed": null,
       "environment": [
@@ -1349,27 +1399,29 @@
           "cpu": "Apple M2"
         }
       ],
-      "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-      "duration_ms": 6190.880917,
+      "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+      "duration_ms": 4969.193583,
       "checks": [
         {
-          "status": "UNVERIFIED",
-          "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check.",
+          "status": "PASS",
+          "reason": "SE-032 SE-033: driven car and saved driver remain on directed lanes with collision spacing; integrated engine follows canonical curves under strict invariants, including stationary headings",
           "receipt": "acceptance-unit.json",
-          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "evidence": "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json",
           "environment": {
             "node": "v24.21.0",
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-          "duration_ms": 6190.880917,
-          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+          "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+          "duration_ms": 4969.193583,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP.",
+          "tapSha256": "5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2",
+          "tap": "artifacts/social-engine/current-receipts/5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2.tap"
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check."
+      "reason": "SE-032 SE-033: driven car and saved driver remain on directed lanes with collision spacing; integrated engine follows canonical curves under strict invariants, including stationary headings"
     },
     {
       "id": "SE-033",
@@ -1415,9 +1467,9 @@
       "expected": "Geçerli hedefler",
       "priority": "P1",
       "automation": "Property",
-      "status": "UNVERIFIED",
+      "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/acceptance-unit.json"
+        "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json"
       ],
       "seed": null,
       "environment": [
@@ -1427,27 +1479,29 @@
           "cpu": "Apple M2"
         }
       ],
-      "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-      "duration_ms": 3764.9735,
+      "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+      "duration_ms": 3499.24075,
       "checks": [
         {
-          "status": "UNVERIFIED",
-          "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check.",
+          "status": "PASS",
+          "reason": "SE-034: at least one hundred generated missions across seeded worlds have reachable funded canonical targets",
           "receipt": "acceptance-unit.json",
-          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "evidence": "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json",
           "environment": {
             "node": "v24.21.0",
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-          "duration_ms": 3764.9735,
-          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+          "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+          "duration_ms": 3499.24075,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP.",
+          "tapSha256": "5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2",
+          "tap": "artifacts/social-engine/current-receipts/5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2.tap"
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check."
+      "reason": "SE-034: at least one hundred generated missions across seeded worlds have reachable funded canonical targets"
     },
     {
       "id": "SE-035",
@@ -1459,26 +1513,35 @@
       "automation": "FSM",
       "status": "PASS",
       "evidence": [
+        "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json",
         "artifacts/social-engine/current-receipts/55272cf8fb084749507541a512b94d9748e5cdb3c0d7342898cec583b31e4601.json"
       ],
       "seed": null,
-      "environment": [],
-      "build_sha": null,
-      "duration_ms": null,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+      "duration_ms": 64612.584125,
       "checks": [
         {
-          "status": "UNVERIFIED",
-          "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check.",
+          "status": "PASS",
+          "reason": "SE-034 SE-035 SE-036: funded causal missions, terminal timeout and exactly once reward survive compaction",
           "receipt": "acceptance-unit.json",
-          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "evidence": "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json",
           "environment": {
             "node": "v24.21.0",
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-          "duration_ms": 93643.966541,
-          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+          "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+          "duration_ms": 64612.584125,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP.",
+          "tapSha256": "5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2",
+          "tap": "artifacts/social-engine/current-receipts/5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2.tap"
         },
         {
           "status": "PASS",
@@ -1493,7 +1556,7 @@
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "The second quest completion was rejected and cash stayed unchanged."
+      "reason": "SE-034 SE-035 SE-036: funded causal missions, terminal timeout and exactly once reward survive compaction | The second quest completion was rejected and cash stayed unchanged."
     },
     {
       "id": "SE-036",
@@ -1503,9 +1566,9 @@
       "expected": "Sonsuz döngü yok",
       "priority": "P1",
       "automation": "Fault",
-      "status": "UNVERIFIED",
+      "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/acceptance-unit.json"
+        "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json"
       ],
       "seed": null,
       "environment": [
@@ -1515,27 +1578,29 @@
           "cpu": "Apple M2"
         }
       ],
-      "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-      "duration_ms": 80.785667,
+      "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+      "duration_ms": 58.034125,
       "checks": [
         {
-          "status": "UNVERIFIED",
-          "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check.",
+          "status": "PASS",
+          "reason": "SE-036 fault injection: a missing target reference times out with escrow and parcel returned once",
           "receipt": "acceptance-unit.json",
-          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "evidence": "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json",
           "environment": {
             "node": "v24.21.0",
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-          "duration_ms": 80.785667,
-          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+          "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+          "duration_ms": 58.034125,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP.",
+          "tapSha256": "5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2",
+          "tap": "artifacts/social-engine/current-receipts/5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2.tap"
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check."
+      "reason": "SE-036 fault injection: a missing target reference times out with escrow and parcel returned once"
     },
     {
       "id": "SE-037",
@@ -1545,10 +1610,9 @@
       "expected": "Tek konum",
       "priority": "P0",
       "automation": "Invariant",
-      "status": "UNVERIFIED",
+      "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/acceptance-unit.json",
-        "artifacts/social-engine/simulation-365/results.json"
+        "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json"
       ],
       "seed": null,
       "environment": [
@@ -1556,72 +1620,26 @@
           "node": "v24.21.0",
           "os": "darwin 25.6.0",
           "cpu": "Apple M2"
-        },
-        {
-          "os": "darwin 25.6.0",
-          "cpu": "Apple M2",
-          "logicalCpus": 8,
-          "memoryBytes": 17179869184,
-          "node": "v24.21.0",
-          "engine": "1.0.0-candidate.7",
-          "seed": 20261103,
-          "build_sha": "2c565622e124057dff40c4d5ff826d7950539f40",
-          "dirtyTree": true,
-          "sourceSha256": "3d33f0a2d5b40394279f00723c2d891f17886cdabfeeafcb976a2a3508454100",
-          "sourceFiles": [
-            "src/games/social-engine/persistence/codec.ts",
-            "src/games/social-engine/persistence/compression.ts",
-            "src/games/social-engine/persistence/records.ts",
-            "src/games/social-engine/domain/content.ts",
-            "src/games/social-engine/domain/economy-types.ts",
-            "src/games/social-engine/domain/life-types.ts",
-            "src/games/social-engine/domain/mobility-types.ts",
-            "src/games/social-engine/domain/progression-types.ts",
-            "src/games/social-engine/domain/social-types.ts",
-            "src/games/social-engine/domain/traffic.ts",
-            "src/games/social-engine/domain/types.ts",
-            "src/games/social-engine/domain/world.ts",
-            "src/games/social-engine/simulation/economy.ts",
-            "src/games/social-engine/simulation/engine.ts",
-            "src/games/social-engine/simulation/events.ts",
-            "src/games/social-engine/simulation/family.ts",
-            "src/games/social-engine/simulation/justice.ts",
-            "src/games/social-engine/simulation/ledger.ts",
-            "src/games/social-engine/simulation/life.ts",
-            "src/games/social-engine/simulation/meal-membership.ts",
-            "src/games/social-engine/simulation/meal-migration.ts",
-            "src/games/social-engine/simulation/missions.ts",
-            "src/games/social-engine/simulation/mobility.ts",
-            "src/games/social-engine/simulation/npc-traits.ts",
-            "src/games/social-engine/simulation/pedestrian-navigation.ts",
-            "src/games/social-engine/simulation/population.ts",
-            "src/games/social-engine/simulation/progression.ts",
-            "src/games/social-engine/simulation/property-crime.ts",
-            "src/games/social-engine/simulation/random.ts",
-            "src/games/social-engine/simulation/services.ts",
-            "src/games/social-engine/simulation/social.ts",
-            "src/games/social-engine/simulation/society.ts",
-            "src/games/social-engine/simulation/traffic.ts",
-            "src/games/social-engine/simulation/work-orders.ts"
-          ]
         }
       ],
-      "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-      "duration_ms": 2581623.50875,
+      "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+      "duration_ms": 30929.084125,
       "checks": [
         {
-          "status": "UNVERIFIED",
-          "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check.",
+          "status": "PASS",
+          "reason": "SE-037 SE-038: 100000 actual ticks retain one location and balanced accounts",
           "receipt": "acceptance-unit.json",
-          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "evidence": "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json",
           "environment": {
             "node": "v24.21.0",
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-          "duration_ms": 63205.030583,
-          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+          "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+          "duration_ms": 30929.084125,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP.",
+          "tapSha256": "5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2",
+          "tap": "artifacts/social-engine/current-receipts/5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2.tap"
         },
         {
           "status": "UNVERIFIED",
@@ -1677,13 +1695,13 @@
             ]
           },
           "build_sha": "2c565622e124057dff40c4d5ff826d7950539f40",
-          "duration_ms": 2518418.478167,
+          "duration_ms": 2919930.692292,
           "scope": "Pure fixed-step simulation; not renderer or human playtime."
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check. | No completed current-source 365-day receipt. Historical results cannot complete this gate."
+      "reason": "SE-037 SE-038: 100000 actual ticks retain one location and balanced accounts"
     },
     {
       "id": "SE-038",
@@ -1693,9 +1711,9 @@
       "expected": "Ledger mutabık",
       "priority": "P0",
       "automation": "Invariant",
-      "status": "UNVERIFIED",
+      "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/acceptance-unit.json"
+        "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json"
       ],
       "seed": null,
       "environment": [
@@ -1705,27 +1723,29 @@
           "cpu": "Apple M2"
         }
       ],
-      "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-      "duration_ms": 63205.030583,
+      "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+      "duration_ms": 30929.084125,
       "checks": [
         {
-          "status": "UNVERIFIED",
-          "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check.",
+          "status": "PASS",
+          "reason": "SE-037 SE-038: 100000 actual ticks retain one location and balanced accounts",
           "receipt": "acceptance-unit.json",
-          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "evidence": "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json",
           "environment": {
             "node": "v24.21.0",
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-          "duration_ms": 63205.030583,
-          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+          "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+          "duration_ms": 30929.084125,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP.",
+          "tapSha256": "5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2",
+          "tap": "artifacts/social-engine/current-receipts/5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2.tap"
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check."
+      "reason": "SE-037 SE-038: 100000 actual ticks retain one location and balanced accounts"
     },
     {
       "id": "SE-039",
@@ -1737,32 +1757,40 @@
       "automation": "Determinism",
       "status": "PASS",
       "evidence": [
+        "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json",
         "artifacts/social-engine/current-receipts/582695cec28134c52b74b972d487985d07bf9c6be6a73b7bea3ef6397071658a.json"
       ],
       "seed": null,
       "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        },
         {
           "probeSha256": "d1a9ecb7e3f8283af0cb8e001bfe335c69c4d7b2e52ac0694ad4ce9244ca765d",
           "fixtureSha256": "9ce8527c4dfbd996344702190912c219956f17a70802f08701d0a6beecff7965",
           "worldTick": 2592000
         }
       ],
-      "build_sha": null,
-      "duration_ms": null,
+      "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+      "duration_ms": 21294.681208,
       "checks": [
         {
-          "status": "UNVERIFIED",
-          "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check.",
+          "status": "PASS",
+          "reason": "SE-026 SE-038 SE-039 SE-040: canonical snapshot preserves relational/economic state and resumes identical ticks",
           "receipt": "acceptance-unit.json",
-          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "evidence": "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json",
           "environment": {
             "node": "v24.21.0",
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-          "duration_ms": 30359.2435,
-          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+          "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+          "duration_ms": 21294.681208,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP.",
+          "tapSha256": "5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2",
+          "tap": "artifacts/social-engine/current-receipts/5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2.tap"
         },
         {
           "status": "PASS",
@@ -1779,7 +1807,7 @@
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Three browser engines each verified 20 changing mature-world canonical hashes through IndexedDB save/load, covering the complete relation graph."
+      "reason": "SE-026 SE-038 SE-039 SE-040: canonical snapshot preserves relational/economic state and resumes identical ticks | Three browser engines each verified 20 changing mature-world canonical hashes through IndexedDB save/load, covering the complete relation graph."
     },
     {
       "id": "SE-040",
@@ -1791,32 +1819,40 @@
       "automation": "Roundtrip",
       "status": "PASS",
       "evidence": [
+        "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json",
         "artifacts/social-engine/current-receipts/582695cec28134c52b74b972d487985d07bf9c6be6a73b7bea3ef6397071658a.json"
       ],
       "seed": null,
       "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        },
         {
           "probeSha256": "d1a9ecb7e3f8283af0cb8e001bfe335c69c4d7b2e52ac0694ad4ce9244ca765d",
           "fixtureSha256": "9ce8527c4dfbd996344702190912c219956f17a70802f08701d0a6beecff7965",
           "worldTick": 2592000
         }
       ],
-      "build_sha": null,
-      "duration_ms": null,
+      "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+      "duration_ms": 21294.681208,
       "checks": [
         {
-          "status": "UNVERIFIED",
-          "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check.",
+          "status": "PASS",
+          "reason": "SE-026 SE-038 SE-039 SE-040: canonical snapshot preserves relational/economic state and resumes identical ticks",
           "receipt": "acceptance-unit.json",
-          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "evidence": "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json",
           "environment": {
             "node": "v24.21.0",
             "os": "darwin 25.6.0",
             "cpu": "Apple M2"
           },
-          "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-          "duration_ms": 30359.2435,
-          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+          "build_sha": "d19a9a6e35dea5407e98cd359558e1ba241c32f9",
+          "duration_ms": 21294.681208,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP.",
+          "tapSha256": "5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2",
+          "tap": "artifacts/social-engine/current-receipts/5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2.tap"
         },
         {
           "status": "PASS",
@@ -1833,7 +1869,7 @@
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Three browser engines each verified 20 changing mature-world canonical hashes through IndexedDB save/load, covering the complete relation graph."
+      "reason": "SE-026 SE-038 SE-039 SE-040: canonical snapshot preserves relational/economic state and resumes identical ticks | Three browser engines each verified 20 changing mature-world canonical hashes through IndexedDB save/load, covering the complete relation graph."
     },
     {
       "id": "SE-041",
@@ -1936,6 +1972,7 @@
       "status": "PASS",
       "evidence": [
         "artifacts/social-engine/current-receipts/889d5aacaae34d503ea948dc7951640b33e61802b681a2f93d7496782ed501d1.json",
+        "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json",
         "artifacts/social-engine/current-receipts/1e2f2f40d21677a98878c6346fb9af4be520a2ca67b9c20c704c6b1830db0683.json",
         "artifacts/social-engine/current-receipts/b59ec7689a95105f1c3468e06024699237e7aa5d9887f86433f5a218797aee8d.json"
       ],
@@ -1961,10 +1998,10 @@
           "scope": "Real browser IndexedDB with explicit corruption, quota, abort and frozen migration fixtures."
         },
         {
-          "status": "UNVERIFIED",
-          "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check.",
+          "status": "PASS",
+          "reason": "The frozen authentic schema4 save also migrates to schema6 with finance, ownership and histories preserved.",
           "receipt": "acceptance-unit.json",
-          "evidence": "artifacts/social-engine/acceptance-unit.json"
+          "evidence": "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json"
         },
         {
           "status": "PASS",
@@ -1987,7 +2024,7 @@
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "migration is atomic, retryable and retains frozen source bytes; authentic v2 save migrates through an explicit journal to schema4; authentic v3 lifecycle history migrates through explicit3-to4 journal | An authentic compressed v5 snapshot and a nonempty command journal must both survive the upgrade to v6. | An authentic compressed v5 snapshot and a nonempty command journal must both survive the upgrade to v6. | An authentic compressed v5 snapshot and a nonempty command journal must both survive the upgrade to v6."
+      "reason": "migration is atomic, retryable and retains frozen source bytes; authentic v2 save migrates through an explicit journal to schema4; authentic v3 lifecycle history migrates through explicit3-to4 journal | The frozen authentic schema4 save also migrates to schema6 with finance, ownership and histories preserved. | An authentic compressed v5 snapshot and a nonempty command journal must both survive the upgrade to v6. | An authentic compressed v5 snapshot and a nonempty command journal must both survive the upgrade to v6. | An authentic compressed v5 snapshot and a nonempty command journal must both survive the upgrade to v6."
     },
     {
       "id": "SE-044",
@@ -2119,7 +2156,7 @@
         }
       ],
       "build_sha": "2c565622e124057dff40c4d5ff826d7950539f40",
-      "duration_ms": 2518418.478167,
+      "duration_ms": 2919930.692292,
       "checks": [
         {
           "status": "UNVERIFIED",
@@ -2175,7 +2212,7 @@
             ]
           },
           "build_sha": "2c565622e124057dff40c4d5ff826d7950539f40",
-          "duration_ms": 2518418.478167,
+          "duration_ms": 2919930.692292,
           "scope": "Pure fixed-step simulation; not renderer or human playtime."
         }
       ],
@@ -2247,7 +2284,7 @@
         }
       ],
       "build_sha": "2c565622e124057dff40c4d5ff826d7950539f40",
-      "duration_ms": 2518418.478167,
+      "duration_ms": 2919930.692292,
       "checks": [
         {
           "status": "UNVERIFIED",
@@ -2303,7 +2340,7 @@
             ]
           },
           "build_sha": "2c565622e124057dff40c4d5ff826d7950539f40",
-          "duration_ms": 2518418.478167,
+          "duration_ms": 2919930.692292,
           "scope": "Pure fixed-step simulation; not renderer or human playtime."
         }
       ],
@@ -2375,7 +2412,7 @@
         }
       ],
       "build_sha": "2c565622e124057dff40c4d5ff826d7950539f40",
-      "duration_ms": 2518418.478167,
+      "duration_ms": 2919930.692292,
       "checks": [
         {
           "status": "UNVERIFIED",
@@ -2431,7 +2468,7 @@
             ]
           },
           "build_sha": "2c565622e124057dff40c4d5ff826d7950539f40",
-          "duration_ms": 2518418.478167,
+          "duration_ms": 2919930.692292,
           "scope": "Pure fixed-step simulation; not renderer or human playtime."
         }
       ],
@@ -2687,10 +2724,10 @@
           "coverage": {
             "status": "UNVERIFIED",
             "requestedMinutes": 60,
-            "samples": 19,
-            "elapsedMs": 1140188.081084,
-            "simulationMs": 1140600,
-            "coverageRatio": 1.0003612727784423,
+            "samples": 33,
+            "elapsedMs": 1981138.800667,
+            "simulationMs": 1980700,
+            "coverageRatio": 0.9997785108913861,
             "issues": [
               {
                 "reason": "Requested duration or minute observations missing"
@@ -2924,10 +2961,10 @@
           "coverage": {
             "status": "UNVERIFIED",
             "requestedMinutes": 120,
-            "samples": 19,
-            "elapsedMs": 1140188.081084,
-            "simulationMs": 1140600,
-            "coverageRatio": 1.0003612727784423,
+            "samples": 33,
+            "elapsedMs": 1981138.800667,
+            "simulationMs": 1980700,
+            "coverageRatio": 0.9997785108913861,
             "issues": [
               {
                 "reason": "Requested duration or minute observations missing"
@@ -3257,8 +3294,13 @@
   ],
   "evidence_manifest": [
     {
-      "path": "artifacts/social-engine/acceptance-unit.json",
-      "sha256": "cd56931659b1cf19eeee5bd9f7455317a8f3dcfd43dba0cff8c4308228a76fbd",
+      "path": "artifacts/social-engine/current-receipts/5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2.tap",
+      "sha256": "5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2",
+      "receipt": "acceptance-unit.tap"
+    },
+    {
+      "path": "artifacts/social-engine/current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json",
+      "sha256": "2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a",
       "receipt": "acceptance-unit.json"
     },
     {
@@ -3308,7 +3350,7 @@
     },
     {
       "path": "artifacts/social-engine/simulation-365/results.json",
-      "sha256": "16c96d044a66faa6a6f460436d30c0355355093e5c7d7b1fa55c1f2654531b7c",
+      "sha256": "abfe3a6f6a86c072e5d42a637f1c6cb7830bbb9db43613333b26fbcb61c2f318",
       "receipt": "simulation-365/results.json"
     },
     {
@@ -3318,7 +3360,7 @@
     },
     {
       "path": "artifacts/social-engine/performance/2026-11-04T10-15-03-459Z/report.json",
-      "sha256": "7f4f0462de649d1259b1878f1ca3308245c96f5f78f709acf0633c85d7cc9d02",
+      "sha256": "79c69d339c692245206cbcceea34354014b9e0920c52486f0cd1280601cef936",
       "receipt": "performance/2026-11-04T10-15-03-459Z/report.json"
     },
     {
@@ -3330,6 +3372,11 @@
       "path": "artifacts/social-engine/browser-determinism/results.json",
       "sha256": "1cccc8b62de5b1802e9a507e6de006f65d29d9e85a442f5bed3c113c57ac8ac6",
       "receipt": "browser-determinism/results.json"
+    },
+    {
+      "path": "artifacts/social-engine/performance/2026-11-04T10-15-03-459Z/os-footprint-samples.json",
+      "sha256": "75e442745d22578c08bfaa1a963b0f55c6be4fe250d953060e1babe3873fc6f3",
+      "receipt": "performance/2026-11-04T10-15-03-459Z/os-footprint-samples.json"
     },
     {
       "path": "artifacts/social-engine/current-receipts/2ad4ed02e924e9529c0662f9b4696ac86d9adfd3777d7bfcca81de27f06c2f31.json",
@@ -3347,13 +3394,13 @@
       "receipt": "asset-faults/results.json"
     },
     {
-      "path": "artifacts/social-engine/route-browser/results.json",
-      "sha256": "2cea3537119aafbb84c5b563ba1d92d091f7f414b3921ed909671f923a004dd8",
+      "path": "artifacts/social-engine/current-receipts/c1b94562db1f2dc3a99526f88f33598db8a72d545f19ca7afa3af2060c305a27.json",
+      "sha256": "c1b94562db1f2dc3a99526f88f33598db8a72d545f19ca7afa3af2060c305a27",
       "receipt": "route-browser/results.json"
     },
     {
-      "path": "artifacts/social-engine/startup-network/results.json",
-      "sha256": "739094c19a3b9ada3e0fac9d09eaa247bd9188db389f2da4163e4a208eaebd9b",
+      "path": "artifacts/social-engine/current-receipts/a62d61ad1559d8de3dda347ab4d29f76b7e71ade452fd980803588ea5a6337f3.json",
+      "sha256": "a62d61ad1559d8de3dda347ab4d29f76b7e71ade452fd980803588ea5a6337f3",
       "receipt": "startup-network/results.json"
     },
     {
@@ -3372,18 +3419,18 @@
       "receipt": "property-browser-webkit/results.json"
     },
     {
-      "path": "artifacts/social-engine/cold-start-chromium/results.json",
+      "path": "artifacts/social-engine/current-receipts/0e6ebfb3ea9d0a0e2e1738b9e49dc548b380ab81ef9df0a16c63d38137ae2a30.json",
       "sha256": "0e6ebfb3ea9d0a0e2e1738b9e49dc548b380ab81ef9df0a16c63d38137ae2a30",
       "receipt": "cold-start-chromium/results.json"
     },
     {
-      "path": "artifacts/social-engine/cold-start-firefox/results.json",
-      "sha256": "7ea1cb916acc26dcc6e3dbb41443a2405ff33a888e0ff3d1eed34d8bb6691ca3",
+      "path": "artifacts/social-engine/current-receipts/99dda15e1d87b52cefeccc631e4e8d60deca56bc279d6efc9eabc6df1864e970.json",
+      "sha256": "99dda15e1d87b52cefeccc631e4e8d60deca56bc279d6efc9eabc6df1864e970",
       "receipt": "cold-start-firefox/results.json"
     },
     {
-      "path": "artifacts/social-engine/cold-start-webkit/results.json",
-      "sha256": "5d56ab125dfce792e0804049603a8a342b04f5ded8d7856b3bf6d1de80e3c3af",
+      "path": "artifacts/social-engine/current-receipts/bc6d8714eca3605cebc4e10b77631174a71932b120d1c981af78fa777958ec6f.json",
+      "sha256": "bc6d8714eca3605cebc4e10b77631174a71932b120d1c981af78fa777958ec6f",
       "receipt": "cold-start-webkit/results.json"
     },
     {
@@ -3392,13 +3439,13 @@
       "receipt": "native-browser/stable-repeats/summary.json"
     },
     {
-      "path": "artifacts/social-engine/capacity-10000/results.json",
-      "sha256": "cb72f5e4449a8e32f72258478f0060b40b252cc096333bbd1cb3ded7febbcd8d",
+      "path": "artifacts/social-engine/current-receipts/b9918d5e2226a7018d1fd5ad9c6908494199803202a07e115652052f3446a410.json",
+      "sha256": "b9918d5e2226a7018d1fd5ad9c6908494199803202a07e115652052f3446a410",
       "receipt": "capacity-10000/results.json"
     },
     {
-      "path": "artifacts/social-engine/event-reachability/results.json",
-      "sha256": "44f0238af7451f35f786e1478adeb0e8e05441225f8a3390bdedb12456b6fc20",
+      "path": "artifacts/social-engine/current-receipts/43968ff8701a37c887162aba19c3bf1f74cff6a07fdf35569387b45629074ced.json",
+      "sha256": "43968ff8701a37c887162aba19c3bf1f74cff6a07fdf35569387b45629074ced",
       "receipt": "event-reachability/results.json"
     },
     {
@@ -3432,9 +3479,19 @@
       "receipt": "upgrade/careers/results.json"
     },
     {
+      "path": "artifacts/social-engine/current-receipts/1453d90b327cd1b42ddb47f7d106c280bdf5a4faa2dfc9f0f60b6ac342b09592.json",
+      "sha256": "1453d90b327cd1b42ddb47f7d106c280bdf5a4faa2dfc9f0f60b6ac342b09592",
+      "receipt": "under-load/v4-browser/results.json"
+    },
+    {
       "path": "artifacts/social-engine/c5-history/v4-software-raster-under-load.json",
       "sha256": "6b1054215a8ec776bc84f4a2a15834b01721b18817f56033bd1990498a1a7fc5",
       "receipt": "c5-history/v4-software-raster-under-load.json"
+    },
+    {
+      "path": "artifacts/social-engine/current-receipts/52e048194b4b4e76c0bbf8875d52f5610cc40a1b7a0e5a9973bd4c7cf04bc83c.json",
+      "sha256": "52e048194b4b4e76c0bbf8875d52f5610cc40a1b7a0e5a9973bd4c7cf04bc83c",
+      "receipt": "under-load/journal-browser/results.json"
     },
     {
       "path": "artifacts/social-engine/c5-history/journal-software-raster-under-load.json",
@@ -3453,7 +3510,7 @@
     },
     {
       "path": "artifacts/social-engine/contract-gap-audit.json",
-      "sha256": "38d88c3aacedb3018592d297dfe71a09a95b37cf0fbbe69f6dba1c7be36ef8f7",
+      "sha256": "250df2309af23e6747bf0d92828dfc44da3dc5a84861ff64eee09f5c782f2bfa",
       "receipt": "contract-gap-audit.json"
     },
     {

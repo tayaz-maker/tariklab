@@ -113,11 +113,17 @@ for (const path of [
   "ui-browser/results.json",
   "journal-browser/results.json",
   "asset-faults/results.json",
+  "startup-network/results.json",
+  ...["v4-browser", "journal-browser"].map((e) => "under-load/" + e + "/results.json"),
+  "baseline/frozen-full-regression.json",
   "renderer-lifecycle/results.json",
   "axe/results.json",
   "v4-browser/results.json",
   "acceptance-unit.json",
   "late-save/results.json",
+  "capacity-10000/results.json",
+  "event-reachability/results.json",
+  ...["chromium", "firefox", "webkit"].map((e) => "cold-start-" + e + "/results.json"),
   "simulation-365/results.json",
   "performance/latest.json",
 ]) {
@@ -141,6 +147,8 @@ for (const path of [
       const previous = JSON.parse(await readFile(join(root, records[path].path), "utf8"));
       if (!(Date.parse(d.finished) > Date.parse(previous.finished))) continue;
     }
+  } else if (path.startsWith("under-load/")) {
+    if (d.manifestSha256 !== manifest || !d.finishedAt || !d.results?.length || !d.softwareRenderer) continue;
   } else if (path === "acceptance-unit.json") {
     if (
       !["PASS", "FAIL"].includes(d.status) ||
@@ -208,6 +216,9 @@ for (const path of [
       d.cases?.length !== 3
     )
       continue;
+  } else if (["capacity-10000/results.json", "event-reachability/results.json"].includes(path)) {
+    // Reconciler independently recalculates the game source digest before admitting these probes.
+    if (!["PASS", "FAIL"].includes(d.status) || !/^[a-f0-9]{64}$/.test(d.sourceSha256 ?? "")) continue;
   } else if (path === "simulation-365/results.json") {
     observations.year = {
       status: d.status,
@@ -221,6 +232,8 @@ for (const path of [
   )
     continue;
   const receiptKey = path.replace(/^upgrade\/door-(route|worker)\//,"upgrade/rules8-$1/");
+  if (path === "upgrade/door-route/results.json" && d.manifestSha256 === manifest && d.finished && Array.isArray(d.requests) && Array.isArray(d.errors))
+    await capture("route-browser/results.json", raw, path, { manifestSha256: manifest });
   await capture(receiptKey, raw, path, {
     manifestSha256:
       d.manifestSha256 === manifest || path === "ui-browser/results.json" ? manifest : null,

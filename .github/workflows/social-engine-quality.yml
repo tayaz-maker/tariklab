@@ -115,6 +115,37 @@ jobs:
             artifacts/social-engine/renderer-lifecycle
           retention-days: 7
 
+  isolated-display:
+    # Shell-only local testing cannot verify genuine tab visibility or native browser zoom.
+    # This display belongs only to the disposable hosted Linux runner.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/ci-node
+      - run: npx playwright install --with-deps chromium
+      - name: Three native tab/zoom trials on a private virtual display
+        run: |
+          node scripts/social-engine/serve.mjs > "$RUNNER_TEMP/social-display-server.log" 2>&1 &
+          for attempt in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:8097/games/social-engine/build-manifest.json >/dev/null; then break; fi
+            sleep 1
+          done
+          out=artifacts/social-engine/native-browser
+          mkdir -p "$out/hosted-repeats"
+          result=0
+          for trial in 1 2 3; do
+            xvfb-run --auto-servernum --server-args="-screen 0 1920x1080x24" env SE_DEDICATED_VISIBLE_QA_HOST=1 node scripts/social-engine/native-browser.mjs || result=1
+            cp "$out/results.json" "$out/hosted-repeats/run-$trial.json"
+          done
+          exit "$result"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: social-engine-isolated-display-${{ github.sha }}
+          path: artifacts/social-engine/native-browser/
+          retention-days: 7
+
   continuous-soak:
     if: github.event_name == 'workflow_dispatch' && inputs.continuous_soak
     runs-on: ubuntu-24.04

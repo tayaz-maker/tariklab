@@ -1,5 +1,6 @@
 import { districtText } from "./district.ts";
 import { createSaveQueue } from "./save-queue.ts";
+import { resetMotionInput } from "./input-lifecycle.ts";
 import type {
   Command,
   Person,
@@ -1601,14 +1602,11 @@ document.addEventListener("keyup", (e) => {
   motion();
 });
 window.addEventListener("blur", () => {
-  keyState.clear();
-  void command("STOP");
-  lastMotion = "";
+  lastMotion = resetMotionInput(keyState, () => void command("STOP"));
 });
 document.addEventListener("visibilitychange", () => {
   hidden = document.hidden;
-  keyState.clear();
-  void command("STOP");
+  lastMotion = resetMotionInput(keyState, () => void command("STOP"));
   setPause();
 });
 window.addEventListener("resize", () => renderer?.resize());

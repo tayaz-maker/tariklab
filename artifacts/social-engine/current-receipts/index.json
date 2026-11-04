@@ -123,6 +123,14 @@
         "elapsed_s": 30.5
       }
     },
+    "route-browser/results.json": {
+      "path": "current-receipts/c1b94562db1f2dc3a99526f88f33598db8a72d545f19ca7afa3af2060c305a27.json",
+      "sha256": "c1b94562db1f2dc3a99526f88f33598db8a72d545f19ca7afa3af2060c305a27",
+      "source": "upgrade/door-route/results.json",
+      "identity": {
+        "manifestSha256": "1d2cb9211926fa48c9d555d5120dfd8c1ff7074fb97405a4b1b65f2fdb3e9438"
+      }
+    },
     "upgrade/rules8-route/results.json": {
       "path": "current-receipts/c1b94562db1f2dc3a99526f88f33598db8a72d545f19ca7afa3af2060c305a27.json",
       "sha256": "c1b94562db1f2dc3a99526f88f33598db8a72d545f19ca7afa3af2060c305a27",
@@ -177,6 +185,33 @@
         "sourceBoundProbe": null
       }
     },
+    "startup-network/results.json": {
+      "path": "current-receipts/a62d61ad1559d8de3dda347ab4d29f76b7e71ade452fd980803588ea5a6337f3.json",
+      "sha256": "a62d61ad1559d8de3dda347ab4d29f76b7e71ade452fd980803588ea5a6337f3",
+      "source": "startup-network/results.json",
+      "identity": {
+        "manifestSha256": "1d2cb9211926fa48c9d555d5120dfd8c1ff7074fb97405a4b1b65f2fdb3e9438",
+        "sourceBoundProbe": null
+      }
+    },
+    "under-load/v4-browser/results.json": {
+      "path": "current-receipts/1453d90b327cd1b42ddb47f7d106c280bdf5a4faa2dfc9f0f60b6ac342b09592.json",
+      "sha256": "1453d90b327cd1b42ddb47f7d106c280bdf5a4faa2dfc9f0f60b6ac342b09592",
+      "source": "under-load/v4-browser/results.json",
+      "identity": {
+        "manifestSha256": "1d2cb9211926fa48c9d555d5120dfd8c1ff7074fb97405a4b1b65f2fdb3e9438",
+        "sourceBoundProbe": null
+      }
+    },
+    "under-load/journal-browser/results.json": {
+      "path": "current-receipts/52e048194b4b4e76c0bbf8875d52f5610cc40a1b7a0e5a9973bd4c7cf04bc83c.json",
+      "sha256": "52e048194b4b4e76c0bbf8875d52f5610cc40a1b7a0e5a9973bd4c7cf04bc83c",
+      "source": "under-load/journal-browser/results.json",
+      "identity": {
+        "manifestSha256": "1d2cb9211926fa48c9d555d5120dfd8c1ff7074fb97405a4b1b65f2fdb3e9438",
+        "sourceBoundProbe": null
+      }
+    },
     "renderer-lifecycle/results.json": {
       "path": "current-receipts/2ad4ed02e924e9529c0662f9b4696ac86d9adfd3777d7bfcca81de27f06c2f31.json",
       "sha256": "2ad4ed02e924e9529c0662f9b4696ac86d9adfd3777d7bfcca81de27f06c2f31",
@@ -204,6 +239,23 @@
         "sourceBoundProbe": null
       }
     },
+    "acceptance-unit.tap": {
+      "path": "current-receipts/5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2.tap",
+      "sha256": "5f9e6c5d41fe511b9d941e908e0d52fbbc58063f3c854a038d6e470deea801d2",
+      "source": "acceptance-unit.tap",
+      "identity": {
+        "manifestSha256": "1d2cb9211926fa48c9d555d5120dfd8c1ff7074fb97405a4b1b65f2fdb3e9438"
+      }
+    },
+    "acceptance-unit.json": {
+      "path": "current-receipts/2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a.json",
+      "sha256": "2c91d91010e85cdd2d9ce6db2c804b7b7092ac06a24ab9faced7758867ec945a",
+      "source": "acceptance-unit.json",
+      "identity": {
+        "manifestSha256": "1d2cb9211926fa48c9d555d5120dfd8c1ff7074fb97405a4b1b65f2fdb3e9438",
+        "sourceBoundProbe": null
+      }
+    },
     "late-save/results.json": {
       "path": "current-receipts/582695cec28134c52b74b972d487985d07bf9c6be6a73b7bea3ef6397071658a.json",
       "sha256": "582695cec28134c52b74b972d487985d07bf9c6be6a73b7bea3ef6397071658a",
@@ -211,6 +263,51 @@
       "identity": {
         "manifestSha256": null,
         "sourceBoundProbe": "d1a9ecb7e3f8283af0cb8e001bfe335c69c4d7b2e52ac0694ad4ce9244ca765d"
+      }
+    },
+    "capacity-10000/results.json": {
+      "path": "current-receipts/b9918d5e2226a7018d1fd5ad9c6908494199803202a07e115652052f3446a410.json",
+      "sha256": "b9918d5e2226a7018d1fd5ad9c6908494199803202a07e115652052f3446a410",
+      "source": "capacity-10000/results.json",
+      "identity": {
+        "manifestSha256": null,
+        "sourceBoundProbe": null
+      }
+    },
+    "event-reachability/results.json": {
+      "path": "current-receipts/43968ff8701a37c887162aba19c3bf1f74cff6a07fdf35569387b45629074ced.json",
+      "sha256": "43968ff8701a37c887162aba19c3bf1f74cff6a07fdf35569387b45629074ced",
+      "source": "event-reachability/results.json",
+      "identity": {
+        "manifestSha256": null,
+        "sourceBoundProbe": null
+      }
+    },
+    "cold-start-chromium/results.json": {
+      "path": "current-receipts/0e6ebfb3ea9d0a0e2e1738b9e49dc548b380ab81ef9df0a16c63d38137ae2a30.json",
+      "sha256": "0e6ebfb3ea9d0a0e2e1738b9e49dc548b380ab81ef9df0a16c63d38137ae2a30",
+      "source": "cold-start-chromium/results.json",
+      "identity": {
+        "manifestSha256": "1d2cb9211926fa48c9d555d5120dfd8c1ff7074fb97405a4b1b65f2fdb3e9438",
+        "sourceBoundProbe": null
+      }
+    },
+    "cold-start-firefox/results.json": {
+      "path": "current-receipts/99dda15e1d87b52cefeccc631e4e8d60deca56bc279d6efc9eabc6df1864e970.json",
+      "sha256": "99dda15e1d87b52cefeccc631e4e8d60deca56bc279d6efc9eabc6df1864e970",
+      "source": "cold-start-firefox/results.json",
+      "identity": {
+        "manifestSha256": "1d2cb9211926fa48c9d555d5120dfd8c1ff7074fb97405a4b1b65f2fdb3e9438",
+        "sourceBoundProbe": null
+      }
+    },
+    "cold-start-webkit/results.json": {
+      "path": "current-receipts/bc6d8714eca3605cebc4e10b77631174a71932b120d1c981af78fa777958ec6f.json",
+      "sha256": "bc6d8714eca3605cebc4e10b77631174a71932b120d1c981af78fa777958ec6f",
+      "source": "cold-start-webkit/results.json",
+      "identity": {
+        "manifestSha256": "1d2cb9211926fa48c9d555d5120dfd8c1ff7074fb97405a4b1b65f2fdb3e9438",
+        "sourceBoundProbe": null
       }
     },
     "local-legacy-suite/results.json": {
@@ -227,13 +324,13 @@
   "observations": {
     "year": {
       "status": "RUNNING",
-      "completedDays": 120,
+      "completedDays": 150,
       "sourceSha256": "3d33f0a2d5b40394279f00723c2d891f17886cdabfeeafcb976a2a3508454100"
     },
     "soak": {
       "runId": "2026-11-04T10-15-03-459Z",
       "status": "RUNNING",
-      "elapsedMinutes": 19.003134684733332,
+      "elapsedMinutes": 33.01898001111667,
       "manifestSha256": "1d2cb9211926fa48c9d555d5120dfd8c1ff7074fb97405a4b1b65f2fdb3e9438"
     }
   }

@@ -34,7 +34,7 @@ const aggregate = (checks) =>
       ? "PASS"
       : "UNVERIFIED";
 audit.scope =
-  "Schema 6. Recalculated from the current isolated suite and named browser or simulation evidence; hardware, human and release gates stay separate.";
+  "Current DARAMCIK build. Recalculated from the current isolated suite and named browser or simulation evidence; hardware, human and release gates stay separate.";
 audit.generatedAt = new Date().toISOString();
 audit.runtimeManifestSha256 = hash(bytes);
 audit.sourceHashes = Object.fromEntries(
@@ -66,6 +66,8 @@ for (const r of audit.requirements) {
     if (r.id === "C22")
       r.implemented_and_gap =
         "Earlier native zoom evidence is historical. Two human sessions are deferred, and reference hardware, low-end hardware and repeatable visibility on a dedicated host remain unverified. An unattended two-hour wall clock does not by itself satisfy the continuity requirement.";
+    else r.implemented_and_gap =
+      "The owner explicitly authorizes merge and the verified existing Cloudflare hook after all gates and release serialization. Draft PR #256 and a real local built route exist. No production traffic, live commit identity, deployment ID, or rollback trial is verified.";
   } else {
     const notes = r.test_evidence.split(";").map((s) => s.trim());
     const results = [gates.isolated_unit_sources];
@@ -96,7 +98,7 @@ audit.counts = Object.fromEntries(
   ]),
 );
 await writeFile(root + "contract-gap-audit.json", JSON.stringify(audit, null, 2) + "\n");
-const notes = ["# Four-contract audit — schema 6", "", audit.scope, ""];
+const notes = ["# Four-contract audit — SOCIAL ENGINE", "", audit.scope, ""];
 for (const r of audit.requirements)
   notes.push(
     "## " + r.id + " — " + r.requirement,

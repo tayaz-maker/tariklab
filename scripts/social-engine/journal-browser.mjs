@@ -1,11 +1,11 @@
 /** Independent actual UI/IndexedDB journal integration. Reads DB for evidence; never writes DB directly. */
 import { chromium } from "playwright";
-import { windowlessRendererOptions } from "./windowless-launch.mjs";
+import { windowlessRendererOptions, verifySoftwareRenderer } from "./windowless-launch.mjs";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import assert from "node:assert/strict";
 const base = process.env.SE_BASE || "http://127.0.0.1:8097",
-  out = "artifacts/social-engine/journal-browser";
+  out = process.env.SE_QA_OUTPUT || "artifacts/social-engine/journal-browser";
 await mkdir(out, { recursive: true });
 const hash = (b) => createHash("sha256").update(b).digest("hex"),
   manifestBytes = await readFile("public/games/social-engine/build-manifest.json"),
@@ -78,6 +78,8 @@ async function fresh(p, name = "Journal Kanıt") {
     "Fresh journal not armed: " + JSON.stringify(initialized),
   );
   await p.evaluate(() => window.__socialEngine.pause(true));
+  if (process.env.SE_QA_VERIFY_SOFTWARE === "1" && !report.softwareRenderer)
+    report.softwareRenderer = await verifySoftwareRenderer(p);
   await p.waitForTimeout(200);
 }
 async function db(p) {

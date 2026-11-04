@@ -179,6 +179,7 @@ const unitCases = {
   20: [
     "SE-020 SE-021: every occupation pays once, changes canonical employment, overlapping shifts rejected",
   ],
+  21: ["SE-021-job-schedule: replacement employment owns the actual future shift clock and pay without stale prior bookings"],
   22: [
     "SE-022 SE-023: purchase atomically balances cash, stock and inventory; invalid and duplicate commands fail",
   ],
@@ -196,6 +197,7 @@ const unitCases = {
     "SE-016 SE-018 SE-025 SE-027: proximity, cooldown, knowledge and social consequences",
     "SE-027 SE-029: unseen assault is not automatically known to police",
   ],
+  28: ["SE-028-reputation-effects: earned reputation changes actual faction eligibility and survives save reload"],
   29: [
     "SE-028 SE-029 SE-030: witnessed assault produces delayed report, evidence, pursuit and exact fine",
     "SE-027 SE-029: unseen assault is not automatically known to police",
@@ -831,15 +833,22 @@ if (
   required.late_save_under_concurrent_load = loadedHistory.status;
   evidencePaths.add("c5-history/late-save-concurrent-20x3.json");
 }
-// Hardware and software renderers are different environments. Keep the observed
-// same-candidate failures under concurrent software rasterization visible.
-for (const [label, path] of [
-  ["software_raster_parallel_combat_social", "c5-history/v4-software-raster-under-load.json"],
-  ["software_raster_parallel_autosave", "c5-history/journal-software-raster-under-load.json"],
+// Require actual software-renderer identity, matching runtime, and overlapping test windows.
+const softwareRuns = await Promise.all(["v4-browser", "journal-browser"].map((k) => read("under-load/" + k + "/results.json")));
+const concurrentSoftware = softwareRuns.every((r) => fresh(r) && /swiftshader|llvmpipe|software rasterizer/i.test(r.softwareRenderer ?? "") && Number.isFinite(Date.parse(r.finishedAt))) &&
+  Math.min(...softwareRuns.map((r) => Date.parse(r.finishedAt))) > Math.max(...softwareRuns.map((r) => Date.parse(r.startedAt)));
+for (const [i, label, kind, oldPath, count] of [
+  [0, "software_raster_parallel_combat_social", "v4-browser", "c5-history/v4-software-raster-under-load.json", 11],
+  [1, "software_raster_parallel_autosave", "journal-browser", "c5-history/journal-software-raster-under-load.json", 4],
 ]) {
-  const r = await read(path);
-  required[label] = fresh(r) ? stateFor(r.results) : "UNVERIFIED";
-  evidencePaths.add(path);
+  const path = "under-load/" + kind + "/results.json", r = softwareRuns[i];
+  const older = await read(oldPath);
+  const statuses = [];
+  if (fresh(older)) statuses.push({status:stateFor(older.results)});
+  if (concurrentSoftware && r.results?.length === count)
+    statuses.push({status: r.errors?.length ? "FAIL" : stateFor(r.results)});
+  required[label] = stateFor(statuses);
+  evidencePaths.add(path); evidencePaths.add(oldPath);
 }
 const legacyPath = "legacy-browser/final-local/summary.json";
 const legacyIntegration = await read(legacyPath);

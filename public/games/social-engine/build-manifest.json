@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "sourceDigest": "bb1271dcb034ea5331a06fbf708a1ef784acb6f2810fc020622e69286b7b7f3c",
+  "sourceDigest": "e0adeea8c3be156337050c58c9adaac808c6c50a6497aedd93c8d8e053e67e5f",
   "playableAssets": [
     {
       "file": "assets/buildings-ddad231f8cc8.png",
@@ -18,13 +18,13 @@
       "sha256": "036d21645e4f7c8a8dd37dc2c163c96620af9f3b7c2df6c1dd08e66ccebd2a9b"
     }
   ],
-  "initialPlayableBytes": 1286502,
+  "initialPlayableBytes": 1286504,
   "assets": [
     {
-      "file": "app-NCNR0muh.js",
-      "bytes": 242119,
-      "gzipBytes": 78527,
-      "sha256": "abffd0c4ad9673260c7e461e1263561e25afc4d15a16116ba2897d1f6b270171"
+      "file": "app-DV-iF-W1.js",
+      "bytes": 242170,
+      "gzipBytes": 78532,
+      "sha256": "0d5e96d5fd8264472c207b392c59979bc3a79cf460967091a576052fc2b654e8"
     },
     {
       "file": "chunk-6YNTFqgy.js",
@@ -37,6 +37,12 @@
       "bytes": 10995,
       "gzipBytes": 2810,
       "sha256": "140c218deb8e571914706014314109e5682d8a29df0dcc21c65aeecfd2e55273"
+    },
+    {
+      "file": "chunk-BcBlVoXn.js",
+      "bytes": 47895,
+      "gzipBytes": 13578,
+      "sha256": "735caf79fc5d8dd0b5a87bc9a576fdd5526a992991b4ec6b00f3b488b99d1ff3"
     },
     {
       "file": "chunk-BwEPQcZX.js",
@@ -57,22 +63,16 @@
       "sha256": "3371806478c872504db0f8167a5b0c9ba412b3567f204095f54f734ff64b7eb0"
     },
     {
-      "file": "chunk-Cak47bJ6.js",
-      "bytes": 17474,
-      "gzipBytes": 5699,
-      "sha256": "a0ff70b3d349cb1b32399508b12fda20ae9729823a499423e406ffc46f409f4f"
-    },
-    {
-      "file": "chunk-D-ovEDGT.js",
-      "bytes": 47895,
-      "gzipBytes": 13578,
-      "sha256": "9bcf04d92a9826c9f49725a8e8d084490d9c2be013a64324df690df40f835939"
-    },
-    {
       "file": "chunk-DkEYDCE_.js",
       "bytes": 71717,
       "gzipBytes": 19326,
       "sha256": "a0d8491986e5bcd47a68121921250051782be6e243da6d12cdb5b6a4401f6ca2"
+    },
+    {
+      "file": "chunk-DkQNyzmc.js",
+      "bytes": 17474,
+      "gzipBytes": 5696,
+      "sha256": "27a6027b94ef2b861408be2525f0248f453b877187257156b8637b8991ecc1c6"
     },
     {
       "file": "chunk-hePW80VL.js",
@@ -90,7 +90,7 @@
       "file": "index.html",
       "bytes": 3866,
       "gzipBytes": 1500,
-      "sha256": "f88a0e77156d2b604cc27c69a18577129d79f1978947e613d7c603fd7d86cfe2"
+      "sha256": "47087beda5b78fd055135188587d58d2df8b46f37360a32d0b59fe42bbf4edc5"
     },
     {
       "file": "styles-3f7c67bfb95e.css",
@@ -105,7 +105,7 @@
       "sha256": "f86c1b81eb43250251b1b31f3798927f5f4e99b0218419086cc5497f2b27c726"
     }
   ],
-  "totalGzipBytes": 248280,
+  "totalGzipBytes": 248282,
   "worker": "worker-1GLxeIzD.js",
-  "entry": "app-NCNR0muh.js"
+  "entry": "app-DV-iF-W1.js"
 }

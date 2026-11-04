@@ -5,9 +5,8 @@ import { createHash } from "node:crypto";
 const base = process.env.SE_BASE || "http://127.0.0.1:8097";
 const out = "artifacts/social-engine/startup-network";
 await mkdir(out, { recursive: true });
-const manifest = JSON.parse(
-  await readFile("public/games/social-engine/build-manifest.json", "utf8"),
-);
+const manifestBytes = await readFile("public/games/social-engine/build-manifest.json");
+const manifest = JSON.parse(manifestBytes);
 const browser = await chromium.launch({
   headless: true,
   executablePath:
@@ -28,7 +27,7 @@ page.on("pageerror", (e) => errors.push(e.message));
 const started = performance.now();
 const report = {
   status: "UNVERIFIED",
-  manifestSha256: createHash("sha256").update(JSON.stringify(manifest)).digest("hex"),
+  manifestSha256: createHash("sha256").update(manifestBytes).digest("hex"),
   sourceDigest: manifest.sourceDigest,
   environment: {
     browser: browser.version(),
@@ -39,6 +38,9 @@ const report = {
   errors,
 };
 try {
+  const served = await fetch(base + "/games/social-engine/build-manifest.json");
+  assert.equal(served.status, 200);
+  assert.ok(Buffer.from(await served.arrayBuffer()).equals(manifestBytes), "Server must host this exact build");
   await page.goto(base + "/games/social-engine/index.html?qa=1");
   await page.getByLabel("Karakter adı").fill("Yükleme Test");
   await page.getByRole("button", { name: "Hikâyene başla" }).click();
