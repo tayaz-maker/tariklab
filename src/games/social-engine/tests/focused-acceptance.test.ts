@@ -18,6 +18,11 @@ const command = (
   args: Command["args"] = {},
   id = `focused-acceptance:${++sequence}`,
 ) => applyCommand(state, { v: 1, id, type, args });
+function activeBooking(world: WorldState) {
+  const shift = world.player.shift;
+  assert.ok(shift, "A successful START_SHIFT must provide a current booking");
+  return structuredClone(shift);
+}
 const reload = async (state: WorldState) =>
   (await decodeSaveText(JSON.stringify(await encodeSave("slot-1", state)))).state;
 
@@ -147,7 +152,7 @@ test("SE-021-job-schedule: replacement employment owns the actual future shift c
   state.player.location = { x: 7, y: 7, scene: firstEmployer.buildingId };
   const oldStartId = "focused-acceptance:old-shift";
   assert.equal(command(state, "START_SHIFT", {}, oldStartId).ok, true);
-  const oldBooking = structuredClone(state.player.shift!),
+  const oldBooking = activeBooking(state),
     firstStart = state.minute,
     firstCash = state.accounts.player;
   assert.equal(oldBooking.endsAt, firstStart + retail.duration);
@@ -171,7 +176,7 @@ test("SE-021-job-schedule: replacement employment owns the actual future shift c
   const newStartId = "focused-acceptance:new-shift",
     secondStart = state.minute;
   assert.equal(command(state, "START_SHIFT", {}, newStartId).ok, true);
-  const booking = structuredClone(state.player.shift!),
+  const booking = activeBooking(state),
     cash = state.accounts.player;
   assert.notEqual(booking.id, oldBooking.id);
   assert.equal(booking.businessId, employer.id);

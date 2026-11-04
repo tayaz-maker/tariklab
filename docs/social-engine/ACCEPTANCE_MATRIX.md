@@ -4,14 +4,16 @@ Tested runtime commit: 0aced0368b8664300a6ff8654bac3919d34876e9. Runtime manifes
 
 Decision: **BLOCKED**. These results cover the local candidate. Human sessions, physical reference hardware, production identity and live smoke require separate evidence.
 
-## PASS (31)
+## PASS (34)
 
 | ID | Priority | Criterion | Evidence / reason |
 |---|---|---|---|
 | SE-001 | P0 | URL aç → Menü hatasız açılır | [browser-chromium](../../artifacts/social-engine/current-receipts/55272cf8fb084749507541a512b94d9748e5cdb3c0d7342898cec583b31e4601.json) — Fresh browser opened the character menu. |
 | SE-002 | P0 | Yeni oyun → Tek oyuncu oluşur | [browser-chromium](../../artifacts/social-engine/current-receipts/55272cf8fb084749507541a512b94d9748e5cdb3c0d7342898cec583b31e4601.json) — New profile created the canonical player with 1,100 NPCs. |
+| SE-003 | P1 | Çift tıkla → Çift kayıt oluşmaz | [ui-browser](../../artifacts/social-engine/current-receipts/08145ab49c5f856b6f6df61e33cb0754843f3ca3741c3d1b5959d55e09180c39.json) — double submit creates one persistent player and preserves chosen profile |
 | SE-004 | P0 | Karakter oluştur → Seçimler korunur | [browser-chromium](../../artifacts/social-engine/current-receipts/55272cf8fb084749507541a512b94d9748e5cdb3c0d7342898cec583b31e4601.json) — Player name, background and appearance matched the selected values. |
 | SE-005 | P0 | Geçersiz ad → Güvenli doğrulama | [browser-chromium](../../artifacts/social-engine/current-receipts/55272cf8fb084749507541a512b94d9748e5cdb3c0d7342898cec583b31e4601.json) — Invalid name produced a form error and kept character creation open. |
+| SE-006 | P1 | Limiti aş → Aşım engellenir | [ui-browser](../../artifacts/social-engine/current-receipts/08145ab49c5f856b6f6df61e33cb0754843f3ca3741c3d1b5959d55e09180c39.json) — invalid profile names and excessive attribute total are rejected through real form |
 | SE-007 | P1 | WASD ve tıklama → Doğru koordinat | [browser-chromium](../../artifacts/social-engine/current-receipts/55272cf8fb084749507541a512b94d9748e5cdb3c0d7342898cec583b31e4601.json) — Physical D moved screen-right and real canvas clicks arrived within 0.2 world units. |
 | SE-008 | P1 | Kamera takip → Sınır korunur | [browser-evidence](../../artifacts/social-engine/current-receipts/325feb633301d6ea43c6baeddec5fcf924a7a92a4a45f31b9901b9fb64e3638b.json) — Camera keeps player visible at four traversable world edges at three zoom levels |
 | SE-009 | P1 | Pencereyi boyutlandır → Hedef kaymaz | [browser-chromium](../../artifacts/social-engine/current-receipts/55272cf8fb084749507541a512b94d9748e5cdb3c0d7342898cec583b31e4601.json) — Canvas destination matched inverse picking at both 1440×900 and 1280×720. |
@@ -30,7 +32,7 @@ Decision: **BLOCKED**. These results cover the local candidate. Human sessions, 
 | SE-039 | P0 | İki kez çalıştır → Hash eşit | [late-save](../../artifacts/social-engine/current-receipts/582695cec28134c52b74b972d487985d07bf9c6be6a73b7bea3ef6397071658a.json) — Three browser engines each verified 20 changing mature-world canonical hashes through IndexedDB save/load, covering the complete relation graph. |
 | SE-040 | P0 | Kaydet yükle → State eşdeğer | [late-save](../../artifacts/social-engine/current-receipts/582695cec28134c52b74b972d487985d07bf9c6be6a73b7bea3ef6397071658a.json) — Three browser engines each verified 20 changing mature-world canonical hashes through IndexedDB save/load, covering the complete relation graph. |
 | SE-041 | P0 | Sekmeyi kapat → Sağlam kayıt korunur | [persistence-browser](../../artifacts/social-engine/current-receipts/889d5aacaae34d503ea948dc7951640b33e61802b681a2f93d7496782ed501d1.json) — closing a tab during an active write preserves the last committed state |
-| SE-042 | P0 | Sil kopyala → Kayıp veya çoğalma yok | [persistence-browser](../../artifacts/social-engine/current-receipts/889d5aacaae34d503ea948dc7951640b33e61802b681a2f93d7496782ed501d1.json) — export/import/copy/delete preserve world and unrelated slots |
+| SE-042 | P0 | Sil kopyala → Kayıp veya çoğalma yok | [ui-browser](../../artifacts/social-engine/current-receipts/08145ab49c5f856b6f6df61e33cb0754843f3ca3741c3d1b5959d55e09180c39.json), [persistence-browser](../../artifacts/social-engine/current-receipts/889d5aacaae34d503ea948dc7951640b33e61802b681a2f93d7496782ed501d1.json) — real save menu saves copies exports imports and deletes separate slots / export/import/copy/delete preserve world and unrelated slots |
 | SE-043 | P0 | Migrate et → Veri korunur | [persistence-browser](../../artifacts/social-engine/current-receipts/889d5aacaae34d503ea948dc7951640b33e61802b681a2f93d7496782ed501d1.json), [persistence-browser-firefox](../../artifacts/social-engine/current-receipts/1e2f2f40d21677a98878c6346fb9af4be520a2ca67b9c20c704c6b1830db0683.json), [persistence-browser-webkit](../../artifacts/social-engine/current-receipts/b59ec7689a95105f1c3468e06024699237e7aa5d9887f86433f5a218797aee8d.json) — migration is atomic, retryable and retains frozen source bytes; authentic v2 save migrates through an explicit journal to schema4; authentic v3 lifecycle history migrates through explicit3-to4 journal / An authentic compressed v5 snapshot and a nonempty command journal must both survive the upgrade to v6. / An authentic compressed v5 snapshot and a nonempty command journal must both survive the upgrade to v6. / An authentic compressed v5 snapshot and a nonempty command journal must both survive the upgrade to v6. |
 | SE-044 | P0 | Kes yeniden dene → İdempotent | [persistence-browser](../../artifacts/social-engine/current-receipts/889d5aacaae34d503ea948dc7951640b33e61802b681a2f93d7496782ed501d1.json) — migration is atomic, retryable and retains frozen source bytes |
 | SE-045 | P0 | SE aç → Eski namespace değişmez | [v4-browser](../../artifacts/social-engine/current-receipts/40b7181e708f62110b4c4d02448d9974d122570d2dbab8d2e807001b02e83862.json) — Actual legacy TC SIM save creation, SE save, byte-preserved legacy keys and legacy reload. |
@@ -38,7 +40,8 @@ Decision: **BLOCKED**. These results cover the local candidate. Human sessions, 
 | SE-053 | P1 | Kritik akışı oyna → Temel işlevler çalışır | [browser-firefox](../../artifacts/social-engine/current-receipts/88220ea5daee656c4e3aec2de2cec1078612c72e4d66c50494cf371b6d816bbb.json) — Local firefox 153.0: 14 recorded critical-flow cases, 0 page errors. |
 | SE-054 | P1 | Kritik akışı oyna → Temel işlevler çalışır | [browser-webkit](../../artifacts/social-engine/current-receipts/cd0efd5d720235592c72323dd3e1ba701fe105c007009435fe44d86d045b9359.json) — Local webkit 26.5: 14 recorded critical-flow cases, 0 page errors. |
 | SE-055 | P0 | Değerleri değiştir → HUD tutarlı | [browser-chromium](../../artifacts/social-engine/current-receipts/55272cf8fb084749507541a512b94d9748e5cdb3c0d7342898cec583b31e4601.json), [browser-evidence](../../artifacts/social-engine/current-receipts/325feb633301d6ea43c6baeddec5fcf924a7a92a4a45f31b9901b9fb64e3638b.json) — Completed explicit browser assertion SE-055-dom-hud. / Visible HUD cash and needs match authoritative projection after shopping and eating |
-| SE-057 | P1 | Ekranı değiştir → Kontroller taşmaz | [browser-chromium](../../artifacts/social-engine/current-receipts/55272cf8fb084749507541a512b94d9748e5cdb3c0d7342898cec583b31e4601.json) — No horizontal document overflow across 1280, 1920 and 390 pixel viewports. |
+| SE-056 | P1 | Klavye ile gezin → Odak görünür | [axe](../../artifacts/social-engine/current-receipts/123a0e8a8dbdc4902e7f37b6d3b62a410ff83bf4a73f7fdc32f3888138337e0c.json) — Actual keyboard focus/trap/restore checks and Axe scans. Incomplete canvas/contrast scans are disclosed, not full WCAG certification. |
+| SE-057 | P1 | Ekranı değiştir → Kontroller taşmaz | [browser-chromium](../../artifacts/social-engine/current-receipts/55272cf8fb084749507541a512b94d9748e5cdb3c0d7342898cec583b31e4601.json), [ui-browser](../../artifacts/social-engine/current-receipts/08145ab49c5f856b6f6df61e33cb0754843f3ca3741c3d1b5959d55e09180c39.json) — No horizontal document overflow across 1280, 1920 and 390 pixel viewports. / 1280 and 1920 viewports retain reachable readable dialog controls |
 
 ## FAIL (0)
 
@@ -50,12 +53,10 @@ Decision: **BLOCKED**. These results cover the local candidate. Human sessions, 
 | ID | Priority | Criterion | Evidence / reason |
 |---|---|---|---|
 
-## UNVERIFIED (29)
+## UNVERIFIED (26)
 
 | ID | Priority | Criterion | Evidence / reason |
 |---|---|---|---|
-| SE-003 | P1 | Çift tıkla → Çift kayıt oluşmaz | [ui-browser](../../artifacts/social-engine/ui-browser/results.json) — double submit creates one persistent player and preserves chosen profile |
-| SE-006 | P1 | Limiti aş → Aşım engellenir | [acceptance-unit.json](../../artifacts/social-engine/acceptance-unit.json), [ui-browser](../../artifacts/social-engine/ui-browser/results.json) — Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check. / invalid profile names and excessive attribute total are rejected through real form |
 | SE-010 | P0 | Duvara koş → Duvar geçilmez | [acceptance-unit.json](../../artifacts/social-engine/acceptance-unit.json) — Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check. |
 | SE-011 | P0 | Rota iste → Geçerli rota veya ret | [acceptance-unit.json](../../artifacts/social-engine/acceptance-unit.json) — Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check. |
 | SE-012 | P0 | Dışarı yürü → Geçersiz konum yok | [acceptance-unit.json](../../artifacts/social-engine/acceptance-unit.json) — Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check. |
@@ -79,7 +80,6 @@ Decision: **BLOCKED**. These results cover the local candidate. Human sessions, 
 | SE-049 | P0 | 30 dk oyna → p95 frame <=33.3ms | [performance/2026-11-04T10-15-03-459Z/report.json](../../artifacts/social-engine/performance/2026-11-04T10-15-03-459Z/report.json) — The Apple M2 host is not the specified four-core reference PC. Its measured frame times cannot satisfy this precondition. |
 | SE-050 | P1 | 60 dk çalıştır → Long task <=%5 | [performance/2026-11-04T10-15-03-459Z/report.json](../../artifacts/social-engine/performance/2026-11-04T10-15-03-459Z/report.json) — 60 continuous minutes required; fixed-tick cross-check: UNVERIFIED. Receipt status: RUNNING. |
 | SE-051 | P1 | 2 saat soak → Heap eğimi <=1MB/dk | [performance/2026-11-04T10-15-03-459Z/report.json](../../artifacts/social-engine/performance/2026-11-04T10-15-03-459Z/report.json) — 120 continuous minutes required; fixed-tick cross-check: UNVERIFIED. Receipt status: RUNNING. |
-| SE-056 | P1 | Klavye ile gezin → Odak görünür | [axe](../../artifacts/social-engine/axe/results.json) — Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check. |
 | SE-058 | P0 | CI çalıştır → Kapılar geçer | [deployment-verification.json](../../artifacts/social-engine/deployment-verification.json) — A local candidate or draft PR does not verify completed applicable CI, the production deployment identity, or a live game smoke test. |
 | SE-059 | P0 | ID ve SHA doğrula → Canlı commit doğru | [deployment-verification.json](../../artifacts/social-engine/deployment-verification.json) — A local candidate or draft PR does not verify completed applicable CI, the production deployment identity, or a live game smoke test. |
 | SE-060 | P0 | Oyun ve eski oyun smoke → Yeni ve eski oyunlar çalışır | [deployment-verification.json](../../artifacts/social-engine/deployment-verification.json) — A local candidate or draft PR does not verify completed applicable CI, the production deployment identity, or a live game smoke test. |
@@ -98,13 +98,13 @@ The JSON matrix preserves the original preconditions, actions, expected outcomes
 - rollback_trial: UNVERIFIED
 - headless_true_tab_visibility: UNVERIFIED
 - native_200_percent_browser_zoom: UNVERIFIED
-- keyboard_menu_visible_focus: UNVERIFIED
-- ui_course_certificate_office_access: UNVERIFIED
+- keyboard_menu_visible_focus: PASS
+- ui_course_certificate_office_access: PASS
 - measured_process_footprint_600MiB: UNVERIFIED
 - renderer_resource_teardown: PASS
-- journal_recovery: UNVERIFIED
+- journal_recovery: PASS
 - integrated_lifecycle_mobility_social: PASS
-- asset_fault_recovery: UNVERIFIED
+- asset_fault_recovery: PASS
 - local_real_worker_route: UNVERIFIED
 - bundle_and_cold_network: UNVERIFIED
 - indexedDB_firefox: PASS
@@ -113,15 +113,15 @@ The JSON matrix preserves the original preconditions, actions, expected outcomes
 - stolen_stock_and_restitution_chromium: PASS
 - stolen_stock_and_restitution_firefox: PASS
 - stolen_stock_and_restitution_webkit: PASS
-- cold_start_character_chromium: UNVERIFIED
+- cold_start_character_chromium: PASS
 - cold_start_character_firefox: UNVERIFIED
 - cold_start_character_webkit: UNVERIFIED
 - native_zoom_and_background: UNVERIFIED
 - synthetic_10000_citizens: UNVERIFIED
 - twenty_event_branches: UNVERIFIED
 - late_save_20_roundtrips_three_engines: PASS
-- local_deployed_route: UNVERIFIED
-- local_worker_smoke: UNVERIFIED
+- local_deployed_route: PASS
+- local_worker_smoke: PASS
 - local_portable_smoke: PASS
 - legacy_district_display: PASS
 - retail_and_mechanic_work_orders: PASS

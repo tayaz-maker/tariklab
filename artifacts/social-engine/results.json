@@ -1,19 +1,19 @@
 {
   "product": "SOCIAL ENGINE",
   "schemaVersion": 3,
-  "evaluatedAt": "2026-11-04T10:24:43.018Z",
+  "evaluatedAt": "2026-11-04T10:34:48.165Z",
   "source": "docs/social-engine/ACCEPTANCE_TESTS.md",
   "localScope": "Development checkout and locally served Worker or portable build. No CI or production promotion follows from this file.",
   "observation_snapshot": {
     "year": {
       "status": "RUNNING",
-      "completedDays": 60,
+      "completedDays": 120,
       "sourceSha256": "3d33f0a2d5b40394279f00723c2d891f17886cdabfeeafcb976a2a3508454100"
     },
     "soak": {
       "runId": "2026-11-04T10-15-03-459Z",
       "status": "RUNNING",
-      "elapsedMinutes": 8.002392977783334,
+      "elapsedMinutes": 19.003134684733332,
       "manifestSha256": "1d2cb9211926fa48c9d555d5120dfd8c1ff7074fb97405a4b1b65f2fdb3e9438"
     }
   },
@@ -27,14 +27,12 @@
   "runtimeManifestSha256": "1d2cb9211926fa48c9d555d5120dfd8c1ff7074fb97405a4b1b65f2fdb3e9438",
   "sourceDigest": "bb1271dcb034ea5331a06fbf708a1ef784acb6f2810fc020622e69286b7b7f3c",
   "counts": {
-    "PASS": 31,
+    "PASS": 34,
     "FAIL": 0,
     "SKIP": 0,
-    "UNVERIFIED": 29
+    "UNVERIFIED": 26
   },
   "blocking_ids": [
-    "SE-003",
-    "SE-006",
     "SE-010",
     "SE-011",
     "SE-012",
@@ -58,7 +56,6 @@
     "SE-049",
     "SE-050",
     "SE-051",
-    "SE-056",
     "SE-058",
     "SE-059",
     "SE-060"
@@ -74,13 +71,13 @@
     "rollback_trial": "UNVERIFIED",
     "headless_true_tab_visibility": "UNVERIFIED",
     "native_200_percent_browser_zoom": "UNVERIFIED",
-    "keyboard_menu_visible_focus": "UNVERIFIED",
-    "ui_course_certificate_office_access": "UNVERIFIED",
+    "keyboard_menu_visible_focus": "PASS",
+    "ui_course_certificate_office_access": "PASS",
     "measured_process_footprint_600MiB": "UNVERIFIED",
     "renderer_resource_teardown": "PASS",
-    "journal_recovery": "UNVERIFIED",
+    "journal_recovery": "PASS",
     "integrated_lifecycle_mobility_social": "PASS",
-    "asset_fault_recovery": "UNVERIFIED",
+    "asset_fault_recovery": "PASS",
     "local_real_worker_route": "UNVERIFIED",
     "bundle_and_cold_network": "UNVERIFIED",
     "indexedDB_firefox": "PASS",
@@ -89,15 +86,15 @@
     "stolen_stock_and_restitution_chromium": "PASS",
     "stolen_stock_and_restitution_firefox": "PASS",
     "stolen_stock_and_restitution_webkit": "PASS",
-    "cold_start_character_chromium": "UNVERIFIED",
+    "cold_start_character_chromium": "PASS",
     "cold_start_character_firefox": "UNVERIFIED",
     "cold_start_character_webkit": "UNVERIFIED",
     "native_zoom_and_background": "UNVERIFIED",
     "synthetic_10000_citizens": "UNVERIFIED",
     "twenty_event_branches": "UNVERIFIED",
     "late_save_20_roundtrips_three_engines": "PASS",
-    "local_deployed_route": "UNVERIFIED",
-    "local_worker_smoke": "UNVERIFIED",
+    "local_deployed_route": "PASS",
+    "local_worker_smoke": "PASS",
     "local_portable_smoke": "PASS",
     "legacy_district_display": "PASS",
     "retail_and_mechanic_work_orders": "PASS",
@@ -118,22 +115,15 @@
     "rollback_trial",
     "headless_true_tab_visibility",
     "native_200_percent_browser_zoom",
-    "keyboard_menu_visible_focus",
-    "ui_course_certificate_office_access",
     "measured_process_footprint_600MiB",
-    "journal_recovery",
-    "asset_fault_recovery",
     "local_real_worker_route",
     "bundle_and_cold_network",
     "stolen_stock_unit_invariants",
-    "cold_start_character_chromium",
     "cold_start_character_firefox",
     "cold_start_character_webkit",
     "native_zoom_and_background",
     "synthetic_10000_citizens",
     "twenty_event_branches",
-    "local_deployed_route",
-    "local_worker_smoke",
     "software_raster_parallel_combat_social",
     "software_raster_parallel_autosave",
     "full_repository_regression",
@@ -212,9 +202,9 @@
       "expected": "Çift kayıt oluşmaz",
       "priority": "P1",
       "automation": "E2E",
-      "status": "UNVERIFIED",
+      "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/ui-browser/results.json"
+        "artifacts/social-engine/current-receipts/08145ab49c5f856b6f6df61e33cb0754843f3ca3741c3d1b5959d55e09180c39.json"
       ],
       "seed": null,
       "environment": [
@@ -223,17 +213,17 @@
         }
       ],
       "build_sha": null,
-      "duration_ms": 1935.1834169999997,
+      "duration_ms": 1999.3414160000002,
       "checks": [
         {
-          "status": "UNVERIFIED",
+          "status": "PASS",
           "reason": "double submit creates one persistent player and preserves chosen profile",
           "receipt": "ui-browser/results.json",
-          "evidence": "artifacts/social-engine/ui-browser/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/08145ab49c5f856b6f6df61e33cb0754843f3ca3741c3d1b5959d55e09180c39.json",
           "environment": {
             "browser": "151.0.7922.34"
           },
-          "duration_ms": 1935.1834169999997
+          "duration_ms": 1999.3414160000002
         }
       ],
       "owner": "SOCIAL ENGINE QA",
@@ -312,24 +302,18 @@
       "expected": "Aşım engellenir",
       "priority": "P1",
       "automation": "Property",
-      "status": "UNVERIFIED",
+      "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/acceptance-unit.json",
-        "artifacts/social-engine/ui-browser/results.json"
+        "artifacts/social-engine/current-receipts/08145ab49c5f856b6f6df61e33cb0754843f3ca3741c3d1b5959d55e09180c39.json"
       ],
       "seed": null,
       "environment": [
         {
-          "node": "v24.21.0",
-          "os": "darwin 25.6.0",
-          "cpu": "Apple M2"
-        },
-        {
           "browser": "151.0.7922.34"
         }
       ],
-      "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-      "duration_ms": 368.34349999999995,
+      "build_sha": null,
+      "duration_ms": 166.75016700000003,
       "checks": [
         {
           "status": "UNVERIFIED",
@@ -346,19 +330,19 @@
           "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
         },
         {
-          "status": "UNVERIFIED",
+          "status": "PASS",
           "reason": "invalid profile names and excessive attribute total are rejected through real form",
           "receipt": "ui-browser/results.json",
-          "evidence": "artifacts/social-engine/ui-browser/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/08145ab49c5f856b6f6df61e33cb0754843f3ca3741c3d1b5959d55e09180c39.json",
           "environment": {
             "browser": "151.0.7922.34"
           },
-          "duration_ms": 180.41174999999998
+          "duration_ms": 166.75016700000003
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check. | invalid profile names and excessive attribute total are rejected through real form"
+      "reason": "invalid profile names and excessive attribute total are rejected through real form"
     },
     {
       "id": "SE-007",
@@ -1623,7 +1607,7 @@
         }
       ],
       "build_sha": "834ccf516b8dccaf92369c11e66fc4036c52b348",
-      "duration_ms": 1991171.020541,
+      "duration_ms": 2581623.50875,
       "checks": [
         {
           "status": "UNVERIFIED",
@@ -1693,7 +1677,7 @@
             ]
           },
           "build_sha": "2c565622e124057dff40c4d5ff826d7950539f40",
-          "duration_ms": 1927965.989958,
+          "duration_ms": 2518418.478167,
           "scope": "Pure fixed-step simulation; not renderer or human playtime."
         }
       ],
@@ -1899,27 +1883,31 @@
       "automation": "E2E",
       "status": "PASS",
       "evidence": [
+        "artifacts/social-engine/current-receipts/08145ab49c5f856b6f6df61e33cb0754843f3ca3741c3d1b5959d55e09180c39.json",
         "artifacts/social-engine/current-receipts/889d5aacaae34d503ea948dc7951640b33e61802b681a2f93d7496782ed501d1.json"
       ],
       "seed": null,
       "environment": [
+        {
+          "browser": "151.0.7922.34"
+        },
         {
           "browser": "151.0.7922.34",
           "probeSha256": "352dc74e537c03f30a7e5310bf35126e8d8250f6fab4d0ae2f6b9a54e814802b"
         }
       ],
       "build_sha": null,
-      "duration_ms": null,
+      "duration_ms": 22372.473167,
       "checks": [
         {
-          "status": "UNVERIFIED",
+          "status": "PASS",
           "reason": "real save menu saves copies exports imports and deletes separate slots",
           "receipt": "ui-browser/results.json",
-          "evidence": "artifacts/social-engine/ui-browser/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/08145ab49c5f856b6f6df61e33cb0754843f3ca3741c3d1b5959d55e09180c39.json",
           "environment": {
             "browser": "151.0.7922.34"
           },
-          "duration_ms": 24842.171
+          "duration_ms": 22372.473167
         },
         {
           "status": "PASS",
@@ -1935,7 +1923,7 @@
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "export/import/copy/delete preserve world and unrelated slots"
+      "reason": "real save menu saves copies exports imports and deletes separate slots | export/import/copy/delete preserve world and unrelated slots"
     },
     {
       "id": "SE-043",
@@ -2131,7 +2119,7 @@
         }
       ],
       "build_sha": "2c565622e124057dff40c4d5ff826d7950539f40",
-      "duration_ms": 1927965.989958,
+      "duration_ms": 2518418.478167,
       "checks": [
         {
           "status": "UNVERIFIED",
@@ -2187,7 +2175,7 @@
             ]
           },
           "build_sha": "2c565622e124057dff40c4d5ff826d7950539f40",
-          "duration_ms": 1927965.989958,
+          "duration_ms": 2518418.478167,
           "scope": "Pure fixed-step simulation; not renderer or human playtime."
         }
       ],
@@ -2259,7 +2247,7 @@
         }
       ],
       "build_sha": "2c565622e124057dff40c4d5ff826d7950539f40",
-      "duration_ms": 1927965.989958,
+      "duration_ms": 2518418.478167,
       "checks": [
         {
           "status": "UNVERIFIED",
@@ -2315,7 +2303,7 @@
             ]
           },
           "build_sha": "2c565622e124057dff40c4d5ff826d7950539f40",
-          "duration_ms": 1927965.989958,
+          "duration_ms": 2518418.478167,
           "scope": "Pure fixed-step simulation; not renderer or human playtime."
         }
       ],
@@ -2387,7 +2375,7 @@
         }
       ],
       "build_sha": "2c565622e124057dff40c4d5ff826d7950539f40",
-      "duration_ms": 1927965.989958,
+      "duration_ms": 2518418.478167,
       "checks": [
         {
           "status": "UNVERIFIED",
@@ -2443,7 +2431,7 @@
             ]
           },
           "build_sha": "2c565622e124057dff40c4d5ff826d7950539f40",
-          "duration_ms": 1927965.989958,
+          "duration_ms": 2518418.478167,
           "scope": "Pure fixed-step simulation; not renderer or human playtime."
         }
       ],
@@ -2699,10 +2687,10 @@
           "coverage": {
             "status": "UNVERIFIED",
             "requestedMinutes": 60,
-            "samples": 9,
-            "elapsedMs": 540122.2985,
-            "simulationMs": 540600,
-            "coverageRatio": 1.0008844321023713,
+            "samples": 19,
+            "elapsedMs": 1140188.081084,
+            "simulationMs": 1140600,
+            "coverageRatio": 1.0003612727784423,
             "issues": [
               {
                 "reason": "Requested duration or minute observations missing"
@@ -2936,10 +2924,10 @@
           "coverage": {
             "status": "UNVERIFIED",
             "requestedMinutes": 120,
-            "samples": 9,
-            "elapsedMs": 540122.2985,
-            "simulationMs": 540600,
-            "coverageRatio": 1.0008844321023713,
+            "samples": 19,
+            "elapsedMs": 1140188.081084,
+            "simulationMs": 1140600,
+            "coverageRatio": 1.0003612727784423,
             "issues": [
               {
                 "reason": "Requested duration or minute observations missing"
@@ -3111,9 +3099,9 @@
       "expected": "Odak görünür",
       "priority": "P1",
       "automation": "Axe",
-      "status": "UNVERIFIED",
+      "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/axe/results.json"
+        "artifacts/social-engine/current-receipts/123a0e8a8dbdc4902e7f37b6d3b62a410ff83bf4a73f7fdc32f3888138337e0c.json"
       ],
       "seed": null,
       "environment": [],
@@ -3121,10 +3109,10 @@
       "duration_ms": null,
       "checks": [
         {
-          "status": "UNVERIFIED",
-          "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check.",
+          "status": "PASS",
+          "reason": "Actual keyboard focus/trap/restore checks and Axe scans. Incomplete canvas/contrast scans are disclosed, not full WCAG certification.",
           "receipt": "axe/results.json",
-          "evidence": "artifacts/social-engine/axe/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/123a0e8a8dbdc4902e7f37b6d3b62a410ff83bf4a73f7fdc32f3888138337e0c.json",
           "scope": [
             "Automated Axe results and keyboard tests do not establish full screen-reader access to the visual game world.",
             "Axe color-contrast incomplete findings are recorded as unverified; screenshots require visual review. This report PASS applies to SE-056 keyboard focus plus detected Axe violations, not full WCAG compliance."
@@ -3133,7 +3121,7 @@
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Historical manifest 24559258aacf. Current manifest 1d2cb9211926 remains unverified for this check."
+      "reason": "Actual keyboard focus/trap/restore checks and Axe scans. Incomplete canvas/contrast scans are disclosed, not full WCAG certification."
     },
     {
       "id": "SE-057",
@@ -3145,12 +3133,17 @@
       "automation": "Visual",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/current-receipts/55272cf8fb084749507541a512b94d9748e5cdb3c0d7342898cec583b31e4601.json"
+        "artifacts/social-engine/current-receipts/55272cf8fb084749507541a512b94d9748e5cdb3c0d7342898cec583b31e4601.json",
+        "artifacts/social-engine/current-receipts/08145ab49c5f856b6f6df61e33cb0754843f3ca3741c3d1b5959d55e09180c39.json"
       ],
       "seed": null,
-      "environment": [],
+      "environment": [
+        {
+          "browser": "151.0.7922.34"
+        }
+      ],
       "build_sha": null,
-      "duration_ms": null,
+      "duration_ms": 14487.535707999996,
       "checks": [
         {
           "status": "PASS",
@@ -3163,19 +3156,19 @@
           "scope": "Local Chromium DOM/canvas and public commands with fixed-step QA advancement."
         },
         {
-          "status": "UNVERIFIED",
+          "status": "PASS",
           "reason": "1280 and 1920 viewports retain reachable readable dialog controls",
           "receipt": "ui-browser/results.json",
-          "evidence": "artifacts/social-engine/ui-browser/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/08145ab49c5f856b6f6df61e33cb0754843f3ca3741c3d1b5959d55e09180c39.json",
           "environment": {
             "browser": "151.0.7922.34"
           },
-          "duration_ms": 17959.600792000005
+          "duration_ms": 14487.535707999996
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "No horizontal document overflow across 1280, 1920 and 390 pixel viewports."
+      "reason": "No horizontal document overflow across 1280, 1920 and 390 pixel viewports. | 1280 and 1920 viewports retain reachable readable dialog controls"
     },
     {
       "id": "SE-058",
@@ -3284,8 +3277,8 @@
       "receipt": "browser-webkit/results.json"
     },
     {
-      "path": "artifacts/social-engine/ui-browser/results.json",
-      "sha256": "2ac6e5b188100c701b7576742966b197ab12f5799905a7573158f5af98c8855b",
+      "path": "artifacts/social-engine/current-receipts/08145ab49c5f856b6f6df61e33cb0754843f3ca3741c3d1b5959d55e09180c39.json",
+      "sha256": "08145ab49c5f856b6f6df61e33cb0754843f3ca3741c3d1b5959d55e09180c39",
       "receipt": "ui-browser/results.json"
     },
     {
@@ -3315,17 +3308,17 @@
     },
     {
       "path": "artifacts/social-engine/simulation-365/results.json",
-      "sha256": "3db76cde395a13d86f462604b451fe43098d34490b4385e5de8556a06848665c",
+      "sha256": "16c96d044a66faa6a6f460436d30c0355355093e5c7d7b1fa55c1f2654531b7c",
       "receipt": "simulation-365/results.json"
     },
     {
-      "path": "artifacts/social-engine/axe/results.json",
-      "sha256": "322977049f9c8db328b1fd227b5369ec20ad10db224ded71941f65e91a28591b",
+      "path": "artifacts/social-engine/current-receipts/123a0e8a8dbdc4902e7f37b6d3b62a410ff83bf4a73f7fdc32f3888138337e0c.json",
+      "sha256": "123a0e8a8dbdc4902e7f37b6d3b62a410ff83bf4a73f7fdc32f3888138337e0c",
       "receipt": "axe/results.json"
     },
     {
       "path": "artifacts/social-engine/performance/2026-11-04T10-15-03-459Z/report.json",
-      "sha256": "0bb32e3430e4688e58050f3d3d2c2576819a1490e293248ed87783a4f1489856",
+      "sha256": "7f4f0462de649d1259b1878f1ca3308245c96f5f78f709acf0633c85d7cc9d02",
       "receipt": "performance/2026-11-04T10-15-03-459Z/report.json"
     },
     {
@@ -3339,18 +3332,18 @@
       "receipt": "browser-determinism/results.json"
     },
     {
-      "path": "artifacts/social-engine/current-receipts/bfc66c212d21169bdb41c9a78e50bcdfa7fa7a5dcbc5886a6147f6d5416a71f8.json",
-      "sha256": "bfc66c212d21169bdb41c9a78e50bcdfa7fa7a5dcbc5886a6147f6d5416a71f8",
+      "path": "artifacts/social-engine/current-receipts/2ad4ed02e924e9529c0662f9b4696ac86d9adfd3777d7bfcca81de27f06c2f31.json",
+      "sha256": "2ad4ed02e924e9529c0662f9b4696ac86d9adfd3777d7bfcca81de27f06c2f31",
       "receipt": "renderer-lifecycle/results.json"
     },
     {
-      "path": "artifacts/social-engine/journal-browser/results.json",
-      "sha256": "1bf5902d7e15dd6c51cf5b6f084df140b248ae0eb422a033791f47df87bdc7d2",
+      "path": "artifacts/social-engine/current-receipts/55300554154497da74f57de7bdfe3cb902013660864c2263e4df3bed5bff3a00.json",
+      "sha256": "55300554154497da74f57de7bdfe3cb902013660864c2263e4df3bed5bff3a00",
       "receipt": "journal-browser/results.json"
     },
     {
-      "path": "artifacts/social-engine/asset-faults/results.json",
-      "sha256": "eba40d91e01f1b9e16024537efcfa7cbf7aded757454097f978a3e98de2cedf9",
+      "path": "artifacts/social-engine/current-receipts/ea53c1a3a8bf1df47e29ec178b27587d6a132b1c265c0f552e46b34b15b36c0b.json",
+      "sha256": "ea53c1a3a8bf1df47e29ec178b27587d6a132b1c265c0f552e46b34b15b36c0b",
       "receipt": "asset-faults/results.json"
     },
     {
@@ -3380,7 +3373,7 @@
     },
     {
       "path": "artifacts/social-engine/cold-start-chromium/results.json",
-      "sha256": "a881f221e0c656bbcbc1edbbdca1b61e3c6b5fe18b1e1f5c400be51a23b37333",
+      "sha256": "0e6ebfb3ea9d0a0e2e1738b9e49dc548b380ab81ef9df0a16c63d38137ae2a30",
       "receipt": "cold-start-chromium/results.json"
     },
     {
@@ -3414,13 +3407,13 @@
       "receipt": "late-save/results.json"
     },
     {
-      "path": "artifacts/social-engine/upgrade/rules8-route/results.json",
-      "sha256": "7ca4e25fad185bbb433e6e35110df2ee0ad277815132c1d0708018e53076b9bc",
+      "path": "artifacts/social-engine/current-receipts/c1b94562db1f2dc3a99526f88f33598db8a72d545f19ca7afa3af2060c305a27.json",
+      "sha256": "c1b94562db1f2dc3a99526f88f33598db8a72d545f19ca7afa3af2060c305a27",
       "receipt": "upgrade/rules8-route/results.json"
     },
     {
-      "path": "artifacts/social-engine/upgrade/rules8-worker/results.json",
-      "sha256": "ac8a8ff8bd26f146dcc282efd49925c1b1ca6a9549feb04efcb55d58025aa3b5",
+      "path": "artifacts/social-engine/current-receipts/72f6a3686f95fb916e991d3611835a607803f3912cb39fa19ba086d2f5ac61a4.json",
+      "sha256": "72f6a3686f95fb916e991d3611835a607803f3912cb39fa19ba086d2f5ac61a4",
       "receipt": "upgrade/rules8-worker/results.json"
     },
     {

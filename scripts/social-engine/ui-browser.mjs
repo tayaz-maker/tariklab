@@ -1,3 +1,5 @@
+import { decodeSaveText } from "../../src/games/social-engine/persistence/codec.ts";
+import { stepWorld, canonicalState } from "../../src/games/social-engine/simulation/engine.ts";
 import { chromium } from "playwright";
 import assert from "node:assert/strict";
 import { mkdir, writeFile, readFile } from "node:fs/promises";
@@ -160,7 +162,6 @@ try {
       await openSaves();
       await page.locator("[data-save=slot-1]").click();
       await page.locator("[data-load=slot-1]:not([disabled])").waitFor();
-      const saved = await state();
       await page.locator("[data-copy=slot-1]").click();
       await page.locator("[data-load=slot-2]:not([disabled])").waitFor();
       const downloadPromise = page.waitForEvent("download");
@@ -183,9 +184,19 @@ try {
         document.getElementById("panel").classList.contains("hidden"),
       );
       const loaded = await state();
+      // A successful load resumes time. Compare to the actual exported snapshot,
+      // plus every intervening authoritative tick (including autonomous quest escrow).
+      const saved = (await decodeSaveText(bytes.toString("utf8"))).state;
+      const copied = (await decodeSaveText(await page.evaluate(()=>window.__socialEngine.export("slot-2")))).state;
+      const imported = (await decodeSaveText(await page.evaluate(()=>window.__socialEngine.export("slot-3")))).state;
+      assert.equal(canonicalState(copied),canonicalState(saved),"copy preserves entire saved world");
+      assert.equal(canonicalState(imported),canonicalState(saved),"import preserves entire saved world");
+      assert.ok(loaded.tick >= saved.tick && loaded.tick - saved.tick < 1200,"unexpected restore time");
+      while(saved.tick < loaded.tick) stepWorld(saved);
       assert.equal(loaded.player.name, saved.player.name);
       assert.deepEqual(loaded.accounts, saved.accounts);
       assert.deepEqual(loaded.relations, saved.relations);
+      assert.deepEqual(loaded.player.inventory, saved.player.inventory);
       await openSaves();
       page.once("dialog", (dialog) => dialog.accept());
       await page.locator("[data-delete=slot-2]").click();

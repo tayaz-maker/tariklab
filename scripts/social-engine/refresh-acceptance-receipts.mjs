@@ -107,6 +107,8 @@ for (const path of [
   ...["chromium", "firefox", "webkit"].map((engine) => "browser-" + engine + "/results.json"),
   "upgrade/rules8-route/results.json",
   "upgrade/rules8-worker/results.json",
+  "upgrade/door-route/results.json",
+  "upgrade/door-worker/results.json",
   "browser-evidence/results.json",
   "ui-browser/results.json",
   "journal-browser/results.json",
@@ -218,7 +220,8 @@ for (const path of [
     !["PASS", "FAIL"].includes(d.status ?? (d.finishedAt && d.results?.length ? "PASS" : null))
   )
     continue;
-  await capture(path, raw, path, {
+  const receiptKey = path.replace(/^upgrade\/door-(route|worker)\//,"upgrade/rules8-$1/");
+  await capture(receiptKey, raw, path, {
     manifestSha256:
       d.manifestSha256 === manifest || path === "ui-browser/results.json" ? manifest : null,
     sourceBoundProbe: d.probeSha256 ?? d.environment?.sourceSha256 ?? null,
