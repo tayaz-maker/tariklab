@@ -35,10 +35,13 @@ test("original atlas frames are bounded, nonoverlapping and have consistent anim
   for (let appearance = 0; appearance < 8; appearance++)
     for (let direction = 0; direction < 4; direction++)
       for (let frame = 0; frame < 4; frame++)
-        assert.deepEqual(atlas.actors.frames[`person-${appearance}-${direction}-${frame}`].pivot, {
-          x: 32,
-          y: 84,
-        });
+        for (const action of ["", "run-"]) {
+          const key = `person-${action}${appearance}-${direction}-${frame}`;
+          assert.deepEqual(atlas.actors.frames[key]?.pivot, { x: 32, y: 84 }, key);
+        }
+  for (const shape of ["car", "cargo", "van", "hatch"])
+    for (let direction = 0; direction < 8; direction++)
+      assert.ok(atlas.actors.frames[`${shape}-${direction}`], `${shape}-${direction}`);
 });
 test("exported machine-readable chunks, collision and navigation exactly match authoritative geometry", async () => {
   const map = await readJson("kiyiyaka-map.json");

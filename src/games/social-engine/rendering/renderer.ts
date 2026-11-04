@@ -26,6 +26,10 @@ function vehicleFrame(heading: number): number {
   }
   return best;
 }
+function vehicleVariant(id: string): string {
+  const n = Number(id.match(/\d+$/)?.[0] ?? 0);
+  return ["car", "cargo", "van", "hatch"][n % 4];
+}
 function animationOffset(id: string): number {
   let hash = 2166136261;
   for (const char of id) hash = Math.imul(hash ^ char.charCodeAt(0), 16777619);
@@ -136,6 +140,21 @@ function groundTexture(cx: number, cy: number): Texture {
           c.moveTo(q.x - 4, q.y + 7);
           c.lineTo(q.x + 8, q.y + 13);
         }
+        c.stroke();
+      }
+      if (road && (x * 11 + y * 7) % 43 === 0) {
+        c.strokeStyle = "#485956aa";
+        c.lineWidth = 1.2;
+        c.beginPath();
+        c.ellipse(q.x, q.y + 12, 4.5, 2.2, 0, 0, Math.PI * 2);
+        c.stroke();
+      }
+      if (stone && (x * 13 + y * 7) % 31 === 0) {
+        c.strokeStyle = "#827f7055";
+        c.lineWidth = 0.8;
+        c.beginPath();
+        c.moveTo(q.x - 4, q.y + 10);
+        c.lineTo(q.x + 3, q.y + 14);
         c.stroke();
       }
       if (y === 56) {
@@ -467,6 +486,8 @@ export async function createRenderer(
     initialized = false;
   const stopMarkers: Container[] = [];
   const trafficSignals: Graphics[] = [];
+  const streetLines: Graphics[] = [];
+  const lampGlows: Graphics[] = [];
   const optionalTextures: Texture[] = [];
   const sceneZoom: Record<string, number> = { outside: 0.9 };
   const frameSamples: number[] = [],
@@ -510,6 +531,10 @@ export async function createRenderer(
     stopMarkers.length = 0;
     for (const light of trafficSignals) light.destroy();
     trafficSignals.length = 0;
+    for (const line of streetLines) line.destroy();
+    streetLines.length = 0;
+    for (const glow of lampGlows) glow.destroy();
+    lampGlows.length = 0;
     if (scene) sceneZoom[scene] = zoom;
     scene = next;
     zoom = sceneZoom[next] ?? 1.25;
@@ -583,6 +608,35 @@ export async function createRenderer(
         { x: 2.6, y: 50 },
       ])
         decor.push(sprite("tree", p, 1.15));
+      for (const p of [
+        { x: 15.1, y: 9 },
+        { x: 21.6, y: 9 },
+        { x: 40.1, y: 9 },
+        { x: 46.2, y: 9 },
+        { x: 15.1, y: 27 },
+        { x: 21.6, y: 27 },
+        { x: 40.1, y: 27 },
+        { x: 46.2, y: 27 },
+        { x: 15.1, y: 45 },
+        { x: 21.6, y: 45 },
+        { x: 40.1, y: 45 },
+        { x: 46.2, y: 45 },
+      ]) {
+        const lamp = sprite("lamp", p, 0.65);
+        decor.push(lamp);
+        const glow = new Graphics()
+          .ellipse(0, 0, 22, 9)
+          .fill({ color: 0xf3bc68, alpha: 0.12 })
+          .circle(13, -77, 13)
+          .fill({ color: 0xffd18a, alpha: 0.12 })
+          .circle(13, -77, 6)
+          .fill({ color: 0xffe0a5, alpha: 0.24 });
+        glow.position.set(lamp.x, lamp.y);
+        glow.zIndex = lamp.zIndex + 0.1;
+        glow.alpha = 0;
+        objects.addChild(glow);
+        lampGlows.push(glow);
+      }
       for (let x = 4; x < 63; x += 7) {
         decor.push(sprite("lamp", { x, y: 55.5 }, 0.85));
         if (x % 2 === 0) decor.push(sprite("bench", { x: x + 2, y: 55.5 }, 0.7));
@@ -591,6 +645,36 @@ export async function createRenderer(
         decor.push(sprite("planter", { x: b.door.x - 1.5, y: b.door.y + 0.1 }, 0.65));
         if (b.kind === "cafe" || b.kind === "restaurant")
           decor.push(sprite("bench", { x: b.door.x + 1.7, y: b.door.y + 0.2 }, 0.6));
+      }
+      // One restrained overhead cable run per block, behind actors and outside portals.
+      for (const [a, b] of [
+        [
+          { x: 15.1, y: 9 },
+          { x: 15.1, y: 27 },
+        ],
+        [
+          { x: 40.1, y: 9 },
+          { x: 40.1, y: 27 },
+        ],
+        [
+          { x: 15.1, y: 27 },
+          { x: 15.1, y: 45 },
+        ],
+        [
+          { x: 40.1, y: 27 },
+          { x: 40.1, y: 45 },
+        ],
+      ] as [Point, Point][]) {
+        const pa = project(a),
+          pb = project(b),
+          line = new Graphics();
+        line
+          .moveTo(pa.x, pa.y - 72)
+          .quadraticCurveTo((pa.x + pb.x) / 2, (pa.y + pb.y) / 2 - 58, pb.x, pb.y - 72)
+          .stroke({ color: 0x263e3b, width: 1.2, alpha: 0.65 });
+        line.zIndex = Math.min(pa.y, pb.y) - 2;
+        objects.addChild(line);
+        streetLines.push(line);
       }
       // A distant ferry is decorative; travel interactions remain part of simulation.
       const boat = new Graphics();
@@ -736,16 +820,30 @@ export async function createRenderer(
       }
       transition(view, target, cadence.get(person.id) ?? 1000);
       view.person = person;
+      const important =
+        person.id !== projection.player.id &&
+        projection.quests.some(
+          (q) =>
+            (q.status === "active" || q.status === "offered") &&
+            (q.targetId === person.id || q.issuerId === person.id),
+        ) &&
+        Math.hypot(
+          person.location.x - projection.player.location.x,
+          person.location.y - projection.player.location.y,
+        ) < 12;
+      view.label.text =
+        person.id === projection.player.id ? person.name : important ? `◆ ${person.name}` : "";
       view.sprite.visible =
         person.id !== projection.player.id ||
         (!projection.player.vehicleId && !projection.mobility?.trip);
-      view.label.visible = person.id === projection.player.id && !projection.mobility?.trip;
+      view.label.visible =
+        (person.id === projection.player.id || important) && !projection.mobility?.trip;
     }
     for (const vehicle of projection.vehicles) {
       if (vehicle.location.scene !== scene) continue;
       keep.add(vehicle.id);
       const direction = vehicleFrame(vehicle.heading);
-      const variant = vehicle.id.endsWith("0") ? "cargo" : "car";
+      const variant = vehicleVariant(vehicle.id);
       const frameName = `${variant}-${direction}`;
       let view = actors.get(vehicle.id);
       const target = { x: vehicle.location.x, y: vehicle.location.y };
@@ -784,6 +882,21 @@ export async function createRenderer(
     .stroke({ color: 0x92e6c5, width: 0.7, alpha: 0.4 });
   objects.addChild(playerRing);
   playerRing.zIndex = 100000;
+  const playerMarker = new Graphics();
+  playerMarker
+    .poly([0, -64, 5, -70, 0, -76, -5, -70])
+    .fill(0xe9bd70)
+    .stroke({ color: 0x193b39, width: 1.5 });
+  playerMarker.zIndex = 100003;
+  objects.addChild(playerMarker);
+  // An occlusion-only ghost preserves player readability without moving the real actor.
+  const playerGhost = new Sprite(Texture.EMPTY);
+  playerGhost.anchor.set(0.5, 84 / 96);
+  playerGhost.tint = 0xf4d89a;
+  playerGhost.alpha = 0.78;
+  playerGhost.zIndex = 100002;
+  playerGhost.visible = false;
+  objects.addChild(playerGhost);
   const pointer = (event: PointerEvent) => {
     if (!current) return;
     const rect = app.canvas.getBoundingClientRect();
@@ -836,25 +949,63 @@ export async function createRenderer(
         if (Math.hypot(dx, dy) > 0.01) {
           const worldDelta = unproject({ x: dx, y: dy });
           v.direction = vehicleFrame(Math.atan2(worldDelta.y, worldDelta.x));
+          // Residual screen-space angle follows the visible interpolated displacement.
+          // The simulation's heading and position are never changed by this treatment.
+          const axis = project({
+            x: Math.cos((v.direction * Math.PI) / 4),
+            y: Math.sin((v.direction * Math.PI) / 4),
+          });
+          const angle = Math.atan2(dy, dx) - Math.atan2(axis.y, axis.x);
+          const residual = Math.atan2(Math.sin(angle), Math.cos(angle));
+          const target = clamp(residual, -0.3, 0.3);
+          v.sprite.rotation +=
+            (target - v.sprite.rotation) * (1 - Math.exp(-Math.min(delta, 100) / 90));
         } else if (v.vehicle.speed <= 0) {
           v.direction = vehicleFrame(v.vehicle.heading);
+          v.sprite.rotation *= Math.exp(-Math.min(delta, 100) / 120);
         }
-        const variant = id.endsWith("0") ? "cargo" : "car";
+        const variant = vehicleVariant(id);
         v.sprite.texture = paintedVehicle(`${variant}-${v.direction}`, v.vehicle.color);
       }
       v.sprite.position.set(p.x, p.y);
       v.sprite.zIndex = p.y;
       v.label.position.set(p.x, p.y - 56);
-      v.label.zIndex = p.y + 0.1;
+      v.label.zIndex = id === current.player.id ? 100004 : p.y + 0.1;
       if (v.person) {
-        const frame = moving ? Math.floor((started + animationOffset(id)) / 135) % 4 : 0;
+        const phase = started + animationOffset(id);
+        const apparentSpeed =
+          (Math.hypot(v.to.x - v.from.x, v.to.y - v.from.y) * 1000) / Math.max(1, v.duration);
+        const running = moving && apparentSpeed > 2.4;
+        const frame = moving ? Math.floor(phase / (running ? 85 : 135)) % 4 : 0;
         v.sprite.texture = textures.get(
-          `person-${v.person.appearance % 8}-${v.direction}-${frame}`,
+          `person-${running ? "run-" : ""}${v.person.appearance % 8}-${v.direction}-${frame}`,
         )!;
+        // Independent idle breathing is presentation only, with a fixed foot anchor.
+        const breath = moving ? 1 : 1 + Math.sin(phase / 620) * 0.014;
+        v.sprite.scale.set(0.76, 0.76 * breath);
         if (id === current.player.id) focus = p;
         v.sprite.tint = v.person.health <= 20 ? 0xe9a292 : 0xffffff;
       }
     }
+    let obscured = false;
+    if (player && player.sprite.visible) {
+      for (const [id, other] of actors) {
+        if (id === current.player.id || !other.sprite.visible) continue;
+        if (
+          other.sprite.y >= player.sprite.y - 5 &&
+          Math.abs(other.sprite.x - player.sprite.x) < 24 &&
+          Math.abs(other.sprite.y - player.sprite.y) < 18
+        ) {
+          obscured = true;
+          break;
+        }
+      }
+      playerGhost.texture = player.sprite.texture;
+      playerGhost.position.copyFrom(player.sprite.position);
+      playerGhost.scale.copyFrom(player.sprite.scale);
+    }
+    playerGhost.visible =
+      obscured && !!player && !current.player.vehicleId && !current.mobility?.trip;
     if (!initialized) {
       camera = { ...focus };
       initialized = true;
@@ -877,6 +1028,8 @@ export async function createRenderer(
     }
     playerRing.position.set(focus.x, focus.y);
     playerRing.visible = !!player && !current.player.vehicleId;
+    playerMarker.position.set(focus.x, focus.y);
+    playerMarker.visible = !!player && !current.player.vehicleId && !current.mobility?.trip;
     for (const b of BUILDINGS) {
       const s = buildings.get(b.id);
       if (!s) continue;
@@ -908,6 +1061,7 @@ export async function createRenderer(
             : hour > 17
               ? (hour - 17) * 0.1
               : 0;
+    for (const glow of lampGlows) glow.alpha = Math.min(1, darkness * 4);
     overlay
       .clear()
       .rect(0, 0, app.screen.width, app.screen.height)
@@ -926,6 +1080,16 @@ export async function createRenderer(
               )
             : 0.04,
       });
+    // Warm light at dawn and dusk layers over the cool ambient shade without bloom.
+    if (scene === "outside") {
+      const dusk = hour >= 17 && hour < 20 ? Math.sin(((hour - 17) / 3) * Math.PI) : 0;
+      const dawn = hour >= 5 && hour < 8 ? Math.sin(((hour - 5) / 3) * Math.PI) : 0;
+      const warmth = Math.max(dusk, dawn) * 0.11;
+      if (warmth > 0.001)
+        overlay
+          .rect(0, 0, app.screen.width, app.screen.height)
+          .fill({ color: 0xe4a366, alpha: warmth });
+    }
     if (
       scene === "outside" &&
       !document.body.classList.contains("reduce-motion") &&

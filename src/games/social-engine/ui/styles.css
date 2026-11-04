@@ -129,18 +129,29 @@ small,
   right: 28px;
   display: flex;
   align-items: flex-start;
-  justify-content: space-between;
-  gap: 16px;
+  justify-content: flex-start;
+  gap: 8px;
+}
+.brand-block {
+  background: #172729f0;
+  border: 1px solid #57655f;
+  border-left: 3px solid #dfb36d;
+  border-radius: 5px;
+  padding: 8px 13px;
+  min-width: 210px;
+}
+.brand-block small {
+  font-size: 10px;
 }
 .brand {
-  font-size: 22px;
-  letter-spacing: 0.09em;
+  font-size: 18px;
+  letter-spacing: 0.08em;
   font-weight: 800;
   color: var(--gold);
   text-shadow: 0 2px 6px #07191a;
 }
 .district {
-  font-size: 14px;
+  font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.01em;
   text-shadow: 0 2px 6px #07191a;
@@ -153,13 +164,13 @@ small,
 }
 .vitals {
   padding: 9px 13px;
-  min-width: 218px;
+  min-width: 252px;
 }
 .vitals header {
   display: flex;
   justify-content: space-between;
   gap: 25px;
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 700;
 }
 .bars {
@@ -185,8 +196,9 @@ small,
   background: var(--gold);
 }
 .timebox {
-  padding: 10px 18px;
+  padding: 8px 14px;
   text-align: right;
+  margin-left: auto;
 }
 .timebox strong {
   font-size: 23px;
@@ -196,16 +208,19 @@ small,
   position: absolute;
   left: 28px;
   bottom: 25px;
-  display: grid;
-  gap: 10px;
-  width: 200px;
+  display: flex;
+  align-items: flex-end;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  gap: 8px;
+  width: auto;
 }
 .minimap {
   padding: 8px;
 }
 .minimap canvas {
-  width: 182px;
-  height: 134px;
+  width: 150px;
+  height: 110px;
   display: block;
   border-radius: 3px;
 }
@@ -216,9 +231,10 @@ small,
   margin-top: 5px;
 }
 .quest-card {
-  padding: 12px 14px;
+  padding: 10px 12px;
   font-size: 12px;
-  max-width: 300px;
+  width: 196px;
+  border-left: 3px solid #b68e58;
 }
 .quest-card h3 {
   color: var(--gold);
@@ -235,13 +251,13 @@ small,
 }
 .key-nav {
   display: flex;
-  padding: 5px;
-  gap: 4px;
+  padding: 4px;
+  gap: 2px;
 }
 .key-nav button {
   background: transparent;
   border: 0;
-  padding: 9px 12px;
+  padding: 7px 10px;
   font-size: 12px;
 }
 .key-nav kbd {
@@ -578,7 +594,10 @@ small,
   .left-bottom {
     left: 14px;
     bottom: 14px;
-    width: 175px;
+    width: auto;
+  }
+  .brand-block {
+    min-width: 170px;
   }
   .minimap canvas {
     width: 157px;
@@ -634,10 +653,17 @@ small,
     display: none;
   }
   .top .district {
-    font-size: 18px;
+    font-size: 10px;
   }
   .top .brand {
-    font-size: 8px;
+    font-size: 12px;
+  }
+  .brand-block {
+    min-width: 0;
+    padding: 6px 8px;
+  }
+  .brand-block small {
+    display: none;
   }
   .timebox {
     padding: 7px 10px;

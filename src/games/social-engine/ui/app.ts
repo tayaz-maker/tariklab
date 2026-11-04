@@ -447,8 +447,10 @@ function nearby() {
   };
   // At the actual threshold, a passing pedestrian must not intercept the door.
   // Outside that small footprint the nearest person, door or vehicle still wins.
-  const portals = p.location.scene === "outside" ? BUILDINGS.map(b => ({ kind: "building", id: b.id, name: b.name, point: b.door })) :
-    [{ kind: "exit", id: "exit", name: "Sokağa çık", point: { x: 7, y: 10 } }];
+  const portals =
+    p.location.scene === "outside"
+      ? BUILDINGS.map((b) => ({ kind: "building", id: b.id, name: b.name, point: b.door }))
+      : [{ kind: "exit", id: "exit", name: "Sokağa çık", point: { x: 7, y: 10 } }];
   for (const portal of portals) {
     const d = Math.hypot(p.location.x - portal.point.x, p.location.y - portal.point.y);
     if (d <= 0.55) return { kind: portal.kind, id: portal.id, name: portal.name, d };
@@ -467,7 +469,7 @@ function hud() {
   if (!view) return;
   const root = el("hud");
   if (!el("minimap")) {
-    root.innerHTML = `<div class="top"><div><p class="brand">SOCIAL ENGINE</p><p class="district" id="hud-district"></p><small id="hud-pop"></small></div>
+    root.innerHTML = `<div class="top"><div class="brand-block"><p class="brand">SOCIAL ENGINE</p><p class="district" id="hud-district"></p><small id="hud-pop"></small></div>
     <section class="vitals glass" aria-label="Karakter durumu"><header><span id="hud-name"></span><span id="hud-balance" data-testid="balance"></span></header><div class="bars">${["Sağlık", "Enerji", "Tokluk"].map((l, i) => `<label>${l}<span id="hud-vital-${i}" class="bar" role="meter" aria-label="${l}" aria-valuemin="0" aria-valuemax="100"><i></i></span></label>`).join("")}</div><p class="wanted" id="hud-reputation"></p></section>
     <div class="timebox glass"><strong id="hud-time"></strong><p><small id="hud-day"></small></p></div></div>
     <div class="left-bottom"><section class="quest-card glass"><span class="eyebrow" id="hud-quest-kind"></span><h3 id="hud-quest-title"></h3><p id="hud-quest-description"></p></section>
