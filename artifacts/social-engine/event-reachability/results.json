@@ -1,0 +1,1552 @@
+{
+  "status": "PASS",
+  "sourceSha256": "5e183fdc6a64d6947a6a2a525c9373b16e39368228d8e37324f0e286c4e17fc3",
+  "sourceFiles": [
+    "src/games/social-engine/domain/content.ts",
+    "src/games/social-engine/domain/economy-types.ts",
+    "src/games/social-engine/domain/life-types.ts",
+    "src/games/social-engine/domain/mobility-types.ts",
+    "src/games/social-engine/domain/progression-types.ts",
+    "src/games/social-engine/domain/social-types.ts",
+    "src/games/social-engine/domain/traffic.ts",
+    "src/games/social-engine/domain/types.ts",
+    "src/games/social-engine/domain/world.ts",
+    "src/games/social-engine/simulation/economy.ts",
+    "src/games/social-engine/simulation/engine.ts",
+    "src/games/social-engine/simulation/events.ts",
+    "src/games/social-engine/simulation/family.ts",
+    "src/games/social-engine/simulation/justice.ts",
+    "src/games/social-engine/simulation/ledger.ts",
+    "src/games/social-engine/simulation/life.ts",
+    "src/games/social-engine/simulation/missions.ts",
+    "src/games/social-engine/simulation/mobility.ts",
+    "src/games/social-engine/simulation/population.ts",
+    "src/games/social-engine/simulation/progression.ts",
+    "src/games/social-engine/simulation/property-crime.ts",
+    "src/games/social-engine/simulation/random.ts",
+    "src/games/social-engine/simulation/services.ts",
+    "src/games/social-engine/simulation/social.ts",
+    "src/games/social-engine/simulation/society.ts",
+    "src/games/social-engine/simulation/traffic.ts"
+  ],
+  "startedAt": "2026-11-04T07:05:06.370Z",
+  "finishedAt": "2026-11-04T07:05:12.750Z",
+  "seed": 20261103,
+  "daysAfterInitialActions": 7,
+  "ticks": 101437,
+  "elapsedMs": 6332.9680419999995,
+  "observed": [
+    {
+      "kind": "shortage",
+      "tick": 0,
+      "minute": 480,
+      "questId": "q4",
+      "sourceEvent": {
+        "id": "e5",
+        "tick": 0,
+        "minute": 480,
+        "kind": "shortage",
+        "text": "Rafın eksik parçası",
+        "actors": [
+          "n2"
+        ],
+        "targetId": "player",
+        "visibility": "public",
+        "witnesses": [],
+        "causeId": null
+      },
+      "issuerId": "n2",
+      "targetId": "n2",
+      "buildingId": "b-garage",
+      "escrow": 8500
+    },
+    {
+      "kind": "neighbor_help",
+      "tick": 0,
+      "minute": 480,
+      "questId": "q6",
+      "sourceEvent": {
+        "id": "e7",
+        "tick": 0,
+        "minute": 480,
+        "kind": "neighbor_help",
+        "text": "Komşunun yükü",
+        "actors": [
+          "n0"
+        ],
+        "targetId": "player",
+        "visibility": "public",
+        "witnesses": [],
+        "causeId": null
+      },
+      "issuerId": "n0",
+      "targetId": "n0",
+      "buildingId": "b-home",
+      "escrow": 4500
+    },
+    {
+      "kind": "delivery",
+      "tick": 0,
+      "minute": 480,
+      "questId": "q8",
+      "sourceEvent": {
+        "id": "e9",
+        "tick": 0,
+        "minute": 480,
+        "kind": "delivery",
+        "text": "Rıhtıma bir paket",
+        "actors": [
+          "n3"
+        ],
+        "targetId": "player",
+        "visibility": "public",
+        "witnesses": [],
+        "causeId": null
+      },
+      "issuerId": "n3",
+      "targetId": "n3",
+      "buildingId": "b-taxi",
+      "escrow": 8000
+    },
+    {
+      "kind": "job_offer",
+      "tick": 0,
+      "minute": 480,
+      "questId": "q10",
+      "sourceEvent": {
+        "id": "e11",
+        "tick": 0,
+        "minute": 480,
+        "kind": "job_offer",
+        "text": "Çarşıda bir yer açıldı",
+        "actors": [
+          "n0"
+        ],
+        "targetId": "player",
+        "visibility": "public",
+        "witnesses": [],
+        "causeId": null
+      },
+      "issuerId": "n0",
+      "targetId": "n0",
+      "buildingId": "b-market",
+      "escrow": 4000
+    },
+    {
+      "kind": "promotion",
+      "tick": 0,
+      "minute": 480,
+      "questId": "q12",
+      "sourceEvent": {
+        "id": "e13",
+        "tick": 0,
+        "minute": 480,
+        "kind": "promotion",
+        "text": "Bir adım yukarı",
+        "actors": [
+          "n4"
+        ],
+        "targetId": "player",
+        "visibility": "public",
+        "witnesses": [],
+        "causeId": null
+      },
+      "issuerId": "n4",
+      "targetId": "n4",
+      "buildingId": "b-office",
+      "escrow": 6000
+    },
+    {
+      "kind": "traffic_jam",
+      "tick": 0,
+      "minute": 480,
+      "questId": "q14",
+      "sourceEvent": {
+        "id": "e15",
+        "tick": 0,
+        "minute": 480,
+        "kind": "traffic_jam",
+        "text": "Dar sokakta düğüm",
+        "actors": [
+          "n8"
+        ],
+        "targetId": "player",
+        "visibility": "public",
+        "witnesses": [],
+        "causeId": null
+      },
+      "issuerId": "n8",
+      "targetId": "n8",
+      "buildingId": "b-taxi",
+      "escrow": 5000
+    },
+    {
+      "kind": "scholarship",
+      "tick": 0,
+      "minute": 480,
+      "questId": "q16",
+      "sourceEvent": {
+        "id": "e17",
+        "tick": 0,
+        "minute": 480,
+        "kind": "scholarship",
+        "text": "Açık ders",
+        "actors": [
+          "n6"
+        ],
+        "targetId": "player",
+        "visibility": "public",
+        "witnesses": [],
+        "causeId": null
+      },
+      "issuerId": "n6",
+      "targetId": "n6",
+      "buildingId": "b-school",
+      "escrow": 5000
+    },
+    {
+      "kind": "friend_invite",
+      "tick": 20,
+      "minute": 482,
+      "questId": "q20",
+      "sourceEvent": {
+        "id": "e21",
+        "tick": 20,
+        "minute": 482,
+        "kind": "friend_invite",
+        "text": "Bir çaylık zaman",
+        "actors": [
+          "n1"
+        ],
+        "targetId": "player",
+        "visibility": "public",
+        "witnesses": [],
+        "causeId": null
+      },
+      "issuerId": "n1",
+      "targetId": "n1",
+      "buildingId": "b-cafe",
+      "escrow": 3500
+    },
+    {
+      "kind": "relationship_dispute",
+      "tick": 100,
+      "minute": 490,
+      "questId": "q27",
+      "sourceEvent": {
+        "id": "e28",
+        "tick": 100,
+        "minute": 490,
+        "kind": "relationship_dispute",
+        "text": "Kırgın iki komşu",
+        "actors": [
+          "n9"
+        ],
+        "targetId": "player",
+        "visibility": "public",
+        "witnesses": [],
+        "causeId": null
+      },
+      "issuerId": "n9",
+      "targetId": "n9",
+      "buildingId": "b-restaurant",
+      "escrow": 6500
+    },
+    {
+      "kind": "faction_truce",
+      "tick": 331,
+      "minute": 513,
+      "questId": "q33",
+      "sourceEvent": {
+        "id": "e34",
+        "tick": 300,
+        "minute": 510,
+        "kind": "faction_truce",
+        "text": "Aynı masaya oturmak",
+        "actors": [
+          "n9"
+        ],
+        "targetId": "player",
+        "visibility": "public",
+        "witnesses": [],
+        "causeId": null
+      },
+      "issuerId": "n9",
+      "targetId": "n9",
+      "buildingId": "b-restaurant",
+      "escrow": 10000
+    },
+    {
+      "kind": "neighborhood_argument",
+      "tick": 331,
+      "minute": 513,
+      "questId": "q35",
+      "sourceEvent": {
+        "id": "e36",
+        "tick": 331,
+        "minute": 513,
+        "kind": "neighborhood_argument",
+        "text": "Sokaktaki sesler",
+        "actors": [
+          "n0"
+        ],
+        "targetId": "player",
+        "visibility": "public",
+        "witnesses": [],
+        "causeId": null
+      },
+      "issuerId": "n0",
+      "targetId": "n0",
+      "buildingId": "b-market",
+      "escrow": 6500
+    },
+    {
+      "kind": "witness_report",
+      "tick": 331,
+      "minute": 513,
+      "questId": "q37",
+      "sourceEvent": {
+        "id": "e38",
+        "tick": 331,
+        "minute": 513,
+        "kind": "witness_report",
+        "text": "Gördüğünü söyle",
+        "actors": [
+          "n5"
+        ],
+        "targetId": "player",
+        "visibility": "public",
+        "witnesses": [],
+        "causeId": null
+      },
+      "issuerId": "n5",
+      "targetId": "n5",
+      "buildingId": "b-police",
+      "escrow": 7500
+    },
+    {
+      "kind": "police_check",
+      "tick": 331,
+      "minute": 513,
+      "questId": "q39",
+      "sourceEvent": {
+        "id": "e40",
+        "tick": 331,
+        "minute": 513,
+        "kind": "police_check",
+        "text": "Rıhtım kontrolü",
+        "actors": [
+          "n5"
+        ],
+        "targetId": "player",
+        "visibility": "public",
+        "witnesses": [],
+        "causeId": null
+      },
+      "issuerId": "n5",
+      "targetId": "n5",
+      "buildingId": "b-police",
+      "escrow": 4000
+    },
+    {
+      "kind": "loan_due",
+      "tick": 637,
+      "minute": 543,
+      "questId": "q43",
+      "sourceEvent": {
+        "id": "e44",
+        "tick": 637,
+        "minute": 543,
+        "kind": "loan_due",
+        "text": "Vadesi gelen söz",
+        "actors": [
+          "n7"
+        ],
+        "targetId": "player",
+        "visibility": "private",
+        "witnesses": [],
+        "causeId": null
+      },
+      "issuerId": "n7",
+      "targetId": "n7",
+      "buildingId": "b-bank",
+      "escrow": 5000
+    },
+    {
+      "kind": "price_shock",
+      "tick": 15037,
+      "minute": 1983,
+      "questId": "q49",
+      "sourceEvent": {
+        "id": "e50",
+        "tick": 9600,
+        "minute": 1440,
+        "kind": "price_shock",
+        "text": "Çarşıdaki dalga",
+        "actors": [
+          "n0"
+        ],
+        "targetId": "player",
+        "visibility": "public",
+        "witnesses": [],
+        "causeId": null
+      },
+      "issuerId": "n0",
+      "targetId": "n0",
+      "buildingId": "b-market",
+      "escrow": 6000
+    },
+    {
+      "kind": "lost_item",
+      "tick": 29437,
+      "minute": 3423,
+      "questId": "q76",
+      "sourceEvent": {
+        "id": "e77",
+        "tick": 25500,
+        "minute": 3030,
+        "kind": "lost_item",
+        "text": "Tezgâhta unutulan",
+        "actors": [
+          "n1"
+        ],
+        "targetId": "player",
+        "visibility": "public",
+        "witnesses": [],
+        "causeId": "e46"
+      },
+      "issuerId": "n1",
+      "targetId": "n1",
+      "buildingId": "b-cafe",
+      "escrow": 4500
+    },
+    {
+      "kind": "late_wage",
+      "tick": 43837,
+      "minute": 4863,
+      "questId": "q108",
+      "sourceEvent": {
+        "id": "e109",
+        "tick": 38400,
+        "minute": 4320,
+        "kind": "late_wage",
+        "text": "Geciken zarf",
+        "actors": [
+          "n2"
+        ],
+        "targetId": "player",
+        "visibility": "public",
+        "witnesses": [],
+        "causeId": "e106"
+      },
+      "issuerId": "n2",
+      "targetId": "n2",
+      "buildingId": "b-garage",
+      "escrow": 6500
+    },
+    {
+      "kind": "layoff",
+      "tick": 43837,
+      "minute": 4863,
+      "questId": "q113",
+      "sourceEvent": {
+        "id": "e114",
+        "tick": 39300,
+        "minute": 4410,
+        "kind": "layoff",
+        "text": "Kapanan vardiya",
+        "actors": [
+          "n1004"
+        ],
+        "targetId": "player",
+        "visibility": "public",
+        "witnesses": [],
+        "causeId": "e107"
+      },
+      "issuerId": "n1004",
+      "targetId": "n1004",
+      "buildingId": "b-office",
+      "escrow": 7000
+    },
+    {
+      "kind": "vehicle_breakdown",
+      "tick": 72637,
+      "minute": 7743,
+      "questId": "q181",
+      "sourceEvent": {
+        "id": "e182",
+        "tick": 67800,
+        "minute": 7260,
+        "kind": "vehicle_breakdown",
+        "text": "Yolda kalan usta",
+        "actors": [
+          "n2"
+        ],
+        "targetId": "player",
+        "visibility": "public",
+        "witnesses": [],
+        "causeId": "e177"
+      },
+      "issuerId": "n2",
+      "targetId": "n2",
+      "buildingId": "b-garage",
+      "escrow": 9000
+    },
+    {
+      "kind": "rent_rise",
+      "tick": 101437,
+      "minute": 10623,
+      "questId": "q262",
+      "sourceEvent": {
+        "id": "e263",
+        "tick": 101437,
+        "minute": 10623,
+        "kind": "rent_rise",
+        "text": "Apartman toplantısı",
+        "actors": [
+          "n0"
+        ],
+        "targetId": "player",
+        "visibility": "public",
+        "witnesses": [],
+        "causeId": null
+      },
+      "issuerId": "n0",
+      "targetId": "n0",
+      "buildingId": "b-home",
+      "escrow": 5500
+    }
+  ],
+  "missing": [],
+  "playerCommands": [
+    {
+      "tick": 0,
+      "command": {
+        "v": 1,
+        "id": "reachability:0",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q4"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 0,
+      "command": {
+        "v": 1,
+        "id": "reachability:1",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q6"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 0,
+      "command": {
+        "v": 1,
+        "id": "reachability:2",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q8"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 0,
+      "command": {
+        "v": 1,
+        "id": "reachability:3",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q10"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 0,
+      "command": {
+        "v": 1,
+        "id": "reachability:4",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q12"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 0,
+      "command": {
+        "v": 1,
+        "id": "reachability:5",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q14"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 0,
+      "command": {
+        "v": 1,
+        "id": "reachability:6",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q16"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 0,
+      "command": {
+        "v": 1,
+        "id": "reachability:7",
+        "type": "TALK",
+        "args": {
+          "npcId": "n0",
+          "topic": "greet"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Deniz Yel: Kıyıyaka’da herkesin bir hikâyesi var. Son karşılaşmalarımızı hatırlıyorum.",
+        "events": [
+          "e18"
+        ]
+      }
+    },
+    {
+      "tick": 20,
+      "command": {
+        "v": 1,
+        "id": "reachability:8",
+        "type": "TALK",
+        "args": {
+          "npcId": "n0",
+          "topic": "greet"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Deniz Yel: Kıyıyaka’da herkesin bir hikâyesi var. Son karşılaşmalarımızı hatırlıyorum.",
+        "events": [
+          "e19"
+        ]
+      }
+    },
+    {
+      "tick": 20,
+      "command": {
+        "v": 1,
+        "id": "reachability:9",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q20"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 40,
+      "command": {
+        "v": 1,
+        "id": "reachability:10",
+        "type": "TALK",
+        "args": {
+          "npcId": "n0",
+          "topic": "help"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Deniz Yel: Bunu unutmayacağım. İş ararken adını söyleyebilirim.",
+        "events": [
+          "e22"
+        ]
+      }
+    },
+    {
+      "tick": 60,
+      "command": {
+        "v": 1,
+        "id": "reachability:11",
+        "type": "TALK",
+        "args": {
+          "npcId": "n0",
+          "topic": "help"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Deniz Yel: Bunu unutmayacağım. İş ararken adını söyleyebilirim.",
+        "events": [
+          "e23"
+        ]
+      }
+    },
+    {
+      "tick": 60,
+      "command": {
+        "v": 1,
+        "id": "reachability:12",
+        "type": "JOIN_FACTION",
+        "args": {
+          "factionId": "dock"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Üyeliğin kaydedildi. Kasa, sadakat ve mahalle işi sonuçları kalıcıdır.",
+        "events": []
+      }
+    },
+    {
+      "tick": 80,
+      "command": {
+        "v": 1,
+        "id": "reachability:13",
+        "type": "TALK",
+        "args": {
+          "npcId": "n0",
+          "topic": "insult"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Deniz Yel: Böyle konuşursan aramızdaki güven kalmaz.",
+        "events": [
+          "e25"
+        ]
+      }
+    },
+    {
+      "tick": 100,
+      "command": {
+        "v": 1,
+        "id": "reachability:14",
+        "type": "TALK",
+        "args": {
+          "npcId": "n0",
+          "topic": "insult"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Deniz Yel: Böyle konuşursan aramızdaki güven kalmaz.",
+        "events": [
+          "e26"
+        ]
+      }
+    },
+    {
+      "tick": 100,
+      "command": {
+        "v": 1,
+        "id": "reachability:15",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q27"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 100,
+      "command": {
+        "v": 1,
+        "id": "reachability:16",
+        "type": "MOVE_TO",
+        "args": {
+          "x": 12.5,
+          "y": 13.7
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Yol belirlendi.",
+        "events": []
+      }
+    },
+    {
+      "tick": 192,
+      "command": {
+        "v": 1,
+        "id": "reachability:17",
+        "type": "ENTER",
+        "args": {
+          "buildingId": "b-restaurant"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Sahil Sofrası",
+        "events": []
+      }
+    },
+    {
+      "tick": 192,
+      "command": {
+        "v": 1,
+        "id": "reachability:18",
+        "type": "MOVE_TO",
+        "args": {
+          "x": 4,
+          "y": 8
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Yol belirlendi.",
+        "events": []
+      }
+    },
+    {
+      "tick": 197,
+      "command": {
+        "v": 1,
+        "id": "reachability:19",
+        "type": "MOVE_TO",
+        "args": {
+          "x": 4,
+          "y": 8
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Yol belirlendi.",
+        "events": []
+      }
+    },
+    {
+      "tick": 202,
+      "command": {
+        "v": 1,
+        "id": "reachability:20",
+        "type": "MOVE_TO",
+        "args": {
+          "x": 4,
+          "y": 8
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Yol belirlendi.",
+        "events": []
+      }
+    },
+    {
+      "tick": 207,
+      "command": {
+        "v": 1,
+        "id": "reachability:21",
+        "type": "MOVE_TO",
+        "args": {
+          "x": 4,
+          "y": 8
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Yol belirlendi.",
+        "events": []
+      }
+    },
+    {
+      "tick": 208,
+      "command": {
+        "v": 1,
+        "id": "reachability:22",
+        "type": "STOP",
+        "args": {}
+      },
+      "result": {
+        "ok": true,
+        "reason": "",
+        "events": []
+      }
+    },
+    {
+      "tick": 208,
+      "command": {
+        "v": 1,
+        "id": "reachability:23",
+        "type": "ATTACK",
+        "args": {
+          "npcId": "n80"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Saldırı hazırlanıyor.",
+        "events": []
+      }
+    },
+    {
+      "tick": 331,
+      "command": {
+        "v": 1,
+        "id": "reachability:24",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q33"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 331,
+      "command": {
+        "v": 1,
+        "id": "reachability:25",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q35"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 331,
+      "command": {
+        "v": 1,
+        "id": "reachability:26",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q37"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 331,
+      "command": {
+        "v": 1,
+        "id": "reachability:27",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q39"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 331,
+      "command": {
+        "v": 1,
+        "id": "reachability:28",
+        "type": "SURRENDER",
+        "args": {}
+      },
+      "result": {
+        "ok": true,
+        "reason": "Teslim oldun; dosya sonucu kaydedildi.",
+        "events": []
+      }
+    },
+    {
+      "tick": 331,
+      "command": {
+        "v": 1,
+        "id": "reachability:29",
+        "type": "MOVE_TO",
+        "args": {
+          "x": 7,
+          "y": 10
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Yol belirlendi.",
+        "events": []
+      }
+    },
+    {
+      "tick": 350,
+      "command": {
+        "v": 1,
+        "id": "reachability:30",
+        "type": "EXIT",
+        "args": {}
+      },
+      "result": {
+        "ok": true,
+        "reason": "Sokağa çıktın.",
+        "events": []
+      }
+    },
+    {
+      "tick": 350,
+      "command": {
+        "v": 1,
+        "id": "reachability:31",
+        "type": "MOVE_TO",
+        "args": {
+          "x": 36,
+          "y": 49.7
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Yol belirlendi.",
+        "events": []
+      }
+    },
+    {
+      "tick": 637,
+      "command": {
+        "v": 1,
+        "id": "reachability:32",
+        "type": "BORROW",
+        "args": {
+          "amount": 20000
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Kredi hesabına geçti. Haftalık oyun faizi %1.",
+        "events": []
+      }
+    },
+    {
+      "tick": 637,
+      "command": {
+        "v": 1,
+        "id": "reachability:33",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q43"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 15037,
+      "command": {
+        "v": 1,
+        "id": "reachability:34",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q49"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 15037,
+      "command": {
+        "v": 1,
+        "id": "reachability:35",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q51"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 15037,
+      "command": {
+        "v": 1,
+        "id": "reachability:36",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q53"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 29437,
+      "command": {
+        "v": 1,
+        "id": "reachability:37",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q70"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 29437,
+      "command": {
+        "v": 1,
+        "id": "reachability:38",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q76"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 29437,
+      "command": {
+        "v": 1,
+        "id": "reachability:39",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q80"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 29437,
+      "command": {
+        "v": 1,
+        "id": "reachability:40",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q82"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 43837,
+      "command": {
+        "v": 1,
+        "id": "reachability:41",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q99"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 43837,
+      "command": {
+        "v": 1,
+        "id": "reachability:42",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q102"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 43837,
+      "command": {
+        "v": 1,
+        "id": "reachability:43",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q108"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 43837,
+      "command": {
+        "v": 1,
+        "id": "reachability:44",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q113"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 58237,
+      "command": {
+        "v": 1,
+        "id": "reachability:45",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q135"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 58237,
+      "command": {
+        "v": 1,
+        "id": "reachability:46",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q138"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 58237,
+      "command": {
+        "v": 1,
+        "id": "reachability:47",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q145"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 58237,
+      "command": {
+        "v": 1,
+        "id": "reachability:48",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q149"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 58237,
+      "command": {
+        "v": 1,
+        "id": "reachability:49",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q151"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 72637,
+      "command": {
+        "v": 1,
+        "id": "reachability:50",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q171"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 72637,
+      "command": {
+        "v": 1,
+        "id": "reachability:51",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q179"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 72637,
+      "command": {
+        "v": 1,
+        "id": "reachability:52",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q181"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 72637,
+      "command": {
+        "v": 1,
+        "id": "reachability:53",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q186"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 87037,
+      "command": {
+        "v": 1,
+        "id": "reachability:54",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q208"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 87037,
+      "command": {
+        "v": 1,
+        "id": "reachability:55",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q214"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 87037,
+      "command": {
+        "v": 1,
+        "id": "reachability:56",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q217"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 87037,
+      "command": {
+        "v": 1,
+        "id": "reachability:57",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q219"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 87037,
+      "command": {
+        "v": 1,
+        "id": "reachability:58",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q224"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 101437,
+      "command": {
+        "v": 1,
+        "id": "reachability:59",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q247"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 101437,
+      "command": {
+        "v": 1,
+        "id": "reachability:60",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q249"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 101437,
+      "command": {
+        "v": 1,
+        "id": "reachability:61",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q255"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    },
+    {
+      "tick": 101437,
+      "command": {
+        "v": 1,
+        "id": "reachability:62",
+        "type": "DECLINE_QUEST",
+        "args": {
+          "questId": "q262"
+        }
+      },
+      "result": {
+        "ok": true,
+        "reason": "Görev bırakıldı. Ayrılmış paket depoya iade edildi; diğer ilerleme yolları açık.",
+        "events": []
+      }
+    }
+  ],
+  "sourceStateHash": "9ec08d92ba44c9ab0860b830220500dc7e96700463a72e4d31dddcacae29b651",
+  "note": "All prerequisites arise from real initial profile, player commands, pathfinding and autonomous economy. Eligible templates are explicitly requested to test reachability; this is not proof that random scheduling shows all twenty in a short playthrough and is not human-playtest evidence."
+}

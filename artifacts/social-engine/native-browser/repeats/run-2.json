@@ -1,0 +1,15 @@
+{
+  "status": "FAIL",
+  "manifestSha256": "7acc7343ed79d1a0f3b846544acd83ff435458f0a9b8b2d912dc4a4a274ff134",
+  "sourceDigest": "4e07f6c1d9a2174cdc871e578e90740fd5841b513f011357b4e21c2913594634",
+  "mode": "headed Chromium, separate empty profile, actual automatic tab zoom and tab activation",
+  "results": [],
+  "errors": [],
+  "noDefaults": true,
+  "extension": {
+    "id": "nadifeecgkfjpgoigamchmecgobdnonn",
+    "name": "SOCIAL ENGINE isolated QA"
+  },
+  "reason": "locator.click: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'Hikâyene başla' })\u001b[22m\n\u001b[2m    - locator resolved to <button type=\"submit\" class=\"primary\">Hikâyene başla →</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n",
+  "finishedAt": "2026-11-03T20:50:06.762Z"
+}

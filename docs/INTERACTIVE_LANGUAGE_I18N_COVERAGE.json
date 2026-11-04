@@ -9,6 +9,14 @@
   ],
   "games": [
     {
+      "id": "social-engine",
+      "tr": "complete",
+      "en": "turkish-only",
+      "pl": "turkish-only",
+      "model": "district simulation with playable shifts, persistent relationships and consequences",
+      "plNote": "The Polish catalog and Resources identify DARAMCIK as a Turkish-language game."
+    },
+    {
       "id": "cete-savaslari",
       "tr": "complete",
       "en": "complete",

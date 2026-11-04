@@ -1,0 +1,10 @@
+*.log
+*.tap
+**/trace.zip
+**/video/
+**/*.webm
+**/browser-profile/
+**/*.png
+**/*.mp4
+**/*.zip
+**/*.heapsnapshot

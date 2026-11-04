@@ -1,0 +1,127 @@
+{
+  "status": "PASS",
+  "manifestSha256": "7acc7343ed79d1a0f3b846544acd83ff435458f0a9b8b2d912dc4a4a274ff134",
+  "sourceDigest": "4e07f6c1d9a2174cdc871e578e90740fd5841b513f011357b4e21c2913594634",
+  "mode": "headed Chromium, separate empty profile, actual automatic tab zoom and tab activation",
+  "results": [
+    {
+      "name": "Native automatic browser zoom200% with real menu controls",
+      "status": "PASS",
+      "before": {
+        "w": 1440,
+        "h": 727,
+        "dpr": 2,
+        "hidden": false
+      },
+      "after": {
+        "w": 720,
+        "h": 363,
+        "dpr": 4,
+        "hidden": false
+      },
+      "zoom": {
+        "factor": 2,
+        "settings": {
+          "defaultZoomFactor": 1,
+          "mode": "automatic",
+          "scope": "per-tab"
+        }
+      },
+      "menus": [
+        "Mahalle haritası",
+        "Çanta & karakter",
+        "Telefon",
+        "Bir nefes al"
+      ]
+    },
+    {
+      "name": "Actual background tab visibility pauses and reactivation resumes authoritative tick",
+      "status": "PASS",
+      "pausedTick": 12,
+      "afterWaitTick": 12,
+      "visibility": [
+        {
+          "hidden": true,
+          "tick": 12
+        },
+        {
+          "hidden": false,
+          "tick": 12
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "noDefaults": true,
+  "extension": {
+    "id": "mjgiahegafbcekjphmlmhodmmppaihcn",
+    "name": "SOCIAL ENGINE isolated QA"
+  },
+  "phase": "resume-ticks",
+  "visibilityProbe": {
+    "page": {
+      "w": 1440,
+      "h": 727,
+      "dpr": 2,
+      "hidden": true
+    },
+    "tabs": [
+      {
+        "id": 2095393496,
+        "active": false,
+        "windowId": 2095393495,
+        "url": "about:blank"
+      },
+      {
+        "id": 2095393497,
+        "active": false,
+        "windowId": 2095393495,
+        "url": "http://127.0.0.1:8097/games/social-engine/index.html?qa=1"
+      },
+      {
+        "id": 2095393498,
+        "active": true,
+        "windowId": 2095393495,
+        "url": "about:blank"
+      }
+    ]
+  },
+  "pauseObservation": {
+    "beforeTick": 12,
+    "afterTick": 12,
+    "viewport": {
+      "w": 1440,
+      "h": 727,
+      "dpr": 2,
+      "hidden": true
+    },
+    "visibility": [
+      {
+        "hidden": true,
+        "tick": 12
+      }
+    ],
+    "tabs": [
+      {
+        "id": 2095393496,
+        "active": false,
+        "windowId": 2095393495
+      },
+      {
+        "id": 2095393497,
+        "active": false,
+        "windowId": 2095393495
+      },
+      {
+        "id": 2095393498,
+        "active": true,
+        "windowId": 2095393495
+      }
+    ]
+  },
+  "pausedTicks": [
+    12,
+    12
+  ],
+  "finishedAt": "2026-11-03T20:49:44.963Z"
+}

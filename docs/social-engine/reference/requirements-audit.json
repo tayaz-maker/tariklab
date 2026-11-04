@@ -1,0 +1,191 @@
+{
+  "documents_read": [
+    "GAME_DESIGN.md",
+    "SOCIETY_ENGINE.md",
+    "TECHNICAL_SPEC.md",
+    "ACCEPTANCE_TESTS.md"
+  ],
+  "source_status": "Requirements, not verified implementation evidence.",
+  "population": {
+    "local_records": 100,
+    "background_citizens": 1000,
+    "stable_identity": true,
+    "nearby_high_fidelity_design_cap": 25,
+    "technical_100_visible_agent_benchmark": true,
+    "states": [
+      "profession",
+      "income",
+      "expenses",
+      "assets",
+      "debt",
+      "home",
+      "family",
+      "needs",
+      "relationships",
+      "reputation",
+      "memory",
+      "routines",
+      "goals",
+      "job changes",
+      "moves",
+      "crime and justice consequences"
+    ]
+  },
+  "jobs": [
+    "market",
+    "kurye",
+    "taksi",
+    "garson",
+    "tamirci",
+    "depo",
+    "ofis",
+    "güvenlik",
+    "eğitim asistanı",
+    "satış"
+  ],
+  "enterable_places": [
+    "ev",
+    "market",
+    "çayevi",
+    "klinik",
+    "polis",
+    "banka",
+    "tamirhane",
+    "ofis",
+    "kurs",
+    "restoran"
+  ],
+  "event_types": [
+    "iş ilanı",
+    "gecikmiş maaş",
+    "işten çıkarma",
+    "terfi",
+    "kira artışı",
+    "kredi vadesi",
+    "pazar fiyat şoku",
+    "stok açığı",
+    "kurye teslimatı",
+    "araç arızası",
+    "trafik sıkışıklığı",
+    "kayıp eşya",
+    "komşuya yardım",
+    "arkadaş daveti",
+    "ilişki anlaşmazlığı",
+    "eğitim bursu",
+    "mahalle tartışması",
+    "tanık ihbarı",
+    "polis kontrolü",
+    "fraksiyon uzlaşması"
+  ],
+  "event_template_fields": [
+    "trigger",
+    "preconditions",
+    "cooldownTicks",
+    "participantRoles",
+    "requiredLocation",
+    "choices",
+    "effects",
+    "expiryTicks",
+    "fallback"
+  ],
+  "core_world": [
+    "Original fictional Kıyıyaka district; residential, market, park, waterfront.",
+    "Versioned machine-readable ground/sidewalk/collision/navigation/entrance/decorative layers.",
+    "Isometric projection and inverse picking, bounded follow camera and zoom, stable depth sorting, occluder fade/culling.",
+    "Swept circle collision; graph/A* paths; no diagonal corner cutting; unreachable fallback; bounded path requests.",
+    "Separate directed lane graph with signals, reservations, parking, speed limits, pedestrian crossings and deadlock recovery.",
+    "Movement, animations, keyboard and click controls, buildings with real interior scenes and correct return portal.",
+    "Inventory unique ownership, capacity/weight, telephone apps, map and mission HUD.",
+    "Day/night, calendar, clear/cloud/rain/wind, pause/tab-hidden pause, 0.5x/1x/2x speeds."
+  ],
+  "core_systems": [
+    "Character appearance/background/traits; point budget; physics/mind/social/self-control; six 0–100 skills with daily XP cap.",
+    "Work applications, shifts, payroll, promotions, resignation and business stock; no overlapping shifts.",
+    "Integer money with double-entry conserved transfers, explicit system accounts, atomic purchase, loans matched to assets/liabilities, bounded interest and rent/property contracts.",
+    "Directed relationships, trust/affection/respect/fear/resentment/loyalty; event-grounded private knowledge, bounded memory with source/confidence.",
+    "Adult consensual romance, marriage/separation, household budget and capacity; validated family graph, guardianship and inheritance.",
+    "Courses with attendance, fees and prerequisites; certificates unlock jobs.",
+    "Three original factions with membership, leader, treasury, bounded territory influence, loyalty and persistent betrayal memory.",
+    "Combat telegraph/active/recovery, light/heavy attacks, block/dodge/surrender, stamina, injury and clinic recovery; frame-rate-independent damage.",
+    "Crime evidence and witnesses, reported knowledge, wanted state, pursuit/escape/surrender, separate justice outcomes; no omniscient police or automatic evidence-free convictions.",
+    "Business crisis affects real jobs/wages/output, debt and relationships; player choices operate on same state; viable legal progression and distress recovery path.",
+    "Causal missions derived from unresolved world facts; valid reachable actors/locations, reserved rewards/participants, deadlines, rejection/failure/cancel paths and exactly-once rewards."
+  ],
+  "architecture": [
+    "Strict TS ESM with domain free of DOM/render/storage imports.",
+    "One authoritative worker; read-only rendering projection; separate UI state.",
+    "10 Hz fixed simulation step, integer tick, deterministic order and versioned RNG; command IDs deduplicate at tick boundary.",
+    "Cap catch-up at 5 ticks/frame; controlled slow mode; render never advances authoritative state.",
+    "No Math.random, Date.now, LLM, render timing in authoritative state.",
+    "Worker crash/context loss pause safely and preserve last valid snapshot.",
+    "Separate sim/render/UI/IPC instrumentation; lazy scoped route/assets."
+  ],
+  "persistence": [
+    "Isolated tariklab-social-engine IndexedDB; three manual slots plus autosave.",
+    "Versioned checksum envelopes, atomic new revision/pointer promotion, previous verified revision retained.",
+    "Pure sequential migrations on copies; reject future schemas; preserve old games namespaces.",
+    "Import/export; copy/delete slots; quota/interrupted-write/corruption recovery; journal validation/quarantine.",
+    "Browser closed means simulation stops; optional catch-up only explicit recorded input."
+  ],
+  "quality_evidence": [
+    "60 exact acceptance IDs (38 P0,22 P1); additional source-document requirements remain in scope.",
+    "Unit/property/integration invariants, 100000 validated-command fuzz, 100000-tick uniqueness.",
+    "365-day repeated hash and ledger checks; save at day 180 then continue with equal result.",
+    "All 10 jobs and places; 20 event types including unmet prerequisites/reject/fail/save/reward branches.",
+    "100 portal transitions; 100 save roundtrips; 10000 accounting transactions; combat at 30/60 FPS.",
+    "Chromium/Firefox/WebKit critical gameplay, console/trace/video/screenshots, responsive/keyboard/200% zoom and context/worker fault tests.",
+    "Two separate 30-minute real human playtests mandatory; automated browser control does not satisfy this evidence type.",
+    "30-minute frame trace p95 <=33.3ms P0, 60-minute long tasks <=5% P1, two-hour controlled-GC heap slope <=1MB/min P1.",
+    "Existing TarikLab/TC SIM/Boardworld/Racon regressions and unchanged save namespaces.",
+    "License/asset/build/import-boundary/bundle checks, preview verified before production.",
+    "Production provider ID/alias/commit SHA matching, actual live new/legacy browser smoke and rollback rehearsal."
+  ],
+  "adr_candidates": [
+    {
+      "id": "ADR-TIME",
+      "conflict": "GAME_DESIGN WorldTick is an integer game minute, 48 real minutes/day and 30/60 Hz physics; SOCIETY proposes 1 real second/game minute (24 real minutes/day); TECH requires SIM_STEP_MS=100 and tick integer at 10 Hz.",
+      "recommendation": "Follow TECH precedence for 10 Hz authoritative tick; keep tick and derived integer gameMinute distinct, with integer accumulator. Choose and explicitly document gameplay time conversion; priority places society 24 minutes/day above game-design 48 minutes/day if treating both as normative, but society labels rate proposed. Record rationale without changing acceptance tests."
+    },
+    {
+      "id": "ADR-TIERS",
+      "conflict": "TECH says target 100 high-fidelity active nearby, GAME_DESIGN caps close full AI at25 with75 lower-rate locals, SOCIETY uses active up to100 and additional nearby wording.",
+      "recommendation": "Keep exactly100 local+1000 background persistent identities; distinguish benchmark capacity of100 visible agents from tuned default25 full-AI agents, and document tiers as scheduling views of the same population, never duplicate NPCs."
+    },
+    {
+      "id": "ADR-SCALE",
+      "conflict": "GAME_DESIGN relationships/faction influence -100..100/0..100; SOCIETY uses -1000..1000/0..1000.",
+      "recommendation": "Use society canonical integer1000 scale and derive UI100 scale by deterministic rounding; explicit shared adapters and invariant bounds."
+    },
+    {
+      "id": "ADR-SAVE",
+      "conflict": "TECH names slots/revisions/migrationJournal; SOCIETY names manifest/current/previous/journal/commands/hashes/quarantine conceptually.",
+      "recommendation": "TECH physical stores can contain revision envelopes/pointers and additional stores for journals/commands/quarantine. Preserve all recovery semantics and isolate namespace; do not pretend unimplemented journal recovery passes."
+    },
+    {
+      "id": "ADR-RESULTS",
+      "conflict": "GAME_DESIGN report terms PASS/FAIL/BLOCKED/DEFERRED differ from acceptance PASS/FAIL/SKIP/UNVERIFIED.",
+      "recommendation": "Use acceptance four test statuses; use BLOCKED/GOLD_BLOCKED/RELEASE_VERIFIED only for release decisions. Never map defer/unverified to pass."
+    },
+    {
+      "id": "ADR-PERFORMANCE",
+      "conflict": "TECH save p95<=1s, GAME_DESIGN<=2s, SOCIETY<=250ms at1100; render60FPS technical target versus acceptance P0p95<=33.3ms.",
+      "recommendation": "Preserve acceptance gates exactly; separately report stronger technical/society targets with measurements and explicitly note unmet targets. No budget rewriting."
+    },
+    {
+      "id": "ADR-VISUALS",
+      "conflict": "Reference UI/map have real Karaköy/Üsküdar place names and game-ready claims; normative design requires fictional Kıyıyaka and separately generated assets/nav data.",
+      "recommendation": "Use artwork only for palette/style/spatial inspiration. Produce original Kıyıyaka geography, sprite atlases and navigation; never crop this sheet into claimed production-ready assets without alignment/collision/animation work."
+    },
+    {
+      "id": "ADR-REUSE",
+      "conflict": "Prior checkpoint suggested isolated public/games layout, TECH default src/games TypeScript but paths provisional.",
+      "recommendation": "Choose after current repo audit. Domain may live in src while static world/art in public. Audit and adapt reusable algorithms only; no cross-game mutable imports or old-save modifications."
+    }
+  ],
+  "potential_release_blockers_not_resolved_by_code": [
+    "Two real human playtests cannot be fabricated by automated agent playback.",
+    "Production must remain blocked until all38 P0 and required staging/manual/regression evidence pass.",
+    "Gold requires all22 P1 including browser matrix and two-hour soak.",
+    "Provider deployment ID and SHA must come from actual provider/current deployment, not infer from HTTP200."
+  ]
+}

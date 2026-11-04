@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "files_compared": 125,
+  "changed": [],
+  "timestamp": "2026-11-04T07:24:10.473328+00:00",
+  "method": "SHA256 comparison to original foundation inventory",
+  "scope": "Legacy source only. Retained legacy browser records are dated and separate.",
+  "localCommit": "bc81a02487544403d29a3d176246d651e2b60a1d"
+}

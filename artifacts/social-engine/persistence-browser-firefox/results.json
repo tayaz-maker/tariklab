@@ -1,0 +1,163 @@
+{
+  "checks": [
+    {
+      "name": "database version1 upgrades without rewriting existing schema3 bytes",
+      "status": "PASS",
+      "duration_ms": 37
+    },
+    {
+      "name": "real IndexedDB state round-trip and UTF-8 profile",
+      "status": "PASS",
+      "duration_ms": 1207
+    },
+    {
+      "name": "snapshot captured before a queued caller mutation",
+      "status": "PASS",
+      "duration_ms": 859
+    },
+    {
+      "name": "export/import/copy/delete preserve world and unrelated slots",
+      "status": "PASS",
+      "duration_ms": 3012
+    },
+    {
+      "name": "aborted transaction preserves the last verified revision",
+      "status": "PASS",
+      "duration_ms": 749
+    },
+    {
+      "name": "quota exception preserves current and previous revisions",
+      "status": "PASS",
+      "duration_ms": 619
+    },
+    {
+      "name": "corrupt current revision falls back, quarantines and preserves prior state",
+      "status": "PASS",
+      "duration_ms": 818
+    },
+    {
+      "name": "future schema refuses downgrade even with a valid previous revision",
+      "status": "PASS",
+      "duration_ms": 33
+    },
+    {
+      "name": "independent repository instances reject stale concurrent writes",
+      "status": "PASS",
+      "duration_ms": 2353
+    },
+    {
+      "name": "migration is atomic, retryable and retains frozen source bytes",
+      "status": "PASS",
+      "duration_ms": 4982
+    },
+    {
+      "name": "authentic v2 save migrates through an explicit journal to schema4",
+      "status": "PASS",
+      "duration_ms": 1237
+    },
+    {
+      "name": "authentic v3 lifecycle history migrates through explicit3-to4 journal",
+      "status": "PASS",
+      "duration_ms": 1206
+    },
+    {
+      "name": "invalid import never overwrites a valid existing slot",
+      "status": "PASS",
+      "duration_ms": 516
+    },
+    {
+      "name": "twenty measured saves and loads preserve canonical state",
+      "status": "PASS",
+      "duration_ms": 20132
+    },
+    {
+      "name": "old TC SIM, Boardworld and Racon namespace canaries stay byte-identical",
+      "status": "PASS",
+      "duration_ms": 13
+    },
+    {
+      "name": "durable command journal replays exact tick operations after reopening",
+      "status": "PASS",
+      "duration_ms": 1935
+    },
+    {
+      "name": "paused commands controls and manual copy/export retain exact journal semantics",
+      "status": "PASS",
+      "duration_ms": 2966
+    },
+    {
+      "name": "journal duplicate retry is idempotent and concurrent tail/checkpoint writes conflict",
+      "status": "PASS",
+      "duration_ms": 1446
+    },
+    {
+      "name": "quota and aborted journal transaction preserve the whole last durable prefix",
+      "status": "PASS",
+      "duration_ms": 1068
+    },
+    {
+      "name": "corrupt journal suffix quarantines source and replays only verified prefix",
+      "status": "PASS",
+      "duration_ms": 609
+    },
+    {
+      "name": "atomic checkpoint prunes covered tail and accepts only a rebased suffix",
+      "status": "PASS",
+      "duration_ms": 1014
+    },
+    {
+      "name": "corrupt autosave baseline falls back and quarantines its incompatible journal",
+      "status": "PASS",
+      "duration_ms": 982
+    },
+    {
+      "name": "begin-journal CAS protects another tab tail and explicit delete removes journal records",
+      "status": "PASS",
+      "duration_ms": 1951
+    },
+    {
+      "name": "explicit auto import/copy atomically replaces journal and retains fully replayed rollback",
+      "status": "PASS",
+      "duration_ms": 5585
+    },
+    {
+      "name": "authentic schema5 snapshot and nonempty journal migrate atomically without activating formerly unknown commands",
+      "status": "PASS",
+      "duration_ms": 3959
+    },
+    {
+      "name": "close/reopen keeps the authoritative state frozen",
+      "status": "PASS",
+      "duration_ms": 2530
+    },
+    {
+      "name": "closing a tab during an active write preserves the last committed state",
+      "status": "PASS",
+      "duration_ms": 6029.066500000001
+    },
+    {
+      "name": "closing a tab during journal append retains exactly the last acknowledged durable prefix",
+      "status": "PASS",
+      "duration_ms": 4943.200167000003
+    }
+  ],
+  "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:153.0) Gecko/20100101 Firefox/153.0",
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "saveLoad": {
+    "samples": 20,
+    "p50_ms": 980,
+    "p95_ms": 1175,
+    "max_ms": 1252
+  },
+  "build_sha": "646a2b35e09eaeb6e01a6e8799b3f0e47cefa199",
+  "source_status": "working tree candidate",
+  "bundle_sha256": "38435187ab295928c54c77ed588254409e45e713df21d14a03bfe52eb25d48f6",
+  "browser": "153.0",
+  "browserKind": "firefox",
+  "consoleErrors": [],
+  "status": "PASS",
+  "timestamp": "2026-11-04T07:21:34.584Z"
+}

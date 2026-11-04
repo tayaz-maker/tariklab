@@ -1,0 +1,57 @@
+{
+  "reviewedAt": "2026-11-03T18:43:04.200Z",
+  "scope": "Independent read-only review of UI and progression; own justice fixes separately tested",
+  "status": "BROWSER_RETEST_PENDING",
+  "findings": [
+    {
+      "id": "UI-STARTUP-ASYNC",
+      "severity": "P1",
+      "finding": "First asynchronous worker-load failure left starting=true and no recoverable snapshot; compatibility controls disabled.",
+      "fix": "Root changed startup recovery to preserve initial profile/save and clear pending startup.",
+      "verification": "Source reviewed; v4 browser failure-injection pending."
+    },
+    {
+      "id": "UI-FATAL-MODAL",
+      "severity": "P1",
+      "finding": "Fatal alert did not set modal state; Escape/keyboard could resume failed endpoint.",
+      "fix": "Root sets locked fatal panel, terminates endpoint, rejects pending requests.",
+      "verification": "Source reviewed; v4 browser Escape/focus recovery pending."
+    },
+    {
+      "id": "UI-RENTAL-LOCATION",
+      "severity": "P2",
+      "finding": "Travel UI sent player to garage but rental guard requires actual car at market parking.",
+      "fix": "Rental view exposes actual current location; root wires location-based walk control.",
+      "verification": "v4 browser rental pending."
+    },
+    {
+      "id": "PROGRESSION-BASELINE",
+      "severity": "P0",
+      "finding": "Malformed lastSkills.academic=100 accepted with actual10; award+30 bypassed daily cap and gainedToday stayed0; null items/perks threw validator.",
+      "fix": "Root strengthening schema/baseline/container validation and tests.",
+      "verification": "Original reproduction executed; root retest pending."
+    },
+    {
+      "id": "JUSTICE-NPC-ARREARS",
+      "severity": "P1",
+      "finding": "NPC available-cash fine discarded unpaid liability.",
+      "fix": "Preserved unpaid amount in NPC debt plus existing receivable flags; transfer failure stops safely.",
+      "verification": "Targeted tests PASS."
+    },
+    {
+      "id": "JUSTICE-DEAD-ESTATE",
+      "severity": "P1",
+      "finding": "Pending case could charge a completed estate after NPC death.",
+      "fix": "Administrative closure preserves witness evidence and leaves settled estate/accounts/debt unchanged.",
+      "verification": "Targeted tests PASS."
+    }
+  ],
+  "testArtifacts": [
+    "artifacts/social-engine/social-justice-targeted.tap",
+    "artifacts/social-engine/quest-faults.tap"
+  ],
+  "limits": [
+    "Existing v3 DOM passes are not evidence for v4.",
+    "Initial candidate renderer/bundle still awaiting explicit root build confirmation."
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "oldRuntime": "2c565622e124057dff40c4d5ff826d7950539f40",
+  "newRuntime": "0aced0368b8664300a6ff8654bac3919d34876e9",
+  "unchangedGitTrees": {
+    "domain": "a0b645cdd1d330955d1797249116f22c6a5d6865",
+    "simulation": "0e46e0007e7e6afbb272a491b977e204e263f1aa",
+    "persistence": "a2aed94c62bb6d4825e2baa12422349894014f06",
+    "worker": "41e857148d4bb0cc525e208c68de251fe72dd5c2",
+    "rendering": "c2cbb277edc8e960a6c01c1ef5b5b8046a53544a"
+  },
+  "unchangedProductionWorkerEntry": {
+    "worker-1GLxeIzD.js": "f86c1b81eb43250251b1b31f3798927f5f4e99b0218419086cc5497f2b27c726"
+  },
+  "scope": "simulation replay and source-based persistence timing use unchanged sources, not a carryover of HUD or renderer E2E/soak time"
+}

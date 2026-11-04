@@ -1,0 +1,62 @@
+{
+  "status": "PASS",
+  "command": "npm test",
+  "exitCode": 0,
+  "startedAt": "2026-11-03T21:24:20.295Z",
+  "finishedAt": "2026-11-03T21:44:10.073Z",
+  "runtimeCommit": "8e4e5087b24c81a4e4a0cf889fb34da9fb574364",
+  "checkpointCommit": "8e4e5087b24c81a4e4a0cf889fb34da9fb574364",
+  "manifestSha256": "fbe14c6260d3e7796eafe0fd4b944a52abf49ebadff4bfcc5aad4d2c7fa50027",
+  "counts": {
+    "tests": 2948,
+    "pass": 2948,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "duration_ms": 1139518.86325
+  },
+  "summaries": {
+    "tests": [
+      2887,
+      61
+    ],
+    "pass": [
+      2887,
+      61
+    ],
+    "fail": [
+      0,
+      0
+    ],
+    "cancelled": [
+      0,
+      0
+    ],
+    "skipped": [
+      0,
+      0
+    ],
+    "todo": [
+      0,
+      0
+    ],
+    "duration_ms": [
+      1138898.50225,
+      620.361
+    ]
+  },
+  "tapSha256": "78d7d41491f48063cbbff315ede34327d5576399220bb0ecef60e32acb280244",
+  "sourcesUnchanged": true,
+  "changedFiles": [
+    "scripts/social-engine/package-candidate.mjs",
+    "scripts/social-engine/reconcile-acceptance.mjs"
+  ],
+  "excludedChanges": [
+    "scripts/social-engine/package-candidate.mjs",
+    "scripts/social-engine/reconcile-acceptance.mjs"
+  ],
+  "excludedReason": "These independent report/package helpers are not imported or executed by npm test. No tested source/runtime/fixture/package-lock input changed. Helpers have their own lint/browser verification.",
+  "inputFingerprintFile": "artifacts/social-engine/baseline/renderer-fixed-regression-inputs.json",
+  "inputFingerprintSha256": "97127eaf68a2a05f15e21053e52e1c393e28927e8073ed21d955af6932199a72"
+}

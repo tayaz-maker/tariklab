@@ -1,0 +1,21 @@
+{
+  "TC SIM": {
+    "exit": 0,
+    "script": "tc-sim-menu-browser"
+  },
+  "Boardworld": {
+    "exit": 0,
+    "script": "boardworld-browser",
+    "args": [
+      "--serve",
+      "public"
+    ]
+  },
+  "Racon Manager": {
+    "exit": 0,
+    "script": "racon-quality-browser",
+    "args": [
+      "--source"
+    ]
+  }
+}

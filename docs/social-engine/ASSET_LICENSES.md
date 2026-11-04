@@ -1,0 +1,11 @@
+# SOCIAL ENGINE asset provenance
+
+All playable art under `public/games/social-engine/assets/` is original code-generated artwork authored for this project on2026-11-03. The reproducible generator is `scripts/social-engine/generate-assets.mjs`; individual atlas frames/pivots and map layer metadata are in `assets/atlas.json` and `assets/kiyiyaka-map.json`. No third-party map, character, music, or game code is copied. TarikLab project rights apply; no external redistribution license is invented.
+
+The five user-provided concept PNGs are reference-only, not extracted as game sprites or used for navigation. Their original/normalized filenames, hashes, visual inspection and role mapping are recorded in `reference/visual-reference-map.json`. The archive SHA256 is `a7e06ac393247b13b3281afca4dc62c0471183c0856554a41c034f93af5f1aff`; CRC verified with Python zipfile.testzip().
+
+PixiJS8.21.0 is an existing MIT dependency; its original notices remain in node_modules and the existing repository vendor license. The authored game's build does not modify the existing shared Pixi distribution. No remote assets or fonts are requested. UI uses locally available fonts. Audio remains disabled according to AGENTS.project.md.
+
+The isolated game ships `public/games/social-engine/THIRD_PARTY_LICENSES.txt` containing the complete notices for its actual bundled runtime dependencies: PixiJS8.21.0, @pixi/colord2.9.6, earcut3.2.3, parse-svg-path0.2.0 and tiny-lru11.4.7. Run `node scripts/social-engine/collect-licenses.mjs` after dependency changes. It derives package names from the bundler graph and records versions, license paths and SHA256 in `artifacts/social-engine/runtime-dependency-licenses.json`. The colord package omits its license file from npm; the upstream MIT notice and its source/blob identity are retained in `scripts/social-engine/licenses/`. This text is not loaded by gameplay and does not alter the runtime bundle or its measured hashes.
+
+Current art style is a restrained original illustrated city, with reusable tile/atlas geometry. The high-detail painted concept appearance is not claimed equivalent. All14 interiors have a shared navigable plan with differentiated furniture; unique architectural plans remain a content-quality limitation.

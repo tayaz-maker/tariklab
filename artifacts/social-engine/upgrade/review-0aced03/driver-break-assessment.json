@@ -1,0 +1,307 @@
+{
+  "status": "DESIGN_HANDOFF",
+  "branch": "feature/social-engine-driver-break-assessment-sol",
+  "base": "c37b1b08150e4d4b130d6b0699d369c96934b977",
+  "sourceChanged": false,
+  "smallSafePatchFeasible": false,
+  "reason": "Parking maneuvers, driver/parked-car association, routed access for loop2 and safe merge states are absent; the nominal free market slot fails existing collision checks.",
+  "geometry": {
+    "base": "c37b1b0",
+    "lots": [
+      {
+        "id": "park-market",
+        "name": "\u00c7ar\u015f\u0131 otopark\u0131",
+        "point": {
+          "x": 31,
+          "y": 16
+        },
+        "capacity": 2,
+        "lane": 0,
+        "progress": 14,
+        "entry": {
+          "x": 31,
+          "y": 17,
+          "heading": 0
+        },
+        "directLoopAccess": [
+          0
+        ],
+        "connectorMetres": 1,
+        "outsideDoorDistance": 4.205948168962618,
+        "exit": {
+          "x": 32,
+          "y": 16
+        },
+        "walkPath": [
+          {
+            "x": 32,
+            "y": 15.5
+          },
+          {
+            "x": 27,
+            "y": 14.7
+          }
+        ],
+        "oneWayWalkMetres": 5.563595560468865,
+        "freeSlots": 1
+      },
+      {
+        "id": "park-east",
+        "name": "Meydan otopark\u0131",
+        "point": {
+          "x": 45,
+          "y": 25
+        },
+        "capacity": 2,
+        "lane": 1,
+        "progress": 53,
+        "entry": {
+          "x": 44,
+          "y": 25,
+          "heading": -1.570796327
+        },
+        "directLoopAccess": [
+          1,
+          3
+        ],
+        "connectorMetres": 1,
+        "outsideDoorDistance": 20.738611332488006,
+        "exit": {
+          "x": 46,
+          "y": 25
+        },
+        "walkPath": [
+          {
+            "x": 47,
+            "y": 20.5
+          },
+          {
+            "x": 52.5,
+            "y": 20
+          },
+          {
+            "x": 52.5,
+            "y": 15
+          },
+          {
+            "x": 40.5,
+            "y": 15
+          },
+          {
+            "x": 27,
+            "y": 14.7
+          }
+        ],
+        "oneWayWalkMetres": 40.635785659152354,
+        "freeSlots": 2
+      },
+      {
+        "id": "park-coast",
+        "name": "Sahil otopark\u0131",
+        "point": {
+          "x": 29,
+          "y": 54.5
+        },
+        "capacity": 1,
+        "lane": 1,
+        "progress": 10,
+        "entry": {
+          "x": 29,
+          "y": 53,
+          "heading": 0
+        },
+        "directLoopAccess": [
+          1
+        ],
+        "connectorMetres": 1.5,
+        "outsideDoorDistance": 39.850219572795325,
+        "exit": {
+          "x": 30,
+          "y": 54.5
+        },
+        "walkPath": [
+          {
+            "x": 27.5,
+            "y": 54
+          },
+          {
+            "x": 27.5,
+            "y": 49.5
+          },
+          {
+            "x": 30.5,
+            "y": 49.5
+          },
+          {
+            "x": 30.5,
+            "y": 38.5
+          },
+          {
+            "x": 27.5,
+            "y": 38
+          },
+          {
+            "x": 27.5,
+            "y": 31.5
+          },
+          {
+            "x": 30.5,
+            "y": 31.5
+          },
+          {
+            "x": 30.5,
+            "y": 20.5
+          },
+          {
+            "x": 27.5,
+            "y": 20
+          },
+          {
+            "x": 27,
+            "y": 14.7
+          }
+        ],
+        "oneWayWalkMetres": 52.95580494877707,
+        "freeSlots": 1
+      }
+    ],
+    "drivers": [
+      {
+        "id": "n81",
+        "vehicle": "v1",
+        "lane": 1,
+        "speed": 2.2,
+        "cash": 583568,
+        "mealPrice": 3129,
+        "canAffordMeal": true,
+        "directAccessibleLots": [
+          "park-east",
+          "park-coast"
+        ],
+        "jobId": "courier",
+        "employerId": "warehouse"
+      },
+      {
+        "id": "n82",
+        "vehicle": "v2",
+        "lane": 2,
+        "speed": 0,
+        "cash": 544423,
+        "mealPrice": 3129,
+        "canAffordMeal": true,
+        "directAccessibleLots": [],
+        "jobId": "taxi",
+        "employerId": "taxi"
+      },
+      {
+        "id": "n83",
+        "vehicle": "v3",
+        "lane": 3,
+        "speed": 1.8,
+        "cash": 359861,
+        "mealPrice": 3129,
+        "canAffordMeal": true,
+        "directAccessibleLots": [
+          "park-east"
+        ],
+        "jobId": "waiter",
+        "employerId": "tea"
+      },
+      {
+        "id": "n84",
+        "vehicle": "v4",
+        "lane": 0,
+        "speed": 2.2,
+        "cash": 0,
+        "mealPrice": 3129,
+        "canAffordMeal": false,
+        "directAccessibleLots": [
+          "park-market"
+        ],
+        "jobId": "mechanic",
+        "employerId": "garage"
+      },
+      {
+        "id": "n85",
+        "vehicle": "v5",
+        "lane": 1,
+        "speed": 2.6,
+        "cash": 494072,
+        "mealPrice": 3129,
+        "canAffordMeal": true,
+        "directAccessibleLots": [
+          "park-east",
+          "park-coast"
+        ],
+        "jobId": "warehouse",
+        "employerId": "warehouse"
+      },
+      {
+        "id": "n86",
+        "vehicle": "v6",
+        "lane": 2,
+        "speed": 1.8,
+        "cash": 590905,
+        "mealPrice": 3129,
+        "canAffordMeal": true,
+        "directAccessibleLots": [],
+        "jobId": null,
+        "employerId": null
+      },
+      {
+        "id": "n87",
+        "vehicle": "v7",
+        "lane": 3,
+        "speed": 2.2,
+        "cash": 575318,
+        "mealPrice": 3129,
+        "canAffordMeal": true,
+        "directAccessibleLots": [
+          "park-east"
+        ],
+        "jobId": "security",
+        "employerId": "police"
+      }
+    ],
+    "totalFreeSlots": 4,
+    "pathTopology": {
+      "nodes": 16,
+      "edges": 22
+    },
+    "lane2ExitToCoastExample": {
+      "crossing": {
+        "x": 19,
+        "y": 51
+      },
+      "incoming": "lane 2 westbound",
+      "outgoing": "lane 1 southbound",
+      "coastEntry": {
+        "x": 29,
+        "y": 53,
+        "heading": 0
+      }
+    }
+  },
+  "parkingProbe": {
+    "rental": {
+      "scene": "outside",
+      "x": 31,
+      "y": 16
+    },
+    "rentalHeading": 0,
+    "freeSlot": {
+      "x": 32.2,
+      "y": 16
+    },
+    "slotCenterSeparation": 1.2000000000000028,
+    "canMoveIntoExistingFreeSlot": false,
+    "canMoveToFirstConnectorPoint": false,
+    "unchangedPosition": {
+      "x": 32.2,
+      "y": 17,
+      "scene": "outside"
+    }
+  },
+  "design": "design.txt",
+  "newCommits": []
+}

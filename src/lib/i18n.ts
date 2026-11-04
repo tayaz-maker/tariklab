@@ -239,6 +239,7 @@ const PL: Record<string, string> = {
 };
 
 export const CATALOG_EN: Record<string, { title: string; subtitle: string }> = {
+  "social-engine": { title: "SOCIAL ENGINE", subtitle: "Choose your work, friends and future in DARAMCIK. Game in Turkish." },
   "cete-savaslari": { title: "Çete Savaşları", subtitle: "Racon, district, cash in TL." },
   hanedanian: {
     title: "HANEDANIAN",
@@ -288,6 +289,7 @@ export const CATALOG_EN: Record<string, { title: string; subtitle: string }> = {
 CATALOG_EN.hanedan = CATALOG_EN.hanedanian;
 
 export const CATALOG_PL: Record<string, { title: string; subtitle: string }> = {
+  "social-engine": { title: "SOCIAL ENGINE", subtitle: "Wybierz pracę, przyjaciół i przyszłość w dzielnicy DARAMCIK. Gra po turecku." },
   "cete-savaslari": { title: "Çete Savaşları", subtitle: "Racon, dzielnica, gotówka w TL." },
   hanedanian: { title: "HANEDANIAN", subtitle: "Od jednej osady do wielkiej dynastii. Czytaj mapę, buduj przyszłość." },
   racon: { title: "Racon Manager", subtitle: "Ludzie umierają. Imię zostaje." },

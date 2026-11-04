@@ -1,0 +1,110 @@
+[
+  {
+    "language": "tr",
+    "width": 320,
+    "ready": 704,
+    "overflow": 0,
+    "bytes": 2527939,
+    "requests": 111,
+    "status": "PASS"
+  },
+  {
+    "language": "tr",
+    "width": 390,
+    "ready": 768,
+    "overflow": 0,
+    "bytes": 2527939,
+    "requests": 111,
+    "status": "PASS"
+  },
+  {
+    "language": "tr",
+    "width": 1280,
+    "ready": 813,
+    "overflow": 0,
+    "bytes": 2527939,
+    "requests": 111,
+    "status": "PASS"
+  },
+  {
+    "language": "tr",
+    "width": 1440,
+    "ready": 1402,
+    "overflow": 0,
+    "bytes": 2527939,
+    "requests": 111,
+    "status": "PASS"
+  },
+  {
+    "language": "en",
+    "width": 320,
+    "ready": 1391,
+    "overflow": 0,
+    "bytes": 2527939,
+    "requests": 111,
+    "status": "PASS"
+  },
+  {
+    "language": "en",
+    "width": 390,
+    "ready": 754,
+    "overflow": 0,
+    "bytes": 2522877,
+    "requests": 110,
+    "status": "PASS"
+  },
+  {
+    "language": "en",
+    "width": 1280,
+    "ready": 776,
+    "overflow": 0,
+    "bytes": 2522877,
+    "requests": 110,
+    "status": "PASS"
+  },
+  {
+    "language": "en",
+    "width": 1440,
+    "ready": 742,
+    "overflow": 0,
+    "bytes": 2527939,
+    "requests": 111,
+    "status": "PASS"
+  },
+  {
+    "language": "pl",
+    "width": 320,
+    "ready": 705,
+    "overflow": 0,
+    "bytes": 2882738,
+    "requests": 112,
+    "status": "PASS"
+  },
+  {
+    "language": "pl",
+    "width": 390,
+    "ready": 501,
+    "overflow": 0,
+    "bytes": 2877676,
+    "requests": 111,
+    "status": "PASS"
+  },
+  {
+    "language": "pl",
+    "width": 1280,
+    "ready": 520,
+    "overflow": 0,
+    "bytes": 2877676,
+    "requests": 111,
+    "status": "PASS"
+  },
+  {
+    "language": "pl",
+    "width": 1440,
+    "ready": 449,
+    "overflow": 0,
+    "bytes": 2882738,
+    "requests": 112,
+    "status": "PASS"
+  }
+]

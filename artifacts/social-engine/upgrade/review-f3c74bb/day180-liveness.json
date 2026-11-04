@@ -1,0 +1,11 @@
+{
+  "startTick": 2592000,
+  "endTick": 2606400,
+  "inputSha256": "7d9863627f9d153e27dd5413e09de611206173d4c6b627668f107c44ca832ced",
+  "samples": 25,
+  "pedestrians": 93,
+  "distinctMoving": 0,
+  "distinctMealsObserved": 0,
+  "hungryWithMeans": 19,
+  "stalled": true
+}

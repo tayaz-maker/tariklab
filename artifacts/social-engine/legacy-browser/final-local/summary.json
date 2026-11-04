@@ -1,0 +1,28 @@
+{
+  "status": "PASS",
+  "manifestSha256": "5f6ee17a0a8c63152fb01fc2a310a26298c9c94ed5dc6682990b6bc19f9acc79",
+  "runtimeCommit": "bc81a02487544403d29a3d176246d651e2b60a1d",
+  "at": "2026-11-04T07:37:38.965111+00:00",
+  "tcSim": {
+    "expectedScenarios": 30,
+    "passedRows": 126
+  },
+  "boardworld": {
+    "viewports": [
+      1440,
+      390,
+      320
+    ]
+  },
+  "racon": {
+    "screenChecks": 60,
+    "viewports": 5,
+    "errors": []
+  },
+  "evidence": {
+    "screenshots/tc-job-start-outcome/social-engine/results.json": "a50f155b9411cffcd8e974d7a1b9f9be0ba56cc8f3dee84a25e6895299b3c191",
+    "screenshots/boardworld/result.json": "21697eb75193350b26b3f4bf29f1c6687b9da90b37a81d713995159e99e9adb3",
+    "screenshots/racon-quality/build/results.json": "b5942a51b9758ace601eeee740500703e6707239167b4c4464fe0ed43351b93d"
+  },
+  "note": "Existing unmodified game regression harnesses tested the gated local site build via standalone headless Chromium, independent profiles and loopback servers. No production verification."
+}

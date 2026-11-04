@@ -1,0 +1,130 @@
+{
+  "actors": [
+    {
+      "id": "fixture0",
+      "x": -51,
+      "y": 426,
+      "frame": "cargo-0:14265940",
+      "visible": true
+    },
+    {
+      "id": "fixture1",
+      "x": 159,
+      "y": 426,
+      "frame": "car-1:13201241",
+      "visible": true
+    },
+    {
+      "id": "fixture2",
+      "x": 369,
+      "y": 426,
+      "frame": "car-2:10860740",
+      "visible": true
+    },
+    {
+      "id": "fixture3",
+      "x": 579,
+      "y": 426,
+      "frame": "car-3:6792608",
+      "visible": true
+    },
+    {
+      "id": "fixture4",
+      "x": -51,
+      "y": 606,
+      "frame": "car-4:14735812",
+      "visible": true
+    },
+    {
+      "id": "fixture5",
+      "x": 159,
+      "y": 606,
+      "frame": "car-5:13201241",
+      "visible": true
+    },
+    {
+      "id": "fixture6",
+      "x": 369,
+      "y": 606,
+      "frame": "car-6:6792608",
+      "visible": true
+    },
+    {
+      "id": "fixture7",
+      "x": 579,
+      "y": 606,
+      "frame": "car-7:10860740",
+      "visible": true
+    }
+  ],
+  "worstDegrees": 31.67315744842368,
+  "worstHeading": 0.4852015320544236,
+  "pixels": [
+    {
+      "key": "cargo-0:14265940",
+      "magenta": 0,
+      "opaque": 3527
+    },
+    {
+      "key": "car-0:10860740",
+      "magenta": 0,
+      "opaque": 3466
+    },
+    {
+      "key": "car-2:14735812",
+      "magenta": 0,
+      "opaque": 3461
+    },
+    {
+      "key": "car-6:13201241",
+      "magenta": 0,
+      "opaque": 3465
+    },
+    {
+      "key": "car-2:10860740",
+      "magenta": 0,
+      "opaque": 3461
+    },
+    {
+      "key": "car-4:14735812",
+      "magenta": 0,
+      "opaque": 3469
+    },
+    {
+      "key": "cargo-0:6792608",
+      "magenta": 0,
+      "opaque": 3527
+    },
+    {
+      "key": "car-1:13201241",
+      "magenta": 0,
+      "opaque": 2664
+    },
+    {
+      "key": "car-3:6792608",
+      "magenta": 0,
+      "opaque": 3541
+    },
+    {
+      "key": "car-5:13201241",
+      "magenta": 0,
+      "opaque": 2664
+    },
+    {
+      "key": "car-6:6792608",
+      "magenta": 0,
+      "opaque": 3465
+    },
+    {
+      "key": "car-7:10860740",
+      "magenta": 0,
+      "opaque": 3546
+    }
+  ],
+  "errors": [],
+  "paintComparison": {
+    "changedPixels": 2534,
+    "unchangedPixels": 1579,
+    "unmaskedChanges": 0
+  }
+}

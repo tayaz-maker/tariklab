@@ -15,6 +15,7 @@ import { Route as IhtilalRouteImport } from './routes/ihtilal'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as OynaSlugRouteImport } from './routes/oyna.$slug'
+import { Route as OynaSocialEngineRouteImport } from './routes/oyna.social-engine'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -46,6 +47,11 @@ const OynaSlugRoute = OynaSlugRouteImport.update({
   path: '/oyna/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OynaSocialEngineRoute = OynaSocialEngineRouteImport.update({
+  id: '/oyna/social-engine',
+  path: '/oyna/social-engine',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -54,6 +60,7 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/oyna/$slug': typeof OynaSlugRoute
+  '/oyna/social-engine': typeof OynaSocialEngineRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -62,6 +69,7 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/oyna/$slug': typeof OynaSlugRoute
+  '/oyna/social-engine': typeof OynaSocialEngineRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -71,6 +79,7 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/oyna/$slug': typeof OynaSlugRoute
+  '/oyna/social-engine': typeof OynaSocialEngineRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -81,6 +90,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/auth/callback'
     | '/oyna/$slug'
+    | '/oyna/social-engine'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -89,6 +99,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/auth/callback'
     | '/oyna/$slug'
+    | '/oyna/social-engine'
   id:
     | '__root__'
     | '/'
@@ -97,6 +108,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/auth/callback'
     | '/oyna/$slug'
+    | '/oyna/social-engine'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -106,6 +118,7 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   AuthCallbackRoute: typeof AuthCallbackRoute
   OynaSlugRoute: typeof OynaSlugRoute
+  OynaSocialEngineRoute: typeof OynaSocialEngineRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -152,6 +165,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OynaSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/oyna/social-engine': {
+      id: '/oyna/social-engine'
+      path: '/oyna/social-engine'
+      fullPath: '/oyna/social-engine'
+      preLoaderRoute: typeof OynaSocialEngineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -162,6 +182,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   AuthCallbackRoute: AuthCallbackRoute,
   OynaSlugRoute: OynaSlugRoute,
+  OynaSocialEngineRoute: OynaSocialEngineRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

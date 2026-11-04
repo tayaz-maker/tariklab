@@ -1,0 +1,28 @@
+{
+  "criterion": "SE-036",
+  "status": "PASS",
+  "tests": 2,
+  "failures": 0,
+  "evidence": "artifacts/social-engine/quest-faults.tap",
+  "scope": "Real death closes accepted delivery; deliberate missing-reference fault exercises actual timeout repeatedly. No loop or duplicate refund.",
+  "runtime": "v24.21.0",
+  "recordedAt": "2026-11-03T18:52:17.494Z",
+  "sources": [
+    {
+      "file": "src/games/social-engine/tests/quest-faults.test.ts",
+      "sha256": "bbe95806ced2d0c6ef32624c7ef60ea49a1091177bd1443f4b9c4f873d7506a8"
+    },
+    {
+      "file": "src/games/social-engine/simulation/missions.ts",
+      "sha256": "ebf356683520ceb3b439c849fe64786e33acde8f12bae53eb48defc4d541b826"
+    },
+    {
+      "file": "src/games/social-engine/simulation/family.ts",
+      "sha256": "bad5b754261a843a645554cef4f5fef68fa893b82c029f305340ed93bbc60c83"
+    },
+    {
+      "file": "src/games/social-engine/simulation/engine.ts",
+      "sha256": "559861e1b1e065c41aa2fb81414d3dd8be004a6be0fb269364c23e188b4f9e82"
+    }
+  ]
+}

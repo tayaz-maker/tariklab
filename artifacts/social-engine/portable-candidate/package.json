@@ -1,0 +1,12 @@
+{
+  "file": "SOCIAL_ENGINE_Kiyiyaka.zip",
+  "bytes": 872690,
+  "sha256": "dd7507c1e0dcbc8769c2e248982489504aca5c5e3b53e8ade7e7eebd954d8750",
+  "files": 27,
+  "manifestSha256": "5f6ee17a0a8c63152fb01fc2a310a26298c9c94ed5dc6682990b6bc19f9acc79",
+  "status": "LOCAL_PLAYABLE_CANDIDATE_NOT_RELEASED",
+  "sourceCommit": "bc81a02487544403d29a3d176246d651e2b60a1d",
+  "crcCheck": "PASS",
+  "browserSmoke": "PASS",
+  "opensBrowserAutomatically": false
+}

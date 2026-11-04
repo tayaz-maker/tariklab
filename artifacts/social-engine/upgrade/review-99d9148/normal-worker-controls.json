@@ -1,0 +1,13 @@
+{
+  "origin": "http://127.0.0.1:8234",
+  "status": "PASS",
+  "mode": "candidate",
+  "checks": [
+    "all deployed asset hashes",
+    "character, district and recorded NPC conversation",
+    "physical D key moves screen-right",
+    "durable location, money and NPC history after page reload"
+  ],
+  "errors": [],
+  "manifestSha256": "f99509aa3dcccb828b95d91266db8b0f6d66e065e3bbd38d341195326810cb5e"
+}

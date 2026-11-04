@@ -1,0 +1,38 @@
+{
+  "status": "PASS",
+  "groups": [
+    {
+      "key": "buildings",
+      "frames": 14,
+      "visiblePixelsVerified": 1407892,
+      "before": {
+        "width": 2048,
+        "height": 2048,
+        "decodedBytes": 16777216
+      },
+      "after": {
+        "width": 1856,
+        "height": 1480,
+        "decodedBytes": 10987520,
+        "pngBytes": 281158
+      }
+    },
+    {
+      "key": "actors",
+      "frames": 136,
+      "visiblePixelsVerified": 216621,
+      "before": {
+        "width": 2048,
+        "height": 2048,
+        "decodedBytes": 16777216
+      },
+      "after": {
+        "width": 1028,
+        "height": 1156,
+        "decodedBytes": 4753472,
+        "pngBytes": 39691
+      }
+    }
+  ],
+  "scope": "Every RGBA pixel retained within a frame is byte-identical; removed pixels have zero alpha. All visible pixels retain their world-space offset from the original pivot. Animation cells/pivots are unchanged."
+}

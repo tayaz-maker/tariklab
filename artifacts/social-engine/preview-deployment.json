@@ -1,0 +1,11 @@
+{
+  "status": "DEPLOYED_SMOKE_PENDING",
+  "commit": "f0d209516aba9cd05315eae24cb00fff6df9dbcf",
+  "url": "https://social-engine-preview-f0d2095.cat-chip.workers.dev/oyna/social-engine",
+  "providerVersionId": "3adae6bb-16b9-4765-ab9a-78dc9f493792",
+  "type": "temporary isolated Cloudflare Worker",
+  "productionChanged": false,
+  "productionAccountUsed": false,
+  "claimUrlStoredInRepository": false,
+  "note": "Temporary development preview, not production nor final candidate. CLI reported upload success; real browser and byte verification follow."
+}

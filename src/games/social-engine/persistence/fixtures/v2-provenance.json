@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 2,
+  "kind": "actual pre-lifecycle candidate snapshot",
+  "worldPayloadSha256": "2616d728fb614ee6bbdaaadec8e95e19da0aec46aff6f5a7de20c9f470b201cb",
+  "sourceEngineVersion": "1.0.0-candidate.1",
+  "seed": 20261103,
+  "population": 1100
+}

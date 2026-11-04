@@ -1,0 +1,15 @@
+{
+  "tick": 2592100,
+  "newTransactions": 52,
+  "meals": 52,
+  "fullInverseWholeWorld": "PASS",
+  "validation": [],
+  "newMealSample": {
+    "id": "meal:v5:market:2592000:n154",
+    "tick": 2592010,
+    "from": "n154",
+    "to": "business:market",
+    "amount": 3129,
+    "reason": "food"
+  }
+}

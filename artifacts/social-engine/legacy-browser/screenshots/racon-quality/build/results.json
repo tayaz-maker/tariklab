@@ -1,0 +1,425 @@
+{
+  "results": [
+    {
+      "label": "320:olaylar",
+      "width": 320,
+      "scroll": 320,
+      "stage": 320,
+      "available": 320
+    },
+    {
+      "label": "320:takvim",
+      "width": 320,
+      "scroll": 320,
+      "stage": 320,
+      "available": 320
+    },
+    {
+      "label": "320:adamlar",
+      "width": 320,
+      "scroll": 320,
+      "stage": 320,
+      "available": 320
+    },
+    {
+      "label": "320:harita",
+      "width": 320,
+      "scroll": 320,
+      "stage": 320,
+      "available": 320
+    },
+    {
+      "label": "320:isler",
+      "width": 320,
+      "scroll": 320,
+      "stage": 320,
+      "available": 320
+    },
+    {
+      "label": "320:pazar",
+      "width": 320,
+      "scroll": 320,
+      "stage": 320,
+      "available": 320
+    },
+    {
+      "label": "320:emlak",
+      "width": 320,
+      "scroll": 320,
+      "stage": 320,
+      "available": 320
+    },
+    {
+      "label": "320:hayat",
+      "width": 320,
+      "scroll": 320,
+      "stage": 320,
+      "available": 320
+    },
+    {
+      "label": "320:emniyet",
+      "width": 320,
+      "scroll": 320,
+      "stage": 320,
+      "available": 320
+    },
+    {
+      "label": "320:husumet",
+      "width": 320,
+      "scroll": 320,
+      "stage": 320,
+      "available": 320
+    },
+    {
+      "label": "320:kasa",
+      "width": 320,
+      "scroll": 320,
+      "stage": 320,
+      "available": 320
+    },
+    {
+      "label": "320:siralama",
+      "width": 320,
+      "scroll": 320,
+      "stage": 320,
+      "available": 320
+    },
+    {
+      "label": "360:olaylar",
+      "width": 360,
+      "scroll": 360,
+      "stage": 360,
+      "available": 360
+    },
+    {
+      "label": "360:takvim",
+      "width": 360,
+      "scroll": 360,
+      "stage": 360,
+      "available": 360
+    },
+    {
+      "label": "360:adamlar",
+      "width": 360,
+      "scroll": 360,
+      "stage": 360,
+      "available": 360
+    },
+    {
+      "label": "360:harita",
+      "width": 360,
+      "scroll": 360,
+      "stage": 360,
+      "available": 360
+    },
+    {
+      "label": "360:isler",
+      "width": 360,
+      "scroll": 360,
+      "stage": 360,
+      "available": 360
+    },
+    {
+      "label": "360:pazar",
+      "width": 360,
+      "scroll": 360,
+      "stage": 360,
+      "available": 360
+    },
+    {
+      "label": "360:emlak",
+      "width": 360,
+      "scroll": 360,
+      "stage": 360,
+      "available": 360
+    },
+    {
+      "label": "360:hayat",
+      "width": 360,
+      "scroll": 360,
+      "stage": 360,
+      "available": 360
+    },
+    {
+      "label": "360:emniyet",
+      "width": 360,
+      "scroll": 360,
+      "stage": 360,
+      "available": 360
+    },
+    {
+      "label": "360:husumet",
+      "width": 360,
+      "scroll": 360,
+      "stage": 360,
+      "available": 360
+    },
+    {
+      "label": "360:kasa",
+      "width": 360,
+      "scroll": 360,
+      "stage": 360,
+      "available": 360
+    },
+    {
+      "label": "360:siralama",
+      "width": 360,
+      "scroll": 360,
+      "stage": 360,
+      "available": 360
+    },
+    {
+      "label": "390:olaylar",
+      "width": 390,
+      "scroll": 390,
+      "stage": 390,
+      "available": 390
+    },
+    {
+      "label": "390:takvim",
+      "width": 390,
+      "scroll": 390,
+      "stage": 390,
+      "available": 390
+    },
+    {
+      "label": "390:adamlar",
+      "width": 390,
+      "scroll": 390,
+      "stage": 390,
+      "available": 390
+    },
+    {
+      "label": "390:harita",
+      "width": 390,
+      "scroll": 390,
+      "stage": 390,
+      "available": 390
+    },
+    {
+      "label": "390:isler",
+      "width": 390,
+      "scroll": 390,
+      "stage": 390,
+      "available": 390
+    },
+    {
+      "label": "390:pazar",
+      "width": 390,
+      "scroll": 390,
+      "stage": 390,
+      "available": 390
+    },
+    {
+      "label": "390:emlak",
+      "width": 390,
+      "scroll": 390,
+      "stage": 390,
+      "available": 390
+    },
+    {
+      "label": "390:hayat",
+      "width": 390,
+      "scroll": 390,
+      "stage": 390,
+      "available": 390
+    },
+    {
+      "label": "390:emniyet",
+      "width": 390,
+      "scroll": 390,
+      "stage": 390,
+      "available": 390
+    },
+    {
+      "label": "390:husumet",
+      "width": 390,
+      "scroll": 390,
+      "stage": 390,
+      "available": 390
+    },
+    {
+      "label": "390:kasa",
+      "width": 390,
+      "scroll": 390,
+      "stage": 390,
+      "available": 390
+    },
+    {
+      "label": "390:siralama",
+      "width": 390,
+      "scroll": 390,
+      "stage": 390,
+      "available": 390
+    },
+    {
+      "label": "430:olaylar",
+      "width": 430,
+      "scroll": 430,
+      "stage": 430,
+      "available": 430
+    },
+    {
+      "label": "430:takvim",
+      "width": 430,
+      "scroll": 430,
+      "stage": 430,
+      "available": 430
+    },
+    {
+      "label": "430:adamlar",
+      "width": 430,
+      "scroll": 430,
+      "stage": 430,
+      "available": 430
+    },
+    {
+      "label": "430:harita",
+      "width": 430,
+      "scroll": 430,
+      "stage": 430,
+      "available": 430
+    },
+    {
+      "label": "430:isler",
+      "width": 430,
+      "scroll": 430,
+      "stage": 430,
+      "available": 430
+    },
+    {
+      "label": "430:pazar",
+      "width": 430,
+      "scroll": 430,
+      "stage": 430,
+      "available": 430
+    },
+    {
+      "label": "430:emlak",
+      "width": 430,
+      "scroll": 430,
+      "stage": 430,
+      "available": 430
+    },
+    {
+      "label": "430:hayat",
+      "width": 430,
+      "scroll": 430,
+      "stage": 430,
+      "available": 430
+    },
+    {
+      "label": "430:emniyet",
+      "width": 430,
+      "scroll": 430,
+      "stage": 430,
+      "available": 430
+    },
+    {
+      "label": "430:husumet",
+      "width": 430,
+      "scroll": 430,
+      "stage": 430,
+      "available": 430
+    },
+    {
+      "label": "430:kasa",
+      "width": 430,
+      "scroll": 430,
+      "stage": 430,
+      "available": 430
+    },
+    {
+      "label": "430:siralama",
+      "width": 430,
+      "scroll": 430,
+      "stage": 430,
+      "available": 430
+    },
+    {
+      "label": "1440:olaylar",
+      "width": 1440,
+      "scroll": 1440,
+      "stage": 1010,
+      "available": 1010
+    },
+    {
+      "label": "1440:takvim",
+      "width": 1440,
+      "scroll": 1440,
+      "stage": 1010,
+      "available": 1010
+    },
+    {
+      "label": "1440:adamlar",
+      "width": 1440,
+      "scroll": 1440,
+      "stage": 1010,
+      "available": 1010
+    },
+    {
+      "label": "1440:harita",
+      "width": 1440,
+      "scroll": 1440,
+      "stage": 1010,
+      "available": 1010
+    },
+    {
+      "label": "1440:isler",
+      "width": 1440,
+      "scroll": 1440,
+      "stage": 1010,
+      "available": 1010
+    },
+    {
+      "label": "1440:pazar",
+      "width": 1440,
+      "scroll": 1440,
+      "stage": 1010,
+      "available": 1010
+    },
+    {
+      "label": "1440:emlak",
+      "width": 1440,
+      "scroll": 1440,
+      "stage": 1010,
+      "available": 1010
+    },
+    {
+      "label": "1440:hayat",
+      "width": 1440,
+      "scroll": 1440,
+      "stage": 1010,
+      "available": 1010
+    },
+    {
+      "label": "1440:emniyet",
+      "width": 1440,
+      "scroll": 1440,
+      "stage": 1010,
+      "available": 1010
+    },
+    {
+      "label": "1440:husumet",
+      "width": 1440,
+      "scroll": 1440,
+      "stage": 1010,
+      "available": 1010
+    },
+    {
+      "label": "1440:kasa",
+      "width": 1440,
+      "scroll": 1440,
+      "stage": 1010,
+      "available": 1010
+    },
+    {
+      "label": "1440:siralama",
+      "width": 1440,
+      "scroll": 1440,
+      "stage": 1010,
+      "available": 1010
+    }
+  ],
+  "errors": []
+}

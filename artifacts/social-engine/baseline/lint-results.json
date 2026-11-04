@@ -1,0 +1,9 @@
+{
+  "command": "npm run lint",
+  "exitCode": 0,
+  "status": "PASS",
+  "startedAt": "2026-11-03T20:42:22.541621+00:00",
+  "durationMs": 20256,
+  "log": "artifacts/social-engine/baseline/v5-police-full-lint.log",
+  "sourceScope": "Entire repository, unchanged original rules; only explicit chrome global for extension-context QA callbacks."
+}

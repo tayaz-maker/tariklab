@@ -1,0 +1,1793 @@
+{
+  "product": "SOCIAL ENGINE",
+  "schemaVersion": 1,
+  "source": "work/intake/ACCEPTANCE_TESTS.md",
+  "source_sha256": "d496f0713313e5a3e1f14a75067efaee5751729a5242f20bdcae213249442772",
+  "criteria_modified": false,
+  "release_decision": "BLOCKED",
+  "gate_rules": {
+    "P0": "Any non-PASS blocks production.",
+    "P1": "Any non-PASS blocks Gold.",
+    "SKIP": "Not PASS.",
+    "UNVERIFIED": "Not PASS.",
+    "required_evidence": [
+      "two separate 30-minute real human playtests",
+      "full original game regressions",
+      "current Chromium Firefox WebKit critical flows",
+      "365-day simulation and 180-day resume equivalence",
+      "performance trace and two-hour heap soak",
+      "staging verification before production",
+      "production provider ID, alias, SHA, live smoke and rollback"
+    ]
+  },
+  "results": [
+    {
+      "id": "SE-001",
+      "section": "İlk açılış",
+      "precondition": "Temiz profil",
+      "action": "URL aç",
+      "expected": "Menü hatasız açılır",
+      "priority": "P0",
+      "automation": "Playwright",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/browser-chromium/results.json",
+        "artifacts/social-engine/browser-chromium/trace.zip"
+      ],
+      "seed": 20261103,
+      "environment": {
+        "browser": "156.0.8078.80",
+        "base": "http://127.0.0.1:8097"
+      },
+      "build_sha": null,
+      "duration_ms": 245.42624999999987,
+      "reason": "Actual Chromium 156.0.8078.80 clean-profile critical flow; exact assertions reviewed.",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Public commands and QA fixed-step acceleration for bounded interaction fixtures; not a 30-minute playtest."
+    },
+    {
+      "id": "SE-002",
+      "section": "İlk açılış",
+      "precondition": "Kayıt yok",
+      "action": "Yeni oyun",
+      "expected": "Tek oyuncu oluşur",
+      "priority": "P0",
+      "automation": "E2E",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/browser-chromium/results.json",
+        "artifacts/social-engine/browser-chromium/trace.zip"
+      ],
+      "seed": 20261103,
+      "environment": {
+        "browser": "156.0.8078.80",
+        "base": "http://127.0.0.1:8097"
+      },
+      "build_sha": null,
+      "duration_ms": 825.033625,
+      "reason": "Actual Chromium 156.0.8078.80 clean-profile critical flow; exact assertions reviewed.",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Public commands and QA fixed-step acceleration for bounded interaction fixtures; not a 30-minute playtest."
+    },
+    {
+      "id": "SE-003",
+      "section": "İlk açılış",
+      "precondition": "Başlatma ekranı",
+      "action": "Çift tıkla",
+      "expected": "Çift kayıt oluşmaz",
+      "priority": "P1",
+      "automation": "E2E",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/ui-browser/results.json",
+        "artifacts/social-engine/ui-browser/trace.zip"
+      ],
+      "seed": 20261103,
+      "environment": {
+        "browser": "156.0.8078.80",
+        "sourceHashes": {
+          "src/games/social-engine/ui/app.ts": "72ee7cf98819bfd6312563f952cfee7b86cffec896d0adbae8886438f57fe31e",
+          "src/games/social-engine/ui/styles.css": "d79ca25bd1dcfc099703f6983a296d37b44f0f2ec96bc5fecc85e39d13bd15ce",
+          "src/games/social-engine/worker/entry.ts": "5f069cddcd04a514f508280bd4237d1a7def4b2e011deae7d2fc86d6db3e2e88",
+          "src/games/social-engine/persistence/repository.ts": "f61aa99109ea1e1f0ce1c246ff89a393428529e6672b1616d3e7b49dffe73578"
+        }
+      },
+      "build_sha": "f0d209516aba9cd05315eae24cb00fff6df9dbcf",
+      "duration_ms": 1445.7624580000006,
+      "reason": "double submit creates one persistent player and preserves chosen profile",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Actual UI/form/menu, isolated browser profile."
+    },
+    {
+      "id": "SE-004",
+      "section": "Karakter oluşturma",
+      "precondition": "Form açık",
+      "action": "Karakter oluştur",
+      "expected": "Seçimler korunur",
+      "priority": "P0",
+      "automation": "E2E",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/browser-chromium/results.json",
+        "artifacts/social-engine/browser-chromium/trace.zip"
+      ],
+      "seed": 20261103,
+      "environment": {
+        "browser": "156.0.8078.80",
+        "base": "http://127.0.0.1:8097"
+      },
+      "build_sha": null,
+      "duration_ms": 825.033625,
+      "reason": "Actual Chromium 156.0.8078.80 clean-profile critical flow; exact assertions reviewed.",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Public commands and QA fixed-step acceleration for bounded interaction fixtures; not a 30-minute playtest."
+    },
+    {
+      "id": "SE-005",
+      "section": "Karakter oluşturma",
+      "precondition": "Form açık",
+      "action": "Geçersiz ad",
+      "expected": "Güvenli doğrulama",
+      "priority": "P0",
+      "automation": "E2E",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/browser-chromium/results.json",
+        "artifacts/social-engine/browser-chromium/trace.zip"
+      ],
+      "seed": 20261103,
+      "environment": {
+        "browser": "156.0.8078.80",
+        "base": "http://127.0.0.1:8097"
+      },
+      "build_sha": null,
+      "duration_ms": 62.46054200000003,
+      "reason": "Actual Chromium 156.0.8078.80 clean-profile critical flow; exact assertions reviewed.",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Public commands and QA fixed-step acceleration for bounded interaction fixtures; not a 30-minute playtest."
+    },
+    {
+      "id": "SE-006",
+      "section": "Karakter oluşturma",
+      "precondition": "Puan bütçesi",
+      "action": "Limiti aş",
+      "expected": "Aşım engellenir",
+      "priority": "P1",
+      "automation": "Property",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/ui-browser/results.json",
+        "artifacts/social-engine/ui-browser/trace.zip"
+      ],
+      "seed": 20261103,
+      "environment": {
+        "browser": "156.0.8078.80",
+        "sourceHashes": {
+          "src/games/social-engine/ui/app.ts": "72ee7cf98819bfd6312563f952cfee7b86cffec896d0adbae8886438f57fe31e",
+          "src/games/social-engine/ui/styles.css": "d79ca25bd1dcfc099703f6983a296d37b44f0f2ec96bc5fecc85e39d13bd15ce",
+          "src/games/social-engine/worker/entry.ts": "5f069cddcd04a514f508280bd4237d1a7def4b2e011deae7d2fc86d6db3e2e88",
+          "src/games/social-engine/persistence/repository.ts": "f61aa99109ea1e1f0ce1c246ff89a393428529e6672b1616d3e7b49dffe73578"
+        }
+      },
+      "build_sha": "f0d209516aba9cd05315eae24cb00fff6df9dbcf",
+      "duration_ms": 340.36950000000024,
+      "reason": "invalid profile names and excessive attribute total are rejected through real form",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Actual UI/form/menu, isolated browser profile."
+    },
+    {
+      "id": "SE-007",
+      "section": "İzometrik hareket ve kamera",
+      "precondition": "Harita açık",
+      "action": "WASD ve tıklama",
+      "expected": "Doğru koordinat",
+      "priority": "P1",
+      "automation": "E2E",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/browser-chromium/results.json",
+        "artifacts/social-engine/browser-chromium/trace.zip"
+      ],
+      "seed": 20261103,
+      "environment": {
+        "browser": "156.0.8078.80",
+        "base": "http://127.0.0.1:8097"
+      },
+      "build_sha": null,
+      "duration_ms": 5106.915583999999,
+      "reason": "Actual Chromium 156.0.8078.80 clean-profile critical flow; exact assertions reviewed.",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Public commands and QA fixed-step acceleration for bounded interaction fixtures; not a 30-minute playtest."
+    },
+    {
+      "id": "SE-008",
+      "section": "İzometrik hareket ve kamera",
+      "precondition": "Harita kenarı",
+      "action": "Kamera takip",
+      "expected": "Sınır korunur",
+      "priority": "P1",
+      "automation": "E2E",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/browser-evidence/results.json",
+        "artifacts/social-engine/browser-evidence/trace.zip"
+      ],
+      "seed": 20261103,
+      "environment": {
+        "browser": "156.0.8078.80",
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "headless": true
+      },
+      "build_sha": "762c050ead437c99901332d10078817dfc375eb1",
+      "duration_ms": 52640.099208,
+      "reason": "Camera keeps player visible at four traversable world edges at three zoom levels",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": {
+        "manifestSha256": "8357ba7a5494cc08439ecc5593ad27039c5bfecd8389d27865d6f5789b14cc29",
+        "sourceDigest": "e00b145b918ae9fd76da6ffdaf5d9baac4c16b0ae9318058589f968117ce0b4a",
+        "note": "Actual canvas and DOM; public commands; QA fixed-step acceleration."
+      }
+    },
+    {
+      "id": "SE-009",
+      "section": "İzometrik hareket ve kamera",
+      "precondition": "Oyun açık",
+      "action": "Pencereyi boyutlandır",
+      "expected": "Hedef kaymaz",
+      "priority": "P1",
+      "automation": "E2E",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/browser-chromium/results.json",
+        "artifacts/social-engine/browser-chromium/trace.zip"
+      ],
+      "seed": 20261103,
+      "environment": {
+        "browser": "156.0.8078.80",
+        "base": "http://127.0.0.1:8097"
+      },
+      "build_sha": null,
+      "duration_ms": 3361.0575419999996,
+      "reason": "Actual Chromium 156.0.8078.80 clean-profile critical flow; exact assertions reviewed.",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Public commands and QA fixed-step acceleration for bounded interaction fixtures; not a 30-minute playtest."
+    },
+    {
+      "id": "SE-010",
+      "section": "Çarpışma ve navigasyon",
+      "precondition": "Duvar var",
+      "action": "Duvara koş",
+      "expected": "Duvar geçilmez",
+      "priority": "P0",
+      "automation": "Physics",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json",
+        "artifacts/social-engine/acceptance-unit.tap"
+      ],
+      "seed": null,
+      "environment": {
+        "runtime": "Node v24.21.0",
+        "platform": "macOS Apple M2",
+        "source_manifest": "artifacts/social-engine/acceptance-unit.json#sourceFiles"
+      },
+      "build_sha": "762c050ead437c99901332d10078817dfc375eb1",
+      "duration_ms": 434.472042,
+      "reason": "SE-010 SE-012: fixed movement swept collision and world limits resist 10000 held inputs",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Pure domain/property/fault fixtures; not browser or human gameplay."
+    },
+    {
+      "id": "SE-011",
+      "section": "Çarpışma ve navigasyon",
+      "precondition": "Kapalı yol",
+      "action": "Rota iste",
+      "expected": "Geçerli rota veya ret",
+      "priority": "P0",
+      "automation": "Graph",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json",
+        "artifacts/social-engine/acceptance-unit.tap"
+      ],
+      "seed": null,
+      "environment": {
+        "runtime": "Node v24.21.0",
+        "platform": "macOS Apple M2",
+        "source_manifest": "artifacts/social-engine/acceptance-unit.json#sourceFiles"
+      },
+      "build_sha": "762c050ead437c99901332d10078817dfc375eb1",
+      "duration_ms": 69.20025,
+      "reason": "SE-011: obstructed target refuses movement and connected target follows valid path",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Pure domain/property/fault fixtures; not browser or human gameplay."
+    },
+    {
+      "id": "SE-012",
+      "section": "Çarpışma ve navigasyon",
+      "precondition": "Harita sınırı",
+      "action": "Dışarı yürü",
+      "expected": "Geçersiz konum yok",
+      "priority": "P0",
+      "automation": "Fuzz",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json",
+        "artifacts/social-engine/acceptance-unit.tap"
+      ],
+      "seed": null,
+      "environment": {
+        "runtime": "Node v24.21.0",
+        "platform": "macOS Apple M2",
+        "source_manifest": "artifacts/social-engine/acceptance-unit.json#sourceFiles"
+      },
+      "build_sha": "762c050ead437c99901332d10078817dfc375eb1",
+      "duration_ms": 2331.462167,
+      "reason": "SE-010 SE-012: fixed movement swept collision and world limits resist 10000 held inputs; SE-012 SE-023 SE-038: 100000 validated malformed/boundary commands never corrupt state",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Pure domain/property/fault fixtures; not browser or human gameplay."
+    },
+    {
+      "id": "SE-013",
+      "section": "Bina giriş çıkış",
+      "precondition": "Bina açık",
+      "action": "İçeri gir",
+      "expected": "Doğru sahne",
+      "priority": "P1",
+      "automation": "E2E",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/browser-chromium/results.json",
+        "artifacts/social-engine/browser-chromium/trace.zip"
+      ],
+      "seed": 20261103,
+      "environment": {
+        "browser": "156.0.8078.80",
+        "base": "http://127.0.0.1:8097"
+      },
+      "build_sha": null,
+      "duration_ms": 1581.0621250000004,
+      "reason": "Actual Chromium 156.0.8078.80 clean-profile critical flow; exact assertions reviewed.",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Public commands and QA fixed-step acceleration for bounded interaction fixtures; not a 30-minute playtest."
+    },
+    {
+      "id": "SE-014",
+      "section": "Bina giriş çıkış",
+      "precondition": "İç mekân",
+      "action": "Dışarı çık",
+      "expected": "Doğru kapı",
+      "priority": "P0",
+      "automation": "E2E",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/browser-chromium/results.json",
+        "artifacts/social-engine/browser-chromium/trace.zip"
+      ],
+      "seed": 20261103,
+      "environment": {
+        "browser": "156.0.8078.80",
+        "base": "http://127.0.0.1:8097"
+      },
+      "build_sha": null,
+      "duration_ms": 393.25358400000005,
+      "reason": "Actual Chromium 156.0.8078.80 clean-profile critical flow; exact assertions reviewed.",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Public commands and QA fixed-step acceleration for bounded interaction fixtures; not a 30-minute playtest."
+    },
+    {
+      "id": "SE-015",
+      "section": "Bina giriş çıkış",
+      "precondition": "Geçiş aktif",
+      "action": "Etkileşimi tekrarla",
+      "expected": "Çift oyuncu yok",
+      "priority": "P1",
+      "automation": "Invariant",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json",
+        "artifacts/social-engine/acceptance-unit.tap"
+      ],
+      "seed": null,
+      "environment": {
+        "runtime": "Node v24.21.0",
+        "platform": "macOS Apple M2",
+        "source_manifest": "artifacts/social-engine/acceptance-unit.json#sourceFiles"
+      },
+      "build_sha": "762c050ead437c99901332d10078817dfc375eb1",
+      "duration_ms": 895.86975,
+      "reason": "SE-014 SE-015 SE-017: 100 repeated interior transitions preserve one player and exact door",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Pure domain/property/fault fixtures; not browser or human gameplay."
+    },
+    {
+      "id": "SE-016",
+      "section": "NPC etkileşimleri",
+      "precondition": "NPC yakın",
+      "action": "Konuş",
+      "expected": "Doğru diyalog",
+      "priority": "P0",
+      "automation": "E2E",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/browser-chromium/results.json",
+        "artifacts/social-engine/browser-chromium/trace.zip"
+      ],
+      "seed": 20261103,
+      "environment": {
+        "browser": "156.0.8078.80",
+        "base": "http://127.0.0.1:8097"
+      },
+      "build_sha": null,
+      "duration_ms": 1043.6847090000006,
+      "reason": "Actual Chromium 156.0.8078.80 clean-profile critical flow; exact assertions reviewed.",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Public commands and QA fixed-step acceleration for bounded interaction fixtures; not a 30-minute playtest."
+    },
+    {
+      "id": "SE-017",
+      "section": "NPC etkileşimleri",
+      "precondition": "NPC hareketli",
+      "action": "Sahne değiştir",
+      "expected": "Tek canonical konum",
+      "priority": "P0",
+      "automation": "Invariant",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json",
+        "artifacts/social-engine/acceptance-unit.tap"
+      ],
+      "seed": null,
+      "environment": {
+        "runtime": "Node v24.21.0",
+        "platform": "macOS Apple M2",
+        "source_manifest": "artifacts/social-engine/acceptance-unit.json#sourceFiles"
+      },
+      "build_sha": "762c050ead437c99901332d10078817dfc375eb1",
+      "duration_ms": 895.86975,
+      "reason": "SE-014 SE-015 SE-017: 100 repeated interior transitions preserve one player and exact door",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Pure domain/property/fault fixtures; not browser or human gameplay."
+    },
+    {
+      "id": "SE-018",
+      "section": "NPC etkileşimleri",
+      "precondition": "NPC meşgul",
+      "action": "Eşzamanlı konuş",
+      "expected": "Çift işlem yok",
+      "priority": "P1",
+      "automation": "Race",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/browser-evidence/results.json",
+        "artifacts/social-engine/browser-evidence/trace.zip"
+      ],
+      "seed": 20261103,
+      "environment": {
+        "browser": "156.0.8078.80",
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "headless": true
+      },
+      "build_sha": "762c050ead437c99901332d10078817dfc375eb1",
+      "duration_ms": 9970.709707999998,
+      "reason": "Concurrent dialogue commands resolve once in one authoritative tick",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": {
+        "manifestSha256": "8357ba7a5494cc08439ecc5593ad27039c5bfecd8389d27865d6f5789b14cc29",
+        "sourceDigest": "e00b145b918ae9fd76da6ffdaf5d9baac4c16b0ae9318058589f968117ce0b4a",
+        "note": "Actual canvas and DOM; public commands; QA fixed-step acceleration."
+      }
+    },
+    {
+      "id": "SE-019",
+      "section": "Meslekler ve kazanç",
+      "precondition": "İş var",
+      "action": "Vardiya tamamla",
+      "expected": "Ücret ödenir",
+      "priority": "P1",
+      "automation": "E2E",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/browser-chromium/results.json",
+        "artifacts/social-engine/browser-chromium/trace.zip"
+      ],
+      "seed": 20261103,
+      "environment": {
+        "browser": "156.0.8078.80",
+        "base": "http://127.0.0.1:8097"
+      },
+      "build_sha": null,
+      "duration_ms": 1973.8940000000002,
+      "reason": "Actual Chromium 156.0.8078.80 clean-profile critical flow; exact assertions reviewed.",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Public commands and QA fixed-step acceleration for bounded interaction fixtures; not a 30-minute playtest."
+    },
+    {
+      "id": "SE-020",
+      "section": "Meslekler ve kazanç",
+      "precondition": "Vardiya bitti",
+      "action": "İki kez tahsil",
+      "expected": "Tek ödeme",
+      "priority": "P0",
+      "automation": "Ledger",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json",
+        "artifacts/social-engine/acceptance-unit.tap"
+      ],
+      "seed": null,
+      "environment": {
+        "runtime": "Node v24.21.0",
+        "platform": "macOS Apple M2",
+        "source_manifest": "artifacts/social-engine/acceptance-unit.json#sourceFiles"
+      },
+      "build_sha": "762c050ead437c99901332d10078817dfc375eb1",
+      "duration_ms": 311.232792,
+      "reason": "SE-020 SE-021: every occupation pays once, changes canonical employment, overlapping shifts rejected",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Pure domain/property/fault fixtures; not browser or human gameplay."
+    },
+    {
+      "id": "SE-021",
+      "section": "Meslekler ve kazanç",
+      "precondition": "İki iş var",
+      "action": "İş değiştir",
+      "expected": "Takvim güncel",
+      "priority": "P1",
+      "automation": "Integration",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json",
+        "artifacts/social-engine/acceptance-unit.tap"
+      ],
+      "seed": null,
+      "environment": {
+        "runtime": "Node v24.21.0",
+        "platform": "macOS Apple M2",
+        "source_manifest": "artifacts/social-engine/acceptance-unit.json#sourceFiles"
+      },
+      "build_sha": "762c050ead437c99901332d10078817dfc375eb1",
+      "duration_ms": 311.232792,
+      "reason": "SE-020 SE-021: every occupation pays once, changes canonical employment, overlapping shifts rejected",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Pure domain/property/fault fixtures; not browser or human gameplay."
+    },
+    {
+      "id": "SE-022",
+      "section": "Ekonomi alışveriş borç",
+      "precondition": "Bakiye var",
+      "action": "Ürün al",
+      "expected": "Stok ve nakit mutabık",
+      "priority": "P0",
+      "automation": "Ledger",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json",
+        "artifacts/social-engine/acceptance-unit.tap"
+      ],
+      "seed": null,
+      "environment": {
+        "runtime": "Node v24.21.0",
+        "platform": "macOS Apple M2",
+        "source_manifest": "artifacts/social-engine/acceptance-unit.json#sourceFiles"
+      },
+      "build_sha": "762c050ead437c99901332d10078817dfc375eb1",
+      "duration_ms": 26.758292,
+      "reason": "SE-022 SE-023: purchase atomically balances cash, stock and inventory; invalid and duplicate commands fail",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Pure domain/property/fault fixtures; not browser or human gameplay."
+    },
+    {
+      "id": "SE-023",
+      "section": "Ekonomi alışveriş borç",
+      "precondition": "Bakiye yetersiz",
+      "action": "Ürün al",
+      "expected": "Yetkisiz negatif yok",
+      "priority": "P0",
+      "automation": "Property",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json",
+        "artifacts/social-engine/acceptance-unit.tap"
+      ],
+      "seed": null,
+      "environment": {
+        "runtime": "Node v24.21.0",
+        "platform": "macOS Apple M2",
+        "source_manifest": "artifacts/social-engine/acceptance-unit.json#sourceFiles"
+      },
+      "build_sha": "762c050ead437c99901332d10078817dfc375eb1",
+      "duration_ms": 1923.748417,
+      "reason": "SE-022 SE-023: purchase atomically balances cash, stock and inventory; invalid and duplicate commands fail; SE-012 SE-023 SE-038: 100000 validated malformed/boundary commands never corrupt state",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Pure domain/property/fault fixtures; not browser or human gameplay."
+    },
+    {
+      "id": "SE-024",
+      "section": "Ekonomi alışveriş borç",
+      "precondition": "Borç var",
+      "action": "Faiz ve ödeme",
+      "expected": "Borç defteri mutabık",
+      "priority": "P0",
+      "automation": "Ledger",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json",
+        "artifacts/social-engine/acceptance-unit.tap"
+      ],
+      "seed": null,
+      "environment": {
+        "runtime": "Node v24.21.0",
+        "platform": "macOS Apple M2",
+        "source_manifest": "artifacts/social-engine/acceptance-unit.json#sourceFiles"
+      },
+      "build_sha": "762c050ead437c99901332d10078817dfc375eb1",
+      "duration_ms": 966.453834,
+      "reason": "SE-024: principal, weekly interest and payment reconcile bank assets and player liabilities",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Pure domain/property/fault fixtures; not browser or human gameplay."
+    },
+    {
+      "id": "SE-025",
+      "section": "Sosyal ilişkiler hafıza",
+      "precondition": "İki karakter",
+      "action": "Etkileş",
+      "expected": "İlişki değişir",
+      "priority": "P1",
+      "automation": "Simulation",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json",
+        "artifacts/social-engine/acceptance-unit.tap"
+      ],
+      "seed": null,
+      "environment": {
+        "runtime": "Node v24.21.0",
+        "platform": "macOS Apple M2",
+        "source_manifest": "artifacts/social-engine/acceptance-unit.json#sourceFiles"
+      },
+      "build_sha": "762c050ead437c99901332d10078817dfc375eb1",
+      "duration_ms": 56.340625,
+      "reason": "SE-016 SE-018 SE-025 SE-027: proximity, cooldown, knowledge and social consequences",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Pure domain/property/fault fixtures; not browser or human gameplay."
+    },
+    {
+      "id": "SE-026",
+      "section": "Sosyal ilişkiler hafıza",
+      "precondition": "İlişki var",
+      "action": "Kaydet yükle",
+      "expected": "Grafik korunur",
+      "priority": "P0",
+      "automation": "Roundtrip",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json",
+        "artifacts/social-engine/acceptance-unit.tap"
+      ],
+      "seed": null,
+      "environment": {
+        "runtime": "Node v24.21.0",
+        "platform": "macOS Apple M2",
+        "source_manifest": "artifacts/social-engine/acceptance-unit.json#sourceFiles"
+      },
+      "build_sha": "762c050ead437c99901332d10078817dfc375eb1",
+      "duration_ms": 468.109708,
+      "reason": "SE-026 SE-038 SE-039 SE-040: canonical snapshot preserves relational/economic state and resumes identical ticks",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Pure domain/property/fault fixtures; not browser or human gameplay."
+    },
+    {
+      "id": "SE-027",
+      "section": "Sosyal ilişkiler hafıza",
+      "precondition": "Gizli olay",
+      "action": "NPC bilgisini kontrol et",
+      "expected": "Nedensiz bilgi yok",
+      "priority": "P1",
+      "automation": "Invariant",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json",
+        "artifacts/social-engine/acceptance-unit.tap"
+      ],
+      "seed": null,
+      "environment": {
+        "runtime": "Node v24.21.0",
+        "platform": "macOS Apple M2",
+        "source_manifest": "artifacts/social-engine/acceptance-unit.json#sourceFiles"
+      },
+      "build_sha": "762c050ead437c99901332d10078817dfc375eb1",
+      "duration_ms": 96.293625,
+      "reason": "SE-016 SE-018 SE-025 SE-027: proximity, cooldown, knowledge and social consequences; SE-027 SE-029: unseen assault is not automatically known to police",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Pure domain/property/fault fixtures; not browser or human gameplay."
+    },
+    {
+      "id": "SE-028",
+      "section": "Çete itibar polis",
+      "precondition": "İtibar aktif",
+      "action": "Puan değiştir",
+      "expected": "Etkiler tutarlı",
+      "priority": "P0",
+      "automation": "Simulation",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json",
+        "artifacts/social-engine/acceptance-unit.tap"
+      ],
+      "seed": null,
+      "environment": {
+        "runtime": "Node v24.21.0",
+        "platform": "macOS Apple M2",
+        "source_manifest": "artifacts/social-engine/acceptance-unit.json#sourceFiles"
+      },
+      "build_sha": "762c050ead437c99901332d10078817dfc375eb1",
+      "duration_ms": 41.321584,
+      "reason": "SE-028 SE-029 SE-030: witnessed assault produces delayed report, evidence, pursuit and exact fine",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Pure domain/property/fault fixtures; not browser or human gameplay."
+    },
+    {
+      "id": "SE-029",
+      "section": "Çete itibar polis",
+      "precondition": "Suç var",
+      "action": "Tanık ve polis tetikle",
+      "expected": "Kurala uygun tepki",
+      "priority": "P0",
+      "automation": "Scenario",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json",
+        "artifacts/social-engine/acceptance-unit.tap"
+      ],
+      "seed": null,
+      "environment": {
+        "runtime": "Node v24.21.0",
+        "platform": "macOS Apple M2",
+        "source_manifest": "artifacts/social-engine/acceptance-unit.json#sourceFiles"
+      },
+      "build_sha": "762c050ead437c99901332d10078817dfc375eb1",
+      "duration_ms": 81.274584,
+      "reason": "SE-028 SE-029 SE-030: witnessed assault produces delayed report, evidence, pursuit and exact fine; SE-027 SE-029: unseen assault is not automatically known to police",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Pure domain/property/fault fixtures; not browser or human gameplay."
+    },
+    {
+      "id": "SE-030",
+      "section": "Çete itibar polis",
+      "precondition": "Takip var",
+      "action": "Kaç veya teslim ol",
+      "expected": "Takip sonlanır",
+      "priority": "P1",
+      "automation": "FSM",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json",
+        "artifacts/social-engine/acceptance-unit.tap"
+      ],
+      "seed": null,
+      "environment": {
+        "runtime": "Node v24.21.0",
+        "platform": "macOS Apple M2",
+        "source_manifest": "artifacts/social-engine/acceptance-unit.json#sourceFiles"
+      },
+      "build_sha": "762c050ead437c99901332d10078817dfc375eb1",
+      "duration_ms": 41.321584,
+      "reason": "SE-028 SE-029 SE-030: witnessed assault produces delayed report, evidence, pursuit and exact fine",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Pure domain/property/fault fixtures; not browser or human gameplay."
+    },
+    {
+      "id": "SE-031",
+      "section": "Dövüş ve araçlar",
+      "precondition": "Dövüş var",
+      "action": "Saldır savun",
+      "expected": "Can stamina tutarlı",
+      "priority": "P1",
+      "automation": "E2E",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json",
+        "artifacts/social-engine/acceptance-unit.tap"
+      ],
+      "seed": null,
+      "environment": {
+        "runtime": "Node v24.21.0",
+        "platform": "macOS Apple M2",
+        "source_manifest": "artifacts/social-engine/acceptance-unit.json#sourceFiles"
+      },
+      "build_sha": "762c050ead437c99901332d10078817dfc375eb1",
+      "duration_ms": 108.876417,
+      "reason": "SE-031: combat windup/cooldown/stamina and block are deterministic independent of render grouping",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Pure domain/property/fault fixtures; not browser or human gameplay."
+    },
+    {
+      "id": "SE-032",
+      "section": "Dövüş ve araçlar",
+      "precondition": "Yol grafı",
+      "action": "Araç rotası",
+      "expected": "Yalnız sürülebilir kenarlar",
+      "priority": "P0",
+      "automation": "Graph",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json",
+        "artifacts/social-engine/acceptance-unit.tap"
+      ],
+      "seed": null,
+      "environment": {
+        "runtime": "Node v24.21.0",
+        "platform": "macOS Apple M2",
+        "source_manifest": "artifacts/social-engine/acceptance-unit.json#sourceFiles"
+      },
+      "build_sha": "762c050ead437c99901332d10078817dfc375eb1",
+      "duration_ms": 49.912041,
+      "reason": "SE-032 SE-033: driven car and saved driver remain on directed lanes with collision spacing",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Pure domain/property/fault fixtures; not browser or human gameplay."
+    },
+    {
+      "id": "SE-033",
+      "section": "Dövüş ve araçlar",
+      "precondition": "Araç var",
+      "action": "Bin sür kaydet",
+      "expected": "Konum korunur",
+      "priority": "P0",
+      "automation": "E2E",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/browser-evidence/results.json",
+        "artifacts/social-engine/browser-evidence/trace.zip"
+      ],
+      "seed": 20261103,
+      "environment": {
+        "browser": "156.0.8078.80",
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "headless": true
+      },
+      "build_sha": "762c050ead437c99901332d10078817dfc375eb1",
+      "duration_ms": 7227.030083000005,
+      "reason": "Driven vehicle, lane progress and player coordinates survive real IndexedDB save/load exactly",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": {
+        "manifestSha256": "8357ba7a5494cc08439ecc5593ad27039c5bfecd8389d27865d6f5789b14cc29",
+        "sourceDigest": "e00b145b918ae9fd76da6ffdaf5d9baac4c16b0ae9318058589f968117ce0b4a",
+        "note": "Actual canvas and DOM; public commands; QA fixed-step acceleration."
+      }
+    },
+    {
+      "id": "SE-034",
+      "section": "Dinamik görevler",
+      "precondition": "Üretici var",
+      "action": "100 görev üret",
+      "expected": "Geçerli hedefler",
+      "priority": "P1",
+      "automation": "Property",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json",
+        "artifacts/social-engine/acceptance-unit.tap"
+      ],
+      "seed": null,
+      "environment": {
+        "runtime": "Node v24.21.0",
+        "platform": "macOS Apple M2",
+        "source_manifest": "artifacts/social-engine/acceptance-unit.json#sourceFiles"
+      },
+      "build_sha": "762c050ead437c99901332d10078817dfc375eb1",
+      "duration_ms": 6510.2475030000005,
+      "reason": "SE-034: at least one hundred generated missions across seeded worlds have reachable funded canonical targets; SE-034 SE-035 SE-036: job_offer real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: late_wage real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: layoff real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: promotion real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: rent_rise real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: loan_due real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: price_shock real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: shortage real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: delivery real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: vehicle_breakdown real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: traffic_jam real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: lost_item real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: neighbor_help real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: friend_invite real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: relationship_dispute real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: scholarship real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: neighborhood_argument real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: witness_report real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: police_check real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: faction_truce real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: funded causal missions, terminal timeout and exactly once reward survive compaction; SE-034: all twenty templates expose real preconditions and impossible loan task is rejected",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Pure domain/property/fault fixtures; not browser or human gameplay."
+    },
+    {
+      "id": "SE-035",
+      "section": "Dinamik görevler",
+      "precondition": "Görev var",
+      "action": "Bitir ödülü tekrarla",
+      "expected": "Tek ödül",
+      "priority": "P0",
+      "automation": "FSM",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/browser-chromium/results.json",
+        "artifacts/social-engine/browser-chromium/trace.zip"
+      ],
+      "seed": 20261103,
+      "environment": {
+        "browser": "156.0.8078.80",
+        "base": "http://127.0.0.1:8097"
+      },
+      "build_sha": null,
+      "duration_ms": 1382.4811249999984,
+      "reason": "Actual Chromium 156.0.8078.80 clean-profile critical flow; exact assertions reviewed.",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Public commands and QA fixed-step acceleration for bounded interaction fixtures; not a 30-minute playtest."
+    },
+    {
+      "id": "SE-036",
+      "section": "Dinamik görevler",
+      "precondition": "Hedef kayıp",
+      "action": "Timeout uygula",
+      "expected": "Sonsuz döngü yok",
+      "priority": "P1",
+      "automation": "Fault",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/quest-faults.json",
+        "artifacts/social-engine/quest-faults.tap"
+      ],
+      "seed": null,
+      "environment": {
+        "runtime": "v24.21.0",
+        "sources": [
+          {
+            "file": "src/games/social-engine/tests/quest-faults.test.ts",
+            "sha256": "bbe95806ced2d0c6ef32624c7ef60ea49a1091177bd1443f4b9c4f873d7506a8"
+          },
+          {
+            "file": "src/games/social-engine/simulation/missions.ts",
+            "sha256": "ebf356683520ceb3b439c849fe64786e33acde8f12bae53eb48defc4d541b826"
+          },
+          {
+            "file": "src/games/social-engine/simulation/family.ts",
+            "sha256": "bad5b754261a843a645554cef4f5fef68fa893b82c029f305340ed93bbc60c83"
+          },
+          {
+            "file": "src/games/social-engine/simulation/engine.ts",
+            "sha256": "559861e1b1e065c41aa2fb81414d3dd8be004a6be0fb269364c23e188b4f9e82"
+          }
+        ]
+      },
+      "build_sha": null,
+      "duration_ms": null,
+      "reason": "Real death closes accepted delivery; deliberate missing-reference fault exercises actual timeout repeatedly. No loop or duplicate refund.",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Explicit missing target fault injection and actual death during accepted delivery; timeout idempotence verified."
+    },
+    {
+      "id": "SE-037",
+      "section": "Simülasyon tutarlılığı",
+      "precondition": "1000 NPC",
+      "action": "100000 tick",
+      "expected": "Tek konum",
+      "priority": "P0",
+      "automation": "Invariant",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/simulation-365/results.json",
+        "artifacts/social-engine/browser-determinism/results.json"
+      ],
+      "seed": 20261103,
+      "environment": {
+        "os": "darwin 25.6.0",
+        "cpu": "Apple M2",
+        "logicalCpus": 8,
+        "memoryBytes": 17179869184,
+        "node": "v24.21.0",
+        "engine": "1.0.0-candidate.2",
+        "seed": 20261103,
+        "build_sha": "762c050ead437c99901332d10078817dfc375eb1",
+        "dirtyTree": true,
+        "sourceSha256": "16c76f3cef58636afdb9de6eee2098f6be69428a9cda04072e5e0b1ca4c2156d",
+        "sourceFiles": [
+          "src/games/social-engine/domain/content.ts",
+          "src/games/social-engine/domain/life-types.ts",
+          "src/games/social-engine/domain/types.ts",
+          "src/games/social-engine/domain/world.ts",
+          "src/games/social-engine/simulation/engine.ts",
+          "src/games/social-engine/simulation/events.ts",
+          "src/games/social-engine/simulation/ledger.ts",
+          "src/games/social-engine/simulation/life.ts",
+          "src/games/social-engine/simulation/missions.ts",
+          "src/games/social-engine/simulation/population.ts",
+          "src/games/social-engine/simulation/random.ts",
+          "src/games/social-engine/simulation/society.ts"
+        ]
+      },
+      "build_sha": "762c050ead437c99901332d10078817dfc375eb1",
+      "duration_ms": 127112.001667,
+      "reason": "1100 citizens;365days;5256000 ticks/full run; zero invariant violations; money difference0; primary/replay/day180resume final hash 2e125eedda1d607d99288f1f6ce33268550aa338e77d027b2870f338339af51e.",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Headless pure simulation; canonical daily checkpoints. Not renderer performance or human gameplay."
+    },
+    {
+      "id": "SE-038",
+      "section": "Simülasyon tutarlılığı",
+      "precondition": "Ekonomi var",
+      "action": "İşlem döngüsü",
+      "expected": "Ledger mutabık",
+      "priority": "P0",
+      "automation": "Invariant",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/simulation-365/results.json",
+        "artifacts/social-engine/browser-determinism/results.json"
+      ],
+      "seed": 20261103,
+      "environment": {
+        "os": "darwin 25.6.0",
+        "cpu": "Apple M2",
+        "logicalCpus": 8,
+        "memoryBytes": 17179869184,
+        "node": "v24.21.0",
+        "engine": "1.0.0-candidate.2",
+        "seed": 20261103,
+        "build_sha": "762c050ead437c99901332d10078817dfc375eb1",
+        "dirtyTree": true,
+        "sourceSha256": "16c76f3cef58636afdb9de6eee2098f6be69428a9cda04072e5e0b1ca4c2156d",
+        "sourceFiles": [
+          "src/games/social-engine/domain/content.ts",
+          "src/games/social-engine/domain/life-types.ts",
+          "src/games/social-engine/domain/types.ts",
+          "src/games/social-engine/domain/world.ts",
+          "src/games/social-engine/simulation/engine.ts",
+          "src/games/social-engine/simulation/events.ts",
+          "src/games/social-engine/simulation/ledger.ts",
+          "src/games/social-engine/simulation/life.ts",
+          "src/games/social-engine/simulation/missions.ts",
+          "src/games/social-engine/simulation/population.ts",
+          "src/games/social-engine/simulation/random.ts",
+          "src/games/social-engine/simulation/society.ts"
+        ]
+      },
+      "build_sha": "762c050ead437c99901332d10078817dfc375eb1",
+      "duration_ms": 127112.001667,
+      "reason": "1100 citizens;365days;5256000 ticks/full run; zero invariant violations; money difference0; primary/replay/day180resume final hash 2e125eedda1d607d99288f1f6ce33268550aa338e77d027b2870f338339af51e.",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Headless pure simulation; canonical daily checkpoints. Not renderer performance or human gameplay."
+    },
+    {
+      "id": "SE-039",
+      "section": "Simülasyon tutarlılığı",
+      "precondition": "Seed sabit",
+      "action": "İki kez çalıştır",
+      "expected": "Hash eşit",
+      "priority": "P0",
+      "automation": "Determinism",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/simulation-365/results.json",
+        "artifacts/social-engine/browser-determinism/results.json"
+      ],
+      "seed": 20261103,
+      "environment": {
+        "os": "darwin 25.6.0",
+        "cpu": "Apple M2",
+        "logicalCpus": 8,
+        "memoryBytes": 17179869184,
+        "node": "v24.21.0",
+        "engine": "1.0.0-candidate.2",
+        "seed": 20261103,
+        "build_sha": "762c050ead437c99901332d10078817dfc375eb1",
+        "dirtyTree": true,
+        "sourceSha256": "16c76f3cef58636afdb9de6eee2098f6be69428a9cda04072e5e0b1ca4c2156d",
+        "sourceFiles": [
+          "src/games/social-engine/domain/content.ts",
+          "src/games/social-engine/domain/life-types.ts",
+          "src/games/social-engine/domain/types.ts",
+          "src/games/social-engine/domain/world.ts",
+          "src/games/social-engine/simulation/engine.ts",
+          "src/games/social-engine/simulation/events.ts",
+          "src/games/social-engine/simulation/ledger.ts",
+          "src/games/social-engine/simulation/life.ts",
+          "src/games/social-engine/simulation/missions.ts",
+          "src/games/social-engine/simulation/population.ts",
+          "src/games/social-engine/simulation/random.ts",
+          "src/games/social-engine/simulation/society.ts"
+        ]
+      },
+      "build_sha": "762c050ead437c99901332d10078817dfc375eb1",
+      "duration_ms": 127112.001667,
+      "reason": "1100 citizens;365days;5256000 ticks/full run; zero invariant violations; money difference0; primary/replay/day180resume final hash 2e125eedda1d607d99288f1f6ce33268550aa338e77d027b2870f338339af51e.",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Headless pure simulation; canonical daily checkpoints. Not renderer performance or human gameplay."
+    },
+    {
+      "id": "SE-040",
+      "section": "Kayıt ve yükleme",
+      "precondition": "Dolu dünya",
+      "action": "Kaydet yükle",
+      "expected": "State eşdeğer",
+      "priority": "P0",
+      "automation": "Roundtrip",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/browser-chromium/results.json",
+        "artifacts/social-engine/browser-chromium/trace.zip"
+      ],
+      "seed": 20261103,
+      "environment": {
+        "browser": "156.0.8078.80",
+        "base": "http://127.0.0.1:8097"
+      },
+      "build_sha": null,
+      "duration_ms": 1345.79925,
+      "reason": "Actual Chromium 156.0.8078.80 clean-profile critical flow; exact assertions reviewed.",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Public commands and QA fixed-step acceleration for bounded interaction fixtures; not a 30-minute playtest."
+    },
+    {
+      "id": "SE-041",
+      "section": "Kayıt ve yükleme",
+      "precondition": "Yazma sürüyor",
+      "action": "Sekmeyi kapat",
+      "expected": "Sağlam kayıt korunur",
+      "priority": "P0",
+      "automation": "Fault",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/persistence-browser/results.json",
+        "artifacts/social-engine/persistence-browser/trace.zip"
+      ],
+      "seed": 20261103,
+      "environment": {
+        "browser": "156.0.8078.80",
+        "bundleSha256": "34d191f2ba611f8d1af6f7162a7a1de0c01c83a2047949725f650ee1b2dbb3d7"
+      },
+      "build_sha": "f0d209516aba9cd05315eae24cb00fff6df9dbcf",
+      "duration_ms": 578.5194169999995,
+      "reason": "closing a tab during an active write preserves the last committed state",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Real IndexedDB, fault injection and frozen schema fixtures; independent storage harness."
+    },
+    {
+      "id": "SE-042",
+      "section": "Kayıt ve yükleme",
+      "precondition": "Çoklu slot",
+      "action": "Sil kopyala",
+      "expected": "Kayıp veya çoğalma yok",
+      "priority": "P0",
+      "automation": "E2E",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/persistence-browser/results.json",
+        "artifacts/social-engine/persistence-browser/trace.zip"
+      ],
+      "seed": 20261103,
+      "environment": {
+        "browser": "156.0.8078.80",
+        "bundleSha256": "34d191f2ba611f8d1af6f7162a7a1de0c01c83a2047949725f650ee1b2dbb3d7"
+      },
+      "build_sha": "f0d209516aba9cd05315eae24cb00fff6df9dbcf",
+      "duration_ms": 438.6999999284744,
+      "reason": "export/import/copy/delete preserve world and unrelated slots",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Real IndexedDB, fault injection and frozen schema fixtures; independent storage harness."
+    },
+    {
+      "id": "SE-043",
+      "section": "Şema migrasyonu",
+      "precondition": "Eski SE fixture",
+      "action": "Migrate et",
+      "expected": "Veri korunur",
+      "priority": "P0",
+      "automation": "Migration",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/persistence-browser/results.json",
+        "artifacts/social-engine/persistence-browser/trace.zip"
+      ],
+      "seed": 20261103,
+      "environment": {
+        "browser": "156.0.8078.80",
+        "bundleSha256": "34d191f2ba611f8d1af6f7162a7a1de0c01c83a2047949725f650ee1b2dbb3d7"
+      },
+      "build_sha": "f0d209516aba9cd05315eae24cb00fff6df9dbcf",
+      "duration_ms": 594.5,
+      "reason": "migration is atomic, retryable and retains frozen source bytes; authentic v2 save migrates through an explicit journal to schema4",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Real IndexedDB, fault injection and frozen schema fixtures; independent storage harness."
+    },
+    {
+      "id": "SE-044",
+      "section": "Şema migrasyonu",
+      "precondition": "Migrasyon sürüyor",
+      "action": "Kes yeniden dene",
+      "expected": "İdempotent",
+      "priority": "P0",
+      "automation": "Fault",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/persistence-browser/results.json",
+        "artifacts/social-engine/persistence-browser/trace.zip"
+      ],
+      "seed": 20261103,
+      "environment": {
+        "browser": "156.0.8078.80",
+        "bundleSha256": "34d191f2ba611f8d1af6f7162a7a1de0c01c83a2047949725f650ee1b2dbb3d7"
+      },
+      "build_sha": "f0d209516aba9cd05315eae24cb00fff6df9dbcf",
+      "duration_ms": 458.2000000476837,
+      "reason": "migration is atomic, retryable and retains frozen source bytes",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Real IndexedDB, fault injection and frozen schema fixtures; independent storage harness."
+    },
+    {
+      "id": "SE-045",
+      "section": "Şema migrasyonu",
+      "precondition": "Eski TC SIM kaydı",
+      "action": "SE aç",
+      "expected": "Eski namespace değişmez",
+      "priority": "P0",
+      "automation": "Regression",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/v4-browser/results.json",
+        "artifacts/social-engine/v4-browser/trace.zip"
+      ],
+      "seed": null,
+      "environment": {
+        "browser": "Native Chrome",
+        "manifestSha256": "3d5f5b60d1cc8db39a05351459941f8d3d58604c2bdb4c62c80251e97e39057a",
+        "sourceDigest": "999957e201ef3b0b406ed6e82a70ff440992899ca32a223b045471d4ece912dd"
+      },
+      "build_sha": null,
+      "duration_ms": 1122.559500000003,
+      "reason": "Authentic TC SIM create/save/load bytes survive real SOCIAL ENGINE startup and save",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Authentic legacy createNewGame/saveGame/loadGame schema6; five actual legacy keys byte-identical through real SE startup/save; legacy reload succeeds. Not arbitrary canary strings."
+    },
+    {
+      "id": "SE-046",
+      "section": "365 gün simülasyon",
+      "precondition": "1000 NPC",
+      "action": "365 gün çalıştır",
+      "expected": "Sıfır invariant ihlali",
+      "priority": "P0",
+      "automation": "Headless",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/simulation-365/results.json",
+        "artifacts/social-engine/browser-determinism/results.json"
+      ],
+      "seed": 20261103,
+      "environment": {
+        "os": "darwin 25.6.0",
+        "cpu": "Apple M2",
+        "logicalCpus": 8,
+        "memoryBytes": 17179869184,
+        "node": "v24.21.0",
+        "engine": "1.0.0-candidate.2",
+        "seed": 20261103,
+        "build_sha": "762c050ead437c99901332d10078817dfc375eb1",
+        "dirtyTree": true,
+        "sourceSha256": "16c76f3cef58636afdb9de6eee2098f6be69428a9cda04072e5e0b1ca4c2156d",
+        "sourceFiles": [
+          "src/games/social-engine/domain/content.ts",
+          "src/games/social-engine/domain/life-types.ts",
+          "src/games/social-engine/domain/types.ts",
+          "src/games/social-engine/domain/world.ts",
+          "src/games/social-engine/simulation/engine.ts",
+          "src/games/social-engine/simulation/events.ts",
+          "src/games/social-engine/simulation/ledger.ts",
+          "src/games/social-engine/simulation/life.ts",
+          "src/games/social-engine/simulation/missions.ts",
+          "src/games/social-engine/simulation/population.ts",
+          "src/games/social-engine/simulation/random.ts",
+          "src/games/social-engine/simulation/society.ts"
+        ]
+      },
+      "build_sha": "762c050ead437c99901332d10078817dfc375eb1",
+      "duration_ms": 127112.001667,
+      "reason": "1100 citizens;365days;5256000 ticks/full run; zero invariant violations; money difference0; primary/replay/day180resume final hash 2e125eedda1d607d99288f1f6ce33268550aa338e77d027b2870f338339af51e.",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Headless pure simulation; canonical daily checkpoints. Not renderer performance or human gameplay."
+    },
+    {
+      "id": "SE-047",
+      "section": "365 gün simülasyon",
+      "precondition": "Ekonomi var",
+      "action": "365 gün mutabakat",
+      "expected": "Sıfır açıklanamayan fark",
+      "priority": "P0",
+      "automation": "Ledger",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/simulation-365/results.json",
+        "artifacts/social-engine/browser-determinism/results.json"
+      ],
+      "seed": 20261103,
+      "environment": {
+        "os": "darwin 25.6.0",
+        "cpu": "Apple M2",
+        "logicalCpus": 8,
+        "memoryBytes": 17179869184,
+        "node": "v24.21.0",
+        "engine": "1.0.0-candidate.2",
+        "seed": 20261103,
+        "build_sha": "762c050ead437c99901332d10078817dfc375eb1",
+        "dirtyTree": true,
+        "sourceSha256": "16c76f3cef58636afdb9de6eee2098f6be69428a9cda04072e5e0b1ca4c2156d",
+        "sourceFiles": [
+          "src/games/social-engine/domain/content.ts",
+          "src/games/social-engine/domain/life-types.ts",
+          "src/games/social-engine/domain/types.ts",
+          "src/games/social-engine/domain/world.ts",
+          "src/games/social-engine/simulation/engine.ts",
+          "src/games/social-engine/simulation/events.ts",
+          "src/games/social-engine/simulation/ledger.ts",
+          "src/games/social-engine/simulation/life.ts",
+          "src/games/social-engine/simulation/missions.ts",
+          "src/games/social-engine/simulation/population.ts",
+          "src/games/social-engine/simulation/random.ts",
+          "src/games/social-engine/simulation/society.ts"
+        ]
+      },
+      "build_sha": "762c050ead437c99901332d10078817dfc375eb1",
+      "duration_ms": 127112.001667,
+      "reason": "1100 citizens;365days;5256000 ticks/full run; zero invariant violations; money difference0; primary/replay/day180resume final hash 2e125eedda1d607d99288f1f6ce33268550aa338e77d027b2870f338339af51e.",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Headless pure simulation; canonical daily checkpoints. Not renderer performance or human gameplay."
+    },
+    {
+      "id": "SE-048",
+      "section": "365 gün simülasyon",
+      "precondition": "180 gün kayıt",
+      "action": "Yükle 365e devam",
+      "expected": "Hash aynı",
+      "priority": "P0",
+      "automation": "Determinism",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/simulation-365/results.json",
+        "artifacts/social-engine/browser-determinism/results.json"
+      ],
+      "seed": 20261103,
+      "environment": {
+        "os": "darwin 25.6.0",
+        "cpu": "Apple M2",
+        "logicalCpus": 8,
+        "memoryBytes": 17179869184,
+        "node": "v24.21.0",
+        "engine": "1.0.0-candidate.2",
+        "seed": 20261103,
+        "build_sha": "762c050ead437c99901332d10078817dfc375eb1",
+        "dirtyTree": true,
+        "sourceSha256": "16c76f3cef58636afdb9de6eee2098f6be69428a9cda04072e5e0b1ca4c2156d",
+        "sourceFiles": [
+          "src/games/social-engine/domain/content.ts",
+          "src/games/social-engine/domain/life-types.ts",
+          "src/games/social-engine/domain/types.ts",
+          "src/games/social-engine/domain/world.ts",
+          "src/games/social-engine/simulation/engine.ts",
+          "src/games/social-engine/simulation/events.ts",
+          "src/games/social-engine/simulation/ledger.ts",
+          "src/games/social-engine/simulation/life.ts",
+          "src/games/social-engine/simulation/missions.ts",
+          "src/games/social-engine/simulation/population.ts",
+          "src/games/social-engine/simulation/random.ts",
+          "src/games/social-engine/simulation/society.ts"
+        ]
+      },
+      "build_sha": "762c050ead437c99901332d10078817dfc375eb1",
+      "duration_ms": 127112.001667,
+      "reason": "1100 citizens;365days;5256000 ticks/full run; zero invariant violations; money difference0; primary/replay/day180resume final hash 2e125eedda1d607d99288f1f6ce33268550aa338e77d027b2870f338339af51e.",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Headless pure simulation; canonical daily checkpoints. Not renderer performance or human gameplay."
+    },
+    {
+      "id": "SE-049",
+      "section": "Performans bellek",
+      "precondition": "Referans PC",
+      "action": "30 dk oyna",
+      "expected": "p95 frame <=33.3ms",
+      "priority": "P0",
+      "automation": "Trace",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/performance/2026-11-03T17-32-07-826Z/report.json"
+      ],
+      "seed": null,
+      "environment": null,
+      "build_sha": null,
+      "duration_ms": null,
+      "reason": "30.0038-minute older candidate baseline measured p95=16.70ms on Apple M2; specified four-core reference PC precondition was not met.",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": null
+    },
+    {
+      "id": "SE-050",
+      "section": "Performans bellek",
+      "precondition": "1000 NPC",
+      "action": "60 dk çalıştır",
+      "expected": "Long task <=%5",
+      "priority": "P1",
+      "automation": "Trace",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/performance/2026-11-03T17-32-07-826Z/report.json"
+      ],
+      "seed": null,
+      "environment": null,
+      "build_sha": null,
+      "duration_ms": null,
+      "reason": "Older candidate stopped after complete30-minute baseline. Required60/120-minute elapsed test has not completed; page-only heap is not complete worker heap evidence.",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": null
+    },
+    {
+      "id": "SE-051",
+      "section": "Performans bellek",
+      "precondition": "GC kontrollü",
+      "action": "2 saat soak",
+      "expected": "Heap eğimi <=1MB/dk",
+      "priority": "P1",
+      "automation": "Profiler",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/performance/2026-11-03T17-32-07-826Z/report.json"
+      ],
+      "seed": null,
+      "environment": null,
+      "build_sha": null,
+      "duration_ms": null,
+      "reason": "Older candidate stopped after complete30-minute baseline. Required60/120-minute elapsed test has not completed; page-only heap is not complete worker heap evidence.",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": null
+    },
+    {
+      "id": "SE-052",
+      "section": "Tarayıcı uyumluluğu",
+      "precondition": "Chromium güncel",
+      "action": "Kritik akışı oyna",
+      "expected": "Fatal hata yok",
+      "priority": "P0",
+      "automation": "Playwright",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/browser-chromium/results.json",
+        "artifacts/social-engine/browser-chromium/trace.zip"
+      ],
+      "seed": 20261103,
+      "environment": {
+        "browser": "156.0.8078.80",
+        "engine": "chromium",
+        "base": "http://127.0.0.1:8097"
+      },
+      "build_sha": null,
+      "duration_ms": 20712.592377,
+      "reason": "Actual chromium 156.0.8078.80: character, movement/click/resize, NPC, shopping/work, mission, vehicle, combat/police and save/load flow.",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Browser versions and capture timestamps recorded per report; QA fixed steps accelerate fixtures."
+    },
+    {
+      "id": "SE-053",
+      "section": "Tarayıcı uyumluluğu",
+      "precondition": "Firefox güncel",
+      "action": "Kritik akışı oyna",
+      "expected": "Temel işlevler çalışır",
+      "priority": "P1",
+      "automation": "Playwright",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/browser-firefox/results.json",
+        "artifacts/social-engine/browser-firefox/trace.zip"
+      ],
+      "seed": 20261103,
+      "environment": {
+        "browser": "153.0",
+        "engine": "firefox",
+        "base": "http://127.0.0.1:8097"
+      },
+      "build_sha": null,
+      "duration_ms": 28446.808832000002,
+      "reason": "Actual firefox 153.0: character, movement/click/resize, NPC, shopping/work, mission, vehicle, combat/police and save/load flow.",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Browser versions and capture timestamps recorded per report; QA fixed steps accelerate fixtures."
+    },
+    {
+      "id": "SE-054",
+      "section": "Tarayıcı uyumluluğu",
+      "precondition": "WebKit güncel",
+      "action": "Kritik akışı oyna",
+      "expected": "Temel işlevler çalışır",
+      "priority": "P1",
+      "automation": "Playwright",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/browser-webkit/results.json",
+        "artifacts/social-engine/browser-webkit/trace.zip"
+      ],
+      "seed": 20261103,
+      "environment": {
+        "browser": "26.5",
+        "engine": "webkit",
+        "base": "http://127.0.0.1:8097"
+      },
+      "build_sha": null,
+      "duration_ms": 20623.441461000006,
+      "reason": "Actual webkit 26.5: character, movement/click/resize, NPC, shopping/work, mission, vehicle, combat/police and save/load flow.",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Browser versions and capture timestamps recorded per report; QA fixed steps accelerate fixtures."
+    },
+    {
+      "id": "SE-055",
+      "section": "UI erişilebilirlik",
+      "precondition": "HUD açık",
+      "action": "Değerleri değiştir",
+      "expected": "HUD tutarlı",
+      "priority": "P0",
+      "automation": "E2E",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/browser-evidence/results.json",
+        "artifacts/social-engine/browser-evidence/trace.zip"
+      ],
+      "seed": 20261103,
+      "environment": {
+        "browser": "156.0.8078.80",
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "headless": true
+      },
+      "build_sha": "762c050ead437c99901332d10078817dfc375eb1",
+      "duration_ms": 6138.956833999997,
+      "reason": "Visible HUD cash and needs match authoritative projection after shopping and eating",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": {
+        "manifestSha256": "8357ba7a5494cc08439ecc5593ad27039c5bfecd8389d27865d6f5789b14cc29",
+        "sourceDigest": "e00b145b918ae9fd76da6ffdaf5d9baac4c16b0ae9318058589f968117ce0b4a",
+        "note": "Actual canvas and DOM; public commands; QA fixed-step acceleration."
+      }
+    },
+    {
+      "id": "SE-056",
+      "section": "UI erişilebilirlik",
+      "precondition": "Menü açık",
+      "action": "Klavye ile gezin",
+      "expected": "Odak görünür",
+      "priority": "P1",
+      "automation": "Axe",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/axe/results.json",
+        "artifacts/social-engine/axe/trace.zip"
+      ],
+      "seed": null,
+      "environment": {
+        "browser": "156.0.8078.80",
+        "manifestSha256": "8357ba7a5494cc08439ecc5593ad27039c5bfecd8389d27865d6f5789b14cc29"
+      },
+      "build_sha": null,
+      "duration_ms": null,
+      "reason": "Seventeen actual keyboard focus/trap/restore checks and seven Axe4.11 scans; zero detected violations. Canvas/translucent contrast checks remain INCOMPLETE, not PASS and no full WCAG claim.",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": [
+        "Automated Axe results and keyboard tests do not establish full screen-reader access to the visual game world.",
+        "Axe color-contrast incomplete findings are recorded as unverified; screenshots require visual review. This report PASS applies to SE-056 keyboard focus plus detected Axe violations, not full WCAG compliance."
+      ]
+    },
+    {
+      "id": "SE-057",
+      "section": "UI erişilebilirlik",
+      "precondition": "İki viewport",
+      "action": "Ekranı değiştir",
+      "expected": "Kontroller taşmaz",
+      "priority": "P1",
+      "automation": "Visual",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/browser-chromium/results.json",
+        "artifacts/social-engine/browser-chromium/trace.zip"
+      ],
+      "seed": 20261103,
+      "environment": {
+        "browser": "156.0.8078.80",
+        "base": "http://127.0.0.1:8097"
+      },
+      "build_sha": null,
+      "duration_ms": 825.310042000001,
+      "reason": "Actual Chromium 156.0.8078.80 clean-profile critical flow; exact assertions reviewed.",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": "Public commands and QA fixed-step acceleration for bounded interaction fixtures; not a 30-minute playtest."
+    },
+    {
+      "id": "SE-058",
+      "section": "Deployment production",
+      "precondition": "PR hazır",
+      "action": "CI çalıştır",
+      "expected": "Kapılar geçer",
+      "priority": "P0",
+      "automation": "CI",
+      "status": "UNVERIFIED",
+      "evidence": [],
+      "seed": null,
+      "environment": null,
+      "build_sha": null,
+      "duration_ms": null,
+      "reason": "CI/provider/live production proof unavailable. Production and merge remain locked by user direction; intentionally unexecuted is not PASS.",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": null
+    },
+    {
+      "id": "SE-059",
+      "section": "Deployment production",
+      "precondition": "Deploy tamam",
+      "action": "ID ve SHA doğrula",
+      "expected": "Canlı commit doğru",
+      "priority": "P0",
+      "automation": "Provider API",
+      "status": "UNVERIFIED",
+      "evidence": [],
+      "seed": null,
+      "environment": null,
+      "build_sha": null,
+      "duration_ms": null,
+      "reason": "CI/provider/live production proof unavailable. Production and merge remain locked by user direction; intentionally unexecuted is not PASS.",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": null
+    },
+    {
+      "id": "SE-060",
+      "section": "Deployment production",
+      "precondition": "Canlı URL",
+      "action": "Oyun ve eski oyun smoke",
+      "expected": "Yeni ve eski oyunlar çalışır",
+      "priority": "P0",
+      "automation": "Playwright",
+      "status": "UNVERIFIED",
+      "evidence": [],
+      "seed": null,
+      "environment": null,
+      "build_sha": null,
+      "duration_ms": null,
+      "reason": "CI/provider/live production proof unavailable. Production and merge remain locked by user direction; intentionally unexecuted is not PASS.",
+      "owner": "acceptance audit",
+      "retry": "Re-run unchanged original criterion against the final immutable candidate; preserve trace/source identity.",
+      "evidence_scope": null
+    }
+  ],
+  "evaluatedAt": "2026-11-03T18:52:17.654493+00:00",
+  "evaluation_scope": "Evidence-specific candidate results. Source/manifest and timestamps identify each tested build; no row proves untested later changes.",
+  "counts": {
+    "PASS": 54,
+    "FAIL": 0,
+    "SKIP": 0,
+    "UNVERIFIED": 6
+  },
+  "blocking_ids": [
+    "SE-049",
+    "SE-050",
+    "SE-051",
+    "SE-058",
+    "SE-059",
+    "SE-060"
+  ],
+  "required_evidence_status": {
+    "two_human_30_minute_sessions": "UNVERIFIED",
+    "reference_PC": "UNVERIFIED",
+    "final_candidate_two_hour_soak": "UNVERIFIED",
+    "full_legacy_regression": "UNVERIFIED",
+    "preview_SHA_smoke": "UNVERIFIED",
+    "production_ID_SHA_alias_smoke": "UNVERIFIED",
+    "rollback_trial": "UNVERIFIED",
+    "later_candidate_revalidation": "UNVERIFIED"
+  },
+  "additional_integration_failures": [
+    {
+      "id": "tail-reload",
+      "status": "FAIL",
+      "reason": "locator.click: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-load=\"auto\"]')\u001b[22m\n\u001b[2m    - locator resolved to <button data-load=\"auto\">Yükle</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <form id=\"character\" class=\"intro-form\">…</form> from <div id=\"intro\" class=\"intro\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <form id=\"character\" class=\"intro-form\">…</form> from <div id=\"intro\" class=\"intro\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    27 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is visible, enabled and stable\u001b[22m\n\u001b[2m       - scrolling into view if needed\u001b[22m\n\u001b[2m       - done scrolling\u001b[22m\n\u001b[2m       - <form id=\"character\" class=\"intro-form\">…</form> from <div id=\"intro\" class=\"intro\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\n    at /Users/tarikayaz/Documents/Codex/2026-11-03/social-engine-1-0-autonomous-production/work/tariklab/scripts/social-engine/journal-browser.mjs:162:52\n    at async check (/Users/tarikayaz/Documents/Codex/2026-11-03/social-engine-1-0-autonomous-production/work/tariklab/scripts/social-engine/journal-browser.mjs:112:22)\n    at async file:///Users/tarikayaz/Documents/Codex/2026-11-03/social-engine-1-0-autonomous-production/work/tariklab/scripts/social-engine/journal-browser.mjs:137:3",
+      "evidence": "artifacts/social-engine/journal-browser/results.json",
+      "sourceDigest": "999957e201ef3b0b406ed6e82a70ff440992899ca32a223b045471d4ece912dd"
+    }
+  ],
+  "evidence_manifest": [
+    {
+      "path": "artifacts/social-engine/acceptance-unit.json",
+      "sha256": "b6ddd277120505685b25d02fbcb1b73a1c2363c0042059a3bf5e956dc30d27ce"
+    },
+    {
+      "path": "artifacts/social-engine/browser-chromium/results.json",
+      "sha256": "c302004d94af7c0308f8700cbf24eecafe98ccbe65ec44ac15ff768247a697e1"
+    },
+    {
+      "path": "artifacts/social-engine/browser-firefox/results.json",
+      "sha256": "e464364148f026d13c998a641756b350fb3536aabc50aa100539709a9d831fca"
+    },
+    {
+      "path": "artifacts/social-engine/browser-webkit/results.json",
+      "sha256": "dcddc871bd1afcf2b97bbf8258350f5f38959a79a668131fd442a0feb9a5afa6"
+    },
+    {
+      "path": "artifacts/social-engine/ui-browser/results.json",
+      "sha256": "2fa77439d4026d2acbdb65cc16769815c403a502365753a06cee5a5d46ede952"
+    },
+    {
+      "path": "artifacts/social-engine/persistence-browser/results.json",
+      "sha256": "d4743ced5184a564cef3a01a1f392aef1a362c1d6eb31bcb95b0ec07f72d0cf6"
+    },
+    {
+      "path": "artifacts/social-engine/browser-evidence/results.json",
+      "sha256": "ff4931e7b313ada1dd2c1e921ff9a19143b54cb1ca7c4a25f0260845c29d3dd8"
+    },
+    {
+      "path": "artifacts/social-engine/simulation-365/results.json",
+      "sha256": "7c721917c53e61352f1b44a75bb06dc762102ef0a2059210fdc0d6d08cf5b73e"
+    },
+    {
+      "path": "artifacts/social-engine/v4-browser/results.json",
+      "sha256": "af07da9e18a56ca83f99ff181ce7dc61e27eeb77358584a534e4791998cc6b4b"
+    },
+    {
+      "path": "artifacts/social-engine/quest-faults.json",
+      "sha256": "9e86453b0d42ea4b5d1ffd0681974f3e9a81ba8a18c1913b470f019f0729286c"
+    },
+    {
+      "path": "artifacts/social-engine/axe/results.json",
+      "sha256": "27f5a4d06022523e79deb255ab33dc02b5dac09df656e5aad8183dcafd8a5bdc"
+    }
+  ]
+}

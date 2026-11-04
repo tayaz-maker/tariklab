@@ -1,0 +1,3420 @@
+{
+  "product": "SOCIAL ENGINE",
+  "schemaVersion": 3,
+  "evaluatedAt": "2026-11-04T11:14:57.770Z",
+  "source": "docs/social-engine/ACCEPTANCE_TESTS.md",
+  "localScope": "Development checkout and locally served Worker or portable build. No CI or production promotion follows from this file.",
+  "observation_snapshot": {
+    "year": {
+      "status": "PASS",
+      "completedDays": null,
+      "sourceSha256": "0ccedb58f3fe7f8b80c16d26d442ec11d941a589329aa97d462dddee7dda36a2"
+    }
+  },
+  "incomplete_runs": {},
+  "source_sha256": "d496f0713313e5a3e1f14a75067efaee5751729a5242f20bdcae213249442772",
+  "criteria_modified": false,
+  "release_decision": "BLOCKED",
+  "production_status": "UNVERIFIED",
+  "branch": "experiment/social-engine-durable-queue",
+  "currentLocalCommit": "90fc47817bad7745638b1406b4870261d97c5b68",
+  "runtimeManifestSha256": "e7ac6b6902a8e9e8183a565550049a1de8f39224346a164a9e52065a2c8087b5",
+  "sourceDigest": "956d6d13a8d62b0bbb39309b8560bcb5cd080828fa723646f1b710f25003b20c",
+  "counts": {
+    "PASS": 22,
+    "FAIL": 0,
+    "SKIP": 0,
+    "UNVERIFIED": 38
+  },
+  "blocking_ids": [
+    "SE-003",
+    "SE-006",
+    "SE-008",
+    "SE-010",
+    "SE-011",
+    "SE-012",
+    "SE-015",
+    "SE-017",
+    "SE-018",
+    "SE-020",
+    "SE-021",
+    "SE-023",
+    "SE-024",
+    "SE-025",
+    "SE-027",
+    "SE-028",
+    "SE-032",
+    "SE-034",
+    "SE-036",
+    "SE-037",
+    "SE-038",
+    "SE-041",
+    "SE-042",
+    "SE-043",
+    "SE-044",
+    "SE-045",
+    "SE-046",
+    "SE-047",
+    "SE-048",
+    "SE-049",
+    "SE-050",
+    "SE-051",
+    "SE-053",
+    "SE-054",
+    "SE-056",
+    "SE-058",
+    "SE-059",
+    "SE-060"
+  ],
+  "required_evidence_status": {
+    "isolated_unit_sources": "UNVERIFIED",
+    "cross_engine_365days": "UNVERIFIED",
+    "two_human_30_minute_sessions": "UNVERIFIED",
+    "reference_PC": "UNVERIFIED",
+    "low_end_physical_hardware": "UNVERIFIED",
+    "remote_PR_CI": "UNVERIFIED",
+    "provider_ID_SHA_live_smoke": "UNVERIFIED",
+    "rollback_trial": "UNVERIFIED",
+    "headless_true_tab_visibility": "UNVERIFIED",
+    "native_200_percent_browser_zoom": "UNVERIFIED",
+    "keyboard_menu_visible_focus": "UNVERIFIED",
+    "ui_course_certificate_office_access": "UNVERIFIED",
+    "measured_process_footprint_600MiB": "UNVERIFIED",
+    "renderer_resource_teardown": "UNVERIFIED",
+    "journal_recovery": "UNVERIFIED",
+    "integrated_lifecycle_mobility_social": "UNVERIFIED",
+    "asset_fault_recovery": "UNVERIFIED",
+    "local_real_worker_route": "UNVERIFIED",
+    "bundle_and_cold_network": "UNVERIFIED",
+    "indexedDB_firefox": "UNVERIFIED",
+    "indexedDB_webkit": "UNVERIFIED",
+    "stolen_stock_unit_invariants": "UNVERIFIED",
+    "stolen_stock_and_restitution_chromium": "UNVERIFIED",
+    "stolen_stock_and_restitution_firefox": "UNVERIFIED",
+    "stolen_stock_and_restitution_webkit": "UNVERIFIED",
+    "cold_start_character_chromium": "UNVERIFIED",
+    "cold_start_character_firefox": "UNVERIFIED",
+    "cold_start_character_webkit": "UNVERIFIED",
+    "native_zoom_and_background": "UNVERIFIED",
+    "synthetic_10000_citizens": "PASS",
+    "twenty_event_branches": "PASS",
+    "late_save_20_roundtrips_three_engines": "PASS",
+    "local_deployed_route": "UNVERIFIED",
+    "local_worker_smoke": "PASS",
+    "local_portable_smoke": "PASS",
+    "legacy_district_display": "PASS",
+    "retail_and_mechanic_work_orders": "PASS",
+    "software_raster_parallel_combat_social": "FAIL",
+    "software_raster_parallel_autosave": "FAIL",
+    "unchanged_game_browser_regressions": "PASS",
+    "full_repository_regression": "UNVERIFIED",
+    "remaining_contract_obligations": "UNVERIFIED"
+  },
+  "blocking_additional_gates": [
+    "isolated_unit_sources",
+    "cross_engine_365days",
+    "two_human_30_minute_sessions",
+    "reference_PC",
+    "low_end_physical_hardware",
+    "remote_PR_CI",
+    "provider_ID_SHA_live_smoke",
+    "rollback_trial",
+    "headless_true_tab_visibility",
+    "native_200_percent_browser_zoom",
+    "keyboard_menu_visible_focus",
+    "ui_course_certificate_office_access",
+    "measured_process_footprint_600MiB",
+    "renderer_resource_teardown",
+    "journal_recovery",
+    "integrated_lifecycle_mobility_social",
+    "asset_fault_recovery",
+    "local_real_worker_route",
+    "bundle_and_cold_network",
+    "indexedDB_firefox",
+    "indexedDB_webkit",
+    "stolen_stock_unit_invariants",
+    "stolen_stock_and_restitution_chromium",
+    "stolen_stock_and_restitution_firefox",
+    "stolen_stock_and_restitution_webkit",
+    "cold_start_character_chromium",
+    "cold_start_character_firefox",
+    "cold_start_character_webkit",
+    "native_zoom_and_background",
+    "local_deployed_route",
+    "software_raster_parallel_combat_social",
+    "software_raster_parallel_autosave",
+    "full_repository_regression",
+    "remaining_contract_obligations"
+  ],
+  "results": [
+    {
+      "id": "SE-001",
+      "section": "İlk açılış",
+      "precondition": "Temiz profil",
+      "action": "URL aç",
+      "expected": "Menü hatasız açılır",
+      "priority": "P0",
+      "automation": "Playwright",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json"
+      ],
+      "seed": null,
+      "environment": [],
+      "build_sha": null,
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "Fresh browser opened the character menu.",
+          "receipt": "browser-chromium/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json",
+          "caseIds": [
+            "SE-001"
+          ],
+          "scope": "Local Chromium DOM/canvas and public commands with fixed-step QA advancement."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Fresh browser opened the character menu."
+    },
+    {
+      "id": "SE-002",
+      "section": "İlk açılış",
+      "precondition": "Kayıt yok",
+      "action": "Yeni oyun",
+      "expected": "Tek oyuncu oluşur",
+      "priority": "P0",
+      "automation": "E2E",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json"
+      ],
+      "seed": null,
+      "environment": [],
+      "build_sha": null,
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "New profile created the canonical player with 1,100 NPCs.",
+          "receipt": "browser-chromium/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json",
+          "caseIds": [
+            "SE-002,SE-004"
+          ],
+          "scope": "Local Chromium DOM/canvas and public commands with fixed-step QA advancement."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "New profile created the canonical player with 1,100 NPCs."
+    },
+    {
+      "id": "SE-003",
+      "section": "İlk açılış",
+      "precondition": "Başlatma ekranı",
+      "action": "Çift tıkla",
+      "expected": "Çift kayıt oluşmaz",
+      "priority": "P1",
+      "automation": "E2E",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/ui-browser/results.json"
+      ],
+      "seed": null,
+      "environment": [
+        {
+          "browser": "151.0.7922.34"
+        }
+      ],
+      "build_sha": null,
+      "duration_ms": 4614.871125,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "double submit creates one persistent player and preserves chosen profile",
+          "receipt": "ui-browser/results.json",
+          "evidence": "artifacts/social-engine/ui-browser/results.json",
+          "environment": {
+            "browser": "151.0.7922.34"
+          },
+          "duration_ms": 4614.871125
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "double submit creates one persistent player and preserves chosen profile"
+    },
+    {
+      "id": "SE-004",
+      "section": "Karakter oluşturma",
+      "precondition": "Form açık",
+      "action": "Karakter oluştur",
+      "expected": "Seçimler korunur",
+      "priority": "P0",
+      "automation": "E2E",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json"
+      ],
+      "seed": null,
+      "environment": [],
+      "build_sha": null,
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "Player name, background and appearance matched the selected values.",
+          "receipt": "browser-chromium/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json",
+          "caseIds": [
+            "SE-002,SE-004"
+          ],
+          "scope": "Local Chromium DOM/canvas and public commands with fixed-step QA advancement."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Player name, background and appearance matched the selected values."
+    },
+    {
+      "id": "SE-005",
+      "section": "Karakter oluşturma",
+      "precondition": "Form açık",
+      "action": "Geçersiz ad",
+      "expected": "Güvenli doğrulama",
+      "priority": "P0",
+      "automation": "E2E",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json"
+      ],
+      "seed": null,
+      "environment": [],
+      "build_sha": null,
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "Invalid name produced a form error and kept character creation open.",
+          "receipt": "browser-chromium/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json",
+          "caseIds": [
+            "SE-005"
+          ],
+          "scope": "Local Chromium DOM/canvas and public commands with fixed-step QA advancement."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Invalid name produced a form error and kept character creation open."
+    },
+    {
+      "id": "SE-006",
+      "section": "Karakter oluşturma",
+      "precondition": "Puan bütçesi",
+      "action": "Limiti aş",
+      "expected": "Aşım engellenir",
+      "priority": "P1",
+      "automation": "Property",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json",
+        "artifacts/social-engine/ui-browser/results.json"
+      ],
+      "seed": null,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        },
+        {
+          "browser": "151.0.7922.34"
+        }
+      ],
+      "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+      "duration_ms": 193.8633749999999,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "Current source-bound unit assertions were not verified for this criterion.",
+          "receipt": "acceptance-unit.json",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+        },
+        {
+          "status": "UNVERIFIED",
+          "reason": "invalid profile names and excessive attribute total are rejected through real form",
+          "receipt": "ui-browser/results.json",
+          "evidence": "artifacts/social-engine/ui-browser/results.json",
+          "environment": {
+            "browser": "151.0.7922.34"
+          },
+          "duration_ms": 193.8633749999999
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Current source-bound unit assertions were not verified for this criterion. | invalid profile names and excessive attribute total are rejected through real form"
+    },
+    {
+      "id": "SE-007",
+      "section": "İzometrik hareket ve kamera",
+      "precondition": "Harita açık",
+      "action": "WASD ve tıklama",
+      "expected": "Doğru koordinat",
+      "priority": "P1",
+      "automation": "E2E",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json"
+      ],
+      "seed": null,
+      "environment": [],
+      "build_sha": null,
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "Physical D moved screen-right and real canvas clicks arrived within 0.2 world units.",
+          "receipt": "browser-chromium/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json",
+          "caseIds": [
+            "SE-007-keyboard",
+            "SE-007-click,SE-009"
+          ],
+          "scope": "Local Chromium DOM/canvas and public commands with fixed-step QA advancement."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Physical D moved screen-right and real canvas clicks arrived within 0.2 world units."
+    },
+    {
+      "id": "SE-008",
+      "section": "İzometrik hareket ve kamera",
+      "precondition": "Harita kenarı",
+      "action": "Kamera takip",
+      "expected": "Sınır korunur",
+      "priority": "P1",
+      "automation": "E2E",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/browser-evidence/results.json"
+      ],
+      "seed": null,
+      "environment": [],
+      "build_sha": null,
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest e7ac6b6902a8 remains unverified for this check.",
+          "receipt": "browser-evidence/results.json",
+          "evidence": "artifacts/social-engine/browser-evidence/results.json"
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Historical manifest 5f6ee17a0a8c. Current manifest e7ac6b6902a8 remains unverified for this check."
+    },
+    {
+      "id": "SE-009",
+      "section": "İzometrik hareket ve kamera",
+      "precondition": "Oyun açık",
+      "action": "Pencereyi boyutlandır",
+      "expected": "Hedef kaymaz",
+      "priority": "P1",
+      "automation": "E2E",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json"
+      ],
+      "seed": null,
+      "environment": [],
+      "build_sha": null,
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "Canvas destination matched inverse picking at both 1440×900 and 1280×720.",
+          "receipt": "browser-chromium/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json",
+          "caseIds": [
+            "SE-007-click,SE-009"
+          ],
+          "scope": "Local Chromium DOM/canvas and public commands with fixed-step QA advancement."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Canvas destination matched inverse picking at both 1440×900 and 1280×720."
+    },
+    {
+      "id": "SE-010",
+      "section": "Çarpışma ve navigasyon",
+      "precondition": "Duvar var",
+      "action": "Duvara koş",
+      "expected": "Duvar geçilmez",
+      "priority": "P0",
+      "automation": "Physics",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json"
+      ],
+      "seed": null,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "Current source-bound unit assertions were not verified for this criterion.",
+          "receipt": "acceptance-unit.json",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Current source-bound unit assertions were not verified for this criterion."
+    },
+    {
+      "id": "SE-011",
+      "section": "Çarpışma ve navigasyon",
+      "precondition": "Kapalı yol",
+      "action": "Rota iste",
+      "expected": "Geçerli rota veya ret",
+      "priority": "P0",
+      "automation": "Graph",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json"
+      ],
+      "seed": null,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "Current source-bound unit assertions were not verified for this criterion.",
+          "receipt": "acceptance-unit.json",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Current source-bound unit assertions were not verified for this criterion."
+    },
+    {
+      "id": "SE-012",
+      "section": "Çarpışma ve navigasyon",
+      "precondition": "Harita sınırı",
+      "action": "Dışarı yürü",
+      "expected": "Geçersiz konum yok",
+      "priority": "P0",
+      "automation": "Fuzz",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json"
+      ],
+      "seed": null,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "Current source-bound unit assertions were not verified for this criterion.",
+          "receipt": "acceptance-unit.json",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Current source-bound unit assertions were not verified for this criterion."
+    },
+    {
+      "id": "SE-013",
+      "section": "Bina giriş çıkış",
+      "precondition": "Bina açık",
+      "action": "İçeri gir",
+      "expected": "Doğru sahne",
+      "priority": "P1",
+      "automation": "E2E",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json"
+      ],
+      "seed": null,
+      "environment": [],
+      "build_sha": null,
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "Market entry succeeded and an interior purchase worked.",
+          "receipt": "browser-chromium/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json",
+          "caseIds": [
+            "SE-013,SE-022"
+          ],
+          "scope": "Local Chromium DOM/canvas and public commands with fixed-step QA advancement."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Market entry succeeded and an interior purchase worked."
+    },
+    {
+      "id": "SE-014",
+      "section": "Bina giriş çıkış",
+      "precondition": "İç mekân",
+      "action": "Dışarı çık",
+      "expected": "Doğru kapı",
+      "priority": "P0",
+      "automation": "E2E",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json"
+      ],
+      "seed": null,
+      "environment": [],
+      "build_sha": null,
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "Exit returned the player outside within 0.1 world units of the expected door.",
+          "receipt": "browser-chromium/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json",
+          "caseIds": [
+            "SE-014"
+          ],
+          "scope": "Local Chromium DOM/canvas and public commands with fixed-step QA advancement."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Exit returned the player outside within 0.1 world units of the expected door."
+    },
+    {
+      "id": "SE-015",
+      "section": "Bina giriş çıkış",
+      "precondition": "Geçiş aktif",
+      "action": "Etkileşimi tekrarla",
+      "expected": "Çift oyuncu yok",
+      "priority": "P1",
+      "automation": "Invariant",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json"
+      ],
+      "seed": null,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "Current source-bound unit assertions were not verified for this criterion.",
+          "receipt": "acceptance-unit.json",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Current source-bound unit assertions were not verified for this criterion."
+    },
+    {
+      "id": "SE-016",
+      "section": "NPC etkileşimleri",
+      "precondition": "NPC yakın",
+      "action": "Konuş",
+      "expected": "Doğru diyalog",
+      "priority": "P0",
+      "automation": "E2E",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json"
+      ],
+      "seed": null,
+      "environment": [],
+      "build_sha": null,
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "The nearby named NPC accepted the greeting and a social edge was present.",
+          "receipt": "browser-chromium/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json",
+          "caseIds": [
+            "SE-016"
+          ],
+          "scope": "Local Chromium DOM/canvas and public commands with fixed-step QA advancement."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "The nearby named NPC accepted the greeting and a social edge was present."
+    },
+    {
+      "id": "SE-017",
+      "section": "NPC etkileşimleri",
+      "precondition": "NPC hareketli",
+      "action": "Sahne değiştir",
+      "expected": "Tek canonical konum",
+      "priority": "P0",
+      "automation": "Invariant",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json"
+      ],
+      "seed": null,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "Current source-bound unit assertions were not verified for this criterion.",
+          "receipt": "acceptance-unit.json",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Current source-bound unit assertions were not verified for this criterion."
+    },
+    {
+      "id": "SE-018",
+      "section": "NPC etkileşimleri",
+      "precondition": "NPC meşgul",
+      "action": "Eşzamanlı konuş",
+      "expected": "Çift işlem yok",
+      "priority": "P1",
+      "automation": "Race",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/browser-evidence/results.json"
+      ],
+      "seed": null,
+      "environment": [],
+      "build_sha": null,
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest e7ac6b6902a8 remains unverified for this check.",
+          "receipt": "browser-evidence/results.json",
+          "evidence": "artifacts/social-engine/browser-evidence/results.json"
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Historical manifest 5f6ee17a0a8c. Current manifest e7ac6b6902a8 remains unverified for this check."
+    },
+    {
+      "id": "SE-019",
+      "section": "Meslekler ve kazanç",
+      "precondition": "İş var",
+      "action": "Vardiya tamamla",
+      "expected": "Ücret ödenir",
+      "priority": "P1",
+      "automation": "E2E",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json"
+      ],
+      "seed": null,
+      "environment": [],
+      "build_sha": null,
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "The completed retail shift raised the player balance and produced one payroll entry.",
+          "receipt": "browser-chromium/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json",
+          "caseIds": [
+            "SE-019,SE-020"
+          ],
+          "scope": "Local Chromium DOM/canvas and public commands with fixed-step QA advancement."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "The completed retail shift raised the player balance and produced one payroll entry."
+    },
+    {
+      "id": "SE-020",
+      "section": "Meslekler ve kazanç",
+      "precondition": "Vardiya bitti",
+      "action": "İki kez tahsil",
+      "expected": "Tek ödeme",
+      "priority": "P0",
+      "automation": "Ledger",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json"
+      ],
+      "seed": null,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "Current source-bound unit assertions were not verified for this criterion.",
+          "receipt": "acceptance-unit.json",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Current source-bound unit assertions were not verified for this criterion."
+    },
+    {
+      "id": "SE-021",
+      "section": "Meslekler ve kazanç",
+      "precondition": "İki iş var",
+      "action": "İş değiştir",
+      "expected": "Takvim güncel",
+      "priority": "P1",
+      "automation": "Integration",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json"
+      ],
+      "seed": null,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "Current source-bound unit assertions were not verified for this criterion.",
+          "receipt": "acceptance-unit.json",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Current source-bound unit assertions were not verified for this criterion."
+    },
+    {
+      "id": "SE-022",
+      "section": "Ekonomi alışveriş borç",
+      "precondition": "Bakiye var",
+      "action": "Ürün al",
+      "expected": "Stok ve nakit mutabık",
+      "priority": "P0",
+      "automation": "Ledger",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json"
+      ],
+      "seed": null,
+      "environment": [],
+      "build_sha": null,
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "Current source-bound unit assertions were not verified for this criterion.",
+          "receipt": "acceptance-unit.json",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+        },
+        {
+          "status": "PASS",
+          "reason": "Completed explicit browser assertion SE-022-stock-cash.",
+          "receipt": "browser-chromium/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json",
+          "assertion": "SE-022-stock-cash"
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Completed explicit browser assertion SE-022-stock-cash."
+    },
+    {
+      "id": "SE-023",
+      "section": "Ekonomi alışveriş borç",
+      "precondition": "Bakiye yetersiz",
+      "action": "Ürün al",
+      "expected": "Yetkisiz negatif yok",
+      "priority": "P0",
+      "automation": "Property",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json"
+      ],
+      "seed": null,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "Current source-bound unit assertions were not verified for this criterion.",
+          "receipt": "acceptance-unit.json",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Current source-bound unit assertions were not verified for this criterion."
+    },
+    {
+      "id": "SE-024",
+      "section": "Ekonomi alışveriş borç",
+      "precondition": "Borç var",
+      "action": "Faiz ve ödeme",
+      "expected": "Borç defteri mutabık",
+      "priority": "P0",
+      "automation": "Ledger",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json"
+      ],
+      "seed": null,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "Current source-bound unit assertions were not verified for this criterion.",
+          "receipt": "acceptance-unit.json",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Current source-bound unit assertions were not verified for this criterion."
+    },
+    {
+      "id": "SE-025",
+      "section": "Sosyal ilişkiler hafıza",
+      "precondition": "İki karakter",
+      "action": "Etkileş",
+      "expected": "İlişki değişir",
+      "priority": "P1",
+      "automation": "Simulation",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json"
+      ],
+      "seed": null,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "Current source-bound unit assertions were not verified for this criterion.",
+          "receipt": "acceptance-unit.json",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Current source-bound unit assertions were not verified for this criterion."
+    },
+    {
+      "id": "SE-026",
+      "section": "Sosyal ilişkiler hafıza",
+      "precondition": "İlişki var",
+      "action": "Kaydet yükle",
+      "expected": "Grafik korunur",
+      "priority": "P0",
+      "automation": "Roundtrip",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/current-receipts/582695cec28134c52b74b972d487985d07bf9c6be6a73b7bea3ef6397071658a.json"
+      ],
+      "seed": null,
+      "environment": [
+        {
+          "probeSha256": "d1a9ecb7e3f8283af0cb8e001bfe335c69c4d7b2e52ac0694ad4ce9244ca765d",
+          "fixtureSha256": "9ce8527c4dfbd996344702190912c219956f17a70802f08701d0a6beecff7965",
+          "worldTick": 2592000
+        }
+      ],
+      "build_sha": null,
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "Current source-bound unit assertions were not verified for this criterion.",
+          "receipt": "acceptance-unit.json",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+        },
+        {
+          "status": "PASS",
+          "reason": "Three browser engines each verified 20 changing mature-world canonical hashes through IndexedDB save/load, covering the complete relation graph.",
+          "receipt": "late-save/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/582695cec28134c52b74b972d487985d07bf9c6be6a73b7bea3ef6397071658a.json",
+          "environment": {
+            "probeSha256": "d1a9ecb7e3f8283af0cb8e001bfe335c69c4d7b2e52ac0694ad4ce9244ca765d",
+            "fixtureSha256": "9ce8527c4dfbd996344702190912c219956f17a70802f08701d0a6beecff7965",
+            "worldTick": 2592000
+          },
+          "scope": "Compiled persistence/simulation probe identity matched current source. This does not complete the year or browser gameplay suite."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Three browser engines each verified 20 changing mature-world canonical hashes through IndexedDB save/load, covering the complete relation graph."
+    },
+    {
+      "id": "SE-027",
+      "section": "Sosyal ilişkiler hafıza",
+      "precondition": "Gizli olay",
+      "action": "NPC bilgisini kontrol et",
+      "expected": "Nedensiz bilgi yok",
+      "priority": "P1",
+      "automation": "Invariant",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json"
+      ],
+      "seed": null,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "Current source-bound unit assertions were not verified for this criterion.",
+          "receipt": "acceptance-unit.json",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Current source-bound unit assertions were not verified for this criterion."
+    },
+    {
+      "id": "SE-028",
+      "section": "Çete itibar polis",
+      "precondition": "İtibar aktif",
+      "action": "Puan değiştir",
+      "expected": "Etkiler tutarlı",
+      "priority": "P0",
+      "automation": "Simulation",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json"
+      ],
+      "seed": null,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "Current source-bound unit assertions were not verified for this criterion.",
+          "receipt": "acceptance-unit.json",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Current source-bound unit assertions were not verified for this criterion."
+    },
+    {
+      "id": "SE-029",
+      "section": "Çete itibar polis",
+      "precondition": "Suç var",
+      "action": "Tanık ve polis tetikle",
+      "expected": "Kurala uygun tepki",
+      "priority": "P0",
+      "automation": "Scenario",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json"
+      ],
+      "seed": null,
+      "environment": [],
+      "build_sha": null,
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "Current source-bound unit assertions were not verified for this criterion.",
+          "receipt": "acceptance-unit.json",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+        },
+        {
+          "status": "PASS",
+          "reason": "Assault damaged the target, created a case and triggered a wanted state.",
+          "receipt": "browser-chromium/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json",
+          "caseIds": [
+            "SE-031,SE-029,SE-030"
+          ],
+          "scope": "Local Chromium DOM/canvas and public commands with fixed-step QA advancement."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Assault damaged the target, created a case and triggered a wanted state."
+    },
+    {
+      "id": "SE-030",
+      "section": "Çete itibar polis",
+      "precondition": "Takip var",
+      "action": "Kaç veya teslim ol",
+      "expected": "Takip sonlanır",
+      "priority": "P1",
+      "automation": "FSM",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json"
+      ],
+      "seed": null,
+      "environment": [],
+      "build_sha": null,
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "Current source-bound unit assertions were not verified for this criterion.",
+          "receipt": "acceptance-unit.json",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+        },
+        {
+          "status": "PASS",
+          "reason": "Surrender ended the active pursuit.",
+          "receipt": "browser-chromium/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json",
+          "caseIds": [
+            "SE-031,SE-029,SE-030"
+          ],
+          "scope": "Local Chromium DOM/canvas and public commands with fixed-step QA advancement."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Surrender ended the active pursuit."
+    },
+    {
+      "id": "SE-031",
+      "section": "Dövüş ve araçlar",
+      "precondition": "Dövüş var",
+      "action": "Saldır savun",
+      "expected": "Can stamina tutarlı",
+      "priority": "P1",
+      "automation": "E2E",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json"
+      ],
+      "seed": null,
+      "environment": [],
+      "build_sha": null,
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "Current source-bound unit assertions were not verified for this criterion.",
+          "receipt": "acceptance-unit.json",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+        },
+        {
+          "status": "PASS",
+          "reason": "Completed explicit browser assertion SE-031-stamina-block.",
+          "receipt": "browser-chromium/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json",
+          "assertion": "SE-031-stamina-block"
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Completed explicit browser assertion SE-031-stamina-block."
+    },
+    {
+      "id": "SE-032",
+      "section": "Dövüş ve araçlar",
+      "precondition": "Yol grafı",
+      "action": "Araç rotası",
+      "expected": "Yalnız sürülebilir kenarlar",
+      "priority": "P0",
+      "automation": "Graph",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json"
+      ],
+      "seed": null,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "Current source-bound unit assertions were not verified for this criterion.",
+          "receipt": "acceptance-unit.json",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Current source-bound unit assertions were not verified for this criterion."
+    },
+    {
+      "id": "SE-033",
+      "section": "Dövüş ve araçlar",
+      "precondition": "Araç var",
+      "action": "Bin sür kaydet",
+      "expected": "Konum korunur",
+      "priority": "P0",
+      "automation": "E2E",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json"
+      ],
+      "seed": null,
+      "environment": [],
+      "build_sha": null,
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "Completed explicit browser assertion SE-033-exact-position.",
+          "receipt": "browser-chromium/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json",
+          "assertion": "SE-033-exact-position"
+        },
+        {
+          "status": "UNVERIFIED",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest e7ac6b6902a8 remains unverified for this check.",
+          "receipt": "browser-evidence/results.json",
+          "evidence": "artifacts/social-engine/browser-evidence/results.json"
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Completed explicit browser assertion SE-033-exact-position."
+    },
+    {
+      "id": "SE-034",
+      "section": "Dinamik görevler",
+      "precondition": "Üretici var",
+      "action": "100 görev üret",
+      "expected": "Geçerli hedefler",
+      "priority": "P1",
+      "automation": "Property",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json"
+      ],
+      "seed": null,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "Current source-bound unit assertions were not verified for this criterion.",
+          "receipt": "acceptance-unit.json",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Current source-bound unit assertions were not verified for this criterion."
+    },
+    {
+      "id": "SE-035",
+      "section": "Dinamik görevler",
+      "precondition": "Görev var",
+      "action": "Bitir ödülü tekrarla",
+      "expected": "Tek ödül",
+      "priority": "P0",
+      "automation": "FSM",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json"
+      ],
+      "seed": null,
+      "environment": [],
+      "build_sha": null,
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "Current source-bound unit assertions were not verified for this criterion.",
+          "receipt": "acceptance-unit.json",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+        },
+        {
+          "status": "PASS",
+          "reason": "The second quest completion was rejected and cash stayed unchanged.",
+          "receipt": "browser-chromium/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json",
+          "caseIds": [
+            "SE-035"
+          ],
+          "scope": "Local Chromium DOM/canvas and public commands with fixed-step QA advancement."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "The second quest completion was rejected and cash stayed unchanged."
+    },
+    {
+      "id": "SE-036",
+      "section": "Dinamik görevler",
+      "precondition": "Hedef kayıp",
+      "action": "Timeout uygula",
+      "expected": "Sonsuz döngü yok",
+      "priority": "P1",
+      "automation": "Fault",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json"
+      ],
+      "seed": null,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "Current source-bound unit assertions were not verified for this criterion.",
+          "receipt": "acceptance-unit.json",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Current source-bound unit assertions were not verified for this criterion."
+    },
+    {
+      "id": "SE-037",
+      "section": "Simülasyon tutarlılığı",
+      "precondition": "1000 NPC",
+      "action": "100000 tick",
+      "expected": "Tek konum",
+      "priority": "P0",
+      "automation": "Invariant",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json",
+        "artifacts/social-engine/current-receipts/05ccedd21559e314791a252f33da7e667e472fbb227b6f7ec36932d820f292d3.json"
+      ],
+      "seed": null,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        },
+        {
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2",
+          "logicalCpus": 8,
+          "memoryBytes": 17179869184,
+          "node": "v24.21.0",
+          "engine": "1.0.0-candidate.4",
+          "seed": 20261103,
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "dirtyTree": true,
+          "sourceSha256": "0ccedb58f3fe7f8b80c16d26d442ec11d941a589329aa97d462dddee7dda36a2",
+          "sourceFiles": [
+            "src/games/social-engine/persistence/codec.ts",
+            "src/games/social-engine/persistence/compression.ts",
+            "src/games/social-engine/persistence/records.ts",
+            "src/games/social-engine/domain/content.ts",
+            "src/games/social-engine/domain/economy-types.ts",
+            "src/games/social-engine/domain/life-types.ts",
+            "src/games/social-engine/domain/mobility-types.ts",
+            "src/games/social-engine/domain/progression-types.ts",
+            "src/games/social-engine/domain/social-types.ts",
+            "src/games/social-engine/domain/traffic.ts",
+            "src/games/social-engine/domain/types.ts",
+            "src/games/social-engine/domain/world.ts",
+            "src/games/social-engine/simulation/economy.ts",
+            "src/games/social-engine/simulation/engine.ts",
+            "src/games/social-engine/simulation/events.ts",
+            "src/games/social-engine/simulation/family.ts",
+            "src/games/social-engine/simulation/justice.ts",
+            "src/games/social-engine/simulation/ledger.ts",
+            "src/games/social-engine/simulation/life.ts",
+            "src/games/social-engine/simulation/missions.ts",
+            "src/games/social-engine/simulation/mobility.ts",
+            "src/games/social-engine/simulation/population.ts",
+            "src/games/social-engine/simulation/progression.ts",
+            "src/games/social-engine/simulation/random.ts",
+            "src/games/social-engine/simulation/services.ts",
+            "src/games/social-engine/simulation/social.ts",
+            "src/games/social-engine/simulation/society.ts",
+            "src/games/social-engine/simulation/traffic.ts"
+          ]
+        }
+      ],
+      "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+      "duration_ms": 1536106.781,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "Current source-bound unit assertions were not verified for this criterion.",
+          "receipt": "acceptance-unit.json",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+        },
+        {
+          "status": "UNVERIFIED",
+          "reason": "No completed current-source 365-day receipt. Historical results cannot complete this gate.",
+          "receipt": "simulation-365/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/05ccedd21559e314791a252f33da7e667e472fbb227b6f7ec36932d820f292d3.json",
+          "environment": {
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2",
+            "logicalCpus": 8,
+            "memoryBytes": 17179869184,
+            "node": "v24.21.0",
+            "engine": "1.0.0-candidate.4",
+            "seed": 20261103,
+            "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+            "dirtyTree": true,
+            "sourceSha256": "0ccedb58f3fe7f8b80c16d26d442ec11d941a589329aa97d462dddee7dda36a2",
+            "sourceFiles": [
+              "src/games/social-engine/persistence/codec.ts",
+              "src/games/social-engine/persistence/compression.ts",
+              "src/games/social-engine/persistence/records.ts",
+              "src/games/social-engine/domain/content.ts",
+              "src/games/social-engine/domain/economy-types.ts",
+              "src/games/social-engine/domain/life-types.ts",
+              "src/games/social-engine/domain/mobility-types.ts",
+              "src/games/social-engine/domain/progression-types.ts",
+              "src/games/social-engine/domain/social-types.ts",
+              "src/games/social-engine/domain/traffic.ts",
+              "src/games/social-engine/domain/types.ts",
+              "src/games/social-engine/domain/world.ts",
+              "src/games/social-engine/simulation/economy.ts",
+              "src/games/social-engine/simulation/engine.ts",
+              "src/games/social-engine/simulation/events.ts",
+              "src/games/social-engine/simulation/family.ts",
+              "src/games/social-engine/simulation/justice.ts",
+              "src/games/social-engine/simulation/ledger.ts",
+              "src/games/social-engine/simulation/life.ts",
+              "src/games/social-engine/simulation/missions.ts",
+              "src/games/social-engine/simulation/mobility.ts",
+              "src/games/social-engine/simulation/population.ts",
+              "src/games/social-engine/simulation/progression.ts",
+              "src/games/social-engine/simulation/random.ts",
+              "src/games/social-engine/simulation/services.ts",
+              "src/games/social-engine/simulation/social.ts",
+              "src/games/social-engine/simulation/society.ts",
+              "src/games/social-engine/simulation/traffic.ts"
+            ]
+          },
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "duration_ms": 1536106.781,
+          "scope": "Pure fixed-step simulation; not renderer or human playtime."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Current source-bound unit assertions were not verified for this criterion. | No completed current-source 365-day receipt. Historical results cannot complete this gate."
+    },
+    {
+      "id": "SE-038",
+      "section": "Simülasyon tutarlılığı",
+      "precondition": "Ekonomi var",
+      "action": "İşlem döngüsü",
+      "expected": "Ledger mutabık",
+      "priority": "P0",
+      "automation": "Invariant",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json"
+      ],
+      "seed": null,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "Current source-bound unit assertions were not verified for this criterion.",
+          "receipt": "acceptance-unit.json",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Current source-bound unit assertions were not verified for this criterion."
+    },
+    {
+      "id": "SE-039",
+      "section": "Simülasyon tutarlılığı",
+      "precondition": "Seed sabit",
+      "action": "İki kez çalıştır",
+      "expected": "Hash eşit",
+      "priority": "P0",
+      "automation": "Determinism",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/current-receipts/582695cec28134c52b74b972d487985d07bf9c6be6a73b7bea3ef6397071658a.json"
+      ],
+      "seed": null,
+      "environment": [
+        {
+          "probeSha256": "d1a9ecb7e3f8283af0cb8e001bfe335c69c4d7b2e52ac0694ad4ce9244ca765d",
+          "fixtureSha256": "9ce8527c4dfbd996344702190912c219956f17a70802f08701d0a6beecff7965",
+          "worldTick": 2592000
+        }
+      ],
+      "build_sha": null,
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "Current source-bound unit assertions were not verified for this criterion.",
+          "receipt": "acceptance-unit.json",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+        },
+        {
+          "status": "PASS",
+          "reason": "Three browser engines each verified 20 changing mature-world canonical hashes through IndexedDB save/load, covering the complete relation graph.",
+          "receipt": "late-save/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/582695cec28134c52b74b972d487985d07bf9c6be6a73b7bea3ef6397071658a.json",
+          "environment": {
+            "probeSha256": "d1a9ecb7e3f8283af0cb8e001bfe335c69c4d7b2e52ac0694ad4ce9244ca765d",
+            "fixtureSha256": "9ce8527c4dfbd996344702190912c219956f17a70802f08701d0a6beecff7965",
+            "worldTick": 2592000
+          },
+          "scope": "Compiled persistence/simulation probe identity matched current source. This does not complete the year or browser gameplay suite."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Three browser engines each verified 20 changing mature-world canonical hashes through IndexedDB save/load, covering the complete relation graph."
+    },
+    {
+      "id": "SE-040",
+      "section": "Kayıt ve yükleme",
+      "precondition": "Dolu dünya",
+      "action": "Kaydet yükle",
+      "expected": "State eşdeğer",
+      "priority": "P0",
+      "automation": "Roundtrip",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/current-receipts/582695cec28134c52b74b972d487985d07bf9c6be6a73b7bea3ef6397071658a.json"
+      ],
+      "seed": null,
+      "environment": [
+        {
+          "probeSha256": "d1a9ecb7e3f8283af0cb8e001bfe335c69c4d7b2e52ac0694ad4ce9244ca765d",
+          "fixtureSha256": "9ce8527c4dfbd996344702190912c219956f17a70802f08701d0a6beecff7965",
+          "worldTick": 2592000
+        }
+      ],
+      "build_sha": null,
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "Current source-bound unit assertions were not verified for this criterion.",
+          "receipt": "acceptance-unit.json",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "90fc47817bad7745638b1406b4870261d97c5b68",
+          "duration_ms": 0,
+          "scope": "Pure domain/property/fault tests. Each credited assertion is present in the source-verified terminal TAP."
+        },
+        {
+          "status": "PASS",
+          "reason": "Three browser engines each verified 20 changing mature-world canonical hashes through IndexedDB save/load, covering the complete relation graph.",
+          "receipt": "late-save/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/582695cec28134c52b74b972d487985d07bf9c6be6a73b7bea3ef6397071658a.json",
+          "environment": {
+            "probeSha256": "d1a9ecb7e3f8283af0cb8e001bfe335c69c4d7b2e52ac0694ad4ce9244ca765d",
+            "fixtureSha256": "9ce8527c4dfbd996344702190912c219956f17a70802f08701d0a6beecff7965",
+            "worldTick": 2592000
+          },
+          "scope": "Compiled persistence/simulation probe identity matched current source. This does not complete the year or browser gameplay suite."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Three browser engines each verified 20 changing mature-world canonical hashes through IndexedDB save/load, covering the complete relation graph."
+    },
+    {
+      "id": "SE-041",
+      "section": "Kayıt ve yükleme",
+      "precondition": "Yazma sürüyor",
+      "action": "Sekmeyi kapat",
+      "expected": "Sağlam kayıt korunur",
+      "priority": "P0",
+      "automation": "Fault",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/persistence-browser/results.json"
+      ],
+      "seed": null,
+      "environment": [
+        {
+          "browser": "151.0.7922.34",
+          "probeSha256": "38435187ab295928c54c77ed588254409e45e713df21d14a03bfe52eb25d48f6"
+        }
+      ],
+      "build_sha": null,
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "closing a tab during an active write preserves the last committed state",
+          "receipt": "persistence-browser/results.json",
+          "evidence": "artifacts/social-engine/persistence-browser/results.json",
+          "environment": {
+            "browser": "151.0.7922.34",
+            "probeSha256": "38435187ab295928c54c77ed588254409e45e713df21d14a03bfe52eb25d48f6"
+          },
+          "scope": "Real browser IndexedDB with explicit corruption, quota, abort and frozen migration fixtures."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "closing a tab during an active write preserves the last committed state"
+    },
+    {
+      "id": "SE-042",
+      "section": "Kayıt ve yükleme",
+      "precondition": "Çoklu slot",
+      "action": "Sil kopyala",
+      "expected": "Kayıp veya çoğalma yok",
+      "priority": "P0",
+      "automation": "E2E",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/ui-browser/results.json",
+        "artifacts/social-engine/persistence-browser/results.json"
+      ],
+      "seed": null,
+      "environment": [
+        {
+          "browser": "151.0.7922.34"
+        },
+        {
+          "browser": "151.0.7922.34",
+          "probeSha256": "38435187ab295928c54c77ed588254409e45e713df21d14a03bfe52eb25d48f6"
+        }
+      ],
+      "build_sha": null,
+      "duration_ms": 41546.599709,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "real save menu saves copies exports imports and deletes separate slots",
+          "receipt": "ui-browser/results.json",
+          "evidence": "artifacts/social-engine/ui-browser/results.json",
+          "environment": {
+            "browser": "151.0.7922.34"
+          },
+          "duration_ms": 41546.599709
+        },
+        {
+          "status": "UNVERIFIED",
+          "reason": "export/import/copy/delete preserve world and unrelated slots",
+          "receipt": "persistence-browser/results.json",
+          "evidence": "artifacts/social-engine/persistence-browser/results.json",
+          "environment": {
+            "browser": "151.0.7922.34",
+            "probeSha256": "38435187ab295928c54c77ed588254409e45e713df21d14a03bfe52eb25d48f6"
+          },
+          "scope": "Real browser IndexedDB with explicit corruption, quota, abort and frozen migration fixtures."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "real save menu saves copies exports imports and deletes separate slots | export/import/copy/delete preserve world and unrelated slots"
+    },
+    {
+      "id": "SE-043",
+      "section": "Şema migrasyonu",
+      "precondition": "Eski SE fixture",
+      "action": "Migrate et",
+      "expected": "Veri korunur",
+      "priority": "P0",
+      "automation": "Migration",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/persistence-browser/results.json",
+        "artifacts/social-engine/acceptance-unit.json",
+        "artifacts/social-engine/persistence-browser-firefox/results.json",
+        "artifacts/social-engine/persistence-browser-webkit/results.json"
+      ],
+      "seed": null,
+      "environment": [
+        {
+          "browser": "151.0.7922.34",
+          "probeSha256": "38435187ab295928c54c77ed588254409e45e713df21d14a03bfe52eb25d48f6"
+        }
+      ],
+      "build_sha": null,
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "migration is atomic, retryable and retains frozen source bytes; authentic v2 save migrates through an explicit journal to schema4; authentic v3 lifecycle history migrates through explicit3-to4 journal",
+          "receipt": "persistence-browser/results.json",
+          "evidence": "artifacts/social-engine/persistence-browser/results.json",
+          "environment": {
+            "browser": "151.0.7922.34",
+            "probeSha256": "38435187ab295928c54c77ed588254409e45e713df21d14a03bfe52eb25d48f6"
+          },
+          "scope": "Real browser IndexedDB with explicit corruption, quota, abort and frozen migration fixtures."
+        },
+        {
+          "status": "UNVERIFIED",
+          "reason": "Current source-bound unit assertions were not verified for this criterion.",
+          "receipt": "acceptance-unit.json",
+          "evidence": "artifacts/social-engine/acceptance-unit.json"
+        },
+        {
+          "status": "UNVERIFIED",
+          "reason": "An authentic compressed v5 snapshot and a nonempty command journal must both survive the upgrade to v6.",
+          "receipt": "persistence-browser/results.json",
+          "evidence": "artifacts/social-engine/persistence-browser/results.json"
+        },
+        {
+          "status": "UNVERIFIED",
+          "reason": "An authentic compressed v5 snapshot and a nonempty command journal must both survive the upgrade to v6.",
+          "receipt": "persistence-browser-firefox/results.json",
+          "evidence": "artifacts/social-engine/persistence-browser-firefox/results.json"
+        },
+        {
+          "status": "UNVERIFIED",
+          "reason": "An authentic compressed v5 snapshot and a nonempty command journal must both survive the upgrade to v6.",
+          "receipt": "persistence-browser-webkit/results.json",
+          "evidence": "artifacts/social-engine/persistence-browser-webkit/results.json"
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "migration is atomic, retryable and retains frozen source bytes; authentic v2 save migrates through an explicit journal to schema4; authentic v3 lifecycle history migrates through explicit3-to4 journal | Current source-bound unit assertions were not verified for this criterion. | An authentic compressed v5 snapshot and a nonempty command journal must both survive the upgrade to v6. | An authentic compressed v5 snapshot and a nonempty command journal must both survive the upgrade to v6. | An authentic compressed v5 snapshot and a nonempty command journal must both survive the upgrade to v6."
+    },
+    {
+      "id": "SE-044",
+      "section": "Şema migrasyonu",
+      "precondition": "Migrasyon sürüyor",
+      "action": "Kes yeniden dene",
+      "expected": "İdempotent",
+      "priority": "P0",
+      "automation": "Fault",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/persistence-browser/results.json"
+      ],
+      "seed": null,
+      "environment": [
+        {
+          "browser": "151.0.7922.34",
+          "probeSha256": "38435187ab295928c54c77ed588254409e45e713df21d14a03bfe52eb25d48f6"
+        }
+      ],
+      "build_sha": null,
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "migration is atomic, retryable and retains frozen source bytes",
+          "receipt": "persistence-browser/results.json",
+          "evidence": "artifacts/social-engine/persistence-browser/results.json",
+          "environment": {
+            "browser": "151.0.7922.34",
+            "probeSha256": "38435187ab295928c54c77ed588254409e45e713df21d14a03bfe52eb25d48f6"
+          },
+          "scope": "Real browser IndexedDB with explicit corruption, quota, abort and frozen migration fixtures."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "migration is atomic, retryable and retains frozen source bytes"
+    },
+    {
+      "id": "SE-045",
+      "section": "Şema migrasyonu",
+      "precondition": "Eski TC SIM kaydı",
+      "action": "SE aç",
+      "expected": "Eski namespace değişmez",
+      "priority": "P0",
+      "automation": "Regression",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/v4-browser/results.json"
+      ],
+      "seed": null,
+      "environment": [],
+      "build_sha": null,
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest e7ac6b6902a8 remains unverified for this check.",
+          "receipt": "v4-browser/results.json",
+          "evidence": "artifacts/social-engine/v4-browser/results.json"
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Historical manifest 5f6ee17a0a8c. Current manifest e7ac6b6902a8 remains unverified for this check."
+    },
+    {
+      "id": "SE-046",
+      "section": "365 gün simülasyon",
+      "precondition": "1000 NPC",
+      "action": "365 gün çalıştır",
+      "expected": "Sıfır invariant ihlali",
+      "priority": "P0",
+      "automation": "Headless",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/current-receipts/05ccedd21559e314791a252f33da7e667e472fbb227b6f7ec36932d820f292d3.json"
+      ],
+      "seed": null,
+      "environment": [
+        {
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2",
+          "logicalCpus": 8,
+          "memoryBytes": 17179869184,
+          "node": "v24.21.0",
+          "engine": "1.0.0-candidate.4",
+          "seed": 20261103,
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "dirtyTree": true,
+          "sourceSha256": "0ccedb58f3fe7f8b80c16d26d442ec11d941a589329aa97d462dddee7dda36a2",
+          "sourceFiles": [
+            "src/games/social-engine/persistence/codec.ts",
+            "src/games/social-engine/persistence/compression.ts",
+            "src/games/social-engine/persistence/records.ts",
+            "src/games/social-engine/domain/content.ts",
+            "src/games/social-engine/domain/economy-types.ts",
+            "src/games/social-engine/domain/life-types.ts",
+            "src/games/social-engine/domain/mobility-types.ts",
+            "src/games/social-engine/domain/progression-types.ts",
+            "src/games/social-engine/domain/social-types.ts",
+            "src/games/social-engine/domain/traffic.ts",
+            "src/games/social-engine/domain/types.ts",
+            "src/games/social-engine/domain/world.ts",
+            "src/games/social-engine/simulation/economy.ts",
+            "src/games/social-engine/simulation/engine.ts",
+            "src/games/social-engine/simulation/events.ts",
+            "src/games/social-engine/simulation/family.ts",
+            "src/games/social-engine/simulation/justice.ts",
+            "src/games/social-engine/simulation/ledger.ts",
+            "src/games/social-engine/simulation/life.ts",
+            "src/games/social-engine/simulation/missions.ts",
+            "src/games/social-engine/simulation/mobility.ts",
+            "src/games/social-engine/simulation/population.ts",
+            "src/games/social-engine/simulation/progression.ts",
+            "src/games/social-engine/simulation/random.ts",
+            "src/games/social-engine/simulation/services.ts",
+            "src/games/social-engine/simulation/social.ts",
+            "src/games/social-engine/simulation/society.ts",
+            "src/games/social-engine/simulation/traffic.ts"
+          ]
+        }
+      ],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": 1536106.781,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "No completed current-source 365-day receipt. Historical results cannot complete this gate.",
+          "receipt": "simulation-365/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/05ccedd21559e314791a252f33da7e667e472fbb227b6f7ec36932d820f292d3.json",
+          "environment": {
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2",
+            "logicalCpus": 8,
+            "memoryBytes": 17179869184,
+            "node": "v24.21.0",
+            "engine": "1.0.0-candidate.4",
+            "seed": 20261103,
+            "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+            "dirtyTree": true,
+            "sourceSha256": "0ccedb58f3fe7f8b80c16d26d442ec11d941a589329aa97d462dddee7dda36a2",
+            "sourceFiles": [
+              "src/games/social-engine/persistence/codec.ts",
+              "src/games/social-engine/persistence/compression.ts",
+              "src/games/social-engine/persistence/records.ts",
+              "src/games/social-engine/domain/content.ts",
+              "src/games/social-engine/domain/economy-types.ts",
+              "src/games/social-engine/domain/life-types.ts",
+              "src/games/social-engine/domain/mobility-types.ts",
+              "src/games/social-engine/domain/progression-types.ts",
+              "src/games/social-engine/domain/social-types.ts",
+              "src/games/social-engine/domain/traffic.ts",
+              "src/games/social-engine/domain/types.ts",
+              "src/games/social-engine/domain/world.ts",
+              "src/games/social-engine/simulation/economy.ts",
+              "src/games/social-engine/simulation/engine.ts",
+              "src/games/social-engine/simulation/events.ts",
+              "src/games/social-engine/simulation/family.ts",
+              "src/games/social-engine/simulation/justice.ts",
+              "src/games/social-engine/simulation/ledger.ts",
+              "src/games/social-engine/simulation/life.ts",
+              "src/games/social-engine/simulation/missions.ts",
+              "src/games/social-engine/simulation/mobility.ts",
+              "src/games/social-engine/simulation/population.ts",
+              "src/games/social-engine/simulation/progression.ts",
+              "src/games/social-engine/simulation/random.ts",
+              "src/games/social-engine/simulation/services.ts",
+              "src/games/social-engine/simulation/social.ts",
+              "src/games/social-engine/simulation/society.ts",
+              "src/games/social-engine/simulation/traffic.ts"
+            ]
+          },
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "duration_ms": 1536106.781,
+          "scope": "Pure fixed-step simulation; not renderer or human playtime."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "No completed current-source 365-day receipt. Historical results cannot complete this gate."
+    },
+    {
+      "id": "SE-047",
+      "section": "365 gün simülasyon",
+      "precondition": "Ekonomi var",
+      "action": "365 gün mutabakat",
+      "expected": "Sıfır açıklanamayan fark",
+      "priority": "P0",
+      "automation": "Ledger",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/current-receipts/05ccedd21559e314791a252f33da7e667e472fbb227b6f7ec36932d820f292d3.json"
+      ],
+      "seed": null,
+      "environment": [
+        {
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2",
+          "logicalCpus": 8,
+          "memoryBytes": 17179869184,
+          "node": "v24.21.0",
+          "engine": "1.0.0-candidate.4",
+          "seed": 20261103,
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "dirtyTree": true,
+          "sourceSha256": "0ccedb58f3fe7f8b80c16d26d442ec11d941a589329aa97d462dddee7dda36a2",
+          "sourceFiles": [
+            "src/games/social-engine/persistence/codec.ts",
+            "src/games/social-engine/persistence/compression.ts",
+            "src/games/social-engine/persistence/records.ts",
+            "src/games/social-engine/domain/content.ts",
+            "src/games/social-engine/domain/economy-types.ts",
+            "src/games/social-engine/domain/life-types.ts",
+            "src/games/social-engine/domain/mobility-types.ts",
+            "src/games/social-engine/domain/progression-types.ts",
+            "src/games/social-engine/domain/social-types.ts",
+            "src/games/social-engine/domain/traffic.ts",
+            "src/games/social-engine/domain/types.ts",
+            "src/games/social-engine/domain/world.ts",
+            "src/games/social-engine/simulation/economy.ts",
+            "src/games/social-engine/simulation/engine.ts",
+            "src/games/social-engine/simulation/events.ts",
+            "src/games/social-engine/simulation/family.ts",
+            "src/games/social-engine/simulation/justice.ts",
+            "src/games/social-engine/simulation/ledger.ts",
+            "src/games/social-engine/simulation/life.ts",
+            "src/games/social-engine/simulation/missions.ts",
+            "src/games/social-engine/simulation/mobility.ts",
+            "src/games/social-engine/simulation/population.ts",
+            "src/games/social-engine/simulation/progression.ts",
+            "src/games/social-engine/simulation/random.ts",
+            "src/games/social-engine/simulation/services.ts",
+            "src/games/social-engine/simulation/social.ts",
+            "src/games/social-engine/simulation/society.ts",
+            "src/games/social-engine/simulation/traffic.ts"
+          ]
+        }
+      ],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": 1536106.781,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "No completed current-source 365-day receipt. Historical results cannot complete this gate.",
+          "receipt": "simulation-365/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/05ccedd21559e314791a252f33da7e667e472fbb227b6f7ec36932d820f292d3.json",
+          "environment": {
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2",
+            "logicalCpus": 8,
+            "memoryBytes": 17179869184,
+            "node": "v24.21.0",
+            "engine": "1.0.0-candidate.4",
+            "seed": 20261103,
+            "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+            "dirtyTree": true,
+            "sourceSha256": "0ccedb58f3fe7f8b80c16d26d442ec11d941a589329aa97d462dddee7dda36a2",
+            "sourceFiles": [
+              "src/games/social-engine/persistence/codec.ts",
+              "src/games/social-engine/persistence/compression.ts",
+              "src/games/social-engine/persistence/records.ts",
+              "src/games/social-engine/domain/content.ts",
+              "src/games/social-engine/domain/economy-types.ts",
+              "src/games/social-engine/domain/life-types.ts",
+              "src/games/social-engine/domain/mobility-types.ts",
+              "src/games/social-engine/domain/progression-types.ts",
+              "src/games/social-engine/domain/social-types.ts",
+              "src/games/social-engine/domain/traffic.ts",
+              "src/games/social-engine/domain/types.ts",
+              "src/games/social-engine/domain/world.ts",
+              "src/games/social-engine/simulation/economy.ts",
+              "src/games/social-engine/simulation/engine.ts",
+              "src/games/social-engine/simulation/events.ts",
+              "src/games/social-engine/simulation/family.ts",
+              "src/games/social-engine/simulation/justice.ts",
+              "src/games/social-engine/simulation/ledger.ts",
+              "src/games/social-engine/simulation/life.ts",
+              "src/games/social-engine/simulation/missions.ts",
+              "src/games/social-engine/simulation/mobility.ts",
+              "src/games/social-engine/simulation/population.ts",
+              "src/games/social-engine/simulation/progression.ts",
+              "src/games/social-engine/simulation/random.ts",
+              "src/games/social-engine/simulation/services.ts",
+              "src/games/social-engine/simulation/social.ts",
+              "src/games/social-engine/simulation/society.ts",
+              "src/games/social-engine/simulation/traffic.ts"
+            ]
+          },
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "duration_ms": 1536106.781,
+          "scope": "Pure fixed-step simulation; not renderer or human playtime."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "No completed current-source 365-day receipt. Historical results cannot complete this gate."
+    },
+    {
+      "id": "SE-048",
+      "section": "365 gün simülasyon",
+      "precondition": "180 gün kayıt",
+      "action": "Yükle 365e devam",
+      "expected": "Hash aynı",
+      "priority": "P0",
+      "automation": "Determinism",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/current-receipts/05ccedd21559e314791a252f33da7e667e472fbb227b6f7ec36932d820f292d3.json"
+      ],
+      "seed": null,
+      "environment": [
+        {
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2",
+          "logicalCpus": 8,
+          "memoryBytes": 17179869184,
+          "node": "v24.21.0",
+          "engine": "1.0.0-candidate.4",
+          "seed": 20261103,
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "dirtyTree": true,
+          "sourceSha256": "0ccedb58f3fe7f8b80c16d26d442ec11d941a589329aa97d462dddee7dda36a2",
+          "sourceFiles": [
+            "src/games/social-engine/persistence/codec.ts",
+            "src/games/social-engine/persistence/compression.ts",
+            "src/games/social-engine/persistence/records.ts",
+            "src/games/social-engine/domain/content.ts",
+            "src/games/social-engine/domain/economy-types.ts",
+            "src/games/social-engine/domain/life-types.ts",
+            "src/games/social-engine/domain/mobility-types.ts",
+            "src/games/social-engine/domain/progression-types.ts",
+            "src/games/social-engine/domain/social-types.ts",
+            "src/games/social-engine/domain/traffic.ts",
+            "src/games/social-engine/domain/types.ts",
+            "src/games/social-engine/domain/world.ts",
+            "src/games/social-engine/simulation/economy.ts",
+            "src/games/social-engine/simulation/engine.ts",
+            "src/games/social-engine/simulation/events.ts",
+            "src/games/social-engine/simulation/family.ts",
+            "src/games/social-engine/simulation/justice.ts",
+            "src/games/social-engine/simulation/ledger.ts",
+            "src/games/social-engine/simulation/life.ts",
+            "src/games/social-engine/simulation/missions.ts",
+            "src/games/social-engine/simulation/mobility.ts",
+            "src/games/social-engine/simulation/population.ts",
+            "src/games/social-engine/simulation/progression.ts",
+            "src/games/social-engine/simulation/random.ts",
+            "src/games/social-engine/simulation/services.ts",
+            "src/games/social-engine/simulation/social.ts",
+            "src/games/social-engine/simulation/society.ts",
+            "src/games/social-engine/simulation/traffic.ts"
+          ]
+        }
+      ],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": 1536106.781,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "No completed current-source 365-day receipt. Historical results cannot complete this gate.",
+          "receipt": "simulation-365/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/05ccedd21559e314791a252f33da7e667e472fbb227b6f7ec36932d820f292d3.json",
+          "environment": {
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2",
+            "logicalCpus": 8,
+            "memoryBytes": 17179869184,
+            "node": "v24.21.0",
+            "engine": "1.0.0-candidate.4",
+            "seed": 20261103,
+            "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+            "dirtyTree": true,
+            "sourceSha256": "0ccedb58f3fe7f8b80c16d26d442ec11d941a589329aa97d462dddee7dda36a2",
+            "sourceFiles": [
+              "src/games/social-engine/persistence/codec.ts",
+              "src/games/social-engine/persistence/compression.ts",
+              "src/games/social-engine/persistence/records.ts",
+              "src/games/social-engine/domain/content.ts",
+              "src/games/social-engine/domain/economy-types.ts",
+              "src/games/social-engine/domain/life-types.ts",
+              "src/games/social-engine/domain/mobility-types.ts",
+              "src/games/social-engine/domain/progression-types.ts",
+              "src/games/social-engine/domain/social-types.ts",
+              "src/games/social-engine/domain/traffic.ts",
+              "src/games/social-engine/domain/types.ts",
+              "src/games/social-engine/domain/world.ts",
+              "src/games/social-engine/simulation/economy.ts",
+              "src/games/social-engine/simulation/engine.ts",
+              "src/games/social-engine/simulation/events.ts",
+              "src/games/social-engine/simulation/family.ts",
+              "src/games/social-engine/simulation/justice.ts",
+              "src/games/social-engine/simulation/ledger.ts",
+              "src/games/social-engine/simulation/life.ts",
+              "src/games/social-engine/simulation/missions.ts",
+              "src/games/social-engine/simulation/mobility.ts",
+              "src/games/social-engine/simulation/population.ts",
+              "src/games/social-engine/simulation/progression.ts",
+              "src/games/social-engine/simulation/random.ts",
+              "src/games/social-engine/simulation/services.ts",
+              "src/games/social-engine/simulation/social.ts",
+              "src/games/social-engine/simulation/society.ts",
+              "src/games/social-engine/simulation/traffic.ts"
+            ]
+          },
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "duration_ms": 1536106.781,
+          "scope": "Pure fixed-step simulation; not renderer or human playtime."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "No completed current-source 365-day receipt. Historical results cannot complete this gate."
+    },
+    {
+      "id": "SE-049",
+      "section": "Performans bellek",
+      "precondition": "Referans PC",
+      "action": "30 dk oyna",
+      "expected": "p95 frame <=33.3ms",
+      "priority": "P0",
+      "automation": "Trace",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/performance/2026-11-04T06-41-57-572Z/report.json"
+      ],
+      "seed": null,
+      "environment": [],
+      "build_sha": null,
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "The Apple M2 host is not the specified four-core reference PC. Its measured frame times cannot satisfy this precondition.",
+          "receipt": "performance/2026-11-04T06-41-57-572Z/report.json",
+          "evidence": "artifacts/social-engine/performance/2026-11-04T06-41-57-572Z/report.json"
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "The Apple M2 host is not the specified four-core reference PC. Its measured frame times cannot satisfy this precondition."
+    },
+    {
+      "id": "SE-050",
+      "section": "Performans bellek",
+      "precondition": "1000 NPC",
+      "action": "60 dk çalıştır",
+      "expected": "Long task <=%5",
+      "priority": "P1",
+      "automation": "Trace",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/performance/2026-11-04T06-41-57-572Z/report.json"
+      ],
+      "seed": null,
+      "environment": [
+        {
+          "platform": "darwin",
+          "release": "25.6.0",
+          "arch": "arm64",
+          "cpus": [
+            "Apple M2",
+            "Apple M2",
+            "Apple M2",
+            "Apple M2",
+            "Apple M2",
+            "Apple M2",
+            "Apple M2",
+            "Apple M2"
+          ],
+          "logicalCpus": 8,
+          "totalMemoryBytes": 17179869184,
+          "viewport": {
+            "width": 1920,
+            "height": 1080
+          },
+          "dpr": 1,
+          "headless": true,
+          "concurrentWork": "Full legacy tests,365-day simulation,build/development may contend for CPU during this run; not an isolated reference-PC result.",
+          "browser": "151.0.7922.34",
+          "systemInfo": {
+            "gpu": {
+              "devices": [
+                {
+                  "vendorId": 65535,
+                  "deviceId": 65535,
+                  "vendorString": "Google Inc. (Google)",
+                  "deviceString": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (LLVM 10.0.0) (0x0000C0DE)), SwiftShader driver-5.0.0)",
+                  "driverVendor": "SwANGLE",
+                  "driverVersion": "5.0.0"
+                }
+              ],
+              "auxAttributes": {
+                "amdSwitchable": false,
+                "canSupportThreadedTextureMailbox": false,
+                "directRenderingVersion": "",
+                "displayType": "ANGLE_SWIFTSHADER",
+                "glExtensions": "GL_AMD_performance_monitor GL_ANGLE_base_vertex_base_instance_shader_builtin GL_ANGLE_blob_cache GL_ANGLE_client_arrays GL_ANGLE_clip_cull_distance GL_ANGLE_compressed_texture_etc GL_ANGLE_copy_texture_3d GL_ANGLE_depth_texture GL_ANGLE_framebuffer_blit GL_ANGLE_framebuffer_multisample GL_ANGLE_get_image GL_ANGLE_get_serialized_context_string GL_ANGLE_get_tex_level_parameter GL_ANGLE_instanced_arrays GL_ANGLE_memory_object_flags GL_ANGLE_memory_size GL_ANGLE_multi_draw GL_ANGLE_pack_reverse_row_order GL_ANGLE_polygon_mode GL_ANGLE_program_binary_readiness_query GL_ANGLE_program_cache_control GL_ANGLE_read_only_depth_stencil_feedback_loops GL_ANGLE_relaxed_vertex_attribute_type GL_ANGLE_renderability_validation GL_ANGLE_request_extension GL_ANGLE_rgbx_internal_format GL_ANGLE_robust_client_memory GL_ANGLE_robust_fragment_shader_output GL_ANGLE_robust_resource_initialization GL_ANGLE_shader_pixel_local_storage GL_ANGLE_shader_pixel_local_storage_coherent GL_ANGLE_stencil_texturing GL_ANGLE_texture_compression_dxt3 GL_ANGLE_texture_compression_dxt5 GL_ANGLE_texture_multisample GL_ANGLE_texture_usage GL_ANGLE_translated_shader_source GL_ANGLE_vulkan_image GL_ANGLE_yuv_internal_format GL_APPLE_clip_distance GL_ARM_rgba8 GL_ARM_shader_framebuffer_fetch GL_ARM_shader_framebuffer_fetch_depth_stencil GL_CHROMIUM_bind_generates_resource GL_CHROMIUM_bind_uniform_location GL_CHROMIUM_copy_compressed_texture GL_CHROMIUM_copy_texture GL_CHROMIUM_lose_context GL_EXT_EGL_image_array GL_EXT_EGL_image_external_wrap_modes GL_EXT_EGL_image_storage GL_EXT_base_instance GL_EXT_blend_minmax GL_EXT_buffer_storage GL_EXT_clear_texture GL_EXT_clip_control GL_EXT_clip_cull_distance GL_EXT_color_buffer_float GL_EXT_color_buffer_half_float GL_EXT_compressed_ETC1_RGB8_sub_texture GL_EXT_conservative_depth GL_EXT_copy_image GL_EXT_debug_label GL_EXT_debug_marker GL_EXT_depth_clamp GL_EXT_discard_framebuffer GL_EXT_disjoint_timer_query GL_EXT_draw_buffers GL_EXT_draw_buffers_indexed GL_EXT_draw_elements_base_vertex GL_EXT_float_blend GL_EXT_frag_depth GL_EXT_instanced_arrays GL_EXT_map_buffer_range GL_EXT_memory_object GL_EXT_memory_object_fd GL_EXT_occlusion_query_boolean GL_EXT_polygon_offset_clamp GL_EXT_read_format_bgra GL_EXT_robustness GL_EXT_sRGB GL_EXT_sRGB_write_control GL_EXT_semaphore GL_EXT_separate_shader_objects GL_EXT_shader_framebuffer_fetch GL_EXT_shader_framebuffer_fetch_non_coherent GL_EXT_shader_non_constant_global_initializers GL_EXT_shader_texture_lod GL_EXT_shadow_samplers GL_EXT_texture_border_clamp GL_EXT_texture_compression_bptc GL_EXT_texture_compression_dxt1 GL_EXT_texture_compression_rgtc GL_EXT_texture_compression_s3tc_srgb GL_EXT_texture_cube_map_array GL_EXT_texture_filter_anisotropic GL_EXT_texture_format_BGRA8888 GL_EXT_texture_lod_bias GL_EXT_texture_mirror_clamp_to_edge GL_EXT_texture_rg GL_EXT_texture_sRGB_R8 GL_EXT_texture_sRGB_RG8 GL_EXT_texture_sRGB_decode GL_EXT_texture_shadow_lod GL_EXT_texture_storage GL_EXT_texture_type_2_10_10_10_REV GL_EXT_unpack_subimage GL_KHR_blend_equation_advanced GL_KHR_debug GL_KHR_robust_buffer_access_behavior GL_KHR_robustness GL_KHR_texture_compression_astc_ldr GL_NV_fence GL_NV_framebuffer_blit GL_NV_pack_subimage GL_NV_pixel_buffer_object GL_NV_polygon_mode GL_NV_read_depth GL_NV_read_depth_stencil GL_NV_read_stencil GL_NV_shader_noperspective_interpolation GL_OES_EGL_image GL_OES_EGL_image_external GL_OES_EGL_image_external_essl3 GL_OES_EGL_sync GL_OES_compressed_EAC_R11_signed_texture GL_OES_compressed_EAC_R11_unsigned_texture GL_OES_compressed_EAC_RG11_signed_texture GL_OES_compressed_EAC_RG11_unsigned_texture GL_OES_compressed_ETC1_RGB8_texture GL_OES_compressed_ETC2_RGB8_texture GL_OES_compressed_ETC2_RGBA8_texture GL_OES_compressed_ETC2_punchthroughA_RGBA8_texture GL_OES_compressed_ETC2_punchthroughA_sRGB8_alpha_texture GL_OES_compressed_ETC2_sRGB8_alpha8_texture GL_OES_compressed_ETC2_sRGB8_texture GL_OES_compressed_paletted_texture GL_OES_copy_image GL_OES_depth24 GL_OES_depth32 GL_OES_depth_texture GL_OES_depth_texture_cube_map GL_OES_draw_buffers_indexed GL_OES_draw_elements_base_vertex GL_OES_element_index_uint GL_OES_fbo_render_mipmap GL_OES_get_program_binary GL_OES_mapbuffer GL_OES_packed_depth_stencil GL_OES_required_internalformat GL_OES_rgb8_rgba8 GL_OES_sample_shading GL_OES_sample_variables GL_OES_shader_multisample_interpolation GL_OES_standard_derivatives GL_OES_surfaceless_context GL_OES_texture_3D GL_OES_texture_border_clamp GL_OES_texture_cube_map_array GL_OES_texture_float GL_OES_texture_float_linear GL_OES_texture_half_float GL_OES_texture_half_float_linear GL_OES_texture_npot GL_OES_texture_stencil8 GL_OES_texture_storage_multisample_2d_array GL_OES_vertex_array_object GL_OES_vertex_half_float GL_OES_vertex_type_10_10_10_2 GL_OVR_multiview GL_OVR_multiview2 GL_QCOM_texture_lod_bias ",
+                "glImplementationParts": "(gl=egl-angle,angle=swiftshader)",
+                "glRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (LLVM 10.0.0) (0x0000C0DE)), SwiftShader driver-5.0.0)",
+                "glResetNotificationStrategy": 33362,
+                "glVendor": "Google Inc. (Google)",
+                "glVersion": "OpenGL ES 3.0 (ANGLE 2.1.28222 git hash: 6dab7c7e742b)",
+                "glWsExtensions": "",
+                "glWsVendor": "",
+                "glWsVersion": "",
+                "inProcessGpu": false,
+                "initializationTime": 1.157185,
+                "isAsan": false,
+                "isClangCoverage": false,
+                "jpegDecodeAcceleratorSupported": false,
+                "maxMsaaSamples": "4",
+                "optimus": false,
+                "passthroughCmdDecoder": true,
+                "pixelShaderVersion": "3.00",
+                "processCrashCount": 0,
+                "sandboxed": false,
+                "skiaBackendType": "None",
+                "subpixelFontRendering": true,
+                "targetCpuBits": 64,
+                "vertexShaderVersion": "3.00",
+                "visibilityCallbackCallCount": 0
+              },
+              "featureStatus": {
+                "2d_canvas": "unavailable_software",
+                "direct_rendering_display_compositor": "disabled_off_ok",
+                "gpu_compositing": "disabled_software",
+                "multiple_raster_threads": "enabled_on",
+                "opengl": "disabled_off",
+                "rasterization": "disabled_software",
+                "raw_draw": "disabled_off_ok",
+                "skia_graphite": "disabled_off",
+                "trees_in_viz": "disabled_off",
+                "video_decode": "disabled_software",
+                "video_encode": "disabled_software",
+                "webgl": "unavailable_software",
+                "webgpu": "unavailable_software",
+                "webnn": "unavailable_software"
+              },
+              "driverBugWorkarounds": [],
+              "videoDecoding": [],
+              "videoEncoding": []
+            },
+            "modelName": "Mac",
+            "modelVersion": "14.7",
+            "commandLine": "../browsers/chromium_headless_shell-1234/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/var/folders/k1/zprsgklx4xqbs2wb4cq59bsr0000gn/T/playwright_chromiumdev_profile-H8MLuj --remote-debugging-pipe --no-startup-window --use-mock-keychain --use-gl=angle --use-angle=swiftshader-webgl --allow-pre-commit-input"
+          }
+        }
+      ],
+      "build_sha": null,
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "60 continuous minutes required; fixed-tick cross-check: UNVERIFIED. Receipt status: no current completed measurement.",
+          "receipt": "performance/2026-11-04T06-41-57-572Z/report.json",
+          "evidence": "artifacts/social-engine/performance/2026-11-04T06-41-57-572Z/report.json",
+          "environment": {
+            "platform": "darwin",
+            "release": "25.6.0",
+            "arch": "arm64",
+            "cpus": [
+              "Apple M2",
+              "Apple M2",
+              "Apple M2",
+              "Apple M2",
+              "Apple M2",
+              "Apple M2",
+              "Apple M2",
+              "Apple M2"
+            ],
+            "logicalCpus": 8,
+            "totalMemoryBytes": 17179869184,
+            "viewport": {
+              "width": 1920,
+              "height": 1080
+            },
+            "dpr": 1,
+            "headless": true,
+            "concurrentWork": "Full legacy tests,365-day simulation,build/development may contend for CPU during this run; not an isolated reference-PC result.",
+            "browser": "151.0.7922.34",
+            "systemInfo": {
+              "gpu": {
+                "devices": [
+                  {
+                    "vendorId": 65535,
+                    "deviceId": 65535,
+                    "vendorString": "Google Inc. (Google)",
+                    "deviceString": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (LLVM 10.0.0) (0x0000C0DE)), SwiftShader driver-5.0.0)",
+                    "driverVendor": "SwANGLE",
+                    "driverVersion": "5.0.0"
+                  }
+                ],
+                "auxAttributes": {
+                  "amdSwitchable": false,
+                  "canSupportThreadedTextureMailbox": false,
+                  "directRenderingVersion": "",
+                  "displayType": "ANGLE_SWIFTSHADER",
+                  "glExtensions": "GL_AMD_performance_monitor GL_ANGLE_base_vertex_base_instance_shader_builtin GL_ANGLE_blob_cache GL_ANGLE_client_arrays GL_ANGLE_clip_cull_distance GL_ANGLE_compressed_texture_etc GL_ANGLE_copy_texture_3d GL_ANGLE_depth_texture GL_ANGLE_framebuffer_blit GL_ANGLE_framebuffer_multisample GL_ANGLE_get_image GL_ANGLE_get_serialized_context_string GL_ANGLE_get_tex_level_parameter GL_ANGLE_instanced_arrays GL_ANGLE_memory_object_flags GL_ANGLE_memory_size GL_ANGLE_multi_draw GL_ANGLE_pack_reverse_row_order GL_ANGLE_polygon_mode GL_ANGLE_program_binary_readiness_query GL_ANGLE_program_cache_control GL_ANGLE_read_only_depth_stencil_feedback_loops GL_ANGLE_relaxed_vertex_attribute_type GL_ANGLE_renderability_validation GL_ANGLE_request_extension GL_ANGLE_rgbx_internal_format GL_ANGLE_robust_client_memory GL_ANGLE_robust_fragment_shader_output GL_ANGLE_robust_resource_initialization GL_ANGLE_shader_pixel_local_storage GL_ANGLE_shader_pixel_local_storage_coherent GL_ANGLE_stencil_texturing GL_ANGLE_texture_compression_dxt3 GL_ANGLE_texture_compression_dxt5 GL_ANGLE_texture_multisample GL_ANGLE_texture_usage GL_ANGLE_translated_shader_source GL_ANGLE_vulkan_image GL_ANGLE_yuv_internal_format GL_APPLE_clip_distance GL_ARM_rgba8 GL_ARM_shader_framebuffer_fetch GL_ARM_shader_framebuffer_fetch_depth_stencil GL_CHROMIUM_bind_generates_resource GL_CHROMIUM_bind_uniform_location GL_CHROMIUM_copy_compressed_texture GL_CHROMIUM_copy_texture GL_CHROMIUM_lose_context GL_EXT_EGL_image_array GL_EXT_EGL_image_external_wrap_modes GL_EXT_EGL_image_storage GL_EXT_base_instance GL_EXT_blend_minmax GL_EXT_buffer_storage GL_EXT_clear_texture GL_EXT_clip_control GL_EXT_clip_cull_distance GL_EXT_color_buffer_float GL_EXT_color_buffer_half_float GL_EXT_compressed_ETC1_RGB8_sub_texture GL_EXT_conservative_depth GL_EXT_copy_image GL_EXT_debug_label GL_EXT_debug_marker GL_EXT_depth_clamp GL_EXT_discard_framebuffer GL_EXT_disjoint_timer_query GL_EXT_draw_buffers GL_EXT_draw_buffers_indexed GL_EXT_draw_elements_base_vertex GL_EXT_float_blend GL_EXT_frag_depth GL_EXT_instanced_arrays GL_EXT_map_buffer_range GL_EXT_memory_object GL_EXT_memory_object_fd GL_EXT_occlusion_query_boolean GL_EXT_polygon_offset_clamp GL_EXT_read_format_bgra GL_EXT_robustness GL_EXT_sRGB GL_EXT_sRGB_write_control GL_EXT_semaphore GL_EXT_separate_shader_objects GL_EXT_shader_framebuffer_fetch GL_EXT_shader_framebuffer_fetch_non_coherent GL_EXT_shader_non_constant_global_initializers GL_EXT_shader_texture_lod GL_EXT_shadow_samplers GL_EXT_texture_border_clamp GL_EXT_texture_compression_bptc GL_EXT_texture_compression_dxt1 GL_EXT_texture_compression_rgtc GL_EXT_texture_compression_s3tc_srgb GL_EXT_texture_cube_map_array GL_EXT_texture_filter_anisotropic GL_EXT_texture_format_BGRA8888 GL_EXT_texture_lod_bias GL_EXT_texture_mirror_clamp_to_edge GL_EXT_texture_rg GL_EXT_texture_sRGB_R8 GL_EXT_texture_sRGB_RG8 GL_EXT_texture_sRGB_decode GL_EXT_texture_shadow_lod GL_EXT_texture_storage GL_EXT_texture_type_2_10_10_10_REV GL_EXT_unpack_subimage GL_KHR_blend_equation_advanced GL_KHR_debug GL_KHR_robust_buffer_access_behavior GL_KHR_robustness GL_KHR_texture_compression_astc_ldr GL_NV_fence GL_NV_framebuffer_blit GL_NV_pack_subimage GL_NV_pixel_buffer_object GL_NV_polygon_mode GL_NV_read_depth GL_NV_read_depth_stencil GL_NV_read_stencil GL_NV_shader_noperspective_interpolation GL_OES_EGL_image GL_OES_EGL_image_external GL_OES_EGL_image_external_essl3 GL_OES_EGL_sync GL_OES_compressed_EAC_R11_signed_texture GL_OES_compressed_EAC_R11_unsigned_texture GL_OES_compressed_EAC_RG11_signed_texture GL_OES_compressed_EAC_RG11_unsigned_texture GL_OES_compressed_ETC1_RGB8_texture GL_OES_compressed_ETC2_RGB8_texture GL_OES_compressed_ETC2_RGBA8_texture GL_OES_compressed_ETC2_punchthroughA_RGBA8_texture GL_OES_compressed_ETC2_punchthroughA_sRGB8_alpha_texture GL_OES_compressed_ETC2_sRGB8_alpha8_texture GL_OES_compressed_ETC2_sRGB8_texture GL_OES_compressed_paletted_texture GL_OES_copy_image GL_OES_depth24 GL_OES_depth32 GL_OES_depth_texture GL_OES_depth_texture_cube_map GL_OES_draw_buffers_indexed GL_OES_draw_elements_base_vertex GL_OES_element_index_uint GL_OES_fbo_render_mipmap GL_OES_get_program_binary GL_OES_mapbuffer GL_OES_packed_depth_stencil GL_OES_required_internalformat GL_OES_rgb8_rgba8 GL_OES_sample_shading GL_OES_sample_variables GL_OES_shader_multisample_interpolation GL_OES_standard_derivatives GL_OES_surfaceless_context GL_OES_texture_3D GL_OES_texture_border_clamp GL_OES_texture_cube_map_array GL_OES_texture_float GL_OES_texture_float_linear GL_OES_texture_half_float GL_OES_texture_half_float_linear GL_OES_texture_npot GL_OES_texture_stencil8 GL_OES_texture_storage_multisample_2d_array GL_OES_vertex_array_object GL_OES_vertex_half_float GL_OES_vertex_type_10_10_10_2 GL_OVR_multiview GL_OVR_multiview2 GL_QCOM_texture_lod_bias ",
+                  "glImplementationParts": "(gl=egl-angle,angle=swiftshader)",
+                  "glRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (LLVM 10.0.0) (0x0000C0DE)), SwiftShader driver-5.0.0)",
+                  "glResetNotificationStrategy": 33362,
+                  "glVendor": "Google Inc. (Google)",
+                  "glVersion": "OpenGL ES 3.0 (ANGLE 2.1.28222 git hash: 6dab7c7e742b)",
+                  "glWsExtensions": "",
+                  "glWsVendor": "",
+                  "glWsVersion": "",
+                  "inProcessGpu": false,
+                  "initializationTime": 1.157185,
+                  "isAsan": false,
+                  "isClangCoverage": false,
+                  "jpegDecodeAcceleratorSupported": false,
+                  "maxMsaaSamples": "4",
+                  "optimus": false,
+                  "passthroughCmdDecoder": true,
+                  "pixelShaderVersion": "3.00",
+                  "processCrashCount": 0,
+                  "sandboxed": false,
+                  "skiaBackendType": "None",
+                  "subpixelFontRendering": true,
+                  "targetCpuBits": 64,
+                  "vertexShaderVersion": "3.00",
+                  "visibilityCallbackCallCount": 0
+                },
+                "featureStatus": {
+                  "2d_canvas": "unavailable_software",
+                  "direct_rendering_display_compositor": "disabled_off_ok",
+                  "gpu_compositing": "disabled_software",
+                  "multiple_raster_threads": "enabled_on",
+                  "opengl": "disabled_off",
+                  "rasterization": "disabled_software",
+                  "raw_draw": "disabled_off_ok",
+                  "skia_graphite": "disabled_off",
+                  "trees_in_viz": "disabled_off",
+                  "video_decode": "disabled_software",
+                  "video_encode": "disabled_software",
+                  "webgl": "unavailable_software",
+                  "webgpu": "unavailable_software",
+                  "webnn": "unavailable_software"
+                },
+                "driverBugWorkarounds": [],
+                "videoDecoding": [],
+                "videoEncoding": []
+              },
+              "modelName": "Mac",
+              "modelVersion": "14.7",
+              "commandLine": "../browsers/chromium_headless_shell-1234/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/var/folders/k1/zprsgklx4xqbs2wb4cq59bsr0000gn/T/playwright_chromiumdev_profile-H8MLuj --remote-debugging-pipe --no-startup-window --use-mock-keychain --use-gl=angle --use-angle=swiftshader-webgl --allow-pre-commit-input"
+            }
+          },
+          "coverage": {
+            "status": "UNVERIFIED",
+            "requestedMinutes": 60,
+            "samples": 3,
+            "elapsedMs": 180361.097209,
+            "simulationMs": 180900,
+            "coverageRatio": 1.0029879103606003,
+            "issues": [
+              {
+                "reason": "Requested duration or minute observations missing"
+              }
+            ]
+          },
+          "scope": "Measured real-time browser workload with concurrent local tests; not reference-hardware or human playtest evidence."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "60 continuous minutes required; fixed-tick cross-check: UNVERIFIED. Receipt status: no current completed measurement."
+    },
+    {
+      "id": "SE-051",
+      "section": "Performans bellek",
+      "precondition": "GC kontrollü",
+      "action": "2 saat soak",
+      "expected": "Heap eğimi <=1MB/dk",
+      "priority": "P1",
+      "automation": "Profiler",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/performance/2026-11-04T06-41-57-572Z/report.json"
+      ],
+      "seed": null,
+      "environment": [
+        {
+          "platform": "darwin",
+          "release": "25.6.0",
+          "arch": "arm64",
+          "cpus": [
+            "Apple M2",
+            "Apple M2",
+            "Apple M2",
+            "Apple M2",
+            "Apple M2",
+            "Apple M2",
+            "Apple M2",
+            "Apple M2"
+          ],
+          "logicalCpus": 8,
+          "totalMemoryBytes": 17179869184,
+          "viewport": {
+            "width": 1920,
+            "height": 1080
+          },
+          "dpr": 1,
+          "headless": true,
+          "concurrentWork": "Full legacy tests,365-day simulation,build/development may contend for CPU during this run; not an isolated reference-PC result.",
+          "browser": "151.0.7922.34",
+          "systemInfo": {
+            "gpu": {
+              "devices": [
+                {
+                  "vendorId": 65535,
+                  "deviceId": 65535,
+                  "vendorString": "Google Inc. (Google)",
+                  "deviceString": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (LLVM 10.0.0) (0x0000C0DE)), SwiftShader driver-5.0.0)",
+                  "driverVendor": "SwANGLE",
+                  "driverVersion": "5.0.0"
+                }
+              ],
+              "auxAttributes": {
+                "amdSwitchable": false,
+                "canSupportThreadedTextureMailbox": false,
+                "directRenderingVersion": "",
+                "displayType": "ANGLE_SWIFTSHADER",
+                "glExtensions": "GL_AMD_performance_monitor GL_ANGLE_base_vertex_base_instance_shader_builtin GL_ANGLE_blob_cache GL_ANGLE_client_arrays GL_ANGLE_clip_cull_distance GL_ANGLE_compressed_texture_etc GL_ANGLE_copy_texture_3d GL_ANGLE_depth_texture GL_ANGLE_framebuffer_blit GL_ANGLE_framebuffer_multisample GL_ANGLE_get_image GL_ANGLE_get_serialized_context_string GL_ANGLE_get_tex_level_parameter GL_ANGLE_instanced_arrays GL_ANGLE_memory_object_flags GL_ANGLE_memory_size GL_ANGLE_multi_draw GL_ANGLE_pack_reverse_row_order GL_ANGLE_polygon_mode GL_ANGLE_program_binary_readiness_query GL_ANGLE_program_cache_control GL_ANGLE_read_only_depth_stencil_feedback_loops GL_ANGLE_relaxed_vertex_attribute_type GL_ANGLE_renderability_validation GL_ANGLE_request_extension GL_ANGLE_rgbx_internal_format GL_ANGLE_robust_client_memory GL_ANGLE_robust_fragment_shader_output GL_ANGLE_robust_resource_initialization GL_ANGLE_shader_pixel_local_storage GL_ANGLE_shader_pixel_local_storage_coherent GL_ANGLE_stencil_texturing GL_ANGLE_texture_compression_dxt3 GL_ANGLE_texture_compression_dxt5 GL_ANGLE_texture_multisample GL_ANGLE_texture_usage GL_ANGLE_translated_shader_source GL_ANGLE_vulkan_image GL_ANGLE_yuv_internal_format GL_APPLE_clip_distance GL_ARM_rgba8 GL_ARM_shader_framebuffer_fetch GL_ARM_shader_framebuffer_fetch_depth_stencil GL_CHROMIUM_bind_generates_resource GL_CHROMIUM_bind_uniform_location GL_CHROMIUM_copy_compressed_texture GL_CHROMIUM_copy_texture GL_CHROMIUM_lose_context GL_EXT_EGL_image_array GL_EXT_EGL_image_external_wrap_modes GL_EXT_EGL_image_storage GL_EXT_base_instance GL_EXT_blend_minmax GL_EXT_buffer_storage GL_EXT_clear_texture GL_EXT_clip_control GL_EXT_clip_cull_distance GL_EXT_color_buffer_float GL_EXT_color_buffer_half_float GL_EXT_compressed_ETC1_RGB8_sub_texture GL_EXT_conservative_depth GL_EXT_copy_image GL_EXT_debug_label GL_EXT_debug_marker GL_EXT_depth_clamp GL_EXT_discard_framebuffer GL_EXT_disjoint_timer_query GL_EXT_draw_buffers GL_EXT_draw_buffers_indexed GL_EXT_draw_elements_base_vertex GL_EXT_float_blend GL_EXT_frag_depth GL_EXT_instanced_arrays GL_EXT_map_buffer_range GL_EXT_memory_object GL_EXT_memory_object_fd GL_EXT_occlusion_query_boolean GL_EXT_polygon_offset_clamp GL_EXT_read_format_bgra GL_EXT_robustness GL_EXT_sRGB GL_EXT_sRGB_write_control GL_EXT_semaphore GL_EXT_separate_shader_objects GL_EXT_shader_framebuffer_fetch GL_EXT_shader_framebuffer_fetch_non_coherent GL_EXT_shader_non_constant_global_initializers GL_EXT_shader_texture_lod GL_EXT_shadow_samplers GL_EXT_texture_border_clamp GL_EXT_texture_compression_bptc GL_EXT_texture_compression_dxt1 GL_EXT_texture_compression_rgtc GL_EXT_texture_compression_s3tc_srgb GL_EXT_texture_cube_map_array GL_EXT_texture_filter_anisotropic GL_EXT_texture_format_BGRA8888 GL_EXT_texture_lod_bias GL_EXT_texture_mirror_clamp_to_edge GL_EXT_texture_rg GL_EXT_texture_sRGB_R8 GL_EXT_texture_sRGB_RG8 GL_EXT_texture_sRGB_decode GL_EXT_texture_shadow_lod GL_EXT_texture_storage GL_EXT_texture_type_2_10_10_10_REV GL_EXT_unpack_subimage GL_KHR_blend_equation_advanced GL_KHR_debug GL_KHR_robust_buffer_access_behavior GL_KHR_robustness GL_KHR_texture_compression_astc_ldr GL_NV_fence GL_NV_framebuffer_blit GL_NV_pack_subimage GL_NV_pixel_buffer_object GL_NV_polygon_mode GL_NV_read_depth GL_NV_read_depth_stencil GL_NV_read_stencil GL_NV_shader_noperspective_interpolation GL_OES_EGL_image GL_OES_EGL_image_external GL_OES_EGL_image_external_essl3 GL_OES_EGL_sync GL_OES_compressed_EAC_R11_signed_texture GL_OES_compressed_EAC_R11_unsigned_texture GL_OES_compressed_EAC_RG11_signed_texture GL_OES_compressed_EAC_RG11_unsigned_texture GL_OES_compressed_ETC1_RGB8_texture GL_OES_compressed_ETC2_RGB8_texture GL_OES_compressed_ETC2_RGBA8_texture GL_OES_compressed_ETC2_punchthroughA_RGBA8_texture GL_OES_compressed_ETC2_punchthroughA_sRGB8_alpha_texture GL_OES_compressed_ETC2_sRGB8_alpha8_texture GL_OES_compressed_ETC2_sRGB8_texture GL_OES_compressed_paletted_texture GL_OES_copy_image GL_OES_depth24 GL_OES_depth32 GL_OES_depth_texture GL_OES_depth_texture_cube_map GL_OES_draw_buffers_indexed GL_OES_draw_elements_base_vertex GL_OES_element_index_uint GL_OES_fbo_render_mipmap GL_OES_get_program_binary GL_OES_mapbuffer GL_OES_packed_depth_stencil GL_OES_required_internalformat GL_OES_rgb8_rgba8 GL_OES_sample_shading GL_OES_sample_variables GL_OES_shader_multisample_interpolation GL_OES_standard_derivatives GL_OES_surfaceless_context GL_OES_texture_3D GL_OES_texture_border_clamp GL_OES_texture_cube_map_array GL_OES_texture_float GL_OES_texture_float_linear GL_OES_texture_half_float GL_OES_texture_half_float_linear GL_OES_texture_npot GL_OES_texture_stencil8 GL_OES_texture_storage_multisample_2d_array GL_OES_vertex_array_object GL_OES_vertex_half_float GL_OES_vertex_type_10_10_10_2 GL_OVR_multiview GL_OVR_multiview2 GL_QCOM_texture_lod_bias ",
+                "glImplementationParts": "(gl=egl-angle,angle=swiftshader)",
+                "glRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (LLVM 10.0.0) (0x0000C0DE)), SwiftShader driver-5.0.0)",
+                "glResetNotificationStrategy": 33362,
+                "glVendor": "Google Inc. (Google)",
+                "glVersion": "OpenGL ES 3.0 (ANGLE 2.1.28222 git hash: 6dab7c7e742b)",
+                "glWsExtensions": "",
+                "glWsVendor": "",
+                "glWsVersion": "",
+                "inProcessGpu": false,
+                "initializationTime": 1.157185,
+                "isAsan": false,
+                "isClangCoverage": false,
+                "jpegDecodeAcceleratorSupported": false,
+                "maxMsaaSamples": "4",
+                "optimus": false,
+                "passthroughCmdDecoder": true,
+                "pixelShaderVersion": "3.00",
+                "processCrashCount": 0,
+                "sandboxed": false,
+                "skiaBackendType": "None",
+                "subpixelFontRendering": true,
+                "targetCpuBits": 64,
+                "vertexShaderVersion": "3.00",
+                "visibilityCallbackCallCount": 0
+              },
+              "featureStatus": {
+                "2d_canvas": "unavailable_software",
+                "direct_rendering_display_compositor": "disabled_off_ok",
+                "gpu_compositing": "disabled_software",
+                "multiple_raster_threads": "enabled_on",
+                "opengl": "disabled_off",
+                "rasterization": "disabled_software",
+                "raw_draw": "disabled_off_ok",
+                "skia_graphite": "disabled_off",
+                "trees_in_viz": "disabled_off",
+                "video_decode": "disabled_software",
+                "video_encode": "disabled_software",
+                "webgl": "unavailable_software",
+                "webgpu": "unavailable_software",
+                "webnn": "unavailable_software"
+              },
+              "driverBugWorkarounds": [],
+              "videoDecoding": [],
+              "videoEncoding": []
+            },
+            "modelName": "Mac",
+            "modelVersion": "14.7",
+            "commandLine": "../browsers/chromium_headless_shell-1234/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/var/folders/k1/zprsgklx4xqbs2wb4cq59bsr0000gn/T/playwright_chromiumdev_profile-H8MLuj --remote-debugging-pipe --no-startup-window --use-mock-keychain --use-gl=angle --use-angle=swiftshader-webgl --allow-pre-commit-input"
+          }
+        }
+      ],
+      "build_sha": null,
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "120 continuous minutes required; fixed-tick cross-check: UNVERIFIED. Receipt status: no current completed measurement.",
+          "receipt": "performance/2026-11-04T06-41-57-572Z/report.json",
+          "evidence": "artifacts/social-engine/performance/2026-11-04T06-41-57-572Z/report.json",
+          "environment": {
+            "platform": "darwin",
+            "release": "25.6.0",
+            "arch": "arm64",
+            "cpus": [
+              "Apple M2",
+              "Apple M2",
+              "Apple M2",
+              "Apple M2",
+              "Apple M2",
+              "Apple M2",
+              "Apple M2",
+              "Apple M2"
+            ],
+            "logicalCpus": 8,
+            "totalMemoryBytes": 17179869184,
+            "viewport": {
+              "width": 1920,
+              "height": 1080
+            },
+            "dpr": 1,
+            "headless": true,
+            "concurrentWork": "Full legacy tests,365-day simulation,build/development may contend for CPU during this run; not an isolated reference-PC result.",
+            "browser": "151.0.7922.34",
+            "systemInfo": {
+              "gpu": {
+                "devices": [
+                  {
+                    "vendorId": 65535,
+                    "deviceId": 65535,
+                    "vendorString": "Google Inc. (Google)",
+                    "deviceString": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (LLVM 10.0.0) (0x0000C0DE)), SwiftShader driver-5.0.0)",
+                    "driverVendor": "SwANGLE",
+                    "driverVersion": "5.0.0"
+                  }
+                ],
+                "auxAttributes": {
+                  "amdSwitchable": false,
+                  "canSupportThreadedTextureMailbox": false,
+                  "directRenderingVersion": "",
+                  "displayType": "ANGLE_SWIFTSHADER",
+                  "glExtensions": "GL_AMD_performance_monitor GL_ANGLE_base_vertex_base_instance_shader_builtin GL_ANGLE_blob_cache GL_ANGLE_client_arrays GL_ANGLE_clip_cull_distance GL_ANGLE_compressed_texture_etc GL_ANGLE_copy_texture_3d GL_ANGLE_depth_texture GL_ANGLE_framebuffer_blit GL_ANGLE_framebuffer_multisample GL_ANGLE_get_image GL_ANGLE_get_serialized_context_string GL_ANGLE_get_tex_level_parameter GL_ANGLE_instanced_arrays GL_ANGLE_memory_object_flags GL_ANGLE_memory_size GL_ANGLE_multi_draw GL_ANGLE_pack_reverse_row_order GL_ANGLE_polygon_mode GL_ANGLE_program_binary_readiness_query GL_ANGLE_program_cache_control GL_ANGLE_read_only_depth_stencil_feedback_loops GL_ANGLE_relaxed_vertex_attribute_type GL_ANGLE_renderability_validation GL_ANGLE_request_extension GL_ANGLE_rgbx_internal_format GL_ANGLE_robust_client_memory GL_ANGLE_robust_fragment_shader_output GL_ANGLE_robust_resource_initialization GL_ANGLE_shader_pixel_local_storage GL_ANGLE_shader_pixel_local_storage_coherent GL_ANGLE_stencil_texturing GL_ANGLE_texture_compression_dxt3 GL_ANGLE_texture_compression_dxt5 GL_ANGLE_texture_multisample GL_ANGLE_texture_usage GL_ANGLE_translated_shader_source GL_ANGLE_vulkan_image GL_ANGLE_yuv_internal_format GL_APPLE_clip_distance GL_ARM_rgba8 GL_ARM_shader_framebuffer_fetch GL_ARM_shader_framebuffer_fetch_depth_stencil GL_CHROMIUM_bind_generates_resource GL_CHROMIUM_bind_uniform_location GL_CHROMIUM_copy_compressed_texture GL_CHROMIUM_copy_texture GL_CHROMIUM_lose_context GL_EXT_EGL_image_array GL_EXT_EGL_image_external_wrap_modes GL_EXT_EGL_image_storage GL_EXT_base_instance GL_EXT_blend_minmax GL_EXT_buffer_storage GL_EXT_clear_texture GL_EXT_clip_control GL_EXT_clip_cull_distance GL_EXT_color_buffer_float GL_EXT_color_buffer_half_float GL_EXT_compressed_ETC1_RGB8_sub_texture GL_EXT_conservative_depth GL_EXT_copy_image GL_EXT_debug_label GL_EXT_debug_marker GL_EXT_depth_clamp GL_EXT_discard_framebuffer GL_EXT_disjoint_timer_query GL_EXT_draw_buffers GL_EXT_draw_buffers_indexed GL_EXT_draw_elements_base_vertex GL_EXT_float_blend GL_EXT_frag_depth GL_EXT_instanced_arrays GL_EXT_map_buffer_range GL_EXT_memory_object GL_EXT_memory_object_fd GL_EXT_occlusion_query_boolean GL_EXT_polygon_offset_clamp GL_EXT_read_format_bgra GL_EXT_robustness GL_EXT_sRGB GL_EXT_sRGB_write_control GL_EXT_semaphore GL_EXT_separate_shader_objects GL_EXT_shader_framebuffer_fetch GL_EXT_shader_framebuffer_fetch_non_coherent GL_EXT_shader_non_constant_global_initializers GL_EXT_shader_texture_lod GL_EXT_shadow_samplers GL_EXT_texture_border_clamp GL_EXT_texture_compression_bptc GL_EXT_texture_compression_dxt1 GL_EXT_texture_compression_rgtc GL_EXT_texture_compression_s3tc_srgb GL_EXT_texture_cube_map_array GL_EXT_texture_filter_anisotropic GL_EXT_texture_format_BGRA8888 GL_EXT_texture_lod_bias GL_EXT_texture_mirror_clamp_to_edge GL_EXT_texture_rg GL_EXT_texture_sRGB_R8 GL_EXT_texture_sRGB_RG8 GL_EXT_texture_sRGB_decode GL_EXT_texture_shadow_lod GL_EXT_texture_storage GL_EXT_texture_type_2_10_10_10_REV GL_EXT_unpack_subimage GL_KHR_blend_equation_advanced GL_KHR_debug GL_KHR_robust_buffer_access_behavior GL_KHR_robustness GL_KHR_texture_compression_astc_ldr GL_NV_fence GL_NV_framebuffer_blit GL_NV_pack_subimage GL_NV_pixel_buffer_object GL_NV_polygon_mode GL_NV_read_depth GL_NV_read_depth_stencil GL_NV_read_stencil GL_NV_shader_noperspective_interpolation GL_OES_EGL_image GL_OES_EGL_image_external GL_OES_EGL_image_external_essl3 GL_OES_EGL_sync GL_OES_compressed_EAC_R11_signed_texture GL_OES_compressed_EAC_R11_unsigned_texture GL_OES_compressed_EAC_RG11_signed_texture GL_OES_compressed_EAC_RG11_unsigned_texture GL_OES_compressed_ETC1_RGB8_texture GL_OES_compressed_ETC2_RGB8_texture GL_OES_compressed_ETC2_RGBA8_texture GL_OES_compressed_ETC2_punchthroughA_RGBA8_texture GL_OES_compressed_ETC2_punchthroughA_sRGB8_alpha_texture GL_OES_compressed_ETC2_sRGB8_alpha8_texture GL_OES_compressed_ETC2_sRGB8_texture GL_OES_compressed_paletted_texture GL_OES_copy_image GL_OES_depth24 GL_OES_depth32 GL_OES_depth_texture GL_OES_depth_texture_cube_map GL_OES_draw_buffers_indexed GL_OES_draw_elements_base_vertex GL_OES_element_index_uint GL_OES_fbo_render_mipmap GL_OES_get_program_binary GL_OES_mapbuffer GL_OES_packed_depth_stencil GL_OES_required_internalformat GL_OES_rgb8_rgba8 GL_OES_sample_shading GL_OES_sample_variables GL_OES_shader_multisample_interpolation GL_OES_standard_derivatives GL_OES_surfaceless_context GL_OES_texture_3D GL_OES_texture_border_clamp GL_OES_texture_cube_map_array GL_OES_texture_float GL_OES_texture_float_linear GL_OES_texture_half_float GL_OES_texture_half_float_linear GL_OES_texture_npot GL_OES_texture_stencil8 GL_OES_texture_storage_multisample_2d_array GL_OES_vertex_array_object GL_OES_vertex_half_float GL_OES_vertex_type_10_10_10_2 GL_OVR_multiview GL_OVR_multiview2 GL_QCOM_texture_lod_bias ",
+                  "glImplementationParts": "(gl=egl-angle,angle=swiftshader)",
+                  "glRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (LLVM 10.0.0) (0x0000C0DE)), SwiftShader driver-5.0.0)",
+                  "glResetNotificationStrategy": 33362,
+                  "glVendor": "Google Inc. (Google)",
+                  "glVersion": "OpenGL ES 3.0 (ANGLE 2.1.28222 git hash: 6dab7c7e742b)",
+                  "glWsExtensions": "",
+                  "glWsVendor": "",
+                  "glWsVersion": "",
+                  "inProcessGpu": false,
+                  "initializationTime": 1.157185,
+                  "isAsan": false,
+                  "isClangCoverage": false,
+                  "jpegDecodeAcceleratorSupported": false,
+                  "maxMsaaSamples": "4",
+                  "optimus": false,
+                  "passthroughCmdDecoder": true,
+                  "pixelShaderVersion": "3.00",
+                  "processCrashCount": 0,
+                  "sandboxed": false,
+                  "skiaBackendType": "None",
+                  "subpixelFontRendering": true,
+                  "targetCpuBits": 64,
+                  "vertexShaderVersion": "3.00",
+                  "visibilityCallbackCallCount": 0
+                },
+                "featureStatus": {
+                  "2d_canvas": "unavailable_software",
+                  "direct_rendering_display_compositor": "disabled_off_ok",
+                  "gpu_compositing": "disabled_software",
+                  "multiple_raster_threads": "enabled_on",
+                  "opengl": "disabled_off",
+                  "rasterization": "disabled_software",
+                  "raw_draw": "disabled_off_ok",
+                  "skia_graphite": "disabled_off",
+                  "trees_in_viz": "disabled_off",
+                  "video_decode": "disabled_software",
+                  "video_encode": "disabled_software",
+                  "webgl": "unavailable_software",
+                  "webgpu": "unavailable_software",
+                  "webnn": "unavailable_software"
+                },
+                "driverBugWorkarounds": [],
+                "videoDecoding": [],
+                "videoEncoding": []
+              },
+              "modelName": "Mac",
+              "modelVersion": "14.7",
+              "commandLine": "../browsers/chromium_headless_shell-1234/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/var/folders/k1/zprsgklx4xqbs2wb4cq59bsr0000gn/T/playwright_chromiumdev_profile-H8MLuj --remote-debugging-pipe --no-startup-window --use-mock-keychain --use-gl=angle --use-angle=swiftshader-webgl --allow-pre-commit-input"
+            }
+          },
+          "coverage": {
+            "status": "UNVERIFIED",
+            "requestedMinutes": 120,
+            "samples": 3,
+            "elapsedMs": 180361.097209,
+            "simulationMs": 180900,
+            "coverageRatio": 1.0029879103606003,
+            "issues": [
+              {
+                "reason": "Requested duration or minute observations missing"
+              }
+            ]
+          },
+          "scope": "Measured real-time browser workload with concurrent local tests; not reference-hardware or human playtest evidence."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "120 continuous minutes required; fixed-tick cross-check: UNVERIFIED. Receipt status: no current completed measurement."
+    },
+    {
+      "id": "SE-052",
+      "section": "Tarayıcı uyumluluğu",
+      "precondition": "Chromium güncel",
+      "action": "Kritik akışı oyna",
+      "expected": "Fatal hata yok",
+      "priority": "P0",
+      "automation": "Playwright",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json"
+      ],
+      "seed": null,
+      "environment": [
+        {
+          "browser": "151.0.7922.34",
+          "base": "http://127.0.0.1:8252"
+        }
+      ],
+      "build_sha": null,
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "Local chromium 151.0.7922.34: 14 recorded critical-flow cases, 0 page errors.",
+          "receipt": "browser-chromium/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json",
+          "environment": {
+            "browser": "151.0.7922.34",
+            "base": "http://127.0.0.1:8252"
+          },
+          "scope": "Isolated browser profile on the local candidate URL."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Local chromium 151.0.7922.34: 14 recorded critical-flow cases, 0 page errors."
+    },
+    {
+      "id": "SE-053",
+      "section": "Tarayıcı uyumluluğu",
+      "precondition": "Firefox güncel",
+      "action": "Kritik akışı oyna",
+      "expected": "Temel işlevler çalışır",
+      "priority": "P1",
+      "automation": "Playwright",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/browser-firefox/results.json"
+      ],
+      "seed": null,
+      "environment": [
+        {
+          "browser": "153.0",
+          "base": "http://127.0.0.1:8111"
+        }
+      ],
+      "build_sha": null,
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest e7ac6b6902a8 remains unverified for this check.",
+          "receipt": "browser-firefox/results.json",
+          "evidence": "artifacts/social-engine/browser-firefox/results.json",
+          "environment": {
+            "browser": "153.0",
+            "base": "http://127.0.0.1:8111"
+          },
+          "scope": "Isolated browser profile on the local candidate URL."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Historical manifest 5f6ee17a0a8c. Current manifest e7ac6b6902a8 remains unverified for this check."
+    },
+    {
+      "id": "SE-054",
+      "section": "Tarayıcı uyumluluğu",
+      "precondition": "WebKit güncel",
+      "action": "Kritik akışı oyna",
+      "expected": "Temel işlevler çalışır",
+      "priority": "P1",
+      "automation": "Playwright",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/browser-webkit/results.json"
+      ],
+      "seed": null,
+      "environment": [
+        {
+          "browser": "26.5",
+          "base": "http://127.0.0.1:8111"
+        }
+      ],
+      "build_sha": null,
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest e7ac6b6902a8 remains unverified for this check.",
+          "receipt": "browser-webkit/results.json",
+          "evidence": "artifacts/social-engine/browser-webkit/results.json",
+          "environment": {
+            "browser": "26.5",
+            "base": "http://127.0.0.1:8111"
+          },
+          "scope": "Isolated browser profile on the local candidate URL."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Historical manifest 5f6ee17a0a8c. Current manifest e7ac6b6902a8 remains unverified for this check."
+    },
+    {
+      "id": "SE-055",
+      "section": "UI erişilebilirlik",
+      "precondition": "HUD açık",
+      "action": "Değerleri değiştir",
+      "expected": "HUD tutarlı",
+      "priority": "P0",
+      "automation": "E2E",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json"
+      ],
+      "seed": null,
+      "environment": [],
+      "build_sha": null,
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "Completed explicit browser assertion SE-055-dom-hud.",
+          "receipt": "browser-chromium/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json",
+          "assertion": "SE-055-dom-hud"
+        },
+        {
+          "status": "UNVERIFIED",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest e7ac6b6902a8 remains unverified for this check.",
+          "receipt": "browser-evidence/results.json",
+          "evidence": "artifacts/social-engine/browser-evidence/results.json"
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Completed explicit browser assertion SE-055-dom-hud."
+    },
+    {
+      "id": "SE-056",
+      "section": "UI erişilebilirlik",
+      "precondition": "Menü açık",
+      "action": "Klavye ile gezin",
+      "expected": "Odak görünür",
+      "priority": "P1",
+      "automation": "Axe",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/axe/results.json"
+      ],
+      "seed": null,
+      "environment": [],
+      "build_sha": null,
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest e7ac6b6902a8 remains unverified for this check.",
+          "receipt": "axe/results.json",
+          "evidence": "artifacts/social-engine/axe/results.json",
+          "scope": [
+            "Automated Axe results and keyboard tests do not establish full screen-reader access to the visual game world.",
+            "Axe color-contrast incomplete findings are recorded as unverified; screenshots require visual review. This report PASS applies to SE-056 keyboard focus plus detected Axe violations, not full WCAG compliance."
+          ]
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Historical manifest 5f6ee17a0a8c. Current manifest e7ac6b6902a8 remains unverified for this check."
+    },
+    {
+      "id": "SE-057",
+      "section": "UI erişilebilirlik",
+      "precondition": "İki viewport",
+      "action": "Ekranı değiştir",
+      "expected": "Kontroller taşmaz",
+      "priority": "P1",
+      "automation": "Visual",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json"
+      ],
+      "seed": null,
+      "environment": [],
+      "build_sha": null,
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "No horizontal document overflow across 1280, 1920 and 390 pixel viewports.",
+          "receipt": "browser-chromium/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json",
+          "caseIds": [
+            "SE-057"
+          ],
+          "scope": "Local Chromium DOM/canvas and public commands with fixed-step QA advancement."
+        },
+        {
+          "status": "UNVERIFIED",
+          "reason": "1280 and 1920 viewports retain reachable readable dialog controls",
+          "receipt": "ui-browser/results.json",
+          "evidence": "artifacts/social-engine/ui-browser/results.json",
+          "environment": {
+            "browser": "151.0.7922.34"
+          },
+          "duration_ms": 34044.83012500001
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "No horizontal document overflow across 1280, 1920 and 390 pixel viewports."
+    },
+    {
+      "id": "SE-058",
+      "section": "Deployment production",
+      "precondition": "PR hazır",
+      "action": "CI çalıştır",
+      "expected": "Kapılar geçer",
+      "priority": "P0",
+      "automation": "CI",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/deployment-verification.json"
+      ],
+      "seed": null,
+      "environment": [],
+      "build_sha": null,
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "A local candidate or draft PR does not verify completed applicable CI, the production deployment identity, or a live game smoke test.",
+          "receipt": "deployment-verification.json",
+          "evidence": "artifacts/social-engine/deployment-verification.json"
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "A local candidate or draft PR does not verify completed applicable CI, the production deployment identity, or a live game smoke test."
+    },
+    {
+      "id": "SE-059",
+      "section": "Deployment production",
+      "precondition": "Deploy tamam",
+      "action": "ID ve SHA doğrula",
+      "expected": "Canlı commit doğru",
+      "priority": "P0",
+      "automation": "Provider API",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/deployment-verification.json"
+      ],
+      "seed": null,
+      "environment": [],
+      "build_sha": null,
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "A local candidate or draft PR does not verify completed applicable CI, the production deployment identity, or a live game smoke test.",
+          "receipt": "deployment-verification.json",
+          "evidence": "artifacts/social-engine/deployment-verification.json"
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "A local candidate or draft PR does not verify completed applicable CI, the production deployment identity, or a live game smoke test."
+    },
+    {
+      "id": "SE-060",
+      "section": "Deployment production",
+      "precondition": "Canlı URL",
+      "action": "Oyun ve eski oyun smoke",
+      "expected": "Yeni ve eski oyunlar çalışır",
+      "priority": "P0",
+      "automation": "Playwright",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/deployment-verification.json"
+      ],
+      "seed": null,
+      "environment": [],
+      "build_sha": null,
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "A local candidate or draft PR does not verify completed applicable CI, the production deployment identity, or a live game smoke test.",
+          "receipt": "deployment-verification.json",
+          "evidence": "artifacts/social-engine/deployment-verification.json"
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "A local candidate or draft PR does not verify completed applicable CI, the production deployment identity, or a live game smoke test."
+    }
+  ],
+  "evidence_manifest": [
+    {
+      "path": "artifacts/social-engine/acceptance-unit.json",
+      "sha256": "467d89c71df4b5823c071d84540973139db32e5e98f8f86b7897436920b6141b",
+      "receipt": "acceptance-unit.json"
+    },
+    {
+      "path": "artifacts/social-engine/current-receipts/17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5.json",
+      "sha256": "17e560a3913db7ef65db41265e0c58cd0de0abeb2a820714ef21db1d4041e7d5",
+      "receipt": "browser-chromium/results.json"
+    },
+    {
+      "path": "artifacts/social-engine/browser-firefox/results.json",
+      "sha256": "e4bdbcf07cf203afefff2b8411457c9e025f9cdb07f5bf68c5316c467972141d",
+      "receipt": "browser-firefox/results.json"
+    },
+    {
+      "path": "artifacts/social-engine/browser-webkit/results.json",
+      "sha256": "d80bccf0b5c07a2b8f12b2078bc5c2824ea0abee9265748155292182f60cfd6a",
+      "receipt": "browser-webkit/results.json"
+    },
+    {
+      "path": "artifacts/social-engine/ui-browser/results.json",
+      "sha256": "d1590277821288060c1c924552bc056c52956b614ecae5f285907c587d953504",
+      "receipt": "ui-browser/results.json"
+    },
+    {
+      "path": "artifacts/social-engine/browser-evidence/results.json",
+      "sha256": "2420d9d7546e594a84316ca4bd9b924d976a37c05de5a1e1306bf93cb72a106d",
+      "receipt": "browser-evidence/results.json"
+    },
+    {
+      "path": "artifacts/social-engine/persistence-browser/results.json",
+      "sha256": "e76c1e1dc948aaf566961935641407d3875d5198243e362a73e357ac3fa3e4f2",
+      "receipt": "persistence-browser/results.json"
+    },
+    {
+      "path": "artifacts/social-engine/persistence-browser-firefox/results.json",
+      "sha256": "f3ffa96c692206e8301c6708897959ee0bc22ed5063a7981e336d0866a291df3",
+      "receipt": "persistence-browser-firefox/results.json"
+    },
+    {
+      "path": "artifacts/social-engine/persistence-browser-webkit/results.json",
+      "sha256": "d9f8114747e69ca937df84c9da2f89e55660f2f3c6fdd50a46f9f57d0b518625",
+      "receipt": "persistence-browser-webkit/results.json"
+    },
+    {
+      "path": "artifacts/social-engine/v4-browser/results.json",
+      "sha256": "815aa0b7a6fab2495742dfe3b981ef1a64af29e07a225e7407f3d4cb3e96e9a7",
+      "receipt": "v4-browser/results.json"
+    },
+    {
+      "path": "artifacts/social-engine/current-receipts/05ccedd21559e314791a252f33da7e667e472fbb227b6f7ec36932d820f292d3.json",
+      "sha256": "05ccedd21559e314791a252f33da7e667e472fbb227b6f7ec36932d820f292d3",
+      "receipt": "simulation-365/results.json"
+    },
+    {
+      "path": "artifacts/social-engine/axe/results.json",
+      "sha256": "e9ccfbcfcf84e5ffa59de92ab304e54fa9fa206f5f33f99ded8f274c08e684fc",
+      "receipt": "axe/results.json"
+    },
+    {
+      "path": "artifacts/social-engine/performance/2026-11-04T06-41-57-572Z/report.json",
+      "sha256": "0c02bd65fee2c6ba9700eecbafae56114747b20c6fc478fecc9744669e772db3",
+      "receipt": "performance/2026-11-04T06-41-57-572Z/report.json"
+    },
+    {
+      "path": "artifacts/social-engine/deployment-verification.json",
+      "sha256": "f72ccefe802226dc3e23623e3b615203ffe0c540904b135b5c2d0161e737aa00",
+      "receipt": "deployment-verification.json"
+    },
+    {
+      "path": "artifacts/social-engine/browser-determinism/results.json",
+      "sha256": "1cccc8b62de5b1802e9a507e6de006f65d29d9e85a442f5bed3c113c57ac8ac6",
+      "receipt": "browser-determinism/results.json"
+    },
+    {
+      "path": "artifacts/social-engine/renderer-lifecycle/results.json",
+      "sha256": "3408ba4cdd90077ab428fb29abbffd9098cfd58ace57366ced36f8dcce2c09a5",
+      "receipt": "renderer-lifecycle/results.json"
+    },
+    {
+      "path": "artifacts/social-engine/journal-browser/results.json",
+      "sha256": "f097dcd95a875fce0fc6f52535d06fd3a9d3d7c8fa90923e8e56a0fc96b495b4",
+      "receipt": "journal-browser/results.json"
+    },
+    {
+      "path": "artifacts/social-engine/asset-faults/results.json",
+      "sha256": "0c7efa3da04f53d0e36bb00c3728ceca8ee77a8cfc23781b1e90fe629429472b",
+      "receipt": "asset-faults/results.json"
+    },
+    {
+      "path": "artifacts/social-engine/route-browser/results.json",
+      "sha256": "2cea3537119aafbb84c5b563ba1d92d091f7f414b3921ed909671f923a004dd8",
+      "receipt": "route-browser/results.json"
+    },
+    {
+      "path": "artifacts/social-engine/startup-network/results.json",
+      "sha256": "739094c19a3b9ada3e0fac9d09eaa247bd9188db389f2da4163e4a208eaebd9b",
+      "receipt": "startup-network/results.json"
+    },
+    {
+      "path": "artifacts/social-engine/property-browser-chromium/results.json",
+      "sha256": "9858f5e6b20f012a12d641b877a07b82d4b229f45d6218b0ba098fa07f263244",
+      "receipt": "property-browser-chromium/results.json"
+    },
+    {
+      "path": "artifacts/social-engine/property-browser-firefox/results.json",
+      "sha256": "e2d9ac49a398bfca11d119aa4f19fd20f48f737ea7484e7f92ad25c8c6b38f16",
+      "receipt": "property-browser-firefox/results.json"
+    },
+    {
+      "path": "artifacts/social-engine/property-browser-webkit/results.json",
+      "sha256": "0b8412bf7b9d8d69b6f5e5ec6488a4fc97903b97a51c305b6806dae10a15bf1b",
+      "receipt": "property-browser-webkit/results.json"
+    },
+    {
+      "path": "artifacts/social-engine/cold-start-chromium/results.json",
+      "sha256": "983db8e3117a2b3625284e9b91691775b586773a49d218c0738bbf0f361e9e25",
+      "receipt": "cold-start-chromium/results.json"
+    },
+    {
+      "path": "artifacts/social-engine/cold-start-firefox/results.json",
+      "sha256": "7ea1cb916acc26dcc6e3dbb41443a2405ff33a888e0ff3d1eed34d8bb6691ca3",
+      "receipt": "cold-start-firefox/results.json"
+    },
+    {
+      "path": "artifacts/social-engine/cold-start-webkit/results.json",
+      "sha256": "5d56ab125dfce792e0804049603a8a342b04f5ded8d7856b3bf6d1de80e3c3af",
+      "receipt": "cold-start-webkit/results.json"
+    },
+    {
+      "path": "artifacts/social-engine/native-browser/stable-repeats/summary.json",
+      "sha256": "bce412ae7cc7a5f90eff8f36093878237795b037e1c13ae349e4d395b8be067b",
+      "receipt": "native-browser/stable-repeats/summary.json"
+    },
+    {
+      "path": "artifacts/social-engine/current-receipts/b9918d5e2226a7018d1fd5ad9c6908494199803202a07e115652052f3446a410.json",
+      "sha256": "b9918d5e2226a7018d1fd5ad9c6908494199803202a07e115652052f3446a410",
+      "receipt": "capacity-10000/results.json"
+    },
+    {
+      "path": "artifacts/social-engine/current-receipts/43968ff8701a37c887162aba19c3bf1f74cff6a07fdf35569387b45629074ced.json",
+      "sha256": "43968ff8701a37c887162aba19c3bf1f74cff6a07fdf35569387b45629074ced",
+      "receipt": "event-reachability/results.json"
+    },
+    {
+      "path": "artifacts/social-engine/current-receipts/582695cec28134c52b74b972d487985d07bf9c6be6a73b7bea3ef6397071658a.json",
+      "sha256": "582695cec28134c52b74b972d487985d07bf9c6be6a73b7bea3ef6397071658a",
+      "receipt": "late-save/results.json"
+    },
+    {
+      "path": "artifacts/social-engine/current-receipts/b9fe89882c763469eb2f4f1aabff69e7dc006463622888c47cf6d388e5e2b98e.json",
+      "sha256": "b9fe89882c763469eb2f4f1aabff69e7dc006463622888c47cf6d388e5e2b98e",
+      "receipt": "upgrade/rules8-worker/results.json"
+    },
+    {
+      "path": "artifacts/social-engine/current-receipts/5da64fa220a330ff385f4d8b9b9ea741aa9c79439c4b5bfe81f3e0dcd4140489.json",
+      "sha256": "5da64fa220a330ff385f4d8b9b9ea741aa9c79439c4b5bfe81f3e0dcd4140489",
+      "receipt": "portable-smoke/results.json"
+    },
+    {
+      "path": "artifacts/social-engine/current-receipts/c3150cc545de2597ca82faf240b9af1206c609e7ef88dad42beb1e9c1fe2d5be.json",
+      "sha256": "c3150cc545de2597ca82faf240b9af1206c609e7ef88dad42beb1e9c1fe2d5be",
+      "receipt": "upgrade/legacy-display/results.json"
+    },
+    {
+      "path": "artifacts/social-engine/current-receipts/91f3693efc189b16bce2595bab122260fd20635d8a928e3ce7f32c22b8d31307.json",
+      "sha256": "91f3693efc189b16bce2595bab122260fd20635d8a928e3ce7f32c22b8d31307",
+      "receipt": "upgrade/careers/results.json"
+    },
+    {
+      "path": "artifacts/social-engine/current-receipts/de921a0c36b20af4a5b2740fa16b78a8a1a8df118a82fba2e9ff1e79c4a8628e.json",
+      "sha256": "de921a0c36b20af4a5b2740fa16b78a8a1a8df118a82fba2e9ff1e79c4a8628e",
+      "receipt": "under-load/v4-browser/results.json"
+    },
+    {
+      "path": "artifacts/social-engine/c5-history/v4-software-raster-under-load.json",
+      "sha256": "6b1054215a8ec776bc84f4a2a15834b01721b18817f56033bd1990498a1a7fc5",
+      "receipt": "c5-history/v4-software-raster-under-load.json"
+    },
+    {
+      "path": "artifacts/social-engine/current-receipts/ebf4780b18fc74a4fb9012590e6def50ee669bbeea82ccfe8e8621997142194e.json",
+      "sha256": "ebf4780b18fc74a4fb9012590e6def50ee669bbeea82ccfe8e8621997142194e",
+      "receipt": "under-load/journal-browser/results.json"
+    },
+    {
+      "path": "artifacts/social-engine/c5-history/journal-software-raster-under-load.json",
+      "sha256": "c36d5c1375988fb724efa1579b90b9202f3a2cf23600211d42460f4bb10e9e93",
+      "receipt": "c5-history/journal-software-raster-under-load.json"
+    },
+    {
+      "path": "artifacts/social-engine/legacy-browser/final-local/summary.json",
+      "sha256": "ac6fce3a261b83d048d3a35c9dce091248c183ed3d93b5d90953675a686cd67a",
+      "receipt": "legacy-browser/final-local/summary.json"
+    },
+    {
+      "path": "artifacts/social-engine/baseline/frozen-full-regression.json",
+      "sha256": "5081f36425ff9708c9d77cf8e8a47e3df5eab8630675fa4458c1598f59b186aa",
+      "receipt": "baseline/frozen-full-regression.json"
+    },
+    {
+      "path": "artifacts/social-engine/contract-gap-audit.json",
+      "sha256": "250df2309af23e6747bf0d92828dfc44da3dc5a84861ff64eee09f5c782f2bfa",
+      "receipt": "contract-gap-audit.json"
+    },
+    {
+      "path": "artifacts/social-engine/current-receipts/2842c2c7aedcb8f207f54331c6d906e2a8c2205e7703d6dd0244a0bf44d9a588.json",
+      "sha256": "2842c2c7aedcb8f207f54331c6d906e2a8c2205e7703d6dd0244a0bf44d9a588",
+      "receipt": "local-legacy-suite/results.json"
+    }
+  ],
+  "note": "All original60criteria retained verbatim. PASS requires evidence for the current source or exact served assets. Missing/stale/interrupted evidence is never PASS. This audit cannot authorize deployment."
+}

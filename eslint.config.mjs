@@ -16,6 +16,9 @@ export default tseslint.config(
       "node_modules/**",
       "src/routeTree.gen.ts",
       "public/vendor/**",
+      // SOCIAL ENGINE source is linted; generated bundles and captured evidence are not source.
+      "public/games/social-engine/**",
+      "artifacts/social-engine/**",
       "public/atlas/3d/vendor/**",
     ],
   },
@@ -32,10 +35,7 @@ export default tseslint.config(
       "react-refresh": reactRefresh,
     },
     rules: {
-      "react-refresh/only-export-components": [
-        "warn",
-        { allowConstantExport: true },
-      ],
+      "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
       "@typescript-eslint/no-unused-vars": [
         "warn",
         { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },

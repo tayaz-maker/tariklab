@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "browser": "chromium",
+  "version": "151.0.7922.34",
+  "manifestSha256": "5f6ee17a0a8c63152fb01fc2a310a26298c9c94ed5dc6682990b6bc19f9acc79",
+  "checks": [
+    "HUD controls and minimap retain DOM identity through multiple refreshes.",
+    "Map destination, entrance and real shop action move exactly one unit without a sale.",
+    "UI restitution restores the shop stock once and preserves the incident.",
+    "Real IndexedDB save and menu load preserve the original victim, incident and item identity."
+  ],
+  "errors": []
+}

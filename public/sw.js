@@ -62,6 +62,7 @@ const MODULE_GAME_PATHS = [
   "/games/gett-oh/",
   "/games/tc-sim/",
   "/games/tc-sim-boardworld/",
+  "/games/social-engine/",
   "/games/labirent/",
   "/games/peg-solitaire/",
   "/games/satranc/",

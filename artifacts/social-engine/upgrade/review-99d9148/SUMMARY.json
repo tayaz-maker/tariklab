@@ -1,0 +1,133 @@
+{
+  "runtime_source": "99d9148734a7ec81a18366f74e1bdb9c02988450",
+  "manifest_sha256": "f99509aa3dcccb828b95d91266db8b0f6d66e065e3bbd38d341195326810cb5e",
+  "unit_summary": [
+    "✔ SOCIAL ENGINE domain, simulation, navigation, assets and adversarial suites really execute (746192.231833ms)",
+    "ℹ 177 real domain, gameplay, worker and renderer cases executed; lifecycle/persistence run in their dedicated wrappers.",
+    "✔ SOCIAL ENGINE pure domain boundaries and isolated storage remain enforced (40.280958ms)",
+    "✔ SOCIAL ENGINE immutable bundle manifest matches every runtime byte and startup budget (22.212833ms)",
+    "✔ SOCIAL ENGINE art has provenance and concrete collision/map data (1.845833ms)",
+    "✔ SOCIAL ENGINE release gate preserves all60 unabridged acceptance criteria (1.441542ms)",
+    "✔ SOCIAL ENGINE household family education and recovery lifecycle (3931.097584ms)",
+    "✔ SOCIAL ENGINE persistence codec and frozen migration fixture (31031.097542ms)",
+    "ℹ tests 7",
+    "ℹ suites 0",
+    "ℹ pass 7",
+    "ℹ fail 0",
+    "ℹ cancelled 0",
+    "ℹ skipped 0",
+    "ℹ todo 0",
+    "ℹ duration_ms 781468.345125"
+  ],
+  "runtime_gzip_bytes": 254419,
+  "browser_results": {
+    "chromium": {
+      "browser": "151.0.7922.34",
+      "case_status": {
+        "SE-001": "PASS",
+        "SE-005": "PASS",
+        "SE-002,SE-004": "PASS",
+        "SE-007-keyboard": "PASS",
+        "SE-016": "PASS",
+        "SE-007-click,SE-009": "PASS",
+        "SE-013,SE-022": "PASS",
+        "SE-019,SE-020": "PASS",
+        "SE-014": "PASS",
+        "SE-035": "PASS",
+        "SE-033": "PASS",
+        "SE-031,SE-029,SE-030": "PASS",
+        "SE-040,SE-055": "PASS",
+        "SE-057": "PASS"
+      },
+      "gameplay_report_sha256": "ab2373e354c0e182fd915373f74b27b7cad22236a32d8050e534b7a557f4fbc2",
+      "persistence_checks": 31,
+      "persistence_report_sha256": "1f1c452f3699b65b60381ba66859755f798a4eaedac6183e611bdd89c3aa6be0"
+    },
+    "firefox": {
+      "browser": "153.0",
+      "case_status": {
+        "SE-001": "PASS",
+        "SE-005": "PASS",
+        "SE-002,SE-004": "PASS",
+        "SE-007-keyboard": "PASS",
+        "SE-016": "PASS",
+        "SE-007-click,SE-009": "PASS",
+        "SE-013,SE-022": "PASS",
+        "SE-019,SE-020": "PASS",
+        "SE-014": "PASS",
+        "SE-035": "PASS",
+        "SE-033": "PASS",
+        "SE-031,SE-029,SE-030": "PASS",
+        "SE-040,SE-055": "PASS",
+        "SE-057": "PASS"
+      },
+      "gameplay_report_sha256": "e732716edd74fcd2855cda5ad646afb97591faa8084e0ff44d5c530bb8e97d69",
+      "persistence_checks": 31,
+      "persistence_report_sha256": "b3caa84877069f6a56aec5cc4e0b9e4fda298177cbeeb171c770c5b5d9df35a1"
+    },
+    "webkit": {
+      "browser": "26.5",
+      "case_status": {
+        "SE-001": "PASS",
+        "SE-005": "PASS",
+        "SE-002,SE-004": "PASS",
+        "SE-007-keyboard": "PASS",
+        "SE-016": "PASS",
+        "SE-007-click,SE-009": "PASS",
+        "SE-013,SE-022": "PASS",
+        "SE-019,SE-020": "PASS",
+        "SE-014": "PASS",
+        "SE-035": "PASS",
+        "SE-033": "PASS",
+        "SE-031,SE-029,SE-030": "PASS",
+        "SE-040,SE-055": "PASS",
+        "SE-057": "PASS"
+      },
+      "gameplay_report_sha256": "3014425d5e4bc5dd3370ab47d2b84b5dfbd41f37a7e89822a863c123d15dec43",
+      "persistence_checks": 31,
+      "persistence_report_sha256": "1be79ce9b94b21b167887ba1e5718a8af5607cd40644a12baad18986de8ababb"
+    }
+  },
+  "raw_evidence": {
+    "legacy-regressions": {
+      "sha256": "3db29fefc83858e18ac935beacb5e4e8ebbf429fae6e4accf75ba2924b1a98bb",
+      "bytes": 315
+    },
+    "normal-worker-controls": {
+      "sha256": "4f63be6d14748aa6b992cee2104c37b73dd1d26143b6f42a4ff785fb384fa9e6",
+      "bytes": 400
+    },
+    "old-save-district": {
+      "sha256": "964a2ea3c9fe72947c3b407e5778985ca616a291229fbb70691fdd2b80f86d8f",
+      "bytes": 233
+    },
+    "work-orders": {
+      "sha256": "8e058f3561dda1a7d49f70d0f2982d5ac79cdd28520abd9c6afb9c62fa70ae70",
+      "bytes": 152
+    },
+    "observed-public-route": {
+      "sha256": "c3c97a95488b978c66671c33bbba9fdde3e5d5c78cc816e86367da3ccfa8423a",
+      "bytes": 225
+    },
+    "independent-visual-motion": {
+      "sha256": "4c562fd5eb88fa9fdd1cdf5f7237a687ac2136f721eb2d34665c314ec01f414e",
+      "bytes": 6144
+    },
+    "eight-heading-fixture": {
+      "sha256": "01f056e684f80b174cffdf41aaa2904170ab78d1b235f4af67e8ca406e1b166f",
+      "bytes": 2251
+    },
+    "browser-batch": {
+      "sha256": "a8f973478686bc12359d023ae93e353b1960c01e772d554bb0d27847ef9ccc7e",
+      "bytes": 264
+    }
+  },
+  "release_state": "GOLD_BLOCKED",
+  "open_gates": [
+    "Human playtest x2 deferred",
+    "physical low-end hardware unverified",
+    "Firefox late saved world p95 3211 ms, threshold 1000 ms",
+    "Endurance and exact-head CI not signed off",
+    "No Cloudflare production deployment/traffic/SHA confirmation"
+  ]
+}

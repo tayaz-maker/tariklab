@@ -1,0 +1,3058 @@
+{
+  "product": "SOCIAL ENGINE",
+  "schemaVersion": 2,
+  "evaluatedAt": "2026-11-03T21:13:00.849Z",
+  "source": "docs/social-engine/ACCEPTANCE_TESTS.md",
+  "source_sha256": "d496f0713313e5a3e1f14a75067efaee5751729a5242f20bdcae213249442772",
+  "criteria_modified": false,
+  "release_decision": "BLOCKED",
+  "production_status": "PRODUCTION_NOT_DEPLOYED",
+  "branch": "feature/social-engine-development",
+  "currentLocalCommit": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+  "runtimeManifestSha256": "7acc7343ed79d1a0f3b846544acd83ff435458f0a9b8b2d912dc4a4a274ff134",
+  "sourceDigest": "4e07f6c1d9a2174cdc871e578e90740fd5841b513f011357b4e21c2913594634",
+  "counts": {
+    "PASS": 54,
+    "FAIL": 0,
+    "SKIP": 0,
+    "UNVERIFIED": 6
+  },
+  "blocking_ids": [
+    "SE-049",
+    "SE-050",
+    "SE-051",
+    "SE-058",
+    "SE-059",
+    "SE-060"
+  ],
+  "required_evidence_status": {
+    "isolated_unit_sources": "PASS",
+    "cross_engine_365days": "UNVERIFIED",
+    "two_human_30_minute_sessions": "UNVERIFIED",
+    "reference_PC": "UNVERIFIED",
+    "low_end_physical_hardware": "UNVERIFIED",
+    "merge_authorization": "SUSPENDED_BY_USER",
+    "remote_PR_CI": "UNVERIFIED",
+    "provider_ID_SHA_live_smoke": "UNVERIFIED",
+    "rollback_trial": "UNVERIFIED",
+    "journal_recovery": "PASS",
+    "integrated_lifecycle_mobility_social": "PASS",
+    "asset_fault_recovery": "PASS",
+    "local_real_worker_route": "PASS",
+    "bundle_and_cold_network": "PASS",
+    "indexedDB_firefox": "PASS",
+    "indexedDB_webkit": "PASS",
+    "native_zoom_and_background": "FAIL",
+    "synthetic_10000_citizens": "PASS",
+    "twenty_event_branches": "PASS",
+    "late_save_20_roundtrips_three_engines": "PASS",
+    "full_repository_regression": "UNVERIFIED",
+    "remaining_contract_obligations": "UNVERIFIED"
+  },
+  "blocking_additional_gates": [
+    "cross_engine_365days",
+    "two_human_30_minute_sessions",
+    "reference_PC",
+    "low_end_physical_hardware",
+    "merge_authorization",
+    "remote_PR_CI",
+    "provider_ID_SHA_live_smoke",
+    "rollback_trial",
+    "native_zoom_and_background",
+    "full_repository_regression",
+    "remaining_contract_obligations"
+  ],
+  "results": [
+    {
+      "id": "SE-001",
+      "section": "İlk açılış",
+      "precondition": "Temiz profil",
+      "action": "URL aç",
+      "expected": "Menü hatasız açılır",
+      "priority": "P0",
+      "automation": "Playwright",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/browser-chromium/results.json"
+      ],
+      "seed": 20261103,
+      "environment": [],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "Current browser evidence missing.",
+          "evidence": "artifacts/social-engine/browser-chromium/results.json",
+          "scope": "Actual DOM/canvas; explicit QA fixed steps accelerate bounded fixtures, never human playtime."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Current browser evidence missing."
+    },
+    {
+      "id": "SE-002",
+      "section": "İlk açılış",
+      "precondition": "Kayıt yok",
+      "action": "Yeni oyun",
+      "expected": "Tek oyuncu oluşur",
+      "priority": "P0",
+      "automation": "E2E",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/browser-chromium/results.json"
+      ],
+      "seed": 20261103,
+      "environment": [],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "Current browser evidence missing.",
+          "evidence": "artifacts/social-engine/browser-chromium/results.json",
+          "scope": "Actual DOM/canvas; explicit QA fixed steps accelerate bounded fixtures, never human playtime."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Current browser evidence missing."
+    },
+    {
+      "id": "SE-003",
+      "section": "İlk açılış",
+      "precondition": "Başlatma ekranı",
+      "action": "Çift tıkla",
+      "expected": "Çift kayıt oluşmaz",
+      "priority": "P1",
+      "automation": "E2E",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/ui-browser/results.json"
+      ],
+      "seed": 20261103,
+      "environment": [
+        {
+          "browser": "156.0.8078.80"
+        }
+      ],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "double submit creates one persistent player and preserves chosen profile",
+          "evidence": "artifacts/social-engine/ui-browser/results.json",
+          "environment": {
+            "browser": "156.0.8078.80"
+          }
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "double submit creates one persistent player and preserves chosen profile"
+    },
+    {
+      "id": "SE-004",
+      "section": "Karakter oluşturma",
+      "precondition": "Form açık",
+      "action": "Karakter oluştur",
+      "expected": "Seçimler korunur",
+      "priority": "P0",
+      "automation": "E2E",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/browser-chromium/results.json"
+      ],
+      "seed": 20261103,
+      "environment": [],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "Current browser evidence missing.",
+          "evidence": "artifacts/social-engine/browser-chromium/results.json",
+          "scope": "Actual DOM/canvas; explicit QA fixed steps accelerate bounded fixtures, never human playtime."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Current browser evidence missing."
+    },
+    {
+      "id": "SE-005",
+      "section": "Karakter oluşturma",
+      "precondition": "Form açık",
+      "action": "Geçersiz ad",
+      "expected": "Güvenli doğrulama",
+      "priority": "P0",
+      "automation": "E2E",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/browser-chromium/results.json"
+      ],
+      "seed": 20261103,
+      "environment": [],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "Current browser evidence missing.",
+          "evidence": "artifacts/social-engine/browser-chromium/results.json",
+          "scope": "Actual DOM/canvas; explicit QA fixed steps accelerate bounded fixtures, never human playtime."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Current browser evidence missing."
+    },
+    {
+      "id": "SE-006",
+      "section": "Karakter oluşturma",
+      "precondition": "Puan bütçesi",
+      "action": "Limiti aş",
+      "expected": "Aşım engellenir",
+      "priority": "P1",
+      "automation": "Property",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json",
+        "artifacts/social-engine/ui-browser/results.json"
+      ],
+      "seed": 20261103,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        },
+        {
+          "browser": "156.0.8078.80"
+        }
+      ],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": 130.625667,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "SE-002 SE-004 SE-005 SE-006: one canonical adult player, validated profile and point budget",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "duration_ms": 130.625667,
+          "scope": "Pure domain/property/fault tests; no human-play or browser-performance claim."
+        },
+        {
+          "status": "PASS",
+          "reason": "invalid profile names and excessive attribute total are rejected through real form",
+          "evidence": "artifacts/social-engine/ui-browser/results.json",
+          "environment": {
+            "browser": "156.0.8078.80"
+          }
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "SE-002 SE-004 SE-005 SE-006: one canonical adult player, validated profile and point budget | invalid profile names and excessive attribute total are rejected through real form"
+    },
+    {
+      "id": "SE-007",
+      "section": "İzometrik hareket ve kamera",
+      "precondition": "Harita açık",
+      "action": "WASD ve tıklama",
+      "expected": "Doğru koordinat",
+      "priority": "P1",
+      "automation": "E2E",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/browser-chromium/results.json"
+      ],
+      "seed": 20261103,
+      "environment": [],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "; ",
+          "evidence": "artifacts/social-engine/browser-chromium/results.json",
+          "scope": "Actual DOM/canvas; explicit QA fixed steps accelerate bounded fixtures, never human playtime."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "; "
+    },
+    {
+      "id": "SE-008",
+      "section": "İzometrik hareket ve kamera",
+      "precondition": "Harita kenarı",
+      "action": "Kamera takip",
+      "expected": "Sınır korunur",
+      "priority": "P1",
+      "automation": "E2E",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/browser-evidence/results.json"
+      ],
+      "seed": 20261103,
+      "environment": [],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "Camera keeps player visible at four traversable world edges at three zoom levels",
+          "evidence": "artifacts/social-engine/browser-evidence/results.json"
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Camera keeps player visible at four traversable world edges at three zoom levels"
+    },
+    {
+      "id": "SE-009",
+      "section": "İzometrik hareket ve kamera",
+      "precondition": "Oyun açık",
+      "action": "Pencereyi boyutlandır",
+      "expected": "Hedef kaymaz",
+      "priority": "P1",
+      "automation": "E2E",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/browser-chromium/results.json"
+      ],
+      "seed": 20261103,
+      "environment": [],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "Current browser evidence missing.",
+          "evidence": "artifacts/social-engine/browser-chromium/results.json",
+          "scope": "Actual DOM/canvas; explicit QA fixed steps accelerate bounded fixtures, never human playtime."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Current browser evidence missing."
+    },
+    {
+      "id": "SE-010",
+      "section": "Çarpışma ve navigasyon",
+      "precondition": "Duvar var",
+      "action": "Duvara koş",
+      "expected": "Duvar geçilmez",
+      "priority": "P0",
+      "automation": "Physics",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json"
+      ],
+      "seed": 20261103,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": 1348.717167,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "SE-010 SE-012: fixed movement swept collision and world limits resist 10000 held inputs",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "duration_ms": 1348.717167,
+          "scope": "Pure domain/property/fault tests; no human-play or browser-performance claim."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "SE-010 SE-012: fixed movement swept collision and world limits resist 10000 held inputs"
+    },
+    {
+      "id": "SE-011",
+      "section": "Çarpışma ve navigasyon",
+      "precondition": "Kapalı yol",
+      "action": "Rota iste",
+      "expected": "Geçerli rota veya ret",
+      "priority": "P0",
+      "automation": "Graph",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json"
+      ],
+      "seed": 20261103,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": 337.184583,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "SE-011 background workers retain departure location until actual scheduled arrival and cannot earn absent wages; SE-011 shopping only consumes stock when the NPC has arrived at the open market; SE-011: obstructed target refuses movement and connected target follows valid path",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "duration_ms": 337.184583,
+          "scope": "Pure domain/property/fault tests; no human-play or browser-performance claim."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "SE-011 background workers retain departure location until actual scheduled arrival and cannot earn absent wages; SE-011 shopping only consumes stock when the NPC has arrived at the open market; SE-011: obstructed target refuses movement and connected target follows valid path"
+    },
+    {
+      "id": "SE-012",
+      "section": "Çarpışma ve navigasyon",
+      "precondition": "Harita sınırı",
+      "action": "Dışarı yürü",
+      "expected": "Geçersiz konum yok",
+      "priority": "P0",
+      "automation": "Fuzz",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json"
+      ],
+      "seed": 20261103,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": 4900.045708,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "SE-010 SE-012: fixed movement swept collision and world limits resist 10000 held inputs; SE-012 SE-023 SE-038: 100000 validated malformed/boundary commands never corrupt state",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "duration_ms": 4900.045708,
+          "scope": "Pure domain/property/fault tests; no human-play or browser-performance claim."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "SE-010 SE-012: fixed movement swept collision and world limits resist 10000 held inputs; SE-012 SE-023 SE-038: 100000 validated malformed/boundary commands never corrupt state"
+    },
+    {
+      "id": "SE-013",
+      "section": "Bina giriş çıkış",
+      "precondition": "Bina açık",
+      "action": "İçeri gir",
+      "expected": "Doğru sahne",
+      "priority": "P1",
+      "automation": "E2E",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/browser-chromium/results.json"
+      ],
+      "seed": 20261103,
+      "environment": [],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "Current browser evidence missing.",
+          "evidence": "artifacts/social-engine/browser-chromium/results.json",
+          "scope": "Actual DOM/canvas; explicit QA fixed steps accelerate bounded fixtures, never human playtime."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Current browser evidence missing."
+    },
+    {
+      "id": "SE-014",
+      "section": "Bina giriş çıkış",
+      "precondition": "İç mekân",
+      "action": "Dışarı çık",
+      "expected": "Doğru kapı",
+      "priority": "P0",
+      "automation": "E2E",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/browser-chromium/results.json"
+      ],
+      "seed": 20261103,
+      "environment": [],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "Current browser evidence missing.",
+          "evidence": "artifacts/social-engine/browser-chromium/results.json",
+          "scope": "Actual DOM/canvas; explicit QA fixed steps accelerate bounded fixtures, never human playtime."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Current browser evidence missing."
+    },
+    {
+      "id": "SE-015",
+      "section": "Bina giriş çıkış",
+      "precondition": "Geçiş aktif",
+      "action": "Etkileşimi tekrarla",
+      "expected": "Çift oyuncu yok",
+      "priority": "P1",
+      "automation": "Invariant",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json"
+      ],
+      "seed": 20261103,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": 4724.734916,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "SE-014 SE-015 SE-017: 100 repeated interior transitions preserve one player and exact door",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "duration_ms": 4724.734916,
+          "scope": "Pure domain/property/fault tests; no human-play or browser-performance claim."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "SE-014 SE-015 SE-017: 100 repeated interior transitions preserve one player and exact door"
+    },
+    {
+      "id": "SE-016",
+      "section": "NPC etkileşimleri",
+      "precondition": "NPC yakın",
+      "action": "Konuş",
+      "expected": "Doğru diyalog",
+      "priority": "P0",
+      "automation": "E2E",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/browser-chromium/results.json"
+      ],
+      "seed": 20261103,
+      "environment": [],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "Current browser evidence missing.",
+          "evidence": "artifacts/social-engine/browser-chromium/results.json",
+          "scope": "Actual DOM/canvas; explicit QA fixed steps accelerate bounded fixtures, never human playtime."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Current browser evidence missing."
+    },
+    {
+      "id": "SE-017",
+      "section": "NPC etkileşimleri",
+      "precondition": "NPC hareketli",
+      "action": "Sahne değiştir",
+      "expected": "Tek canonical konum",
+      "priority": "P0",
+      "automation": "Invariant",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json"
+      ],
+      "seed": 20261103,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": 4724.734916,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "SE-014 SE-015 SE-017: 100 repeated interior transitions preserve one player and exact door",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "duration_ms": 4724.734916,
+          "scope": "Pure domain/property/fault tests; no human-play or browser-performance claim."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "SE-014 SE-015 SE-017: 100 repeated interior transitions preserve one player and exact door"
+    },
+    {
+      "id": "SE-018",
+      "section": "NPC etkileşimleri",
+      "precondition": "NPC meşgul",
+      "action": "Eşzamanlı konuş",
+      "expected": "Çift işlem yok",
+      "priority": "P1",
+      "automation": "Race",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/browser-evidence/results.json"
+      ],
+      "seed": 20261103,
+      "environment": [],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "Concurrent dialogue commands resolve once in one authoritative tick",
+          "evidence": "artifacts/social-engine/browser-evidence/results.json"
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Concurrent dialogue commands resolve once in one authoritative tick"
+    },
+    {
+      "id": "SE-019",
+      "section": "Meslekler ve kazanç",
+      "precondition": "İş var",
+      "action": "Vardiya tamamla",
+      "expected": "Ücret ödenir",
+      "priority": "P1",
+      "automation": "E2E",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/browser-chromium/results.json"
+      ],
+      "seed": 20261103,
+      "environment": [],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "Current browser evidence missing.",
+          "evidence": "artifacts/social-engine/browser-chromium/results.json",
+          "scope": "Actual DOM/canvas; explicit QA fixed steps accelerate bounded fixtures, never human playtime."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Current browser evidence missing."
+    },
+    {
+      "id": "SE-020",
+      "section": "Meslekler ve kazanç",
+      "precondition": "Vardiya bitti",
+      "action": "İki kez tahsil",
+      "expected": "Tek ödeme",
+      "priority": "P0",
+      "automation": "Ledger",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json"
+      ],
+      "seed": 20261103,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": 1137.668292,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "SE-020 SE-021: every occupation pays once, changes canonical employment, overlapping shifts rejected",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "duration_ms": 1137.668292,
+          "scope": "Pure domain/property/fault tests; no human-play or browser-performance claim."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "SE-020 SE-021: every occupation pays once, changes canonical employment, overlapping shifts rejected"
+    },
+    {
+      "id": "SE-021",
+      "section": "Meslekler ve kazanç",
+      "precondition": "İki iş var",
+      "action": "İş değiştir",
+      "expected": "Takvim güncel",
+      "priority": "P1",
+      "automation": "Integration",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json"
+      ],
+      "seed": 20261103,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": 1137.668292,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "SE-020 SE-021: every occupation pays once, changes canonical employment, overlapping shifts rejected",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "duration_ms": 1137.668292,
+          "scope": "Pure domain/property/fault tests; no human-play or browser-performance claim."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "SE-020 SE-021: every occupation pays once, changes canonical employment, overlapping shifts rejected"
+    },
+    {
+      "id": "SE-022",
+      "section": "Ekonomi alışveriş borç",
+      "precondition": "Bakiye var",
+      "action": "Ürün al",
+      "expected": "Stok ve nakit mutabık",
+      "priority": "P0",
+      "automation": "Ledger",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json",
+        "artifacts/social-engine/browser-chromium/results.json"
+      ],
+      "seed": 20261103,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": 99.6515,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "SE-022 SE-023: purchase atomically balances cash, stock and inventory; invalid and duplicate commands fail",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "duration_ms": 99.6515,
+          "scope": "Pure domain/property/fault tests; no human-play or browser-performance claim."
+        },
+        {
+          "status": "PASS",
+          "reason": "Current browser evidence missing.",
+          "evidence": "artifacts/social-engine/browser-chromium/results.json",
+          "scope": "Actual DOM/canvas; explicit QA fixed steps accelerate bounded fixtures, never human playtime."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "SE-022 SE-023: purchase atomically balances cash, stock and inventory; invalid and duplicate commands fail | Current browser evidence missing."
+    },
+    {
+      "id": "SE-023",
+      "section": "Ekonomi alışveriş borç",
+      "precondition": "Bakiye yetersiz",
+      "action": "Ürün al",
+      "expected": "Yetkisiz negatif yok",
+      "priority": "P0",
+      "automation": "Property",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json"
+      ],
+      "seed": 20261103,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": 3650.980041,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "SE-022 SE-023: purchase atomically balances cash, stock and inventory; invalid and duplicate commands fail; SE-012 SE-023 SE-038: 100000 validated malformed/boundary commands never corrupt state",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "duration_ms": 3650.980041,
+          "scope": "Pure domain/property/fault tests; no human-play or browser-performance claim."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "SE-022 SE-023: purchase atomically balances cash, stock and inventory; invalid and duplicate commands fail; SE-012 SE-023 SE-038: 100000 validated malformed/boundary commands never corrupt state"
+    },
+    {
+      "id": "SE-024",
+      "section": "Ekonomi alışveriş borç",
+      "precondition": "Borç var",
+      "action": "Faiz ve ödeme",
+      "expected": "Borç defteri mutabık",
+      "priority": "P0",
+      "automation": "Ledger",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json"
+      ],
+      "seed": 20261103,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": 15411.298166,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "SE-024: principal, weekly interest and payment reconcile bank assets and player liabilities",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "duration_ms": 15411.298166,
+          "scope": "Pure domain/property/fault tests; no human-play or browser-performance claim."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "SE-024: principal, weekly interest and payment reconcile bank assets and player liabilities"
+    },
+    {
+      "id": "SE-025",
+      "section": "Sosyal ilişkiler hafıza",
+      "precondition": "İki karakter",
+      "action": "Etkileş",
+      "expected": "İlişki değişir",
+      "priority": "P1",
+      "automation": "Simulation",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json"
+      ],
+      "seed": 20261103,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": 87.271958,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "SE-016 SE-018 SE-025 SE-027: proximity, cooldown, knowledge and social consequences",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "duration_ms": 87.271958,
+          "scope": "Pure domain/property/fault tests; no human-play or browser-performance claim."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "SE-016 SE-018 SE-025 SE-027: proximity, cooldown, knowledge and social consequences"
+    },
+    {
+      "id": "SE-026",
+      "section": "Sosyal ilişkiler hafıza",
+      "precondition": "İlişki var",
+      "action": "Kaydet yükle",
+      "expected": "Grafik korunur",
+      "priority": "P0",
+      "automation": "Roundtrip",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json"
+      ],
+      "seed": 20261103,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": 51641.946916,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "SE-026 economic travel, attendance, taxes and inputs resume identically through ten days including scheduled public works; SE-026 SE-038 SE-039 SE-040: canonical snapshot preserves relational/economic state and resumes identical ticks",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "duration_ms": 51641.946916,
+          "scope": "Pure domain/property/fault tests; no human-play or browser-performance claim."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "SE-026 economic travel, attendance, taxes and inputs resume identically through ten days including scheduled public works; SE-026 SE-038 SE-039 SE-040: canonical snapshot preserves relational/economic state and resumes identical ticks"
+    },
+    {
+      "id": "SE-027",
+      "section": "Sosyal ilişkiler hafıza",
+      "precondition": "Gizli olay",
+      "action": "NPC bilgisini kontrol et",
+      "expected": "Nedensiz bilgi yok",
+      "priority": "P1",
+      "automation": "Invariant",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json"
+      ],
+      "seed": 20261103,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": 146.524541,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "SE-016 SE-018 SE-025 SE-027: proximity, cooldown, knowledge and social consequences; SE-027 SE-029: unseen assault is not automatically known to police",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "duration_ms": 146.524541,
+          "scope": "Pure domain/property/fault tests; no human-play or browser-performance claim."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "SE-016 SE-018 SE-025 SE-027: proximity, cooldown, knowledge and social consequences; SE-027 SE-029: unseen assault is not automatically known to police"
+    },
+    {
+      "id": "SE-028",
+      "section": "Çete itibar polis",
+      "precondition": "İtibar aktif",
+      "action": "Puan değiştir",
+      "expected": "Etkiler tutarlı",
+      "priority": "P0",
+      "automation": "Simulation",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json"
+      ],
+      "seed": 20261103,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": 68.617083,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "SE-028 SE-029 SE-030: witnessed assault produces delayed report, evidence, pursuit and exact fine",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "duration_ms": 68.617083,
+          "scope": "Pure domain/property/fault tests; no human-play or browser-performance claim."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "SE-028 SE-029 SE-030: witnessed assault produces delayed report, evidence, pursuit and exact fine"
+    },
+    {
+      "id": "SE-029",
+      "section": "Çete itibar polis",
+      "precondition": "Suç var",
+      "action": "Tanık ve polis tetikle",
+      "expected": "Kurala uygun tepki",
+      "priority": "P0",
+      "automation": "Scenario",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json",
+        "artifacts/social-engine/browser-chromium/results.json"
+      ],
+      "seed": 20261103,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": 127.869666,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "SE-028 SE-029 SE-030: witnessed assault produces delayed report, evidence, pursuit and exact fine; SE-027 SE-029: unseen assault is not automatically known to police",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "duration_ms": 127.869666,
+          "scope": "Pure domain/property/fault tests; no human-play or browser-performance claim."
+        },
+        {
+          "status": "PASS",
+          "reason": "Current browser evidence missing.",
+          "evidence": "artifacts/social-engine/browser-chromium/results.json",
+          "scope": "Actual DOM/canvas; explicit QA fixed steps accelerate bounded fixtures, never human playtime."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "SE-028 SE-029 SE-030: witnessed assault produces delayed report, evidence, pursuit and exact fine; SE-027 SE-029: unseen assault is not automatically known to police | Current browser evidence missing."
+    },
+    {
+      "id": "SE-030",
+      "section": "Çete itibar polis",
+      "precondition": "Takip var",
+      "action": "Kaç veya teslim ol",
+      "expected": "Takip sonlanır",
+      "priority": "P1",
+      "automation": "FSM",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json",
+        "artifacts/social-engine/browser-chromium/results.json"
+      ],
+      "seed": 20261103,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": 68.617083,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "SE-028 SE-029 SE-030: witnessed assault produces delayed report, evidence, pursuit and exact fine",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "duration_ms": 68.617083,
+          "scope": "Pure domain/property/fault tests; no human-play or browser-performance claim."
+        },
+        {
+          "status": "PASS",
+          "reason": "Current browser evidence missing.",
+          "evidence": "artifacts/social-engine/browser-chromium/results.json",
+          "scope": "Actual DOM/canvas; explicit QA fixed steps accelerate bounded fixtures, never human playtime."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "SE-028 SE-029 SE-030: witnessed assault produces delayed report, evidence, pursuit and exact fine | Current browser evidence missing."
+    },
+    {
+      "id": "SE-031",
+      "section": "Dövüş ve araçlar",
+      "precondition": "Dövüş var",
+      "action": "Saldır savun",
+      "expected": "Can stamina tutarlı",
+      "priority": "P1",
+      "automation": "E2E",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json",
+        "artifacts/social-engine/browser-chromium/results.json"
+      ],
+      "seed": 20261103,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": 120.402,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "SE-031: combat windup/cooldown/stamina and block are deterministic independent of render grouping",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "duration_ms": 120.402,
+          "scope": "Pure domain/property/fault tests; no human-play or browser-performance claim."
+        },
+        {
+          "status": "PASS",
+          "reason": "Current browser evidence missing.",
+          "evidence": "artifacts/social-engine/browser-chromium/results.json",
+          "scope": "Actual DOM/canvas; explicit QA fixed steps accelerate bounded fixtures, never human playtime."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "SE-031: combat windup/cooldown/stamina and block are deterministic independent of render grouping | Current browser evidence missing."
+    },
+    {
+      "id": "SE-032",
+      "section": "Dövüş ve araçlar",
+      "precondition": "Yol grafı",
+      "action": "Araç rotası",
+      "expected": "Yalnız sürülebilir kenarlar",
+      "priority": "P0",
+      "automation": "Graph",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json"
+      ],
+      "seed": 20261103,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": 168.40275,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "SE-032 SE-033: driven car and saved driver remain on directed lanes with collision spacing",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "duration_ms": 168.40275,
+          "scope": "Pure domain/property/fault tests; no human-play or browser-performance claim."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "SE-032 SE-033: driven car and saved driver remain on directed lanes with collision spacing"
+    },
+    {
+      "id": "SE-033",
+      "section": "Dövüş ve araçlar",
+      "precondition": "Araç var",
+      "action": "Bin sür kaydet",
+      "expected": "Konum korunur",
+      "priority": "P0",
+      "automation": "E2E",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/browser-chromium/results.json",
+        "artifacts/social-engine/browser-evidence/results.json"
+      ],
+      "seed": 20261103,
+      "environment": [],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "Current browser evidence missing.",
+          "evidence": "artifacts/social-engine/browser-chromium/results.json",
+          "scope": "Actual DOM/canvas; explicit QA fixed steps accelerate bounded fixtures, never human playtime."
+        },
+        {
+          "status": "PASS",
+          "reason": "Driven vehicle, lane progress and player coordinates survive real IndexedDB save/load exactly",
+          "evidence": "artifacts/social-engine/browser-evidence/results.json"
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Current browser evidence missing. | Driven vehicle, lane progress and player coordinates survive real IndexedDB save/load exactly"
+    },
+    {
+      "id": "SE-034",
+      "section": "Dinamik görevler",
+      "precondition": "Üretici var",
+      "action": "100 görev üret",
+      "expected": "Geçerli hedefler",
+      "priority": "P1",
+      "automation": "Property",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json"
+      ],
+      "seed": 20261103,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": 37456.617,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "SE-034: at least one hundred generated missions across seeded worlds have reachable funded canonical targets; SE-034 SE-035 SE-036: job_offer real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: late_wage real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: layoff real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: promotion real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: rent_rise real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: loan_due real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: price_shock real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: shortage real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: delivery real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: vehicle_breakdown real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: traffic_jam real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: lost_item real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: neighbor_help real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: friend_invite real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: relationship_dispute real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: scholarship real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: neighborhood_argument real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: witness_report real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: police_check real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: faction_truce real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: funded causal missions, terminal timeout and exactly once reward survive compaction; SE-034: all twenty templates expose real preconditions and impossible loan task is rejected",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "duration_ms": 37456.617,
+          "scope": "Pure domain/property/fault tests; no human-play or browser-performance claim."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "SE-034: at least one hundred generated missions across seeded worlds have reachable funded canonical targets; SE-034 SE-035 SE-036: job_offer real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: late_wage real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: layoff real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: promotion real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: rent_rise real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: loan_due real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: price_shock real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: shortage real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: delivery real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: vehicle_breakdown real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: traffic_jam real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: lost_item real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: neighbor_help real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: friend_invite real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: relationship_dispute real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: scholarship real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: neighborhood_argument real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: witness_report real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: police_check real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: faction_truce real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: funded causal missions, terminal timeout and exactly once reward survive compaction; SE-034: all twenty templates expose real preconditions and impossible loan task is rejected"
+    },
+    {
+      "id": "SE-035",
+      "section": "Dinamik görevler",
+      "precondition": "Görev var",
+      "action": "Bitir ödülü tekrarla",
+      "expected": "Tek ödül",
+      "priority": "P0",
+      "automation": "FSM",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json",
+        "artifacts/social-engine/browser-chromium/results.json"
+      ],
+      "seed": 20261103,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": 31279.556916999994,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "SE-034 SE-035 SE-036: job_offer real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: late_wage real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: layoff real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: promotion real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: rent_rise real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: loan_due real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: price_shock real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: shortage real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: delivery real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: vehicle_breakdown real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: traffic_jam real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: lost_item real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: neighbor_help real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: friend_invite real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: relationship_dispute real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: scholarship real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: neighborhood_argument real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: witness_report real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: police_check real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: faction_truce real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: funded causal missions, terminal timeout and exactly once reward survive compaction",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "duration_ms": 31279.556916999994,
+          "scope": "Pure domain/property/fault tests; no human-play or browser-performance claim."
+        },
+        {
+          "status": "PASS",
+          "reason": "Current browser evidence missing.",
+          "evidence": "artifacts/social-engine/browser-chromium/results.json",
+          "scope": "Actual DOM/canvas; explicit QA fixed steps accelerate bounded fixtures, never human playtime."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "SE-034 SE-035 SE-036: job_offer real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: late_wage real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: layoff real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: promotion real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: rent_rise real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: loan_due real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: price_shock real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: shortage real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: delivery real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: vehicle_breakdown real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: traffic_jam real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: lost_item real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: neighbor_help real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: friend_invite real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: relationship_dispute real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: scholarship real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: neighborhood_argument real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: witness_report real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: police_check real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: faction_truce real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: funded causal missions, terminal timeout and exactly once reward survive compaction | Current browser evidence missing."
+    },
+    {
+      "id": "SE-036",
+      "section": "Dinamik görevler",
+      "precondition": "Hedef kayıp",
+      "action": "Timeout uygula",
+      "expected": "Sonsuz döngü yok",
+      "priority": "P1",
+      "automation": "Fault",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json"
+      ],
+      "seed": 20261103,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": 32793.193,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "SE-036 strikes require real distress and funded public works measurably constrain production; SE-036: unavailable active delivery target closes safely; later timeout cannot loop or refund twice; SE-036 fault injection: a missing target reference times out with escrow and parcel returned once; SE-034 SE-035 SE-036: job_offer real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: late_wage real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: layoff real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: promotion real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: rent_rise real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: loan_due real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: price_shock real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: shortage real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: delivery real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: vehicle_breakdown real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: traffic_jam real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: lost_item real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: neighbor_help real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: friend_invite real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: relationship_dispute real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: scholarship real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: neighborhood_argument real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: witness_report real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: police_check real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: faction_truce real fact prerequisite, accept/complete, decline and timeout branches; SE-036 participant and venue reservations are exclusive and release on real decline; SE-034 SE-035 SE-036: funded causal missions, terminal timeout and exactly once reward survive compaction",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "duration_ms": 32793.193,
+          "scope": "Pure domain/property/fault tests; no human-play or browser-performance claim."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "SE-036 strikes require real distress and funded public works measurably constrain production; SE-036: unavailable active delivery target closes safely; later timeout cannot loop or refund twice; SE-036 fault injection: a missing target reference times out with escrow and parcel returned once; SE-034 SE-035 SE-036: job_offer real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: late_wage real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: layoff real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: promotion real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: rent_rise real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: loan_due real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: price_shock real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: shortage real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: delivery real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: vehicle_breakdown real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: traffic_jam real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: lost_item real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: neighbor_help real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: friend_invite real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: relationship_dispute real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: scholarship real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: neighborhood_argument real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: witness_report real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: police_check real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: faction_truce real fact prerequisite, accept/complete, decline and timeout branches; SE-036 participant and venue reservations are exclusive and release on real decline; SE-034 SE-035 SE-036: funded causal missions, terminal timeout and exactly once reward survive compaction"
+    },
+    {
+      "id": "SE-037",
+      "section": "Simülasyon tutarlılığı",
+      "precondition": "1000 NPC",
+      "action": "100000 tick",
+      "expected": "Tek konum",
+      "priority": "P0",
+      "automation": "Invariant",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/simulation-365/results.json"
+      ],
+      "seed": 20261103,
+      "environment": [
+        {
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2",
+          "logicalCpus": 8,
+          "memoryBytes": 17179869184,
+          "node": "v24.21.0",
+          "engine": "1.0.0-candidate.4",
+          "seed": 20261103,
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "dirtyTree": true,
+          "sourceSha256": "0ccedb58f3fe7f8b80c16d26d442ec11d941a589329aa97d462dddee7dda36a2",
+          "sourceFiles": [
+            "src/games/social-engine/persistence/codec.ts",
+            "src/games/social-engine/persistence/compression.ts",
+            "src/games/social-engine/persistence/records.ts",
+            "src/games/social-engine/domain/content.ts",
+            "src/games/social-engine/domain/economy-types.ts",
+            "src/games/social-engine/domain/life-types.ts",
+            "src/games/social-engine/domain/mobility-types.ts",
+            "src/games/social-engine/domain/progression-types.ts",
+            "src/games/social-engine/domain/social-types.ts",
+            "src/games/social-engine/domain/traffic.ts",
+            "src/games/social-engine/domain/types.ts",
+            "src/games/social-engine/domain/world.ts",
+            "src/games/social-engine/simulation/economy.ts",
+            "src/games/social-engine/simulation/engine.ts",
+            "src/games/social-engine/simulation/events.ts",
+            "src/games/social-engine/simulation/family.ts",
+            "src/games/social-engine/simulation/justice.ts",
+            "src/games/social-engine/simulation/ledger.ts",
+            "src/games/social-engine/simulation/life.ts",
+            "src/games/social-engine/simulation/missions.ts",
+            "src/games/social-engine/simulation/mobility.ts",
+            "src/games/social-engine/simulation/population.ts",
+            "src/games/social-engine/simulation/progression.ts",
+            "src/games/social-engine/simulation/random.ts",
+            "src/games/social-engine/simulation/services.ts",
+            "src/games/social-engine/simulation/social.ts",
+            "src/games/social-engine/simulation/society.ts",
+            "src/games/social-engine/simulation/traffic.ts"
+          ]
+        }
+      ],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": 1536106.781,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "365days /5256000ticks; primary, replay and day180 resume hash fa9d4217bf7f556b9d91b7825d214e88548b3cedee73e3c73738bb92933a77ec; zero unexplained money difference.",
+          "evidence": "artifacts/social-engine/simulation-365/results.json",
+          "environment": {
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2",
+            "logicalCpus": 8,
+            "memoryBytes": 17179869184,
+            "node": "v24.21.0",
+            "engine": "1.0.0-candidate.4",
+            "seed": 20261103,
+            "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+            "dirtyTree": true,
+            "sourceSha256": "0ccedb58f3fe7f8b80c16d26d442ec11d941a589329aa97d462dddee7dda36a2",
+            "sourceFiles": [
+              "src/games/social-engine/persistence/codec.ts",
+              "src/games/social-engine/persistence/compression.ts",
+              "src/games/social-engine/persistence/records.ts",
+              "src/games/social-engine/domain/content.ts",
+              "src/games/social-engine/domain/economy-types.ts",
+              "src/games/social-engine/domain/life-types.ts",
+              "src/games/social-engine/domain/mobility-types.ts",
+              "src/games/social-engine/domain/progression-types.ts",
+              "src/games/social-engine/domain/social-types.ts",
+              "src/games/social-engine/domain/traffic.ts",
+              "src/games/social-engine/domain/types.ts",
+              "src/games/social-engine/domain/world.ts",
+              "src/games/social-engine/simulation/economy.ts",
+              "src/games/social-engine/simulation/engine.ts",
+              "src/games/social-engine/simulation/events.ts",
+              "src/games/social-engine/simulation/family.ts",
+              "src/games/social-engine/simulation/justice.ts",
+              "src/games/social-engine/simulation/ledger.ts",
+              "src/games/social-engine/simulation/life.ts",
+              "src/games/social-engine/simulation/missions.ts",
+              "src/games/social-engine/simulation/mobility.ts",
+              "src/games/social-engine/simulation/population.ts",
+              "src/games/social-engine/simulation/progression.ts",
+              "src/games/social-engine/simulation/random.ts",
+              "src/games/social-engine/simulation/services.ts",
+              "src/games/social-engine/simulation/social.ts",
+              "src/games/social-engine/simulation/society.ts",
+              "src/games/social-engine/simulation/traffic.ts"
+            ]
+          },
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "duration_ms": 1536106.781,
+          "scope": "Pure fixed-step simulation; not renderer or human playtime."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "365days /5256000ticks; primary, replay and day180 resume hash fa9d4217bf7f556b9d91b7825d214e88548b3cedee73e3c73738bb92933a77ec; zero unexplained money difference."
+    },
+    {
+      "id": "SE-038",
+      "section": "Simülasyon tutarlılığı",
+      "precondition": "Ekonomi var",
+      "action": "İşlem döngüsü",
+      "expected": "Ledger mutabık",
+      "priority": "P0",
+      "automation": "Invariant",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json"
+      ],
+      "seed": 20261103,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": 16810.991082,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "SE-026 SE-038 SE-039 SE-040: canonical snapshot preserves relational/economic state and resumes identical ticks; SE-037 SE-038: 100000 actual ticks retain one location and balanced accounts; SE-012 SE-023 SE-038: 100000 validated malformed/boundary commands never corrupt state; SE-038 production worker rejects accelerated STEP without explicit QA initialization",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "duration_ms": 16810.991082,
+          "scope": "Pure domain/property/fault tests; no human-play or browser-performance claim."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "SE-026 SE-038 SE-039 SE-040: canonical snapshot preserves relational/economic state and resumes identical ticks; SE-037 SE-038: 100000 actual ticks retain one location and balanced accounts; SE-012 SE-023 SE-038: 100000 validated malformed/boundary commands never corrupt state; SE-038 production worker rejects accelerated STEP without explicit QA initialization"
+    },
+    {
+      "id": "SE-039",
+      "section": "Simülasyon tutarlılığı",
+      "precondition": "Seed sabit",
+      "action": "İki kez çalıştır",
+      "expected": "Hash eşit",
+      "priority": "P0",
+      "automation": "Determinism",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json"
+      ],
+      "seed": 20261103,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": 39049.773125,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "SE-026 SE-038 SE-039 SE-040: canonical snapshot preserves relational/economic state and resumes identical ticks; SE-039 worker journal records tick, paused actions and control resets in exact replay order; SE-039 accelerated100000tick burst yields exact snapshots and preserves interleaved command order",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "duration_ms": 39049.773125,
+          "scope": "Pure domain/property/fault tests; no human-play or browser-performance claim."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "SE-026 SE-038 SE-039 SE-040: canonical snapshot preserves relational/economic state and resumes identical ticks; SE-039 worker journal records tick, paused actions and control resets in exact replay order; SE-039 accelerated100000tick burst yields exact snapshots and preserves interleaved command order"
+    },
+    {
+      "id": "SE-040",
+      "section": "Kayıt ve yükleme",
+      "precondition": "Dolu dünya",
+      "action": "Kaydet yükle",
+      "expected": "State eşdeğer",
+      "priority": "P0",
+      "automation": "Roundtrip",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/acceptance-unit.json",
+        "artifacts/social-engine/browser-chromium/results.json"
+      ],
+      "seed": 20261103,
+      "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        }
+      ],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": 2162.72975,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "SE-026 SE-038 SE-039 SE-040: canonical snapshot preserves relational/economic state and resumes identical ticks",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "duration_ms": 2162.72975,
+          "scope": "Pure domain/property/fault tests; no human-play or browser-performance claim."
+        },
+        {
+          "status": "PASS",
+          "reason": "Current browser evidence missing.",
+          "evidence": "artifacts/social-engine/browser-chromium/results.json",
+          "scope": "Actual DOM/canvas; explicit QA fixed steps accelerate bounded fixtures, never human playtime."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "SE-026 SE-038 SE-039 SE-040: canonical snapshot preserves relational/economic state and resumes identical ticks | Current browser evidence missing."
+    },
+    {
+      "id": "SE-041",
+      "section": "Kayıt ve yükleme",
+      "precondition": "Yazma sürüyor",
+      "action": "Sekmeyi kapat",
+      "expected": "Sağlam kayıt korunur",
+      "priority": "P0",
+      "automation": "Fault",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/persistence-browser/results.json"
+      ],
+      "seed": 20261103,
+      "environment": [
+        {
+          "browser": "156.0.8078.80",
+          "probeSha256": "dbc629fd5b6ad22db1c645e1918071a35f7452011cc66bfe46ae37e352fc1b96"
+        }
+      ],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "closing a tab during an active write preserves the last committed state",
+          "evidence": "artifacts/social-engine/persistence-browser/results.json",
+          "environment": {
+            "browser": "156.0.8078.80",
+            "probeSha256": "dbc629fd5b6ad22db1c645e1918071a35f7452011cc66bfe46ae37e352fc1b96"
+          },
+          "scope": "Real browser IndexedDB with explicit corruption, quota, abort and frozen migration fixtures."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "closing a tab during an active write preserves the last committed state"
+    },
+    {
+      "id": "SE-042",
+      "section": "Kayıt ve yükleme",
+      "precondition": "Çoklu slot",
+      "action": "Sil kopyala",
+      "expected": "Kayıp veya çoğalma yok",
+      "priority": "P0",
+      "automation": "E2E",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/ui-browser/results.json",
+        "artifacts/social-engine/persistence-browser/results.json"
+      ],
+      "seed": 20261103,
+      "environment": [
+        {
+          "browser": "156.0.8078.80"
+        },
+        {
+          "browser": "156.0.8078.80",
+          "probeSha256": "dbc629fd5b6ad22db1c645e1918071a35f7452011cc66bfe46ae37e352fc1b96"
+        }
+      ],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "real save menu saves copies exports imports and deletes separate slots",
+          "evidence": "artifacts/social-engine/ui-browser/results.json",
+          "environment": {
+            "browser": "156.0.8078.80"
+          }
+        },
+        {
+          "status": "PASS",
+          "reason": "export/import/copy/delete preserve world and unrelated slots",
+          "evidence": "artifacts/social-engine/persistence-browser/results.json",
+          "environment": {
+            "browser": "156.0.8078.80",
+            "probeSha256": "dbc629fd5b6ad22db1c645e1918071a35f7452011cc66bfe46ae37e352fc1b96"
+          },
+          "scope": "Real browser IndexedDB with explicit corruption, quota, abort and frozen migration fixtures."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "real save menu saves copies exports imports and deletes separate slots | export/import/copy/delete preserve world and unrelated slots"
+    },
+    {
+      "id": "SE-043",
+      "section": "Şema migrasyonu",
+      "precondition": "Eski SE fixture",
+      "action": "Migrate et",
+      "expected": "Veri korunur",
+      "priority": "P0",
+      "automation": "Migration",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/persistence-browser/results.json",
+        "artifacts/social-engine/acceptance-unit.json"
+      ],
+      "seed": 20261103,
+      "environment": [
+        {
+          "browser": "156.0.8078.80",
+          "probeSha256": "dbc629fd5b6ad22db1c645e1918071a35f7452011cc66bfe46ae37e352fc1b96"
+        }
+      ],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "migration is atomic, retryable and retains frozen source bytes; authentic v2 save migrates through an explicit journal to schema4; authentic v3 lifecycle history migrates through explicit3-to4 journal",
+          "evidence": "artifacts/social-engine/persistence-browser/results.json",
+          "environment": {
+            "browser": "156.0.8078.80",
+            "probeSha256": "dbc629fd5b6ad22db1c645e1918071a35f7452011cc66bfe46ae37e352fc1b96"
+          },
+          "scope": "Real browser IndexedDB with explicit corruption, quota, abort and frozen migration fixtures."
+        },
+        {
+          "status": "PASS",
+          "reason": "The frozen authentic schema4 save also migrates to schema5 with finance, ownership and histories preserved.",
+          "evidence": "artifacts/social-engine/acceptance-unit.json"
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "migration is atomic, retryable and retains frozen source bytes; authentic v2 save migrates through an explicit journal to schema4; authentic v3 lifecycle history migrates through explicit3-to4 journal | The frozen authentic schema4 save also migrates to schema5 with finance, ownership and histories preserved."
+    },
+    {
+      "id": "SE-044",
+      "section": "Şema migrasyonu",
+      "precondition": "Migrasyon sürüyor",
+      "action": "Kes yeniden dene",
+      "expected": "İdempotent",
+      "priority": "P0",
+      "automation": "Fault",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/persistence-browser/results.json"
+      ],
+      "seed": 20261103,
+      "environment": [
+        {
+          "browser": "156.0.8078.80",
+          "probeSha256": "dbc629fd5b6ad22db1c645e1918071a35f7452011cc66bfe46ae37e352fc1b96"
+        }
+      ],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "migration is atomic, retryable and retains frozen source bytes",
+          "evidence": "artifacts/social-engine/persistence-browser/results.json",
+          "environment": {
+            "browser": "156.0.8078.80",
+            "probeSha256": "dbc629fd5b6ad22db1c645e1918071a35f7452011cc66bfe46ae37e352fc1b96"
+          },
+          "scope": "Real browser IndexedDB with explicit corruption, quota, abort and frozen migration fixtures."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "migration is atomic, retryable and retains frozen source bytes"
+    },
+    {
+      "id": "SE-045",
+      "section": "Şema migrasyonu",
+      "precondition": "Eski TC SIM kaydı",
+      "action": "SE aç",
+      "expected": "Eski namespace değişmez",
+      "priority": "P0",
+      "automation": "Regression",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/v4-browser/results.json"
+      ],
+      "seed": 20261103,
+      "environment": [],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "Actual legacy TC SIM save creation, SE save, byte-preserved legacy keys and legacy reload.",
+          "evidence": "artifacts/social-engine/v4-browser/results.json"
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Actual legacy TC SIM save creation, SE save, byte-preserved legacy keys and legacy reload."
+    },
+    {
+      "id": "SE-046",
+      "section": "365 gün simülasyon",
+      "precondition": "1000 NPC",
+      "action": "365 gün çalıştır",
+      "expected": "Sıfır invariant ihlali",
+      "priority": "P0",
+      "automation": "Headless",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/simulation-365/results.json"
+      ],
+      "seed": 20261103,
+      "environment": [
+        {
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2",
+          "logicalCpus": 8,
+          "memoryBytes": 17179869184,
+          "node": "v24.21.0",
+          "engine": "1.0.0-candidate.4",
+          "seed": 20261103,
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "dirtyTree": true,
+          "sourceSha256": "0ccedb58f3fe7f8b80c16d26d442ec11d941a589329aa97d462dddee7dda36a2",
+          "sourceFiles": [
+            "src/games/social-engine/persistence/codec.ts",
+            "src/games/social-engine/persistence/compression.ts",
+            "src/games/social-engine/persistence/records.ts",
+            "src/games/social-engine/domain/content.ts",
+            "src/games/social-engine/domain/economy-types.ts",
+            "src/games/social-engine/domain/life-types.ts",
+            "src/games/social-engine/domain/mobility-types.ts",
+            "src/games/social-engine/domain/progression-types.ts",
+            "src/games/social-engine/domain/social-types.ts",
+            "src/games/social-engine/domain/traffic.ts",
+            "src/games/social-engine/domain/types.ts",
+            "src/games/social-engine/domain/world.ts",
+            "src/games/social-engine/simulation/economy.ts",
+            "src/games/social-engine/simulation/engine.ts",
+            "src/games/social-engine/simulation/events.ts",
+            "src/games/social-engine/simulation/family.ts",
+            "src/games/social-engine/simulation/justice.ts",
+            "src/games/social-engine/simulation/ledger.ts",
+            "src/games/social-engine/simulation/life.ts",
+            "src/games/social-engine/simulation/missions.ts",
+            "src/games/social-engine/simulation/mobility.ts",
+            "src/games/social-engine/simulation/population.ts",
+            "src/games/social-engine/simulation/progression.ts",
+            "src/games/social-engine/simulation/random.ts",
+            "src/games/social-engine/simulation/services.ts",
+            "src/games/social-engine/simulation/social.ts",
+            "src/games/social-engine/simulation/society.ts",
+            "src/games/social-engine/simulation/traffic.ts"
+          ]
+        }
+      ],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": 1536106.781,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "365days /5256000ticks; primary, replay and day180 resume hash fa9d4217bf7f556b9d91b7825d214e88548b3cedee73e3c73738bb92933a77ec; zero unexplained money difference.",
+          "evidence": "artifacts/social-engine/simulation-365/results.json",
+          "environment": {
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2",
+            "logicalCpus": 8,
+            "memoryBytes": 17179869184,
+            "node": "v24.21.0",
+            "engine": "1.0.0-candidate.4",
+            "seed": 20261103,
+            "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+            "dirtyTree": true,
+            "sourceSha256": "0ccedb58f3fe7f8b80c16d26d442ec11d941a589329aa97d462dddee7dda36a2",
+            "sourceFiles": [
+              "src/games/social-engine/persistence/codec.ts",
+              "src/games/social-engine/persistence/compression.ts",
+              "src/games/social-engine/persistence/records.ts",
+              "src/games/social-engine/domain/content.ts",
+              "src/games/social-engine/domain/economy-types.ts",
+              "src/games/social-engine/domain/life-types.ts",
+              "src/games/social-engine/domain/mobility-types.ts",
+              "src/games/social-engine/domain/progression-types.ts",
+              "src/games/social-engine/domain/social-types.ts",
+              "src/games/social-engine/domain/traffic.ts",
+              "src/games/social-engine/domain/types.ts",
+              "src/games/social-engine/domain/world.ts",
+              "src/games/social-engine/simulation/economy.ts",
+              "src/games/social-engine/simulation/engine.ts",
+              "src/games/social-engine/simulation/events.ts",
+              "src/games/social-engine/simulation/family.ts",
+              "src/games/social-engine/simulation/justice.ts",
+              "src/games/social-engine/simulation/ledger.ts",
+              "src/games/social-engine/simulation/life.ts",
+              "src/games/social-engine/simulation/missions.ts",
+              "src/games/social-engine/simulation/mobility.ts",
+              "src/games/social-engine/simulation/population.ts",
+              "src/games/social-engine/simulation/progression.ts",
+              "src/games/social-engine/simulation/random.ts",
+              "src/games/social-engine/simulation/services.ts",
+              "src/games/social-engine/simulation/social.ts",
+              "src/games/social-engine/simulation/society.ts",
+              "src/games/social-engine/simulation/traffic.ts"
+            ]
+          },
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "duration_ms": 1536106.781,
+          "scope": "Pure fixed-step simulation; not renderer or human playtime."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "365days /5256000ticks; primary, replay and day180 resume hash fa9d4217bf7f556b9d91b7825d214e88548b3cedee73e3c73738bb92933a77ec; zero unexplained money difference."
+    },
+    {
+      "id": "SE-047",
+      "section": "365 gün simülasyon",
+      "precondition": "Ekonomi var",
+      "action": "365 gün mutabakat",
+      "expected": "Sıfır açıklanamayan fark",
+      "priority": "P0",
+      "automation": "Ledger",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/simulation-365/results.json"
+      ],
+      "seed": 20261103,
+      "environment": [
+        {
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2",
+          "logicalCpus": 8,
+          "memoryBytes": 17179869184,
+          "node": "v24.21.0",
+          "engine": "1.0.0-candidate.4",
+          "seed": 20261103,
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "dirtyTree": true,
+          "sourceSha256": "0ccedb58f3fe7f8b80c16d26d442ec11d941a589329aa97d462dddee7dda36a2",
+          "sourceFiles": [
+            "src/games/social-engine/persistence/codec.ts",
+            "src/games/social-engine/persistence/compression.ts",
+            "src/games/social-engine/persistence/records.ts",
+            "src/games/social-engine/domain/content.ts",
+            "src/games/social-engine/domain/economy-types.ts",
+            "src/games/social-engine/domain/life-types.ts",
+            "src/games/social-engine/domain/mobility-types.ts",
+            "src/games/social-engine/domain/progression-types.ts",
+            "src/games/social-engine/domain/social-types.ts",
+            "src/games/social-engine/domain/traffic.ts",
+            "src/games/social-engine/domain/types.ts",
+            "src/games/social-engine/domain/world.ts",
+            "src/games/social-engine/simulation/economy.ts",
+            "src/games/social-engine/simulation/engine.ts",
+            "src/games/social-engine/simulation/events.ts",
+            "src/games/social-engine/simulation/family.ts",
+            "src/games/social-engine/simulation/justice.ts",
+            "src/games/social-engine/simulation/ledger.ts",
+            "src/games/social-engine/simulation/life.ts",
+            "src/games/social-engine/simulation/missions.ts",
+            "src/games/social-engine/simulation/mobility.ts",
+            "src/games/social-engine/simulation/population.ts",
+            "src/games/social-engine/simulation/progression.ts",
+            "src/games/social-engine/simulation/random.ts",
+            "src/games/social-engine/simulation/services.ts",
+            "src/games/social-engine/simulation/social.ts",
+            "src/games/social-engine/simulation/society.ts",
+            "src/games/social-engine/simulation/traffic.ts"
+          ]
+        }
+      ],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": 1536106.781,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "365days /5256000ticks; primary, replay and day180 resume hash fa9d4217bf7f556b9d91b7825d214e88548b3cedee73e3c73738bb92933a77ec; zero unexplained money difference.",
+          "evidence": "artifacts/social-engine/simulation-365/results.json",
+          "environment": {
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2",
+            "logicalCpus": 8,
+            "memoryBytes": 17179869184,
+            "node": "v24.21.0",
+            "engine": "1.0.0-candidate.4",
+            "seed": 20261103,
+            "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+            "dirtyTree": true,
+            "sourceSha256": "0ccedb58f3fe7f8b80c16d26d442ec11d941a589329aa97d462dddee7dda36a2",
+            "sourceFiles": [
+              "src/games/social-engine/persistence/codec.ts",
+              "src/games/social-engine/persistence/compression.ts",
+              "src/games/social-engine/persistence/records.ts",
+              "src/games/social-engine/domain/content.ts",
+              "src/games/social-engine/domain/economy-types.ts",
+              "src/games/social-engine/domain/life-types.ts",
+              "src/games/social-engine/domain/mobility-types.ts",
+              "src/games/social-engine/domain/progression-types.ts",
+              "src/games/social-engine/domain/social-types.ts",
+              "src/games/social-engine/domain/traffic.ts",
+              "src/games/social-engine/domain/types.ts",
+              "src/games/social-engine/domain/world.ts",
+              "src/games/social-engine/simulation/economy.ts",
+              "src/games/social-engine/simulation/engine.ts",
+              "src/games/social-engine/simulation/events.ts",
+              "src/games/social-engine/simulation/family.ts",
+              "src/games/social-engine/simulation/justice.ts",
+              "src/games/social-engine/simulation/ledger.ts",
+              "src/games/social-engine/simulation/life.ts",
+              "src/games/social-engine/simulation/missions.ts",
+              "src/games/social-engine/simulation/mobility.ts",
+              "src/games/social-engine/simulation/population.ts",
+              "src/games/social-engine/simulation/progression.ts",
+              "src/games/social-engine/simulation/random.ts",
+              "src/games/social-engine/simulation/services.ts",
+              "src/games/social-engine/simulation/social.ts",
+              "src/games/social-engine/simulation/society.ts",
+              "src/games/social-engine/simulation/traffic.ts"
+            ]
+          },
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "duration_ms": 1536106.781,
+          "scope": "Pure fixed-step simulation; not renderer or human playtime."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "365days /5256000ticks; primary, replay and day180 resume hash fa9d4217bf7f556b9d91b7825d214e88548b3cedee73e3c73738bb92933a77ec; zero unexplained money difference."
+    },
+    {
+      "id": "SE-048",
+      "section": "365 gün simülasyon",
+      "precondition": "180 gün kayıt",
+      "action": "Yükle 365e devam",
+      "expected": "Hash aynı",
+      "priority": "P0",
+      "automation": "Determinism",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/simulation-365/results.json"
+      ],
+      "seed": 20261103,
+      "environment": [
+        {
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2",
+          "logicalCpus": 8,
+          "memoryBytes": 17179869184,
+          "node": "v24.21.0",
+          "engine": "1.0.0-candidate.4",
+          "seed": 20261103,
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "dirtyTree": true,
+          "sourceSha256": "0ccedb58f3fe7f8b80c16d26d442ec11d941a589329aa97d462dddee7dda36a2",
+          "sourceFiles": [
+            "src/games/social-engine/persistence/codec.ts",
+            "src/games/social-engine/persistence/compression.ts",
+            "src/games/social-engine/persistence/records.ts",
+            "src/games/social-engine/domain/content.ts",
+            "src/games/social-engine/domain/economy-types.ts",
+            "src/games/social-engine/domain/life-types.ts",
+            "src/games/social-engine/domain/mobility-types.ts",
+            "src/games/social-engine/domain/progression-types.ts",
+            "src/games/social-engine/domain/social-types.ts",
+            "src/games/social-engine/domain/traffic.ts",
+            "src/games/social-engine/domain/types.ts",
+            "src/games/social-engine/domain/world.ts",
+            "src/games/social-engine/simulation/economy.ts",
+            "src/games/social-engine/simulation/engine.ts",
+            "src/games/social-engine/simulation/events.ts",
+            "src/games/social-engine/simulation/family.ts",
+            "src/games/social-engine/simulation/justice.ts",
+            "src/games/social-engine/simulation/ledger.ts",
+            "src/games/social-engine/simulation/life.ts",
+            "src/games/social-engine/simulation/missions.ts",
+            "src/games/social-engine/simulation/mobility.ts",
+            "src/games/social-engine/simulation/population.ts",
+            "src/games/social-engine/simulation/progression.ts",
+            "src/games/social-engine/simulation/random.ts",
+            "src/games/social-engine/simulation/services.ts",
+            "src/games/social-engine/simulation/social.ts",
+            "src/games/social-engine/simulation/society.ts",
+            "src/games/social-engine/simulation/traffic.ts"
+          ]
+        }
+      ],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": 1536106.781,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "365days /5256000ticks; primary, replay and day180 resume hash fa9d4217bf7f556b9d91b7825d214e88548b3cedee73e3c73738bb92933a77ec; zero unexplained money difference.",
+          "evidence": "artifacts/social-engine/simulation-365/results.json",
+          "environment": {
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2",
+            "logicalCpus": 8,
+            "memoryBytes": 17179869184,
+            "node": "v24.21.0",
+            "engine": "1.0.0-candidate.4",
+            "seed": 20261103,
+            "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+            "dirtyTree": true,
+            "sourceSha256": "0ccedb58f3fe7f8b80c16d26d442ec11d941a589329aa97d462dddee7dda36a2",
+            "sourceFiles": [
+              "src/games/social-engine/persistence/codec.ts",
+              "src/games/social-engine/persistence/compression.ts",
+              "src/games/social-engine/persistence/records.ts",
+              "src/games/social-engine/domain/content.ts",
+              "src/games/social-engine/domain/economy-types.ts",
+              "src/games/social-engine/domain/life-types.ts",
+              "src/games/social-engine/domain/mobility-types.ts",
+              "src/games/social-engine/domain/progression-types.ts",
+              "src/games/social-engine/domain/social-types.ts",
+              "src/games/social-engine/domain/traffic.ts",
+              "src/games/social-engine/domain/types.ts",
+              "src/games/social-engine/domain/world.ts",
+              "src/games/social-engine/simulation/economy.ts",
+              "src/games/social-engine/simulation/engine.ts",
+              "src/games/social-engine/simulation/events.ts",
+              "src/games/social-engine/simulation/family.ts",
+              "src/games/social-engine/simulation/justice.ts",
+              "src/games/social-engine/simulation/ledger.ts",
+              "src/games/social-engine/simulation/life.ts",
+              "src/games/social-engine/simulation/missions.ts",
+              "src/games/social-engine/simulation/mobility.ts",
+              "src/games/social-engine/simulation/population.ts",
+              "src/games/social-engine/simulation/progression.ts",
+              "src/games/social-engine/simulation/random.ts",
+              "src/games/social-engine/simulation/services.ts",
+              "src/games/social-engine/simulation/social.ts",
+              "src/games/social-engine/simulation/society.ts",
+              "src/games/social-engine/simulation/traffic.ts"
+            ]
+          },
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "duration_ms": 1536106.781,
+          "scope": "Pure fixed-step simulation; not renderer or human playtime."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "365days /5256000ticks; primary, replay and day180 resume hash fa9d4217bf7f556b9d91b7825d214e88548b3cedee73e3c73738bb92933a77ec; zero unexplained money difference."
+    },
+    {
+      "id": "SE-049",
+      "section": "Performans bellek",
+      "precondition": "Referans PC",
+      "action": "30 dk oyna",
+      "expected": "p95 frame <=33.3ms",
+      "priority": "P0",
+      "automation": "Trace",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/performance/2026-11-03T20-34-35-126Z/report.json"
+      ],
+      "seed": 20261103,
+      "environment": [],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "The Apple M2 host is not the specified four-core reference PC. Its measured frame times cannot satisfy this precondition.",
+          "evidence": "artifacts/social-engine/performance/2026-11-03T20-34-35-126Z/report.json"
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "The Apple M2 host is not the specified four-core reference PC. Its measured frame times cannot satisfy this precondition."
+    },
+    {
+      "id": "SE-050",
+      "section": "Performans bellek",
+      "precondition": "1000 NPC",
+      "action": "60 dk çalıştır",
+      "expected": "Long task <=%5",
+      "priority": "P1",
+      "automation": "Trace",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/performance/2026-11-03T20-34-35-126Z/report.json"
+      ],
+      "seed": 20261103,
+      "environment": [
+        {
+          "platform": "darwin",
+          "release": "25.6.0",
+          "arch": "arm64",
+          "cpus": [
+            "Apple M2",
+            "Apple M2",
+            "Apple M2",
+            "Apple M2",
+            "Apple M2",
+            "Apple M2",
+            "Apple M2",
+            "Apple M2"
+          ],
+          "logicalCpus": 8,
+          "totalMemoryBytes": 17179869184,
+          "viewport": {
+            "width": 1920,
+            "height": 1080
+          },
+          "dpr": 1,
+          "headless": true,
+          "concurrentWork": "Full legacy tests,365-day simulation,build/development may contend for CPU during this run; not an isolated reference-PC result.",
+          "browser": "156.0.8078.80",
+          "systemInfo": {
+            "gpu": {
+              "devices": [
+                {
+                  "vendorId": 4203,
+                  "deviceId": 0,
+                  "vendorString": "Google Inc. (Apple)",
+                  "deviceString": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Version 26.7.1 (Build 25G241))",
+                  "driverVendor": "Apple",
+                  "driverVersion": "26.7.1"
+                }
+              ],
+              "auxAttributes": {
+                "amdSwitchable": false,
+                "canSupportThreadedTextureMailbox": false,
+                "directRenderingVersion": "",
+                "displayType": "ANGLE_METAL",
+                "glExtensions": "GL_AMD_performance_monitor GL_ANGLE_base_vertex_base_instance_shader_builtin GL_ANGLE_blob_cache GL_ANGLE_client_arrays GL_ANGLE_clip_cull_distance GL_ANGLE_compressed_texture_etc GL_ANGLE_depth_texture GL_ANGLE_framebuffer_blit GL_ANGLE_framebuffer_multisample GL_ANGLE_get_serialized_context_string GL_ANGLE_get_tex_level_parameter GL_ANGLE_instanced_arrays GL_ANGLE_memory_size GL_ANGLE_pack_reverse_row_order GL_ANGLE_polygon_mode GL_ANGLE_program_binary_readiness_query GL_ANGLE_program_cache_control GL_ANGLE_provoking_vertex GL_ANGLE_renderability_validation GL_ANGLE_request_extension GL_ANGLE_rgbx_internal_format GL_ANGLE_robust_client_memory GL_ANGLE_shader_pixel_local_storage GL_ANGLE_shader_pixel_local_storage_coherent GL_ANGLE_stencil_texturing GL_ANGLE_texture_compression_dxt3 GL_ANGLE_texture_compression_dxt5 GL_ANGLE_texture_multisample GL_ANGLE_translated_shader_source GL_APPLE_clip_distance GL_ARM_rgba8 GL_CHROMIUM_bind_generates_resource GL_CHROMIUM_bind_uniform_location GL_CHROMIUM_copy_texture GL_CHROMIUM_lose_context GL_EXT_base_instance GL_EXT_blend_func_extended GL_EXT_blend_minmax GL_EXT_clip_control GL_EXT_color_buffer_float GL_EXT_color_buffer_half_float GL_EXT_compressed_ETC1_RGB8_sub_texture GL_EXT_conservative_depth GL_EXT_debug_label GL_EXT_debug_marker GL_EXT_depth_clamp GL_EXT_discard_framebuffer GL_EXT_disjoint_timer_query GL_EXT_draw_buffers GL_EXT_draw_buffers_indexed GL_EXT_draw_elements_base_vertex GL_EXT_float_blend GL_EXT_frag_depth GL_EXT_instanced_arrays GL_EXT_map_buffer_range GL_EXT_multisampled_render_to_texture GL_EXT_occlusion_query_boolean GL_EXT_polygon_offset_clamp GL_EXT_pvrtc_sRGB GL_EXT_read_format_bgra GL_EXT_render_snorm GL_EXT_robustness GL_EXT_sRGB GL_EXT_shader_texture_lod GL_EXT_texture_compression_bptc GL_EXT_texture_compression_dxt1 GL_EXT_texture_compression_rgtc GL_EXT_texture_compression_s3tc_srgb GL_EXT_texture_filter_anisotropic GL_EXT_texture_format_BGRA8888 GL_EXT_texture_mirror_clamp_to_edge GL_EXT_texture_norm16 GL_EXT_texture_rg GL_EXT_texture_sRGB_R8 GL_EXT_texture_sRGB_RG8 GL_EXT_texture_shadow_lod GL_EXT_texture_storage GL_IMG_texture_compression_pvrtc GL_KHR_debug GL_KHR_parallel_shader_compile GL_KHR_robustness GL_KHR_texture_compression_astc_hdr GL_KHR_texture_compression_astc_ldr GL_KHR_texture_compression_astc_sliced_3d GL_MESA_framebuffer_flip_y GL_NV_fence GL_NV_framebuffer_blit GL_NV_pixel_buffer_object GL_NV_shader_noperspective_interpolation GL_OES_EGL_image GL_OES_EGL_sync GL_OES_compressed_ETC1_RGB8_texture GL_OES_depth24 GL_OES_depth32 GL_OES_depth_texture GL_OES_draw_buffers_indexed GL_OES_draw_elements_base_vertex GL_OES_element_index_uint GL_OES_fbo_render_mipmap GL_OES_get_program_binary GL_OES_mapbuffer GL_OES_packed_depth_stencil GL_OES_required_internalformat GL_OES_rgb8_rgba8 GL_OES_sample_variables GL_OES_shader_multisample_interpolation GL_OES_standard_derivatives GL_OES_surfaceless_context GL_OES_texture_3D GL_OES_texture_float GL_OES_texture_float_linear GL_OES_texture_half_float GL_OES_texture_half_float_linear GL_OES_texture_npot GL_OES_texture_stencil8 GL_OES_vertex_array_object GL_QCOM_render_shared_exponent ",
+                "glImplementationParts": "(gl=egl-angle,angle=metal)",
+                "glRenderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Version 26.7.1 (Build 25G241))",
+                "glResetNotificationStrategy": 33362,
+                "glVendor": "Google Inc. (Apple)",
+                "glVersion": "OpenGL ES 3.0 (ANGLE 2.1.28975 git hash: 127e783de334)",
+                "glWsExtensions": "",
+                "glWsVendor": "",
+                "glWsVersion": "",
+                "inProcessGpu": false,
+                "initializationTime": 0.041167,
+                "isAsan": false,
+                "isClangCoverage": false,
+                "jpegDecodeAcceleratorSupported": false,
+                "maxMsaaSamples": "4",
+                "optimus": false,
+                "passthroughCmdDecoder": true,
+                "pixelShaderVersion": "3.00",
+                "processCrashCount": 0,
+                "sandboxed": false,
+                "skiaBackendType": "GraphiteDawnMetal",
+                "subpixelFontRendering": true,
+                "targetCpuBits": 64,
+                "vertexShaderVersion": "3.00",
+                "visibilityCallbackCallCount": 0
+              },
+              "featureStatus": {
+                "2d_canvas": "enabled",
+                "direct_rendering_display_compositor": "disabled_off_ok",
+                "gpu_compositing": "enabled",
+                "multiple_raster_threads": "enabled_on",
+                "opengl": "enabled_on",
+                "rasterization": "enabled",
+                "raw_draw": "disabled_off_ok",
+                "skia_graphite": "enabled_on",
+                "trees_in_viz": "disabled_off",
+                "video_decode": "enabled",
+                "video_encode": "enabled",
+                "webgl": "enabled",
+                "webgpu": "enabled",
+                "webnn": "disabled_off"
+              },
+              "driverBugWorkarounds": [
+                "disable_2d_canvas_auto_flush",
+                "enable_webgl_timer_query_extensions",
+                "disabled_extension_GL_KHR_blend_equation_advanced",
+                "disabled_extension_GL_KHR_blend_equation_advanced_coherent"
+              ],
+              "videoDecoding": [],
+              "videoEncoding": []
+            },
+            "modelName": "Mac",
+            "modelVersion": "14.7",
+            "commandLine": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/var/folders/k1/zprsgklx4xqbs2wb4cq59bsr0000gn/T/playwright_chromiumdev_profile-vnfynU --remote-debugging-pipe --no-startup-window --noerrdialogs --flag-switches-begin --flag-switches-end --enable-unsafe-swiftshader"
+          }
+        }
+      ],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "60 real minutes required; checkpoint and page+worker GC evidence must exist. Current run: RUNNING.",
+          "evidence": "artifacts/social-engine/performance/2026-11-03T20-34-35-126Z/report.json",
+          "environment": {
+            "platform": "darwin",
+            "release": "25.6.0",
+            "arch": "arm64",
+            "cpus": [
+              "Apple M2",
+              "Apple M2",
+              "Apple M2",
+              "Apple M2",
+              "Apple M2",
+              "Apple M2",
+              "Apple M2",
+              "Apple M2"
+            ],
+            "logicalCpus": 8,
+            "totalMemoryBytes": 17179869184,
+            "viewport": {
+              "width": 1920,
+              "height": 1080
+            },
+            "dpr": 1,
+            "headless": true,
+            "concurrentWork": "Full legacy tests,365-day simulation,build/development may contend for CPU during this run; not an isolated reference-PC result.",
+            "browser": "156.0.8078.80",
+            "systemInfo": {
+              "gpu": {
+                "devices": [
+                  {
+                    "vendorId": 4203,
+                    "deviceId": 0,
+                    "vendorString": "Google Inc. (Apple)",
+                    "deviceString": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Version 26.7.1 (Build 25G241))",
+                    "driverVendor": "Apple",
+                    "driverVersion": "26.7.1"
+                  }
+                ],
+                "auxAttributes": {
+                  "amdSwitchable": false,
+                  "canSupportThreadedTextureMailbox": false,
+                  "directRenderingVersion": "",
+                  "displayType": "ANGLE_METAL",
+                  "glExtensions": "GL_AMD_performance_monitor GL_ANGLE_base_vertex_base_instance_shader_builtin GL_ANGLE_blob_cache GL_ANGLE_client_arrays GL_ANGLE_clip_cull_distance GL_ANGLE_compressed_texture_etc GL_ANGLE_depth_texture GL_ANGLE_framebuffer_blit GL_ANGLE_framebuffer_multisample GL_ANGLE_get_serialized_context_string GL_ANGLE_get_tex_level_parameter GL_ANGLE_instanced_arrays GL_ANGLE_memory_size GL_ANGLE_pack_reverse_row_order GL_ANGLE_polygon_mode GL_ANGLE_program_binary_readiness_query GL_ANGLE_program_cache_control GL_ANGLE_provoking_vertex GL_ANGLE_renderability_validation GL_ANGLE_request_extension GL_ANGLE_rgbx_internal_format GL_ANGLE_robust_client_memory GL_ANGLE_shader_pixel_local_storage GL_ANGLE_shader_pixel_local_storage_coherent GL_ANGLE_stencil_texturing GL_ANGLE_texture_compression_dxt3 GL_ANGLE_texture_compression_dxt5 GL_ANGLE_texture_multisample GL_ANGLE_translated_shader_source GL_APPLE_clip_distance GL_ARM_rgba8 GL_CHROMIUM_bind_generates_resource GL_CHROMIUM_bind_uniform_location GL_CHROMIUM_copy_texture GL_CHROMIUM_lose_context GL_EXT_base_instance GL_EXT_blend_func_extended GL_EXT_blend_minmax GL_EXT_clip_control GL_EXT_color_buffer_float GL_EXT_color_buffer_half_float GL_EXT_compressed_ETC1_RGB8_sub_texture GL_EXT_conservative_depth GL_EXT_debug_label GL_EXT_debug_marker GL_EXT_depth_clamp GL_EXT_discard_framebuffer GL_EXT_disjoint_timer_query GL_EXT_draw_buffers GL_EXT_draw_buffers_indexed GL_EXT_draw_elements_base_vertex GL_EXT_float_blend GL_EXT_frag_depth GL_EXT_instanced_arrays GL_EXT_map_buffer_range GL_EXT_multisampled_render_to_texture GL_EXT_occlusion_query_boolean GL_EXT_polygon_offset_clamp GL_EXT_pvrtc_sRGB GL_EXT_read_format_bgra GL_EXT_render_snorm GL_EXT_robustness GL_EXT_sRGB GL_EXT_shader_texture_lod GL_EXT_texture_compression_bptc GL_EXT_texture_compression_dxt1 GL_EXT_texture_compression_rgtc GL_EXT_texture_compression_s3tc_srgb GL_EXT_texture_filter_anisotropic GL_EXT_texture_format_BGRA8888 GL_EXT_texture_mirror_clamp_to_edge GL_EXT_texture_norm16 GL_EXT_texture_rg GL_EXT_texture_sRGB_R8 GL_EXT_texture_sRGB_RG8 GL_EXT_texture_shadow_lod GL_EXT_texture_storage GL_IMG_texture_compression_pvrtc GL_KHR_debug GL_KHR_parallel_shader_compile GL_KHR_robustness GL_KHR_texture_compression_astc_hdr GL_KHR_texture_compression_astc_ldr GL_KHR_texture_compression_astc_sliced_3d GL_MESA_framebuffer_flip_y GL_NV_fence GL_NV_framebuffer_blit GL_NV_pixel_buffer_object GL_NV_shader_noperspective_interpolation GL_OES_EGL_image GL_OES_EGL_sync GL_OES_compressed_ETC1_RGB8_texture GL_OES_depth24 GL_OES_depth32 GL_OES_depth_texture GL_OES_draw_buffers_indexed GL_OES_draw_elements_base_vertex GL_OES_element_index_uint GL_OES_fbo_render_mipmap GL_OES_get_program_binary GL_OES_mapbuffer GL_OES_packed_depth_stencil GL_OES_required_internalformat GL_OES_rgb8_rgba8 GL_OES_sample_variables GL_OES_shader_multisample_interpolation GL_OES_standard_derivatives GL_OES_surfaceless_context GL_OES_texture_3D GL_OES_texture_float GL_OES_texture_float_linear GL_OES_texture_half_float GL_OES_texture_half_float_linear GL_OES_texture_npot GL_OES_texture_stencil8 GL_OES_vertex_array_object GL_QCOM_render_shared_exponent ",
+                  "glImplementationParts": "(gl=egl-angle,angle=metal)",
+                  "glRenderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Version 26.7.1 (Build 25G241))",
+                  "glResetNotificationStrategy": 33362,
+                  "glVendor": "Google Inc. (Apple)",
+                  "glVersion": "OpenGL ES 3.0 (ANGLE 2.1.28975 git hash: 127e783de334)",
+                  "glWsExtensions": "",
+                  "glWsVendor": "",
+                  "glWsVersion": "",
+                  "inProcessGpu": false,
+                  "initializationTime": 0.041167,
+                  "isAsan": false,
+                  "isClangCoverage": false,
+                  "jpegDecodeAcceleratorSupported": false,
+                  "maxMsaaSamples": "4",
+                  "optimus": false,
+                  "passthroughCmdDecoder": true,
+                  "pixelShaderVersion": "3.00",
+                  "processCrashCount": 0,
+                  "sandboxed": false,
+                  "skiaBackendType": "GraphiteDawnMetal",
+                  "subpixelFontRendering": true,
+                  "targetCpuBits": 64,
+                  "vertexShaderVersion": "3.00",
+                  "visibilityCallbackCallCount": 0
+                },
+                "featureStatus": {
+                  "2d_canvas": "enabled",
+                  "direct_rendering_display_compositor": "disabled_off_ok",
+                  "gpu_compositing": "enabled",
+                  "multiple_raster_threads": "enabled_on",
+                  "opengl": "enabled_on",
+                  "rasterization": "enabled",
+                  "raw_draw": "disabled_off_ok",
+                  "skia_graphite": "enabled_on",
+                  "trees_in_viz": "disabled_off",
+                  "video_decode": "enabled",
+                  "video_encode": "enabled",
+                  "webgl": "enabled",
+                  "webgpu": "enabled",
+                  "webnn": "disabled_off"
+                },
+                "driverBugWorkarounds": [
+                  "disable_2d_canvas_auto_flush",
+                  "enable_webgl_timer_query_extensions",
+                  "disabled_extension_GL_KHR_blend_equation_advanced",
+                  "disabled_extension_GL_KHR_blend_equation_advanced_coherent"
+                ],
+                "videoDecoding": [],
+                "videoEncoding": []
+              },
+              "modelName": "Mac",
+              "modelVersion": "14.7",
+              "commandLine": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/var/folders/k1/zprsgklx4xqbs2wb4cq59bsr0000gn/T/playwright_chromiumdev_profile-vnfynU --remote-debugging-pipe --no-startup-window --noerrdialogs --flag-switches-begin --flag-switches-end --enable-unsafe-swiftshader"
+            }
+          },
+          "scope": "Measured real-time browser workload with concurrent local tests; not reference-hardware or human playtest evidence."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "60 real minutes required; checkpoint and page+worker GC evidence must exist. Current run: RUNNING."
+    },
+    {
+      "id": "SE-051",
+      "section": "Performans bellek",
+      "precondition": "GC kontrollü",
+      "action": "2 saat soak",
+      "expected": "Heap eğimi <=1MB/dk",
+      "priority": "P1",
+      "automation": "Profiler",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/performance/2026-11-03T20-34-35-126Z/report.json"
+      ],
+      "seed": 20261103,
+      "environment": [
+        {
+          "platform": "darwin",
+          "release": "25.6.0",
+          "arch": "arm64",
+          "cpus": [
+            "Apple M2",
+            "Apple M2",
+            "Apple M2",
+            "Apple M2",
+            "Apple M2",
+            "Apple M2",
+            "Apple M2",
+            "Apple M2"
+          ],
+          "logicalCpus": 8,
+          "totalMemoryBytes": 17179869184,
+          "viewport": {
+            "width": 1920,
+            "height": 1080
+          },
+          "dpr": 1,
+          "headless": true,
+          "concurrentWork": "Full legacy tests,365-day simulation,build/development may contend for CPU during this run; not an isolated reference-PC result.",
+          "browser": "156.0.8078.80",
+          "systemInfo": {
+            "gpu": {
+              "devices": [
+                {
+                  "vendorId": 4203,
+                  "deviceId": 0,
+                  "vendorString": "Google Inc. (Apple)",
+                  "deviceString": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Version 26.7.1 (Build 25G241))",
+                  "driverVendor": "Apple",
+                  "driverVersion": "26.7.1"
+                }
+              ],
+              "auxAttributes": {
+                "amdSwitchable": false,
+                "canSupportThreadedTextureMailbox": false,
+                "directRenderingVersion": "",
+                "displayType": "ANGLE_METAL",
+                "glExtensions": "GL_AMD_performance_monitor GL_ANGLE_base_vertex_base_instance_shader_builtin GL_ANGLE_blob_cache GL_ANGLE_client_arrays GL_ANGLE_clip_cull_distance GL_ANGLE_compressed_texture_etc GL_ANGLE_depth_texture GL_ANGLE_framebuffer_blit GL_ANGLE_framebuffer_multisample GL_ANGLE_get_serialized_context_string GL_ANGLE_get_tex_level_parameter GL_ANGLE_instanced_arrays GL_ANGLE_memory_size GL_ANGLE_pack_reverse_row_order GL_ANGLE_polygon_mode GL_ANGLE_program_binary_readiness_query GL_ANGLE_program_cache_control GL_ANGLE_provoking_vertex GL_ANGLE_renderability_validation GL_ANGLE_request_extension GL_ANGLE_rgbx_internal_format GL_ANGLE_robust_client_memory GL_ANGLE_shader_pixel_local_storage GL_ANGLE_shader_pixel_local_storage_coherent GL_ANGLE_stencil_texturing GL_ANGLE_texture_compression_dxt3 GL_ANGLE_texture_compression_dxt5 GL_ANGLE_texture_multisample GL_ANGLE_translated_shader_source GL_APPLE_clip_distance GL_ARM_rgba8 GL_CHROMIUM_bind_generates_resource GL_CHROMIUM_bind_uniform_location GL_CHROMIUM_copy_texture GL_CHROMIUM_lose_context GL_EXT_base_instance GL_EXT_blend_func_extended GL_EXT_blend_minmax GL_EXT_clip_control GL_EXT_color_buffer_float GL_EXT_color_buffer_half_float GL_EXT_compressed_ETC1_RGB8_sub_texture GL_EXT_conservative_depth GL_EXT_debug_label GL_EXT_debug_marker GL_EXT_depth_clamp GL_EXT_discard_framebuffer GL_EXT_disjoint_timer_query GL_EXT_draw_buffers GL_EXT_draw_buffers_indexed GL_EXT_draw_elements_base_vertex GL_EXT_float_blend GL_EXT_frag_depth GL_EXT_instanced_arrays GL_EXT_map_buffer_range GL_EXT_multisampled_render_to_texture GL_EXT_occlusion_query_boolean GL_EXT_polygon_offset_clamp GL_EXT_pvrtc_sRGB GL_EXT_read_format_bgra GL_EXT_render_snorm GL_EXT_robustness GL_EXT_sRGB GL_EXT_shader_texture_lod GL_EXT_texture_compression_bptc GL_EXT_texture_compression_dxt1 GL_EXT_texture_compression_rgtc GL_EXT_texture_compression_s3tc_srgb GL_EXT_texture_filter_anisotropic GL_EXT_texture_format_BGRA8888 GL_EXT_texture_mirror_clamp_to_edge GL_EXT_texture_norm16 GL_EXT_texture_rg GL_EXT_texture_sRGB_R8 GL_EXT_texture_sRGB_RG8 GL_EXT_texture_shadow_lod GL_EXT_texture_storage GL_IMG_texture_compression_pvrtc GL_KHR_debug GL_KHR_parallel_shader_compile GL_KHR_robustness GL_KHR_texture_compression_astc_hdr GL_KHR_texture_compression_astc_ldr GL_KHR_texture_compression_astc_sliced_3d GL_MESA_framebuffer_flip_y GL_NV_fence GL_NV_framebuffer_blit GL_NV_pixel_buffer_object GL_NV_shader_noperspective_interpolation GL_OES_EGL_image GL_OES_EGL_sync GL_OES_compressed_ETC1_RGB8_texture GL_OES_depth24 GL_OES_depth32 GL_OES_depth_texture GL_OES_draw_buffers_indexed GL_OES_draw_elements_base_vertex GL_OES_element_index_uint GL_OES_fbo_render_mipmap GL_OES_get_program_binary GL_OES_mapbuffer GL_OES_packed_depth_stencil GL_OES_required_internalformat GL_OES_rgb8_rgba8 GL_OES_sample_variables GL_OES_shader_multisample_interpolation GL_OES_standard_derivatives GL_OES_surfaceless_context GL_OES_texture_3D GL_OES_texture_float GL_OES_texture_float_linear GL_OES_texture_half_float GL_OES_texture_half_float_linear GL_OES_texture_npot GL_OES_texture_stencil8 GL_OES_vertex_array_object GL_QCOM_render_shared_exponent ",
+                "glImplementationParts": "(gl=egl-angle,angle=metal)",
+                "glRenderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Version 26.7.1 (Build 25G241))",
+                "glResetNotificationStrategy": 33362,
+                "glVendor": "Google Inc. (Apple)",
+                "glVersion": "OpenGL ES 3.0 (ANGLE 2.1.28975 git hash: 127e783de334)",
+                "glWsExtensions": "",
+                "glWsVendor": "",
+                "glWsVersion": "",
+                "inProcessGpu": false,
+                "initializationTime": 0.041167,
+                "isAsan": false,
+                "isClangCoverage": false,
+                "jpegDecodeAcceleratorSupported": false,
+                "maxMsaaSamples": "4",
+                "optimus": false,
+                "passthroughCmdDecoder": true,
+                "pixelShaderVersion": "3.00",
+                "processCrashCount": 0,
+                "sandboxed": false,
+                "skiaBackendType": "GraphiteDawnMetal",
+                "subpixelFontRendering": true,
+                "targetCpuBits": 64,
+                "vertexShaderVersion": "3.00",
+                "visibilityCallbackCallCount": 0
+              },
+              "featureStatus": {
+                "2d_canvas": "enabled",
+                "direct_rendering_display_compositor": "disabled_off_ok",
+                "gpu_compositing": "enabled",
+                "multiple_raster_threads": "enabled_on",
+                "opengl": "enabled_on",
+                "rasterization": "enabled",
+                "raw_draw": "disabled_off_ok",
+                "skia_graphite": "enabled_on",
+                "trees_in_viz": "disabled_off",
+                "video_decode": "enabled",
+                "video_encode": "enabled",
+                "webgl": "enabled",
+                "webgpu": "enabled",
+                "webnn": "disabled_off"
+              },
+              "driverBugWorkarounds": [
+                "disable_2d_canvas_auto_flush",
+                "enable_webgl_timer_query_extensions",
+                "disabled_extension_GL_KHR_blend_equation_advanced",
+                "disabled_extension_GL_KHR_blend_equation_advanced_coherent"
+              ],
+              "videoDecoding": [],
+              "videoEncoding": []
+            },
+            "modelName": "Mac",
+            "modelVersion": "14.7",
+            "commandLine": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/var/folders/k1/zprsgklx4xqbs2wb4cq59bsr0000gn/T/playwright_chromiumdev_profile-vnfynU --remote-debugging-pipe --no-startup-window --noerrdialogs --flag-switches-begin --flag-switches-end --enable-unsafe-swiftshader"
+          }
+        }
+      ],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "120 real minutes required; checkpoint and page+worker GC evidence must exist. Current run: RUNNING.",
+          "evidence": "artifacts/social-engine/performance/2026-11-03T20-34-35-126Z/report.json",
+          "environment": {
+            "platform": "darwin",
+            "release": "25.6.0",
+            "arch": "arm64",
+            "cpus": [
+              "Apple M2",
+              "Apple M2",
+              "Apple M2",
+              "Apple M2",
+              "Apple M2",
+              "Apple M2",
+              "Apple M2",
+              "Apple M2"
+            ],
+            "logicalCpus": 8,
+            "totalMemoryBytes": 17179869184,
+            "viewport": {
+              "width": 1920,
+              "height": 1080
+            },
+            "dpr": 1,
+            "headless": true,
+            "concurrentWork": "Full legacy tests,365-day simulation,build/development may contend for CPU during this run; not an isolated reference-PC result.",
+            "browser": "156.0.8078.80",
+            "systemInfo": {
+              "gpu": {
+                "devices": [
+                  {
+                    "vendorId": 4203,
+                    "deviceId": 0,
+                    "vendorString": "Google Inc. (Apple)",
+                    "deviceString": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Version 26.7.1 (Build 25G241))",
+                    "driverVendor": "Apple",
+                    "driverVersion": "26.7.1"
+                  }
+                ],
+                "auxAttributes": {
+                  "amdSwitchable": false,
+                  "canSupportThreadedTextureMailbox": false,
+                  "directRenderingVersion": "",
+                  "displayType": "ANGLE_METAL",
+                  "glExtensions": "GL_AMD_performance_monitor GL_ANGLE_base_vertex_base_instance_shader_builtin GL_ANGLE_blob_cache GL_ANGLE_client_arrays GL_ANGLE_clip_cull_distance GL_ANGLE_compressed_texture_etc GL_ANGLE_depth_texture GL_ANGLE_framebuffer_blit GL_ANGLE_framebuffer_multisample GL_ANGLE_get_serialized_context_string GL_ANGLE_get_tex_level_parameter GL_ANGLE_instanced_arrays GL_ANGLE_memory_size GL_ANGLE_pack_reverse_row_order GL_ANGLE_polygon_mode GL_ANGLE_program_binary_readiness_query GL_ANGLE_program_cache_control GL_ANGLE_provoking_vertex GL_ANGLE_renderability_validation GL_ANGLE_request_extension GL_ANGLE_rgbx_internal_format GL_ANGLE_robust_client_memory GL_ANGLE_shader_pixel_local_storage GL_ANGLE_shader_pixel_local_storage_coherent GL_ANGLE_stencil_texturing GL_ANGLE_texture_compression_dxt3 GL_ANGLE_texture_compression_dxt5 GL_ANGLE_texture_multisample GL_ANGLE_translated_shader_source GL_APPLE_clip_distance GL_ARM_rgba8 GL_CHROMIUM_bind_generates_resource GL_CHROMIUM_bind_uniform_location GL_CHROMIUM_copy_texture GL_CHROMIUM_lose_context GL_EXT_base_instance GL_EXT_blend_func_extended GL_EXT_blend_minmax GL_EXT_clip_control GL_EXT_color_buffer_float GL_EXT_color_buffer_half_float GL_EXT_compressed_ETC1_RGB8_sub_texture GL_EXT_conservative_depth GL_EXT_debug_label GL_EXT_debug_marker GL_EXT_depth_clamp GL_EXT_discard_framebuffer GL_EXT_disjoint_timer_query GL_EXT_draw_buffers GL_EXT_draw_buffers_indexed GL_EXT_draw_elements_base_vertex GL_EXT_float_blend GL_EXT_frag_depth GL_EXT_instanced_arrays GL_EXT_map_buffer_range GL_EXT_multisampled_render_to_texture GL_EXT_occlusion_query_boolean GL_EXT_polygon_offset_clamp GL_EXT_pvrtc_sRGB GL_EXT_read_format_bgra GL_EXT_render_snorm GL_EXT_robustness GL_EXT_sRGB GL_EXT_shader_texture_lod GL_EXT_texture_compression_bptc GL_EXT_texture_compression_dxt1 GL_EXT_texture_compression_rgtc GL_EXT_texture_compression_s3tc_srgb GL_EXT_texture_filter_anisotropic GL_EXT_texture_format_BGRA8888 GL_EXT_texture_mirror_clamp_to_edge GL_EXT_texture_norm16 GL_EXT_texture_rg GL_EXT_texture_sRGB_R8 GL_EXT_texture_sRGB_RG8 GL_EXT_texture_shadow_lod GL_EXT_texture_storage GL_IMG_texture_compression_pvrtc GL_KHR_debug GL_KHR_parallel_shader_compile GL_KHR_robustness GL_KHR_texture_compression_astc_hdr GL_KHR_texture_compression_astc_ldr GL_KHR_texture_compression_astc_sliced_3d GL_MESA_framebuffer_flip_y GL_NV_fence GL_NV_framebuffer_blit GL_NV_pixel_buffer_object GL_NV_shader_noperspective_interpolation GL_OES_EGL_image GL_OES_EGL_sync GL_OES_compressed_ETC1_RGB8_texture GL_OES_depth24 GL_OES_depth32 GL_OES_depth_texture GL_OES_draw_buffers_indexed GL_OES_draw_elements_base_vertex GL_OES_element_index_uint GL_OES_fbo_render_mipmap GL_OES_get_program_binary GL_OES_mapbuffer GL_OES_packed_depth_stencil GL_OES_required_internalformat GL_OES_rgb8_rgba8 GL_OES_sample_variables GL_OES_shader_multisample_interpolation GL_OES_standard_derivatives GL_OES_surfaceless_context GL_OES_texture_3D GL_OES_texture_float GL_OES_texture_float_linear GL_OES_texture_half_float GL_OES_texture_half_float_linear GL_OES_texture_npot GL_OES_texture_stencil8 GL_OES_vertex_array_object GL_QCOM_render_shared_exponent ",
+                  "glImplementationParts": "(gl=egl-angle,angle=metal)",
+                  "glRenderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Version 26.7.1 (Build 25G241))",
+                  "glResetNotificationStrategy": 33362,
+                  "glVendor": "Google Inc. (Apple)",
+                  "glVersion": "OpenGL ES 3.0 (ANGLE 2.1.28975 git hash: 127e783de334)",
+                  "glWsExtensions": "",
+                  "glWsVendor": "",
+                  "glWsVersion": "",
+                  "inProcessGpu": false,
+                  "initializationTime": 0.041167,
+                  "isAsan": false,
+                  "isClangCoverage": false,
+                  "jpegDecodeAcceleratorSupported": false,
+                  "maxMsaaSamples": "4",
+                  "optimus": false,
+                  "passthroughCmdDecoder": true,
+                  "pixelShaderVersion": "3.00",
+                  "processCrashCount": 0,
+                  "sandboxed": false,
+                  "skiaBackendType": "GraphiteDawnMetal",
+                  "subpixelFontRendering": true,
+                  "targetCpuBits": 64,
+                  "vertexShaderVersion": "3.00",
+                  "visibilityCallbackCallCount": 0
+                },
+                "featureStatus": {
+                  "2d_canvas": "enabled",
+                  "direct_rendering_display_compositor": "disabled_off_ok",
+                  "gpu_compositing": "enabled",
+                  "multiple_raster_threads": "enabled_on",
+                  "opengl": "enabled_on",
+                  "rasterization": "enabled",
+                  "raw_draw": "disabled_off_ok",
+                  "skia_graphite": "enabled_on",
+                  "trees_in_viz": "disabled_off",
+                  "video_decode": "enabled",
+                  "video_encode": "enabled",
+                  "webgl": "enabled",
+                  "webgpu": "enabled",
+                  "webnn": "disabled_off"
+                },
+                "driverBugWorkarounds": [
+                  "disable_2d_canvas_auto_flush",
+                  "enable_webgl_timer_query_extensions",
+                  "disabled_extension_GL_KHR_blend_equation_advanced",
+                  "disabled_extension_GL_KHR_blend_equation_advanced_coherent"
+                ],
+                "videoDecoding": [],
+                "videoEncoding": []
+              },
+              "modelName": "Mac",
+              "modelVersion": "14.7",
+              "commandLine": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/var/folders/k1/zprsgklx4xqbs2wb4cq59bsr0000gn/T/playwright_chromiumdev_profile-vnfynU --remote-debugging-pipe --no-startup-window --noerrdialogs --flag-switches-begin --flag-switches-end --enable-unsafe-swiftshader"
+            }
+          },
+          "scope": "Measured real-time browser workload with concurrent local tests; not reference-hardware or human playtest evidence."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "120 real minutes required; checkpoint and page+worker GC evidence must exist. Current run: RUNNING."
+    },
+    {
+      "id": "SE-052",
+      "section": "Tarayıcı uyumluluğu",
+      "precondition": "Chromium güncel",
+      "action": "Kritik akışı oyna",
+      "expected": "Fatal hata yok",
+      "priority": "P0",
+      "automation": "Playwright",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/browser-chromium/results.json"
+      ],
+      "seed": 20261103,
+      "environment": [
+        {
+          "browser": "156.0.8078.80",
+          "base": "http://127.0.0.1:8097"
+        }
+      ],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": 46993.170708000005,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "Real chromium critical gameplay flow; current served manifest required.",
+          "evidence": "artifacts/social-engine/browser-chromium/results.json",
+          "environment": {
+            "browser": "156.0.8078.80",
+            "base": "http://127.0.0.1:8097"
+          },
+          "duration_ms": 46993.170708000005
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Real chromium critical gameplay flow; current served manifest required."
+    },
+    {
+      "id": "SE-053",
+      "section": "Tarayıcı uyumluluğu",
+      "precondition": "Firefox güncel",
+      "action": "Kritik akışı oyna",
+      "expected": "Temel işlevler çalışır",
+      "priority": "P1",
+      "automation": "Playwright",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/browser-firefox/results.json"
+      ],
+      "seed": 20261103,
+      "environment": [
+        {
+          "browser": "153.0",
+          "base": "http://127.0.0.1:8097"
+        }
+      ],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": 51231.307582999994,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "Real firefox critical gameplay flow; current served manifest required.",
+          "evidence": "artifacts/social-engine/browser-firefox/results.json",
+          "environment": {
+            "browser": "153.0",
+            "base": "http://127.0.0.1:8097"
+          },
+          "duration_ms": 51231.307582999994
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Real firefox critical gameplay flow; current served manifest required."
+    },
+    {
+      "id": "SE-054",
+      "section": "Tarayıcı uyumluluğu",
+      "precondition": "WebKit güncel",
+      "action": "Kritik akışı oyna",
+      "expected": "Temel işlevler çalışır",
+      "priority": "P1",
+      "automation": "Playwright",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/browser-webkit/results.json"
+      ],
+      "seed": 20261103,
+      "environment": [
+        {
+          "browser": "26.5",
+          "base": "http://127.0.0.1:8097"
+        }
+      ],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": 32513.770084999993,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "Real webkit critical gameplay flow; current served manifest required.",
+          "evidence": "artifacts/social-engine/browser-webkit/results.json",
+          "environment": {
+            "browser": "26.5",
+            "base": "http://127.0.0.1:8097"
+          },
+          "duration_ms": 32513.770084999993
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Real webkit critical gameplay flow; current served manifest required."
+    },
+    {
+      "id": "SE-055",
+      "section": "UI erişilebilirlik",
+      "precondition": "HUD açık",
+      "action": "Değerleri değiştir",
+      "expected": "HUD tutarlı",
+      "priority": "P0",
+      "automation": "E2E",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/browser-chromium/results.json",
+        "artifacts/social-engine/browser-evidence/results.json"
+      ],
+      "seed": 20261103,
+      "environment": [],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "Current browser evidence missing.",
+          "evidence": "artifacts/social-engine/browser-chromium/results.json",
+          "scope": "Actual DOM/canvas; explicit QA fixed steps accelerate bounded fixtures, never human playtime."
+        },
+        {
+          "status": "PASS",
+          "reason": "Visible HUD cash and needs match authoritative projection after shopping and eating",
+          "evidence": "artifacts/social-engine/browser-evidence/results.json"
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Current browser evidence missing. | Visible HUD cash and needs match authoritative projection after shopping and eating"
+    },
+    {
+      "id": "SE-056",
+      "section": "UI erişilebilirlik",
+      "precondition": "Menü açık",
+      "action": "Klavye ile gezin",
+      "expected": "Odak görünür",
+      "priority": "P1",
+      "automation": "Axe",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/axe/results.json"
+      ],
+      "seed": 20261103,
+      "environment": [],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "Actual keyboard focus/trap/restore checks and Axe scans. Incomplete canvas/contrast scans are disclosed, not full WCAG certification.",
+          "evidence": "artifacts/social-engine/axe/results.json",
+          "scope": [
+            "Automated Axe results and keyboard tests do not establish full screen-reader access to the visual game world.",
+            "Axe color-contrast incomplete findings are recorded as unverified; screenshots require visual review. This report PASS applies to SE-056 keyboard focus plus detected Axe violations, not full WCAG compliance."
+          ]
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Actual keyboard focus/trap/restore checks and Axe scans. Incomplete canvas/contrast scans are disclosed, not full WCAG certification."
+    },
+    {
+      "id": "SE-057",
+      "section": "UI erişilebilirlik",
+      "precondition": "İki viewport",
+      "action": "Ekranı değiştir",
+      "expected": "Kontroller taşmaz",
+      "priority": "P1",
+      "automation": "Visual",
+      "status": "PASS",
+      "evidence": [
+        "artifacts/social-engine/browser-chromium/results.json"
+      ],
+      "seed": 20261103,
+      "environment": [],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "PASS",
+          "reason": "Current browser evidence missing.",
+          "evidence": "artifacts/social-engine/browser-chromium/results.json",
+          "scope": "Actual DOM/canvas; explicit QA fixed steps accelerate bounded fixtures, never human playtime."
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "Current browser evidence missing."
+    },
+    {
+      "id": "SE-058",
+      "section": "Deployment production",
+      "precondition": "PR hazır",
+      "action": "CI çalıştır",
+      "expected": "Kapılar geçer",
+      "priority": "P0",
+      "automation": "CI",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/deployment-verification.json"
+      ],
+      "seed": 20261103,
+      "environment": [],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "No remote PR/CI/provider/live proof. User requested local commits and explicitly locked merge and production.",
+          "evidence": "artifacts/social-engine/deployment-verification.json"
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "No remote PR/CI/provider/live proof. User requested local commits and explicitly locked merge and production."
+    },
+    {
+      "id": "SE-059",
+      "section": "Deployment production",
+      "precondition": "Deploy tamam",
+      "action": "ID ve SHA doğrula",
+      "expected": "Canlı commit doğru",
+      "priority": "P0",
+      "automation": "Provider API",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/deployment-verification.json"
+      ],
+      "seed": 20261103,
+      "environment": [],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "No remote PR/CI/provider/live proof. User requested local commits and explicitly locked merge and production.",
+          "evidence": "artifacts/social-engine/deployment-verification.json"
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "No remote PR/CI/provider/live proof. User requested local commits and explicitly locked merge and production."
+    },
+    {
+      "id": "SE-060",
+      "section": "Deployment production",
+      "precondition": "Canlı URL",
+      "action": "Oyun ve eski oyun smoke",
+      "expected": "Yeni ve eski oyunlar çalışır",
+      "priority": "P0",
+      "automation": "Playwright",
+      "status": "UNVERIFIED",
+      "evidence": [
+        "artifacts/social-engine/deployment-verification.json"
+      ],
+      "seed": 20261103,
+      "environment": [],
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": null,
+      "checks": [
+        {
+          "status": "UNVERIFIED",
+          "reason": "No remote PR/CI/provider/live proof. User requested local commits and explicitly locked merge and production.",
+          "evidence": "artifacts/social-engine/deployment-verification.json"
+        }
+      ],
+      "owner": "SOCIAL ENGINE QA",
+      "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
+      "reason": "No remote PR/CI/provider/live proof. User requested local commits and explicitly locked merge and production."
+    }
+  ],
+  "evidence_manifest": [
+    {
+      "path": "artifacts/social-engine/acceptance-unit.json",
+      "sha256": "e45b193013ff15ebf1ad7172a88a9b59b838f63e75460e7d290fc6c7243b6d5f"
+    },
+    {
+      "path": "artifacts/social-engine/browser-chromium/results.json",
+      "sha256": "cec5f2d41dabf50686357e8bf95724d931d0b0b2af198b71ca6842a70f3cfa73"
+    },
+    {
+      "path": "artifacts/social-engine/browser-firefox/results.json",
+      "sha256": "f47c83bbb864561ae4d8fe3be0a2709aa1f41ccaa7fa7e2a95a22452439d87dd"
+    },
+    {
+      "path": "artifacts/social-engine/browser-webkit/results.json",
+      "sha256": "c02980bc774d8386e8bfa93291460da872a5c64723a0586c0989dc67967bd218"
+    },
+    {
+      "path": "artifacts/social-engine/ui-browser/results.json",
+      "sha256": "9c821bfa35d67a21bf6597f2b76cfd269ad617f5b3a633eacf0f1acfb7d7d3fb"
+    },
+    {
+      "path": "artifacts/social-engine/browser-evidence/results.json",
+      "sha256": "ac94b97fc4c416a7aecb683ed22e03b08cc04831ef190ad9d480382ac64b0841"
+    },
+    {
+      "path": "artifacts/social-engine/persistence-browser/results.json",
+      "sha256": "4964dd664b2c6557dc7ab8f0d7239d5313d4bb1eac64e3234151886d7137fae2"
+    },
+    {
+      "path": "artifacts/social-engine/v4-browser/results.json",
+      "sha256": "70f6319c792c459d02c806facf00de3c7af20dc7d0a5f721cfa1ea64ad0b9d00"
+    },
+    {
+      "path": "artifacts/social-engine/simulation-365/results.json",
+      "sha256": "05ccedd21559e314791a252f33da7e667e472fbb227b6f7ec36932d820f292d3"
+    },
+    {
+      "path": "artifacts/social-engine/axe/results.json",
+      "sha256": "f51edcd042b0b6bf7d94f78067b52984d37bc88eadb252b8d2c2f2e982652b09"
+    },
+    {
+      "path": "artifacts/social-engine/performance/2026-11-03T20-34-35-126Z/report.json",
+      "sha256": "37eabac89a0b83a47f7566bf499ec99baf12a6472ee9905aea8e6bc47b108185"
+    },
+    {
+      "path": "artifacts/social-engine/deployment-verification.json",
+      "sha256": "f72ccefe802226dc3e23623e3b615203ffe0c540904b135b5c2d0161e737aa00"
+    },
+    {
+      "path": "artifacts/social-engine/browser-determinism/results.json",
+      "sha256": "d92c0097aa85538339df9098352981db0187a18ea8a70d81643ed7686266cb9d"
+    },
+    {
+      "path": "artifacts/social-engine/journal-browser/results.json",
+      "sha256": "076240acf5222b8625ec89484ddeca69f68e256e9ded4b522b431d9215355828"
+    },
+    {
+      "path": "artifacts/social-engine/asset-faults/results.json",
+      "sha256": "42925a57105ed6529954c4e59c2b8ef86437c30ef9150cfea41ac55bc5a461c4"
+    },
+    {
+      "path": "artifacts/social-engine/route-browser/results.json",
+      "sha256": "3fe11a2ba6b8a832fb1078d0469ebae1107247fa07a574b0f5305d6cda23da90"
+    },
+    {
+      "path": "artifacts/social-engine/startup-network/results.json",
+      "sha256": "b95b12f24f0ac5df7c45bab097acec5b140c4f78a55ab463540a5fe96e943f6c"
+    },
+    {
+      "path": "artifacts/social-engine/persistence-browser-firefox/results.json",
+      "sha256": "f8d0041d82a324d67ce319ae35043ae5829245a3b98a1dc47f6a7ee0090f076c"
+    },
+    {
+      "path": "artifacts/social-engine/persistence-browser-webkit/results.json",
+      "sha256": "7429b0bbec06598efd3dcfdb2b249efbc2a87a8a712e162202c3ed1b5ed8adcb"
+    },
+    {
+      "path": "artifacts/social-engine/native-browser/stable-repeats/summary.json",
+      "sha256": "bce412ae7cc7a5f90eff8f36093878237795b037e1c13ae349e4d395b8be067b"
+    },
+    {
+      "path": "artifacts/social-engine/capacity-10000/results.json",
+      "sha256": "005ef52329dac5e24eaa8293bb555ab39bccb82361ad7a2240e21167268242a9"
+    },
+    {
+      "path": "artifacts/social-engine/event-reachability/results.json",
+      "sha256": "28de5d2ac4aca658d03a02a7b8c39804a5d24aa0d75f877f15f2dc5e9a055f8b"
+    },
+    {
+      "path": "artifacts/social-engine/late-save/results.json",
+      "sha256": "940fc904674a2ed46502df94fcd6b76bc74c4a662f7d277f203df496a4ce6173"
+    },
+    {
+      "path": "artifacts/social-engine/contract-gap-audit.json",
+      "sha256": "58c2d6aed00d63519d3012f68c94985fdf264104455d6c2dacc1338264eb0daf"
+    }
+  ],
+  "note": "All original60criteria retained verbatim. PASS requires evidence for the current source or exact served assets. Missing/stale/interrupted evidence is never PASS. This audit cannot authorize deployment."
+}

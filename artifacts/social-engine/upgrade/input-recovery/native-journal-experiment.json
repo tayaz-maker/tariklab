@@ -1,0 +1,18 @@
+{
+  "status": "INCOMPLETE_STOPPED_AT_TWO_MINUTE_BOUND",
+  "candidateChanged": false,
+  "sourceCommit": "549cff10d22dbef8c78a166beef8a27288201b7b",
+  "experimentScript": "scripts/social-engine/journal-native-experiment.mjs",
+  "experimentScriptSha256": "6aeabc68816732ad9c419c5c8e34e591630dcd8b9d3437f86057d9d7e62d0b19",
+  "completedSamples": 0,
+  "latencyMeasurements": null,
+  "batchingBenefitEstablished": false,
+  "setup": "Standalone chrome-headless-shell with explicit swiftshader-webgl, actual running game renderer, native IndexedDB and isolated bench database names. Planned identical pending400-op tails in10/100/100/10 ABBA batch order.",
+  "outcome": "Game initialized and the page.evaluate measurement stage started. No completed sample output arrived within two minutes. Only this experiment node process was terminated; its headless children exited.",
+  "limitations": [
+    "No stage telemetry was flushed before completion, so the blocked stage cannot be identified from this attempt.",
+    "This is not evidence of a repository correctness defect or coalescing benefit.",
+    "No further concurrent retry was run while the main full under-load retest was active.",
+    "Prototype remains untracked experiment-only; no frozen runtime or integration checkout changed."
+  ]
+}

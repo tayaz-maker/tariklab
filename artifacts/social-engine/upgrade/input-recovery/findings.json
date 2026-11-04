@@ -1,0 +1,33 @@
+{
+  "baseCommit": "0aced036",
+  "scope": "Synthetic headless handler regression; no native browser visibility or actual tab switching claimed.",
+  "reproduction": {
+    "before": {
+      "pass": 0,
+      "fail": 8
+    },
+    "after": {
+      "pass": 15,
+      "fail": 0
+    }
+  },
+  "changes": [
+    "Shared resetMotionInput clears held keys, sends STOP, and invalidates duplicate motion cache",
+    "Both blur and visibilitychange use shared reset"
+  ],
+  "unchangedFailureEvidence": {
+    "journal-browser": {
+      "path": "/Users/tarikayaz/Documents/Codex/2026-11-03/social-engine-1-0-autonomous-production/work/upgrade-next/artifacts/social-engine/under-load/journal-browser/results.json",
+      "sha256": "52e048194b4b4e76c0bbf8875d52f5610cc40a1b7a0e5a9973bd4c7cf04bc83c"
+    },
+    "v4-browser": {
+      "path": "/Users/tarikayaz/Documents/Codex/2026-11-03/social-engine-1-0-autonomous-production/work/upgrade-next/artifacts/social-engine/under-load/v4-browser/results.json",
+      "sha256": "0a4a3f5bc22f5ea57c7f1f7072a6312abbbc8df3fec52cf620afa435476ea104"
+    }
+  },
+  "limitations": [
+    "Does not establish that the under-load failures were caused by this input issue.",
+    "Journal failures showed progress with no stored failure; no persistence guarantee or timeout was changed.",
+    "Dodge test samples a six-tick window after an additional worker snapshot roundtrip; host delay can exhaust it. No transient assertion was changed."
+  ]
+}

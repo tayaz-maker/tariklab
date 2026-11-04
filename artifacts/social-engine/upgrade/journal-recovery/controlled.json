@@ -1,0 +1,66 @@
+{
+  "scope": "Controlled delayed fake-repository transaction counts only; not native IndexedDB timing or hardware performance",
+  "measurements": [
+    {
+      "label": "baseline",
+      "appendTransactions": 40,
+      "operationsPerTransaction": [
+        10,
+        10,
+        10,
+        10,
+        10,
+        10,
+        10,
+        10,
+        10,
+        10,
+        10,
+        10,
+        10,
+        10,
+        10,
+        10,
+        10,
+        10,
+        10,
+        10,
+        10,
+        10,
+        10,
+        10,
+        10,
+        10,
+        10,
+        10,
+        10,
+        10,
+        10,
+        10,
+        10,
+        10,
+        10,
+        10,
+        10,
+        10,
+        10,
+        10
+      ],
+      "finalCursor": 400,
+      "exactHashedReplay": true
+    },
+    {
+      "label": "coalesced",
+      "appendTransactions": 5,
+      "operationsPerTransaction": [
+        10,
+        120,
+        120,
+        120,
+        30
+      ],
+      "finalCursor": 400,
+      "exactHashedReplay": true
+    }
+  ]
+}

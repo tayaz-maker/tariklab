@@ -1,0 +1,425 @@
+{
+  "source": "GitHub Actions workflow job log",
+  "url": "https://github.com/tayaz-maker/tariklab/actions/runs/41818756934/job/126536211881",
+  "remoteHead": "8709e37c3958cd6a4ba5edb0f7ef9b94687f359e",
+  "jobId": 126536211881,
+  "trials": [
+    {
+      "status": "PASS",
+      "startedAt": "2026-11-04T11:08:44.269Z",
+      "harnessSha256": "e28288af939ae7078a4a7a6cbfd0a4489614a148c08eeb56f6153d49162a6259",
+      "manifestSha256": "80123c1a19ba729223db572de9dcfbb4b7dbb571152a1ef75e21815011b1fa5d",
+      "sourceDigest": "e0adeea8c3be156337050c58c9adaac808c6c50a6497aedd93c8d8e053e67e5f",
+      "mode": "headed Chromium, separate empty profile, actual automatic tab zoom and tab activation",
+      "results": [
+        {
+          "name": "Native automatic browser zoom200% with real menu controls",
+          "status": "PASS",
+          "before": {
+            "w": 1600,
+            "h": 857,
+            "dpr": 1,
+            "hidden": false
+          },
+          "after": {
+            "w": 800,
+            "h": 428,
+            "dpr": 2,
+            "hidden": false
+          },
+          "zoom": {
+            "factor": 2,
+            "settings": {
+              "defaultZoomFactor": 1,
+              "mode": "automatic",
+              "scope": "per-tab"
+            }
+          },
+          "menus": [
+            "Mahalle haritası",
+            "Çanta & karakter",
+            "Telefon",
+            "Bir nefes al"
+          ]
+        },
+        {
+          "name": "Actual background tab visibility pauses and reactivation resumes authoritative tick",
+          "status": "PASS",
+          "pausedTick": 11,
+          "afterWaitTick": 11,
+          "visibility": [
+            {
+              "hidden": true,
+              "tick": 11
+            },
+            {
+              "hidden": false,
+              "tick": 11
+            }
+          ]
+        }
+      ],
+      "errors": [],
+      "noDefaults": true,
+      "extension": {
+        "id": "goicnojpgppielahlclnccjmgnhcljcf",
+        "name": "SOCIAL ENGINE isolated QA"
+      },
+      "focusEmulationDisabled": true,
+      "phase": "resume-ticks",
+      "visibilityProbe": {
+        "page": {
+          "w": 1600,
+          "h": 857,
+          "dpr": 1,
+          "hidden": true
+        },
+        "tabs": [
+          {
+            "id": 1591237128,
+            "active": false,
+            "windowId": 1591237127,
+            "url": "about:blank"
+          },
+          {
+            "id": 1591237129,
+            "active": false,
+            "windowId": 1591237127,
+            "url": "http://127.0.0.1:8097/games/social-engine/index.html?qa=1"
+          },
+          {
+            "id": 1591237130,
+            "active": true,
+            "windowId": 1591237127,
+            "url": "about:blank"
+          }
+        ]
+      },
+      "hiddenInterval": {
+        "startObservation": {
+          "hidden": true,
+          "events": [
+            {
+              "hidden": true,
+              "tick": 11
+            }
+          ]
+        },
+        "endObservation": {
+          "hidden": true,
+          "events": [
+            {
+              "hidden": true,
+              "tick": 11
+            }
+          ]
+        }
+      },
+      "pauseObservation": {
+        "beforeTick": 11,
+        "afterTick": 11,
+        "startObservation": {
+          "hidden": true,
+          "events": [
+            {
+              "hidden": true,
+              "tick": 11
+            }
+          ]
+        },
+        "endObservation": {
+          "hidden": true,
+          "events": [
+            {
+              "hidden": true,
+              "tick": 11
+            }
+          ]
+        }
+      },
+      "pausedTicks": [
+        11,
+        11
+      ],
+      "finishedAt": "2026-11-04T11:08:50.215Z"
+    },
+    {
+      "status": "PASS",
+      "startedAt": "2026-11-04T11:08:50.744Z",
+      "harnessSha256": "e28288af939ae7078a4a7a6cbfd0a4489614a148c08eeb56f6153d49162a6259",
+      "manifestSha256": "80123c1a19ba729223db572de9dcfbb4b7dbb571152a1ef75e21815011b1fa5d",
+      "sourceDigest": "e0adeea8c3be156337050c58c9adaac808c6c50a6497aedd93c8d8e053e67e5f",
+      "mode": "headed Chromium, separate empty profile, actual automatic tab zoom and tab activation",
+      "results": [
+        {
+          "name": "Native automatic browser zoom200% with real menu controls",
+          "status": "PASS",
+          "before": {
+            "w": 1600,
+            "h": 857,
+            "dpr": 1,
+            "hidden": false
+          },
+          "after": {
+            "w": 800,
+            "h": 428,
+            "dpr": 2,
+            "hidden": false
+          },
+          "zoom": {
+            "factor": 2,
+            "settings": {
+              "defaultZoomFactor": 1,
+              "mode": "automatic",
+              "scope": "per-tab"
+            }
+          },
+          "menus": [
+            "Mahalle haritası",
+            "Çanta & karakter",
+            "Telefon",
+            "Bir nefes al"
+          ]
+        },
+        {
+          "name": "Actual background tab visibility pauses and reactivation resumes authoritative tick",
+          "status": "PASS",
+          "pausedTick": 12,
+          "afterWaitTick": 12,
+          "visibility": [
+            {
+              "hidden": true,
+              "tick": 12
+            },
+            {
+              "hidden": false,
+              "tick": 12
+            }
+          ]
+        }
+      ],
+      "errors": [],
+      "noDefaults": true,
+      "extension": {
+        "id": "cdhmbnbalccpffnnmcoheacoepfkikpp",
+        "name": "SOCIAL ENGINE isolated QA"
+      },
+      "focusEmulationDisabled": true,
+      "phase": "resume-ticks",
+      "visibilityProbe": {
+        "page": {
+          "w": 1600,
+          "h": 857,
+          "dpr": 1,
+          "hidden": true
+        },
+        "tabs": [
+          {
+            "id": 1212660834,
+            "active": false,
+            "windowId": 1212660833,
+            "url": "about:blank"
+          },
+          {
+            "id": 1212660835,
+            "active": false,
+            "windowId": 1212660833,
+            "url": "http://127.0.0.1:8097/games/social-engine/index.html?qa=1"
+          },
+          {
+            "id": 1212660836,
+            "active": true,
+            "windowId": 1212660833,
+            "url": "about:blank"
+          }
+        ]
+      },
+      "hiddenInterval": {
+        "startObservation": {
+          "hidden": true,
+          "events": [
+            {
+              "hidden": true,
+              "tick": 12
+            }
+          ]
+        },
+        "endObservation": {
+          "hidden": true,
+          "events": [
+            {
+              "hidden": true,
+              "tick": 12
+            }
+          ]
+        }
+      },
+      "pauseObservation": {
+        "beforeTick": 12,
+        "afterTick": 12,
+        "startObservation": {
+          "hidden": true,
+          "events": [
+            {
+              "hidden": true,
+              "tick": 12
+            }
+          ]
+        },
+        "endObservation": {
+          "hidden": true,
+          "events": [
+            {
+              "hidden": true,
+              "tick": 12
+            }
+          ]
+        }
+      },
+      "pausedTicks": [
+        12,
+        12
+      ],
+      "finishedAt": "2026-11-04T11:08:56.418Z"
+    },
+    {
+      "status": "PASS",
+      "startedAt": "2026-11-04T11:08:56.968Z",
+      "harnessSha256": "e28288af939ae7078a4a7a6cbfd0a4489614a148c08eeb56f6153d49162a6259",
+      "manifestSha256": "80123c1a19ba729223db572de9dcfbb4b7dbb571152a1ef75e21815011b1fa5d",
+      "sourceDigest": "e0adeea8c3be156337050c58c9adaac808c6c50a6497aedd93c8d8e053e67e5f",
+      "mode": "headed Chromium, separate empty profile, actual automatic tab zoom and tab activation",
+      "results": [
+        {
+          "name": "Native automatic browser zoom200% with real menu controls",
+          "status": "PASS",
+          "before": {
+            "w": 1600,
+            "h": 857,
+            "dpr": 1,
+            "hidden": false
+          },
+          "after": {
+            "w": 800,
+            "h": 428,
+            "dpr": 2,
+            "hidden": false
+          },
+          "zoom": {
+            "factor": 2,
+            "settings": {
+              "defaultZoomFactor": 1,
+              "mode": "automatic",
+              "scope": "per-tab"
+            }
+          },
+          "menus": [
+            "Mahalle haritası",
+            "Çanta & karakter",
+            "Telefon",
+            "Bir nefes al"
+          ]
+        },
+        {
+          "name": "Actual background tab visibility pauses and reactivation resumes authoritative tick",
+          "status": "PASS",
+          "pausedTick": 13,
+          "afterWaitTick": 13,
+          "visibility": [
+            {
+              "hidden": true,
+              "tick": 12
+            },
+            {
+              "hidden": false,
+              "tick": 13
+            }
+          ]
+        }
+      ],
+      "errors": [],
+      "noDefaults": true,
+      "extension": {
+        "id": "kfdbamcgllpejcigfcbbgnchbgiimnmk",
+        "name": "SOCIAL ENGINE isolated QA"
+      },
+      "focusEmulationDisabled": true,
+      "phase": "resume-ticks",
+      "visibilityProbe": {
+        "page": {
+          "w": 1600,
+          "h": 857,
+          "dpr": 1,
+          "hidden": true
+        },
+        "tabs": [
+          {
+            "id": 1541698913,
+            "active": false,
+            "windowId": 1541698912,
+            "url": "about:blank"
+          },
+          {
+            "id": 1541698914,
+            "active": false,
+            "windowId": 1541698912,
+            "url": "http://127.0.0.1:8097/games/social-engine/index.html?qa=1"
+          },
+          {
+            "id": 1541698915,
+            "active": true,
+            "windowId": 1541698912,
+            "url": "about:blank"
+          }
+        ]
+      },
+      "hiddenInterval": {
+        "startObservation": {
+          "hidden": true,
+          "events": [
+            {
+              "hidden": true,
+              "tick": 12
+            }
+          ]
+        },
+        "endObservation": {
+          "hidden": true,
+          "events": [
+            {
+              "hidden": true,
+              "tick": 12
+            }
+          ]
+        }
+      },
+      "pauseObservation": {
+        "beforeTick": 13,
+        "afterTick": 13,
+        "startObservation": {
+          "hidden": true,
+          "events": [
+            {
+              "hidden": true,
+              "tick": 12
+            }
+          ]
+        },
+        "endObservation": {
+          "hidden": true,
+          "events": [
+            {
+              "hidden": true,
+              "tick": 12
+            }
+          ]
+        }
+      },
+      "pausedTicks": [
+        13,
+        13
+      ],
+      "finishedAt": "2026-11-04T11:09:02.992Z"
+    }
+  ]
+}

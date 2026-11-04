@@ -1,0 +1,75 @@
+{
+  "status": "FAIL",
+  "manifestSha256": "7acc7343ed79d1a0f3b846544acd83ff435458f0a9b8b2d912dc4a4a274ff134",
+  "sourceDigest": "4e07f6c1d9a2174cdc871e578e90740fd5841b513f011357b4e21c2913594634",
+  "mode": "headed Chromium, separate empty profile, actual automatic tab zoom and tab activation",
+  "results": [
+    {
+      "name": "Native automatic browser zoom200% with real menu controls",
+      "status": "PASS",
+      "before": {
+        "w": 1440,
+        "h": 727,
+        "dpr": 2,
+        "hidden": false
+      },
+      "after": {
+        "w": 720,
+        "h": 363,
+        "dpr": 4,
+        "hidden": false
+      },
+      "zoom": {
+        "factor": 2,
+        "settings": {
+          "defaultZoomFactor": 1,
+          "mode": "automatic",
+          "scope": "per-tab"
+        }
+      },
+      "menus": [
+        "Mahalle haritası",
+        "Çanta & karakter",
+        "Telefon",
+        "Bir nefes al"
+      ]
+    }
+  ],
+  "errors": [],
+  "noDefaults": true,
+  "extension": {
+    "id": "apfoanahankjadjbgldipdlmdfohmblf",
+    "name": "SOCIAL ENGINE isolated QA"
+  },
+  "phase": "paused-snapshot",
+  "visibilityProbe": {
+    "page": {
+      "w": 1440,
+      "h": 727,
+      "dpr": 2,
+      "hidden": true
+    },
+    "tabs": [
+      {
+        "id": 448965358,
+        "active": false,
+        "windowId": 448965357,
+        "url": "about:blank"
+      },
+      {
+        "id": 448965359,
+        "active": false,
+        "windowId": 448965357,
+        "url": "http://127.0.0.1:8097/games/social-engine/index.html?qa=1"
+      },
+      {
+        "id": 448965360,
+        "active": true,
+        "windowId": 448965357,
+        "url": "about:blank"
+      }
+    ]
+  },
+  "reason": "Expected values to be strictly equal:\n\n11 !== 28\n",
+  "finishedAt": "2026-11-03T20:44:03.348Z"
+}

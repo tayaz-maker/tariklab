@@ -1,0 +1,97 @@
+{
+  "checks": [
+    {
+      "name": "real IndexedDB state round-trip and UTF-8 profile",
+      "status": "PASS",
+      "duration_ms": 85.70000004768372
+    },
+    {
+      "name": "snapshot captured before a queued caller mutation",
+      "status": "PASS",
+      "duration_ms": 69.5
+    },
+    {
+      "name": "export/import/copy/delete preserve world and unrelated slots",
+      "status": "PASS",
+      "duration_ms": 282.5
+    },
+    {
+      "name": "aborted transaction preserves the last verified revision",
+      "status": "PASS",
+      "duration_ms": 81.60000002384186
+    },
+    {
+      "name": "quota exception preserves current and previous revisions",
+      "status": "PASS",
+      "duration_ms": 73.89999997615814
+    },
+    {
+      "name": "corrupt current revision falls back, quarantines and preserves prior state",
+      "status": "PASS",
+      "duration_ms": 106.39999997615814
+    },
+    {
+      "name": "future schema refuses downgrade even with a valid previous revision",
+      "status": "PASS",
+      "duration_ms": 9.300000071525574
+    },
+    {
+      "name": "independent repository instances reject stale concurrent writes",
+      "status": "PASS",
+      "duration_ms": 157.09999990463257
+    },
+    {
+      "name": "migration is atomic, retryable and retains frozen source bytes",
+      "status": "PASS",
+      "duration_ms": 267.90000009536743
+    },
+    {
+      "name": "authentic v2 save migrates through an explicit journal to schema3",
+      "status": "PASS",
+      "duration_ms": 81.69999992847443
+    },
+    {
+      "name": "invalid import never overwrites a valid existing slot",
+      "status": "PASS",
+      "duration_ms": 49.700000047683716
+    },
+    {
+      "name": "twenty measured saves and loads preserve canonical state",
+      "status": "PASS",
+      "duration_ms": 1555.6999999284744
+    },
+    {
+      "name": "old TC SIM, Boardworld and Racon namespace canaries stay byte-identical",
+      "status": "PASS",
+      "duration_ms": 0.8000000715255737
+    },
+    {
+      "name": "close/reopen keeps the authoritative state frozen",
+      "status": "PASS",
+      "duration_ms": 49.299999952316284
+    },
+    {
+      "name": "closing a tab during an active write preserves the last committed state",
+      "status": "PASS",
+      "duration_ms": 344.6866249999998
+    }
+  ],
+  "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "saveLoad": {
+    "samples": 20,
+    "p50_ms": 76,
+    "p95_ms": 87.20000004768372,
+    "max_ms": 95.69999992847443
+  },
+  "build_sha": "762c050ead437c99901332d10078817dfc375eb1",
+  "source_status": "working tree candidate",
+  "bundle_sha256": "cae107f05aaa6527f3494a8b18ca844c8dd66492025e9e0c02c555fdc6e18106",
+  "browser": "156.0.8078.80",
+  "consoleErrors": [],
+  "status": "PASS",
+  "timestamp": "2026-11-03T17:55:57.027Z"
+}

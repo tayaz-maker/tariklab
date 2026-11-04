@@ -1,0 +1,24 @@
+{
+  "sourceDigest": "76ea681dff03e1aacd0b27b4d85ba5e9bf32233597210be0d596f1017f152e98",
+  "manifestSha256": "5f6ee17a0a8c63152fb01fc2a310a26298c9c94ed5dc6682990b6bc19f9acc79",
+  "checks": [
+    {
+      "name": "missing optional prop frames render placeholders while a transient atlas download retries once",
+      "status": "PASS",
+      "detail": {
+        "attempts": 2,
+        "population": 1100
+      }
+    },
+    {
+      "name": "permanent essential atlas failure stays bounded, cleans canvas, and a user retry creates one valid renderer",
+      "status": "PASS",
+      "detail": {
+        "failedAttempts": 2,
+        "recoveredPopulation": 1100
+      }
+    }
+  ],
+  "errors": [],
+  "status": "PASS"
+}

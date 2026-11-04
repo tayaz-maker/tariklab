@@ -1,0 +1,3 @@
+# Web sync entry for the release integrator
+
+SOCIAL ENGINE adds the independent /oyna/social-engine route and a Life category card. Its first district is DARAMCIK. Only dedicated catalog entries, translations, sitemap/worker registration and the site's regression contracts change; existing game sources and saves remain owned by those games. No native parity or audio feature is claimed. The Boardworld branch previously changed its own entry in the shared catalog. That patch was reviewed before adding this separate card; recheck current main and open PRs at merge. Append this note to the shared web sync ledger at serialized integration.

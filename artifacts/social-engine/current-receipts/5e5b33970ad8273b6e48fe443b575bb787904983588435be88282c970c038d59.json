@@ -1,0 +1,193 @@
+{
+  "checks": [
+    {
+      "name": "database version1 upgrades without rewriting existing schema3 bytes",
+      "status": "PASS",
+      "duration_ms": 42
+    },
+    {
+      "name": "real IndexedDB state round-trip and UTF-8 profile",
+      "status": "PASS",
+      "duration_ms": 457
+    },
+    {
+      "name": "snapshot captured before a queued caller mutation",
+      "status": "PASS",
+      "duration_ms": 286
+    },
+    {
+      "name": "export/import/copy/delete preserve world and unrelated slots",
+      "status": "PASS",
+      "duration_ms": 1168
+    },
+    {
+      "name": "aborted transaction preserves the last verified revision",
+      "status": "PASS",
+      "duration_ms": 305
+    },
+    {
+      "name": "quota exception preserves current and previous revisions",
+      "status": "PASS",
+      "duration_ms": 295
+    },
+    {
+      "name": "corrupt current revision falls back, quarantines and preserves prior state",
+      "status": "PASS",
+      "duration_ms": 418
+    },
+    {
+      "name": "future schema refuses downgrade even with a valid previous revision",
+      "status": "PASS",
+      "duration_ms": 26
+    },
+    {
+      "name": "independent repository instances reject stale concurrent writes",
+      "status": "PASS",
+      "duration_ms": 560
+    },
+    {
+      "name": "migration is atomic, retryable and retains frozen source bytes",
+      "status": "PASS",
+      "duration_ms": 1411
+    },
+    {
+      "name": "authentic v2 save migrates through an explicit journal to schema4",
+      "status": "PASS",
+      "duration_ms": 509
+    },
+    {
+      "name": "authentic v3 lifecycle history migrates through explicit3-to4 journal",
+      "status": "PASS",
+      "duration_ms": 534
+    },
+    {
+      "name": "invalid import never overwrites a valid existing slot",
+      "status": "PASS",
+      "duration_ms": 216
+    },
+    {
+      "name": "twenty measured saves and loads preserve canonical state",
+      "status": "PASS",
+      "duration_ms": 8187
+    },
+    {
+      "name": "old TC SIM, Boardworld and Racon namespace canaries stay byte-identical",
+      "status": "PASS",
+      "duration_ms": 4
+    },
+    {
+      "name": "durable command journal replays exact tick operations after reopening",
+      "status": "PASS",
+      "duration_ms": 449
+    },
+    {
+      "name": "paused commands controls and manual copy/export retain exact journal semantics",
+      "status": "PASS",
+      "duration_ms": 1318
+    },
+    {
+      "name": "journal duplicate retry is idempotent and concurrent tail/checkpoint writes conflict",
+      "status": "PASS",
+      "duration_ms": 502
+    },
+    {
+      "name": "quota and aborted journal transaction preserve the whole last durable prefix",
+      "status": "PASS",
+      "duration_ms": 499
+    },
+    {
+      "name": "corrupt journal suffix quarantines source and replays only verified prefix",
+      "status": "PASS",
+      "duration_ms": 272
+    },
+    {
+      "name": "atomic checkpoint prunes covered tail and accepts only a rebased suffix",
+      "status": "PASS",
+      "duration_ms": 513
+    },
+    {
+      "name": "corrupt autosave baseline falls back and quarantines its incompatible journal",
+      "status": "PASS",
+      "duration_ms": 498
+    },
+    {
+      "name": "begin-journal CAS protects another tab tail and explicit delete removes journal records",
+      "status": "PASS",
+      "duration_ms": 1124
+    },
+    {
+      "name": "explicit auto import/copy atomically replaces journal and retains fully replayed rollback",
+      "status": "PASS",
+      "duration_ms": 2369
+    },
+    {
+      "name": "authentic schema5 snapshot and nonempty journal migrate atomically without activating formerly unknown commands",
+      "status": "PASS",
+      "duration_ms": 1474
+    },
+    {
+      "name": "genuine rules7 mature snapshot replays its original tail before rules8 and protects old writers",
+      "status": "PASS",
+      "duration_ms": 3003
+    },
+    {
+      "name": "genuine f14e13f schema6 snapshot and tail replay before migration; old readers cannot mutate upgraded database",
+      "status": "PASS",
+      "duration_ms": 1141
+    },
+    {
+      "name": "corrupted migrated baseline recovers the exact old snapshot plus archived tail and rejects bad archives",
+      "status": "PASS",
+      "duration_ms": 2756
+    },
+    {
+      "name": "schema6 fallback can recover using a genuine prior schema7 archive digest",
+      "status": "PASS",
+      "duration_ms": 1515
+    },
+    {
+      "name": "incompatible schema6 journal fails without mutating original records",
+      "status": "PASS",
+      "duration_ms": 1379
+    },
+    {
+      "name": "commit receipts attest every prior-envelope field while loads and mismatches still fully verify",
+      "status": "PASS",
+      "duration_ms": 4179
+    },
+    {
+      "name": "close/reopen keeps the authoritative state frozen",
+      "status": "PASS",
+      "duration_ms": 799
+    },
+    {
+      "name": "closing a tab during an active write preserves the last committed state",
+      "status": "PASS",
+      "duration_ms": 1338.6665409999987
+    },
+    {
+      "name": "closing a tab during journal append retains exactly the last acknowledged durable prefix",
+      "status": "PASS",
+      "duration_ms": 2763.883915999999
+    }
+  ],
+  "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:153.0) Gecko/20100101 Firefox/153.0",
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "saveLoad": {
+    "samples": 20,
+    "p50_ms": 388,
+    "p95_ms": 518,
+    "max_ms": 628
+  },
+  "build_sha": "b8db5eff5c0c4abef4ea778c3fe7929be4004a98",
+  "source_status": "working tree candidate",
+  "bundle_sha256": "352dc74e537c03f30a7e5310bf35126e8d8250f6fab4d0ae2f6b9a54e814802b",
+  "browser": "153.0",
+  "browserKind": "firefox",
+  "consoleErrors": [],
+  "status": "PASS",
+  "timestamp": "2026-11-04T10:59:31.972Z"
+}

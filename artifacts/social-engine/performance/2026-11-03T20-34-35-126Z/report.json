@@ -1,0 +1,6766 @@
+{
+  "schemaVersion": 2,
+  "runId": "2026-11-03T20-34-35-126Z",
+  "status": "STOPPED_EARLY",
+  "startedAt": "2026-11-03T20:34:35.578Z",
+  "targetMinutes": 120,
+  "scenario": "Real-time mixed neighborhood play, 100 persistent local +1000 background NPCs; no time acceleration",
+  "base": "http://127.0.0.1:8097",
+  "build": {
+    "gitHead": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+    "dirty": true,
+    "sourceDigest": "ce76fdfdbb89ac0f2054d583e436e2c0f0100dbfeda42f87e7c83fb8f1ed9240",
+    "compiledSourceDigest": "4e07f6c1d9a2174cdc871e578e90740fd5841b513f011357b4e21c2913594634",
+    "manifestSha256": "7acc7343ed79d1a0f3b846544acd83ff435458f0a9b8b2d912dc4a4a274ff134",
+    "harnessSha256": "fa60ff17166f11de460c1cc1751da3aa830e1b8b1df3cfbf2a9202a3e56b4a91",
+    "attribution": "Actual served asset SHA-256 hashes recorded. Worktree source digest is capture-time context; this is not a verified deployed commit.",
+    "engineVersion": "1.0.0-candidate.4"
+  },
+  "environment": {
+    "platform": "darwin",
+    "release": "25.6.0",
+    "arch": "arm64",
+    "cpus": [
+      "Apple M2",
+      "Apple M2",
+      "Apple M2",
+      "Apple M2",
+      "Apple M2",
+      "Apple M2",
+      "Apple M2",
+      "Apple M2"
+    ],
+    "logicalCpus": 8,
+    "totalMemoryBytes": 17179869184,
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "dpr": 1,
+    "headless": true,
+    "concurrentWork": "Full legacy tests,365-day simulation,build/development may contend for CPU during this run; not an isolated reference-PC result.",
+    "browser": "156.0.8078.80",
+    "systemInfo": {
+      "gpu": {
+        "devices": [
+          {
+            "vendorId": 4203,
+            "deviceId": 0,
+            "vendorString": "Google Inc. (Apple)",
+            "deviceString": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Version 26.7.1 (Build 25G241))",
+            "driverVendor": "Apple",
+            "driverVersion": "26.7.1"
+          }
+        ],
+        "auxAttributes": {
+          "amdSwitchable": false,
+          "canSupportThreadedTextureMailbox": false,
+          "directRenderingVersion": "",
+          "displayType": "ANGLE_METAL",
+          "glExtensions": "GL_AMD_performance_monitor GL_ANGLE_base_vertex_base_instance_shader_builtin GL_ANGLE_blob_cache GL_ANGLE_client_arrays GL_ANGLE_clip_cull_distance GL_ANGLE_compressed_texture_etc GL_ANGLE_depth_texture GL_ANGLE_framebuffer_blit GL_ANGLE_framebuffer_multisample GL_ANGLE_get_serialized_context_string GL_ANGLE_get_tex_level_parameter GL_ANGLE_instanced_arrays GL_ANGLE_memory_size GL_ANGLE_pack_reverse_row_order GL_ANGLE_polygon_mode GL_ANGLE_program_binary_readiness_query GL_ANGLE_program_cache_control GL_ANGLE_provoking_vertex GL_ANGLE_renderability_validation GL_ANGLE_request_extension GL_ANGLE_rgbx_internal_format GL_ANGLE_robust_client_memory GL_ANGLE_shader_pixel_local_storage GL_ANGLE_shader_pixel_local_storage_coherent GL_ANGLE_stencil_texturing GL_ANGLE_texture_compression_dxt3 GL_ANGLE_texture_compression_dxt5 GL_ANGLE_texture_multisample GL_ANGLE_translated_shader_source GL_APPLE_clip_distance GL_ARM_rgba8 GL_CHROMIUM_bind_generates_resource GL_CHROMIUM_bind_uniform_location GL_CHROMIUM_copy_texture GL_CHROMIUM_lose_context GL_EXT_base_instance GL_EXT_blend_func_extended GL_EXT_blend_minmax GL_EXT_clip_control GL_EXT_color_buffer_float GL_EXT_color_buffer_half_float GL_EXT_compressed_ETC1_RGB8_sub_texture GL_EXT_conservative_depth GL_EXT_debug_label GL_EXT_debug_marker GL_EXT_depth_clamp GL_EXT_discard_framebuffer GL_EXT_disjoint_timer_query GL_EXT_draw_buffers GL_EXT_draw_buffers_indexed GL_EXT_draw_elements_base_vertex GL_EXT_float_blend GL_EXT_frag_depth GL_EXT_instanced_arrays GL_EXT_map_buffer_range GL_EXT_multisampled_render_to_texture GL_EXT_occlusion_query_boolean GL_EXT_polygon_offset_clamp GL_EXT_pvrtc_sRGB GL_EXT_read_format_bgra GL_EXT_render_snorm GL_EXT_robustness GL_EXT_sRGB GL_EXT_shader_texture_lod GL_EXT_texture_compression_bptc GL_EXT_texture_compression_dxt1 GL_EXT_texture_compression_rgtc GL_EXT_texture_compression_s3tc_srgb GL_EXT_texture_filter_anisotropic GL_EXT_texture_format_BGRA8888 GL_EXT_texture_mirror_clamp_to_edge GL_EXT_texture_norm16 GL_EXT_texture_rg GL_EXT_texture_sRGB_R8 GL_EXT_texture_sRGB_RG8 GL_EXT_texture_shadow_lod GL_EXT_texture_storage GL_IMG_texture_compression_pvrtc GL_KHR_debug GL_KHR_parallel_shader_compile GL_KHR_robustness GL_KHR_texture_compression_astc_hdr GL_KHR_texture_compression_astc_ldr GL_KHR_texture_compression_astc_sliced_3d GL_MESA_framebuffer_flip_y GL_NV_fence GL_NV_framebuffer_blit GL_NV_pixel_buffer_object GL_NV_shader_noperspective_interpolation GL_OES_EGL_image GL_OES_EGL_sync GL_OES_compressed_ETC1_RGB8_texture GL_OES_depth24 GL_OES_depth32 GL_OES_depth_texture GL_OES_draw_buffers_indexed GL_OES_draw_elements_base_vertex GL_OES_element_index_uint GL_OES_fbo_render_mipmap GL_OES_get_program_binary GL_OES_mapbuffer GL_OES_packed_depth_stencil GL_OES_required_internalformat GL_OES_rgb8_rgba8 GL_OES_sample_variables GL_OES_shader_multisample_interpolation GL_OES_standard_derivatives GL_OES_surfaceless_context GL_OES_texture_3D GL_OES_texture_float GL_OES_texture_float_linear GL_OES_texture_half_float GL_OES_texture_half_float_linear GL_OES_texture_npot GL_OES_texture_stencil8 GL_OES_vertex_array_object GL_QCOM_render_shared_exponent ",
+          "glImplementationParts": "(gl=egl-angle,angle=metal)",
+          "glRenderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Version 26.7.1 (Build 25G241))",
+          "glResetNotificationStrategy": 33362,
+          "glVendor": "Google Inc. (Apple)",
+          "glVersion": "OpenGL ES 3.0 (ANGLE 2.1.28975 git hash: 127e783de334)",
+          "glWsExtensions": "",
+          "glWsVendor": "",
+          "glWsVersion": "",
+          "inProcessGpu": false,
+          "initializationTime": 0.041167,
+          "isAsan": false,
+          "isClangCoverage": false,
+          "jpegDecodeAcceleratorSupported": false,
+          "maxMsaaSamples": "4",
+          "optimus": false,
+          "passthroughCmdDecoder": true,
+          "pixelShaderVersion": "3.00",
+          "processCrashCount": 0,
+          "sandboxed": false,
+          "skiaBackendType": "GraphiteDawnMetal",
+          "subpixelFontRendering": true,
+          "targetCpuBits": 64,
+          "vertexShaderVersion": "3.00",
+          "visibilityCallbackCallCount": 0
+        },
+        "featureStatus": {
+          "2d_canvas": "enabled",
+          "direct_rendering_display_compositor": "disabled_off_ok",
+          "gpu_compositing": "enabled",
+          "multiple_raster_threads": "enabled_on",
+          "opengl": "enabled_on",
+          "rasterization": "enabled",
+          "raw_draw": "disabled_off_ok",
+          "skia_graphite": "enabled_on",
+          "trees_in_viz": "disabled_off",
+          "video_decode": "enabled",
+          "video_encode": "enabled",
+          "webgl": "enabled",
+          "webgpu": "enabled",
+          "webnn": "disabled_off"
+        },
+        "driverBugWorkarounds": [
+          "disable_2d_canvas_auto_flush",
+          "enable_webgl_timer_query_extensions",
+          "disabled_extension_GL_KHR_blend_equation_advanced",
+          "disabled_extension_GL_KHR_blend_equation_advanced_coherent"
+        ],
+        "videoDecoding": [],
+        "videoEncoding": []
+      },
+      "modelName": "Mac",
+      "modelVersion": "14.7",
+      "commandLine": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/var/folders/k1/zprsgklx4xqbs2wb4cq59bsr0000gn/T/playwright_chromiumdev_profile-vnfynU --remote-debugging-pipe --no-startup-window --noerrdialogs --flag-switches-begin --flag-switches-end --enable-unsafe-swiftshader"
+    }
+  },
+  "checkpoints": [
+    {
+      "minute": 30,
+      "elapsedMs": 1800228.9660840002,
+      "frameMs": {
+        "count": 107305,
+        "p50": 16.699999999953434,
+        "p95": 16.799999999813735,
+        "p99": 16.800000000046566
+      },
+      "longTaskRatio": 0.005544294746968469,
+      "heapSlopeMiBPerMinute": 0.11574257397494138,
+      "mainHeapSlopeMiBPerMinute": 0.0880721260208828,
+      "workerHeapSlopeMiBPerMinute": 0.027670447954058593,
+      "heapMeasurementScope": "page plus simulation-worker JS isolates; excludes GPU and process memory",
+      "workerSimMs": {
+        "count": 18014,
+        "p50": 0.10000002384185791,
+        "p95": 0.20000004768371582,
+        "p99": 0.6999999284744263
+      },
+      "population": 1100,
+      "errors": 0,
+      "sourceDigest": "ce76fdfdbb89ac0f2054d583e436e2c0f0100dbfeda42f87e7c83fb8f1ed9240",
+      "manifestSha256": "7acc7343ed79d1a0f3b846544acd83ff435458f0a9b8b2d912dc4a4a274ff134",
+      "referencePC": false,
+      "engineVersion": "1.0.0-candidate.4",
+      "automated": true,
+      "measuredThresholds": {
+        "frameP95AtMost33_3ms": true,
+        "longTaskRatioAtMost5Percent": true,
+        "heapSlopeAtMost1MiBPerMinute": true
+      }
+    }
+  ],
+  "minuteSamples": [
+    {
+      "minute": 1,
+      "at": "2026-11-03T20:35:39.247Z",
+      "elapsedMs": 60248.546959,
+      "projection": {
+        "tick": 614,
+        "minute": 541,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3595,
+        "p50": 16.69999999999709,
+        "p95": 16.799999999995634,
+        "p99": 16.80000000000291
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 297,
+      "heap": {
+        "minute": 1.0041411368166668,
+        "jsHeapUsed": 7599736,
+        "jsHeapTotal": 8781824,
+        "gcMs": 63.68912499999715,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 11.999166000001424,
+          "usedSize": 2831120,
+          "totalSize": 3407872,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 2831120,
+        "combinedJsHeapUsed": 10430856
+      },
+      "simMs": {
+        "count": 615,
+        "p50": 0.10000002384185791,
+        "p95": 0.20000004768371582,
+        "p99": 4.600000023841858
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 3664,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.5,
+          "p99": 18
+        },
+        "renderPreparationMs": {
+          "p50": 0.10000002384185791,
+          "p95": 0.20000004768371582,
+          "p99": 0.20000004768371582
+        },
+        "samples": 3664,
+        "visibleActors": 11,
+        "sceneChanges": 1,
+        "zoom": 0.9,
+        "cameraTransform": {
+          "x": 694.3199999999999,
+          "y": 122.03999999999996,
+          "zoom": 0.9
+        },
+        "currentScene": "outside",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 63,
+          "minY": 1,
+          "maxY": 57
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 615,
+        "p50": 0.60009765625,
+        "p95": 0.999755859375,
+        "p99": 3.099853515625
+      },
+      "saveMs": {
+        "count": 1,
+        "p50": 207.79999995231628,
+        "p95": 207.79999995231628,
+        "p99": 207.79999995231628
+      },
+      "errors": []
+    },
+    {
+      "minute": 2,
+      "at": "2026-11-03T20:36:39.095Z",
+      "elapsedMs": 120097.51225,
+      "projection": {
+        "tick": 1213,
+        "minute": 601,
+        "population": 1100,
+        "scene": "b-market"
+      },
+      "frameMs": {
+        "count": 3588,
+        "p50": 16.69999999999709,
+        "p95": 16.70000000001164,
+        "p99": 16.80000000000291
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 277,
+      "heap": {
+        "minute": 2.0016248541666664,
+        "jsHeapUsed": 7647764,
+        "jsHeapTotal": 9043968,
+        "gcMs": 12.754040999992867,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 5.552834000001894,
+          "usedSize": 2886616,
+          "totalSize": 3670016,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 2886616,
+        "combinedJsHeapUsed": 10534380
+      },
+      "simMs": {
+        "count": 599,
+        "p50": 0.10000002384185791,
+        "p95": 0.6999999284744263,
+        "p99": 2.399999976158142
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 7252,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.5,
+          "p99": 18.100000023841858
+        },
+        "renderPreparationMs": {
+          "p50": 0.09999990463256836,
+          "p95": 0.20000004768371582,
+          "p99": 0.20000004768371582
+        },
+        "samples": 7252,
+        "visibleActors": 11,
+        "sceneChanges": 2,
+        "zoom": 1.25,
+        "cameraTransform": {
+          "x": 930,
+          "y": 369.99999999999994,
+          "zoom": 1.25
+        },
+        "currentScene": "b-market",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 13,
+          "minY": 1,
+          "maxY": 11
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 1214,
+        "p50": 0.699951171875,
+        "p95": 1.199951171875,
+        "p99": 3.39990234375
+      },
+      "saveMs": {
+        "count": 2,
+        "p50": 207.79999995231628,
+        "p95": 207.79999995231628,
+        "p99": 207.79999995231628
+      },
+      "errors": []
+    },
+    {
+      "minute": 3,
+      "at": "2026-11-03T20:37:39.120Z",
+      "elapsedMs": 180122.635709,
+      "projection": {
+        "tick": 1813,
+        "minute": 661,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3589,
+        "p50": 16.699999999982538,
+        "p95": 16.70000000001164,
+        "p99": 16.800000000017462
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 325,
+      "heap": {
+        "minute": 3.0020434375,
+        "jsHeapUsed": 8573472,
+        "jsHeapTotal": 10092544,
+        "gcMs": 10.863500000006752,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 3.5420000000158325,
+          "usedSize": 3055588,
+          "totalSize": 3670016,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3055588,
+        "combinedJsHeapUsed": 11629060
+      },
+      "simMs": {
+        "count": 600,
+        "p50": 0.10000002384185791,
+        "p95": 0.3999999761581421,
+        "p99": 0.7000000476837158
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 10841,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.5,
+          "p99": 18.09999990463257
+        },
+        "renderPreparationMs": {
+          "p50": 0.09999990463256836,
+          "p95": 0.19999992847442627,
+          "p99": 0.20000004768371582
+        },
+        "samples": 10841,
+        "visibleActors": 10,
+        "sceneChanges": 3,
+        "zoom": 0.9,
+        "cameraTransform": {
+          "x": 1461.12,
+          "y": 138.23999999999995,
+          "zoom": 0.9
+        },
+        "currentScene": "outside",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 63,
+          "minY": 1,
+          "maxY": 57
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 1814,
+        "p50": 0.699951171875,
+        "p95": 1.199951171875,
+        "p99": 3.39990234375
+      },
+      "saveMs": {
+        "count": 3,
+        "p50": 207.79999995231628,
+        "p95": 213,
+        "p99": 213
+      },
+      "errors": []
+    },
+    {
+      "minute": 4,
+      "at": "2026-11-03T20:38:39.102Z",
+      "elapsedMs": 240105.258417,
+      "projection": {
+        "tick": 2413,
+        "minute": 721,
+        "population": 1100,
+        "scene": "b-cafe"
+      },
+      "frameMs": {
+        "count": 3586,
+        "p50": 16.699999999982538,
+        "p95": 16.79999999998836,
+        "p99": 16.800000000017462
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 327,
+      "heap": {
+        "minute": 4.001753695833333,
+        "jsHeapUsed": 8066696,
+        "jsHeapTotal": 10092544,
+        "gcMs": 12.363207999995211,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 3.8810840000223834,
+          "usedSize": 3149360,
+          "totalSize": 4194304,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3149360,
+        "combinedJsHeapUsed": 11216056
+      },
+      "simMs": {
+        "count": 600,
+        "p50": 0.10000002384185791,
+        "p95": 0.3999999761581421,
+        "p99": 0.9000000953674316
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 14427,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.5,
+          "p99": 18.09999990463257
+        },
+        "renderPreparationMs": {
+          "p50": 0.09999990463256836,
+          "p95": 0.19999992847442627,
+          "p99": 0.20000004768371582
+        },
+        "samples": 14427,
+        "visibleActors": 10,
+        "sceneChanges": 4,
+        "zoom": 1.25,
+        "cameraTransform": {
+          "x": 930,
+          "y": 369.99999999999994,
+          "zoom": 1.25
+        },
+        "currentScene": "b-cafe",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 13,
+          "minY": 1,
+          "maxY": 11
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 2414,
+        "p50": 0.699951171875,
+        "p95": 1.300048828125,
+        "p99": 3.5
+      },
+      "saveMs": {
+        "count": 4,
+        "p50": 213,
+        "p95": 214.29999995231628,
+        "p99": 214.29999995231628
+      },
+      "errors": []
+    },
+    {
+      "minute": 5,
+      "at": "2026-11-03T20:39:39.146Z",
+      "elapsedMs": 300149.873917,
+      "projection": {
+        "tick": 3013,
+        "minute": 781,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3271,
+        "p50": 16.70000000001164,
+        "p95": 33.30000000001746,
+        "p99": 33.39999999999418
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 321,
+      "heap": {
+        "minute": 5.0024974180666675,
+        "jsHeapUsed": 8828612,
+        "jsHeapTotal": 10682368,
+        "gcMs": 15.430083999992348,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 6.885499999974854,
+          "usedSize": 3278996,
+          "totalSize": 3932160,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3278996,
+        "combinedJsHeapUsed": 12107608
+      },
+      "simMs": {
+        "count": 600,
+        "p50": 0.10000002384185791,
+        "p95": 0.20000004768371582,
+        "p99": 0.30000007152557373
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 17698,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.600000023841858,
+          "p99": 33.300000071525574
+        },
+        "renderPreparationMs": {
+          "p50": 0.09999990463256836,
+          "p95": 0.19999992847442627,
+          "p99": 0.20000004768371582
+        },
+        "samples": 17698,
+        "visibleActors": 10,
+        "sceneChanges": 5,
+        "zoom": 0.9,
+        "cameraTransform": {
+          "x": 953.5200000000001,
+          "y": -379.952,
+          "zoom": 0.9
+        },
+        "currentScene": "outside",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 63,
+          "minY": 1,
+          "maxY": 57
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 3014,
+        "p50": 0.699951171875,
+        "p95": 1.199951171875,
+        "p99": 3.099853515625
+      },
+      "saveMs": {
+        "count": 5,
+        "p50": 211.70000004768372,
+        "p95": 214.29999995231628,
+        "p99": 214.29999995231628
+      },
+      "errors": []
+    },
+    {
+      "minute": 6,
+      "at": "2026-11-03T20:40:39.213Z",
+      "elapsedMs": 360218.0345,
+      "projection": {
+        "tick": 3614,
+        "minute": 841,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3588,
+        "p50": 16.70000000001164,
+        "p95": 16.70000000001164,
+        "p99": 16.79999999998836
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 368,
+      "heap": {
+        "minute": 6.003623360416666,
+        "jsHeapUsed": 8875812,
+        "jsHeapTotal": 10682368,
+        "gcMs": 18.926625000021886,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 10.151792000047863,
+          "usedSize": 3202236,
+          "totalSize": 3932160,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3202236,
+        "combinedJsHeapUsed": 12078048
+      },
+      "simMs": {
+        "count": 601,
+        "p50": 0.10000002384185791,
+        "p95": 0.20000004768371582,
+        "p99": 0.5
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 21286,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.600000023841858,
+          "p99": 33.300000071525574
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 10,
+        "sceneChanges": 5,
+        "zoom": 0.9,
+        "cameraTransform": {
+          "x": 744,
+          "y": 97.19999999999999,
+          "zoom": 0.9
+        },
+        "currentScene": "outside",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 63,
+          "minY": 1,
+          "maxY": 57
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 3615,
+        "p50": 0.699951171875,
+        "p95": 1.199951171875,
+        "p99": 3.300048828125
+      },
+      "saveMs": {
+        "count": 6,
+        "p50": 213,
+        "p95": 319.60000002384186,
+        "p99": 319.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 7,
+      "at": "2026-11-03T20:41:39.152Z",
+      "elapsedMs": 420156.79054200003,
+      "projection": {
+        "tick": 4213,
+        "minute": 901,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3580,
+        "p50": 16.70000000001164,
+        "p95": 16.70000000001164,
+        "p99": 16.79999999998836
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 431,
+      "heap": {
+        "minute": 7.00261288265,
+        "jsHeapUsed": 8987776,
+        "jsHeapTotal": 10764288,
+        "gcMs": 14.757375000044703,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 5.547415999986697,
+          "usedSize": 3339528,
+          "totalSize": 3932160,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3339528,
+        "combinedJsHeapUsed": 12327304
+      },
+      "simMs": {
+        "count": 599,
+        "p50": 0.10000002384185791,
+        "p95": 0.6000000238418579,
+        "p99": 2.200000047683716
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 24866,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.600000023841858,
+          "p99": 33.300000071525574
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 10,
+        "sceneChanges": 5,
+        "zoom": 0.9,
+        "cameraTransform": {
+          "x": 1454.2944,
+          "y": -41.94719999999995,
+          "zoom": 0.9
+        },
+        "currentScene": "outside",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 63,
+          "minY": 1,
+          "maxY": 57
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 4214,
+        "p50": 0.699951171875,
+        "p95": 1.39990234375,
+        "p99": 3.5
+      },
+      "saveMs": {
+        "count": 7,
+        "p50": 213,
+        "p95": 319.60000002384186,
+        "p99": 319.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 8,
+      "at": "2026-11-03T20:42:39.117Z",
+      "elapsedMs": 480122.23470900004,
+      "projection": {
+        "tick": 4813,
+        "minute": 961,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3578,
+        "p50": 16.70000000001164,
+        "p95": 16.70000000001164,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 5,
+      "longTaskMs": 477,
+      "heap": {
+        "minute": 8.002036765283334,
+        "jsHeapUsed": 9018912,
+        "jsHeapTotal": 11026432,
+        "gcMs": 13.034333999967203,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 4.115916000038851,
+          "usedSize": 3259628,
+          "totalSize": 4194304,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3259628,
+        "combinedJsHeapUsed": 12278540
+      },
+      "simMs": {
+        "count": 600,
+        "p50": 0.10000002384185791,
+        "p95": 0.5,
+        "p99": 2.1999999284744263
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 28444,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.600000023841858,
+          "p99": 33.300000071525574
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 10,
+        "sceneChanges": 5,
+        "zoom": 0.9,
+        "cameraTransform": {
+          "x": 1454.2944,
+          "y": -41.94719999999995,
+          "zoom": 0.9
+        },
+        "currentScene": "outside",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 63,
+          "minY": 1,
+          "maxY": 57
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 4814,
+        "p50": 0.699951171875,
+        "p95": 1.39990234375,
+        "p99": 3.699951171875
+      },
+      "saveMs": {
+        "count": 8,
+        "p50": 214.29999995231628,
+        "p95": 319.60000002384186,
+        "p99": 319.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 9,
+      "at": "2026-11-03T20:43:39.114Z",
+      "elapsedMs": 540119.671125,
+      "projection": {
+        "tick": 5413,
+        "minute": 1021,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3589,
+        "p50": 16.699999999953434,
+        "p95": 16.70000000006985,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 321,
+      "heap": {
+        "minute": 9.0019942764,
+        "jsHeapUsed": 9033120,
+        "jsHeapTotal": 10764288,
+        "gcMs": 14.896792000043206,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 5.614500000025146,
+          "usedSize": 3273692,
+          "totalSize": 3932160,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3273692,
+        "combinedJsHeapUsed": 12306812
+      },
+      "simMs": {
+        "count": 600,
+        "p50": 0.10000002384185791,
+        "p95": 0.20000004768371582,
+        "p99": 0.30000007152557373
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 32033,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.600000023841858,
+          "p99": 33.300000071525574
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 11,
+        "sceneChanges": 5,
+        "zoom": 0.9,
+        "cameraTransform": {
+          "x": 1497.504,
+          "y": -61.56000000000017,
+          "zoom": 0.9
+        },
+        "currentScene": "outside",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 63,
+          "minY": 1,
+          "maxY": 57
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 5414,
+        "p50": 0.699951171875,
+        "p95": 1.39990234375,
+        "p99": 3.699951171875
+      },
+      "saveMs": {
+        "count": 9,
+        "p50": 214.29999995231628,
+        "p95": 319.60000002384186,
+        "p99": 319.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 10,
+      "at": "2026-11-03T20:44:39.148Z",
+      "elapsedMs": 600154.447542,
+      "projection": {
+        "tick": 6013,
+        "minute": 1081,
+        "population": 1100,
+        "scene": "b-school"
+      },
+      "frameMs": {
+        "count": 3584,
+        "p50": 16.699999999953434,
+        "p95": 16.70000000006985,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 327,
+      "heap": {
+        "minute": 10.002573815283332,
+        "jsHeapUsed": 8797468,
+        "jsHeapTotal": 9846784,
+        "gcMs": 24.179165999987163,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 5.763291000039317,
+          "usedSize": 3491912,
+          "totalSize": 3932160,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3491912,
+        "combinedJsHeapUsed": 12289380
+      },
+      "simMs": {
+        "count": 600,
+        "p50": 0.10000002384185791,
+        "p95": 0.20000004768371582,
+        "p99": 0.7999999523162842
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 35617,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.5,
+          "p99": 18
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 2,
+        "sceneChanges": 6,
+        "zoom": 1.25,
+        "cameraTransform": {
+          "x": 930,
+          "y": 369.99999999999994,
+          "zoom": 1.25
+        },
+        "currentScene": "b-school",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 13,
+          "minY": 1,
+          "maxY": 11
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 6014,
+        "p50": 0.699951171875,
+        "p95": 1.39990234375,
+        "p99": 3.699951171875
+      },
+      "saveMs": {
+        "count": 10,
+        "p50": 221,
+        "p95": 319.60000002384186,
+        "p99": 319.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 11,
+      "at": "2026-11-03T20:45:39.169Z",
+      "elapsedMs": 660176.3044169999,
+      "projection": {
+        "tick": 6613,
+        "minute": 1141,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3589,
+        "p50": 16.699999999953434,
+        "p95": 16.79999999993015,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 302,
+      "heap": {
+        "minute": 11.002938195833332,
+        "jsHeapUsed": 9227348,
+        "jsHeapTotal": 10895360,
+        "gcMs": 14.438500000047497,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 8.049041999969631,
+          "usedSize": 3309792,
+          "totalSize": 3932160,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3309792,
+        "combinedJsHeapUsed": 12537140
+      },
+      "simMs": {
+        "count": 600,
+        "p50": 0.10000002384185791,
+        "p95": 0.2999999523162842,
+        "p99": 0.6000000238418579
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 39206,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.5,
+          "p99": 18
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 10,
+        "sceneChanges": 7,
+        "zoom": 0.9,
+        "cameraTransform": {
+          "x": 1115.52,
+          "y": 192.35199999999998,
+          "zoom": 0.9
+        },
+        "currentScene": "outside",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 63,
+          "minY": 1,
+          "maxY": 57
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 6614,
+        "p50": 0.699951171875,
+        "p95": 1.39990234375,
+        "p99": 3.699951171875
+      },
+      "saveMs": {
+        "count": 11,
+        "p50": 214.29999995231628,
+        "p95": 319.60000002384186,
+        "p99": 319.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 12,
+      "at": "2026-11-03T20:46:39.127Z",
+      "elapsedMs": 720134.77525,
+      "projection": {
+        "tick": 7213,
+        "minute": 1201,
+        "population": 1100,
+        "scene": "b-home"
+      },
+      "frameMs": {
+        "count": 3588,
+        "p50": 16.699999999953434,
+        "p95": 16.70000000006985,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 323,
+      "heap": {
+        "minute": 12.002245946533332,
+        "jsHeapUsed": 8773684,
+        "jsHeapTotal": 11157504,
+        "gcMs": 13.257665999932215,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 4.074249999946915,
+          "usedSize": 3311244,
+          "totalSize": 4194304,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3311244,
+        "combinedJsHeapUsed": 12084928
+      },
+      "simMs": {
+        "count": 600,
+        "p50": 0.10000002384185791,
+        "p95": 0.20000004768371582,
+        "p99": 0.30000007152557373
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 42794,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.5,
+          "p99": 17.899999976158142
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 1,
+        "sceneChanges": 8,
+        "zoom": 1.25,
+        "cameraTransform": {
+          "x": 930,
+          "y": 369.99999999999994,
+          "zoom": 1.25
+        },
+        "currentScene": "b-home",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 13,
+          "minY": 1,
+          "maxY": 11
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 7214,
+        "p50": 0.699951171875,
+        "p95": 1.300048828125,
+        "p99": 3.699951171875
+      },
+      "saveMs": {
+        "count": 12,
+        "p50": 221,
+        "p95": 319.60000002384186,
+        "p99": 319.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 13,
+      "at": "2026-11-03T20:47:39.135Z",
+      "elapsedMs": 780143.148667,
+      "projection": {
+        "tick": 7813,
+        "minute": 1261,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3589,
+        "p50": 16.699999999953434,
+        "p95": 16.70000000006985,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 309,
+      "heap": {
+        "minute": 13.002385561116666,
+        "jsHeapUsed": 9367256,
+        "jsHeapTotal": 11157504,
+        "gcMs": 13.078499999945052,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 5.546291999984533,
+          "usedSize": 3342384,
+          "totalSize": 3932160,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3342384,
+        "combinedJsHeapUsed": 12709640
+      },
+      "simMs": {
+        "count": 600,
+        "p50": 0.10000002384185791,
+        "p95": 0.20000004768371582,
+        "p99": 0.5
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 46383,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.40000009536743,
+          "p99": 17.799999952316284
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 11,
+        "sceneChanges": 9,
+        "zoom": 0.9,
+        "cameraTransform": {
+          "x": 694.3199999999999,
+          "y": 122.03999999999996,
+          "zoom": 0.9
+        },
+        "currentScene": "outside",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 63,
+          "minY": 1,
+          "maxY": 57
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 7814,
+        "p50": 0.699951171875,
+        "p95": 1.300048828125,
+        "p99": 3.5
+      },
+      "saveMs": {
+        "count": 13,
+        "p50": 221,
+        "p95": 319.60000002384186,
+        "p99": 319.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 14,
+      "at": "2026-11-03T20:48:39.109Z",
+      "elapsedMs": 840117.852459,
+      "projection": {
+        "tick": 8413,
+        "minute": 1321,
+        "population": 1100,
+        "scene": "b-market"
+      },
+      "frameMs": {
+        "count": 3590,
+        "p50": 16.699999999953434,
+        "p95": 16.70000000006985,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 297,
+      "heap": {
+        "minute": 14.001964003483332,
+        "jsHeapUsed": 8892796,
+        "jsHeapTotal": 10371072,
+        "gcMs": 13.138500000000931,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 3.7061659999890253,
+          "usedSize": 3649088,
+          "totalSize": 4456448,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3649088,
+        "combinedJsHeapUsed": 12541884
+      },
+      "simMs": {
+        "count": 600,
+        "p50": 0.10000002384185791,
+        "p95": 0.20000004768371582,
+        "p99": 0.6000000238418579
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 49973,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.399999976158142,
+          "p99": 17.799999952316284
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 8,
+        "sceneChanges": 10,
+        "zoom": 1.25,
+        "cameraTransform": {
+          "x": 930,
+          "y": 369.99999999999994,
+          "zoom": 1.25
+        },
+        "currentScene": "b-market",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 13,
+          "minY": 1,
+          "maxY": 11
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 8414,
+        "p50": 0.699951171875,
+        "p95": 1.2998046875,
+        "p99": 3.5
+      },
+      "saveMs": {
+        "count": 14,
+        "p50": 221,
+        "p95": 319.60000002384186,
+        "p99": 319.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 15,
+      "at": "2026-11-03T20:49:39.226Z",
+      "elapsedMs": 900209.737625,
+      "projection": {
+        "tick": 9014,
+        "minute": 1381,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3583,
+        "p50": 16.699999999953434,
+        "p95": 16.70000000006985,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 428,
+      "heap": {
+        "minute": 15.003495004866666,
+        "jsHeapUsed": 9656508,
+        "jsHeapTotal": 11632640,
+        "gcMs": 18.459999999962747,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 6.56166700005997,
+          "usedSize": 3507500,
+          "totalSize": 4194304,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3507500,
+        "combinedJsHeapUsed": 13164008
+      },
+      "simMs": {
+        "count": 601,
+        "p50": 0.10000002384185791,
+        "p95": 0.20000004768371582,
+        "p99": 0.40000009536743164
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 53556,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.399999976158142,
+          "p99": 17.800000071525574
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 12,
+        "sceneChanges": 11,
+        "zoom": 0.9,
+        "cameraTransform": {
+          "x": 1461.12,
+          "y": 138.23999999999995,
+          "zoom": 0.9
+        },
+        "currentScene": "outside",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 63,
+          "minY": 1,
+          "maxY": 57
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 9015,
+        "p50": 0.699951171875,
+        "p95": 1.2998046875,
+        "p99": 3.5
+      },
+      "saveMs": {
+        "count": 15,
+        "p50": 221,
+        "p95": 319.60000002384186,
+        "p99": 319.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 16,
+      "at": "2026-11-03T20:50:39.181Z",
+      "elapsedMs": 960163.451834,
+      "projection": {
+        "tick": 9613,
+        "minute": 1441,
+        "population": 1100,
+        "scene": "b-cafe"
+      },
+      "frameMs": {
+        "count": 3584,
+        "p50": 16.699999999953434,
+        "p95": 16.79999999993015,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 355,
+      "heap": {
+        "minute": 16.0027237257,
+        "jsHeapUsed": 9169532,
+        "jsHeapTotal": 11370496,
+        "gcMs": 11.536208000034094,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 7.837999999988824,
+          "usedSize": 3563460,
+          "totalSize": 4456448,
+          "embedderHeapUsedSize": 355568,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3563460,
+        "combinedJsHeapUsed": 12732992
+      },
+      "simMs": {
+        "count": 599,
+        "p50": 0.10000002384185791,
+        "p95": 0.2999999523162842,
+        "p99": 0.9000000953674316
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 57140,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.5,
+          "p99": 17.899999976158142
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 1,
+        "sceneChanges": 12,
+        "zoom": 1.25,
+        "cameraTransform": {
+          "x": 930,
+          "y": 369.99999999999994,
+          "zoom": 1.25
+        },
+        "currentScene": "b-cafe",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 13,
+          "minY": 1,
+          "maxY": 11
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 9614,
+        "p50": 0.699951171875,
+        "p95": 1.199951171875,
+        "p99": 3.5
+      },
+      "saveMs": {
+        "count": 16,
+        "p50": 223.10000002384186,
+        "p95": 319.60000002384186,
+        "p99": 319.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 17,
+      "at": "2026-11-03T20:51:39.181Z",
+      "elapsedMs": 1020163.595625,
+      "projection": {
+        "tick": 10213,
+        "minute": 1501,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3587,
+        "p50": 16.699999999953434,
+        "p95": 16.70000000006985,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 344,
+      "heap": {
+        "minute": 17.002726397916668,
+        "jsHeapUsed": 9868348,
+        "jsHeapTotal": 11632640,
+        "gcMs": 12.466208999976516,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 4.390499999979511,
+          "usedSize": 3567816,
+          "totalSize": 4456448,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3567816,
+        "combinedJsHeapUsed": 13436164
+      },
+      "simMs": {
+        "count": 600,
+        "p50": 0.10000002384185791,
+        "p95": 0.20000004768371582,
+        "p99": 0.40000009536743164
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 60727,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.40000009536743,
+          "p99": 17.899999976158142
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 10,
+        "sceneChanges": 13,
+        "zoom": 0.9,
+        "cameraTransform": {
+          "x": 953.5200000000001,
+          "y": -379.952,
+          "zoom": 0.9
+        },
+        "currentScene": "outside",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 63,
+          "minY": 1,
+          "maxY": 57
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 10214,
+        "p50": 0.699951171875,
+        "p95": 1.199951171875,
+        "p99": 3.5
+      },
+      "saveMs": {
+        "count": 17,
+        "p50": 223.10000002384186,
+        "p95": 319.60000002384186,
+        "p99": 319.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 18,
+      "at": "2026-11-03T20:52:39.188Z",
+      "elapsedMs": 1080170.2119170001,
+      "projection": {
+        "tick": 10813,
+        "minute": 1561,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3587,
+        "p50": 16.699999999953434,
+        "p95": 16.700000000186265,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 330,
+      "heap": {
+        "minute": 18.002836584033336,
+        "jsHeapUsed": 9879176,
+        "jsHeapTotal": 11108352,
+        "gcMs": 13.437625000020489,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 4.516166999936104,
+          "usedSize": 3564584,
+          "totalSize": 4194304,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3564584,
+        "combinedJsHeapUsed": 13443760
+      },
+      "simMs": {
+        "count": 600,
+        "p50": 0.10000002384185791,
+        "p95": 0.20000004768371582,
+        "p99": 0.3999999761581421
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 64314,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.399999976158142,
+          "p99": 17.899999976158142
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 11,
+        "sceneChanges": 13,
+        "zoom": 0.9,
+        "cameraTransform": {
+          "x": 744,
+          "y": 97.19999999999999,
+          "zoom": 0.9
+        },
+        "currentScene": "outside",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 63,
+          "minY": 1,
+          "maxY": 57
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 10814,
+        "p50": 0.699951171875,
+        "p95": 1.199951171875,
+        "p99": 3.5
+      },
+      "saveMs": {
+        "count": 18,
+        "p50": 223.10000002384186,
+        "p95": 319.60000002384186,
+        "p99": 319.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 19,
+      "at": "2026-11-03T20:53:39.163Z",
+      "elapsedMs": 1140145.663167,
+      "projection": {
+        "tick": 11413,
+        "minute": 1621,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3588,
+        "p50": 16.699999999953434,
+        "p95": 16.700000000186265,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 341,
+      "heap": {
+        "minute": 19.0024274507,
+        "jsHeapUsed": 9900140,
+        "jsHeapTotal": 11894784,
+        "gcMs": 11.95679199998267,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 4.306542000034824,
+          "usedSize": 3599068,
+          "totalSize": 4194304,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3599068,
+        "combinedJsHeapUsed": 13499208
+      },
+      "simMs": {
+        "count": 600,
+        "p50": 0.10000002384185791,
+        "p95": 0.20000004768371582,
+        "p99": 0.3999999761581421
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 67902,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.5,
+          "p99": 17.800000071525574
+        },
+        "renderPreparationMs": {
+          "p50": 0.09999990463256836,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 14,
+        "sceneChanges": 13,
+        "zoom": 0.9,
+        "cameraTransform": {
+          "x": 1443.7104,
+          "y": -36.655200000000036,
+          "zoom": 0.9
+        },
+        "currentScene": "outside",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 63,
+          "minY": 1,
+          "maxY": 57
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 11414,
+        "p50": 0.699951171875,
+        "p95": 1.199951171875,
+        "p99": 3.599853515625
+      },
+      "saveMs": {
+        "count": 19,
+        "p50": 223.10000002384186,
+        "p95": 319.60000002384186,
+        "p99": 319.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 20,
+      "at": "2026-11-03T20:54:39.186Z",
+      "elapsedMs": 1200169.109417,
+      "projection": {
+        "tick": 12013,
+        "minute": 1681,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3586,
+        "p50": 16.699999999953434,
+        "p95": 16.700000000186265,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 365,
+      "heap": {
+        "minute": 20.00281825695,
+        "jsHeapUsed": 10046280,
+        "jsHeapTotal": 11370496,
+        "gcMs": 20.952167000155896,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 3.6081250000279397,
+          "usedSize": 3579652,
+          "totalSize": 4194304,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3579652,
+        "combinedJsHeapUsed": 13625932
+      },
+      "simMs": {
+        "count": 600,
+        "p50": 0.10000002384185791,
+        "p95": 0.20000004768371582,
+        "p99": 0.2999999523162842
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 71488,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.399999976158142,
+          "p99": 17.700000047683716
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 10,
+        "sceneChanges": 13,
+        "zoom": 0.9,
+        "cameraTransform": {
+          "x": 1443.2352,
+          "y": -36.41759999999999,
+          "zoom": 0.9
+        },
+        "currentScene": "outside",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 63,
+          "minY": 1,
+          "maxY": 57
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 12014,
+        "p50": 0.699951171875,
+        "p95": 1.199951171875,
+        "p99": 3.5
+      },
+      "saveMs": {
+        "count": 20,
+        "p50": 225.20000004768372,
+        "p95": 319.60000002384186,
+        "p99": 319.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 21,
+      "at": "2026-11-03T20:55:39.166Z",
+      "elapsedMs": 1260149.460834,
+      "projection": {
+        "tick": 12613,
+        "minute": 1741,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3588,
+        "p50": 16.699999999953434,
+        "p95": 16.700000000186265,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 316,
+      "heap": {
+        "minute": 21.00249079723333,
+        "jsHeapUsed": 9927888,
+        "jsHeapTotal": 11370496,
+        "gcMs": 19.694499999983236,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 3.5569589999504387,
+          "usedSize": 3587816,
+          "totalSize": 4194304,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3587816,
+        "combinedJsHeapUsed": 13515704
+      },
+      "simMs": {
+        "count": 600,
+        "p50": 0.10000002384185791,
+        "p95": 0.20000004768371582,
+        "p99": 0.20000004768371582
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 75076,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.399999976158142,
+          "p99": 17.799999952316284
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 10,
+        "sceneChanges": 13,
+        "zoom": 0.9,
+        "cameraTransform": {
+          "x": 1497.504,
+          "y": -61.56000000000017,
+          "zoom": 0.9
+        },
+        "currentScene": "outside",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 63,
+          "minY": 1,
+          "maxY": 57
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 12614,
+        "p50": 0.699951171875,
+        "p95": 1.199951171875,
+        "p99": 3.599853515625
+      },
+      "saveMs": {
+        "count": 21,
+        "p50": 223.10000002384186,
+        "p95": 303,
+        "p99": 319.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 22,
+      "at": "2026-11-03T20:56:39.191Z",
+      "elapsedMs": 1320174.7469590001,
+      "projection": {
+        "tick": 13213,
+        "minute": 1801,
+        "population": 1100,
+        "scene": "b-school"
+      },
+      "frameMs": {
+        "count": 3589,
+        "p50": 16.699999999953434,
+        "p95": 16.799999999813735,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 297,
+      "heap": {
+        "minute": 22.002912289583335,
+        "jsHeapUsed": 9893328,
+        "jsHeapTotal": 11403264,
+        "gcMs": 10.100957999937236,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 3.2011659999843687,
+          "usedSize": 3705548,
+          "totalSize": 4456448,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3705548,
+        "combinedJsHeapUsed": 13598876
+      },
+      "simMs": {
+        "count": 600,
+        "p50": 0.10000002384185791,
+        "p95": 0.20000004768371582,
+        "p99": 0.20000004768371582
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 78665,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.399999976158142,
+          "p99": 17.800000071525574
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 1,
+        "sceneChanges": 14,
+        "zoom": 1.25,
+        "cameraTransform": {
+          "x": 930,
+          "y": 369.99999999999994,
+          "zoom": 1.25
+        },
+        "currentScene": "b-school",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 13,
+          "minY": 1,
+          "maxY": 11
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 13214,
+        "p50": 0.699951171875,
+        "p95": 1.199951171875,
+        "p99": 3.599853515625
+      },
+      "saveMs": {
+        "count": 22,
+        "p50": 223.10000002384186,
+        "p95": 303,
+        "p99": 319.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 23,
+      "at": "2026-11-03T20:57:39.161Z",
+      "elapsedMs": 1380144.5119170002,
+      "projection": {
+        "tick": 13813,
+        "minute": 1861,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3590,
+        "p50": 16.699999999953434,
+        "p95": 16.799999999813735,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 286,
+      "heap": {
+        "minute": 23.00240837291667,
+        "jsHeapUsed": 10311304,
+        "jsHeapTotal": 11665408,
+        "gcMs": 16.2472500000149,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 3.2750000001396984,
+          "usedSize": 3707676,
+          "totalSize": 4456448,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3707676,
+        "combinedJsHeapUsed": 14018980
+      },
+      "simMs": {
+        "count": 600,
+        "p50": 0.09999990463256836,
+        "p95": 0.20000004768371582,
+        "p99": 0.20000004768371582
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 82255,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.5,
+          "p99": 17.800000071525574
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 13,
+        "sceneChanges": 15,
+        "zoom": 0.9,
+        "cameraTransform": {
+          "x": 1115.52,
+          "y": 192.35199999999998,
+          "zoom": 0.9
+        },
+        "currentScene": "outside",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 63,
+          "minY": 1,
+          "maxY": 57
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 13814,
+        "p50": 0.699951171875,
+        "p95": 1.10009765625,
+        "p99": 3.5
+      },
+      "saveMs": {
+        "count": 23,
+        "p50": 221,
+        "p95": 303,
+        "p99": 319.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 24,
+      "at": "2026-11-03T20:58:39.193Z",
+      "elapsedMs": 1440177.146417,
+      "projection": {
+        "tick": 14413,
+        "minute": 1921,
+        "population": 1100,
+        "scene": "b-home"
+      },
+      "frameMs": {
+        "count": 3591,
+        "p50": 16.699999999953434,
+        "p95": 16.799999999813735,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 291,
+      "heap": {
+        "minute": 24.002952208333333,
+        "jsHeapUsed": 9938632,
+        "jsHeapTotal": 11665408,
+        "gcMs": 10.519249999895692,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 4.137291999999434,
+          "usedSize": 3705012,
+          "totalSize": 4456448,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3705012,
+        "combinedJsHeapUsed": 13643644
+      },
+      "simMs": {
+        "count": 600,
+        "p50": 0.09999990463256836,
+        "p95": 0.19999992847442627,
+        "p99": 0.20000004768371582
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 85846,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.40000009536743,
+          "p99": 17.799999952316284
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 1,
+        "sceneChanges": 16,
+        "zoom": 1.25,
+        "cameraTransform": {
+          "x": 930,
+          "y": 369.99999999999994,
+          "zoom": 1.25
+        },
+        "currentScene": "b-home",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 13,
+          "minY": 1,
+          "maxY": 11
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 14414,
+        "p50": 0.699951171875,
+        "p95": 1.10009765625,
+        "p99": 3.5
+      },
+      "saveMs": {
+        "count": 24,
+        "p50": 221,
+        "p95": 303,
+        "p99": 319.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 25,
+      "at": "2026-11-03T20:59:39.194Z",
+      "elapsedMs": 1500178.107667,
+      "projection": {
+        "tick": 15013,
+        "minute": 1981,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3590,
+        "p50": 16.699999999953434,
+        "p95": 16.700000000186265,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 292,
+      "heap": {
+        "minute": 25.00296828265,
+        "jsHeapUsed": 10475568,
+        "jsHeapTotal": 11927552,
+        "gcMs": 10.277125000022352,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 3.030333000002429,
+          "usedSize": 3721904,
+          "totalSize": 4456448,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3721904,
+        "combinedJsHeapUsed": 14197472
+      },
+      "simMs": {
+        "count": 600,
+        "p50": 0.10000002384185791,
+        "p95": 0.20000004768371582,
+        "p99": 0.2999999523162842
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 89436,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.40000009536743,
+          "p99": 17.799999952316284
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.19999992847442627
+        },
+        "samples": 18000,
+        "visibleActors": 12,
+        "sceneChanges": 17,
+        "zoom": 0.9,
+        "cameraTransform": {
+          "x": 694.3199999999999,
+          "y": 122.03999999999996,
+          "zoom": 0.9
+        },
+        "currentScene": "outside",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 63,
+          "minY": 1,
+          "maxY": 57
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 15014,
+        "p50": 0.699951171875,
+        "p95": 1.10009765625,
+        "p99": 3.5
+      },
+      "saveMs": {
+        "count": 25,
+        "p50": 218.30000007152557,
+        "p95": 303,
+        "p99": 319.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 26,
+      "at": "2026-11-03T21:00:39.194Z",
+      "elapsedMs": 1560178.271625,
+      "projection": {
+        "tick": 15613,
+        "minute": 2041,
+        "population": 1100,
+        "scene": "b-market"
+      },
+      "frameMs": {
+        "count": 3590,
+        "p50": 16.699999999953434,
+        "p95": 16.700000000186265,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 304,
+      "heap": {
+        "minute": 26.00297102431667,
+        "jsHeapUsed": 10119492,
+        "jsHeapTotal": 11141120,
+        "gcMs": 8.885416999924928,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 3.765499999979511,
+          "usedSize": 3757860,
+          "totalSize": 4456448,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3757860,
+        "combinedJsHeapUsed": 13877352
+      },
+      "simMs": {
+        "count": 600,
+        "p50": 0.10000002384185791,
+        "p95": 0.20000004768371582,
+        "p99": 0.3999999761581421
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 93026,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.40000009536743,
+          "p99": 17.700000047683716
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.19999992847442627
+        },
+        "samples": 18000,
+        "visibleActors": 11,
+        "sceneChanges": 18,
+        "zoom": 1.25,
+        "cameraTransform": {
+          "x": 930,
+          "y": 369.99999999999994,
+          "zoom": 1.25
+        },
+        "currentScene": "b-market",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 13,
+          "minY": 1,
+          "maxY": 11
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 15614,
+        "p50": 0.699951171875,
+        "p95": 1.099853515625,
+        "p99": 3.39990234375
+      },
+      "saveMs": {
+        "count": 26,
+        "p50": 218.30000007152557,
+        "p95": 303,
+        "p99": 319.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 27,
+      "at": "2026-11-03T21:01:39.214Z",
+      "elapsedMs": 1620199.00975,
+      "projection": {
+        "tick": 16213,
+        "minute": 2101,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3590,
+        "p50": 16.699999999953434,
+        "p95": 16.799999999813735,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 310,
+      "heap": {
+        "minute": 27.00331652986667,
+        "jsHeapUsed": 10932564,
+        "jsHeapTotal": 12189696,
+        "gcMs": 12.548875000094995,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 5.079957999987528,
+          "usedSize": 3776596,
+          "totalSize": 4194304,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3776596,
+        "combinedJsHeapUsed": 14709160
+      },
+      "simMs": {
+        "count": 600,
+        "p50": 0.10000002384185791,
+        "p95": 0.20000004768371582,
+        "p99": 0.40000009536743164
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 96616,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.399999976158142,
+          "p99": 17.700000047683716
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.19999992847442627
+        },
+        "samples": 18000,
+        "visibleActors": 17,
+        "sceneChanges": 19,
+        "zoom": 0.9,
+        "cameraTransform": {
+          "x": 1461.12,
+          "y": 138.23999999999995,
+          "zoom": 0.9
+        },
+        "currentScene": "outside",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 63,
+          "minY": 1,
+          "maxY": 57
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 16214,
+        "p50": 0.699951171875,
+        "p95": 1.099853515625,
+        "p99": 3.300048828125
+      },
+      "saveMs": {
+        "count": 27,
+        "p50": 217.70000004768372,
+        "p95": 303,
+        "p99": 319.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 28,
+      "at": "2026-11-03T21:02:39.204Z",
+      "elapsedMs": 1680189.684209,
+      "projection": {
+        "tick": 16813,
+        "minute": 2161,
+        "population": 1100,
+        "scene": "b-cafe"
+      },
+      "frameMs": {
+        "count": 3587,
+        "p50": 16.699999999953434,
+        "p95": 16.700000000186265,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 331,
+      "heap": {
+        "minute": 28.00316080486667,
+        "jsHeapUsed": 10218124,
+        "jsHeapTotal": 11665408,
+        "gcMs": 11.027499999850988,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 6.076666000066325,
+          "usedSize": 3769288,
+          "totalSize": 4456448,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3769288,
+        "combinedJsHeapUsed": 13987412
+      },
+      "simMs": {
+        "count": 600,
+        "p50": 0.10000002384185791,
+        "p95": 0.20000004768371582,
+        "p99": 0.30000007152557373
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 100203,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.399999976158142,
+          "p99": 17.700000047683716
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.19999992847442627
+        },
+        "samples": 18000,
+        "visibleActors": 9,
+        "sceneChanges": 20,
+        "zoom": 1.25,
+        "cameraTransform": {
+          "x": 930,
+          "y": 369.99999999999994,
+          "zoom": 1.25
+        },
+        "currentScene": "b-cafe",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 13,
+          "minY": 1,
+          "maxY": 11
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 16814,
+        "p50": 0.699951171875,
+        "p95": 1.099853515625,
+        "p99": 3.300048828125
+      },
+      "saveMs": {
+        "count": 28,
+        "p50": 218.30000007152557,
+        "p95": 303,
+        "p99": 319.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 29,
+      "at": "2026-11-03T21:03:39.240Z",
+      "elapsedMs": 1740225.863625,
+      "projection": {
+        "tick": 17413,
+        "minute": 2221,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3586,
+        "p50": 16.699999999953434,
+        "p95": 16.799999999813735,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 333,
+      "heap": {
+        "minute": 29.003764029166668,
+        "jsHeapUsed": 10662936,
+        "jsHeapTotal": 12451840,
+        "gcMs": 21.918416999978945,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 4.835915999952704,
+          "usedSize": 3806864,
+          "totalSize": 4456448,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3806864,
+        "combinedJsHeapUsed": 14469800
+      },
+      "simMs": {
+        "count": 600,
+        "p50": 0.10000002384185791,
+        "p95": 0.20000004768371582,
+        "p99": 0.20000004768371582
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 103789,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.399999976158142,
+          "p99": 17.799999952316284
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 12,
+        "sceneChanges": 21,
+        "zoom": 0.9,
+        "cameraTransform": {
+          "x": 953.5200000000001,
+          "y": -379.952,
+          "zoom": 0.9
+        },
+        "currentScene": "outside",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 63,
+          "minY": 1,
+          "maxY": 57
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 17414,
+        "p50": 0.699951171875,
+        "p95": 1.099853515625,
+        "p99": 3.300048828125
+      },
+      "saveMs": {
+        "count": 29,
+        "p50": 218.30000007152557,
+        "p95": 303,
+        "p99": 319.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 30,
+      "at": "2026-11-03T21:04:39.230Z",
+      "elapsedMs": 1800215.2922500002,
+      "projection": {
+        "tick": 18013,
+        "minute": 2281,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3585,
+        "p50": 16.699999999953434,
+        "p95": 16.700000000186265,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 356,
+      "heap": {
+        "minute": 30.003588006950004,
+        "jsHeapUsed": 10694860,
+        "jsHeapTotal": 12713984,
+        "gcMs": 13.08808400016278,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 4.727457999950275,
+          "usedSize": 3810772,
+          "totalSize": 4456448,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3810772,
+        "combinedJsHeapUsed": 14505632
+      },
+      "simMs": {
+        "count": 600,
+        "p50": 0.10000002384185791,
+        "p95": 0.20000004768371582,
+        "p99": 0.3999999761581421
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 107374,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.399999976158142,
+          "p99": 17.800000071525574
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 11,
+        "sceneChanges": 21,
+        "zoom": 0.9,
+        "cameraTransform": {
+          "x": 744,
+          "y": 97.19999999999999,
+          "zoom": 0.9
+        },
+        "currentScene": "outside",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 63,
+          "minY": 1,
+          "maxY": 57
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 18014,
+        "p50": 0.699951171875,
+        "p95": 1.099853515625,
+        "p99": 3.39990234375
+      },
+      "saveMs": {
+        "count": 30,
+        "p50": 220.39999997615814,
+        "p95": 303,
+        "p99": 319.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 31,
+      "at": "2026-11-03T21:05:39.244Z",
+      "elapsedMs": 1860255.38075,
+      "projection": {
+        "tick": 18613,
+        "minute": 2341,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3586,
+        "p50": 16.699999999953434,
+        "p95": 16.700000000186265,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 368,
+      "heap": {
+        "minute": 31.00425610625,
+        "jsHeapUsed": 10709936,
+        "jsHeapTotal": 12189696,
+        "gcMs": 11.655874999938533,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 4.179667000193149,
+          "usedSize": 3821972,
+          "totalSize": 4456448,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3821972,
+        "combinedJsHeapUsed": 14531908
+      },
+      "simMs": {
+        "count": 600,
+        "p50": 0.10000002384185791,
+        "p95": 0.20000004768371582,
+        "p99": 0.20000004768371582
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 110960,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.399999976158142,
+          "p99": 17.899999976158142
+        },
+        "renderPreparationMs": {
+          "p50": 0.09999990463256836,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 10,
+        "sceneChanges": 21,
+        "zoom": 0.9,
+        "cameraTransform": {
+          "x": 1443.2352,
+          "y": -36.41759999999999,
+          "zoom": 0.9
+        },
+        "currentScene": "outside",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 63,
+          "minY": 1,
+          "maxY": 57
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 18614,
+        "p50": 0.699951171875,
+        "p95": 1.099853515625,
+        "p99": 3.300048828125
+      },
+      "saveMs": {
+        "count": 31,
+        "p50": 220.39999997615814,
+        "p95": 303,
+        "p99": 319.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 32,
+      "at": "2026-11-03T21:06:39.241Z",
+      "elapsedMs": 1920255.853417,
+      "projection": {
+        "tick": 19213,
+        "minute": 2401,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3585,
+        "p50": 16.699999999953434,
+        "p95": 16.799999999813735,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 351,
+      "heap": {
+        "minute": 32.004263908333336,
+        "jsHeapUsed": 11222140,
+        "jsHeapTotal": 12648448,
+        "gcMs": 28.04229100001976,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 4.118750000139698,
+          "usedSize": 3839536,
+          "totalSize": 4456448,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3839536,
+        "combinedJsHeapUsed": 15061676
+      },
+      "simMs": {
+        "count": 600,
+        "p50": 0.10000002384185791,
+        "p95": 0.20000004768371582,
+        "p99": 0.30000007152557373
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 114545,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.40000009536743,
+          "p99": 17.899999976158142
+        },
+        "renderPreparationMs": {
+          "p50": 0.09999990463256836,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 11,
+        "sceneChanges": 21,
+        "zoom": 0.9,
+        "cameraTransform": {
+          "x": 1443.2352,
+          "y": -36.41759999999999,
+          "zoom": 0.9
+        },
+        "currentScene": "outside",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 63,
+          "minY": 1,
+          "maxY": 57
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 19214,
+        "p50": 0.699951171875,
+        "p95": 1.099853515625,
+        "p99": 3.2998046875
+      },
+      "saveMs": {
+        "count": 32,
+        "p50": 221,
+        "p95": 303,
+        "p99": 319.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 33,
+      "at": "2026-11-03T21:07:39.256Z",
+      "elapsedMs": 1980271.9015000002,
+      "projection": {
+        "tick": 19813,
+        "minute": 2461,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3585,
+        "p50": 16.699999999953434,
+        "p95": 16.799999999813735,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 392,
+      "heap": {
+        "minute": 33.00453144028334,
+        "jsHeapUsed": 11376096,
+        "jsHeapTotal": 12910592,
+        "gcMs": 16.609959000023082,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 4.274874999886379,
+          "usedSize": 3816240,
+          "totalSize": 4718592,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3816240,
+        "combinedJsHeapUsed": 15192336
+      },
+      "simMs": {
+        "count": 600,
+        "p50": 0.10000002384185791,
+        "p95": 0.2999999523162842,
+        "p99": 0.5
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 118130,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.40000009536743,
+          "p99": 17.899999976158142
+        },
+        "renderPreparationMs": {
+          "p50": 0.09999990463256836,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 12,
+        "sceneChanges": 21,
+        "zoom": 0.9,
+        "cameraTransform": {
+          "x": 1497.504,
+          "y": -61.56000000000017,
+          "zoom": 0.9
+        },
+        "currentScene": "outside",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 63,
+          "minY": 1,
+          "maxY": 57
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 19814,
+        "p50": 0.699951171875,
+        "p95": 1.099853515625,
+        "p99": 3.39990234375
+      },
+      "saveMs": {
+        "count": 33,
+        "p50": 221,
+        "p95": 303,
+        "p99": 319.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 34,
+      "at": "2026-11-03T21:08:39.254Z",
+      "elapsedMs": 2040270.0365000002,
+      "projection": {
+        "tick": 20413,
+        "minute": 2521,
+        "population": 1100,
+        "scene": "b-school"
+      },
+      "frameMs": {
+        "count": 3588,
+        "p50": 16.699999999953434,
+        "p95": 16.799999999813735,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 335,
+      "heap": {
+        "minute": 34.00450032916667,
+        "jsHeapUsed": 10544244,
+        "jsHeapTotal": 12648448,
+        "gcMs": 12.321292000124231,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 5.486416999949142,
+          "usedSize": 3851528,
+          "totalSize": 4456448,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3851528,
+        "combinedJsHeapUsed": 14395772
+      },
+      "simMs": {
+        "count": 600,
+        "p50": 0.10000002384185791,
+        "p95": 0.20000004768371582,
+        "p99": 0.3999999761581421
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 121718,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.399999976158142,
+          "p99": 17.700000047683716
+        },
+        "renderPreparationMs": {
+          "p50": 0.09999990463256836,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 1,
+        "sceneChanges": 22,
+        "zoom": 1.25,
+        "cameraTransform": {
+          "x": 930,
+          "y": 369.99999999999994,
+          "zoom": 1.25
+        },
+        "currentScene": "b-school",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 13,
+          "minY": 1,
+          "maxY": 11
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 20000,
+        "p50": 0.699951171875,
+        "p95": 1.099853515625,
+        "p99": 3.39990234375
+      },
+      "saveMs": {
+        "count": 34,
+        "p50": 223.10000002384186,
+        "p95": 303,
+        "p99": 319.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 35,
+      "at": "2026-11-03T21:09:39.185Z",
+      "elapsedMs": 2100201.385667,
+      "projection": {
+        "tick": 21013,
+        "minute": 2581,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3588,
+        "p50": 16.699999999953434,
+        "p95": 16.799999999813735,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 315,
+      "heap": {
+        "minute": 35.00335624723333,
+        "jsHeapUsed": 11074152,
+        "jsHeapTotal": 12386304,
+        "gcMs": 19.170375000219792,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 3.5195410000160336,
+          "usedSize": 3825916,
+          "totalSize": 4456448,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3825916,
+        "combinedJsHeapUsed": 14900068
+      },
+      "simMs": {
+        "count": 600,
+        "p50": 0.10000002384185791,
+        "p95": 0.20000004768371582,
+        "p99": 0.3999999761581421
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 125306,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.300000071525574,
+          "p99": 17.700000047683716
+        },
+        "renderPreparationMs": {
+          "p50": 0.09999990463256836,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 10,
+        "sceneChanges": 23,
+        "zoom": 0.9,
+        "cameraTransform": {
+          "x": 1115.52,
+          "y": 192.35199999999998,
+          "zoom": 0.9
+        },
+        "currentScene": "outside",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 63,
+          "minY": 1,
+          "maxY": 57
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 20000,
+        "p50": 0.699951171875,
+        "p95": 1.099853515625,
+        "p99": 3.5
+      },
+      "saveMs": {
+        "count": 35,
+        "p50": 221,
+        "p95": 303,
+        "p99": 319.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 36,
+      "at": "2026-11-03T21:10:39.225Z",
+      "elapsedMs": 2160242.05025,
+      "projection": {
+        "tick": 21613,
+        "minute": 2641,
+        "population": 1100,
+        "scene": "b-home"
+      },
+      "frameMs": {
+        "count": 3590,
+        "p50": 16.699999999720603,
+        "p95": 16.700000000186265,
+        "p99": 16.800000000279397
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 300,
+      "heap": {
+        "minute": 36.00403397848333,
+        "jsHeapUsed": 10550396,
+        "jsHeapTotal": 12124160,
+        "gcMs": 15.1769999996759,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 3.7267089998349547,
+          "usedSize": 3827224,
+          "totalSize": 4456448,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3827224,
+        "combinedJsHeapUsed": 14377620
+      },
+      "simMs": {
+        "count": 600,
+        "p50": 0.10000002384185791,
+        "p95": 0.20000004768371582,
+        "p99": 0.2999999523162842
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 128896,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.300000071525574,
+          "p99": 17.700000047683716
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 1,
+        "sceneChanges": 24,
+        "zoom": 1.25,
+        "cameraTransform": {
+          "x": 930,
+          "y": 369.99999999999994,
+          "zoom": 1.25
+        },
+        "currentScene": "b-home",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 13,
+          "minY": 1,
+          "maxY": 11
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 20000,
+        "p50": 0.699951171875,
+        "p95": 1,
+        "p99": 3.5
+      },
+      "saveMs": {
+        "count": 36,
+        "p50": 221,
+        "p95": 303,
+        "p99": 319.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 37,
+      "at": "2026-11-03T21:11:39.164Z",
+      "elapsedMs": 2220181.3386669997,
+      "projection": {
+        "tick": 22213,
+        "minute": 2701,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3589,
+        "p50": 16.699999999720603,
+        "p95": 16.700000000186265,
+        "p99": 16.800000000279397
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 306,
+      "heap": {
+        "minute": 37.00302215556666,
+        "jsHeapUsed": 11519760,
+        "jsHeapTotal": 12648448,
+        "gcMs": 16.363040999975055,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 3.8549160002730787,
+          "usedSize": 3848712,
+          "totalSize": 4456448,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3848712,
+        "combinedJsHeapUsed": 15368472
+      },
+      "simMs": {
+        "count": 600,
+        "p50": 0.10000002384185791,
+        "p95": 0.20000004768371582,
+        "p99": 0.20000004768371582
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 132485,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.399999976158142,
+          "p99": 17.700000047683716
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 15,
+        "sceneChanges": 25,
+        "zoom": 0.9,
+        "cameraTransform": {
+          "x": 694.3199999999999,
+          "y": 122.03999999999996,
+          "zoom": 0.9
+        },
+        "currentScene": "outside",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 63,
+          "minY": 1,
+          "maxY": 57
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 20000,
+        "p50": 0.699951171875,
+        "p95": 1,
+        "p99": 3.300048828125
+      },
+      "saveMs": {
+        "count": 37,
+        "p50": 220.39999997615814,
+        "p95": 303,
+        "p99": 319.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 38,
+      "at": "2026-11-03T21:12:39.166Z",
+      "elapsedMs": 2280184.36575,
+      "projection": {
+        "tick": 22813,
+        "minute": 2761,
+        "population": 1100,
+        "scene": "b-market"
+      },
+      "frameMs": {
+        "count": 3588,
+        "p50": 16.699999999720603,
+        "p95": 16.700000000186265,
+        "p99": 16.800000000279397
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 324,
+      "heap": {
+        "minute": 38.00307260973333,
+        "jsHeapUsed": 10699444,
+        "jsHeapTotal": 12124160,
+        "gcMs": 13.67766600009054,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 4.692125000059605,
+          "usedSize": 3923280,
+          "totalSize": 4718592,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3923280,
+        "combinedJsHeapUsed": 14622724
+      },
+      "simMs": {
+        "count": 600,
+        "p50": 0.10000002384185791,
+        "p95": 0.20000004768371582,
+        "p99": 0.30000007152557373
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 136073,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.300000071525574,
+          "p99": 17.700000047683716
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 23,
+        "sceneChanges": 26,
+        "zoom": 1.25,
+        "cameraTransform": {
+          "x": 930,
+          "y": 369.99999999999994,
+          "zoom": 1.25
+        },
+        "currentScene": "b-market",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 13,
+          "minY": 1,
+          "maxY": 11
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 20000,
+        "p50": 0.699951171875,
+        "p95": 1,
+        "p99": 3.39990234375
+      },
+      "saveMs": {
+        "count": 38,
+        "p50": 221,
+        "p95": 303,
+        "p99": 319.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 39,
+      "at": "2026-11-03T21:13:39.173Z",
+      "elapsedMs": 2340191.695667,
+      "projection": {
+        "tick": 23413,
+        "minute": 2821,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3585,
+        "p50": 16.699999999720603,
+        "p95": 16.700000000186265,
+        "p99": 16.800000000279397
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 379,
+      "heap": {
+        "minute": 39.0031946889,
+        "jsHeapUsed": 11527820,
+        "jsHeapTotal": 12648448,
+        "gcMs": 18.73641600040719,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 4.223333999980241,
+          "usedSize": 3862980,
+          "totalSize": 4718592,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3862980,
+        "combinedJsHeapUsed": 15390800
+      },
+      "simMs": {
+        "count": 600,
+        "p50": 0.10000002384185791,
+        "p95": 0.2999999523162842,
+        "p99": 0.6000000238418579
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 139658,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.399999976158142,
+          "p99": 17.799999952316284
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 14,
+        "sceneChanges": 27,
+        "zoom": 0.9,
+        "cameraTransform": {
+          "x": 1461.12,
+          "y": 138.23999999999995,
+          "zoom": 0.9
+        },
+        "currentScene": "outside",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 63,
+          "minY": 1,
+          "maxY": 57
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 20000,
+        "p50": 0.699951171875,
+        "p95": 1,
+        "p99": 3.5
+      },
+      "saveMs": {
+        "count": 39,
+        "p50": 220.39999997615814,
+        "p95": 303,
+        "p99": 319.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 40,
+      "at": "2026-11-03T21:14:39.156Z",
+      "elapsedMs": 2400175.0379999997,
+      "projection": {
+        "tick": 24013,
+        "minute": 2881,
+        "population": 1100,
+        "scene": "b-cafe"
+      },
+      "frameMs": {
+        "count": 3582,
+        "p50": 16.699999999720603,
+        "p95": 16.700000000186265,
+        "p99": 16.800000000279397
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 349,
+      "heap": {
+        "minute": 40.00291713473333,
+        "jsHeapUsed": 10649752,
+        "jsHeapTotal": 12386304,
+        "gcMs": 11.253082999959588,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 3.7292090002447367,
+          "usedSize": 3854508,
+          "totalSize": 4718592,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3854508,
+        "combinedJsHeapUsed": 14504260
+      },
+      "simMs": {
+        "count": 600,
+        "p50": 0.10000002384185791,
+        "p95": 0.20000004768371582,
+        "p99": 0.5
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 143240,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.399999976158142,
+          "p99": 17.799999952316284
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 1,
+        "sceneChanges": 28,
+        "zoom": 1.25,
+        "cameraTransform": {
+          "x": 930,
+          "y": 369.99999999999994,
+          "zoom": 1.25
+        },
+        "currentScene": "b-cafe",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 13,
+          "minY": 1,
+          "maxY": 11
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 20000,
+        "p50": 0.699951171875,
+        "p95": 1,
+        "p99": 3.300048828125
+      },
+      "saveMs": {
+        "count": 40,
+        "p50": 220.39999997615814,
+        "p95": 303,
+        "p99": 319.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 41,
+      "at": "2026-11-03T21:15:39.170Z",
+      "elapsedMs": 2460189.528709,
+      "projection": {
+        "tick": 24613,
+        "minute": 2941,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3588,
+        "p50": 16.699999999720603,
+        "p95": 16.700000000186265,
+        "p99": 16.800000000279397
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 317,
+      "heap": {
+        "minute": 41.003158411116665,
+        "jsHeapUsed": 11518372,
+        "jsHeapTotal": 12648448,
+        "gcMs": 14.361124999821186,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 3.8147079995833337,
+          "usedSize": 3843836,
+          "totalSize": 4456448,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3843836,
+        "combinedJsHeapUsed": 15362208
+      },
+      "simMs": {
+        "count": 600,
+        "p50": 0.10000002384185791,
+        "p95": 0.20000004768371582,
+        "p99": 0.20000004768371582
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 146828,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.399999976158142,
+          "p99": 17.799999952316284
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 10,
+        "sceneChanges": 29,
+        "zoom": 0.9,
+        "cameraTransform": {
+          "x": 953.5200000000001,
+          "y": -379.952,
+          "zoom": 0.9
+        },
+        "currentScene": "outside",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 63,
+          "minY": 1,
+          "maxY": 57
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 20000,
+        "p50": 0.699951171875,
+        "p95": 1,
+        "p99": 3
+      },
+      "saveMs": {
+        "count": 41,
+        "p50": 218.30000007152557,
+        "p95": 264.39999997615814,
+        "p99": 319.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 42,
+      "at": "2026-11-03T21:16:39.165Z",
+      "elapsedMs": 2520185.877459,
+      "projection": {
+        "tick": 25213,
+        "minute": 3001,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3587,
+        "p50": 16.699999999720603,
+        "p95": 16.799999999813735,
+        "p99": 16.800000000279397
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 340,
+      "heap": {
+        "minute": 42.0030977757,
+        "jsHeapUsed": 11542512,
+        "jsHeapTotal": 12648448,
+        "gcMs": 14.539958000183105,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 3.8728339998051524,
+          "usedSize": 3834464,
+          "totalSize": 4718592,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3834464,
+        "combinedJsHeapUsed": 15376976
+      },
+      "simMs": {
+        "count": 600,
+        "p50": 0.10000002384185791,
+        "p95": 0.20000004768371582,
+        "p99": 0.2999999523162842
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 150415,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.399999976158142,
+          "p99": 17.700000047683716
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 11,
+        "sceneChanges": 29,
+        "zoom": 0.9,
+        "cameraTransform": {
+          "x": 744,
+          "y": 97.19999999999999,
+          "zoom": 0.9
+        },
+        "currentScene": "outside",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 63,
+          "minY": 1,
+          "maxY": 57
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 20000,
+        "p50": 0.699951171875,
+        "p95": 1,
+        "p99": 2.89990234375
+      },
+      "saveMs": {
+        "count": 42,
+        "p50": 218.30000007152557,
+        "p95": 264.39999997615814,
+        "p99": 319.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 43,
+      "at": "2026-11-03T21:17:39.206Z",
+      "elapsedMs": 2580226.617792,
+      "projection": {
+        "tick": 25813,
+        "minute": 3061,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3589,
+        "p50": 16.699999999720603,
+        "p95": 16.700000000186265,
+        "p99": 16.800000000279397
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 313,
+      "heap": {
+        "minute": 43.00377679166667,
+        "jsHeapUsed": 11193024,
+        "jsHeapTotal": 12910592,
+        "gcMs": 14.30579200014472,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 3.849667000118643,
+          "usedSize": 3861708,
+          "totalSize": 4456448,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3861708,
+        "combinedJsHeapUsed": 15054732
+      },
+      "simMs": {
+        "count": 600,
+        "p50": 0.10000002384185791,
+        "p95": 0.20000004768371582,
+        "p99": 0.2999999523162842
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 154004,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.40000009536743,
+          "p99": 17.799999952316284
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 11,
+        "sceneChanges": 29,
+        "zoom": 0.9,
+        "cameraTransform": {
+          "x": 1443.2352,
+          "y": -36.41759999999999,
+          "zoom": 0.9
+        },
+        "currentScene": "outside",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 63,
+          "minY": 1,
+          "maxY": 57
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 20000,
+        "p50": 0.699951171875,
+        "p95": 1,
+        "p99": 2.999755859375
+      },
+      "saveMs": {
+        "count": 43,
+        "p50": 217.70000004768372,
+        "p95": 264.39999997615814,
+        "p99": 319.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 44,
+      "at": "2026-11-03T21:18:39.193Z",
+      "elapsedMs": 2640214.590792,
+      "projection": {
+        "tick": 26413,
+        "minute": 3121,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3588,
+        "p50": 16.699999999720603,
+        "p95": 16.799999999813735,
+        "p99": 16.800000000279397
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 305,
+      "heap": {
+        "minute": 44.00357634583333,
+        "jsHeapUsed": 11184328,
+        "jsHeapTotal": 12648448,
+        "gcMs": 12.659124999772757,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 3.8029160001315176,
+          "usedSize": 3849272,
+          "totalSize": 4456448,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3849272,
+        "combinedJsHeapUsed": 15033600
+      },
+      "simMs": {
+        "count": 600,
+        "p50": 0.10000002384185791,
+        "p95": 0.20000004768371582,
+        "p99": 0.20000004768371582
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 157592,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.40000009536743,
+          "p99": 17.799999952316284
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 10,
+        "sceneChanges": 29,
+        "zoom": 0.9,
+        "cameraTransform": {
+          "x": 1443.2352,
+          "y": -36.41759999999999,
+          "zoom": 0.9
+        },
+        "currentScene": "outside",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 63,
+          "minY": 1,
+          "maxY": 57
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 20000,
+        "p50": 0.699951171875,
+        "p95": 0.999755859375,
+        "p99": 3
+      },
+      "saveMs": {
+        "count": 44,
+        "p50": 217.70000004768372,
+        "p95": 264.39999997615814,
+        "p99": 319.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 45,
+      "at": "2026-11-03T21:19:39.153Z",
+      "elapsedMs": 2700175.460167,
+      "projection": {
+        "tick": 27013,
+        "minute": 3181,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3589,
+        "p50": 16.699999999720603,
+        "p95": 16.700000000186265,
+        "p99": 16.800000000279397
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 302,
+      "heap": {
+        "minute": 45.0029242014,
+        "jsHeapUsed": 11320808,
+        "jsHeapTotal": 12648448,
+        "gcMs": 13.166916000191122,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 3.2558749997988343,
+          "usedSize": 3858784,
+          "totalSize": 4456448,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3858784,
+        "combinedJsHeapUsed": 15179592
+      },
+      "simMs": {
+        "count": 600,
+        "p50": 0.10000002384185791,
+        "p95": 0.20000004768371582,
+        "p99": 0.20000004768371582
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 161181,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.399999976158142,
+          "p99": 17.799999952316284
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 10,
+        "sceneChanges": 29,
+        "zoom": 0.9,
+        "cameraTransform": {
+          "x": 1497.504,
+          "y": -61.56000000000017,
+          "zoom": 0.9
+        },
+        "currentScene": "outside",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 63,
+          "minY": 1,
+          "maxY": 57
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 20000,
+        "p50": 0.699951171875,
+        "p95": 0.900146484375,
+        "p99": 2.999755859375
+      },
+      "saveMs": {
+        "count": 45,
+        "p50": 215.29999995231628,
+        "p95": 264.39999997615814,
+        "p99": 319.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 46,
+      "at": "2026-11-03T21:20:39.152Z",
+      "elapsedMs": 2760175.032084,
+      "projection": {
+        "tick": 27613,
+        "minute": 3241,
+        "population": 1100,
+        "scene": "b-school"
+      },
+      "frameMs": {
+        "count": 3588,
+        "p50": 16.699999999720603,
+        "p95": 16.799999999813735,
+        "p99": 16.800000000279397
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 326,
+      "heap": {
+        "minute": 46.00291699653333,
+        "jsHeapUsed": 10822736,
+        "jsHeapTotal": 11862016,
+        "gcMs": 10.732500000391155,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 5.142583000008017,
+          "usedSize": 3874440,
+          "totalSize": 4456448,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3874440,
+        "combinedJsHeapUsed": 14697176
+      },
+      "simMs": {
+        "count": 600,
+        "p50": 0.10000002384185791,
+        "p95": 0.20000004768371582,
+        "p99": 0.30000007152557373
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 164769,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.40000009536743,
+          "p99": 17.799999952316284
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 1,
+        "sceneChanges": 30,
+        "zoom": 1.25,
+        "cameraTransform": {
+          "x": 930,
+          "y": 369.99999999999994,
+          "zoom": 1.25
+        },
+        "currentScene": "b-school",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 13,
+          "minY": 1,
+          "maxY": 11
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 20000,
+        "p50": 0.699951171875,
+        "p95": 0.999755859375,
+        "p99": 3.099853515625
+      },
+      "saveMs": {
+        "count": 46,
+        "p50": 215.29999995231628,
+        "p95": 264.39999997615814,
+        "p99": 319.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 47,
+      "at": "2026-11-03T21:21:39.180Z",
+      "elapsedMs": 2820201.576,
+      "projection": {
+        "tick": 28213,
+        "minute": 3301,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3589,
+        "p50": 16.699999999720603,
+        "p95": 16.700000000186265,
+        "p99": 16.800000000279397
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 310,
+      "heap": {
+        "minute": 47.003359439583335,
+        "jsHeapUsed": 11246508,
+        "jsHeapTotal": 12910592,
+        "gcMs": 12.967999999877065,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 3.744082999881357,
+          "usedSize": 3884688,
+          "totalSize": 4456448,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3884688,
+        "combinedJsHeapUsed": 15131196
+      },
+      "simMs": {
+        "count": 600,
+        "p50": 0.10000002384185791,
+        "p95": 0.20000004768371582,
+        "p99": 0.2999999523162842
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 168358,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.399999976158142,
+          "p99": 17.799999952316284
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 22,
+        "sceneChanges": 31,
+        "zoom": 0.9,
+        "cameraTransform": {
+          "x": 1115.52,
+          "y": 192.35199999999998,
+          "zoom": 0.9
+        },
+        "currentScene": "outside",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 63,
+          "minY": 1,
+          "maxY": 57
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 20000,
+        "p50": 0.699951171875,
+        "p95": 0.999755859375,
+        "p99": 3.199951171875
+      },
+      "saveMs": {
+        "count": 47,
+        "p50": 215.29999995231628,
+        "p95": 264.39999997615814,
+        "p99": 319.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 48,
+      "at": "2026-11-03T21:22:39.170Z",
+      "elapsedMs": 2880192.8310419996,
+      "projection": {
+        "tick": 28813,
+        "minute": 3361,
+        "population": 1100,
+        "scene": "b-home"
+      },
+      "frameMs": {
+        "count": 3590,
+        "p50": 16.699999999720603,
+        "p95": 16.700000000186265,
+        "p99": 16.800000000279397
+      },
+      "longTaskCount": 4,
+      "longTaskMs": 298,
+      "heap": {
+        "minute": 48.00321370278333,
+        "jsHeapUsed": 10533440,
+        "jsHeapTotal": 12386304,
+        "gcMs": 10.088250000029802,
+        "worker": {
+          "status": "MEASURED",
+          "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+          "gcMs": 3.8701659999787807,
+          "usedSize": 3796096,
+          "totalSize": 4718592,
+          "embedderHeapUsedSize": 26424,
+          "backingStorageSize": 178653
+        },
+        "workerJsHeapUsed": 3796096,
+        "combinedJsHeapUsed": 14329536
+      },
+      "simMs": {
+        "count": 600,
+        "p50": 0.10000002384185791,
+        "p95": 0.20000004768371582,
+        "p99": 0.2999999523162842
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 171948,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.299999952316284,
+          "p99": 17.700000047683716
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 1,
+        "sceneChanges": 32,
+        "zoom": 1.25,
+        "cameraTransform": {
+          "x": 930,
+          "y": 369.99999999999994,
+          "zoom": 1.25
+        },
+        "currentScene": "b-home",
+        "worldBounds": {
+          "minX": 1,
+          "maxX": 13,
+          "minY": 1,
+          "maxY": 11
+        },
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "count": 20000,
+        "p50": 0.699951171875,
+        "p95": 0.999755859375,
+        "p99": 3.199951171875
+      },
+      "saveMs": {
+        "count": 48,
+        "p50": 215.29999995231628,
+        "p95": 264.39999997615814,
+        "p99": 319.60000002384186
+      },
+      "errors": []
+    }
+  ],
+  "actions": [
+    {
+      "minute": 0.004434226400000004,
+      "type": "TALK",
+      "args": {
+        "npcId": "n0",
+        "topic": "greet"
+      },
+      "ok": true,
+      "reason": "Deniz Yel: Kıyıyaka’da herkesin bir hikâyesi var. Son karşılaşmalarımızı hatırlıyorum.",
+      "roundTripMs": 64.87604199999987
+    },
+    {
+      "minute": 0.006053758333333326,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 27,
+        "y": 14.7
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 22.60570899999948
+    },
+    {
+      "minute": 1.00611161875,
+      "type": "ENTER",
+      "args": {
+        "buildingId": "b-market"
+      },
+      "ok": true,
+      "reason": "Bereket Market",
+      "roundTripMs": 25.360083999999915
+    },
+    {
+      "minute": 1.00791638265,
+      "type": "BUY",
+      "args": {
+        "businessId": "market",
+        "item": "simit",
+        "quantity": 5
+      },
+      "ok": true,
+      "reason": "Simit çantana eklendi.",
+      "roundTripMs": 108.25666600000113
+    },
+    {
+      "minute": 1.0094498625000001,
+      "type": "APPLY_JOB",
+      "args": {
+        "jobId": "retail"
+      },
+      "ok": true,
+      "reason": "İşe alındın. Vardiya için işyerine git.",
+      "roundTripMs": 91.99812500000553
+    },
+    {
+      "minute": 1.0113888430666667,
+      "type": "START_SHIFT",
+      "args": {},
+      "ok": true,
+      "reason": "Vardiya başladı. 60 oyun dakikası işyerinde kal; 105 TL kazanacaksın.",
+      "roundTripMs": 116.33574999999837
+    },
+    {
+      "minute": 2.004411608333333,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 7,
+        "y": 10
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 85.0759160000016
+    },
+    {
+      "minute": 2.0093119402833333,
+      "type": "EXIT",
+      "args": {},
+      "ok": true,
+      "reason": "Sokağa çıktın.",
+      "roundTripMs": 1.771999999997206
+    },
+    {
+      "minute": 2.0111266125,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 8.5,
+        "y": 31.7
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 108.88012499999604
+    },
+    {
+      "minute": 3.0046313770833333,
+      "type": "ENTER",
+      "args": {
+        "buildingId": "b-cafe"
+      },
+      "ok": true,
+      "reason": "Çınar Çayevi",
+      "roundTripMs": 118.6571249999979
+    },
+    {
+      "minute": 3.00611193265,
+      "type": "TALK",
+      "args": {
+        "npcId": "n23",
+        "topic": "greet"
+      },
+      "ok": true,
+      "reason": "Selin Koru: Vardiya yoğun geçiyor. Tanıştığımıza sevindim.",
+      "roundTripMs": 42.32108299998799
+    },
+    {
+      "minute": 3.0077720624999995,
+      "type": "BUY",
+      "args": {
+        "businessId": "tea",
+        "item": "tea",
+        "quantity": 1
+      },
+      "ok": true,
+      "reason": "Çay çantana eklendi.",
+      "roundTripMs": 99.60066699999152
+    },
+    {
+      "minute": 4.00445720695,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 7,
+        "y": 10
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 78.55229099999997
+    },
+    {
+      "minute": 4.009385440283333,
+      "type": "EXIT",
+      "args": {},
+      "ok": true,
+      "reason": "Sokağa çıktın.",
+      "roundTripMs": 16.370374999998603
+    },
+    {
+      "minute": 4.011140461116667,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 50,
+        "y": 49.7
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 105.29558299999917
+    },
+    {
+      "minute": 5.0044452659833345,
+      "type": "ACCEPT_QUEST",
+      "args": {
+        "questId": "q8"
+      },
+      "ok": true,
+      "reason": "Görev kabul edildi. Haritada hedef işaretlendi.",
+      "roundTripMs": 36.397792000032496
+    },
+    {
+      "minute": 5.0061959389,
+      "type": "COMPLETE_QUEST",
+      "args": {
+        "questId": "q8"
+      },
+      "ok": true,
+      "reason": "Rıhtıma bir paket tamamlandı. 80 TL ödendi.",
+      "roundTripMs": 65.82787499995902
+    },
+    {
+      "minute": 5.007761740283334,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 27,
+        "y": 17
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 26.659458000038285
+    },
+    {
+      "minute": 6.0061138757000005,
+      "type": "USE_ITEM",
+      "args": {
+        "item": "simit"
+      },
+      "ok": true,
+      "reason": "Simit kullanıldı.",
+      "roundTripMs": 96.11662500002421
+    },
+    {
+      "minute": 6.0078430847333335,
+      "type": "VEHICLE_ENTER",
+      "args": {
+        "vehicleId": "v0"
+      },
+      "ok": true,
+      "reason": "Araca bindin. W hızlanır, S frenler; A/D kavşakta dönüş seçer. F veya etkileşim ile in.",
+      "roundTripMs": 66.19962500000838
+    },
+    {
+      "minute": 6.009346418066667,
+      "type": "DRIVE",
+      "args": {
+        "throttle": 1,
+        "steer": 0
+      },
+      "ok": true,
+      "reason": "",
+      "roundTripMs": 90.17841699998826
+    },
+    {
+      "minute": 7.0045471125,
+      "type": "DRIVE",
+      "args": {
+        "throttle": 1,
+        "steer": 1
+      },
+      "ok": true,
+      "reason": "",
+      "roundTripMs": 73.78487500001211
+    },
+    {
+      "minute": 8.004339639583334,
+      "type": "DRIVE",
+      "args": {
+        "throttle": -1,
+        "steer": 0
+      },
+      "ok": true,
+      "reason": "",
+      "roundTripMs": 56.54824999999255
+    },
+    {
+      "minute": 8.022713904166666,
+      "type": "VEHICLE_EXIT",
+      "args": {},
+      "ok": true,
+      "reason": "Aracı yol kenarında durdurup indin. Ayrılmış yer için Park eylemini kullan.",
+      "roundTripMs": 100.75391700002365
+    },
+    {
+      "minute": 8.024402961116667,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 9,
+        "y": 49.7
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 73.55341699998826
+    },
+    {
+      "minute": 9.00440623195,
+      "type": "ENTER",
+      "args": {
+        "buildingId": "b-school"
+      },
+      "ok": true,
+      "reason": "Ufuk Akademi",
+      "roundTripMs": 82.10383299994282
+    },
+    {
+      "minute": 9.006075978483333,
+      "type": "TRAIN",
+      "args": {
+        "skill": "academic"
+      },
+      "ok": true,
+      "reason": "Ders başladı. 20 oyun dakikası burada kal.",
+      "roundTripMs": 100.17316700005904
+    },
+    {
+      "minute": 10.004348953483333,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 7,
+        "y": 10
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 40.24970799998846
+    },
+    {
+      "minute": 10.009327049316665,
+      "type": "EXIT",
+      "args": {},
+      "ok": true,
+      "reason": "Sokağa çıktın.",
+      "roundTripMs": 6.887750000110827
+    },
+    {
+      "minute": 10.011128915983333,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 6.5,
+        "y": 13.7
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 108.10699999995995
+    },
+    {
+      "minute": 11.00444213195,
+      "type": "ENTER",
+      "args": {
+        "buildingId": "b-home"
+      },
+      "ok": true,
+      "reason": "Yuva Apartmanı",
+      "roundTripMs": 41.63333300000522
+    },
+    {
+      "minute": 11.006068027083334,
+      "type": "REST",
+      "args": {},
+      "ok": true,
+      "reason": "Bir saatlik dinlenme başladı. Hareket edersen dinlenme sona erer.",
+      "roundTripMs": 97.54358299996238
+    },
+    {
+      "minute": 12.004403929166667,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 7,
+        "y": 10
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 65.72208300000057
+    },
+    {
+      "minute": 12.009366842366665,
+      "type": "EXIT",
+      "args": {},
+      "ok": true,
+      "reason": "Sokağa çıktın.",
+      "roundTripMs": 20.955375000019558
+    },
+    {
+      "minute": 12.0110652382,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 27,
+        "y": 14.7
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 101.90100000007078
+    },
+    {
+      "minute": 13.00440160695,
+      "type": "USE_ITEM",
+      "args": {
+        "item": "simit"
+      },
+      "ok": true,
+      "reason": "Simit kullanıldı.",
+      "roundTripMs": 79.35054100002162
+    },
+    {
+      "minute": 13.00603061875,
+      "type": "ENTER",
+      "args": {
+        "buildingId": "b-market"
+      },
+      "ok": true,
+      "reason": "Bereket Market",
+      "roundTripMs": 97.70658300002106
+    },
+    {
+      "minute": 13.007743861816666,
+      "type": "BUY",
+      "args": {
+        "businessId": "market",
+        "item": "simit",
+        "quantity": 5
+      },
+      "ok": false,
+      "reason": "Sıran korunuyor. Tezgâhın yanından ayrılmadan kısa süre sonra yeniden dene.",
+      "roundTripMs": 102.78787500003818
+    },
+    {
+      "minute": 13.00939985695,
+      "type": "APPLY_JOB",
+      "args": {
+        "jobId": "retail"
+      },
+      "ok": true,
+      "reason": "İşe alındın. Vardiya için işyerine git.",
+      "roundTripMs": 99.34950000001118
+    },
+    {
+      "minute": 13.011027476399999,
+      "type": "START_SHIFT",
+      "args": {},
+      "ok": true,
+      "reason": "Vardiya başladı. 60 oyun dakikası işyerinde kal; 108 TL kazanacaksın.",
+      "roundTripMs": 97.65420800005086
+    },
+    {
+      "minute": 14.004394484033332,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 7,
+        "y": 10
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 86.06008299998939
+    },
+    {
+      "minute": 14.009388606249999,
+      "type": "EXIT",
+      "args": {},
+      "ok": true,
+      "reason": "Sokağa çıktın.",
+      "roundTripMs": 27.630417000036687
+    },
+    {
+      "minute": 14.011070568066666,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 8.5,
+        "y": 31.7
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 100.91399999998976
+    },
+    {
+      "minute": 15.004368592366665,
+      "type": "ENTER",
+      "args": {
+        "buildingId": "b-cafe"
+      },
+      "ok": true,
+      "reason": "Çınar Çayevi",
+      "roundTripMs": 15.064666999969631
+    },
+    {
+      "minute": 15.00603194445,
+      "type": "BUY",
+      "args": {
+        "businessId": "tea",
+        "item": "tea",
+        "quantity": 1
+      },
+      "ok": true,
+      "reason": "Çay çantana eklendi.",
+      "roundTripMs": 68.46341700002085
+    },
+    {
+      "minute": 16.006291343066668,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 7,
+        "y": 10
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 108.43700000003446
+    },
+    {
+      "minute": 16.010992321533333,
+      "type": "EXIT",
+      "args": {},
+      "ok": true,
+      "reason": "Sokağa çıktın.",
+      "roundTripMs": 6.977083000005223
+    },
+    {
+      "minute": 16.012736347916665,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 50,
+        "y": 49.7
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 104.6392909999704
+    },
+    {
+      "minute": 17.006069985416666,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 27,
+        "y": 17
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 92.6783750000177
+    },
+    {
+      "minute": 18.00609119445,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 17,
+        "y": 39.394,
+        "scene": "outside"
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 100.55358300008811
+    },
+    {
+      "minute": 19.00438749028333,
+      "type": "USE_ITEM",
+      "args": {
+        "item": "simit"
+      },
+      "ok": true,
+      "reason": "Simit kullanıldı.",
+      "roundTripMs": 82.59937500022352
+    },
+    {
+      "minute": 19.00607226945,
+      "type": "VEHICLE_ENTER",
+      "args": {
+        "vehicleId": "v0"
+      },
+      "ok": true,
+      "reason": "Araca bindin. W hızlanır, S frenler; A/D kavşakta dönüş seçer. F veya etkileşim ile in.",
+      "roundTripMs": 100.98754100012593
+    },
+    {
+      "minute": 19.007675933333335,
+      "type": "DRIVE",
+      "args": {
+        "throttle": 1,
+        "steer": 0
+      },
+      "ok": true,
+      "reason": "",
+      "roundTripMs": 96.2160000000149
+    },
+    {
+      "minute": 20.004376343750003,
+      "type": "DRIVE",
+      "args": {
+        "throttle": -1,
+        "steer": 0
+      },
+      "ok": true,
+      "reason": "",
+      "roundTripMs": 35.81516700005159
+    },
+    {
+      "minute": 20.02099623195,
+      "type": "VEHICLE_EXIT",
+      "args": {},
+      "ok": true,
+      "reason": "Aracı yol kenarında durdurup indin. Ayrılmış yer için Park eylemini kullan.",
+      "roundTripMs": 23.083958000177518
+    },
+    {
+      "minute": 20.0227001632,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 9,
+        "y": 49.7
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 81.21604200010188
+    },
+    {
+      "minute": 21.004391171533335,
+      "type": "ENTER",
+      "args": {
+        "buildingId": "b-school"
+      },
+      "ok": true,
+      "reason": "Ufuk Akademi",
+      "roundTripMs": 82.72037500003353
+    },
+    {
+      "minute": 21.0060223507,
+      "type": "TRAIN",
+      "args": {
+        "skill": "academic"
+      },
+      "ok": true,
+      "reason": "Ders başladı. 20 oyun dakikası burada kal.",
+      "roundTripMs": 97.86104099988006
+    },
+    {
+      "minute": 22.004328732650002,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 7,
+        "y": 10
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 33.89108400000259
+    },
+    {
+      "minute": 22.0093924132,
+      "type": "EXIT",
+      "args": {},
+      "ok": true,
+      "reason": "Sokağa çıktın.",
+      "roundTripMs": 31.901583000086248
+    },
+    {
+      "minute": 22.010996412500003,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 6.5,
+        "y": 13.7
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 96.23012500000186
+    },
+    {
+      "minute": 23.004391637500003,
+      "type": "ENTER",
+      "args": {
+        "buildingId": "b-home"
+      },
+      "ok": true,
+      "reason": "Yuva Apartmanı",
+      "roundTripMs": 88.57654100004584
+    },
+    {
+      "minute": 23.00606046041667,
+      "type": "REST",
+      "args": {},
+      "ok": true,
+      "reason": "Bir saatlik dinlenme başladı. Hareket edersen dinlenme sona erer.",
+      "roundTripMs": 100.1243330000434
+    },
+    {
+      "minute": 24.004418924316667,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 7,
+        "y": 10
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 27.635082999942824
+    },
+    {
+      "minute": 24.009383758333332,
+      "type": "EXIT",
+      "args": {},
+      "ok": true,
+      "reason": "Sokağa çıktın.",
+      "roundTripMs": 27.720625000074506
+    },
+    {
+      "minute": 24.011059122233334,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 27,
+        "y": 14.7
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 100.52075000014156
+    },
+    {
+      "minute": 25.004407720150002,
+      "type": "USE_ITEM",
+      "args": {
+        "item": "simit"
+      },
+      "ok": true,
+      "reason": "Simit kullanıldı.",
+      "roundTripMs": 55.6376670000609
+    },
+    {
+      "minute": 25.006066559033336,
+      "type": "ENTER",
+      "args": {
+        "buildingId": "b-market"
+      },
+      "ok": true,
+      "reason": "Bereket Market",
+      "roundTripMs": 99.52074999990873
+    },
+    {
+      "minute": 25.0076751264,
+      "type": "BUY",
+      "args": {
+        "businessId": "market",
+        "item": "simit",
+        "quantity": 5
+      },
+      "ok": false,
+      "reason": "Sıran korunuyor. Tezgâhın yanından ayrılmadan kısa süre sonra yeniden dene.",
+      "roundTripMs": 96.50345899979584
+    },
+    {
+      "minute": 25.009388713200003,
+      "type": "APPLY_JOB",
+      "args": {
+        "jobId": "retail"
+      },
+      "ok": true,
+      "reason": "İşe alındın. Vardiya için işyerine git.",
+      "roundTripMs": 102.80662499996834
+    },
+    {
+      "minute": 25.0110726507,
+      "type": "START_SHIFT",
+      "args": {},
+      "ok": true,
+      "reason": "Vardiya başladı. 60 oyun dakikası işyerinde kal; 111 TL kazanacaksın.",
+      "roundTripMs": 101.03341599996202
+    },
+    {
+      "minute": 26.004320990983334,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 7,
+        "y": 10
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 33.313250000122935
+    },
+    {
+      "minute": 26.009395943750004,
+      "type": "EXIT",
+      "args": {},
+      "ok": true,
+      "reason": "Sokağa çıktın.",
+      "roundTripMs": 33.834000000031665
+    },
+    {
+      "minute": 26.011069324316665,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 8.5,
+        "y": 31.7
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 100.40237500006333
+    },
+    {
+      "minute": 27.004366938900002,
+      "type": "ENTER",
+      "args": {
+        "buildingId": "b-cafe"
+      },
+      "ok": true,
+      "reason": "Çınar Çayevi",
+      "roundTripMs": 17.373457999899983
+    },
+    {
+      "minute": 27.006069860416666,
+      "type": "TALK",
+      "args": {
+        "npcId": "n23",
+        "topic": "greet"
+      },
+      "ok": true,
+      "reason": "Selin Koru: Vardiya yoğun geçiyor. Son karşılaşmalarımızı hatırlıyorum.",
+      "roundTripMs": 71.41058299993165
+    },
+    {
+      "minute": 27.00772433195,
+      "type": "BUY",
+      "args": {
+        "businessId": "tea",
+        "item": "tea",
+        "quantity": 1
+      },
+      "ok": true,
+      "reason": "Çay çantana eklendi.",
+      "roundTripMs": 99.26120800012723
+    },
+    {
+      "minute": 28.006322967366668,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 7,
+        "y": 10
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 105.15525000006892
+    },
+    {
+      "minute": 28.012739395833332,
+      "type": "EXIT",
+      "args": {},
+      "ok": true,
+      "reason": "Sokağa çıktın.",
+      "roundTripMs": 68.88416699995287
+    },
+    {
+      "minute": 28.01440334791667,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 50,
+        "y": 49.7
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 99.83387500001118
+    },
+    {
+      "minute": 29.00606578958333,
+      "type": "ACCEPT_QUEST",
+      "args": {
+        "questId": "q66"
+      },
+      "ok": true,
+      "reason": "Görev kabul edildi. Haritada hedef işaretlendi.",
+      "roundTripMs": 90.72312500001863
+    },
+    {
+      "minute": 29.007721591666666,
+      "type": "COMPLETE_QUEST",
+      "args": {
+        "questId": "q66"
+      },
+      "ok": true,
+      "reason": "Rıhtıma bir paket tamamlandı. 80 TL ödendi.",
+      "roundTripMs": 69.66675000009127
+    },
+    {
+      "minute": 29.009393088200003,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 27,
+        "y": 17
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 69.92491699988022
+    },
+    {
+      "minute": 30.01106865556667,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 17,
+        "y": 39.372,
+        "scene": "outside"
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 69.28804100002162
+    },
+    {
+      "minute": 31.006061532650005,
+      "type": "USE_ITEM",
+      "args": {
+        "item": "simit"
+      },
+      "ok": true,
+      "reason": "Simit kullanıldı.",
+      "roundTripMs": 58.15408300003037
+    },
+    {
+      "minute": 31.007668293750005,
+      "type": "VEHICLE_ENTER",
+      "args": {
+        "vehicleId": "v0"
+      },
+      "ok": true,
+      "reason": "Araca bindin. W hızlanır, S frenler; A/D kavşakta dönüş seçer. F veya etkileşim ile in.",
+      "roundTripMs": 96.25829100003466
+    },
+    {
+      "minute": 31.009404379166668,
+      "type": "DRIVE",
+      "args": {
+        "throttle": 1,
+        "steer": 0
+      },
+      "ok": true,
+      "reason": "",
+      "roundTripMs": 104.15237500006333
+    },
+    {
+      "minute": 32.00610889166667,
+      "type": "DRIVE",
+      "args": {
+        "throttle": -1,
+        "steer": 0
+      },
+      "ok": true,
+      "reason": "",
+      "roundTripMs": 29.56137500004843
+    },
+    {
+      "minute": 32.02434257431667,
+      "type": "VEHICLE_EXIT",
+      "args": {},
+      "ok": true,
+      "reason": "Aracı yol kenarında durdurup indin. Ayrılmış yer için Park eylemini kullan.",
+      "roundTripMs": 100.27508299984038
+    },
+    {
+      "minute": 32.026068102083336,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 9,
+        "y": 49.7
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 78.76937499991618
+    },
+    {
+      "minute": 33.00608374723333,
+      "type": "ENTER",
+      "args": {
+        "buildingId": "b-school"
+      },
+      "ok": true,
+      "reason": "Ufuk Akademi",
+      "roundTripMs": 51.80604199995287
+    },
+    {
+      "minute": 33.00769838403333,
+      "type": "TRAIN",
+      "args": {
+        "skill": "academic"
+      },
+      "ok": true,
+      "reason": "Ders başladı. 20 oyun dakikası burada kal.",
+      "roundTripMs": 96.86704199993983
+    },
+    {
+      "minute": 34.006094388200005,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 7,
+        "y": 10
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 32.02745799999684
+    },
+    {
+      "minute": 34.011051143066666,
+      "type": "EXIT",
+      "args": {},
+      "ok": true,
+      "reason": "Sokağa çıktın.",
+      "roundTripMs": 23.562999999849126
+    },
+    {
+      "minute": 34.0127358889,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 6.5,
+        "y": 13.7
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 101.08004199992865
+    },
+    {
+      "minute": 35.004414611816664,
+      "type": "ENTER",
+      "args": {
+        "buildingId": "b-home"
+      },
+      "ok": true,
+      "reason": "Yuva Apartmanı",
+      "roundTripMs": 28.45175000000745
+    },
+    {
+      "minute": 35.00605779653333,
+      "type": "REST",
+      "args": {},
+      "ok": true,
+      "reason": "Bir saatlik dinlenme başladı. Hareket edersen dinlenme sona erer.",
+      "roundTripMs": 98.58662499999627
+    },
+    {
+      "minute": 36.00601341458333,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 7,
+        "y": 10
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 49.92620800016448
+    },
+    {
+      "minute": 36.01102704723333,
+      "type": "EXIT",
+      "args": {},
+      "ok": true,
+      "reason": "Sokağa çıktın.",
+      "roundTripMs": 29.977292000316083
+    },
+    {
+      "minute": 36.01273172361667,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 27,
+        "y": 14.7
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 102.27920799981803
+    },
+    {
+      "minute": 37.00440416111667,
+      "type": "ENTER",
+      "args": {
+        "buildingId": "b-market"
+      },
+      "ok": true,
+      "reason": "Bereket Market",
+      "roundTripMs": 50.129417000338435
+    },
+    {
+      "minute": 37.00606227223333,
+      "type": "BUY",
+      "args": {
+        "businessId": "market",
+        "item": "simit",
+        "quantity": 5
+      },
+      "ok": false,
+      "reason": "Sıran korunuyor. Tezgâhın yanından ayrılmadan kısa süre sonra yeniden dene.",
+      "roundTripMs": 99.48079199995846
+    },
+    {
+      "minute": 37.007737883333334,
+      "type": "APPLY_JOB",
+      "args": {
+        "jobId": "retail"
+      },
+      "ok": true,
+      "reason": "İşe alındın. Vardiya için işyerine git.",
+      "roundTripMs": 100.53362500015646
+    },
+    {
+      "minute": 37.009398538199996,
+      "type": "START_SHIFT",
+      "args": {},
+      "ok": true,
+      "reason": "Vardiya başladı. 60 oyun dakikası işyerinde kal; 124 TL kazanacaksın.",
+      "roundTripMs": 99.63650000002235
+    },
+    {
+      "minute": 38.004429406949995,
+      "type": "USE_ITEM",
+      "args": {
+        "item": "simit"
+      },
+      "ok": true,
+      "reason": "Simit kullanıldı.",
+      "roundTripMs": 47.211833000183105
+    },
+    {
+      "minute": 38.0060737389,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 7,
+        "y": 10
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 77.89474999997765
+    },
+    {
+      "minute": 38.01107840139999,
+      "type": "EXIT",
+      "args": {},
+      "ok": true,
+      "reason": "Sokağa çıktın.",
+      "roundTripMs": 27.302291000261903
+    },
+    {
+      "minute": 38.012737936116665,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 8.5,
+        "y": 31.7
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 99.45891699986532
+    },
+    {
+      "minute": 39.00441668056666,
+      "type": "ENTER",
+      "args": {
+        "buildingId": "b-cafe"
+      },
+      "ok": true,
+      "reason": "Çınar Çayevi",
+      "roundTripMs": 29.870333000086248
+    },
+    {
+      "minute": 39.00606618195,
+      "type": "BUY",
+      "args": {
+        "businessId": "tea",
+        "item": "tea",
+        "quantity": 1
+      },
+      "ok": true,
+      "reason": "Çay çantana eklendi.",
+      "roundTripMs": 71.92437499994412
+    },
+    {
+      "minute": 40.004392412499996,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 7,
+        "y": 10
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 36.431958000175655
+    },
+    {
+      "minute": 40.00939961041666,
+      "type": "EXIT",
+      "args": {},
+      "ok": true,
+      "reason": "Sokağa çıktın.",
+      "roundTripMs": 30.177166000008583
+    },
+    {
+      "minute": 40.01105429515,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 50,
+        "y": 49.7
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 99.27858299994841
+    },
+    {
+      "minute": 41.00605850695,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 27,
+        "y": 17
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 97.86737499991432
+    },
+    {
+      "minute": 42.006062006949996,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 17,
+        "y": 39.372,
+        "scene": "outside"
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 102.11512500001118
+    },
+    {
+      "minute": 43.004367004866666,
+      "type": "VEHICLE_ENTER",
+      "args": {
+        "vehicleId": "v0"
+      },
+      "ok": true,
+      "reason": "Araca bindin. W hızlanır, S frenler; A/D kavşakta dönüş seçer. F veya etkileşim ile in.",
+      "roundTripMs": 1.901999999769032
+    },
+    {
+      "minute": 43.00605688611666,
+      "type": "DRIVE",
+      "args": {
+        "throttle": 1,
+        "steer": 0
+      },
+      "ok": true,
+      "reason": "",
+      "roundTripMs": 101.3837080001831
+    },
+    {
+      "minute": 44.00434334028333,
+      "type": "USE_ITEM",
+      "args": {
+        "item": "simit"
+      },
+      "ok": true,
+      "reason": "Simit kullanıldı.",
+      "roundTripMs": 9.607249999884516
+    },
+    {
+      "minute": 44.00606431875,
+      "type": "DRIVE",
+      "args": {
+        "throttle": -1,
+        "steer": 0
+      },
+      "ok": true,
+      "reason": "",
+      "roundTripMs": 81.09787499997765
+    },
+    {
+      "minute": 44.02269915625,
+      "type": "VEHICLE_EXIT",
+      "args": {},
+      "ok": true,
+      "reason": "Aracı yol kenarında durdurup indin. Ayrılmış yer için Park eylemini kullan.",
+      "roundTripMs": 35.72120799962431
+    },
+    {
+      "minute": 44.0243963375,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 9,
+        "y": 49.7
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 82.89124999986961
+    },
+    {
+      "minute": 45.00441009515,
+      "type": "ENTER",
+      "args": {
+        "buildingId": "b-school"
+      },
+      "ok": true,
+      "reason": "Ufuk Akademi",
+      "roundTripMs": 57.37483299989253
+    },
+    {
+      "minute": 45.00606227499999,
+      "type": "TRAIN",
+      "args": {
+        "skill": "academic"
+      },
+      "ok": true,
+      "reason": "Ders başladı. 20 oyun dakikası burada kal.",
+      "roundTripMs": 99.1181669998914
+    },
+    {
+      "minute": 46.00439999653333,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 7,
+        "y": 10
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 34.70041700033471
+    },
+    {
+      "minute": 46.00938079791667,
+      "type": "EXIT",
+      "args": {},
+      "ok": true,
+      "reason": "Sokağa çıktın.",
+      "roundTripMs": 27.461957999970764
+    },
+    {
+      "minute": 46.01105695556666,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 6.5,
+        "y": 13.7
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 100.56612499989569
+    },
+    {
+      "minute": 47.0044048257,
+      "type": "ENTER",
+      "args": {
+        "buildingId": "b-home"
+      },
+      "ok": true,
+      "reason": "Yuva Apartmanı",
+      "roundTripMs": 28.895916000008583
+    },
+    {
+      "minute": 47.00606211598333,
+      "type": "REST",
+      "args": {},
+      "ok": true,
+      "reason": "Bir saatlik dinlenme başladı. Hareket edersen dinlenme sona erer.",
+      "roundTripMs": 99.43079200014472
+    },
+    {
+      "minute": 48.00437672223333,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 7,
+        "y": 10
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 20.311000000219792
+    },
+    {
+      "minute": 48.009389848616664,
+      "type": "EXIT",
+      "args": {},
+      "ok": true,
+      "reason": "Sokağa çıktın.",
+      "roundTripMs": 30.13670799974352
+    },
+    {
+      "minute": 48.01106144515,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 27,
+        "y": 14.7
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 100.2941250000149
+    }
+  ],
+  "errors": [
+    {
+      "kind": "harness",
+      "message": "page.evaluate: Target page, context or browser has been closed",
+      "at": "2026-11-03T21:23:31.674Z"
+    }
+  ],
+  "loadedAssets": [
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/index.html?qa=1",
+      "status": 200,
+      "bytes": 3690,
+      "sha256": "b61118f8b61fd43414ade25a3657c7d796a26faf3391e5f2940487a470c2efd1"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/styles-1cab492a6f0a.css",
+      "status": 200,
+      "bytes": 11737,
+      "sha256": "1cab492a6f0a81620e7f7d34acdcf58a9d3cabdd00cb8159f8a670c231c63fc1"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/app-B5RKQRSP.js",
+      "status": 200,
+      "bytes": 145335,
+      "sha256": "1fd69b2fda4ea30a0c9e9553eac2de5c80842ce77ab540e52b0cc028439c1c64"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-3J7M7RHN.js",
+      "status": 200,
+      "bytes": 340,
+      "sha256": "ebf9db9ae3f4f79498500ecf398b6ff585b5ccfed707a25e570af658411fd686"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-BTG6TYWV.js",
+      "status": 200,
+      "bytes": 71079,
+      "sha256": "e88e330aa3b2a3f9499aa0cbcc76ce27d75ebb15c3f348ca90d2d58fa35f04e8"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-SQE76S5B.js",
+      "status": 200,
+      "bytes": 577,
+      "sha256": "11247d28c5c2fb3d976002c2b55fecb6ba19fd88153e11d2c7af5832fd6ff331"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-UJG5VTAA.js",
+      "status": 200,
+      "bytes": 143354,
+      "sha256": "72a234c8d6fb5a6d737c97457653afd073dad0a7aaa3b567517a908e3e667969"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-EPNXH5UY.js",
+      "status": 200,
+      "bytes": 173580,
+      "sha256": "0039cc2fccbf1181123777f7d30dc2132b3a9f3b26742b0ca0974335e6d8c402"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-UJR54KOB.js",
+      "status": 200,
+      "bytes": 72095,
+      "sha256": "0927ba5a2fb6ed5236223e244be3f3c12ad1ec18d458bec37e5fc88f0a0cd43b"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-DEGAIGB7.js",
+      "status": 200,
+      "bytes": 11072,
+      "sha256": "772c9936f1c1d210acf31220af13fd0e886d24d2827647021f10d9e93ae97d07"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-OEHB7W2C.js",
+      "status": 200,
+      "bytes": 53952,
+      "sha256": "fd49916ad975bf82c9ff0bdda16a587ceb9bd028144efd200cd31d9c813f00df"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/assets/atlas-1b5dff1d49d8.json",
+      "status": 200,
+      "bytes": 10876,
+      "sha256": "1b5dff1d49d8321d4f40c25cd77a8a206f1fda411521480bb42b124c41f07688"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/assets/people-props-430914164137.png",
+      "status": 200,
+      "bytes": 171858,
+      "sha256": "430914164137b5dd5b3725cb954bc0f85c914547f5a571b0eb685d465b260142"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/assets/buildings-0bc5233248d9.png",
+      "status": 200,
+      "bytes": 551058,
+      "sha256": "0bc5233248d938204d66a7248ac5c63392c32886bf16e6533794035dcce03450"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+      "status": 200,
+      "bytes": 111,
+      "sha256": "d0a8769c5ea280042de430960ba351877aff95e693f0da417347d8f6ad4e4545"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-MT7AQAEI.js",
+      "status": 200,
+      "bytes": 4055,
+      "sha256": "7920c97b1b64509c70bbf3bd88722cb8269735f08c841cf9bf982a2312780333"
+    }
+  ],
+  "acceptance": {
+    "SE-049": "UNVERIFIED",
+    "SE-050": "UNVERIFIED",
+    "SE-051": "UNVERIFIED"
+  },
+  "limits": [
+    "macOS host is not the specified four-core reference PC.",
+    "Automated playback does not satisfy the two real human playtests.",
+    "GPU and total browser-process memory are not inferred from JS heap; page and simulation worker isolates are measured separately.",
+    "IPC transfer latency is UNVERIFIED unless instrumented by the application.",
+    "CDP garbage collection once per minute perturbs timing and is recorded."
+  ],
+  "seed": 20261103,
+  "initialTick": 1,
+  "initialPopulation": 1100,
+  "measurementStartedAt": "2026-11-03T20:34:38.999Z",
+  "elapsedMinutes": 48.8782859139,
+  "failure": {
+    "message": "page.evaluate: Target page, context or browser has been closed",
+    "stack": "page.evaluate: Target page, context or browser has been closed\n    at projection (/Users/tarikayaz/Documents/Codex/2026-11-03/social-engine-1-0-autonomous-production/work/tariklab/scripts/social-engine/performance.mjs:242:8)\n    at /Users/tarikayaz/Documents/Codex/2026-11-03/social-engine-1-0-autonomous-production/work/tariklab/scripts/social-engine/performance.mjs:607:23"
+  },
+  "finishedAt": "2026-11-03T21:23:31.674Z",
+  "wallClockMs": 2934946.3013750003,
+  "frameMs": {
+    "count": 171879,
+    "p50": 16.699999999953434,
+    "p95": 16.799999999813735,
+    "p99": 16.800000000046566
+  },
+  "workerSimMs": {
+    "count": 28814,
+    "p50": 0.10000002384185791,
+    "p95": 0.20000004768371582,
+    "p99": 0.5
+  },
+  "heapSlopeMiBPerMinute": 0.08452723157780848,
+  "mainHeapSlopeMiBPerMinute": 0.06714260525564766,
+  "workerHeapSlopeMiBPerMinute": 0.017384626322160805,
+  "longTaskRatio": 0.005425236510901807,
+  "heapSamples": [
+    {
+      "minute": 1.0041411368166668,
+      "jsHeapUsed": 7599736,
+      "jsHeapTotal": 8781824,
+      "gcMs": 63.68912499999715,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 11.999166000001424,
+        "usedSize": 2831120,
+        "totalSize": 3407872,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 2831120,
+      "combinedJsHeapUsed": 10430856
+    },
+    {
+      "minute": 2.0016248541666664,
+      "jsHeapUsed": 7647764,
+      "jsHeapTotal": 9043968,
+      "gcMs": 12.754040999992867,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 5.552834000001894,
+        "usedSize": 2886616,
+        "totalSize": 3670016,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 2886616,
+      "combinedJsHeapUsed": 10534380
+    },
+    {
+      "minute": 3.0020434375,
+      "jsHeapUsed": 8573472,
+      "jsHeapTotal": 10092544,
+      "gcMs": 10.863500000006752,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 3.5420000000158325,
+        "usedSize": 3055588,
+        "totalSize": 3670016,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3055588,
+      "combinedJsHeapUsed": 11629060
+    },
+    {
+      "minute": 4.001753695833333,
+      "jsHeapUsed": 8066696,
+      "jsHeapTotal": 10092544,
+      "gcMs": 12.363207999995211,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 3.8810840000223834,
+        "usedSize": 3149360,
+        "totalSize": 4194304,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3149360,
+      "combinedJsHeapUsed": 11216056
+    },
+    {
+      "minute": 5.0024974180666675,
+      "jsHeapUsed": 8828612,
+      "jsHeapTotal": 10682368,
+      "gcMs": 15.430083999992348,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 6.885499999974854,
+        "usedSize": 3278996,
+        "totalSize": 3932160,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3278996,
+      "combinedJsHeapUsed": 12107608
+    },
+    {
+      "minute": 6.003623360416666,
+      "jsHeapUsed": 8875812,
+      "jsHeapTotal": 10682368,
+      "gcMs": 18.926625000021886,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 10.151792000047863,
+        "usedSize": 3202236,
+        "totalSize": 3932160,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3202236,
+      "combinedJsHeapUsed": 12078048
+    },
+    {
+      "minute": 7.00261288265,
+      "jsHeapUsed": 8987776,
+      "jsHeapTotal": 10764288,
+      "gcMs": 14.757375000044703,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 5.547415999986697,
+        "usedSize": 3339528,
+        "totalSize": 3932160,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3339528,
+      "combinedJsHeapUsed": 12327304
+    },
+    {
+      "minute": 8.002036765283334,
+      "jsHeapUsed": 9018912,
+      "jsHeapTotal": 11026432,
+      "gcMs": 13.034333999967203,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 4.115916000038851,
+        "usedSize": 3259628,
+        "totalSize": 4194304,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3259628,
+      "combinedJsHeapUsed": 12278540
+    },
+    {
+      "minute": 9.0019942764,
+      "jsHeapUsed": 9033120,
+      "jsHeapTotal": 10764288,
+      "gcMs": 14.896792000043206,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 5.614500000025146,
+        "usedSize": 3273692,
+        "totalSize": 3932160,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3273692,
+      "combinedJsHeapUsed": 12306812
+    },
+    {
+      "minute": 10.002573815283332,
+      "jsHeapUsed": 8797468,
+      "jsHeapTotal": 9846784,
+      "gcMs": 24.179165999987163,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 5.763291000039317,
+        "usedSize": 3491912,
+        "totalSize": 3932160,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3491912,
+      "combinedJsHeapUsed": 12289380
+    },
+    {
+      "minute": 11.002938195833332,
+      "jsHeapUsed": 9227348,
+      "jsHeapTotal": 10895360,
+      "gcMs": 14.438500000047497,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 8.049041999969631,
+        "usedSize": 3309792,
+        "totalSize": 3932160,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3309792,
+      "combinedJsHeapUsed": 12537140
+    },
+    {
+      "minute": 12.002245946533332,
+      "jsHeapUsed": 8773684,
+      "jsHeapTotal": 11157504,
+      "gcMs": 13.257665999932215,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 4.074249999946915,
+        "usedSize": 3311244,
+        "totalSize": 4194304,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3311244,
+      "combinedJsHeapUsed": 12084928
+    },
+    {
+      "minute": 13.002385561116666,
+      "jsHeapUsed": 9367256,
+      "jsHeapTotal": 11157504,
+      "gcMs": 13.078499999945052,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 5.546291999984533,
+        "usedSize": 3342384,
+        "totalSize": 3932160,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3342384,
+      "combinedJsHeapUsed": 12709640
+    },
+    {
+      "minute": 14.001964003483332,
+      "jsHeapUsed": 8892796,
+      "jsHeapTotal": 10371072,
+      "gcMs": 13.138500000000931,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 3.7061659999890253,
+        "usedSize": 3649088,
+        "totalSize": 4456448,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3649088,
+      "combinedJsHeapUsed": 12541884
+    },
+    {
+      "minute": 15.003495004866666,
+      "jsHeapUsed": 9656508,
+      "jsHeapTotal": 11632640,
+      "gcMs": 18.459999999962747,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 6.56166700005997,
+        "usedSize": 3507500,
+        "totalSize": 4194304,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3507500,
+      "combinedJsHeapUsed": 13164008
+    },
+    {
+      "minute": 16.0027237257,
+      "jsHeapUsed": 9169532,
+      "jsHeapTotal": 11370496,
+      "gcMs": 11.536208000034094,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 7.837999999988824,
+        "usedSize": 3563460,
+        "totalSize": 4456448,
+        "embedderHeapUsedSize": 355568,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3563460,
+      "combinedJsHeapUsed": 12732992
+    },
+    {
+      "minute": 17.002726397916668,
+      "jsHeapUsed": 9868348,
+      "jsHeapTotal": 11632640,
+      "gcMs": 12.466208999976516,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 4.390499999979511,
+        "usedSize": 3567816,
+        "totalSize": 4456448,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3567816,
+      "combinedJsHeapUsed": 13436164
+    },
+    {
+      "minute": 18.002836584033336,
+      "jsHeapUsed": 9879176,
+      "jsHeapTotal": 11108352,
+      "gcMs": 13.437625000020489,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 4.516166999936104,
+        "usedSize": 3564584,
+        "totalSize": 4194304,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3564584,
+      "combinedJsHeapUsed": 13443760
+    },
+    {
+      "minute": 19.0024274507,
+      "jsHeapUsed": 9900140,
+      "jsHeapTotal": 11894784,
+      "gcMs": 11.95679199998267,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 4.306542000034824,
+        "usedSize": 3599068,
+        "totalSize": 4194304,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3599068,
+      "combinedJsHeapUsed": 13499208
+    },
+    {
+      "minute": 20.00281825695,
+      "jsHeapUsed": 10046280,
+      "jsHeapTotal": 11370496,
+      "gcMs": 20.952167000155896,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 3.6081250000279397,
+        "usedSize": 3579652,
+        "totalSize": 4194304,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3579652,
+      "combinedJsHeapUsed": 13625932
+    },
+    {
+      "minute": 21.00249079723333,
+      "jsHeapUsed": 9927888,
+      "jsHeapTotal": 11370496,
+      "gcMs": 19.694499999983236,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 3.5569589999504387,
+        "usedSize": 3587816,
+        "totalSize": 4194304,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3587816,
+      "combinedJsHeapUsed": 13515704
+    },
+    {
+      "minute": 22.002912289583335,
+      "jsHeapUsed": 9893328,
+      "jsHeapTotal": 11403264,
+      "gcMs": 10.100957999937236,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 3.2011659999843687,
+        "usedSize": 3705548,
+        "totalSize": 4456448,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3705548,
+      "combinedJsHeapUsed": 13598876
+    },
+    {
+      "minute": 23.00240837291667,
+      "jsHeapUsed": 10311304,
+      "jsHeapTotal": 11665408,
+      "gcMs": 16.2472500000149,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 3.2750000001396984,
+        "usedSize": 3707676,
+        "totalSize": 4456448,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3707676,
+      "combinedJsHeapUsed": 14018980
+    },
+    {
+      "minute": 24.002952208333333,
+      "jsHeapUsed": 9938632,
+      "jsHeapTotal": 11665408,
+      "gcMs": 10.519249999895692,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 4.137291999999434,
+        "usedSize": 3705012,
+        "totalSize": 4456448,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3705012,
+      "combinedJsHeapUsed": 13643644
+    },
+    {
+      "minute": 25.00296828265,
+      "jsHeapUsed": 10475568,
+      "jsHeapTotal": 11927552,
+      "gcMs": 10.277125000022352,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 3.030333000002429,
+        "usedSize": 3721904,
+        "totalSize": 4456448,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3721904,
+      "combinedJsHeapUsed": 14197472
+    },
+    {
+      "minute": 26.00297102431667,
+      "jsHeapUsed": 10119492,
+      "jsHeapTotal": 11141120,
+      "gcMs": 8.885416999924928,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 3.765499999979511,
+        "usedSize": 3757860,
+        "totalSize": 4456448,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3757860,
+      "combinedJsHeapUsed": 13877352
+    },
+    {
+      "minute": 27.00331652986667,
+      "jsHeapUsed": 10932564,
+      "jsHeapTotal": 12189696,
+      "gcMs": 12.548875000094995,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 5.079957999987528,
+        "usedSize": 3776596,
+        "totalSize": 4194304,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3776596,
+      "combinedJsHeapUsed": 14709160
+    },
+    {
+      "minute": 28.00316080486667,
+      "jsHeapUsed": 10218124,
+      "jsHeapTotal": 11665408,
+      "gcMs": 11.027499999850988,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 6.076666000066325,
+        "usedSize": 3769288,
+        "totalSize": 4456448,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3769288,
+      "combinedJsHeapUsed": 13987412
+    },
+    {
+      "minute": 29.003764029166668,
+      "jsHeapUsed": 10662936,
+      "jsHeapTotal": 12451840,
+      "gcMs": 21.918416999978945,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 4.835915999952704,
+        "usedSize": 3806864,
+        "totalSize": 4456448,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3806864,
+      "combinedJsHeapUsed": 14469800
+    },
+    {
+      "minute": 30.003588006950004,
+      "jsHeapUsed": 10694860,
+      "jsHeapTotal": 12713984,
+      "gcMs": 13.08808400016278,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 4.727457999950275,
+        "usedSize": 3810772,
+        "totalSize": 4456448,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3810772,
+      "combinedJsHeapUsed": 14505632
+    },
+    {
+      "minute": 31.00425610625,
+      "jsHeapUsed": 10709936,
+      "jsHeapTotal": 12189696,
+      "gcMs": 11.655874999938533,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 4.179667000193149,
+        "usedSize": 3821972,
+        "totalSize": 4456448,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3821972,
+      "combinedJsHeapUsed": 14531908
+    },
+    {
+      "minute": 32.004263908333336,
+      "jsHeapUsed": 11222140,
+      "jsHeapTotal": 12648448,
+      "gcMs": 28.04229100001976,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 4.118750000139698,
+        "usedSize": 3839536,
+        "totalSize": 4456448,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3839536,
+      "combinedJsHeapUsed": 15061676
+    },
+    {
+      "minute": 33.00453144028334,
+      "jsHeapUsed": 11376096,
+      "jsHeapTotal": 12910592,
+      "gcMs": 16.609959000023082,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 4.274874999886379,
+        "usedSize": 3816240,
+        "totalSize": 4718592,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3816240,
+      "combinedJsHeapUsed": 15192336
+    },
+    {
+      "minute": 34.00450032916667,
+      "jsHeapUsed": 10544244,
+      "jsHeapTotal": 12648448,
+      "gcMs": 12.321292000124231,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 5.486416999949142,
+        "usedSize": 3851528,
+        "totalSize": 4456448,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3851528,
+      "combinedJsHeapUsed": 14395772
+    },
+    {
+      "minute": 35.00335624723333,
+      "jsHeapUsed": 11074152,
+      "jsHeapTotal": 12386304,
+      "gcMs": 19.170375000219792,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 3.5195410000160336,
+        "usedSize": 3825916,
+        "totalSize": 4456448,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3825916,
+      "combinedJsHeapUsed": 14900068
+    },
+    {
+      "minute": 36.00403397848333,
+      "jsHeapUsed": 10550396,
+      "jsHeapTotal": 12124160,
+      "gcMs": 15.1769999996759,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 3.7267089998349547,
+        "usedSize": 3827224,
+        "totalSize": 4456448,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3827224,
+      "combinedJsHeapUsed": 14377620
+    },
+    {
+      "minute": 37.00302215556666,
+      "jsHeapUsed": 11519760,
+      "jsHeapTotal": 12648448,
+      "gcMs": 16.363040999975055,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 3.8549160002730787,
+        "usedSize": 3848712,
+        "totalSize": 4456448,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3848712,
+      "combinedJsHeapUsed": 15368472
+    },
+    {
+      "minute": 38.00307260973333,
+      "jsHeapUsed": 10699444,
+      "jsHeapTotal": 12124160,
+      "gcMs": 13.67766600009054,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 4.692125000059605,
+        "usedSize": 3923280,
+        "totalSize": 4718592,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3923280,
+      "combinedJsHeapUsed": 14622724
+    },
+    {
+      "minute": 39.0031946889,
+      "jsHeapUsed": 11527820,
+      "jsHeapTotal": 12648448,
+      "gcMs": 18.73641600040719,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 4.223333999980241,
+        "usedSize": 3862980,
+        "totalSize": 4718592,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3862980,
+      "combinedJsHeapUsed": 15390800
+    },
+    {
+      "minute": 40.00291713473333,
+      "jsHeapUsed": 10649752,
+      "jsHeapTotal": 12386304,
+      "gcMs": 11.253082999959588,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 3.7292090002447367,
+        "usedSize": 3854508,
+        "totalSize": 4718592,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3854508,
+      "combinedJsHeapUsed": 14504260
+    },
+    {
+      "minute": 41.003158411116665,
+      "jsHeapUsed": 11518372,
+      "jsHeapTotal": 12648448,
+      "gcMs": 14.361124999821186,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 3.8147079995833337,
+        "usedSize": 3843836,
+        "totalSize": 4456448,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3843836,
+      "combinedJsHeapUsed": 15362208
+    },
+    {
+      "minute": 42.0030977757,
+      "jsHeapUsed": 11542512,
+      "jsHeapTotal": 12648448,
+      "gcMs": 14.539958000183105,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 3.8728339998051524,
+        "usedSize": 3834464,
+        "totalSize": 4718592,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3834464,
+      "combinedJsHeapUsed": 15376976
+    },
+    {
+      "minute": 43.00377679166667,
+      "jsHeapUsed": 11193024,
+      "jsHeapTotal": 12910592,
+      "gcMs": 14.30579200014472,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 3.849667000118643,
+        "usedSize": 3861708,
+        "totalSize": 4456448,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3861708,
+      "combinedJsHeapUsed": 15054732
+    },
+    {
+      "minute": 44.00357634583333,
+      "jsHeapUsed": 11184328,
+      "jsHeapTotal": 12648448,
+      "gcMs": 12.659124999772757,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 3.8029160001315176,
+        "usedSize": 3849272,
+        "totalSize": 4456448,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3849272,
+      "combinedJsHeapUsed": 15033600
+    },
+    {
+      "minute": 45.0029242014,
+      "jsHeapUsed": 11320808,
+      "jsHeapTotal": 12648448,
+      "gcMs": 13.166916000191122,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 3.2558749997988343,
+        "usedSize": 3858784,
+        "totalSize": 4456448,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3858784,
+      "combinedJsHeapUsed": 15179592
+    },
+    {
+      "minute": 46.00291699653333,
+      "jsHeapUsed": 10822736,
+      "jsHeapTotal": 11862016,
+      "gcMs": 10.732500000391155,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 5.142583000008017,
+        "usedSize": 3874440,
+        "totalSize": 4456448,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3874440,
+      "combinedJsHeapUsed": 14697176
+    },
+    {
+      "minute": 47.003359439583335,
+      "jsHeapUsed": 11246508,
+      "jsHeapTotal": 12910592,
+      "gcMs": 12.967999999877065,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 3.744082999881357,
+        "usedSize": 3884688,
+        "totalSize": 4456448,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3884688,
+      "combinedJsHeapUsed": 15131196
+    },
+    {
+      "minute": 48.00321370278333,
+      "jsHeapUsed": 10533440,
+      "jsHeapTotal": 12386304,
+      "gcMs": 10.088250000029802,
+      "worker": {
+        "status": "MEASURED",
+        "targetUrl": "http://127.0.0.1:8097/games/social-engine/worker-R2UA6XBP.js",
+        "gcMs": 3.8701659999787807,
+        "usedSize": 3796096,
+        "totalSize": 4718592,
+        "embedderHeapUsedSize": 26424,
+        "backingStorageSize": 178653
+      },
+      "workerJsHeapUsed": 3796096,
+      "combinedJsHeapUsed": 14329536
+    }
+  ]
+}

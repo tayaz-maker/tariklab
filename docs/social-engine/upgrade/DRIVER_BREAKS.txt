@@ -1,0 +1,73 @@
+Driver break assessment — deferred implementation
+
+Branch: feature/social-engine-driver-break-assessment-sol
+Base: c37b1b08150e4d4b130d6b0699d369c96934b977
+Tracked source unchanged. Geometry probes only; no prototype represented as gameplay.
+
+Finding: a meal-break scheduling condition alone cannot safely implement the seven
+permanent drivers. Existing parking/unparking transitions snap vehicle locations
+by 1–1.5 metres; strict validation has only canonical-lane or fully-parked states.
+There is no persisted legal parking maneuver, bay approach/return path, merge
+reservation, or NPC-to-parked-vehicle association after driverId is cleared.
+
+Measured geometry:
+- Market approach (31,17) -> bay (31,16), direct loop 0 only. One nominal free
+  slot is (32.2,16), 1.2m longitudinally from the rental. mayAdvanceVehicle rejects
+  both approach and endpoint with no pedestrians/other cars in the probe. Reusing
+  the player parking command would bypass this actual physical guard.
+- East approach (44,25) -> bay (45,25), loops 1 and 3. Two nominal slots. Safe exit
+  to market follows ~40.64m of pedestrian routing one way.
+- Coast approach (29,53) -> bay (29,54.5), loop 1. One slot; ~52.96m walking one way.
+- Loops 2 have no direct existing bay. A directed route is possible: at (19,51),
+  depart the westbound loop-2 edge onto loop 1 southbound, reach coastal entry
+  (29,53). Returning to loop 2 requires another legal routed junction maneuver.
+  Current NPC traffic only advances its fixed loop; it does not plan these edges.
+- There are four nominal free slots for seven drivers, but the nominal market
+  free slot fails the current collision guard. Capacity is not a substitute for
+  a collision-valid oriented bay and approach path.
+- n84 has 0 while simit costs 3129 in the matched post-recovery snapshot. The
+  seven drivers retain assorted ordinary job contracts, not seven paid driving
+  contracts. They cannot all be fed by inventing a taxi wage or free meal.
+
+Bounded follow-up design (no general traffic rewrite required):
+1. Author collision-valid bay slots, ingress and egress connectors. Treat the
+   blocked market second slot as unavailable until its footprint is corrected.
+2. Persist a typed DriverBreak record: personId, vehicleId, phase, parkingId,
+   baySlotId, route edge IDs/cursor, connector progress, original cruise route
+   and speed, expiry and last completed meal tick. Use stages:
+   seekBay -> routeToBay -> parkIn -> walkToMarket -> queueAndEat -> walkBack ->
+   mergeOut -> driving. Cancellation is explicit if the vehicle/person disappears.
+3. Admit a driver only with an open, stocked market and sufficient actual wallet
+   funds. Stagger requests with existing seeded identity; reserve a bay only on
+   a bounded near approach, with expiry. A full lot means continue legally or wait
+   at an authored holding point, never stop inside a junction/crosswalk.
+4. Drive planned directed edges under existing signals and body clearance. Sweep
+   a real parking curve at low speed, with the driver attached until the car is
+   fully parked. Extend strict pose validation to the typed connector phase;
+   ordinary off-lane poses remain invalid.
+5. Choose a walkable, unoccupied door-side egress. Preserve the parked car and its
+   driver association. Use pedestrianPath and the actual market FIFO, wallet,
+   stock and ledger. Record a real meal settlement before requesting return.
+   Closed/empty/unaffordable service causes bounded retry or an actual unfed
+   return; it must not set hunger directly.
+6. Walk back to that same vehicle. Check availability/ownership; merge physically
+   through egress only after a gap and right of way exist. Restore cruise intent
+   after safe entry. Player use/theft, death, stock loss and missing funds have
+   explicit cancellation paths, not forced reassignment or blind traffic resets.
+7. Separately decide the lawful income/relief policy for the zero-wallet driver.
+   Releasing a person to their existing paid job is grounded; replacement-driver
+   coverage is optional if reduced ambient traffic during a break is acceptable.
+   Actual paid driver employment would require a deliberate economy contract.
+
+Focused acceptance needed before implementation integration:
+- All four route loops reach a real eligible bay or remain safely queued.
+- Saturated bays, rental occupancy and a player car cannot be overwritten.
+- Every ingress/egress tick is collision-valid, including signal changes and
+  walking crossings; no teleport occurs at park/unpark boundaries.
+- A meal lowers hunger only via an actual market settlement and stock debit.
+- Zero wallet, closed market, empty stock and stolen vehicle do not fabricate
+  success or strand a person/vehicle reservation.
+- Save/load in every phase gives exact sequential canonical replay; quantized
+  authoritative angles remain identical in Chromium, Firefox, WebKit and Node.
+
+Evidence: geometry.json and parking-probe.json. No full suites or browsers rerun.

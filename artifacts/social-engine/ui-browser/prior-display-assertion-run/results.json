@@ -1,0 +1,90 @@
+{
+  "browser": "156.0.8078.80",
+  "base": "http://127.0.0.1:8097",
+  "build_sha": "762c050ead437c99901332d10078817dfc375eb1",
+  "source_status": "working tree candidate",
+  "sourceHashes": {
+    "src/games/social-engine/ui/app.ts": "72ee7cf98819bfd6312563f952cfee7b86cffec896d0adbae8886438f57fe31e",
+    "src/games/social-engine/ui/styles.css": "d79ca25bd1dcfc099703f6983a296d37b44f0f2ec96bc5fecc85e39d13bd15ce",
+    "src/games/social-engine/worker/entry.ts": "5f069cddcd04a514f508280bd4237d1a7def4b2e011deae7d2fc86d6db3e2e88",
+    "src/games/social-engine/persistence/repository.ts": "f61aa99109ea1e1f0ce1c246ff89a393428529e6672b1616d3e7b49dffe73578"
+  },
+  "results": [
+    {
+      "name": "invalid profile names and excessive attribute total are rejected through real form",
+      "status": "PASS",
+      "duration_ms": 210.32625000000007
+    },
+    {
+      "name": "double submit creates one persistent player and preserves chosen profile",
+      "status": "PASS",
+      "duration_ms": 798.7273749999999
+    },
+    {
+      "name": "keyboard-only pause and menu navigation keep visible focus and resume",
+      "status": "PASS",
+      "duration_ms": 35.85633400000006
+    },
+    {
+      "name": "HUD button keyboard focus survives periodic HUD updates",
+      "status": "PASS",
+      "duration_ms": 920.7545829999995
+    },
+    {
+      "name": "settings inputs allow Tab and Escape, dialog focus is contained",
+      "status": "PASS",
+      "duration_ms": 65.1391249999997
+    },
+    {
+      "name": "pause stops ticks and resume advances same world",
+      "status": "PASS",
+      "duration_ms": 2354.5912089999993
+    },
+    {
+      "name": "real save menu saves copies exports imports and deletes separate slots",
+      "status": "PASS",
+      "duration_ms": 1771.9952919999996
+    },
+    {
+      "name": "remapped inventory shortcut persists and reserved keys are rejected",
+      "status": "FAIL",
+      "duration_ms": 44.967790999999124,
+      "detail": "Expected values to be strictly equal:\n\n'I' !== 'KeyI'\n"
+    },
+    {
+      "name": "1280 and 1920 viewports retain reachable readable dialog controls",
+      "status": "PASS",
+      "duration_ms": 635.4119159999991
+    },
+    {
+      "name": "200 percent UI scaling keeps settings and close action operable",
+      "status": "PASS",
+      "duration_ms": 232.93270800000028,
+      "detail": "This is the in-game 200% UI scale; native browser 200% zoom remains separate and UNVERIFIED."
+    },
+    {
+      "name": "actual background tab visibility pauses and resumes authoritative time",
+      "status": "UNVERIFIED",
+      "duration_ms": 328.9462080000012,
+      "detail": "Headless browser keeps pages visible; actual tab-hidden behavior UNVERIFIED in this environment"
+    },
+    {
+      "name": "failed save-and-return preserves the running game",
+      "status": "PASS",
+      "duration_ms": 499.31874999999854
+    },
+    {
+      "name": "real worker uncaught exception pauses game and restart restores snapshot",
+      "status": "PASS",
+      "duration_ms": 4123.519
+    },
+    {
+      "name": "Native browser zoom 200%",
+      "status": "UNVERIFIED",
+      "detail": "In-game UI scale was exercised; native browser chrome zoom is not equivalent to device or CSS emulation."
+    }
+  ],
+  "consoleErrors": [],
+  "status": "FAIL",
+  "generatedAt": "2026-11-03T17:55:25.173Z"
+}

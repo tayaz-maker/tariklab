@@ -1,0 +1,62 @@
+{
+  "status": "UNVERIFIED",
+  "runs": [
+    {
+      "run": 1,
+      "exitCode": 0,
+      "status": "PASS",
+      "phase": "resume-ticks",
+      "reason": null,
+      "pauseObservation": {
+        "beforeTick": 12,
+        "afterTick": 12,
+        "viewport": {
+          "w": 1440,
+          "h": 727,
+          "dpr": 2,
+          "hidden": true
+        },
+        "visibility": [
+          {
+            "hidden": true,
+            "tick": 12
+          }
+        ],
+        "tabs": [
+          {
+            "id": 2095393496,
+            "active": false,
+            "windowId": 2095393495
+          },
+          {
+            "id": 2095393497,
+            "active": false,
+            "windowId": 2095393495
+          },
+          {
+            "id": 2095393498,
+            "active": true,
+            "windowId": 2095393495
+          }
+        ]
+      }
+    },
+    {
+      "run": 2,
+      "exitCode": 1,
+      "status": "FAIL",
+      "phase": null,
+      "reason": "locator.click: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'Hik\u00e2yene ba\u015fla' })\u001b[22m\n\u001b[2m    - locator resolved to <button type=\"submit\" class=\"primary\">Hik\u00e2yene ba\u015fla \u2192</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n",
+      "pauseObservation": null
+    },
+    {
+      "run": 3,
+      "exitCode": 1,
+      "status": "FAIL",
+      "phase": "paused-snapshot",
+      "reason": "page.evaluate: Error: D\u00fcnya anl\u0131k g\u00f6r\u00fcnt\u00fcs\u00fc al\u0131namad\u0131.\n    at http://127.0.0.1:8097/games/social-engine/app-B5RKQRSP.js:6:78236",
+      "pauseObservation": null
+    }
+  ],
+  "note": "Diagnostic repeats after an unexplained earlier failure; earlier failure is retained. Repeats do not assert a root-cause fix."
+}

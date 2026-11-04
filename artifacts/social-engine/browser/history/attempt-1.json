@@ -1,0 +1,127 @@
+{
+  "browser": "156.0.8078.80",
+  "base": "http://127.0.0.1:8097",
+  "started": "2026-11-03T17:26:21.696Z",
+  "results": [
+    {
+      "id": "SE-001",
+      "status": "PASS",
+      "duration_ms": 3700.962583
+    },
+    {
+      "id": "SE-005",
+      "status": "PASS",
+      "duration_ms": 746.7763749999995
+    },
+    {
+      "id": "SE-002,SE-004",
+      "status": "PASS",
+      "duration_ms": 4388.644959
+    },
+    {
+      "id": "SE-007-keyboard",
+      "status": "PASS",
+      "duration_ms": 1630.7700000000004
+    },
+    {
+      "id": "SE-016",
+      "status": "FAIL",
+      "reason": "Konuşmak için kişiye yaklaş ve görüş hattını aç.\n\nfalse !== true\n",
+      "duration_ms": 607.1534170000014
+    }
+  ],
+  "errors": [],
+  "failure": "AssertionError [ERR_ASSERTION]: Konuşmak için kişiye yaklaş ve görüş hattını aç.\n\nfalse !== true\n\n    at file:///Users/tarikayaz/Documents/Codex/2026-11-03/social-engine-1-0-autonomous-production/work/tariklab/scripts/social-engine/browser.mjs:19:218\n    at async test (file:///Users/tarikayaz/Documents/Codex/2026-11-03/social-engine-1-0-autonomous-production/work/tariklab/scripts/social-engine/browser.mjs:10:58)\n    at async file:///Users/tarikayaz/Documents/Codex/2026-11-03/social-engine-1-0-autonomous-production/work/tariklab/scripts/social-engine/browser.mjs:19:2",
+  "metrics": {
+    "frames": [],
+    "sim": [
+      0,
+      1.6999999284744263,
+      30.90000009536743,
+      0.19999992847442627,
+      5.399999976158142,
+      0.20000004768371582,
+      4.5,
+      0.19999992847442627,
+      11.100000023841858,
+      6.100000023841858,
+      0.3999999761581421,
+      0.20000004768371582,
+      0,
+      0.20000004768371582,
+      0.10000002384185791,
+      0,
+      0,
+      0.10000002384185791,
+      0.10000002384185791,
+      0.10000002384185791,
+      0.10000002384185791,
+      0,
+      0.10000002384185791,
+      0,
+      0,
+      0.10000002384185791,
+      0,
+      0.10000002384185791,
+      0.10000002384185791,
+      0,
+      0.09999990463256836,
+      0.8999999761581421,
+      0.09999990463256836,
+      0.10000002384185791,
+      0.19999992847442627,
+      0.10000002384185791,
+      0.10000002384185791,
+      0.10000002384185791,
+      0,
+      0,
+      0.09999990463256836,
+      0.20000004768371582,
+      0.0457142846924918,
+      0,
+      0,
+      0.19999992847442627,
+      0.10000002384185791,
+      0,
+      0.09999990463256836,
+      0.052500000596046446,
+      0,
+      0.20000004768371582,
+      0,
+      0.10000002384185791,
+      0.10000002384185791,
+      0.09999990463256836,
+      0,
+      0,
+      0
+    ],
+    "ipc": [],
+    "save": [],
+    "errors": [],
+    "renderer": {
+      "renderer": "PixiJS 8.21.0 WebGL",
+      "frameCount": 29,
+      "frameMs": {
+        "p50": 155,
+        "p95": 855.6000000238419,
+        "p99": 880
+      },
+      "renderPreparationMs": {
+        "p50": 0.20000004768371582,
+        "p95": 0.3999999761581421,
+        "p99": 0.5999999046325684
+      },
+      "samples": 29,
+      "visibleActors": 82,
+      "sceneChanges": 1,
+      "zoom": 0.9,
+      "dpr": 1,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      }
+    },
+    "heap": {}
+  },
+  "finished": "2026-11-03T17:26:33.577Z"
+}

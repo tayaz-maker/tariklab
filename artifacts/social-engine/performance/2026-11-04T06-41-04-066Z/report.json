@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 2,
+  "runId": "2026-11-04T06-41-04-066Z",
+  "status": "FAILED_TO_START",
+  "startedAt": "2026-11-04T06:41:04.164Z",
+  "targetMinutes": 120,
+  "scenario": "Real-time mixed neighborhood play, 100 persistent local +1000 background NPCs; no time acceleration",
+  "base": "http://127.0.0.1:8097",
+  "build": {
+    "gitHead": "8e4e5087b24c81a4e4a0cf889fb34da9fb574364",
+    "dirty": true,
+    "sourceDigest": "103643192d7f6c3edc54b3e3b7c2271d2784f27ce168f38cbe0ab16ecd4c7de1",
+    "compiledSourceDigest": "4b7d35ec038b2b368ce2047879e1e539315c780e0006758ca5f7d06b3447a421",
+    "manifestSha256": "fbe14c6260d3e7796eafe0fd4b944a52abf49ebadff4bfcc5aad4d2c7fa50027",
+    "harnessSha256": "60341f6431c7698c2cf436ad959db745627271133e65e30b0913aa0a33a74f1c",
+    "attribution": "Actual served asset SHA-256 hashes recorded. Worktree source digest is capture-time context; this is not a verified deployed commit."
+  },
+  "environment": {
+    "platform": "darwin",
+    "release": "25.6.0",
+    "arch": "arm64",
+    "cpus": [
+      "Apple M2",
+      "Apple M2",
+      "Apple M2",
+      "Apple M2",
+      "Apple M2",
+      "Apple M2",
+      "Apple M2",
+      "Apple M2"
+    ],
+    "logicalCpus": 8,
+    "totalMemoryBytes": 17179869184,
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "dpr": 1,
+    "headless": true,
+    "concurrentWork": "Full legacy tests,365-day simulation,build/development may contend for CPU during this run; not an isolated reference-PC result."
+  },
+  "checkpoints": [],
+  "minuteSamples": [],
+  "actions": [],
+  "errors": [],
+  "loadedAssets": [],
+  "acceptance": {
+    "SE-049": "UNVERIFIED",
+    "SE-050": "UNVERIFIED",
+    "SE-051": "UNVERIFIED"
+  },
+  "limits": [
+    "macOS host is not the specified four-core reference PC.",
+    "Automated playback does not satisfy the two real human playtests.",
+    "GPU and total browser-process memory are not inferred from JS heap; page and simulation worker isolates are measured separately.",
+    "IPC transfer latency is UNVERIFIED unless instrumented by the application.",
+    "CDP garbage collection once per minute perturbs timing and is recorded."
+  ],
+  "finishedAt": "2026-11-04T06:41:07.348Z",
+  "failure": {
+    "message": "browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> ../browsers/chromium_headless_shell-1234/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/var/folders/k1/zprsgklx4xqbs2wb4cq59bsr0000gn/T/playwright_chromiumdev_profile-6hwKZe --remote-debugging-pipe --no-startup-window\n<launched> pid=49293\n[pid=49293][err] [1104/094107.056656:ERROR:base/power_monitor/thermal_state_observer_mac.mm:140] ThermalStateObserverMac unable to register to power notifications. Result: 9\n[pid=49293][err] [1104/094107.060959:ERROR:net/dns/dns_config_service_posix.cc:138] DNS config watch failed to start.\n[pid=49293][err] [1104/094107.061713:WARNING:net/dns/dns_config_service_posix.cc:197] Failed to read DnsConfig.\n[pid=49293][err] [1104/094107.062863:FATAL:base/apple/mach_port_rendezvous_mac.cc:159] Check failed: kr == KERN_SUCCESS. bootstrap_check_in org.chromium.Chromium.MachPortRendezvousServer.49293: Permission denied (1100)\nCall log:\n\u001b[2m  - <launching> ../browsers/chromium_headless_shell-1234/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/var/folders/k1/zprsgklx4xqbs2wb4cq59bsr0000gn/T/playwright_chromiumdev_profile-6hwKZe --remote-debugging-pipe --no-startup-window\u001b[22m\n\u001b[2m  - <launched> pid=49293\u001b[22m\n\u001b[2m  - [pid=49293][err] [1104/094107.056656:ERROR:base/power_monitor/thermal_state_observer_mac.mm:140] ThermalStateObserverMac unable to register to power notifications. Result: 9\u001b[22m\n\u001b[2m  - [pid=49293][err] [1104/094107.060959:ERROR:net/dns/dns_config_service_posix.cc:138] DNS config watch failed to start.\u001b[22m\n\u001b[2m  - [pid=49293][err] [1104/094107.061713:WARNING:net/dns/dns_config_service_posix.cc:197] Failed to read DnsConfig.\u001b[22m\n\u001b[2m  - [pid=49293][err] [1104/094107.062863:FATAL:base/apple/mach_port_rendezvous_mac.cc:159] Check failed: kr == KERN_SUCCESS. bootstrap_check_in org.chromium.Chromium.MachPortRendezvousServer.49293: Permission denied (1100)\u001b[22m\n\u001b[2m  - [pid=49293] <gracefully close start>\u001b[22m\n\u001b[2m  - [pid=49293] <kill>\u001b[22m\n\u001b[2m  - [pid=49293] <will force kill>\u001b[22m\n\u001b[2m  - [pid=49293] exception while trying to kill process: Error: kill EPERM\u001b[22m\n\u001b[2m  - [pid=49293] <process did exit: exitCode=null, signal=SIGTRAP>\u001b[22m\n\u001b[2m  - [pid=49293] starting temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=49293] finished temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=49293] <gracefully close end>\u001b[22m\n"
+  }
+}

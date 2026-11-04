@@ -1,0 +1,11 @@
+{
+  "base": "http://127.0.0.1:8110",
+  "started": "2026-11-04T07:16:43.869Z",
+  "browser": "151.0.7922.34",
+  "errors": [],
+  "requests": [],
+  "status": "FAIL",
+  "manifestSha256": "3fcb8e9922658bb74ef17996fd7b4efafeeecebf8bff2ad8271236ba78321887",
+  "reason": "locator.waitFor: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('iframe[title=\"SOCIAL ENGINE — Kıyıyaka\"]').contentFrame().locator('#hud') to be visible\u001b[22m\n\u001b[2m    62 × locator resolved to hidden <div id=\"hud\" class=\"hud hidden\"></div>\u001b[22m\n",
+  "finished": "2026-11-04T07:17:14.605Z"
+}

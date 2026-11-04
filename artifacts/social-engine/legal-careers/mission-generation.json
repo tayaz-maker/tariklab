@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "seeds": 100,
+  "generated": 300,
+  "invariants": [
+    "living canonical issuer/target",
+    "known world building",
+    "reserved reward equals escrow",
+    "persistent causal event",
+    "future deadline"
+  ]
+}

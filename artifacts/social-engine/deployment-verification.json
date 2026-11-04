@@ -1,0 +1,15 @@
+{
+  "status": "UNVERIFIED",
+  "productionStatus": "PRODUCTION_NOT_DEPLOYED",
+  "mergeAuthorization": "SUSPENDED_BY_USER",
+  "remotePush": "DEFERRED_BY_USER_LOCAL_COMMITS_ONLY",
+  "humanPlaytests": "DEFERRED_BY_USER",
+  "visibleBrowserTests": "PROHIBITED_ON_USER_DISPLAY",
+  "prUrl": null,
+  "mergeCommitSha": null,
+  "cloudflareDeploymentId": null,
+  "currentExternalPreviewUrl": null,
+  "productionVerified": false,
+  "rollbackRehearsed": false,
+  "note": "No remote release evidence is inferred from local tests. Future visible-window tests require a separate dedicated QA host; do not open windows or steal focus on the user's display."
+}

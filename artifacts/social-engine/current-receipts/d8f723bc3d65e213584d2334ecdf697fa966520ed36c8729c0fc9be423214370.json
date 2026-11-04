@@ -1,0 +1,17 @@
+{
+  "TC SIM": {
+    "exit": 0,
+    "source": "0aced0368b8664300a6ff8654bac3919d34876e9",
+    "target": "production build on loopback"
+  },
+  "Boardworld": {
+    "exit": 0,
+    "source": "0aced0368b8664300a6ff8654bac3919d34876e9",
+    "target": "production build on loopback"
+  },
+  "Racon Manager": {
+    "exit": 0,
+    "source": "0aced0368b8664300a6ff8654bac3919d34876e9",
+    "target": "production build on loopback"
+  }
+}

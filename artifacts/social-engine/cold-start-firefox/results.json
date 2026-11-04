@@ -1,0 +1,12 @@
+{
+  "startedAt": "2026-11-04T07:24:29.586Z",
+  "status": "PASS",
+  "engine": "firefox",
+  "manifestSha256": "5f6ee17a0a8c63152fb01fc2a310a26298c9c94ed5dc6682990b6bc19f9acc79",
+  "checks": [
+    "Both actions wait for code; an early Enter retains the typed character without navigating.",
+    "Resumed module starts the chosen character; no form data or second document request."
+  ],
+  "errors": [],
+  "finishedAt": "2026-11-04T07:24:38.264Z"
+}

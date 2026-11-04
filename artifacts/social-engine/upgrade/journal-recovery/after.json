@@ -1,0 +1,144 @@
+{
+  "status": "PASS",
+  "startedAt": "2026-11-04T11:07:18.431Z",
+  "sourceCommit": "7e5fb00dbab0f2761de44f67aa55a9ceb2233ccf",
+  "manifestSha256": "e7ac6b6902a8e9e8183a565550049a1de8f39224346a164a9e52065a2c8087b5",
+  "sourceDigest": "956d6d13a8d62b0bbb39309b8560bcb5cd080828fa723646f1b710f25003b20c",
+  "limits": [
+    "One native initialization and400-tick pending tail, not a full suite or hardware A/B.",
+    "Existing15s initialization/drain deadlines retained; overall90s process bound.",
+    "Transaction instrumentation is passive; actual native callbacks and worker bytes are preserved."
+  ],
+  "stages": [
+    {
+      "name": "init",
+      "status": "PASS",
+      "durationMs": 3414.508042
+    },
+    {
+      "name": "initial-drain",
+      "status": "PASS",
+      "durationMs": 1483.6545420000002
+    },
+    {
+      "name": "pending400-ticks",
+      "status": "PASS",
+      "durationMs": 562.5862089999991
+    },
+    {
+      "name": "tail-drain",
+      "status": "PASS",
+      "durationMs": 3948.0056670000004
+    },
+    {
+      "name": "verified-native-reload",
+      "status": "PASS",
+      "durationMs": 4331.361499999999
+    }
+  ],
+  "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (LLVM 10.0.0) (0x0000C0DE)), SwiftShader driver)",
+  "finalJournal": {
+    "handle": {
+      "slotId": "auto",
+      "baseRevisionId": "9cc0e0d2-2a61-48dd-b701-ddc354f4879c",
+      "epoch": "b202554c-99d5-4fcb-861d-e631bd6651b1",
+      "baseCursor": 1,
+      "cursor": 429,
+      "lastHash": "7eed194a0322c8d17bccc66ede48828fe5ae8c9de5481ba57f9f322dba29b627",
+      "baseHash": "1bce1392cb689db2e3f98eafa336e4e1d1335dc200831cdc1eca3662b992735c",
+      "baseTick": 0,
+      "currentTick": 427,
+      "bytes": 26125
+    },
+    "pendingOperations": 0,
+    "highWater": 400,
+    "failed": null,
+    "closed": false
+  },
+  "transactions": [
+    {
+      "phase": "init",
+      "stores": [
+        "commandJournal",
+        "journalMeta",
+        "migrationJournal",
+        "quarantine",
+        "revisions",
+        "slots"
+      ],
+      "status": "complete",
+      "durationMs": 1059.5
+    },
+    {
+      "phase": "init",
+      "stores": [
+        "commandJournal",
+        "journalMeta",
+        "slots"
+      ],
+      "status": "complete",
+      "durationMs": 881.7000000476837
+    },
+    {
+      "phase": "init",
+      "stores": [
+        "commandJournal",
+        "journalMeta",
+        "slots"
+      ],
+      "status": "complete",
+      "durationMs": 782.7000000476837
+    },
+    {
+      "phase": "pending-tail",
+      "stores": [
+        "commandJournal",
+        "journalMeta",
+        "slots"
+      ],
+      "status": "complete",
+      "durationMs": 720
+    },
+    {
+      "phase": "pending-tail",
+      "stores": [
+        "commandJournal",
+        "journalMeta",
+        "slots"
+      ],
+      "status": "complete",
+      "durationMs": 833.8999999761581
+    },
+    {
+      "phase": "pending-tail",
+      "stores": [
+        "commandJournal",
+        "journalMeta",
+        "slots"
+      ],
+      "status": "complete",
+      "durationMs": 732.5
+    },
+    {
+      "phase": "pending-tail",
+      "stores": [
+        "commandJournal",
+        "journalMeta",
+        "slots"
+      ],
+      "status": "complete",
+      "durationMs": 917.2999999523163
+    },
+    {
+      "phase": "pending-tail",
+      "stores": [
+        "commandJournal",
+        "journalMeta",
+        "slots"
+      ],
+      "status": "complete",
+      "durationMs": 753.4000000953674
+    }
+  ],
+  "finishedAt": "2026-11-04T11:07:34.616Z"
+}

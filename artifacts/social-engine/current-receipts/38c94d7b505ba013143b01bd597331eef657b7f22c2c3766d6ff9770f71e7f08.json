@@ -1,0 +1,193 @@
+{
+  "checks": [
+    {
+      "name": "database version1 upgrades without rewriting existing schema3 bytes",
+      "status": "PASS",
+      "duration_ms": 13.199999928474426
+    },
+    {
+      "name": "real IndexedDB state round-trip and UTF-8 profile",
+      "status": "PASS",
+      "duration_ms": 308.40000009536743
+    },
+    {
+      "name": "snapshot captured before a queued caller mutation",
+      "status": "PASS",
+      "duration_ms": 167.80000007152557
+    },
+    {
+      "name": "export/import/copy/delete preserve world and unrelated slots",
+      "status": "PASS",
+      "duration_ms": 718.5
+    },
+    {
+      "name": "aborted transaction preserves the last verified revision",
+      "status": "PASS",
+      "duration_ms": 149.5
+    },
+    {
+      "name": "quota exception preserves current and previous revisions",
+      "status": "PASS",
+      "duration_ms": 144.29999995231628
+    },
+    {
+      "name": "corrupt current revision falls back, quarantines and preserves prior state",
+      "status": "PASS",
+      "duration_ms": 248.29999995231628
+    },
+    {
+      "name": "future schema refuses downgrade even with a valid previous revision",
+      "status": "PASS",
+      "duration_ms": 2.3000000715255737
+    },
+    {
+      "name": "independent repository instances reject stale concurrent writes",
+      "status": "PASS",
+      "duration_ms": 334.2999999523163
+    },
+    {
+      "name": "migration is atomic, retryable and retains frozen source bytes",
+      "status": "PASS",
+      "duration_ms": 784.8999999761581
+    },
+    {
+      "name": "authentic v2 save migrates through an explicit journal to schema4",
+      "status": "PASS",
+      "duration_ms": 241.5
+    },
+    {
+      "name": "authentic v3 lifecycle history migrates through explicit3-to4 journal",
+      "status": "PASS",
+      "duration_ms": 234.39999997615814
+    },
+    {
+      "name": "invalid import never overwrites a valid existing slot",
+      "status": "PASS",
+      "duration_ms": 125.20000004768372
+    },
+    {
+      "name": "twenty measured saves and loads preserve canonical state",
+      "status": "PASS",
+      "duration_ms": 4196.600000023842
+    },
+    {
+      "name": "old TC SIM, Boardworld and Racon namespace canaries stay byte-identical",
+      "status": "PASS",
+      "duration_ms": 0.3999999761581421
+    },
+    {
+      "name": "durable command journal replays exact tick operations after reopening",
+      "status": "PASS",
+      "duration_ms": 264.60000002384186
+    },
+    {
+      "name": "paused commands controls and manual copy/export retain exact journal semantics",
+      "status": "PASS",
+      "duration_ms": 744.5
+    },
+    {
+      "name": "journal duplicate retry is idempotent and concurrent tail/checkpoint writes conflict",
+      "status": "PASS",
+      "duration_ms": 322.2000000476837
+    },
+    {
+      "name": "quota and aborted journal transaction preserve the whole last durable prefix",
+      "status": "PASS",
+      "duration_ms": 322.2999999523163
+    },
+    {
+      "name": "corrupt journal suffix quarantines source and replays only verified prefix",
+      "status": "PASS",
+      "duration_ms": 169.10000002384186
+    },
+    {
+      "name": "atomic checkpoint prunes covered tail and accepts only a rebased suffix",
+      "status": "PASS",
+      "duration_ms": 252.19999992847443
+    },
+    {
+      "name": "corrupt autosave baseline falls back and quarantines its incompatible journal",
+      "status": "PASS",
+      "duration_ms": 266.7000000476837
+    },
+    {
+      "name": "begin-journal CAS protects another tab tail and explicit delete removes journal records",
+      "status": "PASS",
+      "duration_ms": 475
+    },
+    {
+      "name": "explicit auto import/copy atomically replaces journal and retains fully replayed rollback",
+      "status": "PASS",
+      "duration_ms": 1402.7000000476837
+    },
+    {
+      "name": "authentic schema5 snapshot and nonempty journal migrate atomically without activating formerly unknown commands",
+      "status": "PASS",
+      "duration_ms": 824.7999999523163
+    },
+    {
+      "name": "genuine rules7 mature snapshot replays its original tail before rules8 and protects old writers",
+      "status": "PASS",
+      "duration_ms": 1659.7999999523163
+    },
+    {
+      "name": "genuine f14e13f schema6 snapshot and tail replay before migration; old readers cannot mutate upgraded database",
+      "status": "PASS",
+      "duration_ms": 642.6000000238419
+    },
+    {
+      "name": "corrupted migrated baseline recovers the exact old snapshot plus archived tail and rejects bad archives",
+      "status": "PASS",
+      "duration_ms": 1424
+    },
+    {
+      "name": "schema6 fallback can recover using a genuine prior schema7 archive digest",
+      "status": "PASS",
+      "duration_ms": 753.3999999761581
+    },
+    {
+      "name": "incompatible schema6 journal fails without mutating original records",
+      "status": "PASS",
+      "duration_ms": 646.7000000476837
+    },
+    {
+      "name": "commit receipts attest every prior-envelope field while loads and mismatches still fully verify",
+      "status": "PASS",
+      "duration_ms": 2792.7999999523163
+    },
+    {
+      "name": "close/reopen keeps the authoritative state frozen",
+      "status": "PASS",
+      "duration_ms": 489.60000002384186
+    },
+    {
+      "name": "closing a tab during an active write preserves the last committed state",
+      "status": "PASS",
+      "duration_ms": 847.9415419999968
+    },
+    {
+      "name": "closing a tab during journal append retains exactly the last acknowledged durable prefix",
+      "status": "PASS",
+      "duration_ms": 901.7727500000001
+    }
+  ],
+  "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "saveLoad": {
+    "samples": 20,
+    "p50_ms": 206.79999995231628,
+    "p95_ms": 233.29999995231628,
+    "max_ms": 233.30000007152557
+  },
+  "build_sha": "b8db5eff5c0c4abef4ea778c3fe7929be4004a98",
+  "source_status": "working tree candidate",
+  "bundle_sha256": "352dc74e537c03f30a7e5310bf35126e8d8250f6fab4d0ae2f6b9a54e814802b",
+  "browser": "151.0.7922.34",
+  "browserKind": "chromium",
+  "consoleErrors": [],
+  "status": "PASS",
+  "timestamp": "2026-11-04T10:57:24.279Z"
+}

@@ -1,0 +1,1019 @@
+{
+  "startedAt": "2026-11-04T07:45:01.610Z",
+  "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
+  "source_status": "working tree candidate; manifest identifies actual built bytes",
+  "manifestSha256": "5f6ee17a0a8c63152fb01fc2a310a26298c9c94ed5dc6682990b6bc19f9acc79",
+  "sourceDigest": "76ea681dff03e1aacd0b27b4d85ba5e9bf32233597210be0d596f1017f152e98",
+  "results": [
+    {
+      "id": "SE-018",
+      "name": "Concurrent dialogue commands resolve once in one authoritative tick",
+      "status": "PASS",
+      "duration_ms": 7525.858958000001,
+      "evidence": {
+        "results": [
+          {
+            "ok": true,
+            "reason": "Deniz Yel: Kıyıyaka’da herkesin bir hikâyesi var. Son karşılaşmalarımızı hatırlıyorum.",
+            "events": [
+              "e10"
+            ]
+          },
+          {
+            "ok": false,
+            "reason": "Karşındaki konuşmasını bitirsin.",
+            "events": []
+          }
+        ],
+        "trustBefore": 0,
+        "trustAfter": 5
+      }
+    },
+    {
+      "id": "SE-008",
+      "name": "Camera keeps player visible at four traversable world edges at three zoom levels",
+      "status": "PASS",
+      "duration_ms": 122696.42874999999,
+      "evidence": [
+        {
+          "point": {
+            "x": 1.4,
+            "y": 1.4
+          },
+          "screen": {
+            "x": 720,
+            "y": 222.16000000000003
+          },
+          "metrics": {
+            "renderer": "PixiJS 8.21.0 WebGL",
+            "frameCount": 49,
+            "frameMs": {
+              "p50": 303.10000002384186,
+              "p95": 555.2999999523163,
+              "p99": 765.8999999761581
+            },
+            "renderPreparationMs": {
+              "p50": 0.10000002384185791,
+              "p95": 0.20000004768371582,
+              "p99": 0.6999999284744263
+            },
+            "samples": 48,
+            "visibleActors": 10,
+            "sceneChanges": 1,
+            "zoom": 0.75,
+            "cameraTransform": {
+              "x": 720,
+              "y": 196.96000000000004,
+              "zoom": 0.75
+            },
+            "currentScene": "outside",
+            "worldBounds": {
+              "minX": 1,
+              "maxX": 63,
+              "minY": 1,
+              "maxY": 57
+            },
+            "dpr": 1,
+            "viewport": {
+              "width": 1440,
+              "height": 900
+            }
+          }
+        },
+        {
+          "point": {
+            "x": 1.4,
+            "y": 1.4
+          },
+          "screen": {
+            "x": 720.0000000000001,
+            "y": 224.75199999999995
+          },
+          "metrics": {
+            "renderer": "PixiJS 8.21.0 WebGL",
+            "frameCount": 78,
+            "frameMs": {
+              "p50": 295.1999999284744,
+              "p95": 451.2999999523163,
+              "p99": 765.8999999761581
+            },
+            "renderPreparationMs": {
+              "p50": 0.09999990463256836,
+              "p95": 0.20000004768371582,
+              "p99": 0.6999999284744263
+            },
+            "samples": 77,
+            "visibleActors": 1,
+            "sceneChanges": 1,
+            "zoom": 1.65,
+            "cameraTransform": {
+              "x": 720.0000000000001,
+              "y": 169.31199999999995,
+              "zoom": 1.65
+            },
+            "currentScene": "outside",
+            "worldBounds": {
+              "minX": 1,
+              "maxX": 63,
+              "minY": 1,
+              "maxY": 57
+            },
+            "dpr": 1,
+            "viewport": {
+              "width": 1440,
+              "height": 900
+            }
+          }
+        },
+        {
+          "point": {
+            "x": 1.4,
+            "y": 1.4
+          },
+          "screen": {
+            "x": 720.0000000000001,
+            "y": 225.04
+          },
+          "metrics": {
+            "renderer": "PixiJS 8.21.0 WebGL",
+            "frameCount": 108,
+            "frameMs": {
+              "p50": 292.10000002384186,
+              "p95": 451.2999999523163,
+              "p99": 624.6000000238419
+            },
+            "renderPreparationMs": {
+              "p50": 0.09999990463256836,
+              "p95": 0.20000004768371582,
+              "p99": 0.2999999523162842
+            },
+            "samples": 107,
+            "visibleActors": 1,
+            "sceneChanges": 1,
+            "zoom": 1.75,
+            "cameraTransform": {
+              "x": 720.0000000000001,
+              "y": 166.24,
+              "zoom": 1.75
+            },
+            "currentScene": "outside",
+            "worldBounds": {
+              "minX": 1,
+              "maxX": 63,
+              "minY": 1,
+              "maxY": 57
+            },
+            "dpr": 1,
+            "viewport": {
+              "width": 1440,
+              "height": 900
+            }
+          }
+        },
+        {
+          "point": {
+            "x": 62.6,
+            "y": 1.4
+          },
+          "screen": {
+            "x": 1135.6800000000003,
+            "y": 477
+          },
+          "metrics": {
+            "renderer": "PixiJS 8.21.0 WebGL",
+            "frameCount": 161,
+            "frameMs": {
+              "p50": 274.2000000476837,
+              "p95": 447.10000002384186,
+              "p99": 624.6000000238419
+            },
+            "renderPreparationMs": {
+              "p50": 0.09999990463256836,
+              "p95": 0.10000002384185791,
+              "p99": 0.2999999523162842
+            },
+            "samples": 160,
+            "visibleActors": 5,
+            "sceneChanges": 1,
+            "zoom": 0.75,
+            "cameraTransform": {
+              "x": 34.08000000000004,
+              "y": -99,
+              "zoom": 0.75
+            },
+            "currentScene": "outside",
+            "worldBounds": {
+              "minX": 1,
+              "maxX": 63,
+              "minY": 1,
+              "maxY": 57
+            },
+            "dpr": 1,
+            "viewport": {
+              "width": 1440,
+              "height": 900
+            }
+          }
+        },
+        {
+          "point": {
+            "x": 62.6,
+            "y": 1.4
+          },
+          "screen": {
+            "x": 1130.496,
+            "y": 477
+          },
+          "metrics": {
+            "renderer": "PixiJS 8.21.0 WebGL",
+            "frameCount": 194,
+            "frameMs": {
+              "p50": 269.1999999284744,
+              "p95": 424.09999990463257,
+              "p99": 624.6000000238419
+            },
+            "renderPreparationMs": {
+              "p50": 0,
+              "p95": 0.10000002384185791,
+              "p99": 0.2999999523162842
+            },
+            "samples": 193,
+            "visibleActors": 1,
+            "sceneChanges": 1,
+            "zoom": 1.65,
+            "cameraTransform": {
+              "x": -1293.024,
+              "y": -790.1999999999998,
+              "zoom": 1.65
+            },
+            "currentScene": "outside",
+            "worldBounds": {
+              "minX": 1,
+              "maxX": 63,
+              "minY": 1,
+              "maxY": 57
+            },
+            "dpr": 1,
+            "viewport": {
+              "width": 1440,
+              "height": 900
+            }
+          }
+        },
+        {
+          "point": {
+            "x": 62.6,
+            "y": 1.4
+          },
+          "screen": {
+            "x": 1129.9200000000005,
+            "y": 477
+          },
+          "metrics": {
+            "renderer": "PixiJS 8.21.0 WebGL",
+            "frameCount": 225,
+            "frameMs": {
+              "p50": 261.39999997615814,
+              "p95": 416.60000002384186,
+              "p99": 591.6000000238419
+            },
+            "renderPreparationMs": {
+              "p50": 0,
+              "p95": 0.10000002384185791,
+              "p99": 0.20000004768371582
+            },
+            "samples": 224,
+            "visibleActors": 1,
+            "sceneChanges": 1,
+            "zoom": 1.75,
+            "cameraTransform": {
+              "x": -1440.48,
+              "y": -867,
+              "zoom": 1.75
+            },
+            "currentScene": "outside",
+            "worldBounds": {
+              "minX": 1,
+              "maxX": 63,
+              "minY": 1,
+              "maxY": 57
+            },
+            "dpr": 1,
+            "viewport": {
+              "width": 1440,
+              "height": 900
+            }
+          }
+        },
+        {
+          "point": {
+            "x": 62.6,
+            "y": 56.4
+          },
+          "screen": {
+            "x": 719.9999999999999,
+            "y": 726.04
+          },
+          "metrics": {
+            "renderer": "PixiJS 8.21.0 WebGL",
+            "frameCount": 279,
+            "frameMs": {
+              "p50": 262.5,
+              "p95": 416.60000002384186,
+              "p99": 591.6000000238419
+            },
+            "renderPreparationMs": {
+              "p50": 0,
+              "p95": 0.10000002384185791,
+              "p99": 0.20000004768371582
+            },
+            "samples": 278,
+            "visibleActors": 31,
+            "sceneChanges": 1,
+            "zoom": 0.75,
+            "cameraTransform": {
+              "x": 608.3999999999999,
+              "y": -344.96000000000004,
+              "zoom": 0.75
+            },
+            "currentScene": "outside",
+            "worldBounds": {
+              "minX": 1,
+              "maxX": 63,
+              "minY": 1,
+              "maxY": 57
+            },
+            "dpr": 1,
+            "viewport": {
+              "width": 1440,
+              "height": 900
+            }
+          }
+        },
+        {
+          "point": {
+            "x": 62.6,
+            "y": 56.4
+          },
+          "screen": {
+            "x": 719.9999999999998,
+            "y": 721.288
+          },
+          "metrics": {
+            "renderer": "PixiJS 8.21.0 WebGL",
+            "frameCount": 307,
+            "frameMs": {
+              "p50": 265.8000000715256,
+              "p95": 405.6999999284744,
+              "p99": 555.2999999523163
+            },
+            "renderPreparationMs": {
+              "p50": 0,
+              "p95": 0.10000002384185791,
+              "p99": 0.20000004768371582
+            },
+            "samples": 306,
+            "visibleActors": 3,
+            "sceneChanges": 1,
+            "zoom": 1.65,
+            "cameraTransform": {
+              "x": 474.4799999999996,
+              "y": -1634.9119999999998,
+              "zoom": 1.65
+            },
+            "currentScene": "outside",
+            "worldBounds": {
+              "minX": 1,
+              "maxX": 63,
+              "minY": 1,
+              "maxY": 57
+            },
+            "dpr": 1,
+            "viewport": {
+              "width": 1440,
+              "height": 900
+            }
+          }
+        },
+        {
+          "point": {
+            "x": 62.6,
+            "y": 56.4
+          },
+          "screen": {
+            "x": 719.9999999999997,
+            "y": 720.7600000000002
+          },
+          "metrics": {
+            "renderer": "PixiJS 8.21.0 WebGL",
+            "frameCount": 337,
+            "frameMs": {
+              "p50": 265.39999997615814,
+              "p95": 395.89999997615814,
+              "p99": 555.2999999523163
+            },
+            "renderPreparationMs": {
+              "p50": 0,
+              "p95": 0.10000002384185791,
+              "p99": 0.20000004768371582
+            },
+            "samples": 336,
+            "visibleActors": 3,
+            "sceneChanges": 1,
+            "zoom": 1.75,
+            "cameraTransform": {
+              "x": 459.59999999999957,
+              "y": -1778.2399999999998,
+              "zoom": 1.75
+            },
+            "currentScene": "outside",
+            "worldBounds": {
+              "minX": 1,
+              "maxX": 63,
+              "minY": 1,
+              "maxY": 57
+            },
+            "dpr": 1,
+            "viewport": {
+              "width": 1440,
+              "height": 900
+            }
+          }
+        },
+        {
+          "point": {
+            "x": 1.4,
+            "y": 56.4
+          },
+          "screen": {
+            "x": 307.9200000000001,
+            "y": 477
+          },
+          "metrics": {
+            "renderer": "PixiJS 8.21.0 WebGL",
+            "frameCount": 390,
+            "frameMs": {
+              "p50": 261.10000002384186,
+              "p95": 393.89999997615814,
+              "p99": 555.2999999523163
+            },
+            "renderPreparationMs": {
+              "p50": 0,
+              "p95": 0.10000002384185791,
+              "p99": 0.20000004768371582
+            },
+            "samples": 389,
+            "visibleActors": 10,
+            "sceneChanges": 1,
+            "zoom": 0.75,
+            "cameraTransform": {
+              "x": 1297.92,
+              "y": -43.19999999999993,
+              "zoom": 0.75
+            },
+            "currentScene": "outside",
+            "worldBounds": {
+              "minX": 1,
+              "maxX": 63,
+              "minY": 1,
+              "maxY": 57
+            },
+            "dpr": 1,
+            "viewport": {
+              "width": 1440,
+              "height": 900
+            }
+          }
+        },
+        {
+          "point": {
+            "x": 1.4,
+            "y": 56.4
+          },
+          "screen": {
+            "x": 317.424,
+            "y": 477
+          },
+          "metrics": {
+            "renderer": "PixiJS 8.21.0 WebGL",
+            "frameCount": 421,
+            "frameMs": {
+              "p50": 258.90000009536743,
+              "p95": 387.89999997615814,
+              "p99": 546.3999999761581
+            },
+            "renderPreparationMs": {
+              "p50": 0,
+              "p95": 0.10000002384185791,
+              "p99": 0.20000004768371582
+            },
+            "samples": 420,
+            "visibleActors": 1,
+            "sceneChanges": 1,
+            "zoom": 1.65,
+            "cameraTransform": {
+              "x": 2495.424,
+              "y": -667.4399999999998,
+              "zoom": 1.65
+            },
+            "currentScene": "outside",
+            "worldBounds": {
+              "minX": 1,
+              "maxX": 63,
+              "minY": 1,
+              "maxY": 57
+            },
+            "dpr": 1,
+            "viewport": {
+              "width": 1440,
+              "height": 900
+            }
+          }
+        },
+        {
+          "point": {
+            "x": 1.4,
+            "y": 56.4
+          },
+          "screen": {
+            "x": 318.48,
+            "y": 477
+          },
+          "metrics": {
+            "renderer": "PixiJS 8.21.0 WebGL",
+            "frameCount": 452,
+            "frameMs": {
+              "p50": 255,
+              "p95": 382.89999997615814,
+              "p99": 546.3999999761581
+            },
+            "renderPreparationMs": {
+              "p50": 0,
+              "p95": 0.10000002384185791,
+              "p99": 0.20000004768371582
+            },
+            "samples": 451,
+            "visibleActors": 1,
+            "sceneChanges": 1,
+            "zoom": 1.75,
+            "cameraTransform": {
+              "x": 2628.48,
+              "y": -736.7999999999997,
+              "zoom": 1.75
+            },
+            "currentScene": "outside",
+            "worldBounds": {
+              "minX": 1,
+              "maxX": 63,
+              "minY": 1,
+              "maxY": 57
+            },
+            "dpr": 1,
+            "viewport": {
+              "width": 1440,
+              "height": 900
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "SE-055",
+      "name": "Visible HUD cash and needs match authoritative projection after shopping and eating",
+      "status": "PASS",
+      "duration_ms": 10415.765457999994,
+      "evidence": {
+        "beforeBalance": 125000,
+        "afterBalance": 123200,
+        "actual": "₺1.232,00",
+        "expected": "₺1.232,00",
+        "needs": {
+          "Sağlık": 100,
+          "Enerji": 100,
+          "Tokluk": 100
+        }
+      }
+    },
+    {
+      "id": "SE-033",
+      "name": "Driven vehicle, lane progress and player coordinates survive real IndexedDB save/load exactly",
+      "status": "PASS",
+      "duration_ms": 27650.014375,
+      "evidence": {
+        "tick": 1956,
+        "location": {
+          "x": 42,
+          "y": 33.716,
+          "scene": "outside"
+        },
+        "vehicle": {
+          "id": "v0",
+          "location": {
+            "x": 42,
+            "y": 33.716,
+            "scene": "outside"
+          },
+          "heading": 1.5707963267948966,
+          "speed": 5.28,
+          "driverId": "player",
+          "lane": 0,
+          "progress": 41.716,
+          "color": 14265940
+        }
+      }
+    }
+  ],
+  "errors": [],
+  "loadedAssets": [
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/index.html?qa=1",
+      "sha256": "218c44aa52ebbfd95399b2f99febfe88c27712bede0117574c74692cd4b0bc32",
+      "bytes": 3883
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/styles-1cab492a6f0a.css",
+      "sha256": "1cab492a6f0a81620e7f7d34acdcf58a9d3cabdd00cb8159f8a670c231c63fc1",
+      "bytes": 11737
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/app-TC2ULCEA.js",
+      "sha256": "5f454a48c77ab713220ec806b55b82e20198bc3d162010b2bad766dc24cb25d3",
+      "bytes": 148372
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-3J7M7RHN.js",
+      "sha256": "ebf9db9ae3f4f79498500ecf398b6ff585b5ccfed707a25e570af658411fd686",
+      "bytes": 340
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-SQE76S5B.js",
+      "sha256": "11247d28c5c2fb3d976002c2b55fecb6ba19fd88153e11d2c7af5832fd6ff331",
+      "bytes": 577
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-BTG6TYWV.js",
+      "sha256": "e88e330aa3b2a3f9499aa0cbcc76ce27d75ebb15c3f348ca90d2d58fa35f04e8",
+      "bytes": 71079
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-CS44UROG.js",
+      "sha256": "c8a89b35b279417e528ce8647fd01fcc5e04eadb1ddb60fef9359f3fbb7fc753",
+      "bytes": 177520
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-UJG5VTAA.js",
+      "sha256": "72a234c8d6fb5a6d737c97457653afd073dad0a7aaa3b567517a908e3e667969",
+      "bytes": 143354
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-UJR54KOB.js",
+      "sha256": "0927ba5a2fb6ed5236223e244be3f3c12ad1ec18d458bec37e5fc88f0a0cd43b",
+      "bytes": 72095
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-DEGAIGB7.js",
+      "sha256": "772c9936f1c1d210acf31220af13fd0e886d24d2827647021f10d9e93ae97d07",
+      "bytes": 11072
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-OEHB7W2C.js",
+      "sha256": "fd49916ad975bf82c9ff0bdda16a587ceb9bd028144efd200cd31d9c813f00df",
+      "bytes": 53952
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/worker-O6QCGRME.js",
+      "sha256": "271cf3af5043d01320f5e51fdea28fad2ad94dfb7c1e3ae95cc08a4a768091e7",
+      "bytes": 111
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-SQE76S5B.js",
+      "sha256": "11247d28c5c2fb3d976002c2b55fecb6ba19fd88153e11d2c7af5832fd6ff331",
+      "bytes": 577
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-CS44UROG.js",
+      "sha256": "c8a89b35b279417e528ce8647fd01fcc5e04eadb1ddb60fef9359f3fbb7fc753",
+      "bytes": 177520
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-HTPPDZR7.js",
+      "sha256": "c82e9d0abb54d15c38ee077ce7892ee5cce13a101d43a4b555999ab3812972ab",
+      "bytes": 4055
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/atlas-1b5dff1d49d8.json",
+      "sha256": "1b5dff1d49d8321d4f40c25cd77a8a206f1fda411521480bb42b124c41f07688",
+      "bytes": 10876
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/people-props-430914164137.png",
+      "sha256": "430914164137b5dd5b3725cb954bc0f85c914547f5a571b0eb685d465b260142",
+      "bytes": 171858
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/buildings-0bc5233248d9.png",
+      "sha256": "0bc5233248d938204d66a7248ac5c63392c32886bf16e6533794035dcce03450",
+      "bytes": 551058
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/styles-1cab492a6f0a.css",
+      "sha256": "1cab492a6f0a81620e7f7d34acdcf58a9d3cabdd00cb8159f8a670c231c63fc1",
+      "bytes": 11737
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/index.html?qa=1",
+      "sha256": "218c44aa52ebbfd95399b2f99febfe88c27712bede0117574c74692cd4b0bc32",
+      "bytes": 3883
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/app-TC2ULCEA.js",
+      "sha256": "5f454a48c77ab713220ec806b55b82e20198bc3d162010b2bad766dc24cb25d3",
+      "bytes": 148372
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-3J7M7RHN.js",
+      "sha256": "ebf9db9ae3f4f79498500ecf398b6ff585b5ccfed707a25e570af658411fd686",
+      "bytes": 340
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-SQE76S5B.js",
+      "sha256": "11247d28c5c2fb3d976002c2b55fecb6ba19fd88153e11d2c7af5832fd6ff331",
+      "bytes": 577
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-BTG6TYWV.js",
+      "sha256": "e88e330aa3b2a3f9499aa0cbcc76ce27d75ebb15c3f348ca90d2d58fa35f04e8",
+      "bytes": 71079
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-UJG5VTAA.js",
+      "sha256": "72a234c8d6fb5a6d737c97457653afd073dad0a7aaa3b567517a908e3e667969",
+      "bytes": 143354
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-CS44UROG.js",
+      "sha256": "c8a89b35b279417e528ce8647fd01fcc5e04eadb1ddb60fef9359f3fbb7fc753",
+      "bytes": 177520
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-UJR54KOB.js",
+      "sha256": "0927ba5a2fb6ed5236223e244be3f3c12ad1ec18d458bec37e5fc88f0a0cd43b",
+      "bytes": 72095
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-DEGAIGB7.js",
+      "sha256": "772c9936f1c1d210acf31220af13fd0e886d24d2827647021f10d9e93ae97d07",
+      "bytes": 11072
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-OEHB7W2C.js",
+      "sha256": "fd49916ad975bf82c9ff0bdda16a587ceb9bd028144efd200cd31d9c813f00df",
+      "bytes": 53952
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/atlas-1b5dff1d49d8.json",
+      "sha256": "1b5dff1d49d8321d4f40c25cd77a8a206f1fda411521480bb42b124c41f07688",
+      "bytes": 10876
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/people-props-430914164137.png",
+      "sha256": "430914164137b5dd5b3725cb954bc0f85c914547f5a571b0eb685d465b260142",
+      "bytes": 171858
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/buildings-0bc5233248d9.png",
+      "sha256": "0bc5233248d938204d66a7248ac5c63392c32886bf16e6533794035dcce03450",
+      "bytes": 551058
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/worker-O6QCGRME.js",
+      "sha256": "271cf3af5043d01320f5e51fdea28fad2ad94dfb7c1e3ae95cc08a4a768091e7",
+      "bytes": 111
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-SQE76S5B.js",
+      "sha256": "11247d28c5c2fb3d976002c2b55fecb6ba19fd88153e11d2c7af5832fd6ff331",
+      "bytes": 577
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-HTPPDZR7.js",
+      "sha256": "c82e9d0abb54d15c38ee077ce7892ee5cce13a101d43a4b555999ab3812972ab",
+      "bytes": 4055
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-CS44UROG.js",
+      "sha256": "c8a89b35b279417e528ce8647fd01fcc5e04eadb1ddb60fef9359f3fbb7fc753",
+      "bytes": 177520
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/index.html?qa=1",
+      "sha256": "218c44aa52ebbfd95399b2f99febfe88c27712bede0117574c74692cd4b0bc32",
+      "bytes": 3883
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/styles-1cab492a6f0a.css",
+      "sha256": "1cab492a6f0a81620e7f7d34acdcf58a9d3cabdd00cb8159f8a670c231c63fc1",
+      "bytes": 11737
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/app-TC2ULCEA.js",
+      "sha256": "5f454a48c77ab713220ec806b55b82e20198bc3d162010b2bad766dc24cb25d3",
+      "bytes": 148372
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-3J7M7RHN.js",
+      "sha256": "ebf9db9ae3f4f79498500ecf398b6ff585b5ccfed707a25e570af658411fd686",
+      "bytes": 340
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-SQE76S5B.js",
+      "sha256": "11247d28c5c2fb3d976002c2b55fecb6ba19fd88153e11d2c7af5832fd6ff331",
+      "bytes": 577
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-BTG6TYWV.js",
+      "sha256": "e88e330aa3b2a3f9499aa0cbcc76ce27d75ebb15c3f348ca90d2d58fa35f04e8",
+      "bytes": 71079
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-UJG5VTAA.js",
+      "sha256": "72a234c8d6fb5a6d737c97457653afd073dad0a7aaa3b567517a908e3e667969",
+      "bytes": 143354
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-CS44UROG.js",
+      "sha256": "c8a89b35b279417e528ce8647fd01fcc5e04eadb1ddb60fef9359f3fbb7fc753",
+      "bytes": 177520
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-UJR54KOB.js",
+      "sha256": "0927ba5a2fb6ed5236223e244be3f3c12ad1ec18d458bec37e5fc88f0a0cd43b",
+      "bytes": 72095
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-DEGAIGB7.js",
+      "sha256": "772c9936f1c1d210acf31220af13fd0e886d24d2827647021f10d9e93ae97d07",
+      "bytes": 11072
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-OEHB7W2C.js",
+      "sha256": "fd49916ad975bf82c9ff0bdda16a587ceb9bd028144efd200cd31d9c813f00df",
+      "bytes": 53952
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/atlas-1b5dff1d49d8.json",
+      "sha256": "1b5dff1d49d8321d4f40c25cd77a8a206f1fda411521480bb42b124c41f07688",
+      "bytes": 10876
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/people-props-430914164137.png",
+      "sha256": "430914164137b5dd5b3725cb954bc0f85c914547f5a571b0eb685d465b260142",
+      "bytes": 171858
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/buildings-0bc5233248d9.png",
+      "sha256": "0bc5233248d938204d66a7248ac5c63392c32886bf16e6533794035dcce03450",
+      "bytes": 551058
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/worker-O6QCGRME.js",
+      "sha256": "271cf3af5043d01320f5e51fdea28fad2ad94dfb7c1e3ae95cc08a4a768091e7",
+      "bytes": 111
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-CS44UROG.js",
+      "sha256": "c8a89b35b279417e528ce8647fd01fcc5e04eadb1ddb60fef9359f3fbb7fc753",
+      "bytes": 177520
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-SQE76S5B.js",
+      "sha256": "11247d28c5c2fb3d976002c2b55fecb6ba19fd88153e11d2c7af5832fd6ff331",
+      "bytes": 577
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-HTPPDZR7.js",
+      "sha256": "c82e9d0abb54d15c38ee077ce7892ee5cce13a101d43a4b555999ab3812972ab",
+      "bytes": 4055
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/styles-1cab492a6f0a.css",
+      "sha256": "1cab492a6f0a81620e7f7d34acdcf58a9d3cabdd00cb8159f8a670c231c63fc1",
+      "bytes": 11737
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/index.html?qa=1",
+      "sha256": "218c44aa52ebbfd95399b2f99febfe88c27712bede0117574c74692cd4b0bc32",
+      "bytes": 3883
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/app-TC2ULCEA.js",
+      "sha256": "5f454a48c77ab713220ec806b55b82e20198bc3d162010b2bad766dc24cb25d3",
+      "bytes": 148372
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-3J7M7RHN.js",
+      "sha256": "ebf9db9ae3f4f79498500ecf398b6ff585b5ccfed707a25e570af658411fd686",
+      "bytes": 340
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-SQE76S5B.js",
+      "sha256": "11247d28c5c2fb3d976002c2b55fecb6ba19fd88153e11d2c7af5832fd6ff331",
+      "bytes": 577
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-BTG6TYWV.js",
+      "sha256": "e88e330aa3b2a3f9499aa0cbcc76ce27d75ebb15c3f348ca90d2d58fa35f04e8",
+      "bytes": 71079
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-UJG5VTAA.js",
+      "sha256": "72a234c8d6fb5a6d737c97457653afd073dad0a7aaa3b567517a908e3e667969",
+      "bytes": 143354
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-CS44UROG.js",
+      "sha256": "c8a89b35b279417e528ce8647fd01fcc5e04eadb1ddb60fef9359f3fbb7fc753",
+      "bytes": 177520
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-UJR54KOB.js",
+      "sha256": "0927ba5a2fb6ed5236223e244be3f3c12ad1ec18d458bec37e5fc88f0a0cd43b",
+      "bytes": 72095
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-DEGAIGB7.js",
+      "sha256": "772c9936f1c1d210acf31220af13fd0e886d24d2827647021f10d9e93ae97d07",
+      "bytes": 11072
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-OEHB7W2C.js",
+      "sha256": "fd49916ad975bf82c9ff0bdda16a587ceb9bd028144efd200cd31d9c813f00df",
+      "bytes": 53952
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/atlas-1b5dff1d49d8.json",
+      "sha256": "1b5dff1d49d8321d4f40c25cd77a8a206f1fda411521480bb42b124c41f07688",
+      "bytes": 10876
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/people-props-430914164137.png",
+      "sha256": "430914164137b5dd5b3725cb954bc0f85c914547f5a571b0eb685d465b260142",
+      "bytes": 171858
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/assets/buildings-0bc5233248d9.png",
+      "sha256": "0bc5233248d938204d66a7248ac5c63392c32886bf16e6533794035dcce03450",
+      "bytes": 551058
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/worker-O6QCGRME.js",
+      "sha256": "271cf3af5043d01320f5e51fdea28fad2ad94dfb7c1e3ae95cc08a4a768091e7",
+      "bytes": 111
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-SQE76S5B.js",
+      "sha256": "11247d28c5c2fb3d976002c2b55fecb6ba19fd88153e11d2c7af5832fd6ff331",
+      "bytes": 577
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-HTPPDZR7.js",
+      "sha256": "c82e9d0abb54d15c38ee077ce7892ee5cce13a101d43a4b555999ab3812972ab",
+      "bytes": 4055
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-CS44UROG.js",
+      "sha256": "c8a89b35b279417e528ce8647fd01fcc5e04eadb1ddb60fef9359f3fbb7fc753",
+      "bytes": 177520
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/worker-O6QCGRME.js",
+      "sha256": "271cf3af5043d01320f5e51fdea28fad2ad94dfb7c1e3ae95cc08a4a768091e7",
+      "bytes": 111
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-SQE76S5B.js",
+      "sha256": "11247d28c5c2fb3d976002c2b55fecb6ba19fd88153e11d2c7af5832fd6ff331",
+      "bytes": 577
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-HTPPDZR7.js",
+      "sha256": "c82e9d0abb54d15c38ee077ce7892ee5cce13a101d43a4b555999ab3812972ab",
+      "bytes": 4055
+    },
+    {
+      "url": "http://127.0.0.1:8111/games/social-engine/chunk-CS44UROG.js",
+      "sha256": "c8a89b35b279417e528ce8647fd01fcc5e04eadb1ddb60fef9359f3fbb7fc753",
+      "bytes": 177520
+    }
+  ],
+  "environment": {
+    "browser": "151.0.7922.34",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "headless": true
+  },
+  "finishedAt": "2026-11-04T07:47:50.186Z",
+  "status": "PASS"
+}

@@ -1,0 +1,3305 @@
+{
+  "schemaVersion": 1,
+  "runId": "2026-11-03T17-32-07-826Z",
+  "status": "FAILED",
+  "startedAt": "2026-11-03T17:32:07.882Z",
+  "targetMinutes": 120,
+  "scenario": "Real-time mixed neighborhood play, 100 persistent local +1000 background NPCs; no time acceleration",
+  "base": "http://127.0.0.1:8097",
+  "build": {
+    "gitHead": "762c050ead437c99901332d10078817dfc375eb1",
+    "dirty": true,
+    "sourceDigest": "551260904056091ae0c08bf55cd397bae8d1580329f310eff5bb651b4faba4c0",
+    "manifestSha256": "e256e39b1603ec746024536721f235c965258172dd081de4a18a4e6115172da8",
+    "attribution": "Actual served asset SHA-256 hashes recorded. Worktree source digest is capture-time context; this is not a verified deployed commit.",
+    "engineVersion": "1.0.0-candidate.1"
+  },
+  "environment": {
+    "platform": "darwin",
+    "release": "25.6.0",
+    "arch": "arm64",
+    "cpus": [
+      "Apple M2",
+      "Apple M2",
+      "Apple M2",
+      "Apple M2",
+      "Apple M2",
+      "Apple M2",
+      "Apple M2",
+      "Apple M2"
+    ],
+    "logicalCpus": 8,
+    "totalMemoryBytes": 17179869184,
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "dpr": 1,
+    "headless": true,
+    "concurrentWork": "Full legacy tests,365-day simulation,build/development may contend for CPU during this run; not an isolated reference-PC result.",
+    "browser": "156.0.8078.80",
+    "systemInfo": {
+      "gpu": {
+        "devices": [
+          {
+            "vendorId": 4203,
+            "deviceId": 0,
+            "vendorString": "Google Inc. (Apple)",
+            "deviceString": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Version 26.7.1 (Build 25G241))",
+            "driverVendor": "Apple",
+            "driverVersion": "26.7.1"
+          }
+        ],
+        "auxAttributes": {
+          "amdSwitchable": false,
+          "canSupportThreadedTextureMailbox": false,
+          "directRenderingVersion": "",
+          "displayType": "ANGLE_METAL",
+          "glExtensions": "GL_AMD_performance_monitor GL_ANGLE_base_vertex_base_instance_shader_builtin GL_ANGLE_blob_cache GL_ANGLE_client_arrays GL_ANGLE_clip_cull_distance GL_ANGLE_compressed_texture_etc GL_ANGLE_depth_texture GL_ANGLE_framebuffer_blit GL_ANGLE_framebuffer_multisample GL_ANGLE_get_serialized_context_string GL_ANGLE_get_tex_level_parameter GL_ANGLE_instanced_arrays GL_ANGLE_memory_size GL_ANGLE_pack_reverse_row_order GL_ANGLE_polygon_mode GL_ANGLE_program_binary_readiness_query GL_ANGLE_program_cache_control GL_ANGLE_provoking_vertex GL_ANGLE_renderability_validation GL_ANGLE_request_extension GL_ANGLE_rgbx_internal_format GL_ANGLE_robust_client_memory GL_ANGLE_shader_pixel_local_storage GL_ANGLE_shader_pixel_local_storage_coherent GL_ANGLE_stencil_texturing GL_ANGLE_texture_compression_dxt3 GL_ANGLE_texture_compression_dxt5 GL_ANGLE_texture_multisample GL_ANGLE_translated_shader_source GL_APPLE_clip_distance GL_ARM_rgba8 GL_CHROMIUM_bind_generates_resource GL_CHROMIUM_bind_uniform_location GL_CHROMIUM_copy_texture GL_CHROMIUM_lose_context GL_EXT_base_instance GL_EXT_blend_func_extended GL_EXT_blend_minmax GL_EXT_clip_control GL_EXT_color_buffer_float GL_EXT_color_buffer_half_float GL_EXT_compressed_ETC1_RGB8_sub_texture GL_EXT_conservative_depth GL_EXT_debug_label GL_EXT_debug_marker GL_EXT_depth_clamp GL_EXT_discard_framebuffer GL_EXT_disjoint_timer_query GL_EXT_draw_buffers GL_EXT_draw_buffers_indexed GL_EXT_draw_elements_base_vertex GL_EXT_float_blend GL_EXT_frag_depth GL_EXT_instanced_arrays GL_EXT_map_buffer_range GL_EXT_multisampled_render_to_texture GL_EXT_occlusion_query_boolean GL_EXT_polygon_offset_clamp GL_EXT_pvrtc_sRGB GL_EXT_read_format_bgra GL_EXT_render_snorm GL_EXT_robustness GL_EXT_sRGB GL_EXT_shader_texture_lod GL_EXT_texture_compression_bptc GL_EXT_texture_compression_dxt1 GL_EXT_texture_compression_rgtc GL_EXT_texture_compression_s3tc_srgb GL_EXT_texture_filter_anisotropic GL_EXT_texture_format_BGRA8888 GL_EXT_texture_mirror_clamp_to_edge GL_EXT_texture_norm16 GL_EXT_texture_rg GL_EXT_texture_sRGB_R8 GL_EXT_texture_sRGB_RG8 GL_EXT_texture_shadow_lod GL_EXT_texture_storage GL_IMG_texture_compression_pvrtc GL_KHR_debug GL_KHR_parallel_shader_compile GL_KHR_robustness GL_KHR_texture_compression_astc_hdr GL_KHR_texture_compression_astc_ldr GL_KHR_texture_compression_astc_sliced_3d GL_MESA_framebuffer_flip_y GL_NV_fence GL_NV_framebuffer_blit GL_NV_pixel_buffer_object GL_NV_shader_noperspective_interpolation GL_OES_EGL_image GL_OES_EGL_sync GL_OES_compressed_ETC1_RGB8_texture GL_OES_depth24 GL_OES_depth32 GL_OES_depth_texture GL_OES_draw_buffers_indexed GL_OES_draw_elements_base_vertex GL_OES_element_index_uint GL_OES_fbo_render_mipmap GL_OES_get_program_binary GL_OES_mapbuffer GL_OES_packed_depth_stencil GL_OES_required_internalformat GL_OES_rgb8_rgba8 GL_OES_sample_variables GL_OES_shader_multisample_interpolation GL_OES_standard_derivatives GL_OES_surfaceless_context GL_OES_texture_3D GL_OES_texture_float GL_OES_texture_float_linear GL_OES_texture_half_float GL_OES_texture_half_float_linear GL_OES_texture_npot GL_OES_texture_stencil8 GL_OES_vertex_array_object GL_QCOM_render_shared_exponent ",
+          "glImplementationParts": "(gl=egl-angle,angle=metal)",
+          "glRenderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Version 26.7.1 (Build 25G241))",
+          "glResetNotificationStrategy": 33362,
+          "glVendor": "Google Inc. (Apple)",
+          "glVersion": "OpenGL ES 3.0 (ANGLE 2.1.28975 git hash: 127e783de334)",
+          "glWsExtensions": "",
+          "glWsVendor": "",
+          "glWsVersion": "",
+          "inProcessGpu": false,
+          "initializationTime": 0.040996,
+          "isAsan": false,
+          "isClangCoverage": false,
+          "jpegDecodeAcceleratorSupported": false,
+          "maxMsaaSamples": "4",
+          "optimus": false,
+          "passthroughCmdDecoder": true,
+          "pixelShaderVersion": "3.00",
+          "processCrashCount": 0,
+          "sandboxed": false,
+          "skiaBackendType": "GraphiteDawnMetal",
+          "subpixelFontRendering": true,
+          "targetCpuBits": 64,
+          "vertexShaderVersion": "3.00",
+          "visibilityCallbackCallCount": 0
+        },
+        "featureStatus": {
+          "2d_canvas": "enabled",
+          "direct_rendering_display_compositor": "disabled_off_ok",
+          "gpu_compositing": "enabled",
+          "multiple_raster_threads": "enabled_on",
+          "opengl": "enabled_on",
+          "rasterization": "enabled",
+          "raw_draw": "disabled_off_ok",
+          "skia_graphite": "enabled_on",
+          "trees_in_viz": "disabled_off",
+          "video_decode": "enabled",
+          "video_encode": "enabled",
+          "webgl": "enabled",
+          "webgpu": "enabled",
+          "webnn": "disabled_off"
+        },
+        "driverBugWorkarounds": [
+          "disable_2d_canvas_auto_flush",
+          "enable_webgl_timer_query_extensions",
+          "disabled_extension_GL_KHR_blend_equation_advanced",
+          "disabled_extension_GL_KHR_blend_equation_advanced_coherent"
+        ],
+        "videoDecoding": [],
+        "videoEncoding": []
+      },
+      "modelName": "Mac",
+      "modelVersion": "14.7",
+      "commandLine": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/var/folders/k1/zprsgklx4xqbs2wb4cq59bsr0000gn/T/playwright_chromiumdev_profile-gdRabM --remote-debugging-pipe --no-startup-window --noerrdialogs --flag-switches-begin --flag-switches-end --enable-unsafe-swiftshader"
+    }
+  },
+  "checkpoints": [
+    {
+      "minute": 30,
+      "elapsedMs": 1800247.070834,
+      "frameMs": {
+        "count": 107987,
+        "p50": 16.699999999953434,
+        "p95": 16.700000000186265,
+        "p99": 16.800000000046566
+      },
+      "longTaskRatio": 0.00003166232064668414,
+      "heapSlopeMiBPerMinute": 0.07190806014386644,
+      "workerSimMs": {
+        "count": 1743,
+        "p50": 0,
+        "p95": 0.10000002384185791,
+        "p99": 0.2999999523162842
+      },
+      "population": 1100,
+      "errors": 0,
+      "sourceDigest": "551260904056091ae0c08bf55cd397bae8d1580329f310eff5bb651b4faba4c0",
+      "manifestSha256": "e256e39b1603ec746024536721f235c965258172dd081de4a18a4e6115172da8",
+      "referencePC": false,
+      "engineVersion": "1.0.0-candidate.1",
+      "automated": true,
+      "measuredThresholds": {
+        "frameP95AtMost33_3ms": true,
+        "longTaskRatioAtMost5Percent": true,
+        "heapSlopeAtMost1MiBPerMinute": true
+      }
+    }
+  ],
+  "minuteSamples": [
+    {
+      "minute": 1,
+      "at": "2026-11-03T17:33:09.644Z",
+      "elapsedMs": 60048.532334,
+      "projection": {
+        "tick": 604,
+        "minute": 540,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3600,
+        "p50": 16.69999999999709,
+        "p95": 16.799999999995634,
+        "p99": 16.80000000000291
+      },
+      "longTaskCount": 0,
+      "longTaskMs": 0,
+      "heap": {
+        "minute": 1,
+        "jsHeapUsed": 6614656,
+        "jsHeapTotal": 7733248,
+        "gcMs": 9.006916999998793
+      },
+      "simMs": {
+        "count": 605,
+        "p50": 0,
+        "p95": 0.10000002384185791,
+        "p99": 2
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 3621,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 18,
+          "p99": 18.600000023841858
+        },
+        "renderPreparationMs": {
+          "p50": 0.09999990463256836,
+          "p95": 0.19999992847442627,
+          "p99": 0.20000004768371582
+        },
+        "samples": 3621,
+        "visibleActors": 9,
+        "sceneChanges": 1,
+        "zoom": 0.9,
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "status": "UNVERIFIED",
+        "reason": "Application does not instrument projection IPC latency"
+      },
+      "saveMs": {
+        "count": 1,
+        "p50": 37.800000071525574,
+        "p95": 37.800000071525574,
+        "p99": 37.800000071525574
+      },
+      "errors": []
+    },
+    {
+      "minute": 2,
+      "at": "2026-11-03T17:34:09.650Z",
+      "elapsedMs": 120053.930375,
+      "projection": {
+        "tick": 1204,
+        "minute": 600,
+        "population": 1100,
+        "scene": "b-market"
+      },
+      "frameMs": {
+        "count": 3600,
+        "p50": 16.69999999999709,
+        "p95": 16.70000000001164,
+        "p99": 16.80000000000291
+      },
+      "longTaskCount": 0,
+      "longTaskMs": 0,
+      "heap": {
+        "minute": 2,
+        "jsHeapUsed": 6707824,
+        "jsHeapTotal": 7471104,
+        "gcMs": 10.81345900001179
+      },
+      "simMs": {
+        "count": 1205,
+        "p50": 0,
+        "p95": 0.10000002384185791,
+        "p99": 0.7000000476837158
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 7221,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 18.200000047683716,
+          "p99": 18.600000023841858
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 7221,
+        "visibleActors": 11,
+        "sceneChanges": 2,
+        "zoom": 1.25,
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "status": "UNVERIFIED",
+        "reason": "Application does not instrument projection IPC latency"
+      },
+      "saveMs": {
+        "count": 2,
+        "p50": 59.89999997615814,
+        "p95": 59.89999997615814,
+        "p99": 59.89999997615814
+      },
+      "errors": []
+    },
+    {
+      "minute": 3,
+      "at": "2026-11-03T17:35:09.651Z",
+      "elapsedMs": 180054.91433399997,
+      "projection": {
+        "tick": 1804,
+        "minute": 660,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3600,
+        "p50": 16.699999999982538,
+        "p95": 16.70000000001164,
+        "p99": 16.800000000017462
+      },
+      "longTaskCount": 0,
+      "longTaskMs": 0,
+      "heap": {
+        "minute": 3,
+        "jsHeapUsed": 7259576,
+        "jsHeapTotal": 8519680,
+        "gcMs": 9.539292000001296
+      },
+      "simMs": {
+        "count": 1805,
+        "p50": 0,
+        "p95": 0.10000002384185791,
+        "p99": 0.30000007152557373
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 10821,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 18.200000047683716,
+          "p99": 18.600000023841858
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 10821,
+        "visibleActors": 9,
+        "sceneChanges": 3,
+        "zoom": 0.9,
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "status": "UNVERIFIED",
+        "reason": "Application does not instrument projection IPC latency"
+      },
+      "saveMs": {
+        "count": 3,
+        "p50": 58.39999997615814,
+        "p95": 59.89999997615814,
+        "p99": 59.89999997615814
+      },
+      "errors": []
+    },
+    {
+      "minute": 4,
+      "at": "2026-11-03T17:36:09.658Z",
+      "elapsedMs": 240061.18958399998,
+      "projection": {
+        "tick": 2404,
+        "minute": 720,
+        "population": 1100,
+        "scene": "b-cafe"
+      },
+      "frameMs": {
+        "count": 3601,
+        "p50": 16.699999999982538,
+        "p95": 16.70000000001164,
+        "p99": 16.800000000017462
+      },
+      "longTaskCount": 0,
+      "longTaskMs": 0,
+      "heap": {
+        "minute": 4,
+        "jsHeapUsed": 6961612,
+        "jsHeapTotal": 8257536,
+        "gcMs": 7.8524580000084825
+      },
+      "simMs": {
+        "count": 2405,
+        "p50": 0,
+        "p95": 0.10000002384185791,
+        "p99": 0.20000004768371582
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 14422,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 18.100000023841858,
+          "p99": 18.600000023841858
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 14422,
+        "visibleActors": 10,
+        "sceneChanges": 4,
+        "zoom": 1.25,
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "status": "UNVERIFIED",
+        "reason": "Application does not instrument projection IPC latency"
+      },
+      "saveMs": {
+        "count": 4,
+        "p50": 58.39999997615814,
+        "p95": 59.89999997615814,
+        "p99": 59.89999997615814
+      },
+      "errors": []
+    },
+    {
+      "minute": 5,
+      "at": "2026-11-03T17:37:09.645Z",
+      "elapsedMs": 300066.025709,
+      "projection": {
+        "tick": 3004,
+        "minute": 780,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3600,
+        "p50": 16.699999999982538,
+        "p95": 16.70000000001164,
+        "p99": 16.800000000017462
+      },
+      "longTaskCount": 0,
+      "longTaskMs": 0,
+      "heap": {
+        "minute": 5,
+        "jsHeapUsed": 7430704,
+        "jsHeapTotal": 8323072,
+        "gcMs": 8.222624999994878
+      },
+      "simMs": {
+        "count": 3005,
+        "p50": 0,
+        "p95": 0.10000002384185791,
+        "p99": 0.20000004768371582
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 18022,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 18.09999990463257,
+          "p99": 18.600000023841858
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 9,
+        "sceneChanges": 5,
+        "zoom": 0.9,
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "status": "UNVERIFIED",
+        "reason": "Application does not instrument projection IPC latency"
+      },
+      "saveMs": {
+        "count": 5,
+        "p50": 58.39999997615814,
+        "p95": 61.60000002384186,
+        "p99": 61.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 6,
+      "at": "2026-11-03T17:38:09.615Z",
+      "elapsedMs": 360062.16933400003,
+      "projection": {
+        "tick": 3604,
+        "minute": 840,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3600,
+        "p50": 16.70000000001164,
+        "p95": 16.70000000001164,
+        "p99": 16.79999999998836
+      },
+      "longTaskCount": 0,
+      "longTaskMs": 0,
+      "heap": {
+        "minute": 6,
+        "jsHeapUsed": 7523364,
+        "jsHeapTotal": 8323072,
+        "gcMs": 7.887332999962382
+      },
+      "simMs": {
+        "count": 3605,
+        "p50": 0,
+        "p95": 0.10000002384185791,
+        "p99": 0.20000004768371582
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 21622,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.899999976158142,
+          "p99": 18.600000023841858
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.19999992847442627
+        },
+        "samples": 18000,
+        "visibleActors": 9,
+        "sceneChanges": 5,
+        "zoom": 0.9,
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "status": "UNVERIFIED",
+        "reason": "Application does not instrument projection IPC latency"
+      },
+      "saveMs": {
+        "count": 6,
+        "p50": 58.39999997615814,
+        "p95": 61.60000002384186,
+        "p99": 61.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 7,
+      "at": "2026-11-03T17:39:09.640Z",
+      "elapsedMs": 420088.362959,
+      "projection": {
+        "tick": 4204,
+        "minute": 900,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3600,
+        "p50": 16.70000000001164,
+        "p95": 16.79999999998836,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 0,
+      "longTaskMs": 0,
+      "heap": {
+        "minute": 7,
+        "jsHeapUsed": 7674924,
+        "jsHeapTotal": 8929280,
+        "gcMs": 10.6243329999852
+      },
+      "simMs": {
+        "count": 4205,
+        "p50": 0,
+        "p95": 0.10000002384185791,
+        "p99": 0.20000004768371582
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 25222,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.600000023841858,
+          "p99": 18.5
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.19999992847442627
+        },
+        "samples": 18000,
+        "visibleActors": 9,
+        "sceneChanges": 5,
+        "zoom": 0.9,
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "status": "UNVERIFIED",
+        "reason": "Application does not instrument projection IPC latency"
+      },
+      "saveMs": {
+        "count": 7,
+        "p50": 58.39999997615814,
+        "p95": 81.10000002384186,
+        "p99": 81.10000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 8,
+      "at": "2026-11-03T17:40:09.633Z",
+      "elapsedMs": 480080.598167,
+      "projection": {
+        "tick": 4804,
+        "minute": 960,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3601,
+        "p50": 16.70000000001164,
+        "p95": 16.79999999998836,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 0,
+      "longTaskMs": 0,
+      "heap": {
+        "minute": 8,
+        "jsHeapUsed": 7681892,
+        "jsHeapTotal": 8929280,
+        "gcMs": 7.751791000016965
+      },
+      "simMs": {
+        "count": 4805,
+        "p50": 0,
+        "p95": 0.10000002384185791,
+        "p99": 0.20000004768371582
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 28823,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.5,
+          "p99": 18.200000047683716
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 9,
+        "sceneChanges": 5,
+        "zoom": 0.9,
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "status": "UNVERIFIED",
+        "reason": "Application does not instrument projection IPC latency"
+      },
+      "saveMs": {
+        "count": 8,
+        "p50": 59.89999997615814,
+        "p95": 81.10000002384186,
+        "p99": 81.10000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 9,
+      "at": "2026-11-03T17:41:09.603Z",
+      "elapsedMs": 540051.349959,
+      "projection": {
+        "tick": 5404,
+        "minute": 1020,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3598,
+        "p50": 16.699999999953434,
+        "p95": 16.70000000006985,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 0,
+      "longTaskMs": 0,
+      "heap": {
+        "minute": 9,
+        "jsHeapUsed": 7686304,
+        "jsHeapTotal": 9191424,
+        "gcMs": 8.658292000065558
+      },
+      "simMs": {
+        "count": 5405,
+        "p50": 0,
+        "p95": 0.10000002384185791,
+        "p99": 0.20000004768371582
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 32421,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.5,
+          "p99": 18.100000023841858
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 9,
+        "sceneChanges": 5,
+        "zoom": 0.9,
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "status": "UNVERIFIED",
+        "reason": "Application does not instrument projection IPC latency"
+      },
+      "saveMs": {
+        "count": 9,
+        "p50": 59.89999997615814,
+        "p95": 81.10000002384186,
+        "p99": 81.10000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 10,
+      "at": "2026-11-03T17:42:09.696Z",
+      "elapsedMs": 600143.9598750001,
+      "projection": {
+        "tick": 6004,
+        "minute": 1080,
+        "population": 1100,
+        "scene": "b-school"
+      },
+      "frameMs": {
+        "count": 3603,
+        "p50": 16.699999999953434,
+        "p95": 16.70000000006985,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 0,
+      "longTaskMs": 0,
+      "heap": {
+        "minute": 10,
+        "jsHeapUsed": 7630064,
+        "jsHeapTotal": 9060352,
+        "gcMs": 11.967541999998502
+      },
+      "simMs": {
+        "count": 6005,
+        "p50": 0,
+        "p95": 0.10000002384185791,
+        "p99": 0.2999999523162842
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 36024,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.5,
+          "p99": 18.100000023841858
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 2,
+        "sceneChanges": 6,
+        "zoom": 1.25,
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "status": "UNVERIFIED",
+        "reason": "Application does not instrument projection IPC latency"
+      },
+      "saveMs": {
+        "count": 10,
+        "p50": 61.60000002384186,
+        "p95": 81.10000002384186,
+        "p99": 81.10000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 11,
+      "at": "2026-11-03T17:43:09.623Z",
+      "elapsedMs": 660071.538709,
+      "projection": {
+        "tick": 6604,
+        "minute": 1140,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3598,
+        "p50": 16.699999999953434,
+        "p95": 16.70000000006985,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 0,
+      "longTaskMs": 0,
+      "heap": {
+        "minute": 11,
+        "jsHeapUsed": 7888720,
+        "jsHeapTotal": 9322496,
+        "gcMs": 7.725958000053652
+      },
+      "simMs": {
+        "count": 6605,
+        "p50": 0,
+        "p95": 0.10000002384185791,
+        "p99": 0.2999999523162842
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 39622,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.5,
+          "p99": 18.600000023841858
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 9,
+        "sceneChanges": 7,
+        "zoom": 0.9,
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "status": "UNVERIFIED",
+        "reason": "Application does not instrument projection IPC latency"
+      },
+      "saveMs": {
+        "count": 11,
+        "p50": 61.60000002384186,
+        "p95": 86.80000007152557,
+        "p99": 86.80000007152557
+      },
+      "errors": []
+    },
+    {
+      "minute": 12,
+      "at": "2026-11-03T17:44:09.658Z",
+      "elapsedMs": 720107.057167,
+      "projection": {
+        "tick": 7204,
+        "minute": 1200,
+        "population": 1100,
+        "scene": "b-home"
+      },
+      "frameMs": {
+        "count": 3602,
+        "p50": 16.699999999953434,
+        "p95": 16.70000000006985,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 0,
+      "longTaskMs": 0,
+      "heap": {
+        "minute": 12,
+        "jsHeapUsed": 7778192,
+        "jsHeapTotal": 9060352,
+        "gcMs": 9.492917000083253
+      },
+      "simMs": {
+        "count": 7205,
+        "p50": 0,
+        "p95": 0.10000002384185791,
+        "p99": 0.2999999523162842
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 43224,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.59999990463257,
+          "p99": 18.899999976158142
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.19999992847442627,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 1,
+        "sceneChanges": 8,
+        "zoom": 1.25,
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "status": "UNVERIFIED",
+        "reason": "Application does not instrument projection IPC latency"
+      },
+      "saveMs": {
+        "count": 12,
+        "p50": 69,
+        "p95": 86.80000007152557,
+        "p99": 86.80000007152557
+      },
+      "errors": []
+    },
+    {
+      "minute": 13,
+      "at": "2026-11-03T17:45:09.646Z",
+      "elapsedMs": 780094.866334,
+      "projection": {
+        "tick": 7804,
+        "minute": 1260,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3600,
+        "p50": 16.699999999953434,
+        "p95": 16.70000000006985,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 0,
+      "longTaskMs": 0,
+      "heap": {
+        "minute": 13,
+        "jsHeapUsed": 7945328,
+        "jsHeapTotal": 9060352,
+        "gcMs": 7.893416999955662
+      },
+      "simMs": {
+        "count": 7805,
+        "p50": 0,
+        "p95": 0.10000002384185791,
+        "p99": 0.2999999523162842
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 46824,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.600000023841858,
+          "p99": 19
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.19999992847442627,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 9,
+        "sceneChanges": 9,
+        "zoom": 0.9,
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "status": "UNVERIFIED",
+        "reason": "Application does not instrument projection IPC latency"
+      },
+      "saveMs": {
+        "count": 13,
+        "p50": 69,
+        "p95": 86.80000007152557,
+        "p99": 86.80000007152557
+      },
+      "errors": []
+    },
+    {
+      "minute": 14,
+      "at": "2026-11-03T17:46:09.650Z",
+      "elapsedMs": 840098.661459,
+      "projection": {
+        "tick": 8404,
+        "minute": 1320,
+        "population": 1100,
+        "scene": "b-market"
+      },
+      "frameMs": {
+        "count": 3594,
+        "p50": 16.699999999953434,
+        "p95": 16.70000000006985,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 0,
+      "longTaskMs": 0,
+      "heap": {
+        "minute": 14,
+        "jsHeapUsed": 7839608,
+        "jsHeapTotal": 9584640,
+        "gcMs": 7.59091700008139
+      },
+      "simMs": {
+        "count": 8405,
+        "p50": 0,
+        "p95": 0.10000002384185791,
+        "p99": 0.2999999523162842
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 50418,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.600000023841858,
+          "p99": 19.699999928474426
+        },
+        "renderPreparationMs": {
+          "p50": 0.09999990463256836,
+          "p95": 0.20000004768371582,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 1,
+        "sceneChanges": 10,
+        "zoom": 1.25,
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "status": "UNVERIFIED",
+        "reason": "Application does not instrument projection IPC latency"
+      },
+      "saveMs": {
+        "count": 14,
+        "p50": 76.20000004768372,
+        "p95": 86.80000007152557,
+        "p99": 86.80000007152557
+      },
+      "errors": []
+    },
+    {
+      "minute": 15,
+      "at": "2026-11-03T17:47:09.640Z",
+      "elapsedMs": 900089.1388750001,
+      "projection": {
+        "tick": 9004,
+        "minute": 1380,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3599,
+        "p50": 16.699999999953434,
+        "p95": 16.70000000006985,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 0,
+      "longTaskMs": 0,
+      "heap": {
+        "minute": 15,
+        "jsHeapUsed": 8219424,
+        "jsHeapTotal": 9535488,
+        "gcMs": 7.175374999991618
+      },
+      "simMs": {
+        "count": 9005,
+        "p50": 0,
+        "p95": 0.10000002384185791,
+        "p99": 0.2999999523162842
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 54017,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.600000023841858,
+          "p99": 20.299999952316284
+        },
+        "renderPreparationMs": {
+          "p50": 0.10000002384185791,
+          "p95": 0.20000004768371582,
+          "p99": 0.30000007152557373
+        },
+        "samples": 18000,
+        "visibleActors": 9,
+        "sceneChanges": 11,
+        "zoom": 0.9,
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "status": "UNVERIFIED",
+        "reason": "Application does not instrument projection IPC latency"
+      },
+      "saveMs": {
+        "count": 15,
+        "p50": 69,
+        "p95": 86.80000007152557,
+        "p99": 86.80000007152557
+      },
+      "errors": []
+    },
+    {
+      "minute": 16,
+      "at": "2026-11-03T17:48:09.661Z",
+      "elapsedMs": 960110.133042,
+      "projection": {
+        "tick": 9604,
+        "minute": 1440,
+        "population": 1100,
+        "scene": "b-cafe"
+      },
+      "frameMs": {
+        "count": 3602,
+        "p50": 16.699999999953434,
+        "p95": 16.70000000006985,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 0,
+      "longTaskMs": 0,
+      "heap": {
+        "minute": 16,
+        "jsHeapUsed": 8090848,
+        "jsHeapTotal": 9797632,
+        "gcMs": 7.350375000038184
+      },
+      "simMs": {
+        "count": 9605,
+        "p50": 0,
+        "p95": 0.10000002384185791,
+        "p99": 0.2999999523162842
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 57619,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.699999928474426,
+          "p99": 20.600000023841858
+        },
+        "renderPreparationMs": {
+          "p50": 0.10000002384185791,
+          "p95": 0.20000004768371582,
+          "p99": 0.30000007152557373
+        },
+        "samples": 18000,
+        "visibleActors": 1,
+        "sceneChanges": 12,
+        "zoom": 1.25,
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "status": "UNVERIFIED",
+        "reason": "Application does not instrument projection IPC latency"
+      },
+      "saveMs": {
+        "count": 16,
+        "p50": 76.20000004768372,
+        "p95": 86.80000007152557,
+        "p99": 86.80000007152557
+      },
+      "errors": []
+    },
+    {
+      "minute": 17,
+      "at": "2026-11-03T17:49:09.630Z",
+      "elapsedMs": 1020079.627917,
+      "projection": {
+        "tick": 10204,
+        "minute": 1500,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3598,
+        "p50": 16.699999999953434,
+        "p95": 16.70000000006985,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 0,
+      "longTaskMs": 0,
+      "heap": {
+        "minute": 17,
+        "jsHeapUsed": 8466448,
+        "jsHeapTotal": 10059776,
+        "gcMs": 8.715959000051953
+      },
+      "simMs": {
+        "count": 10205,
+        "p50": 0,
+        "p95": 0.10000002384185791,
+        "p99": 0.2999999523162842
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 61217,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.600000023841858,
+          "p99": 20.399999976158142
+        },
+        "renderPreparationMs": {
+          "p50": 0.10000002384185791,
+          "p95": 0.20000004768371582,
+          "p99": 0.30000007152557373
+        },
+        "samples": 18000,
+        "visibleActors": 9,
+        "sceneChanges": 13,
+        "zoom": 0.9,
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "status": "UNVERIFIED",
+        "reason": "Application does not instrument projection IPC latency"
+      },
+      "saveMs": {
+        "count": 17,
+        "p50": 69,
+        "p95": 86.80000007152557,
+        "p99": 86.80000007152557
+      },
+      "errors": []
+    },
+    {
+      "minute": 18,
+      "at": "2026-11-03T17:50:09.668Z",
+      "elapsedMs": 1080117.167917,
+      "projection": {
+        "tick": 10804,
+        "minute": 1560,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3601,
+        "p50": 16.699999999953434,
+        "p95": 16.700000000186265,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 0,
+      "longTaskMs": 0,
+      "heap": {
+        "minute": 18,
+        "jsHeapUsed": 8472940,
+        "jsHeapTotal": 9797632,
+        "gcMs": 9.088875000132248
+      },
+      "simMs": {
+        "count": 10805,
+        "p50": 0,
+        "p95": 0.10000002384185791,
+        "p99": 0.30000007152557373
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 64818,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.600000023841858,
+          "p99": 21.100000023841858
+        },
+        "renderPreparationMs": {
+          "p50": 0.10000002384185791,
+          "p95": 0.20000004768371582,
+          "p99": 0.30000007152557373
+        },
+        "samples": 18000,
+        "visibleActors": 9,
+        "sceneChanges": 13,
+        "zoom": 0.9,
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "status": "UNVERIFIED",
+        "reason": "Application does not instrument projection IPC latency"
+      },
+      "saveMs": {
+        "count": 18,
+        "p50": 76.20000004768372,
+        "p95": 94.60000002384186,
+        "p99": 94.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 19,
+      "at": "2026-11-03T17:51:09.685Z",
+      "elapsedMs": 1140134.630375,
+      "projection": {
+        "tick": 11404,
+        "minute": 1620,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3600,
+        "p50": 16.699999999953434,
+        "p95": 16.700000000186265,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 0,
+      "longTaskMs": 0,
+      "heap": {
+        "minute": 19,
+        "jsHeapUsed": 8494884,
+        "jsHeapTotal": 9797632,
+        "gcMs": 8.94262499990873
+      },
+      "simMs": {
+        "count": 11405,
+        "p50": 0,
+        "p95": 0.10000002384185791,
+        "p99": 0.30000007152557373
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 68418,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.600000023841858,
+          "p99": 19.5
+        },
+        "renderPreparationMs": {
+          "p50": 0.10000002384185791,
+          "p95": 0.20000004768371582,
+          "p99": 0.30000007152557373
+        },
+        "samples": 18000,
+        "visibleActors": 9,
+        "sceneChanges": 13,
+        "zoom": 0.9,
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "status": "UNVERIFIED",
+        "reason": "Application does not instrument projection IPC latency"
+      },
+      "saveMs": {
+        "count": 19,
+        "p50": 70.29999995231628,
+        "p95": 94.60000002384186,
+        "p99": 94.60000002384186
+      },
+      "errors": []
+    },
+    {
+      "minute": 20,
+      "at": "2026-11-03T17:52:09.641Z",
+      "elapsedMs": 1200090.9724589998,
+      "projection": {
+        "tick": 12004,
+        "minute": 1680,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3599,
+        "p50": 16.699999999953434,
+        "p95": 16.799999999813735,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 0,
+      "longTaskMs": 0,
+      "heap": {
+        "minute": 20,
+        "jsHeapUsed": 8496416,
+        "jsHeapTotal": 9797632,
+        "gcMs": 9.208624999970198
+      },
+      "simMs": {
+        "count": 12005,
+        "p50": 0,
+        "p95": 0.10000002384185791,
+        "p99": 0.2999999523162842
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 72017,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.5,
+          "p99": 18.799999952316284
+        },
+        "renderPreparationMs": {
+          "p50": 0.09999990463256836,
+          "p95": 0.20000004768371582,
+          "p99": 0.2999999523162842
+        },
+        "samples": 18000,
+        "visibleActors": 9,
+        "sceneChanges": 13,
+        "zoom": 0.9,
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "status": "UNVERIFIED",
+        "reason": "Application does not instrument projection IPC latency"
+      },
+      "saveMs": {
+        "count": 20,
+        "p50": 76.20000004768372,
+        "p95": 96,
+        "p99": 96
+      },
+      "errors": []
+    },
+    {
+      "minute": 21,
+      "at": "2026-11-03T17:53:09.729Z",
+      "elapsedMs": 1260119.969292,
+      "projection": {
+        "tick": 12604,
+        "minute": 1740,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3600,
+        "p50": 16.699999999953434,
+        "p95": 16.700000000186265,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 0,
+      "longTaskMs": 0,
+      "heap": {
+        "minute": 21,
+        "jsHeapUsed": 8463892,
+        "jsHeapTotal": 10059776,
+        "gcMs": 7.977249999996275
+      },
+      "simMs": {
+        "count": 12605,
+        "p50": 0,
+        "p95": 0.10000002384185791,
+        "p99": 0.2999999523162842
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 75617,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.5,
+          "p99": 18.700000047683716
+        },
+        "renderPreparationMs": {
+          "p50": 0.09999990463256836,
+          "p95": 0.20000004768371582,
+          "p99": 0.2999999523162842
+        },
+        "samples": 18000,
+        "visibleActors": 9,
+        "sceneChanges": 13,
+        "zoom": 0.9,
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "status": "UNVERIFIED",
+        "reason": "Application does not instrument projection IPC latency"
+      },
+      "saveMs": {
+        "count": 21,
+        "p50": 76.20000004768372,
+        "p95": 96,
+        "p99": 99.89999997615814
+      },
+      "errors": []
+    },
+    {
+      "minute": 22,
+      "at": "2026-11-03T17:54:09.706Z",
+      "elapsedMs": 1320096.5285,
+      "projection": {
+        "tick": 13204,
+        "minute": 1800,
+        "population": 1100,
+        "scene": "b-school"
+      },
+      "frameMs": {
+        "count": 3599,
+        "p50": 16.699999999953434,
+        "p95": 16.700000000186265,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 0,
+      "longTaskMs": 0,
+      "heap": {
+        "minute": 22,
+        "jsHeapUsed": 8684068,
+        "jsHeapTotal": 10354688,
+        "gcMs": 8.521708000218496
+      },
+      "simMs": {
+        "count": 13205,
+        "p50": 0,
+        "p95": 0.10000002384185791,
+        "p99": 0.2999999523162842
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 79216,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.59999990463257,
+          "p99": 19
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.20000004768371582,
+          "p99": 0.2999999523162842
+        },
+        "samples": 18000,
+        "visibleActors": 1,
+        "sceneChanges": 14,
+        "zoom": 1.25,
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "status": "UNVERIFIED",
+        "reason": "Application does not instrument projection IPC latency"
+      },
+      "saveMs": {
+        "count": 22,
+        "p50": 76.60000002384186,
+        "p95": 96,
+        "p99": 99.89999997615814
+      },
+      "errors": []
+    },
+    {
+      "minute": 23,
+      "at": "2026-11-03T17:55:09.730Z",
+      "elapsedMs": 1380120.3377089999,
+      "projection": {
+        "tick": 13804,
+        "minute": 1860,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3600,
+        "p50": 16.699999999953434,
+        "p95": 16.700000000186265,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 0,
+      "longTaskMs": 0,
+      "heap": {
+        "minute": 23,
+        "jsHeapUsed": 8867908,
+        "jsHeapTotal": 10092544,
+        "gcMs": 8.059917000122368
+      },
+      "simMs": {
+        "count": 13805,
+        "p50": 0,
+        "p95": 0.10000002384185791,
+        "p99": 0.30000007152557373
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 82816,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.5,
+          "p99": 18.800000071525574
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.20000004768371582,
+          "p99": 0.30000007152557373
+        },
+        "samples": 18000,
+        "visibleActors": 9,
+        "sceneChanges": 15,
+        "zoom": 0.9,
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "status": "UNVERIFIED",
+        "reason": "Application does not instrument projection IPC latency"
+      },
+      "saveMs": {
+        "count": 23,
+        "p50": 76.60000002384186,
+        "p95": 96,
+        "p99": 99.89999997615814
+      },
+      "errors": []
+    },
+    {
+      "minute": 24,
+      "at": "2026-11-03T17:56:09.799Z",
+      "elapsedMs": 1440188.11475,
+      "projection": {
+        "tick": 14404,
+        "minute": 1920,
+        "population": 1100,
+        "scene": "b-home"
+      },
+      "frameMs": {
+        "count": 3602,
+        "p50": 16.699999999953434,
+        "p95": 16.700000000186265,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 0,
+      "longTaskMs": 0,
+      "heap": {
+        "minute": 24,
+        "jsHeapUsed": 8642916,
+        "jsHeapTotal": 10092544,
+        "gcMs": 9.236582999816164
+      },
+      "simMs": {
+        "count": 14405,
+        "p50": 0,
+        "p95": 0.10000002384185791,
+        "p99": 0.30000007152557373
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 86418,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.5,
+          "p99": 19
+        },
+        "renderPreparationMs": {
+          "p50": 0.09999990463256836,
+          "p95": 0.20000004768371582,
+          "p99": 0.30000007152557373
+        },
+        "samples": 18000,
+        "visibleActors": 1,
+        "sceneChanges": 16,
+        "zoom": 1.25,
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "status": "UNVERIFIED",
+        "reason": "Application does not instrument projection IPC latency"
+      },
+      "saveMs": {
+        "count": 24,
+        "p50": 81,
+        "p95": 97.60000002384186,
+        "p99": 99.89999997615814
+      },
+      "errors": []
+    },
+    {
+      "minute": 25,
+      "at": "2026-11-03T17:57:09.741Z",
+      "elapsedMs": 1500129.491584,
+      "projection": {
+        "tick": 15004,
+        "minute": 1980,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3597,
+        "p50": 16.699999999953434,
+        "p95": 16.799999999813735,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 0,
+      "longTaskMs": 0,
+      "heap": {
+        "minute": 25,
+        "jsHeapUsed": 8900000,
+        "jsHeapTotal": 10354688,
+        "gcMs": 10.36691699991934
+      },
+      "simMs": {
+        "count": 15005,
+        "p50": 0,
+        "p95": 0.10000002384185791,
+        "p99": 0.30000007152557373
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 90015,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.59999990463257,
+          "p99": 19.300000071525574
+        },
+        "renderPreparationMs": {
+          "p50": 0.09999990463256836,
+          "p95": 0.20000004768371582,
+          "p99": 0.30000007152557373
+        },
+        "samples": 18000,
+        "visibleActors": 9,
+        "sceneChanges": 17,
+        "zoom": 0.9,
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "status": "UNVERIFIED",
+        "reason": "Application does not instrument projection IPC latency"
+      },
+      "saveMs": {
+        "count": 25,
+        "p50": 81,
+        "p95": 97.60000002384186,
+        "p99": 99.89999997615814
+      },
+      "errors": []
+    },
+    {
+      "minute": 26,
+      "at": "2026-11-03T17:58:09.720Z",
+      "elapsedMs": 1560108.8012919999,
+      "projection": {
+        "tick": 15604,
+        "minute": 2040,
+        "population": 1100,
+        "scene": "b-market"
+      },
+      "frameMs": {
+        "count": 3600,
+        "p50": 16.699999999953434,
+        "p95": 16.700000000186265,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 0,
+      "longTaskMs": 0,
+      "heap": {
+        "minute": 26,
+        "jsHeapUsed": 8813800,
+        "jsHeapTotal": 10354688,
+        "gcMs": 9.688582999864593
+      },
+      "simMs": {
+        "count": 15605,
+        "p50": 0,
+        "p95": 0.10000002384185791,
+        "p99": 0.30000007152557373
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 93615,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.59999990463257,
+          "p99": 19
+        },
+        "renderPreparationMs": {
+          "p50": 0.09999990463256836,
+          "p95": 0.20000004768371582,
+          "p99": 0.30000007152557373
+        },
+        "samples": 18000,
+        "visibleActors": 11,
+        "sceneChanges": 18,
+        "zoom": 1.25,
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "status": "UNVERIFIED",
+        "reason": "Application does not instrument projection IPC latency"
+      },
+      "saveMs": {
+        "count": 26,
+        "p50": 81.10000002384186,
+        "p95": 97.60000002384186,
+        "p99": 99.89999997615814
+      },
+      "errors": []
+    },
+    {
+      "minute": 27,
+      "at": "2026-11-03T17:59:09.910Z",
+      "elapsedMs": 1620297.880584,
+      "projection": {
+        "tick": 16205,
+        "minute": 2100,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3604,
+        "p50": 16.699999999953434,
+        "p95": 16.799999999813735,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 0,
+      "longTaskMs": 0,
+      "heap": {
+        "minute": 27,
+        "jsHeapUsed": 9041716,
+        "jsHeapTotal": 10354688,
+        "gcMs": 27.30004100012593
+      },
+      "simMs": {
+        "count": 16206,
+        "p50": 0,
+        "p95": 0.10000002384185791,
+        "p99": 0.30000007152557373
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 97219,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.5,
+          "p99": 18.5
+        },
+        "renderPreparationMs": {
+          "p50": 0.09999990463256836,
+          "p95": 0.20000004768371582,
+          "p99": 0.30000007152557373
+        },
+        "samples": 18000,
+        "visibleActors": 9,
+        "sceneChanges": 19,
+        "zoom": 0.9,
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "status": "UNVERIFIED",
+        "reason": "Application does not instrument projection IPC latency"
+      },
+      "saveMs": {
+        "count": 27,
+        "p50": 81.10000002384186,
+        "p95": 97.60000002384186,
+        "p99": 99.89999997615814
+      },
+      "errors": []
+    },
+    {
+      "minute": 28,
+      "at": "2026-11-03T18:00:09.727Z",
+      "elapsedMs": 1680114.47575,
+      "projection": {
+        "tick": 16804,
+        "minute": 2160,
+        "population": 1100,
+        "scene": "b-cafe"
+      },
+      "frameMs": {
+        "count": 3595,
+        "p50": 16.699999999953434,
+        "p95": 16.700000000186265,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 0,
+      "longTaskMs": 0,
+      "heap": {
+        "minute": 28,
+        "jsHeapUsed": 8739748,
+        "jsHeapTotal": 10354688,
+        "gcMs": 7.936500000068918
+      },
+      "simMs": {
+        "count": 16805,
+        "p50": 0,
+        "p95": 0.10000002384185791,
+        "p99": 0.30000007152557373
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 100814,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.5,
+          "p99": 18.199999928474426
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 9,
+        "sceneChanges": 20,
+        "zoom": 1.25,
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "status": "UNVERIFIED",
+        "reason": "Application does not instrument projection IPC latency"
+      },
+      "saveMs": {
+        "count": 28,
+        "p50": 81.5,
+        "p95": 97.60000002384186,
+        "p99": 99.89999997615814
+      },
+      "errors": []
+    },
+    {
+      "minute": 29,
+      "at": "2026-11-03T18:01:09.784Z",
+      "elapsedMs": 1740170.469209,
+      "projection": {
+        "tick": 17404,
+        "minute": 2220,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3595,
+        "p50": 16.699999999953434,
+        "p95": 16.799999999813735,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 0,
+      "longTaskMs": 0,
+      "heap": {
+        "minute": 29,
+        "jsHeapUsed": 8950040,
+        "jsHeapTotal": 10616832,
+        "gcMs": 12.340957999927923
+      },
+      "simMs": {
+        "count": 17405,
+        "p50": 0,
+        "p95": 0.10000002384185791,
+        "p99": 0.30000007152557373
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 104409,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.5,
+          "p99": 18.09999990463257
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 9,
+        "sceneChanges": 21,
+        "zoom": 0.9,
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "status": "UNVERIFIED",
+        "reason": "Application does not instrument projection IPC latency"
+      },
+      "saveMs": {
+        "count": 29,
+        "p50": 81.5,
+        "p95": 97.60000002384186,
+        "p99": 99.89999997615814
+      },
+      "errors": []
+    },
+    {
+      "minute": 30,
+      "at": "2026-11-03T18:02:09.840Z",
+      "elapsedMs": 1800226.051459,
+      "projection": {
+        "tick": 18004,
+        "minute": 2280,
+        "population": 1100,
+        "scene": "outside"
+      },
+      "frameMs": {
+        "count": 3599,
+        "p50": 16.699999999953434,
+        "p95": 16.799999999813735,
+        "p99": 16.800000000046566
+      },
+      "longTaskCount": 1,
+      "longTaskMs": 57,
+      "heap": {
+        "minute": 30,
+        "jsHeapUsed": 8927584,
+        "jsHeapTotal": 10092544,
+        "gcMs": 13.644833999918774
+      },
+      "simMs": {
+        "count": 18005,
+        "p50": 0,
+        "p95": 0.10000002384185791,
+        "p99": 0.30000007152557373
+      },
+      "renderer": {
+        "renderer": "PixiJS 8.21.0 WebGL",
+        "frameCount": 108008,
+        "frameMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.5,
+          "p99": 18
+        },
+        "renderPreparationMs": {
+          "p50": 0,
+          "p95": 0.10000002384185791,
+          "p99": 0.20000004768371582
+        },
+        "samples": 18000,
+        "visibleActors": 9,
+        "sceneChanges": 21,
+        "zoom": 0.9,
+        "dpr": 1,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      "ipcMs": {
+        "status": "UNVERIFIED",
+        "reason": "Application does not instrument projection IPC latency"
+      },
+      "saveMs": {
+        "count": 30,
+        "p50": 85.5,
+        "p95": 99.89999997615814,
+        "p99": 122.70000004768372
+      },
+      "errors": []
+    }
+  ],
+  "actions": [
+    {
+      "minute": 0.0034248659833333362,
+      "type": "TALK",
+      "args": {
+        "npcId": "n0",
+        "topic": "greet"
+      },
+      "ok": true,
+      "reason": "Deniz Yel: Kıyıyaka’da herkesin bir hikâyesi var. Son karşılaşmalarımızı hatırlıyorum.",
+      "roundTripMs": 43.283874999999625
+    },
+    {
+      "minute": 0.0050143305666666685,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 27,
+        "y": 14.7
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 52.68362500000012
+    },
+    {
+      "minute": 1.0016494583333333,
+      "type": "ENTER",
+      "args": {
+        "buildingId": "b-market"
+      },
+      "ok": true,
+      "reason": "Bereket Market",
+      "roundTripMs": 27.029999999998836
+    },
+    {
+      "minute": 1.00334065765,
+      "type": "BUY",
+      "args": {
+        "businessId": "market",
+        "item": "simit",
+        "quantity": 5
+      },
+      "ok": true,
+      "reason": "Simit çantana eklendi.",
+      "roundTripMs": 101.471000000005
+    },
+    {
+      "minute": 1.0049973965333334,
+      "type": "APPLY_JOB",
+      "args": {
+        "jobId": "retail"
+      },
+      "ok": true,
+      "reason": "İşe alındın. Vardiya için işyerine git.",
+      "roundTripMs": 99.37737500000367
+    },
+    {
+      "minute": 1.00667053125,
+      "type": "START_SHIFT",
+      "args": {},
+      "ok": true,
+      "reason": "Vardiya başladı. 60 oyun dakikası işyerinde kal; 105 TL kazanacaksın.",
+      "roundTripMs": 100.3836669999946
+    },
+    {
+      "minute": 2.0033446236166665,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 7,
+        "y": 10
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 97.70829100000265
+    },
+    {
+      "minute": 2.0100280764000003,
+      "type": "EXIT",
+      "args": {},
+      "ok": true,
+      "reason": "Sokağa çıktın.",
+      "roundTripMs": 110.11566600001242
+    },
+    {
+      "minute": 2.0115978382,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 8.5,
+        "y": 31.7
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 94.18037499999627
+    },
+    {
+      "minute": 3.0015651229166664,
+      "type": "ENTER",
+      "args": {
+        "buildingId": "b-cafe"
+      },
+      "ok": true,
+      "reason": "Çınar Çayevi",
+      "roundTripMs": 14.682916000019759
+    },
+    {
+      "minute": 3.0031767048666667,
+      "type": "TALK",
+      "args": {
+        "npcId": "n23",
+        "topic": "greet"
+      },
+      "ok": true,
+      "reason": "Selin Koru: Vardiya yoğun geçiyor. Tanıştığımıza sevindim.",
+      "roundTripMs": 76.60395799999242
+    },
+    {
+      "minute": 3.0050025319499998,
+      "type": "BUY",
+      "args": {
+        "businessId": "tea",
+        "item": "tea",
+        "quantity": 1
+      },
+      "ok": true,
+      "reason": "Çay çantana eklendi.",
+      "roundTripMs": 109.53954100000556
+    },
+    {
+      "minute": 4.003204429166667,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 7,
+        "y": 10
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 88.509458000015
+    },
+    {
+      "minute": 4.0081773499999995,
+      "type": "EXIT",
+      "args": {},
+      "ok": true,
+      "reason": "Sokağa çıktın.",
+      "roundTripMs": 27.205042000015965
+    },
+    {
+      "minute": 4.0100383264,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 50,
+        "y": 49.7
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 111.6519580000022
+    },
+    {
+      "minute": 5.003236484733334,
+      "type": "ACCEPT_QUEST",
+      "args": {
+        "questId": "q6"
+      },
+      "ok": true,
+      "reason": "Görev kabul edildi. Haritada hedef işaretlendi.",
+      "roundTripMs": 103.02716699999291
+    },
+    {
+      "minute": 5.0048692125,
+      "type": "COMPLETE_QUEST",
+      "args": {
+        "questId": "q6"
+      },
+      "ok": true,
+      "reason": "Rıhtıma bir paket tamamlandı. 80 TL ödendi.",
+      "roundTripMs": 78.38099999999395
+    },
+    {
+      "minute": 5.0066433014,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 27,
+        "y": 17
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 86.3196670000325
+    },
+    {
+      "minute": 6.00151030625,
+      "type": "USE_ITEM",
+      "args": {
+        "item": "simit"
+      },
+      "ok": true,
+      "reason": "Simit kullanıldı.",
+      "roundTripMs": 4.7976659999694675
+    },
+    {
+      "minute": 6.0032532555666664,
+      "type": "VEHICLE_ENTER",
+      "args": {
+        "vehicleId": "v0"
+      },
+      "ok": true,
+      "reason": "Araca bindin. W hızlanır, S frenler; A/D kavşakta dönüş seçer. F veya etkileşim ile in.",
+      "roundTripMs": 85.49166699999478
+    },
+    {
+      "minute": 6.004921023616667,
+      "type": "DRIVE",
+      "args": {
+        "throttle": 1,
+        "steer": 0
+      },
+      "ok": true,
+      "reason": "",
+      "roundTripMs": 100.05137499998091
+    },
+    {
+      "minute": 7.003253324316667,
+      "type": "DRIVE",
+      "args": {
+        "throttle": 1,
+        "steer": 1
+      },
+      "ok": true,
+      "reason": "",
+      "roundTripMs": 65.36170899996068
+    },
+    {
+      "minute": 8.003238765283333,
+      "type": "DRIVE",
+      "args": {
+        "throttle": -1,
+        "steer": 0
+      },
+      "ok": true,
+      "reason": "",
+      "roundTripMs": 71.00129200000083
+    },
+    {
+      "minute": 8.019915734033333,
+      "type": "VEHICLE_EXIT",
+      "args": {},
+      "ok": true,
+      "reason": "Aracı park edip indin.",
+      "roundTripMs": 37.34670799999731
+    },
+    {
+      "minute": 8.021575955566666,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 9,
+        "y": 49.7
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 75.28104100003839
+    },
+    {
+      "minute": 9.003180884033332,
+      "type": "ENTER",
+      "args": {
+        "buildingId": "b-school"
+      },
+      "ok": true,
+      "reason": "Ufuk Akademi",
+      "roundTripMs": 98.5875829999568
+    },
+    {
+      "minute": 9.004919470833332,
+      "type": "TRAIN",
+      "args": {
+        "skill": "academic"
+      },
+      "ok": true,
+      "reason": "Ders başladı. 20 oyun dakikası burada kal.",
+      "roundTripMs": 104.30199999990873
+    },
+    {
+      "minute": 10.004900149316667,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 7,
+        "y": 10
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 73.60766700003296
+    },
+    {
+      "minute": 10.009844988200001,
+      "type": "EXIT",
+      "args": {},
+      "ok": true,
+      "reason": "Sokağa çıktın.",
+      "roundTripMs": 22.145375000080094
+    },
+    {
+      "minute": 10.011576584733334,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 6.5,
+        "y": 13.7
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 103.89187500008848
+    },
+    {
+      "minute": 11.003266558333333,
+      "type": "ENTER",
+      "args": {
+        "buildingId": "b-home"
+      },
+      "ok": true,
+      "reason": "Yuva Apartmanı",
+      "roundTripMs": 99.46966700011399
+    },
+    {
+      "minute": 11.004914009733334,
+      "type": "REST",
+      "args": {},
+      "ok": true,
+      "reason": "Bir saatlik dinlenme başladı. Hareket edersen dinlenme sona erer.",
+      "roundTripMs": 98.84266700001899
+    },
+    {
+      "minute": 12.003250165983333,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 7,
+        "y": 10
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 45.37191700004041
+    },
+    {
+      "minute": 12.008183373616667,
+      "type": "EXIT",
+      "args": {},
+      "ok": true,
+      "reason": "Sokağa çıktın.",
+      "roundTripMs": 1.0374579998897389
+    },
+    {
+      "minute": 12.009920870150001,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 27,
+        "y": 14.7
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 104.2484580000164
+    },
+    {
+      "minute": 13.003242749316666,
+      "type": "USE_ITEM",
+      "args": {
+        "item": "simit"
+      },
+      "ok": true,
+      "reason": "Simit kullanıldı.",
+      "roundTripMs": 74.91087499994319
+    },
+    {
+      "minute": 13.0049124375,
+      "type": "ENTER",
+      "args": {
+        "buildingId": "b-market"
+      },
+      "ok": true,
+      "reason": "Bereket Market",
+      "roundTripMs": 100.17437499994412
+    },
+    {
+      "minute": 13.006605784733333,
+      "type": "BUY",
+      "args": {
+        "businessId": "market",
+        "item": "simit",
+        "quantity": 5
+      },
+      "ok": false,
+      "reason": "İşletmenin stoğu yetmiyor.",
+      "roundTripMs": 101.59366699995007
+    },
+    {
+      "minute": 13.008211245833333,
+      "type": "APPLY_JOB",
+      "args": {
+        "jobId": "retail"
+      },
+      "ok": true,
+      "reason": "İşe alındın. Vardiya için işyerine git.",
+      "roundTripMs": 96.3137080000015
+    },
+    {
+      "minute": 13.009872904166667,
+      "type": "START_SHIFT",
+      "args": {},
+      "ok": true,
+      "reason": "Vardiya başladı. 60 oyun dakikası işyerinde kal; 108 TL kazanacaksın.",
+      "roundTripMs": 99.66441700002179
+    },
+    {
+      "minute": 14.003184010416668,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 7,
+        "y": 10
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 47.946624999982305
+    },
+    {
+      "minute": 14.008170369450001,
+      "type": "EXIT",
+      "args": {},
+      "ok": true,
+      "reason": "Sokağa çıktın.",
+      "roundTripMs": 3.4041250000009313
+    },
+    {
+      "minute": 14.0098452,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 8.5,
+        "y": 31.7
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 100.48862499999814
+    },
+    {
+      "minute": 15.003252578483334,
+      "type": "ENTER",
+      "args": {
+        "buildingId": "b-cafe"
+      },
+      "ok": true,
+      "reason": "Çınar Çayevi",
+      "roundTripMs": 81.12375000002794
+    },
+    {
+      "minute": 15.004910486116668,
+      "type": "BUY",
+      "args": {
+        "businessId": "tea",
+        "item": "tea",
+        "quantity": 1
+      },
+      "ok": true,
+      "reason": "Çay çantana eklendi.",
+      "roundTripMs": 76.1253339999821
+    },
+    {
+      "minute": 16.003249005566666,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 7,
+        "y": 10
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 40.87145800003782
+    },
+    {
+      "minute": 16.008184111816668,
+      "type": "EXIT",
+      "args": {},
+      "ok": true,
+      "reason": "Sokağa çıktın.",
+      "roundTripMs": 13.725124999997206
+    },
+    {
+      "minute": 16.0099138514,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 50,
+        "y": 49.7
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 103.78420899994671
+    },
+    {
+      "minute": 17.003191580566668,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 27,
+        "y": 17
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 51.627290999982506
+    },
+    {
+      "minute": 18.00320199515,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 24.09,
+        "y": 53,
+        "scene": "outside"
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 11.662500000093132
+    },
+    {
+      "minute": 19.003257004166667,
+      "type": "USE_ITEM",
+      "args": {
+        "item": "simit"
+      },
+      "ok": true,
+      "reason": "Simit kullanıldı.",
+      "roundTripMs": 30.476458000019193
+    },
+    {
+      "minute": 19.00494885208333,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 53,
+        "y": 13.7
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 82.0353330001235
+    },
+    {
+      "minute": 20.00326871598333,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 9,
+        "y": 49.7
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 58.953958000056446
+    },
+    {
+      "minute": 21.003241822916664,
+      "type": "ENTER",
+      "args": {
+        "buildingId": "b-school"
+      },
+      "ok": true,
+      "reason": "Ufuk Akademi",
+      "roundTripMs": 48.04304099990986
+    },
+    {
+      "minute": 21.004922154166668,
+      "type": "TRAIN",
+      "args": {
+        "skill": "academic"
+      },
+      "ok": true,
+      "reason": "Ders başladı. 20 oyun dakikası burada kal.",
+      "roundTripMs": 100.81370800011791
+    },
+    {
+      "minute": 22.00319364445,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 7,
+        "y": 10
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 44.411917000077665
+    },
+    {
+      "minute": 22.008255631249998,
+      "type": "EXIT",
+      "args": {},
+      "ok": true,
+      "reason": "Sokağa çıktın.",
+      "roundTripMs": 27.123999999836087
+    },
+    {
+      "minute": 22.0099310389,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 6.5,
+        "y": 13.7
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 100.52325000008568
+    },
+    {
+      "minute": 23.0032399889,
+      "type": "ENTER",
+      "args": {
+        "buildingId": "b-home"
+      },
+      "ok": true,
+      "reason": "Yuva Apartmanı",
+      "roundTripMs": 47.97700000018813
+    },
+    {
+      "minute": 23.004897924316666,
+      "type": "REST",
+      "args": {},
+      "ok": true,
+      "reason": "Bir saatlik dinlenme başladı. Hareket edersen dinlenme sona erer.",
+      "roundTripMs": 99.47333399998024
+    },
+    {
+      "minute": 24.00492125903333,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 7,
+        "y": 10
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 49.23399999993853
+    },
+    {
+      "minute": 24.01004938125,
+      "type": "EXIT",
+      "args": {},
+      "ok": true,
+      "reason": "Sokağa çıktın.",
+      "roundTripMs": 34.26687499997206
+    },
+    {
+      "minute": 24.011537415283332,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 27,
+        "y": 14.7
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 89.28000000002794
+    },
+    {
+      "minute": 25.003251400699998,
+      "type": "USE_ITEM",
+      "args": {
+        "item": "simit"
+      },
+      "ok": true,
+      "reason": "Simit kullanıldı.",
+      "roundTripMs": 28.638792000012472
+    },
+    {
+      "minute": 25.00493314375,
+      "type": "ENTER",
+      "args": {
+        "buildingId": "b-market"
+      },
+      "ok": true,
+      "reason": "Bereket Market",
+      "roundTripMs": 100.89233399997465
+    },
+    {
+      "minute": 25.006580474316667,
+      "type": "BUY",
+      "args": {
+        "businessId": "market",
+        "item": "simit",
+        "quantity": 5
+      },
+      "ok": false,
+      "reason": "İşletmenin stoğu yetmiyor.",
+      "roundTripMs": 98.82962499978021
+    },
+    {
+      "minute": 25.008253009733334,
+      "type": "APPLY_JOB",
+      "args": {
+        "jobId": "retail"
+      },
+      "ok": true,
+      "reason": "İşe alındın. Vardiya için işyerine git.",
+      "roundTripMs": 100.34600000013597
+    },
+    {
+      "minute": 25.009925478483332,
+      "type": "START_SHIFT",
+      "args": {},
+      "ok": true,
+      "reason": "Vardiya başladı. 60 oyun dakikası işyerinde kal; 111 TL kazanacaksın.",
+      "roundTripMs": 100.34491700003855
+    },
+    {
+      "minute": 26.003237341666665,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 7,
+        "y": 10
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 23.387957999948412
+    },
+    {
+      "minute": 26.009861529866665,
+      "type": "EXIT",
+      "args": {},
+      "ok": true,
+      "reason": "Sokağa çıktın.",
+      "roundTripMs": 91.36666599987075
+    },
+    {
+      "minute": 26.011534356949998,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 8.5,
+        "y": 31.7
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 100.36608400009573
+    },
+    {
+      "minute": 27.0065866639,
+      "type": "ENTER",
+      "args": {
+        "buildingId": "b-cafe"
+      },
+      "ok": true,
+      "reason": "Çınar Çayevi",
+      "roundTripMs": 27.337583999847993
+    },
+    {
+      "minute": 27.008171085416667,
+      "type": "TALK",
+      "args": {
+        "npcId": "n23",
+        "topic": "greet"
+      },
+      "ok": true,
+      "reason": "Selin Koru: Vardiya yoğun geçiyor. Son karşılaşmalarımızı hatırlıyorum.",
+      "roundTripMs": 50.64274999988265
+    },
+    {
+      "minute": 27.009885904166666,
+      "type": "BUY",
+      "args": {
+        "businessId": "tea",
+        "item": "tea",
+        "quantity": 1
+      },
+      "ok": true,
+      "reason": "Çay çantana eklendi.",
+      "roundTripMs": 102.88312499993481
+    },
+    {
+      "minute": 28.003190754866665,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 7,
+        "y": 10
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 26.784583000000566
+    },
+    {
+      "minute": 28.00818367848333,
+      "type": "EXIT",
+      "args": {},
+      "ok": true,
+      "reason": "Sokağa çıktın.",
+      "roundTripMs": 1.5160420001484454
+    },
+    {
+      "minute": 28.00985664028333,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 50,
+        "y": 49.7
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 100.37624999997206
+    },
+    {
+      "minute": 29.004936023616665,
+      "type": "ACCEPT_QUEST",
+      "args": {
+        "questId": "q45"
+      },
+      "ok": true,
+      "reason": "Görev kabul edildi. Haritada hedef işaretlendi.",
+      "roundTripMs": 72.66341699985787
+    },
+    {
+      "minute": 29.00658791875,
+      "type": "COMPLETE_QUEST",
+      "args": {
+        "questId": "q45"
+      },
+      "ok": true,
+      "reason": "Rıhtıma bir paket tamamlandı. 80 TL ödendi.",
+      "roundTripMs": 63.20308400015347
+    },
+    {
+      "minute": 29.008191674316667,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 27,
+        "y": 17
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 53.15229199989699
+    },
+    {
+      "minute": 30.013239711116665,
+      "type": "MOVE_TO",
+      "args": {
+        "x": 24.09,
+        "y": 53,
+        "scene": "outside"
+      },
+      "ok": true,
+      "reason": "Yol belirlendi.",
+      "roundTripMs": 69.89187499997206
+    }
+  ],
+  "errors": [
+    {
+      "kind": "harness",
+      "message": "page.evaluate: Target page, context or browser has been closed",
+      "at": "2026-11-03T18:02:41.865Z"
+    }
+  ],
+  "loadedAssets": [
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/index.html?qa=1",
+      "status": 200,
+      "bytes": 2640,
+      "sha256": "fa4ecd3d4e15f44ec013e4c1f537db715f2e60de1a5f1960ac6e22428c0fdd2f"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/styles-15c0bbe44402.css",
+      "status": 200,
+      "bytes": 9038,
+      "sha256": "15c0bbe44402099a59631a03f433e49ee371c6a06233b0615af35d81d704e64c"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/app-MBGJYWNF.js",
+      "status": 200,
+      "bytes": 110879,
+      "sha256": "5085942bb3f06543740c15f016d9b2ffa4b54a7b35e479edaf3267e8570c9724"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-K4EQNGI3.js",
+      "status": 200,
+      "bytes": 42879,
+      "sha256": "815d3dce60eff7a50aee12de9c623464bba121f78473f3582d3baffe3615dc15"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-LZGHOTUE.js",
+      "status": 200,
+      "bytes": 39852,
+      "sha256": "768aa9c7d105c7f234e8d15c0d6b7a01c6192f34b442db250a709de086252823"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-I5OQ4SMM.js",
+      "status": 200,
+      "bytes": 48221,
+      "sha256": "6af49c840327fedfe69383591d448e9e8ba1dbbdda91f194f36c3807ea56808b"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-URXYDDVR.js",
+      "status": 200,
+      "bytes": 11135,
+      "sha256": "3456e615d70cd27146949f3aa636632fd1d63deb449418b244ffe521080c7e24"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-YUACKDHT.js",
+      "status": 200,
+      "bytes": 27309,
+      "sha256": "71441b6d7d7ef5fdb9ab056a7045351a3a48d7bad2a7764554cd6b08bfb9e1a3"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-RK22JOBD.js",
+      "status": 200,
+      "bytes": 33736,
+      "sha256": "dd4b1b2057bcf263aab963df5cd49a093322311d3e45b222c2f364b3a7e427d3"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-R2OLMQZM.js",
+      "status": 200,
+      "bytes": 1104,
+      "sha256": "c84b6291e6359966c9bfd1684faea29838d13de7f785729fefaf2bbb7aae4cf5"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-EFD5MV62.js",
+      "status": 200,
+      "bytes": 72106,
+      "sha256": "375e220254cdec22d070d0f9de42ef1853646abf6ac6fa6781cf5309358cfafa"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-DD7GQO3V.js",
+      "status": 200,
+      "bytes": 6083,
+      "sha256": "e21375c8992904f2bee9bf11e171901994819dcdaae55a2d0d635355addbd224"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-FXAE45L4.js",
+      "status": 200,
+      "bytes": 59276,
+      "sha256": "09196e5d8c2be7ad60c5072a91f6bb015f041c84477d0bd9f19e98a3bc41287a"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-DTDJP34D.js",
+      "status": 200,
+      "bytes": 42564,
+      "sha256": "424d06bc2538e97889a70af51a78b087405c17d3fbfdcbed908b4f46b43ab357"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-LIKKPBUW.js",
+      "status": 200,
+      "bytes": 340,
+      "sha256": "06ad2dc669e725fd5c9e0fb98abf9ca3360b22bd28f0faa10a207acada69f059"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-IYZYXDYK.js",
+      "status": 200,
+      "bytes": 55588,
+      "sha256": "7fb57a530179d55b8b8c7f528842f3cec4890fc5b02d44ecdd4bb6b4942b3f10"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-OBZAIJKW.js",
+      "status": 200,
+      "bytes": 27003,
+      "sha256": "9c3b5529d2997fba887d29d9e2e0db5847448606f6dbad1808d0f6bc2ba3458e"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-7AFKKDGB.js",
+      "status": 200,
+      "bytes": 69089,
+      "sha256": "39dbabf308d609c8c30a6097c43ddf40a914c84263b839d935e0397b1fc9f362"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-4NAMSOGY.js",
+      "status": 200,
+      "bytes": 203,
+      "sha256": "eaebfc1c1327a9fa17e39b86a2e9e59317372ef4a766723a82a90d4990733ef5"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-TUT5QNTW.js",
+      "status": 200,
+      "bytes": 314,
+      "sha256": "eeab9650cf7677dcd09dd6e670864a86714512d69d620a6ff4220c4370810f99"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/chunk-O2LBC5EX.js",
+      "status": 200,
+      "bytes": 115,
+      "sha256": "18e8beb3f176e66095c59fe64565d0eeca0535a62075cea762042396fba8f004"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/assets/atlas.json",
+      "status": 200,
+      "bytes": 25635,
+      "sha256": "6c72bc50e1880d8775f4f5e624e0705aeb21b8c8fd3a0c513809960860d7dbf5"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/assets/people-props.png",
+      "status": 200,
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/assets/buildings.png",
+      "status": 200,
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "url": "http://127.0.0.1:8097/games/social-engine/worker-6RQK3JQK.js",
+      "status": 200,
+      "bytes": 60565,
+      "sha256": "37bdd2c5e64713ab71174b71092529cb08e25fc67a2e7bac6479c3091b9c7482"
+    }
+  ],
+  "acceptance": {
+    "SE-049": "UNVERIFIED",
+    "SE-050": "UNVERIFIED",
+    "SE-051": "UNVERIFIED"
+  },
+  "limits": [
+    "macOS host is not the specified four-core reference PC.",
+    "Automated playback does not satisfy the two real human playtests.",
+    "GPU and total browser-process memory are not inferred from JS heap.",
+    "IPC transfer latency is UNVERIFIED unless instrumented by the application.",
+    "CDP garbage collection once per minute perturbs timing and is recorded."
+  ],
+  "seed": 20261103,
+  "initialTick": 0,
+  "initialPopulation": 1100,
+  "measurementStartedAt": "2026-11-03T17:32:09.595Z",
+  "elapsedMinutes": 30.537517670149995,
+  "failure": {
+    "message": "page.evaluate: Target page, context or browser has been closed",
+    "stack": "page.evaluate: Target page, context or browser has been closed\n    at projection (/Users/tarikayaz/Documents/Codex/2026-11-03/social-engine-1-0-autonomous-production/work/tariklab/scripts/social-engine/performance.mjs:40:27)\n    at /Users/tarikayaz/Documents/Codex/2026-11-03/social-engine-1-0-autonomous-production/work/tariklab/scripts/social-engine/performance.mjs:86:117"
+  },
+  "finishedAt": "2026-11-03T18:02:41.866Z",
+  "wallClockMs": 1833387.513541,
+  "frameMs": {
+    "count": 107987,
+    "p50": 16.699999999953434,
+    "p95": 16.700000000186265,
+    "p99": 16.800000000046566
+  },
+  "workerSimMs": {
+    "count": 1771,
+    "p50": 0,
+    "p95": 0.10000002384185791,
+    "p99": 0.2999999523162842
+  },
+  "heapSlopeMiBPerMinute": 0.07190806014386644,
+  "longTaskRatio": 0.000031107441356249,
+  "heapSamples": [
+    {
+      "minute": 1,
+      "jsHeapUsed": 6614656,
+      "jsHeapTotal": 7733248,
+      "gcMs": 9.006916999998793
+    },
+    {
+      "minute": 2,
+      "jsHeapUsed": 6707824,
+      "jsHeapTotal": 7471104,
+      "gcMs": 10.81345900001179
+    },
+    {
+      "minute": 3,
+      "jsHeapUsed": 7259576,
+      "jsHeapTotal": 8519680,
+      "gcMs": 9.539292000001296
+    },
+    {
+      "minute": 4,
+      "jsHeapUsed": 6961612,
+      "jsHeapTotal": 8257536,
+      "gcMs": 7.8524580000084825
+    },
+    {
+      "minute": 5,
+      "jsHeapUsed": 7430704,
+      "jsHeapTotal": 8323072,
+      "gcMs": 8.222624999994878
+    },
+    {
+      "minute": 6,
+      "jsHeapUsed": 7523364,
+      "jsHeapTotal": 8323072,
+      "gcMs": 7.887332999962382
+    },
+    {
+      "minute": 7,
+      "jsHeapUsed": 7674924,
+      "jsHeapTotal": 8929280,
+      "gcMs": 10.6243329999852
+    },
+    {
+      "minute": 8,
+      "jsHeapUsed": 7681892,
+      "jsHeapTotal": 8929280,
+      "gcMs": 7.751791000016965
+    },
+    {
+      "minute": 9,
+      "jsHeapUsed": 7686304,
+      "jsHeapTotal": 9191424,
+      "gcMs": 8.658292000065558
+    },
+    {
+      "minute": 10,
+      "jsHeapUsed": 7630064,
+      "jsHeapTotal": 9060352,
+      "gcMs": 11.967541999998502
+    },
+    {
+      "minute": 11,
+      "jsHeapUsed": 7888720,
+      "jsHeapTotal": 9322496,
+      "gcMs": 7.725958000053652
+    },
+    {
+      "minute": 12,
+      "jsHeapUsed": 7778192,
+      "jsHeapTotal": 9060352,
+      "gcMs": 9.492917000083253
+    },
+    {
+      "minute": 13,
+      "jsHeapUsed": 7945328,
+      "jsHeapTotal": 9060352,
+      "gcMs": 7.893416999955662
+    },
+    {
+      "minute": 14,
+      "jsHeapUsed": 7839608,
+      "jsHeapTotal": 9584640,
+      "gcMs": 7.59091700008139
+    },
+    {
+      "minute": 15,
+      "jsHeapUsed": 8219424,
+      "jsHeapTotal": 9535488,
+      "gcMs": 7.175374999991618
+    },
+    {
+      "minute": 16,
+      "jsHeapUsed": 8090848,
+      "jsHeapTotal": 9797632,
+      "gcMs": 7.350375000038184
+    },
+    {
+      "minute": 17,
+      "jsHeapUsed": 8466448,
+      "jsHeapTotal": 10059776,
+      "gcMs": 8.715959000051953
+    },
+    {
+      "minute": 18,
+      "jsHeapUsed": 8472940,
+      "jsHeapTotal": 9797632,
+      "gcMs": 9.088875000132248
+    },
+    {
+      "minute": 19,
+      "jsHeapUsed": 8494884,
+      "jsHeapTotal": 9797632,
+      "gcMs": 8.94262499990873
+    },
+    {
+      "minute": 20,
+      "jsHeapUsed": 8496416,
+      "jsHeapTotal": 9797632,
+      "gcMs": 9.208624999970198
+    },
+    {
+      "minute": 21,
+      "jsHeapUsed": 8463892,
+      "jsHeapTotal": 10059776,
+      "gcMs": 7.977249999996275
+    },
+    {
+      "minute": 22,
+      "jsHeapUsed": 8684068,
+      "jsHeapTotal": 10354688,
+      "gcMs": 8.521708000218496
+    },
+    {
+      "minute": 23,
+      "jsHeapUsed": 8867908,
+      "jsHeapTotal": 10092544,
+      "gcMs": 8.059917000122368
+    },
+    {
+      "minute": 24,
+      "jsHeapUsed": 8642916,
+      "jsHeapTotal": 10092544,
+      "gcMs": 9.236582999816164
+    },
+    {
+      "minute": 25,
+      "jsHeapUsed": 8900000,
+      "jsHeapTotal": 10354688,
+      "gcMs": 10.36691699991934
+    },
+    {
+      "minute": 26,
+      "jsHeapUsed": 8813800,
+      "jsHeapTotal": 10354688,
+      "gcMs": 9.688582999864593
+    },
+    {
+      "minute": 27,
+      "jsHeapUsed": 9041716,
+      "jsHeapTotal": 10354688,
+      "gcMs": 27.30004100012593
+    },
+    {
+      "minute": 28,
+      "jsHeapUsed": 8739748,
+      "jsHeapTotal": 10354688,
+      "gcMs": 7.936500000068918
+    },
+    {
+      "minute": 29,
+      "jsHeapUsed": 8950040,
+      "jsHeapTotal": 10616832,
+      "gcMs": 12.340957999927923
+    },
+    {
+      "minute": 30,
+      "jsHeapUsed": 8927584,
+      "jsHeapTotal": 10092544,
+      "gcMs": 13.644833999918774
+    }
+  ]
+}

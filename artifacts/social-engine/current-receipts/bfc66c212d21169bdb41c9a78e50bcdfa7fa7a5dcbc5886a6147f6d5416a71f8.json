@@ -1,0 +1,75 @@
+{
+  "status": "PASS",
+  "startedAt": "2026-11-04T10:09:45.596Z",
+  "headless": true,
+  "rendererSourceSha256": "62342e7019d1df0a9513ea42de22bd87217fd3225f4cfffde995349c68e133f8",
+  "probeSha256": "4b0f940044d4a44acfa1e1a89b68470a9aa2a0192dff955983787197d6bc874d",
+  "errors": [],
+  "cycles": [
+    {
+      "cycle": 1,
+      "during": {
+        "entries": 13,
+        "aliases": 13
+      },
+      "after": {
+        "entries": 0,
+        "aliases": 0,
+        "canvases": 0
+      }
+    },
+    {
+      "cycle": 2,
+      "during": {
+        "entries": 13,
+        "aliases": 13
+      },
+      "after": {
+        "entries": 0,
+        "aliases": 0,
+        "canvases": 0
+      }
+    },
+    {
+      "cycle": 3,
+      "during": {
+        "entries": 13,
+        "aliases": 13
+      },
+      "after": {
+        "entries": 0,
+        "aliases": 0,
+        "canvases": 0
+      }
+    },
+    {
+      "cycle": 4,
+      "during": {
+        "entries": 13,
+        "aliases": 13
+      },
+      "after": {
+        "entries": 0,
+        "aliases": 0,
+        "canvases": 0
+      }
+    },
+    {
+      "cycle": 5,
+      "during": {
+        "entries": 13,
+        "aliases": 13
+      },
+      "after": {
+        "entries": 0,
+        "aliases": 0,
+        "canvases": 0
+      }
+    }
+  ],
+  "baseline": {
+    "entries": 0,
+    "aliases": 0
+  },
+  "finishedAt": "2026-11-04T10:09:53.030Z"
+}

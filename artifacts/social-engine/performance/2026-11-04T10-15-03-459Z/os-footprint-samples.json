@@ -1,0 +1,99 @@
+{
+  "runId": "2026-11-04T10-15-03-459Z",
+  "samples": [
+    {
+      "measuredAt": "2026-11-04T10:40:31.323Z",
+      "elapsedMinutes": 25.00326162361667,
+      "thresholdMinute": 10,
+      "ownerHarnessPid": 98812,
+      "pids": [
+        98821,
+        98822,
+        98823,
+        98824
+      ],
+      "manifestSha256": "1d2cb9211926fa48c9d555d5120dfd8c1ff7074fb97405a4b1b65f2fdb3e9438",
+      "status": "MEASURED",
+      "totalFootprintBytes": 428167848,
+      "totalFootprintMiB": 408.33267974853516,
+      "provisionalTargetMiB": 600,
+      "thresholdStatus": "PASS",
+      "exitCode": 0,
+      "error": "",
+      "processes": [
+        {
+          "pid": 98822,
+          "name": "chrome-headless-shell",
+          "footprintBytes": 267158632,
+          "historicalProcessPeakBytes": 380388432
+        },
+        {
+          "pid": 98824,
+          "name": "chrome-headless-shell",
+          "footprintBytes": 142493400,
+          "historicalProcessPeakBytes": 239273736
+        },
+        {
+          "pid": 98821,
+          "name": "chrome-headless-shell",
+          "footprintBytes": 32720000,
+          "historicalProcessPeakBytes": 37799040
+        },
+        {
+          "pid": 98823,
+          "name": "chrome-headless-shell",
+          "footprintBytes": 6963944,
+          "historicalProcessPeakBytes": 7963392
+        }
+      ],
+      "scope": "Point-in-time OS footprint of this test's headless Chrome tree, includes browser/GPU helper overhead. Not a peak, unique GPU allocation, reference PC or JS heap metric. Never sum individual historical peaks as a simultaneous peak."
+    },
+    {
+      "measuredAt": "2026-11-04T10:45:32.535Z",
+      "elapsedMinutes": 30.019024302783333,
+      "thresholdMinute": 30,
+      "ownerHarnessPid": 98812,
+      "pids": [
+        98821,
+        98822,
+        98823,
+        98824
+      ],
+      "manifestSha256": "1d2cb9211926fa48c9d555d5120dfd8c1ff7074fb97405a4b1b65f2fdb3e9438",
+      "status": "MEASURED",
+      "totalFootprintBytes": 500552360,
+      "totalFootprintMiB": 477.36392974853516,
+      "provisionalTargetMiB": 600,
+      "thresholdStatus": "PASS",
+      "exitCode": 0,
+      "error": "",
+      "processes": [
+        {
+          "pid": 98822,
+          "name": "chrome-headless-shell",
+          "footprintBytes": 285115496,
+          "historicalProcessPeakBytes": 380388432
+        },
+        {
+          "pid": 98824,
+          "name": "chrome-headless-shell",
+          "footprintBytes": 194037464,
+          "historicalProcessPeakBytes": 239273736
+        },
+        {
+          "pid": 98821,
+          "name": "chrome-headless-shell",
+          "footprintBytes": 35734656,
+          "historicalProcessPeakBytes": 51823792
+        },
+        {
+          "pid": 98823,
+          "name": "chrome-headless-shell",
+          "footprintBytes": 6963944,
+          "historicalProcessPeakBytes": 7963392
+        }
+      ],
+      "scope": "Point-in-time OS footprint of this test's headless Chrome tree, includes browser/GPU helper overhead. Not a peak, unique GPU allocation, reference PC or JS heap metric. Never sum individual historical peaks as a simultaneous peak."
+    }
+  ]
+}
