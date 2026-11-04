@@ -15,6 +15,10 @@ on:
         description: Run two hours of continuous headless gameplay
         type: boolean
         default: false
+# Superseded revisions of one PR must not occupy the runners needed to release main.
+concurrency:
+  group: social-engine-quality-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 permissions:
   contents: read
 # No deployment credentials, promotion, merge, or cancellation of other work.
