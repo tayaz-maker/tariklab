@@ -346,115 +346,152 @@ const generated = await page.evaluate(
           }
           c.restore();
         }
-    // Four vehicle headings, original compact taxis/cars with shaded bodies and glass.
-    for (let direction = 0; direction < 4; direction++) {
-      const fx = direction * 160,
-        fy = 800;
-      actorFrames[`car-${direction}`] = { x: fx, y: fy, w: 160, h: 128, pivot: { x: 80, y: 90 } };
-      c.save();
-      c.translate(fx + 80, fy + 90);
-      // Rotate the vehicle in world space before applying the isometric projection.
-      // The long axis points along +X, +Y, -X and -Y respectively.
-      const p = (x, y, z = 0) => {
-        const [wx, wy] = [
-          [x, y],
-          [-y, x],
-          [-x, -y],
-          [y, -x],
-        ][direction];
-        return [(wx - wy) * 19, (wx + wy) * 9 - z * 19];
-      };
-      const q = (pts, fill) =>
-        poly(
-          pts.map((v) => p(...v)),
-          fill,
-          "#2a373855",
+    // Eight world-space headings; a second set carries a roof cargo box.
+    // Magenta body pixels are a renderer-only mask for the persisted paint color.
+    for (let variant = 0; variant < 2; variant++)
+      for (let direction = 0; direction < 8; direction++) {
+        const fx = direction * 160,
+          fy = variant ? 1152 : 800;
+        actorFrames[`${variant ? "cargo" : "car"}-${direction}`] = {
+          x: fx,
+          y: fy,
+          w: 160,
+          h: 128,
+          pivot: { x: 80, y: 90 },
+        };
+        c.save();
+        c.translate(fx + 80, fy + 90);
+        // Rotate the long axis in world space, then project into isometric screen space.
+        const angle = (direction * Math.PI) / 4,
+          co = Math.cos(angle),
+          si = Math.sin(angle);
+        const p = (x, y, z = 0) => {
+          const wx = x * co - y * si,
+            wy = x * si + y * co;
+          return [(wx - wy) * 19, (wx + wy) * 9 - z * 19];
+        };
+        const q = (pts, fill) =>
+          poly(
+            pts.map((v) => p(...v)),
+            fill,
+            "#2a373855",
+          );
+        q(
+          [
+            [-1.8, -0.8, 0],
+            [1.8, -0.8, 0],
+            [1.8, 0.8, 0],
+            [-1.8, 0.8, 0],
+          ],
+          "#1f2c3040",
         );
-      q(
-        [
-          [-1.8, -0.8, 0],
-          [1.8, -0.8, 0],
-          [1.8, 0.8, 0],
-          [-1.8, 0.8, 0],
-        ],
-        "#1f2c3040",
-      );
-      for (const x of [-1.15, 1.15])
-        for (const y of [-0.75, 0.75]) {
-          const pt = p(x, y, 0.2);
-          c.fillStyle = "#24343a";
+        for (const x of [-1.15, 1.15])
+          for (const y of [-0.75, 0.75]) {
+            const pt = p(x, y, 0.2);
+            c.fillStyle = "#24343a";
+            c.beginPath();
+            c.ellipse(pt[0], pt[1], 6, 9, -0.5, 0, Math.PI * 2);
+            c.fill();
+          }
+        // Paint the two camera-facing sides for each world-space rotation.
+        const frontX = co + si >= 0 ? 1.8 : -1.8;
+        const frontY = co - si >= 0 ? 0.8 : -0.8;
+        q(
+          [
+            [-1.8, frontY, 0.3],
+            [1.8, frontY, 0.3],
+            [1.8, frontY, 0.85],
+            [-1.8, frontY, 0.85],
+          ],
+          "#b800b8",
+        );
+        q(
+          [
+            [frontX, -0.8, 0.3],
+            [frontX, 0.8, 0.3],
+            [frontX, 0.8, 0.85],
+            [frontX, -0.8, 0.85],
+          ],
+          "#c500c5",
+        );
+        q(
+          [
+            [-1.8, -0.8, 0.85],
+            [1.8, -0.8, 0.85],
+            [1.8, 0.8, 0.85],
+            [-1.8, 0.8, 0.85],
+          ],
+          "#f000f0",
+        );
+        q(
+          [
+            [-0.9, -0.7, 0.85],
+            [0.7, -0.7, 0.85],
+            [0.45, -0.6, 1.6],
+            [-0.6, -0.6, 1.6],
+          ],
+          "#72929a",
+        );
+        q(
+          [
+            [-0.9, 0.7, 0.85],
+            [0.7, 0.7, 0.85],
+            [0.45, 0.6, 1.6],
+            [-0.6, 0.6, 1.6],
+          ],
+          "#355762",
+        );
+        q(
+          [
+            [0.7, -0.7, 0.85],
+            [0.7, 0.7, 0.85],
+            [0.45, 0.6, 1.6],
+            [0.45, -0.6, 1.6],
+          ],
+          "#81a1a6",
+        );
+        q(
+          [
+            [-0.6, -0.6, 1.6],
+            [0.45, -0.6, 1.6],
+            [0.45, 0.6, 1.6],
+            [-0.6, 0.6, 1.6],
+          ],
+          "#df00df",
+        );
+        // Fixed-color lamps and plate remain independent of body paint.
+        for (const y of [-0.55, 0.55]) {
+          const lamp = p(1.82, y, 0.63);
+          c.fillStyle = "#fff0b0";
           c.beginPath();
-          c.ellipse(pt[0], pt[1], 6, 9, -0.5, 0, Math.PI * 2);
+          c.arc(lamp[0], lamp[1], 2.5, 0, Math.PI * 2);
           c.fill();
         }
-      // Paint the two camera-facing sides for each world-space rotation.
-      const frontX = direction < 2 ? 1.8 : -1.8;
-      const frontY = direction === 0 || direction === 3 ? 0.8 : -0.8;
-      q(
-        [
-          [-1.8, frontY, 0.3],
-          [1.8, frontY, 0.3],
-          [1.8, frontY, 0.85],
-          [-1.8, frontY, 0.85],
-        ],
-        "#b9872c",
-      );
-      q(
-        [
-          [frontX, -0.8, 0.3],
-          [frontX, 0.8, 0.3],
-          [frontX, 0.8, 0.85],
-          [frontX, -0.8, 0.85],
-        ],
-        "#bb902e",
-      );
-      q(
-        [
-          [-1.8, -0.8, 0.85],
-          [1.8, -0.8, 0.85],
-          [1.8, 0.8, 0.85],
-          [-1.8, 0.8, 0.85],
-        ],
-        "#e7bd4b",
-      );
-      q(
-        [
-          [-0.9, -0.7, 0.85],
-          [0.7, -0.7, 0.85],
-          [0.45, -0.6, 1.6],
-          [-0.6, -0.6, 1.6],
-        ],
-        "#72929a",
-      );
-      q(
-        [
-          [-0.9, 0.7, 0.85],
-          [0.7, 0.7, 0.85],
-          [0.45, 0.6, 1.6],
-          [-0.6, 0.6, 1.6],
-        ],
-        "#355762",
-      );
-      q(
-        [
-          [0.7, -0.7, 0.85],
-          [0.7, 0.7, 0.85],
-          [0.45, 0.6, 1.6],
-          [0.45, -0.6, 1.6],
-        ],
-        "#81a1a6",
-      );
-      q(
-        [
-          [-0.6, -0.6, 1.6],
-          [0.45, -0.6, 1.6],
-          [0.45, 0.6, 1.6],
-          [-0.6, 0.6, 1.6],
-        ],
-        "#edca61",
-      );
-      c.restore();
-    }
+        const plate = p(1.83, 0, 0.42);
+        c.fillStyle = "#f0eee0";
+        c.fillRect(plate[0] - 3, plate[1] - 1, 6, 2);
+        if (variant) {
+          q(
+            [
+              [-0.52, -0.42, 1.62],
+              [0.38, -0.42, 1.62],
+              [0.38, 0.42, 1.62],
+              [-0.52, 0.42, 1.62],
+            ],
+            "#263d43",
+          );
+          q(
+            [
+              [-0.48, -0.38, 1.9],
+              [0.34, -0.38, 1.9],
+              [0.34, 0.38, 1.9],
+              [-0.48, 0.38, 1.9],
+            ],
+            "#8b765c",
+          );
+        }
+        c.restore();
+      }
     // Trees, benches, bollards and lamps share the atlas with actors.
     for (let kind = 0; kind < 4; kind++) {
       const fx = kind * 128,

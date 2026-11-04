@@ -23,7 +23,13 @@ export type RecordSnapshot = {
  * about the exact last field mutation. Profiles have one normalized storage authority.
  * Runtime objects are a materialized view of these records, never a second save store. */
 export function packRecords(state: WorldState): RecordSnapshot {
-  const copy = structuredClone(state);
+  // Only person-level profile fields are removed below. Copy those containers;
+  // normalization reads nested values and builds entirely owned record data.
+  const copy = {
+    ...state,
+    player: { ...state.player },
+    npcs: state.npcs.map((person) => ({ ...person })),
+  };
   const records: Record<string, RecordEntry> = {},
     profiles: Record<string, RecordEntry> = {};
   function normalize(value: unknown, id: string, table = records): Value {

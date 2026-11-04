@@ -1,7 +1,7 @@
 // Rebuild into memory: running tests keep serving an immutable on-disk candidate.
-import { build } from "esbuild";
+import { compileRuntime } from "./compile-runtime.mjs";
 import { readFile, writeFile } from "node:fs/promises";
-import { resolve, basename } from "node:path";
+import { resolve } from "node:path";
 import { createHash } from "node:crypto";
 import assert from "node:assert/strict";
 const hash = (data) => createHash("sha256").update(data).digest("hex");
@@ -9,34 +9,15 @@ const dir = "public/games/social-engine";
 const rawManifest = await readFile(`${dir}/build-manifest.json`);
 const manifest = JSON.parse(rawManifest);
 const atlas = manifest.playableAssets.find((a) => a.file.endsWith(".json"));
-const rebuilt = await build({
-  bundle: true,
-  format: "esm",
-  target: "es2022",
-  minify: true,
-  metafile: true,
-  alias: { "pixi.js": resolve("scripts/social-engine/pixi-entry.mjs") },
-  outdir: resolve(dir),
-  entryNames: "[name]-[hash]",
-  chunkNames: "chunk-[hash]",
-  legalComments: "none",
-  logLevel: "warning",
-  splitting: true,
-  write: false,
-  entryPoints: {
-    app: resolve("src/games/social-engine/ui/app.ts"),
-    worker: resolve("src/games/social-engine/worker/entry.ts"),
-  },
-  define: { SOCIAL_ATLAS_URL: JSON.stringify("/games/social-engine/" + atlas.file) },
-});
+const rebuilt = await compileRuntime(resolve(import.meta.dirname, "../.."), atlas.file);
 const files = [];
-for (const file of rebuilt.outputFiles) {
-  const name = basename(file.path),
+for (const file of rebuilt) {
+  const name = file.fileName,
     expected = manifest.assets.find((a) => a.file === name);
   assert.ok(expected, `Rebuilt output ${name} is absent from the current manifest`);
-  assert.equal(hash(file.contents), expected.sha256);
-  assert.equal(hash(await readFile(file.path)), expected.sha256);
-  files.push({ file: name, sha256: expected.sha256, bytes: file.contents.length });
+  assert.equal(hash(file.code), expected.sha256);
+  assert.equal(hash(await readFile(resolve(dir, name))), expected.sha256);
+  files.push({ file: name, sha256: expected.sha256, bytes: Buffer.byteLength(file.code) });
 }
 assert.equal(files.length, manifest.assets.filter((a) => a.file.endsWith(".js")).length);
 const css = await readFile("src/games/social-engine/ui/styles.css");

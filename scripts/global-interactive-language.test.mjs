@@ -4,14 +4,15 @@ import test from "node:test";
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 
-test("interactive-language coverage retains all 19 public games including the archive", async () => {
+test("interactive-language coverage retains all 20 public games including the archive", async () => {
   const report = JSON.parse(await read("docs/INTERACTIVE_LANGUAGE_I18N_COVERAGE.json"));
-  assert.equal(report.games.length, 19);
+  assert.equal(report.games.length, 20);
   assert.equal(report.games.find(game => game.id === "ihtilal").status, "archived");
-  assert.equal(new Set(report.games.map((game) => game.id)).size, 19);
+  assert.equal(new Set(report.games.map((game) => game.id)).size, 20);
   assert.ok(report.games.every((game) => game.tr === "complete"));
-  assert.ok(report.games.filter(game => game.id !== "tc-sim-boardworld").every(game => game.en === "complete"));
+  assert.ok(report.games.filter(game => !["tc-sim-boardworld", "social-engine"].includes(game.id)).every(game => game.en === "complete"));
   assert.equal(report.games.find(game => game.id === "tc-sim-boardworld").en, "turkish-only");
+  assert.equal(report.games.find(game => game.id === "social-engine").en, "turkish-only");
   assert.equal(report.surfaces.portal, "complete");
   assert.equal(report.surfaces.resources, "complete");
 });

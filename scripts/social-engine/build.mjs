@@ -1,4 +1,4 @@
-import { build } from "esbuild";
+import { compileRuntime } from "./compile-runtime.mjs";
 import { readFile, writeFile, mkdir, readdir, rm } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import { gzipSync } from "node:zlib";
@@ -27,35 +27,19 @@ const atlasHash = createHash("sha256").update(atlasBytes).digest("hex");
 const atlasName = "atlas-" + atlasHash.slice(0, 12) + ".json";
 await writeFile(resolve(atlasRoot, atlasName), atlasBytes);
 playableAssets.push({ file: "assets/" + atlasName, bytes: atlasBytes.length, sha256: atlasHash });
-const opts = {
-  bundle: true,
-  format: "esm",
-  target: "es2022",
-  minify: true,
-  metafile: true,
-  alias: { "pixi.js": resolve(root, "scripts/social-engine/pixi-entry.mjs") },
-  outdir: out,
-  entryNames: "[name]-[hash]",
-  chunkNames: "chunk-[hash]",
-  legalComments: "none",
-  logLevel: "warning",
-};
-const compiled = await build({
-  ...opts,
-  splitting: true,
-  entryPoints: {
-    app: resolve(root, "src/games/social-engine/ui/app.ts"),
-    worker: resolve(root, "src/games/social-engine/worker/entry.ts"),
-  },
-  define: { SOCIAL_ATLAS_URL: JSON.stringify("/games/social-engine/assets/" + atlasName) },
-});
-const outputFor = (suffix) =>
-  Object.keys(compiled.metafile.outputs)
-    .find((k) => compiled.metafile.outputs[k].entryPoint?.endsWith(suffix))
-    ?.split("/")
-    .at(-1);
-const workerFile = outputFor("/worker/entry.ts"),
-  appFile = outputFor("/ui/app.ts");
+// Published revisions retain their own assets on Cloudflare; this checkout packages only its manifest.
+const activeAtlasFiles = new Set(playableAssets.map((a) => a.file.slice("assets/".length)));
+for (const name of await readdir(atlasRoot)) {
+  if (
+    /^(?:(?:buildings|people-props)-[a-f0-9]{12}\.png|atlas-[a-f0-9]{12}\.json)$/.test(name) &&
+    !activeAtlasFiles.has(name)
+  )
+    await rm(resolve(atlasRoot, name));
+}
+const compiled = await compileRuntime(root, "assets/" + atlasName);
+for (const chunk of compiled) await writeFile(resolve(out, chunk.fileName), chunk.code);
+const workerFile = compiled.find((chunk) => chunk.isEntry && chunk.name === "worker")?.fileName,
+  appFile = compiled.find((chunk) => chunk.isEntry && chunk.name === "app")?.fileName;
 if (!workerFile || !appFile) throw new Error("Missing explicit app/worker output");
 const css = await readFile(resolve(root, "src/games/social-engine/ui/styles.css"));
 const cssFile = `styles-${createHash("sha256").update(css).digest("hex").slice(0, 12)}.css`;

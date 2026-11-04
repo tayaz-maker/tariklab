@@ -66,7 +66,7 @@ test("authenticated but invalid references, duplicate ownership, unsupported rul
         byteLength: new TextEncoder().encode(payload).byteLength,
         sha256: await sha256(payload),
       }),
-      /Kayıt nesneleri/,
+      packed.rulesVersion === "future" ? { code: "UNSUPPORTED_VERSION" } : /Kayıt nesneleri/,
     );
   }
 });

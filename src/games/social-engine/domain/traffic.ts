@@ -65,6 +65,9 @@ export const TURN_RADIUS = 0.8;
  * Rendering consumes this physics pose, and must never round-trip screen positions. */
 export function trafficPose(lane: number, progress: number): TrafficPose {
   const points = ROADS[lane] ?? ROADS[0];
+  // Presentation/corrupt-input probes must be total. Validation still rejects the
+  // invalid stored lane/progress; fallback values never repair an invalid save.
+  if (!Number.isFinite(progress)) progress = 0;
   const lengths = points.map((a, i) =>
     Math.hypot(points[(i + 1) % points.length].x - a.x, points[(i + 1) % points.length].y - a.y),
   );

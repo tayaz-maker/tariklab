@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useLang } from "@/lib/i18n";
 
 export const Route = createFileRoute("/oyna/social-engine")({
   ssr: false,
@@ -12,10 +13,11 @@ export const Route = createFileRoute("/oyna/social-engine")({
 });
 
 function SocialEngineRoute() {
+  const { t } = useLang();
   return (
     <main className="flex h-dvh min-h-0 flex-col bg-bg">
       <header className="flex h-8 shrink-0 items-center justify-between border-b border-border px-3 text-xs text-muted">
-        <Link to="/">← TarikLab</Link>
+        <Link to="/" aria-label={t("portal.back", "← Oyunlar")}>← TarikLab</Link>
         <span>SOCIAL ENGINE · DARAMCIK</span>
       </header>
       <iframe

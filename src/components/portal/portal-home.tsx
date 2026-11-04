@@ -38,6 +38,12 @@ function GameCard({ game, featured = false }: { game: CatalogGame; featured?: bo
         </span>
       </article>
     );
+  if (game.slug === "social-engine")
+    return (
+      <Link to="/oyna/social-engine" aria-label={label} className={classes}>
+        {content}
+      </Link>
+    );
   if (game.slug === "cete-savaslari")
     return (
       <Link to="/cete-savaslari" aria-label={label} className={classes}>

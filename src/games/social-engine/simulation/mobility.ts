@@ -1,6 +1,7 @@
 import type { Command, CommandResult, Point, WorldState } from "../domain/types.ts";
 import type { MobilityState, MobilityView, WeatherKind } from "../domain/mobility-types.ts";
-import { isWalkable, hasLineOfSight, pointOnLane } from "../domain/world.ts";
+import { isWalkable, hasLineOfSight } from "../domain/world.ts";
+import { trafficPose } from "../domain/traffic.ts";
 import { draw, clamp } from "./random.ts";
 import { emit, notify } from "./events.ts";
 import { transfer } from "./ledger.ts";
@@ -60,7 +61,7 @@ export function initializeMobility(s: WorldState): MobilityState {
   const day = Math.floor(s.minute / 1440),
     existing = s.vehicles.find((v) => v.id === RENTAL_VEHICLE_ID),
     lot = PARKING_LOTS[0],
-    lane = pointOnLane(lot.lane, lot.progress);
+    lane = trafficPose(lot.lane, lot.progress);
   if (!existing)
     s.vehicles.push({
       id: RENTAL_VEHICLE_ID,
@@ -113,7 +114,7 @@ export function unparkVehicle(s: WorldState, vehicleId: string): void {
   if (!parked) return;
   const lot = PARKING_LOTS.find((p) => p.id === parked.id)!,
     v = s.vehicles.find((x) => x.id === vehicleId)!,
-    point = pointOnLane(lot.lane, lot.progress);
+    point = trafficPose(lot.lane, lot.progress);
   parked.vehicleIds = parked.vehicleIds.filter((id) => id !== vehicleId);
   v.lane = lot.lane;
   v.progress = lot.progress;

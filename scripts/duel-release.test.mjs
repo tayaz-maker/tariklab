@@ -277,10 +277,11 @@ test("every playable catalog game ships teaching content", () => {
   const slugs = [...catalog.matchAll(/slug: "([^"]+)",[^}]*?status: "(live|soon|archived)"/g)]
     .filter((m) => m[2] === "live")
     .map((m) => m[1]);
-  assert.ok(slugs.length === 7, `catalog parse found only ${slugs.length} live games`);
+  assert.ok(slugs.length === 8, `catalog parse found only ${slugs.length} live games`);
 
   // Where each game's player-facing teaching content lives.
   const sources = {
+    "social-engine": ["src/games/social-engine/ui/app.ts"],
     "cete-savaslari": ["src/components/game/help-panel.tsx", "src/components/game"],
     hanedanian: ["public/games/hanedanian/app.js"],
     racon: ["public/games/racon/index.html"],
@@ -310,7 +311,7 @@ test("every playable catalog game ships teaching content", () => {
     const body = readFileSync(found, "utf8");
     assert.match(
       body,
-      /Nasıl oynanır|Nasıl Oynanır|NASIL OYNANIR|How to play|How to Play|How it plays|HELP_SECTIONS|Amaç/,
+      slug === "social-engine" ? /DARAMCIK rehberi[\s\S]*01 \/ Yolunu bul[\s\S]*02 \/ Geçimini kur/ : /Nasıl oynanır|Nasıl Oynanır|NASIL OYNANIR|How to play|How to Play|How it plays|HELP_SECTIONS|Amaç/,
       `${slug}: ${found} has no how-to-play surface`,
     );
     assert.doesNotMatch(body, />\s*(undefined|null)\s*</, `${slug}: placeholder copy in ${found}`);

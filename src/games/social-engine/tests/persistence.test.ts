@@ -208,3 +208,41 @@ test("authentic schema3 lifecycle save gains schema4 systems without rewriting f
   assert.deepEqual(validateState(after), []);
   assert.equal(canonicalState(migrateState(after)), canonicalState(after));
 });
+
+test("record packing preserves deeply frozen caller data and owns its normalized output", async () => {
+  const { packRecords, unpackRecords } = await import("../persistence/records.ts");
+  const world = fresh(),
+    expected = canonicalState(world);
+  const freeze = (value: unknown): void => {
+    if (!value || typeof value !== "object" || Object.isFrozen(value)) return;
+    Object.freeze(value);
+    for (const child of Object.values(value)) freeze(child);
+  };
+  freeze(world);
+  const records = packRecords(world);
+  assert.equal(canonicalState(world), expected);
+  assert.equal(canonicalState(unpackRecords(records)), expected);
+  records.profiles["profile:player"].data.name = "Detached output";
+  assert.equal(canonicalState(world), expected);
+});
+
+test("every historical fixture preserves its entire migrated world except the independent traffic pose mapping", async () => {
+  const { expectedTrafficMigration } = await import("./traffic-migration-expectation.ts");
+  for (const version of [1, 2, 3, 4]) {
+    const fixture = JSON.parse(
+      gunzipSync(
+        readFileSync(new URL(`../persistence/fixtures/v${version}-world.json.gz`, import.meta.url)),
+      ).toString("utf8"),
+    );
+    const old = await import("../persistence/historical/candidate5/persistence/codec.ts");
+    const decoded =
+      fixture.format === "social-engine-save"
+        ? await decodeSave(fixture)
+        : { state: migrateState(fixture), sourceState: old.migrateState(fixture) };
+    assert.equal(
+      canonicalState(decoded.state),
+      canonicalState(expectedTrafficMigration(decoded.sourceState!)),
+      `schema${version} whole migrated world`,
+    );
+  }
+});

@@ -6,8 +6,12 @@ import {
   worldHeadingToAtlasDirection,
   DIRECTED_LANE_GRAPH,
 } from "../domain/traffic.ts";
-import { advanceTraffic, mayAdvanceVehicle } from "../simulation/traffic.ts";
-import { createWorld, canonicalState } from "../simulation/engine.ts";
+import {
+  advanceTraffic,
+  mayAdvanceVehicle,
+  migrateLegacyTrafficPoses,
+} from "../simulation/traffic.ts";
+import { createWorld, canonicalState, validateState, stepWorld } from "../simulation/engine.ts";
 import { encodeSave, decodeSave } from "../persistence/codec.ts";
 
 test("directed geometry covers 4 headings, 8 distinct quarter-turns and merged roadway edges", () => {
@@ -69,6 +73,7 @@ test("eight real vehicle turns keep displacement aligned with heading and surviv
       v.location = { x: initial.x, y: initial.y, scene: "outside" };
       v.heading = initial.heading;
       v.driverId = "n81";
+      migrateLegacyTrafficPoses(s);
       let travelled = 0;
       for (let tick = 0; tick < 180; tick++) {
         s.tick++;
@@ -163,4 +168,118 @@ test("authoritative player lane steering has the expected projected left/right s
     assert.equal(v.driverId, "player");
     assert.deepEqual(v.location, s.player.location);
   }
+});
+
+test("a rental in the adjacent parking bay cannot seal the starter driving lane", () => {
+  const s = createWorld(987),
+    v = s.vehicles[0];
+  for (const p of [s.player, ...s.npcs]) p.location = { x: 7, y: 9, scene: "b-home" };
+  v.driverId = "player";
+  v.speed = 2;
+  s.player.vehicleId = v.id;
+  v.location = { x: 29.9, y: 17, scene: "outside" };
+  v.lane = 0;
+  v.progress = 12.9;
+  assert.equal(mayAdvanceVehicle(s, v, { x: 30.1, y: 17 }), true);
+  s.flags.throttle = 1;
+  for (let tick = 0; tick < 80; tick++) {
+    s.tick++;
+    advanceTraffic(s);
+  }
+  assert.ok(Number(s.flags.drivenDistance) >= 10);
+});
+
+test("schema migration canonicalizes legacy curve poses and attached drivers without moving parked bays", () => {
+  const s = createWorld(935),
+    v = s.vehicles[0],
+    parked = s.vehicles.find((v) => v.id === "v-rental-0")!;
+  v.lane = 0;
+  v.progress = 25;
+  const p = pointOnLane(v.lane, v.progress);
+  v.location = { x: p.x, y: p.y, scene: "outside" };
+  v.heading = p.heading;
+  v.driverId = "player";
+  s.player.vehicleId = v.id;
+  s.player.location = { ...v.location };
+  const bay = { ...parked.location };
+  assert.ok(validateState(s).includes("invalid-vehicle:v0"));
+  migrateLegacyTrafficPoses(s);
+  const pose = trafficPose(v.lane, v.progress);
+  assert.deepEqual(v.location, { x: pose.x, y: pose.y, scene: "outside" });
+  assert.equal(v.heading, pose.heading);
+  assert.deepEqual(s.player.location, v.location);
+  assert.deepEqual(parked.location, bay);
+  assert.deepEqual(validateState(s), []);
+  const stable = canonicalState(s);
+  migrateLegacyTrafficPoses(s);
+  assert.equal(canonicalState(s), stable);
+});
+
+test("invalid lane/progress is reported without a crash or migration repair", () => {
+  for (const [lane, progress] of [
+    [-1, 0],
+    [999, 0],
+    [0.5, 0],
+    [0, NaN],
+    [0, Infinity],
+    [0, -1],
+    [0, Number.MAX_VALUE],
+  ]) {
+    const s = createWorld(936),
+      v = s.vehicles[1];
+    v.lane = lane;
+    v.progress = progress;
+    assert.doesNotThrow(() => trafficPose(lane, progress));
+    assert.doesNotThrow(() => validateState(s));
+    assert.ok(validateState(s).includes("invalid-vehicle:v1"));
+    const old = { ...v.location };
+    assert.doesNotThrow(() => migrateLegacyTrafficPoses(s));
+    assert.deepEqual(v.location, old);
+    assert.doesNotThrow(() => stepWorld(s));
+    assert.deepEqual(v.location, old);
+  }
+});
+
+test("integrated engine follows canonical curves under strict invariants, including stationary headings", () => {
+  const s = createWorld(937);
+  for (let tick = 0; tick < 1200; tick++) {
+    stepWorld(s);
+    if (tick % 100 === 0) assert.deepEqual(validateState(s), []);
+  }
+  for (const v of s.vehicles.filter((v) => v.driverId)) {
+    const p = trafficPose(v.lane, v.progress);
+    assert.ok(Math.hypot(v.location.x - p.x, v.location.y - p.y) < 0.002);
+  }
+  const v = s.vehicles[1];
+  v.speed = 0;
+  const heading = v.heading;
+  advanceTraffic(s);
+  assert.equal(v.heading, heading);
+});
+
+test("stop lines leave room for admitted perpendicular cars to clear", () => {
+  const s = clearRoads(938),
+    admitted = s.vehicles[0],
+    waiting = s.vehicles[1];
+  admitted.location = { x: 19.6, y: 51, scene: "outside" };
+  waiting.location = { x: 19, y: 48.8, scene: "outside" };
+  // Entry is refused far enough from the crossing that the admitted westbound
+  // car is never trapped by the body of the southbound waiting car.
+  assert.equal(mayAdvanceVehicle(s, waiting, { x: 19, y: 49.1 }), false);
+  for (let tick = 0; tick < 180; tick++) {
+    s.tick = tick;
+    assert.equal(mayAdvanceVehicle(s, admitted, { x: 19.3, y: 51 }), true);
+  }
+});
+
+test("a crossing reservation stops the nose outside the pedestrian corridor", () => {
+  const s = clearRoads(939),
+    v = s.vehicles[1];
+  v.location = { x: 17, y: 35.7, scene: "outside" };
+  s.npcs[33].location = { x: 20.4, y: 33, scene: "outside" };
+  s.npcs[33].path = [{ x: 15.5, y: 33 }];
+  assert.equal(mayAdvanceVehicle(s, v, { x: 17, y: 35.5 }), false);
+  // Once the pedestrian has cleared the road and curb, the stop line releases.
+  s.npcs[33].location = { x: 21, y: 33, scene: "outside" };
+  assert.equal(mayAdvanceVehicle(s, v, { x: 17, y: 35.5 }), true);
 });

@@ -9,7 +9,8 @@ import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import type { SaveEnvelope } from "../persistence/index.ts";
 
-type Api = typeof import("../persistence/journal.ts") &
+type Api = typeof import("./traffic-migration-expectation.ts") &
+  typeof import("../persistence/journal.ts") &
   typeof import("../persistence/index.ts") &
   typeof import("../simulation/engine.ts");
 const browserKind = process.env.SE_BROWSER ?? "chromium";
@@ -22,7 +23,7 @@ await mkdir(output, { recursive: true });
 const bundled = await build({
   stdin: {
     contents:
-      "export * from './src/games/social-engine/persistence/index.ts'; export {newJournalMeta,encodeJournal} from './src/games/social-engine/persistence/journal.ts'; export {createWorld,canonicalState,stepWorld,applyCommand} from './src/games/social-engine/simulation/engine.ts';",
+      "export * from './src/games/social-engine/persistence/index.ts'; export {expectedTrafficMigration} from './src/games/social-engine/tests/traffic-migration-expectation.ts'; export {newJournalMeta,encodeJournal,decodeJournal} from './src/games/social-engine/persistence/journal.ts'; export {createWorld,canonicalState,stepWorld,applyCommand} from './src/games/social-engine/simulation/engine.ts';",
     resolveDir: process.cwd(),
     loader: "ts",
   },
@@ -782,7 +783,18 @@ try {
               upgraded.schemaVersion === 7 && upgraded.tick === frozen.meta.currentTick,
               "Verified tail did not become the new baseline",
             );
-            const oldShape = { ...upgraded, schemaVersion: 5, engineVersion: "1.0.0-candidate.4" };
+            const decoded = await api.decodeSave(e);
+            const point = { epoch: frozen.meta.epoch, cursor: frozen.meta.baseCursor };
+            const batch = await api.decodeJournal(
+              await api.newJournalMeta(e, point),
+              frozen.record,
+            );
+            const historical = api.replayJournal(decoded.sourceState!, point, batch.operations, 5);
+            const oldShape = {
+              ...historical,
+              schemaVersion: 5,
+              engineVersion: "1.0.0-candidate.4",
+            };
             const hash = Array.from(
               new Uint8Array(
                 await crypto.subtle.digest(
@@ -795,7 +807,11 @@ try {
               .join("");
             ensure(
               hash === frozen.expectedCanonicalSha256,
-              "Migrated world differs from the old engine replay",
+              "Historical world differs from the old engine replay",
+            );
+            ensure(
+              canonical(upgraded) === canonical(api.expectedTrafficMigration(historical)),
+              "Schema5 migration changed fields beyond the independent pose mapping",
             );
             ensure(
               (await revision(e.revisionId)).payload === e.payload,
@@ -835,7 +851,14 @@ try {
               upgraded.schemaVersion === 7 && upgraded.tick === frozen.meta.currentTick,
               "Legacy tail missing",
             );
-            const oldShape = { ...upgraded, schemaVersion: 6, engineVersion: "1.0.0-candidate.5" };
+            const decoded = await api.decodeSave(e);
+            const point = { epoch: frozen.meta.epoch, cursor: frozen.meta.baseCursor };
+            const batch = await api.decodeJournal(
+              await api.newJournalMeta(e, point),
+              frozen.record,
+            );
+            const historical = api.replayJournal(decoded.sourceState!, point, batch.operations, 6);
+            const oldShape = historical;
             const digest = Array.from(
               new Uint8Array(
                 await crypto.subtle.digest(
@@ -847,6 +870,10 @@ try {
               .map((n) => n.toString(16).padStart(2, "0"))
               .join("");
             ensure(digest === frozen.expectedCanonicalSha256, "Historical replay diverged");
+            ensure(
+              canonical(upgraded) === canonical(api.expectedTrafficMigration(historical)),
+              "Schema6 migration changed fields beyond the independent pose mapping",
+            );
             ensure(
               canonical(await reader.load("auto")) === canonical(upgraded),
               "Tail replayed twice",
@@ -892,6 +919,34 @@ try {
               request(tx.objectStore("migrationJournal").get(`${e.revisionId}:v7`)),
             );
           const archive = await readArchive();
+          const decodedLegacy = await api.decodeSave(e);
+          const point = { epoch: frozen.meta.epoch, cursor: frozen.meta.baseCursor };
+          const batch = await api.decodeJournal(await api.newJournalMeta(e, point), frozen.record);
+          const historical = api.replayJournal(
+            decodedLegacy.sourceState!,
+            point,
+            batch.operations,
+            6,
+          );
+          const oldDigest = Array.from(
+            new Uint8Array(
+              await crypto.subtle.digest(
+                "SHA-256",
+                new TextEncoder().encode(canonical(historical)),
+              ),
+            ),
+          )
+            .map((n) => n.toString(16).padStart(2, "0"))
+            .join("");
+          ensure(
+            oldDigest === frozen.expectedCanonicalSha256,
+            "Archive source replay diverged before migration",
+          );
+          const independentlyExpected = api.expectedTrafficMigration(historical);
+          ensure(
+            canonical((await api.decodeSave(current)).state) === canonical(independentlyExpected),
+            "Archived target differs from the permitted whole-world pose migration",
+          );
           const damaged = { ...current, payload: "corrupted" };
           await raw(["revisions"], "readwrite", (tx) => tx.objectStore("revisions").put(damaged));
           const stores = [
@@ -935,6 +990,10 @@ try {
             ensure(
               canonical(state) === canonical((await api.decodeSave(current)).state),
               "Archive fallback lost acknowledged old tail",
+            );
+            ensure(
+              canonical(state) === canonical(independentlyExpected),
+              "Archive fallback changed fields beyond the independent pose mapping",
             );
             ensure(
               canonical(await reader.load("auto")) === canonical(state),

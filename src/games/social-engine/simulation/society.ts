@@ -45,6 +45,11 @@ function routineTarget(
 export function npcMovement(state: WorldState): void {
   const actors = state.npcs.slice(0, 100);
   const drivers = new Set(state.vehicles.map((v) => v.driverId));
+  // Static bodies can block an entire narrow crosswalk (including the starter
+  // car). Route around them using another legal crossing rather than waiting forever.
+  const staticBodies = state.vehicles
+    .filter((v) => !v.driverId || v.speed === 0)
+    .map((v) => v.location);
   const doorsUsed = new Set<string>();
   const canUseDoor = (building: (typeof BUILDINGS)[number]) =>
     !doorsUsed.has(building.id) &&
@@ -120,16 +125,16 @@ export function npcMovement(state: WorldState): void {
       npc.lastDecision = state.minute;
       npc.goal = plan.goal;
       npc.destination = { ...target.door };
-      npc.path = pedestrianPath(npc.location, target.door);
+      npc.path = pedestrianPath(npc.location, target.door, staticBodies);
     }
     if (npc.location.scene !== "outside") continue;
     if (
       npc.path.length &&
       pedestrianWalkable(npc.location) &&
-      !pedestrianSegment(npc.location, npc.path[0]) &&
+      !pedestrianSegment(npc.location, npc.path[0], staticBodies) &&
       npc.destination
     )
-      npc.path = pedestrianPath(npc.location, npc.destination);
+      npc.path = pedestrianPath(npc.location, npc.destination, staticBodies);
     let budget = (near ? 0.105 : 1.05) * traits.speed;
     // Every LOD step uses the same collision and crossing rules, without tunnelling.
     while (budget > 0.00001 && npc.path.length) {

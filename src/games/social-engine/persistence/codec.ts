@@ -1,3 +1,4 @@
+import { migrateLegacyTrafficPoses } from "../simulation/traffic.ts";
 import { migrateState as migrateCandidate5 } from "./historical/candidate5/persistence/codec.ts";
 import { validateState as validateCandidate5 } from "./historical/candidate5/simulation/engine.ts";
 import { gzipText, gunzipText } from "./compression.ts";
@@ -188,6 +189,7 @@ export function migrateState(value: unknown): WorldState {
     const errors = validateCandidate5(copy as WorldState);
     if (errors.length)
       throw new SaveError("INVALID_STATE", `Eski dünya geçersiz: ${errors.slice(0, 4).join(", ")}`);
+    migrateLegacyTrafficPoses(copy as WorldState);
     copy.schemaVersion = SAVE_SCHEMA;
     copy.engineVersion = ENGINE_VERSION;
   }
@@ -334,7 +336,13 @@ export async function decodeSave(value: unknown): Promise<DecodedSave> {
       );
     }
   }
-  const state = migrateState(materialized);
+  // JSON.parse and unpackRecords produced an owned materialization. Current saves
+  // need the same complete validation, without migration's extra copy and walks.
+  let state: WorldState;
+  if (value.schemaVersion === SAVE_SCHEMA) {
+    assertWorld(materialized);
+    state = materialized;
+  } else state = migrateState(materialized);
   return {
     state,
     migrated: value.schemaVersion < SAVE_SCHEMA,

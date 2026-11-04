@@ -5,8 +5,7 @@ import { retargetMotion, sampleMotion } from "./interpolation";
 import { cameraTranslation } from "./camera";
 import { BUILDINGS, LAND_HEIGHT, ROAD_CENTERS, isRoad, project, unproject } from "./world";
 
-// Compare projected world tangents with the four authored vehicle axes.
-// Physics headings remain in world coordinates; atlas frames are +X,+Y,-X,-Y.
+// Physics headings stay in world coordinates; compare projected tangents to eight authored axes.
 function vehicleFrame(heading: number): number {
   const origin = project({ x: 0, y: 0 });
   const end = project({ x: Math.cos(heading), y: Math.sin(heading) });
@@ -14,8 +13,8 @@ function vehicleFrame(heading: number): number {
     dy = end.y - origin.y;
   let best = 0,
     score = -Infinity;
-  for (let i = 0; i < 4; i++) {
-    const angle = (i * Math.PI) / 2;
+  for (let i = 0; i < 8; i++) {
+    const angle = (i * Math.PI) / 4;
     const axis = project({ x: Math.cos(angle), y: Math.sin(angle) });
     const ax = axis.x - origin.x,
       ay = axis.y - origin.y;
@@ -403,6 +402,48 @@ export async function createRenderer(
         frame: new Rectangle(frame.x, frame.y, frame.w, frame.h),
       }),
     );
+  // Atlas vehicle body uses a magenta mask. Recolor only that mask, leaving
+  // glass, wheels, lamps, plate and cargo untouched. Cache and own each texture.
+  const paintedVehicles = new Map<string, Texture>();
+  const paintedVehicle = (name: string, color: number) => {
+    const paint = Number.isFinite(color) ? color & 0xffffff : 0xd9ae54;
+    const key = `${name}:${paint}`;
+    const cached = paintedVehicles.get(key);
+    if (cached) return cached;
+    const frame = atlas.actors.frames[name];
+    if (!frame) throw new Error("Gerekli araç görseli eksik: " + name);
+    const canvas = document.createElement("canvas");
+    canvas.width = frame.w;
+    canvas.height = frame.h;
+    const context = canvas.getContext("2d", { willReadFrequently: true })!;
+    context.drawImage(
+      actorBase.source.resource as HTMLImageElement,
+      frame.x,
+      frame.y,
+      frame.w,
+      frame.h,
+      0,
+      0,
+      frame.w,
+      frame.h,
+    );
+    const pixels = context.getImageData(0, 0, frame.w, frame.h);
+    for (let i = 0; i < pixels.data.length; i += 4) {
+      const r = pixels.data[i],
+        g = pixels.data[i + 1],
+        b = pixels.data[i + 2];
+      if (r > 40 && b > 40 && r > g * 1.35 && b > g * 1.35 && Math.abs(r - b) < 70) {
+        const shade = (r + b) / 510;
+        pixels.data[i] = ((paint >> 16) & 255) * shade;
+        pixels.data[i + 1] = ((paint >> 8) & 255) * shade;
+        pixels.data[i + 2] = (paint & 255) * shade;
+      }
+    }
+    context.putImageData(pixels, 0, 0);
+    const texture = Texture.from(canvas);
+    paintedVehicles.set(key, texture);
+    return texture;
+  };
   const world = new Container(),
     ground = new Container(),
     objects = new Container(),
@@ -476,6 +517,8 @@ export async function createRenderer(
       v.label.destroy();
     }
     actors.clear();
+    for (const texture of paintedVehicles.values()) texture.destroy(true);
+    paintedVehicles.clear();
     for (const s of buildings.values()) s.destroy();
     buildings.clear();
     for (const d of doors.values()) d.destroy();
@@ -700,10 +743,12 @@ export async function createRenderer(
       if (vehicle.location.scene !== scene) continue;
       keep.add(vehicle.id);
       const direction = vehicleFrame(vehicle.heading);
+      const variant = vehicle.id.endsWith("0") ? "cargo" : "car";
+      const frameName = `${variant}-${direction}`;
       let view = actors.get(vehicle.id);
       const target = { x: vehicle.location.x, y: vehicle.location.y };
       if (!view) {
-        const s = sprite(`car-${direction}`, target, 1);
+        const s = sprite(frameName, target, 1);
         const label = new Text({ text: "", style: { fontSize: 10 } });
         label.visible = false;
         objects.addChild(label);
@@ -721,7 +766,7 @@ export async function createRenderer(
       }
       transition(view, target, 100);
       view.direction = direction;
-      view.sprite.texture = textures.get(`car-${direction}`)!;
+      view.sprite.texture = paintedVehicle(frameName, vehicle.color);
     }
     for (const [id, v] of actors)
       if (!keep.has(id)) {
@@ -928,6 +973,7 @@ export async function createRenderer(
       if (destroyed) return;
       destroyed = true;
       for (const t of optionalTextures) t.destroy(true);
+      for (const t of paintedVehicles.values()) t.destroy(true);
       observer.disconnect();
       app.canvas.removeEventListener("pointerdown", pointer);
       app.canvas.removeEventListener("wheel", wheel);

@@ -1160,8 +1160,14 @@ function showPerson(n: Person) {
               string
             >
           )[topic];
-          await act(lifeCommand ?? "TALK", { npcId: n.id, topic });
-          closePanel();
+          const dialog = el("close-panel");
+          b.disabled = true;
+          try {
+            const r = await act(lifeCommand ?? "TALK", { npcId: n.id, topic });
+            if (r.ok && dialog === el("close-panel")) closePanel();
+          } finally {
+            b.disabled = false;
+          }
         }),
     );
   if (el("share-rumor"))

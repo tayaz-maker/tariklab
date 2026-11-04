@@ -21,7 +21,7 @@ const catalog = readFileSync("src/lib/games.ts", "utf8").split("export const GAM
 const routes = [
   ...catalog.matchAll(/slug: "([^"]+)"[^}]*?status: "live",\s*href: "([^"]+)"/g),
 ].map((match) => ({ id: match[1], href: match[2] }));
-assert.equal(routes.length, 7);
+assert.equal(routes.length, 8);
 const requestedRoutes = new Set((process.env.SITEWIDE_ROUTE_IDS || "").split(",").filter(Boolean));
 const browserRoutes = requestedRoutes.size
   ? routes.filter((route) => requestedRoutes.has(route.id))
@@ -163,11 +163,20 @@ try {
         }
       }
       try {
-        const response = await page.goto(`${origin}${route.href}`, { waitUntil: "networkidle" });
+        const entry = route.id === "social-engine" ? "/" : route.href;
+        const response = await page.goto(`${origin}${entry}`, { waitUntil: "networkidle" });
+        if (route.id === "social-engine") {
+          const card = page.locator('a[href="/oyna/social-engine"]');
+          await card.getByText(lang === "en" ? /Game in Turkish/ : /DARAMCIK’ta işini/).waitFor();
+          await card.click();
+          await page.waitForURL(`${origin}${route.href}`);
+        }
         assert.equal(response.status(), 200, route.href);
         if (route.href === "/ihtilal") await page.waitForURL(`${origin}/oyna/ihtilal`);
         if (new URL(page.url()).pathname.startsWith("/oyna/")) {
-          const iframe = page.locator("iframe");
+          const iframe = route.id === "social-engine"
+            ? page.locator('iframe[title="SOCIAL ENGINE"][src="/games/social-engine/index.html"]')
+            : page.locator("iframe");
           await iframe.waitFor();
           surface = await (await iframe.elementHandle()).contentFrame();
           await surface.waitForFunction(() => document.body.innerText.trim().length > 20);
@@ -194,14 +203,20 @@ try {
         }
         await measure("entry");
         if (route.id === "portal") {
-          assert.equal(
-            await page
-              .locator(
-                'a[href^="/oyna/"], a[href="/cete-savaslari"], a[href="/games/bukucu/index.html"]',
-              )
-              .count(),
-            routes.length,
-          );
+          const links = await page
+            .locator('a[href^="/oyna/"], a[href="/cete-savaslari"], a[href="/games/bukucu/index.html"]')
+            .evaluateAll((anchors) => anchors.map((a) => a.getAttribute("href")));
+          assert.deepEqual(links.sort(), routes.map((r) => r.href).sort());
+        }
+        if (route.id === "social-engine") {
+          assert.equal(await surface.locator("html").getAttribute("lang"), "tr");
+          await surface.getByRole("heading", { name: "Mahalleye hoş geldin." }).waitFor();
+          await surface.getByLabel("Karakter adı").fill("Ada");
+          await surface.getByRole("button", { name: "Hikâyene başla" }).click();
+          await surface.getByRole("navigation", { name: "Oyun araçları" }).waitFor();
+          assert.equal(await surface.locator("#hud-district").innerText(), "DARAMCIK");
+          assert.equal(await surface.locator("#hud-name").innerText(), "Ada");
+          await measure("game");
         }
         if (["veto-h", "gett-oh"].includes(route.id)) {
           const other = lang === "tr" ? "en" : "tr";

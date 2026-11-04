@@ -8,7 +8,8 @@ import {
   LOCAL_POPULATION,
   SCHEMA_VERSION,
 } from "../domain/content.ts";
-import { BUILDINGS, SPAWN, pointOnLane } from "../domain/world.ts";
+import { BUILDINGS, SPAWN, laneLength } from "../domain/world.ts";
+import { trafficPose } from "../domain/traffic.ts";
 import { draw } from "./random.ts";
 import { npcMovementTraits } from "./npc-traits.ts";
 import { pedestrianWalkable } from "./pedestrian-navigation.ts";
@@ -257,8 +258,8 @@ export function initializeWorld(
     crimes: [],
     vehicles: Array.from({ length: 8 }, (_, index) => {
       const lane = index % 4,
-        progress = index === 0 ? 10 : index * 13;
-      const p = pointOnLane(lane, progress);
+        progress = (index === 0 ? 10 : index * 13) % laneLength(lane);
+      const p = trafficPose(lane, progress);
       return {
         id: `v${index}`,
         location: { x: p.x, y: p.y, scene: "outside" },

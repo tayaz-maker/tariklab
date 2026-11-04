@@ -107,8 +107,25 @@ try {
   await test("SE-016", async () => {
     const s = await state();
     const n = s.npcs.find((n) => n.id === "n0");
-    await cmd("MOVE_TO", { x: n.location.x, y: n.location.y });
-    await step(10);
+    assert.equal(
+      s.player.location.scene,
+      n.location.scene,
+      "the welcoming neighbor is in the street",
+    );
+    // Navigate using normal controls and wait for real proximity rather than assuming ten ticks suffice.
+    for (let turn = 0; turn < 8; turn++) {
+      const live = await state(),
+        npc = live.npcs.find((person) => person.id === n.id);
+      const p = live.player.location;
+      if (
+        p.scene === npc.location.scene &&
+        Math.hypot(p.x - npc.location.x, p.y - npc.location.y) < 1.55
+      )
+        break;
+      const moved = await cmd("MOVE_TO", { x: npc.location.x, y: npc.location.y });
+      assert.ok(moved.ok, moved.reason);
+      await step(8);
+    }
     const r = await cmd("TALK", { npcId: n.id, topic: "greet" });
     assert.equal(r.ok, true, r.reason);
     assert.ok((await state()).relations.some((r) => r.from === "player" || r.to === "player"));

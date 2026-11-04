@@ -573,6 +573,7 @@
   };
 
   const CATALOG_EN = {
+    "social-engine": { title: "SOCIAL ENGINE", subtitle: "Choose your work, friends and future in DARAMCIK. Game in Turkish." },
     "cete-savaslari": { title: "Çete Savaşları", subtitle: "Racon, district, cash in TL." },
     hanedanian: {
       title: "HANEDANIAN",
@@ -628,6 +629,7 @@
   CATALOG_EN.hanedan = CATALOG_EN.hanedanian;
 
   const CATALOG_PL = {
+    "social-engine": { title: "SOCIAL ENGINE", subtitle: "Wybierz pracę, przyjaciół i przyszłość w dzielnicy DARAMCIK. Gra po turecku." },
     "cete-savaslari": { title: "Çete Savaşları", subtitle: "Racon, dzielnica, gotówka w TL." },
     hanedanian: { title: "HANEDANIAN", subtitle: "Od jednej osady do wielkiej dynastii. Czytaj mapę, buduj przyszłość." },
     racon: { title: "Racon Manager", subtitle: "Ludzie umierają. Imię zostaje." },
@@ -655,8 +657,9 @@
     sections: [
       {
         h: "Catalog",
-        lead: "TarikLab has 7 playable games in the live catalog.",
+        lead: "TarikLab has 8 playable games in the live catalog.",
         items: [
+          '<a href="/oyna/social-engine">SOCIAL ENGINE</a> · LIVE — Find work, get to know your neighbours and see how your choices change DARAMCIK. Game in Turkish.',
           '<a href="/cete-savaslari">Çete Savaşları</a> · LIVE — Build a crew, run missions and hold turf under police and rival pressure.',
           '<a href="/oyna/hanedanian">HANEDANIAN</a> · LIVE — Build settlements, secure resources and lead a dynasty across a seeded strategy map; single-player and offline-first.',
           '<a href="/oyna/racon">Racon Manager</a> · LIVE — Narrative management shaped by relationships, decisions and delayed consequences.',
@@ -671,7 +674,7 @@
         lead: "TarikLab is a collection of independent games that run directly in the browser. The portal and Çete Savaşları use React and TypeScript; the other games run as their own HTML, CSS and JavaScript applications.",
         items: [
           "Most long-running games use three local slots, kept separate on the same device. HANEDANIAN keeps an autosave, its previous version and a separate manual save, with file export/import. Original HANEDAN saves remain accessible through the legacy game. VETO-H! and GETT-OH! each autosave one active duel; reload preserves deck order, action rights and pending responses.",
-          "The portal and the six existing games support Turkish and English; each game keeps its own voice while the outer shell owns language navigation. TC SIM: Boardworld has Turkish game text.",
+          "The portal and the six existing games support Turkish and English; each game keeps its own voice while the outer shell owns language navigation. TC SIM: Boardworld and SOCIAL ENGINE have Turkish game text.",
           "Polish covers the interface and, through a translation layer, game text (story, events, cards, help); anything without a Polish translation is shown in English. The Polish text has not yet been reviewed by a native speaker.",
           "Interfaces adapt to phone, tablet and desktop while preserving each game's own visual and interaction identity.",
         ],
@@ -713,7 +716,8 @@
   const CREDITS_PL = {
     h1: "Materiały źródłowe", kicker: "TarikLab · gry i struktura techniczna", back: "← Gry",
     sections: [
-      { h: "Katalog", lead: "TarikLab ma 7 dostępnych gier.", items: [
+      { h: "Katalog", lead: "TarikLab ma 8 dostępnych gier.", items: [
+        '<a href="/oyna/social-engine">SOCIAL ENGINE</a> · LIVE — Znajdź pracę, poznaj sąsiadów i zobacz, jak twoje decyzje zmieniają dzielnicę DARAMCIK. Gra po turecku.',
         '<a href="/cete-savaslari">Çete Savaşları</a> · LIVE — Zbuduj ekipę, prowadź zadania i utrzymuj dzielnicę pod presją policji oraz rywali.',
         '<a href="/oyna/hanedanian">HANEDANIAN</a> · LIVE — Buduj osady, zabezpieczaj zasoby i prowadź dynastię na generowanej mapie strategii.',
         '<a href="/oyna/racon">Racon Manager</a> · LIVE — Narracyjna gra menedżerska o relacjach, decyzjach i opóźnionych konsekwencjach.',
@@ -722,7 +726,7 @@
         '<a href="/oyna/apartman">Kapı Nöbeti</a> · LIVE — Nocne biurko dziedzińca: trzy decyzje, dług napraw, zaufanie i kasa.',
         '<a href="/oyna/son-koy-manager">SON KÖY MANAGER</a> · LIVE — Przez 24 miesiące rozdzielaj zdolność działania między wodę, energię, migrację i zaufanie.',
       ]},
-      { h: "Jak to działa", lead: "TarikLab to zbiór niezależnych gier działających bezpośrednio w przeglądarce.", items: ["Portal i Çete Savaşları używają Reacta i TypeScriptu; pozostałe gry są osobnymi aplikacjami HTML, CSS i JavaScript.", "Portal i sześć dotychczasowych gier obsługują turecki i angielski. TC SIM: Boardworld ma tekst gry po turecku. W pozostałych grach polski obejmuje interfejs oraz — przez warstwę tłumaczeń — tekst gier (fabuła, wydarzenia, karty, pomoc); tekst bez polskiego tłumaczenia pokazuje się po angielsku. Polskie teksty nie zostały jeszcze sprawdzone przez rodzimego użytkownika języka.", "Interfejsy dostosowują się do telefonu, tabletu i komputera." ]},
+      { h: "Jak to działa", lead: "TarikLab to zbiór niezależnych gier działających bezpośrednio w przeglądarce.", items: ["Portal i Çete Savaşları używają Reacta i TypeScriptu; pozostałe gry są osobnymi aplikacjami HTML, CSS i JavaScript.", "Portal i sześć dotychczasowych gier obsługują turecki i angielski. Tekst gier TC SIM: Boardworld i SOCIAL ENGINE jest po turecku. W pozostałych grach polski obejmuje interfejs oraz — przez warstwę tłumaczeń — tekst gier (fabuła, wydarzenia, karty, pomoc); tekst bez polskiego tłumaczenia pokazuje się po angielsku. Polskie teksty nie zostały jeszcze sprawdzone przez rodzimego użytkownika języka.", "Interfejsy dostosowują się do telefonu, tabletu i komputera." ]},
       { h: "Autorstwo", note: "Tarık jest synem swojej matki." },
       { h: "TLab Classics", lead: "Labirent, Tek Taş, Satranç i Amiral Battı zostały napisane od podstaw dla TarikLab.", items: ["Labirent — niezależna implementacja TarikLab.", "Tek Taş — niezależna implementacja TarikLab.", "Satranç — niezależny silnik zasad TarikLab.", "Amiral Battı — niezależna implementacja siatki i floty TarikLab."], note: "Klasyczne zasady gier są koncepcjami domeny publicznej; ta informacja dotyczy wyłącznie kodu, interfejsu i oryginalnej treści TarikLab." },
       { h: "Grafiki i łańcuch praw", lead: "Jako licencje pokazujemy tylko prawa z potwierdzonym zapisem.", items: [

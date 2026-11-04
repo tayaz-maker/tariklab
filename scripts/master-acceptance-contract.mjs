@@ -37,6 +37,7 @@ export function stableSave(value,game) {
 // Only authored storage namespaces count as game-save evidence. Slug substrings
 // can accidentally count preferences, or miss legacy names such as tektas.
 const SAVE_POLICIES = {
+ 'social-engine': {primary:/^idb:social-engine:slot-1$/, evidence:/^idb:social-engine:slot-1$/},
  'cete-savaslari': {primary:/^(?:tariklab::cete:[1-3]|cete-savaslari-save-v1)$/, evidence:/^(?:tariklab::cete:[1-3](?::bak)?|cete-savaslari-save-v1)$/},
  racon: {primary:/^(?:tariklab::racon:[1-3]|racon_v1)$/, evidence:/^(?:tariklab::racon:[1-3](?::bak)?|racon_v1(?:_bak)?)$/},
  'tc-sim': {primary:/^(?:tariklab::tc-sim:[1-3]|tc-sim-save)$/, evidence:/^(?:tariklab::tc-sim:[1-3](?::bak)?|tc-sim-save(?:-backup)?)$/},

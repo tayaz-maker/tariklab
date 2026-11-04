@@ -1,4 +1,5 @@
-import { mayAdvanceVehicle, trafficContext } from "./traffic.ts";
+import { advanceTraffic } from "./traffic.ts";
+import { trafficPose } from "../domain/traffic.ts";
 import { finishWorkOrder } from "./work-orders.ts";
 import { propertyCommand, validateProperty } from "./property-crime.ts";
 import { requestService, finishService } from "./services.ts";
@@ -57,7 +58,6 @@ import {
   isWalkable,
   laneLength,
   moveWithCollision,
-  pointOnLane,
 } from "../domain/world.ts";
 import { initializeWorld, profileErrors } from "./population.ts";
 import { adjustRelation, emit, notify, relation } from "./events.ts";
@@ -950,87 +950,6 @@ function movement(state: WorldState): void {
   p.location.y = quantize(next.y);
   state.flags.restUntil = 0;
 }
-function traffic(state: WorldState): void {
-  const context = trafficContext(state);
-  for (const vehicle of state.vehicles) {
-    if (!vehicle.driverId) continue;
-    if (vehicle.driverId === "player") {
-      const throttle = Number(state.flags.throttle ?? 0);
-      vehicle.speed = quantize(
-        clamp(
-          vehicle.speed + (throttle > 0 ? 0.22 : throttle < 0 ? -0.55 : -0.08),
-          0,
-          6 * weatherEffects(state).speedFactor,
-        ),
-      );
-      if (Number(state.flags.steer) && vehicle.speed > 0.1) {
-        const current = vehicle.location,
-          direction = Number(state.flags.steer);
-        // Change only to a directed edge that shares the current lane coordinate. No sidewalk traversal.
-        outer: for (let lane = 0; lane < ROADS.length; lane++)
-          if (lane !== vehicle.lane) {
-            let cumulative = 0;
-            const points = ROADS[lane];
-            for (let i = 0; i < points.length; i++) {
-              const a = points[i],
-                b = points[(i + 1) % points.length],
-                len = distance(a, b),
-                t =
-                  ((current.x - a.x) * (b.x - a.x) + (current.y - a.y) * (b.y - a.y)) / (len * len);
-              if (t >= 0 && t <= 1) {
-                const q = { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t },
-                  heading = Math.atan2(b.y - a.y, b.x - a.x),
-                  turn = Math.atan2(
-                    Math.sin(heading - vehicle.heading),
-                    Math.cos(heading - vehicle.heading),
-                  );
-                if (
-                  distance(current, q) < 0.12 &&
-                  Math.abs(turn) > 0.4 &&
-                  Math.abs(turn) < 2.5 &&
-                  Math.sign(turn) === Math.sign(direction)
-                ) {
-                  vehicle.lane = lane;
-                  vehicle.progress = cumulative + t * len;
-                  state.flags.steer = 0;
-                  break outer;
-                }
-              }
-              cumulative += len;
-            }
-          }
-      }
-    }
-    const step = Math.min(vehicle.speed, 6 * weatherEffects(state).speedFactor) * 0.1,
-      len = laneLength(vehicle.lane);
-    const blocked = state.vehicles.some(
-      (other) =>
-        other.id !== vehicle.id &&
-        !parkedAt(state, other.id) &&
-        other.lane === vehicle.lane &&
-        (other.progress - vehicle.progress + len) % len < 2.4 &&
-        (other.progress - vehicle.progress + len) % len > 0.01,
-    );
-    const nextProgress = quantize((vehicle.progress + step) % len);
-    const position = pointOnLane(vehicle.lane, nextProgress);
-    if (blocked || !mayAdvanceVehicle(state, vehicle, position, context)) continue;
-    vehicle.progress = nextProgress;
-    vehicle.location = { x: quantize(position.x), y: quantize(position.y), scene: "outside" };
-    vehicle.heading = position.heading;
-    if (vehicle.driverId === "player") {
-      state.player.location = { ...vehicle.location };
-      state.flags.drivenDistance = quantize(Number(state.flags.drivenDistance ?? 0) + step);
-    } else {
-      const driver = state.npcs.find((n) => n.id === vehicle.driverId);
-      if (!driver?.alive || driver.age < 18) {
-        vehicle.driverId = null;
-        vehicle.speed = 0;
-        continue;
-      }
-      driver.location = { ...vehicle.location };
-    }
-  }
-}
 function combat(state: WorldState): void {
   const p = state.player;
   if (p.attackUntil && state.tick >= p.attackUntil && state.flags.attackTarget) {
@@ -1236,7 +1155,7 @@ export function stepWorld(state: WorldState, commands: Command[] = []): CommandR
   state.tick++;
   mobilityTick(state);
   movement(state);
-  traffic(state);
+  advanceTraffic(state);
   npcMovement(state);
   combat(state);
   if (state.tick % TICKS_PER_MINUTE === 0) {
@@ -1520,11 +1439,16 @@ export function validateState(
         errors.push(`quest-funding:${quest.id}`);
     }
     for (const vehicle of state.vehicles) {
-      const expected = pointOnLane(vehicle.lane, vehicle.progress);
+      const expected = trafficPose(vehicle.lane, vehicle.progress);
       if (
         (!parkedAt(state, vehicle.id) && distance(expected, vehicle.location) > 0.002) ||
+        !Number.isInteger(vehicle.lane) ||
         vehicle.lane < 0 ||
         vehicle.lane >= ROADS.length ||
+        !Number.isFinite(vehicle.progress) ||
+        vehicle.progress < 0 ||
+        vehicle.progress >= laneLength(vehicle.lane) ||
+        !Number.isFinite(vehicle.speed) ||
         vehicle.speed < 0 ||
         vehicle.speed > 6 ||
         !Number.isFinite(vehicle.heading) ||

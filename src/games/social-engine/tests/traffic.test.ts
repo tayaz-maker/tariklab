@@ -7,9 +7,8 @@ import {
   validateState,
   applyCommand,
 } from "../simulation/engine.ts";
-import { JUNCTIONS, signalAxis } from "../domain/traffic.ts";
+import { JUNCTIONS, signalAxis, trafficPose } from "../domain/traffic.ts";
 import { mayAdvanceVehicle } from "../simulation/traffic.ts";
-import { pointOnLane } from "../domain/world.ts";
 import { encodeSave, decodeSave } from "../persistence/codec.ts";
 test("directed lane crossings expose deterministic signals with both directions and clearance", () => {
   assert.ok(JUNCTIONS.length >= 4);
@@ -28,13 +27,13 @@ test("red approach cannot enter, occupied junction stays reserved, admitted car 
     other = s.vehicles[1];
   for (const v of s.vehicles) v.location = { x: 60, y: 55, scene: "outside" };
   for (const p of [s.player, ...s.npcs]) p.location = { x: 7, y: 7, scene: "b-home" };
-  car.location = { x: j.x - 1.6, y: j.y, scene: "outside" };
+  car.location = { x: j.x - 2.6, y: j.y, scene: "outside" };
   s.tick = Array.from({ length: 180 }, (_, i) => i).find((i) => signalAxis(i, j) === "vertical")!;
-  assert.equal(mayAdvanceVehicle(s, car, { x: j.x - 1, y: j.y }), false);
+  assert.equal(mayAdvanceVehicle(s, car, { x: j.x - 1.9, y: j.y }), false);
   s.tick = Array.from({ length: 180 }, (_, i) => i).find((i) => signalAxis(i, j) === "horizontal")!;
-  assert.equal(mayAdvanceVehicle(s, car, { x: j.x - 1, y: j.y }), true);
+  assert.equal(mayAdvanceVehicle(s, car, { x: j.x - 1.9, y: j.y }), true);
   other.location = { x: j.x, y: j.y, scene: "outside" };
-  assert.equal(mayAdvanceVehicle(s, car, { x: j.x - 1, y: j.y }), false);
+  assert.equal(mayAdvanceVehicle(s, car, { x: j.x - 1.9, y: j.y }), false);
   other.location = { x: 60, y: 55, scene: "outside" };
   car.location = { x: j.x, y: j.y, scene: "outside" };
   s.tick = Array.from({ length: 180 }, (_, i) => i).find((i) => signalAxis(i, j) === "clearance")!;
@@ -65,7 +64,7 @@ test("integrated fixed-tick traffic stays on lanes and resumes exactly through s
   }
   assert.equal(canonicalState(a), canonicalState(b));
   for (const v of a.vehicles.filter((v) => v.driverId)) {
-    const p = pointOnLane(v.lane, v.progress);
+    const p = trafficPose(v.lane, v.progress);
     assert.ok(Math.hypot(v.location.x - p.x, v.location.y - p.y) < 0.002);
   }
   assert.deepEqual(validateState(a), []);

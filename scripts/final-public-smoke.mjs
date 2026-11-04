@@ -8,9 +8,11 @@ assert.equal(origin.protocol, "https:");
 const exact = process.argv.includes("--exact-public");
 const source = readFileSync(new URL("../src/lib/games.ts", import.meta.url), "utf8");
 const catalog = source.split("export const GAMES:")[1];
-const games = [...catalog.matchAll(/slug: "([^"]+)"[\s\S]*?status: "live",\s*href: "([^"]+)"/g)]
+const games = [...catalog.matchAll(/slug: "([^"]+)"[^}]*?status: "live",\s*href: "([^"]+)"/g)]
   .map((m) => ({ slug: m[1], href: m[2] }));
-assert.equal(games.length, 17);
+assert.deepEqual(games.map((game) => game.slug).sort(), [
+  "apartman", "cete-savaslari", "hanedanian", "racon", "social-engine", "son-kasaba", "tc-sim", "tc-sim-boardworld",
+]);
 const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
 async function get(path) {
   const response = await fetch(new URL(path, origin), { signal: AbortSignal.timeout(30000), cache: "no-store", redirect: "manual" });
@@ -58,4 +60,4 @@ for (const path of assets) {
 }
 assert.ok(catalogOutput.includes("1923") && catalogOutput.includes("2030"), "catalog missing current DEVLET scope");
 assert.doesNotMatch(catalogOutput, /2002[–-]05 (?:core|çekirdeği)/i);
-console.log("PASS: root + 18 routes; critical public assets; root bundles; DEVLET catalog scope. Browser acceptance remains separate.");
+console.log(`PASS: root + ${games.length} live routes; critical public assets; root bundles; DEVLET catalog scope. Browser acceptance remains separate.`);

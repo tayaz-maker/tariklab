@@ -1,3 +1,4 @@
+import { expectedTrafficMigration } from "./traffic-migration-expectation.ts";
 import test from "node:test";
 import assert from "node:assert/strict";
 import { createWorld, stepWorld, applyCommand, canonicalState } from "../simulation/engine.ts";
@@ -200,7 +201,12 @@ test("frozen real candidate5 snapshot and command/tick tail replay exactly befor
   assert.equal(await sha256(canonicalState(historical)), frozen.expectedCanonicalSha256);
   assert.equal(
     canonicalState(migrateState(historical)),
+    canonicalState(expectedTrafficMigration(historical)),
+  );
+  assert.notEqual(
+    canonicalState(expectedTrafficMigration(historical)),
     canonicalState({ ...historical, schemaVersion: 7, engineVersion: "1.0.0-candidate.6" }),
+    "Genuine fixture must exercise an actual legacy pose conversion",
   );
   assert.equal(JSON.stringify(frozen), before);
   assert.throws(

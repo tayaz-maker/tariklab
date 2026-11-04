@@ -13,53 +13,53 @@ export function pedestrianWalkable(p: Point): boolean {
     (!horizontal || CROSSINGS.x.some((x) => Math.abs(p.x - x) <= 0.65))
   );
 }
-export function pedestrianSegment(a: Point, b: Point): boolean {
+export function pedestrianSegment(a: Point, b: Point, obstacles: readonly Point[] = []): boolean {
   const steps = Math.max(1, Math.ceil(Math.hypot(a.x - b.x, a.y - b.y) / 0.15));
-  for (let i = 0; i <= steps; i++)
+  for (let i = 0; i <= steps; i++) {
+    const p = { x: a.x + ((b.x - a.x) * i) / steps, y: a.y + ((b.y - a.y) * i) / steps };
     if (
-      !pedestrianWalkable({
-        x: a.x + ((b.x - a.x) * i) / steps,
-        y: a.y + ((b.y - a.y) * i) / steps,
-      })
+      !pedestrianWalkable(p) ||
+      obstacles.some((body) => Math.hypot(body.x - p.x, body.y - p.y) < 0.95)
     )
       return false;
+  }
   return true;
 }
 const cache = new Map<string, Point[]>();
 /** Four-way half-metre A*: no diagonal corner clipping and no diagonal road crossings. */
-export function pedestrianPath(from: Point, to: Point): Point[] {
-  if (!pedestrianWalkable(to) || !isWalkable(from)) return [];
-  if (pedestrianSegment(from, to)) return [{ ...to }];
+export function pedestrianPath(from: Point, to: Point, obstacles: readonly Point[] = []): Point[] {
+  const walkable = (p: Point) =>
+    pedestrianWalkable(p) &&
+    obstacles.every((body) => Math.hypot(body.x - p.x, body.y - p.y) >= 0.95);
+  const segment = (a: Point, b: Point) => pedestrianSegment(a, b, obstacles);
+  if (!walkable(to) || !isWalkable(from)) return [];
+  if (segment(from, to)) return [{ ...to }];
   const size = 129,
     encode = (p: Point) => Math.round(p.y * 2) * size + Math.round(p.x * 2),
     point = (id: number) => ({ x: (id % size) / 2, y: Math.floor(id / size) / 2 }),
     start = encode(from),
     goal = encode(to),
-    key = `${start}:${goal}`;
+    key = `${start}:${goal}:${obstacles
+      .map((p) => `${p.x},${p.y}`)
+      .sort()
+      .join(";")}`;
   const finish = (raw: Point[]): Point[] => {
-    if (
-      !raw.length ||
-      !pedestrianSegment(from, raw[0]) ||
-      !pedestrianSegment(raw[raw.length - 1], to)
-    )
-      return [];
+    if (!raw.length || !segment(from, raw[0]) || !segment(raw[raw.length - 1], to)) return [];
     const points = [...raw, { ...to }],
       result: Point[] = [];
     let anchor = from;
     for (let i = 0; i < points.length;) {
       let j = i;
-      while (j + 1 < points.length && pedestrianSegment(anchor, points[j + 1])) j++;
+      while (j + 1 < points.length && segment(anchor, points[j + 1])) j++;
       result.push(points[j]);
       anchor = points[j];
       i = j + 1;
     }
     return result.map((p) => ({ ...p }));
   };
-  const hit = cache.get(key);
-  if (hit) return finish(hit);
   // Legacy actors may be standing on a road. Permit only their short first link
   // to the nearest safe pavement, never a fresh arbitrary road shortcut.
-  if (!pedestrianWalkable(from)) {
+  if (!walkable(from)) {
     const candidates: Point[] = [];
     for (let dx = -5; dx <= 5; dx++)
       for (let dy = -5; dy <= 5; dy++) {
@@ -67,7 +67,7 @@ export function pedestrianPath(from: Point, to: Point): Point[] {
           x: Math.round(from.x * 2) / 2 + dx / 2,
           y: Math.round(from.y * 2) / 2 + dy / 2,
         };
-        if (pedestrianWalkable(p)) candidates.push(p);
+        if (walkable(p)) candidates.push(p);
       }
     candidates.sort(
       (a, b) => Math.hypot(a.x - from.x, a.y - from.y) - Math.hypot(b.x - from.x, b.y - from.y),
@@ -84,11 +84,13 @@ export function pedestrianPath(from: Point, to: Point): Point[] {
         ).every(Boolean)
       )
         continue;
-      const rest = pedestrianPath(p, to);
+      const rest = pedestrianPath(p, to, obstacles);
       if (rest.length) return [p, ...rest];
     }
     return [];
   }
+  const hit = cache.get(key);
+  if (hit) return finish(hit);
   const g = new Map<number, number>([[start, 0]]),
     parent = new Map<number, number>(),
     closed = new Set<number>();
@@ -156,7 +158,7 @@ export function pedestrianPath(from: Point, to: Point): Point[] {
         Math.abs((next % size) - (cur % size)) > 1
       )
         continue;
-      if (!pedestrianWalkable(point(next))) continue;
+      if (!walkable(point(next))) continue;
       const cost = g.get(cur)! + 1;
       if (cost >= (g.get(next) ?? Infinity)) continue;
       g.set(next, cost);

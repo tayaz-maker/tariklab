@@ -31,7 +31,7 @@ test('limited language diagnostics cannot silently expand or duplicate a release
 });
 
 test('authored aliases include legacy scores and exact management/duel namespaces only',()=>{
- const cases=[['peg-solitaire','tlab.tektas.v1'],['labirent','tlab.labirent.v1'],['kayip-telefon','tariklab.nextwave.kayip-telefon.slot1'],['tc-sim-devlet','tariklab.nextwave.tc-sim-devlet.slot2'],['son-100-gun','tariklab.son100.pov.v1.slot1'],['gett-oh','tariklab.gett-oh.duel'],['veto-h','tariklab.veto-h.duel'],['tc-sim','tariklab::tc-sim:1']];
+ const cases=[['social-engine','idb:social-engine:slot-1'],['peg-solitaire','tlab.tektas.v1'],['labirent','tlab.labirent.v1'],['kayip-telefon','tariklab.nextwave.kayip-telefon.slot1'],['tc-sim-devlet','tariklab.nextwave.tc-sim-devlet.slot2'],['son-100-gun','tariklab.son100.pov.v1.slot1'],['gett-oh','tariklab.gett-oh.duel'],['veto-h','tariklab.veto-h.duel'],['tc-sim','tariklab::tc-sim:1']];
  for(const [game,key] of cases){
   const evidence=readSaveEvidence(game,{[key]:'{"day":4}',[game+'-settings']:'{"day":8}',['unrelated-'+key]:'{"day":9}'});
   assert.deepEqual(Object.keys(evidence),[key]);assert.doesNotThrow(()=>assertPreparedSave(game,evidence));

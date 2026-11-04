@@ -61,6 +61,11 @@ async function languageProof(page,game,lang){
   await surface.locator(button).waitFor();
   await surface.waitForFunction(({selector,expected,lang})=>document.querySelector(selector)?.textContent.trim().toLocaleLowerCase(lang)===expected.toLocaleLowerCase(lang),{selector:button,expected,lang},{timeout:10000});
   label=await surface.locator(button).innerText();
+ }else if(game==='social-engine'){
+  expected='Mahalleye hoş geldin.';
+  await surface.getByRole('heading',{name:expected,exact:true}).waitFor();
+  assert.equal(await surface.locator('html').getAttribute('lang'),'tr');
+  label=expected;
  }else if(game==='cete-savaslari'){
   expected={tr:'Dosya aç',en:'Open a file',pl:'Otwórz plik'}[lang];
   await page.getByText(expected,{exact:true}).waitFor();label=expected;
@@ -89,6 +94,17 @@ async function preparePlayable(page,game){
   await page.locator('#cete-player-name').fill('Master QA');
   const name={tr:'Sokağa in',en:'Hit the street',pl:'Wyjdź na ulicę'}[await page.evaluate(()=>localStorage.getItem('tariklab.language'))];
   await page.getByRole('button',{name,exact:true}).click();await page.locator('.game-shell').waitFor();
+ }else if(game==='social-engine'){
+  await frame.getByLabel('Karakter adı').fill('Master QA');
+  await frame.getByRole('button',{name:'Hikâyene başla'}).click();
+  await frame.getByRole('navigation',{name:'Oyun araçları'}).waitFor();
+  assert.equal(await frame.locator('#hud-district').innerText(),'DARAMCIK');
+  assert.equal(await frame.locator('#hud-name').innerText(),'Master QA');
+  await frame.locator('[data-panel="pause"]').click();
+  await frame.getByRole('button',{name:'Kayıtlar & dışa aktarım'}).click();
+  await frame.locator('[data-save="slot-1"]').click();
+  await frame.locator('[data-load="slot-1"]:enabled').waitFor();
+  await frame.getByRole('button',{name:'Kapat'}).click();
  }else if(game==='racon'){
   await frame.locator('#menu-home [data-go="nick"]').click();await frame.locator('#lakap').fill('Master QA');
   await frame.locator('[data-go="origin"]').click();await frame.locator('[data-act="origin"][data-id="koy"]').click();
@@ -130,6 +146,26 @@ async function saves(page,game){
    request.onsuccess=()=>{const db=request.result;if(!db.objectStoreNames.contains('saves')){db.close();resolve(null);return;}
     const get=db.transaction('saves','readonly').objectStore('saves').get('manual');get.onerror=()=>{db.close();reject(get.error);};get.onsuccess=()=>{db.close();resolve(JSON.stringify(get.result??null));};};
   }));
+ }
+ if(game==='social-engine'){
+  const revision=await surface.evaluate(async()=>{
+   const read=request=>new Promise((resolve,reject)=>{request.onsuccess=()=>resolve(request.result);request.onerror=()=>reject(request.error);});
+   const db=await read(indexedDB.open('tariklab-social-engine'));
+   try{
+    const tx=db.transaction(['slots','revisions'],'readonly');
+    const slot=await read(tx.objectStore('slots').get('slot-1'));
+    if(!slot)return null;
+    const value=await read(tx.objectStore('revisions').get(slot.revisionId));
+    if(!value || value.slotId!=='slot-1' || value.revisionId!==slot.revisionId || !value.payload)
+     throw new Error('Manual slot points to a missing or invalid SOCIAL ENGINE revision');
+    const bytes=new TextEncoder().encode(value.payload);
+    const digest=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes)),b=>b.toString(16).padStart(2,'0')).join('');
+    if(bytes.length!==value.byteLength || digest!==(value.payloadSha256||value.sha256))
+     throw new Error('SOCIAL ENGINE manual revision failed its payload integrity check');
+    return {revisionId:value.revisionId,tick:value.tick,worldSeed:value.worldSeed,payloadHash:digest};
+   }finally{db.close();}
+  });
+  entries['idb:social-engine:slot-1']=JSON.stringify(revision);
  }
  return readSaveEvidence(game,entries);
 }
@@ -216,6 +252,14 @@ try{
      if(route.id==='cete-savaslari'){await page.locator('.game-shell .hud-header').getByText('Master QA',{exact:false}).waitFor();proof.offlineGameplayLanguage=await gameplayLanguageProof(page,route.id,lang);}
      assert.equal(new URL(page.url()).origin,origin);
      proof.language=await page.evaluate(()=>({document:document.documentElement.lang,selected:localStorage.getItem('tariklab.language')}));assert.equal(proof.language.document,lang);assert.equal(proof.language.selected,lang);
+     if(route.id==='social-engine'){
+      const frame=await gameSurface(page,route.id);
+      await frame.getByRole('button',{name:'Kayıtlı oyuna devam et'}).click();
+      await frame.locator('[data-load="slot-1"]').click();
+      await frame.getByRole('navigation',{name:'Oyun araçları'}).waitFor();
+      assert.equal(await frame.locator('#hud-name').innerText(),'Master QA');
+      assert.equal(await frame.locator('#hud-district').innerText(),'DARAMCIK');
+     }
      proof.after=await saves(page,route.id);assertSavedProgress(proof.before,proof.after);
      await finishAssetReads(reads);assert.deepEqual(errors,[]);assert.deepEqual(requestFailures,[]);
      await page.screenshot({path:`${out}/${route.id}-${lang}-offline.png`});proof.ok=true;

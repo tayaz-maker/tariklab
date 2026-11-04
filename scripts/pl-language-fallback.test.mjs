@@ -100,7 +100,7 @@ test("the coverage record lists every catalogue game with a PL state", () => {
     ),
   );
   for (const g of cov.games) {
-    if (g.id === "tc-sim-boardworld") assert.equal(g.pl, "turkish-only");
+    if (["tc-sim-boardworld", "social-engine"].includes(g.id)) assert.equal(g.pl, "turkish-only");
     else assert.ok(["body", "interface", "english-fallback"].includes(g.pl), `${g.id}: ${g.pl}`);
     assert.ok(typeof g.plNote === "string" && g.plNote.length > 10, g.id);
   }

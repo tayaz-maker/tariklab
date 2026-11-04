@@ -1,6 +1,9 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { createWorld, stepWorld, canonicalState, validateState } from "../simulation/engine.ts";
+import { emit } from "../simulation/events.ts";
+import { tickSocial } from "../simulation/social.ts";
+import { canonical } from "../simulation/random.ts";
 import { npcMovement } from "../simulation/society.ts";
 import { npcMovementTraits } from "../simulation/npc-traits.ts";
 import {
@@ -151,4 +154,53 @@ test("shared-door departures retain one physical person and a persisted six-tick
   const ticks = [...departed.values()].sort((a, b) => a - b);
   for (let i = 1; i < ticks.length; i++) assert.ok(ticks[i] - ticks[i - 1] >= 6);
   assert.ok(Number.isInteger(s.flags[`npcDoorTick:${home.id}`]));
+});
+
+test("a stationary car blocking a narrow crosswalk produces a legal alternate crossing", () => {
+  const from = { x: 28, y: 16 },
+    target = BUILDINGS.find((b) => b.id === "b-cafe")!.door,
+    car = { x: 27, y: 17 };
+  const path = pedestrianPath(from, target, [car]);
+  assert.ok(path.length);
+  let a = from;
+  for (const b of path) {
+    const count = Math.ceil(Math.hypot(b.x - a.x, b.y - a.y) / 0.1);
+    for (let i = 0; i <= count; i++) {
+      const p = { x: a.x + ((b.x - a.x) * i) / count, y: a.y + ((b.y - a.y) * i) / count };
+      assert.ok(Math.hypot(p.x - car.x, p.y - car.y) >= 0.94);
+    }
+    a = b;
+  }
+  assert.deepEqual(path.at(-1), target);
+});
+
+test("sequential warm-cache replay matches early movement ticks and one full day of authority", () => {
+  const a = createWorld(20261103);
+  emit(a, "faction_betrayal", "Önemli geçmiş.", ["n0"], null, "private");
+  for (let i = 0; i < 100; i++) emit(a, "routine_note", String(i), ["n0"], null, "private");
+  tickSocial(a);
+  const b = JSON.parse(canonicalState(a)),
+    snapshots: string[] = [];
+  const movement = (s: typeof a) =>
+    canonical(
+      s.npcs
+        .slice(0, 100)
+        .map((n) => ({
+          location: n.location,
+          path: n.path,
+          destination: n.destination,
+          goal: n.goal,
+        })),
+    );
+  for (let tick = 0; tick < 14400; tick++) {
+    stepWorld(a);
+    if (tick < 900) snapshots.push(movement(a));
+  }
+  for (let tick = 0; tick < 14400; tick++) {
+    stepWorld(b);
+    if (tick < 900)
+      assert.equal(movement(b), snapshots[tick], `first movement divergence at tick ${tick + 1}`);
+  }
+  assert.equal(canonicalState(a), canonicalState(b));
+  assert.deepEqual(validateState(a), []);
 });

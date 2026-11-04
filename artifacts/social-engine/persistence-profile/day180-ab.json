@@ -1,0 +1,346 @@
+{
+  "fixtureSha256": "bad58289d329adca789abf94b7c3e60f0c639fd8c1f60ed8c7d72223bcd0b2f4",
+  "fixtureBytes": 12747272,
+  "tick": 2592000,
+  "samples": 20,
+  "variants": [
+    {
+      "variant": "baseline",
+      "phases": [
+        {
+          "name": "structuredClone",
+          "ms": 124
+        },
+        {
+          "name": "assertWorld",
+          "ms": 193
+        },
+        {
+          "name": "packRecords",
+          "ms": 309
+        },
+        {
+          "name": "canonicalRecords",
+          "ms": 418
+        },
+        {
+          "name": "gzip",
+          "ms": 347
+        },
+        {
+          "name": "canonicalSHA",
+          "ms": 28
+        },
+        {
+          "name": "payloadSHA",
+          "ms": 9
+        },
+        {
+          "name": "encodeSaveTotal",
+          "ms": 1219
+        },
+        {
+          "name": "decodeSaveTotal",
+          "ms": 824
+        }
+      ],
+      "samples": [
+        {
+          "saveMs": 1568,
+          "loadMs": 635,
+          "roundtripMs": 2203,
+          "mode": "new IndexedDB connection"
+        },
+        {
+          "saveMs": 2234,
+          "loadMs": 801,
+          "roundtripMs": 3035,
+          "mode": "warm"
+        },
+        {
+          "saveMs": 2344,
+          "loadMs": 906,
+          "roundtripMs": 3250,
+          "mode": "new IndexedDB connection"
+        },
+        {
+          "saveMs": 2260,
+          "loadMs": 723,
+          "roundtripMs": 2983,
+          "mode": "warm"
+        },
+        {
+          "saveMs": 2282,
+          "loadMs": 798,
+          "roundtripMs": 3080,
+          "mode": "new IndexedDB connection"
+        },
+        {
+          "saveMs": 2143,
+          "loadMs": 847,
+          "roundtripMs": 2990,
+          "mode": "warm"
+        },
+        {
+          "saveMs": 3090,
+          "loadMs": 739,
+          "roundtripMs": 3829,
+          "mode": "new IndexedDB connection"
+        },
+        {
+          "saveMs": 2128,
+          "loadMs": 677,
+          "roundtripMs": 2805,
+          "mode": "warm"
+        },
+        {
+          "saveMs": 2438,
+          "loadMs": 722,
+          "roundtripMs": 3160,
+          "mode": "new IndexedDB connection"
+        },
+        {
+          "saveMs": 2190,
+          "loadMs": 673,
+          "roundtripMs": 2863,
+          "mode": "warm"
+        },
+        {
+          "saveMs": 2351,
+          "loadMs": 779,
+          "roundtripMs": 3130,
+          "mode": "new IndexedDB connection"
+        },
+        {
+          "saveMs": 2649,
+          "loadMs": 602,
+          "roundtripMs": 3251,
+          "mode": "warm"
+        },
+        {
+          "saveMs": 2146,
+          "loadMs": 950,
+          "roundtripMs": 3096,
+          "mode": "new IndexedDB connection"
+        },
+        {
+          "saveMs": 1887,
+          "loadMs": 979,
+          "roundtripMs": 2866,
+          "mode": "warm"
+        },
+        {
+          "saveMs": 1915,
+          "loadMs": 710,
+          "roundtripMs": 2625,
+          "mode": "new IndexedDB connection"
+        },
+        {
+          "saveMs": 1997,
+          "loadMs": 696,
+          "roundtripMs": 2693,
+          "mode": "warm"
+        },
+        {
+          "saveMs": 2089,
+          "loadMs": 1032,
+          "roundtripMs": 3121,
+          "mode": "new IndexedDB connection"
+        },
+        {
+          "saveMs": 2694,
+          "loadMs": 847,
+          "roundtripMs": 3541,
+          "mode": "warm"
+        },
+        {
+          "saveMs": 1985,
+          "loadMs": 652,
+          "roundtripMs": 2637,
+          "mode": "new IndexedDB connection"
+        },
+        {
+          "saveMs": 2031,
+          "loadMs": 678,
+          "roundtripMs": 2709,
+          "mode": "warm"
+        }
+      ],
+      "p95Ms": 3541,
+      "maxMs": 3829
+    },
+    {
+      "variant": "optimized",
+      "phases": [
+        {
+          "name": "structuredClone",
+          "ms": 153
+        },
+        {
+          "name": "assertWorld",
+          "ms": 141
+        },
+        {
+          "name": "packRecords",
+          "ms": 141
+        },
+        {
+          "name": "canonicalRecords",
+          "ms": 321
+        },
+        {
+          "name": "gzip",
+          "ms": 319
+        },
+        {
+          "name": "canonicalSHA",
+          "ms": 23
+        },
+        {
+          "name": "payloadSHA",
+          "ms": 2
+        },
+        {
+          "name": "encodeSaveTotal",
+          "ms": 1097
+        },
+        {
+          "name": "decodeSaveTotal",
+          "ms": 599
+        }
+      ],
+      "samples": [
+        {
+          "saveMs": 1245,
+          "loadMs": 591,
+          "roundtripMs": 1836,
+          "mode": "new IndexedDB connection"
+        },
+        {
+          "saveMs": 1602,
+          "loadMs": 675,
+          "roundtripMs": 2277,
+          "mode": "warm"
+        },
+        {
+          "saveMs": 1760,
+          "loadMs": 542,
+          "roundtripMs": 2302,
+          "mode": "new IndexedDB connection"
+        },
+        {
+          "saveMs": 1786,
+          "loadMs": 468,
+          "roundtripMs": 2254,
+          "mode": "warm"
+        },
+        {
+          "saveMs": 1737,
+          "loadMs": 690,
+          "roundtripMs": 2427,
+          "mode": "new IndexedDB connection"
+        },
+        {
+          "saveMs": 1735,
+          "loadMs": 695,
+          "roundtripMs": 2430,
+          "mode": "warm"
+        },
+        {
+          "saveMs": 1536,
+          "loadMs": 518,
+          "roundtripMs": 2054,
+          "mode": "new IndexedDB connection"
+        },
+        {
+          "saveMs": 2094,
+          "loadMs": 617,
+          "roundtripMs": 2711,
+          "mode": "warm"
+        },
+        {
+          "saveMs": 2455,
+          "loadMs": 756,
+          "roundtripMs": 3211,
+          "mode": "new IndexedDB connection"
+        },
+        {
+          "saveMs": 4022,
+          "loadMs": 917,
+          "roundtripMs": 4939,
+          "mode": "warm"
+        },
+        {
+          "saveMs": 2473,
+          "loadMs": 492,
+          "roundtripMs": 2965,
+          "mode": "new IndexedDB connection"
+        },
+        {
+          "saveMs": 1745,
+          "loadMs": 585,
+          "roundtripMs": 2330,
+          "mode": "warm"
+        },
+        {
+          "saveMs": 1679,
+          "loadMs": 800,
+          "roundtripMs": 2479,
+          "mode": "new IndexedDB connection"
+        },
+        {
+          "saveMs": 1759,
+          "loadMs": 638,
+          "roundtripMs": 2397,
+          "mode": "warm"
+        },
+        {
+          "saveMs": 1663,
+          "loadMs": 420,
+          "roundtripMs": 2083,
+          "mode": "new IndexedDB connection"
+        },
+        {
+          "saveMs": 1617,
+          "loadMs": 428,
+          "roundtripMs": 2045,
+          "mode": "warm"
+        },
+        {
+          "saveMs": 1721,
+          "loadMs": 538,
+          "roundtripMs": 2259,
+          "mode": "new IndexedDB connection"
+        },
+        {
+          "saveMs": 1438,
+          "loadMs": 497,
+          "roundtripMs": 1935,
+          "mode": "warm"
+        },
+        {
+          "saveMs": 1731,
+          "loadMs": 443,
+          "roundtripMs": 2174,
+          "mode": "new IndexedDB connection"
+        },
+        {
+          "saveMs": 1469,
+          "loadMs": 438,
+          "roundtripMs": 1907,
+          "mode": "warm"
+        }
+      ],
+      "p95Ms": 3211,
+      "maxMs": 4939
+    }
+  ],
+  "browser": "153.0",
+  "baselineCommit": "3ddf1768705f9268d86404c4984621e783e1720a",
+  "fixtureFileSha256": "e4eb58d4c2b05b8da942d7103c71f81b216021a9e4f57861b27d3d5a9629903d",
+  "method": "Single sequential headless Firefox153 A/B,20 full roundtrips per variant, alternating new and warm IndexedDB connections. Actual captured day180 fixture converted to sparse transfer bits without changing their meaning, then schema7 migrated. Each of40 loaded worlds verified against the complete canonical world SHA256. No samples dropped; nearest-rank p95 is19th of20.",
+  "limitations": "Host-specific observations, not reference hardware proof. Other host activity is not controlled or instrumented; optimized max was worse, so noisy latency tails remain. Both variants fail the1000ms budget.",
+  "optimization": "Current-schema decode validates its freshly materialized owned state directly, instead of migration clone plus repeated tree walks. packRecords shallow-copies only player/NPC containers whose profile fields it removes; normalization creates owned output for all nested data.",
+  "latencyBudgetMs": 1000,
+  "latencyStatus": "FAIL"
+}
