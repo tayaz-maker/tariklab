@@ -89,8 +89,9 @@ export function unpackRecords(input: unknown): WorldState {
     !s ||
     s.format !== "social-engine-record-snapshot" ||
     !(
+      (s.schemaVersion === 8 && s.rulesVersion === RULES_VERSION && s.engineVersion === "1.0.0-candidate.7") ||
       (s.schemaVersion === 7 &&
-        s.rulesVersion === RULES_VERSION &&
+        s.rulesVersion === "social-engine-rules-7" &&
         s.engineVersion === "1.0.0-candidate.6") ||
       (s.schemaVersion === 6 &&
         s.rulesVersion === "social-engine-rules-6" &&

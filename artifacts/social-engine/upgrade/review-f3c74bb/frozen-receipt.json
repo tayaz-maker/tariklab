@@ -1,0 +1,170 @@
+{
+  "source": "f3c74bb6b7a3ac19ad81d10ebbd5aa1a6a430e3a",
+  "remote": "e8b2bd50e5828868edda923bcf61dcb516b0c458",
+  "manifestSHA256": "68235850f445373b0dd4283fb12791bad98c53d4dffbd6b2f829c685bf21210f",
+  "bundleJsGzipBytes": 254511,
+  "jsChunksReproduced": 12,
+  "productionBuild": "PASS",
+  "controls": {
+    "builtWorker": {
+      "origin": "http://127.0.0.1:8234",
+      "status": "PASS",
+      "mode": "candidate",
+      "checks": [
+        "all deployed asset hashes",
+        "character, district and recorded NPC conversation",
+        "physical D key moves screen-right",
+        "durable location, money and NPC history after page reload"
+      ],
+      "errors": [],
+      "manifestSha256": "68235850f445373b0dd4283fb12791bad98c53d4dffbd6b2f829c685bf21210f"
+    },
+    "manualLegacyImport": {
+      "status": "PASS",
+      "errors": [],
+      "sourceSchema": 6,
+      "sourceSHA256": "710f63d118cd582a7c24f0a2a29ca97170b4ac69ec04c083d3e609ae7227280e",
+      "manifestSha256": "68235850f445373b0dd4283fb12791bad98c53d4dffbd6b2f829c685bf21210f"
+    },
+    "workOrders": {
+      "manifest": "68235850f445373b0dd4283fb12791bad98c53d4dffbd6b2f829c685bf21210f",
+      "checks": [
+        "retail",
+        "mechanic"
+      ],
+      "status": "PASS"
+    }
+  },
+  "engines": {
+    "chromium": {
+      "version": "151.0.7922.34",
+      "cases": [
+        "SE-001",
+        "SE-005",
+        "SE-002,SE-004",
+        "SE-007-keyboard",
+        "SE-016",
+        "SE-007-click,SE-009",
+        "SE-013,SE-022",
+        "SE-019,SE-020",
+        "SE-014",
+        "SE-035",
+        "SE-033",
+        "SE-031,SE-029,SE-030",
+        "SE-040,SE-055",
+        "SE-057"
+      ],
+      "errors": []
+    },
+    "firefox": {
+      "version": "153.0",
+      "cases": [
+        "SE-001",
+        "SE-005",
+        "SE-002,SE-004",
+        "SE-007-keyboard",
+        "SE-016",
+        "SE-007-click,SE-009",
+        "SE-013,SE-022",
+        "SE-019,SE-020",
+        "SE-014",
+        "SE-035",
+        "SE-033",
+        "SE-031,SE-029,SE-030",
+        "SE-040,SE-055",
+        "SE-057"
+      ],
+      "errors": []
+    },
+    "webkit": {
+      "version": "26.5",
+      "cases": [
+        "SE-001",
+        "SE-005",
+        "SE-002,SE-004",
+        "SE-007-keyboard",
+        "SE-016",
+        "SE-007-click,SE-009",
+        "SE-013,SE-022",
+        "SE-019,SE-020",
+        "SE-014",
+        "SE-035",
+        "SE-033",
+        "SE-031,SE-029,SE-030",
+        "SE-040,SE-055",
+        "SE-057"
+      ],
+      "errors": []
+    }
+  },
+  "matureSave": {
+    "sourceFixture": "e4eb58d4c2b05b8da942d7103c71f81b216021a9e4f57861b27d3d5a9629903d",
+    "samplesPerEngine": 20,
+    "stateIntegrity": "PASS",
+    "latency": "FAIL",
+    "p95ms": {
+      "chromium": 2150,
+      "firefox": 3612,
+      "webkit": 1599
+    }
+  },
+  "legacy": {
+    "TC SIM": {
+      "exit": 0,
+      "script": "tc-sim-menu-browser"
+    },
+    "Boardworld": {
+      "exit": 0,
+      "script": "boardworld-browser",
+      "args": [
+        "--serve",
+        "public"
+      ]
+    },
+    "Racon Manager": {
+      "exit": 0,
+      "script": "racon-quality-browser",
+      "args": [
+        "--source"
+      ]
+    }
+  },
+  "publication": "GOLD_BLOCKED",
+  "production_premerge": {
+    "origin": "https://www.tariklab.com",
+    "mode": "read-only before merge",
+    "time": "2026-11-04T08:59:45.210Z",
+    "http": 200,
+    "title": "Oyun | TLab",
+    "gameFrames": 0,
+    "manifestHTTP": 404,
+    "exactManifest": false
+  },
+  "notPassed": [
+    "Physical low-end hardware",
+    "Two independent 30-minute human playtests",
+    "Mature save/load latency",
+    "365-day and 120-minute runs pending at initial evidence export",
+    "Exact final CI, production SHA, deployment ID and active traffic"
+  ],
+  "finalTraffic": {
+    "durationMs": 60265,
+    "comparable": 302,
+    "forward": 302,
+    "backward": 0,
+    "axisAligned": 302,
+    "axisMisaligned": 0,
+    "distinctVehicles": [
+      "v0",
+      "v1",
+      "v2",
+      "v3",
+      "v4",
+      "v5",
+      "v6",
+      "v7",
+      "v-rental-0"
+    ]
+  },
+  "crowdScope": "30/100 synthetic presentation fixtures; independent of live traffic capture."
+}

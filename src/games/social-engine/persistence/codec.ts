@@ -1,6 +1,8 @@
-import { migrateLegacyTrafficPoses } from "../simulation/traffic.ts";
+import { compactMealMemberships } from "../simulation/meal-migration.ts";
+import { migrateLegacyTrafficPoses } from "./historical/candidate6/simulation/traffic.ts";
 import { migrateState as migrateCandidate5 } from "./historical/candidate5/persistence/codec.ts";
 import { validateState as validateCandidate5 } from "./historical/candidate5/simulation/engine.ts";
+import { validateState as validateCandidate6 } from "./historical/candidate6/simulation/engine.ts";
 import { gzipText, gunzipText } from "./compression.ts";
 import { packRecords, unpackRecords } from "./records.ts";
 import { canonical } from "../simulation/random.ts";
@@ -109,6 +111,18 @@ export function assertWorld(value: unknown): asserts value is WorldState {
       `Dünya verisi doğrulanamadı: ${errors.slice(0, 4).join(", ")}`,
     );
 }
+/** Verify an archived schema-6 -> schema-7 result using its original canonical record contract. */
+export async function archivedRules7Digest(state: WorldState): Promise<string> {
+  const copy = structuredClone(state);
+  if (copy.schemaVersion !== 6 || copy.engineVersion !== "1.0.0-candidate.5" || validateCandidate5(copy).length)
+    throw new SaveError("INVALID_STATE", "Önceki geçişin kaynak dünyası doğrulanamadı.");
+  migrateLegacyTrafficPoses(copy);
+  copy.schemaVersion = 7;
+  copy.engineVersion = "1.0.0-candidate.6";
+  if (validateCandidate6(copy).length) throw new SaveError("INVALID_STATE", "Önceki geçiş sonucu geçersiz.");
+  const packed = packRecords(copy);
+  return sha256(canonical({ ...packed, rulesVersion: "social-engine-rules-7" }));
+}
 /** The frozen v1 fixture predates notices and the reconciled ledger checkpoint. */
 export function migrateState(value: unknown): WorldState {
   assertJsonTree(value);
@@ -121,6 +135,7 @@ export function migrateState(value: unknown): WorldState {
     value.schemaVersion !== 4 &&
     value.schemaVersion !== 5 &&
     value.schemaVersion !== 6 &&
+    value.schemaVersion !== 7 &&
     value.schemaVersion !== SAVE_SCHEMA
   )
     throw new SaveError("UNSUPPORTED_VERSION", "Daha yeni veya bilinmeyen kayıt sürümü.");
@@ -190,6 +205,13 @@ export function migrateState(value: unknown): WorldState {
     if (errors.length)
       throw new SaveError("INVALID_STATE", `Eski dünya geçersiz: ${errors.slice(0, 4).join(", ")}`);
     migrateLegacyTrafficPoses(copy as WorldState);
+    copy.schemaVersion = 7;
+    copy.engineVersion = "1.0.0-candidate.6";
+  }
+  if (copy.schemaVersion === 7) {
+    if (copy.engineVersion !== "1.0.0-candidate.6" || validateCandidate6(copy as WorldState).length)
+      throw new SaveError("INVALID_STATE", "Kaynak dünya doğrulanamadı; kayıt korundu.");
+    compactMealMemberships(copy as WorldState);
     copy.schemaVersion = SAVE_SCHEMA;
     copy.engineVersion = ENGINE_VERSION;
   }
@@ -255,6 +277,7 @@ export async function decodeSave(value: unknown): Promise<DecodedSave> {
     value.schemaVersion !== 4 &&
     value.schemaVersion !== 5 &&
     value.schemaVersion !== 6 &&
+    value.schemaVersion !== 7 &&
     value.schemaVersion !== SAVE_SCHEMA
   )
     throw new SaveError("UNSUPPORTED_VERSION", "Bu kayıt sürümü desteklenmiyor.");
@@ -273,6 +296,7 @@ export async function decodeSave(value: unknown): Promise<DecodedSave> {
     throw new SaveError("INVALID_SAVE", "Kayıt başlığı eksik veya geçersiz.");
   if (
     (value.schemaVersion === 6 && value.gameVersion !== "1.0.0-candidate.5") ||
+    (value.schemaVersion === 7 && value.gameVersion !== "1.0.0-candidate.6") ||
     (value.schemaVersion === SAVE_SCHEMA && value.gameVersion !== ENGINE_VERSION)
   )
     throw new SaveError("UNSUPPORTED_VERSION", "Bilinmeyen oyun kuralları; kaynak korundu.");
@@ -288,6 +312,7 @@ export async function decodeSave(value: unknown): Promise<DecodedSave> {
     compressed &&
     ((value.schemaVersion !== 5 &&
       value.schemaVersion !== 6 &&
+      value.schemaVersion !== 7 &&
       value.schemaVersion !== SAVE_SCHEMA) ||
       typeof value.payloadSha256 !== "string" ||
       !/^[a-f0-9]{64}$/.test(value.payloadSha256))
@@ -321,7 +346,8 @@ export async function decodeSave(value: unknown): Promise<DecodedSave> {
     throw new SaveError("INVALID_SAVE", "Kayıt başlığı dünya verisiyle eşleşmiyor.");
   if (
     (value.schemaVersion === 6 && parsed.rulesVersion !== "social-engine-rules-6") ||
-    (value.schemaVersion === SAVE_SCHEMA && parsed.rulesVersion !== "social-engine-rules-7")
+    (value.schemaVersion === 7 && parsed.rulesVersion !== "social-engine-rules-7") ||
+    (value.schemaVersion === SAVE_SCHEMA && parsed.rulesVersion !== "social-engine-rules-8")
   )
     throw new SaveError("UNSUPPORTED_VERSION", "Bilinmeyen kayıt kuralları; kaynak korundu.");
   let materialized = parsed;
@@ -347,7 +373,7 @@ export async function decodeSave(value: unknown): Promise<DecodedSave> {
     state,
     migrated: value.schemaVersion < SAVE_SCHEMA,
     sourceSchema: value.schemaVersion,
-    ...(value.schemaVersion <= 6 ? { sourceState: migrateCandidate5(materialized) } : {}),
+    ...(value.schemaVersion <= 6 ? { sourceState: migrateCandidate5(materialized) } : value.schemaVersion === 7 ? { sourceState: materialized as WorldState } : {}),
     source: value as SaveEnvelope,
   };
 }

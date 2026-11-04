@@ -52,6 +52,12 @@ export function signalAxis(
         : "clearance";
 }
 
+/** Persisted angles use nanoradians. ECMAScript transcendental functions may
+ * differ by a final bit between engines; that bit must not become save authority.
+ * This quantum is far below position precision and preserves exact save equality. */
+export function canonicalHeading(radians: number): number {
+  return Math.round(radians * 1_000_000_000) / 1_000_000_000;
+}
 export type AtlasDirection = 0 | 1 | 2 | 3;
 /** World +X,+Y,-X,-Y respectively. Atlas artwork must implement this contract.
  * Heading is atan2(world dy, world dx), never an angle in projected screen space. */
@@ -100,7 +106,7 @@ export function trafficPose(lane: number, progress: number): TrafficPose {
       return {
         x: (1 - t) ** 2 * a.x + 2 * (1 - t) * t * corner.x + t ** 2 * b.x,
         y: (1 - t) ** 2 * a.y + 2 * (1 - t) * t * corner.y + t ** 2 * b.y,
-        heading: Math.atan2(dy, dx),
+        heading: canonicalHeading(Math.atan2(dy, dx)),
         tangent: { x: dx / norm, y: dy / norm },
         turning: true,
       };
@@ -117,7 +123,7 @@ export function trafficPose(lane: number, progress: number): TrafficPose {
       return {
         x: a.x + (b.x - a.x) * t,
         y: a.y + (b.y - a.y) * t,
-        heading: Math.atan2(tangent.y, tangent.x),
+        heading: canonicalHeading(Math.atan2(tangent.y, tangent.x)),
         tangent,
         turning: false,
       };
@@ -160,7 +166,7 @@ for (const edge of edges) {
         id,
         from: { x: from.x, y: from.y },
         to: { x: to.x, y: to.y },
-        heading: Math.atan2(dy, dx),
+        heading: canonicalHeading(Math.atan2(dy, dx)),
         lanes: [edge.lane],
       });
   }

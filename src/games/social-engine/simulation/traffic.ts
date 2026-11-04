@@ -2,7 +2,7 @@ import type { Point, Vehicle, WorldState } from "../domain/types.ts";
 import { JUNCTION_ZONES, signalAxis } from "../domain/traffic.ts";
 import { parkedAt, weatherEffects } from "./mobility.ts";
 import { ROADS, ROAD_CENTERS, laneLength, pointOnLane } from "../domain/world.ts";
-import { trafficPose } from "../domain/traffic.ts";
+import { trafficPose, canonicalHeading } from "../domain/traffic.ts";
 import { CROSSINGS } from "./pedestrian-navigation.ts";
 import { clamp, quantize } from "./random.ts";
 const dist = (a: Point, b: Point) => Math.hypot(a.x - b.x, a.y - b.y);
@@ -158,7 +158,7 @@ export function advanceTraffic(state: WorldState): void {
                   ((vehicle.location.x - a.x) * (b.x - a.x) +
                     (vehicle.location.y - a.y) * (b.y - a.y)) /
                   (len * len),
-                heading = Math.atan2(b.y - a.y, b.x - a.x),
+                heading = canonicalHeading(Math.atan2(b.y - a.y, b.x - a.x)),
                 turn = Math.atan2(
                   Math.sin(heading - vehicle.heading),
                   Math.cos(heading - vehicle.heading),

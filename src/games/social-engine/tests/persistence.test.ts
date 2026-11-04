@@ -90,7 +90,7 @@ test("v1 migration reconstructs the pre-ledger checkpoint without rewriting sour
   const source = JSON.stringify(old),
     migrated = migrateState(old);
   assert.equal(JSON.stringify(old), source);
-  assert.equal(migrated.schemaVersion, 7);
+  assert.equal(migrated.schemaVersion, 8);
   assert.deepEqual(migrated.accounts, current.accounts);
   assert.deepEqual(migrated.ledger, current.ledger);
   assert.equal(migrated.ledgerCheckpoint.balances[from], current.accounts[from] + 123);
@@ -155,7 +155,7 @@ test("actual pre-lifecycle v2 fixture upgrades to schema4 without changing money
   ).toString("utf8");
   const original = JSON.parse(JSON.parse(text).payload),
     decoded = await decodeSaveText(text);
-  assert.equal(decoded.state.schemaVersion, 7);
+  assert.equal(decoded.state.schemaVersion, 8);
   assert.equal(decoded.sourceSchema, 2);
   for (const [id, balance] of Object.entries(original.accounts))
     assert.equal(decoded.state.accounts[id], balance);
@@ -189,7 +189,7 @@ test("authentic schema3 lifecycle save gains schema4 systems without rewriting f
     decoded = await decodeSaveText(source),
     after = decoded.state;
   assert.equal(decoded.sourceSchema, 3);
-  assert.equal(after.schemaVersion, 7);
+  assert.equal(after.schemaVersion, 8);
   assert.equal(after.life.version, 2);
   for (const [id, balance] of Object.entries(before.accounts))
     assert.equal(after.accounts[id], balance);

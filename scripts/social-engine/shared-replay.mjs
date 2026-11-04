@@ -1,179 +1,193 @@
-// The save replayer imports a frozen engine next to the current one. Emit a shared
-// initializer for audited modules only. Each ESM wrapper still imports its own
-// dependencies and constructs its own maps, sets, functions and content objects.
+// Build-time specialization of immutable ESM simulation modules. Every generation
+// instantiates its own module state and receives bindings from its original imports.
 import { transform } from "esbuild";
 import ts from "typescript";
 import { readFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import { dirname, join, relative, resolve } from "node:path";
 
-const prefix = "candidate5-initializer:";
-const audited = [
-  "economy",
-  "events",
-  "family",
-  "justice",
-  "ledger",
-  "life",
-  "missions",
-  "mobility",
-  "progression",
-  "property-crime",
-  "random",
-  "services",
-  "social",
-].map((name) => ["simulation/" + name + ".ts", []]);
-// Each variant supplies its own version identifiers and named building definitions.
-// These initializers are self-contained literals at the start of their modules.
-audited.push(["domain/content.ts", ["ENGINE_VERSION", "SCHEMA_VERSION", "RULES_VERSION"]]);
-audited.push(["domain/world.ts", ["BUILDINGS"]]);
-// Pedestrian movement changed. Keep each version's schedule and movement functions
-// in its module and share only the byte-identical daily economy and society tick.
-audited.push(["simulation/society.ts", ["routineTarget", "npcMovement"]]);
-
-async function parseModule(bytes, name) {
-  const { code } = await transform(bytes, {
+const prefix = "rules-initializer:";
+const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
+const generations = [
+  ["candidate5", "35078dc1e6d5097fa7345be13961a3a83088d0e2b8cb178a0a5b5ca10cd9b520"],
+  ["candidate6", "3d31faaa66e3e43a05257d6d24ed3b9a6bf40036bb74fdc644e30bd94fc5444a"],
+];
+// The active DAG uses candidate 6 hashes except for these reviewed sources.
+// Changing a runtime dependency opts its consumers out of sharing until reviewed.
+const activeChanges = {
+  "simulation/traffic.ts": "13f54116c00908989652b7356c487c1e602ed27da620c3a4ac683a1da4f38b70",
+  "domain/traffic.ts": "0deab9cd0b65045b4244fd990229c8c5e6424f79bcba86857ebc223d39b56585",
+  "domain/content.ts": "3defcd895ea8358661926d002ad7dd29b5dc40ed54dfa66b36eb165cb2943ab9",
+  "simulation/engine.ts": "e872cd83f8fd5ef992bc7bce1511c36d1af738a09515f791781bcb03712d2f52",
+  "simulation/ledger.ts": "1c452c4b3b03cdce566fc189c798e04efa3b0ca5497cb97d40689be1e8e711e0",
+  "simulation/meal-membership.ts":
+    "3381b57b0385727e7c434c43dc11154387e7982adc730a4a3b30a28ce91979eb",
+  "simulation/pedestrian-navigation.ts":
+    "7751da2bd9233bffe520e38a6c2d3d4f88bf91027f3c51af2a65a1c58aa51ab4",
+  "simulation/society.ts": "0319cda2d390394701b3088138c62789cd21ac5b86259d3e8c64ac07c0b00081",
+};
+async function readRules(dir, expected) {
+  const manifest = await readFile(join(dir, "provenance.json"));
+  if (hash(manifest) !== expected) throw Error("Unexpected frozen manifest at " + dir);
+  const { files } = JSON.parse(manifest);
+  for (const [name, digest] of Object.entries(files)) {
+    if (hash(await readFile(join(dir, name))) !== digest)
+      throw Error("Frozen source mismatch: " + name);
+  }
+  return files;
+}
+async function parseModule(input, name) {
+  const { code } = await transform(input, {
     loader: "ts",
     format: "esm",
     target: "es2022",
     charset: "utf8",
     legalComments: "none",
   });
-  return ts.createSourceFile(name, code, ts.ScriptTarget.ES2022, true, ts.ScriptKind.JS);
-}
-
-function prepare(file, name, separate) {
+  const file = ts.createSourceFile(name, code, ts.ScriptTarget.ES2022, true, ts.ScriptKind.JS);
   const outer = [],
-    body = [],
-    inputNames = [],
-    locals = [],
-    exports = [];
-  const referenced = new Set();
-  function recordIdentifiers(node) {
-    if (ts.isIdentifier(node)) referenced.add(node.text);
-    ts.forEachChild(node, recordIdentifiers);
-  }
+    bindings = [],
+    functions = new Map(),
+    rest = [],
+    exports = [],
+    dependencies = [];
   for (const statement of file.statements) {
     const text = statement.getText(file);
     if (ts.isImportDeclaration(statement)) {
       outer.push(text);
-      for (const spec of statement.importClause.namedBindings.elements)
-        inputNames.push(spec.name.text);
+      dependencies.push(statement.moduleSpecifier.text);
+      for (const s of statement.importClause.namedBindings.elements) bindings.push(s.name.text);
     } else if (ts.isExportDeclaration(statement)) {
-      for (const spec of statement.exportClause.elements) {
-        exports.push(spec.name.text);
-        locals.push((spec.propertyName ?? spec.name).text);
-      }
-    } else if (ts.isFunctionDeclaration(statement) && separate.includes(statement.name.text)) {
-      outer.push(text);
-      inputNames.push(statement.name.text);
+      for (const s of statement.exportClause.elements)
+        exports.push([(s.propertyName ?? s.name).text, s.name.text]);
+    } else if (ts.isFunctionDeclaration(statement)) {
+      functions.set(statement.name.text, text);
     } else if (
       ts.isVariableStatement(statement) &&
-      separate.includes(statement.declarationList.declarations[0].name.text)
+      statement.declarationList.declarations.length === 1 &&
+      ((name === "domain/content.ts" &&
+        ["ENGINE_VERSION", "SCHEMA_VERSION", "RULES_VERSION"].includes(
+          statement.declarationList.declarations[0].name.text,
+        )) ||
+        (name === "domain/world.ts" &&
+          statement.declarationList.declarations[0].name.text === "BUILDINGS"))
     ) {
+      const key = statement.declarationList.declarations[0].name.text;
       outer.push(text);
-      inputNames.push(statement.declarationList.declarations[0].name.text);
+      bindings.push(key);
     } else {
-      body.push(text);
-      recordIdentifiers(statement);
+      rest.push(text);
     }
   }
-  const inputs = inputNames.filter((name) => referenced.has(name) || locals.includes(name)).sort();
-  const factory = `export default function(${inputs.join(",")}) {\n${body.join("\n")}\nreturn [${locals.join(",")}];\n}`;
-  const outputs = exports.map((name) => "$" + name);
-  const symbols = exports.map((name, index) => outputs[index] + " as " + name);
-  const wrapper = [
-    ...outer,
-    `import instantiate from "${prefix}${name}";`,
-    `const [${outputs.join(",")}] = instantiate(${inputs.join(",")});`,
-    `export {${symbols.join(",")}};`,
-  ].join("\n");
-  return { factory, wrapper };
+  return { outer, bindings, functions, rest, exports, dependencies };
+}
+// Each group already has identical top-level data/initialization statements and
+// exports. Hoist declarations as in ordinary ESM. The few differing functions
+// are chosen once, when a ruleset instantiates the module, before any data is
+// initialized. Arguments and stateful objects still belong to that ruleset.
+function compileFamily(parts, id) {
+  const params = [...new Set(parts.flatMap((v) => v.bindings))].sort();
+  const funcNames = [...new Set(parts.flatMap((v) => [...v.functions.keys()]))];
+  if (funcNames.some((k) => params.includes(k))) return null;
+  const body = [];
+  for (const name of funcNames) {
+    const choices = parts.map((part) => part.functions.get(name) ?? "undefined");
+    if (choices.every((code) => code === choices[0])) body.push(choices[0]);
+    else {
+      const groups = new Map();
+      choices.forEach((code, index) => groups.set(code, [...(groups.get(code) ?? []), index]));
+      const cases = [...groups].map(([code, indices], index) =>
+        index === groups.size - 1
+          ? code
+          : indices.map((i) => "$generation===" + i).join(" || ") + " ? " + code + " : ",
+      );
+      body.push("const " + name + " = " + cases.join("") + ";");
+    }
+  }
+  body.push(...parts[0].rest);
+  const bindings = parts[0].exports.map(([local]) => local);
+  const init = `export default function($generation,${params}) {\n${body.join("\n")}\nreturn [${bindings}];\n}`;
+  return {
+    init,
+    wrappers: parts.map((part, index) => {
+      const args = params.map((name) => (part.bindings.includes(name) ? name : "undefined"));
+      const names = part.exports.map(([, name]) => "$" + name);
+      return [
+        ...part.outer,
+        `import instantiate from "${id}";`,
+        `const [${names}]=instantiate(${index},${args});`,
+        `export {${part.exports.map(([, name], i) => names[i] + " as " + name)}};`,
+      ].join("\n");
+    }),
+  };
 }
 
-// This closed DAG only imports const/function bindings, and all caches are module-local.
-// A changed dependency could introduce a live mutable binding or an import cycle. Fall
-// back to normal ESM compilation until its graph and initializers are reviewed again.
-const reviewedCurrent = {
-  "domain/content.ts": "5ffab8f181ae99c913ad3194e56c71e19808b613cd52ca96d43c92772070146d",
-  "domain/world.ts": "b1d511bf85ddd3704ef64f1b2b9487d8d690d37c4d146fe978500cb298d8b9c3",
-  "simulation/population.ts": "352396a9b6ae8ea5e01516c98b897b6e48106917c8030e831f21bb42d455d7d9",
-  "domain/traffic.ts": "4b87ed33914aa1b324a0a0ff4f4cc81d95f39719af99fe6f9e54fb7e036fdbf7",
-  "simulation/society.ts": "d12ea3e4745146648491a2fc8fe5a7d5abe942b783b46de9ef869f607568bb0e",
-  "simulation/mobility.ts": "1497d7b8bbe0dc6629df5c370295991e595f4776cf813202d5ea2f46b2f2538b",
-  "simulation/npc-traits.ts": "fb29a8e343f8e0d5d46c60e6290d346d54a1e84ecf72f7d2626e54a23d92ce80",
-  "simulation/pedestrian-navigation.ts":
-    "240d56bbcf68e11b3ea8b7048f4e5efe4c99c244ac0ec89ec6e89f06bf0e0ad9",
-};
-const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
 export function sharedReplay(root) {
-  const base = resolve(root, "src/games/social-engine");
-  const old = join(base, "persistence/historical/candidate5");
-  const factories = new Map(),
+  const base = join(root, "src/games/social-engine");
+  const inits = new Map(),
     wrappers = new Map();
   return {
     name: "share-frozen-replay-bodies",
     async buildStart() {
-      const manifest = await readFile(join(old, "provenance.json"));
-      if (hash(manifest) !== "35078dc1e6d5097fa7345be13961a3a83088d0e2b8cb178a0a5b5ca10cd9b520")
-        throw Error("Unexpected candidate 5 provenance manifest");
-      const { files } = JSON.parse(manifest);
-      for (const [name, digest] of Object.entries(files)) {
-        if (hash(await readFile(join(old, name))) !== digest)
-          throw Error("Frozen candidate 5 source mismatch: " + name);
+      const variants = [];
+      for (const [generation, sha] of generations) {
+        const dir = join(base, "persistence/historical", generation);
+        variants.push({ dir, expected: await readRules(dir, sha) });
       }
-      const currentGraph = {
-        ...Object.fromEntries(audited.map(([name]) => [name, files[name]])),
-        ...reviewedCurrent,
-      };
-      const modules = new Map();
-      async function reviewedModule(name) {
-        if (modules.has(name)) return modules.get(name);
-        if (!currentGraph[name]) return null;
-        const bytes = await readFile(join(base, name));
-        if (hash(bytes) !== currentGraph[name]) return null;
-        const file = await parseModule(bytes, name);
-        // Mark in progress first. A cycle must retain native ESM initialization.
-        modules.set(name, null);
-        for (const statement of file.statements) {
-          if (!statement.moduleSpecifier) continue;
-          const path = relative(base, resolve(base, dirname(name), statement.moduleSpecifier.text));
-          if (!(await reviewedModule(path))) return null;
+      variants.push({ dir: base, expected: { ...variants.at(-1).expected, ...activeChanges } });
+      const candidates = new Map();
+      for (const { dir, expected } of variants) {
+        const known = new Map();
+        async function checked(name) {
+          if (known.has(name)) return known.get(name);
+          if (!expected[name]) return null;
+          const bytes = await readFile(join(dir, name)).catch((error) => {
+            if (dir === base && error.code === "ENOENT") return null;
+            throw error;
+          });
+          if (!bytes) return null;
+          if (hash(bytes) !== expected[name]) return null;
+          const part = await parseModule(bytes, name);
+          known.set(name, null); // A cyclic graph retains native ESM initialization.
+          for (const path of part.dependencies) {
+            if (!(await checked(relative(dir, resolve(dir, dirname(name), path))))) return null;
+          }
+          known.set(name, part);
+          return part;
         }
-        modules.set(name, file);
-        return file;
+        for (const name of Object.keys(expected).filter(
+          (n) =>
+            n.startsWith("simulation/") ||
+            ["domain/content.ts", "domain/world.ts", "domain/traffic.ts"].includes(n),
+        )) {
+          const part = await checked(name);
+          if (!part) {
+            this.warn("Using independent ESM for unreviewed replay dependency of " + name);
+            continue;
+          }
+          const key = JSON.stringify([name, part.rest, part.exports]);
+          const group = candidates.get(key) ?? [];
+          group.push({ path: join(dir, name), part });
+          candidates.set(key, group);
+        }
       }
-      for (const [name, separate] of audited) {
-        const current = await reviewedModule(name);
-        if (!current) {
-          this.warn("Independently compiling replay after dependency change: " + name);
-          continue;
-        }
-        const historicalPath = join(old, name);
-        let frozen = await readFile(historicalPath, "utf8");
-        if (name === "simulation/mobility.ts") {
-          // Local import alias only. The old wrapper still supplies pointOnLane
-          // from its own world module, while the new one supplies trafficPose.
-          frozen = frozen
-            .replace(
-              "hasLineOfSight, pointOnLane }",
-              "hasLineOfSight, pointOnLane as trafficPose }",
-            )
-            .replaceAll("pointOnLane(", "trafficPose(");
-        }
-        const before = prepare(await parseModule(frozen, name), name, separate);
-        const after = prepare(current, name, separate);
-        if (before.factory !== after.factory) throw Error("Audited initializer differs: " + name);
-        factories.set(name, before.factory);
-        wrappers.set(historicalPath, before.wrapper);
-        wrappers.set(join(base, name), after.wrapper);
+      for (const [key, group] of candidates) {
+        if (group.length < 2) continue;
+        const id = prefix + hash(key).slice(0, 20);
+        const family = compileFamily(
+          group.map((v) => v.part),
+          id,
+        );
+        if (!family) continue;
+        inits.set(id, family.init);
+        group.forEach((v, i) => wrappers.set(v.path, family.wrappers[i]));
       }
     },
     resolveId(id) {
       if (id.startsWith(prefix)) return "\0" + id;
     },
     load(id) {
-      if (id.startsWith("\0" + prefix)) return factories.get(id.slice(1 + prefix.length));
+      if (id.startsWith("\0" + prefix)) return inits.get(id.slice(1));
     },
     transform(_code, id) {
       return wrappers.get(id);

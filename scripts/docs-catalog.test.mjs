@@ -2,16 +2,12 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
+import { GAMES } from "../src/lib/games.ts";
 
 const root = new URL("../", import.meta.url).pathname;
 const read = (relative) => readFileSync(join(root, relative), "utf8");
 
-const catalog = read("src/lib/games.ts");
-const games = [
-  ...catalog.matchAll(
-    /\{\s*slug: "([^"]+)",[\s\S]*?title: "([^"]+)",[\s\S]*?status: "(live|soon)",[\s\S]*?\}/g,
-  ),
-].map((m) => ({ slug: m[1], title: m[2], status: m[3] }));
+const games = GAMES.filter((game) => game.status === "live" || game.status === "soon");
 
 test("every catalog entry maps to a docs README", () => {
   assert.ok(games.length > 0, "catalog parse must find at least one game");

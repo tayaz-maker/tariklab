@@ -43,7 +43,10 @@ export function pedestrianPath(from: Point, to: Point, obstacles: readonly Point
       .map((p) => `${p.x},${p.y}`)
       .sort()
       .join(";")}`;
-  const finish = (raw: Point[]): Point[] => {
+  const finish = (cached: Point[]): Point[] => {
+    // A rounded start is a connector, not the actor's exact position. Keep that
+    // connector when it avoids a road/building corner on the first grid edge.
+    const raw = cached.length > 1 && !segment(from, cached[0]) ? cached.slice(1) : cached;
     if (!raw.length || !segment(from, raw[0]) || !segment(raw[raw.length - 1], to)) return [];
     const points = [...raw, { ...to }],
       result: Point[] = [];
@@ -143,6 +146,7 @@ export function pedestrianPath(from: Point, to: Point, obstacles: readonly Point
         raw.unshift(point(id));
         id = parent.get(id)!;
       }
+      if (walkable(point(start))) raw.unshift(point(start));
       if (cache.size >= 512) cache.delete(cache.keys().next().value!);
       // Cache only canonical grid nodes. Exact endpoints and smoothing depend on
       // the caller, so storing smoothed paths would make replay depend on cache history.

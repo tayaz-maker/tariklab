@@ -1,4 +1,4 @@
-import { requestNpcMeal } from "./services.ts";
+import { requestNpcMeal, serviceOpen } from "./services.ts";
 import {
   scheduleBackgroundTravel,
   closeAttendanceDay,
@@ -13,6 +13,7 @@ import { BUILDING_FOR_BUSINESS } from "./population.ts";
 import { adjustRelation, emit, notify } from "./events.ts";
 import { transfer } from "./ledger.ts";
 import { clamp, draw } from "./random.ts";
+import { canonicalHeading } from "../domain/traffic.ts";
 import { npcMovementTraits } from "./npc-traits.ts";
 import { pedestrianPath, pedestrianSegment, pedestrianWalkable } from "./pedestrian-navigation.ts";
 
@@ -29,7 +30,17 @@ function routineTarget(
       building: npc.age >= 6 && minute >= 480 && minute < 900 ? "b-school" : "b-home",
     };
   if (npc.health < 35) return { goal: "heal", building: "b-clinic" };
-  if (npc.hunger > 75) return { goal: "eat", building: "b-market" };
+  const market = state.businesses.find((b) => b.id === "market");
+  if (
+    npc.hunger > 75 &&
+    market &&
+    serviceOpen(state, market) &&
+    market.stock.simit > 0 &&
+    state.accounts[npc.id] >= market.prices.simit
+  )
+    return { goal: "eat", building: "b-market" };
+  // An unaffordable food errand cannot preempt work forever. Keep the normal
+  // paid schedule until an actual purchase is possible; never invent a meal or money.
   if (minute < 6 * 60 || minute >= 22 * 60) return { goal: "sleep", building: "b-home" };
   if (!npc.jobId) return { goal: "seekJob", building: "b-office" };
   if (minute >= 9 * 60 && minute < 17 * 60)
@@ -135,6 +146,16 @@ export function npcMovement(state: WorldState): void {
       npc.destination
     )
       npc.path = pedestrianPath(npc.location, npc.destination, staticBodies);
+    const recoveryUntilKey = `npcAvoidUntil:${npc.id}`,
+      recoveryHeadingKey = `npcAvoidHeading:${npc.id}`;
+    if (
+      Number(state.flags[recoveryUntilKey] ?? 0) &&
+      state.tick >= Number(state.flags[recoveryUntilKey])
+    ) {
+      delete state.flags[recoveryUntilKey];
+      delete state.flags[recoveryHeadingKey];
+      if (npc.destination) npc.path = pedestrianPath(npc.location, npc.destination, staticBodies);
+    }
     let budget = (near ? 0.105 : 1.05) * traits.speed;
     // Every LOD step uses the same collision and crossing rules, without tunnelling.
     while (budget > 0.00001 && npc.path.length) {
@@ -146,10 +167,26 @@ export function npcMovement(state: WorldState): void {
         npc.path.shift();
         continue;
       }
-      const step = Math.min(0.1, budget, distance),
-        angle = Math.atan2(dy, dx);
+      const recovering = state.tick < Number(state.flags[recoveryUntilKey] ?? 0);
+      const step = Math.min(0.1, budget, recovering ? 0.1 : distance),
+        angle = recovering ? Number(state.flags[recoveryHeadingKey]) : Math.atan2(dy, dx);
       let moved = false;
-      for (const turn of [0, 0.65, -0.65, 1.2, -1.2]) {
+      const side = traits.phase < 0.5 ? 1 : -1;
+      const turns = recovering
+        ? [0, 0.65, -0.65, 1.2, -1.2]
+        : [
+            0,
+            0.65,
+            -0.65,
+            1.2,
+            -1.2,
+            (side * Math.PI) / 2,
+            (-side * Math.PI) / 2,
+            side * 2.2,
+            -side * 2.2,
+            Math.PI,
+          ];
+      for (const turn of turns) {
         const next = moveWithCollision(npc.location, {
           x: Math.cos(angle + turn) * step,
           y: Math.sin(angle + turn) * step,
@@ -171,7 +208,13 @@ export function npcMovement(state: WorldState): void {
         npc.location.x = next.x;
         npc.location.y = next.y;
         moved = true;
-        if (turn === 0 && distance <= step + 0.00001) npc.path.shift();
+        if (!recovering && Math.abs(turn) >= Math.PI / 2) {
+          // Keep the escape heading briefly: reconsidering the blocked goal on
+          // the next step would make two opposing walkers bounce in lockstep.
+          state.flags[recoveryHeadingKey] = canonicalHeading(angle + turn);
+          state.flags[recoveryUntilKey] = state.tick + 20 + Math.floor(traits.phase * 20);
+        }
+        if (!recovering && turn === 0 && distance <= step + 0.00001) npc.path.shift();
         break;
       }
       if (!moved) break;
@@ -223,6 +266,11 @@ export function societyMinute(state: WorldState): void {
       }
     }
   }
+  // Physical arrivals happen between schedule hours. Let locals join the real
+  // FIFO service queue each minute rather than starving beside an open counter
+  // until the next synchronized hourly request burst.
+  if (state.minute % 60 !== 0)
+    for (const npc of state.npcs.slice(0, 100)) requestNpcMeal(state, npc);
   if (state.minute % 1440 === 0) dailyEconomy(state);
 }
 export function dailyEconomy(state: WorldState): void {

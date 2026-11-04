@@ -28,6 +28,7 @@ In the table below, “native app” for Çete Savaşları means a first-party R
 
 | Game | Slug | Route | Docs | Runtime | Notes |
 |---|---|---|---|---|---|
+| SOCIAL ENGINE | `social-engine` | `/oyna/social-engine` | [Player guide](social-engine/PLAYER_GUIDE.md) and [technical guide](social-engine/README.md) | `public/games/social-engine/` | Turkish-language district simulation set in DARAMCIK with its own IndexedDB saves. |
 | Çete Savaşları | `cete-savaslari` | `/cete-savaslari` | [docs/cete-savaslari/](cete-savaslari/TECHNICAL_CLOSURE_CHECKPOINT.md) | `src/` (native app, not an `/oyna/` iframe game) | Flagship game; its own route, not the `/oyna/$slug` pattern. |
 | HANEDANIAN | `hanedanian` | `/oyna/hanedanian` | [docs/hanedan/](hanedan/README.md) | `public/games/hanedanian/` | Seeded strategy map, local simulation and IndexedDB saves. `/oyna/hanedan` remains an alias; the original game remains at `/games/hanedan/legacy.html`. |
 | Racon Manager | `racon` | `/oyna/racon` | [docs/racon/](racon/SPEC-V1-ORIJINAL.md) | `public/games/racon/` | |

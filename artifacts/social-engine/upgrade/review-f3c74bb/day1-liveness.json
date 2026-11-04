@@ -1,0 +1,10 @@
+{
+  "startTick": 0,
+  "endTick": 14400,
+  "samples": 25,
+  "pedestrians": 93,
+  "distinctMoving": 93,
+  "distinctMealsObserved": 37,
+  "hungryWithMeans": 12,
+  "stalled": false
+}

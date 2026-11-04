@@ -16,6 +16,7 @@ import {
 import type { WorldState } from "../domain/types.ts";
 import {
   migrateState,
+  archivedRules7Digest,
   assertSlot,
   decodeSave,
   decodeSaveText,
@@ -28,7 +29,7 @@ import {
 } from "./codec.ts";
 
 export const DATABASE_NAME = "tariklab-social-engine";
-export const DATABASE_VERSION = 3;
+export const DATABASE_VERSION = 4;
 export type SlotInfo = {
   slotId: string;
   revisionId: string;
@@ -40,6 +41,7 @@ export type SlotInfo = {
 type SlotRecord = SlotInfo & { previousRevisionId?: string };
 type ReadResult = { slot?: SlotRecord; current?: SaveEnvelope; previous?: SaveEnvelope };
 type Verified = ReadResult & { valid?: DecodedSave; invalid: SaveEnvelope[] };
+type CommitVerified = ReadResult & { valid?: Pick<DecodedSave, "source">; invalid: SaveEnvelope[] };
 type Journal = {
   id: string;
   sourceSchema: number;
@@ -82,6 +84,39 @@ const finished = (tx: IDBTransaction): Promise<void> =>
 export class SaveRepository {
   private db: Promise<IDBDatabase> | null = null;
   private queue: Promise<unknown> = Promise.resolve();
+  private commitReceipts = new Map<string, Readonly<SaveEnvelope>>();
+  private rememberCommit(envelope: SaveEnvelope): void {
+    const limit = 8 * 1024 * 1024;
+    this.commitReceipts.delete(envelope.slotId);
+    if (envelope.byteLength <= limit)
+      this.commitReceipts.set(envelope.slotId, Object.freeze({ ...envelope }));
+    while (
+      this.commitReceipts.size > 4 ||
+      [...this.commitReceipts.values()].reduce((n, e) => n + e.byteLength, 0) > limit
+    )
+      this.commitReceipts.delete(this.commitReceipts.keys().next().value!);
+  }
+  /** Receipt is only an attestation about prior immutable bytes, never a loaded
+   * world or current caller state. Loads always take the full validation path. */
+  private async verifiedForCommit(slotId: string): Promise<CommitVerified> {
+    const receipt = this.commitReceipts.get(slotId);
+    if (!receipt) return this.verified(slotId);
+    const data = await this.read(slotId),
+      current = data.current;
+    if (
+      current &&
+      data.slot?.revisionId === receipt.revisionId &&
+      Object.keys(current).length === Object.keys(receipt).length &&
+      Object.keys(current).every(
+        (key) =>
+          Object.hasOwn(receipt, key) &&
+          (current as unknown as Record<string, unknown>)[key] ===
+            (receipt as unknown as Record<string, unknown>)[key],
+      )
+    )
+      return { ...data, valid: { source: receipt }, invalid: [] };
+    return this.verified(slotId);
+  }
   private knownHeads = new Map<string, string | undefined>();
   readonly factory: IDBFactory | undefined;
   lastRecovery: string | null = null;
@@ -148,6 +183,7 @@ export class SaveRepository {
     await this.queue;
     if (this.db) (await this.db).close();
     this.db = null;
+    this.commitReceipts.clear();
   }
   private async read(slotId: string): Promise<ReadResult> {
     assertSlot(slotId);
@@ -208,14 +244,14 @@ export class SaveRepository {
     slotId: string,
     state: WorldState,
     journal?: Journal,
-    original?: Verified,
+    original?: CommitVerified,
     journalContext?: { point: JournalPoint; expected: JournalHandle | null },
     recoverJournal = false,
     replacement?: { expected: JournalHandle | null; previous?: SaveEnvelope },
   ): Promise<SlotInfo> {
     assertSlot(slotId);
     const envelope = await encodeSave(slotId, state),
-      expected = original ?? (await this.verified(slotId)),
+      expected = original ?? (await this.verifiedForCommit(slotId)),
       db = await this.open();
     const nextMeta = journalContext
       ? await newJournalMeta(envelope, journalContext.point)
@@ -337,6 +373,7 @@ export class SaveRepository {
     } catch (error) {
       throw conflict ?? readable(error);
     }
+    this.rememberCommit(envelope);
     this.knownHeads.set(slotId, info.revisionId);
     if (slotId === "auto" && (nextMeta || recoverJournal || replacement))
       this.lastJournalHandle = nextMeta ?? null;
@@ -405,13 +442,18 @@ export class SaveRepository {
           );
         migrationJournal.sourceJournal = { meta: history.meta, records: history.records };
       }
-      if (slotId === "auto" && !migrateTail && result.valid.sourceSchema === 6) {
+      if (slotId === "auto" && !migrateTail && [6, 7].includes(result.valid.sourceSchema)) {
         const db = await this.open();
         const tx = db.transaction("migrationJournal", "readonly"),
           done = finished(tx);
-        const archive = (await request(
-          tx.objectStore("migrationJournal").get(migrationJournal.id),
-        )) as Journal | undefined;
+        // A schema-6 previous revision can have a verified migration archive
+        // created by the previous reader. Queue both reads within the same transaction.
+        const store = tx.objectStore("migrationJournal");
+        const [currentArchive, priorArchive] = await Promise.all([
+          request(store.get(migrationJournal.id)),
+          result.valid.sourceSchema === 6 ? request(store.get(result.valid.source.revisionId + ":v7")) : undefined,
+        ]);
+        const archive = (currentArchive ?? priorArchive) as Journal | undefined;
         await done;
         if (
           !archive?.sourceJournal ||
@@ -421,14 +463,12 @@ export class SaveRepository {
             "JOURNAL_CORRUPT",
             "Eski kurtarma günlüğü eksik veya farklı; kaynak korundu.",
           );
-        result.valid.state = migrateState(
-          await this.restoreJournal(
-            result.valid.sourceState!,
-            result.valid.source,
-            archive.sourceJournal,
-          ),
-        );
-        if ((await encodeSave(slotId, result.valid.state)).sha256 !== archive.targetSha256)
+        const replayed = await this.restoreJournal(result.valid.sourceState!, result.valid.source, archive.sourceJournal);
+        result.valid.state = migrateState(replayed);
+        const archivedDigest = currentArchive && archive.targetSchema === SAVE_SCHEMA
+          ? (await encodeSave(slotId, result.valid.state)).sha256
+          : !currentArchive && archive.targetSchema === 7 ? await archivedRules7Digest(replayed) : null;
+        if (!archivedDigest || archivedDigest !== archive.targetSha256)
           throw new SaveError(
             "JOURNAL_CORRUPT",
             "Eski kurtarma sonucu geçiş sağlama toplamıyla eşleşmiyor.",
@@ -626,7 +666,7 @@ export class SaveRepository {
   ): Promise<WorldState> {
     const { meta, records } = archive ?? (await this.readJournalData());
     if (!meta) {
-      if (envelope.schemaVersion === 6 && records.length)
+      if ([6, 7].includes(envelope.schemaVersion) && records.length)
         throw new SaveError("JOURNAL_CORRUPT", "Eski günlük işaretçisi eksik; kaynak korundu.");
       this.lastJournalHandle = null;
       return snapshot;
@@ -640,7 +680,7 @@ export class SaveRepository {
       .filter((r) => r.baseRevisionId === meta.baseRevisionId && r.epoch === meta.epoch)
       .sort((a, b) => a.fromCursor - b.fromCursor);
     try {
-      if (envelope.schemaVersion === 6 && ordered.length !== records.length)
+      if ([6, 7].includes(envelope.schemaVersion) && ordered.length !== records.length)
         throw new SaveError("JOURNAL_CORRUPT", "Eski günlükte sahipsiz kayıt var.");
       assertJournalPoint({ epoch: meta.epoch, cursor: meta.baseCursor });
       base = await newJournalMeta(envelope, { epoch: meta.epoch, cursor: meta.baseCursor });
@@ -693,7 +733,7 @@ export class SaveRepository {
       validRecords = [];
       operations = [];
     }
-    if (bad && envelope.schemaVersion === 6)
+    if (bad && [6, 7].includes(envelope.schemaVersion))
       throw new SaveError("JOURNAL_CORRUPT", "Eski günlük doğrulanamadı; kaynak korundu.");
     let state: WorldState;
     try {
@@ -704,7 +744,7 @@ export class SaveRepository {
         envelope.schemaVersion,
       );
     } catch (error) {
-      if (envelope.schemaVersion === 6) throw error;
+      if ([6, 7].includes(envelope.schemaVersion)) throw error;
       // Rare semantic corruption: find the longest invariant-valid whole-batch prefix, retaining its exact source.
       bad = true;
       state = structuredClone(snapshot);
@@ -735,7 +775,7 @@ export class SaveRepository {
     }
     handle.currentTick = state.tick;
     if (handle.currentTick !== meta.currentTick) bad = true;
-    if (bad && envelope.schemaVersion === 6)
+    if (bad && [6, 7].includes(envelope.schemaVersion))
       throw new SaveError("JOURNAL_CORRUPT", "Eski günlük saati eşleşmiyor; kaynak korundu.");
     if (bad) {
       const keep = new Set(validRecords.map((r) => r.id)),

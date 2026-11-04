@@ -1,8 +1,8 @@
 import type { Job } from "./types.ts";
 
-export const ENGINE_VERSION = "1.0.0-candidate.6";
-export const SCHEMA_VERSION = 7;
-export const RULES_VERSION = "social-engine-rules-7";
+export const ENGINE_VERSION = "1.0.0-candidate.7";
+export const SCHEMA_VERSION = 8;
+export const RULES_VERSION = "social-engine-rules-8";
 export const SIM_STEP_MS = 100;
 export const TICKS_PER_MINUTE = 10;
 export const MINUTES_PER_DAY = 1440;

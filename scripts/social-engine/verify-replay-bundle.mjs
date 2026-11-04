@@ -14,7 +14,8 @@ const base = join(root, "src/games/social-engine");
 const inputs = Object.fromEntries(
   Object.entries({
     current: "simulation/engine.ts",
-    predecessor: "persistence/historical/candidate5/simulation/engine.ts",
+    candidate5: "persistence/historical/candidate5/simulation/engine.ts",
+    candidate6: "persistence/historical/candidate6/simulation/engine.ts",
     codec: "persistence/codec.ts",
     journal: "persistence/journal.ts",
   }).map(([name, path]) => [name, join(base, path)]),
@@ -27,21 +28,36 @@ try {
   for (const chunk of chunks) await writeFile(join(dir, chunk.fileName), chunk.code);
   for (const chunk of chunks.filter((item) => item.isEntry))
     compiled[chunk.name] = await import(pathToFileURL(join(dir, chunk.fileName)));
-  const fixture = JSON.parse(
-    gunzipSync(await readFile(join(base, "persistence/fixtures/v6-auto-with-tail.json.gz"))),
-  );
-  const { sourceState } = await compiled.codec.decodeSave(fixture.envelope);
-  const point = { epoch: fixture.meta.epoch, cursor: fixture.meta.baseCursor };
-  const handle = await compiled.journal.newJournalMeta(fixture.envelope, point);
-  const batch = await compiled.journal.decodeJournal(handle, fixture.record);
-  const replay = compiled.journal.replayJournal(sourceState, point, batch.operations, 6);
   const hash = (text) => createHash("sha256").update(text).digest("hex");
-  const frozenReplay = hash(compiled.predecessor.canonicalState(replay));
-  assert.equal(frozenReplay, fixture.expectedCanonicalSha256);
+  const frozenReplays = {};
+  for (const name of ["v6-auto-with-tail", "v7-auto-with-tail", "v7-auto-with-driving-tail"]) {
+    const fixture = JSON.parse(
+      gunzipSync(await readFile(join(base, "persistence/fixtures/" + name + ".json.gz"))),
+    );
+    const { sourceState, sourceSchema } = await compiled.codec.decodeSave(fixture.envelope);
+    const point = fixture.point ?? { epoch: fixture.meta.epoch, cursor: fixture.meta.baseCursor };
+    const handle = await compiled.journal.newJournalMeta(fixture.envelope, point);
+    const batch = await compiled.journal.decodeJournal(handle, fixture.record);
+    const state = compiled.journal.replayJournal(
+      sourceState,
+      point,
+      batch.operations,
+      sourceSchema,
+    );
+    const authority = sourceSchema === 6 ? compiled.candidate5 : compiled.candidate6;
+    assert.deepEqual(authority.validateState(state), []);
+    frozenReplays[name] = hash(authority.canonicalState(state));
+    assert.equal(frozenReplays[name], fixture.expectedCanonicalSha256);
+    if (fixture.expectedVehicle) {
+      assert.equal(state.player.vehicleId, fixture.expectedVehicle.id);
+      assert.equal(state.vehicles[0].progress, fixture.expectedVehicle.end);
+      assert.deepEqual(state.player.location, fixture.expectedVehicle.location);
+    }
+  }
   // Interleave generations so a shared module cache or incorrect dependency
   // binding is observable. Compare full authoritative states with native imports.
   const authorities = [];
-  for (const name of ["current", "predecessor"]) {
+  for (const name of ["current", "candidate6", "candidate5"]) {
     const source = await import(pathToFileURL(inputs[name]));
     for (const engine of [source, compiled[name]])
       authorities.push({ engine, state: engine.createWorld(20261104) });
@@ -60,13 +76,15 @@ try {
   });
   assert.equal(hashes[0], hashes[1]);
   assert.equal(hashes[2], hashes[3]);
-  assert.notEqual(hashes[0], hashes[2]);
+  assert.equal(hashes[4], hashes[5]);
+  assert.equal(new Set(hashes).size, 3);
   console.log(
     JSON.stringify({
       status: "PASS",
-      frozenReplay,
+      frozenReplays,
       current: hashes[0],
-      predecessor: hashes[2],
+      candidate6: hashes[2],
+      candidate5: hashes[4],
       ticks: 640,
     }),
   );

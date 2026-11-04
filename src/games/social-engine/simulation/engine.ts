@@ -1,3 +1,4 @@
+import { validMealMembership } from "./meal-membership.ts";
 import { advanceTraffic } from "./traffic.ts";
 import { trafficPose } from "../domain/traffic.ts";
 import { finishWorkOrder } from "./work-orders.ts";
@@ -1290,6 +1291,8 @@ export function validateState(
         (typeof value === "number" && !Number.isFinite(value))
       )
         errors.push(`invalid-flag:${key}`);
+      if (key.startsWith("txmeal:") && !validMealMembership(key, value))
+        errors.push(`invalid-meal-membership:${key}`);
       if (/^tx(?:set|exact):/.test(key) && !validTransactionBits(value))
         errors.push(`invalid-transaction-index:${key}`);
     }

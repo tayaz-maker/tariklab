@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { ROADS, isRoad, isWalkable, laneLength, pointOnLane } from "../domain/world.ts";
 import {
   trafficPose,
+  canonicalHeading,
   worldHeadingToAtlasDirection,
   DIRECTED_LANE_GRAPH,
 } from "../domain/traffic.ts";
@@ -282,4 +283,20 @@ test("a crossing reservation stops the nose outside the pedestrian corridor", ()
   // Once the pedestrian has cleared the road and curb, the stop line releases.
   s.npcs[33].location = { x: 21, y: 33, scene: "outside" };
   assert.equal(mayAdvanceVehicle(s, v, { x: 17, y: 35.5 }), true);
+});
+
+test("persisted traffic headings ignore final-bit atan2 differences without relaxing equality", () => {
+  assert.equal(canonicalHeading(2.5775089325401446), canonicalHeading(2.577508932540144));
+  const atan2 = Math.atan2;
+  const poses = () =>
+    ROADS.flatMap((_, lane) =>
+      Array.from({ length: 1000 }, (_, i) => trafficPose(lane, i * 0.073)),
+    );
+  const oracle = poses();
+  try {
+    Math.atan2 = (y, x) => atan2(y, x) * (1 + Number.EPSILON);
+    assert.deepEqual(poses(), oracle);
+  } finally {
+    Math.atan2 = atan2;
+  }
 });

@@ -1,4 +1,5 @@
 import { encodeSave, decodeSave } from "../../src/games/social-engine/persistence/codec.ts";
+import { observeLocalDay } from "./neighbourhood-liveness.mjs";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
@@ -62,6 +63,7 @@ writeFileSync(`${output}/results.json`, JSON.stringify({status:"RUNNING", enviro
 try {
   for (let day = 1; day <= 365; day++) {
     const dayStart = performance.now();
+    const neighbourhood = observeLocalDay(primary);
     // The tested path is the same ten-Hz stepWorld used by the browser worker.
     for (let tick = 0; tick < 14400; tick++) {
       if (tick % 113 === 0) {
@@ -69,7 +71,11 @@ try {
         stepWorld(primary);
         samples.push(performance.now() - time);
       } else stepWorld(primary);
+      if ((tick + 1) % 600 === 0) neighbourhood.sample();
     }
+    const localActivity = neighbourhood.result();
+    if (localActivity.stalled) errors.push({ day, label: "local-activity", localActivity });
+    assert.ok(!localActivity.stalled, `day ${day} local pedestrian/meal liveness: ${JSON.stringify(localActivity)}`);
     advanceMinutes(replay, 1440);
     if (resumed) advanceMinutes(resumed, 1440);
     for (const [label, state] of [
@@ -103,6 +109,7 @@ try {
       tick: primary.tick,
       minute: primary.minute,
       hash: stateHash,
+      localActivity,
       replayHash,
       resumedHash,
       violations: 0,

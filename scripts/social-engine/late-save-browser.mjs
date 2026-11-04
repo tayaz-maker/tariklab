@@ -9,7 +9,7 @@ import {
   readTransactionBits,
   writeTransactionBits,
 } from "../../src/games/social-engine/simulation/ledger.ts";
-import { canonicalState, validateState } from "../../src/games/social-engine/simulation/engine.ts";
+import { canonicalState, validateState, stepWorld } from "../../src/games/social-engine/simulation/engine.ts";
 import assert from "node:assert/strict";
 import { migrateState } from "../../src/games/social-engine/persistence/codec.ts";
 const sampleCount = Number(process.env.SE_LATE_SAVE_SAMPLES ?? 20);
@@ -24,11 +24,18 @@ const world = migrateState(source);
 assert.deepEqual(validateState(world), []);
 const fixture = canonicalState(world),
   hash = (text) => createHash("sha256").update(text).digest("hex");
+// Retain full cross-engine expected hashes. The measured saves are genuinely
+// different; compute independent reference values and simulated work outside the timer.
+const expectedStates = [], oracle = structuredClone(world);
+for (let sample = 0; sample < sampleCount; sample++) {
+  for (let t=0;t<5;t++) stepWorld(oracle);
+  expectedStates.push(hash(canonicalState(oracle)));
+}
 const bundle = (
   await build({
     stdin: {
       contents:
-        "export * from './src/games/social-engine/persistence/index.ts'; export {canonicalState} from './src/games/social-engine/simulation/engine.ts';",
+        "export * from './src/games/social-engine/persistence/index.ts'; export {canonicalState,stepWorld} from './src/games/social-engine/simulation/engine.ts';",
       resolveDir: process.cwd(),
       loader: "ts",
     },
@@ -44,6 +51,8 @@ await mkdir(out, { recursive: true });
 const report = {
   status: "UNVERIFIED",
   sampleCount,
+  ticksBetweenSaves: 5,
+  finalExpectedHash: expectedStates.at(-1),
   worldTick: world.tick,
   fixtureSha256: hash(fixture),
   capturedFileSha256: hash(raw),
@@ -73,7 +82,7 @@ try {
       });
       const page = await browser.newPage();
       await page.goto(base);
-      const measurement = await page.evaluate(async (sampleCount) => {
+      const measurement = await page.evaluate(async (expectedStates) => {
         const api = await import("/bundle.js"),
           world = await (await fetch("/fixture.json")).json(),
           repo = new api.SaveRepository();
@@ -83,16 +92,18 @@ try {
             .join("");
         const expected = await hash(api.canonicalState(world)),
           samples = [];
-        for (let i = 0; i < sampleCount; i++) {
+        for (let i = 0; i < expectedStates.length; i++) {
+          for(let t=0;t<5;t++) api.stepWorld(world);
           const start = performance.now();
           await repo.save("slot-1", world);
           const saved = performance.now();
           const reader = i % 2 === 0 ? new api.SaveRepository() : repo;
           const loaded = await reader.load("slot-1"),
             end = performance.now();
-          if ((await hash(api.canonicalState(loaded))) !== expected)
+          if ((await hash(api.canonicalState(loaded))) !== expectedStates[i])
             throw Error("Long-history roundtrip differs");
           samples.push({
+            tick: loaded.tick,
             saveMs: saved - start,
             loadMs: end - saved,
             roundtripMs: end - start,
@@ -101,7 +112,7 @@ try {
           if (reader !== repo) await reader.close();
         }
         return { samples, slots: await repo.list(), expected };
-      }, sampleCount);
+      }, expectedStates);
       assert.equal(measurement.expected, report.fixtureSha256);
       const values = measurement.samples.map((x) => x.roundtripMs).sort((a, b) => a - b);
       const p95 = values[Math.ceil(values.length * 0.95) - 1];

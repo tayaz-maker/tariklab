@@ -43,6 +43,8 @@ const fixtureV2 = gunzipSync(
 const fixtureV3 = gunzipSync(
   await readFile("src/games/social-engine/persistence/fixtures/v3-world.json.gz"),
 ).toString("utf8");
+const archiveV7 = JSON.parse(await readFile("src/games/social-engine/persistence/fixtures/v6-via7-archive.json","utf8"));
+const fixtureV7 = gunzipSync(await readFile("src/games/social-engine/persistence/fixtures/v7-auto-with-tail.json.gz")).toString("utf8");
 const fixtureV6 = gunzipSync(
   await readFile("src/games/social-engine/persistence/fixtures/v6-auto-with-tail.json.gz"),
 ).toString("utf8");
@@ -85,7 +87,7 @@ await context.tracing.start({ screenshots: true, snapshots: true, sources: true 
 try {
   await page.goto(base + "/");
   const result = await page.evaluate(
-    async ({ fixture, fixtureV2, fixtureV3, fixtureV5, fixtureV6 }) => {
+    async ({ fixture, fixtureV2, fixtureV3, fixtureV5, fixtureV6, fixtureV7, archiveV7 }) => {
       const bundle = "/bundle.js";
       const api = (await import(bundle)) as Api;
       const repository = new api.SaveRepository();
@@ -383,7 +385,7 @@ try {
         )) as { source: SaveEnvelope; steps: number[]; targetSchema: number }[];
         ensure(journal.length === 1, "Migration retry duplicated journal");
         ensure(
-          JSON.stringify(journal[0].steps) === "[1,2,3,4,5,6]" && journal[0].targetSchema === 7,
+          JSON.stringify(journal[0].steps) === "[1,2,3,4,5,6,7]" && journal[0].targetSchema === 8,
           "Migration chain missing",
         );
         ensure(
@@ -394,13 +396,13 @@ try {
       await check("authentic v2 save migrates through an explicit journal to schema4", async () => {
         await repository.import("slot-3", fixtureV2);
         const state = await repository.load("slot-3");
-        ensure(state.schemaVersion === 7 && state.life.version === 2, "Lifecycle migration absent");
+        ensure(state.schemaVersion === 8 && state.life.version === 2, "Lifecycle migration absent");
         const journal = (await raw(["migrationJournal"], "readonly", (tx) =>
           request(tx.objectStore("migrationJournal").getAll()),
         )) as { source: SaveEnvelope; steps: number[]; targetSchema: number }[];
         const entry = journal.find((row) => row.source.schemaVersion === 2);
         ensure(
-          entry && JSON.stringify(entry.steps) === "[2,3,4,5,6]" && entry.targetSchema === 7,
+          entry && JSON.stringify(entry.steps) === "[2,3,4,5,6,7]" && entry.targetSchema === 8,
           "V2 chain missing",
         );
         ensure(JSON.stringify(entry!.source) === fixtureV2.trim(), "V2 source bytes changed");
@@ -415,14 +417,14 @@ try {
           await repository.import("slot-3", fixtureV3);
           const state = await repository.load("slot-3");
           ensure(
-            state.schemaVersion === 7 && state.life.version === 2,
+            state.schemaVersion === 8 && state.life.version === 2,
             "Schema4 family migration missing",
           );
           const rows = (await raw(["migrationJournal"], "readonly", (tx) =>
             request(tx.objectStore("migrationJournal").getAll()),
           )) as { source: SaveEnvelope; steps: number[] }[];
           const source = rows.find((row) => row.source.schemaVersion === 3);
-          ensure(source && JSON.stringify(source.steps) === "[3,4,5,6]", "V3 chain missing");
+          ensure(source && JSON.stringify(source.steps) === "[3,4,5,6,7]", "V3 chain missing");
           ensure(JSON.stringify(source!.source) === fixtureV3.trim(), "V3 source bytes changed");
         },
       );
@@ -780,7 +782,7 @@ try {
           try {
             const upgraded = await reader.load("auto");
             ensure(
-              upgraded.schemaVersion === 7 && upgraded.tick === frozen.meta.currentTick,
+              upgraded.schemaVersion === 8 && upgraded.tick === frozen.meta.currentTick,
               "Verified tail did not become the new baseline",
             );
             const decoded = await api.decodeSave(e);
@@ -826,6 +828,30 @@ try {
           }
         },
       );
+      await check("genuine rules7 mature snapshot replays its original tail before rules8 and protects old writers", async () => {
+        const f = JSON.parse(fixtureV7), e: SaveEnvelope = f.envelope;
+        await raw(["slots", "revisions", "journalMeta", "commandJournal"], "readwrite", (tx) => {
+          tx.objectStore("commandJournal").clear();
+          tx.objectStore("revisions").put(e);
+          tx.objectStore("slots").put({slotId:"auto",revisionId:e.revisionId,tick:e.tick,byteLength:e.byteLength,updatedAt:e.createdAt});
+          tx.objectStore("journalMeta").put(f.meta);
+          tx.objectStore("commandJournal").put(f.record);
+        });
+        const reader = new api.SaveRepository();
+        try {
+          const loaded = await reader.load("auto"), decoded = await api.decodeSave(e);
+          const point = {epoch:f.meta.epoch,cursor:f.meta.baseCursor};
+          const batch = await api.decodeJournal(await api.newJournalMeta(e,point),f.record);
+          const old = api.replayJournal(decoded.sourceState!,point,batch.operations,7);
+          const hash = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(canonical(old))))).map(v=>v.toString(16).padStart(2,"0")).join("");
+          ensure(hash === f.expectedCanonicalSha256,"rules7 journal changed under new reader");
+          ensure(loaded.tick === f.meta.currentTick && loaded.schemaVersion === 8, "rules8 checkpoint missing");
+          ensure(canonical(loaded) === canonical(await reader.load("auto")), "replayed tail twice");
+          ensure(JSON.stringify(await revision(e.revisionId)) === JSON.stringify(e),"historical source modified");
+          const readonly = await new Promise<boolean>(resolve => {const req=indexedDB.open(api.DATABASE_NAME,3);req.onerror=()=>resolve(req.error?.name==="VersionError");req.onsuccess=()=>{req.result.close();resolve(false);};});
+          ensure(readonly,"rules7 writer still opens upgraded DB");
+        } finally {await reader.close();}
+      });
       await check(
         "genuine f14e13f schema6 snapshot and tail replay before migration; old readers cannot mutate upgraded database",
         async () => {
@@ -848,7 +874,7 @@ try {
           try {
             const upgraded = await reader.load("auto");
             ensure(
-              upgraded.schemaVersion === 7 && upgraded.tick === frozen.meta.currentTick,
+              upgraded.schemaVersion === 8 && upgraded.tick === frozen.meta.currentTick,
               "Legacy tail missing",
             );
             const decoded = await api.decodeSave(e);
@@ -883,7 +909,7 @@ try {
               "Source revision altered",
             );
             const provenance = await raw(["migrationJournal"], "readonly", (tx) =>
-              request(tx.objectStore("migrationJournal").get(`${e.revisionId}:v7`)),
+              request(tx.objectStore("migrationJournal").get(`${e.revisionId}:v8`)),
             );
             ensure(
               JSON.stringify(provenance.sourceJournal.meta) === JSON.stringify(frozen.meta),
@@ -916,7 +942,7 @@ try {
           const current = await revision(head.revisionId);
           const readArchive = () =>
             raw(["migrationJournal"], "readonly", (tx) =>
-              request(tx.objectStore("migrationJournal").get(`${e.revisionId}:v7`)),
+              request(tx.objectStore("migrationJournal").get(`${e.revisionId}:v8`)),
             );
           const archive = await readArchive();
           const decodedLegacy = await api.decodeSave(e);
@@ -1009,6 +1035,29 @@ try {
           }
         },
       );
+      await check("schema6 fallback can recover using a genuine prior schema7 archive digest", async () => {
+        const f = JSON.parse(fixtureV6), e: SaveEnvelope = f.envelope;
+        const head = await slot("auto");
+        const latest = await revision(head.revisionId);
+        const archive = {id:e.revisionId+":v7",source:e,sourceSchema:6,targetSchema:7,steps:[6],targetSha256:archiveV7.targetSha256,sourceJournal:{meta:f.meta,records:[f.record]}};
+        ensure(archiveV7.sourceRevision === e.revisionId,"stale prior archive fixture");
+        await raw(["revisions","slots","migrationJournal"],"readwrite",tx=>{
+          tx.objectStore("revisions").put({...latest,payload:"damaged"});
+          tx.objectStore("revisions").put(e);
+          tx.objectStore("slots").put({...head,previousRevisionId:e.revisionId});
+          tx.objectStore("migrationJournal").delete(e.revisionId+":v8");
+          tx.objectStore("migrationJournal").put({...archive,targetSha256:"0".repeat(64)});
+        });
+        const reader=new api.SaveRepository();
+        try {
+          await rejected(()=>reader.load("auto"),"JOURNAL_CORRUPT");
+          ensure((await slot("auto")).revisionId === head.revisionId,"bad old archive replaced latest revision");
+          await raw(["migrationJournal"],"readwrite",tx=>tx.objectStore("migrationJournal").put(archive));
+          const recovered=await reader.load("auto");
+          ensure(recovered.tick === f.meta.currentTick && recovered.schemaVersion===8,"lost prior acknowledged operations");
+          ensure(canonical(recovered)===canonical((await api.decodeSave(latest)).state),"cross-version archive differs");
+        } finally {await reader.close();}
+      });
       await check(
         "incompatible schema6 journal fails without mutating original records",
         async () => {
@@ -1092,6 +1141,90 @@ try {
           });
         },
       );
+      await check(
+        "commit receipts attest every prior-envelope field while loads and mismatches still fully verify",
+        async () => {
+          const warm = new api.SaveRepository();
+          const internals = warm as unknown as {
+            read: (
+              slotId: string,
+            ) => Promise<{ slot?: unknown; current?: SaveEnvelope; previous?: SaveEnvelope }>;
+            verified: (slotId: string) => Promise<unknown>;
+          };
+          const originalRead = internals.read.bind(warm),
+            originalVerified = internals.verified.bind(warm);
+          let calls = 0;
+          try {
+            const world = fresh("Receipt boundary");
+            await warm.save("slot-2", world);
+            internals.verified = async (slotId) => {
+              calls++;
+              return originalVerified(slotId);
+            };
+            world.flags.receiptChangingState = 1;
+            await warm.save("slot-2", world);
+            ensure(calls === 0, "Unchanged immutable prior envelope did not reuse its receipt");
+            await warm.load("slot-2");
+            ensure(calls === 1, "Load bypassed full prior-world validation");
+            const data = await originalRead("slot-2"),
+              current = data.current!;
+            const fields = Object.keys(current);
+            const variants: Record<string, unknown>[] = fields.flatMap((key) => {
+              const changed = { ...current } as unknown as Record<string, unknown>;
+              changed[key] =
+                typeof changed[key] === "number"
+                  ? Number(changed[key]) + 1
+                  : String(changed[key]) + "#";
+              const missing = { ...current } as unknown as Record<string, unknown>;
+              delete missing[key];
+              return [changed, missing];
+            });
+            variants.push({ ...current, unrecognizedHeader: true });
+            const sentinel = new Error("full-verification-path");
+            for (const changed of variants) {
+              let fallbacks = 0,
+                caught: unknown;
+              internals.read = async () => ({ ...data, current: changed as SaveEnvelope });
+              internals.verified = async () => {
+                fallbacks++;
+                throw sentinel;
+              };
+              try {
+                await warm.save("slot-2", world);
+              } catch (error) {
+                caught = error;
+              }
+              ensure(
+                caught === sentinel && fallbacks === 1,
+                "Prior-envelope mutation bypassed full verification",
+              );
+            }
+            internals.read = originalRead;
+            internals.verified = originalVerified;
+            const reopened = new api.SaveRepository();
+            const freshInternals = reopened as unknown as {
+              verified: (slotId: string) => Promise<unknown>;
+            };
+            const freshVerified = freshInternals.verified.bind(reopened);
+            let freshCalls = 0;
+            freshInternals.verified = async (slotId) => {
+              freshCalls++;
+              return freshVerified(slotId);
+            };
+            try {
+              world.flags.receiptChangingState = 2;
+              await reopened.save("slot-2", world);
+              ensure(freshCalls === 1, "New repository reused another connection's receipt");
+            } finally {
+              await reopened.close();
+            }
+          } finally {
+            internals.read = originalRead;
+            internals.verified = originalVerified;
+            await warm.close();
+          }
+        },
+      );
       await check("close/reopen keeps the authoritative state frozen", async () => {
         const expected = canonical(await repository.load("auto"));
         await repository.close();
@@ -1115,7 +1248,7 @@ try {
         },
       };
     },
-    { fixture, fixtureV2, fixtureV3, fixtureV5, fixtureV6 },
+    { fixture, fixtureV2, fixtureV3, fixtureV5, fixtureV6, fixtureV7, archiveV7 },
   );
   const interruptedStart = performance.now();
   const baseline = await page.evaluate(async () => {

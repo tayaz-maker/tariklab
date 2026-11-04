@@ -4,7 +4,10 @@ import { createWorld, stepWorld, canonicalState, validateState } from "../simula
 import { emit } from "../simulation/events.ts";
 import { tickSocial } from "../simulation/social.ts";
 import { canonical } from "../simulation/random.ts";
-import { npcMovement } from "../simulation/society.ts";
+import { economyMinute } from "../simulation/economy.ts";
+import { transfer } from "../simulation/ledger.ts";
+import { npcMovement, societyMinute } from "../simulation/society.ts";
+import { canonicalHeading } from "../domain/traffic.ts";
 import { npcMovementTraits } from "../simulation/npc-traits.ts";
 import {
   pedestrianPath,
@@ -183,14 +186,12 @@ test("sequential warm-cache replay matches early movement ticks and one full day
     snapshots: string[] = [];
   const movement = (s: typeof a) =>
     canonical(
-      s.npcs
-        .slice(0, 100)
-        .map((n) => ({
-          location: n.location,
-          path: n.path,
-          destination: n.destination,
-          goal: n.goal,
-        })),
+      s.npcs.slice(0, 100).map((n) => ({
+        location: n.location,
+        path: n.path,
+        destination: n.destination,
+        goal: n.goal,
+      })),
     );
   for (let tick = 0; tick < 14400; tick++) {
     stepWorld(a);
@@ -203,4 +204,136 @@ test("sequential warm-cache replay matches early movement ticks and one full day
   }
   assert.equal(canonicalState(a), canonicalState(b));
   assert.deepEqual(validateState(a), []);
+});
+
+test("head-on walkers escape a reciprocal stop without crossing through one another", () => {
+  const s = createWorld(941),
+    a = s.npcs[1],
+    b = s.npcs[2];
+  for (const n of s.npcs) {
+    if (n.id !== a.id && n.id !== b.id) {
+      n.location = { x: 7, y: 9, scene: "b-home" };
+      n.lastDecision = 100000;
+      n.path = [];
+    }
+  }
+  s.player.location = { x: 32, y: 15, scene: "outside" };
+  a.location = { x: 27, y: 15.1, scene: "outside" };
+  b.location = { x: 27.5, y: 15.1, scene: "outside" };
+  a.goal = b.goal = "walk";
+  a.lastDecision = b.lastDecision = 100000;
+  a.destination = b.destination = null;
+  a.path = [{ x: 28, y: 15.1 }];
+  b.path = [{ x: 26, y: 15.1 }];
+  for (let t = 0; t < 600; t++) {
+    s.tick++;
+    npcMovement(s);
+    assert.ok(Math.hypot(a.location.x - b.location.x, a.location.y - b.location.y) >= 0.4999);
+  }
+  assert.equal(a.path.length, 0);
+  assert.equal(b.path.length, 0);
+  assert.ok(a.location.x > b.location.x);
+});
+
+test("fractional start beside a crossing connects to its rounded grid anchor", () => {
+  const from = { x: 15.915168, y: 14.80993 },
+    to = { x: 27, y: 14.7 },
+    path = pedestrianPath(from, to);
+  assert.ok(path.length);
+  let a = from;
+  for (const p of path) {
+    assert.ok(pedestrianSegment(a, p));
+    a = p;
+  }
+  assert.deepEqual(path.at(-1), to);
+  assert.deepEqual(pedestrianPath(from, to), path);
+});
+
+test("a hungry worker who cannot pay keeps a paid schedule instead of an impossible food errand", () => {
+  const s = createWorld(942),
+    n = s.npcs[1];
+  for (const p of s.npcs) {
+    p.lastDecision = 100000;
+    p.location = { x: 7, y: 9, scene: "b-home" };
+    p.path = [];
+  }
+  s.player.location = { x: 32, y: 15, scene: "outside" };
+  s.minute = 600;
+  s.tick = 1200;
+  assert.ok(
+    transfer(s, "npc-food-test-empty", n.id, "external", s.accounts[n.id], "test-external-trade"),
+  );
+  n.hunger = 100;
+  n.lastDecision = -100;
+  n.goal = "idle";
+  for (let t = 0; t < 10; t++) {
+    s.tick++;
+    npcMovement(s);
+  }
+  assert.equal(n.goal, "work");
+  const workplace = s.businesses.find((b) => b.id === n.employerId)!;
+  assert.deepEqual(n.destination, BUILDINGS.find((b) => b.id === workplace.buildingId)!.door);
+  assert.equal(s.accounts[n.id], 0);
+});
+
+test("physical arrivals can buy a real reserved meal between hourly schedule boundaries", () => {
+  const s = createWorld(943),
+    n = s.npcs[1],
+    market = s.businesses.find((b) => b.id === "market")!;
+  s.minute = 481;
+  s.tick = 10;
+  n.goal = "eat";
+  n.hunger = 100;
+  n.location = { x: 7, y: 9, scene: "b-market" };
+  const balance = s.accounts[n.id],
+    stock = market.stock.simit,
+    price = market.prices.simit;
+  societyMinute(s);
+  assert.equal(s.economy.services.market.queue[0].personId, n.id);
+  economyMinute(s);
+  assert.equal(n.hunger, 60);
+  assert.equal(s.accounts[n.id], balance - price);
+  assert.equal(market.stock.simit, stock - 1);
+  stepWorld(s);
+  assert.deepEqual(validateState(s), []);
+});
+
+test("saved NPC recovery headings ignore final-bit atan2 differences", () => {
+  const simulate = () => {
+    const s = createWorld(944),
+      a = s.npcs[1],
+      b = s.npcs[2];
+    for (const n of s.npcs) {
+      n.lastDecision = 100000;
+      n.path = [];
+      if (n !== a && n !== b) n.location = { x: 7, y: 9, scene: "b-home" };
+    }
+    s.player.location = { x: 32, y: 15, scene: "outside" };
+    a.location = { x: 27, y: 15.1, scene: "outside" };
+    b.location = { x: 27.5, y: 15.1, scene: "outside" };
+    a.goal = b.goal = "walk";
+    a.destination = b.destination = null;
+    a.path = [{ x: 28, y: 15.1 }];
+    b.path = [{ x: 26, y: 15.1 }];
+    let recoveryCount = 0;
+    for (let i = 0; i < 100; i++) {
+      s.tick++;
+      npcMovement(s);
+      for (const [key, value] of Object.entries(s.flags))
+        if (key.startsWith("npcAvoidHeading:")) {
+          recoveryCount++;
+          assert.equal(value, canonicalHeading(Number(value)));
+        }
+    }
+    assert.ok(recoveryCount > 0);
+    return canonicalState(s);
+  };
+  const oracle = simulate(),
+    atan2 = Math.atan2;
+  try {
+    Math.atan2 = (y, x) => atan2(y, x) * (1 + Number.EPSILON);
+    assert.equal(simulate(), oracle);
+  } finally {
+    Math.atan2 = atan2;
+  }
 });

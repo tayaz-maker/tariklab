@@ -193,7 +193,7 @@ test("frozen real candidate5 snapshot and command/tick tail replay exactly befor
   const before = JSON.stringify(frozen);
   const decoded = await decodeSave(frozen.envelope);
   assert.equal(decoded.sourceState!.schemaVersion, 6);
-  assert.equal(decoded.state.schemaVersion, 7);
+  assert.equal(decoded.state.schemaVersion, 8);
   const point = { epoch: frozen.meta.epoch, cursor: frozen.meta.baseCursor };
   const base = await newJournalMeta(frozen.envelope, point);
   const batch = await decodeJournal(base, frozen.record);
@@ -205,7 +205,7 @@ test("frozen real candidate5 snapshot and command/tick tail replay exactly befor
   );
   assert.notEqual(
     canonicalState(expectedTrafficMigration(historical)),
-    canonicalState({ ...historical, schemaVersion: 7, engineVersion: "1.0.0-candidate.6" }),
+    canonicalState({ ...historical, schemaVersion: 8, engineVersion: "1.0.0-candidate.7" }),
     "Genuine fixture must exercise an actual legacy pose conversion",
   );
   assert.equal(JSON.stringify(frozen), before);
@@ -238,4 +238,33 @@ test("historical runtime source bytes match the pinned real predecessor", async 
       hash,
       file,
     );
+});
+
+test("authentic rules7 day-180 autosave retains every field and settled identity after replay and rules8 migration", async () => {
+  const { readFileSync } = await import("node:fs");
+  const { gunzipSync } = await import("node:zlib");
+  const { decodeSave, migrateState, sha256 } = await import("../persistence/codec.ts");
+  const { writeTransactionBits, readTransactionBits } = await import("../persistence/historical/candidate6/simulation/ledger.ts");
+  const f = JSON.parse(gunzipSync(readFileSync(new URL("../persistence/fixtures/v7-auto-with-tail.json.gz", import.meta.url))).toString("utf8"));
+  const decoded = await decodeSave(f.envelope), point = { epoch: f.meta.epoch, cursor: f.meta.baseCursor };
+  const batch = await decodeJournal(await newJournalMeta(f.envelope,point), f.record);
+  const src = replayJournal(decoded.sourceState!,point,batch.operations,7);
+  assert.equal(await sha256(canonicalState(src)), f.expectedCanonicalSha256);
+  const restored=migrateState(src), inverse=structuredClone(restored);
+  // Independently reconstruct the legacy collision-free bitsets using only their documented layout.
+  for(const [key,value] of Object.entries(inverse.flags)){
+    if(!key.startsWith("txmeal:")) continue;
+    const [family,biz,block]=JSON.parse(key.slice(7));
+    for(const token of String(value).split(",")){
+      const pair=parseInt(token,36), tick=block*1024+Math.floor(pair/65536), person=pair%65536;
+      const id=family==="queue"?`meal:queue:${biz}:n${person}:${tick}`:`meal:v5:${biz}:${tick}:n${person}`;
+      const m=/^(.*?)(0|[1-9]\d*)(\D*)$/.exec(id)!;
+      const n=Number(m[2]), slot="txset:"+JSON.stringify([m[1],m[3],Math.floor(n/4096)]);
+      const bits=inverse.flags[slot]===undefined?0n:readTransactionBits(String(inverse.flags[slot]));
+      inverse.flags[slot]=writeTransactionBits(bits|1n<<BigInt(n%4096));
+    }
+    delete inverse.flags[key];
+  }
+  inverse.schemaVersion=src.schemaVersion; inverse.engineVersion=src.engineVersion;
+  assert.equal(await sha256(canonicalState(inverse)),f.expectedCanonicalSha256);
 });

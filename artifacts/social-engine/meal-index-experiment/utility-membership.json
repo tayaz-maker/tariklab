@@ -1,0 +1,14 @@
+{
+  "migration": {
+    "keys": 172176,
+    "members": 185372
+  },
+  "migrationMs": 788.8989160000001,
+  "oldMembers": 185372,
+  "beforeFlags": 177801,
+  "flagsAfter": 7409,
+  "beforeBytes": 12747272,
+  "afterBytes": 4349166,
+  "fullInverse": "PASS",
+  "validation": "PASS"
+}

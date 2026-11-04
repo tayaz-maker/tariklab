@@ -1,3 +1,4 @@
+import * as candidate6 from "./historical/candidate6/simulation/engine.ts";
 import * as candidate5 from "./historical/candidate5/simulation/engine.ts";
 import type { Command, WorldState } from "../domain/types.ts";
 import { applyCommand, stepWorld, validateState } from "../simulation/engine.ts";
@@ -223,7 +224,9 @@ export function replayJournal(
     (snapshot.schemaVersion !== 6 || snapshot.engineVersion !== "1.0.0-candidate.5")
   )
     throw new SaveError("UNSUPPORTED_VERSION", "Eski günlük için özgün dünya gerekli.");
-  const engine = sourceSchema <= 6 ? candidate5 : { applyCommand, stepWorld, validateState };
+  if (sourceSchema === 7 && (snapshot.schemaVersion !== 7 || snapshot.engineVersion !== "1.0.0-candidate.6"))
+    throw new SaveError("UNSUPPORTED_VERSION", "Önceki günlük için özgün dünya gerekli.");
+  const engine = sourceSchema <= 6 ? candidate5 : sourceSchema === 7 ? candidate6 : { applyCommand, stepWorld, validateState };
   // An unknown v5 command was a recorded rejection, not a future permission.
   const historical = (c: Command): Command =>
     sourceSchema <= 5 && (c.type === "TAKE_STOCK" || c.type === "RETURN_STOCK")

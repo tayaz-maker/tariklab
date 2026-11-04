@@ -1,3 +1,4 @@
+import { mealAddress, hasMeal, addMeal } from "./meal-membership.ts";
 import type { WorldState } from "../domain/types.ts";
 const retainedIds = new WeakMap<WorldState, Set<string>>();
 /** Dense legacy hexadecimal blocks remain readable. Sparse blocks store exact bit
@@ -63,6 +64,7 @@ export function transfer(
     !Object.hasOwn(state.accounts, to)
   )
     return false;
+  const meal = mealAddress(id);
   const address = idAddress(id),
     stored = String(state.flags[address.key] ?? "0"),
     bitmap = readTransactionBits(stored);
@@ -71,13 +73,19 @@ export function transfer(
     recent = new Set(state.ledger.map((entry) => entry.id));
     retainedIds.set(state, recent);
   }
-  if ((bitmap & address.bit) !== 0n || recent.has(id)) return false;
+  if (
+    (bitmap & address.bit) !== 0n ||
+    recent.has(id) ||
+    (meal && hasMeal(state.flags[meal.key], meal.code))
+  )
+    return false;
   if (state.accounts[from] < amount || !Number.isSafeInteger(state.accounts[to] + amount))
     return false;
   state.accounts[from] -= amount;
   state.accounts[to] += amount;
   state.ledger.push({ id, tick: state.tick, from, to, amount, reason });
-  state.flags[address.key] = writeTransactionBits(bitmap | address.bit);
+  if (meal) state.flags[meal.key] = addMeal(state.flags[meal.key], meal.code);
+  else state.flags[address.key] = writeTransactionBits(bitmap | address.bit);
   recent.add(id);
   if (state.ledger.length >= 2048) {
     const entries = state.ledger.splice(0, 1024);

@@ -1,3 +1,4 @@
+import { mealIds } from "../simulation/meal-membership.ts";
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
@@ -103,7 +104,7 @@ test("authentic schema4 migration adds empty service reservations and preserves 
   );
   const bytes = JSON.stringify(before),
     after = migrateState(before);
-  assert.equal(after.schemaVersion, 7);
+  assert.equal(after.schemaVersion, 8);
   assert.equal(JSON.stringify(before), bytes);
   for (const field of [
     "accounts",
@@ -173,9 +174,11 @@ test("meal settlements group shared queue ticks while retaining every distinct p
   const settled = s.ledger.filter((e) => e.id.startsWith("meal:v5:"));
   assert.equal(settled.length, 12);
   assert.equal(new Set(settled.map((e) => e.id)).size, 12);
-  assert.equal(
-    Object.keys(s.flags).filter((k) => k.startsWith('txset:["meal:v5:market:0:n"')).length,
-    1,
+  const mealBuckets = Object.entries(s.flags).filter(([key]) => key.startsWith("txmeal:"));
+  assert.equal(mealBuckets.length, 1);
+  assert.deepEqual(
+    mealBuckets.flatMap(([key, value]) => [...mealIds(key, value)]).sort(),
+    settled.map((e) => e.id).sort(),
   );
   const decoded = (await decodeSave(await encodeSave("auto", s))).state;
   assert.equal(canonicalState(decoded), canonicalState(s));
