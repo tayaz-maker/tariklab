@@ -51,6 +51,9 @@ type ActorView = {
   duration: number;
   person?: Person;
   vehicle?: Vehicle;
+  fadeSprite?: Sprite;
+  vehicleFrameName?: string;
+  fadeStartedAt?: number;
 };
 export type WorldRenderer = {
   render: (projection: RenderProjection) => void;
@@ -99,9 +102,9 @@ function groundTexture(cx: number, cy: number): Texture {
       const color = water
         ? ["#376b72", "#396e75", "#3c7278"][n % 3]
         : road
-          ? ["#697471", "#6c7774", "#6e7875"][n % 3]
+          ? ["#626e6c", "#636f6d", "#64706e"][n % 3]
           : stone
-            ? ["#c3bda4", "#c8c1a9", "#c5bda3"][n % 3]
+            ? ["#bebba9", "#c0bdab", "#c2bfad"][n % 3]
             : ["#829371", "#859673", "#899974"][n % 3];
       const q = drawTile(x, y, color);
       if (stone) {
@@ -115,6 +118,33 @@ function groundTexture(cx: number, cy: number): Texture {
         c.beginPath();
         c.moveTo(q.x, q.y + 12);
         c.lineTo(q.x + 12, q.y + 6);
+        c.stroke();
+      }
+      if (stone) {
+        // Street curbs follow the actual road boundary; no collision data is changed.
+        const edges: [number, number, number, number, number, number][] = [
+          [1, 0, 24, 12, 0, 24],
+          [-1, 0, 0, 0, -24, 12],
+          [0, 1, 0, 24, -24, 12],
+          [0, -1, 0, 0, 24, 12],
+        ];
+        c.strokeStyle = "#e0d7bd";
+        c.lineWidth = 2;
+        for (const [dx, dy, x1, y1, x2, y2] of edges) {
+          if (!isRoad({ x: p.x + dx, y: p.y + dy })) continue;
+          c.beginPath();
+          c.moveTo(q.x + x1, q.y + y1);
+          c.lineTo(q.x + x2, q.y + y2);
+          c.stroke();
+        }
+      }
+      if (road && (x * 19 + y * 23) % 53 === 0) {
+        // Restrained asphalt repair seam, deterministic and baked once per chunk.
+        c.strokeStyle = "#45565344";
+        c.lineWidth = 1.1;
+        c.beginPath();
+        c.moveTo(q.x - 7, q.y + 10);
+        c.lineTo(q.x + 4, q.y + 15);
         c.stroke();
       }
       if (water && n % 2 === 0) {
@@ -540,6 +570,7 @@ export async function createRenderer(
     zoom = sceneZoom[next] ?? 1.25;
     for (const v of actors.values()) {
       v.sprite.destroy();
+      v.fadeSprite?.destroy();
       v.label.destroy();
     }
     actors.clear();
@@ -849,6 +880,8 @@ export async function createRenderer(
       const target = { x: vehicle.location.x, y: vehicle.location.y };
       if (!view) {
         const s = sprite(frameName, target, 1);
+        const fadeSprite = sprite(frameName, target, 1);
+        fadeSprite.visible = false;
         const label = new Text({ text: "", style: { fontSize: 10 } });
         label.visible = false;
         objects.addChild(label);
@@ -861,6 +894,8 @@ export async function createRenderer(
           moving: false,
           updatedAt: time,
           duration: 100,
+          fadeSprite,
+          vehicleFrameName: frameName,
         };
         actors.set(vehicle.id, view);
       }
@@ -870,6 +905,7 @@ export async function createRenderer(
     for (const [id, v] of actors)
       if (!keep.has(id)) {
         v.sprite.destroy();
+        v.fadeSprite?.destroy();
         v.label.destroy();
         actors.delete(id);
       }
@@ -944,6 +980,7 @@ export async function createRenderer(
       if (v.vehicle) {
         // Heading follows the displacement actually presented since the previous draw.
         // The newest physics tangent can lead the interpolated position at a turn.
+        const previousRotation = v.sprite.rotation;
         const dx = p.x - v.sprite.x,
           dy = p.y - v.sprite.y;
         if (Math.hypot(dx, dy) > 0.01) {
@@ -957,15 +994,31 @@ export async function createRenderer(
           });
           const angle = Math.atan2(dy, dx) - Math.atan2(axis.y, axis.x);
           const residual = Math.atan2(Math.sin(angle), Math.cos(angle));
-          const target = clamp(residual, -0.3, 0.3);
-          v.sprite.rotation +=
-            (target - v.sprite.rotation) * (1 - Math.exp(-Math.min(delta, 100) / 90));
+          // Combined atlas-axis plus residual is exactly the presented movement direction.
+          // Smoothing the residual itself causes a jump whenever the base frame changes.
+          v.sprite.rotation = residual;
         } else if (v.vehicle.speed <= 0) {
           v.direction = vehicleFrame(v.vehicle.heading);
           v.sprite.rotation *= Math.exp(-Math.min(delta, 100) / 120);
         }
         const variant = vehicleVariant(id);
-        v.sprite.texture = paintedVehicle(`${variant}-${v.direction}`, v.vehicle.color);
+        const nextFrame = `${variant}-${v.direction}`;
+        if (v.fadeSprite && v.vehicleFrameName && nextFrame !== v.vehicleFrameName) {
+          v.fadeSprite.texture = v.sprite.texture;
+          v.fadeSprite.rotation = previousRotation;
+          v.fadeStartedAt = started;
+        }
+        v.vehicleFrameName = nextFrame;
+        v.sprite.texture = paintedVehicle(nextFrame, v.vehicle.color);
+        const blend =
+          v.fadeStartedAt === undefined ? 1 : clamp((started - v.fadeStartedAt) / 120, 0, 1);
+        v.sprite.alpha = blend;
+        if (v.fadeSprite) {
+          v.fadeSprite.visible = blend < 1;
+          v.fadeSprite.alpha = 1 - blend;
+          v.fadeSprite.position.set(p.x, p.y);
+          v.fadeSprite.zIndex = p.y - 0.01;
+        }
       }
       v.sprite.position.set(p.x, p.y);
       v.sprite.zIndex = p.y;
@@ -977,9 +1030,18 @@ export async function createRenderer(
           (Math.hypot(v.to.x - v.from.x, v.to.y - v.from.y) * 1000) / Math.max(1, v.duration);
         const running = moving && apparentSpeed > 2.4;
         const frame = moving ? Math.floor(phase / (running ? 85 : 135)) % 4 : 0;
-        v.sprite.texture = textures.get(
-          `person-${running ? "run-" : ""}${v.person.appearance % 8}-${v.direction}-${frame}`,
-        )!;
+        const playerAction =
+          id === current.player.id
+            ? current.player.attackUntil > current.tick
+              ? "punch"
+              : current.player.blocking
+                ? "block"
+                : null
+            : null;
+        const textureName = playerAction
+          ? `person-${playerAction}-${v.person.appearance % 8}-${v.direction}`
+          : `person-${running ? "run-" : ""}${v.person.appearance % 8}-${v.direction}-${frame}`;
+        v.sprite.texture = textures.get(textureName)!;
         // Independent idle breathing is presentation only, with a fixed foot anchor.
         const breath = moving ? 1 : 1 + Math.sin(phase / 620) * 0.014;
         v.sprite.scale.set(0.76, 0.76 * breath);
@@ -1025,6 +1087,7 @@ export async function createRenderer(
         sx > -160 && sx < app.screen.width + 160 && sy > -120 && sy < app.screen.height + 120;
       if (v.sprite.renderable) visibleActors++;
       v.label.renderable = v.sprite.renderable;
+      if (v.fadeSprite) v.fadeSprite.renderable = v.sprite.renderable;
     }
     playerRing.position.set(focus.x, focus.y);
     playerRing.visible = !!player && !current.player.vehicleId;

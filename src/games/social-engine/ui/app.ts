@@ -470,9 +470,9 @@ function hud() {
   const root = el("hud");
   if (!el("minimap")) {
     root.innerHTML = `<div class="top"><div class="brand-block"><p class="brand">SOCIAL ENGINE</p><p class="district" id="hud-district"></p><small id="hud-pop"></small></div>
-    <section class="vitals glass" aria-label="Karakter durumu"><header><span id="hud-name"></span><span id="hud-balance" data-testid="balance"></span></header><div class="bars">${["Sağlık", "Enerji", "Tokluk"].map((l, i) => `<label>${l}<span id="hud-vital-${i}" class="bar" role="meter" aria-label="${l}" aria-valuemin="0" aria-valuemax="100"><i></i></span></label>`).join("")}</div><p class="wanted" id="hud-reputation"></p></section>
+    <section class="vitals glass" aria-label="Karakter durumu"><header><span id="hud-name"></span><span id="hud-balance" data-testid="balance"></span></header><div class="bars">${["Sağlık", "Enerji", "Tokluk"].map((l, i) => `<label><span class="vital-heading"><span>${l}</span><span id="hud-vital-value-${i}"></span></span><span id="hud-vital-${i}" class="bar" role="meter" aria-label="${l}" aria-valuemin="0" aria-valuemax="100"><i></i></span></label>`).join("")}</div><p class="wanted" id="hud-reputation"></p></section>
     <div class="timebox glass"><strong id="hud-time"></strong><p><small id="hud-day"></small></p></div></div>
-    <div class="left-bottom"><section class="quest-card glass"><span class="eyebrow" id="hud-quest-kind"></span><h3 id="hud-quest-title"></h3><p id="hud-quest-description"></p></section>
+    <div class="left-bottom"><section class="quest-card glass"><span class="eyebrow" id="hud-quest-kind"></span><h3 id="hud-quest-title"></h3><p id="hud-quest-description"></p><p id="hud-quest-progress" class="quest-progress"></p></section>
     <div class="minimap glass"><canvas id="minimap" width="394" height="290" aria-label="DARAMCIK mini haritası"></canvas><footer><span>DARAMCIK</span><span id="hud-map-key"></span></footer></div></div>
     <div class="right-bottom"><p class="help-line" id="hud-help"></p><nav class="key-nav glass" aria-label="Oyun araçları"><button id="inside-services" class="hidden">Mekân</button>${[
       ["map", "Harita"],
@@ -537,7 +537,9 @@ function hud() {
   put("hud-balance", money(view.balance));
   [p.health, p.stamina, 100 - p.hunger].forEach((v, i) => {
     const bar = el("hud-vital-" + i),
-      value = String(Math.max(0, Math.min(100, v)));
+      value = String(Math.round(Math.max(0, Math.min(100, v))));
+    put("hud-vital-value-" + i, value);
+    bar.classList.toggle("bar-low", Number(value) <= 25);
     if (bar.getAttribute("aria-valuenow") !== value) {
       bar.setAttribute("aria-valuenow", value);
       (bar.firstElementChild as HTMLElement).style.width = value + "%";
@@ -575,6 +577,13 @@ function hud() {
     (active ? districtText(active.description) : null) ??
       "Haritadan iş yerlerini bul. İnsanlarla tanış; telefonundaki fırsatları takip et.",
   );
+  put(
+    "hud-quest-progress",
+    active && active.required > 0
+      ? `${Math.min(active.progress, active.required)} / ${active.required}`
+      : "",
+  );
+  el("hud-quest-progress").classList.toggle("hidden", !active || active.required <= 0);
   for (const key of ["map", "inventory", "phone"] as const)
     put("hud-key-" + key, prettyKey(settings[key]));
   put("hud-key-missions", "J");

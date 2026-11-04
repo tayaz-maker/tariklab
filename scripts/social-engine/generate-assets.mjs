@@ -224,13 +224,39 @@ const generated = await page.evaluate(
           ],
           "#a49f8e",
         );
-        slab(b.w * 0.22, b.h * 0.28, 1.1, 1.1, b.height, b.height + 0.43, 0xaaa99a);
-        line(
-          [b.w * 0.22, b.h * 0.35, b.height + 0.45],
-          [b.w * 0.85, b.h * 0.35, b.height + 0.45],
-          "#53615c",
-          2,
-        );
+        if (b.kind === "home") {
+          // Apartment roof: laundry screen and small tank.
+          slab(b.w * 0.28, b.h * 0.3, 1, 1, b.height, b.height + 0.6, 0xd1c7ad);
+          line(
+            [b.w * 0.65, b.h * 0.25, b.height + 0.1],
+            [b.w * 0.65, b.h * 0.75, b.height + 0.1],
+            "#c6baa3",
+            2,
+          );
+        } else if (b.kind === "market" || b.kind === "sales") {
+          // Low solar panels define the commercial roof without new textures.
+          face(
+            [
+              [b.w * 0.18, b.h * 0.25, b.height + 0.06],
+              [b.w * 0.68, b.h * 0.25, b.height + 0.06],
+              [b.w * 0.68, b.h * 0.55, b.height + 0.3],
+              [b.w * 0.18, b.h * 0.55, b.height + 0.3],
+            ],
+            "#465f64",
+          );
+          for (let x = b.w * 0.25; x < b.w * 0.68; x += 0.7)
+            line([x, b.h * 0.25, b.height + 0.07], [x, b.h * 0.55, b.height + 0.31], "#a6b9ad", 1);
+        } else if (b.kind === "office") {
+          slab(b.w * 0.25, b.h * 0.25, b.w * 0.35, b.h * 0.28, b.height, b.height + 0.55, 0x9a9d90);
+        } else {
+          slab(b.w * 0.22, b.h * 0.28, 1.1, 1.1, b.height, b.height + 0.43, 0xaaa99a);
+          line(
+            [b.w * 0.22, b.h * 0.35, b.height + 0.45],
+            [b.w * 0.85, b.h * 0.35, b.height + 0.45],
+            "#53615c",
+            2,
+          );
+        }
       };
       const roofGable = (base, rise = 1.1, col = "#a4523d") => {
         const mid = b.h * 0.48;
@@ -395,6 +421,40 @@ const generated = await page.evaluate(
         roofGable(b.height - 0.4, 0.85, "#687d78");
         sign(b.sign, 3.15, "#725747");
       }
+      // Side elevations face the street in this camera: give each family an actual facade.
+      if (family === "commercial" || family === "apartment") {
+        for (let z = 3.45; z < b.height - 1.2; z += 2.25)
+          for (let y = 0.8; y < b.h - 1.5; y += 2.25) sidePane(y, z, 1.05, 1.45);
+        // Downpipe and service cable terminate above pavement rather than across the doorway.
+        line([b.w + 0.04, b.h - 0.35, 0.4], [b.w + 0.04, b.h - 0.35, b.height - 0.2], "#5a6660", 2);
+      }
+      if (family === "commercial" && b.kind === "market") {
+        // A projecting street canopy differentiates the corner market from offices.
+        face(
+          [
+            [b.w, 0.3, 2.9],
+            [b.w, b.h - 0.2, 2.9],
+            [b.w + 0.48, b.h - 0.2, 2.65],
+            [b.w + 0.48, 0.3, 2.65],
+          ],
+          "#536f60",
+        );
+        line([b.w + 0.48, 0.3, 2.65], [b.w + 0.48, b.h - 0.2, 2.65], "#ddd0ad", 2);
+      }
+      if (family === "civic" && b.kind === "school") {
+        // Projecting entrance portico, with a visible civic forecourt.
+        face(
+          [
+            [b.w / 2 - 1.2, b.h, 3.2],
+            [b.w / 2 + 1.2, b.h, 3.2],
+            [b.w / 2 + 1.2, b.h + 0.45, 3.0],
+            [b.w / 2 - 1.2, b.h + 0.45, 3.0],
+          ],
+          "#e1d7bf",
+        );
+        for (const x of [b.w / 2 - 1.05, b.w / 2 + 1.05])
+          line([x, b.h + 0.42, 0.2], [x, b.h + 0.42, 3.0], "#d7d1bf", 3);
+      }
       // Reusable local facade details, with positions chosen per building rather than random clutter.
       if (["apartment", "commercial", "civic"].includes(family)) {
         const y = b.h * 0.55,
@@ -554,6 +614,113 @@ const generated = await page.evaluate(
             }
             c.restore();
           }
+    // Combat poses occupy previously unused atlas space and preserve the same foot pivot.
+    // These frames are selected only from authoritative player attack/block state.
+    for (let pose = 0; pose < 2; pose++)
+      for (let appearance = 0; appearance < 8; appearance++)
+        for (let direction = 0; direction < 4; direction++) {
+          const index = pose * 32 + appearance * 4 + direction;
+          const fx = 1024 + (index % 16) * 64,
+            fy = 1408 + Math.floor(index / 16) * 96;
+          actorFrames[`person-${pose ? "block" : "punch"}-${appearance}-${direction}`] = {
+            x: fx,
+            y: fy,
+            w: 64,
+            h: 96,
+            pivot: { x: 32, y: 84 },
+          };
+          c.save();
+          c.translate(fx + 32, fy + 84);
+          const facing = direction === 0 || direction === 3 ? 1 : -1;
+          const back = direction >= 2;
+          c.fillStyle = "#102c292e";
+          c.beginPath();
+          c.ellipse(0, -1, 12, 5, 0, 0, Math.PI * 2);
+          c.fill();
+          c.lineCap = "round";
+          c.strokeStyle = "#283c43";
+          c.lineWidth = 7;
+          c.beginPath();
+          c.moveTo(-4, -24);
+          c.lineTo(-8, -6);
+          c.moveTo(4, -24);
+          c.lineTo(9, -6);
+          c.stroke();
+          c.strokeStyle = "#29312e";
+          c.lineWidth = 5;
+          c.beginPath();
+          c.moveTo(-10, -3);
+          c.lineTo(-4, -3);
+          c.moveTo(7, -3);
+          c.lineTo(13, -3);
+          c.stroke();
+          c.fillStyle = palettes[appearance];
+          c.beginPath();
+          c.roundRect(-10, -49, 20, appearance % 4 === 0 ? 32 : 28, appearance % 2 ? 6 : 3);
+          c.fill();
+          c.fillStyle = "#ffffff25";
+          c.fillRect(-7, -46, 3, 20);
+          if (appearance % 3 === 1) {
+            c.fillStyle = "#253b3f";
+            c.fillRect(-2, -48, 4, 25);
+          }
+          c.strokeStyle = palettes[appearance];
+          c.lineWidth = 6;
+          c.beginPath();
+          c.moveTo(-7, -43);
+          c.lineTo(-9, -32);
+          c.lineTo(-4, -43);
+          c.moveTo(7, -43);
+          if (pose) {
+            c.lineTo(12, -35);
+            c.lineTo(6, -48);
+          } else {
+            c.lineTo(14 * facing, -39);
+            c.lineTo(24 * facing, -44);
+          }
+          c.stroke();
+          c.fillStyle = "#d8a57d";
+          c.beginPath();
+          c.arc(pose ? 6 : 24 * facing, pose ? -48 : -44, 3.5, 0, Math.PI * 2);
+          c.fill();
+          c.fillStyle = "#d5a17b";
+          c.beginPath();
+          c.ellipse(direction % 2 ? 2 : 0, -58, 8, 10, direction % 2 ? -0.12 : 0, 0, Math.PI * 2);
+          c.fill();
+          c.fillStyle = [
+            "#544435",
+            "#302d28",
+            "#644736",
+            "#292e31",
+            "#806044",
+            "#3b2d29",
+            "#242d2d",
+            "#685348",
+          ][appearance];
+          c.beginPath();
+          c.ellipse(0, -64, 8, 5, 0, Math.PI, Math.PI * 2);
+          c.lineTo(8, -58);
+          c.lineTo(5, -62);
+          c.lineTo(-6, -60);
+          c.fill();
+          if (back) {
+            c.beginPath();
+            c.ellipse(0, -60, 7.5, 8, 0, 0, Math.PI * 2);
+            c.fill();
+          } else {
+            c.fillStyle = "#3e362c";
+            c.fillRect(direction % 2 ? 5 : -3, -58, 1.5, 2);
+            if (!(direction % 2)) c.fillRect(3, -58, 1.5, 2);
+          }
+          if (appearance === 2 || appearance === 6) {
+            c.fillStyle = appearance === 2 ? "#d8b173" : "#536862";
+            c.beginPath();
+            c.ellipse(0, -65, 9, 4, 0, Math.PI, Math.PI * 2);
+            c.fill();
+            c.fillRect(-9, -65, 18, 2);
+          }
+          c.restore();
+        }
     // Eight world-space headings; a second set carries a roof cargo box.
     // Magenta body pixels are a renderer-only mask for the persisted paint color.
     for (let variant = 0; variant < 4; variant++)
