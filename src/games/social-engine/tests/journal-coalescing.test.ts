@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { execFileSync } from "node:child_process";
+import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { mkdir, writeFile } from "node:fs/promises";
 import vm from "node:vm";
@@ -19,10 +19,11 @@ import {
 } from "../persistence/journal.ts";
 import type { WorldState } from "../domain/types.ts";
 
-const baselineSource = execFileSync(
-  "git",
-  ["show", "549cff1:src/games/social-engine/ui/live-journal.ts"],
-  { encoding: "utf8" },
+// Exact historical source: 549cff10d22dbef8c78a166beef8a27288201b7b:src/games/social-engine/ui/live-journal.ts
+// SHA-256: 47b36618d689274b0aa13d73ddb0d833bfc5100bd353c3196ecc0dcdb61e6605. Kept as text so shallow checkouts need no Git history.
+const baselineSource = readFileSync(
+  new URL("./fixtures/live-journal-before-coalescing.ts.txt", import.meta.url),
+  "utf8",
 );
 const bundle = await build({
   stdin: {
@@ -93,7 +94,7 @@ function harness(Controller = LiveJournal) {
     baseCursor = 0;
   const persisted: { head: JournalHandle; record: Awaited<ReturnType<typeof encodeJournal>> }[] =
     [];
-  const pending: (() => void)[] = [],
+  const pending: (() => Promise<void>)[] = [],
     writes: number[] = [],
     errors: Error[] = [];
   const snapshots: number[] = [];
@@ -128,13 +129,26 @@ function harness(Controller = LiveJournal) {
     async appendJournal(expected: JournalHandle, next: JournalBatch) {
       assert.deepEqual(expected, head);
       writes.push(next.operations.length);
-      await new Promise<void>((r) => pending.push(r)); // controlled delayed serial transaction
-      assert.deepEqual(expected, head, "CAS remains exact after delayed write");
-      const record = await encodeJournal(expected, next);
-      assert.ok(record.byteLength <= MAX_BATCH_BYTES);
-      assert.deepEqual(await decodeJournal(expected, record), next);
-      persisted.push({ head: structuredClone(expected), record });
-      return (head = { ...expected, cursor: next.toCursor, lastHash: record.hash });
+      let complete!: () => void;
+      const completion = new Promise<void>((resolve) => {
+        complete = resolve;
+      });
+      await new Promise<void>((release) =>
+        pending.push(async () => {
+          release(); // controlled delayed serial transaction
+          await completion;
+        }),
+      );
+      try {
+        assert.deepEqual(expected, head, "CAS remains exact after delayed write");
+        const record = await encodeJournal(expected, next);
+        assert.ok(record.byteLength <= MAX_BATCH_BYTES);
+        assert.deepEqual(await decodeJournal(expected, record), next);
+        persisted.push({ head: structuredClone(expected), record });
+        return (head = { ...expected, cursor: next.toCursor, lastHash: record.hash });
+      } finally {
+        complete();
+      }
     },
   };
   const controller = new Controller(
@@ -158,9 +172,10 @@ function harness(Controller = LiveJournal) {
     },
     async release() {
       assert.ok(pending.length);
-      pending.shift()!();
-      for (let i = 0; i < 100 && !pending.length && controller.status().pendingOperations; i++)
-        await turn();
+      // Hashing and decoding can outlive any fixed number of event-loop turns.
+      // Wait for this transaction itself before looking for the next queued write.
+      await pending.shift()!();
+      await turn();
     },
     async drain() {
       for (let n = 0; n < 200 && (pending.length || controller.status().pendingOperations); n++) {
@@ -276,8 +291,7 @@ for (const bad of ["gap", "duplicate", "epoch", "internal cursor"] as const)
     h.controller.accept(next);
     assert.equal(h.errors.length, 1);
     assert.ok(h.controller.status().failed);
-    h.pending.shift()!();
-    await turn();
+    await h.release();
     await h.controller.dispose();
     assert.equal(h.writes.length, 1, "invalid operations never appended");
   });
