@@ -1,0 +1,507 @@
+{
+  "status": "PASS",
+  "sampleCount": 20,
+  "ticksBetweenSaves": 5,
+  "finalExpectedHash": "42e54c2f1ba14461fcbc62a13f9b15c9c741cb36a468a9836579d17df912bf19",
+  "worldTick": 2592000,
+  "fixtureSha256": "9ce8527c4dfbd996344702190912c219956f17a70802f08701d0a6beecff7965",
+  "capturedFileSha256": "e4eb58d4c2b05b8da942d7103c71f81b216021a9e4f57861b27d3d5a9629903d",
+  "probeSha256": "d1a9ecb7e3f8283af0cb8e001bfe335c69c4d7b2e52ac0694ad4ce9244ca765d",
+  "cases": [
+    {
+      "browser": "chromium",
+      "version": "151.0.7922.34",
+      "status": "PASS",
+      "samples": [
+        {
+          "tick": 2592005,
+          "saveMs": 274.09999990463257,
+          "loadMs": 132.70000004768372,
+          "roundtripMs": 406.7999999523163,
+          "loadMode": "new IndexedDB connection"
+        },
+        {
+          "tick": 2592010,
+          "saveMs": 218.29999995231628,
+          "loadMs": 123.5,
+          "roundtripMs": 341.7999999523163,
+          "loadMode": "warm connection"
+        },
+        {
+          "tick": 2592015,
+          "saveMs": 228.39999997615814,
+          "loadMs": 118.89999997615814,
+          "roundtripMs": 347.2999999523163,
+          "loadMode": "new IndexedDB connection"
+        },
+        {
+          "tick": 2592020,
+          "saveMs": 212.90000009536743,
+          "loadMs": 114.29999995231628,
+          "roundtripMs": 327.2000000476837,
+          "loadMode": "warm connection"
+        },
+        {
+          "tick": 2592025,
+          "saveMs": 231.10000002384186,
+          "loadMs": 139.89999997615814,
+          "roundtripMs": 371,
+          "loadMode": "new IndexedDB connection"
+        },
+        {
+          "tick": 2592030,
+          "saveMs": 236.29999995231628,
+          "loadMs": 124,
+          "roundtripMs": 360.2999999523163,
+          "loadMode": "warm connection"
+        },
+        {
+          "tick": 2592035,
+          "saveMs": 232.5,
+          "loadMs": 125.19999992847443,
+          "roundtripMs": 357.6999999284744,
+          "loadMode": "new IndexedDB connection"
+        },
+        {
+          "tick": 2592040,
+          "saveMs": 215.60000002384186,
+          "loadMs": 107.5,
+          "roundtripMs": 323.10000002384186,
+          "loadMode": "warm connection"
+        },
+        {
+          "tick": 2592045,
+          "saveMs": 223.29999995231628,
+          "loadMs": 125.60000002384186,
+          "roundtripMs": 348.89999997615814,
+          "loadMode": "new IndexedDB connection"
+        },
+        {
+          "tick": 2592050,
+          "saveMs": 216.30000007152557,
+          "loadMs": 132.09999990463257,
+          "roundtripMs": 348.39999997615814,
+          "loadMode": "warm connection"
+        },
+        {
+          "tick": 2592055,
+          "saveMs": 212.39999997615814,
+          "loadMs": 110.5,
+          "roundtripMs": 322.89999997615814,
+          "loadMode": "new IndexedDB connection"
+        },
+        {
+          "tick": 2592060,
+          "saveMs": 207.19999992847443,
+          "loadMs": 105.89999997615814,
+          "roundtripMs": 313.09999990463257,
+          "loadMode": "warm connection"
+        },
+        {
+          "tick": 2592065,
+          "saveMs": 214.20000004768372,
+          "loadMs": 120.79999995231628,
+          "roundtripMs": 335,
+          "loadMode": "new IndexedDB connection"
+        },
+        {
+          "tick": 2592070,
+          "saveMs": 212.80000007152557,
+          "loadMs": 109,
+          "roundtripMs": 321.8000000715256,
+          "loadMode": "warm connection"
+        },
+        {
+          "tick": 2592075,
+          "saveMs": 215.10000002384186,
+          "loadMs": 124.29999995231628,
+          "roundtripMs": 339.39999997615814,
+          "loadMode": "new IndexedDB connection"
+        },
+        {
+          "tick": 2592080,
+          "saveMs": 214.60000002384186,
+          "loadMs": 108,
+          "roundtripMs": 322.60000002384186,
+          "loadMode": "warm connection"
+        },
+        {
+          "tick": 2592085,
+          "saveMs": 214.40000009536743,
+          "loadMs": 123.5,
+          "roundtripMs": 337.90000009536743,
+          "loadMode": "new IndexedDB connection"
+        },
+        {
+          "tick": 2592090,
+          "saveMs": 212.70000004768372,
+          "loadMs": 113.20000004768372,
+          "roundtripMs": 325.90000009536743,
+          "loadMode": "warm connection"
+        },
+        {
+          "tick": 2592095,
+          "saveMs": 229.29999995231628,
+          "loadMs": 119.30000007152557,
+          "roundtripMs": 348.60000002384186,
+          "loadMode": "new IndexedDB connection"
+        },
+        {
+          "tick": 2592100,
+          "saveMs": 230.10000002384186,
+          "loadMs": 130.10000002384186,
+          "roundtripMs": 360.2000000476837,
+          "loadMode": "warm connection"
+        }
+      ],
+      "slots": [
+        {
+          "slotId": "slot-1",
+          "revisionId": "92684074-454e-45ad-82b6-e094423076f5",
+          "tick": 2592100,
+          "updatedAt": "2026-11-04T09:52:16.275Z",
+          "byteLength": 1055500
+        }
+      ],
+      "expected": "9ce8527c4dfbd996344702190912c219956f17a70802f08701d0a6beecff7965",
+      "latencyBudget": {
+        "milliseconds": 1000,
+        "status": "PASS",
+        "p95Ms": 371,
+        "maxMs": 406.7999999523163,
+        "note": "Nearest-rank observed p95;20or more samples required. Alternating warm/new IndexedDB connections. This is host-specific, not reference-PC evidence."
+      }
+    },
+    {
+      "browser": "firefox",
+      "version": "153.0",
+      "status": "PASS",
+      "samples": [
+        {
+          "tick": 2592005,
+          "saveMs": 272,
+          "loadMs": 157,
+          "roundtripMs": 429,
+          "loadMode": "new IndexedDB connection"
+        },
+        {
+          "tick": 2592010,
+          "saveMs": 268,
+          "loadMs": 154,
+          "roundtripMs": 422,
+          "loadMode": "warm connection"
+        },
+        {
+          "tick": 2592015,
+          "saveMs": 319,
+          "loadMs": 150,
+          "roundtripMs": 469,
+          "loadMode": "new IndexedDB connection"
+        },
+        {
+          "tick": 2592020,
+          "saveMs": 272,
+          "loadMs": 149,
+          "roundtripMs": 421,
+          "loadMode": "warm connection"
+        },
+        {
+          "tick": 2592025,
+          "saveMs": 265,
+          "loadMs": 151,
+          "roundtripMs": 416,
+          "loadMode": "new IndexedDB connection"
+        },
+        {
+          "tick": 2592030,
+          "saveMs": 281,
+          "loadMs": 157,
+          "roundtripMs": 438,
+          "loadMode": "warm connection"
+        },
+        {
+          "tick": 2592035,
+          "saveMs": 264,
+          "loadMs": 141,
+          "roundtripMs": 405,
+          "loadMode": "new IndexedDB connection"
+        },
+        {
+          "tick": 2592040,
+          "saveMs": 266,
+          "loadMs": 142,
+          "roundtripMs": 408,
+          "loadMode": "warm connection"
+        },
+        {
+          "tick": 2592045,
+          "saveMs": 267,
+          "loadMs": 145,
+          "roundtripMs": 412,
+          "loadMode": "new IndexedDB connection"
+        },
+        {
+          "tick": 2592050,
+          "saveMs": 264,
+          "loadMs": 149,
+          "roundtripMs": 413,
+          "loadMode": "warm connection"
+        },
+        {
+          "tick": 2592055,
+          "saveMs": 284,
+          "loadMs": 182,
+          "roundtripMs": 466,
+          "loadMode": "new IndexedDB connection"
+        },
+        {
+          "tick": 2592060,
+          "saveMs": 261,
+          "loadMs": 145,
+          "roundtripMs": 406,
+          "loadMode": "warm connection"
+        },
+        {
+          "tick": 2592065,
+          "saveMs": 263,
+          "loadMs": 156,
+          "roundtripMs": 419,
+          "loadMode": "new IndexedDB connection"
+        },
+        {
+          "tick": 2592070,
+          "saveMs": 289,
+          "loadMs": 162,
+          "roundtripMs": 451,
+          "loadMode": "warm connection"
+        },
+        {
+          "tick": 2592075,
+          "saveMs": 261,
+          "loadMs": 154,
+          "roundtripMs": 415,
+          "loadMode": "new IndexedDB connection"
+        },
+        {
+          "tick": 2592080,
+          "saveMs": 264,
+          "loadMs": 178,
+          "roundtripMs": 442,
+          "loadMode": "warm connection"
+        },
+        {
+          "tick": 2592085,
+          "saveMs": 282,
+          "loadMs": 160,
+          "roundtripMs": 442,
+          "loadMode": "new IndexedDB connection"
+        },
+        {
+          "tick": 2592090,
+          "saveMs": 292,
+          "loadMs": 151,
+          "roundtripMs": 443,
+          "loadMode": "warm connection"
+        },
+        {
+          "tick": 2592095,
+          "saveMs": 273,
+          "loadMs": 148,
+          "roundtripMs": 421,
+          "loadMode": "new IndexedDB connection"
+        },
+        {
+          "tick": 2592100,
+          "saveMs": 421,
+          "loadMs": 145,
+          "roundtripMs": 566,
+          "loadMode": "warm connection"
+        }
+      ],
+      "slots": [
+        {
+          "slotId": "slot-1",
+          "revisionId": "a3d58e21-62c7-4c57-9e36-824bf6df3ef2",
+          "tick": 2592100,
+          "updatedAt": "2026-11-04T09:52:27.224Z",
+          "byteLength": 1109948
+        }
+      ],
+      "expected": "9ce8527c4dfbd996344702190912c219956f17a70802f08701d0a6beecff7965",
+      "latencyBudget": {
+        "milliseconds": 1000,
+        "status": "PASS",
+        "p95Ms": 469,
+        "maxMs": 566,
+        "note": "Nearest-rank observed p95;20or more samples required. Alternating warm/new IndexedDB connections. This is host-specific, not reference-PC evidence."
+      }
+    },
+    {
+      "browser": "webkit",
+      "version": "26.5",
+      "status": "PASS",
+      "samples": [
+        {
+          "tick": 2592005,
+          "saveMs": 251,
+          "loadMs": 100,
+          "roundtripMs": 351,
+          "loadMode": "new IndexedDB connection"
+        },
+        {
+          "tick": 2592010,
+          "saveMs": 217,
+          "loadMs": 87,
+          "roundtripMs": 304,
+          "loadMode": "warm connection"
+        },
+        {
+          "tick": 2592015,
+          "saveMs": 207,
+          "loadMs": 94,
+          "roundtripMs": 301,
+          "loadMode": "new IndexedDB connection"
+        },
+        {
+          "tick": 2592020,
+          "saveMs": 230,
+          "loadMs": 93,
+          "roundtripMs": 323,
+          "loadMode": "warm connection"
+        },
+        {
+          "tick": 2592025,
+          "saveMs": 243,
+          "loadMs": 89,
+          "roundtripMs": 332,
+          "loadMode": "new IndexedDB connection"
+        },
+        {
+          "tick": 2592030,
+          "saveMs": 224,
+          "loadMs": 86,
+          "roundtripMs": 310,
+          "loadMode": "warm connection"
+        },
+        {
+          "tick": 2592035,
+          "saveMs": 225,
+          "loadMs": 95,
+          "roundtripMs": 320,
+          "loadMode": "new IndexedDB connection"
+        },
+        {
+          "tick": 2592040,
+          "saveMs": 221,
+          "loadMs": 85,
+          "roundtripMs": 306,
+          "loadMode": "warm connection"
+        },
+        {
+          "tick": 2592045,
+          "saveMs": 217,
+          "loadMs": 85,
+          "roundtripMs": 302,
+          "loadMode": "new IndexedDB connection"
+        },
+        {
+          "tick": 2592050,
+          "saveMs": 222,
+          "loadMs": 85,
+          "roundtripMs": 307,
+          "loadMode": "warm connection"
+        },
+        {
+          "tick": 2592055,
+          "saveMs": 227,
+          "loadMs": 84,
+          "roundtripMs": 311,
+          "loadMode": "new IndexedDB connection"
+        },
+        {
+          "tick": 2592060,
+          "saveMs": 216,
+          "loadMs": 86,
+          "roundtripMs": 302,
+          "loadMode": "warm connection"
+        },
+        {
+          "tick": 2592065,
+          "saveMs": 230,
+          "loadMs": 92,
+          "roundtripMs": 322,
+          "loadMode": "new IndexedDB connection"
+        },
+        {
+          "tick": 2592070,
+          "saveMs": 227,
+          "loadMs": 90,
+          "roundtripMs": 317,
+          "loadMode": "warm connection"
+        },
+        {
+          "tick": 2592075,
+          "saveMs": 227,
+          "loadMs": 145,
+          "roundtripMs": 372,
+          "loadMode": "new IndexedDB connection"
+        },
+        {
+          "tick": 2592080,
+          "saveMs": 226,
+          "loadMs": 93,
+          "roundtripMs": 319,
+          "loadMode": "warm connection"
+        },
+        {
+          "tick": 2592085,
+          "saveMs": 220,
+          "loadMs": 89,
+          "roundtripMs": 309,
+          "loadMode": "new IndexedDB connection"
+        },
+        {
+          "tick": 2592090,
+          "saveMs": 230,
+          "loadMs": 93,
+          "roundtripMs": 323,
+          "loadMode": "warm connection"
+        },
+        {
+          "tick": 2592095,
+          "saveMs": 291,
+          "loadMs": 95,
+          "roundtripMs": 386,
+          "loadMode": "new IndexedDB connection"
+        },
+        {
+          "tick": 2592100,
+          "saveMs": 238,
+          "loadMs": 89,
+          "roundtripMs": 327,
+          "loadMode": "warm connection"
+        }
+      ],
+      "slots": [
+        {
+          "slotId": "slot-1",
+          "revisionId": "46ef7a33-48d6-4339-b723-f0d59612f6f2",
+          "tick": 2592100,
+          "updatedAt": "2026-11-04T09:52:35.927Z",
+          "byteLength": 1068876
+        }
+      ],
+      "expected": "9ce8527c4dfbd996344702190912c219956f17a70802f08701d0a6beecff7965",
+      "latencyBudget": {
+        "milliseconds": 1000,
+        "status": "PASS",
+        "p95Ms": 372,
+        "maxMs": 386,
+        "note": "Nearest-rank observed p95;20or more samples required. Alternating warm/new IndexedDB connections. This is host-specific, not reference-PC evidence."
+      }
+    }
+  ],
+  "note": "Captured 180-day world; transaction index normalization and production schema migration before timing. Real browser IndexedDB roundtrips of a captured late world, separate from the initial-state measurement. Sample count and concurrent local test load are disclosed.",
+  "saveIntegrityStatus": "PASS",
+  "latencyStatus": "PASS"
+}

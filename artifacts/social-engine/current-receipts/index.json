@@ -1,0 +1,183 @@
+{
+  "schemaVersion": 1,
+  "manifestSha256": "24559258aacf69fb51d649201c1fa10576f1f02edfa1eeabb38e0b557aa7b1f3",
+  "sourceCommit": "2c565622e124057dff40c4d5ff826d7950539f40",
+  "records": {
+    "portable-smoke/results.json": {
+      "path": "current-receipts/425d402ae4aa55f07312ce779029ed30d42ddcfb2521c18db99cc17082f52b8a.json",
+      "sha256": "425d402ae4aa55f07312ce779029ed30d42ddcfb2521c18db99cc17082f52b8a",
+      "source": "rules8-checks/smoke.log",
+      "identity": {
+        "manifestSha256": "24559258aacf69fb51d649201c1fa10576f1f02edfa1eeabb38e0b557aa7b1f3",
+        "exit": 0,
+        "elapsed_s": 5.35
+      }
+    },
+    "upgrade/legacy-display/results.json": {
+      "path": "current-receipts/85c2f285f931c82244f5933a5ccdc4163ba6d00d3e7b349a49fc722f0c37bfcb.json",
+      "sha256": "85c2f285f931c82244f5933a5ccdc4163ba6d00d3e7b349a49fc722f0c37bfcb",
+      "source": "rules8-checks/legacy.log",
+      "identity": {
+        "manifestSha256": "24559258aacf69fb51d649201c1fa10576f1f02edfa1eeabb38e0b557aa7b1f3",
+        "exit": 0,
+        "elapsed_s": 1.41
+      }
+    },
+    "upgrade/careers/results.json": {
+      "path": "current-receipts/811742a0bc444e722b3317efa528b89664bdd5e171b991478bab760a92c08e82.json",
+      "sha256": "811742a0bc444e722b3317efa528b89664bdd5e171b991478bab760a92c08e82",
+      "source": "rules8-checks/work.log",
+      "identity": {
+        "manifestSha256": "24559258aacf69fb51d649201c1fa10576f1f02edfa1eeabb38e0b557aa7b1f3",
+        "exit": 0,
+        "elapsed_s": 6.3
+      }
+    },
+    "browser-chromium/results.json": {
+      "path": "current-receipts/d250286bb2573ca7049850e2a31f99d8ff58720e84289df7309721de42cde577.json",
+      "sha256": "d250286bb2573ca7049850e2a31f99d8ff58720e84289df7309721de42cde577",
+      "source": "browser-chromium/results.json",
+      "identity": {
+        "manifestSha256": "24559258aacf69fb51d649201c1fa10576f1f02edfa1eeabb38e0b557aa7b1f3",
+        "sourceBoundProbe": null
+      }
+    },
+    "property-browser-chromium/results.json": {
+      "path": "current-receipts/1062223eddf9e91a96a6fb1390f52a594cef6671120ffa6b484cfc0ff7ff24ad.json",
+      "sha256": "1062223eddf9e91a96a6fb1390f52a594cef6671120ffa6b484cfc0ff7ff24ad",
+      "source": "rules8-checks/chromium-property-browser.log",
+      "identity": {
+        "manifestSha256": "24559258aacf69fb51d649201c1fa10576f1f02edfa1eeabb38e0b557aa7b1f3",
+        "exit": 0,
+        "elapsed_s": 49.05
+      }
+    },
+    "persistence-browser/results.json": {
+      "path": "current-receipts/3d73ea4633d4aac1d2352084138dc15cf8db348ac8ebd7c69f03efb3fbe7badd.json",
+      "sha256": "3d73ea4633d4aac1d2352084138dc15cf8db348ac8ebd7c69f03efb3fbe7badd",
+      "source": "rules8-checks/chromium-persistence-browser.log",
+      "identity": {
+        "manifestSha256": "24559258aacf69fb51d649201c1fa10576f1f02edfa1eeabb38e0b557aa7b1f3",
+        "exit": 0,
+        "elapsed_s": 48.01
+      }
+    },
+    "browser-firefox/results.json": {
+      "path": "current-receipts/ff86da610578556d7d58a9a4fca3af94472b96dd639dde4f68971f1f6584473c.json",
+      "sha256": "ff86da610578556d7d58a9a4fca3af94472b96dd639dde4f68971f1f6584473c",
+      "source": "browser-firefox/results.json",
+      "identity": {
+        "manifestSha256": "24559258aacf69fb51d649201c1fa10576f1f02edfa1eeabb38e0b557aa7b1f3",
+        "sourceBoundProbe": null
+      }
+    },
+    "property-browser-firefox/results.json": {
+      "path": "current-receipts/3d6fdf674415f1e59cbf5530db47714255b35f17b73e46b73ffc0065e1ba6312.json",
+      "sha256": "3d6fdf674415f1e59cbf5530db47714255b35f17b73e46b73ffc0065e1ba6312",
+      "source": "rules8-checks/firefox-property-browser.log",
+      "identity": {
+        "manifestSha256": "24559258aacf69fb51d649201c1fa10576f1f02edfa1eeabb38e0b557aa7b1f3",
+        "exit": 0,
+        "elapsed_s": 13.81
+      }
+    },
+    "persistence-browser-firefox/results.json": {
+      "path": "current-receipts/13b915a12e1303bd0dc70cbfbac93861f79b18dbd96d55503f74a48ab35836cf.json",
+      "sha256": "13b915a12e1303bd0dc70cbfbac93861f79b18dbd96d55503f74a48ab35836cf",
+      "source": "rules8-checks/firefox-persistence-browser.log",
+      "identity": {
+        "manifestSha256": "24559258aacf69fb51d649201c1fa10576f1f02edfa1eeabb38e0b557aa7b1f3",
+        "exit": 0,
+        "elapsed_s": 50.85
+      }
+    },
+    "browser-webkit/results.json": {
+      "path": "current-receipts/8e9c28845cde306b506720f134b5602f77242828e048dd9e94c111023843f69a.json",
+      "sha256": "8e9c28845cde306b506720f134b5602f77242828e048dd9e94c111023843f69a",
+      "source": "browser-webkit/results.json",
+      "identity": {
+        "manifestSha256": "24559258aacf69fb51d649201c1fa10576f1f02edfa1eeabb38e0b557aa7b1f3",
+        "sourceBoundProbe": null
+      }
+    },
+    "property-browser-webkit/results.json": {
+      "path": "current-receipts/22e901097c7080708d02e8afe2bbce8b264535f7a3b420c3ce00f63e54071405.json",
+      "sha256": "22e901097c7080708d02e8afe2bbce8b264535f7a3b420c3ce00f63e54071405",
+      "source": "rules8-checks/webkit-property-browser.log",
+      "identity": {
+        "manifestSha256": "24559258aacf69fb51d649201c1fa10576f1f02edfa1eeabb38e0b557aa7b1f3",
+        "exit": 0,
+        "elapsed_s": 6.72
+      }
+    },
+    "persistence-browser-webkit/results.json": {
+      "path": "current-receipts/28d48f7654cc52358ce2444b4ec7f8eca87d1f8738409560fc404dde13b0322b.json",
+      "sha256": "28d48f7654cc52358ce2444b4ec7f8eca87d1f8738409560fc404dde13b0322b",
+      "source": "rules8-checks/webkit-persistence-browser.log",
+      "identity": {
+        "manifestSha256": "24559258aacf69fb51d649201c1fa10576f1f02edfa1eeabb38e0b557aa7b1f3",
+        "exit": 0,
+        "elapsed_s": 22.39
+      }
+    },
+    "upgrade/rules8-route/results.json": {
+      "path": "current-receipts/7ca4e25fad185bbb433e6e35110df2ee0ad277815132c1d0708018e53076b9bc.json",
+      "sha256": "7ca4e25fad185bbb433e6e35110df2ee0ad277815132c1d0708018e53076b9bc",
+      "source": "upgrade/rules8-route/results.json",
+      "identity": {
+        "manifestSha256": "24559258aacf69fb51d649201c1fa10576f1f02edfa1eeabb38e0b557aa7b1f3",
+        "sourceBoundProbe": null
+      }
+    },
+    "upgrade/rules8-worker/results.json": {
+      "path": "current-receipts/ac8a8ff8bd26f146dcc282efd49925c1b1ca6a9549feb04efcb55d58025aa3b5.json",
+      "sha256": "ac8a8ff8bd26f146dcc282efd49925c1b1ca6a9549feb04efcb55d58025aa3b5",
+      "source": "upgrade/rules8-worker/results.json",
+      "identity": {
+        "manifestSha256": "24559258aacf69fb51d649201c1fa10576f1f02edfa1eeabb38e0b557aa7b1f3",
+        "sourceBoundProbe": null
+      }
+    },
+    "browser-evidence/results.json": {
+      "path": "current-receipts/b91d889549854f10894936fad8a77ab41c3b46af18b5485596a7e167aae309bc.json",
+      "sha256": "b91d889549854f10894936fad8a77ab41c3b46af18b5485596a7e167aae309bc",
+      "source": "browser-evidence/results.json",
+      "identity": {
+        "manifestSha256": "24559258aacf69fb51d649201c1fa10576f1f02edfa1eeabb38e0b557aa7b1f3",
+        "sourceBoundProbe": null
+      }
+    },
+    "late-save/results.json": {
+      "path": "current-receipts/582695cec28134c52b74b972d487985d07bf9c6be6a73b7bea3ef6397071658a.json",
+      "sha256": "582695cec28134c52b74b972d487985d07bf9c6be6a73b7bea3ef6397071658a",
+      "source": "late-save/results.json",
+      "identity": {
+        "manifestSha256": null,
+        "sourceBoundProbe": "d1a9ecb7e3f8283af0cb8e001bfe335c69c4d7b2e52ac0694ad4ce9244ca765d"
+      }
+    },
+    "local-legacy-suite/results.json": {
+      "path": "current-receipts/51897f8e974e1f1dc752d4a62812457e6caef053905bc1a58101fc1dde0f25ba.json",
+      "sha256": "51897f8e974e1f1dc752d4a62812457e6caef053905bc1a58101fc1dde0f25ba",
+      "source": "rules8-legacy/results.json",
+      "identity": {
+        "sourceCommit": "2c565622e124057dff40c4d5ff826d7950539f40",
+        "target": "production build on loopback"
+      }
+    }
+  },
+  "incomplete": {},
+  "observations": {
+    "year": {
+      "status": "RUNNING",
+      "completedDays": 30,
+      "sourceSha256": "3d33f0a2d5b40394279f00723c2d891f17886cdabfeeafcb976a2a3508454100"
+    },
+    "soak": {
+      "runId": "2026-11-04T09-52-35-994Z",
+      "status": "RUNNING",
+      "elapsedMinutes": 13.00262005555,
+      "manifestSha256": "24559258aacf69fb51d649201c1fa10576f1f02edfa1eeabb38e0b557aa7b1f3"
+    }
+  }
+}

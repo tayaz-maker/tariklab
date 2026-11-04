@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "cases": [
+    {
+      "engine": "chromium",
+      "version": "151.0.7922.34",
+      "samples": 5602
+    },
+    {
+      "engine": "firefox",
+      "version": "153.0",
+      "samples": 5602
+    },
+    {
+      "engine": "webkit",
+      "version": "26.5",
+      "samples": 5602
+    }
+  ],
+  "sha256": "9c1181a110ada382de7fcf91ebd402623d9ef72196d49b6dabaa2670446ae4be"
+}

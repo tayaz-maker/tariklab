@@ -8,25 +8,45 @@ import { assessSoakCoverage } from "./soak-coverage.mjs";
 import { footprintEvidence } from "./footprint-evidence.mjs";
 const root = "artifacts/social-engine/";
 const digest = (b) => createHash("sha256").update(b).digest("hex");
-const read = async (p) => {
-  try {
-    return JSON.parse(await readFile(root + p, "utf8"));
-  } catch {
-    return null;
-  }
-};
 const manifestBytes = await readFile("public/games/social-engine/build-manifest.json");
-const manifest = JSON.parse(manifestBytes);
-const manifestHashes = new Set([
-  digest(manifestBytes),
-  digest(JSON.stringify(manifest)),
-  digest(JSON.stringify(manifest, null, 2)),
-]);
+const manifest = JSON.parse(manifestBytes),
+  runtimeHash = digest(manifestBytes);
+const rawIndex = await readFile(root + "current-receipts/index.json", "utf8").catch(() => null);
+const index = rawIndex ? JSON.parse(rawIndex) : null;
+const receipts = index?.manifestSha256 === runtimeHash ? index.records : {};
+const seen = new Map();
+function evidencePath(key) {
+  const entry = receipts[key];
+  if (
+    entry &&
+    (!/^[a-f0-9]{64}$/.test(entry.sha256) ||
+      entry.path !== "current-receipts/" + entry.sha256 + ".json")
+  )
+    throw Error("Invalid content-addressed receipt " + key);
+  return root + (entry?.path ?? key);
+}
+const read = async (key) => {
+  if (index?.manifestSha256 === runtimeHash && index.incomplete?.[key]) return null;
+  let bytes;
+  try {
+    bytes = await readFile(evidencePath(key));
+  } catch (error) {
+    if (error.code === "ENOENT") return null;
+    throw error;
+  }
+  const stored = receipts[key];
+  if (
+    stored &&
+    (!/^current-receipts\/[a-f0-9]{64}\.json$/.test(stored.path) || digest(bytes) !== stored.sha256)
+  )
+    throw Error("Receipt integrity mismatch: " + key);
+  const report = JSON.parse(bytes);
+  seen.set(key, report);
+  return report;
+};
+const manifestHashes = new Set([runtimeHash]);
 const fresh = (d) =>
-  !!d &&
-  (manifestHashes.has(d.manifestSha256 ?? d.build?.manifestSha256) ||
-    (JSON.stringify(d.manifestAtStart) === JSON.stringify(manifest) &&
-      JSON.stringify(d.manifestAtEnd) === JSON.stringify(manifest)));
+  !!d && (d.manifestSha256 ?? d.build?.manifestSha256 ?? d.manifest) === runtimeHash;
 const contract = await readFile("docs/social-engine/ACCEPTANCE_TESTS.md", "utf8");
 assert.equal(
   digest(contract),
@@ -52,7 +72,7 @@ for (const line of contract.split("\n")) {
     automation,
     status: "UNVERIFIED",
     evidence: [],
-    seed: 20261103,
+    seed: null,
     environment: null,
     build_sha: null,
     duration_ms: null,
@@ -66,9 +86,21 @@ assert.equal(rows.size, 60);
 const evidencePaths = new Set();
 function add(numbers, status, path, reason, data = {}) {
   evidencePaths.add(path);
+  const observed = seen.get(path);
+  if (
+    status === "UNVERIFIED" &&
+    !numbers.some((n) => [46, 47, 48, 49, 50, 51, 58, 59, 60].includes(n))
+  ) {
+    const hash = observed?.manifestSha256 ?? observed?.build?.manifestSha256;
+    if (!observed) reason = "No completed attributable receipt for this check.";
+    else if (hash && hash !== runtimeHash)
+      reason = `Historical manifest ${hash.slice(0, 12)}. Current manifest ${runtimeHash.slice(0, 12)} remains unverified for this check.`;
+    else if (path === "acceptance-unit.json")
+      reason = "Current source-bound unit assertions were not verified for this criterion.";
+  }
   for (const n of numbers) {
     const row = rows.get(`SE-${String(n).padStart(3, "0")}`);
-    row.checks.push({ status, reason, evidence: root + path, ...data });
+    row.checks.push({ status, reason, receipt: path, evidence: evidencePath(path), ...data });
   }
 }
 const stateFor = (checks) =>
@@ -82,9 +114,10 @@ const stateFor = (checks) =>
 const unit = await read("acceptance-unit.json");
 let unitFresh = !!unit?.sourcesUnchanged && fresh(unit) && unit.sourceFiles?.length > 0;
 for (const f of unit?.sourceFiles ?? [])
-  if (digest(await readFile(f.path)) !== f.sha256) unitFresh = false;
+  if (digest(await readFile(f.path).catch(() => Buffer.alloc(0))) !== f.sha256) unitFresh = false;
 for (const n of [
-  6, 10, 11, 12, 15, 17, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 34, 35, 36, 38, 39, 40,
+  6, 10, 11, 12, 15, 17, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 34, 35, 36, 37, 38, 39,
+  40,
 ]) {
   const id = `SE-${String(n).padStart(3, "0")}`;
   const checks = unit?.tests?.filter((t) => t.name.includes(id)) ?? [];
@@ -110,36 +143,127 @@ for (const [engine, compatibilityId] of [
 ]) {
   const path = `browser-${engine}/results.json`,
     d = await read(path);
-  const status = fresh(d)
-    ? d.errors?.length || d.failure
-      ? "FAIL"
-      : stateFor(d.results)
-    : "UNVERIFIED";
+  const basic = [
+    "SE-001",
+    "SE-005",
+    "SE-002,SE-004",
+    "SE-007-keyboard",
+    "SE-016",
+    "SE-007-click,SE-009",
+    "SE-013,SE-022",
+    "SE-019,SE-020",
+    "SE-014",
+    "SE-035",
+    "SE-033",
+    "SE-031,SE-029,SE-030",
+    "SE-040,SE-055",
+    "SE-057",
+  ];
+  const current =
+    fresh(d) && d.engine === engine && Boolean(d.finished) && Array.isArray(d.results);
+  const clean = current && Array.isArray(d.errors) && d.errors.length === 0 && !d.failure;
+  const suite =
+    clean && basic.every((id) => d.results.some((r) => r.id === id && r.status === "PASS"))
+      ? "PASS"
+      : "UNVERIFIED";
   add(
     [compatibilityId],
-    status,
+    suite,
     path,
-    `Real ${engine} critical gameplay flow; current served manifest required.`,
+    current
+      ? `Local ${engine} ${d.browser}: ${d.results.length} recorded critical-flow cases, ${d.errors?.length ?? "unknown"} page errors.`
+      : `No completed ${engine} suite matching the current manifest.`,
     {
       environment: { browser: d?.browser, base: d?.base },
-      duration_ms: d?.results?.reduce((n, r) => n + (r.duration_ms ?? 0), 0),
+      scope: "Isolated browser profile on the local candidate URL.",
     },
   );
   if (engine !== "chromium") continue;
-  for (const n of [1, 2, 4, 5, 7, 9, 13, 14, 16, 19, 22, 29, 30, 31, 33, 35, 40, 55, 57]) {
-    const checks =
-      d?.results?.filter((r) =>
-        (r.id.match(/SE-\d+/g) ?? []).includes(`SE-${String(n).padStart(3, "0")}`),
-      ) ?? [];
+  const criteria = [
+    [1, ["SE-001"], "Fresh browser opened the character menu."],
+    [2, ["SE-002,SE-004"], "New profile created the canonical player with 1,100 NPCs."],
+    [4, ["SE-002,SE-004"], "Player name, background and appearance matched the selected values."],
+    [5, ["SE-005"], "Invalid name produced a form error and kept character creation open."],
+    [
+      7,
+      ["SE-007-keyboard", "SE-007-click,SE-009"],
+      "Physical D moved screen-right and real canvas clicks arrived within 0.2 world units.",
+    ],
+    [
+      9,
+      ["SE-007-click,SE-009"],
+      "Canvas destination matched inverse picking at both 1440×900 and 1280×720.",
+    ],
+    [13, ["SE-013,SE-022"], "Market entry succeeded and an interior purchase worked."],
+    [
+      14,
+      ["SE-014"],
+      "Exit returned the player outside within 0.1 world units of the expected door.",
+    ],
+    [16, ["SE-016"], "The nearby named NPC accepted the greeting and a social edge was present."],
+    [
+      19,
+      ["SE-019,SE-020"],
+      "The completed retail shift raised the player balance and produced one payroll entry.",
+    ],
+    [
+      29,
+      ["SE-031,SE-029,SE-030"],
+      "Assault damaged the target, created a case and triggered a wanted state.",
+    ],
+    [30, ["SE-031,SE-029,SE-030"], "Surrender ended the active pursuit."],
+    [35, ["SE-035"], "The second quest completion was rejected and cash stayed unchanged."],
+    [57, ["SE-057"], "No horizontal document overflow across 1280, 1920 and 390 pixel viewports."],
+  ];
+  for (const [number, ids, description] of criteria) {
+    const matches = ids.map((id) => d?.results?.find((r) => r.id === id));
+    const observed = clean && matches.every((r) => r?.status === "PASS");
     add(
-      [n],
-      fresh(d) ? stateFor(checks) : "UNVERIFIED",
+      [number],
+      observed ? "PASS" : "UNVERIFIED",
       path,
-      checks.map((c) => c.name).join("; ") || "Current browser evidence missing.",
+      observed ? description : "Missing or incomplete current browser case: " + ids.join(" + "),
       {
-        scope:
-          "Actual DOM/canvas; explicit QA fixed steps accelerate bounded fixtures, never human playtime.",
+        caseIds: ids,
+        scope: "Local Chromium DOM/canvas and public commands with fixed-step QA advancement.",
       },
+    );
+  }
+  for (const [number, tag, partial] of [
+    [
+      22,
+      "SE-022-stock-cash",
+      "Inventory and buyer cash changed, but store stock and exact cash reconciliation were not asserted.",
+    ],
+    [
+      31,
+      "SE-031-stamina-block",
+      "Attack damage and block inputs were exercised, but stamina and the effect of defense were not asserted.",
+    ],
+    [
+      33,
+      "SE-033-exact-position",
+      "Driver and scene survived reload, but saved vehicle coordinates and lane progress were not compared.",
+    ],
+    [
+      55,
+      "SE-055-dom-hud",
+      "State fields were compared after load, but rendered HUD values were not checked.",
+    ],
+  ]) {
+    const check = d?.results?.find(
+      (r) => r.status === "PASS" && (r.id === tag || r.assertions?.includes(tag)),
+    );
+    add(
+      [number],
+      clean && check ? "PASS" : "UNVERIFIED",
+      path,
+      clean && check
+        ? `Completed explicit browser assertion ${tag}.`
+        : current
+          ? partial
+          : "No current matching browser assertion.",
+      { assertion: tag },
     );
   }
 }
@@ -172,7 +296,7 @@ const probe = (
   await build({
     stdin: {
       contents:
-        "export * from './src/games/social-engine/persistence/index.ts'; export {createWorld,canonicalState,stepWorld,applyCommand} from './src/games/social-engine/simulation/engine.ts';",
+        "export * from './src/games/social-engine/persistence/index.ts'; export {expectedTrafficMigration} from './src/games/social-engine/tests/traffic-migration-expectation.ts'; export {newJournalMeta,encodeJournal,decodeJournal} from './src/games/social-engine/persistence/journal.ts'; export {createWorld,canonicalState,stepWorld,applyCommand} from './src/games/social-engine/simulation/engine.ts';",
       resolveDir: process.cwd(),
       loader: "ts",
     },
@@ -184,7 +308,10 @@ const probe = (
   })
 ).outputFiles[0].text;
 const storage = await read("persistence-browser/results.json");
-const storageFresh = storage?.bundle_sha256 === digest(probe);
+const storageFresh =
+  storage?.bundle_sha256 === digest(probe) &&
+  storage.status === "PASS" &&
+  storage.consoleErrors?.length === 0;
 for (const [n, patterns] of [
   [41, ["closing a tab during an active write"]],
   [42, ["export/import/copy/delete"]],
@@ -261,7 +388,7 @@ add(
   "simulation-365/results.json",
   simStatus === "PASS"
     ? `365days /5256000ticks; primary, replay and day180 resume hash ${sim.finalHash}; zero unexplained money difference.`
-    : `Current365day evidence incomplete or invalid (${sim?.status ?? "missing"}, completedDays=${sim?.completedDays ?? "unknown"}).`,
+    : `No completed current-source 365-day receipt. Historical results cannot complete this gate.`,
   {
     environment: sim?.environment,
     build_sha: sim?.environment?.build_sha,
@@ -284,7 +411,7 @@ add(
 const latest = await read("performance/latest.json");
 let perf = null,
   perfPath = "performance/latest.json";
-if (latest?.runId) {
+if (/^\d{4}-\d{2}-\d{2}T[\d-]+Z$/.test(latest?.runId ?? "")) {
   perfPath = `performance/${latest.runId}/report.json`;
   perf = await read(perfPath);
 }
@@ -321,7 +448,7 @@ for (const [n, minutes, field] of [
         : "FAIL"
       : "UNVERIFIED",
     perfPath,
-    `${minutes} continuous minutes required; fixed-tick cross-check: ${coverage.status}. Current run: ${perf?.status ?? "missing"}.`,
+    `${minutes} continuous minutes required; fixed-tick cross-check: ${coverage.status}. Receipt status: ${fresh(perf) ? perf.status : "no current completed measurement"}.`,
     {
       environment: perf?.environment,
       coverage,
@@ -335,18 +462,8 @@ for (const n of [58, 59, 60])
     [n],
     "UNVERIFIED",
     "deployment-verification.json",
-    "No remote PR/CI/provider/live proof. User requested local commits and explicitly locked merge and production.",
+    "A local candidate or draft PR does not verify completed applicable CI, the production deployment identity, or a live game smoke test.",
   );
-for (const row of rows.values()) {
-  row.status = stateFor(row.checks);
-  row.evidence = [...new Set(row.checks.map((c) => c.evidence))];
-  row.reason = row.checks.map((c) => c.reason).join(" | ") || "No current attributable evidence.";
-  row.environment = row.checks.map((c) => c.environment).filter(Boolean);
-  row.build_sha =
-    row.checks.find((c) => c.build_sha)?.build_sha ??
-    execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim();
-  row.duration_ms = row.checks.reduce((sum, c) => sum + (c.duration_ms ?? 0), 0) || null;
-}
 const engineProbe = (
   await build({
     entryPoints: ["src/games/social-engine/simulation/engine.ts"],
@@ -371,7 +488,7 @@ const required = {
   two_human_30_minute_sessions: "UNVERIFIED",
   reference_PC: "UNVERIFIED",
   low_end_physical_hardware: "UNVERIFIED",
-  merge_authorization: "SUSPENDED_BY_USER",
+  merge_authorization: "UNVERIFIED",
   remote_PR_CI: "UNVERIFIED",
   provider_ID_SHA_live_smoke: "UNVERIFIED",
   rollback_trial: "UNVERIFIED",
@@ -475,7 +592,7 @@ const lateProbe = (
   await build({
     stdin: {
       contents:
-        "export * from './src/games/social-engine/persistence/index.ts'; export {canonicalState} from './src/games/social-engine/simulation/engine.ts';",
+        "export * from './src/games/social-engine/persistence/index.ts'; export {canonicalState,stepWorld} from './src/games/social-engine/simulation/engine.ts';",
       resolveDir: process.cwd(),
       loader: "ts",
     },
@@ -490,13 +607,47 @@ required.late_save_20_roundtrips_three_engines =
   late?.probeSha256 === digest(lateProbe) &&
   late.sampleCount >= 20 &&
   late.cases?.length === 3 &&
-  late.fixtureSha256 === sim?.days?.find((d) => d.day === 180)?.hash
+  late.worldTick === 180 * 14400 &&
+  late.ticksBetweenSaves === 5 &&
+  /^[a-f0-9]{64}$/.test(late.finalExpectedHash) &&
+  late.cases.every((c) => c.samples?.length >= 20)
     ? stateFor([
         { status: late.saveIntegrityStatus },
         { status: late.latencyStatus },
         ...late.cases,
       ])
     : "UNVERIFIED";
+if (required.late_save_20_roundtrips_three_engines === "PASS") {
+  add(
+    [26, 39, 40],
+    "PASS",
+    "late-save/results.json",
+    `Three browser engines each verified ${late.sampleCount} changing mature-world canonical hashes through IndexedDB save/load, covering the complete relation graph.`,
+    {
+      environment: {
+        probeSha256: late.probeSha256,
+        fixtureSha256: late.fixtureSha256,
+        worldTick: late.worldTick,
+      },
+      scope:
+        "Compiled persistence/simulation probe identity matched current source. This does not complete the year or browser gameplay suite.",
+    },
+  );
+}
+for (const [name, path] of [
+  ["local_deployed_route", "upgrade/rules8-route/results.json"],
+  ["local_worker_smoke", "upgrade/rules8-worker/results.json"],
+  ["local_portable_smoke", "portable-smoke/results.json"],
+  ["legacy_district_display", "upgrade/legacy-display/results.json"],
+  ["retail_and_mechanic_work_orders", "upgrade/careers/results.json"],
+]) {
+  const d = await read(path);
+  required[name] =
+    fresh(d) && d?.status === "PASS" && (!d.errors || d.errors.length === 0)
+      ? "PASS"
+      : "UNVERIFIED";
+  evidencePaths.add(path);
+}
 evidencePaths.add("late-save/results.json");
 // Keep same-code late-save failures visible when a quieter repeat is added.
 const loadedHistory = await read("c5-history/late-save-concurrent-20x3.json");
@@ -540,27 +691,77 @@ for (const [path, hash] of Object.entries(gaps?.sourceHashes ?? {})) {
 }
 required.remaining_contract_obligations = gapsFresh ? stateFor(gaps.requirements) : "UNVERIFIED";
 evidencePaths.add("contract-gap-audit.json");
+for (const row of rows.values()) {
+  row.status = row.checks.some((c) => c.status === "FAIL")
+    ? "FAIL"
+    : row.checks.some((c) => c.status === "PASS")
+      ? "PASS"
+      : "UNVERIFIED";
+  const deciding =
+    row.status === "UNVERIFIED" ? row.checks : row.checks.filter((c) => c.status === row.status);
+  row.evidence = [...new Set(deciding.map((c) => c.evidence))];
+  row.reason = deciding.map((c) => c.reason).join(" | ") || "No current attributable evidence.";
+  row.environment = deciding.map((c) => c.environment).filter(Boolean);
+  row.build_sha = deciding.find((c) => c.build_sha)?.build_sha ?? null;
+  row.duration_ms = deciding.reduce((sum, c) => sum + (c.duration_ms ?? 0), 0) || null;
+}
+const legacyLocal = await read("local-legacy-suite/results.json");
+if (
+  receipts["local-legacy-suite/results.json"] &&
+  ["TC SIM", "Boardworld", "Racon Manager"].every(
+    (name) =>
+      legacyLocal?.[name]?.exit === 0 &&
+      legacyLocal[name].source === index.sourceCommit &&
+      legacyLocal[name].target === "production build on loopback",
+  )
+) {
+  required.unchanged_game_browser_regressions = "PASS";
+  evidencePaths.add("local-legacy-suite/results.json");
+}
 const evidenceManifest = [];
 for (const p of evidencePaths) {
   try {
-    const bytes = await readFile(root + p);
-    evidenceManifest.push({ path: root + p, sha256: digest(bytes) });
+    const bytes = await readFile(evidencePath(p));
+    evidenceManifest.push({ path: evidencePath(p), sha256: digest(bytes), receipt: p });
   } catch {
     // Missing evidence stays UNVERIFIED and has no fabricated hash.
   }
 }
 const results = [...rows.values()];
+for (const row of results.filter((r) => r.status === "PASS")) {
+  assert.ok(
+    row.checks.some((c) => c.status === "PASS"),
+    row.id + ": no passing check",
+  );
+  assert.ok(
+    row.evidence.length &&
+      row.evidence.every((path) => evidenceManifest.some((e) => e.path === path)),
+    row.id + ": missing evidence bytes",
+  );
+  assert.doesNotMatch(row.reason, /current browser evidence missing|no attributable current test/i);
+}
 const report = {
   product: "SOCIAL ENGINE",
-  schemaVersion: 2,
+  schemaVersion: 3,
   evaluatedAt: new Date().toISOString(),
   source: "docs/social-engine/ACCEPTANCE_TESTS.md",
+  localScope:
+    "Development checkout and locally served Worker or portable build. No CI or production promotion follows from this file.",
+  observation_snapshot: index?.manifestSha256 === runtimeHash ? (index.observations ?? {}) : {},
+  incomplete_runs: index?.manifestSha256 === runtimeHash ? (index.incomplete ?? {}) : {},
   source_sha256: digest(contract),
   criteria_modified: false,
   release_decision: "BLOCKED",
-  production_status: "PRODUCTION_NOT_DEPLOYED",
+  production_status: "UNVERIFIED",
   branch: execFileSync("git", ["branch", "--show-current"], { encoding: "utf8" }).trim(),
-  currentLocalCommit: execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim(),
+  currentLocalCommit:
+    index?.manifestSha256 === runtimeHash
+      ? index.sourceCommit
+      : execFileSync(
+          "git",
+          ["log", "-1", "--format=%H", "--", "public/games/social-engine/build-manifest.json"],
+          { encoding: "utf8" },
+        ).trim(),
   runtimeManifestSha256: digest(manifestBytes),
   sourceDigest: manifest.sourceDigest,
   counts: Object.fromEntries(
@@ -583,9 +784,9 @@ await writeFile(root + "results.json", JSON.stringify(report, null, 2) + "\n");
 const lines = [
   "# SOCIAL ENGINE acceptance evidence",
   "",
-  `Local commit: ${report.currentLocalCommit}. Runtime manifest: ${report.runtimeManifestSha256}.`,
+  `Tested runtime commit: ${report.currentLocalCommit}. Runtime manifest: ${report.runtimeManifestSha256}.`,
   "",
-  "Decision: **BLOCKED — PRODUCTION_NOT_DEPLOYED**. Human tests wait at the user's request. Merge/production remain locked.",
+  "Decision: **BLOCKED**. These results cover the local candidate. Human sessions, physical reference hardware, production identity and live smoke require separate evidence.",
   "",
 ];
 for (const status of ["PASS", "FAIL", "SKIP", "UNVERIFIED"]) {
@@ -597,12 +798,18 @@ for (const status of ["PASS", "FAIL", "SKIP", "UNVERIFIED"]) {
   );
   for (const r of results.filter((r) => r.status === status))
     lines.push(
-      `| ${r.id} | ${r.priority} | ${r.action} → ${r.expected} | ${r.evidence.join("; ")} — ${r.reason.replaceAll("|", "/")} |`,
+      `| ${r.id} | ${r.priority} | ${r.action} → ${r.expected} | ${r.evidence.map((path) => `[${(r.checks.find((c) => c.evidence === path)?.receipt ?? path).replace("/results.json", "")}](../../${path})`).join(", ")} — ${r.reason.replaceAll("|", "/")} |`,
     );
   lines.push("");
 }
 lines.push(
-  "Full source identities, scopes, durations, environment and required evidence are in artifacts/social-engine/results.json.",
+  "The JSON matrix preserves the original preconditions, actions, expected outcomes, priorities and automation fields. Each completion points to a receipt with a SHA-256 digest. [Machine-readable matrix](../../artifacts/social-engine/results.json) · [Receipt index](../../artifacts/social-engine/current-receipts/index.json)",
+  "",
+  "## Other release gates",
+  "",
+  ...Object.entries(required).map(([gate, status]) => `- ${gate}: ${status}`),
+  "",
+  "Refresh the evidence from completed local runs with `node scripts/social-engine/refresh-acceptance-receipts.mjs --candidate <tested-checkout> --checks <cases-directory> --legacy <legacy-results.json>`, then run `node scripts/social-engine/reconcile-acceptance.mjs`. Both commands run from the audit checkout. The refresher checks source or manifest identity and records the original evidence bytes.",
 );
 await writeFile("docs/social-engine/ACCEPTANCE_MATRIX.md", lines.join("\n") + "\n");
 console.log(JSON.stringify({ counts: report.counts, blocking_ids: report.blocking_ids, required }));

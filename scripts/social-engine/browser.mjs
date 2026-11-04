@@ -42,11 +42,11 @@ assert.equal(manifestResponse.status, 200);
 const manifestText = await manifestResponse.text();
 report.manifestSha256 = createHash("sha256").update(manifestText).digest("hex");
 report.manifest = JSON.parse(manifestText);
-async function test(id, fn) {
+async function test(id, fn, assertions = []) {
   const t = performance.now();
   try {
     await fn();
-    report.results.push({ id, status: "PASS", duration_ms: performance.now() - t });
+    report.results.push({ id, status: "PASS", assertions, duration_ms: performance.now() - t });
   } catch (e) {
     report.results.push({
       id,
@@ -166,9 +166,14 @@ try {
     assert.equal(r.ok, true, r.reason);
     const after = await state();
     assert.equal(after.player.inventory.simit, (before.player.inventory.simit || 0) + 1);
-    assert.ok(after.accounts.player < before.accounts.player);
+    const market = before.businesses.find(b => b.id === "market"), price=market.prices.simit;
+    assert.equal(after.businesses.find(b=>b.id==="market").stock.simit, market.stock.simit-1);
+    assert.equal(after.accounts.player, before.accounts.player-price);
+    assert.equal(after.accounts["business:market"], before.accounts["business:market"]+price);
+    const transfer=after.ledger.at(-1);
+    assert.deepEqual([transfer.reason,transfer.from,transfer.to,transfer.amount],["purchase","player","business:market",price]);
     await page.screenshot({ path: out + "/interior.png" });
-  });
+  }, ["SE-022-stock-cash"]);
   await test("SE-019,SE-020", async () => {
     assert.equal((await cmd("APPLY_JOB", { jobId: "retail" })).ok, true);
     assert.equal((await cmd("START_SHIFT")).ok, true);
@@ -215,16 +220,17 @@ try {
     await cmd("DRIVE", { throttle: 0, steer: 0 });
     await page.evaluate(() => window.__socialEngine.save("slot-1"));
     const before = await state();
-    await page.evaluate(() => window.__socialEngine.load("slot-1"));
-    await page.waitForTimeout(800);
+    await page.evaluate(async () => {await window.__socialEngine.load("slot-1"); window.__socialEngine.pause(true);});
     const after = await state();
     assert.equal(after.player.vehicleId, before.player.vehicleId);
+    assert.deepEqual(after.player.location, before.player.location);
+    assert.deepEqual(after.vehicles.find(c=>c.id===v.id),before.vehicles.find(c=>c.id===v.id));
     assert.equal(after.player.location.scene, "outside");
     await cmd("DRIVE", { throttle: -1, steer: 0 });
     await step(20);
     const exit = await cmd("VEHICLE_EXIT");
     assert.equal(exit.ok, true, exit.reason);
-  });
+  }, ["SE-033-exact-position"]);
   await test("SE-031,SE-029,SE-030", async () => {
     const s = await state();
     let n = s.npcs.find((n) => n.id === "n0");
@@ -239,20 +245,29 @@ try {
     n = (await state()).npcs.find((p) => p.id === n.id);
     await cmd("MOVE_TO", n.location);
     await step(60);
+    await page.evaluate(()=>window.__socialEngine.pause(true));
+    const preAttack=await state();
     const r = await cmd("ATTACK", { npcId: n.id });
     assert.equal(r.ok, true, r.reason);
+    const struck=await state();
+    assert.equal(struck.tick,preAttack.tick,"capture the attack at one paused simulation tick");
+    assert.equal(struck.player.stamina,preAttack.player.stamina-12);
+    assert.equal((await cmd("BLOCK",{active:true})).ok,true);
+    assert.equal((await state()).player.blocking,true);
     await step(5);
     const a = await state();
     assert.ok(a.crimes.length);
     assert.ok(a.npcs.find((v) => v.id === n.id).health < n.health);
-    await cmd("BLOCK", { active: true });
     await step(10);
+    const guarded=await state();
+    assert.equal(guarded.player.health,a.player.health-3);
+    assert.equal(guarded.player.stamina,a.player.stamina-6,"successful block consumes six stamina without passive recovery");
     await cmd("BLOCK", { active: false });
     await step(90);
     assert.ok((await state()).player.wanted > 0);
     assert.equal((await cmd("SURRENDER")).ok, true);
     assert.equal((await state()).player.wanted, 0);
-  });
+  }, ["SE-031-stamina-block"]);
   await test("SE-040,SE-055", async () => {
     await page.evaluate(() => window.__socialEngine.pause(true));
     const saved = await page.evaluate(async () => {
@@ -269,8 +284,12 @@ try {
     assert.equal(after.accounts.player, before.accounts.player);
     assert.deepEqual(after.player.inventory, before.player.inventory);
     assert.equal(after.player.name, before.player.name);
+    const displayedCash = await page.getByTestId("balance").innerText();
+    assert.equal(displayedCash,new Intl.NumberFormat("tr-TR",{style:"currency",currency:"TRY",maximumFractionDigits:2}).format(after.accounts.player/100));
+    for (const [label,expected] of [["Sağlık",after.player.health],["Enerji",after.player.stamina],["Tokluk",100-after.player.hunger]])
+      assert.equal(Number(await page.getByRole("meter",{name:label,exact:true}).getAttribute("aria-valuenow")),expected);
     await page.screenshot({ path: out + "/final.png" });
-  });
+  }, ["SE-055-dom-hud"]);
   await test("SE-057", async () => {
     for (const size of [
       { width: 1280, height: 720 },

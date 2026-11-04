@@ -1,72 +1,112 @@
 {
   "product": "SOCIAL ENGINE",
-  "schemaVersion": 2,
-  "evaluatedAt": "2026-11-04T07:53:19.715Z",
+  "schemaVersion": 3,
+  "evaluatedAt": "2026-11-04T10:05:43.185Z",
   "source": "docs/social-engine/ACCEPTANCE_TESTS.md",
+  "localScope": "Development checkout and locally served Worker or portable build. No CI or production promotion follows from this file.",
+  "observation_snapshot": {
+    "year": {
+      "status": "RUNNING",
+      "completedDays": 30,
+      "sourceSha256": "3d33f0a2d5b40394279f00723c2d891f17886cdabfeeafcb976a2a3508454100"
+    },
+    "soak": {
+      "runId": "2026-11-04T09-52-35-994Z",
+      "status": "RUNNING",
+      "elapsedMinutes": 13.00262005555,
+      "manifestSha256": "24559258aacf69fb51d649201c1fa10576f1f02edfa1eeabb38e0b557aa7b1f3"
+    }
+  },
+  "incomplete_runs": {},
   "source_sha256": "d496f0713313e5a3e1f14a75067efaee5751729a5242f20bdcae213249442772",
   "criteria_modified": false,
   "release_decision": "BLOCKED",
-  "production_status": "PRODUCTION_NOT_DEPLOYED",
-  "branch": "feature/social-engine-development",
-  "currentLocalCommit": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
-  "runtimeManifestSha256": "5f6ee17a0a8c63152fb01fc2a310a26298c9c94ed5dc6682990b6bc19f9acc79",
-  "sourceDigest": "76ea681dff03e1aacd0b27b4d85ba5e9bf32233597210be0d596f1017f152e98",
+  "production_status": "UNVERIFIED",
+  "branch": "qa/social-engine-rules8-acceptance",
+  "currentLocalCommit": "2c565622e124057dff40c4d5ff826d7950539f40",
+  "runtimeManifestSha256": "24559258aacf69fb51d649201c1fa10576f1f02edfa1eeabb38e0b557aa7b1f3",
+  "sourceDigest": "38076598ac8b835c70b2b03a8a2a1bc64fbd0d63bf0e544fa13768764cb884bf",
   "counts": {
-    "PASS": 50,
+    "PASS": 30,
     "FAIL": 0,
     "SKIP": 0,
-    "UNVERIFIED": 10
+    "UNVERIFIED": 30
   },
   "blocking_ids": [
+    "SE-003",
+    "SE-006",
+    "SE-010",
+    "SE-011",
+    "SE-012",
+    "SE-015",
+    "SE-017",
+    "SE-020",
+    "SE-021",
+    "SE-023",
+    "SE-024",
+    "SE-025",
+    "SE-027",
+    "SE-028",
+    "SE-032",
+    "SE-034",
+    "SE-036",
     "SE-037",
+    "SE-038",
+    "SE-045",
     "SE-046",
     "SE-047",
     "SE-048",
     "SE-049",
     "SE-050",
     "SE-051",
+    "SE-056",
     "SE-058",
     "SE-059",
     "SE-060"
   ],
   "required_evidence_status": {
-    "isolated_unit_sources": "PASS",
+    "isolated_unit_sources": "UNVERIFIED",
     "cross_engine_365days": "UNVERIFIED",
     "two_human_30_minute_sessions": "UNVERIFIED",
     "reference_PC": "UNVERIFIED",
     "low_end_physical_hardware": "UNVERIFIED",
-    "merge_authorization": "SUSPENDED_BY_USER",
+    "merge_authorization": "UNVERIFIED",
     "remote_PR_CI": "UNVERIFIED",
     "provider_ID_SHA_live_smoke": "UNVERIFIED",
     "rollback_trial": "UNVERIFIED",
-    "measured_process_footprint_600MiB": "PASS",
-    "renderer_resource_teardown": "PASS",
-    "journal_recovery": "PASS",
-    "integrated_lifecycle_mobility_social": "PASS",
-    "asset_fault_recovery": "PASS",
-    "local_real_worker_route": "PASS",
-    "bundle_and_cold_network": "PASS",
+    "measured_process_footprint_600MiB": "UNVERIFIED",
+    "renderer_resource_teardown": "UNVERIFIED",
+    "journal_recovery": "UNVERIFIED",
+    "integrated_lifecycle_mobility_social": "UNVERIFIED",
+    "asset_fault_recovery": "UNVERIFIED",
+    "local_real_worker_route": "UNVERIFIED",
+    "bundle_and_cold_network": "UNVERIFIED",
     "indexedDB_firefox": "PASS",
     "indexedDB_webkit": "PASS",
-    "stolen_stock_unit_invariants": "PASS",
+    "stolen_stock_unit_invariants": "UNVERIFIED",
     "stolen_stock_and_restitution_chromium": "PASS",
     "stolen_stock_and_restitution_firefox": "PASS",
     "stolen_stock_and_restitution_webkit": "PASS",
-    "cold_start_character_chromium": "PASS",
-    "cold_start_character_firefox": "PASS",
-    "cold_start_character_webkit": "PASS",
+    "cold_start_character_chromium": "UNVERIFIED",
+    "cold_start_character_firefox": "UNVERIFIED",
+    "cold_start_character_webkit": "UNVERIFIED",
     "native_zoom_and_background": "UNVERIFIED",
-    "synthetic_10000_citizens": "PASS",
-    "twenty_event_branches": "PASS",
-    "late_save_20_roundtrips_three_engines": "UNVERIFIED",
-    "late_save_under_concurrent_load": "FAIL",
-    "software_raster_parallel_combat_social": "FAIL",
-    "software_raster_parallel_autosave": "FAIL",
+    "synthetic_10000_citizens": "UNVERIFIED",
+    "twenty_event_branches": "UNVERIFIED",
+    "late_save_20_roundtrips_three_engines": "PASS",
+    "local_deployed_route": "PASS",
+    "local_worker_smoke": "PASS",
+    "local_portable_smoke": "PASS",
+    "legacy_district_display": "PASS",
+    "retail_and_mechanic_work_orders": "PASS",
+    "software_raster_parallel_combat_social": "UNVERIFIED",
+    "software_raster_parallel_autosave": "UNVERIFIED",
     "unchanged_game_browser_regressions": "PASS",
     "full_repository_regression": "UNVERIFIED",
     "remaining_contract_obligations": "UNVERIFIED"
   },
   "blocking_additional_gates": [
+    "isolated_unit_sources",
     "cross_engine_365days",
     "two_human_30_minute_sessions",
     "reference_PC",
@@ -75,9 +115,20 @@
     "remote_PR_CI",
     "provider_ID_SHA_live_smoke",
     "rollback_trial",
+    "measured_process_footprint_600MiB",
+    "renderer_resource_teardown",
+    "journal_recovery",
+    "integrated_lifecycle_mobility_social",
+    "asset_fault_recovery",
+    "local_real_worker_route",
+    "bundle_and_cold_network",
+    "stolen_stock_unit_invariants",
+    "cold_start_character_chromium",
+    "cold_start_character_firefox",
+    "cold_start_character_webkit",
     "native_zoom_and_background",
-    "late_save_20_roundtrips_three_engines",
-    "late_save_under_concurrent_load",
+    "synthetic_10000_citizens",
+    "twenty_event_branches",
     "software_raster_parallel_combat_social",
     "software_raster_parallel_autosave",
     "full_repository_regression",
@@ -94,23 +145,27 @@
       "automation": "Playwright",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/browser-chromium/results.json"
+        "artifacts/social-engine/current-receipts/d250286bb2573ca7049850e2a31f99d8ff58720e84289df7309721de42cde577.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [],
-      "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
+      "build_sha": null,
       "duration_ms": null,
       "checks": [
         {
           "status": "PASS",
-          "reason": "Current browser evidence missing.",
-          "evidence": "artifacts/social-engine/browser-chromium/results.json",
-          "scope": "Actual DOM/canvas; explicit QA fixed steps accelerate bounded fixtures, never human playtime."
+          "reason": "Fresh browser opened the character menu.",
+          "receipt": "browser-chromium/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/d250286bb2573ca7049850e2a31f99d8ff58720e84289df7309721de42cde577.json",
+          "caseIds": [
+            "SE-001"
+          ],
+          "scope": "Local Chromium DOM/canvas and public commands with fixed-step QA advancement."
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Current browser evidence missing."
+      "reason": "Fresh browser opened the character menu."
     },
     {
       "id": "SE-002",
@@ -122,23 +177,27 @@
       "automation": "E2E",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/browser-chromium/results.json"
+        "artifacts/social-engine/current-receipts/d250286bb2573ca7049850e2a31f99d8ff58720e84289df7309721de42cde577.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [],
-      "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
+      "build_sha": null,
       "duration_ms": null,
       "checks": [
         {
           "status": "PASS",
-          "reason": "Current browser evidence missing.",
-          "evidence": "artifacts/social-engine/browser-chromium/results.json",
-          "scope": "Actual DOM/canvas; explicit QA fixed steps accelerate bounded fixtures, never human playtime."
+          "reason": "New profile created the canonical player with 1,100 NPCs.",
+          "receipt": "browser-chromium/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/d250286bb2573ca7049850e2a31f99d8ff58720e84289df7309721de42cde577.json",
+          "caseIds": [
+            "SE-002,SE-004"
+          ],
+          "scope": "Local Chromium DOM/canvas and public commands with fixed-step QA advancement."
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Current browser evidence missing."
+      "reason": "New profile created the canonical player with 1,100 NPCs."
     },
     {
       "id": "SE-003",
@@ -148,22 +207,23 @@
       "expected": "Çift kayıt oluşmaz",
       "priority": "P1",
       "automation": "E2E",
-      "status": "PASS",
+      "status": "UNVERIFIED",
       "evidence": [
         "artifacts/social-engine/ui-browser/results.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [
         {
           "browser": "151.0.7922.34"
         }
       ],
-      "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
+      "build_sha": null,
       "duration_ms": null,
       "checks": [
         {
-          "status": "PASS",
+          "status": "UNVERIFIED",
           "reason": "double submit creates one persistent player and preserves chosen profile",
+          "receipt": "ui-browser/results.json",
           "evidence": "artifacts/social-engine/ui-browser/results.json",
           "environment": {
             "browser": "151.0.7922.34"
@@ -184,23 +244,27 @@
       "automation": "E2E",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/browser-chromium/results.json"
+        "artifacts/social-engine/current-receipts/d250286bb2573ca7049850e2a31f99d8ff58720e84289df7309721de42cde577.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [],
-      "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
+      "build_sha": null,
       "duration_ms": null,
       "checks": [
         {
           "status": "PASS",
-          "reason": "Current browser evidence missing.",
-          "evidence": "artifacts/social-engine/browser-chromium/results.json",
-          "scope": "Actual DOM/canvas; explicit QA fixed steps accelerate bounded fixtures, never human playtime."
+          "reason": "Player name, background and appearance matched the selected values.",
+          "receipt": "browser-chromium/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/d250286bb2573ca7049850e2a31f99d8ff58720e84289df7309721de42cde577.json",
+          "caseIds": [
+            "SE-002,SE-004"
+          ],
+          "scope": "Local Chromium DOM/canvas and public commands with fixed-step QA advancement."
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Current browser evidence missing."
+      "reason": "Player name, background and appearance matched the selected values."
     },
     {
       "id": "SE-005",
@@ -212,23 +276,27 @@
       "automation": "E2E",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/browser-chromium/results.json"
+        "artifacts/social-engine/current-receipts/d250286bb2573ca7049850e2a31f99d8ff58720e84289df7309721de42cde577.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [],
-      "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
+      "build_sha": null,
       "duration_ms": null,
       "checks": [
         {
           "status": "PASS",
-          "reason": "Current browser evidence missing.",
-          "evidence": "artifacts/social-engine/browser-chromium/results.json",
-          "scope": "Actual DOM/canvas; explicit QA fixed steps accelerate bounded fixtures, never human playtime."
+          "reason": "Invalid name produced a form error and kept character creation open.",
+          "receipt": "browser-chromium/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/d250286bb2573ca7049850e2a31f99d8ff58720e84289df7309721de42cde577.json",
+          "caseIds": [
+            "SE-005"
+          ],
+          "scope": "Local Chromium DOM/canvas and public commands with fixed-step QA advancement."
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Current browser evidence missing."
+      "reason": "Invalid name produced a form error and kept character creation open."
     },
     {
       "id": "SE-006",
@@ -238,12 +306,12 @@
       "expected": "Aşım engellenir",
       "priority": "P1",
       "automation": "Property",
-      "status": "PASS",
+      "status": "UNVERIFIED",
       "evidence": [
         "artifacts/social-engine/acceptance-unit.json",
         "artifacts/social-engine/ui-browser/results.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [
         {
           "node": "v24.21.0",
@@ -258,8 +326,9 @@
       "duration_ms": 156.909666,
       "checks": [
         {
-          "status": "PASS",
-          "reason": "SE-002 SE-004 SE-005 SE-006: one canonical adult player, validated profile and point budget",
+          "status": "UNVERIFIED",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check.",
+          "receipt": "acceptance-unit.json",
           "evidence": "artifacts/social-engine/acceptance-unit.json",
           "environment": {
             "node": "v24.21.0",
@@ -271,8 +340,9 @@
           "scope": "Pure domain/property/fault tests; no human-play or browser-performance claim."
         },
         {
-          "status": "PASS",
+          "status": "UNVERIFIED",
           "reason": "invalid profile names and excessive attribute total are rejected through real form",
+          "receipt": "ui-browser/results.json",
           "evidence": "artifacts/social-engine/ui-browser/results.json",
           "environment": {
             "browser": "151.0.7922.34"
@@ -281,7 +351,7 @@
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "SE-002 SE-004 SE-005 SE-006: one canonical adult player, validated profile and point budget | invalid profile names and excessive attribute total are rejected through real form"
+      "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check. | invalid profile names and excessive attribute total are rejected through real form"
     },
     {
       "id": "SE-007",
@@ -293,23 +363,28 @@
       "automation": "E2E",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/browser-chromium/results.json"
+        "artifacts/social-engine/current-receipts/d250286bb2573ca7049850e2a31f99d8ff58720e84289df7309721de42cde577.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [],
-      "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
+      "build_sha": null,
       "duration_ms": null,
       "checks": [
         {
           "status": "PASS",
-          "reason": "; ",
-          "evidence": "artifacts/social-engine/browser-chromium/results.json",
-          "scope": "Actual DOM/canvas; explicit QA fixed steps accelerate bounded fixtures, never human playtime."
+          "reason": "Physical D moved screen-right and real canvas clicks arrived within 0.2 world units.",
+          "receipt": "browser-chromium/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/d250286bb2573ca7049850e2a31f99d8ff58720e84289df7309721de42cde577.json",
+          "caseIds": [
+            "SE-007-keyboard",
+            "SE-007-click,SE-009"
+          ],
+          "scope": "Local Chromium DOM/canvas and public commands with fixed-step QA advancement."
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "; "
+      "reason": "Physical D moved screen-right and real canvas clicks arrived within 0.2 world units."
     },
     {
       "id": "SE-008",
@@ -321,17 +396,18 @@
       "automation": "E2E",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/browser-evidence/results.json"
+        "artifacts/social-engine/current-receipts/b91d889549854f10894936fad8a77ab41c3b46af18b5485596a7e167aae309bc.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [],
-      "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
+      "build_sha": null,
       "duration_ms": null,
       "checks": [
         {
           "status": "PASS",
           "reason": "Camera keeps player visible at four traversable world edges at three zoom levels",
-          "evidence": "artifacts/social-engine/browser-evidence/results.json"
+          "receipt": "browser-evidence/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/b91d889549854f10894936fad8a77ab41c3b46af18b5485596a7e167aae309bc.json"
         }
       ],
       "owner": "SOCIAL ENGINE QA",
@@ -348,23 +424,27 @@
       "automation": "E2E",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/browser-chromium/results.json"
+        "artifacts/social-engine/current-receipts/d250286bb2573ca7049850e2a31f99d8ff58720e84289df7309721de42cde577.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [],
-      "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
+      "build_sha": null,
       "duration_ms": null,
       "checks": [
         {
           "status": "PASS",
-          "reason": "Current browser evidence missing.",
-          "evidence": "artifacts/social-engine/browser-chromium/results.json",
-          "scope": "Actual DOM/canvas; explicit QA fixed steps accelerate bounded fixtures, never human playtime."
+          "reason": "Canvas destination matched inverse picking at both 1440×900 and 1280×720.",
+          "receipt": "browser-chromium/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/d250286bb2573ca7049850e2a31f99d8ff58720e84289df7309721de42cde577.json",
+          "caseIds": [
+            "SE-007-click,SE-009"
+          ],
+          "scope": "Local Chromium DOM/canvas and public commands with fixed-step QA advancement."
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Current browser evidence missing."
+      "reason": "Canvas destination matched inverse picking at both 1440×900 and 1280×720."
     },
     {
       "id": "SE-010",
@@ -374,11 +454,11 @@
       "expected": "Duvar geçilmez",
       "priority": "P0",
       "automation": "Physics",
-      "status": "PASS",
+      "status": "UNVERIFIED",
       "evidence": [
         "artifacts/social-engine/acceptance-unit.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [
         {
           "node": "v24.21.0",
@@ -390,8 +470,9 @@
       "duration_ms": 2193.58525,
       "checks": [
         {
-          "status": "PASS",
-          "reason": "SE-010 SE-012: fixed movement swept collision and world limits resist 10000 held inputs",
+          "status": "UNVERIFIED",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check.",
+          "receipt": "acceptance-unit.json",
           "evidence": "artifacts/social-engine/acceptance-unit.json",
           "environment": {
             "node": "v24.21.0",
@@ -405,7 +486,7 @@
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "SE-010 SE-012: fixed movement swept collision and world limits resist 10000 held inputs"
+      "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check."
     },
     {
       "id": "SE-011",
@@ -415,11 +496,11 @@
       "expected": "Geçerli rota veya ret",
       "priority": "P0",
       "automation": "Graph",
-      "status": "PASS",
+      "status": "UNVERIFIED",
       "evidence": [
         "artifacts/social-engine/acceptance-unit.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [
         {
           "node": "v24.21.0",
@@ -431,8 +512,9 @@
       "duration_ms": 550.7406249999999,
       "checks": [
         {
-          "status": "PASS",
-          "reason": "SE-011 background workers retain departure location until actual scheduled arrival and cannot earn absent wages; SE-011 shopping only consumes stock when the NPC has arrived at the open market; SE-011: obstructed target refuses movement and connected target follows valid path",
+          "status": "UNVERIFIED",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check.",
+          "receipt": "acceptance-unit.json",
           "evidence": "artifacts/social-engine/acceptance-unit.json",
           "environment": {
             "node": "v24.21.0",
@@ -446,7 +528,7 @@
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "SE-011 background workers retain departure location until actual scheduled arrival and cannot earn absent wages; SE-011 shopping only consumes stock when the NPC has arrived at the open market; SE-011: obstructed target refuses movement and connected target follows valid path"
+      "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check."
     },
     {
       "id": "SE-012",
@@ -456,11 +538,11 @@
       "expected": "Geçersiz konum yok",
       "priority": "P0",
       "automation": "Fuzz",
-      "status": "PASS",
+      "status": "UNVERIFIED",
       "evidence": [
         "artifacts/social-engine/acceptance-unit.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [
         {
           "node": "v24.21.0",
@@ -472,8 +554,9 @@
       "duration_ms": 14461.09875,
       "checks": [
         {
-          "status": "PASS",
-          "reason": "SE-010 SE-012: fixed movement swept collision and world limits resist 10000 held inputs; SE-012 SE-023 SE-038: 100000 validated malformed/boundary commands never corrupt state",
+          "status": "UNVERIFIED",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check.",
+          "receipt": "acceptance-unit.json",
           "evidence": "artifacts/social-engine/acceptance-unit.json",
           "environment": {
             "node": "v24.21.0",
@@ -487,7 +570,7 @@
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "SE-010 SE-012: fixed movement swept collision and world limits resist 10000 held inputs; SE-012 SE-023 SE-038: 100000 validated malformed/boundary commands never corrupt state"
+      "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check."
     },
     {
       "id": "SE-013",
@@ -499,23 +582,27 @@
       "automation": "E2E",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/browser-chromium/results.json"
+        "artifacts/social-engine/current-receipts/d250286bb2573ca7049850e2a31f99d8ff58720e84289df7309721de42cde577.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [],
-      "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
+      "build_sha": null,
       "duration_ms": null,
       "checks": [
         {
           "status": "PASS",
-          "reason": "Current browser evidence missing.",
-          "evidence": "artifacts/social-engine/browser-chromium/results.json",
-          "scope": "Actual DOM/canvas; explicit QA fixed steps accelerate bounded fixtures, never human playtime."
+          "reason": "Market entry succeeded and an interior purchase worked.",
+          "receipt": "browser-chromium/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/d250286bb2573ca7049850e2a31f99d8ff58720e84289df7309721de42cde577.json",
+          "caseIds": [
+            "SE-013,SE-022"
+          ],
+          "scope": "Local Chromium DOM/canvas and public commands with fixed-step QA advancement."
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Current browser evidence missing."
+      "reason": "Market entry succeeded and an interior purchase worked."
     },
     {
       "id": "SE-014",
@@ -527,23 +614,27 @@
       "automation": "E2E",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/browser-chromium/results.json"
+        "artifacts/social-engine/current-receipts/d250286bb2573ca7049850e2a31f99d8ff58720e84289df7309721de42cde577.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [],
-      "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
+      "build_sha": null,
       "duration_ms": null,
       "checks": [
         {
           "status": "PASS",
-          "reason": "Current browser evidence missing.",
-          "evidence": "artifacts/social-engine/browser-chromium/results.json",
-          "scope": "Actual DOM/canvas; explicit QA fixed steps accelerate bounded fixtures, never human playtime."
+          "reason": "Exit returned the player outside within 0.1 world units of the expected door.",
+          "receipt": "browser-chromium/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/d250286bb2573ca7049850e2a31f99d8ff58720e84289df7309721de42cde577.json",
+          "caseIds": [
+            "SE-014"
+          ],
+          "scope": "Local Chromium DOM/canvas and public commands with fixed-step QA advancement."
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Current browser evidence missing."
+      "reason": "Exit returned the player outside within 0.1 world units of the expected door."
     },
     {
       "id": "SE-015",
@@ -553,11 +644,11 @@
       "expected": "Çift oyuncu yok",
       "priority": "P1",
       "automation": "Invariant",
-      "status": "PASS",
+      "status": "UNVERIFIED",
       "evidence": [
         "artifacts/social-engine/acceptance-unit.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [
         {
           "node": "v24.21.0",
@@ -569,8 +660,9 @@
       "duration_ms": 7255.792833,
       "checks": [
         {
-          "status": "PASS",
-          "reason": "SE-014 SE-015 SE-017: 100 repeated interior transitions preserve one player and exact door",
+          "status": "UNVERIFIED",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check.",
+          "receipt": "acceptance-unit.json",
           "evidence": "artifacts/social-engine/acceptance-unit.json",
           "environment": {
             "node": "v24.21.0",
@@ -584,7 +676,7 @@
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "SE-014 SE-015 SE-017: 100 repeated interior transitions preserve one player and exact door"
+      "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check."
     },
     {
       "id": "SE-016",
@@ -596,23 +688,27 @@
       "automation": "E2E",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/browser-chromium/results.json"
+        "artifacts/social-engine/current-receipts/d250286bb2573ca7049850e2a31f99d8ff58720e84289df7309721de42cde577.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [],
-      "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
+      "build_sha": null,
       "duration_ms": null,
       "checks": [
         {
           "status": "PASS",
-          "reason": "Current browser evidence missing.",
-          "evidence": "artifacts/social-engine/browser-chromium/results.json",
-          "scope": "Actual DOM/canvas; explicit QA fixed steps accelerate bounded fixtures, never human playtime."
+          "reason": "The nearby named NPC accepted the greeting and a social edge was present.",
+          "receipt": "browser-chromium/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/d250286bb2573ca7049850e2a31f99d8ff58720e84289df7309721de42cde577.json",
+          "caseIds": [
+            "SE-016"
+          ],
+          "scope": "Local Chromium DOM/canvas and public commands with fixed-step QA advancement."
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Current browser evidence missing."
+      "reason": "The nearby named NPC accepted the greeting and a social edge was present."
     },
     {
       "id": "SE-017",
@@ -622,11 +718,11 @@
       "expected": "Tek canonical konum",
       "priority": "P0",
       "automation": "Invariant",
-      "status": "PASS",
+      "status": "UNVERIFIED",
       "evidence": [
         "artifacts/social-engine/acceptance-unit.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [
         {
           "node": "v24.21.0",
@@ -638,8 +734,9 @@
       "duration_ms": 7255.792833,
       "checks": [
         {
-          "status": "PASS",
-          "reason": "SE-014 SE-015 SE-017: 100 repeated interior transitions preserve one player and exact door",
+          "status": "UNVERIFIED",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check.",
+          "receipt": "acceptance-unit.json",
           "evidence": "artifacts/social-engine/acceptance-unit.json",
           "environment": {
             "node": "v24.21.0",
@@ -653,7 +750,7 @@
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "SE-014 SE-015 SE-017: 100 repeated interior transitions preserve one player and exact door"
+      "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check."
     },
     {
       "id": "SE-018",
@@ -665,17 +762,18 @@
       "automation": "Race",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/browser-evidence/results.json"
+        "artifacts/social-engine/current-receipts/b91d889549854f10894936fad8a77ab41c3b46af18b5485596a7e167aae309bc.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [],
-      "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
+      "build_sha": null,
       "duration_ms": null,
       "checks": [
         {
           "status": "PASS",
           "reason": "Concurrent dialogue commands resolve once in one authoritative tick",
-          "evidence": "artifacts/social-engine/browser-evidence/results.json"
+          "receipt": "browser-evidence/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/b91d889549854f10894936fad8a77ab41c3b46af18b5485596a7e167aae309bc.json"
         }
       ],
       "owner": "SOCIAL ENGINE QA",
@@ -692,23 +790,27 @@
       "automation": "E2E",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/browser-chromium/results.json"
+        "artifacts/social-engine/current-receipts/d250286bb2573ca7049850e2a31f99d8ff58720e84289df7309721de42cde577.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [],
-      "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
+      "build_sha": null,
       "duration_ms": null,
       "checks": [
         {
           "status": "PASS",
-          "reason": "Current browser evidence missing.",
-          "evidence": "artifacts/social-engine/browser-chromium/results.json",
-          "scope": "Actual DOM/canvas; explicit QA fixed steps accelerate bounded fixtures, never human playtime."
+          "reason": "The completed retail shift raised the player balance and produced one payroll entry.",
+          "receipt": "browser-chromium/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/d250286bb2573ca7049850e2a31f99d8ff58720e84289df7309721de42cde577.json",
+          "caseIds": [
+            "SE-019,SE-020"
+          ],
+          "scope": "Local Chromium DOM/canvas and public commands with fixed-step QA advancement."
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Current browser evidence missing."
+      "reason": "The completed retail shift raised the player balance and produced one payroll entry."
     },
     {
       "id": "SE-020",
@@ -718,11 +820,11 @@
       "expected": "Tek ödeme",
       "priority": "P0",
       "automation": "Ledger",
-      "status": "PASS",
+      "status": "UNVERIFIED",
       "evidence": [
         "artifacts/social-engine/acceptance-unit.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [
         {
           "node": "v24.21.0",
@@ -734,8 +836,9 @@
       "duration_ms": 1806.554125,
       "checks": [
         {
-          "status": "PASS",
-          "reason": "SE-020 SE-021: every occupation pays once, changes canonical employment, overlapping shifts rejected",
+          "status": "UNVERIFIED",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check.",
+          "receipt": "acceptance-unit.json",
           "evidence": "artifacts/social-engine/acceptance-unit.json",
           "environment": {
             "node": "v24.21.0",
@@ -749,7 +852,7 @@
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "SE-020 SE-021: every occupation pays once, changes canonical employment, overlapping shifts rejected"
+      "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check."
     },
     {
       "id": "SE-021",
@@ -759,11 +862,11 @@
       "expected": "Takvim güncel",
       "priority": "P1",
       "automation": "Integration",
-      "status": "PASS",
+      "status": "UNVERIFIED",
       "evidence": [
         "artifacts/social-engine/acceptance-unit.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [
         {
           "node": "v24.21.0",
@@ -775,8 +878,9 @@
       "duration_ms": 1806.554125,
       "checks": [
         {
-          "status": "PASS",
-          "reason": "SE-020 SE-021: every occupation pays once, changes canonical employment, overlapping shifts rejected",
+          "status": "UNVERIFIED",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check.",
+          "receipt": "acceptance-unit.json",
           "evidence": "artifacts/social-engine/acceptance-unit.json",
           "environment": {
             "node": "v24.21.0",
@@ -790,7 +894,7 @@
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "SE-020 SE-021: every occupation pays once, changes canonical employment, overlapping shifts rejected"
+      "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check."
     },
     {
       "id": "SE-022",
@@ -802,23 +906,17 @@
       "automation": "Ledger",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/acceptance-unit.json",
-        "artifacts/social-engine/browser-chromium/results.json"
+        "artifacts/social-engine/current-receipts/d250286bb2573ca7049850e2a31f99d8ff58720e84289df7309721de42cde577.json"
       ],
-      "seed": 20261103,
-      "environment": [
-        {
-          "node": "v24.21.0",
-          "os": "darwin 25.6.0",
-          "cpu": "Apple M2"
-        }
-      ],
-      "build_sha": "bc81a02487544403d29a3d176246d651e2b60a1d",
-      "duration_ms": 226.74125,
+      "seed": null,
+      "environment": [],
+      "build_sha": null,
+      "duration_ms": null,
       "checks": [
         {
-          "status": "PASS",
-          "reason": "SE-022 SE-023: purchase atomically balances cash, stock and inventory; invalid and duplicate commands fail",
+          "status": "UNVERIFIED",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check.",
+          "receipt": "acceptance-unit.json",
           "evidence": "artifacts/social-engine/acceptance-unit.json",
           "environment": {
             "node": "v24.21.0",
@@ -831,14 +929,15 @@
         },
         {
           "status": "PASS",
-          "reason": "Current browser evidence missing.",
-          "evidence": "artifacts/social-engine/browser-chromium/results.json",
-          "scope": "Actual DOM/canvas; explicit QA fixed steps accelerate bounded fixtures, never human playtime."
+          "reason": "Completed explicit browser assertion SE-022-stock-cash.",
+          "receipt": "browser-chromium/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/d250286bb2573ca7049850e2a31f99d8ff58720e84289df7309721de42cde577.json",
+          "assertion": "SE-022-stock-cash"
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "SE-022 SE-023: purchase atomically balances cash, stock and inventory; invalid and duplicate commands fail | Current browser evidence missing."
+      "reason": "Completed explicit browser assertion SE-022-stock-cash."
     },
     {
       "id": "SE-023",
@@ -848,11 +947,11 @@
       "expected": "Yetkisiz negatif yok",
       "priority": "P0",
       "automation": "Property",
-      "status": "PASS",
+      "status": "UNVERIFIED",
       "evidence": [
         "artifacts/social-engine/acceptance-unit.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [
         {
           "node": "v24.21.0",
@@ -864,8 +963,9 @@
       "duration_ms": 12494.254749999998,
       "checks": [
         {
-          "status": "PASS",
-          "reason": "SE-022 SE-023: purchase atomically balances cash, stock and inventory; invalid and duplicate commands fail; SE-012 SE-023 SE-038: 100000 validated malformed/boundary commands never corrupt state",
+          "status": "UNVERIFIED",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check.",
+          "receipt": "acceptance-unit.json",
           "evidence": "artifacts/social-engine/acceptance-unit.json",
           "environment": {
             "node": "v24.21.0",
@@ -879,7 +979,7 @@
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "SE-022 SE-023: purchase atomically balances cash, stock and inventory; invalid and duplicate commands fail; SE-012 SE-023 SE-038: 100000 validated malformed/boundary commands never corrupt state"
+      "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check."
     },
     {
       "id": "SE-024",
@@ -889,11 +989,11 @@
       "expected": "Borç defteri mutabık",
       "priority": "P0",
       "automation": "Ledger",
-      "status": "PASS",
+      "status": "UNVERIFIED",
       "evidence": [
         "artifacts/social-engine/acceptance-unit.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [
         {
           "node": "v24.21.0",
@@ -905,8 +1005,9 @@
       "duration_ms": 16526.873875,
       "checks": [
         {
-          "status": "PASS",
-          "reason": "SE-024: principal, weekly interest and payment reconcile bank assets and player liabilities",
+          "status": "UNVERIFIED",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check.",
+          "receipt": "acceptance-unit.json",
           "evidence": "artifacts/social-engine/acceptance-unit.json",
           "environment": {
             "node": "v24.21.0",
@@ -920,7 +1021,7 @@
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "SE-024: principal, weekly interest and payment reconcile bank assets and player liabilities"
+      "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check."
     },
     {
       "id": "SE-025",
@@ -930,11 +1031,11 @@
       "expected": "İlişki değişir",
       "priority": "P1",
       "automation": "Simulation",
-      "status": "PASS",
+      "status": "UNVERIFIED",
       "evidence": [
         "artifacts/social-engine/acceptance-unit.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [
         {
           "node": "v24.21.0",
@@ -946,8 +1047,9 @@
       "duration_ms": 170.953708,
       "checks": [
         {
-          "status": "PASS",
-          "reason": "SE-016 SE-018 SE-025 SE-027: proximity, cooldown, knowledge and social consequences",
+          "status": "UNVERIFIED",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check.",
+          "receipt": "acceptance-unit.json",
           "evidence": "artifacts/social-engine/acceptance-unit.json",
           "environment": {
             "node": "v24.21.0",
@@ -961,7 +1063,7 @@
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "SE-016 SE-018 SE-025 SE-027: proximity, cooldown, knowledge and social consequences"
+      "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check."
     },
     {
       "id": "SE-026",
@@ -973,22 +1075,23 @@
       "automation": "Roundtrip",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/acceptance-unit.json"
+        "artifacts/social-engine/current-receipts/582695cec28134c52b74b972d487985d07bf9c6be6a73b7bea3ef6397071658a.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [
         {
-          "node": "v24.21.0",
-          "os": "darwin 25.6.0",
-          "cpu": "Apple M2"
+          "probeSha256": "d1a9ecb7e3f8283af0cb8e001bfe335c69c4d7b2e52ac0694ad4ce9244ca765d",
+          "fixtureSha256": "9ce8527c4dfbd996344702190912c219956f17a70802f08701d0a6beecff7965",
+          "worldTick": 2592000
         }
       ],
-      "build_sha": "bc81a02487544403d29a3d176246d651e2b60a1d",
-      "duration_ms": 110767.491292,
+      "build_sha": null,
+      "duration_ms": null,
       "checks": [
         {
-          "status": "PASS",
-          "reason": "SE-026 economic travel, attendance, taxes and inputs resume identically through ten days including scheduled public works; SE-026 SE-038 SE-039 SE-040: canonical snapshot preserves relational/economic state and resumes identical ticks",
+          "status": "UNVERIFIED",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check.",
+          "receipt": "acceptance-unit.json",
           "evidence": "artifacts/social-engine/acceptance-unit.json",
           "environment": {
             "node": "v24.21.0",
@@ -998,11 +1101,23 @@
           "build_sha": "bc81a02487544403d29a3d176246d651e2b60a1d",
           "duration_ms": 110767.491292,
           "scope": "Pure domain/property/fault tests; no human-play or browser-performance claim."
+        },
+        {
+          "status": "PASS",
+          "reason": "Three browser engines each verified 20 changing mature-world canonical hashes through IndexedDB save/load, covering the complete relation graph.",
+          "receipt": "late-save/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/582695cec28134c52b74b972d487985d07bf9c6be6a73b7bea3ef6397071658a.json",
+          "environment": {
+            "probeSha256": "d1a9ecb7e3f8283af0cb8e001bfe335c69c4d7b2e52ac0694ad4ce9244ca765d",
+            "fixtureSha256": "9ce8527c4dfbd996344702190912c219956f17a70802f08701d0a6beecff7965",
+            "worldTick": 2592000
+          },
+          "scope": "Compiled persistence/simulation probe identity matched current source. This does not complete the year or browser gameplay suite."
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "SE-026 economic travel, attendance, taxes and inputs resume identically through ten days including scheduled public works; SE-026 SE-038 SE-039 SE-040: canonical snapshot preserves relational/economic state and resumes identical ticks"
+      "reason": "Three browser engines each verified 20 changing mature-world canonical hashes through IndexedDB save/load, covering the complete relation graph."
     },
     {
       "id": "SE-027",
@@ -1012,11 +1127,11 @@
       "expected": "Nedensiz bilgi yok",
       "priority": "P1",
       "automation": "Invariant",
-      "status": "PASS",
+      "status": "UNVERIFIED",
       "evidence": [
         "artifacts/social-engine/acceptance-unit.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [
         {
           "node": "v24.21.0",
@@ -1028,8 +1143,9 @@
       "duration_ms": 376.81433300000003,
       "checks": [
         {
-          "status": "PASS",
-          "reason": "SE-016 SE-018 SE-025 SE-027: proximity, cooldown, knowledge and social consequences; SE-027 SE-029: unseen assault is not automatically known to police",
+          "status": "UNVERIFIED",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check.",
+          "receipt": "acceptance-unit.json",
           "evidence": "artifacts/social-engine/acceptance-unit.json",
           "environment": {
             "node": "v24.21.0",
@@ -1043,7 +1159,7 @@
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "SE-016 SE-018 SE-025 SE-027: proximity, cooldown, knowledge and social consequences; SE-027 SE-029: unseen assault is not automatically known to police"
+      "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check."
     },
     {
       "id": "SE-028",
@@ -1053,11 +1169,11 @@
       "expected": "Etkiler tutarlı",
       "priority": "P0",
       "automation": "Simulation",
-      "status": "PASS",
+      "status": "UNVERIFIED",
       "evidence": [
         "artifacts/social-engine/acceptance-unit.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [
         {
           "node": "v24.21.0",
@@ -1069,8 +1185,9 @@
       "duration_ms": 98.722833,
       "checks": [
         {
-          "status": "PASS",
-          "reason": "SE-028 SE-029 SE-030: witnessed assault produces delayed report, evidence, pursuit and exact fine",
+          "status": "UNVERIFIED",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check.",
+          "receipt": "acceptance-unit.json",
           "evidence": "artifacts/social-engine/acceptance-unit.json",
           "environment": {
             "node": "v24.21.0",
@@ -1084,7 +1201,7 @@
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "SE-028 SE-029 SE-030: witnessed assault produces delayed report, evidence, pursuit and exact fine"
+      "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check."
     },
     {
       "id": "SE-029",
@@ -1096,23 +1213,17 @@
       "automation": "Scenario",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/acceptance-unit.json",
-        "artifacts/social-engine/browser-chromium/results.json"
+        "artifacts/social-engine/current-receipts/d250286bb2573ca7049850e2a31f99d8ff58720e84289df7309721de42cde577.json"
       ],
-      "seed": 20261103,
-      "environment": [
-        {
-          "node": "v24.21.0",
-          "os": "darwin 25.6.0",
-          "cpu": "Apple M2"
-        }
-      ],
-      "build_sha": "bc81a02487544403d29a3d176246d651e2b60a1d",
-      "duration_ms": 304.583458,
+      "seed": null,
+      "environment": [],
+      "build_sha": null,
+      "duration_ms": null,
       "checks": [
         {
-          "status": "PASS",
-          "reason": "SE-028 SE-029 SE-030: witnessed assault produces delayed report, evidence, pursuit and exact fine; SE-027 SE-029: unseen assault is not automatically known to police",
+          "status": "UNVERIFIED",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check.",
+          "receipt": "acceptance-unit.json",
           "evidence": "artifacts/social-engine/acceptance-unit.json",
           "environment": {
             "node": "v24.21.0",
@@ -1125,14 +1236,18 @@
         },
         {
           "status": "PASS",
-          "reason": "Current browser evidence missing.",
-          "evidence": "artifacts/social-engine/browser-chromium/results.json",
-          "scope": "Actual DOM/canvas; explicit QA fixed steps accelerate bounded fixtures, never human playtime."
+          "reason": "Assault damaged the target, created a case and triggered a wanted state.",
+          "receipt": "browser-chromium/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/d250286bb2573ca7049850e2a31f99d8ff58720e84289df7309721de42cde577.json",
+          "caseIds": [
+            "SE-031,SE-029,SE-030"
+          ],
+          "scope": "Local Chromium DOM/canvas and public commands with fixed-step QA advancement."
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "SE-028 SE-029 SE-030: witnessed assault produces delayed report, evidence, pursuit and exact fine; SE-027 SE-029: unseen assault is not automatically known to police | Current browser evidence missing."
+      "reason": "Assault damaged the target, created a case and triggered a wanted state."
     },
     {
       "id": "SE-030",
@@ -1144,23 +1259,17 @@
       "automation": "FSM",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/acceptance-unit.json",
-        "artifacts/social-engine/browser-chromium/results.json"
+        "artifacts/social-engine/current-receipts/d250286bb2573ca7049850e2a31f99d8ff58720e84289df7309721de42cde577.json"
       ],
-      "seed": 20261103,
-      "environment": [
-        {
-          "node": "v24.21.0",
-          "os": "darwin 25.6.0",
-          "cpu": "Apple M2"
-        }
-      ],
-      "build_sha": "bc81a02487544403d29a3d176246d651e2b60a1d",
-      "duration_ms": 98.722833,
+      "seed": null,
+      "environment": [],
+      "build_sha": null,
+      "duration_ms": null,
       "checks": [
         {
-          "status": "PASS",
-          "reason": "SE-028 SE-029 SE-030: witnessed assault produces delayed report, evidence, pursuit and exact fine",
+          "status": "UNVERIFIED",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check.",
+          "receipt": "acceptance-unit.json",
           "evidence": "artifacts/social-engine/acceptance-unit.json",
           "environment": {
             "node": "v24.21.0",
@@ -1173,14 +1282,18 @@
         },
         {
           "status": "PASS",
-          "reason": "Current browser evidence missing.",
-          "evidence": "artifacts/social-engine/browser-chromium/results.json",
-          "scope": "Actual DOM/canvas; explicit QA fixed steps accelerate bounded fixtures, never human playtime."
+          "reason": "Surrender ended the active pursuit.",
+          "receipt": "browser-chromium/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/d250286bb2573ca7049850e2a31f99d8ff58720e84289df7309721de42cde577.json",
+          "caseIds": [
+            "SE-031,SE-029,SE-030"
+          ],
+          "scope": "Local Chromium DOM/canvas and public commands with fixed-step QA advancement."
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "SE-028 SE-029 SE-030: witnessed assault produces delayed report, evidence, pursuit and exact fine | Current browser evidence missing."
+      "reason": "Surrender ended the active pursuit."
     },
     {
       "id": "SE-031",
@@ -1192,23 +1305,17 @@
       "automation": "E2E",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/acceptance-unit.json",
-        "artifacts/social-engine/browser-chromium/results.json"
+        "artifacts/social-engine/current-receipts/d250286bb2573ca7049850e2a31f99d8ff58720e84289df7309721de42cde577.json"
       ],
-      "seed": 20261103,
-      "environment": [
-        {
-          "node": "v24.21.0",
-          "os": "darwin 25.6.0",
-          "cpu": "Apple M2"
-        }
-      ],
-      "build_sha": "bc81a02487544403d29a3d176246d651e2b60a1d",
-      "duration_ms": 212.250958,
+      "seed": null,
+      "environment": [],
+      "build_sha": null,
+      "duration_ms": null,
       "checks": [
         {
-          "status": "PASS",
-          "reason": "SE-031: combat windup/cooldown/stamina and block are deterministic independent of render grouping",
+          "status": "UNVERIFIED",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check.",
+          "receipt": "acceptance-unit.json",
           "evidence": "artifacts/social-engine/acceptance-unit.json",
           "environment": {
             "node": "v24.21.0",
@@ -1221,14 +1328,15 @@
         },
         {
           "status": "PASS",
-          "reason": "Current browser evidence missing.",
-          "evidence": "artifacts/social-engine/browser-chromium/results.json",
-          "scope": "Actual DOM/canvas; explicit QA fixed steps accelerate bounded fixtures, never human playtime."
+          "reason": "Completed explicit browser assertion SE-031-stamina-block.",
+          "receipt": "browser-chromium/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/d250286bb2573ca7049850e2a31f99d8ff58720e84289df7309721de42cde577.json",
+          "assertion": "SE-031-stamina-block"
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "SE-031: combat windup/cooldown/stamina and block are deterministic independent of render grouping | Current browser evidence missing."
+      "reason": "Completed explicit browser assertion SE-031-stamina-block."
     },
     {
       "id": "SE-032",
@@ -1238,11 +1346,11 @@
       "expected": "Yalnız sürülebilir kenarlar",
       "priority": "P0",
       "automation": "Graph",
-      "status": "PASS",
+      "status": "UNVERIFIED",
       "evidence": [
         "artifacts/social-engine/acceptance-unit.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [
         {
           "node": "v24.21.0",
@@ -1254,8 +1362,9 @@
       "duration_ms": 343.317,
       "checks": [
         {
-          "status": "PASS",
-          "reason": "SE-032 SE-033: driven car and saved driver remain on directed lanes with collision spacing",
+          "status": "UNVERIFIED",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check.",
+          "receipt": "acceptance-unit.json",
           "evidence": "artifacts/social-engine/acceptance-unit.json",
           "environment": {
             "node": "v24.21.0",
@@ -1269,7 +1378,7 @@
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "SE-032 SE-033: driven car and saved driver remain on directed lanes with collision spacing"
+      "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check."
     },
     {
       "id": "SE-033",
@@ -1281,29 +1390,31 @@
       "automation": "E2E",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/browser-chromium/results.json",
-        "artifacts/social-engine/browser-evidence/results.json"
+        "artifacts/social-engine/current-receipts/d250286bb2573ca7049850e2a31f99d8ff58720e84289df7309721de42cde577.json",
+        "artifacts/social-engine/current-receipts/b91d889549854f10894936fad8a77ab41c3b46af18b5485596a7e167aae309bc.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [],
-      "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
+      "build_sha": null,
       "duration_ms": null,
       "checks": [
         {
           "status": "PASS",
-          "reason": "Current browser evidence missing.",
-          "evidence": "artifacts/social-engine/browser-chromium/results.json",
-          "scope": "Actual DOM/canvas; explicit QA fixed steps accelerate bounded fixtures, never human playtime."
+          "reason": "Completed explicit browser assertion SE-033-exact-position.",
+          "receipt": "browser-chromium/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/d250286bb2573ca7049850e2a31f99d8ff58720e84289df7309721de42cde577.json",
+          "assertion": "SE-033-exact-position"
         },
         {
           "status": "PASS",
           "reason": "Driven vehicle, lane progress and player coordinates survive real IndexedDB save/load exactly",
-          "evidence": "artifacts/social-engine/browser-evidence/results.json"
+          "receipt": "browser-evidence/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/b91d889549854f10894936fad8a77ab41c3b46af18b5485596a7e167aae309bc.json"
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Current browser evidence missing. | Driven vehicle, lane progress and player coordinates survive real IndexedDB save/load exactly"
+      "reason": "Completed explicit browser assertion SE-033-exact-position. | Driven vehicle, lane progress and player coordinates survive real IndexedDB save/load exactly"
     },
     {
       "id": "SE-034",
@@ -1313,11 +1424,11 @@
       "expected": "Geçerli hedefler",
       "priority": "P1",
       "automation": "Property",
-      "status": "PASS",
+      "status": "UNVERIFIED",
       "evidence": [
         "artifacts/social-engine/acceptance-unit.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [
         {
           "node": "v24.21.0",
@@ -1329,8 +1440,9 @@
       "duration_ms": 64811.195416999995,
       "checks": [
         {
-          "status": "PASS",
-          "reason": "SE-034: at least one hundred generated missions across seeded worlds have reachable funded canonical targets; SE-034 SE-035 SE-036: job_offer real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: late_wage real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: layoff real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: promotion real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: rent_rise real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: loan_due real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: price_shock real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: shortage real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: delivery real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: vehicle_breakdown real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: traffic_jam real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: lost_item real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: neighbor_help real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: friend_invite real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: relationship_dispute real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: scholarship real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: neighborhood_argument real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: witness_report real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: police_check real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: faction_truce real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: funded causal missions, terminal timeout and exactly once reward survive compaction; SE-034: all twenty templates expose real preconditions and impossible loan task is rejected",
+          "status": "UNVERIFIED",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check.",
+          "receipt": "acceptance-unit.json",
           "evidence": "artifacts/social-engine/acceptance-unit.json",
           "environment": {
             "node": "v24.21.0",
@@ -1344,7 +1456,7 @@
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "SE-034: at least one hundred generated missions across seeded worlds have reachable funded canonical targets; SE-034 SE-035 SE-036: job_offer real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: late_wage real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: layoff real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: promotion real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: rent_rise real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: loan_due real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: price_shock real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: shortage real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: delivery real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: vehicle_breakdown real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: traffic_jam real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: lost_item real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: neighbor_help real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: friend_invite real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: relationship_dispute real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: scholarship real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: neighborhood_argument real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: witness_report real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: police_check real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: faction_truce real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: funded causal missions, terminal timeout and exactly once reward survive compaction; SE-034: all twenty templates expose real preconditions and impossible loan task is rejected"
+      "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check."
     },
     {
       "id": "SE-035",
@@ -1356,23 +1468,17 @@
       "automation": "FSM",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/acceptance-unit.json",
-        "artifacts/social-engine/browser-chromium/results.json"
+        "artifacts/social-engine/current-receipts/d250286bb2573ca7049850e2a31f99d8ff58720e84289df7309721de42cde577.json"
       ],
-      "seed": 20261103,
-      "environment": [
-        {
-          "node": "v24.21.0",
-          "os": "darwin 25.6.0",
-          "cpu": "Apple M2"
-        }
-      ],
-      "build_sha": "bc81a02487544403d29a3d176246d651e2b60a1d",
-      "duration_ms": 48254.402000999995,
+      "seed": null,
+      "environment": [],
+      "build_sha": null,
+      "duration_ms": null,
       "checks": [
         {
-          "status": "PASS",
-          "reason": "SE-034 SE-035 SE-036: job_offer real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: late_wage real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: layoff real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: promotion real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: rent_rise real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: loan_due real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: price_shock real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: shortage real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: delivery real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: vehicle_breakdown real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: traffic_jam real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: lost_item real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: neighbor_help real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: friend_invite real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: relationship_dispute real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: scholarship real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: neighborhood_argument real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: witness_report real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: police_check real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: faction_truce real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: funded causal missions, terminal timeout and exactly once reward survive compaction",
+          "status": "UNVERIFIED",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check.",
+          "receipt": "acceptance-unit.json",
           "evidence": "artifacts/social-engine/acceptance-unit.json",
           "environment": {
             "node": "v24.21.0",
@@ -1385,14 +1491,18 @@
         },
         {
           "status": "PASS",
-          "reason": "Current browser evidence missing.",
-          "evidence": "artifacts/social-engine/browser-chromium/results.json",
-          "scope": "Actual DOM/canvas; explicit QA fixed steps accelerate bounded fixtures, never human playtime."
+          "reason": "The second quest completion was rejected and cash stayed unchanged.",
+          "receipt": "browser-chromium/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/d250286bb2573ca7049850e2a31f99d8ff58720e84289df7309721de42cde577.json",
+          "caseIds": [
+            "SE-035"
+          ],
+          "scope": "Local Chromium DOM/canvas and public commands with fixed-step QA advancement."
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "SE-034 SE-035 SE-036: job_offer real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: late_wage real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: layoff real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: promotion real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: rent_rise real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: loan_due real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: price_shock real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: shortage real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: delivery real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: vehicle_breakdown real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: traffic_jam real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: lost_item real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: neighbor_help real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: friend_invite real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: relationship_dispute real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: scholarship real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: neighborhood_argument real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: witness_report real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: police_check real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: faction_truce real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: funded causal missions, terminal timeout and exactly once reward survive compaction | Current browser evidence missing."
+      "reason": "The second quest completion was rejected and cash stayed unchanged."
     },
     {
       "id": "SE-036",
@@ -1402,11 +1512,11 @@
       "expected": "Sonsuz döngü yok",
       "priority": "P1",
       "automation": "Fault",
-      "status": "PASS",
+      "status": "UNVERIFIED",
       "evidence": [
         "artifacts/social-engine/acceptance-unit.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [
         {
           "node": "v24.21.0",
@@ -1418,8 +1528,9 @@
       "duration_ms": 50711.248708,
       "checks": [
         {
-          "status": "PASS",
-          "reason": "SE-036 strikes require real distress and funded public works measurably constrain production; SE-036: unavailable active delivery target closes safely; later timeout cannot loop or refund twice; SE-036 fault injection: a missing target reference times out with escrow and parcel returned once; SE-034 SE-035 SE-036: job_offer real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: late_wage real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: layoff real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: promotion real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: rent_rise real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: loan_due real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: price_shock real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: shortage real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: delivery real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: vehicle_breakdown real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: traffic_jam real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: lost_item real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: neighbor_help real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: friend_invite real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: relationship_dispute real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: scholarship real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: neighborhood_argument real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: witness_report real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: police_check real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: faction_truce real fact prerequisite, accept/complete, decline and timeout branches; SE-036 participant and venue reservations are exclusive and release on real decline; SE-034 SE-035 SE-036: funded causal missions, terminal timeout and exactly once reward survive compaction",
+          "status": "UNVERIFIED",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check.",
+          "receipt": "acceptance-unit.json",
           "evidence": "artifacts/social-engine/acceptance-unit.json",
           "environment": {
             "node": "v24.21.0",
@@ -1433,7 +1544,7 @@
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "SE-036 strikes require real distress and funded public works measurably constrain production; SE-036: unavailable active delivery target closes safely; later timeout cannot loop or refund twice; SE-036 fault injection: a missing target reference times out with escrow and parcel returned once; SE-034 SE-035 SE-036: job_offer real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: late_wage real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: layoff real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: promotion real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: rent_rise real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: loan_due real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: price_shock real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: shortage real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: delivery real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: vehicle_breakdown real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: traffic_jam real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: lost_item real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: neighbor_help real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: friend_invite real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: relationship_dispute real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: scholarship real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: neighborhood_argument real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: witness_report real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: police_check real fact prerequisite, accept/complete, decline and timeout branches; SE-034 SE-035 SE-036: faction_truce real fact prerequisite, accept/complete, decline and timeout branches; SE-036 participant and venue reservations are exclusive and release on real decline; SE-034 SE-035 SE-036: funded causal missions, terminal timeout and exactly once reward survive compaction"
+      "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check."
     },
     {
       "id": "SE-037",
@@ -1445,21 +1556,27 @@
       "automation": "Invariant",
       "status": "UNVERIFIED",
       "evidence": [
+        "artifacts/social-engine/acceptance-unit.json",
         "artifacts/social-engine/simulation-365/results.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [
+        {
+          "node": "v24.21.0",
+          "os": "darwin 25.6.0",
+          "cpu": "Apple M2"
+        },
         {
           "os": "darwin 25.6.0",
           "cpu": "Apple M2",
           "logicalCpus": 8,
           "memoryBytes": 17179869184,
           "node": "v24.21.0",
-          "engine": "1.0.0-candidate.5",
+          "engine": "1.0.0-candidate.4",
           "seed": 20261103,
-          "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
           "dirtyTree": true,
-          "sourceSha256": "128cb3cc11ef1ed5e9cfc32b248a607b401dcbb676c88dbbafe96e3d3e5f1951",
+          "sourceSha256": "0ccedb58f3fe7f8b80c16d26d442ec11d941a589329aa97d462dddee7dda36a2",
           "sourceFiles": [
             "src/games/social-engine/persistence/codec.ts",
             "src/games/social-engine/persistence/compression.ts",
@@ -1484,7 +1601,6 @@
             "src/games/social-engine/simulation/mobility.ts",
             "src/games/social-engine/simulation/population.ts",
             "src/games/social-engine/simulation/progression.ts",
-            "src/games/social-engine/simulation/property-crime.ts",
             "src/games/social-engine/simulation/random.ts",
             "src/games/social-engine/simulation/services.ts",
             "src/games/social-engine/simulation/social.ts",
@@ -1493,12 +1609,27 @@
           ]
         }
       ],
-      "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
-      "duration_ms": 692259.242958,
+      "build_sha": "bc81a02487544403d29a3d176246d651e2b60a1d",
+      "duration_ms": 1571724.6432079999,
       "checks": [
         {
           "status": "UNVERIFIED",
-          "reason": "Current365day evidence incomplete or invalid (RUNNING, completedDays=150).",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check.",
+          "receipt": "acceptance-unit.json",
+          "evidence": "artifacts/social-engine/acceptance-unit.json",
+          "environment": {
+            "node": "v24.21.0",
+            "os": "darwin 25.6.0",
+            "cpu": "Apple M2"
+          },
+          "build_sha": "bc81a02487544403d29a3d176246d651e2b60a1d",
+          "duration_ms": 35617.862208,
+          "scope": "Pure domain/property/fault tests; no human-play or browser-performance claim."
+        },
+        {
+          "status": "UNVERIFIED",
+          "reason": "No completed current-source 365-day receipt. Historical results cannot complete this gate.",
+          "receipt": "simulation-365/results.json",
           "evidence": "artifacts/social-engine/simulation-365/results.json",
           "environment": {
             "os": "darwin 25.6.0",
@@ -1506,11 +1637,11 @@
             "logicalCpus": 8,
             "memoryBytes": 17179869184,
             "node": "v24.21.0",
-            "engine": "1.0.0-candidate.5",
+            "engine": "1.0.0-candidate.4",
             "seed": 20261103,
-            "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
+            "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
             "dirtyTree": true,
-            "sourceSha256": "128cb3cc11ef1ed5e9cfc32b248a607b401dcbb676c88dbbafe96e3d3e5f1951",
+            "sourceSha256": "0ccedb58f3fe7f8b80c16d26d442ec11d941a589329aa97d462dddee7dda36a2",
             "sourceFiles": [
               "src/games/social-engine/persistence/codec.ts",
               "src/games/social-engine/persistence/compression.ts",
@@ -1535,7 +1666,6 @@
               "src/games/social-engine/simulation/mobility.ts",
               "src/games/social-engine/simulation/population.ts",
               "src/games/social-engine/simulation/progression.ts",
-              "src/games/social-engine/simulation/property-crime.ts",
               "src/games/social-engine/simulation/random.ts",
               "src/games/social-engine/simulation/services.ts",
               "src/games/social-engine/simulation/social.ts",
@@ -1543,14 +1673,14 @@
               "src/games/social-engine/simulation/traffic.ts"
             ]
           },
-          "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
-          "duration_ms": 692259.242958,
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "duration_ms": 1536106.781,
           "scope": "Pure fixed-step simulation; not renderer or human playtime."
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Current365day evidence incomplete or invalid (RUNNING, completedDays=150)."
+      "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check. | No completed current-source 365-day receipt. Historical results cannot complete this gate."
     },
     {
       "id": "SE-038",
@@ -1560,11 +1690,11 @@
       "expected": "Ledger mutabık",
       "priority": "P0",
       "automation": "Invariant",
-      "status": "PASS",
+      "status": "UNVERIFIED",
       "evidence": [
         "artifacts/social-engine/acceptance-unit.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [
         {
           "node": "v24.21.0",
@@ -1576,8 +1706,9 @@
       "duration_ms": 53468.548708,
       "checks": [
         {
-          "status": "PASS",
-          "reason": "SE-026 SE-038 SE-039 SE-040: canonical snapshot preserves relational/economic state and resumes identical ticks; SE-037 SE-038: 100000 actual ticks retain one location and balanced accounts; SE-012 SE-023 SE-038: 100000 validated malformed/boundary commands never corrupt state; SE-038 production worker rejects accelerated STEP without explicit QA initialization",
+          "status": "UNVERIFIED",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check.",
+          "receipt": "acceptance-unit.json",
           "evidence": "artifacts/social-engine/acceptance-unit.json",
           "environment": {
             "node": "v24.21.0",
@@ -1591,7 +1722,7 @@
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "SE-026 SE-038 SE-039 SE-040: canonical snapshot preserves relational/economic state and resumes identical ticks; SE-037 SE-038: 100000 actual ticks retain one location and balanced accounts; SE-012 SE-023 SE-038: 100000 validated malformed/boundary commands never corrupt state; SE-038 production worker rejects accelerated STEP without explicit QA initialization"
+      "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check."
     },
     {
       "id": "SE-039",
@@ -1603,22 +1734,23 @@
       "automation": "Determinism",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/acceptance-unit.json"
+        "artifacts/social-engine/current-receipts/582695cec28134c52b74b972d487985d07bf9c6be6a73b7bea3ef6397071658a.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [
         {
-          "node": "v24.21.0",
-          "os": "darwin 25.6.0",
-          "cpu": "Apple M2"
+          "probeSha256": "d1a9ecb7e3f8283af0cb8e001bfe335c69c4d7b2e52ac0694ad4ce9244ca765d",
+          "fixtureSha256": "9ce8527c4dfbd996344702190912c219956f17a70802f08701d0a6beecff7965",
+          "worldTick": 2592000
         }
       ],
-      "build_sha": "bc81a02487544403d29a3d176246d651e2b60a1d",
-      "duration_ms": 92177.30166699999,
+      "build_sha": null,
+      "duration_ms": null,
       "checks": [
         {
-          "status": "PASS",
-          "reason": "SE-026 SE-038 SE-039 SE-040: canonical snapshot preserves relational/economic state and resumes identical ticks; SE-039 worker journal records tick, paused actions and control resets in exact replay order; SE-039 accelerated100000tick burst yields exact snapshots and preserves interleaved command order",
+          "status": "UNVERIFIED",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check.",
+          "receipt": "acceptance-unit.json",
           "evidence": "artifacts/social-engine/acceptance-unit.json",
           "environment": {
             "node": "v24.21.0",
@@ -1628,11 +1760,23 @@
           "build_sha": "bc81a02487544403d29a3d176246d651e2b60a1d",
           "duration_ms": 92177.30166699999,
           "scope": "Pure domain/property/fault tests; no human-play or browser-performance claim."
+        },
+        {
+          "status": "PASS",
+          "reason": "Three browser engines each verified 20 changing mature-world canonical hashes through IndexedDB save/load, covering the complete relation graph.",
+          "receipt": "late-save/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/582695cec28134c52b74b972d487985d07bf9c6be6a73b7bea3ef6397071658a.json",
+          "environment": {
+            "probeSha256": "d1a9ecb7e3f8283af0cb8e001bfe335c69c4d7b2e52ac0694ad4ce9244ca765d",
+            "fixtureSha256": "9ce8527c4dfbd996344702190912c219956f17a70802f08701d0a6beecff7965",
+            "worldTick": 2592000
+          },
+          "scope": "Compiled persistence/simulation probe identity matched current source. This does not complete the year or browser gameplay suite."
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "SE-026 SE-038 SE-039 SE-040: canonical snapshot preserves relational/economic state and resumes identical ticks; SE-039 worker journal records tick, paused actions and control resets in exact replay order; SE-039 accelerated100000tick burst yields exact snapshots and preserves interleaved command order"
+      "reason": "Three browser engines each verified 20 changing mature-world canonical hashes through IndexedDB save/load, covering the complete relation graph."
     },
     {
       "id": "SE-040",
@@ -1644,23 +1788,23 @@
       "automation": "Roundtrip",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/acceptance-unit.json",
-        "artifacts/social-engine/browser-chromium/results.json"
+        "artifacts/social-engine/current-receipts/582695cec28134c52b74b972d487985d07bf9c6be6a73b7bea3ef6397071658a.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [
         {
-          "node": "v24.21.0",
-          "os": "darwin 25.6.0",
-          "cpu": "Apple M2"
+          "probeSha256": "d1a9ecb7e3f8283af0cb8e001bfe335c69c4d7b2e52ac0694ad4ce9244ca765d",
+          "fixtureSha256": "9ce8527c4dfbd996344702190912c219956f17a70802f08701d0a6beecff7965",
+          "worldTick": 2592000
         }
       ],
-      "build_sha": "bc81a02487544403d29a3d176246d651e2b60a1d",
-      "duration_ms": 5407.225292,
+      "build_sha": null,
+      "duration_ms": null,
       "checks": [
         {
-          "status": "PASS",
-          "reason": "SE-026 SE-038 SE-039 SE-040: canonical snapshot preserves relational/economic state and resumes identical ticks",
+          "status": "UNVERIFIED",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check.",
+          "receipt": "acceptance-unit.json",
           "evidence": "artifacts/social-engine/acceptance-unit.json",
           "environment": {
             "node": "v24.21.0",
@@ -1673,14 +1817,20 @@
         },
         {
           "status": "PASS",
-          "reason": "Current browser evidence missing.",
-          "evidence": "artifacts/social-engine/browser-chromium/results.json",
-          "scope": "Actual DOM/canvas; explicit QA fixed steps accelerate bounded fixtures, never human playtime."
+          "reason": "Three browser engines each verified 20 changing mature-world canonical hashes through IndexedDB save/load, covering the complete relation graph.",
+          "receipt": "late-save/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/582695cec28134c52b74b972d487985d07bf9c6be6a73b7bea3ef6397071658a.json",
+          "environment": {
+            "probeSha256": "d1a9ecb7e3f8283af0cb8e001bfe335c69c4d7b2e52ac0694ad4ce9244ca765d",
+            "fixtureSha256": "9ce8527c4dfbd996344702190912c219956f17a70802f08701d0a6beecff7965",
+            "worldTick": 2592000
+          },
+          "scope": "Compiled persistence/simulation probe identity matched current source. This does not complete the year or browser gameplay suite."
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "SE-026 SE-038 SE-039 SE-040: canonical snapshot preserves relational/economic state and resumes identical ticks | Current browser evidence missing."
+      "reason": "Three browser engines each verified 20 changing mature-world canonical hashes through IndexedDB save/load, covering the complete relation graph."
     },
     {
       "id": "SE-041",
@@ -1692,25 +1842,26 @@
       "automation": "Fault",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/persistence-browser/results.json"
+        "artifacts/social-engine/current-receipts/3d73ea4633d4aac1d2352084138dc15cf8db348ac8ebd7c69f03efb3fbe7badd.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [
         {
           "browser": "151.0.7922.34",
-          "probeSha256": "38435187ab295928c54c77ed588254409e45e713df21d14a03bfe52eb25d48f6"
+          "probeSha256": "352dc74e537c03f30a7e5310bf35126e8d8250f6fab4d0ae2f6b9a54e814802b"
         }
       ],
-      "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
+      "build_sha": null,
       "duration_ms": null,
       "checks": [
         {
           "status": "PASS",
           "reason": "closing a tab during an active write preserves the last committed state",
-          "evidence": "artifacts/social-engine/persistence-browser/results.json",
+          "receipt": "persistence-browser/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/3d73ea4633d4aac1d2352084138dc15cf8db348ac8ebd7c69f03efb3fbe7badd.json",
           "environment": {
             "browser": "151.0.7922.34",
-            "probeSha256": "38435187ab295928c54c77ed588254409e45e713df21d14a03bfe52eb25d48f6"
+            "probeSha256": "352dc74e537c03f30a7e5310bf35126e8d8250f6fab4d0ae2f6b9a54e814802b"
           },
           "scope": "Real browser IndexedDB with explicit corruption, quota, abort and frozen migration fixtures."
         }
@@ -1729,25 +1880,22 @@
       "automation": "E2E",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/ui-browser/results.json",
-        "artifacts/social-engine/persistence-browser/results.json"
+        "artifacts/social-engine/current-receipts/3d73ea4633d4aac1d2352084138dc15cf8db348ac8ebd7c69f03efb3fbe7badd.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [
         {
-          "browser": "151.0.7922.34"
-        },
-        {
           "browser": "151.0.7922.34",
-          "probeSha256": "38435187ab295928c54c77ed588254409e45e713df21d14a03bfe52eb25d48f6"
+          "probeSha256": "352dc74e537c03f30a7e5310bf35126e8d8250f6fab4d0ae2f6b9a54e814802b"
         }
       ],
-      "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
+      "build_sha": null,
       "duration_ms": null,
       "checks": [
         {
-          "status": "PASS",
+          "status": "UNVERIFIED",
           "reason": "real save menu saves copies exports imports and deletes separate slots",
+          "receipt": "ui-browser/results.json",
           "evidence": "artifacts/social-engine/ui-browser/results.json",
           "environment": {
             "browser": "151.0.7922.34"
@@ -1756,17 +1904,18 @@
         {
           "status": "PASS",
           "reason": "export/import/copy/delete preserve world and unrelated slots",
-          "evidence": "artifacts/social-engine/persistence-browser/results.json",
+          "receipt": "persistence-browser/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/3d73ea4633d4aac1d2352084138dc15cf8db348ac8ebd7c69f03efb3fbe7badd.json",
           "environment": {
             "browser": "151.0.7922.34",
-            "probeSha256": "38435187ab295928c54c77ed588254409e45e713df21d14a03bfe52eb25d48f6"
+            "probeSha256": "352dc74e537c03f30a7e5310bf35126e8d8250f6fab4d0ae2f6b9a54e814802b"
           },
           "scope": "Real browser IndexedDB with explicit corruption, quota, abort and frozen migration fixtures."
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "real save menu saves copies exports imports and deletes separate slots | export/import/copy/delete preserve world and unrelated slots"
+      "reason": "export/import/copy/delete preserve world and unrelated slots"
     },
     {
       "id": "SE-043",
@@ -1778,55 +1927,59 @@
       "automation": "Migration",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/persistence-browser/results.json",
-        "artifacts/social-engine/acceptance-unit.json",
-        "artifacts/social-engine/persistence-browser-firefox/results.json",
-        "artifacts/social-engine/persistence-browser-webkit/results.json"
+        "artifacts/social-engine/current-receipts/3d73ea4633d4aac1d2352084138dc15cf8db348ac8ebd7c69f03efb3fbe7badd.json",
+        "artifacts/social-engine/current-receipts/13b915a12e1303bd0dc70cbfbac93861f79b18dbd96d55503f74a48ab35836cf.json",
+        "artifacts/social-engine/current-receipts/28d48f7654cc52358ce2444b4ec7f8eca87d1f8738409560fc404dde13b0322b.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [
         {
           "browser": "151.0.7922.34",
-          "probeSha256": "38435187ab295928c54c77ed588254409e45e713df21d14a03bfe52eb25d48f6"
+          "probeSha256": "352dc74e537c03f30a7e5310bf35126e8d8250f6fab4d0ae2f6b9a54e814802b"
         }
       ],
-      "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
+      "build_sha": null,
       "duration_ms": null,
       "checks": [
         {
           "status": "PASS",
           "reason": "migration is atomic, retryable and retains frozen source bytes; authentic v2 save migrates through an explicit journal to schema4; authentic v3 lifecycle history migrates through explicit3-to4 journal",
-          "evidence": "artifacts/social-engine/persistence-browser/results.json",
+          "receipt": "persistence-browser/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/3d73ea4633d4aac1d2352084138dc15cf8db348ac8ebd7c69f03efb3fbe7badd.json",
           "environment": {
             "browser": "151.0.7922.34",
-            "probeSha256": "38435187ab295928c54c77ed588254409e45e713df21d14a03bfe52eb25d48f6"
+            "probeSha256": "352dc74e537c03f30a7e5310bf35126e8d8250f6fab4d0ae2f6b9a54e814802b"
           },
           "scope": "Real browser IndexedDB with explicit corruption, quota, abort and frozen migration fixtures."
         },
         {
-          "status": "PASS",
-          "reason": "The frozen authentic schema4 save also migrates to schema6 with finance, ownership and histories preserved.",
+          "status": "UNVERIFIED",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check.",
+          "receipt": "acceptance-unit.json",
           "evidence": "artifacts/social-engine/acceptance-unit.json"
         },
         {
           "status": "PASS",
           "reason": "An authentic compressed v5 snapshot and a nonempty command journal must both survive the upgrade to v6.",
-          "evidence": "artifacts/social-engine/persistence-browser/results.json"
+          "receipt": "persistence-browser/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/3d73ea4633d4aac1d2352084138dc15cf8db348ac8ebd7c69f03efb3fbe7badd.json"
         },
         {
           "status": "PASS",
           "reason": "An authentic compressed v5 snapshot and a nonempty command journal must both survive the upgrade to v6.",
-          "evidence": "artifacts/social-engine/persistence-browser-firefox/results.json"
+          "receipt": "persistence-browser-firefox/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/13b915a12e1303bd0dc70cbfbac93861f79b18dbd96d55503f74a48ab35836cf.json"
         },
         {
           "status": "PASS",
           "reason": "An authentic compressed v5 snapshot and a nonempty command journal must both survive the upgrade to v6.",
-          "evidence": "artifacts/social-engine/persistence-browser-webkit/results.json"
+          "receipt": "persistence-browser-webkit/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/28d48f7654cc52358ce2444b4ec7f8eca87d1f8738409560fc404dde13b0322b.json"
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "migration is atomic, retryable and retains frozen source bytes; authentic v2 save migrates through an explicit journal to schema4; authentic v3 lifecycle history migrates through explicit3-to4 journal | The frozen authentic schema4 save also migrates to schema6 with finance, ownership and histories preserved. | An authentic compressed v5 snapshot and a nonempty command journal must both survive the upgrade to v6. | An authentic compressed v5 snapshot and a nonempty command journal must both survive the upgrade to v6. | An authentic compressed v5 snapshot and a nonempty command journal must both survive the upgrade to v6."
+      "reason": "migration is atomic, retryable and retains frozen source bytes; authentic v2 save migrates through an explicit journal to schema4; authentic v3 lifecycle history migrates through explicit3-to4 journal | An authentic compressed v5 snapshot and a nonempty command journal must both survive the upgrade to v6. | An authentic compressed v5 snapshot and a nonempty command journal must both survive the upgrade to v6. | An authentic compressed v5 snapshot and a nonempty command journal must both survive the upgrade to v6."
     },
     {
       "id": "SE-044",
@@ -1838,25 +1991,26 @@
       "automation": "Fault",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/persistence-browser/results.json"
+        "artifacts/social-engine/current-receipts/3d73ea4633d4aac1d2352084138dc15cf8db348ac8ebd7c69f03efb3fbe7badd.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [
         {
           "browser": "151.0.7922.34",
-          "probeSha256": "38435187ab295928c54c77ed588254409e45e713df21d14a03bfe52eb25d48f6"
+          "probeSha256": "352dc74e537c03f30a7e5310bf35126e8d8250f6fab4d0ae2f6b9a54e814802b"
         }
       ],
-      "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
+      "build_sha": null,
       "duration_ms": null,
       "checks": [
         {
           "status": "PASS",
           "reason": "migration is atomic, retryable and retains frozen source bytes",
-          "evidence": "artifacts/social-engine/persistence-browser/results.json",
+          "receipt": "persistence-browser/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/3d73ea4633d4aac1d2352084138dc15cf8db348ac8ebd7c69f03efb3fbe7badd.json",
           "environment": {
             "browser": "151.0.7922.34",
-            "probeSha256": "38435187ab295928c54c77ed588254409e45e713df21d14a03bfe52eb25d48f6"
+            "probeSha256": "352dc74e537c03f30a7e5310bf35126e8d8250f6fab4d0ae2f6b9a54e814802b"
           },
           "scope": "Real browser IndexedDB with explicit corruption, quota, abort and frozen migration fixtures."
         }
@@ -1873,24 +2027,25 @@
       "expected": "Eski namespace değişmez",
       "priority": "P0",
       "automation": "Regression",
-      "status": "PASS",
+      "status": "UNVERIFIED",
       "evidence": [
         "artifacts/social-engine/v4-browser/results.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [],
-      "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
+      "build_sha": null,
       "duration_ms": null,
       "checks": [
         {
-          "status": "PASS",
-          "reason": "Actual legacy TC SIM save creation, SE save, byte-preserved legacy keys and legacy reload.",
+          "status": "UNVERIFIED",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check.",
+          "receipt": "v4-browser/results.json",
           "evidence": "artifacts/social-engine/v4-browser/results.json"
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Actual legacy TC SIM save creation, SE save, byte-preserved legacy keys and legacy reload."
+      "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check."
     },
     {
       "id": "SE-046",
@@ -1904,7 +2059,7 @@
       "evidence": [
         "artifacts/social-engine/simulation-365/results.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [
         {
           "os": "darwin 25.6.0",
@@ -1912,11 +2067,11 @@
           "logicalCpus": 8,
           "memoryBytes": 17179869184,
           "node": "v24.21.0",
-          "engine": "1.0.0-candidate.5",
+          "engine": "1.0.0-candidate.4",
           "seed": 20261103,
-          "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
           "dirtyTree": true,
-          "sourceSha256": "128cb3cc11ef1ed5e9cfc32b248a607b401dcbb676c88dbbafe96e3d3e5f1951",
+          "sourceSha256": "0ccedb58f3fe7f8b80c16d26d442ec11d941a589329aa97d462dddee7dda36a2",
           "sourceFiles": [
             "src/games/social-engine/persistence/codec.ts",
             "src/games/social-engine/persistence/compression.ts",
@@ -1941,7 +2096,6 @@
             "src/games/social-engine/simulation/mobility.ts",
             "src/games/social-engine/simulation/population.ts",
             "src/games/social-engine/simulation/progression.ts",
-            "src/games/social-engine/simulation/property-crime.ts",
             "src/games/social-engine/simulation/random.ts",
             "src/games/social-engine/simulation/services.ts",
             "src/games/social-engine/simulation/social.ts",
@@ -1950,12 +2104,13 @@
           ]
         }
       ],
-      "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
-      "duration_ms": 692259.242958,
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": 1536106.781,
       "checks": [
         {
           "status": "UNVERIFIED",
-          "reason": "Current365day evidence incomplete or invalid (RUNNING, completedDays=150).",
+          "reason": "No completed current-source 365-day receipt. Historical results cannot complete this gate.",
+          "receipt": "simulation-365/results.json",
           "evidence": "artifacts/social-engine/simulation-365/results.json",
           "environment": {
             "os": "darwin 25.6.0",
@@ -1963,11 +2118,11 @@
             "logicalCpus": 8,
             "memoryBytes": 17179869184,
             "node": "v24.21.0",
-            "engine": "1.0.0-candidate.5",
+            "engine": "1.0.0-candidate.4",
             "seed": 20261103,
-            "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
+            "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
             "dirtyTree": true,
-            "sourceSha256": "128cb3cc11ef1ed5e9cfc32b248a607b401dcbb676c88dbbafe96e3d3e5f1951",
+            "sourceSha256": "0ccedb58f3fe7f8b80c16d26d442ec11d941a589329aa97d462dddee7dda36a2",
             "sourceFiles": [
               "src/games/social-engine/persistence/codec.ts",
               "src/games/social-engine/persistence/compression.ts",
@@ -1992,7 +2147,6 @@
               "src/games/social-engine/simulation/mobility.ts",
               "src/games/social-engine/simulation/population.ts",
               "src/games/social-engine/simulation/progression.ts",
-              "src/games/social-engine/simulation/property-crime.ts",
               "src/games/social-engine/simulation/random.ts",
               "src/games/social-engine/simulation/services.ts",
               "src/games/social-engine/simulation/social.ts",
@@ -2000,14 +2154,14 @@
               "src/games/social-engine/simulation/traffic.ts"
             ]
           },
-          "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
-          "duration_ms": 692259.242958,
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "duration_ms": 1536106.781,
           "scope": "Pure fixed-step simulation; not renderer or human playtime."
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Current365day evidence incomplete or invalid (RUNNING, completedDays=150)."
+      "reason": "No completed current-source 365-day receipt. Historical results cannot complete this gate."
     },
     {
       "id": "SE-047",
@@ -2021,7 +2175,7 @@
       "evidence": [
         "artifacts/social-engine/simulation-365/results.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [
         {
           "os": "darwin 25.6.0",
@@ -2029,11 +2183,11 @@
           "logicalCpus": 8,
           "memoryBytes": 17179869184,
           "node": "v24.21.0",
-          "engine": "1.0.0-candidate.5",
+          "engine": "1.0.0-candidate.4",
           "seed": 20261103,
-          "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
           "dirtyTree": true,
-          "sourceSha256": "128cb3cc11ef1ed5e9cfc32b248a607b401dcbb676c88dbbafe96e3d3e5f1951",
+          "sourceSha256": "0ccedb58f3fe7f8b80c16d26d442ec11d941a589329aa97d462dddee7dda36a2",
           "sourceFiles": [
             "src/games/social-engine/persistence/codec.ts",
             "src/games/social-engine/persistence/compression.ts",
@@ -2058,7 +2212,6 @@
             "src/games/social-engine/simulation/mobility.ts",
             "src/games/social-engine/simulation/population.ts",
             "src/games/social-engine/simulation/progression.ts",
-            "src/games/social-engine/simulation/property-crime.ts",
             "src/games/social-engine/simulation/random.ts",
             "src/games/social-engine/simulation/services.ts",
             "src/games/social-engine/simulation/social.ts",
@@ -2067,12 +2220,13 @@
           ]
         }
       ],
-      "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
-      "duration_ms": 692259.242958,
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": 1536106.781,
       "checks": [
         {
           "status": "UNVERIFIED",
-          "reason": "Current365day evidence incomplete or invalid (RUNNING, completedDays=150).",
+          "reason": "No completed current-source 365-day receipt. Historical results cannot complete this gate.",
+          "receipt": "simulation-365/results.json",
           "evidence": "artifacts/social-engine/simulation-365/results.json",
           "environment": {
             "os": "darwin 25.6.0",
@@ -2080,11 +2234,11 @@
             "logicalCpus": 8,
             "memoryBytes": 17179869184,
             "node": "v24.21.0",
-            "engine": "1.0.0-candidate.5",
+            "engine": "1.0.0-candidate.4",
             "seed": 20261103,
-            "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
+            "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
             "dirtyTree": true,
-            "sourceSha256": "128cb3cc11ef1ed5e9cfc32b248a607b401dcbb676c88dbbafe96e3d3e5f1951",
+            "sourceSha256": "0ccedb58f3fe7f8b80c16d26d442ec11d941a589329aa97d462dddee7dda36a2",
             "sourceFiles": [
               "src/games/social-engine/persistence/codec.ts",
               "src/games/social-engine/persistence/compression.ts",
@@ -2109,7 +2263,6 @@
               "src/games/social-engine/simulation/mobility.ts",
               "src/games/social-engine/simulation/population.ts",
               "src/games/social-engine/simulation/progression.ts",
-              "src/games/social-engine/simulation/property-crime.ts",
               "src/games/social-engine/simulation/random.ts",
               "src/games/social-engine/simulation/services.ts",
               "src/games/social-engine/simulation/social.ts",
@@ -2117,14 +2270,14 @@
               "src/games/social-engine/simulation/traffic.ts"
             ]
           },
-          "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
-          "duration_ms": 692259.242958,
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "duration_ms": 1536106.781,
           "scope": "Pure fixed-step simulation; not renderer or human playtime."
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Current365day evidence incomplete or invalid (RUNNING, completedDays=150)."
+      "reason": "No completed current-source 365-day receipt. Historical results cannot complete this gate."
     },
     {
       "id": "SE-048",
@@ -2138,7 +2291,7 @@
       "evidence": [
         "artifacts/social-engine/simulation-365/results.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [
         {
           "os": "darwin 25.6.0",
@@ -2146,11 +2299,11 @@
           "logicalCpus": 8,
           "memoryBytes": 17179869184,
           "node": "v24.21.0",
-          "engine": "1.0.0-candidate.5",
+          "engine": "1.0.0-candidate.4",
           "seed": 20261103,
-          "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
           "dirtyTree": true,
-          "sourceSha256": "128cb3cc11ef1ed5e9cfc32b248a607b401dcbb676c88dbbafe96e3d3e5f1951",
+          "sourceSha256": "0ccedb58f3fe7f8b80c16d26d442ec11d941a589329aa97d462dddee7dda36a2",
           "sourceFiles": [
             "src/games/social-engine/persistence/codec.ts",
             "src/games/social-engine/persistence/compression.ts",
@@ -2175,7 +2328,6 @@
             "src/games/social-engine/simulation/mobility.ts",
             "src/games/social-engine/simulation/population.ts",
             "src/games/social-engine/simulation/progression.ts",
-            "src/games/social-engine/simulation/property-crime.ts",
             "src/games/social-engine/simulation/random.ts",
             "src/games/social-engine/simulation/services.ts",
             "src/games/social-engine/simulation/social.ts",
@@ -2184,12 +2336,13 @@
           ]
         }
       ],
-      "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
-      "duration_ms": 692259.242958,
+      "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+      "duration_ms": 1536106.781,
       "checks": [
         {
           "status": "UNVERIFIED",
-          "reason": "Current365day evidence incomplete or invalid (RUNNING, completedDays=150).",
+          "reason": "No completed current-source 365-day receipt. Historical results cannot complete this gate.",
+          "receipt": "simulation-365/results.json",
           "evidence": "artifacts/social-engine/simulation-365/results.json",
           "environment": {
             "os": "darwin 25.6.0",
@@ -2197,11 +2350,11 @@
             "logicalCpus": 8,
             "memoryBytes": 17179869184,
             "node": "v24.21.0",
-            "engine": "1.0.0-candidate.5",
+            "engine": "1.0.0-candidate.4",
             "seed": 20261103,
-            "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
+            "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
             "dirtyTree": true,
-            "sourceSha256": "128cb3cc11ef1ed5e9cfc32b248a607b401dcbb676c88dbbafe96e3d3e5f1951",
+            "sourceSha256": "0ccedb58f3fe7f8b80c16d26d442ec11d941a589329aa97d462dddee7dda36a2",
             "sourceFiles": [
               "src/games/social-engine/persistence/codec.ts",
               "src/games/social-engine/persistence/compression.ts",
@@ -2226,7 +2379,6 @@
               "src/games/social-engine/simulation/mobility.ts",
               "src/games/social-engine/simulation/population.ts",
               "src/games/social-engine/simulation/progression.ts",
-              "src/games/social-engine/simulation/property-crime.ts",
               "src/games/social-engine/simulation/random.ts",
               "src/games/social-engine/simulation/services.ts",
               "src/games/social-engine/simulation/social.ts",
@@ -2234,14 +2386,14 @@
               "src/games/social-engine/simulation/traffic.ts"
             ]
           },
-          "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
-          "duration_ms": 692259.242958,
+          "build_sha": "9c3bdb0f0295ba00ca3d30ae6339e4b5886d0b42",
+          "duration_ms": 1536106.781,
           "scope": "Pure fixed-step simulation; not renderer or human playtime."
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Current365day evidence incomplete or invalid (RUNNING, completedDays=150)."
+      "reason": "No completed current-source 365-day receipt. Historical results cannot complete this gate."
     },
     {
       "id": "SE-049",
@@ -2253,17 +2405,18 @@
       "automation": "Trace",
       "status": "UNVERIFIED",
       "evidence": [
-        "artifacts/social-engine/performance/2026-11-04T07-21-45-433Z/report.json"
+        "artifacts/social-engine/performance/2026-11-04T06-41-57-572Z/report.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [],
-      "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
+      "build_sha": null,
       "duration_ms": null,
       "checks": [
         {
           "status": "UNVERIFIED",
           "reason": "The Apple M2 host is not the specified four-core reference PC. Its measured frame times cannot satisfy this precondition.",
-          "evidence": "artifacts/social-engine/performance/2026-11-04T07-21-45-433Z/report.json"
+          "receipt": "performance/2026-11-04T06-41-57-572Z/report.json",
+          "evidence": "artifacts/social-engine/performance/2026-11-04T06-41-57-572Z/report.json"
         }
       ],
       "owner": "SOCIAL ENGINE QA",
@@ -2280,9 +2433,9 @@
       "automation": "Trace",
       "status": "UNVERIFIED",
       "evidence": [
-        "artifacts/social-engine/performance/2026-11-04T07-21-45-433Z/report.json"
+        "artifacts/social-engine/performance/2026-11-04T06-41-57-572Z/report.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [
         {
           "platform": "darwin",
@@ -2335,7 +2488,7 @@
                 "glWsVendor": "",
                 "glWsVersion": "",
                 "inProcessGpu": false,
-                "initializationTime": 0.048771,
+                "initializationTime": 1.157185,
                 "isAsan": false,
                 "isClangCoverage": false,
                 "jpegDecodeAcceleratorSupported": false,
@@ -2373,17 +2526,18 @@
             },
             "modelName": "Mac",
             "modelVersion": "14.7",
-            "commandLine": "../browsers/chromium_headless_shell-1234/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/var/folders/k1/zprsgklx4xqbs2wb4cq59bsr0000gn/T/playwright_chromiumdev_profile-f33K9Z --remote-debugging-pipe --no-startup-window --use-mock-keychain --use-gl=angle --use-angle=swiftshader-webgl --allow-pre-commit-input"
+            "commandLine": "../browsers/chromium_headless_shell-1234/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/var/folders/k1/zprsgklx4xqbs2wb4cq59bsr0000gn/T/playwright_chromiumdev_profile-H8MLuj --remote-debugging-pipe --no-startup-window --use-mock-keychain --use-gl=angle --use-angle=swiftshader-webgl --allow-pre-commit-input"
           }
         }
       ],
-      "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
+      "build_sha": null,
       "duration_ms": null,
       "checks": [
         {
           "status": "UNVERIFIED",
-          "reason": "60 continuous minutes required; fixed-tick cross-check: UNVERIFIED. Current run: RUNNING.",
-          "evidence": "artifacts/social-engine/performance/2026-11-04T07-21-45-433Z/report.json",
+          "reason": "60 continuous minutes required; fixed-tick cross-check: UNVERIFIED. Receipt status: no current completed measurement.",
+          "receipt": "performance/2026-11-04T06-41-57-572Z/report.json",
+          "evidence": "artifacts/social-engine/performance/2026-11-04T06-41-57-572Z/report.json",
           "environment": {
             "platform": "darwin",
             "release": "25.6.0",
@@ -2435,7 +2589,7 @@
                   "glWsVendor": "",
                   "glWsVersion": "",
                   "inProcessGpu": false,
-                  "initializationTime": 0.048771,
+                  "initializationTime": 1.157185,
                   "isAsan": false,
                   "isClangCoverage": false,
                   "jpegDecodeAcceleratorSupported": false,
@@ -2473,16 +2627,16 @@
               },
               "modelName": "Mac",
               "modelVersion": "14.7",
-              "commandLine": "../browsers/chromium_headless_shell-1234/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/var/folders/k1/zprsgklx4xqbs2wb4cq59bsr0000gn/T/playwright_chromiumdev_profile-f33K9Z --remote-debugging-pipe --no-startup-window --use-mock-keychain --use-gl=angle --use-angle=swiftshader-webgl --allow-pre-commit-input"
+              "commandLine": "../browsers/chromium_headless_shell-1234/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/var/folders/k1/zprsgklx4xqbs2wb4cq59bsr0000gn/T/playwright_chromiumdev_profile-H8MLuj --remote-debugging-pipe --no-startup-window --use-mock-keychain --use-gl=angle --use-angle=swiftshader-webgl --allow-pre-commit-input"
             }
           },
           "coverage": {
             "status": "UNVERIFIED",
             "requestedMinutes": 60,
-            "samples": 31,
-            "elapsedMs": 1861515.13225,
-            "simulationMs": 1863000,
-            "coverageRatio": 1.0007976662259013,
+            "samples": 3,
+            "elapsedMs": 180361.097209,
+            "simulationMs": 180900,
+            "coverageRatio": 1.0029879103606003,
             "issues": [
               {
                 "reason": "Requested duration or minute observations missing"
@@ -2494,7 +2648,7 @@
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "60 continuous minutes required; fixed-tick cross-check: UNVERIFIED. Current run: RUNNING."
+      "reason": "60 continuous minutes required; fixed-tick cross-check: UNVERIFIED. Receipt status: no current completed measurement."
     },
     {
       "id": "SE-051",
@@ -2506,9 +2660,9 @@
       "automation": "Profiler",
       "status": "UNVERIFIED",
       "evidence": [
-        "artifacts/social-engine/performance/2026-11-04T07-21-45-433Z/report.json"
+        "artifacts/social-engine/performance/2026-11-04T06-41-57-572Z/report.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [
         {
           "platform": "darwin",
@@ -2561,7 +2715,7 @@
                 "glWsVendor": "",
                 "glWsVersion": "",
                 "inProcessGpu": false,
-                "initializationTime": 0.048771,
+                "initializationTime": 1.157185,
                 "isAsan": false,
                 "isClangCoverage": false,
                 "jpegDecodeAcceleratorSupported": false,
@@ -2599,17 +2753,18 @@
             },
             "modelName": "Mac",
             "modelVersion": "14.7",
-            "commandLine": "../browsers/chromium_headless_shell-1234/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/var/folders/k1/zprsgklx4xqbs2wb4cq59bsr0000gn/T/playwright_chromiumdev_profile-f33K9Z --remote-debugging-pipe --no-startup-window --use-mock-keychain --use-gl=angle --use-angle=swiftshader-webgl --allow-pre-commit-input"
+            "commandLine": "../browsers/chromium_headless_shell-1234/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/var/folders/k1/zprsgklx4xqbs2wb4cq59bsr0000gn/T/playwright_chromiumdev_profile-H8MLuj --remote-debugging-pipe --no-startup-window --use-mock-keychain --use-gl=angle --use-angle=swiftshader-webgl --allow-pre-commit-input"
           }
         }
       ],
-      "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
+      "build_sha": null,
       "duration_ms": null,
       "checks": [
         {
           "status": "UNVERIFIED",
-          "reason": "120 continuous minutes required; fixed-tick cross-check: UNVERIFIED. Current run: RUNNING.",
-          "evidence": "artifacts/social-engine/performance/2026-11-04T07-21-45-433Z/report.json",
+          "reason": "120 continuous minutes required; fixed-tick cross-check: UNVERIFIED. Receipt status: no current completed measurement.",
+          "receipt": "performance/2026-11-04T06-41-57-572Z/report.json",
+          "evidence": "artifacts/social-engine/performance/2026-11-04T06-41-57-572Z/report.json",
           "environment": {
             "platform": "darwin",
             "release": "25.6.0",
@@ -2661,7 +2816,7 @@
                   "glWsVendor": "",
                   "glWsVersion": "",
                   "inProcessGpu": false,
-                  "initializationTime": 0.048771,
+                  "initializationTime": 1.157185,
                   "isAsan": false,
                   "isClangCoverage": false,
                   "jpegDecodeAcceleratorSupported": false,
@@ -2699,16 +2854,16 @@
               },
               "modelName": "Mac",
               "modelVersion": "14.7",
-              "commandLine": "../browsers/chromium_headless_shell-1234/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/var/folders/k1/zprsgklx4xqbs2wb4cq59bsr0000gn/T/playwright_chromiumdev_profile-f33K9Z --remote-debugging-pipe --no-startup-window --use-mock-keychain --use-gl=angle --use-angle=swiftshader-webgl --allow-pre-commit-input"
+              "commandLine": "../browsers/chromium_headless_shell-1234/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/var/folders/k1/zprsgklx4xqbs2wb4cq59bsr0000gn/T/playwright_chromiumdev_profile-H8MLuj --remote-debugging-pipe --no-startup-window --use-mock-keychain --use-gl=angle --use-angle=swiftshader-webgl --allow-pre-commit-input"
             }
           },
           "coverage": {
             "status": "UNVERIFIED",
             "requestedMinutes": 120,
-            "samples": 31,
-            "elapsedMs": 1861515.13225,
-            "simulationMs": 1863000,
-            "coverageRatio": 1.0007976662259013,
+            "samples": 3,
+            "elapsedMs": 180361.097209,
+            "simulationMs": 180900,
+            "coverageRatio": 1.0029879103606003,
             "issues": [
               {
                 "reason": "Requested duration or minute observations missing"
@@ -2720,7 +2875,7 @@
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "120 continuous minutes required; fixed-tick cross-check: UNVERIFIED. Current run: RUNNING."
+      "reason": "120 continuous minutes required; fixed-tick cross-check: UNVERIFIED. Receipt status: no current completed measurement."
     },
     {
       "id": "SE-052",
@@ -2732,32 +2887,33 @@
       "automation": "Playwright",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/browser-chromium/results.json"
+        "artifacts/social-engine/current-receipts/d250286bb2573ca7049850e2a31f99d8ff58720e84289df7309721de42cde577.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [
         {
           "browser": "151.0.7922.34",
-          "base": "http://127.0.0.1:8111"
+          "base": "http://127.0.0.1:8241"
         }
       ],
-      "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
-      "duration_ms": 175946.30166699996,
+      "build_sha": null,
+      "duration_ms": null,
       "checks": [
         {
           "status": "PASS",
-          "reason": "Real chromium critical gameplay flow; current served manifest required.",
-          "evidence": "artifacts/social-engine/browser-chromium/results.json",
+          "reason": "Local chromium 151.0.7922.34: 14 recorded critical-flow cases, 0 page errors.",
+          "receipt": "browser-chromium/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/d250286bb2573ca7049850e2a31f99d8ff58720e84289df7309721de42cde577.json",
           "environment": {
             "browser": "151.0.7922.34",
-            "base": "http://127.0.0.1:8111"
+            "base": "http://127.0.0.1:8241"
           },
-          "duration_ms": 175946.30166699996
+          "scope": "Isolated browser profile on the local candidate URL."
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Real chromium critical gameplay flow; current served manifest required."
+      "reason": "Local chromium 151.0.7922.34: 14 recorded critical-flow cases, 0 page errors."
     },
     {
       "id": "SE-053",
@@ -2769,32 +2925,33 @@
       "automation": "Playwright",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/browser-firefox/results.json"
+        "artifacts/social-engine/current-receipts/ff86da610578556d7d58a9a4fca3af94472b96dd639dde4f68971f1f6584473c.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [
         {
           "browser": "153.0",
-          "base": "http://127.0.0.1:8111"
+          "base": "http://127.0.0.1:8241"
         }
       ],
-      "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
-      "duration_ms": 61995.56291799999,
+      "build_sha": null,
+      "duration_ms": null,
       "checks": [
         {
           "status": "PASS",
-          "reason": "Real firefox critical gameplay flow; current served manifest required.",
-          "evidence": "artifacts/social-engine/browser-firefox/results.json",
+          "reason": "Local firefox 153.0: 14 recorded critical-flow cases, 0 page errors.",
+          "receipt": "browser-firefox/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/ff86da610578556d7d58a9a4fca3af94472b96dd639dde4f68971f1f6584473c.json",
           "environment": {
             "browser": "153.0",
-            "base": "http://127.0.0.1:8111"
+            "base": "http://127.0.0.1:8241"
           },
-          "duration_ms": 61995.56291799999
+          "scope": "Isolated browser profile on the local candidate URL."
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Real firefox critical gameplay flow; current served manifest required."
+      "reason": "Local firefox 153.0: 14 recorded critical-flow cases, 0 page errors."
     },
     {
       "id": "SE-054",
@@ -2806,32 +2963,33 @@
       "automation": "Playwright",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/browser-webkit/results.json"
+        "artifacts/social-engine/current-receipts/8e9c28845cde306b506720f134b5602f77242828e048dd9e94c111023843f69a.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [
         {
           "browser": "26.5",
-          "base": "http://127.0.0.1:8111"
+          "base": "http://127.0.0.1:8241"
         }
       ],
-      "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
-      "duration_ms": 31268.475458,
+      "build_sha": null,
+      "duration_ms": null,
       "checks": [
         {
           "status": "PASS",
-          "reason": "Real webkit critical gameplay flow; current served manifest required.",
-          "evidence": "artifacts/social-engine/browser-webkit/results.json",
+          "reason": "Local webkit 26.5: 14 recorded critical-flow cases, 0 page errors.",
+          "receipt": "browser-webkit/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/8e9c28845cde306b506720f134b5602f77242828e048dd9e94c111023843f69a.json",
           "environment": {
             "browser": "26.5",
-            "base": "http://127.0.0.1:8111"
+            "base": "http://127.0.0.1:8241"
           },
-          "duration_ms": 31268.475458
+          "scope": "Isolated browser profile on the local candidate URL."
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Real webkit critical gameplay flow; current served manifest required."
+      "reason": "Local webkit 26.5: 14 recorded critical-flow cases, 0 page errors."
     },
     {
       "id": "SE-055",
@@ -2843,29 +3001,31 @@
       "automation": "E2E",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/browser-chromium/results.json",
-        "artifacts/social-engine/browser-evidence/results.json"
+        "artifacts/social-engine/current-receipts/d250286bb2573ca7049850e2a31f99d8ff58720e84289df7309721de42cde577.json",
+        "artifacts/social-engine/current-receipts/b91d889549854f10894936fad8a77ab41c3b46af18b5485596a7e167aae309bc.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [],
-      "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
+      "build_sha": null,
       "duration_ms": null,
       "checks": [
         {
           "status": "PASS",
-          "reason": "Current browser evidence missing.",
-          "evidence": "artifacts/social-engine/browser-chromium/results.json",
-          "scope": "Actual DOM/canvas; explicit QA fixed steps accelerate bounded fixtures, never human playtime."
+          "reason": "Completed explicit browser assertion SE-055-dom-hud.",
+          "receipt": "browser-chromium/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/d250286bb2573ca7049850e2a31f99d8ff58720e84289df7309721de42cde577.json",
+          "assertion": "SE-055-dom-hud"
         },
         {
           "status": "PASS",
           "reason": "Visible HUD cash and needs match authoritative projection after shopping and eating",
-          "evidence": "artifacts/social-engine/browser-evidence/results.json"
+          "receipt": "browser-evidence/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/b91d889549854f10894936fad8a77ab41c3b46af18b5485596a7e167aae309bc.json"
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Current browser evidence missing. | Visible HUD cash and needs match authoritative projection after shopping and eating"
+      "reason": "Completed explicit browser assertion SE-055-dom-hud. | Visible HUD cash and needs match authoritative projection after shopping and eating"
     },
     {
       "id": "SE-056",
@@ -2875,18 +3035,19 @@
       "expected": "Odak görünür",
       "priority": "P1",
       "automation": "Axe",
-      "status": "PASS",
+      "status": "UNVERIFIED",
       "evidence": [
         "artifacts/social-engine/axe/results.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [],
-      "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
+      "build_sha": null,
       "duration_ms": null,
       "checks": [
         {
-          "status": "PASS",
-          "reason": "Actual keyboard focus/trap/restore checks and Axe scans. Incomplete canvas/contrast scans are disclosed, not full WCAG certification.",
+          "status": "UNVERIFIED",
+          "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check.",
+          "receipt": "axe/results.json",
           "evidence": "artifacts/social-engine/axe/results.json",
           "scope": [
             "Automated Axe results and keyboard tests do not establish full screen-reader access to the visual game world.",
@@ -2896,7 +3057,7 @@
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Actual keyboard focus/trap/restore checks and Axe scans. Incomplete canvas/contrast scans are disclosed, not full WCAG certification."
+      "reason": "Historical manifest 5f6ee17a0a8c. Current manifest 24559258aacf remains unverified for this check."
     },
     {
       "id": "SE-057",
@@ -2908,23 +3069,27 @@
       "automation": "Visual",
       "status": "PASS",
       "evidence": [
-        "artifacts/social-engine/browser-chromium/results.json"
+        "artifacts/social-engine/current-receipts/d250286bb2573ca7049850e2a31f99d8ff58720e84289df7309721de42cde577.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [],
-      "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
+      "build_sha": null,
       "duration_ms": null,
       "checks": [
         {
           "status": "PASS",
-          "reason": "Current browser evidence missing.",
-          "evidence": "artifacts/social-engine/browser-chromium/results.json",
-          "scope": "Actual DOM/canvas; explicit QA fixed steps accelerate bounded fixtures, never human playtime."
+          "reason": "No horizontal document overflow across 1280, 1920 and 390 pixel viewports.",
+          "receipt": "browser-chromium/results.json",
+          "evidence": "artifacts/social-engine/current-receipts/d250286bb2573ca7049850e2a31f99d8ff58720e84289df7309721de42cde577.json",
+          "caseIds": [
+            "SE-057"
+          ],
+          "scope": "Local Chromium DOM/canvas and public commands with fixed-step QA advancement."
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "Current browser evidence missing."
+      "reason": "No horizontal document overflow across 1280, 1920 and 390 pixel viewports."
     },
     {
       "id": "SE-058",
@@ -2938,20 +3103,21 @@
       "evidence": [
         "artifacts/social-engine/deployment-verification.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [],
-      "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
+      "build_sha": null,
       "duration_ms": null,
       "checks": [
         {
           "status": "UNVERIFIED",
-          "reason": "No remote PR/CI/provider/live proof. User requested local commits and explicitly locked merge and production.",
+          "reason": "A local candidate or draft PR does not verify completed applicable CI, the production deployment identity, or a live game smoke test.",
+          "receipt": "deployment-verification.json",
           "evidence": "artifacts/social-engine/deployment-verification.json"
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "No remote PR/CI/provider/live proof. User requested local commits and explicitly locked merge and production."
+      "reason": "A local candidate or draft PR does not verify completed applicable CI, the production deployment identity, or a live game smoke test."
     },
     {
       "id": "SE-059",
@@ -2965,20 +3131,21 @@
       "evidence": [
         "artifacts/social-engine/deployment-verification.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [],
-      "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
+      "build_sha": null,
       "duration_ms": null,
       "checks": [
         {
           "status": "UNVERIFIED",
-          "reason": "No remote PR/CI/provider/live proof. User requested local commits and explicitly locked merge and production.",
+          "reason": "A local candidate or draft PR does not verify completed applicable CI, the production deployment identity, or a live game smoke test.",
+          "receipt": "deployment-verification.json",
           "evidence": "artifacts/social-engine/deployment-verification.json"
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "No remote PR/CI/provider/live proof. User requested local commits and explicitly locked merge and production."
+      "reason": "A local candidate or draft PR does not verify completed applicable CI, the production deployment identity, or a live game smoke test."
     },
     {
       "id": "SE-060",
@@ -2992,170 +3159,228 @@
       "evidence": [
         "artifacts/social-engine/deployment-verification.json"
       ],
-      "seed": 20261103,
+      "seed": null,
       "environment": [],
-      "build_sha": "8a2c1743de6a564bfa625d0ab939085cc9331cf0",
+      "build_sha": null,
       "duration_ms": null,
       "checks": [
         {
           "status": "UNVERIFIED",
-          "reason": "No remote PR/CI/provider/live proof. User requested local commits and explicitly locked merge and production.",
+          "reason": "A local candidate or draft PR does not verify completed applicable CI, the production deployment identity, or a live game smoke test.",
+          "receipt": "deployment-verification.json",
           "evidence": "artifacts/social-engine/deployment-verification.json"
         }
       ],
       "owner": "SOCIAL ENGINE QA",
       "retry": "Run the unchanged original criterion on an immutable candidate and retain its source/asset hashes.",
-      "reason": "No remote PR/CI/provider/live proof. User requested local commits and explicitly locked merge and production."
+      "reason": "A local candidate or draft PR does not verify completed applicable CI, the production deployment identity, or a live game smoke test."
     }
   ],
   "evidence_manifest": [
     {
       "path": "artifacts/social-engine/acceptance-unit.json",
-      "sha256": "800b540afb1ce4e978c5c920b71dda8caf0d28d835a16e4735f653c01bdfbd6f"
+      "sha256": "800b540afb1ce4e978c5c920b71dda8caf0d28d835a16e4735f653c01bdfbd6f",
+      "receipt": "acceptance-unit.json"
     },
     {
-      "path": "artifacts/social-engine/browser-chromium/results.json",
-      "sha256": "aca833261fb63c06d9566ee1ef9a76516bbbfe82604b8d01c9ccb2ddd066307e"
+      "path": "artifacts/social-engine/current-receipts/d250286bb2573ca7049850e2a31f99d8ff58720e84289df7309721de42cde577.json",
+      "sha256": "d250286bb2573ca7049850e2a31f99d8ff58720e84289df7309721de42cde577",
+      "receipt": "browser-chromium/results.json"
     },
     {
-      "path": "artifacts/social-engine/browser-firefox/results.json",
-      "sha256": "e4bdbcf07cf203afefff2b8411457c9e025f9cdb07f5bf68c5316c467972141d"
+      "path": "artifacts/social-engine/current-receipts/ff86da610578556d7d58a9a4fca3af94472b96dd639dde4f68971f1f6584473c.json",
+      "sha256": "ff86da610578556d7d58a9a4fca3af94472b96dd639dde4f68971f1f6584473c",
+      "receipt": "browser-firefox/results.json"
     },
     {
-      "path": "artifacts/social-engine/browser-webkit/results.json",
-      "sha256": "d80bccf0b5c07a2b8f12b2078bc5c2824ea0abee9265748155292182f60cfd6a"
+      "path": "artifacts/social-engine/current-receipts/8e9c28845cde306b506720f134b5602f77242828e048dd9e94c111023843f69a.json",
+      "sha256": "8e9c28845cde306b506720f134b5602f77242828e048dd9e94c111023843f69a",
+      "receipt": "browser-webkit/results.json"
     },
     {
       "path": "artifacts/social-engine/ui-browser/results.json",
-      "sha256": "d1590277821288060c1c924552bc056c52956b614ecae5f285907c587d953504"
+      "sha256": "d1590277821288060c1c924552bc056c52956b614ecae5f285907c587d953504",
+      "receipt": "ui-browser/results.json"
     },
     {
-      "path": "artifacts/social-engine/browser-evidence/results.json",
-      "sha256": "2420d9d7546e594a84316ca4bd9b924d976a37c05de5a1e1306bf93cb72a106d"
+      "path": "artifacts/social-engine/current-receipts/b91d889549854f10894936fad8a77ab41c3b46af18b5485596a7e167aae309bc.json",
+      "sha256": "b91d889549854f10894936fad8a77ab41c3b46af18b5485596a7e167aae309bc",
+      "receipt": "browser-evidence/results.json"
     },
     {
-      "path": "artifacts/social-engine/persistence-browser/results.json",
-      "sha256": "e76c1e1dc948aaf566961935641407d3875d5198243e362a73e357ac3fa3e4f2"
+      "path": "artifacts/social-engine/current-receipts/3d73ea4633d4aac1d2352084138dc15cf8db348ac8ebd7c69f03efb3fbe7badd.json",
+      "sha256": "3d73ea4633d4aac1d2352084138dc15cf8db348ac8ebd7c69f03efb3fbe7badd",
+      "receipt": "persistence-browser/results.json"
     },
     {
-      "path": "artifacts/social-engine/persistence-browser-firefox/results.json",
-      "sha256": "f3ffa96c692206e8301c6708897959ee0bc22ed5063a7981e336d0866a291df3"
+      "path": "artifacts/social-engine/current-receipts/13b915a12e1303bd0dc70cbfbac93861f79b18dbd96d55503f74a48ab35836cf.json",
+      "sha256": "13b915a12e1303bd0dc70cbfbac93861f79b18dbd96d55503f74a48ab35836cf",
+      "receipt": "persistence-browser-firefox/results.json"
     },
     {
-      "path": "artifacts/social-engine/persistence-browser-webkit/results.json",
-      "sha256": "d9f8114747e69ca937df84c9da2f89e55660f2f3c6fdd50a46f9f57d0b518625"
+      "path": "artifacts/social-engine/current-receipts/28d48f7654cc52358ce2444b4ec7f8eca87d1f8738409560fc404dde13b0322b.json",
+      "sha256": "28d48f7654cc52358ce2444b4ec7f8eca87d1f8738409560fc404dde13b0322b",
+      "receipt": "persistence-browser-webkit/results.json"
     },
     {
       "path": "artifacts/social-engine/v4-browser/results.json",
-      "sha256": "815aa0b7a6fab2495742dfe3b981ef1a64af29e07a225e7407f3d4cb3e96e9a7"
+      "sha256": "815aa0b7a6fab2495742dfe3b981ef1a64af29e07a225e7407f3d4cb3e96e9a7",
+      "receipt": "v4-browser/results.json"
     },
     {
       "path": "artifacts/social-engine/simulation-365/results.json",
-      "sha256": "dbcd6a0a5fe9b2f3e281e69b099b39d868f1e5828ba59d3435162628c424d396"
+      "sha256": "05ccedd21559e314791a252f33da7e667e472fbb227b6f7ec36932d820f292d3",
+      "receipt": "simulation-365/results.json"
     },
     {
       "path": "artifacts/social-engine/axe/results.json",
-      "sha256": "e9ccfbcfcf84e5ffa59de92ab304e54fa9fa206f5f33f99ded8f274c08e684fc"
+      "sha256": "e9ccfbcfcf84e5ffa59de92ab304e54fa9fa206f5f33f99ded8f274c08e684fc",
+      "receipt": "axe/results.json"
     },
     {
-      "path": "artifacts/social-engine/performance/2026-11-04T07-21-45-433Z/report.json",
-      "sha256": "9e47a39ca192af3416e3bff3dcf2b7f89fa4ce00d638c274c88551be55a9222b"
+      "path": "artifacts/social-engine/performance/2026-11-04T06-41-57-572Z/report.json",
+      "sha256": "0c02bd65fee2c6ba9700eecbafae56114747b20c6fc478fecc9744669e772db3",
+      "receipt": "performance/2026-11-04T06-41-57-572Z/report.json"
     },
     {
       "path": "artifacts/social-engine/deployment-verification.json",
-      "sha256": "f72ccefe802226dc3e23623e3b615203ffe0c540904b135b5c2d0161e737aa00"
+      "sha256": "f72ccefe802226dc3e23623e3b615203ffe0c540904b135b5c2d0161e737aa00",
+      "receipt": "deployment-verification.json"
     },
     {
       "path": "artifacts/social-engine/browser-determinism/results.json",
-      "sha256": "1cccc8b62de5b1802e9a507e6de006f65d29d9e85a442f5bed3c113c57ac8ac6"
-    },
-    {
-      "path": "artifacts/social-engine/performance/2026-11-04T07-21-45-433Z/os-footprint-samples.json",
-      "sha256": "37da79ecf5cac6aedd8bb0e30ff2a554b017dcc8739e5d11577caf6fbeee6923"
+      "sha256": "1cccc8b62de5b1802e9a507e6de006f65d29d9e85a442f5bed3c113c57ac8ac6",
+      "receipt": "browser-determinism/results.json"
     },
     {
       "path": "artifacts/social-engine/renderer-lifecycle/results.json",
-      "sha256": "3408ba4cdd90077ab428fb29abbffd9098cfd58ace57366ced36f8dcce2c09a5"
+      "sha256": "3408ba4cdd90077ab428fb29abbffd9098cfd58ace57366ced36f8dcce2c09a5",
+      "receipt": "renderer-lifecycle/results.json"
     },
     {
       "path": "artifacts/social-engine/journal-browser/results.json",
-      "sha256": "f097dcd95a875fce0fc6f52535d06fd3a9d3d7c8fa90923e8e56a0fc96b495b4"
+      "sha256": "f097dcd95a875fce0fc6f52535d06fd3a9d3d7c8fa90923e8e56a0fc96b495b4",
+      "receipt": "journal-browser/results.json"
     },
     {
       "path": "artifacts/social-engine/asset-faults/results.json",
-      "sha256": "0c7efa3da04f53d0e36bb00c3728ceca8ee77a8cfc23781b1e90fe629429472b"
+      "sha256": "0c7efa3da04f53d0e36bb00c3728ceca8ee77a8cfc23781b1e90fe629429472b",
+      "receipt": "asset-faults/results.json"
     },
     {
       "path": "artifacts/social-engine/route-browser/results.json",
-      "sha256": "2cea3537119aafbb84c5b563ba1d92d091f7f414b3921ed909671f923a004dd8"
+      "sha256": "2cea3537119aafbb84c5b563ba1d92d091f7f414b3921ed909671f923a004dd8",
+      "receipt": "route-browser/results.json"
     },
     {
       "path": "artifacts/social-engine/startup-network/results.json",
-      "sha256": "739094c19a3b9ada3e0fac9d09eaa247bd9188db389f2da4163e4a208eaebd9b"
+      "sha256": "739094c19a3b9ada3e0fac9d09eaa247bd9188db389f2da4163e4a208eaebd9b",
+      "receipt": "startup-network/results.json"
     },
     {
-      "path": "artifacts/social-engine/property-browser-chromium/results.json",
-      "sha256": "9858f5e6b20f012a12d641b877a07b82d4b229f45d6218b0ba098fa07f263244"
+      "path": "artifacts/social-engine/current-receipts/1062223eddf9e91a96a6fb1390f52a594cef6671120ffa6b484cfc0ff7ff24ad.json",
+      "sha256": "1062223eddf9e91a96a6fb1390f52a594cef6671120ffa6b484cfc0ff7ff24ad",
+      "receipt": "property-browser-chromium/results.json"
     },
     {
-      "path": "artifacts/social-engine/property-browser-firefox/results.json",
-      "sha256": "e2d9ac49a398bfca11d119aa4f19fd20f48f737ea7484e7f92ad25c8c6b38f16"
+      "path": "artifacts/social-engine/current-receipts/3d6fdf674415f1e59cbf5530db47714255b35f17b73e46b73ffc0065e1ba6312.json",
+      "sha256": "3d6fdf674415f1e59cbf5530db47714255b35f17b73e46b73ffc0065e1ba6312",
+      "receipt": "property-browser-firefox/results.json"
     },
     {
-      "path": "artifacts/social-engine/property-browser-webkit/results.json",
-      "sha256": "0b8412bf7b9d8d69b6f5e5ec6488a4fc97903b97a51c305b6806dae10a15bf1b"
+      "path": "artifacts/social-engine/current-receipts/22e901097c7080708d02e8afe2bbce8b264535f7a3b420c3ce00f63e54071405.json",
+      "sha256": "22e901097c7080708d02e8afe2bbce8b264535f7a3b420c3ce00f63e54071405",
+      "receipt": "property-browser-webkit/results.json"
     },
     {
       "path": "artifacts/social-engine/cold-start-chromium/results.json",
-      "sha256": "983db8e3117a2b3625284e9b91691775b586773a49d218c0738bbf0f361e9e25"
+      "sha256": "983db8e3117a2b3625284e9b91691775b586773a49d218c0738bbf0f361e9e25",
+      "receipt": "cold-start-chromium/results.json"
     },
     {
       "path": "artifacts/social-engine/cold-start-firefox/results.json",
-      "sha256": "7ea1cb916acc26dcc6e3dbb41443a2405ff33a888e0ff3d1eed34d8bb6691ca3"
+      "sha256": "7ea1cb916acc26dcc6e3dbb41443a2405ff33a888e0ff3d1eed34d8bb6691ca3",
+      "receipt": "cold-start-firefox/results.json"
     },
     {
       "path": "artifacts/social-engine/cold-start-webkit/results.json",
-      "sha256": "5d56ab125dfce792e0804049603a8a342b04f5ded8d7856b3bf6d1de80e3c3af"
+      "sha256": "5d56ab125dfce792e0804049603a8a342b04f5ded8d7856b3bf6d1de80e3c3af",
+      "receipt": "cold-start-webkit/results.json"
     },
     {
       "path": "artifacts/social-engine/native-browser/stable-repeats/summary.json",
-      "sha256": "bce412ae7cc7a5f90eff8f36093878237795b037e1c13ae349e4d395b8be067b"
+      "sha256": "bce412ae7cc7a5f90eff8f36093878237795b037e1c13ae349e4d395b8be067b",
+      "receipt": "native-browser/stable-repeats/summary.json"
     },
     {
       "path": "artifacts/social-engine/capacity-10000/results.json",
-      "sha256": "cb72f5e4449a8e32f72258478f0060b40b252cc096333bbd1cb3ded7febbcd8d"
+      "sha256": "cb72f5e4449a8e32f72258478f0060b40b252cc096333bbd1cb3ded7febbcd8d",
+      "receipt": "capacity-10000/results.json"
     },
     {
       "path": "artifacts/social-engine/event-reachability/results.json",
-      "sha256": "44f0238af7451f35f786e1478adeb0e8e05441225f8a3390bdedb12456b6fc20"
+      "sha256": "44f0238af7451f35f786e1478adeb0e8e05441225f8a3390bdedb12456b6fc20",
+      "receipt": "event-reachability/results.json"
     },
     {
-      "path": "artifacts/social-engine/late-save/results.json",
-      "sha256": "97fb55001c3c18e51593a43c82dd6d8500950502c694e5f0222ad2cadee0e8b3"
+      "path": "artifacts/social-engine/current-receipts/582695cec28134c52b74b972d487985d07bf9c6be6a73b7bea3ef6397071658a.json",
+      "sha256": "582695cec28134c52b74b972d487985d07bf9c6be6a73b7bea3ef6397071658a",
+      "receipt": "late-save/results.json"
     },
     {
-      "path": "artifacts/social-engine/c5-history/late-save-concurrent-20x3.json",
-      "sha256": "97fb55001c3c18e51593a43c82dd6d8500950502c694e5f0222ad2cadee0e8b3"
+      "path": "artifacts/social-engine/current-receipts/7ca4e25fad185bbb433e6e35110df2ee0ad277815132c1d0708018e53076b9bc.json",
+      "sha256": "7ca4e25fad185bbb433e6e35110df2ee0ad277815132c1d0708018e53076b9bc",
+      "receipt": "upgrade/rules8-route/results.json"
+    },
+    {
+      "path": "artifacts/social-engine/current-receipts/ac8a8ff8bd26f146dcc282efd49925c1b1ca6a9549feb04efcb55d58025aa3b5.json",
+      "sha256": "ac8a8ff8bd26f146dcc282efd49925c1b1ca6a9549feb04efcb55d58025aa3b5",
+      "receipt": "upgrade/rules8-worker/results.json"
+    },
+    {
+      "path": "artifacts/social-engine/current-receipts/425d402ae4aa55f07312ce779029ed30d42ddcfb2521c18db99cc17082f52b8a.json",
+      "sha256": "425d402ae4aa55f07312ce779029ed30d42ddcfb2521c18db99cc17082f52b8a",
+      "receipt": "portable-smoke/results.json"
+    },
+    {
+      "path": "artifacts/social-engine/current-receipts/85c2f285f931c82244f5933a5ccdc4163ba6d00d3e7b349a49fc722f0c37bfcb.json",
+      "sha256": "85c2f285f931c82244f5933a5ccdc4163ba6d00d3e7b349a49fc722f0c37bfcb",
+      "receipt": "upgrade/legacy-display/results.json"
+    },
+    {
+      "path": "artifacts/social-engine/current-receipts/811742a0bc444e722b3317efa528b89664bdd5e171b991478bab760a92c08e82.json",
+      "sha256": "811742a0bc444e722b3317efa528b89664bdd5e171b991478bab760a92c08e82",
+      "receipt": "upgrade/careers/results.json"
     },
     {
       "path": "artifacts/social-engine/c5-history/v4-software-raster-under-load.json",
-      "sha256": "6b1054215a8ec776bc84f4a2a15834b01721b18817f56033bd1990498a1a7fc5"
+      "sha256": "6b1054215a8ec776bc84f4a2a15834b01721b18817f56033bd1990498a1a7fc5",
+      "receipt": "c5-history/v4-software-raster-under-load.json"
     },
     {
       "path": "artifacts/social-engine/c5-history/journal-software-raster-under-load.json",
-      "sha256": "c36d5c1375988fb724efa1579b90b9202f3a2cf23600211d42460f4bb10e9e93"
+      "sha256": "c36d5c1375988fb724efa1579b90b9202f3a2cf23600211d42460f4bb10e9e93",
+      "receipt": "c5-history/journal-software-raster-under-load.json"
     },
     {
       "path": "artifacts/social-engine/legacy-browser/final-local/summary.json",
-      "sha256": "ac6fce3a261b83d048d3a35c9dce091248c183ed3d93b5d90953675a686cd67a"
+      "sha256": "ac6fce3a261b83d048d3a35c9dce091248c183ed3d93b5d90953675a686cd67a",
+      "receipt": "legacy-browser/final-local/summary.json"
     },
     {
       "path": "artifacts/social-engine/baseline/frozen-full-regression.json",
-      "sha256": "2885f982cbad377ba398d2358dd76a144ac0d6af94749e2b3b303c1276b53e99"
+      "sha256": "5081f36425ff9708c9d77cf8e8a47e3df5eab8630675fa4458c1598f59b186aa",
+      "receipt": "baseline/frozen-full-regression.json"
     },
     {
       "path": "artifacts/social-engine/contract-gap-audit.json",
-      "sha256": "38d88c3aacedb3018592d297dfe71a09a95b37cf0fbbe69f6dba1c7be36ef8f7"
+      "sha256": "38d88c3aacedb3018592d297dfe71a09a95b37cf0fbbe69f6dba1c7be36ef8f7",
+      "receipt": "contract-gap-audit.json"
+    },
+    {
+      "path": "artifacts/social-engine/current-receipts/51897f8e974e1f1dc752d4a62812457e6caef053905bc1a58101fc1dde0f25ba.json",
+      "sha256": "51897f8e974e1f1dc752d4a62812457e6caef053905bc1a58101fc1dde0f25ba",
+      "receipt": "local-legacy-suite/results.json"
     }
   ],
   "note": "All original60criteria retained verbatim. PASS requires evidence for the current source or exact served assets. Missing/stale/interrupted evidence is never PASS. This audit cannot authorize deployment."

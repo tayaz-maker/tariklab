@@ -21,7 +21,8 @@ permissions:
 jobs:
   simulation:
     runs-on: ubuntu-24.04
-    timeout-minutes: 180
+    # A real 30-day primary/replay checkpoint took 643 s on M2; days 181-365 also advance a third world.
+    timeout-minutes: 330
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/ci-node
@@ -52,7 +53,8 @@ jobs:
             artifacts/social-engine/capacity-10000
   browsers:
     runs-on: ubuntu-24.04
-    timeout-minutes: 240
+    # Includes independent 365-day Node plus actual browser-engine replay and the E2E suite.
+    timeout-minutes: 300
     strategy:
       fail-fast: false
       matrix:

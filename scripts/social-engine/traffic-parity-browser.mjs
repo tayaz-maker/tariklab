@@ -18,7 +18,7 @@ for(const [name,launcher] of Object.entries({chromium,firefox,webkit})){
  if(selected && name!==selected)continue;
  const b=await launcher.launch({headless:true,...(name==="chromium"&&process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH?{executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH}:{})});
  try{const p=await b.newPage();await p.addScriptTag({content:js});
- const actual=await p.evaluate(inputs=>inputs.map(([l,d])=>traffic.trafficPose(l,d).heading),input);assert.equal(actual.length,expected.length);
+ const actual=await p.evaluate(inputs=>inputs.map(([l,d])=>globalThis.traffic.trafficPose(l,d).heading),input);assert.equal(actual.length,expected.length);
  const i=actual.findIndex((v,i)=>v!==expected[i]);
  assert.equal(i,-1,`${name} sample ${i} lane,progress=${JSON.stringify(input[i])}: expected ${expected[i]}, got ${actual[i]}`);
  cases.push({engine:name,version:b.version(),samples:actual.length});}finally{await b.close();}

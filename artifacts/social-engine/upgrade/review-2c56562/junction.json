@@ -1,0 +1,23 @@
+{
+  "source": "2c565622e124057dff40c4d5ff826d7950539f40",
+  "camera": "live physics, not synthetic crowd",
+  "traffic": {
+    "durationMs": 60343,
+    "forward": 197,
+    "backward": 0,
+    "axisAligned": 197,
+    "axisMisaligned": 0,
+    "comparable": 197,
+    "distinctVehicles": [
+      "v0",
+      "v1",
+      "v2",
+      "v3",
+      "v4",
+      "v5",
+      "v6",
+      "v7",
+      "v-rental-0"
+    ]
+  }
+}
