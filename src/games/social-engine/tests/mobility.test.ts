@@ -91,6 +91,7 @@ test("GD06 parking authority rejects full lot and moving car without altering oc
     v = s.vehicles[0],
     lot = PARKING_LOTS[0],
     lane = pointOnLane(lot.lane, lot.progress);
+  s.mobility.parking.find((l) => l.id === "park-starter")!.vehicleIds = [];
   v.lane = lot.lane;
   v.progress = lot.progress;
   v.location = { x: lane.x, y: lane.y, scene: "outside" };
@@ -141,6 +142,12 @@ test("GD16 seeded four weather states affect road caps and outdoor fatigue; all 
   });
   for (const s of states) {
     const v = s.vehicles[0];
+    s.mobility.parking.find((l) => l.id === "park-starter")!.vehicleIds = [];
+    const road = pointOnLane(0, 10);
+    v.location = { x: road.x, y: road.y, scene: "outside" };
+    v.lane = 0;
+    v.progress = 10;
+    v.heading = road.heading;
     at(s, v.location);
     assert.equal(act(s, "VEHICLE_ENTER", { vehicleId: v.id }).ok, true);
     assert.equal(act(s, "DRIVE", { throttle: 1, steer: 0 }).ok, true);

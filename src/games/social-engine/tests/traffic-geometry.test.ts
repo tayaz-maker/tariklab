@@ -54,6 +54,7 @@ test("directed geometry covers 4 headings, 8 distinct quarter-turns and merged r
 });
 function clearRoads(seed: number) {
   const s = createWorld(seed);
+  s.mobility.parking.find((l) => l.id === "park-starter")!.vehicleIds = [];
   for (const p of [s.player, ...s.npcs]) p.location = { x: 7, y: 9, scene: "b-home" };
   for (const v of s.vehicles) {
     v.driverId = null;
@@ -174,6 +175,7 @@ test("authoritative player lane steering has the expected projected left/right s
 test("a rental in the adjacent parking bay cannot seal the starter driving lane", () => {
   const s = createWorld(987),
     v = s.vehicles[0];
+  s.mobility.parking.find((l) => l.id === "park-starter")!.vehicleIds = [];
   for (const p of [s.player, ...s.npcs]) p.location = { x: 7, y: 9, scene: "b-home" };
   v.driverId = "player";
   v.speed = 2;
@@ -194,6 +196,7 @@ test("schema migration canonicalizes legacy curve poses and attached drivers wit
   const s = createWorld(935),
     v = s.vehicles[0],
     parked = s.vehicles.find((v) => v.id === "v-rental-0")!;
+  s.mobility.parking.find((l) => l.id === "park-starter")!.vehicleIds = [];
   v.lane = 0;
   v.progress = 25;
   const p = pointOnLane(v.lane, v.progress);
@@ -263,20 +266,24 @@ test("stop lines leave room for admitted perpendicular cars to clear", () => {
     admitted = s.vehicles[0],
     waiting = s.vehicles[1];
   admitted.location = { x: 19.6, y: 51, scene: "outside" };
-  waiting.location = { x: 19, y: 48.8, scene: "outside" };
+  waiting.location = { x: 19, y: 46.3, scene: "outside" };
+  waiting.heading = Math.PI / 2;
   // Entry is refused far enough from the crossing that the admitted westbound
   // car is never trapped by the body of the southbound waiting car.
-  assert.equal(mayAdvanceVehicle(s, waiting, { x: 19, y: 49.1 }), false);
+  assert.equal(mayAdvanceVehicle(s, waiting, { x: 19, y: 46.6 }), false);
   for (let tick = 0; tick < 180; tick++) {
     s.tick = tick;
     assert.equal(mayAdvanceVehicle(s, admitted, { x: 19.3, y: 51 }), true);
   }
 });
 
-test("a crossing reservation stops the nose outside the pedestrian corridor", () => {
+test("a crossing reservation stops the nose outside the pedestrian corridor on the pedestrian turn", () => {
   const s = clearRoads(939),
     v = s.vehicles[1];
+  // At this marked crossing, tick 60 gives the approaching walker their turn.
+  s.tick = 60;
   v.location = { x: 17, y: 35.7, scene: "outside" };
+  v.heading = -1.570796327;
   s.npcs[33].location = { x: 20.4, y: 33, scene: "outside" };
   s.npcs[33].path = [{ x: 15.5, y: 33 }];
   assert.equal(mayAdvanceVehicle(s, v, { x: 17, y: 35.5 }), false);

@@ -108,8 +108,17 @@ export function requestNpcMeal(s: WorldState, p: Person): void {
     present(s, p, b) &&
     s.accounts[p.id] >= b.prices.simit &&
     b.stock.simit > 0
-  )
+  ) {
     requestService(s, b, p);
+    const currentBreak = s.mobility.driverBreaks?.find(
+      (x) => x.personId === p.id && ["walkToMarket", "queue"].includes(x.phase),
+    );
+    const queued = s.economy.services[b.id].queue.find((q) => q.personId === p.id);
+    if (currentBreak && queued) {
+      currentBreak.mealJoinedTick = Number(queued.id.split(":").at(-1));
+      currentBreak.phase = "queue";
+    }
+  }
 }
 export function servicesMinute(s: WorldState): void {
   for (const b of s.businesses) {

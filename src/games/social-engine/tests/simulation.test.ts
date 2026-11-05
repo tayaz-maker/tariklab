@@ -13,7 +13,11 @@ import {
 } from "../simulation/engine.ts";
 import { EVENT_TEMPLATES, JOBS } from "../domain/content.ts";
 import { BUILDINGS, isWalkable, ROADS, pointOnLane, laneLength } from "../domain/world.ts";
+import { trafficPose } from "../domain/traffic.ts";
 import { draw } from "../simulation/random.ts";
+import { routeBreak } from "../simulation/driver-breaks.ts";
+import { vehicleSeparation } from "../simulation/vehicle-collision.ts";
+import { decodeSave, encodeSave } from "../persistence/codec.ts";
 import type { WorldState } from "../domain/types.ts";
 
 let sequence = 0;
@@ -52,6 +56,7 @@ test("SE-002 SE-004 SE-005 SE-006: one canonical adult player, validated profile
 });
 test("SE-010 SE-012: fixed movement swept collision and world limits resist 10000 held inputs", () => {
   const state = createWorld(42);
+  state.player.location = { x: 27, y: 16, scene: "outside" };
   command(state, "MOVE", { x: 0, y: -1, sprint: true });
   for (let i = 0; i < 200; i++) stepWorld(state);
   assert.ok(state.player.location.y >= 14.28);
@@ -190,6 +195,8 @@ test("SE-024: principal, weekly interest and payment reconcile bank assets and p
 });
 test("SE-028 SE-029 SE-030: witnessed assault produces delayed report, evidence, pursuit and exact fine", () => {
   const state = createWorld();
+  state.player.location = { x: 27, y: 16, scene: "outside" };
+  state.npcs[0].location = { x: 28, y: 16, scene: "outside" };
   state.npcs[1].location = { x: 28, y: 16.6, scene: "outside" };
   assert.equal(command(state, "ATTACK", { npcId: "n0" }).ok, true);
   for (let i = 0; i < 90; i++) stepWorld(state);
@@ -232,21 +239,56 @@ test("SE-031: combat windup/cooldown/stamina and block are deterministic indepen
   a.player.stamina = 1;
   assert.equal(command(a, "ATTACK", { npcId: "n0" }).ok, false);
 });
-test("SE-032 SE-033: driven car and saved driver remain on directed lanes with collision spacing", () => {
+test("SE-032 SE-033: driven car and saved driver remain on directed lanes with collision spacing", async () => {
   const state = createWorld();
   assert.equal(command(state, "VEHICLE_ENTER", { vehicleId: "v0" }).ok, true);
   assert.equal(command(state, "DRIVE", { throttle: 1, steer: 0 }).ok, true);
-  for (let i = 0; i < 300; i++) stepWorld(state);
-  const vehicle = state.vehicles[0],
-    expected = pointOnLane(vehicle.lane, vehicle.progress);
+  const vehicle = state.vehicles[0];
+  // Up to one game hour for the parking connector to find a safe traffic gap.
+  // This time is separate from the 300 ticks on the public lane below.
+  for (let i = 0; i < 600; i++) {
+    stepWorld(state);
+    const manoeuvring = routeBreak(state, vehicle.id);
+    if (!manoeuvring && vehicle.speed > 0.6) break;
+  }
+  assert.ok(vehicle.speed > 0.6, "the starter must merge and accelerate on the public lane");
+  assert.ok(!routeBreak(state, vehicle.id));
+  const expected = pointOnLane(vehicle.lane, vehicle.progress);
   assert.ok(Math.hypot(vehicle.location.x - expected.x, vehicle.location.y - expected.y) < 0.002);
   assert.deepEqual(state.player.location, vehicle.location);
   assert.equal(command(state, "VEHICLE_EXIT").ok, false);
-  command(state, "DRIVE", { throttle: -1, steer: 0 });
-  for (let i = 0; i < 20; i++) stepWorld(state);
-  assert.equal(command(state, "VEHICLE_EXIT").ok, true);
   valid(state);
-  valid(JSON.parse(JSON.stringify(state)));
+  let distanceDriven = 0;
+  for (let i = 0; i < 300; i++) {
+    const old = vehicle.location;
+    stepWorld(state);
+    const delta = Math.hypot(vehicle.location.x - old.x, vehicle.location.y - old.y);
+    assert.ok(delta <= 0.601, `tick ${state.tick}: moved ${delta} m`);
+    distanceDriven += delta;
+    const lane = trafficPose(vehicle.lane, vehicle.progress);
+    assert.ok(Math.hypot(vehicle.location.x - lane.x, vehicle.location.y - lane.y) < 0.002);
+    assert.equal(vehicle.driverId, "player");
+    assert.deepEqual(state.player.location, vehicle.location);
+    for (const other of state.vehicles) {
+      if (other.id === vehicle.id) continue;
+      assert.ok(
+        vehicleSeparation(
+          { ...vehicle.location, heading: vehicle.heading },
+          { ...other.location, heading: other.heading },
+        ) >= -0.00001,
+        `tick ${state.tick}: player car overlaps ${other.id}`,
+      );
+    }
+  }
+  assert.ok(distanceDriven >= 10, `drove only ${distanceDriven} m on the public lane`);
+  const restored = (await decodeSave(await encodeSave("auto", state))).state;
+  assert.equal(canonicalState(restored), canonicalState(state));
+  assert.equal(restored.player.vehicleId, vehicle.id);
+  assert.equal(restored.vehicles[0].driverId, "player");
+  assert.equal(command(restored, "DRIVE", { throttle: -1, steer: 0 }).ok, true);
+  for (let i = 0; i < 20; i++) stepWorld(restored);
+  assert.equal(command(restored, "VEHICLE_EXIT").ok, true);
+  valid(restored);
   ROADS.forEach((lane, i) => assert.ok(lane.length >= 4 && laneLength(i) > 0));
 });
 test("SE-034 SE-035 SE-036: funded causal missions, terminal timeout and exactly once reward survive compaction", () => {

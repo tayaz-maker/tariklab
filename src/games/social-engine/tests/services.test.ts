@@ -1,3 +1,4 @@
+import { expectedParkingUpgrade } from "./traffic-migration-expectation.ts";
 import { mealIds } from "../simulation/meal-membership.ts";
 import test from "node:test";
 import assert from "node:assert/strict";
@@ -106,17 +107,11 @@ test("authentic schema4 migration adds empty service reservations and preserves 
     after = migrateState(before);
   assert.equal(after.schemaVersion, 9);
   assert.equal(JSON.stringify(before), bytes);
-  for (const field of [
-    "accounts",
-    "player",
-    "npcs",
-    "ledger",
-    "life",
-    "social",
-    "mobility",
-    "progression",
-  ] as const)
+  for (const field of ["accounts", "npcs", "ledger", "life", "social", "progression"] as const)
     assert.deepEqual(after[field], before[field]);
+  const expected = expectedParkingUpgrade(before);
+  assert.deepEqual(after.mobility, expected.mobility);
+  assert.deepEqual(after.player, expected.player);
   assert.equal(
     Object.values(after.economy.services).every((d) => !d.queue.length),
     true,

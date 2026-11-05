@@ -16,10 +16,24 @@ const generations = [
 // The active DAG uses candidate 7 hashes except for these reviewed sources.
 // Changing a runtime dependency opts its consumers out of sharing until reviewed.
 const activeChanges = {
-  "simulation/traffic.ts": "dfeb6b2f9d0bf40665c8c97535aea52b680c4e9023a6c334a6e8bfbb55e7ffd0",
   "domain/content.ts": "517fd3b7cb555e8a02f613b8b2634eb6a9baa189feba14dacc11258cb2db6cd0",
-  "simulation/engine.ts": "9b7f26624d310d6f18f734c7b8562ef7eed428f0ea37945a10b4c6a6bb4a8d47",
-  "simulation/society.ts": "0754c1169980c824a105a7e8fea396d841727e7736a5e22532601c35f83ebcc5"
+  "domain/driver-breaks.ts": "7551d6c32fda0efca6b5bf7db7be9b40d1bfff9ac074a56423592e4fca3b4fce",
+  "domain/mobility-types.ts": "6600fbd90b45ec21bb438e5db5fad9bb9855e483b878436d810976b7a5fb9525",
+  "domain/types.ts": "e286e0621d57d6a47c7f53e70e76cd0f6bd2a84734fa229ae077b8a95b8e96c8",
+  "domain/world.ts": "6c002dc1e0d15dcba77e28965dd94999255d23083d39dc33e41427ab47208e08",
+  "simulation/driver-breaks.ts": "9d5a2bda08d32d9716cfd4b42046d2ac6af432014996d6c245da572a088c42ec",
+  "simulation/engine.ts": "184a8fe54b0d041b3b98601ad2d8750039e4e9dfb1823535573fa9228aad378a",
+  "simulation/ledger.ts": "0007ca9092ede262445d8909fc3dd8d6a08c96be26b4f21c7f2e75e0eb65e799",
+  "simulation/mobility.ts": "4baa44b2d605712e8e3f21178303cd4a655fb3673c4f2b7fe7eb24da842758b5",
+  "simulation/pedestrian-crossing.ts":
+    "787b40b126e52745f1573ece05962038a4881eef878373cf5ad0867e14ed7379",
+  "simulation/pedestrian-navigation.ts":
+    "3effb96a9f09881c9b35da687ae2c68105649da67f4cdd289ebcd497df59cce1",
+  "simulation/services.ts": "a2b36b80479ca304dd3b84242a0cb2365e89e0cac5802610ca1e894a9fd80def",
+  "simulation/society.ts": "8295a118a791793096cea99065c8ae1fd458bf1baaf5ba0a594a8f382f6a606b",
+  "simulation/traffic.ts": "c7bc283b50dbba2244b2689d9d2b7f325fa8a4bc5520edc7c245c6800957ec9f",
+  "simulation/vehicle-collision.ts":
+    "7c8edb8d6f80c08bbeb30e71b4e0e1211b374d77e075ae06dad5988ba5504f37",
 };
 async function readRules(dir, expected) {
   const manifest = await readFile(join(dir, "provenance.json"));

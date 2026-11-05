@@ -127,8 +127,8 @@ test("betrayal cannot be farmed and leaves protected memories and a persistent d
 });
 test("rumors require known nearby source, attenuate confidence and cannot become certain or circular", () => {
   const s = fresh();
-  s.npcs[1].location = { x: 27.3, y: 16, scene: "outside" };
-  s.npcs[2].location = { x: 27.4, y: 16, scene: "outside" };
+  s.npcs[1].location = { ...s.npcs[0].location, x: s.npcs[0].location.x + 0.3 };
+  s.npcs[2].location = { ...s.npcs[0].location, x: s.npcs[0].location.x + 0.4 };
   const secret = emit(
     s,
     "private_note",
@@ -264,7 +264,7 @@ test("three paid services unlock officer hierarchy; leaving cannot erase the old
 });
 test("public rumor and statement commands validate reachability, source and station prerequisites", () => {
   const s = fresh();
-  s.npcs[1].location = { x: 27.5, y: 16, scene: "outside" };
+  s.npcs[1].location = { ...s.player.location, x: s.player.location.x + 0.5 };
   const memory = emit(s, "private_note", "Oyuncunun gözlemi.", ["player"], null, "private");
   tickSocial(s);
   assert.equal(act(s, "SHARE_RUMOR", { npcId: "n1", eventId: memory.id }).ok, true);

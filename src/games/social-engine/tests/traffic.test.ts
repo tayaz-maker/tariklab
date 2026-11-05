@@ -27,13 +27,13 @@ test("red approach cannot enter, occupied junction stays reserved, admitted car 
     other = s.vehicles[1];
   for (const v of s.vehicles) v.location = { x: 60, y: 55, scene: "outside" };
   for (const p of [s.player, ...s.npcs]) p.location = { x: 7, y: 7, scene: "b-home" };
-  car.location = { x: j.x - 2.6, y: j.y, scene: "outside" };
+  car.location = { x: j.x - 5.1, y: j.y, scene: "outside" };
   s.tick = Array.from({ length: 180 }, (_, i) => i).find((i) => signalAxis(i, j) === "vertical")!;
-  assert.equal(mayAdvanceVehicle(s, car, { x: j.x - 1.9, y: j.y }), false);
+  assert.equal(mayAdvanceVehicle(s, car, { x: j.x - 4.4, y: j.y }), false);
   s.tick = Array.from({ length: 180 }, (_, i) => i).find((i) => signalAxis(i, j) === "horizontal")!;
-  assert.equal(mayAdvanceVehicle(s, car, { x: j.x - 1.9, y: j.y }), true);
+  assert.equal(mayAdvanceVehicle(s, car, { x: j.x - 4.4, y: j.y }), true);
   other.location = { x: j.x, y: j.y, scene: "outside" };
-  assert.equal(mayAdvanceVehicle(s, car, { x: j.x - 1.9, y: j.y }), false);
+  assert.equal(mayAdvanceVehicle(s, car, { x: j.x - 4.4, y: j.y }), false);
   other.location = { x: 60, y: 55, scene: "outside" };
   car.location = { x: j.x, y: j.y, scene: "outside" };
   s.tick = Array.from({ length: 180 }, (_, i) => i).find((i) => signalAxis(i, j) === "clearance")!;
@@ -73,6 +73,7 @@ test("integrated fixed-tick traffic stays on lanes and resumes exactly through s
 test("actual driving command changes directed lane at a legal crossing and preserves one driver", () => {
   const s = createWorld(923),
     car = s.vehicles[0];
+  s.mobility.parking.find((l) => l.id === "park-starter")!.vehicleIds = [];
   car.lane = 2;
   car.progress = 1.9;
   car.heading = 0;

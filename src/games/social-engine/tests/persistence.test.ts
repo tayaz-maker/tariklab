@@ -1,3 +1,5 @@
+import { createWorld as createPredecessor } from "../persistence/historical/candidate7/simulation/engine.ts";
+import { expectedParkingUpgrade } from "./traffic-migration-expectation.ts";
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
@@ -69,7 +71,7 @@ test("unknown future schema is rejected with original bytes unchanged", async ()
   );
 });
 test("v1 migration reconstructs the pre-ledger checkpoint without rewriting source", () => {
-  const current = fresh();
+  const current = createPredecessor(41);
   const ids = Object.keys(current.accounts),
     from = ids.find((id) => current.accounts[id] >= 123)!,
     to = ids.find((id) => id !== from)!;
@@ -161,10 +163,16 @@ test("actual pre-lifecycle v2 fixture upgrades to schema4 without changing money
     assert.equal(decoded.state.accounts[id], balance);
   for (const [id, balance] of Object.entries(decoded.state.accounts))
     if (!Object.hasOwn(original.accounts, id)) assert.equal(balance, 0);
+  const parkingPlayer = expectedParkingUpgrade(decoded.sourceState!).player;
   for (const n of [decoded.state.player, ...decoded.state.npcs]) {
     const before =
       n.id === "player"
-        ? original.player
+        ? {
+            ...original.player,
+            location: parkingPlayer.location,
+            path: parkingPlayer.path,
+            destination: parkingPlayer.destination,
+          }
         : original.npcs.find((old: { id: string }) => old.id === n.id);
     assert.deepEqual({ ...n, propertyIds: [] }, { ...before, propertyIds: [] });
     assert.deepEqual(
@@ -195,7 +203,7 @@ test("authentic schema3 lifecycle save gains schema4 systems without rewriting f
     assert.equal(after.accounts[id], balance);
   for (const [id, balance] of Object.entries(after.accounts))
     if (!Object.hasOwn(before.accounts, id)) assert.equal(balance, 0);
-  assert.deepEqual(after.player, before.player);
+  assert.deepEqual(after.player, expectedParkingUpgrade(decoded.sourceState!).player);
   assert.deepEqual(after.npcs, before.npcs);
   assert.deepEqual(after.households, before.households);
   assert.deepEqual(after.ledger, before.ledger);

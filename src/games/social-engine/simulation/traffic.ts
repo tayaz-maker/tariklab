@@ -1,45 +1,121 @@
+import {
+  vehicleSweepClear,
+  vehiclePedestrianSweepClear,
+  vehicleSeparation,
+} from "./vehicle-collision.ts";
+import { breakRoute, WEST_OVERFLOW_PARKING_ID } from "../domain/driver-breaks.ts";
 import type { Point, Vehicle, WorldState } from "../domain/types.ts";
 import { JUNCTION_ZONES, signalAxis } from "../domain/traffic.ts";
 import { parkedAt, weatherEffects } from "./mobility.ts";
 import { ROADS, ROAD_CENTERS, laneLength, pointOnLane } from "../domain/world.ts";
 import { trafficPose, canonicalHeading } from "../domain/traffic.ts";
 import { CROSSINGS } from "./pedestrian-navigation.ts";
+import { crossingVehicleTurn, vehicleOccupiesCrossing } from "./pedestrian-crossing.ts";
 import { clamp, quantize } from "./random.ts";
 const dist = (a: Point, b: Point) => Math.hypot(a.x - b.x, a.y - b.y);
-// Stop outside the vehicle clearance envelope; a stop line inside 1.4m can
-// physically obstruct the admitted cross traffic and lock the junction forever.
-const RESERVATION_RADIUS = 2;
+// The waiting body must stay outside the largest rounded-turn sweep of an
+// admitted body: two 1.73m radial envelopes plus the 0.8m rounded path.
+const RESERVATION_RADIUS = 4.5;
+const insideZone = (point: Point, zone: (typeof JUNCTION_ZONES)[number]) =>
+  zone.some((node) => dist(point, node) <= RESERVATION_RADIUS);
+const corridorZoneMemo = new WeakMap<
+  ReturnType<typeof breakRoute>,
+  Set<(typeof JUNCTION_ZONES)[number]>
+>();
+function corridorZones(route: ReturnType<typeof breakRoute>) {
+  let zones = corridorZoneMemo.get(route);
+  if (!zones) {
+    zones = new Set(
+      JUNCTION_ZONES.filter((zone) =>
+        route.connectorPoses.some((point) => insideZone(point, zone)),
+      ),
+    );
+    corridorZoneMemo.set(route, zones);
+  }
+  return zones;
+}
 /** Occupancy is a reservation derived from persisted vehicle positions. No second
  * queue authority can become stale on restore; all decisions use stable vehicle order. */
 export function trafficContext(s: WorldState) {
   const drivers = new Set(s.vehicles.map((v) => v.driverId));
+  const guardedEastIngress = s.mobility.parking.some((lot) => lot.id === WEST_OVERFLOW_PARKING_ID);
   return {
     cars: s.vehicles,
+    awaitingMerges: new Set(
+      (s.mobility.driverBreaks ?? [])
+        .filter(
+          (b) =>
+            b.routeProgress === 0 &&
+            (b.phase === "fromBay" || (b.phase === "disabled" && b.disabledPhase === "fromBay")),
+        )
+        .map((b) => b.vehicleId),
+    ),
+    mergeCorridors: (s.mobility.driverBreaks ?? []).flatMap((b) => {
+      const eastInbound =
+        guardedEastIngress &&
+        b.bayId === "east" &&
+        (b.phase === "toBay" ||
+          (b.phase === "disabled" &&
+            b.disabledPhase === "toBay" &&
+            s.vehicles.some((v) => v.id === b.vehicleId && v.driverId)));
+      if (!eastInbound && (b.phase !== "fromBay" || b.routeProgress <= 0)) return [];
+      const route = breakRoute(eastInbound ? "toBay" : "fromBay", b.originalLane, b.bayId);
+      return b.routeProgress < route.connectorLength
+        ? [
+            {
+              vehicleId: b.vehicleId,
+              points: route.connectorPoses,
+              zones: corridorZones(route),
+            },
+          ]
+        : [];
+    }),
     parked: new Set(s.mobility.parking.flatMap((lot) => lot.vehicleIds)),
     pedestrians: [s.player, ...s.npcs.slice(0, 100)].filter(
       (p) => p.alive && !drivers.has(p.id) && p.location.scene === "outside",
     ),
   };
 }
+export function mergeJunctionGap(
+  s: WorldState,
+  car: Vehicle,
+  route: ReturnType<typeof breakRoute>,
+): boolean {
+  const context = trafficContext(s),
+    zones = corridorZones(route);
+  return [...zones].every(
+    (zone) =>
+      !context.cars.some(
+        (other) =>
+          other.id !== car.id &&
+          !context.parked.has(other.id) &&
+          !context.awaitingMerges.has(other.id) &&
+          insideZone(other.location, zone),
+      ) &&
+      !context.mergeCorridors.some((other) => other.vehicleId !== car.id && other.zones.has(zone)),
+  );
+}
 export function mayAdvanceVehicle(
   s: WorldState,
   car: Vehicle,
-  next: Point,
+  next: Point & { heading?: number },
   context = trafficContext(s),
 ): boolean {
   const moving = context.cars.filter((v) => v.id !== car.id);
+  if (moving.some((other) => !vehicleSweepClear(car, next, other))) return false;
+  // A bay manoeuvre owns its checked swept corridor after admission into
+  // an actual gap. Approaching cars stop before trapping its partially turned body.
   if (
-    moving.some((other) => {
-      const dx = next.x - other.location.x,
-        dy = next.y - other.location.y;
-      // Parking bays sit beside the travel lane. A circular buffer would seal
-      // that lane forever; use the parked body's longitudinal/lateral footprint.
-      const overlaps = context.parked.has(other.id)
-        ? Math.abs(dx * Math.cos(other.heading) + dy * Math.sin(other.heading)) < 1.5 &&
-          Math.abs(-dx * Math.sin(other.heading) + dy * Math.cos(other.heading)) < 0.85
-        : dist(next, other.location) < 1.4;
-      return overlaps && dist(next, other.location) < dist(car.location, other.location) - 0.001;
-    })
+    context.mergeCorridors.some(
+      (corridor) =>
+        corridor.vehicleId !== car.id &&
+        corridor.points.some(
+          (point) =>
+            vehicleSeparation({ ...next, heading: next.heading ?? car.heading }, point) < 0.15 &&
+            vehicleSeparation({ ...next, heading: next.heading ?? car.heading }, point) <
+              vehicleSeparation({ ...car.location, heading: car.heading }, point) - 0.00001,
+        ),
+    )
   )
     return false;
   // Yield to physical pedestrians, never to the car's own driver or distant abstract citizens.
@@ -59,16 +135,21 @@ export function mayAdvanceVehicle(
         after = next[axis] - crossing;
       if (
         Math.abs(current) <= 0.8 ||
-        Math.abs(after) >= 2.1 ||
+        Math.abs(after) >= 2.6 ||
         Math.abs(after) >= Math.abs(current)
       )
         continue;
+      const vehicleTurn =
+        crossingVehicleTurn(s.tick, road, crossing) ||
+        vehicleOccupiesCrossing(car, axis, road, crossing);
       if (
         pedestrians.some((p) => {
           if (Math.abs(p.location[axis] - crossing) > 0.65) return false;
           const offset = p.location[lateral] - road;
           if (Math.abs(offset) <= 1.7) return true;
-          if (Math.abs(offset) > 2.6) return false;
+          // The schedule controls NPC admission. A player still has their
+          // original live input and receives the usual curb-side warning space.
+          if (Math.abs(offset) > 2.6 || (p.id !== "player" && vehicleTurn)) return false;
           // Waiting on the curb is not occupying the carriageway. Reserve early
           // only when a physical actor is actually walking toward this crossing.
           const target = p.path[0];
@@ -83,21 +164,19 @@ export function mayAdvanceVehicle(
         return false;
     }
   }
-  if (
-    pedestrians.some(
-      (p) =>
-        Math.abs(next.x - p.location.x) < 0.8 &&
-        Math.abs(next.y - p.location.y) < 0.8 &&
-        dist(next, p.location) < 0.8 &&
-        dist(next, p.location) < dist(car.location, p.location) - 0.001,
-    )
-  )
-    return false;
+  if (pedestrians.some((p) => !vehiclePedestrianSweepClear(car, next, p.location))) return false;
   for (const zone of JUNCTION_ZONES) {
-    const inside = (p: Point) => zone.some((j) => dist(p, j) <= RESERVATION_RADIUS);
+    const inside = (p: Point) => insideZone(p, zone);
     if (!inside(next)) continue;
-    const clearing = inside(car.location);
-    if (!clearing && moving.some((v) => inside(v.location))) return false;
+    const clearing = inside(car.location) && !context.awaitingMerges.has(car.id);
+    if (
+      !clearing &&
+      (moving.some(
+        (v) => !context.parked.has(v.id) && !context.awaitingMerges.has(v.id) && inside(v.location),
+      ) ||
+        context.mergeCorridors.some((other) => other.vehicleId !== car.id && other.zones.has(zone)))
+    )
+      return false;
     // Admission owns the whole connected crossing box. An admitted vehicle clears
     // all overlapping stop lines even when the signal changes halfway through.
     if (clearing) continue;
@@ -112,10 +191,14 @@ export function mayAdvanceVehicle(
 
 /** Authoritative traffic step. Integration owner replaces engine's old local traffic
  * body with this export. Save fields and command flags remain unchanged. */
-export function advanceTraffic(state: WorldState): void {
+export function advanceTraffic(state: WorldState, integrated: Set<string> = new Set()): void {
   const context = trafficContext(state);
   for (const vehicle of state.vehicles) {
     if (
+      integrated.has(vehicle.id) ||
+      state.mobility.driverBreaks?.some(
+        (b) => b.vehicleId === vehicle.id && ["toBay", "fromBay", "disabled"].includes(b.phase),
+      ) ||
       !vehicle.driverId ||
       parkedAt(state, vehicle.id) ||
       !Number.isInteger(vehicle.lane) ||
@@ -190,8 +273,7 @@ export function advanceTraffic(state: WorldState): void {
       progress = quantize((vehicle.progress + step) % len) % len,
       position = trafficPose(vehicle.lane, progress);
     if (!mayAdvanceVehicle(state, vehicle, position, context)) {
-      if (vehicle.driverId !== "player" && vehicle.speed > 0)
-        vehicle.resumeSpeed ??= vehicle.speed;
+      if (vehicle.driverId !== "player" && vehicle.speed > 0) vehicle.resumeSpeed ??= vehicle.speed;
       vehicle.speed = 0;
       continue;
     }

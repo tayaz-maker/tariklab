@@ -1,3 +1,12 @@
+import {
+  driverBreakTick,
+  breakVehicleEntryBlocked,
+  routeBreak,
+  validateDriverBreaks,
+  takeBreakVehicle,
+  pauseBreakVehicle,
+} from "./driver-breaks.ts";
+import { breakRoutePose } from "../domain/driver-breaks.ts";
 import { validMealMembership } from "./meal-membership.ts";
 import { advanceTraffic } from "./traffic.ts";
 import { trafficPose } from "../domain/traffic.ts";
@@ -567,7 +576,8 @@ function applyCommandInner(state: WorldState, command: Command): CommandResult {
       );
       return ok("İşe alındın. Vardiya için işyerine git.");
     }
-    case "FINISH_WORK_ORDER": return finishWorkOrder(state,a.choice);
+    case "FINISH_WORK_ORDER":
+      return finishWorkOrder(state, a.choice);
     case "START_SHIFT": {
       const job = JOBS.find((item) => item.id === p.jobId),
         employer = state.businesses.find((item) => item.id === p.employerId);
@@ -598,7 +608,9 @@ function applyCommandInner(state: WorldState, command: Command): CommandResult {
         id: `shift:${state.nextId++}`,
         businessId: employer.id,
         endsAt: state.minute + job.duration,
-        ...(a.workOrder === true && (job.id === "retail" || job.id === "mechanic") ? {order: job.id as "retail" | "mechanic"} : {}),
+        ...(a.workOrder === true && (job.id === "retail" || job.id === "mechanic")
+          ? { order: job.id as "retail" | "mechanic" }
+          : {}),
         wage,
       };
       stop(state);
@@ -669,7 +681,9 @@ function applyCommandInner(state: WorldState, command: Command): CommandResult {
         return fail("Boş araca yaklaş.");
       const accessError = rentalAccess(state, vehicle.id);
       if (accessError) return fail(accessError);
-      unparkVehicle(state, vehicle.id);
+      if (breakVehicleEntryBlocked(state, vehicle.id))
+        return fail("Park cebi başka bir manevra için ayrılmış. Boşalmasını bekle.");
+      if (!takeBreakVehicle(state, vehicle)) unparkVehicle(state, vehicle.id);
       vehicle.driverId = "player";
       delete vehicle.resumeSpeed;
       p.vehicleId = vehicle.id;
@@ -683,13 +697,37 @@ function applyCommandInner(state: WorldState, command: Command): CommandResult {
     case "VEHICLE_EXIT": {
       const vehicle = state.vehicles.find((item) => item.id === p.vehicleId);
       if (!vehicle || vehicle.speed > 0.6) return fail("İnmek için önce frenleyip dur.");
-      const exits = [
-        { x: vehicle.location.x + 1, y: vehicle.location.y },
-        { x: vehicle.location.x - 1, y: vehicle.location.y },
-        { x: vehicle.location.x, y: vehicle.location.y + 1 },
-      ];
-      const exit = exits.find((point) => isWalkable(point));
+      const activeBreak = routeBreak(state, vehicle.id);
+      const exits = activeBreak
+        ? [
+            {
+              x: vehicle.location.x - Math.sin(vehicle.heading) * 1.25,
+              y: vehicle.location.y + Math.cos(vehicle.heading) * 1.25,
+            },
+            {
+              x: vehicle.location.x + Math.sin(vehicle.heading) * 1.25,
+              y: vehicle.location.y - Math.cos(vehicle.heading) * 1.25,
+            },
+          ]
+        : [
+            { x: vehicle.location.x + 1, y: vehicle.location.y },
+            { x: vehicle.location.x - 1, y: vehicle.location.y },
+            { x: vehicle.location.x, y: vehicle.location.y + 1 },
+          ];
+      const exit = exits.find(
+        (point) =>
+          isWalkable(point) &&
+          (!activeBreak ||
+            (!state.vehicles.some(
+              (v) => v.id !== vehicle.id && distance(v.location, point) < 1.4,
+            ) &&
+              !state.npcs.some(
+                (n) =>
+                  n.alive && n.location.scene === "outside" && distance(n.location, point) < 0.6,
+              ))),
+      );
       if (!exit) return fail("Güvenli iniş alanı bulunamadı.");
+      pauseBreakVehicle(state, vehicle);
       p.vehicleId = null;
       vehicle.driverId = null;
       vehicle.speed = 0;
@@ -1028,6 +1066,7 @@ function combat(state: WorldState): void {
     p.shift = null;
     if (p.vehicleId) {
       const vehicle = state.vehicles.find((v) => v.id === p.vehicleId)!;
+      pauseBreakVehicle(state, vehicle);
       vehicle.driverId = null;
       vehicle.speed = 0;
       p.vehicleId = null;
@@ -1158,7 +1197,8 @@ export function stepWorld(state: WorldState, commands: Command[] = []): CommandR
   state.tick++;
   mobilityTick(state);
   movement(state);
-  advanceTraffic(state);
+  const integratedBreaks = driverBreakTick(state);
+  advanceTraffic(state, integratedBreaks);
   npcMovement(state);
   combat(state);
   if (state.tick % TICKS_PER_MINUTE === 0) {
@@ -1267,7 +1307,12 @@ export function validateState(
     )
       errors.push("invalid-clock");
     const order = state.player.shift?.order;
-    if (order !== undefined && (order !== "done" && order !== "retail" && order !== "mechanic" || order !== "done" && order !== state.player.jobId)) errors.push("invalid-work-order");
+    if (
+      order !== undefined &&
+      ((order !== "done" && order !== "retail" && order !== "mechanic") ||
+        (order !== "done" && order !== state.player.jobId))
+    )
+      errors.push("invalid-work-order");
     const basePopulation =
       options.allowBenchmark && state.flags.benchmarkPopulation === 10000 ? 10000 : 1100;
     if (state.flags.benchmarkPopulation && !options.allowBenchmark)
@@ -1444,7 +1489,17 @@ export function validateState(
         errors.push(`quest-funding:${quest.id}`);
     }
     for (const vehicle of state.vehicles) {
-      const expected = trafficPose(vehicle.lane, vehicle.progress);
+      const activeBreak = routeBreak(state, vehicle.id);
+      const expected = activeBreak
+        ? breakRoutePose(
+            activeBreak.phase === "disabled"
+              ? activeBreak.disabledPhase!
+              : (activeBreak.phase as "toBay" | "fromBay"),
+            activeBreak.originalLane,
+            activeBreak.routeProgress,
+            activeBreak.bayId,
+          )
+        : trafficPose(vehicle.lane, vehicle.progress);
       if (
         (!parkedAt(state, vehicle.id) && distance(expected, vehicle.location) > 0.002) ||
         !Number.isInteger(vehicle.lane) ||
@@ -1457,7 +1512,9 @@ export function validateState(
         vehicle.speed < 0 ||
         vehicle.speed > 6 ||
         (vehicle.resumeSpeed !== undefined &&
-          (!Number.isFinite(vehicle.resumeSpeed) || vehicle.resumeSpeed <= 0 || vehicle.resumeSpeed > 6)) ||
+          (!Number.isFinite(vehicle.resumeSpeed) ||
+            vehicle.resumeSpeed <= 0 ||
+            vehicle.resumeSpeed > 6)) ||
         !Number.isFinite(vehicle.heading) ||
         !isWalkable(vehicle.location)
       )
@@ -1494,6 +1551,7 @@ export function validateState(
       ...reconcile(state),
       ...validateLife(state),
       ...validateMobility(state),
+      ...validateDriverBreaks(state),
       ...validateSocial(state),
       ...validateProgression(state),
       ...validateProperty(state),

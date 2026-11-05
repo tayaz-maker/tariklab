@@ -1,3 +1,5 @@
+import { migrateLegacyParkingPoses } from "../simulation/mobility.ts";
+import { ALL_BREAK_BAYS, STARTER_BAY } from "../domain/driver-breaks.ts";
 import { validateState as validateCandidate7 } from "./historical/candidate7/simulation/engine.ts";
 import { compactMealMemberships } from "../simulation/meal-migration.ts";
 import { migrateLegacyTrafficPoses } from "./historical/candidate6/simulation/traffic.ts";
@@ -10,7 +12,7 @@ import { canonical } from "../simulation/random.ts";
 import { initializeServices } from "../simulation/services.ts";
 import { initializeMissionReservations } from "../simulation/missions.ts";
 import { initializeEconomy } from "../simulation/economy.ts";
-import { initializeMobility } from "../simulation/mobility.ts";
+import { initializeMobility } from "./historical/candidate7/simulation/mobility.ts";
 import { initializeSocial } from "../simulation/social.ts";
 import { initializeProgression } from "../simulation/progression.ts";
 import type { WorldState } from "../domain/types.ts";
@@ -115,12 +117,17 @@ export function assertWorld(value: unknown): asserts value is WorldState {
 /** Verify an archived schema-6 -> schema-7 result using its original canonical record contract. */
 export async function archivedRules7Digest(state: WorldState): Promise<string> {
   const copy = structuredClone(state);
-  if (copy.schemaVersion !== 6 || copy.engineVersion !== "1.0.0-candidate.5" || validateCandidate5(copy).length)
+  if (
+    copy.schemaVersion !== 6 ||
+    copy.engineVersion !== "1.0.0-candidate.5" ||
+    validateCandidate5(copy).length
+  )
     throw new SaveError("INVALID_STATE", "Önceki geçişin kaynak dünyası doğrulanamadı.");
   migrateLegacyTrafficPoses(copy);
   copy.schemaVersion = 7;
   copy.engineVersion = "1.0.0-candidate.6";
-  if (validateCandidate6(copy).length) throw new SaveError("INVALID_STATE", "Önceki geçiş sonucu geçersiz.");
+  if (validateCandidate6(copy).length)
+    throw new SaveError("INVALID_STATE", "Önceki geçiş sonucu geçersiz.");
   const packed = packRecords(copy);
   return sha256(canonical({ ...packed, rulesVersion: "social-engine-rules-7" }));
 }
@@ -141,7 +148,11 @@ export async function archivedRules8Digest(state: WorldState): Promise<string> {
     copy.schemaVersion = 8;
     copy.engineVersion = "1.0.0-candidate.7";
   }
-  if (copy.schemaVersion !== 8 || copy.engineVersion !== "1.0.0-candidate.7" || validateCandidate7(copy).length)
+  if (
+    copy.schemaVersion !== 8 ||
+    copy.engineVersion !== "1.0.0-candidate.7" ||
+    validateCandidate7(copy).length
+  )
     throw new SaveError("INVALID_STATE", "Eski geçiş sonucu geçersiz.");
   return sha256(canonical({ ...packRecords(copy), rulesVersion: "social-engine-rules-8" }));
 }
@@ -243,6 +254,27 @@ export function migrateState(value: unknown): WorldState {
       throw new SaveError("INVALID_STATE", "Kaynak dünya doğrulanamadı; kayıt korundu.");
     copy.schemaVersion = SAVE_SCHEMA;
     copy.engineVersion = ENGINE_VERSION;
+    const current = copy as WorldState;
+    const starter = current.vehicles.find((v) => v.id === "v0");
+    const unclaimed =
+      starter &&
+      starter.driverId === null &&
+      starter.speed === 0 &&
+      starter.lane === 0 &&
+      starter.progress === 10 &&
+      starter.location.x === 27 &&
+      starter.location.y === 17 &&
+      !(Number(current.flags.drivenDistance ?? 0) > 0) &&
+      !current.mobility.parking.some((l) => l.vehicleIds.includes(starter.id));
+    current.mobility.driverBreaks = [];
+    current.mobility.parking.push(
+      ...ALL_BREAK_BAYS.map((bay) => ({
+        id: bay.parkingId,
+        capacity: 1,
+        vehicleIds: bay.id === "starter" && unclaimed ? [starter!.id] : [],
+      })),
+    );
+    migrateLegacyParkingPoses(current);
   }
   assertWorld(copy);
   return copy;
@@ -406,7 +438,11 @@ export async function decodeSave(value: unknown): Promise<DecodedSave> {
     state,
     migrated: value.schemaVersion < SAVE_SCHEMA,
     sourceSchema: value.schemaVersion,
-    ...(value.schemaVersion <= 6 ? { sourceState: migrateCandidate5(materialized) } : [7, 8].includes(Number(value.schemaVersion)) ? { sourceState: materialized as WorldState } : {}),
+    ...(value.schemaVersion <= 6
+      ? { sourceState: migrateCandidate5(materialized) }
+      : [7, 8].includes(Number(value.schemaVersion))
+        ? { sourceState: materialized as WorldState }
+        : {}),
     source: value as SaveEnvelope,
   };
 }

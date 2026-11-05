@@ -1,3 +1,5 @@
+import { vehicleSeparation, personVehicleSeparation } from "./vehicle-collision.ts";
+import { ALL_BREAK_BAYS, STARTER_BAY, WEST_OVERFLOW_PARKING_ID } from "../domain/driver-breaks.ts";
 import type { Command, CommandResult, Point, WorldState } from "../domain/types.ts";
 import type { MobilityState, MobilityView, WeatherKind } from "../domain/mobility-types.ts";
 import { isWalkable, hasLineOfSight } from "../domain/world.ts";
@@ -14,7 +16,7 @@ export const PARKING_LOTS = [
   {
     id: "park-market",
     name: "Çarşı otoparkı",
-    point: { x: 31, y: 16 },
+    point: { x: 31, y: 15.2 },
     capacity: 2,
     lane: 0,
     progress: 14,
@@ -22,7 +24,7 @@ export const PARKING_LOTS = [
   {
     id: "park-east",
     name: "Meydan otoparkı",
-    point: { x: 45, y: 25 },
+    point: { x: 45.8, y: 25 },
     capacity: 2,
     lane: 1,
     progress: 53,
@@ -30,12 +32,139 @@ export const PARKING_LOTS = [
   {
     id: "park-coast",
     name: "Sahil otoparkı",
-    point: { x: 29, y: 54.5 },
+    point: { x: 29, y: 55.2 },
     capacity: 1,
     lane: 1,
     progress: 10,
   },
+  ...ALL_BREAK_BAYS.map((bay) => ({
+    id: bay.parkingId,
+    name: bay.name,
+    point: bay.point,
+    capacity: 1,
+    lane: bay.id === "starter" ? 0 : 1,
+    progress: bay.id === "starter" ? 9.2 : 18,
+  })),
 ];
+
+/** Legal slots have a complete lane-clear oriented footprint. Vehicle identity
+ * and lot occupancy remain separate from the slot selected by physical pose. */
+export function parkingSlotPoses(
+  parkingId: string,
+): Array<{ x: number; y: number; heading: number }> {
+  const lot = PARKING_LOTS.find((l) => l.id === parkingId);
+  if (!lot) return [];
+  const vertical =
+    parkingId === "park-east" ||
+    ALL_BREAK_BAYS.some((b) => b.parkingId === parkingId && b.vertical);
+  return Array.from({ length: lot.capacity }, (_, i) => ({
+    x: lot.point.x + (vertical ? 0 : 4 * i),
+    y: lot.point.y + (vertical ? 4 * i : 0),
+    heading: vertical ? Math.round((-Math.PI / 2) * 1e9) / 1e9 : 0,
+  }));
+}
+export function migrateLegacyParkingPoses(s: WorldState): void {
+  const parkedIds = new Set(s.mobility.parking.flatMap((l) => l.vehicleIds));
+  const player = s.player;
+  const nearbyCars =
+    player.location.scene === "outside" && !player.vehicleId
+      ? s.vehicles.filter(
+          (v) =>
+            parkedIds.has(v.id) &&
+            Math.hypot(v.location.x - player.location.x, v.location.y - player.location.y) <=
+              1.800001 &&
+            hasLineOfSight(player.location, v.location),
+        )
+      : [];
+  const contracted = s.mobility.rentals.find(
+    (r) => r.renterId === "player" && r.status !== "available",
+  )?.vehicleId;
+  const lastPark = [...s.events]
+    .reverse()
+    .find((e) => e.kind === "vehicle_parked" && e.actors.includes("player"))?.targetId;
+  nearbyCars.sort(
+    (a, b) =>
+      Number(b.id === contracted) - Number(a.id === contracted) ||
+      Number(b.id === lastPark) - Number(a.id === lastPark) ||
+      Math.hypot(a.location.x - player.location.x, a.location.y - player.location.y) -
+        Math.hypot(b.location.x - player.location.x, b.location.y - player.location.y) ||
+      a.id.localeCompare(b.id),
+  );
+  const anchor = nearbyCars[0],
+    old = anchor ? { ...anchor.location } : null;
+  for (const lot of s.mobility.parking) {
+    const poses = parkingSlotPoses(lot.id);
+    if (!["park-market", "park-east", "park-coast", STARTER_BAY.parkingId].includes(lot.id))
+      continue;
+    // Candidate7 validated all historical offsets/headings. Stable occupancy,
+    // never an untrusted old coordinate, determines the new canonical slot.
+    lot.vehicleIds.forEach((id, index) => {
+      const car = s.vehicles.find((v) => v.id === id)!,
+        pose = poses[index];
+      car.location = { x: pose.x, y: pose.y, scene: "outside" };
+      car.heading = pose.heading;
+    });
+  }
+  if (anchor && old) {
+    const desired = {
+      x: player.location.x + anchor.location.x - old.x,
+      y: player.location.y + anchor.location.y - old.y,
+    };
+    const candidates = [
+      desired,
+      ...Array.from({ length: 32 }, (_, i) => {
+        const a = (2 * Math.PI * i) / 32;
+        return {
+          x: anchor.location.x + Math.cos(a) * 1.799,
+          y: anchor.location.y + Math.sin(a) * 1.799,
+        };
+      }),
+    ];
+    candidates.sort(
+      (a, b) =>
+        Math.hypot(a.x - desired.x, a.y - desired.y) - Math.hypot(b.x - desired.x, b.y - desired.y),
+    );
+    if (
+      anchor.id === "v0" &&
+      old.x === 27 &&
+      old.y === 17 &&
+      player.location.x === 27 &&
+      player.location.y === 16
+    )
+      candidates.unshift(STARTER_BAY.door);
+    const access = candidates.find(
+      (p) =>
+        isWalkable(p) &&
+        Math.hypot(p.x - anchor.location.x, p.y - anchor.location.y) <= 1.799001 &&
+        hasLineOfSight(p, anchor.location) &&
+        s.vehicles.every(
+          (v) => personVehicleSeparation(p, { ...v.location, heading: v.heading }) >= -0.00001,
+        ) &&
+        !s.npcs.some(
+          (n) =>
+            n.alive &&
+            n.location.scene === "outside" &&
+            Math.hypot(n.location.x - p.x, n.location.y - p.y) < 0.5,
+        ),
+    );
+    if (access) {
+      player.location = {
+        x: Math.round(access.x * 1e6) / 1e6,
+        y: Math.round(access.y * 1e6) / 1e6,
+        scene: "outside",
+      };
+      player.path = [];
+      player.destination = null;
+      s.notices.push(
+        "Park cepleri güvenli konumlara taşındı; yakındaki aracın yanında erişimin korundu. Sözleşme ve bakiyelerin aynı.",
+      );
+    } else
+      s.notices.push(
+        "Park cepleri güvenli konumlara taşındı; araç konumunu ulaşım menüsünde görebilirsin. Sözleşme ve bakiyelerin aynı.",
+      );
+  }
+}
+
 export const RENTAL_VEHICLE_ID = "v-rental-0";
 export const RENTAL_DAILY_FEE = 25000,
   RENTAL_DEPOSIT = 50000,
@@ -53,7 +182,7 @@ export function weatherAt(seed: number, day: number): WeatherKind {
 const distance = (a: Point, b: Point) => Math.hypot(a.x - b.x, a.y - b.y);
 const nearby = (s: WorldState, p: Point) =>
   s.player.location.scene === "outside" &&
-  distance(s.player.location, p) <= 1.8 &&
+  distance(s.player.location, p) <= 1.800001 &&
   hasLineOfSight(s.player.location, p);
 const good = (reason: string): CommandResult => ({ ok: true, reason, events: [] });
 const bad = (reason: string): CommandResult => ({ ok: false, reason, events: [] });
@@ -78,6 +207,10 @@ export function initializeMobility(s: WorldState): MobilityState {
     s.accounts[account] = 0;
     s.ledgerCheckpoint.balances[account] = 0;
   }
+  const starter = s.vehicles.find((v) => v.id === "v0")!;
+  starter.location = { ...STARTER_BAY.point, scene: "outside" };
+  starter.heading = 0;
+  starter.progress = 4.6;
   return {
     version: 1,
     weather: { kind: weatherAt(s.seed, day), day },
@@ -85,7 +218,8 @@ export function initializeMobility(s: WorldState): MobilityState {
     parking: PARKING_LOTS.map((p, i) => ({
       id: p.id,
       capacity: p.capacity,
-      vehicleIds: i === 0 ? [RENTAL_VEHICLE_ID] : [],
+      vehicleIds:
+        i === 0 ? [RENTAL_VEHICLE_ID] : p.id === STARTER_BAY.parkingId ? [starter.id] : [],
     })),
     rentals: [
       {
@@ -99,6 +233,7 @@ export function initializeMobility(s: WorldState): MobilityState {
       },
     ],
     trip: null,
+    driverBreaks: [],
   };
 }
 export const weatherEffects = (s: WorldState) => WEATHER[s.mobility.weather.kind];
@@ -228,20 +363,35 @@ export function applyMobilityCommand(s: WorldState, c: Command): CommandResult |
       return good("Araç hazır. Süre bitince otoparka bırakıp iade et.");
     }
     case "PARK_VEHICLE": {
+      if (ALL_BREAK_BAYS.some((bay) => bay.parkingId === a.parkingId))
+        return bad("Bu cep planlı sürücü manevrasına ayrılmıştır.");
       const lot = PARKING_LOTS.find((x) => x.id === a.parkingId),
         record = m.parking.find((x) => x.id === a.parkingId),
         v = s.vehicles.find((x) => x.id === p.vehicleId);
       if (!lot || !record || !v || !nearby(s, lot.point) || v.speed > 0.6)
         return bad("Park alanının yanında aracı durdur.");
       if (record.vehicleIds.length >= record.capacity) return bad("Otopark dolu; başka alan seç.");
-      const slot = { x: lot.point.x + (record.vehicleIds.length ? 1.2 : 0), y: lot.point.y };
+      const slot = parkingSlotPoses(lot.id).find(
+        (pose) =>
+          !s.vehicles.some(
+            (other) =>
+              other.id !== v.id &&
+              vehicleSeparation(pose, { ...other.location, heading: other.heading }) < -0.00001,
+          ),
+      );
+      if (!slot) return bad("Park gövdesi dolu; güvenli boş alan bulunamadı.");
       if (!isWalkable(slot)) return bad("Park alanı erişilemiyor.");
       record.vehicleIds.push(v.id);
       v.driverId = null;
       v.speed = 0;
-      v.location = { ...slot, scene: "outside" };
+      v.location = { x: slot.x, y: slot.y, scene: "outside" };
+      v.heading = slot.heading;
       p.vehicleId = null;
-      p.location = { x: slot.x, y: slot.y + 0.8, scene: "outside" };
+      p.location = {
+        x: slot.x - Math.sin(slot.heading) * 1.25,
+        y: slot.y + Math.cos(slot.heading) * 1.25,
+        scene: "outside",
+      };
       if (!isWalkable(p.location)) p.location = { ...slot, scene: "outside" };
       s.flags.throttle = 0;
       s.flags.steer = 0;
@@ -348,16 +498,20 @@ export function mobilityView(s: WorldState): MobilityView {
       minutes: from ? 8 + Math.ceil(distance(from.point, x.point) / 4) : 0,
       nearby: nearby(s, x.point),
     })),
-    parking: PARKING_LOTS.map((x) => {
-      const r = m.parking.find((p) => p.id === x.id)!;
-      return {
-        id: x.id,
-        name: x.name,
-        point: { ...x.point },
-        capacity: r.capacity,
-        occupied: r.vehicleIds.length,
-        available: r.capacity - r.vehicleIds.length,
-      };
+    parking: PARKING_LOTS.flatMap((x) => {
+      const r = m.parking.find((p) => p.id === x.id);
+      return r
+        ? [
+            {
+              id: x.id,
+              name: x.name,
+              point: { ...x.point },
+              capacity: r.capacity,
+              occupied: r.vehicleIds.length,
+              available: r.capacity - r.vehicleIds.length,
+            },
+          ]
+        : [];
     }),
     rentals: m.rentals.map((r) => ({
       id: r.id,
@@ -387,23 +541,45 @@ export function validateMobility(s: WorldState): string[] {
     m.weather.kind !== weatherAt(s.seed, m.weather.day)
   )
     errors.push("invalid-weather");
-  const parked = new Set<string>();
-  if (m.parking.length !== PARKING_LOTS.length) errors.push("invalid-parking-count");
+  const parked = new Set<string>(),
+    lotIds = new Set<string>(),
+    usedSlots = new Set<string>();
+  // Earlier rules-9 checkpoints can keep their exact parking topology.
+  // Fresh worlds and the published rules-8 migration include the optional bay.
+  const hasOverflow = m.parking.some((lot) => lot.id === WEST_OVERFLOW_PARKING_ID);
+  if (
+    m.parking.length !== PARKING_LOTS.length - Number(!hasOverflow) ||
+    PARKING_LOTS.some(
+      (def) => def.id !== WEST_OVERFLOW_PARKING_ID && !m.parking.some((lot) => lot.id === def.id),
+    )
+  )
+    errors.push("invalid-parking-count");
   for (const r of m.parking) {
     const def = PARKING_LOTS.find((p) => p.id === r.id);
-    if (!def || def.capacity !== r.capacity || r.vehicleIds.length > r.capacity)
+    if (
+      !def ||
+      lotIds.has(r.id) ||
+      def.capacity !== r.capacity ||
+      !Array.isArray(r.vehicleIds) ||
+      r.vehicleIds.length > r.capacity
+    ) {
       errors.push("invalid-parking:" + r.id);
+      continue;
+    }
+    lotIds.add(r.id);
+    const poses = parkingSlotPoses(r.id);
     for (const id of r.vehicleIds) {
       const v = s.vehicles.find((x) => x.id === id);
-      if (
-        parked.has(id) ||
-        !v ||
-        v.driverId ||
-        v.speed !== 0 ||
-        !def ||
-        distance(v.location, def.point) > 1.5
-      )
+      const slot = v
+        ? poses.findIndex(
+            (pose) =>
+              distance(v.location, pose) < 0.002 && Math.abs(v.heading - pose.heading) < 0.000001,
+          )
+        : -1;
+      const key = `${r.id}:${slot}`;
+      if (parked.has(id) || !v || v.driverId || v.speed !== 0 || slot < 0 || usedSlots.has(key))
         errors.push("invalid-parked-vehicle:" + id);
+      else usedSlots.add(key);
       parked.add(id);
     }
   }
