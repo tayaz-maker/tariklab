@@ -3,7 +3,6 @@ import { Application, Container, Graphics, Rectangle, Sprite, Text, Texture } fr
 import type { Person, Point, RenderProjection, Vehicle } from "../domain/types";
 import { retargetMotion, sampleMotion } from "./interpolation";
 import { cameraTranslation } from "./camera";
-import { visualBuildingHeight } from "./building-art";
 import { BUILDINGS, LAND_HEIGHT, ROAD_CENTERS, isRoad, project, unproject } from "./world";
 
 // Physics headings stay in world coordinates; compare projected tangents to eight authored axes.
@@ -54,6 +53,7 @@ type ActorView = {
   vehicle?: Vehicle;
   fadeSprite?: Sprite;
   vehicleFrameName?: string;
+  personFrameName?: string;
   fadeStartedAt?: number;
 };
 export type WorldRenderer = {
@@ -66,6 +66,8 @@ export type WorldRenderer = {
 declare const SOCIAL_ATLAS_URL: string;
 const BASE = "/games/social-engine/assets/";
 const clamp = (v: number, a: number, b: number) => Math.max(a, Math.min(b, v));
+const PERSON_SAMPLE_X = [-6, -3, 0, 3, 6], PERSON_SAMPLE_Y = [-32, -28, -24, -20, -16, -12, -8, -4];
+const VEHICLE_SAMPLE_X = [-20, -10, 0, 10, 20], VEHICLE_SAMPLE_Y = [-24, -12, 0, 12];
 
 function groundTexture(cx: number, cy: number): Texture {
   const canvas = document.createElement("canvas");
@@ -436,6 +438,45 @@ export async function createRenderer(
     app.destroy(true, { children: true });
     throw error;
   }
+  // A compact, one-bit occupancy mask prevents transparent atlas padding or
+  // shadows from triggering building fade. It is built once, never per frame.
+  const buildingMasks = new Map<string, Uint8Array>();
+  const maskCanvas = document.createElement("canvas");
+  maskCanvas.width = buildingBase.source.width;
+  maskCanvas.height = buildingBase.source.height;
+  const maskContext = maskCanvas.getContext("2d", { willReadFrequently: true })!;
+  maskContext.drawImage(buildingBase.source.resource as HTMLImageElement, 0, 0);
+  for (const [name, frame] of Object.entries(atlas.buildings.frames)) {
+    const pixels = maskContext.getImageData(frame.x, frame.y, frame.w, frame.h).data;
+    const mask = new Uint8Array(Math.ceil((frame.w * frame.h) / 8));
+    for (let i = 0; i < frame.w * frame.h; i++) {
+      if (pixels[i * 4 + 3] >= 160) mask[i >> 3] |= 1 << (i & 7);
+    }
+    buildingMasks.set(name, mask);
+  }
+  maskCanvas.width = 0;
+  maskCanvas.height = 0;
+  // Only player animation cells actually visited are decoded; each is cached
+  // as one bit per pixel so sprite overlap excludes transparent character pixels.
+  const playerMasks = new Map<string, Uint8Array>();
+  const playerMask = (name: string, frame: Frame): Uint8Array => {
+    const existing = playerMasks.get(name);
+    if (existing) return existing;
+    const canvas = document.createElement("canvas");
+    canvas.width = frame.w;
+    canvas.height = frame.h;
+    const context = canvas.getContext("2d", { willReadFrequently: true })!;
+    context.drawImage(actorBase.source.resource as HTMLImageElement, frame.x, frame.y, frame.w, frame.h, 0, 0, frame.w, frame.h);
+    const pixels = context.getImageData(0, 0, frame.w, frame.h).data;
+    const mask = new Uint8Array(Math.ceil((frame.w * frame.h) / 8));
+    for (let i = 0; i < frame.w * frame.h; i++) {
+      if (pixels[i * 4 + 3] >= 160) mask[i >> 3] |= 1 << (i & 7);
+    }
+    canvas.width = 0;
+    canvas.height = 0;
+    playerMasks.set(name, mask);
+    return mask;
+  };
   const textures = new Map<string, Texture>();
   for (const [name, frame] of Object.entries(atlas.buildings.frames))
     textures.set(
@@ -1043,6 +1084,7 @@ export async function createRenderer(
           ? `person-${playerAction}-${v.person.appearance % 8}-${v.direction}`
           : `person-${running ? "run-" : ""}${v.person.appearance % 8}-${v.direction}-${frame}`;
         v.sprite.texture = textures.get(textureName)!;
+        v.personFrameName = textureName;
         // Independent idle breathing is presentation only, with a fixed foot anchor.
         const breath = moving ? 1 : 1 + Math.sin(phase / 620) * 0.014;
         v.sprite.scale.set(0.76, 0.76 * breath);
@@ -1094,19 +1136,41 @@ export async function createRenderer(
     playerRing.visible = !!player && !current.player.vehicleId;
     playerMarker.position.set(focus.x, focus.y);
     playerMarker.visible = !!player && !current.player.vehicleId && !current.mobility?.trip;
+    // The player's driven vehicle is the visible subject while the character
+    // sprite is hidden. Its authored frame supplies the same alpha test.
+    const subject = current.player.vehicleId ? actors.get(current.player.vehicleId) : player;
+    const subjectName = subject?.personFrameName ?? subject?.vehicleFrameName;
+    const subjectFrame = subjectName ? atlas.actors.frames[subjectName] : undefined;
+    const actorMask = subjectName && subjectFrame ? playerMask(subjectName, subjectFrame) : undefined;
     for (const b of BUILDINGS) {
       const s = buildings.get(b.id);
       if (!s) continue;
-      const f = project({ x: b.x + b.w / 2, y: b.y + b.h / 2 });
-      const blocks =
-        current.player.location.x <= b.x + b.w &&
-        current.player.location.y <= b.y + b.h &&
-        focus.x > f.x - (b.w + b.h) * 12 &&
-        focus.x < f.x + (b.w + b.h) * 12 &&
-        focus.y < s.y + (b.w + b.h) * 12 &&
-        // The art includes a taller skyline and rooftop structures. Match its
-        // visual extent so added storeys cannot hide the player.
-        focus.y > s.y - (visualBuildingHeight(b.kind, b.height) + 1.5) * 24;
+      const frame = atlas.buildings.frames[b.id];
+      const mask = buildingMasks.get(b.id);
+      let blocks = false;
+      // Compare in the shared projected world coordinates. Depth must put the
+      // building in front, and an opaque building pixel must cover the body.
+      if (subject?.sprite.visible && s.zIndex > subject.sprite.zIndex && frame && mask && subjectFrame && actorMask) {
+        const centerX = subject.sprite.x - s.x + frame.pivot.x;
+        const centerY = subject.sprite.y - s.y + frame.pivot.y;
+        const vehicle = !!subject.vehicle;
+        const dxs = vehicle ? VEHICLE_SAMPLE_X : PERSON_SAMPLE_X;
+        const dys = vehicle ? VEHICLE_SAMPLE_Y : PERSON_SAMPLE_Y;
+        const cosine = Math.cos(subject.sprite.rotation), sine = Math.sin(subject.sprite.rotation);
+        if (centerX >= -20 && centerX < frame.w + 20 && centerY >= -12 && centerY < frame.h + 32) {
+          for (const dy of dys) {
+            for (const dx of dxs) {
+              const x = Math.floor(centerX + dx), y = Math.floor(centerY + dy);
+              const ax = Math.floor((dx * cosine + dy * sine) / subject.sprite.scale.x + subjectFrame.pivot.x);
+              const ay = Math.floor((-dx * sine + dy * cosine) / subject.sprite.scale.y + subjectFrame.pivot.y);
+              if (x < 0 || x >= frame.w || y < 0 || y >= frame.h || ax < 0 || ax >= subjectFrame.w || ay < 0 || ay >= subjectFrame.h) continue;
+              const bit = y * frame.w + x, actorBit = ay * subjectFrame.w + ax;
+              if ((mask[bit >> 3] & (1 << (bit & 7))) && (actorMask[actorBit >> 3] & (1 << (actorBit & 7)))) { blocks = true; break; }
+            }
+            if (blocks) break;
+          }
+        }
+      }
       const targetAlpha = blocks ? 0.35 : 1;
       s.alpha += (targetAlpha - s.alpha) * 0.12;
       const d = doors.get(b.id)!;
@@ -1203,6 +1267,7 @@ export async function createRenderer(
       },
       samples: frameSamples.length,
       visibleActors,
+      occludedBuildings: [...buildings].filter(([, sprite]) => sprite.alpha < 0.9).map(([id, sprite]) => ({ id, alpha: sprite.alpha })),
       sceneChanges,
       zoom,
       cameraTransform: { x: world.x, y: world.y, zoom },
@@ -1230,6 +1295,8 @@ export async function createRenderer(
       for (const texture of textures.values()) texture.destroy(false);
       // Frame textures share these two owned sources. Disposing frames alone leaves
       // Texture.from(image) entries in Pixi's resource cache across recovery/restart.
+      buildingMasks.clear();
+      playerMasks.clear();
       buildingBase.destroy(true);
       actorBase.destroy(true);
       app.destroy(true, { children: true, texture: false, textureSource: false });
