@@ -9,7 +9,7 @@ import type {
   RenderProjection,
   WorldState,
 } from "../domain/types.ts";
-import { BUILDINGS, SPAWN } from "../rendering/world.ts";
+import { BUILDINGS, SPAWN, hasLineOfSight } from "../rendering/world.ts";
 import { createRenderer } from "../rendering/renderer.ts";
 import { SaveRepository, SLOT_IDS } from "../persistence/index.ts";
 import type { JournalHandle, JournalPoint } from "../persistence/index.ts";
@@ -343,6 +343,7 @@ async function start(profile?: Profile, saveState?: WorldState, compatibility = 
         }
         if (message.projection) {
           view = message.projection;
+          updatePersonReach();
           perf.sim.push(view!.simMs || 0);
           if (perf.sim.length > 20000) perf.sim.shift();
         }
@@ -1151,11 +1152,40 @@ function attack(heavy: boolean) {
   if (n?.kind === "person") void act("ATTACK", { npcId: n.id, heavy });
   else toast("Dövüş için hedefe yaklaş.");
 }
+/** Keep a live dialogue honest while pedestrians continue to move. Authority still
+ * validates every command because the NPC can move between projection and tick. */
+function updatePersonReach() {
+  if (panel !== "person" || !view) return;
+  const status = document.getElementById("person-reach");
+  if (!status) return;
+  const n = view.npcs.find((person) => person.id === selected && person.alive);
+  const player = view.player.location;
+  const sameScene = !!n && n.location.scene === player.scene;
+  const distance = sameScene
+    ? Math.hypot(player.x - n!.location.x, player.y - n!.location.y)
+    : Infinity;
+  const visible = !!n && sameScene && hasLineOfSight(player, n.location, player.scene);
+  const socialReach = visible && distance <= 3;
+  const closeReach = visible && distance <= 1.8;
+  const message = !socialReach
+    ? "Bu kişi uzaklaştı veya görüş alanından çıktı. Etkileşim için yeniden yaklaş."
+    : !closeReach
+      ? "Bu kişi biraz uzakta. Konuşmak veya diğer eylemler için yaklaş."
+      : "Bu kişi yakınında; etkileşim kurulabilir.";
+  if (status.textContent !== message) status.textContent = message;
+  el("panel")
+    .querySelectorAll<HTMLButtonElement>("[data-topic], #challenge")
+    .forEach((button) => {
+      button.disabled = !closeReach || button.dataset.busy === "true";
+    });
+  const share = document.getElementById("share-rumor") as HTMLButtonElement | null;
+  if (share) share.disabled = !socialReach || share.dataset.busy === "true";
+}
 function showPerson(n: Person) {
   const rel = view!.relations.find((r) => r.from === n.id && r.to === "player");
   shell(
     n.name,
-    `<small>${esc(statusName(n.goal))} · ${esc(JOBS.find((j) => j.id === n.jobId)?.name ?? "Kendi yolunda")} · Güven ${rel?.trust ?? 0}</small><p class="dialogue">“${esc(n.memories.length ? "Mahallede olanları unutmak kolay değil. Senin de anlatacakların vardır." : "Yeni bir yüz görmek güzel. DARAMCIK küçük; yollarımız yine kesişir.")}”</p><div class="grid"><button data-topic="greet">Selam ver / sohbet et</button><button data-topic="help">Yardım teklif et</button><button data-topic="askJob">İş sor</button><button data-topic="insult" class="danger">Ters konuş</button><button data-topic="date">Buluşma teklif et</button><button data-topic="marry">Evlilik teklif et</button><button data-topic="separate">İlişkiyi sonlandır</button></div>${
+    `<small>${esc(statusName(n.goal))} · ${esc(JOBS.find((j) => j.id === n.jobId)?.name ?? "Kendi yolunda")} · Güven ${rel?.trust ?? 0}</small><p class="dialogue">“${esc(n.memories.length ? "Mahallede olanları unutmak kolay değil. Senin de anlatacakların vardır." : "Yeni bir yüz görmek güzel. DARAMCIK küçük; yollarımız yine kesişir.")}”</p><p id="person-reach" class="note" role="status" aria-live="polite"></p><div class="grid"><button data-topic="greet">Selam ver / sohbet et</button><button data-topic="help">Yardım teklif et</button><button data-topic="askJob">İş sor</button><button data-topic="insult" class="danger">Ters konuş</button><button data-topic="date">Buluşma teklif et</button><button data-topic="marry">Evlilik teklif et</button><button data-topic="separate">İlişkiyi sonlandır</button></div>${
       view!.social?.memories.length
         ? `<h3 class="section">Duyduklarını paylaş</h3><label>Bir anı seç<select id="rumor-event">${view!.social.memories
             .slice(-8)
@@ -1181,22 +1211,37 @@ function showPerson(n: Person) {
             >
           )[topic];
           const dialog = el("close-panel");
+          b.dataset.busy = "true";
           b.disabled = true;
           try {
             const r = await act(lifeCommand ?? "TALK", { npcId: n.id, topic });
             if (r.ok && dialog === el("close-panel")) closePanel();
           } finally {
-            b.disabled = false;
+            delete b.dataset.busy;
+            if (b.isConnected) updatePersonReach();
           }
         }),
     );
   if (el("share-rumor"))
-    el("share-rumor").onclick = () =>
-      void act("SHARE_RUMOR", { npcId: n.id, eventId: el<HTMLSelectElement>("rumor-event").value });
+    el<HTMLButtonElement>("share-rumor").onclick = async (event) => {
+      const button = event.currentTarget as HTMLButtonElement;
+      button.dataset.busy = "true";
+      button.disabled = true;
+      try {
+        await act("SHARE_RUMOR", {
+          npcId: n.id,
+          eventId: el<HTMLSelectElement>("rumor-event").value,
+        });
+      } finally {
+        delete button.dataset.busy;
+        if (button.isConnected) updatePersonReach();
+      }
+    };
   el("challenge").onclick = async () => {
     closePanel();
     await act("ATTACK", { npcId: n.id });
   };
+  updatePersonReach();
 }
 function showBuilding(id: string) {
   if (!view) return;

@@ -1,0 +1,1 @@
+import{t as e}from"./chunk-CGqhE8ak.js";e(globalThis);

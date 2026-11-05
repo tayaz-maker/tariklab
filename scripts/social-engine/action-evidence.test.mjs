@@ -200,3 +200,39 @@ test("actual RETIRE then30 requested frozen QA steps and actual RESUME are verif
     h.close();
   }
 });
+
+test("rejected distant rumor remains a failure and reports authoritative action-time distance", () => {
+  const save = createWorld(20261103);
+  for (const [i, type] of ["RETIRE", "RESUME_CAREER"].entries())
+    assert.equal(
+      applyCommand(save, { v: 1, id: `setup:diagnostic:${i}`, type, args: {} }).ok,
+      true,
+    );
+  const event = save.social.knowledge.player.at(-1);
+  save.npcs[0].location = { ...save.player.location, x: save.player.location.x + 5 };
+  const h = harness(save);
+  try {
+    const command = {
+      v: 1,
+      id: "dom:out-of-range",
+      type: "SHARE_RUMOR",
+      args: { npcId: save.npcs[0].id, eventId: event.eventId },
+    };
+    h.send({ type: "COMMANDS", commands: [command] });
+    h.tick();
+    h.send({ type: "SNAPSHOT_REQUEST", requestId: "after-rejection" });
+    assert.throws(
+      () => replayActionEvidence({ ...h, sent: [command] }, "SHARE_RUMOR"),
+      (e) => {
+        assert.match(e.message, /action-time context/);
+        const context = JSON.parse(e.message.split("action-time context: ")[1]);
+        assert.equal(context.npcId, save.npcs[0].id);
+        assert.equal(context.senderKnows, true);
+        assert.ok(context.distance > 3);
+        return true;
+      },
+    );
+  } finally {
+    h.close();
+  }
+});

@@ -30,7 +30,6 @@ export function replayActionEvidence({ baseline, sent, received }, type) {
   const command = commands[0];
   const acknowledgement = received.find((m) => m.type === "RESULT" && m.id === command.id);
   assert.ok(acknowledgement, "real worker acknowledgement");
-  assert.equal(acknowledgement.result.ok, true, acknowledgement.result.reason);
   const batches = received.filter((m) => m.type === "JOURNAL_BATCH").map((m) => m.batch);
   assert.ok(
     batches.every((b) => b.epoch === baseline.journal.epoch),
@@ -46,6 +45,32 @@ export function replayActionEvidence({ baseline, sent, received }, type) {
   const beforeState = replayJournal(baseline.state, baseline.journal, prefix.slice(0, -1));
   const state = replayJournal(baseline.state, baseline.journal, prefix);
   const operation = operations[index];
+  if (!acknowledgement.result.ok) {
+    // Preserve real rejection while reporting authoritative action-time context.
+    const target = beforeState.npcs.find((npc) => npc.id === command.args?.npcId);
+    const p = beforeState.player.location;
+    const n = target?.location;
+    const context =
+      type === "SHARE_RUMOR"
+        ? {
+            tick: beforeState.tick,
+            minute: beforeState.minute,
+            npcId: target?.id ?? null,
+            sameScene: !!n && n.scene === p.scene,
+            distance: n && n.scene === p.scene ? Math.hypot(n.x - p.x, n.y - p.y) : null,
+            senderKnows: (beforeState.social.knowledge.player ?? []).some(
+              (m) => m.eventId === command.args?.eventId,
+            ),
+            recipientKnows: (beforeState.social.knowledge[target?.id] ?? []).some(
+              (m) => m.eventId === command.args?.eventId,
+            ),
+            lastRumorAt: beforeState.social.lastRumorAt.player ?? null,
+          }
+        : null;
+    assert.fail(
+      `${acknowledgement.result.reason}; action-time context: ${JSON.stringify(context)}`,
+    );
+  }
   return {
     state,
     beforeState,
