@@ -70,7 +70,7 @@ const nearbyPartner = (s: WorldState) => {
 
 test("schema4 initializes one capacity-safe primary home per household with zero new balances", () => {
   const s = fresh();
-  assert.equal(s.schemaVersion, 8);
+  assert.equal(s.schemaVersion, 9);
   assert.equal(s.life.properties.length, 288);
   assert.equal(s.life.budgets.length, 276);
   assert.equal(new Set(s.households.map((h) => h.homeId)).size, s.households.length);

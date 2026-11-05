@@ -1,6 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { chromium } from "playwright";
+import { visualBuildingHeight } from "../../src/games/social-engine/rendering/building-art.ts";
 import {
   BUILDINGS,
   ROADS,
@@ -40,207 +41,505 @@ const generated = await page.evaluate(
         c.stroke();
       }
     };
+    // Six architectural families share projection and atlas cells, not a common facade.
+    // Their footprints stay inside the authoritative collision rectangles.
+    let shelfX = 0,
+      shelfY = 0;
     buildings.forEach((b, index) => {
-      const fx = (index % 4) * 512,
-        fy = Math.floor(index / 4) * 512;
-      const ox = b.h * 24 + 12,
+      // Variable-width shelf packing preserves the exact world projection for wide buildings.
+      const cellWidth = Math.ceil((b.w + b.h) * 24 + 56);
+      if (shelfX + cellWidth > canv.width) {
+        shelfX = 0;
+        shelfY += 512;
+      }
+      const fx = shelfX,
+        fy = shelfY;
+      shelfX += cellWidth;
+      if (fy + 512 > canv.height) throw new Error("Building atlas capacity exceeded");
+      const ox = b.h * 24 + 22,
         oy = b.height * 24 + 28;
-      frames[b.id] = { x: fx, y: fy, w: 512, h: 512, pivot: { x: ox, y: oy } };
+      frames[b.id] = { x: fx, y: fy, w: cellWidth, h: 512, pivot: { x: ox, y: oy } };
       c.save();
+      c.beginPath();
+      c.rect(fx + 1, fy + 1, cellWidth - 2, 510);
+      c.clip();
       c.translate(fx + ox, fy + oy);
       const p = (x, y, z = 0) => [(x - y) * 24, (x + y) * 12 - z * 24];
-      const box = (x, y, w, h, z, color) => {
-        poly([p(x, y), p(x + w, y), p(x + w, y + h), p(x, y + h)], shade(color, 0.76));
-        poly([p(x + w, y), p(x + w, y + h), p(x + w, y + h, z), p(x + w, y, z)], shade(color, 0.7));
+      const face = (pts, fill, stroke = "#263e3b55") =>
         poly(
-          [p(x, y + h), p(x + w, y + h), p(x + w, y + h, z), p(x, y + h, z)],
-          shade(color, 0.95),
+          pts.map((v) => p(...v)),
+          fill,
+          stroke,
         );
-        poly([p(x, y, z), p(x + w, y, z), p(x + w, y + h, z), p(x, y + h, z)], shade(color, 1.06));
-      };
-      // Ground-contact shadow and masonry plinth.
-      poly(
-        [p(0.2, 0.1), p(b.w + 0.8, 0.1), p(b.w + 0.8, b.h + 1.1), p(0.2, b.h + 1.1)],
-        "#152c2730",
-        null,
-      );
-      box(0, 0, b.w, b.h, 0.3, 0xaaa28b);
-      box(0, 0, b.w, b.h, b.height, b.color);
-      for (let z = 0.45; z < b.height; z += 0.85) {
-        poly(
-          [p(0, b.h, z), p(b.w, b.h, z), p(b.w, b.h, z + 0.035), p(0, b.h, z + 0.035)],
-          "#ffffff10",
-          null,
-        );
-        poly(
-          [p(b.w, 0, z), p(b.w, b.h, z), p(b.w, b.h, z + 0.035), p(b.w, 0, z + 0.035)],
-          "#0000000d",
-          null,
-        );
-      }
-      // Window bays with recessed trim, reflections, mullions, shutters and balcony rails.
-      const window = (x, y, z, side = false) => {
-        const q = (u, v) => (side ? p(b.w, y + u, z + v) : p(x + u, b.h, z + v));
-        poly([q(-0.12, -0.1), q(1.3, -0.1), q(1.3, 1.8), q(-0.12, 1.8)], "#f5dfb0");
-        poly([q(0, 0), q(1.16, 0), q(1.16, 1.65), q(0, 1.65)], "#273d45");
-        poly([q(0.08, 0.82), q(1.08, 0.82), q(1.08, 1.58), q(0.08, 1.58)], "#67848b");
-        poly([q(0.1, 0.05), q(0.53, 0.05), q(0.53, 0.72), q(0.1, 0.72)], "#bc9465");
-        poly([q(0.58, 0), q(0.64, 0), q(0.64, 1.65), q(0.58, 1.65)], "#ece1be");
-        poly([q(0, 0.77), q(1.16, 0.77), q(1.16, 0.84), q(0, 0.84)], "#ece1be");
-        if (!side && z > 3) {
-          const a = q(-0.2, -0.12),
-            d = q(1.4, -0.12);
-          c.strokeStyle = "#31433b";
-          c.lineWidth = 1.5;
-          c.beginPath();
-          c.moveTo(a[0], a[1]);
-          c.lineTo(d[0], d[1]);
-          c.stroke();
-          for (let u = 0; u < 1.4; u += 0.22) {
-            const v = q(u, -0.1),
-              w = q(u, 0.36);
-            c.beginPath();
-            c.moveTo(...v);
-            c.lineTo(...w);
-            c.stroke();
-          }
-        }
-      };
-      for (let z = 3.1; z < b.height - 1; z += 2.6) {
-        for (let x = 0.65; x < b.w - 1.3; x += 2.05) window(x, b.h, z);
-        for (let y = 0.7; y < b.h - 1.4; y += 2.4) window(b.w, y, z, true);
-      }
-      // Storefront glass, brass door handles and stone thresholds.
-      for (let x = 0.5; x < b.w - 1.2; x += 1.7) {
-        poly(
-          [p(x, b.h, 0.45), p(x + 1.25, b.h, 0.45), p(x + 1.25, b.h, 2.7), p(x, b.h, 2.7)],
-          "#284b49",
-        );
-        poly(
+      const slab = (x, y, w, h, z0, z1, col) => {
+        face(
           [
-            p(x + 0.08, b.h, 0.55),
-            p(x + 0.4, b.h, 0.55),
-            p(x + 1.1, b.h, 2.55),
-            p(x + 0.8, b.h, 2.55),
+            [x + w, y, z0],
+            [x + w, y + h, z0],
+            [x + w, y + h, z1],
+            [x + w, y, z1],
           ],
-          "#a6c1b330",
+          shade(col, 0.67),
         );
-      }
-      const dx = b.w / 2;
-      poly(
-        [
-          p(dx - 0.65, b.h, 0.2),
-          p(dx + 0.65, b.h, 0.2),
-          p(dx + 0.65, b.h, 2.7),
-          p(dx - 0.65, b.h, 2.7),
-        ],
-        "#233c38",
-      );
-      poly(
-        [
-          p(dx - 0.55, b.h, 0.3),
-          p(dx + 0.5, b.h, 0.3),
-          p(dx + 0.5, b.h, 2.6),
-          p(dx - 0.55, b.h, 2.6),
-        ],
-        "#665544",
-      );
-      const hand = p(dx + 0.35, b.h, 1.2);
-      c.fillStyle = "#edce83";
-      c.fillRect(hand[0] - 1, hand[1] - 3, 2, 6);
-      // Awnings cast a coherent shadow and add recognizable local shop identity.
-      const awning = ["market", "cafe", "restaurant", "sales"].includes(b.kind);
-      if (awning) {
-        const aw = b.kind === "market" ? "#657f47" : b.kind === "sales" ? "#356960" : "#933e35";
-        for (let x = 0.1; x < b.w - 0.1; x += 0.55) {
-          poly(
+        face(
+          [
+            [x, y + h, z0],
+            [x + w, y + h, z0],
+            [x + w, y + h, z1],
+            [x, y + h, z1],
+          ],
+          shade(col, 0.88),
+        );
+        face(
+          [
+            [x, y, z1],
+            [x + w, y, z1],
+            [x + w, y + h, z1],
+            [x, y + h, z1],
+          ],
+          shade(col, 1.04),
+        );
+      };
+      const front = (x0, x1, z0, z1, color, y = b.h + 0.015) =>
+        face(
+          [
+            [x0, y, z0],
+            [x1, y, z0],
+            [x1, y, z1],
+            [x0, y, z1],
+          ],
+          color,
+        );
+      const side = (y0, y1, z0, z1, color, x = b.w + 0.015) =>
+        face(
+          [
+            [x, y0, z0],
+            [x, y1, z0],
+            [x, y1, z1],
+            [x, y0, z1],
+          ],
+          color,
+        );
+      const line = (a, d, color = "#263e3bcc", width = 1) => {
+        c.beginPath();
+        c.moveTo(...p(...a));
+        c.lineTo(...p(...d));
+        c.strokeStyle = color;
+        c.lineWidth = width;
+        c.stroke();
+      };
+      const pane = (x, z, w = 1.1, h = 1.6, style = "glass", y = b.h + 0.015) => {
+        front(x - 0.08, x + w + 0.08, z - 0.08, z + h + 0.08, "#d8c8a5", y);
+        front(x, x + w, z, z + h, style === "warm" ? "#7c7160" : "#304f54", y);
+        front(
+          x + 0.07,
+          x + w - 0.07,
+          z + h * 0.53,
+          z + h - 0.08,
+          style === "warm" ? "#d9aa75" : "#719095",
+          y,
+        );
+        front(x + w * 0.48, x + w * 0.53, z, z + h, "#d4c9ac", y);
+        front(x, x + w, z + h * 0.48, z + h * 0.52, "#d4c9ac", y);
+      };
+      const sidePane = (y, z, w = 1.1, h = 1.5) => {
+        side(y - 0.08, y + w + 0.08, z - 0.08, z + h + 0.08, "#d8c8a5");
+        side(y, y + w, z, z + h, "#35565a");
+        side(y + 0.08, y + w - 0.08, z + h * 0.54, z + h - 0.08, "#789397");
+        side(y + w * 0.48, y + w * 0.53, z, z + h, "#c9c6ae");
+      };
+      const balcony = (x, z, w = 2) => {
+        face(
+          [
+            [x, b.h, z],
+            [x + w, b.h, z],
+            [x + w, b.h + 0.55, z],
+            [x, b.h + 0.55, z],
+          ],
+          "#d7ccae",
+        );
+        face(
+          [
+            [x, b.h + 0.55, z],
+            [x + w, b.h + 0.55, z],
+            [x + w, b.h + 0.55, z + 0.55],
+            [x, b.h + 0.55, z + 0.55],
+          ],
+          "#51636199",
+        );
+        for (let u = 0.15; u < w; u += 0.36)
+          line([x + u, b.h + 0.56, z], [x + u, b.h + 0.56, z + 0.55], "#253b39", 1.2);
+        line([x, b.h + 0.56, z + 0.55], [x + w, b.h + 0.56, z + 0.55], "#253b39", 2);
+      };
+      // Balconies on the elevation facing this camera: concrete undersides and
+      // recessed doors make the projection legible at the normal game zoom.
+      const sideBalcony = (y, z, length) => {
+        const x = b.w + 0.04;
+        face([[x, y, z], [x, y + length, z], [x + 0.42, y + length, z], [x + 0.42, y, z]], "#d7c7a9");
+        face([[x + 0.42, y, z], [x + 0.42, y + length, z], [x + 0.42, y + length, z + 0.65], [x + 0.42, y, z + 0.65]], "#405b5b88");
+        for (let q = 0.1; q < length; q += 0.38)
+          line([x + 0.43, y + q, z], [x + 0.43, y + q, z + 0.65], "#263d3a", 1.2);
+        line([x + 0.43, y, z + 0.65], [x + 0.43, y + length, z + 0.65], "#263d3a", 2);
+      };
+      const sign = (text, z, color = "#273d3b") => {
+        const q = p(b.w / 2, b.h + 0.07, z);
+        c.save();
+        c.translate(...q);
+        c.rotate(Math.atan(0.5));
+        const sw = Math.min(205, b.w * 27);
+        c.fillStyle = color;
+        c.fillRect(-sw / 2, -10, sw, 20);
+        c.strokeStyle = "#d6b77e";
+        c.lineWidth = 1;
+        c.strokeRect(-sw / 2, -10, sw, 20);
+        c.textAlign = "center";
+        c.textBaseline = "middle";
+        c.fillStyle = "#f5ead0";
+        c.font = `700 ${Math.min(13, sw / (text.length * 0.64))}px Arial`;
+        c.fillText(text, 0, 0);
+        c.restore();
+      };
+      const door = (x = b.w / 2, w = 1.3) => {
+        front(x - w / 2 - 0.13, x + w / 2 + 0.13, 0.08, 2.8, "#d0c1a3");
+        front(x - w / 2, x + w / 2, 0.12, 2.65, "#334844");
+        front(x - w / 2 + 0.12, x + w / 2 - 0.12, 1.05, 2.48, "#597a79");
+        const h = p(x + w * 0.3, b.h + 0.04, 1.05);
+        c.fillStyle = "#ead6a2";
+        c.fillRect(h[0] - 1, h[1] - 2, 3, 4);
+      };
+      const roofFlat = (color = "#777d75") => {
+        face(
+          [
+            [0, 0, b.height],
+            [b.w, 0, b.height],
+            [b.w, b.h, b.height],
+            [0, b.h, b.height],
+          ],
+          color,
+        );
+        face(
+          [
+            [0, b.h, b.height],
+            [b.w, b.h, b.height],
+            [b.w, b.h, b.height + 0.25],
+            [0, b.h, b.height + 0.25],
+          ],
+          "#d0c2a7",
+        );
+        face(
+          [
+            [b.w, 0, b.height],
+            [b.w, b.h, b.height],
+            [b.w, b.h, b.height + 0.25],
+            [b.w, 0, b.height + 0.25],
+          ],
+          "#a49f8e",
+        );
+        if (b.kind === "home") {
+          // Apartment roof: laundry screen and small tank.
+          slab(b.w * 0.28, b.h * 0.3, 1, 1, b.height, b.height + 0.6, 0xd1c7ad);
+          line(
+            [b.w * 0.65, b.h * 0.25, b.height + 0.1],
+            [b.w * 0.65, b.h * 0.75, b.height + 0.1],
+            "#c6baa3",
+            2,
+          );
+        } else if (b.kind === "market" || b.kind === "sales") {
+          // Low solar panels define the commercial roof without new textures.
+          face(
             [
-              p(x, b.h, 3),
-              p(Math.min(b.w, x + 0.55), b.h, 3),
-              p(Math.min(b.w, x + 0.55), b.h + 0.9, 2.65),
-              p(x, b.h + 0.9, 2.65),
+              [b.w * 0.18, b.h * 0.25, b.height + 0.06],
+              [b.w * 0.68, b.h * 0.25, b.height + 0.06],
+              [b.w * 0.68, b.h * 0.55, b.height + 0.3],
+              [b.w * 0.18, b.h * 0.55, b.height + 0.3],
             ],
-            Math.round(x / 0.55) % 2 ? "#ecd6ac" : aw,
+            "#465f64",
+          );
+          for (let x = b.w * 0.25; x < b.w * 0.68; x += 0.7)
+            line([x, b.h * 0.25, b.height + 0.07], [x, b.h * 0.55, b.height + 0.31], "#a6b9ad", 1);
+        } else if (b.kind === "office") {
+          slab(b.w * 0.25, b.h * 0.25, b.w * 0.35, b.h * 0.28, b.height, b.height + 0.55, 0x9a9d90);
+        } else {
+          slab(b.w * 0.22, b.h * 0.28, 1.1, 1.1, b.height, b.height + 0.43, 0xaaa99a);
+          line(
+            [b.w * 0.22, b.h * 0.35, b.height + 0.45],
+            [b.w * 0.85, b.h * 0.35, b.height + 0.45],
+            "#53615c",
+            2,
           );
         }
-      }
-      // Roof: textured clay tile courses, ridge caps and chimney.
-      const roofRise = [0.55, 1.1, 1.4, 1.8][index % 4];
-      const roofColors = [
-        ["#ba6143", "#a64f38"],
-        ["#95705a", "#795849"],
-        ["#8b6658", "#704c42"],
-        ["#b47e58", "#936247"],
-      ][index % 4];
-      const ridge = b.height + roofRise;
-      poly(
-        [
-          p(-0.25, -0.2, b.height),
-          p(b.w + 0.25, -0.2, b.height),
-          p(b.w + 0.25, b.h / 2, ridge),
-          p(-0.25, b.h / 2, ridge),
-        ],
-        roofColors[0],
-      );
-      poly(
-        [
-          p(-0.25, b.h / 2, ridge),
-          p(b.w + 0.25, b.h / 2, ridge),
-          p(b.w + 0.25, b.h + 0.25, b.height),
-          p(-0.25, b.h + 0.25, b.height),
-        ],
-        roofColors[1],
-      );
-      for (let y = b.h / 2; y < b.h + 0.3; y += 0.37) {
-        const z = ridge - ((y - b.h / 2) / (b.h / 2 + 0.25)) * roofRise;
-        const a = p(-0.25, y, z),
-          d = p(b.w + 0.25, y, z);
-        c.strokeStyle = "#efad6b60";
-        c.lineWidth = 1;
-        c.beginPath();
-        c.moveTo(...a);
-        c.lineTo(...d);
-        c.stroke();
-        for (let x = -0.1; x < b.w; x += 0.55) {
-          const q = p(x, y, z);
-          c.strokeStyle = "#74372370";
-          c.beginPath();
-          c.moveTo(...q);
-          c.lineTo(q[0] - 5, q[1] + 3);
-          c.stroke();
+      };
+      const roofGable = (base, rise = 1.1, col = "#a4523d") => {
+        const mid = b.h * 0.48;
+        face(
+          [
+            [-0.12, -0.12, base],
+            [b.w + 0.12, -0.12, base],
+            [b.w + 0.12, mid, base + rise],
+            [-0.12, mid, base + rise],
+          ],
+          shade(col, 1.08),
+        );
+        face(
+          [
+            [-0.12, mid, base + rise],
+            [b.w + 0.12, mid, base + rise],
+            [b.w + 0.12, b.h + 0.12, base],
+            [-0.12, b.h + 0.12, base],
+          ],
+          col,
+        );
+        face(
+          [
+            [b.w + 0.12, -0.12, base],
+            [b.w + 0.12, mid, base + rise],
+            [b.w + 0.12, b.h + 0.12, base],
+          ],
+          shade(col, 0.8),
+        );
+        for (let y = mid + 0.55; y < b.h; y += 0.8) {
+          const z = base + rise * (1 - (y - mid) / (b.h - mid));
+          line([0, y, z], [b.w, y, z], "#dca17b88", 0.7);
         }
+        line([-0.12, mid, base + rise], [b.w + 0.12, mid, base + rise], "#d49a78", 2);
+      };
+      const storefront = (zTop = 2.75) => {
+        for (let x = 0.35; x < b.w - 0.8; x += 1.55) {
+          front(x, x + 1.25, 0.28, zTop, "#254c4a");
+          front(x + 0.12, x + 1.13, 0.35, 0.9, "#b39369");
+          front(x + 0.12, x + 1.13, 1.05, 1.16, "#c9b287");
+          for (let u = 0.2; u < 1.05; u += 0.25)
+            front(x + u, x + u + 0.1, 1.16, 1.5, index % 2 ? "#b9c4a0" : "#e3b67e");
+          line([x + 0.2, b.h + 0.04, 1.75], [x + 0.8, b.h + 0.04, 2.6], "#b5d2c799", 1.5);
+        }
+        door();
+      };
+      const canopy = (col) => {
+        face(
+          [
+            [0.05, b.h, 3.02],
+            [b.w - 0.05, b.h, 3.02],
+            [b.w - 0.05, b.h + 0.65, 2.72],
+            [0.05, b.h + 0.65, 2.72],
+          ],
+          col,
+        );
+        line([0.05, b.h + 0.65, 2.72], [b.w - 0.05, b.h + 0.65, 2.72], "#e0cfaa", 3);
+      };
+      const family =
+        b.kind === "home"
+          ? "apartment"
+          : b.kind === "restaurant" || b.kind === "security"
+            ? "house"
+            : ["market", "sales", "cafe", "office"].includes(b.kind)
+              ? "commercial"
+              : ["garage", "taxi"].includes(b.kind)
+                ? "workshop"
+                : b.kind === "warehouse"
+                  ? "warehouse"
+                  : "civic";
+      // Large directional shadows and a dark contact band tie the artwork to the ground.
+      face(
+        [
+          [0.2, 0.2, 0],
+          [b.w + 0.35, 0.2, 0],
+          [b.w + 0.35, b.h + 0.35, 0],
+          [0.2, b.h + 0.35, 0],
+        ],
+        "#1c373044",
+        null,
+      );
+      slab(0, 0, b.w, b.h, 0, 0.25, 0x9d9888);
+      if (family === "apartment") {
+        slab(0, 0, b.w, b.h, 0.25, b.height, 0xc8b499);
+        for (let z = 2.65; z < b.height - 1.1; z += 2.25) {
+          front(0, b.w, z - 0.15, z + 0.08, "#e1d2b5");
+          for (let x = 0.35; x < b.w - 1; x += 1.65)
+            pane(x, z, 0.95, 1.55, index % 2 ? "warm" : "glass");
+          balcony(0.28, z - 0.05, Math.min(b.w - 0.56, 3.4));
+        }
+        door();
+        roofFlat("#777b72");
+        // A stair tower steps above the roof, rather than another flat box.
+        slab(b.w * 0.58, b.h * 0.10, b.w * 0.30, b.h * 0.23, b.height, b.height + 0.9, 0xc4b39a);
+        sign(b.sign, 2.38, "#4b5b50");
+      } else if (family === "house") {
+        slab(0, 0, b.w, b.h, 0.25, b.height - 0.45, b.kind === "security" ? 0x849288 : 0xb77e69);
+        front(0, b.w, 0.25, 0.55, "#756d60");
+        for (let x = 0.35; x < b.w - 1; x += 1.6) pane(x, 1.25, 1, 1.65, "warm");
+        for (let y = 0.8; y < b.h - 1; y += 2.2) sidePane(y, 1.25, 1, 1.55);
+        door();
+        roofGable(b.height - 0.45, b.kind === "security" ? 0.7 : 1.15, b.kind === "security" ? "#6d776c" : "#a44f3b");
+        canopy("#675145");
+        // Timber shutters and a light band make a domestic street frontage.
+        for (let y = 0.7; y < b.h - 1.7; y += 2.2) {
+          side(y - 0.2, y, 1.2, 2.85, "#5f7970");
+          side(y + 1.05, y + 1.25, 1.2, 2.85, "#5f7970");
+          line([b.w + 0.04, y - 0.2, 2.75], [b.w + 0.04, y + 1.25, 2.75], "#e0c2a3", 2);
+        }
+        // Chimney and dormer make the small pitched-roof building distinct.
+        slab(b.w * 0.68, b.h * 0.40, 0.45, 0.55, b.height + 0.35, b.height + 1.1, 0xbba58b);
+        sign(b.sign, 3.3, "#6a4435");
+      } else if (family === "commercial") {
+        const upperY = b.kind === "office" ? b.h : b.h - 0.55;
+        slab(0, 0, b.w, b.h, 0.25, 3.15, index % 2 ? 0xb4937b : 0xc9ae85);
+        slab(0, 0, b.w, upperY, 3.15, b.height, index % 2 ? 0xb4937b : 0xc9ae85);
+        storefront();
+        for (let z = 3.5; z < b.height - 1; z += 2.25) {
+          front(0, b.w, z - 0.25, z - 0.09, "#ddd0b0", upperY + 0.015);
+          for (let x = 0.3; x < b.w - 1; x += 1.65) pane(x, z, 1.15, 1.35, "glass", upperY + 0.015);
+          if (b.height > 6) balcony(0.3, z - 0.2, Math.min(2.4, b.w - 0.6));
+        }
+        if (b.height <= 5) {
+          canopy(index % 2 ? "#814c42" : "#537468");
+        }
+        if (b.kind === "cafe") roofGable(b.height, 0.65, "#9b5a45");
+        else roofFlat(b.kind === "market" ? "#76796b" : "#696f6c");
+        if (b.kind === "office") {
+          // A stepped upper volume and vertical glass bay give the cooperative
+          // its own profile and a recognisable street-facing elevation.
+          slab(b.w * 0.15, b.h * 0.12, b.w * 0.60, b.h * 0.52, b.height, b.height + 1.45, 0xa99980);
+          face([[b.w * 0.75, b.h * 0.17, b.height + 0.18], [b.w * 0.75, b.h * 0.58, b.height + 0.18], [b.w * 0.75, b.h * 0.58, b.height + 1.23], [b.w * 0.75, b.h * 0.17, b.height + 1.23]], "#536f6c");
+          face([[b.w + 0.05, b.h * 0.08, 3.1], [b.w + 0.05, b.h * 0.44, 3.1], [b.w + 0.05, b.h * 0.44, b.height - 0.3], [b.w + 0.05, b.h * 0.08, b.height - 0.3]], "#dbc6a8");
+          face([[b.w + 0.07, b.h * 0.12, 3.4], [b.w + 0.07, b.h * 0.40, 3.4], [b.w + 0.07, b.h * 0.40, b.height - 0.65], [b.w + 0.07, b.h * 0.12, b.height - 0.65]], "#55716e");
+          for (let z = 3.55; z < b.height - 0.7; z += 0.9)
+            line([b.w + 0.08, b.h * 0.12, z], [b.w + 0.08, b.h * 0.40, z], "#d7ceb9", 1.4);
+        } else if (b.kind === "market") {
+          // Saw-edged glazed market clerestory is visible from the street.
+          slab(b.w * 0.19, b.h * 0.14, b.w * 0.58, b.h * 0.20, b.height, b.height + 0.75, 0x8a8b79);
+          face([[b.w * 0.77, b.h * 0.15, b.height + 0.13], [b.w * 0.77, b.h * 0.32, b.height + 0.13], [b.w * 0.77, b.h * 0.32, b.height + 0.64], [b.w * 0.77, b.h * 0.15, b.height + 0.64]], "#77918a");
+        }
+        sign(b.sign, 3.05, "#354d49");
+      } else if (family === "civic") {
+        slab(0, 0, b.w, b.h, 0.25, b.height, 0xc5c9bd);
+        front(0, b.w, 0.25, 1.0, "#a3aaa0");
+        for (let z = 1.3; z < b.height - 1.3; z += 2.2)
+          for (let x = 0.4; x < b.w - 1; x += 1.7) pane(x, z, 1.1, 1.5);
+        for (let y = 0.8; y < b.h - 1.4; y += 2.2) sidePane(y, 1.35, 1.2, 1.8);
+        const mid = b.w / 2;
+        front(mid - 1, mid + 1, 0.25, 3.15, "#e2ddd0");
+        door(mid, 1.25);
+        front(0, b.w, b.height - 0.5, b.height - 0.18, "#ece4d0");
+        roofFlat("#8a9088");
+        // A raised pavilion and sloping pediment distinguish the public building.
+        slab(b.w * 0.22, b.h * 0.18, b.w * 0.56, b.h * 0.43, b.height, b.height + 0.65, 0xc8cbc0);
+        face([[b.w * 0.21, b.h * 0.18, b.height + 0.65], [b.w * 0.79, b.h * 0.18, b.height + 0.65], [b.w * 0.50, b.h * 0.18, b.height + 1.4]], "#ede5d3");
+        face([[b.w * 0.79, b.h * 0.18, b.height + 0.65], [b.w * 0.79, b.h * 0.61, b.height + 0.65], [b.w * 0.50, b.h * 0.61, b.height + 1.4], [b.w * 0.50, b.h * 0.18, b.height + 1.4]], "#adb5a9");
+        for (let y = 0.6; y < b.h - 0.6; y += 1.85) {
+          side(y, y + 0.14, 0.8, Math.min(b.height - 0.65, 4.2), "#e4ded0");
+        }
+        if (b.kind === "clinic") {
+          side(b.h * 0.43, b.h * 0.68, 2.0, 3.8, "#e5e3d9");
+          side(b.h * 0.525, b.h * 0.575, 2.25, 3.55, "#417d75");
+          side(b.h * 0.47, b.h * 0.63, 2.72, 3.05, "#417d75");
+        }
+        sign(b.sign, 3.48, b.kind === "police" ? "#34556c" : "#416968");
+      } else if (family === "workshop") {
+        slab(0, 0, b.w, b.h, 0.25, b.height - 0.25, 0x8f9d95);
+        for (let x = 0.4; x < b.w - 1.7; x += 3.2) {
+          front(x, x + 2.4, 0.18, 2.8, "#536b68");
+          for (let z = 0.45; z < 2.7; z += 0.32)
+            line([x, b.h + 0.04, z], [x + 2.4, b.h + 0.04, z], "#aab4a0", 1.2);
+        }
+        door();
+        face(
+          [
+            [0, 0, b.height - 0.25],
+            [b.w, 0, b.height - 0.25],
+            [b.w, b.h, b.height + 0.35],
+            [0, b.h, b.height + 0.35],
+          ],
+          "#596e6c",
+        );
+        for (let x = 0.4; x < b.w; x += 0.7)
+          line([x, 0, b.height - 0.24], [x, b.h, b.height + 0.36], "#9bad9d88", 1);
+        // A ventilated monitor roof gives the repair hall a distinctive profile.
+        slab(b.w * 0.28, b.h * 0.25, b.w * 0.44, b.h * 0.26, b.height + 0.04, b.height + 0.85, 0x637970);
+        sign(b.sign, 3.3, "#8c553c");
+      } else {
+        slab(0, 0, b.w, b.h, 0.25, b.height - 0.4, 0x9b8b79);
+        for (let x = 0.3; x < b.w - 0.8; x += 1.25) {
+          front(x, x + 0.06, 0.25, b.height - 0.5, "#6d6e65");
+        }
+        for (let x = 0.7; x < b.w - 2; x += 3.4) {
+          front(x, x + 2.6, 0.15, 2.8, "#465f5b");
+          for (let z = 0.4; z < 2.7; z += 0.4)
+            line([x, b.h + 0.04, z], [x + 2.6, b.h + 0.04, z], "#8b9b8c", 1);
+        }
+        door();
+        // Repeating sawtooth roof bays silhouette a loading hall rather than a
+        // second copy of the workshop's lean-to roof.
+        const roofBase = b.height - 0.4;
+        const bays = 3;
+        for (let i = 0; i < bays; i++) {
+          const x0 = b.w * i / bays, x1 = b.w * (i + 1) / bays;
+          const peak = x0 + (x1 - x0) * 0.38;
+          face([[x0, 0, roofBase], [peak, 0, roofBase + 1.25], [peak, b.h, roofBase + 1.25], [x0, b.h, roofBase]], "#8d9b8d");
+          face([[peak, 0, roofBase + 1.25], [x1, 0, roofBase], [x1, b.h, roofBase], [peak, b.h, roofBase + 1.25]], "#596f6b");
+          face([[x0, b.h, roofBase], [peak, b.h, roofBase + 1.25], [x1, b.h, roofBase]], "#78877c");
+          line([peak, 0, roofBase + 1.25], [peak, b.h, roofBase + 1.25], "#b5bdb0", 1.5);
+        }
+        // Tall loading-bay bulkhead reads differently from a neighbourhood workshop.
+        slab(b.w * 0.08, b.h * 0.10, b.w * 0.20, b.h * 0.40, b.height - 0.2, b.height + 0.8, 0x88796a);
+        sign(b.sign, 3.15, "#725747");
       }
-      const ridgeA = p(-0.3, b.h / 2, ridge + 0.05),
-        ridgeB = p(b.w + 0.3, b.h / 2, ridge + 0.05);
-      c.strokeStyle = "#dc8652";
-      c.lineWidth = 4;
-      c.beginPath();
-      c.moveTo(...ridgeA);
-      c.lineTo(...ridgeB);
-      c.stroke();
-      const ch = p(b.w * 0.7, b.h * 0.3, b.height + 0.9);
-      c.fillStyle = "#b6997e";
-      c.fillRect(ch[0] - 6, ch[1] - 21, 12, 22);
-      c.fillStyle = "#dcc3a0";
-      c.fillRect(ch[0] - 8, ch[1] - 23, 16, 4);
-      c.fillStyle = "#604536";
-      c.fillRect(ch[0] - 5, ch[1] - 22, 10, 2);
-      // The lettering is original and remains readable at normal zoom.
-      const label = p(b.w / 2, b.h + 0.04, 3.4);
-      c.save();
-      c.translate(...label);
-      c.rotate(Math.atan(0.5));
-      c.fillStyle = ["clinic", "police", "bank"].includes(b.kind) ? "#34565a" : "#403e2c";
-      const sw = Math.min(180, b.w * 27);
-      c.fillRect(-sw / 2, -11, sw, 22);
-      c.strokeStyle = "#d3b373";
-      c.strokeRect(-sw / 2, -11, sw, 22);
-      c.fillStyle = "#f3e2b8";
-      c.font = `600 ${Math.min(13, sw / (b.sign.length * 0.65))}px Arial`;
-      c.textAlign = "center";
-      c.textBaseline = "middle";
-      c.fillText(b.sign, 0, 0);
-      c.restore();
+      // Side elevations face the street in this camera: give each family an actual facade.
+      if (family === "commercial" || family === "apartment") {
+        for (let z = 3.45; z < b.height - 1.2; z += 2.25)
+          for (let y = 0.8; y < b.h - 1.5; y += 2.25) sidePane(y, z, 1.05, 1.45);
+        if (family === "apartment" || (family === "commercial" && b.kind === "office")) {
+          for (let z = 3.35; z < b.height - 1.1; z += 2.25)
+            for (let y = 0.75; y < b.h - 2.0; y += 3.0) sideBalcony(y, z - 0.18, 1.75);
+        }
+        // Downpipe and service cable terminate above pavement rather than across the doorway.
+        line([b.w + 0.04, b.h - 0.35, 0.4], [b.w + 0.04, b.h - 0.35, b.height - 0.2], "#5a6660", 2);
+      }
+      if (family === "commercial" && b.kind === "market") {
+        // A projecting street canopy differentiates the corner market from offices.
+        face(
+          [
+            [b.w, 0.3, 2.9],
+            [b.w, b.h - 0.2, 2.9],
+            [b.w + 0.48, b.h - 0.2, 2.65],
+            [b.w + 0.48, 0.3, 2.65],
+          ],
+          "#536f60",
+        );
+        // Locally familiar alternating awning panels, not a screen-space overlay.
+        for (let y = 0.3; y < b.h - 0.2; y += 0.75) {
+          const end = Math.min(y + 0.37, b.h - 0.2);
+          face([[b.w + 0.01, y, 2.91], [b.w + 0.01, end, 2.91], [b.w + 0.48, end, 2.66], [b.w + 0.48, y, 2.66]], "#e4d5ae");
+        }
+        line([b.w + 0.48, 0.3, 2.65], [b.w + 0.48, b.h - 0.2, 2.65], "#ddd0ad", 2);
+      }
+      if (family === "civic" && b.kind === "school") {
+        // Projecting entrance portico, with a visible civic forecourt.
+        face(
+          [
+            [b.w / 2 - 1.2, b.h, 3.2],
+            [b.w / 2 + 1.2, b.h, 3.2],
+            [b.w / 2 + 1.2, b.h + 0.45, 3.0],
+            [b.w / 2 - 1.2, b.h + 0.45, 3.0],
+          ],
+          "#e1d7bf",
+        );
+        for (const x of [b.w / 2 - 1.05, b.w / 2 + 1.05])
+          line([x, b.h + 0.42, 0.2], [x, b.h + 0.42, 3.0], "#d7d1bf", 3);
+      }
+      // Reusable local facade details, with positions chosen per building rather than random clutter.
+      if (["apartment", "commercial", "civic"].includes(family)) {
+        const y = b.h * 0.55,
+          z = Math.min(b.height - 1.2, 3.7);
+        side(y, y + 0.9, z, z + 0.65, "#d8d4c3");
+        side(y + 0.1, y + 0.65, z + 0.1, z + 0.52, "#81918a");
+        line([b.w + 0.04, y + 0.1, z + 0.32], [b.w + 0.04, y + 0.65, z + 0.32], "#d7d6c8", 1);
+      }
+      if (family === "house" || family === "apartment") {
+        const y = b.h * 0.18;
+        side(y, y + 0.9, 1.3, 2.9, "#728379");
+        for (let z = 1.5; z < 2.9; z += 0.25)
+          line([b.w + 0.04, y, z], [b.w + 0.04, y + 0.9, z], "#b4b69c", 1);
+      }
       c.restore();
     });
     const buildingsPng = canv.toDataURL("image/png");
@@ -257,13 +556,144 @@ const generated = await page.evaluate(
       "#57744b",
       "#c29a38",
     ];
-    for (let appearance = 0; appearance < 8; appearance++)
-      for (let direction = 0; direction < 4; direction++)
-        for (let frame = 0; frame < 4; frame++) {
-          const index = appearance * 16 + direction * 4 + frame,
-            fx = (index % 16) * 64,
-            fy = Math.floor(index / 16) * 96;
-          actorFrames[`person-${appearance}-${direction}-${frame}`] = {
+    for (let running = 0; running < 2; running++)
+      for (let appearance = 0; appearance < 8; appearance++)
+        for (let direction = 0; direction < 4; direction++)
+          for (let frame = 0; frame < 4; frame++) {
+            const index = appearance * 16 + direction * 4 + frame,
+              fx = (index % 16) * 64,
+              fy = (running ? 1280 : 0) + Math.floor(index / 16) * 96;
+            actorFrames[`person-${running ? "run-" : ""}${appearance}-${direction}-${frame}`] = {
+              x: fx,
+              y: fy,
+              w: 64,
+              h: 96,
+              pivot: { x: 32, y: 84 },
+            };
+            c.save();
+            c.translate(fx + 32, fy + 84);
+            if (running) c.transform(1, 0, -0.12, 1, -3, 0);
+            const stride = (frame === 1 ? 1 : frame === 3 ? -1 : 0) * (running ? 10 : 5),
+              side = direction % 2 === 1,
+              back = direction >= 2;
+            c.fillStyle = "#102c292e";
+            c.beginPath();
+            c.ellipse(0, -1, 12, 5, 0, 0, Math.PI * 2);
+            c.fill();
+            c.lineCap = "round";
+            c.strokeStyle = "#283c43";
+            c.lineWidth = 7;
+            c.beginPath();
+            c.moveTo(-4, -24);
+            c.lineTo(-5 - stride, -6 - stride * 0.45);
+            c.moveTo(4, -24);
+            c.lineTo(5 - stride, -6 + stride * 0.45);
+            c.stroke();
+            c.strokeStyle = "#29312e";
+            c.lineWidth = 5;
+            c.beginPath();
+            c.moveTo(-6 - stride, -3 - stride * 0.45);
+            c.lineTo(-2 - stride, -3 - stride * 0.45);
+            c.moveTo(3 - stride, -3 + stride * 0.45);
+            c.lineTo(8 - stride, -3 + stride * 0.45);
+            c.stroke();
+            c.fillStyle = palettes[appearance];
+            c.beginPath();
+            const coatWidth = appearance % 3 === 0 ? 12 : 10;
+            const coatLength = appearance % 4 === 0 ? 32 : 28;
+            c.roundRect(-coatWidth, -49, coatWidth * 2, coatLength, appearance % 2 ? 6 : 3);
+            c.fill();
+            c.fillStyle = "#ffffff25";
+            c.fillRect(-7, -46, 3, 20);
+            if (appearance % 3 === 1) {
+              c.fillStyle = "#253b3f";
+              c.fillRect(-2, -48, 4, 25);
+            }
+            if (appearance % 4 === 2) {
+              c.fillStyle = "#e6d7b6";
+              c.fillRect(-7, -39, 14, 2);
+            }
+            c.strokeStyle = palettes[appearance];
+            c.lineWidth = 6;
+            c.beginPath();
+            c.moveTo(-8, -44);
+            c.lineTo(-12 + stride, -27);
+            c.moveTo(8, -44);
+            c.lineTo(12 - stride, -27);
+            c.stroke();
+            c.strokeStyle = "#d8a57d";
+            c.lineWidth = 5;
+            c.beginPath();
+            c.moveTo(-12 + stride, -27);
+            c.lineTo(-12 + stride, -24);
+            c.moveTo(12 - stride, -27);
+            c.lineTo(12 - stride, -24);
+            c.stroke();
+            c.fillStyle = "#d5a17b";
+            c.beginPath();
+            c.ellipse(side ? 2 : 0, -58, 8, 10, side ? -0.12 : 0, 0, Math.PI * 2);
+            c.fill();
+            c.fillStyle = [
+              "#544435",
+              "#302d28",
+              "#644736",
+              "#292e31",
+              "#806044",
+              "#3b2d29",
+              "#242d2d",
+              "#685348",
+            ][appearance];
+            c.beginPath();
+            c.ellipse(0, -64, 8, 5, 0, Math.PI, Math.PI * 2);
+            c.lineTo(8, -58);
+            c.lineTo(5, -62);
+            c.lineTo(-6, -60);
+            c.fill();
+            if (back) {
+              c.beginPath();
+              c.ellipse(0, -60, 7.5, 8, 0, 0, Math.PI * 2);
+              c.fill();
+            } else {
+              c.fillStyle = "#3e362c";
+              c.fillRect(side ? 5 : -3, -58, 1.5, 2);
+              if (!side) c.fillRect(3, -58, 1.5, 2);
+              c.strokeStyle = "#9f674d";
+              c.lineWidth = 1;
+              c.beginPath();
+              c.moveTo(0, -52);
+              c.lineTo(4, -52);
+              c.stroke();
+            }
+            if (appearance === 2 || appearance === 6) {
+              c.fillStyle = appearance === 2 ? "#d8b173" : "#536862";
+              c.beginPath();
+              c.ellipse(0, -65, 9, 4, 0, Math.PI, Math.PI * 2);
+              c.fill();
+              c.fillRect(-9, -65, 18, 2);
+            }
+            if (appearance === 4 && !back) {
+              c.fillStyle = "#d6c2a1";
+              c.fillRect(-9, -49, 18, 3);
+            }
+            if (appearance === 5) {
+              c.strokeStyle = "#e3b878";
+              c.lineWidth = 2;
+              c.beginPath();
+              c.moveTo(-8, -47);
+              c.lineTo(8, -26);
+              c.stroke();
+            }
+            c.restore();
+          }
+    // Combat poses occupy previously unused atlas space and preserve the same foot pivot.
+    // These frames are selected only from authoritative player attack/block state.
+    for (let pose = 0; pose < 2; pose++)
+      for (let appearance = 0; appearance < 8; appearance++)
+        for (let direction = 0; direction < 4; direction++) {
+          const index = pose * 32 + appearance * 4 + direction;
+          const fx = 1024 + (index % 16) * 64,
+            fy = 1408 + Math.floor(index / 16) * 96;
+          actorFrames[`person-${pose ? "block" : "punch"}-${appearance}-${direction}`] = {
             x: fx,
             y: fy,
             w: 64,
@@ -272,9 +702,8 @@ const generated = await page.evaluate(
           };
           c.save();
           c.translate(fx + 32, fy + 84);
-          const stride = frame === 1 ? 5 : frame === 3 ? -5 : 0,
-            side = direction % 2 === 1,
-            back = direction >= 2;
+          const facing = direction === 0 || direction === 3 ? 1 : -1;
+          const back = direction >= 2;
           c.fillStyle = "#102c292e";
           c.beginPath();
           c.ellipse(0, -1, 12, 5, 0, 0, Math.PI * 2);
@@ -284,45 +713,61 @@ const generated = await page.evaluate(
           c.lineWidth = 7;
           c.beginPath();
           c.moveTo(-4, -24);
-          c.lineTo(-5 - stride, -6 - stride * 0.45);
+          c.lineTo(-8, -6);
           c.moveTo(4, -24);
-          c.lineTo(5 - stride, -6 + stride * 0.45);
+          c.lineTo(9, -6);
           c.stroke();
           c.strokeStyle = "#29312e";
           c.lineWidth = 5;
           c.beginPath();
-          c.moveTo(-6 - stride, -3 - stride * 0.45);
-          c.lineTo(-2 - stride, -3 - stride * 0.45);
-          c.moveTo(3 - stride, -3 + stride * 0.45);
-          c.lineTo(8 - stride, -3 + stride * 0.45);
+          c.moveTo(-10, -3);
+          c.lineTo(-4, -3);
+          c.moveTo(7, -3);
+          c.lineTo(13, -3);
           c.stroke();
           c.fillStyle = palettes[appearance];
           c.beginPath();
-          c.roundRect(-10, -49, 20, 28, 5);
+          c.roundRect(-10, -49, 20, appearance % 4 === 0 ? 32 : 28, appearance % 2 ? 6 : 3);
           c.fill();
-          c.fillStyle = "#ffffff16";
+          c.fillStyle = "#ffffff25";
           c.fillRect(-7, -46, 3, 20);
+          if (appearance % 3 === 1) {
+            c.fillStyle = "#253b3f";
+            c.fillRect(-2, -48, 4, 25);
+          }
           c.strokeStyle = palettes[appearance];
           c.lineWidth = 6;
           c.beginPath();
-          c.moveTo(-8, -44);
-          c.lineTo(-12 + stride, -27);
-          c.moveTo(8, -44);
-          c.lineTo(12 - stride, -27);
+          c.moveTo(-7, -43);
+          c.lineTo(-9, -32);
+          c.lineTo(-4, -43);
+          c.moveTo(7, -43);
+          if (pose) {
+            c.lineTo(12, -35);
+            c.lineTo(6, -48);
+          } else {
+            c.lineTo(14 * facing, -39);
+            c.lineTo(24 * facing, -44);
+          }
           c.stroke();
-          c.strokeStyle = "#d8a57d";
-          c.lineWidth = 5;
+          c.fillStyle = "#d8a57d";
           c.beginPath();
-          c.moveTo(-12 + stride, -27);
-          c.lineTo(-12 + stride, -24);
-          c.moveTo(12 - stride, -27);
-          c.lineTo(12 - stride, -24);
-          c.stroke();
+          c.arc(pose ? 6 : 24 * facing, pose ? -48 : -44, 3.5, 0, Math.PI * 2);
+          c.fill();
           c.fillStyle = "#d5a17b";
           c.beginPath();
-          c.ellipse(side ? 2 : 0, -58, 8, 10, side ? -0.12 : 0, 0, Math.PI * 2);
+          c.ellipse(direction % 2 ? 2 : 0, -58, 8, 10, direction % 2 ? -0.12 : 0, 0, Math.PI * 2);
           c.fill();
-          c.fillStyle = appearance % 3 === 0 ? "#524435" : "#302d28";
+          c.fillStyle = [
+            "#544435",
+            "#302d28",
+            "#644736",
+            "#292e31",
+            "#806044",
+            "#3b2d29",
+            "#242d2d",
+            "#685348",
+          ][appearance];
           c.beginPath();
           c.ellipse(0, -64, 8, 5, 0, Math.PI, Math.PI * 2);
           c.lineTo(8, -58);
@@ -335,24 +780,30 @@ const generated = await page.evaluate(
             c.fill();
           } else {
             c.fillStyle = "#3e362c";
-            c.fillRect(side ? 5 : -3, -58, 1.5, 2);
-            if (!side) c.fillRect(3, -58, 1.5, 2);
-            c.strokeStyle = "#9f674d";
-            c.lineWidth = 1;
+            c.fillRect(direction % 2 ? 5 : -3, -58, 1.5, 2);
+            if (!(direction % 2)) c.fillRect(3, -58, 1.5, 2);
+          }
+          if (appearance === 2 || appearance === 6) {
+            c.fillStyle = appearance === 2 ? "#d8b173" : "#536862";
             c.beginPath();
-            c.moveTo(0, -52);
-            c.lineTo(4, -52);
-            c.stroke();
+            c.ellipse(0, -65, 9, 4, 0, Math.PI, Math.PI * 2);
+            c.fill();
+            c.fillRect(-9, -65, 18, 2);
           }
           c.restore();
         }
     // Eight world-space headings; a second set carries a roof cargo box.
     // Magenta body pixels are a renderer-only mask for the persisted paint color.
-    for (let variant = 0; variant < 2; variant++)
+    for (let variant = 0; variant < 4; variant++)
       for (let direction = 0; direction < 8; direction++) {
-        const fx = direction * 160,
-          fy = variant ? 1152 : 800;
-        actorFrames[`${variant ? "cargo" : "car"}-${direction}`] = {
+        const fx = variant < 2 ? direction * 160 : 1280 + (direction % 4) * 160,
+          fy =
+            variant < 2
+              ? variant
+                ? 1152
+                : 800
+              : 800 + (variant - 2) * 256 + Math.floor(direction / 4) * 128;
+        actorFrames[`${["car", "cargo", "van", "hatch"][variant]}-${direction}`] = {
           x: fx,
           y: fy,
           w: 160,
@@ -366,6 +817,10 @@ const generated = await page.evaluate(
           co = Math.cos(angle),
           si = Math.sin(angle);
         const p = (x, y, z = 0) => {
+          const length = variant === 2 ? 1.08 : variant === 3 ? 0.82 : 1;
+          const height = variant === 2 ? 1.24 : variant === 3 ? 1.08 : 1;
+          x *= length;
+          z *= height;
           const wx = x * co - y * si,
             wy = x * si + y * co;
           return [(wx - wy) * 19, (wx + wy) * 9 - z * 19];
@@ -470,7 +925,7 @@ const generated = await page.evaluate(
         const plate = p(1.83, 0, 0.42);
         c.fillStyle = "#f0eee0";
         c.fillRect(plate[0] - 3, plate[1] - 1, 6, 2);
-        if (variant) {
+        if (variant === 1) {
           q(
             [
               [-0.52, -0.42, 1.62],
@@ -489,6 +944,22 @@ const generated = await page.evaluate(
             ],
             "#8b765c",
           );
+        }
+        if (variant === 2) {
+          q(
+            [
+              [-0.95, -0.68, 1.55],
+              [0.5, -0.68, 1.55],
+              [0.5, 0.68, 1.55],
+              [-0.95, 0.68, 1.55],
+            ],
+            "#cf00cf",
+          );
+        }
+        if (variant === 3) {
+          const stripe = p(-0.15, -0.81, 0.66);
+          c.fillStyle = "#d8cdb5";
+          c.fillRect(stripe[0] - 5, stripe[1] - 1, 10, 2);
         }
         c.restore();
       }
@@ -574,7 +1045,7 @@ const generated = await page.evaluate(
       actorFrames,
     };
   },
-  { buildings: BUILDINGS },
+  { buildings: BUILDINGS.map((b) => ({ ...b, height: visualBuildingHeight(b.kind, b.height) })) },
 );
 for (const [filename, data] of [
   ["buildings.png", generated.buildingsPng],

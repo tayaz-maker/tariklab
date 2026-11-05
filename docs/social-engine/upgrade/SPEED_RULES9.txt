@@ -1,0 +1,41 @@
+Unpublished rules-9 stationary-speed correction
+
+Base: 41270133008356f7a000ffdb691a55473867c58a
+
+Implemented:
+- Rejected traffic displacement records speed=0; NPC resumeSpeed stores cruise
+  intent separately and guarded re-admission accelerates at 0.22 per tick.
+- Breakdown/repair/player-entry clear obsolete NPC resume intent.
+- Frozen byte-identical candidate7 rules8 authority with pinned SHA-256 source
+  manifest; authenticated seed-920 snapshot+tail fixture crosses tick-12 stop.
+- Schema9/rules9 version-only conversion after original rules8 journal replay.
+- IndexedDB v5 excludes old writers; full old tails and corrupt-baseline fallback
+  authenticate rules9, historical rules8 and historical rules7 target digests.
+- Existing financial history and hunger are preserved exactly in migration.
+
+Verified in isolated checkout, Node24.21.0:
+- Traffic/geometry/NPC movement + stop regressions: 35/35.
+- Codec/historical journal persistence: 22/22.
+- Life/services/mobility after schema and weather-test adjustments: 34/34.
+- SOCIAL ENGINE TypeScript project: clean.
+- Optimized replay bundle: PASS; authentic schema6, schema7 walk+drive, schema8
+  canonical hashes match frozen authorities, interleaved 640-tick current and
+  three historical runtimes match their native imports.
+- Real Chromium156 IndexedDB suite: 37/37, no page errors. Covers rules8 current
+  journal replay, corrupted migration baseline, damaged archive rejection,
+  prior rules7/rules8 archive fallback, old-writer exclusion and malformed
+  rules8 journals without storage mutation.
+- Compiled JS total: baseline 817658 raw / 245355 gzip bytes; candidate 852684 raw /
+  247515 gzip bytes (+35026 raw / +2160 gzip). Additional historical authority
+  uses reviewed sharedReplay specialization; old canonical outputs remain exact.
+
+A broad all-tests run found three obsolete expectations (two schema literals
+and a weather-speed assertion measured after traffic stops); all were corrected
+and their complete owning test files passed. Its long-running pre-edit run was
+not represented as a successful full-suite result. Final integrated release
+must rerun broad tests and browser startup measurements after physical breaks.
+
+Independent remaining P1 at this commit: seven attached drivers cannot eat;
+physical parking/routing/meal/return lifecycle is being implemented separately
+within the same unpublished schema9 boundary. This correction is not a driver
+hunger fix and is not a complete-release claim.

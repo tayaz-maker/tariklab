@@ -125,3 +125,25 @@ If the newly migrated baseline later corrupts while the predecessor is still its
 revision, recovery replays that predecessor's archived journal. The replay must match the
 original migration's target snapshot SHA-256 before promotion. Missing, corrupt, or truncated
 archives fail without writing any record; recovery cannot silently drop an acknowledged tail.
+
+## Candidate 8 / schema 9 traffic stop boundary
+
+Schema/rules 9 sets a blocked vehicle's actual speed to zero. Optional persisted
+`Vehicle.resumeSpeed` retains only an NPC's cruise intent while it waits and
+accelerates again at 0.22 m/s per fixed tick after admission. This does not bypass
+signals, pedestrian reservations or collision clearance. Player throttle retains
+its existing acceleration/braking; breakdown and repair clear stale resume intent.
+No money, food settlement, wallet or hunger migration is performed.
+
+The database version is 5, preventing rules-8 writers (database version 4) from
+mutating upgraded slots. `historical/candidate7` freezes the exact domain and
+simulation authority at commit `41270133008356f7a000ffdb691a55473867c58a`, with
+all source bytes authenticated in `provenance.json`. Rules-8 journals replay on
+that authority before the rules-9 version-only migration. Historical fixtures
+are explicit generation artifacts; ordinary tests verify and never regenerate them.
+
+Migration retains the original rules-8 envelope and complete acknowledged tail.
+Its malformed or incomplete journal fails without storage writes. Corrupt-current
+recovery authenticates the archived original tail and its original target digest;
+prior schema-7 and schema-8 migration archives remain supported. A rejected archive
+cannot replace the durable head or silently discard acknowledged commands.

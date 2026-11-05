@@ -91,6 +91,7 @@ test("GD06 parking authority rejects full lot and moving car without altering oc
     v = s.vehicles[0],
     lot = PARKING_LOTS[0],
     lane = pointOnLane(lot.lane, lot.progress);
+  s.mobility.parking.find((l) => l.id === "park-starter")!.vehicleIds = [];
   v.lane = lot.lane;
   v.progress = lot.progress;
   v.location = { x: lane.x, y: lane.y, scene: "outside" };
@@ -141,17 +142,24 @@ test("GD16 seeded four weather states affect road caps and outdoor fatigue; all 
   });
   for (const s of states) {
     const v = s.vehicles[0];
+    s.mobility.parking.find((l) => l.id === "park-starter")!.vehicleIds = [];
+    const road = pointOnLane(0, 10);
+    v.location = { x: road.x, y: road.y, scene: "outside" };
+    v.lane = 0;
+    v.progress = 10;
+    v.heading = road.heading;
     at(s, v.location);
     assert.equal(act(s, "VEHICLE_ENTER", { vehicleId: v.id }).ok, true);
     assert.equal(act(s, "DRIVE", { throttle: 1, steer: 0 }).ok, true);
     for (let t = 0; t < 30; t++) stepWorld(s);
     assert.deepEqual(validateState(s), []);
   }
+  // Measure the clear initial road stretch before later junction/collision stops.
+  assert.ok(states[1].vehicles[0].speed < states[0].vehicles[0].speed);
+  assert.equal(states[1].vehicles[0].speed, 4.2);
   const fatigue = states.map((s) => s.player.fatigue);
   for (const s of states) advanceMinutes(s, 15);
   assert.equal(states[1].player.fatigue - fatigue[1], states[0].player.fatigue - fatigue[0] + 1);
-  assert.ok(states[1].vehicles[0].speed < states[0].vehicles[0].speed);
-  assert.equal(states[1].vehicles[0].speed, 4.2);
   const rain = states[1];
   assert.equal(act(rain, "SET_TIME_SPEED", { speed: 3 }).ok, false);
   for (const speed of [0.5, 1, 2]) {

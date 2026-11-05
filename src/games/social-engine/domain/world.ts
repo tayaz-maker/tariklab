@@ -190,7 +190,7 @@ export const BUILDINGS: Building[] = [
     sign: "KARAKOL",
   },
 ];
-export const SPAWN: Point = { x: 27, y: 16 };
+export const SPAWN: Point = { x: 20.35, y: 12.75 };
 /** Directed lane loops. Closing segment last -> first is implicit. */
 export const ROADS: Point[][] = [
   [

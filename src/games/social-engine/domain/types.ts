@@ -131,6 +131,8 @@ export type Vehicle = {
   location: Location;
   heading: number;
   speed: number;
+  /** NPC cruise intent retained while a physical obstruction holds actual speed at zero. */
+  resumeSpeed?: number;
   driverId: string | null;
   lane: number;
   progress: number;

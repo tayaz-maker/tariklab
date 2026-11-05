@@ -1,3 +1,4 @@
+import type { DriverBreak } from "./driver-breaks.ts";
 import type { Point, Location } from "./types.ts";
 export type WeatherKind = "clear" | "cloudy" | "rain" | "wind";
 export type TimeSpeed = 0.5 | 1 | 2;
@@ -25,6 +26,7 @@ export type MobilityState = {
   parking: { id: string; capacity: number; vehicleIds: string[] }[];
   rentals: Rental[];
   trip: TransitTrip | null;
+  driverBreaks?: DriverBreak[];
 };
 export type MobilityView = {
   speed: TimeSpeed;

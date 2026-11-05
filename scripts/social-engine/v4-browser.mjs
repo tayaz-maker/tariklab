@@ -12,7 +12,7 @@ import {
   validateState,
 } from "../../src/games/social-engine/simulation/engine.ts";
 import { encodeSave } from "../../src/games/social-engine/persistence/codec.ts";
-import { BUILDINGS } from "../../src/games/social-engine/domain/world.ts";
+import { BUILDINGS, hasLineOfSight } from "../../src/games/social-engine/domain/world.ts";
 const base = process.env.SE_BASE || "http://127.0.0.1:8097";
 const out = process.env.SE_QA_OUTPUT || "artifacts/social-engine/v4-browser";
 await mkdir(out, { recursive: true });
@@ -62,7 +62,7 @@ page.on("response", (r) => {
 const state = () => page.evaluate(() => window.__socialEngine.state());
 const cmd = (type, args = {}) =>
   page.evaluate(({ type, args }) => window.__socialEngine.command(type, args), { type, args });
-const step = count => waitForQATicks(page,count);
+const step = (count) => waitForQATicks(page, count);
 const wait = async () => page.waitForTimeout(400);
 async function fresh() {
   await page.goto(base + "/games/social-engine/index.html?qa=1");
@@ -100,7 +100,10 @@ async function building(id) {
   const b = BUILDINGS.find((b) => b.id === id);
   await move(b.door);
   await page.keyboard.press("KeyE");
-  await page.waitForFunction(id => window.__socialEngine.projection()?.player.location.scene === id,id);
+  await page.waitForFunction(
+    (id) => window.__socialEngine.projection()?.player.location.scene === id,
+    id,
+  );
   assert.equal((await state()).player.location.scene, id, "actual E entered building");
 }
 async function check(id, name, fn, { reset = true } = {}) {
@@ -211,8 +214,14 @@ try {
       const heavy = await observeAction(page, "ATTACK", () => page.keyboard.press("KeyG"));
       assert.equal(heavy.command.args.heavy, true, "actual KeyG selected heavy attack");
       const before = heavy.beforeState;
-      assert.ok(heavy.state.player.stamina < before.player.stamina, "heavy stamina at exact action tick");
-      assert.ok(before.player.stamina - heavy.state.player.stamina >= 23.5, "24-point heavy cost with at most one tick of natural regeneration");
+      assert.ok(
+        heavy.state.player.stamina < before.player.stamina,
+        "heavy stamina at exact action tick",
+      );
+      assert.ok(
+        before.player.stamina - heavy.state.player.stamina >= 23.5,
+        "24-point heavy cost with at most one tick of natural regeneration",
+      );
       await step(8);
       let s = await state();
       const assault = s.crimes.find((c) => !before.crimes.some((old) => old.id === c.id));
@@ -224,7 +233,11 @@ try {
         "heavy damage applied to actual nearest target",
       );
       assert.equal(assault.fine, 25000, "heavy strike case uses heavy consequences");
-      assert.equal(assault.victim, heavy.command.args.npcId, "actual keyboard-selected heavy target");
+      assert.equal(
+        assault.victim,
+        heavy.command.args.npcId,
+        "actual keyboard-selected heavy target",
+      );
       const dodge = await observeAction(page, "DODGE", () => page.keyboard.press("Space"));
       s = dodge.state;
       assert.ok(s.flags.dodgeUntil > s.tick, "dodge active");
@@ -247,33 +260,136 @@ try {
       };
     },
   );
+  await check(
+    "person-reach",
+    "Moving NPC leaves live dialog range without stopping the world",
+    async () => {
+      assert.equal((await cmd("RETIRE")).ok, true);
+      assert.equal((await cmd("RESUME_CAREER")).ok, true);
+      await step(1);
+      await page.keyboard.press("KeyE");
+      const dialog = page.locator('#panel [role="dialog"]');
+      const share = page.locator("#share-rumor");
+      await share.waitFor({ state: "visible" });
+      const name = await dialog.getAttribute("aria-label");
+      const before = await state();
+      const npc = before.npcs.find((n) => n.name === name);
+      assert.ok(npc, "dialog names actual projected NPC");
+      assert.equal(await share.isEnabled(), true, "initial nearby action is available");
+      await page.waitForFunction(
+        () => {
+          const button = document.querySelector("#share-rumor");
+          return (
+            button?.disabled &&
+            document.querySelector("#person-reach")?.textContent?.includes("uzaklaştı")
+          );
+        },
+        null,
+        { timeout: 30000 },
+      );
+      const after = await state();
+      const target = after.npcs.find((n) => n.id === npc.id);
+      assert.ok(target && target.location.scene === after.player.location.scene);
+      const distance = Math.hypot(
+        target.location.x - after.player.location.x,
+        target.location.y - after.player.location.y,
+      );
+      assert.ok(distance > 3, `actual NPC distance ${distance}`);
+      assert.ok(after.tick > before.tick, "the authoritative world continued running");
+      await page.evaluate(() => {
+        window.__actionWire.armed = true;
+        window.__actionWire.sent = [];
+        document.querySelector("#share-rumor").click();
+      });
+      await page.waitForTimeout(300);
+      const sent = await page.evaluate(() => {
+        window.__actionWire.armed = false;
+        return window.__actionWire.sent;
+      });
+      assert.equal(
+        sent.filter((c) => c.type === "SHARE_RUMOR").length,
+        0,
+        "disabled control sends no action",
+      );
+      return {
+        npcId: npc.id,
+        beforeTick: before.tick,
+        afterTick: after.tick,
+        distance,
+        status: await page.locator("#person-reach").innerText(),
+      };
+    },
+  );
   await check("rumor", "DOM rumor preserves provenance and attenuates confidence", async () => {
+    // A supported game setting gives a real moving NPC enough time for a human-paced dialog.
+    assert.equal((await cmd("SET_TIME_SPEED", { speed: 0.5 })).ok, true);
     assert.equal((await cmd("RETIRE")).ok, true);
     assert.equal((await cmd("RESUME_CAREER")).ok, true);
     await step(1);
     let s = await state();
-    const event = s.social.knowledge.player.at(-1);
-    assert.ok(event);
+    const resumedEvent = s.events
+      .filter((e) => e.kind === "career_resumed" && e.actors.includes("player"))
+      .at(-1);
+    assert.ok(resumedEvent, "actual private career event exists");
+    const event = s.social.knowledge.player.find((m) => m.eventId === resumedEvent.id);
+    assert.ok(event, "player learned the exact private event");
     await page.keyboard.press("KeyE");
     const share = page.locator('#panel [role="dialog"] #share-rumor');
     await share.waitFor({ state: "visible" });
     const dialogName = await page.locator('#panel [role="dialog"]').getAttribute("aria-label");
     await page.locator("#rumor-event").selectOption(event.eventId);
-    const rumor = await observeAction(page, "SHARE_RUMOR", () => page.locator("#share-rumor").click());
+    assert.equal(await share.isEnabled(), true, "live dialog reports recipient in range");
+    const rumor = await observeAction(page, "SHARE_RUMOR", () =>
+      page.locator("#share-rumor").click(),
+    );
     assert.equal(rumor.command.args.eventId, event.eventId, "actual selected DOM rumor");
     const recipient = rumor.beforeState.npcs.find((npc) => npc.id === rumor.command.args.npcId);
     assert.ok(recipient, "actual DOM recipient exists in authority");
-    assert.equal(recipient.name, dialogName, "actual command addresses the displayed person dialog");
-    assert.equal((rumor.beforeState.social.knowledge[recipient.id] ?? []).some((k) => k.eventId === event.eventId), false, "actual recipient does not already know the private career decision");
+    const location = rumor.beforeState.player.location;
+    assert.equal(
+      recipient.location.scene,
+      location.scene,
+      "recipient in same scene at action tick",
+    );
+    const actionDistance = Math.hypot(
+      recipient.location.x - location.x,
+      recipient.location.y - location.y,
+    );
+    assert.ok(actionDistance <= 3, `recipient distance ${actionDistance} at action tick`);
+    assert.ok(
+      hasLineOfSight(location, recipient.location, location.scene),
+      "line of sight at action tick",
+    );
+    assert.equal(
+      recipient.name,
+      dialogName,
+      "actual command addresses the displayed person dialog",
+    );
+    assert.equal(
+      (rumor.beforeState.social.knowledge[recipient.id] ?? []).some(
+        (k) => k.eventId === event.eventId,
+      ),
+      false,
+      "actual recipient does not already know the private career decision",
+    );
     s = rumor.state;
     const learned = Object.values(s.social.knowledge)
       .flat()
       .find(
-        (k) => k.ownerId === rumor.command.args.npcId && k.eventId === event.eventId && k.sourceId === "player",
+        (k) =>
+          k.ownerId === rumor.command.args.npcId &&
+          k.eventId === event.eventId &&
+          k.sourceId === "player",
       );
     assert.ok(learned);
     assert.ok(learned.confidence < event.confidence);
-    return { ...learned, actionTick: s.tick, actionCursor: rumor.operation.cursor, commandId: rumor.command.id };
+    return {
+      ...learned,
+      actionDistance,
+      actionTick: s.tick,
+      actionCursor: rumor.operation.cursor,
+      commandId: rumor.command.id,
+    };
   });
   await check(
     "custody",
@@ -318,7 +434,13 @@ try {
       assert.equal(resumed.state.player.id, retired.player.id);
       await step(1);
       assert.ok((await state()).tick > retired.tick);
-      return { retiredAt: retired.progression.retiredAt, preservedPlayer: retired.player.id, retiredCommandId: retirement.command.id, resumedCommandId: resumed.command.id, frozen };
+      return {
+        retiredAt: retired.progression.retiredAt,
+        preservedPlayer: retired.player.id,
+        retiredCommandId: retirement.command.id,
+        resumedCommandId: resumed.command.id,
+        frozen,
+      };
     },
   );
   await check(

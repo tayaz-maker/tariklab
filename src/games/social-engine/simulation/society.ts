@@ -1,3 +1,6 @@
+import { pedestrianCrossingTraffic } from "./pedestrian-crossing.ts";
+import { pedestrianApproachClear, personVehicleSeparation } from "./vehicle-collision.ts";
+import { getBreakBay, WEST_OVERFLOW_PARKING_ID } from "../domain/driver-breaks.ts";
 import { requestNpcMeal, serviceOpen } from "./services.ts";
 import {
   scheduleBackgroundTravel,
@@ -15,7 +18,13 @@ import { transfer } from "./ledger.ts";
 import { clamp, draw } from "./random.ts";
 import { canonicalHeading } from "../domain/traffic.ts";
 import { npcMovementTraits } from "./npc-traits.ts";
-import { pedestrianPath, pedestrianSegment, pedestrianWalkable } from "./pedestrian-navigation.ts";
+import {
+  pedestrianPath,
+  pedestrianCurbReliefPoint,
+  pedestrianSegment,
+  pedestrianWalkable,
+  pedestrianYieldPoint,
+} from "./pedestrian-navigation.ts";
 
 function routineTarget(
   state: WorldState,
@@ -55,12 +64,29 @@ function routineTarget(
 }
 export function npcMovement(state: WorldState): void {
   const actors = state.npcs.slice(0, 100);
+  const canRecoverStalledPath = state.mobility.parking.some(
+    (lot) => lot.id === WEST_OVERFLOW_PARKING_ID,
+  );
   const drivers = new Set(state.vehicles.map((v) => v.driverId));
+  const crossingTraffic = pedestrianCrossingTraffic(state, actors, drivers);
   // Static bodies can block an entire narrow crosswalk (including the starter
   // car). Route around them using another legal crossing rather than waiting forever.
   const staticBodies = state.vehicles
     .filter((v) => !v.driverId || v.speed === 0)
-    .map((v) => v.location);
+    .map((v) => ({ ...v.location, heading: v.heading }));
+  const vehicleBodies = state.vehicles.map((v) => ({ ...v.location, heading: v.heading }));
+  const physicalRoutes = new Set(
+    state.mobility.driverBreaks
+      ?.filter((b) => ["toBay", "fromBay", "disabled"].includes(b.phase))
+      .map((b) => b.vehicleId) ?? [],
+  );
+  const pressureVehicles = state.vehicles.filter(
+    (v) => v.driverId && (v.speed > 0 || v.resumeSpeed !== undefined || physicalRoutes.has(v.id)),
+  );
+  const roadPressure = pressureVehicles.map((v) => ({ ...v.location, heading: v.heading }));
+  const stoppedPressure = pressureVehicles
+    .filter((v) => v.speed === 0)
+    .map((v) => ({ ...v.location, heading: v.heading }));
   const doorsUsed = new Set<string>();
   const canUseDoor = (building: (typeof BUILDINGS)[number]) =>
     !doorsUsed.has(building.id) &&
@@ -103,8 +129,19 @@ export function npcMovement(state: WorldState): void {
       state.minute >= npc.lastDecision + 20 &&
       (!npc.path.length || state.minute >= npc.lastDecision + 60)
     ) {
-      const plan = routineTarget(state, npc, index),
-        target = BUILDINGS.find((b) => b.id === plan.building)!;
+      const activeBreak = state.mobility.driverBreaks?.find(
+        (b) => b.personId === npc.id && ["walkToMarket", "queue", "walkBack"].includes(b.phase),
+      );
+      const plan = activeBreak
+          ? {
+              goal: activeBreak.phase === "walkBack" ? "returnToCar" : "eat",
+              building: activeBreak.phase === "walkBack" ? "outside" : "b-market",
+            }
+          : routineTarget(state, npc, index),
+        target =
+          plan.building === "outside"
+            ? { id: "outside", door: getBreakBay(activeBreak!.bayId).door }
+            : BUILDINGS.find((b) => b.id === plan.building)!;
       if (npc.location.scene !== "outside") {
         if (npc.location.scene === target.id) {
           npc.goal = plan.goal;
@@ -156,14 +193,52 @@ export function npcMovement(state: WorldState): void {
       delete state.flags[recoveryHeadingKey];
       if (npc.destination) npc.path = pedestrianPath(npc.location, npc.destination, staticBodies);
     }
+    // Far walkers are already staggered by their movement slot. Applying
+    // another identity slot here can make the two schedules never intersect.
+    const yieldSlot =
+      npc.destination && (!near || (state.tick + Number(npc.id.slice(1))) % 10 === 0);
+    const localYield = (relieveCurb: boolean) => {
+      const people = [state.player, ...actors]
+        .filter(
+          (other) =>
+            other.id !== npc.id &&
+            other.alive &&
+            other.location.scene === "outside" &&
+            !drivers.has(other.id),
+        )
+        .map((other) => other.location);
+      const away =
+        pedestrianYieldPoint(
+          npc.location,
+          roadPressure,
+          vehicleBodies,
+          people,
+          relieveCurb ? 0.15 : 0.02,
+        ) ??
+        (relieveCurb &&
+        roadPressure.some(
+          (car) => Math.hypot(car.x - npc.location.x, car.y - npc.location.y) <= 3.2,
+        )
+          ? pedestrianCurbReliefPoint(npc.location, vehicleBodies, people)
+          : null);
+      if (!away) return false;
+      npc.path = [away];
+      return true;
+    };
+    const hadRoute = npc.path.length > 0;
+    if (!hadRoute && yieldSlot) localYield(true);
+    const beforeX = npc.location.x,
+      beforeY = npc.location.y;
     let budget = (near ? 0.105 : 1.05) * traits.speed;
     // Every LOD step uses the same collision and crossing rules, without tunnelling.
     while (budget > 0.00001 && npc.path.length) {
-      const target = npc.path[0],
+      const retreat = crossingTraffic.retreat(npc);
+      const target = retreat ?? npc.path[0],
         dx = target.x - npc.location.x,
         dy = target.y - npc.location.y,
         distance = Math.hypot(dx, dy);
       if (distance < 0.00001) {
+        if (retreat) break;
         npc.path.shift();
         continue;
       }
@@ -199,10 +274,9 @@ export function npcMovement(state: WorldState): void {
             (v) =>
               !drivers.has(npc.id) &&
               v.location.scene === "outside" &&
-              Math.hypot(v.location.x - next.x, v.location.y - next.y) < 0.95 &&
-              Math.hypot(v.location.x - next.x, v.location.y - next.y) <
-                Math.hypot(v.location.x - npc.location.x, v.location.y - npc.location.y),
-          )
+              !pedestrianApproachClear(v, npc.location, next),
+          ) ||
+          !crossingTraffic.mayWalk(npc, next)
         )
           continue;
         npc.location.x = next.x;
@@ -214,11 +288,25 @@ export function npcMovement(state: WorldState): void {
           state.flags[recoveryHeadingKey] = canonicalHeading(angle + turn);
           state.flags[recoveryUntilKey] = state.tick + 20 + Math.floor(traits.phase * 20);
         }
-        if (!recovering && turn === 0 && distance <= step + 0.00001) npc.path.shift();
+        if (!retreat && !recovering && turn === 0 && distance <= step + 0.00001) npc.path.shift();
         break;
       }
       if (!moved) break;
       budget -= step;
+    }
+    // A remaining route can still be physically stalled. Only reroute when
+    // every step failed and an actual stopped bumper is immediately adjacent.
+    if (
+      canRecoverStalledPath &&
+      hadRoute &&
+      yieldSlot &&
+      npc.path.length &&
+      Math.hypot(npc.location.x - beforeX, npc.location.y - beforeY) < 0.0001 &&
+      stoppedPressure.some((car) => personVehicleSeparation(npc.location, car) < 0.035) &&
+      localYield(false)
+    ) {
+      delete state.flags[recoveryUntilKey];
+      delete state.flags[recoveryHeadingKey];
     }
     if (
       npc.destination &&
@@ -439,6 +527,7 @@ export function dailyEconomy(state: WorldState): void {
   if (day % 5 === 0) {
     state.flags.vehicleWear = true;
     state.vehicles[2].speed = 0;
+    delete state.vehicles[2].resumeSpeed;
     emit(state, "vehicle_breakdown", "Taksi filosunda bakım ihtiyacı oluştu.", ["n2"]);
   }
   if (day % 2 === 0) {

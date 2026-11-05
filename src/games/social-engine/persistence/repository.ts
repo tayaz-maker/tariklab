@@ -17,6 +17,7 @@ import type { WorldState } from "../domain/types.ts";
 import {
   migrateState,
   archivedRules7Digest,
+  archivedRules8Digest,
   assertSlot,
   decodeSave,
   decodeSaveText,
@@ -29,7 +30,7 @@ import {
 } from "./codec.ts";
 
 export const DATABASE_NAME = "tariklab-social-engine";
-export const DATABASE_VERSION = 4;
+export const DATABASE_VERSION = 5;
 export type SlotInfo = {
   slotId: string;
   revisionId: string;
@@ -442,18 +443,19 @@ export class SaveRepository {
           );
         migrationJournal.sourceJournal = { meta: history.meta, records: history.records };
       }
-      if (slotId === "auto" && !migrateTail && [6, 7].includes(result.valid.sourceSchema)) {
+      if (slotId === "auto" && !migrateTail && [6, 7, 8].includes(result.valid.sourceSchema)) {
         const db = await this.open();
         const tx = db.transaction("migrationJournal", "readonly"),
           done = finished(tx);
         // A schema-6 previous revision can have a verified migration archive
         // created by the previous reader. Queue both reads within the same transaction.
         const store = tx.objectStore("migrationJournal");
-        const [currentArchive, priorArchive] = await Promise.all([
+        const [currentArchive, rules8Archive, rules7Archive] = await Promise.all([
           request(store.get(migrationJournal.id)),
+          result.valid.sourceSchema <= 7 ? request(store.get(result.valid.source.revisionId + ":v8")) : undefined,
           result.valid.sourceSchema === 6 ? request(store.get(result.valid.source.revisionId + ":v7")) : undefined,
         ]);
-        const archive = (currentArchive ?? priorArchive) as Journal | undefined;
+        const archive = (currentArchive ?? rules8Archive ?? rules7Archive) as Journal | undefined;
         await done;
         if (
           !archive?.sourceJournal ||
@@ -467,6 +469,7 @@ export class SaveRepository {
         result.valid.state = migrateState(replayed);
         const archivedDigest = currentArchive && archive.targetSchema === SAVE_SCHEMA
           ? (await encodeSave(slotId, result.valid.state)).sha256
+          : !currentArchive && archive.targetSchema === 8 ? await archivedRules8Digest(replayed)
           : !currentArchive && archive.targetSchema === 7 ? await archivedRules7Digest(replayed) : null;
         if (!archivedDigest || archivedDigest !== archive.targetSha256)
           throw new SaveError(
@@ -666,7 +669,7 @@ export class SaveRepository {
   ): Promise<WorldState> {
     const { meta, records } = archive ?? (await this.readJournalData());
     if (!meta) {
-      if ([6, 7].includes(envelope.schemaVersion) && records.length)
+      if ([6, 7, 8].includes(envelope.schemaVersion) && records.length)
         throw new SaveError("JOURNAL_CORRUPT", "Eski günlük işaretçisi eksik; kaynak korundu.");
       this.lastJournalHandle = null;
       return snapshot;
@@ -680,7 +683,7 @@ export class SaveRepository {
       .filter((r) => r.baseRevisionId === meta.baseRevisionId && r.epoch === meta.epoch)
       .sort((a, b) => a.fromCursor - b.fromCursor);
     try {
-      if ([6, 7].includes(envelope.schemaVersion) && ordered.length !== records.length)
+      if ([6, 7, 8].includes(envelope.schemaVersion) && ordered.length !== records.length)
         throw new SaveError("JOURNAL_CORRUPT", "Eski günlükte sahipsiz kayıt var.");
       assertJournalPoint({ epoch: meta.epoch, cursor: meta.baseCursor });
       base = await newJournalMeta(envelope, { epoch: meta.epoch, cursor: meta.baseCursor });
@@ -733,7 +736,7 @@ export class SaveRepository {
       validRecords = [];
       operations = [];
     }
-    if (bad && [6, 7].includes(envelope.schemaVersion))
+    if (bad && [6, 7, 8].includes(envelope.schemaVersion))
       throw new SaveError("JOURNAL_CORRUPT", "Eski günlük doğrulanamadı; kaynak korundu.");
     let state: WorldState;
     try {
@@ -744,7 +747,7 @@ export class SaveRepository {
         envelope.schemaVersion,
       );
     } catch (error) {
-      if ([6, 7].includes(envelope.schemaVersion)) throw error;
+      if ([6, 7, 8].includes(envelope.schemaVersion)) throw error;
       // Rare semantic corruption: find the longest invariant-valid whole-batch prefix, retaining its exact source.
       bad = true;
       state = structuredClone(snapshot);
@@ -775,7 +778,7 @@ export class SaveRepository {
     }
     handle.currentTick = state.tick;
     if (handle.currentTick !== meta.currentTick) bad = true;
-    if (bad && [6, 7].includes(envelope.schemaVersion))
+    if (bad && [6, 7, 8].includes(envelope.schemaVersion))
       throw new SaveError("JOURNAL_CORRUPT", "Eski günlük saati eşleşmiyor; kaynak korundu.");
     if (bad) {
       const keep = new Set(validRecords.map((r) => r.id)),
