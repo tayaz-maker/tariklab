@@ -3,6 +3,7 @@ import { Application, Container, Graphics, Rectangle, Sprite, Text, Texture } fr
 import type { Person, Point, RenderProjection, Vehicle } from "../domain/types";
 import { retargetMotion, sampleMotion } from "./interpolation";
 import { cameraTranslation } from "./camera";
+import { visualBuildingHeight } from "./building-art";
 import { BUILDINGS, LAND_HEIGHT, ROAD_CENTERS, isRoad, project, unproject } from "./world";
 
 // Physics headings stay in world coordinates; compare projected tangents to eight authored axes.
@@ -920,9 +921,9 @@ export async function createRenderer(
   playerRing.zIndex = 100000;
   const playerMarker = new Graphics();
   playerMarker
-    .poly([0, -64, 5, -70, 0, -76, -5, -70])
-    .fill(0xe9bd70)
-    .stroke({ color: 0x193b39, width: 1.5 });
+    .poly([0, -65, 7, -73, 0, -81, -7, -73])
+    .fill(0xf2c978)
+    .stroke({ color: 0x132d2b, width: 2.5 });
   playerMarker.zIndex = 100003;
   objects.addChild(playerMarker);
   // An occlusion-only ghost preserves player readability without moving the real actor.
@@ -1103,7 +1104,9 @@ export async function createRenderer(
         focus.x > f.x - (b.w + b.h) * 12 &&
         focus.x < f.x + (b.w + b.h) * 12 &&
         focus.y < s.y + (b.w + b.h) * 12 &&
-        focus.y > s.y - b.height * 24;
+        // The art includes a taller skyline and rooftop structures. Match its
+        // visual extent so added storeys cannot hide the player.
+        focus.y > s.y - (visualBuildingHeight(b.kind, b.height) + 1.5) * 24;
       const targetAlpha = blocks ? 0.35 : 1;
       s.alpha += (targetAlpha - s.alpha) * 0.12;
       const d = doors.get(b.id)!;

@@ -1,6 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { chromium } from "playwright";
+import { visualBuildingHeight } from "../../src/games/social-engine/rendering/building-art.ts";
 import {
   BUILDINGS,
   ROADS,
@@ -169,6 +170,16 @@ const generated = await page.evaluate(
         for (let u = 0.15; u < w; u += 0.36)
           line([x + u, b.h + 0.56, z], [x + u, b.h + 0.56, z + 0.55], "#253b39", 1.2);
         line([x, b.h + 0.56, z + 0.55], [x + w, b.h + 0.56, z + 0.55], "#253b39", 2);
+      };
+      // Balconies on the elevation facing this camera: concrete undersides and
+      // recessed doors make the projection legible at the normal game zoom.
+      const sideBalcony = (y, z, length) => {
+        const x = b.w + 0.04;
+        face([[x, y, z], [x, y + length, z], [x + 0.42, y + length, z], [x + 0.42, y, z]], "#d7c7a9");
+        face([[x + 0.42, y, z], [x + 0.42, y + length, z], [x + 0.42, y + length, z + 0.65], [x + 0.42, y, z + 0.65]], "#405b5b88");
+        for (let q = 0.1; q < length; q += 0.38)
+          line([x + 0.43, y + q, z], [x + 0.43, y + q, z + 0.65], "#263d3a", 1.2);
+        line([x + 0.43, y, z + 0.65], [x + 0.43, y + length, z + 0.65], "#263d3a", 2);
       };
       const sign = (text, z, color = "#273d3b") => {
         const q = p(b.w / 2, b.h + 0.07, z);
@@ -349,15 +360,25 @@ const generated = await page.evaluate(
         }
         door();
         roofFlat("#777b72");
+        // A stair tower steps above the roof, rather than another flat box.
+        slab(b.w * 0.58, b.h * 0.10, b.w * 0.30, b.h * 0.23, b.height, b.height + 0.9, 0xc4b39a);
         sign(b.sign, 2.38, "#4b5b50");
       } else if (family === "house") {
-        slab(0, 0, b.w, b.h, 0.25, b.height - 0.45, 0xb77e69);
+        slab(0, 0, b.w, b.h, 0.25, b.height - 0.45, b.kind === "security" ? 0x849288 : 0xb77e69);
         front(0, b.w, 0.25, 0.55, "#756d60");
         for (let x = 0.35; x < b.w - 1; x += 1.6) pane(x, 1.25, 1, 1.65, "warm");
         for (let y = 0.8; y < b.h - 1; y += 2.2) sidePane(y, 1.25, 1, 1.55);
         door();
-        roofGable(b.height - 0.45, 1.15, "#a44f3b");
+        roofGable(b.height - 0.45, b.kind === "security" ? 0.7 : 1.15, b.kind === "security" ? "#6d776c" : "#a44f3b");
         canopy("#675145");
+        // Timber shutters and a light band make a domestic street frontage.
+        for (let y = 0.7; y < b.h - 1.7; y += 2.2) {
+          side(y - 0.2, y, 1.2, 2.85, "#5f7970");
+          side(y + 1.05, y + 1.25, 1.2, 2.85, "#5f7970");
+          line([b.w + 0.04, y - 0.2, 2.75], [b.w + 0.04, y + 1.25, 2.75], "#e0c2a3", 2);
+        }
+        // Chimney and dormer make the small pitched-roof building distinct.
+        slab(b.w * 0.68, b.h * 0.40, 0.45, 0.55, b.height + 0.35, b.height + 1.1, 0xbba58b);
         sign(b.sign, 3.3, "#6a4435");
       } else if (family === "commercial") {
         const upperY = b.kind === "office" ? b.h : b.h - 0.55;
@@ -374,6 +395,20 @@ const generated = await page.evaluate(
         }
         if (b.kind === "cafe") roofGable(b.height, 0.65, "#9b5a45");
         else roofFlat(b.kind === "market" ? "#76796b" : "#696f6c");
+        if (b.kind === "office") {
+          // A stepped upper volume and vertical glass bay give the cooperative
+          // its own profile and a recognisable street-facing elevation.
+          slab(b.w * 0.15, b.h * 0.12, b.w * 0.60, b.h * 0.52, b.height, b.height + 1.45, 0xa99980);
+          face([[b.w * 0.75, b.h * 0.17, b.height + 0.18], [b.w * 0.75, b.h * 0.58, b.height + 0.18], [b.w * 0.75, b.h * 0.58, b.height + 1.23], [b.w * 0.75, b.h * 0.17, b.height + 1.23]], "#536f6c");
+          face([[b.w + 0.05, b.h * 0.08, 3.1], [b.w + 0.05, b.h * 0.44, 3.1], [b.w + 0.05, b.h * 0.44, b.height - 0.3], [b.w + 0.05, b.h * 0.08, b.height - 0.3]], "#dbc6a8");
+          face([[b.w + 0.07, b.h * 0.12, 3.4], [b.w + 0.07, b.h * 0.40, 3.4], [b.w + 0.07, b.h * 0.40, b.height - 0.65], [b.w + 0.07, b.h * 0.12, b.height - 0.65]], "#55716e");
+          for (let z = 3.55; z < b.height - 0.7; z += 0.9)
+            line([b.w + 0.08, b.h * 0.12, z], [b.w + 0.08, b.h * 0.40, z], "#d7ceb9", 1.4);
+        } else if (b.kind === "market") {
+          // Saw-edged glazed market clerestory is visible from the street.
+          slab(b.w * 0.19, b.h * 0.14, b.w * 0.58, b.h * 0.20, b.height, b.height + 0.75, 0x8a8b79);
+          face([[b.w * 0.77, b.h * 0.15, b.height + 0.13], [b.w * 0.77, b.h * 0.32, b.height + 0.13], [b.w * 0.77, b.h * 0.32, b.height + 0.64], [b.w * 0.77, b.h * 0.15, b.height + 0.64]], "#77918a");
+        }
         sign(b.sign, 3.05, "#354d49");
       } else if (family === "civic") {
         slab(0, 0, b.w, b.h, 0.25, b.height, 0xc5c9bd);
@@ -386,6 +421,18 @@ const generated = await page.evaluate(
         door(mid, 1.25);
         front(0, b.w, b.height - 0.5, b.height - 0.18, "#ece4d0");
         roofFlat("#8a9088");
+        // A raised pavilion and sloping pediment distinguish the public building.
+        slab(b.w * 0.22, b.h * 0.18, b.w * 0.56, b.h * 0.43, b.height, b.height + 0.65, 0xc8cbc0);
+        face([[b.w * 0.21, b.h * 0.18, b.height + 0.65], [b.w * 0.79, b.h * 0.18, b.height + 0.65], [b.w * 0.50, b.h * 0.18, b.height + 1.4]], "#ede5d3");
+        face([[b.w * 0.79, b.h * 0.18, b.height + 0.65], [b.w * 0.79, b.h * 0.61, b.height + 0.65], [b.w * 0.50, b.h * 0.61, b.height + 1.4], [b.w * 0.50, b.h * 0.18, b.height + 1.4]], "#adb5a9");
+        for (let y = 0.6; y < b.h - 0.6; y += 1.85) {
+          side(y, y + 0.14, 0.8, Math.min(b.height - 0.65, 4.2), "#e4ded0");
+        }
+        if (b.kind === "clinic") {
+          side(b.h * 0.43, b.h * 0.68, 2.0, 3.8, "#e5e3d9");
+          side(b.h * 0.525, b.h * 0.575, 2.25, 3.55, "#417d75");
+          side(b.h * 0.47, b.h * 0.63, 2.72, 3.05, "#417d75");
+        }
         sign(b.sign, 3.48, b.kind === "police" ? "#34556c" : "#416968");
       } else if (family === "workshop") {
         slab(0, 0, b.w, b.h, 0.25, b.height - 0.25, 0x8f9d95);
@@ -406,6 +453,8 @@ const generated = await page.evaluate(
         );
         for (let x = 0.4; x < b.w; x += 0.7)
           line([x, 0, b.height - 0.24], [x, b.h, b.height + 0.36], "#9bad9d88", 1);
+        // A ventilated monitor roof gives the repair hall a distinctive profile.
+        slab(b.w * 0.28, b.h * 0.25, b.w * 0.44, b.h * 0.26, b.height + 0.04, b.height + 0.85, 0x637970);
         sign(b.sign, 3.3, "#8c553c");
       } else {
         slab(0, 0, b.w, b.h, 0.25, b.height - 0.4, 0x9b8b79);
@@ -418,13 +467,30 @@ const generated = await page.evaluate(
             line([x, b.h + 0.04, z], [x + 2.6, b.h + 0.04, z], "#8b9b8c", 1);
         }
         door();
-        roofGable(b.height - 0.4, 0.85, "#687d78");
+        // Repeating sawtooth roof bays silhouette a loading hall rather than a
+        // second copy of the workshop's lean-to roof.
+        const roofBase = b.height - 0.4;
+        const bays = 3;
+        for (let i = 0; i < bays; i++) {
+          const x0 = b.w * i / bays, x1 = b.w * (i + 1) / bays;
+          const peak = x0 + (x1 - x0) * 0.38;
+          face([[x0, 0, roofBase], [peak, 0, roofBase + 1.25], [peak, b.h, roofBase + 1.25], [x0, b.h, roofBase]], "#8d9b8d");
+          face([[peak, 0, roofBase + 1.25], [x1, 0, roofBase], [x1, b.h, roofBase], [peak, b.h, roofBase + 1.25]], "#596f6b");
+          face([[x0, b.h, roofBase], [peak, b.h, roofBase + 1.25], [x1, b.h, roofBase]], "#78877c");
+          line([peak, 0, roofBase + 1.25], [peak, b.h, roofBase + 1.25], "#b5bdb0", 1.5);
+        }
+        // Tall loading-bay bulkhead reads differently from a neighbourhood workshop.
+        slab(b.w * 0.08, b.h * 0.10, b.w * 0.20, b.h * 0.40, b.height - 0.2, b.height + 0.8, 0x88796a);
         sign(b.sign, 3.15, "#725747");
       }
       // Side elevations face the street in this camera: give each family an actual facade.
       if (family === "commercial" || family === "apartment") {
         for (let z = 3.45; z < b.height - 1.2; z += 2.25)
           for (let y = 0.8; y < b.h - 1.5; y += 2.25) sidePane(y, z, 1.05, 1.45);
+        if (family === "apartment" || (family === "commercial" && b.kind === "office")) {
+          for (let z = 3.35; z < b.height - 1.1; z += 2.25)
+            for (let y = 0.75; y < b.h - 2.0; y += 3.0) sideBalcony(y, z - 0.18, 1.75);
+        }
         // Downpipe and service cable terminate above pavement rather than across the doorway.
         line([b.w + 0.04, b.h - 0.35, 0.4], [b.w + 0.04, b.h - 0.35, b.height - 0.2], "#5a6660", 2);
       }
@@ -439,6 +505,11 @@ const generated = await page.evaluate(
           ],
           "#536f60",
         );
+        // Locally familiar alternating awning panels, not a screen-space overlay.
+        for (let y = 0.3; y < b.h - 0.2; y += 0.75) {
+          const end = Math.min(y + 0.37, b.h - 0.2);
+          face([[b.w + 0.01, y, 2.91], [b.w + 0.01, end, 2.91], [b.w + 0.48, end, 2.66], [b.w + 0.48, y, 2.66]], "#e4d5ae");
+        }
         line([b.w + 0.48, 0.3, 2.65], [b.w + 0.48, b.h - 0.2, 2.65], "#ddd0ad", 2);
       }
       if (family === "civic" && b.kind === "school") {
@@ -974,7 +1045,7 @@ const generated = await page.evaluate(
       actorFrames,
     };
   },
-  { buildings: BUILDINGS },
+  { buildings: BUILDINGS.map((b) => ({ ...b, height: visualBuildingHeight(b.kind, b.height) })) },
 );
 for (const [filename, data] of [
   ["buildings.png", generated.buildingsPng],
