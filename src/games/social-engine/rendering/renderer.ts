@@ -3,6 +3,7 @@ import { Application, Container, Graphics, Rectangle, Sprite, Text, Texture } fr
 import type { Person, Point, RenderProjection, Vehicle } from "../domain/types";
 import { retargetMotion, sampleMotion } from "./interpolation";
 import { cameraTranslation } from "./camera";
+import { alphaMask, masksOverlap, type AlphaMask } from "./occlusion";
 import { BUILDINGS, LAND_HEIGHT, ROAD_CENTERS, isRoad, project, unproject } from "./world";
 
 // Physics headings stay in world coordinates; compare projected tangents to eight authored axes.
@@ -66,8 +67,6 @@ export type WorldRenderer = {
 declare const SOCIAL_ATLAS_URL: string;
 const BASE = "/games/social-engine/assets/";
 const clamp = (v: number, a: number, b: number) => Math.max(a, Math.min(b, v));
-const PERSON_SAMPLE_X = [-6, -3, 0, 3, 6], PERSON_SAMPLE_Y = [-32, -28, -24, -20, -16, -12, -8, -4];
-const VEHICLE_SAMPLE_X = [-20, -10, 0, 10, 20], VEHICLE_SAMPLE_Y = [-24, -12, 0, 12];
 
 function groundTexture(cx: number, cy: number): Texture {
   const canvas = document.createElement("canvas");
@@ -440,7 +439,7 @@ export async function createRenderer(
   }
   // A compact, one-bit occupancy mask prevents transparent atlas padding or
   // shadows from triggering building fade. It is built once, never per frame.
-  const buildingMasks = new Map<string, Uint8Array>();
+  const buildingMasks = new Map<string, AlphaMask>();
   const maskCanvas = document.createElement("canvas");
   maskCanvas.width = buildingBase.source.width;
   maskCanvas.height = buildingBase.source.height;
@@ -448,18 +447,14 @@ export async function createRenderer(
   maskContext.drawImage(buildingBase.source.resource as HTMLImageElement, 0, 0);
   for (const [name, frame] of Object.entries(atlas.buildings.frames)) {
     const pixels = maskContext.getImageData(frame.x, frame.y, frame.w, frame.h).data;
-    const mask = new Uint8Array(Math.ceil((frame.w * frame.h) / 8));
-    for (let i = 0; i < frame.w * frame.h; i++) {
-      if (pixels[i * 4 + 3] >= 160) mask[i >> 3] |= 1 << (i & 7);
-    }
-    buildingMasks.set(name, mask);
+    buildingMasks.set(name, alphaMask(pixels, frame.w, frame.h));
   }
   maskCanvas.width = 0;
   maskCanvas.height = 0;
   // Only player animation cells actually visited are decoded; each is cached
   // as one bit per pixel so sprite overlap excludes transparent character pixels.
-  const playerMasks = new Map<string, Uint8Array>();
-  const playerMask = (name: string, frame: Frame): Uint8Array => {
+  const playerMasks = new Map<string, AlphaMask>();
+  const playerMask = (name: string, frame: Frame): AlphaMask => {
     const existing = playerMasks.get(name);
     if (existing) return existing;
     const canvas = document.createElement("canvas");
@@ -468,10 +463,7 @@ export async function createRenderer(
     const context = canvas.getContext("2d", { willReadFrequently: true })!;
     context.drawImage(actorBase.source.resource as HTMLImageElement, frame.x, frame.y, frame.w, frame.h, 0, 0, frame.w, frame.h);
     const pixels = context.getImageData(0, 0, frame.w, frame.h).data;
-    const mask = new Uint8Array(Math.ceil((frame.w * frame.h) / 8));
-    for (let i = 0; i < frame.w * frame.h; i++) {
-      if (pixels[i * 4 + 3] >= 160) mask[i >> 3] |= 1 << (i & 7);
-    }
+    const mask = alphaMask(pixels, frame.w, frame.h, true);
     canvas.width = 0;
     canvas.height = 0;
     playerMasks.set(name, mask);
@@ -1151,25 +1143,10 @@ export async function createRenderer(
       // Compare in the shared projected world coordinates. Depth must put the
       // building in front, and an opaque building pixel must cover the body.
       if (subject?.sprite.visible && s.zIndex > subject.sprite.zIndex && frame && mask && subjectFrame && actorMask) {
-        const centerX = subject.sprite.x - s.x + frame.pivot.x;
-        const centerY = subject.sprite.y - s.y + frame.pivot.y;
-        const vehicle = !!subject.vehicle;
-        const dxs = vehicle ? VEHICLE_SAMPLE_X : PERSON_SAMPLE_X;
-        const dys = vehicle ? VEHICLE_SAMPLE_Y : PERSON_SAMPLE_Y;
-        const cosine = Math.cos(subject.sprite.rotation), sine = Math.sin(subject.sprite.rotation);
-        if (centerX >= -20 && centerX < frame.w + 20 && centerY >= -12 && centerY < frame.h + 32) {
-          for (const dy of dys) {
-            for (const dx of dxs) {
-              const x = Math.floor(centerX + dx), y = Math.floor(centerY + dy);
-              const ax = Math.floor((dx * cosine + dy * sine) / subject.sprite.scale.x + subjectFrame.pivot.x);
-              const ay = Math.floor((-dx * sine + dy * cosine) / subject.sprite.scale.y + subjectFrame.pivot.y);
-              if (x < 0 || x >= frame.w || y < 0 || y >= frame.h || ax < 0 || ax >= subjectFrame.w || ay < 0 || ay >= subjectFrame.h) continue;
-              const bit = y * frame.w + x, actorBit = ay * subjectFrame.w + ax;
-              if ((mask[bit >> 3] & (1 << (bit & 7))) && (actorMask[actorBit >> 3] & (1 << (actorBit & 7)))) { blocks = true; break; }
-            }
-            if (blocks) break;
-          }
-        }
+        blocks = masksOverlap(mask, actorMask,
+          subject.sprite.x - s.x + frame.pivot.x, subject.sprite.y - s.y + frame.pivot.y,
+          subjectFrame.pivot.x, subjectFrame.pivot.y,
+          subject.sprite.scale.x, subject.sprite.scale.y, subject.sprite.rotation);
       }
       const targetAlpha = blocks ? 0.35 : 1;
       s.alpha += (targetAlpha - s.alpha) * 0.12;

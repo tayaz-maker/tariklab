@@ -52,6 +52,28 @@ try {
       player: state.projection.player.location, camera: state.renderer.cameraTransform,
       occludedBuildings: state.renderer.occludedBuildings });
   }
+  // This real idle-right position previously hid the player's head behind YUVA
+  // because the sparse sample grid fell between 166 overlapping opaque pixels.
+  for (const [x, y] of [[5.4, 14.6], [6, 14.6]]) {
+    const command = await page.evaluate(({ x, y }) => window.__socialEngine.command("MOVE_TO", { x, y }), { x, y });
+    assert.equal(command.ok, true, JSON.stringify(command));
+    await page.waitForFunction(({ x, y }) => {
+      const p = window.__socialEngine.projection().player.location;
+      return Math.hypot(p.x - x, p.y - y) < 0.1;
+    }, { x, y }, { timeout: 90000 });
+  }
+  await page.waitForTimeout(2000);
+  const edge = await page.evaluate(async () => ({
+    seed: (await window.__socialEngine.state()).seed,
+    projection: window.__socialEngine.projection(),
+    renderer: window.__socialEngine.metrics().renderer,
+  }));
+  await page.screenshot({ path: `${out}/occlusion-thin-edge.png` });
+  const home = edge.renderer.occludedBuildings.find((building) => building.id === "b-home");
+  assert.ok(home && home.alpha < 0.6, `home did not fade at thin overlap: ${JSON.stringify(home)}`);
+  results.push({ label: "thin-edge", seed: edge.seed, tick: edge.projection.tick, minute: edge.projection.minute,
+    player: edge.projection.player.location, camera: edge.renderer.cameraTransform,
+    occludedBuildings: edge.renderer.occludedBuildings });
   assert.deepEqual(errors, []);
   const wait = await page.evaluate(() => Math.max(0, 32000 - (performance.now() - window.__occlusionCapture.started)));
   await page.waitForTimeout(wait);
