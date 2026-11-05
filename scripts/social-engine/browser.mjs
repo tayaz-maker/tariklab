@@ -3,7 +3,7 @@ import { chromium, firefox, webkit } from "playwright";
 import { mkdir, writeFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import assert from "node:assert/strict";
-import { BUILDINGS } from "../../src/games/social-engine/domain/world.ts";
+import { BUILDINGS, isWalkable, project } from "../../src/games/social-engine/domain/world.ts";
 const base = process.env.SE_BASE || "http://127.0.0.1:8097";
 const kind = process.env.SE_BROWSER || "chromium";
 const out = "artifacts/social-engine/browser-" + kind;
@@ -62,6 +62,14 @@ const state = () => page.evaluate(() => window.__socialEngine.state());
 const cmd = (type, args = {}) =>
   page.evaluate(({ type, args }) => window.__socialEngine.command(type, args), { type, args });
 const step = (count) => waitForQATicks(page, count);
+async function stepUntil(condition, { batch, maxTicks, reason }) {
+  for (let elapsed = 0; elapsed <= maxTicks; elapsed += batch) {
+    const current = await state();
+    if (condition(current)) return current;
+    if (elapsed < maxTicks) await step(Math.min(batch, maxTicks - elapsed));
+  }
+  assert.fail(reason);
+}
 try {
   await test("SE-001", async () => {
     await page.goto(base + "/games/social-engine/index.html?qa=1");
@@ -129,29 +137,47 @@ try {
     assert.ok((await state()).relations.some((r) => r.from === "player" || r.to === "player"));
   });
   await test("SE-007-click,SE-009", async () => {
-    for (const viewport of [
-      { width: 1440, height: 900 },
-      { width: 1280, height: 720 },
+    const near = (location, point) => Math.hypot(location.x - point.x, location.y - point.y) < 0.2;
+    const start = { x: 24, y: 15.5 };
+    const approach = await cmd("MOVE_TO", start);
+    assert.ok(approach.ok, approach.reason);
+    await stepUntil((s) => near(s.player.location, start) && !s.player.path.length, {
+      batch: 12,
+      maxTicks: 120,
+      reason: "player reached the open market frontage",
+    });
+    for (const [viewport, point] of [
+      [{ width: 1440, height: 900 }, { x: 24.75, y: 16.15 }],
+      [{ width: 1280, height: 720 }, { x: 25.5, y: 15.5 }],
     ]) {
       await page.setViewportSize(viewport);
-      await page.waitForTimeout(200);
-      const before = (await state()).player.location;
-      const point = { x: before.x + 0.6, y: before.y + 0.6 };
+      assert.ok(isWalkable(point), "click target must be on open ground");
+      const canvas = page.locator("#world canvas");
+      await page.waitForFunction(async () => {
+        const readCamera = () => window.__socialEngine.metrics().renderer.cameraTransform;
+        const first = readCamera();
+        await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+        const second = readCamera();
+        return !!first && !!second && Math.hypot(second.x - first.x, second.y - first.y) < 0.5;
+      });
       const camera = await page.evaluate(
         () => window.__socialEngine.metrics().renderer.cameraTransform,
       );
       assert.ok(camera, "renderer transform instrumentation");
+      const iso = project(point);
       const screen = {
-        x: (point.x - point.y) * 24 * camera.zoom + camera.x,
-        y: (point.x + point.y) * 12 * camera.zoom + camera.y,
+        x: iso.x * camera.zoom + camera.x,
+        y: iso.y * camera.zoom + camera.y,
       };
-      await page.locator("#world canvas").click({ position: screen });
-      await step(8);
-      const after = (await state()).player.location;
-      assert.ok(
-        Math.hypot(after.x - point.x, after.y - point.y) < 0.2,
-        "click target after resize",
-      );
+      await canvas.click({ position: screen });
+      const destination = (await state()).player.destination;
+      assert.ok(destination && near(destination, point),
+        `canvas click mapped to ${JSON.stringify(destination)} at ${viewport.width}px`);
+      await stepUntil((s) => near(s.player.location, point) && !s.player.path.length, {
+        batch: 4,
+        maxTicks: 24,
+        reason: `player reached the clicked point at ${viewport.width}px`,
+      });
     }
     await cmd("MOVE_TO", { x: 27, y: 16 });
     await step(20);
@@ -209,13 +235,22 @@ try {
   });
   await test("SE-033", async () => {
     const s = await state();
-    const v = s.vehicles.find((v) => !v.driverId);
-    assert.ok(v);
+    const v = s.vehicles.find((v) => v.id === "v0");
+    assert.ok(v && !v.driverId, "the starter car is available");
     await cmd("MOVE_TO", v.location);
     await step(1200);
     const r = await cmd("VEHICLE_ENTER", { vehicleId: v.id });
     assert.equal(r.ok, true, r.reason);
-    await cmd("DRIVE", { throttle: 1, steer: 0 });
+    assert.ok((await cmd("DRIVE", { throttle: 1, steer: 0 })).ok);
+    const car = (s) => s.vehicles.find((item) => item.id === v.id);
+    const inParkingManeuver = (s) => s.mobility.driverBreaks?.some(
+      (b) => b.vehicleId === v.id && ["toBay", "fromBay", "disabled"].includes(b.phase),
+    );
+    await stepUntil((s) => !inParkingManeuver(s) && car(s).speed > 0.6, {
+      batch: 20,
+      maxTicks: 1200,
+      reason: "starter car physically left its bay and accelerated on the lane",
+    });
     await step(30);
     await cmd("DRIVE", { throttle: 0, steer: 0 });
     await page.evaluate(() => window.__socialEngine.save("slot-1"));
@@ -226,10 +261,15 @@ try {
     assert.deepEqual(after.player.location, before.player.location);
     assert.deepEqual(after.vehicles.find(c=>c.id===v.id),before.vehicles.find(c=>c.id===v.id));
     assert.equal(after.player.location.scene, "outside");
-    await cmd("DRIVE", { throttle: -1, steer: 0 });
-    await step(20);
+    assert.ok((await cmd("DRIVE", { throttle: -1, steer: 0 })).ok);
+    await stepUntil((s) => car(s).speed <= 0.6, {
+      batch: 4,
+      maxTicks: 40,
+      reason: "loaded car responded to the brake before attempting to exit",
+    });
     const exit = await cmd("VEHICLE_EXIT");
     assert.equal(exit.ok, true, exit.reason);
+    assert.equal((await state()).player.vehicleId, null);
   }, ["SE-033-exact-position"]);
   await test("SE-031,SE-029,SE-030", async () => {
     const s = await state();
