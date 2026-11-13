@@ -12,11 +12,12 @@ combined is Gold plus expansion. Initial Turkish excludes both deferred locale
 and expansion files. No emitted file is omitted from the combined total.
 
 The existing Gold ceilings remain 301,836 bytes total and 205,874 bytes
-initial. The measured expansion output is 40,217 bytes and its ceiling is
-40,217 bytes, compared with the 37,528-byte increment implied by the original
+initial. The first passing partitioned build measured 40,217 deferred bytes;
+its ceiling is frozen at 40,217, compared with the 37,528-byte increment implied by the original
 339,364-byte combined reference and the Gold ceiling. The combined ceiling is
-342,048 bytes, the measured final total and the sum of the final Gold output
+342,048 bytes, that measured reference total and the sum of its Gold output
 (301,831) and expansion output. This is 2,684 bytes (0.79%) above the original
 combined reference, reflecting the independently compressed module boundaries
-and added opt-in functionality. All emitted files are counted. The package test
+and explicit loading/recovery code. Later reductions do not increase either
+ceiling. All emitted files are counted. The package test
 checks each ceiling and the partition sum independently.

@@ -598,14 +598,11 @@ export async function loadExpansionLocked(
   if (!locks?.request) return { state: null, token: null, message: LOCK_WARNING };
   let probe;
   try {
-    return await locks.request(SAVE_LOCK, async () => {
-      probe = await transact(storage, probeExpansion);
-      if (!probe.saved || ![probe.token.primary, probe.token.backup].some(isExpansionSave))
-        return probe.saved ? { ...probe, message: EXPANSION_READ_ERROR } : probe;
-      // Import outside the IDB transaction: an await would let that transaction
-      // close. Re-read the authoritative slots under the same Web Lock.
-      return (await expansionPersistence()).loadExpansion(expansionIo, storage, transact);
-    });
+    probe = await locks.request(SAVE_LOCK, () => transact(storage, probeExpansion));
+    if (!probe.saved) return probe;
+    if ([probe.token.primary, probe.token.backup].some(isExpansionSave))
+      return await (await expansionPersistence()).loadExpansion(expansionIo, storage, locks, transact);
+    return { ...probe, message: EXPANSION_READ_ERROR };
   } catch (error) {
     if (error.snapshot) {
       const snapshot = memoryStorage(new Map(error.snapshot.slots));

@@ -23,10 +23,10 @@ function expansionLoad(storage, [probe, read]) {
   };
 }
 
-// Called while Gold's Web Lock is held, but outside an IndexedDB transaction.
-export async function loadExpansion(io, storage, transact = io[3]) {
+export async function loadExpansion(io, storage, locks, transact) {
   await loadExpansionRuntime();
-  return transact(storage, (memory) => expansionLoad(memory, io));
+  // Read the latest slots under the lock after all module downloads finish.
+  return locks.request(io[6], () => transact(storage, (memory) => expansionLoad(memory, io)));
 }
 
 export async function recoverExpansion(io, snapshot) {

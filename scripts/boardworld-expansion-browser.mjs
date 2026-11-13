@@ -95,6 +95,61 @@ async function verifyUnavailableRuntime(browser, url, head, state) {
     await context.close();
   }
 }
+async function within(operation, label) {
+  let timeout;
+  try {
+    return await Promise.race([
+      operation,
+      new Promise((_, reject) => {
+        timeout = setTimeout(() => reject(new Error(`Timed out: ${label}`)), 10_000);
+      }),
+    ]);
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+async function verifySlowRuntime(context, writer) {
+  const reader = await context.newPage();
+  const runtimeUrl = new URL("./expansion.mjs", writer.url()).href;
+  let release;
+  const held = new Promise((resolve) => {
+    release = resolve;
+  });
+  try {
+    let requested;
+    const pending = new Promise((resolve) => {
+      requested = resolve;
+    });
+    await reader.route(runtimeUrl, async (route) => {
+      requested();
+      await held;
+      await route.continue();
+    });
+    await reader.goto(writer.url(), { waitUntil: "commit" });
+    await within(pending, "expansion runtime request");
+    const latest = await within(
+      writer.evaluate(async () => {
+        const { loadGameLocked, saveGameLocked, loadExpansionLocked, saveExpansionLocked } =
+          await import("./persistence.mjs");
+        const { state, token } = await loadGameLocked();
+        const gold = await saveGameLocked(state, undefined, token);
+        if (!gold.ok) throw new Error(gold.message);
+        const expansion = await loadExpansionLocked();
+        expansion.state.revision++;
+        const saved = await saveExpansionLocked(expansion.state, undefined, expansion.token);
+        if (!saved.ok) throw new Error(saved.message);
+        return expansion.state;
+      }),
+      "Gold and v7 writes while runtime is pending",
+    );
+    release();
+    await reader.waitForFunction(() => window.boardworldInspect?.()?.version === 7);
+    assert.deepEqual(await reader.evaluate(() => window.boardworldInspect()), latest);
+  } finally {
+    release();
+    await reader.close();
+  }
+}
 let browser;
 try {
   browser = await chromium.launch({
@@ -111,7 +166,12 @@ try {
   assert.deepEqual([...requested], []);
   await page.locator("#character-name").fill("Deniz Test");
   await page.locator('[data-testid="create-game"]').click();
+  const opening = await page.evaluate(() => localStorage.getItem("tariklab.boardworld.v6"));
   await page.locator(".event-choices [data-action]:enabled").first().click();
+  await page.waitForFunction(
+    (before) => localStorage.getItem("tariklab.boardworld.v6") !== before,
+    opening,
+  );
   const gold = await page.evaluate(() => localStorage.getItem("tariklab.boardworld.v6"));
   assert.equal(JSON.parse(gold).version, 6);
   assert.deepEqual([...requested], [], "Gold play should request no expansion modules");
@@ -171,6 +231,7 @@ try {
   assert.ok(size[0] <= size[1] + 1, size.join("/"));
   assert.deepEqual(errors, []);
   await verifyUnavailableRuntime(browser, page.url(), await savedSlots(page), state);
+  await verifySlowRuntime(context, page);
   console.log(
     JSON.stringify({
       status: "PASS",
