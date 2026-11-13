@@ -1504,3 +1504,15 @@ Bind the new cache/bootstrap/localization implementation proofs and retained038 
 ### Boardworld generations and regional economy — 2026-11-13
 
 The isolated expansion branch connects households, child development and succession with property, enterprise, public institutions and three regional markets. Existing lives can opt in from the Generations panel. The schema-7 save uses separate durable slots under the existing IndexedDB transaction and Web Lock, with generation and exact-byte conflict checks. The Gold schema-6 slots remain readable by the released client. Focused tests cover financial flows, deterministic demographic cycles and older saves. Browser checks cover adoption, relocation and competing tab writes. The integrated package exceeds both fixed Gold byte limits and is held out of production.
+
+### Boardworld optional expansion loading — 2026-11-13
+
+Replace the candidate's monolithic loading with independent expansion modules.
+Gold boot and gameplay download no expansion code; opening Generations loads
+only its preview, while opt-in or a validated saved-v7 resume loads simulation
+and persistence. Failed downloads and mismatched cached core instances leave
+durable save bytes intact. Game rules, NPC logic and save schemas are unchanged.
+The unchanged Gold budget and separately measured deferred/all-files budgets
+are recorded in `tc-sim-boardworld/BOARDWORLD_8_15_ASSET_POLICY.md`.
+Native follow-up: preserve explicit opt-in and the same recovery semantics;
+native work remains paused. PR #259 is the candidate, not a production claim.

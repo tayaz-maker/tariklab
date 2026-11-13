@@ -20,6 +20,7 @@ import {
   tickRegions,
   validateWorld,
 } from "../public/games/tc-sim-boardworld/expansion-world.mjs";
+import { initExpansion } from "../public/games/tc-sim-boardworld/expansion.mjs";
 import { familyView } from "../public/games/tc-sim-boardworld/expansion-family.mjs";
 
 function act(state, id) {
@@ -27,6 +28,36 @@ function act(state, id) {
   assert.ok(result.ok, result.message);
   return result.state;
 }
+
+test("Gold cannot validate, create, or run expansion state before loading the runtime", async () => {
+  const gold = createGame();
+  const expanded = structuredClone(gold);
+  initExpansion(expanded);
+  const expandedPayload = JSON.stringify(expanded);
+  let checksum = 2166136261;
+  for (let i = 0; i < expandedPayload.length; i++)
+    checksum = Math.imul(checksum ^ expandedPayload.charCodeAt(i), 16777619) >>> 0;
+  const bytes = JSON.stringify({
+    format: "tc-sim-boardworld",
+    version: 7,
+    checksum: checksum.toString(16).padStart(8, "0"),
+    payload: expandedPayload,
+  });
+  assert.equal(validateState(gold), true);
+  assert.equal(validateState(expanded), false);
+  assert.equal(importGame(bytes).state, null);
+  assert.equal(resolveAction(expanded, getActions(gold)[0].id).ok, false);
+  assert.throws(() => getActions(expanded), /runtime is not loaded/);
+  assert.throws(() => expandGame(gold), /runtime is not loaded/);
+  assert.throws(() => createGame({ expansion: true }), /runtime is not loaded/);
+  const locks = { request: (_key, fn) => fn() };
+  const transact = (_storage, op) =>
+    op({
+      getItem: (key) => (key === "tariklab.boardworld.v7" ? bytes : null),
+    });
+  assert.deepEqual((await loadExpansionLocked(undefined, locks, transact)).state, expanded);
+  assert.equal(validateState(expanded), true);
+});
 
 test("Gold records migrate explicitly and expansion export is lossless", () => {
   const gold = createGame({ seed: 49 });

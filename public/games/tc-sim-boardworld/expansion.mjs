@@ -1,3 +1,5 @@
+import { closeHousehold } from "./life-systems.mjs";
+import { EXPANSION_SAVE_VERSION, createGame } from "./engine.mjs";
 import {
   initFamily,
   familyActions,
@@ -39,8 +41,29 @@ import {
 } from "./expansion-world.mjs";
 
 export { familyCanAct, creditMunicipalTax, economyNpcHousingCost };
-export const EXPANSION_SAVE_VERSION = 7;
+export { EXPANSION_SAVE_VERSION, createGame };
 const HISTORY_LIMIT = 240;
+
+// Install expansion-only adapters once; all adapters retain Gold semantics for v6 states.
+export function attachExpansion(api) {
+  const housingCost = api.npcHousingCost;
+  const present = api.playerPresent;
+  api.npcHousingCost = (s, id, base) => {
+    const cost = housingCost(s, id, base);
+    return s.expansion ? economyNpcHousingCost(s, id, cost) : cost;
+  };
+  api.playerPresent = (s, district) =>
+    present(s, district) && (!s.expansion || s.expansion.world.region === "istanbul");
+  api.expansionEvent = expansionEvent;
+  api.creditMunicipalTax = creditMunicipalTax;
+  api.closeHousehold = (s, reason) => closeHousehold(s, reason, api);
+  api.settleCareer = (s) => {
+    if (!s.job) return;
+    api.receive(s, s.job.earned, "İşten ayrılma · kazanılmış ücret", "bank");
+    s.job = null;
+  };
+  // Property and enterprise stay in the household estate across successors.
+}
 
 export function initExpansion(s) {
   s.version = EXPANSION_SAVE_VERSION;

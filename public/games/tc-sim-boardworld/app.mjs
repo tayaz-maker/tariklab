@@ -1,6 +1,7 @@
 import {
   createGame,
   expandGame,
+  loadExpansionRuntime,
   resolveAction,
   getActions,
   getClock,
@@ -18,8 +19,6 @@ import {
   getSocietyView,
   getDecisionView,
 } from "./engine.mjs";
-import { getExpansionView } from "./expansion.mjs";
-import { renderExpansion } from "./expansion-ui.mjs";
 import {
   DISTRICTS,
   SCENARIOS,
@@ -75,6 +74,7 @@ import {
   saveExpansionLocked,
   exportGame,
   importGame,
+  isExpansionSave,
   SAVE_KEY,
   BACKUP_KEY,
 } from "./persistence.mjs";
@@ -193,6 +193,17 @@ async function saveCurrent(current, expected = saveToken) {
   }
   return result;
 }
+let expansionUi, expansionPreview;
+async function prepareExpansionPreview() {
+  expansionPreview ??= await import("./expansion-preview.mjs");
+}
+async function prepareExpansion() {
+  const [runtime, ui] = await Promise.all([
+    loadExpansionRuntime(), import("./expansion-ui.mjs"), prepareExpansionPreview(),
+  ]);
+  expansionUi = { ...ui, getExpansionView: runtime.getExpansionView };
+}
+const EXPANSION_LOAD_ERROR = "Nesiller yüklenemedi. Mevcut kayıt korundu.";
 let initialLoad;
 try {
   initialLoad = await loadGameLocked();
@@ -203,9 +214,14 @@ try {
   const expansion = await loadExpansionLocked();
   expansionToken = expansion.token;
   if (expansion.state) {
-    state = expansion.state;
-    tab = "expansion";
-    saveStatus = expansion.message;
+    try {
+      await prepareExpansion();
+      state = expansion.state;
+      tab = "expansion";
+      saveStatus = expansion.message;
+    } catch {
+      expansionProblem = saveStatus = EXPANSION_LOAD_ERROR;
+    }
   } else if (expansion.saved) {
     expansionProblem = expansion.message;
     saveStatus = expansion.message;
@@ -240,6 +256,13 @@ function badge(text, kind = "") {
 function sectionHeader(eyebrow, heading, copy = "") {
   return `<header class="section-heading"><span class="eyebrow">${esc(eyebrow)}</span><h2 tabindex="-1" id="panel-heading">${esc(heading)}</h2>${copy ? `<p>${esc(copy)}</p>` : ""}</header>`;
 }
+function renderGenerations() {
+  return expansionPreview.renderGenerations(
+    state, expansionUi, cachedView, actions, actionCard, sectionHeader,
+    money, esc, getLanguage(), expansionProblem,
+  );
+}
+
 function meter(label, value, inverse = false) {
   const v = Math.max(0, Math.min(100, Math.round(value || 0)));
   return `<div class="meter ${inverse ? "inverse" : ""} ${inverse ? (v > 70 ? "low" : "") : v < 30 ? "low" : ""}"><span>${esc(label)} <b>${v}</b></span><meter min="0" max="100" value="${v}" aria-label="${esc(label)}">${v}</meter></div>`;
@@ -571,17 +594,7 @@ function renderGame() {
       stories: renderStories,
       work: renderWork,
       life: renderLife,
-      expansion: () =>
-        renderExpansion({
-          view: cachedView("expansion", () => getExpansionView(state)),
-          actions,
-          actionCard,
-          sectionHeader,
-          money,
-          esc,
-          language: getLanguage(),
-          problem: expansionProblem,
-        }),
+      expansion: renderGenerations,
       people: renderPeople,
       study: renderStudy,
       wallet: renderWallet,
@@ -694,30 +707,22 @@ async function handleUi(id) {
   if (id === "expand" && state && !state.expansion) {
     busy = true;
     try {
-      const current = await loadExpansionLocked();
-      if (!current.token || current.saved) {
-        announce(current.message || "Nesiller kaydını yüklemek için sayfayı yenile.", true);
-        return;
-      }
-      if (current.token.generation !== saveToken?.generation) {
-        announce("Başka bir sekme kaydı değiştirdi. Devam etmeden önce sayfayı yenile.", true);
-        return;
-      }
-      const expanded = expandGame(state);
-      expansionToken = current.token;
-      const saved = await saveCurrent(expanded);
+      const saved = await expansionPreview.activateExpansion(state, saveToken, prepareExpansion);
+      recoverySaves = saved.recoverySaves ?? recoverySaves;
       if (!saved.ok) {
         announce(saved.message, true);
         return;
       }
-      state = expanded;
+      unsaved = false;
+      expansionToken = saved.token;
+      state = saved.state;
       expansionProblem = "";
       saveStatus = saved.message;
       tab = "expansion";
       render();
       announce(saved.message);
     } catch {
-      announce("Nesiller kaydı oluşturulamadı. Mevcut kayıt korundu.", true);
+      announce(EXPANSION_LOAD_ERROR, true);
     } finally {
       busy = false;
     }
@@ -967,10 +972,18 @@ document.addEventListener("click", async (event) => {
     return;
   }
   if (button.dataset.tab) {
-    tab = button.dataset.tab;
-    render();
-    $("#panel-heading")?.focus({ preventScroll: true });
-    $("#panel-heading")?.scrollIntoView({ block: "start" });
+    busy = true;
+    try {
+      if (button.dataset.tab === "expansion") await prepareExpansionPreview();
+      tab = button.dataset.tab;
+      render();
+      $("#panel-heading")?.focus({ preventScroll: true });
+      $("#panel-heading")?.scrollIntoView({ block: "start" });
+    } catch {
+      announce(EXPANSION_LOAD_ERROR, true);
+    } finally {
+      busy = false;
+    }
     return;
   }
   if (button.dataset.district) {
@@ -1122,7 +1135,9 @@ $("#import-file").addEventListener("change", async (event) => {
       return;
     }
     const importToken = saveToken;
-    const imported = importGame(await file.text());
+    const bytes = await file.text();
+    if (isExpansionSave(bytes)) await prepareExpansion();
+    const imported = importGame(bytes);
     if (!imported.state) {
       announce(imported.message || "Kayıt geçersiz. Mevcut oyun korundu.", true);
       return;

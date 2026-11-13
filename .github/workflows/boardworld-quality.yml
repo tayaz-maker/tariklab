@@ -46,6 +46,8 @@ jobs:
         run: node scripts/boardworld-emergent-browser.mjs --serve .output/public
       - name: Living Society invitations, daily decisions, locales and v4 isolation
         run: node scripts/boardworld-society-browser.mjs --serve .output/public
+      - name: Optional generations module loading, save isolation and stale writes
+        run: node scripts/boardworld-expansion-browser.mjs .output/public
       - name: Gold native cross-tab transaction and import races
         run: |
           node scripts/boardworld-stale-browser.mjs --serve .output/public

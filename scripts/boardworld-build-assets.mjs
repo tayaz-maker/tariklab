@@ -21,12 +21,16 @@ export async function assetMetrics(directory) {
       return { file, bytes: bytes.length, gzipBytes: gzipSync(bytes).length };
     }),
   );
+  const expansion = assets.filter((a) => a.file.startsWith("expansion") && a.file.endsWith(".mjs"));
+  const expansionGzipBytes = expansion.reduce((sum, a) => sum + a.gzipBytes, 0);
   return {
     assets,
+    expansionGzipBytes,
+    goldGzipBytes: assets.reduce((sum, a) => sum + a.gzipBytes, 0) - expansionGzipBytes,
     rawBytes: assets.reduce((sum, a) => sum + a.bytes, 0),
     gzipBytes: assets.reduce((sum, a) => sum + a.gzipBytes, 0),
     initialTrGzipBytes: assets
-      .filter((a) => !a.file.startsWith("locale-"))
+      .filter((a) => !a.file.startsWith("locale-") && !a.file.startsWith("expansion"))
       .reduce((sum, a) => sum + a.gzipBytes, 0),
   };
 }
@@ -94,9 +98,15 @@ export async function packGameAssets({ sourceDir = resolve("public", gamePath), 
   if (/<(?:pre|textarea|style)\b|<script(?![^>]*\bsrc=)/i.test(html))
     throw new Error("Inline/preformatted bootstrap needs a dedicated HTML packing rule.");
   packed.set("index.html", html.replace(/\n\s*/g, " ").replace(/>\s+</g, "><").trim());
-  locales.forEach((file, index) =>
-    packed.set(file, `export default ${JSON.stringify(catalog[index])};\n`),
-  );
+  locales.forEach((file, index) => {
+    const entries = catalog[index];
+    // Delimiter encoding preserves array order and values while avoiding JSON
+    // punctuation; fall back when a translation contains the delimiter.
+    const expression = index > 0 && entries.length > 0 && entries.every((entry) => typeof entry === "string" && !entry.includes("|"))
+      ? `${JSON.stringify(entries.join("|"))}.split("|")`
+      : JSON.stringify(entries);
+    packed.set(file, `export default ${expression};\n`);
+  });
   const modules = await packModules(packed, keys);
   await mkdir(targetDir, { recursive: true });
   for (const file of await readdir(targetDir))

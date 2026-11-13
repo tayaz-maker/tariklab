@@ -3,9 +3,12 @@ import assert from "node:assert/strict";
 import {
   createGame,
   getActions,
+  loadExpansionRuntime,
   resolveAction,
   validateState,
 } from "../public/games/tc-sim-boardworld/engine.mjs";
+
+await loadExpansionRuntime();
 
 const e = (s) => s.expansion.economy;
 const p = (s, id) => e(s).properties[id];
