@@ -20,6 +20,7 @@ import {
   tickRegions,
   validateWorld,
 } from "../public/games/tc-sim-boardworld/expansion-world.mjs";
+import { familyView } from "../public/games/tc-sim-boardworld/expansion-family.mjs";
 
 function act(state, id) {
   const result = resolveAction(state, id);
@@ -84,6 +85,38 @@ test("regional cycles balance migration and have deterministic price and populat
   }
   assert.deepEqual(simulate(11), simulate(11));
   assert.notDeepEqual(simulate(11), simulate(36));
+});
+
+test("the normal action loop stops at death and resumes through the same saved estate", () => {
+  let s = createGame({ seed: 3, expansion: true });
+  s = act(s, getActions(s).find((action) => !action.disabled).id);
+  s = act(s, "family:adopt");
+  const people = s.expansion.family.people;
+  const founder = people.find((person) => person.id === "player:1");
+  const parent = people.find((person) => person.id === founder.parents[0]);
+  const heir = people.find((person) => person.parents.includes(founder.id));
+  // Fast-forward age, while preserving actual calendar, funds and world progression.
+  founder.born = 2 - founder.lifespan * 30;
+  parent.born = founder.born - 24 * 30;
+  parent.died = 1;
+  heir.born = 1 - 18 * 30;
+  assert.ok(validateState(s));
+  for (let i = 0; i < 85 && familyView(s).player.died === null; i++) {
+    const actions = getActions(s);
+    const wait = actions.find((action) => action.id === "wait:15" && !action.disabled);
+    s = act(s, (wait ?? actions.find((action) => !action.disabled)).id);
+  }
+  assert.equal(s.time, 1440);
+  assert.equal(familyView(s).player.died, 2);
+  assert.ok(getActions(s).every((action) => action.id.startsWith("family:successor:")));
+  assert.equal(resolveAction(s, "wait:15").ok, false);
+  const saved = importGame(exportGame(s)).state;
+  const inherited = act(saved, `family:successor:${heir.id}`);
+  assert.equal(inherited.expansion.playerId, heir.id);
+  assert.equal(inherited.debt, saved.debt);
+  assert.deepEqual(inherited.housing, saved.housing);
+  assert.equal(familyView(inherited).generations, 2);
+  assert.deepEqual(importGame(exportGame(inherited)).state, inherited);
 });
 
 test("expansion CAS shares authority and preserves Gold bytes across stale writers", async () => {
