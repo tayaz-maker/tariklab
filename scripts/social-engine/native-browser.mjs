@@ -125,11 +125,26 @@ try {
   await nativeCdp.send("Emulation.setFocusEmulationEnabled", { enabled: false });
   report.focusEmulationDisabled = true;
   page.on("pageerror", (e) => report.errors.push(e.message));
-  await page.getByLabel("Karakter adı").fill("Tarayıcı Test");
+  const name = page.getByLabel("Karakter adı");
+  await name.fill("Tarayıcı Test");
+  // The form accepts typing before its module is ready, but ignores Enter
+  // until the real submit handler is installed and the submit button enabled.
+  report.phase = "wait-for-character-form";
+  await page.waitForFunction(
+    () => {
+      const submit = document.querySelector("#character [type=submit]");
+      return submit && !submit.disabled;
+    },
+    null,
+    { polling: 100 },
+  );
   // Native no-defaults sessions can suspend RAF while a window is occluded.
   // Enter submits the focused real form without a RAF-based mouse-stability wait.
-  await page.getByLabel("Karakter adı").press("Enter");
-  await page.waitForFunction(() => window.__socialEngine?.projection()?.population === 1100);
+  await name.press("Enter");
+  report.phase = "start-character";
+  await page.waitForFunction(() => window.__socialEngine?.projection()?.population === 1100, null, {
+    polling: 100,
+  });
   const getViewport = () =>
     page.evaluate(() => ({
       w: innerWidth,
