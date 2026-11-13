@@ -47,3 +47,46 @@ jobs:
           }
           if(!logs)process.exitCode=1;
           NODE
+
+  retry-verified-main:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    permissions:
+      contents: read
+      actions: read
+      checks: write
+    concurrency:
+      group: tariklab-cloudflare-git-retry
+      cancel-in-progress: false
+    steps:
+      - name: Re-request the existing native Cloudflare check for verified Gold
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          const sha='d6a6c8128f047bb2c3a85533573a32ef6d741ddc';
+          const base='https://api.github.com/repos/tayaz-maker/tariklab/';
+          const headers={Accept:'application/vnd.github+json',Authorization:'Bearer '+process.env.GH_TOKEN,'X-GitHub-Api-Version':'2022-11-28'};
+          async function read(path){const r=await fetch(base+path,{headers});assert.equal(r.status,200,path);return r.json()}
+          assert.equal((await read('branches/main')).commit.sha,sha,'Main moved; stop');
+          const runs=(await read('actions/runs?head_sha='+sha+'&event=push&per_page=100')).workflow_runs;
+          for(const path of ['.github/workflows/ci.yml','.github/workflows/tc-job-start-outcome.yml','.github/workflows/boardworld-quality.yml']){
+            const run=runs.filter(r=>r.path===path&&r.head_sha===sha&&r.head_branch==='main'&&r.event==='push').sort((a,b)=>b.id-a.id)[0];
+            assert.equal(run?.status,'completed',path+' pending');
+            assert.equal(run?.conclusion,'success',path+' must pass');
+          }
+          const checks=(await read('commits/'+sha+'/check-runs?per_page=100')).check_runs.filter(c=>c.name==='Workers Builds: tariklab');
+          assert.ok(checks.length);
+          assert.ok(checks.every(c=>c.status==='completed'),'Native Cloudflare build already active');
+          const check=checks.sort((a,b)=>b.id-a.id)[0];
+          if(check.conclusion==='success'){console.log('Native Cloudflare check already passed; no retry');process.exit(0)}
+          assert.equal(check.id,132111350993,'A newer Cloudflare attempt exists; inspect before retry');
+          assert.equal(check.head_sha,sha);
+          assert.ok(check.details_url.endsWith('/builds/0d82c447-38ff-43d6-9474-50bfdf96d2f5'));
+          assert.equal((await read('branches/main')).commit.sha,sha);
+          const r=await fetch(base+'check-runs/'+check.id+'/rerequest',{method:'POST',headers});
+          console.log(JSON.stringify({method:'GitHub native check_run rerequest',check:check.id,sha,status:r.status}));
+          if(r.status!==201){const b=await r.json();console.error(JSON.stringify({message:b.message,documentation_url:b.documentation_url}));process.exit(1)}
+          console.log('Native retry requested; this is not deployment verification.');
+          NODE
